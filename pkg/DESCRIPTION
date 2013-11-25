@@ -1,0 +1,46 @@
+Package: geoNL
+Maintainer: Martijn Tennekes <mtennekes@gmail.com>
+License: GPL-3
+Title: Thematic cartography tools for NL
+Type: Package
+LazyLoad: yes
+Author: Martijn Tennekes and Edwin de Jonge
+Description: Thematic cartography tools for NL
+Version: 0.2
+Date: 2013-02-28
+Depends:
+	rgeos,
+    gridBase,
+    sp,
+    maptools,
+    rgdal,
+    classInt,
+    RColorBrewer,
+    shiny
+Collate:
+    'appendData.R'
+    'bubbleMap.R'
+    'cartoMap.R'
+    'cat2pal.R'
+    'cellplot.R'
+    'choropleth.R'
+    'choropleth_kml.R'
+    'geo_layers.R'
+    'getAreas.R'
+    'geo_process.R'
+    'getIDs.R'
+    'getShape.R'
+    'gridplot.R'
+    'legendPlot.R'
+    'num2pal.R'
+    'plotMap.R'
+    'process_bubblemap.R'
+    'process_choro.R'
+    'process_layers.R'
+    'rd2wgs84.R'
+    'saveMap.R'
+    'shp2kml.R'
+    'igeoNL.R'
+    'pkg.R'
+    'animateMaps.R'
+    'densities.R'
