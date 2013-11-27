@@ -64,6 +64,16 @@ shp.gm$gender <- ((shp.gm$perc.male/100)-.5) / sqrt(shp.gm$total) * 10000
 	geo.borders(shp.pv, lwd=2) +
 	geo.text(shp.pv, "PV_NAAM", cex=.5))
 
+(g <- geo.choropleth(shp.gm, col="total", style="kmeans") +
+ 	geo.borders(shp.gm, col="gray", lwd=1) +
+ 	geo.borders(shp.pv, lwd=2) +
+ 	geo.text(shp.pv, "PV_NAAM", cex=.5) +
+ 	geo.theme(legend.plot.size=c(.5,.5), show.legend.text=TRUE))
+
+
+
+
+
 (g <- geo.choropleth(shp.gm, col=c("total", "gender"), style="kmeans") +
  	geo.borders(shp.gm, col="gray", lwd=1) +
  	geo.borders(shp.pv, lwd=2) +

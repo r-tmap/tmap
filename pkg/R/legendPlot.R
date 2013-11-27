@@ -1,19 +1,41 @@
-legendPlot <- function(show.legend.text, type.legend.plot, legend.palette, legend.labels, legend.position, legend.plot.size, legend.cex, values=NULL, breaks=NULL, legend.bubbles=FALSE, legend.bubble.sizes=NULL, legend.bubble.labels=NULL, plot.bubble.borders=TRUE) {
+legendPlot <- function(title.cex, show.legend.text, type.legend.plot, legend.palette, legend.labels, legend.position, legend.plot.size, legend.cex, title.position, values=NULL, breaks=NULL, legend.bubbles=FALSE, legend.bubble.sizes=NULL, legend.bubble.labels=NULL, plot.bubble.borders=TRUE) {
 
 	
-	browser()
-
+	draw <- (type.legend.plot != "none")
+	if (!draw) legend.plot.size <- c(0,0)
+	
+	# set legend dimensions
 	nitems <- length(legend.labels)
-	
 	linesHeight <- convertHeight(unit(nitems, "lines"), unitTo="npc", valueOnly=TRUE)
 	linesWidth <- max(convertWidth(stringWidth(string=legend.labels), unitTo="npc", valueOnly=TRUE))
 	
-	plotWidth <- max(linesWidth, legend.plot.size[2])
+	legendWidth <- max(linesWidth, legend.plot.size[2])
+	legendHeight <- legend.plot.size[1] + linesHeight
 	
-	#plotHeight <- 
 	
-	# prepare distribution
-	draw <- (type.legend.plot != "none")
+	#browser()
+	if (is.character(legend.position)) 
+		legend.position <- c(switch(legend.position[1], left=0, center=(1-legendWidth)/2, centre=(1-legendWidth)/2, right=1-legendWidth),
+							 switch(legend.position[2], top=1-legendHeight, center=(1-legendHeight)/2, centre=(1-legendHeight)/2, bottom=0))
+	
+	
+	
+	grid.rect(y=legend.position[2], x=legend.position[1], height=legendHeight, width=legendWidth, just=c("right", "bottom"), gp=gpar(fill=NA, col="green"))
+	
+	grid.rect(y=0, x=0, height=legendHeight, width=legendWidth, just=c("left", "bottom"), gp=gpar(fill=NA, col="green"))
+	
+	
+	vpLegend <- viewport(y=legend.position[2], x=legend.position[1], height=legendHeight, width=legendWidth, just=c("left", "bottom"))
+	
+	pushViewport(vpLegend)
+	grid.rect(gp=gpar(fill="red"))
+	
+	#pushViewport(
+	#	viewport(layout=grid.layout(4, 2,
+	
+	
+	
+	
 	if (type.legend.plot %in% c("hist", "bar")) {
 		nas <- is.na(values)
 		missings <- any(nas)
@@ -24,18 +46,16 @@ legendPlot <- function(show.legend.text, type.legend.plot, legend.palette, legen
 	
 	
 	## fixed layout parameters
-	nitems <- length(legend.labels)
 	yaxisWidth <- 0.6 # width of the y axis cell in inch
 	axesMargin <- 0.05 # margin between plot and the axes in inch
 	xaxisHeight <- ifelse(type.legend.plot=="hist", 2, 0.5) # height of x axis in "lines"
 	#spacer <- 0.5 #space between plot and list in "lines"
 	
 	pushViewport(
-		viewport(layout=grid.layout(4, 2, 
-									widths=unit(c(1, yaxisWidth), c("null", "inch")),
-									heights=unit(c(ifelse(draw, legend.plot.size[1], 0), 
-												   xaxisHeight, nitems, 1), 
-												 c("npc", "lines", "lines", "null"))), 
+		viewport(layout=grid.layout(3, 2, 
+									heights=unit(c(1, xaxisHeight, nitems),
+												 c("null", "lines", "lines")),
+									widths=unit(c(1, yaxisWidth), c("null", "inch")),), 
 									gp=gpar(cex=legend.cex)))
 	
 # 	cellplot(1,1,e=grid.rect())

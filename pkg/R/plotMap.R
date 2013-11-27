@@ -79,7 +79,7 @@ plotAll <- function(gp) {
 	margins <- gt$margins
 	draw.frame <- gt$draw.frame
 	frame.lwd <- gt$frame.lwd
-	
+	title.position <- gt$title.position
 	
 	
 	gridLayoutMap <- grid.layout(3, 3, 
@@ -91,11 +91,18 @@ plotAll <- function(gp) {
 	gridLayoutLegend <- grid.layout(3, 3, 
 									heights=unit(c(margins[3], 1, margins[1]), 
 												 c("npc", "null", "npc")), 
-									widths=unit(c(margins[2], 1, margins[4]), 
+									widths=unit(c(margins[2]+0.05, 1, margins[4]), 
 												c("npc", "null", "npc")))
-	#cellplot(1, 2, e={
-	grid.text(gt$title, x=margins[2], y=unit(.75, "lines"), just="left", gp=gpar(cex=gt$title.cex))
-	#})
+	
+	browser()
+	titleHeight <- convertHeight(unit(gt$title.cex, "lines"), "npc", valueOnly=TRUE)
+	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE)
+	
+	if (is.character(title.position)) 
+		title.position <- c(switch(title.position[1], left=0, center=(1-legendWidth)/2, centre=(1-legendWidth)/2, right=1-legendWidth),
+							 switch(title.position[2], top=1-legendHeight, center=(1-legendHeight)/2, centre=(1-legendHeight)/2, bottom=0))	
+	
+	grid.text(gt$title, x=margins[2] + 0.05, y=unit(1,"npc") - unit(.75, "lines"), just="left", gp=gpar(cex=gt$title.cex))
 
 	
 	if (!gt$legend.only) {
@@ -122,8 +129,9 @@ plotAll <- function(gp) {
 		gc <- gp[[choroID]]
 			if (gt$show.legend.text || gt$type.legend.plot!="none") {
 				cellplot(2, 2, e={
-					legendPlot(gt$show.legend.text, gt$type.legend.plot, gc$choro.legend.palette, gc$choro.legend.labels, gt$legend.position,
-							   gt$legend.plot.size, gt$legend.cex, values = gc$choro.values, breaks=gc$choro.breaks)
+					legendPlot(gt,
+							   values = gc$choro.values,
+							   breaks=gc$choro.breaks)
 				})
 			}
 	}
