@@ -33,6 +33,23 @@ plotMap <- function(gp, gt, gz) {
 	vps$figure[c("x", "y", "width", "height")] <- vps$plot[c("x", "y", "width", "height")]
 	
 	pushViewport(vps$inner, vps$figure, vps$plot)
+	#browser()
+	
+	vpWidth <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)
+	vpHeight <- convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
+	aspVp <- vpWidth / vpHeight
+	mapDim <- shps[[1]]@bbox[,2] - shps[[1]]@bbox[,1]
+	
+	aspMap <- mapDim[1] / mapDim[2]
+	if (aspVp > aspMap) {
+		vpWidth <- aspMap * vpHeigth
+	} else {
+		vpHeigth <- vpWidth / aspMap
+	}
+	
+	vpArea <- vpWidth * vpHeight
+	
+	
 	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
@@ -40,9 +57,12 @@ plotMap <- function(gp, gt, gz) {
 		if (!is.na(gpl$bubble.size[1])) {
 			sizes <- gpl$bubble.size
 			if (length(sizes)!=npol) {
-				warning("less bubble size values than objects")
+				if (length(sizes)!=1) warning("less bubble size values than objects")
 				sizes <- rep(sizes, length.out=npol)
 			}
+				
+			sizes <- sizes / vpArea
+			
 			cols <- rep(gpl$bubble.col, length.out=npol)
 			borders <- gpl$bubble.border
 			co <- coordinates(shps[[l]])

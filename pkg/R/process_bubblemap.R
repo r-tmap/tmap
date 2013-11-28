@@ -42,7 +42,7 @@ process_bubblemap <- function(g, free.scales) {
 	}
 	
 	height <- convertHeight(unit(1, "npc"), unitTo="inch", valueOnly=TRUE)
-	max_size <- height / 50
+	max_size <- 1#height / 50
 	
 	if (free.scales && nx > 1) {
 		if (varysize) {
