@@ -102,7 +102,6 @@ plotAll <- function(gp) {
 		upViewport()
 	}
 	
-	
 	#find which layer is choropleth
 	choroID <- which(sapply(gp, function(x)!is.na(x$choro.values[1])))[1]
 
@@ -119,5 +118,5 @@ plotAll <- function(gp) {
 			}
 	}
 	
-	popViewport()
+	#popViewport()
 }

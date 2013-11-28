@@ -29,6 +29,12 @@ shp.gm$gender <- ((shp.gm$perc.male/100)-.5) / sqrt(shp.gm$total) * 10000
 	geo.text(shp.pv, c("PV_NAAM", "STATCODE"), cex=.5) +
  	geo.grid(free.scales=FALSE))
 
+(g <- geo.bubblemap(shp.gm, size=.1, col=c("total", "gender"), style="kmeans") +
+ 	geo.borders(shp.gm, col="gray", lwd=1) +
+ 	geo.borders(shp.pv, lwd=2) +
+ 	geo.text(shp.pv, c("PV_NAAM", "STATCODE"), cex=.5) +
+ 	geo.grid(free.scales=FALSE))
+
 
 
 
@@ -62,7 +68,8 @@ shp.gm$gender <- ((shp.gm$perc.male/100)-.5) / sqrt(shp.gm$total) * 10000
 (g <- geo.choropleth(shp.gm, col="total", style="kmeans") +
  	geo.borders(shp.gm, col="gray", lwd=1) +
 	geo.borders(shp.pv, lwd=2) +
-	geo.text(shp.pv, "PV_NAAM", cex=.5))
+	geo.text(shp.pv, "PV_NAAM", cex=.5) +
+ 	geo.theme(type.legend.plot="bar"))
 
 (g <- geo.choropleth(shp.gm, col="total", style="kmeans") +
  	geo.borders(shp.gm, col="gray", lwd=1) +
@@ -113,11 +120,12 @@ mapCountryData( sPDF, nameColumnToPlot="BIODIVERSITY" )
 names(sPDF)
 
 sPDF$BIODIVERSITY[is.na(sPDF$BIODIVERSITY)] <- 0
+
 geo.choropleth(sPDF, col="BIODIVERSITY") + geo.borders(sPDF) + 
 	geo.text(sPDF, text="ISO_A3", cex=.4) +
 	geo.theme(legend.plot.size=c(.2,.2), 
 			  type.legend.plot="none",
-			  title.position=c("left", "bottom"),
-			  legend.position=c("left", "bottom"))
+			  title.position=c(.1, .4),
+			  legend.position=c(.1, .2))
 
 

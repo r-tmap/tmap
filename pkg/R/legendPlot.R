@@ -4,9 +4,12 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 	draw <- (type.legend.plot != "none")
 	if (!draw) legend.plot.size <- c(0,0)
 	
+	pushViewport(viewport(gp=gpar(cex=legend.cex)))
+				 
+				 
 	# set legend and title dimensions
 	nitems <- ifelse(show.legend.text, length(legend.labels), 0)
-	linesHeight <- convertHeight(unit(nitems*1.5, "lines"), unitTo="npc", valueOnly=TRUE)
+	linesHeight <- convertHeight(unit(nitems, "lines"), unitTo="npc", valueOnly=TRUE)
 	linesWidth <- max(convertWidth(stringWidth(string=legend.labels), unitTo="npc", valueOnly=TRUE))
 	
 	legendWidth <- max(linesWidth, legend.plot.size[2])
@@ -74,8 +77,7 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 	
 	vpLegend <- viewport(y=legend.position[2], x=legend.position[1], 
 						 height=legendHeight, width=legendWidth, 
-						 just=c("left", "bottom"),
-						 gp=gpar(cex=legend.cex))
+						 just=c("left", "bottom"))
 	
 	pushViewport(vpLegend)
 	
@@ -96,12 +98,10 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 	
 	pushViewport(
 		viewport(layout=grid.layout(3, 2, 
-									heights=unit(c(1, xaxisHeight, linesHeight),
-												 c("null", "lines", "npc")),
-									widths=unit(c(1, yaxisWidth), c("null", "inch")),), 
-									gp=gpar(cex=legend.cex)))
+									heights=unit(c(1, xaxisHeight, nitems),
+												 c("null", "lines", "lines")),
+									widths=unit(c(1, yaxisWidth), c("null", "inch")),)))
 	
-
 	
 	## preprocess data
 	if (type.legend.plot=="bar") {
@@ -288,6 +288,6 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 	})
 	
 	
-	popViewport()
+	upViewport(3)
 	detach("gt")
 }

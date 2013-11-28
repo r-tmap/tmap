@@ -19,11 +19,8 @@ Depends:
     shiny
 Collate:
     'appendData.R'
-    'bubbleMap.R'
-    'cartoMap.R'
     'cat2pal.R'
     'cellplot.R'
-    'choropleth.R'
     'choropleth_kml.R'
     'geo_layers.R'
     'getAreas.R'
