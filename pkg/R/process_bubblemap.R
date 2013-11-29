@@ -41,9 +41,6 @@ process_bubblemap <- function(g, free.scales) {
 		bubble.legend.palette <- NA
 	}
 	
-	height <- convertHeight(unit(1, "npc"), unitTo="inch", valueOnly=TRUE)
-	max_size <- 1#height / 50
-	
 	if (free.scales && nx > 1) {
 		if (varysize) {
 			bubble.size <- matrix(0, ncol=nx, nrow=nrow(Xsize))
@@ -59,8 +56,9 @@ process_bubblemap <- function(g, free.scales) {
 				x_legend <- pretty(Xsize[[i]], 7)
 				x_legend <- x_legend[x_legend!=0]
 				x_legend <- x_legend[-c(length(x_legend)-3,length(x_legend)-1)]
-				bubble.legend.sizes[[i]] <- scale*sqrt(x_legend/max(Xsize[[i]], na.rm=TRUE)) * max_size
-				bubble.size[,i] <- scale*sqrt(Xsize[[i]]/max(Xsize[[i]], na.rm=TRUE)) * max_size
+				maxX <- max(Xsize[[i]], na.rm=TRUE)
+				bubble.legend.sizes[[i]] <- scale*sqrt(x_legend/maxX)
+				bubble.size[,i] <- scale*sqrt(Xsize[[i]]/maxM)
 			} else {
 				xsize <- NA
 			}
@@ -93,9 +91,9 @@ process_bubblemap <- function(g, free.scales) {
 			x_legend <- pretty(dat, 7)
 			x_legend <- x_legend[x_legend!=0]
 			x_legend <- x_legend[-c(length(x_legend)-3,length(x_legend)-1)]
-			bubble.legend.sizes <- scale*sqrt(x_legend/max(dat, na.rm=TRUE)) * max_size
-			bubble.size <- matrix(scale*sqrt(dat/max(dat, na.rm=TRUE)) * max_size,
-								  ncol=nx)
+			maxX <- max(dat, na.rm=TRUE)
+			bubble.legend.sizes <- scale*sqrt(x_legend/maxX)
+			bubble.size <- matrix(scale*sqrt(dat/maxX), ncol=nx)
 		} else {
 			xsize <- NA
 		}
