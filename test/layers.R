@@ -141,4 +141,6 @@ geo.choropleth(sPDF, col="BIODIVERSITY") + geo.borders(sPDF) +
 			  title.position=c(.1, .4),
 			  legend.position=c(.1, .2))
 
+levels(sPDF$continent)
+
 

@@ -1,13 +1,13 @@
-Package: geoNL
+Package: geo
 Maintainer: Martijn Tennekes <mtennekes@gmail.com>
 License: GPL-3
-Title: Thematic cartography tools for NL
+Title: Statistical geographic maps
 Type: Package
 LazyLoad: yes
-Author: Martijn Tennekes and Edwin de Jonge
-Description: Thematic cartography tools for NL
-Version: 0.2
-Date: 2013-02-28
+Author: Martijn Tennekes
+Description: Statistical geographic maps
+Version: 0.1
+Date: 2013-11-25
 Depends:
 	rgeos,
     gridBase,
