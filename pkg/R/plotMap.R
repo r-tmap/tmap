@@ -49,8 +49,6 @@ plotMap <- function(gp, gt, gz) {
 	
 	vpArea <- vpWidth * vpHeight
 	
-	
-	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
 		npol <- length(shps[[l]])
@@ -61,7 +59,7 @@ plotMap <- function(gp, gt, gz) {
 				sizes <- rep(sizes, length.out=npol)
 			}
 				
-			sizes <- sizes / vpArea
+			sizes <- sizes * (sqrt(vpArea) / 100)
 			
 			cols <- rep(gpl$bubble.col, length.out=npol)
 			borders <- gpl$bubble.border
