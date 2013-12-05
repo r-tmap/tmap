@@ -42,9 +42,9 @@ plotMap <- function(gp, gt, gz) {
 	
 	aspMap <- mapDim[1] / mapDim[2]
 	if (aspVp > aspMap) {
-		vpWidth <- aspMap * vpHeigth
+		vpWidth <- aspMap * vpHeight
 	} else {
-		vpHeigth <- vpWidth / aspMap
+		vpHeight <- vpWidth / aspMap
 	}
 	
 	vpArea <- vpWidth * vpHeight

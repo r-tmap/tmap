@@ -95,7 +95,7 @@ process.meta <- function(g, nx, varnames) {
 	gtheme <- g$geo_theme
 	if (is.null(gtheme$title)) {
 		id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
-		gtheme$title <- if (length(id)) varnames[[id]] else rep("", nx)
+		gtheme$title <- if (!is.na(id)) varnames[[id]] else rep("", nx)
 	} else {
 		gtheme$title <- if (gtheme$title[1]=="choro.fill") {
 			varnames[[1]]	
