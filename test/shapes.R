@@ -4,39 +4,55 @@ library(raster)
 library(rgeos)
 library(rgdal)
 
-## read world shape files from http://www.naturalearthdata.com/features/
-
-wrld <- getShape("../shapes/ne_50m_admin_0_countries_lakes.shp")
-world <- getShape("../shapes/ne_110m_admin_0_countries_lakes.shp")
 
 
-#Download the continents shapefile
-# download.file("http://baruch.cuny.edu/geoportal/data/esri/world/continent.zip", "cont.zip") 
-#Unzip it
-# unzip("cont.zip")
-#Load it
+#world <- getShape("../shapes/ne_110m_admin_0_countries_lakes.shp")
+
+
+###########################################################################
+## download world shape files from http://www.naturalearthdata.com/features/
+###########################################################################
+
+download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries_lakes.zip", "../shapes/ne_50m_admin_0_countries_lakes.zip")
+unzip("../shapes/ne_50m_admin_0_countries_lakes.zip", exdir="../shapes")
+world50 <- getShape("../shapes/ne_50m_admin_0_countries_lakes.shp")
+
+
+download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
+unzip("../shapes/ne_110m_admin_0_countries_lakes.zip", exdir="../shapes")
+world110 <- getShape("../shapes/ne_50m_admin_0_countries_lakes.shp")
+
+
+keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt", 
+			  "continent", "subregion",
+			  "pop_est", "gdp_md_est", "economy", "income_grp"
+			  )
+
+###########################################################################
+## download continents shape file
+###########################################################################
+
+download.file("http://baruch.cuny.edu/geoportal/data/esri/world/continent.zip", "../shapes/cont.zip") 
+unzip("../shapes/cont.zip", exdir="../shapes")
 cont <- getShape("../shapes/continent.shp")
 
 
-proj4string(wrld) <- "+proj=longlat +datum=WGS84"
+###########################################################################
+## process europe
+###########################################################################
 
-wrld$continent[wrld$admin=="Turkey"] <- "Europe"
-
-eur <- wrld[wrld$continent=="Europe", ]
-
-plot(eur)
-
+proj4string(world50) <- "+proj=longlat +datum=WGS84"
+eur1 <- world50[world50$continent=="Europe" | world50$name=="Turkey", ]
+plot(eur1)
 
 ## global cropping
-#CP <- as(extent(-25, 50, 34, 72), "SpatialPolygons")
 CP <- as(extent(-25, 70, 34, 82), "SpatialPolygons")
-proj4string(CP) <- CRS(proj4string(eur))
-
-eur2 <- gIntersection(eur, CP, byid=TRUE)
+proj4string(CP) <- CRS(proj4string(eur1))
+eur2 <- gIntersection(eur1, CP, byid=TRUE)
 
 plot(eur2)
 
-## making use of tz to cut russia
+## modify europe continent such that focus is on dividing russia
 conteur <- cont[cont$CONTINENT=="Europe",]
 plot(conteur)
 proj4string(conteur) <- "+proj=longlat +datum=WGS84"
@@ -47,30 +63,52 @@ conteur2 <- gUnion(conteur, CP, byid=TRUE)
 plot(conteur2)
 
 CP <- as(extent(40, 64, 67, 70.5), "SpatialPolygons")
-proj4string(CP) <- CRS(proj4string(tzeur))
+proj4string(CP) <- CRS(proj4string(conteur2))
 conteur3 <- gUnion(conteur2, CP, byid=TRUE)
 geo.borders(conteur3)
 
 CP <- as(extent(10, 75, 72, 85), "SpatialPolygons")
-proj4string(CP) <- CRS(proj4string(tzeur))
+proj4string(CP) <- CRS(proj4string(conteur3))
 conteur4 <- gDifference(conteur3, CP, byid=TRUE)
 plot(conteur4)
 
 CP <- as(extent(48, 75, 70.5, 85), "SpatialPolygons")
-proj4string(CP) <- CRS(proj4string(tzeur))
+proj4string(CP) <- CRS(proj4string(conteur4))
 conteur5 <- gDifference(conteur4, CP, byid=TRUE)
 plot(conteur5)
 
+## remove asian russia from europe
 eur3 <- gIntersection(eur2, conteur5, byid=TRUE)
-
 plot(eur3)
 
-eur4 <- spTransform(eur3 ,CRS("+proj=utm +zone=33 +north"))
+## append data
+data_eur <- eur1@data[,keepVars]
+eur4 <- appendData(eur3, data_eur)
+eur4$gdp_cap_est <- eur5$gdp_md_est / eur5$pop_est * 1000000
 
-geo.borders(eur4) + 
+## use better projection
+eur5 <- spTransform(eur4 ,CRS("+proj=utm +zone=33 +north"))
+
+
+###########################################################################
+## process world
+###########################################################################
+plot(world110)
+
+
+
+####### test ########
+
+geo.borders(eur5) + 
 	geo.theme(draw.frame=TRUE) +
-	geo.fill(eur4)
+	geo.choropleth(eur5, col="gdp_cap_est", style="kmeans", n=10) +
+	geo.text(eur5, "iso_a3", cex=.5)
+
+geo.borders(eur5) + 
+	geo.theme(draw.frame=TRUE) +
+	geo.choropleth(eur5, col="income_grp", palette="RdYlBu", n=3) +
+	geo.text(eur5, "iso_a3", cex=.5)
 
 
+geo.choropleth(eur5, col="iso_a3")
 
-plot(world)

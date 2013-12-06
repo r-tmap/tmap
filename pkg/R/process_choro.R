@@ -20,12 +20,14 @@ process_choro <- function(g, free.scales) {
 		
 		for (i in 1:nx) {
             if (is.factor(X[[i]])) {
+            	if (is.null(palette)) palette <- "Dark2"
                 colsLeg <- cat2pal(X[[i]],
                                    palette = palette,
                                    colorNA = colorNA)
                 choro.breaks[[i]] <- NA
             } else {
-                colsLeg <- num2pal(X[[i]], n, style=style, breaks=breaks, 
+            	if (is.null(palette)) palette <- "RdYlBu"
+            	colsLeg <- num2pal(X[[i]], n, style=style, breaks=breaks, 
                                    palette = palette,
                                    auto.palette.mapping = auto.palette.mapping,
                                    contrast = contrast, legend.labels=labels,
@@ -39,12 +41,14 @@ process_choro <- function(g, free.scales) {
 		}
 	} else {
         if (is.factor(X[[1]])) {
-            colsLeg <- cat2pal(unlist(X),
+        	if (is.null(palette)) palette <- "Dark2"
+        	colsLeg <- cat2pal(unlist(X),
                                palette = palette,
                                colorNA = colorNA)
             choro.breaks <- NA
         } else {
-    		colsLeg <- num2pal(unlist(X), n, style=style, breaks=breaks, 
+        	if (is.null(palette)) palette <- "RdYlBu"
+        	colsLeg <- num2pal(unlist(X), n, style=style, breaks=breaks, 
     						   palette = palette,
     						   auto.palette.mapping = auto.palette.mapping,
     						   contrast = contrast, legend.labels=labels,
