@@ -30,7 +30,7 @@ geo.text <-  function(shp, text=names(shp)[1], cex=1) {
 geo.choropleth <- function(shp, col, n = 5,
 							style = "pretty",
 							breaks = NULL,
-							palette = "RdYlBu",
+							palette = NULL,
 						    labels = NULL,
 							auto.palette.mapping = TRUE,
 							contrast = 1,
@@ -42,6 +42,7 @@ geo.choropleth <- function(shp, col, n = 5,
 	class(g) <- "geo"
 	g
 }	
+
 
 geo.bubblemap <- function(coor, size = NULL, col = NULL,
 						  border=NA,
