@@ -17,7 +17,6 @@ download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/do
 unzip("../shapes/ne_50m_admin_0_countries_lakes.zip", exdir="../shapes")
 world50 <- getShape("../shapes/ne_50m_admin_0_countries_lakes.shp")
 
-
 download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
 unzip("../shapes/ne_110m_admin_0_countries_lakes.zip", exdir="../shapes")
 world110 <- getShape("../shapes/ne_50m_admin_0_countries_lakes.shp")
@@ -88,7 +87,7 @@ eur4$gdp_cap_est <- eur5$gdp_md_est / eur5$pop_est * 1000000
 
 ## use better projection
 eur5 <- spTransform(eur4 ,CRS("+proj=utm +zone=33 +north"))
-
+plot(eur5)
 
 ###########################################################################
 ## process world
