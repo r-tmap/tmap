@@ -121,19 +121,51 @@ plotAll <- function(gp) {
 	}
 	
 	#find which layer is choropleth
-	choroID <- which(sapply(gp, function(x)!is.na(x$choro.values[1])))[1]
-
+	choroID <- which(sapply(gp, function(x)!is.na(x$varnames$choro.fill[1])))[1]
+	bubbleSizeID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.size[1])))[1]
+	bubbleColID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.col[1])))[1]
+	
+	# possible conflict between choro and bubble: for the time being, choose the first, or choose bubbles
 	if (!is.na(choroID)) {
-		gc <- gp[[choroID]]
+		isChoroLegend <- TRUE
+	} else if (!is.na(bubbleSizeID) || !is.na(bubbleColID)) {
+		isChoroLegend <- FALSE
+	} else {
+		isChoroLegend <- NA
+	}
+	
+	if (!is.na(isChoroLegend)) {
+		if (isChoroLegend) {
+			gc <- gp[[choroID]]
 			if (gt$show.legend.text || gt$type.legend.plot!="none") {
 				cellplot(2, 2, e={
-					legendPlot(gt,
-							   gc$choro.legend.palette, 
-							   gc$choro.legend.labels, 
-							   values = gc$choro.values,
-							   breaks=gc$choro.breaks)
+					legendPlot(gt=gt, 
+							   legend.palette=gc$choro.legend.palette, 
+							   legend.labels=gc$choro.legend.labels, 
+							   values=gc$choro.values, 
+							   breaks=gc$choro.breaks, 
+							   legend.bubbles=FALSE, 
+							   legend.bubble.sizes=NULL, 
+							   legend.bubble.labels=NULL, 
+							   plot.bubble.borders=TRUE)
 				})
 			}
+		} else {
+			browser()
+			gb <- gp[[bubbleSizeID]]
+			if (gt$show.legend.text) {
+				gt$type.legend.plot <- ifelse(is.na(bubbleSizeID), "none", "bubble")
+				cellplot(2, 2, e={
+					legendPlot(gt=gt, 
+							   legend.palette=gb$bubble.legend.palette, 
+							   legend.labels=gb$bubble.legend.labels, 
+							   legend.bubbles=!is.na(bubbleSizeID), 
+							   legend.bubble.sizes=gb$bubble.legend.sizes, 
+							   legend.bubble.labels=gb$bubble.legend.size_labels, 
+							   plot.bubble.borders=TRUE)
+				})
+			}
+		}
 	}
 	
 	#popViewport()

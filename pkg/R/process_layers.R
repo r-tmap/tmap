@@ -54,6 +54,8 @@ process.layers <- function(g, free.scales) {
 		}
 		bubble.legend.labels <- NA
 		bubble.legend.palette <- NA
+		bubble.legend.sizes <- NA
+		bubble.legend.size_labels <- NA
 		xsize <- NA
 		xcol <- NA
 	} else {
@@ -65,6 +67,8 @@ process.layers <- function(g, free.scales) {
 		bubble.scale <- bubbleres$bubble.scale
 		bubble.legend.labels <- bubbleres$bubble.legend.labels
 		bubble.legend.palette <- bubbleres$bubble.legend.palette
+		bubble.legend.sizes <- bubbleres$bubble.legend.sizes
+		bubble.legend.size_labels <- bubbleres$bubble.legend.size_labels
 		xsize <- bubbleres$xsize
 		xcol <- bubbleres$xcol
 		shp.name <- bubbleres$shp.name
@@ -93,6 +97,8 @@ process.layers <- function(g, free.scales) {
 			   choro.breaks=choro.breaks, 
 			   bubble.legend.labels=bubble.legend.labels, 
 			   bubble.legend.palette=bubble.legend.palette,
+			   bubble.legend.sizes=bubble.legend.sizes,
+			   bubble.legend.size_labels=bubble.legend.size_labels,
 			   text=text, cex=cex)
 	gp
 }

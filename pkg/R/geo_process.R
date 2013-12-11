@@ -35,7 +35,6 @@ print.geo <- function(g) {
 	gmeta <- process.meta(gmeta, nx, varnames)
 	
 	
-	
 	## split into small multiples
 	gps <- split_geo(gp, nx)
 	
@@ -114,8 +113,7 @@ process.meta <- function(g, nx, varnames) {
 		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- FALSE
 	}
 	if (is.na(gtheme$legend.plot.size[1])) {gtheme$legend.plot.size <- if (gtheme$legend.only) c(0.4, 0.9) else c(0.2,0.35)}
-		g$geo_theme <- gtheme
-	
+	g$geo_theme <- gtheme
 	
 	g
 }
@@ -133,6 +131,7 @@ split_geo <- function(gp, nx) {
 			x$bubble.col <- get_ids(x$bubble.col, i)
 			x$bubble.legend.labels <- get_ids(x$bubble.legend.labels, i)
 			x$bubble.legend.palette <- get_ids(x$bubble.legend.palette, i)
+			x$bubble.legend.sizes <- get_ids(x$bubble.legend.sizes, i)
 			x$text <- if(length(x$text) >= i) x$text[i] else x$text[1]
 			x
 		})

@@ -32,6 +32,7 @@ process_bubblemap <- function(g, free.scales) {
 	} else {
 		bubble.size <- xsize
 		bubble.legend.sizes <- NA
+		bubble.legend.size_labels <- NA
 	}
 	if (varycol) {
 		Xcol <- get(shp.name)@data[, xcol, drop=FALSE]
@@ -45,6 +46,7 @@ process_bubblemap <- function(g, free.scales) {
 		if (varysize) {
 			bubble.size <- matrix(0, ncol=nx, nrow=nrow(Xsize))
 			bubble.legend.sizes <- list()
+			bubble.legend.size_labels <- list()
 		}
 		if (varycol) {
 			bubble.col <- matrix("", ncol=nx, nrow=nrow(Xcol))
@@ -58,6 +60,7 @@ process_bubblemap <- function(g, free.scales) {
 				x_legend <- x_legend[-c(length(x_legend)-3,length(x_legend)-1)]
 				maxX <- max(Xsize[[i]], na.rm=TRUE)
 				bubble.legend.sizes[[i]] <- scale*sqrt(x_legend/maxX)
+				bubble.legend.size_labels[[i]] <- format(x_legend, trim=TRUE)
 				bubble.size[,i] <- scale*sqrt(Xsize[[i]]/maxM)
 			} else {
 				xsize <- NA
@@ -93,6 +96,7 @@ process_bubblemap <- function(g, free.scales) {
 			x_legend <- x_legend[-c(length(x_legend)-3,length(x_legend)-1)]
 			maxX <- max(dat, na.rm=TRUE)
 			bubble.legend.sizes <- scale*sqrt(x_legend/maxX)
+			bubble.legend.size_labels <- format(x_legend, trim=TRUE)
 			bubble.size <- matrix(scale*sqrt(dat/maxX), ncol=nx)
 		} else {
 			xsize <- NA
@@ -121,13 +125,14 @@ process_bubblemap <- function(g, free.scales) {
 			xcol <- NA
 		}
 	}
-	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
 		 bubble.border=bubble.border,
 		 bubble.scale=scale,
 		 bubble.legend.labels=bubble.legend.labels,
+		 bubble.legend.palette=bubble.legend.palette,
 		 bubble.legend.sizes=bubble.legend.sizes,
+		 bubble.legend.size_labels=bubble.legend.size_labels,
 		 xsize=xsize,
 		 xcol=xcol,
 		 shp.name=shp.name)

@@ -29,7 +29,7 @@ shp.gm$gender <- ((shp.gm$perc.male/100)-.5) / sqrt(shp.gm$total) * 10000
 	geo.text(shp.pv, c("PV_NAAM", "STATCODE"), cex=.5) +
  	geo.grid(free.scales=FALSE))
 
-(g <- geo.bubblemap(shp.gm, col=c("total", "gender"), style="kmeans") +
+(g <- geo.bubblemap(shp.gm, col="blue", size="total", style="kmeans") +
  	geo.borders(shp.gm, col="gray", lwd=1) +
  	geo.borders(shp.pv, lwd=2) +
  	geo.text(shp.pv, c("PV_NAAM", "STATCODE"), cex=.5) +
