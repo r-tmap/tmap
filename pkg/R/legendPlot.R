@@ -1,11 +1,9 @@
 legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NULL, legend.bubbles=FALSE, legend.bubble.sizes=NULL, legend.bubble.labels=NULL, plot.bubble.borders=TRUE) {
-
 	attach(gt)
 	draw <- (type.legend.plot != "none")
 	if (!draw) legend.plot.size <- c(0,0)
 	
 	pushViewport(viewport(gp=gpar(cex=legend.cex)))
-				 
 				 
 	# set legend and title dimensions
 	nitems <- ifelse(show.legend.text, length(legend.labels), 0)
@@ -206,8 +204,9 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 		if (show.legend.text) {
 		    itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5
 			if (legend.bubbles) {
+				bubbleSizes <- min(max(legend.bubble.sizes), itemSize*0.75)
 				grid.circle(x=unit(rep(itemSize/2, nitems), "inch"), 
-                            y=yslines, r=unit(rep(itemSize*0.75, nitems), "inch"),
+                            y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
                             gp=gpar(fill=legend.palette))
 			} else {
 				grid.rect(x=unit(rep(itemSize/2, nitems), "inch"), 

@@ -105,6 +105,11 @@ process.meta <- function(g, nx, varnames) {
 		} else gtheme$title
 	}
 	if (length(gtheme$title) < nx) gtheme$title <- rep(gtheme$title, length.out=nx)
+
+	if (is.null(gtheme$show.legend.text)) gtheme$show.legend.text <- (!is.na(varnames$choro.fill[1]) || !is.na(varnames$bubble.col[1]))
+	if (is.null(gtheme$type.legend.plot)) gtheme$type.legend.plot <- ifelse(!is.na(varnames$choro.fill[1]), "hist", 
+																			ifelse(!is.na(varnames$bubble.size[1]), "bubble", "none"))
+	
 	if (gzoom$xlim[1] > 0 || gzoom$xlim[2] < 1 || gzoom$ylim[1] > 0 || gzoom$ylim[2] < 1) {
 		if (is.na(gtheme$margins[1])) gtheme$margins <- c(0.05, 0.05, 0.2, 0.05)
 		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- TRUE

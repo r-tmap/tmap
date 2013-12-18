@@ -61,7 +61,7 @@ process_bubblemap <- function(g, free.scales) {
 				maxX <- max(Xsize[[i]], na.rm=TRUE)
 				bubble.legend.sizes[[i]] <- scale*sqrt(x_legend/maxX)
 				bubble.legend.size_labels[[i]] <- format(x_legend, trim=TRUE)
-				bubble.size[,i] <- scale*sqrt(Xsize[[i]]/maxM)
+				bubble.size[,i] <- scale*sqrt(Xsize[[i]]/maxX)
 			} else {
 				xsize <- NA
 			}

@@ -48,6 +48,7 @@ plotMap <- function(gp, gt, gz) {
 	}
 	
 	vpArea <- vpWidth * vpHeight
+	scaleFactor <- (sqrt(vpArea) / 100)
 	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
@@ -59,7 +60,7 @@ plotMap <- function(gp, gt, gz) {
 				sizes <- rep(sizes, length.out=npol)
 			}
 				
-			sizes <- sizes * (sqrt(vpArea) / 100)
+			sizes <- sizes * scaleFactor
 			
 			cols <- rep(gpl$bubble.col, length.out=npol)
 			borders <- gpl$bubble.border
@@ -84,7 +85,7 @@ plotMap <- function(gp, gt, gz) {
 	
 	}
 	popViewport(3)
-	
+	scaleFactor
 }
 
 
@@ -108,10 +109,9 @@ plotAll <- function(gp) {
 	
 	if (!gt$legend.only) {
 		pushViewport(viewport(layout=gridLayoutMap))
-	
 		cellplot(2, 2, e={
 			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0))
-			plotMap(gp, gt, gz)
+			scaleFactor <- plotMap(gp, gt, gz)
 			if (draw.frame) {
 				grid.rect(gp=gpar(lwd=frame.lwd, fill=NA))
 			}
@@ -151,20 +151,17 @@ plotAll <- function(gp) {
 				})
 			}
 		} else {
-			browser()
 			gb <- gp[[bubbleSizeID]]
-			if (gt$show.legend.text) {
-				gt$type.legend.plot <- ifelse(is.na(bubbleSizeID), "none", "bubble")
-				cellplot(2, 2, e={
-					legendPlot(gt=gt, 
-							   legend.palette=gb$bubble.legend.palette, 
-							   legend.labels=gb$bubble.legend.labels, 
-							   legend.bubbles=!is.na(bubbleSizeID), 
-							   legend.bubble.sizes=gb$bubble.legend.sizes, 
-							   legend.bubble.labels=gb$bubble.legend.size_labels, 
-							   plot.bubble.borders=TRUE)
-				})
-			}
+			gt$type.legend.plot <- ifelse(is.na(bubbleSizeID), "none", "bubble")
+			cellplot(2, 2, e={
+				legendPlot(gt=gt, 
+						   legend.palette = if(is.na(bubbleColID)) gb$bubble.col else gb$bubble.legend.palette, 
+						   legend.labels=gb$bubble.legend.labels, 
+						   legend.bubbles=!is.na(bubbleSizeID), 
+						   legend.bubble.sizes=gb$bubble.legend.sizes * scaleFactor, 
+						   legend.bubble.labels=gb$bubble.legend.size_labels, 
+						   plot.bubble.borders=TRUE)
+			})
 		}
 	}
 	
