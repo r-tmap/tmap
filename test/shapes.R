@@ -138,7 +138,7 @@ eur5$region[eur5$iso_a3 %in% c("DNK", "EST", "FIN", "ISL", "LVA", "LTU", "NOR", 
 eur5$region[eur5$iso_a3 %in% c("NLD", "AUT", "CHE", "DEU", "BEL", "LUX", "FRA", "GGY", "JEY", "MCO")] <-
 	"Western Europe"
 
-eur5$region[eur5$iso_a3 %in% c("PRT", "ESP", "ITA", "SVN", "ALB", "AND", "BIH", "GRC", "HRV", "-99", "SMR", "SRB", "TUR", "VAT", "MKD", "MLT")] <-
+eur5$region[eur5$iso_a3 %in% c("PRT", "ESP", "ITA", "SVN", "ALB", "AND", "BIH", "GRC", "HRV", "-99", "SMR", "SRB", "TUR", "VAT", "MKD", "MLT", "MNE")] <-
 	"Southern Europe"
 
 eur5$region <- factor(eur5$region)
@@ -147,6 +147,13 @@ geo.borders(eur5) +
 	geo.choropleth(eur5, "region") +
 	geo.text(eur5, "iso_a3")
 
+devtools::load_all("../../treemap/pkg")
+TCdf <- treepalette(eur5@data, index= c("region", "iso_a3"))
+eur5$col <- TCdf$HCL.color[match(eur5$iso_a3, TCdf$iso_a3)]
+
+geo.borders(eur5) +
+	geo.fill(eur5, eur5$col) +
+	geo.text(eur5, "iso_a3")
 
 ####### world cartograms
 
