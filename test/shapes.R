@@ -82,12 +82,18 @@ plot(eur3)
 
 ## append data
 data_eur <- eur1@data[,keepVars]
+factors <- sapply(data_eur, is.factor)
+data_eur[, 1:7] <- lapply(data_eur[, 1:7], function(x){
+	as.factor(as.character(x))
+})
+
 eur4 <- appendData(eur3, data_eur)
-eur4$gdp_cap_est <- eur5$gdp_md_est / eur5$pop_est * 1000000
+eur4$gdp_cap_est <- eur4$gdp_md_est / eur4$pop_est * 1000000
 
 ## use better projection
 eur5 <- spTransform(eur4 ,CRS("+proj=utm +zone=33 +north"))
 plot(eur5)
+
 
 ###########################################################################
 ## process world
@@ -117,4 +123,35 @@ geo.borders(eur5) +
 
 
 geo.choropleth(eur5, col="iso_a3")
+
+
+####### europe regions map
+str(eur5@data)
+
+eur5$region <- ""
+eur5$region[eur5$iso_a3 %in% c("CZE", "HUN", "LIE", "POL", "SVK", "BGR", "ROU", "RUS", "UKR", "BLR", "MDA")] <-
+	"Eastern Europe"
+
+eur5$region[eur5$iso_a3 %in% c("DNK", "EST", "FIN", "ISL", "LVA", "LTU", "NOR", "SWE", "IRL", "GBR", "ALA", "FRO", "IMN")] <-
+	"Northern Europe"
+
+eur5$region[eur5$iso_a3 %in% c("NLD", "AUT", "CHE", "DEU", "BEL", "LUX", "FRA", "GGY", "JEY", "MCO")] <-
+	"Western Europe"
+
+eur5$region[eur5$iso_a3 %in% c("PRT", "ESP", "ITA", "SVN", "ALB", "AND", "BIH", "GRC", "HRV", "-99", "SMR", "SRB", "TUR", "VAT", "MKD", "MLT")] <-
+	"Southern Europe"
+
+eur5$region <- factor(eur5$region)
+
+geo.borders(eur5) +
+	geo.choropleth(eur5, "region") +
+	geo.text(eur5, "iso_a3")
+
+
+####### world cartograms
+
+names(world110_r@data)
+
+geo.borders(world110_r) +
+	geo.choropleth(world110_r, col="region_un")
 
