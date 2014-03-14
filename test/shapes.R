@@ -96,6 +96,44 @@ plot(eur5)
 
 
 ###########################################################################
+## process europe (with neighboring countries)
+###########################################################################
+
+proj4string(world50) <- "+proj=longlat +datum=WGS84"
+eur6 <- world50[world50$continent=="Europe" | world50$name %in% c("Morocco", "Algeria",
+						"Tunesia", "Libya", "Egypt", "Israel", "Lebanon",
+						"Syria", "Iraq", "Turkey", "Iran", "Armenia", "Azerbaijan", "Georgia",
+						"Kazakhstan"),]
+
+## global cropping
+CP <- as(extent(-25, 90, 25, 82), "SpatialPolygons")
+proj4string(CP) <- CRS(proj4string(eur6))
+eur7 <- gIntersection(eur6, CP, byid=TRUE)
+
+plot(eur7)
+
+## append data
+data_eur <- eur1@data[,keepVars]
+factors <- sapply(data_eur, is.factor)
+data_eur[, 1:7] <- lapply(data_eur[, 1:7], function(x){
+	as.factor(as.character(x))
+})
+
+eur4 <- appendData(eur3, data_eur)
+eur4$gdp_cap_est <- eur4$gdp_md_est / eur4$pop_est * 1000000
+
+## use better projection
+eur8 <- spTransform(eur7 ,CRS("+proj=utm +zone=33 +north"))
+plot(eur8)
+
+
+
+
+
+eur5@bbox <- matrix(c(-1500000, 3500000, 3500000, 8200000), ncol=2)
+
+
+###########################################################################
 ## process world
 ###########################################################################
 plot(world110)
@@ -161,4 +199,10 @@ names(world110_r@data)
 
 geo.borders(world110_r) +
 	geo.choropleth(world110_r, col="region_un")
+
+####### europe part 2
+
+eur6 <- world50
+eur7 <- spTransform(eur6 ,CRS("+proj=utm +zone=33 +north"))
+
 
