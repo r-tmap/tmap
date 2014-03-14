@@ -25,6 +25,7 @@ plotMap <- function(gp, gt, gz) {
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
 		plot(shps[[l]], col=gpl$fill, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l])
+		# , xaxs="i", yaxs="i"
 	}
 	
 	vps <- baseViewports()
@@ -33,20 +34,37 @@ plotMap <- function(gp, gt, gz) {
 	vps$figure[c("x", "y", "width", "height")] <- vps$plot[c("x", "y", "width", "height")]
 	
 	pushViewport(vps$inner, vps$figure, vps$plot)
-	#browser()
+
+	bb <- shps[[1]]@bbox
+ 	ys <- convertY(unit(bb[2,], "native"), "npc", valueOnly=TRUE)
+ 	xs <- convertX(unit(bb[1,], "native"), "npc", valueOnly=TRUE)
 	
-	vpWidth <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)
-	vpHeight <- convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
+	npc.w <- xs[2] - xs[1]
+	npc.h <- ys[2] - ys[1]
+
+	npc <- max(npc.w, npc.h)
+	
+ 	ys.inch <- convertY(unit(bb[2,], "native"), "inch", valueOnly=TRUE)
+ 	xs.inch <- convertX(unit(bb[1,], "native"), "inch", valueOnly=TRUE)
+
+	vpWidth <- ys.inch[2] - ys.inch[1]
+ 	vpHeight <- xs.inch[2] - xs.inch[1]
+
 	aspVp <- vpWidth / vpHeight
-	mapDim <- shps[[1]]@bbox[,2] - shps[[1]]@bbox[,1]
 	
-	aspMap <- mapDim[1] / mapDim[2]
-	if (aspVp > aspMap) {
-		vpWidth <- aspMap * vpHeight
+	## correct npc's such that the aspect ratio will be preserved
+	if (npc==npc.w) {
+		npc.h <- npc.w * aspVp
 	} else {
-		vpHeight <- vpWidth / aspMap
+		npc.w <- npc.h / aspVp
 	}
+
 	
+	pushViewport(viewport(layout=grid.layout(nrow=3, ncol=3, 
+				widths=unit(c(1,npc.w, 1), c("null", "snpc", "null")),
+				heights=unit(c(1,npc.h, 1), c("null", "snpc", "null")))))
+	pushViewport(viewport(layout.pos.col=2, layout.pos.row=2))	
+	grid.rect(gp=gpar(fill=NA, col="steelblue"))
 	vpArea <- vpWidth * vpHeight
 	scaleFactor <- (sqrt(vpArea) / 100)
 	
@@ -65,14 +83,19 @@ plotMap <- function(gp, gt, gz) {
 			cols <- rep(gpl$bubble.col, length.out=npol)
 			borders <- gpl$bubble.border
 			co <- coordinates(shps[[l]])
+			bb <- shps[[l]]@bbox
+			
+			co.npc <- co
+			co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
+			co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 			
 			if (length(sizes)!=1) {
 				decreasing <- order(-sizes)
-				co <- co[decreasing,]
+				co.npc <- co.npc[decreasing,]
 				sizes <- sizes[decreasing]
 				cols <- if (length(cols)==1) cols else cols[decreasing]
 			}
-			grid.circle(x=unit(co[,1], "native"), y=unit(co[,2], "native"),
+			grid.circle(x=unit(co.npc[,1], "npc"), y=unit(co.npc[,2], "npc"),
 						r=unit(sizes, "inches"),
 						gp=gpar(col=borders, fill=cols))
 		}
@@ -84,7 +107,7 @@ plotMap <- function(gp, gt, gz) {
 		}
 	
 	}
-	popViewport(3)
+	popViewport(4)
 	scaleFactor
 }
 
@@ -106,7 +129,6 @@ plotAll <- function(gp) {
 								 			 c("npc", "null", "npc")), 
 								 widths=unit(c(margins[2], 1, margins[4]), 
 								 			c("npc", "null", "npc")))
-	
 	if (!gt$legend.only) {
 		pushViewport(viewport(layout=gridLayoutMap))
 		cellplot(2, 2, e={
