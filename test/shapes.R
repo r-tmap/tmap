@@ -106,7 +106,7 @@ eur6 <- world50[world50$continent=="Europe" | world50$name %in% c("Morocco", "Al
 						"Kazakhstan", "Turkmenistan", "Uzbekistan"),]
 
 ## global cropping
-CP <- as(extent(-25, 90, 25, 82), "SpatialPolygons")
+CP <- as(extent(-25, 85, 25, 82), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(eur6))
 eur7 <- gIntersection(eur6, CP, byid=TRUE)
 
@@ -141,56 +141,61 @@ russiaAsia <- gDifference(russiaAll, russiaEur)
 plot(russiaAsia)
 
 
-which.max(sapply(russiaAsia@polygons[[1]]@Polygons, function(x) x@area))
+maxid <- which.max(sapply(russiaAsia@polygons[[1]]@Polygons, function(x) x@area))
 
-russiaAsia@polygons[[1]]@Polygons <- russiaAsia@polygons[[1]]@Polygons[19]
+russiaAsia@polygons[[1]]@Polygons <- russiaAsia@polygons[[1]]@Polygons[maxid]
 russiaAsia@polygons[[1]]@area <- russiaAsia@polygons[[1]]@Polygons[[1]]@area
-russiaAsia@polygons[[1]]@plotOrder <- 19L
+russiaAsia@polygons[[1]]@plotOrder <- as.integer(maxid)
 slot(russiaAsia, "polygons") <- lapply(slot(russiaAsia, "polygons"),
 								   checkPolygonsHoles) 
-
-plot(eur7)
-
-
-russia2 <- gUnion(russiaEur, russiaAsia)
 
 
 plot(russiaAsia)
 
 
+russiaPolygons <- c(russiaEur@polygons, russiaAsia@polygons)
 
-plot(russia2)
 
+russiaID <- which.max(sapply(eur7@polygons, function(x)x@area))
 
-eur7b@polygons <- c(eur7b@polygons, russiaAsia@polygons)
-eur7b@plotOrder <- c(69L, eur7b@plotOrder)
+eur7c <- eur7
+eur7c@polygons <- c(eur7c@polygons[1:(russiaID-1)], russiaPolygons[1], eur7c@polygons[(russiaID+1):length(eur7c@polygons)], russiaPolygons[2])
+
+eur7c@plotOrder <- c(as.integer(length(eur7c@polygons)), eur7c@plotOrder)
+slot(eur7c, "polygons") <- lapply(slot(eur7c, "polygons"),
+									   checkPolygonsHoles) 
 
 length(eur7b@polygons)
 
 
-plot(eur7b)
+plot(eur7c)
 
 
 str(eur7@polygons)
 
-
+# worth checking: simpily shape
+# eur10 <- gSimplify(eur7, tol=.01)
 
 ## use better projection
-eur8 <- spTransform(eur7b ,CRS("+proj=utm +zone=33 +north"))
+eur8 <- spTransform(russiaAsia,CRS("+proj=utm +zone=33 +north"))
+
+russiaAll
+eur8 <- spTransform(eur7c ,CRS("+proj=utm +zone=33 +north"))
 
 plot(eur8)
 
-
-
+gIsValid(eur8, reason = TRUE)
+eur8b <- gBuffer(eur8, width=0, byid=TRUE) 
+gIsValid(eur8b, reason = TRUE)
 
 CP <- as(extent(-2200000, 3800000, 3300000, 8400000), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(eur8))
-eur8 <- gIntersection(eur8, CP, byid=TRUE)
+eur8 <- gIntersection(eur8b, CP, byid=TRUE)
 
 eur8@bbox[,] <- c(-2200000, 3800000, 3400000, 8000000)
 
 
-eur9 <- appendData(eur8, data_eur)
+eur9 <- appendData(eur8, data_eur[c(1:70, 58), ])
 eur9$gdp_cap_est <- eur9$gdp_md_est / eur9$pop_est * 1000000
 
 plot(eur9)
