@@ -56,7 +56,7 @@ conteur <- cont[cont$CONTINENT=="Europe",]
 plot(conteur)
 proj4string(conteur) <- "+proj=longlat +datum=WGS84"
 
-CP <- as(extent(-32, 48, 34, 72), "SpatialPolygons")
+CP <- as(extent(-32, 48, 30, 72), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(conteur))
 conteur2 <- gUnion(conteur, CP, byid=TRUE)
 plot(conteur2)
@@ -101,9 +101,9 @@ plot(eur5)
 
 proj4string(world50) <- "+proj=longlat +datum=WGS84"
 eur6 <- world50[world50$continent=="Europe" | world50$name %in% c("Morocco", "Algeria",
-						"Tunesia", "Libya", "Egypt", "Israel", "Lebanon",
-						"Syria", "Iraq", "Turkey", "Iran", "Armenia", "Azerbaijan", "Georgia",
-						"Kazakhstan"),]
+						"Tunesia", "Libya", "Egypt", "Israel", "Palestine", "Lebanon",
+						"Syria", "Iraq", "Kuwait", "Turkey", "Jordan", "Saudi Arabia", "Iran", "Armenia", "Azerbaijan", "Georgia",
+						"Kazakhstan", "Turkmenistan", "Uzbekistan"),]
 
 ## global cropping
 CP <- as(extent(-25, 90, 25, 82), "SpatialPolygons")
@@ -113,24 +113,90 @@ eur7 <- gIntersection(eur6, CP, byid=TRUE)
 plot(eur7)
 
 ## append data
-data_eur <- eur1@data[,keepVars]
+data_eur <- eur6@data[,keepVars]
 factors <- sapply(data_eur, is.factor)
 data_eur[, 1:7] <- lapply(data_eur[, 1:7], function(x){
 	as.factor(as.character(x))
 })
 
-eur4 <- appendData(eur3, data_eur)
-eur4$gdp_cap_est <- eur4$gdp_md_est / eur4$pop_est * 1000000
+data_eur[data_eur$continent!="Europe" & (data_eur$name !="Turkey"), 8:11] <- NA
+
+
+## cut russia
+plot(conteur5)
+
+plot(eur7)
+
+## remove asian russia from europe
+eur7b <- gIntersection(eur7, conteur5, byid=TRUE)
+
+russiaEur <- eur7b[58, ]
+russiaAll <- eur7[58, ]
+
+plot(russiaAll)
+plot(russiaEur)
+
+russiaAsia <- gDifference(russiaAll, russiaEur)
+
+plot(russiaAsia)
+
+
+which.max(sapply(russiaAsia@polygons[[1]]@Polygons, function(x) x@area))
+
+russiaAsia@polygons[[1]]@Polygons <- russiaAsia@polygons[[1]]@Polygons[19]
+russiaAsia@polygons[[1]]@area <- russiaAsia@polygons[[1]]@Polygons[[1]]@area
+russiaAsia@polygons[[1]]@plotOrder <- 19L
+slot(russiaAsia, "polygons") <- lapply(slot(russiaAsia, "polygons"),
+								   checkPolygonsHoles) 
+
+plot(eur7)
+
+
+russia2 <- gUnion(russiaEur, russiaAsia)
+
+
+plot(russiaAsia)
+
+
+
+plot(russia2)
+
+
+eur7b@polygons <- c(eur7b@polygons, russiaAsia@polygons)
+eur7b@plotOrder <- c(69L, eur7b@plotOrder)
+
+length(eur7b@polygons)
+
+
+plot(eur7b)
+
+
+str(eur7@polygons)
+
+
 
 ## use better projection
-eur8 <- spTransform(eur7 ,CRS("+proj=utm +zone=33 +north"))
+eur8 <- spTransform(eur7b ,CRS("+proj=utm +zone=33 +north"))
+
 plot(eur8)
 
 
 
 
+CP <- as(extent(-2200000, 3800000, 3300000, 8400000), "SpatialPolygons")
+proj4string(CP) <- CRS(proj4string(eur8))
+eur8 <- gIntersection(eur8, CP, byid=TRUE)
 
-eur5@bbox <- matrix(c(-1500000, 3500000, 3500000, 8200000), ncol=2)
+eur8@bbox[,] <- c(-2200000, 3800000, 3400000, 8000000)
+
+
+eur9 <- appendData(eur8, data_eur)
+eur9$gdp_cap_est <- eur9$gdp_md_est / eur9$pop_est * 1000000
+
+plot(eur9)
+
+geo.choropleth(eur9, "gdp_cap_est", style="kmeans") + geo.borders(eur9)
+
 
 
 ###########################################################################

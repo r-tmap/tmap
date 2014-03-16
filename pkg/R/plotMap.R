@@ -132,7 +132,7 @@ plotAll <- function(gp) {
 	if (!gt$legend.only) {
 		pushViewport(viewport(layout=gridLayoutMap))
 		cellplot(2, 2, e={
-			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0))
+			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0))#, xaxs="i", yaxs="i")
 			scaleFactor <- plotMap(gp, gt, gz)
 			if (draw.frame) {
 				grid.rect(gp=gpar(lwd=frame.lwd, fill=NA))
