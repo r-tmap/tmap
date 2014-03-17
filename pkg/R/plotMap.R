@@ -1,4 +1,6 @@
 plotMap <- function(gp, gt, gz) {
+	draw.frame <- gt$draw.frame
+	frame.lwd <- gt$frame.lwd
 	
 	add <- rep(TRUE, length(gp))	
 	add[1] <- FALSE
@@ -17,11 +19,17 @@ plotMap <- function(gp, gt, gz) {
 			bb <- matrix(c(gz$xlim, gz$ylim), ncol = 2, byrow=TRUE)
 		}
 		shp@bbox <- bb
+		
+		if (draw.frame) {
+			BB <- as(extent(bb), "SpatialPolygons")
+			proj4string(BB) <- CRS(proj4string(shp))
+			shp <- gIntersection(shp, BB, byid=TRUE)
+		}
 		shp
 	})
 	
 	
-	## plot shapee
+	## plot shapes
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
 		plot(shps[[l]], col=gpl$fill, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l])
@@ -64,13 +72,22 @@ plotMap <- function(gp, gt, gz) {
 				widths=unit(c(1,npc.w, 1), c("null", "snpc", "null")),
 				heights=unit(c(1,npc.h, 1), c("null", "snpc", "null")))))
 	pushViewport(viewport(layout.pos.col=2, layout.pos.row=2))	
-	grid.rect(gp=gpar(fill=NA, col="steelblue"))
+	if (draw.frame) grid.rect(gp=gpar(fill=NA, lwd=frame.lwd))
 	vpArea <- vpWidth * vpHeight
 	scaleFactor <- (sqrt(vpArea) / 100)
 	
 	for (l in 1:nlayers) {
+		shp <- shps[[l]]
+		
 		gpl <- gp[[l]]
-		npol <- length(shps[[l]])
+		npol <- length(shp)
+		
+		co <- coordinates(shp)
+		bb <- shp@bbox
+		
+		co.npc <- co
+		co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
+		co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 		if (!is.na(gpl$bubble.size[1])) {
 			sizes <- gpl$bubble.size
 			if (length(sizes)!=npol) {
@@ -82,12 +99,6 @@ plotMap <- function(gp, gt, gz) {
 			
 			cols <- rep(gpl$bubble.col, length.out=npol)
 			borders <- gpl$bubble.border
-			co <- coordinates(shps[[l]])
-			bb <- shps[[l]]@bbox
-			
-			co.npc <- co
-			co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
-			co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 			
 			if (length(sizes)!=1) {
 				decreasing <- order(-sizes)
@@ -100,14 +111,13 @@ plotMap <- function(gp, gt, gz) {
 						gp=gpar(col=borders, fill=cols))
 		}
 		if (!is.na(gpl$text)) {
-			co <- coordinates(shps[[l]])
-			labels <- shps[[l]][[gpl$text]]
-			grid.text(labels, x=unit(co[,1], "native"), y=unit(co[,2], "native"), 
+			labels <- shp[[gpl$text]]
+			grid.text(labels, x=unit(co.npc[,1], "npc"), y=unit(co.npc[,2], "npc"), 
 					  gp=gpar(cex=gpl$cex))
 		}
 	
 	}
-	popViewport(4)
+	popViewport(5)
 	scaleFactor
 }
 
@@ -119,8 +129,6 @@ plotAll <- function(gp) {
 	gp[c("geo_theme", "geo_zoom")] <- NULL
 	
 	margins <- gt$margins
-	draw.frame <- gt$draw.frame
-	frame.lwd <- gt$frame.lwd
 	title.position <- gt$title.position
 	
 	
@@ -134,9 +142,6 @@ plotAll <- function(gp) {
 		cellplot(2, 2, e={
 			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0))#, xaxs="i", yaxs="i")
 			scaleFactor <- plotMap(gp, gt, gz)
-			if (draw.frame) {
-				grid.rect(gp=gpar(lwd=frame.lwd, fill=NA))
-			}
 		})
 		
 		upViewport()

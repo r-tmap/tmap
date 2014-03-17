@@ -15,11 +15,11 @@ library(rgdal)
 
 download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries_lakes.zip", "../shapes/ne_50m_admin_0_countries_lakes.zip")
 unzip("../shapes/ne_50m_admin_0_countries_lakes.zip", exdir="../shapes")
-world50 <- getShape("../shapes/ne_50m_admin_0_countries_lakes.shp")
+world50 <- readShapePoly("../shapes/ne_50m_admin_0_countries_lakes.shp")
 
 download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
 unzip("../shapes/ne_110m_admin_0_countries_lakes.zip", exdir="../shapes")
-world110 <- getShape("../shapes/ne_50m_admin_0_countries_lakes.shp")
+world110 <- readShapePoly("../shapes/ne_50m_admin_0_countries_lakes.shp")
 
 
 keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt", 
@@ -33,25 +33,14 @@ keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt",
 
 download.file("http://baruch.cuny.edu/geoportal/data/esri/world/continent.zip", "../shapes/cont.zip") 
 unzip("../shapes/cont.zip", exdir="../shapes")
-cont <- getShape("../shapes/continent.shp")
+cont <- readShapePoly("../shapes/continent.shp")
 
 
 ###########################################################################
-## process europe
+## process europe (with neighboring countries)
 ###########################################################################
 
-proj4string(world50) <- "+proj=longlat +datum=WGS84"
-eur1 <- world50[world50$continent=="Europe" | world50$name=="Turkey", ]
-plot(eur1)
-
-## global cropping
-CP <- as(extent(-25, 70, 34, 82), "SpatialPolygons")
-proj4string(CP) <- CRS(proj4string(eur1))
-eur2 <- gIntersection(eur1, CP, byid=TRUE)
-
-plot(eur2)
-
-## modify europe continent such that focus is on dividing russia
+## make splitting line for Russia
 conteur <- cont[cont$CONTINENT=="Europe",]
 plot(conteur)
 proj4string(conteur) <- "+proj=longlat +datum=WGS84"
@@ -59,150 +48,114 @@ proj4string(conteur) <- "+proj=longlat +datum=WGS84"
 CP <- as(extent(-32, 48, 30, 72), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(conteur))
 conteur2 <- gUnion(conteur, CP, byid=TRUE)
-plot(conteur2)
 
 CP <- as(extent(40, 64, 67, 70.5), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(conteur2))
 conteur3 <- gUnion(conteur2, CP, byid=TRUE)
-geo.borders(conteur3)
 
 CP <- as(extent(10, 75, 72, 85), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(conteur3))
 conteur4 <- gDifference(conteur3, CP, byid=TRUE)
-plot(conteur4)
 
 CP <- as(extent(48, 75, 70.5, 85), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(conteur4))
 conteur5 <- gDifference(conteur4, CP, byid=TRUE)
-plot(conteur5)
-
-## remove asian russia from europe
-eur3 <- gIntersection(eur2, conteur5, byid=TRUE)
-plot(eur3)
 
 ## append data
-data_eur <- eur1@data[,keepVars]
-factors <- sapply(data_eur, is.factor)
-data_eur[, 1:7] <- lapply(data_eur[, 1:7], function(x){
-	as.factor(as.character(x))
-})
+# data_eur <- eur1@data[,keepVars]
+# factors <- sapply(data_eur, is.factor)
+# data_eur[, 1:7] <- lapply(data_eur[, 1:7], function(x){
+# 	as.factor(as.character(x))
+# })
 
-eur4 <- appendData(eur3, data_eur)
-eur4$gdp_cap_est <- eur4$gdp_md_est / eur4$pop_est * 1000000
+# eur4 <- appendData(eur3, data_eur)
+# eur4$gdp_cap_est <- eur4$gdp_md_est / eur4$pop_est * 1000000
+# 
+# ## use better projection
+# eur5 <- spTransform(eur4 ,CRS("+proj=utm +zone=33 +north"))
+# plot(eur5)
 
-## use better projection
-eur5 <- spTransform(eur4 ,CRS("+proj=utm +zone=33 +north"))
-plot(eur5)
 
-
-###########################################################################
-## process europe (with neighboring countries)
-###########################################################################
+## subset europe and neighboring countries
 
 proj4string(world50) <- "+proj=longlat +datum=WGS84"
-eur6 <- world50[world50$continent=="Europe" | world50$name %in% c("Morocco", "Algeria",
+eur1 <- world50[world50$continent=="Europe" | world50$name %in% c("Morocco", "Algeria",
 						"Tunesia", "Libya", "Egypt", "Israel", "Palestine", "Lebanon",
 						"Syria", "Iraq", "Kuwait", "Turkey", "Jordan", "Saudi Arabia", "Iran", "Armenia", "Azerbaijan", "Georgia",
 						"Kazakhstan", "Turkmenistan", "Uzbekistan"),]
 
 ## global cropping
-CP <- as(extent(-25, 85, 25, 82), "SpatialPolygons")
-proj4string(CP) <- CRS(proj4string(eur6))
-eur7 <- gIntersection(eur6, CP, byid=TRUE)
+CP <- as(extent(-25, 87, 27.5, 82), "SpatialPolygons")
+proj4string(CP) <- CRS(proj4string(eur1))
+eur2 <- gIntersection(eur1, CP, byid=TRUE)
 
-plot(eur7)
 
-## append data
-data_eur <- eur6@data[,keepVars]
+## get data
+data_eur <- eur1@data[,keepVars]
 factors <- sapply(data_eur, is.factor)
 data_eur[, 1:7] <- lapply(data_eur[, 1:7], function(x){
 	as.factor(as.character(x))
 })
-
 data_eur[data_eur$continent!="Europe" & (data_eur$name !="Turkey"), 8:11] <- NA
 
 
-## cut russia
-plot(conteur5)
-
-plot(eur7)
-
 ## remove asian russia from europe
-eur7b <- gIntersection(eur7, conteur5, byid=TRUE)
+russiaEur <- gIntersection(eur2, conteur5, byid=TRUE)
 
-russiaEur <- eur7b[58, ]
-russiaAll <- eur7[58, ]
-
-plot(russiaAll)
-plot(russiaEur)
+russiaEur <- russiaEur[58, ]
+russiaAll <- eur2[58, ]
 
 russiaAsia <- gDifference(russiaAll, russiaEur)
 
-plot(russiaAsia)
+## keep top 3 areas of Asia's Russia
+maxids <- tail(order(sapply(russiaAsia@polygons[[1]]@Polygons, function(x) x@area)), 3)
 
-
-maxid <- which.max(sapply(russiaAsia@polygons[[1]]@Polygons, function(x) x@area))
-
-russiaAsia@polygons[[1]]@Polygons <- russiaAsia@polygons[[1]]@Polygons[maxid]
-russiaAsia@polygons[[1]]@area <- russiaAsia@polygons[[1]]@Polygons[[1]]@area
-russiaAsia@polygons[[1]]@plotOrder <- as.integer(maxid)
+russiaAsia@polygons[[1]]@Polygons <- russiaAsia@polygons[[1]]@Polygons[maxids]
+russiaAsia@polygons[[1]]@area <- sum(sapply(russiaAsia@polygons[[1]]@Polygons, function(x)x@area))
+russiaAsia@polygons[[1]]@plotOrder <- rev(as.integer(maxids))
 slot(russiaAsia, "polygons") <- lapply(slot(russiaAsia, "polygons"),
 								   checkPolygonsHoles) 
 
-
-plot(russiaAsia)
-
-
+## append Asia's Russia to Europe
 russiaPolygons <- c(russiaEur@polygons, russiaAsia@polygons)
+russiaID <- which.max(sapply(eur2@polygons, function(x)x@area))
 
+eur3 <- eur2
+eur3@polygons <- c(eur3@polygons[1:(russiaID-1)], russiaPolygons[1], eur3@polygons[(russiaID+1):length(eur3@polygons)], russiaPolygons[2])
 
-russiaID <- which.max(sapply(eur7@polygons, function(x)x@area))
-
-eur7c <- eur7
-eur7c@polygons <- c(eur7c@polygons[1:(russiaID-1)], russiaPolygons[1], eur7c@polygons[(russiaID+1):length(eur7c@polygons)], russiaPolygons[2])
-
-eur7c@plotOrder <- c(as.integer(length(eur7c@polygons)), eur7c@plotOrder)
-slot(eur7c, "polygons") <- lapply(slot(eur7c, "polygons"),
+eur3@plotOrder <- c(as.integer(length(eur3@polygons)), eur3@plotOrder)
+slot(eur3, "polygons") <- lapply(slot(eur3, "polygons"),
 									   checkPolygonsHoles) 
-
-length(eur7b@polygons)
-
-
-plot(eur7c)
-
-
-str(eur7@polygons)
 
 # worth checking: simpily shape
 # eur10 <- gSimplify(eur7, tol=.01)
 
 ## use better projection
-eur8 <- spTransform(russiaAsia,CRS("+proj=utm +zone=33 +north"))
-
-russiaAll
-eur8 <- spTransform(eur7c ,CRS("+proj=utm +zone=33 +north"))
-
-plot(eur8)
-
-gIsValid(eur8, reason = TRUE)
-eur8b <- gBuffer(eur8, width=0, byid=TRUE) 
-gIsValid(eur8b, reason = TRUE)
-
-CP <- as(extent(-2200000, 3800000, 3300000, 8400000), "SpatialPolygons")
-proj4string(CP) <- CRS(proj4string(eur8))
-eur8 <- gIntersection(eur8b, CP, byid=TRUE)
-
-eur8@bbox[,] <- c(-2200000, 3800000, 3400000, 8000000)
+eur4 <- spTransform(eur3 ,CRS("+proj=utm +zone=33 +north"))
 
 
-eur9 <- appendData(eur8, data_eur[c(1:70, 58), ])
-eur9$gdp_cap_est <- eur9$gdp_md_est / eur9$pop_est * 1000000
+gIsValid(eur4, reason = TRUE)
+#eur8b <- gBuffer(eur8, width=0, byid=TRUE) 
 
-plot(eur9)
+eur4@bbox[,] <- c(-2200000, 3800000, 3400000, 8000000)
 
-geo.choropleth(eur9, "gdp_cap_est", style="kmeans") + geo.borders(eur9)
+eur5 <- appendData(eur4, data_eur[c(1:70, 58), ])
+eur5$iso_a3	<- as.character(eur5$iso_a3)
+eur5$iso_a3[eur5$iso_a3=="-99"] <- "Kosovo"
+eur5$iso_a3[71] <- "RUS (Asia)"
+eur5@data[71, 8:11] <- NA
 
 
+	
+eur5$gdp_cap_est <- eur5$gdp_md_est / eur5$pop_est * 1000000
+
+
+
+#geo.choropleth(eur5, "gdp_cap_est", style="kmeans") + geo.borders(eur5) + geo.text(eur5, "iso_a3")
+
+europe <- eur5
+
+save(europe, file="./data/europe.rda")
 
 ###########################################################################
 ## process world
@@ -212,68 +165,67 @@ plot(world110)
 proj4string(world110) <- "+proj=longlat +datum=WGS84"
 
 world110_wt <- spTransform(world110, CRS("+proj=wintri"))
+
+world110_ll <- spTransform(world110, CRS("+proj=longlat +datum=WGS84"))
+
 world110_r <- spTransform(world110, CRS("+proj=robin"))
 
 plot(world110_wt)
 plot(world110_r)
 
+world
 
-####### test ########
+world110_vdG <- spTransform(world110, CRS("+proj=vandg "))
+#+lon_0=0 +x_0=0 +y_0=0 +R_A +a=6371000 +b=6371000 +units=m +no_defs
 
-geo.borders(eur5) + 
-	geo.theme(draw.frame=TRUE) +
-	geo.choropleth(eur5, col="gdp_cap_est", style="kmeans", n=10) +
-	geo.text(eur5, "iso_a3", cex=.5)
+plot(world110_vdG)
 
-geo.borders(eur5) + 
-	geo.theme(draw.frame=TRUE) +
-	geo.choropleth(eur5, col="income_grp", palette="RdYlBu", n=3) +
-	geo.text(eur5, "iso_a3", cex=.5)
+world <- world110_wt
+world@bbox[,] <- c(-12600000, -6500000, 15300000, 9500000) 
+
+#geo.borders(world)
+#geo.borders(world) + geo.theme(draw.frame=TRUE, frame.lwd=NA)
+
+save(world, file="./data/world.rda")
 
 
-geo.choropleth(eur5, col="iso_a3")
+## projections: see ?proj4string => package rgdal
 
 
 ####### europe regions map
-str(eur5@data)
 
-eur5$region <- ""
-eur5$region[eur5$iso_a3 %in% c("CZE", "HUN", "LIE", "POL", "SVK", "BGR", "ROU", "RUS", "UKR", "BLR", "MDA")] <-
+eur$region <- ""
+eur$region[eur$iso_a3 %in% c("CZE", "HUN", "LIE", "POL", "SVK", "BGR", "ROU", "RUS", "UKR", "BLR", "MDA")] <-
 	"Eastern Europe"
 
-eur5$region[eur5$iso_a3 %in% c("DNK", "EST", "FIN", "ISL", "LVA", "LTU", "NOR", "SWE", "IRL", "GBR", "ALA", "FRO", "IMN")] <-
+eur$region[eur$iso_a3 %in% c("DNK", "EST", "FIN", "ISL", "LVA", "LTU", "NOR", "SWE", "IRL", "GBR", "ALA", "FRO", "IMN")] <-
 	"Northern Europe"
 
-eur5$region[eur5$iso_a3 %in% c("NLD", "AUT", "CHE", "DEU", "BEL", "LUX", "FRA", "GGY", "JEY", "MCO")] <-
+eur$region[eur$iso_a3 %in% c("NLD", "AUT", "CHE", "DEU", "BEL", "LUX", "FRA", "GGY", "JEY", "MCO")] <-
 	"Western Europe"
 
-eur5$region[eur5$iso_a3 %in% c("PRT", "ESP", "ITA", "SVN", "ALB", "AND", "BIH", "GRC", "HRV", "-99", "SMR", "SRB", "TUR", "VAT", "MKD", "MLT", "MNE")] <-
+eur$region[eur$iso_a3 %in% c("PRT", "ESP", "ITA", "SVN", "ALB", "AND", "BIH", "GRC", "HRV", "Kosovo", "SMR", "SRB", "TUR", "VAT", "MKD", "MLT", "MNE")] <-
 	"Southern Europe"
 
-eur5$region <- factor(eur5$region)
+eur$region <- factor(eur$region)
 
-geo.borders(eur5) +
-	geo.choropleth(eur5, "region") +
-	geo.text(eur5, "iso_a3")
+geo.borders(eur) +
+	geo.choropleth(eur, "region") +
+	geo.text(eur, "iso_a3")
 
 devtools::load_all("../../treemap/pkg")
-TCdf <- treepalette(eur5@data, index= c("region", "iso_a3"))
-eur5$col <- TCdf$HCL.color[match(eur5$iso_a3, TCdf$iso_a3)]
+TCdf <- treepalette(eur@data, index= c("region", "iso_a3"))
+eur$col <- TCdf$HCL.color[match(eur$iso_a3, TCdf$iso_a3)]
 
-geo.borders(eur5) +
-	geo.fill(eur5, eur5$col) +
-	geo.text(eur5, "iso_a3")
+geo.borders(eur) +
+	geo.fill(eur, eur$col) +
+	geo.text(eur, "iso_a3")
 
 ####### world cartograms
 
-names(world110_r@data)
+names(world110_wt@data)
 
-geo.borders(world110_r) +
-	geo.choropleth(world110_r, col="region_un")
-
-####### europe part 2
-
-eur6 <- world50
-eur7 <- spTransform(eur6 ,CRS("+proj=utm +zone=33 +north"))
+geo.borders(world110_wt) +
+	geo.choropleth(world110_wt, col="region_un") + geo.text(world110_wt, "iso_a3")
 
 
