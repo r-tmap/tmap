@@ -6,11 +6,10 @@
 #' @param year when \code{id} is specified as a region, then year must also be specified. Together, they define the shape file "region_year.shp".
 #' @param dir the directory of the shape files. Only applicable when \code{id} is specifies as region label. It should have a subdirectory for each year, and the shape files should be names according to the region label (see \code{regions}), followed by an underscore and the year.
 #' @return shape object
+#' @import rgdal
 #' @export
 #' @example ../examples/getShape.R
 getShape <- function(id, year=NULL, dir=getOption("shp_dir")){
-	
-	require(maptools)
 	
 	# determine region ID
 	if (missing(year)) {
@@ -31,5 +30,11 @@ getShape <- function(id, year=NULL, dir=getOption("shp_dir")){
 			fullfilename <- paste(dir, year, filename, sep="/")
 		} else stop("unknown filename")
 	}
-	readShapePoly(fullfilename)
+	dir <- dirname(fullfilename)
+	base <- basename(fullfilename)
+	if (substr(base, nchar(base)-3,nchar(base))==".shp")
+		base <- substr(base, 1, nchar(base)-4)
+	
+	readOGR(dir, base, verbose=FALSE)
+	# readShapePoly(fullfilename) does not import projection info
 }
