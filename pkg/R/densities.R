@@ -10,7 +10,7 @@
 #' @return vector or data.frame (depending on whether \code{length(var)==1} with density values. This can be appended directly to the shape file.
 #' @export
 #' 
-densities <- function(shp, var, total.area.km2=33893) {
+densities <- function(shp, var, total.area.km2=33893, drop=TRUE) {
 	## calculate densities
 	areas <- getAreas(shp)
 
@@ -18,7 +18,7 @@ densities <- function(shp, var, total.area.km2=33893) {
 	areasKM2 <- areas * (total.area.km2 / sum(areas))
 	
 	## calculate and return densities
-    if (length(var)==1) return(shp@data[[var]] / areasKM2)
+    if (length(var)==1 && drop) return(shp@data[[var]] / areasKM2)
 
-    as.data.frame(lapply(shp@data[, var], function(x)x/areasKM2))
+    as.data.frame(lapply(shp@data[, var, drop=FALSE], function(x)x/areasKM2))
 }

@@ -2,6 +2,8 @@ process_choro <- function(g, free.scales) {
 	shp.name <- g$shp
 	x <- g$col
 	n <- g$n
+	convert2density <- g$convert2density
+	total.area.km2 <- g$total.area.km2
 	style <- g$style
 	breaks <- g$breaks
 	palette <- g$palette
@@ -12,6 +14,8 @@ process_choro <- function(g, free.scales) {
 	
 	nx <- length(x)
 	X <- get(shp.name)@data[, x, drop=FALSE]
+	if (convert2density) X <- densities(get(shp.name), var=x, total.area.km2=ifelse(is.na(total.area.km2), 1, total.area.km2), drop=FALSE)
+	
 	if (free.scales && nx > 1) {
 		fill <- matrix("", ncol=nx, nrow=nrow(X))
 		choro.legend.labels <- list()

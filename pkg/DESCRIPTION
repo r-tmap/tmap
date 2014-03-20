@@ -14,6 +14,7 @@ Depends:
     sp,
     maptools,
     rgdal,
+    raster,
     classInt,
     RColorBrewer,
     shiny

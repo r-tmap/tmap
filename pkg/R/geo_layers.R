@@ -1,3 +1,20 @@
+#' Specify the shape object
+#' 
+#' This layer specifies the shape object, which is one of \code{\link[sp:SpatialPolygons]{SpatialPolygons}}, \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialPoints]{SpatialPoints}}, and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}.
+#' 
+#' A 
+#' 
+#' @param shp shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.
+#' @export
+#' @return \code{\link{geo-object}}
+geo_shape <- function(shp) {
+	shp_name <- deparse(substitute(shp))
+	g <- list(geo_shape=list(shp=shp_name))
+	class(g) <- "geo"
+	g
+}
+
+
 #' Draw polygon borders
 #' 
 #' This layer defines the borders of the polygons. Color, line width and line type can be set.
@@ -8,7 +25,7 @@
 #' @param lty line type (see \code{\link[graphics:par]{par}})
 #' @export
 #' @return \code{\link{geo-object}}
-geo.borders <- function(shp, col="black", lwd=1, lty="solid") {
+geo_borders <- function(shp, col="black", lwd=1, lty="solid") {
 	shp_name <- deparse(substitute(shp))
 	g <- list(geo_borders=list(shp=shp_name, col=col, lwd=lwd, lty=lty))
 	class(g) <- "geo"
@@ -17,14 +34,14 @@ geo.borders <- function(shp, col="black", lwd=1, lty="solid") {
 
 #' Fill polygons
 #' 
-#' This layer defines the fill colors of the polygons. The colors in this layer are directly specified. Use \code{\link{geo.choropleth}} to map colors to a data variable.
+#' This layer defines the fill colors of the polygons. The colors in this layer are directly specified. Use \code{\link{geo_choropleth}} to map colors to a data variable.
 #' 
 #' @param shp \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} object
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
 #' @export
-#' @see \code{\link{geo.choropleth}}
+#' @see \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
-geo.fill <- function(shp, col="lightgray") {
+geo_fill <- function(shp, col="lightgray") {
 	shp_name <- deparse(substitute(shp))
 	g <- list(geo_fill=list(shp=shp_name, col=col))
 	class(g) <- "geo"
@@ -33,21 +50,21 @@ geo.fill <- function(shp, col="lightgray") {
 
 #' Draw bubbles
 #' 
-#' This layer speficies the drawing of bubbles. The colors and sizes of the bubbles are directly specified in this layer. Use \code{\link{geo.bubblemap}} to map bubbles colors and/or sizes to data.
+#' This layer speficies the drawing of bubbles. The colors and sizes of the bubbles are directly specified in this layer. Use \code{\link{geo_bubblemap}} to map bubbles colors and/or sizes to data.
 #' 
 #' @param shp \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} object
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
 #' @export
-#' @see \code{\link{geo.choropleth}}
+#' @see \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
-geo.bubbles <- function(coor, size=1, col="red", border=NA, scale=1) {
+geo_bubbles <- function(coor, size=1, col="red", border=NA, scale=1) {
 	coor_name <- deparse(substitute(coor))
 	g <- list(geo_bubbles=list(coor=coor_name, bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale))
 	class(g) <- "geo"
 	g
 }
 
-geo.text <-  function(shp, text=names(shp)[1], cex=1) {
+geo_text <-  function(shp, text=names(shp)[1], cex=1) {
 	shp_name <- deparse(substitute(shp))
 	g <- list(geo_text=list(shp=shp_name, text=text, cex=cex))
 	class(g) <- "geo"
@@ -62,6 +79,7 @@ geo.text <-  function(shp, text=names(shp)[1], cex=1) {
 #' @param col name of variable that is contained in \code{shp}
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlBu"} is taken for numeric variables, and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
+#' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers.
 #' @param style method to cut the color scale (in case \code{col} is a numeric variable): "fixed", "equal", "pretty", "quantile", "kmeans"
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
 #' @param labels labels of the classes
@@ -69,21 +87,23 @@ geo.text <-  function(shp, text=names(shp)[1], cex=1) {
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE}
 #' @param colorNA color used to missing values
 #' @export
-#' @seealso \code{\link{geo.fill}}
+#' @seealso \code{\link{geo_fill}}
 #' @return \code{\link{geo-object}}	
-geo.choropleth <- function(shp, col, 
+geo_choropleth <- function(shp, col, 
 						    palette = NULL,
+						    convert2density = FALSE,
 						    n = 5,
 						    style = "pretty",
 							breaks = NULL,
 						    labels = NULL,
 							auto.palette.mapping = TRUE,
 							contrast = 1,
-							colorNA = "#FF1414") {
+							colorNA = "#FF1414",
+							total.area.km2=NA) {
 	
 	shp_name <- deparse(substitute(shp))
-	g <- list(geo_choropleth=list(shp=shp_name, col=col, n=n, style=style, breaks=breaks, palette=palette, labels=labels, 
-							auto.palette.mapping=auto.palette.mapping, contrast=contrast, colorNA=colorNA))
+	g <- list(geo_choropleth=list(shp=shp_name, col=col, convert2density=convert2density, n=n, style=style, breaks=breaks, palette=palette, labels=labels, 
+							auto.palette.mapping=auto.palette.mapping, contrast=contrast, colorNA=colorNA, total.area.km2=total.area.km2))
 	class(g) <- "geo"
 	g
 }	
@@ -106,9 +126,9 @@ geo.choropleth <- function(shp, col,
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE} and \code{col} is a numeric variable name. 
 #' @param colorNA colour for missing values
 #' @export
-#' @seealso \code{\link{geo.bubblemap}}
+#' @seealso \code{\link{geo_bubblemap}}
 #' @return \code{\link{geo-object}}
-geo.bubblemap <- function(coor, size = NULL, col = NULL,
+geo_bubblemap <- function(coor, size = NULL, col = NULL,
 						  border=NA,
 						  scale=1,
 						  n = 5, style = "pretty",
@@ -134,10 +154,10 @@ geo.bubblemap <- function(coor, size = NULL, col = NULL,
 #' 
 #' @param ncol number of columns of the small multiples grid
 #' @param nrow number of rows of the small multiples grid
-#' @param free.scales should the scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo.choropleth}} and color and size from \code{\link{geo.bubblemap}}.
+#' @param free.scales should the scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo_choropleth}} and color and size from \code{\link{geo_bubblemap}}.
 #' @export
 #' @return \code{\link{geo-object}}
-geo.grid <- function(ncol=NULL, nrow=NULL, 
+geo_grid <- function(ncol=NULL, nrow=NULL, 
 					 free.scales=FALSE)	{
 	g <- list(geo_grid=list(ncol=ncol, nrow=nrow, free.scales=free.scales))
 	class(g) <- "geo"
@@ -153,7 +173,7 @@ geo.grid <- function(ncol=NULL, nrow=NULL,
 #' @param units either \code{"rel"} for relative values between 0 and 1, or \code{"abs"} for absolute values
 #' @export
 #' @return \code{\link{geo-object}}
-geo.zoom <- function(xlim = c(0, 1),
+geo_zoom <- function(xlim = c(0, 1),
 					ylim = c(0, 1),
 					units = "rel") {
 	g <- list(geo_zoom=list(xlim=xlim, ylim=ylim, units=units))
@@ -179,7 +199,7 @@ geo.zoom <- function(xlim = c(0, 1),
 #' @param draw.frame
 #' @param frame.lwd
 #' @param legend.only
-geo.theme <- function(title=NULL,
+geo_theme <- function(title=NULL,
 					  title.cex=1.5,
 					  bg.color="yellow",
 					  show.legend.text=NULL,
@@ -206,7 +226,13 @@ geo.theme <- function(title=NULL,
 							 frame.lwd=frame.lwd, legend.only=legend.only))
 	class(g) <- "geo"
 	g
-}	
+}
+
+# geo_theme.NLD <- function(total.area.km2=33893,
+# 						  ...) {
+# 	
+# }
+
 
 
 "+.geo" <- function(e1, e2) {

@@ -1,4 +1,5 @@
 process.layers <- function(g, free.scales) {
+	shp.name <- g$geo_shape$shp
 	
 	# border info
 	if (is.null(g$geo_borders)) {
@@ -9,7 +10,6 @@ process.layers <- function(g, free.scales) {
 		col <- g$geo_borders$col
 		lwd <- g$geo_borders$lwd
 		lty <- g$geo_borders$lty
-		shp.name <- g$geo_borders$shp
 	}
 	
 	# fill info
@@ -18,7 +18,6 @@ process.layers <- function(g, free.scales) {
 			fill <- NA
 		} else {
 			fill <- g$geo_fill$col
-			shp.name <- g$geo_fill$shp
 		}
 		choro.values <- NA
 		choro.legend.labels <- NA
@@ -34,8 +33,6 @@ process.layers <- function(g, free.scales) {
 		choro.legend.palette <- chorores$choro.legend.palette
 		choro.breaks <- chorores$choro.breaks
 		xfill <- chorores$xfill
-		shp.name <- chorores$shp.name
-		
 	}
 	
 	# bubble info
@@ -50,7 +47,6 @@ process.layers <- function(g, free.scales) {
 			bubble.col <- g$geo_bubbles$bubble.col
 			bubble.border <- g$geo_bubbles$bubble.border
 			bubble.scale <- g$geo_bubbles$bubble.scale
-			shp.name <- g$geo_bubbles$coor
 		}
 		bubble.legend.labels <- NA
 		bubble.legend.palette <- NA
@@ -71,9 +67,6 @@ process.layers <- function(g, free.scales) {
 		bubble.legend.size_labels <- bubbleres$bubble.legend.size_labels
 		xsize <- bubbleres$xsize
 		xcol <- bubbleres$xcol
-		shp.name <- bubbleres$shp.name
-		
-		
 	}
 
 	# text info
@@ -83,7 +76,6 @@ process.layers <- function(g, free.scales) {
 	} else {
 		text <- g$geo_text$text
 		cex <- g$geo_text$cex
-		shp.name <- g$geo_text$shp
 	}
 	
 	gp <- list(shp=shp.name, fill=fill, col=col, 

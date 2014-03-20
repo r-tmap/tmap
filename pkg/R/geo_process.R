@@ -1,23 +1,37 @@
+#' Print geo object
+#' 
+#' Print geo object
+#' 
+#' @param g geo object
+#' @import raster
+#' @exprt
 print.geo <- function(g) {
 	
 	## fill meta info
-	if (is.null(g$geo_theme)) g <- g + geo.theme()
-	if (is.null(g$geo_grid)) g <- g + geo.grid()
-	if (is.null(g$geo_zoom)) g <- g + geo.zoom()
+	if (is.null(g$geo_theme)) g <- g + geo_theme()
+	if (is.null(g$geo_grid)) g <- g + geo_grid()
+	if (is.null(g$geo_zoom)) g <- g + geo_zoom()
 	
 	## split g into gmeta and gbody
 	gmeta <- g[c("geo_theme", "geo_grid", "geo_zoom")]
 	gbody <- g[!(names(g) %in% c("geo_theme", "geo_grid", "geo_zoom"))]
 	
+	## split g into layers, and process them
 	shp.names <- sapply(gbody, function(l)ifelse(is.null(l$shp), l$coor, l$shp))
 	shp.names.unique <- unique(shp.names)
-# 	shps <- lapply(shp.names.unique, get)
-# 	names(shps) <- shp.names.unique
 	
+	shape.id <- which(names(gbody)=="geo_shape")
+	
+	if (!length(shape.id)) stop("Required geo_shape layer missing.")
+	if (shape.id[1] != 1) stop("First layers should be a geo_shape layer.")
+	
+	shape.id <- c(shape.id, length(gbody)+1)
 
-	
-	## split g into layers, and process them
-	cluster.id <- c(1, cumsum(shp.names[-1] != shp.names[-(length(shp.names))]) + 1)
+	shape.id.from <- shape.id[-length(shape.id)]
+	shape.id.to <- shape.id[-1] - 1
+	cluster.id <- unlist(mapply(function(x,y,n)rep(n, y-x+1), shape.id.from, shape.id.to, 1:length(shape.id.from), SIMPLIFY=FALSE))
+
+	#cluster.id <- c(1, cumsum(shp.names[-1] != shp.names[-(length(shp.names))]) + 1)
 	gs <- split(gbody, cluster.id)
 	gp <- lapply(gs, FUN=process.layers, free.scales=gmeta$geo_grid$free.scales)
 	nx <- max(sapply(gp, function(x) {
