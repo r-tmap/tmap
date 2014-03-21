@@ -19,13 +19,12 @@ geo_shape <- function(shp) {
 #' 
 #' This layer defines the borders of the polygons. Color, line width and line type can be set.
 #' 
-#' @param shp \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} object
 #' @param col line color
 #' @param lwd line width (see \code{\link[graphics:par]{par}})
 #' @param lty line type (see \code{\link[graphics:par]{par}})
 #' @export
 #' @return \code{\link{geo-object}}
-geo_borders <- function(shp, col="black", lwd=1, lty="solid") {
+geo_borders <- function(col="black", lwd=1, lty="solid") {
 	shp_name <- deparse(substitute(shp))
 	g <- list(geo_borders=list(shp=shp_name, col=col, lwd=lwd, lty=lty))
 	class(g) <- "geo"
@@ -36,12 +35,11 @@ geo_borders <- function(shp, col="black", lwd=1, lty="solid") {
 #' 
 #' This layer defines the fill colors of the polygons. The colors in this layer are directly specified. Use \code{\link{geo_choropleth}} to map colors to a data variable.
 #' 
-#' @param shp \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} object
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
 #' @export
 #' @see \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
-geo_fill <- function(shp, col="lightgray") {
+geo_fill <- function(col="lightgray") {
 	shp_name <- deparse(substitute(shp))
 	g <- list(geo_fill=list(shp=shp_name, col=col))
 	class(g) <- "geo"
@@ -52,19 +50,29 @@ geo_fill <- function(shp, col="lightgray") {
 #' 
 #' This layer speficies the drawing of bubbles. The colors and sizes of the bubbles are directly specified in this layer. Use \code{\link{geo_bubblemap}} to map bubbles colors and/or sizes to data.
 #' 
-#' @param shp \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} object
+#' @param size
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
+#' @param border
+#' @param scale
 #' @export
 #' @see \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
-geo_bubbles <- function(coor, size=1, col="red", border=NA, scale=1) {
+geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
 	coor_name <- deparse(substitute(coor))
 	g <- list(geo_bubbles=list(coor=coor_name, bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale))
 	class(g) <- "geo"
 	g
 }
 
-geo_text <-  function(shp, text=names(shp)[1], cex=1) {
+#' Add text labels
+#' 
+#' This layer adds text labels
+#' 
+#' @param text
+#' @param cex
+#' @export
+#' @return \code{\link{geo-object}}
+geo_text <-  function(text=names(shp)[1], cex=1) {
 	shp_name <- deparse(substitute(shp))
 	g <- list(geo_text=list(shp=shp_name, text=text, cex=cex))
 	class(g) <- "geo"
@@ -75,7 +83,6 @@ geo_text <-  function(shp, text=names(shp)[1], cex=1) {
 #' 
 #' This layer speficies a choropleth. A color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
 #' 
-#' @param shp \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} object
 #' @param col name of variable that is contained in \code{shp}
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlBu"} is taken for numeric variables, and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
@@ -89,7 +96,7 @@ geo_text <-  function(shp, text=names(shp)[1], cex=1) {
 #' @export
 #' @seealso \code{\link{geo_fill}}
 #' @return \code{\link{geo-object}}	
-geo_choropleth <- function(shp, col, 
+geo_choropleth <- function(col, 
 						    palette = NULL,
 						    convert2density = FALSE,
 						    n = 5,
@@ -111,8 +118,6 @@ geo_choropleth <- function(shp, col,
 #' Draw bubblemap
 #' 
 #' This layer speficies a bubblemap. Both colors and sizes of the bubbles can be mapped to data variables. 
-#' 
-#' @param shp \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} object
 #' @param size \code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples
 #' @param borders color of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
@@ -128,7 +133,7 @@ geo_choropleth <- function(shp, col,
 #' @export
 #' @seealso \code{\link{geo_bubblemap}}
 #' @return \code{\link{geo-object}}
-geo_bubblemap <- function(coor, size = NULL, col = NULL,
+geo_bubblemap <- function(size = NULL, col = NULL,
 						  border=NA,
 						  scale=1,
 						  n = 5, style = "pretty",

@@ -25,7 +25,7 @@ process.layers <- function(g, free.scales) {
 		choro.breaks <- NA
 		xfill <- NA
 	} else {
-		chorores <- process_choro(g$geo_choropleth, free.scales)
+		chorores <- process_choro(shp.name, g$geo_choropleth, free.scales)
 
 		fill <- chorores$fill
 		choro.values <- chorores$choro.values
@@ -55,7 +55,7 @@ process.layers <- function(g, free.scales) {
 		xsize <- NA
 		xcol <- NA
 	} else {
-		bubbleres <- process_bubblemap(g$geo_bubblemap, free.scales)
+		bubbleres <- process_bubblemap(shp.name, g$geo_bubblemap, free.scales)
 		
 		bubble.size <- bubbleres$bubble.size
 		bubble.col <- bubbleres$bubble.col

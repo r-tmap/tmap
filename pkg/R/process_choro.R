@@ -1,5 +1,4 @@
-process_choro <- function(g, free.scales) {
-	shp.name <- g$shp
+process_choro <- function(shp.name, g, free.scales) {
 	x <- g$col
 	n <- g$n
 	convert2density <- g$convert2density

@@ -1,5 +1,4 @@
-process_bubblemap <- function(g, free.scales) {
-	shp.name <- g$coor
+process_bubblemap <- function(shp.name, g, free.scales) {
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
 	bubble.border <- g$bubble.border

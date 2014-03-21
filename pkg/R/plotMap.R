@@ -1,15 +1,7 @@
-plotMap <- function(gp, gt, gz) {
-	draw.frame <- gt$draw.frame
-	frame.lwd <- gt$frame.lwd
-	
-	add <- rep(TRUE, length(gp))	
-	add[1] <- FALSE
-	
-	nlayers <- length(gp)
-	shps <- lapply(gp, function(g) get(g$shp))
-	
-	## set bounding boxes
-	shps <- lapply(shps, function(shp) {
+set_bounding_box <- function(gp, gt, gz) {
+	lapply(gp, function(gpl) {
+		shp <- gpl$shp
+		
 		bb <- shp@bbox
 		if (gz$units == "rel") {
 			steps <- bb[,2] - bb[,1]
@@ -20,30 +12,54 @@ plotMap <- function(gp, gt, gz) {
 		}
 		shp@bbox <- bb
 		
-		if (draw.frame) {
-			BB <- as(extent(bb), "SpatialPolygons")
-			proj4string(BB) <- CRS(proj4string(shp))
-			shp <- gIntersection(shp, BB, byid=TRUE)
+		if (gt$draw.frame) {
+			bbcoords <- cbind(x=bb[1,][c(1, 1, 2, 2, 1)], y=bb[2,][c(1, 2, 2, 1, 1)])
+			
+			BB <- SpatialPolygons(list(Polygons(list(Polygon(bbcoords)), "1")),
+								  proj4string=CRS(proj4string(shp)))
+			
+			shp2 <- gIntersection(shp, BB, byid=TRUE)
+			shpdata <- shp@data
+			ids <- getIDs(shp)
+			ids2 <- gsub( " .*$", "", getIDs(shp2))
+			indices <- match(ids2, ids)
+			shp2 <- SpatialPolygonsDataFrame(shp2, shpdata[indices, ], match.ID = FALSE)
+			shp <- shp2
+			
+			if (length(gpl$fill)==length(ids)) gpl$fill <- gpl$fill[indices]
+			if (length(gpl$bubble.size)==length(ids)) gpl$bubble.size <- gpl$bubble.size[indices]
+			
 		}
-		shp
+		gpl$shp <- shp
+		gpl
 	})
+}
+
+plotMap <- function(gp, gt, gz) {
+	draw.frame <- gt$draw.frame
+	frame.lwd <- gt$frame.lwd
 	
+	nlayers <- length(gp)
+	
+	## add shape objects to layers
+	gp <- lapply(gp, function(g) {g$shp <- get(g$shp); g})
+	
+	## set bounding box and frame
+	gp <- set_bounding_box(gp, gt, gz)
 	
 	## plot shapes
+	add <- c(FALSE, rep(TRUE, length(gp)-1))	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
-		plot(shps[[l]], col=gpl$fill, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l])
-		# , xaxs="i", yaxs="i"
+		plot(gpl$shp, col=gpl$fill, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xaxs="i", yaxs="i")
 	}
 	
+	## set grid viewport (second line needed for small multiples)
 	vps <- baseViewports()
-	
-	## needed for small multiples
 	vps$figure[c("x", "y", "width", "height")] <- vps$plot[c("x", "y", "width", "height")]
-	
 	pushViewport(vps$inner, vps$figure, vps$plot)
 
-	bb <- shps[[1]]@bbox
+	bb <- gp[[1]]$shp@bbox
  	ys <- convertY(unit(bb[2,], "native"), "npc", valueOnly=TRUE)
  	xs <- convertX(unit(bb[1,], "native"), "npc", valueOnly=TRUE)
 	
@@ -67,7 +83,6 @@ plotMap <- function(gp, gt, gz) {
 		npc.w <- npc.h / aspVp
 	}
 
-	
 	pushViewport(viewport(layout=grid.layout(nrow=3, ncol=3, 
 				widths=unit(c(1,npc.w, 1), c("null", "snpc", "null")),
 				heights=unit(c(1,npc.h, 1), c("null", "snpc", "null")))))
@@ -77,9 +92,10 @@ plotMap <- function(gp, gt, gz) {
 	scaleFactor <- (sqrt(vpArea) / 100)
 	
 	for (l in 1:nlayers) {
-		shp <- shps[[l]]
 		
 		gpl <- gp[[l]]
+		shp <- gpl$shp
+		
 		npol <- length(shp)
 		
 		co <- coordinates(shp)

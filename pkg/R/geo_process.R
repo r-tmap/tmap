@@ -6,7 +6,6 @@
 #' @import raster
 #' @exprt
 print.geo <- function(g) {
-	
 	## fill meta info
 	if (is.null(g$geo_theme)) g <- g + geo_theme()
 	if (is.null(g$geo_grid)) g <- g + geo_grid()
@@ -17,8 +16,8 @@ print.geo <- function(g) {
 	gbody <- g[!(names(g) %in% c("geo_theme", "geo_grid", "geo_zoom"))]
 	
 	## split g into layers, and process them
-	shp.names <- sapply(gbody, function(l)ifelse(is.null(l$shp), l$coor, l$shp))
-	shp.names.unique <- unique(shp.names)
+	#shp.names <- sapply(gbody, function(l)ifelse(is.null(l$shp), l$coor, l$shp))
+	#shp.names.unique <- unique(shp.names)
 	
 	shape.id <- which(names(gbody)=="geo_shape")
 	
