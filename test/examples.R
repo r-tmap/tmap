@@ -6,6 +6,9 @@ data(NLD_ageGroups)
 
 NLD_muni$gender <- (NLD_muni$men/NLD_muni$pop -.5) / sqrt(NLD_muni$pop) * 10000
 
+World$pop_est_km <- densities(World, "pop_est", total.area.km2=148940000)
+
+head(World[order(World$pop_est_km, decreasing=TRUE), c("name", "pop_est", "pop_est_km")], 100)
 
 
 names(NLD_muni)
@@ -17,9 +20,19 @@ geo_frame(c(.3, .8), c(.3, .8), units="rel")
 
 
 (g <- geo_shape(World) +
- 	#geo_choropleth("income_grp") +
+ 	geo_choropleth("income_grp") +
  	geo_borders() +
  	geo_theme(legend.position=c("left", "bottom"), legend.plot.size=c(.2, .2), legend.cex=0.6, draw.frame=TRUE))
+
+#log scale from 0 to 30000
+log1p(5000)
+exp(seq(0, 8.5, length.out=7))
+
+(g <- geo_shape(World) +
+ 	geo_choropleth("pop_est_km", style="fixed", breaks=c(0, 5, 20, 100, 250, 1000, 30000), palette="YlOrRd", auto.palette.mapping=FALSE) +
+ 	geo_borders() +
+ 	geo_theme(legend.position=c("left", "bottom"), type.legend.plot="none", legend.plot.size=c(.2, .2), legend.cex=0.6, draw.frame=TRUE))
+
 
 
 (g <- geo_shape(World) +

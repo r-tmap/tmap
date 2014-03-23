@@ -105,7 +105,7 @@ geo_choropleth <- function(col,
 						    labels = NULL,
 							auto.palette.mapping = TRUE,
 							contrast = 1,
-							colorNA = "#FF1414",
+							colorNA = "#DDDDDD",
 							total.area.km2=NA) {
 	
 	shp_name <- deparse(substitute(shp))

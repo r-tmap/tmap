@@ -10,13 +10,14 @@ devtools::load_all(".")
 ## download world shape files from http://www.naturalearthdata.com/features/
 ###########################################################################
 
-download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries_lakes.zip", "../shapes/ne_50m_admin_0_countries_lakes.zip")
-unzip("../shapes/ne_50m_admin_0_countries_lakes.zip", exdir="../shapes")
-world50 <- readShapePoly("../shapes/ne_50m_admin_0_countries_lakes.shp")
+# download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries_lakes.zip", "../shapes/ne_50m_admin_0_countries_lakes.zip")
+# unzip("../shapes/ne_50m_admin_0_countries_lakes.zip", exdir="../shapes")
+world50 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
 
-download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
-unzip("../shapes/ne_110m_admin_0_countries_lakes.zip", exdir="../shapes")
-world110 <- readShapePoly("../shapes/ne_50m_admin_0_countries_lakes.shp")
+# download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
+# unzip("../shapes/ne_110m_admin_0_countries_lakes.zip", exdir="../shapes")
+world110 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
+
 
 
 keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt", 
@@ -28,9 +29,9 @@ keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt",
 ## download continents shape file
 ###########################################################################
 
-download.file("http://baruch.cuny.edu/geoportal/data/esri/world/continent.zip", "../shapes/cont.zip") 
-unzip("../shapes/cont.zip", exdir="../shapes")
-cont <- readShapePoly("../shapes/continent.shp")
+#download.file("http://baruch.cuny.edu/geoportal/data/esri/world/continent.zip", "../shapes/cont.zip") 
+#unzip("../shapes/cont.zip", exdir="../shapes")
+cont <- readOGR("../shapes", "continent")
 
 
 ###########################################################################
@@ -40,7 +41,7 @@ cont <- readShapePoly("../shapes/continent.shp")
 ## make splitting line for Russia
 conteur <- cont[cont$CONTINENT=="Europe",]
 plot(conteur)
-proj4string(conteur) <- "+proj=longlat +datum=WGS84"
+#proj4string(conteur) <- "+proj=longlat +datum=WGS84"
 
 CP <- as(extent(-32, 48, 30, 72), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(conteur))
@@ -61,7 +62,7 @@ conteur5 <- gDifference(conteur4, CP, byid=TRUE)
 
 
 ## subset europe and neighboring countries
-proj4string(world50) <- "+proj=longlat +datum=WGS84"
+#proj4string(world50) <- "+proj=longlat +datum=WGS84"
 eur1 <- world50[world50$continent=="Europe" | world50$name %in% c("Morocco", "Algeria",
 						"Tunesia", "Libya", "Egypt", "Israel", "Palestine", "Lebanon",
 						"Syria", "Iraq", "Kuwait", "Turkey", "Jordan", "Saudi Arabia", "Iran", "Armenia", "Azerbaijan", "Georgia",
@@ -141,18 +142,25 @@ plot(world110)
 
 ## Set world porjection to Winkel Tripel
 
-proj4string(world110) <- "+proj=longlat +datum=WGS84"
+#proj4string(world110) <- "+proj=longlat +datum=WGS84"
 world110_wt <- spTransform(world110, CRS("+proj=wintri"))
 # world110_ll <- spTransform(world110, CRS("+proj=longlat +datum=WGS84"))
 # world110_r <- spTransform(world110, CRS("+proj=robin"))
 # world110_vdG <- spTransform(world110, CRS("+proj=vandg "))
+world110_wt <- spTransform(world110, CRS("+proj=wintri"))
+world110_mc <- spTransform(world110, CRS("+proj=mill"))
+world110_eqc <- spTransform(world110, CRS("+proj=eqc "))
+world110_giso <- spTransform(world110, CRS("+proj=eqc +lat_ts=30"))
 
+#ftp://ftp.remotesensing.org/proj/OF90-284.pdf
+#http://gis.stackexchange.com/questions/29101/create-mercator-map-with-arbitrary-center-orientation
+#http://www.progonos.com/furuti/MapProj/Dither/CartHow/HowER_W12/howER_W12.html
 
-World <- world110_wt
+World <- world110_mc 
 
 ## set bouding box (leave out Antarctica)
-World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000) 
-
+#World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)  # for Winkel Tripel
+World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)
 
 World@data <- World@data[, keepVars]
 summary(World@data)
@@ -163,6 +171,9 @@ World@data[, 1:7] <- lapply(World@data[, 1:7], function(x){
 	as.factor(as.character(x))
 })
 World$gdp_cap_est <- World$gdp_md_est / World$pop_est * 1000000
+
+#plot(World)
+
 
 save(World, file="./data/World.rda")
 

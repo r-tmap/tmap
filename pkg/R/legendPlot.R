@@ -78,7 +78,7 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 						 just=c("left", "bottom"))
 	
 	pushViewport(vpLegend)
-	grid.rect(gp=gpar(col="steelblue"))
+	#grid.rect(gp=gpar(col="steelblue"))
 	if (type.legend.plot %in% c("hist", "bar")) {
 		nas <- is.na(values)
 		missings <- any(nas)
