@@ -27,7 +27,7 @@ process_bubblemap <- function(shp.name, g, free.scales) {
 	
 	if (varysize) {
 		Xsize <- get(shp.name)@data[, xsize, drop=FALSE]
-		if (any(Xsize<0)) stop("Bubble size variable contains negative values")
+		if (any(na.omit(Xsize)<0)) stop("Bubble size variable contains negative values")
 	} else {
 		bubble.size <- xsize
 		bubble.legend.sizes <- NA

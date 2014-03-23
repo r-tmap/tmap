@@ -75,12 +75,12 @@ eur2 <- gIntersection(eur1, CP, byid=TRUE)
 
 ## get data
 data_eur <- eur1@data[,keepVars]
+data_eur <- as.data.frame(lapply(data_eur, function(x){x[which(x==-99)]<- NA; x}))
 factors <- sapply(data_eur, is.factor)
 data_eur[, 1:7] <- lapply(data_eur[, 1:7], function(x){
 	as.factor(as.character(x))
 })
 data_eur[data_eur$continent!="Europe" & (data_eur$name !="Turkey"), 8:11] <- NA
-
 
 ## split Russia
 russiaEur <- gIntersection(eur2, conteur5, byid=TRUE)
@@ -122,17 +122,17 @@ eur4@bbox[,] <- c(-2200000, 3800000, 3400000, 8000000)
 
 
 eur5 <- appendData(eur4, data_eur[c(1:70, 58), ])
-eur5$iso_a3	<- as.character(eur5$iso_a3)
-eur5$iso_a3[eur5$iso_a3=="-99"] <- "Kosovo"
-eur5$iso_a3[71] <- "RUS (Asia)"
+#eur5$iso_a3	<- as.character(eur5$iso_a3)
+#eur5$iso_a3[eur5$iso_a3=="-99"] <- "Kosovo"
+#eur5$iso_a3[71] <- "RUS (Asia)"
 eur5@data[71, 8:11] <- NA
 eur5$gdp_cap_est <- eur5$gdp_md_est / eur5$pop_est * 1000000
 
 
 ## save Europe
-europe <- eur5
+Europe <- eur5
 
-save(europe, file="./data/europe.rda")
+save(Europe, file="./data/Europe.rda")
 
 ###########################################################################
 ## process world
@@ -148,13 +148,23 @@ world110_wt <- spTransform(world110, CRS("+proj=wintri"))
 # world110_vdG <- spTransform(world110, CRS("+proj=vandg "))
 
 
-world <- world110_wt
+World <- world110_wt
 
 ## set bouding box (leave out Antarctica)
-world@bbox[,] <- c(-12600000, -6500000, 15300000, 9500000) 
+World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000) 
 
 
-save(world, file="./data/world.rda")
+World@data <- World@data[, keepVars]
+summary(World@data)
+
+World@data <- as.data.frame(lapply(World@data, function(x){x[which(x==-99)]<- NA; x}))
+factors <- sapply(World@data, is.factor)
+World@data[, 1:7] <- lapply(World@data[, 1:7], function(x){
+	as.factor(as.character(x))
+})
+World$gdp_cap_est <- World$gdp_md_est / World$pop_est * 1000000
+
+save(World, file="./data/World.rda")
 
 
 ## projections: see ?proj4string => package rgdal

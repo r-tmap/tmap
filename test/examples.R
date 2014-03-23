@@ -1,5 +1,5 @@
-data(europe)
-data(world)
+data(Europe)
+data(World)
 data(NLD_muni)
 data(NLD_prov)
 data(NLD_ageGroups)
@@ -16,7 +16,29 @@ geo_bubblemap(size="men") +
 geo_frame(c(.3, .8), c(.3, .8), units="rel")
 
 
-# to do: zooming: borders and text
+(g <- geo_shape(World) +
+ 	#geo_choropleth("income_grp") +
+ 	geo_borders() +
+ 	geo_theme(legend.position=c("left", "bottom"), legend.plot.size=c(.2, .2), legend.cex=0.6, draw.frame=TRUE))
+
+
+(g <- geo_shape(World) +
+ 	geo_choropleth("income_grp") +
+ 	geo_borders() +
+ 	geo_bubblemap("pop_est") +
+ 	geo_theme(legend.position=c("left", "bottom"), legend.plot.size=c(.2, .2), legend.cex=0.6, draw.frame=FALSE))
+
+(g <- geo_shape(Europe) +
+	geo_choropleth("gdp_cap_est", style="kmeans") +
+ 	geo_borders() +
+ 	geo_bubblemap("pop_est", scale=5) +
+ 	geo_theme(legend.position=c("left", "top"), legend.plot.size=c(.3, .25), legend.cex=0.6, draw.frame=FALSE))
+
+
+(g <- geo_shape(NLD_prov) +
+ 	geo_choropleth("pop", style="kmeans", convert2density=TRUE) + geo_theme(draw.frame=TRUE))
+
+
 
 (g <- geo_shape(NLD_muni) +
  	geo_choropleth(col=c("pop", "gender"), convert2density=TRUE, style="kmeans")+

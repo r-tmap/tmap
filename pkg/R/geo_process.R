@@ -41,7 +41,6 @@ print.geo <- function(g) {
 	}))
 	names(gp) <- paste0("geoLayer", 1:length(gp))
 
-	
 	varnames <- process.varnames(gp, nx)
 	
 	## process grid

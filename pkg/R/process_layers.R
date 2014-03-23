@@ -56,7 +56,6 @@ process.layers <- function(g, free.scales) {
 		xcol <- NA
 	} else {
 		bubbleres <- process_bubblemap(shp.name, g$geo_bubblemap, free.scales)
-		
 		bubble.size <- bubbleres$bubble.size
 		bubble.col <- bubbleres$bubble.col
 		bubble.border <- bubbleres$bubble.border

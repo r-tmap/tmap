@@ -19,9 +19,10 @@ set_bounding_box <- function(gp, gt, gz) {
 								  proj4string=CRS(proj4string(shp)))
 			
 			shp2 <- gIntersection(shp, BB, byid=TRUE)
+			shp2@bbox <- bb
 			shpdata <- shp@data
 			ids <- getIDs(shp)
-			ids2 <- gsub( " .*$", "", getIDs(shp2))
+			ids2 <- gsub(" [0-9]+$", "", getIDs(shp2))
 			indices <- match(ids2, ids)
 			shp2 <- SpatialPolygonsDataFrame(shp2, shpdata[indices, ], match.ID = FALSE)
 			shp <- shp2
@@ -67,21 +68,34 @@ plotMap <- function(gp, gt, gz) {
 	npc.h <- ys[2] - ys[1]
 
 	npc <- max(npc.w, npc.h)
+
+	aspVpNpc <- npc.w / npc.h
+	
 	
  	ys.inch <- convertY(unit(bb[2,], "native"), "inch", valueOnly=TRUE)
  	xs.inch <- convertX(unit(bb[1,], "native"), "inch", valueOnly=TRUE)
 
-	vpWidth <- ys.inch[2] - ys.inch[1]
- 	vpHeight <- xs.inch[2] - xs.inch[1]
+	vpWidth <- xs.inch[2] - xs.inch[1]
+ 	vpHeight <- ys.inch[2] - ys.inch[1]
 
-	aspVp <- vpWidth / vpHeight
+	aspVpInch <- vpWidth / vpHeight
 	
-	## correct npc's such that the aspect ratio will be preserved
-	if (npc==npc.w) {
-		npc.h <- npc.w * aspVp
+ 	#browser()
+# 	## correct npc's such that the aspect ratio will be preserved
+# 	if (npc==npc.w) {
+# 		npc.h <- npc.w / aspVpInch
+# 	} else {
+# 		npc.w <- npc.h * aspVpInch
+# 	}
+
+	if (aspVpNpc > aspVpInch) {
+		# portrait map on landscape device
+		npc.h <- npc.w / aspVpInch
 	} else {
-		npc.w <- npc.h / aspVp
+		# landscape map on portrait device
+		npc.w <- npc.h * aspVpInch
 	}
+
 
 	pushViewport(viewport(layout=grid.layout(nrow=3, ncol=3, 
 				widths=unit(c(1,npc.w, 1), c("null", "snpc", "null")),
@@ -90,7 +104,6 @@ plotMap <- function(gp, gt, gz) {
 	if (draw.frame) grid.rect(gp=gpar(fill=NA, lwd=frame.lwd))
 	vpArea <- vpWidth * vpHeight
 	scaleFactor <- (sqrt(vpArea) / 100)
-	
 	for (l in 1:nlayers) {
 		
 		gpl <- gp[[l]]
