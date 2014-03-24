@@ -142,25 +142,36 @@ plot(world110)
 
 ## Set world porjection to Winkel Tripel
 
-#proj4string(world110) <- "+proj=longlat +datum=WGS84"
+## compromise
+world110_vdG <- spTransform(world110, CRS("+proj=vandg "))
+world110_r <- spTransform(world110, CRS("+proj=robin"))
 world110_wt <- spTransform(world110, CRS("+proj=wintri"))
-# world110_ll <- spTransform(world110, CRS("+proj=longlat +datum=WGS84"))
-# world110_r <- spTransform(world110, CRS("+proj=robin"))
-# world110_vdG <- spTransform(world110, CRS("+proj=vandg "))
-world110_wt <- spTransform(world110, CRS("+proj=wintri"))
+
+## shapes non-distorted (conformal)
 world110_mc <- spTransform(world110, CRS("+proj=mill"))
+
+## equidistant
 world110_eqc <- spTransform(world110, CRS("+proj=eqc "))
 world110_giso <- spTransform(world110, CRS("+proj=eqc +lat_ts=30"))
 
+## equal area
+world110_peter <- spTransform(world110, CRS("+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45"))
+world110_behr <- spTransform(world110, CRS("+proj=cea +lat_ts=30"))
+world110_hd <- spTransform(world110, CRS("+proj=cea +lat_ts=37.5")) # HoBo-Dyer
+world110_eIV <- spTransform(world110, CRS("+proj=eck4")) # Eckert IV
+ 
+#http://en.wikipedia.org/wiki/List_of_map_projections
+#https://sites.google.com/site/spatialr/crsprojections
 #ftp://ftp.remotesensing.org/proj/OF90-284.pdf
 #http://gis.stackexchange.com/questions/29101/create-mercator-map-with-arbitrary-center-orientation
 #http://www.progonos.com/furuti/MapProj/Dither/CartHow/HowER_W12/howER_W12.html
+#http://resources.arcgis.com/en/help/main/10.1/index.html#/Eckert_IV/003r00000026000000/
 
-World <- world110_mc 
+World <- world110_wt
+World <- world110_eIV
 
 ## set bouding box (leave out Antarctica)
 #World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)  # for Winkel Tripel
-World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)
 
 World@data <- World@data[, keepVars]
 summary(World@data)

@@ -8,7 +8,8 @@
 getAreas <- function(shp) {
     sapply(slot(shp, "polygons"),
            function(x) {
-               sum(sapply(slot(x, "Polygons"), slot, "area")*
-                       (.5-sapply(slot(x, "Polygons"), slot, "hole"))*2)
+           	x@area
+#                sum(sapply(slot(x, "Polygons"), slot, "area")*
+#                        (.5-sapply(slot(x, "Polygons"), slot, "hole"))*2)
            })
 }

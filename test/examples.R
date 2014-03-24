@@ -9,6 +9,9 @@ NLD_muni$gender <- (NLD_muni$men/NLD_muni$pop -.5) / sqrt(NLD_muni$pop) * 10000
 World$pop_est_km <- densities(World, "pop_est", total.area.km2=148940000)
 
 head(World[order(World$pop_est_km, decreasing=TRUE), c("name", "pop_est", "pop_est_km")], 100)
+areas <- getAreas(World)
+World$area <- areas * (148940000 / sum(areas))
+head(World[order(World$area, decreasing=TRUE), c("name", "area")], 100)
 
 
 names(NLD_muni)
@@ -77,3 +80,6 @@ exp(seq(0, 8.5, length.out=7))
  	geo_theme(title=c("Population", "Gender")) + 
  	geo_zoom(c(.3, .5), c(.3, .5), units="rel"))
 
+(g <- geo_shape(World) +
+ 	geo_borders() +
+ 	geo_theme(draw.frame=TRUE))
