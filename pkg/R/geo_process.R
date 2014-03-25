@@ -7,32 +7,30 @@
 #' @exprt
 print.geo <- function(g) {
 	## fill meta info
-	if (is.null(g$geo_theme)) g <- g + geo_theme()
-	if (is.null(g$geo_grid)) g <- g + geo_grid()
-	if (is.null(g$geo_zoom)) g <- g + geo_zoom()
+	meta_layers <- c("geo_theme", "geo_grid", "geo_projection")
+	for (m in meta_layers) if (is.null(g[[m]])) g <- g + do.call(m, args=list())
 	
 	## split g into gmeta and gbody
-	gmeta <- g[c("geo_theme", "geo_grid", "geo_zoom")]
-	gbody <- g[!(names(g) %in% c("geo_theme", "geo_grid", "geo_zoom"))]
+	gmeta <- g[meta_layers]
+	gbody <- g[!(names(g) %in% meta_layers)]
 	
-	## split g into layers, and process them
-	#shp.names <- sapply(gbody, function(l)ifelse(is.null(l$shp), l$coor, l$shp))
-	#shp.names.unique <- unique(shp.names)
+	gmeta$geo_projection <- process_pojection(gmeta$geo_projection)
 	
+	n <- length(gbody)
+	
+	## split g into clusters
 	shape.id <- which(names(gbody)=="geo_shape")
-	
 	if (!length(shape.id)) stop("Required geo_shape layer missing.")
 	if (shape.id[1] != 1) stop("First layers should be a geo_shape layer.")
+	x <- rep(0, n); x[shape.id] <- 1
+	cluster.id <- cumsum(x)
 	
-	shape.id <- c(shape.id, length(gbody)+1)
-
-	shape.id.from <- shape.id[-length(shape.id)]
-	shape.id.to <- shape.id[-1] - 1
-	cluster.id <- unlist(mapply(function(x,y,n)rep(n, y-x+1), shape.id.from, shape.id.to, 1:length(shape.id.from), SIMPLIFY=FALSE))
-
-	#cluster.id <- c(1, cumsum(shp.names[-1] != shp.names[-(length(shp.names))]) + 1)
 	gs <- split(gbody, cluster.id)
-	gp <- lapply(gs, FUN=process.layers, free.scales=gmeta$geo_grid$free.scales)
+
+	## convert clusters to layers
+	gp <- lapply(gs, FUN=process_layers, free.scales=gmeta$geo_grid$free.scales, proj=gmeta$geo_projection)
+	
+	## determine maximal number of variables
 	nx <- max(sapply(gp, function(x) {
 		max(ifelse(is.matrix(x$fill), ncol(x$fill), 1),
 			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
@@ -41,11 +39,11 @@ print.geo <- function(g) {
 	}))
 	names(gp) <- paste0("geoLayer", 1:length(gp))
 
-	varnames <- process.varnames(gp, nx)
+	## get variable names (used for titles)
+	varnames <- process_varnames(gp, nx)
 	
 	## process grid
-	gmeta <- process.meta(gmeta, nx, varnames)
-	
+	gmeta <- process_meta(gmeta, nx, varnames)
 	
 	## split into small multiples
 	gps <- split_geo(gp, nx)
@@ -54,15 +52,15 @@ print.geo <- function(g) {
 	gps <- mapply(function(x, i){
 		x$geo_theme <- gmeta$geo_theme
 		x$geo_theme$title <- x$geo_theme$title[i]
-		x$geo_zoom <- gmeta$geo_zoom
+		x$geo_projection <- gmeta$geo_projection
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 	
 	plot.new()
-	gridplot2(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plotAll", nx, gps)
+	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps)
 }
 
-process.varnames <- function(gp, nx) {
+process_varnames <- function(gp, nx) {
 	varnamesList <- lapply(gp, function(x) x$varnames)
 	fillVar <- lapply(varnamesList, function(x) x$choro.fill)
 	sizeVar <- lapply(varnamesList, function(x) x$bubble.size)
@@ -80,9 +78,28 @@ process.varnames <- function(gp, nx) {
 		 									 length.out=nx) else NA})
 }
 
+process_pojection <- function(g) {
+	proj <- g$projection
+	if (!is.null(proj)) {
+		proj <- switch(proj,
+					longlat="+proj=longlat +datum=WGS84",
+					wintri="+proj=wintri",
+					robin="+proj=robin",
+					eck4="+proj=eck4",
+					hd=,
+					merc=,
+					mill=,
+					eqc0="+proj=eqc",
+					eqc30="+proj=cea +lat_ts=30",
+					eqc45="+proj=cea +lat_ts=45",
+					rd="+init=epsg:28992 +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812",
+					proj)
+		g$projection <- proj
+	}
+	g
+}
 
-
-process.meta <- function(g, nx, varnames) {
+process_meta <- function(g, nx, varnames) {
 	ggrid <- g$geo_grid
 	if (is.null(ggrid$ncol) && is.null(ggrid$nrow)) {
 		## default setting: place next to each other, or in grid
@@ -99,10 +116,6 @@ process.meta <- function(g, nx, varnames) {
 	}
 	g$geo_grid <- ggrid
 
-	gzoom <- g$geo_zoom
-	gzoom$units <- ifelse(gzoom$units %in% c("r", "rel", "relative"), "rel", "abs")
-	g$geo_zoom <- gzoom
-	
 	gtheme <- g$geo_theme
 	if (is.null(gtheme$title)) {
 		id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
@@ -122,13 +135,13 @@ process.meta <- function(g, nx, varnames) {
 	if (is.null(gtheme$type.legend.plot)) gtheme$type.legend.plot <- ifelse(!is.na(varnames$choro.fill[1]), "hist", 
 																			ifelse(!is.na(varnames$bubble.size[1]), "bubble", "none"))
 	
-	if (gzoom$xlim[1] > 0 || gzoom$xlim[2] < 1 || gzoom$ylim[1] > 0 || gzoom$ylim[2] < 1) {
+#	if (gzoom$xlim[1] > 0 || gzoom$xlim[2] < 1 || gzoom$ylim[1] > 0 || gzoom$ylim[2] < 1) {
 		if (is.na(gtheme$margins[1])) gtheme$margins <- c(0.05, 0.05, 0.2, 0.05)
-		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- TRUE
-	} else {
-		if (is.na(gtheme$margins[1])) gtheme$margins <- rep(0, 4)
-		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- FALSE
-	}
+#		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- TRUE
+#	} else {
+#		if (is.na(gtheme$margins[1])) gtheme$margins <- rep(0, 4)
+#		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- FALSE
+#	}
 	if (is.na(gtheme$legend.plot.size[1])) {gtheme$legend.plot.size <- if (gtheme$legend.only) c(0.4, 0.9) else c(0.2,0.35)}
 	g$geo_theme <- gtheme
 	

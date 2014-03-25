@@ -5,7 +5,6 @@ data(NLD_prov)
 data(NLD_ageGroups)
 
 NLD_muni$gender <- (NLD_muni$men/NLD_muni$pop -.5) / sqrt(NLD_muni$pop) * 10000
-
 World$pop_est_km <- densities(World, "pop_est", total.area.km2=148940000)
 
 head(World[order(World$pop_est_km, decreasing=TRUE), c("name", "pop_est", "pop_est_km")], 100)
@@ -64,8 +63,7 @@ exp(seq(0, 8.5, length.out=7))
  	geo_borders(lwd=2) +
  	geo_text("name", cex=.5) +
  	geo_grid(free.scales=TRUE) +
- 	geo_theme(title=c("Population", "Gender")) + 
- 	geo_zoom(c(.3, .8), c(.3, .8), units="rel"))
+ 	geo_theme(title=c("Population", "Gender")))
 
 
 

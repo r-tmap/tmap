@@ -1,4 +1,4 @@
-process_bubblemap <- function(shp.name, g, free.scales) {
+process_bubblemap <- function(shp, g, free.scales) {
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
 	bubble.border <- g$bubble.border
@@ -12,7 +12,7 @@ process_bubblemap <- function(shp.name, g, free.scales) {
 	contrast <- g$contrast
 	colorNA <- g$colorNA
 	
-	shpcols <- names(get(shp.name))
+	shpcols <- names(shp)
 	
 	varysize <- all(xsize %in% shpcols) && !is.null(xsize)
 	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
@@ -26,7 +26,7 @@ process_bubblemap <- function(shp.name, g, free.scales) {
 	nx <- ifelse(varysize, length(xsize), length(xcol))
 	
 	if (varysize) {
-		Xsize <- get(shp.name)@data[, xsize, drop=FALSE]
+		Xsize <- shp@data[, xsize, drop=FALSE]
 		if (any(na.omit(Xsize)<0)) stop("Bubble size variable contains negative values")
 	} else {
 		bubble.size <- xsize
@@ -34,7 +34,7 @@ process_bubblemap <- function(shp.name, g, free.scales) {
 		bubble.legend.size_labels <- NA
 	}
 	if (varycol) {
-		Xcol <- get(shp.name)@data[, xcol, drop=FALSE]
+		Xcol <- shp@data[, xcol, drop=FALSE]
 	} else {
 		bubble.col <- xcol
 		bubble.legend.labels <- NA
@@ -133,6 +133,5 @@ process_bubblemap <- function(shp.name, g, free.scales) {
 		 bubble.legend.sizes=bubble.legend.sizes,
 		 bubble.legend.size_labels=bubble.legend.size_labels,
 		 xsize=xsize,
-		 xcol=xcol,
-		 shp.name=shp.name)
+		 xcol=xcol)
 }

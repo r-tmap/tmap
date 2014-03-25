@@ -1,52 +1,16 @@
-set_bounding_box <- function(gp, gt, gz) {
-	lapply(gp, function(gpl) {
-		shp <- gpl$shp
-		
-		bb <- shp@bbox
-		if (gz$units == "rel") {
-			steps <- bb[,2] - bb[,1]
-			bb[1, ] <- shp@bbox[1, 1] + gz$xlim * steps[1]
-			bb[2, ] <- shp@bbox[2, 1] + gz$ylim * steps[2]
-		} else {
-			bb <- matrix(c(gz$xlim, gz$ylim), ncol = 2, byrow=TRUE)
-		}
-		shp@bbox <- bb
-		
-		if (gt$draw.frame) {
-			bbcoords <- cbind(x=bb[1,][c(1, 1, 2, 2, 1)], y=bb[2,][c(1, 2, 2, 1, 1)])
-			
-			BB <- SpatialPolygons(list(Polygons(list(Polygon(bbcoords)), "1")),
-								  proj4string=CRS(proj4string(shp)))
-			
-			shp2 <- gIntersection(shp, BB, byid=TRUE)
-			shp2@bbox <- bb
-			shpdata <- shp@data
-			ids <- getIDs(shp)
-			ids2 <- gsub(" [0-9]+$", "", getIDs(shp2))
-			indices <- match(ids2, ids)
-			shp2 <- SpatialPolygonsDataFrame(shp2, shpdata[indices, ], match.ID = FALSE)
-			shp <- shp2
-			
-			if (length(gpl$fill)==length(ids)) gpl$fill <- gpl$fill[indices]
-			if (length(gpl$bubble.size)==length(ids)) gpl$bubble.size <- gpl$bubble.size[indices]
-			
-		}
-		gpl$shp <- shp
-		gpl
-	})
-}
 
-plotMap <- function(gp, gt, gz) {
+
+plot_map <- function(gp, gt) {
 	draw.frame <- gt$draw.frame
 	frame.lwd <- gt$frame.lwd
 	
 	nlayers <- length(gp)
 	
 	## add shape objects to layers
-	gp <- lapply(gp, function(g) {g$shp <- get(g$shp); g})
+	#gp <- lapply(gp, function(g) {g$shp <- get(g$shp); g})
 	
 	## set bounding box and frame
-	gp <- set_bounding_box(gp, gt, gz)
+	gp <- set_bounding_box(gp, gt)
 	
 	## plot shapes
 	add <- c(FALSE, rep(TRUE, length(gp)-1))	
@@ -151,11 +115,10 @@ plotMap <- function(gp, gt, gz) {
 }
 
 
-plotAll <- function(gp) {
+plot_all <- function(gp) {
 	gt <- gp$geo_theme
-	gz <- gp$geo_zoom
 	
-	gp[c("geo_theme", "geo_zoom")] <- NULL
+	gp[c("geo_theme", "geo_projection")] <- NULL
 	
 	margins <- gt$margins
 	title.position <- gt$title.position
@@ -170,7 +133,7 @@ plotAll <- function(gp) {
 		pushViewport(viewport(layout=gridLayoutMap))
 		cellplot(2, 2, e={
 			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0))#, xaxs="i", yaxs="i")
-			scaleFactor <- plotMap(gp, gt, gz)
+			scaleFactor <- plot_map(gp, gt)
 		})
 		
 		upViewport()

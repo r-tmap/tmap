@@ -8,13 +8,13 @@ Author: Martijn Tennekes
 Description: Statistical geographic maps
 Version: 0.1
 Date: 2013-11-25
-Depends:
+Imports:
 	rgeos,
+	grid,
     gridBase,
     sp,
     maptools,
     rgdal,
-    raster,
     classInt,
     RColorBrewer,
     shiny

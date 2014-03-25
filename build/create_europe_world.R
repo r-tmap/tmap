@@ -149,6 +149,8 @@ world110_wt <- spTransform(world110, CRS("+proj=wintri"))
 
 ## shapes non-distorted (conformal)
 world110_mc <- spTransform(world110, CRS("+proj=mill"))
+world110_merc <- spTransform(world110, CRS("+proj=merc"))
+
 
 ## equidistant
 world110_eqc <- spTransform(world110, CRS("+proj=eqc "))

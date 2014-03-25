@@ -7,12 +7,71 @@
 #' @param shp shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.
 #' @export
 #' @return \code{\link{geo-object}}
-geo_shape <- function(shp) {
+geo_shape <- function(shp, projection=NULL) {
 	shp_name <- deparse(substitute(shp))
 	g <- list(geo_shape=list(shp=shp_name))
 	class(g) <- "geo"
 	g
 }
+
+#' Specify the projection
+#' 
+#' This layer specifies the projection of the shape object(s).
+#' 
+#' @param projection character that determines the projectino. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
+#' \describe{
+#'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates.} 
+#'    	\item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise} 
+#'    	\item{\code{"robin"}}{Robinson (1963). Another popular projection for world maps. Type: compromise}
+#'    	\item{\code{"eck4"}}{Eckert IV (1906). Projection useful for world maps. Area sizes are preserved, which makes it particularly useful for truthful choropleths. Type: equal-area}
+#'    	\item{\cpde{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
+#'    	\item{\code{"merc"}}{Mercator (1569). Projection in which shapes are locally preserved. However, areas close to the poles are inflated. Used by Google Maps. Type: conformal}
+#'    	\item{\code{"mill"}}{Miller (1942). Projetion based on Mercator, in which poles are displayed. Type: compromise}
+#'    	\item{\code{"eqc0"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The equator is the standard parallel. Also known as Plate Carr\'ee. Type: equidistant}
+#'    	\item{\code{"eqc30"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 30 is the standard parallel. Type: equidistant}
+#'    	\item{\code{"eqc45"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 45 is the standard parallel. Also known as Gall isographic. Type: equidistant}
+#'    	\item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
+#'    	See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
+#'    	By default, the projection is used that is defined in the \code{shp} object itself.
+#' @param xlim limits of the x-axis
+#' @param ylim limits of the y-axis
+#' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: relative values will depend on the current bounding box (bbox) of the first shape object.
+#' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides the \code{xlim} and \code{ylim} parameters.
+#' @export
+#' @return \code{\link{geo-object}}
+geo_projection <- function(projection=NULL, 
+						   xlim = c(min=0, max=1),
+						   ylim = c(min=0, max=1),
+						   relative = TRUE,
+						   bbox = NULL) {
+	g <- list(geo_projection=list(projection=projection, xlim=xlim, ylim=ylim, relative=relative, bbox=bbox))
+	class(g) <- "geo"
+	g
+}
+
+
+
+
+
+#' Zoom window of the map
+#' 
+#' This layer specifies the zoom windows of the map(s), also known as bounding boxes.
+#' 
+#' @export
+#' @return \code{\link{geo-object}}
+geo_zoom <- function(xlim = c(0, 1),
+					 ylim = c(0, 1),
+					 units = "rel") {
+	g <- list(geo_zoom=list(xlim=xlim, ylim=ylim, units=units))
+	class(g) <- "geo"
+	g
+}
+
+
+
+
+
+
 
 
 #' Draw polygon borders
@@ -169,23 +228,6 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 	g
 }
 
-#' Zoom window of the map
-#' 
-#' This layer specifies the zoom windows of the map(s), also known as bounding boxes.
-#' 
-#' @param xlim limits of the x-axis
-#' @param ylim limits of the y-axis
-#' @param units either \code{"rel"} for relative values between 0 and 1, or \code{"abs"} for absolute values
-#' @export
-#' @return \code{\link{geo-object}}
-geo_zoom <- function(xlim = c(0, 1),
-					ylim = c(0, 1),
-					units = "rel") {
-	g <- list(geo_zoom=list(xlim=xlim, ylim=ylim, units=units))
-	class(g) <- "geo"
-	g
-}
-
 #' Theme elements of map plots
 #' 
 #' This layer specifies thematic layout options for the maps.
@@ -193,6 +235,8 @@ geo_zoom <- function(xlim = c(0, 1),
 #' @param title Title of the map(s)
 #' @param title.cex
 #' @param bg.color
+#' @param draw.frame
+#' @param crop boolean that determines whether the shape objects are cropped at the bounding box (see \code{\link[sp:bbox]{bbox}})
 #' @param show.legend.text
 #' @param type.legend.plot
 #' @param legend.position
@@ -201,21 +245,22 @@ geo_zoom <- function(xlim = c(0, 1),
 #' @param legend.digits
 #' @param title.position
 #' @param margins
-#' @param draw.frame
 #' @param frame.lwd
 #' @param legend.only
 geo_theme <- function(title=NULL,
 					  title.cex=1.5,
 					  bg.color="yellow",
+					  draw.frame=NA,
+					  crop=identical(draw.frame, TRUE),
 					  show.legend.text=NULL,
 					  type.legend.plot = NULL,
 					  legend.position = c("left", "top"),
 					  legend.plot.size = NA,
+					  legend.in.frame = TRUE,
 					  legend.cex = 0.8,
 					  legend.digits = 2,
 					  title.position = c("left", "top"),
 					  margins = NA,
-					  draw.frame=NA,
 					  frame.lwd=1,
 					  legend.only=FALSE) {
 	g <- list(geo_theme=list(title=title, title.cex=title.cex, 
@@ -224,6 +269,7 @@ geo_theme <- function(title=NULL,
 							 type.legend.plot=type.legend.plot, 
 							 legend.position=legend.position,
 							 legend.plot.size=legend.plot.size, 
+							 legend.in.frame=legend.in.frame,
 							 legend.cex=legend.cex,
 							 legend.digits=legend.digits, 
 							 title.position=title.position,
@@ -237,6 +283,7 @@ geo_theme <- function(title=NULL,
 # 						  ...) {
 # 	
 # }
+
 
 
 

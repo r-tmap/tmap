@@ -1,4 +1,4 @@
-process_choro <- function(shp.name, g, free.scales) {
+process_choro <- function(shp, g, free.scales) {
 	x <- g$col
 	n <- g$n
 	convert2density <- g$convert2density
@@ -12,8 +12,8 @@ process_choro <- function(shp.name, g, free.scales) {
 	colorNA <- g$colorNA
 	
 	nx <- length(x)
-	X <- get(shp.name)@data[, x, drop=FALSE]
-	if (convert2density) X <- densities(get(shp.name), var=x, total.area.km2=ifelse(is.na(total.area.km2), 1, total.area.km2), drop=FALSE)
+	X <- shp@data[, x, drop=FALSE]
+	if (convert2density) X <- densities(shp, var=x, total.area.km2=ifelse(is.na(total.area.km2), 1, total.area.km2), drop=FALSE)
 	
 	if (free.scales && nx > 1) {
 		fill <- matrix("", ncol=nx, nrow=nrow(X))
@@ -70,6 +70,5 @@ process_choro <- function(shp.name, g, free.scales) {
 		 choro.legend.labels=choro.legend.labels,
 		 choro.legend.palette=choro.legend.palette,
 		 choro.breaks=choro.breaks,
-		 xfill=x,
-		 shp.name=shp.name)
+		 xfill=x)
 }

@@ -1,5 +1,31 @@
-process.layers <- function(g, free.scales) {
-	shp.name <- g$geo_shape$shp
+process_layers <- function(g, free.scales, proj) {
+	shp <- get(g$geo_shape$shp)
+
+	# check proj4 string
+	shp.proj <- proj4string(shp)
+	if (!is.null(proj$projection)) {
+		if (is.na(shp.proj)) {
+			warning("Currect projection of shape object unknown. Long-lat (WGS84) is assumed.")
+			shp.proj <- CRS("+proj=longlat +datum=WGS84")
+			proj4string(shp) <- shp.proj
+		}
+		spTransform(shp, proj$projection)
+	}	
+	
+	# set bounding box
+	shp.bbox <- bbox(shp)
+	if (!is.null(proj$bbox)) {
+		bbox <- proj$bbox
+	} else {
+		if (proj$relative) {
+			steps <- shp.bbox[, 2] - shp.bbox[, 1]
+			xlim <- shp.bbox[1,1] + proj$xlim * steps[1]
+			ylim <- shp.bbox[2,1] + proj$ylim * steps[2]
+		}
+		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
+						dimnames=list(c("x", "y"), c("min", "max")))
+	}
+	shp@bbox <- bbox
 	
 	# border info
 	if (is.null(g$geo_borders)) {
@@ -25,7 +51,7 @@ process.layers <- function(g, free.scales) {
 		choro.breaks <- NA
 		xfill <- NA
 	} else {
-		chorores <- process_choro(shp.name, g$geo_choropleth, free.scales)
+		chorores <- process_choro(shp, g$geo_choropleth, free.scales)
 
 		fill <- chorores$fill
 		choro.values <- chorores$choro.values
@@ -55,7 +81,7 @@ process.layers <- function(g, free.scales) {
 		xsize <- NA
 		xcol <- NA
 	} else {
-		bubbleres <- process_bubblemap(shp.name, g$geo_bubblemap, free.scales)
+		bubbleres <- process_bubblemap(shp, g$geo_bubblemap, free.scales)
 		bubble.size <- bubbleres$bubble.size
 		bubble.col <- bubbleres$bubble.col
 		bubble.border <- bubbleres$bubble.border
@@ -77,7 +103,9 @@ process.layers <- function(g, free.scales) {
 		cex <- g$geo_text$cex
 	}
 	
-	gp <- list(shp=shp.name, fill=fill, col=col, 
+	
+	gp <- list(shp=shp,
+			   fill=fill, col=col, 
 			   varnames=list(choro.fill=xfill, bubble.size=xsize, bubble.col=xcol),
 			   lwd=lwd, lty=lty, 
 			   bubble.size=bubble.size, bubble.col=bubble.col, 
