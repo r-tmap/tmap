@@ -2,7 +2,7 @@
 \alias{saveMap}
 \title{Save a thematic map}
 \usage{
-  saveMap(e, file, width = 7, height = 7, res = 200, ...)
+saveMap(e, file, width = 7, height = 7, res = 200, ...)
 }
 \arguments{
   \item{e}{expression that generates the plot (note: if a
@@ -25,8 +25,8 @@
   pdf)}
 }
 \description{
-  This function saves a thematic map (from
-  \code{\link{cartoMap}}, \code{\link{cartoMap}} or
-  \code{\link{cartoMap}}) to pdf, png, jpg, ...
+This function saves a thematic map (from
+\code{\link{cartoMap}}, \code{\link{cartoMap}} or
+\code{\link{cartoMap}}) to pdf, png, jpg, ...
 }
 

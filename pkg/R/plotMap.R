@@ -60,11 +60,12 @@ plot_map <- function(gp, gt) {
 		npc.w <- npc.h * aspVpInch
 	}
 
-
 	pushViewport(viewport(layout=grid.layout(nrow=3, ncol=3, 
 				widths=unit(c(1,npc.w, 1), c("null", "snpc", "null")),
 				heights=unit(c(1,npc.h, 1), c("null", "snpc", "null")))))
-	pushViewport(viewport(layout.pos.col=2, layout.pos.row=2))	
+	vp <- viewport(layout.pos.col=2, layout.pos.row=2)
+	pushViewport(vp)
+
 	if (draw.frame) grid.rect(gp=gpar(fill=NA, lwd=frame.lwd))
 	vpArea <- vpWidth * vpHeight
 	scaleFactor <- (sqrt(vpArea) / 100)
@@ -110,30 +111,32 @@ plot_map <- function(gp, gt) {
 		}
 	
 	}
-	popViewport(5)
-	scaleFactor
+	upViewport(5)
+	list(scaleFactor=scaleFactor, vp=vp)
 }
 
 
 plot_all <- function(gp) {
+	main_vp <- current.viewport()
 	gt <- gp$geo_theme
 	
-	gp[c("geo_theme", "geo_projection")] <- NULL
+	gp[c("geo_theme")] <- NULL
 	
 	margins <- gt$margins
 	title.position <- gt$title.position
 	
-	
-	gridLayoutMap <- grid.layout(3, 3, 
+	gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
 								 heights=unit(c(margins[3], 1, margins[1]), 
 								 			 c("npc", "null", "npc")), 
 								 widths=unit(c(margins[2], 1, margins[4]), 
-								 			c("npc", "null", "npc")))
+								 			c("npc", "null", "npc"))))
 	if (!gt$legend.only) {
-		pushViewport(viewport(layout=gridLayoutMap))
+		pushViewport(gridLayoutMap)
 		cellplot(2, 2, e={
 			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0))#, xaxs="i", yaxs="i")
-			scaleFactor <- plot_map(gp, gt)
+			result <- plot_map(gp, gt)
+			scaleFactor <- result[[1]]
+			vp <- result[[2]]
 		})
 		
 		upViewport()
@@ -152,37 +155,37 @@ plot_all <- function(gp) {
 	} else {
 		isChoroLegend <- NA
 	}
-	
+	if (gt$legend.in.frame) {
+		seekViewport(vp$name)	
+	} else {
+		pushViewport(gridLayoutMap)
+		pushViewport(viewport(layout.pos.row=2, layout.pos.col=2))
+	}
 	if (!is.na(isChoroLegend)) {
 		if (isChoroLegend) {
 			gc <- gp[[choroID]]
 			if (gt$show.legend.text || gt$type.legend.plot!="none") {
-				cellplot(2, 2, e={
-					legendPlot(gt=gt, 
-							   legend.palette=gc$choro.legend.palette, 
-							   legend.labels=gc$choro.legend.labels, 
-							   values=gc$choro.values, 
-							   breaks=gc$choro.breaks, 
-							   legend.bubbles=FALSE, 
-							   legend.bubble.sizes=NULL, 
-							   legend.bubble.labels=NULL, 
-							   plot.bubble.borders=TRUE)
-				})
+				legendPlot(gt=gt, 
+						   legend.palette=gc$choro.legend.palette, 
+						   legend.labels=gc$choro.legend.labels, 
+						   values=gc$choro.values, 
+						   breaks=gc$choro.breaks, 
+						   legend.bubbles=FALSE, 
+						   legend.bubble.sizes=NULL, 
+						   legend.bubble.labels=NULL, 
+						   plot.bubble.borders=TRUE)
 			}
 		} else {
 			gb <- gp[[bubbleSizeID]]
 			gt$type.legend.plot <- ifelse(is.na(bubbleSizeID), "none", "bubble")
-			cellplot(2, 2, e={
-				legendPlot(gt=gt, 
-						   legend.palette = if(is.na(bubbleColID)) gb$bubble.col else gb$bubble.legend.palette, 
-						   legend.labels=gb$bubble.legend.labels, 
-						   legend.bubbles=!is.na(bubbleSizeID), 
-						   legend.bubble.sizes=gb$bubble.legend.sizes * scaleFactor, 
-						   legend.bubble.labels=gb$bubble.legend.size_labels, 
-						   plot.bubble.borders=TRUE)
-			})
+			legendPlot(gt=gt, 
+					   legend.palette = if(is.na(bubbleColID)) gb$bubble.col else gb$bubble.legend.palette, 
+					   legend.labels=gb$bubble.legend.labels, 
+					   legend.bubbles=!is.na(bubbleSizeID), 
+					   legend.bubble.sizes=gb$bubble.legend.sizes * scaleFactor, 
+					   legend.bubble.labels=gb$bubble.legend.size_labels, 
+					   plot.bubble.borders=TRUE)
 		}
 	}
-	
-	#popViewport()
+	seekViewport(main_vp$name)
 }

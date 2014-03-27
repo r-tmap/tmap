@@ -1,0 +1,88 @@
+\name{geo_shape}
+\alias{geo_shape}
+\title{Specify the shape object}
+\usage{
+geo_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
+  relative = TRUE, bbox = NULL)
+}
+\arguments{
+  \item{shp}{shape object. For \code{\link{geo_choropleth}}
+  and \code{\link{geo_bubblemap}}, a
+  \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}
+  or a
+  \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}
+  is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}}
+  and
+  \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}
+  are only used for \code{\link{geo_bubblemap}} and
+  \code{\link{geo_bubbles}}.}
+
+  \item{projection}{character that determines the
+  projectino. Either a \code{PROJ.4} character string (see
+  \url{http://trac.osgeo.org/proj/}), of one of the
+  following shortcuts: \describe{
+  \item{\code{"longlat"}}{Not really a projection, but a
+  plot of the longitude-latitude coordinates.}
+  \item{\code{"wintri"}}{Winkel Tripel (1921). Popular
+  projection that is useful in world maps. It is the
+  standard of world maps made by the National Geographic
+  Society. Type: compromise} \item{\code{"robin"}}{Robinson
+  (1963). Another popular projection for world maps. Type:
+  compromise} \item{\code{"eck4"}}{Eckert IV (1906).
+  Projection useful for world maps. Area sizes are
+  preserved, which makes it particularly useful for
+  truthful choropleths. Type: equal-area}
+  \item{\cpde{"hd"}}{Hobo-Dyer (2002). Another projection
+  useful for world maps in which area sizes are preserved.
+  Type: equal-area} \item{\code{"merc"}}{Mercator (1569).
+  Projection in which shapes are locally preserved.
+  However, areas close to the poles are inflated. Used by
+  Google Maps. Type: conformal} \item{\code{"mill"}}{Miller
+  (1942). Projetion based on Mercator, in which poles are
+  displayed. Type: compromise}
+  \item{\code{"eqc0"}}{Equirectangular (120). Projection in
+  which distances along meridians are conserved. The
+  equator is the standard parallel. Also known as Plate
+  Carr\'ee. Type: equidistant}
+  \item{\code{"eqc30"}}{Equirectangular (120). Projection
+  in which distances along meridians are conserved. The
+  latitude of 30 is the standard parallel. Type:
+  equidistant} \item{\code{"eqc45"}}{Equirectangular (120).
+  Projection in which distances along meridians are
+  conserved. The latitude of 45 is the standard parallel.
+  Also known as Gall isographic. Type: equidistant}
+  \item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation
+  coordinate system used in the Netherlands.}} See
+  \url{http://en.wikipedia.org/wiki/List_of_map_projections}
+  for a overview of projections.  By default, the
+  projection is used that is defined in the \code{shp}
+  object itself.}
+
+  \item{xlim}{limits of the x-axis}
+
+  \item{ylim}{limits of the y-axis}
+
+  \item{relative}{boolean that determines whether relative
+  values are used for \code{xlim} and \code{ylim} or
+  absolute. Note: relative values will depend on the
+  current bounding box (bbox) of the first shape object.}
+
+  \item{bbox}{bounding box, which is a 2x2 matrix that
+  consists absolute \code{xlim} and \code{ylim} values. If
+  specified, it overrides the \code{xlim} and \code{ylim}
+  parameters.}
+}
+\value{
+\code{\link{geo-object}}
+}
+\description{
+This layer specifies the shape object, which is one of
+\code{\link[sp:SpatialPolygons]{SpatialPolygons}},
+\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}},
+\code{\link[sp:SpatialPoints]{SpatialPoints}}, and
+\code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}.
+}
+\details{
+A
+}
+

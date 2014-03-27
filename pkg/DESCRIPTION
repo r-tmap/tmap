@@ -9,8 +9,8 @@ Description: Statistical geographic maps
 Version: 0.1
 Date: 2013-11-25
 Imports:
-	rgeos,
-	grid,
+    rgeos,
+    grid,
     gridBase,
     sp,
     maptools,
@@ -18,27 +18,3 @@ Imports:
     classInt,
     RColorBrewer,
     shiny
-Collate:
-    'appendData.R'
-    'cat2pal.R'
-    'cellplot.R'
-    'choropleth_kml.R'
-    'geo_layers.R'
-    'getAreas.R'
-    'geo_process.R'
-    'getIDs.R'
-    'getShape.R'
-    'gridplot.R'
-    'legendPlot.R'
-    'num2pal.R'
-    'plotMap.R'
-    'process_bubblemap.R'
-    'process_choro.R'
-    'process_layers.R'
-    'rd2wgs84.R'
-    'saveMap.R'
-    'shp2kml.R'
-    'igeoNL.R'
-    'pkg.R'
-    'animateMaps.R'
-    'densities.R'

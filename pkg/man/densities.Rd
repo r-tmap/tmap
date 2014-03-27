@@ -2,7 +2,7 @@
 \alias{densities}
 \title{Calculate densities}
 \usage{
-  densities(shp, var, total.area.km2 = 33893)
+densities(shp, var, total.area.km2 = 33893, drop = TRUE)
 }
 \arguments{
   \item{shp}{a shape object}
@@ -14,13 +14,13 @@
   According to Wikipedia, this is 33893.}
 }
 \value{
-  vector or data.frame (depending on whether
-  \code{length(var)==1} with density values. This can be
-  appended directly to the shape file.
+vector or data.frame (depending on whether
+\code{length(var)==1} with density values. This can be
+appended directly to the shape file.
 }
 \description{
-  This function transposes quantitiy variables to densitiy
-  variables, which are needed for choroplets.
+This function transposes quantitiy variables to densitiy
+variables, which are needed for choroplets.
 }
 \keyword{densities}
 

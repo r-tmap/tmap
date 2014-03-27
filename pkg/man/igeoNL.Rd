@@ -2,10 +2,10 @@
 \alias{igeoNL}
 \title{Interactive cartography}
 \usage{
-  igeoNL()
+igeoNL()
 }
 \description{
-  Start the user interface
+Start the user interface
 }
 \examples{
 \dontrun{

@@ -2,12 +2,10 @@
 \alias{choropleth.kml}
 \title{Create choropleeth}
 \usage{
-  choropleth.kml(shp, x, n = 5, style = "pretty",
-    breaks = NULL, palette = "RdBu",
-    auto.palette.mapping = TRUE, contrast = 1,
-    legend.labels = NULL, legend.digits = 2,
-    colorNA = "#FF1414", file = "./temp.kml", time = NULL,
-    ...)
+choropleth.kml(shp, x, n = 5, style = "pretty", breaks = NULL,
+  palette = "RdBu", auto.palette.mapping = TRUE, contrast = 1,
+  legend.labels = NULL, legend.digits = 2, colorNA = "#FF1414",
+  file = "./temp.kml", time = NULL, ...)
 }
 \arguments{
   \item{shp}{a shape object}
@@ -52,7 +50,7 @@
   \item{...}{other arguments}
 }
 \description{
-  This function creates a choropleth.
+This function creates a choropleth.
 }
 \keyword{choropleth}
 

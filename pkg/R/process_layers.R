@@ -1,31 +1,5 @@
-process_layers <- function(g, free.scales, proj) {
-	shp <- get(g$geo_shape$shp)
-
-	# check proj4 string
-	shp.proj <- proj4string(shp)
-	if (!is.null(proj$projection)) {
-		if (is.na(shp.proj)) {
-			warning("Currect projection of shape object unknown. Long-lat (WGS84) is assumed.")
-			shp.proj <- CRS("+proj=longlat +datum=WGS84")
-			proj4string(shp) <- shp.proj
-		}
-		spTransform(shp, proj$projection)
-	}	
-	
-	# set bounding box
-	shp.bbox <- bbox(shp)
-	if (!is.null(proj$bbox)) {
-		bbox <- proj$bbox
-	} else {
-		if (proj$relative) {
-			steps <- shp.bbox[, 2] - shp.bbox[, 1]
-			xlim <- shp.bbox[1,1] + proj$xlim * steps[1]
-			ylim <- shp.bbox[2,1] + proj$ylim * steps[2]
-		}
-		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
-						dimnames=list(c("x", "y"), c("min", "max")))
-	}
-	shp@bbox <- bbox
+process_layers <- function(g, free.scales) {
+	shp <- g$geo_shape$shp
 	
 	# border info
 	if (is.null(g$geo_borders)) {

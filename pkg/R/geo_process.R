@@ -3,18 +3,21 @@
 #' Print geo object
 #' 
 #' @param g geo object
-#' @import raster
-#' @exprt
+#' @import sp
+#' @import RColorBrewer
+#' @import grid
+#' @import gridBase
+#' @import classInt
+#' @export
 print.geo <- function(g) {
 	## fill meta info
-	meta_layers <- c("geo_theme", "geo_grid", "geo_projection")
+	meta_layers <- c("geo_theme", "geo_grid")
 	for (m in meta_layers) if (is.null(g[[m]])) g <- g + do.call(m, args=list())
 	
 	## split g into gmeta and gbody
 	gmeta <- g[meta_layers]
 	gbody <- g[!(names(g) %in% meta_layers)]
 	
-	gmeta$geo_projection <- process_pojection(gmeta$geo_projection)
 	
 	n <- length(gbody)
 	
@@ -25,10 +28,13 @@ print.geo <- function(g) {
 	x <- rep(0, n); x[shape.id] <- 1
 	cluster.id <- cumsum(x)
 	
+	## unify projections
+	gbody[shape.id] <- process_projection(gbody[shape.id])
+	
 	gs <- split(gbody, cluster.id)
 
 	## convert clusters to layers
-	gp <- lapply(gs, FUN=process_layers, free.scales=gmeta$geo_grid$free.scales, proj=gmeta$geo_projection)
+	gp <- lapply(gs, FUN=process_layers, free.scales=gmeta$geo_grid$free.scales)
 	
 	## determine maximal number of variables
 	nx <- max(sapply(gp, function(x) {
@@ -52,7 +58,6 @@ print.geo <- function(g) {
 	gps <- mapply(function(x, i){
 		x$geo_theme <- gmeta$geo_theme
 		x$geo_theme$title <- x$geo_theme$title[i]
-		x$geo_projection <- gmeta$geo_projection
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 	
@@ -78,24 +83,84 @@ process_varnames <- function(gp, nx) {
 		 									 length.out=nx) else NA})
 }
 
-process_pojection <- function(g) {
-	proj <- g$projection
-	if (!is.null(proj)) {
-		proj <- switch(proj,
-					longlat="+proj=longlat +datum=WGS84",
-					wintri="+proj=wintri",
-					robin="+proj=robin",
-					eck4="+proj=eck4",
-					hd=,
-					merc=,
-					mill=,
-					eqc0="+proj=eqc",
-					eqc30="+proj=cea +lat_ts=30",
-					eqc45="+proj=cea +lat_ts=45",
-					rd="+init=epsg:28992 +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812",
-					proj)
-		g$projection <- proj
+process_projection <- function(g) {
+	# find master
+	masterID <- which(sapply(g, function(x)!is.null(x$projection) || !is.null(x$xlim) || !is.null(x$ylim) || !is.null(x$bbox)))
+	
+	if (length(masterID)>1) {
+		warning("Multiple projections or bounding boxes defined. First one is taken.")
+		masterID <- masterID[1]
 	}
+	if (!length(masterID)) masterID <- 1
+
+	# get master shape and info
+	shp <- g[[masterID]]$shp
+	projection <- g[[masterID]]$projection
+	xlim <- g[[masterID]]$xlim
+	ylim <- g[[masterID]]$ylim
+	relative <- g[[masterID]]$relative
+	bbox <- g[[masterID]]$bbox
+	shp.proj <- proj4string(shp)
+	
+	# edit and set projection
+	if (!is.null(projection)) {
+		projection <- switch(projection,
+					   longlat="+proj=longlat +datum=WGS84",
+					   wintri="+proj=wintri",
+					   robin="+proj=robin",
+					   eck4="+proj=eck4",
+					   hd=,
+					   merc=,
+					   mill=,
+					   eqc0="+proj=eqc",
+					   eqc30="+proj=cea +lat_ts=30",
+					   eqc45="+proj=cea +lat_ts=45",
+					   rd="+init=epsg:28992 +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812",
+							 projection)
+		
+		if (is.na(shp.proj)) {
+			warning("Currect projection of shape object unknown. Long-lat (WGS84) is assumed.")
+			proj4string(shp) <- CRS("+proj=longlat +datum=WGS84")
+		}
+		shp <- spTransform(shp, CRS(projection))
+		g[[masterID]]$shp <- shp
+		g[-masterID] <- lapply(g[-masterID], function(x) {
+			if (is.na(shp.proj)) {
+				proj4string(x$shp) <- CRS("+proj=longlat +datum=WGS84")
+			}
+			x$shp <- spTransform(x$shp, CRS(projection))
+			x
+		})
+	}	
+	
+	# define bounding box
+	shp.bbox <- bbox(shp)
+	if (!is.null(bbox)) {
+		bbox <- bbox
+	} else {
+		if (relative) {
+			steps <- shp.bbox[, 2] - shp.bbox[, 1]
+			xlim <- if (is.null(xlim)) {
+				shp.bbox[1, ]
+			} else {
+				shp.bbox[1,1] + xlim * steps[1]
+			}
+			ylim <- if (is.null(ylim)) {
+				shp.bbox[2, ]
+			} else {
+				shp.bbox[2,1] + ylim * steps[2]
+			}
+		}
+		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
+					   dimnames=list(c("x", "y"), c("min", "max")))
+	}
+	
+	## set bounding box
+	g <- lapply(g, function(x){
+		x$shp@bbox <- bbox
+		x
+	})
+	
 	g
 }
 
@@ -136,7 +201,7 @@ process_meta <- function(g, nx, varnames) {
 																			ifelse(!is.na(varnames$bubble.size[1]), "bubble", "none"))
 	
 #	if (gzoom$xlim[1] > 0 || gzoom$xlim[2] < 1 || gzoom$ylim[1] > 0 || gzoom$ylim[2] < 1) {
-		if (is.na(gtheme$margins[1])) gtheme$margins <- c(0.05, 0.05, 0.2, 0.05)
+		if (is.na(gtheme$margins[1])) gtheme$margins <- c(0.05, 0.05, 0.05, 0.05)
 #		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- TRUE
 #	} else {
 #		if (is.na(gtheme$margins[1])) gtheme$margins <- rep(0, 4)

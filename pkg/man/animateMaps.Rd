@@ -2,8 +2,8 @@
 \alias{animateMaps}
 \title{Function to animate maps}
 \usage{
-  animateMaps(expr, width = 1000, height = 1000,
-    delay = 40, filename = "animation.gif")
+animateMaps(expr, width = 1000, height = 1000, delay = 40,
+  filename = "animation.gif")
 }
 \arguments{
   \item{expr}{R function call, e.g. with \code{choropleth}}
@@ -18,8 +18,8 @@
   or .mpg file)}
 }
 \description{
-  This function create a gif animation. The free tool
-  ImageMagick is required.
+This function create a gif animation. The free tool
+ImageMagick is required.
 }
 \keyword{animation}
 

@@ -3,7 +3,6 @@
 \alias{NLpop}
 \title{NLpop data}
 \description{
-  NLpop data
+NLpop data
 }
-\keyword{datasets}
 

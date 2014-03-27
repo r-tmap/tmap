@@ -2,7 +2,7 @@
 \alias{getShape}
 \title{Get shape file}
 \usage{
-  getShape(id, year = NULL, dir = getOption("shp_dir"))
+getShape(id, year = NULL, dir = getOption("shp_dir"))
 }
 \arguments{
   \item{id}{either a region label (see \code{regions}) or a
@@ -20,11 +20,11 @@
   year.}
 }
 \value{
-  shape object
+shape object
 }
 \description{
-  This function loads a shape file, either directly, or
-  from a (network) directory with shape files.
+This function loads a shape file, either directly, or from
+a (network) directory with shape files.
 }
 \examples{
 options(shp_dir=system.file("shapes", package="geoNL"))

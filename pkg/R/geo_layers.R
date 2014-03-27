@@ -5,19 +5,6 @@
 #' A 
 #' 
 #' @param shp shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.
-#' @export
-#' @return \code{\link{geo-object}}
-geo_shape <- function(shp, projection=NULL) {
-	shp_name <- deparse(substitute(shp))
-	g <- list(geo_shape=list(shp=shp_name))
-	class(g) <- "geo"
-	g
-}
-
-#' Specify the projection
-#' 
-#' This layer specifies the projection of the shape object(s).
-#' 
 #' @param projection character that determines the projectino. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates.} 
@@ -39,6 +26,20 @@ geo_shape <- function(shp, projection=NULL) {
 #' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides the \code{xlim} and \code{ylim} parameters.
 #' @export
 #' @return \code{\link{geo-object}}
+geo_shape <- function(shp, 
+					  projection=NULL, 
+					  xlim = NULL,
+					  ylim = NULL,
+					  relative = TRUE,
+					  bbox = NULL) {
+	shp_name <- deparse(substitute(shp))
+	g <- list(geo_shape=list(shp=shp, shp_name=shp_name, projection=projection, xlim=xlim, ylim=ylim, relative=relative, bbox=bbox))
+	class(g) <- "geo"
+	g
+}
+
+#' @export
+#' @return \code{\link{geo-object}}
 geo_projection <- function(projection=NULL, 
 						   xlim = c(min=0, max=1),
 						   ylim = c(min=0, max=1),
@@ -49,23 +50,6 @@ geo_projection <- function(projection=NULL,
 	g
 }
 
-
-
-
-
-#' Zoom window of the map
-#' 
-#' This layer specifies the zoom windows of the map(s), also known as bounding boxes.
-#' 
-#' @export
-#' @return \code{\link{geo-object}}
-geo_zoom <- function(xlim = c(0, 1),
-					 ylim = c(0, 1),
-					 units = "rel") {
-	g <- list(geo_zoom=list(xlim=xlim, ylim=ylim, units=units))
-	class(g) <- "geo"
-	g
-}
 
 
 
@@ -84,8 +68,7 @@ geo_zoom <- function(xlim = c(0, 1),
 #' @export
 #' @return \code{\link{geo-object}}
 geo_borders <- function(col="black", lwd=1, lty="solid") {
-	shp_name <- deparse(substitute(shp))
-	g <- list(geo_borders=list(shp=shp_name, col=col, lwd=lwd, lty=lty))
+	g <- list(geo_borders=list(col=col, lwd=lwd, lty=lty))
 	class(g) <- "geo"
 	g
 }
@@ -96,11 +79,10 @@ geo_borders <- function(col="black", lwd=1, lty="solid") {
 #' 
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
 #' @export
-#' @see \code{\link{geo_choropleth}}
+#' @seealso \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
 geo_fill <- function(col="lightgray") {
-	shp_name <- deparse(substitute(shp))
-	g <- list(geo_fill=list(shp=shp_name, col=col))
+	g <- list(geo_fill=list(col=col))
 	class(g) <- "geo"
 	g
 }
@@ -114,11 +96,10 @@ geo_fill <- function(col="lightgray") {
 #' @param border
 #' @param scale
 #' @export
-#' @see \code{\link{geo_choropleth}}
+#' @seealso \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
 geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
-	coor_name <- deparse(substitute(coor))
-	g <- list(geo_bubbles=list(coor=coor_name, bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale))
+	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale))
 	class(g) <- "geo"
 	g
 }
@@ -131,9 +112,8 @@ geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
 #' @param cex
 #' @export
 #' @return \code{\link{geo-object}}
-geo_text <-  function(text=names(shp)[1], cex=1) {
-	shp_name <- deparse(substitute(shp))
-	g <- list(geo_text=list(shp=shp_name, text=text, cex=cex))
+geo_text <-  function(text, cex=1) {
+	g <- list(geo_text=list(text=text, cex=cex))
 	class(g) <- "geo"
 	g
 }
@@ -167,8 +147,7 @@ geo_choropleth <- function(col,
 							colorNA = "#DDDDDD",
 							total.area.km2=NA) {
 	
-	shp_name <- deparse(substitute(shp))
-	g <- list(geo_choropleth=list(shp=shp_name, col=col, convert2density=convert2density, n=n, style=style, breaks=breaks, palette=palette, labels=labels, 
+	g <- list(geo_choropleth=list(col=col, convert2density=convert2density, n=n, style=style, breaks=breaks, palette=palette, labels=labels, 
 							auto.palette.mapping=auto.palette.mapping, contrast=contrast, colorNA=colorNA, total.area.km2=total.area.km2))
 	class(g) <- "geo"
 	g
@@ -202,8 +181,7 @@ geo_bubblemap <- function(size = NULL, col = NULL,
 						  auto.palette.mapping = TRUE,
 						  contrast = 1,
 						  colorNA = "#FF1414") {
-	coor_name <- deparse(substitute(coor))
-	g <- list(geo_bubblemap=list(coor=coor_name, bubble.size=size, bubble.col=col, bubble.border=border,
+	g <- list(geo_bubblemap=list(bubble.size=size, bubble.col=col, bubble.border=border,
 								 bubble.scale=scale,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 								 auto.palette.mapping=auto.palette.mapping, contrast=contrast))
@@ -250,8 +228,8 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 geo_theme <- function(title=NULL,
 					  title.cex=1.5,
 					  bg.color="yellow",
-					  draw.frame=NA,
-					  crop=identical(draw.frame, TRUE),
+					  draw.frame=FALSE,
+					  crop=draw.frame,
 					  show.legend.text=NULL,
 					  type.legend.plot = NULL,
 					  legend.position = c("left", "top"),
