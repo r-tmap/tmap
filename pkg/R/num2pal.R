@@ -8,11 +8,11 @@ num2pal <- function(x, n = 5,
 					   legend.digits = 2,
 					   colorNA = "#FF1414") {
 	# create intervals and assign colors
-    if (style=="fixed") {
-        q <- classIntervals(x, n, style= style, fixedBreaks=breaks) 
+    q <- suppressWarnings(if (style=="fixed") {
+        classIntervals(x, n, style= style, fixedBreaks=breaks) 
     } else {
-        q <- classIntervals(x, n, style= style)
-    }
+        classIntervals(x, n, style= style)
+    })
         
     breaks <- q$brks
 	nbrks <- length(breaks)

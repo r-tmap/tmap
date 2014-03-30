@@ -227,7 +227,7 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 #' @param legend.only
 geo_theme <- function(title=NULL,
 					  title.cex=1.5,
-					  bg.color="yellow",
+					  bg.color=NA,
 					  draw.frame=FALSE,
 					  crop=draw.frame,
 					  show.legend.text=NULL,
@@ -262,6 +262,18 @@ geo_theme <- function(title=NULL,
 # 	
 # }
 
+geo_theme_World <- function(bg.color="lightblue1",
+							draw.frame=TRUE, 
+							crop=TRUE,
+							legend.in.frame=TRUE, 
+							legend.position=c("left", "bottom"), 
+							legend.plot.size=c(.2, .2), 
+							legend.cex=0.6, 
+							...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("geo_theme", args)
+}
+	
 
 
 

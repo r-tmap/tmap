@@ -16,7 +16,7 @@ plot_map <- function(gp, gt) {
 	add <- c(FALSE, rep(TRUE, length(gp)-1))	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
-		plot(gpl$shp, col=gpl$fill, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xaxs="i", yaxs="i")
+		plot(gpl$shp, col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xaxs="i", yaxs="i")
 	}
 	
 	## set grid viewport (second line needed for small multiples)
@@ -60,9 +60,16 @@ plot_map <- function(gp, gt) {
 		npc.w <- npc.h * aspVpInch
 	}
 
-	pushViewport(viewport(layout=grid.layout(nrow=3, ncol=3, 
+	pushViewport(viewport(layout=grid.layout(nrow=3, ncol=3,
 				widths=unit(c(1,npc.w, 1), c("null", "snpc", "null")),
 				heights=unit(c(1,npc.h, 1), c("null", "snpc", "null")))))
+
+	if (draw.frame) {
+		cellplot(1:3, 1, e=grid.rect(gp=gpar(col=NA, fill="white")))
+		cellplot(1:3, 3, e=grid.rect(gp=gpar(col=NA, fill="white")))
+		cellplot(1, 2, e=grid.rect(gp=gpar(col=NA, fill="white")))
+		cellplot(3, 2, e=grid.rect(gp=gpar(col=NA, fill="white")))
+	}
 	vp <- viewport(layout.pos.col=2, layout.pos.row=2)
 	pushViewport(vp)
 
