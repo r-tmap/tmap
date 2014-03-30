@@ -21,9 +21,9 @@ geo_frame(c(.3, .8), c(.3, .8), units="rel")
 
 
 (g <- geo_shape(World) +
- 	geo_choropleth(c("gdp_cap_est"), style="kmeans") +
+ 	geo_choropleth(c("gdp_cap_est"), style="kmeans", palette="RdYlGn") +
  	geo_borders() +
- 	geo_theme(legend.position=c("left", "bottom"), legend.plot.size=c(.2, .2), legend.cex=0.6, draw.frame=TRUE, legend.in.frame=TRUE))
+ 	geo_theme_World())
 
 #log scale from 0 to 30000
 log1p(5000)
