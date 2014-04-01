@@ -1,8 +1,8 @@
-\name{aggregateShapeData}
-\alias{aggregateShapeData}
+\name{aggregate_shape_data}
+\alias{aggregate_shape_data}
 \title{Aggregete shape data}
 \usage{
-aggregateShapeData(shp.from, shp.to, variables = NULL)
+aggregate_shape_data(shp.from, shp.to, variables = NULL)
 }
 \arguments{
   \item{shp.from}{the (detailed) shape object to be

@@ -5,6 +5,6 @@
 #' @param shp shape object
 #' @return vector of ID's
 #' @export
-getIDs <- function(shp) {
+get_IDs <- function(shp) {
 	sapply(shp@polygons, function(x)x@ID)
 }

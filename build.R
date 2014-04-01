@@ -6,8 +6,10 @@ source("roxygen.R")
 setwd("../pkg")
 
 
+ck <- check()
+
 ++++++## check
-if (check()) {
+if (ck) {
 	unlink( '../output', TRUE)
 	dir.create("../output", showWarnings=FALSE)
 	build(path= "../output")

@@ -22,8 +22,10 @@ geo_choropleth(col, palette = NULL, convert2density = FALSE, n = 5,
 
   \item{convert2density}{boolean that determines whether
   \code{col} is converted to a density variable. Should be
-  \code{TRUE} when \code{col} consists of absolute
-  numbers.}
+  \code{TRUE} when \code{col} consists of absolute numbers.
+  Note that the conversion to densities is an approximation
+  where the total area size is given by the argument
+  \code{total.area.km2}.}
 
   \item{style}{method to cut the color scale (in case
   \code{col} is a numeric variable): "fixed", "equal",
@@ -46,6 +48,9 @@ geo_choropleth(col, palette = NULL, convert2density = FALSE, n = 5,
   when \code{auto.palette.mapping=TRUE}}
 
   \item{colorNA}{color used to missing values}
+
+  \item{total.area.km2}{total area size in km2. Needed if
+  \code{convert2density=TRUE}.}
 }
 \value{
 \code{\link{geo-object}}

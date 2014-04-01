@@ -2,8 +2,6 @@
 #' 
 #' This layer specifies the shape object, which is one of \code{\link[sp:SpatialPolygons]{SpatialPolygons}}, \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialPoints]{SpatialPoints}}, and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}.
 #' 
-#' A 
-#' 
 #' @param shp shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.
 #' @param projection character that determines the projectino. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
 #' \describe{
@@ -11,7 +9,7 @@
 #'    	\item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise} 
 #'    	\item{\code{"robin"}}{Robinson (1963). Another popular projection for world maps. Type: compromise}
 #'    	\item{\code{"eck4"}}{Eckert IV (1906). Projection useful for world maps. Area sizes are preserved, which makes it particularly useful for truthful choropleths. Type: equal-area}
-#'    	\item{\cpde{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
+#'    	\item{\code{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
 #'    	\item{\code{"merc"}}{Mercator (1569). Projection in which shapes are locally preserved. However, areas close to the poles are inflated. Used by Google Maps. Type: conformal}
 #'    	\item{\code{"mill"}}{Miller (1942). Projetion based on Mercator, in which poles are displayed. Type: compromise}
 #'    	\item{\code{"eqc0"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The equator is the standard parallel. Also known as Plate Carr\'ee. Type: equidistant}
@@ -37,24 +35,6 @@ geo_shape <- function(shp,
 	class(g) <- "geo"
 	g
 }
-
-#' @export
-#' @return \code{\link{geo-object}}
-geo_projection <- function(projection=NULL, 
-						   xlim = c(min=0, max=1),
-						   ylim = c(min=0, max=1),
-						   relative = TRUE,
-						   bbox = NULL) {
-	g <- list(geo_projection=list(projection=projection, xlim=xlim, ylim=ylim, relative=relative, bbox=bbox))
-	class(g) <- "geo"
-	g
-}
-
-
-
-
-
-
 
 
 
@@ -91,10 +71,10 @@ geo_fill <- function(col="lightgray") {
 #' 
 #' This layer speficies the drawing of bubbles. The colors and sizes of the bubbles are directly specified in this layer. Use \code{\link{geo_bubblemap}} to map bubbles colors and/or sizes to data.
 #' 
-#' @param size
+#' @param size relative sizes of the bubbles
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
-#' @param border
-#' @param scale
+#' @param border color of the bubble borders. If \code{NA}, no borders are drawn.
+#' @param scale scale multiplier to adjust the bubble sizes
 #' @export
 #' @seealso \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
@@ -108,8 +88,8 @@ geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
 #' 
 #' This layer adds text labels
 #' 
-#' @param text
-#' @param cex
+#' @param text name of the variable in the shape object that contains the text labels
+#' @param cex relative size of the text labels
 #' @export
 #' @return \code{\link{geo-object}}
 geo_text <-  function(text, cex=1) {
@@ -125,13 +105,14 @@ geo_text <-  function(text, cex=1) {
 #' @param col name of variable that is contained in \code{shp}
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlBu"} is taken for numeric variables, and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
-#' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers.
+#' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. Note that the conversion to densities is an approximation where the total area size is given by the argument \code{total.area.km2}.
 #' @param style method to cut the color scale (in case \code{col} is a numeric variable): "fixed", "equal", "pretty", "quantile", "kmeans"
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE}
 #' @param colorNA color used to missing values
+#' @param total.area.km2 total area size in km2. Needed if \code{convert2density=TRUE}.
 #' @export
 #' @seealso \code{\link{geo_fill}}
 #' @return \code{\link{geo-object}}	
@@ -158,7 +139,7 @@ geo_choropleth <- function(col,
 #' This layer speficies a bubblemap. Both colors and sizes of the bubbles can be mapped to data variables. 
 #' @param size \code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples
-#' @param borders color of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
+#' @param border color of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
 #' @param scale bubble size multiplier number. 
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
 #' @param style method to cut the color scale: "fixed", "equal", "pretty", "quantile", "kmeans". Only applicable when \code{col} is a numeric variable name.
@@ -206,25 +187,29 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 	g
 }
 
-#' Theme elements of map plots
+#' Theme elements of cartographic maps
 #' 
 #' This layer specifies thematic layout options for the maps.
 #' 
+#' @name geo_theme
+#' @rdname geo_theme
 #' @param title Title of the map(s)
-#' @param title.cex
-#' @param bg.color
-#' @param draw.frame
+#' @param title.cex Relative size of the title
+#' @param bg.color Background color
+#' @param draw.frame Boolean that determines whether a frama is drawn. 
 #' @param crop boolean that determines whether the shape objects are cropped at the bounding box (see \code{\link[sp:bbox]{bbox}})
-#' @param show.legend.text
-#' @param type.legend.plot
-#' @param legend.position
-#' @param legend.plot.size
-#' @param legend.cex
-#' @param legend.digits
-#' @param title.position
-#' @param margins
-#' @param frame.lwd
-#' @param legend.only
+#' @param show.legend.text Boolean that determines if the legend text is shwon.
+#' @param type.legend.plot Type of legend plot. One of "hist", "bar", "bubble", "none".
+#' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
+#' @param legend.plot.size Relative size of the legend. Vector of two numeric values between 0 and 1 that specify the height and width of the legend.
+#' @param legend.in.frame boolean that determines whether the legend in drawn inside the frame
+#' @param legend.cex Relative font size for the legend
+#' @param legend.digits Number of digits for the legend labels
+#' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
+#' @param margins Relative margins. Vector of four values specifying the left, top, right and bottom margin. Values are between 0 and 1.
+#' @param frame.lwd Width of the frame
+#' @param legend.only Boolean that determines whether only the legend is shown
+#' @export
 geo_theme <- function(title=NULL,
 					  title.cex=1.5,
 					  bg.color=NA,
@@ -262,6 +247,9 @@ geo_theme <- function(title=NULL,
 # 	
 # }
 
+#' @rdname geo_theme
+#' @param ... other arguments from \code{geo_theme}
+#' @export
 geo_theme_World <- function(bg.color="lightblue1",
 							draw.frame=TRUE, 
 							crop=TRUE,
@@ -277,6 +265,13 @@ geo_theme_World <- function(bg.color="lightblue1",
 
 
 
+#' Stacking of geo layers
+#' 
+#' The plus operator allows you to stack geo layers (created by any geo_* function). Always start with geo_shape to specify the shape object (i.e. the SpatialPolygonsDataframe). If multile shape objects are used, start each group of layers with geo_shape to specify the shape object of that group.
+#' 
+#' @param e1 first geo layer
+#' @param e2 second geo layer
+#' @export
 "+.geo" <- function(e1, e2) {
 	g <- c(e1,e2)
 	class(g) <- "geo"

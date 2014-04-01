@@ -13,7 +13,7 @@ process_choro <- function(shp, g, free.scales) {
 	
 	nx <- length(x)
 	X <- shp@data[, x, drop=FALSE]
-	if (convert2density) X <- densities(shp, var=x, total.area.km2=ifelse(is.na(total.area.km2), 1, total.area.km2), drop=FALSE)
+	if (convert2density) X <- calc_densities(shp, var=x, total.area.km2=ifelse(is.na(total.area.km2), 1, total.area.km2), drop=FALSE)
 	
 	if (free.scales && nx > 1) {
 		fill <- matrix("", ncol=nx, nrow=nrow(X))

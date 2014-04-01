@@ -1,8 +1,8 @@
-\name{densities}
-\alias{densities}
+\name{calc_densities}
+\alias{calc_densities}
 \title{Calculate densities}
 \usage{
-densities(shp, var, total.area.km2 = 33893, drop = TRUE)
+calc_densities(shp, var, total.area.km2 = 33893, drop = TRUE)
 }
 \arguments{
   \item{shp}{a shape object}
@@ -12,6 +12,9 @@ densities(shp, var, total.area.km2 = 33893, drop = TRUE)
 
   \item{total.area.km2}{total area size of NL in km2.
   According to Wikipedia, this is 33893.}
+
+  \item{drop}{boolean that determines whether an one-column
+  data-frame should be returned as a vector}
 }
 \value{
 vector or data.frame (depending on whether

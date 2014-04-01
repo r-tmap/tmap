@@ -10,7 +10,7 @@
 #' @param fixed.order should the data be append in the same order as the shapes in \code{shp}?
 #' @return shape object with appended data
 #' @export
-appendData <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, fixed.order=is.null(key.data)) {
+append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, fixed.order=is.null(key.data)) {
 	
 	if (fixed.order) {
 		if (length(shp)!=nrow(data)) 
@@ -46,7 +46,7 @@ appendData <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.duplic
 		# key.shp specification
 		if (missing(key.shp)) {
 			# if key.shp is NULL, then take the polygon id's
-			ids.shp <- getIDs(shp)
+			ids.shp <- get_IDs(shp)
 		} else {
 			# use the key.shp variable of shp@data
 			if (!inherits(shp, "SpatialPolygonsDataFrame")) 

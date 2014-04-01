@@ -7,7 +7,6 @@
 #'
 #'
 #' @export
-#' @example ../examples/shp2kml.R
 shp2kmlPolygons <- function(shp, cols, file="./temp.kml") {
     shpname <- deparse(substitute(shp))
     

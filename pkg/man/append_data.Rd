@@ -1,8 +1,8 @@
-\name{appendData}
-\alias{appendData}
+\name{append_data}
+\alias{append_data}
 \title{Append data}
 \usage{
-appendData(shp, data, key.data = NULL, key.shp = NULL,
+append_data(shp, data, key.data = NULL, key.shp = NULL,
   ignore.duplicates = FALSE, fixed.order = is.null(key.data))
 }
 \arguments{

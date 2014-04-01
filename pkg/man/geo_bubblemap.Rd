@@ -15,7 +15,7 @@ geo_bubblemap(size = NULL, col = NULL, border = NA, scale = 1, n = 5,
   (vector), or categorical variable name(s). Multiple
   variable names create small multiples}
 
-  \item{borders}{color of the bubble borders. If \code{NA}
+  \item{border}{color of the bubble borders. If \code{NA}
   (default), no bubble borders are drawn.}
 
   \item{scale}{bubble size multiplier number.}

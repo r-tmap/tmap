@@ -9,7 +9,7 @@
 #' @param res the resolution of the plot, i.e. dpi (dots per inch). Only applicable for bitmap formats (all but pdf)
 #' @param ... arguments passed on to specific device (e.g. pdf)
 #' @export
-saveMap <- function(e, file, width=7, height=7, res=200, ...) {
+save_map <- function(e, file, width=7, height=7, res=200, ...) {
 	# quick & dirty (should be done with regular expression)
 	extension <- substr(file, nchar(file)-2, nchar(file))
 	if (extension=="jpg") extension <- "jpeg"

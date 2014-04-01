@@ -8,7 +8,7 @@
 #' 
 #' @import rgeos
 #' @export
-aggregateShapeData <- function(shp.from, shp.to, variables=NULL) {
+aggregate_shape_data <- function(shp.from, shp.to, variables=NULL) {
 	polys.to <- shp.to@polygons
 	polys.from <- shp.from@polygons
 	x <- sapply(polys.from, function(p.from) {
@@ -27,6 +27,6 @@ aggregateShapeData <- function(shp.from, shp.to, variables=NULL) {
 	data.from <- shp.from@data
 	if (missing(variables)) variables <- which(sapply(data.from, is.numeric))
 	y <- x %*% as.matrix(data.from[, variables])
-	shp.to <- appendData(shp.to, y, fixed.order=TRUE)
+	shp.to <- append_data(shp.to, y, fixed.order=TRUE)
 	shp.to
 }

@@ -120,13 +120,13 @@ process_projection <- function(g) {
 		
 		if (is.na(shp.proj)) {
 			warning("Currect projection of shape object unknown. Long-lat (WGS84) is assumed.")
-			proj4string(shp) <- CRS("+proj=longlat +datum=WGS84")
+			shp@proj4string <- CRS("+proj=longlat +datum=WGS84")
 		}
 		shp <- spTransform(shp, CRS(projection))
 		g[[masterID]]$shp <- shp
 		g[-masterID] <- lapply(g[-masterID], function(x) {
 			if (is.na(shp.proj)) {
-				proj4string(x$shp) <- CRS("+proj=longlat +datum=WGS84")
+				x$shp@proj4string <- CRS("+proj=longlat +datum=WGS84")
 			}
 			x$shp <- spTransform(x$shp, CRS(projection))
 			x

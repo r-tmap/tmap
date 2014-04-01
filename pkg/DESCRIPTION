@@ -6,15 +6,13 @@ Type: Package
 LazyLoad: yes
 Author: Martijn Tennekes
 Description: Statistical geographic maps
-Version: 0.1
-Date: 2013-11-25
+Version: 0.2
+Date: 2014-04-01
 Imports:
     rgeos,
     grid,
     gridBase,
     sp,
-    maptools,
     rgdal,
     classInt,
-    RColorBrewer,
-    shiny
+    RColorBrewer

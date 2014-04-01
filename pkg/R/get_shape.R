@@ -8,8 +8,7 @@
 #' @return shape object
 #' @import rgdal
 #' @export
-#' @example ../examples/getShape.R
-getShape <- function(id, year=NULL, dir=getOption("shp_dir")){
+get_shape <- function(id, year=NULL, dir=getOption("shp_dir")){
 	
 	# determine region ID
 	if (missing(year)) {

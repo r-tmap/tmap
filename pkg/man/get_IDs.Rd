@@ -1,8 +1,8 @@
-\name{getIDs}
-\alias{getIDs}
+\name{get_IDs}
+\alias{get_IDs}
 \title{Get ID's of the polygons}
 \usage{
-getIDs(shp)
+get_IDs(shp)
 }
 \arguments{
   \item{shp}{shape object}

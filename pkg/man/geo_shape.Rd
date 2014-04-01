@@ -32,7 +32,7 @@ geo_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
   Projection useful for world maps. Area sizes are
   preserved, which makes it particularly useful for
   truthful choropleths. Type: equal-area}
-  \item{\cpde{"hd"}}{Hobo-Dyer (2002). Another projection
+  \item{\code{"hd"}}{Hobo-Dyer (2002). Another projection
   useful for world maps in which area sizes are preserved.
   Type: equal-area} \item{\code{"merc"}}{Mercator (1569).
   Projection in which shapes are locally preserved.
@@ -81,8 +81,5 @@ This layer specifies the shape object, which is one of
 \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}},
 \code{\link[sp:SpatialPoints]{SpatialPoints}}, and
 \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}.
-}
-\details{
-A
 }
 

@@ -1,5 +1,10 @@
-options(shp_dir=system.file("shapes", package="geoNL"))
-shp.gm_rd <- getShape("gm", 2012)
-shp.gm_wgs84 <- rd2wgs84(shp.gm_rd)
+# load data
+data(NLD_muni)
 
+# convert to Rijksdriehoekstelsel
+NLD_muni_RD <- rd2wgs84(NLD_muni)
+
+# plot maps
+geo_shape(NLD_muni) + geo_borders() + geo_theme(title="WGS84")
+geo_shape(NLD_muni) + geo_borders() + geo_theme(title="RD")
 

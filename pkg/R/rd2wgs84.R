@@ -12,7 +12,9 @@ rd2wgs84 <- function(shp) {
 	rd <- CRS("+init=epsg:28992 +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812")
 	wgs84 <- CRS("+proj=longlat +datum=WGS84")
 
-	proj4string(shp) <- rd
+	if (is.na(proj4string(shp))) {
+		shp@proj4string <- rd
+	}
 	
 	spTransform(shp, wgs84)
 }

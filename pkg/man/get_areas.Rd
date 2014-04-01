@@ -1,8 +1,8 @@
-\name{getAreas}
-\alias{getAreas}
+\name{get_areas}
+\alias{get_areas}
 \title{Determine area sizes of the shapes.}
 \usage{
-getAreas(shp)
+get_areas(shp)
 }
 \arguments{
   \item{shp}{shape object, i.e. a

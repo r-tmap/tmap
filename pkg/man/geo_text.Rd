@@ -5,9 +5,10 @@
 geo_text(text, cex = 1)
 }
 \arguments{
-  \item{text}{}
+  \item{text}{name of the variable in the shape object that
+  contains the text labels}
 
-  \item{cex}{}
+  \item{cex}{relative size of the text labels}
 }
 \value{
 \code{\link{geo-object}}

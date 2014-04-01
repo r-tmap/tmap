@@ -5,7 +5,7 @@
 #' @param shp shape object, i.e. a SpatialPolygons(DataFrame)
 #' @return numeric vector of area sizes
 #' @export
-getAreas <- function(shp) {
+get_areas <- function(shp) {
     sapply(slot(shp, "polygons"),
            function(x) {
            	x@area

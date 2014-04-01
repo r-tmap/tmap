@@ -13,8 +13,8 @@ set_bounding_box <- function(gp, gt) {
 			shp2 <- gIntersection(shp, BB, byid=TRUE)
 			shp2@bbox <- bb
 			shpdata <- shp@data
-			ids <- getIDs(shp)
-			ids2 <- gsub(" [0-9]+$", "", getIDs(shp2))
+			ids <- get_IDs(shp)
+			ids2 <- gsub(" [0-9]+$", "", get_IDs(shp2))
 			indices <- match(ids2, ids)
 			shp2 <- SpatialPolygonsDataFrame(shp2, shpdata[indices, ], match.ID = FALSE)
 			shp <- shp2

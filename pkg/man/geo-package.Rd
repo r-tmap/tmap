@@ -11,14 +11,14 @@ GPL-3\cr LazyLoad: \tab yes\cr }
 \details{
 Tools for creating thematic cartograpic maps of the
 Netherlands: \itemize{ \item read shape files directly or
-from a network repository: \code{\link{getShape}}; \item
-append data to shape files: \code{\link{appendData}}; \item
-create statistical maps with layers: e.g.
-\code{\link{geo.choropleth}}; \item convert from RD
+from a network repository: \code{\link{get_shape}}; \item
+append data to shape files: \code{\link{append_data}};
+\item create statistical maps with layers: e.g.
+\code{\link{geo_choropleth}}; \item convert from RD
 (rijksdriehoekstelsel) to wgs84 coordinates:
 \code{\link{rd2wgs84}}; \item export to kml format (for
-Google Earth): \code{\link{shp2kml}}; \item interactive
-cartography: \code{\link{igeoNL}}. }
+Google Earth): \code{shp2kml}; \item interactive
+cartography: \code{igeoNL}. }
 }
 \author{
 Martijn Tennekes \email{mtennekes@gmail.com}

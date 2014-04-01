@@ -19,11 +19,70 @@ world50 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
 world110 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
 
 
-
+############ process data
 keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt", 
 			  "continent", "subregion",
 			  "pop_est", "gdp_md_est", "economy", "income_grp"
 			  )
+
+eur_sel <- world50$continent=="Europe" | world50$name %in% 
+	c("Morocco", "Algeria", "Tunesia", "Libya", "Egypt", "Israel", "Palestine", "Lebanon",
+	  "Syria", "Iraq", "Kuwait", "Turkey", "Jordan", "Saudi Arabia", "Iran", "Armenia", 
+	  "Azerbaijan", "Georgia", "Kazakhstan", "Turkmenistan", "Uzbekistan")
+
+
+
+identical(world50@data[, keepVars],  world110@data[, keepVars])
+
+## get world data
+wd <- world50@data[, keepVars]
+
+
+wd <- as.data.frame(lapply(wd, function(x){x[which(x==-99)]<- NA; x}))
+factors <- sapply(wd, is.factor)
+
+wd[, 1:7] <- lapply(wd[, 1:7], function(x){
+	as.character(x)
+})
+
+## remove non-ascii
+nonASCII <- lapply(wd[, 1:7], function(x){
+	grep("I_WAS_NOT_ASCII", iconv(x, "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
+})
+
+replASCII <- list(character(0),
+				  c("St-Barthelemy", "Cote d'Ivoire", "Curacao", "Sao Tome and Principe"),
+				  c("Saint-Barthelemy", "Cote d'Ivoire", "Curacao", "Sao Tome and Principe"),
+				  c("Aland Islands", "Saint-Barthelemy", "Curacao", "Faeroe Is.", "Democratic Republic of Sao Tome and Principe"),
+				  character(0),
+				  character(0),
+				  character(0))
+names(replASCII) <- names(nonASCII)
+
+for (na in names(nonASCII)) {
+	cat("Replace: ", wd[[na]][nonASCII[[na]]], " by, ", replASCII[[na]], "\n")
+	wd[[na]][nonASCII[[na]]] <- replASCII[[na]]
+}
+
+wd[, 1:7] <- lapply(wd[, 1:7], function(x){
+	factor(x)
+})
+
+wd$gdp_cap_est <- wd$gdp_md_est / wd$pop_est * 1000000
+
+
+
+
+
+## get data
+ed <- wd[eur_sel, ]
+ed[, 1:7] <- lapply(ed[, 1:7], function(x){
+	factor(as.character(x))
+})
+
+ed[ed$continent!="Europe" & (ed$name !="Turkey"), 8:11] <- NA
+
+
 
 ###########################################################################
 ## download continents shape file
@@ -63,25 +122,13 @@ conteur5 <- gDifference(conteur4, CP, byid=TRUE)
 
 ## subset europe and neighboring countries
 #proj4string(world50) <- "+proj=longlat +datum=WGS84"
-eur1 <- world50[world50$continent=="Europe" | world50$name %in% c("Morocco", "Algeria",
-						"Tunesia", "Libya", "Egypt", "Israel", "Palestine", "Lebanon",
-						"Syria", "Iraq", "Kuwait", "Turkey", "Jordan", "Saudi Arabia", "Iran", "Armenia", "Azerbaijan", "Georgia",
-						"Kazakhstan", "Turkmenistan", "Uzbekistan"),]
+eur1 <- world50[eur_sel,]
 
 ## global cropping
 CP <- as(extent(-25, 87, 27.5, 82), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(eur1))
 eur2 <- gIntersection(eur1, CP, byid=TRUE)
 
-
-## get data
-data_eur <- eur1@data[,keepVars]
-data_eur <- as.data.frame(lapply(data_eur, function(x){x[which(x==-99)]<- NA; x}))
-factors <- sapply(data_eur, is.factor)
-data_eur[, 1:7] <- lapply(data_eur[, 1:7], function(x){
-	as.factor(as.character(x))
-})
-data_eur[data_eur$continent!="Europe" & (data_eur$name !="Turkey"), 8:11] <- NA
 
 ## split Russia
 russiaEur <- gIntersection(eur2, conteur5, byid=TRUE)
@@ -119,26 +166,20 @@ gIsValid(eur4, reason = TRUE)
 ## set bounding box
 eur4@bbox[,] <- c(-2200000, 3800000, 3400000, 8000000)
 
-## append Data
 
-
-eur5 <- appendData(eur4, data_eur[c(1:70, 58), ])
-#eur5$iso_a3	<- as.character(eur5$iso_a3)
-#eur5$iso_a3[eur5$iso_a3=="-99"] <- "Kosovo"
-#eur5$iso_a3[71] <- "RUS (Asia)"
+eur5 <- append_data(eur4, ed[c(1:70, 58), ])
 eur5@data[71, 8:11] <- NA
-eur5$gdp_cap_est <- eur5$gdp_md_est / eur5$pop_est * 1000000
 
 
 ## save Europe
 Europe <- eur5
 
-save(Europe, file="./data/Europe.rda")
+save(Europe, file="./data/Europe.rda", compress="xz")
+
 
 ###########################################################################
 ## process world
 ###########################################################################
-plot(world110)
 
 ## Set world porjection to Winkel Tripel
 
@@ -169,26 +210,17 @@ world110_eIV <- spTransform(world110, CRS("+proj=eck4")) # Eckert IV
 #http://www.progonos.com/furuti/MapProj/Dither/CartHow/HowER_W12/howER_W12.html
 #http://resources.arcgis.com/en/help/main/10.1/index.html#/Eckert_IV/003r00000026000000/
 
-World <- world110_wt
+#World <- world110_wt
+
 World <- world110_eIV
 
 ## set bouding box (leave out Antarctica)
 #World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)  # for Winkel Tripel
 
-World@data <- World@data[, keepVars]
-summary(World@data)
-
-World@data <- as.data.frame(lapply(World@data, function(x){x[which(x==-99)]<- NA; x}))
-factors <- sapply(World@data, is.factor)
-World@data[, 1:7] <- lapply(World@data[, 1:7], function(x){
-	as.factor(as.character(x))
-})
-World$gdp_cap_est <- World$gdp_md_est / World$pop_est * 1000000
-
-#plot(World)
+World@data <- wd
 
 
-save(World, file="./data/World.rda")
+save(World, file="./data/World.rda", compress="xz")
 
 
 ## projections: see ?proj4string => package rgdal

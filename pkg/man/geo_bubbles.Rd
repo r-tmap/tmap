@@ -5,14 +5,15 @@
 geo_bubbles(size = 1, col = "red", border = NA, scale = 1)
 }
 \arguments{
-  \item{size}{}
+  \item{size}{relative sizes of the bubbles}
 
   \item{col}{a single color value, or a vector of colors
   (specifying a color per polygon).}
 
-  \item{border}{}
+  \item{border}{color of the bubble borders. If \code{NA},
+  no borders are drawn.}
 
-  \item{scale}{}
+  \item{scale}{scale multiplier to adjust the bubble sizes}
 }
 \value{
 \code{\link{geo-object}}
