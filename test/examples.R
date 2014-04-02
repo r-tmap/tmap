@@ -5,7 +5,7 @@ data(NLD_prov)
 data(NLD_ageGroups)
 
 NLD_muni$gender <- (NLD_muni$men/NLD_muni$pop -.5) / sqrt(NLD_muni$pop) * 10000
-World$pop_est_km <- densities(World, "pop_est", total.area.km2=148940000)
+World$pop_est_km <- calc_densities(World, "pop_est", total.area.km2=148940000)
 
 # head(World[order(World$pop_est_km, decreasing=TRUE), c("name", "pop_est", "pop_est_km")], 100)
 # areas <- getAreas(World)
@@ -13,11 +13,15 @@ World$pop_est_km <- densities(World, "pop_est", total.area.km2=148940000)
 # head(World[order(World$area, decreasing=TRUE), c("name", "area")], 100)
 
 
+### Pretty example for the Netherlands
 geo_shape(NLD_muni) +
-geo_choropleth(col="pop", convert2density=TRUE, style="kmeans") +
+geo_choropleth(col="pop", convert2density=TRUE, style="kmeans", total.area.km2=41543) +
 geo_borders() +
-geo_bubblemap(size="men") +
-geo_frame(c(.3, .8), c(.3, .8), units="rel")
+geo_shape(NLD_prov) +
+geo_borders(lwd=2) +
+geo_text("name", bg.color="white", bg.alpha=150) +
+geo_theme_NLD(title="Population (per km2)", legend.digits=0)
+## todo: legend.digits
 
 
 (g <- geo_shape(World) +

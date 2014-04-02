@@ -112,9 +112,26 @@ plot_map <- function(gp, gt) {
 						gp=gpar(col=borders, fill=cols))
 		}
 		if (!is.na(gpl$text)) {
+			
 			labels <- shp[[gpl$text]]
-			grid.text(labels, x=unit(co.npc[,1], "npc"), y=unit(co.npc[,2], "npc"), 
-					  gp=gpar(cex=gpl$cex))
+			bgcols <- col2rgb(gpl$text.bg.color)
+			bgcols <- rgb(bgcols[1,], bgcols[2,], bgcols[3,], 
+						  alpha=gpl$text.bg.alpha, maxColorValue=255)
+			
+			tG <- textGrob(labels, x=unit(co.npc[,1], "npc"), y=unit(co.npc[,2], "npc"), gp=gpar(cex=gpl$text.cex, fontface=gpl$text.fontface))
+			nlines <- rep(1, length(labels))
+			
+			tGH <- mapply(labels, gpl$text.cex, nlines, FUN=function(x,y,z){
+				convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=gpl$text.fontface, fontfamily=gpl$text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
+
+			tGW <- mapply(labels, gpl$text.cex, FUN=function(x,y){
+				convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=gpl$text.fontface, fontfamily=gpl$text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
+			
+			tGX <- tG$x
+			tGY <- tG$y
+			bcktG <- rectGrob(x=tGX, y=tGY, width=tGW, height=tGH, gp=gpar(fill=bgcols, col=NA))
+			grid.draw(bcktG)
+			grid.draw(tG)
 		}
 	
 	}

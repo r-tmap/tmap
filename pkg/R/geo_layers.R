@@ -31,7 +31,7 @@ geo_shape <- function(shp,
 					  relative = TRUE,
 					  bbox = NULL) {
 	shp_name <- deparse(substitute(shp))
-	g <- list(geo_shape=list(shp=shp, shp_name=shp_name, projection=projection, xlim=xlim, ylim=ylim, relative=relative, bbox=bbox))
+	g <- list(geo_shape=as.list(environment()))
 	class(g) <- "geo"
 	g
 }
@@ -48,7 +48,7 @@ geo_shape <- function(shp,
 #' @export
 #' @return \code{\link{geo-object}}
 geo_borders <- function(col="black", lwd=1, lty="solid") {
-	g <- list(geo_borders=list(col=col, lwd=lwd, lty=lty))
+	g <- list(geo_borders=as.list(environment()))
 	class(g) <- "geo"
 	g
 }
@@ -62,7 +62,7 @@ geo_borders <- function(col="black", lwd=1, lty="solid") {
 #' @seealso \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
 geo_fill <- function(col="lightgray") {
-	g <- list(geo_fill=list(col=col))
+	g <- list(geo_fill=as.list(environment()))
 	class(g) <- "geo"
 	g
 }
@@ -90,10 +90,14 @@ geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
 #' @param cex relative size of the text labels
+#' @param fontcolor relative size of the text labels
+#' @param fontface font face of the text labels
+#' @param fontfamily font family of the text labels
+#' @param bg.color background color of the text labels
 #' @export
 #' @return \code{\link{geo-object}}
-geo_text <-  function(text, cex=1) {
-	g <- list(geo_text=list(text=text, cex=cex))
+geo_text <-  function(text, cex=1, fontcolor="black", fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=150) {
+	g <- list(geo_text=list(text=text, text.cex=cex, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha))
 	class(g) <- "geo"
 	g
 }
@@ -128,8 +132,7 @@ geo_choropleth <- function(col,
 							colorNA = "#DDDDDD",
 							total.area.km2=NA) {
 	
-	g <- list(geo_choropleth=list(col=col, convert2density=convert2density, n=n, style=style, breaks=breaks, palette=palette, labels=labels, 
-							auto.palette.mapping=auto.palette.mapping, contrast=contrast, colorNA=colorNA, total.area.km2=total.area.km2))
+	g <- list(geo_choropleth=as.list(environment()))
 	class(g) <- "geo"
 	g
 }	
@@ -182,7 +185,7 @@ geo_bubblemap <- function(size = NULL, col = NULL,
 #' @return \code{\link{geo-object}}
 geo_grid <- function(ncol=NULL, nrow=NULL, 
 					 free.scales=FALSE)	{
-	g <- list(geo_grid=list(ncol=ncol, nrow=nrow, free.scales=free.scales))
+	g <- list(geo_grid=as.list(environment()))
 	class(g) <- "geo"
 	g
 }
@@ -226,18 +229,7 @@ geo_theme <- function(title=NULL,
 					  margins = NA,
 					  frame.lwd=1,
 					  legend.only=FALSE) {
-	g <- list(geo_theme=list(title=title, title.cex=title.cex, 
-							 bg.color=bg.color,
-							 show.legend.text=show.legend.text,
-							 type.legend.plot=type.legend.plot, 
-							 legend.position=legend.position,
-							 legend.plot.size=legend.plot.size, 
-							 legend.in.frame=legend.in.frame,
-							 legend.cex=legend.cex,
-							 legend.digits=legend.digits, 
-							 title.position=title.position,
-							 margins=margins, draw.frame=draw.frame, 
-							 frame.lwd=frame.lwd, legend.only=legend.only))
+	g <- list(geo_theme=as.list(environment()))
 	class(g) <- "geo"
 	g
 }
@@ -262,7 +254,19 @@ geo_theme_World <- function(bg.color="lightblue1",
 	do.call("geo_theme", args)
 }
 	
-
+#' @rdname geo_theme
+#' @param ... other arguments from \code{geo_theme}
+#' @export
+geo_theme_NLD <- function(
+							draw.frame=FALSE, 
+							legend.in.frame=FALSE, 
+							legend.position=c("left", "top"), 
+							legend.plot.size=c(.25, .4), 
+							legend.cex=0.8, 
+							...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("geo_theme", args)
+}
 
 
 #' Stacking of geo layers
