@@ -16,7 +16,7 @@ plot_map <- function(gp, gt) {
 	add <- c(FALSE, rep(TRUE, length(gp)-1))	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
-		plot(gpl$shp, col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xaxs="i", yaxs="i")
+		plot(gpl$shp, col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l])
 	}
 	
 	## set grid viewport (second line needed for small multiples)
@@ -65,10 +65,10 @@ plot_map <- function(gp, gt) {
 				heights=unit(c(1,npc.h, 1), c("null", "snpc", "null")))))
 
 	if (draw.frame) {
-		cellplot(1:3, 1, e=grid.rect(gp=gpar(col=NA, fill="white")))
-		cellplot(1:3, 3, e=grid.rect(gp=gpar(col=NA, fill="white")))
-		cellplot(1, 2, e=grid.rect(gp=gpar(col=NA, fill="white")))
-		cellplot(3, 2, e=grid.rect(gp=gpar(col=NA, fill="white")))
+		cellplot(1:3, 1, e=grid.rect(gp=gpar(col="white", fill="white")))
+		cellplot(1:3, 3, e=grid.rect(gp=gpar(col="white", fill="white")))
+		cellplot(1, 2, e=grid.rect(gp=gpar(col="white", fill="white")))
+		cellplot(3, 2, e=grid.rect(gp=gpar(col="white", fill="white")))
 	}
 	vp <- viewport(layout.pos.col=2, layout.pos.row=2)
 	pushViewport(vp)
@@ -84,6 +84,7 @@ plot_map <- function(gp, gt) {
 		npol <- length(shp)
 		
 		co <- coordinates(shp)
+		
 		bb <- shp@bbox
 		
 		co.npc <- co
@@ -114,17 +115,38 @@ plot_map <- function(gp, gt) {
 		if (!is.na(gpl$text)) {
 			
 			labels <- shp[[gpl$text]]
+			cex <- gpl$text.cex
+			if (is.character(cex)) {
+				if (substr(cex, 1, 4)=="AREA") {
+					nc <- nchar(cex)
+					p <- if (nc>4) as.numeric(substr(cex, 5, nc)) else 2
+					cex <- get_areas(shp, normalize=TRUE)^(1/p)
+				} else {
+					cex <- shp[[gpl$text.cex]]
+					cex <- cex / max(cex)
+				}
+			} else cex <- rep(cex, lenght.out=length(shp))
+			text_sel <- (cex >= gpl$text.cex.lowerbound)
+			
+			if (gpl$text.print.tiny) {
+				cex[!text_sel] <- gpl$text.cex.lowerbound
+				text_sel <- rep(TRUE, length.out=length(shp))
+			}
+			
+			#cex[!text_sel] <- 0
+			cex <- cex * gpl$text.scale
+			
 			bgcols <- col2rgb(gpl$text.bg.color)
 			bgcols <- rgb(bgcols[1,], bgcols[2,], bgcols[3,], 
 						  alpha=gpl$text.bg.alpha, maxColorValue=255)
 			
-			tG <- textGrob(labels, x=unit(co.npc[,1], "npc"), y=unit(co.npc[,2], "npc"), gp=gpar(cex=gpl$text.cex, fontface=gpl$text.fontface))
+			tG <- textGrob(labels[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), gp=gpar(cex=cex[text_sel], fontface=gpl$text.fontface))
 			nlines <- rep(1, length(labels))
 			
-			tGH <- mapply(labels, gpl$text.cex, nlines, FUN=function(x,y,z){
+			tGH <- mapply(labels[text_sel], cex[text_sel], nlines[text_sel], FUN=function(x,y,z){
 				convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=gpl$text.fontface, fontfamily=gpl$text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
 
-			tGW <- mapply(labels, gpl$text.cex, FUN=function(x,y){
+			tGW <- mapply(labels[text_sel], cex[text_sel], FUN=function(x,y){
 				convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=gpl$text.fontface, fontfamily=gpl$text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
 			
 			tGX <- tG$x
@@ -154,10 +176,11 @@ plot_all <- function(gp) {
 								 			 c("npc", "null", "npc")), 
 								 widths=unit(c(margins[2], 1, margins[4]), 
 								 			c("npc", "null", "npc"))))
+	opar <- par("mai", "xaxs", "yaxs")
 	if (!gt$legend.only) {
 		pushViewport(gridLayoutMap)
 		cellplot(2, 2, e={
-			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0))#, xaxs="i", yaxs="i")
+			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0), xaxs="i", yaxs="i")
 			result <- plot_map(gp, gt)
 			scaleFactor <- result[[1]]
 			vp <- result[[2]]
@@ -212,4 +235,5 @@ plot_all <- function(gp) {
 		}
 	}
 	seekViewport(main_vp$name)
+	do.call("par", opar)
 }

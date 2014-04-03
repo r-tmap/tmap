@@ -1,4 +1,4 @@
-process_bubblemap <- function(shp, g, free.scales) {
+process_bubblemap <- function(shp, g, free.scales, legend.digits) {
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
 	bubble.border <- g$bubble.border
@@ -72,7 +72,8 @@ process_bubblemap <- function(shp, g, free.scales) {
 					colsLeg <- num2pal(dat, n, style=style, breaks=breaks, 
 									   palette = palette,
 									   auto.palette.mapping = auto.palette.mapping,
-									   contrast = contrast, legend.labels=labels)
+									   contrast = contrast, legend.labels=labels,
+									   legend.digits=legend.digits)
 				} else {
 					if (is.null(palette)) palette <- "Set3"
 					colsLeg <- cat2pal(dat,
@@ -108,7 +109,8 @@ process_bubblemap <- function(shp, g, free.scales) {
 				colsLeg <- num2pal(dat, n, style=style, breaks=breaks, 
 								   palette = palette,
 								   auto.palette.mapping = auto.palette.mapping,
-								   contrast = contrast, legend.labels=labels)
+								   contrast = contrast, legend.labels=labels,
+								   legend.digits=legend.digits)
 			} else {
 				if (is.null(palette)) palette <- "Set3"
 				colsLeg <- cat2pal(dat,

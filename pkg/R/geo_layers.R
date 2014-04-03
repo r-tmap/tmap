@@ -89,15 +89,22 @@ geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
 #' This layer adds text labels
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
-#' @param cex relative size of the text labels
+#' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable that is used to scale the sizes proportionally, or one of the following special cases
+#' \desribe{
+#' 		\item{\code{"AREA"}:}{text size is proportional to the squared root of the area size of the polygons.}
+#' 		\item{\code{"AREAx"}:}{text size is proportional to the x-th root of the area size of the polygons.}}
 #' @param fontcolor relative size of the text labels
 #' @param fontface font face of the text labels
 #' @param fontfamily font family of the text labels
 #' @param bg.color background color of the text labels
+#' @param cex.lowerbound lowerbound for \code{cex}. Needed to ignore the tiny labels in case \code{cex} is a variable.
+#' @param print.tiny boolean that determines if tiny labels (which size is smaller than \code{cex.lowerbound}) are print at size \code{cex.lowerbound}
+#' @param text scalar needed in case cex is based 
 #' @export
 #' @return \code{\link{geo-object}}
-geo_text <-  function(text, cex=1, fontcolor="black", fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=150) {
-	g <- list(geo_text=list(text=text, text.cex=cex, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha))
+geo_text <-  function(text, cex=1, fontcolor="black", fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1) {
+	g <- list(geo_text=list(text=text, text.cex=cex, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
+							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale))
 	class(g) <- "geo"
 	g
 }
@@ -209,8 +216,9 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 #' @param legend.cex Relative font size for the legend
 #' @param legend.digits Number of digits for the legend labels
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
-#' @param margins Relative margins. Vector of four values specifying the left, top, right and bottom margin. Values are between 0 and 1.
+#' @param margins Relative margins. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param frame.lwd Width of the frame
+#' @param frame.margins Frame margins
 #' @param legend.only Boolean that determines whether only the legend is shown
 #' @export
 geo_theme <- function(title=NULL,
@@ -226,8 +234,9 @@ geo_theme <- function(title=NULL,
 					  legend.cex = 0.8,
 					  legend.digits = 2,
 					  title.position = c("left", "top"),
-					  margins = NA,
+					  margins = rep(0.02, 4),
 					  frame.lwd=1,
+					  frame.margins=rep(0.02, 4),
 					  legend.only=FALSE) {
 	g <- list(geo_theme=as.list(environment()))
 	class(g) <- "geo"
@@ -242,13 +251,14 @@ geo_theme <- function(title=NULL,
 #' @rdname geo_theme
 #' @param ... other arguments from \code{geo_theme}
 #' @export
-geo_theme_World <- function(bg.color="lightblue1",
+geo_theme_World <- function(bg.color=rgb(.93, .97, 1),
 							draw.frame=TRUE, 
 							crop=TRUE,
 							legend.in.frame=TRUE, 
 							legend.position=c("left", "bottom"), 
-							legend.plot.size=c(.2, .2), 
-							legend.cex=0.6, 
+							legend.plot.size=c(.3, .2), 
+							legend.cex=0.7, 
+							frame.margins=c(0, 0.02, 0.05, 0.02),
 							...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("geo_theme", args)

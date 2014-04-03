@@ -1,4 +1,4 @@
-process_choro <- function(shp, g, free.scales) {
+process_choro <- function(shp, g, free.scales, legend.digits) {
 	x <- g$col
 	n <- g$n
 	convert2density <- g$convert2density
@@ -34,7 +34,8 @@ process_choro <- function(shp, g, free.scales) {
                                    palette = palette,
                                    auto.palette.mapping = auto.palette.mapping,
                                    contrast = contrast, legend.labels=labels,
-                                   colorNA=colorNA)
+                                   colorNA=colorNA,
+            					   legend.digits=legend.digits)
                 
                 choro.breaks[[i]] <- colsLeg[[4]]
             }
@@ -55,7 +56,8 @@ process_choro <- function(shp, g, free.scales) {
     						   palette = palette,
     						   auto.palette.mapping = auto.palette.mapping,
     						   contrast = contrast, legend.labels=labels,
-    						   colorNA=colorNA)
+    						   colorNA=colorNA, 
+    						   legend.digits=legend.digits)
     		choro.breaks <- colsLeg[[4]]
         }
 		fill <- matrix(unlist(split(colsLeg[[1]], 

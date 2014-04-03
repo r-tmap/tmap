@@ -34,7 +34,8 @@ print.geo <- function(g) {
 	gs <- split(gbody, cluster.id)
 
 	## convert clusters to layers
-	gp <- lapply(gs, FUN=process_layers, free.scales=gmeta$geo_grid$free.scales)
+	gp <- lapply(gs, FUN=process_layers, free.scales=gmeta$geo_grid$free.scales,
+				 legend.digits=gmeta$geo_theme$legend.digits)
 	
 	## determine maximal number of variables
 	nx <- max(sapply(gp, function(x) {
@@ -165,56 +166,45 @@ process_projection <- function(g) {
 }
 
 process_meta <- function(g, nx, varnames) {
-	ggrid <- g$geo_grid
-	if (is.null(ggrid$ncol) && is.null(ggrid$nrow)) {
-		## default setting: place next to each other, or in grid
-		if (nx <= 3) {
-			ggrid$ncol <- nx
-			ggrid$nrow <- 1
+	
+	g$geo_grid <- within(g$geo_grid, {
+		if (is.null(ncol) && is.null(nrow)) {
+			## default setting: place next to each other, or in grid
+			if (nx <= 3) {
+				ncol <- nx
+				nrow <- 1
+			} else {
+				ncol <- ceiling(sqrt(nx))
+				nrow <- ceiling(nx / ncol)
+			}
 		} else {
-			ggrid$ncol <- ceiling(sqrt(nx))
-			ggrid$nrow <- ceiling(nx / ggrid$ncol)
+			if (is.null(ncol)) ncol <- 1
+			if (is.null(nrow)) nrow <- 1
 		}
-	} else {
-		if (is.null(ggrid$ncol)) ggrid$ncol <- 1
-		if (is.null(ggrid$nrow)) ggrid$nrow <- 1
-	}
-	g$geo_grid <- ggrid
-
-	gtheme <- g$geo_theme
-	if (is.null(gtheme$title)) {
-		id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
-		gtheme$title <- if (!is.na(id)) varnames[[id]] else rep("", nx)
-	} else {
-		gtheme$title <- if (gtheme$title[1]=="choro.fill") {
-			varnames[[1]]	
-		} else if (gtheme$title[1]=="bubble.size") {
-			varnames[[2]]	
-		} else if (gtheme$title[1]=="bubble.col") {
-			varnames[[3]]	
-		} else gtheme$title
-	}
-	if (length(gtheme$title) < nx) gtheme$title <- rep(gtheme$title, length.out=nx)
-
-	if (is.null(gtheme$show.legend.text)) gtheme$show.legend.text <- (!is.na(varnames$choro.fill[1]) || !is.na(varnames$bubble.col[1]))
-	if (is.null(gtheme$type.legend.plot)) gtheme$type.legend.plot <- ifelse(!is.na(varnames$choro.fill[1]), "hist", 
-																			ifelse(!is.na(varnames$bubble.size[1]), "bubble", "none"))
+	})
 	
-#	if (gzoom$xlim[1] > 0 || gzoom$xlim[2] < 1 || gzoom$ylim[1] > 0 || gzoom$ylim[2] < 1) {
-		if (is.na(gtheme$margins[1])) gtheme$margins <- c(0.05, 0.05, 0.05, 0.05)
-#		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- TRUE
-#	} else {
-#		if (is.na(gtheme$margins[1])) gtheme$margins <- rep(0, 4)
-#		if (is.na(gtheme$draw.frame)) gtheme$draw.frame <- FALSE
-#	}
-	if (is.na(gtheme$legend.plot.size[1])) {gtheme$legend.plot.size <- if (gtheme$legend.only) c(0.4, 0.9) else c(0.2,0.35)}
-	g$geo_theme <- gtheme
+	g$geo_theme <- within(g$geo_theme, {
+		if (is.null(title)) {
+			id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
+			title <- if (!is.na(id)) varnames[[id]] else rep("", nx)
+		} else title <- switch(title[1],
+							   choro.fill=varnames[[1]],
+							   bubble.size=varnames[[2]],
+							   bubble.col=varnames[[3]],
+							   title)
+		if (length(title) < nx) title <- rep(title, length.out=nx)
 	
+		if (is.null(show.legend.text)) show.legend.text <- (!is.na(varnames$choro.fill[1]) || !is.na(varnames$bubble.col[1]))
+		if (is.null(type.legend.plot)) type.legend.plot <- ifelse(!is.na(varnames$choro.fill[1]), "hist", 
+																				ifelse(!is.na(varnames$bubble.size[1]), "bubble", "none"))
+		
+		if (is.na(legend.plot.size[1])) legend.plot.size <- if (legend.only) c(0.4, 0.9) else c(0.2,0.35)
+	})	
 	g
 }
 
 split_geo <- function(gp, nx) {
-	gps <- lapply(1:nx, function(i){
+	lapply(1:nx, function(i){
 		g <- gp
 		g <- lapply(g, function(x) {
 			x$fill <- get_ids(x$fill, i)
@@ -231,7 +221,6 @@ split_geo <- function(gp, nx) {
 			x
 		})
 	})
-	gps
 }
 
 get_ids <- function(x, i) {

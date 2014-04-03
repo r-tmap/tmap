@@ -3,6 +3,10 @@ set_bounding_box <- function(gp, gt) {
 		shp <- gpl$shp
 		
 		bb <- shp@bbox
+		bbrange <- bb[,2] - bb[,1]
+		bbmarg <- gt$frame.margins[c(2,1,4,3)]
+		bbmarg[c(1,2)] <- -bbmarg[c(1,2)]
+		bb <- bb + rep(bbrange, 2) * bbmarg
 		
 		if (gt$draw.frame) {
 			bbcoords <- cbind(x=bb[1,][c(1, 1, 2, 2, 1)], y=bb[2,][c(1, 2, 2, 1, 1)])

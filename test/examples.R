@@ -21,7 +21,6 @@ geo_shape(NLD_prov) +
 geo_borders(lwd=2) +
 geo_text("name", bg.color="white", bg.alpha=150) +
 geo_theme_NLD(title="Population (per km2)", legend.digits=0)
-## todo: legend.digits
 
 
 (g <- geo_shape(World) +
@@ -29,14 +28,12 @@ geo_theme_NLD(title="Population (per km2)", legend.digits=0)
  	geo_borders() +
  	geo_theme_World())
 
-#log scale from 0 to 30000
-log1p(5000)
-exp(seq(0, 8.5, length.out=7))
 
 (g <- geo_shape(World) +
  	geo_choropleth("pop_est_km", style="fixed", breaks=c(0, 5, 20, 100, 250, 1000, 30000), palette="YlOrRd", auto.palette.mapping=FALSE) +
  	geo_borders() +
- 	geo_theme(legend.position=c("left", "bottom"), type.legend.plot="none", legend.plot.size=c(.2, .2), legend.cex=0.6, draw.frame=TRUE))
+ 	geo_theme_World(type.legend.plot="none", title="Population density per km2", title.cex=1.8,
+ 					title.position=c("center", "top"), frame.margins=c(0,.05,.1,.05)))
 
 
 
@@ -49,8 +46,10 @@ exp(seq(0, 8.5, length.out=7))
 (g <- geo_shape(Europe) +
 	geo_choropleth("gdp_cap_est", style="kmeans") +
  	geo_borders() +
- 	geo_bubblemap("pop_est", scale=5) +
- 	geo_theme(legend.position=c("left", "top"), legend.plot.size=c(.3, .25), legend.cex=0.6, draw.frame=TRUE))
+ 	geo_text("iso_a3", cex="AREA2", scale=4) +
+ 	geo_theme(legend.position=c("left", "top"), legend.plot.size=c(.3, .25), 
+ 			  legend.cex=0.6, draw.frame=TRUE,
+ 			  frame.margins=c(0,.2,0,0)))
 
 
 (g <- geo_shape(NLD_prov) +
@@ -70,17 +69,3 @@ exp(seq(0, 8.5, length.out=7))
 
 
 
-(g <- geo_shape(NLD_muni) +
- 	geo_choropleth(col=c("pop", "gender"), convert2density=TRUE, style="kmeans")+
- 	geo_borders(col="gray", lwd=1) +
- 	geo_text("code", cex=.3) +
- 	geo_shape(NLD_prov) +
- 	geo_borders(lwd=2) +
- 	geo_text("name", cex=.5) +
- 	geo_grid(free.scales=TRUE) +
- 	geo_theme(title=c("Population", "Gender")) + 
- 	geo_zoom(c(.3, .5), c(.3, .5), units="rel"))
-
-(g <- geo_shape(World) +
- 	geo_borders() +
- 	geo_theme(draw.frame=TRUE))

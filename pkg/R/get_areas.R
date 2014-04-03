@@ -5,11 +5,13 @@
 #' @param shp shape object, i.e. a SpatialPolygons(DataFrame)
 #' @return numeric vector of area sizes
 #' @export
-get_areas <- function(shp) {
-    sapply(slot(shp, "polygons"),
+get_areas <- function(shp, normalize=FALSE) {
+    x <- sapply(slot(shp, "polygons"),
            function(x) {
            	x@area
 #                sum(sapply(slot(x, "Polygons"), slot, "area")*
 #                        (.5-sapply(slot(x, "Polygons"), slot, "hole"))*2)
            })
+	if (normalize) x <- x / max(x)
+	x
 }
