@@ -1,7 +1,7 @@
 num2pal <- function(x, n = 5,
 					   style = "pretty",
                        breaks = NULL,
-					   palette = "RdBu",
+					   palette = NULL,
 					   auto.palette.mapping = TRUE,
 					   contrast = 1,
 					   legend.labels = NULL,
@@ -27,24 +27,24 @@ num2pal <- function(x, n = 5,
 	# map palette
 	mc <- brewer.pal.info[palette, "maxcolors"]
 	if (auto.palette.mapping) {
+		is.div <- (brewer.pal.info[palette, "category"]=="div")
+
 		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)))(101)
 
 		mx <- max(abs(breaks))
 		
+		# define neutral category
 		brk0 <- which(breaks[1:(nbrks-1)] < 0 & breaks[2:nbrks] > 0)
-		
 		if (length(brk0)==0) brk0 <- ifelse(breaks[1]>=0, 1, nbrks-1)
 		
-		ids <- rep(51, nbrks-1)
-
-		if (brk0 < nbrks-1) {
-			ids[brk0:(nbrks-1)] <- 51 + seq(0, 50/mx*breaks[nbrks]*contrast, 
-											length.out=nbrks-brk0)
-		}
-		if (brk0 > 1) {
-			ids[1:brk0] <- seq(51-(50/mx*-breaks[1]*contrast), 51, 
-											length.out=brk0)
-		}
+		if (is.div) {
+			# diverging
+			ids <- rep(51, nbrks-1)
+			if (brk0 < nbrks-1) ids[brk0:(nbrks-1)] <- 51 + seq(0, 50/mx*breaks[nbrks]*contrast, 
+												length.out=nbrks-brk0)
+			if (brk0 > 1) ids[1:brk0] <- seq(51-(50/mx*-breaks[1]*contrast), 51, 
+												length.out=brk0)
+		} else ids <- seq(1, 1+100*contrast, length.out=nbrks-1)
 		
 		legend.palette <- colpal[ids]
 	} else {

@@ -64,12 +64,13 @@ plot_map <- function(gp, gt) {
 				widths=unit(c(1,npc.w, 1), c("null", "snpc", "null")),
 				heights=unit(c(1,npc.h, 1), c("null", "snpc", "null")))))
 
-	if (draw.frame) {
-		cellplot(1:3, 1, e=grid.rect(gp=gpar(col="white", fill="white")))
-		cellplot(1:3, 3, e=grid.rect(gp=gpar(col="white", fill="white")))
-		cellplot(1, 2, e=grid.rect(gp=gpar(col="white", fill="white")))
-		cellplot(3, 2, e=grid.rect(gp=gpar(col="white", fill="white")))
-	}
+	bg.col <- ifelse(draw.frame, "white", gt$bg.color)
+		
+	cellplot(1:3, 1, e=grid.rect(gp=gpar(col=bg.col, fill=bg.col)))
+	cellplot(1:3, 3, e=grid.rect(gp=gpar(col=bg.col, fill=bg.col)))
+	cellplot(1, 2, e=grid.rect(gp=gpar(col=bg.col, fill=bg.col)))
+	cellplot(3, 2, e=grid.rect(gp=gpar(col=bg.col, fill=bg.col)))
+
 	vp <- viewport(layout.pos.col=2, layout.pos.row=2)
 	pushViewport(vp)
 
@@ -120,7 +121,7 @@ plot_map <- function(gp, gt) {
 				if (substr(cex, 1, 4)=="AREA") {
 					nc <- nchar(cex)
 					p <- if (nc>4) as.numeric(substr(cex, 5, nc)) else 2
-					cex <- get_areas(shp, normalize=TRUE)^(1/p)
+					cex <- approx_areas(shp, units="norm")^(1/p)
 				} else {
 					cex <- shp[[gpl$text.cex]]
 					cex <- cex / max(cex)

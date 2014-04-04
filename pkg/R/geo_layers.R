@@ -114,7 +114,7 @@ geo_text <-  function(text, cex=1, fontcolor="black", fontface="plain", fontfami
 #' This layer speficies a choropleth. A color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
 #' 
 #' @param col name of variable that is contained in \code{shp}
-#' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlBu"} is taken for numeric variables, and \code{"Dark2"} for categorical variables.
+#' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for  numeric variables that contain both negative and positive values, \code{"Blues"} for numeric variables that contain non-negative values, and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. Note that the conversion to densities is an approximation where the total area size is given by the argument \code{total.area.km2}.
 #' @param style method to cut the color scale (in case \code{col} is a numeric variable): "fixed", "equal", "pretty", "quantile", "kmeans"
@@ -136,7 +136,7 @@ geo_choropleth <- function(col,
 						    labels = NULL,
 							auto.palette.mapping = TRUE,
 							contrast = 1,
-							colorNA = "#DDDDDD",
+							colorNA = "#BBBBBB",
 							total.area.km2=NA) {
 	
 	g <- list(geo_choropleth=as.list(environment()))
@@ -251,7 +251,7 @@ geo_theme <- function(title=NULL,
 #' @rdname geo_theme
 #' @param ... other arguments from \code{geo_theme}
 #' @export
-geo_theme_World <- function(bg.color=rgb(.93, .97, 1),
+geo_theme_World <- function(bg.color="grey98", #rgb(.93, .97, 1)
 							draw.frame=TRUE, 
 							crop=TRUE,
 							legend.in.frame=TRUE, 

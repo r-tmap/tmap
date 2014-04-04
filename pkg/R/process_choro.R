@@ -13,7 +13,7 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 	
 	nx <- length(x)
 	X <- shp@data[, x, drop=FALSE]
-	if (convert2density) X <- calc_densities(shp, var=x, total.area.km2=ifelse(is.na(total.area.km2), 1, total.area.km2), drop=FALSE)
+	if (convert2density) X <- calc_densities(shp, var=x, total.area.km2=total.area.km2, drop=FALSE)
 	
 	if (free.scales && nx > 1) {
 		fill <- matrix("", ncol=nx, nrow=nrow(X))
@@ -22,15 +22,21 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 		choro.breaks <- list()
 		
 		for (i in 1:nx) {
-            if (is.factor(X[[i]])) {
+			XX <- X[[i]]
+            if (is.factor(XX)) {
             	if (is.null(palette)) palette <- "Dark2"
-                colsLeg <- cat2pal(X[[i]],
+                colsLeg <- cat2pal(XX,
                                    palette = palette,
                                    colorNA = colorNA)
                 choro.breaks[[i]] <- NA
             } else {
-            	if (is.null(palette)) palette <- "RdYlBu"
-            	colsLeg <- num2pal(X[[i]], n, style=style, breaks=breaks, 
+            	if (is.null(palette)) {
+            		anyPos <- any(XX>0, na.rm=TRUE)
+            		anyNeg <- any(XX<0, na.rm=TRUE)
+            		palette <- ifelse(anyPos && !anyNeg, "Blues",
+            						  ifelse(!anyPos && anyNeg, "-Reds", "RdYlBu"))
+            	}
+            	colsLeg <- num2pal(XX, n, style=style, breaks=breaks, 
                                    palette = palette,
                                    auto.palette.mapping = auto.palette.mapping,
                                    contrast = contrast, legend.labels=labels,
@@ -44,15 +50,21 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 			choro.legend.palette[[i]] <- colsLeg[[3]]
 		}
 	} else {
-        if (is.factor(X[[1]])) {
+		XX <- unlist(X)
+        if (is.factor(XX)) {
         	if (is.null(palette)) palette <- "Dark2"
-        	colsLeg <- cat2pal(unlist(X),
+        	colsLeg <- cat2pal(XX,
                                palette = palette,
                                colorNA = colorNA)
             choro.breaks <- NA
         } else {
-        	if (is.null(palette)) palette <- "RdYlBu"
-        	colsLeg <- num2pal(unlist(X), n, style=style, breaks=breaks, 
+        	if (is.null(palette)) {
+        		anyPos <- any(XX>0, na.rm=TRUE)
+        		anyNeg <- any(XX<0, na.rm=TRUE)
+        		palette <- ifelse(anyPos && !anyNeg, "Blues",
+        						  ifelse(!anyPos && anyNeg, "-Reds", "RdYlBu"))
+        	}
+        	colsLeg <- num2pal(XX, n, style=style, breaks=breaks, 
     						   palette = palette,
     						   auto.palette.mapping = auto.palette.mapping,
     						   contrast = contrast, legend.labels=labels,

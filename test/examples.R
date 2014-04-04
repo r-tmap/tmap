@@ -20,11 +20,11 @@ geo_borders() +
 geo_shape(NLD_prov) +
 geo_borders(lwd=2) +
 geo_text("name", bg.color="white", bg.alpha=150) +
-geo_theme_NLD(title="Population (per km2)", legend.digits=0)
+geo_theme_NLD(title="Population (per km2)", legend.digits=0, bg.color="grey")
 
 
 (g <- geo_shape(World) +
- 	geo_choropleth(c("gdp_cap_est"), style="kmeans", palette="RdYlGn") +
+ 	geo_choropleth(c("gdp_cap_est"), style="kmeans") +
  	geo_borders() +
  	geo_theme_World())
 
