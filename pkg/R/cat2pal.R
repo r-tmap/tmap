@@ -19,9 +19,16 @@ cat2pal <- function(x,
 		
 		x <- factor(mapping[as.integer(x)], levels=1:max_levels, labels=new_lvls)
 	}
+	
+	# reverse palette
+	if (substr(palette, 1, 1)=="-") {
+		revPal <- function(p)rev(p)
+		palette <- substr(palette, 2, nchar(palette))
+	} else revPal <- function(p)p
+	
 
 	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
-	    brewer.pal(name=palette, nlevels(x))
+		revPal(brewer.pal(name=palette, nlevels(x)))
 	} else {
         rep(palette, length.out=nlevels(x))
 	}

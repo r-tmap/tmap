@@ -223,7 +223,7 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 #' @export
 geo_theme <- function(title=NULL,
 					  title.cex=1.5,
-					  bg.color=NA,
+					  bg.color="grey95",
 					  draw.frame=FALSE,
 					  crop=draw.frame,
 					  show.legend.text=NULL,
@@ -234,7 +234,7 @@ geo_theme <- function(title=NULL,
 					  legend.cex = 0.8,
 					  legend.digits = 2,
 					  title.position = c("left", "top"),
-					  margins = rep(0.02, 4),
+					  margins = rep(0, 4),
 					  frame.lwd=1,
 					  frame.margins=rep(0.02, 4),
 					  legend.only=FALSE) {
@@ -251,24 +251,42 @@ geo_theme <- function(title=NULL,
 #' @rdname geo_theme
 #' @param ... other arguments from \code{geo_theme}
 #' @export
-geo_theme_World <- function(bg.color="grey98", #rgb(.93, .97, 1)
+geo_theme_World <- function(title=NULL,
+							title.cex=1.5,
 							draw.frame=TRUE, 
 							crop=TRUE,
-							legend.in.frame=TRUE, 
 							legend.position=c("left", "bottom"), 
-							legend.plot.size=c(.3, .2), 
-							legend.cex=0.7, 
-							frame.margins=c(0, 0.02, 0.05, 0.02),
+							legend.plot.size=c(.2, .2), 
+							legend.cex=0.6,
+							title.position = c("left", "bottom"),
+							margins=rep(.02, 4),
+							frame.margins=c(0, 0.02, 0.02, 0.02),
 							...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("geo_theme", args)
 }
+
+#' @rdname geo_theme
+#' @param ... other arguments from \code{geo_theme}
+#' @export
+geo_theme_Europe <- function(title=NULL,
+							 draw.frame=TRUE, 
+							legend.position=c("left", "top"), 
+							legend.plot.size=c(.3, .25), 
+							legend.cex=0.7,
+							margins=rep(0.02, 4),
+							frame.margins=c(0, 0.2, 0, 0),
+							...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("geo_theme", args)
+}
+
 	
 #' @rdname geo_theme
 #' @param ... other arguments from \code{geo_theme}
 #' @export
-geo_theme_NLD <- function(
-							draw.frame=FALSE, 
+geo_theme_NLD <- function(title=NULL,
+						  draw.frame=FALSE, 
 							legend.in.frame=FALSE, 
 							legend.position=c("left", "top"), 
 							legend.plot.size=c(.25, .4), 

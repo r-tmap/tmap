@@ -16,7 +16,7 @@ plot_map <- function(gp, gt) {
 	add <- c(FALSE, rep(TRUE, length(gp)-1))	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
-		plot(gpl$shp, col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l])
+		plot(gpl$shp, col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=NA)
 	}
 	
 	## set grid viewport (second line needed for small multiples)
@@ -105,13 +105,17 @@ plot_map <- function(gp, gt) {
 			
 			if (length(sizes)!=1) {
 				decreasing <- order(-sizes)
-				co.npc <- co.npc[decreasing,]
-				sizes <- sizes[decreasing]
-				cols <- if (length(cols)==1) cols else cols[decreasing]
+				co.npc2 <- co.npc[decreasing,]
+				sizes2 <- sizes[decreasing]
+				cols2 <- if (length(cols)==1) cols else cols[decreasing]
+			} else {
+				co.npc2 <- co.npc
+				sizes2 <- sizes
+				col2 <- cols
 			}
-			grid.circle(x=unit(co.npc[,1], "npc"), y=unit(co.npc[,2], "npc"),
-						r=unit(sizes, "inches"),
-						gp=gpar(col=borders, fill=cols))
+			grid.circle(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
+						r=unit(sizes2, "inches"),
+						gp=gpar(col=borders, fill=cols2))
 		}
 		if (!is.na(gpl$text)) {
 			

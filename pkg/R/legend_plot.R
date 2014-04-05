@@ -145,7 +145,7 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
             ptx <- levels(values)
             colors <- legend.palette
 		} else {
-		    breaks2 <- pretty(values, n=100)
+		    breaks2 <- pretty(values, n=30)
 		    bins.mean <- (breaks2[-1] + breaks2[1:(length(breaks2)-1)])/2
 		    
 		    toolow <- (bins.mean < min(breaks))
@@ -166,7 +166,7 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 		    xticks <- (ptx - rng[1]) / (rng[2] - rng[1])
 		}
 		maxnumber <- max(numbers)
-		pty <- pretty(numbers, n=5)
+		pty <- pretty(c(0, numbers), n=5)
 		
 		xaxis <- 0
 		hs <- numbers / maxnumber
