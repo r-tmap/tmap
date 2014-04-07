@@ -82,7 +82,7 @@ plot_map <- function(gp, gt) {
 		gpl <- gp[[l]]
 		shp <- gpl$shp
 		
-		npol <- length(shp)
+		#npol <- length(shp)
 		
 		co <- coordinates(shp)
 		
@@ -91,35 +91,13 @@ plot_map <- function(gp, gt) {
 		co.npc <- co
 		co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
 		co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
+
 		if (!is.na(gpl$bubble.size[1])) {
-			sizes <- gpl$bubble.size
-			if (length(sizes)!=npol) {
-				if (length(sizes)!=1) warning("less bubble size values than objects")
-				sizes <- rep(sizes, length.out=npol)
-			}
-				
-			sizes <- sizes * scaleFactor
-			
-			cols <- rep(gpl$bubble.col, length.out=npol)
-			borders <- gpl$bubble.border
-			
-			if (length(sizes)!=1) {
-				decreasing <- order(-sizes)
-				co.npc2 <- co.npc[decreasing,]
-				sizes2 <- sizes[decreasing]
-				cols2 <- if (length(cols)==1) cols else cols[decreasing]
-			} else {
-				co.npc2 <- co.npc
-				sizes2 <- sizes
-				col2 <- cols
-			}
-			grid.circle(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
-						r=unit(sizes2, "inches"),
-						gp=gpar(col=borders, fill=cols2))
+
+			plot_bubbles(co.npc, gpl$bubble.size, gpl$bubble.col, gpl$bubble.border, scaleFactor)
 		}
 		if (!is.na(gpl$text)) {
 			
-			labels <- shp[[gpl$text]]
 			cex <- gpl$text.cex
 			if (is.character(cex)) {
 				if (substr(cex, 1, 4)=="AREA") {
@@ -131,39 +109,74 @@ plot_map <- function(gp, gt) {
 					cex <- cex / max(cex)
 				}
 			} else cex <- rep(cex, lenght.out=length(shp))
-			text_sel <- (cex >= gpl$text.cex.lowerbound)
 			
-			if (gpl$text.print.tiny) {
-				cex[!text_sel] <- gpl$text.cex.lowerbound
-				text_sel <- rep(TRUE, length.out=length(shp))
-			}
+			plot_text(co.npc, shp[[gpl$text]], cex, gpl$text.cex.lowerbound, gpl$text.bg.color, gpl$text.bg.alpha, gpl$text.scale, gpl$text.print.tiny, gpl$text.fontface, gpl$text.fontfamily)
 			
-			#cex[!text_sel] <- 0
-			cex <- cex * gpl$text.scale
-			
-			bgcols <- col2rgb(gpl$text.bg.color)
-			bgcols <- rgb(bgcols[1,], bgcols[2,], bgcols[3,], 
-						  alpha=gpl$text.bg.alpha, maxColorValue=255)
-			
-			tG <- textGrob(labels[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), gp=gpar(cex=cex[text_sel], fontface=gpl$text.fontface))
-			nlines <- rep(1, length(labels))
-			
-			tGH <- mapply(labels[text_sel], cex[text_sel], nlines[text_sel], FUN=function(x,y,z){
-				convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=gpl$text.fontface, fontfamily=gpl$text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
-
-			tGW <- mapply(labels[text_sel], cex[text_sel], FUN=function(x,y){
-				convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=gpl$text.fontface, fontfamily=gpl$text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
-			
-			tGX <- tG$x
-			tGY <- tG$y
-			bcktG <- rectGrob(x=tGX, y=tGY, width=tGW, height=tGH, gp=gpar(fill=bgcols, col=NA))
-			grid.draw(bcktG)
-			grid.draw(tG)
 		}
 	
 	}
 	upViewport(5)
 	list(scaleFactor=scaleFactor, vp=vp)
+}
+
+
+plot_bubbles <- function(co.npc, sizes, bubble.col, bubble.border, scaleFactor) {
+	npol <- nrow(co.npc)
+	if (length(sizes)!=npol) {
+		if (length(sizes)!=1) warning("less bubble size values than objects")
+		sizes <- rep(sizes, length.out=npol)
+	}
+	
+	sizes <- sizes * scaleFactor
+	
+	cols <- rep(bubble.col, length.out=npol)
+	borders <- bubble.border
+	
+	if (length(sizes)!=1) {
+		decreasing <- order(-sizes)
+		co.npc2 <- co.npc[decreasing,]
+		sizes2 <- sizes[decreasing]
+		cols2 <- if (length(cols)==1) cols else cols[decreasing]
+	} else {
+		co.npc2 <- co.npc
+		sizes2 <- sizes
+		col2 <- cols
+	}
+	grid.circle(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
+				r=unit(sizes2, "inches"),
+				gp=gpar(col=borders, fill=cols2))
+}
+
+plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.bg.color, text.bg.alpha, text.scale, text.print.tiny, text.fontface, text.fontfamily) {
+	
+	text_sel <- (cex >= text.cex.lowerbound)
+	
+	if (text.print.tiny) {
+		cex[!text_sel] <- text.cex.lowerbound
+		text_sel <- rep(TRUE, length.out=length(shp))
+	}
+	
+	#cex[!text_sel] <- 0
+	cex <- cex * text.scale
+	
+	bgcols <- col2rgb(text.bg.color)
+	bgcols <- rgb(bgcols[1,], bgcols[2,], bgcols[3,], 
+				  alpha=text.bg.alpha, maxColorValue=255)
+	
+	tG <- textGrob(labels[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), gp=gpar(cex=cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+	nlines <- rep(1, length(labels))
+	
+	tGH <- mapply(labels[text_sel], cex[text_sel], nlines[text_sel], FUN=function(x,y,z){
+		convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
+	
+	tGW <- mapply(labels[text_sel], cex[text_sel], FUN=function(x,y){
+		convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
+	
+	tGX <- tG$x
+	tGY <- tG$y
+	bcktG <- rectGrob(x=tGX, y=tGY, width=tGW, height=tGH, gp=gpar(fill=bgcols, col=NA))
+	grid.draw(bcktG)
+	grid.draw(tG)
 }
 
 
