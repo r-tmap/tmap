@@ -159,22 +159,52 @@ slot(eur3, "polygons") <- lapply(slot(eur3, "polygons"),
 									   checkPolygonsHoles) 
 
 ## use better projection for Europe
-eur4 <- spTransform(eur3 ,CRS("+proj=utm +zone=33 +north"))
+#eur4 <- spTransform(eur3 ,CRS("+proj=utm +zone=34 +north"))
+## Lambert Conformal Conic
+#eur4 <- spTransform(eur3, CRS("+proj=lcc +lat_1=45 +lat_2=55 +lat_0=10 +lon_0=10"))
+
+# Lambert azimuthal equal-area projection
+eur4 <- spTransform(eur3, CRS("+proj=laea +lat_0=35 +lon_0=15 +x_0=0 +y_0=0"))
+
+
 gIsValid(eur4, reason = TRUE)
 
 
 ## set bounding box
-eur4@bbox[,] <- c(-2200000, 3800000, 3400000, 8000000)
+eur4@bbox[,] <- c(-3200000, -50000, 3000000, 4100000)
 
 
 eur5 <- append_data(eur4, ed[c(1:70, 58), ])
 eur5@data[71, 8:11] <- NA
 
+geo_shape(eur5) + geo_borders() + geo_theme(draw.frame=TRUE)
 
 ## save Europe
 Europe <- eur5
 
 save(Europe, file="./data/Europe.rda", compress="xz")
+
+
+## test Kazachstan and Russia (Asia) projection
+
+Eur <- Europe[-c(37,71), ]
+Eur2 <- spTransform(Eur, CRS("+proj=longlat +datum=WGS84"))
+
+x <- lapply(Eur@polygons[[1]]@Polygons, function(x)x@coords)
+lapply(x, function(y)apply(y, MARGIN=2, min))
+lapply(x, function(y)apply(y, MARGIN=2, max))
+
+gIsValid(Eur, reason=TRUE)
+
+EurS <- gSimplify(Eur, tol=200000)
+plot(EurS)
+
+EurS2 <- spTransform(eur4, CRS("+proj=longlat +datum=WGS84"))
+
+## other projections
+
+gIsValid(eur4, reason = TRUE)
+plot(eur4)
 
 
 ###########################################################################
