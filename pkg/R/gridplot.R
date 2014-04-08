@@ -1,4 +1,4 @@
-gridplot <- function(mfrow, mfcol, fun, nx, gps, assign.to.vp=FALSE) {
+gridplot <- function(mfrow, mfcol, fun, nx, shps, gps, assign.to.vp=FALSE) {
 	cl <- rw <- 1
 	for (i in 1:nx) {
 		# set grid layout at each new page page iteration
@@ -6,11 +6,12 @@ gridplot <- function(mfrow, mfcol, fun, nx, gps, assign.to.vp=FALSE) {
 			pushViewport(viewport(layout=grid.layout(mfrow, mfcol)))
 		}
 		if (assign.to.vp) {
-			do.call(fun, args=list(gps=gps[[i]], 
+			do.call(fun, args=list(shps=shps,
+								   gps=gps[[i]], 
 								   vp=viewport(layout.pos.row=rw, 
 								   			layout.pos.col=cl)))
 		} else {
-			cellplot(rw, cl, e=do.call(fun, args=c(list(gps[[i]]))))
+			cellplot(rw, cl, e=do.call(fun, args=list(shps, gps[[i]])))
 		}
 		
 		cl <- cl + 1

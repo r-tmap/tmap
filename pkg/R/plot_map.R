@@ -1,6 +1,6 @@
 
 
-plot_map <- function(gp, gt) {
+plot_map <- function(shps, gp, gt) {
 	draw.frame <- gt$draw.frame
 	frame.lwd <- gt$frame.lwd
 	
@@ -10,13 +10,15 @@ plot_map <- function(gp, gt) {
 	#gp <- lapply(gp, function(g) {g$shp <- get(g$shp); g})
 	
 	## set bounding box and frame
-	gp <- set_bounding_box(gp, gt)
+	sgp <- set_bounding_box(shps, gp, gt)
+	shps <- lapply(sgp, function(x)x$shp)
+	gp <- lapply(sgp, function(x)x$layer)
 	
 	## plot shapes
 	add <- c(FALSE, rep(TRUE, length(gp)-1))	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
-		plot(gpl$shp, col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=NA)
+		plot(shps[[l]], col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=NA)
 	}
 	
 	## set grid viewport (second line needed for small multiples)
@@ -24,7 +26,7 @@ plot_map <- function(gp, gt) {
 	vps$figure[c("x", "y", "width", "height")] <- vps$plot[c("x", "y", "width", "height")]
 	pushViewport(vps$inner, vps$figure, vps$plot)
 
-	bb <- gp[[1]]$shp@bbox
+	bb <- shps[[1]]@bbox
  	ys <- convertY(unit(bb[2,], "native"), "npc", valueOnly=TRUE)
  	xs <- convertX(unit(bb[1,], "native"), "npc", valueOnly=TRUE)
 	
@@ -80,7 +82,7 @@ plot_map <- function(gp, gt) {
 	for (l in 1:nlayers) {
 		
 		gpl <- gp[[l]]
-		shp <- gpl$shp
+		shp <- shps[[l]]
 		
 		#npol <- length(shp)
 		
@@ -180,7 +182,7 @@ plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.bg.color, t
 }
 
 
-plot_all <- function(gp) {
+plot_all <- function(shps, gp) {
 	main_vp <- current.viewport()
 	gt <- gp$geo_theme
 	
@@ -199,7 +201,7 @@ plot_all <- function(gp) {
 		pushViewport(gridLayoutMap)
 		cellplot(2, 2, e={
 			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0), xaxs="i", yaxs="i")
-			result <- plot_map(gp, gt)
+			result <- plot_map(shps, gp, gt)
 			scaleFactor <- result[[1]]
 			vp <- result[[2]]
 		})
@@ -229,7 +231,7 @@ plot_all <- function(gp) {
 	if (!is.na(isChoroLegend)) {
 		if (isChoroLegend) {
 			gc <- gp[[choroID]]
-			if (gt$show.legend.text || gt$type.legend.plot!="none") {
+			if (gt$legend.show.text || gt$legend.plot.type!="none") {
 				legendPlot(gt=gt, 
 						   legend.palette=gc$choro.legend.palette, 
 						   legend.labels=gc$choro.legend.labels, 

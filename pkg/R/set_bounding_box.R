@@ -1,7 +1,5 @@
-set_bounding_box <- function(gp, gt) {
-	lapply(gp, function(gpl) {
-		shp <- gpl$shp
-		
+set_bounding_box <- function(shps, gp, gt) {
+	mapply(function(shp, gpl) {
 		bb <- shp@bbox
 		bbrange <- bb[,2] - bb[,1]
 		bbmarg <- gt$frame.margins[c(2,1,4,3)]
@@ -29,7 +27,6 @@ set_bounding_box <- function(gp, gt) {
 		} else {
 			shp@bbox <- bb
 		}
-		gpl$shp <- shp
-		gpl
-	})
+		list(shp=shp, layer=gpl)
+	}, shps, gp, SIMPLIFY=FALSE)
 }

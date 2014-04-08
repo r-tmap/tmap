@@ -28,7 +28,7 @@ geo_theme_NLD(title="Population (per km2)", bg.color="gray80", legend.digits=0, 
  	geo_choropleth("pop_est_km", style="fixed", breaks=c(0, 5, 20, 100, 250, 1000, 30000), palette="YlOrRd", auto.palette.mapping=FALSE) +
  	geo_borders() +
  	geo_text("iso_a3", cex="AREA3") +
- 	geo_theme_World(type.legend.plot="none", title="Population density per km2"))
+ 	geo_theme_World(legend.plot.type="none", title="Population density per km2"))
 
 (g <- geo_shape(World) +
  	geo_choropleth("income_grp", palette="-Greens") +
@@ -54,6 +54,23 @@ geo_theme_NLD(title="Population (per km2)", bg.color="gray80", legend.digits=0, 
  	geo_text("name", cex=.5) +
  	geo_grid(free.scales=TRUE) +
  	geo_theme(title=c("Population", "Gender")))
+
+
+## small multiples
+
+Rprof("../rprof.out", memory.profiling=TRUE)
+
+pdf("../test.pdf")
+(g <- geo_shape(NLD_muni) +
+	geo_borders() +
+	geo_choropleth(c("pop", "men", "women", "pop", "men", "women",
+					 "pop", "men", "women", "pop", "men", "women")))
+dev.off()
+
+
+Rprof(NULL)
+
+summaryRprof("../rprof.out", memory="both")
 
 
 

@@ -55,15 +55,14 @@ print.geo <- function(g) {
 	## split into small multiples
 	gps <- split_geo(gp, nx)
 	
-	names(gps) <- paste0("plot", 1:nx)
-	gps <- mapply(function(x, i){
+	gps$multiples <- mapply(function(x, i){
 		x$geo_theme <- gmeta$geo_theme
 		x$geo_theme$title <- x$geo_theme$title[i]
 		x
-	}, gps, 1:nx, SIMPLIFY=FALSE)
+	}, gps$multiples, 1:nx, SIMPLIFY=FALSE)
 	
 	plot.new()
-	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps)
+	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps$shps, gps$multiples)
 }
 
 process_varnames <- function(gp, nx) {
@@ -194,19 +193,22 @@ process_meta <- function(g, nx, varnames) {
 							   title)
 		if (length(title) < nx) title <- rep(title, length.out=nx)
 	
-		if (is.null(show.legend.text)) show.legend.text <- (!is.na(varnames$choro.fill[1]) || !is.na(varnames$bubble.col[1]))
-		if (is.null(type.legend.plot)) type.legend.plot <- ifelse(!is.na(varnames$choro.fill[1]), "hist", 
+		if (is.null(legend.show.text)) legend.show.text <- (!is.na(varnames$choro.fill[1]) || !is.na(varnames$bubble.col[1]))
+		if (is.null(legend.plot.type)) legend.plot.type <- ifelse(!is.na(varnames$choro.fill[1]), "hist", 
 																				ifelse(!is.na(varnames$bubble.size[1]), "bubble", "none"))
 		
-		if (is.na(legend.plot.size[1])) legend.plot.size <- if (legend.only) c(0.4, 0.9) else c(0.2,0.35)
+		if (is.na(legend.size[1])) legend.size <- if (legend.only) c(0.4, 0.9) else c(0.2,0.35)
 	})	
 	g
 }
 
 split_geo <- function(gp, nx) {
-	lapply(1:nx, function(i){
-		g <- gp
-		g <- lapply(g, function(x) {
+	gp[[1]][-1]
+	gp_shp <- lapply(gp, function(x) x$shp)
+	gp_rest <- lapply(gp, function(x)x[-1])
+	
+	gpnx <- lapply(1:nx, function(i){
+		g <- lapply(gp_rest, function(x) {
 			x$fill <- get_ids(x$fill, i)
 			x$choro.values <- get_ids(x$choro.values, i)
 			x$choro.legend.labels <- get_ids(x$choro.legend.labels, i)
@@ -221,6 +223,9 @@ split_geo <- function(gp, nx) {
 			x
 		})
 	})
+	names(gpnx) <- paste0("plot", 1:nx)
+	
+	list(shps=gp_shp, multiples=gpnx)
 }
 
 get_ids <- function(x, i) {
