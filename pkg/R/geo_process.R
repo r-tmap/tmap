@@ -197,7 +197,7 @@ process_meta <- function(g, nx, varnames) {
 		if (is.null(legend.plot.type)) legend.plot.type <- ifelse(!is.na(varnames$choro.fill[1]), "hist", 
 																				ifelse(!is.na(varnames$bubble.size[1]), "bubble", "none"))
 		
-		if (is.na(legend.size[1])) legend.size <- if (legend.only) c(0.4, 0.9) else c(0.2,0.35)
+		#if (is.na(legend.size[1])) legend.size <- if (legend.only) c(0.4, 0.9) else c(0.2,0.35)
 	})	
 	g
 }

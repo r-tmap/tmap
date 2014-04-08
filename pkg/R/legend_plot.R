@@ -1,32 +1,34 @@
 legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NULL, legend.bubbles=FALSE, legend.bubble.sizes=NULL, legend.bubble.labels=NULL, plot.bubble.borders=TRUE) {
 	attach(gt)
-	#browser()
 	draw <- (legend.plot.type != "none")
-	#if (!draw) legend.plot.size <- c(0,0)
+
 	
-#	pushViewport(viewport(gp=gpar(cex=legend.cex)))
-				 
-	# set legend and title dimensions
+	legend.width
+	legend.plot.height
+	legend.text.height
+	legend.text.cex
+	legend.plot.cex
+	title.cex
+	
+	
 	nitems <- ifelse(legend.show.text, length(legend.labels), 0)
 	
+	
 	lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
-
 	linesHeight <- lineHeight * nitems
-#	linesWidth <- max(convertWidth(stringWidth(string=legend.labels), unitTo="npc", valueOnly=TRUE))
+
+	if (!draw) legend.plot.height <- 0
+
+	cex.ub <- legend.text.height / linesHeight * .85
+	cex <- min(cex.ub, legend.text.cex)
+	legend.text.height <- (cex*linesHeight) / .85
 	
-#	legendWidth <- max(linesWidth, legend.plot.size[2])
-#	legendHeight <- legend.plot.size[1] + linesHeight
-	legendHeight <- legend.size[1]
-	legendWidth <- legend.size[2]
+	titleWidth <- convertWidth(stringWidth(title), "npc", valueOnly=TRUE) * title.cex
+	titleHeight <- convertHeight(unit(2, "lines"), "npc", valueOnly=TRUE) * title.cex
 
-	cex <- legendHeight / linesHeight * (1-legend.plot.height)
-	title.cex <- (1/lineHeight * 0.05) * title.cex
+	legendHeight <- legend.text.height+legend.plot.height
+	legendWidth <- legend.width
 
-	titleWidth <- convertWidth(stringWidth(title), "npc", valueOnly=TRUE)
-	titleHeight <- convertHeight(unit(title.cex*2, "lines"), "npc", 
-								 valueOnly=TRUE)
-
-	
 # translate automatic position settings
 	if (is.character(title.position) && all(title.position==legend.position)){
 		## title is stacked on legend
@@ -86,10 +88,10 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 	
 	vpLegend <- viewport(y=legend.position[2], x=legend.position[1], 
 						 height=legendHeight, width=legendWidth, 
-						 just=c("left", "bottom"), gp=gpar(cex=cex))
+						 just=c("left", "bottom"))
 	
 	pushViewport(vpLegend)
-grid.rect(gp=gpar(fill=NA))
+	if (!is.na(legend.bg.color)) grid.rect(gp=gpar(col=NA, fill=legend.bg.color))
 	#grid.rect(gp=gpar(col="steelblue"))
 	if (legend.plot.type %in% c("hist", "bar")) {
 		nas <- is.na(values)
@@ -101,25 +103,27 @@ grid.rect(gp=gpar(fill=NA))
 	
 	
 	## fixed layout parameters
-	yaxisWidth <- 0.6 # width of the y axis cell in inch
-	axesMargin <- 0.05 # margin between plot and the axes in inch
+	lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * legend.plot.cex
+	wordInch <- convertWidth(stringWidth("12345"), "inch", valueOnly=TRUE) * legend.plot.cex
+
+	yaxisWidth <- wordInch #0.6 # width of the y axis cell in inch
+	axesMargin <- lineInch/4 # margin between plot and the axes in inch
 	xaxisHeight <- ifelse(legend.plot.type=="hist", 2, ifelse(legend.plot.type=="none", 0, 0.5)) # height of x axis in "lines"
 	#spacer <- 0.5 #space between plot and list in "lines"
 
-	
-	text.height <- (1 - legend.plot.height)
-	xaxi.height <- convertHeight(unit(xaxisHeight, "lines"), "npc", valueOnly=TRUE)
-	plot.height <- ifelse(legend.plot.type=="none", 
-						  0, 1 - text.height - xaxi.height)
+	xaxi.height <- lineHeight * xaxisHeight *  legend.plot.cex
+	plot.height <- legendHeight - xaxi.height - legend.text.height
 	
 
 
 	pushViewport(
-		viewport(layout=grid.layout(4, 2, 
-									heights=unit(c(plot.height, xaxi.height, text.height, 1), c("npc", "npc", "npc", "null")),
-									widths=unit(c(1, yaxisWidth), c("null", "inch")),)))
+		viewport(layout=grid.layout(3, 2, 
+									heights=unit(c(plot.height, xaxi.height, legend.text.height) / legendHeight, c("npc", "npc", "npc")),
+									widths=unit(c(1, yaxisWidth), c("null", "inch")))))
 	
-	
+	#cellplot(1,2, e=grid.rect())
+	#cellplot(2,1, e=grid.rect())
+
 	## preprocess data
 	if (legend.plot.type=="bar") {
 		ncat <- nitems - missings
@@ -196,6 +200,12 @@ grid.rect(gp=gpar(fill=NA))
 		
 		ws <- 1/length(numbers)
 	}
+
+	# lower 1/2 line
+	if (draw) {
+		hs <- hs * (1- (lineHeight/2) / plot.height)
+		hpty <- hpty * (1- (lineHeight/2) / plot.height)
+	}
 		
 	# plot legend and assignment lines
 	if (legend.show.text) cellplot(3,1,e={
@@ -221,7 +231,7 @@ grid.rect(gp=gpar(fill=NA))
 		
 		## list categories
 		if (legend.show.text) {
-		    itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5
+		    itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5 * cex
 			if (legend.bubbles) {
 				bubbleSizes <- min(max(legend.bubble.sizes), itemSize*0.75)
 				grid.circle(x=unit(rep(itemSize/2, nitems), "inch"), 
@@ -235,26 +245,26 @@ grid.rect(gp=gpar(fill=NA))
                           gp=gpar(fill=legend.palette))
 			}
 			grid.text(legend.labels, x=unit(rep(itemSize*2, nitems), "inch"), 
-					  y=yslines, just=c("left", "center"))
+					  y=yslines, just=c("left", "center"), gp=gpar(cex=cex))
 		}
 		
 	})
 	
 	# plot x axis tick marks
 	if (legend.plot.type %in% c("hist", "bar")) cellplot(2,1,e={
-		lineHeigth <- 1 - convertHeight(unit(axesMargin, "inch"), "npc", valueOnly=TRUE)
-		if (xaxis==0) grid.lines(x=c(0,1), y=c(lineHeigth, lineHeigth))
+		line_height <- 1 - convertHeight(unit(axesMargin, "inch"), "npc", valueOnly=TRUE)
+		if (xaxis==0) grid.lines(x=c(0,1), y=c(line_height, line_height))
 		
 		if (legend.plot.type=="bar" && legend.show.text && xaxis==0) {
 			# plot vertical assignment lines
 			grid.polyline(x=rep(x[id], each=2),
-					   y=rep(c(0, lineHeigth), length(id)),
+					   y=rep(c(0, line_height), length(id)),
 					   id=rep(1:length(id), each=2),
 					   gp=gpar(col=grey(.3)))
 		} else if (legend.plot.type=="hist") {
-			grid.polyline(x=rep(xticks, each=2), y=rep(c(lineHeigth, lineHeigth-0.1), length(xticks)), 
+			grid.polyline(x=rep(xticks, each=2), y=rep(c(line_height, line_height-0.1), length(xticks)), 
 						  id=rep(1:length(xticks), each=2)) 
-			grid.text(ptx, x=xticks, y=lineHeigth-0.3, gp=gpar(cex=0.8))
+			grid.text(ptx, x=xticks, y=line_height-0.3, gp=gpar(cex=legend.plot.cex))
 		}
 		
 	})
@@ -300,9 +310,9 @@ grid.rect(gp=gpar(fill=NA))
 					  y=c(0, 1, rep(xaxis+hpty, each=2)),
 					  id=rep(1:(length(pty)+1),each=2))
 		formatted <- format(pty, trim=TRUE)
-		maxWidth <- max(convertUnit(stringWidth(formatted), unitTo="npc", valueOnly=TRUE))
+		maxWidth <- max(convertWidth(stringWidth(formatted), unitTo="npc", valueOnly=TRUE)) * legend.plot.cex
 		grid.text(formatted, x=rep(margin.npc+0.08+maxWidth, length(pty)), y=xaxis+hpty, 
-				  just=c("right","center"), gp=gpar(cex=0.8))
+				  just=c("right","center"), gp=gpar(cex=legend.plot.cex))
 	})
 	
 	

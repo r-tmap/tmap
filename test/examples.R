@@ -35,7 +35,7 @@ geo_theme_NLD(title="Population (per km2)", bg.color="gray80", legend.digits=0, 
  	geo_borders() +
  	geo_bubblemap("pop_est") +
  	geo_text("iso_a3", cex="AREA3") +
- 	geo_theme_World())
+ 	geo_theme_World("Income classification", legend.plot.cex=.2))
 
 (g <- geo_shape(Europe) +
  	geo_choropleth("gdp_cap_est", style="kmeans") +
@@ -46,15 +46,24 @@ geo_theme_NLD(title="Population (per km2)", bg.color="gray80", legend.digits=0, 
 
 
 (g <- geo_shape(NLD_muni) +
- 	geo_choropleth(col=c("pop", "gender"), convert2density=TRUE, style="kmeans")+
+ 	geo_choropleth(col="pop", convert2density=TRUE, style="kmeans", total.area.km2=41543)+
  	geo_borders(col="gray", lwd=1) +
  	#geo_text(NLD_muni, "code", cex=.3) +
  	geo_shape(NLD_prov, projection="robin") +
  	geo_borders(lwd=2) +
  	geo_text("name", cex=.5) +
  	geo_grid(free.scales=TRUE) +
- 	geo_theme(title=c("Population", "Gender")))
+ 	geo_theme_NLD(title="Population"))
 
+(g <- geo_shape(NLD_muni) +
+ 	geo_choropleth(col="gender", convert2density=FALSE, style="kmeans")+
+ 	geo_borders(col="gray", lwd=1) +
+ 	#geo_text(NLD_muni, "code", cex=.3) +
+ 	geo_shape(NLD_prov) +
+ 	geo_borders(lwd=2) +
+ 	geo_text("name", cex=.5) +
+ 	geo_grid(free.scales=TRUE) +
+ 	geo_theme_NLD(title="Gender"))
 
 ## small multiples
 
