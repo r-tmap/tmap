@@ -11,7 +11,6 @@ process_bubblemap <- function(shp, g, free.scales, legend.digits) {
 	auto.palette.mapping <- g$auto.palette.mapping
 	contrast <- g$contrast
 	colorNA <- g$colorNA
-	
 	shpcols <- names(shp)
 	
 	varysize <- all(xsize %in% shpcols) && !is.null(xsize)

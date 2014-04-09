@@ -1,59 +1,45 @@
-legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NULL, legend.bubbles=FALSE, legend.bubble.sizes=NULL, legend.bubble.labels=NULL, plot.bubble.borders=TRUE) {
-	attach(gt)
-	draw <- (legend.plot.type != "none")
+legend_plot <- function(gt, x) {
+	
+	browser()
+	
+	x <- x[gt$legend.order]
+	
+	x.not.null <- !sapply(x, is.null)
+	
+	k <- sum(x.not.null)
+	
+	x <- x[x.not.null]
+	
+	heights <- c(choro=gt$legend.choro.height,
+				 hist=gt$legend.choro.hist.height,
+				 bubble.size=gt$legend.bubble.size.height,
+				 bubble.col=gt$legend.bubble.col.height)
+	heights <- heights[gt$legend.order][x.not.null]
+	
+	
+# 	
+# 	nitems <- ifelse(legend.show.text, length(legend.labels), 0)
+# 	
+# 	
+# 	lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
+# 	linesHeight <- lineHeight * nitems
+# 
+# 	if (!draw) legend.plot.height <- 0
+# 
+# 	cex.ub <- legend.text.height / linesHeight * .85
+# 	cex <- min(cex.ub, legend.text.cex)
+# 	legend.text.height <- (cex*linesHeight) / .85
+# 	
+ 	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.cex
+ 	titleHeight <- convertHeight(unit(2, "lines"), "npc", valueOnly=TRUE) * gt$title.cex
 
-	
-	legend.width
-	legend.plot.height
-	legend.text.height
-	legend.text.cex
-	legend.plot.cex
-	title.cex
-	
-	
-	nitems <- ifelse(legend.show.text, length(legend.labels), 0)
-	
-	
-	lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
-	linesHeight <- lineHeight * nitems
-
-	if (!draw) legend.plot.height <- 0
-
-	cex.ub <- legend.text.height / linesHeight * .85
-	cex <- min(cex.ub, legend.text.cex)
-	legend.text.height <- (cex*linesHeight) / .85
-	
-	titleWidth <- convertWidth(stringWidth(title), "npc", valueOnly=TRUE) * title.cex
-	titleHeight <- convertHeight(unit(2, "lines"), "npc", valueOnly=TRUE) * title.cex
-
-	legendHeight <- legend.text.height+legend.plot.height
-	legendWidth <- legend.width
+	legendHeight <- sum(heights) #legend.text.height+legend.plot.height
+	legendWidth <- gt$legend.width
 
 # translate automatic position settings
-	if (is.character(title.position) && all(title.position==legend.position)){
-		## title is stacked on legend
-		title.position <- c(switch(title.position[1], 
-								   left=0.02, 
-								   center=(1-titleWidth)/2, 
-								   centre=(1-titleWidth)/2, 
-								   right=.98-titleWidth),
-							switch(title.position[2], 
-								   top=1-titleHeight/2, 
-								   center=(1-titleHeight)/2, 
-								   centre=(1-titleHeight)/2, 
-								   bottom=0.02+titleHeight/2+legendHeight))
-		legend.position <- c(switch(legend.position[1], 
-									left=0.02, 
-									center=(1-legendWidth)/2, 
-									centre=(1-legendWidth)/2, 
-									right=.98-legendWidth),
-							 switch(legend.position[2], 
-							 	   top=1-legendHeight-titleHeight, 
-							 	   center=(1-legendHeight)/2, 
-							 	   centre=(1-legendHeight)/2, 
-							 	   bottom=0.02))		
-	} else {
-		if (is.character(title.position)) {
+	positions <- with(gt, {
+		if (is.character(title.position) && all(title.position==legend.position)){
+			## title is stacked on legend
 			title.position <- c(switch(title.position[1], 
 									   left=0.02, 
 									   center=(1-titleWidth)/2, 
@@ -63,27 +49,52 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 									   top=1-titleHeight/2, 
 									   center=(1-titleHeight)/2, 
 									   centre=(1-titleHeight)/2, 
-									   bottom=titleHeight/2))	
-		}
-		
-		if (is.character(legend.position)) {
+									   bottom=0.02+titleHeight/2+legendHeight))
 			legend.position <- c(switch(legend.position[1], 
 										left=0.02, 
 										center=(1-legendWidth)/2, 
 										centre=(1-legendWidth)/2, 
-										right=0.98-legendWidth),
+										right=.98-legendWidth),
 								 switch(legend.position[2], 
-								 	   top=.98-legendHeight, 
+								 	   top=1-legendHeight-titleHeight, 
 								 	   center=(1-legendHeight)/2, 
 								 	   centre=(1-legendHeight)/2, 
-								 	   bottom=0.02))
+								 	   bottom=0.02))		
+		} else {
+			if (is.character(title.position)) {
+				title.position <- c(switch(title.position[1], 
+										   left=0.02, 
+										   center=(1-titleWidth)/2, 
+										   centre=(1-titleWidth)/2, 
+										   right=.98-titleWidth),
+									switch(title.position[2], 
+										   top=1-titleHeight/2, 
+										   center=(1-titleHeight)/2, 
+										   centre=(1-titleHeight)/2, 
+										   bottom=titleHeight/2))	
+			}
+			
+			if (is.character(legend.position)) {
+				legend.position <- c(switch(legend.position[1], 
+											left=0.02, 
+											center=(1-legendWidth)/2, 
+											centre=(1-legendWidth)/2, 
+											right=0.98-legendWidth),
+									 switch(legend.position[2], 
+									 	   top=.98-legendHeight, 
+									 	   center=(1-legendHeight)/2, 
+									 	   centre=(1-legendHeight)/2, 
+									 	   bottom=0.02))
+			}
 		}
-	}
+		list(title.position, legend.position)
+	})
 	
-	
-	
-	grid.text(title, x=title.position[1], y=title.position[2], 
-			  just=c("left", "center"), gp=gpar(cex=title.cex))
+	title.position <- positions[[1]]
+	legend.position <- positions[[2]]
+
+	grid.text(gt$title, x=title.position[1], y=title.position[2], 
+			  just=c("left", "center"), gp=gpar(cex=gt$title.cex))
 	
 	
 	vpLegend <- viewport(y=legend.position[2], x=legend.position[1], 
@@ -91,36 +102,62 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 						 just=c("left", "bottom"))
 	
 	pushViewport(vpLegend)
-	if (!is.na(legend.bg.color)) grid.rect(gp=gpar(col=NA, fill=legend.bg.color))
-	#grid.rect(gp=gpar(col="steelblue"))
-	if (legend.plot.type %in% c("hist", "bar")) {
-		nas <- is.na(values)
-		missings <- any(nas)
-		
-		values <- values[!nas]
-		n <- length(values)
+	if (!is.na(gt$legend.bg.color)) grid.rect(gp=gpar(col=NA, fill=gt$legend.bg.color))
+
+
+
+# if (legend.plot.type %in% c("hist", "bar")) {
+# 	nas <- is.na(values)
+# 	missings <- any(nas)
+# 	
+# 	values <- values[!nas]
+# 	n <- length(values)
+# }
+
+	
+# 	## fixed layout parameters
+# 	lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * legend.plot.cex
+# 	wordInch <- convertWidth(stringWidth("12345"), "inch", valueOnly=TRUE) * legend.plot.cex
+# 
+# 	yaxisWidth <- wordInch #0.6 # width of the y axis cell in inch
+# 	axesMargin <- lineInch/4 # margin between plot and the axes in inch
+# 	xaxisHeight <- ifelse(legend.plot.type=="hist", 2, ifelse(legend.plot.type=="none", 0, 0.5)) # height of x axis in "lines"
+# 	#spacer <- 0.5 #space between plot and list in "lines"
+# 
+# 	xaxi.height <- lineHeight * xaxisHeight *  legend.plot.cex
+# 	plot.height <- legendHeight - xaxi.height - legend.text.height
+# 	
+	
+	# normalize heights
+	heights <- heights / legendHeight
+
+# 	pushViewport(
+# 		viewport(layout=grid.layout(3, 2, 
+# 									heights=unit(c(plot.height, xaxi.height, legend.text.height) / legendHeight, c("npc", "npc", "npc")),
+# 									widths=unit(c(1, yaxisWidth), c("null", "inch")))))
+
+	pushViewport(viewport(layout=grid.layout(k, 1, heights=heights, widths=1)))
+
+	legend_subplot <- function(y) {
+		name <- paste("legend_plot_", names(x)[substitute(y)[[3]]], sep="")
+		do.call(name, args=list())
 	}
-	
-	
-	## fixed layout parameters
-	lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * legend.plot.cex
-	wordInch <- convertWidth(stringWidth("12345"), "inch", valueOnly=TRUE) * legend.plot.cex
+	lapply(x, FUN="legend_subplot")
 
-	yaxisWidth <- wordInch #0.6 # width of the y axis cell in inch
-	axesMargin <- lineInch/4 # margin between plot and the axes in inch
-	xaxisHeight <- ifelse(legend.plot.type=="hist", 2, ifelse(legend.plot.type=="none", 0, 0.5)) # height of x axis in "lines"
-	#spacer <- 0.5 #space between plot and list in "lines"
+	legend_plot_hist <- function(...) {
+		1
+	}
+	legend_plot_choro <- function(...) {
+		2
+	}
+	legend_plot_bubble.size <- function(...) {
+		3
+	}
+	legend_plot_bubble.col <- function(...) {
+		4
+	}
 
-	xaxi.height <- lineHeight * xaxisHeight *  legend.plot.cex
-	plot.height <- legendHeight - xaxi.height - legend.text.height
-	
 
-
-	pushViewport(
-		viewport(layout=grid.layout(3, 2, 
-									heights=unit(c(plot.height, xaxi.height, legend.text.height) / legendHeight, c("npc", "npc", "npc")),
-									widths=unit(c(1, yaxisWidth), c("null", "inch")))))
-	
 	#cellplot(1,2, e=grid.rect())
 	#cellplot(2,1, e=grid.rect())
 
@@ -199,10 +236,12 @@ legendPlot <- function(gt, legend.palette, legend.labels, values=NULL, breaks=NU
 		x <- seq(0, 1, length.out=length(numbers)+1)[1:length(numbers)]
 		
 		ws <- 1/length(numbers)
+
+		
 	}
 
 	# lower 1/2 line
-	if (draw) {
+	if (legend.plot.type %in% c("bar", "hist")) {
 		hs <- hs * (1- (lineHeight/2) / plot.height)
 		hpty <- hpty * (1- (lineHeight/2) / plot.height)
 	}

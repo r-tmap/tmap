@@ -81,5 +81,37 @@ Rprof(NULL)
 
 summaryRprof("../rprof.out", memory="both")
 
+## legend
+
+(g <- geo_shape(Europe) +
+ 	geo_choropleth("gdp_cap_est", style="kmeans") +
+ 	geo_borders() +
+ 	geo_text("iso_a3", cex="AREA3", scale=2) +
+ 	geo_theme_Europe("GDP per capita"))
+
+(g <- geo_shape(Europe) +
+ 	geo_bubblemap("gdp_cap_est", style="kmeans") +
+ 	geo_borders() +
+ 	geo_text("iso_a3", cex="AREA3", scale=2) +
+ 	geo_theme_Europe("GDP per capita"))
+
+(g <- geo_shape(Europe) +
+ 	geo_bubblemap(col="income_grp", style="kmeans") +
+ 	geo_borders() +
+ 	geo_text("iso_a3", cex="AREA3", scale=2) +
+ 	geo_theme_Europe("GDP per capita"))
 
 
+(g <- geo_shape(Europe) +
+ 	geo_bubblemap("gdp_md_est", "income_grp", style="kmeans", scale=3) +
+ 	geo_borders() +
+ 	geo_text("iso_a3", cex="AREA3", scale=2) +
+ 	geo_theme_Europe("GDP per capita", legend.text.cex=1, legend.plot.cex=.6))
+
+
+(g <- geo_shape(Europe) +
+ 	geo_choropleth("gdp_cap_est", style="kmeans") +
+ 	geo_bubblemap("gdp_md_est", "income_grp", style="kmeans", scale=3) +
+ 	geo_borders() +
+ 	geo_text("iso_a3", cex="AREA3", scale=2) +
+ 	geo_theme_Europe("GDP per capita"))

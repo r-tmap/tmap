@@ -191,12 +191,16 @@ plot_all <- function(shps, gp) {
 	margins <- gt$margins
 	title.position <- gt$title.position
 	
+	# set outer margins
 	gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
 								 heights=unit(c(margins[3], 1, margins[1]), 
 								 			 c("npc", "null", "npc")), 
 								 widths=unit(c(margins[2], 1, margins[4]), 
 								 			c("npc", "null", "npc"))))
+	# backup par settings
 	opar <- par("mai", "xaxs", "yaxs")
+	
+	# plot map
 	if (!gt$legend.only) {
 		pushViewport(gridLayoutMap)
 		cellplot(2, 2, e={
@@ -205,55 +209,50 @@ plot_all <- function(shps, gp) {
 			scaleFactor <- result[[1]]
 			vp <- result[[2]]
 		})
-		
 		upViewport()
 	}
 	
-	#find which layer is choropleth
+	#find statistic variables
 	choroID <- which(sapply(gp, function(x)!is.na(x$varnames$choro.fill[1])))[1]
 	bubbleSizeID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.size[1])))[1]
 	bubbleColID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.col[1])))[1]
 	
-	# possible conflict between choro and bubble: for the time being, choose the first, or choose bubbles
-	if (!is.na(choroID)) {
-		isChoroLegend <- TRUE
-	} else if (!is.na(bubbleSizeID) || !is.na(bubbleColID)) {
-		isChoroLegend <- FALSE
-	} else {
-		isChoroLegend <- NA
-	}
-	if (gt$legend.in.frame) {
-		seekViewport(vp$name)	
-	} else {
-		pushViewport(gridLayoutMap)
-		pushViewport(viewport(layout.pos.row=2, layout.pos.col=2))
-	}
-	if (!is.na(isChoroLegend)) {
-		if (isChoroLegend) {
-			gc <- gp[[choroID]]
-			if (gt$legend.show.text || gt$legend.plot.type!="none") {
-				legendPlot(gt=gt, 
-						   legend.palette=gc$choro.legend.palette, 
-						   legend.labels=gc$choro.legend.labels, 
-						   values=gc$choro.values, 
-						   breaks=gc$choro.breaks, 
-						   legend.bubbles=FALSE, 
-						   legend.bubble.sizes=NULL, 
-						   legend.bubble.labels=NULL, 
-						   plot.bubble.borders=TRUE)
-			}
+	# create input lists for legend
+	choro <- if (!is.na(choroID) && gt$show.legend.choro) {
+		gc <- gp[[choroID]]
+		list(choro=list(choro.legend.labels=gc$choro.legend.labels,
+							choro.legend.palette=gc$choro.legend.palette))
+	} else NULL
+	hist <- if (!is.na(choroID) && gt$show.legend.choro.hist) {
+		gc <- gp[[choroID]]
+		list(hist=list(choro.legend.palette=gc$choro.legend.palette,
+							choro.values=gc$choro.values,
+							choro.breaks=gc$choro.breaks))
+	} else NULL
+	bubble.col <- if (!is.na(bubbleColID) && gt$show.legend.bubble.col) {
+		gb <- gp[[bubbleColID]]
+		list(bubble.col=list(bubble.legend.palette=gb$bubble.legend.palette,
+							bubble.legend.labels=gb$bubble.legend.labels))
+	} else NULL
+	bubble.size <- if (!is.na(bubbleSizeID) && gt$show.legend.bubble.size) {
+		gb <- gp[[bubbleSizeID]]
+		list(bubble.size=list(bubble.legend.palette=gb$bubble.legend.palette,
+							 bubble.legend.sizes=gb$bubble.legend.sizes * scaleFactor, 
+							 bubble.legend.size_labels=gb$bubble.legend.size_labels))
+	} else NULL
+	
+	
+	if (!is.null(choro)||!is.null(hist)||!is.null(bubble.col)||!is.null(bubble.size)) {
+		if (gt$legend.in.frame) {
+			seekViewport(vp$name)	
 		} else {
-			gb <- gp[[bubbleSizeID]]
-			gt$type.legend.plot <- ifelse(is.na(bubbleSizeID), "none", "bubble")
-			legendPlot(gt=gt, 
-					   legend.palette = if(is.na(bubbleColID)) gb$bubble.col else gb$bubble.legend.palette, 
-					   legend.labels=gb$bubble.legend.labels, 
-					   legend.bubbles=!is.na(bubbleSizeID), 
-					   legend.bubble.sizes=gb$bubble.legend.sizes * scaleFactor, 
-					   legend.bubble.labels=gb$bubble.legend.size_labels, 
-					   plot.bubble.borders=TRUE)
+			pushViewport(gridLayoutMap)
+			pushViewport(viewport(layout.pos.row=2, layout.pos.col=2))
 		}
+		legend_plot(gt, c(choro, hist, bubble.col, bubble.size))
 	}
+	
+	
 	seekViewport(main_vp$name)
 	do.call("par", opar)
 }

@@ -3,7 +3,6 @@ cat2pal <- function(x,
 					colorNA = "#FF1414",
 					legend.labels = NULL,
 					max_levels = 12) {
-	
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
 	# quick&dirty

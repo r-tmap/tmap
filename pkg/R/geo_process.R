@@ -192,12 +192,6 @@ process_meta <- function(g, nx, varnames) {
 							   bubble.col=varnames[[3]],
 							   title)
 		if (length(title) < nx) title <- rep(title, length.out=nx)
-	
-		if (is.null(legend.show.text)) legend.show.text <- (!is.na(varnames$choro.fill[1]) || !is.na(varnames$bubble.col[1]))
-		if (is.null(legend.plot.type)) legend.plot.type <- ifelse(!is.na(varnames$choro.fill[1]), "hist", 
-																				ifelse(!is.na(varnames$bubble.size[1]), "bubble", "none"))
-		
-		#if (is.na(legend.size[1])) legend.size <- if (legend.only) c(0.4, 0.9) else c(0.2,0.35)
 	})	
 	g
 }
