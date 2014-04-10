@@ -1,6 +1,5 @@
 legend_plot <- function(gt, x) {
 	
-	browser()
 	
 	x <- x[gt$legend.order]
 	
@@ -138,92 +137,47 @@ legend_plot <- function(gt, x) {
 
 	pushViewport(viewport(layout=grid.layout(k, 1, heights=heights, widths=1)))
 
-	legend_subplot <- function(y) {
-		name <- paste("legend_plot_", names(x)[substitute(y)[[3]]], sep="")
-		do.call(name, args=list())
-	}
-	lapply(x, FUN="legend_subplot")
-
-	legend_plot_hist <- function(...) {
-		1
-	}
-	legend_plot_choro <- function(...) {
-		2
-	}
-	legend_plot_bubble.size <- function(...) {
-		3
-	}
-	legend_plot_bubble.col <- function(...) {
-		4
-	}
-
-
-	#cellplot(1,2, e=grid.rect())
-	#cellplot(2,1, e=grid.rect())
-
-	## preprocess data
-	if (legend.plot.type=="bar") {
-		ncat <- nitems - missings
-		
-		colors <- as.character(cut(values, breaks=breaks, 
-								   include.lowest=TRUE, right=FALSE,
-								   labels=legend.palette[1:ncat]))
-		
-		o <- order(values)
-		colors <- colors[o]
-		
-		rng <- range(values)
-		pty <- pretty(values, n=5)
 	
-		if (all(rng >=0)) {
-			hs <- values[o] / rng[2]
-			xaxis <- 0
-			pty <- pty[pty<=rng[2]]
-			hpty <- pty / rng[2]
-		} else if (all(rng <=0)) {
-			hs <- -(values[o] / rng[1])
-			xaxis <- 1
-			pty <- pty[pty>=rng[1]]
-			hpty <- -(pty / rng[1])
+	lapply(x, FUN="legend_subplot", gt)
+
+	upViewport(2)
+}
+
+
+legend_subplot <- function(y, gt) {
+	id <- substitute(y)[[3]]
+	name <- paste("legend_plot_", eval.parent(quote(names(X)))[id], sep="")
+	cellplot(id, 1, e=do.call(name, args=list(y, gt)))
+}
+
+legend_plot_hist <- function(x, gt) {
+	with(x, {
+		if (is.factor(choro.values)) {
+			numbers <- table(choro.values)
+			xticks <- seq(0, 1, length.out=length(numbers)*2+1)[seq(2,length(numbers)*2,by=2)]
+			ptx <- levels(choro.values)
+			colors <- choro.legend.palette
 		} else {
-			hs <- values[o] / (rng[2] - rng[1])
-			xaxis <- abs(rng[1]) / (rng[2] - rng[1])
-			pty <- pty[pty>=rng[1] & pty<=rng[2]]
-			hpty <- pty / (rng[2] - rng[1])
-		}
-	
-		# determine group median ids
-		id <- c(which(!duplicated(colors)), n+1)
-		id <- id[-(ncat+1)] + round((id[-1]-id[-(ncat+1)]) / 2)
-	
-		x <- seq(0, 1, length.out=n+1)[1:n]
-		ws <- 1/n
-	} else if (legend.plot.type=="hist") {
-		if (is.factor(values)) {
-            numbers <- table(values)
-            xticks <- seq(0, 1, length.out=length(numbers)*2+1)[seq(2,length(numbers)*2,by=2)]
-            ptx <- levels(values)
-            colors <- legend.palette
-		} else {
-		    breaks2 <- pretty(values, n=30)
-		    bins.mean <- (breaks2[-1] + breaks2[1:(length(breaks2)-1)])/2
-		    
-		    toolow <- (bins.mean < min(breaks))
-		    toohigh <- (bins.mean > max(breaks))
-		    
-		    bins.mean <- bins.mean[!toolow & !toohigh]
-		    breaks2 <- breaks2[(sum(toolow)+1):(length(breaks2)-sum(toohigh))]
-		    
-		    cvalues <- cut(values, breaks=breaks2, include.lowest=TRUE, right=FALSE)
-		    
-		    numbers <- as.vector(table(cvalues))
-		    
-		    colors <- legend.palette[sapply(bins.mean, function(x) which(x<breaks)[1]-1)]
-		    
-		    ptx <- pretty(breaks2, n=5)
-		    ptx <- ptx[ptx>breaks2[1] & ptx<tail(breaks2,1)]
-		    rng <- range(breaks2)
-		    xticks <- (ptx - rng[1]) / (rng[2] - rng[1])
+			choro.values <- na.omit(choro.values)
+			breaks2 <- pretty(choro.values, n=30)
+			bins.mean <- (breaks2[-1] + breaks2[1:(length(breaks2)-1)])/2
+			
+			toolow <- (bins.mean < min(choro.breaks))
+			toohigh <- (bins.mean > max(choro.breaks))
+			
+			bins.mean <- bins.mean[!toolow & !toohigh]
+			breaks2 <- breaks2[(sum(toolow)+1):(length(breaks2)-sum(toohigh))]
+			
+			cchoro.values <- cut(choro.values, breaks=breaks2, include.lowest=TRUE, right=FALSE)
+			
+			numbers <- as.vector(table(cchoro.values))
+			
+			colors <- choro.legend.palette[sapply(bins.mean, function(x) which(x<choro.breaks)[1]-1)]
+			
+			ptx <- pretty(breaks2, n=5)
+			ptx <- ptx[ptx>breaks2[1] & ptx<tail(breaks2,1)]
+			rng <- range(breaks2)
+			xticks <- (ptx - rng[1]) / (rng[2] - rng[1])
 		}
 		maxnumber <- max(numbers)
 		pty <- pretty(c(0, numbers), n=5)
@@ -236,125 +190,124 @@ legend_plot <- function(gt, x) {
 		x <- seq(0, 1, length.out=length(numbers)+1)[1:length(numbers)]
 		
 		ws <- 1/length(numbers)
-
 		
-	}
-
-	# lower 1/2 line
-	if (legend.plot.type %in% c("bar", "hist")) {
-		hs <- hs * (1- (lineHeight/2) / plot.height)
-		hpty <- hpty * (1- (lineHeight/2) / plot.height)
-	}
+		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE) * gt$legend.hist.cex
 		
-	# plot legend and assignment lines
-	if (legend.show.text) cellplot(3,1,e={
-		yslines <- seq(1, 0,
+		# lower 1/2 line
+		hs <- hs * (1- (lineHeight/2))
+		hpty <- hpty * (1- (lineHeight/2))
+		
+		 
+		# parameters in lines
+		yaxisWidth <- 2.5 * gt$legend.hist.cex
+		axesMargin <- 1/4 * gt$legend.hist.cex
+		xaxisHeight <- 2 * gt$legend.hist.cex
+		
+		pushViewport(
+			viewport(layout=grid.layout(2, 2, 
+										heights=unit(c(1, xaxisHeight), c("null", "lines")),
+										widths=unit(c(1, yaxisWidth), c("null", "lines")))))
+		
+		
+		cellplot(1,1, e={
+			grid.rect(x=x, y=xaxis, width=ws, height=hs, gp=gpar(col=NA,fill=colors), just=c("left", "bottom"))
+		})
+		
+		
+		
+		# plot y axis
+		cellplot(1,2,e={
+			margin.npc <- convertWidth(unit(axesMargin, "lines"), "npc", valueOnly=TRUE)
+			grid.polyline(x=c(margin.npc, margin.npc, 
+							  rep(c(margin.npc,margin.npc+0.03), length(pty))),
+						  y=c(0, 1, rep(xaxis+hpty, each=2)),
+						  id=rep(1:(length(pty)+1),each=2))
+			formatted <- format(pty, trim=TRUE)
+			maxWidth <- max(convertWidth(stringWidth(formatted), unitTo="npc", valueOnly=TRUE))
+			maxHeight <- max(convertHeight(stringHeight(formatted), unitTo="npc", valueOnly=TRUE)) 
+			
+			cex <- min(gt$legend.hist.cex, 
+					   (1-margin.npc*2)/maxWidth, 
+					   (1/(length(pty)+1))/maxHeight)
+					   
+			
+			grid.text(formatted, x=rep(margin.npc+0.08+margin.npc+maxWidth*cex, length(pty)), y=xaxis+hpty, 
+					  just=c("right","center"), gp=gpar(cex=cex))
+		})
+		
+		# plot x axis tick marks
+		cellplot(2,1,e={
+			maxWidth <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE))
+			n <- length(xticks)
+			cex <- min(gt$legend.hist.cex, 
+					   (1/(n+1))/maxWidth)
+			
+			line_height <- 1 - convertHeight(unit(axesMargin, "lines"), "npc", valueOnly=TRUE)
+			if (xaxis==0) grid.lines(x=c(0,1), y=c(line_height, line_height))
+			
+			grid.polyline(x=rep(xticks, each=2), y=rep(c(line_height, line_height-0.1), n), 
+						  id=rep(1:n, each=2)) 
+			grid.text(ptx, x=xticks, y=line_height-0.3, gp=gpar(cex=cex))
+		})
+		upViewport()
+	})		
+	
+}
+legend_plot_choro <- legend_plot_bubble.col <- function(x, gt) {
+	with(x, {
+		nitems <- length(legend.labels)
+		
+		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
+		linesHeight <- lineHeight * nitems
+		
+		cex.ub <- 1 / linesHeight * .85
+		cex <- min(cex.ub, gt$legend.text.cex)
+		
+		linesHeight <- linesHeight * cex / .85
+		
+		yslines <- seq(1, 1-linesHeight,
 					   length.out=(nitems)*2 + 1)
 		yslines <- yslines[seq(2,length(yslines)-1,by=2)]
 		
-		
-		## show assignment lines
-		if (legend.plot.type=="bar" && legend.show.text && xaxis==0) {
-			wslines <- convertUnit(stringWidth(legend.labels[1:ncat]),unitTo="npc", valueOnly=TRUE) + 0.11
-			
-			showLines <- (x[id]-wslines)>0
-			if (any(showLines)) {
-				grid.polyline(x=rep(x[id][showLines], each=2), 
-							  y=as.vector(sapply(yslines[showLines], function(x)c(1,x))),
-							  id=rep(1:sum(showLines),each=2), gp=gpar(col=grey(.3)))
-				grid.polyline(x=as.vector(mapply(c, wslines[showLines], x[id][showLines])), 
-							  y=rep(yslines[showLines], each=2),
-							  id=rep(1:sum(showLines),each=2), gp=gpar(col=grey(.3)))
-			}
+		itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5 * cex
+		if (legend.is.bubbles) {
+			bubbleSizes <- min(bubble.max.size, itemSize*0.75)
+			grid.circle(x=unit(rep(itemSize, nitems), "inch"), 
+						y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
+						gp=gpar(fill=legend.palette))
+		} else {
+			grid.rect(x=unit(rep(itemSize/2, nitems), "inch"), 
+					  y=yslines, 
+					  width=unit(rep(itemSize, nitems), "inch"), 
+					  height=unit(rep(itemSize, nitems), "inch"),
+					  gp=gpar(fill=legend.palette))
 		}
-		
-		## list categories
-		if (legend.show.text) {
-		    itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5 * cex
-			if (legend.bubbles) {
-				bubbleSizes <- min(max(legend.bubble.sizes), itemSize*0.75)
-				grid.circle(x=unit(rep(itemSize/2, nitems), "inch"), 
-                            y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
-                            gp=gpar(fill=legend.palette))
-			} else {
-				grid.rect(x=unit(rep(itemSize/2, nitems), "inch"), 
-                          y=yslines, 
-                          width=unit(rep(itemSize, nitems), "inch"), 
-                          height=unit(rep(itemSize, nitems), "inch"),
-                          gp=gpar(fill=legend.palette))
-			}
-			grid.text(legend.labels, x=unit(rep(itemSize*2, nitems), "inch"), 
-					  y=yslines, just=c("left", "center"), gp=gpar(cex=cex))
-		}
-		
+		grid.text(legend.labels, x=unit(rep(itemSize*2.5, nitems), "inch"), 
+				  y=yslines, just=c("left", "center"), gp=gpar(cex=cex))
 	})
-	
-	# plot x axis tick marks
-	if (legend.plot.type %in% c("hist", "bar")) cellplot(2,1,e={
-		line_height <- 1 - convertHeight(unit(axesMargin, "inch"), "npc", valueOnly=TRUE)
-		if (xaxis==0) grid.lines(x=c(0,1), y=c(line_height, line_height))
+}
+
+
+legend_plot_bubble.size <- function(x, gt) {
+	with(x, {
+		nbubbles <- length(bubble.legend.sizes)
 		
-		if (legend.plot.type=="bar" && legend.show.text && xaxis==0) {
-			# plot vertical assignment lines
-			grid.polyline(x=rep(x[id], each=2),
-					   y=rep(c(0, line_height), length(id)),
-					   id=rep(1:length(id), each=2),
-					   gp=gpar(col=grey(.3)))
-		} else if (legend.plot.type=="hist") {
-			grid.polyline(x=rep(xticks, each=2), y=rep(c(line_height, line_height-0.1), length(xticks)), 
-						  id=rep(1:length(xticks), each=2)) 
-			grid.text(ptx, x=xticks, y=line_height-0.3, gp=gpar(cex=legend.plot.cex))
-		}
+		lineH <- convertHeight(unit(1,"lines"), "npc", valueOnly=TRUE) * gt$legend.text.cex
+		bubbleH <- convertHeight(unit(tail(bubble.legend.sizes,1),"inch"), "npc", valueOnly=TRUE)
 		
-	})
-		
-	# plot chart
-	if (legend.plot.type %in% c("hist", "bar")) cellplot(1,1,e={
-		grid.rect(x=x, y=xaxis, width=ws, height=hs, gp=gpar(col=NA,fill=colors), just=c("left", "bottom"))
-		
-		# plot x axis if there are negative values; otherwise, plot it in cell2,1
-		if (xaxis!=0) grid.lines(x=c(0,1), y=c(xaxis, xaxis))
-	})
-	
-	if (legend.plot.type == "bubble") cellplot(1,1,e={
-		
-		nbubbles <- length(legend.bubble.sizes)
-		
-		lineH <- convertHeight(unit(1,"lines"), "npc", valueOnly=TRUE)
-		bubbleH <- convertHeight(unit(tail(legend.bubble.sizes,1),"inch"), "npc", valueOnly=TRUE)
-		
-		fill <- ifelse(nitems==0, legend.palette, legend.palette[round((1+nitems)/2)])
+		fill <- bubble.legend.col
 		
 		grid.circle(x=seq(0,1,length.out=nbubbles+2)[2:(nbubbles+1)],
 					y=1.5*lineH+bubbleH,
-					r=unit(legend.bubble.sizes, "inch"),
-					gp=gpar(col=ifelse(plot.bubble.borders, "black", NA), fill=fill))
+					r=unit(bubble.legend.sizes, "inch"),
+					gp=gpar(col="black", fill=fill))
 		
-		maxWidth <- max(convertWidth(stringWidth(legend.bubble.labels), "npc", valueOnly=TRUE))
-		cex <-  min((1/nbubbles)/maxWidth-.1, 1)
-		grid.text(legend.bubble.labels,
-					x=seq(0,1,length.out=nbubbles+2)[2:(nbubbles+1)],
-				  	y=0.75*lineH,
-				  	gp=gpar(cex=cex)
+		maxWidth <- max(convertWidth(stringWidth(bubble.legend.size_labels), "npc", valueOnly=TRUE))
+		cex <- min((1/(nbubbles+1))/maxWidth*.85, gt$legend.text.cex)
+		grid.text(bubble.legend.size_labels,
+				  x=seq(0,1,length.out=nbubbles+2)[2:(nbubbles+1)],
+				  y=0.75*lineH,
+				  gp=gpar(cex=cex)
 		)
-		
 	})
-		
-	
-	# plot y axis
-	if (legend.plot.type %in% c("hist", "bar")) cellplot(1,2,e={
-		margin.npc <- convertWidth(unit(axesMargin, "inch"), "npc", valueOnly=TRUE)
-		grid.polyline(x=c(margin.npc, margin.npc, 
-						  rep(c(margin.npc,margin.npc+0.03), length(pty))),
-					  y=c(0, 1, rep(xaxis+hpty, each=2)),
-					  id=rep(1:(length(pty)+1),each=2))
-		formatted <- format(pty, trim=TRUE)
-		maxWidth <- max(convertWidth(stringWidth(formatted), unitTo="npc", valueOnly=TRUE)) * legend.plot.cex
-		grid.text(formatted, x=rep(margin.npc+0.08+maxWidth, length(pty)), y=xaxis+hpty, 
-				  just=c("right","center"), gp=gpar(cex=legend.plot.cex))
-	})
-	
-	
-	upViewport(3)
-	detach("gt")
 }

@@ -66,7 +66,10 @@ process_bubblemap <- function(shp, g, free.scales, legend.digits) {
 			if (varycol) {
 				
 				dat <- Xcol[[i]]
-				if (is.numeric(dat)) {
+				
+				bubble.col.is.numeric <- is.numeric(dat)
+				
+				if (bubble.col.is.numeric) {
 					if (is.null(palette)) palette <- "Blues"
 					colsLeg <- num2pal(dat, n, style=style, breaks=breaks, 
 									   palette = palette,
@@ -85,6 +88,7 @@ process_bubblemap <- function(shp, g, free.scales, legend.digits) {
 				bubble.legend.palette[[i]] <- colsLeg[[3]]
 			} else {
 				xcol <- NA
+				bubble.col.is.numeric <- FALSE
 			}
 		}
 	} else {
@@ -102,8 +106,9 @@ process_bubblemap <- function(shp, g, free.scales, legend.digits) {
 		}
 		if (varycol) {
 			dat <- unlist(Xcol)
+			bubble.col.is.numeric <- is.numeric(dat)
 			
-			if (is.numeric(dat)) {
+			if (bubble.col.is.numeric) {
 				if (is.null(palette)) palette <- "Blues"
 				colsLeg <- num2pal(dat, n, style=style, breaks=breaks, 
 								   palette = palette,
@@ -123,6 +128,7 @@ process_bubblemap <- function(shp, g, free.scales, legend.digits) {
 			bubble.legend.palette <- colsLeg[[3]]
 		} else {
 			xcol <- NA
+			bubble.col.is.numeric <- FALSE
 		}
 	}
 	list(bubble.size=bubble.size,
@@ -133,6 +139,7 @@ process_bubblemap <- function(shp, g, free.scales, legend.digits) {
 		 bubble.legend.palette=bubble.legend.palette,
 		 bubble.legend.sizes=bubble.legend.sizes,
 		 bubble.legend.size_labels=bubble.legend.size_labels,
+		 bubble.col.is.numeric=bubble.col.is.numeric,
 		 xsize=xsize,
 		 xcol=xcol)
 }

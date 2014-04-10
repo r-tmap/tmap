@@ -220,8 +220,9 @@ plot_all <- function(shps, gp) {
 	# create input lists for legend
 	choro <- if (!is.na(choroID) && gt$show.legend.choro) {
 		gc <- gp[[choroID]]
-		list(choro=list(choro.legend.labels=gc$choro.legend.labels,
-							choro.legend.palette=gc$choro.legend.palette))
+		list(choro=list(legend.labels=gc$choro.legend.labels,
+						legend.palette=gc$choro.legend.palette,
+						legend.is.bubbles=FALSE))
 	} else NULL
 	hist <- if (!is.na(choroID) && gt$show.legend.choro.hist) {
 		gc <- gp[[choroID]]
@@ -231,12 +232,17 @@ plot_all <- function(shps, gp) {
 	} else NULL
 	bubble.col <- if (!is.na(bubbleColID) && gt$show.legend.bubble.col) {
 		gb <- gp[[bubbleColID]]
-		list(bubble.col=list(bubble.legend.palette=gb$bubble.legend.palette,
-							bubble.legend.labels=gb$bubble.legend.labels))
+		list(bubble.col=list(legend.palette=gb$bubble.legend.palette,
+							legend.labels=gb$bubble.legend.labels,
+							legend.is.bubbles=TRUE,
+							bubble.max.size=max(gb$bubble.size, na.rm=TRUE)))
 	} else NULL
 	bubble.size <- if (!is.na(bubbleSizeID) && gt$show.legend.bubble.size) {
 		gb <- gp[[bubbleSizeID]]
-		list(bubble.size=list(bubble.legend.palette=gb$bubble.legend.palette,
+		col <- ifelse(gb$bubble.col.is.numeric, gb$bubble.legend.palette[length(gb$bubble.legend.palette)],
+			   ifelse(is.na(gb$bubble.legend.palette), gb$bubble.col[1], gb$bubble.legend.palette[1]))
+		
+		list(bubble.size=list(bubble.legend.col=col,
 							 bubble.legend.sizes=gb$bubble.legend.sizes * scaleFactor, 
 							 bubble.legend.size_labels=gb$bubble.legend.size_labels))
 	} else NULL

@@ -223,28 +223,11 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 #' @param frame.margins Frame margins
 #' @param legend.only Boolean that determines whether only the legend is shown
 #' @export
-geo_theme <- function(title=NULL,
+geo_theme <- function(title=NA,
 					  title.cex=1.0,
 					  bg.color="grey90",
 					  draw.frame=FALSE,
 					  crop=draw.frame,
-					  
-					  show.legend.choro = TRUE,
-					  show.legend.choro.hist = TRUE,
-					  show.legend.bubble.size = TRUE,
-					  show.legend.bubble.col = TRUE,
-					  legend.position = c("left", "top"),
-					  legend.choro.height = 0.2,
-					  legend.choro.hist.height = 0.2,
-					  legend.bubble.size.height = 0.2,
-					  legend.bubble.col.height = 0.2,
-					  legend.width = 0.2,
-					  legend.order = c("hist", "choro", "bubble.size", "bubble.col"),
-					  legend.in.frame = TRUE,
-					  legend.text.cex=1.0,
-					  legend.hist.cex=0.8,
-					  legend.digits = 2L,
-					  legend.bg.color = NA,
 					  title.position = c("left", "top"),
 					  margins = rep(0, 4),
 					  frame.lwd=1,
@@ -254,6 +237,32 @@ geo_theme <- function(title=NULL,
 	class(g) <- "geo"
 	g
 }
+
+geo_legend <- function(choro.title = NA,
+					   bubble.size.title = NA,
+					   bubble.col.title = NA,
+					   show.choro = TRUE,
+					   show.choro.hist = TRUE,
+					   show.bubble.size = TRUE,
+					   show.bubble.col = TRUE,
+					   position = c("left", "top"),
+					   choro.height = 0.2,
+					   choro.hist.height = 0.2,
+					   bubble.size.height = 0.2,
+					   bubble.col.height = 0.2,
+					   width = 0.2,
+					   order = c("hist", "choro", "bubble.size", "bubble.col"),
+					   in.frame = TRUE,
+					   title.cex=1.2,
+					   text.cex=1.0,
+					   hist.cex=0.8,
+					   digits = 2L,
+					   bg.color = NA) {
+	g <- list(geo_legend=as.list(environment()))
+	class(g) <- "geo"
+	g
+}
+
 
 # geo_theme.NLD <- function(total.area.km2=33893,
 # 						  ...) {

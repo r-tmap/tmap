@@ -106,7 +106,7 @@ summaryRprof("../rprof.out", memory="both")
  	geo_bubblemap("gdp_md_est", "income_grp", style="kmeans", scale=3) +
  	geo_borders() +
  	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe("GDP per capita", legend.text.cex=1, legend.plot.cex=.6))
+ 	geo_theme_Europe("GDP per capita"))
 
 
 (g <- geo_shape(Europe) +
