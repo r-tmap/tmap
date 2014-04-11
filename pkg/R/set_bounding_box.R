@@ -23,6 +23,7 @@ set_bounding_box <- function(shps, gp, gt) {
 			
 			if (length(gpl$fill)==length(ids)) gpl$fill <- gpl$fill[indices]
 			if (length(gpl$bubble.size)==length(ids)) gpl$bubble.size <- gpl$bubble.size[indices]
+			if (length(gpl$bubble.col)==length(ids)) gpl$bubble.col <- gpl$bubble.col[indices]
 			
 		} else {
 			shp@bbox <- bb

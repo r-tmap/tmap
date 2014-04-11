@@ -193,7 +193,11 @@ geo_bubblemap <- function(size = NULL, col = NULL,
 #' @export
 #' @return \code{\link{geo-object}}
 geo_grid <- function(ncol=NULL, nrow=NULL, 
-					 free.scales=FALSE)	{
+					 free.scales=FALSE,
+					 free.scales.choro=free.scales,
+					 free.scales.bubble.size=free.scales,
+					 free.scales.bubble.col=free.scales
+					 )	{
 	g <- list(geo_grid=as.list(environment()))
 	class(g) <- "geo"
 	g
@@ -225,40 +229,32 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 #' @export
 geo_theme <- function(title=NA,
 					  title.cex=1.0,
-					  bg.color="grey90",
+					  bg.color="grey85",
 					  draw.frame=FALSE,
 					  crop=draw.frame,
 					  title.position = c("left", "top"),
 					  margins = rep(0, 4),
 					  frame.lwd=1,
 					  frame.margins=rep(0.02, 4),
+					  legend.config = c("hist", "choro", "bubble.size", "bubble.col"),
+					  legend.choro.title = NA,
+					  legend.bubble.size.title = NA,
+					  legend.bubble.col.title = NA,
+					  legend.position = c("left", "top"),
+					  legend.width = 0.2,
+					  legend.height = 0.7,
+					  legend.choro.height = 0.2,
+					  legend.choro.hist.height = 0.2,
+					  legend.bubble.size.height = 0.15,
+					  legend.bubble.col.height = 0.2,
+					  legend.in.frame = TRUE,
+					  legend.title.cex=1.0,
+					  legend.text.cex=0.6,
+					  legend.hist.cex=0.6,
+					  legend.digits = 2L,
+					  legend.bg.color = NA,
 					  legend.only=FALSE) {
 	g <- list(geo_theme=as.list(environment()))
-	class(g) <- "geo"
-	g
-}
-
-geo_legend <- function(choro.title = NA,
-					   bubble.size.title = NA,
-					   bubble.col.title = NA,
-					   show.choro = TRUE,
-					   show.choro.hist = TRUE,
-					   show.bubble.size = TRUE,
-					   show.bubble.col = TRUE,
-					   position = c("left", "top"),
-					   choro.height = 0.2,
-					   choro.hist.height = 0.2,
-					   bubble.size.height = 0.2,
-					   bubble.col.height = 0.2,
-					   width = 0.2,
-					   order = c("hist", "choro", "bubble.size", "bubble.col"),
-					   in.frame = TRUE,
-					   title.cex=1.2,
-					   text.cex=1.0,
-					   hist.cex=0.8,
-					   digits = 2L,
-					   bg.color = NA) {
-	g <- list(geo_legend=as.list(environment()))
 	class(g) <- "geo"
 	g
 }
@@ -276,12 +272,13 @@ geo_theme_World <- function(title=NULL,
 							title.cex=1,
 							draw.frame=TRUE, 
 							crop=TRUE,
-							legend.position=c("left", "bottom"), 
-							legend.width=.20,
 							title.position = c("left", "bottom"),
 							margins=rep(.02, 4),
 							frame.margins=c(0, 0.02, 0.02, 0.02),
-							legend.bg.color="grey90",
+							legend.position=c("left", "bottom"), 
+							legend.width=.2,
+							legend.height = .5,
+							legend.bg.color="grey85",
 							...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("geo_theme", args)

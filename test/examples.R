@@ -35,7 +35,7 @@ geo_theme_NLD(title="Population (per km2)", bg.color="gray80", legend.digits=0, 
  	geo_borders() +
  	geo_bubblemap("pop_est") +
  	geo_text("iso_a3", cex="AREA3") +
- 	geo_theme_World("Income classification", legend.plot.cex=.2))
+ 	geo_theme_World("Income classification", legend.bubble.size.title="Population"))
 
 (g <- geo_shape(Europe) +
  	geo_choropleth("gdp_cap_est", style="kmeans") +
@@ -114,4 +114,14 @@ summaryRprof("../rprof.out", memory="both")
  	geo_bubblemap("gdp_md_est", "income_grp", style="kmeans", scale=3) +
  	geo_borders() +
  	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe("GDP per capita"))
+ 	geo_theme_Europe())
+
+
+(g <- geo_shape(Europe) +
+ 	geo_choropleth(c("gdp_cap_est", "pop_est"), style="kmeans") +
+ 	geo_bubblemap("gdp_md_est", c("income_grp", "subregion"), style="kmeans", scale=3) +
+ 	geo_borders() +
+ 	geo_text("iso_a3", cex="AREA3", scale=2) +
+ 	geo_theme_Europe() +
+ 	geo_grid(free.scales=TRUE, nrow=2))
+

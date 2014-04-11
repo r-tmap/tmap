@@ -85,7 +85,6 @@ plot_map <- function(shps, gp, gt) {
 		shp <- shps[[l]]
 		
 		#npol <- length(shp)
-		
 		co <- coordinates(shp)
 		
 		bb <- shp@bbox
@@ -94,6 +93,7 @@ plot_map <- function(shps, gp, gt) {
 		co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
 		co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 
+		
 		if (!is.na(gpl$bubble.size[1])) {
 
 			plot_bubbles(co.npc, gpl$bubble.size, gpl$bubble.col, gpl$bubble.border, scaleFactor)
@@ -211,33 +211,36 @@ plot_all <- function(shps, gp) {
 		})
 		upViewport()
 	}
-	
+
 	#find statistic variables
 	choroID <- which(sapply(gp, function(x)!is.na(x$varnames$choro.fill[1])))[1]
 	bubbleSizeID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.size[1])))[1]
 	bubbleColID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.col[1])))[1]
 	
+	
+	gt
+	
 	# create input lists for legend
-	choro <- if (!is.na(choroID) && gt$show.legend.choro) {
+	choro <- if (!is.na(choroID) && "choro" %in% gt$legend.config) {
 		gc <- gp[[choroID]]
 		list(choro=list(legend.labels=gc$choro.legend.labels,
 						legend.palette=gc$choro.legend.palette,
 						legend.is.bubbles=FALSE))
 	} else NULL
-	hist <- if (!is.na(choroID) && gt$show.legend.choro.hist) {
+	hist <- if (!is.na(choroID) && "hist" %in% gt$legend.config) {
 		gc <- gp[[choroID]]
 		list(hist=list(choro.legend.palette=gc$choro.legend.palette,
 							choro.values=gc$choro.values,
 							choro.breaks=gc$choro.breaks))
 	} else NULL
-	bubble.col <- if (!is.na(bubbleColID) && gt$show.legend.bubble.col) {
+	bubble.col <- if (!is.na(bubbleColID) && "bubble.col" %in% gt$legend.config) {
 		gb <- gp[[bubbleColID]]
 		list(bubble.col=list(legend.palette=gb$bubble.legend.palette,
 							legend.labels=gb$bubble.legend.labels,
 							legend.is.bubbles=TRUE,
 							bubble.max.size=max(gb$bubble.size, na.rm=TRUE)))
 	} else NULL
-	bubble.size <- if (!is.na(bubbleSizeID) && gt$show.legend.bubble.size) {
+	bubble.size <- if (!is.na(bubbleSizeID) && "bubble.size" %in% gt$legend.config) {
 		gb <- gp[[bubbleSizeID]]
 		col <- ifelse(gb$bubble.col.is.numeric, gb$bubble.legend.palette[length(gb$bubble.legend.palette)],
 			   ifelse(is.na(gb$bubble.legend.palette), gb$bubble.col[1], gb$bubble.legend.palette[1]))

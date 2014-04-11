@@ -1,4 +1,5 @@
-process_layers <- function(g, free.scales, legend.digits) {
+process_layers <- function(g, free.scales.choro, free.scales.bubble.size, 
+						   free.scales.bubble.col, legend.digits) {
 	shp <- g$geo_shape$shp
 	
 	# border info
@@ -14,7 +15,7 @@ process_layers <- function(g, free.scales, legend.digits) {
 					  choro.legend.palette=NA,
 					  choro.breaks=NA,
 					  xfill=NA)
-	} else process_choro(shp, g$geo_choropleth, free.scales, legend.digits)
+	} else process_choro(shp, g$geo_choropleth, free.scales.choro, legend.digits)
 	
 	# bubble info
 	gbubble <- if (is.null(g$geo_bubblemap)) {
@@ -32,7 +33,7 @@ process_layers <- function(g, free.scales, legend.digits) {
 			bubble.legend.size_labels=NA,
 			xsize=NA,
 			xcol=NA))
-	} else process_bubblemap(shp, g$geo_bubblemap, free.scales, legend.digits)
+	} else process_bubblemap(shp, g$geo_bubblemap, free.scales.bubble.size, free.scales.bubble.col, legend.digits)
 
 	# text info
 	gtext <- if (is.null(g$geo_text)) {

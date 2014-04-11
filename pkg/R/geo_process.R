@@ -34,7 +34,10 @@ print.geo <- function(g) {
 	gs <- split(gbody, cluster.id)
 
 	## convert clusters to layers
-	gp <- lapply(gs, FUN=process_layers, free.scales=gmeta$geo_grid$free.scales,
+	gp <- lapply(gs, FUN=process_layers, 
+				 free.scales.choro=gmeta$geo_grid$free.scales.choro,
+				 free.scales.bubble.size=gmeta$geo_grid$free.scales.bubble.size,
+				 free.scales.bubble.col=gmeta$geo_grid$free.scales.bubble.col,
 				 legend.digits=gmeta$geo_theme$legend.digits)
 	
 	## determine maximal number of variables
@@ -58,6 +61,9 @@ print.geo <- function(g) {
 	gps$multiples <- mapply(function(x, i){
 		x$geo_theme <- gmeta$geo_theme
 		x$geo_theme$title <- x$geo_theme$title[i]
+		x$geo_theme$legend.choro.title <- x$geo_theme$legend.choro.title[i]
+		x$geo_theme$legend.bubble.size.title <- x$geo_theme$legend.bubble.size.title[i]
+		x$geo_theme$legend.bubble.col.title <- x$geo_theme$legend.bubble.col.title[i]
 		x
 	}, gps$multiples, 1:nx, SIMPLIFY=FALSE)
 	
@@ -185,14 +191,27 @@ process_meta <- function(g, nx, varnames) {
 	g$geo_theme <- within(g$geo_theme, {
 		if (is.null(title)) {
 			id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
-			title <- if (!is.na(id)) varnames[[id]] else rep("", nx)
-		} else title <- switch(title[1],
-							   choro.fill=varnames[[1]],
-							   bubble.size=varnames[[2]],
-							   bubble.col=varnames[[3]],
-							   title)
+		} else id <- switch(title[1],
+							   choro.fill=1,
+							   bubble.size=2,
+							   bubble.col=3,
+							   0)
+		
+		if (is.na(id)) {
+			title <- rep("", nx)
+		} else if (id!=0) {
+			if (is.na(legend.choro.title) && id!=1) legend.choro.title <- varnames[[1]]
+			if (is.na(legend.bubble.size.title) && id!=2) legend.bubble.size.title <- varnames[[2]]
+			if (is.na(legend.bubble.col.title) && id!=3) legend.bubble.col.title <- varnames[[3]]
+			title <- varnames[[id]]
+		}
+		if (is.na(legend.choro.title[1])) legend.choro.title <- rep("", nx)
+		if (is.na(legend.bubble.size.title[1])) legend.bubble.size.title <- rep("", nx)
+		if (is.na(legend.bubble.col.title[1])) legend.bubble.col.title <- rep("", nx)
+		
 		if (length(title) < nx) title <- rep(title, length.out=nx)
 	})	
+	
 	g
 }
 
