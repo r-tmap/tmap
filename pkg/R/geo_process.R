@@ -14,6 +14,7 @@ print.geo <- function(g) {
 	meta_layers <- c("geo_theme", "geo_grid")
 	for (m in meta_layers) if (is.null(g[[m]])) g <- g + do.call(m, args=list())
 	
+	
 	## split g into gmeta and gbody
 	gmeta <- g[meta_layers]
 	gbody <- g[!(names(g) %in% meta_layers)]
@@ -32,7 +33,14 @@ print.geo <- function(g) {
 	gbody[shape.id] <- process_projection(gbody[shape.id])
 	
 	gs <- split(gbody, cluster.id)
-
+	
+	nlx <- sapply(gs, length)
+	if (any(nlx==1)) warning("Specify at least one layer next to geo_shape")
+	
+	
+	
+	#gs <- lapply(gs, function(gx) if (is.null(gx[["geo_borders"]])) gx + geo_borders() else gx)
+	
 	## convert clusters to layers
 	gp <- lapply(gs, FUN=process_layers, 
 				 free.scales.choro=gmeta$geo_grid$free.scales.choro,
@@ -137,7 +145,18 @@ process_projection <- function(g) {
 			x$shp <- spTransform(x$shp, CRS(projection))
 			x
 		})
-	}	
+	} else {
+		# for consistency, use first projection on other shapes
+		if (!is.na(shp.proj)) {
+			g[-masterID] <- lapply(g[-masterID], function(x) {
+				shpx.proj <- proj4string(x$shp)
+				if (is.na(shpx.proj) || shpx.proj!=shp.proj) {
+					x$shp <- spTransform(x$shp, CRS(shp.proj))
+				}
+				x
+			})	
+		}
+	}
 	
 	# define bounding box
 	shp.bbox <- bbox(shp)
@@ -189,7 +208,7 @@ process_meta <- function(g, nx, varnames) {
 	})
 	
 	g$geo_theme <- within(g$geo_theme, {
-		if (is.null(title)) {
+		if (is.na(title)) {
 			id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
 		} else id <- switch(title[1],
 							   choro.fill=1,

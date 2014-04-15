@@ -236,13 +236,15 @@ geo_theme <- function(title=NA,
 					  margins = rep(0, 4),
 					  frame.lwd=1,
 					  frame.margins=rep(0.02, 4),
-					  legend.config = c("hist", "choro", "bubble.size", "bubble.col"),
+					  legend.type = "full",
+					  legend.only = FALSE,
 					  legend.choro.title = NA,
 					  legend.bubble.size.title = NA,
 					  legend.bubble.col.title = NA,
 					  legend.position = c("left", "top"),
 					  legend.width = 0.2,
 					  legend.height = 0.7,
+					  legend.config = c("hist", "choro", "bubble.size", "bubble.col"),
 					  legend.choro.height = 0.2,
 					  legend.choro.hist.height = 0.2,
 					  legend.bubble.size.height = 0.15,
@@ -252,8 +254,7 @@ geo_theme <- function(title=NA,
 					  legend.text.cex=0.6,
 					  legend.hist.cex=0.6,
 					  legend.digits = 2L,
-					  legend.bg.color = NA,
-					  legend.only=FALSE) {
+					  legend.bg.color = NA) {
 	g <- list(geo_theme=as.list(environment()))
 	class(g) <- "geo"
 	g
@@ -268,7 +269,7 @@ geo_theme <- function(title=NA,
 #' @rdname geo_theme
 #' @param ... other arguments from \code{geo_theme}
 #' @export
-geo_theme_World <- function(title=NULL,
+geo_theme_World <- function(title=NA,
 							title.cex=1,
 							draw.frame=TRUE, 
 							crop=TRUE,
@@ -287,7 +288,7 @@ geo_theme_World <- function(title=NULL,
 #' @rdname geo_theme
 #' @param ... other arguments from \code{geo_theme}
 #' @export
-geo_theme_Europe <- function(title=NULL,
+geo_theme_Europe <- function(title=NA,
 							 draw.frame=TRUE, 
 							legend.position=c("left", "top"), 
 							legend.width=.25,
@@ -302,7 +303,7 @@ geo_theme_Europe <- function(title=NULL,
 #' @rdname geo_theme
 #' @param ... other arguments from \code{geo_theme}
 #' @export
-geo_theme_NLD <- function(title=NULL,
+geo_theme_NLD <- function(title=NA,
 						  draw.frame=FALSE, 
 							legend.in.frame=FALSE, 
 							legend.position=c("left", "top"), 
@@ -323,6 +324,18 @@ geo_theme_NLD <- function(title=NULL,
 "+.geo" <- function(e1, e2) {
 	g <- c(e1,e2)
 	class(g) <- "geo"
+	g
+}
+
+
+geo <- function(shp, 
+				choro.fill=NULL,
+				bubble.size=NULL,
+				bubble.col=NULL,
+				borders="gray") {
+	g <- geo_shape(shp) + geo_borders(borders)
+	if (!missing(choro.fill)) g <- g + geo_choropleth(choro.fill)
+	if (!missing(bubble.size) || !missing(bubble.col)) g <- g + geo_bubblemap(size=bubble.size, col=bubble.col)
 	g
 }
 
