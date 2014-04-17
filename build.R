@@ -8,6 +8,8 @@ setwd("../pkg")
 
 ck <- check()
 
+check_doc()
+
 ++++++## check
 if (ck) {
 	unlink( '../output', TRUE)

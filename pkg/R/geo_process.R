@@ -2,27 +2,28 @@
 #' 
 #' Print geo object
 #' 
-#' @param g geo object
+#' @param x geo object
+#' @param ... not used
 #' @import sp
 #' @import RColorBrewer
 #' @import grid
 #' @import gridBase
 #' @import classInt
 #' @export
-print.geo <- function(g) {
+print.geo <- function(x, ...) {
 	## fill meta info
 	meta_layers <- c("geo_theme", "geo_grid")
-	for (m in meta_layers) if (is.null(g[[m]])) g <- g + do.call(m, args=list())
+	for (m in meta_layers) if (is.null(x[[m]])) x <- x + do.call(m, args=list())
 	
 	
-	## split g into gmeta and gbody
-	gmeta <- g[meta_layers]
-	gbody <- g[!(names(g) %in% meta_layers)]
+	## split x into gmeta and gbody
+	gmeta <- x[meta_layers]
+	gbody <- x[!(names(x) %in% meta_layers)]
 	
 	
 	n <- length(gbody)
 	
-	## split g into clusters
+	## split x into clusters
 	shape.id <- which(names(gbody)=="geo_shape")
 	if (!length(shape.id)) stop("Required geo_shape layer missing.")
 	if (shape.id[1] != 1) stop("First layers should be a geo_shape layer.")

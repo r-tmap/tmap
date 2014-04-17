@@ -4,18 +4,21 @@
 \usage{
 geo_choropleth(col, palette = NULL, convert2density = FALSE, n = 5,
   style = "pretty", breaks = NULL, labels = NULL,
-  auto.palette.mapping = TRUE, contrast = 1, colorNA = "#DDDDDD",
+  auto.palette.mapping = TRUE, contrast = 1, colorNA = "#BBBBBB",
   total.area.km2 = NA)
 }
 \arguments{
-  \item{col}{name of variable that is contained in
+  \item{col}{name of the data variable that is contained in
   \code{shp}}
 
   \item{palette}{palette name. See
   \code{RColorBrewer::display.brewer.all()} for options.
   Use a \code{"-"} as prefix to reverse the palette. By
-  default, \code{"RdYlBu"} is taken for numeric variables,
-  and \code{"Dark2"} for categorical variables.}
+  default, \code{"RdYlGn"} is taken for numeric variables
+  that contain both negative and positive values,
+  \code{"Blues"} for numeric variables that contain
+  non-negative values, and \code{"Dark2"} for categorical
+  variables.}
 
   \item{n}{preferred number of classes (in case \code{col}
   is a numeric variable)}

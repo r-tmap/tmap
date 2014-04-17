@@ -34,12 +34,14 @@ geo_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
   truthful choropleths. Type: equal-area}
   \item{\code{"hd"}}{Hobo-Dyer (2002). Another projection
   useful for world maps in which area sizes are preserved.
-  Type: equal-area} \item{\code{"merc"}}{Mercator (1569).
-  Projection in which shapes are locally preserved.
-  However, areas close to the poles are inflated. Used by
-  Google Maps. Type: conformal} \item{\code{"mill"}}{Miller
-  (1942). Projetion based on Mercator, in which poles are
-  displayed. Type: compromise}
+  Type: equal-area} \item{\code{"gall"}}{Gall (Peters)
+  (1855). Another projection useful for world maps in which
+  area sizes are preserved. Type: equal-area}
+  \item{\code{"merc"}}{Mercator (1569). Projection in which
+  shapes are locally preserved. However, areas close to the
+  poles are inflated. Used by Google Maps. Type: conformal}
+  \item{\code{"mill"}}{Miller (1942). Projetion based on
+  Mercator, in which poles are displayed. Type: compromise}
   \item{\code{"eqc0"}}{Equirectangular (120). Projection in
   which distances along meridians are conserved. The
   equator is the standard parallel. Also known as Plate

@@ -2,10 +2,12 @@
 \alias{print.geo}
 \title{Print geo object}
 \usage{
-\method{print}{geo}(g)
+\method{print}{geo}(x, ...)
 }
 \arguments{
-  \item{g}{geo object}
+  \item{x}{geo object}
+
+  \item{...}{not used}
 }
 \description{
 Print geo object

@@ -150,12 +150,13 @@ plot_bubbles <- function(co.npc, sizes, bubble.col, bubble.border, scaleFactor) 
 }
 
 plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.bg.color, text.bg.alpha, text.scale, text.print.tiny, text.fontface, text.fontfamily) {
+	npol <- nrow(co.npc)
 	
 	text_sel <- (cex >= text.cex.lowerbound)
 	
 	if (text.print.tiny) {
 		cex[!text_sel] <- text.cex.lowerbound
-		text_sel <- rep(TRUE, length.out=length(shp))
+		text_sel <- rep(TRUE, length.out=npol)
 	}
 	
 	#cex[!text_sel] <- 0

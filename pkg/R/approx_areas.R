@@ -7,11 +7,11 @@
 #' @param shp shape object, i.e. a SpatialPolygons(DataFrame)
 #' @param total.area.km2 total area size of \code{shp} in number of squared kilometers
 #' @param units one of
-#' \desribe{
+#' \describe{
 #' 	\item{\code{"km2"}:}{Squared kilometers. For this method, \code{total.area.km2} is required.}
 #' 	\item{\code{"abs"}:}{Absolute numbers based on polygon coordinates. Note: these are just the \code{area} slots of the polygons.}
 #' 	\item{\code{"prop"}:}{Proportional numbers. In other words, the total of the area sizes equals one.}
-#' 	\item{\code{"norm"}:}{Normalized numbers. All area sizes are normalized to the largest area, of which the area size equals one.}
+#' 	\item{\code{"norm"}:}{Normalized numbers. All area sizes are normalized to the largest area, of which the area size equals one.}}
 #' 	The default method is \code{"abs"}, unless \code{total.area.km2} is specified (in that case, it obviously is \code{"km2"}).
 #' @return numeric vector of area sizes
 #' @export

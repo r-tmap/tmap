@@ -2,7 +2,7 @@
 \alias{calc_densities}
 \title{Calculate densities}
 \usage{
-calc_densities(shp, var, total.area.km2 = 33893, drop = TRUE)
+calc_densities(shp, var, total.area.km2 = NA, drop = TRUE)
 }
 \arguments{
   \item{shp}{a shape object}

@@ -2,10 +2,10 @@ legend_plot <- function(gt, x) {
 	
 	conf <- gt$legend.config 
 	
-	if (gt$legend.type=="text") conf <- setdiff(conf, "hist")
-	if (gt$legend.type=="hist") conf <- intersect(conf, "hist")
+	if (gt$legend.profile=="text") conf <- setdiff(conf, "hist")
+	if (gt$legend.profile=="hist") conf <- intersect(conf, "hist")
 	
-	if (!length(conf) || gt$legend.type=="hide") {
+	if (!length(conf) || gt$legend.profile=="hide") {
 		return(NULL)
 	}
 	
