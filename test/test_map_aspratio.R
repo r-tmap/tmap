@@ -10,7 +10,15 @@ geo_shape(Europe) +
 geo_shape(Europe) +
 	geo_choropleth("gdp_cap_est", style="kmeans") +
 	geo_borders("gray50") + #geo_theme()
-	geo_theme_Europe("Estimated GDP per capita", draw.frame=FALSE, crop=FALSE,
-					 margins = rep(.1, 4), frame.margins=c(0, 0, 0, 0))
+	geo_theme_Europe("Estimated GDP per capita", draw.frame=TRUE, crop=TRUE,
+					 margins = rep(0, 4), frame.margins=c(0, 0, 0, 0))
+
+
+geo_shape(Europe, projection="longlat") +
+	geo_choropleth("gdp_cap_est", style="kmeans") +
+	geo_borders("gray50") + #geo_theme()
+	geo_theme_Europe("Estimated GDP per capita", draw.frame=TRUE, crop=TRUE,
+					 margins = rep(0, 4), frame.margins=c(0, 0, 0, 0))
+
 
 geo_theme()

@@ -219,6 +219,7 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 #' @param draw.frame Boolean that determines whether a frama is drawn. 
 #' @param crop boolean that determines whether the shape objects are cropped at the bounding box (see \code{\link[sp:bbox]{bbox}})
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
+#' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{geo_shape}}) and the argument \code{frame.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
 #' @param margins Relative margins. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param frame.lwd Width of the frame
 #' @param frame.margins Frame margins
@@ -255,6 +256,7 @@ geo_theme <- function(title=NA,
 					  draw.frame=FALSE,
 					  crop=draw.frame,
 					  title.position = c("left", "top"),
+					  asp = NA,
 					  margins = rep(0, 4),
 					  frame.lwd=1,
 					  frame.margins=rep(0.02, 4),
