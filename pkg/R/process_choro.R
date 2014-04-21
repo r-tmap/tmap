@@ -15,6 +15,10 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 	X <- shp@data[, x, drop=FALSE]
 	if (convert2density) X <- calc_densities(shp, var=x, total.area.km2=total.area.km2, drop=FALSE)
 	
+	tiny <- approx_areas(shp, units="prop") < .001
+
+	
+	
 	if (free.scales && nx > 1) {
 		fill <- matrix("", ncol=nx, nrow=nrow(X))
 		choro.legend.labels <- list()
@@ -36,7 +40,11 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
             		palette <- ifelse(anyPos && !anyNeg, "Blues",
             						  ifelse(!anyPos && anyNeg, "-Reds", "RdYlBu"))
             	}
-            	colsLeg <- num2pal(XX, n, style=style, breaks=breaks, 
+            	xmin <- min(XX[!tiny], na.rm=TRUE)
+            	xmax <- max(XX[!tiny], na.rm=TRUE)
+            	XX[tiny & XX<xmin] <- xmin
+            	XX[tiny & XX>xmax] <- xmax
+            	colsLeg <- num2pal(XX, n, style=style, breaks=breaks,
                                    palette = palette,
                                    auto.palette.mapping = auto.palette.mapping,
                                    contrast = contrast, legend.labels=labels,
@@ -45,6 +53,7 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
                 
                 choro.breaks[[i]] <- colsLeg[[4]]
             }
+			X[[i]] <- XX
 			fill[,i] <- colsLeg[[1]]
 			choro.legend.labels[[i]] <- colsLeg[[2]]
 			choro.legend.palette[[i]] <- colsLeg[[3]]
@@ -64,6 +73,10 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
         		palette <- ifelse(anyPos && !anyNeg, "Blues",
         						  ifelse(!anyPos && anyNeg, "-Reds", "RdYlBu"))
         	}
+        	xmin <- min(XX[!tiny], na.rm=TRUE)
+        	xmax <- max(XX[!tiny], na.rm=TRUE)
+        	XX[tiny & XX<xmin] <- xmin
+        	XX[tiny & XX>xmax] <- xmax
         	colsLeg <- num2pal(XX, n, style=style, breaks=breaks, 
     						   palette = palette,
     						   auto.palette.mapping = auto.palette.mapping,
@@ -76,9 +89,9 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 									rep(1:nx, each=length(colsLeg[[1]])/nx))), ncol=nx)
 		choro.legend.labels <- colsLeg[[2]]
 		choro.legend.palette <- colsLeg[[3]]
+		X[,] <- XX
 	}
 	choro.values <- X
-	
 	list(fill=fill,
 		 choro.values=choro.values,
 		 choro.legend.labels=choro.legend.labels,

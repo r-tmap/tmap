@@ -28,7 +28,7 @@ NULL
 
 #' World map
 #' 
-#' World map
+#' World map. The projection that is chosen for this world map is Eckhart IV since area sizes are preserved, which is a very important property for statistical purposes.
 #'
 #' @name World
 #' @docType data
@@ -36,7 +36,7 @@ NULL
 
 #' Europe map
 #' 
-#' Europe map
+#' Europe map. Lambert azimuthal equal-area projection is used by default for this map. Several countries are transcontinental and are partly located in Asia. From these countries, only Russia and Turkey have been included in this map as part of Europe since they are widely considered as European countries. Other transcontinental countries Azerbaijan, Georgia, and Kazakhstan, are also included in the map, but only passively. From the other surrounding countries, only Greenland is removed from the map, since it interferes with the map title.
 #'
 #' @name Europe
 #' @docType data

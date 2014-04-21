@@ -7,15 +7,19 @@ num2pal <- function(x, n = 5,
 					   legend.labels = NULL,
 					   legend.digits = 2,
 					   colorNA = "#FF1414") {
+	
 	# create intervals and assign colors
-    q <- suppressWarnings(if (style=="fixed") {
+	q <- suppressWarnings(if (style=="fixed") {
         classIntervals(x, n, style= style, fixedBreaks=breaks) 
     } else {
         classIntervals(x, n, style= style)
     })
-        
     breaks <- q$brks
 	nbrks <- length(breaks)
+
+	#if (breaks[1] > xrealmin) breaks[1] <- xrealmin
+	#if (breaks[nbrks] < xrealmax) breaks[nbrks] <- xrealmax
+	
 	
 	# reverse palette
 	if (substr(palette, 1, 1)=="-") {
@@ -61,8 +65,8 @@ num2pal <- function(x, n = 5,
 	}
 	# create legend labels
 	if (is.null(legend.labels)) {
-		breaks.printed <- sprintf(paste("%.", legend.digits, "f", sep=""), q$brks) 
-		legend.labels <- paste("[", paste(breaks.printed[-length(q$brks)], breaks.printed[-1], sep=","), ")", sep="")
+		breaks.printed <- sprintf(paste("%.", legend.digits, "f", sep=""), breaks) 
+		legend.labels <- paste("[", paste(breaks.printed[-nbrks], breaks.printed[-1], sep=", "), ")", sep="")
 		legend.labels[length(legend.labels)] <- paste(substr(legend.labels[length(legend.labels)], 
 															 1, nchar(legend.labels[length(legend.labels)])-1), "]", sep="")
 	} else {
@@ -72,6 +76,7 @@ num2pal <- function(x, n = 5,
 	
 	if (anyNA) {
 		legend.labels <- c(legend.labels, "Missing")
-	}	
+	}
+	
 	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks)
 }

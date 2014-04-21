@@ -18,7 +18,7 @@ plot_map <- function(shps, gp, gt) {
 	add <- c(FALSE, rep(TRUE, length(gp)-1))	
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
-		plot(shps[[l]], col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=NA)
+		plot(shps[[l]], col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=TRUE)
 	}
 	
 	## set grid viewport (second line needed for small multiples)
@@ -189,7 +189,7 @@ plot_all <- function(shps, gp) {
 	
 	gp[c("geo_theme")] <- NULL
 	
-	margins <- gt$margins
+	margins <- gt$outer.margins
 	title.position <- gt$title.position
 	
 	# set outer margins

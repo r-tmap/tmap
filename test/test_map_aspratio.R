@@ -1,4 +1,5 @@
 data(Europe)
+data(World)
 
 geo(Europe, choro.fill="gdp_cap_est", borders="gray50", theme="Europe", style="kmeans", title="Estimated GDP per capita")
 
@@ -21,4 +22,8 @@ geo_shape(Europe, projection="longlat") +
 					 margins = rep(0, 4), frame.margins=c(0, 0, 0, 0))
 
 
-geo_theme()
+pdf("../test.pdf", width=8, height=2)
+geo(World, projection="robin", asp=4, draw.frame=TRUE)
+dev.off()
+
+geo(World, asp=4, frame.margins=c(0,.9,.1,.1), draw.frame=TRUE, margins=c(.1, .1, .1, .1))

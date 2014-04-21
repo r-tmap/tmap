@@ -40,7 +40,7 @@ geo_theme_NLD(title="Population (per km2)", bg.color="gray80", legend.digits=0, 
  	geo_text("iso_a3", cex="AREA3") +
  	geo_theme_World("Income classification", legend.bubble.size.title="Population"))
 
-(g <- geo_shape(Europe, projection="longlat") +
+(g <- geo_shape(Europe) +
  	geo_choropleth("gdp_cap_est", style="kmeans") +
  	geo_borders() +
  	geo_text("iso_a3", cex="AREA3", scale=2) +
