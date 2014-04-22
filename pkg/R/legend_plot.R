@@ -5,9 +5,9 @@ legend_plot <- function(gt, x) {
 	if (gt$legend.profile=="text") conf <- setdiff(conf, "hist")
 	if (gt$legend.profile=="hist") conf <- intersect(conf, "hist")
 	
-	if (!length(conf) || gt$legend.profile=="hide") {
-		return(NULL)
-	}
+# 	if (!length(conf) || gt$legend.profile=="hide") {
+# 		return(NULL)
+# 	}
 	
 	if (gt$legend.choro.title!="") {
 		choro.id <- which(conf %in% c("hist", "choro"))[1]
@@ -126,7 +126,10 @@ legend_plot <- function(gt, x) {
 
 	grid.text(gt$title, x=title.position[1], y=title.position[2], 
 			  just=c("left", "center"), gp=gpar(cex=gt$title.cex))
-	
+	if (!length(conf) || gt$legend.profile=="hide" || is.null(x)) {
+		return(NULL)
+	}
+
 	vpLegend <- viewport(y=legend.position[2], x=legend.position[1], 
 						 height=legendHeight, width=legendWidth, 
 						 just=c("left", "bottom"))
@@ -160,19 +163,24 @@ legend_plot_hist <- function(x, gt) {
 			ptx <- levels(choro.values)
 			colors <- choro.legend.palette
 		} else {
+			#browser()
 			choro.values <- na.omit(choro.values)
 			breaks2 <- pretty(choro.values, n=30)
+			
+			toolow <- (breaks2 < min(choro.breaks))
+			toohigh <- (breaks2 > max(choro.breaks))
+			
+			startID <- max(sum(toolow), 1)
+			endID <- length(breaks2) - max(sum(toohigh), 1) + 1
+			
+			breaks2 <- breaks2[startID:endID]
 			bins.mean <- (breaks2[-1] + breaks2[1:(length(breaks2)-1)])/2
-			
-			toolow <- (bins.mean < min(choro.breaks))
-			toohigh <- (bins.mean > max(choro.breaks))
-			
-			bins.mean <- bins.mean[!toolow & !toohigh]
-			breaks2 <- breaks2[(sum(toolow)+1):(length(breaks2)-sum(toohigh))]
 			
 			cchoro.values <- cut(choro.values, breaks=breaks2, include.lowest=TRUE, right=FALSE)
 			
 			numbers <- as.vector(table(cchoro.values))
+			choro.breaks[1] <- -Inf
+			choro.breaks[length(choro.breaks)] <- Inf
 			
 			colors <- choro.legend.palette[sapply(bins.mean, function(x) which(x<choro.breaks)[1]-1)]
 			
@@ -299,7 +307,8 @@ legend_plot_choro <- legend_plot_bubble.col <- function(x, gt) {
 			bubbleSizes <- min(bubble.max.size, itemSize*0.75)
 			grid.circle(x=unit(rep(itemSize*1.5, nitems), "inch"), 
 						y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
-						gp=gpar(fill=legend.palette))
+						gp=gpar(fill=legend.palette,
+								col=bubble.legend.border))
 		} else {
 			grid.rect(x=unit(rep(itemSize*1.5, nitems), "inch"), 
 					  y=yslines, 
@@ -334,13 +343,11 @@ legend_plot_bubble.size <- function(x, gt) {
 		
 		bubbleY <- divY + bubbleHmax / 1.5
 		lineY <- divY - lineH*.75
-		
-		fill <- bubble.legend.col
-		
+				
 		grid.circle(x=seq(0,1,length.out=nbubbles+2)[2:(nbubbles+1)],
 					y=bubbleY,
 					r=bubbleH,
-					gp=gpar(col="black", fill=fill))
+					gp=gpar(col=bubble.legend.border, fill=bubble.legend.col))
 		
 		grid.text(bubble.legend.size_labels,
 				  x=seq(0,1,length.out=nbubbles+2)[2:(nbubbles+1)],

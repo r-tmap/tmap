@@ -3,7 +3,7 @@
 \title{Quick map plot}
 \usage{
 geo(shp, choro.fill = NULL, bubble.size = NULL, bubble.col = NULL,
-  borders = "black", theme = NULL, ...)
+  borders = "black", fill = "gray75", text = NULL, theme = NULL, ...)
 }
 \arguments{
   \item{shp}{shape object. For \code{\link{geo_choropleth}}
@@ -34,6 +34,9 @@ geo(shp, choro.fill = NULL, bubble.size = NULL, bubble.col = NULL,
   \item{borders}{color of the polygon borders. Use
   \code{NA} to omit the borders.}
 
+  \item{fill}{specifies the fill colors in case
+  \code{choro.fill} is not specified}
+
   \item{theme}{one of "World", "Europe", or "NLD"}
 
   \item{...}{parameters passed on to
@@ -47,5 +50,25 @@ geo(shp, choro.fill = NULL, bubble.size = NULL, bubble.col = NULL,
 \description{
 This function is a convenient wrapper for drawing quick
 cartographic maps.
+}
+\examples{
+data(Europe)
+
+# just the map
+geo(Europe)
+
+# choropleth
+geo(Europe, choro.fill="gdp_cap_est", theme="Europe", style="kmeans", title="Estimated GDP per capita")
+
+
+# bubblemap
+geo(Europe, bubble.size="pop_est", bubble.col="subregion", scale=2, theme="Europe")
+
+
+# World maps
+data(World)
+geo(World, choro.fill="pop_est_dens", borders="gray25", theme="World", style="kmeans", title="Population per km")
+
+
 }
 

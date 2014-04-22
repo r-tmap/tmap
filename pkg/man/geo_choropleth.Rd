@@ -5,7 +5,7 @@
 geo_choropleth(col, palette = NULL, convert2density = FALSE, n = 5,
   style = "pretty", breaks = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, colorNA = "#BBBBBB",
-  total.area.km2 = NA)
+  thres.poly = 1e-05, total.area.km2 = NA)
 }
 \arguments{
   \item{col}{name of the data variable that is contained in
@@ -51,6 +51,11 @@ geo_choropleth(col, palette = NULL, convert2density = FALSE, n = 5,
   when \code{auto.palette.mapping=TRUE}}
 
   \item{colorNA}{color used to missing values}
+
+  \item{thres.poly}{number that specifies the threshold at
+  which polygons are taken into account. The number itself
+  corresponds to the proportion of the area sizes of the
+  polygons to the total polygon size.}
 
   \item{total.area.km2}{total area size in km2. Needed if
   \code{convert2density=TRUE}.}

@@ -6,27 +6,26 @@
 \title{Theme elements of cartographic maps}
 \usage{
 geo_theme(title = NA, title.cex = 1, bg.color = "grey85",
-  draw.frame = FALSE, crop = draw.frame, title.position = c("left",
-  "top"), margins = rep(0, 4), frame.lwd = 1, frame.margins = rep(0.02,
+  draw.frame = TRUE, title.position = c("left", "top"), asp = NA,
+  frame.lwd = 1, outer.margins = rep(0.02, 4), inner.margins = rep(0.02,
   4), legend.profile = "full", legend.only = FALSE,
   legend.choro.title = NA, legend.bubble.size.title = NA,
   legend.bubble.col.title = NA, legend.position = c("left", "top"),
-  legend.width = 0.2, legend.height = 0.7, legend.choro.height = 0.2,
-  legend.choro.hist.height = 0.2, legend.bubble.size.height = 0.15,
-  legend.bubble.col.height = 0.2, legend.config = c("hist", "choro",
+  legend.width = 0.3, legend.height = 0.8, legend.choro.height = 0.3,
+  legend.choro.hist.height = 0.25, legend.bubble.size.height = 0.15,
+  legend.bubble.col.height = 0.3, legend.config = c("hist", "choro",
   "bubble.size", "bubble.col"), legend.in.frame = TRUE,
-  legend.title.cex = 1, legend.text.cex = 0.6, legend.hist.cex = 0.6,
+  legend.title.cex = 1, legend.text.cex = 0.7, legend.hist.cex = 0.7,
   legend.digits = 2L, legend.bg.color = NA)
 
-geo_theme_World(title = NA, title.cex = 1, draw.frame = TRUE,
-  crop = TRUE, title.position = c("left", "bottom"), margins = rep(0.02,
-  4), frame.margins = c(0, 0.02, 0.02, 0.02), legend.position = c("left",
-  "bottom"), legend.width = 0.2, legend.height = 0.5,
-  legend.bg.color = "grey85", ...)
+geo_theme_World(title = NA, title.cex = 1, title.position = c("left",
+  "bottom"), asp = 2, outer.margins = rep(0.02, 4), inner.margins = c(0,
+  0.02, 0.02, 0.02), legend.position = c("left", "bottom"),
+  legend.width = 0.2, legend.height = 0.5, legend.text.cex = 0.6,
+  legend.hist.cex = 0.6, legend.bg.color = "grey85", ...)
 
-geo_theme_Europe(title = NA, draw.frame = TRUE,
-  legend.position = c("left", "top"), legend.width = 0.25,
-  margins = rep(0.02, 4), frame.margins = c(0, 0.2, 0, 0), ...)
+geo_theme_Europe(title = NA, legend.position = c("left", "top"),
+  outer.margins = rep(0.02, 4), inner.margins = c(0, 0.2, 0, 0), ...)
 
 geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
   legend.position = c("left", "top"), legend.width = 0.3, ...)
@@ -41,10 +40,6 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
   \item{draw.frame}{Boolean that determines whether a frama
   is drawn.}
 
-  \item{crop}{boolean that determines whether the shape
-  objects are cropped at the bounding box (see
-  \code{\link[sp:bbox]{bbox}})}
-
   \item{title.position}{Position of the title. Vector of
   two values, specifing the x and y coordinates. Either
   this vector contains "left", "center" or "right" for the
@@ -52,6 +47,13 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
   second value, or this vector contains two numeric values
   between 0 and 1 that specifies the x and y value of the
   left bottom corner of the legend.}
+
+  \item{asp}{Aspect ratio. The aspect ratio of the map
+  (width/height). If \code{NA}, it is determined by the
+  bounding box (see argument \code{bbox} of
+  \code{\link{geo_shape}}) and the argument
+  \code{frame.margins}. If \code{0}, then the aspect ratio
+  is adjusted to the aspect ratio of the device.}
 
   \item{margins}{Relative margins. Vector of four values
   specifying the bottom, left, top, and right margin.

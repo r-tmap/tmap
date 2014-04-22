@@ -2,7 +2,7 @@
 \alias{geo_fill}
 \title{Fill polygons}
 \usage{
-geo_fill(col = "lightgray")
+geo_fill(col = "gray75")
 }
 \arguments{
   \item{col}{a single color value, or a vector of colors

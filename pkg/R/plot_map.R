@@ -190,7 +190,6 @@ plot_all <- function(shps, gp) {
 	gp[c("geo_theme")] <- NULL
 	
 	margins <- gt$outer.margins
-	title.position <- gt$title.position
 	
 	# set outer margins
 	gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
@@ -239,6 +238,7 @@ plot_all <- function(shps, gp) {
 		list(bubble.col=list(legend.palette=gb$bubble.legend.palette,
 							legend.labels=gb$bubble.legend.labels,
 							legend.is.bubbles=TRUE,
+							bubble.legend.border=gb$bubble.border,
 							bubble.max.size=max(gb$bubble.size, na.rm=TRUE)))
 	} else NULL
 	bubble.size <- if (!is.na(bubbleSizeID) && "bubble.size" %in% gt$legend.config) {
@@ -247,18 +247,14 @@ plot_all <- function(shps, gp) {
 			   ifelse(is.na(gb$bubble.legend.palette), gb$bubble.col[1], gb$bubble.legend.palette[1]))
 		
 		list(bubble.size=list(bubble.legend.col=col,
+							  bubble.legend.border=gb$bubble.border,
 							 bubble.legend.sizes=gb$bubble.legend.sizes * scaleFactor, 
 							 bubble.legend.size_labels=gb$bubble.legend.size_labels))
 	} else NULL
 	
 	
-	if (!is.null(choro)||!is.null(hist)||!is.null(bubble.col)||!is.null(bubble.size)) {
-		if (gt$legend.in.frame) {
-			seekViewport(vp$name)	
-		} else {
-			pushViewport(gridLayoutMap)
-			pushViewport(viewport(layout.pos.row=2, layout.pos.col=2))
-		}
+	if (!is.null(choro)||!is.null(hist)||!is.null(bubble.col)||!is.null(bubble.size) || !is.na(gt$title)) {
+		seekViewport(vp$name)	
 		legend_plot(gt, c(choro, hist, bubble.col, bubble.size))
 	}
 	

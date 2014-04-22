@@ -24,6 +24,7 @@
 #' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: relative values will depend on the current bounding box (bbox) of the first shape object.
 #' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides the \code{xlim} and \code{ylim} parameters.
 #' @export
+#' @example ../examples/geo_shape.R
 #' @return \code{\link{geo-object}}
 geo_shape <- function(shp, 
 					  projection=NULL, 
@@ -62,7 +63,7 @@ geo_borders <- function(col="black", lwd=1, lty="solid") {
 #' @export
 #' @seealso \code{\link{geo_choropleth}}
 #' @return \code{\link{geo-object}}
-geo_fill <- function(col="lightgray") {
+geo_fill <- function(col="gray75") {
 	g <- list(geo_fill=as.list(environment()))
 	class(g) <- "geo"
 	g
@@ -125,6 +126,7 @@ geo_text <-  function(text, cex=1, fontcolor="black", fontface="plain", fontfami
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE}
 #' @param colorNA color used to missing values
+#' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @param total.area.km2 total area size in km2. Needed if \code{convert2density=TRUE}.
 #' @export
 #' @seealso \code{\link{geo_fill}}
@@ -139,6 +141,7 @@ geo_choropleth <- function(col,
 							auto.palette.mapping = TRUE,
 							contrast = 1,
 							colorNA = "#BBBBBB",
+							thres.poly = 1e-05,
 							total.area.km2=NA) {
 	
 	g <- list(geo_choropleth=as.list(environment()))
@@ -207,124 +210,6 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 	g
 }
 
-#' Theme elements of cartographic maps
-#' 
-#' This layer specifies thematic layout options for the maps.
-#' 
-#' @name geo_theme
-#' @rdname geo_theme
-#' @param title Title of the map(s)
-#' @param title.cex Relative size of the title
-#' @param bg.color Background color
-#' @param draw.frame Boolean that determines whether a frama is drawn. 
-#' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
-#' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{geo_shape}}) and the argument \code{frame.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
-#' @param margins Relative margins. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
-#' @param frame.lwd Width of the frame
-#' @param frame.margins Frame margins
-#' @param legend.profile Character that specifies which legend elements are drawn (if applicable):
-#' \describe{
-#' 	\item{\code{"full"}:}{All of them. (Which are: choropleth text, choropleth histogram, bubble size text, and bubble color text.)}
-#' 	\item{\code{"text"}:}{Only the choropleth text, bubble size text, and bubble color text.}
-#' 	\item{\code{"hist"}:}{Only the choropleth histogram.}
-#' 	\item{\code{"none"}:}{None of them.}}
-#' Alternatively, \code{legend.config} can be used to specify the elements directly.
-#' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
-#' @param legend.choro.title title of the choropleth legend
-#' @param legend.bubble.size.title title of the bubblemap legend associated with the size of the bubbles
-#' @param legend.bubble.col.title title of the bubblemap legend associated with the color of the bubbles
-#' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
-#' @param legend.width width of the legend
-#' @param legend.height total maximum height of the legend. Heights of single legend elements are specified by \code{legend.choro.height}, \code{legend.choro.hist.height}, \code{legend.bubble.size.height}, and \code{legend.bubble.col.height}. If their total exceeds \code{legend.height}, then there are downscaled linearly.
-#' @param legend.choro.height see \code{legend.height}
-#' @param legend.choro.hist.height see \code{legend.height}
-#' @param legend.bubble.size.height see \code{legend.height}
-#' @param legend.bubble.col.height see \code{legend.height}
-#' @param legend.config character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"choro"}, \code{"hist"}, \code{"bubble.size"}, and \code{"bubble.col"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.
-#' @param legend.in.frame logical. Should the legend be drawn inside the frame?
-#' @param legend.title.cex Relative font size for the legend title
-#' @param legend.text.cex Relative font size for the legend text elements
-#' @param legend.hist.cex Relative font size for the choropleth histogram
-#' @param legend.digits Number of digits for the legend labels
-#' @param legend.bg.color Background color of the legend.
-#' @param ... other arguments from \code{geo_theme}
-#' @export
-geo_theme <- function(title=NA,
-					  title.cex=1.0,
-					  bg.color="grey85",
-					  draw.frame=FALSE,
-					  title.position = c("left", "top"),
-					  asp = NA,
-					  frame.lwd=1,
-					  outer.margins = rep(0, 4),
-					  inner.margins=rep(0.02, 4),
-					  legend.profile = "full",
-					  legend.only = FALSE,
-					  legend.choro.title = NA,
-					  legend.bubble.size.title = NA,
-					  legend.bubble.col.title = NA,
-					  legend.position = c("left", "top"),
-					  legend.width = 0.3,
-					  legend.height = 0.8,
-					  legend.choro.height = 0.3,
-					  legend.choro.hist.height = 0.25,
-					  legend.bubble.size.height = 0.15,
-					  legend.bubble.col.height = 0.3,
-					  legend.config = c("hist", "choro", "bubble.size", "bubble.col"),
-					  legend.in.frame = TRUE,
-					  legend.title.cex=1.0,
-					  legend.text.cex=0.7,
-					  legend.hist.cex=0.7,
-					  legend.digits = 2L,
-					  legend.bg.color = NA) {
-	g <- list(geo_theme=as.list(environment()))
-	class(g) <- "geo"
-	g
-}
-
-
-#' @rdname geo_theme
-#' @export
-geo_theme_World <- function(title=NA,
-							title.cex=1,
-							draw.frame=TRUE, 
-							title.position = c("left", "bottom"),
-							asp=2,
-							outer.margins=rep(.02, 4),
-							inner.margins=c(0, 0.02, 0.02, 0.02),
-							legend.position=c("left", "bottom"), 
-							legend.width=.2,
-							legend.height = .5,
-							legend.bg.color="grey85",
-							...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("geo_theme", args)
-}
-
-#' @rdname geo_theme
-#' @export
-geo_theme_Europe <- function(title=NA,
-							 draw.frame=TRUE, 
-							legend.position=c("left", "top"), 
-							outer.margins=rep(0.02, 4),
-							inner.margins=c(0, 0.2, 0, 0),
-							...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("geo_theme", args)
-}
-
-	
-#' @rdname geo_theme
-#' @export
-geo_theme_NLD <- function(title=NA,
-						  draw.frame=FALSE, 
-							legend.in.frame=FALSE, 
-							legend.position=c("left", "top"), 
-							legend.width=.3,
-							...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("geo_theme", args)
-}
 
 
 #' Stacking of geo layers
@@ -340,46 +225,5 @@ geo_theme_NLD <- function(title=NA,
 	g
 }
 
-#' Quick map plot
-#' 
-#' This function is a convenient wrapper for drawing quick cartographic maps.
-#' 
-#' @param shp shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.
-#' @param choro.fill name of the data variable in \code{shp} for the choropleth. If not specified, no choropleth is drawn.
-#' @param bubble.size name of the data variable in \code{shp} for the bubblemap that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.
-#' @param bubble.col name of the data variable in \code{shp} for the bubblemap that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.
-#' @param borders color of the polygon borders. Use \code{NA} to omit the borders.
-#' @param theme one of "World", "Europe", or "NLD"
-#' @param ... parameters passed on to \code{\link{geo_shape}}, \code{\link{geo_choropleth}}, \code{\link{geo_bubblemap}}, \code{\link{geo_borders}}, \code{\link{geo_theme}} and \code{\link{geo_grid}}.
-#' @return \code{\link{geo-object}}
-#' @export
-geo <- function(shp, 
-				choro.fill=NULL,
-				bubble.size=NULL,
-				bubble.col=NULL,
-				borders="black",
-				theme=NULL,
-				...) {
-	args <- list(...)
-	shapeargs <- args[intersect(names(args), names(geo_shape()[[1]]))]
-	choroargs <- args[setdiff(intersect(names(args), names(geo_choropleth()[[1]])), "col")]
-	bubbleargs <- args[setdiff(intersect(names(args), names(geo_bubblemap()[[1]])), c("col", "size"))]
-	borderargs <- args[setdiff(intersect(names(args), names(geo_borders()[[1]])), "col")]
-	themeargs <- args[intersect(names(args), names(geo_theme()[[1]]))]
-	gridargs <- args[intersect(names(args), names(geo_grid()[[1]]))]
-	
-	g <- do.call("geo_shape", c(list(shp=shp), shapeargs)) +
-		do.call("geo_borders", c(list(col=borders), borderargs))
-	if (!missing(choro.fill)) g <- g + do.call("geo_choropleth", c(list(col=choro.fill), choroargs))
-	if (!missing(bubble.size) || !missing(bubble.col)) g <- g + do.call("geo_bubblemap", c(list(size=bubble.size, col=bubble.col), bubbleargs))
-	if (missing(theme)) {
-		if (length(themeargs)) g <- g + do.call("geo_theme", themeargs)	
-	} else {
-		if (!(theme %in% c("World", "Europe", "NLD"))) stop("Unknown theme")
-		funct <- paste("geo_theme", theme, sep="_")
-		g <- g + do.call(funct, themeargs)
-	}
-	
-	g
-}
+
 

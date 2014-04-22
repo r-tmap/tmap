@@ -1,15 +1,18 @@
 data(Europe)
 
-# just a map
+# just the map
 geo(Europe)
 
 # choropleth
-geo(Europe, choro.fill="gdp_cap_est", borders="gray25", theme="Europe", style="kmeans", title="Estimated GDP per capita")
-geo(Europe, choro.fill="pop_est_dens", borders="gray25", theme="Europe", style="kmeans", title="Population per km")
+geo(Europe, choro.fill="gdp_cap_est", theme="Europe", style="kmeans", title="Estimated GDP per capita")
+
+
+# bubblemap
+geo(Europe, bubble.size="pop_est", bubble.col="subregion", scale=2, theme="Europe")
+
 
 # World maps
 data(World)
-geo(World, choro.fill="gdp_cap_est", borders="gray25", theme="World", style="kmeans", title="Estimated GDP per capita")
 geo(World, choro.fill="pop_est_dens", borders="gray25", theme="World", style="kmeans", title="Population per km")
 
 

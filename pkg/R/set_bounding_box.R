@@ -38,11 +38,12 @@ set_bounding_box <- function(shps, gp, gt) {
 		
 		
 		bbcoords <- cbind(x=bb[1,][c(1, 1, 2, 2, 1)], y=bb[2,][c(1, 2, 2, 1, 1)])
-		
-		BB <- SpatialPolygons(list(Polygons(list(Polygon(bbcoords)), "1")),
-							  proj4string=CRS(proj4string(shp)))
-		
-		shp2 <- gIntersection(shp, BB, byid=TRUE)
+		browser()
+		tryCatch({
+			BB <- SpatialPolygons(list(Polygons(list(Polygon(bbcoords)), "1")),
+								  proj4string=CRS(proj4string(shp)))
+			shp2 <- gIntersection(shp, BB, byid=TRUE)
+		})
 		shp2@bbox <- bb
 		shpdata <- shp@data
 		ids <- get_IDs(shp)
