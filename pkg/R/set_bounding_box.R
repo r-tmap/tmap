@@ -37,12 +37,14 @@ set_bounding_box <- function(shps, gp, gt) {
 		}
 		
 		
+		## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
 		bbcoords <- cbind(x=bb[1,][c(1, 1, 2, 2, 1)], y=bb[2,][c(1, 2, 2, 1, 1)])
-		browser()
-		tryCatch({
+		shp2 <- tryCatch({
 			BB <- SpatialPolygons(list(Polygons(list(Polygon(bbcoords)), "1")),
 								  proj4string=CRS(proj4string(shp)))
-			shp2 <- gIntersection(shp, BB, byid=TRUE)
+			gIntersection(shp, BB, byid=TRUE)
+		}, error = function(e) {
+			shp
 		})
 		shp2@bbox <- bb
 		shpdata <- shp@data
