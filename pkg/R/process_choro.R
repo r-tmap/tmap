@@ -32,7 +32,7 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 		for (i in 1:nx) {
 			XX <- X[[i]]
             if (is.factor(XX)) {
-            	if (is.null(palette)) palette <- "Dark2"
+            	if (is.null(palette)) palette <- ifelse(nlevels(XX)>8, "Set3", "Dark2")
                 colsLeg <- cat2pal(XX,
                                    palette = palette,
                                    colorNA = colorNA)
@@ -62,7 +62,7 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 	} else {
 		XX <- unlist(X)
         if (is.factor(XX)) {
-        	if (is.null(palette)) palette <- "Dark2"
+        	if (is.null(palette)) palette <- ifelse(nlevels(XX)>8, "Set3", "Dark2")
         	colsLeg <- cat2pal(XX,
                                palette = palette,
                                colorNA = colorNA)
@@ -88,12 +88,14 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 		choro.legend.palette <- colsLeg[[3]]
 	}
 	#choro.values <- X
-	tmp_breaks <- choro.breaks
-	tmp_breaks[1] <- -Inf
-	tmp_breaks[length(tmp_breaks)] <- Inf
-	tmp_int <- findInterval(choro.values[tiny,], tmp_breaks)
-	tmp_int[is.na(tmp_int)] <- length(choro.legend.palette)
-	fill[tiny] <- choro.legend.palette[tmp_int]
+	if (!is.na(choro.breaks)) {
+		tmp_breaks <- choro.breaks
+		tmp_breaks[1] <- -Inf
+		tmp_breaks[length(tmp_breaks)] <- Inf
+		tmp_int <- findInterval(choro.values[tiny,], tmp_breaks)
+		tmp_int[is.na(tmp_int)] <- length(choro.legend.palette)
+		fill[tiny] <- choro.legend.palette[tmp_int]
+	}
 	choro.values <- X
 	
 # 	if (style=="kmeans") {

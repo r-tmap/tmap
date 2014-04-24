@@ -60,9 +60,9 @@ legend_plot <- function(gt, x) {
 	
 	# normalize legendHeight
 	if (is.character(gt$title.position) && gt$title.position[1]==gt$legend.position[1]) {
-		legendHeight <- min(sum(heights), 1-titleHeight, gt$legend.height)
+		legendHeight <- min(sum(heights), 1-titleHeight, gt$legend.max.height)
 	} else {
-		legendHeight <- min(sum(heights), 1, gt$legend.height)
+		legendHeight <- min(sum(heights), 1, gt$legend.max.height)
 	}
 	gt$legend.title.cex <- gt$legend.title.cex * (legendHeight / sum(heights))
 
@@ -124,8 +124,8 @@ legend_plot <- function(gt, x) {
 	title.position <- positions[[1]]
 	legend.position <- positions[[2]]
 
-	grid.text(gt$title, x=title.position[1], y=title.position[2], 
-			  just=c("left", "center"), gp=gpar(cex=gt$title.cex))
+	plot_text(matrix(title.position, ncol=2), gt$title, cex=gt$title.cex, text.cex.lowerbound=gt$title.cex, text.bg.color=gt$title.bg.color, text.bg.alpha=255, text.scale=1,text.print.tiny=FALSE, text.fontface="plain", text.fontfamily="sans", just=c("left", "bottom"))
+
 	if (!length(conf) || gt$legend.profile=="hide" || is.null(x)) {
 		return(NULL)
 	}

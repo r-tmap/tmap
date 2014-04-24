@@ -13,13 +13,21 @@
 print.geo <- function(x, ...) {
 	## fill meta info
 	meta_layers <- c("geo_theme", "geo_grid")
-	for (m in meta_layers) if (is.null(x[[m]])) x <- x + do.call(m, args=list())
-	
+	for (m in meta_layers) {
+		ids <- which(names(x)==m)
+		if (length(ids)==0) {
+			x <- x + do.call(m, args=list())
+		} else if (length(ids)>1){
+			for (i in 2:length(ids)) {
+				x[[ids[1]]][x[[ids[i]]]$call] <- x[[ids[i]]][x[[ids[i]]]$call]
+			}
+			x <- x[-(ids[-1])]
+		}
+	}
 	
 	## split x into gmeta and gbody
 	gmeta <- x[meta_layers]
 	gbody <- x[!(names(x) %in% meta_layers)]
-	
 	
 	n <- length(gbody)
 	
@@ -230,6 +238,9 @@ process_meta <- function(g, nx, varnames) {
 		if (is.na(legend.bubble.col.title[1])) legend.bubble.col.title <- rep("", nx)
 		
 		if (length(title) < nx) title <- rep(title, length.out=nx)
+		
+		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
+		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color
 	})	
 	
 	g

@@ -19,6 +19,18 @@ world50 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
 world110 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
 
 
+## 
+gIsValid(world50)
+gIsValid(world110)
+
+world50 <- gBuffer(world50, byid=TRUE, width=0)
+world110 <- gBuffer(world110, byid=TRUE, width=0)
+
+gIsValid(world50)
+gIsValid(world110)
+
+
+
 ############ process data
 keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt", 
 			  "continent", "subregion",
@@ -220,27 +232,36 @@ save(Europe, file="./data/Europe.rda", compress="xz")
 ## process world
 ###########################################################################
 
-## Set world porjection to Winkel Tripel
 
-## compromise
-world110_vdG <- spTransform(world110, CRS("+proj=vandg "))
-world110_r <- spTransform(world110, CRS("+proj=robin"))
-world110_wt <- spTransform(world110, CRS("+proj=wintri"))
+world2 <- world110
 
-## shapes non-distorted (conformal)
-world110_mc <- spTransform(world110, CRS("+proj=mill"))
-world110_merc <- spTransform(world110, CRS("+proj=merc"))
+## crop to prevent inflated south pole
+bbw <- world2@bbox
+bbw[2, 1] <- -89
 
+world3 <- crop_shape(world2, bb=bbw)
+#world3 <- world2
+gIsValid(world3, byid=TRUE)
 
-## equidistant
-world110_eqc <- spTransform(world110, CRS("+proj=eqc "))
-world110_giso <- spTransform(world110, CRS("+proj=eqc +lat_ts=30"))
-
-## equal area
-world110_peter <- spTransform(world110, CRS("+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45"))
-world110_behr <- spTransform(world110, CRS("+proj=cea +lat_ts=30"))
-world110_hd <- spTransform(world110, CRS("+proj=cea +lat_ts=37.5")) # HoBo-Dyer
-world110_eIV <- spTransform(world110, CRS("+proj=eck4")) # Eckert IV
+# ## compromise
+# world4_vdG <- spTransform(world3, CRS("+proj=vandg "))
+# world4_r <- spTransform(world3, CRS("+proj=robin"))
+# world4_wt <- spTransform(world3, CRS("+proj=wintri"))
+# 
+# ## shapes non-distorted (conformal)
+# world4_mc <- spTransform(world3, CRS("+proj=mill"))
+# world4_merc <- spTransform(world3, CRS("+proj=merc"))
+# 
+# 
+# ## equidistant
+# world4_eqc <- spTransform(world3, CRS("+proj=eqc "))
+# world4_giso <- spTransform(world3, CRS("+proj=eqc +lat_ts=30"))
+# 
+# ## equal area
+# world4_peter <- spTransform(world3, CRS("+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45"))
+# world4_behr <- spTransform(world3, CRS("+proj=cea +lat_ts=30"))
+# world4_hd <- spTransform(world3, CRS("+proj=cea +lat_ts=37.5")) # HoBo-Dyer
+world4_eIV <- spTransform(world3, CRS("+proj=eck4")) # Eckert IV
  
 #http://en.wikipedia.org/wiki/List_of_map_projections
 #https://sites.google.com/site/spatialr/crsprojections
@@ -251,7 +272,14 @@ world110_eIV <- spTransform(world110, CRS("+proj=eck4")) # Eckert IV
 
 #World <- world110_wt
 
-World <- world110_eIV
+World <- world4_eIV
+
+gIsValid(World)
+
+# check antarctica
+World_merc <- spTransform(World, CRS("+proj=merc"))
+gIsValid(World_merc)
+geo(World_merc)
 
 ## set bouding box (leave out Antarctica)
 #World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)  # for Winkel Tripel

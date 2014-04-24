@@ -14,5 +14,3 @@ geo(Europe, bubble.size="pop_est", bubble.col="subregion", scale=2, theme="Europ
 # World maps
 data(World)
 geo(World, choro.fill="pop_est_dens", borders="gray25", theme="World", style="kmeans", title="Population per km")
-
-

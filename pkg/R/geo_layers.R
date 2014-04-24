@@ -11,7 +11,7 @@
 #'    	\item{\code{"eck4"}}{Eckert IV (1906). Projection useful for world maps. Area sizes are preserved, which makes it particularly useful for truthful choropleths. Type: equal-area}
 #'    	\item{\code{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
 #'    	\item{\code{"gall"}}{Gall (Peters) (1855). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
-#'    	\item{\code{"merc"}}{Mercator (1569). Projection in which shapes are locally preserved. However, areas close to the poles are inflated. Used by Google Maps. Type: conformal}
+#'    	\item{\code{"merc"}}{Mercator (1569). Projection in which shapes are locally preserved. However, areas close to the poles are inflated. Google Maps uses a close variant of the Mercator. Type: conformal}
 #'    	\item{\code{"mill"}}{Miller (1942). Projetion based on Mercator, in which poles are displayed. Type: compromise}
 #'    	\item{\code{"eqc0"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The equator is the standard parallel. Also known as Plate Carr\'ee. Type: equidistant}
 #'    	\item{\code{"eqc30"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 30 is the standard parallel. Type: equidistant}
@@ -48,6 +48,7 @@ geo_shape <- function(shp,
 #' @param lwd line width (see \code{\link[graphics:par]{par}})
 #' @param lty line type (see \code{\link[graphics:par]{par}})
 #' @export
+#' @example ../examples/geo_borders.R
 #' @return \code{\link{geo-object}}
 geo_borders <- function(col="black", lwd=1, lty="solid") {
 	g <- list(geo_borders=as.list(environment()))
@@ -62,6 +63,7 @@ geo_borders <- function(col="black", lwd=1, lty="solid") {
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
 #' @export
 #' @seealso \code{\link{geo_choropleth}}
+#' @example ../examples/geo_fill.R
 #' @return \code{\link{geo-object}}
 geo_fill <- function(col="gray75") {
 	g <- list(geo_fill=as.list(environment()))
@@ -79,6 +81,7 @@ geo_fill <- function(col="gray75") {
 #' @param scale scale multiplier to adjust the bubble sizes
 #' @export
 #' @seealso \code{\link{geo_choropleth}}
+#' @example ../examples/geo_bubbles.R
 #' @return \code{\link{geo-object}}
 geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
 	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale))
@@ -104,6 +107,7 @@ geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
 #' @param print.tiny boolean that determines if tiny labels (which size is smaller than \code{cex.lowerbound}) are print at size \code{cex.lowerbound}
 #' @param scale scalar needed in case cex is based 
 #' @export
+#' @example ../examples/geo_text.R
 #' @return \code{\link{geo-object}}
 geo_text <-  function(text, cex=1, fontcolor="black", fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1) {
 	g <- list(geo_text=list(text=text, text.cex=cex, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
@@ -130,6 +134,7 @@ geo_text <-  function(text, cex=1, fontcolor="black", fontface="plain", fontfami
 #' @param total.area.km2 total area size in km2. Needed if \code{convert2density=TRUE}.
 #' @export
 #' @seealso \code{\link{geo_fill}}
+#' @example ../examples/geo_choropleth.R
 #' @return \code{\link{geo-object}}	
 geo_choropleth <- function(col, 
 						    palette = NULL,
@@ -166,6 +171,7 @@ geo_choropleth <- function(col,
 #' @param colorNA colour for missing values
 #' @export
 #' @seealso \code{\link{geo_bubblemap}}
+#' @example ../examples/geo_bubblemap.R
 #' @return \code{\link{geo-object}}
 geo_bubblemap <- function(size = NULL, col = NULL,
 						  border=NA,
@@ -198,6 +204,7 @@ geo_bubblemap <- function(size = NULL, col = NULL,
 #' @param free.scales.bubble.size logical. Should the bubble size scale for the bubblemap be free?
 #' @param free.scales.bubble.col logical. Should the color scale for the bubblemap be free?
 #' @export
+#' @example ../examples/geo_grid.R
 #' @return \code{\link{geo-object}}
 geo_grid <- function(ncol=NULL, nrow=NULL, 
 					 free.scales=FALSE,
@@ -207,6 +214,7 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 					 )	{
 	g <- list(geo_grid=as.list(environment()))
 	class(g) <- "geo"
+	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
 	g
 }
 

@@ -149,7 +149,7 @@ plot_bubbles <- function(co.npc, sizes, bubble.col, bubble.border, scaleFactor) 
 				gp=gpar(col=borders, fill=cols2))
 }
 
-plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.bg.color, text.bg.alpha, text.scale, text.print.tiny, text.fontface, text.fontfamily) {
+plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.bg.color, text.bg.alpha, text.scale, text.print.tiny, text.fontface, text.fontfamily, just=c("center", "center"), bg.margin=.25) {
 	npol <- nrow(co.npc)
 	
 	text_sel <- (cex >= text.cex.lowerbound)
@@ -166,17 +166,41 @@ plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.bg.color, t
 	bgcols <- rgb(bgcols[1,], bgcols[2,], bgcols[3,], 
 				  alpha=text.bg.alpha, maxColorValue=255)
 	
-	tG <- textGrob(labels[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), gp=gpar(cex=cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+	if (just[1]%in%c("center", "centre")) {
+		xjust <- .5
+	} else if(just[1]=="left") {
+		xjust <- 0
+	} else if(just[1]=="right") {
+		xjust <- 1
+	}
+	if (just[2]%in%c("center", "centre")) {
+		yjust <- .5
+	} else if(just[2]=="top") {
+		yjust <- 1
+	} else if(just[2]=="bottom") {
+		yjust <- 0
+	}
+	
+	
+	tG <- textGrob(labels[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=c(xjust, yjust), gp=gpar(cex=cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 	nlines <- rep(1, length(labels))
+	
+	#browser()
+	lineH <- convertHeight(unit(cex[text_sel], "lines"), "npc", valueOnly=TRUE)
+	lineW <- convertWidth(unit(cex[text_sel], "lines"), "npc", valueOnly=TRUE)
 	
 	tGH <- mapply(labels[text_sel], cex[text_sel], nlines[text_sel], FUN=function(x,y,z){
 		convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
 	
 	tGW <- mapply(labels[text_sel], cex[text_sel], FUN=function(x,y){
 		convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
+	tGX <- tG$x + unit(ifelse(just[1]=="left", (tGW * .5), 
+							  ifelse(just[1]=="right", -(tGW * .5), 0)), "npc")
+	tGY <- tG$y + unit(ifelse(just[2]=="top", -(tGH * .5), 
+							  ifelse(just[2]=="bottom", tGH * .5, 0)), "npc")
 	
-	tGX <- tG$x
-	tGY <- tG$y
+	tGH <- tGH + lineH * bg.margin
+	tGW <- tGW + lineW * bg.margin
 	bcktG <- rectGrob(x=tGX, y=tGY, width=tGW, height=tGH, gp=gpar(fill=bgcols, col=NA))
 	grid.draw(bcktG)
 	grid.draw(tG)
@@ -254,7 +278,7 @@ plot_all <- function(shps, gp) {
 	
 	
 	if (!is.null(choro)||!is.null(hist)||!is.null(bubble.col)||!is.null(bubble.size) || !is.na(gt$title)) {
-		seekViewport(vp$name)	
+		if (!gt$legend.only) seekViewport(vp$name)	
 		legend_plot(gt, c(choro, hist, bubble.col, bubble.size))
 	}
 	

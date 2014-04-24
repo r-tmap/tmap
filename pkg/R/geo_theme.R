@@ -26,11 +26,11 @@
 #' @param legend.bubble.col.title title of the bubblemap legend associated with the color of the bubbles
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
 #' @param legend.width width of the legend
-#' @param legend.height total maximum height of the legend. Heights of single legend elements are specified by \code{legend.choro.height}, \code{legend.choro.hist.height}, \code{legend.bubble.size.height}, and \code{legend.bubble.col.height}. If their total exceeds \code{legend.height}, then there are downscaled linearly.
-#' @param legend.choro.height see \code{legend.height}
-#' @param legend.choro.hist.height see \code{legend.height}
-#' @param legend.bubble.size.height see \code{legend.height}
-#' @param legend.bubble.col.height see \code{legend.height}
+#' @param legend.max.height total maximum height of the legend. Heights of single legend elements are specified by \code{legend.choro.height}, \code{legend.choro.hist.height}, \code{legend.bubble.size.height}, and \code{legend.bubble.col.height}. If their total exceeds \code{legend.height}, then there are downscaled linearly.
+#' @param legend.choro.height see \code{legend.max.height}
+#' @param legend.choro.hist.height see \code{legend.max.height}
+#' @param legend.bubble.size.height see \code{legend.max.height}
+#' @param legend.bubble.col.height see \code{legend.max.height}
 #' @param legend.config character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"choro"}, \code{"hist"}, \code{"bubble.size"}, and \code{"bubble.col"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.
 #' @param legend.title.cex Relative font size for the legend title
 #' @param legend.text.cex Relative font size for the legend text elements
@@ -41,9 +41,10 @@
 #' @export
 geo_theme <- function(title=NA,
 					  title.cex=1.0,
-					  bg.color="grey85",
+					  bg.color="grey80",
 					  draw.frame=TRUE,
 					  title.position = c("left", "top"),
+					  title.bg.color=NA,
 					  asp = NA,
 					  frame.lwd=1,
 					  outer.margins = rep(0.02, 4),
@@ -55,7 +56,7 @@ geo_theme <- function(title=NA,
 					  legend.bubble.col.title = NA,
 					  legend.position = c("left", "top"),
 					  legend.width = 0.3,
-					  legend.height = 0.8,
+					  legend.max.height = 0.8,
 					  legend.choro.height = 0.3,
 					  legend.choro.hist.height = 0.25,
 					  legend.bubble.size.height = 0.15,
@@ -66,7 +67,7 @@ geo_theme <- function(title=NA,
 					  legend.hist.cex=0.7,
 					  legend.digits = 2L,
 					  legend.bg.color = NA) {
-	g <- list(geo_theme=as.list(environment()))
+	g <- list(geo_theme=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "geo"
 	g
 }
@@ -77,15 +78,16 @@ geo_theme <- function(title=NA,
 geo_theme_World <- function(title=NA,
 							title.cex=1,
 							title.position = c("left", "bottom"),
+							title.bg.color=TRUE,
 							asp=2,
 							outer.margins=rep(.02, 4),
 							inner.margins=c(0, 0.02, 0.02, 0.02),
 							legend.position=c("left", "bottom"), 
 							legend.width=.2,
-							legend.height = .5,
+							legend.max.height = .5,
 							legend.text.cex=0.6,
 							legend.hist.cex=0.6,
-							legend.bg.color="grey85",
+							legend.bg.color=TRUE,
 							...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("geo_theme", args)
@@ -107,6 +109,7 @@ geo_theme_Europe <- function(title=NA,
 #' @export
 geo_theme_NLD <- function(title=NA,
 						  draw.frame=FALSE, 
+						  inner.margins=c(.05, .3, .05, .05),
 						  legend.position=c("left", "top"), 
 						  legend.width=.3,
 						  ...) {
