@@ -88,7 +88,7 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 		choro.legend.palette <- colsLeg[[3]]
 	}
 	#choro.values <- X
-	if (!is.na(choro.breaks)) {
+	if (!is.na(choro.breaks[1])) {
 		tmp_breaks <- choro.breaks
 		tmp_breaks[1] <- -Inf
 		tmp_breaks[length(tmp_breaks)] <- Inf

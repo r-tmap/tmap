@@ -53,7 +53,7 @@ legend_plot <- function(gt, x) {
 	
 	# normalize heights
  	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.cex
- 	titleHeight <- convertHeight(unit(2, "lines"), "npc", valueOnly=TRUE) * gt$title.cex
+ 	titleHeight <- convertHeight(unit(2.5, "lines"), "npc", valueOnly=TRUE) * gt$title.cex
 
 	legendWidth <- gt$legend.width
 
@@ -124,7 +124,11 @@ legend_plot <- function(gt, x) {
 	title.position <- positions[[1]]
 	legend.position <- positions[[2]]
 
-	plot_text(matrix(title.position, ncol=2), gt$title, cex=gt$title.cex, text.cex.lowerbound=gt$title.cex, text.bg.color=gt$title.bg.color, text.bg.alpha=255, text.scale=1,text.print.tiny=FALSE, text.fontface="plain", text.fontfamily="sans", just=c("left", "bottom"))
+	plot_text(matrix(title.position, ncol=2), gt$title, cex=gt$title.cex, 
+			  text.cex.lowerbound=gt$title.cex, text.fontcolor="black",
+			  text.bg.color=gt$title.bg.color, text.bg.alpha=255, 
+			  text.scale=1,text.print.tiny=FALSE, text.fontface="plain", text.fontfamily="sans", 
+			  just=c("left", "bottom"))
 
 	if (!length(conf) || gt$legend.profile=="hide" || is.null(x)) {
 		return(NULL)

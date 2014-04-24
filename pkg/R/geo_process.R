@@ -238,7 +238,7 @@ process_meta <- function(g, nx, varnames) {
 		if (is.na(legend.bubble.col.title[1])) legend.bubble.col.title <- rep("", nx)
 		
 		if (length(title) < nx) title <- rep(title, length.out=nx)
-		
+
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color
 	})	

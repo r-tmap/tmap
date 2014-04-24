@@ -109,7 +109,7 @@ geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
 #' @export
 #' @example ../examples/geo_text.R
 #' @return \code{\link{geo-object}}
-geo_text <-  function(text, cex=1, fontcolor="black", fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1) {
+geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1) {
 	g <- list(geo_text=list(text=text, text.cex=cex, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale))
 	class(g) <- "geo"
