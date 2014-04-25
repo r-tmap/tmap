@@ -4,7 +4,7 @@
 \usage{
 geo_choropleth(col, palette = NULL, convert2density = FALSE, n = 5,
   style = "pretty", breaks = NULL, labels = NULL,
-  auto.palette.mapping = TRUE, contrast = 1, colorNA = "#BBBBBB",
+  auto.palette.mapping = TRUE, contrast = 1, colorNA = "grey65",
   thres.poly = 1e-05, total.area.km2 = NA)
 }
 \arguments{
@@ -15,10 +15,7 @@ geo_choropleth(col, palette = NULL, convert2density = FALSE, n = 5,
   \code{RColorBrewer::display.brewer.all()} for options.
   Use a \code{"-"} as prefix to reverse the palette. By
   default, \code{"RdYlGn"} is taken for numeric variables
-  that contain both negative and positive values,
-  \code{"Blues"} for numeric variables that contain
-  non-negative values, and \code{"Dark2"} for categorical
-  variables.}
+  and \code{"Dark2"} for categorical variables.}
 
   \item{n}{preferred number of classes (in case \code{col}
   is a numeric variable)}
@@ -68,6 +65,41 @@ This layer speficies a choropleth. A color palette is
 mapped to a data variable. By default, a divering color
 palette is used for numeric variables and a qualitative
 palette for categorical variables.
+}
+\examples{
+# World examples
+data(World)
+geo_shape(World) +
+ 	geo_choropleth("pop_est_dens", style="fixed", breaks=c(0, 5, 20, 100, 250, 1000, 20000), palette="YlOrRd", auto.palette.mapping=FALSE) +
+ 	geo_borders() +
+ 	geo_text("iso_a3", cex="AREA3", cex.lowerbound=.4, bg.alpha=0) +
+ 	geo_theme_World(legend.profile="text", title="Population density per km2", title.bg.color=TRUE)
+
+geo_shape(World) +
+ 	geo_choropleth("income_grp", palette="-Oranges") +
+ 	geo_borders() +
+ 	geo_bubblemap("pop_est", col="blue") +
+ #	geo_text("iso_a3", cex="AREA3") +
+ 	geo_theme_World("Income classification", legend.bubble.size.title="Population")
+
+# Europe example
+data(Europe)
+geo_shape(Europe) +
+ 	geo_choropleth("gdp_cap_est", style="kmeans") +
+ 	geo_borders() +
+ 	geo_text("iso_a3", cex="AREA3", scale=2, bg.alpha=0) +
+ 	geo_theme_Europe("GDP per capita")
+
+# Netherlands example
+data(NLD_muni)
+data(NLD_prov)
+
+geo_shape(NLD_muni) +
+	geo_choropleth(col="pop", convert2density=TRUE, style="kmeans", total.area.km2=41543) +
+	geo_borders() +
+	geo_shape(NLD_prov) +
+	geo_borders(, lwd=2) +
+	geo_theme_NLD(title="Population (per km2)", legend.digits=0)
 }
 \seealso{
 \code{\link{geo_fill}}

@@ -39,10 +39,10 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
                 choro.breaks[[i]] <- NA
             } else {
             	if (is.null(palette)) {
-            		anyPos <- any(XX>0, na.rm=TRUE)
-            		anyNeg <- any(XX<0, na.rm=TRUE)
-            		palette <- ifelse(anyPos && !anyNeg, "Blues",
-            						  ifelse(!anyPos && anyNeg, "-Reds", "RdYlBu"))
+            		#anyPos <- any(XX>0, na.rm=TRUE)
+            		#anyNeg <- any(XX<0, na.rm=TRUE)
+            		palette <- "RdYlGn"		# ifelse(anyPos && !anyNeg, "YlGn",
+            		# ifelse(!anyPos && anyNeg, "-YlOrGn", "RdYlBu"))
             	}
             	colsLeg <- num2pal(XX, n, style=style, breaks=breaks,
                                    palette = palette,
@@ -79,10 +79,10 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
             choro.breaks <- NA
         } else {
         	if (is.null(palette)) {
-        		anyPos <- any(XX>0, na.rm=TRUE)
-        		anyNeg <- any(XX<0, na.rm=TRUE)
-        		palette <- ifelse(anyPos && !anyNeg, "Blues",
-        						  ifelse(!anyPos && anyNeg, "-Reds", "RdYlBu"))
+        		#anyPos <- any(XX>0, na.rm=TRUE)
+        		#anyNeg <- any(XX<0, na.rm=TRUE)
+        		palette <- "RdYlGn"		# ifelse(anyPos && !anyNeg, "YlGn",
+        								# ifelse(!anyPos && anyNeg, "-YlOrGn", "RdYlBu"))
         	}
 			colsLeg <- num2pal(XX, n, style=style, breaks=breaks, 
     						   palette = palette,

@@ -2,7 +2,7 @@
 \alias{geo_text}
 \title{Add text labels}
 \usage{
-geo_text(text, cex = 1, fontcolor = "black", fontface = "plain",
+geo_text(text, cex = 1, fontcolor = NA, fontface = "plain",
   fontfamily = "sans", bg.color = "#888888", bg.alpha = 100,
   cex.lowerbound = 0.2, print.tiny = FALSE, scale = 1)
 }
@@ -46,5 +46,14 @@ geo_text(text, cex = 1, fontcolor = "black", fontface = "plain",
 }
 \description{
 This layer adds text labels
+}
+\examples{
+# Europe example
+data(Europe)
+geo_shape(Europe) +
+	geo_choropleth("gdp_cap_est", style="kmeans") +
+	geo_borders() +
+	geo_text("iso_a3", cex="AREA3", scale=2, bg.alpha=0) +
+	geo_theme_Europe("GDP per capita")
 }
 

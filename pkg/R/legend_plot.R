@@ -52,8 +52,10 @@ legend_plot <- function(gt, x) {
 	heights <- heights[conf][x.not.null]
 	
 	# normalize heights
+	nlines <- length(strsplit(gt$title, "\n")[[1]])
+
  	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.cex
- 	titleHeight <- convertHeight(unit(2, "lines"), "npc", valueOnly=TRUE) * gt$title.cex
+ 	titleHeight <- convertHeight(unit(nlines+1, "lines"), "npc", valueOnly=TRUE) * gt$title.cex
 
 	legendWidth <- gt$legend.width
 
@@ -230,7 +232,7 @@ legend_plot_hist <- function(x, gt) {
 		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * cex * 1.5
 		height.xaxis <- lineHeight * cex
 		
-		axisMargin <- convertWidth(unit(0.03, "npc"), "inch", valueOnly=TRUE)
+		axisMargin <- convertWidth(unit(0.02, "npc"), "inch", valueOnly=TRUE)
 		axisTicks <- convertWidth(unit(0.01, "npc"), "inch", valueOnly=TRUE)
 		
 		pushViewport(

@@ -154,7 +154,7 @@ plot_bubbles <- function(co.npc, sizes, bubble.col, bubble.border, scaleFactor) 
 				gp=gpar(col=borders, fill=cols2))
 }
 
-plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.fontcolor, text.bg.color, text.bg.alpha, text.scale, text.print.tiny, text.fontface, text.fontfamily, just=c("center", "center"), bg.margin=.25) {
+plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.fontcolor, text.bg.color, text.bg.alpha, text.scale, text.print.tiny, text.fontface, text.fontfamily, just=c("center", "center"), bg.margin=.10) {
 	npol <- nrow(co.npc)
 	
 	text_sel <- (cex >= text.cex.lowerbound)

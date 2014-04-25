@@ -39,7 +39,8 @@ geo_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
   area sizes are preserved. Type: equal-area}
   \item{\code{"merc"}}{Mercator (1569). Projection in which
   shapes are locally preserved. However, areas close to the
-  poles are inflated. Used by Google Maps. Type: conformal}
+  poles are inflated. Google Maps uses a close variant of
+  the Mercator. Type: conformal}
   \item{\code{"mill"}}{Miller (1942). Projetion based on
   Mercator, in which poles are displayed. Type: compromise}
   \item{\code{"eqc0"}}{Equirectangular (120). Projection in
@@ -83,5 +84,16 @@ This layer specifies the shape object, which is one of
 \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}},
 \code{\link[sp:SpatialPoints]{SpatialPoints}}, and
 \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}.
+}
+\examples{
+data(World)
+
+geo_shape(World, projection="longlat") + geo_fill() + geo_borders() + geo_theme("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.cex=.8)
+
+geo_shape(World, projection="merc", ylim=c(.2, 1)) + geo_fill(ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")) + geo_borders() + geo_theme("Mercator projection. Although used in Google Maps, it is discouraged for\\nstatistical purposes. In reality, Australia is 3 times larger than Greenland!", inner.margins=c(0,0,.15,0), title.cex=.6)
+
+geo_shape(World, projection="wintri") + geo_fill() + geo_borders() + geo_theme("Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps", inner.margins=c(0,0,.1,0), title.cex=.8)
+
+geo_shape(World) + geo_fill() + geo_borders() + geo_theme("Eckhart IV projection. Recommended in statistical maps for its equal-area property", inner.margins=c(0,0,.1,0))
 }
 

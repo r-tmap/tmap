@@ -5,37 +5,39 @@
 \alias{geo_theme_World}
 \title{Theme elements of cartographic maps}
 \usage{
-geo_theme(title = NA, title.cex = 1, bg.color = "grey85",
-  draw.frame = TRUE, title.position = c("left", "top"), asp = NA,
+geo_theme(title = NA, title.cex = 1, bg.color = NULL, draw.frame = TRUE,
+  title.position = c("left", "top"), title.bg.color = NA, asp = NA,
   frame.lwd = 1, outer.margins = rep(0.02, 4), inner.margins = rep(0.02,
   4), legend.profile = "full", legend.only = FALSE,
   legend.choro.title = NA, legend.bubble.size.title = NA,
   legend.bubble.col.title = NA, legend.position = c("left", "top"),
-  legend.width = 0.3, legend.height = 0.8, legend.choro.height = 0.3,
+  legend.width = 0.3, legend.max.height = 0.8, legend.choro.height = 0.3,
   legend.choro.hist.height = 0.25, legend.bubble.size.height = 0.15,
   legend.bubble.col.height = 0.3, legend.config = c("hist", "choro",
-  "bubble.size", "bubble.col"), legend.in.frame = TRUE,
-  legend.title.cex = 1, legend.text.cex = 0.7, legend.hist.cex = 0.7,
-  legend.digits = 2L, legend.bg.color = NA)
+  "bubble.size", "bubble.col"), legend.title.cex = 1, legend.text.cex = 0.7,
+  legend.hist.cex = 0.7, legend.digits = 2L, legend.bg.color = NA)
 
 geo_theme_World(title = NA, title.cex = 1, title.position = c("left",
-  "bottom"), asp = 2, outer.margins = rep(0.02, 4), inner.margins = c(0,
-  0.02, 0.02, 0.02), legend.position = c("left", "bottom"),
-  legend.width = 0.2, legend.height = 0.5, legend.text.cex = 0.6,
-  legend.hist.cex = 0.6, legend.bg.color = "grey85", ...)
+  "bottom"), title.bg.color = TRUE, asp = 2, outer.margins = rep(0.02, 4),
+  inner.margins = c(0, 0.02, 0.02, 0.02), legend.position = c("left",
+  "bottom"), legend.width = 0.2, legend.max.height = 0.5,
+  legend.text.cex = 0.6, legend.hist.cex = 0.6, legend.bg.color = TRUE,
+  ...)
 
 geo_theme_Europe(title = NA, legend.position = c("left", "top"),
   outer.margins = rep(0.02, 4), inner.margins = c(0, 0.2, 0, 0), ...)
 
-geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
-  legend.position = c("left", "top"), legend.width = 0.3, ...)
+geo_theme_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
+  0.05, 0.05), legend.position = c("left", "top"), legend.width = 0.3, ...)
 }
 \arguments{
   \item{title}{Title of the map(s)}
 
   \item{title.cex}{Relative size of the title}
 
-  \item{bg.color}{Background color}
+  \item{bg.color}{Background color. By default it is light
+  grey (\code{grey85}) for choropleths and white for other
+  maps.}
 
   \item{draw.frame}{Boolean that determines whether a frama
   is drawn.}
@@ -48,6 +50,10 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
   between 0 and 1 that specifies the x and y value of the
   left bottom corner of the legend.}
 
+  \item{title.bg.color}{background color of the title. Use
+  \code{TRUE} to match with the overall background color
+  \code{bg.color}.}
+
   \item{asp}{Aspect ratio. The aspect ratio of the map
   (width/height). If \code{NA}, it is determined by the
   bounding box (see argument \code{bbox} of
@@ -55,13 +61,15 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
   \code{frame.margins}. If \code{0}, then the aspect ratio
   is adjusted to the aspect ratio of the device.}
 
-  \item{margins}{Relative margins. Vector of four values
-  specifying the bottom, left, top, and right margin.
-  Values are between 0 and 1.}
-
   \item{frame.lwd}{Width of the frame}
 
-  \item{frame.margins}{Frame margins}
+  \item{outer.margins}{Relative margins between device and
+  frame. Vector of four values specifying the bottom, left,
+  top, and right margin. Values are between 0 and 1.}
+
+  \item{inner.margins}{Relative margins inside the frame.
+  Vector of four values specifying the bottom, left, top,
+  and right margin. Values are between 0 and 1.}
 
   \item{legend.profile}{Character that specifies which
   legend elements are drawn (if applicable): \describe{
@@ -96,23 +104,25 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
 
   \item{legend.width}{width of the legend}
 
-  \item{legend.height}{total maximum height of the legend.
-  Heights of single legend elements are specified by
-  \code{legend.choro.height},
+  \item{legend.max.height}{total maximum height of the
+  legend. Heights of single legend elements are specified
+  by \code{legend.choro.height},
   \code{legend.choro.hist.height},
   \code{legend.bubble.size.height}, and
   \code{legend.bubble.col.height}. If their total exceeds
   \code{legend.height}, then there are downscaled
   linearly.}
 
-  \item{legend.choro.height}{see \code{legend.height}}
+  \item{legend.choro.height}{see \code{legend.max.height}}
 
-  \item{legend.choro.hist.height}{see \code{legend.height}}
+  \item{legend.choro.hist.height}{see
+  \code{legend.max.height}}
 
   \item{legend.bubble.size.height}{see
-  \code{legend.height}}
+  \code{legend.max.height}}
 
-  \item{legend.bubble.col.height}{see \code{legend.height}}
+  \item{legend.bubble.col.height}{see
+  \code{legend.max.height}}
 
   \item{legend.config}{character vector that specifies
   which legend elements are drawn and at what position. The
@@ -122,9 +132,6 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
   elements (it can also be a subset). The order corresponds
   to the order in which the legend elements are stacked
   from top to bottom.}
-
-  \item{legend.in.frame}{logical. Should the legend be
-  drawn inside the frame?}
 
   \item{legend.title.cex}{Relative font size for the legend
   title}
@@ -138,7 +145,9 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, legend.in.frame = FALSE,
   \item{legend.digits}{Number of digits for the legend
   labels}
 
-  \item{legend.bg.color}{Background color of the legend.}
+  \item{legend.bg.color}{Background color of the legend.
+  Use \code{TRUE} to match with the overall background
+  color \code{bg.color}.}
 
   \item{...}{other arguments from \code{geo_theme}}
 }

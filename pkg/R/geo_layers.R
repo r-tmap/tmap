@@ -50,7 +50,7 @@ geo_shape <- function(shp,
 #' @export
 #' @example ../examples/geo_borders.R
 #' @return \code{\link{geo-object}}
-geo_borders <- function(col="black", lwd=1, lty="solid") {
+geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 	g <- list(geo_borders=as.list(environment()))
 	class(g) <- "geo"
 	g
@@ -65,7 +65,7 @@ geo_borders <- function(col="black", lwd=1, lty="solid") {
 #' @seealso \code{\link{geo_choropleth}}
 #' @example ../examples/geo_fill.R
 #' @return \code{\link{geo-object}}
-geo_fill <- function(col="gray70") {
+geo_fill <- function(col="grey90") {
 	g <- list(geo_fill=as.list(environment()))
 	class(g) <- "geo"
 	g
@@ -121,7 +121,7 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 #' This layer speficies a choropleth. A color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
 #' 
 #' @param col name of the data variable that is contained in \code{shp}
-#' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for  numeric variables that contain both negative and positive values, \code{"Blues"} for numeric variables that contain non-negative values, and \code{"Dark2"} for categorical variables.
+#' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. Note that the conversion to densities is an approximation where the total area size is given by the argument \code{total.area.km2}.
 #' @param style method to cut the color scale (in case \code{col} is a numeric variable): "fixed", "equal", "pretty", "quantile", "kmeans"
@@ -145,7 +145,7 @@ geo_choropleth <- function(col,
 						    labels = NULL,
 							auto.palette.mapping = TRUE,
 							contrast = 1,
-							colorNA = "#BBBBBB",
+							colorNA = "grey65",
 							thres.poly = 1e-05,
 							total.area.km2=NA) {
 	

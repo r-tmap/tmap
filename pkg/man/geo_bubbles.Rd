@@ -2,7 +2,7 @@
 \alias{geo_bubbles}
 \title{Draw bubbles}
 \usage{
-geo_bubbles(size = 1, col = "red", border = NA, scale = 1)
+geo_bubbles(size = 1, col = "blueviolet", border = NA, scale = 1)
 }
 \arguments{
   \item{size}{relative sizes of the bubbles}
@@ -23,6 +23,14 @@ This layer speficies the drawing of bubbles. The colors and
 sizes of the bubbles are directly specified in this layer.
 Use \code{\link{geo_bubblemap}} to map bubbles colors
 and/or sizes to data.
+}
+\examples{
+data(Europe)
+
+geo_shape(Europe) + geo_borders() + geo_bubbles(size=.75, col="red") + geo_theme("Countries")
+
+geo_shape(Europe) + geo_borders() + geo_bubbles(size=.75, col=ifelse(Europe$name=="Isle of Man", "red", "blue")) + geo_theme("Find Isle of Man...")
+
 }
 \seealso{
 \code{\link{geo_choropleth}}

@@ -149,6 +149,8 @@ process_meta <- function(g, nx, varnames) {
 		
 		if (length(title) < nx) title <- rep(title, length.out=nx)
 
+		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$choro[1]), "white", "grey85")
+		
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color
 	})	

@@ -27,7 +27,7 @@ data(NLD_prov)
 
 geo_shape(NLD_muni) +
 	geo_choropleth(col="pop", convert2density=TRUE, style="kmeans", total.area.km2=41543) +
-	geo_borders("gray50") +
+	geo_borders() +
 	geo_shape(NLD_prov) +
-	geo_borders("gray25", lwd=2) +
+	geo_borders(, lwd=2) +
 	geo_theme_NLD(title="Population (per km2)", legend.digits=0)

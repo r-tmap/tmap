@@ -3,7 +3,7 @@
 \title{Quick map plot}
 \usage{
 geo(shp, choro.fill = NULL, bubble.size = NULL, bubble.col = NULL,
-  borders = "black", fill = "gray75", text = NULL, theme = NULL, ...)
+  borders = "grey40", fill = "grey90", text = NULL, theme = NULL, ...)
 }
 \arguments{
   \item{shp}{shape object. For \code{\link{geo_choropleth}}
@@ -37,12 +37,13 @@ geo(shp, choro.fill = NULL, bubble.size = NULL, bubble.col = NULL,
   \item{fill}{specifies the fill colors in case
   \code{choro.fill} is not specified}
 
+  \item{text}{name of a variable in \code{shp} that contain
+  text labels}
+
   \item{theme}{one of "World", "Europe", or "NLD"}
 
-  \item{...}{parameters passed on to
-  \code{\link{geo_shape}}, \code{\link{geo_choropleth}},
-  \code{\link{geo_bubblemap}}, \code{\link{geo_borders}},
-  \code{\link{geo_theme}} and \code{\link{geo_grid}}.}
+  \item{...}{parameters passed on to the \code{geo_*}
+  functions.}
 }
 \value{
 \code{\link{geo-object}}
@@ -62,13 +63,11 @@ geo(Europe, choro.fill="gdp_cap_est", theme="Europe", style="kmeans", title="Est
 
 
 # bubblemap
-geo(Europe, bubble.size="pop_est", bubble.col="subregion", scale=2, theme="Europe")
+geo(Europe, bubble.size="pop_est", bubble.col="part", scale=2, theme="Europe")
 
 
 # World maps
 data(World)
-geo(World, choro.fill="pop_est_dens", borders="gray25", theme="World", style="kmeans", title="Population per km")
-
-
+geo(World, choro.fill="pop_est_dens", theme="World", style="kmeans", title="Population per km")
 }
 
