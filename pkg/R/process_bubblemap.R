@@ -17,7 +17,7 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
 	
 	if (is.null(xsize)) xsize <- 1
-	if (is.null(xcol)) xcol <- "red"
+	if (is.null(xcol)) xcol <- "blueviolet"
 	if (is.null(bubble.border)) bubble.border <- NA
 	
 	if (!varysize && !varycol) stop("Bubblemap needs to map a variable to either size or color (or both). Use geo.bubbles otherwise.")
@@ -97,9 +97,16 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 									   legend.digits=legend.digits)
 				} else {
 					if (is.null(palette)) palette <- "Set3"
-					colsLeg <- cat2pal(dat,
+					#remove unused levels in legend
+					if (varysize) {
+						sel <- apply(matrix(as.vector(bubble.size), nrow=nrow(Xcol)), MARGIN=1, function(x)any(!is.na(x)))
+					}
+					colsLeg <- cat2pal(dat[sel],
 									   palette = palette,
 									   colorNA = colorNA)
+					cols <- rep(NA, length(sel))
+					cols[sel] <- colsLeg[[1]]
+					colsLeg[[1]] <- cols
 					
 				}
 				bubble.col[,i] <- colsLeg[[1]]
@@ -124,9 +131,17 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 								   legend.digits=legend.digits)
 			} else {
 				if (is.null(palette)) palette <- "Set3"
-				colsLeg <- cat2pal(dat,
+				#remove unused levels in legend
+				if (varysize) {
+					sel <- apply(matrix(as.vector(bubble.size), nrow=length(dat)), MARGIN=1, function(x)any(!is.na(x)))
+				}
+				colsLeg <- cat2pal(dat[sel],
 								   palette = palette,
 								   colorNA = colorNA)
+				 
+				cols <- rep(NA, length(sel))
+				cols[sel] <- colsLeg[[1]]
+				colsLeg[[1]] <- cols
 				
 			}
 			bubble.col <- matrix(unlist(split(colsLeg[[1]], 

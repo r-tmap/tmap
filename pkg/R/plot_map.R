@@ -214,8 +214,6 @@ plot_all <- function(shps, gp) {
 								 			 c("npc", "null", "npc")), 
 								 widths=unit(c(margins[2], 1, margins[4]), 
 								 			c("npc", "null", "npc"))))
-	# backup par settings
-	opar <- par("mai", "xaxs", "yaxs")
 	
 	# plot map
 	if (!gt$legend.only) {
@@ -277,5 +275,4 @@ plot_all <- function(shps, gp) {
 	
 	
 	seekViewport(main_vp$name)
-	do.call("par", opar)
 }

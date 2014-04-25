@@ -24,6 +24,6 @@ gridplot <- function(mfrow, mfcol, fun, nx, shps, gps, assign.to.vp=FALSE) {
 			rw <- 1
 		}
 	}
-	upViewport()
+	upViewport(0)
 	invisible()
 }

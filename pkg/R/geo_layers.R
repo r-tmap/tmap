@@ -65,7 +65,7 @@ geo_borders <- function(col="black", lwd=1, lty="solid") {
 #' @seealso \code{\link{geo_choropleth}}
 #' @example ../examples/geo_fill.R
 #' @return \code{\link{geo-object}}
-geo_fill <- function(col="gray75") {
+geo_fill <- function(col="gray70") {
 	g <- list(geo_fill=as.list(environment()))
 	class(g) <- "geo"
 	g
@@ -83,7 +83,7 @@ geo_fill <- function(col="gray75") {
 #' @seealso \code{\link{geo_choropleth}}
 #' @example ../examples/geo_bubbles.R
 #' @return \code{\link{geo-object}}
-geo_bubbles <- function(size=1, col="red", border=NA, scale=1) {
+geo_bubbles <- function(size=1, col="blueviolet", border=NA, scale=1) {
 	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale))
 	class(g) <- "geo"
 	g
@@ -207,7 +207,7 @@ geo_bubblemap <- function(size = NULL, col = NULL,
 #' @example ../examples/geo_grid.R
 #' @return \code{\link{geo-object}}
 geo_grid <- function(ncol=NULL, nrow=NULL, 
-					 free.scales=FALSE,
+					 free.scales=TRUE,
 					 free.scales.choro=free.scales,
 					 free.scales.bubble.size=free.scales,
 					 free.scales.bubble.col=free.scales

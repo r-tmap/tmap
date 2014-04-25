@@ -120,6 +120,16 @@ ed[, 1:5] <- lapply(ed[, 1:5], function(x){
 	factor(as.character(x))
 })
 
+ed$part <- ed$subregion
+
+ed$part[which(ed$iso_a3=="TUR")] <- "Southern Europe"
+
+ed$part <- factor(as.character(ed$part), levels=c("Northern Europe", "Western Europe", "Southern Europe", "Eastern Europe"))
+
+names(ed)
+
+ed <- ed[, c(1:4, 13, 6:12)]
+
 ed[ed$continent!="Europe" & (ed$name !="Turkey"), 7:12] <- NA
 
 

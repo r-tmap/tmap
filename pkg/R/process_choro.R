@@ -57,6 +57,16 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 			fill[,i] <- colsLeg[[1]]
 			choro.legend.labels[[i]] <- colsLeg[[2]]
 			choro.legend.palette[[i]] <- colsLeg[[3]]
+
+			## adjust hisogram
+			if (!is.na(choro.breaks[[i]][1])) {
+				tmp_breaks <- choro.breaks[[i]]
+				tmp_breaks[1] <- -Inf
+				tmp_breaks[length(tmp_breaks)] <- Inf
+				tmp_int <- findInterval(choro.values[tiny,i], tmp_breaks)
+				tmp_int[is.na(tmp_int)] <- length(choro.legend.palette[[i]])
+				fill[,i][tiny] <- choro.legend.palette[[i]][tmp_int]
+			}
 		}
 		X[tiny, ] <- NA
 	} else {
@@ -86,17 +96,19 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
 									rep(1:nx, each=length(colsLeg[[1]])/nx))), ncol=nx)
 		choro.legend.labels <- colsLeg[[2]]
 		choro.legend.palette <- colsLeg[[3]]
-	}
-	#choro.values <- X
-	if (!is.na(choro.breaks[1])) {
-		tmp_breaks <- choro.breaks
-		tmp_breaks[1] <- -Inf
-		tmp_breaks[length(tmp_breaks)] <- Inf
-		tmp_int <- findInterval(choro.values[tiny,], tmp_breaks)
-		tmp_int[is.na(tmp_int)] <- length(choro.legend.palette)
-		fill[tiny] <- choro.legend.palette[tmp_int]
+		
+		## adjust hisogram
+		if (!is.na(choro.breaks[1])) {
+			tmp_breaks <- choro.breaks
+			tmp_breaks[1] <- -Inf
+			tmp_breaks[length(tmp_breaks)] <- Inf
+			tmp_int <- findInterval(unlist(choro.values[tiny,]), tmp_breaks)
+			tmp_int[is.na(tmp_int)] <- length(choro.legend.palette)
+			fill[tiny,] <- choro.legend.palette[tmp_int]
+		}
 	}
 	choro.values <- X
+	
 	
 # 	if (style=="kmeans") {
 # 		choro.values[choro.values>max(choro.breaks)] <- max(choro.breaks)

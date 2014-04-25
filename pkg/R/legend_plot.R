@@ -53,7 +53,7 @@ legend_plot <- function(gt, x) {
 	
 	# normalize heights
  	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.cex
- 	titleHeight <- convertHeight(unit(2.5, "lines"), "npc", valueOnly=TRUE) * gt$title.cex
+ 	titleHeight <- convertHeight(unit(2, "lines"), "npc", valueOnly=TRUE) * gt$title.cex
 
 	legendWidth <- gt$legend.width
 
@@ -77,10 +77,10 @@ legend_plot <- function(gt, x) {
 									   centre=(1-titleWidth)/2, 
 									   right=.98-titleWidth),
 								switch(title.position[2], 
-									   top=1-titleHeight/2, 
+									   top=1-titleHeight*.75, 
 									   center=(1-titleHeight)/2, 
 									   centre=(1-titleHeight)/2, 
-									   bottom=0.02+titleHeight/2+legendHeight))
+									   bottom=0.02+titleHeight*.25+legendHeight))
 			legend.position <- c(switch(legend.position[1], 
 										left=0.02, 
 										center=(1-legendWidth)/2, 
@@ -99,10 +99,10 @@ legend_plot <- function(gt, x) {
 										   centre=(1-titleWidth)/2, 
 										   right=.98-titleWidth),
 									switch(title.position[2], 
-										   top=1-titleHeight/2, 
+										   top=1-titleHeight*.75, 
 										   center=(1-titleHeight)/2, 
 										   centre=(1-titleHeight)/2, 
-										   bottom=titleHeight/2))	
+										   bottom=titleHeight*.25))	
 			}
 			
 			if (is.character(legend.position)) {
