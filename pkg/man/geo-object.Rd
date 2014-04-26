@@ -1,7 +1,7 @@
 \name{geo-object}
 \alias{geo-object}
-\title{Geo layer}
+\title{Geo element}
 \description{
-Geo layer created by any \code{geo_} function.
+Geo element created by any \code{geo_} function.
 }
 
