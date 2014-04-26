@@ -13,18 +13,18 @@ set_bounding_box <- function(shps, gp, gt) {
 		bbmarg[c(1,2)] <- -bbmarg[c(1,2)]
 		bb <- bb + rep(bbrange, 2) * bbmarg
 		
+		xlim <- bb[1,]
+		ylim <- bb[2,]
+		
+		longlat <- !is.projected(shp)
+		
+		sasp <- if(longlat) {
+			(diff(xlim)/diff(ylim)) * cos((mean(ylim) * pi)/180)
+		} else {
+			(diff(xlim)/diff(ylim))# * 2
+		}
+
 		if (!is.na(pasp)) {
-			xlim <- bb[1,]
-			ylim <- bb[2,]
-			
-			longlat <- !is.projected(shp)
-			
-			sasp <- if(longlat) {
-				(diff(xlim)/diff(ylim)) * cos((mean(ylim) * pi)/180)
-			} else {
-				(diff(xlim)/diff(ylim))# * 2
-			}
-			
 			if (pasp > sasp) {
 				## landscape device
 				xdiff <- if (longlat) diff(ylim) * pasp / cos((mean(ylim) * pi)/180) else diff(ylim) * (pasp)
@@ -52,6 +52,6 @@ set_bounding_box <- function(shps, gp, gt) {
 			shp
 		})
 		
-		list(shp=shp2, layer=gpl)
+		list(shp=shp2, layer=gpl, sasp=ifelse(is.na(pasp), sasp, pasp), dasp=dasp)
 	}, shps, gp, SIMPLIFY=FALSE)
 }

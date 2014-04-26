@@ -15,68 +15,31 @@ plot_map <- function(shps, gp, gt) {
 	gp <- lapply(sgp, function(x)x$layer)
 	
 	## plot shapes
-	add <- c(FALSE, rep(TRUE, length(gp)-1))	
+	add <- c(FALSE, rep(TRUE, length(gp)-1))
+	
+	#browser()
+	dasp <- sgp[[1]]$dasp
+	sasp <- sgp[[1]]$sasp
+	
+	if (dasp > sasp) {
+		vp <- viewport(width=sasp/dasp)
+	} else {
+		vp <- viewport(height=dasp/sasp)
+	}
+	pushViewport(vp)
+	if (draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
+	
+	par(new=TRUE, fig=gridFIG(), xaxs="i", yaxs="i")
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
-		plot(shps[[l]], col=gpl$fill, bg=gt$bg.color, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=TRUE)
-	}
-	
-	## set grid viewport (second line needed for small multiples)
-	vps <- baseViewports()
-	vps$figure[c("x", "y", "width", "height")] <- vps$plot[c("x", "y", "width", "height")]
-	pushViewport(vps$inner, vps$figure, vps$plot)
-
-	bb <- shps[[1]]@bbox
- 	ys <- convertY(unit(bb[2,], "native"), "npc", valueOnly=TRUE)
- 	xs <- convertX(unit(bb[1,], "native"), "npc", valueOnly=TRUE)
-	
-	npc.w <- xs[2] - xs[1]
-	npc.h <- ys[2] - ys[1]
-
-	npc <- max(npc.w, npc.h)
-
-	aspVpNpc <- npc.w / npc.h
-	
-	
- 	ys.inch <- convertY(unit(bb[2,], "native"), "inch", valueOnly=TRUE)
- 	xs.inch <- convertX(unit(bb[1,], "native"), "inch", valueOnly=TRUE)
-
-	vpWidth <- xs.inch[2] - xs.inch[1]
- 	vpHeight <- ys.inch[2] - ys.inch[1]
-
-	aspVpInch <- vpWidth / vpHeight
-	
- 	#browser()
-# 	## correct npc's such that the aspect ratio will be preserved
-# 	if (npc==npc.w) {
-# 		npc.h <- npc.w / aspVpInch
-# 	} else {
-# 		npc.w <- npc.h * aspVpInch
-# 	}
-
-	if (aspVpNpc > aspVpInch) {
-		# portrait map on landscape device
-		npc.h <- npc.w / aspVpInch
-	} else {
-		# landscape map on portrait device
-		npc.w <- npc.h * aspVpInch
+		plot(shps[[l]], col=gpl$fill, bg=NA, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=TRUE)
 	}
 
-	pushViewport(viewport(layout=grid.layout(nrow=3, ncol=3,
-				widths=unit(c(1,npc.w, 1), c("null", "snpc", "null")),
-				heights=unit(c(1,npc.h, 1), c("null", "snpc", "null")))))
+	
+ 	vpWidth <- convertWidth(unit(1, "npc"), "inch", valueOnly=TRUE)
+  	vpHeight <- convertHeight(unit(1, "npc"), "inch", valueOnly=TRUE)
 
-	bg.col <- ifelse(draw.frame, "white", gt$bg.color)
-		
-	cellplot(1:3, 1, e=grid.rect(gp=gpar(col=bg.col, fill=bg.col)))
-	cellplot(1:3, 3, e=grid.rect(gp=gpar(col=bg.col, fill=bg.col)))
-	cellplot(1, 2, e=grid.rect(gp=gpar(col=bg.col, fill=bg.col)))
-	cellplot(3, 2, e=grid.rect(gp=gpar(col=bg.col, fill=bg.col)))
-
-	vp <- viewport(layout.pos.col=2, layout.pos.row=2)
-	pushViewport(vp)
-
-	if (draw.frame) grid.rect(gp=gpar(fill=NA, lwd=frame.lwd))
+	if (draw.frame) grid.rect(gp=gpar(fill=NA, lwd=frame.lwd)) else grid.rect(gp=gpar(col=gt$bg.color, fill=NA))
 	vpArea <- vpWidth * vpHeight
 	scaleFactor <- (sqrt(vpArea) / 100)
 	for (l in 1:nlayers) {
@@ -122,7 +85,7 @@ plot_map <- function(shps, gp, gt) {
 		}
 	
 	}
-	upViewport(5)
+	upViewport()
 	list(scaleFactor=scaleFactor, vp=vp)
 }
 
@@ -209,6 +172,7 @@ plot_all <- function(shps, gp) {
 	margins <- gt$outer.margins
 	
 	# set outer margins
+	if (!gt$draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 	gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
 								 heights=unit(c(margins[3], 1, margins[1]), 
 								 			 c("npc", "null", "npc")), 
@@ -219,7 +183,6 @@ plot_all <- function(shps, gp) {
 	if (!gt$legend.only) {
 		pushViewport(gridLayoutMap)
 		cellplot(2, 2, e={
-			par(new=TRUE, fig=gridFIG(), mai=c(0,0,0,0), xaxs="i", yaxs="i")
 			result <- plot_map(shps, gp, gt)
 			scaleFactor <- result[[1]]
 			vp <- result[[2]]

@@ -88,6 +88,7 @@ print.geo <- function(x, ...) {
 	#opar <- par("mai", "xaxs", "yaxs")
 	opar <- par(no.readonly=TRUE)
 	
+	par(mai=c(0,0,0,0), oma=c(0,0,0,0))
 	plot.new()
 	#grid.newpage()
 	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps$shps, gps$multiples)

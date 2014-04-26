@@ -9,6 +9,7 @@
 #' @param ignore.duplicates should duplicated keys in \code{data} be ignored? (\code{FALSE} by default)
 #' @param fixed.order should the data be append in the same order as the shapes in \code{shp}?
 #' @return shape object with appended data
+#' @example ../examples/append_data.R
 #' @export
 append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, fixed.order=is.null(key.data)) {
 	
