@@ -247,7 +247,7 @@ world2 <- world110
 
 ## crop to prevent inflated south pole
 bbw <- world2@bbox
-bbw[2, 1] <- -89
+bbw[2, 1] <- -84
 
 world3 <- crop_shape(world2, bb=bbw)
 #world3 <- world2
@@ -303,4 +303,71 @@ save(World, file="./data/World.rda", compress="xz")
 ## projections: see ?proj4string => package rgdal
 
 
+######################## inspect world projection - Antarctica
+# http://stackoverflow.com/questions/5737506/in-postgis-a-polygon-bigger-than-half-the-world-is-treated-as-its-opposite
+
+approx_areas(World)[12]
+gArea(World[12,])
+
+
+length(World@polygons[[12]]@Polygons)
+
+gArea(World)
+
+shp <- world3#World
+shp@polygons[[12]]@Polygons <- shp@polygons[[12]]@Polygons[1]
+shp@polygons[[12]]@plotOrder <- shp@polygons[[12]]@plotOrder[1]
+shp@polygons[[12]]@area <- sum(sapply(shp@polygons[[12]]@Polygons, function(x)x@area))
+slot(shp, "polygons")[12] <- lapply(slot(shp, "polygons")[12], checkPolygonsHoles) 
+gIsValid(shp)
+geo(shp)
+
+shp@data <- World@data
+
+
+shp2 <- shp[12,]
+m <- plotGoogleMaps(shp2, zcol="income_grp", colPalette=brewer.pal(9, "Greens"))
+
+geo(shp2)
+
+
+## todo:
+# split polygons if cross 180long
+# split polygons if they are at least 180 wide
+
+
+
+
+#co <- rbind(c(-170,-84), c(-170,-63), c(170,-63), c(170,-84), c(-170,-84))
+co <- rbind(c(0,90), c(0,-90), c(170,-90), c(170,90), c(0,90))
+co <- rbind(c(-170,-84), c(-170,-63), c(0,-63), c(0,-84), c(-170,-84))
+
+y <- 91
+co <- rbind(c(-y,-84), c(-y,-63), c(y,-63), c(y,-84), c(-y,-84))
+
+
+#co[co[,1]<0 ,1] <- co[co[,1]<0 ,1]+360
+
+shp3 <- SpatialPolygons(list(Polygons(list(Polygon(co)), "1")),
+				proj4string=CRS(proj4string(shp)))
+plot(shp3)
+
+shp3 <- append_data(shp3, shp2@data)
+m <- plotGoogleMaps(shp3, filename="test.html", zcol="income_grp", colPalette=brewer.pal(9, "Greens"))
+
+
+get_polygon_ranges(shp2)
+
+
+co <- shp2@polygons[[1]]@Polygons[[1]]@coords
+
+p <- shp@polygons[[14]]@Polygons
+
+co <- lapply(p, function(pp)pp@coords)
+do.call("rbind", co)
+
+
+
+range(co[,1])
+range(co[,2])
 

@@ -33,7 +33,11 @@ m<-plotGoogleMaps(nc,zcol="NWBIR74",filename='MyMap6.htm',
 
 data(World)
 data(NLD_muni)
+library(RColorBrewer)
 m <- plotGoogleMaps(World, zcol="income_grp", colPalette=brewer.pal(9, "Greens"))
+
+m <- plotGoogleMaps(shp2, zcol="income_grp", colPalette=brewer.pal(9, "Greens"))
+
 
 m <- plotGoogleMaps(world110, zcol="income_grp", colPalette=brewer.pal(9, "Greens"))
 m <- plotGoogleMaps(world3, zcol="income_grp", colPalette=brewer.pal(9, "Greens"))

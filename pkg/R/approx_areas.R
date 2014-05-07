@@ -16,7 +16,13 @@
 #' @return numeric vector of area sizes
 #' @export
 approx_areas <- function(shp, total.area.km2=NA, units=NULL) {
-    x <- sapply(slot(shp, "polygons"), function(x) x@area)
+	
+	x <- sapply(slot(shp, "polygons"),
+		   function(x) {
+		   	sum(sapply(slot(x, "Polygons"), slot, "area") *
+		   			ifelse(sapply(slot(x, "Polygons"), slot, "hole"), -1, 1))
+	})
+    #x <- sapply(slot(shp, "polygons"), function(x) x@area)
     if (missing(units)) units <- ifelse(is.na(total.area.km2), "abs", "km2")
     denom <- switch(units, norm=max(x), prop=sum(x), km2=sum(x)/total.area.km2, 1)
     x / denom
