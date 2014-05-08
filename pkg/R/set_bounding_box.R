@@ -5,7 +5,6 @@ set_bounding_box <- function(shps, gp, gt) {
 	pasp <- gt$asp
 	
 	if (identical(pasp, 0)) pasp <- dasp
-	
 	mapply(function(shp, gpl) {
 		bb <- shp@bbox
 		bbrange <- bb[,2] - bb[,1]

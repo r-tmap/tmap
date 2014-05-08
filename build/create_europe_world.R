@@ -16,15 +16,15 @@ world50 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
 
 # download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
 # unzip("../shapes/ne_110m_admin_0_countries_lakes.zip", exdir="../shapes")
-world110 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
+world110 <- readOGR("../shapes", "ne_110m_admin_0_countries_lakes")
 
 
 ## 
-gIsValid(world50)
-gIsValid(world110)
+isV50 <- gIsValid(world50)
+isV110 <- gIsValid(world110)
 
-world50 <- gBuffer(world50, byid=TRUE, width=0)
-world110 <- gBuffer(world110, byid=TRUE, width=0)
+if (!isV50) world50 <- gBuffer(world50, byid=TRUE, width=0)
+if (!isV110) world110 <- gBuffer(world110, byid=TRUE, width=0)
 
 gIsValid(world50)
 gIsValid(world110)
@@ -247,31 +247,58 @@ world2 <- world110
 
 ## crop to prevent inflated south pole
 bbw <- world2@bbox
-bbw[2, 1] <- -84
-
+bbw[2, 1] <- -86
 world3 <- crop_shape(world2, bb=bbw)
-#world3 <- world2
-gIsValid(world3, byid=TRUE)
+gIsValid(world3)
+
+
+## simplify
+#world4 <- gSimplify(world3, tol=.25, topologyPreserve=TRUE)
+world4 <- world3
+isV <- gIsValid(world4)
+if (!isV) {
+	world4 <- gBuffer(world4, byid=TRUE, width=0)
+	gIsValid(world4)
+}
+
+
+## fix antarctica crop 
+id.antarctica <- which(world4$name=="Antarctica")
+pid.antarctica <- world4@polygons[[id.antarctica]]@plotOrder[1]
+
+co.antarctica <- world4@polygons[[id.antarctica]]@Polygons[[pid.antarctica]]@coords
+nant <- nrow(co.antarctica)
+edge_id <- which.max(abs(co.antarctica[-1, 1] - co.antarctica[-nant, 1]))
+steps <- 10
+co.antarctica <- co.antarctica[c(1:edge_id, rep(edge_id, steps-2), (edge_id+1):nant), ]
+co.antarctica[edge_id:(edge_id+steps-1), 1] <- seq(co.antarctica[edge_id,1],
+												   co.antarctica[edge_id+steps-1,1],
+												   length.out=steps)
+
+world4@polygons[[id.antarctica]]@Polygons[[pid.antarctica]]@coords <- co.antarctica
+
+
+
 
 # ## compromise
-# world4_vdG <- spTransform(world3, CRS("+proj=vandg "))
-# world4_r <- spTransform(world3, CRS("+proj=robin"))
-# world4_wt <- spTransform(world3, CRS("+proj=wintri"))
+# world4_vdG <- spTransform(world4, CRS("+proj=vandg "))
+# world4_r <- spTransform(world4, CRS("+proj=robin"))
+# world4_wt <- spTransform(world4, CRS("+proj=wintri"))
 # 
 # ## shapes non-distorted (conformal)
-# world4_mc <- spTransform(world3, CRS("+proj=mill"))
-# world4_merc <- spTransform(world3, CRS("+proj=merc"))
+# world4_mc <- spTransform(world4, CRS("+proj=mill"))
+# world4_merc <- spTransform(world4, CRS("+proj=merc"))
 # 
 # 
 # ## equidistant
-# world4_eqc <- spTransform(world3, CRS("+proj=eqc "))
-# world4_giso <- spTransform(world3, CRS("+proj=eqc +lat_ts=30"))
+# world4_eqc <- spTransform(world4, CRS("+proj=eqc "))
+# world4_giso <- spTransform(world4, CRS("+proj=eqc +lat_ts=30"))
 # 
 # ## equal area
-# world4_peter <- spTransform(world3, CRS("+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45"))
-# world4_behr <- spTransform(world3, CRS("+proj=cea +lat_ts=30"))
-# world4_hd <- spTransform(world3, CRS("+proj=cea +lat_ts=37.5")) # HoBo-Dyer
-world4_eIV <- spTransform(world3, CRS("+proj=eck4")) # Eckert IV
+# world4_peter <- spTransform(world4, CRS("+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45"))
+# world4_behr <- spTransform(world4, CRS("+proj=cea +lat_ts=30"))
+# world4_hd <- spTransform(world4, CRS("+proj=cea +lat_ts=37.5")) # HoBo-Dyer
+world4_eIV <- spTransform(world4, CRS("+proj=eck4")) # Eckert IV
  
 #http://en.wikipedia.org/wiki/List_of_map_projections
 #https://sites.google.com/site/spatialr/crsprojections
@@ -286,88 +313,21 @@ World <- world4_eIV
 
 gIsValid(World)
 
-# check antarctica
-World_merc <- spTransform(World, CRS("+proj=merc"))
-gIsValid(World_merc)
-geo(World_merc)
 
 ## set bouding box (leave out Antarctica)
 #World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)  # for Winkel Tripel
 
-World@data <- wd
-
+World@data <- wd[match(World$iso_a3, wd$iso_a3),]
 
 save(World, file="./data/World.rda", compress="xz")
 
-
 ## projections: see ?proj4string => package rgdal
 
-
-######################## inspect world projection - Antarctica
-# http://stackoverflow.com/questions/5737506/in-postgis-a-polygon-bigger-than-half-the-world-is-treated-as-its-opposite
-
-approx_areas(World)[12]
-gArea(World[12,])
-
-
-length(World@polygons[[12]]@Polygons)
-
-gArea(World)
-
-shp <- world3#World
-shp@polygons[[12]]@Polygons <- shp@polygons[[12]]@Polygons[1]
-shp@polygons[[12]]@plotOrder <- shp@polygons[[12]]@plotOrder[1]
-shp@polygons[[12]]@area <- sum(sapply(shp@polygons[[12]]@Polygons, function(x)x@area))
-slot(shp, "polygons")[12] <- lapply(slot(shp, "polygons")[12], checkPolygonsHoles) 
-gIsValid(shp)
-geo(shp)
-
-shp@data <- World@data
-
-
-shp2 <- shp[12,]
-m <- plotGoogleMaps(shp2, zcol="income_grp", colPalette=brewer.pal(9, "Greens"))
-
-geo(shp2)
-
-
-## todo:
-# split polygons if cross 180long
-# split polygons if they are at least 180 wide
-
-
-
-
-#co <- rbind(c(-170,-84), c(-170,-63), c(170,-63), c(170,-84), c(-170,-84))
-co <- rbind(c(0,90), c(0,-90), c(170,-90), c(170,90), c(0,90))
-co <- rbind(c(-170,-84), c(-170,-63), c(0,-63), c(0,-84), c(-170,-84))
-
-y <- 91
-co <- rbind(c(-y,-84), c(-y,-63), c(y,-63), c(y,-84), c(-y,-84))
-
-
-#co[co[,1]<0 ,1] <- co[co[,1]<0 ,1]+360
-
-shp3 <- SpatialPolygons(list(Polygons(list(Polygon(co)), "1")),
-				proj4string=CRS(proj4string(shp)))
-plot(shp3)
-
-shp3 <- append_data(shp3, shp2@data)
-m <- plotGoogleMaps(shp3, filename="test.html", zcol="income_grp", colPalette=brewer.pal(9, "Greens"))
-
-
-get_polygon_ranges(shp2)
-
-
-co <- shp2@polygons[[1]]@Polygons[[1]]@coords
-
-p <- shp@polygons[[14]]@Polygons
-
-co <- lapply(p, function(pp)pp@coords)
-do.call("rbind", co)
-
-
-
-range(co[,1])
-range(co[,2])
-
+## test Antarctica
+# World_merc <- spTransform(World, CRS("+proj=merc"))
+# gIsValid(World_merc)
+# geo(World_merc)
+# require(plotGoogleMaps)
+# require(RColorBrewer)
+# 
+# m <- plotGoogleMaps(World, filename="world4.htm", zcol="income_grp", colPalette=brewer.pal(9, "Greens"))

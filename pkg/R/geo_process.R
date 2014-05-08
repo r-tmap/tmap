@@ -1,3 +1,80 @@
+process_geo <- function(x) {
+	## fill meta info
+	meta_layers <- c("geo_theme", "geo_grid")
+	for (m in meta_layers) {
+		ids <- which(names(x)==m)
+		if (length(ids)==0) {
+			x <- x + do.call(m, args=list())
+		} else if (length(ids)>1){
+			for (i in 2:length(ids)) {
+				x[[ids[1]]][x[[ids[i]]]$call] <- x[[ids[i]]][x[[ids[i]]]$call]
+			}
+			x <- x[-(ids[-1])]
+		}
+	}
+	
+	## split x into gmeta and gbody
+	gmeta <- x[meta_layers]
+	gbody <- x[!(names(x) %in% meta_layers)]
+	
+	n <- length(gbody)
+	
+	## split x into clusters
+	shape.id <- which(names(gbody)=="geo_shape")
+	if (!length(shape.id)) stop("Required geo_shape layer missing.")
+	if (shape.id[1] != 1) stop("First layers should be a geo_shape layer.")
+	x <- rep(0, n); x[shape.id] <- 1
+	cluster.id <- cumsum(x)
+	
+	## unify projections
+	gbody[shape.id] <- process_projection(gbody[shape.id])
+	
+	gs <- split(gbody, cluster.id)
+	
+	nlx <- sapply(gs, length)
+	if (any(nlx==1)) warning("Specify at least one layer next to geo_shape")
+	
+	
+	
+	#gs <- lapply(gs, function(gx) if (is.null(gx[["geo_borders"]])) gx + geo_borders() else gx)
+	
+	## convert clusters to layers
+	gp <- lapply(gs, FUN=process_layers, 
+				 free.scales.choro=gmeta$geo_grid$free.scales.choro,
+				 free.scales.bubble.size=gmeta$geo_grid$free.scales.bubble.size,
+				 free.scales.bubble.col=gmeta$geo_grid$free.scales.bubble.col,
+				 legend.digits=gmeta$geo_theme$legend.digits)
+	
+	## determine maximal number of variables
+	nx <- max(sapply(gp, function(x) {
+		max(ifelse(is.matrix(x$fill), ncol(x$fill), 1),
+			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
+			ifelse(is.matrix(x$bubble.col), ncol(x$bubble.col), 1),
+			length(x$text))
+	}))
+	names(gp) <- paste0("geoLayer", 1:length(gp))
+	
+	## get variable names (used for titles)
+	varnames <- process_varnames(gp, nx)
+	
+	## process grid
+	gmeta <- process_meta(gmeta, nx, varnames)
+	
+	## split into small multiples
+	gps <- split_geo(gp, nx)
+	
+	gps$multiples <- mapply(function(x, i){
+		x$geo_theme <- gmeta$geo_theme
+		x$geo_theme$title <- x$geo_theme$title[i]
+		x$geo_theme$legend.choro.title <- x$geo_theme$legend.choro.title[i]
+		x$geo_theme$legend.bubble.size.title <- x$geo_theme$legend.bubble.size.title[i]
+		x$geo_theme$legend.bubble.col.title <- x$geo_theme$legend.bubble.col.title[i]
+		x
+	}, gps$multiples, 1:nx, SIMPLIFY=FALSE)
+	
+	list(gmeta=gmeta, gps=gps, nx=nx)
+}
+
 process_varnames <- function(gp, nx) {
 	varnamesList <- lapply(gp, function(x) x$varnames)
 	fillVar <- lapply(varnamesList, function(x) x$choro.fill)
@@ -165,16 +242,16 @@ split_geo <- function(gp, nx) {
 	
 	gpnx <- lapply(1:nx, function(i){
 		g <- lapply(gp_rest, function(x) {
-			x$fill <- get_ids(x$fill, i)
-			x$choro.values <- get_ids(x$choro.values, i)
-			x$choro.legend.labels <- get_ids(x$choro.legend.labels, i)
-			x$choro.legend.palette <- get_ids(x$choro.legend.palette, i)
-			x$choro.breaks <- get_ids(x$choro.breaks, i)
-			x$bubble.size <- get_ids(x$bubble.size, i)
-			x$bubble.col <- get_ids(x$bubble.col, i)
-			x$bubble.legend.labels <- get_ids(x$bubble.legend.labels, i)
-			x$bubble.legend.palette <- get_ids(x$bubble.legend.palette, i)
-			x$bubble.legend.sizes <- get_ids(x$bubble.legend.sizes, i)
+			x$fill <- get_i(x$fill, i)
+			x$choro.values <- get_i(x$choro.values, i)
+			x$choro.legend.labels <- get_i(x$choro.legend.labels, i)
+			x$choro.legend.palette <- get_i(x$choro.legend.palette, i)
+			x$choro.breaks <- get_i(x$choro.breaks, i)
+			x$bubble.size <- get_i(x$bubble.size, i)
+			x$bubble.col <- get_i(x$bubble.col, i)
+			x$bubble.legend.labels <- get_i(x$bubble.legend.labels, i)
+			x$bubble.legend.palette <- get_i(x$bubble.legend.palette, i)
+			x$bubble.legend.sizes <- get_i(x$bubble.legend.sizes, i)
 			x$text <- if(length(x$text) >= i) x$text[i] else x$text[1]
 			x
 		})
@@ -184,7 +261,7 @@ split_geo <- function(gp, nx) {
 	list(shps=gp_shp, multiples=gpnx)
 }
 
-get_ids <- function(x, i) {
+get_i <- function(x, i) {
 	if (is.matrix(x)) {
 		if (ncol(x)>=i) x[,i] else x[,1]
 	} else if(is.list(x)) {

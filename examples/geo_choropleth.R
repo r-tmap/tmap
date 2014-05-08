@@ -1,13 +1,13 @@
 # World examples
 data(World)
 geo_shape(World) +
- 	geo_choropleth("pop_est_dens", style="fixed", breaks=c(0, 5, 20, 100, 250, 1000, 20000), palette="YlOrRd", auto.palette.mapping=FALSE) +
+ 	geo_choropleth("pop_est_dens", style="kmeans", palette="YlOrRd", auto.palette.mapping=FALSE) +
  	geo_borders() +
  	geo_text("iso_a3", cex="AREA3", cex.lowerbound=.4, bg.alpha=0) +
  	geo_theme_World(legend.profile="text", title="Population density per km2", title.bg.color=TRUE)
 
 geo_shape(World) +
- 	geo_choropleth("income_grp", palette="-Oranges") +
+ 	geo_choropleth("income_grp", palette="Set2") +
  	geo_borders() +
  	geo_bubblemap("pop_est", col="blue") +
  #	geo_text("iso_a3", cex="AREA3") +
