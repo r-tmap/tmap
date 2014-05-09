@@ -115,14 +115,12 @@ igeo <- function(g) {
 					if (is.null(leg)) return()
 					legend_plot(gt, leg)
 				})
-				output$data <- renderDataTable({
+				output$data <- renderTable({
 					datasel <- polyInBounds()
 					if (nrow(datasel) == 0)
 						return(NULL)
 					datasel
-				}, options = list(bSortClasses = TRUE, 
-								  aLengthMenu = c(5, 10, 20), 
-								  iDisplayLength = 10))
+				}, include.rownames = FALSE)
 				
 # 				options=list(scrollY="200px",
 # 								scrollCollapse=TRUE,
@@ -130,13 +128,11 @@ igeo <- function(g) {
 
 			},
 			ui=fluidPage(
+				#tags$head(tags$style(type='text/css', 'html, body {overflow-y:visible; height:800px;}')), 
 				fluidRow(
-					h2("Choropleth")
-				),
-				fixedRow(
 					column(6, 
 						   leafletMap(
-						   	"map", "100%", 650,
+						   	"map", "100%", 500,
 						   	initialTileLayer = "//{s}.tiles.mapbox.com/v3/jcheng.map-5ebohr46/{z}/{x}/{y}.png",
 						   	initialTileLayerAttribution = HTML('Maps by <a href="http://www.mapbox.com/">Mapbox</a>'),
 						   	options=list(
@@ -148,13 +144,15 @@ igeo <- function(g) {
 						   						 	 bbox[1,2])))
 						   )),
 					column(6, 
-						   h4('Visible regions'),
-						   dataTableOutput('data')
+						   tags$div(style = "overflow-y: scroll; height:500px;",
+						   		 fluidRow(
+						   		 	tableOutput('data')
+						   		 ))
 					)
 				),
 				fluidRow(
-					column(4, offset=1,
-						   plotOutput("legendPlot", "100%", 650)
+					column(4,
+						   plotOutput("legendPlot", "100%")
 					),
 					column(4, 
 						   h4("Settings"),
