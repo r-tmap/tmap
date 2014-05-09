@@ -8,11 +8,19 @@ library(leaflet)
 
 data(NLD_prov)
 data(World)
-shp <- World#NLD_prov
+shp <- NLD_prov
+shp <- World
 library(sp)
 shp <- spTransform(shp, CRS("+proj=longlat +datum=WGS84"))
 
 # http://leafletjs.com/examples/choropleth.html
+
+
+
+
+
+
+
 
 runApp(
 	list(
@@ -29,7 +37,8 @@ runApp(
 					
 					map$clearShapes()
 					
-					opts=list(color='white', fillColor='red', fillOpacity=input$opacity)
+					opts1=list(color='white', fillColor='red', fillOpacity=input$opacity)
+					opts2=list(color='white', fillColor='blue', fillOpacity=input$opacity)
 					
 # 					co <- coordinates(shp)
 # 					map$addCircle(
@@ -44,27 +53,26 @@ runApp(
 # 						)
 # 					)
 					
-# 					map$addPolygon(
-# 						c(50.835317, 51.835317, 51.835317, 50.835317, 50.835317),
-# 						c(5.673065,  5.673065, 6.673065, 6.673065, 5.673065),
-# 						layerId=c("1"),
-# 						options=opts,
-# 						defaultOptions=opts)
-# 
-					i <- 0
-					for (p in shp@polygons) {
-						for (pp in p@Polygons) {
-							co <- pp@coords
-							co <- rbind(co, co[1,])
-							i <- i + 1
-							map$addPolygon(
-								c(co[,2]),
-								c(co[,1]),
-								layerId=list(as.character(i)),
-								options=opts,
-								defaultOptions=opts)
-						}
-					}
+					map$addPolygon(
+						coords[,2],
+						coords[,1],
+						layerId=ids,
+						options=cols)
+
+# 					i <- 0
+# 					for (p in shp@polygons) {
+# 						for (pp in p@Polygons) {
+# 							co <- pp@coords
+# 							co <- rbind(co, co[1,])
+# 							i <- i + 1
+# 							map$addPolygon(
+# 								c(co[,2]),
+# 								c(co[,1]),
+# 								layerId=list(as.character(i)),
+# 								options=opts,
+# 								defaultOptions=opts)
+# 						}
+# 					}
 
 
 					
