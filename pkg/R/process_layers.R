@@ -2,6 +2,15 @@ process_layers <- function(g, free.scales.choro, free.scales.bubble.size,
 						   free.scales.bubble.col, legend.digits) {
 	shp <- g$geo_shape$shp
 	
+	# determine plotting order 
+	bubbleID <- which(names(g) %in% c("geo_bubbles", "geo_bubblemap"))
+	textID <- which(names(g) %in% c("geo_text"))
+	plotorder <- ifelse(!length(bubbleID) && !length(textID), NA,
+				 ifelse(!length(bubbleID), "text",
+				 ifelse(!length(textID), "bubble",
+				 ifelse(textID[1] <	bubbleID[1], "text_bubble", "bubble_text"))))
+	
+	
 	# border info
 	gborders <- if (is.null(g$geo_borders)) {
 		list(col=NA, lwd=1, lty="blank")
@@ -41,6 +50,5 @@ process_layers <- function(g, free.scales.choro, free.scales.bubble.size,
 			 text.fontface=NA, text.fontfamily=NA, text.bg.color=NA)
 	} else g$geo_text
 	
-	c(list(shp=shp, varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol)),
-			gborders, gfill, gbubble, gtext)
+	c(list(shp=shp, varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol), plotorder=plotorder), gborders, gfill, gbubble, gtext)
 }

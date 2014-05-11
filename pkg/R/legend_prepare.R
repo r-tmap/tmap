@@ -1,4 +1,4 @@
-legend_prepare <- function(gp, gt) {
+legend_prepare <- function(gp, gt, scaleFactor) {
 	choroID <- which(sapply(gp, function(x)!is.na(x$varnames$choro.fill[1])))[1]
 	bubbleSizeID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.size[1])))[1]
 	bubbleColID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.col[1])))[1]

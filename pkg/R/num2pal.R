@@ -22,7 +22,7 @@ num2pal <- function(x, n = 5,
 	
 	
 	# reverse palette
-	if (substr(palette, 1, 1)=="-") {
+	if (length(palette)==1 && substr(palette[1], 1, 1)=="-") {
 		revPal <- function(p)rev(p)
 		palette <- substr(palette, 2, nchar(palette))
 	} else revPal <- function(p)p
