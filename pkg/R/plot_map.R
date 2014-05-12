@@ -57,13 +57,16 @@ plot_map <- function(shps, gp, gt) {
 		co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 
 		p_bubbles <- function() {
-			if (length(gpl$bubble.size)!=1 || !is.na(gpl$bubble.size[1])) {
+			if (!is.null(gpl$bubble.size)) {
+				co.npc[, 1] <- co.npc[, 1] + gpl$bubble.xmod
+				co.npc[, 2] <- co.npc[, 2] + gpl$bubble.ymod
+				
 				plot_bubbles(co.npc, gpl$bubble.size, gpl$bubble.col, gpl$bubble.border, scaleFactor)
 			}
 		}
 		
 		p_text <- function() {
-			if (!is.na(gpl$text)) {
+			if (!is.null(gpl$text)) {
 				cex <- gpl$text.cex
 				if (is.character(cex)) {
 					if (substr(cex, 1, 4)=="AREA") {
@@ -72,15 +75,16 @@ plot_map <- function(shps, gp, gt) {
 						cex <- approx_areas(shp, units="norm")^(1/p)
 					} else {
 						cex <- shp[[gpl$text.cex]]
-						cex <- cex / max(cex)
+						cex <- cex / max(cex, na.rm=TRUE)
 					}
 				} else cex <- rep(cex, lenght.out=length(shp))
-	
 				gpl$text.fontcolor <- if (is.na(gpl$text.fontcolor[1])) {
 					fillrgb <- col2rgb(gpl$fill)
 					light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
-					ifelse(light, "black", "white")
+					rep(ifelse(light, "black", "white"), length.out=length(shp))
 				} else rep(gpl$text.fontcolor, length.out=length(shp))
+				co.npc[, 1] <- co.npc[, 1] + gpl$text.xmod
+				co.npc[, 2] <- co.npc[, 2] + gpl$text.ymod
 				plot_text(co.npc, shp[[gpl$text]], cex, gpl$text.cex.lowerbound, gpl$text.fontcolor, gpl$text.bg.color, gpl$text.bg.alpha, gpl$text.scale, gpl$text.print.tiny, gpl$text.fontface, gpl$text.fontfamily)
 			}
 		}
@@ -140,7 +144,6 @@ plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.fontcolor, 
 	}
 	#cex[!text_sel] <- 0
 	cex <- rep(cex * text.scale, length.out=npol)
-	
 	tG <- textGrob(labels[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.fontcolor[text_sel], cex=cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 	nlines <- rep(1, length(labels))
 	

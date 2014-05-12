@@ -37,6 +37,7 @@
 #' @param legend.text.cex Relative font size for the legend text elements
 #' @param legend.hist.cex Relative font size for the choropleth histogram
 #' @param legend.digits Number of digits for the legend labels
+#' @param legend.NA.text Text to be used for missing values. Use \code{NA} to omit text for missing values 
 #' @param legend.bg.color Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param ... other arguments from \code{geo_theme}
 #' @export
@@ -67,6 +68,7 @@ geo_theme <- function(title=NA,
 					  legend.text.cex=0.7,
 					  legend.hist.cex=0.7,
 					  legend.digits = 2L,
+					  legend.NA.text = "Missing",
 					  legend.bg.color = NA) {
 	g <- list(geo_theme=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "geo"

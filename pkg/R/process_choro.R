@@ -1,4 +1,4 @@
-process_choro <- function(shp, g, free.scales, legend.digits) {
+process_choro <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
 	x <- g$col
 	n <- g$n
 	convert2density <- g$convert2density
@@ -35,7 +35,8 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
             	if (is.null(palette)) palette <- ifelse(nlevels(XX)>8, "Set3", "Dark2")
                 colsLeg <- cat2pal(XX,
                                    palette = palette,
-                                   colorNA = colorNA)
+                                   colorNA = colorNA,
+                				   legend.NA.text = legend.NA.text)
                 choro.breaks[[i]] <- NA
             } else {
             	if (is.null(palette)) {
@@ -49,7 +50,8 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
                                    auto.palette.mapping = auto.palette.mapping,
                                    contrast = contrast, legend.labels=labels,
                                    colorNA=colorNA,
-            					   legend.digits=legend.digits)
+            					   legend.digits=legend.digits,
+            					   legend.NA.text=legend.NA.text)
                 
                 choro.breaks[[i]] <- colsLeg[[4]]
             }
@@ -75,7 +77,8 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
         	if (is.null(palette)) palette <- ifelse(nlevels(XX)>8, "Set3", "Dark2")
         	colsLeg <- cat2pal(XX,
                                palette = palette,
-                               colorNA = colorNA)
+                               colorNA = colorNA,
+        					   legend.NA.text = legend.NA.text)
             choro.breaks <- NA
         } else {
         	if (is.null(palette)) {
@@ -89,7 +92,8 @@ process_choro <- function(shp, g, free.scales, legend.digits) {
     						   auto.palette.mapping = auto.palette.mapping,
     						   contrast = contrast, legend.labels=labels,
     						   colorNA=colorNA, 
-    						   legend.digits=legend.digits)
+    						   legend.digits=legend.digits,
+							   legend.NA.text = legend.NA.text)
     		choro.breaks <- colsLeg[[4]]
         }
 		fill <- matrix(unlist(split(colsLeg[[1]], 

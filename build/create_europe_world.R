@@ -133,90 +133,17 @@ ed <- ed[, c(1:4, 13, 6:12)]
 ed[ed$continent!="Europe" & (ed$name !="Turkey"), 7:12] <- NA
 
 
-
-###########################################################################
-## download continents shape file
-###########################################################################
-
-#download.file("http://baruch.cuny.edu/geoportal/data/esri/world/continent.zip", "../shapes/cont.zip") 
-#unzip("../shapes/cont.zip", exdir="../shapes")
-#cont <- readOGR("../shapes", "continent")
-
-
-###########################################################################
-## process europe (with neighboring countries) and split russia
-###########################################################################
-
-# ## make splitting line for Russia
-# conteur <- cont[cont$CONTINENT=="Europe",]
-# plot(conteur)
-# #proj4string(conteur) <- "+proj=longlat +datum=WGS84"
-# 
-# CP <- as(extent(-32, 48, 30, 72), "SpatialPolygons")
-# proj4string(CP) <- CRS(proj4string(conteur))
-# conteur2 <- gUnion(conteur, CP, byid=TRUE)
-# 
-# CP <- as(extent(40, 64, 67, 70.5), "SpatialPolygons")
-# proj4string(CP) <- CRS(proj4string(conteur2))
-# conteur3 <- gUnion(conteur2, CP, byid=TRUE)
-# 
-# CP <- as(extent(10, 75, 72, 85), "SpatialPolygons")
-# proj4string(CP) <- CRS(proj4string(conteur3))
-# conteur4 <- gDifference(conteur3, CP, byid=TRUE)
-# 
-# CP <- as(extent(48, 75, 70.5, 85), "SpatialPolygons")
-# proj4string(CP) <- CRS(proj4string(conteur4))
-# conteur5 <- gDifference(conteur4, CP, byid=TRUE)
-
-
-
 ## subset europe and neighboring countries
 #proj4string(world50) <- "+proj=longlat +datum=WGS84"
 eur1 <- world50[eur_sel,]
 
 ## global cropping
-CP <- as(extent(-25, 87, 27.5, 82), "SpatialPolygons")
+CP <- as(extent(-25, 87, 15, 82), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(eur1))
 eur2 <- gIntersection(eur1, CP, byid=TRUE)
-# 
-# 
-# ## split Russia
-# russiaEur <- gIntersection(eur2, conteur5, byid=TRUE)
-# 
-# russiaEur <- russiaEur[58, ]
-# russiaAll <- eur2[58, ]
-# 
-# russiaAsia <- gDifference(russiaAll, russiaEur)
-# 
-# ## keep top 3 areas of Asia's Russia
-# maxids <- tail(order(sapply(russiaAsia@polygons[[1]]@Polygons, function(x) x@area)), 3)
-# 
-# russiaAsia@polygons[[1]]@Polygons <- russiaAsia@polygons[[1]]@Polygons[maxids]
-# russiaAsia@polygons[[1]]@area <- sum(sapply(russiaAsia@polygons[[1]]@Polygons, function(x)x@area))
-# russiaAsia@polygons[[1]]@plotOrder <- rev(as.integer(maxids))
-# slot(russiaAsia, "polygons") <- lapply(slot(russiaAsia, "polygons"),
-# 								   checkPolygonsHoles) 
-# 
-# ## append Asia's Russia to Europe
-# russiaPolygons <- c(russiaEur@polygons, russiaAsia@polygons)
-# russiaID <- which.max(sapply(eur2@polygons, function(x)x@area))
-# 
-# eur3 <- eur2
-# eur3@polygons <- c(eur3@polygons[1:(russiaID-1)], russiaPolygons[1], eur3@polygons[(russiaID+1):length(eur3@polygons)], russiaPolygons[2])
-# 
-# eur3@plotOrder <- c(as.integer(length(eur3@polygons)), eur3@plotOrder)
-# slot(eur3, "polygons") <- lapply(slot(eur3, "polygons"),
-# 									   checkPolygonsHoles) 
-# 
-# ## use better projection for Europe
-# #eur4 <- spTransform(eur3 ,CRS("+proj=utm +zone=34 +north"))
-# ## Lambert Conformal Conic
-# #eur4 <- spTransform(eur3, CRS("+proj=lcc +lat_1=45 +lat_2=55 +lat_0=10 +lon_0=10"))
-# 
-# # Lambert azimuthal equal-area projection
-# eur4 <- spTransform(eur3, CRS("+proj=laea +lat_0=35 +lon_0=15 +x_0=0 +y_0=0"))
 
 
+# Lambert azimuthal equal-area projection
 eur4 <- spTransform(eur2, CRS("+proj=laea +lat_0=35 +lon_0=15 +x_0=0 +y_0=0"))
 
 gIsValid(eur4, reason = TRUE)

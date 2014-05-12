@@ -6,10 +6,14 @@ process_geo <- function(x) {
 		if (length(ids)==0) {
 			x <- x + do.call(m, args=list())
 		} else if (length(ids)>1){
+			extraCall <- character(0)
 			for (i in 2:length(ids)) {
 				x[[ids[1]]][x[[ids[i]]]$call] <- x[[ids[i]]][x[[ids[i]]]$call]
+				extraCall <- c(extraCall, x[[ids[i]]]$call)
 			}
 			x <- x[-(ids[-1])]
+			x[[ids[1]]]$call <- c(x[[ids[1]]]$call, extraCall)
+			
 		}
 	}
 	
@@ -43,7 +47,8 @@ process_geo <- function(x) {
 				 free.scales.choro=gmeta$geo_grid$free.scales.choro,
 				 free.scales.bubble.size=gmeta$geo_grid$free.scales.bubble.size,
 				 free.scales.bubble.col=gmeta$geo_grid$free.scales.bubble.col,
-				 legend.digits=gmeta$geo_theme$legend.digits)
+				 legend.digits=gmeta$geo_theme$legend.digits,
+				 legend.NA.text=gmeta$geo_theme$legend.NA.text)
 	
 	## determine maximal number of variables
 	nx <- max(sapply(gp, function(x) {
@@ -211,7 +216,7 @@ process_meta <- function(g, nx, varnames) {
 							   bubble.size=2,
 							   bubble.col=3,
 							   0)
-		
+
 		if (is.na(id)) {
 			title <- rep("", nx)
 		} else if (id!=0) {
@@ -225,7 +230,10 @@ process_meta <- function(g, nx, varnames) {
 		if (is.na(legend.bubble.col.title[1])) legend.bubble.col.title <- rep("", nx)
 		
 		if (length(title) < nx) title <- rep(title, length.out=nx)
-
+		if (length(legend.choro.title) < nx) legend.choro.title <- rep(legend.choro.title, length.out=nx)
+		if (length(legend.bubble.size.title) < nx) legend.bubble.size.title <- rep(legend.bubble.size.title, length.out=nx)
+		if (length(legend.bubble.col.title) < nx) legend.bubble.col.title <- rep(legend.bubble.col.title, length.out=nx)
+		
 		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$choro[1]), "white", "grey85")
 		
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
@@ -240,6 +248,7 @@ split_geo <- function(gp, nx) {
 	gp_shp <- lapply(gp, function(x) x$shp)
 	gp_rest <- lapply(gp, function(x)x[-1])
 	
+	npoly <- length(gp_shp[[1]])
 	gpnx <- lapply(1:nx, function(i){
 		g <- lapply(gp_rest, function(x) {
 			x$fill <- get_i(x$fill, i)
@@ -252,7 +261,10 @@ split_geo <- function(gp, nx) {
 			x$bubble.legend.labels <- get_i(x$bubble.legend.labels, i)
 			x$bubble.legend.palette <- get_i(x$bubble.legend.palette, i)
 			x$bubble.legend.sizes <- get_i(x$bubble.legend.sizes, i)
+			x$bubble.legend.size_labels <- get_i(x$bubble.legend.size_labels, i)
 			x$text <- if(length(x$text) >= i) x$text[i] else x$text[1]
+			n <- length(x$text.cex)
+			x$text.cex <- if (n==npoly) x$text.cex else if(n >= i) x$text.cex[i] else x$text.cex[1]
 			x
 		})
 	})

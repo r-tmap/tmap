@@ -1,4 +1,4 @@
-process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.digits) {
+process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text) {
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
 	bubble.border <- g$bubble.border
@@ -94,7 +94,8 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 									   palette = palette,
 									   auto.palette.mapping = auto.palette.mapping,
 									   contrast = contrast, legend.labels=labels,
-									   legend.digits=legend.digits)
+									   legend.digits=legend.digits,
+									   legend.NA.text=legend.NA.text)
 				} else {
 					if (is.null(palette)) palette <- "Dark2"
 					#remove unused levels in legend
@@ -103,7 +104,8 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 					}
 					colsLeg <- cat2pal(dat[sel],
 									   palette = palette,
-									   colorNA = colorNA)
+									   colorNA = colorNA,
+									   legend.NA.text=legend.NA.text)
 					cols <- rep(NA, length(sel))
 					cols[sel] <- colsLeg[[1]]
 					colsLeg[[1]] <- cols
@@ -128,7 +130,8 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 								   palette = palette,
 								   auto.palette.mapping = auto.palette.mapping,
 								   contrast = contrast, legend.labels=labels,
-								   legend.digits=legend.digits)
+								   legend.digits=legend.digits,
+								   legend.NA.text=legend.NA.text)
 			} else {
 				if (is.null(palette)) palette <- "Dark2"
 				#remove unused levels in legend
@@ -137,7 +140,8 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 				}
 				colsLeg <- cat2pal(dat[sel],
 								   palette = palette,
-								   colorNA = colorNA)
+								   colorNA = colorNA,
+								   legend.NA.text=legend.NA.text)
 				 
 				cols <- rep(NA, length(sel))
 				cols[sel] <- colsLeg[[1]]
@@ -155,7 +159,6 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 	}
 	
 	
-	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
 		 bubble.border=bubble.border,
@@ -166,5 +169,7 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 		 bubble.legend.size_labels=bubble.legend.size_labels,
 		 bubble.col.is.numeric=bubble.col.is.numeric,
 		 xsize=xsize,
-		 xcol=xcol)
+		 xcol=xcol,
+		 bubble.xmod=g$bubble.xmod,
+		 bubble.ymod=g$bubble.ymod)
 }

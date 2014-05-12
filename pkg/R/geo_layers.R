@@ -79,12 +79,14 @@ geo_fill <- function(col="grey90") {
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
 #' @param border color of the bubble borders. If \code{NA}, no borders are drawn.
 #' @param scale scale multiplier to adjust the bubble sizes
+#' @param xmod
+#' @param ymod
 #' @export
 #' @seealso \code{\link{geo_choropleth}}
 #' @example ../examples/geo_bubbles.R
 #' @return \code{\link{geo-object}}
-geo_bubbles <- function(size=1, col="blueviolet", border=NA, scale=1) {
-	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale))
+geo_bubbles <- function(size=1, col="blueviolet", border=NA, scale=1, xmod = 0, ymod = 0) {
+	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale, bubble.xmod=xmod, bubble.ymod=ymod))
 	class(g) <- "geo"
 	g
 }
@@ -106,12 +108,14 @@ geo_bubbles <- function(size=1, col="blueviolet", border=NA, scale=1) {
 #' @param cex.lowerbound lowerbound for \code{cex}. Needed to ignore the tiny labels in case \code{cex} is a variable.
 #' @param print.tiny boolean that determines if tiny labels (which size is smaller than \code{cex.lowerbound}) are print at size \code{cex.lowerbound}
 #' @param scale scalar needed in case cex is based 
+#' @param xmod horizontal position modification of the text, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a vector specifying a number for each polygon.
+#' @param ymod vertical position modification.
 #' @export
 #' @example ../examples/geo_text.R
 #' @return \code{\link{geo-object}}
-geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1) {
+geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
 	g <- list(geo_text=list(text=text, text.cex=cex, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
-							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale))
+							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "geo"
 	g
 }
@@ -182,12 +186,16 @@ geo_bubblemap <- function(size = NULL, col = NULL,
 						  labels = NULL,
 						  auto.palette.mapping = TRUE,
 						  contrast = 1,
-						  colorNA = "#FF1414") {
+						  colorNA = "#FF1414",
+						  xmod = 0,
+						  ymod = 0) {
 	g <- list(geo_bubblemap=list(bubble.size=size, bubble.col=col, bubble.border=border,
 								 bubble.scale=scale,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 								 auto.palette.mapping=auto.palette.mapping, contrast=contrast,
-								 colorNA=colorNA))
+								 colorNA=colorNA,
+								 bubble.xmod=xmod,
+								 bubble.ymod=ymod))
 	class(g) <- "geo"
 	g
 }

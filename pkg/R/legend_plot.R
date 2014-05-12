@@ -41,7 +41,8 @@ legend_plot <- function(gt, x) {
 	k <- sum(x.not.null)
 	
 	x <- x[x.not.null]
-	
+		
+
 	heights <- c(choro=gt$legend.choro.height,
 				 hist=gt$legend.choro.hist.height,
 				 bubble.size=gt$legend.bubble.size.height,
@@ -49,13 +50,27 @@ legend_plot <- function(gt, x) {
 				 title.choro=legend.title.npc,
 				 title.bubble.size=legend.title.npc,
 				 title.bubble.col=legend.title.npc)
+
+	
+	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	heights <- heights[conf][x.not.null]
+	
+	# use actual choro and bubble.col heights
+	margin <- 0.05
+	if ("choro" %in% names(heights) && !("legend.choro.height" %in% gt$call)) {
+		heights["choro"] <- min(length(x[["choro"]]$legend.labels) * lineHeight * gt$legend.text.cex / ((1-2*margin) * .85), heights["choro"])
+	}
+	if ("bubble.col" %in% names(heights) && !("legend.bubble.col.height" %in% gt$call)) {
+		heights["bubble.col"] <- min(length(x[["bubble.col"]]$legend.labels) * lineHeight * gt$legend.text.cex / ((1-2*margin) * .85), heights["bubble.col"])
+	}
+
+	
 	
 	# normalize heights
 	nlines <- length(strsplit(gt$title, "\n")[[1]])
 
  	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.cex
- 	titleHeight <- convertHeight(unit(nlines+1, "lines"), "npc", valueOnly=TRUE) * gt$title.cex
+ 	titleHeight <- lineHeight * (nlines+1) * gt$title.cex
 
 	legendWidth <- gt$legend.width
 
@@ -146,6 +161,7 @@ legend_plot <- function(gt, x) {
 	heights <- heights / legendHeight
 
 	pushViewport(viewport(layout=grid.layout(k, 1, heights=heights, widths=1)))
+
 	lapply(x, FUN="legend_subplot", gt)
 
 	upViewport(2)
@@ -363,5 +379,5 @@ legend_plot_bubble.size <- function(x, gt) {
 }
 
 legend_plot_title.choro <- legend_plot_title.bubble.size <- legend_plot_title.bubble.col <- function(x, gt) {
-	grid.text(x$title, x=0, y=5/12 , just=c("left", "center"), gp=gpar(gt$legend.title.cex))
+	grid.text(x$title, x=0, y=5/12 , just=c("left", "center"), gp=gpar(cex=gt$legend.title.cex))
 }

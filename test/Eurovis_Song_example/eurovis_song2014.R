@@ -42,22 +42,48 @@ setdiff(colnames(song) , Europe$name)
 
 Europe <- append_data(Europe, data=t(song), key.shp="name", fixed.order=FALSE)
 
-Europe$type <- as.factor(ifelse(Europe$iso_a3=="NLD", "Netherlands", 
+Europe$type1 <- as.factor(ifelse(Europe$iso_a3=="AUT", "Austria", 
+								 ifelse(Europe$name %in% rownames(song), "Participant in final",
+								 	   ifelse(Europe$name %in% colnames(song), "Participant in semi final", NA))))
+
+Europe$type2 <- as.factor(ifelse(Europe$iso_a3=="NLD", "Netherlands", 
 					  ifelse(Europe$name %in% rownames(song), "Participant in final",
 					   ifelse(Europe$name %in% colnames(song), "Participant in semi final", NA))))
 
-geo_shape(Europe, ylim=c(-.1, 1)) +
-	geo_borders() + 
-	geo_bubblemap(size="Netherlands", col="red", scale=1) +
-	geo_text("Netherlands", scale=1, bg.color=NA) + 
-	geo_choropleth("type", palette=c("orange", "gold1", "gold2")) +
-	geo_theme_Europe(legend.profile="text", title="Points given to the Netherlands", 
-			  legend.choro.title="Countries",
-			  legend.bubble.size.title="Points")
 
-geo_shape(Europe) +
+xmod <- rep(0, length(Europe))
+xmod[Europe$iso_a3=="NOR"] <- -.02
+
+ymod <- rep(0, length(Europe))
+ymod[Europe$iso_a3=="NOR"] <- -.06
+
+Europe$iso_a3_eurovis <- Europe$iso_a3
+Europe$iso_a3_eurovis[!(Europe$name %in% colnames(song))] <- NA
+
+g <- geo_shape(Europe, ylim=c(-.1, 1)) +
 	geo_borders() + 
-	geo_fill(ifelse(Europe$iso_a3=="AUT", "orange", Europe$color)) +
-	geo_text("iso_a3", cex="AREA3", scale=3) + 
-	geo_bubblemap(size="Austria", col="red", scale=1) +
-	geo_theme_Europe()
+	geo_text("iso_a3_eurovis", cex="AREA10", 
+			 xmod=xmod,
+			 ymod=ymod-.025,
+			 bg.alpha=100,
+			 scale=.5) +
+	geo_bubblemap(size=c("Austria", "Netherlands"), col="orange", 
+				  scale=1.5, xmod=xmod, ymod=ymod) +
+	geo_choropleth(c("type1", "type2"), palette=c("orange", "lightblue", "lightgreen")) +
+	geo_shape(Europe) +
+	geo_text(c("Austria","Netherlands"), cex=c("Austria", "Netherlands"),
+			 scale=.5, bg.color=NA, xmod=xmod, ymod=ymod, cex.lowerbound=.5) +
+	geo_theme_Europe(legend.profile="text", title=c("Points for Austria", "Points for the Netherlands"), 
+			  legend.choro.title="Countries",
+			  legend.bubble.size.title="Points",
+			  legend.text.cex=.5,
+			  legend.title.cex=.8,
+			  inner.margins=c(0,.5,0,0),
+			  legend.NA.text=NA) +
+	geo_grid(nrow=2)
+
+
+pdf("../test/Eurovis_Song_example/plot1.pdf", width=5, height=7)
+g
+dev.off()
+

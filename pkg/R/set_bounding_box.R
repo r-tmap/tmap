@@ -45,6 +45,10 @@ set_bounding_box <- function(shps, gp, gt) {
 			if (length(gpl$fill)==l) gpl$fill <- gpl$fill[indices]
 			if (length(gpl$bubble.size)==l) gpl$bubble.size <- gpl$bubble.size[indices]
 			if (length(gpl$bubble.col)==l) gpl$bubble.col <- gpl$bubble.col[indices]
+			if (length(gpl$bubble.xmod)==l) gpl$bubble.xmod <- gpl$bubble.xmod[indices]
+			if (length(gpl$bubble.ymod)==l) gpl$bubble.ymod <- gpl$bubble.ymod[indices]
+			if (length(gpl$text.xmod)==l) gpl$text.xmod <- gpl$text.xmod[indices]
+			if (length(gpl$text.ymod)==l) gpl$text.ymod <- gpl$text.ymod[indices]
 			shp
 		}, error = function(e) {
 			shp@bbox <- bb

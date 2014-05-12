@@ -6,7 +6,8 @@ num2pal <- function(x, n = 5,
 					   contrast = 1,
 					   legend.labels = NULL,
 					   legend.digits = 2,
-					   colorNA = "#FF1414") {
+					   colorNA = "#FF1414",
+					   legend.NA.text = "Missing") {
 	
 	# create intervals and assign colors
 	q <- suppressWarnings(if (style=="fixed") {
@@ -61,7 +62,7 @@ num2pal <- function(x, n = 5,
 	anyNA <- any(is.na(cols))
 	if (anyNA) {
 		cols[is.na(cols)] <- colorNA
-		legend.palette <- c(legend.palette, colorNA)
+		if (!is.na(legend.NA.text)) legend.palette <- c(legend.palette, colorNA)
 	}
 	# create legend labels
 	if (is.null(legend.labels)) {
@@ -74,8 +75,8 @@ num2pal <- function(x, n = 5,
 		legend.labels <- rep(legend.labels, length.out=nbrks-1)
 	}
 	
-	if (anyNA) {
-		legend.labels <- c(legend.labels, "Missing")
+	if (anyNA && !is.na(legend.NA.text)) {
+		legend.labels <- c(legend.labels, legend.NA.text)
 	}
 	
 	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks)
