@@ -4,7 +4,8 @@
 \usage{
 geo_bubblemap(size = NULL, col = NULL, border = NA, scale = 1, n = 5,
   style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
-  auto.palette.mapping = TRUE, contrast = 1, colorNA = "#FF1414")
+  auto.palette.mapping = TRUE, contrast = 1, colorNA = "#FF1414",
+  xmod = 0, ymod = 0)
 }
 \arguments{
   \item{size}{\code{shp} data variable that determines the

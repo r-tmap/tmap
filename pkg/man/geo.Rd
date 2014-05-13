@@ -59,7 +59,7 @@ data(Europe)
 geo(Europe)
 
 # choropleth
-geo(Europe, choro.fill="gdp_cap_est", theme="Europe", style="kmeans", title="Estimated GDP per capita")
+g <- geo(Europe, choro.fill="gdp_cap_est", theme="Europe", style="kmeans", title="Estimated GDP per capita")
 
 
 # bubblemap

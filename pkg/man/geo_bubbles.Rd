@@ -2,7 +2,8 @@
 \alias{geo_bubbles}
 \title{Draw bubbles}
 \usage{
-geo_bubbles(size = 1, col = "blueviolet", border = NA, scale = 1)
+geo_bubbles(size = 1, col = "blueviolet", border = NA, scale = 1,
+  xmod = 0, ymod = 0)
 }
 \arguments{
   \item{size}{relative sizes of the bubbles}
@@ -14,6 +15,10 @@ geo_bubbles(size = 1, col = "blueviolet", border = NA, scale = 1)
   no borders are drawn.}
 
   \item{scale}{scale multiplier to adjust the bubble sizes}
+
+  \item{xmod}{}
+
+  \item{ymod}{}
 }
 \value{
 \code{\link{geo-object}}

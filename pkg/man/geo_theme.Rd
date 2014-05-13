@@ -15,10 +15,11 @@ geo_theme(title = NA, title.cex = 1, bg.color = NULL, draw.frame = TRUE,
   legend.choro.hist.height = 0.25, legend.bubble.size.height = 0.15,
   legend.bubble.col.height = 0.3, legend.config = c("hist", "choro",
   "bubble.size", "bubble.col"), legend.title.cex = 1, legend.text.cex = 0.7,
-  legend.hist.cex = 0.7, legend.digits = 2L, legend.bg.color = NA)
+  legend.hist.cex = 0.7, legend.digits = 2L, legend.NA.text = "Missing",
+  legend.bg.color = NA)
 
 geo_theme_World(title = NA, title.cex = 1, title.position = c("left",
-  "bottom"), title.bg.color = TRUE, asp = 2, outer.margins = rep(0.02, 4),
+  "bottom"), title.bg.color = TRUE, outer.margins = rep(0.02, 4),
   inner.margins = c(0, 0.02, 0.02, 0.02), legend.position = c("left",
   "bottom"), legend.width = 0.2, legend.max.height = 0.5,
   legend.text.cex = 0.6, legend.hist.cex = 0.6, legend.bg.color = TRUE,
@@ -144,6 +145,9 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 
   \item{legend.digits}{Number of digits for the legend
   labels}
+
+  \item{legend.NA.text}{Text to be used for missing values.
+  Use \code{NA} to omit text for missing values}
 
   \item{legend.bg.color}{Background color of the legend.
   Use \code{TRUE} to match with the overall background

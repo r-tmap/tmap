@@ -4,7 +4,8 @@
 \usage{
 geo_text(text, cex = 1, fontcolor = NA, fontface = "plain",
   fontfamily = "sans", bg.color = "#888888", bg.alpha = 100,
-  cex.lowerbound = 0.2, print.tiny = FALSE, scale = 1)
+  cex.lowerbound = 0.2, print.tiny = FALSE, scale = 1, xmod = 0,
+  ymod = 0)
 }
 \arguments{
   \item{text}{name of the variable in the shape object that
@@ -40,6 +41,14 @@ geo_text(text, cex = 1, fontcolor = NA, fontface = "plain",
   print at size \code{cex.lowerbound}}
 
   \item{scale}{scalar needed in case cex is based}
+
+  \item{xmod}{horizontal position modification of the text,
+  relatively where 0 means no modification, and 1 means the
+  total width of the frame. Either a single number for all
+  polygons, or a vector specifying a number for each
+  polygon.}
+
+  \item{ymod}{vertical position modification.}
 }
 \value{
 \code{\link{geo-object}}
