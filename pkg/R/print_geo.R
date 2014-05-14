@@ -10,6 +10,7 @@
 #' @import gridBase
 #' @import classInt
 #' @export
+#' @method print geo
 print.geo <- function(x, ...) {
 	result <- process_geo(x)
 	gmeta <- result$gmeta

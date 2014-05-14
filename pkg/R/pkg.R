@@ -1,4 +1,4 @@
-#' Statistical geographic maps
+#' Tools to create thematic maps
 #'
 #' \tabular{ll}{
 #' Package: \tab geo\cr
@@ -9,23 +9,20 @@
 #' LazyLoad: \tab yes\cr
 #' }
 #'
-#' Tools for creating thematic cartographic maps.
+#' This packages offers a complete workaround to create thematic maps. Written on top of some great packages on spatial data such as \link[sp:sp]{sp} and \href{http://trac.osgeo.org/geos/}{rgeos}, it offers easy to use functions to
 #' \itemize{
-#' \item{ggplot2-style:
+#' \item load shape files with \code{\link{get_shape}};
+#' \item append data with \code{\link{append_data}};
+#' \item change map projections with \code{\link{set_projection}};
+#' \item crop maps with \code{\link{crop_shape}};
+#' \item and approximate area sizes with \code{\link{approx_areas}}}. 
+#' The plotting itself is written in a ggplot2 style:
 #' \itemize{
-#' \item Stack elements intuitively (like ggplot) with great flexibility. The name of each element starts with \code{geo_}. The foundation is \code{geo_shape}, the simple drawing elements are \code{\link{geo_borders}}, \code{\link{geo_fill}}, and \code{\link{geo_borders}}, the statistical elements are \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, the theme element is \code{\link{geo_theme}} and the element to control small multiples is \code{\link{geo_grid}}.
-#' \item Create quick maps (like qplot) with \code{\link{geo}}. All the elements above can be called within one function call.
-#' }}
-#' \item{Handy functions for working with shape files (formally known as \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrames}})
-#'\itemize{
-#' \item read shape files directly or from a network repository: \code{\link{get_shape}};
-#' \item append data to shape files: \code{\link{append_data}};
-#' \item crop shape files while retaining the data with \code{\link{crop_shape}}.
-#' \item convert from RD (rijksdriehoekstelsel) to wgs84 coordinates: \code{\link{rd2wgs84}};
-#' \item (not working yet) export to kml format (for Google Earth): \code{shp2kml};
-#' \item (not working yet) interactive cartography: \code{igeo}.
-#' }}
-#' \item{Example shape files of the World, Europe and the Netherlands have been included}}
+#' \item Stack drawing elements intuitively with great flexibility. The name of each element starts with \code{geo_}. The required element is \code{geo_shape}, the plain drawing elements are \code{\link{geo_borders}}, \code{\link{geo_fill}}, and \code{\link{geo_bubbles}}, the statistical drawing elements are \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}. These elements together form one layer. Multiple layers can be stacked. The theme element is \code{\link{geo_theme}} and the element to control small multiples is \code{\link{geo_grid}}.
+#' \item Create quick maps (like qplot) with \code{\link{geo}}. All the elements above can be called within one function call, although only one layer is supported.
+#' }
+#' A crucial differences with ggplot2 is that the elements are functional building blocks rather than layers from the grammar of graphics.
+#' This package includes ready to use shape files from the World, Europe and the Netherlands (both provinces as municipalities), which are used in the examples.
 #' 
 #' @name geo-package
 #' @aliases geo-package
@@ -74,7 +71,28 @@ NULL
 
 #' Geo element
 #'
-#' Geo element created by any \code{geo_} function.
-#'
-#' @name geo-object
+#' Building block to draw thematic maps.
+#' 
+#' The only fundamental, and hence required element is
+#' \itemize{
+#' \item \code{\link{geo_shape}} that specifies the shape object, and also controls the projection and bounding box}
+#' 
+#' The plain drawing elements are
+#' \itemize{
+#' \item \code{\link{geo_borders}} to draw polygon borders
+#' \item \code{\link{geo_fill}} to color the polygons
+#' \item \code{\link{geo_bubbles}} to draw bubbles}
+#' 
+#' The statistical drawing elements are
+#' \itemize{
+#' \item \code{\link{geo_choropleth}} to color the polygons based on a data variable
+#' \item \code{\link{geo_bubblemap}} to draw bubbles based on data variables for size and color}
+#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one layer. Multiple layers can be stacked. Each layer should start with \code{\link{geo_shape}}.
+#' 
+#' The layout elements are
+#' \itemize{
+#' \item \code{\link{geo_theme}} to change the appearance of the map, for instance titles and legend positions. Predefined themes for the example shape files are \code{\link{geo_theme_World}}, \code{\link{geo_theme_Europe}}, and \code{\link{geo_theme_NLD}}.
+#' \item \code{\link{geo_grid}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.}
+#'    
+#' @name geo-element
 NULL

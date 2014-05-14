@@ -5,11 +5,8 @@ process_layers <- function(g, free.scales.choro, free.scales.bubble.size,
 	# determine plotting order 
 	bubbleID <- which(names(g) %in% c("geo_bubbles", "geo_bubblemap"))
 	textID <- which(names(g) %in% c("geo_text"))
-# 	plotorder <- ifelse(!length(bubbleID) && !length(textID), NA,
-# 				 ifelse(!length(bubbleID), "text",
-# 				 ifelse(!length(textID), "bubble",
-# 				 ifelse(textID[1] <	bubbleID[1], "text_bubble", "bubble_text"))))
-	plotorder <- 	"text_bubble"
+	text.on.bubbles <-  if(!length(textID) || !length(bubbleID)) TRUE else (textID[1] > bubbleID[1])
+
 	
 	# border info
 	gborders <- if (is.null(g$geo_borders)) {
@@ -42,9 +39,6 @@ process_layers <- function(g, free.scales.choro, free.scales.bubble.size,
 	} else process_bubblemap(shp, g$geo_bubblemap, free.scales.bubble.size, free.scales.bubble.col, legend.digits, legend.NA.text)
 
 	# text info
-	gtext <- if (is.null(g$geo_text)) {
-		list(text=NULL)
-	} else g$geo_text
-	
-	c(list(shp=shp, varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol), plotorder=plotorder), gborders, gfill, gbubble, gtext)
+	gtext <- if (is.null(g$geo_text)) list(text=NULL) else g$geo_text
+	c(list(shp=shp, varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol), text.on.bubbles=text.on.bubbles), gborders, gfill, gbubble, gtext)
 }

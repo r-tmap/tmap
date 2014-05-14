@@ -1,6 +1,4 @@
 
-song <- read.table("../test/Eurovis_Song_example/results2014.txt", sep="\t")
-
 library(XML)
 theurl <- "http://www.eurovision.tv/page/history/by-year/contest?event=1893#Scoreboard"
 tables <- readHTMLTable(theurl, header=TRUE, stringsAsFactors=FALSE)
@@ -15,7 +13,6 @@ countries[countries=="The Netherlands"] <- "Netherlands"
 totals <- as.integer(song$Points)
 names(totals) <- countries
 
-nrow(song)
 song <- matrix(unlist(lapply(song[,2:38], as.integer)), nrow=26)
 
 
@@ -40,39 +37,42 @@ setdiff(rownames(song) , Europe$name)
 setdiff(colnames(song) , Europe$name)
 
 
-Europe <- append_data(Europe, data=t(song), key.shp="name", fixed.order=FALSE)
+Europe <- append_data(Europe, data=t(song), key.shp="name")
 
-Europe$type1 <- as.factor(ifelse(Europe$iso_a3=="AUT", "Austria", 
+Europe$countriesAUT <- as.factor(ifelse(Europe$iso_a3=="AUT", "Austria", 
 								 ifelse(Europe$name %in% rownames(song), "Participant in final",
 								 	   ifelse(Europe$name %in% colnames(song), "Participant in semi final", NA))))
 
-Europe$type2 <- as.factor(ifelse(Europe$iso_a3=="NLD", "Netherlands", 
+Europe$countriesNLD <- as.factor(ifelse(Europe$iso_a3=="NLD", "Netherlands", 
 					  ifelse(Europe$name %in% rownames(song), "Participant in final",
 					   ifelse(Europe$name %in% colnames(song), "Participant in semi final", NA))))
 
+Europe$x <- rep(0, length(Europe))
+Europe$x[Europe$iso_a3=="NOR"] <- -.02
 
-xmod <- rep(0, length(Europe))
-xmod[Europe$iso_a3=="NOR"] <- -.02
+Europe$y <- rep(0, length(Europe))
+Europe$y[Europe$iso_a3=="NOR"] <- -.06
 
-ymod <- rep(0, length(Europe))
-ymod[Europe$iso_a3=="NOR"] <- -.06
+Europe$y.text <- Europe$y - .025
 
 Europe$iso_a3_eurovis <- Europe$iso_a3
 Europe$iso_a3_eurovis[!(Europe$name %in% colnames(song))] <- NA
 
+
+
 g <- geo_shape(Europe, ylim=c(-.1, 1)) +
 	geo_borders() + 
 	geo_text("iso_a3_eurovis", cex="AREA10", 
-			 xmod=xmod,
-			 ymod=ymod-.025,
+			 xmod="x",
+			 ymod="y.text",
 			 bg.alpha=100,
 			 scale=.5) +
-	geo_bubblemap(size=c("Austria", "Netherlands"), col="orange", 
-				  scale=1.5, xmod=xmod, ymod=ymod) +
-	geo_choropleth(c("type1", "type2"), palette=c("orange", "lightblue", "lightgreen")) +
-	geo_shape(Europe) +
+	geo_choropleth(c("countriesAUT", "countriesNLD"), palette=c("orange", "lightblue", "lightgreen")) +
+geo_shape(Europe) +
 	geo_text(c("Austria","Netherlands"), cex=c("Austria", "Netherlands"),
-			 scale=.5, bg.color=NA, xmod=xmod, ymod=ymod, cex.lowerbound=.5) +
+			 scale=.5, bg.color=NA, xmod="x", ymod="y", cex.lowerbound=.5) +
+	geo_bubblemap(size=c("Austria", "Netherlands"), col="orange", 
+				  scale=1.5, xmod="x", ymod="y") +
 	geo_theme_Europe(legend.profile="text", title=c("Points for Austria", "Points for the Netherlands"), 
 			  legend.choro.title="Countries",
 			  legend.bubble.size.title="Points",

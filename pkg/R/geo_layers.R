@@ -25,7 +25,7 @@
 #' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides the \code{xlim} and \code{ylim} parameters.
 #' @export
 #' @example ../examples/geo_shape.R
-#' @return \code{\link{geo-object}}
+#' @return \code{\link{geo-element}}
 geo_shape <- function(shp, 
 					  projection=NULL, 
 					  xlim = NULL,
@@ -49,7 +49,7 @@ geo_shape <- function(shp,
 #' @param lty line type (see \code{\link[graphics:par]{par}})
 #' @export
 #' @example ../examples/geo_borders.R
-#' @return \code{\link{geo-object}}
+#' @return \code{\link{geo-element}}
 geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 	g <- list(geo_borders=as.list(environment()))
 	class(g) <- "geo"
@@ -64,7 +64,7 @@ geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 #' @export
 #' @seealso \code{\link{geo_choropleth}}
 #' @example ../examples/geo_fill.R
-#' @return \code{\link{geo-object}}
+#' @return \code{\link{geo-element}}
 geo_fill <- function(col="grey90") {
 	g <- list(geo_fill=as.list(environment()))
 	class(g) <- "geo"
@@ -79,12 +79,12 @@ geo_fill <- function(col="grey90") {
 #' @param col a single color value, or a vector of colors (specifying a color per polygon).
 #' @param border color of the bubble borders. If \code{NA}, no borders are drawn.
 #' @param scale scale multiplier to adjust the bubble sizes
-#' @param xmod
-#' @param ymod
+#' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
+#' @param ymod vertical position modification. See xmod.
 #' @export
 #' @seealso \code{\link{geo_choropleth}}
 #' @example ../examples/geo_bubbles.R
-#' @return \code{\link{geo-object}}
+#' @return \code{\link{geo-element}}
 geo_bubbles <- function(size=1, col="blueviolet", border=NA, scale=1, xmod = 0, ymod = 0) {
 	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale, bubble.xmod=xmod, bubble.ymod=ymod))
 	class(g) <- "geo"
@@ -96,7 +96,7 @@ geo_bubbles <- function(size=1, col="blueviolet", border=NA, scale=1, xmod = 0, 
 #' This layer adds text labels
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
-#' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable that is used to scale the sizes proportionally, or one of the following special cases
+#' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or one of the following special cases
 #' \describe{
 #' 		\item{\code{"AREA"}:}{text size is proportional to the squared root of the area size of the polygons.}
 #' 		\item{\code{"AREAx"}:}{text size is proportional to the x-th root of the area size of the polygons.}}
@@ -108,11 +108,11 @@ geo_bubbles <- function(size=1, col="blueviolet", border=NA, scale=1, xmod = 0, 
 #' @param cex.lowerbound lowerbound for \code{cex}. Needed to ignore the tiny labels in case \code{cex} is a variable.
 #' @param print.tiny boolean that determines if tiny labels (which size is smaller than \code{cex.lowerbound}) are print at size \code{cex.lowerbound}
 #' @param scale scalar needed in case cex is based 
-#' @param xmod horizontal position modification of the text, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a vector specifying a number for each polygon.
-#' @param ymod vertical position modification.
+#' @param xmod horizontal position modification of the text, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
+#' @param ymod vertical position modification. See xmod.
 #' @export
 #' @example ../examples/geo_text.R
-#' @return \code{\link{geo-object}}
+#' @return \code{\link{geo-element}}
 geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
 	g <- list(geo_text=list(text=text, text.cex=cex, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
@@ -139,7 +139,7 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 #' @export
 #' @seealso \code{\link{geo_fill}}
 #' @example ../examples/geo_choropleth.R
-#' @return \code{\link{geo-object}}	
+#' @return \code{\link{geo-element}}	
 geo_choropleth <- function(col, 
 						    palette = NULL,
 						    convert2density = FALSE,
@@ -173,10 +173,12 @@ geo_choropleth <- function(col,
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE} and \code{col} is a numeric variable name. 
 #' @param colorNA colour for missing values
+#' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
+#' @param ymod vertical position modification. See xmod.
 #' @export
 #' @seealso \code{\link{geo_bubblemap}}
 #' @example ../examples/geo_bubblemap.R
-#' @return \code{\link{geo-object}}
+#' @return \code{\link{geo-element}}
 geo_bubblemap <- function(size = NULL, col = NULL,
 						  border=NA,
 						  scale=1,
@@ -213,7 +215,7 @@ geo_bubblemap <- function(size = NULL, col = NULL,
 #' @param free.scales.bubble.col logical. Should the color scale for the bubblemap be free?
 #' @export
 #' @example ../examples/geo_grid.R
-#' @return \code{\link{geo-object}}
+#' @return \code{\link{geo-element}}
 geo_grid <- function(ncol=NULL, nrow=NULL, 
 					 free.scales=TRUE,
 					 free.scales.choro=free.scales,
@@ -228,12 +230,12 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 
 
 
-#' Stacking of geo layers
+#' Stacking of geo elements
 #' 
-#' The plus operator allows you to stack geo layers (created by any geo_* function). Always start with geo_shape to specify the shape object (i.e. the SpatialPolygonsDataframe). If multile shape objects are used, start each group of layers with geo_shape to specify the shape object of that group.
+#' The plus operator allows you to stack \code{\link{geo-element}s}. Always start with \code{\link{geo_shape}} to specify the shape object. If multile layers are used, each layer should start with a \code{\link{geo_shape}} element.
 #' 
-#' @param e1 first geo layer
-#' @param e2 second geo layer
+#' @param e1 first \code{\link{geo-element}}
+#' @param e2 second \code{\link{geo-element}}
 #' @export
 "+.geo" <- function(e1, e2) {
 	g <- c(e1,e2)

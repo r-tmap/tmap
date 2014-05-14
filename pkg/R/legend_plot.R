@@ -1,67 +1,72 @@
 legend_plot <- function(gt, x) {
 	
+	title.only <- (length(x)==1)
+	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
+	
+	x[[1]] <- NULL
 	conf <- gt$legend.config 
 	
 	if (gt$legend.profile=="text") conf <- setdiff(conf, "hist")
 	if (gt$legend.profile=="hist") conf <- intersect(conf, "hist")
-	
-# 	if (!length(conf) || gt$legend.profile=="hide") {
-# 		return(NULL)
-# 	}
-	
-	if (gt$legend.choro.title!="") {
-		choro.id <- which(conf %in% c("hist", "choro"))[1]
-		if (length(choro.id)) {
-			conf <- if (choro.id==1) c("title.choro", conf) else c(conf[1:(choro.id-1)], "title.choro", conf[choro.id:length(conf)])
-			x <- c(x, list(title.choro=list(title=gt$legend.choro.title)))
-		}
-	}
-	if (gt$legend.bubble.size.title!="") {
-		bubble.size.id <- which(conf =="bubble.size")
-		if (length(bubble.size.id)) {
-			conf <- if (bubble.size.id==1) c("title.bubble.size", conf) else c(conf[1:(bubble.size.id-1)], "title.bubble.size", conf[bubble.size.id:length(conf)])
-			x <- c(x, list(title.bubble.size=list(title=gt$legend.bubble.size.title)))
-		}
-	}
-	if (gt$legend.bubble.col.title!="") {
-		bubble.col.id <- which(conf =="bubble.col")
-		if (length(bubble.col.id)) {
-			conf <- if (bubble.col.id==1) c("title.bubble.col", conf) else c(conf[1:(bubble.col.id-1)], "title.bubble.col", conf[bubble.col.id:length(conf)])
-			x <- c(x, list(title.bubble.col=list(title=gt$legend.bubble.col.title)))
-		}
-	}
-	
-	x <- x[conf]
-	
-	
-	legend.title.npc <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$legend.title.cex * 2
-	
-	x.not.null <- !sapply(x, is.null)
-	
-	k <- sum(x.not.null)
-	
-	x <- x[x.not.null]
+	if (!length(conf) || gt$legend.profile=="hide") title.only <- TRUE
 		
-
-	heights <- c(choro=gt$legend.choro.height,
-				 hist=gt$legend.choro.hist.height,
-				 bubble.size=gt$legend.bubble.size.height,
-				 bubble.col=gt$legend.bubble.col.height,
-				 title.choro=legend.title.npc,
-				 title.bubble.size=legend.title.npc,
-				 title.bubble.col=legend.title.npc)
-
+	if (!title.only) {
+		
+		if (gt$legend.choro.title!="") {
+			choro.id <- which(conf %in% c("hist", "choro"))[1]
+			if (length(choro.id)) {
+				conf <- if (choro.id==1) c("title.choro", conf) else c(conf[1:(choro.id-1)], "title.choro", conf[choro.id:length(conf)])
+				x <- c(x, list(title.choro=list(title=gt$legend.choro.title)))
+			}
+		}
+		if (gt$legend.bubble.size.title!="") {
+			bubble.size.id <- which(conf =="bubble.size")
+			if (length(bubble.size.id)) {
+				conf <- if (bubble.size.id==1) c("title.bubble.size", conf) else c(conf[1:(bubble.size.id-1)], "title.bubble.size", conf[bubble.size.id:length(conf)])
+				x <- c(x, list(title.bubble.size=list(title=gt$legend.bubble.size.title)))
+			}
+		}
+		if (gt$legend.bubble.col.title!="") {
+			bubble.col.id <- which(conf =="bubble.col")
+			if (length(bubble.col.id)) {
+				conf <- if (bubble.col.id==1) c("title.bubble.col", conf) else c(conf[1:(bubble.col.id-1)], "title.bubble.col", conf[bubble.col.id:length(conf)])
+				x <- c(x, list(title.bubble.col=list(title=gt$legend.bubble.col.title)))
+			}
+		}
+		
+		x <- x[conf]
+		
+		
+		legend.title.npc <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$legend.title.cex * 2
+		
+		x.not.null <- !sapply(x, is.null)
+		
+		k <- sum(x.not.null)
+		
+		x <- x[x.not.null]
+			
 	
-	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
-	heights <- heights[conf][x.not.null]
+		heights <- c(choro=gt$legend.choro.height,
+					 hist=gt$legend.choro.hist.height,
+					 bubble.size=gt$legend.bubble.size.height,
+					 bubble.col=gt$legend.bubble.col.height,
+					 title.choro=legend.title.npc,
+					 title.bubble.size=legend.title.npc,
+					 title.bubble.col=legend.title.npc)
 	
-	# use actual choro and bubble.col heights
-	margin <- 0.05
-	if ("choro" %in% names(heights) && !("legend.choro.height" %in% gt$call)) {
-		heights["choro"] <- min(length(x[["choro"]]$legend.labels) * lineHeight * gt$legend.text.cex / ((1-2*margin) * .85), heights["choro"])
-	}
-	if ("bubble.col" %in% names(heights) && !("legend.bubble.col.height" %in% gt$call)) {
-		heights["bubble.col"] <- min(length(x[["bubble.col"]]$legend.labels) * lineHeight * gt$legend.text.cex / ((1-2*margin) * .85), heights["bubble.col"])
+		
+		heights <- heights[conf][x.not.null]
+		
+		# use actual choro and bubble.col heights
+		margin <- 0.05
+		if ("choro" %in% names(heights) && !("legend.choro.height" %in% gt$call)) {
+			heights["choro"] <- min(length(x[["choro"]]$legend.labels) * lineHeight * gt$legend.text.cex / ((1-2*margin) * .85), heights["choro"])
+		}
+		if ("bubble.col" %in% names(heights) && !("legend.bubble.col.height" %in% gt$call)) {
+			heights["bubble.col"] <- min(length(x[["bubble.col"]]$legend.labels) * lineHeight * gt$legend.text.cex / ((1-2*margin) * .85), heights["bubble.col"])
+		}
+	} else {
+		heights <- 0
 	}
 
 	
@@ -147,7 +152,7 @@ legend_plot <- function(gt, x) {
 			  text.scale=1,text.print.tiny=FALSE, text.fontface="plain", text.fontfamily="sans", 
 			  just=c("left", "bottom"))
 
-	if (!length(conf) || gt$legend.profile=="hide" || is.null(x)) {
+	if (title.only) {
 		return(NULL)
 	}
 

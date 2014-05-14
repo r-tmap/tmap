@@ -11,7 +11,7 @@
 #' @param text name of a variable in \code{shp} that contain text labels
 #' @param theme one of "World", "Europe", or "NLD"
 #' @param ... parameters passed on to the \code{geo_*} functions.
-#' @return \code{\link{geo-object}}
+#' @return \code{\link{geo-element}}
 #' @example ../examples/geo.R
 #' @export
 geo <- function(shp, 

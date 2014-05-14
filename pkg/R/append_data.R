@@ -11,7 +11,7 @@
 #' @return shape object with appended data
 #' @example ../examples/append_data.R
 #' @export
-append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, fixed.order=is.null(key.data)) {
+append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
 	
 	if (fixed.order) {
 		if (length(shp)!=nrow(data)) 

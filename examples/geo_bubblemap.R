@@ -19,9 +19,8 @@ data(NLD_muni)
 data(NLD_prov)
 
 geo_shape(NLD_prov) +
+	geo_borders() +
 	geo_choropleth("name") +
 geo_shape(NLD_muni) +
 	geo_bubblemap(size="pop", col="steelblue",style="kmeans") +
-geo_shape(NLD_prov) +
-	geo_borders() +
-geo_theme_NLD(title="Population (per km2)", legend.digits=0, legend.config="bubble.size", legend.width=.4, bg.color="white")
+geo_theme_NLD(title="Population", legend.digits=0, legend.config="bubble.size", legend.width=.4, bg.color="white")

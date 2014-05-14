@@ -39,6 +39,6 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 	if (is.null(choro) && is.null(hist) && is.null(bubble.col) && is.null(bubble.size) && is.na(gt$title)) {
 		return()
 	} else {
-		return(c(choro, hist, bubble.col, bubble.size))
+		return(c(list(draw=TRUE), choro, hist, bubble.col, bubble.size))
 	}
 }

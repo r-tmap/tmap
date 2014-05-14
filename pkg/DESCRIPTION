@@ -17,5 +17,4 @@ Imports:
     sp,
     rgdal,
     classInt,
-    RColorBrewer,
-    shiny (>= 0.9)
+    RColorBrewer

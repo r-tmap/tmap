@@ -21,9 +21,18 @@ geo_shape(Europe) +
  	geo_text("iso_a3", cex="AREA4", scale=2, bg.alpha=0) +
  	geo_theme_Europe("GDP per capita")
 
-# Netherlands example
+# Netherlands examples
 data(NLD_muni)
 data(NLD_prov)
+
+geo_shape(NLD_prov) + 
+	geo_choropleth("name") + 
+	geo_shape(NLD_muni) + 
+	geo_borders() + 
+	geo_shape(NLD_prov) + 
+	geo_borders(lwd=2) +
+	geo_text("name") +
+	geo_theme_NLD("Provinces and municipalities", legend.profile="hide")
 
 geo_shape(NLD_muni) +
 	geo_choropleth(col="pop", convert2density=TRUE, style="kmeans", total.area.km2=41543) +

@@ -57,16 +57,21 @@ plot_map <- function(shps, gp, gt) {
 		co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 
 		p_bubbles <- function() {
-			if (!is.null(gpl$bubble.size)) {
-				co.npc[, 1] <- co.npc[, 1] + gpl$bubble.xmod
-				co.npc[, 2] <- co.npc[, 2] + gpl$bubble.ymod
+			if (!is.null(gpl[["bubble.size"]])) {
+				xmod <- gpl$bubble.xmod
+				ymod <- gpl$bubble.ymod
+				if (is.character(xmod)) xmod <- shp[[xmod]]
+				if (is.character(ymod)) ymod <- shp[[ymod]]
+
+				co.npc[, 1] <- co.npc[, 1] + xmod
+				co.npc[, 2] <- co.npc[, 2] + ymod
 				
 				plot_bubbles(co.npc, gpl$bubble.size, gpl$bubble.col, gpl$bubble.border, scaleFactor)
 			}
 		}
 		
 		p_text <- function() {
-			if (!is.null(gpl$text)) {
+			if (!is.null(gpl[["text"]])) {
 				cex <- gpl$text.cex
 				if (is.character(cex)) {
 					if (substr(cex, 1, 4)=="AREA") {
@@ -74,7 +79,7 @@ plot_map <- function(shps, gp, gt) {
 						p <- if (nc>4) as.numeric(substr(cex, 5, nc)) else 2
 						cex <- approx_areas(shp, units="norm")^(1/p)
 					} else {
-						cex <- shp[[gpl$text.cex]]
+						cex <- shp[[cex]]
 						cex <- cex / max(cex, na.rm=TRUE)
 					}
 				} else cex <- rep(cex, lenght.out=length(shp))
@@ -83,13 +88,17 @@ plot_map <- function(shps, gp, gt) {
 					light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
 					rep(ifelse(light, "black", "white"), length.out=length(shp))
 				} else rep(gpl$text.fontcolor, length.out=length(shp))
-				co.npc[, 1] <- co.npc[, 1] + gpl$text.xmod
-				co.npc[, 2] <- co.npc[, 2] + gpl$text.ymod
+				if (is.character(gpl$text.xmod)) {
+					co.npc[, 1] <- co.npc[, 1] + shp[[gpl$text.xmod]]
+				} else co.npc[, 1] <- co.npc[, 1] + gpl$text.xmod
+				if (is.character(gpl$text.ymod)) {
+					co.npc[, 2] <- co.npc[, 2] + shp[[gpl$text.ymod]]
+				} else co.npc[, 2] <- co.npc[, 2] + gpl$text.ymod
 				plot_text(co.npc, shp[[gpl$text]], cex, gpl$text.cex.lowerbound, gpl$text.fontcolor, gpl$text.bg.color, gpl$text.bg.alpha, gpl$text.scale, gpl$text.print.tiny, gpl$text.fontface, gpl$text.fontfamily)
 			}
 		}
 		
-		if (gpl$plotorder=="bubble_text") {
+		if (gpl$text.on.bubbles) {
 			p_bubbles()
 			p_text()
 		} else {
@@ -204,7 +213,6 @@ plot_all <- function(shps, gp) {
 
 	#find statistic variables
 	leg <- legend_prepare(gp, gt, scaleFactor)
-	
 	
 	
 	if (!is.null(leg)) {
