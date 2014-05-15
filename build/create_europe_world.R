@@ -20,16 +20,6 @@ world110 <- readOGR("../shapes", "ne_110m_admin_0_countries_lakes")
 
 
 
-download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_airports.zip", "../shapes/ne_50m_airports.zip")
-unzip("../shapes/ne_50m_airports.zip", exdir="../shapes")
-airports50 <- readOGR("../shapes", "ne_50m_airports")
-
-
-download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_airports.zip", "../shapes/ne_10m_airports.zip")
-unzip("../shapes/ne_10m_airports.zip", exdir="../shapes")
-airports10 <- readOGR("../shapes", "ne_10m_airports")
-
-
 
 ## 
 isV50 <- gIsValid(world50)

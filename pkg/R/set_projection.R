@@ -22,30 +22,29 @@
 #' @param transform Logical that determines whether to transform the shape file into the specified projection. By default \code{TRUE}. If the current shape projection is missing, longitude latitude coordinates (WGS84) are assumed. If \code{FALSE}, then the specified projection is simply written to the shape file without transforming it (use this at your own risk!). 
 #' @import sp
 #' @export
-set_projection <- function(shp, projection, transform=TRUE) {
-	projection <- switch(projection,
-						 longlat="+proj=longlat +datum=WGS84",
-						 wintri="+proj=wintri",
-						 robin="+proj=robin",
-						 eck4="+proj=eck4",
-						 hd="+proj=cea +lat_ts=37.5",
-						 gall="+proj=cea +lon_0=0 +x_0=0 +y_0=0 +lat_ts=45",
-						 merc="+proj=merc",
-						 mill="+proj=mill",
-						 eqc0="+proj=eqc",
-						 eqc30="+proj=cea +lat_ts=30",
-						 eqc45="+proj=cea +lat_ts=45",
-						 rd="+init=epsg:28992 +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812",
-						 projection)
-	if (transform) {
-		shp.proj <- proj4string(shp)
-		if (is.na(shp.proj)) {
-			warning("Currect projection of shape object unknown. Long-lat (WGS84) is assumed.")
-			shp@proj4string <- CRS("+proj=longlat +datum=WGS84")
+set_projection <- function(shp, projection=NULL, current.projection=NULL, transform=!is.null(projection)) {
+	shp.name <- deparse(substitute(shp))
+	shp.proj <- proj4string(shp)
+
+	current.proj4 <- get_proj4_code(current.projection)
+
+	if (is.na(shp.proj)) {
+		if (missing(current.projection)) {
+			stop("Currect projection of shape object unknown. Please specify the argument current.projection. The value \"longlat\", which stands for Longitude-latitude (WGS84), is most commonly used.")
+		} else {
+			shp@proj4string <- CRS(current.proj4)
 		}
-		spTransform(shp, CRS(projection))
 	} else {
-		shp@proj4string <- CRS(projection)
-		shp
+		if (!missing(current.projection)) {
+			if (current.proj4==shp.proj) warning(paste("Current projection of", shp.name, "already known.")) else stop(paste(shp.name, "already has projection:", shp.proj, "This is different from the specified current projection", current.projection, ". Please check whether the known projection is correct, and if so do not specify current.projection argument."))
+		}
 	}
+	
+	if (transform) {
+		if (missing(projection)) stop("Please specify projection when transform=TRUE")
+		proj4 <- get_proj4_code(projection)
+		shp <- spTransform(shp, CRS(proj4))
+	}
+		
+	shp
 }

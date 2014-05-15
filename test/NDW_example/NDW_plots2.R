@@ -1,23 +1,45 @@
 x <- read.table("../test/NDW_example/latlons.txt", sep=",", dec=".")
 
-str(x)
-
 library(sp)
 
+loops <- SpatialPointsDataFrame(coords=x[,3:2], data=x)
 
-shpNDW <- SpatialPointsDataFrame(coords=x[,3:2], data=x[,1,drop=FALSE])
-shpNDW@proj4string <- CRS("+proj=longlat")
+loops <- set_projection(loops, current.projection="longlat")
 
-geo(shp)
-plot(shpNDW)
+corop <- get_shape("../test/NDW_example/cr_2013.shp")
+
+corop <- set_projection(corop, projection="longlat", current.projection="rd")
+
+# nwb <- get_shape("../../GIS/nwb2013/nwb2013.shp")
+# 
+# save(nwb, file="../../GIS/nwb2013/nwb2013.rdata")
+# load(file="../../GIS/nwb2013/nwb2013.rdata")
 
 
-shp <- get_shape("../test/NDW_example/cr_2013.shp")
+rw <- get_shape("../../GIS/nwb2013/rijksweg2013.shp")
 
-shp <- set_projection(shp, "rd", transform=FALSE)
-shp <- set_projection(shp, "longlat")
+plot(rw)
 
-geo_shape(shp) +
+?overlay
+
+corop <- set_projection(corop, projection="rd")
+
+rw@proj4string <- CRS(proj4string(loops))
+corop@proj4string
+
+y <- over(corop, rw)
+loops_cr <- over(loops, corop)
+
+loops$CR <- loops_cr$CR_2013
+
+
+corop@data[2,]
+
+geo_shape(corop) +
 	geo_borders() +
-geo_shape(shpNDW) +
-	geo_bubbles(size=1, col="red")
+geo_shape(loops) +
+	geo_bubblemap(col="CR", size=.4, scale=.5)
+
+
+table(loops$CR)
+

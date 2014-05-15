@@ -29,7 +29,7 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 		Xsize <- shp@data[, xsize, drop=FALSE]
 		if (any(na.omit(Xsize)<0)) stop("Bubble size variable contains negative values")
 	} else {
-		bubble.size <- xsize
+		bubble.size <- scale*xsize
 		bubble.legend.sizes <- NA
 		bubble.legend.size_labels <- NA
 	}
@@ -137,6 +137,8 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 				#remove unused levels in legend
 				if (varysize) {
 					sel <- apply(matrix(as.vector(bubble.size), nrow=length(dat)), MARGIN=1, function(x)any(!is.na(x)))
+				} else {
+					sel <- rep(TRUE, length(dat))
 				}
 				colsLeg <- cat2pal(dat[sel],
 								   palette = palette,
