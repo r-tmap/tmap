@@ -6,5 +6,11 @@
 #' @return vector of ID's
 #' @export
 get_IDs <- function(shp) {
-	sapply(shp@polygons, function(x)x@ID)
+	if (inherits(shp, "SpatialPolygons")) {
+		sapply(shp@polygons, function(x)x@ID)
+	} else if (inherits(shp, "SpatialLines")) {
+		sapply(shp@lines, function(x)x@ID)
+	} else {
+		return(NULL)
+	}
 }
