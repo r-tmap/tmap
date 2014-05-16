@@ -41,7 +41,6 @@ set_bounding_box <- function(shps, gp, gt) {
 			l <- length(shp)
 			shp <- crop_shape(shp, bbox=bb)
 			indices <- attr(shp, "matchID")
-			
 			if (length(gpl$fill)==l) gpl$fill <- gpl$fill[indices]
 			if (length(gpl$bubble.size)==l) gpl$bubble.size <- gpl$bubble.size[indices]
 			if (length(gpl$bubble.col)==l) gpl$bubble.col <- gpl$bubble.col[indices]

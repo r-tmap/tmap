@@ -65,7 +65,6 @@ plot_map <- function(shps, gp, gt) {
 
 				co.npc[, 1] <- co.npc[, 1] + xmod
 				co.npc[, 2] <- co.npc[, 2] + ymod
-				
 				plot_bubbles(co.npc, gpl$bubble.size, gpl$bubble.col, gpl$bubble.border, scaleFactor)
 			}
 		}

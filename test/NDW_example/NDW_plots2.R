@@ -1,49 +1,69 @@
+library(sp)
+library(rgeos)
+
 x <- read.table("../test/NDW_example/latlons.txt", sep=",", dec=".")
 
-library(sp)
+
+utm31 <- "+proj=utm +zone=31U +north +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+
 
 loops <- SpatialPointsDataFrame(coords=x[,3:2], data=x)
-loops <- set_projection(loops, current.projection="longlat")
+loops <- set_projection(loops, current.projection="longlat", projection=utm31)
 
 corop <- get_shape("../test/NDW_example/cr_2013.shp")
-corop <- set_projection(corop, projection="longlat", current.projection="rd")
-
-rw <- get_shape("../test/NDW_example/rijksweg2013.shp")
-rw <- set_projection(rw, projection="longlat", current.projection="rd")
-rw$WEGNUMMER <- as.numeric(as.character(rw$WEGNUMMER))
-rw_id <- as.numeric(get_IDs(rw))
+corop <- set_projection(corop, projection=utm31, current.projection="rd")
 
 loops_cr <- over(loops, corop)
 loops$CR <- loops_cr$CR_2013
-
 all.equal(as.integer(get_IDs(corop)) + 1, as.numeric(corop$CR_2013))
 
-library(rgeos)
-y <- gIntersection(rw, corop, byid=TRUE)
 
 
-y_id <- get_IDs(y)
+
+rw <- get_shape("../test/NDW_example/rijksweg2013.shp")
+rw <- set_projection(rw, current.projection="rd", projection=utm31)
+rw$WEGNUMMER <- as.numeric(as.character(rw$WEGNUMMER))
+rw_id <- as.numeric(get_IDs(rw))
+
+#### load all roads in the Netherlands (LARGE!!)
+#nwb <- get_shape("../../GIS/nwb2013/nwb2013.shp")
+#save(nwb, file="../../GIS/nwb2013/nwb2013.rdata")
+#load(file="../../GIS/nwb2013/nwb2013.rdata")
+
+## calculate total lengths of the roads
+rw_len <- SpatialLinesLengths(rw, longlat=TRUE)
+tw_dist <- tapply(rw_len, INDEX=list(rw$WEGNUMMER), sum)
+real_dist <- c(157, 217, 9.7, 116, 17, 101, 242, 9.9, 96, 32) #from Wiki: quality unknown...
+plot(tw_dist[1:10] / real_dist)
+
+
+
+rw_cr <- gIntersection(rw, corop, byid=TRUE)
+
+
+y_id <- get_IDs(rw_cr)
 y_spl <- strsplit(y_id, split=" ", fixed=TRUE)
 y_rw <- as.numeric(as.character(sapply(y_spl, function(x)x[1])))
 y_cr <- as.numeric(sapply(y_spl, function(x)x[2])) + 1
-y_len <- SpatialLinesLengths(y, longlat=TRUE)
+y_len <- SpatialLinesLengths(rw_cr, longlat=TRUE)
 ydata <- data.frame(ID=y_id, rw=y_rw, cr=y_cr, len=y_len)
-y <- SpatialLinesDataFrame(y, ydata, match.ID=FALSE)
-y$wn <- rw$WEGNUMMER[match(y$rw, rw_id)]
+rw_cr <- SpatialLinesDataFrame(rw_cr, ydata, match.ID=FALSE)
+rw_cr$wn <- rw$WEGNUMMER[match(rw_cr$rw, rw_id)]
 
-tab <- tapply(y$len, INDEX=list(y$wn, y$cr), sum)
+tab <- tapply(rw_cr$len, INDEX=list(rw_cr$wn, rw_cr$cr), sum)
 tab[is.na(tab)] <- 0
 
-sum(tab)
-5.121
+tab2 <- tab / sum(tab) * 5121 / 2
 
-rowSums(tab)
+rowSums(tab2)
+
+write.table(tab2, file="../test/NDW_example/road_lengths.txt", sep=",")
 
 
 geo_shape(corop) +
 	geo_borders() +
 geo_shape(loops) +
-	geo_bubblemap(col="CR", size=.4, scale=.5)
+	geo_bubblemap(col="CR", size=.1, scale=1)
 
 
 table(loops$CR)
@@ -56,7 +76,8 @@ y@data[399,]
 
 ## plot A2
 plot(corop)
-plot(rw[rw$WEGNUMMER==2,], lwd=5, col="blue", add=TRUE)
+plot(rw[which(rw$WEGNUMMER==2),], lwd=5, col="red", add=TRUE)
+plot(rw_cr[which(rw_cr$wn==2),], lwd=5, col="blue", add=TRUE)
 
 plot(y[y$wn==2 & y$cr==38,], lwd=5, col="red", add=TRUE)
 
