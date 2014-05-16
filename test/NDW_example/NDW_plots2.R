@@ -55,9 +55,14 @@ tab[is.na(tab)] <- 0
 
 tab2 <- tab / sum(tab) * 5121 / 2
 
+## total road distances
 rowSums(tab2)
 
-write.table(tab2, file="../test/NDW_example/road_lengths.txt", sep=",")
+tab2df <- cbind(data.frame(wegnr=row.names(tab), total=rowSums(tab2)), as.data.frame(tab2))
+names(tab2df)[-c(1,2)] <- paste0("CR", names(tab2df)[-c(1,2)])
+
+
+write.table(tab2df, file="../test/NDW_example/road_lengths.txt", sep=",", row.names=FALSE)
 
 
 geo_shape(corop) +
