@@ -1,5 +1,4 @@
 legend_plot <- function(gt, x) {
-	
 	title.only <- (length(x)==1)
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	

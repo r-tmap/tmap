@@ -1,10 +1,7 @@
 split_geo <- function(gp, nx) {
-	gp[[1]][-1]
-	gp_shp <- lapply(gp, function(x) x$shp)
-	gp_rest <- lapply(gp, function(x)x[-1])
 	
 	gpnx <- lapply(1:nx, function(i){
-		g <- lapply(gp_rest, function(x) {
+		g <- lapply(gp, function(x) {
 			x$fill <- get_i(x$fill, i)
 			x$choro.values <- get_i(x$choro.values, i)
 			x$choro.legend.labels <- get_i(x$choro.legend.labels, i)
@@ -27,7 +24,7 @@ split_geo <- function(gp, nx) {
 	})
 	names(gpnx) <- paste0("plot", 1:nx)
 	
-	list(shps=gp_shp, multiples=gpnx)
+	gpnx
 }
 
 get_i <- function(x, i) {

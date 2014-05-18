@@ -1,4 +1,4 @@
-process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text) {
+process_bubblemap <- function(data, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text) {
 	
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
@@ -22,7 +22,7 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 	auto.palette.mapping <- g$auto.palette.mapping
 	contrast <- g$contrast
 	colorNA <- g$colorNA
-	shpcols <- names(shp)
+	shpcols <- names(data)
 	
 	varysize <- all(xsize %in% shpcols) && !is.null(xsize)
 	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
@@ -44,7 +44,7 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 	nxcol <- ifelse(varycol, length(xcol), 1)
 	
 	if (varysize) {
-		Xsize <- shp@data[, xsize, drop=FALSE]
+		Xsize <- data[, xsize, drop=FALSE]
 		if (any(na.omit(Xsize)<0)) stop("Bubble size variable contains negative values")
 	} else {
 		bubble.size <- scale*xsize
@@ -52,7 +52,7 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 		bubble.legend.size_labels <- NA
 	}
 	if (varycol) {
-		Xcol <- shp@data[, xcol, drop=FALSE]
+		Xcol <- data[, xcol, drop=FALSE]
 	} else {
 		bubble.col <- xcol
 		bubble.legend.labels <- NA

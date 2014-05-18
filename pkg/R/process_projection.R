@@ -1,4 +1,4 @@
-process_projection <- function(g) {
+process_projection <- function(shps, g) {
 	# find master
 	masterID <- which(sapply(g, function(x)!is.null(x$projection) || !is.null(x$xlim) || !is.null(x$ylim) || !is.null(x$bbox)))
 	
@@ -9,7 +9,7 @@ process_projection <- function(g) {
 	if (!length(masterID)) masterID <- 1
 	
 	# get master shape and info
-	shp <- g[[masterID]]$shp
+	shp <- shps[[masterID]]
 	projection <- g[[masterID]]$projection
 	xlim <- g[[masterID]]$xlim
 	ylim <- g[[masterID]]$ylim
@@ -18,34 +18,17 @@ process_projection <- function(g) {
 	shp.proj <- proj4string(shp)
 	
 	# edit and set projection
-	if (!is.null(projection)) {
+	isProjected <- !is.null(projection)
+	
+	if (isProjected) {
 		projection <- get_proj4_code(projection)
 		if (is.na(shp.proj)) {
 			warning("Currect projection of shape object unknown. Long-lat (WGS84) is assumed.")
 			shp@proj4string <- CRS("+proj=longlat +datum=WGS84")
 		}
 		shp <- spTransform(shp, CRS(projection))
-		g[[masterID]]$shp <- shp
-		g[-masterID] <- lapply(g[-masterID], function(x) {
-			if (is.na(shp.proj)) {
-				x$shp@proj4string <- CRS("+proj=longlat +datum=WGS84")
-			}
-			x$shp <- spTransform(x$shp, CRS(projection))
-			x
-		})
-	} else {
-		# for consistency, use first projection on other shapes
-		if (!is.na(shp.proj)) {
-			g[-masterID] <- lapply(g[-masterID], function(x) {
-				shpx.proj <- proj4string(x$shp)
-				if (is.na(shpx.proj) || shpx.proj!=shp.proj) {
-					x$shp <- spTransform(x$shp, CRS(shp.proj))
-				}
-				x
-			})	
-		}
 	}
-	
+
 	# define bounding box
 	shp.bbox <- bbox(shp)
 	if (!is.null(bbox)) {
@@ -66,13 +49,33 @@ process_projection <- function(g) {
 		}
 		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
 					   dimnames=list(c("x", "y"), c("min", "max")))
+		shp@bbox <- bbox
+	}
+
+	shps[[masterID]] <- shp
+	
+	if (isProjected) {
+		shps[-masterID] <- lapply(shps[-masterID], function(x) {
+			if (is.na(shp.proj)) {
+				x@proj4string <- CRS("+proj=longlat +datum=WGS84")
+			}
+			x <- spTransform(x, CRS(projection))
+			x@bbox <- bbox
+			x
+		})
+	} else {
+		# for consistency, use first projection on other shapes
+		if (!is.na(shp.proj)) {
+			shps[-masterID] <- lapply(shps[-masterID], function(x) {
+				shpx.proj <- proj4string(shp)
+				if (is.na(shpx.proj) || shpx.proj!=shp.proj) {
+					x <- spTransform(x, CRS(shp.proj))
+				}
+				x@bbox <- bbox
+				x
+			})	
+		}
 	}
 	
-	## set bounding box
-	g <- lapply(g, function(x){
-		x$shp@bbox <- bbox
-		x
-	})
-	
-	g
+	shps
 }

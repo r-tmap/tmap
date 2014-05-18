@@ -15,6 +15,7 @@ print.geo <- function(x, ...) {
 	result <- process_geo(x)
 	gmeta <- result$gmeta
 	gps <- result$gps
+	shps <- result$shps
 	nx <- result$nx
 
 	
@@ -26,7 +27,7 @@ print.geo <- function(x, ...) {
 	plot.new()
 	#grid.newpage()
 	
-	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps$shps, gps$multiples)
+	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, shps, gps)
 	do.call("par", opar)
 	
 }

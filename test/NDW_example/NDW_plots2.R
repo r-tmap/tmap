@@ -76,6 +76,16 @@ geo_shape(loops) +
 geo_theme_NLD(legend.profile="hide", title="Rijkswegen en lussen per corop")
 dev.off()
 
+
+pdf("../test/NDW_example/loops2.pdf", height=8, width=8)
+geo_shape(corop) +
+	geo_fill(col="CR_2013", palette="Pastel2") +
+	geo_borders(col="grey50", lwd=.75) +
+geo_shape(rw) +
+	geo_lines(col="grey30", width=.5) + 
+geo_theme_NLD(legend.profile="hide", title="Rijkswegen")
+dev.off()
+
 table(loops$CR)
 
 ## test different method

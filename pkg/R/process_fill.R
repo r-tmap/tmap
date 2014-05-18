@@ -1,4 +1,4 @@
-process_fill <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
+process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
 	x <- g$col
 	nx <- length(x)
 	if (nx==1 && valid_colors(x)[1]) {
@@ -9,7 +9,7 @@ process_fill <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
 			 		xfill=NA))
 	}
 	
-	X <- shp@data[, x, drop=FALSE]
+	X <- data[, x, drop=FALSE]
 	
 	isColor <- if (all(sapply(X, function(i) is.character(i)))) all(valid_colors(unlist(X))) else FALSE
 	
@@ -36,9 +36,8 @@ process_fill <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
 	colorNA <- g$colorNA
 	thres.poly <- g$thres.poly
 	
-	if (convert2density) X <- calc_densities(shp, var=x, total.area.km2=total.area.km2, drop=FALSE)
-	
-	tiny <- approx_areas(shp, units="prop") < thres.poly
+	if (convert2density) X <- X / data$SHAPE_AREAS * total.area.km2
+	tiny <- data$SHAPE_AREAS < thres.poly
 	
 	choro.values <- X
 	X[tiny, ] <- NA
