@@ -1,5 +1,29 @@
-process_choro <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
+process_fill <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
 	x <- g$col
+	nx <- length(x)
+	if (nx==1 && valid_colors(x)[1]) {
+		return(list(fill=x, choro.values=NA,
+			 		choro.legend.labels=NA,
+			 		choro.legend.palette=NA,
+			 		choro.breaks=NA,
+			 		xfill=NA))
+	}
+	
+	X <- shp@data[, x, drop=FALSE]
+	
+	isColor <- if (all(sapply(X, function(i) is.character(i)))) all(valid_colors(unlist(X))) else FALSE
+	
+	if (isColor) { 
+		return(list(fill=X, choro.values=NA,
+					choro.legend.labels=NA,
+					choro.legend.palette=NA,
+					choro.breaks=NA,
+					xfill=NA))
+	}
+	
+	isCat <- any(sapply(X, function(i) !is.numeric(i)))
+	if (isCat) X <- as.data.frame(lapply(X, function(i) if (!is.factor(i)) as.factor(i) else i))
+	
 	n <- g$n
 	convert2density <- g$convert2density
 	total.area.km2 <- g$total.area.km2
@@ -12,16 +36,12 @@ process_choro <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
 	colorNA <- g$colorNA
 	thres.poly <- g$thres.poly
 	
-	nx <- length(x)
-	X <- shp@data[, x, drop=FALSE]
 	if (convert2density) X <- calc_densities(shp, var=x, total.area.km2=total.area.km2, drop=FALSE)
 	
-	
 	tiny <- approx_areas(shp, units="prop") < thres.poly
-
+	
 	choro.values <- X
 	X[tiny, ] <- NA
-	
 	
 	if (free.scales && nx > 1) {
 		fill <- matrix("", ncol=nx, nrow=nrow(X))
@@ -31,7 +51,7 @@ process_choro <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
 		
 		for (i in 1:nx) {
 			XX <- X[[i]]
-            if (is.factor(XX)) {
+            if (isCat) {
             	if (is.null(palette)) palette <- ifelse(nlevels(XX)>8, "Set3", "Dark2")
                 colsLeg <- cat2pal(XX,
                                    palette = palette,
@@ -73,7 +93,7 @@ process_choro <- function(shp, g, free.scales, legend.digits, legend.NA.text) {
 		X[tiny, ] <- NA
 	} else {
 		XX <- unlist(X)
-        if (is.factor(XX)) {
+        if (isCat) {
         	if (is.null(palette)) palette <- ifelse(nlevels(XX)>8, "Set3", "Dark2")
         	colsLeg <- cat2pal(XX,
                                palette = palette,

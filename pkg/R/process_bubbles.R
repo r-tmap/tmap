@@ -1,6 +1,17 @@
 process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text) {
+	
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
+	
+	if (is.null(xsize)) return(list(
+		bubble.size=NULL,
+		bubble.legend.labels=NA,
+		bubble.legend.palette=NA,
+		bubble.legend.sizes=NA,
+		bubble.legend.size_labels=NA,
+		xsize=NA,
+		xcol=NA))
+	
 	bubble.border <- g$bubble.border
 	scale <- g$bubble.scale
 	n <- g$n
@@ -16,12 +27,19 @@ process_bubblemap <- function(shp, g, free.scales.size, free.scales.col, legend.
 	varysize <- all(xsize %in% shpcols) && !is.null(xsize)
 	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
 	
-	if (is.null(xsize)) xsize <- 1
-	if (is.null(xcol)) xcol <- "steelblue"
 	if (is.null(bubble.border)) bubble.border <- NA
 	
-	if (!varysize && !varycol) stop("Bubblemap needs to map a variable to either size or color (or both). Use geo.bubbles otherwise.")
-	
+	if (!varysize && !varycol) {
+		return(c(g, list(
+			bubble.size=NULL,
+			bubble.legend.labels=NA,
+			bubble.legend.palette=NA,
+			bubble.legend.sizes=NA,
+			bubble.legend.size_labels=NA,
+			xsize=NA,
+			xcol=NA)))
+	}
+		
 	nxsize <- ifelse(varysize, length(xsize), 1)
 	nxcol <- ifelse(varycol, length(xcol), 1)
 	

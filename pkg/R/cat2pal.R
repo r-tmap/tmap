@@ -28,7 +28,8 @@ cat2pal <- function(x,
 	
 
 	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
-		revPal(brewer.pal(name=palette, nlevels(x)))
+		maxCols <- brewer.pal.info[palette, "maxcolors"]
+		revPal(rep(brewer.pal(maxCols, name=palette), length.out=nlevels(x)))
 	} else {
         rep(palette, length.out=nlevels(x))
 	}

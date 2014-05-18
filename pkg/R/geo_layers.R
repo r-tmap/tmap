@@ -56,40 +56,6 @@ geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 	g
 }
 
-#' Fill polygons
-#' 
-#' This layer defines the fill colors of the polygons. The colors in this layer are directly specified. Use \code{\link{geo_choropleth}} to map colors to a data variable.
-#' 
-#' @param col a single color value, or a vector of colors (specifying a color per polygon).
-#' @export
-#' @seealso \code{\link{geo_choropleth}}
-#' @example ../examples/geo_fill.R
-#' @return \code{\link{geo-element}}
-geo_fill <- function(col="grey90") {
-	g <- list(geo_fill=as.list(environment()))
-	class(g) <- "geo"
-	g
-}
-
-#' Draw bubbles
-#' 
-#' This layer speficies the drawing of bubbles. The colors and sizes of the bubbles are directly specified in this layer. Use \code{\link{geo_bubblemap}} to map bubbles colors and/or sizes to data.
-#' 
-#' @param size relative sizes of the bubbles
-#' @param col a single color value, or a vector of colors (specifying a color per polygon).
-#' @param border color of the bubble borders. If \code{NA}, no borders are drawn.
-#' @param scale scale multiplier to adjust the bubble sizes
-#' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
-#' @param ymod vertical position modification. See xmod.
-#' @export
-#' @seealso \code{\link{geo_choropleth}}
-#' @example ../examples/geo_bubbles.R
-#' @return \code{\link{geo-element}}
-geo_bubbles <- function(size=1, col="blueviolet", border=NA, scale=1, xmod = 0, ymod = 0) {
-	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border, bubble.scale=scale, bubble.xmod=xmod, bubble.ymod=ymod))
-	class(g) <- "geo"
-	g
-}
 
 #' Add text labels
 #' 
@@ -120,11 +86,19 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 	g
 }
 
+
+geo_lines <- function(col="red", width=1) {
+	g <- list(geo_lines=list(lines.col=col, lines.width=width))
+	class(g) <- "geo"
+	g
+}
+
+
 #' Draw choropleth
 #' 
 #' This layer speficies a choropleth. A color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
 #' 
-#' @param col name of the data variable that is contained in \code{shp}
+#' @param col either a single color value or a name of the data variable that is contained in \code{shp}. In the latter case, a choropleth is drawn.
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. Note that the conversion to densities is an approximation where the total area size is given by the argument \code{total.area.km2}.
@@ -137,10 +111,9 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @param total.area.km2 total area size in km2. Needed if \code{convert2density=TRUE}.
 #' @export
-#' @seealso \code{\link{geo_fill}}
 #' @example ../examples/geo_choropleth.R
 #' @return \code{\link{geo-element}}	
-geo_choropleth <- function(col, 
+geo_fill <- function(col="grey90", 
 						    palette = NULL,
 						    convert2density = FALSE,
 						    n = 5,
@@ -153,7 +126,7 @@ geo_choropleth <- function(col,
 							thres.poly = 1e-05,
 							total.area.km2=NA) {
 	
-	g <- list(geo_choropleth=as.list(environment()))
+	g <- list(geo_fill=as.list(environment()))
 	class(g) <- "geo"
 	g
 }	
@@ -176,10 +149,9 @@ geo_choropleth <- function(col,
 #' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @export
-#' @seealso \code{\link{geo_bubblemap}}
-#' @example ../examples/geo_bubblemap.R
+#' @example ../examples/geo_bubbles.R
 #' @return \code{\link{geo-element}}
-geo_bubblemap <- function(size = NULL, col = NULL,
+geo_bubbles <- function(size=1, col="blueviolet",
 						  border=NA,
 						  scale=1,
 						  n = 5, style = "pretty",
@@ -191,7 +163,7 @@ geo_bubblemap <- function(size = NULL, col = NULL,
 						  colorNA = "#FF1414",
 						  xmod = 0,
 						  ymod = 0) {
-	g <- list(geo_bubblemap=list(bubble.size=size, bubble.col=col, bubble.border=border,
+	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border,
 								 bubble.scale=scale,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 								 auto.palette.mapping=auto.palette.mapping, contrast=contrast,
