@@ -87,8 +87,8 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 }
 
 
-geo_lines <- function(col="red", width=1) {
-	g <- list(geo_lines=list(lines.col=col, lines.width=width))
+geo_lines <- function(col="red", width=1, type="solid") {
+	g <- list(geo_lines=list(lines.col=col, lines.width=width, lines.type=type))
 	class(g) <- "geo"
 	g
 }

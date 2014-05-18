@@ -32,9 +32,13 @@ plot_map <- function(shps, gp, gt) {
 	par(new=TRUE, fig=gridFIG(), xaxs="i", yaxs="i")
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
-		plot(shps[[l]], col=gpl$fill, bg=NA, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=TRUE)
+		shp <- shps[[l]]
+		if (inherits(shp, "SpatialPolygons")) {
+			plot(shp, col=gpl$fill, bg=NA, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=TRUE)
+		} else if (inherits(shp, "SpatialLines")) {
+			plot(shp, col=gpl$lines.col, lwd=gpl$lines.width, lty=gpl$lines.type, add=add[l], xpd=TRUE)
+		}
 	}
-
 	
  	vpWidth <- convertWidth(unit(1, "npc"), "inch", valueOnly=TRUE)
   	vpHeight <- convertHeight(unit(1, "npc"), "inch", valueOnly=TRUE)
@@ -47,8 +51,11 @@ plot_map <- function(shps, gp, gt) {
 		gpl <- gp[[l]]
 		shp <- shps[[l]]
 		
-		#npol <- length(shp)
-		co <- coordinates(shp)
+		if (inherits(shp, "SpatialLines")) {
+			co <- gCentroid(shp, byid=TRUE)@coords
+		} else {
+			co <- coordinates(shp)
+		}
 		
 		bb <- shp@bbox
 		

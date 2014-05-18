@@ -12,6 +12,7 @@
 #' @example ../examples/append_data.R
 #' @export
 append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
+	spatialDF <- inherits(shp, c("SpatialPolygonsDataFrame", "SpatialPointsDataFrame", "SpatialLinesDataFrame"))
 	
 	if (fixed.order) {
 		if (length(shp)!=nrow(data)) 
@@ -50,8 +51,8 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 			ids.shp <- get_IDs(shp)
 		} else {
 			# use the key.shp variable of shp@data
-			if (!inherits(shp, "SpatialPolygonsDataFrame")) 
-				stop("shp is not a SpatialPolygonsDataFrame, while key.shp is specified")
+			if (!spatialDF) 
+				stop("shp is not a Spatial*DataFrame, while key.shp is specified")
 			if (!key.shp %in% names(shp@data))
 				stop("key.shp is not available in shp@data")
 			ids.shp <- shp@data[[key.shp]]
@@ -104,14 +105,18 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 	}
 	
 	# attach data to shp
-	if (inherits(shp, "SpatialPolygonsDataFrame")) {
+	if (spatialDF) {
 		doubleNames <- names(data) %in% names(shp@data)
 		names(data)[doubleNames] <- paste(names(data)[doubleNames], ".data", sep="")
 		shp@data <- cbind(shp@data, data)
 	} else if (inherits(shp, "SpatialPolygons")) {
 		shp <- SpatialPolygonsDataFrame(shp, data, match.ID = FALSE)
+	} else if (inherits(shp, "SpatialPoints")) {
+		shp <- SpatialPointsDataFrame(shp, data, match.ID = FALSE)
+	} else if (inherits(shp, "SpatialLines")) {
+		shp <- SpatialLinesDataFrame(shp, data, match.ID = FALSE)
 	} else {
-		stop("shp is not a SpatialPoylgons(DataFrame) object")
+		stop("shp is not a shape file")
 	}
 	shp
 }

@@ -19,7 +19,6 @@ all.equal(as.integer(get_IDs(corop)) + 1, as.numeric(corop$CR_2013))
 
 
 
-
 rw <- get_shape("../test/NDW_example/rijksweg2013.shp")
 rw <- set_projection(rw, current.projection="rd", projection=utm31)
 rw$WEGNUMMER <- as.numeric(as.character(rw$WEGNUMMER))
@@ -65,11 +64,17 @@ names(tab2df)[-c(1,2)] <- paste0("CR", names(tab2df)[-c(1,2)])
 write.table(tab2df, file="../test/NDW_example/road_lengths.txt", sep=",", row.names=FALSE)
 
 
-geo_shape(corop) +
-	geo_borders() +
-geo_shape(loops) +
-	geo_bubblemap(col="CR", size=.1, scale=1)
 
+pdf("../test/NDW_example/loops.pdf", height=8, width=8)
+geo_shape(corop) +
+	geo_fill(col="CR_2013", palette="Pastel2") +
+	geo_borders(col="grey50", lwd=.75) +
+geo_shape(rw) +
+	geo_lines(col="grey30", width=3) +
+geo_shape(loops) +
+	geo_bubbles(col="CR", size=.1, scale=1) + 
+geo_theme_NLD(legend.profile="hide", title="Rijkswegen en lussen per corop")
+dev.off()
 
 table(loops$CR)
 

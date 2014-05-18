@@ -21,6 +21,10 @@ crop_shape <- function(shp, bbox=shp@bbox) {
 	indices <- match(ids2, ids)
 	if (inherits(shp, "SpatialPolygonsDataFrame")) {
 		shp2 <- SpatialPolygonsDataFrame(shp2, shp@data[indices, ], match.ID = FALSE)
+	} else if (inherits(shp, "SpatialPointsDataFrame")) {
+		shp2 <- SpatialPointsDataFrame(shp2, shp@data[indices, ], match.ID = FALSE)
+	} else if (inherits(shp, "SpatialLinesDataFrame")) {
+		shp2 <- SpatialLinesDataFrame(shp2, shp@data[indices, ], match.ID = FALSE)
 	}
 	attr(shp2, "matchID") <- indices
 	shp2
