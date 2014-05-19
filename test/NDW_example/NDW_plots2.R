@@ -1,22 +1,25 @@
 library(sp)
 library(rgeos)
 
-x <- read.table("../test/NDW_example/latlons.txt", sep=",", dec=".")
-
-
 utm31 <- "+proj=utm +zone=31U +north +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
 
-
+x <- read.table("../test/NDW_example/latlons.txt", sep=",", dec=".")
 loops <- SpatialPointsDataFrame(coords=x[,3:2], data=x)
 loops <- set_projection(loops, current.projection="longlat", projection=utm31)
+
+
+x2 <- read.csv("../test/NDW_example/Rijkswegen_loops.csv")
+loops2 <- SpatialPointsDataFrame(coords=x2[,3:2], data=x2)
+loops2 <- set_projection(loops2, current.projection="longlat", projection=utm31)
+
 
 corop <- get_shape("../test/NDW_example/cr_2013.shp")
 corop <- set_projection(corop, projection=utm31, current.projection="rd")
 
+
 loops_cr <- over(loops, corop)
 loops$CR <- loops_cr$CR_2013
 all.equal(as.integer(get_IDs(corop)) + 1, as.numeric(corop$CR_2013))
-
 
 
 rw <- get_shape("../test/NDW_example/rijksweg2013.shp")
@@ -65,28 +68,37 @@ write.table(tab2df, file="../test/NDW_example/road_lengths.txt", sep=",", row.na
 
 
 
-pdf("../test/NDW_example/loops.pdf", height=8, width=8)
-geo_shape(corop) +
-	geo_fill(col="CR_2013", palette="Pastel2") +
-	geo_borders(col="grey50", lwd=.75) +
-geo_shape(rw) +
-	geo_lines(col="grey30", width=3) +
-geo_shape(loops) +
-	geo_bubbles(col="CR", size=.1, scale=1) + 
-geo_theme_NLD(legend.profile="hide", title="Rijkswegen en lussen per corop")
-dev.off()
 
-
-pdf("../test/NDW_example/loops2.pdf", height=8, width=8)
+pdf("../test/NDW_example/rw.pdf", height=8, width=8)
 geo_shape(corop) +
 	geo_fill(col="CR_2013", palette="Pastel2") +
 	geo_borders(col="grey50", lwd=.75) +
 geo_shape(rw) +
 	geo_lines(col="grey30", width=.5) + 
+	geo_text("WEGNUMMER", cex=.2, xmod=-.002, ymod=.002) +
 geo_theme_NLD(legend.profile="hide", title="Rijkswegen")
 dev.off()
 
 table(loops$CR)
+
+
+
+pdf("../test/NDW_example/loops.pdf", height=8, width=8)
+geo_shape(corop) +
+	geo_fill(col="CR_2013", palette="Pastel2") +
+	geo_borders(col="grey50", lwd=.75) +
+	geo_shape(rw) +
+	geo_lines(col="grey30", width=3) +
+	geo_shape(loops2) +
+	geo_bubbles(col="ROADNUMBER", size=.1, scale=1) + 
+	geo_theme_NLD(legend.profile="hide", title="Rijkswegen en lussen per corop")
+dev.off()
+
+
+
+
+
+
 
 ## test different method
 # which.max(SpatialLinesLengths(y, longlat=TRUE) - SpatialLinesLengths(y, longlat=FALSE)) # returns 399 = wn 6 = A6
