@@ -1,4 +1,6 @@
 process_projection <- function(shps, g) {
+	nx <- length(shps)
+	shp_names <- sapply(g, function(i)i[[1]])
 	# find master
 	masterID <- which(sapply(g, function(x)!is.null(x$projection) || !is.null(x$xlim) || !is.null(x$ylim) || !is.null(x$bbox)))
 	
@@ -16,16 +18,17 @@ process_projection <- function(shps, g) {
 	relative <- g[[masterID]]$relative
 	bbox <- g[[masterID]]$bbox
 	shp.proj <- proj4string(shp)
+		
+	if (is.na(shp.proj)) {
+		warning(paste("Currect projection of shape", shp_names[masterID], "unknown. Long-lat (WGS84) is assumed."))
+		shp.proj <- "+proj=longlat +datum=WGS84"
+		shp@proj4string <- CRS(shp.proj)
+	}
 	
 	# edit and set projection
 	isProjected <- !is.null(projection)
-	
 	if (isProjected) {
 		projection <- get_proj4_code(projection)
-		if (is.na(shp.proj)) {
-			warning("Currect projection of shape object unknown. Long-lat (WGS84) is assumed.")
-			shp@proj4string <- CRS("+proj=longlat +datum=WGS84")
-		}
 		shp <- spTransform(shp, CRS(projection))
 	}
 
@@ -52,30 +55,21 @@ process_projection <- function(shps, g) {
 		shp@bbox <- bbox
 	}
 
-	shps[[masterID]] <- shp
-	
-	if (isProjected) {
-		shps[-masterID] <- lapply(shps[-masterID], function(x) {
-			if (is.na(shp.proj)) {
-				x@proj4string <- CRS("+proj=longlat +datum=WGS84")
+	mapply(FUN=function(x, i){
+		if (i==masterID) {
+			shp
+		} else {
+			x.proj <- proj4string(x)
+			if (is.na(x.proj)) {
+				warning(paste("Currect projection of shape", shp_names[i], "unknown. Long-lat (WGS84) is assumed."))
+				x.proj <- "+proj=longlat +datum=WGS84"
+				x@proj4string <- CRS(x.proj)
 			}
-			x <- spTransform(x, CRS(projection))
+			if (x.proj != shp.proj) {
+				x <- spTransform(x, CRS(projection))
+			}
 			x@bbox <- bbox
 			x
-		})
-	} else {
-		# for consistency, use first projection on other shapes
-		if (!is.na(shp.proj)) {
-			shps[-masterID] <- lapply(shps[-masterID], function(x) {
-				shpx.proj <- proj4string(shp)
-				if (is.na(shpx.proj) || shpx.proj!=shp.proj) {
-					x <- spTransform(x, CRS(shp.proj))
-				}
-				x@bbox <- bbox
-				x
-			})	
 		}
-	}
-	
-	shps
+	}, shps, 1:nx, SIMPLIFY=FALSE)
 }

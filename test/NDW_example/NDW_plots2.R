@@ -75,7 +75,7 @@ geo_shape(corop) +
 	geo_borders(col="grey50", lwd=.75) +
 geo_shape(rw) +
 	geo_lines(col="grey30", width=.5) + 
-	geo_text("WEGNUMMER", cex=.2, xmod=-.002, ymod=.002) +
+	geo_text("WEGNUMMER", cex=.2, xmod=-.002, ymod=.002, bg.color=NA) +
 geo_theme_NLD(legend.profile="hide", title="Rijkswegen")
 dev.off()
 
@@ -87,7 +87,7 @@ pdf("../test/NDW_example/loops.pdf", height=8, width=8)
 geo_shape(corop) +
 	geo_fill(col="CR_2013", palette="Pastel2") +
 	geo_borders(col="grey50", lwd=.75) +
-	geo_shape(rw) +
+geo_shape(rw) +
 	geo_lines(col="grey30", width=3) +
 	geo_shape(loops2) +
 	geo_bubbles(col="ROADNUMBER", size=.1, scale=1) + 

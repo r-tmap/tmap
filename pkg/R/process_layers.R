@@ -1,5 +1,5 @@
-process_layers <- function(g, free.scales.choro, free.scales.bubble.size, 
-						   free.scales.bubble.col, legend.digits, legend.NA.text) {
+process_layers <- function(g, free.scales.fill, free.scales.bubble.size, 
+						   free.scales.bubble.col, free.scales.line.col, legend.digits, legend.NA.text) {
 	data <- g$geo_shape$data
 	
 	# determine plotting order 
@@ -15,18 +15,18 @@ process_layers <- function(g, free.scales.choro, free.scales.bubble.size,
 	
 	# fill info
 	geofill <- if (is.null(g$geo_fil)) geo_fill(col=NA)$geo_fill else g$geo_fill
-	gfill <- process_fill(data, geofill, free.scales.choro, legend.digits, legend.NA.text)
+	gfill <- process_fill(data, geofill, free.scales.fill, legend.digits, legend.NA.text)
 
 	# bubble info
 	geobubbles <- if (is.null(g$geo_bubbles)) geo_bubbles(size=NULL)$geo_bubbles else g$geo_bubbles
-	gbubble <- process_bubblemap(data, geobubbles, free.scales.bubble.size, free.scales.bubble.col, 
-								 legend.digits, legend.NA.text)
+	gbubble <- process_bubbles(data, geobubbles, free.scales.bubble.size, free.scales.bubble.col, legend.digits, legend.NA.text)
 	
 	# lines info
-	glines <- if (is.null(g$geo_lines)) geo_lines(col=NA)$geo_lines else g$geo_lines
+	glines <- if (is.null(g$geo_lines)) list(line.col=NA, xline=NA) else process_lines(data, g$geo_lines, free.scales.line.col, legend.digits, legend.NA.text)
 	
 	
 	# text info
 	gtext <- if (is.null(g$geo_text)) list(text=NULL) else g$geo_text
-	c(list(varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol), text.on.bubbles=text.on.bubbles), gborders, gfill, glines, gbubble, gtext)
+	
+	c(list(varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline), text.on.bubbles=text.on.bubbles), gborders, gfill, glines, gbubble, gtext)
 }

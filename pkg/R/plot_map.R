@@ -1,6 +1,6 @@
 
 
-plot_map <- function(shps, gp, gt) {
+plot_map <- function(gp, gt, shps.env) {
 	draw.frame <- gt$draw.frame
 	frame.lwd <- gt$frame.lwd
 	
@@ -10,7 +10,8 @@ plot_map <- function(shps, gp, gt) {
 	#gp <- lapply(gp, function(g) {g$shp <- get(g$shp); g})
 	
 	## set bounding box and frame
-	sgp <- set_bounding_box(shps, gp, gt)
+	
+	sgp <- set_bounding_box(get("shps", envir=shps.env), gp, gt)
 	shps <- lapply(sgp, function(x)x$shp)
 	gp <- lapply(sgp, function(x)x$layer)
 	
@@ -36,7 +37,7 @@ plot_map <- function(shps, gp, gt) {
 		if (inherits(shp, "SpatialPolygons")) {
 			plot(shp, col=gpl$fill, bg=NA, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=TRUE)
 		} else if (inherits(shp, "SpatialLines")) {
-			plot(shp, col=gpl$lines.col, lwd=gpl$lines.width, lty=gpl$lines.type, add=add[l], xpd=TRUE)
+			plot(shp, col=gpl$line.col, lwd=gpl$line.lwd, lty=gpl$line.lty, add=add[l], xpd=TRUE)
 		}
 	}
 	
@@ -190,7 +191,7 @@ plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.fontcolor, 
 }
 
 
-plot_all <- function(shps, gp) {
+plot_all <- function(gp, shps.env) {
 	main_vp <- current.viewport()
 	gt <- gp$geo_theme
 	
@@ -210,7 +211,7 @@ plot_all <- function(shps, gp) {
 	if (!gt$legend.only) {
 		pushViewport(gridLayoutMap)
 		cellplot(2, 2, e={
-			result <- plot_map(shps, gp, gt)
+			result <- plot_map(gp, gt, shps.env)
 			scaleFactor <- result[[1]]
 			vp <- result[[2]]
 		})

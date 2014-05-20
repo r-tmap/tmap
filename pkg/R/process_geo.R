@@ -52,13 +52,13 @@ process_geo <- function(x) {
 	if (any(nlx==1)) warning("Specify at least one layer next to geo_shape")
 	
 	
-	
 	#gs <- lapply(gs, function(gx) if (is.null(gx[["geo_borders"]])) gx + geo_borders() else gx)
 	## convert clusters to layers
 	gp <- lapply(gs, FUN=process_layers, 
-				 free.scales.choro=gmeta$geo_grid$free.scales.choro,
+				 free.scales.fill=gmeta$geo_grid$free.scales.fill,
 				 free.scales.bubble.size=gmeta$geo_grid$free.scales.bubble.size,
 				 free.scales.bubble.col=gmeta$geo_grid$free.scales.bubble.col,
+				 free.scales.line.col=gmeta$geo_grid$free.scales.line.col,
 				 legend.digits=gmeta$geo_theme$legend.digits,
 				 legend.NA.text=gmeta$geo_theme$legend.NA.text)
 
@@ -67,6 +67,7 @@ process_geo <- function(x) {
 		max(ifelse(is.matrix(x$fill), ncol(x$fill), 1),
 			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
 			ifelse(is.matrix(x$bubble.col), ncol(x$bubble.col), 1),
+			ifelse(is.matrix(x$line.col), ncol(x$line.col), 1),
 			length(x$text))
 	}))
 	names(gp) <- paste0("geoLayer", 1:length(gp))

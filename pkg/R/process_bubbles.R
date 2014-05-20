@@ -1,4 +1,4 @@
-process_bubblemap <- function(data, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text) {
+process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text) {
 	
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col

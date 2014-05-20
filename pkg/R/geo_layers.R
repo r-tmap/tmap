@@ -87,8 +87,8 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 }
 
 
-geo_lines <- function(col="red", width=1, type="solid") {
-	g <- list(geo_lines=list(lines.col=col, lines.width=width, lines.type=type))
+geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, by=FALSE) {
+	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by))
 	class(g) <- "geo"
 	g
 }
@@ -162,14 +162,16 @@ geo_bubbles <- function(size=1, col="blueviolet",
 						  contrast = 1,
 						  colorNA = "#FF1414",
 						  xmod = 0,
-						  ymod = 0) {
+						  ymod = 0,
+						  by=FALSE) {
 	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border,
 								 bubble.scale=scale,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 								 auto.palette.mapping=auto.palette.mapping, contrast=contrast,
 								 colorNA=colorNA,
 								 bubble.xmod=xmod,
-								 bubble.ymod=ymod))
+								 bubble.ymod=ymod,
+								 bubble.by=by))
 	class(g) <- "geo"
 	g
 }
@@ -190,9 +192,10 @@ geo_bubbles <- function(size=1, col="blueviolet",
 #' @return \code{\link{geo-element}}
 geo_grid <- function(ncol=NULL, nrow=NULL, 
 					 free.scales=TRUE,
-					 free.scales.choro=free.scales,
+					 free.scales.fill=free.scales,
 					 free.scales.bubble.size=free.scales,
-					 free.scales.bubble.col=free.scales
+					 free.scales.bubble.col=free.scales,
+					 free.scales.line.col=free.scales
 					 )	{
 	g <- list(geo_grid=as.list(environment()))
 	class(g) <- "geo"

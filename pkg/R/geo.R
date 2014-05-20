@@ -15,18 +15,17 @@
 #' @example ../examples/geo.R
 #' @export
 geo <- function(shp, 
-				choro.fill=NULL,
+				fill="grey90",
 				bubble.size=NULL,
 				bubble.col=NULL,
 				borders="grey40",
-				fill="grey90",
 				text=NULL,
 				theme=NULL,
 				...) {
 	args <- list(...)
 	shapeargs <- args[intersect(names(args), names(geo_shape()[[1]]))]
-	choroargs <- args[setdiff(intersect(names(args), names(geo_choropleth()[[1]])), "col")]
-	bubblenames <- names(geo_bubblemap()[[1]])
+	fillargs <- args[setdiff(intersect(names(args), names(geo_fill()[[1]])), "col")]
+	bubblenames <- names(geo_bubbles()[[1]])
 	bubblenames[bubblenames=="bubble.scale"] <- "scale"
 	bubblenames[bubblenames=="bubble.border"] <- "border"
 	
@@ -40,12 +39,8 @@ geo <- function(shp,
 	
 	g <- do.call("geo_shape", c(list(shp=shp), shapeargs)) +
 		do.call("geo_borders", c(list(col=borders), borderargs))
-	if (!missing(choro.fill)) {
-		g <- g + do.call("geo_choropleth", c(list(col=choro.fill), choroargs))
-	} else {
-		g <- g + geo_fill(col=fill)
-	}
-	if (!missing(bubble.size) || !missing(bubble.col)) g <- g + do.call("geo_bubblemap", c(list(size=bubble.size, col=bubble.col), bubbleargs))
+	g <- g + do.call("geo_fill", c(list(col=fill), fillargs))
+	if (!missing(bubble.size) || !missing(bubble.col)) g <- g + do.call("geo_bubbles", c(list(size=bubble.size, col=bubble.col), bubbleargs))
 	
 	if (!missing(text)) g <- g + do.call("geo_text", c(list(text=text), textargs))
 	

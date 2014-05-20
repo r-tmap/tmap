@@ -26,8 +26,9 @@ print.geo <- function(x, ...) {
 	par(mai=c(0,0,0,0), oma=c(0,0,0,0))
 	plot.new()
 	#grid.newpage()
-	
-	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, shps, gps)
+	shps.env <- new.env()
+	assign("shps", shps, envir=shps.env)
+	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps, shps.env)
 	do.call("par", opar)
 	
 }
