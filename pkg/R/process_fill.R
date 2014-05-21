@@ -8,7 +8,6 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
 			 		choro.breaks=NA,
 			 		xfill=NA))
 	}
-	
 	X <- data[, x, drop=FALSE]
 	
 	isColor <- if (all(sapply(X, function(i) is.character(i)))) all(valid_colors(unlist(X))) else FALSE
@@ -36,7 +35,7 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
 	colorNA <- g$colorNA
 	thres.poly <- g$thres.poly
 	
-	if (convert2density) X <- X / data$SHAPE_AREAS * total.area.km2
+	if (convert2density) X <- X / (data$SHAPE_AREAS * total.area.km2)
 	tiny <- data$SHAPE_AREAS < thres.poly
 	
 	choro.values <- X

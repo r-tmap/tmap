@@ -1,6 +1,6 @@
+devtools::load_all()
 library(sp)
 library(rgeos)
-
 
 loopsdata <- read.csv("../test/NDW_example/Rijkswegen_loops.csv")
 loopsdata$ROADNUMBER <- as.character(loopsdata$ROADNUMBER)
@@ -16,16 +16,12 @@ loops <- set_projection(loops, current.projection="longlat", projection="rd")
 corop <- get_shape("../test/NDW_example/cr_2013.shp")
 corop <- set_projection(corop, current.projection="rd")
 
-# 
 # loops_cr <- over(loops, corop)
 # loops$CR <- loops_cr$CR_2013
 # all.equal(as.integer(get_IDs(corop)) + 1, as.numeric(corop$CR_2013))
 
-
 rw <- get_shape("../test/NDW_example/rijksweg2013.shp")
 rw <- set_projection(rw, current.projection="rd")
-
-str(loopsdata)
 
 rw$roadnumber <- as.numeric(as.character(rw$WEGNUMMER))
 rw$roadname <- factor(roadname[match(rw$roadnumber, roadnumber)], levels=roadname)
@@ -34,7 +30,7 @@ rw$roadname <- factor(roadname[match(rw$roadnumber, roadnumber)], levels=roadnam
 geo_shape(corop) +
 	geo_fill() +
 geo_shape(rw) +
-	geo_lines(col="roadname", by=FALSE)
+	geo_lines(col="roadname", by=TRUE)
 
 
 ## case study: A2

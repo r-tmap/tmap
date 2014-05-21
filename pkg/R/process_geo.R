@@ -1,19 +1,4 @@
 process_geo <- function(x) {
-	## get shapes
-	shape.id <- which(names(x)=="geo_shape")
-	if (!length(shape.id)) stop("Required geo_shape layer missing.")
-	shps <- vector("list", length(shape.id))
-	for (i in 1:length(shape.id)) {
-		j <- shape.id[i]
-		shp <- x[[j]]$shp
-		data <- shp@data
-		if (inherits(shp, "SpatialPolygons")) {
-			data$SHAPE_AREAS <- approx_areas(shp, units="prop")
-		}
-		shps[[i]] <- shp
-		x[[j]]$data <- data
-	}	
-	
 	## fill meta info
 	meta_layers <- c("geo_theme", "geo_grid")
 	gmeta <- x[names(x) %in% meta_layers]
@@ -35,7 +20,6 @@ process_geo <- function(x) {
 	## split x into gmeta and gbody
 	x <- x[!(names(x) %in% meta_layers)]
 	
-	
 	n <- length(x)
 	
 	## split x into clusters
@@ -43,9 +27,6 @@ process_geo <- function(x) {
 	if (shape.id[1] != 1) stop("First layers should be a geo_shape layer.")
 	y <- rep(0, n); y[shape.id] <- 1
 	cluster.id <- cumsum(y)
-	
-	## unify projections
-	shps <- process_projection(shps, x[shape.id])
 	gs <- split(x, cluster.id)
 	
 	nlx <- sapply(gs, length)
@@ -88,5 +69,5 @@ process_geo <- function(x) {
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 	
-	list(gmeta=gmeta, gps=gps, shps=shps, nx=nx)
+	list(gmeta=gmeta, gps=gps, nx=nx)
 }

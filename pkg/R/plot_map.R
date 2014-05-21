@@ -11,16 +11,16 @@ plot_map <- function(gp, gt, shps.env) {
 	
 	## set bounding box and frame
 	
-	sgp <- set_bounding_box(get("shps", envir=shps.env), gp, gt)
-	shps <- lapply(sgp, function(x)x$shp)
-	gp <- lapply(sgp, function(x)x$layer)
+	shps <- get("shps", envir=shps.env)
+	#sgp <- set_bounding_box(get("shps", envir=shps.env), gp, gt)
+	#shps <- lapply(sgp, function(x)x$shp)
+	#gp <- lapply(sgp, function(x)x$layer)
 	
 	## plot shapes
 	add <- c(FALSE, rep(TRUE, length(gp)-1))
-	
 	#browser()
-	dasp <- sgp[[1]]$dasp
-	sasp <- sgp[[1]]$sasp
+	dasp <- attr(shps, "dasp")
+	sasp <- attr(shps, "sasp")
 	
 	if (dasp > sasp) {
 		vp <- viewport(width=sasp/dasp)
