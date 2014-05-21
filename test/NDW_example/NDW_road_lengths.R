@@ -62,6 +62,8 @@ rwb <- simplifyRoad(rw, "roadname")
 total_lengths <- SpatialLinesLengths(rwb, longlat=FALSE)
 writeOGR(rwb, "../test/NDW_example", "rijksweg2013simpel", driver="ESRI Shapefile")
 
+data.frame(rijksweg=rwb$ID, lengte=round(total_lengths/1000, digits=2))
+
 library(RColorBrewer)
 palDark <- c(brewer.pal(9, "Set1"), brewer.pal(8, "Set2"), brewer.pal(8, "Dark2"), brewer.pal(12, "Set3"))
 
