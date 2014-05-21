@@ -27,37 +27,21 @@ rw$roadnumber <- as.numeric(as.character(rw$WEGNUMMER))
 rw$roadname <- factor(roadname[match(rw$roadnumber, roadnumber)], levels=roadname)
 
 
-geo_shape(corop) +
-	geo_fill() +
-geo_shape(rw) +
-	geo_lines(col="roadname", by=TRUE)
+# geo_shape(corop) +
+# 	geo_fill() +
+# geo_shape(rw) +
+# 	geo_lines(col="roadname", by=TRUE)
 
 
 ## case study: A2
 # volgens Google Maps 216 km van A'dam tot grens met Belgie
 
-rwA2 <- rw[rw$roadname=="A2",]
-geo_shape(corop) +
-	geo_borders() +
-	geo_fill() +
-geo_shape(rwA2) +
-	geo_lines() +
-	geo_theme("A2")
-
+rwA2 <- rw[rw$roadname =="A2",]
 loopsA2 <- loops[which(loops$ROADNUMBER=="A2"), ]
 
+source("../test/NDW_example/NDW_functions.R")
 
-get_polygon_ranges(corop)$total.range
-A2_len <- SpatialLinesLengths(rwA2, longlat=FALSE)
-sum(A2_len) / 1000 # lengte A2 in km
-
-A2_seglengths <- sapply(1:length(rwA2), function(i) {
-	SpatialLinesLengths(rwA2[i,], longlat=FALSE)	
-}) / 1000
-
-
-# rwA2$id <- order(A2_seglengths, decreasing=TRUE)
-# rwA2$id[rwA2$id>5] <- 5
+shpA2 <- simplifyRoad(rwA2, "roadname")
 
 pdf("../test/NDW_example/A2.pdf", width=8, height=8)
 geo_shape(corop) +
@@ -67,18 +51,31 @@ geo_shape(rwA2) +
 	geo_lines(col="red", lwd=.01) +
 geo_shape(loopsA2) +
 	geo_bubbles(col="steelblue", size=.01) +
-	geo_theme("A2")
+geo_shape(shpA2) + 
+	geo_lines(col="blue", lwd=.01) +
+geo_theme("A2")
 dev.off()
 
 
-A2coor <- lapply(rwA2@lines, function(x) {
-	coor <- lapply(x@Lines, function(y)y@coords)
-	do.call("rbind", coor)
-})
-A2coor <- as.data.frame(do.call("rbind", A2coor))
+rwb <- simplifyRoad(rw, "roadname")
 
+total_lengths <- SpatialLinesLengths(rwb, longlat=FALSE)
+writeOGR(rwb, "../test/NDW_example", "rijksweg2013simpel", driver="ESRI Shapefile")
 
-A2line <- loess(V1~V2, data=A2coor)
+library(RColorBrewer)
+palDark <- c(brewer.pal(9, "Set1"), brewer.pal(8, "Set2"), brewer.pal(8, "Dark2"), brewer.pal(12, "Set3"))
 
-plot(A2coor)
-plot(A2line, col= "red", lwd=.5, add=TRUE)
+pdf("../test/NDW_example/rw_simple.pdf", width=16, height=16)
+geo_shape(corop) +
+	#geo_borders() +
+	geo_fill() +
+	geo_shape(loops) +
+	geo_bubbles(col="black", size=.01) +
+	geo_shape(rwb) + 
+	geo_lines(col="ID", lwd=.5, palette=palDark) +
+	geo_text("ID", cex=1) +
+	geo_shape(rw) +
+	geo_lines(col="black", lwd=.02) +
+	geo_theme("Origine rijkswegen (dunne zwarte lijntjes) +\nVerkeerlslussen (zwarte bolletjes) +\nVereenvoudigde rijkswegen (gekleurde lijnen)")
+dev.off()
+
