@@ -90,5 +90,7 @@ geo_shape(corop) +
 geo_shape(rwb) +
 	geo_lines()
 
+corop@proj4string
+rwb@proj4string
 
 rwb_cr <- gIntersection(rwb, corop, byid=TRUE)
