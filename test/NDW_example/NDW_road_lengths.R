@@ -62,6 +62,9 @@ rwb <- simplifyRoad(rw, "roadname")
 total_lengths <- SpatialLinesLengths(rwb, longlat=FALSE)
 writeOGR(rwb, "../test/NDW_example", "rijksweg2013simpel", driver="ESRI Shapefile")
 
+
+rwb <- get_shape("../test/NDW_example/rijksweg2013simpel.shp")
+
 data.frame(rijksweg=rwb$ID, lengte=round(total_lengths/1000, digits=2))
 
 library(RColorBrewer)
@@ -81,3 +84,11 @@ geo_shape(corop) +
 	geo_theme("Origine rijkswegen (dunne zwarte lijntjes) +\nVerkeerlslussen (zwarte bolletjes) +\nVereenvoudigde rijkswegen (gekleurde lijnen)")
 dev.off()
 
+geo_shape(corop) +
+	geo_fill() +
+	geo_borders() +
+geo_shape(rwb) +
+	geo_lines()
+
+
+rwb_cr <- gIntersection(rwb, corop, byid=TRUE)
