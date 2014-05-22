@@ -3,10 +3,11 @@
 \alias{set_projection}
 \title{Set projection}
 \usage{
-set_projection(shp, projection, transform = TRUE)
+set_projection(shp, projection = NULL, current.projection = NULL,
+  transform = !is.null(projection))
 }
 \arguments{
-\item{shp}{shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.}
+\item{shp}{shape object. For \code{\link{geo_fill}} and \code{\link{geo_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubbles}}.}
 
 \item{projection}{character that determines the projectino. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts:
 \describe{
@@ -24,6 +25,8 @@ set_projection(shp, projection, transform = TRUE)
        \item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
        See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
        By default, the projection is used that is defined in the \code{shp} object itself.}
+
+\item{current.projection}{the current projection of \code{shp}. Use this only if the current projection is missing.}
 
 \item{transform}{Logical that determines whether to transform the shape file into the specified projection. By default \code{TRUE}. If the current shape projection is missing, longitude latitude coordinates (WGS84) are assumed. If \code{FALSE}, then the specified projection is simply written to the shape file without transforming it (use this at your own risk!).}
 }

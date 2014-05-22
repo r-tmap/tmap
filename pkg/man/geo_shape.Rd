@@ -7,7 +7,7 @@ geo_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
   relative = TRUE, bbox = NULL)
 }
 \arguments{
-\item{shp}{shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.}
+\item{shp}{shape object. For \code{\link{geo_fill}} and \code{\link{geo_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubbles}}.}
 
 \item{projection}{character that determines the projectino. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts:
 \describe{
@@ -45,7 +45,9 @@ data(World)
 
 geo_shape(World, projection="longlat") + geo_fill() + geo_borders() + geo_theme("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.cex=.8)
 
-geo_shape(World, projection="merc", ylim=c(.2, 1)) + geo_fill(ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")) + geo_borders() + geo_theme("Mercator projection. Although used in Google Maps, it is discouraged for\\nstatistical purposes. In reality, Australia is 3 times larger than Greenland!", inner.margins=c(0,0,.15,0), title.cex=.6)
+World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
+geo_shape(World, projection="merc") + geo_fill("highlighted") + geo_borders() + geo_theme("Mercator projection. Although used in Google Maps, it is discouraged for\\nstatistical purposes. In reality, Australia is 3 times larger than Greenland!", inner.margins=c(0,0,.1,0), title.cex=.6)
+
 
 geo_shape(World, projection="wintri") + geo_fill() + geo_borders() + geo_theme("Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps", inner.margins=c(0,0,.1,0), title.cex=.8)
 

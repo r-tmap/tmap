@@ -7,8 +7,8 @@
 \tabular{ll}{
 Package: \tab geo\cr
 Type: \tab Package\cr
-Version: \tab 0.4\cr
-Date: \tab 2014-04-25\cr
+Version: \tab 0.5\cr
+Date: \tab 2014-05-22\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }
@@ -23,7 +23,7 @@ This packages offers a complete workaround to create thematic maps. Written on t
 \item and approximate area sizes with \code{\link{approx_areas}}}.
 The plotting itself is written in a ggplot2 style:
 \itemize{
-\item Stack drawing elements intuitively with great flexibility. The name of each element starts with \code{geo_}. The required element is \code{geo_shape}, the plain drawing elements are \code{\link{geo_borders}}, \code{\link{geo_fill}}, and \code{\link{geo_bubbles}}, the statistical drawing elements are \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}. These elements together form one layer. Multiple layers can be stacked. The theme element is \code{\link{geo_theme}} and the element to control small multiples is \code{\link{geo_grid}}.
+\item Stack drawing elements intuitively with great flexibility. The name of each element starts with \code{geo_}. The required element is \code{geo_shape}, the drawing elements are \code{\link{geo_borders}}, \code{\link{geo_fill}}, \code{\link{geo_bubbles}} and \code{\link{geo_lines}}. These elements together form one layer. Multiple layers can be stacked. The theme element is \code{\link{geo_theme}} and the element to control small multiples is \code{\link{geo_grid}}.
 \item Create quick maps (like qplot) with \code{\link{geo}}. All the elements above can be called within one function call, although only one layer is supported.
 }
 A crucial differences with ggplot2 is that the elements are functional building blocks rather than layers from the grammar of graphics.

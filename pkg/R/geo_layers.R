@@ -2,7 +2,7 @@
 #' 
 #' This layer specifies the shape object, which is one of \code{\link[sp:SpatialPolygons]{SpatialPolygons}}, \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialPoints]{SpatialPoints}}, and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}.
 #' 
-#' @param shp shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.
+#' @param shp shape object. For \code{\link{geo_fill}} and \code{\link{geo_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubbles}}.
 #' @param projection character that determines the projectino. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates.} 
@@ -87,6 +87,17 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 }
 
 
+#' Draw spatial lines
+#' 
+#' This layer draw spatial lines.
+#' 
+#' @param col color of the lines. Either a color value or a data variable name.
+#' @param lwd line width
+#' @param lty line type
+#' @param palette color palette, used if \code{col} is a data variable
+#' @param by logical. If \code{TRUE} and \code{col} is a data variable, draw small multiples, one for each level
+#' @export
+#' @return \code{\link{geo-element}}
 geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, by=FALSE) {
 	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by))
 	class(g) <- "geo"
@@ -111,7 +122,7 @@ geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, by=FALSE) {
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @param total.area.km2 total area size in km2. Needed if \code{convert2density=TRUE}.
 #' @export
-#' @example ../examples/geo_choropleth.R
+#' @example ../examples/geo_fill.R
 #' @return \code{\link{geo-element}}	
 geo_fill <- function(col="grey90", 
 						    palette = NULL,
@@ -134,6 +145,7 @@ geo_fill <- function(col="grey90",
 #' Draw bubblemap
 #' 
 #' This layer speficies a bubblemap. Both colors and sizes of the bubbles can be mapped to data variables. 
+#' 
 #' @param size \code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples
 #' @param border color of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
@@ -148,6 +160,7 @@ geo_fill <- function(col="grey90",
 #' @param colorNA colour for missing values
 #' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
+#' @param by logical. If \code{TRUE} and \code{col} is a data variable, then small multiples are generated, one for each level (NOT WORKING YET) 
 #' @export
 #' @example ../examples/geo_bubbles.R
 #' @return \code{\link{geo-element}}
@@ -183,10 +196,11 @@ geo_bubbles <- function(size=1, col="blueviolet",
 #' 
 #' @param ncol number of columns of the small multiples grid
 #' @param nrow number of rows of the small multiples grid
-#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo_choropleth}} and color and size from \code{\link{geo_bubblemap}}.
-#' @param free.scales.choro logical. Should the color scale for the choropleth be free?
+#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo_fill}}, color and size from \code{\link{geo_bubbles}} and line color from \code{\link{geo_lines}}.
+#' @param free.scales.fill logical. Should the color scale for the choropleth be free?
 #' @param free.scales.bubble.size logical. Should the bubble size scale for the bubblemap be free?
 #' @param free.scales.bubble.col logical. Should the color scale for the bubblemap be free?
+#' @param free.scales.line.col Should the line color scale be free?
 #' @export
 #' @example ../examples/geo_grid.R
 #' @return \code{\link{geo-element}}

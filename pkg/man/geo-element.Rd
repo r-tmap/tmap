@@ -10,16 +10,13 @@ The only fundamental, and hence required element is
 \itemize{
 \item \code{\link{geo_shape}} that specifies the shape object, and also controls the projection and bounding box}
 
-The plain drawing elements are
+The drawing elements are
 \itemize{
 \item \code{\link{geo_borders}} to draw polygon borders
 \item \code{\link{geo_fill}} to color the polygons
-\item \code{\link{geo_bubbles}} to draw bubbles}
+\item \code{\link{geo_bubbles}} to draw bubbles
+\item \code{\link{geo_lines}} to draw lines}
 
-The statistical drawing elements are
-\itemize{
-\item \code{\link{geo_choropleth}} to color the polygons based on a data variable
-\item \code{\link{geo_bubblemap}} to draw bubbles based on data variables for size and color}
 The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one layer. Multiple layers can be stacked. Each layer should start with \code{\link{geo_shape}}.
 
 The layout elements are

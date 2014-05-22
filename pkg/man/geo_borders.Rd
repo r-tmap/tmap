@@ -27,7 +27,7 @@ data(NLD_prov)
 data(NLD_muni)
 
 geo_shape(NLD_prov) + 
-	geo_choropleth("name") + 
+	geo_fill("name") + 
 geo_shape(NLD_muni) + 
 	geo_borders() + 
 geo_shape(NLD_prov) + 

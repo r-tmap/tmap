@@ -4,21 +4,23 @@
 \title{Small multiples grid}
 \usage{
 geo_grid(ncol = NULL, nrow = NULL, free.scales = TRUE,
-  free.scales.choro = free.scales, free.scales.bubble.size = free.scales,
-  free.scales.bubble.col = free.scales)
+  free.scales.fill = free.scales, free.scales.bubble.size = free.scales,
+  free.scales.bubble.col = free.scales, free.scales.line.col = free.scales)
 }
 \arguments{
 \item{ncol}{number of columns of the small multiples grid}
 
 \item{nrow}{number of rows of the small multiples grid}
 
-\item{free.scales}{logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo_choropleth}} and color and size from \code{\link{geo_bubblemap}}.}
+\item{free.scales}{logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo_fill}}, color and size from \code{\link{geo_bubbles}} and line color from \code{\link{geo_lines}}.}
 
-\item{free.scales.choro}{logical. Should the color scale for the choropleth be free?}
+\item{free.scales.fill}{logical. Should the color scale for the choropleth be free?}
 
 \item{free.scales.bubble.size}{logical. Should the bubble size scale for the bubblemap be free?}
 
 \item{free.scales.bubble.col}{logical. Should the color scale for the bubblemap be free?}
+
+\item{free.scales.line.col}{Should the line color scale be free?}
 }
 \value{
 \code{\link{geo-element}}
@@ -30,7 +32,7 @@ This layer specifies how the different plots are placed in a grid. The number of
 data(World)
 
 geo_shape(World) +
-	geo_choropleth(c("economy", "income_grp"), style="kmeans") +
+	geo_fill(c("economy", "income_grp"), style="kmeans") +
 	geo_grid(ncol=1) +
 	geo_theme(inner.margins=c(0, .4, .02, .02),
 			  legend.profile="text",
@@ -45,7 +47,7 @@ data(NLD_ageGroups)
 NLD_muni <- append_data(NLD_muni, NLD_ageGroups, key.data="muni", key.shp="name")
 
 geo_shape(NLD_muni) +
-	geo_choropleth(c("pop_0_20", "pop_20_65", "pop_65p"), convert2density=TRUE, total.area.km2=41543) +
+	geo_fill(c("pop_0_20", "pop_20_65", "pop_65p"), convert2density=TRUE, total.area.km2=41543) +
 geo_shape(NLD_prov) +
 	geo_borders() +
 	geo_grid(free.scales=TRUE) +

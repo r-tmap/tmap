@@ -2,12 +2,11 @@
 #' 
 #' This function is a convenient wrapper for drawing quick cartographic maps.
 #' 
-#' @param shp shape object. For \code{\link{geo_choropleth}} and \code{\link{geo_bubblemap}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubblemap}} and \code{\link{geo_bubbles}}.
-#' @param choro.fill name of the data variable in \code{shp} for the choropleth. If not specified, no choropleth is drawn.
+#' @param shp shape object. For \code{\link{geo_fill}} and \code{\link{geo_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubbles}}.
+#' @param fill either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth.
 #' @param bubble.size name of the data variable in \code{shp} for the bubblemap that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.
 #' @param bubble.col name of the data variable in \code{shp} for the bubblemap that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.
 #' @param borders color of the polygon borders. Use \code{NA} to omit the borders.
-#' @param fill specifies the fill colors in case \code{choro.fill} is not specified
 #' @param text name of a variable in \code{shp} that contain text labels
 #' @param theme one of "World", "Europe", or "NLD"
 #' @param ... parameters passed on to the \code{geo_*} functions.
