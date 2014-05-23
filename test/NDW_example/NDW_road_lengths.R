@@ -39,9 +39,8 @@ rw$roadname <- factor(roadname[match(rw$roadnumber, roadnumber)], levels=roadnam
 rwA2 <- rw[rw$roadname =="A2",]
 loopsA2 <- loops[which(loops$ROADNUMBER=="A2"), ]
 
-source("../test/NDW_example/NDW_functions.R")
 
-shpA2 <- simplifyRoad(rwA2, "roadname")
+shpA2 <- fit_polylines(rwA2, "roadname")
 
 pdf("../test/NDW_example/A2.pdf", width=8, height=8)
 geo_shape(corop) +
@@ -57,20 +56,24 @@ geo_theme("A2")
 dev.off()
 
 
-rwb <- simplifyRoad(rw, "roadname")
+#shp <- rw
+#id <- "roadname"
+
+rwb <- fit_polylines(rw, "roadname")
 
 total_lengths <- SpatialLinesLengths(rwb, longlat=FALSE)
 writeOGR(rwb, "../test/NDW_example", "rijksweg2013simpel", driver="ESRI Shapefile")
 
 
 rwb <- get_shape("../test/NDW_example/rijksweg2013simpel.shp")
+rwb@proj4string <- rw@proj4string
 
 data.frame(rijksweg=rwb$ID, lengte=round(total_lengths/1000, digits=2))
 
 library(RColorBrewer)
 palDark <- c(brewer.pal(9, "Set1"), brewer.pal(8, "Set2"), brewer.pal(8, "Dark2"), brewer.pal(12, "Set3"))
 
-pdf("../test/NDW_example/rw_simple.pdf", width=16, height=16)
+pdf("../test/NDW_example/rw_simple2.pdf", width=16, height=16)
 geo_shape(corop) +
 	#geo_borders() +
 	geo_fill() +
@@ -94,3 +97,21 @@ corop@proj4string
 rwb@proj4string
 
 rwb_cr <- gIntersection(rwb, corop, byid=TRUE)
+
+
+y_id <- get_IDs(rwb_cr)
+y_spl <- strsplit(y_id, split=" ", fixed=TRUE)
+y_rw <- as.numeric(as.character(sapply(y_spl, function(x)x[1])))
+y_cr <- as.numeric(sapply(y_spl, function(x)x[2])) + 1
+y_len <- SpatialLinesLengths(rwb_cr, longlat=TRUE)
+ydata <- data.frame(ID=y_id, rw=y_rw, cr=y_cr, len=y_len)
+rwb_cr <- SpatialLinesDataFrame(rwb_cr, ydata, match.ID=FALSE)
+#rwb_cr$wn <- rwb$WEGNUMMER[match(rw_cr$rw, rw_id)]
+
+
+geo_shape(corop) +
+	geo_fill("CR_2013", palette="Pastel2") +
+geo_shape(rwb_cr) +
+	geo_lines("cr", palette="Set2") +
+geo_theme(legend.profile="hide")
+

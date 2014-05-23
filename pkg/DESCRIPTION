@@ -17,4 +17,7 @@ Imports:
     sp,
     rgdal,
     classInt,
-    RColorBrewer
+    RColorBrewer,
+    igraph,
+    fields,
+    vegan
