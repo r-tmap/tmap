@@ -37,11 +37,7 @@ print.geo <- function(x, ...) {
 
 	
 	# backup par settings
-	opar <- par(no.readonly=TRUE)
-	
-	par(mai=c(0,0,0,0), oma=c(0,0,0,0))
-	plot.new()
-	
+	grid.newpage()	
 	dw <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)
 	dh <- convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
 	
@@ -69,8 +65,6 @@ print.geo <- function(x, ...) {
 	shps.env <- new.env()
 	assign("shps", shps, envir=shps.env)
 	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps, shps.env)
-	do.call("par", opar)
-	
 }
 
 

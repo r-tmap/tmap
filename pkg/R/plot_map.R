@@ -1,4 +1,49 @@
+grid.shape <- function(shp, gp=gpar()) {
+	# TODO substract holes
+	bb <- bbox(shp)
+	co1 <- do.call("rbind", lapply(shp@polygons, function(p) {
+		id1 <- substitute(p)[[3]]
+		co2 <- lapply(p@Polygons, function(pp) {
+			id2 <- substitute(pp)[[3]]
+			coords <- pp@coords
+			coords[,1] <- (coords[,1]-bb[1,1]) / (bb[1,2]-bb[1,1])
+			coords[,2] <- (coords[,2]-bb[2,1]) / (bb[2,2]-bb[2,1])
+			cbind(coords, id2)
+		})
+		cbind(do.call("rbind", co2), id1)
+	}))
+	id <- as.integer(as.factor(co1[,4]*10000+co1[,3]))
+	id2 <- co1[,4][!duplicated(id)]
+	gp2 <- lapply(gp, function(g) {
+		if (length(g)==length(shp)) g[id2] else g
+	})
+	class(gp2) <- "gpar"
+	grid.polygon(co1[,1], co1[,2],	id=id, gp=gp2)
+	invisible()
+}
 
+grid.shplines <- function(shp, gp=gpar()) {
+	bb <- bbox(shp)
+	co1 <- do.call("rbind", lapply(shp@lines, function(p) {
+		id1 <- substitute(p)[[3]]
+		co2 <- lapply(p@Polygons, function(pp) {
+			id2 <- substitute(pp)[[3]]
+			coords <- pp@coords
+			coords[,1] <- (coords[,1]-bb[1,1]) / (bb[1,2]-bb[1,1])
+			coords[,2] <- (coords[,2]-bb[2,1]) / (bb[2,2]-bb[2,1])
+			cbind(coords, id2)
+		})
+		cbind(do.call("rbind", co2), id1)
+	}))
+	id <- as.integer(as.factor(co1[,4]*10000+co1[,3]))
+	id2 <- co1[,4][!duplicated(id)]
+	gp2 <- lapply(gp, function(g) {
+		if (length(g)==length(shp)) g[id2] else g
+	})
+	class(gp2) <- "gpar"
+	grid.polyline(co1[,1], co1[,2],	id=id, gp=gp2)
+	invisible()
+}
 
 plot_map <- function(gp, gt, shps.env) {
 	draw.frame <- gt$draw.frame
@@ -18,26 +63,27 @@ plot_map <- function(gp, gt, shps.env) {
 	
 	## plot shapes
 	add <- c(FALSE, rep(TRUE, length(gp)-1))
-	#browser()
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
-	
+
 	if (dasp > sasp) {
-		vp <- viewport(width=sasp/dasp)
+		vp <- viewport(width=unit(sasp/dasp, "npc"), height=unit(1, "npc"), name="aspvp")
 	} else {
-		vp <- viewport(height=dasp/sasp)
+		vp <- viewport(height=unit(dasp/sasp, "npc"), width=unit(1, "npc"), name="aspvp")
 	}
 	pushViewport(vp)
 	if (draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 	
-	par(new=TRUE, fig=gridFIG(), xaxs="i", yaxs="i")
 	for (l in 1:nlayers) {
 		gpl <- gp[[l]]
 		shp <- shps[[l]]
 		if (inherits(shp, "SpatialPolygons")) {
-			plot(shp, col=gpl$fill, bg=NA, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=TRUE)
+			grid.shape(shp, gp=gpar(fill=gpl$fill, col=gpl$col, lwd=gpl$lwd, ltw=gpl$lty))
+			#plot(shp, col=gpl$fill, bg=NA, border = gpl$col, lwd=gpl$lwd, lty=gpl$lty, add=add[l], xpd=TRUE)
 		} else if (inherits(shp, "SpatialLines")) {
-			plot(shp, col=gpl$line.col, lwd=gpl$line.lwd, lty=gpl$line.lty, add=add[l], xpd=TRUE)
+			#gridplot(shp)
+			grid.shplines(shp, gp=gpar(col=gpl$line.col, lwd=gpl$line.lwd, lty=gpl$line.lty))
+			#plot(shp, col=gpl$line.col, lwd=gpl$line.lwd, lty=gpl$line.lty, add=add[l], xpd=TRUE)
 		}
 	}
 	
@@ -115,7 +161,7 @@ plot_map <- function(gp, gt, shps.env) {
 		
 	}
 	upViewport()
-	list(scaleFactor=scaleFactor, vp=vp)
+	scaleFactor
 }
 
 
@@ -192,7 +238,6 @@ plot_text <- function(co.npc, labels, cex, text.cex.lowerbound, text.fontcolor, 
 
 
 plot_all <- function(gp, shps.env) {
-	main_vp <- current.viewport()
 	gt <- gp$geo_theme
 	
 	gp[c("geo_theme")] <- NULL
@@ -205,15 +250,14 @@ plot_all <- function(gp, shps.env) {
 								 heights=unit(c(margins[3], 1, margins[1]), 
 								 			 c("npc", "null", "npc")), 
 								 widths=unit(c(margins[2], 1, margins[4]), 
-								 			c("npc", "null", "npc"))))
+								 			c("npc", "null", "npc"))),
+							  name="maingrid")
 	
 	# plot map
 	if (!gt$legend.only) {
 		pushViewport(gridLayoutMap)
-		cellplot(2, 2, e={
-			result <- plot_map(gp, gt, shps.env)
-			scaleFactor <- result[[1]]
-			vp <- result[[2]]
+		cellplot(2, 2, name="test", e={
+			scaleFactor <- plot_map(gp, gt, shps.env)
 		})
 		upViewport()
 	}
@@ -221,12 +265,11 @@ plot_all <- function(gp, shps.env) {
 	#find statistic variables
 	leg <- legend_prepare(gp, gt, scaleFactor)
 	
-	
 	if (!is.null(leg)) {
-		if (!gt$legend.only) seekViewport(vp$name)	
+		if (!gt$legend.only) {
+			d <- downViewport("aspvp")
+		}
 		legend_plot(gt, leg)
+		if (!gt$legend.only) upViewport(d)
 	}
-	
-	
-	seekViewport(main_vp$name)
 }
