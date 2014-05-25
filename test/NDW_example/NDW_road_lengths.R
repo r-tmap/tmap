@@ -73,7 +73,7 @@ data.frame(rijksweg=rwb$ID, lengte=round(total_lengths/1000, digits=2))
 library(RColorBrewer)
 palDark <- c(brewer.pal(9, "Set1"), brewer.pal(8, "Set2"), brewer.pal(8, "Dark2"), brewer.pal(12, "Set3"))
 
-pdf("../test/NDW_example/rw_simple2.pdf", width=16, height=16)
+pdf("../test/NDW_example/rw_simple.pdf", width=16, height=16)
 geo_shape(corop) +
 	#geo_borders() +
 	geo_fill() +
@@ -88,14 +88,31 @@ geo_shape(corop) +
 dev.off()
 
 ### TO DO SMALL MULTIPLES WITH BY ARGUMENT
+pdf("../test/NDW_example/rw_mult.pdf", width=16, height=16)
 geo_shape(corop) +
 	geo_fill() +
 	geo_borders() +
 geo_shape(rwb) +
-	geo_lines("ID", by=TRUE) +
-geo_shape(loops) +
-	geo_bubbles(col="blue")
-	
+	geo_lines("ID", palette="red", by=TRUE)
+#geo_shape(loops) +
+#	geo_bubbles(col="blue")
+dev.off()	
+
+
+## test geo_lines legend
+geo_shape(corop) +
+	geo_fill() +
+	geo_borders() +
+	geo_shape(rwb) +
+	geo_lines("ID")
+
+
+
+
+
+
+
+
 corop@proj4string
 rwb@proj4string
 

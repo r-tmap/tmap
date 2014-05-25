@@ -1,5 +1,4 @@
 process_lines <- function(data, g, free.scales.line.col, legend.digits, legend.NA.text) {
-
 	x <- g$lines.col
 	nx <- length(x)
 	if (nx==1 && valid_colors(x)[1]) {

@@ -3,6 +3,7 @@ legend_plot <- function(gt, x) {
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
 	x[[1]] <- NULL
+	
 	conf <- gt$legend.config 
 	
 	if (gt$legend.profile=="text") conf <- setdiff(conf, "hist")
@@ -32,6 +33,13 @@ legend_plot <- function(gt, x) {
 				x <- c(x, list(title.bubble.col=list(title=gt$legend.bubble.col.title)))
 			}
 		}
+		if (gt$legend.line.col.title!="") {
+			line.col.id <- which(conf =="line.col")
+			if (length(line.col.id)) {
+				conf <- if (line.col.id==1) c("title.line.col", conf) else c(conf[1:(line.col.id-1)], "title.line.col", conf[line.col.id:length(conf)])
+				x <- c(x, list(title.line.col=list(title=gt$legend.line.col.title)))
+			}
+		}
 		
 		x <- x[conf]
 		
@@ -49,9 +57,11 @@ legend_plot <- function(gt, x) {
 					 hist=gt$legend.choro.hist.height,
 					 bubble.size=gt$legend.bubble.size.height,
 					 bubble.col=gt$legend.bubble.col.height,
+					 line.col=gt$legend.line.col.height,
 					 title.choro=legend.title.npc,
 					 title.bubble.size=legend.title.npc,
-					 title.bubble.col=legend.title.npc)
+					 title.bubble.col=legend.title.npc,
+					 title.line.col=legend.title.npc)
 	
 		
 		heights <- heights[conf][x.not.null]
@@ -63,6 +73,9 @@ legend_plot <- function(gt, x) {
 		}
 		if ("bubble.col" %in% names(heights) && !("legend.bubble.col.height" %in% gt$call)) {
 			heights["bubble.col"] <- min(length(x[["bubble.col"]]$legend.labels) * lineHeight * gt$legend.text.cex / ((1-2*margin) * .85), heights["bubble.col"])
+		}
+		if ("line.col" %in% names(heights) && !("legend.line.col.height" %in% gt$call)) {
+			heights["line.col"] <- min(length(x[["line.col"]]$legend.labels) * lineHeight * gt$legend.text.cex / ((1-2*margin) * .85), heights["line.col"])
 		}
 	} else {
 		heights <- 0
@@ -239,7 +252,6 @@ legend_plot_hist <- function(x, gt) {
 		hs <- hs * (1- (lineHeight/2))
 		hpty <- hpty * (1- (lineHeight/2))
 		
-		
 		formattedY <- format(pty, trim=TRUE)
 		
 		width.npc <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE)) * 1.5 * length(ptx)
@@ -267,13 +279,10 @@ legend_plot_hist <- function(x, gt) {
 										heights=unit(c(margin, 1, axisMargin+axisTicks, height.xaxis, margin), c("npc", "null", "inch", "npc", "npc")),
 										widths=unit(c(margin, 1, axisMargin+axisTicks, width.yaxis, margin), c("npc", "null", "inch", "npc", "npc")))))
 		
-		
 		cellplot(2,2, e={
 			#grid.rect(gp=gpar(fill="lightblue2"))
 			grid.rect(x=x, y=0, width=ws, height=hs, gp=gpar(col=NA,fill=colors), just=c("left", "bottom"))
 		})
-		
-		
 		
 		# plot y axis
 		cellplot(2,3,e={
@@ -287,14 +296,11 @@ legend_plot_hist <- function(x, gt) {
 						  id=rep(1:(length(pty)+1),each=2))
 		})
 		
-		
-		
 		cellplot(2,4,e={
 			maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * cex * 1.5
 			grid.text(formattedY, x=maxWidth, y=hpty, 
 					  just=c("right","center"), gp=gpar(cex=cex))
 		})
-		
 		
 		# plot x axis tick marks
 		cellplot(3,2,e={
@@ -313,12 +319,11 @@ legend_plot_hist <- function(x, gt) {
 			grid.text(ptx, x=xticks, y=.5, gp=gpar(cex=cex))
 		})
 		
-		
 		upViewport()
 	})		
 	
 }
-legend_plot_choro <- legend_plot_bubble.col <- function(x, gt) {
+legend_plot_choro <- legend_plot_bubble.col <- legend_plot_line.col <- function(x, gt) {
 	with(x, {
 		nitems <- length(legend.labels)
 		margin <- .05
@@ -336,19 +341,26 @@ legend_plot_choro <- legend_plot_bubble.col <- function(x, gt) {
 		yslines <- yslines[seq(2,length(yslines)-1,by=2)]
 		
 		itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5 * cex
-		if (legend.is.bubbles) {
+		if (legend.type=="bubble") {
 			bubbleSizes <- min(bubble.max.size, itemSize*0.75)
 			grid.circle(x=unit(rep(itemSize*1.5, nitems), "inch"), 
 						y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
 						gp=gpar(fill=legend.palette,
 								col=bubble.legend.border))
+		} else if (legend.type=="line") {
+			grid.polyline(x=unit(rep(itemSize*c(1,2), nitems), "inch"),
+					  y=rep(yslines, each=2), 
+					  id=rep(1:nitems, each=2),
+					  gp=gpar(col=legend.palette, 
+					  		lwd=line.legend.lwd,
+					  		lty=line.legend.lty))
 		} else {
 			grid.rect(x=unit(rep(itemSize*1.5, nitems), "inch"), 
 					  y=yslines, 
 					  width=unit(rep(itemSize, nitems), "inch"), 
 					  height=unit(rep(itemSize, nitems), "inch"),
 					  gp=gpar(fill=legend.palette))
-		}
+		} 
 		grid.text(legend.labels, x=unit(rep(itemSize*3, nitems), "inch"), 
 				  y=yslines, just=c("left", "center"), gp=gpar(cex=cex))
 	})
@@ -371,9 +383,7 @@ legend_plot_bubble.size <- function(x, gt) {
 		
 		lineH <- stdLineH * cex
 		
-		
 		divY <- .5 + (lineH - bubbleHmax)/2
-		
 		bubbleY <- divY + bubbleHmax / 1.5
 		lineY <- divY - lineH*.75
 				

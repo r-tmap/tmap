@@ -241,7 +241,7 @@ world4_eIV <- spTransform(world4, CRS("+proj=eck4")) # Eckert IV
 World <- world4_eIV
 
 gIsValid(World)
-
+World <- gBuffer(World, byid=TRUE, width=0)
 
 ## set bouding box (leave out Antarctica)
 #World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)  # for Winkel Tripel

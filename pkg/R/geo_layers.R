@@ -99,7 +99,7 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 #' @export
 #' @return \code{\link{geo-element}}
 geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, by=FALSE) {
-	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by))
+	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by, palette=palette))
 	class(g) <- "geo"
 	g
 }

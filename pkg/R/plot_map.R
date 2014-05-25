@@ -12,11 +12,22 @@ plot_map <- function(gp, gt, shps.env) {
 	sasp <- attr(shps, "sasp")
 
 	if (dasp > sasp) {
-		vp <- viewport(width=unit(sasp/dasp, "npc"), height=unit(1, "npc"), name="aspvp")
+		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
+			heights=unit(c(1, 1, 1), c("null", "npc", "null")), 
+			widths=unit(c(1, sasp/dasp, 1), c("null", "npc", "null"))), 
+			name="aspgrid")
+		
+		#vp <- viewport(width=unit(sasp/dasp, "npc"), height=unit(1, "npc"), name="aspvp")
 	} else {
-		vp <- viewport(height=unit(dasp/sasp, "npc"), width=unit(1, "npc"), name="aspvp")
+		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
+			heights=unit(c(1, dasp/sasp, 1), c("null", "npc", "null")), 
+			widths=unit(c(1, 1, 1), c("null", "npc", "null"))), 
+			name="aspgrid")
+								  
+		#vp <- viewport(height=unit(dasp/sasp, "npc"), width=unit(1, "npc"), name="aspvp")
 	}
-	pushViewport(vp)
+	vp <- viewport(layout.pos.row=2, layout.pos.col=2, name="aspvp")
+	pushViewport(gridLayoutMap, vp)
 	if (draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 	
 	vpWidth <- convertWidth(unit(1, "npc"), "inch", valueOnly=TRUE)
@@ -57,7 +68,18 @@ plot_map <- function(gp, gt, shps.env) {
 		lapply(fnames, do.call, args=list(), envir=e)
 	}, gp, shps)
 	
-	if (draw.frame) grid.rect(gp=gpar(fill=NA, lwd=frame.lwd)) else grid.rect(gp=gpar(col=gt$bg.color, fill=NA))
+	
+	
+	upViewport()
+	if (draw.frame) {
+		cellplot(1,1:3, e=grid.rect(gp=gpar(col="white", fill="white")))
+		cellplot(2,1, e=grid.rect(gp=gpar(col="white", fill="white")))
+		cellplot(2,3, e=grid.rect(gp=gpar(col="white", fill="white")))
+		cellplot(3,1:3, e=grid.rect(gp=gpar(col="white", fill="white")))
+	}
+	cellplot(2,2, e={
+		if (draw.frame) grid.rect(gp=gpar(fill=NA, lwd=frame.lwd)) else grid.rect(gp=gpar(col=gt$bg.color, fill=NA))
+	})
 	
 	upViewport()
 	scaleFactor
@@ -146,7 +168,7 @@ plot_all <- function(gp, shps.env) {
 	# plot map
 	if (!gt$legend.only) {
 		pushViewport(gridLayoutMap)
-		cellplot(2, 2, name="test", e={
+		cellplot(2, 2, e={
 			scaleFactor <- plot_map(gp, gt, shps.env)
 		})
 		upViewport()

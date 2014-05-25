@@ -22,6 +22,7 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 	auto.palette.mapping <- g$auto.palette.mapping
 	contrast <- g$contrast
 	colorNA <- g$colorNA
+	by <- g$bubble.by
 	shpcols <- names(data)
 	
 	varysize <- all(xsize %in% shpcols) && !is.null(xsize)
@@ -53,6 +54,7 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 	}
 	if (varycol) {
 		Xcol <- data[, xcol, drop=FALSE]
+		if (by) free.scales.col <- FALSE
 	} else {
 		bubble.col <- xcol
 		bubble.legend.labels <- NA
@@ -119,6 +121,8 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 					#remove unused levels in legend
 					if (varysize) {
 						sel <- apply(matrix(as.vector(bubble.size), nrow=nrow(Xcol)), MARGIN=1, function(x)any(!is.na(x)))
+					} else {
+						sel <- rep(TRUE, length(dat))
 					}
 					colsLeg <- cat2pal(dat[sel],
 									   palette = palette,
@@ -138,7 +142,7 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 			}
 		}
 	} else {
-		if (varycol) {
+		if (varycol && !by) {
 			dat <- unlist(Xcol)
 			bubble.col.is.numeric <- is.numeric(dat)
 			
@@ -172,6 +176,23 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 											  rep(1:nxcol, each=length(colsLeg[[1]])/nxcol))), ncol=nxcol)
 			bubble.legend.labels <- colsLeg[[2]]
 			bubble.legend.palette <- colsLeg[[3]]
+		} else if (varycol && by) {
+			dat <- Xcol[[1]]
+			if (!is.factor(dat)) dat <- factor(dat)
+			colsLeg <- cat2pal(dat,
+							   palette = palette,
+							   legend.NA.text=legend.NA.text,
+							   max_levels=nlevels(dat))
+			cols <- colsLeg[[3]]
+			xcol <- colsLeg[[2]]
+			bubble.col <- matrix(NA, ncol=length(xcol), nrow=length(xcol))
+			diag(bubble.col) <- cols
+			ids <- as.integer(dat)
+			ids[is.na(ids)] <- length(xcol)
+			bubble.col <- bubble.col[ids, ]
+			bubble.legend.labels <- NA
+			bubble.legend.palette <- NA
+			bubble.col.is.numeric <- FALSE
 		} else {
 			xcol <- NA
 			bubble.col.is.numeric <- FALSE

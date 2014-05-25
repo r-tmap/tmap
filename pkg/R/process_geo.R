@@ -66,6 +66,7 @@ process_geo <- function(x) {
 		x$geo_theme$legend.choro.title <- x$geo_theme$legend.choro.title[i]
 		x$geo_theme$legend.bubble.size.title <- x$geo_theme$legend.bubble.size.title[i]
 		x$geo_theme$legend.bubble.col.title <- x$geo_theme$legend.bubble.col.title[i]
+		x$geo_theme$legend.line.col.title <- x$geo_theme$legend.line.col.title[i]
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 	
