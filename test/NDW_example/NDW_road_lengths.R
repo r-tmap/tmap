@@ -42,7 +42,7 @@ loopsA2 <- loops[which(loops$ROADNUMBER=="A2"), ]
 
 shpA2 <- fit_polylines(rwA2, "roadname")
 
-pdf("../test/NDW_example/A2.pdf", width=8, height=8)
+pdf("../test/NDW_example/A2b.pdf", width=8, height=8)
 geo_shape(corop) +
 	geo_borders() +
 	geo_fill() +
@@ -87,12 +87,15 @@ geo_shape(corop) +
 	geo_theme("Origine rijkswegen (dunne zwarte lijntjes) +\nVerkeerlslussen (zwarte bolletjes) +\nVereenvoudigde rijkswegen (gekleurde lijnen)")
 dev.off()
 
+### TO DO SMALL MULTIPLES WITH BY ARGUMENT
 geo_shape(corop) +
 	geo_fill() +
 	geo_borders() +
 geo_shape(rwb) +
-	geo_lines()
-
+	geo_lines("ID", by=TRUE) +
+geo_shape(loops) +
+	geo_bubbles(col="blue")
+	
 corop@proj4string
 rwb@proj4string
 

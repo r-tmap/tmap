@@ -49,7 +49,7 @@ process_geo <- function(x) {
 			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
 			ifelse(is.matrix(x$bubble.col), ncol(x$bubble.col), 1),
 			ifelse(is.matrix(x$line.col), ncol(x$line.col), 1),
-			length(x$text))
+			ifelse(is.matrix(x$text), ncol(x$text), 1))
 	}))
 	names(gp) <- paste0("geoLayer", 1:length(gp))
 	

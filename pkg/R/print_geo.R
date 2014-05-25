@@ -49,14 +49,14 @@ print.geo <- function(x, ...) {
 
 	gps <- lapply(gps, function(gp) {
 		gp[1:nshps] <- mapply(function(gpl, indices, l) {
-			if (length(gpl$fill)==l) gpl$fill <- gpl$fill[indices]
-			if (length(gpl$bubble.size)==l) gpl$bubble.size <- gpl$bubble.size[indices]
-			if (length(gpl$bubble.col)==l) gpl$bubble.col <- gpl$bubble.col[indices]
-			if (length(gpl$bubble.xmod)==l) gpl$bubble.xmod <- gpl$bubble.xmod[indices]
-			if (length(gpl$bubble.ymod)==l) gpl$bubble.ymod <- gpl$bubble.ymod[indices]
-			if (length(gpl$text.xmod)==l) gpl$text.xmod <- gpl$text.xmod[indices]
-			if (length(gpl$text.ymod)==l) gpl$text.ymod <- gpl$text.ymod[indices]
-			gpl
+			gpl$npol <- length(indices)
+			lapply(gpl, function(gplx) {
+				if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==l) {
+					gplx <- gplx[indices]	
+				} else {
+					gplx
+				}
+			})
 		},  gp[1:nshps], matchIDs, shps_lengths, SIMPLIFY=FALSE)
 		gp
 	})
@@ -65,6 +65,7 @@ print.geo <- function(x, ...) {
 	shps.env <- new.env()
 	assign("shps", shps, envir=shps.env)
 	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps, shps.env)
+	invisible()
 }
 
 

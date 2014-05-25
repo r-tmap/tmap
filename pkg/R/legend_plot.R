@@ -145,10 +145,17 @@ legend_plot <- function(gt, x) {
 	title.position <- positions[[1]]
 	legend.position <- positions[[2]]
 
-	plot_text(matrix(title.position, ncol=2), gt$title, cex=gt$title.cex, 
-			  text.cex.lowerbound=gt$title.cex, text.fontcolor="black",
-			  text.bg.color=gt$title.bg.color, text.bg.alpha=255, 
-			  text.scale=1,text.print.tiny=FALSE, text.fontface="plain", text.fontfamily="sans", 
+	plot_text(co.npc=matrix(title.position, ncol=2), 
+			  g=list(text=gt$title, text.cex=gt$title.cex, 
+			  	   text.cex.lowerbound=gt$title.cex, 
+			  	   text.fontcolor="black",
+			  	   text.bg.color=gt$title.bg.color, 
+			  	   text.bg.alpha=255, 
+			  	   text.scale=1,
+			  	   text.print.tiny=FALSE, 
+			  	   text.fontface="plain", 
+			  	   text.fontfamily="sans",
+			  	   text_sel=TRUE), 
 			  just=c("left", "bottom"))
 
 	if (title.only) {

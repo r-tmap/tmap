@@ -3,10 +3,14 @@ process_layers <- function(g, free.scales.fill, free.scales.bubble.size,
 	data <- g$geo_shape$data
 	
 	# determine plotting order 
+	fillID <- which(names(g) == "geo_fill")
+	lineID <- which(names(g) == "geo_lines")
 	bubbleID <- which(names(g) == "geo_bubbles")
 	textID <- which(names(g) == "geo_text")
-	text.on.bubbles <-  if(!length(textID) || !length(bubbleID)) TRUE else (textID[1] > bubbleID[1])
-
+	
+	plot.order <- names(g)[names(g) %in% c("geo_fill", "geo_borders", "geo_text", "geo_bubbles", "geo_lines")]
+	plot.order[plot.order=="geo_borders"] <- "geo_fill"
+	plot.order <- unique(plot.order)
 	
 	# border info
 	gborders <- if (is.null(g$geo_borders)) {
@@ -24,9 +28,8 @@ process_layers <- function(g, free.scales.fill, free.scales.bubble.size,
 	# lines info
 	glines <- if (is.null(g$geo_lines)) list(line.col=NA, xline=NA) else process_lines(data, g$geo_lines, free.scales.line.col, legend.digits, legend.NA.text)
 	
-	
 	# text info
-	gtext <- if (is.null(g$geo_text)) list(text=NULL) else g$geo_text
+	gtext <- if (is.null(g$geo_text)) list(text=NULL) else process_text(data, g$geo_text, gfill$fill)
 	
-	c(list(varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline), text.on.bubbles=text.on.bubbles), gborders, gfill, glines, gbubble, gtext)
+	c(list(npol=nrow(data), varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline), plot.order=plot.order), gborders, gfill, glines, gbubble, gtext)
 }

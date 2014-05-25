@@ -179,6 +179,11 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 	}
 	
 	
+	xmod <- g$bubble.xmod
+	ymod <- g$bubble.ymod
+	if (is.character(xmod)) xmod <- data[[xmod]]
+	if (is.character(ymod)) ymod <- data[[ymod]]
+	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
 		 bubble.border=bubble.border,
@@ -190,6 +195,6 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 		 bubble.col.is.numeric=bubble.col.is.numeric,
 		 xsize=xsize,
 		 xcol=xcol,
-		 bubble.xmod=g$bubble.xmod,
-		 bubble.ymod=g$bubble.ymod)
+		 bubble.xmod=xmod,
+		 bubble.ymod=ymod)
 }
