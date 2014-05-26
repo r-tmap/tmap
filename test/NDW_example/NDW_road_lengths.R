@@ -82,13 +82,13 @@ pdf("../test/NDW_example/rw_simple2.pdf", width=16, height=16)
 geo_shape(corop) +
 	#geo_borders() +
 	geo_fill() +
-	geo_shape(loops) +
-	geo_bubbles(col="black", size=.01) +
 	geo_shape(rwb) + 
 	geo_lines(col="ID", lwd=.5, palette=palDark) +
 	geo_text("ID", cex=1) +
 	geo_shape(rw) +
 	geo_lines(col="black", lwd=.02) +
+	geo_shape(loops) +
+	geo_bubbles(col="black", size=.01) +
 	geo_theme("Origine rijkswegen (dunne zwarte lijntjes) +\nVerkeerlslussen (zwarte bolletjes) +\nVereenvoudigde rijkswegen (gekleurde lijnen)")
 dev.off()
 
@@ -153,7 +153,7 @@ geo_shape(corop) +
 	geo_shape(rwb) +
 	geo_lines("ID", palette="Pastel2") +
 	geo_shape(loops) +
-	geo_bubbles(col="type", palette="Set1", size=.3)+
+	geo_bubbles(col="type", palette="Set1", size=.04)+
 	geo_theme("Within 25m range?", legend.config="bubble.col", legend.max.categories=40)
 dev.off()
 
