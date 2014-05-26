@@ -138,7 +138,10 @@ fit_polylines <- function(shp, id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 		Lines(linesc, ID=level)
 	})
 	shp3 <- SpatialLines(lines, proj4string=shp@proj4string)
-	cat.levels2 <- if (addNA) setdiff(cat.levels, "NA") else cat.levels
+	cat.levels2 <- cat.levels
+	if (addNA) {
+		cat.levels2[cat.levels2=="NA"] <- NA
+	} 
 	data <- data.frame(ID=cat.levels2, row.names=cat.levels)
 	shp3 <- SpatialLinesDataFrame(shp3, data=data, match.ID=FALSE)
 	shp3

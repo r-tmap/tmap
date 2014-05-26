@@ -1,38 +1,53 @@
-## install latest version from github:
-library(devtools)
-install_github("geoNL", username="mtennekes", subdir="pkg")
-library(geoNL)
+library(RColorBrewer)
+palDark <- c(brewer.pal(9, "Set1"), brewer.pal(8, "Set2"), brewer.pal(8, "Dark2"), brewer.pal(12, "Set3"))
 
-## or load development source code (pull source code from github)
-#require(devtools)
-#load_all("../geoNL/pkg/")
 
-## read data
-d <- read.csv("Mminute_480.csv")
-
-## get province shape
-shp <- getShape("pv_2012.shp")
-
-## convert coordinates to lat-long
-shp <- rd2wgs84(shp)
-
-## aggregate to NL shape
-shpNL <- unionSpatialPolygons(shp, IDs=rep(1,12))
-
-## create lat-long points object, and set constant variable x (for bubble sizes)
-pnts <- SpatialPointsDataFrame(d[,1:2], data=d[,3,drop=FALSE])
-pnts$x <- 1
-
-## brewer palettes
-display.brewer.all()
-
-## show legend in order to find breaks
-## for bubbleMaps, use diverging palettes only! Use a minus sign to reverse.
-bubbleMap(pnts, x="x", col="cars", palette="-RdYlGn", style="kmeans", n=10, show.legend.sizes=TRUE, show.legend.colors=TRUE, scale=.2, plot.bubble.borders=FALSE, shp2=shpNL, lwd2=1, shp2.col=pal[1], title="mijn titel")
-
-## create png's (use fixed breaks to keep colors consistent over time)
-png(width=2000, height=2000, res=300)
-    bubbleMap(pnts, x="x", col="cars", palette="-RdYlGn", style="fixed", breaks=c(0, 10, 22, 33, 45, 58, 74, 94, 123, 181, 400), show.legend.sizes=FALSE, show.legend.colors=FALSE, scale=.2, plot.bubble.borders=FALSE, shp2=shpNL, lwd2=1, shp2.col=pal[1], title="mijn titel")
+########## roads simplified
+pdf("../test/NDW_example/rw_simple2.pdf", width=16, height=16)
+geo_shape(corop) +
+	#geo_borders() +
+	geo_fill() +
+	geo_shape(rwb) + 
+	geo_lines(col="ID", lwd=.5, palette=palDark) +
+	geo_text("ID", cex=1) +
+	geo_shape(rw) +
+	geo_lines(col="black", lwd=.02) +
+	geo_shape(loops) +
+	geo_bubbles(col="black", size=.01) +
+	geo_theme("Origine rijkswegen (dunne zwarte lijntjes) +\nVerkeerlslussen (zwarte bolletjes) +\nVereenvoudigde rijkswegen (gekleurde lijnen)")
 dev.off()
 
-## see source code of animateMaps for how to make moving gifs from png's
+########## roads small multiples
+pdf("../test/NDW_example/rw_mult.pdf", width=16, height=16)
+geo_shape(corop) +
+	geo_fill() +
+	geo_borders(lwd=.5) +
+	geo_shape(rwb) +
+	geo_lines("ID", palette="red", by=TRUE)
+dev.off()	
+
+
+
+
+########## roads per corop
+pdf("../test/NDW_example/rw_per_corop.pdf", width=6, height=6)
+geo_shape(corop) +
+	geo_fill("CR_2013", palette="Set2") +
+	geo_shape(rwb_cr) +
+	geo_lines("CR_2013", palette="Dark2") +
+	geo_theme("Roads split by corop", legend.profile="hide", legend.max.categories=40)
+dev.off()
+
+
+corop@proj4string
+rwb@proj4string
+loops@proj4string
+pdf("../test/NDW_example/loops_classified.pdf", width=6, height=6)
+geo_shape(corop) +
+	geo_fill() +
+ 	geo_shape(rwb) +
+ 	geo_lines("grey50", lwd=1) +
+	geo_shape(loops) +
+	geo_bubbles(col="type", palette="Set1", size=.2)+
+	geo_theme("Within 25m range?", legend.config="bubble.col", legend.max.categories=40)
+dev.off()
