@@ -1,4 +1,4 @@
-process_lines <- function(data, g, free.scales.line.col, legend.digits, legend.NA.text) {
+process_lines <- function(data, g, free.scales.line.col, legend.digits, legend.NA.text, legend.max.categories) {
 	x <- g$lines.col
 	nx <- length(x)
 	if (nx==1 && valid_colors(x)[1]) {
@@ -41,7 +41,8 @@ process_lines <- function(data, g, free.scales.line.col, legend.digits, legend.N
 		X <- unlist(data[, x])
 		colsLeg <- cat2pal(X,
 						   palette = palette,
-						   legend.NA.text=legend.NA.text)
+						   legend.NA.text=legend.NA.text,
+						   max_levels=legend.max.categories)
 		col <- matrix(unlist(split(colsLeg[[1]], 
 								   rep(1:nx, each=length(colsLeg[[1]])/nx))), ncol=nx)
 		line.legend.labels <- colsLeg[[2]]

@@ -1,4 +1,4 @@
-process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
+process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, legend.max.categories) {
 	x <- g$col
 	nx <- length(x)
 	if (nx==1 && valid_colors(x)[1]) {
@@ -54,7 +54,8 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
                 colsLeg <- cat2pal(XX,
                                    palette = palette,
                                    colorNA = colorNA,
-                				   legend.NA.text = legend.NA.text)
+                				   legend.NA.text = legend.NA.text,
+                				   max_levels=legend.max.categories)
                 choro.breaks[[i]] <- NA
             } else {
             	if (is.null(palette)) {
@@ -96,7 +97,8 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
         	colsLeg <- cat2pal(XX,
                                palette = palette,
                                colorNA = colorNA,
-        					   legend.NA.text = legend.NA.text)
+        					   legend.NA.text = legend.NA.text,
+        					   max_levels=legend.max.categories)
             choro.breaks <- NA
         } else {
         	if (is.null(palette)) {

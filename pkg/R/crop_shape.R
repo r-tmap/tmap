@@ -8,7 +8,6 @@
 #' @import rgeos
 #' @export
 crop_shape <- function(shp, bbox=shp@bbox) {
-
 	bbcoords <- cbind(x=bbox[1,][c(1, 1, 2, 2, 1)], y=bbox[2,][c(1, 2, 2, 1, 1)])
 	BB <- SpatialPolygons(list(Polygons(list(Polygon(bbcoords)), "1")),
 						  proj4string=CRS(proj4string(shp)))
@@ -20,11 +19,11 @@ crop_shape <- function(shp, bbox=shp@bbox) {
 	ids2 <- gsub(" [0-9]+$", "", get_IDs(shp2))
 	indices <- match(ids2, ids)
 	if (inherits(shp, "SpatialPolygonsDataFrame")) {
-		shp2 <- SpatialPolygonsDataFrame(shp2, shp@data[indices, ], match.ID = FALSE)
+		shp2 <- SpatialPolygonsDataFrame(shp2, shp@data[indices, , drop=FALSE], match.ID = FALSE)
 	} else if (inherits(shp, "SpatialPointsDataFrame")) {
-		shp2 <- SpatialPointsDataFrame(shp2, shp@data[indices, ], match.ID = FALSE)
+		shp2 <- SpatialPointsDataFrame(shp2, shp@data[indices, , drop=FALSE], match.ID = FALSE)
 	} else if (inherits(shp, "SpatialLinesDataFrame")) {
-		shp2 <- SpatialLinesDataFrame(shp2, shp@data[indices, ], match.ID = FALSE)
+		shp2 <- SpatialLinesDataFrame(shp2, shp@data[indices, , drop=FALSE], match.ID = FALSE)
 	}
 	attr(shp2, "matchID") <- indices
 	shp2

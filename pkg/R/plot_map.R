@@ -9,6 +9,9 @@ plot_map <- function(gp, gt, shps.env) {
 	
 	vpArea <- vpWidth * vpHeight
 	scaleFactor <- (sqrt(vpArea) / 100)
+
+	bb <- shps[[1]]@bbox
+	if (gt$grid.show && !gt$grid.on.top) plot_grid(gt, bb)
 	
 	mapply(function(gpl, shp) {
 		bb <- shp@bbox
@@ -42,9 +45,45 @@ plot_map <- function(gp, gt, shps.env) {
 		lapply(fnames, do.call, args=list(), envir=e)
 	}, gp, shps)
 	
+	if (gt$grid.show && gt$grid.on.top) plot_grid(gt, bb)
+	
 	scaleFactor
 }
 
+plot_grid <- function(gt, bb) {
+	gridx <- pretty(bb[1,], n=gt$grid.n.x)
+	gridx <- gridx[gridx>bb[1,1] & gridx<bb[1,2]]
+	gridy <- pretty(bb[2,], n=gt$grid.n.y)
+	gridy <- gridy[gridy>bb[2,1] & gridy<bb[2,2]]
+	
+	cogridx <- (gridx-bb[1,1]) / (bb[1,2] - bb[1,1])
+	cogridy <- (gridy-bb[2,1]) / (bb[2,2] - bb[2,1])
+	
+	labelsx <- format(gridx, big.mark = ",")
+	labelsy <- format(gridy, big.mark = ",")
+	
+	
+	labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE)) * .75
+	labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE)) * .75
+	spacerY <- convertWidth(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE)
+	spacerX <- convertHeight(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE)
+	
+	selx <- cogridx >= labelsYw + spacerY
+	sely <- cogridy >= labelsXw + spacerX
+	
+	cogridx <- cogridx[selx]
+	labelsx <- labelsx[selx]
+	cogridy <- cogridy[sely]
+	labelsy <- labelsy[sely]
+	
+	grid.polyline(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
+				  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.color))
+	grid.polyline(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
+				  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.color))
+	
+	grid.text(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(cex=.75))
+	grid.text(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(cex=.75))
+}
 
 plot_bubbles <- function(co.npc, g, scaleFactor) {
 	with(g, {
@@ -138,12 +177,12 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 			if (gt$draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 			scaleFactor <- plot_map(gp, gt, shps.env)
 		})
-		if (gt$draw.frame) {
-			cellplot(1,1:3, e=grid.rect(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)))
-			cellplot(2,1, e=grid.rect(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)))
-			cellplot(2,3, e=grid.rect(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)))
-			cellplot(3,1:3, e=grid.rect(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)))
-		}
+		bgcol <- ifelse(gt$draw.frame, gt$outer.bg.color, gt$bg.color)
+		cellplot(1,1:3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
+		cellplot(2,1, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
+		cellplot(2,3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
+		cellplot(3,1:3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
+
 		cellplot(2,2, e={
 			if (gt$draw.frame) grid.rect(gp=gpar(fill=NA, lwd=gt$frame.lwd)) else grid.rect(gp=gpar(col=gt$bg.color, fill=NA))
 		})

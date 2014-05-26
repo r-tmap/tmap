@@ -2,7 +2,7 @@ cat2pal <- function(x,
 					palette = "Set3",
 					colorNA = "#FF1414",
 					legend.labels = NULL,
-					max_levels = 12,
+					max_levels = 40,
 					legend.NA.text = "Missing") {
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	

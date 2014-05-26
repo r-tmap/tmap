@@ -68,12 +68,17 @@ writeOGR(rwb, "../test/NDW_example", "rijksweg2013simpel", driver="ESRI Shapefil
 rwb <- get_shape("../test/NDW_example/rijksweg2013simpel.shp")
 rwb@proj4string <- rw@proj4string
 
+######### total road lengths
 data.frame(rijksweg=rwb$ID, lengte=round(total_lengths/1000, digits=2))
+
+
 
 library(RColorBrewer)
 palDark <- c(brewer.pal(9, "Set1"), brewer.pal(8, "Set2"), brewer.pal(8, "Dark2"), brewer.pal(12, "Set3"))
 
-pdf("../test/NDW_example/rw_simple.pdf", width=16, height=16)
+
+########## roads simplified
+pdf("../test/NDW_example/rw_simple2.pdf", width=16, height=16)
 geo_shape(corop) +
 	#geo_borders() +
 	geo_fill() +
@@ -87,51 +92,68 @@ geo_shape(corop) +
 	geo_theme("Origine rijkswegen (dunne zwarte lijntjes) +\nVerkeerlslussen (zwarte bolletjes) +\nVereenvoudigde rijkswegen (gekleurde lijnen)")
 dev.off()
 
-### TO DO SMALL MULTIPLES WITH BY ARGUMENT
+########## roads small multiples
 pdf("../test/NDW_example/rw_mult.pdf", width=16, height=16)
 geo_shape(corop) +
 	geo_fill() +
 	geo_borders() +
 geo_shape(rwb) +
 	geo_lines("ID", palette="red", by=TRUE)
-#geo_shape(loops) +
-#	geo_bubbles(col="blue")
 dev.off()	
 
 
-## test geo_lines legend
-geo_shape(corop) +
-	geo_fill() +
-	geo_borders() +
-	geo_shape(rwb) +
-	geo_lines("ID")
+rwb_cr <- split_lines(rwb, corop)
 
 
-
-
-
-
-
-
-corop@proj4string
-rwb@proj4string
-
-rwb_cr <- gIntersection(rwb, corop, byid=TRUE)
-
-
-y_id <- get_IDs(rwb_cr)
-y_spl <- strsplit(y_id, split=" ", fixed=TRUE)
-y_rw <- as.numeric(as.character(sapply(y_spl, function(x)x[1])))
-y_cr <- as.numeric(sapply(y_spl, function(x)x[2])) + 1
-y_len <- SpatialLinesLengths(rwb_cr, longlat=TRUE)
-ydata <- data.frame(ID=y_id, rw=y_rw, cr=y_cr, len=y_len)
-rwb_cr <- SpatialLinesDataFrame(rwb_cr, ydata, match.ID=FALSE)
-#rwb_cr$wn <- rwb$WEGNUMMER[match(rw_cr$rw, rw_id)]
-
-
+########## roads per corop
+pdf("../test/NDW_example/rw_per_corop.pdf", width=6, height=6)
 geo_shape(corop) +
 	geo_fill("CR_2013", palette="Pastel2") +
 geo_shape(rwb_cr) +
-	geo_lines("cr", palette="Set2") +
-geo_theme(legend.profile="hide")
+	geo_lines("CR_2013", palette="Set2") +
+geo_theme(legend.profile="hide", legend.max.categories=40)
+dev.off()
+
+
+
+
+
+########## assign loops to roads
+system.time({
+	x <- gDistance(rwb, loops, byid=TRUE)
+})
+closeID <- apply(x, MARGIN=1, FUN=function(i) which(i<25))
+
+rwb_roadnames <- as.character(rwb$ID)
+
+loops$minID <- rwb_roadnames[apply(x, MARGIN=1, FUN=function(i) which.min(i))]
+loops$closeID1 <- rwb_roadnames[sapply(closeID, function(i)if(length(i))i[[1]] else NA)]
+loops$closeID2 <- rwb_roadnames[sapply(closeID, function(i)if(length(i)>=2)i[[2]] else NA)]
+loops$closeID3 <- rwb_roadnames[sapply(closeID, function(i)if(length(i)>=3)i[[3]] else NA)]
+loops$closeID4 <- rwb_roadnames[sapply(closeID, function(i)if(length(i)>=4)i[[4]] else NA)]
+
+loops$closeN <- as.integer(!is.na(loops$closeID1)) + as.integer(!is.na(loops$closeID2)) + 
+	as.integer(!is.na(loops$closeID3)) + as.integer(!is.na(loops$closeID4))
+
+loops$roadnames <- as.character(loops$ROADNUMBER)
+
+loops$withinRange <- (loops$roadnames == loops$closeID1 | loops$roadnames == loops$closeID2 |
+					loops$roadnames == loops$closeID3 | loops$roadnames == loops$closeID4)
+loops$withinRange[is.na(loops$withinRange)] <- FALSE
+
+loops$type <- ifelse(loops$withinRange & loops$closeN==1, "match",
+			  ifelse(loops$withinRange & loops$closeN>1, "multile matches",
+			  ifelse(!loops$withinRange & loops$closeN>=1, "wrong match",
+			  "no match")))
+	
+
+pdf("../test/NDW_example/loops_classified.pdf", width=16, height=16)
+geo_shape(corop) +
+	geo_fill() +
+	geo_shape(rwb) +
+	geo_lines("ID", palette="Pastel2") +
+	geo_shape(loops) +
+	geo_bubbles(col="type", palette="Set1", size=.3)+
+	geo_theme("Within 25m range?", legend.config="bubble.col", legend.max.categories=40)
+dev.off()
 

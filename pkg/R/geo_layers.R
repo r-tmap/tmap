@@ -192,7 +192,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 
 #' Small multiples grid
 #' 
-#' This layer specifies how the different plots are placed in a grid. The number of rows and columns can be specified here, as well as whether the scales are free (i.e. independent of each other).
+#' This layer specifies how small multiples are placed in a grid. The number of rows and columns can be specified here, as well as whether the scales are free (i.e. independent of each other).
 #' 
 #' @param ncol number of columns of the small multiples grid
 #' @param nrow number of rows of the small multiples grid

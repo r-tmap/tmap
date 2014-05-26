@@ -13,8 +13,13 @@
 #' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{geo_shape}}) and the argument \code{frame.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
 #' @param frame.lwd Width of the frame
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
-#' @param outer.bg.color Background color outside the frame.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
+#' @param outer.bg.color Background color outside the frame.
+#' @param grid.show Boolean that determines whether grid lines are shown.
+#' @param grid.n.x Prefered number of grid lines for the x axis.
+#' @param grid.n.y Prefered number of grid lines for the y axis.
+#' @param grid.color Color for the grid lines.
+#' @param grid.on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
 #' @param legend.profile Character that specifies which legend elements are drawn (if applicable):
 #' \describe{
 #' 	\item{\code{"full"}:}{All of them. (Which are: choropleth text, choropleth histogram, bubble size text, and bubble color text.)}
@@ -53,6 +58,11 @@ geo_theme <- function(title=NA,
 					  outer.margins = rep(0.02, 4),
 					  inner.margins=rep(0.02, 4),
 					  outer.bg.color="white",
+					  grid.show=FALSE,
+					  grid.n.x=8,
+					  grid.n.y=8,
+					  grid.color="grey50",
+					  grid.on.top=TRUE,
 					  legend.profile = "full",
 					  legend.only = FALSE,
 					  legend.choro.title = NA,
@@ -72,6 +82,7 @@ geo_theme <- function(title=NA,
 					  legend.text.cex=0.7,
 					  legend.hist.cex=0.7,
 					  legend.digits = 2L,
+					  legend.max.categories = 12,
 					  legend.NA.text = "Missing",
 					  legend.bg.color = NA) {
 	g <- list(geo_theme=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
