@@ -1,34 +1,8 @@
 
 plot_map <- function(gp, gt, shps.env) {
-	draw.frame <- gt$draw.frame
-	frame.lwd <- gt$frame.lwd
-	
 	nlayers <- length(gp)
 	
 	shps <- get("shps", envir=shps.env)
-	
-	## plot shapes
-	dasp <- attr(shps, "dasp")
-	sasp <- attr(shps, "sasp")
-
-	if (dasp > sasp) {
-		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
-			heights=unit(c(1, 1, 1), c("null", "npc", "null")), 
-			widths=unit(c(1, sasp/dasp, 1), c("null", "npc", "null"))), 
-			name="aspgrid")
-		
-		#vp <- viewport(width=unit(sasp/dasp, "npc"), height=unit(1, "npc"), name="aspvp")
-	} else {
-		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
-			heights=unit(c(1, dasp/sasp, 1), c("null", "npc", "null")), 
-			widths=unit(c(1, 1, 1), c("null", "npc", "null"))), 
-			name="aspgrid")
-								  
-		#vp <- viewport(height=unit(dasp/sasp, "npc"), width=unit(1, "npc"), name="aspvp")
-	}
-	vp <- viewport(layout.pos.row=2, layout.pos.col=2, name="aspvp")
-	pushViewport(gridLayoutMap, vp)
-	if (draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 	
 	vpWidth <- convertWidth(unit(1, "npc"), "inch", valueOnly=TRUE)
 	vpHeight <- convertHeight(unit(1, "npc"), "inch", valueOnly=TRUE)
@@ -68,20 +42,6 @@ plot_map <- function(gp, gt, shps.env) {
 		lapply(fnames, do.call, args=list(), envir=e)
 	}, gp, shps)
 	
-	
-	
-	upViewport()
-	if (draw.frame) {
-		cellplot(1,1:3, e=grid.rect(gp=gpar(col="white", fill="white")))
-		cellplot(2,1, e=grid.rect(gp=gpar(col="white", fill="white")))
-		cellplot(2,3, e=grid.rect(gp=gpar(col="white", fill="white")))
-		cellplot(3,1:3, e=grid.rect(gp=gpar(col="white", fill="white")))
-	}
-	cellplot(2,2, e={
-		if (draw.frame) grid.rect(gp=gpar(fill=NA, lwd=frame.lwd)) else grid.rect(gp=gpar(col=gt$bg.color, fill=NA))
-	})
-	
-	upViewport()
 	scaleFactor
 }
 
@@ -149,28 +109,45 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 }
 
 
-plot_all <- function(gp, shps.env) {
+plot_all <- function(gp, shps.env, dasp, sasp) {
 	gt <- gp$geo_theme
 	
 	gp[c("geo_theme")] <- NULL
 	
-	margins <- gt$outer.margins
-	
-	# set outer margins
-	if (!gt$draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
-	gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
-								 heights=unit(c(margins[3], 1, margins[1]), 
-								 			 c("npc", "null", "npc")), 
-								 widths=unit(c(margins[2], 1, margins[4]), 
-								 			c("npc", "null", "npc"))),
-							  name="maingrid")
-	
-	# plot map
 	if (!gt$legend.only) {
+		## determine aspvp
+		margins <- gt$outer.margins
+		height <- 1 - sum(margins[c(1,3)])
+		width <- 1 - sum(margins[c(2,4)])
+		if (dasp > sasp) {
+			width <- width * (sasp/dasp)
+		} else {
+			height <- height * (dasp/sasp)
+		}
+	
+		if (!gt$draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
+		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
+													 heights=unit(c(1, height, 1), 
+													 			 c("null", "npc", "null")), 
+													 widths=unit(c(1, width, 1), 
+													 			c("null", "npc", "null"))),
+								  name="maingrid")
 		pushViewport(gridLayoutMap)
-		cellplot(2, 2, e={
+	
+		cellplot(2, 2, name="aspvp", e={
+			if (gt$draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 			scaleFactor <- plot_map(gp, gt, shps.env)
 		})
+		if (gt$draw.frame) {
+			cellplot(1,1:3, e=grid.rect(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)))
+			cellplot(2,1, e=grid.rect(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)))
+			cellplot(2,3, e=grid.rect(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)))
+			cellplot(3,1:3, e=grid.rect(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)))
+		}
+		cellplot(2,2, e={
+			if (gt$draw.frame) grid.rect(gp=gpar(fill=NA, lwd=gt$frame.lwd)) else grid.rect(gp=gpar(col=gt$bg.color, fill=NA))
+		})
+		
 		upViewport()
 	}
 
@@ -180,6 +157,8 @@ plot_all <- function(gp, shps.env) {
 	if (!is.null(leg)) {
 		if (!gt$legend.only) {
 			d <- downViewport("aspvp")
+		} else {
+			grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 		}
 		legend_plot(gt, leg)
 		if (!gt$legend.only) upViewport(d)

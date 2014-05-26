@@ -36,13 +36,15 @@ print.geo <- function(x, ...) {
 	nx <- result$nx
 
 	
-	# backup par settings
 	grid.newpage()	
-	dw <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)
-	dh <- convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
+	
+	margins <- gmeta$geo_theme$outer.margins
+	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
+	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 	
 	shps_lengths <- sapply(shps, length)
 	shps <- process_shapes(shps, x[shape.id], gmeta, dw, dh)
+
 	
 	## unify projections and set bounding box
 	matchIDs <- lapply(shps, function(s)s@matchID)
@@ -62,9 +64,12 @@ print.geo <- function(x, ...) {
 	})
 	
 	#grid.newpage()
-	shps.env <- new.env()
-	assign("shps", shps, envir=shps.env)
-	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps, shps.env)
+	dasp <- attr(shps, "dasp")
+	sasp <- attr(shps, "sasp")
+
+	shps.env <- environment()#new.env()
+	#assign("shps", shps, envir=shps.env)
+	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps, shps.env, dasp, sasp)
 	invisible()
 }
 

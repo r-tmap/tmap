@@ -13,6 +13,7 @@
 #' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{geo_shape}}) and the argument \code{frame.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
 #' @param frame.lwd Width of the frame
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
+#' @param outer.bg.color Background color outside the frame.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param legend.profile Character that specifies which legend elements are drawn (if applicable):
 #' \describe{
@@ -51,6 +52,7 @@ geo_theme <- function(title=NA,
 					  frame.lwd=1,
 					  outer.margins = rep(0.02, 4),
 					  inner.margins=rep(0.02, 4),
+					  outer.bg.color="white",
 					  legend.profile = "full",
 					  legend.only = FALSE,
 					  legend.choro.title = NA,
