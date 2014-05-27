@@ -5,13 +5,12 @@ library(rgeos)
 library(rgdal)
 devtools::load_all(".")
 
-NLD_prov <- getShape("../shapes/pv_2012.shp")
-NLD_muni <- getShape("../shapes/gm_2012.shp")
+NLD_prov <- get_shape("../shapes/pv_2012.shp")
+NLD_muni <- get_shape("../shapes/gm_2012.shp")
 
-rd <- CRS("+init=epsg:28992 +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812")
+NLD_prov <- set_projection(NLD_prov, current.projection="rd")
+NLD_muni <- set_projection(NLD_muni, current.projection="rd")
 
-proj4string(NLD_prov) <- rd
-proj4string(NLD_muni) <- rd
 
 
 ## downloaded from
@@ -53,22 +52,22 @@ vars <- c(2, 6, 10)
 
 NLD_ageGroups <- data[, -vars]
 
-NLD_muni <- appendData(NLD_muni, data[,c(1,vars)], key.data="muni", key.shp="name")
+NLD_muni <- append_data(NLD_muni, data[,c(1,vars)], key.data="muni", key.shp="name")
 NLD_muni$muni <- NULL
 
 NLD_prov@data <- NLD_prov@data[, c("PV_2012", "PV_NAAM")]
 names(NLD_prov) <- c("code", "name")
 
-NLD_prov <- aggregateShapeData(NLD_muni, NLD_prov)
+NLD_prov <- convert_shape_data(NLD_muni, NLD_prov)
 
 
 ## check data
 gIsValid(NLD_muni)
 gIsValid(NLD_prov)
 
-save(NLD_ageGroups, file="./data/NLD_ageGroups.rda")
-save(NLD_muni, file="./data/NLD_muni.rda")
-save(NLD_prov, file="./data/NLD_prov.rda")
+save(NLD_ageGroups, file="./data/NLD_ageGroups.rda", compress="xz")
+save(NLD_muni, file="./data/NLD_muni.rda", compress="xz")
+save(NLD_prov, file="./data/NLD_prov.rda", compress="xz")
 
 
 

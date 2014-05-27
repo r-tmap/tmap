@@ -27,7 +27,7 @@ convert_shape_data <- function(shp.from, shp.to, variables.from=NULL, variables.
 		})
 	})
 	data.from <- shp.from@data
-	if (missing(variables.from)) variables.from <- which(sapply(data.from, is.numeric))
+	if (missing(variables.from)) variables.from <- names(data.from)[sapply(data.from, is.numeric)]
 	if (missing(variables.to)) variables.to <- variables.from
 	y <- x %*% as.matrix(data.from[, variables.from])
 	dimnames(y)[[2]] <- variables.to

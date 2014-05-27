@@ -12,9 +12,8 @@ get_proj4_code <- function(x) {
 		   eqc0="+proj=eqc",
 		   eqc30="+proj=cea +lat_ts=30",
 		   eqc45="+proj=cea +lat_ts=45",
-		   rd="+init=epsg:28992 +towgs84=565.237,50.0087,465.658,-0.406857,0.350733,-1.87035,4.0812",
+		   rd="+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +towgs84=565.2369,50.0087,465.658,-0.406857330322398,0.350732676542563,-1.8703473836068,4.0812 +no_defs",
 		   x)
-	
 	check <- CRSargs(CRS(y))
 	y
 }
