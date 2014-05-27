@@ -48,8 +48,6 @@ d <- d[,1:(ncol(d)-1)]
 
 closeID <- apply(d, MARGIN=1, FUN=function(i) which(i<25))
 
-dimnames(d)
-
 rwb_roadnames <- dimnames(d)[[2]]
 
 loops$minID <- rwb_roadnames[apply(d, MARGIN=1, FUN=function(i) which.min(i))]
