@@ -27,7 +27,7 @@ plot_map <- function(gp, gt, shps.env) {
 		
 		plot_geo_fill <- function() {
 			#if (inherits(shp, "SpatialPolygons")) {
-				grid.shape(shp, gp=gpar(fill=gpl$fill, col=gpl$col, lwd=gpl$lwd, ltw=gpl$lty))
+				grid.shape(shp, gp=gpar(fill=gpl$fill, col=gpl$col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color)
 			#}	
 		}
 		
@@ -39,10 +39,10 @@ plot_map <- function(gp, gt, shps.env) {
 		
 		plot_geo_bubbles <- function() plot_bubbles(co.npc, gpl, scaleFactor)
 		plot_geo_text <- function() plot_text(co.npc, gpl)
-
 		e <- environment()
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		lapply(fnames, do.call, args=list(), envir=e)
+		
 	}, gp, shps)
 	
 	if (gt$grid.show && gt$grid.on.top) plot_grid(gt, bb)
@@ -119,6 +119,14 @@ plot_bubbles <- function(co.npc, g, scaleFactor) {
 plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 	npol <- nrow(co.npc)
 	with(g, {
+		if (!any(text_sel)) {
+			warning("No text to display. Check if all cex values are smaller than lowerbound.cex, or if all positions fall outside the plotting area.")
+			return(NULL)
+		}
+		
+		co.npc[, 1] <- co.npc[, 1] + text.xmod[text_sel]
+		co.npc[, 2] <- co.npc[, 2] + text.ymod[text_sel]
+		
 		tG <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.fontcolor[text_sel], cex=text.cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		nlines <- rep(1, length(text))
 		
@@ -145,6 +153,7 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 		}
 		grid.draw(tG)
 	})
+	
 }
 
 
@@ -177,6 +186,8 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 			if (gt$draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 			scaleFactor <- plot_map(gp, gt, shps.env)
 		})
+		
+		
 		bgcol <- ifelse(gt$draw.frame, gt$outer.bg.color, gt$bg.color)
 		cellplot(1,1:3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
 		cellplot(2,1, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
@@ -189,7 +200,7 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 		
 		upViewport()
 	}
-
+	
 	#find statistic variables
 	leg <- legend_prepare(gp, gt, scaleFactor)
 	

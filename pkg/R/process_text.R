@@ -2,7 +2,7 @@ process_text <- function(data, g, fill) {
 	npol <- nrow(data)
 	
 	within(g, {
-		text <- data[[text]]
+		text <- as.character(data[[text]])
 		
 		if (is.character(text.cex)) {
 			if (substr(text.cex, 1, 4)=="AREA") {
@@ -14,7 +14,7 @@ process_text <- function(data, g, fill) {
 				text.cex <- data[[text.cex]]
 				text.cex <- text.cex / max(text.cex, na.rm=TRUE)
 			}
-		} else text.cex <- rep(text.cex, lenght.out=npol)
+		} else text.cex <- rep(text.cex, length.out=npol)
 		text.fontcolor <- if (is.na(text.fontcolor[1])) {
 			if (is.matrix(fill)) {
 				apply(fill, MARGIN=2, function(f) {
@@ -28,8 +28,8 @@ process_text <- function(data, g, fill) {
 				rep(ifelse(light, "black", "white"), length.out=npol)
 			}
 		} else rep(text.fontcolor, length.out=npol)
-		if (is.character(text.xmod)) text.xmod <- data[[text.xmod]]
-		if (is.character(text.ymod)) text.ymod <- data[[text.ymod]]
+		text.xmod <- if (is.character(text.xmod)) data[[text.xmod]] else rep(text.xmod, length.out=npol)
+		text.ymod <-  if (is.character(text.ymod)) data[[text.ymod]] else rep(text.ymod, length.out=npol)
 		text_sel <- (text.cex >= text.cex.lowerbound)
 		text_empty <- is.na(text)
 		

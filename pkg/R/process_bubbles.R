@@ -1,5 +1,5 @@
 process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text, legend.max.categories) {
-	
+	npol <- nrow(data)
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
 	
@@ -204,8 +204,9 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 	
 	xmod <- g$bubble.xmod
 	ymod <- g$bubble.ymod
-	if (is.character(xmod)) xmod <- data[[xmod]]
-	if (is.character(ymod)) ymod <- data[[ymod]]
+	xmod <- if (is.character(xmod)) data[[xmod]] else rep(xmod, length.out=npol)
+	ymod <-  if (is.character(ymod)) data[[ymod]] else rep(ymod, length.out=npol)
+	
 	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,

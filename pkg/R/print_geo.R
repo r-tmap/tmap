@@ -48,7 +48,6 @@ print.geo <- function(x, ...) {
 	
 	## unify projections and set bounding box
 	matchIDs <- lapply(shps, function(s)s@matchID)
-
 	gps <- lapply(gps, function(gp) {
 		gp[1:nshps] <- mapply(function(gpl, indices, l) {
 			gpl$npol <- length(indices)
@@ -70,6 +69,7 @@ print.geo <- function(x, ...) {
 	shps.env <- environment()#new.env()
 	#assign("shps", shps, envir=shps.env)
 	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps, shps.env, dasp, sasp)
+	
 	invisible()
 }
 

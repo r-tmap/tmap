@@ -97,9 +97,10 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 #' @param palette color palette, used if \code{col} is a data variable
 #' @param by logical. If \code{TRUE} and \code{col} is a data variable, draw small multiples, one for each level
 #' @export
+#' @example ../examples/geo_lines.R
 #' @return \code{\link{geo-element}}
-geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, by=FALSE) {
-	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by, palette=palette))
+geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, scale=1, by=FALSE) {
+	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by, palette=palette, lines.scale=scale))
 	class(g) <- "geo"
 	g
 }

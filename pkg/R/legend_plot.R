@@ -1,4 +1,5 @@
 legend_plot <- function(gt, x) {
+	
 	title.only <- (length(x)==1)
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
@@ -168,7 +169,9 @@ legend_plot <- function(gt, x) {
 			  	   text.print.tiny=FALSE, 
 			  	   text.fontface="plain", 
 			  	   text.fontfamily="sans",
-			  	   text_sel=TRUE), 
+			  	   text_sel=TRUE,
+			  	   text.xmod=0,
+			  	   text.ymod=0), 
 			  just=c("left", "bottom"))
 
 	if (title.only) {

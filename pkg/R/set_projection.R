@@ -21,9 +21,10 @@
 #'    	By default, the projection is used that is defined in the \code{shp} object itself.
 #' @param current.projection the current projection of \code{shp}. Use this only if the current projection is missing.
 #' @param transform Logical that determines whether to transform the shape file into the specified projection. By default \code{TRUE}. If the current shape projection is missing, longitude latitude coordinates (WGS84) are assumed. If \code{FALSE}, then the specified projection is simply written to the shape file without transforming it (use this at your own risk!). 
+#' @param overwrite.current.projection logical that determines whether the current projection is overwritten if it already has a projection that is different.
 #' @import sp
 #' @export
-set_projection <- function(shp, projection=NULL, current.projection=NULL, transform=!is.null(projection)) {
+set_projection <- function(shp, projection=NULL, current.projection=NULL, transform=!is.null(projection), overwrite.current.projection=FALSE) {
 	shp.name <- deparse(substitute(shp))
 	shp.proj <- proj4string(shp)
 
@@ -37,7 +38,15 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, transf
 		}
 	} else {
 		if (!missing(current.projection)) {
-			if (current.proj4==shp.proj) warning(paste("Current projection of", shp.name, "already known.")) else stop(paste(shp.name, "already has projection:", shp.proj, "This is different from the specified current projection", current.projection, ". Please check whether the known projection is correct, and if so do not specify current.projection argument."))
+			if (current.proj4==shp.proj) {
+				warning(paste("Current projection of", shp.name, "already known."))
+			}else {
+				if (overwrite.current.projection) {
+					warning(paste("Current projection of", shp.name, "differs from", current.projection, ", but is overwritten."))
+				} else {
+					stop(paste(shp.name, "already has projection:", shp.proj, "This is different from the specified current projection", current.projection, ". If the specified projection is correct, use overwrite.current.projection=TRUE."))
+				}
+			} 
 		}
 	}
 	
