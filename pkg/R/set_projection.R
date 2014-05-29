@@ -43,6 +43,7 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, transf
 			}else {
 				if (overwrite.current.projection) {
 					warning(paste("Current projection of", shp.name, "differs from", current.projection, ", but is overwritten."))
+					shp@proj4string <- CRS(current.proj4)
 				} else {
 					stop(paste(shp.name, "already has projection:", shp.proj, "This is different from the specified current projection", current.projection, ". If the specified projection is correct, use overwrite.current.projection=TRUE."))
 				}

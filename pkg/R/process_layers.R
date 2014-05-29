@@ -26,10 +26,10 @@ process_layers <- function(g, free.scales.fill, free.scales.bubble.size,
 	gbubble <- process_bubbles(data, geobubbles, free.scales.bubble.size, free.scales.bubble.col, legend.digits, legend.NA.text, legend.max.categories)
 	
 	# lines info
-	glines <- if (is.null(g$geo_lines)) list(line.col=NA, xline=NA) else process_lines(data, g$geo_lines, free.scales.line.col, legend.digits, legend.NA.text, legend.max.categories)
+	glines <- if (is.null(g$geo_lines)) list(line.col=NA, xline=NA, xlinelwd=NA) else process_lines(data, g$geo_lines, free.scales.line.col, legend.digits, legend.NA.text, legend.max.categories)
 	
 	# text info
 	gtext <- if (is.null(g$geo_text)) list(text=NULL) else process_text(data, g$geo_text, gfill$fill)
-	
-	c(list(npol=nrow(data), varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline), plot.order=plot.order), gborders, gfill, glines, gbubble, gtext)
+
+	c(list(npol=nrow(data), varnames=list(choro.fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd), plot.order=plot.order), gborders, gfill, glines, gbubble, gtext)
 }

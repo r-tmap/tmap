@@ -2,10 +2,10 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, le
 	x <- g$col
 	nx <- length(x)
 	if (nx==1 && valid_colors(x)[1]) {
-		return(list(fill=x, choro.values=NA,
-			 		choro.legend.labels=NA,
-			 		choro.legend.palette=NA,
-			 		choro.breaks=NA,
+		return(list(fill=x,
+					choro.fill.legend.labels=NA,
+					choro.fill.legend.palette=NA,
+					choro.fill.legend.misc=list(),					
 			 		xfill=NA))
 	}
 	X <- data[, x, drop=FALSE]
@@ -13,10 +13,10 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, le
 	isColor <- if (all(sapply(X, function(i) is.character(i)))) all(valid_colors(unlist(X))) else FALSE
 	
 	if (isColor) { 
-		return(list(fill=X, choro.values=NA,
-					choro.legend.labels=NA,
-					choro.legend.palette=NA,
-					choro.breaks=NA,
+		return(list(fill=X, 
+					choro.fill.legend.labels=NA,
+					choro.fill.legend.palette=NA,
+					choro.fill.legend.misc=list(),					
 					xfill=NA))
 	}
 	
@@ -140,9 +140,8 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, le
 # 	}
 	
 	list(fill=fill,
-		 choro.values=choro.values,
-		 choro.legend.labels=choro.legend.labels,
-		 choro.legend.palette=choro.legend.palette,
-		 choro.breaks=choro.breaks,
+		 choro.fill.legend.labels=choro.legend.labels,
+		 choro.fill.legend.palette=choro.legend.palette,
+		 choro.fill.legend.misc=list(choro.values=choro.values, choro.breaks=choro.breaks),
 		 xfill=x)
 }

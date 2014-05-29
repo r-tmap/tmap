@@ -3,60 +3,40 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 	bubbleSizeID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.size[1])))[1]
 	bubbleColID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.col[1])))[1]
 	lineColID <- which(sapply(gp, function(x)!is.na(x$varnames$line.col[1])))[1]
+	lineLwdID <- which(sapply(gp, function(x)!is.na(x$varnames$line.lwd[1])))[1]
 	
+	varnames <- c("choro.fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
 	
-	# create input lists for legend
-	choro <- if (!is.na(choroID) && "choro" %in% gt$legend.config) {
-		gc <- gp[[choroID]]
-		if (is.na(gc$choro.legend.labels[1])) NULL else {
-			list(choro=list(legend.labels=gc$choro.legend.labels,
-							legend.palette=gc$choro.legend.palette,
-							legend.type="rect"))
-		}
-	} else NULL
-	hist <- if (!is.na(choroID) && "hist" %in% gt$legend.config) {
-		gc <- gp[[choroID]]
-		list(hist=list(choro.legend.palette=gc$choro.legend.palette,
-					   choro.values=gc$choro.values,
-					   choro.breaks=gc$choro.breaks))
-	} else NULL
-	bubble.col <- if (!is.na(bubbleColID) && "bubble.col" %in% gt$legend.config) {
-		gb <- gp[[bubbleColID]]
-		if (is.na(gb$bubble.legend.palette[1])) NULL else {
-			list(bubble.col=list(legend.palette=gb$bubble.legend.palette,
-							 legend.labels=gb$bubble.legend.labels,
-							 legend.type="bubble",
-							 bubble.legend.border=gb$bubble.border,
-							 bubble.max.size=max(gb$bubble.size, na.rm=TRUE)))
-		}
-	} else NULL
-	bubble.size <- if (!is.na(bubbleSizeID) && "bubble.size" %in% gt$legend.config) {
-		gb <- gp[[bubbleSizeID]]
-		col <- ifelse(gb$bubble.col.is.numeric, gb$bubble.legend.palette[length(gb$bubble.legend.palette)],
-					  ifelse(is.na(gb$bubble.legend.palette), gb$bubble.col[1], gb$bubble.legend.palette[1]))
-		
-		list(bubble.size=list(bubble.legend.col=col,
-							  bubble.legend.border=gb$bubble.border,
-							  bubble.legend.sizes=gb$bubble.legend.sizes * scaleFactor, 
-							  bubble.legend.size_labels=gb$bubble.legend.size_labels))
-	} else NULL
+	ids <- lapply(varnames, function(v) {
+		which(sapply(gp, function(x)!is.na(x$varnames[[v]][1])))[1]
+	})
+	names(ids) <- varnames
 	
-	line.col <- if (!is.na(lineColID) && "line.col" %in% gt$legend.config) {
-		gl <- gp[[lineColID]]
-		if (is.na(gl$line.legend.palette[1])) NULL else {
-			list(line.col=list(legend.palette=gl$line.legend.palette,
-								 legend.labels=gl$line.legend.labels,
-								 legend.type="line",
-								 line.legend.lwd=gl$line.lwd,
-								 line.legend.lty=gl$line.lty))
-		}
-	} else NULL 
+	varnames2 <- c("choro.fill", "choro.fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	varnames3 <- c("choro", "hist", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	ids2 <- ids[varnames2]
 	
+	legelem <- mapply(function(v3, v2, i) {
+		if (!is.na(i) && v3 %in% gt$legend.config) {
+			g <- gp[[i]]
+			legend.labels <- paste(v2, "legend.labels", sep=".")
+			legend.palette <- paste(v2, "legend.palette", sep=".")
+			legend.misc <- paste(v2, "legend.misc", sep=".")
+			if (is.na(g[[legend.labels]][1])) NULL else {
+				c(list(legend.type=v3,
+					   legend.labels=g[[legend.labels]],
+					   legend.palette=g[[legend.palette]]),
+				  g[[legend.misc]])
+			} 
+		} else NULL
+	}, varnames3, varnames2, ids2)
 	
-	
-	if (is.null(choro) && is.null(hist) && is.null(bubble.col) && is.null(bubble.size) && is.null(line.col) && is.na(gt$title)) {
-		return()
+	if (!is.null(legelem$bubble.size)) {
+		legelem$bubble.size$legend.sizes <- legelem$bubble.size$legend.sizes * scaleFactor
+	}
+	if (all(sapply(legelem, is.null)) && gt$title=="") {
+		return(NULL)
 	} else {
-		return(c(list(draw=TRUE), choro, hist, bubble.col, bubble.size, line.col))
+		legelem
 	}
 }

@@ -23,27 +23,22 @@ process_meta <- function(g, nx, varnames) {
 							choro.fill=1,
 							bubble.size=2,
 							bubble.col=3,
+							line.col=4,
+							line.lwd=5,
 							0)
-		
 		if (is.na(id)) {
 			title <- rep("", nx)
 		} else if (id!=0) {
-			if (is.na(legend.choro.title) && id!=1) legend.choro.title <- varnames[[1]]
-			if (is.na(legend.bubble.size.title) && id!=2) legend.bubble.size.title <- varnames[[2]]
-			if (is.na(legend.bubble.col.title) && id!=3) legend.bubble.col.title <- varnames[[3]]
-			title <- varnames[[id]]
+			legend.titles <- lapply(legend.titles, function(x) {
+				idx <- substitute(x)[[3]]
+				if (is.na(x) && id!=idx) varnames[[idx]] else x
+			})
+			title <- rep(varnames[[id]], length.out=nx)
 		}
-		if (is.na(legend.choro.title[1])) legend.choro.title <- rep("", nx)
-		if (is.na(legend.bubble.size.title[1])) legend.bubble.size.title <- rep("", nx)
-		if (is.na(legend.bubble.col.title[1])) legend.bubble.col.title <- rep("", nx)
-		if (is.na(legend.line.col.title[1])) legend.line.col.title <- rep("", nx)
 		
-		if (length(title) < nx) title <- rep(title, length.out=nx)
-		if (length(legend.choro.title) < nx) legend.choro.title <- rep(legend.choro.title, length.out=nx)
-		if (length(legend.bubble.size.title) < nx) legend.bubble.size.title <- rep(legend.bubble.size.title, length.out=nx)
-		if (length(legend.bubble.col.title) < nx) legend.bubble.col.title <- rep(legend.bubble.col.title, length.out=nx)
-		if (length(legend.line.col.title) < nx) legend.line.col.title <- rep(legend.line.col.title, length.out=nx)		
-		
+		legend.titles <- lapply(legend.titles, function(x) if (is.na(x[1])) "" else x)
+		legend.titles <- lapply(legend.titles, function(x) rep(x, length.out=nx))
+			
 		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$choro[1]), "white", "grey85")
 		
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color

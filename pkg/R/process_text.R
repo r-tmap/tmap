@@ -2,7 +2,12 @@ process_text <- function(data, g, fill) {
 	npol <- nrow(data)
 	
 	within(g, {
-		text <- as.character(data[[text]])
+		#xtext <- text
+		
+		nx <- length(text)
+		
+		text <- if (nx > 1) matrix(unlist(lapply(data[, text]), as.character), ncol=nx) else as.character(data[[text]])
+		rm(nx)
 		
 		if (is.character(text.cex)) {
 			if (substr(text.cex, 1, 4)=="AREA") {

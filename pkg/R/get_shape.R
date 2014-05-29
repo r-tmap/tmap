@@ -5,6 +5,7 @@
 #' @param file a shape file name (including directory).
 #' @return shape object
 #' @import rgdal
+#' @import sp
 #' @export
 get_shape <- function(file){
 	
@@ -18,7 +19,16 @@ get_shape <- function(file){
 	if (substr(base, nchar(base)-3, nchar(base))==".shp")
 		base <- substr(base, 1, nchar(base)-4)
 	
-	readOGR(dir, base, verbose=FALSE)
+	shp <- readOGR(dir, base, verbose=FALSE)
+	
+	## rd projection correction: add towgs84 parameter
+	if (proj4string(shp) %in% c("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs",
+								"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs",
+								"+proj=sterea +lat_0=52.156161 +lon_0=5.387639 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")) {
+		suppressWarnings(set_projection(shp, current.projection="rd", overwrite.current.projection=TRUE))
+	} else {
+		shp
+	}
 }
 
 

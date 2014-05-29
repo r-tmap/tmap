@@ -50,6 +50,7 @@ process_geo <- function(x) {
 			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
 			ifelse(is.matrix(x$bubble.col), ncol(x$bubble.col), 1),
 			ifelse(is.matrix(x$line.col), ncol(x$line.col), 1),
+			ifelse(is.matrix(x$line.lwd), ncol(x$line.lwd), 1),
 			ifelse(is.matrix(x$text), ncol(x$text), 1))
 	}))
 	names(gp) <- paste0("geoLayer", 1:length(gp))
@@ -64,10 +65,7 @@ process_geo <- function(x) {
 	gps <- mapply(function(x, i){
 		x$geo_theme <- gmeta$geo_theme
 		x$geo_theme$title <- x$geo_theme$title[i]
-		x$geo_theme$legend.choro.title <- x$geo_theme$legend.choro.title[i]
-		x$geo_theme$legend.bubble.size.title <- x$geo_theme$legend.bubble.size.title[i]
-		x$geo_theme$legend.bubble.col.title <- x$geo_theme$legend.bubble.col.title[i]
-		x$geo_theme$legend.line.col.title <- x$geo_theme$legend.line.col.title[i]
+		x$geo_theme$legend.titles <- sapply(x$geo_theme$legend.titles, function(x)x[i])
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 	

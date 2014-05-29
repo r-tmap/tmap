@@ -124,8 +124,8 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 			return(NULL)
 		}
 		
-		co.npc[, 1] <- co.npc[, 1] + text.xmod[text_sel]
-		co.npc[, 2] <- co.npc[, 2] + text.ymod[text_sel]
+		co.npc[, 1] <- co.npc[, 1] + text.xmod
+		co.npc[, 2] <- co.npc[, 2] + text.ymod
 		
 		tG <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.fontcolor[text_sel], cex=text.cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		nlines <- rep(1, length(text))

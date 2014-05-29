@@ -11,6 +11,7 @@ process_lines <- function(data, g, free.scales.line.col, legend.digits, legend.N
 	if (nx==1 && valid_colors(x)[1]) {
 		line.col=rep(x, length.out=npol)
 		xline <- NA
+		xlinelwd <- NA
 		line.legend.labels=NA
 		line.legend.palette=NA
 	} else {
@@ -57,7 +58,7 @@ process_lines <- function(data, g, free.scales.line.col, legend.digits, legend.N
 		line.lwd <- rep(w, length.out=npol) * g$lines.scale
 		xlinelwd <- NA
 		line.legend.lwds <- NA
-		line.legend.size_labels <- NA
+		line.legend.lwd_labels <- NA
 	} else {
 		if (!all(w %in% shpcols)) stop("Incorrect lines lwd argument")
 		xlinelwd <- w
@@ -67,21 +68,22 @@ process_lines <- function(data, g, free.scales.line.col, legend.digits, legend.N
 		w_legend <- w_legend[-c(length(w_legend)-3,length(w_legend)-1)]
 		maxW <- max(W, na.rm=TRUE)
 		line.legend.lwds <-  g$lines.scale * (w_legend/maxW)
-		line.legend.size_labels <- format(w_legend, trim=TRUE)
+		line.legend.lwd_labels <- format(w_legend, trim=TRUE)
 		line.lwd <- matrix(g$lines.scale * (W/maxW), ncol=nw)
 		
 	}
 	
-	
 	list(line.col=line.col,
 		 line.lwd=line.lwd,
 		 line.lty=g$lines.lty,
-		 line.legend.labels=line.legend.labels,
-		 line.legend.palette=line.legend.palette,
-		 line.legend.lwds=line.legend.lwds,
-		 line.legend.size_labels=line.legend.size_labels,
+		 line.col.legend.labels=line.legend.labels,
+		 line.col.legend.palette=line.legend.palette,
+		 line.col.legend.misc=list(line.legend.lwd=line.lwd[1], line.legend.lty=g$lines.lty),
+		 line.lwd.legend.labels=line.legend.lwd_labels,
+		 line.lwd.legend.palette=line.legend.palette[1],
+		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds),
 		 xline=xline,
-		 xlinewld=xlinelwd)
+		 xlinelwd=xlinelwd)
 
 }
 
