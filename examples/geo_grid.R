@@ -5,7 +5,7 @@ geo_shape(World) +
 	geo_grid(ncol=1) +
 	geo_theme(inner.margins=c(0, .4, .02, .02),
 			  legend.profile="text",
-			  legend.choro.height=.6,
+			  legend.height=c(choro=.6),
 			  legend.max.height=.8)
 
 

@@ -210,7 +210,7 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 	ymod <- g$bubble.ymod
 	xmod <- if (is.character(xmod)) data[[xmod]] else rep(xmod, length.out=npol)
 	ymod <-  if (is.character(ymod)) data[[ymod]] else rep(ymod, length.out=npol)
-	
+
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
 		 bubble.border=bubble.border,
@@ -219,7 +219,7 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 		 bubble.col.legend.palette=bubble.legend.palette,
 		 bubble.col.legend.misc=list(bubble.border=bubble.border, bubble.max.size=max(bubble.size, na.rm=TRUE)),
 		 bubble.size.legend.labels=bubble.legend.size_labels,
-		 bubble.size.legend.palette=ifelse(bubble.col.is.numeric, bubble.legend.palette[length(bubble.legend.palette)], bubble.legend.palette[1]),
+		 bubble.size.legend.palette=ifelse(is.na(bubble.legend.palette[1]), bubble.col[1], ifelse(bubble.col.is.numeric, bubble.legend.palette[length(bubble.legend.palette)], bubble.legend.palette[1])),
 		 bubble.size.legend.misc=list(bubble.border=bubble.border, legend.sizes=bubble.legend.sizes),
 		 xsize=xsize,
 		 xcol=xcol,

@@ -34,6 +34,10 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 	if (!is.null(legelem$bubble.size)) {
 		legelem$bubble.size$legend.sizes <- legelem$bubble.size$legend.sizes * scaleFactor
 	}
+	if (!is.null(legelem$bubble.col)) {
+		legelem$bubble.col$bubble.max.size <- legelem$bubble.col$bubble.max.size * scaleFactor
+	}
+	
 	if (all(sapply(legelem, is.null)) && gt$title=="") {
 		return(NULL)
 	} else {

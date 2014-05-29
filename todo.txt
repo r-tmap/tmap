@@ -5,6 +5,4 @@ TO DO list
 - explain fit_polylines
 - movies
 - update main doc page
-- adjust bubble sizes in legend
-- add line lwd legend
 

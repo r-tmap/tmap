@@ -1,6 +1,5 @@
 legend_plot <- function(gt, x) {
-	
-	title.only <- (length(x)==1)
+	title.only <- all(sapply(x, is.null))
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
 	conf <- gt$legend.config 
@@ -57,7 +56,6 @@ legend_plot <- function(gt, x) {
 		heights <- 0
 	}
 
-	
 	
 	# normalize heights
 	nlines <- length(strsplit(gt$title, "\n")[[1]])
@@ -240,14 +238,15 @@ legend_plot_elem <- function(x, gt) {
 							r=bubbleH,
 							gp=gpar(col=bubble.border, fill=legend.palette))
 			} else {
-				lineY <- lineHeight
-				restY <- 1 - lineHeight
+				
 				cex <- min(gt$legend.text.cex, 
+						   .5/lineHeight,
 						   (1/(nitems+1))/maxWidth*.85) 
-				linesY <- 1-(lineY / 2)
+				linesY <- 1-(lineHeight / 2)
+				lineY <- (lineHeight * cex)/1.5
+				restY <- 1 - lineY*1.5
 				xs <- rep(seq(0,1,length.out=nitems+2)[2:(nitems+1)], each=2)
 				ys <- rep(c(1  - restY * .2, 1 - restY * .8), nitems)
-				
 				grid.polyline(x=xs,
 							  y=ys,
 							  id=rep(1:nitems, each=2),

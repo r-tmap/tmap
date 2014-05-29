@@ -80,7 +80,7 @@ process_lines <- function(data, g, free.scales.line.col, legend.digits, legend.N
 		 line.col.legend.palette=line.legend.palette,
 		 line.col.legend.misc=list(line.legend.lwd=line.lwd[1], line.legend.lty=g$lines.lty),
 		 line.lwd.legend.labels=line.legend.lwd_labels,
-		 line.lwd.legend.palette=line.legend.palette[1],
+		 line.lwd.legend.palette=ifelse(is.na(line.legend.palette[1]), line.col[1], line.legend.palette[1]),
 		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds),
 		 xline=xline,
 		 xlinelwd=xlinelwd)
