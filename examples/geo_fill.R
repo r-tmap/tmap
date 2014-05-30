@@ -17,7 +17,8 @@ geo_shape(World) +
 	geo_borders() +
 	geo_text("iso_a3", cex="AREA3") +
 	geo_bubbles("pop_est", col="blue") +
-	geo_theme_World("Income classification", legend.bubble.size.title="Population")
+	geo_theme_World("Income classification", legend.titles=c(bubble.size="Population"),
+					legend.profile="text")
 
 # Europe example
 data(Europe)

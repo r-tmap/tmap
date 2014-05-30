@@ -1,11 +1,11 @@
-process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, legend.max.categories) {
+process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
 	x <- g$col
 	nx <- length(x)
 	if (nx==1 && valid_colors(x)[1]) {
 		return(list(fill=x,
-					choro.fill.legend.labels=NA,
-					choro.fill.legend.palette=NA,
-					choro.fill.legend.misc=list(),					
+					fill.legend.labels=NA,
+					fill.legend.palette=NA,
+					fill.legend.misc=list(),					
 			 		xfill=NA))
 	}
 	X <- data[, x, drop=FALSE]
@@ -14,9 +14,9 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, le
 	
 	if (isColor) { 
 		return(list(fill=X, 
-					choro.fill.legend.labels=NA,
-					choro.fill.legend.palette=NA,
-					choro.fill.legend.misc=list(),					
+					fill.legend.labels=NA,
+					fill.legend.palette=NA,
+					fill.legend.misc=list(),					
 					xfill=NA))
 	}
 	
@@ -55,7 +55,7 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, le
                                    palette = palette,
                                    colorNA = colorNA,
                 				   legend.NA.text = legend.NA.text,
-                				   max_levels=legend.max.categories)
+                				   max_levels=g$max.categories)
                 choro.breaks[[i]] <- NA
             } else {
             	if (is.null(palette)) {
@@ -98,7 +98,7 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, le
                                palette = palette,
                                colorNA = colorNA,
         					   legend.NA.text = legend.NA.text,
-        					   max_levels=legend.max.categories)
+        					   max_levels=g$max.categories)
             choro.breaks <- NA
         } else {
         	if (is.null(palette)) {
@@ -140,8 +140,8 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text, le
 # 	}
 	
 	list(fill=fill,
-		 choro.fill.legend.labels=choro.legend.labels,
-		 choro.fill.legend.palette=choro.legend.palette,
-		 choro.fill.legend.misc=list(choro.values=choro.values, choro.breaks=choro.breaks),
+		 fill.legend.labels=choro.legend.labels,
+		 fill.legend.palette=choro.legend.palette,
+		 fill.legend.misc=list(values=choro.values, breaks=choro.breaks),
 		 xfill=x)
 }

@@ -99,8 +99,8 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 #' @export
 #' @example ../examples/geo_lines.R
 #' @return \code{\link{geo-element}}
-geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, scale=1, by=FALSE) {
-	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by, palette=palette, lines.scale=scale))
+geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, max.categories = 12, scale=1, by=FALSE) {
+	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by, palette=palette, max.categories=max.categories, lines.scale=scale))
 	class(g) <- "geo"
 	g
 }
@@ -133,6 +133,7 @@ geo_fill <- function(col="grey90",
 							breaks = NULL,
 						    labels = NULL,
 							auto.palette.mapping = TRUE,
+					 		max.categories = 12,
 							contrast = 1,
 							colorNA = "grey65",
 							thres.poly = 1e-05,
@@ -173,6 +174,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 						  palette = NULL,
 						  labels = NULL,
 						  auto.palette.mapping = TRUE,
+						  max.categories = 12,
 						  contrast = 1,
 						  colorNA = "#FF1414",
 						  xmod = 0,
@@ -181,7 +183,9 @@ geo_bubbles <- function(size=1, col="blueviolet",
 	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border,
 								 bubble.scale=scale,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
-								 auto.palette.mapping=auto.palette.mapping, contrast=contrast,
+								 auto.palette.mapping=auto.palette.mapping,
+								 max.categories=max.categories,
+								 contrast=contrast,
 								 colorNA=colorNA,
 								 bubble.xmod=xmod,
 								 bubble.ymod=ymod,

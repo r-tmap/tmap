@@ -199,6 +199,8 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 		})
 		
 		upViewport()
+	} else {
+		scaleFactor <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$legend.text.cex * 2
 	}
 	
 	#find statistic variables

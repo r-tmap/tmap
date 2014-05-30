@@ -1,4 +1,4 @@
-process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text, legend.max.categories) {
+process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.digits, legend.NA.text) {
 	npol <- nrow(data)
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
@@ -132,7 +132,7 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 									   palette = palette,
 									   colorNA = colorNA,
 									   legend.NA.text=legend.NA.text,
-									   max_levels=legend.max.categories)
+									   max_levels=g$max.categories)
 					cols <- rep(NA, length(sel))
 					cols[sel] <- colsLeg[[1]]
 					colsLeg[[1]] <- cols
@@ -171,7 +171,7 @@ process_bubbles <- function(data, g, free.scales.size, free.scales.col, legend.d
 								   palette = palette,
 								   colorNA = colorNA,
 								   legend.NA.text=legend.NA.text,
-								   max_levels=legend.max.categories)
+								   max_levels=g$max.categories)
 				 
 				cols <- rep(NA, length(sel))
 				cols[sel] <- colsLeg[[1]]

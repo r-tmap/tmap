@@ -20,7 +20,7 @@ process_meta <- function(g, nx, varnames) {
 		if (is.na(title[1])) {
 			id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
 		} else id <- switch(title[1],
-							choro.fill=1,
+							fill=1,
 							bubble.size=2,
 							bubble.col=3,
 							line.col=4,
@@ -39,7 +39,7 @@ process_meta <- function(g, nx, varnames) {
 		legend.titles <- lapply(legend.titles, function(x) if (is.na(x[1])) "" else x)
 		legend.titles <- lapply(legend.titles, function(x) rep(x, length.out=nx))
 			
-		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$choro[1]), "white", "grey85")
+		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$fill[1]), "white", "grey85")
 		
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color

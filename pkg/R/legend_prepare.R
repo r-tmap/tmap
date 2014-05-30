@@ -1,19 +1,14 @@
 legend_prepare <- function(gp, gt, scaleFactor) {
-	choroID <- which(sapply(gp, function(x)!is.na(x$varnames$choro.fill[1])))[1]
-	bubbleSizeID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.size[1])))[1]
-	bubbleColID <- which(sapply(gp, function(x)!is.na(x$varnames$bubble.col[1])))[1]
-	lineColID <- which(sapply(gp, function(x)!is.na(x$varnames$line.col[1])))[1]
-	lineLwdID <- which(sapply(gp, function(x)!is.na(x$varnames$line.lwd[1])))[1]
-	
-	varnames <- c("choro.fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	varnames <- c("fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
 	
 	ids <- lapply(varnames, function(v) {
 		which(sapply(gp, function(x)!is.na(x$varnames[[v]][1])))[1]
 	})
 	names(ids) <- varnames
 	
-	varnames2 <- c("choro.fill", "choro.fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
-	varnames3 <- c("choro", "hist", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	varnames2 <- c("fill", "fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	
+	varnames3 <- c("fill", "fill_hist", "bubble.size", "bubble.col", "line.col", "line.lwd")
 	ids2 <- ids[varnames2]
 	
 	legelem <- mapply(function(v3, v2, i) {

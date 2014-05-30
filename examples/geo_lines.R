@@ -25,7 +25,7 @@ geo_shape(Europe) +
 	geo_fill(c("pop_est_dens", "gdp_cap_est")) +
 	geo_borders("white") +
 geo_shape(rivers) +
-	geo_lines(col="type", lwd="scalerank", scale=2) +
+	geo_lines(col="type", lwd="scalerank", scale=2, palette="Set1") +
 geo_shape(Europe) +
 	geo_bubbles("pop_est", col="income_grp") +
 geo_theme_Europe()

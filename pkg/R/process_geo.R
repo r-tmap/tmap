@@ -41,8 +41,7 @@ process_geo <- function(x) {
 				 free.scales.bubble.col=gmeta$geo_grid$free.scales.bubble.col,
 				 free.scales.line.col=gmeta$geo_grid$free.scales.line.col,
 				 legend.digits=gmeta$geo_theme$legend.digits,
-				 legend.NA.text=gmeta$geo_theme$legend.NA.text,
-				 legend.max.categories=gmeta$geo_theme$legend.max.categories)
+				 legend.NA.text=gmeta$geo_theme$legend.NA.text)
 
 	## determine maximal number of variables
 	nx <- max(sapply(gp, function(x) {
