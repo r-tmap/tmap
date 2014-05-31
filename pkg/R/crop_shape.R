@@ -6,6 +6,7 @@
 #' @param bbox rectangle to crop the \code{shp} with. It is represented by a 2x2 matrix in which the x and y coordiantes are respectively row 1 and 2, and the minimum and maximum values are respectively column 1 and 2. By default the bounding box of \code{shp} is taken.
 #' @return a cropped shape object. Its bounding box is set to \code{bb}. Data is retained in case \code{shp} is a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}. A vector of matched ID's is stored as a attribute \code{matchID}. This vector contains for each polygon in the returned shape object the number of its orignal polygon in \code{shp}.
 #' @import rgeos
+#' @import sp
 #' @export
 crop_shape <- function(shp, bbox=shp@bbox) {
 	if (inherits(shp, "SpatialPoints")) {
@@ -18,9 +19,15 @@ crop_shape <- function(shp, bbox=shp@bbox) {
 		shp2@bbox <- bbox
 	} else {
 		bbcoords <- cbind(x=bbox[1,][c(1, 1, 2, 2, 1)], y=bbox[2,][c(1, 2, 2, 1, 1)])
+		if (!is.projected(shp)) {
+			bbcoords[bbcoords[, 1]< -180, 1] <- -180
+			bbcoords[bbcoords[, 1]> 180, 1] <- 180
+			bbcoords[bbcoords[, 2]< -90, 2] <- -90
+			bbcoords[bbcoords[, 2]> 90, 2] <- 90
+		}
 		BB <- SpatialPolygons(list(Polygons(list(Polygon(bbcoords)), "1")),
 							  proj4string=CRS(proj4string(shp)))
-		shp2 <- gIntersection(shp, BB, byid=TRUE)
+		suppressWarnings(shp2 <- gIntersection(shp, BB, byid=TRUE))
 		
 		shp2@bbox <- bbox
 		ids <- get_IDs(shp)
