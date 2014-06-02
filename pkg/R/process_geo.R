@@ -1,25 +1,25 @@
 process_geo <- function(x) {
 	## fill meta info
-	meta_layers <- c("geo_theme", "geo_grid")
-	gmeta <- x[names(x) %in% meta_layers]
-	for (m in meta_layers) {
-		ids <- which(names(gmeta)==m)
-		if (length(ids)==0) {
-			gmeta <- gmeta + do.call(m, args=list())
-		} else if (length(ids)>1){
+	
+	if (!("geo_theme" %in% names(x))) {
+		gt <- geo_theme()
+	} else {
+		gts <- x[names(x)=="geo_theme"]
+		gtsn <- length(gts)
+		gt <- gts[[1]]
+		if (gtsn>1) {
 			extraCall <- character(0)
-			for (i in 2:length(ids)) {
-				gmeta[[ids[1]]][gmeta[[ids[i]]]$call] <- gmeta[[ids[i]]][gmeta[[ids[i]]]$call]
-				extraCall <- c(extraCall, gmeta[[ids[i]]]$call)
+			for (i in 2:gtsn) {
+				gt[gts[[i]]$call] <- gts[[i]][gts[[i]]$call]
+				extraCall <- c(extraCall, gts[[i]]$call)
 			}
-			gmeta <- gmeta[-(ids[-1])]
-			gmeta[[ids[1]]]$call <- c(gmeta[[ids[1]]]$call, extraCall)
+			gt$call <- c(gt$call, extraCall)
 		}
 	}
-
-	## split x into gmeta and gbody
-	x <- x[!(names(x) %in% meta_layers)]
 	
+	## split x into gmeta and gbody
+	x <- x[names(x)!="geo_theme"]
+
 	n <- length(x)
 	
 	## split x into clusters
@@ -35,13 +35,7 @@ process_geo <- function(x) {
 	
 	#gs <- lapply(gs, function(gx) if (is.null(gx[["geo_borders"]])) gx + geo_borders() else gx)
 	## convert clusters to layers
-	gp <- lapply(gs, FUN=process_layers, 
-				 free.scales.fill=gmeta$geo_grid$free.scales.fill,
-				 free.scales.bubble.size=gmeta$geo_grid$free.scales.bubble.size,
-				 free.scales.bubble.col=gmeta$geo_grid$free.scales.bubble.col,
-				 free.scales.line.col=gmeta$geo_grid$free.scales.line.col,
-				 legend.digits=gmeta$geo_theme$legend.digits,
-				 legend.NA.text=gmeta$geo_theme$legend.NA.text)
+	gp <- lapply(gs, FUN=process_layers, gt)
 
 	## determine maximal number of variables
 	nx <- max(sapply(gp, function(x) {

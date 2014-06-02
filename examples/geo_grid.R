@@ -1,8 +1,8 @@
 data(World)
 
 geo_shape(World) +
-	geo_fill(c("economy", "income_grp"), style="kmeans") +
-	geo_grid(ncol=1) +
+	geo_fill(c("economy"), style="kmeans") +
+	geo_facets(by="income_grp") +
 	geo_theme(inner.margins=c(0, .4, .02, .02),
 			  legend.profile="text",
 			  legend.height=c(choro=.6),

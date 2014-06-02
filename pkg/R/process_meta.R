@@ -1,20 +1,20 @@
 process_meta <- function(g, nx, varnames) {
 	
-	g$geo_grid <- within(g$geo_grid, {
-		if (is.null(ncol) && is.null(nrow)) {
-			## default setting: place next to each other, or in grid
-			if (nx <= 3) {
-				ncol <- nx
-				nrow <- 1
-			} else {
-				ncol <- ceiling(sqrt(nx))
-				nrow <- ceiling(nx / ncol)
-			}
-		} else {
-			if (is.null(ncol)) ncol <- ceiling(nx / nrow)
-			if (is.null(nrow)) nrow <- ceiling(nx / ncol)
-		}
-	})
+# 	g$geo_grid <- within(g$geo_grid, {
+# 		if (is.null(ncol) && is.null(nrow)) {
+# 			## default setting: place next to each other, or in grid
+# 			if (nx <= 3) {
+# 				ncol <- nx
+# 				nrow <- 1
+# 			} else {
+# 				ncol <- ceiling(sqrt(nx))
+# 				nrow <- ceiling(nx / ncol)
+# 			}
+# 		} else {
+# 			if (is.null(ncol)) ncol <- ceiling(nx / nrow)
+# 			if (is.null(nrow)) nrow <- ceiling(nx / ncol)
+# 		}
+# 	})
 	
 	g$geo_theme <- within(g$geo_theme, {
 		if (is.na(title[1])) {

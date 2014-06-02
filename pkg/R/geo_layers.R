@@ -222,6 +222,34 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 	g
 }
 
+#' Small multiples grid
+#' 
+#' This layer specifies how small multiples are placed in a grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{geo_fill}}, \code{\link{geo_lines}}, or \code{\link{geo_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
+#' 
+#' @param by data variable name by which the data is split
+#' @param ncol number of columns of the small multiples grid
+#' @param nrow number of rows of the small multiples grid
+#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo_fill}}, color and size from \code{\link{geo_bubbles}} and line color from \code{\link{geo_lines}}.
+#' @param free.scales.fill logical. Should the color scale for the choropleth be free?
+#' @param free.scales.bubble.size logical. Should the bubble size scale for the bubblemap be free?
+#' @param free.scales.bubble.col logical. Should the color scale for the bubblemap be free?
+#' @param free.scales.line.col Should the line color scale be free?
+#' @export
+#' @example ../examples/geo_grid.R
+#' @return \code{\link{geo-element}}
+geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
+					   free.scales=TRUE,
+					   free.scales.fill=free.scales,
+					   free.scales.bubble.size=free.scales,
+					   free.scales.bubble.col=free.scales,
+					   free.scales.line.col=free.scales,
+					   free.scales.line.lwd=free.scales
+					   ) {
+	g <- list(geo_facets=as.list(environment()))
+	class(g) <- "geo"
+	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	g
+}
 
 
 #' Stacking of geo elements

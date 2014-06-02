@@ -1,13 +1,21 @@
-process_layers <- function(g, free.scales.fill, free.scales.bubble.size, 
-						   free.scales.bubble.col, free.scales.line.col, legend.digits, legend.NA.text, legend.max.categories) {
+process_layers <- function(g, gt) {
+	
+	if (!("geo_facets" %in% names(g))) g <- c(g, geo_facets())
+	if (dupl <- anyDuplicated(names(g))) g <- g[-dupl]
+	
 	data <- g$geo_shape$data
 	
-	# determine plotting order 
-	fillID <- which(names(g) == "geo_fill")
-	lineID <- which(names(g) == "geo_lines")
-	bubbleID <- which(names(g) == "geo_bubbles")
-	textID <- which(names(g) == "geo_text")
+	gby <- g$geo_facets
 	
+	
+	data$GROUP_BY <- if (!is.null(gby$by)) {
+		 as.factor(data[[gby$by]])
+	} else {
+		factor("_NA_")
+	}
+	facets <- levels(data$GROUP_BY)
+	
+	# determine plotting order 
 	plot.order <- names(g)[names(g) %in% c("geo_fill", "geo_borders", "geo_text", "geo_bubbles", "geo_lines")]
 	plot.order[plot.order=="geo_borders"] <- "geo_fill"
 	plot.order <- unique(plot.order)
@@ -19,7 +27,7 @@ process_layers <- function(g, free.scales.fill, free.scales.bubble.size,
 	
 	# fill info
 	geofill <- if (is.null(g$geo_fil)) geo_fill(col=NA)$geo_fill else g$geo_fill
-	gfill <- process_fill(data, geofill, free.scales.fill, legend.digits, legend.NA.text)
+	gfill <- process_fill(data, geofill, gt, gby)
 
 	# bubble info
 	geobubbles <- if (is.null(g$geo_bubbles)) geo_bubbles(size=NULL)$geo_bubbles else g$geo_bubbles

@@ -1,46 +1,98 @@
-process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
+process_fill_vector <- function(x, g, gt, tiny) {
+	choro.values <- x
+	
+	x[tiny] <- NA
+	
+	if (is.factor(x)) {
+		palette <- if (is.null(g$palette)) ifelse(nlevels(x)>8, "Set3", "Dark2") else g$palette
+		colsLeg <- cat2pal(x,
+						   palette = palette,
+						   colorNA = g$colorNA,
+						   legend.NA.text = gt$legend.NA.text,
+						   max_levels=g$max.categories)
+		choro.breaks <- NA
+	} else {
+		palette <- if (is.null(palette)) "RdYlGn" else palette
+		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
+						   palette = palette,
+						   auto.palette.mapping = g$auto.palette.mapping,
+						   contrast = contrast, legend.labels=g$labels,
+						   colorNA=g$colorNA, 
+						   legend.digits=gt$legend.digits,
+						   legend.NA.text = gt$legend.NA.text)
+		choro.breaks <- colsLeg[[4]]
+	}
+	fill <- colsLeg[[1]]
+	choro.legend.labels <- colsLeg[[2]]
+	choro.legend.palette <- colsLeg[[3]]
+	
+	## adjust hisogram
+	if (!is.na(choro.breaks[1])) {
+		tmp_breaks <- choro.breaks
+		tmp_breaks[1] <- -Inf
+		tmp_breaks[length(tmp_breaks)] <- Inf
+		tmp_int <- findInterval(choro.values[tiny], tmp_breaks)
+		tmp_int[is.na(tmp_int)] <- length(choro.legend.palette)
+		fill[tiny] <- choro.legend.palette[tmp_int]
+	}
+	return(list(fill=fill, 
+				choro.legend.labels=choro.legend.labels,
+				choro.legend.palette=choro.legend.palette,
+				choro.breaks=choro.breaks))
+}
+
+
+
+
+process_fill <- function(data, g, gt, gby) {
+	
 	x <- g$col
 	nx <- length(x)
-	if (nx==1 && valid_colors(x)[1]) {
-		return(list(fill=x,
-					fill.legend.labels=NA,
-					fill.legend.palette=NA,
-					fill.legend.misc=list(),					
-			 		xfill=NA))
+	
+	npol <- nrow(data)
+
+	# check for direct color input
+	if (all(valid_colors(x))) return(list(fill=matrix(rep(x, each=npol), nrow=npol), xfill=NA))
+	
+	areas <- data$SHAPE_AREAS
+	by <- data$GROUP_BY
+	
+	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill)
+	## output: matrix=colors, list=free.scales, vector=!freescales
+	
+	# return if data is matrix of color values
+	if (is.matrix(dt)) return(list(fill=data, xfill=NA))
+
+	tiny <- areas < g$thres.poly
+
+	#
+	choro.values <- dt
+	if (is.list(dt)) {
+		isNum <- sapply(dt, is.numeric)
+		
+		if (any(isNum) && convert2density) {
+			dt[isNum] <- lapply(data[isNum], function(d) {
+				d / (areas * g$total.area.km2)
+			})
+		}
+		res <- lapply(dt, process_fill_vector, g, gt, tiny)
+	} else {
+		if (is.numeric(dt) && convert2density) {
+			dt <- dt / (areas * g$total.area.km2)
+		}
+		res <- process_fill_vector(dt, g, gt, tiny)
 	}
-	X <- data[, x, drop=FALSE]
+	browser()
 	
-	isColor <- if (all(sapply(X, function(i) is.character(i)))) all(valid_colors(unlist(X))) else FALSE
 	
-	if (isColor) { 
-		return(list(fill=X, 
-					fill.legend.labels=NA,
-					fill.legend.palette=NA,
-					fill.legend.misc=list(),					
-					xfill=NA))
-	}
 	
-	isCat <- any(sapply(X, function(i) !is.numeric(i)))
-	if (isCat) X <- as.data.frame(lapply(X, function(i) if (!is.factor(i)) as.factor(i) else i))
-	
-	n <- g$n
-	convert2density <- g$convert2density
-	total.area.km2 <- g$total.area.km2
-	style <- g$style
-	breaks <- g$breaks
-	palette <- g$palette
-	auto.palette.mapping <- g$auto.palette.mapping
-	contrast <- g$contrast
-	labels <- g$labels
-	colorNA <- g$colorNA
-	thres.poly <- g$thres.poly
-	
-	if (convert2density) X <- X / (data$SHAPE_AREAS * total.area.km2)
-	tiny <- data$SHAPE_AREAS < thres.poly
-	
-	choro.values <- X
-	X[tiny, ] <- NA
-	
+
+
+
+
+fill <- matrix(unlist(split(colsLeg[[1]], rep(1:nx, each=length(colsLeg[[1]])/nx))), ncol=nx)
+
+
 	if (free.scales && nx > 1) {
 		fill <- matrix("", ncol=nx, nrow=nrow(X))
 		choro.legend.labels <- list()
@@ -145,3 +197,15 @@ process_fill <- function(data, g, free.scales, legend.digits, legend.NA.text) {
 		 fill.legend.misc=list(values=choro.values, breaks=choro.breaks),
 		 xfill=x)
 }
+
+
+
+
+
+
+
+
+
+
+
+
