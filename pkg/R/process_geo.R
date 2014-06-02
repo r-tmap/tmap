@@ -51,12 +51,15 @@ process_geo <- function(x) {
 	## get variable names (used for titles)
 	varnames <- process_varnames(gp, nx)
 	## process grid
-	gmeta <- process_meta(gmeta, nx, varnames)
-	
+	facetID <- which(sapply(gp, function(gpl) gpl$facets_defined))[1]
+	if (!length(facetID)) facetID <- 1
+	gf <- gs[[facetID]]$geo_facets
+	gmeta <- process_meta(gt, gf, nx, varnames)
+	browser()
 	## split into small multiples
 	gps <- split_geo(gp, nx)
 	gps <- mapply(function(x, i){
-		x$geo_theme <- gmeta$geo_theme
+		x$geo_theme <- gmeta
 		x$geo_theme$title <- x$geo_theme$title[i]
 		x$geo_theme$legend.titles <- sapply(x$geo_theme$legend.titles, function(x)x[i])
 		x

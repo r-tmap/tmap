@@ -1,22 +1,23 @@
-process_meta <- function(g, nx, varnames) {
+process_meta <- function(gt, gf, nx, varnames) {
 	
-# 	g$geo_grid <- within(g$geo_grid, {
-# 		if (is.null(ncol) && is.null(nrow)) {
-# 			## default setting: place next to each other, or in grid
-# 			if (nx <= 3) {
-# 				ncol <- nx
-# 				nrow <- 1
-# 			} else {
-# 				ncol <- ceiling(sqrt(nx))
-# 				nrow <- ceiling(nx / ncol)
-# 			}
-# 		} else {
-# 			if (is.null(ncol)) ncol <- ceiling(nx / nrow)
-# 			if (is.null(nrow)) nrow <- ceiling(nx / ncol)
-# 		}
-# 	})
+	gf <- within(gf, {
+		by <- NULL
+		if (is.null(ncol) && is.null(nrow)) {
+			## default setting: place next to each other, or in grid
+			if (nx <= 3) {
+				ncol <- nx
+				nrow <- 1
+			} else {
+				ncol <- ceiling(sqrt(nx))
+				nrow <- ceiling(nx / ncol)
+			}
+		} else {
+			if (is.null(ncol)) ncol <- ceiling(nx / nrow)
+			if (is.null(nrow)) nrow <- ceiling(nx / ncol)
+		}
+	})
 	
-	g$geo_theme <- within(g$geo_theme, {
+	gt <- within(gt, {
 		if (is.na(title[1])) {
 			id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
 		} else id <- switch(title[1],
@@ -35,7 +36,7 @@ process_meta <- function(g, nx, varnames) {
 			})
 			title <- rep(varnames[[id]], length.out=nx)
 		}
-		
+		rm(id)
 		legend.titles <- lapply(legend.titles, function(x) if (is.na(x[1])) "" else x)
 		legend.titles <- lapply(legend.titles, function(x) rep(x, length.out=nx))
 			
@@ -45,5 +46,5 @@ process_meta <- function(g, nx, varnames) {
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color
 	})	
 	
-	g
+	c(gt, gf)
 }

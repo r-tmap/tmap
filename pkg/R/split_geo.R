@@ -18,7 +18,7 @@ get_i <- function(x, i, n) {
 		if (ncol(x)>=i) x[,i] else x[,1]
 	} else if(is.list(x)) {
 		ncx <- nchar(xname)
-		if (substr(xname, ncx-10, ncx) %in% c("gend.labels", "end.palette", "breaks")) {
+		if (substr(xname, ncx-10, ncx) %in% c("gend.labels", "end.palette", "values", "breaks")) {
 			if (length(x)>=i) x[[i]] else x[[1]]
 		} else if (substr(xname, ncx-10, ncx)=="legend.misc") {
 			lapply(x, get_i, i, n)
