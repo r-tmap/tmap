@@ -15,17 +15,20 @@ get_i <- function(x, i, n) {
 	} else if (is.matrix(x)) {
 		if (ncol(x)>=i) x[,i] else x[,1]
 	} else if (is.data.frame(x)) {
+		stop("is.data.frame")
 		if (ncol(x)>=i) x[,i] else x[,1]
 	} else if(is.list(x)) {
 		ncx <- nchar(xname)
-		if (substr(xname, ncx-10, ncx) %in% c("gend.labels", "end.palette", "values", "breaks")) {
-			if (length(x)>=i) x[[i]] else x[[1]]
+		if (xname == "varnames") {
+			x
 		} else if (substr(xname, ncx-10, ncx)=="legend.misc") {
 			lapply(x, get_i, i, n)
-		} else x
+		} else {
+			if (length(x)>=i) x[[i]] else x[[1]]
+		}
 	} else {
 		ncx <- nchar(xname)
-		if (ncx %in% c("bubble.size.legend.palette", "bubble.max.size")) {
+		if (xname %in% c("bubble.size.legend.palette", "bubble.max.size")) {
 			if (length(x)>=i) x[i] else x[1]
 		} else x
 	}

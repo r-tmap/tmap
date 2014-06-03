@@ -238,7 +238,7 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 #' @example ../examples/geo_grid.R
 #' @return \code{\link{geo-element}}
 geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
-					   free.scales=TRUE,
+					   free.scales=is.null(by),
 					   free.scales.fill=free.scales,
 					   free.scales.bubble.size=free.scales,
 					   free.scales.bubble.col=free.scales,

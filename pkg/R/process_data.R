@@ -17,8 +17,9 @@ process_data <- function(data, by, free.scales) {
 		names(X) <- x <- levels(data$GROUP_BY)
 		if (cls[1]=="col") {
 			return(matrix(unlist(X), ncol=nby))
-		}
-		return(X)			
+		} else if (cls[1]=="num" && !free.scales) {
+			return(unlist(X))
+		} else return(X)		
 	} else {
 		if (all(cls=="col")) return(as.matrix(data))
 		
@@ -26,13 +27,18 @@ process_data <- function(data, by, free.scales) {
 			if (all(cls=="num")) {
 				return(unlist(data))
 			} else {
-				xlvls <- if (cls[1]=="fac") levels(xlvls) else unique(data[[1]])
-				if (ncol(data)>1) xlvls <- intersect(xlvls, unique(unlist(lapply(data, as.character))))
-				return(factor(unlist(lapply(dat, as.character)), levels=xlvls))
+				xlvls_list <- mapply(function(d, cl){
+					if (cl=="fac") levels(d) else na.omit(unique(d))
+				}, data, cls, SIMPLIFY=FALSE)
+				
+				xlvls <- unique(unlist(xlvls_list))
+				return(factor(unlist(lapply(data, as.character)), levels=xlvls))
 			}
 		} else {
 			if (any(cls=="cha")) data[, cls=="cha"] <- lapply(data[, cls=="cha"], as.factor)
-			return(as.list(data))
+			if (ncol(data)==1) {
+				return(data[[1]])
+			} else return(as.list(data))
 		}
 	}
 }

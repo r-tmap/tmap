@@ -2,7 +2,7 @@ process_geo <- function(x) {
 	## fill meta info
 	
 	if (!("geo_theme" %in% names(x))) {
-		gt <- geo_theme()
+		gt <- geo_theme()$geo_theme
 	} else {
 		gts <- x[names(x)=="geo_theme"]
 		gtsn <- length(gts)

@@ -21,6 +21,7 @@ legend_plot <- function(gt, x) {
 				id2 <- paste("title", name, sep=".")
 				if (length(id)) {
 					conf <- if (id==1) c(id2, conf) else c(conf[1:(id-1)], id2, conf[id:length(conf)])
+					conf2 <- if (id==1) c(id2, conf2) else c(conf2[1:(id-1)], id2, conf2[id:length(conf2)])
 					lst <- list(list(legend.type="title", title=lt))
 					names(lst) <- id2
 					x <- c(x, lst)
@@ -30,7 +31,6 @@ legend_plot <- function(gt, x) {
 		
 		
 		x <- x[conf]
-		
 		
 		legend.title.npc <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$legend.title.cex * 2
 		
@@ -243,7 +243,6 @@ legend_quan <- function(x, legend.text.cex, lineHeight) {
 		linesHeight <- lineHeight * nitems
 
 		if (legend.type == "bubble.size") {
-		
 			bubbleH <- convertHeight(unit(legend.sizes,"inch"), "npc", valueOnly=TRUE)
 			bubbleHmax <- max(bubbleH) * 1.5
 			
@@ -297,7 +296,6 @@ legend_hist <- function(x, legend.hist.cex, lineHeight) {
 			ptx <- levels(values)
 			colors <- legend.palette
 		} else {
-			#browser()
 			values <- na.omit(values)
 			breaks2 <- pretty(values, n=30)
 			

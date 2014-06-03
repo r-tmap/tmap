@@ -1,5 +1,5 @@
 process_fill_vector <- function(x, g, gt, tiny) {
-	choro.values <- x
+	fill.values <- x
 	
 	x[tiny] <- NA
 	
@@ -12,11 +12,11 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   max_levels=g$max.categories)
 		fill.breaks <- NA
 	} else {
-		palette <- if (is.null(palette)) "RdYlGn" else palette
+		palette <- if (is.null(g$palette)) "RdYlGn" else palette
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
-						   contrast = contrast, legend.labels=g$labels,
+						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text = gt$legend.NA.text)
@@ -26,7 +26,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 	fill.legend.labels <- colsLeg[[2]]
 	fill.legend.palette <- colsLeg[[3]]
 	
-	## adjust hisogram
+	## fill tiny
 	if (!is.na(fill.breaks[1])) {
 		tmp_breaks <- fill.breaks
 		tmp_breaks[1] <- -Inf
@@ -61,16 +61,15 @@ process_fill <- function(data, g, gt, gby) {
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill)
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
+	nx <- max(nx, nlevels(by))
+		
 	# return if data is matrix of color values
 	if (is.matrix(dt)) return(list(fill=dt, xfill=rep(NA, nx)))
 	
 	tiny <- areas < g$thres.poly
-
-	fill.values <- dt
 	if (is.list(dt)) {
 		isNum <- sapply(dt, is.numeric)
-		
-		if (any(isNum) && convert2density) {
+		if (any(isNum) && g$convert2density) {
 			dt[isNum] <- lapply(data[isNum], function(d) {
 				d / (areas * g$total.area.km2)
 			})
@@ -79,22 +78,22 @@ process_fill <- function(data, g, gt, gby) {
 		fill <- sapply(res, function(r)r$fill)
 		fill.legend.labels <- lapply(res, function(r)r$fill.legend.labels)
 		fill.legend.palette <- lapply(res, function(r)r$fill.legend.palette)
-		fill.legend.breaks <- lapply(res, function(r)r$fill.legend.breaks)
+		fill.breaks <- lapply(res, function(r)r$fill.breaks)
+		fill.values <- lapply(dt, function(d)d[!tiny])
 	} else {
-		if (is.numeric(dt) && convert2density) {
+		if (is.numeric(dt) && g$convert2density) {
 			dt <- dt / (areas * g$total.area.km2)
 		}
 		res <- process_fill_vector(dt, g, gt, tiny)
 		fill <- matrix(res$fill, nrow=npol)
-		fill.legend.labels <- res$fill.legend.breaks
+		fill.legend.labels <- res$fill.legend.labels
 		fill.legend.palette <- res$fill.legend.palette
-		fill.legend.breaks <- res$fill.legend.breaks
-		fill.values <- split(fill.values, rep(1:nx, each=npol))
+		fill.breaks <- res$fill.breaks
+		fill.values <- lapply(split(dt, rep(1:nx, each=npol)), function(d)d[!tiny])
 	}
-	
 	list(fill=fill,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,
-		 fill.legend.misc=list(values=fill.values, breaks=fill.legend.breaks),
+		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks),
 		 xfill=x)
 }

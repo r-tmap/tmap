@@ -2,10 +2,11 @@ process_bubbles_size_vector <- function(x, g) {
 	x_legend <- pretty(x, 7)
 	x_legend <- x_legend[x_legend!=0]
 	x_legend <- x_legend[-c(length(x_legend)-3,length(x_legend)-1)]
-	bubble.max.size <- max(x, na.rm=TRUE)
-	bubble.legend.sizes <- g$bubble.scale*sqrt(x_legend/bubble.max.size)
+	maxX <- max(x, na.rm=TRUE)
+	bubble.size <- g$bubble.scale*sqrt(x/maxX)
+	bubble.max.size <- max(bubble.size, na.rm=TRUE)
 	bubble.size.legend.labels <- format(x_legend, trim=TRUE)
-	bubble.size <- g$bubble.scale*sqrt(x/bubble.max.size)
+	bubble.legend.sizes <- g$bubble.scale*sqrt(x_legend/maxX)
 	list(bubble.size=bubble.size,
 		 bubble.size.legend.labels=bubble.size.legend.labels,
 		 bubble.legend.sizes=bubble.legend.sizes,
@@ -14,9 +15,8 @@ process_bubbles_size_vector <- function(x, g) {
 
 process_bubbles_col_vector <- function(xc, xs, g, gt) {
 	bubble.col.is.numeric <- is.numeric(xc)
-	
 	if (bubble.col.is.numeric) {
-		palette <- if (is.null(g$palette))  "Blues" else palette
+		palette <- if (is.null(g$palette))  "Blues" else g$palette
 		colsLeg <- num2pal(xc, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
@@ -25,9 +25,9 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   legend.NA.text=gt$legend.NA.text)
 		bubble.col <- colsLeg[[1]]
 	} else {
-		palette <- if (is.null(g$palette))  "Dark2" else palette
+		palette <- if (is.null(g$palette))  "Dark2" else g$palette
 		#remove unused levels in legend
-		sel <- is.na(xs)
+		sel <- !is.na(xs)
 		colsLeg <- cat2pal(xc[sel],
 						   palette = palette,
 						   colorNA = g$colorNA,
@@ -95,20 +95,20 @@ process_bubbles <- function(data, g, gt, gby) {
 	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.col)
 	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.size)
 	
-	
 	if (is.matrix(dtsize)) {
 		bubble.size <- dtsize
 		bubble.size.legend.labels <- NA
 		bubble.max.size <- NA
 		bubble.legend.sizes
 		xsize <- rep(NA, nx)
-	} else if (is.list(dtsize)) {
+	} else if (is.list(dtsize) && length(dtsize)>1) {
 		res <- lapply(dtsize, process_bubbles_size_vector, g)
 		bubble.size <- sapply(res, function(r)r$bubble.size)
 		bubble.size.legend.labels <- lapply(res, function(r)r$bubble.size.legend.labels)
 		bubble.legend.sizes <- lapply(res, function(r)r$bubble.legend.sizes)
 		bubble.max.size <- sapply(res, function(r)r$bubble.max.size)
 	} else {
+		if (is.list(dtsize)) dtsize <- dtsize[[1]]
 		res <- process_bubbles_size_vector(dtsize, g)
 		bubble.size <- matrix(res$bubble.size, nrow=npol)
 		bubble.size.legend.labels <- res$bubble.size.legend.labels
