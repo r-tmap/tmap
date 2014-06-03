@@ -8,12 +8,13 @@ process_layers <- function(g, gt) {
 	gby <- g$geo_facets
 	
 	
-	data$GROUP_BY <- if (!is.null(gby$by)) {
-		 as.factor(data[[gby$by]])
+	if (!is.null(gby$by)) {
+		data$GROUP_BY <- as.factor(data[[gby$by]])
+		by <- levels(data$GROUP_BY)
 	} else {
-		factor("_NA_")
+		data$GROUP_BY <- factor("_NA_")
+		by <- NA
 	}
-	facets <- levels(data$GROUP_BY)
 	
 	# determine plotting order 
 	plot.order <- names(g)[names(g) %in% c("geo_fill", "geo_borders", "geo_text", "geo_bubbles", "geo_lines")]
@@ -31,13 +32,13 @@ process_layers <- function(g, gt) {
 
 	# bubble info
 	geobubbles <- if (is.null(g$geo_bubbles)) geo_bubbles(size=NULL)$geo_bubbles else g$geo_bubbles
-	gbubble <- process_bubbles(data, geobubbles, free.scales.bubble.size, free.scales.bubble.col, legend.digits, legend.NA.text)
-	
+	gbubble <- process_bubbles(data, geobubbles, gt, gby)
+
 	# lines info
 	glines <- if (is.null(g$geo_lines)) list(line.col=NA, xline=NA, xlinelwd=NA) else process_lines(data, g$geo_lines, free.scales.line.col, legend.digits, legend.NA.text)
 	
 	# text info
 	gtext <- if (is.null(g$geo_text)) list(text=NULL) else process_text(data, g$geo_text, gfill$fill)
-
-	c(list(npol=nrow(data), varnames=list(fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd), plot.order=plot.order, facets_defined=facets_defined), gborders, gfill, glines, gbubble, gtext)
+	
+	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd), plot.order=plot.order, facets_defined=facets_defined), gborders, gfill, glines, gbubble, gtext)
 }

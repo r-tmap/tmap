@@ -23,5 +23,10 @@ get_i <- function(x, i, n) {
 		} else if (substr(xname, ncx-10, ncx)=="legend.misc") {
 			lapply(x, get_i, i, n)
 		} else x
-	} else x
+	} else {
+		ncx <- nchar(xname)
+		if (ncx %in% c("bubble.size.legend.palette", "bubble.max.size")) {
+			if (length(x)>=i) x[i] else x[1]
+		} else x
+	}
 }

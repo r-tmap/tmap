@@ -1,12 +1,10 @@
-process_shapes <- function(shps, g, gmeta, dw, dh) {
-	gg <- gmeta$geo_grid
-	gt <- gmeta$geo_theme
+process_shapes <- function(shps, g, gm, dw, dh) {
 	
-	sh <- (dh/gg$nrow) * (1-sum(gt$outer.margins[c(1,3)]))
-	sw <- (dw/gg$ncol) * (1-sum(gt$outer.margins[c(2,4)]))
+	sh <- (dh/gm$nrow) * (1-sum(gm$outer.margins[c(1,3)]))
+	sw <- (dw/gm$ncol) * (1-sum(gm$outer.margins[c(2,4)]))
 	
 	dasp <- sw/sh
-	pasp <- gt$asp
+	pasp <- gm$asp
 	if (identical(pasp, 0)) pasp <- dasp
 	
 	nx <- length(shps)
@@ -72,7 +70,7 @@ process_shapes <- function(shps, g, gmeta, dw, dh) {
 	# extend bounding box for asp ratio
 	bb <- bbox
 	bbrange <- bb[,2] - bb[,1]
-	bbmarg <- gt$inner.margins[c(2,1,4,3)]
+	bbmarg <- gm$inner.margins[c(2,1,4,3)]
 	bbmarg[c(1,2)] <- -bbmarg[c(1,2)]
 	bb <- bb + rep(bbrange, 2) * bbmarg
 	

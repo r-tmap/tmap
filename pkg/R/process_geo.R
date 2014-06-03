@@ -50,12 +50,11 @@ process_geo <- function(x) {
 	
 	## get variable names (used for titles)
 	varnames <- process_varnames(gp, nx)
+
 	## process grid
 	facetID <- which(sapply(gp, function(gpl) gpl$facets_defined))[1]
-	if (!length(facetID)) facetID <- 1
-	gf <- gs[[facetID]]$geo_facets
+	gf <- if (is.na(facetID[1])) geo_facets()$geo_facets else gs[[facetID]]$geo_facets
 	gmeta <- process_meta(gt, gf, nx, varnames)
-	browser()
 	## split into small multiples
 	gps <- split_geo(gp, nx)
 	gps <- mapply(function(x, i){

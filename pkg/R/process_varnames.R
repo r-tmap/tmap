@@ -1,5 +1,6 @@
 process_varnames <- function(gp, nx) {
-	varnames <- c("fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	
+	varnames <- c("by", "fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
 	
 	varnamesList <- lapply(gp, function(x) x$varnames)
 	

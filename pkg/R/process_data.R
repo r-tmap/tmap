@@ -15,6 +15,9 @@ process_data <- function(data, by, free.scales) {
 			}
 		})
 		names(X) <- x <- levels(data$GROUP_BY)
+		if (cls[1]=="col") {
+			return(matrix(unlist(X), ncol=nby))
+		}
 		return(X)			
 	} else {
 		if (all(cls=="col")) return(as.matrix(data))

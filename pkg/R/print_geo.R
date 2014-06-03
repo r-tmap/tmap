@@ -31,6 +31,7 @@ print.geo <- function(x, ...) {
 	})
 	
 	result <- process_geo(x)
+	
 	gmeta <- result$gmeta
 	gps <- result$gps
 	nx <- result$nx
@@ -38,7 +39,7 @@ print.geo <- function(x, ...) {
 	
 	grid.newpage()	
 	
-	margins <- gmeta$geo_theme$outer.margins
+	margins <- gmeta$outer.margins
 	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
 	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 	
@@ -68,7 +69,7 @@ print.geo <- function(x, ...) {
 
 	shps.env <- environment()#new.env()
 	#assign("shps", shps, envir=shps.env)
-	gridplot(gmeta$geo_grid$nrow, gmeta$geo_grid$ncol, "plot_all", nx, gps, shps.env, dasp, sasp)
+	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp)
 	
 	invisible()
 }

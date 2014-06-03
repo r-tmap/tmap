@@ -42,30 +42,30 @@ process_fill_vector <- function(x, g, gt, tiny) {
 }
 
 
-
-
 process_fill <- function(data, g, gt, gby) {
+	npol <- nrow(data)
+	by <- data$GROUP_BY
+	areas <- data$SHAPE_AREAS
 	
 	x <- g$col
+	# if by is specified, use first value only
+	if (nlevels(by)>1) x <- x[1]
 	nx <- length(x)
 	
-	npol <- nrow(data)
-
 	# check for direct color input
-	if (all(valid_colors(x))) return(list(fill=matrix(rep(x, each=npol), nrow=npol), xfill=NA))
-	
-	areas <- data$SHAPE_AREAS
-	by <- data$GROUP_BY
+	if (all(valid_colors(x))) {
+		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
+		x <- paste("COLOR", 1:nx, sep="_")
+	}
 	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill)
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
 	# return if data is matrix of color values
-	if (is.matrix(dt)) return(list(fill=data, xfill=NA))
-
+	if (is.matrix(dt)) return(list(fill=dt, xfill=rep(NA, nx)))
+	
 	tiny <- areas < g$thres.poly
 
-	#
 	fill.values <- dt
 	if (is.list(dt)) {
 		isNum <- sapply(dt, is.numeric)
@@ -80,7 +80,6 @@ process_fill <- function(data, g, gt, gby) {
 		fill.legend.labels <- lapply(res, function(r)r$fill.legend.labels)
 		fill.legend.palette <- lapply(res, function(r)r$fill.legend.palette)
 		fill.legend.breaks <- lapply(res, function(r)r$fill.legend.breaks)
-		x <- levels(by)
 	} else {
 		if (is.numeric(dt) && convert2density) {
 			dt <- dt / (areas * g$total.area.km2)
@@ -99,15 +98,3 @@ process_fill <- function(data, g, gt, gby) {
 		 fill.legend.misc=list(values=fill.values, breaks=fill.legend.breaks),
 		 xfill=x)
 }
-
-
-
-
-
-
-
-
-
-
-
-

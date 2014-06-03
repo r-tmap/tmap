@@ -21,17 +21,18 @@ process_meta <- function(gt, gf, nx, varnames) {
 		if (is.na(title[1])) {
 			id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
 		} else id <- switch(title[1],
-							fill=1,
-							bubble.size=2,
-							bubble.col=3,
-							line.col=4,
-							line.lwd=5,
+							by=1,
+							fill=2,
+							bubble.size=3,
+							bubble.col=4,
+							line.col=5,
+							line.lwd=6,
 							0)
 		if (is.na(id)) {
 			title <- rep("", nx)
 		} else if (id!=0) {
 			legend.titles <- lapply(legend.titles, function(x) {
-				idx <- substitute(x)[[3]]
+				idx <- substitute(x)[[3]] + 1
 				if (is.na(x) && id!=idx) varnames[[idx]] else x
 			})
 			title <- rep(varnames[[id]], length.out=nx)

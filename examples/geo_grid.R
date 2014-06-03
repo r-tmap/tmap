@@ -2,11 +2,30 @@ data(World)
 
 geo_shape(World) +
 	geo_fill(c("economy"), style="kmeans") +
-	geo_facets(by="income_grp") +
+	geo_facets(by="continent") +
+	geo_theme(inner.margins=c(0, .4, .02, .02),
+			  legend.height=c(choro=.6),
+			  legend.max.height=.8)
+
+geo_shape(World) +
+	geo_fill("blue") +
+	geo_facets(by="continent") +
 	geo_theme(inner.margins=c(0, .4, .02, .02),
 			  legend.profile="text",
 			  legend.height=c(choro=.6),
 			  legend.max.height=.8)
+
+
+
+geo_shape(World) +
+	geo_fill() +
+	geo_bubbles("pop_est", col="income_grp") +
+	geo_facets(by="continent") +
+	geo_theme(inner.margins=c(0, .4, .02, .02),
+			  legend.profile="text",
+			  legend.height=c(choro=.6),
+			  legend.max.height=.8)
+
 
 
 data(NLD_muni)

@@ -5,17 +5,19 @@ legend_plot <- function(gt, x) {
 	conf <- gt$legend.config 
 	
 	ishist <- (substr(conf, nchar(conf)-3, nchar(conf))=="hist")
+
+	conf2 <- ifelse(ishist, substr(conf, 1, nchar(conf)-5), conf)
 	
 	if (gt$legend.profile=="text") conf <- conf[!ishist]
 	if (gt$legend.profile=="hist") conf <- conf[ishist]
 	if (!length(conf) || gt$legend.profile=="hide") title.only <- TRUE
-		
+	
 	if (!title.only) {
 		for (i in 1:length(gt$legend.titles)) {
 			lt <- gt$legend.titles[i]
 			if (lt!="") {
 				name <- names(lt)
-				id <- which(conf==name)
+				id <- which(conf2==name)[1]
 				id2 <- paste("title", name, sep=".")
 				if (length(id)) {
 					conf <- if (id==1) c(id2, conf) else c(conf[1:(id-1)], id2, conf[id:length(conf)])
