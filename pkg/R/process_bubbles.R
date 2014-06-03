@@ -81,6 +81,7 @@ process_bubbles <- function(data, g, gt, gby) {
 	if (!varysize) {
 		for (i in 1:nx) data[[paste("SIZE", i, sep="_")]] <- xsize[i]
 		xsize <- paste("SIZE", 1:nx, sep="_")
+		gby$free.scales.bubble.size <- FALSE
 	}
 	
 	if (!varycol) {
@@ -111,9 +112,16 @@ process_bubbles <- function(data, g, gt, gby) {
 		if (is.list(dtsize)) dtsize <- dtsize[[1]]
 		res <- process_bubbles_size_vector(dtsize, g)
 		bubble.size <- matrix(res$bubble.size, nrow=npol)
-		bubble.size.legend.labels <- res$bubble.size.legend.labels
-		bubble.legend.sizes <- res$bubble.legend.sizes
-		bubble.max.size <- res$bubble.max.size
+		if (varysize) {
+			bubble.size.legend.labels <- res$bubble.size.legend.labels
+			bubble.legend.sizes <- res$bubble.legend.sizes
+			bubble.max.size <- res$bubble.max.size
+		} else {
+			bubble.size.legend.labels <- NA
+			bubble.legend.sizes <- NA
+			bubble.max.size <- 1
+			xsize <- rep(NA, nx)
+		}
 	}
 	
 	
@@ -150,12 +158,10 @@ process_bubbles <- function(data, g, gt, gby) {
 			if (isnum) pal[length(pal)] else pal[1]
 		}, bubble.col.legend.palette, bubble.col.is.numeric)
 	} else if (is.na(bubble.col.legend.palette[1])) {
-		bubble.col[1,]
+		apply(bubble.col, 2, function(bc) na.omit(bc)[1])
 	} else {
-		rep(bubble.col.legend.palette, nx)
+		rep(bubble.col.legend.palette[1], nx)
 	}
-	
-	
 	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
