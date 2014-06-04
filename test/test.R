@@ -90,7 +90,7 @@ geo_shape(Europe) + geo_borders() +
 	geo_bubbles()
 
 geo_shape(Europe) + geo_borders() +
-	geo_bubbles(col="red", scale=2)
+	geo_bubbles(size=1, col="red")
 
 geo_shape(Europe) + geo_borders() +
 	geo_bubbles(size=c(.5, 1), col=c("red", "purple"), scale=1)
@@ -154,3 +154,47 @@ geo_shape(Europe) + geo_borders() +
 geo_shape(Europe) + geo_borders() +
 	geo_bubbles("pop_est", col="economy", scale=2) +
 	geo_facets("part", free.scales.bubble.col=TRUE)
+
+## bubble tests
+# names(Europe)
+# [1] "iso_a3"       "name"         "sovereignt"   "continent"    "part"         "area"         "pop_est"      "pop_est_dens" "gdp_md_est"   "gdp_cap_est" 
+# [11] "economy"      "income_grp" 
+
+data(rivers)
+# names(rivers)
+# "name"      "type"      "scalerank" "strokelwd"
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines()
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines("blue")
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines("blue", lwd=2)
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines("blue", lwd=c(2,1))
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines(c("blue", "gold", "red"), lwd=c(2,1))
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines("type")
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines("scalerank", lwd=3)
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines(lwd="scalerank", scale=4)
+
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines("type", "scalerank", scale=4)
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines("type", c("scalerank", "strokelwd"), scale=4)
+
+geo_shape(Europe) + geo_borders() + geo_shape(rivers) +
+	geo_lines("type", c("strokelwd"), scale=4) +
+	geo_facets("type")

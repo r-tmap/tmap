@@ -33,7 +33,8 @@ plot_map <- function(gp, gt, shps.env) {
 		
 		plot_geo_lines <- function() {
 			#if (inherits(shp, "SpatialLines")) {
-				grid.shplines(shp, gp=gpar(col=gpl$line.col, lwd=gpl$line.lwd, lty=gpl$line.lty))
+				grid.shplines(shp, gp=gpar(col=gpl$line.col, lwd=gpl$line.lwd, lty=gpl$line.lty,
+										   lineend="butt"))
 			#}
 		}
 		

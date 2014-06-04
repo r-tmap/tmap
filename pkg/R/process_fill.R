@@ -46,6 +46,7 @@ process_fill <- function(data, g, gt, gby) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	areas <- data$SHAPE_AREAS
+	shpcols <- names(data)[1:(ncol(data)-2)]
 	
 	x <- g$col
 	# if by is specified, use first value only
@@ -56,6 +57,8 @@ process_fill <- function(data, g, gt, gby) {
 	if (all(valid_colors(x))) {
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 		x <- paste("COLOR", 1:nx, sep="_")
+	} else {
+		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable names")
 	}
 	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill)

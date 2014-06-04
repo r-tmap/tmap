@@ -35,7 +35,7 @@ process_layers <- function(g, gt) {
 	gbubble <- process_bubbles(data, geobubbles, gt, gby)
 
 	# lines info
-	glines <- if (is.null(g$geo_lines)) list(line.col=NA, xline=NA, xlinelwd=NA) else process_lines(data, g$geo_lines, free.scales.line.col, legend.digits, legend.NA.text)
+	glines <- if (is.null(g$geo_lines)) list(line.col=NA, xline=NA, xlinelwd=NA) else process_lines(data, g$geo_lines, gt, gby)
 	
 	# text info
 	gtext <- if (is.null(g$geo_text)) list(text=NULL) else process_text(data, g$geo_text, gfill$fill)

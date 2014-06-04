@@ -28,7 +28,7 @@ get_i <- function(x, i, n) {
 		}
 	} else {
 		ncx <- nchar(xname)
-		if (xname %in% c("bubble.size.legend.palette", "bubble.max.size")) {
+		if (xname %in% c("bubble.size.legend.palette", "bubble.max.size", "line.lwd.legend.palette", "line.legend.lwd")) {
 			if (length(x)>=i) x[i] else x[1]
 		} else x
 	}

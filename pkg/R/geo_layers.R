@@ -95,12 +95,24 @@ geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="s
 #' @param lwd line width
 #' @param lty line type
 #' @param palette color palette, used if \code{col} is a data variable
-#' @param by logical. If \code{TRUE} and \code{col} is a data variable, draw small multiples, one for each level
 #' @export
 #' @example ../examples/geo_lines.R
 #' @return \code{\link{geo-element}}
-geo_lines <- function(col="red", lwd=1, lty="solid", palette=NULL, max.categories = 12, scale=1, by=FALSE) {
-	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.by=by, palette=palette, max.categories=max.categories, lines.scale=scale))
+geo_lines <- function(col="red", lwd=1, lty="solid", 
+					  scale=1,
+					  n = 5, style = "pretty",
+					  breaks = NULL,
+					  palette = NULL,
+					  labels = NULL,
+					  auto.palette.mapping = TRUE,
+					  max.categories = 12, 
+					  contrast = 1,
+					  colorNA = "grey65") {
+	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.scale=scale,
+							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
+							 auto.palette.mapping=auto.palette.mapping,
+							 max.categories=max.categories,
+							 contrast=contrast, colorNA=colorNA))
 	class(g) <- "geo"
 	g
 }
@@ -162,7 +174,6 @@ geo_fill <- function(col="grey90",
 #' @param colorNA colour for missing values
 #' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
-#' @param by logical. If \code{TRUE} and \code{col} is a data variable, then small multiples are generated, one for each level (NOT WORKING YET) 
 #' @export
 #' @example ../examples/geo_bubbles.R
 #' @return \code{\link{geo-element}}
@@ -178,8 +189,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 						  contrast = 1,
 						  colorNA = "#FF1414",
 						  xmod = 0,
-						  ymod = 0,
-						  by=FALSE) {
+						  ymod = 0) {
 	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border=border,
 								 bubble.scale=scale,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
@@ -188,8 +198,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 								 contrast=contrast,
 								 colorNA=colorNA,
 								 bubble.xmod=xmod,
-								 bubble.ymod=ymod,
-								 bubble.by=by))
+								 bubble.ymod=ymod))
 	class(g) <- "geo"
 	g
 }

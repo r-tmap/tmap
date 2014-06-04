@@ -217,7 +217,8 @@ legend_qual <- function(x, legend.text.cex, lineHeight) {
 						  id=rep(1:nitems, each=2),
 						  gp=gpar(col=legend.palette, 
 						  		lwd=line.legend.lwd,
-						  		lty=line.legend.lty))
+						  		lty=line.legend.lty,
+						  		lineend="butt"))
 		} else {
 			grid.rect(x=unit(rep(itemSize*1.5, nitems), "inch"), 
 					  y=yslines, 
@@ -239,16 +240,15 @@ legend_quan <- function(x, legend.text.cex, lineHeight) {
 	with(x, {
 		maxWidth <- max(convertWidth(stringWidth(legend.labels), "npc", valueOnly=TRUE))
 		nitems <- length(legend.labels)
-		margin <- .05
 		linesHeight <- lineHeight * nitems
-
+		xcoor <- seq(0,1,length.out=2*nitems+1)[seq(2, by=2, length.out=nitems)]
 		if (legend.type == "bubble.size") {
 			bubbleH <- convertHeight(unit(legend.sizes,"inch"), "npc", valueOnly=TRUE)
 			bubbleHmax <- max(bubbleH) * 1.5
 			
 			cex <- min(legend.text.cex, 
 					   (1-bubbleHmax)/lineHeight/1.5,
-					   (1/(nitems+1))/maxWidth*.85) 
+					   (1/(nitems+1))/maxWidth) 
 			
 			
 			lineH <- lineHeight * cex
@@ -257,28 +257,28 @@ legend_quan <- function(x, legend.text.cex, lineHeight) {
 			bubbleY <- divY + bubbleHmax / 1.5
 			lineY <- divY - lineH*.75
 			
-			grid.circle(x=seq(0,1,length.out=nitems+2)[2:(nitems+1)],
+			grid.circle(x=xcoor,
 						y=bubbleY,
 						r=bubbleH,
 						gp=gpar(col=bubble.border, fill=legend.palette))
 		} else {
-			
 			cex <- min(legend.text.cex, 
 					   .5/lineHeight,
-					   (1/(nitems+1))/maxWidth*.85) 
+					   (1/(nitems+1))/maxWidth) 
 			linesY <- 1-(lineHeight / 2)
 			lineY <- (lineHeight * cex)/1.5
 			restY <- 1 - lineY*1.5
-			xs <- rep(seq(0,1,length.out=nitems+2)[2:(nitems+1)], each=2)
+			xs <- rep(xcoor, each=2)
 			ys <- rep(c(1  - restY * .2, 1 - restY * .8), nitems)
 			grid.polyline(x=xs,
 						  y=ys,
 						  id=rep(1:nitems, each=2),
 						  gp=gpar(lwd=legend.lwds,
-						  		col=legend.palette))
+						  		col=legend.palette,
+						  		lineend="butt"))
 		}
 		grid.text(legend.labels,
-				  x=seq(0,1,length.out=nitems+2)[2:(nitems+1)],
+				  x=xcoor,
 				  y=lineY,
 				  gp=gpar(cex=cex))
 	})

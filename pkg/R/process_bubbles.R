@@ -1,8 +1,8 @@
-process_bubbles_size_vector <- function(x, g) {
+process_bubbles_size_vector <- function(x, g, rescale) {
 	x_legend <- pretty(x, 7)
 	x_legend <- x_legend[x_legend!=0]
 	x_legend <- x_legend[-c(length(x_legend)-3,length(x_legend)-1)]
-	maxX <- max(x, na.rm=TRUE)
+	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	bubble.size <- g$bubble.scale*sqrt(x/maxX)
 	bubble.max.size <- max(bubble.size, na.rm=TRUE)
 	bubble.size.legend.labels <- format(x_legend, trim=TRUE)
@@ -51,7 +51,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 process_bubbles <- function(data, g, gt, gby) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
-	shpcols <- names(data)[1:(ncol(data)-2)]
+	shpcols <- names(data)[1:(ncol(data)-1)]
 	
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
@@ -79,6 +79,7 @@ process_bubbles <- function(data, g, gt, gby) {
 	if (nxsize<nx) xsize <- rep(xsize, length.out=nx)
 	
 	if (!varysize) {
+		if (!all(is.numeric(xsize))) stop("Bubble sizes are neither numeric nor valid variable names")
 		for (i in 1:nx) data[[paste("SIZE", i, sep="_")]] <- xsize[i]
 		xsize <- paste("SIZE", 1:nx, sep="_")
 		gby$free.scales.bubble.size <- FALSE
@@ -96,21 +97,14 @@ process_bubbles <- function(data, g, gt, gby) {
 	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.col)
 	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.size)
 	
-	if (is.matrix(dtsize)) {
-		bubble.size <- dtsize
-		bubble.size.legend.labels <- NA
-		bubble.max.size <- NA
-		bubble.legend.sizes
-		xsize <- rep(NA, nx)
-	} else if (is.list(dtsize) && length(dtsize)>1) {
-		res <- lapply(dtsize, process_bubbles_size_vector, g)
+	if (is.list(dtsize)) {
+		res <- lapply(dtsize, process_bubbles_size_vector, g, rescale=varysize)
 		bubble.size <- sapply(res, function(r)r$bubble.size)
 		bubble.size.legend.labels <- lapply(res, function(r)r$bubble.size.legend.labels)
 		bubble.legend.sizes <- lapply(res, function(r)r$bubble.legend.sizes)
 		bubble.max.size <- sapply(res, function(r)r$bubble.max.size)
 	} else {
-		if (is.list(dtsize)) dtsize <- dtsize[[1]]
-		res <- process_bubbles_size_vector(dtsize, g)
+		res <- process_bubbles_size_vector(dtsize, g, rescale=varysize)
 		bubble.size <- matrix(res$bubble.size, nrow=npol)
 		if (varysize) {
 			bubble.size.legend.labels <- res$bubble.size.legend.labels
