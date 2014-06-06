@@ -13,7 +13,12 @@ rwb_cr <- get_shape("../test/NDW_example/rijksweg2013simpel_corop.shp")
 loops <- get_shape("../test/NDW_example/loops.shp")
 loops <- set_projection(loops, projection="rd")
 
-
+pdf("../test/NDW_example/rw.pdf", width=16, height=16)
+geo_shape(corop) +
+	geo_fill() +
+	geo_shape(rw) +
+	geo_lines("WEGNUMMER", lwd=.02)
+dev.off()
 
 
 
@@ -39,7 +44,8 @@ geo_shape(corop) +
 	geo_fill() +
 	geo_borders(lwd=.5) +
 	geo_shape(rwb) +
-	geo_lines("ID", palette="red", by=TRUE)
+	geo_lines() +
+	geo_facets("ID")
 dev.off()	
 
 
