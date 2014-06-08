@@ -9,6 +9,7 @@ plot_map <- function(gp, gt, shps.env) {
 	
 	vpArea <- vpWidth * vpHeight
 	scaleFactor <- (sqrt(vpArea) / 100)
+	#scaleFactor <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) / (gt$ncol * gt$nrow)
 
 	bb <- shps[[1]]@bbox
 	if (gt$grid.show && !gt$grid.on.top) plot_grid(gt, bb)
