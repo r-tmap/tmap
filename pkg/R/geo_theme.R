@@ -48,6 +48,7 @@
 #' @param ... other arguments from \code{geo_theme}
 #' @export
 geo_theme <- function(title=NA,
+					  scale=1,
 					  title.cex=1.0,
 					  bg.color=NULL,
 					  draw.frame=TRUE,

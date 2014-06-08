@@ -7,7 +7,7 @@ data(rivers)
 g <- geo_shape(Europe) +
 	geo_fill("pop_est_dens") +
 	geo_borders() +
-	geo_bubbles(size="gdp_md_est", col="economy") +
+	geo_bubbles(size="gdp_md_est", col="economy", border.col="yellow", border.lwd=3) +
 	geo_shape(rivers) +
 	geo_lines("type", lwd="strokelwd", scale=3) + 
 	geo_shape(Europe) +
@@ -17,7 +17,7 @@ g <- geo_shape(Europe) +
 g2 <- geo_shape(Europe) +
 	geo_fill(c("pop_est_dens", "part")) +
 	geo_borders() +
-	geo_bubbles(size="gdp_md_est", col="economy") +
+	geo_bubbles(size="gdp_md_est", col="economy", border.col="yellow", border.lwd=3) +
 	geo_shape(rivers) +
 	geo_lines("type", lwd="strokelwd", scale=3) + 
 	geo_shape(Europe) +

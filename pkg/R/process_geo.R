@@ -57,7 +57,38 @@ process_geo <- function(x) {
 	gmeta <- process_meta(gt, gf, nx, varnames)
 	## split into small multiples
 	gps <- split_geo(gp, nx)
+	scale <- gmeta$scale
 	gps <- mapply(function(x, i){
+		x <- lapply(x, function(xx) {
+			within(xx, {
+				lwd <- lwd * scale
+				
+				if (!is.null(fill)) {
+					if (!is.na(xfill)) fill.legend.misc$lwd <- fill.legend.misc$lwd * scale
+				}
+
+				if (!is.null(bubble.size)) {
+					bubble.size <- bubble.size * scale
+					bubble.border.lwd <- bubble.border.lwd * scale
+					bubble.col.legend.misc$bubble.max.size <- bubble.col.legend.misc$bubble.max.size * scale
+					bubble.col.legend.misc$bubble.border.lwd <- bubble.col.legend.misc$bubble.border.lwd * scale
+					
+					bubble.size.legend.misc$legend.sizes <- bubble.size.legend.misc$legend.sizes * scale
+					bubble.size.legend.misc$bubble.border.lwd <- bubble.size.legend.misc$bubble.border.lwd * scale
+				}
+				
+				if (!is.null(line.lwd)) {
+					line.lwd <- line.lwd * scale
+					line.col.legend.misc$line.legend.lwd <- line.col.legend.misc$line.legend.lwd * scale
+					line.lwd.legend.misc$legend.lwds <- line.lwd.legend.misc$legend.lwds * scale
+				}
+				
+				if (!is.null(text)) {
+					text.cex <- text.cex * scale
+				}
+			})
+		})
+		
 		x$geo_theme <- gmeta
 		x$geo_theme$title <- x$geo_theme$title[i]
 		x$geo_theme$legend.titles <- sapply(x$geo_theme$legend.titles, function(x)x[i])

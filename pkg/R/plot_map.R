@@ -4,13 +4,8 @@ plot_map <- function(gp, gt, shps.env) {
 	
 	shps <- get("shps", envir=shps.env)
 	
-	vpWidth <- convertWidth(unit(1, "npc"), "inch", valueOnly=TRUE)
-	vpHeight <- convertHeight(unit(1, "npc"), "inch", valueOnly=TRUE)
+	bubbleHeight <- convertHeight(unit(.5, "lines"), "inch", valueOnly=TRUE)
 	
-	vpArea <- vpWidth * vpHeight
-	scaleFactor <- (sqrt(vpArea) / 100)
-	#scaleFactor <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) / (gt$ncol * gt$nrow)
-
 	bb <- shps[[1]]@bbox
 	if (gt$grid.show && !gt$grid.on.top) plot_grid(gt, bb)
 	
@@ -39,7 +34,7 @@ plot_map <- function(gp, gt, shps.env) {
 			#}
 		}
 		
-		plot_geo_bubbles <- function() plot_bubbles(co.npc, gpl, scaleFactor)
+		plot_geo_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight)
 		plot_geo_text <- function() plot_text(co.npc, gpl)
 		e <- environment()
 		fnames <- paste("plot", gpl$plot.order, sep="_")
@@ -47,12 +42,12 @@ plot_map <- function(gp, gt, shps.env) {
 		
 	}, gp, shps)
 	
-	if (gt$grid.show && gt$grid.on.top) plot_grid(gt, bb)
+	if (gt$grid.show && gt$grid.on.top) plot_grid(gt, bb, scale=gt$scale)
 	
-	scaleFactor
+	bubbleHeight
 }
 
-plot_grid <- function(gt, bb) {
+plot_grid <- function(gt, bb, scale) {
 	gridx <- pretty(bb[1,], n=gt$grid.n.x)
 	gridx <- gridx[gridx>bb[1,1] & gridx<bb[1,2]]
 	gridy <- pretty(bb[2,], n=gt$grid.n.y)
@@ -79,15 +74,15 @@ plot_grid <- function(gt, bb) {
 	labelsy <- labelsy[sely]
 	
 	grid.polyline(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
-				  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.color))
+				  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.color, lwd=scale))
 	grid.polyline(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
-				  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.color))
+				  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.color, lwd=scale))
 	
-	grid.text(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(cex=.75))
-	grid.text(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(cex=.75))
+	grid.text(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(cex=.75*scale))
+	grid.text(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(cex=.75*scale))
 }
 
-plot_bubbles <- function(co.npc, g, scaleFactor) {
+plot_bubbles <- function(co.npc, g, bubbleHeight) {
 	with(g, {
 		co.npc[, 1] <- co.npc[, 1] + bubble.xmod
 		co.npc[, 2] <- co.npc[, 2] + bubble.ymod
@@ -97,11 +92,9 @@ plot_bubbles <- function(co.npc, g, scaleFactor) {
 			bubble.size <- rep(bubble.size, length.out=npol)
 		}
 		
-		bubble.size <- bubble.size * scaleFactor
+		bubble.size <- bubble.size * bubbleHeight
 		
 		cols <- rep(bubble.col, length.out=npol)
-		borders <- bubble.border
-		
 		if (length(bubble.size)!=1) {
 			decreasing <- order(-bubble.size)
 			co.npc2 <- co.npc[decreasing,]
@@ -113,8 +106,8 @@ plot_bubbles <- function(co.npc, g, scaleFactor) {
 			col2 <- cols
 		}
 		grid.circle(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
-					r=unit(bubble.size2, "inches"),
-					gp=gpar(col=borders, fill=cols2))
+					r=unit(bubble.size2, "inch"),
+					gp=gpar(col=bubble.border.col, lwd=bubble.border.lwd, fill=cols2))
 	})
 }
 
@@ -186,7 +179,7 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 	
 		cellplot(2, 2, name="aspvp", e={
 			if (gt$draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
-			scaleFactor <- plot_map(gp, gt, shps.env)
+			bubbleHeight <- plot_map(gp, gt, shps.env)
 		})
 		
 		
@@ -202,11 +195,11 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 		
 		upViewport()
 	} else {
-		scaleFactor <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$legend.text.cex * 2
+		bubbleHeight <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * gt$legend.text.cex * 2
 	}
 	
 	#find statistic variables
-	leg <- legend_prepare(gp, gt, scaleFactor)
+	leg <- legend_prepare(gp, gt, bubbleHeight)
 	
 	if (!is.null(leg)) {
 		if (!gt$legend.only) {

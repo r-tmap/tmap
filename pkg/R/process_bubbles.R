@@ -1,7 +1,8 @@
 process_bubbles_size_vector <- function(x, g, rescale) {
 	x_legend <- pretty(x, 7)
 	x_legend <- x_legend[x_legend!=0]
-	x_legend <- x_legend[-c(length(x_legend)-3,length(x_legend)-1)]
+	nxl <- length(x_legend)
+	if (nxl>4) x_legend <- x_legend[-c(nxl-3, nxl-1)]
 	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	bubble.size <- g$bubble.scale*sqrt(x/maxX)
 	bubble.max.size <- max(bubble.size, na.rm=TRUE)
@@ -159,14 +160,15 @@ process_bubbles <- function(data, g, gt, gby) {
 	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
-		 bubble.border=g$bubble.border,
+		 bubble.border.lwd=g$bubble.border.lwd,
+		 bubble.border.col=g$bubble.border.col,
 		 bubble.scale=g$bubble.scale,
 		 bubble.col.legend.labels=bubble.col.legend.labels,
 		 bubble.col.legend.palette=bubble.col.legend.palette,
-		 bubble.col.legend.misc=list(bubble.border=g$bubble.border, bubble.max.size=bubble.max.size),
+		 bubble.col.legend.misc=list(bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=g$bubble.border.col, bubble.max.size=bubble.max.size),
 		 bubble.size.legend.labels=bubble.size.legend.labels,
 		 bubble.size.legend.palette= bubble.size.legend.palette,
-		 bubble.size.legend.misc=list(bubble.border=g$bubble.border, legend.sizes=bubble.legend.sizes),
+		 bubble.size.legend.misc=list(bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=g$bubble.border.col, legend.sizes=bubble.legend.sizes),
 		 xsize=xsize,
 		 xcol=xcol,
 		 bubble.xmod=xmod,

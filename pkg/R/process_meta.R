@@ -17,6 +17,8 @@ process_meta <- function(gt, gf, nx, varnames) {
 		}
 	})
 	
+	m <- gf$ncol * gf$nrow
+	
 	gt <- within(gt, {
 		if (is.na(title[1])) {
 			id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
@@ -40,7 +42,14 @@ process_meta <- function(gt, gf, nx, varnames) {
 		rm(id)
 		legend.titles <- lapply(legend.titles, function(x) if (is.na(x[1])) "" else x)
 		legend.titles <- lapply(legend.titles, function(x) rep(x, length.out=nx))
-			
+	
+		scale <- scale / m
+		
+		title.cex <- title.cex * scale
+		legend.title.cex <- legend.title.cex * scale
+		legend.text.cex <- legend.text.cex * scale
+		legend.hist.cex <- legend.hist.cex * scale
+				
 		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$fill[1]), "white", "grey85")
 		
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color

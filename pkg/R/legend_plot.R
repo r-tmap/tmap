@@ -177,7 +177,7 @@ legend_subplot <- function(x, gt) {
 		} else if (legend.type %in% c("bubble.size", "line.lwd")) {
 			legend_quan(x, gt$legend.text.cex, lineHeight)
 		} else if (legend.type=="fill_hist") {
-			legend_hist(x, gt$legend.hist.cex, lineHeight)
+			legend_hist(x, gt$legend.hist.cex, lineHeight, scale=gt$scale)
 		} else if (legend.type=="title") {
 			legend_title(x, gt$legend.title.cex, lineHeight)
 		}
@@ -185,7 +185,7 @@ legend_subplot <- function(x, gt) {
 }
 
 legend_title <- function(x, legend.title.cex, lineHeight) {
-	cex <- legend.title.cex * min(1, 1/lineHeight)
+	cex <- min(legend.title.cex, 1/lineHeight)
 	grid.text(x$title, x=0, y=5/12 , just=c("left", "center"), gp=gpar(cex=cex))
 }
 
@@ -210,7 +210,8 @@ legend_qual <- function(x, legend.text.cex, lineHeight) {
 			grid.circle(x=unit(rep(itemSize*1.5, nitems), "inch"), 
 						y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
 						gp=gpar(fill=legend.palette,
-								col=bubble.border))
+								col=bubble.border.col,
+								lwd=bubble.border.lwd))
 		} else if (legend.type=="line.col") {
 			grid.polyline(x=unit(rep(itemSize*c(1,2), nitems), "inch"),
 						  y=rep(yslines, each=2), 
@@ -224,7 +225,7 @@ legend_qual <- function(x, legend.text.cex, lineHeight) {
 					  y=yslines, 
 					  width=unit(rep(itemSize, nitems), "inch"), 
 					  height=unit(rep(itemSize, nitems), "inch"),
-					  gp=gpar(fill=legend.palette))
+					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
 		} 
 		grid.text(legend.labels, x=unit(rep(itemSize*3, nitems), "inch"), 
 				  y=yslines, just=c("left", "center"), gp=gpar(cex=cex))
@@ -256,11 +257,10 @@ legend_quan <- function(x, legend.text.cex, lineHeight) {
 			divY <- .5 + (lineH - bubbleHmax)/2
 			bubbleY <- divY + bubbleHmax / 1.5
 			lineY <- divY - lineH*.75
-			
 			grid.circle(x=xcoor,
 						y=bubbleY,
 						r=bubbleH,
-						gp=gpar(col=bubble.border, fill=legend.palette))
+						gp=gpar(col=bubble.border.col, lwd=bubble.border.lwd, fill=legend.palette))
 		} else {
 			cex <- min(legend.text.cex, 
 					   .5/lineHeight,
@@ -288,7 +288,7 @@ legend_quan <- function(x, legend.text.cex, lineHeight) {
 
 
 
-legend_hist <- function(x, legend.hist.cex, lineHeight) {
+legend_hist <- function(x, legend.hist.cex, lineHeight, scale) {
 	with(x, {
 		if (is.factor(values)) {
 			numbers <- table(values)
@@ -378,7 +378,7 @@ legend_hist <- function(x, legend.hist.cex, lineHeight) {
 			grid.polyline(x=c(axisMargin.npc, axisMargin.npc, 
 							  rep(c(axisMargin.npc,axisMargin.npc+axisTicks.npc), length(pty))),
 						  y=c(0, 1, rep(hpty, each=2)),
-						  id=rep(1:(length(pty)+1),each=2))
+						  id=rep(1:(length(pty)+1),each=2), gp=gpar(lwd=scale))
 		})
 		
 		cellplot(2,4,e={
@@ -395,9 +395,9 @@ legend_hist <- function(x, legend.hist.cex, lineHeight) {
 			n <- length(xticks)
 			
 			line_height <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * cex
-			grid.lines(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc))
+			grid.lines(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc), gp=gpar(lwd=scale))
 			grid.polyline(x=rep(xticks, each=2), y=rep(c(1-axisMargin.npc, 1-axisMargin.npc-axisTicks.npc), n), 
-						  id=rep(1:n, each=2)) 
+						  id=rep(1:n, each=2), gp=gpar(lwd=scale)) 
 		})
 		
 		cellplot(4,2,e={

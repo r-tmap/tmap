@@ -12,7 +12,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   max_levels=g$max.categories)
 		fill.breaks <- NA
 	} else {
-		palette <- if (is.null(g$palette)) "RdYlGn" else palette
+		palette <- if (is.null(g$palette)) "RdYlGn" else g$palette
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
@@ -42,7 +42,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 }
 
 
-process_fill <- function(data, g, gt, gby) {
+process_fill <- function(data, g, gb, gt, gby) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	areas <- data$SHAPE_AREAS
@@ -97,6 +97,6 @@ process_fill <- function(data, g, gt, gby) {
 	list(fill=fill,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,
-		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks),
+		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks, lwd=gb$lwd, border.col=gb$col),
 		 xfill=x)
 }

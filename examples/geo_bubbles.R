@@ -2,7 +2,7 @@
 data(World)
 geo_shape(World) +
 	geo_fill() +
-	geo_bubbles("pop_est", scale=2) +
+	geo_bubbles("pop_est", scale=1) +
 	geo_theme_World("World population", legend.width=.4)
 
 data(airports)
@@ -17,7 +17,6 @@ geo_shape(World) +
 data(Europe)
 
 geo_shape(Europe) + geo_borders() + geo_bubbles(size=.75, col="red") + geo_theme("Countries")
-geo_shape(Europe) + geo_borders() + geo_bubbles(size=.75, col=ifelse(Europe$name=="Isle of Man", "red", "blue")) + geo_theme("Find Isle of Man...")
 
 geo_shape(Europe) +
 	geo_borders() +
