@@ -3,15 +3,21 @@ legend_plot <- function(gt, x) {
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
 	conf <- gt$legend.config 
-	
 	ishist <- (substr(conf, nchar(conf)-3, nchar(conf))=="hist")
-
 	conf2 <- ifelse(ishist, substr(conf, 1, nchar(conf)-5), conf)
 	
-	if (gt$legend.profile=="text") conf <- conf[!ishist]
-	if (gt$legend.profile=="hist") conf <- conf[ishist]
-	if (!length(conf) || gt$legend.profile=="hide") title.only <- TRUE
+	if (gt$legend.profile=="text") {
+		conf <- conf[!ishist]
+		conf2 <- conf2[!ishist]
+	}
+	if (gt$legend.profile=="hist") {
+		conf <- conf[ishist]
+		conf2 <- conf2[ishist]
+	}
 	
+	
+	if (!length(conf) || gt$legend.profile=="hide") title.only <- TRUE
+
 	if (!title.only) {
 		for (i in 1:length(gt$legend.titles)) {
 			lt <- gt$legend.titles[i]

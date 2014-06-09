@@ -22,8 +22,9 @@ plot_map <- function(gp, gt, shps.env) {
 		
 		
 		plot_geo_fill <- function() {
+			fill <- if (is.null(gpl$fill)) NA else gpl$fill
 			#if (inherits(shp, "SpatialPolygons")) {
-				grid.shape(shp, gp=gpar(fill=gpl$fill, col=gpl$col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color)
+				grid.shape(shp, gp=gpar(fill=fill, col=gpl$col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color)
 			#}	
 		}
 		

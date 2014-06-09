@@ -73,7 +73,7 @@ process_fill <- function(data, g, gb, gt, gby) {
 	if (is.list(dt)) {
 		isNum <- sapply(dt, is.numeric)
 		if (any(isNum) && g$convert2density) {
-			dt[isNum] <- lapply(data[isNum], function(d) {
+			dt[isNum] <- lapply(dt[isNum], function(d) {
 				d / (areas * g$total.area.km2)
 			})
 		}

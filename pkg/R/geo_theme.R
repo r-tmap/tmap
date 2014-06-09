@@ -83,7 +83,7 @@ geo_theme <- function(title=NA,
 #' @rdname geo_theme
 #' @export
 geo_theme_World <- function(title=NA,
-							scale=.75,
+							scale=.85,
 							title.position = c("left", "bottom"),
 							title.bg.color=TRUE,
 							outer.margins=rep(.02, 4),

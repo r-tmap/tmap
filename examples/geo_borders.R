@@ -1,7 +1,8 @@
+## Europe example
 data(Europe)
-
 geo_shape(Europe) + geo_borders()
 
+## Netherlands example
 data(NLD_prov)
 data(NLD_muni)
 

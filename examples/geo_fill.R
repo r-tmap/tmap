@@ -9,14 +9,13 @@ geo_shape(World, projection="merc") + geo_fill("highlighted") + geo_borders() + 
 geo_shape(World) +
 	geo_fill("pop_est_dens", style="kmeans", palette="YlOrRd", auto.palette.mapping=FALSE) +
 	geo_borders() +
-	geo_text("iso_a3", cex="AREA3", cex.lowerbound=.4, bg.alpha=0) +
+	geo_text("iso_a3", cex="AREA", cex.lowerbound=.4, bg.alpha=0) +
 	geo_theme_World(legend.profile="text", title="Population density per km2", title.bg.color=TRUE)
 
 geo_shape(World) +
-	geo_fill("income_grp", palette="Set2") +
+	geo_fill("income_grp", palette="-Blues") +
 	geo_borders() +
-	geo_text("iso_a3", cex="AREA3") +
-	geo_bubbles("pop_est", col="blue") +
+	geo_text("iso_a3", cex="AREA", scale=1.5, bg.alpha=0) +
 	geo_theme_World("Income classification", legend.titles=c(bubble.size="Population"),
 					legend.profile="text")
 
@@ -25,7 +24,7 @@ data(Europe)
 geo_shape(Europe) +
 	geo_fill("gdp_cap_est", style="kmeans") +
 	geo_borders() +
-	geo_text("iso_a3", cex="AREA4", scale=2, bg.alpha=0) +
+	geo_text("iso_a3", cex="AREA", scale=2, bg.alpha=0) +
 	geo_theme_Europe("GDP per capita")
 
 # Netherlands examples
