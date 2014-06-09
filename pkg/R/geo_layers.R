@@ -62,10 +62,9 @@ geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 #' This layer adds text labels
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
-#' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or one of the following special cases
-#' \describe{
-#' 		\item{\code{"AREA"}:}{text size is proportional to the squared root of the area size of the polygons.}
+#' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or \code{AREA} where the text size is proportional to the the area size of the polygons.
 #' 		\item{\code{"AREAx"}:}{text size is proportional to the x-th root of the area size of the polygons.}}
+#' @param root root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3} the cube root etc.
 #' @param fontcolor relative size of the text labels
 #' @param fontface font face of the text labels
 #' @param fontfamily font family of the text labels
@@ -79,8 +78,8 @@ geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 #' @export
 #' @example ../examples/geo_text.R
 #' @return \code{\link{geo-element}}
-geo_text <-  function(text, cex=1, fontcolor=NA, fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
-	g <- list(geo_text=list(text=text, text.cex=cex, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
+geo_text <-  function(text, cex=1, root=2, fontcolor=NA, fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
+	g <- list(geo_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "geo"
 	g
@@ -164,6 +163,7 @@ geo_fill <- function(col="grey90",
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples
 #' @param border color of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
 #' @param scale bubble size multiplier number. 
+#' @param size.lim vector of two limit values of the \code{size} variable. Only bubbles are drawn whose value is greater than or equal to the first value. Bubbles whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
 #' @param style method to cut the color scale: "fixed", "equal", "pretty", "quantile", "kmeans". Only applicable when \code{col} is a numeric variable name.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
@@ -181,6 +181,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 						  border.lwd=NA,
 						  border.col="black",
 						  scale=1,
+						  size.lim=NA,
 						  n = 5, style = "pretty",
 						  breaks = NULL,
 						  palette = NULL,
@@ -194,6 +195,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border.lwd=border.lwd,
 							   bubble.border.col=border.col,
 								 bubble.scale=scale,
+								 size.lim=size.lim,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 								 auto.palette.mapping=auto.palette.mapping,
 								 max.categories=max.categories,
@@ -262,6 +264,27 @@ geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 	g
 }
 
+#' Coordinate grid lines
+#' 
+#' This layer draws coordinate grid lines.
+#' 
+#' @param n.x Prefered number of grid lines for the x axis.
+#' @param n.y Prefered number of grid lines for the y axis.
+#' @param color Color for the grid lines.
+#' @param on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
+#' @export
+geo_grid <- function(n.x=8,
+					 n.y=8,
+					 col="grey50",
+					 labels.cex=.75,
+					 labels.col="grey20",
+					 on.top=TRUE) {
+	g <- list(geo_grid=as.list(environment()))
+	names(g$geo_grid) <- paste("grid", names(g$geo_grid), sep=".")
+	class(g) <- "geo"
+	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	g
+}
 
 #' Stacking of geo elements
 #' 

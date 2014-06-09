@@ -5,6 +5,7 @@
 #' @name geo_theme
 #' @rdname geo_theme
 #' @param title Title of the map(s)
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{cex} arguments provided by the \code{\link{geo-element}s}.
 #' @param title.cex Relative size of the title
 #' @param bg.color Background color. By default it is light grey (\code{grey85}) for choropleths and white for other maps.
 #' @param draw.frame Boolean that determines whether a frama is drawn. 
@@ -59,11 +60,6 @@ geo_theme <- function(title=NA,
 					  outer.margins = rep(0.02, 4),
 					  inner.margins=rep(0.02, 4),
 					  outer.bg.color="white",
-					  grid.show=FALSE,
-					  grid.n.x=8,
-					  grid.n.y=8,
-					  grid.color="grey50",
-					  grid.on.top=TRUE,
 					  legend.profile = "full",
 					  legend.only = FALSE,
 					  legend.titles = c(fill = NA, bubble.size = NA, bubble.col = NA, line.col = NA, line.lwd = NA),
@@ -87,7 +83,7 @@ geo_theme <- function(title=NA,
 #' @rdname geo_theme
 #' @export
 geo_theme_World <- function(title=NA,
-							title.cex=1,
+							scale=.75,
 							title.position = c("left", "bottom"),
 							title.bg.color=TRUE,
 							outer.margins=rep(.02, 4),
@@ -95,8 +91,6 @@ geo_theme_World <- function(title=NA,
 							legend.position=c("left", "bottom"), 
 							legend.width=.2,
 							legend.max.height = .5,
-							legend.text.cex=0.6,
-							legend.hist.cex=0.6,
 							legend.bg.color=TRUE,
 							...) {
 	args <- c(as.list(environment()), list(...))

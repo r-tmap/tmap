@@ -74,12 +74,12 @@ plot_grid <- function(gt, bb, scale) {
 	labelsy <- labelsy[sely]
 	
 	grid.polyline(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
-				  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.color, lwd=scale))
+				  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
 	grid.polyline(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
-				  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.color, lwd=scale))
+				  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
 	
-	grid.text(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(cex=.75*scale))
-	grid.text(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(cex=.75*scale))
+	grid.text(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.cex*scale))
+	grid.text(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.cex*scale))
 }
 
 plot_bubbles <- function(co.npc, g, bubbleHeight) {

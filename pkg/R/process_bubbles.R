@@ -1,4 +1,8 @@
 process_bubbles_size_vector <- function(x, g, rescale) {
+	if (!is.na(g$size.lim[1])) {
+		x[x<g$size.lim[1]] <- NA
+		x[x>g$size.lim[2]] <- g$size.lim[2]
+	}
 	x_legend <- pretty(x, 7)
 	x_legend <- x_legend[x_legend!=0]
 	nxl <- length(x_legend)

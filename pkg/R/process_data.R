@@ -1,4 +1,5 @@
 process_data <- function(data, by, free.scales) {
+	
 	nby <- nlevels(by)
 	cls <- check_geo_classes(data)
 	if (nby > 1) {
@@ -35,7 +36,7 @@ process_data <- function(data, by, free.scales) {
 				return(factor(unlist(lapply(data, as.character)), levels=xlvls))
 			}
 		} else {
-			if (any(cls=="cha")) data[, cls=="cha"] <- lapply(data[, cls=="cha"], as.factor)
+			if (any(cls=="cha")) data[cls=="cha"] <- lapply(data[cls=="cha"], as.factor)
 			if (ncol(data)==1) {
 				return(data[[1]])
 			} else return(as.list(data))

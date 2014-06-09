@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, nx, varnames) {
+process_meta <- function(gt, gf, gg, nx, varnames) {
 	
 	gf <- within(gf, {
 		by <- NULL
@@ -56,5 +56,13 @@ process_meta <- function(gt, gf, nx, varnames) {
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color
 	})	
 	
-	c(gt, gf)
+	if (!is.null(gg)) {
+		gg <- within(gg, {
+			grid.show <- TRUE
+		})
+	} else {
+		gg <- list(grid.show=FALSE)
+	}
+	
+	c(gt, gf, gg)
 }

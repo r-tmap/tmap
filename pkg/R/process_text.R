@@ -10,15 +10,12 @@ process_text <- function(data, g, fill) {
 		rm(nx)
 		
 		if (is.character(text.cex)) {
-			if (substr(text.cex, 1, 4)=="AREA") {
-				nc <- nchar(text.cex)
-				p <- if (nc>4) as.numeric(substr(text.cex, 5, nc)) else 2
-				text.cex <- (data$SHAPE_AREAS / max(data$SHAPE_AREAS, na.rm=TRUE)) ^ (1/p)
-				rm(nc, p)
+			if (text.cex=="AREA") {
+				text.cex <- data$SHAPE_AREAS
 			} else {
 				text.cex <- data[[text.cex]]
-				text.cex <- text.cex / max(text.cex, na.rm=TRUE)
 			}
+			text.cex <- (text.cex / max(text.cex, na.rm=TRUE)) ^ (1/root)
 		} else text.cex <- rep(text.cex, length.out=npol)
 		text.fontcolor <- if (is.na(text.fontcolor[1])) {
 			if (is.matrix(fill)) {

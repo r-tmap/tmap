@@ -1,6 +1,7 @@
 process_geo <- function(x) {
 	## fill meta info
 	
+	## get geo_theme elements
 	if (!("geo_theme" %in% names(x))) {
 		gt <- geo_theme()$geo_theme
 	} else {
@@ -17,8 +18,13 @@ process_geo <- function(x) {
 		}
 	}
 	
+	## get grid element
+	gridid <- which(names(x)=="geo_grid")[1]
+	gg <- x[[gridid]]
+	
+		
 	## split x into gmeta and gbody
-	x <- x[names(x)!="geo_theme"]
+	x <- x[!(names(x) %in% c("geo_theme", "geo_grid"))]
 
 	n <- length(x)
 	
@@ -54,7 +60,7 @@ process_geo <- function(x) {
 	## process grid
 	facetID <- which(sapply(gp, function(gpl) gpl$facets_defined))[1]
 	gf <- if (is.na(facetID[1])) geo_facets()$geo_facets else gs[[facetID]]$geo_facets
-	gmeta <- process_meta(gt, gf, nx, varnames)
+	gmeta <- process_meta(gt, gf, gg, nx, varnames)
 	## split into small multiples
 	gps <- split_geo(gp, nx)
 	scale <- gmeta$scale
@@ -64,7 +70,7 @@ process_geo <- function(x) {
 				lwd <- lwd * scale
 				
 				if (!is.null(fill)) {
-					if (!is.na(xfill)) fill.legend.misc$lwd <- fill.legend.misc$lwd * scale
+					if (!is.na(xfill[1])) fill.legend.misc$lwd <- fill.legend.misc$lwd * scale
 				}
 
 				if (!is.null(bubble.size)) {

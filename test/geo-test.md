@@ -48,11 +48,6 @@ geo_shape(Europe) +
 	geo_fill(c("gdp_cap_est", "pop_est_dens"))
 ```
 
-```
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
-```
-
 ![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
 
@@ -60,11 +55,6 @@ geo_shape(Europe) +
 geo_shape(Europe) +
 	geo_fill(c("gdp_cap_est", "pop_est_dens")) +
 	geo_facets(free.scales.fill=FALSE)
-```
-
-```
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
 ```
 
 ![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
@@ -84,11 +74,6 @@ geo_shape(Europe) +
 	geo_fill(c("continent", "economy"))
 ```
 
-```
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
-```
-
 ![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
 
 
@@ -96,11 +81,6 @@ geo_shape(Europe) +
 geo_shape(Europe) +
 	geo_fill(c("continent", "economy")) +
 	geo_facets(free.scales=FALSE)
-```
-
-```
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
 ```
 
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
@@ -112,11 +92,6 @@ geo_shape(Europe) +
 	geo_fill(c("gdp_cap_est", "economy"))
 ```
 
-```
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
-```
-
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
 
 
@@ -124,11 +99,6 @@ geo_shape(Europe) +
 geo_shape(Europe) +
 	geo_fill(c("gdp_cap_est", "economy")) +
 	geo_facets(free.scales.fill=FALSE)
-```
-
-```
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
 ```
 
 ![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
@@ -141,13 +111,6 @@ geo_shape(Europe) +
 	geo_facets(by="part")
 ```
 
-```
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
-```
-
 ![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
 
 
@@ -155,13 +118,6 @@ geo_shape(Europe) +
 geo_shape(Europe) +
 	geo_fill("color") +
 	geo_facets(by="part")
-```
-
-```
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
-## Warning: the condition has length > 1 and only the first element will be used
 ```
 
 ![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
