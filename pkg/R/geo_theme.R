@@ -102,7 +102,7 @@ geo_theme_World <- function(title=NA,
 geo_theme_Europe <- function(title=NA,
 							 legend.position=c("left", "top"), 
 							 outer.margins=rep(0.02, 4),
-							 inner.margins=c(0, 0.2, 0, 0),
+							 inner.margins=c(0, 0.25, 0, 0),
 							 ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("geo_theme", args)

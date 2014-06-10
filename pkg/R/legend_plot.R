@@ -15,7 +15,6 @@ legend_plot <- function(gt, x) {
 		conf2 <- conf2[ishist]
 	}
 	
-	
 	if (!length(conf) || gt$legend.profile=="hide") title.only <- TRUE
 
 	if (!title.only) {
@@ -25,7 +24,7 @@ legend_plot <- function(gt, x) {
 				name <- names(lt)
 				id <- which(conf2==name)[1]
 				id2 <- paste("title", name, sep=".")
-				if (length(id)) {
+				if (!is.na(id)) {
 					conf <- if (id==1) c(id2, conf) else c(conf[1:(id-1)], id2, conf[id:length(conf)])
 					conf2 <- if (id==1) c(id2, conf2) else c(conf2[1:(id-1)], id2, conf2[id:length(conf2)])
 					lst <- list(list(legend.type="title", title=lt))
@@ -212,7 +211,7 @@ legend_qual <- function(x, legend.text.cex, lineHeight) {
 		
 		itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5 * cex
 		if (legend.type=="bubble.col") {
-			bubbleSizes <- min(bubble.max.size, itemSize*0.75)
+			bubbleSizes <- min(bubble.max.size, itemSize)
 			grid.circle(x=unit(rep(itemSize*1.5, nitems), "inch"), 
 						y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
 						gp=gpar(fill=legend.palette,
@@ -229,8 +228,8 @@ legend_qual <- function(x, legend.text.cex, lineHeight) {
 		} else {
 			grid.rect(x=unit(rep(itemSize*1.5, nitems), "inch"), 
 					  y=yslines, 
-					  width=unit(rep(itemSize, nitems), "inch"), 
-					  height=unit(rep(itemSize, nitems), "inch"),
+					  width=unit(rep(itemSize*2, nitems), "inch"), 
+					  height=unit(rep(itemSize*2/.85, nitems), "inch"),
 					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
 		} 
 		grid.text(legend.labels, x=unit(rep(itemSize*3, nitems), "inch"), 

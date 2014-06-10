@@ -8,10 +8,7 @@ geo_shape(World) +
 data(Europe)
 geo_shape(Europe) +
 	geo_fill(c("gdp_cap_est", "pop_est_dens")) +
-	geo_theme_Europe(scale=2)
-
-
-
+	geo_theme_Europe(scale=1)
 
 
 

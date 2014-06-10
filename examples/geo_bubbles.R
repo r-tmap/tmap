@@ -19,7 +19,7 @@ data(cities)
 
 geo_shape(Europe) +
 	geo_borders() +
-	geo_fill() +
+	geo_fill("gdp_cap_est") +
 	geo_bubbles("gdp_md_est", palette="Set2", col="part", scale=2) + 
 	geo_theme_Europe("GDP per country", legend.titles=c(bubble.col="Part of Europe"))
 
