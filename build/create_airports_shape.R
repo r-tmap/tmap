@@ -16,7 +16,7 @@ airports$name <- as.character(airports$name)
 
 x <- grep("I_WAS_NOT_ASCII", iconv(airports$name, "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
 
-airports$name[x] <- c("Rosario – Islas Malvinas Int", "Martin Miguel De Guemes Int", "Cayenne-Rochambeau", "Foz do Iguacu")
+airports$name[x] <- c("Rosario - Islas Malvinas Int", "Martin Miguel De Guemes Int", "Cayenne-Rochambeau", "Foz do Iguacu")
 
 
 
@@ -42,7 +42,15 @@ cities$name <- factor(as.character(cities$name), levels=intersect(levels(cities$
 x <- grep("I_WAS_NOT_ASCII", iconv(levels(cities$name), "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
 levels(cities$name)[x] <- "Montreal"
 
+
+x <- grep("I_WAS_NOT_ASCII", iconv(levels(cities$name), "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
+
+
 cities$country <- factor(as.character(cities$country), levels=intersect(levels(cities$country), as.character(cities$country)))
+x <- grep("I_WAS_NOT_ASCII", iconv(levels(cities$country), "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
+
+
+
 cities$iso_a3 <- factor(as.character(cities$iso_a3), levels=intersect(levels(cities$iso_a3), as.character(cities$iso_a3)))
 
 

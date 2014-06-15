@@ -1,4 +1,5 @@
 process_geo <- function(x) {
+	fill <- NULL; xfill <- NULL
 	## fill meta info
 	
 	## get geo_theme elements

@@ -1,4 +1,6 @@
 process_text <- function(data, g, fill) {
+	root <- NULL; text.cex.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL
+	
 	npol <- nrow(data)
 	
 	within(g, {

@@ -16,11 +16,6 @@
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param outer.bg.color Background color outside the frame.
-#' @param grid.show Boolean that determines whether grid lines are shown.
-#' @param grid.n.x Prefered number of grid lines for the x axis.
-#' @param grid.n.y Prefered number of grid lines for the y axis.
-#' @param grid.color Color for the grid lines.
-#' @param grid.on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
 #' @param legend.profile Character that specifies which legend elements are drawn (if applicable):
 #' \describe{
 #' 	\item{\code{"full"}:}{All of them. (Which are: choropleth text, choropleth histogram, bubble size text, and bubble color text.)}
@@ -29,16 +24,11 @@
 #' 	\item{\code{"none"}:}{None of them.}}
 #' Alternatively, \code{legend.config} can be used to specify the elements directly.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
-#' @param legend.choro.title title of the choropleth legend
-#' @param legend.bubble.size.title title of the bubblemap legend associated with the size of the bubbles
-#' @param legend.bubble.col.title title of the bubblemap legend associated with the color of the bubbles
+#' @param legend.titles titles of the legend elements. Named numeric character, where the names correspond to the legend elements and the value to the titles of those elements. Possible legend element names are: \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
 #' @param legend.width width of the legend
-#' @param legend.max.height total maximum height of the legend. Heights of single legend elements are specified by \code{legend.choro.height}, \code{legend.choro.hist.height}, \code{legend.bubble.size.height}, and \code{legend.bubble.col.height}. If their total exceeds \code{legend.height}, then there are downscaled linearly.
-#' @param legend.choro.height see \code{legend.max.height}
-#' @param legend.choro.hist.height see \code{legend.max.height}
-#' @param legend.bubble.size.height see \code{legend.max.height}
-#' @param legend.bubble.col.height see \code{legend.max.height}
+#' @param legend.max.height total maximum height of the legend. Heights of single legend elements are specified by \code{legend.heights}. If their total exceeds \code{legend.height}, then there are downscaled linearly.
+#' @param legend.heights Named numeric vector, where the names correspond to the legend elements and the values to the height of those elements. See \code{legend.max.height}. Possible legend element names are: \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
 #' @param legend.config character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"choro"}, \code{"hist"}, \code{"bubble.size"}, and \code{"bubble.col"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.
 #' @param legend.title.cex Relative font size for the legend title
 #' @param legend.text.cex Relative font size for the legend text elements

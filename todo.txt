@@ -1,8 +1,8 @@
 TO DO list
 
-- check arguments: e.g. relating to SpatialLines and Points
 - outer.bg.color: explain in docs
 - explain fit_polylines
 - movies
 - update main doc page
+- total.area.size
 

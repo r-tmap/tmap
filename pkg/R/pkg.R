@@ -69,6 +69,27 @@ NULL
 NULL
 
 
+#' rivers, cities and airports
+#' 
+#' Spatial data of main world cities, rivers, and airports.
+#' 
+#' @name rivers
+#' @rdname Shapes2
+#' @docType data
+#' @source http://www.naturalearthdata.com/
+NULL
+
+#' @name cities
+#' @rdname Shapes2
+#' @docType data
+NULL
+
+#' @name airports
+#' @rdname Shapes2
+#' @docType data
+NULL
+
+
 #' Geo element
 #'
 #' Building block to draw thematic maps.

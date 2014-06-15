@@ -4,7 +4,8 @@
 #' 
 #' @param shp.lines The shape object that contains the lines
 #' @param shp.poly The shape object that contains the polygons
-#' @param variables.poly Names of the variables of \code{shp.poly} that are appended to the split lines shape object
+#' @param variables.lines Names of the variables of \code{shp.lines} that are appended to the split lines shape object.
+#' @param variables.poly Names of the variables of \code{shp.poly} that are appended to the split lines shape object.
 #' @export
 #' @return shape object with splitted lines
 #' @import rgeos

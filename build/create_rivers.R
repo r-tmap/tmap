@@ -12,6 +12,9 @@ rivers@data <- rivers@data[, c("name", "featurecla", "scalerank", "strokeweig")]
 
 names(rivers) <- c("name", "type", "scalerank", "strokelwd")
 
+
+
+
 Encoding(levels(rivers$name)) <- "latin1"
 levels(rivers$name) <- iconv(
 	levels(rivers$name), 
@@ -19,6 +22,9 @@ levels(rivers$name) <- iconv(
 	"ASCII",
 	""
 )
+
+x <- grep("I_WAS_NOT_ASCII", iconv(levels(rivers$name), "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
+
 
 
 

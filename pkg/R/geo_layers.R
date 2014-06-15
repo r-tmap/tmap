@@ -63,7 +63,6 @@ geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
 #' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or \code{AREA} where the text size is proportional to the the area size of the polygons.
-#' 		\item{\code{"AREAx"}:}{text size is proportional to the x-th root of the area size of the polygons.}}
 #' @param root root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3} the cube root etc.
 #' @param fontcolor relative size of the text labels
 #' @param fontface font face of the text labels
@@ -93,7 +92,16 @@ geo_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontf
 #' @param col color of the lines. Either a color value or a data variable name.
 #' @param lwd line width
 #' @param lty line type
-#' @param palette color palette, used if \code{col} is a data variable
+#' @param scale line width multiplier number. 
+#' @param n preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.
+#' @param style method to cut the color scale: "fixed", "equal", "pretty", "quantile", "kmeans". Only applicable when \code{lwd} is the name of a numeric variable.
+#' @param breaks in case \code{style=="fixed"}, breaks should be specified
+#' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the lines. Only when \code{col} is set to a variable.
+#' @param labels labels of the classes
+#' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. In this case of line widths, obviously only the positive side is used. 
+#' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE}
+#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
+#' @param colorNA color used for missing values
 #' @export
 #' @example ../examples/geo_lines.R
 #' @return \code{\link{geo-element}}
@@ -104,8 +112,8 @@ geo_lines <- function(col="red", lwd=1, lty="solid",
 					  palette = NULL,
 					  labels = NULL,
 					  auto.palette.mapping = TRUE,
-					  max.categories = 12, 
 					  contrast = 1,
+					  max.categories = 12, 
 					  colorNA = "grey65") {
 	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.scale=scale,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
@@ -130,7 +138,8 @@ geo_lines <- function(col="red", lwd=1, lty="solid",
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE}
-#' @param colorNA color used to missing values
+#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
+#' @param colorNA color used for missing values
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @param total.area.km2 total area size in km2. Needed if \code{convert2density=TRUE}.
 #' @export
@@ -144,9 +153,9 @@ geo_fill <- function(col="grey90",
 							breaks = NULL,
 						    labels = NULL,
 							auto.palette.mapping = TRUE,
-					 		max.categories = 12,
 							contrast = 1,
-							colorNA = "grey65",
+					 		max.categories = 12,
+					 		colorNA = "grey65",
 							thres.poly = 1e-05,
 							total.area.km2=NA) {
 	
@@ -161,7 +170,8 @@ geo_fill <- function(col="grey90",
 #' 
 #' @param size \code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples
-#' @param border color of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
+#' @param border.lwd line width of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
+#' @param border.col color of the bubble borders.
 #' @param scale bubble size multiplier number. 
 #' @param size.lim vector of two limit values of the \code{size} variable. Only bubbles are drawn whose value is greater than or equal to the first value. Bubbles whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
@@ -171,6 +181,7 @@ geo_fill <- function(col="grey90",
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE} and \code{col} is a numeric variable name. 
+#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA colour for missing values
 #' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
@@ -187,8 +198,8 @@ geo_bubbles <- function(size=1, col="blueviolet",
 						  palette = NULL,
 						  labels = NULL,
 						  auto.palette.mapping = TRUE,
-						  max.categories = 12,
 						  contrast = 1,
+						  max.categories = 12,
 						  colorNA = "#FF1414",
 						  xmod = 0,
 						  ymod = 0) {
@@ -210,33 +221,6 @@ geo_bubbles <- function(size=1, col="blueviolet",
 
 #' Small multiples grid
 #' 
-#' This layer specifies how small multiples are placed in a grid. The number of rows and columns can be specified here, as well as whether the scales are free (i.e. independent of each other).
-#' 
-#' @param ncol number of columns of the small multiples grid
-#' @param nrow number of rows of the small multiples grid
-#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo_fill}}, color and size from \code{\link{geo_bubbles}} and line color from \code{\link{geo_lines}}.
-#' @param free.scales.fill logical. Should the color scale for the choropleth be free?
-#' @param free.scales.bubble.size logical. Should the bubble size scale for the bubblemap be free?
-#' @param free.scales.bubble.col logical. Should the color scale for the bubblemap be free?
-#' @param free.scales.line.col Should the line color scale be free?
-#' @export
-#' @example ../examples/geo_grid.R
-#' @return \code{\link{geo-element}}
-geo_grid <- function(ncol=NULL, nrow=NULL, 
-					 free.scales=TRUE,
-					 free.scales.fill=free.scales,
-					 free.scales.bubble.size=free.scales,
-					 free.scales.bubble.col=free.scales,
-					 free.scales.line.col=free.scales
-					 )	{
-	g <- list(geo_grid=as.list(environment()))
-	class(g) <- "geo"
-	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
-	g
-}
-
-#' Small multiples grid
-#' 
 #' This layer specifies how small multiples are placed in a grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{geo_fill}}, \code{\link{geo_lines}}, or \code{\link{geo_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 #' 
 #' @param by data variable name by which the data is split
@@ -247,8 +231,9 @@ geo_grid <- function(ncol=NULL, nrow=NULL,
 #' @param free.scales.bubble.size logical. Should the bubble size scale for the bubblemap be free?
 #' @param free.scales.bubble.col logical. Should the color scale for the bubblemap be free?
 #' @param free.scales.line.col Should the line color scale be free?
+#' @param free.scales.line.lwd Should the line width scale be free?
 #' @export
-#' @example ../examples/geo_grid.R
+#' @example ../examples/geo_facets.R
 #' @return \code{\link{geo-element}}
 geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
 					   free.scales=is.null(by),
@@ -270,7 +255,9 @@ geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 #' 
 #' @param n.x Prefered number of grid lines for the x axis.
 #' @param n.y Prefered number of grid lines for the y axis.
-#' @param color Color for the grid lines.
+#' @param col Color for the grid lines.
+#' @param labels.cex font size of the tick labels
+#' @param labels.col font color fo the tick labels
 #' @param on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
 #' @export
 geo_grid <- function(n.x=8,
