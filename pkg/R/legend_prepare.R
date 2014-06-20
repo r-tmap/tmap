@@ -11,6 +11,10 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 	varnames3 <- c("fill", "fill_hist", "bubble.size", "bubble.col", "line.col", "line.lwd")
 	ids2 <- ids[varnames2]
 	
+	if (!gt$legend.show) gt$legend.config <- ""
+	if (!gt$legend.hist.show) gt$legend.config <- setdiff(gt$legend.config, "fill_hist")
+	
+	
 	legelem <- mapply(function(v3, v2, i) {
 		if (!is.na(i) && v3 %in% gt$legend.config) {
 			g <- gp[[i]]
@@ -19,6 +23,7 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 			legend.misc <- paste(v2, "legend.misc", sep=".")
 			if (is.na(g[[legend.labels]][1])) NULL else {
 				c(list(legend.type=v3,
+					   legend.is.portrait=gt$legend.is.portrait[v2],
 					   legend.labels=g[[legend.labels]],
 					   legend.palette=g[[legend.palette]]),
 				  g[[legend.misc]])

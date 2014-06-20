@@ -6,16 +6,7 @@ legend_plot <- function(gt, x) {
 	ishist <- (substr(conf, nchar(conf)-3, nchar(conf))=="hist")
 	conf2 <- ifelse(ishist, substr(conf, 1, nchar(conf)-5), conf)
 	
-	if (gt$legend.profile=="text") {
-		conf <- conf[!ishist]
-		conf2 <- conf2[!ishist]
-	}
-	if (gt$legend.profile=="hist") {
-		conf <- conf[ishist]
-		conf2 <- conf2[ishist]
-	}
-	
-	if (!length(conf) || gt$legend.profile=="hide") title.only <- TRUE
+	if (!length(conf) || gt$legend.only) title.only <- TRUE
 
 	if (!title.only) {
 		for (i in 1:length(gt$legend.titles)) {
@@ -45,7 +36,11 @@ legend_plot <- function(gt, x) {
 		
 		x <- x[x.not.null]
 		
-		heights <- gt$legend.heights[names(x)]
+		names(x)
+		types <- ifelse(sapply(x, function(y)if (is.null(y$legend.is.portrait)) FALSE else y$legend.is.portrait), "portrait", "landscape")
+		types[names(x)=="fill_hist"] <- "hist"
+		
+		heights <- gt$legend.heights[types]
 		names(heights) <- names(x)
 		heights[is.na(heights)] <- legend.title.npc
 		
@@ -177,15 +172,15 @@ legend_subplot <- function(x, gt) {
 	cellplot(id, 1, e={
 		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		legend.type <- x$legend.type
-		if (legend.type %in% c("fill", "bubble.col", "line.col")) {
-			legend_qual(x, gt$legend.text.cex, lineHeight)
-		} else if (legend.type %in% c("bubble.size", "line.lwd")) {
-			legend_quan(x, gt$legend.text.cex, lineHeight)
-		} else if (legend.type=="fill_hist") {
+		if (legend.type=="fill_hist") {
 			legend_hist(x, gt$legend.hist.cex, lineHeight, scale=gt$scale)
 		} else if (legend.type=="title") {
 			legend_title(x, gt$legend.title.cex, lineHeight)
-		}
+		} else if (x$legend.is.portrait) {
+			legend_portr(x, gt$legend.text.cex, lineHeight)
+		} else {
+			legend_landsc(x, gt$legend.text.cex, lineHeight)
+		}	
 	})
 }
 
@@ -195,43 +190,103 @@ legend_title <- function(x, legend.title.cex, lineHeight) {
 }
 
 
-legend_qual <- function(x, legend.text.cex, lineHeight) {
+legend_portr <- function(x, legend.text.cex, lineHeight) {
 	with(x, {
-		nitems <- length(legend.labels)
+		grid.rect()
+		browser()
+		
 		margin <- .05
-		linesHeight <- lineHeight * nitems
-		cex <- min((1-2*margin) / linesHeight * .85, 
-				   legend.text.cex)
+		spacer <- 0.05 ## for bubbles only
+		rest <- 1-2*margin
 		
-		linesHeight <- linesHeight * cex / .85
+		# determine number of items
+		if (legend.type=="bubble.size") {
+			legend.sizes.npc <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE)
+			legend.sizes.npc2 <- rep(legend.sizes.npc, each=2)[1:(length(legend.sizes.npc)*2-1)]
+			legend.sizes.npc2[seq(2, length(legend.sizes.npc2), by=2)] <- spacer
+			
+			if (sum(legend.sizes.npc2)>rest) {
+				clipID <- which(cumsum(legend.sizes.npc2) > rest)[1]
+				legend.sizes.npc <- legend.sizes.npc[1:clipID]
+				legend.labels <- legend.labels[1:clipID]
+			}
+			nitems <- length(legend.sizes.npc)
+			legend.lines.npc <- legend.sizes.npc + spacer
+			legend.lines.npc[c(1, length(legend.lines.npc))] <- 
+				legend.lines.npc[c(1, length(legend.lines.npc))] - .5 * spacer
+		} else {
+			nitems <- length(legend.labels)
+			legend.lines.npc <- rep(rest / nitems, nitems)
+		}
 		
-		yslines <- seq(1-margin, (1-margin)-linesHeight,
-					   length.out=(nitems)*2 + 1)
-		yslines <- yslines[seq(2,length(yslines)-1,by=2)]
+		ys <- 1-margin - cumsum(legend.lines.npc) + legend.lines.npc/2
+		cex <- min(legend.lines.npc / lineHeight, legend.text.cex)
 		
-		itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5 * cex
-		if (legend.type=="bubble.col") {
-			bubbleSizes <- min(bubble.max.size, itemSize)
-			grid.circle(x=unit(rep(itemSize*1.5, nitems), "inch"), 
-						y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
+		legend.lines.npcx <- convertWidth(convertHeight(unit(legend.lines.npc, "npc"), "inch"), "npc", TRUE)
+		
+		if (legend.type=="fill") {
+			grid.rect(x=legend.lines.npcx, 
+					  y=ys, 
+					  width= legend.lines.npcx, 
+					  height= legend.lines.npc,
+					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
+		 
+		} else if (legend.type %in% "bubble.size", "bubble.col") {
+			
+		}
+		grid.text(legend.labels, x=legend.lines.npcx*2,
+				  y=ys, just=c("left", "center"), gp=gpar(cex=cex))
+		
+		
+		if (legend.type=="bubble.size") {
+			cex <- legend.text.cex
+			legend.sizes.npc <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE)
+			totalHeight <- sum(legend.sizes.npc)
+			h <- cumsum(rep(legend.sizes.npc, each=2))
+			yslines <- (1-margin) - h[seq(1,length(h)-1,by=2)]
+			itemSize <- max(legend.sizes)
+			
+			grid.circle(x=unit(itemSize, "inch"), 
+						y=yslines, r=unit(legend.sizes, "inch"),
 						gp=gpar(fill=legend.palette,
 								col=bubble.border.col,
 								lwd=bubble.border.lwd))
-		} else if (legend.type=="line.col") {
-			grid.polyline(x=unit(rep(itemSize*c(1,2), nitems), "inch"),
-						  y=rep(yslines, each=2), 
-						  id=rep(1:nitems, each=2),
-						  gp=gpar(col=legend.palette, 
-						  		lwd=line.legend.lwd,
-						  		lty=line.legend.lty,
-						  		lineend="butt"))
 		} else {
-			grid.rect(x=unit(rep(itemSize*1.5, nitems), "inch"), 
-					  y=yslines, 
-					  width=unit(rep(itemSize*2, nitems), "inch"), 
-					  height=unit(rep(itemSize*2/.85, nitems), "inch"),
-					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
-		} 
+			totalHeight <- lineHeight * nitems
+			cex <- min((1-2*margin) / totalHeight * .85, 
+					   legend.text.cex)
+			
+			totalHeight <- totalHeight * cex / .85
+			
+			yslines <- seq(1-margin, (1-margin)-totalHeight,
+						   length.out=(nitems)*2 + 1)
+			yslines <- yslines[seq(2,length(yslines)-1,by=2)]
+			
+			itemSize <- convertWidth(unit(1,"lines"), "inch", valueOnly=TRUE) * 0.5 * cex
+
+			if (legend.type=="bubble.col") {
+				bubbleSizes <- min(bubble.max.size, itemSize)
+				grid.circle(x=unit(rep(itemSize*1.5, nitems), "inch"), 
+							y=yslines, r=unit(rep(bubbleSizes, nitems), "inch"),
+							gp=gpar(fill=legend.palette,
+									col=bubble.border.col,
+									lwd=bubble.border.lwd))
+			} else if (legend.type=="line.col") {
+				grid.polyline(x=unit(rep(itemSize*c(1,2), nitems), "inch"),
+							  y=rep(yslines, each=2), 
+							  id=rep(1:nitems, each=2),
+							  gp=gpar(col=legend.palette, 
+							  		lwd=line.legend.lwd,
+							  		lty=line.legend.lty,
+							  		lineend="butt"))
+			} else {
+				grid.rect(x=unit(rep(itemSize*1.5, nitems), "inch"), 
+						  y=yslines, 
+						  width=unit(rep(itemSize*2, nitems), "inch"), 
+						  height=unit(rep(itemSize*2/.85, nitems), "inch"),
+						  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
+			} 
+		}
 		grid.text(legend.labels, x=unit(rep(itemSize*3, nitems), "inch"), 
 				  y=yslines, just=c("left", "center"), gp=gpar(cex=cex))
 	})
@@ -242,8 +297,9 @@ legend_qual <- function(x, legend.text.cex, lineHeight) {
 
 
 
-legend_quan <- function(x, legend.text.cex, lineHeight) {
+legend_landsc <- function(x, legend.text.cex, lineHeight) {
 	with(x, {
+		grid.rect()
 		maxWidth <- max(convertWidth(stringWidth(legend.labels), "npc", valueOnly=TRUE))
 		nitems <- length(legend.labels)
 		linesHeight <- lineHeight * nitems
@@ -255,7 +311,6 @@ legend_quan <- function(x, legend.text.cex, lineHeight) {
 			cex <- min(legend.text.cex, 
 					   (1-bubbleHmax)/lineHeight/1.5,
 					   (1/(nitems+1))/maxWidth) 
-			
 			
 			lineH <- lineHeight * cex
 			
@@ -293,122 +348,3 @@ legend_quan <- function(x, legend.text.cex, lineHeight) {
 
 
 
-legend_hist <- function(x, legend.hist.cex, lineHeight, scale) {
-	with(x, {
-		if (is.factor(values)) {
-			numbers <- table(values)
-			xticks <- seq(0, 1, length.out=length(numbers)*2+1)[seq(2,length(numbers)*2,by=2)]
-			ptx <- levels(values)
-			colors <- legend.palette
-		} else {
-			values <- na.omit(values)
-			breaks2 <- pretty(values, n=30)
-			
-			toolow <- (breaks2 < min(breaks))
-			toohigh <- (breaks2 > max(breaks))
-			
-			startID <- max(sum(toolow), 1)
-			endID <- length(breaks2) - max(sum(toohigh), 1) + 1
-			
-			breaks2 <- breaks2[startID:endID]
-			bins.mean <- (breaks2[-1] + breaks2[1:(length(breaks2)-1)])/2
-			
-			cvalues <- cut(values, breaks=breaks2, include.lowest=TRUE, right=FALSE)
-			
-			numbers <- as.vector(table(cvalues))
-			breaks[1] <- -Inf
-			breaks[length(breaks)] <- Inf
-			
-			colors <- legend.palette[sapply(bins.mean, function(x) which(x<breaks)[1]-1)]
-			
-			ptx <- pretty(breaks2, n=5)
-			ptx <- ptx[ptx>breaks2[1] & ptx<tail(breaks2,1)]
-			rng <- range(breaks2)
-			xticks <- (ptx - rng[1]) / (rng[2] - rng[1])
-		}
-		maxnumber <- max(numbers)
-		pty <- pretty(c(0, numbers), n=5)
-		
-		hs <- numbers / maxnumber
-		pty <- pty[pty<=maxnumber]
-		hpty <- pty / maxnumber
-		
-		x <- seq(0, 1, length.out=length(numbers)+1)[1:length(numbers)]
-		
-		ws <- 1/length(numbers)
-		
-		
-		# lower 1/2 line
-		hs <- hs * (1- (lineHeight/2))
-		hpty <- hpty * (1- (lineHeight/2))
-		
-		formattedY <- format(pty, trim=TRUE)
-		
-		width.npc <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE)) * 1.5 * length(ptx)
-		height.npc <- convertHeight(unit(length(formattedY)+2, "lines"), "npc", valueOnly=TRUE) * 1.5
-		
-		margin <- 0.05
-		npc.total <- 1-2*margin
-		
-		cex <- min(legend.hist.cex,
-				   npc.total/width.npc,
-				   npc.total/height.npc)
-		
-		width.npc <- width.npc * cex
-		height.npc <- height.npc * cex
-		
-		
-		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * cex * 1.5
-		height.xaxis <- lineHeight * cex
-		
-		axisMargin <- convertWidth(unit(0.02, "npc"), "inch", valueOnly=TRUE)
-		axisTicks <- convertWidth(unit(0.01, "npc"), "inch", valueOnly=TRUE)
-		
-		pushViewport(
-			viewport(layout=grid.layout(5, 5, 
-										heights=unit(c(margin, 1, axisMargin+axisTicks, height.xaxis, margin), c("npc", "null", "inch", "npc", "npc")),
-										widths=unit(c(margin, 1, axisMargin+axisTicks, width.yaxis, margin), c("npc", "null", "inch", "npc", "npc")))))
-		
-		cellplot(2,2, e={
-			#grid.rect(gp=gpar(fill="lightblue2"))
-			grid.rect(x=x, y=0, width=ws, height=hs, gp=gpar(col=NA,fill=colors), just=c("left", "bottom"))
-		})
-		
-		# plot y axis
-		cellplot(2,3,e={
-			axisMargin.npc <- convertWidth(unit(axisMargin, "inch"), "npc", valueOnly=TRUE)
-			axisTicks.npc <- convertWidth(unit(axisTicks, "inch"), "npc", valueOnly=TRUE)
-			
-			
-			grid.polyline(x=c(axisMargin.npc, axisMargin.npc, 
-							  rep(c(axisMargin.npc,axisMargin.npc+axisTicks.npc), length(pty))),
-						  y=c(0, 1, rep(hpty, each=2)),
-						  id=rep(1:(length(pty)+1),each=2), gp=gpar(lwd=scale))
-		})
-		
-		cellplot(2,4,e={
-			maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * cex * 1.5
-			grid.text(formattedY, x=maxWidth, y=hpty, 
-					  just=c("right","center"), gp=gpar(cex=cex))
-		})
-		
-		# plot x axis tick marks
-		cellplot(3,2,e={
-			axisMargin.npc <- convertHeight(unit(axisMargin, "inch"), "npc", valueOnly=TRUE)
-			axisTicks.npc <- convertHeight(unit(axisTicks, "inch"), "npc", valueOnly=TRUE)
-			
-			n <- length(xticks)
-			
-			line_height <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * cex
-			grid.lines(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc), gp=gpar(lwd=scale))
-			grid.polyline(x=rep(xticks, each=2), y=rep(c(1-axisMargin.npc, 1-axisMargin.npc-axisTicks.npc), n), 
-						  id=rep(1:n, each=2), gp=gpar(lwd=scale)) 
-		})
-		
-		cellplot(4,2,e={
-			grid.text(ptx, x=xticks, y=.5, gp=gpar(cex=cex))
-		})
-		
-		upViewport()
-	})
-}
