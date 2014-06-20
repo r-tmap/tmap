@@ -134,11 +134,11 @@ process_lines <- function(data, g, gt, gby) {
 	}
 	
 	line.legend.lwd <- if (is.list(line.legend.lwds)) {
-		sapply(line.legend.lwds, median)
+		sapply(line.legend.lwds, function(x)quantile(x, probs=.75, na.rm=TRUE))
 	} else if (is.na(line.legend.lwds[1])) {
-		apply(line.lwd, 2, function(bc) median(bc, na.rm=TRUE))
+		apply(line.lwd, 2, function(bc) quantile(bc, probs=.75, na.rm=TRUE))
 	} else {
-		rep(median(line.legend.lwds), nx)
+		rep(quantile(line.legend.lwds, probs=.75, na.rm=TRUE), nx)
 	}
 	
 	list(line.col=line.col,
@@ -150,7 +150,8 @@ process_lines <- function(data, g, gt, gby) {
 		 						  line.legend.lty=g$lines.lty),
 		 line.lwd.legend.labels=line.lwd.legend.labels,
 		 line.lwd.legend.palette=line.lwd.legend.palette,
-		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds),
+		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds,
+		 						  line.legend.lty=g$lines.lty),
 		 xline=xcol,
 		 xlinelwd=xlwd)
 
