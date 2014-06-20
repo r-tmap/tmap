@@ -185,7 +185,6 @@ legend_subplot <- function(x, gt) {
 }
 
 legend_title <- function(x, legend.title.cex, lineHeight) {
-	grid.rect()
 	cex <- min(legend.title.cex, 1/lineHeight)
 	grid.text(x$title, x=0, y=5/12 , just=c("left", "center"), gp=gpar(cex=cex))
 }
@@ -198,7 +197,6 @@ legend_portr <- function(x, legend.text.cex, lineHeight) {
 		s <- 1.25 ## for bubbles only
 		r <- 1-2*my
 		
-		# determine number of items
 		if (legend.type=="bubble.size") {
 			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
 			lhs <- hs * s
@@ -234,7 +232,7 @@ legend_portr <- function(x, legend.text.cex, lineHeight) {
 					  height= hs,
 					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
-			grid.circle(x=mx+ws/2, 
+			grid.circle(x=mx+wsmax/2, 
 					y=ys, r=unit(hsi/2, "inch"),
 					gp=gpar(fill=legend.palette,
 							col=bubble.border.col,
@@ -258,39 +256,46 @@ legend_portr <- function(x, legend.text.cex, lineHeight) {
 
 legend_landsc <- function(x, legend.text.cex, lineHeight) {
 	with(x, {
-		grid.rect()
 		my <- lineHeight / 4
 		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 		s <- 1.25 ## for bubbles only
 		r <- 1-2*mx
 		
 		# determine number of items
+		nitems <- length(legend.labels)
+
+		lws <- ws <- rep(r / nitems, nitems)
 		if (legend.type=="bubble.size") {
-			ws <- convertWidth(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
-			lws <- ws * s
-			if (sum(lws)>r) {
-				clipID <- which(cumsum(lws) > r)[1]
-				hw <- hw[1:(clipID-1)]
-				lws <- lws[1:(clipID-1)]
-				legend.labels <- legend.labels[1:(clipID-1)]
+			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
+			nofit <- which(hs>(r-1.5*lineHeight))
+			
+			if (length(nofit)) {
+				clipID <- nofit[1]
+				nitems <- clipID-1
+				
+				lws <- lws[1:nitems]
+				ws <- ws[1:nitems]
+				hs <- hs[1:nitems]
+				legend.labels <- legend.labels[1:nitems]
 			}
-			nitems <- length(ws)
 		} else {
-			nitems <- length(legend.labels)
-			lws <- ws <- rep(r / nitems, nitems)
+			hs <- convertHeight(convertWidth(unit(ws, "npc"), "inch"), "npc", TRUE)
+			hs <- pmin(hs, (r-1.5*lineHeight))
 		}
 		
-		if (legend.type=="bubble.col") {
-			bmax <- convertWidth(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
-			ws <- pmin(ws/s, bmax)
-		}
 		
 		xs <- mx + cumsum(lws) - lws/2
-		cex <- pmin(lws / (lineHeight, legend.text.cex)
+		labelsws <- convertWidth(stringWidth(legend.labels), "npc", TRUE)
+		maxlabelsws <- max(labelsws)
+		cex <- min(.8 * r/(maxlabelsws*nitems), legend.text.cex)
+					
+		if (legend.type=="bubble.col") {
+			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
+			hs <- pmin(hs, bmax)
+		}
 		
-		hs <- convertHeight(convertWidth(unit(ws, "npc"), "inch"), "npc", TRUE)
 		hsmax <- max(hs)
-		wsi <- convertWidth(unit(ws, "npc"), "inch", valueOnly=TRUE)
+		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 		
 		
 		if (legend.type=="fill") {
@@ -301,7 +306,7 @@ legend_landsc <- function(x, legend.text.cex, lineHeight) {
 					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
 			grid.circle(x=xs, 
-						y=1-my-hs/2, r=unit(wsi/2, "inch"),
+						y=1-my-hsmax/2, r=unit(hsi/2, "inch"),
 						gp=gpar(fill=legend.palette,
 								col=bubble.border.col,
 								lwd=bubble.border.lwd))
@@ -316,61 +321,8 @@ legend_landsc <- function(x, legend.text.cex, lineHeight) {
 						  		lineend="butt"))
 		}
 		grid.text(legend.labels, x=xs,
-				  y=my+hsmax, just=c("center", "bottom"), gp=gpar(cex=cex))
+				  y=1-2*my-hsmax, just=c("center", "top"), gp=gpar(cex=cex))
 		
 	})
 }
-
-
-
-# legend_landsc <- function(x, legend.text.cex, lineHeight) {
-# 	with(x, {
-# 		grid.rect()
-# 		maxWidth <- max(convertWidth(stringWidth(legend.labels), "npc", valueOnly=TRUE))
-# 		nitems <- length(legend.labels)
-# 		linesHeight <- lineHeight * nitems
-# 		xcoor <- seq(0,1,length.out=2*nitems+1)[seq(2, by=2, length.out=nitems)]
-# 		if (legend.type == "bubble.size") {
-# 			bubbleH <- convertHeight(unit(legend.sizes,"inch"), "npc", valueOnly=TRUE)
-# 			bubbleHmax <- max(bubbleH) * 1.5
-# 			
-# 			cex <- min(legend.text.cex, 
-# 					   (1-bubbleHmax)/lineHeight/1.5,
-# 					   (1/(nitems+1))/maxWidth) 
-# 			
-# 			lineH <- lineHeight * cex
-# 			
-# 			divY <- .5 + (lineH - bubbleHmax)/2
-# 			bubbleY <- divY + bubbleHmax / 1.5
-# 			lineY <- divY - lineH*.75
-# 			grid.circle(x=xcoor,
-# 						y=bubbleY,
-# 						r=bubbleH,
-# 						gp=gpar(col=bubble.border.col, lwd=bubble.border.lwd, fill=legend.palette))
-# 		} else {
-# 			cex <- min(legend.text.cex, 
-# 					   .5/lineHeight,
-# 					   (1/(nitems+1))/maxWidth) 
-# 			linesY <- 1-(lineHeight / 2)
-# 			lineY <- (lineHeight * cex)/1.5
-# 			restY <- 1 - lineY*1.5
-# 			xs <- rep(xcoor, each=2)
-# 			ys <- rep(c(1  - restY * .2, 1 - restY * .8), nitems)
-# 			grid.polyline(x=xs,
-# 						  y=ys,
-# 						  id=rep(1:nitems, each=2),
-# 						  gp=gpar(lwd=legend.lwds,
-# 						  		col=legend.palette,
-# 						  		lineend="butt"))
-# 		}
-# 		grid.text(legend.labels,
-# 				  x=xcoor,
-# 				  y=lineY,
-# 				  gp=gpar(cex=cex))
-# 	})
-# }
-
-
-
-
 
