@@ -22,9 +22,9 @@
 #' @param legend.titles titles of the legend elements. Named numeric character, where the names correspond to the legend elements and the value to the titles of those elements. Possible legend element names are: \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
 #' @param legend.is.portrait logical vector that determines whether the orientation of the legend elements are portrait (\code{TRUE}) or landscape (\code{FALSE}). The vector should be named with the corresponding elements, which are \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
-#' @param legend.width width of the legend
-#' @param legend.max.height total maximum height of the legend. Heights of single legend elements are specified by \code{legend.heights}. If their total exceeds \code{legend.height}, then there are downscaled linearly.
-#' @param legend.heights Named numeric vector, where the names correspond to the type of legend elements (possible values are "portrait", "landscape", and "hist") and the values to the height of those elements. See \code{legend.max.height}.
+#' @param legend.width maximum width of the legend
+#' @param legend.height maximum height of the legend.
+#' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
 #' @param legend.config character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, and \code{"bubble.col"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.
 #' @param legend.title.cex Relative font size for the legend title
 #' @param legend.text.cex Relative font size for the legend text elements
@@ -55,8 +55,8 @@ geo_theme <- function(title=NA,
 					  					   bubble.col = TRUE,
 					  					   line.col = TRUE, line.lwd = TRUE),
 					  legend.width = 0.3,
-					  legend.max.height = 0.9,
-					  legend.heights = c(portrait = 0.5, landscape = 0.3, hist = 0.3),
+					  legend.height = 0.9,
+					  legend.hist.height = 0.3,
 					  legend.config = c("fill_hist", "fill", "bubble.size", "bubble.col", "line.col", "line.lwd"),
 					  legend.title.cex=1.0,
 					  legend.text.cex=0.7,
@@ -80,7 +80,7 @@ geo_theme_World <- function(title=NA,
 							inner.margins=c(0, 0.02, 0.02, 0.02),
 							legend.position=c("left", "bottom"), 
 							legend.width=.2,
-							legend.max.height = .5,
+							legend.height = .5,
 							legend.bg.color=TRUE,
 							...) {
 	args <- c(as.list(environment()), list(...))

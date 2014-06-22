@@ -49,8 +49,8 @@ legend_hist <- function(x, legend.hist.cex, lineHeight, scale) {
 		
 		formattedY <- format(pty, trim=TRUE)
 		
-		width.npc <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE)) * 1.5 * length(ptx)
-		height.npc <- convertHeight(unit(length(formattedY)+2, "lines"), "npc", valueOnly=TRUE) * 1.5
+		width.npc <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE)) * length(ptx)
+		height.npc <- convertHeight(unit(length(formattedY)+2, "lines"), "npc", valueOnly=TRUE) 
 		
 		margin <- 0.05
 		npc.total <- 1-2*margin
