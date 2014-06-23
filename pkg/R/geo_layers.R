@@ -132,7 +132,8 @@ geo_lines <- function(col="red", lwd=1, lty="solid",
 #' @param col either a single color value or a name of the data variable that is contained in \code{shp}. In the latter case, a choropleth is drawn.
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
-#' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. Note that the conversion to densities is an approximation where the total area size is given by the argument \code{total.area.km2}.
+#' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.
+#' @param area Name of the data variable that contains the area sizes in squared kilometer.
 #' @param style method to cut the color scale (in case \code{col} is a numeric variable): "fixed", "equal", "pretty", "quantile", "kmeans"
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
 #' @param labels labels of the classes
@@ -141,13 +142,13 @@ geo_lines <- function(col="red", lwd=1, lty="solid",
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
-#' @param total.area.km2 total area size in km2. Needed if \code{convert2density=TRUE}.
 #' @export
 #' @example ../examples/geo_fill.R
 #' @return \code{\link{geo-element}}	
 geo_fill <- function(col="grey90", 
 						    palette = NULL,
 						    convert2density = FALSE,
+					 		area = NULL,
 						    n = 5,
 						    style = "pretty",
 							breaks = NULL,
@@ -156,8 +157,7 @@ geo_fill <- function(col="grey90",
 							contrast = 1,
 					 		max.categories = 12,
 					 		colorNA = "grey65",
-							thres.poly = 1e-05,
-							total.area.km2=NA) {
+							thres.poly = 1e-05) {
 	
 	g <- list(geo_fill=as.list(environment()))
 	class(g) <- "geo"

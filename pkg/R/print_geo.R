@@ -24,7 +24,7 @@ print.geo <- function(x, ...) {
 	
 	x[shape.id] <- lapply(x[shape.id], function(y){
 		data <- y$shp@data
-		if (inherits(y$shp, "SpatialPolygons")) data$SHAPE_AREAS <- approx_areas(y$shp, units="prop")
+		if (inherits(y$shp, "SpatialPolygons")) data$SHAPE_AREAS <- approx_areas(y$shp, units="abs") / 1e6
 		y$data <- data
 		y$shp <- NULL
 		y

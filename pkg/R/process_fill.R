@@ -46,6 +46,7 @@ process_fill <- function(data, g, gb, gt, gby) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	areas <- data$SHAPE_AREAS
+	areas_prop <- areas/sum(areas, na.rm=TRUE)
 	shpcols <- names(data)[1:(ncol(data)-2)]
 	
 	x <- g$col
@@ -68,13 +69,13 @@ process_fill <- function(data, g, gb, gt, gby) {
 		
 	# return if data is matrix of color values
 	if (is.matrix(dt)) return(list(fill=dt, xfill=rep(NA, nx)))
-	
-	tiny <- areas < g$thres.poly
+	tiny <- areas_prop < g$thres.poly
+	if (all(tiny)) warning("all relative area sizes are below thres.poly")
 	if (is.list(dt)) {
 		isNum <- sapply(dt, is.numeric)
 		if (any(isNum) && g$convert2density) {
 			dt[isNum] <- lapply(dt[isNum], function(d) {
-				d / (areas * g$total.area.km2)
+				d / areas
 			})
 		}
 		res <- lapply(dt, process_fill_vector, g, gt, tiny)
@@ -85,7 +86,7 @@ process_fill <- function(data, g, gb, gt, gby) {
 		fill.values <- lapply(dt, function(d)d[!tiny])
 	} else {
 		if (is.numeric(dt) && g$convert2density) {
-			dt <- dt / (areas * g$total.area.km2)
+			dt <- dt / areas
 		}
 		res <- process_fill_vector(dt, g, gt, tiny)
 		fill <- matrix(res$fill, nrow=npol)

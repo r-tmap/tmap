@@ -9,7 +9,7 @@
 #' @param units one of
 #' \describe{
 #' 	\item{\code{"km2"}:}{Squared kilometers. For this method, \code{total.area.km2} is required.}
-#' 	\item{\code{"abs"}:}{Absolute numbers based on polygon coordinates. Note: these are just the \code{area} slots of the polygons.}
+#' 	\item{\code{"abs"}:}{Absolute numbers based on polygon coordinates. Only usefull if the projection satisfies the equal-area property. Note: these are just the \code{area} slots of the polygons, where the \code{area} slots of the holes are subtracted.}
 #' 	\item{\code{"prop"}:}{Proportional numbers. In other words, the total of the area sizes equals one.}
 #' 	\item{\code{"norm"}:}{Normalized numbers. All area sizes are normalized to the largest area, of which the area size equals one.}}
 #' 	The default method is \code{"abs"}, unless \code{total.area.km2} is specified (in that case, it is \code{"km2"}).
