@@ -7,6 +7,7 @@ loops$roadnumber[loops$roadnumber==18] <- 15
 
 loops$roadname <- factor(as.character(loops$roadname), levels=levels(rwb$ID))
 
+library(rgeos)
 ########## assign loops to roads
 d <- gDistance(rwb, loops, byid=TRUE)
 d <- d[,1:(ncol(d)-1)]
