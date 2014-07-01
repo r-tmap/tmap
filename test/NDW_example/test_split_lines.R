@@ -16,18 +16,37 @@ loops <- get_shape("../test/NDW_example/loops2013_classified.shp")
 library(sp)
 library(rgeos)
 
-rwb_cr2 <- split_lines(rwb_cr, dist=100)
+dist <- 100
+
+rwb_cr2 <- split_lines(rwb_cr, dist=dist)
+
+loops_data <- map_points_to_line(shp.points=loops, shp.lines=rwb_cr2, key.points="roadname", key.lines="ID", by.key=TRUE)
+
+loops_data$dist <- (loops_data$id3-1) * dist
+
+loops <- append_data(loops, loops_data, fixed.order=TRUE)
+
+loops79 <- loops[loops$roadname=="A79",]
+loops79$order <- order(order(loops79$dist))
 
 pdf("test.pdf", width=7, height=7)
-geo_shape(corop) +
+geo_shape(corop[39,]) +
 	geo_fill("grey90") +
 	geo_borders("white") +
 	geo_shape(rwb_cr) +
 	geo_lines(col="red", lwd=2) +
 	geo_shape(rwb_cr2) +
-	geo_lines(col="blue")
+	geo_lines(col="blue") +
+	geo_shape(loops79) +
+	geo_bubbles(size=.2) +
+	geo_text("order", cex=.3)
 dev.off()
-	
+
+
+
+
+
+
 
 
 
