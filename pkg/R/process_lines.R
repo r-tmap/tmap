@@ -14,7 +14,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 process_line_col_vector <- function(x, g, gt) {
 	line.col.is.numeric <- is.numeric(x)
 	if (line.col.is.numeric) {
-		palette <- if (is.null(g$palette))  "Blues" else g$palette
+		palette <- if (is.null(g$palette))  "RdYlBu" else g$palette
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,

@@ -21,7 +21,7 @@ process_bubbles_size_vector <- function(x, g, rescale) {
 process_bubbles_col_vector <- function(xc, xs, g, gt) {
 	bubble.col.is.numeric <- is.numeric(xc)
 	if (bubble.col.is.numeric) {
-		palette <- if (is.null(g$palette))  "Blues" else g$palette
+		palette <- if (is.null(g$palette))  "RdYlBu" else g$palette
 		colsLeg <- num2pal(xc, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,

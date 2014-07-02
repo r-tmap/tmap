@@ -43,15 +43,6 @@ nuts$NUTS2 <- as.integer(substr(nuts$NUTS3, 3, 4))
 corop <- append_data(corop, data=nuts, key.shp="CR2013", key.data="COROP")
 
 
-
-geo_shape(corop[39, ]) +
-	geo_fill("gray70") +
-geo_shape(gm) +
-	geo_borders("white") +
-	geo_shape(rwb_cr) +
-	geo_lines("ID", lwd=3)
-
-
 ## rijkswegen per corop
 pdf("../test/NDW_example/rw_corop.pdf", width=7, height=7)
 geo_shape(corop) +
@@ -64,3 +55,38 @@ geo_shape(corop) +
 	geo_theme(legend.show=FALSE, title="Rijkswegen per corop")
 
 dev.off()
+
+
+
+
+## experiment with output vis
+str(rwb_cr@data)
+
+nms <- paste(rep(paste("2014-05-", sprintf("%02d", 5:11), sep=""), each=5), 
+			 rep(c("alle", "ochtend", "middag", "avond", "nacht"), times=7), sep="_")
+
+for (n in nms) {
+	rwb_cr[[n]] <- rnorm(136, mean=100, sd=4)
+}
+
+
+geo_shape(corop) +
+	geo_fill("gray70") +
+	geo_borders("white") +
+	#geo_shape(gm) +
+	#geo_borders("white") +
+	geo_shape(rwb_cr) +	
+	geo_lines("x", lwd=3, max.categories=46) +
+	geo_theme(legend.show=TRUE, title="Test")
+
+
+geo_shape(corop) +
+	geo_fill("gray70") +
+	geo_borders("white") +
+	#geo_shape(gm) +
+	#geo_borders("white") +
+	geo_shape(rwb_cr) +	
+	geo_lines("2014-05-05_alle", lwd=3, max.categories=46) +
+	geo_theme(legend.show=TRUE, title="Test")
+
+
