@@ -54,14 +54,13 @@ geo_shape(World) +
 	geo_fill("pop_est_dens", style="kmeans", palette="YlOrRd", auto.palette.mapping=FALSE) +
 	geo_borders() +
 	geo_text("iso_a3", cex="AREA", cex.lowerbound=.4, bg.alpha=0) +
-	geo_theme_World(legend.profile="text", title="Population density per km2", title.bg.color=TRUE)
+	geo_theme_World(title="Population density per km2", title.bg.color=TRUE)
 
 geo_shape(World) +
 	geo_fill("income_grp", palette="-Blues") +
 	geo_borders() +
 	geo_text("iso_a3", cex="AREA", scale=1.5, bg.alpha=0) +
-	geo_theme_World("Income classification", legend.titles=c(bubble.size="Population"),
-					legend.profile="text")
+	geo_theme_World("Income classification")
 
 # Europe example
 data(Europe)
@@ -82,10 +81,10 @@ geo_shape(NLD_prov) +
 	geo_shape(NLD_prov) + 
 	geo_borders(lwd=2) +
 	geo_text("name") +
-	geo_theme_NLD("Provinces and municipalities", legend.profile="hide")
+	geo_theme_NLD("Provinces and municipalities", legend.show=FALSE)
 
 geo_shape(NLD_muni) +
-	geo_fill(col="pop", convert2density=TRUE, style="kmeans", total.area.km2=41543) +
+	geo_fill(col="pop", convert2density=TRUE, style="kmeans") +
 	geo_borders() +
 	geo_shape(NLD_prov) +
 	geo_borders(, lwd=2) +
