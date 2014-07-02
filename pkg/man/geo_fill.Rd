@@ -3,10 +3,10 @@
 \alias{geo_fill}
 \title{Draw choropleth}
 \usage{
-geo_fill(col = "grey90", palette = NULL, convert2density = FALSE, n = 5,
-  style = "pretty", breaks = NULL, labels = NULL,
+geo_fill(col = "grey90", palette = NULL, convert2density = FALSE,
+  area = NULL, n = 5, style = "pretty", breaks = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = "grey65", thres.poly = 1e-05, total.area.km2 = NA)
+  colorNA = "grey65", thres.poly = 1e-05)
 }
 \arguments{
 \item{col}{either a single color value or a name of the data variable that is contained in \code{shp}. In the latter case, a choropleth is drawn.}
@@ -15,7 +15,9 @@ geo_fill(col = "grey90", palette = NULL, convert2density = FALSE, n = 5,
 
 \item{n}{preferred number of classes (in case \code{col} is a numeric variable)}
 
-\item{convert2density}{boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. Note that the conversion to densities is an approximation where the total area size is given by the argument \code{total.area.km2}.}
+\item{convert2density}{boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.}
+
+\item{area}{Name of the data variable that contains the area sizes in squared kilometer.}
 
 \item{style}{method to cut the color scale (in case \code{col} is a numeric variable): "fixed", "equal", "pretty", "quantile", "kmeans"}
 
@@ -32,8 +34,6 @@ geo_fill(col = "grey90", palette = NULL, convert2density = FALSE, n = 5,
 \item{colorNA}{color used for missing values}
 
 \item{thres.poly}{number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size.}
-
-\item{total.area.km2}{total area size in km2. Needed if \code{convert2density=TRUE}.}
 }
 \value{
 \code{\link{geo-element}}

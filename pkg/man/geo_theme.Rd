@@ -10,20 +10,21 @@ geo_theme(title = NA, scale = 1, title.cex = 1, bg.color = NULL,
   draw.frame = TRUE, title.position = c("left", "top"),
   title.bg.color = NA, asp = NA, frame.lwd = 1,
   outer.margins = rep(0.02, 4), inner.margins = rep(0.02, 4),
-  outer.bg.color = "white", legend.profile = "full", legend.only = FALSE,
-  legend.titles = c(fill = NA, bubble.size = NA, bubble.col = NA, line.col =
-  NA, line.lwd = NA), legend.position = c("left", "top"),
-  legend.width = 0.3, legend.max.height = 0.9, legend.heights = c(fill =
-  0.3, fill_hist = 0.25, bubble.size = 0.15, bubble.col = 0.3, line.col = 0.3,
-  line.lwd = 0.15), legend.config = c("fill_hist", "fill", "bubble.size",
-  "bubble.col", "line.col", "line.lwd"), legend.title.cex = 1,
-  legend.text.cex = 0.7, legend.hist.cex = 0.7, legend.digits = 2L,
-  legend.NA.text = "Missing", legend.bg.color = NA)
+  outer.bg.color = "white", legend.show = TRUE, legend.hist.show = FALSE,
+  legend.only = FALSE, legend.titles = c(fill = NA, bubble.size = NA,
+  bubble.col = NA, line.col = NA, line.lwd = NA), legend.position = c("left",
+  "top"), legend.is.portrait = c(fill = TRUE, bubble.size = FALSE, bubble.col
+  = TRUE, line.col = TRUE, line.lwd = FALSE), legend.width = 0.3,
+  legend.height = 0.9, legend.hist.height = 0.3,
+  legend.config = c("fill_hist", "fill", "bubble.size", "bubble.col",
+  "line.col", "line.lwd"), legend.title.cex = 1, legend.text.cex = 0.7,
+  legend.hist.cex = 0.7, legend.digits = 2L, legend.NA.text = "Missing",
+  legend.bg.color = NA)
 
 geo_theme_World(title = NA, scale = 0.85, title.position = c("left",
   "bottom"), title.bg.color = TRUE, outer.margins = rep(0.02, 4),
   inner.margins = c(0, 0.02, 0.02, 0.02), legend.position = c("left",
-  "bottom"), legend.width = 0.2, legend.max.height = 0.5,
+  "bottom"), legend.width = 0.2, legend.height = 0.5,
   legend.bg.color = TRUE, ...)
 
 geo_theme_Europe(title = NA, legend.position = c("left", "top"),
@@ -57,13 +58,9 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 
 \item{outer.bg.color}{Background color outside the frame.}
 
-\item{legend.profile}{Character that specifies which legend elements are drawn (if applicable):
-\describe{
-    \item{\code{"full"}:}{All of them. (Which are: choropleth text, choropleth histogram, bubble size text, and bubble color text.)}
-    \item{\code{"text"}:}{Only the choropleth text, bubble size text, and bubble color text.}
-    \item{\code{"hist"}:}{Only the choropleth histogram.}
-    \item{\code{"none"}:}{None of them.}}
-Alternatively, \code{legend.config} can be used to specify the elements directly.}
+\item{legend.show}{Logical that determines whether the legend is shown. Use \code{legend.config} to configure which legend elements are shown.}
+
+\item{legend.hist.show}{Logical that determines whether to show a histogram for the choropleth fill variable.}
 
 \item{legend.only}{logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.}
 
@@ -71,13 +68,15 @@ Alternatively, \code{legend.config} can be used to specify the elements directly
 
 \item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.}
 
-\item{legend.width}{width of the legend}
+\item{legend.is.portrait}{logical vector that determines whether the orientation of the legend elements are portrait (\code{TRUE}) or landscape (\code{FALSE}). The vector should be named with the corresponding elements, which are \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.}
 
-\item{legend.max.height}{total maximum height of the legend. Heights of single legend elements are specified by \code{legend.heights}. If their total exceeds \code{legend.height}, then there are downscaled linearly.}
+\item{legend.width}{maximum width of the legend}
 
-\item{legend.heights}{Named numeric vector, where the names correspond to the legend elements and the values to the height of those elements. See \code{legend.max.height}. Possible legend element names are: \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.}
+\item{legend.height}{maximum height of the legend.}
 
-\item{legend.config}{character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"choro"}, \code{"hist"}, \code{"bubble.size"}, and \code{"bubble.col"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.}
+\item{legend.hist.height}{height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.}
+
+\item{legend.config}{character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, and \code{"bubble.col"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.}
 
 \item{legend.title.cex}{Relative font size for the legend title}
 

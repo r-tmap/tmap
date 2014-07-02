@@ -17,7 +17,7 @@
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param outer.bg.color Background color outside the frame.
 #' @param legend.show Logical that determines whether the legend is shown. Use \code{legend.config} to configure which legend elements are shown.
-#' @param legend.hist.show.hist Logical that determines whether to show a histogram for the choropleth fill variable.
+#' @param legend.hist.show Logical that determines whether to show a histogram for the choropleth fill variable.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
 #' @param legend.titles titles of the legend elements. Named numeric character, where the names correspond to the legend elements and the value to the titles of those elements. Possible legend element names are: \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
