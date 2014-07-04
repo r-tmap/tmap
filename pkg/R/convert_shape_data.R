@@ -8,7 +8,6 @@
 #' @param variables.to variable names to be used. Should be the same number of variable names as \code{variables.from}
 #' @import rgeos
 #' @return shape object \code{shp.to} with converted data from \code{shp.from}
-#' @example ../examples/convert_shape_data.R
 #' @export
 convert_shape_data <- function(shp.from, shp.to, variables.from=NULL, variables.to=NULL) {
 	polys.to <- shp.to@polygons

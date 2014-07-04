@@ -39,9 +39,8 @@ NULL
 #' 
 #' \code{Europe} Europe map. Lambert azimuthal equal-area projection is used by default for this map. Several countries are transcontinental and are partly located in Asia. From these countries, only Russia and Turkey have been included in this map as part of Europe since they are widely considered as European countries. Other transcontinental countries Azerbaijan, Georgia, and Kazakhstan, are also included in the map, but only passively. From the other surrounding countries, only Greenland is removed from the map, since it interferes with the map title.
 #' 
-#' \code{NLD_prov} and \code{NLD_muni} For the Netherlands maps, the Rijksdriehoekstelsel projection is used.
+#' \code{NLD_prov} and \code{NLD_muni}, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection. \strong{Important:} publication of these maps is only allowed when cited to Statistics Netherlands (CBS) and Kadaster Nederland (Cadastre Netherlands) as source.
 #' 
-#' \code{NLD_ageGroups} Additional dataset for the Netherlands at municipality level
 #' @name World
 #' @rdname Shapes
 #' @docType data
@@ -63,10 +62,6 @@ NULL
 #' @docType data
 NULL
 
-#' @name NLD_ageGroups
-#' @rdname Shapes
-#' @docType data
-NULL
 
 
 #' rivers, cities and airports

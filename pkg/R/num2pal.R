@@ -36,48 +36,9 @@ num2pal <- function(x, n = 5,
 
 		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)))(101)
 
-		mx <- max(abs(breaks))
-		
-		
-		# define neutral category
-		if (pal.div) {
-			is.div <- any(breaks<0) && any(breaks>0)
-			if (is.div) {
-			
-				brk0 <- which(breaks[1:(nbrks-1)] < 0 & breaks[2:nbrks] > 0)
-				has0 <- (length(brk0)!=0)
-				
-				
-				
-				if (has0) {
-					brkp <- brkn <- brk0
-					
-					pid <- nid <- 51
-				} else {
-					brkp <- which(breaks>=0)[1]
-					brkn <- rev(which(breaks<0))[1]
-					
-					step <- round(50*contrast/((max(npos, nneg)-.5)*2))
-					pid <- 51 + step
-					nid <- 51 - step
-				}
-				
-				
-			} else {
-				npos <- sum(breaks>0) - 1
-				nneg <- sum(breaks<0) - 1
-				
-				brkp <- brkn <- brk0 <- ifelse(breaks[1]>=0, 1, nbrks-1)
-				pid <- nid <- 51
-			}
-		
-			# diverging
-			ids <- rep(51, nbrks-1)
-			if (npos>0) ids[brkp:(nbrks-1)] <- pid + seq(0, (101-pid)/mx*breaks[nbrks]*contrast, 
-												length.out=npos)
-			if (nneg>0) ids[1:brkn] <- seq(nid-((nid-1)/mx*-breaks[1]*contrast), nid, 
-												length.out=nneg)
-		} else ids <- seq(1, 1+100*contrast, length.out=nbrks-1)
+		ids <- if (pal.div) {
+			map2divscale(breaks, contrast=contrast)
+		} else seq(1, 1+100*contrast, length.out=nbrks-1)
 		
 		legend.palette <- colpal[ids]
 	} else {
@@ -108,4 +69,47 @@ num2pal <- function(x, n = 5,
 	}
 	
 	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks)
+}
+
+# breaksList <- list(c(0, 10, 20, 30, 40, 50),
+# 				   c(10, 20, 30, 40, 50),
+# 				   c(-50, -40, -30, -20, -10, 0),
+# 				   c(-50, -40, -30, -20, -10),
+# 				   c(-50, -40, -30, -20, -10, 0, 10, 20, 30, 40, 50),
+# 				   c(-50, -40, -30, -20, -10, -1, 10, 20, 30, 40, 50),
+# 				   c(-30, -10, 10, 30),
+# 				   c(-1, 10, 20, 30, 40, 50),
+# 				   c(-1, 0, 10, 20, 30, 40, 50),
+# 				   c(-50, -40, -30, -20, -10, 1))
+# lapply(breaksList, FUN=map2divscale)
+map2divscale <- function(breaks, n=101, contrast=1) {
+	nbrks <- length(breaks)
+	mx <- max(abs(breaks))
+	
+	is.div <- any(breaks<0) && any(breaks>0)
+	
+	cat0 <- !any(breaks==0)
+	
+	h <- ((n-1)/2)+1
+	
+	if (is.div && !cat0) {
+		npos <- sum(breaks>0)
+		nneg <- sum(breaks<0)
+		step <- round((h-1)*contrast/((max(npos, nneg)-.5)*2))
+	} else {
+		npos <- sum(breaks>=0) - !is.div
+		nneg <- sum(breaks<=0) - !is.div
+		step <- 0
+	}
+	
+	pid <- h + step
+	nid <- h - step
+	
+	ids <- rep(h, nbrks-1)
+	if (npos>0) ids[(nbrks-npos):(nbrks-1)] <- pid + seq(0, (n-pid)/mx*breaks[nbrks]*contrast, 
+														 length.out=npos)
+	if (nneg>0) ids[1:nneg] <- seq(nid-((nid-1)/mx*-breaks[1]*contrast), nid, 
+								   length.out=nneg)
+	
+	ids
 }

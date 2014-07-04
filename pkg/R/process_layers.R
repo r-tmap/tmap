@@ -1,16 +1,12 @@
-process_layers <- function(g, gt) {
-	facets_defined <- ("geo_facets" %in% names(g))
-	if (!facets_defined) g <- c(g, geo_facets())
+process_layers <- function(g, gt, gf) {
 	if (dupl <- anyDuplicated(names(g))) g <- g[-dupl]
 	
 	data <- g$geo_shape$data
 	
-	gby <- g$geo_facets
-	
 	scale <- gt$scale
 	
-	if (!is.null(gby$by)) {
-		data$GROUP_BY <- as.factor(data[[gby$by]])
+	if (!is.null(gf$by)) {
+		data$GROUP_BY <- as.factor(data[[gf$by]])
 		by <- levels(data$GROUP_BY)
 	} else {
 		data$GROUP_BY <- factor("_NA_")
@@ -33,20 +29,20 @@ process_layers <- function(g, gt) {
 	if (is.null(g$geo_fil)) {
 		gfill <- list(fill=NULL, xfill=NA) 
 	} else {
-		gfill <- process_fill(data, g$geo_fill, gborders, gt, gby)
+		gfill <- process_fill(data, g$geo_fill, gborders, gt, gf)
 	}
 	# bubble info
 	if (is.null(g$geo_bubbles)) {
 		gbubble <- list(bubble.size=NULL, xsize=NA, xcol=NA)
 	} else {
-		gbubble <- process_bubbles(data, g$geo_bubbles, gt, gby)
+		gbubble <- process_bubbles(data, g$geo_bubbles, gt, gf)
 	}
 
 # lines info
 	if (is.null(g$geo_lines)) {
 		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA) 
 	} else {
-		glines <- process_lines(data, g$geo_lines, gt, gby)	
+		glines <- process_lines(data, g$geo_lines, gt, gf)	
 	} 
 	
 	
@@ -57,5 +53,5 @@ process_layers <- function(g, gt) {
 		gtext <- process_text(data, g$geo_text, if (is.null(gfill$fill)) NA else gfill$fill)
 	}
 
-	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd), plot.order=plot.order, facets_defined=facets_defined), gborders, gfill, glines, gbubble, gtext)
+	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd), plot.order=plot.order), gborders, gfill, glines, gbubble, gtext)
 }

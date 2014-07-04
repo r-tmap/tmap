@@ -23,9 +23,12 @@ process_geo <- function(x) {
 	gridid <- which(names(x)=="geo_grid")[1]
 	gg <- x[[gridid]]
 	
-		
+	## get facets element
+	facetid <- which(names(x)=="geo_facets")[1]
+	gf <- if (is.na(facetid[1])) geo_facets()$geo_facets else x[[facetid]]
+	
 	## split x into gmeta and gbody
-	x <- x[!(names(x) %in% c("geo_theme", "geo_grid"))]
+	x <- x[!(names(x) %in% c("geo_theme", "geo_grid", "geo_facets"))]
 
 	n <- length(x)
 	
@@ -42,7 +45,7 @@ process_geo <- function(x) {
 	
 	#gs <- lapply(gs, function(gx) if (is.null(gx[["geo_borders"]])) gx + geo_borders() else gx)
 	## convert clusters to layers
-	gp <- lapply(gs, FUN=process_layers, gt)
+	gp <- lapply(gs, FUN=process_layers, gt, gf)
 
 	## determine maximal number of variables
 	nx <- max(sapply(gp, function(x) {
@@ -59,8 +62,6 @@ process_geo <- function(x) {
 	varnames <- process_varnames(gp, nx)
 
 	## process grid
-	facetID <- which(sapply(gp, function(gpl) gpl$facets_defined))[1]
-	gf <- if (is.na(facetID[1])) geo_facets()$geo_facets else gs[[facetID]]$geo_facets
 	gmeta <- process_meta(gt, gf, gg, nx, varnames)
 	## split into small multiples
 	gps <- split_geo(gp, nx)

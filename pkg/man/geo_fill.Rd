@@ -84,7 +84,7 @@ geo_shape(NLD_prov) +
 	geo_theme_NLD("Provinces and municipalities", legend.show=FALSE)
 
 geo_shape(NLD_muni) +
-	geo_fill(col="pop", convert2density=TRUE, style="kmeans") +
+	geo_fill(col="population", convert2density=TRUE, style="kmeans") +
 	geo_borders() +
 	geo_shape(NLD_prov) +
 	geo_borders(, lwd=2) +

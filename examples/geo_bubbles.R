@@ -40,5 +40,5 @@ geo_shape(NLD_prov) +
 	geo_borders() +
 	geo_fill("name", palette="Pastel1") +
 	geo_shape(NLD_muni) +
-	geo_bubbles(size="pop", col="steelblue",style="kmeans") +
+	geo_bubbles(size="population", col="steelblue",style="kmeans") +
 	geo_theme_NLD(title="Population", legend.digits=0, legend.config="bubble.size", legend.width=.4, bg.color="white")

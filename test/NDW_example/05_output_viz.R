@@ -57,6 +57,9 @@ geo_shape(corop) +
 dev.off()
 
 
+## tabel rw_corop
+rw_cr <- rwb_cr@data[!is.na(rwb_cr$ID), c("ID", "CR_2013")]
+write.csv2(rw_cr, row.names=FALSE, file="../test/NDW_example/tabel_rw_corop.csv")
 
 
 ## experiment with output vis

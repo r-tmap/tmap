@@ -61,7 +61,6 @@ process_fill <- function(data, g, gb, gt, gby) {
 	} else {
 		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable names")
 	}
-	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill)
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
