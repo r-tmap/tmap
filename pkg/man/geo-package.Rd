@@ -14,19 +14,33 @@ LazyLoad: \tab yes\cr
 }
 }
 \details{
-This packages offers a complete workaround to create thematic maps. Written on top of some great packages on spatial data such as \link[sp:sp]{sp} and \href{http://trac.osgeo.org/geos/}{rgeos}, it offers easy to use functions to
+This packages offers a complete workaround to create thematic maps. Maps are plotted in \pkg{ggplot2} style:
+\code{data(World)}
+\code{geo_shape(World) +}
+\code{geo_fill("pop_est_dens", style="kmeans", palette="YlOrRd") +}
+\code{geo_borders() +}
+\code{geo_text("iso_a3", cex="AREA", cex.lowerbound=.4, bg.alpha=0) +}
+\code{geo_theme_World(title="Population density per km2")}
+
+The name of each element starts with \code{geo_}. The required element is \code{\link{geo_shape}}, which load the shape object (in this case \code{\link{World}}).
+
+The possible drawing elements are \code{\link{geo_borders}}, \code{\link{geo_fill}}, \code{\link{geo_bubbles}}, \code{\link{geo_lines}}, and \code{\link{geo_text}}. One or more of these elements stacked form one layer. Multiple layers can be stacked.
+
+The other elements are \code{\link{geo_theme}} to control the layout, \code{\link{geo_grid}} to draw grid lines, and \code{\link{geo_facets}} to control small multiples.
+
+Create quick maps (like qplot) with \code{\link{geo}}. All the elements above can be called within one function call (although only one layer is supported):
+\code{geo(World, fill="pop_est_dens", theme="World", style="kmeans", title="Population per km")}
+
+Note: a crucial difference with ggplot2 is that the elements are functional building blocks rather than layers from the grammar of graphics.
+
+Moreover, this package offers easy to use functions to
 \itemize{
 \item load shape files with \code{\link{get_shape}};
 \item append data with \code{\link{append_data}};
 \item change map projections with \code{\link{set_projection}};
 \item crop maps with \code{\link{crop_shape}};
 \item and approximate area sizes with \code{\link{approx_areas}}}.
-The plotting itself is written in a ggplot2 style:
-\itemize{
-\item Stack drawing elements intuitively with great flexibility. The name of each element starts with \code{geo_}. The required element is \code{geo_shape}, the drawing elements are \code{\link{geo_borders}}, \code{\link{geo_fill}}, \code{\link{geo_bubbles}} and \code{\link{geo_lines}}. These elements together form one layer. Multiple layers can be stacked. The theme element is \code{\link{geo_theme}} and the element to control small multiples is \code{\link{geo_grid}}.
-\item Create quick maps (like qplot) with \code{\link{geo}}. All the elements above can be called within one function call, although only one layer is supported.
-}
-A crucial differences with ggplot2 is that the elements are functional building blocks rather than layers from the grammar of graphics.
+
 This package includes ready to use shape files from the World, Europe and the Netherlands (both provinces as municipalities), which are used in the examples.
 }
 \author{

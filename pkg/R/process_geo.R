@@ -25,7 +25,14 @@ process_geo <- function(x) {
 	
 	## get facets element
 	facetid <- which(names(x)=="geo_facets")[1]
-	gf <- if (is.na(facetid[1])) geo_facets()$geo_facets else x[[facetid]]
+	if (is.na(facetid)) {
+		gf <- geo_facets()$geo_facets 
+		gf$shp_name <- ""
+	} else {
+		gf.shp.id <- tail(which(names(x)[1:facetid]=="geo_shape"), 1)
+		gf <- x[[facetid]]
+		gf$shp_name <- x[[gf.shp.id]]$shp_name
+	}
 	
 	## split x into gmeta and gbody
 	x <- x[!(names(x) %in% c("geo_theme", "geo_grid", "geo_facets"))]

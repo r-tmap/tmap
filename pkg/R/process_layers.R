@@ -1,11 +1,14 @@
 process_layers <- function(g, gt, gf) {
-	if (dupl <- anyDuplicated(names(g))) g <- g[-dupl]
+	if (dupl <- anyDuplicated(names(g))) {
+		warning(paste("One geo layer has duplicated drawing elements, which are omitted. To draw multiple of the same drawing element, use multiple layers (i.e. specify geo_shape prior to each of them)."))
+		g <- g[-dupl]	
+	} 
 	
 	data <- g$geo_shape$data
 	
 	scale <- gt$scale
 	
-	if (!is.null(gf$by)) {
+	if (!is.null(gf$by) && gf$shp_name==g$geo_shape$shp_name) {
 		data$GROUP_BY <- as.factor(data[[gf$by]])
 		by <- levels(data$GROUP_BY)
 	} else {

@@ -6,9 +6,9 @@ source("roxygen.R")
 setwd("../pkg")
 
 
-ck <- check()
-
 check_doc()
+
+ck <- check()
 
 ++++++## check
 if (ck) {
