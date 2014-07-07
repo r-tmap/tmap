@@ -62,15 +62,8 @@ rw_cr <- rwb_cr@data[!is.na(rwb_cr$ID), c("ID", "CR_2013")]
 write.csv2(rw_cr, row.names=FALSE, file="../test/NDW_example/tabel_rw_corop.csv")
 
 
+
 ## experiment with output vis
-str(rwb_cr@data)
-
-nms <- paste(rep(paste("2014-05-", sprintf("%02d", 5:11), sep=""), each=5), 
-			 rep(c("alle", "ochtend", "middag", "avond", "nacht"), times=7), sep="_")
-
-for (n in nms) {
-	rwb_cr[[n]] <- rnorm(136, mean=100, sd=4)
-}
 
 
 geo_shape(corop) +
@@ -91,5 +84,3 @@ geo_shape(corop) +
 	geo_shape(rwb_cr) +	
 	geo_lines("2014-05-05_alle", lwd=3, max.categories=46) +
 	geo_theme(legend.show=TRUE, title="Test")
-
-

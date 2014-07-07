@@ -41,7 +41,7 @@ rwb <- fit_polylines(rw, "roadname", na.rm=FALSE)
 rwb$ID <- factor(as.character(rwb$ID), levels=levels(rw$roadname))
 
 ## split by corop
-rwb_cr <- split_lines(rwb, corop)
+rwb_cr <- split_lines_poly(rwb, corop)
 
 
 

@@ -8,7 +8,6 @@
 #' @return SpatialLinesDataFrame
 split_lines <- function(shp, dist=1000, include.last=FALSE) {
 	co <- coordinates(shp)
-	nco <- lapply(co, function(x) sapply(x, nrow))
 	
 	lines <- mapply(function(x, id) {
 		x2 <- lapply(x, function(y) {
@@ -22,6 +21,7 @@ split_lines <- function(shp, dist=1000, include.last=FALSE) {
 			y$id <- y$cd %/% dist
 			
 			nseg <- floor(max(y$cd)/dist)
+			names(y)[1:2] <- c("V1", "V2")
 			if (nseg!=0) {
 				y <- rbind(y, data.frame(V1=NA, V2=NA, d=NA, cd=dist * 1:floor(max(y$cd)/dist),id=-1))
 			}

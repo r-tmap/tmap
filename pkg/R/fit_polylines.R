@@ -59,17 +59,20 @@ fit_polylines <- function(shp, id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 		n <- nrow(cs)
 		
 		if (verbose) cat("number of coordinates:", n, "\n")
-		
+
 		## omit closely neighboring points
 		d <- fields.rdist.near(x1=cs, delta=min.dist, max.points=1e8)
 		sel <- d$ind[,1] > d$ind[,2]
-		ind <- d$ind[sel, ]
+		ind <- d$ind[sel, , drop=FALSE]
 		ra <- d$ra[sel]
 		
 		v.red <- ind[, 1]
 		
-		cs2 <- cs[-v.red, ]
+		if (length(v.red)>0) {
+			cs2 <- cs[-v.red, ]
+		} else cs2 <- cs
 		n2 <- nrow(cs2)
+		
 
 		if (verbose) cat(n-n2, "coordinates omitted\n")
 		
