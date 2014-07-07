@@ -4,7 +4,8 @@
 \title{Quick map plot}
 \usage{
 geo(shp, fill = "grey90", bubble.size = NULL, bubble.col = NULL,
-  borders = "grey40", text = NULL, theme = NULL, ...)
+  text = NULL, line.lwd = NULL, line.col = NULL, borders = "grey40",
+  theme = NULL, ...)
 }
 \arguments{
 \item{shp}{shape object. For \code{\link{geo_fill}} and \code{\link{geo_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubbles}}.}
@@ -15,9 +16,13 @@ geo(shp, fill = "grey90", bubble.size = NULL, bubble.col = NULL,
 
 \item{bubble.col}{name of the data variable in \code{shp} for the bubblemap that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.}
 
-\item{borders}{color of the polygon borders. Use \code{NA} to omit the borders.}
+\item{line.lwd}{either a line width or a name of the data variable that specifies the line width. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.}
+
+\item{line.col}{either a line color or a name of the data variable that specifies the line colors. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.#'}
 
 \item{text}{name of a variable in \code{shp} that contain text labels}
+
+\item{borders}{color of the polygon borders. Use \code{NA} to omit the borders.}
 
 \item{theme}{one of "World", "Europe", or "NLD"}
 

@@ -14,12 +14,22 @@ rwb_cr <- rwb_cr[!is.na(rwb_cr$ID), ]
 rwb_cr_list <- double_line(rwb_cr, width=1000)
 
 rwb_crL <- rwb_cr_list[[1]]
+
 rwb_crL <- split_lines(rwb_crL, dist=100, include.last=FALSE)
 rwb_crL <- fit_polylines(rwb_crL, id="ID",na.rm=FALSE)
 
 rwb_crR <- rwb_cr_list[[2]]
 rwb_crR <- split_lines(rwb_crR, dist=100, include.last=FALSE)
 rwb_crR <- fit_polylines(rwb_crR, id="ID",na.rm=FALSE)
+
+
+geo(rwb_cr[rwb_cr$ID=="A7" & rwb_cr$CR2013 %in% c(5,18), ])
+plot(rwb_crL[rwb_crL$ID=="A7" & rwb_crL$CR2013 %in% c(5,18), ])
+
+geo(rwb_crL)
+
+## to do: fix split_lines on straight lines (e.g. afsluitdijk)
+
 
 
 k <- length(rwb_cr)
@@ -72,27 +82,76 @@ rwb_crR <- rwb_crR[keyR %in% key, ]
 rwb_crL <- append_data(rwb_crL, data=mL, fixed.order=TRUE)
 rwb_crR <- append_data(rwb_crR, data=mR, fixed.order=TRUE)
 
+nuts <- read.csv2("../test/NDW_example/COROP-NUTS.csv", stringsAsFactor=FALSE)
+nuts$NUTS1 <- as.integer(substr(nuts$NUTS3, 3, 3))
+nuts$NUTS2 <- as.integer(substr(nuts$NUTS3, 3, 4))
+
+corop <- append_data(corop, data=nuts, key.shp="CR2013", key.data="COROP")
+
+# corop without islands (for borders version)
+corop_borders <- corop
+corop_borders <- corop_borders[!corop_borders$NUTS2 %in% c(23,34),]
+corop_borders@polygons[[18]]@Polygons <- corop_borders@polygons[[18]]@Polygons[5]
+corop_borders@polygons[[18]]@plotOrder <- 1L
+
+corop_borders@polygons[[4]]@Polygons <- corop_borders@polygons[[4]]@Polygons[13]
+corop_borders@polygons[[4]]@plotOrder <- 1L
+
+corop_borders@polygons[[3]]@Polygons <- corop_borders@polygons[[3]]@Polygons[7]
+corop_borders@polygons[[3]]@plotOrder <- 1L
+
+gIsValid(corop_borders, reason = TRUE)
+
+
+
+geo(corop, text="NUTS3")
+
+corop@data
+
+library(maptools)
+nuts2 <- unionSpatialPolygons(corop_borders, corop_borders$NUTS2)
+nuts1 <- unionSpatialPolygons(corop_borders, corop_borders$NUTS1)
+plot(nuts1)
+over
+
+
+
+palette <- "YlOrRd"
+bg <- "gray65"
+
+
+geo_shape(corop) +
+	geo_fill(bg) +
+	geo_shape(corop_borders) +
+	geo_borders("white", lwd=.5) +
+	geo_shape(nuts2) +
+	geo_borders("white", lwd=1) +
+	geo_shape(rwb_crL) +	
+	geo_lines("2014-05-05_avond", lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250), palette=palette) +
+	geo_shape(rwb_crR) +	
+	geo_lines("2014-05-05_avond", lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250), palette=palette) +
+	geo_theme(legend.show=TRUE, scale=2, legend.bg.color=bg)
+
 
 
 
 runApp(list(
-	ui= pageWithSidebar(
+	ui= fluidPage(title="Verkeersindex",
 		
+		titlePanel("Prototype interactieve CBS visualizatie verkeersindex"),
 		# Application title
-		headerPanel("Prototype interactieve CBS visualizatie verkeersindex"),
-		
-		# Sidebar with controls to select the variable to plot against mpg
-		# and to specify whether outliers should be included
-		sidebarPanel(
-			checkboxInput("rijrichting", "Rijrichting", FALSE),
-			radioButtons("dagdelen", "Dagdelen", c("Alle", "Ochtend", "Middag", "Avond", "Nacht", "Gemiddeld"), selected="Alle"),
-			conditionalPanel(condition="input.dagdelen != 'Alle'",
-				sliderInput(inputId="dagen", "Dag in mei:", min=5, max=11, value=5, animate=TRUE)),
-			conditionalPanel(condition="input.dagdelen == 'Alle'",
-				sliderInput(inputId="dagen2", "Dag in mei:", min=5, max=11, value=5, step=.25,animate=TRUE))
-		),
-		mainPanel(
-			plotOutput("map", height="800px")
+		fluidRow(
+			column(width=4,
+				checkboxInput("rijrichting", "Rijrichting", FALSE),
+				radioButtons("dagdelen", "Dagdelen", c("Alle", "Ochtend", "Middag", "Avond", "Nacht", "Gemiddeld"), selected="Alle"),
+				conditionalPanel(condition="input.dagdelen != 'Alle'",
+					sliderInput(inputId="dagen", "Dag in mei:", min=5, max=11, value=5, animate=TRUE)),
+				conditionalPanel(condition="input.dagdelen == 'Alle'",
+					sliderInput(inputId="dagen2", "Dag in mei:", min=5, max=11, value=5, step=.25,animate=TRUE))
+			),
+			column(width=6,
+				plotOutput("map", height="800px")
+			)
 		)
 	),
 	server = function(input, output) {
@@ -101,15 +160,14 @@ runApp(list(
 			cat(input$dagen, file="testfile.txt")
 			
 			alle <- (input$dagdelen=="Alle")
-			dag <- if (alle) input$dagen else input$dagen2
+			dag <- if (alle) input$dagen2 else input$dagen
 
 			if (alle) {
-				dagdeel <- "alle"
-			} else {
 				rest <- dag - floor(dag)
 				dag <- floor(dag)
-				if (input$dagdelen)
 				dagdeel <- c("ochtend", "middag", "avond", "nacht")[(rest+.25)*4] 
+			} else {
+				dagdeel <- c(Ochtend="ochtend", Middag="middag", Avond="avond", Nacht="nacht", Gemiddeld="alle")[input$dagdelen]
 			}
 			nm <- paste("2014-05-", sprintf("%02d", dag), "_", dagdeel, sep="")
 			
@@ -121,22 +179,27 @@ runApp(list(
 			
 			if (rr) {
 				geo_shape(corop) +
-					geo_fill("gray70") +
-					geo_borders("white") +
+					geo_fill(bg) +
+					geo_shape(corop_borders) +
+					geo_borders("white", lwd=.5) +
+					geo_shape(nuts2) +
+					geo_borders("white", lwd=1) +
 					geo_shape(rwb_crL) +	
-					geo_lines(nm, lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250)) +
+					geo_lines(nm, lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250), palette=palette) +
 					geo_shape(rwb_crR) +	
-					geo_lines(nm, lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250)) +
-					geo_theme(legend.show=TRUE, scale=2)
+					geo_lines(nm, lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250), palette=palette) +
+					geo_theme(legend.show=TRUE, scale=2, legend.bg.color=bg)
+				
 			} else {
 				geo_shape(corop) +
-					geo_fill("gray70") +
-					geo_borders("white") +
-					#geo_shape(gm) +
-					#geo_borders("white") +
+					geo_fill(bg) +
+					geo_shape(corop_borders) +
+					geo_borders("white", lwd=.5) +
+					geo_shape(nuts2) +
+					geo_borders("white", lwd=1) +
 					geo_shape(rwb_cr) +	
-					geo_lines(nm, lwd=2, max.categories=46, n=7, style="fixed", breaks=c(0, 25, 50, 75, 100, 150, 200, 500)) +
-					geo_theme(legend.show=TRUE, scale=2)
+					geo_lines(nm, lwd=2, max.categories=46, n=7, style="fixed", breaks=c(0, 25, 50, 75, 100, 150, 200, 500), palette=palette) +
+					geo_theme(legend.show=TRUE, scale=2, legend.bg.color=bg)
 			}
 		})
 	}

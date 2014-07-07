@@ -23,8 +23,19 @@ print.geo <- function(x, ...) {
 
 	
 	x[shape.id] <- lapply(x[shape.id], function(y){
-		data <- y$shp@data
-		if (inherits(y$shp, "SpatialPolygons")) data$SHAPE_AREAS <- approx_areas(y$shp, units="abs") / 1e6
+		if (inherits(y$shp, "SpatialPolygons")) {
+			areas <- approx_areas(y$shp, units="abs") / 1e6
+		} else {
+			areas <- NULL
+		}
+		
+		if ("data" %in% slotNames(y$shp)) {
+			data <- y$shp@data
+			if (!is.null(areas)) data$SHAPE_AREAS <- areas
+		} else {
+			if (!is.null(areas)) data <- data.frame(SHAPE_AREAS=areas) else data <- NULL
+		}
+		
 		y$data <- data
 		y$shp <- NULL
 		y
