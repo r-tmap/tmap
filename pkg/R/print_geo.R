@@ -19,27 +19,24 @@ print.geo <- function(x, ...) {
 	nshps <- length(shape.id)
 	if (!nshps) stop("Required geo_shape layer missing.")
 	
-	shps <- lapply(x[shape.id], function(y)y$shp)
+	shps <- lapply(x[shape.id], function(y) {
+		shp <- y$shp
+		data <- data.frame(ID=get_IDs(shp))
+		if (class(shp)=="SpatialPolygons") shp <- SpatialPolygonsDataFrame(shp, data=data, match.ID=FALSE)
+		if (class(shp)=="SpatialPoints") shp <- SpatialPointsDataFrame(shp, data=data, match.ID=FALSE)
+		if (class(shp)=="SpatialLines") shp <- SpatialLinesDataFrame(shp, data=data, match.ID=FALSE)
+		if (class(shp)=="SpatialPolygonsDataFrame") shp$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
+		shp
+	})
 
+	## to do: update code since shps are spatialXdataframes
+	datasets <- lapply(shps, function(x)x@data)
 	
-	x[shape.id] <- lapply(x[shape.id], function(y){
-		if (inherits(y$shp, "SpatialPolygons")) {
-			areas <- approx_areas(y$shp, units="abs") / 1e6
-		} else {
-			areas <- NULL
-		}
-		
-		if ("data" %in% slotNames(y$shp)) {
-			data <- y$shp@data
-			if (!is.null(areas)) data$SHAPE_AREAS <- areas
-		} else {
-			if (!is.null(areas)) data <- data.frame(SHAPE_AREAS=areas) else data <- NULL
-		}
-		
-		y$data <- data
+	x[shape.id] <- mapply(function(y, dataset){
+		y$data <- dataset
 		y$shp <- NULL
 		y
-	})
+	}, x[shape.id], datasets, SIMPLIFY=FALSE)
 	
 	result <- process_geo(x)
 	

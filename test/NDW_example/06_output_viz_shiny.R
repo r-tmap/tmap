@@ -1,7 +1,16 @@
-library(shiny)
-
 corop <- get_shape("../test/NDW_example/cr_2013.shp")
 corop <- set_projection(corop, current.projection="rd")
+
+corop2 <- get_shape("../test/NDW_example/corop_grenzen.shp")
+corop2 <- set_projection(corop2, current.projection="rd")
+
+
+geo_shape(corop) +
+	geo_fill() +
+	geo_borders("red") +
+	geo_shape(corop2) +
+	geo_lines(col="blue")
+
 
 gm <- get_shape("../shapes/gm_2012.shp")
 gm <- set_projection(gm, current.projection="rd")
@@ -14,7 +23,6 @@ rwb_cr <- rwb_cr[!is.na(rwb_cr$ID), ]
 rwb_cr_list <- double_line(rwb_cr, width=1000)
 
 rwb_crL <- rwb_cr_list[[1]]
-
 rwb_crL <- split_lines(rwb_crL, dist=100, include.last=FALSE)
 rwb_crL <- fit_polylines(rwb_crL, id="ID",na.rm=FALSE)
 
@@ -23,12 +31,7 @@ rwb_crR <- split_lines(rwb_crR, dist=100, include.last=FALSE)
 rwb_crR <- fit_polylines(rwb_crR, id="ID",na.rm=FALSE)
 
 
-geo(rwb_cr[rwb_cr$ID=="A7" & rwb_cr$CR2013 %in% c(5,18), ])
-plot(rwb_crL[rwb_crL$ID=="A7" & rwb_crL$CR2013 %in% c(5,18), ])
 
-geo(rwb_crL)
-
-## to do: fix split_lines on straight lines (e.g. afsluitdijk)
 
 
 
@@ -72,6 +75,7 @@ rwb_cr <- append_data(rwb_cr, data=m, fixed.order=TRUE)
 rwb_crL <- split_lines_poly(rwb_crL, corop)
 rwb_crR <- split_lines_poly(rwb_crR, corop)
 
+
 key <- paste(rwb_cr$ID, rwb_cr$CR2013)
 keyL <- paste(rwb_crL$ID, rwb_crL$CR2013)
 keyR <- paste(rwb_crR$ID, rwb_crR$CR2013)
@@ -103,17 +107,17 @@ corop_borders@polygons[[3]]@plotOrder <- 1L
 gIsValid(corop_borders, reason = TRUE)
 
 
-
-geo(corop, text="NUTS3")
-
-corop@data
-
 library(maptools)
 nuts2 <- unionSpatialPolygons(corop_borders, corop_borders$NUTS2)
 nuts1 <- unionSpatialPolygons(corop_borders, corop_borders$NUTS1)
-plot(nuts1)
-over
 
+
+save(corop, corop_borders, rwb_cr, rwb_crL, rwb_crR, nuts1, nuts2, file="../test/NDW_example/vis_demo_files.Rdata")
+load("../test/NDW_example/vis_demo_files.Rdata")
+
+
+########### run demo
+library(shiny)
 
 
 palette <- "YlOrRd"

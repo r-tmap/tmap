@@ -27,3 +27,27 @@ split_lines_poly <- function(shp.lines, shp.poly, variables.lines, variables.pol
 	
 	append_data(shp, ydata, fixed.order=TRUE)
 }
+# 
+# #' Split lines by lines
+# #' 
+# #' Split a lines shape object by another lines shape object.
+# #' 
+# #' @param shp.lines The shape object that contains the lines
+# #' @param shp.lines2 The shape object that contains the polygons
+# #' @export
+# #' @return shape object with splitted lines
+# #' @import rgeos
+# split_lines_lines <- function(shp.lines, shp.lines2) {
+# 	shp.points <- gIntersection(shp.lines, shp.lines2, byid=TRUE)
+# 	
+# 	split_lines_points(shp.lines, shp.points)
+# 	
+# }
+# 
+# split_lines_points <- function(shp.lines, shp.points) {
+# 	length(shp.lines)
+# 	
+# 	geo(shp.lines)
+# 	
+# 	shp.lines@data
+# }
