@@ -2,59 +2,53 @@
 #' 
 #' This function fits one or more smooth polylines through a set of spatial points.
 #' 
-#' @param shp Shape object that contains the spatial points. Preferably a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} or \code{\link[sp:SpatialPoints]{SpatialPoints}} object. If spatial lines are given, the coordinates are considered as points, and if spatial polygons are given, the centroids are considerend as points.
+#' @param ... Shape objects that contains the spatial points.
 #' @param id Name of the data variable that determines the classes of the points. For each class a polyline is fit. Is omitted, a polyline is fit through all points.
 #' @param min.dist Minimum distance. Poins that are closer than \code{min.dist} from any other point are omitted in the fitting method (see details below)
 #' @param max.opt.dist Maximal optimized distance. Between any two points that lie closer than \code{max.opt.dist} to each other, an edge is created in the fitting method (see details below)
 #' @param sep.dist Seperation distance. If the distance between two groups of points is larger than \code{sep.dist}, two seperate polylines are created.
 #' @param verbose Print logging text
-#' @param na.rm If \code{id} is specified, should NA values be removed? If \code{FALSE}, they are considered as a seperate category
 #' @return SpatialLinesDataframe
 #' @import fields igraph vegan
 #' @export
-fit_polylines <- function(shp, id=NULL, min.dist=10, max.opt.dist=250, sep.dist=5000, verbose=TRUE, na.rm=TRUE) {
-
-	n <- length(shp)
-	addNA <- FALSE
-	if (!is.null(id)) {
-		cat <- shp@data[,id]
-		if (!is.factor(cat)) cat <- as.factor(cat)
-		cat.levels <- names(which(table(cat)>0))
-		if (any(is.na(cat))) {
-			if (na.rm) {
-				shp <- shp[!is.na(cat), ]
-				n <- length(shp)
-			} else {
-				levels(cat) <- c(levels(cat), "NA")
-				cat.levels <- c(cat.levels, "NA")
-				cat[is.na(cat)] <- "NA"
-				addNA <- TRUE
-			}
-		}
-	} else {
-		cat <- factor(rep(1, n))
-		cat.levels <- levels(cat)
-	}
+fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=5000, verbose=TRUE) {
+	shps <- list(...)
 	
-	if (inherits(shp, "SpatialLines")) {
-		coorlist <- lapply(shp@lines, function(x) {
-			co <- lapply(x@Lines, function(y)y@coords)
-			co2 <- do.call("rbind", co)
+	if (is.null(id)) {
+		lvls <- ""
+		shps <- lapply(shps, function(shp) {
+			shp$IDs <- 1
+			shp
 		})
-		idnr <- unlist(mapply(FUN=rep, 1:n, sapply(coorlist, nrow)))
-		coor <- as.data.frame(do.call("rbind", coorlist))
-		
 	} else {
-		coor <- as.data.frame(coordinates(shp))
-		idnr <- 1:n
+		lvls <- levels(shps[[1]][[id]])
+		for (i in 1:length(shps)) {
+			if (!inherits(shps[[i]], "Spatial")) stop(paste("object", i, "is not Spatial"))
+			if (!identical(levels(shps[[i]][[id]]), lvls)) stop("Levels id not consistent across shapes")
+		}
+		
+		shps <- lapply(shps, function(shp) {
+			shp <- shp[!is.na(shp[[id]]), ]
+			shp$IDs <- as.integer(shp[[id]])
+			shp
+		})
 	}
 	
-	grp <- cat[idnr]
+	co_s <- lapply(shps, FUN=get_coordinates, id="IDs")
+	co_s <- lapply(co_s, function(x){
+		names(x) <- c("V1", "V2", "ID")
+		x
+	})
+	
+	co <- do.call(rbind, co_s)
+	
+	IDs <- unique(co$ID)
+	
+	
+	lines <- lapply(IDs, function(i) {
+		if (verbose) cat("PROCESS", lvls[i], "\n")
 
-	lines <- lapply(cat.levels, function(level) {
-		if (verbose) cat("PROCESS", level, "\n")
-
-		cs <- coor[grp==level,]
+		cs <- co[co$ID==i,]
 				   
 		n <- nrow(cs)
 		
@@ -66,16 +60,27 @@ fit_polylines <- function(shp, id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 		ind <- d$ind[sel, , drop=FALSE]
 		ra <- d$ra[sel]
 		
-		v.red <- ind[, 1]
+		if (length(ind)) {
+			ind[,] <- as.character(ind[,])
+			
+			g_close <- graph.edgelist(ind, directed=FALSE)
+			cl <- clusters(g_close, mode="weak")
+			
+			Vids <- as.integer(V(g_close)$name)
+			close <- data.frame(ID=V(g_close)$name, cl=cl$membership, 
+								x=cs[Vids, 1],
+								y=cs[Vids, 2])
+			
+			newx <- as.vector(tapply(close$x, INDEX=list(close$cl), FUN=mean))
+			newy <- as.vector(tapply(close$y, INDEX=list(close$cl), FUN=mean))
+			cs2 <- cs[-Vids, ]
+			cs2 <- rbind(cs2, data.frame(V1=newx, V2=newy, ID=i))
 		
-		if (length(v.red)>0) {
-			cs2 <- cs[-v.red, ]
 		} else cs2 <- cs
 		n2 <- nrow(cs2)
 		
 
-		if (verbose) cat(n-n2, "coordinates omitted\n")
-		
+		if (verbose) cat("number of coordinates after clustering:", n-n2, "\n")
 		
 		## use mst to find clusters
 		d2 <- dist(cs2)
@@ -138,14 +143,28 @@ fit_polylines <- function(shp, id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 			}
 			cat("Total line length:", sum(lng), "\n")
 		} 
-		Lines(linesc, ID=level)
+		Lines(linesc, ID=lvls[i])
 	})
 	shp3 <- SpatialLines(lines, proj4string=shp@proj4string)
-	cat.levels2 <- cat.levels
-	if (addNA) {
-		cat.levels2[cat.levels2=="NA"] <- NA
-	} 
-	data <- data.frame(ID=cat.levels2, row.names=cat.levels)
+	data <- data.frame(ID=factor(lvls[IDs], levels=lvls), row.names=lvls[IDs])
 	shp3 <- SpatialLinesDataFrame(shp3, data=data, match.ID=FALSE)
 	shp3
+}
+
+get_coordinates <- function(shp, id) {
+	n <- length(shp)
+	if (inherits(shp, "SpatialLines")) {
+		coorlist <- lapply(shp@lines, function(x) {
+			co <- lapply(x@Lines, function(y)y@coords)
+			co2 <- do.call("rbind", co)
+		})
+		idnr <- unlist(mapply(FUN=rep, 1:n, sapply(coorlist, nrow)))
+		coor <- as.data.frame(do.call("rbind", coorlist))
+		
+	} else {
+		coor <- as.data.frame(coordinates(shp))
+		idnr <- 1:n
+	}
+	coor$ID <- shp[[id]][idnr]
+	coor
 }

@@ -3,11 +3,11 @@
 \alias{fit_polylines}
 \title{Fit polylines through a set of spatial points}
 \usage{
-fit_polylines(shp, id = NULL, min.dist = 10, max.opt.dist = 250,
-  sep.dist = 5000, verbose = TRUE, na.rm = TRUE)
+fit_polylines(..., id = NULL, min.dist = 10, max.opt.dist = 250,
+  sep.dist = 5000, verbose = TRUE)
 }
 \arguments{
-\item{shp}{Shape object that contains the spatial points. Preferably a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} or \code{\link[sp:SpatialPoints]{SpatialPoints}} object. If spatial lines are given, the coordinates are considered as points, and if spatial polygons are given, the centroids are considerend as points.}
+\item{...}{Shape objects that contains the spatial points.}
 
 \item{id}{Name of the data variable that determines the classes of the points. For each class a polyline is fit. Is omitted, a polyline is fit through all points.}
 
@@ -18,8 +18,6 @@ fit_polylines(shp, id = NULL, min.dist = 10, max.opt.dist = 250,
 \item{sep.dist}{Seperation distance. If the distance between two groups of points is larger than \code{sep.dist}, two seperate polylines are created.}
 
 \item{verbose}{Print logging text}
-
-\item{na.rm}{If \code{id} is specified, should NA values be removed? If \code{FALSE}, they are considered as a seperate category}
 }
 \value{
 SpatialLinesDataframe
