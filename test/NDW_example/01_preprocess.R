@@ -2,6 +2,7 @@
 devtools::load_all()
 library(sp)
 library(rgeos)
+source("../test/NDW_example/00_misc_functions.R")
 
 ###########################################################################
 ##### load and preprocess loops data
@@ -19,8 +20,6 @@ loopsdata$roadname[is.na(loopsdata$roadname)] <- loops.roadnames[match(loopsdata
 loops <- SpatialPointsDataFrame(coords=loopsdata[,c("long", "lat")], data=loopsdata)
 loops <- set_projection(loops, current.projection="longlat", projection="rd")
 
-# save loops
-save(loops, file="../test/NDW_example/throughput/loops.rda")
 
 
 ###########################################################################
@@ -35,8 +34,6 @@ nuts$NUTS2 <- as.integer(substr(nuts$NUTS3, 3, 4))
 
 corop <- append_data(corop, data=nuts, key.shp="CR2013", key.data="COROP")
 
-# save corop
-save(corop, file="../test/NDW_example/throughput/corop.rda")
 
 
 ###########################################################################
@@ -58,21 +55,37 @@ table(rw$roadnumber, rw$roadname, useNA="always")
 
 rw <- rw[!is.na(rw$roadname),]
 
+## exploration
+tapply(get_lengths(rw), list(rw$BAANSUBSRT), sum) 
 
 
-## simplify roads
-rwb <- fit_polylines(rw, loops, id="roadname")
+pdf("test.pdf", width=7,height=7)
+geo_shape(corop) +
+	geo_fill() +
+	geo_shape(rw) +
+	geo_lines(lwd=.02, col="black", max.categories=20)+
+geo_shape(rw[rw$BAANSUBSRT=="HR",]) +
+	geo_lines(lwd=.02, col="blue", max.categories=20) +
+geo_shape(rw[rw$BAANSUBSRT=="OPR",]) +
+	geo_lines(lwd=.05, col="red", max.categories=20) +
+geo_shape(rw[rw$BAANSUBSRT=="PST",]) +
+	geo_lines(lwd=.05, col="green", max.categories=20)
+dev.off()
 
-rwb$ID <- factor(as.character(rwb$ID), levels=levels(rw$roadname))
-
-## split by corop
-rwb_cr <- split_lines_poly(rwb, corop)
-
-
+# AFR ? afrit
+# HR ? hoofd route
+# PKB ? af/oprit?
+# PST ? invoegstrook?
 
 
-###### opslaan
-save_shape(rwb, "../test/NDW_example/rw2013_doorgaand")
-save_shape(rwb_cr, "../test/NDW_example/rw2013_doorgaand_cr")
-save_shape(loops, "../test/NDW_example/loops2013")
+rw <- rw[rw$BAANSUBSRT %in% c("HR", "PST"),]
+
+rwL <- rw[rw$RPE_CODE=="L", ]
+rwR <- rw[rw$RPE_CODE=="R", ]
+
+
+# save all
+save(loops, file="../test/NDW_example/throughput/loops.rda")
+save(corop, file="../test/NDW_example/throughput/corop.rda")
+save(rw, rwL, rwR, file="../test/NDW_example/throughput/rijkswegen.rda")
 

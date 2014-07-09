@@ -39,11 +39,9 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 		names(x) <- c("V1", "V2", "ID")
 		x
 	})
-	
 	co <- do.call(rbind, co_s)
 	
 	IDs <- unique(co$ID)
-	
 	
 	lines <- lapply(IDs, function(i) {
 		if (verbose) cat("PROCESS", lvls[i], "\n")
@@ -79,8 +77,9 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 		} else cs2 <- cs
 		n2 <- nrow(cs2)
 		
+		cs2 <- cs2[, 1:2]
 
-		if (verbose) cat("number of coordinates after clustering:", n-n2, "\n")
+		if (verbose) cat("number of coordinates after clustering:", n2, "\n")
 		
 		## use mst to find clusters
 		d2 <- dist(cs2)
@@ -88,7 +87,8 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 
 		edgelist <- cbind(from=2:n2, to=mst$kid)
 		toofar <- mst$dist > sep.dist
-		edgelist2 <- edgelist[!toofar,]
+		if (all(toofar)) return(NULL)
+		edgelist2 <- edgelist[!toofar,,drop=FALSE]
 		distances <- mst$dist[!toofar]
 		
 		g <- graph.edgelist(edgelist2, directed=FALSE)
@@ -100,10 +100,11 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 		
 		linesc <- lapply(csg, function(csc) {
 			nc <- nrow(csc)
+			if (nc==1) return(NULL)
 			## full network of short edges
 			d2 <- fields.rdist.near(x1=csc, delta=max.opt.dist, max.points=1e8)
 			sel2 <- d2$ind[,1] > d2$ind[,2]
-			edgelistA <- d2$ind[sel2, ]
+			edgelistA <- d2$ind[sel2, , drop=FALSE]
 			distancesA <- d2$ra[sel2]
 			
 			## full mst
@@ -116,11 +117,13 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 				if (edgelistB[i, 1] < edgelistB[i, 2]) edgelistB[i, 1:2] <- edgelistB[i, 2:1]
 			}
 			
-			edgelist <- rbind(edgelistA, edgelistB)
+			if (nrow(edgelistA)==0) {
+				edgelist <- edgelistB
+			} else edgelist <- rbind(edgelistA, edgelistB)
 			distances <- c(distancesA, distancesB)
 			
 			dupl <- duplicated(edgelist, MARGIN=1)
-			edgelist <- edgelist[!dupl, ]
+			edgelist <- edgelist[!dupl, ,drop=FALSE ]
 			distances <- distances[!dupl]
 			
 			g <- graph.edgelist(edgelist, directed=FALSE)
@@ -136,6 +139,8 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 			
 			Line(csc2)
 		})
+		linesc <- linesc[!sapply(linesc, is.null)]
+		
 		lng <- sapply(linesc, LineLength)
 		if (verbose) {
 			if (length(csg)>1) {
@@ -145,7 +150,13 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 		} 
 		Lines(linesc, ID=lvls[i])
 	})
-	shp3 <- SpatialLines(lines, proj4string=shp@proj4string)
+	isnull <- sapply(lines, is.null)
+	
+	lines <- lines[!isnull]
+	IDs <- IDs[!isnull]
+	
+	if (!length(lines)) stop("No lines could be fitted.")
+	shp3 <- SpatialLines(lines, proj4string=shps[[1]]@proj4string)
 	data <- data.frame(ID=factor(lvls[IDs], levels=lvls), row.names=lvls[IDs])
 	shp3 <- SpatialLinesDataFrame(shp3, data=data, match.ID=FALSE)
 	shp3
