@@ -118,6 +118,17 @@ load("../test/NDW_example/vis_demo_files.Rdata")
 
 ########### run demo
 library(shiny)
+library(ggplot2)
+library(scales)
+
+df <- data.frame(date=as.POSIXct(substr(names(rwb_cr)[7:41], 1, 10)), mean=colMeans(rwb_cr@data[,7:41]))
+df <- df[-seq(1, 35, by=5),]
+df$date <- df$date + c(7*60*60, 13*60*60, 19*60*60,25*60*60)
+
+item <- 
+
+
+g <- qplot(date, mean, data=df, geom="line") + scale_x_datetime(breaks=date_breaks("day"))
 
 
 palette <- "YlOrRd"
@@ -151,7 +162,8 @@ runApp(list(
 				conditionalPanel(condition="input.dagdelen != 'Alle'",
 					sliderInput(inputId="dagen", "Dag in mei:", min=5, max=11, value=5, animate=TRUE)),
 				conditionalPanel(condition="input.dagdelen == 'Alle'",
-					sliderInput(inputId="dagen2", "Dag in mei:", min=5, max=11, value=5, step=.25,animate=TRUE))
+					sliderInput(inputId="dagen2", "Dag in mei:", min=5, max=11, value=5, step=.25,animate=TRUE)),
+				plotOutput("graph", height="400px")
 			),
 			column(width=6,
 				plotOutput("map", height="800px")
@@ -159,6 +171,29 @@ runApp(list(
 		)
 	),
 	server = function(input, output) {
+		
+		output$graph <- renderPlot({
+			
+			alle <- (input$dagdelen=="Alle")
+			dag <- if (alle) input$dagen2 else input$dagen
+			
+			if (alle) {
+				rest <- dag - floor(dag)
+				dag <- floor(dag)
+				dagdeel <- c("ochtend", "middag", "avond", "nacht")[(rest+.25)*4] 
+			} else {
+				dagdeel <- c(Ochtend="ochtend", Middag="middag", Avond="avond", Nacht="nacht", Gemiddeld="alle")[input$dagdelen]
+			}
+			nm <- as.POSIXct(paste("2014-05-", sprintf("%02d", dag)))
+			nm <- nm + ifelse(dagdeel=="ochtend",7*60*60, 
+					   ifelse(dagdeel=="middag", 13*60*60, 
+					   ifelse(dagdeel=="avond", 19*60*60,
+					   ifelse(dagdeel=="nacht", 25*60*60, 0))))
+			
+			g2 <- g + geom_vline(xintercept=as.numeric(nm))
+			
+			print(g2)
+		})
 		
 		output$map <- renderPlot({
 			cat(input$dagen, file="testfile.txt")

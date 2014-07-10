@@ -27,7 +27,6 @@ keyL <- keyL[keyL %in% key]
 keyR <- keyR[keyR %in% key]
 
 
-save(drw_nuts, drwL_nuts, drwR_nuts, file="../test/NDW_example/throughput/doorlopende_rijkswegen_nuts.rda")
 
 
 ### plots
@@ -64,3 +63,5 @@ drw_nuts_len$lengthR[match(keyR, key)] <- get_lengths(drwR_nuts)
 drw_nuts_len <- rbind(drw_nuts_len, data.frame(roadname="total", nuts="total", length=sum(drw_nuts_len$length, na.rm=TRUE), lengthL=sum(drw_nuts_len$lengthL, na.rm=TRUE), lengthR=sum(drw_nuts_len$lengthR, na.rm=TRUE)))
 
 write.table(drw_nuts_len, file="../test/NDW_example/output/lengtes_drw_nuts3.csv", row.names=FALSE, sep=",")
+
+save(drw_nuts, drwL_nuts, drwR_nuts, file="../test/NDW_example/throughput/doorlopende_rijkswegen_nuts.rda")

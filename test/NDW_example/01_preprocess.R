@@ -11,6 +11,13 @@ loopsdata <- read.csv("../test/NDW_example/input/Rijkswegen_loops.csv", stringsA
 
 names(loopsdata) <- c("site", "lat", "long", "roadname", "roadnumber")
 
+
+## Rijksweg 15 = A/N15 + A/N18
+loopsdata$roadname[loopsdata$roadname=="A18"] <- "A15"
+loopsdata$roadnumber[loopsdata$roadnumber==18] <- 15
+
+
+
 loops.roadnumbers <- unique(loopsdata$roadnumber)
 loops.roadnames <- loopsdata$roadname[match(loops.roadnumbers, loopsdata$roadnumber)]
 
@@ -19,6 +26,7 @@ loopsdata$roadname[is.na(loopsdata$roadname)] <- loops.roadnames[match(loopsdata
 
 loops <- SpatialPointsDataFrame(coords=loopsdata[,c("long", "lat")], data=loopsdata)
 loops <- set_projection(loops, current.projection="longlat", projection="rd")
+
 
 
 
@@ -51,26 +59,34 @@ setdiff(loops.roadnumbers, rw.roadnumbers)
 rw$roadnumber <- as.numeric(as.character(rw$WEGNUMMER))
 rw$roadname <- factor(loops.roadnames[match(rw$roadnumber, loops.roadnumbers)], levels=loops.roadnames)
 
-table(rw$roadnumber, rw$roadname, useNA="always")
+#table(rw$roadnumber, rw$roadname, useNA="always")
 
 rw <- rw[!is.na(rw$roadname),]
 
-## exploration
-tapply(get_lengths(rw), list(rw$BAANSUBSRT), sum) 
-
-
-pdf("test.pdf", width=7,height=7)
-geo_shape(corop) +
-	geo_fill() +
-	geo_shape(rw) +
-	geo_lines(lwd=.02, col="black", max.categories=20)+
-geo_shape(rw[rw$BAANSUBSRT=="HR",]) +
-	geo_lines(lwd=.02, col="blue", max.categories=20) +
-geo_shape(rw[rw$BAANSUBSRT=="OPR",]) +
-	geo_lines(lwd=.05, col="red", max.categories=20) +
-geo_shape(rw[rw$BAANSUBSRT=="PST",]) +
-	geo_lines(lwd=.05, col="green", max.categories=20)
-dev.off()
+# ## exploration
+# tapply(get_lengths(rw), list(rw$BAANSUBSRT), sum) 
+# 
+# 
+# pdf("test.pdf", width=7,height=7)
+# geo_shape(corop) +
+# 	geo_fill() +
+# 	geo_shape(rw) +
+# 	geo_lines(lwd=.02, col="black", max.categories=20)+
+# geo_shape(rw[rw$BAANSUBSRT=="HR",]) +
+# 	geo_lines(lwd=.02, col="blue", max.categories=20) +
+# geo_shape(rw[rw$BAANSUBSRT=="OPR",]) +
+# 	geo_lines(lwd=.05, col="red", max.categories=20) +
+# geo_shape(rw[rw$BAANSUBSRT=="PST",]) +
+# 	geo_lines(lwd=.05, col="green", max.categories=20)
+# dev.off()
+# 
+# pdf("test.pdf", width=7,height=7)
+# geo_shape(corop) +
+# 	geo_fill() +
+# 	geo_shape(rw) +
+# 	geo_lines(lwd=.02, col="RPE_CODE", max.categories=20)
+# dev.off()
+# 
 
 # AFR ? afrit
 # HR ? hoofd route

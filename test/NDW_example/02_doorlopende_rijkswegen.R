@@ -63,7 +63,8 @@ source("../test/NDW_example/00_misc_functions.R")
 
 
 system.time({
-	drw <- fit_polylines(rw, loops, id="roadname")
+	#drw <- fit_polylines(rw, loops, id="roadname")
+	drw <- fit_polylines(rw, id="roadname")
 })
 
 system.time({
