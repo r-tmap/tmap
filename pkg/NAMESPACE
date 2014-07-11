@@ -2,6 +2,7 @@
 
 S3method("+",geo)
 S3method(print,geo)
+export(animation_geo)
 export(append_data)
 export(approx_areas)
 export(calc_densities)

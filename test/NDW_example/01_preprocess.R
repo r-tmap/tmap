@@ -88,10 +88,40 @@ rw <- rw[!is.na(rw$roadname),]
 # dev.off()
 # 
 
-# AFR ? afrit
+# "AFR" "BST" "BU"  "FP"  "HR"  "MRB" "NRB" "OPR" "PAR" "PKB" "PKP" "PST" "TN"  "VBD" "VBI" "VBK" "VBR" "VBS" "VBW"
+# AFR = afrit
 # HR ? hoofd route
 # PKB ? af/oprit?
 # PST ? invoegstrook?
+# OPR = oprit
+
+
+
+## create plots
+rw$Segment <- factor(ifelse(rw$BAANSUBSRT=="HR", "Main route", ifelse(rw$BAANSUBSRT=="AFR", "Exit ramp", ifelse(rw$BAANSUBSRT=="OPR", "Entrance ramp", "Other"))),
+					 levels=c("Main route", "Exit ramp", "Entrance ramp", "Other"))
+
+
+loops$sensor <- factor("Road sensor")
+
+
+### example: Knooppunt Lunetten (A12/A27)
+png("../test/NDW_example/plots/rijkswegen_met_loops.png", width=1600,height=800, res=300)
+geo_shape(corop, xlim=c(136000, 139000), ylim=c(451000, 452500), relative=FALSE) +
+	geo_fill() +
+	geo_shape(rw) +
+	geo_lines(lwd=1.5, col="Segment", max.categories=20) +
+	geo_shape(loops) +
+	geo_bubbles(.025, "sensor", palette="black") +
+	geo_theme("", legend.position=c("left", "bottom"), legend.titles=c(line.col="Road segment"),
+			  legend.title.cex=.8, legend.text.cex=.6) #+
+	#geo_grid()
+dev.off()
+
+
+
+
+
 
 
 rw <- rw[rw$BAANSUBSRT %in% c("HR", "PST"),]

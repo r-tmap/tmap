@@ -113,10 +113,12 @@ nuts1 <- unionSpatialPolygons(corop_borders, corop_borders$NUTS1)
 
 
 save(corop, corop_borders, rwb_cr, rwb_crL, rwb_crR, nuts1, nuts2, file="../test/NDW_example/vis_demo_files.Rdata")
-load("../test/NDW_example/vis_demo_files.Rdata")
+
+
 
 
 ########### run demo
+load("../test/NDW_example/vis_demo_files.Rdata")
 library(shiny)
 library(ggplot2)
 library(scales)
@@ -125,12 +127,7 @@ df <- data.frame(date=as.POSIXct(substr(names(rwb_cr)[7:41], 1, 10)), mean=colMe
 df <- df[-seq(1, 35, by=5),]
 df$date <- df$date + c(7*60*60, 13*60*60, 19*60*60,25*60*60)
 
-item <- 
-
-
 g <- qplot(date, mean, data=df, geom="line") + scale_x_datetime(breaks=date_breaks("day"))
-
-
 palette <- "YlOrRd"
 bg <- "gray65"
 
@@ -146,6 +143,25 @@ geo_shape(corop) +
 	geo_shape(rwb_crR) +	
 	geo_lines("2014-05-05_avond", lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250), palette=palette) +
 	geo_theme(legend.show=TRUE, scale=2, legend.bg.color=bg)
+
+
+## create animation
+dnames <- names(rwb_cr)[7:41][-seq(1, 35, by=5)]
+
+animation_geo(expr={
+geo_shape(corop) +
+	geo_fill(bg) +
+	geo_shape(corop_borders) +
+	geo_borders("white", lwd=.5) +
+	geo_shape(nuts2) +
+	geo_borders("white", lwd=1) +
+	geo_shape(rwb_crL) +	
+	geo_lines(dnames, lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250), palette=palette) +
+	geo_shape(rwb_crR) +	
+	geo_lines(dnames, lwd=1, max.categories=46, n=7, style="fixed", breaks=c(0, 12, 25, 37, 50, 75, 100, 250), palette=palette) +
+	geo_facets(nrow=1,ncol=1) +
+	geo_theme(legend.show=TRUE, scale=2, legend.bg.color=bg)
+}, width=800, height=800, filename="../test/NDW_example/oud/animation.gif")
 
 
 
@@ -164,6 +180,7 @@ runApp(list(
 				conditionalPanel(condition="input.dagdelen == 'Alle'",
 					sliderInput(inputId="dagen2", "Dag in mei:", min=5, max=11, value=5, step=.25,animate=TRUE)),
 				plotOutput("graph", height="400px")
+				#plotOutput("map", height="400px")
 			),
 			column(width=6,
 				plotOutput("map", height="800px")

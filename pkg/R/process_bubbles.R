@@ -118,7 +118,7 @@ process_bubbles <- function(data, g, gt, gby) {
 		} else {
 			bubble.size.legend.labels <- NA
 			bubble.legend.sizes <- NA
-			bubble.max.size <- 1
+			bubble.max.size <- res$bubble.max.size
 			xsize <- rep(NA, nx)
 		}
 	}

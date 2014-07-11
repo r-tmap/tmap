@@ -33,7 +33,11 @@ keyR <- keyR[keyR %in% key]
 library(RColorBrewer)
 pal <- c(brewer.pal(9, "Set1")[-9], 
 		 brewer.pal(8, "Dark2")[-7],
+		 brewer.pal(12, "Set3")[-9],
+		 brewer.pal(9, "Set1")[-9], 
+		 brewer.pal(8, "Dark2")[-7],
 		 brewer.pal(12, "Set3")[-9])
+pal[c(10, 27)] <- pal[c(43, 16)]
 
 pdf("../test/NDW_example/output/doorlopende_rijkswegen_nuts.pdf", width=7, height=7)
 geo_shape(corop) +
@@ -47,6 +51,18 @@ geo_shape(corop) +
 dev.off()
 
 
+
+## for publication/presentation
+png("../test/NDW_example/plots/highways.png", width=1400, height=1600, res=300)
+geo_shape(corop) +
+	geo_fill("gray70") +
+	geo_borders("white") +
+	#geo_shape(gm) +
+	#geo_borders("white") +
+	geo_shape(drw_nuts) +	
+	geo_lines("ID", lwd=3, palette=pal, max.categories=46) +
+	geo_theme(legend.show=FALSE, title="Highways per NUTS3")
+dev.off()
 
 
 
@@ -65,3 +81,5 @@ drw_nuts_len <- rbind(drw_nuts_len, data.frame(roadname="total", nuts="total", l
 write.table(drw_nuts_len, file="../test/NDW_example/output/lengtes_drw_nuts3.csv", row.names=FALSE, sep=",")
 
 save(drw_nuts, drwL_nuts, drwR_nuts, file="../test/NDW_example/throughput/doorlopende_rijkswegen_nuts.rda")
+
+#load(file="../test/NDW_example/throughput/doorlopende_rijkswegen_nuts.rda")
