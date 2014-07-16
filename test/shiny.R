@@ -22,30 +22,39 @@ names(numvars) <- shps
 library(shiny)
 
 
+
 runApp(list(
 	ui= fluidPage(title="geo",
 				  titlePanel("geo maps"),
 				  
 				  # Application title
-				  fluidRow(
-				  	column(width=4,
-				  		   uiOutput("uishp1"),
-				  		   uiOutput("uifill1"),
-				  		   selectInput("borders1", label="Borders", choices=c("No borders", "gray, 1lwd", "gray, 2 lwd", "gray, 3 lwd", "black, 1 lwd", "black, 2 lwd", "black, 3 lwd"), selected="gray, 1lwd"),
-				  		   uiOutput("uibubblesCol1"),
-				  		   uiOutput("uibubblesSize1"),
-				  		   uiOutput("uitext1"),
-				  		   uiOutput("uitextSize1")
-				  	),
-				  	column(width=6,
+				  sidebarPanel(width=6,
+				  			 
+				  	uiOutput("uishp1"),
+				  	helpText("This GUI only accepts SpatialPolygonDataFrames."),
+					wellPanel(
+				  		uiOutput("uifill1"),
+				  		checkboxInput("density1", "Convert to densities", FALSE),
+				  		selectInput("style1", label="Style", choices=c("equal", "pretty", "quantile", "kmeans"), selected="kmeans")),
+					wellPanel(
+						selectInput("borders1", label="Borders", choices=c("No borders", "gray, 1 lwd", "gray, 2 lwd", "gray, 3 lwd", "black, 1 lwd", "black, 2 lwd", "black, 3 lwd"), selected="gray, 1lwd")),
+					wellPanel(
+				  		uiOutput("uibubblesCol1"),
+				  		uiOutput("uibubblesSize1"),
+						sliderInput("bubblesScale1", "Scale (bubbles)", min=.1, max=3, value=1, step=.1)),
+					wellPanel(
+						uiOutput("uitext1"),
+				  		uiOutput("uitextSize1"),
+						sliderInput("textScale1", "Scale (text)", min=.1, max=3, value=1, step=.1)),
+					sliderInput("scale1", "Scale (overall)", min=.1, max=3, value=1, step=.1)),
+				  mainPanel(
 				  		   plotOutput("map", height="800px")
-				  	)
 				  )
 	),
 	server = function(input, output) {
 		
 		output$uishp1 <- renderUI({
-			selectInput("shp1", label="", choices=shps, selected=shps[1])
+			selectInput("shp1", label="Shape", choices=shps, selected=shps[1])
 		})
 		
 		output$uifill1 <- renderUI({
@@ -98,14 +107,18 @@ runApp(list(
 		output$map <- renderPlot({
 			shpname <- input$shp1
 			fill <- input$fill1
+			density <- input$density1
 			borders <- input$borders1
 			bubblesCol <- input$bubblesCol1
 			bubblesSize <- input$bubblesSize1
+			bubblesScale <- input$bubblesScale1
 			text <- input$text1
 			textSize <- input$textSize1
-
-			if (is.null(shpname) || is.null(fill) || is.null(borders) ||
-					is.null(bubblesCol) || is.null(bubblesSize) || is.null(text) || is.null(textSize)) return()
+			textScale <- input$textScale1
+			scale <- input$scale1
+			
+			if (is.null(shpname) || is.null(fill) || is.null(density) || is.null(borders) ||
+					is.null(bubblesCol) || is.null(bubblesSize) || is.null(bubblesScale) || is.null(text) || is.null(textSize) || is.null(textScale) || is.null(scale)) return()
 			
 			if (borders=="No borders") {
 				bordersCol <- bordersLwd <- NA
@@ -129,15 +142,15 @@ runApp(list(
 			shp <- get(input$shp1, .GlobalEnv)
 			g <- geo_shape(shp) + geo_borders(col=bordersCol, lwd = bordersLwd)
 			if (fill != "No fill") {
-				g <- g + geo_fill(col = fill)
+				g <- g + geo_fill(col = fill, convert2density = density)
 			}
 			if (bubblesCol != "No bubbles") {
-				g <- g + geo_bubbles(col = bubblesCol, size=bubblesSize)
+				g <- g + geo_bubbles(col = bubblesCol, size=bubblesSize, scale=bubblesScale)
 			}
 			if (text != "No text") {
-				g <- g + geo_text(text = text, cex = textSize)
+				g <- g + geo_text(text = text, cex = textSize, scale=textScale)
 			}
-			g
+			g + geo_theme(scale=scale)
 		})
 		
 	}

@@ -5,7 +5,6 @@ process_text <- function(data, g, fill) {
 	
 	within(g, {
 		#xtext <- text
-		
 		nx <- length(text)
 		
 		text <- if (nx > 1) matrix(unlist(lapply(data[, text]), as.character), ncol=nx) else as.character(data[[text]])
@@ -34,8 +33,9 @@ process_text <- function(data, g, fill) {
 		} else rep(text.fontcolor, length.out=npol)
 		text.xmod <- if (is.character(text.xmod)) data[[text.xmod]] else rep(text.xmod, length.out=npol)
 		text.ymod <-  if (is.character(text.ymod)) data[[text.ymod]] else rep(text.ymod, length.out=npol)
+		
 		text_sel <- (text.cex >= text.cex.lowerbound)
-		text_empty <- is.na(text)
+		text_empty <- is.na(text) | is.na(text.cex)
 		
 		if (g$text.print.tiny) {
 			text.cex[!text_sel & !text_empty] <- text.cex.lowerbound
@@ -54,4 +54,5 @@ process_text <- function(data, g, fill) {
 			rm(bgcols)
 		}
 	})
+	
 }
