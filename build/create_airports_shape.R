@@ -3,7 +3,7 @@
 
 download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_airports.zip", "../shapes/ne_10m_airports.zip")
 unzip("../shapes/ne_10m_airports.zip", exdir="../shapes")
-airports10 <- get_shape("../shapes/ne_10m_airports.shp")
+airports10 <- read_shape("../shapes/ne_10m_airports.shp")
 
 names(airports10)
 
@@ -25,7 +25,7 @@ save(airports, file="./data/airports.rda", compress="xz")
 ### cities
 download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_populated_places_simple.zip", "../shapes/ne_50m_populated_places_simple.zip")
 unzip("../shapes/ne_50m_populated_places_simple.zip", exdir="../shapes")
-cities50 <- get_shape("../shapes/ne_50m_populated_places_simple.shp")
+cities50 <- read_shape("../shapes/ne_50m_populated_places_simple.shp")
 
 cities <- cities50
 cities@data <- cities@data[, (c("nameascii", "adm0name", "adm0_a3",  "featurecla", "pop_max", "pop_min"))]

@@ -1,13 +1,15 @@
-#' Get shape file
+#' Read shape file
 #' 
-#' This function loads a shape file.
+#' This function reads an ESRI shape file.
+#' 
+#' This function is a convenient wrapper of readOGR of the package sp. It also fixes a common bug when reading shape files that are in the Dutch rijksdriehoekstelsel.
 #'
 #' @param file a shape file name (including directory).
 #' @return shape object
 #' @import rgdal
 #' @import sp
 #' @export
-get_shape <- function(file){
+read_shape <- function(file){
 	
 	# determine region ID
 	if (file.exists(file)) {
@@ -31,8 +33,17 @@ get_shape <- function(file){
 	}
 }
 
-
-save_shape <- function(shp, file) {
+#' Write shape file
+#' 
+#' This function writes an ESRI shape file.
+#' 
+#' This function is a convenient wrapper of writeOGR of the package sp.
+#'
+#' @param shp a shape object.
+#' @param file file name (including directory)
+#' @import sp
+#' @export
+write_shape <- function(shp, file) {
 	shpname <- deparse(substitute(shp))
 	dir <- dirname(file)
 	base <- basename(file)

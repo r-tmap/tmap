@@ -8,12 +8,12 @@ devtools::load_all(".")
 
 # http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/publicaties/geografische-data/archief/2014/2013-wijk-en-buurtkaart-art.htm
 
-shp <- get_shape("../shapes/gem_2013_v1.shp")
+shp <- read_shape("../shapes/gem_2013_v1.shp")
 shp <- shp[shp$WATER=="NEE", ]
 
-NLD_muni <- get_shape("../shapes/gm_2013.shp")
+NLD_muni <- read_shape("../shapes/gm_2013.shp")
 NLD_muni <- set_projection(NLD_muni, current.projection="rd")
-NLD_prov <- get_shape("../shapes/pv_2013.shp")
+NLD_prov <- read_shape("../shapes/pv_2013.shp")
 NLD_prov <- set_projection(NLD_prov, current.projection="rd")
 
 

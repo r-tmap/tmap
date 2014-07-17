@@ -1,0 +1,19 @@
+\name{write_shape}
+\alias{write_shape}
+\title{Write shape file}
+\usage{
+write_shape(shp, file)
+}
+\arguments{
+  \item{shp}{a shape object.}
+
+  \item{file}{file name (including directory)}
+}
+\description{
+This function writes an ESRI shape file.
+}
+\details{
+This function is a convenient wrapper of writeOGR of the
+package sp.
+}
+

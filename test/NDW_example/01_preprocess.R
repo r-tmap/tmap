@@ -33,7 +33,7 @@ loops <- set_projection(loops, current.projection="longlat", projection="rd")
 ###########################################################################
 ##### load and preprocess corop shape
 ###########################################################################
-corop <- get_shape("../test/NDW_example/input/cr_2013.shp")
+corop <- read_shape("../test/NDW_example/input/cr_2013.shp")
 corop <- set_projection(corop, current.projection="rd")
 
 nuts <- read.csv2("../test/NDW_example/COROP-NUTS.csv", stringsAsFactor=FALSE)
@@ -48,7 +48,7 @@ corop <- append_data(corop, data=nuts, key.shp="CR2013", key.data="COROP")
 ##### load and preprocess road shape
 ###########################################################################
 
-rw <- get_shape("../test/NDW_example/input/rijksweg2013.shp")
+rw <- read_shape("../test/NDW_example/input/rijksweg2013.shp")
 rw <- set_projection(rw, current.projection="rd")
 
 rw.roadnumbers <- unique(as.numeric(as.character(rw$WEGNUMMER)))
@@ -64,7 +64,7 @@ rw$roadname <- factor(loops.roadnames[match(rw$roadnumber, loops.roadnumbers)], 
 rw <- rw[!is.na(rw$roadname),]
 
 # ## exploration
-# tapply(get_lengths(rw), list(rw$BAANSUBSRT), sum) 
+# tapply(read_lengths(rw), list(rw$BAANSUBSRT), sum) 
 # 
 # 
 # pdf("test.pdf", width=7,height=7)

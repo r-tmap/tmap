@@ -30,7 +30,7 @@
 #' 
 #' Moreover, this package offers easy to use functions to
 #' \itemize{
-#' \item load shape files with \code{\link{get_shape}};
+#' \item read ESRI shape files with \code{\link{read_shape}};
 #' \item append data with \code{\link{append_data}};
 #' \item change map projections with \code{\link{set_projection}};
 #' \item crop maps with \code{\link{crop_shape}};

@@ -27,7 +27,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   legend.digits=gt$legend.digits,
-						   legend.NA.text=gt$legend.NA.text)
+						   legend.NA.text=g$textNA)
 		bubble.col <- colsLeg[[1]]
 	} else {
 		palette <- if (is.null(g$palette))  "Dark2" else g$palette
@@ -36,7 +36,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		colsLeg <- cat2pal(xc[sel],
 						   palette = palette,
 						   colorNA = g$colorNA,
-						   legend.NA.text=gt$legend.NA.text,
+						   legend.NA.text=g$textNA,
 						   max_levels=g$max.categories)
 		
 		bubble.col <- rep(NA, length(sel))

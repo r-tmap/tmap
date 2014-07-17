@@ -1,0 +1,30 @@
+```{r setup, include=FALSE}
+library(knitr)
+devtools::load_all("../pkg")
+```
+
+# Full feature example
+
+
+## Load data
+
+```{r}
+data(Europe)
+data(rivers)
+data(cities)
+data(airports)
+```
+
+
+```{r}
+geo_shape(Europe[3,]) +
+	geo_borders() +
+	geo_fill("pop_est_dens", style="kmeans") +
+geo_shape(rivers) +
+	geo_lines(col="blue", lwd="strokelwd") +
+geo_shape(cities) +
+	geo_text("name", cex="pop_max", root=3, scale=1.5, bg.alpha=0, ymod=-.015) +
+	geo_bubbles("pop_max", col="capital") +
+geo_theme_Europe(legend.config=c("fill_hist", "fill", "bubble.size", "bubble.col"))
+	
+```

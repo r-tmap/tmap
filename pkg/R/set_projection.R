@@ -60,3 +60,18 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, transf
 		
 	shp
 }
+
+
+#' Get projection
+#' 
+#' This function gets the projection of a shape file.
+#' 
+#' @param shp shape object
+#' @import sp
+#' @export
+get_projection <- function(shp) {
+	proj4string(shp)
+}
+
+
+

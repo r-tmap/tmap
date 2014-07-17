@@ -1,0 +1,13 @@
+\name{get_projection}
+\alias{get_projection}
+\title{Get projection}
+\usage{
+get_projection(shp)
+}
+\arguments{
+  \item{shp}{shape object}
+}
+\description{
+This function gets the projection of a shape file.
+}
+

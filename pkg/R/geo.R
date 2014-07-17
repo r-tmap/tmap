@@ -6,8 +6,10 @@
 #' @param fill either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth.
 #' @param bubble.size name of the data variable in \code{shp} for the bubblemap that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.
 #' @param bubble.col name of the data variable in \code{shp} for the bubblemap that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.
+#' @param text Name of the data variable that contains the text labels.
+#' @param text.cex Font size of the text labels. Either a constant value, or the name of a numeric data variable.
 #' @param line.lwd either a line width or a name of the data variable that specifies the line width. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.
-#' @param line.col either a line color or a name of the data variable that specifies the line colors. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.#' @param text name of a variable in \code{shp} that contain text labels
+#' @param line.col either a line color or a name of the data variable that specifies the line colors. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.
 #' @param borders color of the polygon borders. Use \code{NA} to omit the borders.
 #' @param theme one of "World", "Europe", or "NLD"
 #' @param ... parameters passed on to the \code{geo_*} functions.
@@ -19,6 +21,7 @@ geo <- function(shp,
 				bubble.size=NULL,
 				bubble.col=NULL,
 				text=NULL,
+				text.cex=1,
 				line.lwd=NULL,
 				line.col=NULL,
 				borders="grey40",
@@ -46,8 +49,8 @@ geo <- function(shp,
 	
 	bubbleargs <- args[setdiff(intersect(names(args), bubblenames), c("bubble.col", "bubble.size"))]
 	borderargs <- args[setdiff(intersect(names(args), names(geo_borders()[[1]])), "col")]
-	textnames <- names(geo_text("")[[1]])[-1]
-	textnames <- substr(textnames, 6, nchar(textnames))
+	textnames <- names(geo_text("")[[1]])[-c(1:2)]
+	textnames[-1] <- substr(textnames[-1], 6, nchar(textnames[-1]))
 	textargs <- args[intersect(names(args), textnames)]
 	linenames <- names(geo_lines()[[1]])
 	linenames[linenames=="lines.lty"] <- "lty"
@@ -63,7 +66,7 @@ geo <- function(shp,
 	if (!is.null(fill)) g <- g + do.call("geo_fill", c(list(col=fill), fillargs))
 	if (!missing(bubble.size) || !missing(bubble.col)) g <- g + do.call("geo_bubbles", c(list(size=bubble.size, col=bubble.col), bubbleargs))
 	
-	if (!missing(text)) g <- g + do.call("geo_text", c(list(text=text), textargs))
+	if (!missing(text)) g <- g + do.call("geo_text", c(list(text=text, cex=text.cex), textargs))
 	
 	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("geo_lines", c(list(lwd=line.lwd, col=line.col), lineargs))
 	

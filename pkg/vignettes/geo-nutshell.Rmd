@@ -1,0 +1,57 @@
+---
+title: "geo in a nutshell"
+author: "Martijn Tennekes"
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+library(knitr)
+devtools::load_all("../")
+```
+
+### Introduction
+
+With the geo package, statistical thematic maps can be generated with great flexability. The syntax for creating plots is very similar to `ggplot2`. It also contains functions to deal with shape objecte, where many are convenient wrappers of functions from other packages such as `sp` and `rgeos`.
+
+
+### Shape objects
+
+We refer to **shape objects** as objects from the class `Spatial` from the package `sp`. The six supported subclasses are:
+
+|   	| Without data	| With data   	|
+|---	|---	|---	|
+|Polygons   	| SpatialPolygons  	| SpatialPolygonsDataFrame  	|
+|Points   	| SpatialPoints  	| SpatialPointsDataFrame  	|
+|Lines   	| SpatialLines  	| SpatialLinesDataFrame  	|
+
+Obviously, shape objects with data (the right-hand side column) are recommended, since data is what we want to show.
+
+Load shape object of Europe (contained in this package):
+```{r}
+data(Europe)
+```
+
+Shape objects in ESRI format can be read with `read_shape` and saved with `write_shape`.
+
+Projection can be get and set with `get_projection` and `set_projection` respectively.
+
+
+### Quick plots
+
+The `geo` function is `geo`'s equivalent to `ggplot2`'s `qplot`.
+
+```{r}
+geo(Europe)
+```
+
+A choropleth is created with one line of code:
+
+```{r}
+geo(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", title="GDP per capita", textNA="Non-EU countries")
+```
+
+
+
+
+

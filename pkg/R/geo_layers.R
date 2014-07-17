@@ -102,6 +102,7 @@ geo_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontf
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE}
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
+#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @export
 #' @example ../examples/geo_lines.R
 #' @return \code{\link{geo-element}}
@@ -114,12 +115,13 @@ geo_lines <- function(col="red", lwd=1, lty="solid",
 					  auto.palette.mapping = TRUE,
 					  contrast = 1,
 					  max.categories = 12, 
-					  colorNA = "grey65") {
+					  colorNA = "grey65",
+					  textNA = "Missing") {
 	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.scale=scale,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 							 auto.palette.mapping=auto.palette.mapping,
 							 max.categories=max.categories,
-							 contrast=contrast, colorNA=colorNA))
+							 contrast=contrast, colorNA=colorNA, textNA=textNA))
 	class(g) <- "geo"
 	g
 }
@@ -141,6 +143,7 @@ geo_lines <- function(col="red", lwd=1, lty="solid",
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE}
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
+#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @export
 #' @example ../examples/geo_fill.R
@@ -157,6 +160,7 @@ geo_fill <- function(col="grey90",
 							contrast = 1,
 					 		max.categories = 12,
 					 		colorNA = "grey65",
+					 		textNA = "Missing",
 							thres.poly = 1e-05) {
 	
 	g <- list(geo_fill=as.list(environment()))
@@ -183,6 +187,7 @@ geo_fill <- function(col="grey90",
 #' @param contrast number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE} and \code{col} is a numeric variable name. 
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA colour for missing values
+#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @export
@@ -201,6 +206,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 						  contrast = 1,
 						  max.categories = 12,
 						  colorNA = "#FF1414",
+						  textNA = "Missing",
 						  xmod = 0,
 						  ymod = 0) {
 	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border.lwd=border.lwd,
@@ -212,6 +218,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 								 max.categories=max.categories,
 								 contrast=contrast,
 								 colorNA=colorNA,
+								 textNA=textNA,
 								 bubble.xmod=xmod,
 								 bubble.ymod=ymod))
 	class(g) <- "geo"

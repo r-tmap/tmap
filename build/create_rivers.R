@@ -3,7 +3,7 @@
 
 download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/physical/ne_50m_rivers_lake_centerlines_scale_rank.zip", "../shapes/ne_50m_rivers_lake_centerlines_scale_rank.zip")
 unzip("../shapes/ne_50m_rivers_lake_centerlines_scale_rank.zip", exdir="../shapes")
-rivers <- get_shape("../shapes/ne_50m_rivers_lake_centerlines_scale_rank.shp")
+rivers <- read_shape("../shapes/ne_50m_rivers_lake_centerlines_scale_rank.shp")
 
 rivers$strokeweig <- rivers$strokeweig * 10
 

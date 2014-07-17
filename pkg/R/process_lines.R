@@ -20,7 +20,7 @@ process_line_col_vector <- function(x, g, gt) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   legend.digits=gt$legend.digits,
-						   legend.NA.text=gt$legend.NA.text)
+						   legend.NA.text=g$textNA)
 		line.col <- colsLeg[[1]]
 	} else {
 		palette <- if (is.null(g$palette))  "Dark2" else g$palette
@@ -28,7 +28,7 @@ process_line_col_vector <- function(x, g, gt) {
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   colorNA = g$colorNA,
-						   legend.NA.text=gt$legend.NA.text,
+						   legend.NA.text=g$textNA,
 						   max_levels=g$max.categories)
 		
 		line.col <- colsLeg[[1]]

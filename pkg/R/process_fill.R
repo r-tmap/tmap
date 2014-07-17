@@ -8,7 +8,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   colorNA = g$colorNA,
-						   legend.NA.text = gt$legend.NA.text,
+						   legend.NA.text = g$textNA,
 						   max_levels=g$max.categories)
 		fill.breaks <- NA
 	} else {
@@ -19,7 +19,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
 						   legend.digits=gt$legend.digits,
-						   legend.NA.text = gt$legend.NA.text)
+						   legend.NA.text = g$textNA)
 		fill.breaks <- colsLeg[[4]]
 	}
 	fill <- colsLeg[[1]]
