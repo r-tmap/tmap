@@ -1,6 +1,6 @@
 #' Theme elements of cartographic maps
 #' 
-#' This layer specifies thematic layout options for the maps.
+#' This element specifies thematic layout options for the maps.
 #' 
 #' @name geo_theme
 #' @rdname geo_theme

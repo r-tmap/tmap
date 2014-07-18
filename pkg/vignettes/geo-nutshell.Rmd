@@ -39,7 +39,7 @@ Projection can be get and set with `get_projection` and `set_projection` respect
 
 ### Quick plots
 
-The `geo` function is `geo`'s equivalent to `ggplot2`'s `qplot`.
+The `geo` function is `geo`'s equivalent to `ggplot2`'s `qplot`. The first, and only required argument is a shape object.
 
 ```{r}
 geo(Europe)
@@ -50,6 +50,52 @@ A choropleth is created with one line of code:
 ```{r}
 geo(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", title="GDP per capita", textNA="Non-EU countries")
 ```
+
+The function geo offers the same flexibility as the main plotting method (see below). However, it only supports one shape object.
+
+### Geo elements
+
+The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of elements that start with `geo_`. Start with `geo_shape` that specifies the shape object. Next, one, or a combination of the following drawing layers should be specified:
+
+|Drawing layer	| Main arguments	|
+|---	|---	|
+|geo_fill   	| fill<sup>1</sup>  	|
+|geo_borders   	| col, lwd  	|
+|geo_bubbles   	| size<sup>1</sup>, col<sup>1</sup>  	|
+|geo_lines		| col<sup>1</sup>, lwd<sup>1</sup>		|
+|geo_text   	| text<sup>2</sup>, cex<sup>2</sup>  	|
+
+The last plot is reproduced as follows:
+
+```{r}
+geo_shape(Europe) +
+	geo_fill("gdp_cap_est", textNA="Non-EU countries") +
+	geo_borders() +
+	geo_text("iso_a3", cex="pop_est") + 
+geo_theme("GDP per capita")
+```
+
+We call geo_shape plus the drawing layers (all of the elements in the last example except `geo_theme`) a **group**. Multiple groups can be stacked. For instance, let's draw some rivers and cities in Europe:
+
+```{r}
+data(rivers)
+data(cities)
+
+geo_shape(Europe) +
+	geo_fill("darkolivegreen1") +
+	geo_borders() +
+geo_shape(cities) +
+	geo_bubbles("pop_max", "darkorchid") +
+geo_shape(rivers) +
+	geo_lines("blue") +
+geo_shape(Europe) +
+	geo_text("iso_a3", cex="pop_est") + 
+geo_theme("Topographic map of Europe", legend.is.portrait=c(bubble.size=TRUE), legend.titles = c(bubble.size="Metropolean population size"))
+```
+
+This plot contains three groups. First, we plotted the countries and borders. Second, the rivers from a different shape object (a SpatialLinesDataFrame). The third group are the country codes, also from the Europe shape object.
+
+
 
 
 

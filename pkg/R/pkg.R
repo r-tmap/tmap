@@ -107,19 +107,21 @@ NULL
 #' \itemize{
 #' \item \code{\link{geo_shape}} that specifies the shape object, and also controls the projection and bounding box}
 #' 
-#' The drawing elements are
+#' The elements that serve as drawing layers are
 #' \itemize{
 #' \item \code{\link{geo_borders}} to draw polygon borders
 #' \item \code{\link{geo_fill}} to color the polygons
 #' \item \code{\link{geo_bubbles}} to draw bubbles
 #' \item \code{\link{geo_lines}} to draw lines}
 #' 
-#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one layer. Multiple layers can be stacked. Each layer should start with \code{\link{geo_shape}}.
+#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{geo_shape}}.
 #' 
 #' The layout elements are
 #' \itemize{
 #' \item \code{\link{geo_theme}} to change the appearance of the map, for instance titles and legend positions. Predefined themes for the example shape files are \code{\link{geo_theme_World}}, \code{\link{geo_theme_Europe}}, and \code{\link{geo_theme_NLD}}.
-#' \item \code{\link{geo_grid}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.}
+#' \item \code{\link{geo_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
+#' \item \code{\link{geo_grid}} that specifies grid lines
+#' }
 #'    
 #' @name geo-element
 NULL

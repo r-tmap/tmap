@@ -228,7 +228,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 
 #' Small multiples grid
 #' 
-#' This layer specifies how small multiples are placed in a grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{geo_fill}}, \code{\link{geo_lines}}, or \code{\link{geo_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
+#' This element specifies how small multiples are placed in a grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{geo_fill}}, \code{\link{geo_lines}}, or \code{\link{geo_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 #' 
 #' @param by data variable name by which the data is split
 #' @param ncol number of columns of the small multiples grid
@@ -258,7 +258,7 @@ geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 
 #' Coordinate grid lines
 #' 
-#' This layer draws coordinate grid lines.
+#' This element draws coordinate grid lines.
 #' 
 #' @param n.x Prefered number of grid lines for the x axis.
 #' @param n.y Prefered number of grid lines for the y axis.
@@ -282,7 +282,7 @@ geo_grid <- function(n.x=8,
 
 #' Stacking of geo elements
 #' 
-#' The plus operator allows you to stack \code{\link{geo-element}s}. Always start with \code{\link{geo_shape}} to specify the shape object. If multile layers are used, each layer should start with a \code{\link{geo_shape}} element.
+#' The plus operator allows you to stack \code{\link{geo-element}s}.
 #' 
 #' @param e1 first \code{\link{geo-element}}
 #' @param e2 second \code{\link{geo-element}}
