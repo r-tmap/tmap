@@ -67,8 +67,9 @@ geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 #' @param fontcolor relative size of the text labels
 #' @param fontface font face of the text labels
 #' @param fontfamily font family of the text labels
-#' @param bg.color background color of the text labels
-#' @param bg.alpha number between 0 and 255 that specifies the transparancy of the text background (0 is totally transparent, 255 is solid background)
+#' @param case case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and use \code{NA} to leave the text as is.
+#' @param bg.color background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.
+#' @param bg.alpha number between 0 and 255 that specifies the transparancy of the text background (0 is totally transparent, 255 is solid background). The default value is 100.
 #' @param cex.lowerbound lowerbound for \code{cex}. Needed to ignore the tiny labels in case \code{cex} is a variable.
 #' @param print.tiny boolean that determines if tiny labels (which size is smaller than \code{cex.lowerbound}) are print at size \code{cex.lowerbound}
 #' @param scale scalar needed in case cex is based 
@@ -77,8 +78,8 @@ geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 #' @export
 #' @example ../examples/geo_text.R
 #' @return \code{\link{geo-element}}
-geo_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", bg.color="#888888", bg.alpha=100, cex.lowerbound=.2, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
-	g <- list(geo_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
+geo_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", case=NA, bg.color=NA, bg.alpha=100, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
+	g <- list(geo_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.case=case, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "geo"
 	g

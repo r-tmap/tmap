@@ -35,7 +35,7 @@
 #' @export
 geo_theme <- function(title=NA,
 					  scale=1,
-					  title.cex=1.0,
+					  title.cex=1.5,
 					  bg.color=NULL,
 					  draw.frame=TRUE,
 					  title.position = c("left", "top"),

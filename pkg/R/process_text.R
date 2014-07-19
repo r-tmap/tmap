@@ -1,5 +1,5 @@
 process_text <- function(data, g, fill) {
-	root <- NULL; text.cex.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL
+	root <- NULL; text.cex.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL; text.case <- NULL
 	
 	npol <- nrow(data)
 	
@@ -8,6 +8,7 @@ process_text <- function(data, g, fill) {
 		nx <- length(text)
 		
 		text <- if (nx > 1) matrix(unlist(lapply(data[, text]), as.character), ncol=nx) else as.character(data[[text]])
+		if (!is.na(text.case)) text <- if(text.case=="upper") toupper(text) else tolower(text)
 		rm(nx)
 		
 		if (is.character(text.cex)) {

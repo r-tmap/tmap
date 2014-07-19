@@ -9,6 +9,7 @@ num2pal <- function(x, n = 5,
 					   colorNA = "#FF1414",
 					   legend.NA.text = "Missing") {
 	
+	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.")
 	# create intervals and assign colors
 	q <- suppressWarnings(if (style=="fixed") {
         classIntervals(x, n, style= style, fixedBreaks=breaks) 
