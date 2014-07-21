@@ -21,3 +21,6 @@ Imports:
     igraph,
     fields,
     vegan
+Suggests:
+    knitr
+VignetteBuilder: knitr

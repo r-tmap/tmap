@@ -1,9 +1,9 @@
-#' Set projection
+#' Set and get the map projection
 #' 
-#' This function sets the projection of a shape file. It is a convenient wrapper of \code{\link[sp:spTransform]{spTransform}} with shortcuts for commonly used projections. The projection can also be set during the plot call in \code{\link{geo_shape}}.
+#' The function \code{set_projection} sets the projection of a shape file. It is a convenient wrapper of \code{\link[sp:spTransform]{spTransform}} with shortcuts for commonly used projections. The projection can also be set directly in the plot call with \code{\link{geo_shape}}. This function is also used to set the current projection information without transformation of the shape object, which is useful when this information is missing in the shape object. The function \code{get_projection} is used to get the projection information.
 #'
-#' @param shp shape object. For \code{\link{geo_fill}} and \code{\link{geo_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubbles}}.
-#' @param projection character that determines the projectino. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
+#' @param shp shape object, which is one of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}} \code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}, or \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}.
+#' @param projection character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).} 
 #'    	\item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise} 
@@ -20,10 +20,13 @@
 #'    	\item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
 #'    	See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
 #'    	By default, the projection is used that is defined in the \code{shp} object itself.
-#' @param current.projection the current projection of \code{shp}. Use this only if the current projection is missing.
+#' @param current.projection the current projection of \code{shp}. Only use this if the current projection is missing.
 #' @param transform Logical that determines whether to transform the shape file into the specified projection. By default \code{TRUE}. If the current shape projection is missing, longitude latitude coordinates (WGS84) are assumed. If \code{FALSE}, then the specified projection is simply written to the shape file without transforming it (use this at your own risk!). 
 #' @param overwrite.current.projection logical that determines whether the current projection is overwritten if it already has a projection that is different.
+#' @name set_projection
+#' @rdname set_projection
 #' @import sp
+#' @return \code{set_projection} returns a (transformed) shape object with updated projection information. \code{get_projection} returns the \code{PROJ.4} character string of \code{shp}.
 #' @export
 set_projection <- function(shp, projection=NULL, current.projection=NULL, transform=!is.null(projection), overwrite.current.projection=FALSE) {
 	shp.name <- deparse(substitute(shp))
@@ -62,11 +65,8 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, transf
 }
 
 
-#' Get projection
-#' 
-#' This function gets the projection of a shape file.
-#' 
-#' @param shp shape object
+#' @name get_projection
+#' @rdname set_projection
 #' @import sp
 #' @export
 get_projection <- function(shp) {

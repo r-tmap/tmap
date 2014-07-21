@@ -78,9 +78,9 @@ NULL
 
 
 
-#' rivers, cities and airports
+#' Spatial data of cities and rivers
 #' 
-#' Spatial data of main world cities, rivers, and airports.
+#' Spatial data of main world cities and rivers.
 #' 
 #' @name rivers
 #' @rdname Shapes2
@@ -93,10 +93,6 @@ NULL
 #' @docType data
 NULL
 
-#' @name airports
-#' @rdname Shapes2
-#' @docType data
-NULL
 
 
 #' Geo element

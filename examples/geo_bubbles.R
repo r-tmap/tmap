@@ -5,14 +5,6 @@ geo_shape(World) +
 	geo_bubbles("pop_est") +
 	geo_theme_World("World population")
 
-data(airports)
-geo_shape(World) +
-	geo_borders("white") +
-	geo_fill("grey70") +
-	geo_shape(airports) +
-	geo_bubbles(size="natlscale", scale=.5, palette="Dark2") +
-	geo_theme_World("Airport size")
-
 # Europe example
 data(Europe)
 data(cities)
@@ -21,7 +13,7 @@ geo_shape(Europe) +
 	geo_borders() +
 	geo_fill("gdp_cap_est") +
 	geo_bubbles("gdp_md_est", palette="Set2", col="part", scale=2) + 
-	geo_theme_Europe("GDP per country", legend.titles=c(bubble.col="Part of Europe"))
+	geo_theme_Europe(legend.titles=c(fill="GDP per capita", bubble.size="GPD per country", bubble.col="Part of Europe"))
 
 geo_shape(Europe) +
 	geo_borders() +

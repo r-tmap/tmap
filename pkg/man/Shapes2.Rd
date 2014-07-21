@@ -4,7 +4,7 @@
 \alias{airports}
 \alias{cities}
 \alias{rivers}
-\title{rivers, cities and airports}
+\title{Spatial data of rivers, cities, and airports}
 \source{
 http://www.naturalearthdata.com/
 }

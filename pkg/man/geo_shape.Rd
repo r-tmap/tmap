@@ -7,9 +7,9 @@ geo_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
   relative = TRUE, bbox = NULL)
 }
 \arguments{
-\item{shp}{shape object. For \code{\link{geo_fill}} and \code{\link{geo_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubbles}}.}
+\item{shp}{shape object, which is one of 1) \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, 2) \code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}, or 3) \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}. For drawing layers \code{\link{geo_fill}} and \code{\link{geo_borders}}, 1 is required. For drawing layer \code{\link{geo_lines}} 3 is required. Layers \code{\link{geo_bubbles}} and \code{\link{geo_text}}, accept any of them.}
 
-\item{projection}{character that determines the projectino. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts:
+\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts:
 \describe{
        \item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates.}
        \item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise}
@@ -38,7 +38,7 @@ geo_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
 \code{\link{geo-element}}
 }
 \description{
-This layer specifies the shape object, which is one of \code{\link[sp:SpatialPolygons]{SpatialPolygons}}, \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialPoints]{SpatialPoints}}, and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}.
+This element specifies the shape object. Also the used projection and covered area (bounding box) can be set.
 }
 \examples{
 data(World)
@@ -52,5 +52,8 @@ geo_shape(World, projection="merc") + geo_fill("highlighted") + geo_borders() + 
 geo_shape(World, projection="wintri") + geo_fill() + geo_borders() + geo_theme("Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps", inner.margins=c(0,0,.1,0), title.cex=.8)
 
 geo_shape(World) + geo_fill() + geo_borders() + geo_theme("Eckhart IV projection. Recommended in statistical maps for its equal-area property", inner.margins=c(0,0,.1,0))
+}
+\seealso{
+\code{\link{set_projection}}
 }
 

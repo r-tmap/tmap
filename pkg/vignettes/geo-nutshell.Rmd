@@ -1,14 +1,16 @@
----
-title: "geo in a nutshell"
-author: "Martijn Tennekes"
-output: html_document
----
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{geo in a nutshell}
+-->
 
 
 ```{r setup, include=FALSE}
 library(knitr)
 devtools::load_all("../")
+#library(geo)
 ```
+
+# **geo** in a nutshell
 
 ### Introduction
 
