@@ -49,7 +49,15 @@ process_meta <- function(gt, gf, gg, nx, varnames) {
 		rm(legend.titles_tmp)
 		
 		if (is.na(title[1])) {
-			id <- which(as.logical(sapply(varnames, function(x)sum(!is.na(x[1])))))[1]
+			idname <- names(which(sapply(varnames, function(x)as.logical(sum(!is.na(x[1]))))[legend.config]))[1]
+			id <- switch(idname,
+						 by=1,
+						 fill=2,
+						 bubble.size=3,
+						 bubble.col=4,
+						 line.col=5,
+						 line.lwd=6,
+						 0)
 		} else id <- switch(title[1],
 							by=1,
 							fill=2,
