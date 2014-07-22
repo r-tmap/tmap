@@ -67,7 +67,7 @@ geo_shape(World) +
 # Europe example
 data(Europe)
 geo_shape(Europe) +
-	geo_fill("gdp_cap_est", style="kmeans") +
+	geo_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
 	geo_borders() +
 	geo_text("iso_a3", cex="AREA", scale=2, bg.alpha=0) +
 	geo_theme_Europe("GDP per capita")
@@ -78,9 +78,9 @@ data(NLD_prov)
 
 geo_shape(NLD_prov) + 
 	geo_fill("name") + 
-	geo_shape(NLD_muni) + 
+geo_shape(NLD_muni) + 
 	geo_borders() + 
-	geo_shape(NLD_prov) + 
+geo_shape(NLD_prov) + 
 	geo_borders(lwd=2) +
 	geo_text("name") +
 	geo_theme_NLD("Provinces and municipalities", legend.show=FALSE)
@@ -88,7 +88,7 @@ geo_shape(NLD_prov) +
 geo_shape(NLD_muni) +
 	geo_fill(col="population", convert2density=TRUE, style="kmeans") +
 	geo_borders() +
-	geo_shape(NLD_prov) +
+geo_shape(NLD_prov) +
 	geo_borders(, lwd=2) +
 	geo_theme_NLD(title="Population (per km2)", legend.digits=0)
 

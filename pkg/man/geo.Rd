@@ -37,21 +37,20 @@ geo(shp, fill = "grey90", bubble.size = NULL, bubble.col = NULL,
 This function is a convenient wrapper for drawing quick cartographic maps.
 }
 \examples{
+# load shape objects
 data(Europe)
+data(World)
 
 # just the map
 geo(Europe)
 
 # choropleth
-geo(Europe, fill="gdp_cap_est", theme="Europe", style="kmeans", title="Estimated GDP per capita")
+geo(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", title="GDP per capita", textNA="Non-European countries")
 
+geo(World, fill="pop_est_dens", theme="World", style="kmeans", title="Population per km")
 
 # bubblemap
 geo(Europe, bubble.size="pop_est", bubble.col="part", theme="Europe")
 
-
-# World maps
-data(World)
-geo(World, fill="pop_est_dens", theme="World", style="kmeans", title="Population per km")
 }
 

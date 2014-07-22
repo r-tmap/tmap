@@ -6,8 +6,8 @@
 
 ```{r setup, include=FALSE}
 library(knitr)
-devtools::load_all("../")
-#library(geo)
+#devtools::load_all("../")
+library(geo)
 ```
 
 # **geo** in a nutshell

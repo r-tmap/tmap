@@ -4,7 +4,7 @@
 #' 
 #' @name geo_theme
 #' @rdname geo_theme
-#' @param title Title of the map(s)
+#' @param title Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{cex} arguments provided by the \code{\link{geo-element}s}.
 #' @param title.cex Relative size of the title
 #' @param bg.color Background color. By default it is light grey (\code{grey85}) for choropleths and white for other maps.
@@ -19,13 +19,13 @@
 #' @param legend.show Logical that determines whether the legend is shown. Use \code{legend.config} to configure which legend elements are shown.
 #' @param legend.hist.show Logical that determines whether to show a histogram for the choropleth fill variable.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
-#' @param legend.titles titles of the legend elements. Named numeric character, where the names correspond to the legend elements and the value to the titles of those elements. Possible legend element names are: \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
+#' @param legend.titles titles of the legend elements. Named character vector, where the names correspond to the legend elements and the value to the titles of those elements. Possible legend element names are: \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. For small multiples, a list of character vectors can be provided, where the list names correspond to the legend elements, and the character vectors to the legend titles of the small multiples per legend element. By default, the names of the corresponding statistical variables are used. For the legend element at the top, no legend title is used since the main title is used for this. A legend title for this element can be speficied.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
 #' @param legend.is.portrait logical vector that determines whether the orientation of the legend elements are portrait (\code{TRUE}) or landscape (\code{FALSE}). The vector should be named with the corresponding elements, which are \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
 #' @param legend.width maximum width of the legend
 #' @param legend.height maximum height of the legend.
 #' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
-#' @param legend.config character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, and \code{"bubble.col"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.
+#' @param legend.config character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.
 #' @param legend.title.cex Relative font size for the legend title
 #' @param legend.text.cex Relative font size for the legend text elements
 #' @param legend.hist.cex Relative font size for the choropleth histogram

@@ -8,4 +8,4 @@ geo_shape(World, projection="merc") + geo_fill("highlighted") + geo_borders() + 
 
 geo_shape(World, projection="wintri") + geo_fill() + geo_borders() + geo_theme("Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps", inner.margins=c(0,0,.1,0), title.cex=.8)
 
-geo_shape(World) + geo_fill() + geo_borders() + geo_theme("Eckhart IV projection. Recommended in statistical maps for its equal-area property", inner.margins=c(0,0,.1,0))
+geo_shape(World) + geo_fill() + geo_borders() + geo_theme("Eckhart IV projection. Recommended in statistical maps for its equal-area property", inner.margins=c(0,0,.1,0), title.cex=.8)
