@@ -6,8 +6,8 @@ Type: Package
 LazyLoad: yes
 Author: Martijn Tennekes
 Description: Statistical geographic maps
-Version: 0.5
-Date: 2014-05-22
+Version: 0.6
+Date: 2014-06-23
 Depends:
     R (>= 3.0)
 Imports:
