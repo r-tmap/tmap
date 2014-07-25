@@ -6,7 +6,8 @@
 #' @param dist Distance per segment
 #' @param include.last Include last point, even though the distance is less than dist from the previous point?
 #' @return SpatialLinesDataFrame
-split_lines <- function(shp, dist=1000, include.last=FALSE) {
+#' @export
+split_lines_equal <- function(shp, dist=1000, include.last=FALSE) {
 	co <- coordinates(shp)
 	
 	lines <- mapply(function(x, id) {

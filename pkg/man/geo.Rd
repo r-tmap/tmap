@@ -5,7 +5,7 @@
 \usage{
 geo(shp, fill = "grey90", bubble.size = NULL, bubble.col = NULL,
   text = NULL, text.cex = 1, line.lwd = NULL, line.col = NULL,
-  borders = "grey40", theme = NULL, ...)
+  borders = "grey40", theme = NULL, scale = 1, ...)
 }
 \arguments{
 \item{shp}{shape object. For \code{\link{geo_fill}} and \code{\link{geo_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied. \code{\link[sp:SpatialPoints]{SpatialPoints}} and \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} are only used for \code{\link{geo_bubbles}}.}
@@ -27,6 +27,8 @@ geo(shp, fill = "grey90", bubble.size = NULL, bubble.col = NULL,
 \item{borders}{color of the polygon borders. Use \code{NA} to omit the borders.}
 
 \item{theme}{one of "World", "Europe", or "NLD"}
+
+\item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.cex}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.}
 
 \item{...}{parameters passed on to the \code{geo_*} functions.}
 }

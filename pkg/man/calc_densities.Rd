@@ -10,7 +10,7 @@ calc_densities(shp, var, total.area.km2 = NA, drop = TRUE)
 
 \item{var}{name(s) of a qualtity variable name contained in the \code{map} data}
 
-\item{total.area.km2}{total area size of NL in km2. According to Wikipedia, this is 33893.}
+\item{total.area.km2}{total area size of \code{shp} in number of squared kilometers. If \code{NA}, and \code{unit="km2"}, then the polygon coordinates are assumed to be in meters.}
 
 \item{drop}{boolean that determines whether an one-column data-frame should be returned as a vector}
 }

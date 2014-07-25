@@ -22,22 +22,25 @@ process_meta <- function(gt, gf, gg, nx, varnames) {
 	
 	gt <- within(gt, {
 		idname <- names(which(sapply(varnames, function(x)as.logical(sum(!is.na(x[1]))))[legend.config]))[1]
+		if (!is.na(varnames[[1]][1])) {
+			idname <- "by"
+		}
 		one <- sum(sapply(varnames[-1], function(x)!is.na(x[1])))==1
 		spec.title <- !is.na(title[1])
 		add.title <- !identical(title, "")
 		
-		## is no names, repeat for all sublegends except for heading
+		## if no names, repeat for all sublegends except for heading
 		if (!length(names(legend.titles))) {
 			legend.titles <- rep(legend.titles, length.out=length(varnames)-1)
 			names(legend.titles) <- names(varnames[-1])
-			if (add.title) legend.titles[idname] <- ""
+			if (add.title && !is.na(idname) && idname != "by") legend.titles[idname] <- ""
 		}
 		if (is.vector(legend.titles)) legend.titles <- as.list(legend.titles)
 		
 		tmp <- as.list(rep(NA, length(varnames)-1))
 		names(tmp) <- names(varnames[-1])
 
-		if (!is.na(idname) && (add.title || one)) tmp[[idname]] <- ""
+		if (!is.na(idname) && (add.title || one) && idname != "by") tmp[[idname]] <- ""
 		nna <- sapply(legend.titles, function(x)!is.na(x[1]))
 		if (any(nna)) tmp[names(legend.titles[nna])] <- legend.titles[nna]
 		
@@ -59,7 +62,6 @@ process_meta <- function(gt, gf, gg, nx, varnames) {
 				title <- rep(title, length.out=nx)
 			}
 		}
-		
 		
 		scale <- scale / m
 		

@@ -14,7 +14,7 @@ library(geo)
 
 ### Introduction
 
-With the geo package, statistical thematic maps can be generated with great flexability. The syntax for creating plots is very similar to `ggplot2`. It also contains functions to deal with shape objecte, where many are convenient wrappers of functions from other packages such as `sp` and `rgeos`.
+With the geo package, statistical thematic maps can be generated with great flexability. The syntax for creating plots is very similar to `ggplot2`. It also contains functions to deal with shape objects. Many of these functions are convenient wrappers of functions from other packages such as `sp` and `rgeos`.
 
 
 ### Shape objects
@@ -41,15 +41,17 @@ Projection can be get and set with `get_projection` and `set_projection` respect
 
 ### Quick plot
 
-The `geo` function is `geo`'s equivalent to `ggplot2`'s `qplot`. The first, and only required argument is a shape object.
+Although the plotting syntax is based on `ggplot`, a crucial difference is that the elements are _functional building blocks_ rather than _layers from the grammar of graphics_.
 
-```{r}
+The [`geo`](../html/geo.html) function is `geo`'s equivalent to `ggplot2`'s `qplot`. The first, and only required argument is a shape object:
+
+```{r, fig.height=5}
 geo(Europe)
 ```
 
 A choropleth is created with one line of code:
 
-```{r}
+```{r, fig.height=5}
 geo(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", title="GDP per capita", textNA="Non-European countries")
 ```
 
@@ -57,15 +59,15 @@ The function geo offers the same flexibility as the main plotting method (see be
 
 ### Plotting with geo elements
 
-The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of elements that start with `geo_`. Start with `geo_shape` that specifies the shape object. Next, one, or a combination of the following drawing layers should be specified:
+The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [elements](../html/geo-element.html) that start with `geo_`. The first element to start with is [`geo_shape`](../html/geo_shape.html), which specifies the shape object. Next, one, or a combination of the following drawing layers should be specified:
 
 |Drawing layer	| Main arguments	|
 |---	|---	|
-|geo_fill   	| col<sup>2</sup>  	|
-|geo_borders   	| col<sup>1</sup>, lwd<sup>1</sup>  	|
-|geo_bubbles   	| size<sup>2</sup>, col<sup>2</sup>  	|
-|geo_lines		| col<sup>2</sup>, lwd<sup>2</sup>		|
-|geo_text   	| text<sup>3</sup>, cex<sup>4</sup>  	|
+|[`geo_fill`](../html/geo_fill.html)   	| col<sup>2</sup>  	|
+|[`geo_borders`](../html/geo_borders.html)   	| col<sup>1</sup>, lwd<sup>1</sup>  	|
+|[`geo_bubbles`](../html/geo_bubbles.html)   	| size<sup>2</sup>, col<sup>2</sup>  	|
+|[`geo_lines`](../html/geo_lines.html)		| col<sup>2</sup>, lwd<sup>2</sup>		|
+|[`geo_text`](../html/geo_text.html)   	| text<sup>3</sup>, cex<sup>4</sup>  	|
 
 where the numbers mean the following:
 
@@ -73,8 +75,8 @@ where the numbers mean the following:
 2. These arguments can be used in two ways:
    + To assign fixed, constant values. For instance `geo_fill(col="blue")`.
    + To assign a data variable. For instance `geo_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object. This variable can be numerical, and in case of a color attribute, also categorical (i.e., `factor`). These 5 arguments are currently the only statistical attributes for which also a legend is generated.
-3. The text attribute of `geo_text` should be the name of a data variable.
-4. The cex attribute of `geo_text` can be used for a constant value and a statistical variable (like number 2), but no legend is generated.
+3. The text attribute of [`geo_text`](../html/geo_text.html) should be the name of a data variable.
+4. The cex attribute of [`geo_text`](../html/geo_text.html) can be used for a constant value and a statistical variable (like number 2), but no legend is generated.
 
 The last plot is reproduced as follows:
 
@@ -86,7 +88,7 @@ geo_shape(Europe) +
 geo_theme("GDP per capita")
 ```
 
-We call `geo_shape` plus the drawing layers (all of the elements in the last example except `geo_theme`) a **group**. Multiple groups can be stacked. To illustrate this, let's create a simple topographic map of Europe:
+We call [`geo_shape`](../html/geo_shape.html) plus the drawing layers (all of the elements in the last example except `geo_theme`) a **group**. Multiple groups can be stacked. To illustrate this, let's create a simple topographic map of Europe:
 
 ```{r, fig.width=10}
 data(rivers)
@@ -110,7 +112,7 @@ Thinks to learn from this code:
 * This plot has 4 groups of layers, respectively from the shape objects Europe, rivers, cities, and again Europe. 
 The order of (groups of) layers corresponds to the plotting order.
 * The shape objects can have different projections, and can also cover different areas (bounding boxes). Both the projection and the covered area are taken from the first layer shape object. The plot `geo_shape(rivers) + geo_lines("dodgerblue3")` will show the rivers around the world in latitute longitude coordinates.
-* The element `geo_theme` controls all layout options such as fonts, legends, and margins. The element `geo_theme_Europe` is identical with other defaults that are tailored for Europe: the left inner margin is increased to make space for the legend.
+* The element [`geo_theme`](../html/geo_theme.html) controls all layout options such as fonts, legends, and margins. The element [`geo_theme_Europe`](../html/geo_theme.html) is identical with other defaults that are tailored for Europe: the left inner margin is increased to make space for the legend.
 
 
 
@@ -125,13 +127,35 @@ geo_shape(Europe) +
 geo_theme_Europe(scale=2, title = c("Population density", "GDP per capita"))
 ```
 
-2 By defining a group by variable in `geo_facets`:
+2. By defining a group by variable in [`geo_facets`](../html/geo_facets.html):
 ```{r, fig.width=10}
 geo_shape(Europe) +
 	geo_fill("gdp_cap_est", style="kmeans") +
 	geo_facets("part") +
 geo_theme_Europe(scale=4, legend.titles = c(fill="GDP per capita"))
 ```
+
+### Other functions
+
+This package offers easy to use functions to
+* read ESRI shape files and save them with respectively [`read_shape`](../html/read_shape.html) and [`write_shape`](../html/write_shape.html);
+* change map projections with [`set_projection`](../html/set_projection.html);
+* crop maps with [`crop_shape`](../html/crop_shape.html);
+* append data with [`append_data`](../html/append_data.html);
+* convert shape data with [`convert_shape_data`](../html/convert_shape_data.html);
+* approximate area sizes and calculate density variables respectively with [`approx_areas`] and [`approx_areas`](../html/set_projection.html);
+* create an animated gif of mpg from a series of small multiples with [`animation_geo`](../html/animation_geo.html);
+* get ID's of the shape items with [`get_IDs`](../html/get_IDs.html);
+* get ranges of the polygons with [`get_polygon_ranges`](../html/get_polygon_ranges.html).
+
+Other functions, which are still in experimental stage, are:
+* [`fit_polylines`](../html/fit_polylines.html) to fit a polyline from a set of spatial points;
+* [`double_line`](../html/double_line.html) to create a double polyline (railway track);
+* [`split_lines_equal`](../html/split_lines_equal.html) to split polylines into parts of equal length;
+* [`split_lines_poly`](../html/split_lines_poly.html) to split polylines by a polygon shape object.
+
+
+
 
 
 ### Tips n' tricks
@@ -152,3 +176,4 @@ geo_shape(rivers) +
 
 3. Each drawing element has a scalar arguemnt called `scale`. The overall scaling and font sizes can be set by the `scale` argument in `geo_theme`.
 
+4. When the element [`geo_grid`](../html/geo_grid.html) is added to the plot, grid lines are plotted.

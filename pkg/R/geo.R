@@ -12,6 +12,7 @@
 #' @param line.col either a line color or a name of the data variable that specifies the line colors. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.
 #' @param borders color of the polygon borders. Use \code{NA} to omit the borders.
 #' @param theme one of "World", "Europe", or "NLD"
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.cex}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.
 #' @param ... parameters passed on to the \code{geo_*} functions.
 #' @return \code{\link{geo-element}}
 #' @example ../examples/geo.R
@@ -26,6 +27,7 @@ geo <- function(shp,
 				line.col=NULL,
 				borders="grey40",
 				theme=NULL,
+				scale=1,
 				...) {
 	args <- list(...)
 	if (!inherits(shp, "SpatialPolygons")) {
@@ -44,19 +46,22 @@ geo <- function(shp,
 	shapeargs <- args[intersect(names(args), names(geo_shape()[[1]]))]
 	fillargs <- args[setdiff(intersect(names(args), names(geo_fill()[[1]])), "col")]
 	bubblenames <- names(geo_bubbles()[[1]])
-	bubblenames[bubblenames=="bubble.scale"] <- "scale"
 	bubblenames[bubblenames=="bubble.border"] <- "border"
-	
 	bubbleargs <- args[setdiff(intersect(names(args), bubblenames), c("bubble.col", "bubble.size"))]
+	if ("bubble.scale" %in% names(bubbleargs)) names(bubbleargs)[names(bubbleargs)=="bubble.scale"] <- "scale"
+	
 	borderargs <- args[setdiff(intersect(names(args), names(geo_borders()[[1]])), "col")]
+	
 	textnames <- names(geo_text("")[[1]])[-c(1:2)]
 	textnames[-1] <- substr(textnames[-1], 6, nchar(textnames[-1]))
+	textnames[textnames=="scale"] <- "text.scale"
 	textargs <- args[intersect(names(args), textnames)]
+	if ("text.scale" %in% names(textargs)) names(textargs)[names(textargs)=="text.scale"] <- "scale"
+	
 	linenames <- names(geo_lines()[[1]])
 	linenames[linenames=="lines.lty"] <- "lty"
-	linenames[linenames=="line.scale"] <- "scale"
 	lineargs <- args[setdiff(intersect(names(args), linenames), c("lines.col", "lines.lwd"))]
-	
+	if ("line.scale" %in% names(lineargs)) names(lineargs)[names(lineargs)=="line.scale"] <- "scale"
 	
 	themeargs <- args[intersect(names(args), names(geo_theme()[[1]]))]
 	gridargs <- args[intersect(names(args), names(geo_grid()[[1]]))]
@@ -69,13 +74,13 @@ geo <- function(shp,
 	if (!missing(text)) g <- g + do.call("geo_text", c(list(text=text, cex=text.cex), textargs))
 	
 	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("geo_lines", c(list(lwd=line.lwd, col=line.col), lineargs))
-	
+
 	if (missing(theme)) {
-		if (length(themeargs)) g <- g + do.call("geo_theme", themeargs)	
+		if (length(themeargs)) g <- g + do.call("geo_theme", c(list(scale=scale), themeargs))	
 	} else {
 		if (!(theme %in% c("World", "Europe", "NLD"))) stop("Unknown theme")
 		funct <- paste("geo_theme", theme, sep="_")
-		g <- g + do.call(funct, themeargs)
+		g <- g + do.call(funct, c(list(scale=scale), themeargs))
 	}
 	
 	g

@@ -4,7 +4,7 @@
 #'
 #' @param shp a shape object
 #' @param var name(s) of a qualtity variable name contained in the \code{map} data
-#' @param total.area.km2 total area size of NL in km2. According to Wikipedia, this is 33893.
+#' @param total.area.km2 total area size of \code{shp} in number of squared kilometers. If \code{NA}, and \code{unit="km2"}, then the polygon coordinates are assumed to be in meters.
 #' @param drop boolean that determines whether an one-column data-frame should be returned as a vector
 #'
 #' @keywords densities

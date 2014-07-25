@@ -85,3 +85,12 @@ geo_shape(Europe) +
 	geo_bubbles("gdp_md_est", palette="Set2", col=c("part", "economy"), scale=2) + 
 	geo_theme_Europe("", legend.titles="bla")
 
+
+data(Europe)
+geo_shape(Europe) +
+	geo_borders() +
+	geo_fill("gdp_cap_est") +
+	geo_bubbles("gdp_md_est", palette="Set2", col=c("part", "economy"), scale=2) + 
+	geo_facets("part") +
+	geo_theme_Europe(scale=2)
+

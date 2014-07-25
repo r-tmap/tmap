@@ -1,6 +1,6 @@
-#' Get ID's of the polygons
+#' Get ID's of the shape items
 #' 
-#' Get ID's of the polygons
+#' Get ID's of the shape items. For polygons and lines, the ID attribute is used. For points, the coordinates are used.
 #'
 #' @param shp shape object
 #' @return vector of ID's

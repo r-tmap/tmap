@@ -115,7 +115,7 @@ process_shapes <- function(shps, g, gm, dw, dh) {
 			crop_shape(x, bbox=bb)
 		}, error = function(e) {
 			x@bbox <- bb
-			cat("error\n")
+			#cat("error\n")
 			attr(x, "matchID") <- 1:length(x)
 			x
 		})
