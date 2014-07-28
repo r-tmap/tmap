@@ -6,10 +6,11 @@ data(World)
 geo(Europe)
 
 # choropleth
-geo(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", title="GDP per capita", textNA="Non-European countries")
+geo(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", 
+	title="GDP per capita", textNA="Non-European countries")
 
 geo(World, fill="pop_est_dens", theme="World", style="kmeans", title="Population per km")
 
-# bubblemap
+# bubble map
 geo(Europe, bubble.size="pop_est", bubble.col="part", theme="Europe")
 

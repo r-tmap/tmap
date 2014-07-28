@@ -2,7 +2,12 @@
 #' 
 #' The function \code{set_projection} sets the projection of a shape file. It is a convenient wrapper of \code{\link[sp:spTransform]{spTransform}} with shortcuts for commonly used projections. The projection can also be set directly in the plot call with \code{\link{geo_shape}}. This function is also used to set the current projection information without transformation of the shape object, which is useful when this information is missing in the shape object. The function \code{get_projection} is used to get the projection information.
 #'
-#' @param shp shape object, which is one of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}} \code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}, or \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}.
+#' @param shp shape object, which is one of 
+#' \itemize{
+#'  \item{"1)"}\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
+#'  \item{"2)"}\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
+#'  \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
+#' }
 #' @param projection character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).} 
@@ -26,7 +31,8 @@
 #' @name set_projection
 #' @rdname set_projection
 #' @import sp
-#' @return \code{set_projection} returns a (transformed) shape object with updated projection information. \code{get_projection} returns the \code{PROJ.4} character string of \code{shp}.
+#' @return \code{set_projection} returns a (transformed) shape object with updated projection information. 
+#' \code{get_projection} returns the \code{PROJ.4} character string of \code{shp}.
 #' @export
 set_projection <- function(shp, projection=NULL, current.projection=NULL, transform=!is.null(projection), overwrite.current.projection=FALSE) {
 	shp.name <- deparse(substitute(shp))

@@ -8,20 +8,23 @@
 Package: \tab geo\cr
 Type: \tab Package\cr
 Version: \tab 0.6\cr
-Date: \tab 2014-07-23\cr
+Date: \tab 2014-07-28\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }
 }
 \details{
-This packages offers a complete workaround to create thematic maps. Maps are plotted in \pkg{ggplot2} style.
-This package includes ready to use shape files from the World, Europe and the Netherlands (both provinces as municipalities), which are used in the examples.
+This packages offers a complete workflow to create thematic maps (also called statistical maps). Maps are plotted in \pkg{ggplot2} style.
+This package includes ready to use shape files from the World, Europe, and the Netherlands (both provinces as municipalities), which are used in the examples.
 
 To get started, see \href{../doc/geo-nutshell.html}{\code{vignette("geo-nutshell")}}.
 }
 \author{
 Martijn Tennekes \email{mtennekes@gmail.com}
 }
-\keyword{GIS}
-\keyword{cartography}
+\keyword{GIS,}
+\keyword{choropleth}
+\keyword{maps,}
+\keyword{statistical}
+\keyword{thematic}
 

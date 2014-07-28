@@ -5,7 +5,8 @@
 #' @param ... Shape objects that contains the spatial points.
 #' @param id Name of the data variable that determines the classes of the points. For each class a polyline is fit. Is omitted, a polyline is fit through all points.
 #' @param min.dist Minimum distance. Poins that are closer than \code{min.dist} from any other point are omitted in the fitting method (see details below)
-#' @param max.opt.dist Maximal optimized distance. Between any two points that lie closer than \code{max.opt.dist} to each other, an edge is created in the fitting method (see details below)
+#' @param max.opt.dist Maximal optimized distance. Between any two points that lie closer than 
+#' \code{max.opt.dist} to each other, an edge is created in the fitting method (see details below)
 #' @param sep.dist Seperation distance. If the distance between two groups of points is larger than \code{sep.dist}, two seperate polylines are created.
 #' @param verbose Print logging text
 #' @return SpatialLinesDataframe

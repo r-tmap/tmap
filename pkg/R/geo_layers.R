@@ -2,7 +2,13 @@
 #' 
 #' This element specifies the shape object. Also the used projection and covered area (bounding box) can be set.
 #' 
-#' @param shp shape object, which is one of 1) \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, 2) \code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}, or 3) \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}. For drawing layers \code{\link{geo_fill}} and \code{\link{geo_borders}}, 1 is required. For drawing layer \code{\link{geo_lines}} 3 is required. Layers \code{\link{geo_bubbles}} and \code{\link{geo_text}}, accept any of them. 
+#' @param shp shape object, which is one of
+#' \itemize{
+#'  \item{"1)"}\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
+#'  \item{"2)"}\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
+#'  \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
+#' }
+#'For drawing layers \code{\link{geo_fill}} and \code{\link{geo_borders}}, 1 is required. For drawing layer \code{\link{geo_lines}} 3 is required. Layers \code{\link{geo_bubbles}} and \code{\link{geo_text}}, accept any of them. 
 #' @param projection character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates.} 
@@ -170,7 +176,7 @@ geo_fill <- function(col="grey90",
 	g
 }	
 
-#' Draw bubblemap
+#' Draw bubble map
 #' 
 #' This layer speficies a bubblemap. Both colors and sizes of the bubbles can be mapped to data variables. 
 #' 

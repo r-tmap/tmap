@@ -2,13 +2,25 @@
 #' 
 #' This function creates a gif or mpeg animation from a geo plot. The free tool ImageMagick is required.
 #'
-#' @param expr R expression to create series of geo plots. This can be achieved by small multiples while setting the nrow and ncol parameters of \code{\link{geo_facets}} to 1.
+#' @param expr R expression to create series of geo plots. In order to create a series of plots, which are combined to an animation, it is important to set nrow and ncol in \code{\link{geo_facets}} such that nrow * ncol < [number of small multiples]. In most situations, where one map is shown, both nrow and ncol are set to 1.
 #' @param width width of the animation file (in pixels)
 #' @param height height of the animation file (in pixels)
 #' @param delay delay time between images
 #' @param filename filename of the video (should be a .gif or .mpg file)
 #'
 #' @keywords animation
+#' @examples
+#' \dontrun{
+#' data(Europe)
+#' 
+#' animation_geo({
+#' 	geo_shape(Europe) + 
+#' 		geo_fill("yellow") + 
+#' 		geo_borders() + 
+#' 		geo_facets(by = "name", nrow=1,ncol=1) + 
+#' 		geo_theme(scale=2)
+#' }, width=1200, height=800, filename="my_animation.gif")
+#' }
 #' @export
 animation_geo <- function(expr, width=1000, height=1000, delay=40, filename="animation.gif") {
 	

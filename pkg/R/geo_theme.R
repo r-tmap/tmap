@@ -1,6 +1,6 @@
 #' Theme elements of cartographic maps
 #' 
-#' This element specifies thematic layout options for the maps.
+#' This element specifies layout options for the maps. The main function \code{geo_theme} is used by default as  general theme. The functions \code{geo_theme_World}, \code{geo_theme_Europe}, and \code{geo_theme_NLD} are themes for World, Europe, and Netherlands maps (which are contained in this package).
 #' 
 #' @name geo_theme
 #' @rdname geo_theme

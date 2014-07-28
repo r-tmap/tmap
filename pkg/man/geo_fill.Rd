@@ -50,7 +50,12 @@ data(World)
 geo_shape(World) + geo_fill("green3") + geo_theme_World(title="A green World")
 
 World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
-geo_shape(World, projection="merc") + geo_fill("highlighted") + geo_borders() + geo_theme("Mercator projection. Although used in Google Maps, it is discouraged for\\nstatistical purposes. In reality, Australia is 3 times larger than Greenland!", inner.margins=c(0,0,.1,0), title.cex=.6)
+geo_shape(World, projection="merc") + 
+	geo_fill("highlighted") + 
+	geo_borders() + 
+	geo_theme("Mercator projection. Although used in Google Maps, it is discouraged for
+              \\nstatistical purposes. In reality, Australia is 3 times larger than Greenland!", 
+			  inner.margins=c(0,0,.1,0), title.cex=.6)
 
 geo_shape(World) +
 	geo_fill("pop_est_dens", style="kmeans", palette="YlOrRd") +

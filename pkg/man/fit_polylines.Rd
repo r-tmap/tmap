@@ -13,7 +13,8 @@ fit_polylines(..., id = NULL, min.dist = 10, max.opt.dist = 250,
 
 \item{min.dist}{Minimum distance. Poins that are closer than \code{min.dist} from any other point are omitted in the fitting method (see details below)}
 
-\item{max.opt.dist}{Maximal optimized distance. Between any two points that lie closer than \code{max.opt.dist} to each other, an edge is created in the fitting method (see details below)}
+\item{max.opt.dist}{Maximal optimized distance. Between any two points that lie closer than
+\code{max.opt.dist} to each other, an edge is created in the fitting method (see details below)}
 
 \item{sep.dist}{Seperation distance. If the distance between two groups of points is larger than \code{sep.dist}, two seperate polylines are created.}
 

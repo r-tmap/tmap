@@ -7,7 +7,13 @@ geo_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
   relative = TRUE, bbox = NULL)
 }
 \arguments{
-\item{shp}{shape object, which is one of 1) \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, 2) \code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}, or 3) \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}. For drawing layers \code{\link{geo_fill}} and \code{\link{geo_borders}}, 1 is required. For drawing layer \code{\link{geo_lines}} 3 is required. Layers \code{\link{geo_bubbles}} and \code{\link{geo_text}}, accept any of them.}
+\item{shp}{shape object, which is one of
+\itemize{
+ \item{"1)"}\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
+ \item{"2)"}\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
+ \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
+}
+For drawing layers \code{\link{geo_fill}} and \code{\link{geo_borders}}, 1 is required. For drawing layer \code{\link{geo_lines}} 3 is required. Layers \code{\link{geo_bubbles}} and \code{\link{geo_text}}, accept any of them.}
 
 \item{projection}{character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts:
 \describe{
@@ -43,15 +49,33 @@ This element specifies the shape object. Also the used projection and covered ar
 \examples{
 data(World)
 
-geo_shape(World, projection="longlat") + geo_fill() + geo_borders() + geo_theme("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.cex=.8)
+geo_shape(World, projection="longlat") + 
+	geo_fill() +
+	geo_borders() + 
+	geo_theme("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.cex=.8)
 
 World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
-geo_shape(World, projection="merc") + geo_fill("highlighted") + geo_borders() + geo_theme("Mercator projection. Although used in Google Maps, it is discouraged for\\nstatistical purposes. In reality, Australia is 3 times larger than Greenland!", inner.margins=c(0,0,.1,0), title.cex=.6)
+geo_shape(World, projection="merc") + 
+	geo_fill("highlighted") + 
+	geo_borders() + 
+	geo_theme("Mercator projection. Although used in Google Maps, it is discouraged for
+              \\nstatistical purposes. In reality, Australia is 3 times larger than Greenland!", 
+			  inner.margins=c(0,0,.1,0), title.cex=.6)
 
 
-geo_shape(World, projection="wintri") + geo_fill() + geo_borders() + geo_theme("Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps", inner.margins=c(0,0,.1,0), title.cex=.8)
+geo_shape(World, projection="wintri") + 
+	geo_fill() + 
+	geo_borders() + 
+	geo_theme("Winkel-Tripel projection, adapted as default by the 
+			  National Geographic Society for world maps", 
+			  inner.margins=c(0,0,.1,0), title.cex=.8)
 
-geo_shape(World) + geo_fill() + geo_borders() + geo_theme("Eckhart IV projection. Recommended in statistical maps for its equal-area property", inner.margins=c(0,0,.1,0), title.cex=.8)
+geo_shape(World) +
+	geo_fill() + 
+	geo_borders() + 
+	geo_theme("Eckhart IV projection. Recommended in statistical 
+			  maps for its equal-area property", 
+			  inner.margins=c(0,0,.1,0), title.cex=.8)
 }
 \seealso{
 \code{\link{set_projection}}

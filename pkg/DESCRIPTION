@@ -1,13 +1,14 @@
-Package: geo
+Package: tmap
 Maintainer: Martijn Tennekes <mtennekes@gmail.com>
 License: GPL-3
-Title: Statistical geographic maps
+Title: Thematic Maps
 Type: Package
 LazyLoad: yes
 Author: Martijn Tennekes
-Description: Statistical geographic maps
+Description: Thematic maps are geographical maps in which (statistical) variables are represented by visual attributes such as color, size, line width, and font size. 
+This package offers a flexible, layer-based, way to create all kinds of thematic maps, such as choropleths (also known as shading maps) and bubble maps.
 Version: 0.6
-Date: 2014-06-23
+Date: 2014-06-28
 Depends:
     R (>= 3.0)
 Imports:

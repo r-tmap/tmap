@@ -90,6 +90,6 @@ geo_theme_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 \item{...}{other arguments from \code{geo_theme}}
 }
 \description{
-This element specifies thematic layout options for the maps.
+This element specifies layout options for the maps. The main function \code{geo_theme} is used by default as  general theme. The functions \code{geo_theme_World}, \code{geo_theme_Europe}, and \code{geo_theme_NLD} are themes for World, Europe, and Netherlands maps (which are contained in this package).
 }
 
