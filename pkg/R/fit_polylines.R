@@ -1,6 +1,6 @@
 #' Fit polylines through a set of spatial points
 #' 
-#' This function fits one or more smooth polylines through a set of spatial points.
+#' This function fits one or more smooth polylines through a set of spatial points. (Experimental)
 #' 
 #' @param ... Shape objects that contains the spatial points.
 #' @param id Name of the data variable that determines the classes of the points. For each class a polyline is fit. Is omitted, a polyline is fit through all points.

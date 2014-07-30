@@ -1,6 +1,6 @@
 #' Split lines in segments of equal length.
 #' 
-#' Split lines in segments of equal length.
+#' Split lines in segments of equal length. (Experimental)
 #' 
 #' @param shp The shape object that contains the lines
 #' @param dist Distance per segment

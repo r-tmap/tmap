@@ -1,21 +1,19 @@
-#' Tools to create thematic maps
+#' Thematic Maps
 #'
 #' \tabular{ll}{
 #' Package: \tab tmap\cr
 #' Type: \tab Package\cr
 #' Version: \tab 0.6\cr
-#' Date: \tab 2014-07-28\cr
+#' Date: \tab 2014-07-30\cr
 #' License: \tab GPL-3\cr
 #' LazyLoad: \tab yes\cr
 #' }
 #'
-#' This packages offers a complete work flow to create thematic maps (also called statistical maps). Maps are plotted in \pkg{ggplot2} style.
-#' This package includes ready to use shape files from the World, Europe, and the Netherlands (both provinces as municipalities), which are used in the examples.
-#' 
-#' To get started, see \href{../doc/tm-nutshell.html}{\code{vignette("tm-nutshell")}}.
+#' Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, way to create all kinds of thematic maps, such as choropleths and bubble maps.
+#' To get started, see \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}.
 #' 
 #' @name tmap-package
-#' @aliases tmap-package
+#' @aliases tmap
 #' @docType package
 #' @author Martijn Tennekes \email{mtennekes@@gmail.com}
 #' @keywords GIS, thematic maps, statistical maps, choropleth, bubble map

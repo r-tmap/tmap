@@ -1,6 +1,6 @@
 #' Split lines by polygons
 #' 
-#' Split a lines shape object by a polygon shape object. Data of the corresponding polygons is appended to the line segments
+#' Split a lines shape object by a polygon shape object. Data of the corresponding polygons is appended to the line segments (Experimental)
 #' 
 #' @param shp.lines The shape object that contains the lines
 #' @param shp.poly The shape object that contains the polygons

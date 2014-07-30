@@ -50,7 +50,8 @@ qtm(Europe)
 A choropleth is created with one line of code:
 
 ```{r, fig.height=5}
-qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", title="GDP per capita", textNA="Non-European countries")
+qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", title="GDP per capita", 
+	textNA="Non-European countries", theme="Europe")
 ```
 
 The function qtm offers the same flexibility as the main plotting method (see below). However, it only supports one shape object.
@@ -83,7 +84,7 @@ tm_shape(Europe) +
 	tm_fill("gdp_cap_est", textNA="Non-European countries") +
 	tm_borders() +
 	tm_text("iso_a3", cex="pop_est") + 
-tm_layout("GDP per capita")
+tm_layout_Europe("GDP per capita")
 ```
 
 We call [`tm_shape`](../html/tm_shape.html) plus the drawing layers (all of the elements in the last example except `tm_layout`) a **group**. Multiple groups can be stacked. To illustrate this, let's create a simple topographic map of Europe:
@@ -98,11 +99,14 @@ tm_shape(Europe) +
 tm_shape(rivers) +
 	tm_lines("dodgerblue3") +
 tm_shape(cities) +
-	tm_text("name", cex="pop_max", scale=1, ymod=-.02, root=4, cex.lowerbound = .60, bg.color="yellow", bg.alpha = 150) + 
+	tm_text("name", cex="pop_max", scale=1, ymod=-.02, root=4, cex.lowerbound = .60, 
+			bg.color="yellow", bg.alpha = 150) + 
 	tm_bubbles("pop_max", "red", border.col = "black", border.lwd=1, size.lim = c(0, 2e7)) +
 tm_shape(Europe) +
-	tm_text("name", cex="area", scale=1.5, root=8, cex.lowerbound = .40, fontface="bold", case=NA, fontcolor = "gray35") + 
-tm_layout_Europe("Map of Europe", legend.titles = c(fill="Country population density (people per km2)", bubble.size="City Population"))
+	tm_text("name", cex="area", scale=1.5, root=8, cex.lowerbound = .40, 
+			fontface="bold", case=NA, fontcolor = "gray35") + 
+tm_layout_Europe("Map of Europe", legend.titles = c(fill="Country population density (people per km2)", 
+													bubble.size="City Population"))
 ```
 
 Thinks to learn from this code:
@@ -124,6 +128,7 @@ tm_shape(Europe) +
 	tm_fill(c("pop_est_dens", "gdp_cap_est"), style="kmeans") +
 tm_layout_Europe(scale=2, title = c("Population density", "GDP per capita"))
 ```
+
 2. By defining a group by variable in [`tm_facets`](../html/tm_facets.html):
 ```{r, fig.width=10}
 tm_shape(Europe) +

@@ -16,6 +16,6 @@ split_lines_equal(shp, dist = 1000, include.last = FALSE)
 SpatialLinesDataFrame
 }
 \description{
-Split lines in segments of equal length.
+Split lines in segments of equal length. (Experimental)
 }
 

@@ -9,7 +9,7 @@ tm_shape(World, projection="merc") +
 	tm_borders() + 
 	tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for
 statistical purposes. In reality, Australia is 3 times larger than Greenland!", 
-			  inner.margins=c(0,0,.1,0), title.cex=.6)
+inner.margins=c(0,0,.1,0), title.cex=.6)
 
 tm_shape(World) +
     tm_fill("pop_est_dens", style="kmeans", palette="YlOrRd") +

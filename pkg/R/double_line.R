@@ -1,6 +1,6 @@
 #' Create a double line
 #' 
-#' Create a double line from a single line.
+#' Create a double line from a single line. (Experimental)
 #' 
 #' @param shp The shape object that contains the lines (\code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}})
 #' @param width Width between the double lines

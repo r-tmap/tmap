@@ -1,6 +1,6 @@
-#' Theme elements of cartographic maps
+#' Layout elements of cartographic maps
 #' 
-#' This element specifies layout options for the maps. The main function \code{tm_layout} is used by default as  general theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are themes for World, Europe, and Netherlands maps (which are contained in this package).
+#' This element specifies layout options for the maps. The main function \code{tm_layout} is used by default as  general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes for World, Europe, and Netherlands maps (which are contained in this package).
 #' 
 #' @name tm_layout
 #' @rdname tm_layout
@@ -32,6 +32,7 @@
 #' @param legend.digits Number of digits for the legend labels
 #' @param legend.bg.color Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param ... other arguments from \code{tm_layout}
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @export
 tm_layout <- function(title=NA,
 					  scale=1,

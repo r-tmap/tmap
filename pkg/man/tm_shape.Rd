@@ -77,6 +77,6 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
     inner.margins=c(0,0,.1,0), title.cex=.8)
 }
 \seealso{
-\code{\link{set_projection}}
+\code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 

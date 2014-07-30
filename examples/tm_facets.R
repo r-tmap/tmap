@@ -18,7 +18,7 @@ data(NLD_prov)
 
 tm_shape(NLD_muni) +
     tm_fill(c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
-             convert2density=TRUE, style="kmeans") +
+            convert2density=TRUE, style="kmeans") +
 tm_shape(NLD_prov) +
     tm_borders() +
     tm_facets(free.scales=FALSE) +

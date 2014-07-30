@@ -4,7 +4,7 @@
 \alias{tm_layout_Europe}
 \alias{tm_layout_NLD}
 \alias{tm_layout_World}
-\title{Theme elements of cartographic maps}
+\title{Layout elements of cartographic maps}
 \usage{
 tm_layout(title = NA, scale = 1, title.cex = 1.5, bg.color = NULL,
   draw.frame = TRUE, title.position = c("left", "top"),
@@ -90,6 +90,9 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 \item{...}{other arguments from \code{tm_layout}}
 }
 \description{
-This element specifies layout options for the maps. The main function \code{tm_layout} is used by default as  general theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are themes for World, Europe, and Netherlands maps (which are contained in this package).
+This element specifies layout options for the maps. The main function \code{tm_layout} is used by default as  general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes for World, Europe, and Netherlands maps (which are contained in this package).
+}
+\seealso{
+\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 

@@ -32,7 +32,7 @@
 #' @export
 #' @example ../examples/tm_shape.R
 #' @return \code{\link{tmap-element}}
-#' @seealso \code{\link{set_projection}}
+#' @seealso \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 tm_shape <- function(shp, 
 					  projection=NULL, 
 					  xlim = NULL,
@@ -56,6 +56,7 @@ tm_shape <- function(shp,
 #' @param lty line type (see \code{\link[graphics:par]{par}})
 #' @export
 #' @example ../examples/tm_borders.R
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_borders <- function(col="grey40", lwd=1, lty="solid") {
 	g <- list(tm_borders=as.list(environment()))
@@ -84,6 +85,7 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid") {
 #' @param ymod vertical position modification. See xmod.
 #' @export
 #' @example ../examples/tm_text.R
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", case=NA, bg.color=NA, bg.alpha=100, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
 	g <- list(tm_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.case=case, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
@@ -112,6 +114,7 @@ tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfa
 #' @param colorNA color used for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @export
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_lines.R
 #' @return \code{\link{tmap-element}}
 tm_lines <- function(col="red", lwd=1, lty="solid", 
@@ -155,6 +158,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid",
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @export
 #' @example ../examples/tm_fill.R
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
 tm_fill <- function(col="grey90", 
 						    palette = NULL,
@@ -178,7 +182,7 @@ tm_fill <- function(col="grey90",
 
 #' Draw bubble map
 #' 
-#' This layer speficies a bubblemap. Both colors and sizes of the bubbles can be mapped to data variables. 
+#' This layer speficies a bubble map. Both colors and sizes of the bubbles can be mapped to data variables. 
 #' 
 #' @param size \code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples
@@ -200,6 +204,7 @@ tm_fill <- function(col="grey90",
 #' @param ymod vertical position modification. See xmod.
 #' @export
 #' @example ../examples/tm_bubbles.R
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_bubbles <- function(size=1, col="blueviolet",
 						  border.lwd=NA,
@@ -243,12 +248,13 @@ tm_bubbles <- function(size=1, col="blueviolet",
 #' @param nrow number of rows of the small multiples grid
 #' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_bubbles}} and line color from \code{\link{tm_lines}}.
 #' @param free.scales.fill logical. Should the color scale for the choropleth be free?
-#' @param free.scales.bubble.size logical. Should the bubble size scale for the bubblemap be free?
-#' @param free.scales.bubble.col logical. Should the color scale for the bubblemap be free?
+#' @param free.scales.bubble.size logical. Should the bubble size scale for the bubble map be free?
+#' @param free.scales.bubble.col logical. Should the color scale for the bubble map be free?
 #' @param free.scales.line.col Should the line color scale be free?
 #' @param free.scales.line.lwd Should the line width scale be free?
 #' @export
 #' @example ../examples/tm_facets.R
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
 					   free.scales=is.null(by),
@@ -294,6 +300,7 @@ tm_grid <- function(n.x=8,
 #' 
 #' @param e1 first \code{\link{tmap-element}}
 #' @param e2 second \code{\link{tmap-element}}
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @export
 "+.tmap" <- function(e1, e2) {
 	g <- c(e1,e2)

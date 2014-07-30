@@ -50,7 +50,7 @@ tm_bubbles(size = 1, col = "blueviolet", border.lwd = NA,
 \code{\link{tmap-element}}
 }
 \description{
-This layer speficies a bubblemap. Both colors and sizes of the bubbles can be mapped to data variables.
+This layer speficies a bubble map. Both colors and sizes of the bubbles can be mapped to data variables.
 }
 \examples{
 # World example
@@ -85,5 +85,8 @@ tm_shape(NLD_muni) +
     tm_bubbles(size="population", col="steelblue",style="kmeans") +
 tm_layout_NLD(title="Population", legend.digits=0, legend.config="bubble.size", 
               legend.width=.4, bg.color="white")
+}
+\seealso{
+\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 

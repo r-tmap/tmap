@@ -17,6 +17,7 @@
 #' @param ... parameters passed on to the \code{tm_*} functions.
 #' @return \code{\link{tmap-element}}
 #' @example ../examples/qtm.R
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @export
 qtm <- function(shp, 
 				fill="grey90",

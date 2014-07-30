@@ -36,4 +36,7 @@ tm_shape(NLD_prov) +
     tm_text("name") +
 tm_layout_NLD("Provinces and municipalities", legend.show=FALSE)
 }
+\seealso{
+\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+}
 

@@ -1,5 +1,5 @@
 version 0.6
 - this is the the first CRAN version
-- a newer version may be available on https://github.com/mtennekes/geo
-- to get started, see the package vignette 'geo in a nutshell' and the help files
+- a newer version may be available on https://github.com/mtennekes/tmap
+- to get started, see the package vignette 'tmap in a nutshell' and the help files
 - if you have any questions or suggestions, please contact me (mtennekes at gmail dot com)

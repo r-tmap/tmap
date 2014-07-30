@@ -62,4 +62,7 @@ tm_shape(rivers) +
 tm_layout_World("Rivers in the World")
 
 }
+\seealso{
+\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+}
 

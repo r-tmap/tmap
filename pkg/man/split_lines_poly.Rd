@@ -18,6 +18,6 @@ split_lines_poly(shp.lines, shp.poly, variables.lines, variables.poly)
 shape object with splitted lines
 }
 \description{
-Split a lines shape object by a polygon shape object. Data of the corresponding polygons is appended to the line segments
+Split a lines shape object by a polygon shape object. Data of the corresponding polygons is appended to the line segments (Experimental)
 }
 

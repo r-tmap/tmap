@@ -24,6 +24,6 @@ fit_polylines(..., id = NULL, min.dist = 10, max.opt.dist = 250,
 SpatialLinesDataframe
 }
 \description{
-This function fits one or more smooth polylines through a set of spatial points.
+This function fits one or more smooth polylines through a set of spatial points. (Experimental)
 }
 

@@ -14,6 +14,6 @@ double_line(shp, width)
 SpatialLinesDataFrame
 }
 \description{
-Create a double line from a single line.
+Create a double line from a single line. (Experimental)
 }
 
