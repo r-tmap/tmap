@@ -8,11 +8,11 @@
 #'  \item{"2)"}\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
 #'  \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
 #' }
-#'For drawing layers \code{\link{geo_fill}} and \code{\link{geo_borders}}, 1 is required. For drawing layer \code{\link{geo_lines}} 3 is required. Layers \code{\link{geo_bubbles}} and \code{\link{geo_text}}, accept any of them. 
-#' @param projection character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
+#'For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}} 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}}, accept any of them. 
+#' @param projection character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.ostm.org/proj/}), of one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates.} 
-#'    	\item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise} 
+#'    	\item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National tmgraphic Society. Type: compromise} 
 #'    	\item{\code{"robin"}}{Robinson (1963). Another popular projection for world maps. Type: compromise}
 #'    	\item{\code{"eck4"}}{Eckert IV (1906). Projection useful for world maps. Area sizes are preserved, which makes it particularly useful for truthful choropleths. Type: equal-area}
 #'    	\item{\code{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
@@ -30,18 +30,18 @@
 #' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: relative values will depend on the current bounding box (bbox) of the first shape object.
 #' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides the \code{xlim} and \code{ylim} parameters.
 #' @export
-#' @example ../examples/geo_shape.R
-#' @return \code{\link{geo-element}}
+#' @example ../examples/tm_shape.R
+#' @return \code{\link{tmap-element}}
 #' @seealso \code{\link{set_projection}}
-geo_shape <- function(shp, 
+tm_shape <- function(shp, 
 					  projection=NULL, 
 					  xlim = NULL,
 					  ylim = NULL,
 					  relative = TRUE,
 					  bbox = NULL) {
 	shp_name <- deparse(substitute(shp))
-	g <- list(geo_shape=as.list(environment()))
-	class(g) <- "geo"
+	g <- list(tm_shape=as.list(environment()))
+	class(g) <- "tmap"
 	g
 }
 
@@ -55,11 +55,11 @@ geo_shape <- function(shp,
 #' @param lwd line width (see \code{\link[graphics:par]{par}})
 #' @param lty line type (see \code{\link[graphics:par]{par}})
 #' @export
-#' @example ../examples/geo_borders.R
-#' @return \code{\link{geo-element}}
-geo_borders <- function(col="grey40", lwd=1, lty="solid") {
-	g <- list(geo_borders=as.list(environment()))
-	class(g) <- "geo"
+#' @example ../examples/tm_borders.R
+#' @return \code{\link{tmap-element}}
+tm_borders <- function(col="grey40", lwd=1, lty="solid") {
+	g <- list(tm_borders=as.list(environment()))
+	class(g) <- "tmap"
 	g
 }
 
@@ -83,12 +83,12 @@ geo_borders <- function(col="grey40", lwd=1, lty="solid") {
 #' @param xmod horizontal position modification of the text, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @export
-#' @example ../examples/geo_text.R
-#' @return \code{\link{geo-element}}
-geo_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", case=NA, bg.color=NA, bg.alpha=100, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
-	g <- list(geo_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.case=case, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
+#' @example ../examples/tm_text.R
+#' @return \code{\link{tmap-element}}
+tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", case=NA, bg.color=NA, bg.alpha=100, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
+	g <- list(tm_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.case=case, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
-	class(g) <- "geo"
+	class(g) <- "tmap"
 	g
 }
 
@@ -112,9 +112,9 @@ geo_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontf
 #' @param colorNA color used for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @export
-#' @example ../examples/geo_lines.R
-#' @return \code{\link{geo-element}}
-geo_lines <- function(col="red", lwd=1, lty="solid", 
+#' @example ../examples/tm_lines.R
+#' @return \code{\link{tmap-element}}
+tm_lines <- function(col="red", lwd=1, lty="solid", 
 					  scale=1,
 					  n = 5, style = "pretty",
 					  breaks = NULL,
@@ -125,12 +125,12 @@ geo_lines <- function(col="red", lwd=1, lty="solid",
 					  max.categories = 12, 
 					  colorNA = "grey65",
 					  textNA = "Missing") {
-	g <- list(geo_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.scale=scale,
+	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.scale=scale,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 							 auto.palette.mapping=auto.palette.mapping,
 							 max.categories=max.categories,
 							 contrast=contrast, colorNA=colorNA, textNA=textNA))
-	class(g) <- "geo"
+	class(g) <- "tmap"
 	g
 }
 
@@ -154,9 +154,9 @@ geo_lines <- function(col="red", lwd=1, lty="solid",
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @export
-#' @example ../examples/geo_fill.R
-#' @return \code{\link{geo-element}}	
-geo_fill <- function(col="grey90", 
+#' @example ../examples/tm_fill.R
+#' @return \code{\link{tmap-element}}	
+tm_fill <- function(col="grey90", 
 						    palette = NULL,
 						    convert2density = FALSE,
 					 		area = NULL,
@@ -171,8 +171,8 @@ geo_fill <- function(col="grey90",
 					 		textNA = "Missing",
 							thres.poly = 1e-05) {
 	
-	g <- list(geo_fill=as.list(environment()))
-	class(g) <- "geo"
+	g <- list(tm_fill=as.list(environment()))
+	class(g) <- "tmap"
 	g
 }	
 
@@ -199,9 +199,9 @@ geo_fill <- function(col="grey90",
 #' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @export
-#' @example ../examples/geo_bubbles.R
-#' @return \code{\link{geo-element}}
-geo_bubbles <- function(size=1, col="blueviolet",
+#' @example ../examples/tm_bubbles.R
+#' @return \code{\link{tmap-element}}
+tm_bubbles <- function(size=1, col="blueviolet",
 						  border.lwd=NA,
 						  border.col="black",
 						  scale=1,
@@ -217,7 +217,7 @@ geo_bubbles <- function(size=1, col="blueviolet",
 						  textNA = "Missing",
 						  xmod = 0,
 						  ymod = 0) {
-	g <- list(geo_bubbles=list(bubble.size=size, bubble.col=col, bubble.border.lwd=border.lwd,
+	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.border.lwd=border.lwd,
 							   bubble.border.col=border.col,
 								 bubble.scale=scale,
 								 size.lim=size.lim,
@@ -229,28 +229,28 @@ geo_bubbles <- function(size=1, col="blueviolet",
 								 textNA=textNA,
 								 bubble.xmod=xmod,
 								 bubble.ymod=ymod))
-	class(g) <- "geo"
+	class(g) <- "tmap"
 	g
 }
 
 
 #' Small multiples grid
 #' 
-#' This element specifies how small multiples are placed in a grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{geo_fill}}, \code{\link{geo_lines}}, or \code{\link{geo_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
+#' This element specifies how small multiples are placed in a grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 #' 
 #' @param by data variable name by which the data is split
 #' @param ncol number of columns of the small multiples grid
 #' @param nrow number of rows of the small multiples grid
-#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{geo_fill}}, color and size from \code{\link{geo_bubbles}} and line color from \code{\link{geo_lines}}.
+#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_bubbles}} and line color from \code{\link{tm_lines}}.
 #' @param free.scales.fill logical. Should the color scale for the choropleth be free?
 #' @param free.scales.bubble.size logical. Should the bubble size scale for the bubblemap be free?
 #' @param free.scales.bubble.col logical. Should the color scale for the bubblemap be free?
 #' @param free.scales.line.col Should the line color scale be free?
 #' @param free.scales.line.lwd Should the line width scale be free?
 #' @export
-#' @example ../examples/geo_facets.R
-#' @return \code{\link{geo-element}}
-geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
+#' @example ../examples/tm_facets.R
+#' @return \code{\link{tmap-element}}
+tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
 					   free.scales=is.null(by),
 					   free.scales.fill=free.scales,
 					   free.scales.bubble.size=free.scales,
@@ -258,8 +258,8 @@ geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					   free.scales.line.col=free.scales,
 					   free.scales.line.lwd=free.scales
 					   ) {
-	g <- list(geo_facets=as.list(environment()))
-	class(g) <- "geo"
+	g <- list(tm_facets=as.list(environment()))
+	class(g) <- "tmap"
 	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
 	g
 }
@@ -275,29 +275,29 @@ geo_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 #' @param labels.col font color fo the tick labels
 #' @param on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
 #' @export
-geo_grid <- function(n.x=8,
+tm_grid <- function(n.x=8,
 					 n.y=8,
 					 col="grey50",
 					 labels.cex=.75,
 					 labels.col="grey20",
 					 on.top=TRUE) {
-	g <- list(geo_grid=as.list(environment()))
-	names(g$geo_grid) <- paste("grid", names(g$geo_grid), sep=".")
-	class(g) <- "geo"
+	g <- list(tm_grid=as.list(environment()))
+	names(g$tm_grid) <- paste("grid", names(g$tm_grid), sep=".")
+	class(g) <- "tmap"
 	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
 	g
 }
 
-#' Stacking of geo elements
+#' Stacking of tmap elements
 #' 
-#' The plus operator allows you to stack \code{\link{geo-element}s}.
+#' The plus operator allows you to stack \code{\link{tmap-element}s}.
 #' 
-#' @param e1 first \code{\link{geo-element}}
-#' @param e2 second \code{\link{geo-element}}
+#' @param e1 first \code{\link{tmap-element}}
+#' @param e2 second \code{\link{tmap-element}}
 #' @export
-"+.geo" <- function(e1, e2) {
+"+.tmap" <- function(e1, e2) {
 	g <- c(e1,e2)
-	class(g) <- "geo"
+	class(g) <- "tmap"
 	g
 }
 

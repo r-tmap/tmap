@@ -1,7 +1,7 @@
 #' Tools to create thematic maps
 #'
 #' \tabular{ll}{
-#' Package: \tab geo\cr
+#' Package: \tab tmap\cr
 #' Type: \tab Package\cr
 #' Version: \tab 0.6\cr
 #' Date: \tab 2014-07-28\cr
@@ -9,16 +9,16 @@
 #' LazyLoad: \tab yes\cr
 #' }
 #'
-#' This packages offers a complete workflow to create thematic maps (also called statistical maps). Maps are plotted in \pkg{ggplot2} style.
+#' This packages offers a complete work flow to create thematic maps (also called statistical maps). Maps are plotted in \pkg{ggplot2} style.
 #' This package includes ready to use shape files from the World, Europe, and the Netherlands (both provinces as municipalities), which are used in the examples.
 #' 
-#' To get started, see \href{../doc/geo-nutshell.html}{\code{vignette("geo-nutshell")}}.
+#' To get started, see \href{../doc/tm-nutshell.html}{\code{vignette("tm-nutshell")}}.
 #' 
-#' @name geo-package
-#' @aliases geo-package
+#' @name tmap-package
+#' @aliases tmap-package
 #' @docType package
 #' @author Martijn Tennekes \email{mtennekes@@gmail.com}
-#' @keywords GIS, thematic maps, statistical maps, choropleth
+#' @keywords GIS, thematic maps, statistical maps, choropleth, bubble map
 NULL
 
 #' World, Europe and Netherlands map
@@ -71,29 +71,29 @@ NULL
 
 
 
-#' Geo element
+#' tmap element
 #'
 #' Building block to draw thematic maps.
 #' 
 #' The only fundamental, and hence required element is
 #' \itemize{
-#' \item \code{\link{geo_shape}} that specifies the shape object, and also controls the projection and bounding box}
+#' \item \code{\link{tm_shape}} that specifies the shape object, and also controls the projection and bounding box}
 #' 
 #' The elements that serve as drawing layers are
 #' \itemize{
-#' \item \code{\link{geo_borders}} to draw polygon borders
-#' \item \code{\link{geo_fill}} to color the polygons
-#' \item \code{\link{geo_bubbles}} to draw bubbles
-#' \item \code{\link{geo_lines}} to draw lines}
+#' \item \code{\link{tm_borders}} to draw polygon borders
+#' \item \code{\link{tm_fill}} to color the polygons
+#' \item \code{\link{tm_bubbles}} to draw bubbles
+#' \item \code{\link{tm_lines}} to draw lines}
 #' 
-#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{geo_shape}}.
+#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}}.
 #' 
 #' The layout elements are
 #' \itemize{
-#' \item \code{\link{geo_theme}} to change the appearance of the map, for instance titles and legend positions. Predefined themes for the example shape files are \code{\link{geo_theme_World}}, \code{\link{geo_theme_Europe}}, and \code{\link{geo_theme_NLD}}.
-#' \item \code{\link{geo_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
-#' \item \code{\link{geo_grid}} that specifies grid lines
+#' \item \code{\link{tm_layout}} to change the appearance of the map, for instance titles and legend positions. Predefined themes for the example shape files are \code{\link{tm_layout_World}}, \code{\link{tm_layout_Europe}}, and \code{\link{tm_layout_NLD}}.
+#' \item \code{\link{tm_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
+#' \item \code{\link{tm_grid}} that specifies grid lines
 #' }
 #'    
-#' @name geo-element
+#' @name tmap-element
 NULL

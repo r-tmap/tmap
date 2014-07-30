@@ -1,17 +1,17 @@
 #' Theme elements of cartographic maps
 #' 
-#' This element specifies layout options for the maps. The main function \code{geo_theme} is used by default as  general theme. The functions \code{geo_theme_World}, \code{geo_theme_Europe}, and \code{geo_theme_NLD} are themes for World, Europe, and Netherlands maps (which are contained in this package).
+#' This element specifies layout options for the maps. The main function \code{tm_layout} is used by default as  general theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are themes for World, Europe, and Netherlands maps (which are contained in this package).
 #' 
-#' @name geo_theme
-#' @rdname geo_theme
+#' @name tm_layout
+#' @rdname tm_layout
 #' @param title Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.
-#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{cex} arguments provided by the \code{\link{geo-element}s}.
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{cex} arguments provided by the \code{\link{tmap-element}s}.
 #' @param title.cex Relative size of the title
 #' @param bg.color Background color. By default it is light grey (\code{grey85}) for choropleths and white for other maps.
 #' @param draw.frame Boolean that determines whether a frama is drawn. 
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
 #' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.
-#' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{geo_shape}}) and the argument \code{frame.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
+#' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}) and the argument \code{frame.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
 #' @param frame.lwd Width of the frame
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
@@ -31,9 +31,9 @@
 #' @param legend.hist.cex Relative font size for the choropleth histogram
 #' @param legend.digits Number of digits for the legend labels
 #' @param legend.bg.color Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.
-#' @param ... other arguments from \code{geo_theme}
+#' @param ... other arguments from \code{tm_layout}
 #' @export
-geo_theme <- function(title=NA,
+tm_layout <- function(title=NA,
 					  scale=1,
 					  title.cex=1.5,
 					  bg.color=NULL,
@@ -62,15 +62,15 @@ geo_theme <- function(title=NA,
 					  legend.hist.cex=0.7,
 					  legend.digits = 2L,
 					  legend.bg.color = NA) {
-	g <- list(geo_theme=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
-	class(g) <- "geo"
+	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
+	class(g) <- "tm"
 	g
 }
 
 
-#' @rdname geo_theme
+#' @rdname tm_layout
 #' @export
-geo_theme_World <- function(title=NA,
+tm_layout_World <- function(title=NA,
 							scale=.85,
 							title.position = c("left", "bottom"),
 							title.bg.color=TRUE,
@@ -82,29 +82,29 @@ geo_theme_World <- function(title=NA,
 							legend.bg.color=TRUE,
 							...) {
 	args <- c(as.list(environment()), list(...))
-	do.call("geo_theme", args)
+	do.call("tm_layout", args)
 }
 
-#' @rdname geo_theme
+#' @rdname tm_layout
 #' @export
-geo_theme_Europe <- function(title=NA,
+tm_layout_Europe <- function(title=NA,
 							 legend.position=c("left", "top"), 
 							 outer.margins=rep(0.02, 4),
 							 inner.margins=c(0, 0.25, 0, 0),
 							 ...) {
 	args <- c(as.list(environment()), list(...))
-	do.call("geo_theme", args)
+	do.call("tm_layout", args)
 }
 
 
-#' @rdname geo_theme
+#' @rdname tm_layout
 #' @export
-geo_theme_NLD <- function(title=NA,
+tm_layout_NLD <- function(title=NA,
 						  draw.frame=FALSE, 
 						  inner.margins=c(.05, .3, .05, .05),
 						  legend.position=c("left", "top"), 
 						  legend.width=.3,
 						  ...) {
 	args <- c(as.list(environment()), list(...))
-	do.call("geo_theme", args)
+	do.call("tm_layout", args)
 }

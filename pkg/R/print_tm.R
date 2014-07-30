@@ -1,8 +1,8 @@
-#' Print geo object
+#' Print tm object
 #' 
-#' Print geo object
+#' Print tm object
 #' 
-#' @param x geo object
+#' @param x tm object
 #' @param ... not used
 #' @import sp
 #' @import RColorBrewer
@@ -10,14 +10,14 @@
 #' @import gridBase
 #' @import classInt
 #' @export
-#' @method print geo
-print.geo <- function(x, ...) {
+#' @method print tmap
+print.tmap <- function(x, ...) {
 	
 	## get shapes
-	shape.id <- which(names(x)=="geo_shape")
+	shape.id <- which(names(x)=="tm_shape")
 	
 	nshps <- length(shape.id)
-	if (!nshps) stop("Required geo_shape layer missing.")
+	if (!nshps) stop("Required tm_shape layer missing.")
 	
 	shps <- lapply(x[shape.id], function(y) {
 		shp <- y$shp
@@ -38,7 +38,7 @@ print.geo <- function(x, ...) {
 		y
 	}, x[shape.id], datasets, SIMPLIFY=FALSE)
 	
-	result <- process_geo(x)
+	result <- process_tm(x)
 	
 	gmeta <- result$gmeta
 	gps <- result$gps

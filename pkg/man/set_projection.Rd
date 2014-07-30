@@ -46,6 +46,6 @@ get_projection(shp)
 \code{get_projection} returns the \code{PROJ.4} character string of \code{shp}.
 }
 \description{
-The function \code{set_projection} sets the projection of a shape file. It is a convenient wrapper of \code{\link[sp:spTransform]{spTransform}} with shortcuts for commonly used projections. The projection can also be set directly in the plot call with \code{\link{geo_shape}}. This function is also used to set the current projection information without transformation of the shape object, which is useful when this information is missing in the shape object. The function \code{get_projection} is used to get the projection information.
+The function \code{set_projection} sets the projection of a shape file. It is a convenient wrapper of \code{\link[sp:spTransform]{spTransform}} with shortcuts for commonly used projections. The projection can also be set directly in the plot call with \code{\link{tm_shape}}. This function is also used to set the current projection information without transformation of the shape object, which is useful when this information is missing in the shape object. The function \code{get_projection} is used to get the projection information.
 }
 

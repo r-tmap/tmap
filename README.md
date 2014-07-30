@@ -1,21 +1,21 @@
-geo
+tmap
 ===
 
-R package for statistical maps
+R package for thematic maps
 
 Installation
 ------------
 
-`geo' is not available from CRAN yet. The current development version can be installed using `devtools`.
+`tmap' is not available from CRAN yet. The current development version can be installed using `devtools`.
 
 ```r
 library(devtools)
-install_github("geo", username="mtennekes", subdir="pkg")
+install_github("tmap", username="mtennekes", subdir="pkg")
 ```
 
 Usage
 -----
 
 ```r
-library(geo)
+library(tmap)
 ```

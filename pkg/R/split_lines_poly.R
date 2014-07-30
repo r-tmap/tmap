@@ -47,7 +47,7 @@ split_lines_poly <- function(shp.lines, shp.poly, variables.lines, variables.pol
 # split_lines_points <- function(shp.lines, shp.points) {
 # 	length(shp.lines)
 # 	
-# 	geo(shp.lines)
+# 	tm(shp.lines)
 # 	
 # 	shp.lines@data
 # }

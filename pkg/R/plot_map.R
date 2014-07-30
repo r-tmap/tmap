@@ -21,22 +21,22 @@ plot_map <- function(gp, gt, shps.env) {
 		co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 		
 		
-		plot_geo_fill <- function() {
+		plot_tm_fill <- function() {
 			fill <- if (is.null(gpl$fill)) NA else gpl$fill
 			#if (inherits(shp, "SpatialPolygons")) {
 				grid.shape(shp, gp=gpar(fill=fill, col=gpl$col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color)
 			#}	
 		}
 		
-		plot_geo_lines <- function() {
+		plot_tm_lines <- function() {
 			#if (inherits(shp, "SpatialLines")) {
 				grid.shplines(shp, gp=gpar(col=gpl$line.col, lwd=gpl$line.lwd, lty=gpl$line.lty,
 										   lineend="butt"))
 			#}
 		}
 		
-		plot_geo_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight)
-		plot_geo_text <- function() plot_text(co.npc, gpl)
+		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight)
+		plot_tm_text <- function() plot_text(co.npc, gpl)
 		e <- environment()
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		lapply(fnames, do.call, args=list(), envir=e)
@@ -154,9 +154,9 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 
 
 plot_all <- function(gp, shps.env, dasp, sasp) {
-	gt <- gp$geo_theme
+	gt <- gp$tm_layout
 	
-	gp[c("geo_theme")] <- NULL
+	gp[c("tm_layout")] <- NULL
 	
 	if (!gt$legend.only) {
 		## determine aspvp

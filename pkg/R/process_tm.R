@@ -1,12 +1,12 @@
-process_geo <- function(x) {
+process_tm <- function(x) {
 	fill <- NULL; xfill <- NULL
 	## fill meta info
 	
-	## get geo_theme elements
-	if (!("geo_theme" %in% names(x))) {
-		gt <- geo_theme()$geo_theme
+	## get tm_layout elements
+	if (!("tm_layout" %in% names(x))) {
+		gt <- tm_layout()$tm_layout
 	} else {
-		gts <- x[names(x)=="geo_theme"]
+		gts <- x[names(x)=="tm_layout"]
 		gtsn <- length(gts)
 		gt <- gts[[1]]
 		if (gtsn>1) {
@@ -20,37 +20,37 @@ process_geo <- function(x) {
 	}
 	
 	## get grid element
-	gridid <- which(names(x)=="geo_grid")[1]
+	gridid <- which(names(x)=="tm_grid")[1]
 	gg <- x[[gridid]]
 	
 	## get facets element
-	facetid <- which(names(x)=="geo_facets")[1]
+	facetid <- which(names(x)=="tm_facets")[1]
 	if (is.na(facetid)) {
-		gf <- geo_facets()$geo_facets 
+		gf <- tm_facets()$tm_facets 
 		gf$shp_name <- ""
 	} else {
-		gf.shp.id <- tail(which(names(x)[1:facetid]=="geo_shape"), 1)
+		gf.shp.id <- tail(which(names(x)[1:facetid]=="tm_shape"), 1)
 		gf <- x[[facetid]]
 		gf$shp_name <- x[[gf.shp.id]]$shp_name
 	}
 	
 	## split x into gmeta and gbody
-	x <- x[!(names(x) %in% c("geo_theme", "geo_grid", "geo_facets"))]
+	x <- x[!(names(x) %in% c("tm_layout", "tm_grid", "tm_facets"))]
 
 	n <- length(x)
 	
 	## split x into clusters
-	shape.id <- which(names(x)=="geo_shape")
-	if (shape.id[1] != 1) stop("First layers should be a geo_shape layer.")
+	shape.id <- which(names(x)=="tm_shape")
+	if (shape.id[1] != 1) stop("First layers should be a tm_shape layer.")
 	y <- rep(0, n); y[shape.id] <- 1
 	cluster.id <- cumsum(y)
 	gs <- split(x, cluster.id)
 	
 	nlx <- sapply(gs, length)
-	if (any(nlx==1)) warning("Specify at least one layer next to geo_shape")
+	if (any(nlx==1)) warning("Specify at least one layer next to tm_shape")
 	
 	
-	#gs <- lapply(gs, function(gx) if (is.null(gx[["geo_borders"]])) gx + geo_borders() else gx)
+	#gs <- lapply(gs, function(gx) if (is.null(gx[["tm_borders"]])) gx + tm_borders() else gx)
 	## convert clusters to layers
 	gp <- lapply(gs, FUN=process_layers, gt, gf)
 
@@ -63,7 +63,7 @@ process_geo <- function(x) {
 			ifelse(is.matrix(x$line.lwd), ncol(x$line.lwd), 1),
 			ifelse(is.matrix(x$text), ncol(x$text), 1))
 	}))
-	names(gp) <- paste0("geoLayer", 1:length(gp))
+	names(gp) <- paste0("tmLayer", 1:length(gp))
 	
 	## get variable names (used for titles)
 	varnames <- process_varnames(gp, nx)
@@ -71,7 +71,7 @@ process_geo <- function(x) {
 	## process grid
 	gmeta <- process_meta(gt, gf, gg, nx, varnames)
 	## split into small multiples
-	gps <- split_geo(gp, nx)
+	gps <- split_tm(gp, nx)
 	scale <- gmeta$scale
 	gps <- mapply(function(x, i){
 		x <- lapply(x, function(xx) {
@@ -104,9 +104,9 @@ process_geo <- function(x) {
 			})
 		})
 		
-		x$geo_theme <- gmeta
-		x$geo_theme$title <- x$geo_theme$title[i]
-		x$geo_theme$legend.titles <- sapply(x$geo_theme$legend.titles, function(x)x[i])
+		x$tm_layout <- gmeta
+		x$tm_layout$title <- x$tm_layout$title[i]
+		x$tm_layout$legend.titles <- sapply(x$tm_layout$legend.titles, function(x)x[i])
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 	

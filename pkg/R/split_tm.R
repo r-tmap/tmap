@@ -1,4 +1,4 @@
-split_geo <- function(gp, nx) {
+split_tm <- function(gp, nx) {
 	gpnx <- lapply(1:nx, function(i){
 		g <- lapply(gp, function(x) {
 			lapply(x, get_i, i, n=x$npol)

@@ -1,7 +1,7 @@
 process_data <- function(data, by, free.scales) {
 	
 	nby <- nlevels(by)
-	cls <- check_geo_classes(data)
+	cls <- check_tm_classes(data)
 	if (nby > 1) {
 		nx <- nby
 		dat <- data[[1]]
@@ -45,7 +45,7 @@ process_data <- function(data, by, free.scales) {
 }
 
 
-check_geo_classes <- function(x) {
+check_tm_classes <- function(x) {
 	sapply(x, function(y) {
 		if (is.numeric(y)) { 
 			"num"
