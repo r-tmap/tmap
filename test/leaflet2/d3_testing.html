@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+<style>
+ #mytext {font-size:24pt;}
+ p {color:blue;}
+</style>
+
+
+</head>
+<body>
+
+	
+	<p>Hello!</p>
+	<script type="text/javascript">
+		var body = d3.select("body");
+		var text = body.append("text");
+		text.text("Looo");
+		text.style("color","#f00");	
+		text.attr("id","mytext");
+	
+	</script>
+	
+	<h1>This is a tutorial!</h1>
+	<text id=sub1>sub1</text>
+	<text class=sub2>sub2</text>
+	
+	<script type="text/javascript">
+
+
+	//http://www.digital-geography.com/d3-basics-all-you-need-is-a-selection/#.U-Qt1mP_Ls0
+
+	var heading = d3.select("h1").style("color","#ff00ff");
+	var sub1 = d3.select("#sub1").style("color","#00ff00").append("br");
+	var sub2 = d3.select(".sub2").style("color","#0000ff").append("br");
+	
+	var data = [];
+	for(var i=0;i<25;i++){
+		data.push(i);
+	}
+	console.log(data);
+	
+	var container = d3.select("body").append("div").attr("id","#container");
+	var data_text_selection = container.selectAll("text");	
+	
+	var data_text_elements = data_text_selection.data(data).enter().append("text");
+	
+	data_text_elements.text(function(content){return content}).append("br");
+	data_text_elements.style("fill", "#f00");
+	
+	container.selectAll("text").remove();
+	var svgContainer = container.append("svg");
+	svgContainer.attr("width", 300).attr("height", 200);
+	
+	var circle = svgContainer.append("circle")
+	.attr("cx", 25)
+	.attr("cy", 25)
+	.attr("r", 20 )
+	.style("fill", '#f00');
+	
+	circle.on("mousedown",free_definable_function);
+	
+	function free_definable_function(){
+		var mouseCoordX = (d3.mouse(this)[0]);
+		circle.transition().ease('bounce').duration(1000).delay(250)
+		.attr("cx",mouseCoordX+50).style("fill","#0f0");
+	}	
+	
+	var rectangleCoors = [75, 100, 125];
+	
+	var rectangles = svgContainer.selectAll("rect").data(rectangleCoors	).enter().append("rect");
+	rectangles.attr("x", 50)
+	.attr("y", function(d){return d})
+	.attr("width", 25)
+	.attr("height", 25)
+	.style("fill","#00f");
+	
+	rectangles.on("mousedown",moveRectangle);
+	
+	var clicked = false;
+	function moveRectangle(){
+		if(clicked==false){ var color='#f00'; clicked=true; var destination=1;}
+		else{ var color='#00f'; clicked=false; var destination=-1;}
+		rectangles.transition().ease("linear").duration(2000)
+		.style("fill",color)
+		.attr("x",function(d){return d+(25*destination)});
+	}
+	
+	</script>
+	
+	
+
+
+</body>
+</html>
