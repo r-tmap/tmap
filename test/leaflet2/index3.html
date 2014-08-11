@@ -47,8 +47,10 @@
 	<script src="http://leafletjs.com/dist/leaflet.js"></script>
 
 	<script type="text/javascript" src="NLDpop.js"></script>
+	<script type="text/javascript" src="NLDdrw.js"></script>
 	<script type="text/javascript">
 
+/*	
 		var map = L.map('map').setView([52, 5.3], 7);
 
 		
@@ -59,31 +61,61 @@
 				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
 			id: 'examples.map-20v6611k'
 		}).addTo(map);
-		
+*/
+
+	    var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			mbUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
+
+	    var land   = L.tileLayer(mbUrl, {id: 'mtennekes.j73fe40m', attribution: mbAttr}),
+		    grey  = L.tileLayer(mbUrl, {id: 'examples.map-20v6611k',   attribution: mbAttr}),
+			names  = L.tileLayer(mbUrl, {id: 'mtennekes.j73fih74',   attribution: mbAttr});
 
 
-		// control that shows state info on hover
-		
-		
-		var info = L.control();
+
+		var map = L.map('map', {
+			center: [52, 5.3],
+			zoom: 7,
+			layers: [land]
+		});
+
+		var baseLayers = {
+		    "Land": land,
+			"Grayscale": grey
+		};
+
+		var info_poly = L.control();
+		var info_lines = L.control();
 
 		
-		info.onAdd = function (map) {
+		info_poly.onAdd = function (map) {
 			this._div = L.DomUtil.create('div', 'info');
 			this.update();
 			return this._div;
 		};
 		
 		
-		info.update = function (props) {
+		info_lines.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+		
+		info_poly.update = function (props) {
 			this._div.innerHTML = '<h4>Dutch Population Density</h4>' +  (props ?
 				'<b>' + props.name + '</b><br />' + props.density + ' people / km<sup>2</sup>'
 				: 'Hover over a municipality');
 		};
 		
+		info_lines.update = function (props) {
+			this._div.innerHTML = '<h4>Dutch highway</h4>' +  (props ?
+				'<b>' + props.ID + '</b><br />' + 'Corop: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
+				: 'Hover over a road');
+		};		
 		
-		
-		info.addTo(map);
+		info_poly.addTo(map);
+		info_lines.addTo(map);
 		
 
 		// get color depending on population density value
@@ -98,18 +130,30 @@
 			                  '#FFEDA0';
 		}
 
-		function style(feature) {
+		function style_poly(feature) {
 			return {
 				weight: 1,
-				opacity: 1,
+				opacity: 0.5,
 				color: 'white',
 				dashArray: '',
-				fillOpacity: 0.7,
+				fillOpacity: 0.1,
 				fillColor: getColor(feature.properties.density)
 			};
 		}
 
-		function highlightFeature(e) {
+		function style_lines(feature) {
+			return {
+				weight: 3,
+				opacity: 1,
+				color: 'white',
+				dashArray: '',
+				fillOpacity: 0.7,
+				fillColor: getColor(feature.properties.ID)
+			};
+		}
+
+		
+		function highlightFeature_poly(e) {
 			var layer = e.target;
 
 			layer.setStyle({
@@ -123,32 +167,80 @@
 				layer.bringToFront();
 			}
 
-			info.update(layer.feature.properties);
+			info_poly.update(layer.feature.properties);
 		}
 
-		var geojson;
+		function highlightFeature_lines(e) {
+			var layer = e.target;
 
-		function resetHighlight(e) {
-			geojson.resetStyle(e.target);
-			info.update();
+			layer.setStyle({
+				weight: 5,
+				color: '#666',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera) {
+				layer.bringToFront();
+			}
+
+			info_lines.update(layer.feature.properties);
+		}
+
+		
+		
+
+		function resetHighlight_poly(e) {
+			geojson_poly.resetStyle(e.target);
+			info_poly.update();
+		}
+		function resetHighlight_lines(e) {
+			geojson_lines.resetStyle(e.target);
+			info_lines.update();
 		}
 
 		function zoomToFeature(e) {
 			map.fitBounds(e.target.getBounds());
 		}
 
-		function onEachFeature(feature, layer) {
+		function onEachFeature_poly(feature, layer) {
 			layer.on({
-				mouseover: highlightFeature,
-				mouseout: resetHighlight,
+				mouseover: highlightFeature_poly,
+				mouseout: resetHighlight_poly,
 				click: zoomToFeature
 			});
 		}
 
-		geojson = L.geoJson(nldData, {
-			style: style,
-			onEachFeature: onEachFeature
-		}).addTo(map);
+		function onEachFeature_lines(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature_lines,
+				mouseout: resetHighlight_lines,
+				click: zoomToFeature
+			});
+		}
+		
+		
+		geojson_poly = L.geoJson(nldData, {
+			style: style_poly,
+			onEachFeature: onEachFeature_poly
+		});
+
+		geojson_lines = L.geoJson(nldDRW, {
+			style: style_lines,
+			onEachFeature: onEachFeature_lines
+		});
+
+		
+		var overlays = {
+			"Poly": geojson_poly,
+			"Lines": geojson_lines,
+			"Names": names,
+		};
+
+
+		L.control.layers(baseLayers, overlays).addTo(map);
+		
+
 
 		map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
 
@@ -176,10 +268,8 @@
 		};
 
 		legend.addTo(map);
-
-		var svg = d3.select("body").append("svg");
-		svg.attr("width", 300).attr("height", 600);
 		
+	
 		
 		
 	</script>
