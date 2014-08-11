@@ -5,6 +5,7 @@
 	<meta charset="utf-8" />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<script src="http://d3js.org/d3.v3.min.js"></script>
 
 	<link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css" />
 
@@ -176,6 +177,11 @@
 
 		legend.addTo(map);
 
+		var svg = d3.select("body").append("svg");
+		svg.attr("width", 300).attr("height", 600);
+		
+		
+		
 	</script>
 </body>
 </html>
