@@ -2,12 +2,12 @@
 devtools::load_all()
 library(sp)
 library(rgeos)
-source("../test/NDW_example/00_misc_functions.R")
+source("../applications/traffic_NLD/00_misc_functions.R")
 
 ###########################################################################
 ##### load and preprocess loops data
 ###########################################################################
-loopsdata <- read.csv("../test/NDW_example/input/Rijkswegen_loops.csv", stringsAsFactors=FALSE)
+loopsdata <- read.csv("../applications/traffic_NLD/input/Rijkswegen_loops.csv", stringsAsFactors=FALSE)
 
 names(loopsdata) <- c("site", "lat", "long", "roadname", "roadnumber")
 
@@ -33,10 +33,10 @@ loops <- set_projection(loops, current.projection="longlat", projection="rd")
 ###########################################################################
 ##### load and preprocess corop shape
 ###########################################################################
-corop <- read_shape("../test/NDW_example/input/cr_2013.shp")
+corop <- read_shape("../applications/traffic_NLD/input/cr_2013.shp")
 corop <- set_projection(corop, current.projection="rd")
 
-nuts <- read.csv2("../test/NDW_example/COROP-NUTS.csv", stringsAsFactor=FALSE)
+nuts <- read.csv2("../applications/traffic_NLD/input/COROP-NUTS.csv", stringsAsFactor=FALSE)
 nuts$NUTS1 <- as.integer(substr(nuts$NUTS3, 3, 3))
 nuts$NUTS2 <- as.integer(substr(nuts$NUTS3, 3, 4))
 
@@ -48,7 +48,7 @@ corop <- append_data(corop, data=nuts, key.shp="CR2013", key.data="COROP")
 ##### load and preprocess road shape
 ###########################################################################
 
-rw <- read_shape("../test/NDW_example/input/rijksweg2013.shp")
+rw <- read_shape("../applications/traffic_NLD/input/rijksweg2013.shp")
 rw <- set_projection(rw, current.projection="rd")
 
 rw.roadnumbers <- unique(as.numeric(as.character(rw$WEGNUMMER)))
@@ -68,23 +68,23 @@ rw <- rw[!is.na(rw$roadname),]
 # 
 # 
 # pdf("test.pdf", width=7,height=7)
-# geo_shape(corop) +
-# 	geo_fill() +
-# 	geo_shape(rw) +
-# 	geo_lines(lwd=.02, col="black", max.categories=20)+
-# geo_shape(rw[rw$BAANSUBSRT=="HR",]) +
-# 	geo_lines(lwd=.02, col="blue", max.categories=20) +
-# geo_shape(rw[rw$BAANSUBSRT=="OPR",]) +
-# 	geo_lines(lwd=.05, col="red", max.categories=20) +
-# geo_shape(rw[rw$BAANSUBSRT=="PST",]) +
-# 	geo_lines(lwd=.05, col="green", max.categories=20)
+# tm_shape(corop) +
+# 	tm_fill() +
+# 	tm_shape(rw) +
+# 	tm_lines(lwd=.02, col="black", max.categories=20)+
+# tm_shape(rw[rw$BAANSUBSRT=="HR",]) +
+# 	tm_lines(lwd=.02, col="blue", max.categories=20) +
+# tm_shape(rw[rw$BAANSUBSRT=="OPR",]) +
+# 	tm_lines(lwd=.05, col="red", max.categories=20) +
+# tm_shape(rw[rw$BAANSUBSRT=="PST",]) +
+# 	tm_lines(lwd=.05, col="green", max.categories=20)
 # dev.off()
 # 
 # pdf("test.pdf", width=7,height=7)
-# geo_shape(corop) +
-# 	geo_fill() +
-# 	geo_shape(rw) +
-# 	geo_lines(lwd=.02, col="RPE_CODE", max.categories=20)
+# tm_shape(corop) +
+# 	tm_fill() +
+# 	tm_shape(rw) +
+# 	tm_lines(lwd=.02, col="RPE_CODE", max.categories=20)
 # dev.off()
 # 
 
@@ -107,15 +107,15 @@ loops$sensor <- factor("Road sensor")
 
 ### example: Knooppunt Lunetten (A12/A27)
 png("../test/NDW_example/plots/rijkswegen_met_loops.png", width=1600,height=800, res=300)
-geo_shape(corop, xlim=c(136000, 139000), ylim=c(451000, 452500), relative=FALSE) +
-	geo_fill() +
-	geo_shape(rw) +
-	geo_lines(lwd=1.5, col="Segment", max.categories=20) +
-	geo_shape(loops) +
-	geo_bubbles(.025, "sensor", palette="black") +
-	geo_theme("", legend.position=c("left", "bottom"), legend.titles=c(line.col="Road segment"),
+tm_shape(corop, xlim=c(136000, 139000), ylim=c(451000, 452500), relative=FALSE) +
+	tm_fill() +
+	tm_shape(rw) +
+	tm_lines(lwd=1.5, col="Segment", max.categories=20) +
+	tm_shape(loops) +
+	tm_bubbles(.025, "sensor", palette="black") +
+	tm_layout("", legend.position=c("left", "bottom"), legend.titles=c(line.col="Road segment"),
 			  legend.title.cex=.8, legend.text.cex=.6) #+
-	#geo_grid()
+	#tm_grid()
 dev.off()
 
 
@@ -131,7 +131,7 @@ rwR <- rw[rw$RPE_CODE=="R", ]
 
 
 # save all
-save(loops, file="../test/NDW_example/throughput/loops.rda")
-save(corop, file="../test/NDW_example/throughput/corop.rda")
-save(rw, rwL, rwR, file="../test/NDW_example/throughput/rijkswegen.rda")
+save(loops, file="../applications/traffic_NLD/throughput/loops.rda")
+save(corop, file="../applications/traffic_NLD/throughput/corop.rda")
+save(rw, rwL, rwR, file="../applications/traffic_NLD/throughput/rijkswegen.rda")
 

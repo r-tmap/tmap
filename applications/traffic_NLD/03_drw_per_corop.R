@@ -4,9 +4,9 @@ library(sp)
 library(rgeos)
 
 ### load preprocessed data
-load("../test/NDW_example/throughput/doorlopende_rijkswegen.rda")
-load("../test/NDW_example/throughput/corop.rda")
-source("../test/NDW_example/00_misc_functions.R")
+load("../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
+load("../applications/traffic_NLD/throughput/corop.rda")
+source("../applications/traffic_NLD/00_misc_functions.R")
 
 ## split by corop
 drw_nuts <- split_lines_poly(drw, corop)
@@ -39,29 +39,29 @@ pal <- c(brewer.pal(9, "Set1")[-9],
 		 brewer.pal(12, "Set3")[-9])
 pal[c(10, 27)] <- pal[c(43, 16)]
 
-pdf("../test/NDW_example/output/doorlopende_rijkswegen_nuts.pdf", width=7, height=7)
-geo_shape(corop) +
-	geo_fill("gray70") +
-	geo_borders("white") +
-	#geo_shape(gm) +
-	#geo_borders("white") +
-	geo_shape(drw_nuts) +	
-	geo_lines("ID", lwd=3, palette=pal, max.categories=46) +
-	geo_theme(legend.show=FALSE, title="Doorlopende rijkswegen per NUTS3")
+pdf("../applications/traffic_NLD/output/doorlopende_rijkswegen_nuts.pdf", width=7, height=7)
+tm_shape(corop) +
+	tm_fill("gray70") +
+	tm_borders("white") +
+	#tm_shape(gm) +
+	#tm_borders("white") +
+	tm_shape(drw_nuts) +	
+	tm_lines("ID", lwd=3, palette=pal, max.categories=46) +
+	tm_layout(legend.show=FALSE, title="Doorlopende rijkswegen per NUTS3")
 dev.off()
 
 
 
 ## for publication/presentation
-png("../test/NDW_example/plots/highways.png", width=1400, height=1600, res=300)
-geo_shape(corop) +
-	geo_fill("gray70") +
-	geo_borders("white") +
-	#geo_shape(gm) +
-	#geo_borders("white") +
-	geo_shape(drw_nuts) +	
-	geo_lines("ID", lwd=3, palette=pal, max.categories=46) +
-	geo_theme(legend.show=FALSE, title="Highways per NUTS3")
+png("../applications/traffic_NLD/plots/highways.png", width=1400, height=1600, res=300)
+tm_shape(corop) +
+	tm_fill("gray70") +
+	tm_borders("white") +
+	#tm_shape(gm) +
+	#tm_borders("white") +
+	tm_shape(drw_nuts) +	
+	tm_lines("ID", lwd=3, palette=pal, max.categories=46) +
+	tm_layout(legend.show=FALSE, title="Highways per NUTS3")
 dev.off()
 
 
@@ -78,8 +78,8 @@ drw_nuts_len$lengthR[match(keyR, key)] <- get_lengths(drwR_nuts)
 
 drw_nuts_len <- rbind(drw_nuts_len, data.frame(roadname="total", nuts="total", length=sum(drw_nuts_len$length, na.rm=TRUE), lengthL=sum(drw_nuts_len$lengthL, na.rm=TRUE), lengthR=sum(drw_nuts_len$lengthR, na.rm=TRUE)))
 
-write.table(drw_nuts_len, file="../test/NDW_example/output/lengtes_drw_nuts3.csv", row.names=FALSE, sep=",")
+write.table(drw_nuts_len, file="../applications/traffic_NLD/output/lengtes_drw_nuts3.csv", row.names=FALSE, sep=",")
 
-save(drw_nuts, drwL_nuts, drwR_nuts, file="../test/NDW_example/throughput/doorlopende_rijkswegen_nuts.rda")
+save(drw_nuts, drwL_nuts, drwR_nuts, file="../applications/traffic_NLD/throughput/doorlopende_rijkswegen_nuts.rda")
 
-#load(file="../test/NDW_example/throughput/doorlopende_rijkswegen_nuts.rda")
+#load(file="../applications/traffic_NLD/throughput/doorlopende_rijkswegen_nuts.rda")
