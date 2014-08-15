@@ -7,7 +7,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
 
-	<link rel="stylesheet" href="http://leafletjs.com/dist/leaflet.css" />
+	<link rel="stylesheet" href="leaflet.css" />
 
 	<style>
 		#map {
@@ -45,8 +45,8 @@
 </head>
 <body>
 	<div id="map"></div>
-	<script src="http://leafletjs.com/dist/leaflet.js"></script>
-	<!--<script src="leaflet.js"></script>-->
+	<!--<script src="http://leafletjs.com/dist/leaflet.js"></script>-->
+	<script src="leaflet.js"></script>
 	<script type="text/javascript" src="leaflet.label.js"></script>
 
 	<script type="text/javascript" src="nuts3.js"></script>
@@ -101,13 +101,14 @@
 		};
 		
 		info_nuts3.update = function (props) {
-			this._div.innerHTML = '<h4>Dutch Population Density</h4>' +  (props ?
-				'nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
-				: 'Hover over a nuts3 region');
+			this._div.innerHTML = '<h4>Dutch Regions</h4>' +  (props ?
+				(props.NUTS3 ? ('nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS3: ' + props.NUTS3) : 
+				(props.NUTS2 ? ('NUTS2: ' + props.NUTS2) : ('NUTS1: ' + props.NUTS1)))
+				: 'Hover over a region');
 		};
 		
 		info_drw.update = function (props) {
-			this._div.innerHTML = '<h4>Dutch highway</h4>' +  (props ?
+			this._div.innerHTML = '<h4>Dutch Highway</h4>' +  (props ?
 				'<b>' + props.ID + '</b><br />' + 'nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
 				: 'Hover over a road');
 		};		
@@ -250,13 +251,13 @@
 		}
 		
 		geojson_nuts1 = L.geoJson(nuts1, {
-			style: style_nuts1
-			//onEachFeature: onEachFeature_nuts1
+			style: style_nuts1,
+			onEachFeature: onEachFeature_nuts3
 		});
 		
 		geojson_nuts2 = L.geoJson(nuts2, {
-			style: style_nuts2
-			//onEachFeature: onEachFeature_nuts2
+			style: style_nuts2,
+			onEachFeature: onEachFeature_nuts3
 		});
 
 		geojson_nuts3 = L.geoJson(nuts3, {
@@ -277,21 +278,22 @@
 
 		
 		var overlays = {
-			"Names": names,
+			"City names and streets": names,
 			"Highways": geojson_drw,
 			"Province borders": geojson_nuts2_borders
 		};
 
 		var overlays2 = {
-			"nuts1": geojson_nuts1,
-			"nuts2": geojson_nuts2,
-			"nuts3": geojson_nuts3
+			"NUTS1": geojson_nuts1,
+			"NUTS2": geojson_nuts2,
+			"NUTS3": geojson_nuts3
 		}
 
 
 		L.control.layers(overlays2, overlays, {collapsed:false}).addTo(map);
 		//L.control.nuts(overlays2, {collapsed:false}).addTo(map);
-		
+		map.addLayer(geojson_nuts2_borders)
+		map.addLayer(geojson_nuts3)
 
 		
 		// WORKS on 0.8-dev version, but not map.addLayer:
@@ -310,7 +312,7 @@
 
 
 
-		map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
+		map.attributionControl.addAttribution('Prototype Traffic Index &copy; <a href="http://www.cbs.nl/">Statistics Netherlands</a>');
 
 
 
@@ -341,7 +343,7 @@
 
 		
 		// USE THIS FOR CITY NAMES?
-		L.marker([52, 5]).bindLabel('Look revealing label!').addTo(map);
+		//L.marker([52, 5]).bindLabel('Look revealing label!').addTo(map);
 		
 	</script>
 
