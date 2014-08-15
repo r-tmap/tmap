@@ -40,15 +40,19 @@
 			margin-right: 8px;
 			opacity: 0.7;
 		}
+
 	</style>
 </head>
 <body>
 	<div id="map"></div>
-	<script src="http://leafletjs.com/dist/leaflet.js"></script>
+	<!--<script src="http://leafletjs.com/dist/leaflet.js"></script>-->
+	<script src="leaflet.js"></script>
 
-	<script type="text/javascript" src="corop.js"></script>
-	<script type="text/javascript" src="prov.js"></script>
+	<script type="text/javascript" src="nuts3.js"></script>
+	<script type="text/javascript" src="nuts2.js"></script>
+	<script type="text/javascript" src="nuts1.js"></script>
 	<script type="text/javascript" src="drw_nuts.js"></script>
+	<script type="text/javascript" src="nuts_regions.js"></script>
 	<script type="text/javascript">
 
 
@@ -59,14 +63,17 @@
 			mbUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
 
 	    var land   = L.tileLayer(mbUrl, {id: 'mtennekes.j73fe40m', attribution: mbAttr}),
-		    grey  = L.tileLayer(mbUrl, {id: 'examples.map-20v6611k',   attribution: mbAttr}),
-			names  = L.tileLayer(mbUrl, {id: 'mtennekes.j73fih74',   attribution: mbAttr});
+		    grey  = L.tileLayer(mbUrl, {id: 'mtennekes.j816g1eh',   attribution: mbAttr}),
+			names  = L.tileLayer(mbUrl, {id: 'mtennekes.j73fih74',   attribution: mbAttr, pane: 'overlayPane'});
 
 
 
 		var map = L.map('map', {
 			center: [52, 5.3],
 			zoom: 7,
+			minZoom: 7,
+			maxZoom: 12,
+			maxBounds: [[50.2, 2.3], [54.2, 8.3]],
 			layers: [grey]
 		});
 
@@ -75,11 +82,11 @@
 			"Grayscale": grey
 		};
 
-		var info_corop = L.control();
+		var info_nuts3 = L.control();
 		var info_drw = L.control();
 
 		
-		info_corop.onAdd = function (map) {
+		info_nuts3.onAdd = function (map) {
 			this._div = L.DomUtil.create('div', 'info');
 			this.update();
 			return this._div;
@@ -92,19 +99,19 @@
 			return this._div;
 		};
 		
-		info_corop.update = function (props) {
+		info_nuts3.update = function (props) {
 			this._div.innerHTML = '<h4>Dutch Population Density</h4>' +  (props ?
-				'Corop: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
-				: 'Hover over a COROP region');
+				'nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
+				: 'Hover over a nuts3 region');
 		};
 		
 		info_drw.update = function (props) {
 			this._div.innerHTML = '<h4>Dutch highway</h4>' +  (props ?
-				'<b>' + props.ID + '</b><br />' + 'Corop: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
+				'<b>' + props.ID + '</b><br />' + 'nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
 				: 'Hover over a road');
 		};		
 		
-		info_corop.addTo(map);
+		info_nuts3.addTo(map);
 		info_drw.addTo(map);
 		
 
@@ -120,7 +127,7 @@
 			                  '#FFEDA0';
 		}
 
-		function style_corop(feature) {
+		function style_nuts1(feature) {
 			return {
 				weight: 1,
 				opacity: 0.5,
@@ -131,9 +138,31 @@
 			};
 		}
 
-		function style_prov(feature) {
+		function style_nuts2(feature) {
 			return {
-				weight: 3,
+				weight: 1,
+				opacity: 0.5,
+				color: 'black',
+				dashArray: '',
+				fillOpacity: 0.5,
+				fillColor: feature.properties.HCL_color
+			};
+		}
+
+		function style_nuts3(feature) {
+			return {
+				weight: 1,
+				opacity: 0.5,
+				color: 'black',
+				dashArray: '',
+				fillOpacity: 0.5,
+				fillColor: feature.properties.HCL_color
+			};
+		}
+
+		function style_nuts2_borders(feature) {
+			return {
+				weight: 2,
 				opacity: 1,
 				color: 'black',
 				dashArray: '',
@@ -154,7 +183,7 @@
 		}
 
 		
-		function highlightFeature_corop(e) {
+		function highlightFeature_nuts3(e) {
 			var layer = e.target;
 
 			layer.setStyle({
@@ -168,7 +197,7 @@
 			//	layer.bringToFront();
 			//}
 
-			info_corop.update(layer.feature.properties);
+			info_nuts3.update(layer.feature.properties);
 		}
 
 		function highlightFeature_drw(e) {
@@ -191,9 +220,9 @@
 		
 		
 
-		function resetHighlight_corop(e) {
-			geojson_corop.resetStyle(e.target);
-			info_corop.update();
+		function resetHighlight_nuts3(e) {
+			geojson_nuts3.resetStyle(e.target);
+			info_nuts3.update();
 		}
 		function resetHighlight_drw(e) {
 			geojson_drw.resetStyle(e.target);
@@ -204,10 +233,10 @@
 			map.fitBounds(e.target.getBounds());
 		}
 
-		function onEachFeature_corop(feature, layer) {
+		function onEachFeature_nuts3(feature, layer) {
 			layer.on({
-				mouseover: highlightFeature_corop,
-				mouseout: resetHighlight_corop,
+				mouseover: highlightFeature_nuts3,
+				mouseout: resetHighlight_nuts3,
 				click: zoomToFeature
 			});
 		}
@@ -219,14 +248,25 @@
 			});
 		}
 		
+		geojson_nuts1 = L.geoJson(nuts1, {
+			style: style_nuts1
+			//onEachFeature: onEachFeature_nuts1
+		});
 		
-		geojson_corop = L.geoJson(corop, {
-			style: style_corop,
-			onEachFeature: onEachFeature_corop
+		geojson_nuts2 = L.geoJson(nuts2, {
+			style: style_nuts2
+			//onEachFeature: onEachFeature_nuts2
 		});
 
-		geojson_prov = L.geoJson(prov, {
-			style: style_prov
+		geojson_nuts3 = L.geoJson(nuts3, {
+			style: style_nuts3,
+			onEachFeature: onEachFeature_nuts3,
+			name: 'nuts3 layer'
+		});
+
+		geojson_nuts2_borders = L.geoJson(nuts2, {
+			style: style_nuts2_borders,
+			name: 'nuts2 borders'
 		});
 
 		geojson_drw = L.geoJson(drw, {
@@ -236,18 +276,47 @@
 
 		
 		var overlays = {
-			"Province": geojson_prov,
-			"COROP": geojson_corop,
-			"Highways": geojson_drw,
 			"Names": names,
+			"Highways": geojson_drw,
+			"Province borders": geojson_nuts2_borders
 		};
 
+		var overlays2 = {
+			"nuts1": geojson_nuts1,
+			"nuts2": geojson_nuts2,
+			"nuts3": geojson_nuts3
+		}
 
-		L.control.layers(baseLayers, overlays).addTo(map);
+
+		L.control.layers(overlays2, overlays, {collapsed:false}).addTo(map);
+		//L.control.nuts(overlays2, {collapsed:false}).addTo(map);
 		
-		map.addLayer(geojson_prov);
-		map.addLayer(geojson_corop);
-		map.addLayer(geojson_drw);
+		//map.addLayer(names);
+		//map.addLayer(geojson_nuts1);
+		//map.addLayer("nuts3");
+		//map.addLayer(geojson_drw);
+
+		map.on('baselayerchange', onChangeNUTS);
+
+
+		//var layers = new Array();
+		//layers["Province borders"] = geojson_nuts2_borders;
+
+		function onChangeNUTS(e) {
+			console.log(e);
+			var layerName = e.options.name;
+			//var layer = layers["Province borders"]
+			if (layerName == 'nuts3 layer') {
+				console.log("ja");
+				//console.log(layer);
+				console.log(geojson_nuts2_borders);
+				//map.addLayer(geojson_nuts2_borders); // doesn't work
+				// map.addLayer(layer); // doesn't work
+				//layer.addTo(map); // doesn't work
+				map.addLayer(geojson_nuts2_borders);
+			}
+		}
+
 
 
 		map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
@@ -277,9 +346,23 @@
 
 		legend.addTo(map);
 		
-	
+
 		
 		
 	</script>
+
+
+<!-- <div class="info">
+<form>
+<input type="radio" name="browser" onclick="check(this.value)" value="Internet Explorer">Internet Explorer<br>
+<input type="radio" name="browser" onclick="check(this.value)" value="Firefox">Firefox<br>
+<input type="radio" name="browser" onclick="check(this.value)" value="Opera">Opera<br>
+<input type="radio" name="browser" onclick="check(this.value)" value="Google Chrome">Google Chrome<br>
+<input type="radio" name="browser" onclick="check(this.value)" value="Safari">Safari<br>
+<br>
+Your favorite browser is: <input type="text" id="answer" size="20">
+</form>
+</div> -->
+
 </body>
 </html>
