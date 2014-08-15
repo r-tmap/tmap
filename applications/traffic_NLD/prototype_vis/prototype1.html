@@ -45,8 +45,9 @@
 </head>
 <body>
 	<div id="map"></div>
-	<!--<script src="http://leafletjs.com/dist/leaflet.js"></script>-->
-	<script src="leaflet.js"></script>
+	<script src="http://leafletjs.com/dist/leaflet.js"></script>
+	<!--<script src="leaflet.js"></script>-->
+	<script type="text/javascript" src="leaflet.label.js"></script>
 
 	<script type="text/javascript" src="nuts3.js"></script>
 	<script type="text/javascript" src="nuts2.js"></script>
@@ -266,12 +267,12 @@
 
 		geojson_nuts2_borders = L.geoJson(nuts2, {
 			style: style_nuts2_borders,
-			name: 'nuts2 borders'
+			name: 'nuts2 borders',
 		});
 
 		geojson_drw = L.geoJson(drw, {
 			style: style_drw,
-			onEachFeature: onEachFeature_drw
+			onEachFeature: onEachFeature_drw,
 		});
 
 		
@@ -291,63 +292,56 @@
 		L.control.layers(overlays2, overlays, {collapsed:false}).addTo(map);
 		//L.control.nuts(overlays2, {collapsed:false}).addTo(map);
 		
-		//map.addLayer(names);
-		//map.addLayer(geojson_nuts1);
-		//map.addLayer("nuts3");
-		//map.addLayer(geojson_drw);
 
-		map.on('baselayerchange', onChangeNUTS);
-
-
-		//var layers = new Array();
-		//layers["Province borders"] = geojson_nuts2_borders;
-
-		function onChangeNUTS(e) {
-			console.log(e);
-			var layerName = e.options.name;
-			//var layer = layers["Province borders"]
-			if (layerName == 'nuts3 layer') {
-				console.log("ja");
-				//console.log(layer);
-				console.log(geojson_nuts2_borders);
-				//map.addLayer(geojson_nuts2_borders); // doesn't work
-				// map.addLayer(layer); // doesn't work
-				//layer.addTo(map); // doesn't work
-				map.addLayer(geojson_nuts2_borders);
-			}
-		}
+		
+		// WORKS on 0.8-dev version, but not map.addLayer:
+		// map.on('baselayerchange', onChangeNUTS);
+		// function onChangeNUTS(e) {
+		// 	console.log(e);
+		// 	var layerName = e.options.name;
+		// 	//var layer = layers["Province borders"]
+		// 	if (layerName == 'nuts3 layer') {
+		// 		console.log("ja");
+		// 		//console.log(layer);
+		// 		console.log(geojson_nuts2_borders);
+		// 		map.addLayer(geojson_nuts2_borders);
+		// 	}
+		// }
 
 
 
 		map.attributionControl.addAttribution('Population data &copy; <a href="http://census.gov/">US Census Bureau</a>');
 
 
-		var legend = L.control({position: 'bottomright'});
 
-		legend.onAdd = function (map) {
+		// EXAMPLE LEGEND
+		// var legend = L.control({position: 'bottomright'});
 
-			var div = L.DomUtil.create('div', 'info legend'),
-				grades = [0, 10, 20, 50, 100, 200, 500, 1000],
-				labels = [],
-				from, to;
+		// legend.onAdd = function (map) {
 
-			for (var i = 0; i < grades.length; i++) {
-				from = grades[i];
-				to = grades[i + 1];
+		// 	var div = L.DomUtil.create('div', 'info legend'),
+		// 		grades = [0, 10, 20, 50, 100, 200, 500, 1000],
+		// 		labels = [],
+		// 		from, to;
 
-				labels.push(
-					'<i style="background:' + getColor(from + 1) + '"></i> ' +
-					from + (to ? '&ndash;' + to : '+'));
-			}
+		// 	for (var i = 0; i < grades.length; i++) {
+		// 		from = grades[i];
+		// 		to = grades[i + 1];
 
-			div.innerHTML = labels.join('<br>');
-			return div;
-		};
+		// 		labels.push(
+		// 			'<i style="background:' + getColor(from + 1) + '"></i> ' +
+		// 			from + (to ? '&ndash;' + to : '+'));
+		// 	}
 
-		legend.addTo(map);
+		// 	div.innerHTML = labels.join('<br>');
+		// 	return div;
+		// };
+
+		// legend.addTo(map);
+
 		
-
-		
+		// USE THIS FOR CITY NAMES?
+		L.marker([52, 5]).bindLabel('Look revealing label!').addTo(map);
 		
 	</script>
 
