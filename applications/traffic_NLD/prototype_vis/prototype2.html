@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Leaflet Layers Control Example</title>
+	<meta charset="utf-8" />
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
+
+	<link rel="stylesheet" href="leaflet/leaflet.css" />
+
+	<style>
+		#map {
+			width: 500px;
+			height: 800px;
+			float: left;
+		}
+
+		#chart {
+			width: auto;
+			height: 800px;
+			float: left;
+		}
+		.info {
+			padding: 6px 8px;
+			font: 14px/16px Arial, Helvetica, sans-serif;
+			background: white;
+			background: rgba(255,255,255,0.8);
+			box-shadow: 0 0 15px rgba(0,0,0,0.2);
+			border-radius: 5px;
+		}
+		.info h4 {
+			margin: 0 0 5px;
+			color: #777;
+		}
+
+		.legend {
+			text-align: left;
+			line-height: 18px;
+			color: #555;
+		}
+		.legend i {
+			width: 18px;
+			height: 18px;
+			float: left;
+			margin-right: 8px;
+			opacity: 0.7;
+		}
+
+	</style>
+</head>
+<body>
+	<div id="map"></div>
+    <div id="chart"></div>
+
+	<!--<script src="http://leafletjs.com/dist/leaflet.js"></script>-->
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="leaflet/leaflet.js"></script>
+	<script type="text/javascript" src="leaflet.label.js"></script>
+
+	<script type="text/javascript" src="nuts3.js"></script>
+	<script type="text/javascript" src="nuts2.js"></script>
+	<script type="text/javascript" src="nuts1.js"></script>
+	<script type="text/javascript" src="drw_nuts.js"></script>
+	<script type="text/javascript" src="nuts_regions.js"></script>
+	<script type="text/javascript">
+
+
+
+	    var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			mbUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
+
+	    var land   = L.tileLayer(mbUrl, {id: 'mtennekes.j73fe40m', attribution: mbAttr}),
+		    grey  = L.tileLayer(mbUrl, {id: 'mtennekes.j816g1eh',   attribution: mbAttr}),
+			names  = L.tileLayer(mbUrl, {id: 'mtennekes.j73fih74',   attribution: mbAttr, pane: 'overlayPane'});
+
+
+
+		var map = L.map('map', {
+			center: [52, 5.3],
+			zoom: 7,
+			minZoom: 7,
+			maxZoom: 12,
+			maxBounds: [[50.2, 2.3], [54.2, 8.3]],
+			layers: [grey]
+		});
+
+		var baseLayers = {
+		    "Normal": land,
+			"Grayscale": grey
+		};
+
+		var info_nuts3 = L.control();
+		var info_drw = L.control();
+
+		
+		info_nuts3.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+		
+		
+		info_drw.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+		
+		info_nuts3.update = function (props) {
+			this._div.innerHTML = '<h4>Dutch Regions</h4>' +  (props ?
+				(props.NUTS3 ? ('nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS3: ' + props.NUTS3) : 
+				(props.NUTS2 ? ('NUTS2: ' + props.NUTS2) : ('NUTS1: ' + props.NUTS1)))
+				: 'Hover over a region');
+		};
+		
+		info_drw.update = function (props) {
+			this._div.innerHTML = '<h4>Dutch Highway</h4>' +  (props ?
+				'<b>' + props.ID + '</b><br />' + 'nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
+				: 'Hover over a road');
+		};		
+		
+		info_nuts3.addTo(map);
+		info_drw.addTo(map);
+		
+
+		// get color depending on population density value
+		function getColor(d) {
+			return d > 1000 ? '#800026' :
+			       d > 500  ? '#BD0026' :
+			       d > 200  ? '#E31A1C' :
+			       d > 100  ? '#FC4E2A' :
+			       d > 50   ? '#FD8D3C' :
+			       d > 20   ? '#FEB24C' :
+			       d > 10   ? '#FED976' :
+			                  '#FFEDA0';
+		}
+
+		function style_nuts1(feature) {
+			return {
+				weight: 1,
+				opacity: 0.5,
+				color: 'black',
+				dashArray: '',
+				fillOpacity: 0.5,
+				fillColor: feature.properties.HCL_color
+			};
+		}
+
+		function style_nuts2(feature) {
+			return {
+				weight: 1,
+				opacity: 0.5,
+				color: 'black',
+				dashArray: '',
+				fillOpacity: 0.5,
+				fillColor: feature.properties.HCL_color
+			};
+		}
+
+		function style_nuts3(feature) {
+			return {
+				weight: 1,
+				opacity: 0.5,
+				color: 'black',
+				dashArray: '',
+				fillOpacity: 0.5,
+				fillColor: feature.properties.HCL_color
+			};
+		}
+
+		function style_nuts2_borders(feature) {
+			return {
+				weight: 2,
+				opacity: 1,
+				color: 'black',
+				dashArray: '',
+				fillOpacity: 0,
+				fillColor: '#000000'
+			};
+		}
+		
+		function style_drw(feature) {
+			return {
+				weight: 3,
+				opacity: 1,
+				color: 'white',
+				dashArray: '',
+				fillOpacity: 0.7,
+				fillColor: '#888888'
+			};
+		}
+
+		
+		function highlightFeature_nuts3(e) {
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 3,
+				color: '#666',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			//if (!L.Browser.ie && !L.Browser.opera) {
+			//	layer.bringToFront();
+			//}
+
+			info_nuts3.update(layer.feature.properties);
+		}
+
+		function highlightFeature_drw(e) {
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 5,
+				color: '#666',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			//if (!L.Browser.ie && !L.Browser.opera) {
+			//	layer.bringToFront();
+			//}
+
+			info_drw.update(layer.feature.properties);
+		}
+
+		
+		
+
+		function resetHighlight_nuts3(e) {
+			geojson_nuts3.resetStyle(e.target);
+			info_nuts3.update();
+		}
+		function resetHighlight_drw(e) {
+			geojson_drw.resetStyle(e.target);
+			info_drw.update();
+		}
+
+		function zoomToFeature(e) {
+			map.fitBounds(e.target.getBounds());
+		}
+
+		function onEachFeature_nuts3(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature_nuts3,
+				mouseout: resetHighlight_nuts3,
+				click: zoomToFeature
+			});
+		}
+
+		function onEachFeature_drw(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature_drw,
+				mouseout: resetHighlight_drw,
+			});
+		}
+		
+		geojson_nuts1 = L.geoJson(nuts1, {
+			style: style_nuts1,
+			onEachFeature: onEachFeature_nuts3
+		});
+		
+		geojson_nuts2 = L.geoJson(nuts2, {
+			style: style_nuts2,
+			onEachFeature: onEachFeature_nuts3
+		});
+
+		geojson_nuts3 = L.geoJson(nuts3, {
+			style: style_nuts3,
+			onEachFeature: onEachFeature_nuts3,
+			name: 'nuts3 layer'
+		});
+
+		geojson_nuts2_borders = L.geoJson(nuts2, {
+			style: style_nuts2_borders,
+			name: 'nuts2 borders',
+		});
+
+		geojson_drw = L.geoJson(drw, {
+			style: style_drw,
+			onEachFeature: onEachFeature_drw,
+		});
+
+		
+		var overlays = {
+			"City names and streets": names,
+			"Highways": geojson_drw,
+			"Province borders": geojson_nuts2_borders
+		};
+
+		var overlays2 = {
+			"NUTS1": geojson_nuts1,
+			"NUTS2": geojson_nuts2,
+			"NUTS3": geojson_nuts3
+		}
+
+
+		L.control.layers(overlays2, overlays, {collapsed:false}).addTo(map);
+		//L.control.nuts(overlays2, {collapsed:false}).addTo(map);
+		map.addLayer(geojson_nuts2_borders)
+		map.addLayer(geojson_nuts3)
+
+		
+		// WORKS on 0.8-dev version, but not map.addLayer:
+		// map.on('baselayerchange', onChangeNUTS);
+		// function onChangeNUTS(e) {
+		// 	console.log(e);
+		// 	var layerName = e.options.name;
+		// 	//var layer = layers["Province borders"]
+		// 	if (layerName == 'nuts3 layer') {
+		// 		console.log("ja");
+		// 		//console.log(layer);
+		// 		console.log(geojson_nuts2_borders);
+		// 		map.addLayer(geojson_nuts2_borders);
+		// 	}
+		// }
+
+
+
+		map.attributionControl.addAttribution('Prototype Traffic Index &copy; <a href="http://www.cbs.nl/">Statistics Netherlands</a>');
+
+
+		
+	</script>
+
+
+	<script>
+function renderChart() {
+
+var data = d3.csv.parse(d3.select('#csv').text());
+var valueLabelWidth = 40; // space reserved for value labels (right)
+var barHeight = 20; // height of one bar
+var barLabelWidth = 100; // space reserved for bar labels
+var barLabelPadding = 5; // padding between bar and bar labels (left)
+var gridLabelHeight = 18; // space reserved for gridline labels
+var gridChartOffset = 3; // space between start of grid and first bar
+var maxBarWidth = 220; // width of the bar with the max value
+ 
+// accessor functions 
+var barLabel = function(d) { return d['Name']; };
+var barValue = function(d) { return parseFloat(d['Population (mill)']); };
+ 
+// scales
+var yScale = d3.scale.ordinal().domain(d3.range(0, data.length)).rangeBands([0, data.length * barHeight]);
+var y = function(d, i) { return yScale(i); };
+var yText = function(d, i) { return y(d, i) + yScale.rangeBand() / 2; };
+var x = d3.scale.linear().domain([0, d3.max(data, barValue)]).range([0, maxBarWidth]);
+// svg container element
+var chart = d3.select('#chart').append("svg")
+  .attr('width', maxBarWidth + barLabelWidth + valueLabelWidth)
+  .attr('height', gridLabelHeight + gridChartOffset + data.length * barHeight);
+// grid line labels
+var gridContainer = chart.append('g')
+  .attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')'); 
+gridContainer.selectAll("text").data(x.ticks(10)).enter().append("text")
+  .attr("x", x)
+  .attr("dy", -3)
+  .attr("text-anchor", "middle")
+  .text(String);
+// vertical grid lines
+gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line")
+  .attr("x1", x)
+  .attr("x2", x)
+  .attr("y1", 0)
+  .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
+  .style("stroke", "#ccc");
+// bar labels
+var labelsContainer = chart.append('g')
+  .attr('transform', 'translate(' + (barLabelWidth - barLabelPadding) + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
+labelsContainer.selectAll('text').data(data).enter().append('text')
+  .attr('y', yText)
+  .attr('stroke', 'none')
+  .attr('fill', 'black')
+  .attr("dy", ".35em") // vertical-align: middle
+  .attr('text-anchor', 'end')
+  .text(barLabel);
+// bars
+var barsContainer = chart.append('g')
+  .attr('transform', 'translate(' + barLabelWidth + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
+barsContainer.selectAll("rect").data(data).enter().append("rect")
+  .attr('y', y)
+  .attr('height', yScale.rangeBand())
+  .attr('width', function(d) { return x(barValue(d)); })
+  .attr('stroke', 'white')
+  .attr('fill', 'steelblue');
+// bar value labels
+barsContainer.selectAll("text").data(data).enter().append("text")
+  .attr("x", function(d) { return x(barValue(d)); })
+  .attr("y", yText)
+  .attr("dx", 3) // padding-left
+  .attr("dy", ".35em") // vertical-align: middle
+  .attr("text-anchor", "start") // text-align: right
+  .attr("fill", "black")
+  .attr("stroke", "none")
+  .text(function(d) { return d3.round(barValue(d), 2); });
+// start line
+barsContainer.append("line")
+  .attr("y1", -gridChartOffset)
+  .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
+  .style("stroke", "#000");
+
+}
+    </script>
+    <script id="csv" type="text/csv">Name,Population (mill),Average Life Expectancy,Area (1000 sq mi),Continent
+Canada,33.9,80.7,3854.085,America
+US,308.3,78.2,3784.191,America
+Germany,82.3,79.4,137.847,Europe
+Russia,141.9,65.5,6601.668,Europe
+Mexico,108.4,76.06,758.449,America
+Brazil,193.3,71.99,3287.612,America
+Spain,46.9,80.9,195.365,Europe
+France,65.4,80.98,244.339,Europe
+China,1339,73,3705.407,Asia
+Australia,22.4,81.2,2969.907,Australia
+UK,62,79.4,93.800,Europe
+Italy,60.3,80.5,116.346,Europe
+India,1184,64.7,1236.085,Asia
+Japan,127.4,82.6,145.920,Asia
+Iceland,0.3,81.8,40.000,Europe
+Portugal,10.6,78.1,35.560,Europe
+South Africa,50,49.3,471.445,Africa
+Egypt,78.9,71.3,387.000,Africa
+Sweden,9.3,80.9,170.410,Europe</script>
+    <script>renderChart();</script>
+
+
+</body>
+</html>
