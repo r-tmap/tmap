@@ -46,6 +46,14 @@
 			margin-right: 8px;
 			opacity: 0.7;
 		}
+		
+		.rect {
+			opacity: 0.6
+		}
+		
+		.rect.active {
+			opacity: 0.8
+		}
 
 	</style>
 </head>
@@ -92,11 +100,11 @@
 			"Grayscale": grey
 		};
 
-		var info_nuts3 = L.control();
+		var info_nuts = L.control();
 		var info_drw = L.control();
 
 		
-		info_nuts3.onAdd = function (map) {
+		info_nuts.onAdd = function (map) {
 			this._div = L.DomUtil.create('div', 'info');
 			this.update();
 			return this._div;
@@ -109,7 +117,7 @@
 			return this._div;
 		};
 		
-		info_nuts3.update = function (props) {
+		info_nuts.update = function (props) {
 			this._div.innerHTML = '<h4>Dutch Regions</h4>' +  (props ?
 				(props.NUTS3 ? ('nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS3: ' + props.NUTS3) : 
 				(props.NUTS2 ? ('NUTS2: ' + props.NUTS2) : ('NUTS1: ' + props.NUTS1)))
@@ -122,21 +130,10 @@
 				: 'Hover over a road');
 		};		
 		
-		info_nuts3.addTo(map);
+		info_nuts.addTo(map);
 		info_drw.addTo(map);
 		
 
-		// get color depending on population density value
-		function getColor(d) {
-			return d > 1000 ? '#800026' :
-			       d > 500  ? '#BD0026' :
-			       d > 200  ? '#E31A1C' :
-			       d > 100  ? '#FC4E2A' :
-			       d > 50   ? '#FD8D3C' :
-			       d > 20   ? '#FEB24C' :
-			       d > 10   ? '#FED976' :
-			                  '#FFEDA0';
-		}
 
 		function style_nuts1(feature) {
 			return {
@@ -194,7 +191,7 @@
 		}
 
 		
-		function highlightFeature_nuts3(e) {
+		function highlightFeature_nuts(e) {
 			var layer = e.target;
 
 			layer.setStyle({
@@ -204,11 +201,17 @@
 				fillOpacity: 0.7
 			});
 
+			d3.select("#" + layer.feature.properties.STATCODE)
+				.classed("active", true);
+			
 			//if (!L.Browser.ie && !L.Browser.opera) {
 			//	layer.bringToFront();
 			//}
 
-			info_nuts3.update(layer.feature.properties);
+			info_nuts.update(layer.feature.properties);
+			
+			
+			
 		}
 
 		function highlightFeature_drw(e) {
@@ -231,9 +234,15 @@
 		
 		
 
-		function resetHighlight_nuts3(e) {
-			geojson_nuts3.resetStyle(e.target);
-			info_nuts3.update();
+		function resetHighlight_nuts(e) {
+			var layer = e.target;
+
+			geojson_nuts3.resetStyle(layer);
+			
+			d3.select("#" + layer.feature.properties.STATCODE)
+				.classed("active", false);
+
+			info_nuts.update();
 		}
 		function resetHighlight_drw(e) {
 			geojson_drw.resetStyle(e.target);
@@ -244,10 +253,10 @@
 			map.fitBounds(e.target.getBounds());
 		}
 
-		function onEachFeature_nuts3(feature, layer) {
+		function onEachFeature_nuts(feature, layer) {
 			layer.on({
-				mouseover: highlightFeature_nuts3,
-				mouseout: resetHighlight_nuts3,
+				mouseover: highlightFeature_nuts,
+				mouseout: resetHighlight_nuts,
 				click: zoomToFeature
 			});
 		}
@@ -261,17 +270,17 @@
 		
 		geojson_nuts1 = L.geoJson(nuts1, {
 			style: style_nuts1,
-			onEachFeature: onEachFeature_nuts3
+			onEachFeature: onEachFeature_nuts
 		});
 		
 		geojson_nuts2 = L.geoJson(nuts2, {
 			style: style_nuts2,
-			onEachFeature: onEachFeature_nuts3
+			onEachFeature: onEachFeature_nuts
 		});
 
 		geojson_nuts3 = L.geoJson(nuts3, {
 			style: style_nuts3,
-			onEachFeature: onEachFeature_nuts3,
+			onEachFeature: onEachFeature_nuts,
 			name: 'nuts3 layer'
 		});
 
@@ -327,112 +336,104 @@
 		
 	</script>
 
-    <script id="csv" type="text/csv">Name,Population (mill),Average Life Expectancy,Area (1000 sq mi),Continent
-Canada,33.9,80.7,3854.085,America
-US,308.3,78.2,3784.191,America
-Germany,82.3,79.4,137.847,Europe
-Russia,141.9,65.5,6601.668,Europe
-Mexico,108.4,76.06,758.449,America
-Brazil,193.3,71.99,3287.612,America
-Spain,46.9,80.9,195.365,Europe
-France,65.4,80.98,244.339,Europe
-China,1339,73,3705.407,Asia
-Australia,22.4,81.2,2969.907,Australia
-UK,62,79.4,93.800,Europe
-Italy,60.3,80.5,116.346,Europe
-India,1184,64.7,1236.085,Asia
-Japan,127.4,82.6,145.920,Asia
-Iceland,0.3,81.8,40.000,Europe
-Portugal,10.6,78.1,35.560,Europe
-South Africa,50,49.3,471.445,Africa
-Egypt,78.9,71.3,387.000,Africa
-Sweden,9.3,80.9,170.410,Europe</script>
-
-
 	<script>
-//function renderChart() {
-var data = [];
+	// from: http://d3-generator.com/
+	
+	
+	var data = [];
 
-for (var obj in geojson_nuts3._layers) {
-	data.push(geojson_nuts3._layers[obj].feature.properties);
-}
+	for (var obj in geojson_nuts3._layers) {
+		data.push(geojson_nuts3._layers[obj].feature.properties);
+	}
 
 
-//var data = d3.csv.parse(d3.select('#csv').text());
-var valueLabelWidth = 40; // space reserved for value labels (right)
-var barHeight = 20; // height of one bar
-var barLabelWidth = 100; // space reserved for bar labels
-var barLabelPadding = 5; // padding between bar and bar labels (left)
-var gridLabelHeight = 18; // space reserved for gridline labels
-var gridChartOffset = 3; // space between start of grid and first bar
-var maxBarWidth = 220; // width of the bar with the max value
- 
-// accessor functions 
-var barLabel = function(d) { return d['CR_LABEL']; };
-var barValue = function(d) { return parseFloat(d['CR2013']); };
- 
-// scales
-var yScale = d3.scale.ordinal().domain(d3.range(0, data.length)).rangeBands([0, data.length * barHeight]);
-var y = function(d, i) { return yScale(i); };
-var yText = function(d, i) { return y(d, i) + yScale.rangeBand() / 2; };
-var x = d3.scale.linear().domain([0, d3.max(data, barValue)]).range([0, maxBarWidth]);
-// svg container element
-var chart = d3.select('#chart').append("svg")
-  .attr('width', maxBarWidth + barLabelWidth + valueLabelWidth)
-  .attr('height', gridLabelHeight + gridChartOffset + data.length * barHeight);
-// grid line labels
-var gridContainer = chart.append('g')
-  .attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')'); 
-gridContainer.selectAll("text").data(x.ticks(10)).enter().append("text")
-  .attr("x", x)
-  .attr("dy", -3)
-  .attr("text-anchor", "middle")
-  .text(String);
-// vertical grid lines
-gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line")
-  .attr("x1", x)
-  .attr("x2", x)
-  .attr("y1", 0)
-  .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
-  .style("stroke", "#ccc");
-// bar labels
-var labelsContainer = chart.append('g')
-  .attr('transform', 'translate(' + (barLabelWidth - barLabelPadding) + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
-labelsContainer.selectAll('text').data(data).enter().append('text')
-  .attr('y', yText)
-  .attr('stroke', 'none')
-  .attr('fill', 'black')
-  .attr("dy", ".35em") // vertical-align: middle
-  .attr('text-anchor', 'end')
-  .text(barLabel);
-// bars
-var barsContainer = chart.append('g')
-  .attr('transform', 'translate(' + barLabelWidth + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
-barsContainer.selectAll("rect").data(data).enter().append("rect")
-  .attr('y', y)
-  .attr('height', yScale.rangeBand())
-  .attr('width', function(d) { return x(barValue(d)); })
-  .attr('stroke', 'white')
-  .attr('fill', 'steelblue');
-// bar value labels
-barsContainer.selectAll("text").data(data).enter().append("text")
-  .attr("x", function(d) { return x(barValue(d)); })
-  .attr("y", yText)
-  .attr("dx", 3) // padding-left
-  .attr("dy", ".35em") // vertical-align: middle
-  .attr("text-anchor", "start") // text-align: right
-  .attr("fill", "black")
-  .attr("stroke", "none")
-  .text(function(d) { return d3.round(barValue(d), 2); });
-// start line
-barsContainer.append("line")
-  .attr("y1", -gridChartOffset)
-  .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
-  .style("stroke", "#000");
+	//var data = d3.csv.parse(d3.select('#csv').text());
+	var valueLabelWidth = 40; // space reserved for value labels (right)
+	var barHeight = 15; // height of one bar
+	var barLabelWidth = 200; // space reserved for bar labels
+	var barLabelPadding = 5; // padding between bar and bar labels (left)
+	var gridLabelHeight = 18; // space reserved for gridline labels
+	var gridChartOffset = 3; // space between start of grid and first bar
+	var maxBarWidth = 220; // width of the bar with the max value
+	 
+	// accessor functions 
+	var barLabel = function(d) { return d['CR_LABEL']; };
+	var barValue = function(d) { return parseFloat(d['CR2013']); };
+	var barColor = function(d) { return d['HCL_color']; };
+	var barID = function(d) { return d['STATCODE']; };
 
-//}
+	 
+	// scales
+	var yScale = d3.scale.ordinal().domain(d3.range(0, data.length)).rangeBands([0, data.length * barHeight]);
+	var y = function(d, i) { return yScale(i); };
+	var yText = function(d, i) { return y(d, i) + yScale.rangeBand() / 2; };
+	var x = d3.scale.linear().domain([0, d3.max(data, barValue)]).range([0, maxBarWidth]);
+	// svg container element
+	var chart = d3.select('#chart').append("svg")
+	  .attr('width', maxBarWidth + barLabelWidth + valueLabelWidth)
+	  .attr('height', gridLabelHeight + gridChartOffset + data.length * barHeight);
+	// grid line labels
+	var gridContainer = chart.append('g')
+	  .attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')'); 
+	gridContainer.selectAll("text").data(x.ticks(10)).enter().append("text")
+	  .attr("x", x)
+	  .attr("dy", -3)
+	  .attr("text-anchor", "middle")
+	  .text(String);
+	// vertical grid lines
+	gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line")
+	  .attr("x1", x)
+	  .attr("x2", x)
+	  .attr("y1", 0)
+	  .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
+	  .style("stroke", "#ccc");
+	// bar labels
+	var labelsContainer = chart.append('g')
+	  .attr('transform', 'translate(' + (barLabelWidth - barLabelPadding) + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
+	labelsContainer.selectAll('text').data(data).enter().append('text')
+	  .attr('y', yText)
+	  .attr('stroke', 'none')
+	  .attr('fill', 'black')
+	  .attr("dy", ".35em") // vertical-align: middle
+	  .attr('text-anchor', 'end')
+	  .text(barLabel);
+	// bars
+	var barsContainer = chart.append('g')
+	  .attr('transform', 'translate(' + barLabelWidth + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
+	barsContainer.selectAll("rect").data(data).enter().append("rect")
+	  .attr("class", "rect")
+	  .attr("id", function(d) { return barID(d); })
+	  .attr('y', y)
+	  .attr('height', yScale.rangeBand())
+	  .attr('width', function(d) { return x(barValue(d)); })
+	  .attr('stroke', 'white')
+	  .attr('fill', function(d) { return barColor(d); })
+.on("mouseover", function () {
+    d3.select(this).classed("active", true);
+	map._layers['59'].fire('mouseover');
+}) // classed("active",boolean) not working
+.on("mouseout", function () {
+    d3.select(this).classed("active", false);
+	map._layers['59'].fire('mouseout');
+});
+
+	  // bar value labels
+	barsContainer.selectAll("text").data(data).enter().append("text")
+	  .attr("x", function(d) { return x(barValue(d)); })
+	  .attr("y", yText)
+	  .attr("dx", 3) // padding-left
+	  .attr("dy", ".35em") // vertical-align: middle
+	  .attr("text-anchor", "start") // text-align: right
+	  .attr("fill", "black")
+	  .attr("stroke", "none")
+	  .text(function(d) { return d3.round(barValue(d), 2); });
+	// start line
+	barsContainer.append("line")
+	  .attr("y1", -gridChartOffset)
+	  .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
+	  .style("stroke", "#000");
+
    </script>
-    <!-- <script>renderChart();</script> -->
 
 
 </body>
