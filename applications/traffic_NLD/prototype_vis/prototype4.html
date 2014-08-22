@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Leaflet Layers Control Example</title>
+	<title>Traffix Index - Prototype 4</title>
 	<meta charset="utf-8" />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<!--<script src="http://d3js.org/d3.v3.min.js"></script>-->
 
-	<link rel="stylesheet" href="leaflet/leaflet.css" />
+	<link rel="stylesheet" href="leaflet_dev/leaflet.css" />
 
 	<style>
 		#map {
@@ -63,8 +63,8 @@
 
 	<!--<script src="http://leafletjs.com/dist/leaflet.js"></script>-->
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
-	<script src="leaflet/leaflet.js"></script>
-	<script type="text/javascript" src="leaflet.label.js"></script>
+	<script src="leaflet_dev/leaflet.js"></script>
+	<!-- <script type="text/javascript" src="leaflet.label.js"></script> -->
 
 	<script type="text/javascript" src="nuts3.js"></script>
 	<script type="text/javascript" src="nuts2.js"></script>
@@ -75,63 +75,8 @@
 
 
 
-	    var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			mbUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
-
-	    var land   = L.tileLayer(mbUrl, {id: 'mtennekes.j73fe40m', attribution: mbAttr}),
-		    grey  = L.tileLayer(mbUrl, {id: 'mtennekes.j816g1eh',   attribution: mbAttr}),
-			names  = L.tileLayer(mbUrl, {id: 'mtennekes.j73fih74',   attribution: mbAttr, pane: 'overlayPane'});
 
 
-
-		var map = L.map('map', {
-			center: [52, 5.3],
-			zoom: 7,
-			minZoom: 7,
-			maxZoom: 12,
-			maxBounds: [[50.2, 2.3], [54.2, 8.3]],
-			layers: [grey]
-		});
-
-		var baseLayers = {
-		    "Normal": land,
-			"Grayscale": grey
-		};
-
-		var info_nuts = L.control();
-		var info_drw = L.control();
-
-		
-		info_nuts.onAdd = function (map) {
-			this._div = L.DomUtil.create('div', 'info');
-			this.update();
-			return this._div;
-		};
-		
-		
-		info_drw.onAdd = function (map) {
-			this._div = L.DomUtil.create('div', 'info');
-			this.update();
-			return this._div;
-		};
-		
-		info_nuts.update = function (props) {
-			this._div.innerHTML = '<h4>Dutch Regions</h4>' +  (props ?
-				(props.NUTS3 ? ('nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS3: ' + props.NUTS3) : 
-				(props.NUTS2 ? ('NUTS2: ' + props.NUTS2) : ('NUTS1: ' + props.NUTS1)))
-				: 'Hover over a region');
-		};
-		
-		info_drw.update = function (props) {
-			this._div.innerHTML = '<h4>Dutch Highway</h4>' +  (props ?
-				'<b>' + props.ID + '</b><br />' + 'nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
-				: 'Hover over a road');
-		};		
-		
-		info_nuts.addTo(map);
-		info_drw.addTo(map);
 		
 
 
@@ -287,6 +232,7 @@
 		geojson_nuts2_borders = L.geoJson(nuts2, {
 			style: style_nuts2_borders,
 			name: 'nuts2 borders',
+			
 		});
 
 		geojson_drw = L.geoJson(drw, {
@@ -294,26 +240,148 @@
 			onEachFeature: onEachFeature_drw,
 		});
 
+//		geojson_nuts2_borders.setZIndex(1);
 		
+
+	    var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+			mbUrl = 'https://{s}.tiles.mapbox.com/v3/{id}/{z}/{x}/{y}.png';
+
+	    var land   = L.tileLayer(mbUrl, {id: 'mtennekes.j73fe40m', attribution: mbAttr}),
+		    grey  = L.tileLayer(mbUrl, {id: 'mtennekes.j816g1eh',   attribution: mbAttr}),
+			water  = L.tileLayer(mbUrl, {id: 'mtennekes.ja3ei0n7',   attribution: mbAttr}); //, pane: 'overlayPane'
+
+
 		var overlays = {
-			"City names and streets": names,
-			"Highways": geojson_drw,
-			"Province borders": geojson_nuts2_borders
+			"Province borders": geojson_nuts2_borders,
+			"Water": water,
+			"Highways": geojson_drw
 		};
 
-		var overlays2 = {
+		var baselays = {
 			"NUTS1": geojson_nuts1,
 			"NUTS2": geojson_nuts2,
 			"NUTS3": geojson_nuts3
 		}
 
 
-		L.control.layers(overlays2, overlays, {collapsed:false}).addTo(map);
+		var map = L.map('map', {
+			center: [52, 5.3],
+			zoom: 7,
+			minZoom: 7,
+			maxZoom: 12,
+			maxBounds: [[50.2, 2.3], [54.2, 8.3]]
+		});
+
+		L.control.layers(baselays, overlays, {collapsed:false, autoZIndex:true}).addTo(map);
 		//L.control.nuts(overlays2, {collapsed:false}).addTo(map);
-		map.addLayer(geojson_nuts2_borders)
+		//map.addLayer(geojson_nuts2_borders)
+		map.addLayer(water)
 		map.addLayer(geojson_nuts3)
 
+		var svg = d3.select(map.getPanes().overlayPane).append("svg"),
+			g = svg.append("g").attr("class", "leaflet-zoom-hide");	
+			
+		d3.json("placesNL.geojson", function(geoShape) {
 		
+			//  create a d3.geo.path to convert GeoJSON to SVG
+			var transform = d3.geo.transform({point: projectPoint}),
+					path = d3.geo.path().projection(transform);
+			
+			// create path elements for each of the features
+			d3_circles = g.selectAll("circle")
+				.data(geoShape.features)
+				.enter()
+				.append("path")
+				.filter(function(d) { return d.properties.size > 8 });
+				
+			d3_text = g.selectAll(".place.label")
+				.data(geoShape.features)
+				.enter()
+				.append("text")
+				.attr("class", "place-label")
+				.attr("dy", ".35em")
+				.attr("dx", ".75em")
+				.text(function(d) { return d.properties.name; })
+				.filter(function(d) { return d.properties.size > 8 });
+
+				
+			map.on("viewreset", reset);
+
+			reset();
+
+			// fit the SVG element to leaflet's map layer
+			function reset() {
+				bounds = path.bounds(geoShape);
+
+				var topLeft = bounds[0],
+					bottomRight = bounds[1];
+
+				svg .attr("width", bottomRight[0] - topLeft[0])
+					.attr("height", bottomRight[1] - topLeft[1])
+					.style("left", topLeft[0] + "px")
+					.style("top", topLeft[1] + "px");
+
+				g .attr("transform", "translate(" + -topLeft[0] + "," 
+												  + -topLeft[1] + ")");
+
+				// initialize the path data	
+				d3_circles.attr("d", path)
+					.style("fill-opacity", 0.7)
+					.attr('fill','black');
+					
+				d3_text.attr('x', function(d){ return path.centroid(d)[0];})
+				    .attr('y', function(d){ return path.centroid(d)[1];});
+
+			} 
+
+			// Use Leaflet to implement a D3 geometric transformation.
+			function projectPoint(x, y) {
+				var point = map.latLngToLayerPoint(new L.LatLng(y, x));
+				this.stream.point(point.x, point.y);
+			}
+
+		})
+		
+		
+		
+		
+		
+		
+		var info_nuts = L.control();
+		var info_drw = L.control();
+
+		
+		info_nuts.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+		
+		
+		info_drw.onAdd = function (map) {
+			this._div = L.DomUtil.create('div', 'info');
+			this.update();
+			return this._div;
+		};
+		
+		info_nuts.update = function (props) {
+			this._div.innerHTML = '<h4>Dutch Regions</h4>' +  (props ?
+				(props.NUTS3 ? ('nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS3: ' + props.NUTS3) : 
+				(props.NUTS2 ? ('NUTS2: ' + props.NUTS2) : ('NUTS1: ' + props.NUTS1)))
+				: 'Hover over a region');
+		};
+		
+		info_drw.update = function (props) {
+			this._div.innerHTML = '<h4>Dutch Highway</h4>' +  (props ?
+				'<b>' + props.ID + '</b><br />' + 'nuts3: ' + props.CR_LABEL  + '</b><br />' + 'NUTS: ' + props.NUTS3
+				: 'Hover over a road');
+		};		
+		
+		info_nuts.addTo(map);
+		info_drw.addTo(map);
+	
 		// WORKS on 0.8-dev version, but not map.addLayer:
 		// map.on('baselayerchange', onChangeNUTS);
 		// function onChangeNUTS(e) {

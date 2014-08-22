@@ -70,3 +70,41 @@ writeLines(input, "../applications/traffic_NLD/prototype_vis/drw_nuts.js")
 rm(input); gc()
 
 
+########### places
+shp <- read_shape("../shapes/bevolkingskern_2011.shp")
+kernNL <- shp[shp$BEV11TOT>=5000,]
+
+# tm_shape(NLD_prov) +
+# 	tm_fill("grey") +
+# 	tm_borders() +
+# 	tm_shape(kernNL) +
+# 	tm_fill("blue") +
+# 	tm_text("KERN_NAAM", fontcolor = "black", cex="BEV11TOT")
+
+placesNL <- kernNL@data
+
+
+placesNL$name <- as.character(placesNL$KERN_NAAM)
+placesNL$name <- sub("Groot - ", "", placesNL$name, fixed = TRUE)
+placesNL$name <- sub(" \\((.*?)\\)", "", placesNL$name)
+placesNL$name <- sub("/.*", "", placesNL$name)
+placesNL$name <- sub("-Kern", "", placesNL$name, fixed = TRUE)
+placesNL$size <- as.integer(substr(as.character(placesNL$BKGR_CODE), 5,6))
+
+placesNL <- placesNL[,c("name", "X_GBA", "Y_GBA", "size")]
+
+
+library(sp)
+placesNL <- SpatialPointsDataFrame(placesNL[, c("X_GBA", "Y_GBA")], data = placesNL, match.ID = FALSE)
+placesNL <- set_projection(placesNL, current.projection = "rd")
+
+tm_shape(NLD_prov) +
+	tm_fill("grey") +
+	tm_borders() +
+	tm_shape(placesNL) +
+	tm_text("name", fontcolor = "black")
+
+placesNL <- set_projection(placesNL, "longlat")
+
+library(rgdal)
+writeOGR(placesNL, '../applications/traffic_NLD/prototype_vis/placesNL.geojson','dataMap', driver='GeoJSON')
