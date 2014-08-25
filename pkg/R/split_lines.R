@@ -45,7 +45,7 @@ split_lines_equal <- function(shp, dist=1000, include.last=FALSE) {
 	sel <- !sapply(lines, is.null)
 	
 	lines <- lines[sel]
-	data <- shp@data[sel, ]
+	data <- shp@data[sel, , drop=FALSE]
 	
 	shp2 <- SpatialLinesDataFrame(SpatialLines(lines, proj4string=shp@proj4string), data=data, match.ID=FALSE)
 	

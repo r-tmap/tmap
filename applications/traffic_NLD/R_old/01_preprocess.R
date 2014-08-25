@@ -106,7 +106,7 @@ loops$sensor <- factor("Road sensor")
 
 
 ### example: Knooppunt Lunetten (A12/A27)
-png("../applications/traffic_NLD/plots/rijkswegen_met_loops.png", width=1600,height=800, res=300)
+png("../test/NDW_example/plots/rijkswegen_met_loops.png", width=1600,height=800, res=300)
 tm_shape(corop, xlim=c(136000, 139000), ylim=c(451000, 452500), relative=FALSE) +
 	tm_fill() +
 	tm_shape(rw) +
@@ -122,8 +122,9 @@ dev.off()
 
 
 
-rw <- rw[rw$BAANSUBSRT %in% c("HR", "OPR", "AFR"),]
-# rw <- rw[rw$BAANSUBSRT %in% c("HR", "PST"),]
+
+
+rw <- rw[rw$BAANSUBSRT %in% c("HR", "PST"),]
 
 rwL <- rw[rw$RPE_CODE=="L", ]
 rwR <- rw[rw$RPE_CODE=="R", ]

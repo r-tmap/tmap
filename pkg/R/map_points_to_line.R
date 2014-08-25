@@ -9,8 +9,6 @@ map_points_to_line <- function(shp.points, shp.lines, key.points=NULL, key.lines
 	co <- coordinates(shp.lines)
 	cp <- coordinates(shp.points)
 	
-	levs <- levels(shp.points[[key.points]])
-	
 	res3 <- lapply(1:length(shp.points), function(i) {
 		
 		coi <- cp[i,]
