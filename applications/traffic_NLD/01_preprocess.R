@@ -63,6 +63,13 @@ rw$roadname <- factor(loops.roadnames[match(rw$roadnumber, loops.roadnumbers)], 
 
 rw <- rw[!is.na(rw$roadname),]
 
+# create reference table
+roads <- data.frame(number=rw.roadnumbers[rw.roadnumbers %in% rw$roadnumber])
+roads$name <- rw$roadname[match(roads$number, rw$roadnumber)]
+
+write.csv2(roads, file="../applications/traffic_NLD/throughput/roads.csv", row.names=FALSE)
+
+
 # ## exploration
 # tapply(read_lengths(rw), list(rw$BAANSUBSRT), sum) 
 # 

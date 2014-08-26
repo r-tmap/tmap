@@ -11,12 +11,12 @@ source("../applications/traffic_NLD//00_misc_functions.R")
 
 ###### TEMP SELECTION
 
-road <- "A10"
+road <- c("A58", "A79")
 
 #rw <- rw[rw$roadname==road, ]
-rwL <- rwL[rwL$roadname==road, ]
-rwR <- rwR[rwR$roadname==road, ]
-loops <- loops[loops$roadname==road,]
+rwL <- rwL[rwL$roadname %in% road, ]
+rwR <- rwR[rwR$roadname %in% road, ]
+loops <- loops[loops$roadname %in% road,]
 
 plot(rwL)
 plot(rwR, add=TRUE)
@@ -40,15 +40,35 @@ drwR2 <- split_lines_equal(drwR, dist=dist)
 
 ## REVERT IF NECASSARY
 
+directions <- read.csv2("../applications/traffic_NLD/input/richtingen_rijkswegen.txt", stringsAsFactors=FALSE)
+roads <- read.csv2("../applications/traffic_NLD/throughput/roads.csv", stringsAsFactors=FALSE)
 
 
+lines <- drwL2
+lines <- drwR2
 
+drwL3 <- set_directions(drwL2, main_direction = FALSE, directions = directions, roads = roads)
+drwR3 <- set_directions(drwR2, main_direction = TRUE, directions = directions, roads = roads)
 
+str(coordinates(drwL3)[[1]])
 
-
-
-
-
+drwLco <- mapply(function(co, id) {
+	co <- lapply(co, function(co2) {
+		co2 <- as.data.frame(co2)
+		names(co2) <- c("x", "y")
+		co2$roadname <- id
+		co2$meter <- seq(0, by=dist, length.out=nrow(co2))
+		co2$mark <- ""
+		co2$mark[c(1, nrow(co2))] <- c("BEGIN", "EIND")
+		co2
+	})
+	if (length(co)>1) {
+		for (i in 2:length(co)) {
+			co[[i]]$meter <- co[[i]]$meter + co[[i-1]]$meter[nrow(co[[i-1]])]
+		}
+	}
+	co
+}, coordinates(drwL3), drwL3$ID)
 
 
 rwL_AFR <- rwL[rwL$BAANSUBSRT=="AFR", ]

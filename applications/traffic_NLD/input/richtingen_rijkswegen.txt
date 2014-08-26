@@ -1,13 +1,14 @@
-roadnumber; directionR
-1; O
-2; ZO
-3; Z
-4; Z
-5; NO
-6; NO
-7; NO
-8; NW
-9; N
-10; CW
-11; O
-12
+roadnumber;directionR
+1;O
+2;ZO
+3;Z
+4;Z
+5;NO
+6;NO
+7;NO
+8;NW
+9;N
+10;CW
+11;O
+58;W
+79;O

@@ -16,7 +16,7 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 	shps <- list(...)
 	
 	if (is.null(id)) {
-		lvls <- ""
+		lvls <- "1"
 		shps <- lapply(shps, function(shp) {
 			shp$IDs <- 1
 			shp
