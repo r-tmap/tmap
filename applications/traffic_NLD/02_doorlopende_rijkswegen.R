@@ -82,7 +82,9 @@ drwR4 <- write_point_info(oprR, drwR4, "OPRIT")
 write_info(drwL4, path="../applications/traffic_NLD/output")
 write_info(drwR4, path="../applications/traffic_NLD/output")
 
-
+pdf("../applications/traffic_NLD/plots/rijkswegen_met_info.pdf", width = 10, height=10) 
+plot_drw(drwL3, drwL4, scale=.1)
+dev.off()
 
 
 
