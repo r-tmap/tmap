@@ -41,104 +41,60 @@ drwR2 <- split_lines_equal(drwR, dist=dist)
 ## REVERT IF NECASSARY
 
 directions <- read.csv2("../applications/traffic_NLD/input/richtingen_rijkswegen.txt", stringsAsFactors=FALSE)
-roads <- read.csv2("../applications/traffic_NLD/throughput/roads.csv", stringsAsFactors=FALSE)
+#roads <- read.csv2("../applications/traffic_NLD/throughput/roads.csv", stringsAsFactors=FALSE)
 
 
-lines <- drwL2
-lines <- drwR2
-
-drwL3 <- set_directions(drwL2, main_direction = FALSE, directions = directions, roads = roads)
-drwR3 <- set_directions(drwR2, main_direction = TRUE, directions = directions, roads = roads)
-
-str(coordinates(drwL3)[[1]])
-
-drwLco <- mapply(function(co, id) {
-	co <- lapply(co, function(co2) {
-		co2 <- as.data.frame(co2)
-		names(co2) <- c("x", "y")
-		co2$roadname <- id
-		co2$meter <- seq(0, by=dist, length.out=nrow(co2))
-		co2$mark <- ""
-		co2$mark[c(1, nrow(co2))] <- c("BEGIN", "EIND")
-		co2
-	})
-	if (length(co)>1) {
-		for (i in 2:length(co)) {
-			co[[i]]$meter <- co[[i]]$meter + co[[i-1]]$meter[nrow(co[[i-1]])]
-		}
-	}
-	co
-}, coordinates(drwL3), drwL3$ID)
+drwL3 <- set_directions(drwL2, main_direction = FALSE, directions = directions)
+drwR3 <- set_directions(drwR2, main_direction = TRUE, directions = directions)
 
 
-rwL_AFR <- rwL[rwL$BAANSUBSRT=="AFR", ]
+drwL4 <- create_meter_list(drwL3, dist=10, direction="L")
+drwR4 <- create_meter_list(drwR3, dist=10, direction="R")
 
-rwL_AFR_co <- coordinates(rwL_AFR)[[1]]
 
-rwL_AFR_co <- lapply(rwL_AFR_co, SpatialPoints)
+loopsL <- search_points(loops, drwL3)
+loopsL <- lapply(loopsL, function(l) l[l$d<20, ]) ## todo: use loop meta data
 
-afr_L <- map_points_to_line(shp.points=rwL_AFR_co[[3]], shp.lines=drwL2)
+loopsR <- search_points(loops, drwR3)
+loopsR <- lapply(loopsR, function(l) l[l$d<20, ]) ## todo: use loop meta data
+
+drwL4 <- write_point_info(loopsL, drwL4, "LOOP")
+drwR4 <- write_point_info(loopsR, drwR4, "LOOP")
 
 
 
-tm_shape(drwL) +
-	tm_lines() +
-	tm_shape(rwL[rwL$BAANSUBSRT=="AFR", ]) +
-	tm_lines("blue")
-
-save(drw, drwL, drwR, file="../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
-
-### diagnostics
-pdf("../applications/traffic_NLD/output/doorlopende_rijkswegen.pdf", width=7, height=7)
-tm_shape(corop) +
-	tm_fill("gray65")+
-#	tm_borders("white") +
-tm_shape(drw) +
-	tm_lines() +
-tm_shape(rw) +
-	tm_lines(lwd=.05, col="purple") +
-tm_shape(loops) +
-	tm_bubbles(size=.001, col="black") +
-	tm_layout(scale=.2)
-dev.off()
-
-pdf("../applications/traffic_NLD/output/doorlopende_rijkswegenL.pdf", width=7, height=7)
-tm_shape(corop) +
-	tm_fill("gray65")+
-	#	tm_borders("white") +
-	tm_shape(drwL) +
-	tm_lines() +
-	tm_shape(rwL) +
-	tm_lines(lwd=.05, col="purple") +
-	tm_shape(loops) +
-	tm_bubbles(size=.001, col="black") +
-	tm_layout(scale=.2)
-dev.off()
-
-pdf("../applications/traffic_NLD/output/doorlopende_rijkswegenR.pdf", width=7, height=7)
-tm_shape(corop) +
-	tm_fill("gray65")+
-	#	tm_borders("white") +
-	tm_shape(drwR) +
-	tm_lines() +
-	tm_shape(rwR) +
-	tm_lines(lwd=.05, col="purple") +
-	tm_shape(loops) +
-	tm_bubbles(size=.001, col="black") +
-	tm_layout(scale=.2)
-dev.off()
-
-
-### output table length per doorlopende rijksweg
-drw_len <- data.frame(roadname=levels(drw$ID), length=NA,lengthL=NA,lengthR=NA, stringsAsFactors=FALSE)
+afrL <- search_POB(rwL[rwL$BAANSUBSRT=="AFR", ], drwL3) 
+afrR <- search_POB(rwR[rwR$BAANSUBSRT=="AFR", ], drwR3) 
 
 
 
-drw_len$length[as.integer(drw$ID)] <- get_lengths(drw)
-drw_len$lengthL[as.integer(drwL$ID)] <- get_lengths(drwL)
-drw_len$lengthR[as.integer(drwR$ID)] <- get_lengths(drwR)
-drw_len <- rbind(drw_len, data.frame(roadname="total", length=sum(drw_len$length, na.rm=TRUE),
-									 lengthL=sum(drw_len$lengthL, na.rm=TRUE), 
-									 lengthR=sum(drw_len$lengthR, na.rm=TRUE)))
+drwL4 <- write_point_info(afrL, drwL4, "AFRIT")
+drwR4 <- write_point_info(afrR, drwR4, "AFRIT")
 
-write.table(drw_len, file="../applications/traffic_NLD/output/lengtes_drw.csv", row.names=FALSE, sep=",")
+
+
+oprL <- search_POB(rwL[rwL$BAANSUBSRT=="OPR", ], drwL3) 
+oprR <- search_POB(rwR[rwR$BAANSUBSRT=="OPR", ], drwR3) 
+
+drwL4 <- write_point_info(oprL, drwL4, "OPRIT")
+drwR4 <- write_point_info(oprR, drwR4, "OPRIT")
+
+write_info(drwL4, path="../applications/traffic_NLD/output")
+write_info(drwR4, path="../applications/traffic_NLD/output")
+
+
+
+
+
+plot_drw <- function(drw, info, scale=1) {
+	info <- lapply(info, function(i)i[i$mark!="",])
+	info <- do.call("rbind", info)
+	points <- SpatialPointsDataFrame(coords = info[,1:2], data=info, proj4string = CRS(get_projection(drw)))
+	tm_shape(drw) +
+		tm_lines(col="ID") +
+	tm_shape(points) +
+		tm_bubbles(col= "mark") +
+		tm_text(text = "meter") +
+	tm_layout(scale = scale)
+}
+

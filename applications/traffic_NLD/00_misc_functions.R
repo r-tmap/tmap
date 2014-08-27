@@ -2,6 +2,10 @@ get_lengths <- function(shp, digits=3) {
 	round(SpatialLinesLengths(shp, longlat=FALSE)/1000, digits=digits)
 }
 
+round_km <- function(x, digits=3, multiply=1e-3) {
+	round(x*multiply, digits=digits)
+}
+
 # get angle from the coordinates of a line (only considers endpoints)
 get_direction_angle <- function(co) {
 	p1 <- co[1,]
@@ -34,13 +38,13 @@ angle_diff <- function(a1, a2) {
 
 
 # 
-set_directions <- function(lines, main_direction=TRUE, directions=directions, roads=roads) {
+set_directions <- function(lines, main_direction=TRUE, directions=directions) {
 	co <- coordinates(lines)
 	
-	rns <- roads$number[match(lines$ID, roads$name)]
+	rns <- lines$ID
 	
 	co2 <- mapply(function(p, rn) {
-		a_rw <- get_NOZW_angle(directions$directionR[directions$roadnumber==rn])
+		a_rw <- get_NOZW_angle(directions$directionR[directions$roadname==rn])
 		if (!main_direction) a_rw <- a_rw + 180
 		
 		## set direction per polyline segment
@@ -85,3 +89,116 @@ set_directions <- function(lines, main_direction=TRUE, directions=directions, ro
 	shp2 <- SpatialLinesDataFrame(shp, data=lines@data, match.ID=FALSE)
 	shp2
 }
+
+
+create_meter_list <- function(lines, dist, direction) {
+	list1 <- mapply(function(co, id, dr) {
+		co <- lapply(co, function(co2) {
+			co2 <- as.data.frame(co2)
+			names(co2) <- c("x", "y")
+			co2$roadname <- id
+			co2$direction <- dr
+			co2$meter <- seq(0, by=dist, length.out=nrow(co2))
+			co2$mark <- ""
+			co2$mark[c(1, nrow(co2))] <- c("BEGIN", "EIND")
+			co2
+		})
+		if (length(co)>1) {
+			for (i in 2:length(co)) {
+				co[[i]]$meter <- co[[i]]$meter + co[[i-1]]$meter[nrow(co[[i-1]])]
+			}
+		}
+		co
+	}, coordinates(lines), lines$ID, direction)
+	
+	list2 <- lapply(list1, function(d) {
+		do.call("rbind", d)
+	})
+	names(list2) <- as.character(lines$ID)
+	list2
+}
+
+
+write_point_info <- function(afr, drw, info) {
+	res <- mapply(function(a, d) {
+		for (i in 1:nrow(a)) {
+			id <- which(a$x[i]==d$x & a$y[i]==d$y)
+			stopifnot(length(id)>0)
+			d$mark[id] <- writeMark(d$mark[id], info)
+		}
+		d
+	}, afr, drw, SIMPLIFY=FALSE)
+}
+
+
+writeMark <- function(current, nw) if (current=="") nw else paste0(current, ", ", nw)
+
+
+search_POB <- function(lines, drw) {
+	res <- lapply(drw$ID, function(id) {
+		lines_sel <- lines[lines$roadname==id, ]
+		drw_sel <- drw[drw$ID==id,]
+		
+		linesList <- list()
+		for (i in 1:length(lines_sel)) {
+			lines_sel_co <- coordinates(lines_sel[i,])[[1]]
+			lines_sel_shp <- lapply(lines_sel_co, SpatialPoints)
+			# loop through linesitten
+			lines_L <- lapply(lines_sel_shp, function(a)map_points_to_line(shp.points=a, shp.lines=drw_sel))
+			lines_L <- lapply(lines_L, function(a) {
+				d_first <- mean(a$d[1:2])
+				d_last <- mean(a$d[(nrow(a)-1):nrow(a)])
+				id <- ifelse(d_first < d_last, 1, nrow(a))
+				a[id,]
+			})
+			linesList[[i]] <- do.call("rbind", lines_L)
+		}
+		linesList <- do.call("rbind", linesList)
+		linesList$x <- 0
+		linesList$y <- 0
+		co <- coordinates(drw_sel)[[1]]
+		for (i in 1:nrow(linesList)) {
+			linesList$x[i] <- co[[linesList$id2[i]]][linesList$id3[i], 1]
+			linesList$y[i] <- co[[linesList$id2[i]]][linesList$id3[i], 2]
+		}
+		linesList
+	})
+	names(res) <- drw$ID
+	res
+}
+
+
+search_points <- function(pnts, drw) {
+	res <- lapply(drw$ID, function(id) {
+		pnts_sel <- pnts[pnts$roadname==id, ]
+		drw_sel <- drw[drw$ID==id,]
+		
+		pntsList <- map_points_to_line(shp.points=pnts_sel, shp.lines=drw_sel)
+		
+		pntsList$x <- 0
+		pntsList$y <- 0
+		co <- coordinates(drw_sel)[[1]]
+		for (i in 1:nrow(pntsList)) {
+			pntsList$x[i] <- co[[pntsList$id2[i]]][pntsList$id3[i], 1]
+			pntsList$y[i] <- co[[pntsList$id2[i]]][pntsList$id3[i], 2]
+		}
+		pntsList
+	})
+	names(res) <- drw$ID
+	res	
+}
+
+write_info <- function(drw, compact = TRUE, path) {
+	for (i in 1:length(drw)) {
+		d <- drw[[i]]
+		if (compact) d <- d[d$mark!="", ]
+		d$x <- sprintf("%.3f",d$x)
+		d$y <- sprintf("%.3f",d$y)
+		d$meter <- sprintf("%.3f",round_km(d$meter))
+		direction <- d$direction[1]
+		filename <- file.path(path, paste0("info_", names(drw)[i], "_", direction, ".csv"))
+		write.table(d, file=filename, sep="\t", row.names=FALSE, quote=FALSE)
+	}
+	invisible()
+}
+
