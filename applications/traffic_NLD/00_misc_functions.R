@@ -188,10 +188,23 @@ search_points <- function(pnts, drw) {
 	res	
 }
 
+compact_info <- function(info, edit=FALSE) {
+	info <- info[info$mark!="", ]
+	start <- substr(info$mark, 1, 4)
+	lengths <- nchar(info$mark)
+	if (edit) info$mark <- ifelse(lengths>6,
+					ifelse(start=="LOOP", "Meerdere loops", "Meerdere overig"), info$mark)
+	info$mark <- factor(info$mark, levels=c("BEGIN", "EIND", "OPRIT", "AFRIT", "LOOP", "Meerdere loops", "Meerdere overig"))
+	info
+}
+
+
+
+
 write_info <- function(drw, compact = TRUE, path) {
 	for (i in 1:length(drw)) {
 		d <- drw[[i]]
-		if (compact) d <- d[d$mark!="", ]
+		if (compact) d <- compact_info(d)
 		d$x <- sprintf("%.3f",d$x)
 		d$y <- sprintf("%.3f",d$y)
 		d$meter <- sprintf("%.3f",round_km(d$meter))
@@ -202,3 +215,52 @@ write_info <- function(drw, compact = TRUE, path) {
 	invisible()
 }
 
+
+plot_per_rw <- function(drw, info, scale=.1, path) {
+	for (rn in drw$ID) {
+		drw_sel <- drw[drw$ID==rn,]
+		info_sel <- compact_info(info[[rn]], edit=TRUE)
+		
+		
+		drive <- info_sel$direction[1]
+		
+		points <- SpatialPointsDataFrame(coords = info_sel[,1:2], data=info_sel, proj4string = CRS(get_projection(drw)))
+		basen <- paste0(rn, "_", drive)
+		filename <- file.path(path, paste0(basen, ".pdf"))
+		
+		b <- drw_sel@bbox
+		dx <- b[1,2] - b[1,1]
+		dy <- b[2,2] - b[2,1]
+		
+		if (dx>dy) {
+			width <- 10
+			height <- min(ceiling(10 * dy / dx) + 1, 10)
+		} else {
+			height <- 10
+			width <- min(ceiling(10 * dx / dy) + 1, 10)
+		}
+
+		
+		
+		pdf(filename, width=width, height=height)
+		print(tm_shape(drw_sel) +
+			tm_lines(col="black") +
+			tm_shape(points) +
+			tm_bubbles(col= "mark", palette = "Paired") +
+			tm_shape(points[points$mark!="LOOP", ]) +
+			tm_text(text = "meter") +
+			tm_layout(basen, scale = scale))
+		dev.off()
+	}
+}
+
+plot_google <- function(info, rn) {
+	require(RColorBrewer)
+	require(plotKML)
+	info_sel <- compact_info(info[[rn]], edit=TRUE)
+	points <- SpatialPointsDataFrame(coords = info_sel[,1:2], data=info_sel, proj4string = CRS(tmap:::get_proj4_code("rd")))
+	points <- set_projection(points, "longlat")
+	
+	plotKML(points["mark"])
+	
+}

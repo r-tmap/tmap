@@ -11,15 +11,13 @@ source("../applications/traffic_NLD//00_misc_functions.R")
 
 ###### TEMP SELECTION
 
-road <- c("A58", "A79")
+road <- c("A2", "A58", "A79")
 
 #rw <- rw[rw$roadname==road, ]
 rwL <- rwL[rwL$roadname %in% road, ]
 rwR <- rwR[rwR$roadname %in% road, ]
 loops <- loops[loops$roadname %in% road,]
 
-plot(rwL)
-plot(rwR, add=TRUE)
 
 ## CREATE CONTINUOUS POLYLINES
 
@@ -86,17 +84,15 @@ pdf("../applications/traffic_NLD/plots/rijkswegen_met_info.pdf", width = 10, hei
 plot_drw(drwL3, drwL4, scale=.1)
 dev.off()
 
+drw <- drwL3
+info <- drwL4
+
+plot_per_rw(drwL3, drwL4, path="../applications/traffic_NLD/plots")
+plot_per_rw(drwR3, drwR4, path="../applications/traffic_NLD/plots")
+
+plot_google(drwL4, "A58")
 
 
-plot_drw <- function(drw, info, scale=1) {
-	info <- lapply(info, function(i)i[i$mark!="",])
-	info <- do.call("rbind", info)
-	points <- SpatialPointsDataFrame(coords = info[,1:2], data=info, proj4string = CRS(get_projection(drw)))
-	tm_shape(drw) +
-		tm_lines(col="ID") +
-	tm_shape(points) +
-		tm_bubbles(col= "mark") +
-		tm_text(text = "meter") +
-	tm_layout(scale = scale)
-}
+info <- drwL4
+rn <- "A79"
 
