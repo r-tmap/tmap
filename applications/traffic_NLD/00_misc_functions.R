@@ -190,11 +190,13 @@ search_points <- function(pnts, drw) {
 
 compact_info <- function(info, edit=FALSE) {
 	info <- info[info$mark!="", ]
-	start <- substr(info$mark, 1, 4)
+	start <- substr(info$mark, 1, 3)
 	lengths <- nchar(info$mark)
-	if (edit) info$mark <- ifelse(lengths>6,
-					ifelse(start=="LOOP", "Meerdere loops", "Meerdere overig"), info$mark)
-	info$mark <- factor(info$mark, levels=c("BEGIN", "EIND", "OPRIT", "AFRIT", "LOOP", "Meerdere loops", "Meerdere overig"))
+	if (edit) {
+		info$mark <- ifelse(lengths>6,
+					ifelse(start=="LUS", "Meerdere lussen", "Meerdere punten"), info$mark)
+		info$mark <- factor(info$mark, levels=c("BEGIN", "EIND", "OPRIT", "AFRIT", "LUS", "Meerdere lussen", "Meerdere punten"))
+	} 
 	info
 }
 
@@ -254,13 +256,20 @@ plot_per_rw <- function(drw, info, scale=.1, path) {
 	}
 }
 
-plot_google <- function(info, rn) {
+plot_google <- function(drw, info, rn) {
 	require(RColorBrewer)
 	require(plotKML)
+	
 	info_sel <- compact_info(info[[rn]], edit=TRUE)
+	direction <- info_sel$direction[1]
 	points <- SpatialPointsDataFrame(coords = info_sel[,1:2], data=info_sel, proj4string = CRS(tmap:::get_proj4_code("rd")))
 	points <- set_projection(points, "longlat")
 	
-	plotKML(points["mark"])
+	baseNamePoints <- paste0(rn, "_", direction, "_points")
+	baseNameLines <- paste0(rn, "_", direction, "_route")
+	plotKML(points["mark"], folder.name=baseNamePoints, file.name=paste0("../applications/traffic_NLD/kml/", baseNamePoints, ".kml"))
+	
+	drw_sel <- set_projection(drw[drw$ID==rn,], "longlat")
+	plotKML(drw_sel["ID"], colour="steelblue" , width=6, folder.name=baseNameLines, file.name=paste0("../applications/traffic_NLD/kml/", baseNameLines, ".kml"))
 	
 }

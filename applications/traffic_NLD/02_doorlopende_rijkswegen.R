@@ -56,8 +56,8 @@ loopsL <- lapply(loopsL, function(l) l[l$d<20, ]) ## todo: use loop meta data
 loopsR <- search_points(loops, drwR3)
 loopsR <- lapply(loopsR, function(l) l[l$d<20, ]) ## todo: use loop meta data
 
-drwL4 <- write_point_info(loopsL, drwL4, "LOOP")
-drwR4 <- write_point_info(loopsR, drwR4, "LOOP")
+drwL4 <- write_point_info(loopsL, drwL4, "LUS")
+drwR4 <- write_point_info(loopsR, drwR4, "LUS")
 
 
 
@@ -90,7 +90,8 @@ info <- drwL4
 plot_per_rw(drwL3, drwL4, path="../applications/traffic_NLD/plots")
 plot_per_rw(drwR3, drwR4, path="../applications/traffic_NLD/plots")
 
-plot_google(drwL4, "A58")
+plot_google(drwL3, drwL4, "A79")
+plot_google(drwR3, drwR4, "A79")
 
 
 info <- drwL4
