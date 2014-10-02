@@ -4,71 +4,81 @@ library(sp)
 library(rgeos)
 library(maptools)
 library(rgdal)
+library(treemap)
 
 ### load preprocessed data
-load("../applications/traffic_NLD/throughput/double_roads.rda")
-load("../applications/traffic_NLD//throughput/doorlopende_rijkswegen.rda")
+load("../applications/traffic_NLD/throughput/viz_roads.rda")
 load("../applications/traffic_NLD/throughput/corop.rda")
 source("../applications/traffic_NLD/00_misc_functions.R")
 
-qtm(corop)
-
-library(treemap)
-str(corop@data)
-
-cols <- treepalette(corop@data, index = c("NUTS1", "NUTS2", "NUTS3"), palette.HCL.options = list(hue_fraction=.8, hue_perm=TRUE, hue_rev=TRUE, hue_start=90))
-
-corop <- append_data(corop, cols[!is.na(cols$NUTS3),c("NUTS1", "NUTS2", "NUTS3", "HCL.color")], key.data = "NUTS3", key.shp = "NUTS3")
-names(corop) <- gsub(".", "_", names(corop), fixed = TRUE)
-
-prov <- unionSpatialPolygons(corop, corop$NUTS2)
-prov <- append_data(prov, data=data.frame(NUTS2=get_IDs(prov)))
-prov$HCL_color <- corop$HCL_color[match(prov$NUTS2, corop$NUTS2)]
-
-land <- unionSpatialPolygons(corop, corop$NUTS1)
-land <- append_data(land, data=data.frame(NUTS1=get_IDs(land)))
-land$HCL_color <- corop$HCL_color[match(land$NUTS1, corop$NUTS1)]
 
 
+######################################################################
+########################## NUTS regions ##############################
+######################################################################
+nuts3 <- corop
 
-tm_shape(corop) +
+cols <- treepalette(nuts3@data, index = c("NUTS1", "NUTS2", "NUTS3"), palette.HCL.options = list(hue_fraction=.8, hue_perm=TRUE, hue_rev=TRUE, hue_start=90))
+
+nuts3 <- append_data(nuts3, cols[!is.na(cols$NUTS3),c("NUTS1", "NUTS2", "NUTS3", "HCL.color")], key.data = "NUTS3", key.shp = "NUTS3")
+names(nuts3) <- gsub(".", "_", names(nuts3), fixed = TRUE)
+
+nuts2 <- unionSpatialPolygons(nuts3, nuts3$NUTS2)
+nuts2 <- append_data(nuts2, data=data.frame(NUTS2=get_IDs(nuts2)))
+nuts2$HCL_color <- nuts3$HCL_color[match(nuts2$NUTS2, nuts3$NUTS2)]
+
+nuts3$x <- rnorm(length(nuts3), mean = 100, sd=10)
+
+nuts1 <- unionSpatialPolygons(nuts3, nuts3$NUTS1)
+nuts1 <- append_data(nuts1, data=data.frame(NUTS1=get_IDs(nuts1)))
+nuts1$HCL_color <- nuts3$HCL_color[match(nuts1$NUTS1, nuts3$NUTS1)]
+
+tm_shape(nuts3) +
 	tm_fill("HCL_color") + 
 	tm_borders() +
-	tm_shape(prov) +
+	tm_shape(nuts2) +
 	tm_borders(lwd=2)
 
-## create geojson objects
-corop <- set_projection(corop, "longlat")
-prov <- set_projection(prov, "longlat")
-land <- set_projection(land, "longlat")
-drw_nuts <- set_projection(drw_nuts, "longlat")
+nuts3 <- set_projection(nuts3, "longlat")
+nuts2 <- set_projection(nuts2, "longlat")
+nuts1 <- set_projection(nuts1, "longlat")
 
-writeOGR(corop, '../applications/traffic_NLD/prototype_vis/nuts3.geojson','dataMap', driver='GeoJSON')
-writeOGR(prov, '../applications/traffic_NLD/prototype_vis/nuts2.geojson','dataMap', driver='GeoJSON')
-writeOGR(land, '../applications/traffic_NLD/prototype_vis/nuts1.geojson','dataMap', driver='GeoJSON')
-writeOGR(drw_nuts, '../applications/traffic_NLD/prototype_vis/drw_nuts.geojson','dataMap', driver='GeoJSON')
+######################################################################
+########################## roads #####################################
+######################################################################
 
-## rewrite as js files
-input<-readLines("../applications/traffic_NLD/prototype_vis/nuts3.geojson") 
-input[1] <- paste("var nuts3 =", input[1])
-writeLines(input, "../applications/traffic_NLD/prototype_vis/nuts3.js") 
+roads <- drw_viz
+roadsL <- drw_vizL
+roadsR <- drw_vizR
 
-input<-readLines("../applications/traffic_NLD/prototype_vis/nuts2.geojson") 
-input[1] <- paste("var nuts2 =", input[1])
-writeLines(input, "../applications/traffic_NLD/prototype_vis/nuts2.js") 
-
-input<-readLines("../applications/traffic_NLD/prototype_vis/nuts1.geojson") 
-input[1] <- paste("var nuts1 =", input[1])
-writeLines(input, "../applications/traffic_NLD/prototype_vis/nuts1.js") 
-
-input<-readLines("../applications/traffic_NLD/prototype_vis/drw_nuts.geojson") 
-input[1] <- paste("var drw =", input[1])
-writeLines(input, "../applications/traffic_NLD/prototype_vis/drw_nuts.js") 
-
-rm(input); gc()
+roads <- set_projection(roads, "longlat")
+roadsL <- set_projection(drw_vizL, "longlat")
+roadsR <- set_projection(drw_vizR, "longlat")
 
 
-########### places
+#### generate random data
+set.seed(20140703)
+
+m <- runif(length(roads), 0, 100)
+mdiff <- rnorm(length(roads), 3, 15)
+m[m+abs(mdiff) > 100] <- 100 - abs(mdiff[m+abs(mdiff) > 100])
+m[m-abs(mdiff) < 0] <- abs(mdiff[m-abs(mdiff) < 0])
+
+mR <- m + mdiff
+mL <- m - mdiff
+
+roads$x <- m
+roadsL$x <- mL
+roadsR$x <- mR
+
+
+library(RColorBrewer)
+brewer.pal(7, name = "YlOrRd")[3:7]
+
+######################################################################
+########################## places in NL ##############################
+######################################################################
+
 shp <- read_shape("../shapes/bevolkingskern_2011.shp")
 kernNL <- shp[shp$BEV11TOT>=5000,]
 
@@ -91,12 +101,10 @@ placesNL$size <- as.integer(substr(as.character(placesNL$BKGR_CODE), 5,6))
 
 placesNL <- placesNL[,c("name", "X_GBA", "Y_GBA", "size")]
 
-
-library(sp)
 placesNL <- SpatialPointsDataFrame(placesNL[, c("X_GBA", "Y_GBA")], data = placesNL, match.ID = FALSE)
 placesNL <- set_projection(placesNL, current.projection = "rd")
 
-tm_shape(NLD_prov) +
+tm_shape(nuts2) +
 	tm_fill("grey") +
 	tm_borders() +
 	tm_shape(placesNL) +
@@ -104,5 +112,39 @@ tm_shape(NLD_prov) +
 
 placesNL <- set_projection(placesNL, "longlat")
 
-library(rgdal)
-writeOGR(placesNL, '../applications/traffic_NLD/prototype_vis/placesNL.geojson','dataMap', driver='GeoJSON')
+######################################################################
+########################## Europe #### ###############################
+######################################################################
+#download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_0_countries_lakes.zip", "../shapes/ne_10m_admin_0_countries_lakes.zip")
+#unzip("../shapes/ne_10m_admin_0_countries_lakes.zip", exdir="../shapes")
+world10 <- readOGR("../shapes", "ne_10m_admin_0_countries_lakes")
+
+
+
+eu <- world10[world10$ADM0_A3 %in% c("NLD", "BEL", "FRA", "DEU", "LUX"),]
+qtm(eu)
+
+
+eu <- set_projection(eu, "longlat")
+
+######################################################################
+########################## write to geojson ##########################
+######################################################################
+
+shps <- c("nuts1", "nuts2", "nuts3", "roads", "roadsL", "roadsR", "placesNL", "eu")
+
+lapply(shps, function(s){
+	filename <- "../applications/traffic_NLD/prototype_vis/.geojson"
+	filename2 <- paste0("../applications/traffic_NLD/prototype_vis/", s, ".js", sep="")
+	unlink(filename)
+	unlink(filename2)
+
+	shp <- get(s, envir = .GlobalEnv)
+	writeOGR(shp, filename, 'dataMap', driver='GeoJSON')
+	
+	input <- readLines(filename) 
+	input[1] <- paste0("var ", s, " = ", input[1])
+	writeLines(input, filename2) 
+	invisible()
+})
+

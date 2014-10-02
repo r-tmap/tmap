@@ -49,6 +49,5 @@ tm_shape(corop) +
 	tm_layout(scale=2)
 dev.off()
 
-
-save(drw_vizL, drw_vizR, file="../applications/traffic_NLD/throughput/double_roads.rda")
+save(drw_viz, drw_vizL, drw_vizR, file="../applications/traffic_NLD/throughput/viz_roads.rda")
 
