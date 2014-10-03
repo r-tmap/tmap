@@ -9,7 +9,16 @@ source("../applications/traffic_NLD/00_misc_functions.R")
 ###########################################################################
 loopsdata <- read.csv("../applications/traffic_NLD/input/Rijkswegen_loops.csv", stringsAsFactors=FALSE)
 
-names(loopsdata) <- c("site", "lat", "long", "roadname", "roadnumber")
+## add direction and type road
+loopsdata$alertCDirectionCoded <- NA
+loopsdata$carriageway <- "mainCarriageway"
+
+## Update A79 
+loopsdataA79 <- read.csv("../applications/traffic_NLD/input/A79_meta.csv", stringsAsFactors=FALSE)
+loopsdataA79$Rijksweg <- 79
+loopsdata <- loopsdata[loopsdata$ROADNUMBER!="A79",]
+loopsdata <- rbind(loopsdata, loopsdataA79[, names(loopsdata)])
+names(loopsdata) <- c("site", "lat", "long", "roadname", "roadnumber", "direction", "type")
 
 
 ## Rijksweg 15 = A/N15 + A/N18
@@ -24,8 +33,16 @@ loops.roadnames <- loopsdata$roadname[match(loops.roadnumbers, loopsdata$roadnum
 loopsdata$roadname <- factor(loopsdata$roadname, levels=loops.roadnames)
 loopsdata$roadname[is.na(loopsdata$roadname)] <- loops.roadnames[match(loopsdata$roadnumber[is.na(loopsdata$roadname)], loops.roadnumbers)]
 
+loopsdata$direction <- factor(loopsdata$direction, levels=c("positive", "negative"), labels=c("R", "L"))
+loopsdata <- loopsdata[, c("long", "lat", "roadname",  "roadnumber", "direction")]
+
+
+
+
 loops <- SpatialPointsDataFrame(coords=loopsdata[,c("long", "lat")], data=loopsdata)
 loops <- set_projection(loops, current.projection="longlat", projection="rd")
+
+
 
 
 

@@ -75,14 +75,14 @@ listL <- create_meter_list(drwL2, dist=10, direction="L")
 listR <- create_meter_list(drwR2, dist=10, direction="R")
 
 
-loopsL <- search_points(loops, drwL2)
-loopsL <- lapply(loopsL, function(l) l[l$d<20, ]) ## todo: use loop meta data
+loopsL <- search_points(loops[loops$direction=="L" | is.na(loops$direction), ], drwL2)
+loopsL[-45] <- lapply(loopsL[-45], function(l) l[l$d<20, ]) ## todo: use loop meta data
 
-loopsR <- search_points(loops, drwR2)
-loopsR <- lapply(loopsR, function(l) l[l$d<20, ]) ## todo: use loop meta data
+loopsR <- search_points(loops[loops$direction=="R" | is.na(loops$direction), ], drwR2)
+loopsR[-45] <- lapply(loopsR[-45], function(l) l[l$d<20, ]) ## todo: use loop meta data
 
-listL <- write_point_info(loopsL, listL, "LUS")
-listR <- write_point_info(loopsR, listR, "LUS")
+listL <- write_point_info(loopsL, listL, "SENSOR")
+listR <- write_point_info(loopsR, listR, "SENSOR")
 
 
 
@@ -91,34 +91,18 @@ afrR <- search_POB(rwR[rwR$BAANSUBSRT=="AFR", ], drwR2)
 
 
 
-listL <- write_point_info(afrL, listL, "AFRIT")
-listR <- write_point_info(afrR, listR, "AFRIT")
-
+listL <- write_point_info(afrL, listL, "EXIT")
+listR <- write_point_info(afrR, listR, "EXIT")
 
 
 oprL <- search_POB(rwL[rwL$BAANSUBSRT=="OPR", ], drwL2) 
 oprR <- search_POB(rwR[rwR$BAANSUBSRT=="OPR", ], drwR2) 
 
-listL <- write_point_info(oprL, listL, "OPRIT")
-listR <- write_point_info(oprR, listR, "OPRIT")
+listL <- write_point_info(oprL, listL, "ENTER")
+listR <- write_point_info(oprR, listR, "ENTER")
 
 write_info(listL, path="../applications/traffic_NLD/output")
 write_info(listR, path="../applications/traffic_NLD/output")
-# 
-# pdf("../applications/traffic_NLD/plots/rijkswegen_met_info.pdf", width = 10, height=10) 
-# plot_drw(drwL3, drwL4, scale=.1)
-# dev.off()
-# 
-# drw <- drwL3
-# info <- drwL4
-# 
-# plot_per_rw(drwL3, drwL4, path="../applications/traffic_NLD/plots")
-# plot_per_rw(drwR3, drwR4, path="../applications/traffic_NLD/plots")
-# 
-# plot_google(drwL3, drwL4, "A79")
-# plot_google(drwR3, drwR4, "A79")
-# 
-# 
-# info <- drwL4
-# rn <- "A79"
+
+save(listL, listR, file="../applications/traffic_NLD/output/road_list_info.rdata")
 

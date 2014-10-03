@@ -127,6 +127,7 @@ create_meter_list <- function(lines, dist, direction) {
 			co2$roadname <- id
 			co2$direction <- dr
 			co2$meter <- seq(0, by=dist, length.out=nrow(co2))
+			co2$offset <- ""
 			co2$mark <- ""
 			co2$mark[c(1, nrow(co2))] <- c("BEGIN", "EIND")
 			co2
@@ -149,10 +150,11 @@ create_meter_list <- function(lines, dist, direction) {
 
 write_point_info <- function(afr, drw, info) {
 	res <- mapply(function(a, d) {
-		for (i in 1:nrow(a)) {
+		if (!is.null(a)) if (nrow(a)>0) for (i in 1:nrow(a)) {
 			id <- which(a$x[i]==d$x & a$y[i]==d$y)
 			stopifnot(length(id)>0)
 			d$mark[id] <- writeMark(d$mark[id], info)
+			d$offset[id] <- writeMark(d$offset[id], sprintf("%.3f", a$d[i]))
 		}
 		d
 	}, afr, drw, SIMPLIFY=FALSE)
@@ -164,6 +166,10 @@ writeMark <- function(current, nw) if (current=="") nw else paste0(current, ", "
 
 search_POB <- function(lines, drw) {
 	res <- lapply(drw$ID, function(id) {
+		if (!any(lines$roadname==id)) {
+			message(paste0("Road ", id, " does not have lines to search for POB's."))
+			return(NULL)
+		}
 		lines_sel <- lines[lines$roadname==id, ]
 		drw_sel <- drw[drw$ID==id,]
 		
@@ -198,6 +204,7 @@ search_POB <- function(lines, drw) {
 
 search_points <- function(pnts, drw) {
 	res <- lapply(drw$ID, function(id) {
+		if (!any(pnts$roadname==id)) stop(paste0("Road ", id, " does not have any loops."))	
 		pnts_sel <- pnts[pnts$roadname==id, ]
 		drw_sel <- drw[drw$ID==id,]
 		
@@ -216,15 +223,13 @@ search_points <- function(pnts, drw) {
 	res	
 }
 
-compact_info <- function(info, edit=FALSE) {
+compact_info <- function(info) {
 	info <- info[info$mark!="", ]
-	start <- substr(info$mark, 1, 3)
-	lengths <- nchar(info$mark)
-	if (edit) {
-		info$mark <- ifelse(lengths>6,
-					ifelse(start=="LUS", "Meerdere lussen", "Meerdere punten"), info$mark)
-		info$mark <- factor(info$mark, levels=c("BEGIN", "EIND", "OPRIT", "AFRIT", "LUS", "Meerdere lussen", "Meerdere punten"))
-	} 
+# 	if (edit) {
+# 		info$mark <- ifelse(lengths>6,
+# 					ifelse(start=="SENSOR", "Meerdere lussen", "Meerdere punten"), info$mark)
+# 		info$mark <- factor(info$mark, levels=c("BEGIN", "EIND", "OPRIT", "AFRIT", "LUS", "Meerdere lussen", "Meerdere punten"))
+# 	} 
 	info
 }
 
