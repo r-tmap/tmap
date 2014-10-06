@@ -15,16 +15,21 @@ directions <- read.csv2("../applications/traffic_NLD/input/richtingen_rijkswegen
 
 ###### TEMP SELECTION
 
-road <- c("A2", "A58", "A79")
+afrL <- rwL[rwL$BAANSUBSRT=="AFR", ]
+afrR <- rwR[rwR$BAANSUBSRT=="AFR", ]
 
-#rw <- rw[rw$roadname==road, ]
-rwL <- rwL[rwL$roadname %in% road, ]
-rwR <- rwR[rwR$roadname %in% road, ]
-loops <- loops[loops$roadname %in% road,]
-
+oprL <- rwL[rwL$BAANSUBSRT=="OPR", ]
+oprR <- rwR[rwR$BAANSUBSRT=="OPR", ]
 
 
+rwL <- rwL[rwL$BAANSUBSRT=="HR", ]
+rwR <- rwR[rwR$BAANSUBSRT=="HR", ]
 
+# road <- c("A2", "A58", "A79")
+# 
+# rwL <- rwL[rwL$roadname %in% road, ]
+# rwR <- rwR[rwR$roadname %in% road, ]
+# loops <- loops[loops$roadname %in% road,]
 
 
 
@@ -32,11 +37,15 @@ loops <- loops[loops$roadname %in% road,]
 
 # todo: finetune foor afgebroken lijnen, zoals A9/A2
 system.time({
-	drwL <- fit_polylines(rwL[rwL$BAANSUBSRT=="HR", ], id="roadname")
+	rwL <- split_lines_equal(rwL, dist=100, include.last = TRUE)
+	drwL <- fit_polylines(rwL, id="roadname", 
+						  min.dist=0, max.opt.dist=10, sep.dist=150) # was: 10, 250, 5000
 })
 
 system.time({
-	drwR <- fit_polylines(rwR[rwR$BAANSUBSRT=="HR", ], id="roadname")
+	rwR <- split_lines_equal(rwR, dist=100, include.last = TRUE)
+	drwR <- fit_polylines(rwR, id="roadname",
+						  min.dist=0, max.opt.dist=10, sep.dist=150)
 })
 
 ## REVERT IF NECASSARY
@@ -44,9 +53,17 @@ drwL <- set_directions(drwL, main_direction = FALSE, directions = directions)
 drwR <- set_directions(drwR, main_direction = TRUE, directions = directions)
 
 
-save(drwL, drwR, file="../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
 
-
+## visual inspection
+pdf("../applications/traffic_NLD/plots/rw.pdf")
+tm_shape(corop) +
+	tm_fill() +
+	tm_shape(rwR) +
+	tm_lines(col="red") +
+	tm_shape(rwL) +
+	tm_lines(col="blue") +
+	tm_layout(scale=.075)
+dev.off()
 
 pdf("../applications/traffic_NLD/plots/drw.pdf")
 tm_shape(corop) +
@@ -55,10 +72,15 @@ tm_shape(drwR) +
 	tm_lines(col="red") +
 tm_shape(drwL) +
 	tm_lines(col="blue") +
-tm_layout(scale=.1)
+	tm_text("ID") +
+tm_layout(scale=.075)
 dev.off()
 
 
+
+
+
+save(drwL, drwR, file="../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
 
 ############ FOR ROAD SEGMENTS ##############################
 
@@ -86,20 +108,20 @@ listR <- write_point_info(loopsR, listR, "SENSOR")
 
 
 
-afrL <- search_POB(rwL[rwL$BAANSUBSRT=="AFR", ], drwL2) 
-afrR <- search_POB(rwR[rwR$BAANSUBSRT=="AFR", ], drwR2) 
+listAfrL <- search_POB(afrL, drwL2) 
+listAfrR <- search_POB(afrR, drwR2) 
 
 
 
-listL <- write_point_info(afrL, listL, "EXIT")
-listR <- write_point_info(afrR, listR, "EXIT")
+listL <- write_point_info(listAfrL, listL, "EXIT")
+listR <- write_point_info(listAfrR, listR, "EXIT")
 
 
-oprL <- search_POB(rwL[rwL$BAANSUBSRT=="OPR", ], drwL2) 
-oprR <- search_POB(rwR[rwR$BAANSUBSRT=="OPR", ], drwR2) 
+listOprL <- search_POB(oprL, drwL2) 
+listOprR <- search_POB(oprR, drwR2) 
 
-listL <- write_point_info(oprL, listL, "ENTER")
-listR <- write_point_info(oprR, listR, "ENTER")
+listL <- write_point_info(listOprL, listL, "ENTER")
+listR <- write_point_info(listOprR, listR, "ENTER")
 
 write_info(listL, path="../applications/traffic_NLD/output")
 write_info(listR, path="../applications/traffic_NLD/output")
