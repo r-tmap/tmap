@@ -33,28 +33,23 @@ rwR <- rwR[rwR$BAANSUBSRT=="HR", ]
 
 
 
-## CREATE CONTINUOUS POLYLINES
+### CREATE CONTINUOUS POLYLINES
 
-# todo: finetune foor afgebroken lijnen, zoals A9/A2
+# phase 1: create 100m points, combine road segments, set direction
 system.time({
 	rwL <- split_lines_equal(rwL, dist=100, include.last = TRUE)
+	rwR <- split_lines_equal(rwR, dist=100, include.last = TRUE)
+
 	drwL <- fit_polylines(rwL, id="roadname", 
 						  min.dist=0, max.opt.dist=10, sep.dist=150) # was: 10, 250, 5000
-})
-
-system.time({
-	rwR <- split_lines_equal(rwR, dist=100, include.last = TRUE)
 	drwR <- fit_polylines(rwR, id="roadname",
-						  min.dist=0, max.opt.dist=10, sep.dist=150)
+							  min.dist=0, max.opt.dist=10, sep.dist=150)
+
+	drwL <- set_directions(drwL, main_direction = FALSE, directions = directions)
+	drwR <- set_directions(drwR, main_direction = TRUE, directions = directions)
 })
 
-## REVERT IF NECASSARY
-drwL <- set_directions(drwL, main_direction = FALSE, directions = directions)
-drwR <- set_directions(drwR, main_direction = TRUE, directions = directions)
-
-
-
-## visual inspection
+# visual inspection
 pdf("../applications/traffic_NLD/plots/rw.pdf")
 tm_shape(corop) +
 	tm_fill() +
@@ -62,7 +57,7 @@ tm_shape(corop) +
 	tm_lines(col="red") +
 	tm_shape(rwL) +
 	tm_lines(col="blue") +
-	tm_layout(scale=.075)
+	tm_layout(scale=.15)
 dev.off()
 
 pdf("../applications/traffic_NLD/plots/drw.pdf")
@@ -73,14 +68,45 @@ tm_shape(drwR) +
 tm_shape(drwL) +
 	tm_lines(col="blue") +
 	tm_text("ID") +
-tm_layout(scale=.075)
+tm_layout(scale=.15)
 dev.off()
 
 
 
+# plot per road * direction
+
+plot_roads(drwL, appendix="L", map="../applications/traffic_NLD/plots/drw_per_road/")
+plot_roads(drwR, appendix="R", map="../applications/traffic_NLD/plots/drw_per_road/")
+
+
+# number of polylines per road*dir
+nPoly <- data.frame(road=drwL$ID, 
+					L=sapply(drwL@lines, function(x)length(x@Lines)), 
+					R=sapply(drwR@lines, function(x)length(x@Lines)))
+
+
+# phase 2: combine uncomplete roads (N33, N36, N48, N61, N99: use loops coordinates)
+roads_combine <- list(A9=-1, A15=3:18, A31=4:6, N33=0, N36=0, N48=0, A50=2:3, N57=0, A59=list(L=4:14), N61=0, N99=0)
+
+res <- combine_road_segments(drwL, drwR, roads_combine)
+
+drwL <- res[[1]]
+drwR <- res[[2]]
+
+roads_rm_junk <- c("A4", "A15")
+res <- remove_junk_segments(drwL, drwR, roads_rm_junk)
+
+drwL <- res[[1]]
+drwR <- res[[2]]
+
 
 
 save(drwL, drwR, file="../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
+
+load("../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
+
+
+
 
 ############ FOR ROAD SEGMENTS ##############################
 

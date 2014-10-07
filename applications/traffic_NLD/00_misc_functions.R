@@ -2,6 +2,12 @@ get_lengths <- function(shp, digits=3) {
 	round(SpatialLinesLengths(shp, longlat=FALSE)/1000, digits=digits)
 }
 
+get_lengths_lines <- function(l){
+	co <- l@coords
+	n <- nrow(co)
+	sqrt((co[n,2] - co[1,2])^2 + (co[n,1] - co[1,1])^2)
+}
+
 round_km <- function(x, digits=3, multiply=1e-3) {
 	round(x*multiply, digits=digits)
 }
@@ -53,7 +59,7 @@ set_directions <- function(lines, main_direction=TRUE, directions=directions) {
 	rns <- lines$ID
 	
 	co2 <- mapply(function(p, rn) {
-		cat("rijksweg ", rn, "\n")
+		cat("rijksweg", as.character(rn), "\n")
 		
 		#if (rn=="A10") browser()
 		
@@ -101,12 +107,9 @@ set_directions <- function(lines, main_direction=TRUE, directions=directions) {
 				
 				stopifnot(setequal(id_line_fit, id_line_centers))
 				
-				p2 <- p2[match(id_line_centers, id_line_fit)]
-				
+				p2 <- p2[match(id_line_fit, id_line_centers)]
 			}
-			
 		}
-			
 		
 		sapply(p2, Line)
 	}, co, rns, SIMPLIFY=FALSE)
@@ -234,6 +237,99 @@ compact_info <- function(info) {
 }
 
 
+combine_road_segments <- function(drwL, drwR, roads_combine) {
+	for (rn in names(roads_combine)) {
+		i <- roads_combine[[rn]]
+		Lid <- which(drwL$ID==rn)
+		Rid <- which(drwR$ID==rn)
+		
+		L <- drwL@lines[[Lid]]@Lines
+		R <- drwR@lines[[Rid]]@Lines
+		
+		nL <- length(L)
+		nR <- length(R)
+		
+		Lseq <- 1:nL
+		Rseq <- 1:nR
+		
+		if (is.list(i)) {
+			iL <- i[["L"]]
+			iR <- i[["R"]]
+			revL <- FALSE
+		} 
+		
+		iL <- i
+		iR <- i
+		revL <- TRUE
+		
+		if (!is.null(iL)) {
+			if (iL==0) {
+				Lc <- Lseq
+			} else if (iL < 0) {
+				Lc <- setdiff(Lseq, -iL)
+			} else {
+				Lc <- iL
+			}
+			if (revL) Lc <- sort((nL + 1) - Lc)
+		}
+		if (!is.null(iR)) {
+			if (iR==0) {
+				Rc <- Rseq
+			} else if (iR < 0) {
+				Rc <- setdiff(Rseq, -iR)
+			} else {
+				Rc <- iR
+			}
+		}		
+		
+		if (!is.null(iL)) {
+			if (Lc[1]>1) Lpre <- L[1:(Lc[1]-1)] else Lpre <- NULL
+			if (Lc[length(Lc)]<nL) Lpost <- L[(Lc[length(Lc)]+1):nL] else Lpost <- NULL
+		}
+		if (!is.null(iR)) {
+			if (Rc[1]>1) Rpre <- R[1:(Rc[1]-1)] else Rpre <- NULL
+			if (Rc[length(Rc)]<nR) Rpost <- R[(Rc[length(Rc)]+1):nR] else Rpost <- NULL
+		}		
+		
+		Lco <- lapply(L[i], slot, name="coords")
+		Lco <- do.call("rbind",Lco)
+		Lline <- Line(coords = Lco)
+		drwL@lines[[Lid]]@Lines <- c(Lpre, list(Lline), Lpost)
+		
+		Rco <- lapply(R[i], slot, name="coords")
+		Rco <- do.call("rbind",Rco)
+		Rline <- Line(coords = Rco)
+		drwR@lines[[Rid]]@Lines <- c(Rpre, list(Rline), Rpost)
+	}
+	list(drwL, drwR)
+}
+
+remove_junk_segments <- function(drwL, drwR, roads_rm_junk) {
+	for (rn in names(roads_rm_junk)) {
+		i <- roads_combine[[rn]]
+		Lid <- which(drwL$ID==rn)
+		Rid <- which(drwR$ID==rn)
+		
+		L <- drwL@lines[[Lid]]@Lines
+		R <- drwR@lines[[Rid]]@Lines
+		
+		nL <- length(L)
+		nR <- length(R)
+		
+		Llengths <- sapply(L, get_lengths_lines)
+		Rlengths <- sapply(R, get_lengths_lines)
+		
+		selL <- Llengths >= 1000
+		selR <- Rlengths >= 1000
+		
+		drwL@lines[[Lid]]@Lines <- L[selL]
+		drwR@lines[[Rid]]@Lines <- R[selR]
+		
+	}
+	list(drwL, drwR)
+}
+
+
 
 
 write_info <- function(drw, compact = TRUE, path) {
@@ -289,6 +385,8 @@ plot_per_rw <- function(drw, info, scale=.1, path) {
 	}
 }
 
+
+
 plot_google <- function(drw, info, rn) {
 	require(RColorBrewer)
 	require(plotKML)
@@ -306,3 +404,28 @@ plot_google <- function(drw, info, rn) {
 	plotKML(drw_sel["ID"], colour="steelblue" , width=6, folder.name=baseNameLines, file.name=paste0("../applications/traffic_NLD/kml/", baseNameLines, ".kml"))
 	
 }
+
+plot_roads <- function(shp, appendix, map) {
+	for (i in 1:length(shp)) {
+		L <- shp[i,]
+		
+		bb <- bbox(L)
+		asp <- (bb[1, 2] - bb[1, 1]) / (bb[2, 2] - bb[2, 1])
+		asp <- asp ^ (.9)
+		
+		if (asp > 1) {
+			width <- 8
+			height <- width / asp
+		} else {
+			height <- 8
+			width <- height * asp
+		}
+		
+		rname <- as.character(L$ID)
+		
+		pdf(paste0(map, rname, appendix, "_drw.pdf"), width=width, height=height)
+		print(qtm(L) + tm_grid(on.top = FALSE))
+		dev.off()
+	}
+}
+

@@ -7,7 +7,7 @@ plot_map <- function(gp, gt, shps.env) {
 	bubbleHeight <- convertHeight(unit(.5, "lines"), "inch", valueOnly=TRUE)
 	
 	bb <- shps[[1]]@bbox
-	if (gt$grid.show && !gt$grid.on.top) plot_grid(gt, bb)
+	if (gt$grid.show && !gt$grid.on.top) plot_grid(gt, bb, scale=gt$scale)
 	
 	mapply(function(gpl, shp) {
 		bb <- shp@bbox
@@ -49,6 +49,7 @@ plot_map <- function(gp, gt, shps.env) {
 }
 
 plot_grid <- function(gt, bb, scale) {
+	
 	gridx <- pretty(bb[1,], n=gt$grid.n.x)
 	gridx <- gridx[gridx>bb[1,1] & gridx<bb[1,2]]
 	gridy <- pretty(bb[2,], n=gt$grid.n.y)
@@ -69,18 +70,23 @@ plot_grid <- function(gt, bb, scale) {
 	selx <- cogridx >= labelsYw + spacerY
 	sely <- cogridy >= labelsXw + spacerX
 	
-	cogridx <- cogridx[selx]
-	labelsx <- labelsx[selx]
-	cogridy <- cogridy[sely]
-	labelsy <- labelsy[sely]
+	if (any(selx)) {
+		cogridx <- cogridx[selx]
+		labelsx <- labelsx[selx]
+		
+		grid.polyline(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
+					  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
+	}
+	if (any(sely)) {
+		cogridy <- cogridy[sely]
+		labelsy <- labelsy[sely]
+		
+		grid.polyline(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
+					  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
+	}
 	
-	grid.polyline(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
-				  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
-	grid.polyline(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
-				  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
-	
-	grid.text(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.cex*scale))
-	grid.text(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.cex*scale))
+	if (any(selx)) grid.text(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.cex*scale))
+	if (any(sely)) grid.text(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.cex*scale))
 }
 
 plot_bubbles <- function(co.npc, g, bubbleHeight) {
