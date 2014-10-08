@@ -9,7 +9,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff999999</color>
+          <color>#ffd6b2ca</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -24,7 +24,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -39,7 +39,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff007fff</color>
+          <color>#ff2ca033</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -54,7 +54,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff8d73dc</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -69,7 +69,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -84,7 +84,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -99,7 +99,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff8adfb2</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -114,7 +114,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff2ca033</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -129,7 +129,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -144,7 +144,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff856e7f</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -159,7 +159,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -174,7 +174,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff007fff</color>
+          <color>#ff8adfb2</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -189,7 +189,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff2ca033</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -204,7 +204,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff8d73dc</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -219,7 +219,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff8d73dc</color>
+          <color>#ff8adfb2</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -234,7 +234,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -249,7 +249,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -264,7 +264,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff856e7f</color>
+          <color>#ff2ca033</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -279,7 +279,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -294,7 +294,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff8adfb2</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -309,7 +309,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff007fff</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -324,7 +324,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff2ca033</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -339,7 +339,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff856e7f</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -354,7 +354,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff8d73dc</color>
+          <color>#ff8adfb2</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -369,7 +369,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff8d73dc</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -384,7 +384,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
+          <color>#ff2ca033</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -399,7 +399,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff007fff</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -414,7 +414,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff8d73dc</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -429,7 +429,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff856e7f</color>
+          <color>#ff6fbffd</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -444,172 +444,7 @@
           <scale>0.5</scale>
         </LabelStyle>
         <IconStyle>
-          <color>#ff2fc7e1</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt31">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff8d73dc</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt32">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff2fc7e1</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt33">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff007fff</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt34">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff2fc7e1</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt35">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff856e7f</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt36">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff2fc7e1</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt37">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff2fc7e1</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt38">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff007fff</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt39">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff8d73dc</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt40">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff2fc7e1</color>
-          <scale>0.5</scale>
-          <Icon>
-            <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
-          </Icon>
-        </IconStyle>
-        <BalloonStyle>
-          <text>$[description]</text>
-        </BalloonStyle>
-      </Style>
-      <Style id="pnt41">
-        <LabelStyle>
-          <scale>0.5</scale>
-        </LabelStyle>
-        <IconStyle>
-          <color>#ff938e3e</color>
+          <color>#ff9a3d6a</color>
           <scale>0.5</scale>
           <Icon>
             <href>http://maps.google.com/mapfiles/kml/pal2/icon18.png</href>
@@ -620,7 +455,7 @@
         </BalloonStyle>
       </Style>
       <Placemark>
-        <name>Meerdere punten</name>
+        <name>BEGIN</name>
         <styleUrl>#pnt1</styleUrl>
         <Point>
           <extrude>1</extrude>
@@ -629,16 +464,16 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt2</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.95628,50.87624,0</coordinates>
+          <coordinates>5.95708,50.87643,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>AFRIT</name>
+        <name>EXIT</name>
         <styleUrl>#pnt3</styleUrl>
         <Point>
           <extrude>1</extrude>
@@ -647,7 +482,7 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>Meerdere lussen</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt4</styleUrl>
         <Point>
           <extrude>1</extrude>
@@ -656,336 +491,237 @@
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt5</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.94694,50.87408,0</coordinates>
+          <coordinates>5.93125,50.87170,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt6</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.93124,50.87175,0</coordinates>
+          <coordinates>5.91798,50.87545,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>ENTER</name>
         <styleUrl>#pnt7</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.92997,50.87174,0</coordinates>
+          <coordinates>5.91417,50.87746,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>EXIT</name>
         <styleUrl>#pnt8</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.91796,50.87545,0</coordinates>
+          <coordinates>5.90589,50.88000,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt9</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.91786,50.87551,0</coordinates>
+          <coordinates>5.89161,50.88077,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>OPRIT</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt10</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.91416,50.87747,0</coordinates>
+          <coordinates>5.87927,50.88246,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt11</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.91343,50.87776,0</coordinates>
+          <coordinates>5.86458,50.88267,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>AFRIT</name>
+        <name>ENTER</name>
         <styleUrl>#pnt12</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.90585,50.87996,0</coordinates>
+          <coordinates>5.86319,50.88248,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>EXIT</name>
         <styleUrl>#pnt13</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.90434,50.88021,0</coordinates>
+          <coordinates>5.84915,50.88226,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Meerdere lussen</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt14</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.89158,50.88077,0</coordinates>
+          <coordinates>5.84690,50.88245,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Meerdere lussen</name>
+        <name>ENTER</name>
         <styleUrl>#pnt15</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.87925,50.88246,0</coordinates>
+          <coordinates>5.84491,50.88248,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt16</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.86469,50.88268,0</coordinates>
+          <coordinates>5.83445,50.87998,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt17</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.86455,50.88266,0</coordinates>
+          <coordinates>5.82341,50.87575,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>OPRIT</name>
+        <name>EXIT</name>
         <styleUrl>#pnt18</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.86330,50.88249,0</coordinates>
+          <coordinates>5.82089,50.87516,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt19</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.86316,50.88247,0</coordinates>
+          <coordinates>5.80810,50.87457,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>ENTER</name>
         <styleUrl>#pnt20</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.85333,50.88184,0</coordinates>
+          <coordinates>5.80448,50.87501,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>AFRIT</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt21</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.84926,50.88225,0</coordinates>
+          <coordinates>5.79698,50.87603,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>EXIT</name>
         <styleUrl>#pnt22</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.84757,50.88238,0</coordinates>
+          <coordinates>5.78531,50.87760,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>OPRIT</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt23</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.84488,50.88245,0</coordinates>
+          <coordinates>5.77217,50.87692,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Meerdere lussen</name>
+        <name>ENTER</name>
         <styleUrl>#pnt24</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.83441,50.87997,0</coordinates>
+          <coordinates>5.77203,50.87692,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Meerdere lussen</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt25</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.82337,50.87574,0</coordinates>
+          <coordinates>5.75016,50.87819,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>EXIT</name>
         <styleUrl>#pnt26</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.82150,50.87531,0</coordinates>
+          <coordinates>5.73876,50.87394,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>AFRIT</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt27</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.82084,50.87515,0</coordinates>
+          <coordinates>5.73680,50.87305,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>Meerdere lussen</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt28</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.80819,50.87458,0</coordinates>
+          <coordinates>5.72884,50.86962,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>OPRIT</name>
+        <name>SENSOR</name>
         <styleUrl>#pnt29</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.80442,50.87502,0</coordinates>
+          <coordinates>5.72873,50.86956,0</coordinates>
         </Point>
       </Placemark>
       <Placemark>
-        <name>LUS</name>
+        <name>END</name>
         <styleUrl>#pnt30</styleUrl>
         <Point>
           <extrude>1</extrude>
           <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.80331,50.87518,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>Meerdere lussen</name>
-        <styleUrl>#pnt31</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.79692,50.87604,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>LUS</name>
-        <styleUrl>#pnt32</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.78595,50.87753,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>AFRIT</name>
-        <styleUrl>#pnt33</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.78525,50.87760,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>LUS</name>
-        <styleUrl>#pnt34</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.77224,50.87697,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>OPRIT</name>
-        <styleUrl>#pnt35</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.77196,50.87695,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>LUS</name>
-        <styleUrl>#pnt36</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.77111,50.87691,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>LUS</name>
-        <styleUrl>#pnt37</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.74007,50.87468,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>AFRIT</name>
-        <styleUrl>#pnt38</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.73876,50.87399,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>Meerdere lussen</name>
-        <styleUrl>#pnt39</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.72898,50.86970,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>LUS</name>
-        <styleUrl>#pnt40</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.72887,50.86964,0</coordinates>
-        </Point>
-      </Placemark>
-      <Placemark>
-        <name>EIND</name>
-        <styleUrl>#pnt41</styleUrl>
-        <Point>
-          <extrude>1</extrude>
-          <altitudeMode>clampToGround</altitudeMode>
-          <coordinates>5.72464,50.86724,0</coordinates>
+          <coordinates>5.72460,50.86722,0</coordinates>
         </Point>
       </Placemark>
     </Folder>

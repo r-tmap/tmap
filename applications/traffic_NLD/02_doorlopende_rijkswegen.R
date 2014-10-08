@@ -13,7 +13,6 @@ source("../applications/traffic_NLD//00_misc_functions.R")
 directions <- read.csv2("../applications/traffic_NLD/input/richtingen_rijkswegen.txt", stringsAsFactors=FALSE)
 
 
-###### TEMP SELECTION
 
 afrL <- rwL[rwL$BAANSUBSRT=="AFR", ]
 afrR <- rwR[rwR$BAANSUBSRT=="AFR", ]
@@ -25,68 +24,132 @@ oprR <- rwR[rwR$BAANSUBSRT=="OPR", ]
 rwL <- rwL[rwL$BAANSUBSRT=="HR", ]
 rwR <- rwR[rwR$BAANSUBSRT=="HR", ]
 
+###### TEMP SELECTION
 # road <- c("A2", "A58", "A79")
 # 
 # rwL <- rwL[rwL$roadname %in% road, ]
 # rwR <- rwR[rwR$roadname %in% road, ]
 # loops <- loops[loops$roadname %in% road,]
 
+## STEP 00 visual inspection
+pdf("../applications/traffic_NLD/plots/00_rwL_loops_raw.pdf")
+tm_shape(corop) +
+	tm_fill() +
+tm_shape(rwL) +
+	tm_lines(col = "roadname", max.categories = 50, palette = "Pastel2") +
+tm_shape(loops) +
+	tm_bubbles(col="roadname", size=.001, max.categories=50, palette="Dark2") +
+tm_layout(legend.config = "line.col")
+dev.off()
+
+pdf("../applications/traffic_NLD/plots/00_rwR_loops_raw.pdf")
+tm_shape(corop) +
+	tm_fill() +
+	tm_shape(rwR) +
+	tm_lines(col = "roadname", max.categories = 50, palette = "Pastel2") +
+	tm_shape(loops) +
+	tm_bubbles(col="roadname", size=.001, max.categories=50, palette="Dark2") +
+	tm_layout(legend.config = "line.col")
+dev.off()
+
+### STEP 01 CREATE POLYLINES FROM LOOPS (todo: add loops direction meta)
+roads_from_loops <- c("N33", "N36", "N48", "N61", "N99")
+
+sel_loops <- loops$roadname %in% roads_from_loops
+sel_roadsL <- rwL$roadname %in% roads_from_loops
+sel_roadsR <- rwR$roadname %in% roads_from_loops
+
+lwL <- fit_polylines(loops[sel_loops,], rwL[sel_roadsL,], id="roadname", 
+					 min.dist=2, max.opt.dist=100, sep.dist=20000) 
+lwR <- fit_polylines(loops[sel_loops,], rwR[sel_roadsR,], id="roadname", 
+					 min.dist=2, max.opt.dist=100, sep.dist=20000) 
+lwL <- set_directions(lwL, main_direction = FALSE, directions = directions)
+lwR <- set_directions(lwR, main_direction = TRUE, directions = directions)
+
+# visual inspection
+pdf("../applications/traffic_NLD/plots/01_drwL_loops.pdf")
+tm_shape(corop) +
+	tm_fill() +
+	tm_shape(lwL) +
+	tm_lines(col = "ID", max.categories = 50, palette = "Pastel2") +
+	tm_shape(loops[sel_loops,]) +
+	tm_bubbles(col="roadname", size=.001, max.categories=50, palette="Dark2") +
+	tm_layout(legend.config = "line.col")
+dev.off()
+
+pdf("../applications/traffic_NLD/plots/01_drwR_loops.pdf")
+tm_shape(corop) +
+	tm_fill() +
+	tm_shape(lwR) +
+	tm_lines(col = "ID", max.categories = 50, palette = "Pastel2") +
+	tm_shape(loops[sel_loops,]) +
+	tm_bubbles(col="roadname", size=.001, max.categories=50, palette="Dark2") +
+	tm_layout(legend.config = "line.col")
+dev.off()
 
 
-### CREATE CONTINUOUS POLYLINES
+
+### STEP 2: CREATE CONTINUOUS POLYLINES
 
 # phase 1: create 100m points, combine road segments, set direction
 system.time({
 	rwL <- split_lines_equal(rwL, dist=100, include.last = TRUE)
 	rwR <- split_lines_equal(rwR, dist=100, include.last = TRUE)
 
-	drwL <- fit_polylines(rwL, id="roadname", 
-						  min.dist=0, max.opt.dist=10, sep.dist=150) # was: 10, 250, 5000
-	drwR <- fit_polylines(rwR, id="roadname",
-							  min.dist=0, max.opt.dist=10, sep.dist=150)
+	drwL <- fit_polylines(rwL[!sel_roadsL,], id="roadname", 
+						  min.dist=0.5, max.opt.dist=0, sep.dist=150) 
+	# was: 10, 250, 5000
+	# was: 0, 10, 150
+	drwR <- fit_polylines(rwR[!sel_roadsR,], id="roadname",
+							  min.dist=0.5, max.opt.dist=0, sep.dist=150)
 
 	drwL <- set_directions(drwL, main_direction = FALSE, directions = directions)
 	drwR <- set_directions(drwR, main_direction = TRUE, directions = directions)
 })
 
+## combine drw with lw
+drwL@data <- rbind(drwL@data, lwL@data)
+drwL@lines <- c(drwL@lines, lwL@lines)
+
+drwR@data <- rbind(drwR@data, lwR@data)
+drwR@lines <- c(drwR@lines, lwR@lines)
+
+drwL <- drwL[match(levels(drwL$ID), drwL$ID), ]
+drwR <- drwR[match(levels(drwR$ID), drwR$ID), ]
+
+
 # visual inspection
-pdf("../applications/traffic_NLD/plots/rw.pdf")
+pdf("../applications/traffic_NLD/plots/02_drwL.pdf")
 tm_shape(corop) +
 	tm_fill() +
-	tm_shape(rwR) +
-	tm_lines(col="red") +
-	tm_shape(rwL) +
-	tm_lines(col="blue") +
-	tm_layout(scale=.15)
+	tm_shape(drwL) +
+	tm_lines(col = "ID", max.categories = 50, palette = "Pastel2") +
+	tm_shape(loops) +
+	tm_bubbles(col="roadname", size=.001, max.categories=50, palette="Dark2") +
+	tm_layout(legend.config = "line.col")
 dev.off()
 
-pdf("../applications/traffic_NLD/plots/drw.pdf")
+pdf("../applications/traffic_NLD/plots/02_drwR.pdf")
 tm_shape(corop) +
 	tm_fill() +
-tm_shape(drwR) +
-	tm_lines(col="red") +
-tm_shape(drwL) +
-	tm_lines(col="blue") +
-	tm_text("ID") +
-tm_layout(scale=.15)
+	tm_shape(drwR) +
+	tm_lines(col = "ID", max.categories = 50, palette = "Pastel2") +
+	tm_shape(loops) +
+	tm_bubbles(col="roadname", size=.001, max.categories=50, palette="Dark2") +
+	tm_layout(legend.config = "line.col")
 dev.off()
+plot_roads(drwL, appendix="L", map="../applications/traffic_NLD/plots/02_drw_per_road/")
+plot_roads(drwR, appendix="R", map="../applications/traffic_NLD/plots/02_drw_per_road/")
 
-
-
-# plot per road * direction
-
-plot_roads(drwL, appendix="L", map="../applications/traffic_NLD/plots/drw_per_road/")
-plot_roads(drwR, appendix="R", map="../applications/traffic_NLD/plots/drw_per_road/")
+### STEP 3: manually edit drw
 
 
 # number of polylines per road*dir
 nPoly <- data.frame(road=drwL$ID, 
 					L=sapply(drwL@lines, function(x)length(x@Lines)), 
 					R=sapply(drwR@lines, function(x)length(x@Lines)))
-
-
-# phase 2: combine uncomplete roads (N33, N36, N48, N61, N99: use loops coordinates)
-roads_combine <- list(A9=-1, A15=3:18, A31=4:6, N33=0, N36=0, N48=0, A50=2:3, N57=0, A59=list(L=4:14), N61=0, N99=0)
+# phase 2: combine uncomplete roads
+roads_combine <- list(A9=-1, A15=3:18, A31=4:6, A50=2:3, N57=0, A59=1:11)
 
 res <- combine_road_segments(drwL, drwR, roads_combine)
 
@@ -100,15 +163,40 @@ drwL <- res[[1]]
 drwR <- res[[2]]
 
 
+plot_roads(drwL, appendix="L", map="../applications/traffic_NLD/plots/03_drw_per_road_edited/")
+plot_roads(drwR, appendix="R", map="../applications/traffic_NLD/plots/03_drw_per_road_edited/")
+
+# visual inspection
+pdf("../applications/traffic_NLD/plots/03_drwL_edited.pdf")
+tm_shape(corop) +
+	tm_fill() +
+	tm_shape(drwL) +
+	tm_lines(col = "ID", max.categories = 50, palette = "Pastel2") +
+	tm_shape(loops) +
+	tm_bubbles(col="roadname", size=.001, max.categories=50, palette="Dark2") +
+	tm_layout(legend.config = "line.col")
+dev.off()
+
+pdf("../applications/traffic_NLD/plots/03_drwR_edited.pdf")
+tm_shape(corop) +
+	tm_fill() +
+	tm_shape(drwR) +
+	tm_lines(col = "ID", max.categories = 50, palette = "Pastel2") +
+	tm_shape(loops) +
+	tm_bubbles(col="roadname", size=.001, max.categories=50, palette="Dark2") +
+	tm_layout(legend.config = "line.col")
+dev.off()
+
+
 
 save(drwL, drwR, file="../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
 
-load("../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
+#load("../applications/traffic_NLD/throughput/doorlopende_rijkswegen.rda")
 
 
 
 
-############ FOR ROAD SEGMENTS ##############################
+### STEP 4: CREATE ROAD SEGMENTS LIST ##############################
 
 
 

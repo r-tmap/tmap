@@ -27,7 +27,7 @@ loopsdata$roadnumber[loopsdata$roadnumber==18] <- 15
 
 
 
-loops.roadnumbers <- unique(loopsdata$roadnumber)
+loops.roadnumbers <- sort(unique(loopsdata$roadnumber))
 loops.roadnames <- loopsdata$roadname[match(loops.roadnumbers, loopsdata$roadnumber)]
 
 loopsdata$roadname <- factor(loopsdata$roadname, levels=loops.roadnames)

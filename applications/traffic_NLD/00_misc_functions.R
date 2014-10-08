@@ -132,7 +132,7 @@ create_meter_list <- function(lines, dist, direction) {
 			co2$meter <- seq(0, by=dist, length.out=nrow(co2))
 			co2$offset <- ""
 			co2$mark <- ""
-			co2$mark[c(1, nrow(co2))] <- c("BEGIN", "EIND")
+			co2$mark[c(1, nrow(co2))] <- c("BEGIN", "END")
 			co2
 		})
 		if (length(co)>1) {
@@ -164,7 +164,7 @@ write_point_info <- function(afr, drw, info) {
 }
 
 
-writeMark <- function(current, nw) if (current=="") nw else paste0(current, ", ", nw)
+writeMark <- function(current, nw) if (current=="") nw else paste0(current, ";", nw)
 
 
 search_POB <- function(lines, drw) {
@@ -226,19 +226,24 @@ search_points <- function(pnts, drw) {
 	res	
 }
 
-compact_info <- function(info) {
+compact_info <- function(info, undouble=FALSE) {
 	info <- info[info$mark!="", ]
-# 	if (edit) {
-# 		info$mark <- ifelse(lengths>6,
-# 					ifelse(start=="SENSOR", "Meerdere lussen", "Meerdere punten"), info$mark)
-# 		info$mark <- factor(info$mark, levels=c("BEGIN", "EIND", "OPRIT", "AFRIT", "LUS", "Meerdere lussen", "Meerdere punten"))
-# 	} 
+	
+	if (undouble) {
+		markList <- strsplit(info$mark, split = ";")
+		nMarks <- sapply(markList, length)
+		sq <- 1:nrow(info)
+		
+		info <- info[unlist(mapply(rep, sq, nMarks)), ]
+		info$mark <- unlist(markList)
+	}
 	info
 }
 
 
 combine_road_segments <- function(drwL, drwR, roads_combine) {
 	for (rn in names(roads_combine)) {
+		cat(rn, "\n")
 		i <- roads_combine[[rn]]
 		Lid <- which(drwL$ID==rn)
 		Rid <- which(drwR$ID==rn)
@@ -256,16 +261,16 @@ combine_road_segments <- function(drwL, drwR, roads_combine) {
 			iL <- i[["L"]]
 			iR <- i[["R"]]
 			revL <- FALSE
-		} 
-		
-		iL <- i
-		iR <- i
-		revL <- TRUE
+		} else {
+			iL <- i
+			iR <- i
+			revL <- TRUE
+		}
 		
 		if (!is.null(iL)) {
-			if (iL==0) {
+			if (iL[1]==0) {
 				Lc <- Lseq
-			} else if (iL < 0) {
+			} else if (iL[1] < 0) {
 				Lc <- setdiff(Lseq, -iL)
 			} else {
 				Lc <- iL
@@ -273,39 +278,38 @@ combine_road_segments <- function(drwL, drwR, roads_combine) {
 			if (revL) Lc <- sort((nL + 1) - Lc)
 		}
 		if (!is.null(iR)) {
-			if (iR==0) {
+			if (iR[1]==0) {
 				Rc <- Rseq
-			} else if (iR < 0) {
+			} else if (iR[1] < 0) {
 				Rc <- setdiff(Rseq, -iR)
 			} else {
 				Rc <- iR
 			}
 		}		
-		
 		if (!is.null(iL)) {
 			if (Lc[1]>1) Lpre <- L[1:(Lc[1]-1)] else Lpre <- NULL
 			if (Lc[length(Lc)]<nL) Lpost <- L[(Lc[length(Lc)]+1):nL] else Lpost <- NULL
+			Lco <- lapply(L[Lc], slot, name="coords")
+			Lco <- do.call("rbind",Lco)
+			Lline <- Line(coords = Lco)
+			drwL@lines[[Lid]]@Lines <- c(Lpre, list(Lline), Lpost)
+			
 		}
 		if (!is.null(iR)) {
 			if (Rc[1]>1) Rpre <- R[1:(Rc[1]-1)] else Rpre <- NULL
 			if (Rc[length(Rc)]<nR) Rpost <- R[(Rc[length(Rc)]+1):nR] else Rpost <- NULL
+			Rco <- lapply(R[Rc], slot, name="coords")
+			Rco <- do.call("rbind",Rco)
+			Rline <- Line(coords = Rco)
+			drwR@lines[[Rid]]@Lines <- c(Rpre, list(Rline), Rpost)
 		}		
 		
-		Lco <- lapply(L[i], slot, name="coords")
-		Lco <- do.call("rbind",Lco)
-		Lline <- Line(coords = Lco)
-		drwL@lines[[Lid]]@Lines <- c(Lpre, list(Lline), Lpost)
-		
-		Rco <- lapply(R[i], slot, name="coords")
-		Rco <- do.call("rbind",Rco)
-		Rline <- Line(coords = Rco)
-		drwR@lines[[Rid]]@Lines <- c(Rpre, list(Rline), Rpost)
 	}
 	list(drwL, drwR)
 }
 
 remove_junk_segments <- function(drwL, drwR, roads_rm_junk) {
-	for (rn in names(roads_rm_junk)) {
+	for (rn in roads_rm_junk) {
 		i <- roads_combine[[rn]]
 		Lid <- which(drwL$ID==rn)
 		Rid <- which(drwR$ID==rn)
@@ -332,7 +336,7 @@ remove_junk_segments <- function(drwL, drwR, roads_rm_junk) {
 
 
 
-write_info <- function(drw, compact = TRUE, path) {
+write_info <- function(drw, compact = TRUE, path, sep=",") {
 	for (i in 1:length(drw)) {
 		d <- drw[[i]]
 		if (compact) d <- compact_info(d)
@@ -341,7 +345,7 @@ write_info <- function(drw, compact = TRUE, path) {
 		d$meter <- sprintf("%.3f",round_km(d$meter))
 		direction <- d$direction[1]
 		filename <- file.path(path, paste0("info_", names(drw)[i], "_", direction, ".csv"))
-		write.table(d, file=filename, sep="\t", row.names=FALSE, quote=FALSE)
+		write.table(d, file=filename, sep=",", row.names=FALSE, quote=FALSE)
 	}
 	invisible()
 }
@@ -391,14 +395,15 @@ plot_google <- function(drw, info, rn) {
 	require(RColorBrewer)
 	require(plotKML)
 	
-	info_sel <- compact_info(info[[rn]], edit=TRUE)
+	info_sel <- compact_info(info[[rn]], undouble=TRUE)
+	info_sel$mark <- factor(info_sel$mark, levels=c("BEGIN", "END", "ENTER", "EXIT", "SENSOR"))
 	direction <- info_sel$direction[1]
 	points <- SpatialPointsDataFrame(coords = info_sel[,1:2], data=info_sel, proj4string = CRS(tmap:::get_proj4_code("rd")))
 	points <- set_projection(points, "longlat")
 	
 	baseNamePoints <- paste0(rn, "_", direction, "_points")
 	baseNameLines <- paste0(rn, "_", direction, "_route")
-	plotKML(points["mark"], folder.name=baseNamePoints, file.name=paste0("../applications/traffic_NLD/kml/", baseNamePoints, ".kml"))
+	plotKML(points["mark"], folder.name=baseNamePoints, file.name=paste0("../applications/traffic_NLD/kml/", baseNamePoints, ".kml"), colour_scale=brewer.pal(n = 12, "Paired")[c(9,10,3,4,7)])
 	
 	drw_sel <- set_projection(drw[drw$ID==rn,], "longlat")
 	plotKML(drw_sel["ID"], colour="steelblue" , width=6, folder.name=baseNameLines, file.name=paste0("../applications/traffic_NLD/kml/", baseNameLines, ".kml"))
