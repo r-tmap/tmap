@@ -1,4 +1,4 @@
-#' Crop shape file
+#' Crop shape objects
 #' 
 #' Crops a shape object, to a rectangle which is by default its bounding box.
 #' 
