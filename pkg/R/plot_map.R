@@ -174,7 +174,18 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 		} else {
 			height <- height * (dasp/sasp)
 		}
-	
+		
+		if (height==1) {
+			heightP <- convertHeight(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
+			height <- convertHeight(unit(heightP-1, "points"), unitTo="npc", valueOnly=TRUE)
+		}
+
+		if (width==1) {
+			widthP <- convertWidth(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
+			width <- convertWidth(unit(widthP-1, "points"), unitTo="npc", valueOnly=TRUE)
+		}
+		
+		
 		if (!gt$draw.frame) grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
 													 heights=unit(c(1, height, 1), 
@@ -189,25 +200,14 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 			bubbleHeight <- plot_map(gp, gt, shps.env)
 		})
 		
-		
+		## crop outside frame (also labels, bubbles)
 		bgcol <- ifelse(gt$draw.frame, gt$outer.bg.color, gt$bg.color)
-		#cellplot(1,1:3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
-		#cellplot(2,1, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
-		#cellplot(2,3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
-		#cellplot(3,1:3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
-
+		cellplot(1,1:3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
+		cellplot(2,1, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
+		cellplot(2,3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
+		cellplot(3,1:3, e=grid.rect(gp=gpar(col=bgcol, fill=bgcol)))
 		cellplot(2,2, e={
-			wd <- convertWidth(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
-			ht <- convertHeight(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
-			
-			wd2 <- convertWidth(unit(wd, "points"), unitTo="npc", valueOnly=TRUE)
-			ht2 <- convertHeight(unit(ht, "points"), unitTo="npc", valueOnly=TRUE)
-			
-			if (gt$draw.frame) grid.rect(x=0, y=unit(1-ht2, "npc"),
-										 width=unit(wd2,"npc"),
-										 height=unit(ht2,"npc"),
-										 just=c("left", "bottom"),
-										 gp=gpar(fill=NA, lwd=gt$frame.lwd)) #else grid.rect(gp=gpar(col=gt$bg.color, fill=NA))
+			if (gt$draw.frame) grid.rect(gp=gpar(fill=NA, lwd=gt$frame.lwd)) else grid.rect(gp=gpar(col=gt$bg.color, fill=NA))
 		})
 		
 		upViewport()

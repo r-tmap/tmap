@@ -19,7 +19,8 @@ sbind <- function(...) {
 	
 	if (!all(sapply(xlist, class)==class(x))) stop("Objects have inconsistent classes")
 	
-	
+    ids <- make.unique(unlist(lapply(xlist, get_IDs)), sep="_")
+    
 	if (inherits(x, "SpatialPoints")) {
 		crds <- lapply(xlist, slot, "coords")
 		coords <- unname(do.call("rbind", crds))
@@ -30,11 +31,19 @@ sbind <- function(...) {
 		plotOrders <- lapply(xlist, slot, "plotOrder")
 		add <- cumsum(c(0, sapply(plotOrders, length)[-k]))
 		plotOrder <- as.integer(unlist(mapply("+", plotOrders, add, SIMPLIFY = FALSE)))
+		polygons <- mapply(function(p, id){
+		    p@ID <- id
+		    p
+		}, polygons, ids, SIMPLIFY=FALSE)
 		shp <- SpatialPolygons(polygons, pO = plotOrder, 
 							   proj4string = x@proj4string)
 	} else if (inherits(x, "SpatialLines")) {
 		lns <- lapply(xlist, slot, "lines")
 		lines <- unname(do.call("c", lns))
+        lines <- mapply(function(l, id){
+            l@ID <- id
+            l
+        }, lines, ids, SIMPLIFY=FALSE)
 		shp <- SpatialLines(lines, proj4string = x@proj4string)
 	} else stop("Only spatial polygons, points, and lines are accepted.")
 	
