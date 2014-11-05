@@ -74,6 +74,9 @@ process_meta <- function(gt, gf, gg, nx, varnames) {
 		
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color
+		
+		outer.margins <- rep(outer.margins, length.out=4)
+		inner.margins <- rep(inner.margins, length.out=4)
 	})	
 	
 	if (!is.null(gg)) {
