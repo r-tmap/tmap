@@ -1,130 +1,73 @@
-data(Europe)
-data(World)
-data(NLD_muni)
+## load data that is contained in tmap package
 data(NLD_prov)
-data(NLD_ageGroups)
+data(NLD_muni)
+
+## quick plot without statistical info
+qtm(NLD_muni)
+
+## what variables are contained in the shape object?
+names(NLD_muni)
+
+## plot the population counts
+qtm(NLD_muni, fill = "population")
+
+## similar to this, more flexible, notation:
+tm_shape(NLD_muni) + 
+	tm_fill("population") +
+	tm_borders()
+
+## two things to improve:
+## 1) the population is scaled is linear. Often a kmeans clustering reveals more information
+## 2) more importantly, the population counts have to be transformed into population density numbers, for otherwise a large area will look more populated than a small area with the same population number.  
+
+tm_shape(NLD_muni) + 
+	tm_fill("population", convert2density = TRUE,
+			style = "kmeans") +
+	tm_borders()
+
+## enhancement: draw province borders
+tm_shape(NLD_muni) + 
+	tm_fill("population", convert2density = TRUE,
+			style = "kmeans") +
+	tm_borders("grey75") +
+tm_shape(NLD_prov) +
+	tm_borders(lwd = 2)
+
+## add text
+tm_shape(NLD_muni) + 
+	tm_fill("population", convert2density = TRUE,
+			style = "kmeans") +
+	tm_borders("grey75") +
+	tm_shape(NLD_prov) +
+	tm_borders(lwd = 2) +
+	tm_text("name", cex = .75, bg.color = "white")
 
 
 
+rel_numbers <- NLD_muni@data[, c("pop_0_14", "pop_15_24",
+								 "pop_25_44",  "pop_45_64",  "pop_65plus")]
 
+abs_numbers <- rel_numbers / 100 * NLD_muni$population
 
-NLD_muni$gender <- (NLD_muni$men/NLD_muni$pop -.5) / sqrt(NLD_muni$pop) * 10000
+NL_perc <- (sapply(abs_numbers, sum) / sum(NLD_muni$population)) * 100
 
-# head(World[order(World$pop_est_km, decreasing=TRUE), c("name", "pop_est", "pop_est_km")], 100)
-# areas <- getAreas(World)
-# World$area <- areas * (148940000 / sum(areas))
-# head(World[order(World$area, decreasing=TRUE), c("name", "area")], 100)
+rel_diff <- rel_numbers - rep(NL_perc, each=length(NLD_muni))
+names(rel_diff) <- paste(names(rel_diff), "rd", sep="_")
 
-
-### Pretty example for the Netherlands
-geo_shape(NLD_muni) +
-geo_choropleth(col="pop", convert2density=TRUE, style="kmeans", total.area.km2=41543) +
-geo_borders() +
-geo_shape(NLD_prov) +
-geo_borders(lwd=2) +
-geo_text("name", bg.color="white", bg.alpha=150) +
-geo_theme_NLD(title="Population (per km2)", bg.color="gray80", legend.digits=0, margins=rep(0,4))
-
-
-## Pretty example World
-(g <- geo_shape(World) +
- 	geo_choropleth("pop_est_dens", style="fixed", breaks=c(0, 5, 20, 100, 250, 1000, 20000), palette="YlOrRd", auto.palette.mapping=FALSE) +
- 	geo_borders() +
- 	geo_text("iso_a3", cex="AREA3") +
- 	geo_theme_World(legend.type="text", title="Population density per km2"))
-
-(g <- geo_shape(World) +
- 	geo_choropleth("income_grp", palette="-Greens") +
- 	geo_borders() +
- 	geo_bubblemap("pop_est") +
- 	geo_text("iso_a3", cex="AREA3") +
- 	geo_theme_World("Income classification", legend.bubble.size.title="Population"))
-
-(g <- geo_shape(Europe) +
- 	geo_choropleth("gdp_cap_est", style="kmeans") +
- 	geo_borders() +
- 	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe("GDP per capita"))
+NLD_muni <- append_data(NLD_muni, data = rel_diff)
 
 
 
-(g <- geo_shape(NLD_muni) +
- 	geo_choropleth(col="pop", convert2density=TRUE, style="kmeans", total.area.km2=41543)+
- 	geo_borders(col="gray", lwd=1) +
- 	#geo_text(NLD_muni, "code", cex=.3) +
- 	geo_shape(NLD_prov, projection="robin") +
- 	geo_borders(lwd=2) +
- 	geo_text("name", cex=.5) +
- 	geo_grid(free.scales=TRUE) +
- 	geo_theme_NLD(title="Population"))
-
-(g <- geo_shape(NLD_muni) +
- 	geo_choropleth(col="gender", convert2density=FALSE, style="kmeans")+
- 	geo_borders(col="gray", lwd=1) +
- 	#geo_text(NLD_muni, "code", cex=.3) +
- 	geo_shape(NLD_prov) +
- 	geo_borders(lwd=2) +
- 	geo_text("name", cex=.5) +
- 	geo_grid(free.scales=TRUE) +
- 	geo_theme_NLD(title="Gender"))
-
-## small multiples
-
-Rprof("../rprof.out", memory.profiling=TRUE)
-
-pdf("../test.pdf")
-(g <- geo_shape(NLD_muni) +
-	geo_borders() +
-	geo_choropleth(c("pop", "men", "women", "pop", "men", "women",
-					 "pop", "men", "women", "pop", "men", "women")))
-dev.off()
-
-
-Rprof(NULL)
-
-summaryRprof("../rprof.out", memory="both")
-
-## legend
-
-(g <- geo_shape(Europe) +
- 	geo_choropleth("gdp_cap_est", style="kmeans") +
- 	geo_borders() +
- 	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe("GDP per capita"))
-
-(g <- geo_shape(Europe) +
- 	geo_bubblemap("gdp_cap_est", style="kmeans") +
- 	geo_borders() +
- 	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe("GDP per capita"))
-
-(g <- geo_shape(Europe) +
- 	geo_bubblemap(col="income_grp", style="kmeans") +
- 	geo_borders() +
- 	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe("GDP per capita"))
-
-
-(g <- geo_shape(Europe) +
- 	geo_bubblemap("gdp_md_est", "income_grp", style="kmeans", scale=3) +
- 	geo_borders() +
- 	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe("GDP per capita"))
-
-
-(g <- geo_shape(Europe) +
- 	geo_choropleth("gdp_cap_est", style="kmeans") +
- 	geo_bubblemap("gdp_md_est", "income_grp", style="kmeans", scale=3) +
- 	geo_borders() +
- 	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe())
-
-
-(g <- geo_shape(Europe) +
- 	geo_choropleth(c("gdp_cap_est", "pop_est"), style="kmeans") +
- 	geo_bubblemap("gdp_md_est", c("income_grp", "subregion"), style="kmeans", scale=3) +
- 	geo_borders() +
- 	geo_text("iso_a3", cex="AREA3", scale=2) +
- 	geo_theme_Europe() +
- 	geo_grid(free.scales=TRUE, nrow=2))
+## facets:
+tm_shape(NLD_muni) + 
+	tm_fill(c("pop_0_14_rd", "pop_15_24_rd",
+			  "pop_25_44_rd",  "pop_45_64_rd",  "pop_65plus_rd"),
+			palette="-RdYlBu",
+			style = "kmeans") +
+	tm_borders("grey75") +
+	tm_shape(NLD_prov) +
+	tm_borders(lwd = 2) +
+	tm_text("name", cex = .75, bg.color = "white") +
+	tm_facets(free.scales = FALSE) +
+	tm_layout(scale=4)
 
