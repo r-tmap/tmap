@@ -110,7 +110,7 @@ plot_bubbles <- function(co.npc, g, bubbleHeight) {
 		} else {
 			co.npc2 <- co.npc
 			bubble.size2 <- bubble.size
-			col2 <- cols
+			cols2 <- cols
 		}
 		grid.circle(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
 					r=unit(bubble.size2, "inch"),
