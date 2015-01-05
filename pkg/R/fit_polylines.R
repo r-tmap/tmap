@@ -42,7 +42,7 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 	})
 	co <- do.call(rbind, co_s)
 	
-	IDs <- unique(co$ID)
+	IDs <- 1:length(lvls)
 	
 	lines <- lapply(IDs, function(i) {
 		if (verbose) cat("PROCESS", lvls[i], "\n")
@@ -50,6 +50,8 @@ fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=
 		cs <- co[co$ID==i,]
 				   
 		n <- nrow(cs)
+        
+        if (n==0) return(NULL)
 		
 		if (verbose) cat("number of coordinates:", n, "\n")
 
