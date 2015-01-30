@@ -8,12 +8,13 @@
 #' @param total.area.km2 total area size of \code{shp} in number of squared kilometers. If \code{NA}, and \code{unit="km2"}, then the polygon coordinates are assumed to be in meters.
 #' @param units one of
 #' \describe{
-#' 	\item{\code{"km2"}:}{Squared kilometers. For this method, \code{total.area.km2} is required.}
+#' 	\item{\code{"km2"}:}{Squared kilometers. For this method, \code{total.area.km2} is required. In this case, the area sizes are also returned in squared kilometers.}
 #' 	\item{\code{"abs"}:}{Absolute numbers based on polygon coordinates. Only usefull if the projection satisfies the equal-area property. Note: these are equal to the \code{area} slots of the polygons, where the \code{area} slots of the holes are subtracted. Also note that for many projections, the coordinate units are meters, so the area sizes correspond to squared meters (rather than squared kilometers).}
 #' 	\item{\code{"prop"}:}{Proportional numbers. In other words, the total of the area sizes equals one.}
 #' 	\item{\code{"norm"}:}{Normalized numbers. All area sizes are normalized to the largest area, of which the area size equals one.}}
 #' 	The default method is \code{"abs"}, unless \code{total.area.km2} is specified (in that case, it is \code{"km2"}).
 #' @return numeric vector of area sizes
+#' @example  ../examples/approx_areas.R
 #' @export
 approx_areas <- function(shp, total.area.km2=NA, units=NULL) {
 	x <- sapply(slot(shp, "polygons"),

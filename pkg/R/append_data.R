@@ -1,18 +1,36 @@
-#' Append data
+#' Append data to a shape object
 #' 
-#' Append data.frame to shape object
+#' Data, in the format of a data.frame, is appended to a shape object. This is either done by a right join where keys are specified for both data and shape, or by fixed order.
 #'
-#' @param shp shape object
 #' @param data data.frame
+#' @param shp shape object
 #' @param key.data variable name of \code{data} to be matched with \code{key.shp}. If not specified, and \code{fixed.order} is \code{FALSE}, the row names of \code{data} are taken.
 #' @param key.shp variable name of \code{shp} map data to be matched with \code{key.data}. If not specified, and \code{fixed.order} is \code{FALSE}, the polygon ID's are taken.
 #' @param ignore.duplicates should duplicated keys in \code{data} be ignored? (\code{FALSE} by default)
+#' @param ignore.na should NA values in \code{key.data} and \code{key.shp} be ignored? (\code{FALSE} by default)
 #' @param fixed.order should the data be append in the same order as the shapes in \code{shp}?
 #' @return shape object with appended data
+#' @examples
+#' \dontrun{
+#' data(Europe)
+#' 
+#' f <- tempfile()
+#' download.file("http://kejser.org/wp-content/uploads/2014/06/Country.csv", destfile = f)
+#' domain_codes <- read.table(f, header=TRUE, sep="|")
+#' unlink(f)
+#' 
+#' domain_codes <- subset(domain_codes, select = c("Alpha3Code", "TopLevelDomain"))
+#' domain_codes$Alpha3Code <- toupper(domain_codes$Alpha3Code)
+#' 
+#' Europe <- append_data(domain_codes, Europe, key.data = "Alpha3Code", key.shp = "iso_a3", 
+#'     ignore.na = TRUE)
+#' 
+#' qtm(Europe, text="TopLevelDomain")
+#' }
 #' @export
-append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
+append_data <- function(data, shp, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, ignore.na=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
 	spatialDF <- inherits(shp, c("SpatialPolygonsDataFrame", "SpatialPointsDataFrame", "SpatialLinesDataFrame"))
-	
+
 	if (fixed.order) {
 		if (length(shp)!=nrow(data)) 
 			stop("Number of shapes not equal to number of data rows")
@@ -21,7 +39,7 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 		if (missing(key.data)) {
 			cat("No key.data specified. Therefore, rownames are taken as keys.\n")
 			ids.data <- rownames(data)
-		} else ids.data <- data[[key.data]]
+		} else ids.data <- as.character(data[[key.data]])
 	
 		# key.data remove duplicates
 		if (any(duplicated(ids.data))) {
@@ -32,7 +50,7 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 				duplicated_data <- paste(duplicated_data, collapse=", ")
 			}
 			if (ignore.duplicates) {
-				warning(paste("data contains duplicated keys:", duplicated_data))
+				message(paste("data contains duplicated keys:", duplicated_data))
 				data <- data[!duplicated(ids.data), ]
 				ids.data <- ids.data[!duplicated(ids.data)]
 			} else stop(paste("data contains duplicated keys:", duplicated_data, 
@@ -41,7 +59,12 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 		
 		# key.data any NA?
 		if (any(is.na(ids.data))) {
-			stop("data key contains NA's")
+			if (ignore.na) {
+				message("data key contains NA's, which are ignored")
+				ids.data[is.na(ids.data)] <- "data_key_NA"
+			} else {
+				stop("data key contains NA's. Set ignore.na = TRUE to ignore them.")
+			}
 		}
 		
 		# key.shp specification
@@ -54,7 +77,7 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 				stop("shp is not a Spatial*DataFrame, while key.shp is specified")
 			if (!key.shp %in% names(shp@data))
 				stop("key.shp is not available in shp@data")
-			ids.shp <- shp@data[[key.shp]]
+			ids.shp <- as.character(shp@data[[key.shp]])
 		}
 		
 		# key.shp check duplicates
@@ -70,10 +93,20 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 	
 		# key.shp any NA?
 		if (any(is.na(ids.shp))) {
-			stop("shp key contains NA's")
+			if (ignore.na) {
+				message("shp key contains NA's, which are ignored")
+				ids.shp[is.na(ids.shp)] <- "shp_key_NA"
+			} else {
+				stop("shp key contains NA's. Set ignore.na = TRUE to ignore them.")
+			}
 		}
 				
+		# prepare data
+		data <- data[match(ids.shp, ids.data),]
+
 		# check coverage
+		ids.data <- setdiff(ids.data, "data_key_NA")
+		ids.shp <- setdiff(ids.shp, "shp_key_NA")
 		if (setequal(ids.data, ids.shp)) {
 			cat("Keys match perfectly.\n")
 		} else {
@@ -82,7 +115,7 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 				nnm <- length(notMatched.shp)
 				nshp <- length(ids.shp)
 				if (nnm==nshp) stop("No match found")
-				warning(paste("Under coverage. No data for", nnm, "out of", 
+				message(paste("Under coverage. No data for", nnm, "out of", 
 							  nshp, "polygons:", 
 							  paste(head(notMatched.shp, 5), collapse=", "),
 							  ifelse(length(notMatched.shp)>5, ", ...", "")))
@@ -91,16 +124,14 @@ append_data <- function(shp, data, key.data = NULL, key.shp = NULL, ignore.dupli
 				notMatched.data <- setdiff(ids.data, ids.shp)
 				nnm <- length(notMatched.data)
 				ndata <- length(ids.data)
-				warning(paste("Over coverage.", nnm, "out of", ndata, 
+				message(paste("Over coverage.", nnm, "out of", ndata, 
 							  "unmatched data records:", 
 							  paste(head(notMatched.data, 5), collapse=", "),
 							  ifelse(length(notMatched.data)>5, ", ...", "")))
 			}				
 		}
-	
-		# prepare data
-		data <- data[match(ids.shp, ids.data),]
-	
+		
+		
 	}
 	
 	# attach data to shp

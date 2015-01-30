@@ -1,15 +1,32 @@
 #' Read shape file
 #' 
-#' This function reads an ESRI shape file.
+#' Read an ESRI shape file. Optionally, set the current projection if it is missing.
 #' 
 #' This function is a convenient wrapper of readOGR of the package sp. It also fixes a common bug when reading shape files that are in the Dutch rijksdriehoekstelsel.
 #'
 #' @param file a shape file name (including directory).
+#' @param current.projection the current projection of the shape object, if it is missing in the shape file. It should be either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
+#' \describe{
+#'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).} 
+#'    	\item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise} 
+#'    	\item{\code{"robin"}}{Robinson (1963). Another popular projection for world maps. Type: compromise}
+#'    	\item{\code{"eck4"}}{Eckert IV (1906). Projection useful for world maps. Area sizes are preserved, which makes it particularly useful for truthful choropleths. Type: equal-area}
+#'    	\item{\code{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
+#'    	\item{\code{"gall"}}{Gall (Peters) (1855). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
+#'    	\item{\code{"merc"}}{Mercator (1569). Projection in which shapes are locally preserved. However, areas close to the poles are inflated. Google Maps uses a close variant of the Mercator. Type: conformal}
+#'    	\item{\code{"utmXX(s)"}}{Universal Transverse Mercator. Set of 60 projections where each projection is a traverse mercator optimized for a 6 degree longitude range. These ranges are called UTM zones. Zone \code{01} covers -180 to -174 degrees (West) and zone \code{60} 174 to 180 east. Replace XX in the character string with the zone number. For southern hemisphere, add \code{"s"}. So, for instance, the Netherlands is \code{"utm31"} and New Zealand is \code{"utm59s"}}
+#'    	\item{\code{"mill"}}{Miller (1942). Projetion based on Mercator, in which poles are displayed. Type: compromise}
+#'    	\item{\code{"eqc0"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The equator is the standard parallel. Also known as Plate Carr\'ee. Type: equidistant}
+#'    	\item{\code{"eqc30"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 30 is the standard parallel. Type: equidistant}
+#'    	\item{\code{"eqc45"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 45 is the standard parallel. Also known as Gall isographic. Type: equidistant}
+#'    	\item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
+#'    	See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
+#' Use \code{\link{set_projection}} to reproject the shape object.
 #' @return shape object
 #' @import rgdal
 #' @import sp
 #' @export
-read_shape <- function(file){
+read_shape <- function(file, current.projection=NULL){
 	
 	# determine region ID
 	if (file.exists(file)) {
@@ -23,14 +40,28 @@ read_shape <- function(file){
 	
 	shp <- readOGR(dir, base, verbose=FALSE)
 	
-	## rd projection correction: add towgs84 parameter
-	if (proj4string(shp) %in% c("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs",
-								"+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs",
-								"+proj=sterea +lat_0=52.156161 +lon_0=5.387639 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")) {
-		suppressWarnings(set_projection(shp, current.projection="rd", overwrite.current.projection=TRUE))
+	prj <- proj4string(shp)
+	
+	if (is.na(prj)) {
+		if (missing(current.projection)) {
+			warning("Current projection missing. Set the parameter current.project, or use set_projection")
+		} else {
+			shp <- set_projection(shp, current.projection=current.projection)
+		}
 	} else {
-		shp
+		if (!missing(current.projection)) {
+			warning("Projection already specified in shape file. Use set_projection for reprojection.")
+		}
+			
+		## rd projection correction: add towgs84 parameter
+		if (prj %in% c("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs",
+					   "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs",
+					   "+proj=sterea +lat_0=52.156161 +lon_0=5.387639 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")) {
+			shp <- suppressWarnings(set_projection(shp, current.projection="rd", overwrite.current.projection=TRUE))
+		}
 	}
+			
+	shp
 }
 
 #' Write shape file

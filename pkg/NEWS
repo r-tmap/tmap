@@ -1,8 +1,11 @@
 version 0.7
 - added function split to split a shape object and sbind to combine shape objects.
 - improved inner.margins and outer.margins. Both can take one value (e.g. outer.margins=0 rather than outer.margins=c(0,0,0,0))
+- improved qtm: tm_facets parameters working, and also fixed scale parameter bug
+- added examples for approx_areas, calc_densities
 - fixed bug regarding drawing a frame with outer.margins=0. 
 - fixed bug in plotting blubbles
+- improved temp file handling in animation_tmap
 - added functions to get and set polygon directions, and to calculate the intersection ratios of polygons (intersection_shapes)
 
 version 0.6

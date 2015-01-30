@@ -66,7 +66,7 @@ qtm <- function(shp,
 	if ("line.scale" %in% names(lineargs)) names(lineargs)[names(lineargs)=="line.scale"] <- "scale"
 	
 	themeargs <- args[intersect(names(args), names(tm_layout()[[1]]))]
-	gridargs <- args[intersect(names(args), names(tm_grid()[[1]]))]
+	facetargs <- args[intersect(names(args), names(tm_facets()[[1]]))]
 	
 	g <- do.call("tm_shape", c(list(shp=shp), shapeargs))
 	if (!is.null(borders)) g <- g + do.call("tm_borders", c(list(col=borders), borderargs))
@@ -76,9 +76,11 @@ qtm <- function(shp,
 	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, cex=text.cex), textargs))
 	
 	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("tm_lines", c(list(lwd=line.lwd, col=line.col), lineargs))
+	
+	if (length(facetargs)) g <- g + do.call("tm_facets", facetargs)
 
 	if (missing(theme)) {
-		if (length(themeargs)) g <- g + do.call("tm_layout", c(list(scale=scale), themeargs))	
+		g <- g + do.call("tm_layout", c(list(scale=scale), themeargs))	
 	} else {
 		if (!(theme %in% c("World", "Europe", "NLD"))) stop("Unknown theme")
 		funct <- paste("tm_layout", theme, sep="_")

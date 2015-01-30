@@ -165,7 +165,7 @@ Besides the ggplot2-style plotting functions, the package also offers functions 
     dev.off()
     ```
     The `scale` argument in [`tm_layout`](../html/tm_layout.html) is very useful as overall scalar (similar to the `scale` argument in `ggplot2`'s `ggsave`).
-    + Create animations (gif or mpeg) from a series of small multiples with [`animation_tmap`](../html/animation_tmap.html):
+    + Create animations (gif or mpeg) from a series of tmap plots [`animation_tmap`](../html/animation_tmap.html):
     
     ```{r, eval=FALSE}
     animation_tmap({
