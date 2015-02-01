@@ -22,9 +22,9 @@
 \item{...}{other arguments (not used)}
 }
 \value{
-list of shape objects
+List of shape objects.
 }
 \description{
-Divide shape object into multiple objects
+Divide shape object into multiple objects.
 }
 

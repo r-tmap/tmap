@@ -1,6 +1,6 @@
 #' Create animations
 #' 
-#' This function creates a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
+#' Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
 #'
 #' @param expr R expression to create series of tmap plots. In order to create a series of tmap plots, which will be the frames of the animation, it is important to set nrow and ncol in \code{\link{tm_facets}}, for otherwise a small multiples plot is generated. Commonly, where one map is shown at a time, both nrow and ncol are set to 1.
 #' @param width width of the animation file (in pixels)

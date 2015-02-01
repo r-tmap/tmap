@@ -4,7 +4,7 @@
 #' 
 #' @param shp shape object
 #' @param key variable name in the shape data that identifies the polygons. If not specified, the default ID is used (see \code{\link{get_IDs}}).
-#' @return list containing a data.frame of ranges per polygon, and a range vector of the total shape object
+#' @return List containing a data.frame of ranges per polygon, and a range vector of the total shape object.
 #' @export
 get_polygon_ranges <- function(shp, key=NULL) {
 	co <- lapply(shp@polygons, function(p) {

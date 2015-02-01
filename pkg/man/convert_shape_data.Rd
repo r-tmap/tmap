@@ -22,6 +22,9 @@ shape object \code{shp.to} with converted data from \code{shp.from}
 \description{
 Convert numeric data from one polygon shape to another. It uses an intersection matrix, which stores the intersection ratios of the two shape objects per polygon (see \code{\link{intersection_shapes}}).
 }
+\note{
+Running time may be pretty slow.
+}
 \examples{
 \dontrun{
 data(NLD_prov)

@@ -22,5 +22,5 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders() +
     tm_facets(free.scales=FALSE) +
-tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44", 
-    "Population 45 to 64", "Population 65 and older"), scale=4, draw.frame = TRUE)
+	tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
+		"Population 45 to 64", "Population 65 and older"), scale=4, draw.frame = TRUE)

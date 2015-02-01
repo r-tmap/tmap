@@ -45,7 +45,7 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
 \code{\link{tmap-element}}
 }
 \description{
-This element specifies the shape object. Also the used projection and covered area (bounding box) can be set.
+Creates a \code{\link{tmap-element}} that specifies the shape object. Also the used projection and covered area (bounding box) can be set.
 }
 \examples{
 data(World)
@@ -78,6 +78,8 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
     inner.margins=c(0,0,.1,0), title.cex=.8)
 }
 \seealso{
+\code{\link{read_shape}} to read ESRI shape files
+
 \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 

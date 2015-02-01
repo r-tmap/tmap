@@ -1,10 +1,11 @@
 #' Create a double line
 #' 
-#' Create a double line from a single line. (Experimental)
+#' Create a double line from a single line. (Experimental, see note)
 #' 
 #' @param shp The shape object that contains the lines (\code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}})
 #' @param width Width between the double lines
 #' @return SpatialLinesDataFrame
+#' @note This function is still in experimental phase, which means that it may not be stable and it may be changed significantly in future versions. Moreover, it is unsure if it will stay in tmap; instead, it may be put in a different package, along with functions of similar tasks.
 #' @export
 double_line <- function(shp, width) {
 	co <- coordinates(shp)

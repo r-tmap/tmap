@@ -1,6 +1,6 @@
 #' Split lines by polygons
 #' 
-#' Split a lines shape object by a polygon shape object. Data of the corresponding polygons is appended to the line segments (Experimental)
+#' Split a lines shape object by a polygon shape object. Data of the corresponding polygons is appended to the line segments (Experimental, see note)
 #' 
 #' @param shp.lines The shape object that contains the lines
 #' @param shp.poly The shape object that contains the polygons
@@ -8,6 +8,7 @@
 #' @param variables.poly Names of the variables of \code{shp.poly} that are appended to the split lines shape object.
 #' @export
 #' @return shape object with splitted lines
+#' @note This function is still in experimental phase, which means that it may not be stable and it may be changed significantly in future versions. Moreover, it is unsure if it will stay in tmap; instead, it may be put in a different package, along with functions of similar tasks.
 #' @import rgeos
 split_lines_poly <- function(shp.lines, shp.poly, variables.lines, variables.poly) {
 	shp <- gIntersection(shp.lines, shp.poly, byid=TRUE)

@@ -24,6 +24,9 @@ intersection matrix with the number of rows equal to the number of polygons of \
 \description{
 The value of row i and column j in the intersection matrix corresponds to the proportion of the area of the i'th polygon of the first shape object that intersects the j'th polygon of the second shape object
 }
+\note{
+Running time may be pretty slow.
+}
 \examples{
 \dontrun{
 data(NLD_prov)

@@ -1,6 +1,6 @@
 #' Approximate area sizes of the shapes.
 #' 
-#' This function approximates the area sizes of the polygons either in 1) squared kilometers, 2) absolute numbers based on the polygon coordinates, 3) proportional numbers, 4) normalized numbers.
+#' Approximate the area sizes of the polygons either in 1) squared kilometers, 2) absolute numbers based on the polygon coordinates, 3) proportional numbers, 4) normalized numbers.
 #' 
 #' To approximate the sizes in squared kilometer, \code{total.area.km2} is required. Note that this method is an approximation, since it depends on the used projection and the level of detail of the SpatialPolygons object. Projections with equal-area property are highly recommended.
 #'

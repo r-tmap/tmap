@@ -1,8 +1,8 @@
-#' Print tm object
+#' Draw tmap plot
 #' 
-#' Print tm object
+#' Draw tmap plot on current graphics device
 #' 
-#' @param x tm object
+#' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param ... not used
 #' @import sp
 #' @import RColorBrewer

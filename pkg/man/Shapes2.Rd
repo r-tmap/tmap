@@ -8,6 +8,11 @@
 \source{
 http://www.naturalearthdata.com/
 }
+\usage{
+data(rivers)
+
+data(cities)
+}
 \description{
 Spatial data of main world cities and rivers.
 }

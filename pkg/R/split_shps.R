@@ -1,13 +1,13 @@
 #' Divide into multiple shape objects
 #'
-#' Divide shape object into multiple objects
+#' Divide shape object into multiple objects.
 #' 
 #' @aliases split.SpatialPolygonsDataFrame
 #' @param x shape object
 #' @param f factor to split \code{x}
 #' @param drop unused factor levels are dropped
 #' @param ... other arguments (not used)
-#' @return list of shape objects	
+#' @return List of shape objects.
 #' @name split.SpatialPolygonsDataFrame
 #' @rdname split_shapes
 #' @method split SpatialPolygonsDataFrame

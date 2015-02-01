@@ -1,6 +1,6 @@
 #' Specify the shape object
 #' 
-#' This element specifies the shape object. Also the used projection and covered area (bounding box) can be set.
+#' Creates a \code{\link{tmap-element}} that specifies the shape object. Also the used projection and covered area (bounding box) can be set.
 #' 
 #' @param shp shape object, which is one of
 #' \itemize{
@@ -30,6 +30,7 @@
 #' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: relative values will depend on the current bounding box (bbox) of the first shape object.
 #' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides the \code{xlim} and \code{ylim} parameters.
 #' @export
+#' @seealso \code{\link{read_shape}} to read ESRI shape files
 #' @example ../examples/tm_shape.R
 #' @return \code{\link{tmap-element}}
 #' @seealso \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
@@ -49,7 +50,7 @@ tm_shape <- function(shp,
 
 #' Draw polygon borders
 #' 
-#' This layer defines the borders of the polygons. Color, line width and line type can be set.
+#' Creates a \code{\link{tmap-element}} that defines the borders of the polygons. Color, line width and line type can be set.
 #' 
 #' @param col line color
 #' @param lwd line width (see \code{\link[graphics:par]{par}})
@@ -67,7 +68,7 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid") {
 
 #' Add text labels
 #' 
-#' This layer adds text labels
+#' Creates a \code{\link{tmap-element}} that adds text labels
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
 #' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or \code{AREA} where the text size is proportional to the the area size of the polygons.
@@ -97,7 +98,7 @@ tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfa
 
 #' Draw spatial lines
 #' 
-#' This layer draw spatial lines.
+#' Creates a \code{\link{tmap-element}} that draw spatial lines.
 #' 
 #' @param col color of the lines. Either a color value or a data variable name.
 #' @param lwd line width
@@ -138,9 +139,9 @@ tm_lines <- function(col="red", lwd=1, lty="solid",
 }
 
 
-#' Draw choropleth
+#' Fill polygons
 #' 
-#' This layer speficies a choropleth. A color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
+#' Creates a \code{\link{tmap-element}} that fills polygons. Either a fixed color is used, or a color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
 #' 
 #' @param col either a single color value or a name of the data variable that is contained in \code{shp}. In the latter case, a choropleth is drawn.
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
@@ -180,9 +181,9 @@ tm_fill <- function(col="grey90",
 	g
 }	
 
-#' Draw bubble map
+#' Draw bubbles
 #' 
-#' This layer speficies a bubble map. Both colors and sizes of the bubbles can be mapped to data variables. 
+#' Creates a \code{\link{tmap-element}} that draws bubbles. Both colors and sizes of the bubbles can be mapped to data variables. 
 #' 
 #' @param size \code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples
@@ -239,9 +240,9 @@ tm_bubbles <- function(size=1, col="blueviolet",
 }
 
 
-#' Small multiples grid
+#' Small multiples
 #' 
-#' This element specifies how small multiples are placed in a grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
+#' Creates a \code{\link{tmap-element}} that specifies how small multiples are placed in a facet grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 #' 
 #' @param by data variable name by which the data is split
 #' @param ncol number of columns of the small multiples grid
@@ -272,7 +273,7 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 
 #' Coordinate grid lines
 #' 
-#' This element draws coordinate grid lines.
+#' Creates a \code{\link{tmap-element}} that draws coordinate grid lines.
 #' 
 #' @param n.x Prefered number of grid lines for the x axis.
 #' @param n.y Prefered number of grid lines for the y axis.

@@ -42,7 +42,7 @@ tm_lines(col = "red", lwd = 1, lty = "solid", scale = 1, n = 5,
 \code{\link{tmap-element}}
 }
 \description{
-This layer draw spatial lines.
+Creates a \code{\link{tmap-element}} that draw spatial lines.
 }
 \examples{
 data(rivers)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_layers.R
 \name{tm_bubbles}
 \alias{tm_bubbles}
-\title{Draw bubble map}
+\title{Draw bubbles}
 \usage{
 tm_bubbles(size = 1, col = "blueviolet", border.lwd = NA,
   border.col = "black", scale = 1, size.lim = NA, n = 5,
@@ -51,7 +51,7 @@ tm_bubbles(size = 1, col = "blueviolet", border.lwd = NA,
 \code{\link{tmap-element}}
 }
 \description{
-This layer speficies a bubble map. Both colors and sizes of the bubbles can be mapped to data variables.
+Creates a \code{\link{tmap-element}} that draws bubbles. Both colors and sizes of the bubbles can be mapped to data variables.
 }
 \examples{
 # World example

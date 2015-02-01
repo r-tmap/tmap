@@ -16,7 +16,8 @@ The elements that serve as drawing layers are
 \item \code{\link{tm_borders}} to draw polygon borders
 \item \code{\link{tm_fill}} to color the polygons
 \item \code{\link{tm_bubbles}} to draw bubbles
-\item \code{\link{tm_lines}} to draw lines}
+\item \code{\link{tm_lines}} to draw lines
+\item \code{\link{tm_text}} to print text}
 
 The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}}.
 
@@ -26,5 +27,37 @@ The layout elements are
 \item \code{\link{tm_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
 \item \code{\link{tm_grid}} that specifies grid lines
 }
+}
+\examples{
+## Europe examples
+data(Europe)
+data(cities)
+
+tm_shape(Europe) +
+	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
+	tm_borders() +
+	tm_text("iso_a3", cex="AREA", scale=2, bg.alpha=0) +
+	tm_layout_Europe("GDP per capita")
+
+tm_shape(Europe) +
+	tm_borders() +
+	tm_fill() +
+tm_shape(cities) +
+	tm_text("name", cex="pop_max", scale=2, root=3, ymod=-.015, bg.alpha=0) +
+	tm_bubbles(size="pop_max", col="capital", size.lim=c(0, 2e7)) +
+	tm_layout_Europe("Metropolitan population", legend.titles=c(bubble.col="Capital"))
+
+## Netherlands example
+data(NLD_muni)
+data(NLD_prov)
+
+tm_shape(NLD_muni) +
+	tm_fill(c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
+			convert2density=TRUE, style="kmeans") +
+tm_shape(NLD_prov) +
+	tm_borders() +
+	tm_facets(free.scales=FALSE) +
+	tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
+		"Population 45 to 64", "Population 65 and older"), scale=4, draw.frame = TRUE)
 }
 

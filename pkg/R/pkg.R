@@ -29,22 +29,26 @@ NULL
 #' 
 #' \code{NLD_prov} and \code{NLD_muni}, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection. \strong{Important:} publication of these maps is only allowed when cited to Statistics Netherlands (CBS) and Kadaster Nederland as source.
 #' 
+#' @usage data(World)
 #' @name World
 #' @rdname Shapes
 #' @docType data
 NULL
 
 
+#' @usage data(Europe)
 #' @name Europe
 #' @rdname Shapes
 #' @docType data
 NULL
 
+#' @usage data(NLD_prov)
 #' @name NLD_prov
 #' @rdname Shapes
 #' @docType data
 NULL
 
+#' @usage data(NLD_muni)
 #' @name NLD_muni
 #' @rdname Shapes
 #' @docType data
@@ -56,12 +60,14 @@ NULL
 #' 
 #' Spatial data of main world cities and rivers.
 #' 
+#' @usage data(rivers)
 #' @name rivers
 #' @rdname Shapes2
 #' @docType data
 #' @source http://www.naturalearthdata.com/
 NULL
 
+#' @usage data(cities)
 #' @name cities
 #' @rdname Shapes2
 #' @docType data
@@ -82,7 +88,8 @@ NULL
 #' \item \code{\link{tm_borders}} to draw polygon borders
 #' \item \code{\link{tm_fill}} to color the polygons
 #' \item \code{\link{tm_bubbles}} to draw bubbles
-#' \item \code{\link{tm_lines}} to draw lines}
+#' \item \code{\link{tm_lines}} to draw lines
+#' \item \code{\link{tm_text}} to print text}
 #' 
 #' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}}.
 #' 
@@ -94,4 +101,5 @@ NULL
 #' }
 #'    
 #' @name tmap-element
+#' @example ../examples/tmap.R
 NULL

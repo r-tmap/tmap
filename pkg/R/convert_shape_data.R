@@ -8,6 +8,7 @@
 #' @param variables.to variable names to be used. Should be the same number of variable names as \code{variables.from}
 #' @import rgeos
 #' @return shape object \code{shp.to} with converted data from \code{shp.from}
+#' @note  Running time may be pretty slow.
 #' @examples
 #'\dontrun{
 #' data(NLD_prov)
@@ -73,6 +74,7 @@ convert_shape_data <- function(shp.from, shp.to, variables.from=NULL, variables.
 #' @param absolute should the intersection matrix contain intersection area sizes rather than proportions?
 #' @import rgeos
 #' @return intersection matrix with the number of rows equal to the number of polygons of \code{shp.from} and the number of columns equal to the number of polygons of \code{shp.to}
+#' @note  Running time may be pretty slow.
 #' @examples
 #'\dontrun{
 #' data(NLD_prov)

@@ -7,6 +7,15 @@
 \alias{NLD_prov}
 \alias{World}
 \title{World, Europe and Netherlands map}
+\usage{
+data(World)
+
+data(Europe)
+
+data(NLD_prov)
+
+data(NLD_muni)
+}
 \description{
 Maps of the world, Europe and the Netherlands (province and municipality level).
 }

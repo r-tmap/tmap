@@ -12,7 +12,7 @@ get_polygon_ranges(shp, key = NULL)
 \item{key}{variable name in the shape data that identifies the polygons. If not specified, the default ID is used (see \code{\link{get_IDs}}).}
 }
 \value{
-list containing a data.frame of ranges per polygon, and a range vector of the total shape object
+List containing a data.frame of ranges per polygon, and a range vector of the total shape object.
 }
 \description{
 Get the ranges of the polyons in the current projection. Also the total range of the shape object is returned.

@@ -19,7 +19,7 @@ animation_tmap(expr, width = 1000, height = 1000, delay = 40,
 \item{filename}{filename of the video (should be a .gif or .mpg file)}
 }
 \description{
-This function creates a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
+Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
 }
 \examples{
 \dontrun{

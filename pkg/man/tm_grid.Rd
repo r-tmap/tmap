@@ -21,6 +21,6 @@ tm_grid(n.x = 8, n.y = 8, col = "grey50", labels.cex = 0.75,
 \item{on.top}{Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).}
 }
 \description{
-This element draws coordinate grid lines.
+Creates a \code{\link{tmap-element}} that draws coordinate grid lines.
 }
 

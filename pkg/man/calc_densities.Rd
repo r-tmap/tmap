@@ -21,10 +21,10 @@ calc_densities(shp, var, total.area.km2 = NA, units = "km2", suffix = "",
 \item{drop}{boolean that determines whether an one-column data-frame should be returned as a vector}
 }
 \value{
-vector or data.frame (depending on whether \code{length(var)==1} with density values. This can be appended directly to the shape file.
+Vector or data.frame (depending on whether \code{length(var)==1} with density values. This can be appended directly to the shape file with \code{\link{append_data}} with \code{fixed.order=TRUE}.
 }
 \description{
-This function transposes quantitiy variables to densitiy variables, which are needed for choroplets.
+Transpose quantitative variables to densitiy variables, which are often needed for choroplets.
 }
 \examples{
 data(NLD_muni)

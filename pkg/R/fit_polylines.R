@@ -1,16 +1,19 @@
 #' Fit polylines through a set of spatial points
 #' 
-#' This function fits one or more smooth polylines through a set of spatial points. (Experimental)
+#' Fit one or more smooth polylines through a set of spatial points. (Experimental, see note)
 #' 
-#' @param ... Shape objects that contains the spatial points.
+#' Method: the coordinates from all shape objects are collected per category (defined by \code{id}). Per category, the following steps are taken: 1) coordinates that are closer than \code{min.dist} from each other are grouped, where the group means are considered as coordination points subsequently; 2) the coordination points are clustered by fitting a minimum spanning tree where edges longer than \code{sep.dist} are removed; 3) for each cluster, a graph is created by adding an edge for any two coordinate points that are at least \code{max.opt.dist} far away from each other. Also, the edges of a fitted minimum spanning tree are added to the graph; 4) for each cluster, the shortest path is found within the constructed graph between the two coordinate points that are fartest away from each other.
+#' 
+#' @param ... Shape object(s) from which spatial points are taken
 #' @param id Name of the data variable that determines the classes of the points. For each class a polyline is fit. Is omitted, a polyline is fit through all points.
-#' @param min.dist Minimum distance. Poins that are closer than \code{min.dist} from any other point are omitted in the fitting method (see details below)
+#' @param min.dist Minimum distance. Poins that are closer than \code{min.dist} from any other point are clustered (see details below)
 #' @param max.opt.dist Maximal optimized distance. Between any two points that lie closer than 
 #' \code{max.opt.dist} to each other, an edge is created in the fitting method (see details below)
 #' @param sep.dist Seperation distance. If the distance between two groups of points is larger than \code{sep.dist}, two seperate polylines are created.
 #' @param verbose Print logging text
 #' @return SpatialLinesDataframe
 #' @import fields igraph vegan
+#' @note This function is still in experimental phase, which means that it may not be stable and it may be changed significantly in future versions. Moreover, it is unsure if it will stay in tmap; instead, it may be put in a different package, along with functions of similar tasks.
 #' @export
 fit_polylines <- function(..., id=NULL, min.dist=10, max.opt.dist=250, sep.dist=5000, verbose=TRUE) {
 	shps <- list(...)

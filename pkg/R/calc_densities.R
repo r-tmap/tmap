@@ -1,6 +1,6 @@
 #' Calculate densities
 #' 
-#' This function transposes quantitiy variables to densitiy variables, which are needed for choroplets.
+#' Transpose quantitative variables to densitiy variables, which are often needed for choroplets.
 #'
 #' @param shp a shape object
 #' @param var name(s) of a qualtity variable name contained in the \code{map} data
@@ -10,7 +10,7 @@
 #' @param drop boolean that determines whether an one-column data-frame should be returned as a vector
 #'
 #' @keywords densities
-#' @return vector or data.frame (depending on whether \code{length(var)==1} with density values. This can be appended directly to the shape file.
+#' @return Vector or data.frame (depending on whether \code{length(var)==1} with density values. This can be appended directly to the shape file with \code{\link{append_data}} with \code{fixed.order=TRUE}.
 #' @example  ../examples/calc_densities.R
 #' @export
 #' 

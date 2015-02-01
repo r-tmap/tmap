@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_layers.R
 \name{tm_fill}
 \alias{tm_fill}
-\title{Draw choropleth}
+\title{Fill polygons}
 \usage{
 tm_fill(col = "grey90", palette = NULL, convert2density = FALSE,
   area = NULL, n = 5, style = "pretty", breaks = NULL, labels = NULL,
@@ -42,7 +42,7 @@ tm_fill(col = "grey90", palette = NULL, convert2density = FALSE,
 \code{\link{tmap-element}}
 }
 \description{
-This layer speficies a choropleth. A color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
+Creates a \code{\link{tmap-element}} that fills polygons. Either a fixed color is used, or a color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
 }
 \examples{
 # World examples

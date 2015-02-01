@@ -42,7 +42,7 @@ tm_text(text, cex = 1, root = 3, fontcolor = NA, fontface = "plain",
 \code{\link{tmap-element}}
 }
 \description{
-This layer adds text labels
+Creates a \code{\link{tmap-element}} that adds text labels
 }
 \examples{
 # Europe example

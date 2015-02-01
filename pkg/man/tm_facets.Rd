@@ -2,7 +2,7 @@
 % Please edit documentation in R/tm_layers.R
 \name{tm_facets}
 \alias{tm_facets}
-\title{Small multiples grid}
+\title{Small multiples}
 \usage{
 tm_facets(by = NULL, ncol = NULL, nrow = NULL,
   free.scales = is.null(by), free.scales.fill = free.scales,
@@ -33,7 +33,7 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL,
 \code{\link{tmap-element}}
 }
 \description{
-This element specifies how small multiples are placed in a grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
+Creates a \code{\link{tmap-element}} that specifies how small multiples are placed in a facet grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 }
 \examples{
 ## World example
@@ -60,8 +60,8 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders() +
     tm_facets(free.scales=FALSE) +
-tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44", 
-    "Population 45 to 64", "Population 65 and older"), scale=4, draw.frame = TRUE)
+	tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
+		"Population 45 to 64", "Population 65 and older"), scale=4, draw.frame = TRUE)
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
