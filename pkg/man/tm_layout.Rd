@@ -44,7 +44,7 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 
 \item{draw.frame}{Boolean that determines whether a frama is drawn.}
 
-\item{title.position}{Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.}
+\item{title.position}{Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.}
 
 \item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 
@@ -66,7 +66,7 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 
 \item{legend.titles}{titles of the legend elements. Named character vector, where the names correspond to the legend elements and the value to the titles of those elements. Possible legend element names are: \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. For small multiples, a list of character vectors can be provided, where the list names correspond to the legend elements, and the character vectors to the legend titles of the small multiples per legend element. By default, the names of the corresponding statistical variables are used. For the legend element at the top, no legend title is used since the main title is used for this. A legend title for this element can be speficied.}
 
-\item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "right" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.}
+\item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.}
 
 \item{legend.is.portrait}{logical vector that determines whether the orientation of the legend elements are portrait (\code{TRUE}) or landscape (\code{FALSE}). The vector should be named with the corresponding elements, which are \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.}
 
@@ -91,7 +91,37 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 \item{...}{other arguments from \code{tm_layout}}
 }
 \description{
-This element specifies layout options for the maps. The main function \code{tm_layout} is used by default as  general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes for World, Europe, and Netherlands maps (which are contained in this package).
+This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for World, Europe, and Netherlands maps (which are contained in this package). Tip: create a layout theme for your own map (see example below).
+}
+\examples{
+data(World)
+
+# General layout settings with adjusted title
+tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") + 
+	tm_layout("World Population")
+
+# Layout settings for the world map
+tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") + 
+	tm_layout_World("World Population")
+
+# Take a look at Africa
+Africa <- World[World$continent=="Africa", ]
+qtm(Africa, fill="pop_est_dens", style="kmeans")
+# So with general settings, legend is drawn insde western Africa.
+
+# A custom layout wrapper for Africa
+tm_layout_Africa <- function(title=NA,
+							 inner.margins = c(.02, .4, .02, .02),
+							 draw.frame = FALSE,
+							 title.position=c("left", "bottom"), 
+							 legend.position = c("left", "bottom"), 
+							 bg.color = "lightblue", ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+qtm(Africa, fill="pop_est_dens", style="kmeans") + 
+	tm_layout_Africa("Population of Africa")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

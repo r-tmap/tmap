@@ -2,8 +2,8 @@
 #' 
 #' Map points to a polyline. For each point, the closest point on the line and the corresponding distance is determined. At the moment, it only considers the begin- joint-, and endpoint coordinates of a line, not their interpolations. To take the interpolations into account, use \code{\link{split_lines_equal}}. (Experimental, see note)
 #'
-#' @param shp.points shape object containing the points
-#' @param shp.lines shape object containing the polylines
+#' @param shp.points shape object containing the points, i.e. a \code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
+#' @param shp.lines shape object containing the polylines, i.e. a \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
 #' @param by.key should the points be mapped to the polylines by class (determined by \code{key.points} and \code{key.lines})?
 #' @param key.points name of a variable contained in \code{shp.points} that determined the classes of the points. The points are mapped to the polylines class-wise.
 #' @param key.lines name of a variable contained in \code{shp.lines} that determined the classes of the polylines. The points are mapped to the polylines class-wise.

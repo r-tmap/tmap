@@ -2,8 +2,12 @@
 #' 
 #' Get ID's of the shape items. For polygons and lines, the ID attribute is used. For points, the coordinates are used.
 #'
-#' @param shp shape object
-#' @return vector of ID's
+#' @param shp shape object, which is one of
+#' \enumerate{
+#'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+#' }#' @return vector of ID's
 #' @export
 get_IDs <- function(shp) {
 	if (inherits(shp, "SpatialPolygons")) {

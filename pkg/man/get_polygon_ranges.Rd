@@ -7,7 +7,7 @@
 get_polygon_ranges(shp, key = NULL)
 }
 \arguments{
-\item{shp}{shape object}
+\item{shp}{shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 
 \item{key}{variable name in the shape data that identifies the polygons. If not specified, the default ID is used (see \code{\link{get_IDs}}).}
 }

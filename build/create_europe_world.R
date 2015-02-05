@@ -156,7 +156,7 @@ eur4@bbox[,] <- c(-3200000, -50000, 3000000, 4100000)
 
 
 #eur5 <- append_data(eur4, ed[c(1:70, 58), ]) ## needed for Russia-asia
-eur5 <- append_data(eur4, ed)
+eur5 <- append_data(ed, eur4)
 #eur5@data[71, 8:11] <- NA ## needed for Russia-asia
 
 
@@ -246,7 +246,12 @@ World <- gBuffer(World, byid=TRUE, width=0)
 ## set bouding box (leave out Antarctica)
 #World@bbox[,] <- c(-14200000, -6750000, 15500000, 9700000)  # for Winkel Tripel
 
-World@data <- wd[match(World$iso_a3, wd$iso_a3),]
+setdiff(World$iso_a3, wd$iso_a3)
+setdiff(World$name, wd$name)
+
+World$name <- as.character(World$name)
+World$name[World$iso_a3=="CIV"] <- "Cote d'Ivoire"
+World@data <- wd[match(World$name, wd$name),]
 
 save(World, file="./data/World.rda", compress="xz")
 

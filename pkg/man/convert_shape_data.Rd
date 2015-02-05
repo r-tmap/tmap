@@ -8,16 +8,16 @@ convert_shape_data(shp.from, shp.to, variables.from = NULL,
   variables.to = NULL)
 }
 \arguments{
-\item{shp.from}{the shape object to be converted. It should contain data.}
+\item{shp.from}{the shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, to be converted. It should contain data.}
 
-\item{shp.to}{the shape object to be converted into.}
+\item{shp.to}{the shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, to be converted into.}
 
 \item{variables.from}{names of the numeric variables of \code{shp.from} to be converted. If missing, all numeric variables are taken.}
 
 \item{variables.to}{variable names to be used. Should be the same number of variable names as \code{variables.from}}
 }
 \value{
-shape object \code{shp.to} with converted data from \code{shp.from}
+Shape object \code{shp.to} with converted data from \code{shp.from}.
 }
 \description{
 Convert numeric data from one polygon shape to another. It uses an intersection matrix, which stores the intersection ratios of the two shape objects per polygon (see \code{\link{intersection_shapes}}).

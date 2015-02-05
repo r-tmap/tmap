@@ -1,8 +1,0 @@
-TO DO list
-
-- outer.bg.color: explain in docs
-- explain fit_polylines
-- movies
-- update main doc page
-- total.area.size
-

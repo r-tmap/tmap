@@ -19,7 +19,7 @@ intersection_shapes(shp.from, shp.to, id.from = NULL, id.to = NULL,
 \item{absolute}{should the intersection matrix contain intersection area sizes rather than proportions?}
 }
 \value{
-intersection matrix with the number of rows equal to the number of polygons of \code{shp.from} and the number of columns equal to the number of polygons of \code{shp.to}
+Intersection matrix with the number of rows equal to the number of polygons of \code{shp.from} and the number of columns equal to the number of polygons of \code{shp.to}.
 }
 \description{
 The value of row i and column j in the intersection matrix corresponds to the proportion of the area of the i'th polygon of the first shape object that intersects the j'th polygon of the second shape object

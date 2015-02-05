@@ -8,9 +8,9 @@ map_points_to_line(shp.points, shp.lines, by.key = FALSE, key.points = NULL,
   key.lines = NULL)
 }
 \arguments{
-\item{shp.points}{shape object containing the points}
+\item{shp.points}{shape object containing the points, i.e. a \code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
 
-\item{shp.lines}{shape object containing the polylines}
+\item{shp.lines}{shape object containing the polylines, i.e. a \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
 
 \item{by.key}{should the points be mapped to the polylines by class (determined by \code{key.points} and \code{key.lines})?}
 

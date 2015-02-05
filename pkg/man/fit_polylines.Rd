@@ -8,7 +8,12 @@ fit_polylines(..., id = NULL, min.dist = 10, max.opt.dist = 250,
   sep.dist = 5000, verbose = TRUE)
 }
 \arguments{
-\item{...}{Shape object(s) from which spatial points are taken}
+\item{...}{Shape object(s) from which spatial points are taken. A shape object is one of
+\enumerate{
+ \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+ \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+ \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+}}
 
 \item{id}{Name of the data variable that determines the classes of the points. For each class a polyline is fit. Is omitted, a polyline is fit through all points.}
 

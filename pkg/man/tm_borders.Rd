@@ -17,7 +17,7 @@ tm_borders(col = "grey40", lwd = 1, lty = "solid")
 \code{\link{tmap-element}}
 }
 \description{
-Creates a \code{\link{tmap-element}} that defines the borders of the polygons. Color, line width and line type can be set.
+Creates a \code{\link{tmap-element}} that defines the borders of the polygons. Line color, width, and type can be set.
 }
 \examples{
 ## Europe example

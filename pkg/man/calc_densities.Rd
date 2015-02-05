@@ -8,13 +8,13 @@ calc_densities(shp, var, total.area.km2 = NA, units = "km2", suffix = "",
   drop = TRUE)
 }
 \arguments{
-\item{shp}{a shape object}
+\item{shp}{a shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 
 \item{var}{name(s) of a qualtity variable name contained in the \code{map} data}
 
 \item{total.area.km2}{total area size of \code{shp} in number of squared kilometers. If \code{NA}, and \code{unit="km2"}, then the polygon coordinates are assumed to be in meters.}
 
-\item{units}{the units of the area sizes, either "m2" or "km2".}
+\item{units}{the units of the area sizes, either \code{"m2"} or \code{"km2"}. In other words, either \code{var/m2} or \code{var/km2} density values are calculated.}
 
 \item{suffix}{character that is appended to the variable names. The resulting names are used as column names of the returned data.frame.}
 
@@ -24,7 +24,7 @@ calc_densities(shp, var, total.area.km2 = NA, units = "km2", suffix = "",
 Vector or data.frame (depending on whether \code{length(var)==1} with density values. This can be appended directly to the shape file with \code{\link{append_data}} with \code{fixed.order=TRUE}.
 }
 \description{
-Transpose quantitative variables to densitiy variables, which are often needed for choroplets.
+Transpose quantitative variables to densitiy variables, which are often needed for choroplets. For example, the colors of a population density map should correspond population density counts rather than absolute population numbers.
 }
 \examples{
 data(NLD_muni)

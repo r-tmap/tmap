@@ -23,7 +23,9 @@ NULL
 #' 
 #' Maps of the world, Europe and the Netherlands (province and municipality level).
 #' 
-#' \code{World} World map. The projection that is chosen for this world map is Eckhart IV since area sizes are preserved, which is a very important property for statistical purposes.
+#' The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link{set_projection}}. 
+#' 
+#' \code{World} World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for statistical purposes.
 #' 
 #' \code{Europe} Europe map. Lambert azimuthal equal-area projection is used by default for this map. Several countries are transcontinental and are partly located in Asia. From these countries, only Russia and Turkey have been included in this map as part of Europe since they are widely considered as European countries. Other transcontinental countries Azerbaijan, Georgia, and Kazakhstan, are also included in the map, but only passively. From the other surrounding countries, only Greenland is removed from the map, since it interferes with the map title.
 #' 
@@ -33,6 +35,8 @@ NULL
 #' @name World
 #' @rdname Shapes
 #' @docType data
+#' @source http://www.naturalearthdata.com for \code{World} and \code{Europe}
+#' @source Statistics Netherlands (http://www.cbs.nl) for \code{NLD_prov} and \code{NLD_muni}. 
 NULL
 
 
@@ -64,7 +68,7 @@ NULL
 #' @name rivers
 #' @rdname Shapes2
 #' @docType data
-#' @source http://www.naturalearthdata.com/
+#' @source http://www.naturalearthdata.com
 NULL
 
 #' @usage data(cities)
@@ -77,7 +81,7 @@ NULL
 
 #' tmap element
 #'
-#' Building block to draw thematic maps.
+#' Building block for drawing thematic maps.
 #' 
 #' The only fundamental, and hence required element is
 #' \itemize{
@@ -86,18 +90,18 @@ NULL
 #' The elements that serve as drawing layers are
 #' \itemize{
 #' \item \code{\link{tm_borders}} to draw polygon borders
-#' \item \code{\link{tm_fill}} to color the polygons
+#' \item \code{\link{tm_fill}} to fill the polygons
 #' \item \code{\link{tm_bubbles}} to draw bubbles
 #' \item \code{\link{tm_lines}} to draw lines
 #' \item \code{\link{tm_text}} to print text}
 #' 
-#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}}.
+#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}} (see examples below).
 #' 
 #' The layout elements are
 #' \itemize{
-#' \item \code{\link{tm_layout}} to change the appearance of the map, for instance titles and legend positions. Predefined themes for the example shape files are \code{\link{tm_layout_World}}, \code{\link{tm_layout_Europe}}, and \code{\link{tm_layout_NLD}}.
+#' \item \code{\link{tm_layout}} to change the appearance of the map, for instance titles, legend positions, and margins. Predefined themes for the example shape files are \code{\link{tm_layout_World}}, \code{\link{tm_layout_Europe}}, and \code{\link{tm_layout_NLD}}.
 #' \item \code{\link{tm_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
-#' \item \code{\link{tm_grid}} that specifies grid lines
+#' \item \code{\link{tm_grid}} that specifies coordinate grid lines
 #' }
 #'    
 #' @name tmap-element

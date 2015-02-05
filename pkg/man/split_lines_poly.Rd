@@ -7,16 +7,16 @@
 split_lines_poly(shp.lines, shp.poly, variables.lines, variables.poly)
 }
 \arguments{
-\item{shp.lines}{The shape object that contains the lines}
+\item{shp.lines}{The shape object that contains the lines, i.e. a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}}
 
-\item{shp.poly}{The shape object that contains the polygons}
+\item{shp.poly}{The shape object that contains the polygons, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}}
 
 \item{variables.lines}{Names of the variables of \code{shp.lines} that are appended to the split lines shape object.}
 
 \item{variables.poly}{Names of the variables of \code{shp.poly} that are appended to the split lines shape object.}
 }
 \value{
-shape object with splitted lines
+Shape object with splitted lines, a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}
 }
 \description{
 Split a lines shape object by a polygon shape object. Data of the corresponding polygons is appended to the line segments (Experimental, see note)

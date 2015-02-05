@@ -4,7 +4,7 @@
 \alias{tmap-element}
 \title{tmap element}
 \description{
-Building block to draw thematic maps.
+Building block for drawing thematic maps.
 }
 \details{
 The only fundamental, and hence required element is
@@ -14,18 +14,18 @@ The only fundamental, and hence required element is
 The elements that serve as drawing layers are
 \itemize{
 \item \code{\link{tm_borders}} to draw polygon borders
-\item \code{\link{tm_fill}} to color the polygons
+\item \code{\link{tm_fill}} to fill the polygons
 \item \code{\link{tm_bubbles}} to draw bubbles
 \item \code{\link{tm_lines}} to draw lines
 \item \code{\link{tm_text}} to print text}
 
-The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}}.
+The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}} (see examples below).
 
 The layout elements are
 \itemize{
-\item \code{\link{tm_layout}} to change the appearance of the map, for instance titles and legend positions. Predefined themes for the example shape files are \code{\link{tm_layout_World}}, \code{\link{tm_layout_Europe}}, and \code{\link{tm_layout_NLD}}.
+\item \code{\link{tm_layout}} to change the appearance of the map, for instance titles, legend positions, and margins. Predefined themes for the example shape files are \code{\link{tm_layout_World}}, \code{\link{tm_layout_Europe}}, and \code{\link{tm_layout_NLD}}.
 \item \code{\link{tm_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
-\item \code{\link{tm_grid}} that specifies grid lines
+\item \code{\link{tm_grid}} that specifies coordinate grid lines
 }
 }
 \examples{

@@ -7,7 +7,12 @@
 get_IDs(shp)
 }
 \arguments{
-\item{shp}{shape object}
+\item{shp}{shape object, which is one of
+\enumerate{
+ \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+ \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+ \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+}#'}
 }
 \value{
 vector of ID's

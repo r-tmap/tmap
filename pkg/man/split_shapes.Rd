@@ -13,7 +13,12 @@
 \method{split}{SpatialLinesDataFrame}(x, f, drop = FALSE, ...)
 }
 \arguments{
-\item{x}{shape object}
+\item{x}{shape object, which is one of
+\enumerate{
+ \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+ \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+ \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+}#'}
 
 \item{f}{factor to split \code{x}}
 

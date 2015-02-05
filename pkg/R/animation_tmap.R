@@ -7,7 +7,7 @@
 #' @param height height of the animation file (in pixels)
 #' @param delay delay time between images (in 1/100th of a second)
 #' @param filename filename of the video (should be a .gif or .mpg file)
-#'
+#' @note Not only tmap plots are supported, but any series of R plots.
 #' @keywords animation
 #' @examples
 #' \dontrun{

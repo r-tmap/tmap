@@ -2,12 +2,12 @@
 #' 
 #' Convert numeric data from one polygon shape to another. It uses an intersection matrix, which stores the intersection ratios of the two shape objects per polygon (see \code{\link{intersection_shapes}}).
 #' 
-#' @param shp.from the shape object to be converted. It should contain data.
-#' @param shp.to the shape object to be converted into.
+#' @param shp.from the shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, to be converted. It should contain data.
+#' @param shp.to the shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, to be converted into.
 #' @param variables.from names of the numeric variables of \code{shp.from} to be converted. If missing, all numeric variables are taken.
 #' @param variables.to variable names to be used. Should be the same number of variable names as \code{variables.from}
 #' @import rgeos
-#' @return shape object \code{shp.to} with converted data from \code{shp.from}
+#' @return Shape object \code{shp.to} with converted data from \code{shp.from}.
 #' @note  Running time may be pretty slow.
 #' @examples
 #'\dontrun{
@@ -73,7 +73,7 @@ convert_shape_data <- function(shp.from, shp.to, variables.from=NULL, variables.
 #' @param id.to name of the data variable of \code{shp.to} that contains identification names of the polygons of \code{shp.to}. These are used as column names of the intersection matrix.
 #' @param absolute should the intersection matrix contain intersection area sizes rather than proportions?
 #' @import rgeos
-#' @return intersection matrix with the number of rows equal to the number of polygons of \code{shp.from} and the number of columns equal to the number of polygons of \code{shp.to}
+#' @return Intersection matrix with the number of rows equal to the number of polygons of \code{shp.from} and the number of columns equal to the number of polygons of \code{shp.to}.
 #' @note  Running time may be pretty slow.
 #' @examples
 #'\dontrun{

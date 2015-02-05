@@ -7,7 +7,7 @@
 approx_areas(shp, total.area.km2 = NA, units = NULL)
 }
 \arguments{
-\item{shp}{shape object, i.e. a SpatialPolygons(DataFrame)}
+\item{shp}{shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 
 \item{total.area.km2}{total area size of \code{shp} in number of squared kilometers. If \code{NA}, and \code{unit="km2"}, then the polygon coordinates are assumed to be in meters.}
 
@@ -20,7 +20,7 @@ approx_areas(shp, total.area.km2 = NA, units = NULL)
     The default method is \code{"abs"}, unless \code{total.area.km2} is specified (in that case, it is \code{"km2"}).}
 }
 \value{
-numeric vector of area sizes
+Numeric vector of area sizes.
 }
 \description{
 Approximate the area sizes of the polygons either in 1) squared kilometers, 2) absolute numbers based on the polygon coordinates, 3) proportional numbers, 4) normalized numbers.

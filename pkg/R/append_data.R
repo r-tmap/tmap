@@ -3,13 +3,18 @@
 #' Data, in the format of a data.frame, is appended to a shape object. This is either done by a right join where keys are specified for both data and shape, or by fixed order.
 #'
 #' @param data data.frame
-#' @param shp shape object
+#' @param shp shape object, which is one of
+#' \enumerate{
+#'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+#' }
 #' @param key.data variable name of \code{data} to be matched with \code{key.shp}. If not specified, and \code{fixed.order} is \code{FALSE}, the row names of \code{data} are taken.
-#' @param key.shp variable name of \code{shp} map data to be matched with \code{key.data}. If not specified, and \code{fixed.order} is \code{FALSE}, the polygon ID's are taken.
+#' @param key.shp variable name of \code{shp} map data to be matched with \code{key.data}. If not specified, and \code{fixed.order} is \code{FALSE}, the ID's of the polygons/lines/points are taken.
 #' @param ignore.duplicates should duplicated keys in \code{data} be ignored? (\code{FALSE} by default)
 #' @param ignore.na should NA values in \code{key.data} and \code{key.shp} be ignored? (\code{FALSE} by default)
 #' @param fixed.order should the data be append in the same order as the shapes in \code{shp}?
-#' @return shape object with appended data
+#' @return Shape object with appended data.
 #' @examples
 #' \dontrun{
 #' data(Europe)

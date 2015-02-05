@@ -4,7 +4,7 @@
 #' 
 #' To approximate the sizes in squared kilometer, \code{total.area.km2} is required. Note that this method is an approximation, since it depends on the used projection and the level of detail of the SpatialPolygons object. Projections with equal-area property are highly recommended.
 #'
-#' @param shp shape object, i.e. a SpatialPolygons(DataFrame)
+#' @param shp shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
 #' @param total.area.km2 total area size of \code{shp} in number of squared kilometers. If \code{NA}, and \code{unit="km2"}, then the polygon coordinates are assumed to be in meters.
 #' @param units one of
 #' \describe{
@@ -13,7 +13,7 @@
 #' 	\item{\code{"prop"}:}{Proportional numbers. In other words, the total of the area sizes equals one.}
 #' 	\item{\code{"norm"}:}{Normalized numbers. All area sizes are normalized to the largest area, of which the area size equals one.}}
 #' 	The default method is \code{"abs"}, unless \code{total.area.km2} is specified (in that case, it is \code{"km2"}).
-#' @return numeric vector of area sizes
+#' @return Numeric vector of area sizes.
 #' @example  ../examples/approx_areas.R
 #' @export
 approx_areas <- function(shp, total.area.km2=NA, units=NULL) {

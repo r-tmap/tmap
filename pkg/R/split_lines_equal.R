@@ -2,10 +2,10 @@
 #' 
 #' Split lines in segments of equal length. (Experimental, see note)
 #' 
-#' @param shp The shape object that contains the lines
+#' @param shp The shape object that contains the lines, i.e. \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}
 #' @param dist Distance per segment
 #' @param include.last Include last point, even though the distance is less than dist from the previous point?
-#' @return SpatialLinesDataFrame
+#' @return Shape object, i.e. \code{\link[sp:SpatialLinesDataFrame]{SpatialPolygons(DataFrame)}}.
 #' @note This function is still in experimental phase, which means that it may not be stable and it may be changed significantly in future versions. Moreover, it is unsure if it will stay in tmap; instead, it may be put in a different package, along with functions of similar tasks.
 #' @export
 split_lines_equal <- function(shp, dist=1000, include.last=FALSE) {

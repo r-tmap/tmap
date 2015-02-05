@@ -7,11 +7,11 @@
 sbind(...)
 }
 \arguments{
-\item{...}{shape objects. The objects should be of one of the following classes:
-\itemize{
- \item{"1)"}\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
- \item{"2)"}\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
- \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
+\item{...}{shape objects. Each shape object is one of
+\enumerate{
+ \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+ \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+ \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
 }}
 }
 \value{

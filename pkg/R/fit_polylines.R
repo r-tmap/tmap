@@ -4,7 +4,12 @@
 #' 
 #' Method: the coordinates from all shape objects are collected per category (defined by \code{id}). Per category, the following steps are taken: 1) coordinates that are closer than \code{min.dist} from each other are grouped, where the group means are considered as coordination points subsequently; 2) the coordination points are clustered by fitting a minimum spanning tree where edges longer than \code{sep.dist} are removed; 3) for each cluster, a graph is created by adding an edge for any two coordinate points that are at least \code{max.opt.dist} far away from each other. Also, the edges of a fitted minimum spanning tree are added to the graph; 4) for each cluster, the shortest path is found within the constructed graph between the two coordinate points that are fartest away from each other.
 #' 
-#' @param ... Shape object(s) from which spatial points are taken
+#' @param ... Shape object(s) from which spatial points are taken. A shape object is one of
+#' \enumerate{
+#'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+#' }
 #' @param id Name of the data variable that determines the classes of the points. For each class a polyline is fit. Is omitted, a polyline is fit through all points.
 #' @param min.dist Minimum distance. Poins that are closer than \code{min.dist} from any other point are clustered (see details below)
 #' @param max.opt.dist Maximal optimized distance. Between any two points that lie closer than 

@@ -2,7 +2,7 @@
 #' 
 #' Get the ranges of the polyons in the current projection. Also the total range of the shape object is returned.
 #' 
-#' @param shp shape object
+#' @param shp shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
 #' @param key variable name in the shape data that identifies the polygons. If not specified, the default ID is used (see \code{\link{get_IDs}}).
 #' @return List containing a data.frame of ranges per polygon, and a range vector of the total shape object.
 #' @export

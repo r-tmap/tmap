@@ -6,7 +6,7 @@
 \alias{rivers}
 \title{Spatial data of cities and rivers}
 \source{
-http://www.naturalearthdata.com/
+http://www.naturalearthdata.com
 }
 \usage{
 data(rivers)

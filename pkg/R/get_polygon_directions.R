@@ -2,7 +2,7 @@
 #' 
 #' Get and set the direction of polygons (clockwise or counterclockwise). (Experimental, see ntoe)
 #'
-#' @param shp shape object, a SpatialPolygons(DataFrame)
+#' @param shp shape object, i.e. \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
 #' @param y0_bottom logical: is the \code{y=0} coordinate at the bottom of the screen?
 #' @return List of logical vectors, each corresponding to a Polygons object. The values of each vector correspond to the Polygon objects. \code{TRUE} means clockwise.
 #' @export

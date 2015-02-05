@@ -3,10 +3,10 @@
 #' Creates a \code{\link{tmap-element}} that specifies the shape object. Also the used projection and covered area (bounding box) can be set.
 #' 
 #' @param shp shape object, which is one of
-#' \itemize{
-#'  \item{"1)"}\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
-#'  \item{"2)"}\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
-#'  \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
+#' \enumerate{
+#'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
 #' }
 #'For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}} 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}}, accept any of them. 
 #' @param projection character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.ostm.org/proj/}), of one of the following shortcuts: 
@@ -30,10 +30,9 @@
 #' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: relative values will depend on the current bounding box (bbox) of the first shape object.
 #' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides the \code{xlim} and \code{ylim} parameters.
 #' @export
-#' @seealso \code{\link{read_shape}} to read ESRI shape files
+#' @seealso \code{\link{read_shape}} to read ESRI shape files, \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} 
 #' @example ../examples/tm_shape.R
 #' @return \code{\link{tmap-element}}
-#' @seealso \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 tm_shape <- function(shp, 
 					  projection=NULL, 
 					  xlim = NULL,
@@ -50,7 +49,7 @@ tm_shape <- function(shp,
 
 #' Draw polygon borders
 #' 
-#' Creates a \code{\link{tmap-element}} that defines the borders of the polygons. Color, line width and line type can be set.
+#' Creates a \code{\link{tmap-element}} that defines the borders of the polygons. Line color, width, and type can be set.
 #' 
 #' @param col line color
 #' @param lwd line width (see \code{\link[graphics:par]{par}})

@@ -10,7 +10,7 @@ get_polygon_directions(shp, y0_bottom = TRUE)
 set_polygon_directions(shp, y0_bottom = TRUE, clockwise = TRUE)
 }
 \arguments{
-\item{shp}{shape object, a SpatialPolygons(DataFrame)}
+\item{shp}{shape object, i.e. \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 
 \item{y0_bottom}{logical: is the \code{y=0} coordinate at the bottom of the screen?}
 

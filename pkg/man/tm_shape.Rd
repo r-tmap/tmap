@@ -9,10 +9,10 @@ tm_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
 }
 \arguments{
 \item{shp}{shape object, which is one of
-\itemize{
- \item{"1)"}\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
- \item{"2)"}\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
- \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
+\enumerate{
+ \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+ \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+ \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
 }
 For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}} 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}}, accept any of them.}
 
@@ -78,8 +78,6 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
     inner.margins=c(0,0,.1,0), title.cex=.8)
 }
 \seealso{
-\code{\link{read_shape}} to read ESRI shape files
-
-\code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\code{\link{read_shape}} to read ESRI shape files, \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 

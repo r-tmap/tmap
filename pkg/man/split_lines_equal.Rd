@@ -7,14 +7,14 @@
 split_lines_equal(shp, dist = 1000, include.last = FALSE)
 }
 \arguments{
-\item{shp}{The shape object that contains the lines}
+\item{shp}{The shape object that contains the lines, i.e. \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}}
 
 \item{dist}{Distance per segment}
 
 \item{include.last}{Include last point, even though the distance is less than dist from the previous point?}
 }
 \value{
-SpatialLinesDataFrame
+Shape object, i.e. \code{\link[sp:SpatialLinesDataFrame]{SpatialPolygons(DataFrame)}}.
 }
 \description{
 Split lines in segments of equal length. (Experimental, see note)

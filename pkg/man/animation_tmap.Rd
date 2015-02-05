@@ -21,6 +21,9 @@ animation_tmap(expr, width = 1000, height = 1000, delay = 40,
 \description{
 Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
 }
+\note{
+Not only tmap plots are supported, but any series of R plots.
+}
 \examples{
 \dontrun{
 data(Europe)
