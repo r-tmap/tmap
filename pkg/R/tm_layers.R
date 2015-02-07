@@ -104,7 +104,7 @@ tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfa
 #' @param lty line type
 #' @param scale line width multiplier number. 
 #' @param n preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.
-#' @param style method to cut the color scale: "fixed", "equal", "pretty", "quantile", "kmeans". Only applicable when \code{lwd} is the name of a numeric variable.
+#' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{lwd} is the name of a numeric variable.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
 #' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the lines. Only when \code{col} is set to a variable.
 #' @param labels labels of the classes
@@ -147,7 +147,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid",
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.
 #' @param area Name of the data variable that contains the area sizes in squared kilometer.
-#' @param style method to cut the color scale (in case \code{col} is a numeric variable): "fixed", "equal", "pretty", "quantile", "kmeans"
+#' @param style method to cut the color scale (in case \code{col} is a numeric variable): e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.
@@ -191,7 +191,7 @@ tm_fill <- function(col="grey90",
 #' @param scale bubble size multiplier number. 
 #' @param size.lim vector of two limit values of the \code{size} variable. Only bubbles are drawn whose value is greater than or equal to the first value. Bubbles whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
-#' @param style method to cut the color scale: "fixed", "equal", "pretty", "quantile", "kmeans". Only applicable when \code{col} is a numeric variable name.
+#' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{col} is a numeric variable name.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
 #' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the bubbles. Only when \code{col} is set to a variable.
 #' @param labels labels of the classes
