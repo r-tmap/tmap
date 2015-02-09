@@ -98,7 +98,7 @@ process_shapes <- function(shps, g, gm, dw, dh) {
 	}
 	
 	shps <- lapply(shps, function(x){
-		shp_name <- names(eval(sys.call(1)[[2]]))[substitute(x)[[3]]]
+		shp_name <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
 		x.proj <- proj4string(x)
 		if (is.na(x.proj)) {
 			warning(paste("Currect projection of shape", shp_name, "unknown. Long-lat (WGS84) is assumed."))

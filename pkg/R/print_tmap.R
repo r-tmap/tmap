@@ -12,7 +12,6 @@
 #' @export
 #' @method print tmap
 print.tmap <- function(x, ...) {
-	
 	## get shapes
 	shape.id <- which(names(x)=="tm_shape")
 	
