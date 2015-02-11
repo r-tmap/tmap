@@ -58,10 +58,12 @@ num2pal <- function(x, n = 5,
 	}
 	# create legend labels
 	if (is.null(legend.labels)) {
-		breaks.printed <- sprintf(paste("%.", legend.digits, "f", sep=""), breaks) 
-		legend.labels <- paste("[", paste(breaks.printed[-nbrks], breaks.printed[-1], sep=", "), ")", sep="")
-		legend.labels[length(legend.labels)] <- paste(substr(legend.labels[length(legend.labels)], 
-															 1, nchar(legend.labels[length(legend.labels)])-1), "]", sep="")
+		
+		#breaks.printed <- sprintf(paste("%.", legend.digits, "f", sep=""), breaks) 
+		breaks.printed <- pretty_breaks(breaks, dp=legend.digits) 
+		legend.labels <- paste(breaks.printed[-nbrks], breaks.printed[-1], sep=" to ")
+		#legend.labels[length(legend.labels)] <- paste(substr(legend.labels[length(legend.labels)], 
+		#													 1, nchar(legend.labels[length(legend.labels)])-1), "]", sep="")
 	} else {
 		if (length(legend.labels)!=nbrks-1) warning(paste("number of legend labels should be", nbrks-1))
 		legend.labels <- rep(legend.labels, length.out=nbrks-1)
@@ -74,4 +76,26 @@ num2pal <- function(x, n = 5,
 	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks)
 }
 
+
+pretty_breaks <- function(vec, dp=NULL) {
+	# get correct number of significant figures
+	#vec = signif(vec, digits)
+	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec)))
+	mag <- max(nchar(frm)-11)
+	ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
+
+	if (mag>11) {
+		vec <- vec / 1e9
+		ext <- "billion"
+	} else if (mag > 8) {
+		vec <- vec / 1e6
+		ext <- "million"
+	} else {
+		ext <- ""
+	}
+	
+	if (is.null(dp)) dp <- max(min(ndec, 4-mag), 0)
+	
+	paste(prettyNum(vec, big.mark=",", scientific=FALSE, preserve.width="none", digits=dp), ext)
+}
 

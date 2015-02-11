@@ -159,7 +159,7 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 }
 
 
-plot_all <- function(gp, shps.env, dasp, sasp) {
+plot_all <- function(gp, shps.env, dasp, sasp, legend_pos) {
 	gt <- gp$tm_layout
 	
 	gp[c("tm_layout")] <- NULL
@@ -224,7 +224,7 @@ plot_all <- function(gp, shps.env, dasp, sasp) {
 		} else {
 			grid.rect(gp=gpar(fill=gt$bg.color, col=NA))
 		}
-		legend_plot(gt, leg)
+		legend_plot(gt, leg, legend_pos)
 		if (!gt$legend.only) upViewport(d)
 	}
 }

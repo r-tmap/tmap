@@ -28,7 +28,6 @@ print.tmap <- function(x, ...) {
 		shp
 	})
 
-	## to do: update code since shps are spatialXdataframes
 	datasets <- lapply(shps, function(x)x@data)
 	
 	x[shape.id] <- mapply(function(y, dataset){
@@ -44,7 +43,7 @@ print.tmap <- function(x, ...) {
 	nx <- result$nx
 
 	
-	grid.newpage()	
+	grid.newpage()
 	
 	margins <- gmeta$outer.margins
 	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
@@ -73,10 +72,11 @@ print.tmap <- function(x, ...) {
 	#grid.newpage()
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
-
+	legend_pos <- attr(shps, "legend_pos")
+	
 	shps.env <- environment()#new.env()
 	#assign("shps", shps, envir=shps.env)
-	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp)
+	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, legend_pos)
 	
 	invisible()
 }

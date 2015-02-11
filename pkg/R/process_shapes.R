@@ -120,7 +120,25 @@ process_shapes <- function(shps, g, gm, dw, dh) {
 			x
 		})
 	})
+
+	## determine automatic legend position based on polygon centers
+	co <- if (inherits(shp, "SpatialLines")) {
+		do.call("rbind", lapply(coordinates(shp), function(x) {
+			do.call("rbind", x)	
+		}))
+	} else {
+		coordinates(shp)
+	}
+	xn <- (co[,1]-bb[1])/(bb[3]-bb[1])
+	yn <- (co[,2]-bb[2])/(bb[4]-bb[2])
+	legend_pos <- which.max(c(
+		min(sqrt((xn^2) + (yn^2))),
+		min(sqrt((xn^2) + ((1-yn)^2))),
+		min(sqrt(((1-xn)^2) + ((1-yn)^2))),
+		min(sqrt(((xn-1)^2) + (yn^2)))))
+	
 	attr(shps, "sasp") <- ifelse(is.na(pasp), sasp, pasp)
 	attr(shps, "dasp") <- dasp
+	attr(shps, "legend_pos") <- legend_pos
 	shps
 }

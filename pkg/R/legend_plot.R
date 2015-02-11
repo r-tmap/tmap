@@ -1,7 +1,17 @@
-legend_plot <- function(gt, x) {
+legend_plot <- function(gt, x, legend_pos) {
 	title.only <- all(sapply(x, is.null))
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
+	#browser()
+	if (is.null(gt$legend.position)) {
+		gt$legend.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
+	}
+	if (is.null(gt$title.position)) {
+		gt$title.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
+	}
+
+	
+	#legend.position
 	conf <- gt$legend.config 
 	ishist <- (substr(conf, nchar(conf)-3, nchar(conf))=="hist")
 	conf2 <- ifelse(ishist, substr(conf, 1, nchar(conf)-5), conf)
