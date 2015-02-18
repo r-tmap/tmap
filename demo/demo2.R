@@ -12,21 +12,22 @@ library(stringdist)
 library(plyr)
 library(scales)
 library(RColorBrewer)
+library(maptools)
 
 ## read and crop shape 
 zipfile = "../demo/shape/gz_2010_us_050_00_500k.zip"
 zipdir <- tempdir()
 unzip(zipfile, exdir=zipdir)
 
-shp <-  read_shape(file = paste0(zipdir, "/gz_2010_us_050_00_500k.shp"))
-shp$fips <- paste0(shp$STATE, shp$COUNTY)
+shp_cty <-  read_shape(file = paste0(zipdir, "/gz_2010_us_050_00_500k.shp"))
+shp_cty$fips <- paste0(shp_cty$STATE, shp_cty$COUNTY)
 
 data(state.fips)
-shp$state_name <- as.character(state.fips$polyname[match(as.integer(as.character(shp$STATE)), state.fips$fips)])
-shp$state_name <- sub(":.*", "", shp$state_name)
-shp$mpname <- paste(tolower(shp$state_name), tolower(shp$NAME), sep=",")
+shp_cty$state_name <- as.character(state.fips$polyname[match(as.integer(as.character(shp_cty$STATE)), state.fips$fips)])
+shp_cty$state_name <- sub(":.*", "", shp_cty$state_name)
+shp_cty$mpname <- paste(tolower(shp_cty$state_name), tolower(shp_cty$NAME), sep=",")
 
-shp <- crop_shape(shp, matrix(c(-130, -60, 25, 50), nrow = 2, byrow = TRUE))
+shp_cty <- crop_shape(shp_cty, matrix(c(-130, -60, 25, 50), nrow = 2, byrow = TRUE))
 
 
 ## process data
@@ -41,53 +42,65 @@ unemp$mpname <- sub(" county/(city|town),.*", "", unemp$mpname)
 #unemp$mpname <- sub(" county/town,.*", "", unemp$mpname)
 
 
-## match data to shp
-(x <- setdiff(shp$mpname, unemp$mpname))
+## match data to shp_cty
+(x <- setdiff(shp_cty$mpname, unemp$mpname))
 res <- amatch(x, unemp$mpname, method = "osa", weight = c(d = .001, i = 1, s = 1, t = .001), maxDist=10)
 
-shp$mpname[match(x, shp$mpname)] <- unemp$mpname[res]
+shp_cty$mpname[match(x, shp_cty$mpname)] <- unemp$mpname[res]
 
-## append data to shp
-shp <- append_data(unemp, shp, key.data = "mpname", key.shp = "mpname", ignore.duplicates = TRUE)
+## append data to shp_cty
+shp_cty <- append_data(unemp, shp_cty, key.data = "mpname", key.shp = "mpname", ignore.duplicates = TRUE)
 
-qtm(shp, fill="unemppct", style="kmeans", palette="PuRd")
-
-
-
-system.time({
-	print(qtm(shp))
-})
-
-system.time({
-	plot(shp)
-})
+## first try
+qtm(shp_cty, fill="unemppct", style="kmeans", palette="PuRd")
 
 
-## test ggplot2
-shp.points <- fortify(shp, region="fips")
-shp.points$fips <- shp.points$id
-shp.df <- join(shp.points, shp@data, by="fips")
+## polishing
+# U.S. National Atlas Equal Area Projection
 
-shp.df$unemppct_d <- cut(shp.df$unemppct, breaks = c(seq(0, 10, by = 2), 35))
+shp_st <- unionSpatialPolygons(shp_cty, shp_cty$state_name)
 
-system.time({
-	print(ggplot(shp.df, aes(long, lat, group = group)) +
-		geom_polygon(aes(fill = unemppct_d), colour = alpha("white", 1/2), size = 0.2) +
-		#geom_polygon(data = state_df, colour = "white", fill = NA) +
-		scale_fill_brewer(palette = "PuRd"))
-})
+tm <- tm_shape(shp_cty, projection = "+init=epsg:2163") +
+	tm_borders("gray50", lwd= 1) +
+	tm_fill("unemppct", style="fixed", breaks=c(seq(0, 10, by=2), 35), palette="PuRd", contrast = .9) +
+tm_shape(shp_st) +
+	tm_borders("white", lwd = 2) +
+tm_layout(title="Unemployment", bg.color = "white", draw.frame = TRUE, outer.margins=0, asp=0, legend.title.cex = 2, legend.text.cex = 1.2)
 
-
-system.time({
-	print(tm_shape(shp) + tm_fill("unemppct", style="kmeans", palette="PuRd") + tm_borders("white"))
-})
+png("../demo/US_unemp.png", width=1000, height=700)
+print(tm)
+dev.off()
 
 
-system.time({
-	print(qtm(shp1))
-})
 
-system.time({
-	plot(shp)
-})
+# 
+# 
+# 
+# ## test ggplot2
+# shp.points <- fortify(shp_cty, region="fips")
+# shp.points$fips <- shp.points$id
+# shp.df <- join(shp.points, shp_cty@data, by="fips")
+# 
+# shp.df$unemppct_d <- cut(shp.df$unemppct, breaks = c(seq(0, 10, by = 2), 35))
+# 
+# system.time({
+# 	print(ggplot(shp.df, aes(long, lat, group = group)) +
+# 		geom_polygon(aes(fill = unemppct_d), colour = alpha("white", 1/2), size = 0.2) +
+# 		#geom_polygon(data = state_df, colour = "white", fill = NA) +
+# 		scale_fill_brewer(palette = "PuRd"))
+# })
+# 
+# 
+# system.time({
+# 	print(tm_shape(shp) + tm_fill("unemppct", style="kmeans", palette="PuRd") + tm_borders("white"))
+# })
+# 
+# 
+# system.time({
+# 	print(qtm(shp1))
+# })
+# 
+# system.time({
+# 	plot(shp)
+# })
 

@@ -1,14 +1,16 @@
 process_fill_vector <- function(x, g, gt, tiny) {
 	fill.values <- x
+	textNA <- ifelse(any(is.na(fill.values)), g$textNA, NA)
 	
 	x[tiny] <- NA
+	
 	
 	if (is.factor(x)) {
 		palette <- if (is.null(g$palette)) ifelse(nlevels(x)>8, "Set3", "Dark2") else g$palette
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   colorNA = g$colorNA,
-						   legend.NA.text = g$textNA,
+						   legend.NA.text = textNA,
 						   max_levels=g$max.categories)
 		fill.breaks <- NA
 	} else {
@@ -19,7 +21,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
 						   legend.digits=gt$legend.digits,
-						   legend.NA.text = g$textNA)
+						   legend.NA.text = textNA)
 		fill.breaks <- colsLeg[[4]]
 	}
 	fill <- colsLeg[[1]]

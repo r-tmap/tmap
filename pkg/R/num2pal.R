@@ -60,7 +60,7 @@ num2pal <- function(x, n = 5,
 	if (is.null(legend.labels)) {
 		
 		#breaks.printed <- sprintf(paste("%.", legend.digits, "f", sep=""), breaks) 
-		breaks.printed <- pretty_breaks(breaks, dp=legend.digits) 
+		breaks.printed <- fancy_breaks(breaks, dp=legend.digits) 
 		legend.labels <- paste(breaks.printed[-nbrks], breaks.printed[-1], sep=" to ")
 		#legend.labels[length(legend.labels)] <- paste(substr(legend.labels[length(legend.labels)], 
 		#													 1, nchar(legend.labels[length(legend.labels)])-1), "]", sep="")
@@ -77,7 +77,7 @@ num2pal <- function(x, n = 5,
 }
 
 
-pretty_breaks <- function(vec, dp=NULL) {
+fancy_breaks <- function(vec, dp=NULL) {
 	# get correct number of significant figures
 	#vec = signif(vec, digits)
 	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec)))
@@ -86,10 +86,10 @@ pretty_breaks <- function(vec, dp=NULL) {
 
 	if (mag>11) {
 		vec <- vec / 1e9
-		ext <- "billion"
+		ext <- "bln"
 	} else if (mag > 8) {
 		vec <- vec / 1e6
-		ext <- "million"
+		ext <- "mln"
 	} else {
 		ext <- ""
 	}
