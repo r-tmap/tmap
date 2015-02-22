@@ -76,6 +76,7 @@ print.tmap <- function(x, ...) {
 	
 	shps.env <- environment()#new.env()
 	#assign("shps", shps, envir=shps.env)
+	
 	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, legend_pos)
 	
 	invisible()

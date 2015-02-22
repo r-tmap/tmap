@@ -27,8 +27,7 @@ grid.shape <- function(shp, gp=gpar(), bg.col=NA) {
 	}
 	
 	class(gp2) <- "gpar"
-	grid.polygon(co1[,1], co1[,2],	id=id, gp=gp2)
-	invisible()
+	polygonGrob(co1[,1], co1[,2],	id=id, gp=gp2)
 }
 
 grid.shplines <- function(shp, gp=gpar()) {
@@ -50,6 +49,5 @@ grid.shplines <- function(shp, gp=gpar()) {
 		if (length(g)==length(shp)) g[id2] else g
 	})
 	class(gp2) <- "gpar"
-	grid.polyline(co1[,1], co1[,2],	id=id, gp=gp2)
-	invisible()
+	polylineGrob(co1[,1], co1[,2],	id=id, gp=gp2)
 }

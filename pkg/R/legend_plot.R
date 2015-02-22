@@ -152,7 +152,7 @@ legend_plot <- function(gt, x, legend_pos) {
 	title.position <- positions[[1]]
 	legend.position <- positions[[2]]
 
-	plot_text(co.npc=matrix(title.position, ncol=2), 
+	grobTitle <- plot_text(co.npc=matrix(title.position, ncol=2), 
 			  g=list(text=gt$title, text.cex=gt$title.cex, 
 			  	   text.cex.lowerbound=gt$title.cex, 
 			  	   text.fontcolor="black",
@@ -173,21 +173,27 @@ legend_plot <- function(gt, x, legend_pos) {
 
 	vpLegend <- viewport(y=legend.position[2], x=legend.position[1], 
 						 height=legendHeight, width=legendWidth, 
-						 just=c("left", "bottom"))
+						 just=c("left", "bottom"), name="legend")
 	
 	pushViewport(vpLegend)
-	if (!is.na(gt$legend.bg.color)) grid.rect(gp=gpar(col=NA, fill=gt$legend.bg.color))
+	treeLegBG <- if (!is.na(gt$legend.bg.color)) {
+		gTree(children = gList(rectGrob(gp=gpar(col=NA, fill=gt$legend.bg.color))), vp=vpLegend)
+	} else {
+		NULL
+	}
 	heights <- heights / legendHeight
-	pushViewport(viewport(layout=grid.layout(k, 1, heights=heights, widths=1)))
-	lapply(x, FUN="legend_subplot", gt)
-
+	vpLeg <- viewport(layout=grid.layout(k, 1, heights=heights, widths=1), name="legend_grid")
+	pushViewport(vpLeg)
+	grobList <- lapply(x, FUN="legend_subplot", gt)
+	treeLegend <- gTree(children=do.call("gList", grobList), vp=vpPath("legend", "legend_grid"))
 	upViewport(2)
+	treeLegend
 }
 
 
 legend_subplot <- function(x, gt) {
 	id <- substitute(x)[[3]]
-	cellplot(id, 1, e={
+	cellplot2(id, 1, e={
 		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		legend.type <- x$legend.type
 		if (legend.type=="fill_hist") {
@@ -205,7 +211,7 @@ legend_subplot <- function(x, gt) {
 legend_title <- function(x, legend.title.cex, lineHeight) {
 	#grid.rect()
 	cex <- min(legend.title.cex, 1/lineHeight)
-	grid.text(x$title, x=0, y=5/12 , just=c("left", "center"), gp=gpar(cex=cex))
+	textGrob(x$title, x=0, y=5/12 , just=c("left", "center"), gp=gpar(cex=cex))
 }
 
 
@@ -245,21 +251,21 @@ legend_portr <- function(x, legend.text.cex, lineHeight) {
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 			
 		
-		if (legend.type=="fill") {
-			grid.rect(x=mx+ws/2, 
+		grobLegendItem <- if (legend.type=="fill") {
+			rectGrob(x=mx+ws/2, 
 					  y=ys, 
 					  width= ws, 
 					  height= hs,
 					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
-			grid.circle(x=mx+wsmax/2, 
+			circleGrob(x=mx+wsmax/2, 
 					y=ys, r=unit(hsi/2, "inch"),
 					gp=gpar(fill=legend.palette,
 							col=bubble.border.col,
 							lwd=bubble.border.lwd))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
-			grid.polyline(x=mx+ c(0,1)*rep(ws, each=2),
+			polylineGrob(x=mx+ c(0,1)*rep(ws, each=2),
   				  y=rep(ys, each=2), 
   				  id=rep(1:nitems, each=2),
   				  gp=gpar(col=legend.palette, 
@@ -267,9 +273,9 @@ legend_portr <- function(x, legend.text.cex, lineHeight) {
   				  		lty=line.legend.lty,
   				  		lineend="butt"))
 		}
-		grid.text(legend.labels, x=mx*2+wsmax,
-				  y=ys, just=c("left", "center"), gp=gpar(cex=cex))
-		
+		grobLegendText <- textGrob(legend.labels, x=mx*2+wsmax,
+								   y=ys, just=c("left", "center"), gp=gpar(cex=cex))
+		gList(grobLegendItem, grobLegendText)
 	})
 }
 
@@ -340,21 +346,21 @@ legend_landsc <- function(x, legend.text.cex, lineHeight) {
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 		
 		
-		if (legend.type=="fill") {
-			grid.rect(x=xs, 
+		grobLegendItem <- if (legend.type=="fill") {
+			rectGrob(x=xs, 
 					  y=1-my-hs/2, 
 					  width= ws, 
 					  height= hs,
 					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
-			grid.circle(x=xs, 
+			circleGrob(x=xs, 
 						y=1-my-hsmax/2, r=unit(hsi/2, "inch"),
 						gp=gpar(fill=legend.palette,
 								col=bubble.border.col,
 								lwd=bubble.border.lwd))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
-			grid.polyline(x=rep(xs, each=2), 
+			polylineGrob(x=rep(xs, each=2), 
 						  y=1-my-c(0,1)*rep(hs, each=2),
 						  id=rep(1:nitems, each=2),
 						  gp=gpar(col=legend.palette, 
@@ -362,9 +368,9 @@ legend_landsc <- function(x, legend.text.cex, lineHeight) {
 						  		lty=line.legend.lty,
 						  		lineend="butt"))
 		}
-		grid.text(legend.labels, x=xs,
+		grobLegendText <- textGrob(legend.labels, x=xs,
 				  y=my+lineHeight*legend.text.cex, just=c("center", "top"), gp=gpar(cex=legend.text.cex))
-		
+		gList(grobLegendItem, grobLegendText)
 	})
 }
 
