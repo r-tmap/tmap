@@ -54,7 +54,7 @@ plot_map <- function(gp, gt, shps.env) {
 	} else {
 		do.call("gList", args = c(list(treeGrid), treeElements))
 	}
-	list(treeElemGrid=gTree(children=grobsElemGrid), bubbleHeight=bubbleHeight)
+	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), bubbleHeight=bubbleHeight)
 }
 
 plot_grid <- function(gt, bb, scale) {
@@ -261,13 +261,14 @@ plot_all <- function(gp, shps.env, dasp, sasp, legend_pos) {
 			grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
 		}
 		treeLegend <- legend_plot(gt, leg, legend_pos)
-		treeMapX <- addGrob(treeMapX, child=treeLegend, gPath=gPath("outer_map", "aspvp"))
+		treeLegendX <- gTree(children=gList(grobLegendBG, treeLegend))
+		
+		treeMapX <- addGrob(treeMapX, child=treeLegendX, gPath=gPath("outer_map", "aspvp"))
 		
 		
 		if (!gt$legend.only) upViewport(d)
-		#treeLegendX <- gTree(children=gList(grobLegendBG, treeLegend), vp=vpLeg)
 	} else {
 		treeLegendX <- NULL
 	}
-	gTree(children=gList(treeMapX, treeLegendX))
+	treeMapX #gTree(children=gList(treeMapX, treeLegendX))
 }

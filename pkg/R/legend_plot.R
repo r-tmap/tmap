@@ -185,7 +185,7 @@ legend_plot <- function(gt, x, legend_pos) {
 	vpLeg <- viewport(layout=grid.layout(k, 1, heights=heights, widths=1), name="legend_grid")
 	pushViewport(vpLeg)
 	grobList <- lapply(x, FUN="legend_subplot", gt)
-	treeLegend <- gTree(children=do.call("gList", grobList), vp=vpPath("legend", "legend_grid"))
+	treeLegend <- gTree(children=gList(grobTitle, gTree(children=do.call("gList", grobList), vp=vpStack(vpLegend, vpLeg))))
 	upViewport(2)
 	treeLegend
 }
