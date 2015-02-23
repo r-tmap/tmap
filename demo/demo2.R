@@ -76,31 +76,31 @@ dev.off()
 # 
 # 
 # 
-# ## test ggplot2
-# shp.points <- fortify(shp_cty, region="fips")
-# shp.points$fips <- shp.points$id
-# shp.df <- join(shp.points, shp_cty@data, by="fips")
-# 
-# shp.df$unemppct_d <- cut(shp.df$unemppct, breaks = c(seq(0, 10, by = 2), 35))
-# 
-# system.time({
-# 	print(ggplot(shp.df, aes(long, lat, group = group)) +
-# 		geom_polygon(aes(fill = unemppct_d), colour = alpha("white", 1/2), size = 0.2) +
-# 		#geom_polygon(data = state_df, colour = "white", fill = NA) +
-# 		scale_fill_brewer(palette = "PuRd"))
-# })
-# 
-# 
-# system.time({
-# 	print(tm_shape(shp) + tm_fill("unemppct", style="kmeans", palette="PuRd") + tm_borders("white"))
-# })
-# 
-# 
-# system.time({
-# 	print(qtm(shp1))
-# })
-# 
-# system.time({
-# 	plot(shp)
-# })
+## test ggplot2
+shp.points <- fortify(shp_cty, region="fips")
+shp.points$fips <- shp.points$id
+shp.df <- join(shp.points, shp_cty@data, by="fips")
+
+shp.df$unemppct_d <- cut(shp.df$unemppct, breaks = c(seq(0, 10, by = 2), 35))
+
+system.time({
+	print(ggplot(shp.df, aes(long, lat, group = group)) +
+		geom_polygon(aes(fill = unemppct_d), colour = alpha("white", 1/2), size = 0.2) +
+		#geom_polygon(data = state_df, colour = "white", fill = NA) +
+		scale_fill_brewer(palette = "PuRd"))
+})
+
+
+system.time({
+	print(tm_shape(shp_cty) + tm_fill("unemppct", style="kmeans", palette="PuRd") + tm_borders("white"))
+})
+
+
+system.time({
+	print(qtm(shp1))
+})
+
+system.time({
+	plot(shp)
+})
 

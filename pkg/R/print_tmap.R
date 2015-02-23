@@ -3,6 +3,7 @@
 #' Draw tmap plot on current graphics device
 #' 
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
+#' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in
 #' @param ... not used
 #' @import sp
 #' @import RColorBrewer
@@ -11,7 +12,7 @@
 #' @import classInt
 #' @export
 #' @method print tmap
-print.tmap <- function(x, ...) {
+print.tmap <- function(x, vp=NULL, ...) {
 	## get shapes
 	shape.id <- which(names(x)=="tm_shape")
 	
@@ -43,7 +44,11 @@ print.tmap <- function(x, ...) {
 	nx <- result$nx
 
 	
-	grid.newpage()
+	if (is.null(vp)) {
+		grid.newpage()
+	} else {
+		if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
+	}
 	
 	margins <- gmeta$outer.margins
 	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
