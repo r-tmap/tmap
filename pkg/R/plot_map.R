@@ -237,7 +237,7 @@ plot_all <- function(gp, shps.env, dasp, sasp, legend_pos) {
 		treeBGright <- cellplot2(2,3, e=rectGrob(gp=gpar(col=bgcol, fill=bgcol)), name="mapBGright")
 		treeBGbottom <- cellplot2(3,1:3, e=rectGrob(gp=gpar(col=bgcol, fill=bgcol)), name="mapBGbottom")
 		treeFrame <- cellplot2(2,2, e={
-			if (gt$draw.frame) rectGrob(gp=gpar(fill=NA, lwd=gt$frame.lwd)) else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
+			if (gt$draw.frame) rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd)) else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
 		}, name="mapFrame")
 		
 		treeMapX <- gTree(children=gList(grobBG, gTree(children=gList(treeMap, treeBGtop, treeBGleft, treeBGright, treeBGbottom, treeFrame), vp=gridLayoutMap, name="outer_map")), name="BG")

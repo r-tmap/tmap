@@ -63,8 +63,8 @@ getTree <- function(x) {
 	x$grobs <- mapply(gtable:::wrap_gtableChild, x$grobs, children_vps, 
 					  SIMPLIFY = FALSE)
 	gt <- gTree(children = do.call("gList", x$grobs[order(x$layout$z)]), 
-					cl = c("gTableParent"), vp = x$vp, layoutvp = viewport(layout = gtable:::gtable_layout(x), 
-																		   name = x$name))
+				cl = c("gTableParent"), vp = x$vp, layoutvp = viewport(layout = gtable:::gtable_layout(x), 
+																	   name = x$name))
 }
 
 
@@ -139,7 +139,24 @@ grid.newpage(); grid.draw(gt7)
 data(NLD_prov)
 qtm(NLD_prov)
 
+gr <- rectGrob(width = .5, height=.5, gp=gpar(col="#00FF0033"))
+gr <- polylineGrob(x=c(0.2, 0.7, 0.8, 0.5, 0.3, 0.2), y=c(0.1, 0.2, 0.9, 0.8, 0.2, 0.1), gp=gpar(col="#0000EE77", lwd=4), vp=viewport(width=.99999, height=.999999, clip=TRUE))
+gr <- polylineGrob(x=c(0.2, 0.7, 0.8, 0.5, 0.3, 0.2), y=c(0.1, 0.2, 0.9, 0.8, 0.2, 0.1), gp=gpar(col="#0000EE77", lwd=4), vp=viewport(layout.pos.row = 1, layout.pos.col = 1, clip=TRUE))
 
 
+## new test
+vp <- viewport(layout=grid.layout(3, 3, 
+								  heights=unit(c(.3, .4, .3), 
+								  			 c("npc", "npc", "npc")), 
+								  widths=unit(c(.3, .4, .3), 
+								  			c("npc", "npc", "npc"))),
+			   name="maingrid")
+
+vp <- viewport(layout=grid.layout(1,1,widths=unit(.99999, "npc"), heights=unit(.99999, "npc")))
+
+#t <- gTree(children=gList(gTree(children=gList(gr))), vp=vp)
+t <- gTree(children=gList(gr), vp=vp)
+grid.newpage()
+grid.draw(t)
 
 
