@@ -11,7 +11,7 @@ gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, legend_po
 			grid.newpage()
 		}
 		
-		vpGrid <- viewport(layout=grid.layout(mfrow, mfcol), name = "multiples_grid")
+		vpGrid <- viewport(layout=grid.layout(mfrow, mfcol, widths=unit(1/mfcol-1e-5, "npc"), heights=unit(1/mfrow-1e-5, "npc")), name = "multiples_grid")
 		pushViewport(vpGrid)
 		
 		istart <- (k-1) * pp + 1

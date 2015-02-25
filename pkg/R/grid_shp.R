@@ -27,6 +27,7 @@ grid.shape <- function(shp, gp=gpar(), bg.col=NA) {
 	}
 	
 	class(gp2) <- "gpar"
+	#gp2$col <- "#0000EE77"
 	polygonGrob(co1[,1], co1[,2],	id=id, gp=gp2)
 }
 
