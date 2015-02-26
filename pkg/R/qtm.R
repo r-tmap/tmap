@@ -62,6 +62,7 @@ qtm <- function(shp,
 	
 	linenames <- names(tm_lines()[[1]])
 	linenames[linenames=="lines.lty"] <- "lty"
+	linenames[linenames=="lines.alpha"] <- "alpha"
 	lineargs <- args[setdiff(intersect(names(args), linenames), c("lines.col", "lines.lwd"))]
 	if ("line.scale" %in% names(lineargs)) names(lineargs)[names(lineargs)=="line.scale"] <- "scale"
 	

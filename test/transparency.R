@@ -159,4 +159,14 @@ t <- gTree(children=gList(gr), vp=vp)
 grid.newpage()
 grid.draw(t)
 
+## test
+data(NLD_prov)
+data(rivers)
+qtm(NLD_prov)
+
+tm_shape(NLD_prov) +
+	tm_fill() +
+	tm_borders(alpha = .75) +
+	tm_shape(rivers) +
+	tm_lines(col="blue", alpha=.5, lwd=3)
 

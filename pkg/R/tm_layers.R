@@ -54,11 +54,12 @@ tm_shape <- function(shp,
 #' @param col line color
 #' @param lwd line width (see \code{\link[graphics:par]{par}})
 #' @param lty line type (see \code{\link[graphics:par]{par}})
+#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @export
 #' @example ../examples/tm_borders.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_borders <- function(col="grey40", lwd=1, lty="solid") {
+tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 	g <- list(tm_borders=as.list(environment()))
 	class(g) <- "tmap"
 	g
@@ -102,6 +103,7 @@ tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfa
 #' @param col color of the lines. Either a color value or a data variable name.
 #' @param lwd line width
 #' @param lty line type
+#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param scale line width multiplier number. 
 #' @param n preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.
 #' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{lwd} is the name of a numeric variable.
@@ -117,7 +119,7 @@ tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfa
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_lines.R
 #' @return \code{\link{tmap-element}}
-tm_lines <- function(col="red", lwd=1, lty="solid", 
+tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					  scale=1,
 					  n = 5, style = "pretty",
 					  breaks = NULL,
@@ -128,7 +130,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid",
 					  max.categories = 12, 
 					  colorNA = "grey65",
 					  textNA = "Missing") {
-	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.scale=scale,
+	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.alpha=alpha, lines.scale=scale,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 							 auto.palette.mapping=auto.palette.mapping,
 							 max.categories=max.categories,

@@ -24,6 +24,7 @@ gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, legend_po
 		rep(1:mfcol, times=mfrow, length.out=ni), SIMPLIFY=FALSE)
 		
 		tree <- gTree(children=do.call("gList", treeMults), vp=vpGrid)
+		#tree <- gTree(children=gList(polylineGrob(x=c(0.2, 0.7, 0.8, 0.5, 0.3, 0.2), y=c(0.1, 0.2, 0.9, 0.8, 0.2, 0.1), gp=gpar(col="#0000EE77", lwd=4), vp=viewport(layout.pos.row = 1, layout.pos.col = 1, clip=TRUE))), vp=vpGrid)
 		grid.draw(tree)
 	})
 	

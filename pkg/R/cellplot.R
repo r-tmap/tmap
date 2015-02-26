@@ -11,7 +11,7 @@ cellplot <- function(x,y, name=NULL, vp=NULL, e){
 
 
 cellplot2 <- function(x, y, name=NULL, vp=NULL, e) {
-	pushViewport(viewport(layout.pos.row=x, layout.pos.col=y, name=name))
+	pushViewport(viewport(layout.pos.row=x, layout.pos.col=y, name=name, clip=TRUE))
 	n <- 1
 	if (!is.null(vp)){ 
 		pushViewport(vp)
