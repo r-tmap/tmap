@@ -46,19 +46,28 @@ qtm <- function(shp,
 		}
 	}
 	shapeargs <- args[intersect(names(args), names(tm_shape()[[1]]))]
-	fillargs <- args[setdiff(intersect(names(args), names(tm_fill()[[1]])), "col")]
+	fillnames <- names(tm_fill()[[1]])
+	fillnames[fillnames=="alpha"] <- "fill.alpha"
+	fillargs <- args[setdiff(intersect(names(args), fillnames), "col")]
+	if ("fill.alpha" %in% names(fillargs)) names(fillargs)[names(fillargs)=="fill.alpha"] <- "alpha"
+	
 	bubblenames <- names(tm_bubbles()[[1]])
 	bubblenames[bubblenames=="bubble.border"] <- "border"
 	bubbleargs <- args[setdiff(intersect(names(args), bubblenames), c("bubble.col", "bubble.size"))]
 	if ("bubble.scale" %in% names(bubbleargs)) names(bubbleargs)[names(bubbleargs)=="bubble.scale"] <- "scale"
 	
-	borderargs <- args[setdiff(intersect(names(args), names(tm_borders()[[1]])), "col")]
+	bordernames <- names(tm_borders()[[1]])
+	bordernames[bordernames=="alpha"] <- "border.alpha"
+	borderargs <- args[setdiff(intersect(names(args), bordernames), "col")]
+	if ("border.alpha" %in% names(borderargs)) names(borderargs)[names(borderargs)=="border.alpha"] <- "alpha"
 	
 	textnames <- names(tm_text("")[[1]])[-c(1:2)]
 	textnames[-1] <- substr(textnames[-1], 6, nchar(textnames[-1]))
 	textnames[textnames=="scale"] <- "text.scale"
+	textnames[textnames=="alpha"] <- "text.alpha"
 	textargs <- args[intersect(names(args), textnames)]
 	if ("text.scale" %in% names(textargs)) names(textargs)[names(textargs)=="text.scale"] <- "scale"
+	if ("text.alpha" %in% names(textargs)) names(textargs)[names(textargs)=="text.alpha"] <- "alpha"
 	
 	linenames <- names(tm_lines()[[1]])
 	linenames[linenames=="lines.lty"] <- "lty"

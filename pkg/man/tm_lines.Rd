@@ -4,10 +4,10 @@
 \alias{tm_lines}
 \title{Draw spatial lines}
 \usage{
-tm_lines(col = "red", lwd = 1, lty = "solid", scale = 1, n = 5,
-  style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
-  auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = "grey65", textNA = "Missing")
+tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
+  n = 5, style = "pretty", breaks = NULL, palette = NULL,
+  labels = NULL, auto.palette.mapping = TRUE, contrast = 1,
+  max.categories = 12, colorNA = "grey65", textNA = "Missing")
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name.}
@@ -16,11 +16,13 @@ tm_lines(col = "red", lwd = 1, lty = "solid", scale = 1, n = 5,
 
 \item{lty}{line type}
 
+\item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
+
 \item{scale}{line width multiplier number.}
 
 \item{n}{preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.}
 
-\item{style}{method to cut the color scale: "fixed", "equal", "pretty", "quantile", "kmeans". Only applicable when \code{lwd} is the name of a numeric variable.}
+\item{style}{method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{lwd} is the name of a numeric variable.}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
 

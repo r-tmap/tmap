@@ -4,10 +4,12 @@
 \alias{print.tmap}
 \title{Draw tmap plot}
 \usage{
-\method{print}{tmap}(x, ...)
+\method{print}{tmap}(x, vp = NULL, ...)
 }
 \arguments{
 \item{x}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}
+
+\item{vp}{\code{\link[grid:viewport]{viewport}} to draw the plot in}
 
 \item{...}{not used}
 }

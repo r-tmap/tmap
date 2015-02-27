@@ -4,7 +4,7 @@
 \alias{tm_borders}
 \title{Draw polygon borders}
 \usage{
-tm_borders(col = "grey40", lwd = 1, lty = "solid")
+tm_borders(col = "grey40", lwd = 1, lty = "solid", alpha = NA)
 }
 \arguments{
 \item{col}{line color}
@@ -12,6 +12,8 @@ tm_borders(col = "grey40", lwd = 1, lty = "solid")
 \item{lwd}{line width (see \code{\link[graphics:par]{par}})}
 
 \item{lty}{line type (see \code{\link[graphics:par]{par}})}
+
+\item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 }
 \value{
 \code{\link{tmap-element}}

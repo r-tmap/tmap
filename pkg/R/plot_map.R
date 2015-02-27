@@ -27,7 +27,7 @@ plot_map <- function(gp, gt, shps.env) {
 		
 		
 		plot_tm_fill <- function() {
-			fill <- if (is.null(gpl$fill)) NA else gpl$fill
+			fill <- if (is.null(gpl$fill)) NA else get_alpha_col(gpl$fill, gpl$fill.alpha)
 			col <- get_alpha_col(gpl$col, gpl$alpha)
 			grid.shape(shp, gp=gpar(fill=fill, col=col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color)
 		}
@@ -127,9 +127,13 @@ plot_bubbles <- function(co.npc, g, bubbleHeight) {
 			bubble.size2 <- bubble.size
 			cols2 <- cols
 		}
+
+		cols3 <- get_alpha_col(cols2, bubble.alpha)
+		bordercol <- get_alpha_col(bubble.border.col, bubble.border.alpha)
+		
 		circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
 					r=unit(bubble.size2, "inch"),
-					gp=gpar(col=bubble.border.col, lwd=bubble.border.lwd, fill=cols2))
+					gp=gpar(col=bordercol, lwd=bubble.border.lwd, fill=cols3))
 	})
 }
 

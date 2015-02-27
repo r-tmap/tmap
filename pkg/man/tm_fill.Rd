@@ -4,13 +4,16 @@
 \alias{tm_fill}
 \title{Fill polygons}
 \usage{
-tm_fill(col = "grey90", palette = NULL, convert2density = FALSE,
-  area = NULL, n = 5, style = "pretty", breaks = NULL, labels = NULL,
-  auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = "grey65", textNA = "Missing", thres.poly = 1e-05)
+tm_fill(col = "grey90", alpha = NA, palette = NULL,
+  convert2density = FALSE, area = NULL, n = 5, style = "pretty",
+  breaks = NULL, labels = NULL, auto.palette.mapping = TRUE,
+  contrast = 1, max.categories = 12, colorNA = "grey65",
+  textNA = "Missing", thres.poly = 1e-05)
 }
 \arguments{
 \item{col}{either a single color value or a name of the data variable that is contained in \code{shp}. In the latter case, a choropleth is drawn.}
+
+\item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
 \item{palette}{palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.}
 
@@ -20,7 +23,7 @@ tm_fill(col = "grey90", palette = NULL, convert2density = FALSE,
 
 \item{n}{preferred number of classes (in case \code{col} is a numeric variable)}
 
-\item{style}{method to cut the color scale (in case \code{col} is a numeric variable): "fixed", "equal", "pretty", "quantile", "kmeans"}
+\item{style}{method to cut the color scale (in case \code{col} is a numeric variable): e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}.}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
 

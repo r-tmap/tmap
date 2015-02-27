@@ -23,7 +23,7 @@ process_layers <- function(g, gt, gf) {
 	
 	# border info
 	gborders <- if (is.null(g$tm_borders)) {
-		list(col=NA, lwd=1, lty="blank")
+		list(col=NA, lwd=1, lty="blank", alpha=NA)
 	} else g$tm_borders
 # 	gborders$lwd <- gborders$lwd * scale
 	

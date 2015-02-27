@@ -47,12 +47,13 @@ process_text <- function(data, g, fill) {
 		rm(text_empty)
 		text.cex <- rep(text.cex * text.scale, length.out=npol)
 		
+		text.fontcolor <- if (is.matrix(text.fontcolor)) {
+			apply(text.fontcolor, MARGIN=2, function(col) {
+				get_alpha_col(col, text.alpha)
+			})
+		} else get_alpha_col(text.fontcolor, text.alpha)
 		if (!is.na(text.bg.color)) {
-			bgcols <- col2rgb(text.bg.color)
-			bgcols <- rgb(bgcols[1,], bgcols[2,], bgcols[3,], 
-						  alpha=text.bg.alpha, maxColorValue=255)
-			text.bg.color <- bgcols
-			rm(bgcols)
+			text.bg.color <- get_alpha_col(text.bg.color, text.bg.alpha)
 		}
 	})
 	

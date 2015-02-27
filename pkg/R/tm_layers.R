@@ -73,12 +73,13 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @param text name of the variable in the shape object that contains the text labels
 #' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or \code{AREA} where the text size is proportional to the the area size of the polygons.
 #' @param root root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3} the cube root etc.
-#' @param fontcolor relative size of the text labels
+#' @param fontcolor color of the text labels
 #' @param fontface font face of the text labels
 #' @param fontfamily font family of the text labels
+#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param case case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and use \code{NA} to leave the text as is.
 #' @param bg.color background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.
-#' @param bg.alpha number between 0 and 255 that specifies the transparancy of the text background (0 is totally transparent, 255 is solid background). The default value is 100.
+#' @param bg.alpha number between 0 and 1 that specifies the transparancy of the text background (0 is totally transparent, 1 is solid background).
 #' @param cex.lowerbound lowerbound for \code{cex}. Needed to ignore the tiny labels in case \code{cex} is a variable.
 #' @param print.tiny boolean that determines if tiny labels (which size is smaller than \code{cex.lowerbound}) are print at size \code{cex.lowerbound}
 #' @param scale scalar needed in case cex is based 
@@ -88,8 +89,8 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", case=NA, bg.color=NA, bg.alpha=100, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
-	g <- list(tm_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.case=case, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
+tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", alpha=NA, case=NA, bg.color=NA, bg.alpha=NA, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
+	g <- list(tm_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "tmap"
 	g
@@ -145,6 +146,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' Creates a \code{\link{tmap-element}} that fills polygons. Either a fixed color is used, or a color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
 #' 
 #' @param col either a single color value or a name of the data variable that is contained in \code{shp}. In the latter case, a choropleth is drawn.
+#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.
@@ -163,6 +165,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
 tm_fill <- function(col="grey90", 
+					alpha=NA,
 						    palette = NULL,
 						    convert2density = FALSE,
 					 		area = NULL,
@@ -188,8 +191,10 @@ tm_fill <- function(col="grey90",
 #' 
 #' @param size \code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples
-#' @param border.lwd line width of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
+#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param border.col color of the bubble borders.
+#' @param border.lwd line width of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
+#' @param border.alpha transparency number, regarding the bubble borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param scale bubble size multiplier number. 
 #' @param size.lim vector of two limit values of the \code{size} variable. Only bubbles are drawn whose value is greater than or equal to the first value. Bubbles whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
@@ -209,8 +214,10 @@ tm_fill <- function(col="grey90",
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_bubbles <- function(size=1, col="blueviolet",
-						  border.lwd=NA,
-						  border.col="black",
+					      alpha=NA,
+						  border.col=NA,
+					      border.lwd=1,
+					      border.alpha=NA,
 						  scale=1,
 						  size.lim=NA,
 						  n = 5, style = "pretty",
@@ -224,8 +231,9 @@ tm_bubbles <- function(size=1, col="blueviolet",
 						  textNA = "Missing",
 						  xmod = 0,
 						  ymod = 0) {
-	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.border.lwd=border.lwd,
+	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.alpha=alpha, bubble.border.lwd=border.lwd,
 							   bubble.border.col=border.col,
+							   bubble.border.alpha=border.alpha,
 								 bubble.scale=scale,
 								 size.lim=size.lim,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,

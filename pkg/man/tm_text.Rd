@@ -5,9 +5,9 @@
 \title{Add text labels}
 \usage{
 tm_text(text, cex = 1, root = 3, fontcolor = NA, fontface = "plain",
-  fontfamily = "sans", case = NA, bg.color = NA, bg.alpha = 100,
-  cex.lowerbound = 0.4, print.tiny = FALSE, scale = 1, xmod = 0,
-  ymod = 0)
+  fontfamily = "sans", alpha = NA, case = NA, bg.color = NA,
+  bg.alpha = NA, cex.lowerbound = 0.4, print.tiny = FALSE, scale = 1,
+  xmod = 0, ymod = 0)
 }
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
@@ -16,17 +16,19 @@ tm_text(text, cex = 1, root = 3, fontcolor = NA, fontface = "plain",
 
 \item{root}{root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3} the cube root etc.}
 
-\item{fontcolor}{relative size of the text labels}
+\item{fontcolor}{color of the text labels}
 
 \item{fontface}{font face of the text labels}
 
 \item{fontfamily}{font family of the text labels}
 
+\item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
+
 \item{case}{case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and use \code{NA} to leave the text as is.}
 
 \item{bg.color}{background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.}
 
-\item{bg.alpha}{number between 0 and 255 that specifies the transparancy of the text background (0 is totally transparent, 255 is solid background). The default value is 100.}
+\item{bg.alpha}{number between 0 and 1 that specifies the transparancy of the text background (0 is totally transparent, 1 is solid background).}
 
 \item{cex.lowerbound}{lowerbound for \code{cex}. Needed to ignore the tiny labels in case \code{cex} is a variable.}
 

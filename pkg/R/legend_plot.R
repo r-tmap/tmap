@@ -252,23 +252,28 @@ legend_portr <- function(x, legend.text.cex, lineHeight) {
 			
 		
 		grobLegendItem <- if (legend.type=="fill") {
+			fill <- get_alpha_col(legend.palette, alpha)
+			col <- get_alpha_col(border.col, border.alpha)
 			rectGrob(x=mx+ws/2, 
 					  y=ys, 
 					  width= ws, 
 					  height= hs,
-					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
+					  gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
+			bordercol <- get_alpha_col(bubble.border.col, bubble.border.alpha)
+			cols <- get_alpha_col(legend.palette, bubble.alpha)
 			circleGrob(x=mx+wsmax/2, 
 					y=ys, r=unit(hsi/2, "inch"),
-					gp=gpar(fill=legend.palette,
-							col=bubble.border.col,
+					gp=gpar(fill=cols,
+							col=bordercol,
 							lwd=bubble.border.lwd))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
+			cols <- get_alpha_col(legend.palette, line.legend.alpha)
 			polylineGrob(x=mx+ c(0,1)*rep(ws, each=2),
   				  y=rep(ys, each=2), 
   				  id=rep(1:nitems, each=2),
-  				  gp=gpar(col=legend.palette, 
+  				  gp=gpar(col=cols, 
   				  		lwd=lwds,
   				  		lty=line.legend.lty,
   				  		lineend="butt"))
@@ -347,23 +352,28 @@ legend_landsc <- function(x, legend.text.cex, lineHeight) {
 		
 		
 		grobLegendItem <- if (legend.type=="fill") {
+			fill <- get_alpha_col(legend.palette, alpha)
+			col <- get_alpha_col(border.col, border.alpha)
 			rectGrob(x=xs, 
 					  y=1-my-hs/2, 
 					  width= ws, 
 					  height= hs,
-					  gp=gpar(fill=legend.palette, col=border.col, lwd=lwd))
+					  gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
+			bordercol <- get_alpha_col(bubble.border.col, bubble.border.alpha)
+			cols <- get_alpha_col(legend.palette, bubble.alpha)
 			circleGrob(x=xs, 
 						y=1-my-hsmax/2, r=unit(hsi/2, "inch"),
-						gp=gpar(fill=legend.palette,
-								col=bubble.border.col,
+						gp=gpar(fill=cols,
+								col=bordercol,
 								lwd=bubble.border.lwd))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
+			cols <- get_alpha_col(legend.palette, line.legend.alpha)
 			polylineGrob(x=rep(xs, each=2), 
 						  y=1-my-c(0,1)*rep(hs, each=2),
 						  id=rep(1:nitems, each=2),
-						  gp=gpar(col=legend.palette, 
+						  gp=gpar(col=cols, 
 						  		lwd=lwds,
 						  		lty=line.legend.lty,
 						  		lineend="butt"))

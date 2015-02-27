@@ -4,8 +4,8 @@
 \alias{tm_bubbles}
 \title{Draw bubbles}
 \usage{
-tm_bubbles(size = 1, col = "blueviolet", border.lwd = NA,
-  border.col = "black", scale = 1, size.lim = NA, n = 5,
+tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
+  border.lwd = 1, border.alpha = NA, scale = 1, size.lim = NA, n = 5,
   style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
   colorNA = "#FF1414", textNA = "Missing", xmod = 0, ymod = 0)
@@ -15,9 +15,13 @@ tm_bubbles(size = 1, col = "blueviolet", border.lwd = NA,
 
 \item{col}{color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples}
 
-\item{border.lwd}{line width of the bubble borders. If \code{NA} (default), no bubble borders are drawn.}
+\item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
 \item{border.col}{color of the bubble borders.}
+
+\item{border.lwd}{line width of the bubble borders. If \code{NA} (default), no bubble borders are drawn.}
+
+\item{border.alpha}{transparency number, regarding the bubble borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
 \item{scale}{bubble size multiplier number.}
 
@@ -25,7 +29,7 @@ tm_bubbles(size = 1, col = "blueviolet", border.lwd = NA,
 
 \item{n}{preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.}
 
-\item{style}{method to cut the color scale: "fixed", "equal", "pretty", "quantile", "kmeans". Only applicable when \code{col} is a numeric variable name.}
+\item{style}{method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{col} is a numeric variable name.}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
 

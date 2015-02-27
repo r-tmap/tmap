@@ -166,7 +166,34 @@ qtm(NLD_prov)
 
 tm_shape(NLD_prov) +
 	tm_fill() +
-	tm_borders(alpha = .75) +
+	tm_borders(alpha = .25) +
 	tm_shape(rivers) +
-	tm_lines(col="blue", alpha=.5, lwd=3)
+	tm_lines(col="name", alpha=.5, lwd=10) +
+	tm_text(text = "name")
+
+
+data(NLD_prov)
+tm_shape(NLD_prov) +
+	tm_fill("name")
+
+
+data(Europe)
+data(cities)
+
+tm_shape(Europe) +
+	tm_borders() +
+	tm_fill() +
+	tm_shape(cities) +
+	tm_text("name", cex="pop_max", scale=2, root=3, ymod=-.015, bg.alpha=0) +
+	tm_bubbles(size="pop_max", col="capital", border.lwd = 3, border.col = "blue", border.alpha=.3, size.lim=c(0, 2e7)) +
+	tm_layout_Europe("Metropolitan population", legend.titles=c(bubble.col="Capital"))
+
+
+
+data(Europe)
+tm_shape(Europe) +
+	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
+	tm_borders(alpha=.5) +
+	tm_text("iso_a3", cex="AREA", scale=2, bg.alpha=0) +
+	tm_layout_Europe("GDP per capita")
 

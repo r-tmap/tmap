@@ -45,6 +45,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 
 
 process_fill <- function(data, g, gb, gt, gby) {
+	
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	areas <- data$SHAPE_AREAS
@@ -69,7 +70,7 @@ process_fill <- function(data, g, gb, gt, gby) {
 	nx <- max(nx, nlevels(by))
 		
 	# return if data is matrix of color values
-	if (is.matrix(dt)) return(list(fill=dt, xfill=rep(NA, nx)))
+	if (is.matrix(dt)) return(list(fill=dt, fill.alpha=g$alpha, xfill=rep(NA, nx)))
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly")
 	if (is.list(dt)) {
@@ -97,8 +98,9 @@ process_fill <- function(data, g, gb, gt, gby) {
 		fill.values <- lapply(split(dt, rep(1:nx, each=npol)), function(d)d[!tiny])
 	}
 	list(fill=fill,
+		 fill.alpha=g$alpha,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,
-		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks, lwd=gb$lwd, border.col=gb$col),
+		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks, alpha=g$alpha, lwd=gb$lwd, border.col=gb$col, border.alpha=gb$alpha),
 		 xfill=x)
 }
