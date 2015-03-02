@@ -45,56 +45,42 @@ qtm <- function(shp,
 			if (missing(bubble.col)) bubble.col <- "black"
 		}
 	}
-	shapeargs <- args[intersect(names(args), names(tm_shape()[[1]]))]
-	fillnames <- names(tm_fill()[[1]])
-	fillnames[fillnames=="alpha"] <- "fill.alpha"
-	fillargs <- args[setdiff(intersect(names(args), fillnames), "col")]
-	if ("fill.alpha" %in% names(fillargs)) names(fillargs)[names(fillargs)=="fill.alpha"] <- "alpha"
 	
-	bubblenames <- names(tm_bubbles()[[1]])
-	bubblenames[bubblenames=="bubble.border"] <- "border"
-	bubbleargs <- args[setdiff(intersect(names(args), bubblenames), c("bubble.col", "bubble.size"))]
-	if ("bubble.scale" %in% names(bubbleargs)) names(bubbleargs)[names(bubbleargs)=="bubble.scale"] <- "scale"
+	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "xmod", "ymod")
 	
-	bordernames <- names(tm_borders()[[1]])
-	bordernames[bordernames=="alpha"] <- "border.alpha"
-	borderargs <- args[setdiff(intersect(names(args), bordernames), "col")]
-	if ("border.alpha" %in% names(borderargs)) names(borderargs)[names(borderargs)=="border.alpha"] <- "alpha"
+	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_lines", "tm_text", "tm_layout", "tm_grid", "tm_facets")
+	fns_prefix <- c("shape", "fill", "borders", "bubble", "line", "text", "layout", "grid", "facets")
 	
-	textnames <- names(tm_text("")[[1]])[-c(1:2)]
-	textnames[-1] <- substr(textnames[-1], 6, nchar(textnames[-1]))
-	textnames[textnames=="scale"] <- "text.scale"
-	textnames[textnames=="alpha"] <- "text.alpha"
-	textargs <- args[intersect(names(args), textnames)]
-	if ("text.scale" %in% names(textargs)) names(textargs)[names(textargs)=="text.scale"] <- "scale"
-	if ("text.alpha" %in% names(textargs)) names(textargs)[names(textargs)=="text.alpha"] <- "alpha"
+	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_lines=c("col", "lwd"), tm_text=c("text", "cex"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
 	
-	linenames <- names(tm_lines()[[1]])
-	linenames[linenames=="lines.lty"] <- "lty"
-	linenames[linenames=="lines.alpha"] <- "alpha"
-	lineargs <- args[setdiff(intersect(names(args), linenames), c("lines.col", "lines.lwd"))]
-	if ("line.scale" %in% names(lineargs)) names(lineargs)[names(lineargs)=="line.scale"] <- "scale"
 	
-	themeargs <- args[intersect(names(args), names(tm_layout()[[1]]))]
-	facetargs <- args[intersect(names(args), names(tm_facets()[[1]]))]
+	args2 <- mapply(function(f, pre, sk, args, dupl){
+		lnames <- setdiff(names(formals(f)), sk)
+		isD <- lnames %in% dupl
+		lnames2 <- lnames
+		lnames2[isD] <- paste(pre, lnames2[isD], sep=".")
+		arg <- args[intersect(names(args), lnames2)]
+		if (length(arg)) names(arg) <- lnames[match(names(arg), lnames2)]
+		arg
+	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)
 	
-	g <- do.call("tm_shape", c(list(shp=shp), shapeargs))
-	if (!is.null(borders)) g <- g + do.call("tm_borders", c(list(col=borders), borderargs))
-	if (!is.null(fill)) g <- g + do.call("tm_fill", c(list(col=fill), fillargs))
-	if (!missing(bubble.size) || !missing(bubble.col)) g <- g + do.call("tm_bubbles", c(list(size=bubble.size, col=bubble.col), bubbleargs))
+	g <- do.call("tm_shape", c(list(shp=shp), args2[["tm_shape"]]))
+	if (!is.null(borders)) g <- g + do.call("tm_borders", c(list(col=borders), args2[["tm_borders"]]))
+	if (!is.null(fill)) g <- g + do.call("tm_fill", c(list(col=fill), args2[["tm_fill"]]))
+	if (!missing(bubble.size) || !missing(bubble.col)) g <- g + do.call("tm_bubbles", c(list(size=bubble.size, col=bubble.col), args2[["tm_bubbles"]]))
 	
-	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, cex=text.cex), textargs))
+	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, cex=text.cex), args2[["tm_text"]]))
 	
-	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("tm_lines", c(list(lwd=line.lwd, col=line.col), lineargs))
+	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("tm_lines", c(list(lwd=line.lwd, col=line.col), args2[["tm_lines"]]))
 	
-	if (length(facetargs)) g <- g + do.call("tm_facets", facetargs)
+	if (length(args2[["tm_facets"]])) g <- g + do.call("tm_facets", args2[["tm_facets"]])
 
 	if (missing(theme)) {
-		g <- g + do.call("tm_layout", c(list(scale=scale), themeargs))	
+		g <- g + do.call("tm_layout", c(list(scale=scale), args2[["tm_layout"]]))	
 	} else {
 		if (!(theme %in% c("World", "Europe", "NLD"))) stop("Unknown theme")
 		funct <- paste("tm_layout", theme, sep="_")
-		g <- g + do.call(funct, c(list(scale=scale), themeargs))
+		g <- g + do.call(funct, c(list(scale=scale), args2[["tm_layout"]]))
 	}
 	
 	g
