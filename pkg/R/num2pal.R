@@ -77,7 +77,7 @@ num2pal <- function(x, n = 5,
 }
 
 
-fancy_breaks <- function(vec, dp=NULL) {
+fancy_breaks <- function(vec, dp=NA) {
 	# get correct number of significant figures
 	#vec = signif(vec, digits)
 	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec)))
@@ -86,16 +86,16 @@ fancy_breaks <- function(vec, dp=NULL) {
 
 	if (mag>11) {
 		vec <- vec / 1e9
-		ext <- "bln"
+		ext <- " bln"
 	} else if (mag > 8) {
 		vec <- vec / 1e6
-		ext <- "mln"
+		ext <- " mln"
 	} else {
 		ext <- ""
 	}
 	
-	if (is.null(dp)) dp <- max(min(ndec, 4-mag), 0)
+	if (is.na(dp)) dp <- max(min(ndec, 4-mag), 0)
 	
-	paste(prettyNum(vec, big.mark=",", scientific=FALSE, preserve.width="none", digits=dp), ext)
+	paste(prettyNum(vec, big.mark=",", scientific=FALSE, preserve.width="none", digits=dp), ext, sep="")
 }
 

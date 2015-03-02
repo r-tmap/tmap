@@ -62,7 +62,7 @@ tm_layout <- function(title=NA,
 					  legend.title.cex=1.0,
 					  legend.text.cex=0.7,
 					  legend.hist.cex=0.7,
-					  legend.digits = 0L,
+					  legend.digits = NA,
 					  legend.bg.color = NA) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tm"

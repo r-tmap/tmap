@@ -26,7 +26,7 @@ split_lines_poly <- function(shp.lines, shp.poly, variables.lines, variables.pol
 	ydata <- cbind(shp.lines@data[match(y_lines_id, lines_id), variables.lines, drop=FALSE],
 				   shp.poly@data[match(y_poly_id, poly_id), variables.poly, drop=FALSE])
 	
-	append_data(shp, ydata, fixed.order=TRUE)
+	append_data(ydata, shp, fixed.order=TRUE)
 }
 # 
 # #' Split lines by lines

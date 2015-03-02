@@ -176,8 +176,8 @@ legend_plot <- function(gt, x, legend_pos) {
 						 just=c("left", "bottom"), name="legend")
 	
 	pushViewport(vpLegend)
-	treeLegBG <- if (!is.na(gt$legend.bg.color)) {
-		gTree(children = gList(rectGrob(gp=gpar(col=NA, fill=gt$legend.bg.color))), vp=vpLegend)
+	grobLegBG <- if (!is.na(gt$legend.bg.color)) {
+		rectGrob(gp=gpar(col=NA, fill=gt$legend.bg.color))
 	} else {
 		NULL
 	}
@@ -185,7 +185,8 @@ legend_plot <- function(gt, x, legend_pos) {
 	vpLeg <- viewport(layout=grid.layout(k, 1, heights=heights, widths=1), name="legend_grid")
 	pushViewport(vpLeg)
 	grobList <- lapply(x, FUN="legend_subplot", gt)
-	treeLegend <- gTree(children=gList(grobTitle, gTree(children=do.call("gList", grobList), vp=vpStack(vpLegend, vpLeg))))
+
+	treeLegend <- gTree(children=gList(grobTitle, gTree(children=gList(grobLegBG, gTree(children=do.call("gList", grobList), vp=vpLeg)), vp=vpLegend)))
 	upViewport(2)
 	treeLegend
 }
