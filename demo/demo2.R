@@ -61,17 +61,19 @@ qtm(shp_cty, fill="unemppct", style="kmeans", palette="PuRd")
 shp_st <- unionSpatialPolygons(shp_cty, shp_cty$state_name)
 
 tm <- tm_shape(shp_cty, projection = "+init=epsg:2163") +
-	tm_borders("gray50", lwd= 1) +
+	tm_borders("white", alpha = .25, lwd= 1) +
 	tm_fill("unemppct", style="fixed", breaks=c(seq(0, 10, by=2), 35), palette="PuRd", contrast = .9) +
 tm_shape(shp_st) +
 	tm_borders("white", lwd = 2) +
-tm_layout(title="Unemployment", bg.color = "white", draw.frame = TRUE, outer.margins=0, asp=0, legend.title.cex = 2, legend.text.cex = 1.2)
+tm_layout(title="Unemployment", bg.color = "gray90", draw.frame = TRUE, outer.margins=0, asp=0, legend.title.cex = 2, legend.text.cex = 1.2)
 
 png("../demo/US_unemp.png", width=1000, height=700)
 print(tm)
 dev.off()
 
-
+png("../demo/US_unemp_small.png", width=545, height=382)
+print(tm + tm_layout(scale=.6))
+dev.off()
 
 # 
 # 
