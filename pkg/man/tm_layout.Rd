@@ -18,7 +18,7 @@ tm_layout(title = NA, scale = 1, title.cex = 1.5, bg.color = NULL,
   FALSE), legend.width = 0.3, legend.height = 0.9,
   legend.hist.height = 0.3, legend.config = c("fill_hist", "fill",
   "bubble.size", "bubble.col", "line.col", "line.lwd"), legend.title.cex = 1,
-  legend.text.cex = 0.7, legend.hist.cex = 0.7, legend.digits = 0L,
+  legend.text.cex = 0.7, legend.hist.cex = 0.7, legend.digits = NA,
   legend.bg.color = NA)
 
 tm_layout_World(title = NA, scale = 0.85, title.position = c("left",

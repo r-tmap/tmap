@@ -66,7 +66,7 @@ tm_shape(rivers) +
     tm_lines("dodgerblue3") +
 tm_shape(cities) +
     tm_text("name", cex="pop_max", scale=1, ymod=-.02, root=4, cex.lowerbound = .60, 
-            bg.color="yellow", bg.alpha = 150) + 
+            bg.color="yellow", bg.alpha = .5) + 
     tm_bubbles("pop_max", "red", border.col = "black", border.lwd=1, size.lim = c(0, 2e7)) +
 tm_shape(Europe) +
     tm_text("name", cex="area", scale=1.5, root=8, cex.lowerbound = .40, 

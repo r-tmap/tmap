@@ -1,5 +1,5 @@
 process_text <- function(data, g, fill) {
-	root <- NULL; text.cex.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL; text.case <- NULL
+	root <- NULL; text.cex.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL; text.case <- NULL; text.alpha <- NULL
 	
 	npol <- nrow(data)
 	
