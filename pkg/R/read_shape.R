@@ -2,8 +2,8 @@
 #' 
 #' Read an ESRI shape file. Optionally, set the current projection if it is missing.
 #' 
-#' This function is a convenient wrapper of readOGR of the package sp. It also fixes a common bug when reading shape files that are in the Dutch rijksdriehoekstelsel.
-#'
+#' This function is a convenient wrapper of readOGR of the package rgdal. It is possible to set the current projection, if it is undefined in the shape file. If a reprojection is required, use \code{\link{set_projection}}.
+#' 
 #' @param file a shape file name (including directory).
 #' @param current.projection the current projection of the shape object, if it is missing in the shape file. It should be either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
 #' \describe{
@@ -23,6 +23,7 @@
 #'    	See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
 #' Use \code{\link{set_projection}} to reproject the shape object.
 #' @return shape object
+#' @note For the Netherlands: this function tries to fix a common projection bug regarding the Dutch Rijksdriehoekstelsel (Dutch National Grid). See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} for details.
 #' @import rgdal
 #' @import sp
 #' @export
@@ -66,9 +67,9 @@ read_shape <- function(file, current.projection=NULL){
 
 #' Write shape file
 #' 
-#' This function writes an ESRI shape file.
+#' Write a shape object to an ESRI shape file.
 #' 
-#' This function is a convenient wrapper of writeOGR of the package sp.
+#' This function is a convenient wrapper of writeOGR from the package rgdal.
 #'
 #' @param shp a shape object.
 #' @param file file name (including directory)

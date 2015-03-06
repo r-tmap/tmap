@@ -168,7 +168,7 @@ legend_plot <- function(gt, x, legend_pos) {
 			  just=c("left", "bottom"))
 
 	if (title.only) {
-		return(NULL)
+		return(grobTitle)
 	}
 
 	vpLegend <- viewport(y=legend.position[2], x=legend.position[1], 

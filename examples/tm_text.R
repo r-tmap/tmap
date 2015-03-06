@@ -3,7 +3,7 @@ data(Europe)
 tm_shape(Europe) +
     tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
     tm_borders() +
-    tm_text("iso_a3", cex="AREA", scale=2, bg.alpha=0) +
+    tm_text("iso_a3", cex="AREA", root=4, scale=2, bg.alpha=0) +
 tm_layout_Europe("GDP per capita")
 
 
@@ -23,5 +23,5 @@ tm_shape(Europe) +
     tm_text("name", cex="area", scale=1.5, root=8, cex.lowerbound = .40, 
             fontface="bold", case=NA, fontcolor = "gray35") + 
 tm_layout_Europe("Map of Europe", 
-    legend.titles = c(fill="Country population density (people per km2)", 
+    legend.titles = c(fill="Country population density (per km2)", 
                       bubble.size="City Population"))

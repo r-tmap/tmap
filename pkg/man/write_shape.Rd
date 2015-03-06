@@ -12,9 +12,9 @@ write_shape(shp, file)
 \item{file}{file name (including directory)}
 }
 \description{
-This function writes an ESRI shape file.
+Write a shape object to an ESRI shape file.
 }
 \details{
-This function is a convenient wrapper of writeOGR of the package sp.
+This function is a convenient wrapper of writeOGR from the package rgdal.
 }
 

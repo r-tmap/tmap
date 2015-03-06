@@ -1,14 +1,14 @@
 #' Specify the shape object
 #' 
-#' Creates a \code{\link{tmap-element}} that specifies the shape object. Also the used projection and covered area (bounding box) can be set.
-#' 
+#' Creates a \code{\link{tmap-element}} that specifies the shape object. Also the projection and covered area (bounding box) can be set. It is possible to use multiple shape objects within one plot (see \code{\link{tmap-element}}).
+#'  
 #' @param shp shape object, which is one of
 #' \enumerate{
 #'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
 #' }
-#'For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}} 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}}, accept any of them. 
+#'For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}} accept any of them. 
 #' @param projection character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.ostm.org/proj/}), of one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates.} 
@@ -24,11 +24,11 @@
 #'    	\item{\code{"eqc45"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 45 is the standard parallel. Also known as Gall isographic. Type: equidistant}
 #'    	\item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
 #'    	See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
-#'    	By default, the projection is used that is defined in the \code{shp} object itself.
-#' @param xlim limits of the x-axis
-#' @param ylim limits of the y-axis
-#' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: relative values will depend on the current bounding box (bbox) of the first shape object.
-#' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides the \code{xlim} and \code{ylim} parameters.
+#'    	By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.
+#' @param xlim limits of the x-axis. These are either absolute or relative (depending on the argument \code{relative}). Alternatively, the argument \code{bbox} can be set to set absolute values.
+#' @param ylim limits of the y-axis. See \code{xlim}.
+#' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: in case multiple shape objects are used within one plot, the relative values will depend on the current bounding box (bbox) of the first shape object.
+#' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides both \code{xlim} and \code{ylim}.
 #' @export
 #' @seealso \code{\link{read_shape}} to read ESRI shape files, \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} 
 #' @example ../examples/tm_shape.R
@@ -68,23 +68,24 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 
 #' Add text labels
 #' 
-#' Creates a \code{\link{tmap-element}} that adds text labels
+#' Creates a \code{\link{tmap-element}} that adds text labels.
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
-#' @param cex relative size of the text labels. Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or \code{AREA} where the text size is proportional to the the area size of the polygons.
-#' @param root root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3} the cube root etc.
+#' @param cex relative size of the text labels (see note). Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or the value \code{"AREA"}, where the text size is proportional to the area size of the polygons.
+#' @param root root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.
 #' @param fontcolor color of the text labels
 #' @param fontface font face of the text labels
 #' @param fontfamily font family of the text labels
-#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
-#' @param case case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and use \code{NA} to leave the text as is.
+#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).
+#' @param case case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and \code{NA} to leave the text as is.
 #' @param bg.color background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.
 #' @param bg.alpha number between 0 and 1 that specifies the transparancy of the text background (0 is totally transparent, 1 is solid background).
-#' @param cex.lowerbound lowerbound for \code{cex}. Needed to ignore the tiny labels in case \code{cex} is a variable.
-#' @param print.tiny boolean that determines if tiny labels (which size is smaller than \code{cex.lowerbound}) are print at size \code{cex.lowerbound}
-#' @param scale scalar needed in case cex is based 
-#' @param xmod horizontal position modification of the text, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
+#' @param cex.lowerbound lowerbound for \code{cex}. Only useful when \code{cex} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{cex.lowerbound} are depicted at relative size \code{cex.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{cex.lowerbound} (in other words, tiny labels are omitted).
+#' @param print.tiny boolean, see \code{cex.lowerbound}
+#' @param scale text size multiplier, useful in case \code{cex} is variable or \code{"AREA"}.
+#' @param xmod horizontal position modification of the text (relatively): 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
+#' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 #' @export
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
