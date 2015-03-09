@@ -1,6 +1,6 @@
 #' Layout elements of cartographic maps
 #' 
-#' This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for World, Europe, and Netherlands maps (which are contained in this package). Tip: create a layout theme for your own map (see example below).
+#' This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). Tip: create a layout theme for your own map (see example below).
 #' 
 #' @name tm_layout
 #' @rdname tm_layout
@@ -74,9 +74,7 @@ tm_layout <- function(title=NA,
 #' @export
 tm_layout_World <- function(title=NA,
 							scale=.85,
-							title.position = c("left", "bottom"),
 							title.bg.color=TRUE,
-							outer.margins=rep(.02, 4),
 							inner.margins=c(0, 0.02, 0.02, 0.02),
 							legend.position=c("left", "bottom"), 
 							legend.width=.2,
@@ -91,8 +89,7 @@ tm_layout_World <- function(title=NA,
 #' @export
 tm_layout_Europe <- function(title=NA,
 							 legend.position=c("left", "top"), 
-							 outer.margins=rep(0.02, 4),
-							 inner.margins=c(0, 0.25, 0, 0),
+							 inner.margins=c(0, 0.1, 0, 0),
 							 ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
@@ -103,9 +100,9 @@ tm_layout_Europe <- function(title=NA,
 #' @export
 tm_layout_NLD <- function(title=NA,
 						  draw.frame=FALSE, 
-						  inner.margins=c(.05, .3, .05, .05),
+						  inner.margins=c(.05, .3, .1, .05),
 						  legend.position=c("left", "top"), 
-						  legend.width=.3,
+						  legend.width=.35,
 						  ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)

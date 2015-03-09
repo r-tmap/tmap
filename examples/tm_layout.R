@@ -19,10 +19,10 @@ tm_layout_Africa <- function(title=NA,
 							 draw.frame = FALSE,
 							 title.position=c("left", "bottom"), 
 							 legend.position = c("left", "bottom"), 
-							 bg.color = "lightblue", ...) {
+							 bg.color = "lightcyan3", ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
 
-qtm(Africa, fill="pop_est_dens", style="kmeans") + 
+qtm(Africa, fill="pop_est_dens", fill.style="kmeans") + 
 	tm_layout_Africa("Population of Africa")

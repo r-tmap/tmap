@@ -7,7 +7,11 @@ legend_plot <- function(gt, x, legend_pos) {
 		gt$legend.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
 	}
 	if (is.null(gt$title.position)) {
-		gt$title.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
+		if (title.only) {
+			gt$title.position <- c("left", "top")
+		} else {
+			gt$title.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
+		}
 	}
 
 	

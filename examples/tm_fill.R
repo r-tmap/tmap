@@ -41,8 +41,25 @@ tm_shape(NLD_muni) +
     tm_borders() + 
 tm_shape(NLD_prov) + 
     tm_borders(lwd=2) +
-    tm_text("name") +
+    tm_text("name")+#, bg.color = "white", bg.alpha=.25) +
 tm_layout_NLD("Provinces and municipalities", legend.show=FALSE)
+
+
+
+tm_shape(NLD_prov) + 
+	tm_fill("name") + 
+tm_shape(NLD_muni) + 
+	tm_borders() + 
+tm_shape(NLD_prov) + 
+	tm_borders(lwd=2) +
+	tm_text("name", fontcolor = "black", xmod = .003, ymod=-.003) +
+tm_shape(NLD_prov) + 
+	tm_borders(lwd=2) +
+tm_text("name", fontcolor = "white") +
+tm_layout_NLD("Provinces and municipalities", legend.show=FALSE)
+
+
+
 
 tm_shape(NLD_muni) +
     tm_fill(col="population", convert2density=TRUE, style="kmeans") +

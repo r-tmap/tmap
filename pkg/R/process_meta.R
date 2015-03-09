@@ -70,7 +70,7 @@ process_meta <- function(gt, gf, gg, nx, varnames) {
 		legend.text.cex <- legend.text.cex * scale
 		legend.hist.cex <- legend.hist.cex * scale
 				
-		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$fill[1]), "white", "grey85")
+		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$fill[1]), "white", "grey75")
 		
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color

@@ -78,6 +78,7 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @param fontfamily font family of the text labels
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).
 #' @param case case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and \code{NA} to leave the text as is.
+#' @param shadow logical that determines whether a shadow is depicted behind the text. The color of the shadow is either white or yellow, depending of the \code{fontcolor}.
 #' @param bg.color background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.
 #' @param bg.alpha number between 0 and 1 that specifies the transparancy of the text background (0 is totally transparent, 1 is solid background).
 #' @param cex.lowerbound lowerbound for \code{cex}. Only useful when \code{cex} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{cex.lowerbound} are depicted at relative size \code{cex.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{cex.lowerbound} (in other words, tiny labels are omitted).
@@ -90,7 +91,7 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", alpha=NA, case=NA, bg.color=NA, bg.alpha=NA, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
+tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", alpha=NA, case=NA, shadow=TRUE, bg.color=NA, bg.alpha=NA, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
 	g <- list(tm_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "tmap"
@@ -177,7 +178,7 @@ tm_fill <- function(col="grey90",
 							auto.palette.mapping = TRUE,
 							contrast = 1,
 					 		max.categories = 12,
-					 		colorNA = "grey65",
+					 		colorNA = "grey60",
 					 		textNA = "Missing",
 							thres.poly = 1e-05) {
 	

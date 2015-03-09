@@ -12,9 +12,9 @@ tm_text(text, cex = 1, root = 3, fontcolor = NA, fontface = "plain",
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
 
-\item{cex}{relative size of the text labels. Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or \code{AREA} where the text size is proportional to the the area size of the polygons.}
+\item{cex}{relative size of the text labels (see note). Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or the value \code{"AREA"}, where the text size is proportional to the area size of the polygons.}
 
-\item{root}{root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3} the cube root etc.}
+\item{root}{root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.}
 
 \item{fontcolor}{color of the text labels}
 
@@ -22,21 +22,21 @@ tm_text(text, cex = 1, root = 3, fontcolor = NA, fontface = "plain",
 
 \item{fontfamily}{font family of the text labels}
 
-\item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
+\item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).}
 
-\item{case}{case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and use \code{NA} to leave the text as is.}
+\item{case}{case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and \code{NA} to leave the text as is.}
 
 \item{bg.color}{background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.}
 
 \item{bg.alpha}{number between 0 and 1 that specifies the transparancy of the text background (0 is totally transparent, 1 is solid background).}
 
-\item{cex.lowerbound}{lowerbound for \code{cex}. Needed to ignore the tiny labels in case \code{cex} is a variable.}
+\item{cex.lowerbound}{lowerbound for \code{cex}. Only useful when \code{cex} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{cex.lowerbound} are depicted at relative size \code{cex.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{cex.lowerbound} (in other words, tiny labels are omitted).}
 
-\item{print.tiny}{boolean that determines if tiny labels (which size is smaller than \code{cex.lowerbound}) are print at size \code{cex.lowerbound}}
+\item{print.tiny}{boolean, see \code{cex.lowerbound}}
 
-\item{scale}{scalar needed in case cex is based}
+\item{scale}{text size multiplier, useful in case \code{cex} is variable or \code{"AREA"}.}
 
-\item{xmod}{horizontal position modification of the text, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.}
+\item{xmod}{horizontal position modification of the text (relatively): 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.}
 
 \item{ymod}{vertical position modification. See xmod.}
 }
@@ -44,7 +44,10 @@ tm_text(text, cex = 1, root = 3, fontcolor = NA, fontface = "plain",
 \code{\link{tmap-element}}
 }
 \description{
-Creates a \code{\link{tmap-element}} that adds text labels
+Creates a \code{\link{tmap-element}} that adds text labels.
+}
+\note{
+The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 }
 \examples{
 # Europe example
@@ -52,7 +55,7 @@ data(Europe)
 tm_shape(Europe) +
     tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
     tm_borders() +
-    tm_text("iso_a3", cex="AREA", scale=2, bg.alpha=0) +
+    tm_text("iso_a3", cex="AREA", root=4, scale=2, bg.alpha=0) +
 tm_layout_Europe("GDP per capita")
 
 
@@ -72,7 +75,7 @@ tm_shape(Europe) +
     tm_text("name", cex="area", scale=1.5, root=8, cex.lowerbound = .40, 
             fontface="bold", case=NA, fontcolor = "gray35") + 
 tm_layout_Europe("Map of Europe", 
-    legend.titles = c(fill="Country population density (people per km2)", 
+    legend.titles = c(fill="Country population density (per km2)", 
                       bubble.size="City Population"))
 }
 \seealso{
