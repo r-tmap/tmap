@@ -152,10 +152,11 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 		nlines <- rep(1, length(text))
 		
 		
+		lineH <- convertHeight(unit(text.cex[text_sel], "lines"), "npc", valueOnly=TRUE)
+		lineW <- convertWidth(unit(text.cex[text_sel], "lines"), "npc", valueOnly=TRUE)
+
 		if (!is.na(text.bg.color)) {
 			
-			lineH <- convertHeight(unit(text.cex[text_sel], "lines"), "npc", valueOnly=TRUE)
-			lineW <- convertWidth(unit(text.cex[text_sel], "lines"), "npc", valueOnly=TRUE)
 			
 			tGH <- mapply(text[text_sel], text.cex[text_sel], nlines[text_sel], FUN=function(x,y,z){
 				convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
@@ -173,7 +174,14 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 		} else {
 			grobTextBG <- NULL
 		}
-		gList(grobTextBG, grobText)
+		
+		if (text.shadow) {
+			grobTextSh <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1]+lineW * .05, "npc"), y=unit(co.npc[text_sel,2]- lineH * .05, "npc"), just=just, gp=gpar(col=text.shadowcol[text_sel], cex=text.cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+		} else {
+			grobTextSh <- NULL
+		}
+		
+		gList(grobTextBG, grobTextSh, grobText)
 	})
 }
 

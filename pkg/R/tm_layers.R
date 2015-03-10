@@ -91,8 +91,8 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", alpha=NA, case=NA, shadow=TRUE, bg.color=NA, bg.alpha=NA, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
-	g <- list(tm_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
+tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
+	g <- list(tm_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.shadow=shadow, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "tmap"
 	g

@@ -50,7 +50,6 @@ legend_plot <- function(gt, x, legend_pos) {
 		
 		x <- x[x.not.null]
 		
-		names(x)
 		types <- ifelse(sapply(x, function(y)if (is.null(y$legend.is.portrait)) FALSE else y$legend.is.portrait), "portrait", "landscape")
 		types[names(x)=="fill_hist"] <- "hist"
 		types[substr(names(x), 1, 5)=="title"] <- "title"
@@ -62,12 +61,12 @@ legend_plot <- function(gt, x, legend_pos) {
 # 		heights <- heights[conf][x.not.null]
 		
 		# shrink heights (remove white space)
-		margin <- 0.25
+		margin <- 0.25 * gt$legend.text.cex
 		heights <- mapply(function(p, hname) {
 			if (p && hname %in% c("fill", "bubble.col", "line.col", "line.lwd")) {
 				length(x[[hname]]$legend.labels) * lineHeight * gt$legend.text.cex + 2*margin*lineHeight
 			} else if (p && hname == "bubble.size") {
-				sum(convertHeight(unit(x[[hname]]$legend.sizes, "inch"), "npc", valueOnly=TRUE)) * 2 * 1.25
+				sum(pmax(convertHeight(unit(x[[hname]]$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.25, lineHeight * gt$legend.text.cex)) + 2*margin*lineHeight
 			} else if (!p && hname == "bubble.size") {
 				max(convertHeight(unit(x[[hname]]$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.cex) + 2*margin*lineHeight*gt$legend.text.cex + 1.25*lineHeight*gt$legend.text.cex
 			} else if (!p && hname %in% c("fill", "bubble.col", "line.col", "line.lwd")) {
@@ -83,7 +82,6 @@ legend_plot <- function(gt, x, legend_pos) {
 		heights <- 0
 	}
 
-	
 	# normalize heights
 	nlines <- length(strsplit(gt$title, "\n")[[1]])
 
@@ -160,6 +158,7 @@ legend_plot <- function(gt, x, legend_pos) {
 			  g=list(text=gt$title, text.cex=gt$title.cex, 
 			  	   text.cex.lowerbound=gt$title.cex, 
 			  	   text.fontcolor="black",
+			  	   text.shadow=FALSE,
 			  	   text.bg.color=gt$title.bg.color, 
 			  	   text.bg.alpha=255, 
 			  	   text.scale=1,
@@ -222,22 +221,23 @@ legend_title <- function(x, legend.title.cex, lineHeight) {
 
 legend_portr <- function(x, legend.text.cex, lineHeight) {
 	with(x, {
-		#grid.rect()
+		
 		my <- lineHeight * legend.text.cex / 4
 		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 		s <- 1.25 ## for bubbles only
 		r <- 1-2*my
 		
+
 		if (legend.type=="bubble.size") {
+			nitems <- length(legend.labels)
 			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
-			lhs <- hs * s
-			if (sum(lhs)>r) {
+			lhs <- pmax(hs*s, legend.text.cex * lineHeight)
+			if (sum(lhs)>r+1e-6) {
 				clipID <- which(cumsum(lhs) > r)[1]
 				hs <- hs[1:(clipID-1)]
 				lhs <- lhs[1:(clipID-1)]
 				legend.labels <- legend.labels[1:(clipID-1)]
 			}
-			nitems <- length(hs)
 		} else {
 			nitems <- length(legend.labels)
 			lhs <- hs <- rep(r / nitems, nitems)
@@ -322,7 +322,7 @@ legend_landsc <- function(x, legend.text.cex, lineHeight) {
 		}
 		
 		
-		labelsws <- convertWidth(stringWidth(legend.labels), "npc", TRUE) * legend.text.cex * 1.1
+		labelsws <- convertWidth(stringWidth(legend.labels), "npc", TRUE) * legend.text.cex * 1.15
 		maxlabelsws <- max(labelsws)
 		
 		ws <- rep(maxlabelsws, nitems)

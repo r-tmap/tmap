@@ -32,6 +32,21 @@ process_text <- function(data, g, fill) {
 				rep(ifelse(light, "black", "white"), length.out=npol)
 			}
 		} else rep(text.fontcolor, length.out=npol)
+		
+		if (text.shadow) {
+			text.shadowcol <- if (is.matrix(text.fontcolor)) {
+				apply(text.fontcolor, MARGIN=2, function(f) {
+					fillrgb <- col2rgb(f)
+					light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
+					rep(ifelse(light, "black", "white"), length.out=npol)
+				})
+			} else {
+				fillrgb <- col2rgb(text.fontcolor)
+				light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
+				rep(ifelse(light, "black", "white"), length.out=npol)
+			}
+		}
+		
 		text.xmod <- if (is.character(text.xmod)) data[[text.xmod]] else rep(text.xmod, length.out=npol)
 		text.ymod <-  if (is.character(text.ymod)) data[[text.ymod]] else rep(text.ymod, length.out=npol)
 		

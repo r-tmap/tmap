@@ -77,7 +77,7 @@ tm_layout_World <- function(title=NA,
 							title.bg.color=TRUE,
 							inner.margins=c(0, 0.02, 0.02, 0.02),
 							legend.position=c("left", "bottom"), 
-							legend.width=.2,
+							legend.width=.25,
 							legend.height = .5,
 							legend.bg.color=TRUE,
 							...) {
@@ -89,7 +89,7 @@ tm_layout_World <- function(title=NA,
 #' @export
 tm_layout_Europe <- function(title=NA,
 							 legend.position=c("left", "top"), 
-							 inner.margins=c(0, 0.1, 0, 0),
+							 inner.margins=c(0, 0.15, 0, 0),
 							 ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)

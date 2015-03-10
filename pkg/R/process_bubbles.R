@@ -1,4 +1,4 @@
-process_bubbles_size_vector <- function(x, g, rescale) {
+process_bubbles_size_vector <- function(x, g, rescale, gt) {
 	if (!is.na(g$size.lim[1])) {
 		x[x<g$size.lim[1]] <- NA
 		x[x>g$size.lim[2]] <- g$size.lim[2]
@@ -10,7 +10,7 @@ process_bubbles_size_vector <- function(x, g, rescale) {
 	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	bubble.size <- g$bubble.scale*sqrt(x/maxX)
 	bubble.max.size <- max(bubble.size, na.rm=TRUE)
-	bubble.size.legend.labels <- format(x_legend, trim=TRUE)
+	bubble.size.legend.labels <- fancy_breaks(x_legend, gt$legend.digits)
 	bubble.legend.sizes <- g$bubble.scale*sqrt(x_legend/maxX)
 	list(bubble.size=bubble.size,
 		 bubble.size.legend.labels=bubble.size.legend.labels,
@@ -103,13 +103,13 @@ process_bubbles <- function(data, g, gt, gby) {
 	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.size)
 	
 	if (is.list(dtsize)) {
-		res <- lapply(dtsize, process_bubbles_size_vector, g, rescale=varysize)
+		res <- lapply(dtsize, process_bubbles_size_vector, g, rescale=varysize, gt)
 		bubble.size <- sapply(res, function(r)r$bubble.size)
 		bubble.size.legend.labels <- lapply(res, function(r)r$bubble.size.legend.labels)
 		bubble.legend.sizes <- lapply(res, function(r)r$bubble.legend.sizes)
 		bubble.max.size <- sapply(res, function(r)r$bubble.max.size)
 	} else {
-		res <- process_bubbles_size_vector(dtsize, g, rescale=varysize)
+		res <- process_bubbles_size_vector(dtsize, g, rescale=varysize, gt)
 		bubble.size <- matrix(res$bubble.size, nrow=npol)
 		if (varysize) {
 			bubble.size.legend.labels <- res$bubble.size.legend.labels

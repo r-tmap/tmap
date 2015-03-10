@@ -28,5 +28,5 @@ tm_shape(NLD_prov) +
     tm_fill("name", palette="Pastel1") +
 tm_shape(NLD_muni) +
     tm_bubbles(size="population", col="steelblue",style="kmeans") +
-tm_layout_NLD(title="Population", legend.digits=0, legend.config="bubble.size", 
+tm_layout_NLD(title="Population", legend.digits=0, legend.config="bubble.size", legend.is.portrait=TRUE,
               legend.width=.4, bg.color="white")
