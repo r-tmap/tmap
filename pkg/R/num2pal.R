@@ -83,11 +83,12 @@ fancy_breaks <- function(vec, dp=NA) {
 	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec)))
 	mag <- max(nchar(frm)-11)
 	ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
+	nsig <- 
 
-	if (mag>11) {
+	if (mag>11 || (mag > 9 && all(vec - floor(vec/1e9)*1e9 < 1))) {
 		vec <- vec / 1e9
 		ext <- " bln"
-	} else if (mag > 8) {
+	} else if (mag > 8 || (mag > 6 && all(vec - floor(vec/1e6)*1e6 < 1))) {
 		vec <- vec / 1e6
 		ext <- " mln"
 	} else {
