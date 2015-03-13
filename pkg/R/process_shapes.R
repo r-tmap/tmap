@@ -43,9 +43,10 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		projection <- shp.proj
 	}
 	
+	longlat <- !is.projected(shp)
+	
 	# define bounding box
 	shp.bbox <- bbox(shp)
-	
 	
 	if (!is.null(bbox)) {
 		bbox <- bbox
@@ -67,36 +68,10 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 					   dimnames=list(c("x", "y"), c("min", "max")))
 	}
 	
-	# extend bounding box for asp ratio
-	bb <- bbox
-	bbrange <- bb[,2] - bb[,1]
-	bbmarg <- gm$inner.margins[c(2,1,4,3)]
-	bbmarg[c(1,2)] <- -bbmarg[c(1,2)]
-	bb <- bb + rep(bbrange, 2) * bbmarg
-	
-	xlim <- bb[1,]
-	ylim <- bb[2,]
-	
-	longlat <- !is.projected(shp)
-	
-	sasp <- if(longlat) {
-		(diff(xlim)/diff(ylim)) * cos((mean(ylim) * pi)/180)
-	} else {
-		(diff(xlim)/diff(ylim))# * 2
-	}
-	
-	if (!is.na(pasp)) {
-		if (pasp > sasp) {
-			## landscape device
-			xdiff <- if (longlat) diff(ylim) * pasp / cos((mean(ylim) * pi)/180) else diff(ylim) * (pasp)
-			bb[1, ] <- mean(xlim) + (xdiff * c(-.5, .5))
-		} else {
-			## portrait device
-			ydiff <- if (longlat) (diff(xlim) * cos((mean(ylim) * pi)/180)) / pasp else diff(xlim) / (pasp)
-			bb[2, ] <- mean(ylim) + (ydiff * c(-.5, .5))
-		}
-	}
-	
+
+	bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
+	bb <- bbox_asp$bbox
+	sasp <- bbox_asp$sasp
 
 	group_by <- gm$shp_nr != 0
 
@@ -122,7 +97,28 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 			b <- x@bbox
 			b[,1] <- pmax(b[,1], bb[,1])
 			b[,2] <- pmin(b[,2], bb[,2])
-			b
+			
+			bsasp <- get_asp_ratio(b[1,], b[2,], longlat)
+			
+			if (bsasp > sasp) {
+				yplus <- diff(b[2,]) * ((bsasp / sasp) - 1)
+				b[2,] <- b[2,] + yplus * c(-.5, .5)
+				if (b[2,2] > bb[2,2]) {
+					b[2,] <- b[2,] - (b[2,2] - bb[2,2])
+				} else if (b[2,1] < bb[2,1]) {
+					b[2,] <- b[2,] + (bb[2,1] - b[2,1])
+				}
+			} else {
+				xplus <- diff(b[1,]) * ((sasp / bsasp) - 1)
+				b[1,] <- b[1,] + xplus * c(-.5, .5)
+				if (b[1,2] > bb[1,2]) {
+					b[1,] <- b[1,] - (b[1,2] - bb[1,2])
+				} else if (b[1,1] < bb[1,1]) {
+					b[1,] <- b[1,] + (bb[1,1] - b[1,1])
+				}
+			}
+			
+			get_bbox_asp(b, gm$inner.margins, longlat, pasp)$bbox
 		})
 	}
 
@@ -190,4 +186,35 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	attr(shps, "legend_pos") <- legend_pos
 	attr(shps, "group_by") <- group_by
 	shps
+}
+
+
+get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
+	# extend bounding box for asp ratio
+	bbrange <- bbox[,2] - bbox[,1]
+	bbmarg <- inner.margins[c(2,1,4,3)]
+	bbmarg[c(1,2)] <- -bbmarg[c(1,2)]
+	bb <- bbox + rep(bbrange, 2) * bbmarg
+	
+	xlim <- bbox[1,]
+	ylim <- bbox[2,]
+	
+	sasp <- get_asp_ratio(xlim, ylim, longlat)
+	
+	if (!is.na(pasp)) {
+		if (pasp > sasp) {
+			## landscape device
+			xdiff <- if (longlat) diff(ylim) * pasp / cos((mean(ylim) * pi)/180) else diff(ylim) * (pasp)
+			bb[1, ] <- mean(xlim) + (xdiff * c(-.5, .5))
+		} else {
+			## portrait device
+			ydiff <- if (longlat) (diff(xlim) * cos((mean(ylim) * pi)/180)) / pasp else diff(xlim) / (pasp)
+			bb[2, ] <- mean(ylim) + (ydiff * c(-.5, .5))
+		}
+	}
+	list(bbox=bb, sasp=sasp)
+}
+
+get_asp_ratio <- function(xlim, ylim, longlat) {
+	(diff(xlim)/diff(ylim)) * ifelse(longlat, cos((mean(ylim) * pi)/180), 1)
 }

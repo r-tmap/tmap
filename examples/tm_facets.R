@@ -61,4 +61,6 @@ tm_facets(by="part") +
 # data_by == NA ?
 
 
-
+tm_shape(NLD_prov) +
+	tm_fill() +
+	tm_facets(by="name")

@@ -39,7 +39,7 @@ split_shape <- function(x, f, drop=TRUE, ...) {
 	}
 	lev <- intersect(levels(f), f)
 	
-	xlist <- lapply(lev, function(l)x[f==l,])
+	xlist <- lapply(lev, function(l)x[which(f==l),])
 	names(xlist) <- lev
 	xlist
 }
