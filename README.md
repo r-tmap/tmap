@@ -6,7 +6,8 @@ R package for thematic maps
 Installation
 ------------
 
-`tmap' is available on CRAN! The latest development version can be installed using `devtools`.
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap)!
+The latest development version can be installed using `devtools`.
 
 ```r
 library(devtools)
