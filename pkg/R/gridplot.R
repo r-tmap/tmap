@@ -18,7 +18,7 @@ gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, legend_po
 		iend <- min(istart + pp, nx)
 		ni <- iend-istart+1
 		treeMults <- mapply(function(i, rw, cl) {
-			cellplot2(rw, cl, e=do.call(fun, args=list(gps[[i]], shps.env, dasp, sasp, legend_pos)), name = paste("multiple", i, sep="_"))
+			cellplot2(rw, cl, e=do.call(fun, args=list(i, gps[[i]], shps.env, dasp, sasp, legend_pos)), name = paste("multiple", i, sep="_"))
 		}, istart:iend, 
 		rep(1:mfrow, each=mfcol, length.out=ni), 
 		rep(1:mfcol, times=mfrow, length.out=ni), SIMPLIFY=FALSE)

@@ -1,8 +1,13 @@
 
-plot_map <- function(gp, gt, shps.env) {
+plot_map <- function(i, gp, gt, shps.env) {
 	nlayers <- length(gp)
 	
 	shps <- get("shps", envir=shps.env)
+	
+	if (gt$shp_nr!=0) {
+		shps <- shps[[i]]
+	}
+	
 	
 	bubbleHeight <- convertHeight(unit(.5, "lines"), "inch", valueOnly=TRUE)
 	
@@ -186,7 +191,7 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 }
 
 
-plot_all <- function(gp, shps.env, dasp, sasp, legend_pos) {
+plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 	gt <- gp$tm_layout
 	
 	gp[c("tm_layout")] <- NULL
@@ -233,7 +238,7 @@ plot_all <- function(gp, shps.env, dasp, sasp, legend_pos) {
 			} else {
 				grobBGframe <- NULL
 			}
-			res <- plot_map(gp, gt, shps.env)
+			res <- plot_map(i, gp, gt, shps.env)
 			treeElemGrid <- res$treeElemGrid
 			bubbleHeight <- res$bubbleHeight
 			gList(grobBGframe, treeElemGrid)

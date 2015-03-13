@@ -1,4 +1,4 @@
-process_shapes <- function(shps, g, gm, dw, dh) {
+process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	
 	sh <- (dh/gm$nrow) * (1-sum(gm$outer.margins[c(1,3)]))
 	sw <- (dw/gm$ncol) * (1-sum(gm$outer.margins[c(2,4)]))
@@ -97,6 +97,36 @@ process_shapes <- function(shps, g, gm, dw, dh) {
 		}
 	}
 	
+
+	group_by <- gm$shp_nr != 0
+
+	if (group_by) {
+		x <- 1
+		
+		if (gm$shp_nr != masterID) {
+			shp_by <- shps[[gm$shp_nr]]
+			proj_by <- proj4string(shp_by)
+			if (is.na(proj_by)) {
+				proj_by <- "+proj=longlat +datum=WGS84"
+				shp_by@proj4string <- CRS(proj_by)
+			}
+			if (proj_by != projection) {
+				shp_by <- spTransform(shp_by, CRS(projection))
+			}
+		} else {
+			shp_by <- shp
+		}
+		nplots <- nlevels(data_by)
+		shps_by <- split_shape(shp_by, f = data_by)
+		bboxes <- lapply(shps_by, function(x){
+			b <- x@bbox
+			b[,1] <- pmax(b[,1], bb[,1])
+			b[,2] <- pmin(b[,2], bb[,2])
+			b
+		})
+	}
+
+	
 	shps <- lapply(shps, function(x){
 		shp_name <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
 		x.proj <- proj4string(x)
@@ -110,17 +140,35 @@ process_shapes <- function(shps, g, gm, dw, dh) {
 		}
 		
 		## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
-		x <- tryCatch({
-			l <- length(x)
-			crop_shape(x, bbox=bb)
-		}, error = function(e) {
-			x@bbox <- bb
-			#cat("error\n")
-			attr(x, "matchID") <- 1:length(x)
-			x
-		})
+		if (group_by) {
+			lapply(bboxes, function(bb2){
+				tryCatch({
+					l <- length(x)
+					crop_shape(x, bbox=bb2)
+				}, error = function(e) {
+					x@bbox <- bb2
+					#cat("error\n")
+					attr(x, "matchID") <- 1:length(x)
+					x
+				})
+			})
+		} else {
+			tryCatch({
+				l <- length(x)
+				crop_shape(x, bbox=bb)
+			}, error = function(e) {
+				x@bbox <- bb
+				#cat("error\n")
+				attr(x, "matchID") <- 1:length(x)
+				x
+			})
+		}
 	})
 
+	if (group_by) {
+		shps <- lapply(1:nplots, function(i)lapply(shps, function(j)j[[i]]))
+	}
+	
 	## determine automatic legend position based on polygon centers
 	co <- if (inherits(shp, "SpatialLines")) {
 		do.call("rbind", lapply(coordinates(shp), function(x) {
@@ -140,5 +188,6 @@ process_shapes <- function(shps, g, gm, dw, dh) {
 	attr(shps, "sasp") <- ifelse(is.na(pasp), sasp, pasp)
 	attr(shps, "dasp") <- dasp
 	attr(shps, "legend_pos") <- legend_pos
+	attr(shps, "group_by") <- group_by
 	shps
 }

@@ -27,10 +27,13 @@ process_tm <- function(x) {
 	facetid <- which(names(x)=="tm_facets")[1]
 	if (is.na(facetid)) {
 		gf <- tm_facets()$tm_facets 
+		gf$shp_nr <- 0
 		gf$shp_name <- ""
 	} else {
-		gf.shp.id <- tail(which(names(x)[1:facetid]=="tm_shape"), 1)
+		shape.id.orig <- which(names(x)[1:facetid]=="tm_shape")
+		gf.shp.id <- tail(shape.id.orig, 1)
 		gf <- x[[facetid]]
+		gf$shp_nr <- length(shape.id.orig)
 		gf$shp_name <- x[[gf.shp.id]]$shp_name
 	}
 	
@@ -53,6 +56,14 @@ process_tm <- function(x) {
 	#gs <- lapply(gs, function(gx) if (is.null(gx[["tm_borders"]])) gx + tm_borders() else gx)
 	## convert clusters to layers
 	gp <- lapply(gs, FUN=process_layers, gt, gf)
+	
+	
+	## get by vector
+	if (gf$shp_nr == 0) {
+		data_by <- NULL
+	} else {
+		data_by <- gp[[gf$shp_nr]]$data_by
+	}
 
 	## determine maximal number of variables
 	nx <- max(sapply(gp, function(x) {
@@ -110,5 +121,5 @@ process_tm <- function(x) {
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 	
-	list(gmeta=gmeta, gps=gps, nx=nx)
+	list(gmeta=gmeta, gps=gps, nx=nx, data_by=data_by)
 }

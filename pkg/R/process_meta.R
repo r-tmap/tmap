@@ -63,7 +63,7 @@ process_meta <- function(gt, gf, gg, nx, varnames) {
 			}
 		}
 		
-		scale <- scale / m
+		scale <- scale / sqrt(m)
 		
 		title.cex <- title.cex * scale
 		legend.title.cex <- legend.title.cex * scale

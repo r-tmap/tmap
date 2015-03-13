@@ -42,7 +42,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	gmeta <- result$gmeta
 	gps <- result$gps
 	nx <- result$nx
-
+	data_by <- result$data_by
 	
 	if (is.null(vp)) {
 		grid.newpage()
@@ -55,29 +55,53 @@ print.tmap <- function(x, vp=NULL, ...) {
 	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 	
 	shps_lengths <- sapply(shps, length)
-	shps <- process_shapes(shps, x[shape.id], gmeta, dw, dh)
-
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh)
 	
-	## unify projections and set bounding box
-	matchIDs <- lapply(shps, function(s)s@matchID)
-	gps <- lapply(gps, function(gp) {
-		gp[1:nshps] <- mapply(function(gpl, indices, l) {
-			gpl$npol <- length(indices)
-			lapply(gpl, function(gplx) {
-				if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==l) {
-					gplx <- gplx[indices]	
-				} else {
-					gplx
-				}
-			})
-		},  gp[1:nshps], matchIDs, shps_lengths, SIMPLIFY=FALSE)
-		gp
-	})
-	
-	#grid.newpage()
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
 	legend_pos <- attr(shps, "legend_pos")
+	group_by <- attr(shps, "group_by")
+	
+	
+	## unify projections and set bounding box
+	if (group_by) {
+		matchIDs <- lapply(shps, function(ss) lapply(ss, function(s)s@matchID))
+		
+		gps <- mapply(function(gp, mID) {
+			gp[1:nshps] <- mapply(function(gpl, indices, l) {
+				gpl$npol <- length(indices)
+				lapply(gpl, function(gplx) {
+					if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==l) {
+						gplx <- gplx[indices]	
+					} else {
+						gplx
+					}
+				})
+			},  gp[1:nshps], mID, shps_lengths, SIMPLIFY=FALSE)
+			gp
+		}, gps, matchIDs, SIMPLIFY=FALSE)
+		
+	} else {
+		matchIDs <- lapply(shps, function(s)s@matchID)
+
+		gps <- lapply(gps, function(gp) {
+			gp[1:nshps] <- mapply(function(gpl, indices, l) {
+				gpl$npol <- length(indices)
+				lapply(gpl, function(gplx) {
+					if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==l) {
+						gplx <- gplx[indices]	
+					} else {
+						gplx
+					}
+				})
+			},  gp[1:nshps], matchIDs, shps_lengths, SIMPLIFY=FALSE)
+			gp
+		})
+		
+	}
+	
+	
+	#grid.newpage()
 	
 	shps.env <- environment()#new.env()
 	#assign("shps", shps, envir=shps.env)
