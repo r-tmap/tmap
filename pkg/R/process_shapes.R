@@ -21,6 +21,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	
 	# get master shape and info
 	shp <- shps[[masterID]]
+	shp_name <- shp_names[masterID]
 	projection <- g[[masterID]]$projection
 	xlim <- g[[masterID]]$xlim
 	ylim <- g[[masterID]]$ylim
@@ -29,7 +30,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	shp.proj <- proj4string(shp)
 	
 	if (is.na(shp.proj)) {
-		warning(paste("Currect projection of shape", shp_names[masterID], "unknown. Long-lat (WGS84) is assumed."))
+		warning(paste("Currect projection of shape", shp_name, "unknown. Long-lat (WGS84) is assumed."))
 		shp.proj <- "+proj=longlat +datum=WGS84"
 		shp@proj4string <- CRS(shp.proj)
 	}
@@ -77,11 +78,12 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 
 	if (group_by) {
 		x <- 1
-		
+		shp_by_name <- gm$shp_name
 		if (gm$shp_nr != masterID) {
 			shp_by <- shps[[gm$shp_nr]]
 			proj_by <- proj4string(shp_by)
 			if (is.na(proj_by)) {
+				warning(paste("Currect projection of shape", shp_by_name, "unknown. Long-lat (WGS84) is assumed."))
 				proj_by <- "+proj=longlat +datum=WGS84"
 				shp_by@proj4string <- CRS(proj_by)
 			}
@@ -91,6 +93,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		} else {
 			shp_by <- shp
 		}
+		
 		nplots <- nlevels(data_by)
 		shps_by <- split_shape(shp_by, f = data_by)
 		bboxes <- lapply(shps_by, function(x){
@@ -120,20 +123,30 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 			
 			get_bbox_asp(b, gm$inner.margins, longlat, pasp)$bbox
 		})
+	} else {
+		shp_by_name <- ""
 	}
 
 	
 	shps <- lapply(shps, function(x){
-		shp_name <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
-		x.proj <- proj4string(x)
-		if (is.na(x.proj)) {
-			warning(paste("Currect projection of shape", shp_name, "unknown. Long-lat (WGS84) is assumed."))
-			x.proj <- "+proj=longlat +datum=WGS84"
-			x@proj4string <- CRS(x.proj)
+		shp_nm <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
+		
+		if (shp_nm==shp_name) {
+			x <- shp
+		} else if (shp_nm==shp_by_name) {
+			x <- shp_by
+		} else {
+			x.proj <- proj4string(x)
+			if (is.na(x.proj)) {
+				warning(paste("Currect projection of shape", shp_nm, "unknown. Long-lat (WGS84) is assumed."))
+				x.proj <- "+proj=longlat +datum=WGS84"
+				x@proj4string <- CRS(x.proj)
+			}
+			if (x.proj != projection) {
+				x <- spTransform(x, CRS(projection))
+			}
 		}
-		if (x.proj != projection) {
-			x <- spTransform(x, CRS(projection))
-		}
+		
 		
 		## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
 		if (group_by) {
