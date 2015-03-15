@@ -47,36 +47,12 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	longlat <- !is.projected(shp)
 	
 	# define bounding box
-	shp.bbox <- bbox(shp)
-	
-	if (!is.null(bbox)) {
-		bbox <- bbox
-	} else {
-		if (relative) {
-			steps <- shp.bbox[, 2] - shp.bbox[, 1]
-			xlim <- if (is.null(xlim)) {
-				shp.bbox[1, ]
-			} else {
-				shp.bbox[1,1] + xlim * steps[1]
-			}
-			ylim <- if (is.null(ylim)) {
-				shp.bbox[2, ]
-			} else {
-				shp.bbox[2,1] + ylim * steps[2]
-			}
-		}
-		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
-					   dimnames=list(c("x", "y"), c("min", "max")))
-	}
-	
-
-	bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
-	bb <- bbox_asp$bbox
-	sasp <- bbox_asp$sasp
 
 	group_by <- gm$shp_nr != 0
 
 	if (group_by) {
+		if (is.na(pasp)) pasp <- dasp
+		
 		x <- 1
 		shp_by_name <- gm$shp_name
 		if (gm$shp_nr != masterID) {
@@ -96,34 +72,36 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		
 		nplots <- nlevels(data_by)
 		shps_by <- split_shape(shp_by, f = data_by)
+		shp.by.bbox <- bbox(shp_by)
 		bboxes <- lapply(shps_by, function(x){
 			b <- x@bbox
-			b[,1] <- pmax(b[,1], bb[,1])
-			b[,2] <- pmin(b[,2], bb[,2])
 			
-			bsasp <- get_asp_ratio(b[1,], b[2,], longlat)
+			b[,1] <- pmax(b[,1], shp.by.bbox[,1])
+			b[,2] <- pmin(b[,2], shp.by.bbox[,2])
 			
-			if (bsasp > sasp) {
-				yplus <- diff(b[2,]) * ((bsasp / sasp) - 1)
-				b[2,] <- b[2,] + yplus * c(-.5, .5)
-				if (b[2,2] > bb[2,2]) {
-					b[2,] <- b[2,] - (b[2,2] - bb[2,2])
-				} else if (b[2,1] < bb[2,1]) {
-					b[2,] <- b[2,] + (bb[2,1] - b[2,1])
-				}
-			} else {
-				xplus <- diff(b[1,]) * ((sasp / bsasp) - 1)
-				b[1,] <- b[1,] + xplus * c(-.5, .5)
-				if (b[1,2] > bb[1,2]) {
-					b[1,] <- b[1,] - (b[1,2] - bb[1,2])
-				} else if (b[1,1] < bb[1,1]) {
-					b[1,] <- b[1,] + (bb[1,1] - b[1,1])
-				}
-			}
+			bbox <- get_bbox_lim(b, relative, bbox, xlim, ylim)
 			
-			get_bbox_asp(b, gm$inner.margins, longlat, pasp)$bbox
+			bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)$bbox
+			
+			if (bbox_asp[1,1] < shp.by.bbox[1,1]) bbox_asp[1,] <- bbox_asp[1, ] + (shp.by.bbox[1,1] - bbox_asp[1,1])
+			if (bbox_asp[2,1] < shp.by.bbox[2,1]) bbox_asp[2,] <- bbox_asp[2, ] + (shp.by.bbox[2,1] - bbox_asp[2,1])
+			
+			if (bbox_asp[1,2] > shp.by.bbox[1,2]) bbox_asp[1,] <- bbox_asp[1, ] - (bbox_asp[1,2] - shp.by.bbox[1,2])
+			if (bbox_asp[2,2] > shp.by.bbox[2,2]) bbox_asp[2,] <- bbox_asp[2, ] - (bbox_asp[2,2] - shp.by.bbox[2,2])
+			bbox_asp
 		})
+		bb <- bboxes[[1]]
+
+		sasp <- get_asp_ratio(bb[1,], bb[2,], longlat)
+
 	} else {
+		shp.bbox <- bbox(shp)
+		bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim)
+		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
+		bb <- bbox_asp$bbox
+		sasp <- bbox_asp$sasp
+		
+		
 		shp_by_name <- ""
 	}
 
@@ -202,6 +180,29 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 }
 
 
+get_bbox_lim <- function(shp.bbox, relative, bbox, xlim, ylim) {
+	if (!is.null(bbox)) {
+		bbox <- bbox
+	} else {
+		if (relative) {
+			steps <- shp.bbox[, 2] - shp.bbox[, 1]
+			xlim <- if (is.null(xlim)) {
+				shp.bbox[1, ]
+			} else {
+				shp.bbox[1,1] + xlim * steps[1]
+			}
+			ylim <- if (is.null(ylim)) {
+				shp.bbox[2, ]
+			} else {
+				shp.bbox[2,1] + ylim * steps[2]
+			}
+		}
+		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
+					   dimnames=list(c("x", "y"), c("min", "max")))
+	}
+}
+
+
 get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	# extend bounding box for asp ratio
 	bbrange <- bbox[,2] - bbox[,1]
@@ -227,6 +228,8 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	}
 	list(bbox=bb, sasp=sasp)
 }
+
+
 
 get_asp_ratio <- function(xlim, ylim, longlat) {
 	(diff(xlim)/diff(ylim)) * ifelse(longlat, cos((mean(ylim) * pi)/180), 1)

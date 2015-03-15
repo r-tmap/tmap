@@ -2,7 +2,6 @@ legend_plot <- function(gt, x, legend_pos) {
 	title.only <- all(sapply(x, is.null))
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
-	#browser()
 	if (is.null(gt$legend.position)) {
 		gt$legend.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
 	}

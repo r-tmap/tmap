@@ -76,6 +76,16 @@ tm_shape(NLD_prov) +
 	tm_lines() +
 	tm_layout(asp=0)
 
+
+tm_shape(NLD_prov) +
+	tm_fill() +
+	tm_facets(by="name") +
+	tm_shape(rivers) +
+	tm_lines()
+
+
+
+
 tm_shape(NLD_prov) +
 	tm_fill() +
 	tm_facets(by="name")

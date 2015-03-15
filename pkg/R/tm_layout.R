@@ -88,6 +88,7 @@ tm_layout_World <- function(title=NA,
 #' @rdname tm_layout
 #' @export
 tm_layout_Europe <- function(title=NA,
+							 title.position=c("left", "top"),
 							 legend.position=c("left", "top"), 
 							 inner.margins=c(0, 0.15, 0, 0),
 							 ...) {

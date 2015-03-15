@@ -33,7 +33,7 @@ process_tm <- function(x) {
 		shape.id.orig <- which(names(x)[1:facetid]=="tm_shape")
 		gf.shp.id <- tail(shape.id.orig, 1)
 		gf <- x[[facetid]]
-		gf$shp_nr <- length(shape.id.orig)
+		gf$shp_nr <- ifelse(is.null(gf$by), 0, length(shape.id.orig))
 		gf$shp_name <- x[[gf.shp.id]]$shp_name
 	}
 	
