@@ -72,7 +72,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		
 		nplots <- nlevels(data_by)
 		shps_by <- split_shape(shp_by, f = data_by)
-		shp.by.bbox <- bbox(shp_by) #get_bbox_lim(bbox(shp_by), relative, bbox, xlim, ylim)
+		shp.by.bbox <- get_bbox_asp(bbox(shp_by), gm$inner.margins, longlat, pasp=NA)$bbox #bbox(shp_by)
 		bboxes <- lapply(shps_by, function(x){
 			b <- x@bbox
 			
@@ -104,6 +104,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		shp_by_name <- ""
 	}
 
+	
 	
 	shps <- lapply(shps, function(x){
 		shp_nm <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
