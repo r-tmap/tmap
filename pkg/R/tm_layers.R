@@ -269,6 +269,8 @@ tm_bubbles <- function(size=1, col="blueviolet",
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
+					   free.coords=FALSE,
+					   split=FALSE,
 					   free.scales=is.null(by),
 					   free.scales.fill=free.scales,
 					   free.scales.bubble.size=free.scales,

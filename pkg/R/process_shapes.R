@@ -72,7 +72,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		
 		nplots <- nlevels(data_by)
 		shps_by <- split_shape(shp_by, f = data_by)
-		shp.by.bbox <- bbox(shp_by)
+		shp.by.bbox <- bbox(shp_by) #get_bbox_lim(bbox(shp_by), relative, bbox, xlim, ylim)
 		bboxes <- lapply(shps_by, function(x){
 			b <- x@bbox
 			
@@ -100,7 +100,6 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
 		bb <- bbox_asp$bbox
 		sasp <- bbox_asp$sasp
-		
 		
 		shp_by_name <- ""
 	}
@@ -200,6 +199,7 @@ get_bbox_lim <- function(shp.bbox, relative, bbox, xlim, ylim) {
 		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
 					   dimnames=list(c("x", "y"), c("min", "max")))
 	}
+	bbox
 }
 
 
@@ -210,8 +210,8 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	bbmarg[c(1,2)] <- -bbmarg[c(1,2)]
 	bb <- bbox + rep(bbrange, 2) * bbmarg
 	
-	xlim <- bbox[1,]
-	ylim <- bbox[2,]
+	xlim <- bb[1,]
+	ylim <- bb[2,]
 	
 	sasp <- get_asp_ratio(xlim, ylim, longlat)
 	

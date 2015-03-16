@@ -33,7 +33,7 @@ process_tm <- function(x) {
 		shape.id.orig <- which(names(x)[1:facetid]=="tm_shape")
 		gf.shp.id <- tail(shape.id.orig, 1)
 		gf <- x[[facetid]]
-		gf$shp_nr <- ifelse(is.null(gf$by), 0, length(shape.id.orig))
+		gf$shp_nr <- ifelse(!is.null(gf$by) && gf$free.coords, length(shape.id.orig), 0)
 		gf$shp_name <- x[[gf.shp.id]]$shp_name
 	}
 	
@@ -66,14 +66,23 @@ process_tm <- function(x) {
 	}
 
 	## determine maximal number of variables
+	
 	nx <- max(sapply(gp, function(x) {
-		max(ifelse(is.matrix(x$fill), ncol(x$fill), 1),
+		max(length(x$varnames$by),
+			ifelse(is.matrix(x$fill), ncol(x$fill), 1),
 			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
 			ifelse(is.matrix(x$bubble.col), ncol(x$bubble.col), 1),
 			ifelse(is.matrix(x$line.col), ncol(x$line.col), 1),
 			ifelse(is.matrix(x$line.lwd), ncol(x$line.lwd), 1),
 			ifelse(is.matrix(x$text), ncol(x$text), 1))
 	}))
+	
+	nx2 <- max(sapply(gp, function(x){
+		max(sapply(x$varnames, length))
+	}))
+	cat("nx:", nx, " nx2:", nx2, "\n")
+	
+	
 	names(gp) <- paste0("tmLayer", 1:length(gp))
 	
 	## get variable names (used for titles)

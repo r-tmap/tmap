@@ -20,12 +20,31 @@ tm_shape(NLD_muni) +
             style="kmeans") +
 tm_shape(NLD_prov) +
     tm_borders() +
-    tm_facets(free.scales=TRUE) +
 	tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
 		"Population 45 to 64", "Population 65 and older"), scale=1.5, draw.frame = TRUE)
 
 
+
 # Facets defined by multiple variables
+tm_shape(NLD_prov) +
+	tm_borders() +
+	tm_facets(by="name")
+
+tm_shape(NLD_prov) +
+	tm_fill() +
+	tm_facets(by="name")
+
+
+tm_shape(NLD_muni) +
+	tm_borders() +
+	tm_fill("population") +
+tm_shape(NLD_prov) +
+	tm_borders(lwd=2) +
+	tm_facets(by="name") +
+	tm_layout(asp=0)
+
+
+
 tm_shape(Europe) +
 	tm_fill("pop_est_dens") +
 	tm_bubbles("pop_est") +
@@ -40,8 +59,6 @@ tm_shape(rivers) +
 	tm_lines() +
 	tm_facets(by="type") +
 	tm_layout_Europe()
-
-Europe <- Europe[!is.na(Europe$part), ]
 
 
 tm_shape(Europe) +
@@ -61,27 +78,32 @@ tm_facets(by="part") +
 # data_by == NA ?
 data(rivers)
 
-tm_shape(rivers) +
+system.time({
+	print(tm_shape(rivers) +
 	tm_lines() +
 tm_shape(NLD_prov) +
-	tm_fill() +
+	tm_fill("green") +
 	tm_facets(by="name") +
-tm_layout(asp=0)
-
+tm_layout(asp=0))
+})
 
 tm_shape(NLD_prov) +
 	tm_fill() +
 	tm_facets(by="name") +
-	tm_shape(rivers) +
+tm_shape(rivers) +
 	tm_lines() +
 	tm_layout(asp=0)
 
-
-tm_shape(NLD_prov) +
+system.time({
+print(tm_shape(NLD_prov) +
 	tm_fill() +
 	tm_facets(by="name") +
 	tm_shape(rivers) +
-	tm_lines()
+	tm_lines())
+})
+
+
+
 
 
 
