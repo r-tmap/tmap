@@ -1,5 +1,9 @@
 data(World)
 
+# General layout settings with adjusted title
+tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") + 
+	tm_layout("World Population")
+
 # Layout settings for the world map
 tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") + 
 	tm_layout_World("World Population")

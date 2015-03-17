@@ -28,19 +28,20 @@ tm_shape(NLD_prov) +
 # Facets defined by multiple variables
 tm_shape(NLD_prov) +
 	tm_borders() +
+	tm_fill("yellow") +
 	tm_facets(by="name")
 
 tm_shape(NLD_prov) +
-	tm_fill() +
-	tm_facets(by="name")
+	tm_fill() + tm_borders() +
+	tm_facets(by="name", free.coords = TRUE, split=TRUE)
 
 
 tm_shape(NLD_muni) +
 	tm_borders() +
-	tm_fill("population") +
+	tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
 	tm_borders(lwd=2) +
-	tm_facets(by="name") +
+	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
 	tm_layout(asp=0)
 
 
