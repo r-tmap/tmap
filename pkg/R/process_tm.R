@@ -24,18 +24,51 @@ process_tm <- function(x) {
 	gg <- x[[gridid]]
 	
 	## get facets element
-	facetid <- which(names(x)=="tm_facets")[1]
-	if (is.na(facetid)) {
-		gf <- tm_facets()$tm_facets 
-		gf$shp_nr <- 0
-		gf$shp_name <- ""
-	} else {
-		shape.id.orig <- which(names(x)[1:facetid]=="tm_shape")
-		gf.shp.id <- tail(shape.id.orig, 1)
-		gf <- x[[facetid]]
-		gf$shp_nr <- ifelse(!is.null(gf$by) && gf$free.coords, length(shape.id.orig), 0)
-		gf$shp_name <- x[[gf.shp.id]]$shp_name
+	shape.id.orig <- which(names(x)=="tm_shape")
+	facet.id.orig <- which(names(x)=="tm_facets")
+
+	nshps <- length(shape.id.orig)
+	
+	facet.shp.id <- sapply(facet.id.orig, function(i){tail(which(shape.id.orig<i), 1)})
+	
+	facet.ids <- rep(0, nshps)
+	facet.ids[facet.shp.id] <- facet.id.orig
+		
+		
+	
+	gfs <- lapply(1:nshps, function(i){
+		gf <- if (facet.ids[i]==0) tm_facets()$tm_facets else x[[facet.ids[i]]]
+		gf$shp_name <- x[[shape.id.orig[i]]]$shp_name
+		gf$shp_nr <- ifelse(!is.null(gf$by), i, 0)
+		gf$by <- ifelse(is.null(gf$by), "", gf$by)
+		gf
+	})
+	
+	gf <- gfs[[1]]
+	x[[shape.id.orig[1]]]$by <- gf$by
+	if (nshps>1) {
+		for (i in 2:nshps) {
+			gf$shp_name <- c(gf$shp_name, gfs[[i]]$shp_name)
+			gf$shp_nr <- c(gf$shp_nr, gfs[[i]]$shp_nr)
+			gf_args <- setdiff(gfs[[i]]$call, "by")
+			gf[gf_args] <- gfs[[i]][gf_args]
+			x[[shape.id.orig[i]]]$by <- gfs[[i]]$by
+		}
 	}
+	
+# 	
+# 	facetids <- which(names(x)=="tm_facets")
+# 	if (length(facetids)) {
+# 		shape.id.orig <- which(names(x)[1:facetid]=="tm_shape")
+# 		gf.shp.id <- tail(shape.id.orig, 1)
+# 		gf <- x[[facetid]]
+# 		gf$shp_nr <- ifelse(!is.null(gf$by) && gf$free.coords, length(shape.id.orig), 0)
+# 		gf$shp_name <- x[[gf.shp.id]]$shp_name
+# 	} else {
+# 		gf <- tm_facets()$tm_facets 
+# 		gf$shp_nr <- 0
+# 		gf$shp_name <- ""
+# 	}
 	
 	## split x into gmeta and gbody
 	x <- x[!(names(x) %in% c("tm_layout", "tm_grid", "tm_facets"))]
@@ -59,11 +92,26 @@ process_tm <- function(x) {
 	
 	
 	## get by vector
-	if (gf$shp_nr == 0) {
-		data_by <- NULL
-	} else {
-		data_by <- gp[[gf$shp_nr]]$data_by
+	data_by <- lapply(1:nshps, function(i) {
+		if (gf$shp_nr[i]==0) {
+			NULL
+		} else {
+			gp[[gf$shp_nr[i]]]$data_by
+		}
+	})
+
+	by_counts <- sapply(data_by, nlevels)
+	if (sum(by_counts>0)>1) {
+		by_counts_pos <- by_counts[by_counts!=0]
+		if (any(by_counts_pos[-1]!=by_counts_pos[1])) stop("Number of facets defined by the 'by' argument of tm_facets are different for the groups.")
 	}
+
+
+# 	if (gf$shp_nr == 0) {
+# 		data_by <- NULL
+# 	} else {
+# 		data_by <- gp[[gf$shp_nr]]$data_by
+# 	}
 
 	## determine maximal number of variables
 	
@@ -91,6 +139,7 @@ process_tm <- function(x) {
 	## process grid
 	gmeta <- process_meta(gt, gf, gg, nx, varnames)
 	## split into small multiples
+	browser()
 	gps <- split_tm(gp, nx)
 	scale <- gmeta$scale
 	gps <- mapply(function(x, i){
@@ -99,10 +148,16 @@ process_tm <- function(x) {
 				lwd <- lwd * scale
 				
 				if (!is.null(fill)) {
+					#if (!is.null(data_by)) fill <- fill[i]
 					if (!is.na(xfill[1])) fill.legend.misc$lwd <- fill.legend.misc$lwd * scale
 				}
 
 				if (!is.null(bubble.size)) {
+# 					if (!is.null(data_by)) {
+# 						bubble.size <- bubble.size[i]
+# 						bubble.col <- bubble.col[i]
+# 					}
+					
 					bubble.size <- bubble.size * scale
 					bubble.border.lwd <- bubble.border.lwd * scale
 					bubble.col.legend.misc$bubble.max.size <- bubble.col.legend.misc$bubble.max.size * scale
@@ -113,6 +168,11 @@ process_tm <- function(x) {
 				}
 				
 				if (!is.null(line.lwd)) {
+# 					if (!is.null(data_by)) {
+# 						line.lwd <- line.lwd[i]
+# 						line.col <- line.col[i]
+# 					}
+					
 					line.lwd <- line.lwd * scale
 					line.col.legend.misc$line.legend.lwd <- line.col.legend.misc$line.legend.lwd * scale
 					line.lwd.legend.misc$legend.lwds <- line.lwd.legend.misc$legend.lwds * scale

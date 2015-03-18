@@ -2,15 +2,15 @@
 #' 
 #' Data, in the format of a data.frame, is appended to a shape object. This is either done by a right join where keys are specified for both data and shape, or by fixed order.
 #'
-#' @param data data.frame
 #' @param shp shape object, which is one of
 #' \enumerate{
 #'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
 #' }
-#' @param key.data variable name of \code{data} to be matched with \code{key.shp}. If not specified, and \code{fixed.order} is \code{FALSE}, the row names of \code{data} are taken.
+#' @param data data.frame
 #' @param key.shp variable name of \code{shp} map data to be matched with \code{key.data}. If not specified, and \code{fixed.order} is \code{FALSE}, the ID's of the polygons/lines/points are taken.
+#' @param key.data variable name of \code{data} to be matched with \code{key.shp}. If not specified, and \code{fixed.order} is \code{FALSE}, the row names of \code{data} are taken.
 #' @param ignore.duplicates should duplicated keys in \code{data} be ignored? (\code{FALSE} by default)
 #' @param ignore.na should NA values in \code{key.data} and \code{key.shp} be ignored? (\code{FALSE} by default)
 #' @param fixed.order should the data be append in the same order as the shapes in \code{shp}?
@@ -27,13 +27,13 @@
 #' domain_codes <- subset(domain_codes, select = c("Alpha3Code", "TopLevelDomain"))
 #' domain_codes$Alpha3Code <- toupper(domain_codes$Alpha3Code)
 #' 
-#' Europe <- append_data(domain_codes, Europe, key.data = "Alpha3Code", key.shp = "iso_a3", 
+#' Europe <- append_data(Europe, domain_codes, key.shp = "iso_a3", key.data = "Alpha3Code",
 #'     ignore.na = TRUE)
 #' 
 #' qtm(Europe, text="TopLevelDomain")
 #' }
 #' @export
-append_data <- function(data, shp, key.data = NULL, key.shp = NULL, ignore.duplicates=FALSE, ignore.na=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
+append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.duplicates=FALSE, ignore.na=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
 	spatialDF <- inherits(shp, c("SpatialPolygonsDataFrame", "SpatialPointsDataFrame", "SpatialLinesDataFrame"))
 
 	if (fixed.order) {

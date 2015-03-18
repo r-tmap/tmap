@@ -16,6 +16,15 @@ process_layers <- function(g, gt, gf) {
 		by <- NA
 	}
 	
+	if (g$tm_shape$by=="") {
+		data$GROUP_BY <- factor("_NA_")
+		by <- NA
+	} else {
+		data$GROUP_BY <- as.factor(data[[g$tm_shape$by]])
+		by <- levels(data$GROUP_BY)
+	}
+	
+	
 	# determine plotting order 
 	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_bubbles", "tm_lines")]
 	plot.order[plot.order=="tm_borders"] <- "tm_fill"

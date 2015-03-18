@@ -38,13 +38,42 @@ tm_shape(NLD_prov) +
 
 tm_shape(NLD_muni) +
 	tm_borders() +
+	tm_facets(by="province") +
 	tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
 	tm_borders(lwd=2) +
 	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
 	tm_layout(asp=0)
 
+data(rivers)
+tm_shape(NLD_muni) +
+	tm_borders() +
+	tm_facets(by="province") +
+	tm_fill("population", style="kmeans", convert2density = TRUE) +
+	tm_shape(NLD_prov) +
+	tm_borders(lwd=2) +
+	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
+tm_shape(rivers) +
+	tm_lines("steelblue", lwd=4) +
+	tm_layout(asp=0)
 
+tm_shape(NLD_muni) +
+	tm_borders() +
+	tm_facets(by="province") +
+	tm_fill("population", style="kmeans", convert2density = TRUE) +
+	tm_shape(rivers) +
+	tm_lines("steelblue", lwd=4) +
+	tm_shape(NLD_prov) +
+	tm_fill("blue") +
+	tm_borders(lwd=2) +
+	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
+	tm_layout(asp=0)
+
+### WORKING ON split_tm:
+tm_shape(NLD_prov) +
+	tm_fill("blue") +
+	tm_borders(lwd=2) +
+	tm_facets(by="name", free.coords=TRUE, split=TRUE)
 
 tm_shape(Europe) +
 	tm_fill("pop_est_dens") +

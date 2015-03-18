@@ -4,7 +4,7 @@ plot_map <- function(i, gp, gt, shps.env) {
 	
 	shps <- get("shps", envir=shps.env)
 	
-	if (gt$shp_nr!=0) {
+	if (any(gt$shp_nr!=0) && gt$free.coords) {
 		shps <- shps[[i]]
 	}
 	

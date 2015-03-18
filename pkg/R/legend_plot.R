@@ -3,10 +3,14 @@ legend_plot <- function(gt, x, legend_pos) {
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
 	if (is.null(gt$legend.position)) {
-		gt$legend.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
+		if (gt$free.coords) {
+			gt$legend.position <- c("left", "top")
+		} else {
+			gt$legend.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
+		}
 	}
 	if (is.null(gt$title.position)) {
-		if (title.only) {
+		if (title.only || gt$free.coords) {
 			gt$title.position <- c("left", "top")
 		} else {
 			gt$title.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))

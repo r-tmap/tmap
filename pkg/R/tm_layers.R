@@ -278,9 +278,10 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					   free.scales.line.col=free.scales,
 					   free.scales.line.lwd=free.scales
 					   ) {
-	g <- list(tm_facets=as.list(environment()))
+	g <- list(tm_facets=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
-	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	#attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	#g$call <- names(match.call(expand.dots = TRUE)[-1])
 	g
 }
 

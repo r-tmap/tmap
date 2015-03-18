@@ -45,43 +45,66 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	}
 	
 	longlat <- !is.projected(shp)
+
+	
+	# set projection for other shapes
+	shps <- lapply(shps, function(x){
+		shp_nm <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
+		
+		if (shp_nm==shp_name) {
+			x <- shp
+		} else {
+			x.proj <- proj4string(x)
+			if (is.na(x.proj)) {
+				warning(paste("Currect projection of shape", shp_nm, "unknown. Long-lat (WGS84) is assumed."))
+				x.proj <- "+proj=longlat +datum=WGS84"
+				x@proj4string <- CRS(x.proj)
+			}
+			if (x.proj != projection) {
+				x <- spTransform(x, CRS(projection))
+			}
+		}
+		x
+	})
+	
 	
 	# define bounding box
 
 	
-	group_by <- gm$shp_nr != 0
+	group_by <- any(gm$shp_nr != 0) && gm$free.coords
 	group_split <- group_by && gm$split
 	
 	if (group_by) {
 		if (is.na(pasp)) pasp <- dasp
 		
-		x <- 1
-		shp_by_name <- gm$shp_name
-		if (gm$shp_nr != masterID) {
-			shp_by <- shps[[gm$shp_nr]]
-			proj_by <- proj4string(shp_by)
-			if (is.na(proj_by)) {
-				warning(paste("Currect projection of shape", shp_by_name, "unknown. Long-lat (WGS84) is assumed."))
-				proj_by <- "+proj=longlat +datum=WGS84"
-				shp_by@proj4string <- CRS(proj_by)
-			}
-			if (proj_by != projection) {
-				shp_by <- spTransform(shp_by, CRS(projection))
-			}
-		} else {
-			shp_by <- shp
-		}
+		shp_by_names <- gm$shp_name[gm$shp_nr != 0]
+		data_by <- data_by[gm$shp_nr != 0]
 		
-		nplots <- nlevels(data_by)
-		shps_by <- split_shape(shp_by, f = data_by)
-		shp.by.bbox <- get_bbox_asp(bbox(shp_by), gm$inner.margins, longlat, pasp=NA)$bbox #bbox(shp_by)
-		bboxes <- lapply(shps_by, function(x){
-			b <- x@bbox
+		shps_by <- shps[gm$shp_nr != 0]
+		
+		nplots <- nlevels(data_by[[1]])
+		
+		shps_by_splt <- mapply(function(s_by, d_by) {
+			split_shape(s_by, f = d_by)
+		}, shps_by, data_by, SIMPLIFY=FALSE)
+		
+		
+		shp.by.bbox <- sapply(shps_by, bbox)
+		shp.by.bbox <- matrix(c(apply(shp.by.bbox[1:2,,drop=FALSE], MARGIN = 1, min), apply(shp.by.bbox[3:4,,drop=FALSE], MARGIN = 1, max)),
+							   nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
+		shp.by.bbox <- get_bbox_asp(shp.by.bbox, gm$inner.margins, longlat, pasp=NA)$bbox
+		
+		bboxes <- do.call("mapply", c(list(FUN=function(...){
+			x <- list(...)
 			
-			b[,1] <- pmax(b[,1], shp.by.bbox[,1])
-			b[,2] <- pmin(b[,2], shp.by.bbox[,2])
+			bb <- sapply(x, bbox)
+			bb <- matrix(c(apply(bb[1:2,,drop=FALSE], MARGIN = 1, min), apply(bb[3:4,,drop=FALSE], MARGIN = 1, max)),
+								  nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
 			
-			bbox <- get_bbox_lim(b, relative, bbox, xlim, ylim)
+			bb[,1] <- pmax(bb[,1], shp.by.bbox[,1])
+			bb[,2] <- pmin(bb[,2], shp.by.bbox[,2])
+			
+			bbox <- get_bbox_lim(bb, relative, bbox, xlim, ylim)
 			
 			bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)$bbox
 			
@@ -91,7 +114,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 			if (bbox_asp[1,2] > shp.by.bbox[1,2]) bbox_asp[1,] <- bbox_asp[1, ] - (bbox_asp[1,2] - shp.by.bbox[1,2])
 			if (bbox_asp[2,2] > shp.by.bbox[2,2]) bbox_asp[2,] <- bbox_asp[2, ] - (bbox_asp[2,2] - shp.by.bbox[2,2])
 			bbox_asp
-		})
+		}), shps_by_splt, list(SIMPLIFY=FALSE)))
 		bb <- bboxes[[1]]
 
 		sasp <- get_asp_ratio(bb[1,], bb[2,], longlat)
@@ -103,37 +126,19 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		bb <- bbox_asp$bbox
 		sasp <- bbox_asp$sasp
 		
-		shp_by_name <- ""
+		#shp_by_name <- ""
 	}
 
 	if (group_split) {
-		shps <- lapply(shps, function(x){
-			shp_nm <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
-			if (shp_nm==shp_by_name) {
-				x <- shps_by
-			} else if (shp_nm==shp_name) {
-				x <- lapply(shps_by, function(shp2){
-					cut_shape(x, shp2)
-				})
+		shps_by_ind <- ifelse(gm$shp_nr==0, 0, cumsum(gm$shp_nr!=0))
+		shps2 <- lapply(1:nx, function(i){
+			x <- if (gm$shp_nr[i]==0) {
+				lapply(1:nplots, function(j) shps[[i]])
 			} else {
-				x.proj <- proj4string(x)
-				if (is.na(x.proj)) {
-					warning(paste("Currect projection of shape", shp_nm, "unknown. Long-lat (WGS84) is assumed."))
-					x.proj <- "+proj=longlat +datum=WGS84"
-					x@proj4string <- CRS(x.proj)
-				}
-				if (x.proj != projection) {
-					x <- spTransform(x, CRS(projection))
-				}
-				x <- lapply(shps_by, function(shp2){
-					cut_shape(x, shp2)
-				})
+				shps_by_splt[[shps_by_ind[i]]]
 			}
-
 			mapply(function(shp2, bb2){
-				
 				tryCatch({
-					l <- length(shp2)
 					crop_shape(shp2, bbox=bb2)
 				}, error = function(e) {
 					shp2@bbox <- bb2
@@ -142,34 +147,17 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 					shp2
 				})
 			}, x, bboxes, SIMPLIFY=FALSE)
-		})	
+		})
+		
 	} else {
 	
-		shps <- lapply(shps, function(x){
+		shps2 <- lapply(shps, function(x){
 			shp_nm <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
-			
-			if (shp_nm==shp_name) {
-				x <- shp
-			} else if (shp_nm==shp_by_name) {
-				x <- shp_by
-			} else {
-				x.proj <- proj4string(x)
-				if (is.na(x.proj)) {
-					warning(paste("Currect projection of shape", shp_nm, "unknown. Long-lat (WGS84) is assumed."))
-					x.proj <- "+proj=longlat +datum=WGS84"
-					x@proj4string <- CRS(x.proj)
-				}
-				if (x.proj != projection) {
-					x <- spTransform(x, CRS(projection))
-				}
-			}
-			
 			
 			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
 			if (group_by) {
 				lapply(bboxes, function(bb2){
 					tryCatch({
-						l <- length(x)
 						crop_shape(x, bbox=bb2)
 					}, error = function(e) {
 						x@bbox <- bb2
@@ -180,7 +168,6 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 				})
 			} else {
 				tryCatch({
-					l <- length(x)
 					crop_shape(x, bbox=bb)
 				}, error = function(e) {
 					x@bbox <- bb
@@ -193,7 +180,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	
 	}
 	if (group_by) {
-		shps <- lapply(1:nplots, function(i)lapply(shps, function(j)j[[i]]))
+		shps2 <- lapply(1:nplots, function(i)lapply(shps2, function(j)j[[i]]))
 	}
 	
 	## determine automatic legend position based on polygon centers
@@ -212,11 +199,11 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		min(sqrt(((1-xn)^2) + ((1-yn)^2))),
 		min(sqrt(((xn-1)^2) + (yn^2)))))
 	
-	attr(shps, "sasp") <- ifelse(is.na(pasp), sasp, pasp)
-	attr(shps, "dasp") <- dasp
-	attr(shps, "legend_pos") <- legend_pos
-	attr(shps, "group_by") <- group_by
-	shps
+	attr(shps2, "sasp") <- ifelse(is.na(pasp), sasp, pasp)
+	attr(shps2, "dasp") <- dasp
+	attr(shps2, "legend_pos") <- legend_pos
+	attr(shps2, "group_by") <- group_by
+	shps2
 }
 
 
@@ -270,24 +257,6 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	list(bbox=bb, sasp=sasp)
 }
 
-
-cut_shape <- function(shp1, shp2) {
-	shp_res <- gIntersection(shp1, shp2, byid = TRUE)@polyobj
-
-	ids <- get_IDs(shp1)
-	ids2 <- gsub(" [0-9]+$", "", get_IDs(shp_res))
-	indices <- match(ids2, ids)
-	
-	if (inherits(shp1, "SpatialPolygonsDataFrame")) {
-		shp_res <- SpatialPolygonsDataFrame(shp_res, shp1@data[indices, , drop=FALSE], match.ID = FALSE)
-	} else if (inherits(shp1, "SpatialLinesDataFrame")) {
-		shp_res <- SpatialLinesDataFrame(shp_res, shp1@data[indices, , drop=FALSE], match.ID = FALSE)
-	}
-		
-	attr(shp_res, "matchID") <- indices
-	
-	shp_res
-}
 
 
 get_asp_ratio <- function(xlim, ylim, longlat) {

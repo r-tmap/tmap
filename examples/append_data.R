@@ -9,7 +9,7 @@ unlink(f)
 domain_codes <- subset(domain_codes, select = c("Alpha3Code", "TopLevelDomain"))
 domain_codes$Alpha3Code <- toupper(domain_codes$Alpha3Code)
 
-Europe <- append_data(domain_codes, Europe, key.data = "Alpha3Code", key.shp = "iso_a3", 
+Europe <- append_data(Europe, domain_codes, key.shp = "iso_a3", key.data = "Alpha3Code",
 					  ignore.na = TRUE)
 
 qtm(Europe, text="TopLevelDomain")
