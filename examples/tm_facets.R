@@ -6,12 +6,13 @@ data(NLD_prov)
 
 # Facets defined by constant values
 tm_shape(World) +
-    tm_fill(c("green", "blue")) +
+    tm_fill(c("forestgreen", "sandybrown")) +
 	tm_facets(nrow = 2) +
-tm_layout_World(c("A green world", "A blue world"))
+tm_layout_World(c("A green world", "A barren world"), bg.color="lightcyan3", title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables
 tm_shape(Europe) +
+	tm_borders() +
     tm_fill(c("gdp_cap_est", "pop_est_dens"), style="kmeans") +
 tm_layout_Europe(c("GDP per capita", "Population density"))
 
@@ -21,18 +22,20 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders() +
 	tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
-		"Population 45 to 64", "Population 65 and older"), scale=1.5, draw.frame = TRUE)
+		"Population 45 to 64", "Population 65 and older"), legend.text.cex=1, scale=1.5, draw.frame = TRUE)
 
 
-# Facets defined by multiple variables
+# Facets defined by groupings
 tm_shape(NLD_prov) +
 	tm_borders() +
-	tm_fill("yellow") +
-	tm_facets(by="name")
+	tm_fill("gold2") +
+	tm_facets(by="name") +
+	tm_layout(title.cex=2)
 
 tm_shape(NLD_prov) +
-	tm_fill() + tm_borders() +
-	tm_facets(by="name", free.coords = TRUE, split=TRUE)
+	tm_fill("gold2") + tm_borders() +
+	tm_facets(by="name", free.coords = TRUE, split=TRUE) +
+tm_layout(title.cex=2)
 
 tm_shape(NLD_muni) +
 	tm_borders() +

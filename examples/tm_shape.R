@@ -1,4 +1,6 @@
 data(World)
+data(cities)
+data(rivers)
 
 tm_shape(World, projection="longlat") + 
     tm_fill() +
@@ -25,3 +27,12 @@ tm_shape(World) +
     tm_borders() + 
 tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-area property.", 
     inner.margins=c(0,0,.1,0), title.cex=.8)
+
+# three groups of layers, each starting with tm_shape
+tm_shape(World) +
+	tm_fill("darkolivegreen3") +
+tm_shape(cities) +
+	tm_bubbles("pop_max", col = "grey50", scale=.5) +
+tm_shape(rivers) +
+	tm_lines("lightcyan3") +
+tm_layout_World(title = "", bg.color="lightcyan3", legend.show = FALSE)

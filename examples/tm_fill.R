@@ -5,15 +5,15 @@ data(NLD_prov)
 
 
 # Constant fill
-tm_shape(World) + tm_fill("green3") + tm_layout_World(title="A green World")
+tm_shape(World) + tm_fill("darkolivegreen3") + tm_layout_World(title="A green World")
 
 # Data variable containing colours values
-Europe$isNLD <- ifelse(Europe$name=="Netherlands", "darkorange", "forestgreen")
+Europe$isNLD <- ifelse(Europe$name=="Netherlands", "darkorange", "darkolivegreen3")
 tm_shape(Europe) +
 	tm_fill("isNLD") +
 	tm_layout("Find the Netherlands!")
 
-# Data variable containing numeric values
+# Numeric data variable
 tm_shape(Europe) +
 	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
 	tm_borders() +
@@ -27,7 +27,7 @@ tm_shape(World) +
 tm_layout_World(title="Population density per km2")
 
 
-# Data variable containing categorical values
+# Categorical data variable
 tm_shape(World) +
     tm_fill("income_grp", palette="-Blues") +
     tm_borders() +
