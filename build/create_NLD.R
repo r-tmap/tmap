@@ -15,9 +15,16 @@ NLD_muni <- read_shape("../shapes/gm_2014.shp", current.projection="rd")
 NLD_prov <- read_shape("../shapes/pv_2014.shp", current.projection="rd")
 
 
-nrow(NLD_muni)
-nrow(shp)
+# process NLD_prov
+NLD_prov$PV_NAAM <- NLD_prov$PV_LABEL
+levels(NLD_prov$PV_NAAM) <- substr(levels(NLD_prov$PV_NAAM), 5, nchar(levels(NLD_prov$PV_NAAM)))
+NLD_prov$STATCODE <- NULL
+NLD_prov$PV2014 <- NULL
+NLD_prov$PV_LABEL <- NULL
 
+names(NLD_prov) <- c("code", "name")
+
+# process NLD_muni
 gm1 <- substr(as.character(shp$GM_CODE), 3,7)
 gm2 <- as.character(NLD_muni$GM_2014)
 
@@ -31,7 +38,7 @@ levels(NLD_muni$name)[id] <- "Sudwest-Fryslan" #c("Gaasterlan-Sleat", "Sudwest-F
 
 
 x <- intersection_shapes(NLD_muni, NLD_prov)
-NLD_muni$province <- factor(levels(NLD_prov$PV_2014)[apply(x, MARGIN = 1, function(a) which(a>.999))], levels=levels(NLD_prov$PV_2014))
+NLD_muni$province <- factor(levels(NLD_prov$name)[apply(x, MARGIN = 1, function(a) which(a>.999))], levels=levels(NLD_prov$name))
 
 data <- shp@data[, c("AANT_INW", "AANT_MAN", "AANT_VROUW", "P_00_14_JR", "P_15_24_JR", 
 					 "P_25_44_JR", "P_45_64_JR", "P_65_EO_JR")]
@@ -45,11 +52,6 @@ NLD_muni <- append_data(NLD_muni, data=data, fixed.order=TRUE)
 
 NLD_prov <- convert_shape_data(NLD_muni, NLD_prov)
 
-NLD_prov$STATCODE <- NULL
-NLD_prov$PV2014 <- NULL
-NLD_prov$PV_LABEL <- NULL
-
-names(NLD_prov)[1:2] <- c("code", "name")
 
 ## check data
 gIsValid(NLD_muni)

@@ -24,7 +24,6 @@ tm_shape(NLD_prov) +
 		"Population 45 to 64", "Population 65 and older"), scale=1.5, draw.frame = TRUE)
 
 
-
 # Facets defined by multiple variables
 tm_shape(NLD_prov) +
 	tm_borders() +
@@ -35,109 +34,12 @@ tm_shape(NLD_prov) +
 	tm_fill() + tm_borders() +
 	tm_facets(by="name", free.coords = TRUE, split=TRUE)
 
-
 tm_shape(NLD_muni) +
 	tm_borders() +
 	tm_facets(by="province") +
 	tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
-	tm_borders(lwd=2) +
+	tm_borders(lwd=10) +
 	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
-	tm_layout(asp=0)
-
-data(rivers)
-tm_shape(NLD_muni) +
-	tm_borders() +
-	tm_facets(by="province") +
-	tm_fill("population", style="kmeans", convert2density = TRUE) +
-	tm_shape(NLD_prov) +
-	tm_borders(lwd=2) +
-	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
-tm_shape(rivers) +
-	tm_lines("steelblue", lwd=4) +
-	tm_layout(asp=0)
-
-tm_shape(NLD_muni) +
-	tm_borders() +
-	tm_facets(by="province") +
-	tm_fill("population", style="kmeans", convert2density = TRUE) +
-	tm_shape(rivers) +
-	tm_lines("steelblue", lwd=4) +
-	tm_shape(NLD_prov) +
-	tm_fill("blue") +
-	tm_borders(lwd=2) +
-	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
-	tm_layout(asp=0)
-
-### WORKING ON split_tm:
-tm_shape(NLD_prov) +
-	tm_fill("blue") +
-	tm_borders(lwd=2) +
-	tm_facets(by="name", free.coords=TRUE, split=TRUE)
-
-tm_shape(Europe) +
-	tm_fill("pop_est_dens") +
-	tm_bubbles("pop_est") +
-tm_facets(by="part") +
-tm_layout_Europe()
-
-data(rivers)
-tm_shape(Europe) +
-	tm_fill("pop_est_dens") +
-	tm_bubbles("pop_est") +
-tm_shape(rivers) +
-	tm_lines() +
-	tm_facets(by="type") +
-	tm_layout_Europe()
-
-
-tm_shape(Europe) +
-	tm_fill("pop_est_dens") +
-	tm_bubbles("pop_est") +
-	tm_layout_Europe()
-
-
-tm_shape(Europe) +
-	tm_fill("pop_est_dens") +
-	tm_bubbles("pop_est") +
-tm_facets(by="part") +
-	tm_layout_Europe()
-
-## todos:
-# fix asp ratios
-# data_by == NA ?
-data(rivers)
-
-system.time({
-	print(tm_shape(rivers) +
-	tm_lines() +
-tm_shape(NLD_prov) +
-	tm_fill("green") +
-	tm_facets(by="name") +
-tm_layout(asp=0))
-})
-
-tm_shape(NLD_prov) +
-	tm_fill() +
-	tm_facets(by="name") +
-tm_shape(rivers) +
-	tm_lines() +
-	tm_layout(asp=0)
-
-system.time({
-print(tm_shape(NLD_prov) +
-	tm_fill() +
-	tm_facets(by="name") +
-	tm_shape(rivers) +
-	tm_lines())
-})
-
-
-
-
-
-
-
-tm_shape(NLD_prov) +
-	tm_fill() +
-	tm_facets(by="name")
+	tm_layout(title.cex=2, legend.show = FALSE)
+	

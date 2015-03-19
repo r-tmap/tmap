@@ -7,15 +7,7 @@ process_layers <- function(g, gt, gf) {
 	data <- g$tm_shape$data
 	
 	scale <- gt$scale
-	
-	if (!is.null(gf$by) && gf$shp_name==g$tm_shape$shp_name) {
-		data$GROUP_BY <- as.factor(data[[gf$by]])
-		by <- levels(data$GROUP_BY)
-	} else {
-		data$GROUP_BY <- factor("_NA_")
-		by <- NA
-	}
-	
+		
 	if (g$tm_shape$by=="") {
 		data$GROUP_BY <- factor("_NA_")
 		by <- NA

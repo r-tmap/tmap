@@ -32,7 +32,7 @@ process_tm <- function(x) {
 	facet.shp.id <- sapply(facet.id.orig, function(i){tail(which(shape.id.orig<i), 1)})
 	
 	facet.ids <- rep(0, nshps)
-	facet.ids[facet.shp.id] <- facet.id.orig
+	if (length(facet.shp.id)) facet.ids[facet.shp.id] <- facet.id.orig
 		
 		
 	
@@ -100,6 +100,16 @@ process_tm <- function(x) {
 		}
 	})
 
+	## for each 'grouped by' shape, where split=TRUE, get order ids (used by split_tm) 
+	order_by <- lapply(data_by, function(d) {
+		if (is.null(d) || !gf$split) {
+			NULL
+		} else {
+			lapply(1:nlevels(d), function(i)which(as.numeric(d)==i))
+		}
+	})
+	
+
 	by_counts <- sapply(data_by, nlevels)
 	if (sum(by_counts>0)>1) {
 		by_counts_pos <- by_counts[by_counts!=0]
@@ -139,8 +149,8 @@ process_tm <- function(x) {
 	## process grid
 	gmeta <- process_meta(gt, gf, gg, nx, varnames)
 	## split into small multiples
-	browser()
-	gps <- split_tm(gp, nx)
+
+	gps <- split_tm(gp, nx, order_by)
 	scale <- gmeta$scale
 	gps <- mapply(function(x, i){
 		x <- lapply(x, function(xx) {
