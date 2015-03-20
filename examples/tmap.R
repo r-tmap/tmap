@@ -2,10 +2,12 @@ data(World)
 data(Europe)
 data(NLD_muni)
 data(NLD_prov)
+data(cities)
 
 qtm(Europe)
 
-qtm(World, fill = "economy", text="iso_a3", text.cex = "AREA", fill.palette="-Blues", theme = "World", title="Economy")
+qtm(World, fill = "economy", text="iso_a3", text.cex = "AREA", fill.palette="-Blues", 
+	theme = "World", title="Economy")
 
 tm_shape(World) +
 	tm_fill("pop_est_dens", style="kmeans", palette="YlOrRd") +

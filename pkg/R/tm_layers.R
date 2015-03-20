@@ -259,6 +259,8 @@ tm_bubbles <- function(size=1, col="blueviolet",
 #' @param by data variable name by which the data is split
 #' @param ncol number of columns of the small multiples grid
 #' @param nrow number of rows of the small multiples grid
+#' @param free.coords logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?
+#' @param split logical. If the \code{by} argument is specified, should all non-selected shape material be hidden?
 #' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_bubbles}} and line color from \code{\link{tm_lines}}.
 #' @param free.scales.fill logical. Should the color scale for the choropleth be free?
 #' @param free.scales.bubble.size logical. Should the bubble size scale for the bubble map be free?

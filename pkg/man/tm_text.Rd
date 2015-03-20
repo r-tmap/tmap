@@ -5,9 +5,9 @@
 \title{Add text labels}
 \usage{
 tm_text(text, cex = 1, root = 3, fontcolor = NA, fontface = "plain",
-  fontfamily = "sans", alpha = NA, case = NA, bg.color = NA,
-  bg.alpha = NA, cex.lowerbound = 0.4, print.tiny = FALSE, scale = 1,
-  xmod = 0, ymod = 0)
+  fontfamily = "sans", alpha = NA, case = NA, shadow = FALSE,
+  bg.color = NA, bg.alpha = NA, cex.lowerbound = 0.4,
+  print.tiny = FALSE, scale = 1, xmod = 0, ymod = 0)
 }
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
@@ -25,6 +25,8 @@ tm_text(text, cex = 1, root = 3, fontcolor = NA, fontface = "plain",
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).}
 
 \item{case}{case of the font. Use "upper" to generate upper-case text, "lower" to generate lower-case text, and \code{NA} to leave the text as is.}
+
+\item{shadow}{logical that determines whether a shadow is depicted behind the text. The color of the shadow is either white or yellow, depending of the \code{fontcolor}.}
 
 \item{bg.color}{background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.}
 
@@ -50,33 +52,21 @@ Creates a \code{\link{tmap-element}} that adds text labels.
 The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 }
 \examples{
+# World example
+data(World)
+tm_shape(World) +
+	tm_text("name", cex="AREA")
+
 # Europe example
 data(Europe)
 tm_shape(Europe) +
-    tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
+    tm_fill() +
     tm_borders() +
-    tm_text("iso_a3", cex="AREA", root=4, scale=2, bg.alpha=0) +
-tm_layout_Europe("GDP per capita")
-
-
-data(rivers)
-data(cities)
-
+    tm_text("iso_a3", cex="AREA", root=4, shadow = TRUE, fontcolor = "grey20", scale=2, 
+			cex.lowerbound = .1) +
 tm_shape(Europe) +
-    tm_fill("pop_est_dens", style="kmeans", textNA="Non-European countries") +
-    tm_borders() +
-tm_shape(rivers) +
-    tm_lines("dodgerblue3") +
-tm_shape(cities) +
-    tm_text("name", cex="pop_max", scale=1, ymod=-.02, root=4, cex.lowerbound = .60, 
-            bg.color="yellow", bg.alpha = .5) + 
-    tm_bubbles("pop_max", "red", border.col = "black", border.lwd=1, size.lim = c(0, 2e7)) +
-tm_shape(Europe) +
-    tm_text("name", cex="area", scale=1.5, root=8, cex.lowerbound = .40, 
-            fontface="bold", case=NA, fontcolor = "gray35") + 
-tm_layout_Europe("Map of Europe", 
-    legend.titles = c(fill="Country population density (per km2)", 
-                      bubble.size="City Population"))
+	tm_text("name", cex="AREA", root=4, scale=1, 
+			ymod=-.04 * approx_areas(Europe, units = "norm")^(1/4))
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

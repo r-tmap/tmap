@@ -21,17 +21,16 @@ tm_layout(title = NA, scale = 1, title.cex = 1.5, bg.color = NULL,
   legend.text.cex = 0.7, legend.hist.cex = 0.7, legend.digits = NA,
   legend.bg.color = NA)
 
-tm_layout_World(title = NA, scale = 0.85, title.position = c("left",
-  "bottom"), title.bg.color = TRUE, outer.margins = rep(0.02, 4),
+tm_layout_World(title = NA, scale = 0.85, title.bg.color = TRUE,
   inner.margins = c(0, 0.02, 0.02, 0.02), legend.position = c("left",
-  "bottom"), legend.width = 0.2, legend.height = 0.5,
+  "bottom"), legend.width = 0.25, legend.height = 0.5,
   legend.bg.color = TRUE, ...)
 
-tm_layout_Europe(title = NA, legend.position = c("left", "top"),
-  outer.margins = rep(0.02, 4), inner.margins = c(0, 0.25, 0, 0), ...)
+tm_layout_Europe(title = NA, title.position = c("left", "top"),
+  legend.position = c("left", "top"), inner.margins = c(0, 0.15, 0, 0), ...)
 
 tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
-  0.05, 0.05), legend.position = c("left", "top"), legend.width = 0.3, ...)
+  0.1, 0.05), legend.position = c("left", "top"), legend.width = 0.35, ...)
 }
 \arguments{
 \item{title}{Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.}
@@ -91,23 +90,13 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 \item{...}{other arguments from \code{tm_layout}}
 }
 \description{
-This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for World, Europe, and Netherlands maps (which are contained in this package). Tip: create a layout theme for your own map (see example below).
+This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). Tip: create a layout theme for your own map (see example below).
 }
 \examples{
 data(World)
 
-# General layout settings with adjusted title
-tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") + 
-	tm_layout("World Population")
-
-# Layout settings for the world map
 tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") + 
 	tm_layout_World("World Population")
-
-# Take a look at Africa
-Africa <- World[World$continent=="Africa", ]
-qtm(Africa, fill="pop_est_dens", style="kmeans")
-# So with general settings, legend is drawn insde western Africa.
 
 # A custom layout wrapper for Africa
 tm_layout_Africa <- function(title=NA,
@@ -115,12 +104,12 @@ tm_layout_Africa <- function(title=NA,
 							 draw.frame = FALSE,
 							 title.position=c("left", "bottom"), 
 							 legend.position = c("left", "bottom"), 
-							 bg.color = "lightblue", ...) {
+							 bg.color = "lightcyan3", ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
-
-qtm(Africa, fill="pop_est_dens", style="kmeans") + 
+Africa <- World[World$continent=="Africa", ]
+qtm(Africa, fill="pop_est_dens", fill.style="kmeans") + 
 	tm_layout_Africa("Population of Africa")
 }
 \seealso{

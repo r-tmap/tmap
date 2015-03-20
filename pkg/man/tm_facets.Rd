@@ -4,11 +4,11 @@
 \alias{tm_facets}
 \title{Small multiples}
 \usage{
-tm_facets(by = NULL, ncol = NULL, nrow = NULL,
-  free.scales = is.null(by), free.scales.fill = free.scales,
-  free.scales.bubble.size = free.scales,
+tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
+  split = FALSE, free.scales = is.null(by),
+  free.scales.fill = free.scales, free.scales.bubble.size = free.scales,
   free.scales.bubble.col = free.scales, free.scales.line.col = free.scales,
-  free.scales.line.lwd = free.scales)
+  free.scales.line.lwd = free.scales, scale.factor = 2)
 }
 \arguments{
 \item{by}{data variable name by which the data is split}
@@ -16,6 +16,10 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL,
 \item{ncol}{number of columns of the small multiples grid}
 
 \item{nrow}{number of rows of the small multiples grid}
+
+\item{free.coords}{logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?}
+
+\item{split}{logical. If the \code{by} argument is specified, should all non-selected shape material be hidden?}
 
 \item{free.scales}{logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_bubbles}} and line color from \code{\link{tm_lines}}.}
 
@@ -28,6 +32,8 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL,
 \item{free.scales.line.col}{Should the line color scale be free?}
 
 \item{free.scales.line.lwd}{Should the line width scale be free?}
+
+\item{scale.factor}{Number that determines how the elements (e.g. font sizes, bubble sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.}
 }
 \value{
 \code{\link{tmap-element}}
@@ -36,32 +42,54 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL,
 Creates a \code{\link{tmap-element}} that specifies how small multiples are placed in a facet grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 }
 \examples{
-## World example
 data(World)
-tm_shape(World) +
-    tm_fill(c("green", "blue")) +
-tm_layout_World(c("A green world", "A blue world"))
-
-## Europe example
 data(Europe)
-tm_shape(Europe) +
-    tm_fill(c("gdp_cap_est", "pop_est_dens"), style="kmeans") +
-tm_layout_Europe(c("GDP per capita", "Population density"), scale=2)
-
-
-
-## Netherlands example
 data(NLD_muni)
 data(NLD_prov)
 
+
+# Facets defined by constant values
+tm_shape(World) +
+    tm_fill(c("forestgreen", "sandybrown")) +
+tm_layout_World(c("A green world", "A barren world"), bg.color="lightcyan3", 
+	title.position=c("left", "bottom"))
+
+# Facets defined by multiple variables
+tm_shape(Europe) +
+	tm_borders() +
+    tm_fill(c("gdp_cap_est", "pop_est_dens"), style="kmeans") +
+tm_layout_Europe(c("GDP per capita", "Population density"))
+
 tm_shape(NLD_muni) +
     tm_fill(c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
-            convert2density=TRUE, style="kmeans") +
+            style="kmeans") +
 tm_shape(NLD_prov) +
     tm_borders() +
-    tm_facets(free.scales=FALSE) +
 	tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
-		"Population 45 to 64", "Population 65 and older"), scale=4, draw.frame = TRUE)
+		"Population 45 to 64", "Population 65 and older"), draw.frame = TRUE)
+
+
+# Facets defined by groupings
+tm_shape(NLD_prov) +
+	tm_borders() +
+	tm_fill("gold2") +
+	tm_facets(by="name") +
+	tm_layout()
+
+tm_shape(NLD_prov) +
+	tm_fill("gold2") + tm_borders() +
+	tm_facets(by="name", free.coords = TRUE, split=TRUE) +
+tm_layout()
+
+tm_shape(NLD_muni) +
+	tm_borders() +
+	tm_facets(by="province") +
+	tm_fill("population", style="kmeans", convert2density = TRUE) +
+tm_shape(NLD_prov) +
+	tm_borders(lwd=4) +
+	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
+	tm_layout(legend.show = FALSE)
+	
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

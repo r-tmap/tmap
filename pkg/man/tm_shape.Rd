@@ -25,6 +25,7 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
        \item{\code{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
        \item{\code{"gall"}}{Gall (Peters) (1855). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
        \item{\code{"merc"}}{Mercator (1569). Projection in which shapes are locally preserved. However, areas close to the poles are inflated. Google Maps uses a close variant of the Mercator. Type: conformal}
+       \item{\code{"utmXX(s)"}}{Universal Transverse Mercator. Set of 60 projections where each projection is a traverse mercator optimized for a 6 degree longitude range. These ranges are called UTM zones. Zone \code{01} covers -180 to -174 degrees (West) and zone \code{60} 174 to 180 east. Replace XX in the character string with the zone number. For southern hemisphere, add \code{"s"}. So, for instance, the Netherlands is \code{"utm31"} and New Zealand is \code{"utm59s"}}
        \item{\code{"mill"}}{Miller (1942). Projetion based on Mercator, in which poles are displayed. Type: compromise}
        \item{\code{"eqc0"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The equator is the standard parallel. Also known as Plate Carr\'ee. Type: equidistant}
        \item{\code{"eqc30"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 30 is the standard parallel. Type: equidistant}
@@ -49,6 +50,8 @@ Creates a \code{\link{tmap-element}} that specifies the shape object. Also the p
 }
 \examples{
 data(World)
+data(cities)
+data(rivers)
 
 tm_shape(World, projection="longlat") + 
     tm_fill() +
@@ -57,25 +60,33 @@ tm_shape(World, projection="longlat") +
 
 World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
 tm_shape(World, projection="merc") + 
-    tm_fill("highlighted") + 
-    tm_borders() + 
-    tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for
+	tm_fill("highlighted") + 
+	tm_borders() + 
+	tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for
 statistical purposes. In reality, Australia is 3 times larger than Greenland!", 
-inner.margins=c(0,0,.1,0), title.cex=.6)
-
+			  inner.margins=c(0,0,.1,0), title.cex=.6)
 
 tm_shape(World, projection="wintri") + 
     tm_fill() + 
     tm_borders() + 
     tm_layout(
-"Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps", 
+"Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps.", 
 inner.margins=c(0,0,.1,0), title.cex=.8)
 
 tm_shape(World) +
     tm_fill() + 
     tm_borders() + 
-tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-area property", 
+tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-area property.", 
     inner.margins=c(0,0,.1,0), title.cex=.8)
+
+# three groups of layers, each starting with tm_shape
+tm_shape(World) +
+	tm_fill("darkolivegreen3") +
+tm_shape(cities) +
+	tm_bubbles("pop_max", col = "grey50", scale=.5) +
+tm_shape(rivers) +
+	tm_lines("lightcyan3") +
+tm_layout_World(title = "", bg.color="lightcyan3", legend.show = FALSE)
 }
 \seealso{
 \code{\link{read_shape}} to read ESRI shape files, \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

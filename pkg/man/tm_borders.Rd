@@ -22,22 +22,18 @@ tm_borders(col = "grey40", lwd = 1, lty = "solid", alpha = NA)
 Creates a \code{\link{tmap-element}} that defines the borders of the polygons. Line color, width, and type can be set.
 }
 \examples{
-## Europe example
 data(Europe)
-tm_shape(Europe) + tm_borders()
-
-## Netherlands example
 data(NLD_prov)
 data(NLD_muni)
 
-tm_shape(NLD_prov) + 
-    tm_fill("name") + 
-tm_shape(NLD_muni) + 
-    tm_borders() + 
-tm_shape(NLD_prov) + 
-    tm_borders(lwd=2) +
-    tm_text("name") +
-tm_layout_NLD("Provinces and municipalities", legend.show=FALSE)
+tm_shape(Europe) + tm_borders()
+
+tm_shape(NLD_muni) +
+	tm_fill(col="population", convert2density=TRUE, style="kmeans") +
+	tm_borders("grey25", alpha=.5) + 
+tm_shape(NLD_prov) +
+	tm_borders("grey40", lwd=2) +
+	tm_layout_NLD(title="Population (per km2)", bg.color="white", draw.frame = FALSE)
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
