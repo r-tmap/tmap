@@ -325,7 +325,7 @@ legend_landsc <- function(x, legend.text.cex, lineHeight) {
 		}
 		
 		
-		labelsws <- convertWidth(stringWidth(legend.labels), "npc", TRUE) * legend.text.cex * 1.15
+		labelsws <- convertWidth(stringWidth(legend.labels), "npc", TRUE) * legend.text.cex * 1.2 #1.15
 		maxlabelsws <- max(labelsws)
 		
 		ws <- rep(maxlabelsws, nitems)

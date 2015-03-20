@@ -18,6 +18,7 @@
 #'    	\item{\code{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
 #'    	\item{\code{"gall"}}{Gall (Peters) (1855). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
 #'    	\item{\code{"merc"}}{Mercator (1569). Projection in which shapes are locally preserved. However, areas close to the poles are inflated. Google Maps uses a close variant of the Mercator. Type: conformal}
+#'    	\item{\code{"utmXX(s)"}}{Universal Transverse Mercator. Set of 60 projections where each projection is a traverse mercator optimized for a 6 degree longitude range. These ranges are called UTM zones. Zone \code{01} covers -180 to -174 degrees (West) and zone \code{60} 174 to 180 east. Replace XX in the character string with the zone number. For southern hemisphere, add \code{"s"}. So, for instance, the Netherlands is \code{"utm31"} and New Zealand is \code{"utm59s"}}
 #'    	\item{\code{"mill"}}{Miller (1942). Projetion based on Mercator, in which poles are displayed. Type: compromise}
 #'    	\item{\code{"eqc0"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The equator is the standard parallel. Also known as Plate Carr\'ee. Type: equidistant}
 #'    	\item{\code{"eqc30"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 30 is the standard parallel. Type: equidistant}
@@ -166,7 +167,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @example ../examples/tm_fill.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
-tm_fill <- function(col="grey90", 
+tm_fill <- function(col="grey85", 
 					alpha=NA,
 						    palette = NULL,
 						    convert2density = FALSE,
@@ -264,6 +265,7 @@ tm_bubbles <- function(size=1, col="blueviolet",
 #' @param free.scales.bubble.col logical. Should the color scale for the bubble map be free?
 #' @param free.scales.line.col Should the line color scale be free?
 #' @param free.scales.line.lwd Should the line width scale be free?
+#' @param scale.factor Number that determines how the elements (e.g. font sizes, bubble sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.
 #' @export
 #' @example ../examples/tm_facets.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
@@ -276,8 +278,8 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					   free.scales.bubble.size=free.scales,
 					   free.scales.bubble.col=free.scales,
 					   free.scales.line.col=free.scales,
-					   free.scales.line.lwd=free.scales
-					   ) {
+					   free.scales.line.lwd=free.scales,
+					   scale.factor=2) {
 	g <- list(tm_facets=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	#attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])

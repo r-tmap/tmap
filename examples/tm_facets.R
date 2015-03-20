@@ -7,7 +7,6 @@ data(NLD_prov)
 # Facets defined by constant values
 tm_shape(World) +
     tm_fill(c("forestgreen", "sandybrown")) +
-	tm_facets(nrow = 2) +
 tm_layout_World(c("A green world", "A barren world"), bg.color="lightcyan3", title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables
@@ -22,7 +21,7 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders() +
 	tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
-		"Population 45 to 64", "Population 65 and older"), legend.text.cex=1, scale=1.5, draw.frame = TRUE)
+		"Population 45 to 64", "Population 65 and older"), draw.frame = TRUE)
 
 
 # Facets defined by groupings
@@ -30,19 +29,19 @@ tm_shape(NLD_prov) +
 	tm_borders() +
 	tm_fill("gold2") +
 	tm_facets(by="name") +
-	tm_layout(title.cex=2)
+	tm_layout()
 
 tm_shape(NLD_prov) +
 	tm_fill("gold2") + tm_borders() +
 	tm_facets(by="name", free.coords = TRUE, split=TRUE) +
-tm_layout(title.cex=2)
+tm_layout()
 
 tm_shape(NLD_muni) +
 	tm_borders() +
 	tm_facets(by="province") +
 	tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
-	tm_borders(lwd=10) +
+	tm_borders(lwd=4) +
 	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
-	tm_layout(title.cex=2, legend.show = FALSE)
+	tm_layout(legend.show = FALSE)
 	

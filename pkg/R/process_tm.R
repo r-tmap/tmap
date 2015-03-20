@@ -1,4 +1,4 @@
-process_tm <- function(x) {
+process_tm <- function(x, asp_ratio) {
 	fill <- NULL; xfill <- NULL
 	## fill meta info
 	
@@ -90,7 +90,6 @@ process_tm <- function(x) {
 	## convert clusters to layers
 	gp <- lapply(gs, FUN=process_layers, gt, gf)
 	
-	
 	## get by vector
 	data_by <- lapply(1:nshps, function(i) {
 		if (gf$shp_nr[i]==0) {
@@ -117,28 +116,23 @@ process_tm <- function(x) {
 	}
 
 
-# 	if (gf$shp_nr == 0) {
-# 		data_by <- NULL
-# 	} else {
-# 		data_by <- gp[[gf$shp_nr]]$data_by
-# 	}
 
 	## determine maximal number of variables
 	
-	nx <- max(sapply(gp, function(x) {
-		max(length(x$varnames$by),
-			ifelse(is.matrix(x$fill), ncol(x$fill), 1),
-			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
-			ifelse(is.matrix(x$bubble.col), ncol(x$bubble.col), 1),
-			ifelse(is.matrix(x$line.col), ncol(x$line.col), 1),
-			ifelse(is.matrix(x$line.lwd), ncol(x$line.lwd), 1),
-			ifelse(is.matrix(x$text), ncol(x$text), 1))
-	}))
-	
-	nx2 <- max(sapply(gp, function(x){
+# 	nx <- max(sapply(gp, function(x) {
+# 		max(length(x$varnames$by),
+# 			ifelse(is.matrix(x$fill), ncol(x$fill), 1),
+# 			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
+# 			ifelse(is.matrix(x$bubble.col), ncol(x$bubble.col), 1),
+# 			ifelse(is.matrix(x$line.col), ncol(x$line.col), 1),
+# 			ifelse(is.matrix(x$line.lwd), ncol(x$line.lwd), 1),
+# 			ifelse(is.matrix(x$text), ncol(x$text), 1))
+# 	}))
+# 	
+	nx <- max(sapply(gp, function(x){
 		max(sapply(x$varnames, length))
 	}))
-	cat("nx:", nx, " nx2:", nx2, "\n")
+	#cat("nx:", nx, " nx2:", nx2, "\n")
 	
 	
 	names(gp) <- paste0("tmLayer", 1:length(gp))
@@ -147,7 +141,7 @@ process_tm <- function(x) {
 	varnames <- process_varnames(gp, nx)
 
 	## process grid
-	gmeta <- process_meta(gt, gf, gg, nx, varnames)
+	gmeta <- process_meta(gt, gf, gg, nx, varnames, asp_ratio)
 	## split into small multiples
 
 	gps <- split_tm(gp, nx, order_by)

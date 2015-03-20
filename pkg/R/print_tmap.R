@@ -31,13 +31,21 @@ print.tmap <- function(x, vp=NULL, ...) {
 
 	datasets <- lapply(shps, function(x)x@data)
 	
+	shp1_bb <- bbox(shps[[1]])
+	shp1_asp <-	get_asp_ratio(shp1_bb[1,], shp1_bb[2,], longlat=!is.projected(shps[[1]]))
+
 	x[shape.id] <- mapply(function(y, dataset){
+		bb <- bbox(y$shp)
 		y$data <- dataset
 		y$shp <- NULL
 		y
 	}, x[shape.id], datasets, SIMPLIFY=FALSE)
 	
-	result <- process_tm(x)
+	dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE) / convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
+	
+	asp_ratio <- shp1_asp / dev_asp
+	
+	result <- process_tm(x, asp_ratio)
 	
 	gmeta <- result$gmeta
 	gps <- result$gps

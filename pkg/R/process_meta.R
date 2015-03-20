@@ -1,17 +1,21 @@
-process_meta <- function(gt, gf, gg, nx, varnames) {
+process_meta <- function(gt, gf, gg, nx, varnames, asp_ratio) {
 	legend.config <- NULL
+	
 	
 	gf <- within(gf, {
 		by <- NULL
 		if (is.null(ncol) && is.null(nrow)) {
 			## default setting: place next to each other, or in grid
-			if (nx <= 3) {
-				ncol <- nx
-				nrow <- 1
-			} else {
-				ncol <- ceiling(sqrt(nx))
-				nrow <- ceiling(nx / ncol)
-			}
+			ncol <- round(sqrt(nx/asp_ratio))
+			nrow <- ceiling(nx / ncol)
+# 			
+# 			if (nx <= 3) {
+# 				ncol <- nx
+# 				nrow <- 1
+# 			} else {
+# 				ncol <- ceiling(sqrt(nx))
+# 				nrow <- ceiling(nx / ncol)
+# 			}
 		} else {
 			if (is.null(ncol)) ncol <- ceiling(nx / nrow)
 			if (is.null(nrow)) nrow <- ceiling(nx / ncol)
@@ -63,8 +67,16 @@ process_meta <- function(gt, gf, gg, nx, varnames) {
 			}
 		}
 		
-		scale <- scale / sqrt(m)
-		
+		scale <- scale * (if (m==1) {
+			1
+		} else if(gf$ncol==1) {
+			min(asp_ratio / gf$nrow, 1)
+		} else if(gf$nrow==1) {
+			min(gf$ncol/asp_ratio, 1)
+		} else {
+			1/sqrt(m)
+		})^(1/gf$scale.factor)
+
 		title.cex <- title.cex * scale
 		legend.title.cex <- legend.title.cex * scale
 		legend.text.cex <- legend.text.cex * scale

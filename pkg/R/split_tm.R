@@ -2,15 +2,14 @@ split_tm <- function(gp, nx, order_by) {
 	gpnx <- lapply(1:nx, function(i){
 		g <- mapply(function(x, o) {
 			oid <- if(is.null(o)) NULL else o[[i]]
-			lapply(x, get_i, i, n=x$npol, oid=oid)
+			mapply(get_i, x, names(x), MoreArgs = list(i=i, n=x$npol, oid=oid), SIMPLIFY=FALSE)
 		}, gp, order_by, SIMPLIFY=FALSE)
 	})
 	names(gpnx) <- paste0("plot", 1:nx)
 	gpnx
 }
 
-get_i <- function(x, i, n, oid) {
-	xname <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
+get_i <- function(x, xname, i, n, oid) {
 	if (is.null(oid) && is.matrix(x)) oid <- 1:nrow(x)
 	if (is.null(x)) {
 		NULL
