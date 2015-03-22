@@ -53,6 +53,8 @@ x <- grep("I_WAS_NOT_ASCII", iconv(levels(cities$country), "latin1", "ASCII", su
 
 cities$iso_a3 <- factor(as.character(cities$iso_a3), levels=intersect(levels(cities$iso_a3), as.character(cities$iso_a3)))
 
+cities <- set_projection(cities, current.projection = "longlat", overwrite.current.projection=TRUE)
+
 
 save(cities, file="./data/cities.rda", compress="xz")
 

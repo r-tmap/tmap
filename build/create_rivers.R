@@ -26,6 +26,6 @@ levels(rivers$name) <- iconv(
 x <- grep("I_WAS_NOT_ASCII", iconv(levels(rivers$name), "latin1", "ASCII", sub="I_WAS_NOT_ASCII"))
 
 
-
+rivers <- set_projection(rivers, current.projection = "longlat", overwrite.current.projection=TRUE)
 
 save(rivers, file="./data/rivers.rda", compress="xz")

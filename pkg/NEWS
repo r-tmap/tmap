@@ -1,6 +1,7 @@
 version 0.7
 - added function split to split a shape object and sbind to combine shape objects.
 - added alpha argument to tm layers for transparency
+- enhanced small multiples (tm_facets)
 - improved number formatting in legend
 - improved inner.margins and outer.margins. Both can take one value (e.g. outer.margins=0 rather than outer.margins=c(0,0,0,0))
 - improved qtm: tm_facets parameters working, and also fixed scale parameter bug
