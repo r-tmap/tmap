@@ -12,7 +12,7 @@ library(tmap)
 tmap in a nutshell
 ======================================================
 
-With the tmap package, thematic maps can be generated with great flexability. The syntax for creating plots is very similar to that of `ggplot2`. The complete workflow of reading ESRI shape files, setting the proper projection, and appending data is embedded in this package by several convenient functions.
+With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`. Also, the standard work flow that is needed to create a thematic map is embedded in tmap; convenient functions for reading and writing ESRI shape files, setting the proper projection, and appending data are contained in the tmap package.
 
 
 ### Shape objects

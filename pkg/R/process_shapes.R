@@ -48,9 +48,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 
 	
 	# set projection for other shapes
-	shps <- lapply(shps, function(x){
-		shp_nm <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
-		
+	shps <- mapply(function(x, shp_nm){
 		if (shp_nm==shp_name) {
 			x <- shp
 		} else {
@@ -65,7 +63,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 			}
 		}
 		x
-	})
+	}, shps, names(shps), SIMPLIFY=FALSE)
 	
 	
 	# define bounding box
@@ -151,9 +149,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		
 	} else {
 	
-		shps2 <- lapply(shps, function(x){
-			shp_nm <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
-			
+		shps2 <- mapply(function(x, shp_nm){
 			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
 			if (group_by) {
 				lapply(bboxes, function(bb2){
@@ -176,7 +172,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 					x
 				})
 			}
-		})
+		}, shps, names(shps), SIMPLIFY=FALSE)
 	
 	}
 	if (group_by) {

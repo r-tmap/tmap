@@ -190,7 +190,7 @@ legend_plot <- function(gt, x, legend_pos) {
 	heights <- heights / legendHeight
 	vpLeg <- viewport(layout=grid.layout(k, 1, heights=heights, widths=1), name="legend_grid")
 	pushViewport(vpLeg)
-	grobList <- lapply(x, FUN="legend_subplot", gt)
+	grobList <- mapply("legend_subplot", x, id=1:k, MoreArgs = list(gt=gt), SIMPLIFY = FALSE)
 
 	treeLegend <- gTree(children=gList(grobTitle, gTree(children=gList(grobLegBG, gTree(children=do.call("gList", grobList), vp=vpLeg)), vp=vpLegend)))
 	upViewport(2)
@@ -198,8 +198,7 @@ legend_plot <- function(gt, x, legend_pos) {
 }
 
 
-legend_subplot <- function(x, gt) {
-	id <- substitute(x)[[3]]
+legend_subplot <- function(x, id, gt) {
 	cellplot2(id, 1, e={
 		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		legend.type <- x$legend.type

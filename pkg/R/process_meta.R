@@ -55,11 +55,10 @@ process_meta <- function(gt, gf, gg, nx, varnames, asp_ratio) {
 			legend.titles <- NA
 		} else {
 			# replace NA's with varnames
-			legend.titles <- lapply(legend.titles, function(x) {
-				id <- eval.parent(quote(names(X)))[substitute(x)[[3]]]
+			legend.titles <- mapply(function(x, id) {
 				y <- if (is.na(x[1])) varnames[[id]] else x
 				rep(y, length.out=nx)
-			})
+			}, legend.titles, names(legend.titles), SIMPLIFY=FALSE)
 			if (!spec.title) {
 				title <- rep(varnames[[idname]], length.out=nx)
 			} else {
