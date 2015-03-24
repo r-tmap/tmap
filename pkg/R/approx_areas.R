@@ -1,4 +1,4 @@
-#' Approximate area sizes of the shapes.
+#' Approximate area sizes of the shapes
 #' 
 #' Approximate the area sizes of the polygons either in 1) squared kilometers, 2) absolute numbers based on the polygon coordinates, 3) proportional numbers, 4) normalized numbers.
 #' 

@@ -18,7 +18,7 @@
  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
-}#'}
+}}
 
 \item{f}{factor to split \code{x}}
 

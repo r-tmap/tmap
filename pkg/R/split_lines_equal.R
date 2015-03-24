@@ -1,4 +1,4 @@
-#' Split lines in segments of equal length.
+#' Split lines in segments of equal length
 #' 
 #' Split lines in segments of equal length. (Experimental, see note)
 #' 

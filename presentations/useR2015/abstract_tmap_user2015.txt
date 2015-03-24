@@ -1,19 +1,10 @@
 tmap: creating thematic maps in a flexible way
 
+link: http://www.efgs.info/geostat/estp-2013/estp-2013-gis-course/b02.
 
+A thematic map is a geographical map in which statistical data are visualized. The theme refers to the statistical phenomena that is shown, such as the unemployment rate at municipal level. 
+The best known thematic map type is the choropleth, where regions are coloured according to a statistical variable, for instance unemployment rate or population density. Another popular thematic map type is the bubble map, in which the sizes of the bubbles are defined by a statistical variable, for instance city population.
 
-A thematic map is a geographical map in which statistical data are visualized. The theme refers to the statistical theme of the map, such as the unemployment rate at municipal level. 
-The best known thematic map type is the choropleth, where regions are coloured according to a statistical variable, for instance population density or income class. Another popular thematic map type is the bubble map, in which the size and/or colour of the bubbles indicate a statistical variable, for instance city population.
+With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of ggplot2. A thematic map is created by stacking layers, for instance one for colouring municipalities, one for thick borders of higher level regions, and one for text labels. It is also possible to create small multiples. Layout settings such as legend positioning and margins can be specified for particular shape objects by layout themes.
 
-With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of ggplot2. 
-
-Also, the standard work flow that is needed to create a thematic map is embedded in tmap; convenient functions for reading and writing ESRI shape files, setting the proper projection, and appending data are contained in the tmap package.
-
-
-
-
-The R-package tmap is an open source software tool to explore and analyse data with a geographical component and to present statistical outcomes. The data that can be processed with this tool ranges from raw big data sources to estimations on regional level from survey statistics.
-
-A geographical map in which statistical data is visualized is called a thematic map, where the theme refers to the statistical theme of the map, such as the unemployment rate at municipal level. Thematic maps are not particularly new; they range back to 1854 when John Snow created a London map with reported cholera cases. With this map, he was able to find the well pump that started the cholera outbreak.
-
-Thematic maps are usually based on a topographic map of the region of interest with a sober layout; typically, only the country borders are depicted, and the land and sea are coloured by different shades of grey.
+The standard work flow that is needed to create a thematic map is embedded in tmap by several convenient functions, e.g., for reading ESRI shape files, setting the proper projection, appending data, and calculating densities from absolute values.

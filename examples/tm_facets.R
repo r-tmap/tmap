@@ -6,8 +6,8 @@ data(NLD_prov)
 
 # Facets defined by constant values
 tm_shape(World) +
-    tm_fill(c("forestgreen", "sandybrown")) +
-tm_layout_World(c("A green world", "A barren world"), bg.color="lightcyan3", 
+    tm_fill(c("forestgreen", "goldenrod")) +
+tm_layout_World(c("A green world", "A dry world"), bg.color="lightcyan3", 
 	title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables

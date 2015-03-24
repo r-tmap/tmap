@@ -2,7 +2,7 @@
 % Please edit documentation in R/split_lines_equal.R
 \name{split_lines_equal}
 \alias{split_lines_equal}
-\title{Split lines in segments of equal length.}
+\title{Split lines in segments of equal length}
 \usage{
 split_lines_equal(shp, dist = 1000, include.last = FALSE)
 }

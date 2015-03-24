@@ -8,7 +8,8 @@
 #'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
-#' }#' @param f factor to split \code{x}
+#' }
+#' @param f factor to split \code{x}
 #' @param drop unused factor levels are dropped
 #' @param ... other arguments (not used)
 #' @return List of shape objects.

@@ -2,7 +2,7 @@
 % Please edit documentation in R/approx_areas.R
 \name{approx_areas}
 \alias{approx_areas}
-\title{Approximate area sizes of the shapes.}
+\title{Approximate area sizes of the shapes}
 \usage{
 approx_areas(shp, total.area.km2 = NA, units = NULL)
 }
@@ -31,11 +31,12 @@ To approximate the sizes in squared kilometer, \code{total.area.km2} is required
 \examples{
 data(World)
 
-World$area_approx <- approx_areas(World) /1e6
-World$area_diff <- (World$area_approx - World$area) / World$area
+data(NLD_muni)
 
-qtm(World, fill="area_diff", 
-	title="Relative difference between	approximated and specified area size", 
-	inner.margins=c(0,.1,.2,0))
+NLD_muni$area <- approx_areas(NLD_muni, total.area.km2 = 33893)
+
+tm_shape(NLD_muni) +
+	tm_bubbles(size="area") +
+	tm_layout("Area in km2")
 }
 

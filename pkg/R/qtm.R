@@ -67,7 +67,11 @@ qtm <- function(shp,
 	g <- do.call("tm_shape", c(list(shp=shp), args2[["tm_shape"]]))
 	if (!is.null(borders)) g <- g + do.call("tm_borders", c(list(col=borders), args2[["tm_borders"]]))
 	if (!is.null(fill)) g <- g + do.call("tm_fill", c(list(col=fill), args2[["tm_fill"]]))
-	if (!missing(bubble.size) || !missing(bubble.col)) g <- g + do.call("tm_bubbles", c(list(size=bubble.size, col=bubble.col), args2[["tm_bubbles"]]))
+	if (!missing(bubble.size) || !missing(bubble.col)) {
+		bubbleLst <- c(if (!missing(bubble.size)) list(size=bubble.size) else list(),
+					   if (!missing(bubble.col)) list(col=bubble.col) else list())
+		g <- g + do.call("tm_bubbles", c(bubbleLst, args2[["tm_bubbles"]]))	
+	} 
 	
 	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, cex=text.cex), args2[["tm_text"]]))
 	

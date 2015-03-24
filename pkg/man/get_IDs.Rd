@@ -12,7 +12,7 @@ get_IDs(shp)
  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
-}#'}
+}}
 }
 \value{
 vector of ID's

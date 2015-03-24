@@ -145,9 +145,9 @@ tm_layout_Europe(legend.titles = c(fill="GDP per capita"))
 
 
 
-### Complete workflow
+### Complete work flow
 
-Besides the `ggplot2`-style plotting functions, the package also offers functions to set up a workflow that is sufficient for most statistical applications.
+Besides the `ggplot2`-style plotting functions, the package also offers functions to set up a work flow that is sufficient for most statistical applications.
 
 * Loading and preprocessing shape objects
     + read ESRI shape files and write them with respectively [`read_shape`](../html/read_shape.html) and [`write_shape`](../html/write_shape.html);
@@ -155,6 +155,7 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
     + crop shape objects with [`crop_shape`](../html/crop_shape.html);
     + append data with [`append_data`](../html/append_data.html);
     + approximate area sizes and calculate density variables respectively with [`approx_areas`](../html/approx_areas.html) and [`calc_densities`](../html/calc_densities.html).
+    + split or combine shape objects with [`split`](../html/split_shapes.html) and [`sbind`](../html/sbind.html)
 * Plotting shape objects
     + With the [quick plotting](#qplot) function [`qtm`](../html/qtm.html), or the [main plotting method](#plot).
 * Saving the output for publication and presentation
@@ -166,7 +167,7 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
     	tm_fill("gdp_cap_est", textNA="Non-European countries") +
     	tm_borders() +
     	tm_text("iso_a3", cex="pop_est") + 
-    tm_layout("GDP per capita", scale=1)      
+    tm_layout("GDP per capita")      
     dev.off()
     ```
     The `scale` argument in [`tm_layout`](../html/tm_layout.html) is very useful as overall scalar (similar to the `scale` argument in `ggplot2`'s `ggsave`).
@@ -191,10 +192,12 @@ Some other functions which may be helpful:
 * get ID's of the shape items with [`get_IDs`](../html/get_IDs.html);
 * get ranges of the polygons with [`get_polygon_ranges`](../html/get_polygon_ranges.html).
 
-Functions that are in experimental stage:
+Miscellaneous functions for processing purposes, which are in experimental stage:
 
-* [`fit_polylines`](../html/fit_polylines.html) to fit a polyline from a set of spatial points;
 * [`double_line`](../html/double_line.html) to create a double polyline (railway track);
+* [`fit_polylines`](../html/fit_polylines.html) to fit a polyline from a set of spatial points;
+* [`get_' and 'set_polygon_directions`](../html/get_polygon_directions.html) to get and set the polygon directions;
+* [`map_points_to_line`](../html/map_points_to_line.html) to map points to a spatial lines object;
 * [`split_lines_equal`](../html/split_lines_equal.html) to split polylines into parts of equal length;
 * [`split_lines_poly`](../html/split_lines_poly.html) to split polylines by a polygon shape object.
 

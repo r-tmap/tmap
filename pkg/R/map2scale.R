@@ -10,8 +10,16 @@
 #' @return vector of index numbers
 map2divscaleID <- function(breaks, n=101, contrast=1) {
 	nbrks <- length(breaks)
-	mx <- max(abs(breaks))
+    
+    lw <- breaks[1]
+    hg <- breaks[nbrks]
+    
+    # omit infinity values
+    if (lw==-Inf) lw <- breaks[2]
+	if (hg==Inf) hg <- breaks[nbrks-1]
+	mx <- max(abs(c(lw, hg)))
 	
+    
 	is.div <- any(breaks<0) && any(breaks>0)
 	
 	cat0 <- !any(breaks==0)
@@ -32,11 +40,10 @@ map2divscaleID <- function(breaks, n=101, contrast=1) {
 	nid <- h - step
 	
 	ids <- rep(h, nbrks-1)
-	if (npos>0) ids[(nbrks-npos):(nbrks-1)] <- pid + seq(0, (n-pid)/mx*breaks[nbrks]*contrast, 
-														 length.out=npos)
-	if (nneg>0) ids[1:nneg] <- seq(nid-((nid-1)/mx*-breaks[1]*contrast), nid, 
-								   length.out=nneg)
-	
+	if (npos>0) ids[(nbrks-npos):(nbrks-1)] <- pid + 
+        seq(0, (n-pid)/mx*hg*contrast, length.out=npos)
+	if (nneg>0) ids[1:nneg] <- seq(nid-((nid-1)/mx*-lw*contrast), nid, 
+                                   length.out=nneg)	
 	ids
 }
 

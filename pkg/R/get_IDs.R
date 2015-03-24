@@ -7,7 +7,8 @@
 #'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
-#' }#' @return vector of ID's
+#' }
+#' @return vector of ID's
 #' @export
 get_IDs <- function(shp) {
 	if (inherits(shp, "SpatialPolygons")) {
