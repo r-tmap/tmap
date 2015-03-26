@@ -278,10 +278,14 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 		treeLegend <- legend_plot(gt, leg, legend_pos)
 		treeLegendX <- gTree(children=gList(grobLegendBG, treeLegend))
 		
-		treeMapX <- addGrob(treeMapX, child=treeLegendX, gPath=gPath("outer_map", "aspvp"))
 		
+		if (!gt$legend.only) {
+			treeMapX <- addGrob(treeMapX, child=treeLegendX, gPath=gPath("outer_map", "aspvp"))
+			upViewport(d)
+		} else {
+			treeMapX <- treeLegendX
+		}
 		
-		if (!gt$legend.only) upViewport(d)
 	} else {
 		treeLegendX <- NULL
 	}

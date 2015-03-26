@@ -10,7 +10,7 @@
 Package: \tab tmap\cr
 Type: \tab Package\cr
 Version: \tab 0.7\cr
-Date: \tab 2015-03-25\cr
+Date: \tab 2015-03-26\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }

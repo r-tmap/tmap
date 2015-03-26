@@ -20,6 +20,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
+						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text = textNA)
 		fill.breaks <- colsLeg[[4]]

@@ -23,7 +23,7 @@ legend_plot <- function(gt, x, legend_pos) {
 	ishist <- (substr(conf, nchar(conf)-3, nchar(conf))=="hist")
 	conf2 <- ifelse(ishist, substr(conf, 1, nchar(conf)-5), conf)
 	
-	if (!length(conf) || gt$legend.only) title.only <- TRUE
+	if (!length(conf)) title.only <- TRUE # || gt$legend.only
 
 	if (!title.only) {
 		for (i in 1:length(gt$legend.titles)) {
@@ -102,7 +102,7 @@ legend_plot <- function(gt, x, legend_pos) {
 
 # translate automatic position settings
 	positions <- with(gt, {
-		if (is.character(title.position) && all(title.position==legend.position)){
+		if (is.character(title.position) && all(title.position==legend.position) && !title.only){
 			## title is stacked on legend
 			title.position <- c(switch(title.position[1], 
 									   left=0.02, 
@@ -133,8 +133,8 @@ legend_plot <- function(gt, x, legend_pos) {
 										   right=.98-titleWidth),
 									switch(title.position[2], 
 										   top=1-titleHeight*.75, 
-										   center=(1-titleHeight)/2, 
-										   centre=(1-titleHeight)/2, 
+										   center=.5,
+										   centre=.5,
 										   bottom=titleHeight*.25))	
 			}
 			

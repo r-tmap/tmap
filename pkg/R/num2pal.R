@@ -5,7 +5,8 @@ num2pal <- function(x, n = 5,
 					   auto.palette.mapping = TRUE,
 					   contrast = 1,
 					   legend.labels = NULL,
-					   legend.digits = 2,
+					   legend.scientific = FALSE,
+					   legend.digits = NA,
 					   colorNA = "#FF1414",
 					   legend.NA.text = "Missing") {
 	
@@ -58,12 +59,25 @@ num2pal <- function(x, n = 5,
 	}
 	# create legend labels
 	if (is.null(legend.labels)) {
-		
 		#breaks.printed <- sprintf(paste("%.", legend.digits, "f", sep=""), breaks) 
-		breaks.printed <- fancy_breaks(breaks, dp=legend.digits) 
-		legend.labels <- paste(breaks.printed[-nbrks], breaks.printed[-1], sep=" to ")
-		#legend.labels[length(legend.labels)] <- paste(substr(legend.labels[length(legend.labels)], 
-		#													 1, nchar(legend.labels[length(legend.labels)])-1), "]", sep="")
+		if (legend.scientific) {
+			if (is.na(legend.digits)) {
+				breaks.printed <- formatC(breaks, flag="#")
+			} else {
+				breaks.printed <- formatC(breaks, digits=legend.digits, flag="#")
+			}
+			legend.labels <- paste("[", breaks.printed[-nbrks], ", ", breaks.printed[-1], ")", sep="")
+			legend.labels[length(legend.labels)] <- paste(substr(legend.labels[length(legend.labels)], 
+																 1, nchar(legend.labels[length(legend.labels)])-1), "]", sep="")
+			
+		} else {
+			breaks.printed <- fancy_breaks(breaks, dp=legend.digits) 
+			breaks.printed[breaks==-Inf] <- ""
+			legend.labels <- paste(breaks.printed[-nbrks], breaks.printed[-1], sep=" to ")
+			if (breaks[1]==-Inf) legend.labels[1] <- paste("Less than", breaks.printed[2])
+			if (breaks[nbrks]==Inf) legend.labels[nbrks-1] <- paste(breaks.printed[nbrks-1], "or more")
+		}
+		
 	} else {
 		if (length(legend.labels)!=nbrks-1) warning(paste("number of legend labels should be", nbrks-1))
 		legend.labels <- rep(legend.labels, length.out=nbrks-1)

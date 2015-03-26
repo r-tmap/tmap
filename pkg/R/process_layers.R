@@ -12,9 +12,29 @@ process_layers <- function(g, gt, gf) {
 		data$GROUP_BY <- factor("_NA_")
 		by <- NA
 	} else {
-		data$GROUP_BY <- as.factor(data[[g$tm_shape$by]])
+		d <- data[[g$tm_shape$by]]
+		data$GROUP_BY <- if (is.factor(d)) {
+			factor(as.character(d), levels=levels(d)[table(d)>0])
+		} else {
+			factor(d)
+		}
 		by <- levels(data$GROUP_BY)
 	}
+	
+	
+	# 	data_by <- lapply(1:nshps, function(i) {
+	# 		if (gf$shp_nr[i]==0) {
+	# 			NULL
+	# 		} else {
+	# 			d <- gp[[gf$shp_nr[i]]]$data_by
+	# 			if (is.factor(d)) {
+	# 				factor(as.character(d), levels=levels(d)[table(d)>0])
+	# 			} else {
+	# 				factor(d)
+	# 			}
+	# 		}
+	# 	})
+	
 	
 	
 	# determine plotting order 

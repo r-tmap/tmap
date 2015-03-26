@@ -70,7 +70,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 
 	
 	group_by <- any(gm$shp_nr != 0) && gm$free.coords
-	group_split <- group_by && gm$split
+	group_split <- group_by && gm$drop.shapes
 	
 	if (group_by) {
 		if (is.na(pasp)) pasp <- dasp

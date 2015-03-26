@@ -19,6 +19,7 @@ process_line_col_vector <- function(x, g, gt) {
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
+						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text=g$textNA)
 		line.col <- colsLeg[[1]]

@@ -29,6 +29,7 @@
 #' @param legend.title.cex Relative font size for the legend title
 #' @param legend.text.cex Relative font size for the legend text elements
 #' @param legend.hist.cex Relative font size for the choropleth histogram
+#' @param legend.scientific logical. Should the numeric legend labels be formatted scientific?
 #' @param legend.digits Number of digits for the legend labels
 #' @param legend.bg.color Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param ... other arguments from \code{tm_layout}
@@ -62,6 +63,7 @@ tm_layout <- function(title=NA,
 					  legend.title.cex=1.0,
 					  legend.text.cex=0.7,
 					  legend.hist.cex=0.7,
+					  legend.scientific = FALSE,
 					  legend.digits = NA,
 					  legend.bg.color = NA) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))

@@ -91,17 +91,11 @@ process_tm <- function(x, asp_ratio) {
 	gp <- lapply(gs, FUN=process_layers, gt, gf)
 	
 	## get by vector
-	data_by <- lapply(1:nshps, function(i) {
-		if (gf$shp_nr[i]==0) {
-			NULL
-		} else {
-			gp[[gf$shp_nr[i]]]$data_by
-		}
-	})
+	data_by <- lapply(gp, function(i)i$data_by)
 
-	## for each 'grouped by' shape, where split=TRUE, get order ids (used by split_tm) 
+	## for each 'grouped by' shape, where drop.shapes=TRUE, get order ids (used by split_tm) 
 	order_by <- lapply(data_by, function(d) {
-		if (is.null(d) || !gf$split) {
+		if (levels(d)[1]=="_NA_" || !gf$drop.shapes) {
 			NULL
 		} else {
 			lapply(1:nlevels(d), function(i)which(as.numeric(d)==i))

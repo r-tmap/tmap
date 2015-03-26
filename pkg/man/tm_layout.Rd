@@ -18,8 +18,8 @@ tm_layout(title = NA, scale = 1, title.cex = 1.5, bg.color = NULL,
   FALSE), legend.width = 0.3, legend.height = 0.9,
   legend.hist.height = 0.3, legend.config = c("fill_hist", "fill",
   "bubble.size", "bubble.col", "line.col", "line.lwd"), legend.title.cex = 1,
-  legend.text.cex = 0.7, legend.hist.cex = 0.7, legend.digits = NA,
-  legend.bg.color = NA)
+  legend.text.cex = 0.7, legend.hist.cex = 0.7, legend.scientific = FALSE,
+  legend.digits = NA, legend.bg.color = NA)
 
 tm_layout_World(title = NA, scale = 0.85, title.bg.color = TRUE,
   inner.margins = c(0, 0.02, 0.02, 0.02), legend.position = c("left",
@@ -83,6 +83,8 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 
 \item{legend.hist.cex}{Relative font size for the choropleth histogram}
 
+\item{legend.scientific}{logical. Should the numeric legend labels be formatted scientific?}
+
 \item{legend.digits}{Number of digits for the legend labels}
 
 \item{legend.bg.color}{Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
@@ -104,7 +106,7 @@ tm_layout_Africa <- function(title=NA,
 							 draw.frame = FALSE,
 							 title.position=c("left", "bottom"), 
 							 legend.position = c("left", "bottom"), 
-							 bg.color = "lightcyan3", ...) {
+							 bg.color = "lightskyblue2", ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }

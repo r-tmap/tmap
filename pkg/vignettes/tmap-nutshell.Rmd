@@ -48,9 +48,11 @@ qtm(Europe)
 A choropleth is created with the following code:
 
 ```{r, fig.height=5}
-qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", title="GDP per capita", 
+qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="AREA", root=5, title="GDP per capita", 
 	fill.textNA="Non-European countries", theme="Europe")
 ```
+
+In this code, `fill` and `text` serve as aesthetics. Both `gdp_cap_est` and `iso_a3` are variables of the data contained in the shape object `Europe`. The arguments `text.cex` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `title` argument speaks for itself. The argument `fill.textNA` is the legend text for missing values (the `gdp_cap_est` variable has missing values for non-European countries). The `theme` argument specifies predefined layout settings for this shape object (which are in this case the inner margins).
 
 The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (see below). However, for more complex plots, the main plotting method is recommended for tis readability.
 
@@ -58,22 +60,17 @@ The function [`qtm`](../html/qtm.html) offers the same flexibility as the main p
 
 The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [elements](../html/tmap-element.html) that start with `tm_`. The first element to start with is [`tm_shape`](../html/tm_shape.html), which specifies the shape object. Next, one, or a combination of the following drawing layers should be specified:
 
-|Drawing layer	| Main arguments	|
-|---	|---	|
-|[`tm_fill`](../html/tm_fill.html)   	| col<sup>1</sup>  	|
-|[`tm_bubbles`](../html/tm_bubbles.html)   	| size<sup>1</sup>, col<sup>1</sup>  	|
-|[`tm_lines`](../html/tm_lines.html)		| col<sup>1</sup>, lwd<sup>1</sup>		|
-|[`tm_text`](../html/tm_text.html)   	| text<sup>2</sup>, cex<sup>3</sup>  	|
-|[`tm_borders`](../html/tm_borders.html)   	| col<sup>4</sup>, lwd<sup>4</sup>  	|
+|Drawing layer	| Description | Main arguments	|
+|---	|---	|---  |
+|[`tm_fill`](../html/tm_fill.html)   	| Fills the polygons | col<sup>\*</sup>  	|
+|[`tm_borders`](../html/tm_borders.html)   	| Draws polygon borders | col<sup></sup>, lwd<sup></sup>  	|
+|[`tm_bubbles`](../html/tm_bubbles.html)   	| Draws bubbles | size<sup>\*</sup>, col<sup>\*</sup>  	|
+|[`tm_lines`](../html/tm_lines.html)		| Draws polylines | col<sup>\*</sup>, lwd<sup>\*</sup>	|
+|[`tm_text`](../html/tm_text.html)   	| Add text labels | text<sup>\+</sup>, cex<sup>\+</sup>  	|
+|[`tm_grid`](../html/tm_grid.html)   	| Add coordinate grid lines |   	|
 
-where the numbers mean the following:
 
-1. These arguments can be used in two ways:
-   + To assign fixed, constant values. For instance `tm_fill(col="blue")`.
-   + To assign a data variable. For instance `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object. This variable can be numerical, and in for `col`, also categorical (i.e., `factor`). These 5 arguments are currently the only statistical attributes for which also a legend is generated.
-2. The text attribute of [`tm_text`](../html/tm_text.html) should be the name of a data variable.
-3. The cex attribute of [`tm_text`](../html/tm_text.html), i.e. the relative fontsize, can be used for a constant value and a statistical variable (like number 2), but no legend is generated.
-4. Only constant values can be assigned to these arguments. For instance `tm_borders(col="gray50", lwd=2)`.
+The arguments with superscript symbols can be used as aesthetics. Both constant values as well as data variable names can be assigned to these arguments. For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth. Only for the five arguments with a <sup>\*</sup>, a legend can be drawn.
 
 The last plot is reproduced as follows:
 
@@ -81,7 +78,7 @@ The last plot is reproduced as follows:
 tm_shape(Europe) +
 	tm_fill("gdp_cap_est", textNA="Non-European countries") +
 	tm_borders() +
-	tm_text("iso_a3", cex="pop_est") + 
+	tm_text("iso_a3", cex="AREA", root=5) + 
 tm_layout_Europe("GDP per capita")
 ```
 
@@ -137,15 +134,15 @@ tm_layout_Europe(legend.titles = c(fill="GDP per capita"))
 
 Like `ggplot2`'s small multiples (controlled by the functions `facet_wrap`  and `facet_grid`), each scale can be set to either fixed or free. Each statistical attribute has a scale as well as the coordinates of the shape object:
 ```{r, fig.width=10}
-tm_shape(Europe) +
-	tm_fill("gdp_cap_est", style="kmeans") +
-tm_facets("part", free.coords=TRUE, free.scales.fill=TRUE) +
-tm_layout_Europe(legend.titles = c(fill="GDP per capita"))
+tm_shape(Europe[Europe$continent=="Europe",]) +
+	tm_fill("part") +
+tm_facets("name", free.coords=TRUE, drop.shapes=TRUE) +
+	tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.cex = 2)
 ```
 
 
 
-### Complete work flow
+### Complete work flow for creating thematic maps
 
 Besides the `ggplot2`-style plotting functions, the package also offers functions to set up a work flow that is sufficient for most statistical applications.
 
@@ -156,8 +153,10 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
     + append data with [`append_data`](../html/append_data.html);
     + approximate area sizes and calculate density variables respectively with [`approx_areas`](../html/approx_areas.html) and [`calc_densities`](../html/calc_densities.html).
     + split or combine shape objects with [`split`](../html/split_shapes.html) and [`sbind`](../html/sbind.html)
+    
 * Plotting shape objects
     + With the [quick plotting](#qplot) function [`qtm`](../html/qtm.html), or the [main plotting method](#plot).
+    
 * Saving the output for publication and presentation
     + With the usual R functions to save a pdf, png, jpeg, etc.:
     
@@ -166,7 +165,7 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
     tm_shape(Europe) +
     	tm_fill("gdp_cap_est", textNA="Non-European countries") +
     	tm_borders() +
-    	tm_text("iso_a3", cex="pop_est") + 
+    	tm_text("iso_a3", cex="AREA", root=5) + 
     tm_layout("GDP per capita")      
     dev.off()
     ```

@@ -7,7 +7,7 @@ data(NLD_prov)
 # Facets defined by constant values
 tm_shape(World) +
     tm_fill(c("forestgreen", "goldenrod")) +
-tm_layout_World(c("A green world", "A dry world"), bg.color="lightcyan3", 
+tm_layout_World(c("A green world", "A dry world"), bg.color="lightskyblue2", 
 	title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables
@@ -22,7 +22,7 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders() +
 	tm_layout_NLD(c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
-		"Population 45 to 64", "Population 65 and older"), draw.frame = TRUE)
+		"Population 45 to 64", "Population 65 and older"), draw.frame = TRUE, asp=0)
 
 
 # Facets defined by groupings

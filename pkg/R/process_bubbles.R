@@ -26,6 +26,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
+						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text=g$textNA)
 		bubble.col <- colsLeg[[1]]

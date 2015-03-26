@@ -9,7 +9,7 @@ tm_layout_Africa <- function(title=NA,
 							 draw.frame = FALSE,
 							 title.position=c("left", "bottom"), 
 							 legend.position = c("left", "bottom"), 
-							 bg.color = "lightcyan3", ...) {
+							 bg.color = "lightskyblue2", ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
