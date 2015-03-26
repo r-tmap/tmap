@@ -23,7 +23,7 @@
 #'    	See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
 #' Use \code{\link{set_projection}} to reproject the shape object.
 #' @return shape object
-#' @note For the Netherlands: this function tries to fix a common projection bug regarding the Dutch Rijksdriehoekstelsel (Dutch National Grid). See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} for details.
+#' @note For the Netherlands: often, the Dutch Rijksdriehoekstelsel (Dutch National Grid) projection is provided in the shape file without proper datum shift parameters to wgs84. This functions automatically adds these parameters. See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} (in Dutch) for details.
 #' @import rgdal
 #' @import sp
 #' @export
@@ -54,7 +54,7 @@ read_shape <- function(file, current.projection=NULL){
 			warning("Projection already specified in shape file. Use set_projection for reprojection.")
 		}
 			
-		## rd projection correction: add towgs84 parameter
+		## rd projection correction: add towgs84 parameter to frequently used rd projection strings
 		if (prj %in% c("+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs",
 					   "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs",
 					   "+proj=sterea +lat_0=52.156161 +lon_0=5.387639 +k=0.999908 +x_0=155000 +y_0=463000 +ellps=bessel +units=m +no_defs")) {

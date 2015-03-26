@@ -20,7 +20,7 @@
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @export
 qtm <- function(shp, 
-				fill="grey90",
+				fill="grey85",
 				bubble.size=NULL,
 				bubble.col=NULL,
 				text=NULL,
@@ -29,9 +29,10 @@ qtm <- function(shp,
 				line.col=NULL,
 				borders="grey40",
 				theme=NULL,
-				scale=1,
+				scale=NA,
 				...) {
 	args <- list(...)
+	shp_name <- deparse(substitute(shp))
 	if (!inherits(shp, "SpatialPolygons")) {
 		fill <- NULL
 		borders <- NULL
@@ -65,8 +66,12 @@ qtm <- function(shp,
 	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)
 	
 	g <- do.call("tm_shape", c(list(shp=shp), args2[["tm_shape"]]))
+	g$tm_shape$shp_name <- shp_name
 	if (!is.null(borders)) g <- g + do.call("tm_borders", c(list(col=borders), args2[["tm_borders"]]))
 	if (!is.null(fill)) g <- g + do.call("tm_fill", c(list(col=fill), args2[["tm_fill"]]))
+
+	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("tm_lines", c(list(lwd=line.lwd, col=line.col), args2[["tm_lines"]]))
+	
 	if (!missing(bubble.size) || !missing(bubble.col)) {
 		bubbleLst <- c(if (!missing(bubble.size)) list(size=bubble.size) else list(),
 					   if (!missing(bubble.col)) list(col=bubble.col) else list())
@@ -75,16 +80,15 @@ qtm <- function(shp,
 	
 	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, cex=text.cex), args2[["tm_text"]]))
 	
-	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("tm_lines", c(list(lwd=line.lwd, col=line.col), args2[["tm_lines"]]))
-	
 	if (length(args2[["tm_facets"]])) g <- g + do.call("tm_facets", args2[["tm_facets"]])
 
+	scaleLst <- if (!missing(scale)) list(scale=scale) else list()
 	if (missing(theme)) {
-		g <- g + do.call("tm_layout", c(list(scale=scale), args2[["tm_layout"]]))	
+		g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))	
 	} else {
 		if (!(theme %in% c("World", "Europe", "NLD"))) stop("Unknown theme")
 		funct <- paste("tm_layout", theme, sep="_")
-		g <- g + do.call(funct, c(list(scale=scale), args2[["tm_layout"]]))
+		g <- g + do.call(funct, c(scaleLst, args2[["tm_layout"]]))
 	}
 	
 	g

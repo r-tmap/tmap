@@ -9,11 +9,12 @@
 #'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
 #' }
 #' @param bbox rectangle to crop the \code{shp} with. It is represented by a 2x2 matrix in which the x and y coordiantes are respectively row 1 and 2, and the minimum and maximum values are respectively column 1 and 2. By default the bounding box of \code{shp} is taken.
+#' @param set.bbox logical that determines whether the bounding box of \code{shp} is set to \code{bbox}. If \code{FALSE}, the bounding box is determined by \code{shp} after cropping.
 #' @return A cropped shape object. Its bounding box is set to \code{bb}. Data is retained in case \code{shp} has data. A vector of matched ID's is stored as a attribute \code{matchID}. This vector contains for each polygon in the returned shape object the number of its orignal polygon in \code{shp}.
 #' @import rgeos
 #' @import sp
 #' @export
-crop_shape <- function(shp, bbox=shp@bbox) {
+crop_shape <- function(shp, bbox=shp@bbox, set.bbox=TRUE) {
 	if (inherits(shp, "SpatialPoints")) {
 		coor <- coordinates(shp)
 		indices <- (coor[, 1] >= bbox[1,1] &
@@ -34,7 +35,7 @@ crop_shape <- function(shp, bbox=shp@bbox) {
 							  proj4string=CRS(proj4string(shp)))
 		suppressWarnings(shp2 <- gIntersection(shp, BB, byid=TRUE))
 		
-		shp2@bbox <- bbox
+		if (set.bbox) shp2@bbox <- bbox
 		ids <- get_IDs(shp)
 		ids2 <- gsub(" [0-9]+$", "", get_IDs(shp2))
 		indices <- match(ids2, ids)

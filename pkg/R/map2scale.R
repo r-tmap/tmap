@@ -1,13 +1,11 @@
-
-
-#' Map breaks to index numbers of a diverging colour scale
-#' 
-#' Determines index numbers of a potential diverging colour scale given a vector of breaks.
-#'
-#' @param breaks vector of breaks
-#' @param n number of classes, i.e. the length of a diverging colour palette. This should preferable be an odd number, since it contains a neutral middle color.
-#' @param contrast value between 0 and 1 that determines how much of the \code{(1, n)} range is used. Value \code{contrast=1} means that the most extreme break value, i.e. \code{max(abs(breaks))} is maped to either 1 or n (depending on whether it is a minimum or maximum). There is no contrast at all for \code{contrast=0}, i.e. all index numbers will correspond to the middle class (which has index number \code{((n-1)/2)+1}.
-#' @return vector of index numbers
+# Map breaks to index numbers of a diverging colour scale
+# 
+# Determines index numbers of a potential diverging colour scale given a vector of breaks.
+# 
+# @param breaks vector of breaks
+# @param n number of classes, i.e. the length of a diverging colour palette. This should preferable be an odd number, since it contains a neutral middle color.
+# @param contrast value between 0 and 1 that determines how much of the \code{(1, n)} range is used. Value \code{contrast=1} means that the most extreme break value, i.e. \code{max(abs(breaks))} is maped to either 1 or n (depending on whether it is a minimum or maximum). There is no contrast at all for \code{contrast=0}, i.e. all index numbers will correspond to the middle class (which has index number \code{((n-1)/2)+1}.
+# @return vector of index numbers
 map2divscaleID <- function(breaks, n=101, contrast=1) {
 	nbrks <- length(breaks)
     
@@ -49,14 +47,14 @@ map2divscaleID <- function(breaks, n=101, contrast=1) {
 
 
 
-#' Map breaks to index numbers of a sequential colour scale
-#' 
-#' Determines index numbers of a potential sequential colour scale given a vector of breaks.
-#'
-#' @param breaks vector of breaks
-#' @param n number of classes, i.e. the length of a sequential colour palette.
-#' @param contrast value between 0 and 1 that determines how much of the \code{(1, n)} range is used. Value \code{contrast=1} means that the most extreme break value, i.e. \code{max(abs(breaks))} is maped to n. There is no contrast at all for \code{contrast=0}, i.e. all index numbers will correspond to the first class (which has index number \code{1}.
-#' @return vector of index numbers
+# Map breaks to index numbers of a sequential colour scale
+# 
+# Determines index numbers of a potential sequential colour scale given a vector of breaks.
+# 
+# @param breaks vector of breaks
+# @param n number of classes, i.e. the length of a sequential colour palette.
+# @param contrast value between 0 and 1 that determines how much of the \code{(1, n)} range is used. Value \code{contrast=1} means that the most extreme break value, i.e. \code{max(abs(breaks))} is maped to n. There is no contrast at all for \code{contrast=0}, i.e. all index numbers will correspond to the first class (which has index number \code{1}.
+# @return vector of index numbers
 map2seqscaleID <- function(breaks, n=101, contrast=1) {
 	if (any(breaks<0) && any(breaks>0)) stop("Breaks contains positive and negative values. Use diverging scale instead.")
 	m <- (n*2)-1

@@ -15,5 +15,5 @@ qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est",
 qtm(World, fill="pop_est_dens", theme="World", fill.style="kmeans", title="Population per km")
 
 # bubble map
-qtm(World, borders = "grey60") + qtm(cities, bubble.size = "pop_max", bubble.col="steelblue", 
-	legend.show=FALSE, title="Cities of the World", theme = "World", bubble.scale=.5)
+qtm(World, borders = NA) + qtm(cities, bubble.size = "pop_max", bubble.col="purple", 
+	title="Cities of the World", theme = "World", bubble.scale=.5)

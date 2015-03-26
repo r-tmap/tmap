@@ -37,6 +37,6 @@ Read an ESRI shape file. Optionally, set the current projection if it is missing
 This function is a convenient wrapper of readOGR of the package rgdal. It is possible to set the current projection, if it is undefined in the shape file. If a reprojection is required, use \code{\link{set_projection}}.
 }
 \note{
-For the Netherlands: this function tries to fix a common projection bug regarding the Dutch Rijksdriehoekstelsel (Dutch National Grid). See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} for details.
+For the Netherlands: often, the Dutch Rijksdriehoekstelsel (Dutch National Grid) projection is provided in the shape file without proper datum shift parameters to wgs84. This functions automatically adds these parameters. See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} (in Dutch) for details.
 }
 

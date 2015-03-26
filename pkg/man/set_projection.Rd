@@ -18,7 +18,7 @@ get_projection(shp)
  \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
 }}
 
-\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts:
+\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string or one of the following shortcuts:
 \describe{
        \item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).}
        \item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise}
@@ -34,6 +34,7 @@ get_projection(shp)
        \item{\code{"eqc45"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 45 is the standard parallel. Also known as Gall isographic. Type: equidistant}
        \item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
        See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
+       See \url{http://trac.osgeo.org/proj/} for the \code{PROJ.4} project home page. An extensive list of \code{PROJ.4} codes can be created with rgdal's \code{\link[rgdal:make_EPSG]{make_EPSG}}.
        By default, the projection is used that is defined in the \code{shp} object itself.}
 
 \item{current.projection}{the current projection of \code{shp}. Only use this if the current projection is missing.}

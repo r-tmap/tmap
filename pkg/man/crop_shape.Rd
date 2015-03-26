@@ -4,7 +4,7 @@
 \alias{crop_shape}
 \title{Crop shape objects}
 \usage{
-crop_shape(shp, bbox = shp@bbox)
+crop_shape(shp, bbox = shp@bbox, set.bbox = TRUE)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -15,6 +15,8 @@ crop_shape(shp, bbox = shp@bbox)
 }}
 
 \item{bbox}{rectangle to crop the \code{shp} with. It is represented by a 2x2 matrix in which the x and y coordiantes are respectively row 1 and 2, and the minimum and maximum values are respectively column 1 and 2. By default the bounding box of \code{shp} is taken.}
+
+\item{set.bbox}{logical that determines whether the bounding box of \code{shp} is set to \code{bbox}. If \code{FALSE}, the bounding box is determined by \code{shp} after cropping.}
 }
 \value{
 A cropped shape object. Its bounding box is set to \code{bb}. Data is retained in case \code{shp} has data. A vector of matched ID's is stored as a attribute \code{matchID}. This vector contains for each polygon in the returned shape object the number of its orignal polygon in \code{shp}.

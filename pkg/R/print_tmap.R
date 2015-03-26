@@ -41,9 +41,23 @@ print.tmap <- function(x, vp=NULL, ...) {
 		y
 	}, x[shape.id], datasets, SIMPLIFY=FALSE)
 	
+	if (is.null(vp)) {
+		grid.newpage()
+	} else {
+		if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
+	}
+	
+	inner.margins <- if ("tm_layout" %in% names(x)) {
+		x[[which(names(x)=="tm_layout")[1]]]$inner.margins
+	} else {
+		inner.margins <- rep(.02, 4)	
+	}
+	
+	shp1_asp_marg <- shp1_asp * (1+sum(inner.margins[c(2,4)])) / (1+sum(inner.margins[c(1,3)]))
+	
 	dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE) / convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
 	
-	asp_ratio <- shp1_asp / dev_asp
+	asp_ratio <- shp1_asp_marg / dev_asp
 	
 	result <- process_tm(x, asp_ratio)
 	
@@ -52,11 +66,6 @@ print.tmap <- function(x, vp=NULL, ...) {
 	nx <- result$nx
 	data_by <- result$data_by
 	
-	if (is.null(vp)) {
-		grid.newpage()
-	} else {
-		if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
-	}
 	
 	margins <- gmeta$outer.margins
 	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
@@ -109,13 +118,10 @@ print.tmap <- function(x, vp=NULL, ...) {
 	}
 	
 	
-	#grid.newpage()
-	
 	shps.env <- environment()#new.env()
 	#assign("shps", shps, envir=shps.env)
 	
 	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, legend_pos)
-	
 	invisible()
 }
 

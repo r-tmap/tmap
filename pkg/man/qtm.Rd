@@ -4,9 +4,9 @@
 \alias{qtm}
 \title{Quick thematic map plot}
 \usage{
-qtm(shp, fill = "grey90", bubble.size = NULL, bubble.col = NULL,
+qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
   text = NULL, text.cex = 1, line.lwd = NULL, line.col = NULL,
-  borders = "grey40", theme = NULL, scale = 1, ...)
+  borders = "grey40", theme = NULL, scale = NA, ...)
 }
 \arguments{
 \item{shp}{shape object. For \code{\link{tm_fill}} and \code{\link{tm_bubbles}}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} or a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is requied.
@@ -58,8 +58,8 @@ qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est",
 qtm(World, fill="pop_est_dens", theme="World", fill.style="kmeans", title="Population per km")
 
 # bubble map
-qtm(World, borders = "grey60") + qtm(cities, bubble.size = "pop_max", bubble.col="steelblue", 
-	legend.show=FALSE, title="Cities of the World", theme = "World", bubble.scale=.5)
+qtm(World, borders = NA) + qtm(cities, bubble.size = "pop_max", bubble.col="purple", 
+	title="Cities of the World", theme = "World", bubble.scale=.5)
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

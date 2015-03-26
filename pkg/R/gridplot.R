@@ -1,16 +1,16 @@
 gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, legend_pos) {
 	cl <- rw <- 1
 	
-	
 	np <- ceiling(nx / (mfrow * mfcol))
 	
 	pp <- min(mfrow * mfcol, nx)
 
+	
+	
 	treeMlts <- lapply(1:np, function(k) {
 		if (k!=1) {
 			grid.newpage()
 		}
-		
 		vpGrid <- viewport(layout=grid.layout(mfrow, mfcol, widths=unit(1/mfcol-1e-5, "npc"), heights=unit(1/mfrow-1e-5, "npc")), name = "multiples_grid")
 		pushViewport(vpGrid)
 		

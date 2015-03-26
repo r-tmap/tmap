@@ -5,17 +5,32 @@ process_meta <- function(gt, gf, gg, nx, varnames, asp_ratio) {
 	gf <- within(gf, {
 		by <- NULL
 		if (is.null(ncol) && is.null(nrow)) {
-			## default setting: place next to each other, or in grid
-			ncol <- round(sqrt(nx/asp_ratio))
-			nrow <- ceiling(nx / ncol)
-# 			
-# 			if (nx <= 3) {
-# 				ncol <- nx
-# 				nrow <- 1
-# 			} else {
-# 				ncol <- ceiling(sqrt(nx))
-# 				nrow <- ceiling(nx / ncol)
-# 			}
+			#           asp ~ nrow      
+			#       |-------------- 
+			#   1   |
+			# ~ncol |       nx
+			#       | 
+			ncol_init <- sqrt(nx/asp_ratio)
+			nrow_init <- nx / ncol_init
+			
+			# rounding:
+			nrow_ceiling <- min(ceiling(nrow_init), nx)
+			ncol_ceiling <- min(ceiling(ncol_init), nx)
+			
+			# find minimal change
+			nrow_xtra <- abs(nrow_ceiling - nrow_init) * ncol_init
+			ncol_xtra <- abs(ncol_ceiling - ncol_init) * nrow_init
+			
+			# calculaet the other, and subtract 1 when possible
+			if (nrow_xtra < ncol_xtra) {
+				nrow <- nrow_ceiling
+				ncol <- ceiling(nx / nrow)
+				if ((nrow-1) * ncol >= nx) nrow <- nrow - 1
+			} else {
+				ncol <- ncol_ceiling
+				nrow <- ceiling(nx / ncol)
+				if ((ncol-1) * nrow >= nx) ncol <- ncol - 1
+			}
 		} else {
 			if (is.null(ncol)) ncol <- ceiling(nx / nrow)
 			if (is.null(nrow)) nrow <- ceiling(nx / ncol)
@@ -65,16 +80,16 @@ process_meta <- function(gt, gf, gg, nx, varnames, asp_ratio) {
 				title <- rep(title, length.out=nx)
 			}
 		}
-		
-		scale <- scale * (if (m==1) {
-			1
-		} else if(gf$ncol==1) {
-			min(asp_ratio / gf$nrow, 1)
-		} else if(gf$nrow==1) {
-			min(gf$ncol/asp_ratio, 1)
+
+		if (asp_ratio>1) {
+			asp_w <- 1
+			asp_h <- 1/asp_ratio
 		} else {
-			1/sqrt(m)
-		})^(1/gf$scale.factor)
+			asp_w <- asp_ratio
+			asp_h <- 1
+		}
+		
+		scale <- (min(1/ (asp_w * gf$ncol), 1 / (asp_h * gf$nrow))) ^ (1/gf$scale.factor)
 
 		title.cex <- title.cex * scale
 		legend.title.cex <- legend.title.cex * scale

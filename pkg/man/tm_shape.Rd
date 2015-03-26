@@ -83,10 +83,10 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
 tm_shape(World) +
 	tm_fill("darkolivegreen3") +
 tm_shape(cities) +
-	tm_bubbles("pop_max", col = "grey50", scale=.5) +
+	tm_bubbles("pop_max", col = "grey30", scale=.5) +
 tm_shape(rivers) +
-	tm_lines("lightcyan3") +
-tm_layout_World(title = "", bg.color="lightcyan3", legend.show = FALSE)
+	tm_lines("lightcyan1") +
+tm_layout_World(title = "", bg.color="lightcyan1", legend.show = FALSE)
 }
 \seealso{
 \code{\link{read_shape}} to read ESRI shape files, \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

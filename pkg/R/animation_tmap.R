@@ -35,7 +35,7 @@ animation_tmap <- function(expr, width=1000, height=1000, delay=40, filename="an
 	dev.off()
 
 	# convert pngs to one gif using ImageMagick
-	output <- shell(paste("convert -delay ", delay, " ", d, "/*.png ", filename, sep=""))
+	output <- shell(paste("convert -delay ", delay, " ", d, "/*.png \"", filename, "\"", sep=""))
 	
 	# cleaning up plots
 	unlink(d, recursive = TRUE)
