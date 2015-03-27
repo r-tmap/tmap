@@ -16,10 +16,10 @@ tm_shape(shp, projection = NULL, xlim = NULL, ylim = NULL,
 }
 For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}} accept any of them.}
 
-\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string (see \url{http://trac.ostm.org/proj/}), of one of the following shortcuts:
+\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string or one of the following shortcuts:
 \describe{
-       \item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates.}
-       \item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National tmgraphic Society. Type: compromise}
+       \item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).}
+       \item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise}
        \item{\code{"robin"}}{Robinson (1963). Another popular projection for world maps. Type: compromise}
        \item{\code{"eck4"}}{Eckert IV (1906). Projection useful for world maps. Area sizes are preserved, which makes it particularly useful for truthful choropleths. Type: equal-area}
        \item{\code{"hd"}}{Hobo-Dyer (2002). Another projection useful for world maps in which area sizes are preserved. Type: equal-area}
@@ -32,6 +32,7 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
        \item{\code{"eqc45"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 45 is the standard parallel. Also known as Gall isographic. Type: equidistant}
        \item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
        See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
+       See \url{http://trac.osgeo.org/proj/} for the \code{PROJ.4} project home page. An extensive list of \code{PROJ.4} codes can be created with rgdal's \code{\link[rgdal:make_EPSG]{make_EPSG}}.
        By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
 
 \item{xlim}{limits of the x-axis. These are either absolute or relative (depending on the argument \code{relative}). Alternatively, the argument \code{bbox} can be set to set absolute values.}
