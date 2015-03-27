@@ -5,7 +5,7 @@
 \title{Small multiples}
 \usage{
 tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
-  split = FALSE, free.scales = is.null(by),
+  drop.shapes = FALSE, free.scales = is.null(by),
   free.scales.fill = free.scales, free.scales.bubble.size = free.scales,
   free.scales.bubble.col = free.scales, free.scales.line.col = free.scales,
   free.scales.line.lwd = free.scales, scale.factor = 2)
@@ -19,7 +19,7 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
 
 \item{free.coords}{logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?}
 
-\item{split}{logical. If the \code{by} argument is specified, should all non-selected shape material be hidden?}
+\item{drop.shapes}{logical. If the \code{by} argument is specified, should all non-selected shapes be dropped?}
 
 \item{free.scales}{logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_bubbles}} and line color from \code{\link{tm_lines}}.}
 
@@ -78,7 +78,7 @@ tm_shape(NLD_prov) +
 
 tm_shape(NLD_prov) +
 	tm_fill("gold2") + tm_borders() +
-	tm_facets(by="name", free.coords = TRUE, split=TRUE) +
+	tm_facets(by="name", free.coords = TRUE, drop.shapes=TRUE) +
 tm_layout()
 
 tm_shape(NLD_muni) +
@@ -87,7 +87,7 @@ tm_shape(NLD_muni) +
 	tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
 	tm_borders(lwd=4) +
-	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
+	tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
 	tm_layout(legend.show = FALSE)
 	
 }

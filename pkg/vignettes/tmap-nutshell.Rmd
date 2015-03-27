@@ -45,6 +45,8 @@ The [`qtm`](../html/qtm.html) function is `tmap`'s equivalent to `ggplot2`'s `qp
 qtm(Europe)
 ```
 
+So, by default, the polygons (in case the shape object is a SpatialPolygons) are filled with light grey, and the polygon borders are drawn in dark grey.
+
 A choropleth is created with the following code:
 
 ```{r, fig.height=5}
@@ -52,9 +54,10 @@ qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="AREA", root=5, title="G
 	fill.textNA="Non-European countries", theme="Europe")
 ```
 
-In this code, `fill` and `text` serve as aesthetics. Both `gdp_cap_est` and `iso_a3` are variables of the data contained in the shape object `Europe`. The arguments `text.cex` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `title` argument speaks for itself. The argument `fill.textNA` is the legend text for missing values (the `gdp_cap_est` variable has missing values for non-European countries). The `theme` argument specifies predefined layout settings for this shape object (which are in this case the inner margins).
+In this code, `fill` and `text` serve as aesthetics. Both `gdp_cap_est` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to green, is mapped to the values of `gdp_cap_est`. The variable `iso_a3` contained the text labels, in this case the country codes.
+The arguments `text.cex` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `title` argument speaks for itself. The argument `fill.textNA` is the legend text for missing values (the `gdp_cap_est` variable has missing values for non-European countries). The `theme` argument specifies predefined layout settings for this shape object (which are in this case the inner margins).
 
-The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (see below). However, for more complex plots, the main plotting method is recommended for tis readability.
+The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for tis readability.
 
 ### Plotting with tmap elements<a name="plot"></a>
 
@@ -70,7 +73,7 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_grid`](../html/tm_grid.html)   	| Add coordinate grid lines |   	|
 
 
-The arguments with superscript symbols can be used as aesthetics. Both constant values as well as data variable names can be assigned to these arguments. For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth. Only for the five arguments with a <sup>\*</sup>, a legend can be drawn.
+The arguments with superscript symbols can be used as aesthetics. Both constant values as well as data variable names can be assigned to these arguments. For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth. Only for the five arguments with a <sup>\*</sup>, a legend is created (and by default shown).
 
 The last plot is reproduced as follows:
 
@@ -82,7 +85,7 @@ tm_shape(Europe) +
 tm_layout_Europe("GDP per capita")
 ```
 
-We refer to [`tm_shape`](../html/tm_shape.html) and its subsequent drawing layers (all of the elements in the last example except `tm_layout`) as a **group**. Multiple groups can be stacked. To illustrate this, let's create a map of Europe:
+We refer to [`tm_shape`](../html/tm_shape.html) and its subsequent drawing layers (all of the elements in the last example except `tm_layout`) as a **group**. Multiple groups can be stacked. To illustrate this, let's create a complex map of Europe:
 
 ```{r, fig.width=10}
 data(rivers)
@@ -94,9 +97,9 @@ tm_shape(Europe) +
 tm_shape(rivers) +
 	tm_lines("dodgerblue3") +
 tm_shape(cities) +
-	tm_text("name", cex="pop_max", scale=1, ymod=-.02, root=4, cex.lowerbound = .60, 
+	tm_text("name", cex="pop_min", scale=1, ymod=-.02, root=4, cex.lowerbound = .60, 
 			bg.color="yellow", bg.alpha = .5) + 
-	tm_bubbles("pop_max", "red", border.col = "black", border.lwd=1, size.lim = c(0, 2e7)) +
+	tm_bubbles("pop_max", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), sizes.legend = seq(2e6,10e6, by=2e6)) +
 tm_shape(Europe) +
 	tm_text("name", cex="area", scale=1.5, root=8, cex.lowerbound = .40, 
 			fontface="bold", case=NA, fontcolor = "gray35") + 
@@ -109,7 +112,7 @@ Thinks to learn from this code:
 * This plot has 4 groups of layers, respectively from the shape objects Europe, rivers, cities, and again Europe. 
 The order of (groups of) layers corresponds to the plotting order.
 * The shape objects can have different projections, and can also cover different areas (bounding boxes). Both the projection and the covered area are taken from the first layer shape object. Notice that the rivers shape object also contains rivers outside Europe: see `tm_shape(rivers) + tm_lines("dodgerblue3")`.
-* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, and margins. The element [`tm_layout_Europe`](../html/tm_layout.html) is identical with other defaults that are tailored for Europe: for instance, the left inner margin is increased to make space for the legend.
+* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, and margins. The element [`tm_layout_Europe`](../html/tm_layout.html) is a wrapper function with some other defaults that are tailored for Europe: for instance, the left inner margin is increased to make space for the legend.
 
 
 
@@ -117,14 +120,14 @@ The order of (groups of) layers corresponds to the plotting order.
 
 Small multiples are generated in two ways:
 
-1. By assigning multiple values to at least one of the 5 main arguments (in the table above indicated by the number 1)
+1. By assigning multiple values to at least one of the 5 aesthetic arguments (in the table above indicated by the <sup>\*</sub> symbol)
 ```{r, fig.width=10, fig.height=3}
 tm_shape(Europe) +
 	tm_fill(c("pop_est_dens", "gdp_cap_est"), style="kmeans") +
 tm_layout_Europe(title = c("Population density", "GDP per capita"))
 ```
 
-2. By defining a group by variable in [`tm_facets`](../html/tm_facets.html):
+2. By defining a group-by variable in [`tm_facets`](../html/tm_facets.html):
 ```{r, fig.width=10}
 tm_shape(Europe) +
 	tm_fill("gdp_cap_est", style="kmeans") +
@@ -132,13 +135,15 @@ tm_facets("part") +
 tm_layout_Europe(legend.titles = c(fill="GDP per capita"))
 ```
 
-Like `ggplot2`'s small multiples (controlled by the functions `facet_wrap`  and `facet_grid`), each scale can be set to either fixed or free. Each statistical attribute has a scale as well as the coordinates of the shape object:
+The scales of each aesthetic argument can be set to either fixed or free, and also, the coordinate ranges of the small multiples:
 ```{r, fig.width=10}
 tm_shape(Europe[Europe$continent=="Europe",]) +
-	tm_fill("part") +
+	tm_fill("part", thres.poly = 0) +
 tm_facets("name", free.coords=TRUE, drop.shapes=TRUE) +
 	tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.cex = 2)
 ```
+
+Remarks: the argument `drop.shapes` is used to drop all non-selected shapes. If `drop.shapes=FALSE` then neighboring countries are also visible. The argument `thres.poly` is set to 0 in order to calculate the aesthetics for all polygons, so also for very small ones, like Vatican. 
 
 
 

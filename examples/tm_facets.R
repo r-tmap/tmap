@@ -34,7 +34,7 @@ tm_shape(NLD_prov) +
 
 tm_shape(NLD_prov) +
 	tm_fill("gold2") + tm_borders() +
-	tm_facets(by="name", free.coords = TRUE, split=TRUE) +
+	tm_facets(by="name", free.coords = TRUE, drop.shapes=TRUE) +
 tm_layout()
 
 tm_shape(NLD_muni) +
@@ -43,6 +43,6 @@ tm_shape(NLD_muni) +
 	tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
 	tm_borders(lwd=4) +
-	tm_facets(by="name", free.coords=TRUE, split=TRUE) +
+	tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
 	tm_layout(legend.show = FALSE)
 	

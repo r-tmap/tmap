@@ -4,7 +4,7 @@
 #' Package: \tab tmap\cr
 #' Type: \tab Package\cr
 #' Version: \tab 0.7\cr
-#' Date: \tab 2015-03-26\cr
+#' Date: \tab 2015-03-27\cr
 #' License: \tab GPL-3\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -19,9 +19,9 @@
 #' @keywords GIS, thematic maps, statistical maps, choropleth, bubble map
 NULL
 
-#' World, Europe and Netherlands map
+#' World, Europe, and Netherlands map
 #' 
-#' Maps of the world, Europe and the Netherlands (province and municipality level).
+#' Maps of the world, Europe, and the Netherlands (province and municipality level).
 #' 
 #' The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection arugment of \code{\link{tm_shape}} (or \code{\link{qtm}}).
 #' 

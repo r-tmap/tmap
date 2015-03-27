@@ -3,14 +3,36 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 		x[x<g$size.lim[1]] <- NA
 		x[x>g$size.lim[2]] <- g$size.lim[2]
 	}
-	x_legend <- pretty(x, 7)
-	x_legend <- x_legend[x_legend!=0]
-	nxl <- length(x_legend)
-	if (nxl>4) x_legend <- x_legend[-c(nxl-3, nxl-1)]
+	
+	if (is.null(g$sizes.legend)) {
+		x_legend <- pretty(x, 7)
+		x_legend <- x_legend[x_legend!=0]
+		nxl <- length(x_legend)
+		if (nxl>4) x_legend <- x_legend[-c(nxl-3, nxl-1)]
+	} else {
+		x_legend <- g$sizes.legend
+	}
+
+	if (is.null(g$sizes.legend.labels)) {
+		bubble.size.legend.labels <- if (gt$legend.scientific) {
+			if (is.na(gt$legend.digits)) {
+				formatC(x_legend, flag="#")
+			} else {
+				formatC(x_legend, digits=gt$legend.digits, flag="#")
+			}
+		} else {
+			fancy_breaks(x_legend, gt$legend.digits)
+		}
+	} else {
+		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of bubbles in the legend")
+		bubble.size.legend.labels <- g$sizes.legend.labels
+	}
+	
+	
+	
 	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	bubble.size <- g$bubble.scale*sqrt(x/maxX)
 	bubble.max.size <- max(bubble.size, na.rm=TRUE)
-	bubble.size.legend.labels <- fancy_breaks(x_legend, gt$legend.digits)
 	bubble.legend.sizes <- g$bubble.scale*sqrt(x_legend/maxX)
 	list(bubble.size=bubble.size,
 		 bubble.size.legend.labels=bubble.size.legend.labels,

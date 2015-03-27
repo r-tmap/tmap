@@ -6,7 +6,7 @@
 \alias{NLD_muni}
 \alias{NLD_prov}
 \alias{World}
-\title{World, Europe and Netherlands map}
+\title{World, Europe, and Netherlands map}
 \source{
 http://www.naturalearthdata.com for \code{World} and \code{Europe}
 
@@ -22,7 +22,7 @@ data(NLD_prov)
 data(NLD_muni)
 }
 \description{
-Maps of the world, Europe and the Netherlands (province and municipality level).
+Maps of the world, Europe, and the Netherlands (province and municipality level).
 }
 \details{
 The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection arugment of \code{\link{tm_shape}} (or \code{\link{qtm}}).

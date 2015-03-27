@@ -200,6 +200,8 @@ tm_fill <- function(col="grey85",
 #' @param border.alpha transparency number, regarding the bubble borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param scale bubble size multiplier number. 
 #' @param size.lim vector of two limit values of the \code{size} variable. Only bubbles are drawn whose value is greater than or equal to the first value. Bubbles whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
+#' @param sizes.legend vector of bubble sizes that are shown in the legend. By default, this is determined automatically.
+#' @param sizes.legend.labels vector of labels for that correspond to \code{sizes.legend}.
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
 #' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{col} is a numeric variable name.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
@@ -223,6 +225,8 @@ tm_bubbles <- function(size=1, col="blueviolet",
 					      border.alpha=NA,
 						  scale=1,
 						  size.lim=NA,
+					   	  sizes.legend = NULL,
+					      sizes.legend.labels = NULL,
 						  n = 5, style = "pretty",
 						  breaks = NULL,
 						  palette = NULL,
@@ -239,6 +243,8 @@ tm_bubbles <- function(size=1, col="blueviolet",
 							   bubble.border.alpha=border.alpha,
 								 bubble.scale=scale,
 								 size.lim=size.lim,
+							     sizes.legend=sizes.legend,
+							     sizes.legend.labels=sizes.legend.labels,
 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 								 auto.palette.mapping=auto.palette.mapping,
 								 max.categories=max.categories,

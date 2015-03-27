@@ -5,7 +5,8 @@
 \title{Draw bubbles}
 \usage{
 tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
-  border.lwd = 1, border.alpha = NA, scale = 1, size.lim = NA, n = 5,
+  border.lwd = 1, border.alpha = NA, scale = 1, size.lim = NA,
+  sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
   style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
   colorNA = "#FF1414", textNA = "Missing", xmod = 0, ymod = 0)
@@ -26,6 +27,10 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
 \item{scale}{bubble size multiplier number.}
 
 \item{size.lim}{vector of two limit values of the \code{size} variable. Only bubbles are drawn whose value is greater than or equal to the first value. Bubbles whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}}
+
+\item{sizes.legend}{vector of bubble sizes that are shown in the legend. By default, this is determined automatically.}
+
+\item{sizes.legend.labels}{vector of labels for that correspond to \code{sizes.legend}.}
 
 \item{n}{preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.}
 
