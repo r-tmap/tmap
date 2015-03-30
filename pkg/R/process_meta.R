@@ -89,7 +89,7 @@ process_meta <- function(gt, gf, gg, nx, varnames, asp_ratio) {
 			asp_h <- 1
 		}
 		
-		scale <- (min(1/ (asp_w * gf$ncol), 1 / (asp_h * gf$nrow))) ^ (1/gf$scale.factor)
+		scale <- scale * (min(1/ (asp_w * gf$ncol), 1 / (asp_h * gf$nrow))) ^ (1/gf$scale.factor)
 
 		title.cex <- title.cex * scale
 		legend.title.cex <- legend.title.cex * scale

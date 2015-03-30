@@ -3,7 +3,7 @@
 # https://www.census.gov/geo/maps-data/data/cbf/cbf_counties.html
 
 devtools::load_all(".")
-# library(tmap)
+#library(tmap)
 library(raster)
 library(rgeos)
 library(ggplot2)

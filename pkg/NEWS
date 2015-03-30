@@ -1,3 +1,6 @@
+version 0.7.1
+- fixed big in scale parameter (global scale set in tm_layout)
+
 version 0.7
 - enhanced small multiples (tm_facets) with respect to scaling and free coordinate scales 
 - added alpha argument to tm layers for transparency
