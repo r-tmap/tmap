@@ -91,10 +91,10 @@ process_meta <- function(gt, gf, gg, nx, varnames, asp_ratio) {
 		
 		scale <- scale * (min(1/ (asp_w * gf$ncol), 1 / (asp_h * gf$nrow))) ^ (1/gf$scale.factor)
 
-		title.cex <- title.cex * scale
-		legend.title.cex <- legend.title.cex * scale
-		legend.text.cex <- legend.text.cex * scale
-		legend.hist.cex <- legend.hist.cex * scale
+		title.size <- title.size * scale
+		legend.title.size <- legend.title.size * scale
+		legend.text.size <- legend.text.size * scale
+		legend.hist.size <- legend.hist.size * scale
 				
 		if (is.null(bg.color)) bg.color <- ifelse(is.na(varnames$fill[1]), "white", "grey75")
 		

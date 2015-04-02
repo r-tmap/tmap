@@ -5,8 +5,8 @@
 #' @name tm_layout
 #' @rdname tm_layout
 #' @param title Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.
-#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{cex} arguments provided by the \code{\link{tmap-element}s}.
-#' @param title.cex Relative size of the title
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
+#' @param title.size Relative size of the title
 #' @param bg.color Background color. By default it is light grey (\code{grey85}) for choropleths and white for other maps.
 #' @param draw.frame Boolean that determines whether a frama is drawn. 
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.
@@ -26,9 +26,9 @@
 #' @param legend.height maximum height of the legend.
 #' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
 #' @param legend.config character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.
-#' @param legend.title.cex Relative font size for the legend title
-#' @param legend.text.cex Relative font size for the legend text elements
-#' @param legend.hist.cex Relative font size for the choropleth histogram
+#' @param legend.title.size Relative font size for the legend title
+#' @param legend.text.size Relative font size for the legend text elements
+#' @param legend.hist.size Relative font size for the choropleth histogram
 #' @param legend.scientific logical. Should the numeric legend labels be formatted scientific?
 #' @param legend.digits Number of digits for the legend labels
 #' @param legend.bg.color Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.
@@ -38,7 +38,7 @@
 #' @export
 tm_layout <- function(title=NA,
 					  scale=1,
-					  title.cex=1.5,
+					  title.size=1.5,
 					  bg.color=NULL,
 					  draw.frame=TRUE,
 					  title.position = NULL,
@@ -60,9 +60,9 @@ tm_layout <- function(title=NA,
 					  legend.height = 0.9,
 					  legend.hist.height = 0.3,
 					  legend.config = c("fill_hist", "fill", "bubble.size", "bubble.col", "line.col", "line.lwd"),
-					  legend.title.cex=1.0,
-					  legend.text.cex=0.7,
-					  legend.hist.cex=0.7,
+					  legend.title.size=1.0,
+					  legend.text.size=0.7,
+					  legend.hist.size=0.7,
 					  legend.scientific = FALSE,
 					  legend.digits = NA,
 					  legend.bg.color = NA) {

@@ -1,5 +1,5 @@
 process_text <- function(data, g, fill) {
-	root <- NULL; text.cex.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL; text.case <- NULL; text.alpha <- NULL
+	root <- NULL; text.size.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL; text.case <- NULL; text.alpha <- NULL
 	text.shadow <- NULL
 	
 	npol <- nrow(data)
@@ -12,14 +12,14 @@ process_text <- function(data, g, fill) {
 		if (!is.na(text.case)) text <- if(text.case=="upper") toupper(text) else tolower(text)
 		rm(nx)
 		
-		if (is.character(text.cex)) {
-			if (text.cex=="AREA") {
-				text.cex <- data$SHAPE_AREAS
+		if (is.character(text.size)) {
+			if (text.size=="AREA") {
+				text.size <- data$SHAPE_AREAS
 			} else {
-				text.cex <- data[[text.cex]]
+				text.size <- data[[text.size]]
 			}
-			text.cex <- (text.cex / max(text.cex, na.rm=TRUE)) ^ (1/root)
-		} else text.cex <- rep(text.cex, length.out=npol)
+			text.size <- (text.size / max(text.size, na.rm=TRUE)) ^ (1/root)
+		} else text.size <- rep(text.size, length.out=npol)
 		text.fontcolor <- if (is.na(text.fontcolor[1])) {
 			if (is.matrix(fill)) {
 				apply(fill, MARGIN=2, function(f) {
@@ -51,17 +51,17 @@ process_text <- function(data, g, fill) {
 		text.xmod <- if (is.character(text.xmod)) data[[text.xmod]] else rep(text.xmod, length.out=npol)
 		text.ymod <-  if (is.character(text.ymod)) data[[text.ymod]] else rep(text.ymod, length.out=npol)
 		
-		text_sel <- (text.cex >= text.cex.lowerbound)
-		text_empty <- is.na(text) | is.na(text.cex)
+		text_sel <- (text.size >= text.size.lowerbound)
+		text_empty <- is.na(text) | is.na(text.size)
 		
 		if (g$text.print.tiny) {
-			text.cex[!text_sel & !text_empty] <- text.cex.lowerbound
+			text.size[!text_sel & !text_empty] <- text.size.lowerbound
 			text_sel <- !text_empty
 		} else {
 			text_sel <- text_sel & !text_empty
 		}
 		rm(text_empty)
-		text.cex <- rep(text.cex * text.scale, length.out=npol)
+		text.size <- rep(text.size * text.scale, length.out=npol)
 		
 		text.fontcolor <- if (is.matrix(text.fontcolor)) {
 			apply(text.fontcolor, MARGIN=2, function(col) {

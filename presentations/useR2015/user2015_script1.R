@@ -1,6 +1,7 @@
 data(NLD_muni)
 data(NLD_prov)
 
+
 qtm(NLD_muni)
 
 library(ggplot2)
@@ -13,7 +14,9 @@ NLD_data$name <- factor(NLD_data$name, levels=NLD_data$name[order(NLD_data$popul
 
 NLD_data_sel <- head(NLD_data[order(NLD_data$population, decreasing=TRUE), ], 20)
 
-ggplot(NLD_data_sel, aes(y=population, x=name)) + geom_bar(stat="identity") + coord_flip()
+gg <- ggplot(NLD_data_sel, aes(y=population, x=name)) + geom_bar(stat="identity", fill="steelblue") + coord_flip()
+
+ggsave(filename = "pop_data.png", path = "../presentations/useR2015/", width=4, height=4.5, dpi=96)
 
 
 qtm(NLD_muni, fill="gold", borders="purple", title="Netherlands")
@@ -88,5 +91,37 @@ dev.off()
 
 
 data(Europe)
+data(World)
+data(cities)
+
+png("../presentations/useR2015/World1.png", width=830, height=410, res=96)
+tm_shape(World) +
+	tm_fill("income_grp", palette="-Blues") +
+	tm_borders() +
+	tm_text("iso_a3", size="AREA") +
+	tm_layout_World("Income classification", outer.margins=0, asp=NA, scale=1)
+dev.off()
+
+png("../presentations/useR2015/World2.png", width=830, height=410, res=96)
+tm_shape(World) +
+	tm_fill() +
+	tm_shape(cities) +
+	tm_bubbles("pop_max", scale=.5) +
+	tm_layout_World("Cities of the World", outer.margins=0, asp=NA, scale=1, legend.width=.3)
+dev.off()
+
+
+library(rworldmap)
+
+p <- par(mai=c(0,0,0.2,0),xaxs="i",yaxs="i")
+data(gridExData)
+mapGriddedData(gridExData)
+
+get_asp_ratio(World) * 400
+
+
+
+
+
 
 

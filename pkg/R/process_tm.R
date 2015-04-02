@@ -177,7 +177,7 @@ process_tm <- function(x, asp_ratio) {
 				}
 				
 				if (!is.null(text)) {
-					text.cex <- text.cex * scale
+					text.size <- text.size * scale
 				}
 			})
 		})

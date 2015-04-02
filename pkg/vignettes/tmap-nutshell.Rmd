@@ -50,12 +50,12 @@ So, by default, the polygons (in case the shape object is a SpatialPolygons) are
 A choropleth is created with the following code:
 
 ```{r, fig.height=5}
-qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="AREA", root=5, title="GDP per capita", 
+qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="AREA", root=5, title="GDP per capita", 
 	fill.textNA="Non-European countries", theme="Europe")
 ```
 
 In this code, `fill` and `text` serve as aesthetics. Both `gdp_cap_est` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to green, is mapped to the values of `gdp_cap_est`. The variable `iso_a3` contained the text labels, in this case the country codes.
-The arguments `text.cex` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `title` argument speaks for itself. The argument `fill.textNA` is the legend text for missing values (the `gdp_cap_est` variable has missing values for non-European countries). The `theme` argument specifies predefined layout settings for this shape object (which are in this case the inner margins).
+The arguments `text.size` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `title` argument speaks for itself. The argument `fill.textNA` is the legend text for missing values (the `gdp_cap_est` variable has missing values for non-European countries). The `theme` argument specifies predefined layout settings for this shape object (which are in this case the inner margins).
 
 The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for tis readability.
 
@@ -69,7 +69,7 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_borders`](../html/tm_borders.html)   	| Draws polygon borders | col<sup></sup>, lwd<sup></sup>  	|
 |[`tm_bubbles`](../html/tm_bubbles.html)   	| Draws bubbles | size<sup>\*</sup>, col<sup>\*</sup>  	|
 |[`tm_lines`](../html/tm_lines.html)		| Draws polylines | col<sup>\*</sup>, lwd<sup>\*</sup>	|
-|[`tm_text`](../html/tm_text.html)   	| Add text labels | text<sup>\+</sup>, cex<sup>\+</sup>  	|
+|[`tm_text`](../html/tm_text.html)   	| Add text labels | text<sup>\+</sup>, size<sup>\+</sup>  	|
 |[`tm_grid`](../html/tm_grid.html)   	| Add coordinate grid lines |   	|
 
 
@@ -81,7 +81,7 @@ The last plot is reproduced as follows:
 tm_shape(Europe) +
 	tm_fill("gdp_cap_est", textNA="Non-European countries") +
 	tm_borders() +
-	tm_text("iso_a3", cex="AREA", root=5) + 
+	tm_text("iso_a3", size="AREA", root=5) + 
 tm_layout_Europe("GDP per capita")
 ```
 
@@ -97,11 +97,11 @@ tm_shape(Europe) +
 tm_shape(rivers) +
 	tm_lines("dodgerblue3") +
 tm_shape(cities) +
-	tm_text("name", cex="pop_min", scale=1, ymod=-.02, root=4, cex.lowerbound = .60, 
+	tm_text("name", size="pop_min", scale=1, ymod=-.02, root=4, size.lowerbound = .60, 
 			bg.color="yellow", bg.alpha = .5) + 
 	tm_bubbles("pop_max", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), sizes.legend = seq(2e6,10e6, by=2e6)) +
 tm_shape(Europe) +
-	tm_text("name", cex="area", scale=1.5, root=8, cex.lowerbound = .40, 
+	tm_text("name", size="area", scale=1.5, root=8, size.lowerbound = .40, 
 			fontface="bold", case=NA, fontcolor = "gray35") + 
 tm_layout_Europe("Map of Europe", legend.titles = c(fill="Country population density (per km2)", 
 													bubble.size="City Population"))
@@ -140,7 +140,7 @@ The scales of each aesthetic argument can be set to either fixed or free, and al
 tm_shape(Europe[Europe$continent=="Europe",]) +
 	tm_fill("part", thres.poly = 0) +
 tm_facets("name", free.coords=TRUE, drop.shapes=TRUE) +
-	tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.cex = 2)
+	tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.size = 2)
 ```
 
 Remarks: the argument `drop.shapes` is used to drop all non-selected shapes. If `drop.shapes=FALSE` then neighboring countries are also visible. The argument `thres.poly` is set to 0 in order to calculate the aesthetics for all polygons, so also for very small ones, like Vatican. 
@@ -170,7 +170,7 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
     tm_shape(Europe) +
     	tm_fill("gdp_cap_est", textNA="Non-European countries") +
     	tm_borders() +
-    	tm_text("iso_a3", cex="AREA", root=5) + 
+    	tm_text("iso_a3", size="AREA", root=5) + 
     tm_layout("GDP per capita")      
     dev.off()
     ```

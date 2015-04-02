@@ -1,4 +1,4 @@
-legend_hist <- function(x, legend.hist.cex, lineHeight, scale) {
+legend_hist <- function(x, legend.hist.size, lineHeight, scale) {
 	with(x, {
 		if (is.factor(values)) {
 			numbers <- table(values)
@@ -55,16 +55,16 @@ legend_hist <- function(x, legend.hist.cex, lineHeight, scale) {
 		margin <- 0.05
 		npc.total <- 1-2*margin
 		
-		cex <- min(legend.hist.cex,
+		size <- min(legend.hist.size,
 				   npc.total/width.npc,
 				   npc.total/height.npc)
 		
-		width.npc <- width.npc * cex
-		height.npc <- height.npc * cex
+		width.npc <- width.npc * size
+		height.npc <- height.npc * size
 		
 		
-		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * cex * 1.5
-		height.xaxis <- lineHeight * cex
+		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size * 1.5
+		height.xaxis <- lineHeight * size
 		
 		axisMargin <- convertWidth(unit(0.02, "npc"), "inch", valueOnly=TRUE)
 		axisTicks <- convertWidth(unit(0.01, "npc"), "inch", valueOnly=TRUE)
@@ -92,9 +92,9 @@ legend_hist <- function(x, legend.hist.cex, lineHeight, scale) {
 		})
 		
 		cellplot(2,4,e={
-			maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * cex * 1.5
+			maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size * 1.5
 			grid.text(formattedY, x=maxWidth, y=hpty, 
-					  just=c("right","center"), gp=gpar(cex=cex))
+					  just=c("right","center"), gp=gpar(cex=size))
 		})
 		
 		# plot x axis tick marks
@@ -104,14 +104,14 @@ legend_hist <- function(x, legend.hist.cex, lineHeight, scale) {
 			
 			n <- length(xticks)
 			
-			line_height <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * cex
+			line_height <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
 			grid.lines(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc), gp=gpar(lwd=scale))
 			grid.polyline(x=rep(xticks, each=2), y=rep(c(1-axisMargin.npc, 1-axisMargin.npc-axisTicks.npc), n), 
 						  id=rep(1:n, each=2), gp=gpar(lwd=scale)) 
 		})
 		
 		cellplot(4,2,e={
-			grid.text(ptx, x=xticks, y=.5, gp=gpar(cex=cex))
+			grid.text(ptx, x=xticks, y=.5, gp=gpar(cex=size))
 		})
 		
 		upViewport()

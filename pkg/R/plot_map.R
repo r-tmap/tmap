@@ -88,7 +88,7 @@ plot_grid <- function(gt, bb, scale) {
 		
 		grobGridX <- polylineGrob(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
 					  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
-		grobGridTextX <- textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.cex*scale))
+		grobGridTextX <- textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale))
 	} else {
 		grobGridX <- NULL
 		grobGridTextX <- NULL
@@ -99,7 +99,7 @@ plot_grid <- function(gt, bb, scale) {
 		
 		grobGridY <- polylineGrob(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
 					  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
-		grobGridTextY <- textGrob(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.cex*scale))
+		grobGridTextY <- textGrob(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale))
 	} else {
 		grobGridY <- NULL
 		grobGridTextY <- NULL
@@ -146,27 +146,27 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 	npol <- nrow(co.npc)
 	with(g, {
 		if (!any(text_sel)) {
-			warning("No text to display. Check if all cex values are smaller than lowerbound.cex, or if all positions fall outside the plotting area.")
+			warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.")
 			return(NULL)
 		}
 		
 		co.npc[, 1] <- co.npc[, 1] + text.xmod
 		co.npc[, 2] <- co.npc[, 2] + text.ymod
 		
-		grobText <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.fontcolor[text_sel], cex=text.cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+		grobText <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.fontcolor[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		nlines <- rep(1, length(text))
 		
 		
-		lineH <- convertHeight(unit(text.cex[text_sel], "lines"), "npc", valueOnly=TRUE)
-		lineW <- convertWidth(unit(text.cex[text_sel], "lines"), "npc", valueOnly=TRUE)
+		lineH <- convertHeight(unit(text.size[text_sel], "lines"), "npc", valueOnly=TRUE)
+		lineW <- convertWidth(unit(text.size[text_sel], "lines"), "npc", valueOnly=TRUE)
 
 		if (!is.na(text.bg.color)) {
 			
 			
-			tGH <- mapply(text[text_sel], text.cex[text_sel], nlines[text_sel], FUN=function(x,y,z){
+			tGH <- mapply(text[text_sel], text.size[text_sel], nlines[text_sel], FUN=function(x,y,z){
 				convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
 			
-			tGW <- mapply(text[text_sel], text.cex[text_sel], FUN=function(x,y){
+			tGW <- mapply(text[text_sel], text.size[text_sel], FUN=function(x,y){
 				convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
 			tGX <- grobText$x + unit(ifelse(just[1]=="left", (tGW * .5), 
 									  ifelse(just[1]=="right", -(tGW * .5), 0)), "npc")
@@ -181,7 +181,7 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 		}
 		
 		if (text.shadow) {
-			grobTextSh <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1]+lineW * .05, "npc"), y=unit(co.npc[text_sel,2]- lineH * .05, "npc"), just=just, gp=gpar(col=text.shadowcol[text_sel], cex=text.cex[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+			grobTextSh <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1]+lineW * .05, "npc"), y=unit(co.npc[text_sel,2]- lineH * .05, "npc"), just=just, gp=gpar(col=text.shadowcol[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		} else {
 			grobTextSh <- NULL
 		}
@@ -259,7 +259,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 		
 		upViewport()
 	} else {
-		bubbleHeight <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * gt$legend.text.cex * 2
+		bubbleHeight <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * gt$legend.text.size * 2
 		treeMapX <- NULL
 	}
 	

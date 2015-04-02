@@ -32,7 +32,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	datasets <- lapply(shps, function(x)x@data)
 	
 	shp1_bb <- bbox(shps[[1]])
-	shp1_asp <-	get_asp_ratio(shp1_bb[1,], shp1_bb[2,], longlat=!is.projected(shps[[1]]))
+	shp1_asp <-	calc_asp_ratio(shp1_bb[1,], shp1_bb[2,], longlat=!is.projected(shps[[1]]))
 
 	x[shape.id] <- mapply(function(y, dataset){
 		bb <- bbox(y$shp)

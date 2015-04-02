@@ -7,7 +7,7 @@
 \alias{tm_layout_World}
 \title{Layout elements of cartographic maps}
 \usage{
-tm_layout(title = NA, scale = 1, title.cex = 1.5, bg.color = NULL,
+tm_layout(title = NA, scale = 1, title.size = 1.5, bg.color = NULL,
   draw.frame = TRUE, title.position = NULL, title.bg.color = NA,
   asp = NA, frame.lwd = 1, outer.margins = rep(0.02, 4),
   inner.margins = rep(0.02, 4), outer.bg.color = "white",
@@ -17,9 +17,9 @@ tm_layout(title = NA, scale = 1, title.cex = 1.5, bg.color = NULL,
   TRUE, bubble.size = FALSE, bubble.col = TRUE, line.col = TRUE, line.lwd =
   FALSE), legend.width = 0.3, legend.height = 0.9,
   legend.hist.height = 0.3, legend.config = c("fill_hist", "fill",
-  "bubble.size", "bubble.col", "line.col", "line.lwd"), legend.title.cex = 1,
-  legend.text.cex = 0.7, legend.hist.cex = 0.7, legend.scientific = FALSE,
-  legend.digits = NA, legend.bg.color = NA)
+  "bubble.size", "bubble.col", "line.col", "line.lwd"), legend.title.size = 1,
+  legend.text.size = 0.7, legend.hist.size = 0.7,
+  legend.scientific = FALSE, legend.digits = NA, legend.bg.color = NA)
 
 tm_layout_World(title = NA, scale = 0.85, title.bg.color = TRUE,
   inner.margins = c(0, 0.02, 0.02, 0.02), legend.position = c("left",
@@ -35,9 +35,9 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 \arguments{
 \item{title}{Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.}
 
-\item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{cex} arguments provided by the \code{\link{tmap-element}s}.}
+\item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.}
 
-\item{title.cex}{Relative size of the title}
+\item{title.size}{Relative size of the title}
 
 \item{bg.color}{Background color. By default it is light grey (\code{grey85}) for choropleths and white for other maps.}
 
@@ -77,11 +77,11 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 
 \item{legend.config}{character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.}
 
-\item{legend.title.cex}{Relative font size for the legend title}
+\item{legend.title.size}{Relative font size for the legend title}
 
-\item{legend.text.cex}{Relative font size for the legend text elements}
+\item{legend.text.size}{Relative font size for the legend text elements}
 
-\item{legend.hist.cex}{Relative font size for the choropleth histogram}
+\item{legend.hist.size}{Relative font size for the choropleth histogram}
 
 \item{legend.scientific}{logical. Should the numeric legend labels be formatted scientific?}
 

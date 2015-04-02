@@ -8,12 +8,12 @@
 #' @param bubble.size name of the data variable in \code{shp} for the bubblemap that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.
 #' @param bubble.col name of the data variable in \code{shp} for the bubblemap that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn.
 #' @param text Name of the data variable that contains the text labels.
-#' @param text.cex Font size of the text labels. Either a constant value, or the name of a numeric data variable.
+#' @param text.size Font size of the text labels. Either a constant value, or the name of a numeric data variable.
 #' @param line.lwd either a line width or a name of the data variable that specifies the line width. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.
 #' @param line.col either a line color or a name of the data variable that specifies the line colors. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.
 #' @param borders color of the polygon borders. Use \code{NA} to omit the borders.
 #' @param theme one of "World", "Europe", or "NLD"
-#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.cex}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.
 #' @param ... arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.  
 #' @return \code{\link{tmap-element}}
 #' @example ../examples/qtm.R
@@ -24,7 +24,7 @@ qtm <- function(shp,
 				bubble.size=NULL,
 				bubble.col=NULL,
 				text=NULL,
-				text.cex=1,
+				text.size=1,
 				line.lwd=NULL,
 				line.col=NULL,
 				borders="grey40",
@@ -52,7 +52,7 @@ qtm <- function(shp,
 	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_lines", "tm_text", "tm_layout", "tm_grid", "tm_facets")
 	fns_prefix <- c("shape", "fill", "borders", "bubble", "line", "text", "layout", "grid", "facets")
 	
-	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_lines=c("col", "lwd"), tm_text=c("text", "cex"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
+	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_lines=c("col", "lwd"), tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
 	
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
@@ -78,7 +78,7 @@ qtm <- function(shp,
 		g <- g + do.call("tm_bubbles", c(bubbleLst, args2[["tm_bubbles"]]))	
 	} 
 	
-	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, cex=text.cex), args2[["tm_text"]]))
+	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, size=text.size), args2[["tm_text"]]))
 	
 	if (length(args2[["tm_facets"]])) g <- g + do.call("tm_facets", args2[["tm_facets"]])
 

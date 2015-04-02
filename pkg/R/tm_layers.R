@@ -73,8 +73,8 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' Creates a \code{\link{tmap-element}} that adds text labels.
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
-#' @param cex relative size of the text labels (see note). Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or the value \code{"AREA"}, where the text size is proportional to the area size of the polygons.
-#' @param root root number to which the font sizes are scaled. Only applicable if \code{cex} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.
+#' @param size relative size of the text labels (see note). Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or the value \code{"AREA"}, where the text size is proportional to the area size of the polygons.
+#' @param root root number to which the font sizes are scaled. Only applicable if \code{size} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.
 #' @param fontcolor color of the text labels
 #' @param fontface font face of the text labels
 #' @param fontfamily font family of the text labels
@@ -83,9 +83,9 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @param shadow logical that determines whether a shadow is depicted behind the text. The color of the shadow is either white or yellow, depending of the \code{fontcolor}.
 #' @param bg.color background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.
 #' @param bg.alpha number between 0 and 1 that specifies the transparancy of the text background (0 is totally transparent, 1 is solid background).
-#' @param cex.lowerbound lowerbound for \code{cex}. Only useful when \code{cex} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{cex.lowerbound} are depicted at relative size \code{cex.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{cex.lowerbound} (in other words, tiny labels are omitted).
-#' @param print.tiny boolean, see \code{cex.lowerbound}
-#' @param scale text size multiplier, useful in case \code{cex} is variable or \code{"AREA"}.
+#' @param size.lowerbound lowerbound for \code{size}. Only useful when \code{size} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{size.lowerbound} are depicted at relative size \code{size.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{size.lowerbound} (in other words, tiny labels are omitted).
+#' @param print.tiny boolean, see \code{size.lowerbound}
+#' @param scale text size multiplier, useful in case \code{size} is variable or \code{"AREA"}.
 #' @param xmod horizontal position modification of the text (relatively): 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
@@ -93,9 +93,9 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_text <-  function(text, cex=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, cex.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
-	g <- list(tm_text=list(text=text, text.cex=cex, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.shadow=shadow, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
-							text.cex.lowerbound=cex.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
+tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface="plain", fontfamily="sans", alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
+	g <- list(tm_text=list(text=text, text.size=size, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.shadow=shadow, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
+							text.size.lowerbound=size.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "tmap"
 	g
 }
@@ -303,14 +303,14 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 #' @param n.x Prefered number of grid lines for the x axis.
 #' @param n.y Prefered number of grid lines for the y axis.
 #' @param col Color for the grid lines.
-#' @param labels.cex font size of the tick labels
+#' @param labels.size font size of the tick labels
 #' @param labels.col font color fo the tick labels
 #' @param on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
 #' @export
 tm_grid <- function(n.x=8,
 					 n.y=8,
 					 col="grey50",
-					 labels.cex=.75,
+					 labels.size=.75,
 					 labels.col="grey20",
 					 on.top=TRUE) {
 	g <- list(tm_grid=as.list(environment()))

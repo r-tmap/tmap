@@ -5,7 +5,7 @@
 \title{Quick thematic map plot}
 \usage{
 qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
-  text = NULL, text.cex = 1, line.lwd = NULL, line.col = NULL,
+  text = NULL, text.size = 1, line.lwd = NULL, line.col = NULL,
   borders = "grey40", theme = NULL, scale = NA, ...)
 }
 \arguments{
@@ -20,7 +20,7 @@ qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
 
 \item{text}{Name of the data variable that contains the text labels.}
 
-\item{text.cex}{Font size of the text labels. Either a constant value, or the name of a numeric data variable.}
+\item{text.size}{Font size of the text labels. Either a constant value, or the name of a numeric data variable.}
 
 \item{line.lwd}{either a line width or a name of the data variable that specifies the line width. Only applicable if \code{shp} is a \code{\link[sp:SpatialLines]{SpatialLines}} or \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}.}
 
@@ -30,7 +30,7 @@ qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
 
 \item{theme}{one of "World", "Europe", or "NLD"}
 
-\item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.cex}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.}
+\item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.}
 
 \item{...}{arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.}
 }
@@ -49,10 +49,10 @@ data(cities)
 qtm(Europe)
 
 # choropleth
-qtm(World, fill = "economy", text="iso_a3", text.cex = "AREA", 
+qtm(World, fill = "economy", text="iso_a3", text.size = "AREA", 
 	fill.palette="-Blues", theme = "World", title="Economy")
 
-qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.cex="pop_est", 
+qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="pop_est", 
     title="GDP per capita", fill.textNA="Non-European countries")
 
 qtm(World, fill="pop_est_dens", theme="World", fill.style="kmeans", title="Population per km")

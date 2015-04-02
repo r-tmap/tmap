@@ -1,0 +1,19 @@
+#' Get aspect ratio
+#' 
+#' Get the aspect ratio of a shape object, i.e., the map width devided by the map height.
+#' @param shp shape object, which is one of
+#' \enumerate{
+#'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+#' }
+#' @return aspect ratio
+#' @export
+get_asp_ratio <- function(shp) {
+	bb <- shp@bbox
+	calc_asp_ratio(bb[1, ], bb[2, ], !is.projected(shp))
+}
+
+calc_asp_ratio <- function(xlim, ylim, longlat) {
+	(diff(xlim)/diff(ylim)) * ifelse(longlat, cos((mean(ylim) * pi)/180), 1)
+}

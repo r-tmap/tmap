@@ -4,7 +4,7 @@
 \alias{tm_grid}
 \title{Coordinate grid lines}
 \usage{
-tm_grid(n.x = 8, n.y = 8, col = "grey50", labels.cex = 0.75,
+tm_grid(n.x = 8, n.y = 8, col = "grey50", labels.size = 0.75,
   labels.col = "grey20", on.top = TRUE)
 }
 \arguments{
@@ -14,7 +14,7 @@ tm_grid(n.x = 8, n.y = 8, col = "grey50", labels.cex = 0.75,
 
 \item{col}{Color for the grid lines.}
 
-\item{labels.cex}{font size of the tick labels}
+\item{labels.size}{font size of the tick labels}
 
 \item{labels.col}{font color fo the tick labels}
 

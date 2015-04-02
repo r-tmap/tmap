@@ -115,7 +115,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		}), shps_by_splt, list(SIMPLIFY=FALSE)))
 		bb <- bboxes[[1]]
 
-		sasp <- get_asp_ratio(bb[1,], bb[2,], longlat)
+		sasp <- calc_asp_ratio(bb[1,], bb[2,], longlat)
 
 	} else {
 		shp.bbox <- bbox(shp)
@@ -237,7 +237,7 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	xlim <- bb[1,]
 	ylim <- bb[2,]
 	
-	sasp <- get_asp_ratio(xlim, ylim, longlat)
+	sasp <- calc_asp_ratio(xlim, ylim, longlat)
 	
 	if (!is.na(pasp)) {
 		if (pasp > sasp) {
@@ -253,8 +253,3 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	list(bbox=bb, sasp=sasp)
 }
 
-
-
-get_asp_ratio <- function(xlim, ylim, longlat) {
-	(diff(xlim)/diff(ylim)) * ifelse(longlat, cos((mean(ylim) * pi)/180), 1)
-}
