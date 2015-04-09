@@ -25,7 +25,8 @@ crop_shape <- function(shp, bbox=shp@bbox, set.bbox=TRUE) {
 		shp2@bbox <- bbox
 	} else {
 		bbcoords <- cbind(x=bbox[1,][c(1, 1, 2, 2, 1)], y=bbox[2,][c(1, 2, 2, 1, 1)])
-		if (!is.projected(shp)) {
+		isproj <- is.projected(shp)
+		if (!isproj || is.na(isproj)) {
 			bbcoords[bbcoords[, 1]< -180, 1] <- -180
 			bbcoords[bbcoords[, 1]> 180, 1] <- 180
 			bbcoords[bbcoords[, 2]< -90, 2] <- -90

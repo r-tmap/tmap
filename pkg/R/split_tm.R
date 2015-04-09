@@ -23,7 +23,7 @@ get_i <- function(x, xname, i, n, oid) {
 		if (xname == "varnames") {
 			x
 		} else if (substr(xname, ncx-10, ncx)=="legend.misc") {
-			lapply(x, get_i, i, n, oid=NULL)
+			mapply(get_i, x, names(x), MoreArgs = list(i=i, n=n, oid=NULL), SIMPLIFY=FALSE)
 		} else {
 			if (length(x)>=i) x[[i]] else x[[1]]
 		}

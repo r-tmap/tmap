@@ -31,7 +31,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	
 	if (is.na(shp.proj)) {
 		warning(paste("Currect projection of shape", shp_name, "unknown. Long-lat (WGS84) is assumed."))
-		shp.proj <- "+proj=longlat +datum=WGS84"
+		shp.proj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 		shp@proj4string <- CRS(shp.proj)
 	}
 	
@@ -55,7 +55,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 			x.proj <- proj4string(x)
 			if (is.na(x.proj)) {
 				warning(paste("Currect projection of shape", shp_nm, "unknown. Long-lat (WGS84) is assumed."))
-				x.proj <- "+proj=longlat +datum=WGS84"
+				x.proj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 				x@proj4string <- CRS(x.proj)
 			}
 			if (x.proj != projection) {

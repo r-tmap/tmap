@@ -15,5 +15,6 @@ get_asp_ratio <- function(shp) {
 }
 
 calc_asp_ratio <- function(xlim, ylim, longlat) {
+	if (is.na(longlat)) longlat <- TRUE
 	(diff(xlim)/diff(ylim)) * ifelse(longlat, cos((mean(ylim) * pi)/180), 1)
 }

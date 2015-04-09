@@ -289,7 +289,9 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					   free.scales.line.col=free.scales,
 					   free.scales.line.lwd=free.scales,
 					   scale.factor=2) {
-	g <- list(tm_facets=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
+	calls <- names(match.call(expand.dots = TRUE)[-1])
+	if ("free.scales" %in% calls) calls <- union(calls, c("free.scales.fill", "free.scales.bubble.size", "free.scales.bubble.col", "free.scales.line.col", "free.scales.line.lwd"))
+	g <- list(tm_facets=c(as.list(environment()), list(call=calls)))
 	class(g) <- "tmap"
 	#attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
 	#g$call <- names(match.call(expand.dots = TRUE)[-1])

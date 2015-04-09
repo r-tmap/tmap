@@ -1,0 +1,26 @@
+\begin{thebibliography}{3}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[{R Core Team}(2014)]{R}
+{R Core Team}.
+\newblock \emph{R: A Language and Environment for Statistical Computing}.
+\newblock R Foundation for Statistical Computing, Vienna, Austria, 2014.
+\newblock URL \url{http://www.R-project.org/}.
+
+\bibitem[Roger S.~Bivand(2013)]{sp2}
+V.~G.-R. Roger S.~Bivand, Edzer~Pebesma.
+\newblock \emph{Applied spatial data analysis with R}.
+\newblock Springer, NY, second edition edition, 2013.
+\newblock URL \url{http://www.asdar-book.org/}.
+
+\bibitem[Tennekes(2015)]{tmap}
+M.~Tennekes.
+\newblock \emph{tmap: Thematic Maps}, 2015.
+\newblock URL \url{http://CRAN.R-project.org/package=tmap}.
+\newblock R package version 0.7.
+
+\end{thebibliography}
