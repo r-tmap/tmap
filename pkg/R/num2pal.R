@@ -39,16 +39,24 @@ num2pal <- function(x, n = 5,
 		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)))(101)
 
 		ids <- if (pal.div) {
-			map2divscaleID(breaks, contrast=contrast)
+			map2divscaleID(breaks, n=101, contrast=contrast)
 		} else {
-			map2seqscaleID(breaks, contrast=contrast)
+			map2seqscaleID(breaks, n=101, contrast=contrast)
 		}
 		
 		legend.palette <- colpal[ids]
+		if (any(ids<51) && any(ids>51)) {
+			ids.neutral <- min(ids[ids>=51]-51) + 51
+			legend.neutral.col <- colpal[ids.neutral]
+		} else {
+			legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
+		}
+		
 	} else {
 		if (nbrks-1 > mc) {
 			legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)))(nbrks-1)
 		} else legend.palette <- revPal(brewer.pal(nbrks-1, palette))
+		legend.neutral.col <- legend.palette[round(((length(legend.palette)-1)/2)+1)]
 	}
 	
 	cols <- findColours(q, legend.palette)
@@ -87,7 +95,7 @@ num2pal <- function(x, n = 5,
 		legend.labels <- c(legend.labels, legend.NA.text)
 	}
 	
-	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks)
+	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks, legend.neutral.col = legend.neutral.col)
 }
 
 

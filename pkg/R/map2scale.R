@@ -42,7 +42,7 @@ map2divscaleID <- function(breaks, n=101, contrast=1) {
         seq(0, (n-pid)/mx*hg*contrast, length.out=npos)
 	if (nneg>0) ids[1:nneg] <- seq(nid-((nid-1)/mx*-lw*contrast), nid, 
                                    length.out=nneg)	
-	ids
+	round(ids)
 }
 
 
@@ -75,5 +75,5 @@ map2seqscaleID <- function(breaks, n=101, contrast=1) {
 		warning("some index numbers exceed 0 and are replaced by NA")
 		ids[ids<1] <- NA
 	}
-	ids
+	round(ids)
 }

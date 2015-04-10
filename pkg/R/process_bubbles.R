@@ -52,6 +52,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text=g$textNA)
 		bubble.col <- colsLeg[[1]]
+		bubble.col.neutral <- colsLeg$legend.neutral.col
 	} else {
 		palette <- if (is.null(g$palette))  "Dark2" else g$palette
 		#remove unused levels in legend
@@ -64,7 +65,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		
 		bubble.col <- rep(NA, length(sel))
 		bubble.col[sel] <- colsLeg[[1]]
-		
+		bubble.col.neutral <- bubble.col[sel[1]]
 	}
 	bubble.col.legend.labels <- colsLeg[[2]]
 	bubble.col.legend.palette <- colsLeg[[3]]
@@ -72,8 +73,8 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 	list(bubble.col=bubble.col,
 		 bubble.col.legend.labels=bubble.col.legend.labels,
 		 bubble.col.legend.palette=bubble.col.legend.palette,
-		 bubble.col.is.numeric=bubble.col.is.numeric)
-	
+		 bubble.col.is.numeric=bubble.col.is.numeric,
+		 bubble.col.neutral=bubble.col.neutral)
 }
 
 process_bubbles <- function(data, g, gt, gby) {
@@ -153,6 +154,7 @@ process_bubbles <- function(data, g, gt, gby) {
 		bubble.col.legend.labels <- NA
 		bubble.col.legend.palette <- NA
 		bubble.col.is.numeric <- NA
+		bubble.col.neutral <- apply(bubble.col, 2, function(bc) na.omit(bc)[1])
 	} else if (is.list(dtcol)) {
 		bubble.size_list <- as.list(as.data.frame(bubble.size))
 		res <- mapply(process_bubbles_col_vector, dtcol, bubble.size_list, MoreArgs=list(g, gt), SIMPLIFY=FALSE)
@@ -160,6 +162,7 @@ process_bubbles <- function(data, g, gt, gby) {
 		bubble.col.legend.labels <- lapply(res, function(r)r$bubble.col.legend.labels)
 		bubble.col.legend.palette <- lapply(res, function(r)r$bubble.col.legend.palette)
 		bubble.col.is.numeric <- sapply(res, function(r)r$bubble.col.is.numeric)
+		bubble.col.neutral <- sapply(res, function(r)r$bubble.col.neutral)
 	} else {
 		bubble.size_vector <- unlist(bubble.size)
 		res <- process_bubbles_col_vector(dtcol, bubble.size_vector, g, gt)
@@ -167,6 +170,7 @@ process_bubbles <- function(data, g, gt, gby) {
 		bubble.col.legend.labels <- res$bubble.col.legend.labels
 		bubble.col.legend.palette <- res$bubble.col.legend.palette
 		bubble.col.is.numeric <- res$bubble.col.is.numeric
+		bubble.col.neutral <- res$bubble.col.neutral
 	}
 		
 		
@@ -175,15 +179,17 @@ process_bubbles <- function(data, g, gt, gby) {
 	xmod <- if (is.character(xmod)) data[[xmod]] else rep(xmod, length.out=npol)
 	ymod <-  if (is.character(ymod)) data[[ymod]] else rep(ymod, length.out=npol)
 
-	bubble.size.legend.palette <- if (is.list(bubble.col.legend.palette)) {
-		mapply(function(pal, isnum) {
-			if (isnum) pal[length(pal)] else pal[1]
-		}, bubble.col.legend.palette, bubble.col.is.numeric)
-	} else if (is.na(bubble.col.legend.palette[1])) {
-		apply(bubble.col, 2, function(bc) na.omit(bc)[1])
-	} else {
-		rep(bubble.col.legend.palette[1], nx)
-	}
+	bubble.size.legend.palette <- bubble.col.neutral
+		
+# 		if (is.list(bubble.col.legend.palette)) {
+# 		mapply(function(pal, isnum) {
+# 			if (isnum) pal[length(pal)] else pal[1]
+# 		}, bubble.col.legend.palette, bubble.col.is.numeric)
+# 	} else if (is.na(bubble.col.legend.palette[1])) {
+# 		apply(bubble.col, 2, function(bc) na.omit(bc)[1])
+# 	} else {
+# 		rep(bubble.col.legend.palette[ifelse(bubble.col.is.numeric, 2, 1)], nx)
+# 	}
 	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,

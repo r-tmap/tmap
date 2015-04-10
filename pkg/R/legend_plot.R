@@ -309,22 +309,22 @@ legend_landsc <- function(x, legend.text.size, lineHeight) {
 		# delete too high 
 		if (legend.type=="bubble.size") {
 			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
-			nofit <- which(hs>(ry-1.25*lineHeight*legend.text.size))
-			
-			if (length(nofit)) {
-				clipID <- nofit[1]
-				nitems <- clipID - 1
-				legend.labels <- legend.labels[1:nitems]
-				if (length(legend.palette)>1) legend.palette <- legend.palette[1:nitems]
-				legend.sizes <- legend.sizes[1:nitems]
-				hs <- hs[1:nitems]
-			}
+# 			nofit <- which(hs>(ry-1.25*lineHeight*legend.text.size))
+# 			
+# 			if (length(nofit)) {
+# 				clipID <- nofit[1]
+# 				nitems <- clipID - 1
+# 				legend.labels <- legend.labels[1:nitems]
+# 				if (length(legend.palette)>1) legend.palette <- legend.palette[1:nitems]
+# 				legend.sizes <- legend.sizes[1:nitems]
+# 				hs <- hs[1:nitems]
+# 			}
 		} else {
 			hs <- rep(1.5*lineHeight*legend.text.size, nitems)
 		}
 		
 		
-		labelsws <- convertWidth(stringWidth(legend.labels), "npc", TRUE) * legend.text.size * 1.2 #1.15
+		labelsws <- convertWidth(stringWidth(legend.labels), "npc", TRUE) * legend.text.size * 1.3 #1.2
 		maxlabelsws <- max(labelsws)
 		
 		ws <- rep(maxlabelsws, nitems)
@@ -333,11 +333,16 @@ legend_landsc <- function(x, legend.text.size, lineHeight) {
 			ws <- ws / ratio
 			legend.text.size <- legend.text.size / ratio
 		}
+
+		wsmax <- rx/nitems
 		
 		if (legend.type=="bubble.size") {
 			bubblews <- convertWidth(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
-			clipID2 <- which(bubblews>ws)[1]
-			if (!is.na(clipID2)) {
+			ws <- pmax(ws, bubblews*1.1)
+			
+			# delete too wide 
+			if (sum(ws)>rx) {
+				clipID2 <- which(cumsum(ws)>rx)[1]
 				nitems <- clipID2 - 1
 				legend.labels <- legend.labels[1:nitems]
 				if (length(legend.palette)>1) legend.palette <- legend.palette[1:nitems]

@@ -147,27 +147,25 @@ metro <- SpatialPointsDataFrame(coords = ct[, c("Longitude", "Latitude")], data 
 save(metro, file="./data/metro.rda", compress="xz")
 
 metro$Y1 <- (metro$X2010 - metro$X2000) / (metro$X2000 * 10) * 100
-
 metro$Y2 <- (metro$X2010 - metro$X1950) / (metro$X1950 * 60) * 100
 
+data(Europe)
 data(World)
 qtm(World) + 
 qtm(metro, bubble.size = "X2010", bubble.col="Y", bubble.style="fixed", bubble.breaks=c(-Inf, -1, -.1, .1, 1, 2, 4, 8, Inf))
 
 tm_shape(World) +
-	tm_fill("grey70") +
+	tm_fill("grey60") +
 tm_shape(metro) +
-	tm_bubbles("X2010", col = "Y2", style="fixed", breaks=c(-Inf, -.25, .25, 2, Inf) ,palette="-RdYlBu") +
-tm_layout_World()
+	tm_bubbles("X2010", col = "Y1", border.col = "black", border.alpha = .5, style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf) ,palette="-RdYlBu", contrast=1, scale=1.5) + 
+tm_layout_World("Population", legend.titles=c(bubble.col="Growth rate (%)"))
 
-tm_shape(World) +
-	tm_fill("grey70") +
-	tm_shape(metro) +
-	tm_bubbles(c("X1950", "X2010"), col=c("X1950", "X2010")) +
+
+
+tm_shape(metro) +
+tm_bubbles(c("X1950", "X1960", "X1970", "X1980", "X1990", "X2000", "X2010", "X2020", "X2030")) +
 tm_facets(free.scales = FALSE) +
-	tm_layout_World()
-
-
+	tm_layout(legend.show = FALSE)
 
 
 
