@@ -104,8 +104,8 @@ process_tm <- function(x, asp_ratio) {
 	
 
 	by_counts <- sapply(data_by, nlevels)
-	if (sum(by_counts>0)>1) {
-		by_counts_pos <- by_counts[by_counts!=0]
+	if (sum(by_counts>1)>1) {
+		by_counts_pos <- by_counts[by_counts>1]
 		if (any(by_counts_pos[-1]!=by_counts_pos[1])) stop("Number of facets defined by the 'by' argument of tm_facets are different for the groups.")
 	}
 

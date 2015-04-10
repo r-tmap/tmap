@@ -140,6 +140,14 @@ ct <- ct[,c("name", "name_long", "iso_a3", "Latitude", "Longitude", "X1950", "X1
 
 ct <- ct[ct$X2010 >= 1e6, ]
 
+## manual editing
+ct$name[ct$name=="West Midlands"] <- "Birmingham"
+ct$name[ct$name=="Bombay"] <- "Mumbai"
+ct$name[ct$name=="Sana'a'"] <- "Sana'a"
+ct$name[ct$name=="Marseille-Aix-en-Provence"] <- "Marseille"
+ct$name[ct$name=="Thiruvananthapuram"] <- "Trivandrum"
+
+
 
 library(sp)
 metro <- SpatialPointsDataFrame(coords = ct[, c("Longitude", "Latitude")], data = ct[,setdiff(names(ct),c("Longitude", "Latitude"))], proj4string = CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
