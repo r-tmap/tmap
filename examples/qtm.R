@@ -1,6 +1,6 @@
 data(Europe)
 data(World)
-data(cities)
+data(metro)
 
 # just the map
 qtm(Europe)
@@ -15,5 +15,5 @@ qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="pop_est",
 qtm(World, fill="pop_est_dens", theme="World", fill.style="kmeans", title="Population per km")
 
 # bubble map
-qtm(World, borders = NA) + qtm(cities, bubble.size = "pop_max", bubble.col="purple", 
-	title="Cities of the World", theme = "World", bubble.scale=.5)
+qtm(World, borders = NA) + qtm(metro, bubble.size = "X2010", bubble.col="purple", 
+	title="Metropolitan Areas", theme = "World", bubble.scale=.5)

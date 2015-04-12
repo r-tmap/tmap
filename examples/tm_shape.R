@@ -1,5 +1,5 @@
 data(World)
-data(cities)
+data(metro)
 data(rivers)
 
 tm_shape(World, projection="longlat") + 
@@ -31,8 +31,8 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
 # three groups of layers, each starting with tm_shape
 tm_shape(World) +
 	tm_fill("darkolivegreen3") +
-tm_shape(cities) +
-	tm_bubbles("pop_max", col = "grey30", scale=.5) +
+tm_shape(metro) +
+	tm_bubbles("X2010", col = "grey30", scale=.5) +
 tm_shape(rivers) +
 	tm_lines("lightcyan1") +
 tm_layout_World(title = "", bg.color="lightcyan1", legend.show = FALSE)

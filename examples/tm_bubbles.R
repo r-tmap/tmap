@@ -1,9 +1,7 @@
 data(World)
 data(Europe)
-data(cities)
+
 data(metro)
-
-
 
 
 metro$growth <- (metro$X2020 - metro$X2010) / (metro$X2010 * 10) * 100
@@ -14,12 +12,11 @@ tm_shape(World) +
 	tm_layout_World("Metro population", legend.titles=c(bubble.col="Growth rate (%)"))
 
 
-
 tm_shape(Europe) +
     tm_borders() +
     tm_fill() +
 tm_shape(metro) +
     tm_bubbles(size="X2010", col="purple", size.lim=c(0, 1.2e7)) +
 	tm_text("name", size="X2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
-tm_layout_Europe("Metropolitan population", legend.titles=c(bubble.col="Capital"))
+tm_layout_Europe("Metro population", legend.titles=c(bubble.col="Capital"))
 

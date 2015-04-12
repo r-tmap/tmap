@@ -23,10 +23,29 @@ tm_shape(rivers) +
 
 
 data(World)
-data(cities)
+data(metro)
 
+pdf("../presentations/paper/bubbleMap.pdf", width=7.08, height=3.48, pointsize = 12)
+metro$growth <- (metro$X2020 - metro$X2010) / (metro$X2010 * 10) * 100
 tm_shape(World) +
-	tm_fill() +
-	tm_shape(cities) +
-	tm_bubbles("pop_max", scale=.5) +
-	tm_layout_World("Cities of the World")
+	tm_fill("income_grp", style="kmeans", palette="-Blues") +
+	tm_borders() +
+	tm_text("iso_a3", size="AREA", scale=1.5) +
+	tm_shape(metro) +
+	tm_bubbles("X2010", col = "growth", border.col = "black", border.alpha = .5, style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf) ,palette="-RdYlGn", contrast=1) + 
+	tm_layout_World(title="Income and urbanization", legend.titles=c(fill="Income class", bubble.size="Metro population (2010)", bubble.col="Annual growth rate (%)"), legend.hist.show=FALSE, outer.margins=0, scale=.5)
+dev.off()
+
+
+
+pdf("../presentations/paper/bubbleMap2.pdf", width=7.08, height=3.98, pointsize = 12)
+tm_shape(World) +
+	tm_fill("income_grp", style="kmeans", palette="-Blues") +
+	tm_borders() +
+ 	tm_text("iso_a3", size="AREA", scale=1.5) +
+	tm_shape(metro) +
+	tm_bubbles("X2010", col = "growth", border.col = "black", border.alpha = .5, style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf) ,palette="-RdYlGn", contrast=1) + 
+# 	tm_shape(World) +
+# 	tm_text("iso_a3", size="AREA", scale=1.5, alpha = .75) +
+	tm_layout_World(title="", legend.titles=c(fill="Income class", bubble.size="Metro population (2010)", bubble.col="Annual growth rate (%)"), legend.hist.show=FALSE, outer.margins=0, scale=.7, inner.margins=c(0,-.06,.02, -.03), legend.bg.color = NA)
+dev.off()
