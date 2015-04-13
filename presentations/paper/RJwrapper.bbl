@@ -5,12 +5,6 @@
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
 
-\bibitem[{R Core Team}(2014)]{R}
-{R Core Team}.
-\newblock \emph{R: A Language and Environment for Statistical Computing}.
-\newblock R Foundation for Statistical Computing, Vienna, Austria, 2014.
-\newblock URL \url{http://www.R-project.org/}.
-
 \bibitem[Roger S.~Bivand(2013)]{sp2}
 V.~G.-R. Roger S.~Bivand, Edzer~Pebesma.
 \newblock \emph{Applied spatial data analysis with R}.
@@ -22,5 +16,12 @@ M.~Tennekes.
 \newblock \emph{tmap: Thematic Maps}, 2015.
 \newblock URL \url{http://CRAN.R-project.org/package=tmap}.
 \newblock R package version 0.7.
+
+\bibitem[Wickham(2009)]{ggplot2}
+H.~Wickham.
+\newblock \emph{ggplot2: elegant graphics for data analysis}.
+\newblock Springer New York, 2009.
+\newblock ISBN 978-0-387-98140-6.
+\newblock URL \url{http://had.co.nz/ggplot2/book}.
 
 \end{thebibliography}

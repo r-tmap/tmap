@@ -6,42 +6,59 @@
 
 \abstract{
 A thematic map is a geographical map in which statistical data are visualized. The theme refers to the statistical phenomena that is shown, such as the unemployment rate at municipal level. 
-The best known thematic map type is the choropleth, where regions are coloured according to a statistical variable, for instance unemployment rate or population density. Another popular thematic map type is the bubble map, in which the sizes of the bubbles are defined by a statistical variable, for instance city population.
-
+The best known thematic map type is the choropleth, where regions are coloured according to a statistical variable, for instance unemployment rate. Another popular thematic map type is the bubble map, in which the sizes of the bubbles are defined by a statistical variable, for instance metropolitan population.
 With the tmap package, thematic maps can be generated with great flexibility. A thematic map is created by stacking layers, for instance one for colouring municipalities, one for thick borders of higher level regions, and one for text labels. 
-
 The standard work flow that is needed to create a thematic map is embedded in tmap by several convenient functions for reading, appending, and transforming spatial data.
 }
 
-Introductory section which may include references in parentheses
-\citep{R}, or cite a reference such as \citet{R} in the text.
 
 
 \section{Introduction}
+%Introductory section which may include references in parentheses \citep{R}, or cite a reference such as \citet{R} in the text.
 
+
+Visualization is key in data science. When toddlers are playing with toys, they look at these from many angles. When carpenters are building furniture, they look at the constructions from carefully chosen perspectives continuously. Likewise, when data scientists are exploring, analysing, and presenting data, they need to visualize the data in order to understand and communicate the underlying phenomena. Therefore, software tools to visually explore, analayse, and present data should therefore belong to any data scientist's toolkit. The R language and its packages provide many functions to craft elegant and insightful graphics, most notably ggplot2 \citep{ggplot2}. However, for visualizing geospatial data, there are fewer options available. Therefore, I introduce the tmap package by which thematic maps can be created in a flexible way.
+
+Figure~\ref{figure:bubblemap} shows a thematic map of the world. It shows the relation between income on country level and the distribution of emerging metropolitan areas. While the metropolitan areas in high income countries have a annual growth rate that is less than two percent (notice that the world population increases with 2.7 percent), metropolitan areas in lower income countries grow very fast, especially in Asia but also western and middle Africa.
+
+\begin{widefigure}[htbp]
+  \centering
+  \includegraphics{bubbleMap2}
+  \caption{World map about income and urbanization.}
+  \label{figure:bubblemap}
+\end{widefigure}
+
+
+
+
+
+
+\begin{example}
+tm_shape(World) +
+  tm_fill("income_grp", style="kmeans", palette="-Blues") +
+  tm_borders() +
+  tm_text("iso_a3", size="AREA", scale=1.5) +
+tm_shape(metro) +
+  tm_bubbles("X2010", col = "growth", border.col = "black", 
+  border.alpha = .5, style="fixed", breaks=c(-Inf, 0, 2, 4, 6, Inf) ,
+  palette="-RdYlGn", contrast=1) + 
+tm_layout_World(title="", legend.titles=c(fill="Income class", 
+  bubble.size="Metro population (2010)", bubble.col="Annual growth rate (%)"))
+\end{example}
 
 
 Bla bla bla test \citet{tmap} and \citep{sp2}. 
 
+\section{Related R-packages}
+
 
 %This section may contain a figure such as Figure~\ref{figure:rlogo}.
 %
-\begin{widefigure}[htbp]
-  \centering
-  \includegraphics{bubbleMap2}
-  \caption{Bubble map.}
-  \label{figure:bubblemap}
-\end{widefigure}
 
 \section{Another section}
 
 There will likely be several sections, perhaps including code snippets, such as:
 
-\begin{example}
-library(tmap)
-data(Europe)
-qtm(Europe)
-\end{example}
 
 \section{Summary}
 
