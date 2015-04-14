@@ -48,12 +48,17 @@ print.tmap <- function(x, vp=NULL, ...) {
 	}
 	
 	inner.margins <- if ("tm_layout" %in% names(x)) {
-		x[[which(names(x)=="tm_layout")[1]]]$inner.margins
+		rep(x[[which(names(x)=="tm_layout")[1]]]$inner.margins, length.out=4)
 	} else {
 		inner.margins <- rep(.02, 4)	
 	}
+	xmarg <- sum(inner.margins[c(2,4)])
+	ymarg <- sum(inner.margins[c(1,3)])
 	
-	shp1_asp_marg <- shp1_asp * (1+sum(inner.margins[c(2,4)])) / (1+sum(inner.margins[c(1,3)]))
+	if (xmarg >= .8) stop("Inner margins too large")
+	if (ymarg >= .8) stop("Inner margins too large")
+	
+	shp1_asp_marg <- shp1_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
 	
 	dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE) / convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
 	

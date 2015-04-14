@@ -230,9 +230,23 @@ get_bbox_lim <- function(shp.bbox, relative, bbox, xlim, ylim) {
 get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	# extend bounding box for asp ratio
 	bbrange <- bbox[,2] - bbox[,1]
+	
+	xspan <- 1 - inner.margins[2] - inner.margins[4]
+	yspan <- 1 - inner.margins[1] - inner.margins[3]
+	
+# 	inner.margins[c(2,4)] bbrange[1]
+# 	
+# 	bb <- bbox - 
+# 	
+# 	bbrange2 <- bbrange / c(xspan, yspan)
+# 	bbmin <- bbox[,1] - 
+	
+	
+	#bb <- bbox + rep(bbrange2, 2)
+	
 	bbmarg <- inner.margins[c(2,1,4,3)]
 	bbmarg[c(1,2)] <- -bbmarg[c(1,2)]
-	bb <- bbox + rep(bbrange, 2) * bbmarg
+	bb <- bbox + rep(bbrange/c(xspan, yspan), 2) * bbmarg
 	
 	xlim <- bb[1,]
 	ylim <- bb[2,]
