@@ -1,9 +1,35 @@
-\begin{thebibliography}{5}
+\begin{thebibliography}{12}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
   \providecommand{\doi}[1]{doi: #1}\else
   \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Bivand(2015)]{classInt}
+R.~Bivand.
+\newblock \emph{classInt: Choose univariate class intervals}, 2015.
+\newblock URL \url{http://CRAN.R-project.org/package=classInt}.
+\newblock R package version 0.1-22.
+
+\bibitem[Bivand and Rundel(2014)]{rgeos}
+R.~Bivand and C.~Rundel.
+\newblock \emph{rgeos: Interface to Geometry Engine - Open Source (GEOS)},
+  2014.
+\newblock URL \url{http://CRAN.R-project.org/package=rgeos}.
+\newblock R package version 0.3-8.
+
+\bibitem[Bivand et~al.(2014)Bivand, Keitt, and Rowlingson]{rgdal}
+R.~Bivand, T.~Keitt, and B.~Rowlingson.
+\newblock \emph{rgdal: Bindings for the Geospatial Data Abstraction Library},
+  2014.
+\newblock URL \url{http://CRAN.R-project.org/package=rgdal}.
+\newblock R package version 0.9-1.
+
+\bibitem[Brewer et~al.(2003)Brewer, Hatchard, and Harrower]{brewer03}
+C.~A. Brewer, G.~W. Hatchard, and M.~A. Harrower.
+\newblock {Color{B}rewer} in print: A catalog of color schemes for maps.
+\newblock \emph{Cartography and Geographic Information Science}, 30\penalty0
+  (1):\penalty0 5--32, 2003.
 
 \bibitem[Friendly(1995)]{friendly95}
 M.~Friendly.
@@ -12,22 +38,32 @@ M.~Friendly.
 \newblock In \emph{13TH INTERNATIONAL CONFERENCE ON DATABASE AND EXPERT SYSTEMS
   APPLICATIONS (DEXA 2002), AIX EN PROVENCE}, pages 59--66. Press, 1995.
 
+\bibitem[Pebesma(2005)]{sp1}
+R.~B. Pebesma, E.J.
+\newblock Classes and methods for spatial data in r.
+\newblock R News 5 (2), 2005.
+\newblock URL \url{http://cran.r-project.org/doc/Rnews/}.
+
 \bibitem[Roger S.~Bivand(2013)]{sp2}
 V.~G.-R. Roger S.~Bivand, Edzer~Pebesma.
 \newblock \emph{Applied spatial data analysis with R}.
 \newblock Springer, NY, second edition edition, 2013.
 \newblock URL \url{http://www.asdar-book.org/}.
 
-\bibitem[Tennekes(2015)]{tmap}
-M.~Tennekes.
-\newblock \emph{tmap: Thematic Maps}, 2015.
-\newblock URL \url{http://CRAN.R-project.org/package=tmap}.
-\newblock R package version 0.7.
+\bibitem[Snow(1855)]{snow1855}
+J.~Snow.
+\newblock On the mode of communication of cholera.
+\newblock London, 1855.
 
 \bibitem[Tufte(1983)]{tufte83}
 E.~R. Tufte.
 \newblock \emph{{The visual display of quantitative information}}.
 \newblock Graphics Press, 1983.
+
+\bibitem[Warmerdam and Evenden(2012)]{proj4}
+F.~Warmerdam and G.~Evenden.
+\newblock Proj.4 - cartographic projections library, version 4.8.0, 2012.
+\newblock URL \url{http://trac.osgeo.org/proj/}.
 
 \bibitem[Wickham(2009)]{ggplot2}
 H.~Wickham.
@@ -35,5 +71,11 @@ H.~Wickham.
 \newblock Springer New York, 2009.
 \newblock ISBN 978-0-387-98140-6.
 \newblock URL \url{http://had.co.nz/ggplot2/book}.
+
+\bibitem[Wickham(2010)]{wickham10}
+H.~Wickham.
+\newblock A layered grammar of graphics.
+\newblock \emph{Journal of Computational and Graphical Statistics}, 19\penalty0
+  (1):\penalty0 3--28, 2010.
 
 \end{thebibliography}

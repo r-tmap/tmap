@@ -1,5 +1,13 @@
 \backcite {tufte83}{{1}{2.1}{section.2.1}}
 \backcite {ggplot2}{{1}{2.1}{section.2.1}}
 \backcite {friendly95}{{1}{2.1}{section.2.1}}
-\backcite {tmap}{{2}{2.1}{figure.caption.2}}
-\backcite {sp2}{{2}{2.1}{figure.caption.2}}
+\backcite {snow1855}{{1}{2.1}{section.2.1}}
+\backcite {wickham10}{{1}{2.1}{section.2.1}}
+\backcite {sp1}{{2}{2.3}{section.2.3}}
+\backcite {sp2}{{2}{2.3}{section.2.3}}
+\backcite {rgdal}{{2}{2.3}{section.2.3}}
+\backcite {proj4}{{2}{2.3}{section.2.3}}
+\backcite {rgeos}{{2}{2.3}{section.2.3}}
+\backcite {classInt}{{2}{2.3}{section.2.3}}
+\backcite {classInt}{{2}{2.3}{section.2.3}}
+\backcite {brewer03}{{2}{2.3}{section.2.3}}

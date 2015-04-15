@@ -5,7 +5,7 @@ tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") +
 
 # A custom layout wrapper for Africa
 tm_layout_Africa <- function(title=NA,
-							 inner.margins = c(.02, .4, .02, .02),
+							 inner.margins = c(.02, .25, .02, .02),
 							 draw.frame = FALSE,
 							 title.position=c("left", "bottom"), 
 							 legend.position = c("left", "bottom"), 
