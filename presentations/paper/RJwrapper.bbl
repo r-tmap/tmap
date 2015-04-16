@@ -1,4 +1,4 @@
-\begin{thebibliography}{12}
+\begin{thebibliography}{13}
 \providecommand{\natexlab}[1]{#1}
 \providecommand{\url}[1]{\texttt{#1}}
 \expandafter\ifx\csname urlstyle\endcsname\relax
@@ -37,6 +37,12 @@ M.~Friendly.
   graphics, and data visualization.
 \newblock In \emph{13TH INTERNATIONAL CONFERENCE ON DATABASE AND EXPERT SYSTEMS
   APPLICATIONS (DEXA 2002), AIX EN PROVENCE}, pages 59--66. Press, 1995.
+
+\bibitem[Hijmans(2015)]{raster}
+R.~J. Hijmans.
+\newblock \emph{raster: Geographic Data Analysis and Modeling}, 2015.
+\newblock URL \url{http://CRAN.R-project.org/package=raster}.
+\newblock R package version 2.3-33.
 
 \bibitem[Pebesma(2005)]{sp1}
 R.~B. Pebesma, E.J.

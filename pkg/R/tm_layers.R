@@ -189,6 +189,24 @@ tm_fill <- function(col="grey85",
 	g
 }	
 
+
+tm_raster <- function(col="grey70",
+					  alpha = NA,
+					  palette = NULL,
+					  n = 5,
+					  style = "pretty",
+					  breaks = NULL,
+					  labels = NULL,
+					  auto.palette.mapping = TRUE,
+					  contrast = 1,
+					  max.categories = 12,
+					  colorNA = NA,
+					  textNA = "Missing") {
+	g <- list(tm_fill=as.list(environment()))
+	class(g) <- "tmap"
+	g
+}
+
 #' Draw bubbles
 #' 
 #' Creates a \code{\link{tmap-element}} that draws bubbles. Both colors and sizes of the bubbles can be mapped to data variables. 

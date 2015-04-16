@@ -16,11 +16,36 @@ The standard work flow that is needed to create a thematic map is embedded in tm
 \section{Introduction}
 %Introductory section which may include references in parentheses \citep{R}, or cite a reference such as \citet{R} in the text.
 
-Visualization is key in data science. Without looking at data, it is difficult to know the data, to unveil anomalies, and, moreover, to extract valuable knowledge~\citep{tufte83}. Software tools to visually explore, analayse, and present data should therefore belong to any data scientist's toolkit. The R language and its packages contain many functions to craft elegant and clarifying graphics, most notably \CRANpkg{ggplot2 }\citep{ggplot2}. However, for visualizing geospatial data, there are less straightforward options available within R. Therefore, I introduce the \CRANpkg{tmap} package by which thematic maps can be created in a flexible way.
+Visualization is key in data science. Without looking at data, it is difficult to know the data, to unveil anomalies, and, moreover, to extract valuable knowledge~\citep{tufte83}. Software tools to visually explore, analayse, and present data should therefore belong to any data scientist's toolkit. The R language and its packages contain many functions to craft elegant and clarifying graphics, most notably \CRANpkg{ggplot2 }\citep{ggplot2}. Although it is also possible to achieve great looking geospatial visualizations, it is often more complicated and requires the usage of several R pacakges together. Therefore, I introduce the \CRANpkg{tmap} package by which thematic maps can be created in a flexible and layer-based way.
 
-Thematic maps are geographic maps in which spatial data distributions are shown, such as population density. Although they are widely used for publication purposes, which is no surprise due to their visual appeal and recognizability, they also proved to be succesful for discovery and exploration of spatial data~\citep{friendly95}. One of the most illustrative examples is the dot map that physician John Show used to locate the source of the cholera outbreak in London in 1854~\citep{snow1855}.
+Thematic maps are geographic maps in which spatial data distributions are shown, such as population density. Although they are widely used for publication purposes, which is no surprise due to their visual appeal and recognizability, they also proved to be succesful for discovery and exploration of spatial data~\citep{friendly95}. One of the most illustrative examples is the dot map that physician John Show used to locate the source of the cholera outbreak in London in 1854~\citep{snow1855}. Roughly, there are five types of thematic maps:
 
-The aim of the \CRANpkg{tmap} package is to provide R users an elegant and flexible way of making thematic maps, with a minimum of code required. The syntax resembles the syntax of \CRANpkg{ggplot2}, and follows the layered grammar of graphics~\citep{wickham10} broadly.
+\begin{description}
+\item[choropleth] Administrative areas are colored according to a variable.
+\item[proportional symbol map] Symbols are scaled in proportion to a variable. The best know variant is the bubble map.
+\item[dot map] Individual data points are positioned on the map, like the cholera occurences in John Snow's map.
+\item[isopleth] Regions are defined by homogeneity of a quantitative variable. For instance altitude or wheather maps.
+\item[cartogram] The geographic maps is distorted. Regions are sized according to a quantitative variable.
+\end{description}
+
+
+
+The aim of the \CRANpkg{tmap} package is to provide R users an elegant and flexible way of making thematic maps, with a minimum of code required. The syntax resembles the syntax of \CRANpkg{ggplot2}, and follows the layered grammar of graphics~\citep{wickham10} broadly. 
+
+
+Cartograms are not supported yet. Also, isopleths cannot be made in a straightforward manner with \CRANpkg{tmap}. Typically the \CRANpkg{raster}~\citep{raster} package provides excellent options for this.
+
+
+
+
+
+%\section{A quick example}
+%
+%\begin{example}
+%#load spatial objects contained in tmap
+%data(Europe)
+%data(metro)
+%\end{example}
 
 \section{An example}
 
@@ -62,16 +87,24 @@ The \code{\#plot} part of the code is exampled in detail in section~\ref{syntax}
 
 
 \section{Related R-packages}
+
+
+
 The \CRANpkg{tmap} package stands on the shoulders of the following six great packages.
 
 \begin{description}
-\item[\CRANpkg{sp}~\citep{sp1, sp2}] This package contains classes and methods for spatial data. Only spatial objects from SpatialPolygons(DataFrame), SpatialPoints(DataFrame) and SpatialLines(DataFrame) are accepted.
-\item[\CRANpkg{rgdal}~\citep{rgdal}] Processing ESRI shape files is done by this package, as well as map projections via PROJ.4 library~\citep{proj4}.
+\item[\CRANpkg{sp}~\citep{sp1, sp2}] This package contains classes and methods for spatial data. %Only spatial objects from SpatialPolygons(DataFrame), SpatialPoints(DataFrame) and SpatialLines(DataFrame) are accepted.
+\item[\CRANpkg{rgdal}~\citep{rgdal}] Reading and writing ESRI shape files is done by this package, as well as map projections via the PROJ.4 library~\citep{proj4}.
 \item[\CRANpkg{rgeos}~\citep{rgeos}] All geometric processing is carried out by this package.
 \item[\CRANpkg{classInt}~\citep{classInt}] This package facilitates class intervals, which are used in choropleths of quantitative variables.
 \item[\CRANpkg{RColorBrewer}~\citep{classInt}] All used color schemes have been proposed by~\citet{brewer03} and implemented in this package.
 \item[\CRANpkg{grid}] This package provides all basic plotting functions.
 \end{description}
+
+
+
+
+
 
 
 \section{Syntax}\label{syntax}

@@ -22,6 +22,14 @@ tm_shape(rivers) +
 	tm_layout("Rivers of Europe", legend.show=FALSE)
 
 
+data(Europe)
+qtm(Europe, fill="gdp_cap_est", text = "iso_a3", text.size = "AREA", title="GDP per capita", theme="Europe", fill.textNA="Non-European countries")
+
+
+data(NLD_muni)
+qtm(NLD_muni, fill="population", convert2density=TRUE, fill.style="kmeans", title="Population (per km2)", inner.margins=c(.02,.2,.06,.02))
+
+
 data(World)
 data(metro)
 
