@@ -11,7 +11,7 @@ plot_map <- function(i, gp, gt, shps.env) {
 	
 	bubbleHeight <- convertHeight(unit(.5, "lines"), "inch", valueOnly=TRUE)
 	
-	bb <- shps[[1]]@bbox
+	bb <- attr(shps[[1]], "bbox")
 	
 	if (gt$grid.show) {
 		treeGrid <- plot_grid(gt, bb, scale=gt$scale)
@@ -20,15 +20,20 @@ plot_map <- function(i, gp, gt, shps.env) {
 	}
 	
 	treeElements <- mapply(function(gpl, shp) {
-		bb <- shp@bbox
-		if (inherits(shp, "SpatialLines")) {
-			co <- gCentroid(shp, byid=TRUE)@coords
+		bb <- attr(shp, "bbox")
+		
+		if (inherits(shp, "Spatial")) {
+			if (inherits(shp, "SpatialLines")) {
+				co <- gCentroid(shp, byid=TRUE)@coords
+			} else {
+				co <- coordinates(shp)
+			}
+			co.npc <- co
+			co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
+			co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 		} else {
-			co <- coordinates(shp)
+			co.npc <- NA
 		}
-		co.npc <- co
-		co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
-		co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
 		
 		
 		plot_tm_fill <- function() {
@@ -45,6 +50,25 @@ plot_map <- function(i, gp, gt, shps.env) {
 		
 		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight)
 		plot_tm_text <- function() plot_text(co.npc, gpl)
+		
+		plot_tm_raster <- function() {
+			#browser()
+			rast <- if (is.null(gpl$raster)) NA else get_alpha_col(gpl$raster, gpl$raster.alpha)
+			
+			bb <- attr(shp, "bbox")
+			bb_rast <- attr(shp, "bbox_raster")
+			width <- (bb_rast[1,2] - bb_rast[1,1]) / (bb[1,2] - bb[1,1])
+			height <- (bb_rast[2,2] - bb_rast[2,1]) / (bb[2,2] - bb[2,1])
+			
+			cent <- rowMeans(bb_rast)
+			
+			x <- (cent[1] - bb[1,1]) / (bb[1,2] - bb[1,1])
+			y <- (cent[2] - bb[2,1]) / (bb[2,2] - bb[2,1])
+			
+			#if (inherits(shp, "Spatial")) shp <- as(shp, "RasterLayer")
+			rasterGrob(matrix(rast, ncol=shp$ncols, nrow=shp$nrows, byrow = TRUE), x=x, y=y, width=width, height=height)
+		} 
+		
 		e <- environment()
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		grobs <- lapply(fnames, do.call, args=list(), envir=e)
@@ -189,6 +213,7 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 		gList(grobTextBG, grobTextSh, grobText)
 	})
 }
+
 
 
 plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {

@@ -19,23 +19,76 @@ print.tmap <- function(x, vp=NULL, ...) {
 	nshps <- length(shape.id)
 	if (!nshps) stop("Required tm_shape layer missing.")
 	
-	shps <- lapply(x[shape.id], function(y) {
+# 	shps <- lapply(x[shape.id], function(y) {
+# 		shp <- y$shp
+# 		data <- data.frame(ID=get_IDs(shp))
+# 		if (class(shp)=="SpatialPolygons") shp <- SpatialPolygonsDataFrame(shp, data=data, match.ID=FALSE)
+# 		if (class(shp)=="SpatialPoints") shp <- SpatialPointsDataFrame(shp, data=data, match.ID=FALSE)
+# 		if (class(shp)=="SpatialLines") shp <- SpatialLinesDataFrame(shp, data=data, match.ID=FALSE)
+# 		if (class(shp)=="SpatialPixels") shp <- SpatialPixelsDataFrame(shp, data=data) 
+# 		if (class(shp)=="SpatialGrid") shp <- SpatialGridDataFrame(shp, data=data)		
+# 		if (class(shp)=="SpatialPolygonsDataFrame") shp$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
+# 		shp
+# 	})
+
+# datasets <- lapply(shps, function(x) {
+# 	if (inherits(x, "Spatial")) x@data else structure(list(x@data@values), .Names = x@data@names, row.names=seq_along(x@data@values), class = "data.frame")
+# })
+
+
+	shps_dts <- lapply(x[shape.id], function(y) {
 		shp <- y$shp
-		data <- data.frame(ID=get_IDs(shp))
-		if (class(shp)=="SpatialPolygons") shp <- SpatialPolygonsDataFrame(shp, data=data, match.ID=FALSE)
-		if (class(shp)=="SpatialPoints") shp <- SpatialPointsDataFrame(shp, data=data, match.ID=FALSE)
-		if (class(shp)=="SpatialLines") shp <- SpatialLinesDataFrame(shp, data=data, match.ID=FALSE)
-		if (class(shp)=="SpatialPolygonsDataFrame") shp$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
-		shp
+		if (inherits(shp, "Spatial")) {
+			if ("data" %in% names(attributes(shp))) {
+				data <- shp@data
+				shp <- if (inherits(shp, "SpatialPolygonsDataFrame")) {
+					as(shp, "SpatialPolygons")
+				} else if (inherits(shp, "SpatialLinesDataFrame")) {
+					as(shp, "SpatialLines")
+				} else if (inherits(shp, "SpatialGridDataFrame")) {
+					shp@data <- data.frame(ID=1:nrow(data))
+					as(shp, "RasterLayer")
+				} else if (inherits(shp, "SpatialPixelsDataFrame")) {
+					shp@data <- data.frame(ID=1:nrow(data))
+					as(shp, "RasterLayer")
+				} else if (inherits(shp, "SpatialPointsDataFrame")) {
+					as(shp, "SpatialPoints")
+				}
+				if (inherits(shp, "RasterLayer")) {
+					data <- data[shp@data@values, ,drop=FALSE]
+				}
+			} else {
+				data <- data.frame(ID=get_IDs(shp))
+			}
+			if (inherits(shp, "SpatialPolygons")) {
+				data$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
+			}
+		} else if (inherits(shp, "RasterLayer")) {
+			data <- structure(list(shp@data@values), .Names = shp@data@names, row.names=seq_along(shp@data@values), class = "data.frame")
+		}
+		
+		if (inherits(shp, "RasterLayer")) {
+			bb <- bbox(shp)
+			crs <- shp@crs
+			projected <- is_projected(shp)
+			#shp <- as.raster(shp)
+			shp <- list(ncols=shp@ncols, nrows=shp@nrows, rotated=shp@rotated)
+			attr(shp, "bbox_raster") <- bb
+			attr(shp, "bbox") <- bb
+			attr(shp, "proj4string") <- crs
+			attr(shp, "projected") <- projected
+		}
+		list(shp=shp, data=data)
 	})
 
-	datasets <- lapply(shps, function(x)x@data)
-	
-	shp1_bb <- bbox(shps[[1]])
-	shp1_asp <-	calc_asp_ratio(shp1_bb[1,], shp1_bb[2,], longlat=!is.projected(shps[[1]]))
+	shps <- lapply(shps_dts, "[[", 1)
+	datasets <- lapply(shps_dts, "[[", 2)
+
+	shp1_bb <- attr(shps[[1]], "bbox")
+	shp1_asp <-	calc_asp_ratio(shp1_bb[1,], shp1_bb[2,], longlat=!is_projected(shps[[1]]))
 
 	x[shape.id] <- mapply(function(y, dataset){
-		bb <- bbox(y$shp)
+		#bb <- bbox(y$shp)
 		y$data <- dataset
 		y$shp <- NULL
 		y
@@ -87,7 +140,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	
 	## unify projections and set bounding box
 	if (group_by) {
-		matchIDs <- lapply(shps, function(ss) lapply(ss, function(s)s@matchID))
+		matchIDs <- lapply(shps, function(ss) lapply(ss, function(s)attr(s, "matchID")))
 		
 		gps <- mapply(function(gp, mID) {
 			gp[1:nshps] <- mapply(function(gpl, indices, l) {
@@ -104,7 +157,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 		}, gps, matchIDs, SIMPLIFY=FALSE)
 		
 	} else {
-		matchIDs <- lapply(shps, function(s)s@matchID)
+		matchIDs <- lapply(shps, function(s)attr(s, "matchID"))
 
 		gps <- lapply(gps, function(gp) {
 			gp[1:nshps] <- mapply(function(gpl, indices, l) {

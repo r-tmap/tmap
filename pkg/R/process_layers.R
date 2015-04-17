@@ -36,9 +36,8 @@ process_layers <- function(g, gt, gf) {
 	# 	})
 	
 	
-	
 	# determine plotting order 
-	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_bubbles", "tm_lines")]
+	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_bubbles", "tm_lines", "tm_raster")]
 	plot.order[plot.order=="tm_borders"] <- "tm_fill"
 	plot.order <- unique(plot.order)
 	
@@ -62,12 +61,19 @@ process_layers <- function(g, gt, gf) {
 		gbubble <- process_bubbles(data, g$tm_bubbles, gt, gf)
 	}
 
-# lines info
+	# lines info
 	if (is.null(g$tm_lines)) {
 		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA) 
 	} else {
 		glines <- process_lines(data, g$tm_lines, gt, gf)	
 	} 
+
+	# raster info
+	if (is.null(g$tm_raster)) {
+		graster <- list(raster=NULL, xraster=NA) 
+	} else {
+		graster <- process_raster(data, g$tm_raster, gt, gf)
+	}	
 	
 	
 	# text info
@@ -77,5 +83,5 @@ process_layers <- function(g, gt, gf) {
 		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill)
 	}
 
-	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd), data_by=data$GROUP_BY, plot.order=plot.order), gborders, gfill, glines, gbubble, gtext)
+	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster), data_by=data$GROUP_BY, plot.order=plot.order), gborders, gfill, glines, gbubble, gtext, graster)
 }

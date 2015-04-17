@@ -15,6 +15,8 @@ get_IDs <- function(shp) {
 		sapply(shp@polygons, function(x)x@ID)
 	} else if (inherits(shp, "SpatialLines")) {
 		sapply(shp@lines, function(x)x@ID)
+	} else if (inherits(shp, "SpatialPixels")) {
+		shp@grid.index
 	} else if (inherits(shp, "SpatialPoints")) {
 		apply(shp@coords, MARGIN=1, function(x) {
 			paste(format(round(x, 6), nsmall = 6), collapse="_")

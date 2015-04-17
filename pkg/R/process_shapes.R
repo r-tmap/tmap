@@ -27,24 +27,29 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	ylim <- g[[masterID]]$ylim
 	relative <- g[[masterID]]$relative
 	bbox <- g[[masterID]]$bbox
-	shp.proj <- proj4string(shp)
+	shp.proj <- attr(shp, "proj4string")@projargs
 	
 	if (is.na(shp.proj)) {
 		warning(paste("Currect projection of shape", shp_name, "unknown. Long-lat (WGS84) is assumed."))
 		shp.proj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
-		shp@proj4string <- CRS(shp.proj)
+		attr(shp, "proj4string") <- CRS(shp.proj)
 	}
 	
 	# edit and set projection
 	isProjected <- !is.null(projection)
 	if (isProjected) {
-		projection <- get_proj4_code(projection)
-		shp <- spTransform(shp, CRS(projection))
+		if (is.raster(shp)) {
+			warning("Unable to set projection for rasters")
+			projection <- shp.proj
+		} else {
+			projection <- get_proj4_code(projection)
+			shp <- spTransform(shp, CRS(projection))
+		}
 	} else {
 		projection <- shp.proj
 	}
 	
-	longlat <- !is.projected(shp)
+	longlat <- !is_projected(shp)
 
 	
 	# set projection for other shapes
@@ -52,13 +57,21 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		if (shp_nm==shp_name) {
 			x <- shp
 		} else {
-			x.proj <- proj4string(x)
+			x.proj <- attr(x, "proj4string")@projargs
 			if (is.na(x.proj)) {
-				warning(paste("Currect projection of shape", shp_nm, "unknown. Long-lat (WGS84) is assumed."))
-				x.proj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
-				x@proj4string <- CRS(x.proj)
+				if (maybe_longlat(attr(x, "bbox"))) {
+					warning(paste("Currect projection of shape", shp_nm, "unknown. Long-lat (WGS84) is assumed."))
+					x.proj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
+				} else {
+					warning(paste("Currect projection of shape", shp_nm, "unknown. The projection of", shp_name, "is assumed."))
+					x.proj <- shp.proj
+				}
+				attr(x, "proj4string") <- CRS(x.proj)
 			}
 			if (x.proj != projection) {
+				if (is.list(x)) {
+					stop(paste("Raster", shp_nm, "has different projection and cannot be transformed"))
+				}
 				x <- spTransform(x, CRS(projection))
 			}
 		}
@@ -118,7 +131,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		sasp <- calc_asp_ratio(bb[1,], bb[2,], longlat)
 
 	} else {
-		shp.bbox <- bbox(shp)
+		shp.bbox <- attr(shp, "bbox")
 		bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim)
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
 		bb <- bbox_asp$bbox
@@ -139,7 +152,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 				tryCatch({
 					crop_shape(shp2, bbox=bb2)
 				}, error = function(e) {
-					shp2@bbox <- bb2
+					attr(shp2, "bbox") <- bb2
 					#cat("error\n")
 					attr(shp2, "matchID") <- 1:length(shp2)
 					shp2
@@ -156,7 +169,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 					tryCatch({
 						crop_shape(x, bbox=bb2)
 					}, error = function(e) {
-						x@bbox <- bb2
+						attr(x, "bbox") <- bb2
 						#cat("error\n")
 						attr(x, "matchID") <- 1:length(x)
 						x
@@ -166,7 +179,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 				tryCatch({
 					crop_shape(x, bbox=bb)
 				}, error = function(e) {
-					x@bbox <- bb
+					attr(x, "bbox") <- bb
 					#cat("error\n")
 					attr(x, "matchID") <- 1:length(x)
 					x
@@ -179,21 +192,26 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		shps2 <- lapply(1:nplots, function(i)lapply(shps2, function(j)j[[i]]))
 	}
 	
-	## determine automatic legend position based on polygon centers
-	co <- if (inherits(shp, "SpatialLines")) {
-		do.call("rbind", lapply(coordinates(shp), function(x) {
-			do.call("rbind", x)	
-		}))
+	
+	if (inherits(shp, "Spatial")) {
+		## determine automatic legend position based on polygon centers
+		co <- if (inherits(shp, "SpatialLines")) {
+			do.call("rbind", lapply(coordinates(shp), function(x) {
+				do.call("rbind", x)	
+			}))
+		} else {
+			coordinates(shp)
+		}
+		xn <- (co[,1]-bb[1])/(bb[3]-bb[1])
+		yn <- (co[,2]-bb[2])/(bb[4]-bb[2])
+		legend_pos <- which.max(c(
+			min(sqrt((xn^2) + (yn^2))),
+			min(sqrt((xn^2) + ((1-yn)^2))),
+			min(sqrt(((1-xn)^2) + ((1-yn)^2))),
+			min(sqrt(((xn-1)^2) + (yn^2)))))
 	} else {
-		coordinates(shp)
+		legend_pos <- 2
 	}
-	xn <- (co[,1]-bb[1])/(bb[3]-bb[1])
-	yn <- (co[,2]-bb[2])/(bb[4]-bb[2])
-	legend_pos <- which.max(c(
-		min(sqrt((xn^2) + (yn^2))),
-		min(sqrt((xn^2) + ((1-yn)^2))),
-		min(sqrt(((1-xn)^2) + ((1-yn)^2))),
-		min(sqrt(((xn-1)^2) + (yn^2)))))
 	
 	attr(shps2, "sasp") <- ifelse(is.na(pasp), sasp, pasp)
 	attr(shps2, "dasp") <- dasp

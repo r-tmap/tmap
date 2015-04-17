@@ -202,7 +202,7 @@ tm_raster <- function(col="grey70",
 					  max.categories = 12,
 					  colorNA = NA,
 					  textNA = "Missing") {
-	g <- list(tm_fill=as.list(environment()))
+	g <- list(tm_raster=as.list(environment()))
 	class(g) <- "tmap"
 	g
 }
@@ -292,6 +292,7 @@ tm_bubbles <- function(size=1, col="blueviolet",
 #' @param free.scales.bubble.col logical. Should the color scale for the bubble map be free?
 #' @param free.scales.line.col Should the line color scale be free?
 #' @param free.scales.line.lwd Should the line width scale be free?
+#' @param free.scales.raster Should the color scale for raster layers be free?
 #' @param scale.factor Number that determines how the elements (e.g. font sizes, bubble sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.
 #' @export
 #' @example ../examples/tm_facets.R
@@ -306,7 +307,8 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					   free.scales.bubble.col=free.scales,
 					   free.scales.line.col=free.scales,
 					   free.scales.line.lwd=free.scales,
-					   scale.factor=2) {
+					   free.scales.raster=free.scales,
+					  scale.factor=2) {
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	if ("free.scales" %in% calls) calls <- union(calls, c("free.scales.fill", "free.scales.bubble.size", "free.scales.bubble.col", "free.scales.line.col", "free.scales.line.lwd"))
 	g <- list(tm_facets=c(as.list(environment()), list(call=calls)))

@@ -11,7 +11,7 @@
 #' @export
 get_asp_ratio <- function(shp) {
 	bb <- shp@bbox
-	calc_asp_ratio(bb[1, ], bb[2, ], !is.projected(shp))
+	calc_asp_ratio(bb[1, ], bb[2, ], !is_projected(shp))
 }
 
 calc_asp_ratio <- function(xlim, ylim, longlat) {

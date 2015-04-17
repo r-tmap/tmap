@@ -16,6 +16,7 @@ Imports:
     gridBase,
     sp,
     rgdal,
+    raster,
     classInt,
     RColorBrewer,
     igraph,

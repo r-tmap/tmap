@@ -179,6 +179,13 @@ process_tm <- function(x, asp_ratio) {
 				if (!is.null(text)) {
 					text.size <- text.size * scale
 				}
+
+
+				if (!is.null(raster)) {
+					#if (!is.null(data_by)) fill <- fill[i]
+					if (!is.na(xraster[1])) raster.legend.misc$lwd <- raster.legend.misc$lwd * scale
+				}
+
 			})
 		})
 		

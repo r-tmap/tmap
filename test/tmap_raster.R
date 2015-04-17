@@ -1,56 +1,96 @@
-library(sp)
-library(raster)
-
-data(meuse.grid)
-m = SpatialPixelsDataFrame(points = meuse.grid[c("x", "y")], data = meuse.grid)
-
-str(m)
-
-coordinates(meuse.grid) = c("x", "y")
-gridded(meuse.grid) <- TRUE
-x = as(meuse.grid, "SpatialGridDataFrame")
-x[["idist"]] = 1 - x[["dist"]]
-image(x["idist"])
-
-str(x)
-
-data(NLD_muni)
-
-
-
-par(mar=c(1,1,1,1))
-plot(NLD_lim)
-image(x["idist"], add = TRUE)
-
-
-grid.rect()
-
-r <- raster(x, layer="idist")
-plot(r)
-
-
-
-bb <- bbox(NLD_lim)
-
-grid.raster(r)
-
-r2 <- as.raster(r)
-grid.raster(r2, width=.5, height=.5)
-
 
 
 data(NLD_muni)
 NLD_lim <- NLD_muni[NLD_muni$province=="Limburg",]
 
+
+
 data(meuse.grid)
-str(meuse.grid)
+coordinates(meuse.grid) = c("x", "y")
+gridded(meuse.grid) <- TRUE
 
-r <- raster(meuse.grid)
+## SpatialPixelsDataFrame
+shpPx <- meuse.grid
+class(shpPx)
 
-tm_shape(NLD_muni) +
+shpPx@bbox <- shpPx@bbox * 2
+image(shpPx["dist"])
+
+
+shpPx2 <- as(shpPx, "SpatialPixels")
+class(shpPx2)
+
+## SpatialGridDataFrame
+shpGrid <- as(meuse.grid, "SpatialGridDataFrame")
+class(shpGrid)
+
+
+## raster
+shpRst <- raster(meuse.grid, layer="dist")
+class(shpRst)
+
+
+tm_shape(NLD_muni, ylim = c(0, .1), xlim=c(.6, .8)) +
+	tm_fill("population", palette = "Blues") +
+	tm_borders() +
+	tm_shape(shpPx) +
+	tm_raster("dist") + 
+	tm_shape(rivers) +
+	tm_lines()
+
+tm_shape(NLD_lim) +
 	tm_fill() +
 	tm_borders() +
-tm_shape(meuse.grid) +
+tm_shape(shpPx) +
 	tm_raster("dist")
 
 
+tm_shape(shpPx) +
+	tm_raster("dist")
+
+library(rworldmap)
+data(gridExData,envir=environment(),package="rworldmap")
+str(gridExData@data)
+
+WorldLL <- set_projection(World, "longlat")
+gridExData <- set_projection(gridExData, current.projection = "longlat", overwrite.current.projection = TRUE)
+
+
+data(World)
+tm_shape(WorldLL) +
+	tm_borders() +
+tm_shape(gridExData) +
+	tm_raster("pa2000.asc")
+
+
+tm_shape(gridExData) +
+	tm_raster("pa2000.asc") +
+tm_shape(WorldLL) +
+	tm_borders()
+	
+
+library(rgdal)
+library(raster)
+
+#http://www.iscgm.org/gm/glcnmo.html
+
+
+data(World)
+x = readGDAL("../shapes/gm_lc_v1_simple2p.tif")
+x$band1cat <- factor(x$band1, levels=1:20, labels=
+					 	c("Broadleaf Evergreen Forest", "Broadleaf Deciduous Forest",
+					 	  "Needleleaf Evergreen Forest", "Needleleaf Deciduous Forest",
+					 	  "Mixed Forest", "Tree Open",
+					 	  "Shrub", "Herbaceous",
+					 	  "Herbaceous with Sparse Tree/Shrub", "Sparse vegetation",
+					 	  "Cropland", "Paddy field",
+					 	  "Cropland / Other Vegetation Mosaic", "Mangrove",
+					 	  "Wetland", "Bare area,consolidated(gravel,rock)",
+					 	  "Bare area,unconsolidated (sand)", "Urban",
+					 	  "Snow / Ice", "Water bodies")
+)
+
+tm_shape(x) +
+	tm_raster("band1cat", max.categories = 20) +
+tm_shape(World) +
+	tm_borders()	

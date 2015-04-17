@@ -66,13 +66,13 @@ legend_plot <- function(gt, x, legend_pos) {
 		# shrink heights (remove white space)
 		margin <- 0.25 * gt$legend.text.size
 		heights <- mapply(function(p, hname) {
-			if (p && hname %in% c("fill", "bubble.col", "line.col", "line.lwd")) {
+			if (p && hname %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
 				length(x[[hname]]$legend.labels) * lineHeight * gt$legend.text.size + 2*margin*lineHeight
 			} else if (p && hname == "bubble.size") {
 				sum(pmax(convertHeight(unit(x[[hname]]$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
 			} else if (!p && hname == "bubble.size") {
 				max(convertHeight(unit(x[[hname]]$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
-			} else if (!p && hname %in% c("fill", "bubble.col", "line.col", "line.lwd")) {
+			} else if (!p && hname %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
 				2*margin*lineHeight*gt$legend.text.size + 2.75 * lineHeight*gt$legend.text.size
 			} else if (substr(hname, 1, 5) == "title") {
 				legend.title.npc
@@ -258,9 +258,10 @@ legend_portr <- function(x, legend.text.size, lineHeight) {
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 			
 		
-		grobLegendItem <- if (legend.type=="fill") {
+		grobLegendItem <- if (legend.type %in% c("fill", "raster")) {
 			fill <- get_alpha_col(legend.palette, alpha)
-			col <- get_alpha_col(border.col, border.alpha)
+			col <- ifelse(legend.type =="fill", get_alpha_col(border.col, border.alpha), NA)
+			if (legend.type=="raster") lwd <- NA
 			rectGrob(x=mx+ws/2, 
 					  y=ys, 
 					  width= ws, 
@@ -363,7 +364,7 @@ legend_landsc <- function(x, legend.text.size, lineHeight) {
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 		
 		
-		grobLegendItem <- if (legend.type=="fill") {
+		grobLegendItem <- if (legend.type %in% c("fill", "raster")) {
 			fill <- get_alpha_col(legend.palette, alpha)
 			col <- get_alpha_col(border.col, border.alpha)
 			rectGrob(x=xs, 

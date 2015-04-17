@@ -1,7 +1,6 @@
 grid.shape <- function(shp, gp=gpar(), bg.col=NA) {
 	# TODO substract holes
 	bb <- bbox(shp)
-	cat(bb, "\n")
 	co1 <- do.call("rbind", mapply(function(p, id1) {
 		co2 <- mapply(function(pp, id2) {
 			coords <- pp@coords

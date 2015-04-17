@@ -1,14 +1,14 @@
 legend_prepare <- function(gp, gt, scaleFactor) {
-	varnames <- c("fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	varnames <- c("fill", "bubble.size", "bubble.col", "line.col", "line.lwd", "raster")
 	
 	ids <- lapply(varnames, function(v) {
 		which(sapply(gp, function(x)!is.na(x$varnames[[v]][1])))[1]
 	})
 	names(ids) <- varnames
 	
-	varnames2 <- c("fill", "fill", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	varnames2 <- c("fill", "fill", "bubble.size", "bubble.col", "line.col", "line.lwd", "raster")
 	
-	varnames3 <- c("fill", "fill_hist", "bubble.size", "bubble.col", "line.col", "line.lwd")
+	varnames3 <- c("fill", "fill_hist", "bubble.size", "bubble.col", "line.col", "line.lwd", "raster")
 	ids2 <- ids[varnames2]
 	
 	if (!gt$legend.show) gt$legend.config <- ""
