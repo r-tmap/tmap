@@ -77,6 +77,9 @@ library(raster)
 
 data(World)
 x = readGDAL("../shapes/gm_lc_v1_simple2p.tif")
+y = readGDAL("../shapes/gm_ve_v1_simple2p.tif")
+
+
 x$band1cat <- factor(x$band1, levels=1:20, labels=
 					 	c("Broadleaf Evergreen Forest", "Broadleaf Deciduous Forest",
 					 	  "Needleleaf Evergreen Forest", "Needleleaf Deciduous Forest",
@@ -89,8 +92,15 @@ x$band1cat <- factor(x$band1, levels=1:20, labels=
 					 	  "Bare area,unconsolidated (sand)", "Urban",
 					 	  "Snow / Ice", "Water bodies")
 )
+y$band1[y$band1==254] <- NA
+
 
 tm_shape(x) +
 	tm_raster("band1cat", max.categories = 20) +
 tm_shape(World) +
 	tm_borders()	
+
+tm_shape(y) +
+	tm_raster("band1", palette="Greens") +
+	tm_shape(World) +
+	tm_borders()
