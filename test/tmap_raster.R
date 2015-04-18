@@ -48,6 +48,10 @@ tm_shape(shpPx) +
 tm_shape(shpPx) +
 	tm_raster("dist")
 
+tm_shape(shpGrid) +
+	tm_raster("dist")
+
+
 library(rworldmap)
 data(gridExData,envir=environment(),package="rworldmap")
 str(gridExData@data)
@@ -82,8 +86,7 @@ library(raster)
 x = readGDAL("../shapes/gm_lc_v1_simple2p.tif")
 y = readGDAL("../shapes/gm_ve_v1_simple2p.tif")
 
-
-x$band1cat <- factor(x$band1, levels=1:20, labels=
+x$band1 <- factor(x$band1, levels=1:20, labels=
 					 	c("Broadleaf Evergreen Forest", "Broadleaf Deciduous Forest",
 					 	  "Needleleaf Evergreen Forest", "Needleleaf Deciduous Forest",
 					 	  "Mixed Forest", "Tree Open",
@@ -91,21 +94,38 @@ x$band1cat <- factor(x$band1, levels=1:20, labels=
 					 	  "Herbaceous with Sparse Tree/Shrub", "Sparse vegetation",
 					 	  "Cropland", "Paddy field",
 					 	  "Cropland / Other Vegetation Mosaic", "Mangrove",
-					 	  "Wetland", "Bare area,consolidated(gravel,rock)",
+					 	  "Wetland", "Bare area,consolidated (gravel,rock)",
 					 	  "Bare area,unconsolidated (sand)", "Urban",
 					 	  "Snow / Ice", "Water bodies")
 )
 y$band1[y$band1==254] <- NA
 
-xr <- raster(x, layer=2)
+
+??land
+land <- x
+land$trees <- y$band1
+names(land)[1] <- "cover"
+
+
+land_px <- as(land, "SpatialPixelsDataFrame")
+
+land_b <- as(land, "RasterBrick")
+land_s <- as(land, "RasterStack")
+
+xr <- raster(x, layer=1)
 yr <- raster(y, layer=1)
 
 xy <- stack(xr, yr)
 xyb <- brick(xr, yr)
 
+xyl <- stack(xy, land_s)
+xybl <- stack(xyb, land_b)
 
-tm_shape(xyb) +
-	tm_raster("band1cat", max.categories = 20) +
+str(xyb)
+
+
+tm_shape(xyl) +
+	tm_raster(c("band1.1", "band1.2"), max.categories = 20) +
 tm_shape(World) +
 	tm_borders()	
 

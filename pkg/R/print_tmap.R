@@ -41,12 +41,12 @@ print.tmap <- function(x, vp=NULL, ...) {
 		if (inherits(shp, "Spatial")) {
 			if ("data" %in% names(attributes(shp))) {
 				data <- shp@data
+				isPixels <- inherits(shp, "SpatialPixelsDataFrame")
 				shp <- if (inherits(shp, "SpatialPolygonsDataFrame")) {
 					as(shp, "SpatialPolygons")
 				} else if (inherits(shp, "SpatialLinesDataFrame")) {
 					as(shp, "SpatialLines")
 				} else if (inherits(shp, "SpatialGridDataFrame")) {
-					shp@data <- data.frame(ID=1:nrow(data))
 					as(shp, "RasterLayer")
 				} else if (inherits(shp, "SpatialPixelsDataFrame")) {
 					shp@data <- data.frame(ID=1:nrow(data))
@@ -54,7 +54,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 				} else if (inherits(shp, "SpatialPointsDataFrame")) {
 					as(shp, "SpatialPoints")
 				}
-				if (inherits(shp, "RasterLayer")) {
+				if (isPixels) {
 					data <- data[shp@data@values, ,drop=FALSE]
 				}
 			} else {
@@ -71,14 +71,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 			data <- as.data.frame(lapply(shp@layers, get_RasterLayer_data_vector))
 			names(data) <- names(shp)
 		} else if (inherits(shp, "RasterBrick")) {
-			data <- as.data.frame(mapply(function(v, isf, a){
-				if (isf) {
-					dt <- a[[1]]
-					factor(v, levels=dt$ID, labels=dt$levels)
-				} else {
-					v
-				}
-			}, as.data.frame(shp@data@values), shp@data@isfactor, shp@data@attributes, SIMPLIFY=FALSE))
+			data <- get_RasterBrick_data(shp)
 		}
 		
 		if (inherits(shp, "Raster")) {
@@ -202,8 +195,48 @@ get_RasterLayer_data_vector <- function(r) {
 	values <- r@data@values
 	if (r@data@isfactor) {
 		dt <- r@data@attributes[[1]]
-		factor(values, levels=dt$ID, labels=dt$levels)
+		if ("levels" %in% names(dt)) {
+			factor(values, levels=dt$ID, labels=dt$levels)
+		} else {
+			warning("No 'levels' column found in data@attributes.")
+			values
+		}
 	} else {
 		values
+	}
+}
+
+
+get_RasterBrick_data <- function(shp) {
+	if (ncol(shp@data@values) > 1 && length(shp@data@attributes)==1) {
+		## only one attributes: levels stored in named column
+		dt <- shp@data@attributes
+		data <- as.data.frame(mapply(function(v, isf, nm){
+			if (isf) {
+				if (nm %in% names(dt)) {
+					factor(v, levels=dt$ID, labels=dt[[nm]])
+				} else {
+					warning(paste("No", nm, "column found in data@attributes."))
+					v
+				}
+			} else {
+				v
+			}
+		}, as.data.frame(shp@data@values), shp@data@isfactor, shp@data@names, SIMPLIFY=FALSE))
+	} else {
+		## one attributes for each layer: levels stored in "levels" column
+		data <- as.data.frame(mapply(function(v, isf, a){
+			if (isf) {
+				dt <- a[[1]]
+				if ("levels" %in% names(dt)) {
+					factor(v, levels=dt$ID, labels=dt$levels)
+				} else {
+					warning("No 'levels' column found in data@attributes.")
+					v
+				}
+			} else {
+				v
+			}
+		}, as.data.frame(shp@data@values), shp@data@isfactor, shp@data@attributes, SIMPLIFY=FALSE))
 	}
 }
