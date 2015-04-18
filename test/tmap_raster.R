@@ -76,6 +76,9 @@ library(raster)
 
 
 data(World)
+library(rgdal)
+library(sp)
+library(raster)
 x = readGDAL("../shapes/gm_lc_v1_simple2p.tif")
 y = readGDAL("../shapes/gm_ve_v1_simple2p.tif")
 
@@ -94,8 +97,14 @@ x$band1cat <- factor(x$band1, levels=1:20, labels=
 )
 y$band1[y$band1==254] <- NA
 
+xr <- raster(x, layer=2)
+yr <- raster(y, layer=1)
 
-tm_shape(x) +
+xy <- stack(xr, yr)
+xyb <- brick(xr, yr)
+
+
+tm_shape(xyb) +
 	tm_raster("band1cat", max.categories = 20) +
 tm_shape(World) +
 	tm_borders()	

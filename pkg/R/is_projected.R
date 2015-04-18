@@ -1,5 +1,5 @@
 is_projected <- function(x) {
-	isP <- if (inherits(x, "Spatial")) is.projected(x) else if (inherits(x, "RasterLayer")) !couldBeLonLat(x, warnings=FALSE) else attr(x, "projected")
+	isP <- if (inherits(x, "Spatial")) is.projected(x) else if (inherits(x, "Raster")) !couldBeLonLat(x, warnings=FALSE) else attr(x, "projected")
 	if (is.na(isP)) {
 		isP <- !maybe_longlat(attr(x, "bbox"))
 	}

@@ -64,10 +64,24 @@ print.tmap <- function(x, vp=NULL, ...) {
 				data$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
 			}
 		} else if (inherits(shp, "RasterLayer")) {
-			data <- structure(list(shp@data@values), .Names = shp@data@names, row.names=seq_along(shp@data@values), class = "data.frame")
+			#data <- structure(list(shp@data@values), .Names = shp@data@names, row.names=seq_along(shp@data@values), class = "data.frame")
+			data <- data.frame(get_RasterLayer_data_vector(shp))
+			names(data) <- names(shp)
+		} else if (inherits(shp, "RasterStack")) {
+			data <- as.data.frame(lapply(shp@layers, get_RasterLayer_data_vector))
+			names(data) <- names(shp)
+		} else if (inherits(shp, "RasterBrick")) {
+			data <- as.data.frame(mapply(function(v, isf, a){
+				if (isf) {
+					dt <- a[[1]]
+					factor(v, levels=dt$ID, labels=dt$levels)
+				} else {
+					v
+				}
+			}, as.data.frame(shp@data@values), shp@data@isfactor, shp@data@attributes, SIMPLIFY=FALSE))
 		}
 		
-		if (inherits(shp, "RasterLayer")) {
+		if (inherits(shp, "Raster")) {
 			bb <- bbox(shp)
 			crs <- shp@crs
 			projected <- is_projected(shp)
@@ -184,3 +198,12 @@ print.tmap <- function(x, vp=NULL, ...) {
 }
 
 
+get_RasterLayer_data_vector <- function(r) {
+	values <- r@data@values
+	if (r@data@isfactor) {
+		dt <- r@data@attributes[[1]]
+		factor(values, levels=dt$ID, labels=dt$levels)
+	} else {
+		values
+	}
+}
