@@ -96,11 +96,15 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		nplots <- nlevels(data_by[[1]])
 		
 		shps_by_splt <- mapply(function(s_by, d_by) {
-			split_shape(s_by, f = d_by)
+			if (inherits(s_by, "Spatial")) {
+				split_shape(s_by, f = d_by)	
+			}  else {
+				split_raster(s_by, f = d_by)
+			} 
 		}, shps_by, data_by, SIMPLIFY=FALSE)
 		
 		
-		shp.by.bbox <- sapply(shps_by, bbox)
+		shp.by.bbox <- sapply(shps_by, attr, which="bbox")
 		shp.by.bbox <- matrix(c(apply(shp.by.bbox[1:2,,drop=FALSE], MARGIN = 1, min), apply(shp.by.bbox[3:4,,drop=FALSE], MARGIN = 1, max)),
 							   nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
 		shp.by.bbox <- get_bbox_asp(shp.by.bbox, gm$inner.margins, longlat, pasp=NA)$bbox
@@ -108,7 +112,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		bboxes <- do.call("mapply", c(list(FUN=function(...){
 			x <- list(...)
 			
-			bb <- sapply(x, bbox)
+			bb <- sapply(x, attr, which="bbox")
 			bb <- matrix(c(apply(bb[1:2,,drop=FALSE], MARGIN = 1, min), apply(bb[3:4,,drop=FALSE], MARGIN = 1, max)),
 								  nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
 			
@@ -285,3 +289,31 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	list(bbox=bb, sasp=sasp)
 }
 
+split_raster <- function(r, f) {
+	if (!is.factor(f)) {
+		warning("f is not a factor")
+		f <- as.factor(f)
+	}
+	bb <- attr(r, "bbox")
+	lev <- intersect(levels(f), f)
+	lapply(lev, function(l){
+		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=r$ncol, nrow=r$nrow, byrow = TRUE)
+		cls <- colSums(m)
+		rws <- rev(rowSums(m))
+		
+		xrng <- range(which(cls!=0))
+		yrng <- range(which(rws!=0))
+		
+		xrng[1] <- xrng[1] - 1
+		yrng[1] <- yrng[1] - 1
+		
+		xlim <- xrng / r$ncol
+		ylim <- yrng / r$nrow
+		
+		attr(r, "bbox") <- matrix(c(bb[1,1] + (bb[1,2] - bb[1,1]) * xlim[1],
+				 bb[1,1] + (bb[1,2] - bb[1,1]) * xlim[2],
+				 bb[2,1] + (bb[2,2] - bb[2,1]) * ylim[1],
+				 bb[2,1] + (bb[2,2] - bb[2,1]) * ylim[2]), ncol=2, dimnames=dimnames(bb), byrow = TRUE)
+		r
+	})
+}

@@ -93,7 +93,8 @@ NULL
 #' \item \code{\link{tm_fill}} to fill the polygons
 #' \item \code{\link{tm_bubbles}} to draw bubbles
 #' \item \code{\link{tm_lines}} to draw lines
-#' \item \code{\link{tm_text}} to print text}
+#' \item \code{\link{tm_text}} to print text
+#' \item \code{\link{tm_raster}} to draw a raster}
 #' 
 #' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}} (see examples below).
 #' 

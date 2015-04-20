@@ -1,6 +1,6 @@
 process_layers <- function(g, gt, gf) {
 	if (dupl <- anyDuplicated(names(g))) {
-		warning(paste("One tm layer has duplicated drawing elements, which are omitted. To draw multiple of the same drawing element, use multiple layers (i.e. specify tm_shape prior to each of them)."))
+		warning(paste("One tm layer group has duplicated layer types, which are omitted. To draw multiple layers of the same type, use multiple layer groups (i.e. specify tm_shape prior to each of them)."))
 		g <- g[-dupl]	
 	} 
 	
