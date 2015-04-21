@@ -27,9 +27,15 @@ cat2pal <- function(x,
 	} else revPal <- function(p)p
 	
 
+	n <- nlevels(x)
 	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
-		maxCols <- brewer.pal.info[palette, "maxcolors"]
-		revPal(rep(brewer.pal(maxCols, name=palette), length.out=nlevels(x)))
+		brewerpal <- brewer.pal(min(brewer.pal.info[palette, "maxcolors"], n), name=palette)
+		if (brewer.pal.info[palette, "category"]=="qual") {
+			p <- rep(brewerpal, length.out=nlevels(x))
+		} else {
+			p <- colorRampPalette(brewerpal)(nlevels(x))
+		}
+		revPal(p)
 	} else {
         rep(palette, length.out=nlevels(x))
 	}

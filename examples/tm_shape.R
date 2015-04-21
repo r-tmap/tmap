@@ -8,7 +8,7 @@ tm_shape(World, projection="longlat") +
     tm_layout("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.size=.8)
 
 World$highlighted <- ifelse(World$iso_a3 %in% c("GRL", "AUS"), "gold", "gray75")
-tm_shape(World, projection="merc") + 
+tm_shape(World, projection="merc", ylim=c(.1, 1)) + 
 	tm_fill("highlighted") + 
 	tm_borders() + 
 	tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for

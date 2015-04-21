@@ -51,7 +51,7 @@ tm_layout <- function(title=NA,
 					  legend.show = TRUE,
 					  legend.hist.show = FALSE,
 					  legend.only = FALSE,
-					  legend.titles = c(fill = NA, bubble.size = NA, bubble.col = NA, line.col = NA, line.lwd = NA),
+					  legend.titles = c(fill = NA, bubble.size = NA, bubble.col = NA, line.col = NA, line.lwd = NA, raster=NA),
 					  legend.position = NULL,
 					  legend.is.portrait = c(fill = TRUE, bubble.size = FALSE, 
 					  					   bubble.col = TRUE,
@@ -65,6 +65,7 @@ tm_layout <- function(title=NA,
 					  legend.hist.size=0.7,
 					  legend.scientific = FALSE,
 					  legend.digits = NA,
+					  legend.frame = FALSE,
 					  legend.bg.color = NA) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tm"

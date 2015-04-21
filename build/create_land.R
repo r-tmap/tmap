@@ -1,5 +1,6 @@
 library(rgdal)
 library(raster)
+library(RColorBrewer)
 
 #http://www.iscgm.org/gm/glcnmo.html
 
@@ -8,8 +9,8 @@ data(World)
 library(rgdal)
 library(sp)
 library(raster)
-x = readGDAL("../shapes/gm_lc_v1_simple2p.tif")
-y = readGDAL("../shapes/gm_ve_v1_simple2p.tif")
+x = readGDAL("../shapes/gm_lc_v2_0_1_simple1_25p.tif")
+y = readGDAL("../shapes/gm_ve_v2_simple_1_25p.tif")
 
 x$band1 <- factor(x$band1, levels=1:20, labels=
 				  	c("Broadleaf Evergreen Forest", "Broadleaf Deciduous Forest",
@@ -25,10 +26,29 @@ x$band1 <- factor(x$band1, levels=1:20, labels=
 )
 y$band1[y$band1==254] <- NA
 
-
 land <- x
-land$trees <- y$band1
 names(land)[1] <- "cover"
 
+ids <- c(1,1,1,1,1,1,2,2,2,5,3,3,3,4,4,5,5,6,7,8)
+
+land$cover_cls <- factor(ids[as.numeric(land$cover)], levels=1:8, labels=c("Forest", "Other natural vegetation", "Cropland", "Wetland", "Bare area/Sparse vegetation", "Urban", "Snow/ice", "Water"))
+
+land$trees <- y$band1
+
+
+pal20 <- do.call("rgb", c(unname(as.list(read.table("../shapes/read_me_color_lc.txt", skip = 2)))[-1], list(maxColorValue=255)))
+
+cat(paste0("pal20 <- c(\"", paste(pal20, collapse = "\", \""), "\")"))
+
+#pal8 <- pal20[c(2, 8, 11, 15, 16, 18:20)]
+
+paired <- brewer.pal(12, "Paired")
+
+pal8 <- paired[c(4,3,7,2,NA,6, NA,1)]
+pal8[c(5,7)] <- gray(c(.6, .9))
+
+cat(paste0("pal8 <- c(\"", paste(pal8, collapse = "\", \""), "\")"))
+
 save(land, file="./data/land.rda", compress="xz")
+
 

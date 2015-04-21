@@ -10,11 +10,11 @@ devtools::load_all(".")
 ## download world shape files from http://www.naturalearthdata.com/features/
 ###########################################################################
 
-download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries_lakes.zip", "../shapes/ne_50m_admin_0_countries_lakes.zip")
+#download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries_lakes.zip", "../shapes/ne_50m_admin_0_countries_lakes.zip")
 unzip("../shapes/ne_50m_admin_0_countries_lakes.zip", exdir="../shapes")
 world50 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
 
-download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
+#download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
 unzip("../shapes/ne_110m_admin_0_countries_lakes.zip", exdir="../shapes")
 world110 <- readOGR("../shapes", "ne_110m_admin_0_countries_lakes")
 
@@ -176,7 +176,7 @@ world2 <- world110
 
 ## crop to prevent inflated south pole
 bbw <- world2@bbox
-bbw[2, 1] <- -86
+bbw[2, 1] <- -88 #-83.75
 world3 <- crop_shape(world2, bb=bbw)
 gIsValid(world3)
 

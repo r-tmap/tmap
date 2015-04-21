@@ -241,6 +241,9 @@ get_bbox_lim <- function(shp.bbox, relative, bbox, xlim, ylim) {
 			} else {
 				shp.bbox[2,1] + ylim * steps[2]
 			}
+		} else {
+			if (is.null(xlim)) xlim <- shp.bbox[1, ]
+			if (is.null(ylim)) ylim <- shp.bbox[2, ]
 		}
 		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
 					   dimnames=list(c("x", "y"), c("min", "max")))

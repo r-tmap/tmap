@@ -4,6 +4,7 @@ data(NLD_muni)
 NLD_lim <- NLD_muni[NLD_muni$province=="Limburg",]
 
 #### meuse
+library(raster)
 
 
 data(meuse.grid)
