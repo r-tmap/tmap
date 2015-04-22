@@ -13,7 +13,7 @@ tm_shape(land, ylim = c(-88,88), relative=FALSE) +
 	tm_raster("cover_cls", palette = pal8) +
 	tm_shape(World) +
 	tm_borders() +
-	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF55")
+	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF", legend.bg.alpha=.4, legend.frame=TRUE)
 
 
 tm_shape(land, ylim = c(-88,88), relative=FALSE) +
@@ -56,7 +56,7 @@ tm_shape(land, ylim = c(-88,88), relative=FALSE) +
 	tm_shape(World) +
 	tm_fill("continent", alpha=.5) +
 	tm_borders() +
-	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF55", legend.frame=TRUE, legend.titles=c(raster="Test", fill="continent"))
+	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF55", legend.frame=TRUE, legend.titles=c(raster="Test", fill="Continent"))
 
 
 tm_shape(land, ylim = c(-88,88), relative=FALSE) + 
@@ -64,3 +64,17 @@ tm_shape(land, ylim = c(-88,88), relative=FALSE) +
 	tm_shape(World) +
 	tm_borders() +
 	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF55", legend.frame=TRUE)
+
+
+
+
+
+
+
+tm_shape(World) +
+	tm_fill("income_grp", style="kmeans", palette="-Blues") +
+	tm_borders() +
+	tm_text("iso_a3", size="AREA", scale=1.5) +
+	tm_shape(metro) +
+	tm_bubbles("X2010", col = "growth", border.col = "black", border.alpha = .5, style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf) ,palette="-RdYlGn", contrast=1) + 
+	tm_layout_World(title="Income and urbanization", legend.titles=c(fill="Income class", bubble.size="Metro population (2010)", bubble.col="Annual growth rate (%)"), legend.hist.show=FALSE, legend.bg.color="red")
