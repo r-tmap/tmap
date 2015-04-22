@@ -17,7 +17,8 @@ The elements that serve as drawing layers are
 \item \code{\link{tm_fill}} to fill the polygons
 \item \code{\link{tm_bubbles}} to draw bubbles
 \item \code{\link{tm_lines}} to draw lines
-\item \code{\link{tm_text}} to print text}
+\item \code{\link{tm_text}} to print text
+\item \code{\link{tm_raster}} to draw a raster}
 
 The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}} (see examples below).
 
@@ -33,7 +34,7 @@ data(World)
 data(Europe)
 data(NLD_muni)
 data(NLD_prov)
-data(cities)
+data(metro)
 
 qtm(Europe)
 
@@ -46,13 +47,24 @@ tm_shape(World) +
 	tm_text("iso_a3", size="AREA", scale=1.5) +
 	tm_layout_World(title="Population per km2")
 
+metro$growth <- (metro$X2020 - metro$X2010) / (metro$X2010 * 10) * 100
+tm_shape(World) +
+	tm_fill("income_grp", style="kmeans", palette="-Blues") +
+	tm_borders() +
+	tm_text("iso_a3", size="AREA", scale=1.5) +
+	tm_shape(metro) +
+	tm_bubbles("X2010", col = "growth", border.col = "black", border.alpha = .5, style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf) ,palette="-RdYlGn", contrast=1) + 
+	tm_layout_World(title="Income and urbanization", legend.titles=c(fill="Income class", bubble.size="Metro population (2010)", bubble.col="Annual growth rate (\%)"), legend.hist.show=FALSE)
+
+
+
 tm_shape(Europe) +
 	tm_borders() +
 	tm_fill() +
-tm_shape(cities) +
-	tm_bubbles(size="pop_max", col="capital", size.lim=c(0, 2e7)) +
-	tm_text("name", size="pop_max", scale=2, root=3, ymod=-.015, bg.alpha=0) +
-	tm_layout_Europe("Metropolitan population", legend.titles=c(bubble.col="Capital"))
+	tm_shape(metro) +
+	tm_bubbles(size="X2010", col="purple", size.lim=c(0, 1.2e7)) +
+	tm_text("name", size="X2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
+	tm_layout_Europe("Metro population", legend.titles=c(bubble.col="Capital"))
 
 tm_shape(NLD_muni) +
 	tm_borders() +

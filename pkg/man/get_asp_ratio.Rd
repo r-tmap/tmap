@@ -4,7 +4,7 @@
 \alias{get_asp_ratio}
 \title{Get aspect ratio}
 \usage{
-get_asp_ratio(xlim, ylim, longlat)
+get_asp_ratio(shp)
 }
 \arguments{
 \item{shp}{shape object, which is one of

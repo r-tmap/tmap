@@ -49,4 +49,18 @@ tm_shape(land, ylim = c(-88,88), relative=FALSE) +
 	tm_raster("cover_cls", palette = pal8) +
 tm_shape(World) +
 	tm_borders() +
-	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF55", legend.frame=TRUE, legend.titles=c(raster="test"))
+	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF55", legend.frame=TRUE, legend.titles=c(raster="Test"))
+
+tm_shape(land, ylim = c(-88,88), relative=FALSE) + 
+	tm_raster("cover_cls", palette = pal8) +
+	tm_shape(World) +
+	tm_fill("continent", alpha=.5) +
+	tm_borders() +
+	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF55", legend.frame=TRUE, legend.titles=c(raster="Test", fill="continent"))
+
+
+tm_shape(land, ylim = c(-88,88), relative=FALSE) + 
+	tm_raster("cover_cls", palette = pal8) +
+	tm_shape(World) +
+	tm_borders() +
+	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF55", legend.frame=TRUE)

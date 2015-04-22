@@ -13,24 +13,26 @@ tm_layout(title = NA, scale = 1, title.size = 1.5, bg.color = NULL,
   inner.margins = rep(0.02, 4), outer.bg.color = "white",
   legend.show = TRUE, legend.hist.show = FALSE, legend.only = FALSE,
   legend.titles = c(fill = NA, bubble.size = NA, bubble.col = NA, line.col =
-  NA, line.lwd = NA), legend.position = NULL, legend.is.portrait = c(fill =
-  TRUE, bubble.size = FALSE, bubble.col = TRUE, line.col = TRUE, line.lwd =
-  FALSE), legend.width = 0.3, legend.height = 0.9,
-  legend.hist.height = 0.3, legend.config = c("fill_hist", "fill",
-  "bubble.size", "bubble.col", "line.col", "line.lwd"), legend.title.size = 1,
+  NA, line.lwd = NA, raster = NA), legend.position = NULL,
+  legend.is.portrait = c(fill = TRUE, bubble.size = FALSE, bubble.col = TRUE,
+  line.col = TRUE, line.lwd = FALSE, raster = TRUE), legend.width = 0.3,
+  legend.height = 0.9, legend.hist.height = 0.3,
+  legend.config = c("fill_hist", "fill", "bubble.size", "bubble.col",
+  "line.col", "line.lwd", "raster"), legend.title.size = 1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
-  legend.scientific = FALSE, legend.digits = NA, legend.bg.color = NA)
+  legend.scientific = FALSE, legend.digits = NA, legend.frame = FALSE,
+  legend.bg.color = NA)
 
 tm_layout_World(title = NA, scale = 0.85, title.bg.color = TRUE,
-  inner.margins = c(0, 0.02, 0.02, 0.02), legend.position = c("left",
+  inner.margins = c(0, 0.01, 0.01, 0.01), legend.position = c("left",
   "bottom"), legend.width = 0.25, legend.height = 0.5,
   legend.bg.color = TRUE, ...)
 
 tm_layout_Europe(title = NA, title.position = c("left", "top"),
-  legend.position = c("left", "top"), inner.margins = c(0, 0.15, 0, 0), ...)
+  legend.position = c("left", "top"), inner.margins = c(0, 0.1, 0, 0), ...)
 
-tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
-  0.1, 0.05), legend.position = c("left", "top"), legend.width = 0.35, ...)
+tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.02, 0.2,
+  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.35, ...)
 }
 \arguments{
 \item{title}{Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.}
@@ -47,7 +49,7 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.05, 0.3,
 
 \item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 
-\item{asp}{Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}) and the argument \code{frame.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.}
+\item{asp}{Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.}
 
 \item{frame.lwd}{Width of the frame}
 
@@ -102,7 +104,7 @@ tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") +
 
 # A custom layout wrapper for Africa
 tm_layout_Africa <- function(title=NA,
-							 inner.margins = c(.02, .4, .02, .02),
+							 inner.margins = c(.02, .25, .02, .02),
 							 draw.frame = FALSE,
 							 title.position=c("left", "bottom"), 
 							 legend.position = c("left", "bottom"), 

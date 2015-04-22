@@ -38,8 +38,8 @@ legend_plot <- function(gt, x, legend_pos) {
 				if (!is.na(id)) {
 					conf <- if (id==1) c(id2, conf) else c(conf[1:(id-1)], id2, conf[id:length(conf)])
 					conf2 <- if (id==1) c(id2, conf2) else c(conf2[1:(id-1)], id2, conf2[id:length(conf2)])
-					lst <- list(list(legend.type="title", title=lt))
-					names(lst) <- id2
+					lst <- list(list(legend.type="spacer"), list(legend.type="title", title=lt))
+					names(lst) <- c("spacer", id2)
 					x <- c(x, lst)
 				}
 			}

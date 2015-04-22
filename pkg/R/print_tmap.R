@@ -6,6 +6,7 @@
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in
 #' @param ... not used
 #' @import sp
+#' @import raster
 #' @import RColorBrewer
 #' @import grid
 #' @import gridBase

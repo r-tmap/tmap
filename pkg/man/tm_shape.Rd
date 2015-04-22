@@ -51,7 +51,7 @@ Creates a \code{\link{tmap-element}} that specifies the shape object. Also the p
 }
 \examples{
 data(World)
-data(cities)
+data(metro)
 data(rivers)
 
 tm_shape(World, projection="longlat") + 
@@ -60,7 +60,7 @@ tm_shape(World, projection="longlat") +
     tm_layout("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.size=.8)
 
 World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
-tm_shape(World, projection="merc") + 
+tm_shape(World, projection="merc", ylim=c(.1, 1)) + 
 	tm_fill("highlighted") + 
 	tm_borders() + 
 	tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for
@@ -83,8 +83,8 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
 # three groups of layers, each starting with tm_shape
 tm_shape(World) +
 	tm_fill("darkolivegreen3") +
-tm_shape(cities) +
-	tm_bubbles("pop_max", col = "grey30", scale=.5) +
+tm_shape(metro) +
+	tm_bubbles("X2010", col = "grey30", scale=.5) +
 tm_shape(rivers) +
 	tm_lines("lightcyan1") +
 tm_layout_World(title = "", bg.color="lightcyan1", legend.show = FALSE)
