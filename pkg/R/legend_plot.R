@@ -10,11 +10,7 @@ legend_plot <- function(gt, x, legend_pos) {
 		}
 	}
 	if (is.null(gt$title.position)) {
-		if (title.only || gt$free.coords) {
-			gt$title.position <- c("left", "top")
-		} else {
-			gt$title.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
-		}
+		gt$title.position <- gt$legend.position
 	}
 
 	
@@ -27,6 +23,11 @@ legend_plot <- function(gt, x, legend_pos) {
 
 	# is title attached to legend?
 	titleg <- (is.character(gt$title.position) && all(gt$title.position==gt$legend.position) && !title.only)
+
+	# title properties
+	nlines <- length(strsplit(gt$title, "\n")[[1]])
+	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.size
+	titleHeight <- lineHeight * (nlines+.5) * gt$title.size
 	
 	if (!title.only) {
 		for (i in 1:length(gt$legend.titles)) {
@@ -52,10 +53,8 @@ legend_plot <- function(gt, x, legend_pos) {
 		legend.title.npc <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$legend.title.size
 		#title.npc <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$title.size
 		# normalize heights
-		nlines <- length(strsplit(gt$title, "\n")[[1]])
 		
-		titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.size
-		titleHeight <- lineHeight * (nlines+.5) * gt$title.size
+		
 		
 		## snap title to legend
 		if (titleg) {
@@ -98,8 +97,6 @@ legend_plot <- function(gt, x, legend_pos) {
 	} else {
 		heights <- 0
 	}
-
-	cat(heights, "\n")
 
 	legendWidth <- gt$legend.width
 
@@ -146,7 +143,7 @@ legend_plot <- function(gt, x, legend_pos) {
 	} else {
 		gTree(children=gList(if (!is.na(gt$title.bg.color)) {
 			title.bg.col <- get_alpha_col(gt$title.bg.color, gt$title.bg.alpha)
-			rectGrob(x = title.position[1], y = title.position[2], width=titleWidth, height=titleHeight, gp=gpar(col=NA, fill=title.bg.col))
+			rectGrob(x = title.position[1]-.5*mx, y = title.position[2], width=titleWidth+mx, just=c("left", "center"), height=titleHeight, gp=gpar(col=NA, fill=title.bg.col))
 		} else {
 			NULL
 		}, textGrob(label=gt$title, x = title.position[1], y = title.position[2], just=c("left", "bottom"), gp=gpar(cex=gt$title.size))))
@@ -166,13 +163,11 @@ legend_plot <- function(gt, x, legend_pos) {
 	legend.frame <- !is.logical(gt$legend.frame) || gt$legend.frame
 	legend.bg.color <- if (is.na(gt$legend.bg.color)) NA else get_alpha_col(gt$legend.bg.color, gt$legend.bg.alpha)
 	
-	cat(legend.frame, "\n")
 	legend.frame.color <- if (legend.frame) {
 		if (is.logical(gt$legend.frame)) "black" else gt$legend.frame
 	} else {
 		NA
 	}
-	cat(legend.frame.color, "\n")
 	
 	grobLegBG <- rectGrob(gp=gpar(col=legend.frame.color, fill=legend.bg.color))
 
@@ -223,11 +218,13 @@ legend_subplot <- function(x, id, gt) {
 	})
 }
 
-legend_title <- function(x, legend.title.size, lineHeight, m) {
-	my <- lineHeight * legend.title.size * m
+legend_title <- function(x, size, lineHeight, m) {
+	my <- lineHeight * size * m
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-	size <- min(legend.title.size, 1/lineHeight)
-	textGrob(x$title, x=mx, y=5/12 , just=c("left", "center"), gp=gpar(cex=size))
+	title <- x$title
+	w <- convertWidth(stringWidth(title), unitTo = "npc", valueOnly = TRUE) * size
+	newsize <- min(size, 1/lineHeight, size*(1-2*mx)/w)
+	textGrob(title, x=mx, y=5/12 , just=c("left", "center"), gp=gpar(cex=newsize))
 }
 
 

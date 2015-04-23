@@ -13,28 +13,21 @@ tm_shape(land, ylim = c(-88,88), relative=FALSE) +
 	tm_raster("cover_cls", palette = pal8) +
 	tm_shape(World) +
 	tm_borders() +
-	tm_layout("Global Land Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), legend.bg.color = "#FFFFFF", legend.bg.alpha=.4, legend.frame=TRUE)
+	tm_layout("Global Land Cover", inner.margins=0, legend.position = c("left","bottom"), legend.bg.color = "white", legend.bg.alpha=.2, legend.frame="gray50")
 
 
 tm_shape(land, ylim = c(-88,88), relative=FALSE) +
 	tm_raster("trees", palette = "Greens") +
 tm_shape(World) +
 	tm_borders() +
-tm_layout("Percent Tree Cover", inner.margins=0, title.position=c("left","bottom"), legend.position = c("left","bottom"), bg.color="lightblue")
+tm_layout("Percent Tree Cover", inner.margins=0, legend.position = c("left","bottom"), bg.color="lightblue")
 	
-tm_shape(land) +
-	tm_raster(c("cover_cls", "trees")) +
-tm_shape(World) +
-	tm_borders()
-
 
 tm_shape(land) +
-	tm_raster("cover", max.categories = 20) +
-tm_facets(by="cover") +
-tm_shape(World) +
-	tm_borders()
+	tm_raster("black") +
+tm_facets(by="cover_cls") +
+	tm_layout(inner.margins=0, title.position = c("left", "bottom"), title.bg.color="gray80")
 
-	
 
 
 
