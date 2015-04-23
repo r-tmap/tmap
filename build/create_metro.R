@@ -102,7 +102,7 @@ ccodes <- tables[["codelist"]]
 ccodes$iso_a3 <- ccodes[[4]]
 ccodes$ccode <- as.numeric(ccodes[[5]])
 
-
+library(XLConnect)
 ct <- readWorksheetFromFile("../shapes/WUP2014-F12-Cities_Over_300K.xls",
 							sheet="DATA", region="A17:Y1709", header=TRUE)
 

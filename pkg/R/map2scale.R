@@ -8,6 +8,11 @@
 # @return vector of index numbers
 map2divscaleID <- function(breaks, n=101, contrast=1) {
 	nbrks <- length(breaks)
+	
+	if (length(contrast)==1) {
+		contrast <- c(0, contrast)
+	}
+	crange <- contrast[2] - contrast[1]
     
     lw <- breaks[1]
     hg <- breaks[nbrks]
@@ -27,7 +32,7 @@ map2divscaleID <- function(breaks, n=101, contrast=1) {
 	if (is.div && !cat0) {
 		npos <- sum(breaks>0)
 		nneg <- sum(breaks<0)
-		step <- round((h-1)*contrast/((max(npos, nneg)-.5)*2))
+		step <- round((h-1)*crange/((max(npos, nneg)-.5)*2))
 	} else {
 		npos <- sum(breaks>=0) - !is.div
 		nneg <- sum(breaks<=0) - !is.div
@@ -38,9 +43,9 @@ map2divscaleID <- function(breaks, n=101, contrast=1) {
 	nid <- h - step
 	
 	ids <- rep(h, nbrks-1)
-	if (npos>0) ids[(nbrks-npos):(nbrks-1)] <- pid + 
-        seq(0, (n-pid)/mx*hg*contrast, length.out=npos)
-	if (nneg>0) ids[1:nneg] <- seq(nid-((nid-1)/mx*-lw*contrast), nid, 
+	if (npos>0) ids[(nbrks-npos+1):(nbrks-1)] <- pid + 
+        seq((n-pid)/mx*hg*contrast[1], (n-pid)/mx*hg*contrast[2], length.out=npos)
+	if (nneg>0) ids[1:nneg] <- seq(nid-((nid-1)/mx*-lw*contrast[2]), nid-((nid-1)/mx*-lw*contrast[1]), 
                                    length.out=nneg)	
 	round(ids)
 }

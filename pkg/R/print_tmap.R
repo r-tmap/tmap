@@ -209,35 +209,17 @@ get_RasterLayer_data_vector <- function(r) {
 
 
 get_RasterBrick_data <- function(shp) {
-	if (ncol(shp@data@values) > 1 && length(shp@data@attributes)==1) {
-		## only one attributes: levels stored in named column
-		dt <- shp@data@attributes
-		data <- as.data.frame(mapply(function(v, isf, nm){
-			if (isf) {
-				if (nm %in% names(dt)) {
-					factor(v, levels=dt$ID, labels=dt[[nm]])
-				} else {
-					warning(paste("No", nm, "column found in data@attributes."))
-					v
-				}
-			} else {
-				v
-			}
-		}, as.data.frame(shp@data@values), shp@data@isfactor, shp@data@names, SIMPLIFY=FALSE))
-	} else {
-		## one attributes for each layer: levels stored in "levels" column
-		data <- as.data.frame(mapply(function(v, isf, a){
-			if (isf) {
-				dt <- a[[1]]
-				if ("levels" %in% names(dt)) {
-					factor(v, levels=dt$ID, labels=dt$levels)
-				} else {
-					warning("No 'levels' column found in data@attributes.")
-					v
-				}
-			} else {
-				v
-			}
-		}, as.data.frame(shp@data@values), shp@data@isfactor, shp@data@attributes, SIMPLIFY=FALSE))
-	}
+	isfactor <- shp@data@isfactor
+	data <- as.data.frame(shp@data@values)
+	atb <- shp@data@attributes
+	atb <- atb[sapply(atb, length)!=0]
+	
+	stopifnot(sum(isfactor)==length(atb))
+	
+	if (any(isfactor)) data[isfactor] <- mapply(function(d, a){
+		if (class(a)=="list") a <- a[[1]]
+		levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
+		factor(d, levels=a$ID, labels=as.character(a[[levelsID]]))
+	}, data[isfactor], atb, SIMPLIFY=FALSE)
+	data
 }

@@ -12,7 +12,18 @@ coordinates(meuse.grid) = c("x", "y")
 gridded(meuse.grid) <- TRUE
 
 meuse.grid <- set_projection(meuse.grid, current.projection = "rd", overwrite.current.projection = TRUE)
+data(NLD_muni)
 
+tm_shape(NLD_muni) +
+	tm_borders() +
+	tm_grid()
+
+tm_shape(NLD_muni, xlim=c(170000, 190000), ylim=c(320000, 340000), relative=FALSE) +
+	tm_borders() +
+	tm_text("name") +
+tm_shape(meuse.grid) +
+	tm_raster("dist", contrast=-4)
+	
 ## SpatialPixelsDataFrame
 shpPx <- meuse.grid
 class(shpPx)
@@ -85,36 +96,14 @@ land_s <- as(land, "RasterStack")
 
 land_raster1 <- raster(land, layer=1)
 land_raster2 <- raster(land, layer=2)
+land_raster3 <- raster(land, layer=3)
 
-land_stack <- stack(land_raster1, land_raster2)
-land_brick <- brick(land_raster1, land_raster2)
+land_stack <- stack(land_raster1, land_raster2, land_raster3)
+land_brick <- brick(land_raster1, land_raster2, land_raster3)
 
+tm_shape(land_b) + tm_raster(c("trees", "cover_cls"))
+tm_shape(land_brick) + tm_raster(c("trees", "cover_cls"))
+tm_shape(land_s) + tm_raster(c("trees", "cover_cls")) # no attribute data
+tm_shape(land_stack) + tm_raster(c("trees", "cover_cls"))
 
-
-tm_shape(land_stack) +
-	tm_raster(c("cover", "trees"), max.categories = 20) +
-tm_shape(World) +
-	tm_borders()	
-
-tm_shape(land_brick) +
-	tm_raster("trees", palette="Greens") +
-	tm_shape(World) +
-	tm_borders()
-
-
-### facets
-tm_shape(land_stack) +
-	tm_raster("cover", max.categories = 20) +
-tm_facets(by="cover")
-	
-
-tm_shape(meuse.grid) +
-	tm_raster("soil", max.categories = 20) +
-	tm_facets(by="soil", free.coords = TRUE)
-
-## test layers
-tm_shape(meuse.grid) +
-	tm_raster("soil", max.categories = 20) +
-tm_shape(meuse.grid) +
-	tm_raster("dist", alpha=.75)
 

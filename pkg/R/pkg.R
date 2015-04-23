@@ -3,8 +3,8 @@
 #' \tabular{ll}{
 #' Package: \tab tmap\cr
 #' Type: \tab Package\cr
-#' Version: \tab 0.7\cr
-#' Date: \tab 2015-03-27\cr
+#' Version: \tab 0.8\cr
+#' Date: \tab 2015-04-24\cr
 #' License: \tab GPL-3\cr
 #' LazyLoad: \tab yes\cr
 #' }
@@ -21,7 +21,7 @@ NULL
 
 #' World, Europe, and Netherlands map
 #' 
-#' Maps of the world, Europe, and the Netherlands (province and municipality level).
+#' Maps of the world, Europe, and the Netherlands (province and municipality level), class \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}
 #' 
 #' The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection arugment of \code{\link{tm_shape}} (or \code{\link{qtm}}).
 #' 
@@ -60,23 +60,39 @@ NULL
 
 
 
-#' Spatial data of cities and rivers
+#' Spatial data of rivers
 #' 
-#' Spatial data of main world cities and rivers.
+#' Spatial data of rivers, of class \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}
 #' 
 #' @usage data(rivers)
 #' @name rivers
-#' @rdname Shapes2
 #' @docType data
 #' @source http://www.naturalearthdata.com
 NULL
 
-#' @usage data(cities)
-#' @name cities
+#' Spatial data of metropolitan areas
+#' 
+#' Spatial data of metropolitan areas, of class \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
+#' 
+#' @usage data(metro)
+#' @name metro
 #' @rdname Shapes2
 #' @docType data
+#' @references United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects: The 2014 Revision, CD-ROM Edition.
+#' @source 
 NULL
 
+#' Spatial data of global land cover
+#' 
+#' Spatial data of global land cover, of class \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
+#' 
+#' @usage data(metro)
+#' @name metro
+#' @rdname Shapes2
+#' @docType data
+#' @references United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects: The 2014 Revision, CD-ROM Edition.
+#' @source 
+NULL
 
 
 #' tmap element
