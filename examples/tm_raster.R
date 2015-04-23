@@ -13,7 +13,7 @@ tm_shape(land, ylim = c(-88,88), relative=FALSE) +
 	tm_raster("cover_cls", palette = pal8) +
 	tm_shape(World) +
 	tm_borders() +
-	tm_layout("Global Land Cover", inner.margins=0, legend.position = c("left","bottom"), legend.bg.color = "white", legend.bg.alpha=.2, legend.frame="gray50")
+	tm_layout_World("Global Land Cover", inner.margins=0, legend.position = c("left","bottom"), legend.bg.color = "white", legend.bg.alpha=.2, legend.frame="gray50")
 
 
 tm_shape(land, ylim = c(-88,88), relative=FALSE) +

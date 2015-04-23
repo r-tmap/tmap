@@ -9,3 +9,4 @@ breaksList <- list(c(0, 10, 20, 30, 40, 50),
 				   c(-1, 0, 10, 20, 30, 40, 50),
 				   c(-50, -40, -30, -20, -10, 1))
 lapply(breaksList, FUN=map2divscaleID, n=101, contrast=c(0, 1))
+lapply(breaksList, FUN=map2divscaleID, n=101, contrast=c(0.25, .9))

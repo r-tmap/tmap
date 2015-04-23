@@ -3,6 +3,7 @@ data(Europe)
 data(NLD_muni)
 data(NLD_prov)
 data(metro)
+data(land)
 
 qtm(Europe)
 
@@ -42,3 +43,11 @@ tm_shape(NLD_muni) +
 	tm_borders(lwd=4) +
 	tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
 	tm_layout(legend.show = FALSE)
+
+pal8 <- c("#33A02C", "#B2DF8A", "#FDBF6F", "#1F78B4", "#999999", "#E31A1C", "#E6E6E6", "#A6CEE3")
+tm_shape(land, ylim = c(-88,88), relative=FALSE) +
+	tm_raster("cover_cls", palette = pal8) +
+	tm_shape(World) +
+	tm_borders() +
+	tm_layout_World("Global Land Cover", inner.margins=0, legend.position = c("left","bottom"), legend.bg.color = "white", legend.bg.alpha=.2, legend.frame="gray50")
+

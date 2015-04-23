@@ -78,7 +78,7 @@ tm_layout <- function(title=NA,
 #' @rdname tm_layout
 #' @export
 tm_layout_World <- function(title=NA,
-							scale=.85,
+							scale=.9,
 							title.bg.color=TRUE,
 							inner.margins=c(0, 0.01, 0.01, 0.01),
 							legend.position=c("left", "bottom"), 
