@@ -44,7 +44,7 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
 
 \item{auto.palette.mapping}{When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.}
 
-\item{contrast}{number between 0 and 1 (default) that determines the contrast of the palette. Only applicable when \code{auto.palette.mapping=TRUE} and \code{col} is a numeric variable name.}
+\item{contrast}{vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).}
 
 \item{max.categories}{in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.}
 
@@ -73,7 +73,10 @@ metro$growth <- (metro$X2020 - metro$X2010) / (metro$X2010 * 10) * 100
 tm_shape(World) +
 	tm_fill("grey70") +
 	tm_shape(metro) +
-	tm_bubbles("X2010", col = "growth", border.col = "black", border.alpha = .5, style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf) ,palette="-RdYlBu", contrast=1) + 
+	tm_bubbles("X2010", col = "growth", 
+			   border.col = "black", border.alpha = .5, 
+			   style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
+			   palette="-RdYlBu", contrast=1) + 
 	tm_layout_World("Metro population", legend.titles=c(bubble.col="Growth rate (\%)"))
 
 

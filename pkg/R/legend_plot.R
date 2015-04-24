@@ -20,7 +20,7 @@ legend_plot <- function(gt, x, legend_pos) {
 	# title positioning
 	# titleg: is title attached to legend?
 	if (is.null(gt$title.position)) {
-		gt$title.position <- gt$legend.position
+		gt$title.position <- if (title.only) c("left", "top") else gt$legend.position
 		titleg <- !title.only
 	} else {
 		titleg <- (is.character(gt$title.position) && all(gt$title.position==gt$legend.position) && !title.only)	

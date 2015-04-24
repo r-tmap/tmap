@@ -8,9 +8,8 @@
 \title{Layout elements of cartographic maps}
 \usage{
 tm_layout(title = NA, scale = 1, title.size = 1.5, bg.color = NULL,
-  draw.frame = TRUE, title.position = NULL, title.bg.color = NA,
-  asp = NA, frame.lwd = 1, outer.margins = rep(0.02, 4),
-  inner.margins = rep(0.02, 4), outer.bg.color = "white",
+  draw.frame = TRUE, asp = NA, frame.lwd = 1, outer.margins = rep(0.02,
+  4), inner.margins = rep(0.02, 4), outer.bg.color = "white",
   legend.show = TRUE, legend.hist.show = FALSE, legend.only = FALSE,
   legend.titles = c(fill = NA, bubble.size = NA, bubble.col = NA, line.col =
   NA, line.lwd = NA, raster = NA), legend.position = NULL,
@@ -21,9 +20,10 @@ tm_layout(title = NA, scale = 1, title.size = 1.5, bg.color = NULL,
   "line.col", "line.lwd", "raster"), legend.title.size = 1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.scientific = FALSE, legend.digits = NA, legend.frame = FALSE,
-  legend.bg.color = NA)
+  legend.bg.color = NA, legend.bg.alpha = 1, title.position = NULL,
+  title.bg.color = NA, title.bg.alpha = 1)
 
-tm_layout_World(title = NA, scale = 0.85, title.bg.color = TRUE,
+tm_layout_World(title = NA, scale = 0.9, title.bg.color = TRUE,
   inner.margins = c(0, 0.01, 0.01, 0.01), legend.position = c("left",
   "bottom"), legend.width = 0.25, legend.height = 0.5,
   legend.bg.color = TRUE, ...)
@@ -44,10 +44,6 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.02, 0.2,
 \item{bg.color}{Background color. By default it is light grey (\code{grey85}) for choropleths and white for other maps.}
 
 \item{draw.frame}{Boolean that determines whether a frama is drawn.}
-
-\item{title.position}{Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend.}
-
-\item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 
 \item{asp}{Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.}
 
@@ -89,7 +85,17 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.02, 0.2,
 
 \item{legend.digits}{Number of digits for the legend labels}
 
+\item{legend.frame}{either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.}
+
 \item{legend.bg.color}{Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
+
+\item{legend.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).}
+
+\item{title.position}{Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default the title is placed on top of the legend (determined by \code{legend.position})}
+
+\item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
+
+\item{title.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).}
 
 \item{...}{other arguments from \code{tm_layout}}
 }

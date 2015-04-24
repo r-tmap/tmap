@@ -2,18 +2,15 @@
 % Please edit documentation in R/pkg.R
 \docType{data}
 \name{rivers}
-\alias{cities}
 \alias{rivers}
-\title{Spatial data of cities and rivers}
+\title{Spatial data of rivers}
 \source{
-http://www.naturalearthdata.com
+\url{http://www.naturalearthdata.com}
 }
 \usage{
 data(rivers)
-
-data(cities)
 }
 \description{
-Spatial data of main world cities and rivers.
+Spatial data of rivers, of class \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}
 }
 

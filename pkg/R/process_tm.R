@@ -1,5 +1,5 @@
 process_tm <- function(x, asp_ratio) {
-	fill <- NULL; xfill <- NULL
+	fill <- NULL; xfill <- NULL; xraster <- NULL
 	## fill meta info
 	
 	## get tm_layout elements

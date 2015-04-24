@@ -9,8 +9,8 @@
 \tabular{ll}{
 Package: \tab tmap\cr
 Type: \tab Package\cr
-Version: \tab 0.7\cr
-Date: \tab 2015-03-27\cr
+Version: \tab 0.8\cr
+Date: \tab 2015-04-24\cr
 License: \tab GPL-3\cr
 LazyLoad: \tab yes\cr
 }

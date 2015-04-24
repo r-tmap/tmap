@@ -22,12 +22,13 @@
 #'    	\item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
 #'    	See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
 #' Use \code{\link{set_projection}} to reproject the shape object.
+#' @param ... other parameters, such as \code{stringsAsFactors}, are passed on to \code{\link[rgdal:readOGR]{readOGR}}
 #' @return shape object
 #' @note For the Netherlands: often, the Dutch Rijksdriehoekstelsel (Dutch National Grid) projection is provided in the shape file without proper datum shift parameters to wgs84. This functions automatically adds these parameters. See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} (in Dutch) for details.
 #' @import rgdal
 #' @import sp
 #' @export
-read_shape <- function(file, current.projection=NULL){
+read_shape <- function(file, current.projection=NULL, ...){
 	
 	# determine region ID
 	if (file.exists(file)) {
@@ -39,7 +40,7 @@ read_shape <- function(file, current.projection=NULL){
 	if (substr(base, nchar(base)-3, nchar(base))==".shp")
 		base <- substr(base, 1, nchar(base)-4)
 	
-	shp <- readOGR(dir, base, verbose=FALSE)
+	shp <- readOGR(dir, base, verbose=FALSE, ...)
 	
 	prj <- proj4string(shp)
 	

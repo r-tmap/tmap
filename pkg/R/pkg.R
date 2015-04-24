@@ -35,8 +35,8 @@ NULL
 #' @name World
 #' @rdname Shapes
 #' @docType data
-#' @source http://www.naturalearthdata.com for \code{World} and \code{Europe}
-#' @source Statistics Netherlands (http://www.cbs.nl) for \code{NLD_prov} and \code{NLD_muni}. 
+#' @source \url{http://www.naturalearthdata.com} for \code{World} and \code{Europe}
+#' @source Statistics Netherlands (\url{http://www.cbs.nl} for \code{NLD_prov} and \code{NLD_muni}. 
 NULL
 
 
@@ -67,7 +67,7 @@ NULL
 #' @usage data(rivers)
 #' @name rivers
 #' @docType data
-#' @source http://www.naturalearthdata.com
+#' @source \url{http://www.naturalearthdata.com}
 NULL
 
 #' Spatial data of metropolitan areas
@@ -76,22 +76,22 @@ NULL
 #' 
 #' @usage data(metro)
 #' @name metro
-#' @rdname Shapes2
 #' @docType data
 #' @references United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects: The 2014 Revision, CD-ROM Edition.
-#' @source 
+#' @source \url{http://esa.un.org/unpd/wup/CD-ROM/}
 NULL
 
 #' Spatial data of global land cover
 #' 
 #' Spatial data of global land cover, of class \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 #' 
-#' @usage data(metro)
-#' @name metro
-#' @rdname Shapes2
+#' \strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown. See \url{http://www.iscgm.org/gm/glcnmo.html#use}.
+#' 
+#' @usage data(land)
+#' @name land
 #' @docType data
-#' @references United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects: The 2014 Revision, CD-ROM Edition.
-#' @source 
+#' @references Ryutaro Tateishi, Nguyen Thanh Hoan, Toshiyuki Kobayashi, Bayan Alsaaideh, Gegen Tana & Dong Xuan Phong Journal of Geography and Geology; Vol.6, No.3; 2014
+#' @source \url{http://www.iscgm.org/gm/glcnmo.html}
 NULL
 
 

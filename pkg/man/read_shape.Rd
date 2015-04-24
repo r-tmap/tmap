@@ -4,7 +4,7 @@
 \alias{read_shape}
 \title{Read shape file}
 \usage{
-read_shape(file, current.projection = NULL)
+read_shape(file, current.projection = NULL, ...)
 }
 \arguments{
 \item{file}{a shape file name (including directory).}
@@ -26,6 +26,8 @@ read_shape(file, current.projection = NULL)
        \item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
        See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
 Use \code{\link{set_projection}} to reproject the shape object.}
+
+\item{...}{other parameters, such as \code{stringsAsFactors}, are passed on to \code{\link[rgdal:readOGR]{readOGR}}}
 }
 \value{
 shape object
