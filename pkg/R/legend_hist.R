@@ -1,4 +1,4 @@
-legend_hist <- function(x, legend.hist.size, lineHeight, scale) {
+legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 	with(x, {
 		if (is.factor(values)) {
 			numbers <- table(values)
@@ -52,12 +52,17 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale) {
 		width.npc <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE)) * length(ptx)
 		height.npc <- convertHeight(unit(length(formattedY)+2, "lines"), "npc", valueOnly=TRUE) 
 		
-		margin <- 0.05
-		npc.total <- 1-2*margin
+		my <- lineHeight * legend.hist.size * m
+		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
+		npcx.total <- 1-2*mx
+		npcy.total <- 1-2*my
+		
+		#margin <- 0.05
+		#npc.total <- 1-2*m
 		
 		size <- min(legend.hist.size,
-				   npc.total/width.npc,
-				   npc.total/height.npc)
+				   npcx.total/width.npc,
+				   npcy.total/height.npc)
 		
 		width.npc <- width.npc * size
 		height.npc <- height.npc * size
@@ -70,8 +75,8 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale) {
 		axisTicks <- convertWidth(unit(0.01, "npc"), "inch", valueOnly=TRUE)
 		
 		vpHist <- viewport(layout=grid.layout(5, 5, 
-											  heights=unit(c(margin, 1, axisMargin+axisTicks, height.xaxis, margin), c("npc", "null", "inch", "npc", "npc")),
-											  widths=unit(c(margin, 1, axisMargin+axisTicks, width.yaxis, margin), c("npc", "null", "inch", "npc", "npc"))))
+											  heights=unit(c(my, 1, axisMargin+axisTicks, height.xaxis, my), c("npc", "null", "inch", "npc", "npc")),
+											  widths=unit(c(mx, 1, axisMargin+axisTicks, width.yaxis, mx), c("npc", "null", "inch", "npc", "npc"))))
 		
 		
 		pushViewport(vpHist)

@@ -11,6 +11,7 @@ library(sp)
 library(raster)
 x = readGDAL("../shapes/gm_lc_v2_0_1_simple1_25p.tif")
 y = readGDAL("../shapes/gm_ve_v2_simple_1_25p.tif")
+z = readGDAL("../shapes/gm_el_v2_1_25p.tif")
 
 x$band1 <- factor(x$band1, levels=1:20, labels=
 				  	c("Broadleaf Evergreen Forest", "Broadleaf Deciduous Forest",
@@ -34,6 +35,9 @@ ids <- c(1,1,1,1,1,1,2,2,2,5,3,3,3,4,4,5,5,6,7,8)
 land$cover_cls <- factor(ids[as.numeric(land$cover)], levels=1:8, labels=c("Forest", "Other natural vegetation", "Cropland", "Wetland", "Bare area/Sparse vegetation", "Urban", "Snow/ice", "Water"))
 
 land$trees <- y$band1
+land$elevation <- z$band1
+
+land$elevation <- ifelse(land$elevation< -1000, NA, land$elevation)
 
 
 pal20 <- do.call("rgb", c(unname(as.list(read.table("../shapes/read_me_color_lc.txt", skip = 2)))[-1], list(maxColorValue=255)))
@@ -50,5 +54,8 @@ pal8[c(5,7)] <- gray(c(.6, .9))
 cat(paste0("pal8 <- c(\"", paste(pal8, collapse = "\", \""), "\")"))
 
 save(land, file="./data/land.rda", compress="xz")
+
+
+# test
 
 

@@ -29,7 +29,7 @@ cat2pal <- function(x,
 
 	n <- nlevels(x)
 	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
-		brewerpal <- brewer.pal(min(brewer.pal.info[palette, "maxcolors"], n), name=palette)
+		brewerpal <- brewer.pal(min(brewer.pal.info[palette, "maxcolors"], max(n, 3)), name=palette)
 		if (brewer.pal.info[palette, "category"]=="qual") {
 			p <- rep(brewerpal, length.out=nlevels(x))
 		} else {

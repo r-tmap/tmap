@@ -60,7 +60,7 @@ num2pal <- function(x, n = 5,
 			legend.neutral.col <- legend.palette[round(((length(legend.palette)-1)/2)+1)]
 		}
 	} else {
-		legend.palette <- rep(palette, nbrks-1)
+		legend.palette <- rep(palette, length.out=nbrks-1)
 		legend.neutral.col <- legend.palette[1]
 	}
 	

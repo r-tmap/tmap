@@ -51,3 +51,9 @@ tm_shape(land, ylim = c(-88,88), relative=FALSE) +
 	tm_borders() +
 	tm_layout_World("Global Land Cover", inner.margins=0, legend.position = c("left","bottom"), legend.bg.color = "white", legend.bg.alpha=.2, legend.frame="gray50")
 
+
+tm_shape(land, ylim = c(-88,88), relative=FALSE) +
+	tm_raster("elevation", n=10, style="kmeans", palette = terrain.colors(10)) + #"-RdYlBu"
+	tm_shape(World) +
+	tm_borders() +
+	tm_layout("Elevation", inner.margins=0, legend.position = c(.02, .1), bg.color="lightblue")

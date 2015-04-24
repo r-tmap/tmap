@@ -1,7 +1,14 @@
 legend_plot <- function(gt, x, legend_pos) {
+	# are there any legend elements? if not, title.only=TRUE
 	title.only <- all(sapply(x, is.null))
-	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
+
+	# check legend configuration
+	conf <- gt$legend.config 
+	ishist <- (substr(conf, nchar(conf)-3, nchar(conf))=="hist")
+	conf2 <- ifelse(ishist, substr(conf, 1, nchar(conf)-5), conf)
+	if (!length(conf)) title.only <- TRUE # || gt$legend.only
 	
+	# legend positioning
 	if (is.null(gt$legend.position)) {
 		if (gt$free.coords) {
 			gt$legend.position <- c("left", "top")
@@ -9,27 +16,28 @@ legend_plot <- function(gt, x, legend_pos) {
 			gt$legend.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
 		}
 	}
+
+	# title positioning
+	# titleg: is title attached to legend?
 	if (is.null(gt$title.position)) {
 		gt$title.position <- gt$legend.position
+		titleg <- !title.only
+	} else {
+		titleg <- (is.character(gt$title.position) && all(gt$title.position==gt$legend.position) && !title.only)	
 	}
 
+	# constant needed for margins etc
+	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
+	my <- lineHeight / 2
+	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
-	#legend.position
-	conf <- gt$legend.config 
-	ishist <- (substr(conf, nchar(conf)-3, nchar(conf))=="hist")
-	conf2 <- ifelse(ishist, substr(conf, 1, nchar(conf)-5), conf)
-	
-	if (!length(conf)) title.only <- TRUE # || gt$legend.only
-
-	# is title attached to legend?
-	titleg <- (is.character(gt$title.position) && all(gt$title.position==gt$legend.position) && !title.only)
-
 	# title properties
 	nlines <- length(strsplit(gt$title, "\n")[[1]])
 	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.size
 	titleHeight <- lineHeight * (nlines+.5) * gt$title.size
 	
 	if (!title.only) {
+		# put legend titles and spacers between legend elements
 		for (i in 1:length(gt$legend.titles)) {
 			lt <- gt$legend.titles[i]
 			if (lt!="") {
@@ -46,26 +54,22 @@ legend_plot <- function(gt, x, legend_pos) {
 				}
 			}
 		}
-		
-		
 		x <- x[conf]
 		
 		legend.title.npc <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$legend.title.size
-		#title.npc <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$title.size
-		# normalize heights
+
 		
-		
-		
-		## snap title to legend
+		# add element for main title
 		if (titleg) {
 			x <- c(TITLE=list(list(legend.type="TITLE", title=gt$title)), x)
 		}
 
+		# remove empty legend elements
 		x.not.null <- !sapply(x, is.null)
 		k <- sum(x.not.null)
 		x <- x[x.not.null]
 
-		
+		# determine legend types (portrait, landscape, hist, or title)
 		types <- ifelse(sapply(x, function(y)if (is.null(y$legend.is.portrait)) FALSE else y$legend.is.portrait), "portrait", "landscape")
 		types[names(x)=="fill_hist"] <- "hist"
 		types[substr(names(x), 1, 5)=="title"] <- "title"
@@ -94,48 +98,44 @@ legend_plot <- function(gt, x, legend_pos) {
 			}
 		}, types=="portrait", names(x))
 		
+		legendWidth <- gt$legend.width
+		
+		# normalize legendHeight
+		if (is.character(gt$title.position) && gt$title.position[1]==gt$legend.position[1]) {
+			legendHeight <- min(sum(heights), 1-titleHeight, gt$legend.height)
+		} else {
+			legendHeight <- min(sum(heights), 1, gt$legend.height)
+		}
+		if (is.character(gt$legend.position)) {
+			legend.position <- c(switch(gt$legend.position[1], 
+										left=mx, 
+										center=(1-legendWidth)/2, 
+										centre=(1-legendWidth)/2, 
+										right=1-mx-legendWidth),
+								 switch(gt$legend.position[2], 
+								 	   top=1-my-legendHeight, #-titleHeight, 
+								 	   center=(1-legendHeight)/2, 
+								 	   centre=(1-legendHeight)/2, 
+								 	   bottom=my))		
+		} else legend.position <- gt$legend.position
 	} else {
 		heights <- 0
 	}
-
-	legendWidth <- gt$legend.width
-
-	# normalize legendHeight
-	if (is.character(gt$title.position) && gt$title.position[1]==gt$legend.position[1]) {
-		legendHeight <- min(sum(heights), 1-titleHeight, gt$legend.height)
-	} else {
-		legendHeight <- min(sum(heights), 1, gt$legend.height)
-	}
-
-
-	# translate automatic position settings
-	my <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) / 2
-	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
-
-	legend.position <- c(switch(gt$legend.position[1], 
-								left=mx, 
-								center=(1-legendWidth)/2, 
-								centre=(1-legendWidth)/2, 
-								right=1-mx-legendWidth),
-						 switch(gt$legend.position[2], 
-						 	   top=1-my-legendHeight, #-titleHeight, 
-						 	   center=(1-legendHeight)/2, 
-						 	   centre=(1-legendHeight)/2, 
-						 	   bottom=my))		
-
-	title.position <- if (titleg) NULL else {
-		c(switch(gt$title.position[1], 
-				 left=mx,
-				 center=(1-titleWidth)/2,
-				 centre=(1-titleWidth)/2,
-				 right=1-mx-titleWidth),
-		  switch(gt$title.position[2],
-		  	     top=1-titleHeight*.75,
-		  	     center=.5,
-		  	     centre=.5,
-		  	     bottom=titleHeight*.25))	
-	}
+	if (is.character(gt$title.position) || titleg) {
+		title.position <- if (titleg) NULL else {
+			c(switch(gt$title.position[1], 
+					 left=mx,
+					 center=(1-titleWidth)/2,
+					 centre=(1-titleWidth)/2,
+					 right=1-mx-titleWidth),
+			  switch(gt$title.position[2],
+			  	     top=1-titleHeight*.75,
+			  	     center=.5,
+			  	     centre=.5,
+			  	     bottom=titleHeight*.25))	
+		}
+	} else title.position <- gt$title.position
 
 	
 	grobTitle <- if (titleg) {
@@ -150,9 +150,7 @@ legend_plot <- function(gt, x, legend_pos) {
 		
 	}
 
-	if (title.only) {
-		return(grobTitle)
-	}
+	if (title.only) return(grobTitle)
 
 	vpLegend <- viewport(y=legend.position[2], x=legend.position[1], 
 						 height=legendHeight, width=legendWidth, 
@@ -165,14 +163,11 @@ legend_plot <- function(gt, x, legend_pos) {
 	
 	legend.frame.color <- if (legend.frame) {
 		if (is.logical(gt$legend.frame)) "black" else gt$legend.frame
-	} else {
-		NA
-	}
+	} else NA
 	
 	grobLegBG <- rectGrob(gp=gpar(col=legend.frame.color, fill=legend.bg.color))
-
 	
-	
+	# normalise heights
 	heights <- heights / legendHeight
 	vpLeg <- viewport(layout=grid.layout(k, 1, heights=heights, widths=1), name="legend_grid")
 
@@ -181,14 +176,8 @@ legend_plot <- function(gt, x, legend_pos) {
 		vpLeg <- vpStack(vpLegFrame, vpLeg)
 	} 
 	
-	
-	
 	pushViewport(vpLeg)
-	
-	
 	grobList <- mapply("legend_subplot", x, id=1:k, MoreArgs = list(gt=gt), SIMPLIFY = FALSE)
-
-	
 
 	upViewport(2)
 
@@ -203,7 +192,7 @@ legend_subplot <- function(x, id, gt) {
 		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		legend.type <- x$legend.type
 		if (legend.type=="fill_hist") {
-			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale)
+			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25)
 		} else if (legend.type=="TITLE") {
 			legend_title(x, gt$title.size, lineHeight, m=.15)
 		} else if (legend.type=="title") {
