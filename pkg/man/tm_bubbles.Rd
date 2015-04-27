@@ -5,8 +5,8 @@
 \title{Draw bubbles}
 \usage{
 tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
-  border.lwd = 1, border.alpha = NA, scale = 1, size.lim = NA,
-  sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
+  border.lwd = 1, border.alpha = NA, scale = 1, perceptual = TRUE,
+  size.lim = NA, sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
   style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
   colorNA = "#FF1414", textNA = "Missing", xmod = 0, ymod = 0)
@@ -25,6 +25,8 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
 \item{border.alpha}{transparency number, regarding the bubble borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
 \item{scale}{bubble size multiplier number.}
+
+\item{perceptual}{logical that determines whether bubbles are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger bubbles is systematically underestimated. Flanny (1971) experimentally derived a method to compensate this.}
 
 \item{size.lim}{vector of two limit values of the \code{size} variable. Only bubbles are drawn whose value is greater than or equal to the first value. Bubbles whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}}
 
@@ -88,6 +90,9 @@ tm_shape(metro) +
 	tm_text("name", size="X2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
 tm_layout_Europe("Metro population", legend.titles=c(bubble.col="Capital"))
 
+}
+\references{
+Flanney J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

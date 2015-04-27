@@ -31,9 +31,10 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 	
 	
 	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
-	bubble.size <- g$bubble.scale*sqrt(x/maxX)
+	scaling <- ifelse(g$perceptual, 0.5716, 0.5)
+	bubble.size <- g$bubble.scale*(x/maxX)^scaling
 	bubble.max.size <- max(bubble.size, na.rm=TRUE)
-	bubble.legend.sizes <- g$bubble.scale*sqrt(x_legend/maxX)
+	bubble.legend.sizes <- g$bubble.scale*(x_legend/maxX)^scaling
 	list(bubble.size=bubble.size,
 		 bubble.size.legend.labels=bubble.size.legend.labels,
 		 bubble.legend.sizes=bubble.legend.sizes,
