@@ -7,6 +7,8 @@
 #'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialGridDataFrame]{SpatialPoints(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
 #' }
 #' @param data data.frame
 #' @param key.shp variable name of \code{shp} map data to be matched with \code{key.data}. If not specified, and \code{fixed.order} is \code{FALSE}, the ID's of the polygons/lines/points are taken.
@@ -34,7 +36,7 @@
 #' }
 #' @export
 append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.duplicates=FALSE, ignore.na=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
-	spatialDF <- inherits(shp, c("SpatialPolygonsDataFrame", "SpatialPointsDataFrame", "SpatialLinesDataFrame"))
+	spatialDF <- inherits(shp, c("SpatialPolygonsDataFrame", "SpatialPointsDataFrame", "SpatialLinesDataFrame", "SpatialGridDataFrame", "SpatialPixelsDataFrame"))
 
 	if (fixed.order) {
 		if (length(shp)!=nrow(data)) 
@@ -150,6 +152,10 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 		shp <- SpatialPointsDataFrame(shp, data, match.ID = FALSE)
 	} else if (inherits(shp, "SpatialLines")) {
 		shp <- SpatialLinesDataFrame(shp, data, match.ID = FALSE)
+	} else if (inherits(shp, "SpatialGrid")) {
+		shp <- SpatialGridDataFrame(shp, data, match.ID = FALSE)
+	} else if (inherits(shp, "SpatialPixels")) {
+		shp <- SpatialPixelsDataFrame(shp, data, match.ID = FALSE)
 	} else {
 		stop("shp is not a shape file")
 	}

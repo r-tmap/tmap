@@ -7,6 +7,8 @@
 #'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialGridDataFrame]{SpatialPoints(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
 #' }
 #' @param bbox rectangle to crop the \code{shp} with. It is represented by a 2x2 matrix in which the x and y coordiantes are respectively row 1 and 2, and the minimum and maximum values are respectively column 1 and 2. By default the bounding box of \code{shp} is taken.
 #' @param set.bbox logical that determines whether the bounding box of \code{shp} is set to \code{bbox}. If \code{FALSE}, the bounding box is determined by \code{shp} after cropping.
@@ -34,7 +36,7 @@ crop_shape <- function(shp, bbox=shp@bbox, set.bbox=TRUE) {
 		}
 		BB <- SpatialPolygons(list(Polygons(list(Polygon(bbcoords)), "1")),
 							  proj4string=CRS(proj4string(shp)))
-		suppressWarnings(shp2 <- gIntersection(shp, BB, byid=TRUE))
+		suppressWarnings(shp2 <- gIntersection(shp, BB, byid=TRUE)) ## TODO: alternative for raster shapes
 		
 		if (set.bbox) shp2@bbox <- bbox
 		ids <- get_IDs(shp)
@@ -44,6 +46,10 @@ crop_shape <- function(shp, bbox=shp@bbox, set.bbox=TRUE) {
 			shp2 <- SpatialPolygonsDataFrame(shp2, shp@data[indices, , drop=FALSE], match.ID = FALSE)
 		} else if (inherits(shp, "SpatialLinesDataFrame")) {
 			shp2 <- SpatialLinesDataFrame(shp2, shp@data[indices, , drop=FALSE], match.ID = FALSE)
+		} else if (inherits(shp, "SpatialGridDataFrame")) {
+			shp2 <- SpatialGridDataFrame(shp2, shp@data[indices, , drop=FALSE], match.ID = FALSE)
+		} else if (inherits(shp, "SpatialPixelsDataFrame")) {
+			shp2 <- SpatialPixelsDataFrame(shp2, shp@data[indices, , drop=FALSE], match.ID = FALSE)
 		}
 	}
 	attr(shp2, "matchID") <- indices

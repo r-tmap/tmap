@@ -57,3 +57,6 @@ tm_shape(World) +
 # 	tm_text("iso_a3", size="AREA", scale=1.5, alpha = .75) +
 	tm_layout_World(title="", legend.titles=c(fill="Income class", bubble.size="Metro population (2010)", bubble.col="Annual growth rate (%)"), legend.hist.show=FALSE, outer.margins=0, scale=.7, inner.margins=c(0,-.06,.02, -.03), legend.bg.color = NA)
 dev.off()
+
+
+qtm(World, fill="income_grp", text="iso_a3", fill.palette="-Blues", text.size="AREA", text.scale=1.5, inner.margins=c(0,-.06,.02, -.03), title="Income class")
