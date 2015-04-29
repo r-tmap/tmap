@@ -14,29 +14,16 @@
 #' @export
 #' @method print tmap
 print.tmap <- function(x, vp=NULL, ...) {
-	## get shapes
+	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
-	
 	nshps <- length(shape.id)
 	if (!nshps) stop("Required tm_shape layer missing.")
 	
-# 	shps <- lapply(x[shape.id], function(y) {
-# 		shp <- y$shp
-# 		data <- data.frame(ID=get_IDs(shp))
-# 		if (class(shp)=="SpatialPolygons") shp <- SpatialPolygonsDataFrame(shp, data=data, match.ID=FALSE)
-# 		if (class(shp)=="SpatialPoints") shp <- SpatialPointsDataFrame(shp, data=data, match.ID=FALSE)
-# 		if (class(shp)=="SpatialLines") shp <- SpatialLinesDataFrame(shp, data=data, match.ID=FALSE)
-# 		if (class(shp)=="SpatialPixels") shp <- SpatialPixelsDataFrame(shp, data=data) 
-# 		if (class(shp)=="SpatialGrid") shp <- SpatialGridDataFrame(shp, data=data)		
-# 		if (class(shp)=="SpatialPolygonsDataFrame") shp$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
-# 		shp
-# 	})
-
-# datasets <- lapply(shps, function(x) {
-# 	if (inherits(x, "Spatial")) x@data else structure(list(x@data@values), .Names = x@data@names, row.names=seq_along(x@data@values), class = "data.frame")
-# })
 
 
+	## split shapes from data 
+	## so a SPDF is split into a SpatialPolygons and a seperate data.frame
+	## for raster objects (also SpatialGrid and Pixels), a RasterLayer is kept
 	shps_dts <- lapply(x[shape.id], function(y) {
 		shp <- y$shp
 		if (inherits(shp, "Spatial")) {
@@ -48,6 +35,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 				} else if (inherits(shp, "SpatialLinesDataFrame")) {
 					as(shp, "SpatialLines")
 				} else if (inherits(shp, "SpatialGridDataFrame")) {
+					shp@data <- data.frame(ID=1:nrow(data))
 					as(shp, "RasterLayer")
 				} else if (inherits(shp, "SpatialPixelsDataFrame")) {
 					shp@data <- data.frame(ID=1:nrow(data))
@@ -64,23 +52,17 @@ print.tmap <- function(x, vp=NULL, ...) {
 			if (inherits(shp, "SpatialPolygons")) {
 				data$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
 			}
-		} else if (inherits(shp, "RasterLayer")) {
-			#data <- structure(list(shp@data@values), .Names = shp@data@names, row.names=seq_along(shp@data@values), class = "data.frame")
-			data <- data.frame(get_RasterLayer_data_vector(shp))
-			names(data) <- names(shp)
-		} else if (inherits(shp, "RasterStack")) {
-			data <- as.data.frame(lapply(shp@layers, get_RasterLayer_data_vector))
-			names(data) <- names(shp)
-		} else if (inherits(shp, "RasterBrick")) {
-			data <- get_RasterBrick_data(shp)
+		} else if (inherits(shp, "Raster")) {
+			data <- get_Raster_data(shp)
 		}
+			
 		
 		if (inherits(shp, "Raster")) {
 			bb <- bbox(shp)
 			crs <- shp@crs
 			projected <- is_projected(shp)
 			#shp <- as.raster(shp)
-			shp <- list(ncols=shp@ncols, nrows=shp@nrows, rotated=shp@rotated)
+			#shp <- list(ncols=shp@ncols, nrows=shp@nrows, rotated=shp@rotated)
 			attr(shp, "bbox_raster") <- bb
 			attr(shp, "bbox") <- bb
 			attr(shp, "proj4string") <- crs
@@ -208,18 +190,26 @@ get_RasterLayer_data_vector <- function(r) {
 }
 
 
-get_RasterBrick_data <- function(shp) {
-	isfactor <- shp@data@isfactor
-	data <- as.data.frame(shp@data@values)
-	atb <- shp@data@attributes
-	atb <- atb[sapply(atb, length)!=0]
-	
-	stopifnot(sum(isfactor)==length(atb))
-	
-	if (any(isfactor)) data[isfactor] <- mapply(function(d, a){
-		if (class(a)=="list") a <- a[[1]]
-		levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
-		factor(d, levels=a$ID, labels=as.character(a[[levelsID]]))
-	}, data[isfactor], atb, SIMPLIFY=FALSE)
+get_Raster_data <- function(shp) {
+	if (inherits(shp, "RasterLayer")) {
+		data <- data.frame(get_RasterLayer_data_vector(shp))
+		names(data) <- names(shp)
+	} else if (inherits(shp, "RasterStack")) {
+		data <- as.data.frame(lapply(shp@layers, get_RasterLayer_data_vector))
+		names(data) <- names(shp)
+	} else if (inherits(shp, "RasterBrick")) {
+		isfactor <- shp@data@isfactor
+		data <- as.data.frame(shp@data@values)
+		atb <- shp@data@attributes
+		atb <- atb[sapply(atb, length)!=0]
+		
+		stopifnot(sum(isfactor)==length(atb))
+		
+		if (any(isfactor)) data[isfactor] <- mapply(function(d, a){
+			if (class(a)=="list") a <- a[[1]]
+			levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
+			factor(d, levels=a$ID, labels=as.character(a[[levelsID]]))
+		}, data[isfactor], atb, SIMPLIFY=FALSE)
+	}	
 	data
 }

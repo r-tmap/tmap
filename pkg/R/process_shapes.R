@@ -300,7 +300,7 @@ split_raster <- function(r, f) {
 	bb <- attr(r, "bbox")
 	lev <- intersect(levels(f), f)
 	lapply(lev, function(l){
-		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=r$ncol, nrow=r$nrow, byrow = TRUE)
+		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=r@ncol, nrow=r@nrow, byrow = TRUE)
 		cls <- colSums(m)
 		rws <- rev(rowSums(m))
 		
@@ -310,8 +310,8 @@ split_raster <- function(r, f) {
 		xrng[1] <- xrng[1] - 1
 		yrng[1] <- yrng[1] - 1
 		
-		xlim <- xrng / r$ncol
-		ylim <- yrng / r$nrow
+		xlim <- xrng / r@ncol
+		ylim <- yrng / r@nrow
 		
 		attr(r, "bbox") <- matrix(c(bb[1,1] + (bb[1,2] - bb[1,1]) * xlim[1],
 				 bb[1,1] + (bb[1,2] - bb[1,1]) * xlim[2],

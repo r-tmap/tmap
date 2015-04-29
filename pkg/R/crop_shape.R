@@ -9,15 +9,34 @@
 #'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialGridDataFrame]{SpatialPoints(DataFrame)}}}
 #'  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
+#'  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 #' }
 #' @param bbox rectangle to crop the \code{shp} with. It is represented by a 2x2 matrix in which the x and y coordiantes are respectively row 1 and 2, and the minimum and maximum values are respectively column 1 and 2. By default the bounding box of \code{shp} is taken.
 #' @param set.bbox logical that determines whether the bounding box of \code{shp} is set to \code{bbox}. If \code{FALSE}, the bounding box is determined by \code{shp} after cropping.
 #' @return A cropped shape object. Its bounding box is set to \code{bb}. Data is retained in case \code{shp} has data. A vector of matched ID's is stored as a attribute \code{matchID}. This vector contains for each polygon in the returned shape object the number of its orignal polygon in \code{shp}.
 #' @import rgeos
 #' @import sp
+#' @import raster
 #' @export
 crop_shape <- function(shp, bbox=shp@bbox, set.bbox=TRUE) {
-	if (inherits(shp, "SpatialPoints")) {
+	if (inherits(shp, c("SpatialGrid", "SpatialPoints"))) {
+		was_SPGrid <- inherits(shp, "SpatialGrid")
+		shp <- brick(shp)
+	} else was_SPGrid <- NA
+		
+	
+	if (inherits(shp, "Raster")) {
+		ext <- extent(bbox) 
+		shp2 <- crop(shp, ext)
+		
+		x <- get_Raster_data(shp2)
+		if (!is.na(was_SPGrid)) {
+			if (was_SPGrid)
+			shp2 <- as(shp2, "SpatialGridDataFrame")
+			shp2@data <- x
+		}
+		if ("ID" %in% names(x)) indices <- x$ID else indices <- NA
+	} else if (inherits(shp, "SpatialPoints")) {
 		coor <- coordinates(shp)
 		indices <- (coor[, 1] >= bbox[1,1] &
 				   	coor[, 1] <= bbox[1,2] &
@@ -28,7 +47,7 @@ crop_shape <- function(shp, bbox=shp@bbox, set.bbox=TRUE) {
 	} else {
 		bbcoords <- cbind(x=bbox[1,][c(1, 1, 2, 2, 1)], y=bbox[2,][c(1, 2, 2, 1, 1)])
 		isproj <- is_projected(shp)
-		if (!isproj || is.na(isproj)) {
+		if (!isproj) {
 			bbcoords[bbcoords[, 1]< -180, 1] <- -180
 			bbcoords[bbcoords[, 1]> 180, 1] <- 180
 			bbcoords[bbcoords[, 2]< -90, 2] <- -90
