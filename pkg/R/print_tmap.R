@@ -30,15 +30,27 @@ print.tmap <- function(x, vp=NULL, ...) {
 			if ("data" %in% names(attributes(shp))) {
 				data <- shp@data
 				isPixels <- inherits(shp, "SpatialPixelsDataFrame")
+				
+				shp@data <- data.frame(IDtm=1:nrow(data))
+				
+				if (inherits(shp, c("SpatialGridDataFrame", "SpatialPixelsDataFrame")) {
+					shp <- as(shp, "RasterLayer")
+				}
+				
+				if (isPixels) {
+					data <- data[shp@data@values, ,drop=FALSE]
+				}
+				
+				
 				shp <- if (inherits(shp, "SpatialPolygonsDataFrame")) {
 					as(shp, "SpatialPolygons")
 				} else if (inherits(shp, "SpatialLinesDataFrame")) {
 					as(shp, "SpatialLines")
 				} else if (inherits(shp, "SpatialGridDataFrame")) {
-					shp@data <- data.frame(ID=1:nrow(data))
+					shp@data <- data.frame(IDtm=1:nrow(data))
 					as(shp, "RasterLayer")
 				} else if (inherits(shp, "SpatialPixelsDataFrame")) {
-					shp@data <- data.frame(ID=1:nrow(data))
+					shp@data <- data.frame(IDtm=1:nrow(data))
 					as(shp, "RasterLayer")
 				} else if (inherits(shp, "SpatialPointsDataFrame")) {
 					as(shp, "SpatialPoints")
@@ -47,9 +59,21 @@ print.tmap <- function(x, vp=NULL, ...) {
 					data <- data[shp@data@values, ,drop=FALSE]
 				}
 			} else {
-				data <- data.frame(ID=get_IDs(shp))
+				data <- data.frame(IDtm=1:length(shp))
+				
+				shp <- if (inherits(shp, "SpatialPolygons")) {
+					SpatialPolygonsDataFrame(shp, data = data, match.ID = FALSE)
+				} else if (inherits(shp, "SpatialLines")) {
+					SpatialLinesDataFrame(shp, data = data, match.ID = FALSE)
+				} else if (inherits(shp, "SpatialGrid")) {
+					as(SpatialGridDataFrame(shp, data = data), "RasterLayer")
+				} else if (inherits(shp, "SpatialPixels")) {
+					as(SpatialPixelsDataFrame(shp, data = data), "RasterLayer")
+				} else if (inherits(shp, "SpatialPoints")) {
+					SpatialPointsDataFrame(shp, data = data, match.ID = FALSE)
+				}
 			}
-			if (inherits(shp, "SpatialPolygons")) {
+			if (inherits(shp, "SpatialPolygonsDataFrame")) {
 				data$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
 			}
 		} else if (inherits(shp, "Raster")) {

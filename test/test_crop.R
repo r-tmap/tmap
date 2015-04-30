@@ -1,10 +1,12 @@
 data(land)
 
+data(World)
 data(NLD_muni)
 
 NLD_muni <- set_projection(NLD_muni, projection = "longlat")
 
 bb_NLD <- NLD_muni@bbox
+
 
 landNL <- crop_shape(land, bb_NLD)
 
@@ -38,4 +40,27 @@ x <- get_Raster_data(shp)
 
 shp2 <- crop_shape(shp, bbox = bb_NLD)
 y <- get_Raster_data(shp2)
+
+
+## test cropping shape with raster package
+library(raster)
+
+data(World)
+data(NLD_muni)
+
+NLD_muni <- set_projection(NLD_muni, projection = "longlat")
+World <- set_projection(World, projection = "longlat")
+bb_NLD <- NLD_muni@bbox
+
+system.time({
+Wnl <- crop(World, bb_NLD)
+})
+
+
+system.time({
+	Wnl <- crop_shape(World, bb_NLD)
+})
+
+
+qtm(Wnl)
 
