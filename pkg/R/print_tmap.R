@@ -19,74 +19,50 @@ print.tmap <- function(x, vp=NULL, ...) {
 	nshps <- length(shape.id)
 	if (!nshps) stop("Required tm_shape layer missing.")
 	
-
-
-	## split shapes from data 
-	## so a SPDF is split into a SpatialPolygons and a seperate data.frame
-	## for raster objects (also SpatialGrid and Pixels), a RasterLayer is kept
+	## extract data.frames from shape/raster objects
 	shps_dts <- lapply(x[shape.id], function(y) {
 		shp <- y$shp
+		
 		if (inherits(shp, "Spatial")) {
+			## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
+			newData <- data.frame(tmapID = seq_len(length(shp)))
 			if ("data" %in% names(attributes(shp))) {
 				data <- shp@data
+				
 				isPixels <- inherits(shp, "SpatialPixelsDataFrame")
-				
-				shp@data <- data.frame(IDtm=1:nrow(data))
-				
-				if (inherits(shp, c("SpatialGridDataFrame", "SpatialPixelsDataFrame")) {
-					shp <- as(shp, "RasterLayer")
+				shp@data <- newData
+				if (inherits(shp, c("SpatialGridDataFrame", "SpatialPixelsDataFrame"))) {
+					shp <- raster(shp, layer=0)
 				}
-				
-				if (isPixels) {
-					data <- data[shp@data@values, ,drop=FALSE]
-				}
-				
-				
-				shp <- if (inherits(shp, "SpatialPolygonsDataFrame")) {
-					as(shp, "SpatialPolygons")
-				} else if (inherits(shp, "SpatialLinesDataFrame")) {
-					as(shp, "SpatialLines")
-				} else if (inherits(shp, "SpatialGridDataFrame")) {
-					shp@data <- data.frame(IDtm=1:nrow(data))
-					as(shp, "RasterLayer")
-				} else if (inherits(shp, "SpatialPixelsDataFrame")) {
-					shp@data <- data.frame(IDtm=1:nrow(data))
-					as(shp, "RasterLayer")
-				} else if (inherits(shp, "SpatialPointsDataFrame")) {
-					as(shp, "SpatialPoints")
-				}
-				if (isPixels) {
-					data <- data[shp@data@values, ,drop=FALSE]
-				}
+				if (isPixels) data <- data[shp@data@values, ,drop=FALSE]
 			} else {
-				data <- data.frame(IDtm=1:length(shp))
-				
+				data <- newData
 				shp <- if (inherits(shp, "SpatialPolygons")) {
-					SpatialPolygonsDataFrame(shp, data = data, match.ID = FALSE)
+					SpatialPolygonsDataFrame(shp, data = newData, match.ID = FALSE)
 				} else if (inherits(shp, "SpatialLines")) {
-					SpatialLinesDataFrame(shp, data = data, match.ID = FALSE)
-				} else if (inherits(shp, "SpatialGrid")) {
-					as(SpatialGridDataFrame(shp, data = data), "RasterLayer")
-				} else if (inherits(shp, "SpatialPixels")) {
-					as(SpatialPixelsDataFrame(shp, data = data), "RasterLayer")
+					SpatialLinesDataFrame(shp, data = newData, match.ID = FALSE)
 				} else if (inherits(shp, "SpatialPoints")) {
-					SpatialPointsDataFrame(shp, data = data, match.ID = FALSE)
+					SpatialPointsDataFrame(shp, data = newData, match.ID = FALSE)
+				} else if (inherits(shp, c("SpatialGrid", "SpatialPixels"))) {
+					raster(shp, layer=0)
 				}
 			}
+			
 			if (inherits(shp, "SpatialPolygonsDataFrame")) {
 				data$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
 			}
 		} else if (inherits(shp, "Raster")) {
-			data <- get_Raster_data(shp)
+			data <- get_raster_data(shp)
+			shp <- raster(shp)
 		}
-			
 		
 		if (inherits(shp, "Raster")) {
+			## convert to a RasterLayer with ID numbers
 			bb <- bbox(shp)
 			crs <- shp@crs
 			projected <- is_projected(shp)
-			#shp <- as.raster(shp)
-			#shp <- list(ncols=shp@ncols, nrows=shp@nrows, rotated=shp@rotated)
+			shp <- setValues(shp, values=1:ncell(shp))
+			
 			attr(shp, "bbox_raster") <- bb
 			attr(shp, "bbox") <- bb
 			attr(shp, "proj4string") <- crs
@@ -98,9 +74,11 @@ print.tmap <- function(x, vp=NULL, ...) {
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)
 
+	## determine aspect ratio of first shape
 	shp1_bb <- attr(shps[[1]], "bbox")
 	shp1_asp <-	calc_asp_ratio(shp1_bb[1,], shp1_bb[2,], longlat=!is_projected(shps[[1]]))
 
+	## remove shapes from and add data to tm_shape objects
 	x[shape.id] <- mapply(function(y, dataset){
 		#bb <- bbox(y$shp)
 		y$data <- dataset
@@ -108,12 +86,14 @@ print.tmap <- function(x, vp=NULL, ...) {
 		y
 	}, x[shape.id], datasets, SIMPLIFY=FALSE)
 	
+	## prepare viewport
 	if (is.null(vp)) {
 		grid.newpage()
 	} else {
 		if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
 	}
 	
+	## calculate device aspect ratio (needed for small multiples' nrow and ncol)
 	inner.margins <- if ("tm_layout" %in% names(x)) {
 		rep(x[[which(names(x)=="tm_layout")[1]]]$inner.margins, length.out=4)
 	} else {
@@ -121,28 +101,24 @@ print.tmap <- function(x, vp=NULL, ...) {
 	}
 	xmarg <- sum(inner.margins[c(2,4)])
 	ymarg <- sum(inner.margins[c(1,3)])
-	
 	if (xmarg >= .8) stop("Inner margins too large")
 	if (ymarg >= .8) stop("Inner margins too large")
-	
 	shp1_asp_marg <- shp1_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
-	
-	dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE) / convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
+	dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
 	
 	asp_ratio <- shp1_asp_marg / dev_asp
 	
+	## process tm objects
 	result <- process_tm(x, asp_ratio)
-	
 	gmeta <- result$gmeta
 	gps <- result$gps
 	nx <- result$nx
 	data_by <- result$data_by
 	
-	
+	## process shapes
 	margins <- gmeta$outer.margins
 	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
 	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
-	
 	shps_lengths <- sapply(shps, length)
 	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh)
 	
@@ -171,7 +147,9 @@ print.tmap <- function(x, vp=NULL, ...) {
 		}, gps, matchIDs, SIMPLIFY=FALSE)
 		
 	} else {
-		matchIDs <- lapply(shps, function(s)attr(s, "matchID"))
+		matchIDs <- lapply(shps, function(s) {
+			if (inherits(s, "Raster")) s[] else s$tmapID
+		})# attr(s, "matchID"))
 
 		gps <- lapply(gps, function(gp) {
 			gp[1:nshps] <- mapply(function(gpl, indices, l) {
@@ -198,42 +176,3 @@ print.tmap <- function(x, vp=NULL, ...) {
 }
 
 
-get_RasterLayer_data_vector <- function(r) {
-	values <- r@data@values
-	if (r@data@isfactor) {
-		dt <- r@data@attributes[[1]]
-		if ("levels" %in% names(dt)) {
-			factor(values, levels=dt$ID, labels=dt$levels)
-		} else {
-			warning("No 'levels' column found in data@attributes.")
-			values
-		}
-	} else {
-		values
-	}
-}
-
-
-get_Raster_data <- function(shp) {
-	if (inherits(shp, "RasterLayer")) {
-		data <- data.frame(get_RasterLayer_data_vector(shp))
-		names(data) <- names(shp)
-	} else if (inherits(shp, "RasterStack")) {
-		data <- as.data.frame(lapply(shp@layers, get_RasterLayer_data_vector))
-		names(data) <- names(shp)
-	} else if (inherits(shp, "RasterBrick")) {
-		isfactor <- shp@data@isfactor
-		data <- as.data.frame(shp@data@values)
-		atb <- shp@data@attributes
-		atb <- atb[sapply(atb, length)!=0]
-		
-		stopifnot(sum(isfactor)==length(atb))
-		
-		if (any(isfactor)) data[isfactor] <- mapply(function(d, a){
-			if (class(a)=="list") a <- a[[1]]
-			levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
-			factor(d, levels=a$ID, labels=as.character(a[[levelsID]]))
-		}, data[isfactor], atb, SIMPLIFY=FALSE)
-	}	
-	data
-}

@@ -52,15 +52,13 @@ plot_map <- function(i, gp, gt, shps.env) {
 		plot_tm_text <- function() plot_text(co.npc, gpl)
 		
 		plot_tm_raster <- function() {
-			#browser()
 			rast <- if (is.null(gpl$raster)) NA else get_alpha_col(gpl$raster, gpl$raster.alpha)
 			
 			bb <- attr(shp, "bbox")
 			bb_rast <- attr(shp, "bbox_raster")
-			width <- (bb_rast[1,2] - bb_rast[1,1]) / (bb[1,2] - bb[1,1])
-			height <- (bb_rast[2,2] - bb_rast[2,1]) / (bb[2,2] - bb[2,1])
-			
-			cent <- rowMeans(bb_rast)
+			width <- 1 #(bb_rast[1,2] - bb_rast[1,1]) / (bb[1,2] - bb[1,1])
+			height <- 1 #(bb_rast[2,2] - bb_rast[2,1]) / (bb[2,2] - bb[2,1])
+			cent <- rowMeans(bb) #rowMeans(bb_rast)
 			
 			x <- (cent[1] - bb[1,1]) / (bb[1,2] - bb[1,1])
 			y <- (cent[2] - bb[2,1]) / (bb[2,2] - bb[2,1])

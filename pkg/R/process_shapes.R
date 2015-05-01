@@ -1,7 +1,7 @@
 process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	
-	sh <- (dh/gm$nrow) * (1-sum(gm$outer.margins[c(1,3)]))
-	sw <- (dw/gm$ncol) * (1-sum(gm$outer.margins[c(2,4)]))
+	sh <- (dh/gm$nrow)# * (1-sum(gm$outer.margins[c(1,3)]))
+	sw <- (dw/gm$ncol)# * (1-sum(gm$outer.margins[c(2,4)]))
 	
 	dasp <- sw/sh
 	pasp <- gm$asp
@@ -180,14 +180,23 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 					})
 				})
 			} else {
-				tryCatch({
-					crop_shape(x, bbox=bb)
-				}, error = function(e) {
-					attr(x, "bbox") <- bb
-					#cat("error\n")
-					attr(x, "matchID") <- 1:length(x)
-					x
-				})
+				bb_raster <- attr(x, "bbox_raster")
+				#bb <- attr(x, "bbox")
+				
+				y <- crop(x, bb)
+
+				attr(y, "bbox_raster") <- bb_raster
+				attr(y, "bbox") <- bb
+				
+				y	
+# 				tryCatch({
+# 					crop_shape(x, bbox=bb)
+# 				}, error = function(e) {
+# 					attr(x, "bbox") <- bb
+# 					#cat("error\n")
+# 					attr(x, "matchID") <- 1:length(x)
+# 					x
+# 				})
 			}
 		}, shps, names(shps), SIMPLIFY=FALSE)
 	
