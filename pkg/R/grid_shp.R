@@ -20,6 +20,7 @@ grid.shape <- function(shp, gp=gpar(), bg.col=NA) {
 		if (length(gp2$fill)==length(holes)) {
 			gp2$fill[holes] <- bg.col 
 		} else {
+			bg.col <- ifelse(is.na(gp2$fill), NA, bg.col)
 			gp2$fill <- ifelse(holes, bg.col, gp2$fill[1])
 		}
 	}

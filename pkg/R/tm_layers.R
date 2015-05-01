@@ -12,6 +12,7 @@
 #'  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 #' }
 #'For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}} accept 1 to 3. For layer \code{\link{tm_raster}}, 4, 5, or 6 is required.
+#' @param is.master logical that determines whether this \code{tm_shape} is the master shape element. The bounding box and projection settings of the master shape element are taken. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.
 #' @param projection character that determines the projection. Either a \code{PROJ.4} character string or one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).} 
@@ -39,6 +40,7 @@
 #' @example ../examples/tm_shape.R
 #' @return \code{\link{tmap-element}}
 tm_shape <- function(shp, 
+					  is.master = NA,
 					  projection=NULL, 
 					  xlim = NULL,
 					  ylim = NULL,

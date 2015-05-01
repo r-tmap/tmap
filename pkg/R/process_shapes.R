@@ -1,4 +1,4 @@
-process_shapes <- function(shps, g, gm, data_by, dw, dh) {
+process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	
 	sh <- (dh/gm$nrow)# * (1-sum(gm$outer.margins[c(1,3)]))
 	sw <- (dw/gm$ncol)# * (1-sum(gm$outer.margins[c(2,4)]))
@@ -11,13 +11,13 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 	shp_names <- sapply(g, function(i)i[[1]])
 	names(shps) <- shp_names
 	# find master
-	masterID <- which(sapply(g, function(x)!is.null(x$projection) || !is.null(x$xlim) || !is.null(x$ylim) || !is.null(x$bbox)))
-	
-	if (length(masterID)>1) {
-		warning("Multiple projections or bounding boxes defined. First one is taken.")
-		masterID <- masterID[1]
-	}
-	if (!length(masterID)) masterID <- 1
+# 	masterID <- which(sapply(g, function(x)!is.null(x$projection) || !is.null(x$xlim) || !is.null(x$ylim) || !is.null(x$bbox)))
+# 	
+# 	if (length(masterID)>1) {
+# 		warning("Multiple projections or bounding boxes defined. First one is taken.")
+# 		masterID <- masterID[1]
+# 	}
+# 	if (!length(masterID)) masterID <- 1
 	
 	# get master shape and info
 	shp <- shps[[masterID]]
@@ -49,7 +49,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 		projection <- shp.proj
 	}
 	
-	longlat <- !is_projected(shp)
+	longlat <- !attr(shp, "projected") #is_projected(shp)
 
 	
 	# set projection for other shapes
@@ -153,14 +153,14 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 				shps_by_splt[[shps_by_ind[i]]]
 			}
 			mapply(function(shp2, bb2){
-				tryCatch({
-					crop_shape(shp2, bbox=bb2)
+				y <- tryCatch({
+					crop(shp2, bb2)
 				}, error = function(e) {
-					attr(shp2, "bbox") <- bb2
 					#cat("error\n")
-					attr(shp2, "matchID") <- 1:length(shp2)
 					shp2
 				})
+				attr(y, "bbox") <- bb2
+				y
 			}, x, bboxes, SIMPLIFY=FALSE)
 		})
 		
@@ -170,33 +170,24 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh) {
 			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
 			if (group_by) {
 				lapply(bboxes, function(bb2){
-					tryCatch({
-						crop_shape(x, bbox=bb2)
+					y <- tryCatch({
+						crop(x, bb2)
 					}, error = function(e) {
-						attr(x, "bbox") <- bb2
-						#cat("error\n")
-						attr(x, "matchID") <- 1:length(x)
 						x
 					})
+					attr(y, "bbox") <- bb
+					y
 				})
 			} else {
-				bb_raster <- attr(x, "bbox_raster")
-				#bb <- attr(x, "bbox")
-				
-				y <- crop(x, bb)
+				y <- tryCatch({
+					crop(x, bb)
+				}, error = function(e) {
+					#cat("crop error\n")
+					x
+				})
 
-				attr(y, "bbox_raster") <- bb_raster
 				attr(y, "bbox") <- bb
-				
 				y	
-# 				tryCatch({
-# 					crop_shape(x, bbox=bb)
-# 				}, error = function(e) {
-# 					attr(x, "bbox") <- bb
-# 					#cat("error\n")
-# 					attr(x, "matchID") <- 1:length(x)
-# 					x
-# 				})
 			}
 		}, shps, names(shps), SIMPLIFY=FALSE)
 	

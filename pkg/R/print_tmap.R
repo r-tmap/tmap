@@ -58,25 +58,39 @@ print.tmap <- function(x, vp=NULL, ...) {
 		
 		if (inherits(shp, "Raster")) {
 			## convert to a RasterLayer with ID numbers
-			bb <- bbox(shp)
-			crs <- shp@crs
-			projected <- is_projected(shp)
 			shp <- setValues(shp, values=1:ncell(shp))
 			
-			attr(shp, "bbox_raster") <- bb
-			attr(shp, "bbox") <- bb
-			attr(shp, "proj4string") <- crs
-			attr(shp, "projected") <- projected
+			## to be consistent with Spatial objects:
+			attr(shp, "bbox") <- bbox(shp)
+			attr(shp, "proj4string") <- shp@crs
 		}
+		
+		attr(shp, "projected") <- is_projected(shp)
+		
 		list(shp=shp, data=data)
 	})
 
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)
 
+	
+	## find master shape
+	is_raster <- sapply(shps, inherits, "RasterLayer")
+	is_master <- sapply(x[shape.id], "[[", "is.master")
+	is_master <- is_master==TRUE & !is.na(is_master)
+	
+	masterID <- if (any(is_raster)) {
+		if (any(is_master[is_raster])) which(is_raster)[is_master[is_raster]][1] else which(is_raster)[1]
+	} else {
+		if (any(is_master)) which(is_master)[1] else 1
+	}
+		
+	
+	
+	
 	## determine aspect ratio of first shape
-	shp1_bb <- attr(shps[[1]], "bbox")
-	shp1_asp <-	calc_asp_ratio(shp1_bb[1,], shp1_bb[2,], longlat=!is_projected(shps[[1]]))
+	shpM_bb <- attr(shps[[masterID]], "bbox")
+	shpM_asp <-	calc_asp_ratio(shpM_bb[1,], shpM_bb[2,], longlat=!attr(shps[[masterID]], "projected"))
 
 	## remove shapes from and add data to tm_shape objects
 	x[shape.id] <- mapply(function(y, dataset){
@@ -103,10 +117,10 @@ print.tmap <- function(x, vp=NULL, ...) {
 	ymarg <- sum(inner.margins[c(1,3)])
 	if (xmarg >= .8) stop("Inner margins too large")
 	if (ymarg >= .8) stop("Inner margins too large")
-	shp1_asp_marg <- shp1_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
+	shpM_asp_marg <- shpM_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
 	dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
 	
-	asp_ratio <- shp1_asp_marg / dev_asp
+	asp_ratio <- shpM_asp_marg / dev_asp
 	
 	## process tm objects
 	result <- process_tm(x, asp_ratio)
@@ -120,7 +134,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
 	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 	shps_lengths <- sapply(shps, length)
-	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh)
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID)
 	
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
@@ -130,9 +144,10 @@ print.tmap <- function(x, vp=NULL, ...) {
 	
 	## unify projections and set bounding box
 	if (group_by) {
-		matchIDs <- lapply(shps, function(ss) lapply(ss, function(s)attr(s, "matchID")))
-		
-		gps <- mapply(function(gp, mID) {
+		#matchIDs <- lapply(shps, function(ss) lapply(ss, function(s) attr(s, "matchID")))
+		matchIDs <- lapply(shps, function(ss) lapply(ss, function(s) if (inherits(s, "Raster")) s[] else s$tmapID))
+						   
+		gps <- mapply(function(gp, masterID) {
 			gp[1:nshps] <- mapply(function(gpl, indices, l) {
 				gpl$npol <- length(indices)
 				lapply(gpl, function(gplx) {
@@ -142,14 +157,12 @@ print.tmap <- function(x, vp=NULL, ...) {
 						gplx
 					}
 				})
-			},  gp[1:nshps], mID, shps_lengths, SIMPLIFY=FALSE)
+			},  gp[1:nshps], masterID, shps_lengths, SIMPLIFY=FALSE)
 			gp
 		}, gps, matchIDs, SIMPLIFY=FALSE)
 		
 	} else {
-		matchIDs <- lapply(shps, function(s) {
-			if (inherits(s, "Raster")) s[] else s$tmapID
-		})# attr(s, "matchID"))
+		matchIDs <- lapply(shps, function(s) if (inherits(s, "Raster")) s[] else s$tmapID)
 
 		gps <- lapply(gps, function(gp) {
 			gp[1:nshps] <- mapply(function(gpl, indices, l) {
@@ -166,7 +179,6 @@ print.tmap <- function(x, vp=NULL, ...) {
 		})
 		
 	}
-	
 	
 	shps.env <- environment()#new.env()
 	#assign("shps", shps, envir=shps.env)

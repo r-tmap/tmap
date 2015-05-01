@@ -33,7 +33,7 @@ process_raster_vector <- function(x, g, gt) {
 
 
 process_raster <- function(data, g, gt, gby) {
-	
+	#browser()
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]

@@ -28,8 +28,10 @@ land@proj4string <- NLD_muni@proj4string
 tm_shape(NLD_muni) +
 	tm_borders() +
 tm_shape(land) +
-	tm_raster("cover_cls")
-
+	tm_raster("cover_cls") +
+tm_shape(NLD_muni) +
+	tm_borders()
+	
 shp <- land
 data <- shp@data
 
@@ -63,4 +65,41 @@ system.time({
 
 
 qtm(Wnl)
+
+
+
+
+
+
+
+
+
+data(NLD_muni)
+data(Europe)
+data(World)
+data(land)
+data(metro)
+
+
+tm_shape(World) +
+	tm_fill() +
+tm_shape(land) +
+	tm_raster("trees") +
+tm_shape(World) +
+	tm_borders() +
+tm_shape(Europe) +
+	tm_borders(lwd = 3)
+
+tm_shape(World) +
+	tm_fill() +
+	tm_shape(land) +
+	tm_raster("trees") +
+	tm_shape(World) +
+	tm_borders() +
+	tm_shape(Europe) +
+	tm_borders(lwd = 3)
+
+
+tm_shape(land) + tm_raster("trees") + tm_shape(World) + tm_borders()
+tm_shape(land) + tm_raster("blue") + tm_shape(World) + tm_borders()
 

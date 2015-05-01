@@ -54,14 +54,21 @@ plot_map <- function(i, gp, gt, shps.env) {
 		plot_tm_raster <- function() {
 			rast <- if (is.null(gpl$raster)) NA else get_alpha_col(gpl$raster, gpl$raster.alpha)
 			
-			bb <- attr(shp, "bbox")
-			bb_rast <- attr(shp, "bbox_raster")
-			width <- 1 #(bb_rast[1,2] - bb_rast[1,1]) / (bb[1,2] - bb[1,1])
-			height <- 1 #(bb_rast[2,2] - bb_rast[2,1]) / (bb[2,2] - bb[2,1])
-			cent <- rowMeans(bb) #rowMeans(bb_rast)
+			bb_target <- attr(shp, "bbox")
+			bb_real <- bbox(shp)
 			
-			x <- (cent[1] - bb[1,1]) / (bb[1,2] - bb[1,1])
-			y <- (cent[2] - bb[2,1]) / (bb[2,2] - bb[2,1])
+			if (all(abs(bb_real-bb_target)< 1e-3)) {
+				width <- 1
+				height <- 1
+				cent <- rowMeans(bb_target)
+			} else {
+				width <- (bb_real[1,2] - bb_real[1,1]) / (bb_target[1,2] - bb_target[1,1])
+				height <- (bb_real[2,2] - bb_real[2,1]) / (bb_target[2,2] - bb_target[2,1])
+				cent <- rowMeans(bb_real)
+			}
+			
+			x <- (cent[1] - bb_target[1,1]) / (bb_target[1,2] - bb_target[1,1])
+			y <- (cent[2] - bb_target[2,1]) / (bb_target[2,2] - bb_target[2,1])
 			
 			#if (inherits(shp, "Spatial")) shp <- as(shp, "RasterLayer")
 			rasterGrob(matrix(rast, ncol=shp@ncols, nrow=shp@nrows, byrow = TRUE), x=x, y=y, width=width, height=height)
