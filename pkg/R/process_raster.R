@@ -7,7 +7,8 @@ process_raster_vector <- function(x, g, gt) {
 						   palette = palette,
 						   colorNA = g$colorNA,
 						   legend.NA.text = textNA,
-						   max_levels=g$max.categories)
+						   max_levels=g$max.categories,
+						   alpha=g$alpha)
 		raster.breaks <- NA
 	} else {
 		palette <- if (is.null(g$palette)) "RdYlGn" else g$palette
@@ -18,7 +19,8 @@ process_raster_vector <- function(x, g, gt) {
 						   colorNA=g$colorNA, 
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
-						   legend.NA.text = textNA)
+						   legend.NA.text = textNA,
+						   alpha=g$alpha)
 		raster.breaks <- colsLeg[[4]]
 	}
 	rast <- colsLeg[[1]]
@@ -33,7 +35,6 @@ process_raster_vector <- function(x, g, gt) {
 
 
 process_raster <- function(data, g, gt, gby) {
-	#browser()
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -44,19 +45,27 @@ process_raster <- function(data, g, gt, gby) {
 	nx <- length(x)
 	
 	# check for direct color input
-	if (all(valid_colors(x))) {
+	is.colors <- all(valid_colors(x))
+	if (is.colors) {
+		x <- get_alpha_col(col2hex(x), g$alpha)
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 		x <- paste("COLOR", 1:nx, sep="_")
 	} else {
 		if (!all(x %in% shpcols)) stop("Raster argument neither colors nor valid variable names")
 	}
-	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.raster)
+	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.raster, is.colors=is.colors)
 	## output: matrix=colors, list=free.scales, vector=!freescales
+	
 	
 	nx <- max(nx, nlevels(by))
 		
 	# return if data is matrix of color values
-	if (is.matrix(dt)) return(list(raster=dt, raster.alpha=g$alpha, xraster=rep(NA, nx)))
+	if (is.matrix(dt)) {
+		if (!is.colors) {
+			dt <- matrix(get_alpha_col(dt, g$alpha), ncol=ncol(dt))
+		}
+		return(list(raster=dt, xraster=rep(NA, nx)))
+	}
 	if (is.list(dt)) {
 		isNum <- sapply(dt, is.numeric)
 		res <- lapply(dt, process_raster_vector, g, gt)
@@ -74,9 +83,8 @@ process_raster <- function(data, g, gt, gby) {
 		raster.values <- split(dt, rep(1:nx, each=npol))
 	}
 	list(raster=rast,
-		 raster.alpha=g$alpha,
 		 raster.legend.labels=raster.legend.labels,
 		 raster.legend.palette=raster.legend.palette,
-		 raster.legend.misc=list(values=raster.values, breaks=raster.breaks, alpha=g$alpha),
+		 raster.legend.misc=list(values=raster.values, breaks=raster.breaks),
 		 xraster=x)
 }

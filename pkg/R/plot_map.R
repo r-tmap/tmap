@@ -37,7 +37,7 @@ plot_map <- function(i, gp, gt, shps.env) {
 		
 		
 		plot_tm_fill <- function() {
-			fill <- if (is.null(gpl$fill)) NA else get_alpha_col(gpl$fill, gpl$fill.alpha)
+			fill <- if (is.null(gpl$fill)) NA else gpl$fill
 			col <- get_alpha_col(gpl$col, gpl$alpha)
 			grid.shape(shp, gp=gpar(fill=fill, col=col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color)
 		}
@@ -52,8 +52,7 @@ plot_map <- function(i, gp, gt, shps.env) {
 		plot_tm_text <- function() plot_text(co.npc, gpl)
 		
 		plot_tm_raster <- function() {
-			rast <- if (is.null(gpl$raster)) NA else get_alpha_col(gpl$raster, gpl$raster.alpha)
-			
+			rast <- if (is.null(gpl$raster)) NA else gpl$raster
 			bb_target <- attr(shp, "bbox")
 			bb_real <- bbox(shp)
 			
@@ -162,12 +161,11 @@ plot_bubbles <- function(co.npc, g, bubbleHeight) {
 			cols2 <- cols
 		}
 
-		cols3 <- get_alpha_col(cols2, bubble.alpha)
 		bordercol <- get_alpha_col(bubble.border.col, bubble.border.alpha)
 		
 		circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
 					r=unit(bubble.size2, "inch"),
-					gp=gpar(col=bordercol, lwd=bubble.border.lwd, fill=cols3))
+					gp=gpar(col=bordercol, lwd=bubble.border.lwd, fill=cols2))
 	})
 }
 

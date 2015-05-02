@@ -21,7 +21,8 @@ process_line_col_vector <- function(x, g, gt) {
 						   contrast = g$contrast, legend.labels=g$labels,
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
-						   legend.NA.text=g$textNA)
+						   legend.NA.text=g$textNA,
+						   alpha=g$lines.alpha)
 		line.col <- colsLeg[[1]]
 	} else {
 		palette <- if (is.null(g$palette))  "Dark2" else g$palette
@@ -30,7 +31,8 @@ process_line_col_vector <- function(x, g, gt) {
 						   palette = palette,
 						   colorNA = g$colorNA,
 						   legend.NA.text=g$textNA,
-						   max_levels=g$max.categories)
+						   max_levels=g$max.categories,
+						   alpha=g$lines.alpha)
 		
 		line.col <- colsLeg[[1]]
 		
@@ -75,16 +77,19 @@ process_lines <- function(data, g, gt, gby) {
 		gby$free.scales.line.lwd <- FALSE
 	}
 	
+	# check for direct color input
+	is.colors <- all(valid_colors(xcol))
 	if (!varycol) {
-		if (!all(valid_colors(xcol))) stop("Invalid line colors")
+		if (!is.colors) stop("Invalid line colors")
+		xcol <- get_alpha_col(col2hex(xcol), g$lines.alpha)
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
 	
 	nx <- max(nx, nlevels(by))
 	
-	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.line.col)
-	dtlwd <- process_data(data[, xlwd, drop=FALSE], by=by, free.scales=gby$free.scales.line.lwd)
+	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.line.col, is.colors=is.colors)
+	dtlwd <- process_data(data[, xlwd, drop=FALSE], by=by, free.scales=gby$free.scales.line.lwd, is.colors=FALSE)
 	
 	if (is.list(dtlwd)) {
 		res <- lapply(dtlwd, process_line_lwd_vector, g, rescale=varylwd)
@@ -105,7 +110,9 @@ process_lines <- function(data, g, gt, gby) {
 	}
 	
 	if (is.matrix(dtcol)) {
-		line.col <- dtcol
+		line.col <- if (is.colors) {
+			matrix(get_alpha_col(dtcol, g$lines.alpha), ncol=ncol(dtcol))
+		} else dtcol
 		xcol <- rep(NA, nx)
 		line.col.legend.labels <- NA
 		line.col.legend.palette <- NA

@@ -103,3 +103,20 @@ tm_shape(World) +
 tm_shape(land) + tm_raster("trees") + tm_shape(World) + tm_borders()
 tm_shape(land) + tm_raster("blue") + tm_shape(World) + tm_borders()
 
+land$color <- "#FFEE00"
+
+## test speed
+tm_fast <- tm_shape(land) + tm_raster("cover_cls") + tm_shape(World) + tm_borders()
+tm_slow <- tm_shape(land) + tm_raster("blue") + tm_shape(World) + tm_borders()
+tm_med <- tm_shape(land) + tm_raster("color") + tm_shape(World) + tm_borders()
+
+
+Rprof(tmp <- tempfile())
+#print(tm_slow)
+print(tm_med)
+#print(tm_fast)
+Rprof()
+summaryRprof(tmp)
+unlink(tmp)
+
+### "blue" conversion via rgb

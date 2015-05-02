@@ -51,7 +51,8 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   contrast = g$contrast, legend.labels=g$labels,
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
-						   legend.NA.text=g$textNA)
+						   legend.NA.text=g$textNA,
+						   alpha=g$bubble.alpha)
 		bubble.col <- colsLeg[[1]]
 		bubble.col.neutral <- colsLeg$legend.neutral.col
 	} else {
@@ -62,7 +63,8 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   palette = palette,
 						   colorNA = g$colorNA,
 						   legend.NA.text=g$textNA,
-						   max_levels=g$max.categories)
+						   max_levels=g$max.categories,
+						   alpha=g$bubble.alpha)
 		
 		bubble.col <- rep(NA, length(sel))
 		bubble.col[sel] <- colsLeg[[1]]
@@ -115,8 +117,11 @@ process_bubbles <- function(data, g, gt, gby) {
 		gby$free.scales.bubble.size <- FALSE
 	}
 	
+	# check for direct color input
+	is.colors <- all(valid_colors(xcol))
 	if (!varycol) {
-		if (!all(valid_colors(xcol))) stop("Invalid bubble colors")
+		if (!is.colors) stop("Invalid bubble colors")
+		xcol <- get_alpha_col(col2hex(xcol), g$bubble.alpha)
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
@@ -124,8 +129,8 @@ process_bubbles <- function(data, g, gt, gby) {
 	nx <- max(nx, nlevels(by))
 	
 	
-	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.col)
-	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.size)
+	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.col, is.colors=is.colors)
+	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.size, is.colors=FALSE)
 	
 	if (is.list(dtsize)) {
 		res <- lapply(dtsize, process_bubbles_size_vector, g, rescale=varysize, gt)
@@ -150,7 +155,9 @@ process_bubbles <- function(data, g, gt, gby) {
 	
 	
 	if (is.matrix(dtcol)) {
-		bubble.col <- dtcol
+		bubble.col <- if (!is.colors) {
+			matrix(get_alpha_col(dtcol, g$bubble.alpha), ncol=ncol(dtcol))
+		} else dtcol
 		xcol <- rep(NA, nx)
 		bubble.col.legend.labels <- NA
 		bubble.col.legend.palette <- NA
@@ -182,29 +189,19 @@ process_bubbles <- function(data, g, gt, gby) {
 
 	bubble.size.legend.palette <- bubble.col.neutral
 		
-# 		if (is.list(bubble.col.legend.palette)) {
-# 		mapply(function(pal, isnum) {
-# 			if (isnum) pal[length(pal)] else pal[1]
-# 		}, bubble.col.legend.palette, bubble.col.is.numeric)
-# 	} else if (is.na(bubble.col.legend.palette[1])) {
-# 		apply(bubble.col, 2, function(bc) na.omit(bc)[1])
-# 	} else {
-# 		rep(bubble.col.legend.palette[ifelse(bubble.col.is.numeric, 2, 1)], nx)
-# 	}
 	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
-		 bubble.alpha=g$bubble.alpha,
 		 bubble.border.lwd=g$bubble.border.lwd,
 		 bubble.border.col=g$bubble.border.col,
 		 bubble.border.alpha=g$bubble.border.alpha,
 		 bubble.scale=g$bubble.scale,
 		 bubble.col.legend.labels=bubble.col.legend.labels,
 		 bubble.col.legend.palette=bubble.col.legend.palette,
-		 bubble.col.legend.misc=list(bubble.alpha=g$bubble.alpha, bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=g$bubble.border.col, bubble.border.alpha=g$bubble.border.alpha, bubble.max.size=bubble.max.size),
+		 bubble.col.legend.misc=list(bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=g$bubble.border.col, bubble.border.alpha=g$bubble.border.alpha, bubble.max.size=bubble.max.size),
 		 bubble.size.legend.labels=bubble.size.legend.labels,
 		 bubble.size.legend.palette= bubble.size.legend.palette,
-		 bubble.size.legend.misc=list(bubble.alpha=g$bubble.alpha, bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=g$bubble.border.col, bubble.border.alpha=g$bubble.border.alpha, legend.sizes=bubble.legend.sizes),
+		 bubble.size.legend.misc=list(bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=g$bubble.border.col, bubble.border.alpha=g$bubble.border.alpha, legend.sizes=bubble.legend.sizes),
 		 xsize=xsize,
 		 xcol=xcol,
 		 bubble.xmod=xmod,

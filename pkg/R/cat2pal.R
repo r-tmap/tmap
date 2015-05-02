@@ -3,7 +3,8 @@ cat2pal <- function(x,
 					colorNA = "#FF1414",
 					legend.labels = NULL,
 					max_levels = 40,
-					legend.NA.text = "Missing") {
+					legend.NA.text = "Missing",
+					alpha=1) {
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
 	# quick&dirty
@@ -40,7 +41,9 @@ cat2pal <- function(x,
         rep(palette, length.out=nlevels(x))
 	}
     
-	   
+	legend.palette <- get_alpha_col(legend.palette, alpha)
+	colorNA <- get_alpha_col(colorNA, alpha)
+	
 	cols <- legend.palette[as.integer(x)]
 	colsNA <- is.na(cols)
 

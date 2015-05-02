@@ -8,7 +8,8 @@ num2pal <- function(x, n = 5,
 					   legend.scientific = FALSE,
 					   legend.digits = NA,
 					   colorNA = "#FF1414",
-					   legend.NA.text = "Missing") {
+					   legend.NA.text = "Missing",
+					   alpha=1) {
 	
 	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.")
 	# create intervals and assign colors
@@ -63,6 +64,11 @@ num2pal <- function(x, n = 5,
 		legend.palette <- rep(palette, length.out=nbrks-1)
 		legend.neutral.col <- legend.palette[1]
 	}
+	
+	legend.palette <- get_alpha_col(legend.palette, alpha)
+	legend.neutral.col <- get_alpha_col(legend.neutral.col, alpha)
+	colorNA <- get_alpha_col(colorNA, alpha)
+	
 	
 	
 	cols <- findColours(q, legend.palette)

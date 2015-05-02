@@ -1,7 +1,7 @@
-process_data <- function(data, by, free.scales) {
+process_data <- function(data, by, free.scales, is.colors) {
 	
 	nby <- nlevels(by)
-	cls <- check_tm_classes(data)
+	cls <- check_tm_classes(data, is.colors)
 	if (nby > 1) {
 		nx <- nby
 		dat <- data[[1]]
@@ -45,14 +45,18 @@ process_data <- function(data, by, free.scales) {
 }
 
 
-check_tm_classes <- function(x) {
-	sapply(x, function(y) {
-		if (is.numeric(y)) { 
-			"num"
-		} else if (is.factor(y)) {
-			"fac"
-		} else if (all(valid_colors(y))) {
-			"col"
-		} else "cha"
-	})
+check_tm_classes <- function(x, is.colors) {
+	if (is.colors) {
+		rep("col", ncol(x))	
+	} else {
+		sapply(x, function(y) {
+			if (is.numeric(y)) { 
+				"num"
+			} else if (is.factor(y)) {
+				"fac"
+			} else if (all(valid_colors(y))) {
+				"col"
+			} else "cha"
+		})
+	}
 }

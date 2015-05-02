@@ -11,7 +11,8 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   palette = palette,
 						   colorNA = g$colorNA,
 						   legend.NA.text = textNA,
-						   max_levels=g$max.categories)
+						   max_levels=g$max.categories,
+						   alpha=g$alpha)
 		fill.breaks <- NA
 	} else {
 		palette <- if (is.null(g$palette)) "RdYlGn" else g$palette
@@ -22,7 +23,8 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   colorNA=g$colorNA, 
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
-						   legend.NA.text = textNA)
+						   legend.NA.text = textNA,
+						   alpha=g$alpha)
 		fill.breaks <- colsLeg[[4]]
 	}
 	fill <- colsLeg[[1]]
@@ -59,19 +61,26 @@ process_fill <- function(data, g, gb, gt, gby) {
 	nx <- length(x)
 	
 	# check for direct color input
-	if (all(valid_colors(x))) {
+	is.colors <- all(valid_colors(x))
+	if (is.colors) {
+		x <- get_alpha_col(col2hex(x), g$alpha)
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 		x <- paste("COLOR", 1:nx, sep="_")
 	} else {
 		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable names")
 	}
-	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill)
+	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
 	nx <- max(nx, nlevels(by))
 		
 	# return if data is matrix of color values
-	if (is.matrix(dt)) return(list(fill=dt, fill.alpha=g$alpha, xfill=rep(NA, nx)))
+	if (is.matrix(dt)) {
+		if (!is.colors) {
+			dt <- matrix(get_alpha_col(dt, g$alpha), ncol=ncol(dt))
+		}
+		return(list(fill=dt, xfill=rep(NA, nx)))	
+	} 
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly")
 	if (is.list(dt)) {
@@ -99,9 +108,8 @@ process_fill <- function(data, g, gb, gt, gby) {
 		fill.values <- lapply(split(dt, rep(1:nx, each=npol)), function(d)d[!tiny])
 	}
 	list(fill=fill,
-		 fill.alpha=g$alpha,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,
-		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks, alpha=g$alpha, lwd=gb$lwd, border.col=gb$col, border.alpha=gb$alpha),
+		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks, lwd=gb$lwd, border.col=gb$col, border.alpha=gb$alpha),
 		 xfill=x)
 }
