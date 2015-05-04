@@ -9,7 +9,10 @@ num2pal <- function(x, n = 5,
 					   legend.digits = NA,
 					   colorNA = "#FF1414",
 					   legend.NA.text = "Missing",
-					   alpha=1) {
+					   alpha=1,
+					   text_separator = "to",
+					   text_less_than = "Less than",
+					   text_or_more = "or more") {
 	
 	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.")
 	# create intervals and assign colors
@@ -93,9 +96,9 @@ num2pal <- function(x, n = 5,
 		} else {
 			breaks.printed <- fancy_breaks(breaks, dp=legend.digits) 
 			breaks.printed[breaks==-Inf] <- ""
-			legend.labels <- paste(breaks.printed[-nbrks], breaks.printed[-1], sep=" to ")
-			if (breaks[1]==-Inf) legend.labels[1] <- paste("Less than", breaks.printed[2])
-			if (breaks[nbrks]==Inf) legend.labels[nbrks-1] <- paste(breaks.printed[nbrks-1], "or more")
+			legend.labels <- paste(breaks.printed[-nbrks], breaks.printed[-1], sep = paste0(" ", text_separator, " "))
+			if (breaks[1]==-Inf) legend.labels[1] <- paste(text_less_than, breaks.printed[2])
+			if (breaks[nbrks]==Inf) legend.labels[nbrks-1] <- paste(breaks.printed[nbrks-1], text_or_more)
 		}
 		
 	} else {

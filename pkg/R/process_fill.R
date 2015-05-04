@@ -24,7 +24,10 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text = textNA,
-						   alpha=g$alpha)
+						   alpha=g$alpha, 
+						   text_separator = g$text_separator,
+						   text_less_than = g$text_less_than,
+						   text_or_more = g$text_or_more)
 		fill.breaks <- colsLeg[[4]]
 	}
 	fill <- colsLeg[[1]]
