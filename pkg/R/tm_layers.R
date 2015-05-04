@@ -169,6 +169,9 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @param colorNA color used for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
+#' @param text_separator Character string to use to separate numbers in the legend (default: "to").
+#' @param text_less_than Character string to use to translate "Less than" (which is the default).
+#' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @export
 #' @example ../examples/tm_fill.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
@@ -187,7 +190,10 @@ tm_fill <- function(col="grey85",
 					 		max.categories = 12,
 					 		colorNA = "grey60",
 					 		textNA = "Missing",
-							thres.poly = 1e-05) {
+							thres.poly = 1e-05,
+							text_separator = "to",
+							text_less_than = "Less than",
+							text_or_more = "or more") {
 	
 	g <- list(tm_fill=as.list(environment()))
 	class(g) <- "tmap"
