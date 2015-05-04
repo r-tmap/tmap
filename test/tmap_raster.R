@@ -10,8 +10,21 @@ library(raster)
 data(meuse.grid)
 coordinates(meuse.grid) = c("x", "y")
 gridded(meuse.grid) <- TRUE
-
 meuse.grid <- set_projection(meuse.grid, current.projection = "rd", overwrite.current.projection = TRUE)
+
+tm_shape(meuse.grid) +
+	tm_raster("dist")
+
+
+
+
+shp <- raster(meuse.grid, layer=0)
+
+meuse.grid$
+
+
+	
+	
 data(NLD_muni)
 
 tm_shape(NLD_muni) +
@@ -27,6 +40,8 @@ tm_shape(meuse.grid) +
 ## SpatialPixelsDataFrame
 shpPx <- meuse.grid
 class(shpPx)
+
+
 
 ## SpatialGridDataFrame
 shpGrid <- as(meuse.grid, "SpatialGridDataFrame")

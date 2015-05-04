@@ -10,6 +10,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   colorNA = g$colorNA,
+						   legend.labels=g$labels,
 						   legend.NA.text = textNA,
 						   max_levels=g$max.categories,
 						   alpha=g$alpha)

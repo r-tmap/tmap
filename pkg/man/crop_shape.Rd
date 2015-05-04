@@ -14,6 +14,7 @@ crop_shape(shp, bbox = shp@bbox, set.bbox = TRUE)
  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
  \item{\code{\link[sp:SpatialGridDataFrame]{SpatialPoints(DataFrame)}}}
  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
+ \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 }}
 
 \item{bbox}{rectangle to crop the \code{shp} with. It is represented by a 2x2 matrix in which the x and y coordiantes are respectively row 1 and 2, and the minimum and maximum values are respectively column 1 and 2. By default the bounding box of \code{shp} is taken.}

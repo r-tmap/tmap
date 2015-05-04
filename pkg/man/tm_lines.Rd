@@ -7,7 +7,9 @@
 tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
   n = 5, style = "pretty", breaks = NULL, palette = NULL,
   labels = NULL, auto.palette.mapping = TRUE, contrast = 1,
-  max.categories = 12, colorNA = "grey65", textNA = "Missing")
+  max.categories = 12, colorNA = "grey65", textNA = "Missing",
+  text_separator = "to", text_less_than = "Less than",
+  text_or_more = "or more")
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name.}
@@ -39,6 +41,12 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{colorNA}{color used for missing values}
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
+
+\item{text_separator}{Character string to use to separate numbers in the legend (default: "to").}
+
+\item{text_less_than}{Character string to use to translate "Less than" (which is the default).}
+
+\item{text_or_more}{Character string to use to translate "or more" (which is the default).}
 }
 \value{
 \code{\link{tmap-element}}

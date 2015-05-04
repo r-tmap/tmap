@@ -27,14 +27,14 @@ print.tmap <- function(x, vp=NULL, ...) {
 			## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
 			newData <- data.frame(tmapID = seq_len(length(shp)))
 			if ("data" %in% names(attributes(shp))) {
+				if (inherits(shp, "SpatialPixelsDataFrame")) {
+					shp <- as(shp, "SpatialGridDataFrame")
+				}
 				data <- shp@data
-				
-				isPixels <- inherits(shp, "SpatialPixelsDataFrame")
 				shp@data <- newData
-				if (inherits(shp, c("SpatialGridDataFrame", "SpatialPixelsDataFrame"))) {
+				if (inherits(shp, "SpatialGridDataFrame")) {
 					shp <- raster(shp, layer=0)
 				}
-				if (isPixels) data <- data[shp@data@values, ,drop=FALSE]
 			} else {
 				data <- newData
 				shp <- if (inherits(shp, "SpatialPolygons")) {

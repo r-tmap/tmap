@@ -7,7 +7,8 @@
 tm_raster(col = "grey70", alpha = NA, palette = NULL, n = 5,
   style = "pretty", breaks = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = NA, textNA = "Missing")
+  colorNA = NA, textNA = "Missing", text_separator = "to",
+  text_less_than = "Less than", text_or_more = "or more")
 }
 \arguments{
 \item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn.}
@@ -33,6 +34,12 @@ tm_raster(col = "grey70", alpha = NA, palette = NULL, n = 5,
 \item{colorNA}{color used for missing values}
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
+
+\item{text_separator}{Character string to use to separate numbers in the legend (default: "to").}
+
+\item{text_less_than}{Character string to use to translate "Less than" (which is the default).}
+
+\item{text_or_more}{Character string to use to translate "or more" (which is the default).}
 }
 \value{
 \code{\link{tmap-element}}

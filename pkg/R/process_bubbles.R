@@ -52,7 +52,10 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text=g$textNA,
-						   alpha=g$bubble.alpha)
+						   alpha=g$bubble.alpha, 
+						   text_separator = g$text_separator,
+						   text_less_than = g$text_less_than,
+						   text_or_more = g$text_or_more)
 		bubble.col <- colsLeg[[1]]
 		bubble.col.neutral <- colsLeg$legend.neutral.col
 	} else {
@@ -62,6 +65,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		colsLeg <- cat2pal(xc[sel],
 						   palette = palette,
 						   colorNA = g$colorNA,
+						   legend.labels=g$labels,
 						   legend.NA.text=g$textNA,
 						   max_levels=g$max.categories,
 						   alpha=g$bubble.alpha)

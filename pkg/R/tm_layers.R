@@ -125,6 +125,9 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface="plain", fontf
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
+#' @param text_separator Character string to use to separate numbers in the legend (default: "to").
+#' @param text_less_than Character string to use to translate "Less than" (which is the default).
+#' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @export
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_lines.R
@@ -139,12 +142,17 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					  contrast = 1,
 					  max.categories = 12, 
 					  colorNA = "grey65",
-					  textNA = "Missing") {
+					  textNA = "Missing",
+					  text_separator = "to",
+					  text_less_than = "Less than",
+					  text_or_more = "or more"
+					 ) {
 	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.alpha=alpha, lines.scale=scale,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 							 auto.palette.mapping=auto.palette.mapping,
 							 max.categories=max.categories,
-							 contrast=contrast, colorNA=colorNA, textNA=textNA))
+							 contrast=contrast, colorNA=colorNA, textNA=textNA, text_separator=text_separator,
+							text_less_than=text_less_than, text_or_more=text_or_more))
 	class(g) <- "tmap"
 	g
 }
@@ -168,10 +176,10 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
-#' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @param text_separator Character string to use to separate numbers in the legend (default: "to").
 #' @param text_less_than Character string to use to translate "Less than" (which is the default).
 #' @param text_or_more Character string to use to translate "or more" (which is the default). 
+#' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @export
 #' @example ../examples/tm_fill.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
@@ -190,10 +198,10 @@ tm_fill <- function(col="grey85",
 					 		max.categories = 12,
 					 		colorNA = "grey60",
 					 		textNA = "Missing",
-							thres.poly = 1e-05,
 							text_separator = "to",
 							text_less_than = "Less than",
-							text_or_more = "or more") {
+							text_or_more = "or more",
+							thres.poly = 1e-05) {
 	
 	g <- list(tm_fill=as.list(environment()))
 	class(g) <- "tmap"
@@ -217,6 +225,9 @@ tm_fill <- function(col="grey85",
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
+#' @param text_separator Character string to use to separate numbers in the legend (default: "to").
+#' @param text_less_than Character string to use to translate "Less than" (which is the default).
+#' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @export
 #' @example ../examples/tm_raster.r
 #' @examples 
@@ -241,7 +252,10 @@ tm_raster <- function(col="grey70",
 					  contrast = 1,
 					  max.categories = 12,
 					  colorNA = NA,
-					  textNA = "Missing") {
+					  textNA = "Missing",
+					  text_separator = "to",
+					  text_less_than = "Less than",
+					  text_or_more = "or more") {
 	g <- list(tm_raster=as.list(environment()))
 	class(g) <- "tmap"
 	g
@@ -272,6 +286,9 @@ tm_raster <- function(col="grey70",
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA colour for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
+#' @param text_separator Character string to use to separate numbers in the legend (default: "to").
+#' @param text_less_than Character string to use to translate "Less than" (which is the default).
+#' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @export
@@ -298,6 +315,9 @@ tm_bubbles <- function(size=1, col="blueviolet",
 						  max.categories = 12,
 						  colorNA = "#FF1414",
 						  textNA = "Missing",
+					   	  text_separator = "to",
+					      text_less_than = "Less than",
+					      text_or_more = "or more",
 						  xmod = 0,
 						  ymod = 0) {
 	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.alpha=alpha, bubble.border.lwd=border.lwd,
@@ -314,6 +334,9 @@ tm_bubbles <- function(size=1, col="blueviolet",
 								 contrast=contrast,
 								 colorNA=colorNA,
 								 textNA=textNA,
+							  text_separator=text_separator,
+							  text_less_than=text_less_than,
+							  text_or_more=text_or_more,
 								 bubble.xmod=xmod,
 								 bubble.ymod=ymod))
 	class(g) <- "tmap"

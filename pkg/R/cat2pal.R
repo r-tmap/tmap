@@ -47,7 +47,11 @@ cat2pal <- function(x,
 	cols <- legend.palette[as.integer(x)]
 	colsNA <- is.na(cols)
 
-	legend.labels <- levels(x)
+	if (is.null(legend.labels)) {
+		legend.labels <- levels(x)	
+	} else {
+		legend.labels <- rep(legend.labels, length.out = n)
+	}
 	if (any(colsNA)) {
 		cols[is.na(cols)] <- colorNA
 		if (!is.na(legend.NA.text)) {

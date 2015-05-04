@@ -9,7 +9,9 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
   size.lim = NA, sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
   style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = "#FF1414", textNA = "Missing", xmod = 0, ymod = 0)
+  colorNA = "#FF1414", textNA = "Missing", text_separator = "to",
+  text_less_than = "Less than", text_or_more = "or more", xmod = 0,
+  ymod = 0)
 }
 \arguments{
 \item{size}{\code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples}
@@ -53,6 +55,12 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
 \item{colorNA}{colour for missing values}
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
+
+\item{text_separator}{Character string to use to separate numbers in the legend (default: "to").}
+
+\item{text_less_than}{Character string to use to translate "Less than" (which is the default).}
+
+\item{text_or_more}{Character string to use to translate "or more" (which is the default).}
 
 \item{xmod}{horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.}
 
