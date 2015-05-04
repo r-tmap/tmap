@@ -35,7 +35,7 @@ qtm <- function(shp,
 				text.size=1,
 				line.lwd=NULL,
 				line.col=NULL,
-				raster=NULL,
+				raster="grey70",
 				borders="grey40",
 				theme=NULL,
 				scale=NA,
@@ -55,13 +55,16 @@ qtm <- function(shp,
 			if (missing(bubble.col)) bubble.col <- "black"
 		}
 	}
+	if (!inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster"))) {
+		raster <- NULL
+	}
 	
-	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "xmod", "ymod")
+	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "text_separator", "text_less_than", "text_or_more", "xmod", "ymod")
 	
-	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_lines", "tm_text", "tm_layout", "tm_grid", "tm_facets")
-	fns_prefix <- c("shape", "fill", "borders", "bubble", "line", "text", "layout", "grid", "facets")
+	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets")
+	fns_prefix <- c("shape", "fill", "borders", "bubble", "line", "raster", "text", "layout", "grid", "facets")
 	
-	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_lines=c("col", "lwd"), tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
+	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
 	
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
@@ -88,6 +91,8 @@ qtm <- function(shp,
 	} 
 	
 	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, size=text.size), args2[["tm_text"]]))
+
+	if (!is.null(raster)) g <- g + do.call("tm_raster", c(list(col=raster), args2[["tm_raster"]]))
 	
 	if (length(args2[["tm_facets"]])) g <- g + do.call("tm_facets", args2[["tm_facets"]])
 
