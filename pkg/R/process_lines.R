@@ -110,6 +110,8 @@ process_lines <- function(data, g, gt, gby) {
 			line.legend.lwds <- NA
 			line.lwd.legend.labels <- NA
 			xlwd <- rep(NA, nx)
+			line.lwd.legend.title <- rep(NA, nx)
+			
 		}
 	}
 	
@@ -118,6 +120,7 @@ process_lines <- function(data, g, gt, gby) {
 			matrix(get_alpha_col(dtcol, g$lines.alpha), ncol=ncol(dtcol))
 		} else dtcol
 		xcol <- rep(NA, nx)
+		line.col.legend.title <- rep(NA, nx)
 		line.col.legend.labels <- NA
 		line.col.legend.palette <- NA
 		line.col.is.numeric <- NA
@@ -153,6 +156,9 @@ process_lines <- function(data, g, gt, gby) {
 		rep(quantile(line.legend.lwds, probs=.75, na.rm=TRUE), nx)
 	}
 	
+	line.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
+	line.lwd.legend.title <- if (is.na(g$title.lwd)[1]) xlwd else g$title.lwd
+
 	list(line.col=line.col,
 		 line.lwd=line.lwd,
 		 line.lty=g$lines.lty,
@@ -168,7 +174,10 @@ process_lines <- function(data, g, gt, gby) {
 		 						  line.legend.lty=g$lines.lty,
 		 						  line.legend.alpha=g$lines.alpha),
 		 xline=xcol,
-		 xlinelwd=xlwd)
+		 xlinelwd=xlwd,
+		 line.col.legend.title=line.col.legend.title,
+		 line.lwd.legend.title=line.lwd.legend.title
+	)
 
 }
 

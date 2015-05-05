@@ -56,19 +56,6 @@ process_tm <- function(x, asp_ratio) {
 		}
 	}
 	
-# 	
-# 	facetids <- which(names(x)=="tm_facets")
-# 	if (length(facetids)) {
-# 		shape.id.orig <- which(names(x)[1:facetid]=="tm_shape")
-# 		gf.shp.id <- tail(shape.id.orig, 1)
-# 		gf <- x[[facetid]]
-# 		gf$shp_nr <- ifelse(!is.null(gf$by) && gf$free.coords, length(shape.id.orig), 0)
-# 		gf$shp_name <- x[[gf.shp.id]]$shp_name
-# 	} else {
-# 		gf <- tm_facets()$tm_facets 
-# 		gf$shp_nr <- 0
-# 		gf$shp_name <- ""
-# 	}
 	
 	## split x into gmeta and gbody
 	x <- x[!(names(x) %in% c("tm_layout", "tm_grid", "tm_facets"))]
@@ -111,18 +98,6 @@ process_tm <- function(x, asp_ratio) {
 
 
 
-	## determine maximal number of variables
-	
-# 	nx <- max(sapply(gp, function(x) {
-# 		max(length(x$varnames$by),
-# 			ifelse(is.matrix(x$fill), ncol(x$fill), 1),
-# 			ifelse(is.matrix(x$bubble.size), ncol(x$bubble.size), 1),
-# 			ifelse(is.matrix(x$bubble.col), ncol(x$bubble.col), 1),
-# 			ifelse(is.matrix(x$line.col), ncol(x$line.col), 1),
-# 			ifelse(is.matrix(x$line.lwd), ncol(x$line.lwd), 1),
-# 			ifelse(is.matrix(x$text), ncol(x$text), 1))
-# 	}))
-# 	
 	nx <- max(sapply(gp, function(x){
 		max(sapply(x$varnames, length))
 	}))
@@ -132,10 +107,13 @@ process_tm <- function(x, asp_ratio) {
 	names(gp) <- paste0("tmLayer", 1:length(gp))
 	
 	## get variable names (used for titles)
-	varnames <- process_varnames(gp, nx)
+	#varnames <- process_varnames(gp, nx)
+	
+	
+	
 
 	## process grid
-	gmeta <- process_meta(gt, gf, gg, nx, varnames, asp_ratio)
+	gmeta <- process_meta(gt, gf, gg, nx, asp_ratio)
 	## split into small multiples
 
 	gps <- split_tm(gp, nx, order_by)
@@ -146,15 +124,10 @@ process_tm <- function(x, asp_ratio) {
 				lwd <- lwd * scale
 				
 				if (!is.null(fill)) {
-					#if (!is.null(data_by)) fill <- fill[i]
 					if (!is.na(xfill[1])) fill.legend.misc$lwd <- fill.legend.misc$lwd * scale
 				}
 
 				if (!is.null(bubble.size)) {
-# 					if (!is.null(data_by)) {
-# 						bubble.size <- bubble.size[i]
-# 						bubble.col <- bubble.col[i]
-# 					}
 					
 					bubble.size <- bubble.size * scale
 					bubble.border.lwd <- bubble.border.lwd * scale
@@ -166,10 +139,6 @@ process_tm <- function(x, asp_ratio) {
 				}
 				
 				if (!is.null(line.lwd)) {
-# 					if (!is.null(data_by)) {
-# 						line.lwd <- line.lwd[i]
-# 						line.col <- line.col[i]
-# 					}
 					
 					line.lwd <- line.lwd * scale
 					line.col.legend.misc$line.legend.lwd <- line.col.legend.misc$line.legend.lwd * scale
@@ -182,7 +151,6 @@ process_tm <- function(x, asp_ratio) {
 
 
 				if (!is.null(raster)) {
-					#if (!is.null(data_by)) fill <- fill[i]
 					if (!is.na(xraster[1])) raster.legend.misc$lwd <- raster.legend.misc$lwd * scale
 				}
 
@@ -191,7 +159,7 @@ process_tm <- function(x, asp_ratio) {
 		
 		x$tm_layout <- gmeta
 		x$tm_layout$title <- x$tm_layout$title[i]
-		x$tm_layout$legend.titles <- sapply(x$tm_layout$legend.titles, function(x)x[i])
+		#x$tm_layout$legend.titles <- sapply(x$tm_layout$legend.titles, function(x)x[i])
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 	

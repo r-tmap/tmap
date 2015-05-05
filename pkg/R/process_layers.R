@@ -22,20 +22,6 @@ process_layers <- function(g, gt, gf) {
 	}
 	
 	
-	# 	data_by <- lapply(1:nshps, function(i) {
-	# 		if (gf$shp_nr[i]==0) {
-	# 			NULL
-	# 		} else {
-	# 			d <- gp[[gf$shp_nr[i]]]$data_by
-	# 			if (is.factor(d)) {
-	# 				factor(as.character(d), levels=levels(d)[table(d)>0])
-	# 			} else {
-	# 				factor(d)
-	# 			}
-	# 		}
-	# 	})
-	
-	
 	# determine plotting order 
 	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_bubbles", "tm_lines", "tm_raster")]
 	plot.order[plot.order=="tm_borders"] <- "tm_fill"
@@ -50,27 +36,27 @@ process_layers <- function(g, gt, gf) {
 	
 	# fill info
 	if (is.null(g$tm_fil)) {
-		gfill <- list(fill=NULL, xfill=NA) 
+		gfill <- list(fill=NULL, xfill=NA, fill.legend.title=NA) 
 	} else {
 		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf)
 	}
 	# bubble info
 	if (is.null(g$tm_bubbles)) {
-		gbubble <- list(bubble.size=NULL, xsize=NA, xcol=NA)
+		gbubble <- list(bubble.size=NULL, xsize=NA, xcol=NA, bubble.size.legend.title=NA, bubble.col.legend.title=NA)
 	} else {
 		gbubble <- process_bubbles(data, g$tm_bubbles, gt, gf)
 	}
 
 	# lines info
 	if (is.null(g$tm_lines)) {
-		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA) 
+		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA, line.col.legend.title=NA, line.lwd.legend.title=NA) 
 	} else {
 		glines <- process_lines(data, g$tm_lines, gt, gf)	
 	} 
 
 	# raster info
 	if (is.null(g$tm_raster)) {
-		graster <- list(raster=NULL, xraster=NA) 
+		graster <- list(raster=NULL, xraster=NA, raster.legend.title=NA) 
 	} else {
 		graster <- process_raster(data, g$tm_raster, gt, gf)
 	}	

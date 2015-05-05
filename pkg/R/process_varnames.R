@@ -8,10 +8,19 @@ process_varnames <- function(gp, nx) {
 	names(vars) <- varnames
 	
 	vars2 <- lapply(vars, function(v) {
-		id <- which(sapply(v, function(x)!is.na(x[1])))
-		if (length(id)) rep(v[[id[1]]], length.out=nx) else NA
+		ids <- which(sapply(v, function(x)!is.na(x)))
+		
+		lapply(ids, function(i) rep(v[[i]], length.out=nx))
+		
+		#id <- which(sapply(v, function(x)!is.na(x[1])))
+		#if (length(id)) rep(v[[id[1]]], length.out=nx) else NA
 	})
 	
 	names(vars2) <- varnames
 	vars2
+}
+
+
+process_legend_titles <- function(gp, nx, varnames) {
+	
 }

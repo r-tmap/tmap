@@ -83,7 +83,7 @@ process_fill <- function(data, g, gb, gt, gby) {
 		if (!is.colors) {
 			dt <- matrix(get_alpha_col(dt, g$alpha), ncol=ncol(dt))
 		}
-		return(list(fill=dt, xfill=rep(NA, nx)))	
+		return(list(fill=dt, xfill=rep(NA, nx), fill.lenged.title=rep(NA, nx)))	
 	} 
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly")
@@ -111,9 +111,12 @@ process_fill <- function(data, g, gb, gt, gby) {
 		fill.breaks <- res$fill.breaks
 		fill.values <- lapply(split(dt, rep(1:nx, each=npol)), function(d)d[!tiny])
 	}
+	fill.legend.title <- if (is.na(g$title)[1]) x else g$title
+	
 	list(fill=fill,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,
 		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks, lwd=gb$lwd, border.col=gb$col, border.alpha=gb$alpha),
-		 xfill=x)
+		 xfill=x,
+		 fill.legend.title=fill.legend.title)
 }

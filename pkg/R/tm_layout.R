@@ -17,7 +17,6 @@
 #' @param legend.show Logical that determines whether the legend is shown. Use \code{legend.config} to configure which legend elements are shown.
 #' @param legend.hist.show Logical that determines whether to show a histogram for the choropleth fill variable.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
-#' @param legend.titles titles of the legend elements. Named character vector, where the names correspond to the legend elements and the value to the titles of those elements. Possible legend element names are: \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. For small multiples, a list of character vectors can be provided, where the list names correspond to the legend elements, and the character vectors to the legend titles of the small multiples per legend element. By default, the names of the corresponding statistical variables are used. For the legend element at the top, no legend title is used since the main title is used for this. A legend title for this element can be speficied.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default, it is automatically placed in the corner with most space based on the (first) shape object.
 #' @param legend.is.portrait logical vector that determines whether the orientation of the legend elements are portrait (\code{TRUE}) or landscape (\code{FALSE}). The vector should be named with the corresponding elements, which are \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
 #' @param legend.width maximum width of the legend
@@ -39,7 +38,7 @@
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_layout.R
 #' @export
-tm_layout <- function(title=NA,
+tm_layout <- function(title="",
 					  scale=1,
 					  title.size=1.5,
 					  bg.color=NULL,
@@ -52,7 +51,6 @@ tm_layout <- function(title=NA,
 					  legend.show = TRUE,
 					  legend.hist.show = FALSE,
 					  legend.only = FALSE,
-					  legend.titles = c(fill = NA, bubble.size = NA, bubble.col = NA, line.col = NA, line.lwd = NA, raster=NA),
 					  legend.position = NULL,
 					  legend.is.portrait = c(fill = TRUE, bubble.size = FALSE, 
 					  					   bubble.col = TRUE,

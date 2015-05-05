@@ -68,7 +68,7 @@ process_raster <- function(data, g, gt, gby) {
 		if (!is.colors) {
 			dt <- matrix(get_alpha_col(dt, g$alpha), ncol=ncol(dt))
 		}
-		return(list(raster=dt, xraster=rep(NA, nx)))
+		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx)))
 	}
 	if (is.list(dt)) {
 		isNum <- sapply(dt, is.numeric)
@@ -86,9 +86,12 @@ process_raster <- function(data, g, gt, gby) {
 		raster.breaks <- res$raster.breaks
 		raster.values <- split(dt, rep(1:nx, each=npol))
 	}
+	raster.legend.title <- if (is.na(g$title)[1]) x else g$title
+	
 	list(raster=rast,
 		 raster.legend.labels=raster.legend.labels,
 		 raster.legend.palette=raster.legend.palette,
 		 raster.legend.misc=list(values=raster.values, breaks=raster.breaks),
-		 xraster=x)
+		 xraster=x,
+		 raster.legend.title=raster.legend.title)
 }

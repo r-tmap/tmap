@@ -29,7 +29,7 @@ get_i <- function(x, xname, i, n, oid) {
 		}
 	} else {
 		ncx <- nchar(xname)
-		if (xname %in% c("bubble.size.legend.palette", "bubble.max.size", "line.lwd.legend.palette", "line.legend.lwd")) {
+		if (xname %in% c("bubble.size.legend.palette", "bubble.max.size", "line.lwd.legend.palette", "line.legend.lwd") || substr(xname, ncx-11, ncx)=="legend.title") {
 			if (length(x)>=i) x[i] else x[1]
 		} else x
 	}

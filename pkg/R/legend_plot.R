@@ -2,12 +2,6 @@ legend_plot <- function(gt, x, legend_pos) {
 	# are there any legend elements? if not, title.only=TRUE
 	title.only <- all(sapply(x, is.null))
 
-	# check legend configuration
-	conf <- gt$legend.config 
-	ishist <- (substr(conf, nchar(conf)-3, nchar(conf))=="hist")
-	conf2 <- ifelse(ishist, substr(conf, 1, nchar(conf)-5), conf)
-	if (!length(conf)) title.only <- TRUE # || gt$legend.only
-	
 	# legend positioning
 	if (is.null(gt$legend.position)) {
 		if (gt$free.coords) {
@@ -37,31 +31,25 @@ legend_plot <- function(gt, x, legend_pos) {
 	titleHeight <- lineHeight * (nlines+.5) * gt$title.size
 	
 	if (!title.only) {
-		# put legend titles and spacers between legend elements
-		for (i in 1:length(gt$legend.titles)) {
-			lt <- gt$legend.titles[i]
-			if (lt!="") {
-				name <- names(lt)
-				id <- which(conf2==name)[1]
-				id2 <- paste("title", name, sep=".")
-				id3 <- paste("spacer", name, sep=".")
-				if (!is.na(id)) {
-					conf <- if (id==1) c(id2, conf) else c(conf[1:(id-1)], id3, id2, conf[id:length(conf)])
-					conf2 <- if (id==1) c(id2, conf2) else c(conf2[1:(id-1)], id3, id2, conf2[id:length(conf2)])
-					lst <- list(if (id==1) NULL else list(legend.type="spacer"), list(legend.type="title", title=lt))
-					names(lst) <- c(id3, id2)
-					x <- c(x, lst)
-				}
-			}
-		}
-		x <- x[conf]
+
+		
+		x <- lapply(x, function(y) {
+			name <- y$legend.type
+			#id_title <- paste("title", name, sep=".")
+			#id_spacer <- paste("spacer", name, sep=".")
+			list_spacer <- list(legend.type="spacer", legend.is.portrait=FALSE)
+			list_title <- if(y$legend.title=="") NULL else list(legend.type="title", title=y$legend.title, legend.is.portrait=FALSE)
+			list(list_spacer, list_title, y)
+		})
+		x <- do.call("c", x)
+		
 		
 		legend.title.npc <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * gt$legend.title.size
 
 		
 		# add element for main title
 		if (titleg) {
-			x <- c(TITLE=list(list(legend.type="TITLE", title=gt$title)), x)
+			x <- c(TITLE=list(list(legend.type="TITLE", title=gt$title, legend.is.portrait=FALSE)), x)
 		}
 
 		# remove empty legend elements
@@ -69,34 +57,31 @@ legend_plot <- function(gt, x, legend_pos) {
 		k <- sum(x.not.null)
 		x <- x[x.not.null]
 
-		# determine legend types (portrait, landscape, hist, or title)
-		types <- ifelse(sapply(x, function(y)if (is.null(y$legend.is.portrait)) FALSE else y$legend.is.portrait), "portrait", "landscape")
-		types[names(x)=="fill_hist"] <- "hist"
-		types[substr(names(x), 1, 5)=="title"] <- "title"
-		types[names(x)=="TITLE"] <- "title"
-		
-		
 		# shrink heights (remove white space)
 		margin <- 0.25 * gt$legend.text.size
-		heights <- mapply(function(p, hname) {
-			if (hname=="TITLE") {
+		
+		heights <- sapply(x, function(p){
+			type <- p$legend.type
+			port <- p$legend.is.portrait
+			
+			if (type=="TITLE") {
 				titleHeight
-			} else if (p && hname %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
-				length(x[[hname]]$legend.labels) * lineHeight * gt$legend.text.size + 2*margin*lineHeight
-			} else if (p && hname == "bubble.size") {
-				sum(pmax(convertHeight(unit(x[[hname]]$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
-			} else if (!p && hname == "bubble.size") {
-				max(convertHeight(unit(x[[hname]]$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
-			} else if (!p && hname %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
+			} else if (port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
+				length(p$legend.labels) * lineHeight * gt$legend.text.size + 2*margin*lineHeight
+			} else if (port && type == "bubble.size") {
+				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
+			} else if (!port && type == "bubble.size") {
+				max(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
+			} else if (!port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
 				2*margin*lineHeight*gt$legend.text.size + 2.75 * lineHeight*gt$legend.text.size
-			} else if (substr(hname, 1, 6) == "spacer") {
+			} else if (type == "spacer") {
 				legend.title.npc * .25
-			} else if (substr(hname, 1, 5) == "title") {
+			} else if (type == "title") {
 				legend.title.npc * 1.5
-			} else if (hname == "fill_hist") {
+			} else if (type == "fill_hist") {
 				gt$legend.hist.height
 			}
-		}, types=="portrait", names(x))
+		})
 		
 		legendWidth <- gt$legend.width
 		

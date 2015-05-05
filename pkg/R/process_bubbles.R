@@ -96,7 +96,9 @@ process_bubbles <- function(data, g, gt, gby) {
 	if (is.null(xsize)) {
 		return(list(bubble.size=NULL,
 					xsize=NA,
-					xcol=NA))
+					xcol=NA,
+					bubble.size.legend.title=NA,
+					bubble.col.legend.title=NA))
 	}
 	
 	# if by is specified, use first value only
@@ -154,6 +156,7 @@ process_bubbles <- function(data, g, gt, gby) {
 			bubble.legend.sizes <- NA
 			bubble.max.size <- res$bubble.max.size
 			xsize <- rep(NA, nx)
+			bubble.size.legend.title <- rep(NA, nx)
 		}
 	}
 	
@@ -163,6 +166,7 @@ process_bubbles <- function(data, g, gt, gby) {
 			matrix(get_alpha_col(dtcol, g$bubble.alpha), ncol=ncol(dtcol))
 		} else dtcol
 		xcol <- rep(NA, nx)
+		bubble.col.legend.title <- rep(NA, nx)
 		bubble.col.legend.labels <- NA
 		bubble.col.legend.palette <- NA
 		bubble.col.is.numeric <- NA
@@ -192,7 +196,10 @@ process_bubbles <- function(data, g, gt, gby) {
 	ymod <-  if (is.character(ymod)) data[[ymod]] else rep(ymod, length.out=npol)
 
 	bubble.size.legend.palette <- bubble.col.neutral
-		
+
+	bubble.size.legend.title <- if (is.na(g$title.size)[1]) xsize else g$title.size
+	bubble.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
+	
 	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
@@ -209,5 +216,7 @@ process_bubbles <- function(data, g, gt, gby) {
 		 xsize=xsize,
 		 xcol=xcol,
 		 bubble.xmod=xmod,
-		 bubble.ymod=ymod)
+		 bubble.ymod=ymod,
+		 bubble.size.legend.title=bubble.size.legend.title,
+		 bubble.col.legend.title=bubble.col.legend.title)
 }
