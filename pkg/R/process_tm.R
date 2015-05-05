@@ -64,18 +64,19 @@ process_tm <- function(x, asp_ratio) {
 	
 	## split x into clusters
 	shape.id <- which(names(x)=="tm_shape")
-	if (shape.id[1] != 1) stop("First layers should be a tm_shape layer.")
+	if (shape.id[1] != 1) stop("First element should be a tm_shape element.")
 	y <- rep(0, n); y[shape.id] <- 1
 	cluster.id <- cumsum(y)
 	gs <- split(x, cluster.id)
 	
 	nlx <- sapply(gs, length)
-	if (any(nlx==1)) warning("Specify at least one layer next to tm_shape")
+	if (any(nlx==1)) warning("Specify at least one layer after each tm_shape")
 	
 	
 	#gs <- lapply(gs, function(gx) if (is.null(gx[["tm_borders"]])) gx + tm_borders() else gx)
 	## convert clusters to layers
-	gp <- lapply(gs, FUN=process_layers, gt, gf)
+	cnlx <- c(0, cumsum(nlx[1:(nshps-1)]-1))
+	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf), SIMPLIFY = FALSE)
 	
 	## get by vector
 	data_by <- lapply(gp, function(i)i$data_by)

@@ -18,11 +18,9 @@
 #' @param legend.hist.show Logical that determines whether to show a histogram for the choropleth fill variable.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default, it is automatically placed in the corner with most space based on the (first) shape object.
-#' @param legend.is.portrait logical vector that determines whether the orientation of the legend elements are portrait (\code{TRUE}) or landscape (\code{FALSE}). The vector should be named with the corresponding elements, which are \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.
 #' @param legend.width maximum width of the legend
 #' @param legend.height maximum height of the legend.
 #' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
-#' @param legend.config character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.
 #' @param legend.title.size Relative font size for the legend title
 #' @param legend.text.size Relative font size for the legend text elements
 #' @param legend.hist.size Relative font size for the choropleth histogram
@@ -52,13 +50,9 @@ tm_layout <- function(title="",
 					  legend.hist.show = FALSE,
 					  legend.only = FALSE,
 					  legend.position = NULL,
-					  legend.is.portrait = c(fill = TRUE, bubble.size = FALSE, 
-					  					   bubble.col = TRUE,
-					  					   line.col = TRUE, line.lwd = FALSE, raster=TRUE),
 					  legend.width = 0.3,
 					  legend.height = 0.9,
 					  legend.hist.height = 0.3,
-					  legend.config = c("fill_hist", "fill", "bubble.size", "bubble.col", "line.col", "line.lwd", "raster"),
 					  legend.title.size=1.0,
 					  legend.text.size=0.7,
 					  legend.hist.size=0.7,

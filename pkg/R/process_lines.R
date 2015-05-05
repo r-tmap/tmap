@@ -51,7 +51,7 @@ process_line_col_vector <- function(x, g, gt) {
 	
 }
 
-process_lines <- function(data, g, gt, gby) {
+process_lines <- function(data, g, gt, gby, z) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -158,7 +158,9 @@ process_lines <- function(data, g, gt, gby) {
 	
 	line.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
 	line.lwd.legend.title <- if (is.na(g$title.lwd)[1]) xlwd else g$title.lwd
-
+	line.col.legend.z <- if (is.na(g$legend.col.z)) z else g$legend.col.z
+	line.lwd.legend.z <- if (is.na(g$legend.lwd.z)) z+.5 else g$legend.lwd.z
+	
 	list(line.col=line.col,
 		 line.lwd=line.lwd,
 		 line.lty=g$lines.lty,
@@ -176,7 +178,11 @@ process_lines <- function(data, g, gt, gby) {
 		 xline=xcol,
 		 xlinelwd=xlwd,
 		 line.col.legend.title=line.col.legend.title,
-		 line.lwd.legend.title=line.lwd.legend.title
+		 line.lwd.legend.title=line.lwd.legend.title,
+		 line.col.legend.is.portrait=g$legend.col.is.portrait,
+		 line.lwd.legend.is.portrait=g$legend.lwd.is.portrait,
+		 line.col.legend.z=line.col.legend.z,
+		 line.lwd.legend.z=line.lwd.legend.z
 	)
 
 }

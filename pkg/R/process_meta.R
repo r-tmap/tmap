@@ -1,5 +1,4 @@
 process_meta <- function(gt, gf, gg, nx, asp_ratio) {
-	legend.config <- NULL
 	
 	
 	gf <- within(gf, {
@@ -40,46 +39,6 @@ process_meta <- function(gt, gf, gg, nx, asp_ratio) {
 	m <- gf$ncol * gf$nrow
 	
 	gt <- within(gt, {
-# 		idname <- names(which(sapply(varnames, function(x)as.logical(sum(!is.na(x[1]))))[legend.config]))[1]
-# 		if (!is.na(varnames[[1]][1])) {
-# 			idname <- "by"
-# 		}
-# 		one <- sum(sapply(varnames[-1], function(x)!is.na(x[1])))==1
-# 		spec.title <- !is.na(title[1])
-# 		add.title <- !identical(title, "")
-# 		
-# 		## if no names, repeat for all sublegends except for heading
-# 		if (!length(names(legend.titles))) {
-# 			legend.titles <- rep(legend.titles, length.out=length(varnames)-1)
-# 			names(legend.titles) <- names(varnames[-1])
-# 			if (add.title && !is.na(idname) && idname != "by") legend.titles[idname] <- ""
-# 		}
-# 		if (is.vector(legend.titles)) legend.titles <- as.list(legend.titles)
-# 		
-# 		tmp <- as.list(rep(NA, length(varnames)-1))
-# 		names(tmp) <- names(varnames[-1])
-# 
-# # 		if (!is.na(idname) && (add.title || one) && idname != "by") tmp[[idname]] <- ""
-# # 		nna <- sapply(legend.titles, function(x)!is.na(x[1]))
-# # 		if (any(nna)) tmp[names(legend.titles[nna])] <- legend.titles[nna]
-# # 		
-# # 		legend.titles <- tmp[names(which(sapply(varnames[-1], function(x)!is.na(x)[1])))]
-# 		
-# 		if (is.na(idname)) {
-# 			if (!spec.title) title <- rep("", nx)
-# 			legend.titles <- NA
-# 		} else {
-# 			# replace NA's with varnames
-# 			legend.titles <- mapply(function(x, id) {
-# 				y <- if (is.na(x[1])) varnames[[id]] else x
-# 				rep(y, length.out=nx)
-# 			}, legend.titles, names(legend.titles), SIMPLIFY=FALSE)
-# 			if (!spec.title) {
-# 				title <- rep(varnames[[idname]], length.out=nx)
-# 			} else {
-# 				title <- rep(title, length.out=nx)
-# 			}
-# 		}
 
 		title <- rep(title, length.out=nx)
 		

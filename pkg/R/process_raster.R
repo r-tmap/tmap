@@ -38,7 +38,7 @@ process_raster_vector <- function(x, g, gt) {
 }
 
 
-process_raster <- function(data, g, gt, gby) {
+process_raster <- function(data, g, gt, gby, z) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -87,11 +87,14 @@ process_raster <- function(data, g, gt, gby) {
 		raster.values <- split(dt, rep(1:nx, each=npol))
 	}
 	raster.legend.title <- if (is.na(g$title)[1]) x else g$title
+	raster.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
 	
 	list(raster=rast,
 		 raster.legend.labels=raster.legend.labels,
 		 raster.legend.palette=raster.legend.palette,
 		 raster.legend.misc=list(values=raster.values, breaks=raster.breaks),
 		 xraster=x,
-		 raster.legend.title=raster.legend.title)
+		 raster.legend.title=raster.legend.title,
+		 raster.legend.is.portrait=g$legend.is.portrait,
+		 raster.legend.z=raster.legend.z)
 }

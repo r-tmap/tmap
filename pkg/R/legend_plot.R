@@ -32,6 +32,8 @@ legend_plot <- function(gt, x, legend_pos) {
 	
 	if (!title.only) {
 
+		zs <- sapply(x, function(y) y$legend.z)
+		x <- x[order(zs)]
 		
 		x <- lapply(x, function(y) {
 			name <- y$legend.type
@@ -63,7 +65,6 @@ legend_plot <- function(gt, x, legend_pos) {
 		heights <- sapply(x, function(p){
 			type <- p$legend.type
 			port <- p$legend.is.portrait
-			
 			if (type=="TITLE") {
 				titleHeight
 			} else if (port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {

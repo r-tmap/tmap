@@ -1,4 +1,4 @@
-process_layers <- function(g, gt, gf) {
+process_layers <- function(g, z, gt, gf) {
 	if (dupl <- anyDuplicated(names(g))) {
 		warning(paste("One tm layer group has duplicated layer types, which are omitted. To draw multiple layers of the same type, use multiple layer groups (i.e. specify tm_shape prior to each of them)."))
 		g <- g[-dupl]	
@@ -38,27 +38,27 @@ process_layers <- function(g, gt, gf) {
 	if (is.null(g$tm_fil)) {
 		gfill <- list(fill=NULL, xfill=NA, fill.legend.title=NA) 
 	} else {
-		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf)
+		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf, z=z+which(plot.order=="tm_fill"))
 	}
 	# bubble info
 	if (is.null(g$tm_bubbles)) {
 		gbubble <- list(bubble.size=NULL, xsize=NA, xcol=NA, bubble.size.legend.title=NA, bubble.col.legend.title=NA)
 	} else {
-		gbubble <- process_bubbles(data, g$tm_bubbles, gt, gf)
+		gbubble <- process_bubbles(data, g$tm_bubbles, gt, gf, z=z+which(plot.order=="tm_bubbles"))
 	}
 
 	# lines info
 	if (is.null(g$tm_lines)) {
 		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA, line.col.legend.title=NA, line.lwd.legend.title=NA) 
 	} else {
-		glines <- process_lines(data, g$tm_lines, gt, gf)	
+		glines <- process_lines(data, g$tm_lines, gt, gf, z=z+which(plot.order=="tm_lines"))	
 	} 
 
 	# raster info
 	if (is.null(g$tm_raster)) {
 		graster <- list(raster=NULL, xraster=NA, raster.legend.title=NA) 
 	} else {
-		graster <- process_raster(data, g$tm_raster, gt, gf)
+		graster <- process_raster(data, g$tm_raster, gt, gf, z=z+which(plot.order=="tm_raster"))
 	}	
 	
 	

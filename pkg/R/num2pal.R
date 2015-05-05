@@ -73,8 +73,8 @@ num2pal <- function(x, n = 5,
 	colorNA <- get_alpha_col(colorNA, alpha)
 	
 	
-	
-	cols <- findColours(q, legend.palette)
+	ids <- findCols(q)
+	cols <- legend.palette[ids]
 	anyNA <- any(is.na(cols))
 	if (anyNA) {
 		cols[is.na(cols)] <- colorNA

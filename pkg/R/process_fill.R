@@ -51,7 +51,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 }
 
 
-process_fill <- function(data, g, gb, gt, gby) {
+process_fill <- function(data, g, gb, gt, gby, z) {
 	
 	npol <- nrow(data)
 	by <- data$GROUP_BY
@@ -112,11 +112,14 @@ process_fill <- function(data, g, gb, gt, gby) {
 		fill.values <- lapply(split(dt, rep(1:nx, each=npol)), function(d)d[!tiny])
 	}
 	fill.legend.title <- if (is.na(g$title)[1]) x else g$title
+	fill.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
 	
 	list(fill=fill,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,
 		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks, lwd=gb$lwd, border.col=gb$col, border.alpha=gb$alpha),
 		 xfill=x,
-		 fill.legend.title=fill.legend.title)
+		 fill.legend.title=fill.legend.title,
+		 fill.legend.is.portrait=g$legend.is.portrait,
+		 fill.legend.z=fill.legend.z)
 }

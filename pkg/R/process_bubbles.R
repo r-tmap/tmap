@@ -84,7 +84,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		 bubble.col.neutral=bubble.col.neutral)
 }
 
-process_bubbles <- function(data, g, gt, gby) {
+process_bubbles <- function(data, g, gt, gby, z) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -199,6 +199,8 @@ process_bubbles <- function(data, g, gt, gby) {
 
 	bubble.size.legend.title <- if (is.na(g$title.size)[1]) xsize else g$title.size
 	bubble.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
+	bubble.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
+	bubble.col.legend.z <- if (is.na(g$legend.col.z)) z+.5 else g$legend.col.z
 	
 	
 	list(bubble.size=bubble.size,
@@ -218,5 +220,9 @@ process_bubbles <- function(data, g, gt, gby) {
 		 bubble.xmod=xmod,
 		 bubble.ymod=ymod,
 		 bubble.size.legend.title=bubble.size.legend.title,
-		 bubble.col.legend.title=bubble.col.legend.title)
+		 bubble.col.legend.title=bubble.col.legend.title,
+		 bubble.size.legend.is.portrait=g$legend.size.is.portrait,
+		 bubble.col.legend.is.portrait=g$legend.col.is.portrait,
+		 bubble.size.legend.z=bubble.size.legend.z,
+		 bubble.col.legend.z=bubble.col.legend.z)
 }
