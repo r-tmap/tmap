@@ -28,4 +28,17 @@ tm_shape(World) +
 	tm_layout(title="")
 
 tm_shape(World) +
-	tm_fill("income_grp")
+	tm_fill("income_grp", title="Test") +
+	tm_layout(title="Test")
+
+tm_shape(metro) +
+	tm_bubbles(size = "X2010", col="growth", title.size = "Test", title.col="Test") 
+
+tm_shape(metro) +
+	tm_bubbles(size = "X2010", col="growth", title.size = "Test", title.col="Test") +
+	tm_layout("Abcdefg", legend.position=c("left", "top"), title.position=c("left", "bottom"))
+
+
+tm_shape(World) +
+	tm_fill() +
+	tm_facets("continent") + tm_layout(title = as.character(1:8))

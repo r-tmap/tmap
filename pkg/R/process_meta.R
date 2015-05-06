@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, nx, asp_ratio) {
+process_meta <- function(gt, gf, gg, nx, by_names, asp_ratio) {
 	
 	
 	gf <- within(gf, {
@@ -40,6 +40,9 @@ process_meta <- function(gt, gf, gg, nx, asp_ratio) {
 	
 	gt <- within(gt, {
 
+		title <- if (is.na(title[1])) {
+			if (is.na(by_names[1])) "" else by_names
+		} else title
 		title <- rep(title, length.out=nx)
 		
 		if (asp_ratio>1) {
@@ -65,6 +68,7 @@ process_meta <- function(gt, gf, gg, nx, asp_ratio) {
 		
 		outer.margins <- rep(outer.margins, length.out=4)
 		inner.margins <- rep(inner.margins, length.out=4)
+		
 	})	
 	
 	if (!is.null(gg)) {

@@ -36,7 +36,7 @@
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_layout.R
 #' @export
-tm_layout <- function(title="",
+tm_layout <- function(title=NA,
 					  scale=1,
 					  title.size=1.5,
 					  bg.color=NULL,
@@ -53,15 +53,16 @@ tm_layout <- function(title="",
 					  legend.width = 0.3,
 					  legend.height = 0.9,
 					  legend.hist.height = 0.3,
-					  legend.title.size=1.0,
-					  legend.text.size=0.7,
+					  legend.title.size=1.3,
+					  legend.text.size=0.8,
 					  legend.hist.size=0.7,
 					  legend.scientific = FALSE,
 					  legend.digits = NA,
 					  legend.frame = FALSE,
 					  legend.bg.color = NA,
 					  legend.bg.alpha = 1,
-					  title.position = NULL,
+					  title.snap.to.legend = FALSE,
+					  title.position = c("left", "top"),
 					  title.bg.color=NA,
 					  title.bg.alpha = 1) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))

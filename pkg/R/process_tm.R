@@ -73,9 +73,8 @@ process_tm <- function(x, asp_ratio) {
 	if (any(nlx==1)) warning("Specify at least one layer after each tm_shape")
 	
 	
-	#gs <- lapply(gs, function(gx) if (is.null(gx[["tm_borders"]])) gx + tm_borders() else gx)
 	## convert clusters to layers
-	cnlx <- c(0, cumsum(nlx[1:(nshps-1)]-1))
+	cnlx <- if (nshps==1) 0 else c(0, cumsum(nlx[1:(nshps-1)]-1))
 	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf), SIMPLIFY = FALSE)
 	
 	## get by vector
@@ -111,12 +110,15 @@ process_tm <- function(x, asp_ratio) {
 	#varnames <- process_varnames(gp, nx)
 	
 	
-	
+	## get by names
+	by_names_list <- lapply(gp, function(gpl) gpl$varnames$by)
+	by_names_specified <- !sapply(by_names_list, is.na)
 
+	by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
 	## process grid
-	gmeta <- process_meta(gt, gf, gg, nx, asp_ratio)
+	gmeta <- process_meta(gt, gf, gg, nx, by_names, asp_ratio)
+	
 	## split into small multiples
-
 	gps <- split_tm(gp, nx, order_by)
 	scale <- gmeta$scale
 	gps <- mapply(function(x, i){
