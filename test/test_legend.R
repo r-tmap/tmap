@@ -41,4 +41,14 @@ tm_shape(metro) +
 
 tm_shape(World) +
 	tm_fill() +
-	tm_facets("continent") + tm_layout(title = as.character(1:8))
+	tm_facets("continent") + tm_layout()
+
+
+qtm(World, fill = "economy", text="iso_a3", text.size = "AREA", bubble.size = "pop_est",
+	fill.palette="-Blues", theme = "World", title="Economy", fill.title="Test")
+
+
+tm_shape(World) +
+	tm_fill("economy") +
+	tm_layout("Test")
+

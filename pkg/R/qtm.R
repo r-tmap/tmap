@@ -39,6 +39,7 @@ qtm <- function(shp,
 				borders="grey40",
 				theme=NULL,
 				scale=NA,
+				title="",
 				...) {
 	args <- list(...)
 	shp_name <- deparse(substitute(shp))
@@ -96,7 +97,7 @@ qtm <- function(shp,
 	
 	if (length(args2[["tm_facets"]])) g <- g + do.call("tm_facets", args2[["tm_facets"]])
 
-	scaleLst <- if (!missing(scale)) list(scale=scale) else list()
+	scaleLst <- if (!missing(scale)) list(title=title, scale=scale) else list(title=title)
 	if (missing(theme)) {
 		g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))	
 	} else {
