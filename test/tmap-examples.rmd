@@ -1,0 +1,53 @@
+```{r setup, include=FALSE}
+library(knitr)
+devtools::load_all("../pkg")
+```
+
+# All examples
+
+This runs all examples of the tmap package.
+
+
+## Normal size
+```{r}
+getwd()
+x <- list.files("../examples", full.names = TRUE)
+
+for (fn in x) {
+	bn <- basename(fn)
+	if (substr(bn, 1, 3)%in%c("tm_", "qtm")) {
+		print(bn)
+		source(fn, local = TRUE, echo = TRUE)
+	}
+}
+```
+
+## Small size
+
+```{r, fig.width=2.5, fig.height=2.5}
+getwd()
+x <- list.files("../examples", full.names = TRUE)
+
+for (fn in x) {
+	bn <- basename(fn)
+	if (substr(bn, 1, 3)%in%c("tm_", "qtm")) {
+		print(bn)
+		source(fn, local = TRUE, echo = TRUE)
+	}
+}
+```
+
+## Large size
+
+```{r, fig.width=15, fig.height=15}
+getwd()
+x <- list.files("../examples", full.names = TRUE)
+
+for (fn in x) {
+	bn <- basename(fn)
+	if (substr(bn, 1, 3)%in%c("tm_", "qtm")) {
+		print(bn)
+		source(fn, local = TRUE, echo = TRUE)
+	}
+}
+```

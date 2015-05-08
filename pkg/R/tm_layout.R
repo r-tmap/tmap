@@ -7,7 +7,7 @@
 #' @param title Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
 #' @param title.size Relative size of the title
-#' @param bg.color Background color. By default it is light grey (\code{grey85}) for choropleths and white for other maps.
+#' @param bg.color Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).
 #' @param draw.frame Boolean that determines whether a frama is drawn. 
 #' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
 #' @param frame.lwd Width of the frame
@@ -38,7 +38,7 @@
 #' @export
 tm_layout <- function(title=NA,
 					  scale=1,
-					  title.size=1.5,
+					  title.size=1.3,
 					  bg.color=NULL,
 					  draw.frame=TRUE,
 					  asp = NA,
@@ -53,8 +53,8 @@ tm_layout <- function(title=NA,
 					  legend.width = 0.3,
 					  legend.height = 0.9,
 					  legend.hist.height = 0.3,
-					  legend.title.size=1.3,
-					  legend.text.size=0.8,
+					  legend.title.size=1.1,
+					  legend.text.size=0.7,
 					  legend.hist.size=0.7,
 					  legend.scientific = FALSE,
 					  legend.digits = NA,
@@ -74,7 +74,6 @@ tm_layout <- function(title=NA,
 #' @rdname tm_layout
 #' @export
 tm_layout_World <- function(title=NA,
-							scale=.9,
 							#title.bg.color=TRUE,
 							inner.margins=c(0, 0.05, 0.075, 0.01),
 							legend.position=c("left", "bottom"), 

@@ -17,13 +17,18 @@ With the tmap package, thematic maps can be generated with great flexibility. Th
 
 ### Shape objects
 
-We refer to **shape objects** as objects from the class `Spatial` from the package `sp`. The six supported subclasses are:
+We refer to **shape objects** as objects from the class `Spatial` from the `sp` package, or `Raster` from the `raster` package. The six supported subclasses are:
 
 |   	| Without data	| With data   	|
 |---	|---	|---	|
 |Polygons   	| SpatialPolygons  	| SpatialPolygonsDataFrame  	|
 |Points   	| SpatialPoints  	| SpatialPointsDataFrame  	|
 |Lines   	| SpatialLines  	| SpatialLinesDataFrame  	|
+|Raster   	| SpatialGrid  		| SpatialGridDataFrame  	|
+|		   	| SpatialPixels  	| SpatialPixelsDataFrame  	|
+|			| 					| RasterLayer				|
+|			| 					| RasterBrick				|
+|			| 					| RasterStack				|
 
 Obviously, shape objects with data (the right-hand side column) are recommended, since data is what we want to show.
 
@@ -50,7 +55,7 @@ So, by default, the polygons (in case the shape object is a SpatialPolygons) are
 A choropleth is created with the following code:
 
 ```{r, fig.height=5}
-qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="AREA", root=5, title="GDP per capita", 
+qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="AREA", root=5, fill.title="GDP per capita", 
 	fill.textNA="Non-European countries", theme="Europe")
 ```
 
@@ -79,10 +84,10 @@ The last plot is reproduced as follows:
 
 ```{r, eval=FALSE}
 tm_shape(Europe) +
-	tm_fill("gdp_cap_est", textNA="Non-European countries") +
+	tm_fill("gdp_cap_est", textNA="Non-European countries", title="GDP per capita") +
 	tm_borders() +
 	tm_text("iso_a3", size="AREA", root=5) + 
-tm_layout_Europe("GDP per capita")
+tm_layout_Europe()
 ```
 
 We refer to [`tm_shape`](../html/tm_shape.html) and its subsequent drawing layers (all of the elements in the last example except `tm_layout`) as a **group**. Multiple groups can be stacked. To illustrate this, let's create a complex map of Europe:
@@ -92,19 +97,18 @@ data(rivers)
 data(metro)
 
 tm_shape(Europe) +
-	tm_fill("pop_est_dens", style="kmeans", textNA="Non-European countries") +
+	tm_fill("pop_est_dens", style="kmeans", textNA="Non-European countries", title="Country population density (per km2)") +
 	tm_borders() +
 tm_shape(rivers) +
 	tm_lines("dodgerblue3") +
 tm_shape(metro) +
 	tm_text("name", size="X2010", scale=1, ymod=-.02, root=4, size.lowerbound = .60, 
 			bg.color="yellow", bg.alpha = .5) + 
-	tm_bubbles("X2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), sizes.legend = seq(2e6,10e6, by=2e6)) +
+	tm_bubbles("X2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), sizes.legend = seq(2e6,10e6, by=2e6), title.size="City Population") +
 tm_shape(Europe) +
-	tm_text("name", size="area", scale=1.5, root=8, size.lowerbound = .40, 
+	tm_text("iso_a3", size="area", scale=1.5, root=8, size.lowerbound = .40, 
 			fontface="bold", case=NA, fontcolor = "gray35") + 
-tm_layout_Europe("Map of Europe", legend.titles = c(fill="Country population density (per km2)", 
-													bubble.size="City Population"))
+tm_layout_Europe("Map of Europe", legend.width=.6)
 ```
 
 Thinks to learn from this code:
