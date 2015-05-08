@@ -273,17 +273,14 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 		})
 		
 		## crop outside frame (also labels, bubbles)
-		bgcol <- ifelse(gt$draw.frame, gt$outer.bg.color, gt$bg.color)
-		
-		treeBGtop <- cellplot2(1,1:3, e=rectGrob(gp=gpar(col=bgcol, fill=bgcol)), name="mapBGtop")
-		treeBGleft <- cellplot2(2,1, e=rectGrob(gp=gpar(col=bgcol, fill=bgcol)), name="mapBGleft")
-		treeBGright <- cellplot2(2,3, e=rectGrob(gp=gpar(col=bgcol, fill=bgcol)), name="mapBGright")
-		treeBGbottom <- cellplot2(3,1:3, e=rectGrob(gp=gpar(col=bgcol, fill=bgcol)), name="mapBGbottom")
+		treeBG <- if (!is.null(gt$outer.bg.color) && gt$draw.frame) {
+			cellplot2(1:3,1:3, e=rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)), name="mapBG")
+		} else NULL
 		treeFrame <- cellplot2(2,2, e={
 			if (gt$draw.frame) rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd)) else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
 		}, name="mapFrame")
 		
-		treeMapX <- gTree(children=gList(grobBG, gTree(children=gList(treeMap, treeBGtop, treeBGleft, treeBGright, treeBGbottom, treeFrame), vp=gridLayoutMap, name="outer_map")), name="BG")
+		treeMapX <- gTree(children=gList(grobBG, gTree(children=gList(treeBG, treeMap, treeFrame), vp=gridLayoutMap, name="outer_map")), name="BG")
 		
 		upViewport()
 	} else {

@@ -15,24 +15,24 @@ tm_shape(Europe) +
 
 # Numeric data variable
 tm_shape(Europe) +
-	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
+	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries", title="GDP per capita") +
 	tm_borders() +
 	tm_text("iso_a3", size="AREA", root=4, scale=2) +
-	tm_layout_Europe("GDP per capita")
+	tm_layout_Europe()
 
 tm_shape(World) +
-    tm_fill("pop_est_dens", style="kmeans", palette="YlOrRd") +
+    tm_fill("pop_est_dens", style="kmeans", palette="YlOrRd", title="Population per km2") +
     tm_borders() +
     tm_text("iso_a3", size="AREA", scale=1.5) +
-tm_layout_World(title="Population per km2")
+tm_layout_World()
 
 
 # Categorical data variable
 tm_shape(World) +
-    tm_fill("income_grp", palette="-Blues") +
+    tm_fill("income_grp", palette="-Blues", title="Income classification") +
     tm_borders() +
     tm_text("iso_a3", size="AREA", scale=1.5) +
-tm_layout_World("Income classification")
+tm_layout_World()
 
 tm_shape(NLD_prov) + 
     tm_fill("name") + 

@@ -4,7 +4,7 @@ legend_plot <- function(gt, x, legend_pos) {
 
 	# legend positioning
 	if (is.null(gt$legend.position)) {
-		if (gt$free.coords) {
+		if (gt$free.coords || gt$legend.only) {
 			gt$legend.position <- c("left", "top")
 		} else {
 			gt$legend.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
@@ -122,7 +122,7 @@ legend_plot <- function(gt, x, legend_pos) {
 			  	     top=1-titleHeight*.75,
 			  	     center=.5,
 			  	     centre=.5,
-			  	     bottom=titleHeight*.25))	
+			  	     bottom=titleHeight*.25 + ifelse(titleg && !snap && gt$title!="", legendHeight, 0)))	
 		}
 	} else title.position <- gt$title.position
 
@@ -180,7 +180,7 @@ legend_subplot <- function(x, id, gt) {
 	cellplot2(id, 1, e={
 	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		legend.type <- x$legend.type
-		gTree(children=gList(rectGrob(),
+		#gTree(children=gList(rectGrob(),
 		if (legend.type=="fill_hist") {
 			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25)
 		} else if (legend.type=="TITLE") {
@@ -194,7 +194,7 @@ legend_subplot <- function(x, id, gt) {
 		} else {
 			legend_landsc(x, gt$legend.text.size, lineHeight, m=.25)
 		}	
-		))
+		#))
 	})
 }
 

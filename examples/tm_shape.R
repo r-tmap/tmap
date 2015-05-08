@@ -35,4 +35,4 @@ tm_shape(metro) +
 	tm_bubbles("X2010", col = "grey30", scale=.5) +
 tm_shape(rivers) +
 	tm_lines("lightcyan1") +
-tm_layout_World(title = "", bg.color="lightcyan1", legend.show = FALSE)
+tm_layout(bg.color="lightcyan1", inner.margins=c(0,0,.02,0), legend.show = FALSE)

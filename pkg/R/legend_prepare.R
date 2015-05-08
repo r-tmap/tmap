@@ -5,30 +5,32 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 	# todo hist: "fill_hist"
 	# is.portrait
 	
-	x <- lapply(gp, function(gpl) {
-		y <- lapply(varnames, function(v) {
-			if (!is.na(gpl$varnames[[v]][1])) {
-				legend.labels <- paste(v, "legend.labels", sep=".")
-				legend.palette <- paste(v, "legend.palette", sep=".")
-				legend.title <- paste(v, "legend.title", sep=".")
-				legend.is.portrait <- paste(v, "legend.is.portrait", sep=".")
-				legend.z <- paste(v, "legend.z", sep=".")
-				legend.misc <- paste(v, "legend.misc", sep=".")
-				list_misc <- gpl[[legend.misc]]
-				if (v=="bubble.size") list_misc$legend.sizes <- list_misc$legend.size * scaleFactor
-				if (v=="bubble.col") list_misc$bubble.max.size <- list_misc$bubble.max.size * scaleFactor
-				c(list(legend.type=v,
-					 legend.title=gpl[[legend.title]],
-					 legend.is.portrait=gpl[[legend.is.portrait]],
-					 legend.z=gpl[[legend.z]],
-					 legend.labels=gpl[[legend.labels]],
-					 legend.palette=gpl[[legend.palette]]),
-				  list_misc)
-			}
+	if (gt$legend.show) {
+		x <- lapply(gp, function(gpl) {
+			y <- lapply(varnames, function(v) {
+				if (!is.na(gpl$varnames[[v]][1])) {
+					legend.labels <- paste(v, "legend.labels", sep=".")
+					legend.palette <- paste(v, "legend.palette", sep=".")
+					legend.title <- paste(v, "legend.title", sep=".")
+					legend.is.portrait <- paste(v, "legend.is.portrait", sep=".")
+					legend.z <- paste(v, "legend.z", sep=".")
+					legend.misc <- paste(v, "legend.misc", sep=".")
+					list_misc <- gpl[[legend.misc]]
+					if (v=="bubble.size") list_misc$legend.sizes <- list_misc$legend.size * scaleFactor
+					if (v=="bubble.col") list_misc$bubble.max.size <- list_misc$bubble.max.size * scaleFactor
+					c(list(legend.type=v,
+						 legend.title=gpl[[legend.title]],
+						 legend.is.portrait=gpl[[legend.is.portrait]],
+						 legend.z=gpl[[legend.z]],
+						 legend.labels=gpl[[legend.labels]],
+						 legend.palette=gpl[[legend.palette]]),
+					  list_misc)
+				}
+			})
+			y[!sapply(y, is.null)]
 		})
-		y[!sapply(y, is.null)]
-	})
-	legelem <- do.call("c", x)
+		legelem <- do.call("c", x)
+	} else legelem <- list(NULL)
 	
 	
 # 	ids <- lapply(varnames, function(v) {

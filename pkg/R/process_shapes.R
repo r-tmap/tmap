@@ -10,14 +10,6 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	nx <- length(shps)
 	shp_names <- sapply(g, function(i)i[[1]])
 	names(shps) <- shp_names
-	# find master
-# 	masterID <- which(sapply(g, function(x)!is.null(x$projection) || !is.null(x$xlim) || !is.null(x$ylim) || !is.null(x$bbox)))
-# 	
-# 	if (length(masterID)>1) {
-# 		warning("Multiple projections or bounding boxes defined. First one is taken.")
-# 		masterID <- masterID[1]
-# 	}
-# 	if (!length(masterID)) masterID <- 1
 	
 	# get master shape and info
 	shp <- shps[[masterID]]
@@ -36,14 +28,14 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	}
 	
 	# edit and set projection
-	isProjected <- !is.null(projection)
-	if (isProjected) {
+	if (!is.null(projection)) {
 		if (is.raster(shp)) {
 			warning("Unable to set projection for rasters")
 			projection <- shp.proj
 		} else {
 			projection <- get_proj4_code(projection)
 			shp <- spTransform(shp, CRS(projection))
+			attr(shp, "projected") <- is_projected(shp)
 		}
 	} else {
 		projection <- shp.proj
@@ -69,7 +61,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 				attr(x, "proj4string") <- CRS(x.proj)
 			}
 			if (x.proj != projection) {
-				if (is.list(x)) {
+				if (is.raster(x)) {
 					stop(paste("Raster", shp_nm, "has different projection and cannot be transformed"))
 				}
 				x <- spTransform(x, CRS(projection))
