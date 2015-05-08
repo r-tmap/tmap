@@ -38,8 +38,8 @@ process_meta <- function(gt, gf, gg, nx, by_names, asp_ratio) {
 	
 	m <- gf$ncol * gf$nrow
 	
+	legend.only <- NULL
 	gt <- within(gt, {
-
 		if (legend.only) {
 			title <- rep("", nx)
 			legend.width <- 1

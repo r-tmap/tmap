@@ -5,10 +5,10 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 	}
 	
 	if (is.null(g$sizes.legend)) {
-		x_legend <- pretty(x, 7)
+		x_legend <- pretty(x, 5)
 		x_legend <- x_legend[x_legend!=0]
 		nxl <- length(x_legend)
-		if (nxl>4) x_legend <- x_legend[-c(nxl-3, nxl-1)]
+		if (nxl>5) x_legend <- x_legend[-c(nxl-3, nxl-1)]
 	} else {
 		x_legend <- g$sizes.legend
 	}

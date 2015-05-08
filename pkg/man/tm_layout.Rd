@@ -7,32 +7,26 @@
 \alias{tm_layout_World}
 \title{Layout elements of cartographic maps}
 \usage{
-tm_layout(title = NA, scale = 1, title.size = 1.5, bg.color = NULL,
+tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
   draw.frame = TRUE, asp = NA, frame.lwd = 1, outer.margins = rep(0.02,
-  4), inner.margins = rep(0.02, 4), outer.bg.color = "white",
+  4), inner.margins = rep(0.02, 4), outer.bg.color = NULL,
   legend.show = TRUE, legend.hist.show = FALSE, legend.only = FALSE,
-  legend.titles = c(fill = NA, bubble.size = NA, bubble.col = NA, line.col =
-  NA, line.lwd = NA, raster = NA), legend.position = NULL,
-  legend.is.portrait = c(fill = TRUE, bubble.size = FALSE, bubble.col = TRUE,
-  line.col = TRUE, line.lwd = FALSE, raster = TRUE), legend.width = 0.3,
-  legend.height = 0.9, legend.hist.height = 0.3,
-  legend.config = c("fill_hist", "fill", "bubble.size", "bubble.col",
-  "line.col", "line.lwd", "raster"), legend.title.size = 1,
+  legend.position = NULL, legend.width = 0.3, legend.height = 0.9,
+  legend.hist.height = 0.3, legend.title.size = 1.1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.scientific = FALSE, legend.digits = NA, legend.frame = FALSE,
-  legend.bg.color = NA, legend.bg.alpha = 1, title.position = NULL,
-  title.bg.color = NA, title.bg.alpha = 1)
+  legend.bg.color = NA, legend.bg.alpha = 1, title.snap.to.legend = FALSE,
+  title.position = c("left", "top"), title.bg.color = NA,
+  title.bg.alpha = 1)
 
-tm_layout_World(title = NA, scale = 0.9, title.bg.color = TRUE,
-  inner.margins = c(0, 0.01, 0.01, 0.01), legend.position = c("left",
-  "bottom"), legend.width = 0.25, legend.height = 0.5,
-  legend.bg.color = TRUE, ...)
+tm_layout_World(title = NA, inner.margins = c(0, 0.05, 0.075, 0.01),
+  legend.position = c("left", "bottom"), ...)
 
 tm_layout_Europe(title = NA, title.position = c("left", "top"),
   legend.position = c("left", "top"), inner.margins = c(0, 0.1, 0, 0), ...)
 
 tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.02, 0.2,
-  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.35, ...)
+  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.5, ...)
 }
 \arguments{
 \item{title}{Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.}
@@ -41,7 +35,7 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.02, 0.2,
 
 \item{title.size}{Relative size of the title}
 
-\item{bg.color}{Background color. By default it is light grey (\code{grey85}) for choropleths and white for other maps.}
+\item{bg.color}{Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).}
 
 \item{draw.frame}{Boolean that determines whether a frama is drawn.}
 
@@ -61,19 +55,13 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.02, 0.2,
 
 \item{legend.only}{logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.}
 
-\item{legend.titles}{titles of the legend elements. Named character vector, where the names correspond to the legend elements and the value to the titles of those elements. Possible legend element names are: \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. For small multiples, a list of character vectors can be provided, where the list names correspond to the legend elements, and the character vectors to the legend titles of the small multiples per legend element. By default, the names of the corresponding statistical variables are used. For the legend element at the top, no legend title is used since the main title is used for this. A legend title for this element can be speficied.}
-
 \item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default, it is automatically placed in the corner with most space based on the (first) shape object.}
-
-\item{legend.is.portrait}{logical vector that determines whether the orientation of the legend elements are portrait (\code{TRUE}) or landscape (\code{FALSE}). The vector should be named with the corresponding elements, which are \code{"fill"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}.}
 
 \item{legend.width}{maximum width of the legend}
 
 \item{legend.height}{maximum height of the legend.}
 
 \item{legend.hist.height}{height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.}
-
-\item{legend.config}{character vector that specifies which legend elements are drawn and at what position. The legend elements are called \code{"fill"}, \code{"fill_hist"}, \code{"bubble.size"}, \code{"bubble.col"}, \code{"line.col"}, and \code{"line.lwd"}. The \code{legend.config} vector should only contain these elements (it can also be a subset). The order corresponds to the order in which the legend elements are stacked from top to bottom.}
 
 \item{legend.title.size}{Relative font size for the legend title}
 
@@ -91,6 +79,8 @@ tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.02, 0.2,
 
 \item{legend.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).}
 
+\item{title.snap.to.legend}{Logical that determines whether the title is part of the legend.}
+
 \item{title.position}{Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default the title is placed on top of the legend (determined by \code{legend.position})}
 
 \item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
@@ -105,22 +95,23 @@ This element specifies layout options for the maps. The main function \code{tm_l
 \examples{
 data(World)
 
-tm_shape(World) + tm_fill("pop_est_dens", style="kmeans") + 
-	tm_layout_World("World Population")
+tm_shape(World) + tm_fill("pop_est_dens", style="kmeans", title="Population density") + 
+	tm_layout_World("World Population", bg.color="lightblue")
 
 # A custom layout wrapper for Africa
 tm_layout_Africa <- function(title=NA,
 							 inner.margins = c(.02, .25, .02, .02),
 							 draw.frame = FALSE,
 							 title.position=c("left", "bottom"), 
-							 legend.position = c("left", "bottom"), 
+							 legend.position = c("left", "bottom"),
+							 legend.width = 0.5,
 							 bg.color = "lightskyblue2", ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
 Africa <- World[World$continent=="Africa", ]
-qtm(Africa, fill="pop_est_dens", fill.style="kmeans") + 
-	tm_layout_Africa("Population of Africa")
+qtm(Africa, fill="pop_est_dens", fill.style="kmeans", fill.title="Population density") + 
+	tm_layout_Africa("Africa")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

@@ -153,9 +153,9 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 	} else if (inherits(shp, "SpatialLines")) {
 		shp <- SpatialLinesDataFrame(shp, data, match.ID = FALSE)
 	} else if (inherits(shp, "SpatialGrid")) {
-		shp <- SpatialGridDataFrame(shp, data, match.ID = FALSE)
+		shp <- SpatialGridDataFrame(shp, data)
 	} else if (inherits(shp, "SpatialPixels")) {
-		shp <- SpatialPixelsDataFrame(shp, data, match.ID = FALSE)
+		shp <- SpatialPixelsDataFrame(shp, data)
 	} else {
 		stop("shp is not a shape file")
 	}

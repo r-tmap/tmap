@@ -11,7 +11,9 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
   colorNA = "#FF1414", textNA = "Missing", text_separator = "to",
   text_less_than = "Less than", text_or_more = "or more", xmod = 0,
-  ymod = 0)
+  ymod = 0, title.size = NA, title.col = NA,
+  legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
+  legend.size.z = NA, legend.col.z = NA)
 }
 \arguments{
 \item{size}{\code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples}
@@ -65,6 +67,18 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
 \item{xmod}{horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.}
 
 \item{ymod}{vertical position modification. See xmod.}
+
+\item{title.size}{title of the legend element regarding the bubble sizes}
+
+\item{title.col}{title of the legend element regarding the bubble colors}
+
+\item{legend.size.is.portrait}{logical that determines whether the legend element regarding the bubble sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.col.is.portrait}{logical that determines whether the legend element regarding the bubble colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.size.z}{index value that determines the position of the legend element regarding the bubble sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.}
+
+\item{legend.col.z}{index value that determines the position of the legend element regarding the bubble colors. (See \code{legend.size.z})}
 }
 \value{
 \code{\link{tmap-element}}
@@ -75,28 +89,28 @@ Creates a \code{\link{tmap-element}} that draws bubbles. Both colors and sizes o
 \examples{
 data(World)
 data(Europe)
-
 data(metro)
-
-
 metro$growth <- (metro$X2020 - metro$X2010) / (metro$X2010 * 10) * 100
+
 tm_shape(World) +
 	tm_fill("grey70") +
 	tm_shape(metro) +
 	tm_bubbles("X2010", col = "growth", 
 			   border.col = "black", border.alpha = .5, 
 			   style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
-			   palette="-RdYlBu", contrast=1) + 
-	tm_layout_World("Metro population", legend.titles=c(bubble.col="Growth rate (\%)"))
+			   palette="-RdYlBu", contrast=1, 
+			   title.size="Metro population", 
+			   title.col="Growth rate (\%)") + 
+	tm_layout_World()
 
 
 tm_shape(Europe) +
     tm_borders() +
     tm_fill() +
 tm_shape(metro) +
-    tm_bubbles(size="X2010", col="purple", size.lim=c(0, 1.2e7)) +
+    tm_bubbles(size="X2010", col="purple", size.lim=c(0, 1.2e7), title.size="Metro population") +
 	tm_text("name", size="X2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
-tm_layout_Europe("Metro population", legend.titles=c(bubble.col="Capital"))
+tm_layout_Europe()
 
 }
 \references{

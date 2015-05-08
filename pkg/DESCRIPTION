@@ -18,10 +18,7 @@ Imports:
     rgdal,
     raster,
     classInt,
-    RColorBrewer,
-    igraph,
-    fields,
-    vegan
+    RColorBrewer
 Suggests:
     knitr
 VignetteBuilder: knitr

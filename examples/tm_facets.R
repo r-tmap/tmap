@@ -13,7 +13,8 @@ tm_layout_World(c("A green world", "A dry world"), bg.color="lightskyblue2",
 # Facets defined by multiple variables
 tm_shape(Europe) +
 	tm_borders() +
-    tm_fill(c("gdp_cap_est", "pop_est_dens"), style="kmeans", title=c("GDP per capita", "Population density")) +
+    tm_fill(c("gdp_cap_est", "pop_est_dens"), style="kmeans", 
+    	title=c("GDP per capita", "Population density")) +
 tm_layout_Europe()
 
 tm_shape(NLD_muni) +

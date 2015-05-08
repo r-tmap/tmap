@@ -11,6 +11,7 @@
 #' @import grid
 #' @import gridBase
 #' @import classInt
+#' @import rgeos
 #' @export
 #' @method print tmap
 print.tmap <- function(x, vp=NULL, ...) {

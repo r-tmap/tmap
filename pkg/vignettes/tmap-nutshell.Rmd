@@ -25,10 +25,10 @@ We refer to **shape objects** as objects from the class `Spatial` from the `sp` 
 |Points   	| SpatialPoints  	| SpatialPointsDataFrame  	|
 |Lines   	| SpatialLines  	| SpatialLinesDataFrame  	|
 |Raster   	| SpatialGrid  		| SpatialGridDataFrame  	|
-|		   	| SpatialPixels  	| SpatialPixelsDataFrame  	|
-|			| 					| RasterLayer				|
-|			| 					| RasterBrick				|
-|			| 					| RasterStack				|
+|Raster		| SpatialPixels  	| SpatialPixelsDataFrame  	|
+|Raster		| 					| RasterLayer				|
+|Raster		| 					| RasterBrick				|
+|Raster		| 					| RasterStack				|
 
 Obviously, shape objects with data (the right-hand side column) are recommended, since data is what we want to show.
 
@@ -42,15 +42,13 @@ Shape objects in ESRI format can be read with [`read_shape`](../html/read_shape.
 
 ### Quick thematic map<a name="qplot"></a>
 
-Although the plotting syntax is based on that of `ggplot`, a crucial difference is that the elements are _functional building blocks_ rather than _layers from the grammar of graphics_.
-
-The [`qtm`](../html/qtm.html) function is `tmap`'s equivalent to `ggplot2`'s `qplot`. The first, and only required argument is a shape object:
+The plotting syntax is based on that of `ggplot`. The [`qtm`](../html/qtm.html) function is `tmap`'s equivalent to `ggplot2`'s `qplot`. The first, and only required argument is a shape object:
 
 ```{r, fig.height=5}
 qtm(Europe)
 ```
 
-So, by default, the polygons (in case the shape object is a SpatialPolygons) are filled with light grey, and the polygon borders are drawn in dark grey.
+So, by default, the polygons (in case the shape object is a SpatialPolygonsDataFrame) are filled with light grey, and the polygon borders are drawn in dark grey.
 
 A choropleth is created with the following code:
 
@@ -60,7 +58,7 @@ qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="AREA", root=5, fill.ti
 ```
 
 In this code, `fill` and `text` serve as aesthetics. Both `gdp_cap_est` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to green, is mapped to the values of `gdp_cap_est`. The variable `iso_a3` contained the text labels, in this case the country codes.
-The arguments `text.size` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `title` argument speaks for itself. The argument `fill.textNA` is the legend text for missing values (the `gdp_cap_est` variable has missing values for non-European countries). The `theme` argument specifies predefined layout settings for this shape object (which are in this case the inner margins).
+The arguments `text.size` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `fill.title` argument is the title for the `fill`-legend. The argument `fill.textNA` is the legend text for missing values (the `gdp_cap_est` variable has missing values for non-European countries). The `theme` argument specifies predefined layout settings for this shape object (which are in this case the inner margins).
 
 The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for tis readability.
 
@@ -74,6 +72,7 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_borders`](../html/tm_borders.html)   	| Draws polygon borders | col<sup></sup>, lwd<sup></sup>  	|
 |[`tm_bubbles`](../html/tm_bubbles.html)   	| Draws bubbles | size<sup>\*</sup>, col<sup>\*</sup>  	|
 |[`tm_lines`](../html/tm_lines.html)		| Draws polylines | col<sup>\*</sup>, lwd<sup>\*</sup>	|
+|[`tm_lines`](../html/tm_raster.html)		| Draws a raster | col<sup>\*</sup>	|
 |[`tm_text`](../html/tm_text.html)   	| Add text labels | text<sup>\+</sup>, size<sup>\+</sup>  	|
 |[`tm_grid`](../html/tm_grid.html)   	| Add coordinate grid lines |   	|
 
@@ -127,16 +126,16 @@ Small multiples are generated in two ways:
 1. By assigning multiple values to at least one of the 5 aesthetic arguments (in the table above indicated by the <sup>\*</sub> symbol)
 ```{r, fig.width=10, fig.height=3}
 tm_shape(Europe) +
-	tm_fill(c("pop_est_dens", "gdp_cap_est"), style="kmeans") +
-tm_layout_Europe(title = c("Population density", "GDP per capita"))
+	tm_fill(c("pop_est_dens", "gdp_cap_est"), style="kmeans", title=c("Population density", "GDP per capita")) +
+tm_layout_Europe()
 ```
 
 2. By defining a group-by variable in [`tm_facets`](../html/tm_facets.html):
 ```{r, fig.width=10}
 tm_shape(Europe) +
-	tm_fill("gdp_cap_est", style="kmeans") +
+	tm_fill("gdp_cap_est", style="kmeans", title="GDP per capita") +
 tm_facets("part") +
-tm_layout_Europe(legend.titles = c(fill="GDP per capita"))
+tm_layout_Europe()
 ```
 
 The scales of each aesthetic argument can be set to either fixed or free, and also, the coordinate ranges of the small multiples:
@@ -158,10 +157,10 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
 * Loading and preprocessing shape objects
     + read ESRI shape files and write them with respectively [`read_shape`](../html/read_shape.html) and [`write_shape`](../html/write_shape.html);
     + check and if necessary change map projections with [`get_projection` and `set_projection`](../html/set_projection.html);
-    + crop shape objects with [`crop_shape`](../html/crop_shape.html);
     + append data with [`append_data`](../html/append_data.html);
     + approximate area sizes and calculate density variables respectively with [`approx_areas`](../html/approx_areas.html) and [`calc_densities`](../html/calc_densities.html).
     + split or combine shape objects with [`split`](../html/split_shapes.html) and [`sbind`](../html/sbind.html)
+	+ get ID's of the shape items with [`get_IDs`](../html/get_IDs.html).
     
 * Plotting shape objects
     + With the [quick plotting](#qplot) function [`qtm`](../html/qtm.html), or the [main plotting method](#plot).
@@ -172,10 +171,9 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
     ```{r, eval=FALSE}
     pdf("my_map.pdf", width=10, height=6)
     tm_shape(Europe) +
-    	tm_fill("gdp_cap_est", textNA="Non-European countries") +
+    	tm_fill("gdp_cap_est", textNA="Non-European countries", title="GDP per capita") +
     	tm_borders() +
-    	tm_text("iso_a3", size="AREA", root=5) + 
-    tm_layout("GDP per capita")      
+    	tm_text("iso_a3", size="AREA", root=5)
     dev.off()
     ```
     The `scale` argument in [`tm_layout`](../html/tm_layout.html) is very useful as overall scalar (similar to the `scale` argument in `ggplot2`'s `ggsave`).
@@ -191,23 +189,6 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
     ```
     Notice that, in order to create a series of plots where one map is shown at a time, both `nrow` and `ncol` are set to 1 in [`tm_facets`](../html/tm_facets.html).
 
-
-### Miscellaneous functions
-
-Some other functions which may be helpful:
-
-* convert shape data to different regional classifications with [`convert_shape_data`](../html/convert_shape_data.html);
-* get ID's of the shape items with [`get_IDs`](../html/get_IDs.html);
-* get ranges of the polygons with [`get_polygon_ranges`](../html/get_polygon_ranges.html).
-
-Miscellaneous functions for processing purposes, which are in experimental stage:
-
-* [`double_line`](../html/double_line.html) to create a double polyline (railway track);
-* [`fit_polylines`](../html/fit_polylines.html) to fit a polyline from a set of spatial points;
-* [`get_' and 'set_polygon_directions`](../html/get_polygon_directions.html) to get and set the polygon directions;
-* [`map_points_to_line`](../html/map_points_to_line.html) to map points to a spatial lines object;
-* [`split_lines_equal`](../html/split_lines_equal.html) to split polylines into parts of equal length;
-* [`split_lines_poly`](../html/split_lines_poly.html) to split polylines by a polygon shape object.
 
 
 
@@ -228,8 +209,8 @@ rivers$constant <- factor("Rivers")
 tm_shape(World) +
 	tm_fill() +
 tm_shape(rivers) +
-	tm_lines(col="constant", palette="dodgerblue3") +
-	tm_layout_World("World map")
+	tm_lines(col="constant", palette="dodgerblue3", title.col="World map") +
+	tm_layout_World()
 ```
 
 3. Each drawing element has a scalar arguemnt called `scale`. The overall scaling and font sizes can be set by the `scale` argument in `tm_layout`.

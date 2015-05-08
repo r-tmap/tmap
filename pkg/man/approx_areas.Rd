@@ -29,14 +29,11 @@ Approximate the area sizes of the polygons either in 1) squared kilometers, 2) a
 To approximate the sizes in squared kilometer, \code{total.area.km2} is required. Note that this method is an approximation, since it depends on the used projection and the level of detail of the SpatialPolygons object. Projections with equal-area property are highly recommended.
 }
 \examples{
-data(World)
-
 data(NLD_muni)
 
 NLD_muni$area <- approx_areas(NLD_muni, total.area.km2 = 33893)
 
 tm_shape(NLD_muni) +
-	tm_bubbles(size="area") +
-	tm_layout("Area in km2")
+	tm_bubbles(size="area", title.size="Area in km2")
 }
 

@@ -8,7 +8,8 @@ tm_raster(col = "grey70", alpha = NA, palette = NULL, n = 5,
   style = "pretty", breaks = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
   colorNA = NA, textNA = "Missing", text_separator = "to",
-  text_less_than = "Less than", text_or_more = "or more")
+  text_less_than = "Less than", text_or_more = "or more", title = NA,
+  legend.is.portrait = TRUE, legend.z = NA)
 }
 \arguments{
 \item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn.}
@@ -40,6 +41,12 @@ tm_raster(col = "grey70", alpha = NA, palette = NULL, n = 5,
 \item{text_less_than}{Character string to use to translate "Less than" (which is the default).}
 
 \item{text_or_more}{Character string to use to translate "or more" (which is the default).}
+
+\item{title}{title of the legend element}
+
+\item{legend.is.portrait}{logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.z}{index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.}
 }
 \value{
 \code{\link{tmap-element}}
@@ -64,24 +71,24 @@ pal20 <- c("#003200", "#3C9600", "#006E00", "#556E19", "#00C800", "#8CBE8C",
 		   "#E664E6", "#9B82E6", "#B4FEF0", "#646464", "#C8C8C8", "#FF0000",
 		   "#FFFFFF", "#5ADCDC")
 tm_shape(land) +
-	tm_raster("cover", max.categories = 20, palette=pal20) + 
-tm_layout("Global Land Cover", inner.margins=0, legend.position = c("left","bottom"))
+	tm_raster("cover", max.categories = 20, palette=pal20, title="Global Land Cover") + 
+tm_layout_World(inner.margins=0, legend.position = c("left","bottom"))
 
 pal8 <- c("#33A02C", "#B2DF8A", "#FDBF6F", "#1F78B4", "#999999", "#E31A1C", "#E6E6E6", "#A6CEE3")
 tm_shape(land, ylim = c(-88,88), relative=FALSE) +
-	tm_raster("cover_cls", palette = pal8) +
+	tm_raster("cover_cls", palette = pal8, title="Global Land Cover") +
 	tm_shape(World) +
 	tm_borders() +
-	tm_layout_World("Global Land Cover", inner.margins=0, 
+	tm_layout_World(inner.margins=0, 
 					legend.position = c("left","bottom"), 
 					legend.bg.color = "white", legend.bg.alpha=.2, 
-					legend.frame="gray50")
+					legend.frame="gray50", legend.width=.2)
 
 tm_shape(land, ylim = c(-88,88), relative=FALSE) +
-	tm_raster("trees", palette = "Greens") +
+	tm_raster("trees", palette = "Greens", title="Percent Tree Cover") +
 tm_shape(World) +
 	tm_borders() +
-tm_layout("Percent Tree Cover", inner.margins=0, 
+tm_layout(inner.margins=0, 
 		  legend.position = c("left","bottom"), bg.color="lightblue")
 
 }

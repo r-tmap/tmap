@@ -9,7 +9,9 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
   labels = NULL, auto.palette.mapping = TRUE, contrast = 1,
   max.categories = 12, colorNA = "grey65", textNA = "Missing",
   text_separator = "to", text_less_than = "Less than",
-  text_or_more = "or more")
+  text_or_more = "or more", title.col = NA, title.lwd = NA,
+  legend.col.is.portrait = TRUE, legend.lwd.is.portrait = FALSE,
+  legend.col.z = NA, legend.lwd.z = NA)
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name.}
@@ -47,6 +49,18 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{text_less_than}{Character string to use to translate "Less than" (which is the default).}
 
 \item{text_or_more}{Character string to use to translate "or more" (which is the default).}
+
+\item{title.col}{title of the legend element regarding the line colors}
+
+\item{title.lwd}{title of the legend element regarding the line widths}
+
+\item{legend.col.is.portrait}{logical that determines whether the legend element regarding the line colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.lwd.is.portrait}{logical that determines whether the legend element regarding the line widths is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.col.z}{index value that determines the position of the legend element regarding the line colors with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.}
+
+\item{legend.lwd.z}{index value that determines the position of the legend element regarding the line widths. (See \code{legend.col.z})}
 }
 \value{
 \code{\link{tmap-element}}

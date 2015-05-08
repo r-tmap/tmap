@@ -9,7 +9,9 @@ tm_shape(World) +
 	tm_bubbles("X2010", col = "growth", 
 			   border.col = "black", border.alpha = .5, 
 			   style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
-			   palette="-RdYlBu", contrast=1, title.size="Metro population", title.col="Growth rate (%)") + 
+			   palette="-RdYlBu", contrast=1, 
+			   title.size="Metro population", 
+			   title.col="Growth rate (%)") + 
 	tm_layout_World()
 
 

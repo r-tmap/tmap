@@ -9,7 +9,8 @@ tm_fill(col = "grey85", alpha = NA, palette = NULL,
   breaks = NULL, labels = NULL, auto.palette.mapping = TRUE,
   contrast = 1, max.categories = 12, colorNA = "grey60",
   textNA = "Missing", text_separator = "to", text_less_than = "Less than",
-  text_or_more = "or more", thres.poly = 1e-05)
+  text_or_more = "or more", thres.poly = 1e-05, title = NA,
+  legend.is.portrait = TRUE, legend.z = NA)
 }
 \arguments{
 \item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn.}
@@ -47,6 +48,12 @@ tm_fill(col = "grey85", alpha = NA, palette = NULL,
 \item{text_or_more}{Character string to use to translate "or more" (which is the default).}
 
 \item{thres.poly}{number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size.}
+
+\item{title}{title of the legend element}
+
+\item{legend.is.portrait}{logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.z}{index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.}
 }
 \value{
 \code{\link{tmap-element}}
@@ -72,24 +79,25 @@ tm_shape(Europe) +
 
 # Numeric data variable
 tm_shape(Europe) +
-	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries") +
+	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries", 
+		title="GDP per capita") +
 	tm_borders() +
 	tm_text("iso_a3", size="AREA", root=4, scale=2) +
-	tm_layout_Europe("GDP per capita")
+	tm_layout_Europe()
 
 tm_shape(World) +
-    tm_fill("pop_est_dens", style="kmeans", palette="YlOrRd") +
+    tm_fill("pop_est_dens", style="kmeans", palette="YlOrRd", title="Population per km2") +
     tm_borders() +
     tm_text("iso_a3", size="AREA", scale=1.5) +
-tm_layout_World(title="Population per km2")
+tm_layout_World()
 
 
 # Categorical data variable
 tm_shape(World) +
-    tm_fill("income_grp", palette="-Blues") +
+    tm_fill("income_grp", palette="-Blues", title="Income classification") +
     tm_borders() +
     tm_text("iso_a3", size="AREA", scale=1.5) +
-tm_layout_World("Income classification")
+tm_layout_World()
 
 tm_shape(NLD_prov) + 
     tm_fill("name") + 

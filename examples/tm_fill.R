@@ -15,7 +15,8 @@ tm_shape(Europe) +
 
 # Numeric data variable
 tm_shape(Europe) +
-	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries", title="GDP per capita") +
+	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries", 
+		title="GDP per capita") +
 	tm_borders() +
 	tm_text("iso_a3", size="AREA", root=4, scale=2) +
 	tm_layout_Europe()

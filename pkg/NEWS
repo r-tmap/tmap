@@ -1,3 +1,9 @@
+version 0.8
+- added tm_raster
+- improved legend behaviour: legend titles should be set in the layer functions (instead of in tm_layout)
+- removed crop_shape, since raster::crop does the same job, but, but faster
+- out-of-scope functions migrated to spatialToolbox package, available on github.com/mtennekes/spatialToolbox
+
 version 0.7.1
 - fixed big in scale parameter (global scale set in tm_layout)
 
