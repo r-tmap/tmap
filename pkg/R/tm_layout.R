@@ -14,8 +14,7 @@
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param outer.bg.color Background color outside the frame.
-#' @param legend.show Logical that determines whether the legend is shown. Use \code{legend.config} to configure which legend elements are shown.
-#' @param legend.hist.show Logical that determines whether to show a histogram for the choropleth fill variable.
+#' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default, it is automatically placed in the corner with most space based on the (first) shape object.
 #' @param legend.width maximum width of the legend
@@ -48,7 +47,6 @@ tm_layout <- function(title=NA,
 					  inner.margins = rep(0.02, 4),
 					  outer.bg.color=NULL,
 					  legend.show = TRUE,
-					  legend.hist.show = FALSE,
 					  legend.only = FALSE,
 					  legend.position = NULL,
 					  legend.width = 0.3,

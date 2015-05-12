@@ -58,6 +58,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   text_or_more = g$text_or_more)
 		bubble.col <- colsLeg[[1]]
 		bubble.col.neutral <- colsLeg$legend.neutral.col
+		bubble.breaks <- colsLeg[[4]]
 	} else {
 		palette <- if (is.null(g$palette))  "Dark2" else g$palette
 		#remove unused levels in legend
@@ -73,6 +74,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		bubble.col <- rep(NA, length(sel))
 		bubble.col[sel] <- colsLeg[[1]]
 		bubble.col.neutral <- bubble.col[sel[1]]
+		bubble.breaks <- NA
 	}
 	bubble.col.legend.labels <- colsLeg[[2]]
 	bubble.col.legend.palette <- colsLeg[[3]]
@@ -81,7 +83,8 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		 bubble.col.legend.labels=bubble.col.legend.labels,
 		 bubble.col.legend.palette=bubble.col.legend.palette,
 		 bubble.col.is.numeric=bubble.col.is.numeric,
-		 bubble.col.neutral=bubble.col.neutral)
+		 bubble.col.neutral=bubble.col.neutral,
+		 bubble.breaks=bubble.breaks)
 }
 
 process_bubbles <- function(data, g, gt, gby, z) {
@@ -171,6 +174,8 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		bubble.col.legend.palette <- NA
 		bubble.col.is.numeric <- NA
 		bubble.col.neutral <- apply(bubble.col, 2, function(bc) na.omit(bc)[1])
+		bubble.breaks <- NA
+		bubble.values <- NA
 	} else if (is.list(dtcol)) {
 		bubble.size_list <- as.list(as.data.frame(bubble.size))
 		res <- mapply(process_bubbles_col_vector, dtcol, bubble.size_list, MoreArgs=list(g, gt), SIMPLIFY=FALSE)
@@ -179,6 +184,8 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		bubble.col.legend.palette <- lapply(res, function(r)r$bubble.col.legend.palette)
 		bubble.col.is.numeric <- sapply(res, function(r)r$bubble.col.is.numeric)
 		bubble.col.neutral <- sapply(res, function(r)r$bubble.col.neutral)
+		bubble.breaks <- lapply(res, function(r)r$bubble.breaks)
+		bubble.values <- dtcol
 	} else {
 		bubble.size_vector <- unlist(bubble.size)
 		res <- process_bubbles_col_vector(dtcol, bubble.size_vector, g, gt)
@@ -187,6 +194,8 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		bubble.col.legend.palette <- res$bubble.col.legend.palette
 		bubble.col.is.numeric <- res$bubble.col.is.numeric
 		bubble.col.neutral <- res$bubble.col.neutral
+		bubble.breaks <- res$bubble.breaks
+		bubble.values <- split(dtcol, rep(1:nx, each=npol))
 	}
 		
 		
@@ -200,7 +209,19 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	bubble.size.legend.title <- if (is.na(g$title.size)[1]) xsize else g$title.size
 	bubble.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
 	bubble.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
-	bubble.col.legend.z <- if (is.na(g$legend.col.z)) z+.5 else g$legend.col.z
+	bubble.col.legend.z <- if (is.na(g$legend.col.z)) z+.33 else g$legend.col.z
+	bubble.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.66 else g$legend.hist.z
+	
+	if (g$legend.hist && is.na(g$legend.hist.title) && bubble.col.legend.z>bubble.legend.hist.z) {
+		# histogram is drawn between title and legend enumeration
+		bubble.col.legend.hist.title <- bubble.col.legend.title
+		bubble.col.legend.title <- ""
+	} else if (g$legend.hist && is.na(g$legend.hist.title) && bubble.col.legend.z <= bubble.legend.hist.z) {
+		# histogram is drawn below legend enumeration
+		bubble.col.legend.hist.title <- ""
+	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
+		bubble.col.legend.hist.title <- g$legend.hist.title
+	}
 	
 	
 	list(bubble.size=bubble.size,
@@ -215,6 +236,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		 bubble.size.legend.labels=bubble.size.legend.labels,
 		 bubble.size.legend.palette= bubble.size.legend.palette,
 		 bubble.size.legend.misc=list(bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=g$bubble.border.col, bubble.border.alpha=g$bubble.border.alpha, legend.sizes=bubble.legend.sizes),
+		 bubble.col.legend.hist.misc=list(values=bubble.values, breaks=bubble.breaks),
 		 xsize=xsize,
 		 xcol=xcol,
 		 bubble.xmod=xmod,
@@ -223,6 +245,9 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		 bubble.col.legend.title=bubble.col.legend.title,
 		 bubble.size.legend.is.portrait=g$legend.size.is.portrait,
 		 bubble.col.legend.is.portrait=g$legend.col.is.portrait,
+		 bubble.col.legend.hist=g$legend.hist,
+		 bubble.col.legend.hist.title=bubble.col.legend.hist.title,
 		 bubble.size.legend.z=bubble.size.legend.z,
-		 bubble.col.legend.z=bubble.col.legend.z)
+		 bubble.col.legend.z=bubble.col.legend.z,
+		 bubble.col.legend.hist.z=bubble.legend.hist.z)
 }

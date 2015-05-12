@@ -132,8 +132,10 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface="plain", fontf
 #' @param title.lwd title of the legend element regarding the line widths
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the line colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.lwd.is.portrait logical that determines whether the legend element regarding the line widths is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.hist logical that determines whether a histogram is shown regarding the line colors
 #' @param legend.col.z index value that determines the position of the legend element regarding the line colors with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.lwd.z index value that determines the position of the legend element regarding the line widths. (See \code{legend.col.z})
+#' @param legend.hist.z index value that determines the position of the legend element regarding the histogram. (See \code{legend.col.z})
 #' @export
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_lines.R
@@ -156,14 +158,17 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					 title.lwd=NA,
 					 legend.col.is.portrait=TRUE,
 					 legend.lwd.is.portrait=FALSE,
+					 legend.hist=FALSE,
+					 legend.hist.title=NA,
 					 legend.col.z=NA,
-					 legend.lwd.z=NA) {
+					 legend.lwd.z=NA,
+					 legend.hist.z=NA) {
 	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.alpha=alpha, lines.scale=scale,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 							 auto.palette.mapping=auto.palette.mapping,
 							 max.categories=max.categories,
 							 contrast=contrast, colorNA=colorNA, textNA=textNA, text_separator=text_separator,
-							text_less_than=text_less_than, text_or_more=text_or_more, title.col=title.col, title.lwd=title.lwd, legend.col.is.portrait=legend.col.is.portrait, legend.lwd.is.portrait=legend.lwd.is.portrait, legend.col.z=legend.col.z, legend.lwd.z=legend.lwd.z))
+							text_less_than=text_less_than, text_or_more=text_or_more, title.col=title.col, title.lwd=title.lwd, legend.col.is.portrait=legend.col.is.portrait, legend.lwd.is.portrait=legend.lwd.is.portrait, legend.hist=legend.hist, legend.hist.title=legend.hist.title, legend.col.z=legend.col.z, legend.lwd.z=legend.lwd.z, legend.hist.z=legend.hist.z))
 	class(g) <- "tmap"
 	g
 }
@@ -193,32 +198,37 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @param title title of the legend element
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.hist logical that determines whether a histogram is shown
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
+#' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @export
 #' @example ../examples/tm_fill.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
 tm_fill <- function(col="grey85", 
 					alpha=NA,
-						    palette = NULL,
-						    convert2density = FALSE,
-					 		area = NULL,
-						    n = 5,
-						    style = "pretty",
-							breaks = NULL,
-						    labels = NULL,
-							auto.palette.mapping = TRUE,
-							contrast = 1,
-					 		max.categories = 12,
-					 		colorNA = "grey60",
-					 		textNA = "Missing",
-							text_separator = "to",
-							text_less_than = "Less than",
-							text_or_more = "or more",
-							thres.poly = 1e-05,
-							title=NA,
-							legend.is.portrait=TRUE,
-							legend.z=NA) {
+				    palette = NULL,
+				    convert2density = FALSE,
+			 		area = NULL,
+				    n = 5,
+				    style = "pretty",
+					breaks = NULL,
+				    labels = NULL,
+					auto.palette.mapping = TRUE,
+					contrast = 1,
+			 		max.categories = 12,
+			 		colorNA = "grey60",
+			 		textNA = "Missing",
+					text_separator = "to",
+					text_less_than = "Less than",
+					text_or_more = "or more",
+					thres.poly = 1e-05,
+					title=NA,
+					legend.is.portrait=TRUE,
+					legend.hist=FALSE,
+					legend.hist.title=NA,
+					legend.z=NA,
+					legend.hist.z=NA) {
 	
 	g <- list(tm_fill=as.list(environment()))
 	class(g) <- "tmap"
@@ -247,7 +257,9 @@ tm_fill <- function(col="grey85",
 #' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @param title title of the legend element
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.hist logical that determines whether a histogram is shown
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
+#' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @export
 #' @example ../examples/tm_raster.r
 #' @examples 
@@ -278,7 +290,10 @@ tm_raster <- function(col="grey70",
 					  text_or_more = "or more",
 					  title=NA,
 					  legend.is.portrait=TRUE,
-					  legend.z=NA) {
+					  legend.hist=FALSE,
+					  legend.hist.title=NA,
+					  legend.z=NA,
+					  legend.hist.z=NA) {
 	g <- list(tm_raster=as.list(environment()))
 	class(g) <- "tmap"
 	g
@@ -317,44 +332,49 @@ tm_raster <- function(col="grey70",
 #' @param title.size title of the legend element regarding the bubble sizes
 #' @param title.col title of the legend element regarding the bubble colors
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the bubble sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.hist logical that determines whether a histogram is shown regarding the bubble colors
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the bubble colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.size.z index value that determines the position of the legend element regarding the bubble sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.col.z index value that determines the position of the legend element regarding the bubble colors. (See \code{legend.size.z})
+#' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
 #' @export
 #' @example ../examples/tm_bubbles.R
 #' @references Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_bubbles <- function(size=1, col="blueviolet",
-					      alpha=NA,
-						  border.col=NA,
-					      border.lwd=1,
-					      border.alpha=NA,
-						  scale=1,
-					   	  perceptual=FALSE,
-						  size.lim=NA,
-					   	  sizes.legend = NULL,
-					      sizes.legend.labels = NULL,
-						  n = 5, style = "pretty",
-						  breaks = NULL,
-						  palette = NULL,
-						  labels = NULL,
-						  auto.palette.mapping = TRUE,
-						  contrast = 1,
-						  max.categories = 12,
-						  colorNA = "#FF1414",
-						  textNA = "Missing",
-					   	  text_separator = "to",
-					      text_less_than = "Less than",
-					      text_or_more = "or more",
-						  xmod = 0,
-						  ymod = 0,
-					   	  title.size = NA,
-					      title.col = NA,
-					   	  legend.size.is.portrait=FALSE,
-					      legend.col.is.portrait=TRUE,
-					      legend.size.z=NA,
-					      legend.col.z=NA) {
+						alpha=NA,
+						border.col=NA,
+						border.lwd=1,
+						border.alpha=NA,
+						scale=1,
+						perceptual=FALSE,
+						size.lim=NA,
+						sizes.legend = NULL,
+						sizes.legend.labels = NULL,
+						n = 5, style = "pretty",
+						breaks = NULL,
+						palette = NULL,
+						labels = NULL,
+						auto.palette.mapping = TRUE,
+						contrast = 1,
+						max.categories = 12,
+						colorNA = "#FF1414",
+						textNA = "Missing",
+						text_separator = "to",
+						text_less_than = "Less than",
+						text_or_more = "or more",
+						xmod = 0,
+						ymod = 0,
+						title.size = NA,
+						title.col = NA,
+					   	legend.size.is.portrait=FALSE,
+					    legend.col.is.portrait=TRUE,
+					   	legend.hist=FALSE,
+						legend.hist.title=NA,
+						legend.size.z=NA,
+						legend.col.z=NA,
+						legend.hist.z=NA) {
 	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.alpha=alpha, bubble.border.lwd=border.lwd,
 							   bubble.border.col=border.col,
 							   bubble.border.alpha=border.alpha,
@@ -378,8 +398,11 @@ tm_bubbles <- function(size=1, col="blueviolet",
 							  title.col=title.col,
 							  legend.size.is.portrait=legend.size.is.portrait, 
 							  legend.col.is.portrait=legend.col.is.portrait, 
+							  legend.hist=legend.hist,
+							  legend.hist.title=legend.hist.title,
 							  legend.size.z=legend.size.z, 
-							  legend.col.z=legend.col.z))
+							  legend.col.z=legend.col.z,
+							  legend.hist.z=legend.hist.z))
 	class(g) <- "tmap"
 	g
 }

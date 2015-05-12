@@ -4,29 +4,33 @@ plot_map <- function(i, gp, gt, shps.env) {
 	
 	shps <- get("shps", envir=shps.env)
 	
+	## in case of small multiples, get i'th shape
 	if (any(gt$shp_nr!=0) && gt$free.coords) {
 		shps <- shps[[i]]
 	}
 	
-	
+	## bubble height needed to align with bubbles in legend
 	bubbleHeight <- convertHeight(unit(.5, "lines"), "inch", valueOnly=TRUE)
 	
 	bb <- attr(shps[[1]], "bbox")
 	
+	## grid lines
 	if (gt$grid.show) {
 		treeGrid <- plot_grid(gt, bb, scale=gt$scale)
 	} else {
 		treeGrid <- NULL
 	}
 	
+	## thematic map layers
 	treeElements <- mapply(function(gpl, shp) {
 		bb <- attr(shp, "bbox")
 		
+		## obtain coordinates (to draw bubbles and text)
 		if (inherits(shp, "Spatial")) {
 			if (inherits(shp, "SpatialLines")) {
 				co <- gCentroid(shp, byid=TRUE)@coords
 			} else {
-				co <- coordinates(shp)
+				co <- coordinates(shp) # prefered over gCentroid since coordinates correspond to first (normally largest) polygon of each object
 			}
 			co.npc <- co
 			co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
@@ -225,7 +229,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 	gp[c("tm_layout")] <- NULL
 	
 	if (!gt$legend.only) {
-		## determine aspvp
+		## calculate width and height of the shape based on the device asp ratio (dasp) and the shape aspect ratio (sasp)
 		margins <- gt$outer.margins
 		height <- 1 - sum(margins[c(1,3)])
 		width <- 1 - sum(margins[c(2,4)])
@@ -234,24 +238,23 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 		} else {
 			height <- height * (dasp/sasp)
 		}
-		
 		if (height==1) {
 			heightP <- convertHeight(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
 			height <- convertHeight(unit(heightP-1, "points"), unitTo="npc", valueOnly=TRUE)
 		}
-
 		if (width==1) {
 			widthP <- convertWidth(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
 			width <- convertWidth(unit(widthP-1, "points"), unitTo="npc", valueOnly=TRUE)
 		}
-		
-		
+
+		## background rectangle (whole device)
 		if (!gt$draw.frame) {
 			grobBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
 		} else {
 			grobBG <- NULL
 		}
 
+		## create a 3x3 grid layout with the shape to be drawn in the middle cell
 		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
 													 heights=unit(c(1, height, 1), 
 													 			 c("null", "npc", "null")), 
@@ -260,23 +263,27 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 								  name="maingrid")
 		pushViewport(gridLayoutMap)
 	
-		treeMap <- cellplot2(2, 2, name="aspvp", e={
+		## the thematic map with background
+		treeMap <- cellplot(2, 2, name="aspvp", e={
+			## background rectangle (inside frame)
 			if (gt$draw.frame) {
 				grobBGframe <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="mapBG")
 			} else {
 				grobBGframe <- NULL
 			}
+			
+			## the thematic map
 			res <- plot_map(i, gp, gt, shps.env)
 			treeElemGrid <- res$treeElemGrid
 			bubbleHeight <- res$bubbleHeight
 			gList(grobBGframe, treeElemGrid)
 		})
 		
-		## crop outside frame (also labels, bubbles)
+		## background rectangle (whole device), in case a frame is drawn and outer.bg.color is specified
 		treeBG <- if (!is.null(gt$outer.bg.color) && gt$draw.frame) {
-			cellplot2(1:3,1:3, e=rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)), name="mapBG")
+			cellplot(1:3,1:3, e=rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)), name="mapBG")
 		} else NULL
-		treeFrame <- cellplot2(2,2, e={
+		treeFrame <- cellplot(2,2, e={
 			if (gt$draw.frame) rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd)) else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
 		}, name="mapFrame")
 		
@@ -284,13 +291,15 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 		
 		upViewport()
 	} else {
+		## bubble height needed to align with bubbles in legend
 		bubbleHeight <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * gt$legend.text.size * 2
 		treeMapX <- NULL
 	}
 	
-	#find statistic variables
+	## prepare legend items
 	leg <- legend_prepare(gp, gt, bubbleHeight)
 	
+	## legend and title
 	if (!is.null(leg)) {
 		if (!gt$legend.only) {
 			vpLeg <- vpPath("maingrid", "aspvp")
@@ -303,7 +312,6 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 		treeLegend <- legend_plot(gt, leg, legend_pos)
 		treeLegendX <- gTree(children=gList(grobLegendBG, treeLegend))
 		
-		
 		if (!gt$legend.only) {
 			treeMapX <- addGrob(treeMapX, child=treeLegendX, gPath=gPath("outer_map", "aspvp"))
 			upViewport(d)
@@ -314,5 +322,6 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 	} else {
 		treeLegendX <- NULL
 	}
-	treeMapX #gTree(children=gList(treeMapX, treeLegendX))
+	
+	treeMapX
 }

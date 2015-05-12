@@ -1,12 +1,13 @@
 gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, legend_pos) {
-	cl <- rw <- 1
+	#cl <- rw <- 1
 	
+	## number of pages
 	np <- ceiling(nx / (mfrow * mfcol))
 	
+	## number of plots (small multiples) per page
 	pp <- min(mfrow * mfcol, nx)
 
-	
-	
+	## create a large grid tree per page, and draw it
 	treeMlts <- lapply(1:np, function(k) {
 		if (k!=1) {
 			grid.newpage()
@@ -18,7 +19,7 @@ gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, legend_po
 		iend <- min(istart + pp, nx)
 		ni <- iend-istart+1
 		treeMults <- mapply(function(i, rw, cl) {
-			cellplot2(rw, cl, e=do.call(fun, args=list(i, gps[[i]], shps.env, dasp, sasp, legend_pos)), name = paste("multiple", i, sep="_"))
+			cellplot(rw, cl, e=do.call(fun, args=list(i, gps[[i]], shps.env, dasp, sasp, legend_pos)), name = paste("multiple", i, sep="_"))
 		}, istart:iend, 
 		rep(1:mfrow, each=mfcol, length.out=ni), 
 		rep(1:mfcol, times=mfrow, length.out=ni), SIMPLIFY=FALSE)

@@ -26,7 +26,7 @@ process_line_col_vector <- function(x, g, gt) {
 						   text_separator = g$text_separator,
 						   text_less_than = g$text_less_than,
 						   text_or_more = g$text_or_more)
-		line.col <- colsLeg[[1]]
+		line.breaks <- colsLeg[[4]]
 	} else {
 		palette <- if (is.null(g$palette))  "Dark2" else g$palette
 		#remove unused levels in legend
@@ -37,17 +37,17 @@ process_line_col_vector <- function(x, g, gt) {
 						   legend.NA.text=g$textNA,
 						   max_levels=g$max.categories,
 						   alpha=g$lines.alpha)
-		
-		line.col <- colsLeg[[1]]
-		
+		line.breaks <- NA
 	}
+	line.col <- colsLeg[[1]]
 	line.col.legend.labels <- colsLeg[[2]]
 	line.col.legend.palette <- colsLeg[[3]]
 	
 	list(line.col=line.col,
 		 line.col.legend.labels=line.col.legend.labels,
 		 line.col.legend.palette=line.col.legend.palette,
-		 line.col.is.numeric=line.col.is.numeric)
+		 line.col.is.numeric=line.col.is.numeric,
+		 line.breaks=line.breaks)
 	
 }
 
@@ -124,18 +124,25 @@ process_lines <- function(data, g, gt, gby, z) {
 		line.col.legend.labels <- NA
 		line.col.legend.palette <- NA
 		line.col.is.numeric <- NA
+		line.breaks <- NA
+		line.values <- NA
 	} else if (is.list(dtcol)) {
 		res <- lapply(dtcol, process_line_col_vector, g, gt)
 		line.col <- sapply(res, function(r)r$line.col)
 		line.col.legend.labels <- lapply(res, function(r)r$line.col.legend.labels)
 		line.col.legend.palette <- lapply(res, function(r)r$line.col.legend.palette)
 		line.col.is.numeric <- sapply(res, function(r)r$line.col.is.numeric)
+		line.breaks <- lapply(res, function(r)r$line.breaks)
+		line.values <- dtcol
+		
 	} else {
 		res <- process_line_col_vector(dtcol, g, gt)
 		line.col <- matrix(res$line.col, nrow=npol)
 		line.col.legend.labels <- res$line.col.legend.labels
 		line.col.legend.palette <- res$line.col.legend.palette
 		line.col.is.numeric <- res$line.col.is.numeric
+		line.breaks <- res$line.breaks
+		line.values <- split(dtcol, rep(1:nx, each=npol))
 	}
 	
 	line.lwd.legend.palette <- if (is.list(line.col.legend.palette)) {
@@ -159,7 +166,19 @@ process_lines <- function(data, g, gt, gby, z) {
 	line.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
 	line.lwd.legend.title <- if (is.na(g$title.lwd)[1]) xlwd else g$title.lwd
 	line.col.legend.z <- if (is.na(g$legend.col.z)) z else g$legend.col.z
-	line.lwd.legend.z <- if (is.na(g$legend.lwd.z)) z+.5 else g$legend.lwd.z
+	line.lwd.legend.z <- if (is.na(g$legend.lwd.z)) z+.33 else g$legend.lwd.z
+	line.col.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.66 else g$legend.hist.z
+
+	if (g$legend.hist && is.na(g$legend.hist.title) && line.col.legend.z>line.col.legend.hist.z) {
+		# histogram is drawn between title and legend enumeration
+		line.col.legend.hist.title <- line.col.legend.title
+		line.col.legend.title <- ""
+	} else if (g$legend.hist && is.na(g$legend.hist.title) && line.col.legend.z <= line.col.legend.hist.z) {
+		# histogram is drawn below legend enumeration
+		line.col.legend.hist.title <- ""
+	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
+		line.col.legend.hist.title <- g$legend.hist.title
+	}
 	
 	list(line.col=line.col,
 		 line.lwd=line.lwd,
@@ -175,14 +194,18 @@ process_lines <- function(data, g, gt, gby, z) {
 		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds,
 		 						  line.legend.lty=g$lines.lty,
 		 						  line.legend.alpha=g$lines.alpha),
+		 line.col.legend.hist.misc=list(values=line.values, breaks=line.breaks),
 		 xline=xcol,
 		 xlinelwd=xlwd,
 		 line.col.legend.title=line.col.legend.title,
 		 line.lwd.legend.title=line.lwd.legend.title,
 		 line.col.legend.is.portrait=g$legend.col.is.portrait,
 		 line.lwd.legend.is.portrait=g$legend.lwd.is.portrait,
+		 line.col.legend.hist=g$legend.hist,
+		 line.col.legend.hist.title=line.col.legend.hist.title,
 		 line.col.legend.z=line.col.legend.z,
-		 line.lwd.legend.z=line.lwd.legend.z
+		 line.lwd.legend.z=line.lwd.legend.z,
+		 line.col.legend.hist.z=line.col.legend.hist.z
 	)
 
 }

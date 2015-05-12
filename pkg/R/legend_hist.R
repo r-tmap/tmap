@@ -4,6 +4,9 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 			numbers <- table(values)
 			xticks <- seq(0, 1, length.out=length(numbers)*2+1)[seq(2,length(numbers)*2,by=2)]
 			ptx <- levels(values)
+			
+			#if (any(nchar(ptx)>5)) ptx <- substr(ptx, 1, 3)
+			
 			colors <- legend.palette
 		} else {
 			values <- na.omit(values)
@@ -49,7 +52,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 		
 		formattedY <- format(pty, trim=TRUE)
 		
-		width.npc <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE)) * length(ptx)
+		width.npc <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE)) * 1.1 * length(ptx)
 		height.npc <- convertHeight(unit(length(formattedY)+2, "lines"), "npc", valueOnly=TRUE) 
 		
 		my <- lineHeight * legend.hist.size * m
@@ -57,47 +60,59 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 		npcx.total <- 1-2*mx
 		npcy.total <- 1-2*my
 		
+		## decrease factor
+		text_shrink <- (npcx.total/width.npc)
+		if (legend.hist.size/text_shrink>1.5) {
+			draw_x_axis <- FALSE
+			text_shrink <- Inf
+		} else {
+			draw_x_axis <- TRUE
+		}
+		
+		
 		#margin <- 0.05
 		#npc.total <- 1-2*m
 		
 		size <- min(legend.hist.size,
-				   npcx.total/width.npc,
-				   npcy.total/height.npc)
+					text_shrink,
+					npcy.total/height.npc)
 		
 		width.npc <- width.npc * size
 		height.npc <- height.npc * size
 		
 		
-		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size * 1.5
+		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size * 1.25
 		height.xaxis <- lineHeight * size
 		
 		axisMargin <- convertWidth(unit(0.02, "npc"), "inch", valueOnly=TRUE)
 		axisTicks <- convertWidth(unit(0.01, "npc"), "inch", valueOnly=TRUE)
 		
+		mxInch <- convertWidth(unit(mx, "npc"), "inch", valueOnly=TRUE)
+		
 		vpHist <- viewport(layout=grid.layout(5, 5, 
 											  heights=unit(c(my, 1, axisMargin+axisTicks, height.xaxis, my), c("npc", "null", "inch", "npc", "npc")),
-											  widths=unit(c(mx, 1, axisMargin+axisTicks, width.yaxis, mx), c("npc", "null", "inch", "npc", "npc"))))
+											  widths=unit(c(width.yaxis, mx, axisMargin+axisTicks, 1, 2*mx), c("npc", "npc", "inch", "null", "npc"))))
 		
 		
 		pushViewport(vpHist)
 		
 		histElems <- gList(
-			cellplot2(2,2, e={
+			cellplot(2,4, e={
 				rectGrob(x=x, y=0, width=ws, height=hs, gp=gpar(col=NA,fill=colors), just=c("left", "bottom"))
 			}),
 			# plot y axis
-			cellplot2(2,3,e={
+			cellplot(2,3,e={
 				axisMargin.npc <- convertWidth(unit(axisMargin, "inch"), "npc", valueOnly=TRUE)
 				axisTicks.npc <- convertWidth(unit(axisTicks, "inch"), "npc", valueOnly=TRUE)
 				
 				
-				polylineGrob(x=c(axisMargin.npc, axisMargin.npc, 
-								  rep(c(axisMargin.npc,axisMargin.npc+axisTicks.npc), length(pty))),
+				polylineGrob(x=c(axisTicks.npc, axisTicks.npc, 
+								  rep(c(0,axisTicks.npc), length(pty))),
 							  y=c(0, 1, rep(hpty, each=2)),
 							  id=rep(1:(length(pty)+1),each=2), gp=gpar(lwd=scale))
-			}),
-			cellplot2(2:3,4,e={
-				maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size * 1.5
+		}),
+			cellplot(2:3,1,e={
+				maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size * 1.25
 				h_total <- convertHeight(unit(1, "npc"), "inch", valueOnly = TRUE)
 				h_extra <- axisMargin+axisTicks
 				h_e <- h_extra / h_total
@@ -106,20 +121,30 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 						  just=c("right","center"), gp=gpar(cex=size))
 			}),
 			# plot x axis tick marks
-			cellplot2(3,2,e={
+			cellplot(3,4,e={
 				axisMargin.npc <- convertHeight(unit(axisMargin, "inch"), "npc", valueOnly=TRUE)
 				axisTicks.npc <- convertHeight(unit(axisTicks, "inch"), "npc", valueOnly=TRUE)
 				
 				n <- length(xticks)
-				
+
 				line_height <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
-				gTree(children = gList(linesGrob(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc), gp=gpar(lwd=scale)),
-									   polylineGrob(x=rep(xticks, each=2), y=rep(c(1-axisMargin.npc, 1-axisMargin.npc-axisTicks.npc), n), 
-							  id=rep(1:n, each=2), gp=gpar(lwd=scale)))) 
+				if (draw_x_axis) {
+					
+					gTree(children = gList(linesGrob(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc), gp=gpar(lwd=scale)),
+										   polylineGrob(x=rep(xticks, each=2), y=rep(c(1-axisMargin.npc, 1-axisMargin.npc-axisTicks.npc), n), 
+								  id=rep(1:n, each=2), gp=gpar(lwd=scale)))) 
+				} else linesGrob(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc), gp=gpar(lwd=scale))
 			}),
-			cellplot2(4,2,e={
+			if (draw_x_axis) cellplot(4,4:5,e={
+ 				w_total <- convertWidth(unit(1, "npc"), "inch", valueOnly = TRUE)
+ 				w_extra <- 2*mxInch
+ 				w_e <- w_extra / w_total
+ 				cat(xticks, "\n")
+ 				xticks <- xticks * (1-w_e)
+ 				cat(xticks, "\n")
+ 				cat(ptx, "\n")
 				textGrob(ptx, x=xticks, y=.5, gp=gpar(cex=size))
-			}))
+			}) else NULL)
 		
 		treeHist <- gTree(children=histElems, vp=vpHist)
 		upViewport()

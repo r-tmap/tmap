@@ -1,6 +1,7 @@
 legend_prepare <- function(gp, gt, scaleFactor) {
 
 	varnames <- c("fill", "bubble.size", "bubble.col", "line.col", "line.lwd", "raster")
+	varnames_hist <- c("fill", "bubble.col", "line.col", "raster")
 	
 	# todo hist: "fill_hist"
 	# is.portrait
@@ -18,6 +19,8 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 					list_misc <- gpl[[legend.misc]]
 					if (v=="bubble.size") list_misc$legend.sizes <- list_misc$legend.size * scaleFactor
 					if (v=="bubble.col") list_misc$bubble.max.size <- list_misc$bubble.max.size * scaleFactor
+					
+
 					c(list(legend.type=v,
 						 legend.title=gpl[[legend.title]],
 						 legend.is.portrait=gpl[[legend.is.portrait]],
@@ -27,7 +30,31 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 					  list_misc)
 				}
 			})
-			y[!sapply(y, is.null)]
+			
+			yhist <- lapply(varnames_hist, function(v) {
+				vh <- paste(v, "hist", sep="_")
+				legend.hist <- paste(v, "legend.hist", sep=".")
+				
+				if (!is.na(gpl$varnames[[v]][1])) {
+					if (gpl[[legend.hist]]) {
+						legend.labels <- paste(v, "legend.labels", sep=".")
+						legend.palette <- paste(v, "legend.palette", sep=".")
+						legend.title <- paste(v, "legend.hist.title", sep=".")
+						legend.hist.z <- paste(v, "legend.hist.z", sep=".")
+						legend.hist.misc <- paste(v, "legend.hist.misc", sep=".")
+						list_hist_misc <- gpl[[legend.hist.misc]]
+						c(list(legend.type="hist",
+							   legend.title=gpl[[legend.title]],
+							   legend.is.portrait=TRUE,
+							 legend.z=gpl[[legend.hist.z]],
+							 legend.labels=gpl[[legend.labels]],
+							 legend.palette=gpl[[legend.palette]]),
+						  list_hist_misc)
+					} else NULL
+				} else NULL
+			})
+			
+			c(y[!sapply(y, is.null)], yhist[!sapply(yhist, is.null)])
 		})
 		legelem <- do.call("c", x)
 	} else legelem <- list(NULL)

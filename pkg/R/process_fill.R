@@ -113,13 +113,29 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	}
 	fill.legend.title <- if (is.na(g$title)[1]) x else g$title
 	fill.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
+	fill.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.5 else g$legend.hist.z
+	
+	if (g$legend.hist && is.na(g$legend.hist.title) && fill.legend.z>fill.legend.hist.z) {
+		# histogram is drawn between title and legend enumeration
+		fill.legend.hist.title <- fill.legend.title
+		fill.legend.title <- ""
+	} else if (g$legend.hist && is.na(g$legend.hist.title) && fill.legend.z <= fill.legend.hist.z) {
+		# histogram is drawn below legend enumeration
+		fill.legend.hist.title <- ""
+	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
+		fill.legend.hist.title <- g$legend.hist.title
+	}
 	
 	list(fill=fill,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,
-		 fill.legend.misc=list(values=fill.values, breaks=fill.breaks, lwd=gb$lwd, border.col=gb$col, border.alpha=gb$alpha),
+		 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col, border.alpha=gb$alpha),
+		 fill.legend.hist.misc=list(values=fill.values, breaks=fill.breaks),
 		 xfill=x,
 		 fill.legend.title=fill.legend.title,
 		 fill.legend.is.portrait=g$legend.is.portrait,
-		 fill.legend.z=fill.legend.z)
+		 fill.legend.hist=g$legend.hist,
+		 fill.legend.hist.title=fill.legend.hist.title,
+		 fill.legend.z=fill.legend.z,
+		 fill.legend.hist.z=fill.legend.hist.z)
 }

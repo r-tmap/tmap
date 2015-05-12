@@ -82,7 +82,7 @@ legend_plot <- function(gt, x, legend_pos) {
 				legend.title.npc * .25
 			} else if (type == "title") {
 				legend.title.npc * 1.5
-			} else if (type == "fill_hist") {
+			} else if (type == "hist") {
 				gt$legend.hist.height
 			}
 		})
@@ -177,11 +177,11 @@ legend_plot <- function(gt, x, legend_pos) {
 
 
 legend_subplot <- function(x, id, gt) {
-	cellplot2(id, 1, e={
+	cellplot(id, 1, e={
 	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		legend.type <- x$legend.type
 		#gTree(children=gList(rectGrob(),
-		if (legend.type=="fill_hist") {
+		if (legend.type=="hist") {
 			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25)
 		} else if (legend.type=="TITLE") {
 			legend_title(x, gt$title.size, lineHeight, m=.1)

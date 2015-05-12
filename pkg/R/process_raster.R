@@ -88,13 +88,30 @@ process_raster <- function(data, g, gt, gby, z) {
 	}
 	raster.legend.title <- if (is.na(g$title)[1]) x else g$title
 	raster.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
+	raster.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.5 else g$legend.hist.z
+	
+	if (g$legend.hist && is.na(g$legend.hist.title) && raster.legend.z>raster.legend.hist.z) {
+		# histogram is drawn between title and legend enumeration
+		raster.legend.hist.title <- raster.legend.title
+		raster.legend.title <- ""
+	} else if (g$legend.hist && is.na(g$legend.hist.title) && raster.legend.z <= raster.legend.hist.z) {
+		# histogram is drawn below legend enumeration
+		raster.legend.hist.title <- ""
+	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
+		raster.legend.hist.title <- g$legend.hist.title
+	}
+	
 	
 	list(raster=rast,
 		 raster.legend.labels=raster.legend.labels,
 		 raster.legend.palette=raster.legend.palette,
-		 raster.legend.misc=list(values=raster.values, breaks=raster.breaks),
+		 raster.legend.misc=list(),
+		 raster.legend.hist.misc=list(values=raster.values, breaks=raster.breaks),
 		 xraster=x,
 		 raster.legend.title=raster.legend.title,
 		 raster.legend.is.portrait=g$legend.is.portrait,
-		 raster.legend.z=raster.legend.z)
+		 raster.legend.hist=g$legend.hist,
+		 raster.legend.hist.title=raster.legend.hist.title,
+		 raster.legend.z=raster.legend.z,
+		 raster.legend.hist.z=raster.legend.hist.z)
 }

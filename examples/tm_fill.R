@@ -14,6 +14,15 @@ tm_shape(Europe) +
 	tm_layout("Find the Netherlands!")
 
 # Numeric data variable
+tm_shape(NLD_muni) +
+	tm_fill(col="population", convert2density=TRUE, 
+			style="kmeans", title="Population (per km2)", legend.hist=TRUE) +
+	tm_borders("grey25", alpha=.5) + 
+	tm_shape(NLD_prov) +
+	tm_borders("grey40", lwd=2) +
+	tm_layout_NLD(bg.color="white", draw.frame = FALSE, inner.margins = c(.02, .4, .06, .02), legend.width=.4)
+
+
 tm_shape(Europe) +
 	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries", 
 		title="GDP per capita") +
