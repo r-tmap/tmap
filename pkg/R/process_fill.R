@@ -119,12 +119,9 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 		# histogram is drawn between title and legend enumeration
 		fill.legend.hist.title <- fill.legend.title
 		fill.legend.title <- ""
-	} else if (g$legend.hist && is.na(g$legend.hist.title) && fill.legend.z <= fill.legend.hist.z) {
-		# histogram is drawn below legend enumeration
-		fill.legend.hist.title <- ""
 	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
 		fill.legend.hist.title <- g$legend.hist.title
-	}
+	} else fill.legend.hist.title <- ""
 	
 	list(fill=fill,
 		 fill.legend.labels=fill.legend.labels,

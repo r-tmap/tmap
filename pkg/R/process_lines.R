@@ -173,12 +173,9 @@ process_lines <- function(data, g, gt, gby, z) {
 		# histogram is drawn between title and legend enumeration
 		line.col.legend.hist.title <- line.col.legend.title
 		line.col.legend.title <- ""
-	} else if (g$legend.hist && is.na(g$legend.hist.title) && line.col.legend.z <= line.col.legend.hist.z) {
-		# histogram is drawn below legend enumeration
-		line.col.legend.hist.title <- ""
 	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
 		line.col.legend.hist.title <- g$legend.hist.title
-	}
+	} else line.col.legend.hist.title <- ""
 	
 	list(line.col=line.col,
 		 line.lwd=line.lwd,

@@ -88,6 +88,7 @@ legend_plot <- function(gt, x, legend_pos) {
 		})
 		
 		legendWidth <- gt$legend.width
+		histWidth <- min(gt$legend.hist.width / legendWidth, 1)
 		
 		# normalize legendHeight
 		if (is.character(gt$title.position) && gt$title.position[1]==gt$legend.position[1] && !snap) {
@@ -158,7 +159,7 @@ legend_plot <- function(gt, x, legend_pos) {
 	
 	# normalise heights
 	heights <- heights / legendHeight
-	vpLeg <- viewport(layout=grid.layout(k, 1, heights=heights, widths=1), name="legend_grid")
+	vpLeg <- viewport(layout=grid.layout(k, 2, heights=heights, widths=c(histWidth, 1-histWidth)), name="legend_grid")
 
 	if (gt$legend.inside.box) {
 		vpLegFrame <- viewport(width=.95, height=.95, name="legend_frame")
@@ -177,9 +178,10 @@ legend_plot <- function(gt, x, legend_pos) {
 
 
 legend_subplot <- function(x, id, gt) {
-	cellplot(id, 1, e={
+	legend.type <- x$legend.type
+	cols <- if (legend.type=="hist") 1 else c(1,2)
+	cellplot(id, cols, e={
 	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
-		legend.type <- x$legend.type
 		#gTree(children=gList(rectGrob(),
 		if (legend.type=="hist") {
 			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25)
@@ -321,7 +323,7 @@ legend_landsc <- function(x, legend.text.size, lineHeight, m) {
 		}
 		
 		
-		labelsws <- convertWidth(stringWidth(legend.labels), "npc", TRUE) * legend.text.size * 1.3 #1.2
+		labelsws <- convertWidth(stringWidth(paste(legend.labels, " ")), "npc", TRUE) * legend.text.size# * 1.3 #1.2
 		maxlabelsws <- max(labelsws)
 		
 		ws <- rep(maxlabelsws, nitems)

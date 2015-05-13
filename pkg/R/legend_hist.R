@@ -52,7 +52,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 		
 		formattedY <- format(pty, trim=TRUE)
 		
-		width.npc <- max(convertWidth(stringWidth(ptx), unitTo="npc", valueOnly=TRUE)) * 1.1 * length(ptx)
+		width.npc <- max(convertWidth(stringWidth(paste(ptx, " ")), unitTo="npc", valueOnly=TRUE)) * (length(ptx)+1)
 		height.npc <- convertHeight(unit(length(formattedY)+2, "lines"), "npc", valueOnly=TRUE) 
 		
 		my <- lineHeight * legend.hist.size * m
@@ -91,7 +91,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 		
 		vpHist <- viewport(layout=grid.layout(5, 5, 
 											  heights=unit(c(my, 1, axisMargin+axisTicks, height.xaxis, my), c("npc", "null", "inch", "npc", "npc")),
-											  widths=unit(c(width.yaxis, mx, axisMargin+axisTicks, 1, 2*mx), c("npc", "npc", "inch", "null", "npc"))))
+											  widths=unit(c(width.yaxis, mx, axisMargin+axisTicks, 1, 3*mx), c("npc", "npc", "inch", "null", "npc"))))
 		
 		
 		pushViewport(vpHist)
@@ -137,12 +137,9 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 			}),
 			if (draw_x_axis) cellplot(4,4:5,e={
  				w_total <- convertWidth(unit(1, "npc"), "inch", valueOnly = TRUE)
- 				w_extra <- 2*mxInch
+ 				w_extra <- 3*mxInch
  				w_e <- w_extra / w_total
- 				cat(xticks, "\n")
  				xticks <- xticks * (1-w_e)
- 				cat(xticks, "\n")
- 				cat(ptx, "\n")
 				textGrob(ptx, x=xticks, y=.5, gp=gpar(cex=size))
 			}) else NULL)
 		

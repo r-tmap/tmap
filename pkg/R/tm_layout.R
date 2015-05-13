@@ -1,6 +1,6 @@
 #' Layout elements of cartographic maps
 #' 
-#' This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). Tip: create a layout theme for your own map (see example below).
+#' This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a layout theme for your own map (see example below).
 #' 
 #' @name tm_layout
 #' @rdname tm_layout
@@ -52,6 +52,7 @@ tm_layout <- function(title=NA,
 					  legend.width = 0.3,
 					  legend.height = 0.9,
 					  legend.hist.height = 0.3,
+					  legend.hist.width = legend.width,
 					  legend.title.size=1.1,
 					  legend.text.size=0.7,
 					  legend.hist.size=0.7,
@@ -76,9 +77,21 @@ tm_layout_World <- function(title=NA,
 							#title.bg.color=TRUE,
 							inner.margins=c(0, 0.05, 0.075, 0.01),
 							legend.position=c("left", "bottom"), 
-							#legend.width=.25,
-							#legend.height = .5,
-							#legend.bg.color=TRUE,
+							scale=.8,
+							...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+
+#' @rdname tm_layout
+#' @export
+tm_layout_World_wide <- function(title=NA,
+							#title.bg.color=TRUE,
+							inner.margins=c(0, 0.2, 0.075, 0.01),
+							legend.position=c("left", "bottom"), 
+							legend.width=0.4,
+							scale=.8,
 							...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
@@ -95,6 +108,20 @@ tm_layout_Europe <- function(title=NA,
 	do.call("tm_layout", args)
 }
 
+#' @rdname tm_layout
+#' @export
+tm_layout_Europe_wide <- function(title=NA,
+							 title.position=c("left", "top"),
+							 legend.position=c("left", "top"), 
+							 inner.margins=c(0, 0.3, 0, 0),
+							 legend.width=0.5,
+							 legend.hist.width=0.4,
+							 ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+
 
 #' @rdname tm_layout
 #' @export
@@ -102,8 +129,22 @@ tm_layout_NLD <- function(title=NA,
 						  draw.frame=FALSE, 
 						  inner.margins=c(.02, .2, .06, .02),
 						  legend.position=c("left", "top"), 
-						  legend.width=.5,
+						  legend.width=0.4,
 						  ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
+
+#' @rdname tm_layout
+#' @export
+tm_layout_NLD_wide <- function(title=NA,
+						  draw.frame=FALSE, 
+						  inner.margins=c(.02, .3, .06, .02),
+						  legend.position=c("left", "top"), 
+						  legend.width=0.5,
+						  legend.hist.width=0.35,
+						  ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+

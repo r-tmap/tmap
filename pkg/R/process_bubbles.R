@@ -216,12 +216,9 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		# histogram is drawn between title and legend enumeration
 		bubble.col.legend.hist.title <- bubble.col.legend.title
 		bubble.col.legend.title <- ""
-	} else if (g$legend.hist && is.na(g$legend.hist.title) && bubble.col.legend.z <= bubble.legend.hist.z) {
-		# histogram is drawn below legend enumeration
-		bubble.col.legend.hist.title <- ""
 	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
 		bubble.col.legend.hist.title <- g$legend.hist.title
-	}
+	} else bubble.col.legend.hist.title <- ""
 	
 	
 	list(bubble.size=bubble.size,
