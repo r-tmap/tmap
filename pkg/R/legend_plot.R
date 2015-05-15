@@ -205,8 +205,9 @@ legend_title <- function(x, size, lineHeight, m) {
 	my <- lineHeight * size * m
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
-	w <- convertWidth(stringWidth(title), unitTo = "npc", valueOnly = TRUE) * size * 1.05
-	newsize <- min(size, 5/(lineHeight*6), size*.98/w)
+	w <- convertWidth(stringWidth(paste(title, " ")), unitTo = "npc", valueOnly = TRUE)# * size * 1.05
+	cat(mx, w, "\n")
+	newsize <- min(size, 5/(lineHeight*6), (1-2*mx)/w)
 	
 	
 	textGrob(title, x=mx, y=5/12 , just=c("left", "center"), gp=gpar(cex=newsize))
@@ -249,13 +250,8 @@ legend_portr <- function(x, legend.text.size, lineHeight, m) {
 		wsmax <- max(ws)
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 		
-		wstext <- convertWidth(stringWidth(legend.labels), unitTo = "npc", valueOnly = TRUE) * size * 1.5
-		newsize <- pmin(size, (1-wsmax-2*mx) / wstext)
-		
-# 		cat(size, "\n")
-# 		cat((1-wsmax-2*mx), "\n")
-# 		cat(wstext, "\n")
-# 		cat(newsize, "\n")
+		wstext <- convertWidth(stringWidth(legend.labels), unitTo = "npc", valueOnly = TRUE)
+		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
 		
 		grobLegendItem <- if (legend.type %in% c("fill", "raster")) {
 			fill <- legend.palette

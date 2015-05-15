@@ -8,8 +8,9 @@ devtools::load_all("../pkg")
 This runs all examples of the tmap package.
 
 
-## Normal size
-```{r}
+## Small size
+
+```{r, fig.width=2.5, fig.height=2.5}
 getwd()
 x <- list.files("../examples", full.names = TRUE)
 
