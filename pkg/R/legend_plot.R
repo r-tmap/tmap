@@ -30,8 +30,11 @@ legend_plot <- function(gt, x, legend_pos) {
 	
 	# title properties
 	nlines <- length(strsplit(gt$title, "\n")[[1]])
-	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * gt$title.size
-	titleHeight <- lineHeight * (nlines+.5) * gt$title.size
+	
+	title.size <- min((1-2*mx) / convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE), gt$title.size)
+	
+	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * title.size
+	titleHeight <- lineHeight * (nlines) * title.size
 	
 	if (!title.only) {
 
@@ -123,7 +126,7 @@ legend_plot <- function(gt, x, legend_pos) {
 			  	     top=1-titleHeight*.75,
 			  	     center=.5,
 			  	     centre=.5,
-			  	     bottom=titleHeight*.25 + ifelse(titleg && !snap && gt$title!="", legendHeight, 0)))	
+			  	     bottom=my+titleHeight*.5 + ifelse(titleg && !snap && gt$title!="", legendHeight, 0)))	
 		}
 	} else title.position <- gt$title.position
 
@@ -131,12 +134,14 @@ legend_plot <- function(gt, x, legend_pos) {
 	grobTitle <- if (snap || gt$title=="") {
 		NULL
 	} else {
-		gTree(children=gList(if (!is.na(gt$title.bg.color)) {
+		gTree(children=gList(if (gt$design.mode) {
+			rectGrob(x = title.position[1]-.5*mx, y = title.position[2], width=titleWidth+mx, just=c("left", "center"), height=titleHeight, gp=gpar(col="black", fill="#888888BB"))
+		} else if (!is.na(gt$title.bg.color)) {
 			title.bg.col <- get_alpha_col(gt$title.bg.color, gt$title.bg.alpha)
 			rectGrob(x = title.position[1]-.5*mx, y = title.position[2], width=titleWidth+mx, just=c("left", "center"), height=titleHeight, gp=gpar(col=NA, fill=title.bg.col))
 		} else {
 			NULL
-		}, textGrob(label=gt$title, x = title.position[1], y = title.position[2], just=c("left", "bottom"), gp=gpar(cex=gt$title.size))))
+		}, textGrob(label=gt$title, x = title.position[1], y = title.position[2], just=c("left", "center"), gp=gpar(cex=title.size))))
 		
 	}
 
@@ -152,10 +157,12 @@ legend_plot <- function(gt, x, legend_pos) {
 	legend.bg.color <- if (is.na(gt$legend.bg.color)) NA else get_alpha_col(gt$legend.bg.color, gt$legend.bg.alpha)
 	
 	legend.frame.color <- if (legend.frame) {
-		if (is.logical(gt$legend.frame)) "black" else gt$legend.frame
+		if (is.logical(gt$legend.frame) || gt$design.mode) "black" else gt$legend.frame
 	} else NA
 	
-	grobLegBG <- rectGrob(gp=gpar(col=legend.frame.color, fill=legend.bg.color))
+	legend.frame.fill <- if (gt$design.mode) "#888888BB" else legend.bg.color
+	
+	grobLegBG <- rectGrob(gp=gpar(col=legend.frame.color, fill=legend.frame.fill))
 	
 	# normalise heights
 	heights <- heights / legendHeight
@@ -183,7 +190,7 @@ legend_subplot <- function(x, id, gt) {
 	cellplot(id, cols, e={
 	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		legGrob <- if (legend.type=="hist") {
-			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25)
+			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25, legend.hist.bg.color = gt$legend.hist.bg.color)
 		} else if (legend.type=="TITLE") {
 			legend_title(x, gt$title.size, lineHeight, m=.1)
 		} else if (legend.type=="title") {

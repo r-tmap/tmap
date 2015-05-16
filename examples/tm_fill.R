@@ -20,7 +20,7 @@ tm_shape(NLD_muni) +
 	tm_borders("grey25", alpha=.5) + 
 	tm_shape(NLD_prov) +
 	tm_borders("grey40", lwd=2) +
-	tm_layout_NLD_wide(bg.color="white", draw.frame = FALSE)
+	tm_layout_NLD_wide(bg.color="white", draw.frame = FALSE, legend.hist.bg.color="grey90")
 
 
 tm_shape(Europe) +

@@ -262,15 +262,6 @@ tm_fill <- function(col="grey85",
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @export
 #' @example ../examples/tm_raster.r
-#' @examples 
-#' \dontrun{
-#' # takes some time:
-#' tm_shape(land) +
-#' tm_raster("black") +
-#' tm_facets(by="cover_cls") +
-#' tm_layout(inner.margins=0, 
-#' title.position = c("left", "bottom"), title.bg.color="gray80")
-#' }
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
 tm_raster <- function(col="grey70",

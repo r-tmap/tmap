@@ -68,7 +68,7 @@ process_meta <- function(gt, gf, gg, nx, by_names, asp_ratio) {
 				
 		if (is.null(bg.color)) bg.color <- "white" #ifelse(is.na(varnames$fill[1]), "white", "grey75")
 		
-		legend.inside.box <- !is.logical(legend.bg.color) 
+		legend.inside.box <- if (!is.logical(legend.frame)) TRUE else legend.frame
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color
 		

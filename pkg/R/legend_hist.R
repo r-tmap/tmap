@@ -1,4 +1,4 @@
-legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
+legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, legend.hist.bg.color) {
 	with(x, {
 		if (is.factor(values)) {
 			numbers <- table(values)
@@ -81,28 +81,32 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 		height.npc <- height.npc * size
 		
 		
-		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size * 1.25
+		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size
 		height.xaxis <- lineHeight * size
 		
-		axisMargin <- convertWidth(unit(0.02, "npc"), "inch", valueOnly=TRUE)
-		axisTicks <- convertWidth(unit(0.01, "npc"), "inch", valueOnly=TRUE)
+		axisTicks <- convertWidth(unit(mx, "npc"), "inch", valueOnly=TRUE)
 		
 		mxInch <- convertWidth(unit(mx, "npc"), "inch", valueOnly=TRUE)
+
+		
+		height.xaxisInch <- convertHeight(unit(height.xaxis, "npc"), "inch", valueOnly=TRUE)
 		
 		vpHist <- viewport(layout=grid.layout(5, 5, 
-											  heights=unit(c(my, 1, axisMargin+axisTicks, height.xaxis, my), c("npc", "null", "inch", "npc", "npc")),
-											  widths=unit(c(width.yaxis, mx, axisMargin+axisTicks, 1, 3*mx), c("npc", "npc", "inch", "null", "npc"))))
+											  heights=unit(c(my, 1, axisTicks, height.xaxis, my), c("npc", "null", "inch", "npc", "npc")),
+											  widths=unit(c(width.yaxis, mx, axisTicks, 1, 3*mx), c("npc", "npc", "inch", "null", "npc"))))
 		
 		
 		pushViewport(vpHist)
 		
 		histElems <- gList(
+			if (!is.na(legend.hist.bg.color)) cellplot(2,4,e={
+				rectGrob(gp=gpar(fill=legend.hist.bg.color, col="black"))
+			}) else NULL,
 			cellplot(2,4, e={
 				rectGrob(x=x, y=0, width=ws, height=hs, gp=gpar(col=NA,fill=colors), just=c("left", "bottom"))
 			}),
 			# plot y axis
 			cellplot(2,3,e={
-				axisMargin.npc <- convertWidth(unit(axisMargin, "inch"), "npc", valueOnly=TRUE)
 				axisTicks.npc <- convertWidth(unit(axisTicks, "inch"), "npc", valueOnly=TRUE)
 				
 				
@@ -110,19 +114,18 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 								  rep(c(0,axisTicks.npc), length(pty))),
 							  y=c(0, 1, rep(hpty, each=2)),
 							  id=rep(1:(length(pty)+1),each=2), gp=gpar(lwd=scale))
-		}),
-			cellplot(2:3,1,e={
-				maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size * 1.25
+			}),
+			cellplot(2:4,1,e={
+				maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size
 				h_total <- convertHeight(unit(1, "npc"), "inch", valueOnly = TRUE)
-				h_extra <- axisMargin+axisTicks
+				h_extra <- axisTicks+height.xaxisInch
 				h_e <- h_extra / h_total
 				hpty <- h_e + hpty * (1-h_e)
 				textGrob(formattedY, x=maxWidth, y=hpty, 
-						  just=c("right","center"), gp=gpar(cex=size))
+						  just=c(1,.4), gp=gpar(cex=size))
 			}),
 			# plot x axis tick marks
 			cellplot(3,4,e={
-				axisMargin.npc <- convertHeight(unit(axisMargin, "inch"), "npc", valueOnly=TRUE)
 				axisTicks.npc <- convertHeight(unit(axisTicks, "inch"), "npc", valueOnly=TRUE)
 				
 				n <- length(xticks)
@@ -130,10 +133,10 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m) {
 				line_height <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
 				if (draw_x_axis) {
 					
-					gTree(children = gList(linesGrob(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc), gp=gpar(lwd=scale)),
-										   polylineGrob(x=rep(xticks, each=2), y=rep(c(1-axisMargin.npc, 1-axisMargin.npc-axisTicks.npc), n), 
+					gTree(children = gList(linesGrob(x=c(0,1), y=c(1, 1), gp=gpar(lwd=scale)),
+										   polylineGrob(x=rep(xticks, each=2), y=rep(c(1, 1-axisTicks.npc), n), 
 								  id=rep(1:n, each=2), gp=gpar(lwd=scale)))) 
-				} else linesGrob(x=c(0,1), y=c(1-axisMargin.npc, 1-axisMargin.npc), gp=gpar(lwd=scale))
+				} else linesGrob(x=c(0,1), y=c(1, 1), gp=gpar(lwd=scale))
 			}),
 			if (draw_x_axis) cellplot(4,4:5,e={
  				w_total <- convertWidth(unit(1, "npc"), "inch", valueOnly = TRUE)
