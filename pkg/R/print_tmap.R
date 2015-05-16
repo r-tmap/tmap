@@ -81,7 +81,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 		if (any(is_master)) which(is_master)[1] else 1
 	}
 	
-	## determine aspect ratio of first shape
+	## determine aspect ratio of master shape
 	shpM_bb <- attr(shps[[masterID]], "bbox")
 	shpM_asp <-	calc_asp_ratio(shpM_bb[1,], shpM_bb[2,], longlat=!attr(shps[[masterID]], "projected"))
 
@@ -132,7 +132,15 @@ print.tmap <- function(x, vp=NULL, ...) {
 	sasp <- attr(shps, "sasp")
 	legend_pos <- attr(shps, "legend_pos")
 	group_by <- attr(shps, "group_by")
+	inner.margins.new <- attr(shps, "inner.margins")
 	
+	
+	if (gmeta$design.mode) {
+		masterShapeName <- x[[masterID]]$shp_name
+		cat("aspect ratio device (yellow):", dasp, "\n")
+		cat("aspect ratio frame (blue):", sasp, "\n")
+		cat("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp, "\n")
+	}
 	
 	## shapes have been subset (group_by) and cropped. Therefore, the corresponding aesthetics have to be subset accordingly:
 	if (group_by) {
@@ -175,7 +183,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	shps.env <- environment()
 	
 	## 
-	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, legend_pos)
+	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 	invisible()
 }
 

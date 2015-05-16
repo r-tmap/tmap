@@ -125,14 +125,15 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 		bb <- bboxes[[1]]
 
 		sasp <- calc_asp_ratio(bb[1,], bb[2,], longlat)
-
+		inner.margins <- gm$inner.margins
+		
 	} else {
 		shp.bbox <- attr(shp, "bbox")
 		bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim)
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
 		bb <- bbox_asp$bbox
 		sasp <- bbox_asp$sasp
-		
+		inner.margins <- bbox_asp$inner.margins
 		#shp_by_name <- ""
 	}
 
@@ -213,6 +214,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	attr(shps2, "dasp") <- dasp
 	attr(shps2, "legend_pos") <- legend_pos
 	attr(shps2, "group_by") <- group_by
+	attr(shps2, "inner.margins") <- inner.margins
 	shps2
 }
 
@@ -272,16 +274,22 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	
 	if (!is.na(pasp)) {
 		if (pasp > sasp) {
-			## landscape device
+			## landscape map
 			xdiff <- if (longlat) diff(ylim) * pasp / cos((mean(ylim) * pi)/180) else diff(ylim) * (pasp)
 			bb[1, ] <- mean(xlim) + (xdiff * c(-.5, .5))
+			
 		} else {
-			## portrait device
+			## portrait map
 			ydiff <- if (longlat) (diff(xlim) * cos((mean(ylim) * pi)/180)) / pasp else diff(xlim) / (pasp)
 			bb[2, ] <- mean(ylim) + (ydiff * c(-.5, .5))
 		}
 	}
-	list(bbox=bb, sasp=sasp)
+	
+	# recalculate inner.margins (needed for design.mode)
+	bb_diff <- (bb-bbox) / (bb[,2] - bb[,1])
+	inner.margins.new <- c(-bb_diff[2], -bb_diff[1], bb_diff[4], bb_diff[3])
+
+	list(bbox=bb, sasp=sasp, inner.margins=inner.margins.new)
 }
 
 split_raster <- function(r, f) {

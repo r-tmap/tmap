@@ -182,8 +182,7 @@ legend_subplot <- function(x, id, gt) {
 	cols <- if (legend.type=="hist") 1 else c(1,2)
 	cellplot(id, cols, e={
 	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
-		#gTree(children=gList(rectGrob(),
-		if (legend.type=="hist") {
+		legGrob <- if (legend.type=="hist") {
 			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25)
 		} else if (legend.type=="TITLE") {
 			legend_title(x, gt$title.size, lineHeight, m=.1)
@@ -195,8 +194,10 @@ legend_subplot <- function(x, id, gt) {
 			legend_portr(x, gt$legend.text.size, lineHeight, m=.25)
 		} else {
 			legend_landsc(x, gt$legend.text.size, lineHeight, m=.25)
-		}	
-		#))
+		}
+		if (gt$design.mode) {
+			gTree(children=gList(rectGrob(gp=gpar(fill="#CCCCCCCC")), legGrob))	
+		} else legGrob
 	})
 }
 
@@ -206,7 +207,6 @@ legend_title <- function(x, size, lineHeight, m) {
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
 	w <- convertWidth(stringWidth(paste(title, " ")), unitTo = "npc", valueOnly = TRUE)# * size * 1.05
-	cat(mx, w, "\n")
 	newsize <- min(size, 5/(lineHeight*6), (1-2*mx)/w)
 	
 	

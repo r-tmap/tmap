@@ -302,6 +302,70 @@ print(tm_shape(land_brick) +
 
 
 ## Stacked layers
+```{r}
+tm_shape(NLD_muni) +
+	tm_fill("population", convert2density = TRUE) +
+	tm_borders()
+```
+
+```{r}
+tm_shape(NLD_muni) +
+	tm_fill("population", convert2density = TRUE) +
+	tm_borders() +
+tm_shape(NLD_prov) +
+	tm_borders(lwd=2) +
+	tm_text("name")
+```
+
+```{r}
+tm_shape(NLD_prov) +
+	tm_borders(lwd=2) +
+	tm_text("name") +
+tm_shape(NLD_muni) +
+	tm_fill("population", convert2density = TRUE) +
+	tm_borders()
+```
+
+```{r}
+tm_shape(NLD_muni) +
+	tm_fill("population", convert2density = TRUE) +
+	tm_borders() +
+tm_shape(NLD_prov) +
+	tm_borders(lwd=2) +
+	tm_text("name") +
+tm_shape(rivers) +
+	tm_lines(col = "blue", lwd = "strokelwd", scale=14)
+```
+
+```{r}
+tm_shape(rivers) +
+	tm_lines(col = "blue", lwd = "strokelwd", scale=3) +
+tm_shape(Europe) +
+	tm_fill("pop_est_dens", alpha=.4) +
+	tm_borders()
+```
+
+```{r}
+tm_shape(rivers) +
+	tm_lines(col = "blue", lwd = "strokelwd", scale=3) +
+tm_shape(Europe, is.master = TRUE) +
+	tm_fill("pop_est_dens", alpha=.4) +
+	tm_borders()
+```
+
+```{r}
+tm_shape(World) +
+	tm_fill("continent") +
+	tm_borders() +
+tm_shape(rivers) +
+	tm_lines(col = "type", lwd="scalerank") +
+tm_shape(metro) +
+	tm_bubbles(size="X2010", col = "growth") +
+tm_shape(land) +
+	tm_raster("trees", alpha=.4)
+```
+
+
 
 ## Small multiples
 

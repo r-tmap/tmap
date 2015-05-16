@@ -32,6 +32,7 @@
 #' @param legend.frame either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.
 #' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param title.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).
+#' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
 #' @param ... other arguments from \code{tm_layout}
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_layout.R
@@ -64,7 +65,8 @@ tm_layout <- function(title=NA,
 					  title.snap.to.legend = FALSE,
 					  title.position = c("left", "top"),
 					  title.bg.color=NA,
-					  title.bg.alpha = 1) {
+					  title.bg.alpha = 1,
+					  design.mode = FALSE) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tm"
 	g

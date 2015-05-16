@@ -84,6 +84,10 @@ plot_map <- function(i, gp, gt, shps.env) {
 		gTree(children=items)
 	}, gp, shps, SIMPLIFY=FALSE)
 	
+# 	if (gt$design.mode) {
+# 		des
+# 	}
+	
 	grobsElemGrid <- if (gt$grid.show && gt$grid.on.top) {
 		do.call("gList", args = c(treeElements, list(treeGrid)))
 	} else {
@@ -223,7 +227,7 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 
 
 
-plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
+plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos) {
 	gt <- gp$tm_layout
 	
 	gp[c("tm_layout")] <- NULL
@@ -231,13 +235,18 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 	if (!gt$legend.only) {
 		## calculate width and height of the shape based on the device asp ratio (dasp) and the shape aspect ratio (sasp)
 		margins <- gt$outer.margins
-		height <- 1 - sum(margins[c(1,3)])
-		width <- 1 - sum(margins[c(2,4)])
+		mar.y <- sum(margins[c(1,3)])
+		mar.x <- sum(margins[c(2,4)])
+		
+		height <- 1 - mar.y
+		width <- 1 - mar.x
 		if (dasp > sasp) {
 			width <- width * (sasp/dasp)
 		} else {
 			height <- height * (dasp/sasp)
 		}
+		
+		## subtract one point to make sure the frame is drawn inside device
 		if (height==1) {
 			heightP <- convertHeight(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
 			height <- convertHeight(unit(heightP-1, "points"), unitTo="npc", valueOnly=TRUE)
@@ -246,6 +255,11 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 			widthP <- convertWidth(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
 			width <- convertWidth(unit(widthP-1, "points"), unitTo="npc", valueOnly=TRUE)
 		}
+		
+		## calculate outer margins
+		margin.left <- (1 - width) * ifelse(mar.x==0, .5, (margins[2]/mar.x))
+		margin.top <- (1 - height) * ifelse(mar.y==0, .5, (margins[3]/mar.y))
+		
 
 		## background rectangle (whole device)
 		if (!gt$draw.frame) {
@@ -254,12 +268,16 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 			grobBG <- NULL
 		}
 
+		if (gt$design.mode) {
+			grobBG <- rectGrob(gp=gpar(fill="yellow", col="yellow"))
+		}
+		
 		## create a 3x3 grid layout with the shape to be drawn in the middle cell
 		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
-													 heights=unit(c(1, height, 1), 
-													 			 c("null", "npc", "null")), 
-													 widths=unit(c(1, width, 1), 
-													 			c("null", "npc", "null"))),
+													 heights=unit(c(margin.top, height, 1), 
+													 			 c("npc", "npc", "null")), 
+													 widths=unit(c(margin.left, width, 1), 
+													 			c("npc", "npc", "null"))),
 								  name="maingrid")
 		pushViewport(gridLayoutMap)
 	
@@ -272,11 +290,21 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, legend_pos) {
 				grobBGframe <- NULL
 			}
 			
+			if (gt$design.mode) {
+				grobBGframe <- rectGrob(gp=gpar(fill="blue", col="blue"), name="mapBG")
+				
+				aspWidth <- 1-sum(inner.margins.new[c(2,4)])
+				aspHeight <- 1-sum(inner.margins.new[c(1,3)])
+				grobAsp <- rectGrob(x = (inner.margins.new[2]+1-inner.margins.new[4])/2, y=(inner.margins.new[1]+1-inner.margins.new[3])/2, width=aspWidth, height=aspHeight, gp=gpar(fill="red", col="red"), name="aspRect")
+			} else {
+				grobAsp <- NULL
+			}
+			
 			## the thematic map
 			res <- plot_map(i, gp, gt, shps.env)
 			treeElemGrid <- res$treeElemGrid
 			bubbleHeight <- res$bubbleHeight
-			gList(grobBGframe, treeElemGrid)
+			gList(grobBGframe, grobAsp, treeElemGrid)
 		})
 		
 		## background rectangle (whole device), in case a frame is drawn and outer.bg.color is specified
