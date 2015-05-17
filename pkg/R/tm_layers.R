@@ -133,6 +133,7 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface="plain", fontf
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the line colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.lwd.is.portrait logical that determines whether the legend element regarding the line widths is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown regarding the line colors
+#' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for line colors.
 #' @param legend.col.z index value that determines the position of the legend element regarding the line colors with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.lwd.z index value that determines the position of the legend element regarding the line widths. (See \code{legend.col.z})
 #' @param legend.hist.z index value that determines the position of the legend element regarding the histogram. (See \code{legend.col.z})
@@ -199,6 +200,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @param title title of the legend element
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown
+#' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @export
@@ -258,6 +260,7 @@ tm_fill <- function(col="grey85",
 #' @param title title of the legend element
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown
+#' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @export
@@ -324,6 +327,7 @@ tm_raster <- function(col="grey70",
 #' @param title.col title of the legend element regarding the bubble colors
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the bubble sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown regarding the bubble colors
+#' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for bubble colors.
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the bubble colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.size.z index value that determines the position of the legend element regarding the bubble sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.col.z index value that determines the position of the legend element regarding the bubble colors. (See \code{legend.size.z})

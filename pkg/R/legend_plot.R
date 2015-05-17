@@ -190,7 +190,8 @@ legend_subplot <- function(x, id, gt) {
 	cellplot(id, cols, e={
 	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		legGrob <- if (legend.type=="hist") {
-			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25, legend.hist.bg.color = gt$legend.hist.bg.color)
+			legend.hist.bg.color <- if (is.na(gt$legend.hist.bg.color)) NA else get_alpha_col(gt$legend.hist.bg.color, gt$legend.hist.bg.alpha)
+			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25, legend.hist.bg.color = legend.hist.bg.color)
 		} else if (legend.type=="TITLE") {
 			legend_title(x, gt$title.size, lineHeight, m=.1)
 		} else if (legend.type=="title") {

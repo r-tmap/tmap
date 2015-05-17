@@ -17,9 +17,10 @@
 #' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default, it is automatically placed in the corner with most space based on the (first) shape object.
-#' @param legend.width maximum width of the legend
+#' @param legend.width width of the legend
 #' @param legend.height maximum height of the legend.
 #' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
+#' @param legend.hist.width width of the histogram. By default, it is equal to the \code{legend.width}.
 #' @param legend.title.size Relative font size for the legend title
 #' @param legend.text.size Relative font size for the legend text elements
 #' @param legend.hist.size Relative font size for the choropleth histogram
@@ -27,6 +28,8 @@
 #' @param legend.digits Number of digits for the legend labels
 #' @param legend.bg.color Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param legend.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).
+#' @param legend.hist.bg.color Background color of the histogram
+#' @param legend.hist.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.hist.bg.color} is used (normally 1).
 #' @param title.snap.to.legend Logical that determines whether the title is part of the legend.
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default the title is placed on top of the legend (determined by \code{legend.position})
 #' @param legend.frame either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.
@@ -54,7 +57,6 @@ tm_layout <- function(title=NA,
 					  legend.height = 0.9,
 					  legend.hist.height = 0.3,
 					  legend.hist.width = legend.width,
-					  legend.hist.bg.color = NA,
 					  legend.title.size=1.1,
 					  legend.text.size=0.7,
 					  legend.hist.size=0.7,
@@ -63,6 +65,8 @@ tm_layout <- function(title=NA,
 					  legend.frame = FALSE,
 					  legend.bg.color = NA,
 					  legend.bg.alpha = 1,
+					  legend.hist.bg.color = NA,
+					  legend.hist.bg.alpha = 1,
 					  title.snap.to.legend = FALSE,
 					  title.position = c("left", "top"),
 					  title.bg.color=NA,

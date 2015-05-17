@@ -246,16 +246,6 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			height <- height * (dasp/sasp)
 		}
 		
-		## subtract one point to make sure the frame is drawn inside device
-		if (height==1) {
-			heightP <- convertHeight(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
-			height <- convertHeight(unit(heightP-1, "points"), unitTo="npc", valueOnly=TRUE)
-		}
-		if (width==1) {
-			widthP <- convertWidth(unit(1, "npc"), unitTo = "points", valueOnly = TRUE)
-			width <- convertWidth(unit(widthP-1, "points"), unitTo="npc", valueOnly=TRUE)
-		}
-		
 		## calculate outer margins
 		margin.left <- (1 - width) * ifelse(mar.x==0, .5, (margins[2]/mar.x))
 		margin.top <- (1 - height) * ifelse(mar.y==0, .5, (margins[3]/mar.y))

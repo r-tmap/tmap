@@ -82,7 +82,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, legend.hist.b
 		
 		
 		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size
-		height.xaxis <- lineHeight * size
+		height.xaxis <- lineHeight * size * ifelse(draw_x_axis, 1, .25)
 		
 		axisTicks <- convertWidth(unit(mx, "npc"), "inch", valueOnly=TRUE)
 		
