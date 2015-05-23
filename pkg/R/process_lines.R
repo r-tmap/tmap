@@ -32,6 +32,7 @@ process_line_col_vector <- function(x, g, gt) {
 		#remove unused levels in legend
 		colsLeg <- cat2pal(x,
 						   palette = palette,
+						   contrast = g$contrast,
 						   colorNA = g$colorNA,
 						   legend.labels=g$labels,
 						   legend.NA.text=g$textNA,

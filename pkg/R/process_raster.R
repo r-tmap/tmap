@@ -5,6 +5,7 @@ process_raster_vector <- function(x, g, gt) {
 		palette <- if (is.null(g$palette)) ifelse(nlevels(x)>8, "Set3", "Dark2") else g$palette
 		colsLeg <- cat2pal(x,
 						   palette = palette,
+						   contrast = g$contrast,
 						   colorNA = g$colorNA,
 						   legend.labels=g$labels,
 						   legend.NA.text = textNA,

@@ -1,11 +1,14 @@
 cat2pal <- function(x, 
 					palette = "Set3",
+					contrast = 1, 
 					colorNA = "#FF1414",
 					legend.labels = NULL,
 					max_levels = 40,
 					legend.NA.text = "Missing",
 					alpha=1) {
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
+	
+	
 	
 	# quick&dirty
 	nCol <- nlevels(x)
@@ -34,7 +37,12 @@ cat2pal <- function(x,
 		if (brewer.pal.info[palette, "category"]=="qual") {
 			p <- rep(brewerpal, length.out=nlevels(x))
 		} else {
-			p <- colorRampPalette(brewerpal)(nlevels(x))
+			if (length(contrast)==1) contrast <- c(0, contrast)
+			crange <- contrast[2] - contrast[1]
+			ext <- nlevels(x)/crange
+			from <- floor(contrast[1] * ext)
+			to <- from + nlevels(x)
+			p <- colorRampPalette(brewerpal)(ext)[from:to]
 		}
 		revPal(p)
 	} else {

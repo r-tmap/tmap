@@ -65,6 +65,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		sel <- !is.na(xs)
 		colsLeg <- cat2pal(xc[sel],
 						   palette = palette,
+						   contrast = g$contrast,
 						   colorNA = g$colorNA,
 						   legend.labels=g$labels,
 						   legend.NA.text=g$textNA,
