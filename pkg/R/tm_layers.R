@@ -44,7 +44,7 @@ tm_shape <- function(shp,
 					  projection=NULL, 
 					  xlim = NULL,
 					  ylim = NULL,
-					  relative = TRUE,
+					  relative = FALSE,
 					  bbox = NULL) {
 	shp_name <- deparse(substitute(shp))
 	g <- list(tm_shape=as.list(environment()))
@@ -419,6 +419,7 @@ tm_bubbles <- function(size=1, col="blueviolet",
 #' @param free.scales.line.col Should the line color scale be free?
 #' @param free.scales.line.lwd Should the line width scale be free?
 #' @param free.scales.raster Should the color scale for raster layers be free?
+#' @param inside.original.bbox If \code{free.coords}, should the bounding box of each small multiple be inside the original bounding box?
 #' @param scale.factor Number that determines how the elements (e.g. font sizes, bubble sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.
 #' @export
 #' @example ../examples/tm_facets.R
@@ -434,6 +435,7 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					   free.scales.line.col=free.scales,
 					   free.scales.line.lwd=free.scales,
 					   free.scales.raster=free.scales,
+					  inside.original.bbox=FALSE,
 					  scale.factor=2) {
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	if ("free.scales" %in% calls) calls <- union(calls, c("free.scales.fill", "free.scales.bubble.size", "free.scales.bubble.col", "free.scales.line.col", "free.scales.line.lwd"))

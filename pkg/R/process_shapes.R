@@ -76,6 +76,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	
 	group_by <- any(gm$shp_nr != 0) && gm$free.coords
 	group_split <- group_by && gm$drop.shapes
+	inside_bbox <- group_by && gm$inside.original.bbox
 	
 	if (group_by) {
 		if (is.na(pasp)) pasp <- dasp
@@ -108,18 +109,22 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			bb <- matrix(c(apply(bb[1:2,,drop=FALSE], MARGIN = 1, min), apply(bb[3:4,,drop=FALSE], MARGIN = 1, max)),
 								  nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
 			
-			bb[,1] <- pmax(bb[,1], shp.by.bbox[,1])
-			bb[,2] <- pmin(bb[,2], shp.by.bbox[,2])
+			if (inside_bbox) {
+				bb[,1] <- pmax(bb[,1], shp.by.bbox[,1])
+				bb[,2] <- pmin(bb[,2], shp.by.bbox[,2])
+			}
 			
 			bbox <- get_bbox_lim(bb, relative, bbox, xlim, ylim)
 			
 			bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)$bbox
 			
-			if (bbox_asp[1,1] < shp.by.bbox[1,1]) bbox_asp[1,] <- bbox_asp[1, ] + (shp.by.bbox[1,1] - bbox_asp[1,1])
-			if (bbox_asp[2,1] < shp.by.bbox[2,1]) bbox_asp[2,] <- bbox_asp[2, ] + (shp.by.bbox[2,1] - bbox_asp[2,1])
-			
-			if (bbox_asp[1,2] > shp.by.bbox[1,2]) bbox_asp[1,] <- bbox_asp[1, ] - (bbox_asp[1,2] - shp.by.bbox[1,2])
-			if (bbox_asp[2,2] > shp.by.bbox[2,2]) bbox_asp[2,] <- bbox_asp[2, ] - (bbox_asp[2,2] - shp.by.bbox[2,2])
+			if (inside_bbox) {
+				if (bbox_asp[1,1] < shp.by.bbox[1,1]) bbox_asp[1,] <- bbox_asp[1, ] + (shp.by.bbox[1,1] - bbox_asp[1,1])
+				if (bbox_asp[2,1] < shp.by.bbox[2,1]) bbox_asp[2,] <- bbox_asp[2, ] + (shp.by.bbox[2,1] - bbox_asp[2,1])
+				
+				if (bbox_asp[1,2] > shp.by.bbox[1,2]) bbox_asp[1,] <- bbox_asp[1, ] - (bbox_asp[1,2] - shp.by.bbox[1,2])
+				if (bbox_asp[2,2] > shp.by.bbox[2,2]) bbox_asp[2,] <- bbox_asp[2, ] - (bbox_asp[2,2] - shp.by.bbox[2,2])
+			}
 			bbox_asp
 		}), shps_by_splt, list(SIMPLIFY=FALSE)))
 		bb <- bboxes[[1]]
@@ -152,6 +157,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 					#cat("error\n")
 					shp2
 				})
+				if (is.null(y)) y <- shp2
 				attr(y, "bbox") <- bb2
 				y
 			}, x, bboxes, SIMPLIFY=FALSE)
@@ -168,7 +174,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 					}, error = function(e) {
 						x
 					})
-					attr(y, "bbox") <- bb
+					attr(y, "bbox") <- bb2
 					y
 				})
 			} else {
