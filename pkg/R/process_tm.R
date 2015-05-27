@@ -1,4 +1,4 @@
-process_tm <- function(x, asp_ratio) {
+process_tm <- function(x, asp_ratio, shp_info) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL
 	## fill meta info
 	
@@ -22,6 +22,14 @@ process_tm <- function(x, asp_ratio) {
 	## get grid element
 	gridid <- which(names(x)=="tm_grid")[1]
 	gg <- x[[gridid]]
+	
+	## get credits element
+	creditsid <- which(names(x)=="tm_credits")[1]
+	gc <- x[[creditsid]]
+	
+	## get scale bar element
+	scaleid <- which(names(x)=="tm_scale")[1]
+	gsb <- x[[scaleid]]
 	
 	## get facets element
 	shape.id.orig <- which(names(x)=="tm_shape")
@@ -58,7 +66,7 @@ process_tm <- function(x, asp_ratio) {
 	
 	
 	## split x into gmeta and gbody
-	x <- x[!(names(x) %in% c("tm_layout", "tm_grid", "tm_facets"))]
+	x <- x[!(names(x) %in% c("tm_layout", "tm_grid", "tm_facets", "tm_credits", "tm_scale_bar"))]
 
 	n <- length(x)
 	
@@ -116,7 +124,7 @@ process_tm <- function(x, asp_ratio) {
 
 	by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
 	## process grid
-	gmeta <- process_meta(gt, gf, gg, nx, by_names, asp_ratio)
+	gmeta <- c(process_meta(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio), shp_info)
 	
 	## split into small multiples
 	gps <- split_tm(gp, nx, order_by)

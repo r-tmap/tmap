@@ -21,7 +21,7 @@ tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
   border.alpha = NA, ...)
 }
 \arguments{
-\item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn.}
+\item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. For \code{tm_borders}, it is a single color value that specifies the border line color.}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
@@ -69,11 +69,11 @@ tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element}
 
-\item{lwd}{line width (see \code{\link[graphics:par]{par}})}
+\item{lwd}{border line width (see \code{\link[graphics:par]{par}})}
 
-\item{lty}{line type (see \code{\link[graphics:par]{par}})}
+\item{lty}{border line type (see \code{\link[graphics:par]{par}})}
 
-\item{border.col}{line color}
+\item{border.col}{border line color}
 
 \item{border.alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
@@ -91,9 +91,11 @@ data(Europe)
 data(NLD_muni)
 data(NLD_prov)
 
-
 # Constant fill
 tm_shape(World) + tm_fill("darkolivegreen3") + tm_layout_World(title="A green World")
+
+# Borders only
+tm_shape(Europe) + tm_borders()
 
 # Data variable containing colours values
 Europe$isNLD <- ifelse(Europe$name=="Netherlands", "darkorange", "darkolivegreen3")
@@ -110,11 +112,9 @@ tm_shape(NLD_muni) +
 	tm_borders("grey40", lwd=2) +
 	tm_layout_NLD_wide(bg.color="white", draw.frame = FALSE, legend.hist.bg.color="grey90")
 
-
 tm_shape(Europe) +
-	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries", 
+	tm_polygons("gdp_cap_est", style="kmeans", textNA = "Non-European countries", 
 		title="GDP per capita") +
-	tm_borders() +
 	tm_text("iso_a3", size="AREA", root=4, scale=2) +
 	tm_layout_Europe()
 
@@ -123,7 +123,6 @@ tm_shape(World) +
     tm_borders() +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_layout_World()
-
 
 # Categorical data variable
 tm_shape(World) +

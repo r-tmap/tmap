@@ -23,6 +23,8 @@ print.tmap <- function(x, vp=NULL, ...) {
 	## extract data.frames from shape/raster objects
 	shps_dts <- lapply(x[shape.id], function(y) {
 		shp <- y$shp
+		shp.unit <- y$unit
+		shp.unit.size <- y$unit.size
 		
 		if (inherits(shp, "Spatial")) {
 			## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
@@ -50,7 +52,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 			}
 			
 			if (inherits(shp, "SpatialPolygonsDataFrame")) {
-				data$SHAPE_AREAS <- approx_areas(shp, units="abs") / 1e6
+				data$SHAPE_AREAS <- approx_areas(shp, unit=shp.unit, unit.size = shp.unit.size)
 			}
 		} else if (inherits(shp, "Raster")) {
 			data <- get_raster_data(shp)
@@ -115,8 +117,10 @@ print.tmap <- function(x, vp=NULL, ...) {
 	asp_ratio <- shpM_asp_marg / dev_asp
 	
 	## process tm objects
-	result <- process_tm(x, asp_ratio)
+	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size")]
+	result <- process_tm(x, asp_ratio, shp_info)
 	gmeta <- result$gmeta
+	
 	gps <- result$gps
 	nx <- result$nx
 	data_by <- result$data_by

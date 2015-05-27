@@ -4,17 +4,19 @@
 \alias{calc_densities}
 \title{Calculate densities}
 \usage{
-calc_densities(shp, var, total.area.km2 = NA, units = "km2", suffix = "",
-  drop = TRUE)
+calc_densities(shp, var, unit = "km", unit.size = 1000, total.area = NA,
+  suffix = "", drop = TRUE)
 }
 \arguments{
 \item{shp}{a shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 
 \item{var}{name(s) of a qualtity variable name contained in the \code{map} data}
 
-\item{total.area.km2}{total area size of \code{shp} in number of squared kilometers. If \code{NA}, and \code{unit="km2"}, then the polygon coordinates are assumed to be in meters.}
+\item{unit}{the preferred unit, for instance, "km", "m", or "miles". Density values in \code{var/unit^2} are calculated.}
 
-\item{units}{the units of the area sizes, either \code{"m2"} or \code{"km2"}. In other words, either \code{var/m2} or \code{var/km2} density values are calculated.}
+\item{unit.size}{size in the coordinate system that corresponds to one \code{unit}. The coordinate system of many projections is in meters while thematic maps typically scan many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 meters).}
+
+\item{total.area}{total area size of \code{shp} in number of squared units.}
 
 \item{suffix}{character that is appended to the variable names. The resulting names are used as column names of the returned data.frame.}
 

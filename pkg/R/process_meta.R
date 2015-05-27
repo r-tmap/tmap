@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, nx, by_names, asp_ratio) {
+process_meta <- function(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio) {
 	
 	
 	gf <- within(gf, {
@@ -85,5 +85,23 @@ process_meta <- function(gt, gf, gg, nx, by_names, asp_ratio) {
 		gg <- list(grid.show=FALSE)
 	}
 	
-	c(gt, gf, gg)
+	if (!is.null(gc)) {
+		gc <- within(gc, {
+			credits.size <- credits.size * gt$scale
+			credits.show <- TRUE
+		})
+	} else {
+		gc <- list(credits.show=FALSE)
+	}
+
+	if (!is.null(gsb)) {
+		gsb <- within(gsb, {
+			scale.size <- scale.size * gt$scale
+			scale.show <- TRUE
+		})
+	} else {
+		gsb <- list(scale.show=FALSE)
+	}
+	
+	c(gt, gf, gg, gc, gsb)
 }

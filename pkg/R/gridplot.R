@@ -16,7 +16,7 @@ gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, inner.mar
 		pushViewport(vpGrid)
 		
 		istart <- (k-1) * pp + 1
-		iend <- min(istart + pp, nx)
+		iend <- min(istart + pp-1, nx)
 		ni <- iend-istart+1
 		treeMults <- mapply(function(i, rw, cl) {
 			cellplot(rw, cl, e=do.call(fun, args=list(i, gps[[i]], shps.env, dasp, sasp, inner.margins.new, legend_pos)), name = paste("multiple", i, sep="_"))

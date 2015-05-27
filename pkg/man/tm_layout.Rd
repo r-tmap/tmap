@@ -23,10 +23,10 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
   title.position = c("left", "top"), title.bg.color = NA,
   title.bg.alpha = 1, design.mode = FALSE)
 
-tm_layout_World(title = NA, inner.margins = c(0, 0.05, 0.075, 0.01),
+tm_layout_World(title = NA, inner.margins = c(0, 0.05, 0.025, 0.01),
   legend.position = c("left", "bottom"), scale = 0.8, ...)
 
-tm_layout_World_wide(title = NA, inner.margins = c(0, 0.2, 0.075, 0.01),
+tm_layout_World_wide(title = NA, inner.margins = c(0, 0.2, 0.025, 0.01),
   legend.position = c("left", "bottom"), legend.width = 0.4, scale = 0.8,
   ...)
 

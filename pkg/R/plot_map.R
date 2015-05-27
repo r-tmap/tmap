@@ -20,6 +20,20 @@ plot_map <- function(i, gp, gt, shps.env) {
 	} else {
 		treeGrid <- NULL
 	}
+
+	## credits
+	if (gt$credits.show) {
+		treeCred <- plot_cred(gt)
+	} else {
+		treeCred <- NULL
+	}
+
+	## scale bar
+	if (gt$scale.show) {
+		treeScale <- plot_scale(gt, bb)
+	} else {
+		treeScale <- NULL
+	}
 	
 	## thematic map layers
 	treeElements <- mapply(function(gpl, shp) {
@@ -89,11 +103,97 @@ plot_map <- function(i, gp, gt, shps.env) {
 # 	}
 	
 	grobsElemGrid <- if (gt$grid.show && gt$grid.on.top) {
-		do.call("gList", args = c(treeElements, list(treeGrid)))
+		do.call("gList", args = c(treeElements, list(treeGrid, treeCred, treeScale)))
 	} else {
-		do.call("gList", args = c(list(treeGrid), treeElements))
+		do.call("gList", args = c(list(treeGrid), treeElements, list(treeCred, treeScale)))
 	}
 	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), bubbleHeight=bubbleHeight)
+}
+
+plot_scale <- function(gt, bb) {
+	xrange <- bb[1,2] - bb[1,1]
+	xrange2 <- xrange/gt$unit.size
+	
+	if (is.null(gt$scale.breaks)) {
+		ticks2 <- pretty(c(0, xrange2 / 5), 4)
+	} else {
+		ticks2 <- gt$scale.breaks
+	}
+	labels <- c(ticks2, gt$unit)
+	
+	n <- length(ticks2)
+	ticks <- ticks2*gt$unit.size
+	ticks3 <- ticks / xrange
+	
+	widths <- ticks3[2] - ticks3[1]
+	x <- ticks3[1:(n-1)]
+	
+	size <- min(gt$scale.size, widths/max(convertWidth(stringWidth(paste(ticks2, " ")), "npc", TRUE)))
+
+	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
+	my <- lineHeight / 2
+	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
+	
+	unitWidth <- convertWidth(stringWidth(paste(gt$unit, " ")), "npc", TRUE) * size
+	width <- widths * n + unitWidth
+	
+	if (is.character(gt$scale.position)) {
+		position <- 
+			c(switch(gt$scale.position[1], 
+					 left=mx+widths*.5,
+					 center=(1-width)/2,
+					 centre=(1-width)/2,
+					 right=1-mx-width),
+			  switch(gt$scale.position[2],
+			  	   top=1-lineHeight*2,
+			  	   center=.5,
+			  	   centre=.5,
+			  	   bottom=lineHeight*.5))	
+	} else position <- gt$scale.position
+
+	x <- x + position[1]
+	xtext <- c(ticks3, ticks3[n] + widths*.5 + unitWidth*.5) + position[1]
+	
+	gTree(children=gList(
+		rectGrob(x=x, y=position[2]+lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col="black", fill=c("white", "black"))),
+		textGrob(label=labels, x = xtext, y = position[2]+lineHeight*.5, just=c("center", "center"), gp=gpar(cex=size))))
+	
+	
+}
+
+plot_cred <- function(gt) {
+	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
+	my <- lineHeight / 2
+	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
+	
+	# number of lines
+	nlines <- length(strsplit(gt$credits.text, "\n")[[1]])
+	
+	size <- min((1-2*mx) / convertWidth(stringWidth(gt$credits.text), "npc", valueOnly=TRUE), gt$credits.size)
+	
+	width <- convertWidth(stringWidth(gt$credits.text), "npc", valueOnly=TRUE) * size
+	height <- lineHeight * (nlines) * size
+	
+	if (is.character(gt$credits.position)) {
+		position <- 
+			c(switch(gt$credits.position[1], 
+					 left=mx,
+					 center=(1-width)/2,
+					 centre=(1-width)/2,
+					 right=1-mx-width),
+			  switch(gt$credits.position[2],
+			  	   top=1-height*.75,
+			  	   center=.5,
+			  	   centre=.5,
+			  	   bottom=height*.75))	
+	} else position <- gt$credits.position
+	
+	gTree(children=gList(if (!is.na(gt$credits.bg.color)) {
+		bg.col <- get_alpha_col(gt$credits.bg.color, gt$credits.bg.alpha)
+		rectGrob(x = position[1]-.5*mx, y = position[2], width=width+mx, just=c("left", "center"), height=height, gp=gpar(col=NA, fill=bg.col))
+	} else {
+		NULL
+	}, textGrob(label=gt$credits.text, x = position[1], y = position[2], just=c("left", "center"), gp=gpar(cex=size))))
 }
 
 plot_grid <- function(gt, bb, scale) {

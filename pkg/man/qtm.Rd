@@ -71,7 +71,7 @@ qtm(World, fill="pop_est_dens", theme="World", fill.style="kmeans", fill.title="
 
 # bubble map
 qtm(World, borders = NA) + qtm(metro, bubble.size = "pop2010", bubble.col="purple", 
-	title="Metropolitan Areas", theme = "World", bubble.scale=.5)
+	bubble.title.size="Metropolitan Areas", theme = "World", bubble.scale=.5)
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
