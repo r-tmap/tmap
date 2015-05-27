@@ -54,24 +54,6 @@ tm_shape <- function(shp,
 
 
 
-#' Draw polygon borders
-#' 
-#' Creates a \code{\link{tmap-element}} that defines the borders of the polygons. Line color, width, and type can be set.
-#' 
-#' @param col line color
-#' @param lwd line width (see \code{\link[graphics:par]{par}})
-#' @param lty line type (see \code{\link[graphics:par]{par}})
-#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
-#' @export
-#' @example ../examples/tm_borders.R
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
-#' @return \code{\link{tmap-element}}
-tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
-	g <- list(tm_borders=as.list(environment()))
-	class(g) <- "tmap"
-	g
-}
-
 
 #' Add text labels
 #' 
@@ -175,11 +157,13 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 }
 
 
-#' Fill polygons
+#' Draw polygons
 #' 
-#' Creates a \code{\link{tmap-element}} that fills polygons. Either a fixed color is used, or a color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables.
+#' Creates a \code{\link{tmap-element}} that draws the polygons. \code{tm_fill} fills the polygons. Either a fixed color is used, or a color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables. \code{tm_borders} draws the borders of the polygons. \code{tm_polygons} fills the polygons and draws the polygon borders.
 #' 
-#' @param col either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn.
+#' @name tm_fill
+#' @rdname polygons
+#' @param col either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. For \code{tm_borders}, it is a single color value that specifies the border line color.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.
@@ -236,6 +220,36 @@ tm_fill <- function(col="grey85",
 	class(g) <- "tmap"
 	g
 }	
+
+
+#' @name tm_borders
+#' @rdname polygons
+#' @param lwd border line width (see \code{\link[graphics:par]{par}})
+#' @param lty border line type (see \code{\link[graphics:par]{par}})
+#' @export
+tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
+	g <- list(tm_borders=as.list(environment()))
+	class(g) <- "tmap"
+	g
+}
+
+#' @name tm_polygons
+#' @rdname polygons
+#' @param border.col border line color
+#' @param border.alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
+#' @param ... arguments passed to either \code{tm_fill} or \code{tm_borders}
+#' @export
+tm_polygons <- function(col="grey85", 
+						alpha=NA,
+						border.col="grey40",
+						border.alpha=NA,
+						...) {
+	args <- list(...)
+	argsFill <- c(list(col=col, alpha=alpha), args[intersect(names(args), names(formals("tm_fill")))])
+	argsBorders <- c(list(col=border.col, alpha=border.alpha), args[intersect(names(args), names(formals("tm_borders")))])
+	
+	do.call("tm_fill", argsFill) + do.call("tm_borders", argsBorders)
+}
 
 
 #' Draw a raster

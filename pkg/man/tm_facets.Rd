@@ -9,7 +9,7 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
   free.scales.fill = free.scales, free.scales.bubble.size = free.scales,
   free.scales.bubble.col = free.scales, free.scales.line.col = free.scales,
   free.scales.line.lwd = free.scales, free.scales.raster = free.scales,
-  scale.factor = 2)
+  inside.original.bbox = FALSE, scale.factor = 2)
 }
 \arguments{
 \item{by}{data variable name by which the data is split}
@@ -35,6 +35,8 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
 \item{free.scales.line.lwd}{Should the line width scale be free?}
 
 \item{free.scales.raster}{Should the color scale for raster layers be free?}
+
+\item{inside.original.bbox}{If \code{free.coords}, should the bounding box of each small multiple be inside the original bounding box?}
 
 \item{scale.factor}{Number that determines how the elements (e.g. font sizes, bubble sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.}
 }

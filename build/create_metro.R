@@ -102,10 +102,9 @@ ccodes <- tables[["codelist"]]
 ccodes$iso_a3 <- ccodes[[4]]
 ccodes$ccode <- as.numeric(ccodes[[5]])
 
-library(XLConnect)
 ct <- readWorksheetFromFile("../shapes/WUP2014-F12-Cities_Over_300K.xls",
 							sheet="DATA", region="A17:Y1709", header=TRUE)
-
+names(ct)[substr(names(ct),1,1)=="X"] <- paste0("pop", substr(names(ct),2,5)[substr(names(ct),1,1)=="X"])
 
 
 ct$name <- convertStrings(ct$Urban.Agglomeration)
@@ -134,11 +133,11 @@ split_min <- c("BEL", "CAN", "JPN", "PHL", "PRI", "GBR", "USA")
 
 ct$name[mlt_len>1 & ct$iso_a3 %in% split_min] <- sapply(mlt[mlt_len>1 & ct$iso_a3 %in% split_min], "[", 1)
 
-ct[, c("X1950", "X1960", "X1970", "X1980", "X1990", "X2000", "X2010", "X2020", "X2030")] <- ct[, c("X1950", "X1960", "X1970", "X1980", "X1990", "X2000", "X2010", "X2020", "X2030")] * 1000
+ct[, c("pop1950", "pop1960", "pop1970", "pop1980", "pop1990", "pop2000", "pop2010", "pop2020", "pop2030")] <- ct[, c("pop1950", "pop1960", "pop1970", "pop1980", "pop1990", "pop2000", "pop2010", "pop2020", "pop2030")] * 1000
 
-ct <- ct[,c("name", "name_long", "iso_a3", "Latitude", "Longitude", "X1950", "X1960", "X1970", "X1980", "X1990", "X2000", "X2010", "X2020", "X2030")]
+ct <- ct[,c("name", "name_long", "iso_a3", "Latitude", "Longitude", "pop1950", "pop1960", "pop1970", "pop1980", "pop1990", "pop2000", "pop2010", "pop2020", "pop2030")]
 
-ct <- ct[ct$X2010 >= 1e6, ]
+ct <- ct[ct$pop2010 >= 1e6, ]
 
 ## manual editing
 ct$name[ct$name=="West Midlands"] <- "Birmingham"
@@ -154,24 +153,24 @@ metro <- SpatialPointsDataFrame(coords = ct[, c("Longitude", "Latitude")], data 
 
 save(metro, file="./data/metro.rda", compress="xz")
 
-metro$Y1 <- (metro$X2010 - metro$X2000) / (metro$X2000 * 10) * 100
-metro$Y2 <- (metro$X2010 - metro$X1950) / (metro$X1950 * 60) * 100
+metro$Y1 <- (metro$pop2010 - metro$pop2000) / (metro$pop2000 * 10) * 100
+metro$Y2 <- (metro$pop2010 - metro$pop1950) / (metro$pop1950 * 60) * 100
 
 data(Europe)
 data(World)
 qtm(World) + 
-qtm(metro, bubble.size = "X2010", bubble.col="Y", bubble.style="fixed", bubble.breaks=c(-Inf, -1, -.1, .1, 1, 2, 4, 8, Inf))
+qtm(metro, bubble.size = "pop2010", bubble.col="Y", bubble.style="fixed", bubble.breaks=c(-Inf, -1, -.1, .1, 1, 2, 4, 8, Inf))
 
 tm_shape(World) +
 	tm_fill("grey60") +
 tm_shape(metro) +
-	tm_bubbles("X2010", col = "Y1", border.col = "black", border.alpha = .5, style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf) ,palette="-RdYlBu", contrast=1, scale=1.5) + 
+	tm_bubbles("pop2010", col = "Y1", border.col = "black", border.alpha = .5, style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf) ,palette="-RdYlBu", contrast=1, scale=1.5) + 
 tm_layout_World("Population", legend.titles=c(bubble.col="Growth rate (%)"))
 
 
 
 tm_shape(metro) +
-tm_bubbles(c("X1950", "X1960", "X1970", "X1980", "X1990", "X2000", "X2010", "X2020", "X2030")) +
+tm_bubbles(c("pop1950", "pop1960", "pop1970", "pop1980", "pop1990", "pop2000", "pop2010", "pop2020", "pop2030")) +
 tm_facets(free.scales = FALSE) +
 	tm_layout(legend.show = FALSE)
 

@@ -82,7 +82,7 @@ tm_layout <- function(title=NA,
 #' @export
 tm_layout_World <- function(title=NA,
 							#title.bg.color=TRUE,
-							inner.margins=c(0, 0.05, 0.075, 0.01),
+							inner.margins=c(0, 0.05, 0.025, 0.01),
 							legend.position=c("left", "bottom"), 
 							scale=.8,
 							...) {
@@ -95,7 +95,7 @@ tm_layout_World <- function(title=NA,
 #' @export
 tm_layout_World_wide <- function(title=NA,
 							#title.bg.color=TRUE,
-							inner.margins=c(0, 0.2, 0.075, 0.01),
+							inner.margins=c(0, 0.2, 0.025, 0.01),
 							legend.position=c("left", "bottom"), 
 							legend.width=0.4,
 							scale=.8,

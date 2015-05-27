@@ -5,7 +5,7 @@
 \title{Specify the shape object}
 \usage{
 tm_shape(shp, is.master = NA, projection = NULL, xlim = NULL,
-  ylim = NULL, relative = TRUE, bbox = NULL)
+  ylim = NULL, relative = FALSE, bbox = NULL)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -65,7 +65,7 @@ tm_shape(World, projection="longlat") +
     tm_layout("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.size=.8)
 
 World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
-tm_shape(World, projection="merc", ylim=c(.1, 1)) + 
+tm_shape(World, projection="merc", ylim=c(.1, 1), relative = TRUE) + 
 	tm_fill("highlighted") + 
 	tm_borders() + 
 	tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for
@@ -89,7 +89,7 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
 tm_shape(World) +
 	tm_fill("darkolivegreen3") +
 tm_shape(metro) +
-	tm_bubbles("X2010", col = "grey30", scale=.5) +
+	tm_bubbles("pop2010", col = "grey30", scale=.5) +
 tm_shape(rivers) +
 	tm_lines("lightcyan1") +
 tm_layout(bg.color="lightcyan1", inner.margins=c(0,0,.02,0), legend.show = FALSE)

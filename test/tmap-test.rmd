@@ -17,7 +17,7 @@ data(NLD_prov)
 data(metro)
 data(land)
 data(rivers)
-metro$growth <- (metro$X2020 - metro$X2010) / (metro$X2010 * 10) * 100
+metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 ```
 
 ## Single layers
@@ -78,13 +78,13 @@ tm_shape(metro) +
 Variable size
 ```{r}
 tm_shape(metro) +
-	tm_bubbles(size = "X2010")
+	tm_bubbles(size = "pop2010")
 ```
 
 Variable size with customization
 ```{r}
 tm_shape(metro) +
-	tm_bubbles(size = "X2010", col="blue", alpha=.5, scale = .75)
+	tm_bubbles(size = "pop2010", col="blue", alpha=.5, scale = .75)
 ```
 
 Variable color
@@ -103,13 +103,13 @@ tm_shape(metro) +
 Variable size and color
 ```{r}
 tm_shape(metro) +
-	tm_bubbles(size="X2010", col = "growth")
+	tm_bubbles(size="pop2010", col = "growth")
 ```
 
 Variable color with customization
 ```{r}
 tm_shape(metro) +
-	tm_bubbles(size="X2010", col = "growth", style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
+	tm_bubbles(size="pop2010", col = "growth", style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
 			palette="-RdYlBu")
 ```
 
@@ -360,7 +360,7 @@ tm_shape(World) +
 tm_shape(rivers) +
 	tm_lines(col = "type", lwd="scalerank") +
 tm_shape(metro) +
-	tm_bubbles(size="X2010", col = "growth") +
+	tm_bubbles(size="pop2010", col = "growth") +
 tm_shape(land) +
 	tm_raster("trees", alpha=.4)
 ```

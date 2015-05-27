@@ -15,10 +15,11 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
   4), inner.margins = rep(0.02, 4), outer.bg.color = NULL,
   legend.show = TRUE, legend.only = FALSE, legend.position = NULL,
   legend.width = 0.3, legend.height = 0.9, legend.hist.height = 0.3,
-  legend.hist.width = legend.width, legend.hist.bg.color = NA,
-  legend.title.size = 1.1, legend.text.size = 0.7, legend.hist.size = 0.7,
+  legend.hist.width = legend.width, legend.title.size = 1.1,
+  legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.scientific = FALSE, legend.digits = NA, legend.frame = FALSE,
-  legend.bg.color = NA, legend.bg.alpha = 1, title.snap.to.legend = FALSE,
+  legend.bg.color = NA, legend.bg.alpha = 1, legend.hist.bg.color = NA,
+  legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
   title.position = c("left", "top"), title.bg.color = NA,
   title.bg.alpha = 1, design.mode = FALSE)
 
@@ -78,8 +79,6 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{legend.hist.width}{width of the histogram. By default, it is equal to the \code{legend.width}.}
 
-\item{legend.hist.bg.color}{Background color of the histogram}
-
 \item{legend.title.size}{Relative font size for the legend title}
 
 \item{legend.text.size}{Relative font size for the legend text elements}
@@ -95,6 +94,10 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 \item{legend.bg.color}{Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 
 \item{legend.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).}
+
+\item{legend.hist.bg.color}{Background color of the histogram}
+
+\item{legend.hist.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.hist.bg.color} is used (normally 1).}
 
 \item{title.snap.to.legend}{Logical that determines whether the title is part of the legend.}
 

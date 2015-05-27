@@ -101,9 +101,9 @@ tm_shape(Europe) +
 tm_shape(rivers) +
 	tm_lines("dodgerblue3") +
 tm_shape(metro) +
-	tm_text("name", size="X2010", scale=1, ymod=-.02, root=4, size.lowerbound = .60, 
+	tm_text("name", size="pop2010", scale=1, ymod=-.02, root=4, size.lowerbound = .60, 
 			bg.color="yellow", bg.alpha = .5) + 
-	tm_bubbles("X2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), sizes.legend = seq(2e6,10e6, by=2e6), title.size="City Population") +
+	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), sizes.legend = seq(2e6,10e6, by=2e6), title.size="City Population") +
 tm_shape(Europe) +
 	tm_text("iso_a3", size="area", scale=1.5, root=8, size.lowerbound = .40, 
 			fontface="bold", case=NA, fontcolor = "gray35") + 

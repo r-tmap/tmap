@@ -3,9 +3,11 @@ data(Europe)
 data(NLD_muni)
 data(NLD_prov)
 
-
 # Constant fill
 tm_shape(World) + tm_fill("darkolivegreen3") + tm_layout_World(title="A green World")
+
+# Borders only
+tm_shape(Europe) + tm_borders()
 
 # Data variable containing colours values
 Europe$isNLD <- ifelse(Europe$name=="Netherlands", "darkorange", "darkolivegreen3")
@@ -22,11 +24,9 @@ tm_shape(NLD_muni) +
 	tm_borders("grey40", lwd=2) +
 	tm_layout_NLD_wide(bg.color="white", draw.frame = FALSE, legend.hist.bg.color="grey90")
 
-
 tm_shape(Europe) +
-	tm_fill("gdp_cap_est", style="kmeans", textNA = "Non-European countries", 
+	tm_polygons("gdp_cap_est", style="kmeans", textNA = "Non-European countries", 
 		title="GDP per capita") +
-	tm_borders() +
 	tm_text("iso_a3", size="AREA", root=4, scale=2) +
 	tm_layout_Europe()
 
@@ -35,7 +35,6 @@ tm_shape(World) +
     tm_borders() +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_layout_World()
-
 
 # Categorical data variable
 tm_shape(World) +

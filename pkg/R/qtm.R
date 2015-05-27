@@ -61,7 +61,7 @@ qtm <- function(shp,
 		raster <- NULL
 	}
 	
-	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "text_separator", "text_less_than", "text_or_more", "xmod", "ymod", "title")
+	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "bg.alpha", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "text_separator", "text_less_than", "text_or_more", "xmod", "ymod", "title", "title.size", "title.col")
 	
 	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets")
 	fns_prefix <- c("shape", "fill", "borders", "bubble", "line", "raster", "text", "layout", "grid", "facets")
@@ -102,7 +102,7 @@ qtm <- function(shp,
 	if (missing(theme)) {
 		g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))	
 	} else {
-		if (!(theme %in% c("World", "Europe", "NLD"))) stop("Unknown theme")
+		if (!(theme %in% c("World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide"))) stop("Unknown theme")
 		funct <- paste("tm_layout", theme, sep="_")
 		g <- g + do.call(funct, c(scaleLst, args2[["tm_layout"]]))
 	}

@@ -6,17 +6,17 @@ Type: Package
 LazyLoad: yes
 Author: Martijn Tennekes
 Description:Thematic maps are geographical maps in which statistical data are visualized. This package offers a flexible, layer-based, way to create thematic maps, such as choropleths and bubble maps.
-Version: 0.8
-Date: 2015-04-24
+Version: 1.0
+Date: 2015-06-28
 Depends:
     R (>= 3.0)
 Imports:
-    rgeos,
+    sp,
+    raster,
     grid,
     gridBase,
-    sp,
     rgdal,
-    raster,
+    rgeos,
     classInt,
     RColorBrewer
 Suggests:
