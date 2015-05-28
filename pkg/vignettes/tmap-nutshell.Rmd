@@ -98,17 +98,19 @@ data(rivers)
 data(metro)
 
 tm_shape(Europe) +
-	tm_fill("pop_est_dens", style="kmeans", textNA="Non-European countries", title="Country population density (per km2)") +
-	tm_borders() +
+    tm_fill("pop_est_dens", style="kmeans", textNA="Non-European countries", 
+    title="Country population density (per km2)") +
+    tm_borders() +
 tm_shape(rivers) +
-	tm_lines("dodgerblue3") +
+    tm_lines("dodgerblue3") +
 tm_shape(metro) +
-	tm_text("name", size="pop2010", scale=1, ymod=-.02, root=4, size.lowerbound = .60, 
-			bg.color="yellow", bg.alpha = .5) + 
-	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), sizes.legend = seq(2e6,10e6, by=2e6), title.size="City Population") +
+    tm_text("name", size="pop2010", scale=1, ymod=-.02, root=4, size.lowerbound = .60, 
+        bg.color="yellow", bg.alpha = .5) + 
+	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), 
+        sizes.legend = seq(2e6,10e6, by=2e6), title.size="Metropolitan Population") +
 tm_shape(Europe) +
 	tm_text("iso_a3", size="area", scale=1.5, root=8, size.lowerbound = .40, 
-			fontface="bold", case=NA, fontcolor = "gray35") + 
+        fontface="bold", case=NA, fontcolor = "gray35") + 
 tm_layout_Europe("Map of Europe")
 ```
 
@@ -128,24 +130,25 @@ Small multiples are generated in two ways:
 1. By assigning multiple values to at least one of the 5 aesthetic arguments (in the table above indicated by the <sup>\*</sub> symbol)
 ```{r, fig.width=10, fig.height=3}
 tm_shape(Europe) +
-	tm_fill(c("pop_est_dens", "gdp_cap_est"), style="kmeans", title=c("Population density", "GDP per capita")) +
+	tm_fill(c("pop_est_dens", "gdp_cap_est"), style="kmeans", 
+        title=c("Population density", "GDP per capita")) +
 tm_layout_Europe()
 ```
 
 2. By defining a group-by variable in [`tm_facets`](../html/tm_facets.html):
 ```{r, fig.width=10}
 tm_shape(Europe) +
-	tm_fill("gdp_cap_est", style="kmeans", title="GDP per capita") +
-tm_facets("part") +
+    tm_fill("gdp_cap_est", style="kmeans", title="GDP per capita") +
+    tm_facets("part") +
 tm_layout_Europe()
 ```
 
 The scales of each aesthetic argument can be set to either fixed or free, and also, the coordinate ranges of the small multiples:
 ```{r, fig.width=10}
 tm_shape(Europe[Europe$continent=="Europe",]) +
-	tm_fill("part", thres.poly = 0) +
-tm_facets("name", free.coords=TRUE, drop.shapes=TRUE) +
-	tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.size = 2)
+    tm_fill("part", thres.poly = 0) +
+    tm_facets("name", free.coords=TRUE, drop.shapes=TRUE) +
+tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.size = 2)
 ```
 
 Remarks: the argument `drop.shapes` is used to drop all non-selected shapes. If `drop.shapes=FALSE` then neighboring countries are also visible. The argument `thres.poly` is set to 0 in order to calculate the aesthetics for all polygons, so also for very small ones, like Vatican. 
@@ -159,26 +162,27 @@ data(land)
 data(World)
 pal8 <- c("#33A02C", "#B2DF8A", "#FDBF6F", "#1F78B4", "#999999", "#E31A1C", "#E6E6E6", "#A6CEE3")
 tm_shape(land, ylim = c(-88,88), relative=FALSE) +
-	tm_raster("cover_cls", palette = pal8, title="Global Land Cover", legend.hist=TRUE, legend.hist.z=0) +
-	tm_shape(World) +
-	tm_borders() +
-	tm_layout_World(inner.margins=0, 
-					legend.text.size=1,
-					legend.title.size=1.2,
-					legend.position = c("left","bottom"), 
-					legend.bg.color = "white", legend.bg.alpha=.2, 
-					legend.frame="gray50", 
-					legend.width=.2, legend.height=.6, 
-					legend.hist.height=.2, 
-					legend.hist.bg.color="gray60", legend.hist.bg.alpha=.5)
+    tm_raster("cover_cls", palette = pal8, title="Global Land Cover", legend.hist=TRUE, legend.hist.z=0) +
+tm_shape(World) +
+    tm_borders() +
+tm_layout_World(inner.margins=0, 
+    legend.text.size=1,
+    legend.title.size=1.2,
+    legend.position = c("left","bottom"), 
+    legend.bg.color = "white", legend.bg.alpha=.2, 
+    legend.frame="gray50", 
+    legend.width=.2, legend.height=.6, 
+    legend.hist.height=.2, 
+    legend.hist.bg.color="gray60", legend.hist.bg.alpha=.5)
 ```
 
 Also, the outer and inner margins as well as the aspect ratio are determined with [`tm_layout`](../html/tm_layout.html):
 ```{r, fig.width=10}
 (tm <- tm_shape(World) +
-	tm_fill() +
-	tm_borders() +
-tm_layout(bg.color = "lightblue", outer.bg.color = "gold", outer.margins=c(.05,0,.05,0), inner.margins=c(0,0,.02,0), asp=0))
+    tm_fill() +
+    tm_borders() +
+tm_layout(bg.color = "lightblue", outer.margins=c(.05,0,.05,0), 
+    inner.margins=c(0,0,.02,0), asp=0))
 ```
 
 The behaviour of `outer.margins`, `inner.margins`, and `asp` are correlated. To see the viewports that these arguments determine, the design mode can be enabled:
@@ -238,8 +242,7 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
 1. Selections can be made by treating the data.frame of the shape object:
 ```{r, fig.height=4}
 tm_shape(Europe[Europe$name=="Austria", ]) +
-	tm_fill() +
-	tm_borders()
+	tm_polygons()
 ```
 
 2. A one-item legend can be generated by using a categorical data variable with a one category, and assigning a single color value to palette:
@@ -251,7 +254,7 @@ tm_shape(World) +
 	tm_fill() +
 tm_shape(rivers) +
 	tm_lines(col="constant", palette="dodgerblue3", title.col="World map") +
-	tm_layout_World()
+tm_layout_World()
 ```
 
 3. Each drawing element has a scalar arguemnt called `scale`. The overall scaling and font sizes can be set by the `scale` argument in `tm_layout`.

@@ -141,7 +141,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	
 	if (gmeta$design.mode) {
 		masterShapeName <- x[[masterID]]$shp_name
-		cat("aspect ratio device (yellow):", dasp, "\n")
+		cat("aspect ratio device (yellow):", dev_asp, "\n")
 		cat("aspect ratio frame (blue):", sasp, "\n")
 		cat("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp, "\n")
 	}
