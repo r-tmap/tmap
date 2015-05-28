@@ -50,4 +50,6 @@ tm_shape(busses) +
 tm_shape(bs_points) +
 	tm_bubbles(size = .1)
 
-
+png("osm.png", width=800, height=800, res = 220)
+print(tm + tm_layout(outer.margins=0, asp=0))
+dev.off()
