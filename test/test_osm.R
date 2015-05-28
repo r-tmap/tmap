@@ -41,11 +41,13 @@ busses <- do.call("sbind", bus)
 
 
 ## plot
-tm_shape(bg_poly) +
+tm <- tm_shape(bg_poly) +
 	tm_fill() +
 tm_shape(hw_line) +
-	tm_lines("darkolivegreen3") + 
+	tm_lines("green3") + 
 tm_shape(busses) +
 	tm_lines("blue") +
 tm_shape(bs_points) +
 	tm_bubbles(size = .1)
+
+
