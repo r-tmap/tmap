@@ -14,7 +14,7 @@ tm_scale_bar(breaks = NULL, size = 0.5, position = c("right", "bottom"))
 \item{position}{position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left center of the text. By default, it is placed in the right bottom corner.}
 }
 \description{
-Creates a scale bar.
+Creates a scale bar. By default, the coordinate units are assumed to be meters, and the map units in kilometers. This can be changed in \code{\link{tm_shape}}.
 }
 \examples{
 data(NLD_muni)

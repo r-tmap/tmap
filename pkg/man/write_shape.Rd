@@ -7,7 +7,7 @@
 write_shape(shp, file)
 }
 \arguments{
-\item{shp}{a shape object.}
+\item{shp}{a shape object}
 
 \item{file}{file name (including directory)}
 }
@@ -15,6 +15,6 @@ write_shape(shp, file)
 Write a shape object to an ESRI shape file.
 }
 \details{
-This function is a convenient wrapper of writeOGR from the package rgdal.
+This function is a convenient wrapper of rgdal's \code{\link[rgdal:writeOGR]{writeOGR}}.
 }
 

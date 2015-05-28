@@ -12,9 +12,9 @@
 \item{e2}{second \code{\link{tmap-element}}}
 }
 \description{
-The plus operator allows you to stack \code{\link{tmap-element}s}.
+The plus operator allows you to stack \code{\link{tmap-element}s}, and groups of \code{\link{tmap-element}s}.
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\code{\link{tmap-element}} and \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 

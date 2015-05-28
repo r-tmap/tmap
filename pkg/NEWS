@@ -1,3 +1,10 @@
+version 1.0
+- added tm_credits and tm_scale_bar
+- added is.master argument to tm_shape, that determines which shape is the master
+- added unit and unit.size arguments to tm_shape that correlates the coordinates with the desired units
+- added tm_polygons, which is a combination of tm_fill and tm_borders
+- fixed several small bugs
+
 version 0.8
 - added tm_raster
 - improved legend behaviour: legend titles should be set in the layer functions (instead of in tm_layout)

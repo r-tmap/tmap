@@ -6,19 +6,14 @@
 \title{Set and get the map projection}
 \usage{
 set_projection(shp, projection = NULL, current.projection = NULL,
-  transform = !is.null(projection), overwrite.current.projection = FALSE)
+  overwrite.current.projection = FALSE)
 
 get_projection(shp)
 }
 \arguments{
-\item{shp}{shape object, which is one of
-\itemize{
- \item{"1)"}\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
- \item{"2)"}\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}
- \item{"3)"}\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}
-}}
+\item{shp}{shape object of class \code{\link[sp:Spatial]{Spatial}}}
 
-\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string or one of the following shortcuts:
+\item{projection}{character that determines the new projection. Either a \code{PROJ.4} character string or one of the following shortcuts:
 \describe{
        \item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).}
        \item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise}
@@ -35,11 +30,9 @@ get_projection(shp)
        \item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}}
        See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
        See \url{http://trac.osgeo.org/proj/} for the \code{PROJ.4} project home page. An extensive list of \code{PROJ.4} codes can be created with rgdal's \code{\link[rgdal:make_EPSG]{make_EPSG}}.
-       By default, the projection is used that is defined in the \code{shp} object itself.}
+       This argument is only used to transform the \code{shp}. Use \code{current.projection} to specify the current projection of \code{shp}.}
 
-\item{current.projection}{the current projection of \code{shp}. Only use this if the current projection is missing.}
-
-\item{transform}{Logical that determines whether to transform the shape file into the specified projection. By default \code{TRUE}. If the current shape projection is missing, longitude latitude coordinates (WGS84) are assumed. If \code{FALSE}, then the specified projection is simply written to the shape file without transforming it (use this at your own risk!).}
+\item{current.projection}{the current projection of \code{shp}. Only use this if the current projection is missing or wrong.}
 
 \item{overwrite.current.projection}{logical that determines whether the current projection is overwritten if it already has a projection that is different.}
 }
@@ -48,6 +41,6 @@ get_projection(shp)
 \code{get_projection} returns the \code{PROJ.4} character string of \code{shp}.
 }
 \description{
-The function \code{set_projection} sets the projection of a shape file. It is a convenient wrapper of \code{\link[sp:spTransform]{spTransform}} with shortcuts for commonly used projections. The projection can also be set directly in the plot call with \code{\link{tm_shape}}. This function is also used to set the current projection information without transformation of the shape object, which is useful when this information is missing in the shape object. The function \code{get_projection} is used to get the projection information.
+The function \code{set_projection} sets the projection of a shape file. It is a convenient wrapper of \code{\link[sp:spTransform]{spTransform}} with shortcuts for commonly used projections. The projection can also be set directly in the plot call with \code{\link{tm_shape}}. This function is also used to set the current projection information if this is missing. The function \code{get_projection} is used to get the projection information.
 }
 

@@ -1,6 +1,6 @@
 #' Divide into multiple shape objects
 #'
-#' Divide shape object into multiple objects.
+#' Divide a shape object into multiple objects.
 #' 
 #' @aliases split.SpatialPolygonsDataFrame
 #' @param x shape object, which is one of

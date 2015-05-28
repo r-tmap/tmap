@@ -75,6 +75,8 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_lines`](../html/tm_raster.html)		| Draws a raster | col<sup>\*</sup>	|
 |[`tm_text`](../html/tm_text.html)   	| Add text labels | text<sup>\+</sup>, size<sup>\+</sup>  	|
 |[`tm_grid`](../html/tm_grid.html)   	| Add coordinate grid lines |   	|
+|[`tm_credits`](../html/tm_credits.html)   	| Add credits text label |   	|
+|[`tm_scale_bar`](../html/tm_scale_bar.html)   	| Add scale bar |   	|
 
 
 The arguments with superscript symbols can be used as aesthetics. Both constant values as well as data variable names can be assigned to these arguments. For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth. Only for the five arguments with a <sup>\*</sup>, a legend is created (and by default shown).

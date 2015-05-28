@@ -7,7 +7,7 @@
 read_shape(file, current.projection = NULL, ...)
 }
 \arguments{
-\item{file}{a shape file name (including directory).}
+\item{file}{a shape file name (including directory)}
 
 \item{current.projection}{the current projection of the shape object, if it is missing in the shape file. It should be either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts:
 \describe{
@@ -36,9 +36,8 @@ shape object
 Read an ESRI shape file. Optionally, set the current projection if it is missing.
 }
 \details{
-This function is a convenient wrapper of readOGR of the package rgdal. It is possible to set the current projection, if it is undefined in the shape file. If a reprojection is required, use \code{\link{set_projection}}.
-}
-\note{
+This function is a convenient wrapper of rgdal's \code{\link[rgdal:readOGR]{readOGR}}. It is possible to set the current projection, if it is undefined in the shape file. If a reprojection is required, use \code{\link{set_projection}}.
+
 For the Netherlands: often, the Dutch Rijksdriehoekstelsel (Dutch National Grid) projection is provided in the shape file without proper datum shift parameters to wgs84. This functions automatically adds these parameters. See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} (in Dutch) for details.
 }
 

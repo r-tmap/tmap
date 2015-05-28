@@ -2,11 +2,11 @@
 #' 
 #' Transpose quantitative variables to densitiy variables, which are often needed for choroplets. For example, the colors of a population density map should correspond population density counts rather than absolute population numbers.
 #'
-#' @param shp a shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
-#' @param var name(s) of a qualtity variable name contained in the \code{map} data
-#' @param unit the preferred unit, for instance, "km", "m", or "miles". Density values in \code{var/unit^2} are calculated.
-#' @param unit.size size in the coordinate system that corresponds to one \code{unit}. The coordinate system of many projections is in meters while thematic maps typically scan many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 meters).
-#' @param total.area total area size of \code{shp} in number of squared units.
+#' @param shp a shape object, i.e., a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}
+#' @param var name(s) of a qualtity variable name contained in the \code{shp} data
+#' @param unit the preferred unit, for instance, "km", "m", or "miles". Density values are calculated in \code{var/unit^2}.
+#' @param unit.size size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).
+#' @param total.area total area size of \code{shp} in number of squared units (by default kilometers). Useful if the total area of the \code{shp} differs from a reference total area value. 
 #' @param suffix character that is appended to the variable names. The resulting names are used as column names of the returned data.frame.
 #' @param drop boolean that determines whether an one-column data-frame should be returned as a vector
 #' @keywords densities

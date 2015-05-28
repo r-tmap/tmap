@@ -117,8 +117,9 @@ This element specifies layout options for the maps. The main function \code{tm_l
 \examples{
 data(World)
 
-tm_shape(World) + tm_fill("pop_est_dens", style="kmeans", title="Population density") + 
-	tm_layout_World("World Population", bg.color="lightblue")
+tm_shape(World) + 
+    tm_fill("pop_est_dens", style="kmeans", title="Population density") + 
+tm_layout_World("World Population", bg.color="lightblue")
 
 # A custom layout wrapper for Africa
 tm_layout_Africa <- function(title=NA,
@@ -131,9 +132,11 @@ tm_layout_Africa <- function(title=NA,
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
+
 Africa <- World[World$continent=="Africa", ]
+
 qtm(Africa, fill="pop_est_dens", fill.style="kmeans", fill.title="Population density") + 
-	tm_layout_Africa("Africa")
+    tm_layout_Africa("Africa")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

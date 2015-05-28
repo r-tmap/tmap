@@ -7,28 +7,28 @@
 approx_areas(shp, unit = "km", unit.size = 1000, total.area = NA)
 }
 \arguments{
-\item{shp}{shape object, i.e. a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+\item{shp}{shape object, i.e., a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
 
 \item{unit}{one of
 \describe{
-    \item{\code{"abs"}:}{Absolute numbers based on polygon coordinates. Only usefull if the projection satisfies the equal-area property. Note: these are equal to the \code{area} slots of the polygons, where the \code{area} slots of the holes are subtracted. Also note that for many projections, the coordinate units are meters, so the area sizes correspond to squared meters (rather than squared kilometers).}
+    \item{\code{"abs"}:}{Absolute numbers based on polygon coordinates.}
     \item{\code{"prop"}:}{Proportional numbers. In other words, the total of the area sizes equals one.}
     \item{\code{"norm"}:}{Normalized numbers. All area sizes are normalized to the largest area, of which the area size equals one.}
-    \item{other:}{For instance, "km", "m", or "miles". For this method, \code{total.area} and \code{unit.size} are required. In this case, the area sizes are returned in squared units, e.g., in squared kilometers.}}
-    The default method is \code{"abs"}, unless \code{total.area} is specified (in that case, it is \code{"km"}).}
+    \item{other:}{For instance, "km", "m", or "miles". For this method, \code{total.area} or \code{unit.size} is required. In this case, the area sizes are returned in squared units, e.g., in squared kilometers.}}
+    The default method is \code{"km"}.}
 
-\item{unit.size}{size in the coordinate system that corresponds to one \code{unit}. The coordinate system of many projections is in meters while thematic maps typically scan many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 meters).}
+\item{unit.size}{size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).}
 
-\item{total.area}{total area size of \code{shp} in number of squared units (by default kilometers). Useful if the total area of the \code{shp} deviates a reference total area value.}
+\item{total.area}{total area size of \code{shp} in number of squared units (by default kilometers). Useful if the total area of the \code{shp} differs from a reference total area value.}
 }
 \value{
 Numeric vector of area sizes.
 }
 \description{
-Approximate the area sizes of the polygons either in 1) squared kilometers, 2) absolute numbers based on the polygon coordinates, 3) proportional numbers, 4) normalized numbers.
+Approximate the area sizes of the polygons either in 1) absolute numbers based on the polygon coordinates, 2) proportional numbers, 3) normalized numbers and 4) squared units (e.g. kilometers).
 }
 \details{
-To approximate the sizes in squared kilometer, \code{total.area.km2} is required. Note that this method is an approximation, since it depends on the used projection and the level of detail of the SpatialPolygons object. Projections with equal-area property are highly recommended.
+To approximate the sizes in squared units, either the \code{total.area} or the \code{unit.size} is required. Note that this method is an approximation, since it depends on the used projection and the level of detail of the SpatialPolygons object. Projections with equal-area property are highly recommended.
 }
 \examples{
 data(NLD_muni)

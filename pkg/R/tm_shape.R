@@ -12,7 +12,7 @@
 #'  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 #' }
 #'For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}} accept 1 to 3. For layer \code{\link{tm_raster}}, 4, 5, or 6 is required.
-#' @param is.master logical that determines whether this \code{tm_shape} is the master shape element. The bounding box and projection settings of the master shape element are taken. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.
+#' @param is.master logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.
 #' @param projection character that determines the projection. Either a \code{PROJ.4} character string or one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).} 
@@ -33,10 +33,10 @@
 #'    	By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.
 #' @param xlim limits of the x-axis. These are either absolute or relative (depending on the argument \code{relative}). Alternatively, the argument \code{bbox} can be set to set absolute values.
 #' @param ylim limits of the y-axis. See \code{xlim}.
-#' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: in case multiple shape objects are used within one plot, the relative values will depend on the current bounding box (bbox) of the first shape object.
+#' @param relative boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute.
 #' @param bbox bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides both \code{xlim} and \code{ylim}.
 #' @param unit unit specification. Needed when calculating density values in choropleth maps (argument \code{convert2density} in \code{\link{tm_fill}}) drawing a scale bar with \code{\link{tm_scale_bar}}. See also \code{unit.size}.
-#' @param unit.size size in the coordinate system that corresponds to one \code{unit}. The coordinate system of many projections is in meters while thematic maps typically scan many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 meters).
+#' @param unit.size size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).
 #' @export
 #' @seealso \code{\link{read_shape}} to read ESRI shape files, \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} 
 #' @example ../examples/tm_shape.R

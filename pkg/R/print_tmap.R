@@ -1,9 +1,9 @@
-#' Draw tmap plot
+#' Draw thematic map
 #' 
-#' Draw tmap plot on current graphics device
+#' Draw thematic map on current graphics device
 #' 
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
-#' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in
+#' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param ... not used
 #' @import sp
 #' @import raster

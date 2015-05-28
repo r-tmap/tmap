@@ -55,18 +55,17 @@ The absolute fontsize (in points) is determined by the (ROOT) viewport, which ma
 # World example
 data(World)
 tm_shape(World) +
-	tm_text("name", size="AREA")
+    tm_text("name", size="AREA")
 
 # Europe example
 data(Europe)
 tm_shape(Europe) +
-    tm_fill() +
-    tm_borders() +
-    tm_text("iso_a3", size="AREA", root=4, shadow = TRUE, fontcolor = "grey20", scale=2, 
-			size.lowerbound = .1) +
+    tm_polygons() +
+    tm_text("iso_a3", size="AREA", root=4, shadow = TRUE, fontcolor = "grey20", scale=2,
+        size.lowerbound = .1) +
 tm_shape(Europe) +
-	tm_text("name", size="AREA", root=4, scale=1, 
-			ymod=-.04 * approx_areas(Europe, unit = "norm")^(1/4))
+    tm_text("name", size="AREA", root=4, scale=1,
+        ymod=-.04 * approx_areas(Europe, unit = "norm")^(1/4))
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

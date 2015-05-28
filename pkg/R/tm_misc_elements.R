@@ -91,7 +91,7 @@ tm_credits <- function(text,
 
 #' Scale bar
 #' 
-#' Creates a scale bar.
+#' Creates a scale bar. By default, the coordinate units are assumed to be meters, and the map units in kilometers. This can be changed in \code{\link{tm_shape}}.
 #' 
 #' @param breaks breaks of the scale bar
 #' @param size relative text size
@@ -115,11 +115,11 @@ tm_scale_bar <- function(breaks=NULL,
 
 #' Stacking of tmap elements
 #' 
-#' The plus operator allows you to stack \code{\link{tmap-element}s}.
+#' The plus operator allows you to stack \code{\link{tmap-element}s}, and groups of \code{\link{tmap-element}s}.
 #' 
 #' @param e1 first \code{\link{tmap-element}}
 #' @param e2 second \code{\link{tmap-element}}
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \code{\link{tmap-element}} and \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @export
 "+.tmap" <- function(e1, e2) {
 	g <- c(e1,e2)

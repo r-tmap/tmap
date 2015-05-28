@@ -17,6 +17,6 @@ Spatial data of global land cover, of class \code{\link[sp:SpatialGridDataFrame]
 \strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown. See \url{http://www.iscgm.org/gm/glcnmo.html#use}.
 }
 \references{
-Ryutaro Tateishi, Nguyen Thanh Hoan, Toshiyuki Kobayashi, Bayan Alsaaideh, Gegen Tana & Dong Xuan Phong Journal of Geography and Geology; Vol.6, No.3; 2014
+Tateishi, R., Thanh Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014), Journal of Geography and Geology, 6 (3).
 }
 

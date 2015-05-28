@@ -2,18 +2,18 @@
 % Please edit documentation in R/print_tmap.R
 \name{print.tmap}
 \alias{print.tmap}
-\title{Draw tmap plot}
+\title{Draw thematic map}
 \usage{
 \method{print}{tmap}(x, vp = NULL, ...)
 }
 \arguments{
 \item{x}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}
 
-\item{vp}{\code{\link[grid:viewport]{viewport}} to draw the plot in}
+\item{vp}{\code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.}
 
 \item{...}{not used}
 }
 \description{
-Draw tmap plot on current graphics device
+Draw thematic map on current graphics device
 }
 

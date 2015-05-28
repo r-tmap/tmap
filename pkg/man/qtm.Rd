@@ -22,9 +22,9 @@ qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
 
 \item{fill}{either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).}
 
-\item{bubble.size}{name of the data variable in \code{shp} for the bubblemap that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+\item{bubble.size}{name of the data variable in \code{shp} for the bubble map that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
-\item{bubble.col}{name of the data variable in \code{shp} for the bubblemap that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubblemap is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+\item{bubble.col}{name of the data variable in \code{shp} for the bubble map that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
 \item{text}{Name of the data variable that contains the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
@@ -38,7 +38,7 @@ qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
 
 \item{borders}{color of the polygon borders. Use \code{NA} to omit the borders.}
 
-\item{theme}{one of "World", "Europe", or "NLD"}
+\item{theme}{one of "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide"}
 
 \item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.}
 
@@ -50,7 +50,10 @@ qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
 \code{\link{tmap-element}}
 }
 \description{
-This function is a convenient wrapper for drawing thematic maps quickly.
+Draw a thematic map quickly.
+}
+\details{
+This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
 }
 \examples{
 data(Europe)
@@ -62,7 +65,7 @@ qtm(Europe)
 
 # choropleth
 qtm(World, fill = "economy", text="iso_a3", text.size = "AREA", 
-	fill.palette="-Blues", theme = "World", fill.title="Economy")
+    fill.palette="-Blues", theme = "World", fill.title="Economy")
 
 qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="pop_est", 
     fill.title="GDP per capita", fill.textNA="Non-European countries")
@@ -71,7 +74,7 @@ qtm(World, fill="pop_est_dens", theme="World", fill.style="kmeans", fill.title="
 
 # bubble map
 qtm(World, borders = NA) + qtm(metro, bubble.size = "pop2010", bubble.col="purple", 
-	bubble.title.size="Metropolitan Areas", theme = "World", bubble.scale=.5)
+    bubble.title.size="Metropolitan Areas", theme = "World", bubble.scale=.5)
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

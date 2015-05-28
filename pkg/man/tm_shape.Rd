@@ -20,7 +20,7 @@ tm_shape(shp, is.master = NA, projection = NULL, xlim = NULL,
 }
 For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}} accept 1 to 3. For layer \code{\link{tm_raster}}, 4, 5, or 6 is required.}
 
-\item{is.master}{logical that determines whether this \code{tm_shape} is the master shape element. The bounding box and projection settings of the master shape element are taken. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.}
+\item{is.master}{logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.}
 
 \item{projection}{character that determines the projection. Either a \code{PROJ.4} character string or one of the following shortcuts:
 \describe{
@@ -45,13 +45,13 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
 
 \item{ylim}{limits of the y-axis. See \code{xlim}.}
 
-\item{relative}{boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute. Note: in case multiple shape objects are used within one plot, the relative values will depend on the current bounding box (bbox) of the first shape object.}
+\item{relative}{boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute.}
 
 \item{bbox}{bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides both \code{xlim} and \code{ylim}.}
 
 \item{unit}{unit specification. Needed when calculating density values in choropleth maps (argument \code{convert2density} in \code{\link{tm_fill}}) drawing a scale bar with \code{\link{tm_scale_bar}}. See also \code{unit.size}.}
 
-\item{unit.size}{size in the coordinate system that corresponds to one \code{unit}. The coordinate system of many projections is in meters while thematic maps typically scan many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 meters).}
+\item{unit.size}{size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).}
 }
 \value{
 \code{\link{tmap-element}}
@@ -65,38 +65,34 @@ data(metro)
 data(rivers)
 
 tm_shape(World, projection="longlat") + 
-    tm_fill() +
-    tm_borders() + 
-    tm_layout("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.size=.8)
+    tm_polygons() + 
+tm_layout("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.size=.8)
 
 World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
 tm_shape(World, projection="merc", ylim=c(.1, 1), relative = TRUE) + 
-	tm_fill("highlighted") + 
-	tm_borders() + 
-	tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for
-statistical purposes. In reality, Australia is 3 times larger than Greenland!", 
-			  inner.margins=c(0,0,.1,0), title.size=.6)
+    tm_polygons("highlighted") + 
+tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for
+statistical purposes. In reality, Australia is 3 times larger than Greenland!",
+    inner.margins=c(0,0,.1,0), title.size=.6)
 
 tm_shape(World, projection="wintri") + 
-    tm_fill() + 
-    tm_borders() + 
-    tm_layout(
-"Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps.", 
-inner.margins=c(0,0,.1,0), title.size=.8)
+    tm_polygons() + 
+tm_layout("Winkel-Tripel projection, adapted as default by the 
+           National Geographic Society for world maps.",
+    inner.margins=c(0,0,.1,0), title.size=.8)
 
 tm_shape(World) +
-    tm_fill() + 
-    tm_borders() + 
-tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-area property.", 
+    tm_polygons() + 
+tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-area property.",
     inner.margins=c(0,0,.1,0), title.size=.8)
 
 # three groups of layers, each starting with tm_shape
 tm_shape(World) +
-	tm_fill("darkolivegreen3") +
+    tm_fill("darkolivegreen3") +
 tm_shape(metro) +
-	tm_bubbles("pop2010", col = "grey30", scale=.5) +
+    tm_bubbles("pop2010", col = "grey30", scale=.5) +
 tm_shape(rivers) +
-	tm_lines("lightcyan1") +
+    tm_lines("lightcyan1") +
 tm_layout(bg.color="lightcyan1", inner.margins=c(0,0,.02,0), legend.show = FALSE)
 }
 \seealso{

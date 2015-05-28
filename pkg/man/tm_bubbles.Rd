@@ -100,25 +100,23 @@ data(metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
 tm_shape(World) +
-	tm_fill("grey70") +
-	tm_shape(metro) +
-	tm_bubbles("pop2010", col = "growth", 
-			   border.col = "black", border.alpha = .5, 
-			   style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
-			   palette="-RdYlBu", contrast=1, 
-			   title.size="Metro population", 
-			   title.col="Growth rate (\%)") + 
-	tm_layout_World()
-
+    tm_fill("grey70") +
+tm_shape(metro) +
+    tm_bubbles("pop2010", col = "growth", 
+        border.col = "black", border.alpha = .5, 
+        style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
+        palette="-RdYlBu", contrast=1, 
+        title.size="Metro population", 
+        title.col="Growth rate (\%)") + 
+tm_layout_World()
 
 tm_shape(Europe) +
     tm_borders() +
     tm_fill() +
 tm_shape(metro) +
     tm_bubbles(size="pop2010", col="purple", size.lim=c(0, 1.2e7), title.size="Metro population") +
-	tm_text("name", size="pop2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
+    tm_text("name", size="pop2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
 tm_layout_Europe()
-
 }
 \references{
 Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.
@@ -126,4 +124,6 @@ Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Sym
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
+\keyword{bubble}
+\keyword{map}
 

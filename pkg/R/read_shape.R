@@ -2,9 +2,11 @@
 #' 
 #' Read an ESRI shape file. Optionally, set the current projection if it is missing.
 #' 
-#' This function is a convenient wrapper of readOGR of the package rgdal. It is possible to set the current projection, if it is undefined in the shape file. If a reprojection is required, use \code{\link{set_projection}}.
+#' This function is a convenient wrapper of rgdal's \code{\link[rgdal:readOGR]{readOGR}}. It is possible to set the current projection, if it is undefined in the shape file. If a reprojection is required, use \code{\link{set_projection}}.
 #' 
-#' @param file a shape file name (including directory).
+#' For the Netherlands: often, the Dutch Rijksdriehoekstelsel (Dutch National Grid) projection is provided in the shape file without proper datum shift parameters to wgs84. This functions automatically adds these parameters. See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} (in Dutch) for details.
+#' 
+#' @param file a shape file name (including directory)
 #' @param current.projection the current projection of the shape object, if it is missing in the shape file. It should be either a \code{PROJ.4} character string (see \url{http://trac.osgeo.org/proj/}), of one of the following shortcuts: 
 #' \describe{
 #'    	\item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).} 
@@ -24,7 +26,6 @@
 #' Use \code{\link{set_projection}} to reproject the shape object.
 #' @param ... other parameters, such as \code{stringsAsFactors}, are passed on to \code{\link[rgdal:readOGR]{readOGR}}
 #' @return shape object
-#' @note For the Netherlands: often, the Dutch Rijksdriehoekstelsel (Dutch National Grid) projection is provided in the shape file without proper datum shift parameters to wgs84. This functions automatically adds these parameters. See \url{http://www.qgis.nl/2011/12/05/epsg28992-of-rijksdriehoekstelsel-verschuiving/} (in Dutch) for details.
 #' @import rgdal
 #' @import sp
 #' @export
@@ -70,9 +71,9 @@ read_shape <- function(file, current.projection=NULL, ...){
 #' 
 #' Write a shape object to an ESRI shape file.
 #' 
-#' This function is a convenient wrapper of writeOGR from the package rgdal.
+#' This function is a convenient wrapper of rgdal's \code{\link[rgdal:writeOGR]{writeOGR}}.
 #'
-#' @param shp a shape object.
+#' @param shp a shape object
 #' @param file file name (including directory)
 #' @import sp
 #' @export

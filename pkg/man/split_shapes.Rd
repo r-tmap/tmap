@@ -30,6 +30,6 @@
 List of shape objects.
 }
 \description{
-Divide shape object into multiple objects.
+Divide a shape object into multiple objects.
 }
 

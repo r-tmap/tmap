@@ -52,51 +52,49 @@ data(Europe)
 data(NLD_muni)
 data(NLD_prov)
 
-
 # Facets defined by constant values
 tm_shape(World) +
     tm_fill(c("forestgreen", "goldenrod")) +
 tm_layout_World(c("A green world", "A dry world"), bg.color="lightskyblue2", 
-	title.position=c("left", "bottom"))
+    title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables
 tm_shape(Europe) +
-	tm_borders() +
+    tm_borders() +
     tm_fill(c("gdp_cap_est", "pop_est_dens"), style="kmeans", 
-    	title=c("GDP per capita", "Population density")) +
+        title=c("GDP per capita", "Population density")) +
 tm_layout_Europe()
 
 tm_shape(NLD_muni) +
     tm_fill(c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
-            style="kmeans", 
-    		title=c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
-    				"Population 45 to 64", "Population 65 and older")) +
+        style="kmeans", 
+        title=c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
+            "Population 45 to 64", "Population 65 and older")) +
 tm_shape(NLD_prov) +
     tm_borders() +
-	tm_layout_NLD(draw.frame = TRUE, asp=0)
-
+tm_layout_NLD(draw.frame = TRUE, asp=0)
 
 # Facets defined by groupings
 tm_shape(NLD_prov) +
-	tm_borders() +
-	tm_fill("gold2") +
-	tm_facets(by="name") +
-	tm_layout()
+    tm_borders() +
+    tm_fill("gold2") +
+    tm_facets(by="name") +
+    tm_layout()
 
 tm_shape(NLD_prov) +
-	tm_fill("gold2") + tm_borders() +
-	tm_facets(by="name", free.coords = TRUE, drop.shapes=TRUE) +
+    tm_fill("gold2") + tm_borders() +
+    tm_facets(by="name", free.coords = TRUE, drop.shapes=TRUE) +
 tm_layout()
 
 tm_shape(NLD_muni) +
-	tm_borders() +
-	tm_facets(by="province") +
-	tm_fill("population", style="kmeans", convert2density = TRUE) +
+    tm_borders() +
+    tm_facets(by="province") +
+    tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
-	tm_borders(lwd=4) +
-	tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
-	tm_layout(legend.show = FALSE)
-	
+    tm_borders(lwd=4) +
+    tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
+tm_layout(legend.show = FALSE)
+
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
