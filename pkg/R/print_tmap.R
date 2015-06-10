@@ -186,8 +186,12 @@ print.tmap <- function(x, vp=NULL, ...) {
 	## create an environment to pass on large shapes, which is more efficient then passing on shapes themselves(is it??)
 	shps.env <- environment()
 	
-	## 
+	## plot
 	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos)
+	
+	## if vp is specified, go 1 viewport up, else go to root viewport
+	upViewport(n=as.integer(!is.null(vp)))
+
 	invisible()
 }
 

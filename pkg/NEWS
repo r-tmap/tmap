@@ -1,3 +1,6 @@
+version 1.0.1 (under construction)
+- fixed viewport bug
+
 version 1.0
 - added tm_credits and tm_scale_bar
 - added is.master argument to tm_shape, that determines which shape is the master
