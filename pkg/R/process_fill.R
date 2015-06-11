@@ -89,13 +89,15 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly")
 	if (is.list(dt)) {
+		# multiple variables are defined
+		gs <- split_g(g, n=nx)
 		isNum <- sapply(dt, is.numeric)
-		if (any(isNum) && g$convert2density) {
-			dt[isNum] <- lapply(dt[isNum], function(d) {
-				d / areas
-			})
-		}
-		res <- lapply(dt, process_fill_vector, g, gt, tiny)
+		isDens <- sapply(gs, "[[", "convert2density")
+		
+		dt[isNum & isDens] <- lapply(dt[isNum & isDens], function(d) {
+			d / areas
+		})
+		res <- mapply(process_fill_vector, dt, gs, MoreArgs = list(gt, tiny), SIMPLIFY = FALSE)
 		fill <- sapply(res, function(r)r$fill)
 		fill.legend.labels <- lapply(res, function(r)r$fill.legend.labels)
 		fill.legend.palette <- lapply(res, function(r)r$fill.legend.palette)

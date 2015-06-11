@@ -143,7 +143,9 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.size, is.colors=FALSE)
 	
 	if (is.list(dtsize)) {
-		res <- lapply(dtsize, process_bubbles_size_vector, g, rescale=varysize, gt)
+		# multiple variables for size are defined
+		gss <- split_g(g, n=nx)
+		res <- mapply(process_bubbles_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt), SIMPLIFY = FALSE)
 		bubble.size <- sapply(res, function(r)r$bubble.size)
 		bubble.size.legend.labels <- lapply(res, function(r)r$bubble.size.legend.labels)
 		bubble.legend.sizes <- lapply(res, function(r)r$bubble.legend.sizes)
@@ -178,8 +180,10 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		bubble.breaks <- NA
 		bubble.values <- NA
 	} else if (is.list(dtcol)) {
+		# multiple variables for col are defined
+		gsc <- split_g(g, n=nx)
 		bubble.size_list <- as.list(as.data.frame(bubble.size))
-		res <- mapply(process_bubbles_col_vector, dtcol, bubble.size_list, MoreArgs=list(g, gt), SIMPLIFY=FALSE)
+		res <- mapply(process_bubbles_col_vector, dtcol, bubble.size_list, gsc, MoreArgs=list(gt), SIMPLIFY=FALSE)
 		bubble.col <- sapply(res, function(r)r$bubble.col)
 		bubble.col.legend.labels <- lapply(res, function(r)r$bubble.col.legend.labels)
 		bubble.col.legend.palette <- lapply(res, function(r)r$bubble.col.legend.palette)

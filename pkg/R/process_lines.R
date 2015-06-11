@@ -97,7 +97,9 @@ process_lines <- function(data, g, gt, gby, z) {
 	dtlwd <- process_data(data[, xlwd, drop=FALSE], by=by, free.scales=gby$free.scales.line.lwd, is.colors=FALSE)
 	
 	if (is.list(dtlwd)) {
-		res <- lapply(dtlwd, process_line_lwd_vector, g, rescale=varylwd)
+		# multiple variables for lwd are defined
+		gsl <- split_g(g, n=nx)
+		res <- mapply(process_line_lwd_vector, dtlwd, gsl, MoreArgs = list(rescale=varylwd), SIMPLIFY = FALSE)
 		line.lwd <- sapply(res, function(r)r$line.lwd)
 		line.legend.lwds <- lapply(res, function(r)r$line.legend.lwds)
 		line.lwd.legend.labels <- lapply(res, function(r)r$line.lwd.legend.labels)
@@ -128,7 +130,9 @@ process_lines <- function(data, g, gt, gby, z) {
 		line.breaks <- NA
 		line.values <- NA
 	} else if (is.list(dtcol)) {
-		res <- lapply(dtcol, process_line_col_vector, g, gt)
+		# multiple variables for col are defined
+		gsc <- split_g(g, n=nx)
+		res <- mapply(process_line_col_vector, dtcol, gsc, MoreArgs = list(gt), SIMPLIFY = FALSE)
 		line.col <- sapply(res, function(r)r$line.col)
 		line.col.legend.labels <- lapply(res, function(r)r$line.col.legend.labels)
 		line.col.legend.palette <- lapply(res, function(r)r$line.col.legend.palette)

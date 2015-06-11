@@ -21,23 +21,23 @@ tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
   border.alpha = NA, ...)
 }
 \arguments{
-\item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. For \code{tm_borders}, it is a single color value that specifies the border line color.}
+\item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. If multiple values are specified, small multiples are drawn (see details). For \code{tm_borders}, it is a single color value that specifies the border line color.}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
-\item{palette}{palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.}
+\item{palette}{a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palette. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.}
 
 \item{convert2density}{boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.}
 
 \item{area}{Name of the data variable that contains the area sizes in squared kilometer.}
 
-\item{n}{preferred number of classes (in case \code{col} is a numeric variable)}
+\item{n}{preferred number of classes (in case \code{col} is a numeric variable).}
 
 \item{style}{method to cut the color scale (in case \code{col} is a numeric variable): e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}.}
 
-\item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
+\item{breaks}{in case \code{style=="fixed"}, breaks should be specified.}
 
-\item{labels}{labels of the classes}
+\item{labels}{labels of the classes.}
 
 \item{auto.palette.mapping}{When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.}
 
@@ -84,6 +84,9 @@ tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
 }
 \description{
 Creates a \code{\link{tmap-element}} that draws the polygons. \code{tm_fill} fills the polygons. Either a fixed color is used, or a color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables. \code{tm_borders} draws the borders of the polygons. \code{tm_polygons} fills the polygons and draws the polygon borders.
+}
+\details{
+Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_fill} (and \code{tm_polygons}) is \code{col}. In the latter case, the arguments, except for \code{thres.poly}, and the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 }
 \examples{
 data(World)

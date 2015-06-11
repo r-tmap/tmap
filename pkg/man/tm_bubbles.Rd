@@ -17,9 +17,9 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
   legend.col.z = NA, legend.hist.z = NA)
 }
 \arguments{
-\item{size}{\code{shp} data variable that determines the bubble sizes. Multiple variable names create small multiples}
+\item{size}{\code{shp} data variable that determines the bubble sizes. If multiple values are specified, small multiples are drawn (see details).}
 
-\item{col}{color(s) of the bubble. Either a color (vector), or categorical variable name(s). Multiple variable names create small multiples}
+\item{col}{color(s) of the bubble. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
@@ -92,6 +92,9 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
 }
 \description{
 Creates a \code{\link{tmap-element}} that draws bubbles. Both colors and sizes of the bubbles can be mapped to data variables.
+}
+\details{
+Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic arguments of \code{tm_bubbles} are \code{size} and \code{col}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 }
 \examples{
 data(World)

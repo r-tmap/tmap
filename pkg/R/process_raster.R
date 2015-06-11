@@ -72,8 +72,10 @@ process_raster <- function(data, g, gt, gby, z) {
 		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx)))
 	}
 	if (is.list(dt)) {
+		# multiple variables are defined
+		gs <- split_g(g, n=nx)
 		isNum <- sapply(dt, is.numeric)
-		res <- lapply(dt, process_raster_vector, g, gt)
+		res <- mapply(process_raster_vector, dt, gs, MoreArgs = list(gt), SIMPLIFY = FALSE)
 		rast <- sapply(res, function(r)r$raster)
 		raster.legend.labels <- lapply(res, function(r)r$raster.legend.labels)
 		raster.legend.palette <- lapply(res, function(r)r$raster.legend.palette)
