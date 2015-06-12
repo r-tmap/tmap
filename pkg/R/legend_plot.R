@@ -272,10 +272,11 @@ legend_portr <- function(x, legend.text.size, lineHeight, m) {
 					  gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
 			cols <- legend.palette
+			border.col <- get_alpha_col(bubble.border.col, bubble.border.alpha)
 			circleGrob(x=mx+wsmax/2, 
 					y=ys, r=unit(hsi/2, "inch"),
 					gp=gpar(fill=cols,
-							col=bubble.border.col,
+							col=border.col,
 							lwd=bubble.border.lwd))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
@@ -376,10 +377,11 @@ legend_landsc <- function(x, legend.text.size, lineHeight, m) {
 					  gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
 			cols <- legend.palette
+			border.col <- get_alpha_col(bubble.border.col, bubble.border.alpha)
 			circleGrob(x=xs, 
 						y=1-my-hsmax/2, r=unit(hsi/2, "inch"),
 						gp=gpar(fill=cols,
-								col=bubble.border.col,
+								col=border.col,
 								lwd=bubble.border.lwd))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
