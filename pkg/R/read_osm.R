@@ -18,7 +18,7 @@ read_osm <- function(x, raster=FALSE, poly=NULL, point=NULL, line=NULL, ...) {
 	if (raster) {
 		require(rgdal)
 		require(raster)
-		om <- openmap(x[c(4,1)], x[c(2,3)])
+		om <- openmap(x[c(4,1)], x[c(2,3)], ...)
 		omr <- raster::raster(om)
 		oms <- as(omr, "SpatialGridDataFrame")
 		oms@data <- data.frame(PIXEL__COLOR = rgb(oms$layer.1, oms$layer.2, oms$layer.3, maxColorValue=255))
