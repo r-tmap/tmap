@@ -44,20 +44,27 @@ process_raster <- function(data, g, gt, gby, z) {
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
 	
-	x <- g$col
-	# if by is specified, use first value only
-	if (nlevels(by)>1) x <- x[1]
-	nx <- length(x)
-	
-	# check for direct color input
-	is.colors <- all(valid_colors(x))
-	if (is.colors) {
-		x <- get_alpha_col(col2hex(x), g$alpha)
-		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
-		x <- paste("COLOR", 1:nx, sep="_")
+	if ("PIXEL__COLOR" %in% names(data)) {
+		x <- "PIXEL__COLOR"
+		is.colors <- TRUE
+		nx <- 1
 	} else {
-		if (!all(x %in% shpcols)) stop("Raster argument neither colors nor valid variable names")
+		x <- g$col
+		# if by is specified, use first value only
+		if (nlevels(by)>1) x <- x[1]
+		nx <- length(x)
+		
+		# check for direct color input
+		is.colors <- all(valid_colors(x))
+		if (is.colors) {
+			x <- get_alpha_col(col2hex(x), g$alpha)
+			for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
+			x <- paste("COLOR", 1:nx, sep="_")
+		} else {
+			if (!all(x %in% shpcols)) stop("Raster argument neither colors nor valid variable names")
+		}
 	}
+	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.raster, is.colors=is.colors)
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	

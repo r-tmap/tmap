@@ -53,6 +53,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 			
 			if (inherits(shp, "SpatialPolygonsDataFrame")) {
 				data$SHAPE_AREAS <- approx_areas(shp, unit=shp.unit, unit.size = shp.unit.size)
+				attr(data, "AREAS_is_projected") <- is_projected(shp)
 			}
 		} else if (inherits(shp, "Raster")) {
 			data <- get_raster_data(shp)

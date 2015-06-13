@@ -18,7 +18,7 @@
 #' @example  ../examples/approx_areas.R
 #' @export
 approx_areas <- function(shp, unit="km", unit.size=1000, total.area=NA) {
-	x <- gArea(shp, byid = TRUE)
+	x <- suppressWarnings(gArea(shp, byid = TRUE))
 	if (is.na(total.area)) total.area <- sum(x)/(unit.size^2)
     denom <- switch(unit, norm=max(x), prop=sum(x), abs=1, sum(x)/total.area)
     x / denom

@@ -56,8 +56,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	
 	npol <- nrow(data)
 	by <- data$GROUP_BY
-	areas <- data$SHAPE_AREAS
-	areas_prop <- areas/sum(areas, na.rm=TRUE)
+	
 	shpcols <- names(data)[1:(ncol(data)-2)]
 	
 	x <- g$col
@@ -86,6 +85,19 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 		}
 		return(list(fill=dt, xfill=rep(NA, nx), fill.lenged.title=rep(NA, nx)))	
 	} 
+
+	# process areas
+	if (is.null(g$area)) {
+		show_warning <- (!attr(data, "AREAS_is_projected"))
+		area_var <- "SHAPE_AREAS"
+	} else {
+		show_warning <- FALSE
+		area_var <- g$area
+	}
+	
+	areas <- data[[area_var]]
+	areas_prop <- areas/sum(areas, na.rm=TRUE)
+	
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly")
 	if (is.list(dt)) {
@@ -94,6 +106,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 		isNum <- sapply(dt, is.numeric)
 		isDens <- sapply(gs, "[[", "convert2density")
 		
+		if (any(isNum & isDens) && show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
 		dt[isNum & isDens] <- lapply(dt[isNum & isDens], function(d) {
 			d / areas
 		})
@@ -105,6 +118,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 		fill.values <- lapply(dt, function(d)d[!tiny])
 	} else {
 		if (is.numeric(dt) && g$convert2density) {
+			if (show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
 			dt <- dt / areas
 		}
 		res <- process_fill_vector(dt, g, gt, tiny)
