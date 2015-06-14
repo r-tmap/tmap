@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio) {
+process_meta <- function(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio, shp_info) {
 	
 	
 	gf <- within(gf, {
@@ -73,7 +73,10 @@ process_meta <- function(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio) {
 		if (identical(legend.bg.color, TRUE)) legend.bg.color <- bg.color
 		
 		outer.margins <- rep(outer.margins, length.out=4)
-		inner.margins <- rep(inner.margins, length.out=4)
+		
+		inner.margins <- if (is.na(inner.margins[1])) {
+			if (shp_info$is_raster) rep(0, 4) else rep(0.02, 4)
+		} else rep(inner.margins, length.out=4)
 		
 	})	
 	

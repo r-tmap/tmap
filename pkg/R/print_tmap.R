@@ -86,7 +86,9 @@ print.tmap <- function(x, vp=NULL, ...) {
 	is_raster <- sapply(shps, inherits, "RasterLayer")
 	is_master <- sapply(x[shape.id], "[[", "is.master")
 	is_master <- is_master==TRUE & !is.na(is_master)
-	masterID <- if (any(is_raster)) {
+	
+	any_raster <- any(is_raster)
+	masterID <- if (any_raster) {
 		if (any(is_master[is_raster])) which(is_raster)[is_master[is_raster]][1] else which(is_raster)[1]
 	} else {
 		if (any(is_master)) which(is_master)[1] else 1
@@ -113,10 +115,13 @@ print.tmap <- function(x, vp=NULL, ...) {
 	
 	## calculate device aspect ratio (needed for small multiples' nrow and ncol)
 	inner.margins <- if ("tm_layout" %in% names(x)) {
-		rep(x[[which(names(x)=="tm_layout")[1]]]$inner.margins, length.out=4)
-	} else {
-		inner.margins <- rep(.02, 4)	
-	}
+		x[[which(names(x)=="tm_layout")[1]]]$inner.margins
+	} else NA
+	
+	inner.margins <- if (is.na(inner.margins[1])) {
+		if (any_raster) rep(0, 4) else rep(0.02, 4)
+	} else rep(inner.margins, length.out=4)
+
 	xmarg <- sum(inner.margins[c(2,4)])
 	ymarg <- sum(inner.margins[c(1,3)])
 	if (xmarg >= .8) stop("Inner margins too large")
@@ -127,6 +132,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	
 	## process tm objects
 	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size")]
+	shp_info$is_raster <- any_raster
 	result <- process_tm(x, asp_ratio, shp_info)
 	gmeta <- result$gmeta
 	
