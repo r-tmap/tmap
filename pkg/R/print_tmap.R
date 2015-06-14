@@ -56,8 +56,16 @@ print.tmap <- function(x, vp=NULL, ...) {
 				attr(data, "AREAS_is_projected") <- is_projected(shp)
 			}
 		} else if (inherits(shp, "Raster")) {
-			data <- get_raster_data(shp)
-			shp <- raster(shp)
+			if (fromDisk(shp)) {
+				system.time({
+					shp <- as(shp, "SpatialGridDataFrame")
+					data <- data.frame(FILE__VALUES = shp[[1]])
+					shp <- raster(shp, layer=0)
+				})
+			} else {
+				data <- get_raster_data(shp)
+				shp <- raster(shp)
+			}
 		}
 		
 		if (inherits(shp, "Raster")) {

@@ -48,6 +48,10 @@ process_raster <- function(data, g, gt, gby, z) {
 		x <- "PIXEL__COLOR"
 		is.colors <- TRUE
 		nx <- 1
+	} else if ("FILE__VALUES" %in% names(data)) {
+		x <- "FILE__VALUES"
+		is.colors <- FALSE
+		nx <- 1
 	} else {
 		x <- g$col
 		# if by is specified, use first value only
