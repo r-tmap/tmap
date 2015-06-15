@@ -114,7 +114,7 @@ tm_shape(Europe) +
 tm_layout_Europe("Map of Europe")
 ```
 
-Thinks to learn from this code:
+Things to learn from this code:
 
 * This plot has 4 groups of layers, respectively from the shape objects Europe, rivers, metro, and again Europe. 
 The order of (groups of) layers corresponds to the plotting order.
