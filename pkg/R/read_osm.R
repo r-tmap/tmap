@@ -3,22 +3,28 @@
 #' Read Open Street Map data, either vector or raster based.
 #' 
 #' @param x bounding box or \code{\link[osmar:osmar]{osmar}} object
-#' @param raster logical that determines whether a raster or a vector shapes are returned
+#' @param raster logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...})
+#' @param zoom passed on to \code{\link[OpenStreetMap:openmap]{openmap}}. Only applicable when \code{raster=TRUE}.
+#' @param type passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
+#' @param minNumTiles passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
+#' @param mergeTiles passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
 #' @param poly specifies the polygons selection}}
 #' @param point specifies the points selection}}
 #' @param line specifies the lines selection}}
-#' @param ... arguments passed on to \code{\link[OpenStreetMap:openmap]{openmap}}, most importantly, \code{zoom} and \code{type}
+#' @param ... arguments that specify polygons, lines, and/or points queries.
 #' @import osmar
 #' @import OpenStreetMap
 #' @import raster
 #' @import sp
 #' @import rgdal
 #' @export
-read_osm <- function(x, raster=FALSE, poly=NULL, point=NULL, line=NULL, ...) {
+read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL, ...) {
 	if (raster) {
 		require(rgdal)
 		require(raster)
-		om <- openmap(x[c(4,1)], x[c(2,3)], ...)
+		optionalArgs <- list(zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL)
+		optionalArgs <- optionalArgs[!sapply(optionalArgs, is.null)]
+		om <- do.call("openmap", args = c(list(upperLeft=x[c(4,1)], lowerRight=x[c(2,3)]), optionalArgs))
 		omr <- raster::raster(om)
 		oms <- as(omr, "SpatialGridDataFrame")
 		oms@data <- data.frame(PIXEL__COLOR = rgb(oms$layer.1, oms$layer.2, oms$layer.3, maxColorValue=255))
@@ -31,39 +37,54 @@ read_osm <- function(x, raster=FALSE, poly=NULL, point=NULL, line=NULL, ...) {
 			osm_bb <- do.call("corner_bbox", as.list(as.vector(x)))
 			osm_obj <- get_osm(osm_bb, source = src)
 		}
-
-		if (missing(poly) && missing(point) && missing(line)) stop("Please define poly, point, or line. Alternatively, set raster=TRUE")
 		
-		if (!missing(poly)) {
-			ids <- find(osm_obj, way(tags(k==poly)))
-			idLst <- find_down(osm_obj, way(ids))
-			sbs <- subset(osm_obj, ids = idLst)
-			sp_poly <- as_sp(sbs, "polygons")
-		} else {
-			sp_poly <- NULL
-		}
+		args <- list(...)
 		
-		if (!missing(line)) {
-			ids <- find(osm_obj, way(tags(k==line)))
-			idLst <- find_down(osm_obj, way(ids))
-			sbs <- subset(osm_obj, ids = idLst)
-			sp_line <- as_sp(sbs, "lines")
-		} else {
-			sp_line <- NULL
-		}
+		if (length(args)==0) stop("Please specify at least one vector query")
 		
-		if (!missing(point)) {
-			ids <- find(osm_obj, node(tags(k == point)))
-			sbs <- subset(osm_obj, node_ids = ids)
-			sp_point <- as_sp(sbs, "points")
-		} else {
-			sp_point <- NULL
-		}
-		
+		shps <- lapply(args, function(a) {
+			if (a$unit=="poly") {
+				if (a$key.only) {
+					ids <- find(osm_obj, way(tags(k==a$k)))	
+				} else {
+					ids <- find(osm_obj, way(tags(k==a$k & v==a$v)))	
+				}
+				idLst <- find_down(osm_obj, way(ids))
+				sbs <- subset(osm_obj, ids = idLst)
+				as_sp(sbs, "polygons")
+			} else if (a$unit=="line") {
+				if (a$key.only) {
+					ids <- find(osm_obj, way(tags(k==a$k)))	
+				} else {
+					ids <- find(osm_obj, way(tags(k==a$k & v==a$v)))	
+				}
+				idLst <- find_down(osm_obj, way(ids))
+				sbs <- subset(osm_obj, ids = idLst)
+				as_sp(sbs, "lines")
+			} else {
+				if (a$key.only) {
+					ids <- find(osm_obj, node(tags(k==a$k)))	
+				} else {
+					ids <- find(osm_obj, node(tags(k==a$k & v==a$v)))	
+				}
+				sbs <- subset(osm_obj, node_ids = ids)
+				as_sp(sbs, "points")
+			}
+		})
+		names(shps) <- names(args)
+		shps
 	}
-	shps <- list(poly=sp_poly, line=sp_line, point=sp_point)
-	shps <- shps[!sapply(shps, is.null)]
-	if (length(shps)==1) {
-		shps[[1]]
-	} else shps
+}
+
+osm_poly <- function(query) osm_type(query, "poly")
+osm_line <- function(query) osm_type(query, "line")
+osm_point <- function(query) osm_type(query, "point")
+
+osm_type <- function(query, unit) {
+	items <- strsplit(query, "=")[[1]]
+	if (length(items)==1) {
+		list(unit=unit, key.only=TRUE, k=items[1])
+	} else {
+		list(unit=unit, key.only=FALSE, k=items[1], v=items[2])
+	}
 }

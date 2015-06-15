@@ -17,6 +17,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	projection <- g[[masterID]]$projection
 	xlim <- g[[masterID]]$xlim
 	ylim <- g[[masterID]]$ylim
+	ext <- g[[masterID]]$ext
 	relative <- g[[masterID]]$relative
 	bbox <- g[[masterID]]$bbox
 	shp.proj <- attr(shp, "proj4string")@projargs
@@ -114,7 +115,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 				bb[,2] <- pmin(bb[,2], shp.by.bbox[,2])
 			}
 			
-			bbox <- get_bbox_lim(bb, relative, bbox, xlim, ylim)
+			bbox <- get_bbox_lim(bb, relative, bbox, xlim, ylim, ext)
 			
 			bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)$bbox
 			
@@ -134,7 +135,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 		
 	} else {
 		shp.bbox <- attr(shp, "bbox")
-		bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim)
+		bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim, ext)
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
 		bb <- bbox_asp$bbox
 		sasp <- bbox_asp$sasp
@@ -225,10 +226,18 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 }
 
 
-get_bbox_lim <- function(shp.bbox, relative, bbox, xlim, ylim) {
+get_bbox_lim <- function(shp.bbox, relative, bbox, xlim, ylim, ext) {
 	if (!is.null(bbox)) {
 		bbox <- bbox
 	} else {
+		
+		if (!is.null(ext)) {
+			xtra <- (ext-1)/2
+			xlim <- c(-xtra, 1+xtra)
+			ylim <- c(-xtra, 1+xtra)
+			relative <- TRUE
+		}
+		
 		if (relative) {
 			steps <- shp.bbox[, 2] - shp.bbox[, 1]
 			xlim <- if (is.null(xlim)) {

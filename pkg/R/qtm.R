@@ -54,7 +54,7 @@ qtm <- function(shp,
 			if (missing(line.lwd)) line.lwd <- 1
 			if (missing(line.col)) line.col <- "black"
 		}
-		if (inherits(shp, "SpatialPoints")) {
+		if (inherits(shp, "SpatialPoints") && !inherits(shp, "SpatialPixels")) {
 			if (missing(bubble.size)) bubble.size <- 1
 			if (missing(bubble.col)) bubble.col <- "black"
 		}
