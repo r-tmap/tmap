@@ -50,7 +50,6 @@ tm_shape(meuse_osm) +
 	tm_bubbles(size=.3, col="zinc", border.col = "black", style="kmeans", palette="Reds", contrast=c(.2, 1))
 
 # user2015
-57.043638, 9.911687
 aalborg_bb <- bb(xlim = c(9.9075, 9.9175), ylim=c(57.042, 57.045))
 aalborg_osm_rast <- read_osm(aalborg_bb, raster=TRUE)
 

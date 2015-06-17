@@ -11,7 +11,7 @@
 #' @param poly specifies the polygons selection}}
 #' @param point specifies the points selection}}
 #' @param line specifies the lines selection}}
-#' @param ... arguments that specify polygons, lines, and/or points queries.
+#' @param ... arguments that specify polygons, lines, and/or points queries. See \url{http://wiki.openstreetmap.org/wiki/Map_Features} for Open Street Map features.
 #' @import osmar
 #' @import OpenStreetMap
 #' @import raster
@@ -22,7 +22,7 @@ read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, me
 	if (raster) {
 		require(rgdal)
 		require(raster)
-		optionalArgs <- list(zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL)
+		optionalArgs <- list(zoom=zoom, type=type, minNumTiles=minNumTiles, mergeTiles=mergeTiles)
 		optionalArgs <- optionalArgs[!sapply(optionalArgs, is.null)]
 		om <- do.call("openmap", args = c(list(upperLeft=x[c(4,1)], lowerRight=x[c(2,3)]), optionalArgs))
 		omr <- raster::raster(om)
@@ -49,6 +49,7 @@ read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, me
 				} else {
 					ids <- find(osm_obj, way(tags(k==a$k & v==a$v)))	
 				}
+				if (is.na(ids[1])) return(NULL)
 				idLst <- find_down(osm_obj, way(ids))
 				sbs <- subset(osm_obj, ids = idLst)
 				as_sp(sbs, "polygons")
@@ -58,6 +59,7 @@ read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, me
 				} else {
 					ids <- find(osm_obj, way(tags(k==a$k & v==a$v)))	
 				}
+				if (is.na(ids[1])) return(NULL)
 				idLst <- find_down(osm_obj, way(ids))
 				sbs <- subset(osm_obj, ids = idLst)
 				as_sp(sbs, "lines")
@@ -67,6 +69,7 @@ read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, me
 				} else {
 					ids <- find(osm_obj, node(tags(k==a$k & v==a$v)))	
 				}
+				if (is.na(ids[1])) return(NULL)
 				sbs <- subset(osm_obj, node_ids = ids)
 				as_sp(sbs, "points")
 			}

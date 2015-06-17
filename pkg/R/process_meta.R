@@ -106,5 +106,5 @@ process_meta <- function(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio, shp_info)
 		gsb <- list(scale.show=FALSE)
 	}
 	
-	c(gt, gf, gg, gc, gsb)
+	c(gt, gf, gg, gc, gsb, shp_info)
 }
