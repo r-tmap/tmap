@@ -15,6 +15,25 @@
 #' @export
 #' @method print tmap
 print.tmap <- function(x, vp=NULL, ...) {
+	#### General process of tmap:
+	#  print.tmap: - puts shapes and shape data into right format
+	#              - calls process_tm for processing tm elements
+	#              - calls process_shapes for processing (projecting, cropping) shapes
+	#              - calls plot function gridplot, that calls plot_all
+	#  process_tm: - get all non-layer elements, (tm_layout, tm_grid, ...)
+	#              - process layer elements by calling process_layers (result is gp)
+	#              - determine number of small multiples (nx)
+	#              - process non-layer elements by calling process_meta (result is gmeta)
+	#              - split gp into small multiples (result is gps)
+	#  process_layers: - determine grouped small multiples (specified by user with tm_facets(by=))
+	#                  - process layer functions by calling indivudual functions, like tm_fill
+	#  gridplot:   - makes small multiples grid
+	#              - calls plot_all for grob trees
+	#              - plot the grob trees
+	#  plot_all:   - calls plot_map to create grob tree of map itself
+	#              - calls legend_prepare and plot_legend to create grob tree of legend
+	#              - creates grob tree for whole plot
+	
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)
