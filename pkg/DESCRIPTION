@@ -21,7 +21,8 @@ Imports:
     classInt,
    	OpenStreetMap,
    	osmar,
-    RColorBrewer
+    RColorBrewer,
+    XML
 Suggests:
     knitr
 VignetteBuilder: knitr
