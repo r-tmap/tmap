@@ -13,7 +13,6 @@ shp_rst <- read_osm(bb_mst, raster=TRUE)
 shps <- read_osm(bb_mst, poly = "building")
 shps <- read_osm(bb_mst, poly = "building", line = "highway", point="amenity")
 
-
 tm_shape(shp_rst) +
 	tm_raster() +
 tm_shape(shps$poly) +
@@ -81,3 +80,30 @@ tm_shape(aalborg_osm_vec$railway) +
 	
 
 57.043182,9.913029,16
+
+query <- "Maastricht, Netherlands"
+
+query2 <- gsub(" ", "+", query, fixed = TRUE)
+
+addr <- paste0("http://nominatim.openstreetmap.org/search?q=", query2, "&format=xml&polygon=0&addressdetails=0")
+
+tmpfile <- tempfile()
+download.file(addr, destfile = tmpfile, mode= "wb")
+
+doc <- xmlTreeParse(tmpfile)
+first_search_result <- xmlChildren(xmlRoot(doc))[[1]]
+bbx <- xmlAttrs(first_search_result)["boundingbox"]
+bbxx <- matrix(as.numeric(unlist(strsplit(bbx, ","))), ncol=2, byrow=TRUE)[2:1,]
+
+
+
+xpathApply(doc, "boundingbox")
+
+xmlChildren(doc)
+
+doc$place
+
+
+library(XML)
+
+

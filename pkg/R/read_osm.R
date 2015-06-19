@@ -8,16 +8,17 @@
 #' @param type passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
 #' @param minNumTiles passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
 #' @param mergeTiles passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
-#' @param poly specifies the polygons selection}}
-#' @param point specifies the points selection}}
-#' @param line specifies the lines selection}}
-#' @param ... arguments that specify polygons, lines, and/or points queries. See \url{http://wiki.openstreetmap.org/wiki/Map_Features} for Open Street Map features.
+#' @param ... arguments that specify polygons, lines, and/or points queries, created with \code{osm_poly}, \code{osm_line}, and \code{osm_point}.
+#' @name read_osm
+#' @rdname read_osm
 #' @import osmar
 #' @import OpenStreetMap
 #' @import raster
 #' @import sp
 #' @import rgdal
 #' @export
+#' @example ../examples/read_osm.R
+#' @return The output of \code{read_osm} is a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} if \code{raster=TRUE}, and otherwise a named list of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}, and/or \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} objects. The names of this list are the names of arguments defined at \code{...}.
 read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL, ...) {
 	if (raster) {
 		require(rgdal)
@@ -79,8 +80,20 @@ read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, me
 	}
 }
 
+#' @param query query to select polygons, lines, or points. Currently, two formats are supported: 1) key, 2) key=value. See \url{http://wiki.openstreetmap.org/wiki/Map_Features} for Open Street Map keys and values.
+#' @name osm_poly
+#' @rdname read_osm
+#' @export
 osm_poly <- function(query) osm_type(query, "poly")
+
+#' @name osm_line
+#' @rdname read_osm
+#' @export
 osm_line <- function(query) osm_type(query, "line")
+
+#' @name osm_point
+#' @rdname read_osm
+#' @export
 osm_point <- function(query) osm_type(query, "point")
 
 osm_type <- function(query, unit) {

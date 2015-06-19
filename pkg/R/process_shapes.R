@@ -170,22 +170,26 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
 			if (group_by) {
 				lapply(bboxes, function(bb2){
-					y <- tryCatch({
-						crop(x, bb2)
-					}, error = function(e) {
-						x
-					})
+# 					y <- tryCatch({
+# 						crop(x, bb2)
+# 					}, error = function(e) {
+# 						x
+# 					})
+					y <- crop(x, bb2)
+					if (is.null(y)) y <- x					
 					attr(y, "bbox") <- bb2
 					y
 				})
 			} else {
-				y <- tryCatch({
-					crop(x, bb)
-				}, error = function(e) {
-					#cat("crop error\n")
-					x
-				})
-
+# 				y <- tryCatch({
+# 					crop(x, bb)
+# 				}, error = function(e) {
+# 					#cat("crop error\n")
+# 					x
+# 				})
+				y <- crop(x, bb)
+				if (is.null(y)) y <- x					
+				
 				attr(y, "bbox") <- bb
 				y	
 			}

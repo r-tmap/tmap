@@ -13,8 +13,7 @@ osm_NLD <- read_osm(bb(bb_NLD, ext=1.1), raster = TRUE)
 tm_shape(osm_NLD) +
 	tm_raster() +
 tm_shape(NLD_muni) +
-	tm_polygons("population", convert2density=TRUE, style="kmeans", alpha=.7, palette="Reds") +
-tm_scale_bar()
+	tm_polygons("population", convert2density=TRUE, style="kmeans", alpha=.7, palette="Reds")
 
 #### A close look at Aalborg Congress Centre (host for the useR2014)
 

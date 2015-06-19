@@ -12,9 +12,9 @@
 \usage{
 tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
   draw.frame = TRUE, asp = NA, frame.lwd = 1, outer.margins = rep(0.02,
-  4), inner.margins = rep(0.02, 4), outer.bg.color = NULL,
-  legend.show = TRUE, legend.only = FALSE, legend.position = NULL,
-  legend.width = 0.3, legend.height = 0.9, legend.hist.height = 0.3,
+  4), inner.margins = NA, outer.bg.color = NULL, legend.show = TRUE,
+  legend.only = FALSE, legend.position = NULL, legend.width = 0.3,
+  legend.height = 0.9, legend.hist.height = 0.3,
   legend.hist.width = legend.width, legend.title.size = 1.1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.scientific = FALSE, legend.digits = NA, legend.frame = FALSE,
@@ -61,7 +61,7 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{outer.margins}{Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.}
 
-\item{inner.margins}{Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.}
+\item{inner.margins}{Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.}
 
 \item{outer.bg.color}{Background color outside the frame.}
 

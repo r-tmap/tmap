@@ -4,9 +4,9 @@
 \alias{tm_shape}
 \title{Specify the shape object}
 \usage{
-tm_shape(shp, is.master = NA, projection = NULL, xlim = NULL,
-  ylim = NULL, relative = FALSE, bbox = NULL, unit = "km",
-  unit.size = 1000)
+tm_shape(shp, is.master = NA, projection = NULL, ext = NULL,
+  xlim = NULL, ylim = NULL, relative = FALSE, bbox = NULL,
+  unit = "km", unit.size = 1000)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -40,6 +40,8 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
        See \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections.
        See \url{http://trac.osgeo.org/proj/} for the \code{PROJ.4} project home page. An extensive list of \code{PROJ.4} codes can be created with rgdal's \code{\link[rgdal:make_EPSG]{make_EPSG}}.
        By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
+
+\item{ext}{Extension factor of the bounding box. If 1, the bounding box is unchanged. Values smaller than 1 reduces the bounding box, and values larger than 1 enlarges the bounding box. If specified, it overrules \code{xlim}, \code{ylim}, and \code{relative}.}
 
 \item{xlim}{limits of the x-axis. These are either absolute or relative (depending on the argument \code{relative}). Alternatively, the argument \code{bbox} can be set to set absolute values.}
 
