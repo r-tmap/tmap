@@ -7,8 +7,8 @@
 \alias{read_osm}
 \title{Read Open Street Map data (prototype)}
 \usage{
-read_osm(x, raster = FALSE, zoom = NULL, type = NULL,
-  minNumTiles = NULL, mergeTiles = NULL, ...)
+read_osm(x, raster = NA, zoom = NULL, type = NULL, minNumTiles = NULL,
+  mergeTiles = NULL, ...)
 
 osm_poly(query)
 
@@ -19,7 +19,7 @@ osm_point(query)
 \arguments{
 \item{x}{bounding box or \code{\link[osmar:osmar]{osmar}} object}
 
-\item{raster}{logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...})}
+\item{raster}{logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...}). By default, \code{raster=TRUE} is no vector selections are made, and \code{raster=FALSE} otherwise.}
 
 \item{zoom}{passed on to \code{\link[OpenStreetMap:openmap]{openmap}}. Only applicable when \code{raster=TRUE}.}
 
@@ -49,7 +49,7 @@ data(NLD_muni)
 bb_NLD <- bb(NLD_muni, projection = "longlat")
 
 # read OSM raster data
-osm_NLD <- read_osm(bb(bb_NLD, ext=1.1), raster = TRUE)
+osm_NLD <- read_osm(bb(bb_NLD, ext=1.1))
 
 # plot with regular tmap functions
 tm_shape(osm_NLD) +
@@ -63,7 +63,7 @@ tm_shape(NLD_muni) +
 bb_Aal <- bb(xlim = c(9.9075, 9.9175), ylim=c(57.043, 57.046))
 
 # read OSM raster data
-rast_Aal <- read_osm(bb_Aal, raster=TRUE, type="mapquest")
+rast_Aal <- read_osm(bb_Aal, type="mapquest")
 
 # raster OSM of Aalburg
 qtm(rast_Aal)

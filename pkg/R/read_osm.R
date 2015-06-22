@@ -3,7 +3,7 @@
 #' Read Open Street Map data, either vector or raster based.
 #' 
 #' @param x bounding box or \code{\link[osmar:osmar]{osmar}} object
-#' @param raster logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...})
+#' @param raster logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...}). By default, \code{raster=TRUE} is no vector selections are made, and \code{raster=FALSE} otherwise.
 #' @param zoom passed on to \code{\link[OpenStreetMap:openmap]{openmap}}. Only applicable when \code{raster=TRUE}.
 #' @param type passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
 #' @param minNumTiles passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
@@ -19,8 +19,11 @@
 #' @export
 #' @example ../examples/read_osm.R
 #' @return The output of \code{read_osm} is a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} if \code{raster=TRUE}, and otherwise a named list of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}, and/or \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} objects. The names of this list are the names of arguments defined at \code{...}.
-read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL, ...) {
+read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL, ...) {
 	k <- v <- NULL
+	args <- list(...)
+	if (is.na(raster)) raster <- (length(args)==0)
+	
 	if (raster) {
 		optionalArgs <- list(zoom=zoom, type=type, minNumTiles=minNumTiles, mergeTiles=mergeTiles)
 		optionalArgs <- optionalArgs[!sapply(optionalArgs, is.null)]
@@ -38,7 +41,6 @@ read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, me
 			osm_obj <- get_osm(osm_bb, source = src)
 		}
 		
-		args <- list(...)
 		
 		if (length(args)==0) stop("Please specify at least one vector query")
 		

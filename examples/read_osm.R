@@ -7,7 +7,7 @@ data(NLD_muni)
 bb_NLD <- bb(NLD_muni, projection = "longlat")
 
 # read OSM raster data
-osm_NLD <- read_osm(bb(bb_NLD, ext=1.1), raster = TRUE)
+osm_NLD <- read_osm(bb(bb_NLD, ext=1.1))
 
 # plot with regular tmap functions
 tm_shape(osm_NLD) +
@@ -21,7 +21,7 @@ tm_shape(NLD_muni) +
 bb_Aal <- bb(xlim = c(9.9075, 9.9175), ylim=c(57.043, 57.046))
 
 # read OSM raster data
-rast_Aal <- read_osm(bb_Aal, raster=TRUE, type="mapquest")
+rast_Aal <- read_osm(bb_Aal, type="mapquest")
 
 # raster OSM of Aalburg
 qtm(rast_Aal)
