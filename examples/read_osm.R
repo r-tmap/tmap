@@ -3,11 +3,9 @@
 # load Netherlands shape
 data(NLD_muni)
 
-# get bounding box of the Netherlands in longitude latitude coordinates 
-bb_NLD <- bb(NLD_muni, projection = "longlat")
-
 # read OSM raster data
-osm_NLD <- read_osm(bb(bb_NLD, ext=1.1))
+osm_NLD <- read_osm(bb(NLD_muni, ext=1.1, projection ="longlat"))
+
 
 # plot with regular tmap functions
 tm_shape(osm_NLD) +
