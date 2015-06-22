@@ -7,14 +7,7 @@
 get_asp_ratio(shp)
 }
 \arguments{
-\item{shp}{shape object, which is one of
-\enumerate{
- \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
- \item{\code{\link[sp:SpatialPointsDataFrame]{SpatialPoints(DataFrame)}}}
- \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
- \item{\code{\link[sp:SpatialGridDataFrame]{SpatialGrid(DataFrame)}}}
- \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
-}}
+\item{shp}{shape object, either \code{\link[sp:Spatial]{Spatial}} or a \code{\link[raster:Raster-class]{Raster}}.}
 }
 \value{
 aspect ratio

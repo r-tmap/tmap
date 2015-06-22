@@ -11,22 +11,21 @@
 #' @param ... arguments that specify polygons, lines, and/or points queries, created with \code{osm_poly}, \code{osm_line}, and \code{osm_point}.
 #' @name read_osm
 #' @rdname read_osm
+#' @import sp
 #' @import osmar
 #' @import OpenStreetMap
 #' @import raster
-#' @import sp
 #' @import rgdal
 #' @export
 #' @example ../examples/read_osm.R
 #' @return The output of \code{read_osm} is a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} if \code{raster=TRUE}, and otherwise a named list of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}, and/or \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} objects. The names of this list are the names of arguments defined at \code{...}.
 read_osm <- function(x, raster=FALSE, zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL, ...) {
+	k <- v <- NULL
 	if (raster) {
-		require(rgdal)
-		require(raster)
 		optionalArgs <- list(zoom=zoom, type=type, minNumTiles=minNumTiles, mergeTiles=mergeTiles)
 		optionalArgs <- optionalArgs[!sapply(optionalArgs, is.null)]
 		om <- do.call("openmap", args = c(list(upperLeft=x[c(4,1)], lowerRight=x[c(2,3)]), optionalArgs))
-		omr <- raster::raster(om)
+		omr <- raster(om)
 		oms <- as(omr, "SpatialGridDataFrame")
 		oms@data <- data.frame(PIXEL__COLOR = rgb(oms$layer.1, oms$layer.2, oms$layer.3, maxColorValue=255))
 		return(oms)

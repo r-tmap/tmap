@@ -10,10 +10,10 @@ Description:Thematic maps are geographical maps in which statistical data are vi
 Version: 1.1
 Date: 2015-06-19
 Depends:
-    R (>= 3.0)
-Imports:
+    R (>= 3.0),
     sp,
-    raster,
+    raster
+Imports:
     grid,
     gridBase,
     rgdal,
