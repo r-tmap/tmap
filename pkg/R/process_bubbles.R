@@ -49,6 +49,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
+						   colorNA=g$colorNA, 
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text=g$textNA,

@@ -26,7 +26,8 @@ grid.shape <- function(shp, gp=gpar(), bg.col=NA) {
 	}
 	
 	class(gp2) <- "gpar"
-	polygonGrob(co1[,1], co1[,2],	id=id, gp=gp2)
+	idNames <- "tm_polygons" #paste("id", id, sep="_")
+	polygonGrob(co1[,1], co1[,2],	id=id, gp=gp2, name = idNames)
 }
 
 grid.shplines <- function(shp, gp=gpar()) {
