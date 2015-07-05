@@ -7,12 +7,21 @@ tm_shape(NLD_prov) +
 	tm_fill("population", convert2density = TRUE)
 
 
+data(World)
+
+system.time({
+	print(tm_shape(World) + 
+		tm_polygons("pop_est"))
+})
+
 
 grid.ls(fullNames = TRUE)
 
 # http://sachsmc.github.io/UseR2015-Talk/#1
 
-grid.garnish("tm_polygons", title="test1344")
+grid.garnish("tm_polygons_28", title="test1344", 
+			 onmouseover="setAttribute('opacity', '0.5');",
+			 onmouseout="setAttribute('opacity','1)');", group=TRUE)
 
 
 grid.export("../test/test.svg")
