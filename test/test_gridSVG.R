@@ -1,3 +1,4 @@
+library(tmap)
 library(gridSVG)
 library(grid)
 
@@ -23,8 +24,42 @@ grid.garnish("tm_polygons_28", title="test1344",
 			 onmouseover="setAttribute('opacity', '0.5');",
 			 onmouseout="setAttribute('opacity','1)');", group=TRUE)
 
-
 grid.export("../test/test.svg")
+
+# htmltools makes it easy for svg to appear in RStudio Viewer
+library(htmltools)
+# will also use XML saveXML
+library(XML)
+
+tm_shape(World) + 
+	tm_polygons("pop_est")
+
+# let's add country name as title for all the polygons
+lapply(
+	seq.int(1,length(World@data$name))
+	,function(n){
+		grid.garnish(
+			paste0("tm_polygons_",n)
+			, title=as.character(World@data$name)[n]
+			, onmouseover="setAttribute('opacity', '0.5');"
+			, onmouseout="setAttribute('opacity','1');"		
+			, group = TRUE
+		)
+		grid.get(paste0("tm_polygons_",n))
+	}
+)
+
+browsable(
+	HTML(
+		saveXML(
+			# name = "" or NULL gives us the output; ...$svg is the svg
+	  		grid.export(name = NULL)$svg
+	  		#,prefix = ""
+		)
+	)
+)
+	
+
 
 
 ## R Journal paper
