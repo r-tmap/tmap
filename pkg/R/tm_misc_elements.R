@@ -50,6 +50,7 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 #' @param col Color for the grid lines.
 #' @param labels.size font size of the tick labels
 #' @param labels.col font color fo the tick labels
+#' @param labels.inside.frame Show labels inside the frame?
 #' @param on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
 #' @export
 tm_grid <- function(n.x=8,
@@ -57,6 +58,7 @@ tm_grid <- function(n.x=8,
 					col="grey50",
 					labels.size=.75,
 					labels.col="grey20",
+					labels.inside.frame=FALSE,
 					on.top=TRUE) {
 	g <- list(tm_grid=as.list(environment()))
 	names(g$tm_grid) <- paste("grid", names(g$tm_grid), sep=".")
