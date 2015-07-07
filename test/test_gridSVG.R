@@ -41,8 +41,8 @@ lapply(
 		grid.garnish(
 			paste0("tm_polygons_",n)
 			, title=as.character(World@data$name)[n]
-			, onmouseover="setAttribute('opacity', '0.5');"
-			, onmouseout="setAttribute('opacity','1');"		
+			, onmouseover="this.setAttribute('opacity', '0.5');"
+			, onmouseout="this.setAttribute('opacity', '1');"
 			, group = TRUE
 		)
 		grid.get(paste0("tm_polygons_",n))
