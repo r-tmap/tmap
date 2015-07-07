@@ -58,8 +58,20 @@ browsable(
 		)
 	)
 )
-	
 
+
+# add pan zoom with svgPanZoom htmlwidget
+library(svgPanZoom)
+
+svgPanZoom( grid.export(name = NULL)$svg, controlIconsEnabled = TRUE )
+
+# restrict zoom to just the mapElements
+#  for now pan up/down is reversed, but can be fixed
+svgPanZoom(
+	grid.export(name = NULL)$svg
+	, viewportSelector = "#mapElements\\.1"
+	, controlIconsEnabled = TRUE
+)
 
 
 ## R Journal paper
