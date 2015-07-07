@@ -364,7 +364,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		shps <- shps[[i]]
 	}
 	
-	gt <- process_grid(gt, bb)
+	if (gt$grid.show) gt <- process_grid(gt, bb)
 	
 	
 	
