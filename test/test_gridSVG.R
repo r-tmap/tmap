@@ -180,6 +180,24 @@ mapply(
 	, metro$name[order(metro$pop2010,decreasing=T)]
 )
 
+# more invasive way to get working in RStudio
+mapply(
+	function(el,title){
+		xmlAttrs(el) <-  c("title" = title)
+		copy_attrs <- xmlAttrs(el)
+		copy_circle <- newXMLNode("circle")
+		xmlAttrs(copy_circle) <- copy_attrs
+		title_node <- newXMLNode("title",copy_attrs[["title"]])
+		newg <- replaceNodes(
+			el
+			,newXMLNode("g",.children = list(copy_circle,title_node))
+		)
+		newg
+	}
+	, getNodeSet( tmap_svg, "//*[local-name() = 'circle' and starts-with(@id, 'tm_bubble')]" )
+	, metro$name[order(metro$pop2010,decreasing=T)]
+)
+
 #grid.export("../test/test2.svg")
 cat( saveXML(tmap_svg), file = "../test/test2.svg")
 
