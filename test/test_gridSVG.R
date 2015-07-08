@@ -220,12 +220,15 @@ browsable(
 
 
 # add pan zoom with svgPanZoom htmlwidget
-svgPanZoom(tmap_svg, controlIconsEnabled = TRUE )
+svgPanZoom(
+	tmap_svg  #grid.export(name = NULL)$svg #works but no interactivity from above
+	, controlIconsEnabled = TRUE
+)
 
 # restrict zoom to just the mapElements
 #  for now pan up/down is reversed, but can be fixed
 svgPanZoom(
-	tmap_svg
+	tmap_svg #grid.export(name = NULL)$svg #works but no interactivity from above
 	, viewportSelector = "#mapElements\\.1"
 	, controlIconsEnabled = TRUE
 )
