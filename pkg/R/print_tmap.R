@@ -238,6 +238,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	})
 	
 	dat <- mapply(function(d, v) {
+		if (all(is.na(v))) return(NULL)
 		subset(d, select=v, drop=FALSE)
 	}, datasets, vars, SIMPLIFY=FALSE)
 	
