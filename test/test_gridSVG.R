@@ -32,7 +32,7 @@ tm_shape(World) + tm_polygons("pop_est")
 grid.ls(fullNames = TRUE)
 
 # let's add country name as title for all the polygons
-hover_text <- paste(World$name, "\nPopulation=", World$pop_est)
+hover_text <- paste0(World$name, " Population=", World$pop_est)
 
 lapply(
 	seq.int(1,length(World@data$name))
@@ -71,7 +71,7 @@ xpathApply(
 	,function(g_el){
 		addChildren(
 			g_el
-			, newXMLNode("title",htmlEscape(xmlAttrs(g_el)[["title"]]))
+			, newXMLNode("title",xmlAttrs(g_el)[["title"]])
 		)
 	}
 )
@@ -114,7 +114,8 @@ tm_shape(World) +
 	tm_layout_World()
 grid.ls(fullNames = TRUE)
 
-hover_text <- paste(World$name, "\nPopulation=", World$pop_est)
+# let's add country name as title for all the polygons
+hover_text <- paste0(World$name, " Population=", World$pop_est)
 
 lapply(
 	seq.int(1,length(World@data$name))
@@ -125,14 +126,62 @@ lapply(
 			, onmouseover="this.setAttribute('opacity', '0.5');"
 			, onmouseout="this.setAttribute('opacity', '1');"
 			, group = TRUE
+			, global = FALSE
 		)
-		grid.get(paste0("tm_polygons_",n))
+		# return this to see effect
+		grid.get(
+			grid.grep(paste0("tm_polygons_1_",n),global=TRUE)[[1]]
+		)[c("name","groupAttributes")]
 	}
 )
 
+# result from above should return a list with the name of polygon and groupAttributes
+#   if NULL then something did not work
+
+
+# test bubble interaction but title won't work in RStudio as discussed above
+#  bubbles won't work yet as shown, because grid.ls() shows only one circle tm_bubbles
+#  bubbles will need to work like polygons with a separate grid element for each
+#  alternately, we could manage with SVG/XML; will include example below
 grid.garnish("tm_bubbles_2_1", title=c("test123", "test321"), group=FALSE)
 
-grid.export("../test/test2.svg")
+
+
+# title in RStudio does not appear because of this
+#   http://stackoverflow.com/questions/12222345/tooltips-not-showing-when-hovering-over-svg-polygons
+# 	regardless, title is a crude way for tooltip
+#   work on a better tooltip mechanism
+#   Paul Murrell's tootlip.js might be the easiest start without introducing dependencies
+
+# for now we can amend our svg to get nested titles so will work in RStudio
+tmap_svg <- grid.export(name = NULL)$svg
+
+xpathApply(
+	tmap_svg
+	,"//*[local-name() = 'g' and starts-with(@id, 'tm_polygon')]"
+	,function(g_el){
+		addChildren(
+			g_el
+			, newXMLNode("title",xmlAttrs(g_el)[["title"]])
+		)
+	}
+)
+
+
+# now do the title for each bubble with SVG/XML
+#  some discussion above 
+#  note title as attribute won't appear in RStudio
+mapply(
+	function(el,title){
+		xmlAttrs(el) <-  c("title" = title)
+		el
+	}
+	, getNodeSet( tmap_svg, "//*[local-name() = 'circle' and starts-with(@id, 'tm_bubble')]" )
+	, metro$name[order(metro$pop2010,decreasing=T)]
+)
+
+#grid.export("../test/test2.svg")
+cat( saveXML(tmap_svg), file = "../test/test2.svg")
 
 
 
@@ -144,8 +193,9 @@ browsable(
 	HTML(
 		saveXML(
 			# name = "" or NULL gives us the output; ...$svg is the svg
-	  		grid.export(name = NULL)$svg
+	  		# grid.export(name = NULL)$svg
 	  		#,prefix = ""
+			tmap_svg
 		)
 	)
 )
