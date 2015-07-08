@@ -226,7 +226,22 @@ print.tmap <- function(x, vp=NULL, ...) {
 	## if vp is specified, go 1 viewport up, else go to root viewport
 	upViewport(n=as.integer(!is.null(vp)))
 
-	invisible()
+	## return data
+	vars <- lapply(gps, function(gp) {
+		lapply(gp[1:nshps], function(gpl) {
+			c(unlist(gpl$idnames), unlist(gpl$varnames))
+		})
+	})
+	
+	vars <- lapply(1:nshps, function(i){
+		do.call("c", lapply(vars, "[[", i))
+	})
+	
+	dat <- mapply(function(d, v) {
+		subset(d, select=v, drop=FALSE)
+	}, datasets, vars, SIMPLIFY=FALSE)
+	
+	invisible(dat)
 }
 
 

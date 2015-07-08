@@ -20,20 +20,25 @@ library(svgPanZoom)
 ############################
 
 ############################
+### example 1
+############################
 
 data(World)
 
-tm_shape(World) + tm_polygons("pop_est")
+tm_shape(World) + tm_polygons("pop_est") +
+
 
 grid.ls(fullNames = TRUE)
 
 # let's add country name as title for all the polygons
+hover_text <- paste(World$name, "\nPopulation=", World$pop_est)
+
 lapply(
 	seq.int(1,length(World@data$name))
 	,function(n){
 		grid.garnish(
 			paste0("tm_polygons_",n)
-			, title=as.character(World@data$name)[n]
+			, title=hover_text[n]
 			, onmouseover="this.setAttribute('opacity', '0.5');"
 			, onmouseout="this.setAttribute('opacity', '1');"
 			, group = TRUE
@@ -43,6 +48,52 @@ lapply(
 )
 
 grid.export("../test/test.svg")
+
+
+############################
+### example 2
+############################
+
+
+data(metro)
+metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
+
+tm_shape(World) +
+	tm_polygons("income_grp", palette="-Blues", contrast=.7) +
+	tm_shape(metro) +
+	tm_bubbles("pop2010", col = "growth", 
+			   border.col = "black", border.alpha = .5, 
+			   style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
+			   palette="-RdYlBu", contrast=1, 
+			   title.size="Metro population", 
+			   title.col="Growth rate (%)") + 
+	tm_layout_World()
+grid.ls(fullNames = TRUE)
+
+hover_text <- paste(World$name, "\nPopulation=", World$pop_est)
+
+lapply(
+	seq.int(1,length(World@data$name))
+	,function(n){
+		grid.garnish(
+			paste0("tm_polygons_1_",n)
+			, title=hover_text[n]
+			, onmouseover="this.setAttribute('opacity', '0.5');"
+			, onmouseout="this.setAttribute('opacity', '1');"
+			, group = TRUE
+		)
+		grid.get(paste0("tm_polygons_",n))
+	}
+)
+
+grid.garnish("tm_bubbles_2_1", title=c("test123", "test321"), group=FALSE)
+
+grid.export("../test/test2.svg")
+
+
+
+
+
 
 # shows static SVG file (is this normal?)
 browsable(

@@ -29,7 +29,7 @@ plot_map <- function(i, gp, gt, shps, bb) {
 	}
 	
 	## thematic map layers
-	treeElements <- mapply(function(gpl, shp) {
+	treeElements <- mapply(function(gpl, shp, k) {
 		bb <- attr(shp, "bbox")
 		
 		## obtain coordinates (to draw bubbles and text)
@@ -50,16 +50,16 @@ plot_map <- function(i, gp, gt, shps, bb) {
 		plot_tm_fill <- function() {
 			fill <- if (is.null(gpl$fill)) NA else gpl$fill
 			col <- get_alpha_col(gpl$col, gpl$alpha)
-			grid.shape(shp, gp=gpar(fill=fill, col=col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color)
+			grid.shape(shp, gp=gpar(fill=fill, col=col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color, k)
 		}
 		
 		plot_tm_lines <- function() {
 			col <- get_alpha_col(gpl$line.col, gpl$line.alpha)
 			grid.shplines(shp, gp=gpar(col=col, lwd=gpl$line.lwd, lty=gpl$line.lty,
-									   lineend="butt"))
+									   lineend="butt"), k)
 		}
 		
-		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight)
+		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight, k)
 		plot_tm_text <- function() plot_text(co.npc, gpl)
 		
 		plot_tm_raster <- function() {
@@ -89,7 +89,7 @@ plot_map <- function(i, gp, gt, shps, bb) {
 		grobs <- lapply(fnames, do.call, args=list(), envir=e)
 		items <- do.call("gList", args =  grobs)
 		gTree(children=items)
-	}, gp, shps, SIMPLIFY=FALSE)
+	}, gp, shps, 1:nlayers, SIMPLIFY=FALSE)
 	
 # 	if (gt$design.mode) {
 # 		des
@@ -271,7 +271,7 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 }
 
-plot_bubbles <- function(co.npc, g, bubbleHeight) {
+plot_bubbles <- function(co.npc, g, bubbleHeight, k) {
 	with(g, {
 		co.npc[, 1] <- co.npc[, 1] + bubble.xmod
 		co.npc[, 2] <- co.npc[, 2] + bubble.ymod
@@ -297,9 +297,12 @@ plot_bubbles <- function(co.npc, g, bubbleHeight) {
 
 		bordercol <- get_alpha_col(bubble.border.col, bubble.border.alpha)
 		
+		idName <- paste("tm_bubbles", k, sep="_")
+		
+		
 		circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
 					r=unit(bubble.size2, "inch"),
-					gp=gpar(col=bordercol, lwd=bubble.border.lwd, fill=cols2))
+					gp=gpar(col=bordercol, lwd=bubble.border.lwd, fill=cols2), name=idName)
 	})
 }
 

@@ -90,13 +90,14 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					 legend.hist.title=NA,
 					 legend.col.z=NA,
 					 legend.lwd.z=NA,
-					 legend.hist.z=NA) {
+					 legend.hist.z=NA,
+					 id=NULL) {
 	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.alpha=alpha, lines.scale=scale,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 							 auto.palette.mapping=auto.palette.mapping,
 							 max.categories=max.categories,
 							 contrast=contrast, colorNA=colorNA, textNA=textNA, text_separator=text_separator,
-							text_less_than=text_less_than, text_or_more=text_or_more, title.col=title.col, title.lwd=title.lwd, legend.col.is.portrait=legend.col.is.portrait, legend.lwd.is.portrait=legend.lwd.is.portrait, legend.hist=legend.hist, legend.hist.title=legend.hist.title, legend.col.z=legend.col.z, legend.lwd.z=legend.lwd.z, legend.hist.z=legend.hist.z))
+							text_less_than=text_less_than, text_or_more=text_or_more, title.col=title.col, title.lwd=title.lwd, legend.col.is.portrait=legend.col.is.portrait, legend.lwd.is.portrait=legend.lwd.is.portrait, legend.hist=legend.hist, legend.hist.title=legend.hist.title, legend.col.z=legend.col.z, legend.lwd.z=legend.lwd.z, legend.hist.z=legend.hist.z, line.id=id))
 	class(g) <- "tmap"
 	g
 }
@@ -162,7 +163,8 @@ tm_fill <- function(col="grey85",
 					legend.hist=FALSE,
 					legend.hist.title=NA,
 					legend.z=NA,
-					legend.hist.z=NA) {
+					legend.hist.z=NA,
+					id=NULL) {
 	
 	g <- list(tm_fill=as.list(environment()))
 	class(g) <- "tmap"
@@ -336,7 +338,8 @@ tm_bubbles <- function(size=1, col="blueviolet",
 						legend.hist.title=NA,
 						legend.size.z=NA,
 						legend.col.z=NA,
-						legend.hist.z=NA) {
+						legend.hist.z=NA,
+						id=NULL) {
 	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.alpha=alpha, bubble.border.lwd=border.lwd,
 							   bubble.border.col=border.col,
 							   bubble.border.alpha=border.alpha,
@@ -364,7 +367,8 @@ tm_bubbles <- function(size=1, col="blueviolet",
 							  legend.hist.title=legend.hist.title,
 							  legend.size.z=legend.size.z, 
 							  legend.col.z=legend.col.z,
-							  legend.hist.z=legend.hist.z))
+							  legend.hist.z=legend.hist.z,
+							  bubble.id=id))
 	class(g) <- "tmap"
 	g
 }

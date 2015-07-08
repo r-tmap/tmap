@@ -151,5 +151,6 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 		 fill.legend.hist=g$legend.hist,
 		 fill.legend.hist.title=fill.legend.hist.title,
 		 fill.legend.z=fill.legend.z,
-		 fill.legend.hist.z=fill.legend.hist.z)
+		 fill.legend.hist.z=fill.legend.hist.z,
+		 fill.id=g$id)
 }

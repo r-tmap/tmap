@@ -252,5 +252,6 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		 bubble.col.legend.hist.title=bubble.col.legend.hist.title,
 		 bubble.size.legend.z=bubble.size.legend.z,
 		 bubble.col.legend.z=bubble.col.legend.z,
-		 bubble.col.legend.hist.z=bubble.legend.hist.z)
+		 bubble.col.legend.hist.z=bubble.legend.hist.z,
+		 bubble.id=g$bubble.id)
 }
