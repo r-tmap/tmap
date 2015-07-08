@@ -25,7 +25,8 @@ library(svgPanZoom)
 
 data(World)
 
-tm_shape(World) + tm_polygons("pop_est") +
+tm_shape(World) + tm_polygons("pop_est")
+
 
 
 grid.ls(fullNames = TRUE)
@@ -37,17 +38,60 @@ lapply(
 	seq.int(1,length(World@data$name))
 	,function(n){
 		grid.garnish(
-			paste0("tm_polygons_",n)
+			paste0("tm_polygons_1_",n)
 			, title=hover_text[n]
 			, onmouseover="this.setAttribute('opacity', '0.5');"
 			, onmouseout="this.setAttribute('opacity', '1');"
 			, group = TRUE
+			, global = FALSE
 		)
-		grid.get(paste0("tm_polygons_",n))
+		# return this to see effect
+		grid.get(
+			grid.grep(paste0("tm_polygons_1_",n),global=TRUE)[[1]]
+		)[c("name","groupAttributes")]
 	}
 )
 
-grid.export("../test/test.svg")
+# result from above should return a list with the name of polygon and groupAttributes
+#   if NULL then something did not work
+
+
+# title in RStudio does not appear because of this
+#   http://stackoverflow.com/questions/12222345/tooltips-not-showing-when-hovering-over-svg-polygons
+# 	regardless, title is a crude way for tooltip
+#   work on a better tooltip mechanism
+#   Paul Murrell's tootlip.js might be the easiest start without introducing dependencies
+
+# for now we can amend our svg to get nested titles so will work in RStudio
+tmap_svg <- grid.export(name = NULL)$svg
+
+xpathApply(
+	tmap_svg
+	,"//*[local-name() = 'g' and starts-with(@id, 'tm_polygon')]"
+	,function(g_el){
+		addChildren(
+			g_el
+			, newXMLNode("title",htmlEscape(xmlAttrs(g_el)[["title"]]))
+		)
+	}
+)
+
+#grid.export("../test/test.svg")
+cat( saveXML(tmap_svg), file = "../test/test.svg")
+
+# ###### hopefully, this is now fixed where a title appears on hover and opacity changes
+# shows static SVG file (is this normal?)
+#
+browsable(
+	HTML(
+		saveXML(
+			# name = "" or NULL gives us the output; ...$svg is the svg
+			# grid.export(name = NULL)$svg
+			#,prefix = ""
+			tmap_svg
+		)
+	)
+)
 
 
 ############################
