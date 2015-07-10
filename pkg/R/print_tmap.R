@@ -227,20 +227,37 @@ print.tmap <- function(x, vp=NULL, ...) {
 	upViewport(n=as.integer(!is.null(vp)))
 
 	## return data
-	vars <- lapply(gps, function(gp) {
-		lapply(gp[1:nshps], function(gpl) {
-			c(unlist(gpl$idnames), unlist(gpl$varnames))
-		})
-	})
-	
+	vars <- unname(mapply(function(gp, p) {
+		mapply(function(gpl, l) {
+			lst <- list({if (!is.na(gpl$varnames$fill)[1]) {
+				c(gpl$idnames$fill, gpl$varnames$fill)
+			} else NULL}, 
+			{if (!is.na(gpl$varnames$bubble.size)[1] || !is.na(gpl$varnames$bubble.size)[1]) {
+				c(gpl$idnames$bubble, gpl$varnames$bubble.size, gpl$varnames$bubble.col, gpl$varnames$bubble.size)
+			} else NULL},
+			{if (!is.na(gpl$varnames$line.col)[1] || !is.na(gpl$varnames$line.lwd)[1]) {
+				c(gpl$idnames$line, gpl$varnames$line.col, gpl$varnames$line.lwd)
+			} else NULL})
+			names(lst) <- paste("tm", c("polygons", "bubbles", "lines"), p, l, sep="_")
+			lst
+		}, gp[1:nshps], 1:nshps, SIMPLIFY=FALSE)
+	}, gps, 1:nx, SIMPLIFY=FALSE))
 	vars <- lapply(1:nshps, function(i){
 		do.call("c", lapply(vars, "[[", i))
 	})
 	
-	dat <- mapply(function(d, v) {
-		if (all(is.na(v))) return(NULL)
-		subset(d, select=v, drop=FALSE)
-	}, datasets, vars, SIMPLIFY=FALSE)
+	dat <- do.call("c", unname(mapply(function(d, v) {
+		lapply(v, function(i) {
+			if (is.null(i)) return(NULL)
+			df <- subset(d, select=na.omit(i), drop=FALSE)
+			if (!is.na(i[1])) names(df)[1] <- "ID"
+			if (length(i)==4) {
+				df <- df[order(df[i[4]], decreasing=TRUE), -ncol(df)]				
+			}
+			df
+		})
+	}, datasets, vars, SIMPLIFY=FALSE)))
+	dat <- dat[!sapply(dat, is.null)]
 	
 	invisible(dat)
 }

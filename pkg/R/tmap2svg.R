@@ -1,35 +1,100 @@
-tmap2svg <- function(tm, fill=NULL) {
+tmap2svg <- function(tm, file=NULL) {
 	tmp <- tempfile()
-	png(tmp, 
-		width = convertWidth(unit(1,"npc"), "points", valueOnly = TRUE),
-		height = convertHeight(unit(1,"npc"), "points", valueOnly = TRUE)
-	)
+
+	# Can I get the grid object, without actually plotting it?
+	# A workaround could be to plot it in another device, e.g:
+# 	png(tmp, 
+# 		width = convertWidth(unit(1,"npc"), "points", valueOnly = TRUE),
+# 		height = convertHeight(unit(1,"npc"), "points", valueOnly = TRUE)
+# 	)
 	res <- print(tm)
 	
-	
-	
-	
-	hover_text <- paste(World$name, "\nPopulation=", World$pop_est)
-	
-	lapply(
-		seq.int(1,length(World@data$name))
-		,function(n){
-			grid.garnish(
-				paste0("tm_polygons_1_",n)
-				, title=hover_text[n]
-				, onmouseover="this.setAttribute('opacity', '0.5');"
-				, onmouseout="this.setAttribute('opacity', '1');"
-				, group = TRUE
+
+	## garnish polygons and lines (they are contained in groups)
+	## TO DO: thick border on mouse over not working
+	mapply(function(v, nm) {
+		type  <- substr(nm, 4, 4) #p, b, or l, for resp polygons, bubbles and lines
+		
+		if (type %in% c("p", "l")) {
+			m <- mapply(function(vec, vecn) {
+				if (vecn=="ID") as.character(vec) else paste(vecn, vec, sep="=")
+			}, v, names(v))
+			hover_text <- apply(m, MARGIN = 1, paste, collapse=" ")
+			lapply(
+				seq.int(1,length(hover_text))
+				,function(n){
+					lwd <- grid.get(paste(nm, n, sep="_"))$gp$lwd # why is this different from SVG file?
+					grid.garnish(
+						paste(nm, n, sep="_")
+						, title=hover_text[n]
+						, onmouseover=paste0("this.setAttribute('stroke-width', '", lwd + 1, "');")
+						, onmouseout=paste0("this.setAttribute('stroke-width', '", lwd, "');")
+						, group = TRUE
+					)
+					grid.get(paste(nm, n, sep="_"))
+				}
 			)
-			grid.get(paste0("tm_polygons_",n))
+		} else NULL
+	}, res, names(res))
+	
+	tmap_svg <- grid.export(name = NULL)$svg
+	
+	# set nested title for polygons
+	# TODO same for tm_lines
+	xpathApply(
+		tmap_svg
+		,"//*[local-name() = 'g' and starts-with(@id, 'tm_polygon')]"
+		,function(g_el){
+			addChildren(
+				g_el
+				, newXMLNode("title",xmlAttrs(g_el)[["title"]])
+			)
 		}
 	)
 	
-	grid.garnish("tm_bubbles_2_1", title=c("test123", "test321"), group=FALSE)
+	mapply(function(v, nm) {
+		type  <- substr(nm, 4, 4) #p, b, or l, for resp polygons, bubbles and lines
+		if (type == "b") {
+			m <- mapply(function(vec, vecn) {
+				if (vecn=="ID") as.character(vec) else paste(vecn, vec, sep="=")
+			}, v, names(v))
+			hover_text <- apply(m, MARGIN = 1, paste, collapse=" ")
+			mapply(
+				function(el,title){
+					xmlAttrs(el) <-  c("title" = title)
+					copy_attrs <- xmlAttrs(el)
+					copy_circle <- newXMLNode("circle")
+					xmlAttrs(copy_circle) <- copy_attrs
+					title_node <- newXMLNode("title",copy_attrs[["title"]])
+					newg <- replaceNodes(
+						el
+						,newXMLNode("g",.children = list(copy_circle,title_node))
+					)
+					newg
+				}
+				, getNodeSet( tmap_svg, paste0("//*[local-name() = 'circle' and starts-with(@id, '", nm, "')]"))
+				, hover_text
+			)
+		}
+	}, res, names(res))
 	
-	grid.export("../test/test2.svg")
+	if (!missing(file)) {
+		cat(saveXML(tmap_svg), file = file)
+	}
 	
+	# add pan zoom with svgPanZoom htmlwidget
+	svgPanZoom(
+		tmap_svg  #grid.export(name = NULL)$svg #works but no interactivity from above
+		, controlIconsEnabled = TRUE
+	)
 	
+	# restrict zoom to just the mapElements
+	#  for now pan up/down is reversed, but can be fixed
+# 	svgPanZoom(
+# 		tmap_svg #grid.export(name = NULL)$svg #works but no interactivity from above
+# 		, viewportSelector = "#mapElements\\.1"
+# 		, controlIconsEnabled = TRUE
+# 	)
 	
-	dev.off()
+	#dev.off()
 }

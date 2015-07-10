@@ -50,16 +50,16 @@ plot_map <- function(i, gp, gt, shps, bb) {
 		plot_tm_fill <- function() {
 			fill <- if (is.null(gpl$fill)) NA else gpl$fill
 			col <- get_alpha_col(gpl$col, gpl$alpha)
-			grid.shape(shp, gp=gpar(fill=fill, col=col, lwd=gpl$lwd, ltw=gpl$lty), bg.col=gt$bg.color, k)
+			grid.shape(shp, gp=gpar(fill=fill, col=col, lwd=gpl$lwd, lty=gpl$lty), bg.col=gt$bg.color, i, k)
 		}
 		
 		plot_tm_lines <- function() {
 			col <- get_alpha_col(gpl$line.col, gpl$line.alpha)
 			grid.shplines(shp, gp=gpar(col=col, lwd=gpl$line.lwd, lty=gpl$line.lty,
-									   lineend="butt"), k)
+									   lineend="butt"), i, k)
 		}
 		
-		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight, k)
+		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight, i, k)
 		plot_tm_text <- function() plot_text(co.npc, gpl)
 		
 		plot_tm_raster <- function() {
@@ -271,7 +271,7 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 }
 
-plot_bubbles <- function(co.npc, g, bubbleHeight, k) {
+plot_bubbles <- function(co.npc, g, bubbleHeight, i, k) {
 	with(g, {
 		co.npc[, 1] <- co.npc[, 1] + bubble.xmod
 		co.npc[, 2] <- co.npc[, 2] + bubble.ymod
@@ -297,7 +297,7 @@ plot_bubbles <- function(co.npc, g, bubbleHeight, k) {
 
 		bordercol <- get_alpha_col(bubble.border.col, bubble.border.alpha)
 		
-		idName <- paste("tm_bubbles", k, sep="_")
+		idName <- paste("tm_bubbles", i, k, sep="_")
 		
 		
 		circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),

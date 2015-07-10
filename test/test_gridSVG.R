@@ -115,13 +115,13 @@ tm_shape(World) +
 grid.ls(fullNames = TRUE)
 
 # let's add country name as title for all the polygons
-hover_text <- paste0(World$name, " Population=", World$pop_est)
+hover_text <- paste0(World$name, " Population=", World$pop_est, " Continent=",World$continent)
 
 lapply(
 	seq.int(1,length(World@data$name))
 	,function(n){
 		grid.garnish(
-			paste0("tm_polygons_1_",n)
+			paste0("tm_polygons_1_1_",n)
 			, title=hover_text[n]
 			, onmouseover="this.setAttribute('opacity', '0.5');"
 			, onmouseout="this.setAttribute('opacity', '1');"
@@ -130,7 +130,7 @@ lapply(
 		)
 		# return this to see effect
 		grid.get(
-			grid.grep(paste0("tm_polygons_1_",n),global=TRUE)[[1]]
+			grid.grep(paste0("tm_polygons_1_1_",n),global=TRUE)[[1]]
 		)[c("name","groupAttributes")]
 	}
 )
@@ -143,7 +143,7 @@ lapply(
 #  bubbles won't work yet as shown, because grid.ls() shows only one circle tm_bubbles
 #  bubbles will need to work like polygons with a separate grid element for each
 #  alternately, we could manage with SVG/XML; will include example below
-grid.garnish("tm_bubbles_2_1", title=c("test123", "test321"), group=FALSE)
+grid.garnish("tm_bubbles_1_2", title=paste0("testABC", 1:436), group=FALSE)
 
 
 
@@ -199,7 +199,7 @@ mapply(
 )
 
 #grid.export("../test/test2.svg")
-cat( saveXML(tmap_svg), file = "../test/test2.svg")
+cat( saveXML(tmap_svg), file = "../test/test3.svg")
 
 
 

@@ -46,7 +46,7 @@ grid.shape_old <- function(shp, gp=gpar(), bg.col=NA) {
 # 	x2 <- grid.shape_old(shp, gp),
 # 	print(tm_shape(World)+ tm_polygons(col = "pop_est_dens")), times=10L)
 
-grid.shape <- function(shp, gp=gpar(), bg.col=NA, k) {
+grid.shape <- function(shp, gp=gpar(), bg.col=NA, i, k) {
 	bb <- bbox(shp)
 	do.call("gList", mapply(function(p, id1) {
 		np <- length(p@Polygons)
@@ -72,7 +72,7 @@ grid.shape <- function(shp, gp=gpar(), bg.col=NA, k) {
 			}
 		}		
 		class(gp2) <- "gpar"
-		idName <- paste("tm_polygons", k, id1, sep="_")
+		idName <- paste("tm_polygons", i, k, id1, sep="_")
 		polygonGrob(res[,1], res[,2], id=res[,3], gp=gp2, name = idName)
 		
 	}, shp@polygons, 1:length(shp), SIMPLIFY=FALSE))
@@ -102,7 +102,7 @@ grid.shplines_old <- function(shp, gp=gpar()) {
 }
 
 
-grid.shplines <- function(shp, gp=gpar(), k) {
+grid.shplines <- function(shp, gp=gpar(), i, k) {
 	bb <- bbox(shp)
 
 	do.call("gList", mapply(function(p, id1) {
@@ -119,7 +119,7 @@ grid.shplines <- function(shp, gp=gpar(), k) {
 			if (length(g)==length(shp)) rep.int(g[id1], np) else g
 		})
 		class(gp2) <- "gpar"
-		idName <- paste("tm_lines", k, id1, sep="_")
+		idName <- paste("tm_lines", i, k, id1, sep="_")
 		polylineGrob(co1[,1], co1[,2],	id=idName, gp=gp2)
 	}, shp@lines, 1:length(shp), SIMPLIFY=FALSE))
 }

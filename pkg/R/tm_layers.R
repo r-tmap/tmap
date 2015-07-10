@@ -91,7 +91,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					 legend.col.z=NA,
 					 legend.lwd.z=NA,
 					 legend.hist.z=NA,
-					 id=NULL) {
+					 id=NA) {
 	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.alpha=alpha, lines.scale=scale,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 							 auto.palette.mapping=auto.palette.mapping,
@@ -164,7 +164,7 @@ tm_fill <- function(col="grey85",
 					legend.hist.title=NA,
 					legend.z=NA,
 					legend.hist.z=NA,
-					id=NULL) {
+					id=NA) {
 	
 	g <- list(tm_fill=as.list(environment()))
 	class(g) <- "tmap"
@@ -339,7 +339,7 @@ tm_bubbles <- function(size=1, col="blueviolet",
 						legend.size.z=NA,
 						legend.col.z=NA,
 						legend.hist.z=NA,
-						id=NULL) {
+						id=NA) {
 	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.alpha=alpha, bubble.border.lwd=border.lwd,
 							   bubble.border.col=border.col,
 							   bubble.border.alpha=border.alpha,
