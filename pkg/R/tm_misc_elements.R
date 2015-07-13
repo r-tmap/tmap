@@ -22,7 +22,7 @@
 #' @return \code{\link{tmap-element}}
 tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
 					  free.coords=FALSE,
-					  drop.shapes=FALSE,
+					  drop.shapes=free.coords,
 					  free.scales=is.null(by),
 					  free.scales.fill=free.scales,
 					  free.scales.bubble.size=free.scales,

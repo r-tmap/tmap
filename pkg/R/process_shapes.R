@@ -75,14 +75,16 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	# define bounding box
 
 	
-	group_by <- any(gm$shp_nr != 0) && gm$free.coords
-	group_split <- group_by && gm$drop.shapes
+	group_by <- any(gm$shp_nr != 0)
+	
+	free_coords <- group_by && gm$free.coords
+	drop_shapes <- group_by && gm$drop.shapes
 	inside_bbox <- group_by && gm$inside.original.bbox
 	
 	if (group_by) {
 		if (is.na(pasp)) pasp <- dasp
 		
-		shp_by_names <- gm$shp_name[gm$shp_nr != 0]
+		#shp_by_names <- gm$shp_name[gm$shp_nr != 0]
 		data_by <- data_by[gm$shp_nr != 0]
 		
 		shps_by <- shps[gm$shp_nr != 0]
@@ -96,7 +98,10 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 				split_raster(s_by, f = d_by)
 			} 
 		}, shps_by, data_by, SIMPLIFY=FALSE)
-		
+	}
+	
+	
+	if (free_coords) {
 		
 		shp.by.bbox <- sapply(shps_by, attr, which="bbox")
 		shp.by.bbox <- matrix(c(apply(shp.by.bbox[1:2,,drop=FALSE], MARGIN = 1, min), apply(shp.by.bbox[3:4,,drop=FALSE], MARGIN = 1, max)),
@@ -138,12 +143,13 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 		bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim, ext)
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
 		bb <- bbox_asp$bbox
+		if (group_by) bboxes <- rep(list(bb), nplots)
 		sasp <- bbox_asp$sasp
 		inner.margins <- bbox_asp$inner.margins
 		#shp_by_name <- ""
 	}
 
-	if (group_split) {
+	if (drop_shapes) {
 		shps_by_ind <- ifelse(gm$shp_nr==0, 0, cumsum(gm$shp_nr!=0))
 		shps2 <- lapply(1:nx, function(i){
 			x <- if (gm$shp_nr[i]==0) {

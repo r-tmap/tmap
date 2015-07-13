@@ -3,10 +3,10 @@ tmap2svg <- function(tm, file=NULL) {
 
 	# Can I get the grid object, without actually plotting it?
 	# A workaround could be to plot it in another device, e.g:
-# 	png(tmp, 
-# 		width = convertWidth(unit(1,"npc"), "points", valueOnly = TRUE),
-# 		height = convertHeight(unit(1,"npc"), "points", valueOnly = TRUE)
-# 	)
+	png(tmp, 
+		width = convertWidth(unit(1,"npc"), "points", valueOnly = TRUE),
+		height = convertHeight(unit(1,"npc"), "points", valueOnly = TRUE)
+	)
 	res <- print(tm)
 	
 
@@ -38,6 +38,8 @@ tmap2svg <- function(tm, file=NULL) {
 	}, res, names(res))
 	
 	tmap_svg <- grid.export(name = NULL)$svg
+	dev.off()
+	unlink(tmp)
 	
 	# set nested title for polygons
 	# TODO same for tm_lines
@@ -96,5 +98,4 @@ tmap2svg <- function(tm, file=NULL) {
 # 		, controlIconsEnabled = TRUE
 # 	)
 	
-	#dev.off()
 }
