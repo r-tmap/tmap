@@ -27,8 +27,8 @@ tmap2svg <- function(tm, file=NULL) {
 					grid.garnish(
 						paste(nm, n, sep="_")
 						, title=hover_text[n]
-						, onmouseover=paste0("this.setAttribute('stroke-width', '", lwd + 1, "');")
-						, onmouseout=paste0("this.setAttribute('stroke-width', '", lwd, "');")
+						, onmouseover=sprintf("Array.prototype.map.call(this.querySelectorAll('polygon'),function(d){d.setAttribute('stroke-width', '%.2f')})", lwd + 1, "');")
+						, onmouseout=sprintf("Array.prototype.map.call(this.querySelectorAll('polygon'),function(d){d.setAttribute('stroke-width', '%.2f')})", lwd, "');")
 						, group = TRUE
 					)
 					grid.get(paste(nm, n, sep="_"))
