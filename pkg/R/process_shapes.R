@@ -79,9 +79,11 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	
 	free_coords <- group_by && gm$free.coords
 	drop_shapes <- group_by && gm$drop.shapes
+	diff_shapes <- free_coords || drop_shapes
+	
 	inside_bbox <- group_by && gm$inside.original.bbox
 	
-	if (group_by) {
+	if (diff_shapes) {
 		if (is.na(pasp)) pasp <- dasp
 		
 		#shp_by_names <- gm$shp_name[gm$shp_nr != 0]
@@ -121,7 +123,6 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			}
 			
 			bbox <- get_bbox_lim(bb, relative, bbox, xlim, ylim, ext)
-			
 			bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)$bbox
 			
 			if (inside_bbox) {
@@ -143,7 +144,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 		bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim, ext)
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
 		bb <- bbox_asp$bbox
-		if (group_by) bboxes <- rep(list(bb), nplots)
+		if (drop_shapes) bboxes <- rep(list(bb), nplots)
 		sasp <- bbox_asp$sasp
 		inner.margins <- bbox_asp$inner.margins
 		#shp_by_name <- ""
@@ -174,35 +175,23 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	
 		shps2 <- mapply(function(x, shp_nm){
 			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
-			if (group_by) {
+			if (diff_shapes) {
 				lapply(bboxes, function(bb2){
-# 					y <- tryCatch({
-# 						crop(x, bb2)
-# 					}, error = function(e) {
-# 						x
-# 					})
 					y <- crop(x, bb2)
 					if (is.null(y)) y <- x					
 					attr(y, "bbox") <- bb2
 					y
 				})
 			} else {
-# 				y <- tryCatch({
-# 					crop(x, bb)
-# 				}, error = function(e) {
-# 					#cat("crop error\n")
-# 					x
-# 				})
 				y <- crop(x, bb)
 				if (is.null(y)) y <- x					
-				
 				attr(y, "bbox") <- bb
 				y	
 			}
 		}, shps, names(shps), SIMPLIFY=FALSE)
 	
 	}
-	if (group_by) {
+	if (diff_shapes) {
 		shps2 <- lapply(1:nplots, function(i)lapply(shps2, function(j)j[[i]]))
 	}
 	
@@ -230,7 +219,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	attr(shps2, "sasp") <- ifelse(is.na(pasp), sasp, pasp)
 	attr(shps2, "dasp") <- dasp
 	attr(shps2, "legend_pos") <- legend_pos
-	attr(shps2, "group_by") <- group_by
+	attr(shps2, "diff_shapes") <- diff_shapes
 	attr(shps2, "inner.margins") <- inner.margins
 	shps2
 }
@@ -277,16 +266,6 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	
 	xspan <- 1 - inner.margins[2] - inner.margins[4]
 	yspan <- 1 - inner.margins[1] - inner.margins[3]
-	
-# 	inner.margins[c(2,4)] bbrange[1]
-# 	
-# 	bb <- bbox - 
-# 	
-# 	bbrange2 <- bbrange / c(xspan, yspan)
-# 	bbmin <- bbox[,1] - 
-	
-	
-	#bb <- bbox + rep(bbrange2, 2)
 	
 	bbmarg <- inner.margins[c(2,1,4,3)]
 	bbmarg[c(1,2)] <- -bbmarg[c(1,2)]

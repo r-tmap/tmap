@@ -169,10 +169,9 @@ print.tmap <- function(x, vp=NULL, ...) {
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
 	legend_pos <- attr(shps, "legend_pos")
-	group_by <- attr(shps, "group_by")
+	diff_shapes <- attr(shps, "diff_shapes")
 	inner.margins.new <- attr(shps, "inner.margins")
-	
-	
+
 	if (gmeta$design.mode) {
 		masterShapeName <- x[[masterID]]$shp_name
 		cat("aspect ratio device (yellow):", dev_asp, "\n")
@@ -180,8 +179,8 @@ print.tmap <- function(x, vp=NULL, ...) {
 		cat("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp, "\n")
 	}
 	
-	## shapes have been subset (group_by) and cropped. Therefore, the corresponding aesthetics have to be subset accordingly:
-	if (group_by) {
+	## shapes have been subset (diff_shapes) and cropped. Therefore, the corresponding aesthetics have to be subset accordingly:
+	if (diff_shapes) {
 		matchIDs <- lapply(shps, function(ss) lapply(ss, function(s) if (inherits(s, "Raster")) s[] else s$tmapID))
 						   
 		gps <- mapply(function(gp, masterID) {

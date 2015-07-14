@@ -2,7 +2,6 @@
 plot_map <- function(i, gp, gt, shps, bb) {
 	nlayers <- length(gp)
 	
-	
 	## bubble height needed to align with bubbles in legend
 	bubbleHeight <- convertHeight(unit(.5, "lines"), "inch", valueOnly=TRUE)
 	
@@ -363,7 +362,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 	bb <- attr(shps[[1]], "bbox")
 	
 	## in case of small multiples, get i'th shape
-	if (any(gt$shp_nr!=0) && gt$free.coords) {
+	if (any(gt$shp_nr!=0) && (gt$drop.shapes || gt$free.coords)) {
 		shps <- shps[[i]]
 	}
 	
