@@ -5,7 +5,7 @@
 \title{Coordinate grid lines}
 \usage{
 tm_grid(n.x = 8, n.y = 8, col = "grey50", labels.size = 0.75,
-  labels.col = "grey20", on.top = TRUE)
+  labels.col = "grey20", labels.inside.frame = TRUE, on.top = TRUE)
 }
 \arguments{
 \item{n.x}{Prefered number of grid lines for the x axis.}
@@ -17,6 +17,8 @@ tm_grid(n.x = 8, n.y = 8, col = "grey50", labels.size = 0.75,
 \item{labels.size}{font size of the tick labels}
 
 \item{labels.col}{font color fo the tick labels}
+
+\item{labels.inside.frame}{Show labels inside the frame?}
 
 \item{on.top}{Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).}
 }

@@ -5,7 +5,7 @@
 \title{Small multiples}
 \usage{
 tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
-  drop.shapes = FALSE, free.scales = is.null(by),
+  drop.shapes = free.coords, free.scales = is.null(by),
   free.scales.fill = free.scales, free.scales.bubble.size = free.scales,
   free.scales.bubble.col = free.scales, free.scales.line.col = free.scales,
   free.scales.line.lwd = free.scales, free.scales.raster = free.scales,

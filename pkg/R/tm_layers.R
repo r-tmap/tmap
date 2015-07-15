@@ -64,6 +64,7 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface="plain", fontf
 #' @param legend.col.z index value that determines the position of the legend element regarding the line colors with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.lwd.z index value that determines the position of the legend element regarding the line widths. (See \code{legend.col.z})
 #' @param legend.hist.z index value that determines the position of the legend element regarding the histogram. (See \code{legend.col.z})
+#' @param id name of the data variable that specifies the indices of the lines. Only used for SVG output (see \code{\link{tmap2svg}}).
 #' @export
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_lines.R
@@ -135,6 +136,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
+#' @param id name of the data variable that specifies the indices of the polygons. Only used for SVG output (see \code{\link{tmap2svg}}).
 #' @keywords choropleth
 #' @export
 #' @example ../examples/tm_fill.R
@@ -300,6 +302,7 @@ tm_raster <- function(col="grey70",
 #' @param legend.size.z index value that determines the position of the legend element regarding the bubble sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.col.z index value that determines the position of the legend element regarding the bubble colors. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
+#' @param id name of the data variable that specifies the indices of the bubbles. Only used for SVG output (see \code{\link{tmap2svg}}).
 #' @keywords bubble map
 #' @export
 #' @example ../examples/tm_bubbles.R

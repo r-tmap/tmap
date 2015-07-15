@@ -12,7 +12,7 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
   text_or_more = "or more", title.col = NA, title.lwd = NA,
   legend.col.is.portrait = TRUE, legend.lwd.is.portrait = FALSE,
   legend.hist = FALSE, legend.hist.title = NA, legend.col.z = NA,
-  legend.lwd.z = NA, legend.hist.z = NA)
+  legend.lwd.z = NA, legend.hist.z = NA, id = NA)
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
@@ -68,6 +68,8 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{legend.lwd.z}{index value that determines the position of the legend element regarding the line widths. (See \code{legend.col.z})}
 
 \item{legend.hist.z}{index value that determines the position of the legend element regarding the histogram. (See \code{legend.col.z})}
+
+\item{id}{name of the data variable that specifies the indices of the lines. Only used for SVG output (see \code{\link{tmap2svg}}).}
 }
 \value{
 \code{\link{tmap-element}}

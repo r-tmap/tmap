@@ -13,7 +13,7 @@ tm_fill(col = "grey85", alpha = NA, palette = NULL,
   textNA = "Missing", text_separator = "to", text_less_than = "Less than",
   text_or_more = "or more", thres.poly = 1e-05, title = NA,
   legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.z = NA, legend.hist.z = NA)
+  legend.z = NA, legend.hist.z = NA, id = NA)
 
 tm_borders(col = "grey40", lwd = 1, lty = "solid", alpha = NA)
 
@@ -68,6 +68,8 @@ tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
 \item{legend.z}{index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.}
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element}
+
+\item{id}{name of the data variable that specifies the indices of the polygons. Only used for SVG output (see \code{\link{tmap2svg}}).}
 
 \item{lwd}{border line width (see \code{\link[graphics:par]{par}})}
 
