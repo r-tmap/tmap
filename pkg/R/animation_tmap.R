@@ -35,6 +35,12 @@
 #' @export
 animation_tmap <- function(expr, width=1000, height=1000, delay=40, filename="animation.gif") {
 	
+	# determine OS to pass on system vs. shell command
+	if (.Platform$OS.type == "unix") {         
+		syscall <- system
+    	} else {
+        	syscall <- shell
+    	}
 	checkIM <- shell("convert -version")
 	if (checkIM!=0) stop("Could not find ImageMagick. Make sure it is installed and included in the systems PATH")
 	
@@ -46,10 +52,11 @@ animation_tmap <- function(expr, width=1000, height=1000, delay=40, filename="an
 	dev.off()
 
 	# convert pngs to one gif using ImageMagick
-	output <- shell(paste("convert -delay ", delay, " ", d, "/*.png \"", filename, "\"", sep=""))
+	output <- syscall(paste("convert -delay ", delay, " ", d, "/*.png \"", filename, "\"", sep=""))
 	
-	# cleaning up plots
+	# cleaning up plots and temporary variables
 	unlink(d, recursive = TRUE)
+	rm(syscall)
 	
 	invisible()	
 }
