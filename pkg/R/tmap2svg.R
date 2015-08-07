@@ -10,7 +10,7 @@
 #' @import XML
 #' @example ../examples/tmap2svg.R
 #' @export
-tmap2svg <- function(tm, file=NULL) {
+tmap2svg <- function(tm, file=NULL, width = NULL, height = NULL ) {
 	tmp <- tempfile()
 
 	# Can I get the grid object, without actually plotting it?
@@ -59,7 +59,7 @@ tmap2svg <- function(tm, file=NULL) {
 		tmap_svg
 		,"//*[local-name() = 'g' and starts-with(@id, 'tm_polygon')]"
 		,function(g_el){
-			if("title" %in% xmlAttrs(g_el)){
+			if("title" %in% names(xmlAttrs(g_el))){
 				addChildren(
 					g_el
 					, newXMLNode("title",xmlAttrs(g_el)[["title"]])
@@ -119,14 +119,33 @@ tmap2svg <- function(tm, file=NULL) {
 	replaceNodes( mapel[[1]], mapel_container )
 	addChildren( mapel_container, mapel_g )
 	addChildren( mapel_g, mapel[[1]] )
-		
+	
+	# remove clip-path attribute to fill htmlwidget container
+	lapply(
+		getNodeSet(tmap_svg,"//*[contains(@clip-path,'url')]")
+		,function(g_clip){
+			x_attrs = xmlAttrs(g_clip)
+			removeAttributes(g_clip)
+			xmlAttrs(g_clip) <- x_attrs[-match('clip-path',names(x_attrs))]
+		}
+	)
+	# also remove the map frame rect, since will no longer fit
+	invisible(xpathApply(tmap_svg,"//*[local-name()='g'][contains(@id,'mapFrame')]",removeNodes))
+	# remove mapBG
+	removeNodes(getNodeSet(tmap_svg,"//*[contains(@id,'mapBG')]")[[1]])
+
+	if(is.null(width) || is.null(height)){
+		width <- xmlAttrs(xmlRoot(tmap_svg))[["width"]]
+		height <- xmlAttrs(xmlRoot(tmap_svg))[["height"]]
+	}
 	
  	svgPanZoom(
- 		tmap_svg #grid.export(name = NULL)$svg #works but no interactivity from above
+ 		tmap_svg 
  		, viewportSelector = ".map_viewport"
  		, controlIconsEnabled = TRUE
- 		, width = xmlAttrs(xmlRoot(tmap_svg))[["width"]]
- 		, height = xmlAttrs(xmlRoot(tmap_svg))[["height"]]
+ 		, center = FALSE
+ 		, width = width
+		, height = height
  	)
 	
 }
