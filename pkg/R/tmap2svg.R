@@ -85,17 +85,93 @@ tmap2svg <- function(tm, file=NULL) {
 	}
 	
 	# add pan zoom with svgPanZoom htmlwidget
-	svgPanZoom(
-		tmap_svg  #grid.export(name = NULL)$svg #works but no interactivity from above
-		, controlIconsEnabled = TRUE
-	)
+#	svgPanZoom(
+#		tmap_svg  #grid.export(name = NULL)$svg #works but no interactivity from above
+#		, controlIconsEnabled = TRUE
+#	)
 	
 	# restrict zoom to just the mapElements
-	#  for now pan up/down is reversed, but can be fixed
-# 	svgPanZoom(
-# 		tmap_svg #grid.export(name = NULL)$svg #works but no interactivity from above
-# 		, viewportSelector = "#mapElements\\.1"
-# 		, controlIconsEnabled = TRUE
-# 	)
+	mapel <- getNodeSet( tmap_svg,"//*[contains(@id,'mapElements.1')]")
+	xmlAttrs(mapel[[1]]) <- c(xmlAttrs(mapel[[1]]),"transform"="scale(1,-1)")
 	
+	mapel_container <- newXMLNode(
+		"g"
+		, attrs = c( "transform"="scale(1,-1)")
+	)
+	mapel_g <- newXMLNode(
+		"g"
+		, attrs = c("class"="map_viewport")
+	)
+	replaceNodes( mapel[[1]], mapel_container )
+	addChildren( mapel_container, mapel_g )
+	addChildren( mapel_g, mapel[[1]] )
+		
+	
+ 	svgPanZoom(
+ 		tmap_svg #grid.export(name = NULL)$svg #works but no interactivity from above
+ 		, viewportSelector = ".map_viewport"
+ 		, controlIconsEnabled = TRUE
+ 	)
+	
+}
+
+
+
+
+
+
+
+
+
+
+################### all so I remember the hard times #######################
+function(){
+	# this only works partially
+	#  adding beforePan <-
+	reversePan <- htmlwidgets::JS(
+	'
+	function( oldPan, newPan ){
+		// reverse the y direction of the pan
+	    var stopHorizontal = false
+			, stopVertical = false
+		var customPan = {};
+	
+		customPan.x = newPan.x;
+		customPan.y = -newPan.y;
+		console.log("old");
+		console.log(oldPan);
+		console.log("new");
+		console.log(newPan);
+		console.log("custom");
+		console.log(customPan);
+	
+		
+		return customPan;
+	}
+	'
+	)
+	
+	tmsvg <- tmap2svg(tm_shape(World) + tm_polygons("pop_est"))
+	
+	tmxml <- xmlParse(tmsvg$x$svg)
+	mapel <- getNodeSet( tmxml,"//*[contains(@id,'mapElements.1')]")
+	xmlAttrs(mapel[[1]]) <- c(xmlAttrs(mapel[[1]]),"transform"="scale(1,-1)")
+	
+	mapel_container <- newXMLNode(
+		"g"
+		, attrs = c( "transform"="scale(1,-1)")
+	)
+	mapel_g <- newXMLNode(
+		"g"
+		, attrs = c("class"="map_viewport")
+	)
+	replaceNodes( mapel[[1]], mapel_container )
+	addChildren( mapel_container, mapel_g )
+	addChildren( mapel_g, mapel[[1]] )
+	
+	
+	
+	tmsvg$x$svg <- saveXML( tmxml )
+	tmsvg$x$config$viewportSelector = ".svg_pan_viewport"
+	tmsvg
 }
