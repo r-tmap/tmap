@@ -106,7 +106,7 @@ grid.shplines <- function(shp, gp=gpar(), i, k) {
 	bb <- bbox(shp)
 
 	do.call("gList", mapply(function(p, id1) {
-		np <- length(p@Polygons)
+		np <- length(p@Lines)
 		co2 <- mapply(function(pp, id2) {
 			coords <- pp@coords
 			cbind(coords, id2)
@@ -120,6 +120,6 @@ grid.shplines <- function(shp, gp=gpar(), i, k) {
 		})
 		class(gp2) <- "gpar"
 		idName <- paste("tm_lines", i, k, id1, sep="_")
-		polylineGrob(co1[,1], co1[,2],	id=idName, gp=gp2)
+		polylineGrob(res[,1], res[,2],	id=res[,3], gp=gp2, name=idName)
 	}, shp@lines, 1:length(shp), SIMPLIFY=FALSE))
 }

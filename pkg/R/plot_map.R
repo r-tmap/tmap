@@ -189,6 +189,7 @@ plot_cred <- function(gt) {
 }
 
 process_grid <- function(gt, bb) {
+	grid.n.x <- grid.n.y <- NULL
 	within(gt, { 
 		grid.x <- pretty(bb[1,], n=grid.n.x)
 		grid.x <- grid.x[grid.x>bb[1,1] & grid.x<bb[1,2]]

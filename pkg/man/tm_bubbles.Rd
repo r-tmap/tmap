@@ -14,7 +14,7 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
   ymod = 0, title.size = NA, title.col = NA,
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
   legend.hist = FALSE, legend.hist.title = NA, legend.size.z = NA,
-  legend.col.z = NA, legend.hist.z = NA)
+  legend.col.z = NA, legend.hist.z = NA, id = NA)
 }
 \arguments{
 \item{size}{\code{shp} data variable that determines the bubble sizes. If multiple values are specified, small multiples are drawn (see details).}
@@ -86,6 +86,8 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
 \item{legend.col.z}{index value that determines the position of the legend element regarding the bubble colors. (See \code{legend.size.z})}
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
+
+\item{id}{name of the data variable that specifies the indices of the bubbles. Only used for SVG output (see \code{\link{tmap2svg}}).}
 }
 \value{
 \code{\link{tmap-element}}
