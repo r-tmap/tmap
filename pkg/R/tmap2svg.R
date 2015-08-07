@@ -59,10 +59,12 @@ tmap2svg <- function(tm, file=NULL) {
 		tmap_svg
 		,"//*[local-name() = 'g' and starts-with(@id, 'tm_polygon')]"
 		,function(g_el){
-			addChildren(
-				g_el
-				, newXMLNode("title",xmlAttrs(g_el)[["title"]])
-			)
+			if("title" %in% xmlAttrs(g_el)){
+				addChildren(
+					g_el
+					, newXMLNode("title",xmlAttrs(g_el)[["title"]])
+				)
+			}
 		}
 	)
 	
