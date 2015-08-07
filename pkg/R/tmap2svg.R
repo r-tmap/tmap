@@ -123,6 +123,8 @@ tmap2svg <- function(tm, file=NULL) {
  		tmap_svg #grid.export(name = NULL)$svg #works but no interactivity from above
  		, viewportSelector = ".map_viewport"
  		, controlIconsEnabled = TRUE
+ 		, width = xmlAttrs(xmlRoot(tmap_svg))[["width"]]
+ 		, height = xmlAttrs(xmlRoot(tmap_svg))[["height"]]
  	)
 	
 }
