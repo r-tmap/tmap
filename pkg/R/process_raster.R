@@ -1,4 +1,4 @@
-process_raster_vector <- function(x, g, gt) {
+process_raster_vector <- function(x, g, gt, gst) {
 	textNA <- ifelse(any(is.na(x)) && !is.na(g$colorNA), g$textNA, NA)
 	
 	if (is.factor(x)) {
@@ -10,7 +10,7 @@ process_raster_vector <- function(x, g, gt) {
 						   legend.labels=g$labels,
 						   legend.NA.text = textNA,
 						   max_levels=g$max.categories,
-						   alpha=g$alpha)
+						   process.colors=c(list(alpha=g$alpha), gst))
 		raster.breaks <- NA
 	} else {
 		palette <- if (is.null(g$palette)) "RdYlGn" else g$palette
@@ -22,7 +22,7 @@ process_raster_vector <- function(x, g, gt) {
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text = textNA,
-						   alpha=g$alpha, 
+						   process.colors=c(list(alpha=g$alpha), gst),
 						   text_separator = g$text_separator,
 						   text_less_than = g$text_less_than,
 						   text_or_more = g$text_or_more)
@@ -39,7 +39,7 @@ process_raster_vector <- function(x, g, gt) {
 }
 
 
-process_raster <- function(data, g, gt, gby, z) {
+process_raster <- function(data, g, gt, gst, gby, z) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -61,7 +61,7 @@ process_raster <- function(data, g, gt, gby, z) {
 		# check for direct color input
 		is.colors <- all(valid_colors(x))
 		if (is.colors) {
-			x <- get_alpha_col(col2hex(x), g$alpha)
+			x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gst))
 			for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 			x <- paste("COLOR", 1:nx, sep="_")
 		} else {
@@ -78,7 +78,8 @@ process_raster <- function(data, g, gt, gby, z) {
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {
 		if (!is.colors) {
-			dt <- matrix(get_alpha_col(dt, g$alpha), ncol=ncol(dt))
+			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gst)), 
+						 ncol=ncol(dt))
 		}
 		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx)))
 	}
@@ -86,14 +87,14 @@ process_raster <- function(data, g, gt, gby, z) {
 		# multiple variables are defined
 		gs <- split_g(g, n=nx)
 		isNum <- sapply(dt, is.numeric)
-		res <- mapply(process_raster_vector, dt, gs, MoreArgs = list(gt), SIMPLIFY = FALSE)
+		res <- mapply(process_raster_vector, dt, gs, MoreArgs = list(gt, gst), SIMPLIFY = FALSE)
 		rast <- sapply(res, function(r)r$raster)
 		raster.legend.labels <- lapply(res, function(r)r$raster.legend.labels)
 		raster.legend.palette <- lapply(res, function(r)r$raster.legend.palette)
 		raster.breaks <- lapply(res, function(r)r$raster.breaks)
 		raster.values <- dt
 	} else {
-		res <- process_raster_vector(dt, g, gt)
+		res <- process_raster_vector(dt, g, gt, gst)
 		rast <- matrix(res$raster, nrow=npol)
 		raster.legend.labels <- res$raster.legend.labels
 		raster.legend.palette <- res$raster.legend.palette

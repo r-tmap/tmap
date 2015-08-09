@@ -1,4 +1,4 @@
-process_text <- function(data, g, fill) {
+process_text <- function(data, g, fill, gst) {
 	root <- NULL; text.size.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL; text.case <- NULL; text.alpha <- NULL
 	text.shadow <- NULL
 	
@@ -65,12 +65,15 @@ process_text <- function(data, g, fill) {
 		
 		text.fontcolor <- if (is.matrix(text.fontcolor)) {
 			apply(text.fontcolor, MARGIN=2, function(col) {
-				get_alpha_col(col, text.alpha)
+				do.call("process_color", c(list(col=col, alpha=text.alpha), gst))
 			})
-		} else get_alpha_col(text.fontcolor, text.alpha)
+		} else do.call("process_color", c(list(col=text.fontcolor, alpha=text.alpha), gst))
 		if (!is.na(text.bg.color)) {
-			text.bg.color <- get_alpha_col(text.bg.color, text.bg.alpha)
+			text.bg.color <- do.call("process_color", c(list(col=text.bg.color, alpha=text.bg.alpha), gst))
 		}
+		
+		if (is.na(text.fontface)) text.fontface <- gst$fontface
+		if (is.na(text.fontfamily)) text.fontfamily <- gst$fontfamily
 	})
 	
 }

@@ -7,26 +7,19 @@ plot_map <- function(i, gp, gt, shps, bb) {
 	
 	
 	## grid lines
+	## metaX and Y are X and Y margins for the meta plot (legend etc)
 	if (gt$grid.show) {
-		treeGrid <- plot_grid(gt, scale=gt$scale, add.labels = gt$grid.labels.inside.frame)
+		gridRes <- plot_grid(gt, scale=gt$scale, add.labels = gt$grid.labels.inside.frame)
+		treeGrid <- gridRes$treeGrid
+		metaX <- gridRes$metaX
+		metaY <- gridRes$metaY
 	} else {
 		treeGrid <- NULL
+		metaX <- 0
+		metaY <- 0
 	}
 
-	## credits
-	if (gt$credits.show) {
-		treeCred <- plot_cred(gt)
-	} else {
-		treeCred <- NULL
-	}
 
-	## scale bar
-	if (gt$scale.show) {
-		treeScale <- plot_scale(gt, bb)
-	} else {
-		treeScale <- NULL
-	}
-	
 	## thematic map layers
 	treeElements <- mapply(function(gpl, shp, k) {
 		bb <- attr(shp, "bbox")
@@ -48,17 +41,17 @@ plot_map <- function(i, gp, gt, shps, bb) {
 		
 		plot_tm_fill <- function() {
 			fill <- if (is.null(gpl$fill)) NA else gpl$fill
-			col <- get_alpha_col(gpl$col, gpl$alpha)
+			col <- process_color(gpl$col, alpha=gpl$alpha, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
 			grid.shape(shp, gp=gpar(fill=fill, col=col, lwd=gpl$lwd, lty=gpl$lty), bg.col=gt$bg.color, i, k)
 		}
 		
 		plot_tm_lines <- function() {
-			col <- get_alpha_col(gpl$line.col, gpl$line.alpha)
+			col <- process_color(gpl$line.col, alpha=gpl$line.alpha, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
 			grid.shplines(shp, gp=gpar(col=col, lwd=gpl$line.lwd, lty=gpl$line.lty,
 									   lineend="butt"), i, k)
 		}
 		
-		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, bubbleHeight, i, k)
+		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, gt, bubbleHeight, i, k)
 		plot_tm_text <- function() plot_text(co.npc, gpl)
 		
 		plot_tm_raster <- function() {
@@ -95,98 +88,13 @@ plot_map <- function(i, gp, gt, shps, bb) {
 # 	}
 	
 	grobsElemGrid <- if (gt$grid.show && gt$grid.on.top) {
-		do.call("gList", args = c(treeElements, list(treeGrid, treeCred, treeScale)))
+		do.call("gList", args = c(treeElements, list(treeGrid)))
 	} else {
-		do.call("gList", args = c(list(treeGrid), treeElements, list(treeCred, treeScale)))
+		do.call("gList", args = c(list(treeGrid), treeElements))
 	}
-	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), bubbleHeight=bubbleHeight)
+	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), bubbleHeight=bubbleHeight, metaX=metaX, metaY=metaY)
 }
 
-plot_scale <- function(gt, bb) {
-	xrange <- bb[1,2] - bb[1,1]
-	xrange2 <- xrange/gt$unit.size
-	
-	if (is.null(gt$scale.breaks)) {
-		ticks2 <- pretty(c(0, xrange2 / 5), 4)
-	} else {
-		ticks2 <- gt$scale.breaks
-	}
-	labels <- c(ticks2, gt$unit)
-	
-	n <- length(ticks2)
-	ticks <- ticks2*gt$unit.size
-	ticks3 <- ticks / xrange
-	
-	widths <- ticks3[2] - ticks3[1]
-	x <- ticks3[1:(n-1)]
-	
-	size <- min(gt$scale.size, widths/max(convertWidth(stringWidth(paste(ticks2, " ")), "npc", TRUE)))
-
-	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
-	my <- lineHeight / 2
-	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-	
-	unitWidth <- convertWidth(stringWidth(paste(gt$unit, " ")), "npc", TRUE) * size
-	width <- widths * n + unitWidth
-	
-	if (is.character(gt$scale.position)) {
-		position <- 
-			c(switch(gt$scale.position[1], 
-					 left=mx+widths*.5,
-					 center=(1-width)/2,
-					 centre=(1-width)/2,
-					 right=1-mx-width),
-			  switch(gt$scale.position[2],
-			  	   top=1-lineHeight*2,
-			  	   center=.5,
-			  	   centre=.5,
-			  	   bottom=lineHeight*.5))	
-	} else position <- gt$scale.position
-
-	x <- x + position[1]
-	xtext <- c(ticks3, ticks3[n] + widths*.5 + unitWidth*.5) + position[1]
-	
-	gTree(children=gList(
-		rectGrob(x=x, y=position[2]+lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col="black", fill=c("white", "black"))),
-		textGrob(label=labels, x = xtext, y = position[2]+lineHeight*.5, just=c("center", "center"), gp=gpar(cex=size))))
-	
-	
-}
-
-plot_cred <- function(gt) {
-	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
-	my <- lineHeight / 2
-	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-	
-	# number of lines
-	nlines <- length(strsplit(gt$credits.text, "\n")[[1]])
-	
-	size <- min((1-2*mx) / convertWidth(stringWidth(gt$credits.text), "npc", valueOnly=TRUE), gt$credits.size)
-	
-	width <- convertWidth(stringWidth(gt$credits.text), "npc", valueOnly=TRUE) * size
-	height <- lineHeight * (nlines) * size
-	
-	if (is.character(gt$credits.position)) {
-		position <- 
-			c(switch(gt$credits.position[1], 
-					 left=mx,
-					 center=(1-width)/2,
-					 centre=(1-width)/2,
-					 right=1-mx-width),
-			  switch(gt$credits.position[2],
-			  	   top=1-height*.75,
-			  	   center=.5,
-			  	   centre=.5,
-			  	   bottom=height*.75))	
-	} else position <- gt$credits.position
-	
-	gTree(children=gList(if (!is.na(gt$credits.bg.color)) {
-		bg.col <- get_alpha_col(gt$credits.bg.color, gt$credits.bg.alpha)
-		rectGrob(x = position[1]-.5*mx, y = position[2], width=width+mx, just=c("left", "center"), height=height, gp=gpar(col=NA, fill=bg.col))
-	} else {
-		NULL
-	}, textGrob(label=gt$credits.text, x = position[1], y = position[2], just=c("left", "center"), gp=gpar(cex=size))))
-}
 
 process_grid <- function(gt, bb) {
 	grid.n.x <- grid.n.y <- NULL
@@ -208,7 +116,7 @@ plot_grid_labels_x <- function(gt, scale) {
 	cogridx <- gt$grid.co.x
 	labelsx <- gt$grid.labels.x
 
-	textGrob(labelsx, y=1, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale))
+	textGrob(labelsx, y=1, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		
 }
 
@@ -216,7 +124,7 @@ plot_grid_labels_y <- function(gt, scale) {
 	cogridy <- gt$grid.co.y
 	labelsy <- gt$grid.labels.y
 	
-	textGrob(labelsy, y=cogridy, x=1, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale))
+	textGrob(labelsy, y=cogridy, x=1, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 }
 
 
@@ -240,6 +148,7 @@ plot_grid <- function(gt, scale, add.labels) {
 		sely <- rep.int(TRUE, length(cogridy))
 	}	
 	
+	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
 	if (any(selx)) {
 		cogridx <- cogridx[selx]
 		labelsx <- labelsx[selx]
@@ -247,7 +156,7 @@ plot_grid <- function(gt, scale, add.labels) {
 		grobGridX <- polylineGrob(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
 					  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
 		grobGridTextX <- if (add.labels) {
-			 textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale))
+			 textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
 		grobGridX <- NULL
@@ -260,18 +169,19 @@ plot_grid <- function(gt, scale, add.labels) {
 		grobGridY <- polylineGrob(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
 					  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
 		grobGridTextY <- if (add.labels) {
-			textGrob(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale))
+			textGrob(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
 		grobGridY <- NULL
 		grobGridTextY <- NULL
 	}
-	
-	gTree(children=gList(grobGridX, grobGridY, grobGridTextX, grobGridTextY))
+	list(treeGrid=gTree(children=gList(grobGridX, grobGridY, grobGridTextX, grobGridTextY)),
+		 metaX=labelsYw+spacerY,
+		 metaY=labelsXw+spacerX)
 	
 }
 
-plot_bubbles <- function(co.npc, g, bubbleHeight, i, k) {
+plot_bubbles <- function(co.npc, g, gt, bubbleHeight, i, k) {
 	with(g, {
 		co.npc[, 1] <- co.npc[, 1] + bubble.xmod
 		co.npc[, 2] <- co.npc[, 2] + bubble.ymod
@@ -295,8 +205,8 @@ plot_bubbles <- function(co.npc, g, bubbleHeight, i, k) {
 			cols2 <- cols
 		}
 
-		bordercol <- get_alpha_col(bubble.border.col, bubble.border.alpha)
 		
+		bordercol <- bubble.border.col
 		idName <- paste("tm_bubbles", i, k, sep="_")
 		
 		
@@ -436,6 +346,8 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			res <- plot_map(i, gp, gt, shps, bb)
 			treeElemGrid <- res$treeElemGrid
 			bubbleHeight <- res$bubbleHeight
+			metaX <- res$metaX
+			metaY <- res$metaY
 			gList(grobBGframe, grobAsp, treeElemGrid)
 		})
 		
@@ -444,7 +356,19 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			cellplot(1:3,1:3, e=rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)), name="mapBG")
 		} else NULL
 		treeFrame <- cellplot(2,2, e={
-			if (gt$draw.frame) rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd)) else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
+			if (gt$draw.frame) {
+				pH <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
+				pW <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
+				if (gt$frame.double.line) {
+					gList(
+						rectGrob(gp=gpar(col="#000000", fill=NA, lwd=3*gt$frame.lwd, lineend="square")),
+						rectGrob(width = 1-6*pW, height=1-6*pH, gp=gpar(col=gt$bg.color, fill=NA, lwd=3*gt$frame.lwd, lineend="square")),
+						rectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square")))
+				} else {
+					rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square"))
+				}
+				
+			} else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
 		}, name="mapFrame")
 		
 		treeGridLabels <- if (gt$grid.show && !gt$grid.labels.inside.frame) {
@@ -467,8 +391,8 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 	## prepare legend items
 	leg <- legend_prepare(gp, gt, bubbleHeight)
 	
-	## legend and title
-	if (!is.null(leg)) {
+	## legend, title, and other thinks such as compass
+	if (!is.null(leg) || gt$title!="" || gt$credits.show || gt$scale.show || gt$compass.show) {
 		if (!gt$legend.only) {
 			vpLeg <- vpPath("maingrid", "aspvp")
 			d <- downViewport(vpLeg)
@@ -477,18 +401,16 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			vpLeg <- current.viewport()
 			grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
 		}
-		treeLegend <- legend_plot(gt, leg, legend_pos)
-		treeLegendX <- gTree(children=gList(grobLegendBG, treeLegend))
+		treeMeta <- meta_plot(gt, leg, legend_pos, bb, metaX, metaY)
+		treeMetaX <- gTree(children=gList(grobLegendBG, treeMeta))
 		
 		if (!gt$legend.only) {
-			treeMapX <- addGrob(treeMapX, child=treeLegendX, gPath=gPath("outer_map", "aspvp"))
+			treeMapX <- addGrob(treeMapX, child=treeMetaX, gPath=gPath("outer_map", "aspvp"))
 			upViewport(d)
 		} else {
-			treeMapX <- treeLegendX
+			treeMapX <- treeMetaX
 		}
 		
-	} else {
-		treeLegendX <- NULL
 	}
 	
 	treeMapX

@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio, shp_info) {
+process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shp_info) {
 	
 	
 	gf <- within(gf, {
@@ -78,6 +78,15 @@ process_meta <- function(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio, shp_info)
 			if (shp_info$is_raster) rep(0, 4) else rep(0.02, 4)
 		} else rep(inner.margins, length.out=4)
 		
+		
+		if (gst$sepia.intensity!=0 || gst$saturation!=1) {
+			if (!is.null(bg.color)) bg.color <- do.call("process_color", c(list(col=bg.color), gst))
+			if (!is.null(outer.bg.color)) outer.bg.color <- do.call("process_color", c(list(col=outer.bg.color), gst))
+			if (!is.na(legend.bg.color)) legend.bg.color <- do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), gst))
+			if (!is.na(legend.hist.bg.color)) legend.hist.bg.color <- do.call("process_color", c(list(col=legend.hist.bg.color, alpha=legend.hist.bg.alpha), gst))
+			if (!is.na(title.bg.color)) title.bg.color <- do.call("process_color", c(list(col=title.bg.color, alpha=title.bg.alpha), gst))
+		}
+		
 	})	
 	
 	if (!is.null(gg)) {
@@ -106,5 +115,14 @@ process_meta <- function(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio, shp_info)
 		gsb <- list(scale.show=FALSE)
 	}
 	
-	c(gt, gf, gg, gc, gsb, shp_info)
+	if (!is.null(gcomp)) {
+		gcomp <- within(gcomp, {
+			compass.fontsize <- compass.fontsize * gt$scale
+			compass.show <- TRUE
+		})
+	} else {
+		gcomp <- list(compass.show=FALSE)
+	}
+	
+	c(gt, gst, gf, gg, gc, gsb, gcomp, shp_info)
 }

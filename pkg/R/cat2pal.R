@@ -5,7 +5,7 @@ cat2pal <- function(x,
 					legend.labels = NULL,
 					max_levels = 40,
 					legend.NA.text = "Missing",
-					alpha=1) {
+					process.colors) {
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
 	
@@ -49,9 +49,14 @@ cat2pal <- function(x,
         rep(palette, length.out=nlevels(x))
 	}
     
-	legend.palette <- get_alpha_col(legend.palette, alpha)
-	colorNA <- get_alpha_col(colorNA, alpha)
+# 	if (!is.null(process.colors)) {
+# 		legend.palette <- process.colors(legend.palette)
+# 		colorNA <- process.colors(colorNA)
+# 	}
 	
+	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
+	colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
+
 	cols <- legend.palette[as.integer(x)]
 	colsNA <- is.na(cols)
 

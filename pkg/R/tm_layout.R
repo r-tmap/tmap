@@ -1,16 +1,18 @@
 #' Layout elements of cartographic maps
 #' 
-#' This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a layout theme for your own map (see example below).
+#' This element specifies the map layout. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a layout theme for your own map (see example below). The map can be further styled with \code{\link{tm_style}} (see details).
 #' 
+#' The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controleld wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
+#' 
+#' @note 
 #' @name tm_layout
 #' @rdname tm_layout
 #' @param title Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
 #' @param title.size Relative size of the title
 #' @param bg.color Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).
-#' @param draw.frame Boolean that determines whether a frama is drawn. 
+#' @param draw.frame Boolean that determines whether a frame is drawn. 
 #' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
-#' @param frame.lwd Width of the frame
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.
 #' @param outer.bg.color Background color outside the frame.
@@ -37,7 +39,7 @@
 #' @param title.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
 #' @param ... other arguments from \code{tm_layout}
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \code{\link{tm_style}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_layout.R
 #' @export
 tm_layout <- function(title=NA,
@@ -46,7 +48,6 @@ tm_layout <- function(title=NA,
 					  bg.color=NULL,
 					  draw.frame=TRUE,
 					  asp = NA,
-					  frame.lwd=1,
 					  outer.margins = rep(0.02, 4),
 					  inner.margins = NA,
 					  outer.bg.color=NULL,
@@ -71,6 +72,7 @@ tm_layout <- function(title=NA,
 					  title.position = c("left", "top"),
 					  title.bg.color=NA,
 					  title.bg.alpha = 1,
+					  elem.position = c("right", "bottom"),
 					  design.mode = FALSE) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tm"

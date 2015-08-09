@@ -19,6 +19,17 @@ process_tm <- function(x, asp_ratio, shp_info) {
 		}
 	}
 	
+	
+	## get style element
+	styleid <- which(names(x)=="tm_style")[1]
+	if (is.na(styleid)) {
+		gst <- tm_style()$tm_style
+	} else {
+		gst <- x[[styleid]]
+	}
+	#gst$process.colors <- if (gt$sepia.intensity==0) NULL else function(x) get_sepia_col(x, intensity = gt$sepia.intensity)
+	
+	
 	## get grid element
 	gridid <- which(names(x)=="tm_grid")[1]
 	gg <- x[[gridid]]
@@ -30,6 +41,11 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	## get scale bar element
 	scaleid <- which(names(x)=="tm_scale")[1]
 	gsb <- x[[scaleid]]
+	
+	## get compass element
+	compassid <- which(names(x)=="tm_compass")[1]
+	gcomp <- x[[compassid]]
+	
 	
 	## get facets element
 	shape.id.orig <- which(names(x)=="tm_shape")
@@ -66,7 +82,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	
 	
 	## split x into gmeta and gbody
-	x <- x[!(names(x) %in% c("tm_layout", "tm_grid", "tm_facets", "tm_credits", "tm_scale_bar"))]
+	x <- x[!(names(x) %in% c("tm_layout", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_scale_bar"))]
 
 	n <- length(x)
 	
@@ -83,7 +99,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	
 	## convert clusters to layers
 	cnlx <- if (nshps==1) 0 else c(0, cumsum(nlx[1:(nshps-1)]-1))
-	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf), SIMPLIFY = FALSE)
+	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gst=gst, gf=gf), SIMPLIFY = FALSE)
 	
 	## get by vector
 	data_by <- lapply(gp, function(i)i$data_by)
@@ -124,7 +140,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 
 	by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
 	## process grid
-	gmeta <- process_meta(gt, gf, gg, gc, gsb, nx, by_names, asp_ratio, shp_info)
+	gmeta <- process_meta(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shp_info)
 	
 	## split into small multiples
 	gps <- split_tm(gp, nx, order_by)

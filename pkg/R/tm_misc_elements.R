@@ -73,16 +73,16 @@ tm_grid <- function(n.x=8,
 #' 
 #' @param text text
 #' @param size relative text size
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. By default, it is placed in the right bottom corner.
 #' @param bg.color background color for the text
 #' @param bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. By default, it is placed in the right bottom corner.
 #' @export
 #' @example ../examples/tm_credits.R
 tm_credits <- function(text,
 					   size=.7,
-					   position=c("right", "bottom"),
 					   bg.color=NA,
-					   bg.alpha=NA) {
+					   bg.alpha=NA,
+					   position=NA) {
 	g <- list(tm_credits=as.list(environment()))
 	names(g$tm_credits) <- paste("credits", names(g$tm_credits), sep=".")
 	class(g) <- "tmap"
@@ -97,12 +97,18 @@ tm_credits <- function(text,
 #' 
 #' @param breaks breaks of the scale bar
 #' @param size relative text size
+#' @param width
+#' @param color.dark
+#' @param color.light
 #' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left center of the text. By default, it is placed in the right bottom corner.
 #' @export
 #' @example ../examples/tm_scale_bar.R
 tm_scale_bar <- function(breaks=NULL,
 					     size=.5,
-					     position=c("right", "bottom")) {
+						 width=.25, 
+						 color.dark="black", 
+						 color.light="white",
+						 position=NA) {
 	g <- list(tm_scale=as.list(environment()))
 	names(g$tm_scale) <- paste("scale", names(g$tm_scale), sep=".")
 	class(g) <- "tmap"
@@ -110,7 +116,21 @@ tm_scale_bar <- function(breaks=NULL,
 	g
 }
 
-
+tm_compass <- function(north=0, 
+					   fontsize=.8, 
+					   size=4, 
+					   type="4star", 
+					   show.labels=1, 
+					   cardinal.directions=c("N", "E", "S", "W"), 
+					   color.dark="black", 
+					   color.light="white",
+					   position=NA) {
+	g <- list(tm_compass=as.list(environment()))
+	names(g$tm_compass) <- paste("compass", names(g$tm_compass), sep=".")
+	class(g) <- "tmap"
+	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	g
+}
 
 
 

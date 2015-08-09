@@ -9,7 +9,7 @@ num2pal <- function(x, n = 5,
 					   legend.digits = NA,
 					   colorNA = "#FF1414",
 					   legend.NA.text = "Missing",
-					   alpha=1,
+					   process.colors=NULL,
 					   text_separator = "to",
 					   text_less_than = "Less than",
 					   text_or_more = "or more") {
@@ -68,9 +68,19 @@ num2pal <- function(x, n = 5,
 		legend.neutral.col <- legend.palette[1]
 	}
 	
-	legend.palette <- get_alpha_col(legend.palette, alpha)
-	legend.neutral.col <- get_alpha_col(legend.neutral.col, alpha)
-	colorNA <- get_alpha_col(colorNA, alpha)
+	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
+	legend.neutral.col <- do.call("process_color", c(list(col=legend.neutral.col), process.colors))
+	colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
+	
+# 	if (!is.null(process.colors)) {
+# 		legend.palette <- process.colors(legend.palette)
+# 		legend.neutral.col <- process.colors(legend.neutral.col)
+# 		colorNA <- process.colors(colorNA)
+# 	}
+# 	
+# 	legend.palette <- get_alpha_col(legend.palette, alpha)
+# 	legend.neutral.col <- get_alpha_col(legend.neutral.col, alpha)
+# 	colorNA <- get_alpha_col(colorNA, alpha)
 	
 	
 	ids <- findCols(q)

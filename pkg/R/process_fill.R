@@ -1,4 +1,4 @@
-process_fill_vector <- function(x, g, gt, tiny) {
+process_fill_vector <- function(x, g, gt, gst, tiny) {
 	fill.values <- x
 	textNA <- ifelse(any(is.na(fill.values)), g$textNA, NA)
 	
@@ -14,7 +14,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   legend.labels=g$labels,
 						   legend.NA.text = textNA,
 						   max_levels=g$max.categories,
-						   alpha=g$alpha)
+						   process.colors=c(list(alpha=g$alpha), gst))
 		fill.breaks <- NA
 	} else {
 		palette <- if (is.null(g$palette)) "RdYlGn" else g$palette
@@ -26,7 +26,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   legend.scientific=gt$legend.scientific,
 						   legend.digits=gt$legend.digits,
 						   legend.NA.text = textNA,
-						   alpha=g$alpha, 
+						   process.colors=c(list(alpha=g$alpha), gst),
 						   text_separator = g$text_separator,
 						   text_less_than = g$text_less_than,
 						   text_or_more = g$text_or_more)
@@ -52,7 +52,7 @@ process_fill_vector <- function(x, g, gt, tiny) {
 }
 
 
-process_fill <- function(data, g, gb, gt, gby, z) {
+process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	
 	npol <- nrow(data)
 	by <- data$GROUP_BY
@@ -67,7 +67,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	# check for direct color input
 	is.colors <- all(valid_colors(x))
 	if (is.colors) {
-		x <- get_alpha_col(col2hex(x), g$alpha)
+		x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gst))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 		x <- paste("COLOR", 1:nx, sep="_")
 	} else {
@@ -81,7 +81,8 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {
 		if (!is.colors) {
-			dt <- matrix(get_alpha_col(dt, g$alpha), ncol=ncol(dt))
+			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gst)),
+						 ncol=ncol(dt))
 		}
 		return(list(fill=dt, xfill=rep(NA, nx), fill.lenged.title=rep(NA, nx)))	
 	} 
@@ -110,7 +111,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 		dt[isNum & isDens] <- lapply(dt[isNum & isDens], function(d) {
 			d / areas
 		})
-		res <- mapply(process_fill_vector, dt, gs, MoreArgs = list(gt, tiny), SIMPLIFY = FALSE)
+		res <- mapply(process_fill_vector, dt, gs, MoreArgs = list(gt, gst, tiny), SIMPLIFY = FALSE)
 		fill <- sapply(res, function(r)r$fill)
 		fill.legend.labels <- lapply(res, function(r)r$fill.legend.labels)
 		fill.legend.palette <- lapply(res, function(r)r$fill.legend.palette)
@@ -121,7 +122,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 			if (show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
 			dt <- dt / areas
 		}
-		res <- process_fill_vector(dt, g, gt, tiny)
+		res <- process_fill_vector(dt, g, gt, gst, tiny)
 		fill <- matrix(res$fill, nrow=npol)
 		fill.legend.labels <- res$fill.legend.labels
 		fill.legend.palette <- res$fill.legend.palette
@@ -143,7 +144,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	list(fill=fill,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,
-		 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col, border.alpha=gb$alpha),
+		 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col),
 		 fill.legend.hist.misc=list(values=fill.values, breaks=fill.breaks),
 		 xfill=x,
 		 fill.legend.title=fill.legend.title,
