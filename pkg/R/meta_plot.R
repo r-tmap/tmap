@@ -159,85 +159,96 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 				position1=gt$scale.position[1],
 				position2=gt$scale.position[2], stringsAsFactors = FALSE) else NULL,
 			if (gt$compass.show) data.frame(type="compass",
-				height=(gt$compass.size * gt$compass.fontsize +2)*lineHeight,
-				width=(gt$compass.size * gt$compass.fontsize +2)*lineWidth,
+				height=(gt$compass.nlines * gt$compass.fontsize)*lineHeight,
+				width=(gt$compass.nlines * gt$compass.fontsize)*lineWidth,
 				position1=gt$compass.position[1],
 				position2=gt$compass.position[2], stringsAsFactors = FALSE) else NULL))
 
-		elemHeight <- sum(elems$height)
+		elems$position1[is.na(elems$position1)] <- gt$elem.position[1]
+		elems$position2[is.na(elems$position2)] <- gt$elem.position[2]
+		
+		elems$pos <- paste(elems$position1, elems$position2)
 
-		if (is.character(gt$elem.position)) {
-			elemleg <- all(gt$elem.position==gt$legend.position) && has.legend
-			elemtitle <- all(gt$elem.position==gt$title.position) && gt$title!="" && !snap
-			if (elemleg) {
-				elem.position <- c(switch(gt$elem.position[1], 
-										  left=metaX+2*mx+legendWidth,
-										  center=.5 + mx + legendWidth/2,
-										  centre=.5 + mx + legendWidth/2,
-										  right=1-mx-legendWidth - mx),
-								   switch(gt$elem.position[2],
-								   	   top= 1-my-elemHeight, 
-								   	   center=.5, 
-								   	   centre=.5, 
-								   	   bottom=my+metaY))	
-				elem.max.width <- 1 - 3*mx - legendWidth
-			} else if (elemtitle) {
-				elem.position <- c(switch(gt$elem.position[1], 
-										  left=mx+metaX,
-										  center=.5,
-										  centre=.5,
-										  right=1-mx),
-								   switch(gt$elem.position[2],
-								   	   top= 1-my-elemHeight - titleHeight, 
-								   	   center=.5, 
-								   	   centre=.5, 
-								   	   bottom=my+metaY+titleHeight))	
-				elem.max.width <- if (has.legend && gt$elem.position[2]==gt$legend.position[2]) 1 - 3*mx - legendWidth else 1 - 2 *mx
-			} else {
-				elem.position <- c(switch(gt$elem.position[1], 
-										  left=mx+metaX,
-										  center=.5,
-										  centre=.5,
-										  right=1-mx),
-								   switch(gt$elem.position[2],
-								   	   top= 1-my-elemHeight, 
-								   	   center=.5, 
-								   	   centre=.5, 
-								   	   bottom=my+metaY))
-				elem.max.width <- if (has.legend && gt$elem.position[2]==gt$legend.position[2]) 1 - 3*mx - legendWidth else 1 - 2*mx
-			}
-			elem.just <- switch(gt$elem.position[1],
-								  right="right",
-								  "left")
-		} else {
-			elem.position <- gt$elem.position
-			elem.just <- "left"
-			elem.max.width <- 1 - 2*mx
-		}
-		elems$y <- elem.position[2] + c(0, cumsum(elems$height))[1:nrow(elems)]
-		elems$width2 <- pmin(elems$width, elem.max.width)
+		elemsList <- split(elems, f = elems$pos)
 		
-		elems$x <- elem.position[1] - if (elem.just=="left") 0 else elems$width2
-		
-		elemGrobs <- lapply(1:nrow(elems), function(i) {
-			e <- elems[i,]
-			vpi <- viewport(x=e$x, 
-							y=e$y,
-							height=e$height, width=e$width2,
-							just=c("left", "bottom"),
-							name=as.character(e$type))
-			pushViewport(vpi)
-			if (e$type=="credits") {
-				grb <- plot_cred(gt, just=elem.just)
-			} else if (e$type=="scale_bar") {
-				grb <- plot_scale(gt, just=elem.just, xrange=(bb[1,2] - bb[1,1])*e$width2, crop_factor=gt$scale.width/e$width2)
+		elemGrobs <- lapply(elemsList, function(el) {
+			elemHeight <- sum(el$height)
+			elpos <- c(el$position1[1], el$position2[1])
+			if (is.character(elpos)) {
+				elemleg <- all(elpos==gt$legend.position) && has.legend
+				elemtitle <- all(elpos==gt$title.position) && gt$title!="" && !snap
+				if (elemleg) {
+					elem.position <- c(switch(elpos[1], 
+											  left=metaX+2*mx+legendWidth,
+											  center=.5 + mx + legendWidth/2,
+											  centre=.5 + mx + legendWidth/2,
+											  right=1-mx-legendWidth - mx),
+									   switch(elpos[2],
+									   	   top= 1-my-elemHeight, 
+									   	   center=.5, 
+									   	   centre=.5, 
+									   	   bottom=my+metaY))	
+					elem.max.width <- 1 - 3*mx - legendWidth - metaX
+				} else if (elemtitle) {
+					elem.position <- c(switch(elpos[1], 
+											  left=mx+metaX,
+											  center=.5,
+											  centre=.5,
+											  right=1-mx),
+									   switch(elpos[2],
+									   	   top= 1-my-elemHeight - titleHeight, 
+									   	   center=.5, 
+									   	   centre=.5, 
+									   	   bottom=my+metaY+titleHeight))	
+					elem.max.width <- (if (has.legend && elpos[2]==gt$legend.position[2]) 1 - 3*mx - legendWidth else 1 - 2 *mx) - metaX
+				} else {
+					elem.position <- c(switch(elpos[1], 
+											  left=mx+metaX,
+											  center=.5,
+											  centre=.5,
+											  right=1-mx),
+									   switch(elpos[2],
+									   	   top= 1-my-elemHeight, 
+									   	   center=.5, 
+									   	   centre=.5, 
+									   	   bottom=my+metaY))
+					elem.max.width <- (if (has.legend && elpos[2]==gt$legend.position[2]) 1 - 3*mx - legendWidth else 1 - 2*mx) - metaX
+				}
+				elem.just <- switch(elpos[1],
+									right="right",
+									"left")
 			} else {
-				grb <- plot_compass(gt, just=elem.just)
+				elem.position <- elpos
+				elem.just <- "left"
+				elem.max.width <- 1 - 2*mx - metaX
 			}
-			grt <- gTree(children=gList(grb), vp=vpi)
-			upViewport()
-			grt
+			el$y <- elem.position[2] + c(0, cumsum(el$height))[1:nrow(el)]
+			el$width2 <- pmin(el$width, elem.max.width)
+			
+			el$x <- elem.position[1] - if (elem.just=="left") 0 else el$width2
+			
+			lapply(1:nrow(el), function(i) {
+				e <- el[i,]
+				vpi <- viewport(x=e$x, 
+								y=e$y,
+								height=e$height, width=e$width2,
+								just=c("left", "bottom"),
+								name=as.character(e$type))
+				pushViewport(vpi)
+				if (e$type=="credits") {
+					grb <- plot_cred(gt, just=elem.just)
+				} else if (e$type=="scale_bar") {
+					grb <- plot_scale(gt, just=elem.just, xrange=(bb[1,2] - bb[1,1])*e$width2, crop_factor=gt$scale.width/e$width2)
+				} else {
+					grb <- plot_compass(gt, just=elem.just)
+				}
+				grt <- gTree(children=gList(grb), vp=vpi)
+				upViewport()
+				grt
+			})
 		})
+		elemGrobs <- do.call("c", elemGrobs)
+		
 		
 		treeElem <- gTree(children=do.call("gList", elemGrobs))
 	} else {
@@ -533,17 +544,17 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	
 	widths <- ticks3[2] - ticks3[1]
 	x <- ticks3[1:(n-1)]
-	
-	size <- min(gt$scale.size, widths/max(convertWidth(stringWidth(paste(ticks2, " ")), "npc", TRUE)))
+	ticksWidths <- convertWidth(stringWidth(paste(ticks2, " ")), "npc", TRUE)
+	size <- min(gt$scale.size, widths/max(ticksWidths))
 	
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
-	my <- lineHeight / 2
-	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
+	#my <- lineHeight / 2
+	#mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
 	unitWidth <- convertWidth(stringWidth(paste(gt$unit, " ")), "npc", TRUE) * size
-	width <- widths * n + unitWidth
+	width <- widths * (n-1) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
 	
-	xtext <- c(ticks3, ticks3[n] + widths*.5 + unitWidth*.5) #+ position[1]
+	xtext <- c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
 
 	if (just=="right") {
 		x <- 1-width+x
@@ -590,7 +601,7 @@ plot_cred <- function(gt, just) {
 
 
 plot_compass <- function(gt, just) {
-	u <- 1/(gt$compass.size+2)
+	u <- 1/(gt$compass.nlines)
 	#vpComp <- viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 
 	
@@ -599,30 +610,113 @@ plot_compass <- function(gt, just) {
 	
 	if (gt$compass.type=="4star") {
 		s <- c(.5, .5, .57, .5, .5, .43, 0, .5, .43, 1, .5, .57)
-		x <- rep.int(s, 2)
-		y <- s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)]
+		x <- list(rep.int(s, 2))
+		y <- list(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)])
 		id <- rep(1:8, each=3)
 		fill <- c(dark, light, dark, light, light, dark, light, dark)
+	} else if (gt$compass.type=="8star") {
+		s <- c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
+		s2 <- c(.5, .62, .7, .5, .56, .7, .5, .38, .3, .5, .44, .3)
+		x <- list(c(rep.int(s, 2), rep.int(s2, 2)))
+		y <- list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
+		id <- rep(1:16, each=3)
+		fill <- c(dark, light, dark, light, light, dark, light, dark)
+	} else if (gt$compass.type=="8star") {
+		s <- c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
+		s2 <- c(.5, .62, .7, .5, .56, .7, .5, .38, .3, .5, .44, .3)
+		x <- list(c(rep.int(s, 2), rep.int(s2, 2)))
+		y <- list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
+		id <- rep(1:16, each=3)
+		fill <- c(dark, light, dark, light, light, dark, light, dark)
 	} else if (gt$compass.type=="arrow") {
-		x <- c(.5, .7, .5, .5, .3, .5)
-		y <- c(1, 0, .2, 1, 0, .2)
+		x <- list(c(.5, .7, .5, .5, .3, .5))
+		y <- list(c(1, 0, .2, 1, 0, .2))
 		id <- rep(1:2, each=3)
 		fill <- c(dark, light)
+	} else if (gt$compass.type=="radar") {
+		cr <- c(.45, .42, .2, .17, .1)
+		LWD <- max(1, convertWidth(unit(.003, "npc"), "points", valueOnly=TRUE))
+		
+		cd <- seq(1/8, 15/8, by=.25) * pi
+		cd2 <- seq(1/4, 7/4, by=.5) * pi
+		cd3 <- seq(0, 1.75, by=.25) * pi
+		
+		x <- list(.5,
+				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5)),
+				  .5 + c(0, cr[1]-.005, 0, -cr[1]+.005, 0, 0, 0, 0),
+				  unlist(lapply(.5 + sin(cd2) * cr[1], c, .5)),
+				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE)))
+		
+		y <- list(.5,
+				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5)),
+				  .5 + c(0, 0, 0, 0, 0, cr[1]-.005, 0, -cr[1]+.005),
+				  unlist(lapply(.5 + cos(cd2) * cr[1], c, .5)),
+				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE)))
+
+	} else if (gt$compass.type=="compass") {
+		cr <- c(.45, .42, .2, .17, .1)
+		LWD <- max(1, convertWidth(unit(.003, "npc"), "points", valueOnly=TRUE))
+		
+		cd <- seq(1/8, 15/8, by=.25) * pi
+		cd2 <- seq(1/4, 7/4, by=.5) * pi
+		cd3 <- seq(0, 1.75, by=.25) * pi
+
+		s <- c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
+		s2 <- c(.5, .62, .78, .5, .56, .78, .5, .38, .22, .5, .44, .22)
+
+		id <- rep(1:16, each=3)
+		fill <- c(dark, light, dark, light, light, dark, light, dark)
+		
+				
+		x <- list(.5,
+				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5)),
+				  .5 + c(0, cr[1]-.005, 0, -cr[1]+.005, 0, 0, 0, 0),
+				  unlist(lapply(.5 + sin(cd2) * cr[1], c, .5)),
+				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE)),
+				  c(rep.int(s, 2), rep.int(s2, 2)))
+		
+		y <- list(.5,
+				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5)),
+				  .5 + c(0, 0, 0, 0, 0, cr[1]-.005, 0, -cr[1]+.005),
+				  unlist(lapply(.5 + cos(cd2) * cr[1], c, .5)),
+				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE)),
+				  c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
+		
 	}
-	
+
+
 	# rescale
-	x <- (x-.5)*(gt$compass.size/(gt$compass.size+2)) + .5
-	y <- (y-.5)*(gt$compass.size/(gt$compass.size+2)) + .5
+	resc <- function(a) (a-.5)*(gt$compass.size/gt$compass.nlines) + .5
 	
+	x <- lapply(x, resc)
+	y <- lapply(y, resc)
+	if (gt$compass.type %in% c("radar", "compass")) cr <- cr * (gt$compass.size/gt$compass.nlines)
+	
+	
+	#x <- (x-.5)*(gt$compass.size/(gt$compass.nlines)) + .5
+	#y <- (y-.5)*(gt$compass.size/(gt$compass.nlines)) + .5
 	
 	if (gt$compass.north!=0) {
-		d <- atan2(y-.5, x-.5)
-		r <- sqrt((x-.5)^2 + (y-.5)^2)
 		drotate <- gt$compass.north/180*pi
-		
-		x <- r * sin(d+drotate) + .5
-		y <- r * cos(d+drotate) + .5
+
+		xy <- mapply(function(a,b){
+			d <- atan2(b-.5, a-.5)
+			r <- sqrt((a-.5)^2 + (b-.5)^2)
+			
+			list(x=r * sin(d+drotate) + .5,
+				 y=r * cos(d+drotate) + .5)
+		}, x, y, SIMPLIFY=FALSE)
+		x <- lapply(xy, "[", 1)
+		y <- lapply(xy, "[", 2)
 	} else drotate <- 0
+	
+	
+	# shift
+	if (gt$compass.show.labels==1) {
+		x <- lapply(x, function(a) a - (u/2) * sin(drotate))
+		y <- lapply(y, function(b) b - (u/2) * cos(drotate))
+	}
+	
 	
 	
 	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
@@ -648,6 +742,34 @@ plot_compass <- function(gt, just) {
 		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(cex=gt$compass.fontsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	}
 	
-	gTree(children=gList(grobBG, polygonGrob(x=x, y=y, id=id, gp=gpar(fill=fill)), grobLabels))
+	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {
+		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill))
+	} else if (gt$compass.type=="radar") {
+		gTree(children = gList(
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
+			polylineGrob(x=x[[2]], y=y[[2]], id=rep(1:8, each=2), gp=gpar(lwd=1*LWD, col=dark)),
+			polylineGrob(x=x[[3]], y=y[[3]], id=rep(1:4, each=2), gp=gpar(lwd=2*LWD, col=dark)),
+			polylineGrob(x=x[[4]], y=y[[4]], id=rep(1:4, each=2), gp=gpar(lwd=1*LWD, col=dark)),
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[2], gp=gpar(lwd=1*LWD, col=dark, fill=NA)),
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[3], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[4], gp=gpar(lwd=1*LWD, col=NA, fill=dark)),
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[5], gp=gpar(lwd=1*LWD, col=NA, fill=light)),
+			polylineGrob(x=x[[5]], y=y[[5]], id=rep(1:8, each=2), gp=gpar(lwd=2*LWD, col=light))))
+	} else if (gt$compass.type=="compass") {
+		gTree(children = gList(
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
+			polygonGrob(x=x[[6]], y=y[[6]], id=id, gp=gpar(fill=fill)),
+			polylineGrob(x=x[[2]], y=y[[2]], id=rep(1:8, each=2), gp=gpar(lwd=1*LWD, col=dark)),
+			polylineGrob(x=x[[3]], y=y[[3]], id=rep(1:4, each=2), gp=gpar(lwd=2*LWD, col=dark)),
+			polylineGrob(x=x[[4]], y=y[[4]], id=rep(1:4, each=2), gp=gpar(lwd=1*LWD, col=dark)),
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[2], gp=gpar(lwd=1*LWD, col=dark, fill=NA)),
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[3], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[4], gp=gpar(lwd=1*LWD, col=NA, fill=dark)),
+			circleGrob(x=x[[1]], y=y[[1]], r = cr[5], gp=gpar(lwd=1*LWD, col=NA, fill=light)),
+			polylineGrob(x=x[[5]], y=y[[5]], id=rep(1:8, each=2), gp=gpar(lwd=2*LWD, col=light))))
+	}
+	
+	
+	gTree(children=gList(grobBG, grobComp, grobLabels))
 }
 	

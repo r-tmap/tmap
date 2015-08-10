@@ -21,5 +21,8 @@ tm_shape(NLD_muni) +
 	tm_borders("grey25", alpha=.5) + 
 	tm_shape(NLD_prov) +
 	tm_borders("grey40", lwd=2) +
-	tm_layout_NLD(bg.color="white", draw.frame = FALSE) + tm_style_classic()
+	tm_layout_NLD(bg.color="white", draw.frame = FALSE) + 
+	tm_scale_bar(position = c("left", "bottom")) +
+	tm_compass(type = "8star") + 
+	tm_style_classic()
 

@@ -20,7 +20,8 @@ tm_style <- function(sepia.intensity=0,
 					 fontface="plain", 
 					 fontfamily="sans",
 					 frame.lwd=1,
-					 frame.double.line=FALSE) {
+					 frame.double.line=FALSE,
+					 compass.type="arrow") {
 	g <- list(tm_style=as.list(environment()))
 	class(g) <- "tmap"
 	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
@@ -36,7 +37,7 @@ tm_style_bw <- function(saturation=0, ...) {
 
 #' @rdname tm_style
 #' @export
-tm_style_classic <- function(sepia.intensity=.7, fontfamily="serif", frame.double.line=TRUE, ...) {
+tm_style_classic <- function(sepia.intensity=.7, fontfamily="serif", frame.double.line=TRUE, compass.type="4star", ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_style", args)
 }
