@@ -71,15 +71,17 @@ tm_grid <- function(n.x=8,
 #' 
 #' Creates a text annotation that could be used for credits or acknowledgements.
 #' 
-#' @param text text
+#' @param text text. Multiple lines can be created with the line break symbol \code{"\\n"}.
 #' @param size relative text size
+#' @param align horizontal alignment: \code{"left"} (default), \code{"center"}, or \code{"right"}. Only applicable if \code{text} contains multiple lines
 #' @param bg.color background color for the text
 #' @param bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. By default, it is placed in the right bottom corner.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The default value is controlled by the argument \code{"elem.position"} of \code{\link{"tm_layout}}.
 #' @export
 #' @example ../examples/tm_credits.R
 tm_credits <- function(text,
 					   size=.7,
+					   align="left",
 					   bg.color=NA,
 					   bg.alpha=NA,
 					   position=NA) {
@@ -95,17 +97,17 @@ tm_credits <- function(text,
 #' 
 #' Creates a scale bar. By default, the coordinate units are assumed to be meters, and the map units in kilometers. This can be changed in \code{\link{tm_shape}}.
 #' 
-#' @param breaks breaks of the scale bar
-#' @param size relative text size
-#' @param width
-#' @param color.dark
-#' @param color.light
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left center of the text. By default, it is placed in the right bottom corner.
+#' @param breaks breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar.
+#' @param width (prefered) width of the scale bar. Only applicable when \code{breaks=N ULL}
+#' @param size relative text size (which is upperbound by the available label width) 
+#' @param color.dark color of the dark parts of the scale bar, typically (and by default) black.
+#' @param color.light color of the light parts of the scale bar, typically (and by default) white.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The default value is controlled by the argument \code{"elem.position"} of \code{\link{"tm_layout}}.
 #' @export
 #' @example ../examples/tm_scale_bar.R
 tm_scale_bar <- function(breaks=NULL,
-					     size=.5,
 						 width=.25, 
+						 size=.5,
 						 color.dark="black", 
 						 color.light="white",
 						 position=NA) {
@@ -116,9 +118,24 @@ tm_scale_bar <- function(breaks=NULL,
 	g
 }
 
+#' Map compass
+#' 
+#' Creates a map compass.
+#' 
+#' @param north north direction in degrees: 0 means up, 90 right, etc.
+#' @param type compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_style}} (which uses \code{"arrow"} for the default style)
+#' @param fontsize relative font size
+#' @param size size of the compass in number of text lines. The default values depend on the \code{type}: for \code{"arrow"} it is 2, for \code{"4star"} and \code{"8star"} it is 4, and for \code{"radar"} and \code{"rose"} it is 6.
+#' @param show.labels number that specifies which labels are shown: 0 means no labels, 1 (default) means only north, 2 means all four cardinal directions, and 3 means the four cardinal directions and the four intercardinal directions (e.g. north-east).
+#' @param cardinal.directions labels that are used for the cardinal directions north, east, south, and west.
+#' @param color.dark color of the dark parts of the compass, typically (and by default) black.
+#' @param color.light color of the light parts of the compass, typically (and by default) white.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The default value is controlled by the argument \code{"elem.position"} of \code{\link{"tm_layout}}.
+#' @export
+#' @example ../examples/tm_compass.R
 tm_compass <- function(north=0, 
-					   fontsize=.8, 
 					   type=NA, 
+					   fontsize=.8, 
 					   size=NA,
 					   show.labels=1, 
 					   cardinal.directions=c("N", "E", "S", "W"), 

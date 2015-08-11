@@ -120,7 +120,7 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 			compass.fontsize <- compass.fontsize * gt$scale
 			compass.show <- TRUE
 			if (is.na(compass.type)) compass.type <- gst$compass.type
-			if (is.na(compass.size)) compass.size <- switch(compass.type, arrow=2, radar=6, compass=6, 4)
+			if (is.na(compass.size)) compass.size <- switch(compass.type, arrow=2, radar=6, rose=6, 4)
 			compass.nlines <- compass.size + ifelse(compass.show.labels==0, 0, ifelse(compass.show.labels==1, 1, 2))
 		})
 	} else {
