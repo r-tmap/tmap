@@ -152,17 +152,23 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 				 		gt$credits.size),
 				 width=1,
 				 position1=gt$credits.position[1],
-				 position2=gt$credits.position[2], stringsAsFactors = FALSE) else NULL,
+				 position2=gt$credits.position[2], 
+				 sortid=gt$credits.id,
+				 stringsAsFactors = FALSE) else NULL,
 			if (gt$scale.show) data.frame(type="scale_bar",
 				height=3*lineHeight * gt$scale.size,
 				width=1,
 				position1=gt$scale.position[1],
-				position2=gt$scale.position[2], stringsAsFactors = FALSE) else NULL,
+				position2=gt$scale.position[2], 
+				sortid=gt$scale.id,
+				stringsAsFactors = FALSE) else NULL,
 			if (gt$compass.show) data.frame(type="rose",
 				height=(gt$compass.nlines * gt$compass.fontsize)*lineHeight,
 				width=(gt$compass.nlines * gt$compass.fontsize)*lineWidth,
 				position1=gt$compass.position[1],
-				position2=gt$compass.position[2], stringsAsFactors = FALSE) else NULL))
+				position2=gt$compass.position[2], 
+				sortid=gt$compass.id,
+				stringsAsFactors = FALSE) else NULL))
 
 		elems$position1[is.na(elems$position1)] <- gt$elem.position[1]
 		elems$position2[is.na(elems$position2)] <- gt$elem.position[2]
@@ -170,7 +176,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 		elems$isChar <- suppressWarnings(is.na(as.numeric(elems$position1)))
 		elems$id <- paste(elems$position1, elems$position2, !elems$isChar*1:nrow(elems))
 		
-		elemsList <- split(elems, f = elems$id)
+		elemsList <- split(elems[order(elems$sortid, decreasing=TRUE),], f = elems$id)
 		
 		elemGrobs <- lapply(elemsList, function(el) {
 			elemHeight <- sum(el$height)

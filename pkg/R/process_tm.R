@@ -34,17 +34,16 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	gridid <- which(names(x)=="tm_grid")[1]
 	gg <- x[[gridid]]
 	
-	## get credits element
-	creditsid <- which(names(x)=="tm_credits")[1]
-	gc <- x[[creditsid]]
-	
-	## get scale bar element
-	scaleid <- which(names(x)=="tm_scale")[1]
-	gsb <- x[[scaleid]]
-	
-	## get compass element
-	compassid <- which(names(x)=="tm_compass")[1]
-	gcomp <- x[[compassid]]
+	## get credits, scale_bar and compass element
+	elem_ids <- match(c("tm_credits", "tm_scale", "tm_compass"), names(x))
+
+	gc <- x[[elem_ids[1]]]
+	gsb <- x[[elem_ids[2]]]
+	gcomp <- x[[elem_ids[3]]]
+
+	if (!is.null(gc)) gc$credits.id <- elem_ids[1]
+	if (!is.null(gsb)) gsb$scale.id <- elem_ids[2]
+	if (!is.null(gcomp)) gcomp$compass.id <- elem_ids[3]
 	
 	
 	## get facets element
