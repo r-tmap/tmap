@@ -51,7 +51,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 			}
 			## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
 			newData <- data.frame(tmapID = seq_len(length(shp)))
-			if (methods::.hasSlot(shp, "data")) {
+			if ("data" %in% slotNames(shp)) {
 				data <- shp@data
 				shp@data <- newData
 				if (inherits(shp, "SpatialGridDataFrame")) {

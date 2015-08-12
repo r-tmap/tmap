@@ -11,8 +11,8 @@
 \title{Layout elements of cartographic maps}
 \usage{
 tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
-  draw.frame = TRUE, asp = NA, frame.lwd = 1, outer.margins = rep(0.02,
-  4), inner.margins = NA, outer.bg.color = NULL, legend.show = TRUE,
+  draw.frame = TRUE, asp = NA, outer.margins = rep(0.02, 4),
+  inner.margins = NA, outer.bg.color = NULL, legend.show = TRUE,
   legend.only = FALSE, legend.position = NULL, legend.width = 0.3,
   legend.height = 0.9, legend.hist.height = 0.3,
   legend.hist.width = legend.width, legend.title.size = 1.1,
@@ -21,7 +21,8 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
   legend.bg.color = NA, legend.bg.alpha = 1, legend.hist.bg.color = NA,
   legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
   title.position = c("left", "top"), title.bg.color = NA,
-  title.bg.alpha = 1, design.mode = FALSE)
+  title.bg.alpha = 1, attr.position = c("right", "bottom"),
+  design.mode = FALSE)
 
 tm_layout_World(title = NA, inner.margins = c(0, 0.05, 0.025, 0.01),
   legend.position = c("left", "bottom"), scale = 0.8, ...)
@@ -53,11 +54,9 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{bg.color}{Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).}
 
-\item{draw.frame}{Boolean that determines whether a frama is drawn.}
+\item{draw.frame}{Boolean that determines whether a frame is drawn.}
 
 \item{asp}{Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.}
-
-\item{frame.lwd}{Width of the frame}
 
 \item{outer.margins}{Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.}
 
@@ -107,12 +106,17 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{title.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).}
 
+\item{attr.position}{Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "center" or "right", and the second value "top", "center", or "bottom". Positions can also be set separately in the map attribute fuctions.}
+
 \item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.}
 
 \item{...}{other arguments from \code{tm_layout}}
 }
 \description{
-This element specifies layout options for the maps. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a layout theme for your own map (see example below).
+This element specifies the map layout. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a layout theme for your own map (see example below). The map can be further styled with \code{\link{tm_style}} (see details).
+}
+\details{
+The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controleld wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
 }
 \examples{
 data(World)
@@ -139,6 +143,6 @@ qtm(Africa, fill="pop_est_dens", fill.style="kmeans", fill.title="Population den
     tm_layout_Africa("Africa")
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\code{\link{tm_style}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 

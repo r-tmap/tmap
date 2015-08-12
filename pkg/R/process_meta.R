@@ -38,7 +38,7 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 	
 	m <- gf$ncol * gf$nrow
 	
-	legend.only <- legend.frame <- NULL
+	legend.only <- legend.frame <- legend.bg.alpha <- legend.hist.bg.alpha <- title.bg.alpha <- NULL
 	gt <- within(gt, {
 		if (legend.only) {
 			title <- rep("", nx)
@@ -96,10 +96,12 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 	} else {
 		gg <- list(grid.show=FALSE)
 	}
-	
+
 	if (!is.null(gc)) {
 		gc <- within(gc, {
 			credits.size <- credits.size * gt$scale
+			credits.fontface[is.na(credits.fontface)] <-gst$fontface
+			credits.fontfamily[is.na(credits.fontfamily)] <-gst$fontfamily
 			credits.show <- TRUE
 		})
 	} else {
@@ -115,6 +117,7 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 		gsb <- list(scale.show=FALSE)
 	}
 	
+	compass.show.labels <- NULL
 	if (!is.null(gcomp)) {
 		gcomp <- within(gcomp, {
 			compass.fontsize <- compass.fontsize * gt$scale

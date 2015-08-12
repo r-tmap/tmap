@@ -4,7 +4,6 @@
 #' 
 #' The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controleld wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
 #' 
-#' @note 
 #' @name tm_layout
 #' @rdname tm_layout
 #' @param title Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.
@@ -37,6 +36,7 @@
 #' @param legend.frame either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.
 #' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param title.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).
+#' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "center" or "right", and the second value "top", "center", or "bottom". Positions can also be set separately in the map attribute fuctions.
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
 #' @param ... other arguments from \code{tm_layout}
 #' @seealso \code{\link{tm_style}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
@@ -72,7 +72,7 @@ tm_layout <- function(title=NA,
 					  title.position = c("left", "top"),
 					  title.bg.color=NA,
 					  title.bg.alpha = 1,
-					  elem.position = c("right", "bottom"),
+					  attr.position = c("right", "bottom"),
 					  design.mode = FALSE) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tm"

@@ -146,13 +146,14 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 	if (gt$credits.show || gt$scale.show || gt$compass.show) {
 		elems <- do.call("rbind", list(
 			if (gt$credits.show) data.frame(type="credits",
-				 height=lineHeight * (length(strsplit(gt$credits.text, "\n")[[1]])+1) * 
+				 height=unname(mapply(function(txt, sz) {
+				 	lineHeight * (length(strsplit(txt, "\n")[[1]])+1) * 
 				 	min((1-2*convertWidth(convertHeight(unit(lineHeight / 2, "npc"), "inch"), "npc", TRUE)) / 
-				 			convertWidth(stringWidth(gt$credits.text), "npc", valueOnly=TRUE),
-				 		gt$credits.size),
+				 			convertWidth(stringWidth(txt), "npc", valueOnly=TRUE), sz)
+				 	}, gt$credits.text, gt$credits.size)),
 				 width=1,
-				 position1=gt$credits.position[1],
-				 position2=gt$credits.position[2], 
+				 position1=sapply(gt$credits.position, "[", 1, USE.NAMES=FALSE),
+				 position2=sapply(gt$credits.position, "[", 2, USE.NAMES=FALSE), 
 				 sortid=gt$credits.id,
 				 stringsAsFactors = FALSE) else NULL,
 			if (gt$scale.show) data.frame(type="scale_bar",
@@ -162,7 +163,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 				position2=gt$scale.position[2], 
 				sortid=gt$scale.id,
 				stringsAsFactors = FALSE) else NULL,
-			if (gt$compass.show) data.frame(type="rose",
+			if (gt$compass.show) data.frame(type="compass",
 				height=(gt$compass.nlines * gt$compass.fontsize)*lineHeight,
 				width=(gt$compass.nlines * gt$compass.fontsize)*lineWidth,
 				position1=gt$compass.position[1],
@@ -170,8 +171,12 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 				sortid=gt$compass.id,
 				stringsAsFactors = FALSE) else NULL))
 
-		elems$position1[is.na(elems$position1)] <- gt$elem.position[1]
-		elems$position2[is.na(elems$position2)] <- gt$elem.position[2]
+		
+		elems$cred.id <- NA
+		elems$cred.id[elems$type=="credits"] <- order(order(elems$sortid[elems$type=="credits"]))
+		
+		elems$position1[is.na(elems$position1)] <- gt$attr.position[1]
+		elems$position2[is.na(elems$position2)] <- gt$attr.position[2]
 		
 		elems$isChar <- suppressWarnings(is.na(as.numeric(elems$position1)))
 		elems$id <- paste(elems$position1, elems$position2, !elems$isChar*1:nrow(elems))
@@ -243,7 +248,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 								name=as.character(e$type))
 				pushViewport(vpi)
 				if (e$type=="credits") {
-					grb <- plot_cred(gt, just=elem.just)
+					grb <- plot_cred(gt, just=elem.just, id=e$cred.id)
 				} else if (e$type=="scale_bar") {
 					grb <- plot_scale(gt, just=elem.just, xrange=(bb[1,2] - bb[1,1])*e$width2, crop_factor=gt$scale.width/e$width2)
 				} else {
@@ -583,37 +588,39 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 }
 
 
-plot_cred <- function(gt, just) {
+plot_cred <- function(gt, just, id) {
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 
 	my <- lineHeight / 2
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
 	# number of lines
-	nlines <- length(strsplit(gt$credits.text, "\n")[[1]])
+	nlines <- length(strsplit(gt$credits.text[id], "\n")[[1]])
 	
-	size <- min((1-2*mx) / convertWidth(stringWidth(gt$credits.text), "npc", valueOnly=TRUE), gt$credits.size)
+	size <- min((1-2*mx) / convertWidth(stringWidth(gt$credits.text[id]), "npc", valueOnly=TRUE), gt$credits.size[id])
 	
-	width <- (convertWidth(stringWidth(gt$credits.text), "npc", valueOnly=TRUE)+0*mx) * size
+	width <- (convertWidth(stringWidth(gt$credits.text[id]), "npc", valueOnly=TRUE)+0*mx) * size
 	height <- lineHeight * (nlines) * size
 
 	x <- if (just=="left") mx*size else 1-width-mx*size
 
-	if (gt$credits.align=="center") {
+	if (gt$credits.align[id]=="center") {
 		x <- x + width/2
-	} else if (gt$credits.align=="right") {
+	} else if (gt$credits.align[id]=="right") {
 		x <- x + width
 	}
 	
 	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
 	
+	col <- process_color(gt$credits.col[id], alpha=gt$credits.alpha[id], sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
+	
 	gTree(children=gList(grobBG,
-						 if (!is.na(gt$credits.bg.color)) {
-		bg.col <- process_color(gt$credits.bg.color, alpha=gt$credits.bg.alpha, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
+						 if (!is.na(gt$credits.bg.color[id])) {
+		bg.col <- process_color(gt$credits.bg.color[id], alpha=gt$credits.bg.alpha[id], sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
 		rectGrob(x=x, width=width, just="left", gp=gpar(col=NA, fill=bg.col))
 	} else {
 		NULL
-	}, textGrob(label=gt$credits.text, x = x, y =.5, just=c(gt$credits.align, "center"), gp=gpar(cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))))
+	}, textGrob(label=gt$credits.text[id], x = x, y =.5, just=c(gt$credits.align[id], "center"), gp=gpar(cex=size, col=col, fontface=gt$credits.fontface[id], fontfamily=gt$credits.fontfamily[id]))))
 }
 
 

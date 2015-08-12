@@ -4,21 +4,28 @@
 \alias{tm_scale_bar}
 \title{Scale bar}
 \usage{
-tm_scale_bar(breaks = NULL, size = 0.5, position = c("right", "bottom"))
+tm_scale_bar(breaks = NULL, width = 0.25, size = 0.5,
+  color.dark = "black", color.light = "white", position = NA)
 }
 \arguments{
-\item{breaks}{breaks of the scale bar}
+\item{breaks}{breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar.}
 
-\item{size}{relative text size}
+\item{width}{(prefered) width of the scale bar. Only applicable when \code{breaks=N ULL}}
 
-\item{position}{position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left center of the text. By default, it is placed in the right bottom corner.}
+\item{size}{relative text size (which is upperbound by the available label width)}
+
+\item{color.dark}{color of the dark parts of the scale bar, typically (and by default) black.}
+
+\item{color.light}{color of the light parts of the scale bar, typically (and by default) white.}
+
+\item{position}{position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.}
 }
 \description{
 Creates a scale bar. By default, the coordinate units are assumed to be meters, and the map units in kilometers. This can be changed in \code{\link{tm_shape}}.
 }
 \examples{
 data(NLD_muni)
-qtm(NLD_muni) + tm_scale_bar(position=c("left", "bottom"))
+qtm(NLD_muni, theme = "NLD") + tm_scale_bar(position=c("left", "bottom"))
 
 data(Europe)
 tm_shape(Europe, unit = "miles", unit.size=1609) + tm_polygons() + tm_scale_bar()

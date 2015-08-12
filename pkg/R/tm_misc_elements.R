@@ -73,17 +73,24 @@ tm_grid <- function(n.x=8,
 #' 
 #' @param text text. Multiple lines can be created with the line break symbol \code{"\\n"}.
 #' @param size relative text size
+#' @param col color of the text
+#' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of \code{col} is used (normally 1).
 #' @param align horizontal alignment: \code{"left"} (default), \code{"center"}, or \code{"right"}. Only applicable if \code{text} contains multiple lines
 #' @param bg.color background color for the text
 #' @param bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The default value is controlled by the argument \code{"elem.position"} of \code{\link{"tm_layout}}.
+#' @param fontface font face of the text. By default, determined by the fontface argument of \code{\link{tm_style}}.
+#' @param fontfamily font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_style}}.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_credits.R
 tm_credits <- function(text,
 					   size=.7,
+					   col="black",
+					   alpha=NA,
 					   align="left",
 					   bg.color=NA,
 					   bg.alpha=NA,
+					   fontface=NA, fontfamily=NA,
 					   position=NA) {
 	g <- list(tm_credits=as.list(environment()))
 	names(g$tm_credits) <- paste("credits", names(g$tm_credits), sep=".")
@@ -102,7 +109,7 @@ tm_credits <- function(text,
 #' @param size relative text size (which is upperbound by the available label width) 
 #' @param color.dark color of the dark parts of the scale bar, typically (and by default) black.
 #' @param color.light color of the light parts of the scale bar, typically (and by default) white.
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The default value is controlled by the argument \code{"elem.position"} of \code{\link{"tm_layout}}.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_scale_bar.R
 tm_scale_bar <- function(breaks=NULL,
@@ -130,7 +137,7 @@ tm_scale_bar <- function(breaks=NULL,
 #' @param cardinal.directions labels that are used for the cardinal directions north, east, south, and west.
 #' @param color.dark color of the dark parts of the compass, typically (and by default) black.
 #' @param color.light color of the light parts of the compass, typically (and by default) white.
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The default value is controlled by the argument \code{"elem.position"} of \code{\link{"tm_layout}}.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_compass.R
 tm_compass <- function(north=0, 

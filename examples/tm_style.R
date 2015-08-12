@@ -1,3 +1,4 @@
+# create world map
 data(World, land)
 tm <- tm_shape(land, ylim = c(-88,88), relative=FALSE) +
     tm_raster("elevation", n=10, style="kmeans", palette = terrain.colors(10), 
@@ -8,10 +9,13 @@ tm <- tm_shape(land, ylim = c(-88,88), relative=FALSE) +
     tm_layout(inner.margins=0, legend.position = c("left", "bottom"), legend.frame = TRUE, 
         bg.color="lightblue", legend.bg.color="lightblue", legend.width=.13)
 
+# plot in default style
 tm + tm_style()
+
+# plot in classic style
 tm + tm_style_classic()
 
-
+# classic choropleth
 data(NLD_muni, NLD_prov)
 tm_shape(NLD_muni) +
 	tm_fill(col="population", convert2density=TRUE, 

@@ -13,7 +13,7 @@
 #' @param frame.lwd width of the frame
 #' @param frame.double.line draw a double frame line border?
 #' @param compass.type type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.
-#' @param
+#' @param ... arguments passed on to \code{tm_style}
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_layout.R
 #' @export

@@ -4,19 +4,30 @@
 \alias{tm_credits}
 \title{Credits text}
 \usage{
-tm_credits(text, size = 0.7, position = c("right", "bottom"),
-  bg.color = NA, bg.alpha = NA)
+tm_credits(text, size = 0.7, col = "black", alpha = NA, align = "left",
+  bg.color = NA, bg.alpha = NA, fontface = NA, fontfamily = NA,
+  position = NA)
 }
 \arguments{
-\item{text}{text}
+\item{text}{text. Multiple lines can be created with the line break symbol \code{"\\n"}.}
 
 \item{size}{relative text size}
 
-\item{position}{position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. By default, it is placed in the right bottom corner.}
+\item{col}{color of the text}
+
+\item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of \code{col} is used (normally 1).}
+
+\item{align}{horizontal alignment: \code{"left"} (default), \code{"center"}, or \code{"right"}. Only applicable if \code{text} contains multiple lines}
 
 \item{bg.color}{background color for the text}
 
 \item{bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).}
+
+\item{fontface}{font face of the text. By default, determined by the fontface argument of \code{\link{tm_style}}.}
+
+\item{fontfamily}{font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_style}}.}
+
+\item{position}{position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.}
 }
 \description{
 Creates a text annotation that could be used for credits or acknowledgements.

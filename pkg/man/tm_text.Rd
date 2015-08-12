@@ -4,8 +4,8 @@
 \alias{tm_text}
 \title{Add text labels}
 \usage{
-tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = "plain",
-  fontfamily = "sans", alpha = NA, case = NA, shadow = FALSE,
+tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = NA,
+  fontfamily = NA, alpha = NA, case = NA, shadow = FALSE,
   bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
   print.tiny = FALSE, scale = 1, xmod = 0, ymod = 0)
 }
@@ -18,9 +18,9 @@ tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = "plain",
 
 \item{fontcolor}{color of the text labels}
 
-\item{fontface}{font face of the text labels}
+\item{fontface}{font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_style}}.}
 
-\item{fontfamily}{font family of the text labels}
+\item{fontfamily}{font family of the text labels. By default, determined by the fontfamily argument of \code{\link{tm_style}}.}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).}
 
