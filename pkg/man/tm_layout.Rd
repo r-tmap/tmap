@@ -70,7 +70,7 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default, it is automatically placed in the corner with most space based on the (first) shape object.}
 
-\item{legend.width}{width of the legend}
+\item{legend.width}{maximum width of the legend}
 
 \item{legend.height}{maximum height of the legend.}
 
@@ -88,7 +88,7 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{legend.digits}{Number of digits for the legend labels}
 
-\item{legend.frame}{either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.}
+\item{legend.frame}{either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color. The width of the frame is automatically determined, but is upper-bounded by \code{legend.width}.}
 
 \item{legend.bg.color}{Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 

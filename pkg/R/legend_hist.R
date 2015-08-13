@@ -149,6 +149,6 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, legend.hist.b
 		treeHist <- gTree(children=histElems, vp=vpHist)
 		upViewport()
 
-		treeHist
+		list(treeHist, 1)
 	})
 }

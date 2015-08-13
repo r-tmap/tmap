@@ -84,7 +84,7 @@ tm_shape(World) +
 tm_layout(scale=.8, 
 	legend.position = c("left","bottom"),
     legend.bg.color = "white", legend.bg.alpha=.2, 
-    legend.frame="gray50", legend.width=.2)
+    legend.frame="gray50")
 
 tm_shape(land, ylim = c(-88,88), relative=FALSE) +
     tm_raster("trees", palette = "Greens", title="Percent Tree Cover") +

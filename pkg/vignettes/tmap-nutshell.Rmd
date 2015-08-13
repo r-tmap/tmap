@@ -171,7 +171,8 @@ tm_layout_World(inner.margins=0,
     legend.position = c("left","bottom"), 
     legend.bg.color = "white", legend.bg.alpha=.2, 
     legend.frame="gray50", 
-    legend.width=.2, legend.height=.6, 
+    legend.height=.6, 
+    legend.hist.width=.2,
     legend.hist.height=.2, 
     legend.hist.bg.color="gray60", legend.hist.bg.alpha=.5)
 ```

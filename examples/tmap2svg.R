@@ -11,6 +11,6 @@ tm <- tm_shape(World) +
 			   palette="-RdYlBu", contrast=1, 
 			   title.size="Metro population", 
 			   title.col="Growth rate (%)", id="name") + 
-	tm_layout(legend.width=.15, legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE)
+	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE, asp=0)
 
 tmap2svg(tm)

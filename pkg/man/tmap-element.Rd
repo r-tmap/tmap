@@ -107,6 +107,6 @@ tm_shape(World) +
 tm_layout_World(inner.margins=0, 
     legend.position = c("left","bottom"), 
     legend.bg.color = "white", legend.bg.alpha=.2, 
-    legend.frame="gray50", legend.width=.2)
+    legend.frame="gray50")
 }
 

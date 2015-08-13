@@ -7,7 +7,7 @@ tm <- tm_shape(land, ylim = c(-88,88), relative=FALSE) +
     tm_borders() +
 	tm_grid(n.x = 18) +
     tm_layout(inner.margins=0, legend.position = c("left", "bottom"), legend.frame = TRUE, 
-        bg.color="lightblue", legend.bg.color="lightblue", legend.width=.13)
+        bg.color="lightblue", legend.bg.color="lightblue")
 
 # plot in default style
 tm + tm_style()

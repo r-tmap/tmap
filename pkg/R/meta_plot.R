@@ -286,20 +286,28 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 		
 		legend.frame.fill <- if (gt$design.mode) "#888888BB" else legend.bg.color
 		
-		grobLegBG <- rectGrob(gp=gpar(col=legend.frame.color, fill=legend.frame.fill))
 		
 		# normalise heights
 		heights <- heights / legendHeight
 		vpLeg <- viewport(layout=grid.layout(k, 2, heights=heights, widths=c(histWidth, 1-histWidth)), name="legend_grid")
 	
+		
 		if (gt$legend.inside.box) {
-			vpLegFrame <- viewport(width=.95, height=.95, name="legend_frame")
+			vpLegFrame <- viewport(width=1-mx, height=1-my, name="legend_frame")
 			vpLeg <- vpStack(vpLegFrame, vpLeg)
 		} 
 		
 		pushViewport(vpLeg)
-		grobList <- mapply("legend_subplot", x, id=1:k, MoreArgs = list(gt=gt), SIMPLIFY = FALSE)
+		grobListRes <- mapply("legend_subplot", x, id=1:k, MoreArgs = list(gt=gt, histWidth=histWidth), SIMPLIFY = FALSE)
 	
+		grobList <- lapply(grobListRes, "[[", 1)
+		legWidth <- max(sapply(grobListRes, "[[", 2))
+		cat(legWidth)
+
+		if (gt$legend.inside.box) legWidth <- legWidth / (1-mx)
+		
+		grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(col=legend.frame.color, fill=legend.frame.fill))
+		
 		upViewport(2)
 		gTree(children=gList(grobLegBG, gTree(children=do.call("gList", grobList), vp=vpLeg)), vp=vpLegend)
 	} else {
@@ -321,28 +329,31 @@ elem_subplot <- function(x, id, gt, just) {
 }
 
 
-legend_subplot <- function(x, id, gt) {
+legend_subplot <- function(x, id, gt, histWidth) {
 	legend.type <- x$legend.type
 	cols <- if (legend.type=="hist") 1 else c(1,2)
-	cellplot(id, cols, e={
+	list(cellplot(id, cols, e={
 	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
-		legGrob <- if (legend.type=="hist") {
+		res <- if (legend.type=="hist") {
 			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25, legend.hist.bg.color = gt$legend.hist.bg.color)
 		} else if (legend.type=="TITLE") {
 			legend_title(x, gt, is.main.title=TRUE, lineHeight, m=.1)
 		} else if (legend.type=="title") {
 			legend_title(x, gt, is.main.title=FALSE, lineHeight, m=.1)
 		} else if (legend.type=="spacer") {
-			NULL
+			list(NULL, 0)
 		} else if (x$legend.is.portrait) {
 			legend_portr(x, gt, lineHeight, m=.25)
 		} else {
 			legend_landsc(x, gt, lineHeight, m=.25)
 		}
+		legGrob <- res[[1]]
+		legWidth <- res[[2]]
+		if (legend.type=="hist") legWidth <- histWidth
 		if (gt$design.mode) {
 			gTree(children=gList(rectGrob(gp=gpar(fill="#CCCCCCCC")), legGrob))	
 		} else legGrob
-	})
+	}), legWidth=legWidth)
 }
 
 legend_title <- function(x, gt, is.main.title, lineHeight, m) {
@@ -355,7 +366,7 @@ legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	newsize <- min(size, 5/(lineHeight*6), (1-2*mx)/w)
 	
 	
-	textGrob(title, x=mx, y=5/12 , just=c("left", "center"), gp=gpar(cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	list(textGrob(title, x=mx, y=5/12 , just=c("left", "center"), gp=gpar(cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily)), legWidth=2*mx+w*newsize)
 }
 
 
@@ -428,7 +439,9 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		}
 		grobLegendText <- textGrob(legend.labels, x=mx*2+wsmax,
 								   y=ys, just=c("left", "center"), gp=gpar(cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
-		gList(grobLegendItem, grobLegendText)
+		legWidth <- mx*4+wsmax+max(wstext*newsize)
+		
+		list(gList(grobLegendItem, grobLegendText), legWidth=legWidth)
 	})
 }
 
@@ -466,8 +479,8 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		}
 		
 		
-		labelsws <- convertWidth(stringWidth(paste(legend.labels, " ")), "npc", TRUE) * legend.text.size# * 1.3 #1.2
-		maxlabelsws <- max(labelsws)
+		labelsws <- convertWidth(stringWidth(paste(legend.labels, " ")), "npc", TRUE)
+		maxlabelsws <- max(labelsws) * legend.text.size
 		
 		ws <- rep(maxlabelsws, nitems)
 		if (sum(ws)>rx) {
@@ -507,6 +520,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		
 		grobLegendItem <- if (legend.type %in% c("fill", "raster")) {
 			fill <- legend.palette
+			xtraWidth <- ws[1]/2
 			rectGrob(x=xs, 
 					  y=1-my-hs/2, 
 					  width= ws, 
@@ -514,14 +528,16 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 					  gp=gpar(fill=fill, col=border.col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
 			cols <- legend.palette
-			circleGrob(x=xs, 
-						y=1-my-hsmax/2, r=unit(hsi/2, "inch"),
+			bubbleR <- unit(hsi/2, "inch")
+			xtraWidth <- convertWidth(max(bubbleR), "npc", valueOnly=TRUE)
+			circleGrob(x=xs, y=1-my-hsmax/2, r=bubbleR,
 						gp=gpar(fill=cols,
 								col=bubble.border.col,
 								lwd=bubble.border.lwd))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
 			cols <- legend.palette
+			xtraWidth <- convertWidth(lwds[nitems], "points", valueOnly=TRUE)/2
 			polylineGrob(x=rep(xs, each=2), 
 						  y=1-my-c(0,1)*rep(hs, each=2),
 						  id=rep(1:nitems, each=2),
@@ -532,7 +548,10 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		}
 		grobLegendText <- textGrob(legend.labels, x=xs,
 				  y=my+lineHeight*legend.text.size, just=c("center", "top"), gp=gpar(cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
-		gList(grobLegendItem, grobLegendText)
+		
+		legWidth <- mx*2+xs[length(xs)]+max(xtraWidth, labelsws[nitems]*legend.text.size/2)
+
+		list(gList(grobLegendItem, grobLegendText), legWidth=legWidth)
 	})
 }
 
