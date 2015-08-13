@@ -4,12 +4,16 @@
 \alias{tmap2svg}
 \title{Interactive SVG}
 \usage{
-tmap2svg(tm, file = NULL)
+tmap2svg(tm, file = NULL, width = NULL, height = NULL)
 }
 \arguments{
 \item{tm}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}
 
 \item{file}{file name. If specified, the SVG image is saved to this file.}
+
+\item{width}{width}
+
+\item{height}{height}
 }
 \description{
 Convert the tmap output to an interactive SVG, that can be plot in RStudio. In development. Also svgPanZoom is not yet released on CRAN. See \url{devtools::install_github("timelyportfolio/svgPanZoom")}.

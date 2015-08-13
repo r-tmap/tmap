@@ -26,7 +26,8 @@ Imports:
    	osmar,
     RColorBrewer,
     svgPanZoom,
-    XML
+    XML,
+	spdep
 Suggests:
     knitr
 VignetteBuilder: knitr

@@ -112,9 +112,13 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' 
 #' @name tm_fill
 #' @rdname polygons
-#' @param col either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. If multiple values are specified, small multiples are drawn (see details). For \code{tm_borders}, it is a single color value that specifies the border line color.
+#' @param col For \code{tm_fill}, it is one of
+#' \itemize{
+#' \item a single color value
+#' \item the name of a data variable that is contained in \code{shp}. Either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. #' \item \code{"MAP_COLORING"}. In this case polygons will be colored such that adjacent polygons do not get the same color. See the underlying function \code{\link{map_coloring}} for details.}
+#' For \code{tm_borders}, it is a single color value that specifies the border line color. If multiple values are specified, small multiples are drawn (see details).
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
-#' @param palette a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palette. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
+#' @param palette a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palette. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables, \code{"Dark2"} for categorical variables, and \code{"Set2"} for \code{col="MAP_COLORING"}.
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.
 #' @param area Name of the data variable that contains the area sizes in squared kilometer.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable).
@@ -137,6 +141,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @param id name of the data variable that specifies the indices of the polygons. Only used for SVG output (see \code{\link{tmap2svg}}).
+#' @param ... for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link{map_coloring}}.
 #' @keywords choropleth
 #' @export
 #' @example ../examples/tm_fill.R
@@ -166,9 +171,10 @@ tm_fill <- function(col="grey85",
 					legend.hist.title=NA,
 					legend.z=NA,
 					legend.hist.z=NA,
-					id=NA) {
+					id=NA,
+					...) {
 	
-	g <- list(tm_fill=as.list(environment()))
+	g <- list(tm_fill=c(as.list(environment()), list(map_coloring=list(...))))
 	class(g) <- "tmap"
 	g
 }	
@@ -189,7 +195,6 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @rdname polygons
 #' @param border.col border line color
 #' @param border.alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
-#' @param ... arguments passed to either \code{tm_fill} or \code{tm_borders}
 #' @export
 tm_polygons <- function(col="grey85", 
 						alpha=NA,
@@ -197,9 +202,8 @@ tm_polygons <- function(col="grey85",
 						border.alpha=NA,
 						...) {
 	args <- list(...)
-	argsFill <- c(list(col=col, alpha=alpha), args[intersect(names(args), names(formals("tm_fill")))])
+	argsFill <- c(list(col=col, alpha=alpha), args[names(args)])
 	argsBorders <- c(list(col=border.col, alpha=border.alpha), args[intersect(names(args), names(formals("tm_borders")))])
-	
 	do.call("tm_fill", argsFill) + do.call("tm_borders", argsBorders)
 }
 

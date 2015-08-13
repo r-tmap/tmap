@@ -49,3 +49,9 @@ tm_shape(NLD_prov) +
     tm_borders(lwd=2) +
     tm_text("name", shadow=TRUE) +
 tm_layout_NLD("Provinces and municipalities", legend.show=FALSE, bg.color="white")
+
+## World country map
+tm_shape(World) + 
+	tm_polygons("MAP_COLORS") + 
+	tm_text("name", size = "AREA", scale=1.5) +
+	tm_layout_World(bg.color="lightblue2")

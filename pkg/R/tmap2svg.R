@@ -4,6 +4,8 @@
 #' 
 #' @param tm tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param file file name. If specified, the SVG image is saved to this file.
+#' @param width width
+#' @param height height
 #' @importFrom gridSVG grid.garnish grid.export
 #' @import svgPanZoom
 #' @import htmlwidgets

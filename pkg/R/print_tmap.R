@@ -12,6 +12,7 @@
 #' @import gridBase
 #' @import classInt
 #' @import rgeos
+#' @importFrom spdep poly2nb
 #' @export
 #' @method print tmap
 print.tmap <- function(x, vp=NULL, ...) {
@@ -38,6 +39,12 @@ print.tmap <- function(x, vp=NULL, ...) {
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)
 	if (!nshps) stop("Required tm_shape layer missing.")
+	
+	## find "MAP_COLORING" values
+	apply_map_coloring <- if ("tm_fill" %in% names(x)) {
+		any(sapply(x[which(names(x)=="tm_fill")], function(i)i$col[1]=="MAP_COLORS"))
+	} else FALSE
+	
 	
 	## extract data.frames from shape/raster objects
 	shps_dts <- lapply(x[shape.id], function(y) {
@@ -73,6 +80,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 			if (inherits(shp, "SpatialPolygonsDataFrame")) {
 				data$SHAPE_AREAS <- approx_areas(shp, unit=shp.unit, unit.size = shp.unit.size)
 				attr(data, "AREAS_is_projected") <- is_projected(shp)
+				if (apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
 			}
 		} else if (inherits(shp, "Raster")) {
 			if (fromDisk(shp)) {

@@ -13,7 +13,7 @@ tm_fill(col = "grey85", alpha = NA, palette = NULL,
   textNA = "Missing", text_separator = "to", text_less_than = "Less than",
   text_or_more = "or more", thres.poly = 1e-05, title = NA,
   legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.z = NA, legend.hist.z = NA, id = NA)
+  legend.z = NA, legend.hist.z = NA, id = NA, ...)
 
 tm_borders(col = "grey40", lwd = 1, lty = "solid", alpha = NA)
 
@@ -21,11 +21,15 @@ tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
   border.alpha = NA, ...)
 }
 \arguments{
-\item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. If multiple values are specified, small multiples are drawn (see details). For \code{tm_borders}, it is a single color value that specifies the border line color.}
+\item{col}{For \code{tm_fill}, it is one of
+\itemize{
+\item a single color value
+\item the name of a data variable that is contained in \code{shp}. Either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. #' \item \code{"MAP_COLORING"}. In this case polygons will be colored such that adjacent polygons do not get the same color. See the underlying function \code{\link{map_coloring}} for details.}
+For \code{tm_borders}, it is a single color value that specifies the border line color. If multiple values are specified, small multiples are drawn (see details).}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
-\item{palette}{a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palette. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.}
+\item{palette}{a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palette. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables, \code{"Dark2"} for categorical variables, and \code{"Set2"} for \code{col="MAP_COLORING"}.}
 
 \item{convert2density}{boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.}
 
@@ -71,6 +75,8 @@ tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
 
 \item{id}{name of the data variable that specifies the indices of the polygons. Only used for SVG output (see \code{\link{tmap2svg}}).}
 
+\item{...}{for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link{map_coloring}}.}
+
 \item{lwd}{border line width (see \code{\link[graphics:par]{par}})}
 
 \item{lty}{border line type (see \code{\link[graphics:par]{par}})}
@@ -78,8 +84,6 @@ tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
 \item{border.col}{border line color}
 
 \item{border.alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
-
-\item{...}{arguments passed to either \code{tm_fill} or \code{tm_borders}}
 }
 \value{
 \code{\link{tmap-element}}
@@ -142,6 +146,12 @@ tm_shape(NLD_prov) +
     tm_borders(lwd=2) +
     tm_text("name", shadow=TRUE) +
 tm_layout_NLD("Provinces and municipalities", legend.show=FALSE, bg.color="white")
+
+## World country map
+tm_shape(World) + 
+	tm_polygons("MAP_COLORS") + 
+	tm_text("name", size = "AREA", scale=1.5) +
+	tm_layout_World(bg.color="lightblue2")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
