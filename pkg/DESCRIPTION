@@ -29,5 +29,6 @@ Imports:
     XML,
 	spdep
 Suggests:
+	dplyr,
     knitr
 VignetteBuilder: knitr

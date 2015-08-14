@@ -1,5 +1,6 @@
-## load Netherlands municipality shape
+## load shapes
 data(NLD_muni)
+data(World)
 
 ## get bounding box (similar to sp's function bbox)
 bb(NLD_muni)
@@ -10,11 +11,14 @@ bb(NLD_muni, ext=1.10)
 ## convert to longlat
 bb(NLD_muni, projection="longlat")
 
-## find with Open Street Map Nominatim:
-bb(q="Netherlands")
+## change existing bounding box
+tm_shape(NLD_muni, bbox=bb(NLD_muni, ext=1.5)) + tm_polygons()
+tm_shape(NLD_muni, bbox=bb(NLD_muni, width=2, relative = TRUE)) + tm_polygons()
+tm_shape(NLD_muni, bbox=bb(NLD_muni, xlim=c(.25, .75), ylim=c(.25, .75), relative = TRUE)) + 
+	tm_polygons()
+tm_shape(NLD_muni, bbox=bb("Limburg", projection = get_projection(NLD_muni))) + tm_polygons()
 
-## load World shape and plot the Netherlands
-data(World)
-tm_shape(World, bbox=bb(q="Netherlands", projection = "eck4")) +
-	tm_polygons() +
-	tm_layout("Kingdom of the Netherlands (also in the Caribbean)")
+tm_shape(World, bbox=bb("Italy", projection = "eck4")) + tm_polygons()
+
+## create new bounding box
+tm_shape(NLD_muni, bbox=bb(cx=190000, cy=330000, width=50000, height=50000)) + tm_polygons()

@@ -44,7 +44,7 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 	} else {
 		# key.data specification
 		if (missing(key.data)) {
-			cat("No key.data specified. Therefore, rownames are taken as keys.\n")
+			message("No key.data specified. Therefore, rownames are taken as keys.\n")
 			ids.data <- rownames(data)
 		} else ids.data <- as.character(data[[key.data]])
 	
@@ -95,7 +95,7 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 			} else {
 				duplicated_shp <- paste(duplicated_shp, collapse=", ")
 			}
-			cat("shp contains duplicated keys:", duplicated_shp, "\n")
+			message("shp contains duplicated keys:", duplicated_shp, "\n")
 		}
 	
 		# key.shp any NA?
@@ -115,7 +115,7 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 		ids.data <- setdiff(ids.data, "data_key_NA")
 		ids.shp <- setdiff(ids.shp, "shp_key_NA")
 		if (setequal(ids.data, ids.shp)) {
-			cat("Keys match perfectly.\n")
+			message("Keys match perfectly.\n")
 		} else {
 			if (!all(ids.shp %in% ids.data)) {
 				notMatched.shp <- setdiff(ids.shp, ids.data)

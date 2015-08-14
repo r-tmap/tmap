@@ -1,6 +1,6 @@
-#' Interactive SVG
+#' Interactive thematic map
 #' 
-#' Convert the tmap output to an interactive SVG, that can be plot in RStudio. In development. Also svgPanZoom is not yet released on CRAN. See \url{devtools::install_github("timelyportfolio/svgPanZoom")}.
+#' Convert the tmap output to an interactive SVG, that can be plot in RStudio. In development. Requires the development version of svgPanZoom, see \url{devtools::install_github("timelyportfolio/svgPanZoom")}.
 #' 
 #' @param tm tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param file file name. If specified, the SVG image is saved to this file.
@@ -10,9 +10,9 @@
 #' @import svgPanZoom
 #' @import htmlwidgets
 #' @import XML
-#' @example ../examples/tmap2svg.R
+#' @example ../examples/itmap.R
 #' @export
-tmap2svg <- function(tm, file=NULL, width = NULL, height = NULL ) {
+itmap <- function(tm, file=NULL, width = NULL, height = NULL ) {
 	tmp <- tempfile()
 
 	# Can I get the grid object, without actually plotting it?
@@ -153,7 +153,10 @@ tmap2svg <- function(tm, file=NULL, width = NULL, height = NULL ) {
 }
 
 
-
+tmap2svg <- function(...) {
+	warning("'tmap2svg' is renamed to the catchier 'itmap'")
+	do.call("tmap2svg", list(...))
+}
 
 
 

@@ -2,7 +2,9 @@ data(World)
 data(metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
-tm <- tm_shape(World) +
+require(dplyr)
+
+(tm_shape(World) +
 	tm_polygons("income_grp", palette="-Blues", contrast=.7, id="name", title="Income group") +
 	tm_shape(metro) +
 	tm_bubbles("pop2010", col = "growth", 
@@ -11,6 +13,5 @@ tm <- tm_shape(World) +
 			   palette="-RdYlBu", contrast=1, 
 			   title.size="Metro population", 
 			   title.col="Growth rate (%)", id="name") + 
-	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE, asp=0)
-
-tmap2svg(tm)
+	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE, asp=0)) %>% 
+itmap()

@@ -1,9 +1,14 @@
 version 1.1 (under construction)
-- added interactive SVG, that can be opend in RStudio (see tmap2svg)
+- added interactive SVG, that can be opend in RStudio (see itmap)
 - added read_osm, a function to read Open Street Map data
 - added bb, a handy bounding box function
+- added tm_style. See tm_style_classic for classic, sepia-colored maps
+- added map compass (tm_compass)
+- added automatic map coloring
+- added save_tmap
+- improved automatic layout regarding legend and map attributes
 - layer arguments, e.g. palette, can take multiple values for small multiples
-- grid line labels can also be placed outside frame
+- improved grid lines (labels can also be placed outside frame)
 - arguments free.coords and drop.shapes of tm_facets working
 - fixed viewport bug
 

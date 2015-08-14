@@ -87,7 +87,7 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
 
-\item{id}{name of the data variable that specifies the indices of the bubbles. Only used for SVG output (see \code{\link{tmap2svg}}).}
+\item{id}{name of the data variable that specifies the indices of the bubbles. Only used for SVG output (see \code{\link{itmap}}).}
 }
 \value{
 \code{\link{tmap-element}}

@@ -73,7 +73,7 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element}
 
-\item{id}{name of the data variable that specifies the indices of the polygons. Only used for SVG output (see \code{\link{tmap2svg}}).}
+\item{id}{name of the data variable that specifies the indices of the polygons. Only used for SVG output (see \code{\link{itmap}}).}
 
 \item{...}{for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link{map_coloring}}.}
 

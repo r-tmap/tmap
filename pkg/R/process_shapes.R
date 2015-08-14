@@ -178,13 +178,17 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			if (diff_shapes) {
 				lapply(bboxes, function(bb2){
 					y <- crop(x, bb2)
-					if (is.null(y)) y <- x					
+					if (is.null(y)) y <- x
 					attr(y, "bbox") <- bb2
 					y
 				})
 			} else {
-				y <- crop(x, bb)
-				if (is.null(y)) y <- x					
+				y <- tryCatch({
+					y <- crop(x, bb)
+					if (is.null(y)) x else y
+				}, error=function(e) {
+					x	
+				})
 				attr(y, "bbox") <- bb
 				y	
 			}

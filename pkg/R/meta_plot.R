@@ -302,7 +302,6 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 	
 		grobList <- lapply(grobListRes, "[[", 1)
 		legWidth <- max(sapply(grobListRes, "[[", 2))
-		cat(legWidth)
 
 		if (gt$legend.inside.box) legWidth <- legWidth / (1-mx)
 		
