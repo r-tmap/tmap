@@ -24,6 +24,8 @@ get_raster_data <- function(shp) {
 	} else if (inherits(shp, "RasterBrick")) {
 		isfactor <- shp@data@isfactor
 		data <- as.data.frame(shp@data@values)
+		if (is.null(dimnames(shp@data@values))) names(data) <- shp@data@names
+		
 		atb <- shp@data@attributes
 		atb <- atb[sapply(atb, length)!=0]
 		

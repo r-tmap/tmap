@@ -47,6 +47,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		
 		doc <- xmlTreeParse(tmpfile)
 		unlink(tmpfile)
+		if (length(xmlChildren(xmlRoot(doc)))==0) stop(paste("No results found for \"", x, "\".", sep=""))
 		first_search_result <- xmlChildren(xmlRoot(doc))[[1]]
 		bbx <- xmlAttrs(first_search_result)["boundingbox"]
 		cy <- as.numeric(xmlAttrs(first_search_result)["lat"])
