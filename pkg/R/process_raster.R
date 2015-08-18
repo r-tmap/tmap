@@ -46,6 +46,7 @@ process_raster <- function(data, g, gt, gst, gby, z) {
 	
 	if ("PIXEL__COLOR" %in% names(data)) {
 		x <- "PIXEL__COLOR"
+		data$PIXEL__COLOR <- do.call("process_color", c(list(col=data$PIXEL__COLOR, alpha=g$alpha), gst))
 		is.colors <- TRUE
 		nx <- 1
 	} else if ("FILE__VALUES" %in% names(data)) {
