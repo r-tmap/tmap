@@ -11,7 +11,7 @@ The latest development version can be installed using `devtools`.
 
 ```r
 library(devtools)
-install_github("tmap", username="mtennekes", subdir="pkg")
+install_github(repo="mtennekes/tmap", subdir = "pkg")
 ```
 
 Usage
