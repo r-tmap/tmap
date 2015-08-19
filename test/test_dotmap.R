@@ -34,10 +34,19 @@ dh3 <- read_osm(bb(dhbb, current.projection="rd", projection="longlat"), type = 
 
 dh2 <- sample_dots(dh, c("dutch", "west", "non_west"), N=1e6, w=150, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"))
 
+
 tm_shape(dh3) + tm_raster(saturation=.2) +
 	tm_shape(dh2) + tm_dots("class", size=.04, alpha=.5, palette="Dark2", title.col = "Dutch population") +
 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
 #+	tm_shape(dh) + tm_borders(lwd=1)
+
+# output
+# png("dotmap2.png", width=665, height=543)
+# tm_shape(dh3) + tm_raster(saturation=.2) +
+# 	tm_shape(dh2) + tm_dots("class", size=.04, alpha=.5, palette="Dark2", title.col = "Dutch population") +
+# 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90", outer.margins=0, scale=1.5)
+# dev.off()
+
 
 
 ## Randstad
