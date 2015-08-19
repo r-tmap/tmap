@@ -44,6 +44,9 @@ process_raster <- function(data, g, gt, gst, gby, z) {
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
 	
+	# update gst's saturation
+	gst$saturation <- gst$saturation * g$saturation
+	
 	if ("PIXEL__COLOR" %in% names(data)) {
 		x <- "PIXEL__COLOR"
 		data$PIXEL__COLOR <- do.call("process_color", c(list(col=data$PIXEL__COLOR, alpha=g$alpha), gst))

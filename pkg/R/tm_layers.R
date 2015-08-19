@@ -225,6 +225,7 @@ tm_polygons <- function(col="grey85",
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
+#' @param saturation Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_style}}).
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param text_separator Character string to use to separate numbers in the legend (default: "to").
 #' @param text_less_than Character string to use to translate "Less than" (which is the default).
@@ -250,6 +251,7 @@ tm_raster <- function(col="grey70",
 					  contrast = 1,
 					  max.categories = 12,
 					  colorNA = NA,
+					  saturation = 1,
 					  textNA = "Missing",
 					  text_separator = "to",
 					  text_less_than = "Less than",
@@ -265,13 +267,15 @@ tm_raster <- function(col="grey70",
 	g
 }
 
-#' Draw bubbles
+#' Draw bubbles or dots
 #' 
-#' Creates a \code{\link{tmap-element}} that draws bubbles. Both colors and sizes of the bubbles can be mapped to data variables. 
+#' Creates a \code{\link{tmap-element}} that draws bubbles or small dots. Both colors and sizes of the bubbles can be mapped to data variables. 
 #' 
 #' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic arguments of \code{tm_bubbles} are \code{size} and \code{col}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
-#' @param size \code{shp} data variable that determines the bubble sizes. If multiple values are specified, small multiples are drawn (see details).
+#' @name tm_bubbles
+#' @rdname tm_bubbles
+#' @param size \code{shp} data variable that determines the bubble sizes, or a single value. In the latter case, \code{size=1} means that bubbles have the same diameter as the height of a line of text. If a data variable is provided, the bubble sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest bubble will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param border.col color of the bubble borders.
@@ -381,4 +385,10 @@ tm_bubbles <- function(size=1, col="blueviolet",
 }
 
 
+#' @rdname tm_bubbles
+#' @param ... arguments passed on to \code{tm_bubbles}
+#' @export
+tm_dots <- function(col="black", size=.02, ...) {
+	do.call("tm_bubbles", c(list(size=size, col=col), list(...)))
+}
 
