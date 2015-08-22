@@ -182,9 +182,12 @@ plot_grid <- function(gt, scale, add.labels) {
 }
 
 plot_bubbles <- function(co.npc, g, gt, bubbleHeight, i, k) {
+	bubbleH <- convertHeight(unit(bubbleHeight, "inch"), "npc", valueOnly=TRUE)
+	bubbleW <- convertWidth(unit(bubbleHeight, "inch"), "npc", valueOnly=TRUE)
+	
 	with(g, {
-		co.npc[, 1] <- co.npc[, 1] + bubble.xmod
-		co.npc[, 2] <- co.npc[, 2] + bubble.ymod
+		co.npc[, 1] <- co.npc[, 1] + bubble.xmod * bubbleW * 2
+		co.npc[, 2] <- co.npc[, 2] + bubble.ymod * bubbleH * 2
 		npol <- nrow(co.npc)
 		if (length(bubble.size)!=npol) {
 			if (length(bubble.size)!=1) warning("less bubble size values than objects")

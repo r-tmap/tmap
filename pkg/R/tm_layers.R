@@ -299,8 +299,9 @@ tm_raster <- function(col="grey70",
 #' @param text_separator Character string to use to separate numbers in the legend (default: "to").
 #' @param text_less_than Character string to use to translate "Less than" (which is the default).
 #' @param text_or_more Character string to use to translate "or more" (which is the default). 
-#' @param xmod horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
+#' @param xmod horizontal position modification of the bubbles, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
+#' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the bubbles. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
 #' @param title.size title of the legend element regarding the bubble sizes
 #' @param title.col title of the legend element regarding the bubble colors
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the bubble sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
@@ -311,6 +312,9 @@ tm_raster <- function(col="grey70",
 #' @param legend.col.z index value that determines the position of the legend element regarding the bubble colors. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
 #' @param id name of the data variable that specifies the indices of the bubbles. Only used for SVG output (see \code{\link{itmap}}).
+#' @param title shortcut for \code{title.col} for \code{tm_dots}
+#' @param legend.is.portrait shortcut for \code{legend.col.is.portrait} for \code{tm_dots}
+#' @param legend.z shortcut for \code{legend.col.z shortcut} for \code{tm_dots}
 #' @keywords bubble map
 #' @export
 #' @example ../examples/tm_bubbles.R
@@ -339,6 +343,7 @@ tm_bubbles <- function(size=1, col="blueviolet",
 						text_separator = "to",
 						text_less_than = "Less than",
 						text_or_more = "or more",
+						jitter=0,
 						xmod = 0,
 						ymod = 0,
 						title.size = NA,
@@ -368,6 +373,7 @@ tm_bubbles <- function(size=1, col="blueviolet",
 							  text_separator=text_separator,
 							  text_less_than=text_less_than,
 							  text_or_more=text_or_more,
+							  bubble.jitter=jitter,
 								 bubble.xmod=xmod,
 								 bubble.ymod=ymod,
 							  title.size=title.size,
@@ -388,7 +394,9 @@ tm_bubbles <- function(size=1, col="blueviolet",
 #' @rdname tm_bubbles
 #' @param ... arguments passed on to \code{tm_bubbles}
 #' @export
-tm_dots <- function(col="black", size=.02, ...) {
-	do.call("tm_bubbles", c(list(size=size, col=col), list(...)))
+tm_dots <- function(col="black", size=.02, title = NA, legend.is.portrait=TRUE, legend.z=NA, ...) {
+	do.call("tm_bubbles", c(list(size=size, col=col, title.col=title, 
+								 legend.col.is.portrait=legend.is.portrait,
+								 legend.size.z=legend.z), list(...)))
 }
 

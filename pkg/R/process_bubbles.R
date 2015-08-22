@@ -211,6 +211,12 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 	xmod <- if (is.character(xmod)) data[[xmod]] else rep(xmod, length.out=npol)
 	ymod <-  if (is.character(ymod)) data[[ymod]] else rep(ymod, length.out=npol)
 
+	if (g$bubble.jitter>0) {
+		xmod <- xmod + rnorm(n=npol, sd=g$bubble.jitter)
+		ymod <- ymod + rnorm(n=npol, sd=g$bubble.jitter)
+	}
+	
+	
 	bubble.size.legend.palette <- bubble.col.neutral
 
 	bubble.size.legend.title <- if (is.na(g$title.size)[1]) xsize else g$title.size

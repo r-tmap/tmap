@@ -11,13 +11,14 @@ tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
   style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
   colorNA = "#FF1414", textNA = "Missing", text_separator = "to",
-  text_less_than = "Less than", text_or_more = "or more", xmod = 0,
-  ymod = 0, title.size = NA, title.col = NA,
+  text_less_than = "Less than", text_or_more = "or more", jitter = 0,
+  xmod = 0, ymod = 0, title.size = NA, title.col = NA,
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
   legend.hist = FALSE, legend.hist.title = NA, legend.size.z = NA,
   legend.col.z = NA, legend.hist.z = NA, id = NA)
 
-tm_dots(col = "black", size = 0.02, ...)
+tm_dots(col = "black", size = 0.02, title = NA,
+  legend.is.portrait = TRUE, legend.z = NA, ...)
 }
 \arguments{
 \item{size}{\code{shp} data variable that determines the bubble sizes, or a single value. In the latter case, \code{size=1} means that bubbles have the same diameter as the height of a line of text. If a data variable is provided, the bubble sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest bubble will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).}
@@ -68,7 +69,9 @@ tm_dots(col = "black", size = 0.02, ...)
 
 \item{text_or_more}{Character string to use to translate "or more" (which is the default).}
 
-\item{xmod}{horizontal position modification of the bubbles, relatively where 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.}
+\item{jitter}{number that determines the amount of jittering, i.e. the random noise added to the position of the bubbles. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.}
+
+\item{xmod}{horizontal position modification of the bubbles, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.}
 
 \item{ymod}{vertical position modification. See xmod.}
 
@@ -91,6 +94,12 @@ tm_dots(col = "black", size = 0.02, ...)
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
 
 \item{id}{name of the data variable that specifies the indices of the bubbles. Only used for SVG output (see \code{\link{itmap}}).}
+
+\item{title}{shortcut for \code{title.col} for \code{tm_dots}}
+
+\item{legend.is.portrait}{shortcut for \code{legend.col.is.portrait} for \code{tm_dots}}
+
+\item{legend.z}{shortcut for \code{legend.col.z shortcut} for \code{tm_dots}}
 
 \item{...}{arguments passed on to \code{tm_bubbles}}
 }

@@ -122,6 +122,16 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 	
 	if (!missing(projection)) {
 		sp_rect <- as(extent(b), "SpatialPolygons")
+		co <- sp_rect@polygons[[1]]@Polygons[[1]]@coords
+		
+		# add intermediate points
+		co2 <- apply(co, 2, function(v) {
+			n <- length(v)
+			c(v[1], rep(v[-n], each=4) + as.vector(sapply((v[-1] - v[-n]) / 4, function(w)cumsum(rep(w,4)))))
+		})
+		
+		sp_rect@polygons[[1]]@Polygons[[1]]@coords <- co2
+		
 		sp_rect <- set_projection(sp_rect, current.projection = current.projection)
 		sp_rect_prj <- spTransform(sp_rect, CRSobj = get_proj4_code(projection))
 		b <- sp_rect_prj@bbox

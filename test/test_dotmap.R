@@ -1,99 +1,69 @@
-data(NLD_muni)
+data(World)
+World_dots <- sample_dots(World, vars="pop_est_dens", nrow=200, ncol=400, w=1e6)
 
-# download Dutch neighborhoods (called "buurten") from http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/publicaties/geografische-data/archief/2015/wijk-en-buurtkaart-2014-art.htm
-brt <- read_shape("../../shape_files/buurt_2014.shp")
-brt <- gBuffer(brt, byid=TRUE, width=0)
+tm_shape(World_dots) + tm_dots(size = .02, jitter=.1) + tm_layout("One dot represents one million people", title.position = c("right", "bottom"))
 
+# download Dutch neighborhood shape file
+dir <- tempdir()
+temp <- tempfile()
 
-brt$OPP_LAND[brt$OPP_LAND<0] <-  0
-brt$OPP_LAND <- brt$OPP_LAND / 100 # convert from hectare (ha) to km2
-brt$AANT_INW[brt$AANT_INW<0] <- 0
-brt$P_N_W_AL[brt$P_N_W_AL<0] <- 0
-brt$P_WEST_AL[brt$P_WEST_AL<0] <- 0
+download.file("http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/links/2014-buurtkaart-shape-versie-1-el.htm", temp, mode="wb")
+unzip(temp, exdir = dir)
 
-brt$dens <- (brt$AANT_INW / brt$OPP_LAND)
-brt$dens[is.nan(brt$dens)] <- 0
+#NLD_nbhd <- read_shape("../../shape_files/buurt_2014.shp")
+NLD_nbhd <- read_shape(file.path(dir, "buurt_2014.shp"))
 
-brt$non_west <- brt$dens * brt$P_N_W_AL / 100
-brt$west <- brt$dens * brt$P_WEST_AL / 100
-brt$dutch <- brt$dens - brt$non_west - brt$west
+# fix self-intersection but in shape object
+NLD_nbhd <- rgeos::gBuffer(NLD_nbhd, byid=TRUE, width=0)
 
+# remove all water neighborhoods
+NLD_nbhd <- NLD_nbhd[NLD_nbhd$OPP_LAND>0, ]
 
-ams <- brt[which(brt$GM_NAAM=="Amsterdam"), ]
-utr <- brt[which(brt$GM_NAAM=="Utrecht"), ]
+# process data
+NLD_nbhd@data <- within(NLD_nbhd@data, {
+	# convert land area ("OPP_LAND") from hectare (ha) to km2
+	OPP_LAND <- OPP_LAND / 100
 
+	# set negative percentages of western and non-western immigrants to 0
+	P_WEST_AL[P_WEST_AL<0] <- 0
+	P_N_W_AL[P_N_W_AL<0] <- 0
+	
+	# calculate population density values
+	dens <- (AANT_INW / OPP_LAND)
+	dens[is.nan(dens)] <- 0
+	
+	# divide population in three groups: western and non-western immigrants, and native Dutch
+	west <- dens * P_WEST_AL / 100
+	non_west <- dens * P_N_W_AL / 100
+	dutch <- dens - non_west - west
+})
 
+# Select The Hague (Den Haag) area
+DH_bbox <- bb(NLD_nbhd[which(NLD_nbhd$GM_NAAM=="'s-Gravenhage"), ])
 
+# Crop shape to The Hague area (use 1.05 bounding box extension to make sure the whole region is covered after reprojection to the Mercator porjection)
+DH_nbhd <- raster::crop(NLD_nbhd, bb(DH_bbox, 1.05))
 
-## Den Haag example
+# Read OSM layer
+DH_nbhd_osm <- read_osm(bb(DH_bbox, current.projection="rd", projection="longlat"), type = "mapquest")
 
-dhbb <- bb(brt[which(brt$GM_NAAM=="'s-Gravenhage"), ])
+# Sample dots (each dot represents 100 persons)
+DH_nbhd_dots <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2density = FALSE, N=250000, w=100, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), shp.id = "ID")
 
-dh <- crop(brt[which(brt$OPP_LAND > 0), ], dhbb)
-dh3 <- read_osm(bb(dhbb, current.projection="rd", projection="longlat"), type = "mapquest")
-
-dh2 <- sample_dots(dh, c("dutch", "west", "non_west"), N=1e6, w=150, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"))
-
-
-tm_shape(dh3) + tm_raster(saturation=.2) +
-	tm_shape(dh2) + tm_dots("class", size=.04, alpha=.5, palette="Dark2", title.col = "Dutch population") +
+# Show map
+tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
+	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title.col = "The Hague population") +
 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
-#+	tm_shape(dh) + tm_borders(lwd=1)
-
-# output
-png("dotmap2.png", width=dh3@grid@cells.dim[1], height=dh3@grid@cells.dim[2])
-tm_shape(dh3) + tm_raster(saturation=.2) +
-	tm_shape(dh2) + tm_dots("class", size=.04, alpha=.5, palette="Dark2", title.col = "The Hague population") +
-	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90", outer.margins=0, scale=1.5)
-dev.off()
 
 
 
-## Randstad
-rst2 <- dotmap(rst, c("non_west", "west", "dutch"), N=1e6, n=1e4)
-rstbb <- bb(xlim=c(60000, 150000), ylim=c(430000, 500000))
 
-rst3 <- read_osm(bb(rstbb, current.projection="rd", projection="longlat"))
-qtm(rst3)
+# 
+# 
+# 
+# png("dotmap2c2.png", width=DH_nbhd_osm@grid@cells.dim[1], height=DH_nbhd_osm@grid@cells.dim[2])
+# tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
+# 	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title.col = "The Hague population") +
+# 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90", outer.margins=0, scale=1.5)
+# dev.off()
 
-rst <- crop(brt, rstbb)
-
-rst2 <- dotmap(rst, c("non_west", "west", "dutch"), N=1e6, n=1e4)
-
-tm_shape(rst3) + tm_raster() +
-	tm_shape(rst2) + tm_bubbles(col="class", size=.02, palette=c("red", "forestgreen", "lightblue"), title.col = "Dutch population") +
-	tm_shape(rst) + tm_borders(lwd=1)
-
-
-
-# shp <- brt
-# vars <- c("non_west", "west", "dutch")
-
-shp2 <- dotmap(brt, c("non_west", "west", "dutch"))
-ams2 <- dotmap(ams, c("non_west", "west", "dutch"))
-utr2 <- dotmap(utr, c("non_west", "west", "dutch"))
-
-utr3 <- read_osm(bb(utr, projection="longlat"))
-
-
-tm_shape(ams) + tm_borders() + 
-	tm_shape(ams2) + tm_bubbles(col="class", size=.03, palette=c("red", "forestgreen", "lightblue"), title.col = "Dutch population")
-
-tm_shape(utr3) + tm_raster() +
-	tm_shape(utr2) + tm_bubbles(col="class", size=.03, palette=c("red", "forestgreen", "lightblue"), title.col = "Dutch population") +
-tm_shape(utr) + tm_borders(lwd=2)
-	
-
-shp2 <- dotmap(brt, c("non_west", "west", "dutch"), N=1e6, n=2e5)
-tm_shape(shp2) + tm_bubbles(col="class", size=.01, palette=c("red", "forestgreen", "lightblue"), title.col = "Dutch population")
-
-png("dotmap_high_res.png", width=2915, height=3431)
-tm_shape(shp2) + tm_bubbles(col="class", size=.08, palette="Set1", title.col = "Dutch population") + tm_layout(inner.margins=0, outer.margins = 0)
-dev.off()
-
-
-
-	
-	
-	
-tm_shape(p2) + tm_bubbles(col="cat", size=.01, palette="Dark2", title.col = "Dutch population")
