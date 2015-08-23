@@ -83,7 +83,8 @@ tm_shape(World_dots) + tm_dots(size = .02, jitter=.1) +
 		dens <- (AANT_INW / OPP_LAND)
 		dens[is.nan(dens)] <- 0
 		
-		# divide population in three groups: western and non-western immigrants, and native Dutch
+		# divide population in three groups: 
+		# western and non-western immigrants, and native Dutch
 		west <- dens * P_WEST_AL / 100
 		non_west <- dens * P_N_W_AL / 100
 		dutch <- dens - non_west - west
@@ -92,8 +93,8 @@ tm_shape(World_dots) + tm_dots(size = .02, jitter=.1) +
 	# Select The Hague (Den Haag) area
 	DH_bbox <- bb(NLD_nbhd[which(NLD_nbhd$GM_NAAM=="'s-Gravenhage"), ])
 	
-	# Crop shape to The Hague area (use 1.05 bounding box extension to make sure the whole region is
-	# covered after reprojection to the Mercator porjection)
+	# Crop shape to The Hague area (use 1.05 bounding box extension to make sure the
+	# whole region is covered after reprojection to the Mercator porjection)
 	DH_nbhd <- raster::crop(NLD_nbhd, bb(DH_bbox, 1.05))
 	
 	# Read OSM layer
@@ -101,14 +102,18 @@ tm_shape(World_dots) + tm_dots(size = .02, jitter=.1) +
 							type = "mapquest")
 	
 	# Sample dots (each dot represents 100 persons)
-	DH_nbhd_dots <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2density = FALSE, 
-	    N=250000, w=100, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), 
-	    shp.id = "ID")
+	DH_nbhd_dots <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), 
+								convert2density = FALSE, 
+								N=250000, w=100, 
+								var.labels = c("Dutch (native)", "Western immigrants",
+											   "Non-western immigrants"), 
+								shp.id = "ID")
 	
 	# Show map
 	tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
 		tm_shape(DH_nbhd_dots) + 
-		    tm_dots("class", size=.04, alpha=.75, palette="Dark2", title.col = "The Hague population") +
+		    tm_dots("class", size=.04, alpha=.75, palette="Dark2", 
+		    		title.col = "The Hague population") +
 		tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
 }
 }

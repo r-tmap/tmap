@@ -62,9 +62,10 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 				attr(x, "proj4string") <- CRS(x.proj)
 			}
 			if (x.proj != projection) {
-				if (is.raster(x)) {
-					stop(paste("Raster", shp_nm, "has different projection and cannot be transformed"))
+				if (inherits(x, "Raster")) {
+					stop(paste("Raster", shp_nm, "has different projection and cannot easily be transformed. Please use set_projection for that."))
 				}
+				
 				x <- spTransform(x, CRS(projection))
 			}
 		}

@@ -275,7 +275,7 @@ tm_raster <- function(col="grey70",
 #' 
 #' @name tm_bubbles
 #' @rdname tm_bubbles
-#' @param size \code{shp} data variable that determines the bubble sizes, or a single value. In the latter case, \code{size=1} means that bubbles have the same diameter as the height of a line of text. If a data variable is provided, the bubble sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest bubble will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
+#' @param size a single value or a \code{shp} data variable that determines the bubble sizes. The reference value \code{size=1} corresponds to the area of bubbles that have the same height as one line of text. If a data variable is provided, the bubble sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest bubble will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
 #' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param border.col color of the bubble borders.
@@ -321,7 +321,7 @@ tm_raster <- function(col="grey70",
 #' @references Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_bubbles <- function(size=1, col="blueviolet",
+tm_bubbles <- function(size=.2, col="blueviolet",
 						alpha=NA,
 						border.col=NA,
 						border.lwd=1,

@@ -3,7 +3,7 @@ plot_map <- function(i, gp, gt, shps, bb) {
 	nlayers <- length(gp)
 	
 	## bubble height needed to align with bubbles in legend
-	bubbleHeight <- convertHeight(unit(.5, "lines"), "inch", valueOnly=TRUE)
+	lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE)
 	
 	
 	## grid lines
@@ -32,8 +32,12 @@ plot_map <- function(i, gp, gt, shps, bb) {
 				co <- coordinates(shp) # prefered over gCentroid since coordinates correspond to first (normally largest) polygon of each object
 			}
 			co.npc <- co
-			co.npc[,1] <- (co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])
-			co.npc[,2] <- (co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
+			co.npc[,1] <- if (bb[1, 2]-bb[1,1]==0) .5 else {
+				(co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])	
+			}
+			co.npc[,2] <- if (bb[2, 2]-bb[2,1]==0) .5 else {
+				(co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
+			}
 		} else {
 			co.npc <- NA
 		}
@@ -51,8 +55,8 @@ plot_map <- function(i, gp, gt, shps, bb) {
 									   lineend="butt"), i, k)
 		}
 		
-		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, gt, bubbleHeight, i, k)
-		plot_tm_text <- function() plot_text(co.npc, gpl)
+		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, gt, lineInch, i, k)
+		plot_tm_text <- function() plot_text(co.npc, gpl, lineInch)
 		
 		plot_tm_raster <- function() {
 			rast <- if (is.null(gpl$raster)) NA else gpl$raster
@@ -92,7 +96,7 @@ plot_map <- function(i, gp, gt, shps, bb) {
 	} else {
 		do.call("gList", args = c(list(treeGrid), treeElements))
 	}
-	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), bubbleHeight=bubbleHeight, metaX=metaX, metaY=metaY)
+	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), lineInch=lineInch, metaX=metaX, metaY=metaY)
 }
 
 
@@ -181,20 +185,20 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 }
 
-plot_bubbles <- function(co.npc, g, gt, bubbleHeight, i, k) {
-	bubbleH <- convertHeight(unit(bubbleHeight, "inch"), "npc", valueOnly=TRUE)
-	bubbleW <- convertWidth(unit(bubbleHeight, "inch"), "npc", valueOnly=TRUE)
+plot_bubbles <- function(co.npc, g, gt, lineInch, i, k) {
+	bubbleH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE)
+	bubbleW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE)
 	
 	with(g, {
-		co.npc[, 1] <- co.npc[, 1] + bubble.xmod * bubbleW * 2
-		co.npc[, 2] <- co.npc[, 2] + bubble.ymod * bubbleH * 2
+		co.npc[, 1] <- co.npc[, 1] + bubble.xmod * bubbleW
+		co.npc[, 2] <- co.npc[, 2] + bubble.ymod * bubbleH
 		npol <- nrow(co.npc)
 		if (length(bubble.size)!=npol) {
 			if (length(bubble.size)!=1) warning("less bubble size values than objects")
 			bubble.size <- rep(bubble.size, length.out=npol)
 		}
 		
-		bubble.size <- bubble.size * bubbleHeight
+		bubble.size <- bubble.size * lineInch / 2
 		
 		cols <- rep(bubble.col, length.out=npol)
 		if (length(bubble.size)!=1) {
@@ -219,7 +223,10 @@ plot_bubbles <- function(co.npc, g, gt, bubbleHeight, i, k) {
 	})
 }
 
-plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
+plot_text <- function(co.npc, g, lineInch, just=c("center", "center"), bg.margin=.10) {
+	lineHnpc <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE)
+	lineWnpc <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE)
+
 	npol <- nrow(co.npc)
 	with(g, {
 		if (!any(text_sel)) {
@@ -227,8 +234,8 @@ plot_text <- function(co.npc, g, just=c("center", "center"), bg.margin=.10) {
 			return(NULL)
 		}
 		
-		co.npc[, 1] <- co.npc[, 1] + text.xmod
-		co.npc[, 2] <- co.npc[, 2] + text.ymod
+		co.npc[, 1] <- co.npc[, 1] + text.xmod * lineWnpc
+		co.npc[, 2] <- co.npc[, 2] + text.ymod * lineHnpc
 		
 		grobText <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.fontcolor[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		nlines <- rep(1, length(text))
@@ -348,7 +355,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			## the thematic map
 			res <- plot_map(i, gp, gt, shps, bb)
 			treeElemGrid <- res$treeElemGrid
-			bubbleHeight <- res$bubbleHeight
+			lineInch <- res$lineInch
 			metaX <- res$metaX
 			metaY <- res$metaY
 			gList(grobBGframe, grobAsp, treeElemGrid)
@@ -387,14 +394,14 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		upViewport()
 	} else {
 		## bubble height needed to align with bubbles in legend
-		bubbleHeight <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * gt$legend.text.size * 2
+		lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * gt$legend.text.size
 		treeMapX <- NULL
 		metaX <- 0
 		metaY <- 0
 	}
 	
 	## prepare legend items
-	leg <- legend_prepare(gp, gt, bubbleHeight)
+	leg <- legend_prepare(gp, gt, lineInch)
 	
 	## legend, title, and other thinks such as compass
 	if (!is.null(leg) || gt$title!="" || gt$credits.show || gt$scale.show || gt$compass.show) {

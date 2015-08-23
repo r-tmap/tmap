@@ -98,8 +98,8 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		ylim <- if (!is.null(ylim)) {
 			b[2,1] + ylim * steps[2]
 		} else if (!is.null(height)) {
-			c(cy - (height/2) * steps[1],
-			  cy + (height/2) * steps[1])
+			c(cy - (height/2) * steps[2],
+			  cy + (height/2) * steps[2])
 		} else {
 			b[2, ]
 		}

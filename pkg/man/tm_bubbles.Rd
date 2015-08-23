@@ -5,7 +5,7 @@
 \alias{tm_dots}
 \title{Draw bubbles or dots}
 \usage{
-tm_bubbles(size = 1, col = "blueviolet", alpha = NA, border.col = NA,
+tm_bubbles(size = 0.2, col = "blueviolet", alpha = NA, border.col = NA,
   border.lwd = 1, border.alpha = NA, scale = 1, perceptual = FALSE,
   size.lim = NA, sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
   style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
@@ -21,7 +21,7 @@ tm_dots(col = "black", size = 0.02, title = NA,
   legend.is.portrait = TRUE, legend.z = NA, ...)
 }
 \arguments{
-\item{size}{\code{shp} data variable that determines the bubble sizes, or a single value. In the latter case, \code{size=1} means that bubbles have the same diameter as the height of a line of text. If a data variable is provided, the bubble sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest bubble will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).}
+\item{size}{a single value or a \code{shp} data variable that determines the bubble sizes. The reference value \code{size=1} corresponds to the area of bubbles that have the same height as one line of text. If a data variable is provided, the bubble sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest bubble will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).}
 
 \item{col}{color(s) of the bubble. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).}
 

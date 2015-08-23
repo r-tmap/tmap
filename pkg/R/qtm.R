@@ -55,8 +55,8 @@ qtm <- function(shp,
 			if (missing(line.col)) line.col <- "black"
 		}
 		if (inherits(shp, "SpatialPoints") && !inherits(shp, "SpatialPixels")) {
-			if (missing(bubble.size)) bubble.size <- 1
-			if (missing(bubble.col)) bubble.col <- "black"
+			if (missing(bubble.size)) bubble.size <- .2
+			if (missing(bubble.col)) bubble.col <- "blueviolet"
 		}
 	}
 	if (!inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster"))) {
