@@ -50,9 +50,10 @@ DH_nbhd_osm <- read_osm(bb(DH_bbox, current.projection="rd", projection="longlat
 # Sample dots (each dot represents 100 persons)
 DH_nbhd_dots <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2density = FALSE, N=250000, w=100, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), shp.id = "ID")
 
+
 # Show map
 tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
-	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title.col = "The Hague population") +
+	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title = "The Hague population") +
 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
 
 
@@ -63,7 +64,31 @@ tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
 # 
 # png("dotmap2c2.png", width=DH_nbhd_osm@grid@cells.dim[1], height=DH_nbhd_osm@grid@cells.dim[2])
 # tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
-# 	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title.col = "The Hague population") +
+# 	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title = "The Hague population") +
 # 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90", outer.margins=0, scale=1.5)
 # dev.off()
 
+
+# Animation of 10 plots
+
+DH_nbhd_dots_ani <- lapply(1:10, function(i) {
+	sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2density = FALSE, N=250000, w=100, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), shp.id = "ID")
+})
+
+animation_tmap({
+	for (i in 1:10) {
+		print(tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
+			tm_shape(DH_nbhd_dots_ani[[i]]) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title = "The Hague population") +
+			tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90", outer.margins=0, scale=1.5))
+	}
+}, filename = "dotmap_animation.gif", width=DH_nbhd_osm@grid@cells.dim[1], height=DH_nbhd_osm@grid@cells.dim[2])
+
+
+# Sample dots (each dot represents 10 persons)
+DH_nbhd_dots2 <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2density = FALSE, N=250000, w=10, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), shp.id = "ID")
+
+png("dotmap3.png", width=DH_nbhd_osm@grid@cells.dim[1]*2, height=DH_nbhd_osm@grid@cells.dim[2]*2)
+tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
+	tm_shape(DH_nbhd_dots2) + tm_dots("class", size=.04, alpha=.75, jitter=.1, palette="Dark2", title = "The Hague population") +
+	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90", outer.margins=0, scale=1.5)
+dev.off()

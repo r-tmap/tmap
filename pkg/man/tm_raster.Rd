@@ -7,11 +7,9 @@
 tm_raster(col = "grey70", alpha = NA, palette = NULL, n = 5,
   style = "pretty", breaks = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = NA, saturation = 1, textNA = "Missing",
-  text_separator = "to", text_less_than = "Less than",
-  text_or_more = "or more", title = NA, legend.is.portrait = TRUE,
-  legend.hist = FALSE, legend.hist.title = NA, legend.z = NA,
-  legend.hist.z = NA)
+  colorNA = NA, saturation = 1, textNA = "Missing", title = NA,
+  legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA)
 }
 \arguments{
 \item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details).}
@@ -40,13 +38,18 @@ tm_raster(col = "grey70", alpha = NA, palette = NULL, n = 5,
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 
-\item{text_separator}{Character string to use to separate numbers in the legend (default: "to").}
-
-\item{text_less_than}{Character string to use to translate "Less than" (which is the default).}
-
-\item{text_or_more}{Character string to use to translate "or more" (which is the default).}
-
 \item{title}{title of the legend element}
+
+\item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+\describe{
+\item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+\item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+\item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+\item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+\item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+\item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+\item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+}}
 
 \item{legend.is.portrait}{logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
 

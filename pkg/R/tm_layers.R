@@ -16,7 +16,7 @@
 #' @param size.lowerbound lowerbound for \code{size}. Only useful when \code{size} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{size.lowerbound} are depicted at relative size \code{size.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{size.lowerbound} (in other words, tiny labels are omitted).
 #' @param print.tiny boolean, see \code{size.lowerbound}
 #' @param scale text size multiplier, useful in case \code{size} is variable or \code{"AREA"}.
-#' @param xmod horizontal position modification of the text (relatively): 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
+#' @param xmod horizontal position modification of the text (relatively): 0 means no modification, and 1 corresponds to the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 #' @export
@@ -42,6 +42,8 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily
 #' @param lty line type.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param scale line width multiplier number. 
+#' @param lwd.legend vector of line widths that are shown in the legend. By default, this is determined automatically.
+#' @param lwd.legend.labels vector of labels for that correspond to \code{lwd.legend}.
 #' @param n preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.
 #' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{lwd} is the name of a numeric variable.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
@@ -52,11 +54,18 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
-#' @param text_separator Character string to use to separate numbers in the legend (default: "to").
-#' @param text_less_than Character string to use to translate "Less than" (which is the default).
-#' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @param title.col title of the legend element regarding the line colors
 #' @param title.lwd title of the legend element regarding the line widths
+#' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+#' \describe{
+#' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+#' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+#' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+#' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+#' }
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the line colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.lwd.is.portrait logical that determines whether the legend element regarding the line widths is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown regarding the line colors
@@ -71,6 +80,8 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily
 #' @return \code{\link{tmap-element}}
 tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					  scale=1,
+					  lwd.legend = NULL,
+					  lwd.legend.labels = NULL,
 					  n = 5, style = "pretty",
 					  breaks = NULL,
 					  palette = NULL,
@@ -80,11 +91,9 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					  max.categories = 12, 
 					  colorNA = "grey65",
 					  textNA = "Missing",
-					  text_separator = "to",
-					  text_less_than = "Less than",
-					  text_or_more = "or more",
 					 title.col=NA,
 					 title.lwd=NA,
+					 legend.format=list(),
 					 legend.col.is.portrait=TRUE,
 					 legend.lwd.is.portrait=FALSE,
 					 legend.hist=FALSE,
@@ -94,11 +103,14 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					 legend.hist.z=NA,
 					 id=NA) {
 	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.alpha=alpha, lines.scale=scale,
+							lwd.legend=lwd.legend, lwd.legend.labels=lwd.legend.labels,
 							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
 							 auto.palette.mapping=auto.palette.mapping,
 							 max.categories=max.categories,
-							 contrast=contrast, colorNA=colorNA, textNA=textNA, text_separator=text_separator,
-							text_less_than=text_less_than, text_or_more=text_or_more, title.col=title.col, title.lwd=title.lwd, legend.col.is.portrait=legend.col.is.portrait, legend.lwd.is.portrait=legend.lwd.is.portrait, legend.hist=legend.hist, legend.hist.title=legend.hist.title, legend.col.z=legend.col.z, legend.lwd.z=legend.lwd.z, legend.hist.z=legend.hist.z, line.id=id))
+							 contrast=contrast, colorNA=colorNA, textNA=textNA,
+							title.col=title.col, title.lwd=title.lwd, 
+							legend.format=legend.format,
+							legend.col.is.portrait=legend.col.is.portrait, legend.lwd.is.portrait=legend.lwd.is.portrait, legend.hist=legend.hist, legend.hist.title=legend.hist.title, legend.col.z=legend.col.z, legend.lwd.z=legend.lwd.z, legend.hist.z=legend.hist.z, line.id=id))
 	class(g) <- "tmap"
 	g
 }
@@ -130,11 +142,18 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
-#' @param text_separator Character string to use to separate numbers in the legend (default: "to").
-#' @param text_less_than Character string to use to translate "Less than" (which is the default).
-#' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @param title title of the legend element
+#' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+#' \describe{
+#' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+#' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+#' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+#' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+#' }
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
@@ -161,11 +180,9 @@ tm_fill <- function(col="grey85",
 			 		max.categories = 12,
 			 		colorNA = "grey60",
 			 		textNA = "Missing",
-					text_separator = "to",
-					text_less_than = "Less than",
-					text_or_more = "or more",
 					thres.poly = 1e-05,
 					title=NA,
+					legend.format=list(),
 					legend.is.portrait=TRUE,
 					legend.hist=FALSE,
 					legend.hist.title=NA,
@@ -227,10 +244,17 @@ tm_polygons <- function(col="grey85",
 #' @param colorNA color used for missing values
 #' @param saturation Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_style}}).
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
-#' @param text_separator Character string to use to separate numbers in the legend (default: "to").
-#' @param text_less_than Character string to use to translate "Less than" (which is the default).
-#' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @param title title of the legend element
+#' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+#' \describe{
+#' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+#' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+#' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+#' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+#' }
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
@@ -253,10 +277,8 @@ tm_raster <- function(col="grey70",
 					  colorNA = NA,
 					  saturation = 1,
 					  textNA = "Missing",
-					  text_separator = "to",
-					  text_less_than = "Less than",
-					  text_or_more = "or more",
 					  title=NA,
+					  legend.format=list(),
 					  legend.is.portrait=TRUE,
 					  legend.hist=FALSE,
 					  legend.hist.title=NA,
@@ -296,14 +318,21 @@ tm_raster <- function(col="grey70",
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA colour for missing values
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
-#' @param text_separator Character string to use to separate numbers in the legend (default: "to").
-#' @param text_less_than Character string to use to translate "Less than" (which is the default).
-#' @param text_or_more Character string to use to translate "or more" (which is the default). 
 #' @param xmod horizontal position modification of the bubbles, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the bubbles. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
 #' @param title.size title of the legend element regarding the bubble sizes
 #' @param title.col title of the legend element regarding the bubble colors
+#' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+#' \describe{
+#' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+#' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+#' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+#' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+#' }
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the bubble sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown regarding the bubble colors
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for bubble colors.
@@ -340,14 +369,12 @@ tm_bubbles <- function(size=.2, col="blueviolet",
 						max.categories = 12,
 						colorNA = "#FF1414",
 						textNA = "Missing",
-						text_separator = "to",
-						text_less_than = "Less than",
-						text_or_more = "or more",
 						jitter=0,
 						xmod = 0,
 						ymod = 0,
 						title.size = NA,
 						title.col = NA,
+						legend.format=list(),
 					   	legend.size.is.portrait=FALSE,
 					    legend.col.is.portrait=TRUE,
 					   	legend.hist=FALSE,
@@ -370,12 +397,10 @@ tm_bubbles <- function(size=.2, col="blueviolet",
 								 contrast=contrast,
 								 colorNA=colorNA,
 								 textNA=textNA,
-							  text_separator=text_separator,
-							  text_less_than=text_less_than,
-							  text_or_more=text_or_more,
 							  bubble.jitter=jitter,
 								 bubble.xmod=xmod,
 								 bubble.ymod=ymod,
+							  legend.format=legend.format,
 							  title.size=title.size,
 							  title.col=title.col,
 							  legend.size.is.portrait=legend.size.is.portrait, 

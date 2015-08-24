@@ -86,7 +86,7 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 		if (!is.na(title.bg.color)) title.bg.color <- do.call("process_color", c(list(col=title.bg.color, alpha=title.bg.alpha), gst))
 
 	})	
-	
+
 	if (!is.null(gg)) {
 		gg <- within(gg, {
 			grid.show <- TRUE
@@ -129,6 +129,8 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 	}
 	
 	gst$compass.type <- NULL
+	gst$frame.lwd <- gst$frame.lwd * gt$scale
+	
 	
 	c(gt, gst, gf, gg, gc, gsb, gcomp, shp_info)
 }

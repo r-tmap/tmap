@@ -17,12 +17,13 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
   legend.height = 0.9, legend.hist.height = 0.3,
   legend.hist.width = legend.width, legend.title.size = 1.1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
-  legend.scientific = FALSE, legend.digits = NA, legend.frame = FALSE,
-  legend.bg.color = NA, legend.bg.alpha = 1, legend.hist.bg.color = NA,
-  legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
-  title.position = c("left", "top"), title.bg.color = NA,
-  title.bg.alpha = 1, attr.position = c("right", "bottom"),
-  design.mode = FALSE)
+  legend.format = list(scientific = FALSE, digits = NA, text.separator = "to",
+  text.less.than = "Less than", text.or.more = "or more"),
+  legend.frame = FALSE, legend.bg.color = NA, legend.bg.alpha = 1,
+  legend.hist.bg.color = NA, legend.hist.bg.alpha = 1,
+  title.snap.to.legend = FALSE, title.position = c("left", "top"),
+  title.bg.color = NA, title.bg.alpha = 1, attr.position = c("right",
+  "bottom"), design.mode = FALSE)
 
 tm_layout_World(title = NA, inner.margins = c(0, 0.05, 0.025, 0.01),
   legend.position = c("left", "bottom"), scale = 0.8, ...)
@@ -84,9 +85,16 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{legend.hist.size}{Relative font size for the choropleth histogram}
 
-\item{legend.scientific}{logical. Should the numeric legend labels be formatted scientific?}
-
-\item{legend.digits}{Number of digits for the legend labels}
+\item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+\describe{
+\item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+\item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+\item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+\item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+\item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+\item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+\item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+}}
 
 \item{legend.frame}{either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color. The width of the frame is automatically determined, but is upper-bounded by \code{legend.width}.}
 

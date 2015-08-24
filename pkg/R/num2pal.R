@@ -5,14 +5,10 @@ num2pal <- function(x, n = 5,
 					   auto.palette.mapping = TRUE,
 					   contrast = 1,
 					   legend.labels = NULL,
-					   legend.scientific = FALSE,
-					   legend.digits = NA,
 					   colorNA = "#FF1414",
 					   legend.NA.text = "Missing",
 					   process.colors=NULL,
-					   text_separator = "to",
-					   text_less_than = "Less than",
-					   text_or_more = "or more") {
+					   legend.format=list(scientific=FALSE)) {
 	
 	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.")
 	# create intervals and assign colors
@@ -92,25 +88,7 @@ num2pal <- function(x, n = 5,
 	}
 	# create legend labels
 	if (is.null(legend.labels)) {
-		#breaks.printed <- sprintf(paste("%.", legend.digits, "f", sep=""), breaks) 
-		if (legend.scientific) {
-			if (is.na(legend.digits)) {
-				breaks.printed <- formatC(breaks, flag="#")
-			} else {
-				breaks.printed <- formatC(breaks, digits=legend.digits, flag="#")
-			}
-			legend.labels <- paste("[", breaks.printed[-nbrks], ", ", breaks.printed[-1], ")", sep="")
-			legend.labels[length(legend.labels)] <- paste(substr(legend.labels[length(legend.labels)], 
-																 1, nchar(legend.labels[length(legend.labels)])-1), "]", sep="")
-			
-		} else {
-			breaks.printed <- fancy_breaks(breaks, dp=legend.digits) 
-			breaks.printed[breaks==-Inf] <- ""
-			legend.labels <- paste(breaks.printed[-nbrks], breaks.printed[-1], sep = paste0(" ", text_separator, " "))
-			if (breaks[1]==-Inf) legend.labels[1] <- paste(text_less_than, breaks.printed[2])
-			if (breaks[nbrks]==Inf) legend.labels[nbrks-1] <- paste(breaks.printed[nbrks-1], text_or_more)
-		}
-		
+		legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE), legend.format)) 
 	} else {
 		if (length(legend.labels)!=nbrks-1) warning(paste("number of legend labels should be", nbrks-1))
 		legend.labels <- rep(legend.labels, length.out=nbrks-1)
@@ -124,26 +102,62 @@ num2pal <- function(x, n = 5,
 }
 
 
-fancy_breaks <- function(vec, dp=NA) {
-	# get correct number of significant figures
-	#vec = signif(vec, digits)
-	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec)))
-	mag <- max(nchar(frm)-11)
-	ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
-	nsig <- 
+fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, ...) {
+	args <- list(...)
 
-	if (mag>11 || (mag > 9 && all(vec - floor(vec/1e9)*1e9 < 1))) {
-		vec <- vec / 1e9
-		ext <- " bln"
-	} else if (mag > 8 || (mag > 6 && all(vec - floor(vec/1e6)*1e6 < 1))) {
-		vec <- vec / 1e6
-		ext <- " mln"
+	text.separator <- args$text.separator
+	text.less.than <- args$text.less.than
+	text.or.more <- args$text.or.more
+	
+	args[c("text.separator", "text.less.than", "text.or.more")] <- NULL
+	
+	### analyse the numeric vector
+	n <- length(vec)
+	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec)))
+	
+	# get width before decimal point
+	mag <- max(nchar(frm)-11)
+	
+	# get number of decimals (which is number of decimals in vec, which is reduced when mag is large)
+	ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
+	if (is.na(args$digits)) args$digits <- max(min(ndec, 4-mag), 0)
+	
+	
+	if (!scientific) {
+		if (mag>11 || (mag > 9 && all(vec - floor(vec/1e9)*1e9 < 1))) {
+			vec <- vec / 1e9
+			ext <- " bln"
+		} else if (mag > 8 || (mag > 6 && all(vec - floor(vec/1e6)*1e6 < 1))) {
+			vec <- vec / 1e6
+			ext <- " mln"
+		} else {
+			ext <- ""
+		}
+		
+		# set default values
+		if (!("big.mark" %in% names(args))) args$big.mark <- ","
+		if (!("format" %in% names(args))) args$format <- "f"
+		if (!("preserve.width" %in% names(args))) args$preserve.width <- "none"
+		
+		x <- paste(do.call("formatC", c(list(x=vec), args)), ext, sep="")
+
+		if (intervals) {
+			x[vec==-Inf] <- ""
+			lbls <- paste(x[-n], x[-1], sep = paste0(" ", text.separator, " "))
+			if (x[1]==-Inf) lbls[1] <- paste(text.less.than, x[2])
+			if (x[n]==Inf) lbls[n-1] <- paste(x[n-1], text.or.more)
+		}
+		
 	} else {
-		ext <- ""
+		if (!("format" %in% names(args))) args$format <- "g"
+		
+		x <- do.call("formatC", c(list(x=vec), args))
+		if (intervals) {
+			lbls <- paste("[", x[-n], ", ", x[-1], ")", sep="")
+			lbls[n-1] <- paste(substr(lbls[n-1], 1, nchar(lbls[n-1])-1), "]", sep="")
+		}
 	}
 	
-	if (is.na(dp)) dp <- max(min(ndec, 4-mag), 0)
-	
-	paste(prettyNum(vec, big.mark=",", scientific=FALSE, preserve.width="none", digits=dp), ext, sep="")
+	if (intervals) lbls else x
 }
 

@@ -305,7 +305,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 
 		if (gt$legend.inside.box) legWidth <- legWidth / (1-mx)
 		
-		grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(col=legend.frame.color, fill=legend.frame.fill))
+		grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(lwd=gt$scale, col=legend.frame.color, fill=legend.frame.fill))
 		
 		upViewport(2)
 		gTree(children=gList(grobLegBG, gTree(children=do.call("gList", grobList), vp=vpLeg)), vp=vpLegend)
@@ -536,7 +536,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
 			cols <- legend.palette
-			xtraWidth <- convertWidth(lwds[nitems], "points", valueOnly=TRUE)/2
+			xtraWidth <- convertWidth(unit(lwds[nitems], "points"), "npc", valueOnly=TRUE)/2
 			polylineGrob(x=rep(xs, each=2), 
 						  y=1-my-c(0,1)*rep(hs, each=2),
 						  id=rep(1:nitems, each=2),

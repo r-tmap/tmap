@@ -25,8 +25,16 @@
 #' @param legend.title.size Relative font size for the legend title
 #' @param legend.text.size Relative font size for the legend text elements
 #' @param legend.hist.size Relative font size for the choropleth histogram
-#' @param legend.scientific logical. Should the numeric legend labels be formatted scientific?
-#' @param legend.digits Number of digits for the legend labels
+#' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+#' \describe{
+#' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+#' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+#' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+#' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+#' }
 #' @param legend.bg.color Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param legend.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).
 #' @param legend.hist.bg.color Background color of the histogram
@@ -61,8 +69,9 @@ tm_layout <- function(title=NA,
 					  legend.title.size=1.1,
 					  legend.text.size=0.7,
 					  legend.hist.size=0.7,
-					  legend.scientific = FALSE,
-					  legend.digits = NA,
+					  legend.format=list(scientific = FALSE, digits= NA, 
+					  				   text.separator = "to", text.less.than = "Less than",
+					  				   text.or.more = "or more"),
 					  legend.frame = FALSE,
 					  legend.bg.color = NA,
 					  legend.bg.alpha = 1,

@@ -5,14 +5,14 @@
 \title{Draw spatial lines}
 \usage{
 tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
-  n = 5, style = "pretty", breaks = NULL, palette = NULL,
-  labels = NULL, auto.palette.mapping = TRUE, contrast = 1,
-  max.categories = 12, colorNA = "grey65", textNA = "Missing",
-  text_separator = "to", text_less_than = "Less than",
-  text_or_more = "or more", title.col = NA, title.lwd = NA,
-  legend.col.is.portrait = TRUE, legend.lwd.is.portrait = FALSE,
-  legend.hist = FALSE, legend.hist.title = NA, legend.col.z = NA,
-  legend.lwd.z = NA, legend.hist.z = NA, id = NA)
+  lwd.legend = NULL, lwd.legend.labels = NULL, n = 5, style = "pretty",
+  breaks = NULL, palette = NULL, labels = NULL,
+  auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
+  colorNA = "grey65", textNA = "Missing", title.col = NA,
+  title.lwd = NA, legend.format = list(), legend.col.is.portrait = TRUE,
+  legend.lwd.is.portrait = FALSE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.col.z = NA, legend.lwd.z = NA,
+  legend.hist.z = NA, id = NA)
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
@@ -24,6 +24,10 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
 \item{scale}{line width multiplier number.}
+
+\item{lwd.legend}{vector of line widths that are shown in the legend. By default, this is determined automatically.}
+
+\item{lwd.legend.labels}{vector of labels for that correspond to \code{lwd.legend}.}
 
 \item{n}{preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.}
 
@@ -45,15 +49,20 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 
-\item{text_separator}{Character string to use to separate numbers in the legend (default: "to").}
-
-\item{text_less_than}{Character string to use to translate "Less than" (which is the default).}
-
-\item{text_or_more}{Character string to use to translate "or more" (which is the default).}
-
 \item{title.col}{title of the legend element regarding the line colors}
 
 \item{title.lwd}{title of the legend element regarding the line widths}
+
+\item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+\describe{
+\item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+\item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+\item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+\item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+\item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+\item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+\item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+}}
 
 \item{legend.col.is.portrait}{logical that determines whether the legend element regarding the line colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
 

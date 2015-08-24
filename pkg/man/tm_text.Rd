@@ -38,7 +38,7 @@ tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = NA,
 
 \item{scale}{text size multiplier, useful in case \code{size} is variable or \code{"AREA"}.}
 
-\item{xmod}{horizontal position modification of the text (relatively): 0 means no modification, and 1 means the total width of the frame. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.}
+\item{xmod}{horizontal position modification of the text (relatively): 0 means no modification, and 1 corresponds to the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.}
 
 \item{ymod}{vertical position modification. See xmod.}
 }

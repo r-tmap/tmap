@@ -63,7 +63,7 @@ qtm <- function(shp,
 		raster <- NULL
 	}
 	
-	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "bg.alpha", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "text_separator", "text_less_than", "text_or_more", "xmod", "ymod", "title", "title.size", "title.col", "legend.is.portrait", "legend.hist", "legend.hist.title", "legend.z", "legend.hist.z", "id")
+	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "bg.alpha", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "legend.format", "xmod", "ymod", "title", "title.size", "title.col", "legend.is.portrait", "legend.hist", "legend.hist.title", "legend.z", "legend.hist.z", "id")
 	
 	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets")
 	fns_prefix <- c("shape", "fill", "borders", "bubble", "line", "raster", "text", "layout", "grid", "facets")

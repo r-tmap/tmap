@@ -1,10 +1,28 @@
 process_line_lwd_vector <- function(x, g, rescale) {
-	w_legend <- pretty(x, 7)
-	w_legend <- w_legend[w_legend!=0]
-	w_legend <- w_legend[-c(length(w_legend)-3,length(w_legend)-1)]
+	
+	if (is.null(g$lwd.legend)) {
+		w_legend <- pretty(x, 7)
+		w_legend <- w_legend[w_legend!=0]
+		w_legend <- w_legend[-c(length(w_legend)-3,length(w_legend)-1)]
+	} else {
+		w_legend <- g$lwd.legend
+	}
+	
+	
+	
 	maxW <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	line.legend.lwds <-  g$lines.scale * (w_legend/maxW)
 	line.lwd.legend.labels <- format(w_legend, trim=TRUE)
+
+	if (is.null(g$line.lwd.legend.labels)) {
+		line.lwd.legend.labels <- do.call("fancy_breaks", c(list(vec=w_legend, intervals=FALSE), g$legend.format))
+	} else {
+		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of bubbles in the legend")
+		line.lwd.legend.labels <- g$line.lwd.legend.labels
+	}
+	
+	
+	
 	line.lwd <- g$lines.scale * (x/maxW)
 	list(line.lwd=line.lwd,
 		 line.legend.lwds=line.legend.lwds,
@@ -19,13 +37,9 @@ process_line_col_vector <- function(x, g, gt, gst) {
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
-						   legend.scientific=gt$legend.scientific,
-						   legend.digits=gt$legend.digits,
 						   legend.NA.text=g$textNA,
 						   process.colors=c(list(alpha=g$lines.alpha), gst),
-						   text_separator = g$text_separator,
-						   text_less_than = g$text_less_than,
-						   text_or_more = g$text_or_more)
+						   legend.format=g$legend.format)
 		line.breaks <- colsLeg[[4]]
 	} else {
 		palette <- if (is.null(g$palette))  "Dark2" else g$palette
@@ -56,6 +70,10 @@ process_lines <- function(data, g, gt, gst, gby, z) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
+
+	# update legend format from tm_layout
+	to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
+	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
 	
 	xcol <- g$lines.col
 	xlwd <- g$lines.lwd

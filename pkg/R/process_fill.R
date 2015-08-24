@@ -23,13 +23,9 @@ process_fill_vector <- function(x, g, gt, gst, tiny) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
-						   legend.scientific=gt$legend.scientific,
-						   legend.digits=gt$legend.digits,
 						   legend.NA.text = textNA,
 						   process.colors=c(list(alpha=g$alpha), gst),
-						   text_separator = g$text_separator,
-						   text_less_than = g$text_less_than,
-						   text_or_more = g$text_or_more)
+						   legend.format=g$legend.format)
 		fill.breaks <- colsLeg[[4]]
 	}
 	fill <- colsLeg[[1]]
@@ -58,6 +54,11 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	by <- data$GROUP_BY
 	
 	shpcols <- names(data)[1:(ncol(data)-2)]
+	
+	# update legend format from tm_layout
+	to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
+	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
+	
 	
 	x <- g$col
 	# if by is specified, use first value only

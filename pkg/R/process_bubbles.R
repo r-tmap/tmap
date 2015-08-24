@@ -14,21 +14,11 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 	}
 
 	if (is.null(g$sizes.legend.labels)) {
-		bubble.size.legend.labels <- if (gt$legend.scientific) {
-			if (is.na(gt$legend.digits)) {
-				formatC(x_legend, flag="#")
-			} else {
-				formatC(x_legend, digits=gt$legend.digits, flag="#")
-			}
-		} else {
-			fancy_breaks(x_legend, gt$legend.digits)
-		}
+		bubble.size.legend.labels <- do.call("fancy_breaks", c(list(vec=x_legend, intervals=FALSE), g$legend.format))
 	} else {
 		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of bubbles in the legend")
 		bubble.size.legend.labels <- g$sizes.legend.labels
 	}
-	
-	
 	
 	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	scaling <- ifelse(g$perceptual, 0.5716, 0.5)
@@ -50,13 +40,9 @@ process_bubbles_col_vector <- function(xc, xs, g, gt, gst) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
-						   legend.scientific=gt$legend.scientific,
-						   legend.digits=gt$legend.digits,
 						   legend.NA.text=g$textNA,
 						   process.colors=c(list(alpha=g$bubble.alpha), gst),
-						   text_separator = g$text_separator,
-						   text_less_than = g$text_less_than,
-						   text_or_more = g$text_or_more)
+						   legend.format=g$legend.format)
 		bubble.col <- colsLeg[[1]]
 		bubble.col.neutral <- colsLeg$legend.neutral.col
 		bubble.breaks <- colsLeg[[4]]
@@ -93,6 +79,10 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
+	
+	# update legend format from tm_layout
+	to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
+	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
 	
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col

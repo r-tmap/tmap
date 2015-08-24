@@ -10,9 +10,8 @@ tm_bubbles(size = 0.2, col = "blueviolet", alpha = NA, border.col = NA,
   size.lim = NA, sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
   style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = "#FF1414", textNA = "Missing", text_separator = "to",
-  text_less_than = "Less than", text_or_more = "or more", jitter = 0,
-  xmod = 0, ymod = 0, title.size = NA, title.col = NA,
+  colorNA = "#FF1414", textNA = "Missing", jitter = 0, xmod = 0,
+  ymod = 0, title.size = NA, title.col = NA, legend.format = list(),
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
   legend.hist = FALSE, legend.hist.title = NA, legend.size.z = NA,
   legend.col.z = NA, legend.hist.z = NA, id = NA)
@@ -63,12 +62,6 @@ tm_dots(col = "black", size = 0.02, title = NA,
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 
-\item{text_separator}{Character string to use to separate numbers in the legend (default: "to").}
-
-\item{text_less_than}{Character string to use to translate "Less than" (which is the default).}
-
-\item{text_or_more}{Character string to use to translate "or more" (which is the default).}
-
 \item{jitter}{number that determines the amount of jittering, i.e. the random noise added to the position of the bubbles. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.}
 
 \item{xmod}{horizontal position modification of the bubbles, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.}
@@ -78,6 +71,17 @@ tm_dots(col = "black", size = 0.02, title = NA,
 \item{title.size}{title of the legend element regarding the bubble sizes}
 
 \item{title.col}{title of the legend element regarding the bubble colors}
+
+\item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+\describe{
+\item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+\item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+\item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+\item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+\item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+\item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+\item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+}}
 
 \item{legend.size.is.portrait}{logical that determines whether the legend element regarding the bubble sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
 
