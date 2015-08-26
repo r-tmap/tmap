@@ -17,10 +17,12 @@ levels(AGR$tracks$name) <- paste(c("First", "Second", "Third", "Final"), "loop")
 
 # some manual text positioning to prevent overlapping
 xmod <- sapply(as.character(AGR$waypoints$name), switch,
-			   Geulhemmerberg=-2, Brakkenberg=2, Antoniusbank=1, 
-			   Daalhemerweg=1.5, Mheerelindje=-2, Wesch=1, 0)
+               Geulhemmerberg=-2, Brakkenberg=2, Antoniusbank=1, 
+               Daalhemerweg=1.5, Mheerelindje=-2, Wesch=1, 
+               Walemerberg=2, Eyserweg=2, Groenenweg=2, 0)
 
-qtm(ZLim) + 
+tm_shape(ZLim) + 
+  tm_raster(saturation=.75) +
 tm_shape(AGR$tracks) +
 	tm_lines(col = "name", lwd = 4, title.col="Amstel Gold Race") + 
 tm_shape(AGR$waypoints) +

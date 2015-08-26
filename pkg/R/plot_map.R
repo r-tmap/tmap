@@ -56,7 +56,7 @@ plot_map <- function(i, gp, gt, shps, bb) {
 		}
 		
 		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, gt, lineInch, i, k)
-		plot_tm_text <- function() plot_text(co.npc, gpl, lineInch)
+		plot_tm_text <- function() plot_text(co.npc, gpl, gt, lineInch)
 		
 		plot_tm_raster <- function() {
 			rast <- if (is.null(gpl$raster)) NA else gpl$raster
@@ -186,8 +186,8 @@ plot_grid <- function(gt, scale, add.labels) {
 }
 
 plot_bubbles <- function(co.npc, g, gt, lineInch, i, k) {
-	bubbleH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE)
-	bubbleW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE)
+	bubbleH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
+	bubbleW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
 	
 	with(g, {
 		co.npc[, 1] <- co.npc[, 1] + bubble.xmod * bubbleW
@@ -223,9 +223,9 @@ plot_bubbles <- function(co.npc, g, gt, lineInch, i, k) {
 	})
 }
 
-plot_text <- function(co.npc, g, lineInch, just=c("center", "center"), bg.margin=.10) {
-	lineHnpc <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE)
-	lineWnpc <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE)
+plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.margin=.10) {
+	lineHnpc <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
+	lineWnpc <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
 
 	npol <- nrow(co.npc)
 	with(g, {
