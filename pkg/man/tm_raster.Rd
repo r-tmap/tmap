@@ -83,7 +83,7 @@ tm_shape(land) +
 tm_layout(scale=.8, legend.position = c("left","bottom"))
 
 pal8 <- c("#33A02C", "#B2DF8A", "#FDBF6F", "#1F78B4", "#999999", "#E31A1C", "#E6E6E6", "#A6CEE3")
-tm_shape(land, ylim = c(-88,88), relative=FALSE) +
+tm_shape(land, ylim = c(-88,88)) +
     tm_raster("cover_cls", palette = pal8, title="Global Land Cover") +
 tm_shape(World) +
     tm_borders() +
@@ -92,7 +92,7 @@ tm_layout(scale=.8,
     legend.bg.color = "white", legend.bg.alpha=.2, 
     legend.frame="gray50")
 
-tm_shape(land, ylim = c(-88,88), relative=FALSE) +
+tm_shape(land, ylim = c(-88,88)) +
     tm_raster("trees", palette = "Greens", title="Percent Tree Cover") +
 tm_shape(World) +
     tm_borders() +

@@ -4,9 +4,8 @@
 \alias{tm_shape}
 \title{Specify the shape object}
 \usage{
-tm_shape(shp, is.master = NA, projection = NULL, ext = NULL,
-  xlim = NULL, ylim = NULL, relative = FALSE, bbox = NULL,
-  unit = "km", unit.size = 1000)
+tm_shape(shp, is.master = NA, projection = NULL, bbox = NULL,
+  unit = "km", unit.size = 1000, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -41,19 +40,13 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
        See \url{http://trac.osgeo.org/proj/} for the \code{PROJ.4} project home page. An extensive list of \code{PROJ.4} codes can be created with rgdal's \code{\link[rgdal:make_EPSG]{make_EPSG}}.
        By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
 
-\item{ext}{Extension factor of the bounding box. If 1, the bounding box is unchanged. Values smaller than 1 reduces the bounding box, and values larger than 1 enlarges the bounding box. If specified, it overrules \code{xlim}, \code{ylim}, and \code{relative}.}
-
-\item{xlim}{limits of the x-axis. These are either absolute or relative (depending on the argument \code{relative}). Alternatively, the argument \code{bbox} can be set to set absolute values.}
-
-\item{ylim}{limits of the y-axis. See \code{xlim}.}
-
-\item{relative}{boolean that determines whether relative values are used for \code{xlim} and \code{ylim} or absolute.}
-
-\item{bbox}{bounding box, which is a 2x2 matrix that consists absolute \code{xlim} and \code{ylim} values. If specified, it overrides both \code{xlim} and \code{ylim}.}
+\item{bbox}{bounding box, which is a 2x2 matrix. See also \code{...}}
 
 \item{unit}{unit specification. Needed when calculating density values in choropleth maps (argument \code{convert2density} in \code{\link{tm_fill}}) drawing a scale bar with \code{\link{tm_scale_bar}}. See also \code{unit.size}.}
 
 \item{unit.size}{size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).}
+
+\item{...}{Arguments passed on to \code{\link{bb}}, which creates a bounding box. The first argument that will be passed on \code{\link{bb}} is either \code{shp}, or \code{bbox} if it is specified.}
 }
 \value{
 \code{\link{tmap-element}}

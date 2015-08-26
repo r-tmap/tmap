@@ -53,7 +53,7 @@ tm_shape(NLD_prov) +
 tm_layout(legend.show = FALSE)
 
 # Dasymetric map (using a raster)
-tm_shape(land, ylim = c(-88,88), relative=FALSE) +
+tm_shape(land, ylim = c(-88,88)) +
     tm_raster("elevation", n=10, style="kmeans", palette = terrain.colors(10), 
         title="Elevation") +
     tm_shape(World) +
@@ -63,7 +63,7 @@ tm_layout(inner.margins=0, legend.position = c(.02, .1),
 
 # Raster map with a dot map
 pal8 <- c("#33A02C", "#B2DF8A", "#FDBF6F", "#1F78B4", "#999999", "#E31A1C", "#E6E6E6", "#A6CEE3")
-tm_shape(land, ylim = c(-88,88), relative=FALSE) +
+tm_shape(land, ylim = c(-88,88)) +
     tm_raster("cover_cls", palette = pal8, title="Global Land Cover") +
 tm_shape(metro) +
     tm_bubbles(size=.02, col="#E31A1C") +

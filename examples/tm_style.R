@@ -1,6 +1,6 @@
 # create world map
 data(World, land)
-tm <- tm_shape(land, ylim = c(-88,88), relative=FALSE) +
+tm <- tm_shape(land, ylim = c(-88,88)) +
     tm_raster("elevation", n=10, style="kmeans", palette = terrain.colors(10), 
         title="Elevation") +
     tm_shape(World) +

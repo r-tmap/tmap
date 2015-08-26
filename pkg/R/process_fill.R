@@ -55,9 +55,6 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	
 	shpcols <- names(data)[1:(ncol(data)-2)]
 	
-	# update legend format from tm_layout
-	to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
-	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
 	
 	
 	x <- g$col
@@ -85,6 +82,20 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
 	nx <- max(nx, nlevels(by))
+	
+	# update legend format from tm_layout
+	if (length(g$legend.format)==nx && all(sapply(g$legend.format, is.list))) {
+		g$legend.format <- lapply(g$legend.format, function(lf) {
+			to_be_assigned <- setdiff(names(gt$legend.format), names(lf))
+			lf[to_be_assigned] <- gt$legend.format[to_be_assigned]
+			lf
+		})
+	} else {
+		to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
+		g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
+	}
+		
+	
 		
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {
