@@ -138,12 +138,13 @@ plot_grid <- function(gt, scale, add.labels) {
 	labelsx <- gt$grid.labels.x
 	labelsy <- gt$grid.labels.y
 	
+	cex <- gt$grid.labels.size*scale
 	
 	if (add.labels) {
-		labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE)) * .75
-		labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE)) * .75
-		spacerY <- convertWidth(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE)
-		spacerX <- convertHeight(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE)
+		labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE)) * .75 * cex
+		labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE)) * .75 * cex
+		spacerY <- convertWidth(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+		spacerX <- convertHeight(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		selx <- cogridx >= labelsYw + spacerY
 		sely <- cogridy >= labelsXw + spacerX
 	} else {
@@ -160,7 +161,7 @@ plot_grid <- function(gt, scale, add.labels) {
 		grobGridX <- polylineGrob(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
 					  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
 		grobGridTextX <- if (add.labels) {
-			 textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
+			 textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
 		grobGridX <- NULL
