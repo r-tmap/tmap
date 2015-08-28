@@ -2,7 +2,7 @@
 #' 
 #' This element specifies the style of the map. There are two main styles: modern, which corresponds to the default values, and classic, which is loaded by calling \code{tm_style_classic}. See details for the difference with \code{\link{tm_layout}}.
 #' 
-#' The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controlled wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
+#' The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controlled wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shape or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
 #' 
 #' @name tm_style
 #' @rdname tm_style

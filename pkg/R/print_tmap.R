@@ -19,7 +19,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	#### General process of tmap:
 	#  print.tmap: - puts shapes and shape data into right format
 	#              - calls process_tm for processing tm elements
-	#              - calls process_shapes for processing (projecting, cropping) shapes
+	#              - calls process_shapes for processing shapes
 	#              - calls plot function gridplot, that calls plot_all
 	#  process_tm: - get all non-layer elements, (tm_layout, tm_grid, ...)
 	#              - process layer elements by calling process_layers (result is gp)
@@ -28,6 +28,11 @@ print.tmap <- function(x, vp=NULL, ...) {
 	#              - split gp into small multiples (result is gps)
 	#  process_layers: - determine grouped small multiples (specified by user with tm_facets(by=))
 	#                  - process layer functions by calling indivudual functions, like tm_fill
+	#  process_meta: - determines number of rows and colums for small multiples
+	#                - applies scale factor to all meta elements (tm_layout, tm_style, tm_compass, tm_scale_bar, tm_grid)
+	#  process_shapes: - project shapes
+	#                  - determines bounding box(es)
+	#                  - crop shapes
 	#  gridplot:   - makes small multiples grid
 	#              - calls plot_all for grob trees
 	#              - plot the grob trees

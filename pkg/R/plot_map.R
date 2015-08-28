@@ -141,8 +141,21 @@ plot_grid <- function(gt, scale, add.labels) {
 	cex <- gt$grid.labels.size*scale
 	
 	if (add.labels) {
-		labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE)) * .75 * cex
-		labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE)) * .75 * cex
+		if (gt$draw.frame) {
+			if (gt$frame.double.line) {
+				fw <- 6 * convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
+				fh <- 6 * convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
+			} else {
+				fw <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
+				fh <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
+			}
+		} else {
+			fw <- 0
+			fh <- 0
+		}
+		
+		labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE)) * .75 * cex + fw
+		labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE)) * .75 * cex + fh
 		spacerY <- convertWidth(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		spacerX <- convertHeight(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		selx <- cogridx >= labelsYw + spacerY
@@ -372,8 +385,8 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 				pW <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
 				if (gt$frame.double.line) {
 					gList(
+						rectGrob(width = 1-4*pW, height=1-4*pH, gp=gpar(col=gt$bg.color, fill=NA, lwd=5*gt$frame.lwd, lineend="square")),
 						rectGrob(gp=gpar(col="#000000", fill=NA, lwd=3*gt$frame.lwd, lineend="square")),
-						rectGrob(width = 1-6*pW, height=1-6*pH, gp=gpar(col=gt$bg.color, fill=NA, lwd=3*gt$frame.lwd, lineend="square")),
 						rectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square")))
 				} else {
 					rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square"))

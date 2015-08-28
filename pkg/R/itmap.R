@@ -41,8 +41,8 @@ itmap <- function(tm, file=NULL, width = NULL, height = NULL ) {
 					grid.garnish(
 						paste(nm, n, sep="_")
 						, title=hover_text[n]
-						, onmouseover=sprintf("Array.prototype.map.call(this.querySelectorAll('polygon'),function(d){d.setAttribute('stroke-width', '%.2f')})", lwd + 1, "');")
-						, onmouseout=sprintf("Array.prototype.map.call(this.querySelectorAll('polygon'),function(d){d.setAttribute('stroke-width', '%.2f')})", lwd, "');")
+						, onmouseover=sprintf("Array.prototype.map.call(this.querySelectorAll('path'),function(d){d.setAttribute('stroke-width', '%.2f')})", lwd + 1, "');")
+						, onmouseout=sprintf("Array.prototype.map.call(this.querySelectorAll('path'),function(d){d.setAttribute('stroke-width', '%.2f')})", lwd, "');")
 						, group = TRUE
 					)
 					grid.get(paste(nm, n, sep="_"))

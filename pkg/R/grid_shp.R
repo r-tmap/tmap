@@ -58,22 +58,31 @@ grid.shape <- function(shp, gp=gpar(), bg.col=NA, i, k) {
 		res[,1] <- (res[,1]-bb[1,1]) / (bb[1,2]-bb[1,1])
 		res[,2] <- (res[,2]-bb[2,1]) / (bb[2,2]-bb[2,1])
 		
+## old solution to holes: draw holes with bg.color 		
+# 		holes <- sapply(p@Polygons, "attr", "hole")
+# 		gp2 <- lapply(gp, function(g) {
+# 			if (length(g)==length(shp)) rep.int(g[id1], np) else g
+# 		})
+# 		if ("fill" %in% names(gp2)) {
+# 			if (length(gp2$fill)==np) {
+# 				gp2$fill[holes] <- "red" #bg.col 
+# 			} else {
+# 				bg.col <- ifelse(is.na(gp2$fill), NA, bg.col)
+# 				gp2$fill <- ifelse(holes, bg.col, gp2$fill[1])
+# 			}
+# 		}		
+# 		class(gp2) <- "gpar"
+# 		idName <- paste("tm_polygons", i, k, id1, sep="_")
+# 		polygonGrob(res[,1], res[,2], id=res[,3], gp=gp2, name = idName)
+
 		
-		holes <- sapply(p@Polygons, "attr", "hole")
+## new solution to holes: draw with pathGrob (holes should be reversed)
 		gp2 <- lapply(gp, function(g) {
-			if (length(g)==length(shp)) rep.int(g[id1], np) else g
+			if (length(g)==length(shp)) g[id1] else g
 		})
-		if ("fill" %in% names(gp2)) {
-			if (length(gp2$fill)==np) {
-				gp2$fill[holes] <- bg.col 
-			} else {
-				bg.col <- ifelse(is.na(gp2$fill), NA, bg.col)
-				gp2$fill <- ifelse(holes, bg.col, gp2$fill[1])
-			}
-		}		
 		class(gp2) <- "gpar"
 		idName <- paste("tm_polygons", i, k, id1, sep="_")
-		polygonGrob(res[,1], res[,2], id=res[,3], gp=gp2, name = idName)
+		pathGrob(res[,1], res[,2], id=res[,3], gp=gp2, name = idName)
 		
 	}, shp@polygons, 1:length(shp), SIMPLIFY=FALSE))
 }

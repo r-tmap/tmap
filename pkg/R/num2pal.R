@@ -144,8 +144,8 @@ fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, ...) {
 		if (intervals) {
 			x[vec==-Inf] <- ""
 			lbls <- paste(x[-n], x[-1], sep = paste0(" ", text.separator, " "))
-			if (x[1]==-Inf) lbls[1] <- paste(text.less.than, x[2])
-			if (x[n]==Inf) lbls[n-1] <- paste(x[n-1], text.or.more)
+			if (vec[1]==-Inf) lbls[1] <- paste(text.less.than, x[2])
+			if (vec[n]==Inf) lbls[n-1] <- paste(x[n-1], text.or.more)
 		}
 		
 	} else {
