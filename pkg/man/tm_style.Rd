@@ -36,7 +36,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 This element specifies the style of the map. There are two main styles: modern, which corresponds to the default values, and classic, which is loaded by calling \code{tm_style_classic}. See details for the difference with \code{\link{tm_layout}}.
 }
 \details{
-The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controlled wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
+The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controlled wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shape or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
 }
 \examples{
 data(World)
@@ -61,6 +61,26 @@ Africa <- World[World$continent=="Africa", ]
 
 qtm(Africa, fill="pop_est_dens", fill.style="kmeans", fill.title="Population density") + 
     tm_layout_Africa("Africa")
+
+
+\dontrun{
+# classic styled world map
+data(land)
+	
+# convert to Eckert IV projection
+land_eck4 <- set_projection(land, "eck4")
+
+tm_shape(land_eck4) +
+	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  palette = terrain.colors(9), title="Elevation") +
+tm_shape(World) +
+	tm_borders() +
+	tm_text("name", size="AREA") +
+tm_grid(projection="longlat", labels.size = .5, on.top = FALSE) +
+tm_compass(position = c(.67, .1), color.light = "grey90") +
+tm_layout(inner.margins=0, legend.position = c("left", "bottom"), legend.frame = TRUE, 
+		  bg.color="lightblue", legend.bg.color="lightblue", earth.boundary = TRUE, space.color="grey90") + 
+tm_style_classic()
+}
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

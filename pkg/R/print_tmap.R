@@ -89,11 +89,9 @@ print.tmap <- function(x, vp=NULL, ...) {
 			}
 		} else if (inherits(shp, "Raster")) {
 			if (fromDisk(shp)) {
-				system.time({
-					shp <- as(shp, "SpatialGridDataFrame")
-					data <- data.frame(FILE__VALUES = shp[[1]])
-					shp <- raster(shp, layer=0)
-				})
+				shp <- as(shp, "SpatialGridDataFrame")
+				data <- data.frame(FILE__VALUES = shp[[1]])
+				shp <- raster(shp, layer=0)
 			} else {
 				data <- get_raster_data(shp)
 				shp <- raster(shp)

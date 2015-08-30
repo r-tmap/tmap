@@ -121,20 +121,38 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		   dimnames=list(c("x", "y"), c("min", "max")))
 	
 	if (!missing(projection)) {
-		sp_rect <- as(extent(b), "SpatialPolygons")
-		co <- sp_rect@polygons[[1]]@Polygons[[1]]@coords
-		
-		# add intermediate points
-		co2 <- apply(co, 2, function(v) {
-			n <- length(v)
-			c(v[1], rep(v[-n], each=4) + as.vector(sapply((v[-1] - v[-n]) / 4, function(w)cumsum(rep(w,4)))))
+		errorFound  <- TRUE
+		opt <- options(warn=-1, verbose=FALSE)
+		log <- capture.output({
+		while(errorFound) {
+			sp_pnts <- as(extent(b), "SpatialPoints")
+			co <- sp_pnts@coords
+			
+			# add intermediate points
+			co2 <- apply(co[c(1:4,1),], 2, function(v) {
+				n <- length(v)
+				c(v[1], rep(v[-n], each=4) + as.vector(sapply((v[-1] - v[-n]) / 4, function(w)cumsum(rep(w,4)))))
+			})
+			
+			sp_pnts2 <- SpatialPoints(co2, proj4string = CRS(get_proj4_code(current.projection)))
+			
+			errorFound  <- FALSE
+			tryCatch({
+				sp_pnts2_prj <- set_projection(sp_pnts2, projection=projection)
+			}, error=function(e) {
+				assign("b", bb(b, ext=.99), envir = parent.env(environment()))
+				assign("errorFound", TRUE, envir = parent.env(environment()))
+				NULL
+			})
+		}
 		})
+
+		do.call("options", opt)
 		
-		sp_rect@polygons[[1]]@Polygons[[1]]@coords <- co2
-		
-		sp_rect <- set_projection(sp_rect, current.projection = current.projection)
-		sp_rect_prj <- spTransform(sp_rect, CRSobj = get_proj4_code(projection))
-		b <- sp_rect_prj@bbox
+		#sp_rect_prj <- set_projection(sp_rect, projection=projection)
+		#sp_rect_prj <- set_projection(sp_rect, current.projection = current.projection, projection=projection)
+		#sp_rect_prj <- spTransform(sp_rect, CRSobj = get_proj4_code(projection))
+		b <- sp_pnts2_prj@bbox
 	}
 	
 	b	

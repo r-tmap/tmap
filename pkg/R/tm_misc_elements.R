@@ -45,17 +45,21 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 #' 
 #' Creates a \code{\link{tmap-element}} that draws coordinate grid lines.
 #' 
-#' @param n.x Prefered number of grid lines for the x axis.
-#' @param n.y Prefered number of grid lines for the y axis.
-#' @param col Color for the grid lines.
+#' @param n.x prefered number of grid lines for the x axis.
+#' @param n.y prefered number of grid lines for the y axis.
+#' @param projection projection character. If specified, the grid lines are projected accordingly. See \code{\link{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.
+#' @param col color for the grid lines.
+#' @param alpha alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken. 
 #' @param labels.size font size of the tick labels
 #' @param labels.col font color fo the tick labels
 #' @param labels.inside.frame Show labels inside the frame?
 #' @param on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
 #' @export
-tm_grid <- function(n.x=8,
-					n.y=8,
+tm_grid <- function(n.x=NA,
+					n.y=NA,
+					projection=NA,
 					col="grey50",
+					alpha=NA,
 					labels.size=.75,
 					labels.col="grey20",
 					labels.inside.frame=TRUE,

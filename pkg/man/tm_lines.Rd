@@ -5,11 +5,12 @@
 \title{Draw spatial lines}
 \usage{
 tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
-  lwd.legend = NULL, lwd.legend.labels = NULL, n = 5, style = "pretty",
-  breaks = NULL, palette = NULL, labels = NULL,
-  auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = "grey65", textNA = "Missing", title.col = NA,
-  title.lwd = NA, legend.format = list(), legend.col.is.portrait = TRUE,
+  lwd.legend = NULL, lwd.legend.labels = NULL, n = 5,
+  style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
+  palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
+  contrast = 1, max.categories = 12, colorNA = "grey65",
+  textNA = "Missing", title.col = NA, title.lwd = NA,
+  legend.format = list(), legend.col.is.portrait = TRUE,
   legend.lwd.is.portrait = FALSE, legend.hist = FALSE,
   legend.hist.title = NA, legend.col.z = NA, legend.lwd.z = NA,
   legend.hist.z = NA, id = NA)

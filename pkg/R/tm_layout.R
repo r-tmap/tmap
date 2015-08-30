@@ -15,6 +15,11 @@
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.
 #' @param outer.bg.color Background color outside the frame.
+#' @param earth.boundary Should the earth boundary be shown? Only applicable for projected world maps.
+#' @param earth.boundary.color Color of the earth boundary.
+#' @param earth.boundary.lwd Line width of the earth boundary.
+#' @param earth.datum Geodetic datum to determine the earth boundary. By default \code{"WGS84"}, other frequently used datums are \code{"NAD83"} and \code{"NAD27"}. Any other \code{PROJ.4} character string can be used.
+#' @param space.color Color of the space, i.e. the region inside the frame, and outsise the earth boundary.
 #' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default, it is automatically placed in the corner with most space based on the (first) shape object.
@@ -59,6 +64,11 @@ tm_layout <- function(title=NA,
 					  outer.margins = rep(0.02, 4),
 					  inner.margins = NA,
 					  outer.bg.color=NULL,
+					  earth.boundary=FALSE,
+					  earth.boundary.color="black",
+					  earth.boundary.lwd=1,
+					  earth.datum="WGS84",
+					  space.color=NULL,
 					  legend.show = TRUE,
 					  legend.only = FALSE,
 					  legend.position = NULL,

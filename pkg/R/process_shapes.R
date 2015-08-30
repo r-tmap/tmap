@@ -174,6 +174,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 				shps_by_splt[[shps_by_ind[i]]]
 			}
 			mapply(function(shp2, bb2){
+				prj <- attr(shp2, "proj4string")
 				y <- tryCatch({
 					crop(shp2, bb2)
 				}, error = function(e) {
@@ -182,6 +183,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 				})
 				if (is.null(y)) y <- shp2
 				attr(y, "bbox") <- bb2
+				attr(y, "proj4string") <- prj
 				y
 			}, x, bboxes, SIMPLIFY=FALSE)
 		})
@@ -192,12 +194,15 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
 			if (diff_shapes) {
 				lapply(bboxes, function(bb2){
+					prj <- attr(x, "proj4string")
 					y <- crop(x, bb2)
 					if (is.null(y)) y <- x
 					attr(y, "bbox") <- bb2
+					attr(y, "proj4string") <- prj
 					y
 				})
 			} else {
+				prj <- attr(x, "proj4string")
 				y <- tryCatch({
 					y <- crop(x, bbx)
 					if (is.null(y)) x else y
@@ -205,6 +210,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 					x	
 				})
 				attr(y, "bbox") <- bbx
+				attr(y, "proj4string") <- prj
 				y	
 			}
 		}, shps, names(shps), SIMPLIFY=FALSE)

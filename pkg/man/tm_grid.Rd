@@ -4,15 +4,20 @@
 \alias{tm_grid}
 \title{Coordinate grid lines}
 \usage{
-tm_grid(n.x = 8, n.y = 8, col = "grey50", labels.size = 0.75,
-  labels.col = "grey20", labels.inside.frame = TRUE, on.top = TRUE)
+tm_grid(n.x = NA, n.y = NA, projection = NA, col = "grey50",
+  alpha = NA, labels.size = 0.75, labels.col = "grey20",
+  labels.inside.frame = TRUE, on.top = TRUE)
 }
 \arguments{
-\item{n.x}{Prefered number of grid lines for the x axis.}
+\item{n.x}{prefered number of grid lines for the x axis.}
 
-\item{n.y}{Prefered number of grid lines for the y axis.}
+\item{n.y}{prefered number of grid lines for the y axis.}
 
-\item{col}{Color for the grid lines.}
+\item{projection}{projection character. If specified, the grid lines are projected accordingly. See \code{\link{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.}
+
+\item{col}{color for the grid lines.}
+
+\item{alpha}{alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken.}
 
 \item{labels.size}{font size of the tick labels}
 

@@ -8,13 +8,14 @@
 tm_bubbles(size = 0.2, col = "blueviolet", alpha = NA, border.col = NA,
   border.lwd = 1, border.alpha = NA, scale = 1, perceptual = FALSE,
   size.lim = NA, sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
-  style = "pretty", breaks = NULL, palette = NULL, labels = NULL,
-  auto.palette.mapping = TRUE, contrast = 1, max.categories = 12,
-  colorNA = "#FF1414", textNA = "Missing", jitter = 0, xmod = 0,
-  ymod = 0, title.size = NA, title.col = NA, legend.format = list(),
-  legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
-  legend.hist = FALSE, legend.hist.title = NA, legend.size.z = NA,
-  legend.col.z = NA, legend.hist.z = NA, id = NA)
+  style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
+  palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
+  contrast = 1, max.categories = 12, colorNA = "#FF1414",
+  textNA = "Missing", jitter = 0, xmod = 0, ymod = 0, title.size = NA,
+  title.col = NA, legend.format = list(), legend.size.is.portrait = FALSE,
+  legend.col.is.portrait = TRUE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
+  legend.hist.z = NA, id = NA)
 
 tm_dots(col = "black", size = 0.02, title = NA,
   legend.is.portrait = TRUE, legend.z = NA, ...)

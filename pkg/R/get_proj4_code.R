@@ -2,7 +2,11 @@ get_proj4_code <- function(x) {
 	if (is.null(x)) return(NULL)
 	y <- switch(x,
 		   longlat="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
-		   wintri="+proj=wintri +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
+		   WGS84="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
+		   NAD83="+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs",
+			NAD83="+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs",
+			NAD27="+proj=longlat +ellps=clrk66 +datum=NAD27 +no_defs",
+			wintri="+proj=wintri +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
 		   robin="+proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
 		   eck4="+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
 		   hd="+proj=cea +lat_ts=37.5",

@@ -66,7 +66,8 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 		legend.text.size <- legend.text.size * scale
 		legend.hist.size <- legend.hist.size * scale
 				
-		if (is.null(bg.color)) bg.color <- "white" #ifelse(is.na(varnames$fill[1]), "white", "grey75")
+		if (is.null(bg.color)) bg.color <- "white"
+		if (is.null(space.color)) space.color <- bg.color
 		
 		legend.inside.box <- if (!is.logical(legend.frame)) TRUE else legend.frame
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
@@ -79,17 +80,22 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 		} else rep(inner.margins, length.out=4)
 		
 		
-		if (!is.null(bg.color)) bg.color <- do.call("process_color", c(list(col=bg.color), gst))
+		bg.color <- do.call("process_color", c(list(col=bg.color), gst))
 		if (!is.null(outer.bg.color)) outer.bg.color <- do.call("process_color", c(list(col=outer.bg.color), gst))
 		if (!is.na(legend.bg.color)) legend.bg.color <- do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), gst))
 		if (!is.na(legend.hist.bg.color)) legend.hist.bg.color <- do.call("process_color", c(list(col=legend.hist.bg.color, alpha=legend.hist.bg.alpha), gst))
 		if (!is.na(title.bg.color)) title.bg.color <- do.call("process_color", c(list(col=title.bg.color, alpha=title.bg.alpha), gst))
-
+		if (!is.na(earth.boundary.color)) title.bg.color <- do.call("process_color", c(list(col=earth.boundary.color), gst))
+		space.color <- do.call("process_color", c(list(col=space.color), gst))
+		
+		earth.boundary.lwd <- earth.boundary.lwd * scale
 	})	
 
 	if (!is.null(gg)) {
 		gg <- within(gg, {
 			grid.show <- TRUE
+			grid.col <- do.call("process_color", c(list(col=grid.col, alpha=grid.alpha), gst))
+			grid.labels.col <- do.call("process_color", c(list(col=grid.labels.col), gst))
 		})
 	} else {
 		gg <- list(grid.show=FALSE)

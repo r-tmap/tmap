@@ -12,7 +12,9 @@
 \usage{
 tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
   draw.frame = TRUE, asp = NA, outer.margins = rep(0.02, 4),
-  inner.margins = NA, outer.bg.color = NULL, legend.show = TRUE,
+  inner.margins = NA, outer.bg.color = NULL, earth.boundary = FALSE,
+  earth.boundary.color = "black", earth.boundary.lwd = 1,
+  earth.datum = "WGS84", space.color = NULL, legend.show = TRUE,
   legend.only = FALSE, legend.position = NULL, legend.width = 0.3,
   legend.height = 0.9, legend.hist.height = 0.3,
   legend.hist.width = legend.width, legend.title.size = 1.1,
@@ -64,6 +66,16 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 \item{inner.margins}{Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.}
 
 \item{outer.bg.color}{Background color outside the frame.}
+
+\item{earth.boundary}{Should the earth boundary be shown? Only applicable for projected world maps.}
+
+\item{earth.boundary.color}{Color of the earth boundary.}
+
+\item{earth.boundary.lwd}{Line width of the earth boundary.}
+
+\item{earth.datum}{Geodetic datum to determine the earth boundary. By default \code{"WGS84"}, other frequently used datums are \code{"NAD83"} and \code{"NAD27"}. Any other \code{PROJ.4} character string can be used.}
+
+\item{space.color}{Color of the space, i.e. the region inside the frame, and outsise the earth boundary.}
 
 \item{legend.show}{Logical that determines whether the legend is shown.}
 
@@ -149,6 +161,26 @@ Africa <- World[World$continent=="Africa", ]
 
 qtm(Africa, fill="pop_est_dens", fill.style="kmeans", fill.title="Population density") + 
     tm_layout_Africa("Africa")
+
+
+\dontrun{
+# classic styled world map
+data(land)
+	
+# convert to Eckert IV projection
+land_eck4 <- set_projection(land, "eck4")
+
+tm_shape(land_eck4) +
+	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  palette = terrain.colors(9), title="Elevation") +
+tm_shape(World) +
+	tm_borders() +
+	tm_text("name", size="AREA") +
+tm_grid(projection="longlat", labels.size = .5, on.top = FALSE) +
+tm_compass(position = c(.67, .1), color.light = "grey90") +
+tm_layout(inner.margins=0, legend.position = c("left", "bottom"), legend.frame = TRUE, 
+		  bg.color="lightblue", legend.bg.color="lightblue", earth.boundary = TRUE, space.color="grey90") + 
+tm_style_classic()
+}
 }
 \seealso{
 \code{\link{tm_style}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

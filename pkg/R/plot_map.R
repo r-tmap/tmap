@@ -1,5 +1,4 @@
-
-plot_map <- function(i, gp, gt, shps, bb) {
+plot_map <- function(i, gp, gt, shps, bbx, proj) {
 	nlayers <- length(gp)
 	
 	## bubble height needed to align with bubbles in legend
@@ -10,11 +9,13 @@ plot_map <- function(i, gp, gt, shps, bb) {
 	## metaX and Y are X and Y margins for the meta plot (legend etc)
 	if (gt$grid.show) {
 		gridRes <- plot_grid(gt, scale=gt$scale, add.labels = gt$grid.labels.inside.frame)
-		treeGrid <- gridRes$treeGrid
+		treeGridLines <- gridRes$treeGridLines
+		treeGridLabels <- gridRes$treeGridLabels
 		metaX <- gridRes$metaX
 		metaY <- gridRes$metaY
 	} else {
-		treeGrid <- NULL
+		treeGridLines <- NULL
+		treeGridLabels <- NULL
 		metaX <- 0
 		metaY <- 0
 	}
@@ -22,7 +23,7 @@ plot_map <- function(i, gp, gt, shps, bb) {
 
 	## thematic map layers
 	treeElements <- mapply(function(gpl, shp, k) {
-		bb <- attr(shp, "bbox")
+		bbx <- attr(shp, "bbox")
 		
 		## obtain coordinates (to draw bubbles and text)
 		if (inherits(shp, "Spatial")) {
@@ -32,11 +33,11 @@ plot_map <- function(i, gp, gt, shps, bb) {
 				co <- coordinates(shp) # prefered over gCentroid since coordinates correspond to first (normally largest) polygon of each object
 			}
 			co.npc <- co
-			co.npc[,1] <- if (bb[1, 2]-bb[1,1]==0) .5 else {
-				(co.npc[,1]-bb[1,1]) / (bb[1, 2]-bb[1,1])	
+			co.npc[,1] <- if (bbx[1, 2]-bbx[1,1]==0) .5 else {
+				(co.npc[,1]-bbx[1,1]) / (bbx[1, 2]-bbx[1,1])	
 			}
-			co.npc[,2] <- if (bb[2, 2]-bb[2,1]==0) .5 else {
-				(co.npc[,2]-bb[2,1]) / (bb[2, 2]-bb[2,1])
+			co.npc[,2] <- if (bbx[2, 2]-bbx[2,1]==0) .5 else {
+				(co.npc[,2]-bbx[2,1]) / (bbx[2, 2]-bbx[2,1])
 			}
 		} else {
 			co.npc <- NA
@@ -87,37 +88,128 @@ plot_map <- function(i, gp, gt, shps, bb) {
 		gTree(children=items)
 	}, gp, shps, 1:nlayers, SIMPLIFY=FALSE)
 	
-# 	if (gt$design.mode) {
-# 		des
-# 	}
+	
+	# cut map to projection boundaries (i.e. longlat bb -180 - 180, -90 to 90)
+	if (gt$earth.boundary) {
+		world_bb_co <- matrix(c(
+			rep(-180, 181), seq(-179, 179), rep(180, 181), seq(179, -179),
+			seq(-90, 90), rep(90, 359), seq(90, -90), rep(-90, 359)), ncol=2)
+		
+		world_bb_sp <- SpatialPolygons(list(Polygons(list(Polygon(coords=world_bb_co)), ID="world_bb")), proj4string=CRS(get_proj4_code(gt$earth.datum)))
+		world_bb_sp2 <- set_projection(world_bb_sp, projection = proj)
+		world_bb_co2 <- world_bb_sp2@polygons[[1]]@Polygons[[1]]@coords
+		
+		world_bb_co3 <- matrix(c((world_bb_co2[,1] - bbx[1,1])/(bbx[1,2]-bbx[1,1]),
+								 (world_bb_co2[,2] - bbx[2,1])/(bbx[2,2]-bbx[2,1])), ncol=2)
+		
+		worldBB <- pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=gt$earth.boundary.color, fill=NA, lwd=gt$earth.boundary.lwd))
+		
+		worldBB_cut <- pathGrob(x = c(0, 0, 1, 1, rev(world_bb_co3[,1])), y = c(0, 1, 1, 0, rev(world_bb_co3[,2])), id=c(rep(1,4), rep(2,nrow(world_bb_co3))), gp=gpar(col=NA, fill=gt$space.color))
+		
+		if (any(world_bb_co3[,1]>0 & world_bb_co3[,1]< 1 & world_bb_co3[,2] > 0 & world_bb_co3[,2] < 1)) {
+			grobWorldBB <- gTree(children=gList(worldBB_cut, worldBB))	
+		} else {
+			grobWorldBB <- NULL
+		}
+	} else {
+		grobWorldBB <- NULL
+	}
+	
+	
 	
 	grobsElemGrid <- if (gt$grid.show && gt$grid.on.top) {
-		do.call("gList", args = c(treeElements, list(treeGrid)))
+		do.call("gList", args = c(treeElements, list(treeGridLines, grobWorldBB, treeGridLabels)))
 	} else {
-		do.call("gList", args = c(list(treeGrid), treeElements))
+		do.call("gList", args = c(list(treeGridLines), treeElements, list(grobWorldBB, treeGridLabels)))
 	}
+	
+	
+	
 	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), lineInch=lineInch, metaX=metaX, metaY=metaY)
 }
 
 
-process_grid <- function(gt, bb) {
+process_grid <- function(gt, bbx, proj, sasp) {
 	grid.n.x <- grid.n.y <- NULL
 	within(gt, { 
-		grid.x <- pretty(bb[1,], n=grid.n.x)
-		grid.x <- grid.x[grid.x>bb[1,1] & grid.x<bb[1,2]]
-		grid.y <- pretty(bb[2,], n=grid.n.y)
-		grid.y <- grid.y[grid.y>bb[2,1] & grid.y<bb[2,2]]
+		if (!is.na(grid.projection)) {
+			bbx_orig <- bbx
+			bbx <- bb(bbx, current.projection = proj, projection = grid.projection)
+		}
 		
-		grid.co.x <- (grid.x-bb[1,1]) / (bb[1,2] - bb[1,1])
-		grid.co.y <- (grid.y-bb[2,1]) / (bb[2,2] - bb[2,1])
+		## automatically determine number of grid lines
+		if (is.na(grid.n.x) && !is.na(grid.n.y)) {
+			grid.n.x <- grid.n.y * sasp
+		} else if (!is.na(grid.n.x) && is.na(grid.n.y)) {
+			grid.n.y <- grid.n.x / sasp
+		} else if (is.na(grid.n.x) && is.na(grid.n.y)) {
+			grid.n.lines <- 20 / gt$scale
+			grid.n.x <- round(sasp * (grid.n.lines/(1+sasp)))
+			grid.n.y <- round(grid.n.lines / (1+sasp))
+		}
 		
+		## find natural breaks
+		grid.x <- pretty(bbx[1,], n=grid.n.x)
+		grid.x <- grid.x[grid.x>bbx[1,1] & grid.x<bbx[1,2]]
+		grid.y <- pretty(bbx[2,], n=grid.n.y)
+		grid.y <- grid.y[grid.y>bbx[2,1] & grid.y<bbx[2,2]]
+		
+		## project grid lines
+		if (!is.na(grid.projection)) {
+			# create SLDF with straight grid lines in grid lines projection
+			lns <- SpatialLinesDataFrame(SpatialLines(list(
+				Lines(lapply(grid.x, function(x) {
+					m <- matrix(c(rep(x,100), seq(bbx[2,1], bbx[2,2], length.out=100)), ncol=2)
+					Line(m)
+				}), ID="x"),
+				Lines(lapply(grid.y, function(y) {
+					m <- matrix(c(seq(bbx[1,1], bbx[1,2], length.out=100), rep(y,100)), ncol=2)
+					Line(m)
+				}), ID="y")
+			), proj4string = CRS(get_proj4_code(grid.projection))), data.frame(ID=c("x", "y")), match.ID=FALSE)
+			
+			# project it to current projection
+			lns_proj <- set_projection(lns, projection = proj)
+
+			# extract and normalize coordinates
+			grid.co.x.lns <- lapply(lns_proj@lines[[1]]@Lines, function(l) {
+				lco <- attr(l, "coords")
+				lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
+				lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
+				lco
+			})
+			grid.co.y.lns <- lapply(lns_proj@lines[[2]]@Lines, function(l) {
+				lco <- attr(l, "coords")
+				lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
+				lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
+				lco
+			})
+			lns <- NULL
+			lns_proj <- NULL
+		} else {
+			# normalize coordinates
+			grid.co.x <- (grid.x-bbx[1,1]) / (bbx[1,2] - bbx[1,1])
+			grid.co.y <- (grid.y-bbx[2,1]) / (bbx[2,2] - bbx[2,1])
+			
+		}
+		
+		## format grid labels
 		grid.labels.x <- format(grid.x, big.mark = ",")
 		grid.labels.y <- format(grid.y, big.mark = ",")
+
 	})
 }
 
 plot_grid_labels_x <- function(gt, scale) {
-	cogridx <- gt$grid.co.x
+	# find coordinates for projected grid labels
+	if (!is.na(gt$grid.projection)) {
+		cogridx <- sapply(gt$grid.co.x.lns, function(i){
+			i[which(i[,2] > 0)[1], 1]
+		})
+	} else {
+		cogridx <- gt$grid.co.x	
+	}
+
 	labelsx <- gt$grid.labels.x
 
 	textGrob(labelsx, y=1, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
@@ -125,7 +217,15 @@ plot_grid_labels_x <- function(gt, scale) {
 }
 
 plot_grid_labels_y <- function(gt, scale) {
-	cogridy <- gt$grid.co.y
+	# find coordinates for projected grid labels
+	if (!is.na(gt$grid.projection)) {
+		cogridy <- sapply(gt$grid.co.y.lns, function(i){
+			i[which(i[,1] > 0)[1], 2]
+		})
+	} else {
+		cogridy <- gt$grid.co.y
+	}
+	
 	labelsy <- gt$grid.labels.y
 	
 	textGrob(labelsy, y=cogridy, x=1, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
@@ -133,6 +233,7 @@ plot_grid_labels_y <- function(gt, scale) {
 
 
 plot_grid <- function(gt, scale, add.labels) {
+	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
 	cogridx <- gt$grid.co.x
 	cogridy <- gt$grid.co.y
 	labelsx <- gt$grid.labels.x
@@ -140,6 +241,7 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 	cex <- gt$grid.labels.size*scale
 	
+	# find margins due to grid labels
 	if (add.labels) {
 		if (gt$draw.frame) {
 			if (gt$frame.double.line) {
@@ -153,26 +255,65 @@ plot_grid <- function(gt, scale, add.labels) {
 			fw <- 0
 			fh <- 0
 		}
-		
-		labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE)) * .75 * cex + fw
-		labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE)) * .75 * cex + fh
+		labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE))  * cex + fw
+		labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE))  * cex + fh
 		spacerY <- convertWidth(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		spacerX <- convertHeight(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-		selx <- cogridx >= labelsYw + spacerY
-		sely <- cogridy >= labelsXw + spacerX
 	} else {
 		labelsXw <- labelsYw <- spacerX <- spacerY <- 0
-		selx <- rep.int(TRUE, length(cogridx))
-		sely <- rep.int(TRUE, length(cogridy))
 	}	
+
+	# find coordinates for projected grid labels
+	if (!is.na(gt$grid.projection)) {
+		cogridx <- sapply(gt$grid.co.x.lns, function(i){
+			i[which(i[,2] > (labelsXw + spacerX))[1], 1]
+		})
+		cogridy <- sapply(gt$grid.co.y.lns, function(i){
+			i[which(i[,1] > (labelsYw + spacerY))[1], 2]
+		})
+	}
 	
-	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
+	# select grid labels to print
+	selx <- cogridx >= labelsYw + spacerY & cogridx <= 1 - spacerY
+	sely <- cogridy >= labelsXw + spacerX & cogridy <= 1 - spacerX
+	
+	# crop projected grid lines, and extract polylineGrob ingredients
+	if (!is.na(gt$grid.projection)) {
+		lns <- SpatialLinesDataFrame(SpatialLines(list(
+			Lines(lapply(gt$grid.co.x.lns, function(m) {
+				Line(m)
+			}), ID="x"),
+			Lines(lapply(gt$grid.co.y.lns, function(m) {
+				Line(m)
+			}), ID="y")
+		)), data.frame(ID=c("x", "y")), match.ID=FALSE)
+		lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY, labelsXw + spacerX, 1, 1)))
+		
+		cogridxlns <- do.call("rbind", mapply(function(l, i) {
+			co <- as.data.frame(attr(l, "coords"))
+			co$ID <- i
+			co
+		}, lns_crop@lines[[1]]@Lines, 1:length(lns_crop@lines[[1]]@Lines), SIMPLIFY=FALSE))
+		
+		cogridylns <- do.call("rbind", mapply(function(l, i) {
+			co <- as.data.frame(attr(l, "coords"))
+			co$ID <- i
+			co
+		}, lns_crop@lines[[2]]@Lines, 1:length(lns_crop@lines[[2]]@Lines), SIMPLIFY=FALSE))
+	}
+
+	## process x-axis grid lines and labels
 	if (any(selx)) {
 		cogridx <- cogridx[selx]
 		labelsx <- labelsx[selx]
 		
-		grobGridX <- polylineGrob(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
-					  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
+		if (is.na(gt$grid.projection)) {
+			grobGridX <- polylineGrob(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
+									  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
+		} else {
+			grobGridX <- polylineGrob(x=cogridxlns$x, y=cogridxlns$y, id=cogridxlns$ID, gp=gpar(col=gt$grid.col, lwd=scale))
+		}
+
 		grobGridTextX <- if (add.labels) {
 			 textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
@@ -180,12 +321,20 @@ plot_grid <- function(gt, scale, add.labels) {
 		grobGridX <- NULL
 		grobGridTextX <- NULL
 	}
+
+	
+	## process y-axis grid lines and labels
 	if (any(sely)) {
 		cogridy <- cogridy[sely]
 		labelsy <- labelsy[sely]
 		
-		grobGridY <- polylineGrob(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
+		if (is.na(gt$grid.projection)) {
+			grobGridY <- polylineGrob(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
 					  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
+		} else {
+			grobGridY <- polylineGrob(x=cogridylns$x, y=cogridylns$y, id=cogridylns$ID, gp=gpar(col=gt$grid.col, lwd=scale))
+		}
+		
 		grobGridTextY <- if (add.labels) {
 			textGrob(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
@@ -193,7 +342,8 @@ plot_grid <- function(gt, scale, add.labels) {
 		grobGridY <- NULL
 		grobGridTextY <- NULL
 	}
-	list(treeGrid=gTree(children=gList(grobGridX, grobGridY, grobGridTextX, grobGridTextY)),
+	list(treeGridLines=gTree(children=gList(grobGridX, grobGridY)),
+		 treeGridLabels=gTree(children=gList(grobGridTextX, grobGridTextY)),
 		 metaX=labelsYw+spacerY,
 		 metaY=labelsXw+spacerX)
 	
@@ -294,14 +444,15 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 	gt <- gp$tm_layout
 
 	shps <- get("shps", envir=shps.env)
-	bb <- attr(shps[[1]], "bbox")
+	bbx <- attr(shps[[1]], "bbox")
+	proj <- attr(shps[[1]], "proj4string")@projargs
 	
 	## in case of small multiples, get i'th shape
 	if (any(gt$shp_nr!=0) && (gt$drop.shapes || gt$free.coords)) {
 		shps <- shps[[i]]
 	}
 	
-	if (gt$grid.show) gt <- process_grid(gt, bb)
+	if (gt$grid.show) gt <- process_grid(gt, bbx, proj, sasp)
 	
 	
 	
@@ -367,7 +518,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			}
 			
 			## the thematic map
-			res <- plot_map(i, gp, gt, shps, bb)
+			res <- plot_map(i, gp, gt, shps, bbx, proj)
 			treeElemGrid <- res$treeElemGrid
 			lineInch <- res$lineInch
 			metaX <- res$metaX
@@ -427,7 +578,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			vpLeg <- current.viewport()
 			grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
 		}
-		treeMeta <- meta_plot(gt, leg, legend_pos, bb, metaX, metaY)
+		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY)
 		treeMetaX <- gTree(children=gList(grobLegendBG, treeMeta))
 		
 		if (!gt$legend.only) {
