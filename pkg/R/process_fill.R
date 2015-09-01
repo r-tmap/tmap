@@ -166,6 +166,7 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 		 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col),
 		 fill.legend.hist.misc=list(values=fill.values, breaks=fill.breaks),
 		 xfill=x,
+		 fill.legend.show=g$legend.show,
 		 fill.legend.title=fill.legend.title,
 		 fill.legend.is.portrait=g$legend.is.portrait,
 		 fill.legend.hist=g$legend.hist,

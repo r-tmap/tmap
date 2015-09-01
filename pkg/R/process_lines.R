@@ -218,6 +218,8 @@ process_lines <- function(data, g, gt, gst, gby, z) {
 		 line.col.legend.hist.misc=list(values=line.values, breaks=line.breaks),
 		 xline=xcol,
 		 xlinelwd=xlwd,
+		 line.col.legend.show=g$legend.col.show,
+		 line.lwd.legend.show=g$legend.lwd.show,
 		 line.col.legend.title=line.col.legend.title,
 		 line.lwd.legend.title=line.lwd.legend.title,
 		 line.col.legend.is.portrait=g$legend.col.is.portrait,

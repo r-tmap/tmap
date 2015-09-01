@@ -124,6 +124,7 @@ process_raster <- function(data, g, gt, gst, gby, z) {
 		 raster.legend.misc=list(),
 		 raster.legend.hist.misc=list(values=raster.values, breaks=raster.breaks),
 		 xraster=x,
+		 raster.legend.show=g$legend.show,
 		 raster.legend.title=raster.legend.title,
 		 raster.legend.is.portrait=g$legend.is.portrait,
 		 raster.legend.hist=g$legend.hist,

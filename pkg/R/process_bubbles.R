@@ -241,6 +241,8 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 		 xcol=xcol,
 		 bubble.xmod=xmod,
 		 bubble.ymod=ymod,
+		 bubble.size.legend.show=g$legend.size.show,
+		 bubble.col.legend.show=g$legend.col.show,
 		 bubble.size.legend.title=bubble.size.legend.title,
 		 bubble.col.legend.title=bubble.col.legend.title,
 		 bubble.size.legend.is.portrait=g$legend.size.is.portrait,
