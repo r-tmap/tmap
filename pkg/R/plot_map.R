@@ -59,6 +59,9 @@ plot_map <- function(i, gp, gt, shps, bbx, proj) {
 		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, gt, lineInch, i, k)
 		plot_tm_text <- function() plot_text(co.npc, gpl, gt, lineInch)
 		
+		
+		plot_tm_grid <- function() treeGridLines
+		
 		plot_tm_raster <- function() {
 			rast <- if (is.null(gpl$raster)) NA else gpl$raster
 			bb_target <- attr(shp, "bbox")
@@ -117,13 +120,8 @@ plot_map <- function(i, gp, gt, shps, bbx, proj) {
 	
 	
 	
-	grobsElemGrid <- if (gt$grid.show && gt$grid.on.top) {
-		do.call("gList", args = c(treeElements, list(treeGridLines, grobWorldBB, treeGridLabels)))
-	} else {
-		do.call("gList", args = c(list(treeGridLines), treeElements, list(grobWorldBB, treeGridLabels)))
-	}
-	
-	
+	grobsElemGrid <- do.call("gList", args = c(treeElements, list(grobWorldBB, treeGridLabels)))
+
 	
 	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), lineInch=lineInch, metaX=metaX, metaY=metaY)
 }
@@ -309,9 +307,9 @@ plot_grid <- function(gt, scale, add.labels) {
 		
 		if (is.na(gt$grid.projection)) {
 			grobGridX <- polylineGrob(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
-									  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
+									  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		} else {
-			grobGridX <- polylineGrob(x=cogridxlns$x, y=cogridxlns$y, id=cogridxlns$ID, gp=gpar(col=gt$grid.col, lwd=scale))
+			grobGridX <- polylineGrob(x=cogridxlns$x, y=cogridxlns$y, id=cogridxlns$ID, gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		}
 
 		grobGridTextX <- if (add.labels) {
@@ -330,9 +328,9 @@ plot_grid <- function(gt, scale, add.labels) {
 		
 		if (is.na(gt$grid.projection)) {
 			grobGridY <- polylineGrob(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
-					  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=scale))
+					  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		} else {
-			grobGridY <- polylineGrob(x=cogridylns$x, y=cogridylns$y, id=cogridylns$ID, gp=gpar(col=gt$grid.col, lwd=scale))
+			grobGridY <- polylineGrob(x=cogridylns$x, y=cogridylns$y, id=cogridylns$ID, gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		}
 		
 		grobGridTextY <- if (add.labels) {

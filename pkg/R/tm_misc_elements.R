@@ -43,27 +43,27 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 
 #' Coordinate grid lines
 #' 
-#' Creates a \code{\link{tmap-element}} that draws coordinate grid lines.
+#' Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default the coordinate system of the (master) shape object is used, which results in horizontal and vertical lines. Alternatively, grid lines can be reprojected, for instance to latitude longitude coordinates, and hence be curved.
 #' 
 #' @param n.x prefered number of grid lines for the x axis.
 #' @param n.y prefered number of grid lines for the y axis.
 #' @param projection projection character. If specified, the grid lines are projected accordingly. See \code{\link{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.
-#' @param col color for the grid lines.
+#' @param col color of the grid lines.
+#' @param lwd line width of the grid lines
 #' @param alpha alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken. 
 #' @param labels.size font size of the tick labels
-#' @param labels.col font color fo the tick labels
+#' @param labels.col font color of the tick labels
 #' @param labels.inside.frame Show labels inside the frame?
-#' @param on.top Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).
 #' @export
 tm_grid <- function(n.x=NA,
 					n.y=NA,
 					projection=NA,
 					col="grey50",
+					lwd=1,
 					alpha=NA,
 					labels.size=.75,
 					labels.col="grey20",
-					labels.inside.frame=TRUE,
-					on.top=TRUE) {
+					labels.inside.frame=TRUE) {
 	g <- list(tm_grid=as.list(environment()))
 	names(g$tm_grid) <- paste("grid", names(g$tm_grid), sep=".")
 	class(g) <- "tmap"

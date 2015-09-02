@@ -83,9 +83,30 @@ process_tm <- function(x, asp_ratio, shp_info) {
 		}
 	}
 	
+	xnames <- names(x)
+
+	## find tm_grid position
+	if ("tm_grid" %in% xnames) {
+		gridID <- which(xnames=="tm_grid")
+		shapeID <- which(xnames=="tm_shape")
+		gridGrp <- tail(which(shapeID<gridID), 1)
+		gridShpPos <- shapeID[gridGrp]
+		
+		gridPos <- if (gridID == gridShpPos+1) 1 else {
+			belowGridLayers <- xnames[(gridShpPos+1):(gridID-1)]
+			fillBorderID <- which(belowGridLayers %in% c("tm_fill", "tm_borders"))
+			if (length(fillBorderID) >= 2) {
+				belowGridLayers <- belowGridLayers[-fillBorderID[-1]]
+			}
+			sum(!(belowGridLayers %in% c("tm_layout", "tm_style", "tm_facets", "tm_credits", "tm_scale_bar"))) + 1
+		}
+	} else {
+		gridGrp <- 0
+	}
 	
+
 	## split x into gmeta and gbody
-	x <- x[!(names(x) %in% c("tm_layout", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_scale_bar"))]
+	x <- x[!(xnames %in% c("tm_layout", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_scale_bar"))]
 
 	n <- length(x)
 	
@@ -103,6 +124,20 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	cnlx <- if (nshps==1) 0 else c(0, cumsum(nlx[1:(nshps-1)]-1))
 	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gst=gst, gf=gf), SIMPLIFY = FALSE)
 	names(gp) <- paste0("tmLayer", 1:length(gp))
+	
+	
+	## add tm_grid to plot order
+	if (gridGrp!=0) {
+		plot.order <- gp[[gridGrp]]$plot.order
+		if (gridPos==1) {
+			plot.order <- c("tm_grid", plot.order)
+		} else if (gridPos==length(plot.order)+1) {
+			plot.order <- c(plot.order, "tm_grid")
+		} else {
+			plot.order <- c(plot.order[1:(gridPos-1)], "tm_grid", plot.order[gridPos:length(plot.order)])
+		}
+		gp[[gridGrp]]$plot.order <- plot.order
+	}
 	
 	## get by vector
 	data_by <- lapply(gp, function(i)i$data_by)

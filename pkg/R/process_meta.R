@@ -96,6 +96,7 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 			grid.show <- TRUE
 			grid.col <- do.call("process_color", c(list(col=grid.col, alpha=grid.alpha), gst))
 			grid.labels.col <- do.call("process_color", c(list(col=grid.labels.col), gst))
+			grid.lwd <- grid.lwd * gt$scale
 		})
 	} else {
 		gg <- list(grid.show=FALSE)
