@@ -442,13 +442,14 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 	gt <- gp$tm_layout
 
 	shps <- get("shps", envir=shps.env)
-	bbx <- attr(shps[[1]], "bbox")
-	proj <- attr(shps[[1]], "proj4string")@projargs
 	
 	## in case of small multiples, get i'th shape
 	if (any(gt$shp_nr!=0) && (gt$drop.shapes || gt$free.coords)) {
 		shps <- shps[[i]]
 	}
+
+	bbx <- attr(shps[[1]], "bbox")
+	proj <- attr(shps[[1]], "proj4string")@projargs
 	
 	if (gt$grid.show) gt <- process_grid(gt, bbx, proj, sasp)
 	

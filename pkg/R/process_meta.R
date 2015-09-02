@@ -85,7 +85,7 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 		if (!is.na(legend.bg.color)) legend.bg.color <- do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), gst))
 		if (!is.na(legend.hist.bg.color)) legend.hist.bg.color <- do.call("process_color", c(list(col=legend.hist.bg.color, alpha=legend.hist.bg.alpha), gst))
 		if (!is.na(title.bg.color)) title.bg.color <- do.call("process_color", c(list(col=title.bg.color, alpha=title.bg.alpha), gst))
-		if (!is.na(earth.boundary.color)) title.bg.color <- do.call("process_color", c(list(col=earth.boundary.color), gst))
+		if (!is.na(earth.boundary.color)) earth.boundary.color <- do.call("process_color", c(list(col=earth.boundary.color), gst))
 		space.color <- do.call("process_color", c(list(col=space.color), gst))
 		
 		earth.boundary.lwd <- earth.boundary.lwd * scale
