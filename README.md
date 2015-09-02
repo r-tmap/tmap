@@ -3,6 +3,8 @@ tmap
 
 R package for thematic maps
 
+![Classic world map](http://www.von-tijn.nl/tijn/research/tmap_classic.png)
+
 Installation
 ------------
 
@@ -24,7 +26,7 @@ library(tmap)
 Teaser
 -----
 
-This example works with the development version.
+This example shown above works with the latest development version.
 
 ```r
 
@@ -36,7 +38,8 @@ land_eck4 <- set_projection(land, "eck4")
 
 # plot
 tm_shape(land_eck4) +
-	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
+	tm_raster("elevation", 
+		breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
 		palette = terrain.colors(9), title="Elevation") +
 tm_shape(World) +
 	tm_borders("grey20") +
@@ -50,10 +53,7 @@ tm_shape(World) +
 	tm_style_classic()
 ```
 
-![Classic world map](http://www.von-tijn.nl/tijn/research/tmap_classic.png)
-
-
-Next CRAN release (version 1.1, currently in development)
+Next CRAN release (version 1.1, in development)
 -----
 
 New features (already implemented):
@@ -72,4 +72,5 @@ New features (still working on):
 Features to be included in later versions:
 
 * Cartogram
+
 
