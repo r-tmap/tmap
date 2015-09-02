@@ -697,7 +697,7 @@ plot_compass <- function(gt, just) {
 
 	} else if (gt$compass.type=="rose") {
 		cr <- c(.45, .42, .2, .17, .1)
-		LWD <- round(convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE))
+		LWD <- convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE)
 		cd <- seq(1/8, 15/8, by=.25) * pi
 		cd2 <- seq(1/4, 7/4, by=.5) * pi
 		cd3 <- seq(0, 1.75, by=.25) * pi
@@ -780,7 +780,7 @@ plot_compass <- function(gt, just) {
 		ly <- lr * cos(ld+drotate) + .5
 		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(cex=gt$compass.fontsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	}
-	
+
 	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {
 		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill))
 	} else if (gt$compass.type=="radar") {
