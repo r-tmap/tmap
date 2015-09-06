@@ -42,7 +42,7 @@ qtm <- function(shp,
 				borders="grey40",
 				theme=NULL,
 				scale=NA,
-				title="",
+				title=NA,
 				...) {
 	args <- list(...)
 	shp_name <- deparse(substitute(shp))

@@ -102,15 +102,9 @@ num2pal <- function(x, n = 5,
 }
 
 
-fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, ...) {
+fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, text.separator="to", text.less.than="less than", text.or.more="or more", digits=NA, ...) {
 	args <- list(...)
 
-	text.separator <- args$text.separator
-	text.less.than <- args$text.less.than
-	text.or.more <- args$text.or.more
-	
-	args[c("text.separator", "text.less.than", "text.or.more")] <- NULL
-	
 	### analyse the numeric vector
 	n <- length(vec)
 	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec)))
@@ -120,7 +114,7 @@ fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, ...) {
 	
 	# get number of decimals (which is number of decimals in vec, which is reduced when mag is large)
 	ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
-	if (is.na(args$digits)) args$digits <- max(min(ndec, 4-mag), 0)
+	if (is.na(digits)) digits <- max(min(ndec, 4-mag), 0)
 	
 	
 	if (!scientific) {
@@ -139,7 +133,7 @@ fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, ...) {
 		if (!("format" %in% names(args))) args$format <- "f"
 		if (!("preserve.width" %in% names(args))) args$preserve.width <- "none"
 		
-		x <- paste(do.call("formatC", c(list(x=vec), args)), ext, sep="")
+		x <- paste(do.call("formatC", c(list(x=vec, digits=digits), args)), ext, sep="")
 
 		if (intervals) {
 			x[vec==-Inf] <- ""
@@ -151,7 +145,7 @@ fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, ...) {
 	} else {
 		if (!("format" %in% names(args))) args$format <- "g"
 		
-		x <- do.call("formatC", c(list(x=vec), args))
+		x <- do.call("formatC", c(list(x=vec, digits=digits), args))
 		if (intervals) {
 			lbls <- paste("[", x[-n], ", ", x[-1], ")", sep="")
 			lbls[n-1] <- paste(substr(lbls[n-1], 1, nchar(lbls[n-1])-1), "]", sep="")
