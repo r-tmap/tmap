@@ -122,24 +122,62 @@ itmap <- function(tm, file=NULL, width = NULL, height = NULL ) {
 	addChildren( mapel_container, mapel_g )
 	addChildren( mapel_g, mapel[[1]] )
 	
-	# remove clip-path attribute to fill htmlwidget container
+	# try to append random number to
+	#  clip-path attribute and id to avoid id conflict
 	lapply(
 		getNodeSet(tmap_svg,"//*[contains(@clip-path,'url')]")
 		,function(g_clip){
+			# ugly way to get a pseudo random id to append
+			random_id <- round(runif(1,1,10),4)
 			x_attrs = xmlAttrs(g_clip)
-			removeAttributes(g_clip)
-			xmlAttrs(g_clip) <- x_attrs[-match('clip-path',names(x_attrs))]
+			clip_id <- gsub(x=x_attrs[["clip-path"]],pattern="(url\\(#)(.*)(\\))",replacement="\\2",perl=T)
+			clip <- getNodeSet(
+				tmap_svg
+				, sprintf("//*[@id = '%s']", clip_id)
+		  	)[[1]]
+			xmlAttrs(clip) <- c(id = sprintf("%s_%s",clip_id,random_id))
+			x_attrs[["clip-path"]] <- gsub(
+				x = x_attrs[["clip-path"]]
+				,pattern = "(clipPath)"
+				,replacement = paste0("\\1_", random_id)
+			)
+			xmlAttrs(g_clip) <- x_attrs
 		}
 	)
 	# also remove the map frame rect, since will no longer fit
-	invisible(xpathApply(tmap_svg,"//*[local-name()='g'][contains(@id,'mapFrame')]",removeNodes))
-	# remove mapBG
-	removeNodes(getNodeSet(tmap_svg,"//*[contains(@id,'mapBG')]")[[1]])
+	#invisible(xpathApply(tmap_svg,"//*[local-name()='g'][contains(@id,'mapFrame')]",removeNodes))
+	
+	#getNodeSet(svg,"//*[local-name()='g' and contains(@id,'mapFrame')]//*[local-name()='rect']")
+
+	# force mapBG to fill svg
+	mapBG <- getNodeSet(tmap_svg,"//*[contains(@id,'mapBG')]//*[local-name()='rect']")[[1]]
+	mapBG_attrs <- xmlAttrs(mapBG)
+	svg_viewbox <- strsplit(xmlAttrs(xmlRoot(tmap_svg))[["viewBox"]]," ")[[1]]
+	mapBG_attrs[["x"]] <- svg_viewbox[1]
+	mapBG_attrs[["y"]] <- svg_viewbox[2]
+	mapBG_attrs[["width"]] <- svg_viewbox[3]
+	mapBG_attrs[["height"]] <- svg_viewbox[4]
+	xmlAttrs(mapBG) <- mapBG_attrs
+	
+	
+	# originally removed the mapBG but force fill above works better
+	#   for things like the github teaser
+	# removeNodes(getNodeSet(tmap_svg,"//*[contains(@id,'mapBG')]")[[1]])
 
 	if(is.null(width) || is.null(height)){
 		width <- xmlAttrs(xmlRoot(tmap_svg))[["width"]]
 		height <- xmlAttrs(xmlRoot(tmap_svg))[["height"]]
 	}
+	
+	# ids in SVG likely to conflict if multiple maps on a page
+	#   remove all ids from the XML
+	xpathApply(
+		tmap_svg
+		,"//*[local-name() != 'clipPath']"
+		,function(nod){
+			removeAttributes(nod, "id")
+		}
+	)
 	
  	svgPanZoom(
  		tmap_svg 
@@ -156,62 +194,4 @@ itmap <- function(tm, file=NULL, width = NULL, height = NULL ) {
 tmap2svg <- function(...) {
 	warning("'tmap2svg' is renamed to the catchier 'itmap'")
 	do.call("tmap2svg", list(...))
-}
-
-
-
-
-
-
-
-################### all so I remember the hard times #######################
-function(){
-	# this only works partially
-	#  adding beforePan <-
-	reversePan <- htmlwidgets::JS(
-	'
-	function( oldPan, newPan ){
-		// reverse the y direction of the pan
-	    var stopHorizontal = false
-			, stopVertical = false
-		var customPan = {};
-	
-		customPan.x = newPan.x;
-		customPan.y = -newPan.y;
-		console.log("old");
-		console.log(oldPan);
-		console.log("new");
-		console.log(newPan);
-		console.log("custom");
-		console.log(customPan);
-	
-		
-		return customPan;
-	}
-	'
-	)
-	
-	tmsvg <- tmap2svg(tm_shape(World) + tm_polygons("pop_est"))
-	
-	tmxml <- xmlParse(tmsvg$x$svg)
-	mapel <- getNodeSet( tmxml,"//*[contains(@id,'mapElements.1')]")
-	xmlAttrs(mapel[[1]]) <- c(xmlAttrs(mapel[[1]]),"transform"="scale(1,-1)")
-	
-	mapel_container <- newXMLNode(
-		"g"
-		, attrs = c( "transform"="scale(1,-1)")
-	)
-	mapel_g <- newXMLNode(
-		"g"
-		, attrs = c("class"="map_viewport")
-	)
-	replaceNodes( mapel[[1]], mapel_container )
-	addChildren( mapel_container, mapel_g )
-	addChildren( mapel_g, mapel[[1]] )
-	
-	
-	
-	tmsvg$x$svg <- saveXML( tmxml )
-	tmsvg$x$config$viewportSelector = ".svg_pan_viewport"
-	tmsvg
 }
