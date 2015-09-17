@@ -17,6 +17,8 @@ sbind <- function(...) {
 	
 	x <- xlist[[1]]
 	
+	xlist <- xlist[!sapply(xlist, is.null)]
+	if (!length(xlist)) stop("No shape objects specified.")
 	if (!all(sapply(xlist, class)==class(x))) stop("Objects have inconsistent classes")
 	
     ids <- make.unique(unlist(lapply(xlist, get_IDs)), sep="_")
