@@ -12,7 +12,8 @@ tm_bubbles(size = 0.2, col = "blueviolet", alpha = NA, border.col = NA,
   palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
   contrast = 1, max.categories = 12, colorNA = "#FF1414",
   textNA = "Missing", jitter = 0, xmod = 0, ymod = 0, title.size = NA,
-  title.col = NA, legend.format = list(), legend.size.is.portrait = FALSE,
+  title.col = NA, legend.size.show = TRUE, legend.col.show = TRUE,
+  legend.format = list(), legend.size.is.portrait = FALSE,
   legend.col.is.portrait = TRUE, legend.hist = FALSE,
   legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
   legend.hist.z = NA, id = NA)
@@ -72,6 +73,10 @@ tm_dots(col = "black", size = 0.02, title = NA,
 \item{title.size}{title of the legend element regarding the bubble sizes}
 
 \item{title.col}{title of the legend element regarding the bubble colors}
+
+\item{legend.size.show}{logical that determines whether the legend for the bubble sizes is shown}
+
+\item{legend.col.show}{logical that determines whether the legend for the bubble colors is shown}
 
 \item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 \describe{

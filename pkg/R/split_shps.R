@@ -2,7 +2,7 @@
 #'
 #' Divide a shape object into multiple objects.
 #' 
-#' @aliases split.SpatialPolygonsDataFrame
+#' @aliases split.SpatialPolygons
 #' @param x shape object, which is one of
 #' \enumerate{
 #'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
@@ -13,25 +13,25 @@
 #' @param drop unused factor levels are dropped
 #' @param ... other arguments (not used)
 #' @return List of shape objects.
-#' @name split.SpatialPolygonsDataFrame
+#' @name split.SpatialPolygons
 #' @rdname split_shapes
-#' @method split SpatialPolygonsDataFrame
+#' @method split SpatialPolygons
 #' @export
-split.SpatialPolygonsDataFrame <- function(x, f, drop=FALSE, ...) split_shape(x, f, drop=FALSE, ...)
+split.SpatialPolygons <- function(x, f, drop=FALSE, ...) split_shape(x, f, drop=FALSE, ...)
 
-#' @aliases split.SpatialPointsDataFrame
-#' @name split.SpatialPointsDataFrame
+#' @aliases split.SpatialPoints
+#' @name split.SpatialPoints
 #' @rdname split_shapes
-#' @method split SpatialPointsDataFrame
+#' @method split SpatialPoints
 #' @export
-split.SpatialPointsDataFrame <- function(x, f, drop=FALSE, ...) split_shape(x, f, drop=FALSE, ...)
+split.SpatialPoints <- function(x, f, drop=FALSE, ...) split_shape(x, f, drop=FALSE, ...)
 
-#' @aliases split.SpatialLinesDataFrame
-#' @name split.SpatialLinesDataFrame
+#' @aliases split.SpatialLines
+#' @name split.SpatialLines
 #' @rdname split_shapes
-#' @method split SpatialLinesDataFrame
+#' @method split SpatialLines
 #' @export
-split.SpatialLinesDataFrame <- function(x, f, drop=FALSE, ...) split_shape(x, f, drop=FALSE, ...)
+split.SpatialLines <- function(x, f, drop=FALSE, ...) split_shape(x, f, drop=FALSE, ...)
 
 split_shape <- function(x, f, drop=TRUE, ...) {
 	if (!is.factor(f)) {
@@ -39,7 +39,6 @@ split_shape <- function(x, f, drop=TRUE, ...) {
 		f <- as.factor(f)
 	}
 	lev <- intersect(levels(f), f)
-	
 	xlist <- lapply(lev, function(l)x[which(f==l),])
 	names(xlist) <- lev
 	xlist

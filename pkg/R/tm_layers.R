@@ -56,6 +56,8 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param title.col title of the legend element regarding the line colors
 #' @param title.lwd title of the legend element regarding the line widths
+#' @param legend.col.show logical that determines whether the legend for the line colors is shown
+#' @param legend.lwd.show logical that determines whether the legend for the line widths is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 #' \describe{
 #' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
@@ -120,6 +122,13 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 }
 
 
+# tm_iso <- function(col="black",
+# 				   lwd=1,
+# 				   lty="solid",
+# 				   alpha=NA,
+# 				   )
+
+
 #' Draw polygons
 #' 
 #' Creates a \code{\link{tmap-element}} that draws the polygons. \code{tm_fill} fills the polygons. Either a fixed color is used, or a color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables. \code{tm_borders} draws the borders of the polygons. \code{tm_polygons} fills the polygons and draws the polygon borders.
@@ -148,6 +157,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
 #' @param title title of the legend element
+#' @param legend.show logical that determines whether the legend is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 #' \describe{
 #' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
@@ -236,7 +246,7 @@ tm_polygons <- function(col="grey85",
 #' 
 #' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_raster} is \code{col}. In the latter case, the arguments, except for \code{thres.poly}, and the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
-#' @param col either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details).
+#' @param col either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details). By default, it is the name of the first data variable.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
@@ -250,6 +260,7 @@ tm_polygons <- function(col="grey85",
 #' @param saturation Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_style}}).
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param title title of the legend element
+#' @param legend.show logical that determines whether the legend is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 #' \describe{
 #' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
@@ -269,7 +280,7 @@ tm_polygons <- function(col="grey85",
 #' @example ../examples/tm_raster.r
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
-tm_raster <- function(col="grey70",
+tm_raster <- function(col=NA,
 					  alpha = NA,
 					  palette = NULL,
 					  n = 5,
@@ -329,6 +340,8 @@ tm_raster <- function(col="grey70",
 #' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the bubbles. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
 #' @param title.size title of the legend element regarding the bubble sizes
 #' @param title.col title of the legend element regarding the bubble colors
+#' @param legend.size.show logical that determines whether the legend for the bubble sizes is shown
+#' @param legend.col.show logical that determines whether the legend for the bubble colors is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 #' \describe{
 #' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}

@@ -84,7 +84,8 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 			} else if (type == "spacer") {
 				legend.title.npc * .25
 			} else if (type == "title") {
-				legend.title.npc * 1.5
+				nlines <- length(strsplit(p$title, "\n")[[1]])
+				legend.title.npc * nlines
 			} else if (type == "hist") {
 				gt$legend.hist.height
 			}
@@ -358,14 +359,15 @@ legend_subplot <- function(x, id, gt, histWidth) {
 legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	size <- ifelse(is.main.title, gt$title.size, gt$legend.title.size)
 	title <- x$title
+	nlines <- length(strsplit(x$title, "\n")[[1]])
 	my <- lineHeight * size * m
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
 	w <- convertWidth(stringWidth(paste(title, " ")), unitTo = "npc", valueOnly = TRUE)# * size * 1.05
-	newsize <- min(size, 5/(lineHeight*6), (1-2*mx)/w)
+	newsize <- min(size, 5/(lineHeight*nlines*6), (1-2*mx)/w)
 	
 	
-	list(textGrob(title, x=mx, y=5/12 , just=c("left", "center"), gp=gpar(cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily)), legWidth=2*mx+w*newsize)
+	list(textGrob(title, x=mx, y=6/12 , just=c("left", "center"), gp=gpar(cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily)), legWidth=2*mx+w*newsize)
 }
 
 

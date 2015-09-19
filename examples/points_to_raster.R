@@ -2,7 +2,8 @@
 	data(NLD_muni)
 	
 	# sample points (each point represents 1000 people)
-	NLD_muni_points <- sample_dots(NLD_muni, vars = "population", w=1000, convert2density = TRUE)
+	NLD_muni_points <- sample_dots(NLD_muni, vars = "population", 
+								   w=1000, convert2density = TRUE)
 	
 	# dot map
 	tm_shape(NLD_muni_points) + tm_dots()

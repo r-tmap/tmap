@@ -10,10 +10,10 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
   palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
   contrast = 1, max.categories = 12, colorNA = "grey65",
   textNA = "Missing", title.col = NA, title.lwd = NA,
-  legend.format = list(), legend.col.is.portrait = TRUE,
-  legend.lwd.is.portrait = FALSE, legend.hist = FALSE,
-  legend.hist.title = NA, legend.col.z = NA, legend.lwd.z = NA,
-  legend.hist.z = NA, id = NA)
+  legend.col.show = TRUE, legend.lwd.show = TRUE, legend.format = list(),
+  legend.col.is.portrait = TRUE, legend.lwd.is.portrait = FALSE,
+  legend.hist = FALSE, legend.hist.title = NA, legend.col.z = NA,
+  legend.lwd.z = NA, legend.hist.z = NA, id = NA)
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
@@ -53,6 +53,10 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{title.col}{title of the legend element regarding the line colors}
 
 \item{title.lwd}{title of the legend element regarding the line widths}
+
+\item{legend.col.show}{logical that determines whether the legend for the line colors is shown}
+
+\item{legend.lwd.show}{logical that determines whether the legend for the line widths is shown}
 
 \item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 \describe{

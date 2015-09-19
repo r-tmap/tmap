@@ -18,17 +18,20 @@
 #' @param var.labels Labels of the classes (see \code{var.name}).
 #' @param unit Unit, see \code{\link{calc_densities}}. Needed to relate \code{npop} to \code{w}, if they are not both specified.
 #' @param unit.size Unit size, see \code{\link{calc_densities}}. Needed to relate \code{npop} to \code{w}, if they are not both specified.
+#' @param randomize should the order of sampled dots be randomized? The dots are sampled class-wise (specified by \code{vars}). If this order is not randomized (so if \code{randomize=FALSE}), then the dots from the last class will be drawn on top, which may introduce a perception bias. By default \code{randomize=TRUE}, so the sampled dots are randomized to prevent this bias.
 #' @param ... other arguments passed on to \code{\link{calc_densities}} and \code{\link{approx_areas}}
 #' @export
 #' @example ../examples/sample_dots.R
 #' @import raster
-sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA, N=250000, npop=NA, n=10000, w=NA, shp.id=NULL, var.name="class", var.labels=vars, unit="km", unit.size=1000, ...) {
+sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA, N=250000, npop=NA, n=10000, w=NA, shp.id=NULL, var.name="class", var.labels=vars, unit="km", unit.size=1000, randomize=TRUE, ...) {
 	args <- list(...)
 	
 	bbx <- shp@bbox
 	asp <- get_asp_ratio(shp)
 	np <- length(shp)
 	prj <- shp@proj4string
+	
+	projected <- is_projected(shp)
 	
 	k <- length(vars)
 	
@@ -44,8 +47,11 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 		d
 	}))
 	
+
 	## find total population number, and convert data to density values
 	if (convert2density) {
+		if (!projected) warning("shp should be projected when convert2density=TRUE, for otherwise the sampling method is unreliable.")
+		
 		if (is.na(npop)) npop <- sum(data)
 		
 		# calculate densities
@@ -54,6 +60,7 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 		data[is.na(data)] <- 0
 	} else {
 		# calculate absolute values
+		if (!("total.area" %in% names(args)) && !projected) warning("unable to determine population total, unless total.area is specified.")
 		if (is.na(npop)) {
 			area_approx_args <- args[names(args) == "total.area"]
 			areas <- do.call("approx_areas", args = c(list(shp=shp, unit=unit, unit.size=unit.size), area_approx_args))
@@ -129,23 +136,36 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 	stopifnot(n == length(sam))
 	
 	message(paste("Grid size: ", nrow, " by ", ncol, " ("), N, ")", sep="")
-	message(paste("Population size =", npop))
 	message(paste("Number of dots =", n))
-	message(paste("One dot represents", w, "population units"))
+
+	
+	if (projected || (!convert2density && ("total.area" %in% names(args)))) {
+		message(paste("Population size =", npop))
+		message(paste("One dot represents", w, "population units"))
+	}
 	
 	# convert to SPointsDF
 	p <- as(g, "SpatialPointsDataFrame")
 	p2 <- p[sam, ]
-	p2[[var.name]] <- factor(unlist(mapply(rep, vars, sapply(samples, length))), levels=vars, labels=var.labels)
+	
+	if (k > 1) {
+		p2[[var.name]] <- factor(unlist(mapply(rep, vars, sapply(samples, length))), levels=vars, labels=var.labels)
+	}
 	
 	# append ID variable
 	if (!missing(shp.id)) p2[[shp.id]] <- shp[[shp.id]][p2$ID__POLY] 
 
 	# clean data
-	p2@data[, c("ID__POLY", "TOTAL__VARS", vars)] <- list()
+	if (k<= 1) {
+		p2 <- as(p2, "SpatialPoints")
+	} else {
+		p2@data[, c("ID__POLY", "ID__POLY.data", "TOTAL__VARS", vars)] <- list()
+	}
 
 	# shuffle points to prevent overplotting bias
-	p2[sample.int(n), ]
+	if (randomize) {
+		p2[sample.int(n), ]
+	} else p2
 }
 
 #	For each row in matrix m, a value is sampled based on the values of that row.

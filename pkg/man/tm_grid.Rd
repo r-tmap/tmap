@@ -4,9 +4,9 @@
 \alias{tm_grid}
 \title{Coordinate grid lines}
 \usage{
-tm_grid(n.x = NA, n.y = NA, projection = NA, col = "grey50",
+tm_grid(n.x = NA, n.y = NA, projection = NA, col = "grey50", lwd = 1,
   alpha = NA, labels.size = 0.75, labels.col = "grey20",
-  labels.inside.frame = TRUE, on.top = TRUE)
+  labels.inside.frame = TRUE)
 }
 \arguments{
 \item{n.x}{prefered number of grid lines for the x axis.}
@@ -15,19 +15,19 @@ tm_grid(n.x = NA, n.y = NA, projection = NA, col = "grey50",
 
 \item{projection}{projection character. If specified, the grid lines are projected accordingly. See \code{\link{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.}
 
-\item{col}{color for the grid lines.}
+\item{col}{color of the grid lines.}
+
+\item{lwd}{line width of the grid lines}
 
 \item{alpha}{alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken.}
 
 \item{labels.size}{font size of the tick labels}
 
-\item{labels.col}{font color fo the tick labels}
+\item{labels.col}{font color of the tick labels}
 
 \item{labels.inside.frame}{Show labels inside the frame?}
-
-\item{on.top}{Boolean that determines whether the grid lines are drawn op top of the map (\code{TRUE}) or under the map (\code{FALSE}).}
 }
 \description{
-Creates a \code{\link{tmap-element}} that draws coordinate grid lines.
+Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default the coordinate system of the (master) shape object is used, which results in horizontal and vertical lines. Alternatively, grid lines can be reprojected, for instance to latitude longitude coordinates, and hence be curved.
 }
 

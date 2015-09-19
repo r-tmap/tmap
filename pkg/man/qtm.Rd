@@ -7,7 +7,7 @@
 qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
   text = NULL, text.size = 1, line.lwd = NULL, line.col = NULL,
   raster = "grey70", borders = "grey40", theme = NULL, scale = NA,
-  title = "", ...)
+  title = NA, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of

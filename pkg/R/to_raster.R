@@ -50,11 +50,13 @@ points_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, by=NULL, to.Raster
 	lvls <- make.names(levels(var))
 	names(lvls) <- lvls
 	levels(var) <- lvls
-	
+
 	shps <- split(shp, f=var)
 	
 	res <- as.data.frame(lapply(shps, function(s) {
-		s$ones <- 1
+		if ("data" %in% names(attributes(s))) {
+			s$ones <- 1
+		} else s <- SpatialPointsDataFrame(s, data=data.frame(ones=rep(1, length(s))), match.ID=FALSE)
 		rst <- rasterize(s, r, field="ones", fun='count')
 		rst@data@values
 	}))
@@ -80,7 +82,7 @@ points_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, by=NULL, to.Raster
 #' @param N preferred number of raster cells.
 #' @param use.cover logical; should the cover method be used? This method determines per raster cell which polygon has the highest cover fraction. This method is better, but very slow, since N times the number of polygons combinations are processed (using the \code{getCover} argument of \code{\link[raster:rasterize]{rasterize}}). By default, when a raster cell is covered by multiple polygons, the last polygon is taken (see \code{fun} argment of \code{\link[raster:rasterize]{rasterize}}))
 #' @param to.Raster logical; should the output be a \code{\link[raster:Raster-class]{Raster}} object (\code{TRUE}), or a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} (\code{FALSE}). If \code{TRUE}, a \code{RasterBrick} is returned when \code{by} is specified, and a \code{RasterLayer} when \code{by} is unspecified.
-#' @param arguments passed on to \code{\link[raster:rasterize]{rasterize}}
+#' @param ... arguments passed on to \code{\link[raster:rasterize]{rasterize}}
 #' @return A \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}, or a \code{\link[raster:Raster-class]{Raster}} object when (\code{to.Raster=TRUE})
 #' @export
 #' @import raster
@@ -131,7 +133,7 @@ poly_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, use.cover=FALSE, to.
 	
 	# convert to SGDF and append data
 	rshp <- as(rst, "SpatialGridDataFrame")
-	rshp@data <- d[match(IDs, d$ID__UNITS),]
+	rshp@data <- d[match(IDs, d$ID__UNITS),,drop=FALSE]
 	
 	# remove temp variable, or rename it to ID
 	if (hasData) {

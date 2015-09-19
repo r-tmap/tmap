@@ -1,3 +1,14 @@
+num2breaks <- function(x, n, style, breaks) {
+	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.")
+	# create intervals and assign colors
+	q <- suppressWarnings(if (style=="fixed") {
+		classIntervals(x, n, style= style, fixedBreaks=breaks) 
+	} else {
+		classIntervals(x, n, style= style)
+	})
+	q
+}
+
 num2pal <- function(x, n = 5,
 					   style = "pretty",
                        breaks = NULL,
@@ -10,18 +21,9 @@ num2pal <- function(x, n = 5,
 					   process.colors=NULL,
 					   legend.format=list(scientific=FALSE)) {
 	
-	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.")
-	# create intervals and assign colors
-	q <- suppressWarnings(if (style=="fixed") {
-        classIntervals(x, n, style= style, fixedBreaks=breaks) 
-    } else {
-        classIntervals(x, n, style= style)
-    })
-    breaks <- q$brks
+	q <- num2breaks(x=x, n=n, style=style, breaks=breaks)
+	breaks <- q$brks
 	nbrks <- length(breaks)
-
-	#if (breaks[1] > xrealmin) breaks[1] <- xrealmin
-	#if (breaks[nbrks] < xrealmax) breaks[nbrks] <- xrealmax
 	
 	
 	# reverse palette

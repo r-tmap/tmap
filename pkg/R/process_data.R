@@ -54,6 +54,8 @@ check_tm_classes <- function(x, is.colors) {
 				"num"
 			} else if (is.factor(y)) {
 				"fac"
+			} else if (is.logical(y)) {
+				"cha"
 			} else if (all(valid_colors(y))) {
 				"col"
 			} else "cha"

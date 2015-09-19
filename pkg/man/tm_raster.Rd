@@ -4,16 +4,16 @@
 \alias{tm_raster}
 \title{Draw a raster}
 \usage{
-tm_raster(col = "grey70", alpha = NA, palette = NULL, n = 5,
+tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   labels = NULL, auto.palette.mapping = TRUE, contrast = 1,
   max.categories = 12, colorNA = NA, saturation = 1, textNA = "Missing",
-  title = NA, legend.format = list(), legend.is.portrait = TRUE,
-  legend.hist = FALSE, legend.hist.title = NA, legend.z = NA,
-  legend.hist.z = NA)
+  title = NA, legend.show = TRUE, legend.format = list(),
+  legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,
+  legend.z = NA, legend.hist.z = NA)
 }
 \arguments{
-\item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details).}
+\item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details). By default, it is the name of the first data variable.}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
@@ -40,6 +40,8 @@ tm_raster(col = "grey70", alpha = NA, palette = NULL, n = 5,
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 
 \item{title}{title of the legend element}
+
+\item{legend.show}{logical that determines whether the legend is shown}
 
 \item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 \describe{

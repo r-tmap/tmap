@@ -11,9 +11,10 @@ tm_fill(col = "grey85", alpha = NA, palette = NULL,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   labels = NULL, auto.palette.mapping = TRUE, contrast = 1,
   max.categories = 12, colorNA = "grey60", textNA = "Missing",
-  thres.poly = 1e-05, title = NA, legend.format = list(),
-  legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.z = NA, legend.hist.z = NA, id = NA, ...)
+  thres.poly = 1e-05, title = NA, legend.show = TRUE,
+  legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA, id = NA,
+  ...)
 
 tm_borders(col = "grey40", lwd = 1, lty = "solid", alpha = NA)
 
@@ -56,6 +57,8 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 \item{thres.poly}{number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size.}
 
 \item{title}{title of the legend element}
+
+\item{legend.show}{logical that determines whether the legend is shown}
 
 \item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 \describe{
