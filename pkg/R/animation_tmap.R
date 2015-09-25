@@ -39,7 +39,7 @@ animation_tmap <- function(tm, filename="animation.gif", width=1000, height=1000
     	} else {
         	syscall <- shell
     	}
-	checkIM <- shell("convert -version")
+	checkIM <- syscall("convert -version")
 	if (checkIM!=0) stop("Could not find ImageMagick. Make sure it is installed and included in the systems PATH")
 	
 	# create plots

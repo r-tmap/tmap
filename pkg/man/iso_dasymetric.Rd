@@ -6,7 +6,7 @@
 \usage{
 iso_dasymetric(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
   nlevels = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
-  breaks = NULL, bandwidth = NA, cover = NULL, weight = 1, ...)
+  breaks = NULL, bandwidth = NA, cover = NA, weight = 1, ...)
 }
 \arguments{
 \item{shp}{shape object of class \code{\link[sp:Spatial]{Spatial}} or \code{\link[raster:Raster-class]{Raster}}. Spatial points, polygons, and grids are supported. Spatial lines are not.}
@@ -27,7 +27,7 @@ iso_dasymetric(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
 
 \item{bandwidth}{single numeric value or vector of two numeric values that specifiy the bandwidth of the kernal density estimator. By default, it is determined by this formula: (3 * ncol / bounding_box_width, 3 * nrow / bounding_box_height).}
 
-\item{cover}{\code{\link[sp:SpatialPolygons]{SpatialPolygons}} shape that determines the covered area in which the contour lines are placed. By default, it is based on \code{shp}: if \code{shp} are spatial points, the bounding box is taken, if \code{shp} are spatial polygons, the union of those polygons are taken, and if \code{shp} is a spatial grid, then a 2D kernal density estimator is applied to all non-missing values are taken. The latter uses the function \code{\link{raster_cover}}.}
+\item{cover}{\code{\link[sp:SpatialPolygons]{SpatialPolygons}} shape that determines the covered area in which the contour lines are placed. By default (\code{NA}), it is based on \code{shp}: if \code{shp} are spatial points, the bounding box is taken, if \code{shp} are spatial polygons, the union of those polygons are taken, and if \code{shp} is a spatial grid, then a 2D kernal density estimator is applied to all non-missing values are taken. The latter uses the function \code{\link{raster_cover}}. Set \code{cover=NULL} to disable the cover, i.e. the contour lines are placing inside the bounding box of \code{shp}.}
 
 \item{weight}{single number that specifies the weight of a single point. Only applicable if \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.}
 

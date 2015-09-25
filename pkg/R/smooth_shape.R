@@ -12,6 +12,7 @@
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
 #' @param bandwidth single numeric value or vector of two numeric values that specifiy the bandwidth of the kernal density estimator. By default, it is determined by this formula: (3 * ncol / bounding_box_width, 3 * nrow / bounding_box_height).
 #' @param cover \code{\link[sp:SpatialPolygons]{SpatialPolygons}} shape that determines the covered area in which the contour lines are placed. By default (\code{NA}), it is based on \code{shp}: if \code{shp} are spatial points, the bounding box is taken, if \code{shp} are spatial polygons, the union of those polygons are taken, and if \code{shp} is a spatial grid, then a 2D kernal density estimator is applied to all non-missing values are taken. The latter uses the function \code{\link{raster_cover}}. Set \code{cover=NULL} to disable the cover, i.e. the contour lines are placing inside the bounding box of \code{shp}.
+#' @param cover.type character value that specifies the type of raster cover, in other words, how the boundaries are specified. Options: \code{"original"} uses the same boundaries as \code{shp} (default for polygons), \code{"smooth"} calculates a smooth boundary based on the 2D kernal density (determined by \code{\link{raster_cover}}), \code{"rect"} uses the bounding box of \code{shp} as boundaries (default for spatial points and grids).
 #' @param weight single number that specifies the weight of a single point. Only applicable if \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.
 #' @param ... argument passed on to other functions (such as \code{\link{raster_cover}})
 #' @return list of two items: \code{iso}, a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}} containing the contour lines, and \code{dasy}, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}} containing the polygons between the contour lines.
@@ -19,55 +20,112 @@
 #' @import maptools
 #' @import rgeos
 #' @export
-iso_dasymetric <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover=NA, weight=1, ...) {
+smooth_shape <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover=NA, cover.type=NA, weight=1, ...) {
 	bbx <- bb(shp)
 	prj <- get_projection(shp)
-	asp <- get_asp_ratio(shp)
-	
-	## determine grid size
+#	asp <- get_asp_ratio(shp)
+
+	if (!inherits(shp, c("SpatialPoints", "SpatialPolygons", "SpatialGrid", "Raster"))) {
+		stop("shp is not a Raster nor a SpatialPoints, -Polygons, or -Grid object")
+	}
+		
+	## determine bounding box and grid size
 	if (inherits(shp, c("SpatialPoints", "SpatialPolygons"))) {
+		bbx <- bb(bbx, ext=-1.05)
+		shp@bbox <- bbx
+		asp <- get_asp_ratio(shp)
 		if (is.na(nrow) || is.na(ncol)) {
 			nrow <- round(sqrt(N/asp))
 			ncol <- round(N / nrow)
 		}
+		
 	} else {
-		if (inherits(shp, "SpatialGrid")) {
-			ncol <- shp@grid@cells.dim[1]
-			nrow <- shp@grid@cells.dim[2]
-		} else {
-			ncol <- shp@ncols	
-			nrow <- shp@nrows	
-		}
+		if (inherits(shp, "Raster")) shp <- as(shp, "SpatialGridDataFrame")
+		ncol <- shp@grid@cells.dim[1]
+		nrow <- shp@grid@cells.dim[2]
 	}
 	N <- nrow * ncol
 
+	# edit bandwidth
+	if (is.na(bandwidth[1])) {
+		bandwidth <- 3 * (bbx[,2] - bbx[,1]) / c(ncol, nrow)
+	} else {
+		# make sure bandwith is a vector of 2
+		bandwidth <- rep(bandwidth, length.out=2)
+	}
+
+	cover_r <- raster(extent(bbx), nrows=nrow, ncols=ncol, crs=prj)
+	
+		
 	## process cover
+	if (is.na(cover.type)) cover.type <- ifelse(inherits(shp, "SpatialPolygons"), "original", "rect")
 	if (missing(cover)) {
-		cover <- as(extent(bbx), "SpatialPolygons")
-		cover <- set_projection(cover, current.projection = prj)
-	} else if (is.na(cover)) {
-		if (inherits(shp, "SpatialPoints")) {
+			
+		if (cover.type=="rect") {
 			cover <- as(extent(bbx), "SpatialPolygons")
 			cover <- set_projection(cover, current.projection = prj)
-		} else if (inherits(shp, "SpatialPolygons")){
-			if (missing(var)) var <- names(shp)[1]
-			cover <- unionSpatialPolygons(shp, IDs = rep(1, length(shp)))
-		} else {
-			if (missing(var)) var <- names(shp)[1]
-			cover <- raster_cover(shp, var = var, bandwidth = bandwidth, output = "SpatialPolygons")
+			cover_r[] <- TRUE
+		} else if (cover.type=="original") {
+			if (inherits(shp, "SpatialGrid")) {
+				cover_r[] <- shp[[var]]
+			} else {
+				if (inherits(shp, "SpatialPoints")) {
+					cover <- gConvexHull(shp)
+				} else if (inherits(shp, "SpatialPolygons")) {
+					cover <- gUnaryUnion(shp)
+				}
+				cover@bbox <- bbx
+				cover_r <- poly_to_raster(cover, nrow = nrow, ncol = ncol, to.Raster = TRUE)
+			}
+		}  else if (cover.type=="smooth") {
+			cover_list <- raster_cover(shp, var=var, bandwidth = bandwidth, output=c("RasterLayer", "SpatialPolygons"))	
+			cover_r <- cover_list$RasterLayer
+			cover_r[!cover_r[]] <- NA
+			cover <- cover_list$SpatialPolygons
 		}
 	} else {
-		width <- buffer_width(bbx)
-		suppressWarnings(cover <- gBuffer(cover, width = width))
+		cover <- gUnaryUnion(cover)
+		cover_r <- poly_to_raster(cover, nrow = nrow, ncol = ncol, to.Raster = TRUE)
 		bbc <- bb(cover)
 		bbx[, 1] <- pmin(bbx[, 1], bbc[, 1])
 		bbx[, 2] <- pmin(bbx[, 2], bbc[, 2])
 	}
 	
+	
+
 	## create a smooth raster (using 2D-KDE)
 	rlist <- smooth_raster(shp, var=var, nrow=nrow, ncol=ncol, bandwidth = bandwidth, weight=weight, bbx=bbx, output=c("RasterLayer", "list"))
-	r <- rlist$RasterLayer
-	x <- rlist$list
+	
+
+	if (inherits(shp, "SpatialPoints")) {
+		co <- coordinates(shp)
+		x <- bkde2D(co, bandwidth=bandwidth, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
+		
+		# normalize
+		x$fhat <- x$fhat * (length(shp) * weight / sum(x$fhat, na.rm=TRUE))
+		var <- "count"
+	} else {
+		if (missing(var)) var <- names(shp)[1]
+		
+		if (inherits(shp, "SpatialPolygons")){
+			shp <- poly_to_raster(shp, nrow = nrow, ncol=ncol)
+		}
+		
+		m <- as.matrix(raster(shp, layer=var))
+		x <- kde2D(m, bandwidth = bandwidth, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
+		
+		# normalize
+		x$fhat <- x$fhat * (sum(shp[[var]], na.rm=TRUE) / sum(x$fhat, na.rm=TRUE))
+		
+	}
+	
+	# fill raster values
+	r <- raster(extent(bbx), nrows=nrow, ncols=ncol, crs=prj)
+	r[] <- as.vector(x$fhat[, ncol(x$fhat):1])
+	names(r) <- var
+	
+	# apply cover
+	r[is.na(cover_r[])] <- NA
 
 	lvls <- num2breaks(x$fhat, n=nlevels, style=style, breaks=breaks)$brks
 	brks <- fancy_breaks(lvls, intervals=TRUE)
@@ -76,104 +134,11 @@ iso_dasymetric <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, nlevels=5,
 	if (length(cl) > 10000) stop(paste("Number of iso lines over 10000:", length(cl)))
 	cl2 <- ContourLines2SLDF(cl, proj4string = CRS(prj))
 	#cl2$levelNR <- as.numeric(as.character(cl2$level))
-
+	
 	# make sure lines are inside poly
 	cp <- lines2polygons(ply = cover, lns = cl2, rst = r, lvls=lvls, method="full")
-
+	
 	lns <- SpatialLinesDataFrame(gIntersection(cover, cl2, byid = TRUE), data=cl2@data, match.ID = FALSE)
 	
-	list(iso=lns, dasy=cp)
-}
-
-
-buffer_width <- function(bbx) {
-	sum(bbx[,2] - bbx[,1]) / 1e9
-}
-
-
-lines2polygons <- function(ply, lns, rst=NULL, lvls, method="grid") {
-	prj <- get_projection(ply)
-	
-	# add a little width to lines
-	width <- buffer_width(bb(ply))
-	suppressWarnings(blpi <- gBuffer(lns, width = width))
-	suppressWarnings(ply <- gBuffer(ply, width = width))
-	
-	# cut the poly with isolines
-	dpi <- gDifference(ply, blpi)
-	
-	if (missing(rst)) {
-		dpi
-	} else {
-		# place each polygon in different SpatialPolygon
-		ps <- lapply(dpi@polygons[[1]]@Polygons, function(poly) {
-			SpatialPolygons(list(Polygons(list(poly), ID = "1")), proj4string = CRS(prj))	
-		})
-		
-		# find holes
-		holes <- sapply(dpi@polygons[[1]]@Polygons, function(poly) poly@hole)
-		
-		if (all(holes)) stop("All polygons are holes.")
-		
-		ps_holes <- do.call("sbind", ps[holes])
-		ps_solid <- do.call("sbind", ps[!holes])
-		
-		is_parent <- gContains(ps_solid, ps_holes, byid=TRUE)
-		suppressWarnings(areas <- gArea(ps_solid, byid = TRUE))
-		parents <- apply(is_parent, MARGIN=1, function(rw) {
-			id <- which(rw)
-			id[which.min(areas[id])]
-		})
-		parents <- which(!holes)[parents]
-		
-		# create poly id (put each polygon in different feature, and append all holes)
-		polyid <- cumsum(!holes)
-		polyid[holes] <- polyid[parents]
-		m <- max(polyid)
-		
-		dpi2 <- SpatialPolygons(lapply(1:m, function(i) {
-			Polygons(dpi@polygons[[1]]@Polygons[which(polyid==i)], ID=i)
-		}), proj4string = CRS(prj))
-
-		if (method=="single") {
-			pnts <- gPointOnSurface(dpi2, byid = TRUE)
-			values <- extract(rst, pnts)
-		} else if (method=="grid") {
-			values <- sapply(1:m, function(i) {
-				p <- dpi2[i,]
-				rs <- as(raster(extent(p), nrows=10, ncols=10), "SpatialPoints")
-				rs@proj4string <- CRS(prj)
-				rs <- gIntersection(rs, p)
-				if (is.null(rs)) rs <- gPointOnSurface(p) else {
-					rs <- sbind(rs, gPointOnSurface(p))	
-				}
-				mean(extract(rst, rs))
-			})
-		} else {
-			# method=="full"
-			values <- sapply(extract(rst, dpi2), mean, na.rm=TRUE)
-		}
-		
-		
-		if (length(lvls)==1) {
-			lvls <- c(-Inf, lvls, Inf)
-		}
-
-		# just in case...
-		values[is.na(values) | is.nan(values)] <- lvls[1]
-		
-		brks <- fancy_breaks(lvls, intervals=TRUE)
-		
-		ids <- cut(values, lvls, include.lowest=TRUE, right=FALSE, labels = FALSE)
-		
-		res <- lapply(1:(length(lvls)-1), function(i) {
-			if (any(ids==i)) {
-				s <- gUnaryUnion(dpi2[ids==i,])
-				SpatialPolygonsDataFrame(s, data.frame(level=factor(brks[i], levels=brks)), match.ID = FALSE)
-			} else NULL
-		})
-		res <- res[!sapply(res, is.null)]
-		
-		x <- do.call("sbind", res)
-	}
+	list(iso=lns, dasy=cp, raster=r)
 }

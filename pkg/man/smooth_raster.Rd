@@ -5,7 +5,8 @@
 \title{Create a smooth spatial grid}
 \usage{
 smooth_raster(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
-  bandwidth = NA, weight = 1, bbx = NULL, output = "RasterLayer")
+  bandwidth = NA, weight = 1, bbx = NULL, cover.type = NA,
+  output = "RasterLayer")
 }
 \arguments{
 \item{shp}{shape object of class \code{\link[sp:Spatial]{Spatial}} or \code{\link[raster:Raster-class]{Raster}}. Spatial points, polygons, and grids are supported. Spatial lines are not.}
@@ -24,6 +25,8 @@ smooth_raster(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
 
 \item{bbx}{bounding box}
 
+\item{cover.type}{character value that specifies the type of raster cover, in other words, how the boundaries are specified. Options: \code{"original"} uses the same boundaries as \code{shp} (default for polygons), \code{"smooth"} calculates a smooth boundary based on the 2D kernal density (determined by \code{\link{raster_cover}}), \code{"rect"} uses the bounding box of \code{shp} as boundaries (default for spatial points and grids).}
+
 \item{output}{character value defining the output. Options: \code{"RasterLayer"}, \code{"SpatialGridDataFrame"}, and \code{"list"}. The latter is the same output as \code{\link[KernSmooth:bkde2D]{bkde2D}}. If a character vector of two or three of these values is specified, a list is returned.}
 }
 \value{
@@ -31,5 +34,37 @@ see \code{output} argument.
 }
 \description{
 Create a smooth spatial grid from a shape object, which can be spatial points, spatial polygons or another spatial grid. For this purpose, a 2D kernal density estimator is applied. This function is used by \code{\link{iso_dasymetric}}.
+}
+\examples{
+\dontrun{
+	## smooth polygons
+	data(NLD_muni)
+	
+	NLD_muni$population_dens <- calc_densities(NLD_muni, "population")
+	
+	qtm(NLD_muni, fill="population_dens")
+	
+	NLD_muni_smooth <- smooth_raster(NLD_muni, var = "population_dens")
+	
+	NLD_muni_smooth2 <- smooth_shape(NLD_muni, var = "population_dens")
+	
+	qtm(NLD_muni_smooth, layout.bg.color="grey80")
+	
+	
+	## smooth points
+	data(metro)
+	
+	metro_smooth <- smooth_raster(metro)
+	
+	qtm(metro_smooth)
+	
+	
+	## smooth raster
+	data(land)
+	
+	land_smooth <- smooth_raster(land, var="trees", cover.type = "smooth")
+	
+	qtm(land_smooth, layout.bg.color="grey80")
+}
 }
 
