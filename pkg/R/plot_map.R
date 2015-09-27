@@ -542,7 +542,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 					rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square"))
 				}
 				
-			} else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
+			} else rectGrob(gp=gpar(col=NA, fill=NA))
 		}, name="mapFrame")
 		
 		treeGridLabels <- if (gt$grid.show && !gt$grid.labels.inside.frame) {
