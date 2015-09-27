@@ -11,7 +11,7 @@
 	# NLD_muni_smooth <- smooth_raster(NLD_muni, var = "population_dens")
 	# qtm(NLD_muni_smooth, layout.bg.color="grey80")
 	
-	NLD_muni_list <- smooth_shape(NLD_muni, var = "population_dens")
+	NLD_muni_list <- smooth_map(NLD_muni, var = "population_dens")
 
 	
 	qtm(NLD_muni_list$iso, line.col = "level")
@@ -50,7 +50,7 @@
 
 	tm_shape(World_1mln_dots) + tm_dots()
 
-	World_list <- smooth_shape(World_1mln_dots, cover = World)
+	World_list <- smooth_map(World_1mln_dots, cover = World)
 	qtm(World_list$raster, layout.bg.color="grey80")
 	qtm(World, borders=NA) + qtm(World_list$iso)
 	qtm(World_list$dasy, fill="level", fill.palette="Blues", layout.bg.color="grey80")
@@ -60,8 +60,10 @@
 	####################################
 	data(land)
 
-	land_smooth <- smooth_shape(land, var="trees", cover.type = "smooth")
+	land_smooth <- smooth_map(land, var="trees", cover.type = "smooth")
 	
 	qtm(land, raster="trees", layout.bg.color="grey80")
 	qtm(land_smooth$raster, layout.bg.color="grey80")
+	qtm(land_smooth$iso)
+	qtm(land_smooth$dasy, fill="level", fill.palette="Greens")
 }

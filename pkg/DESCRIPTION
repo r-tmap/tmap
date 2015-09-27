@@ -23,7 +23,6 @@ Imports:
     classInt,
     htmlwidgets,
 	KernSmooth,
-    maptools,
     OpenStreetMap,
    	osmar,
     RColorBrewer,

@@ -10,7 +10,6 @@
 #' @param threshold numeric value between 0 and 1 that determines which part of the estimated 2D kernal density is returned as cover.
 #' @param output class of the returned object. One of: \code{\link[sp:SpatialPolygons]{SpatialPolygons}}, \code{\link[sp:SpatialLines]{SpatialLines}}, \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}, or \code{\link[raster:Raster-class]{RasterLayer}}. A vector of class names results in a list of output objects.
 #' @import raster
-#' @import maptools
 #' @import rgeos
 #' @export
 raster_cover <- function(shp, var=NA, bandwidth=NA, threshold=.6, output="SpatialPolygons") {
@@ -48,11 +47,11 @@ raster_cover <- function(shp, var=NA, bandwidth=NA, threshold=.6, output="Spatia
 	shp$NNA__VALUES <- as.vector(x_nna$fhat[, ncol(x_nna$fhat):1])
 	
 	# find contour lines with one level (at threshold) and convert to spatial polygons
-	cl_nna <- contourLines(x_nna$x1, x_nna$x2, x_nna$fhat, levels=threshold) 
+	cl_nna <- grDevices::contourLines(x_nna$x1, x_nna$x2, x_nna$fhat, levels=threshold) 
 	if (!length(cl_nna)) stop("No contour lines are found. Try to decrease the bandwidth.")
-	cl2_nna <- ContourLines2SLDF(cl_nna, proj4string = CRS(prj))
+	cl2_nna <- contour_lines_to_SLDF(cl_nna, proj4string = CRS(prj))
 	
-	
+
 	
 	rect <- as(extent(bbx), "SpatialPolygons")
 	rect <- set_projection(rect, current.projection = prj)
