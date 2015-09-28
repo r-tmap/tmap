@@ -13,11 +13,10 @@
 #' @export
 sbind <- function(...) {
 	xlist <- list(...)
-	k <- length(xlist)
-	
-	x <- xlist[[1]]
-	
 	xlist <- xlist[!sapply(xlist, is.null)]
+
+	k <- length(xlist)
+	x <- xlist[[1]]
 	if (!length(xlist)) stop("No shape objects specified.")
 	if (!all(sapply(xlist, class)==class(x))) stop("Objects have inconsistent classes")
 	
