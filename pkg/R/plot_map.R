@@ -28,7 +28,23 @@ plot_map <- function(i, gp, gt, shps, bbx, proj) {
 		## obtain coordinates (to draw bubbles and text)
 		if (inherits(shp, "Spatial")) {
 			if (inherits(shp, "SpatialLines")) {
-				co <- gCentroid(shp, byid=TRUE)@coords
+				lC <- gCentroid(shp, byid=TRUE)@coords
+				lCX <- lC[,1]
+				lCY <- lC[,2]
+				lens <- sapply(shp@lines, function(lns)length(lns@Lines))
+				
+				CO <- SpatialLinesMidPoints(shp)@coords #gCentroid(shp, byid=TRUE)@coords
+				X <- CO[,1]
+				Y <- CO[,2]
+				ID <- do.call("c", mapply(rep, 1:length(lens), lens, SIMPLIFY=FALSE))
+				Xs <- split(X, ID)
+				Ys <- split(Y, ID)
+				
+				co <- t(mapply(function(x1, y1, x2, y2) {
+					minid <- which.min(sqrt((x1-x2)^2 + (y1-y2)^2))
+					c(x2[minid], y2[minid])
+				}, lCX, lCY, Xs, Ys, SIMPLIFY=TRUE))
+				
 			} else {
 				co <- coordinates(shp) # prefered over gCentroid since coordinates correspond to first (normally largest) polygon of each object
 			}
@@ -87,6 +103,79 @@ plot_map <- function(i, gp, gt, shps, bbx, proj) {
 		e <- environment()
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		grobs <- lapply(fnames, do.call, args=list(), envir=e)
+		
+		
+		# Automatic label placement (Simulated Annealing)
+		if ("plot_tm_text" %in% fnames) {
+			tGrob <- grobs[[which(fnames=="plot_tm_text")]]
+			if (!is.null(tGrob[[1]])) {
+				tG <- tGrob[[1]]
+				
+				tGX <- convertX(tG$x, "npc", valueOnly = TRUE)
+				tGY <- convertY(tG$y, "npc", valueOnly = TRUE)
+				tGWidth <- convertWidth(tG$width, "npc", valueOnly = TRUE)
+				tGHeight <- convertHeight(tG$height, "npc", valueOnly = TRUE)
+				
+				xy <- pointLabelGrid(tGX, tGY, tGWidth, tGHeight)
+				
+				
+				shiftX <- xy$x - tGX
+				shiftY <- xy$y - tGY
+				
+				tGrob <- do.call("gList", lapply(tGrob, function(tg) {
+					tgx <- convertX(tg$x, "npc", valueOnly = TRUE)
+					tgy <- convertY(tg$y, "npc", valueOnly = TRUE)
+					tg$x <- unit(tgx + shiftX, "npc")
+					tg$y <- unit(tgy + shiftY, "npc")
+					tg
+				}))
+				grobs[[which(fnames=="plot_tm_text")]] <- tGrob
+			}
+		}
+		
+		
+		
+		# Remove line where labels overlap
+		if (all(c("plot_tm_lines", "plot_tm_text") %in% fnames)) {
+			lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
+			tGrob <- grobs[[which(fnames=="plot_tm_text")]]
+			
+			if (!is.null(tGrob[[1]])) {
+				
+				tShp <- gUnaryUnion(rectGrob2Poly(tGrob[[1]]))
+				
+				lShp <- polylineGrob2Lines(lGrob)
+				
+				keys <- as.character(shp$tmapID)
+				dShp <- gDifference(lShp, tShp, byid = TRUE, id=keys)
+				
+				lGrobSel <- lGrob[match(get_IDs(dShp), keys)]
+				
+				lco <- coordinates(dShp)
+				
+				lGrob_new <- do.call("gList", mapply(function(lG, lC) {
+					nr <- sapply(lC, nrow)
+					coor <- do.call("rbind", lC)
+					lG$x <- unit(coor[,1], "npc")
+					lG$y <- unit(coor[,2], "npc")
+					lG$id <- do.call("c", mapply(rep, 1:length(lC), nr, SIMPLIFY=FALSE))
+					lG
+				}, lGrobSel, lco, SIMPLIFY=FALSE))
+				
+				grobs[[which(fnames=="plot_tm_lines")]] <- lGrob_new
+			}
+		}
+		
+		# Remove text background if fill=NA
+		if ("plot_tm_text" %in% fnames) {
+			tGrob <- grobs[[which(fnames=="plot_tm_text")]]
+			if (!is.null(tGrob[[1]])) {
+				if (is.na(tGrob[[1]]$gp$fill)) {
+					grobs[[which(fnames=="plot_tm_text")]] <- tGrob[-1]
+				}
+			}
+		}
+		
 		items <- do.call("gList", args =  grobs)
 		gTree(children=items)
 	}, gp, shps, 1:nlayers, SIMPLIFY=FALSE)
@@ -406,7 +495,7 @@ plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.ma
 		lineH <- convertHeight(unit(text.size[text_sel], "lines"), "npc", valueOnly=TRUE)
 		lineW <- convertWidth(unit(text.size[text_sel], "lines"), "npc", valueOnly=TRUE)
 
-		if (!is.na(text.bg.color)) {
+#		if (!is.na(text.bg.color)) {
 			
 			
 			tGH <- mapply(text[text_sel], text.size[text_sel], nlines[text_sel], FUN=function(x,y,z){
@@ -422,9 +511,9 @@ plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.ma
 			tGH <- tGH + lineH * bg.margin
 			tGW <- tGW + lineW * bg.margin
 			grobTextBG <- rectGrob(x=tGX, y=tGY, width=tGW, height=tGH, gp=gpar(fill=text.bg.color, col=NA))
-		} else {
-			grobTextBG <- NULL
-		}
+# 		} else {
+# 			grobTextBG <- NULL
+# 		}
 		
 		if (text.shadow) {
 			grobTextSh <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1]+lineW * .05, "npc"), y=unit(co.npc[text_sel,2]- lineH * .05, "npc"), just=just, gp=gpar(col=text.shadowcol[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
@@ -590,4 +679,41 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 	}
 	
 	treeMapX
+}
+
+
+rectGrob2Poly <- function(g) {
+	x <- convertX(g$x, unitTo = "npc", valueOnly = TRUE)
+	y <- convertY(g$y, unitTo = "npc", valueOnly = TRUE)
+	w <- convertWidth(g$width, unitTo = "npc", valueOnly = TRUE)
+	h <- convertHeight(g$height, unitTo = "npc", valueOnly = TRUE)
+	x1 <- x - .5*w
+	x2 <- x + .5*w
+	y1 <- y - .5*h
+	y2 <- y + .5*h
+	
+	polys <- mapply(function(X1, X2, Y1, Y2) {
+		Polygon(cbind(c(X1, X2, X2, X1, X1),
+					  c(Y2, Y2, Y1, Y1, Y2)))
+	}, x1, x2, y1, y2, SIMPLIFY=FALSE)
+	
+	SpatialPolygons(list(Polygons(polys, ID="1")))
+}
+
+polylineGrob2Lines <- function(gL) {
+	k <- length(gL)
+	
+	SpatialLines(lapply(1:k, function(i) {
+		g <- gL[[i]]
+		x <- convertX(g$x, "npc", valueOnly = TRUE)
+		y <- convertY(g$y, "npc", valueOnly = TRUE)
+		id <- factor(g$id)
+		xs <- split(x, f = id)
+		ys <- split(y, f = id)
+		ids <- levels(id)
+		
+		Lines(mapply(function(X, Y) {
+			Line(cbind(X,Y))	
+		}, xs, ys, SIMPLIFY=FALSE), ID=i)
+	}))
 }

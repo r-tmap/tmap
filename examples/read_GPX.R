@@ -16,10 +16,11 @@ ZLim <- read_osm(bb(AGR$tracks, ext=1.05))
 levels(AGR$tracks$name) <- paste(c("First", "Second", "Third", "Final"), "loop")
 
 # some manual text positioning to prevent overlapping
-xmod <- sapply(as.character(AGR$waypoints$name), switch,
-               Geulhemmerberg=-2, Brakkenberg=2, Antoniusbank=1, 
-               Daalhemerweg=1.5, Mheerelindje=-2, Wesch=1, 
-               Walemerberg=2, Eyserweg=2, Groenenweg=2, 0)
+# xmod <- sapply(as.character(AGR$waypoints$name), switch,
+#                Geulhemmerberg=-2, Brakkenberg=2, Antoniusbank=1, 
+#                Daalhemerweg=1.5, Mheerelindje=-2, Wesch=1, 
+#                Walemerberg=2, Eyserweg=2, Groenenweg=2, 0)
+xmod <- 0
 
 tm_shape(ZLim) + 
   tm_raster(saturation=.75) +
