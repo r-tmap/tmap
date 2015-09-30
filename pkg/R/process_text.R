@@ -11,7 +11,6 @@ process_text <- function(data, g, fill, gst) {
 		text <- if (nx > 1) matrix(unlist(lapply(data[, text]), as.character), ncol=nx) else as.character(data[[text]])
 		if (!is.na(text.case)) text <- if(text.case=="upper") toupper(text) else tolower(text)
 		rm(nx)
-		
 		if (is.character(text.size)) {
 			if (text.size=="AREA") {
 				text.size <- data$SHAPE_AREAS
@@ -19,7 +18,10 @@ process_text <- function(data, g, fill, gst) {
 				text.size <- data[[text.size]]
 			}
 			text.size <- (text.size / max(text.size, na.rm=TRUE)) ^ (1/root)
-		} else text.size <- rep(text.size, length.out=npol)
+		} else {
+			text.size <- rep(text.size, length.out=npol)
+			text.size.lowerbound <- 0
+		}
 		text.fontcolor <- if (is.na(text.fontcolor[1])) {
 			if (is.matrix(fill)) {
 				apply(fill, MARGIN=2, function(f) {

@@ -1,4 +1,4 @@
-plot_map <- function(i, gp, gt, shps, bbx, proj) {
+plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 	nlayers <- length(gp)
 	
 	## bubble height needed to align with bubbles in legend
@@ -28,23 +28,46 @@ plot_map <- function(i, gp, gt, shps, bbx, proj) {
 		## obtain coordinates (to draw bubbles and text)
 		if (inherits(shp, "Spatial")) {
 			if (inherits(shp, "SpatialLines")) {
-				lC <- gCentroid(shp, byid=TRUE)@coords
-				lCX <- lC[,1]
-				lCY <- lC[,2]
-				lens <- sapply(shp@lines, function(lns)length(lns@Lines))
 				
-				CO <- SpatialLinesMidPoints(shp)@coords #gCentroid(shp, byid=TRUE)@coords
-				X <- CO[,1]
-				Y <- CO[,2]
-				ID <- do.call("c", mapply(rep, 1:length(lens), lens, SIMPLIFY=FALSE))
-				Xs <- split(X, ID)
-				Ys <- split(Y, ID)
-				
-				co <- t(mapply(function(x1, y1, x2, y2) {
-					minid <- which.min(sqrt((x1-x2)^2 + (y1-y2)^2))
-					c(x2[minid], y2[minid])
-				}, lCX, lCY, Xs, Ys, SIMPLIFY=TRUE))
-				
+ 				if (gt$line.center.type[1]=="segment") {
+ 					ns <- length(shp)
+ 					shp_lst <- one_line_per_lines(shp)
+ 					shp <- shp_lst$shp
+ 					id <- shp_lst$id
+ 					
+ 					aes <- intersect(names(gpl), c("line.col", "line.lwd", "bubble.size", "text", "text.size", "text.fontcolor", "text.xmod", "text.ymod", "text_sel", "bubble.size", "bubble.col", "bubble.xmod", "bubble.ymod"))
+ 					
+ 					gpl[aes] <- lapply(gpl[aes], function(a) {
+ 						if (length(a)==ns) {
+ 							a[id]
+ 						} else a
+ 					})
+ 				}
+
+				if (gt$line.center.type[2]=="midpoint") {
+					co <- lines_midpoints(shp)@coords
+					
+					if (gt$line.center.type[1]=="feature") {
+						lC <- gCentroid(shp, byid=TRUE)@coords
+						lCX <- lC[,1]
+						lCY <- lC[,2]
+						lens <- sapply(shp@lines, function(lns)length(lns@Lines))
+						
+						X <- co[,1]
+						Y <- co[,2]
+						ID <- do.call("c", mapply(rep, 1:length(lens), lens, SIMPLIFY=FALSE))
+						Xs <- split(X, ID)
+						Ys <- split(Y, ID)
+						
+						co <- t(mapply(function(x1, y1, x2, y2) {
+							minid <- which.min(sqrt((x1-x2)^2 + (y1-y2)^2))
+							c(x2[minid], y2[minid])
+						}, lCX, lCY, Xs, Ys, SIMPLIFY=TRUE))
+					}
+				} else {
+					co <- gCentroid(shp, byid=TRUE)@coords
+				}
+
 			} else {
 				co <- coordinates(shp) # prefered over gCentroid since coordinates correspond to first (normally largest) polygon of each object
 			}
@@ -104,8 +127,6 @@ plot_map <- function(i, gp, gt, shps, bbx, proj) {
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		grobs <- lapply(fnames, do.call, args=list(), envir=e)
 		
-		
-		# Automatic label placement (Simulated Annealing)
 		if ("plot_tm_text" %in% fnames) {
 			tGrob <- grobs[[which(fnames=="plot_tm_text")]]
 			if (!is.null(tGrob[[1]])) {
@@ -116,66 +137,111 @@ plot_map <- function(i, gp, gt, shps, bbx, proj) {
 				tGWidth <- convertWidth(tG$width, "npc", valueOnly = TRUE)
 				tGHeight <- convertHeight(tG$height, "npc", valueOnly = TRUE)
 				
-				xy <- pointLabelGrid(tGX, tGY, tGWidth, tGHeight)
+				# Automatic label placement (Simulated Annealing)
+				if (gpl$text.auto.placement) {
+					xy <- pointLabelGrid(tGX, tGY, tGWidth, tGHeight, xyAspect = sasp)
+					shiftX <- xy$x - tGX
+					shiftY <- xy$y - tGY
+				} else {
+					shiftX <- 0
+					shiftY <- 0
+				}
+				tGX2 <- tGX + shiftX
+				tGY2 <- tGY + shiftY
+
+				nt <- length(tGX)
+				sel <- rep(TRUE, nt)
+				if (gpl$text.remove.overlap) {
+					# Check for overlap
+					for (i in 1:nt) {
+						x <- tGX2[i]
+						y <- tGY2[i]
+						w <- tGWidth[i]
+						h <- tGHeight[i]
+						x1 <- x - w/2
+						x2 <- x + w/2
+						y1 <- y - h/2
+						y2 <- y + h/2
+						
+						seli <- sel
+						seli[i] <- FALSE
+						xr <- tGX2[seli]
+						yr <- tGY2[seli]
+						wr <- tGWidth[seli]
+						hr <- tGHeight[seli]
+						xr1 <- xr - wr/2
+						xr2 <- xr + wr/2
+						yr1 <- yr - hr/2
+						yr2 <- yr + hr/2
+						
+						coverx <- ((x1 > xr1) & (x1 < xr2)) | ((x2 > xr1) & (x2 < xr2))
+						covery <- ((y1 > yr1) & (y1 < yr2)) | ((y2 > yr1) & (y2 < yr2))
+						sel[i] <- !any(coverx & covery)
+					}
+				}
 				
 				
-				shiftX <- xy$x - tGX
-				shiftY <- xy$y - tGY
 				
 				tGrob <- do.call("gList", lapply(tGrob, function(tg) {
 					tgx <- convertX(tg$x, "npc", valueOnly = TRUE)
 					tgy <- convertY(tg$y, "npc", valueOnly = TRUE)
-					tg$x <- unit(tgx + shiftX, "npc")
-					tg$y <- unit(tgy + shiftY, "npc")
+					tg$x <- unit(tgx + shiftX, "npc")[sel]
+					tg$y <- unit(tgy + shiftY, "npc")[sel]
+					tg$height <- tg$height[sel]
+					tg$width <- tg$width[sel]
+					tg$gp <- do.call("gpar", lapply(unclass(tg$gp)[names(tg$gp)!="font"], function(g) {
+						if (length(g)==nt) g[sel] else g	
+					}))
+					if ("label" %in% names(tg)) tg$label <- tg$label[sel]
 					tg
 				}))
-				grobs[[which(fnames=="plot_tm_text")]] <- tGrob
-			}
-		}
-		
-		
-		
-		# Remove line where labels overlap
-		if (all(c("plot_tm_lines", "plot_tm_text") %in% fnames)) {
-			lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
-			tGrob <- grobs[[which(fnames=="plot_tm_text")]]
-			
-			if (!is.null(tGrob[[1]])) {
 				
-				tShp <- gUnaryUnion(rectGrob2Poly(tGrob[[1]]))
-				
-				lShp <- polylineGrob2Lines(lGrob)
-				
-				keys <- as.character(shp$tmapID)
-				dShp <- gDifference(lShp, tShp, byid = TRUE, id=keys)
-				
-				lGrobSel <- lGrob[match(get_IDs(dShp), keys)]
-				
-				lco <- coordinates(dShp)
-				
-				lGrob_new <- do.call("gList", mapply(function(lG, lC) {
-					nr <- sapply(lC, nrow)
-					coor <- do.call("rbind", lC)
-					lG$x <- unit(coor[,1], "npc")
-					lG$y <- unit(coor[,2], "npc")
-					lG$id <- do.call("c", mapply(rep, 1:length(lC), nr, SIMPLIFY=FALSE))
-					lG
-				}, lGrobSel, lco, SIMPLIFY=FALSE))
-				
-				grobs[[which(fnames=="plot_tm_lines")]] <- lGrob_new
-			}
-		}
-		
-		# Remove text background if fill=NA
-		if ("plot_tm_text" %in% fnames) {
-			tGrob <- grobs[[which(fnames=="plot_tm_text")]]
-			if (!is.null(tGrob[[1]])) {
-				if (is.na(tGrob[[1]]$gp$fill)) {
-					grobs[[which(fnames=="plot_tm_text")]] <- tGrob[-1]
+# 				if (gpl$text.along.lines && "plot_tm_lines" %in% fnames) {
+# 					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
+# 					lShp <- polylineGrob2Lines(lGrob)
+# 				
+# 					pShp <- SpatialPoints(co, proj4string = shp@proj4string)
+# 					ppShp <- as(gBuffer(pShp, width = buffer_width(pShp@bbox)*100, byid = TRUE), "SpatialLines")
+# 					iShp <- gIntersection(shp, ppShp, byid = TRUE)
+# 					
+# 				}
+				if (gpl$text.overwrite.lines && "plot_tm_lines" %in% fnames) {
+					# Remove line where labels overlap
+					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
+					
+					tShp <- gUnaryUnion(rectGrob2Poly(tGrob[[1]]))
+					
+					lShp <- polylineGrob2Lines(lGrob)
+					
+					shp$tempID <- 1:length(shp)
+					keys <- as.character(shp$tempID)
+					dShp <- gDifference(lShp, tShp, byid = TRUE, id=keys)
+					
+					lGrobSel <- lGrob[match(get_IDs(dShp), keys)]
+					
+					lco <- coordinates(dShp)
+					
+					lGrob_new <- do.call("gList", mapply(function(lG, lC) {
+						nr <- sapply(lC, nrow)
+						coor <- do.call("rbind", lC)
+						lG$x <- unit(coor[,1], "npc")
+						lG$y <- unit(coor[,2], "npc")
+						lG$id <- do.call("c", mapply(rep, 1:length(lC), nr, SIMPLIFY=FALSE))
+						lG
+					}, lGrobSel, lco, SIMPLIFY=FALSE))
+					
+					grobs[[which(fnames=="plot_tm_lines")]] <- lGrob_new
 				}
+				
+				# remove unused background
+				grobs[[which(fnames=="plot_tm_text")]] <- if (is.na(tGrob[[1]]$gp$fill)) {
+					tGrob[-1]
+				} else tGrob
 			}
 		}
+
 		
+
 		items <- do.call("gList", args =  grobs)
 		gTree(children=items)
 	}, gp, shps, 1:nlayers, SIMPLIFY=FALSE)
@@ -606,7 +672,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			}
 			
 			## the thematic map
-			res <- plot_map(i, gp, gt, shps, bbx, proj)
+			res <- plot_map(i, gp, gt, shps, bbx, proj, sasp)
 			treeElemGrid <- res$treeElemGrid
 			lineInch <- res$lineInch
 			metaX <- res$metaX

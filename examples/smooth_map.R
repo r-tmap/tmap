@@ -13,8 +13,12 @@
 	
 	NLD_muni_list <- smooth_map(NLD_muni, var = "population_dens")
 
+	NLD_muni_list$iso$lev <- as.numeric(NLD_muni_list$iso$level)
 	
-	qtm(NLD_muni_list$iso, line.col = "level", text="level")
+	tm_shape(NLD_muni_list$iso) + tm_iso(size = .5) + tm_dots()
+	
+	
+	qtm(NLD_muni_list$iso, line.col = "level", text="level")#, bubble.size="lev", bubble.col="level")
 	qtm(NLD_muni_list$dasy, fill = "level", fill.palette="Blues")
 	qtm(NLD_muni_list$raster, layout.bg.color="grey80", raster.n=20)
 	

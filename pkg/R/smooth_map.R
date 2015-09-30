@@ -28,11 +28,10 @@
 #' @param to.Raster should the "raster" output (see \code{output}) be a \code{\link[raster:Raster-class]{RasterLayer}}? By default, it is returned as a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}
 #' @return As defined by \code{output}
 #' @import raster
-#' @import maptools
 #' @import rgeos
 #' @import KernSmooth
 #' @export
-smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, output=c("raster", "iso", "dasy"), to.Raster=FALSE, ...) {
+smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, output=c("raster", "iso", "dasy"), to.Raster=FALSE) {
 	bbx <- bb(shp)
 	prj <- get_projection(shp)
 #	asp <- get_asp_ratio(shp)

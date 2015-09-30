@@ -7,7 +7,8 @@
 tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = NA,
   fontfamily = NA, alpha = NA, case = NA, shadow = FALSE,
   bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
-  print.tiny = FALSE, scale = 1, xmod = 0, ymod = 0)
+  print.tiny = FALSE, scale = s1, auto.placement = TRUE, xmod = 0,
+  ymod = 0)
 }
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
@@ -32,11 +33,13 @@ tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = NA,
 
 \item{bg.alpha}{number between 0 and 1 that specifies the transparancy of the text background (0 is totally transparent, 1 is solid background).}
 
-\item{size.lowerbound}{lowerbound for \code{size}. Only useful when \code{size} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{size.lowerbound} are depicted at relative size \code{size.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{size.lowerbound} (in other words, tiny labels are omitted).}
+\item{size.lowerbound}{lowerbound for \code{size}. Only applicable when \code{size} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{size.lowerbound} are depicted at relative size \code{size.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{size.lowerbound} (in other words, tiny labels are omitted).}
 
 \item{print.tiny}{boolean, see \code{size.lowerbound}}
 
 \item{scale}{text size multiplier, useful in case \code{size} is variable or \code{"AREA"}.}
+
+\item{auto.placement}{logical that determines whether the labels are placed automatically to prevent overlap. For this, the simulated annealing algorithm is used.}
 
 \item{xmod}{horizontal position modification of the text (relatively): 0 means no modification, and 1 corresponds to the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.}
 

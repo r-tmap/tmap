@@ -161,7 +161,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	asp_ratio <- shpM_asp_marg / dev_asp
 	
 	## process tm objects
-	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size")]
+	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size", "line.center.type")]
 	shp_info$is_raster <- any_raster
 	result <- process_tm(x, asp_ratio, shp_info)
 	gmeta <- result$gmeta

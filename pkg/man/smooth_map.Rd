@@ -8,7 +8,7 @@ smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
   smooth.raster = TRUE, nlevels = 5, style = ifelse(is.null(breaks),
   "pretty", "fixed"), breaks = NULL, bandwidth = NA, cover.type = NA,
   cover = NULL, cover.threshold = 0.6, weight = 1, output = c("raster",
-  "iso", "dasy"), to.Raster = FALSE, ...)
+  "iso", "dasy"), to.Raster = FALSE)
 }
 \arguments{
 \item{shp}{shape object of class \code{\link[sp:Spatial]{Spatial}} or \code{\link[raster:Raster-class]{Raster}}. Spatial points, polygons, and grids are supported. Spatial lines are not.}

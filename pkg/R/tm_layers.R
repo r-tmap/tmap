@@ -13,9 +13,13 @@
 #' @param shadow logical that determines whether a shadow is depicted behind the text. The color of the shadow is either white or yellow, depending of the \code{fontcolor}.
 #' @param bg.color background color of the text labels. By default, \code{bg.color=NA}, so no background is drawn.
 #' @param bg.alpha number between 0 and 1 that specifies the transparancy of the text background (0 is totally transparent, 1 is solid background).
-#' @param size.lowerbound lowerbound for \code{size}. Only useful when \code{size} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{size.lowerbound} are depicted at relative size \code{size.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{size.lowerbound} (in other words, tiny labels are omitted).
+#' @param size.lowerbound lowerbound for \code{size}. Only applicable when \code{size} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{size.lowerbound} are depicted at relative size \code{size.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{size.lowerbound} (in other words, tiny labels are omitted).
 #' @param print.tiny boolean, see \code{size.lowerbound}
 #' @param scale text size multiplier, useful in case \code{size} is variable or \code{"AREA"}.
+#' @param auto.placement logical that determines whether the labels are placed automatically to prevent overlap. The simulated annealing algorithm is used for that.
+#' @param remove.overlap logical that determines whether the overlapping labels are removed
+#' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicabel if a spatial lines shape is used.
+#' @param overwrite.lines logical that determines whether the part of the lines below the text labels is removed. Only applicabel if a spatial lines shape is used.
 #' @param xmod horizontal position modification of the text (relatively): 0 means no modification, and 1 corresponds to the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
@@ -23,13 +27,21 @@
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, xmod=0, ymod=0) {
+tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, auto.placement=TRUE, remove.overlap=FALSE, along.lines=FALSE, overwrite.lines=FALSE, xmod=0, ymod=0) {
 	g <- list(tm_text=list(text=text, text.size=size, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.shadow=shadow, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
-							text.size.lowerbound=size.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.xmod=xmod, text.ymod=ymod))
+							text.size.lowerbound=size.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.auto.placement=auto.placement, text.remove.overlap=remove.overlap, text.along.lines=along.lines, text.overwrite.lines=overwrite.lines, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "tmap"
 	g
 }
 
+tm_iso <- function(col="black", legend.col.show=FALSE, text="level", size=.25, auto.placement=FALSE,
+				   remove.overlap=TRUE, along.lines=TRUE, overwrite.lines=TRUE, ...) {
+	tm_lines(col=col, legend.col.show=legend.col.show) +
+		tm_text(text=text, size=size, auto.placement = auto.placement, 
+				remove.overlap=remove.overlap,
+				along.lines=along.lines,
+				overwrite.lines = overwrite.lines)
+}
 
 #' Draw spatial lines
 #' 
