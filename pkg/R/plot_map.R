@@ -180,7 +180,16 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					}
 				}
 				
-				
+				# redo automatic labeling (with selection)
+				if (gpl$text.auto.placement && (!all(sel))) {
+					shiftX <- rep(0, nt)
+					shiftY <- rep(0, nt)
+					xy <- pointLabelGrid(tGX2[sel], tGY2[sel], tGWidth[sel], tGHeight[sel], xyAspect = sasp)
+					shiftX[sel] <- xy$x - tGX2[sel]
+					shiftY[sel] <- xy$y - tGY2[sel]
+					tGX2 <- tGX2 + shiftX
+					tGY2 <- tGY2 + shiftY
+				}
 				
 				tGrob <- do.call("gList", lapply(tGrob, function(tg) {
 					tgx <- convertX(tg$x, "npc", valueOnly = TRUE)
@@ -195,16 +204,36 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					if ("label" %in% names(tg)) tg$label <- tg$label[sel]
 					tg
 				}))
+				cosel <- cbind(tGX2[sel], tGY2[sel])
+
+				get_direction_angle <- function(co) {
+					p1 <- co[1,]
+					p2 <- co[nrow(co),]
+					
+					a <- atan2(p2[2] - p1[2], p2[1] - p1[1]) * 180 / pi
+					if (a < 0) a <- a + 360
+					a
+				}
 				
-# 				if (gpl$text.along.lines && "plot_tm_lines" %in% fnames) {
-# 					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
-# 					lShp <- polylineGrob2Lines(lGrob)
-# 				
-# 					pShp <- SpatialPoints(co, proj4string = shp@proj4string)
-# 					ppShp <- as(gBuffer(pShp, width = buffer_width(pShp@bbox)*100, byid = TRUE), "SpatialLines")
-# 					iShp <- gIntersection(shp, ppShp, byid = TRUE)
-# 					
-# 				}
+				if (gpl$text.along.lines && "plot_tm_lines" %in% fnames) {
+					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
+					lShp <- polylineGrob2Lines(lGrob)[sel,]
+					
+					lShps <- lapply(shp[sel,]@lines, function(l){
+						SpatialLines(list(l), proj4string = shp@proj4string)
+					})
+				
+					pShp <- SpatialPoints(co[sel,,drop=FALSE], proj4string = shp@proj4string)
+					ppShp <- as(gBuffer(pShp, width = buffer_width(bb(lShp)) * 100, byid = TRUE), "SpatialLines")
+					ppShps <- lapply(ppShp@lines, function(l){
+						SpatialLines(list(l), proj4string = ppShp@proj4string)
+					})
+					iShps <- mapply(gIntersection, lShps, ppShps, MoreArgs = list(byid = FALSE))
+					
+					angles <- sapply(iShps, function(x) get_direction_angle(x@coords))
+					
+				} else angles <- 0
+				
 				if (gpl$text.overwrite.lines && "plot_tm_lines" %in% fnames) {
 					# Remove line where labels overlap
 					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
@@ -232,6 +261,8 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					
 					grobs[[which(fnames=="plot_tm_lines")]] <- lGrob_new
 				}
+				cat(angles)
+				tGrob[[2]]$rot <- angles
 				
 				# remove unused background
 				grobs[[which(fnames=="plot_tm_text")]] <- if (is.na(tGrob[[1]]$gp$fill)) {
