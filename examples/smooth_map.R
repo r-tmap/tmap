@@ -6,17 +6,21 @@
 	
 	NLD_muni$population_dens <- calc_densities(NLD_muni, "population")
 	
-	qtm(NLD_muni, fill="population_dens")
+	qtm(NLD_muni, fill="population_dens") + tm_grid()
 	
 	# NLD_muni_smooth <- smooth_raster(NLD_muni, var = "population_dens")
 	# qtm(NLD_muni_smooth, layout.bg.color="grey80")
+	
+	randstad <- bb(xlim = c(50000, 150000), ylim=c(400000, 500000))
 	
 	NLD_muni_list <- smooth_map(NLD_muni, var = "population_dens")
 
 	NLD_muni_list$iso$lev <- as.numeric(NLD_muni_list$iso$level)
 	
-	tm_shape(NLD_muni_list$iso) + tm_iso(size = .5) + tm_dots()
+	tm_shape(NLD_muni_list$iso, bbox = randstad) + tm_iso(size = .5, along.lines = T)
 	
+	
+	tm_shape(NLD_muni_list$iso, bbox = randstad) + tm_lines() + tm_text("level", size = .5, along.lines = TRUE, overwrite.lines = T, auto.placement = F)
 	
 	qtm(NLD_muni_list$iso, line.col = "level", text="level")#, bubble.size="lev", bubble.col="level")
 	qtm(NLD_muni_list$dasy, fill = "level", fill.palette="Blues")

@@ -33,6 +33,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
  					ns <- length(shp)
  					shp_lst <- one_line_per_lines(shp)
  					shp <- shp_lst$shp
+ 					attr(shp, "bbox") <- bbx
  					id <- shp_lst$id
  					
  					aes <- intersect(names(gpl), c("line.col", "line.lwd", "bubble.size", "text", "text.size", "text.fontcolor", "text.xmod", "text.ymod", "text_sel", "bubble.size", "bubble.col", "bubble.xmod", "bubble.ymod"))
@@ -81,8 +82,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		} else {
 			co.npc <- NA
 		}
-		
-		
+
 		plot_tm_fill <- function() {
 			fill <- if (is.null(gpl$fill)) NA else gpl$fill
 			col <- process_color(gpl$col, alpha=gpl$alpha, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
@@ -219,18 +219,18 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
 					lShp <- polylineGrob2Lines(lGrob)[sel,]
 					
-					lShps <- lapply(shp[sel,]@lines, function(l){
-						SpatialLines(list(l), proj4string = shp@proj4string)
+					lShps <- lapply(lShp@lines, function(l){
+						SpatialLines(list(l), proj4string = lShp@proj4string)
 					})
 				
-					pShp <- SpatialPoints(co[sel,,drop=FALSE], proj4string = shp@proj4string)
-					ppShp <- as(gBuffer(pShp, width = buffer_width(bb(lShp)) * 100, byid = TRUE), "SpatialLines")
+					pShp <- SpatialPoints(cosel, proj4string = lShp@proj4string)
+					ppShp <- as(gBuffer(pShp, width = buffer_width(bb(lShp))*1000, byid = TRUE), "SpatialLines")
 					ppShps <- lapply(ppShp@lines, function(l){
 						SpatialLines(list(l), proj4string = ppShp@proj4string)
 					})
 					iShps <- mapply(gIntersection, lShps, ppShps, MoreArgs = list(byid = FALSE))
 					
-					angles <- sapply(iShps, function(x) get_direction_angle(x@coords))
+					angles <- sapply(iShps, function(x) if (is.null(x)) 0 else get_direction_angle(x@coords))
 					
 				} else angles <- 0
 				
@@ -261,7 +261,6 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					
 					grobs[[which(fnames=="plot_tm_lines")]] <- lGrob_new
 				}
-				cat(angles)
 				tGrob[[2]]$rot <- angles
 				
 				# remove unused background

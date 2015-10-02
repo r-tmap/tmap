@@ -113,7 +113,6 @@ grid.shplines_old <- function(shp, gp=gpar()) {
 
 grid.shplines <- function(shp, gp=gpar(), i, k) {
 	bb <- bbox(shp)
-
 	do.call("gList", mapply(function(p, id1) {
 		np <- length(p@Lines)
 		co2 <- mapply(function(pp, id2) {
