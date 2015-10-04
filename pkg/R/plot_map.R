@@ -127,6 +127,8 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		grobs <- lapply(fnames, do.call, args=list(), envir=e)
 		
+		
+		
 		if ("plot_tm_text" %in% fnames) {
 			tGrob <- grobs[[which(fnames=="plot_tm_text")]]
 			if (!is.null(tGrob[[1]])) {
@@ -136,28 +138,59 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				tGY <- convertY(tG$y, "npc", valueOnly = TRUE)
 				tGWidth <- convertWidth(tG$width, "npc", valueOnly = TRUE)
 				tGHeight <- convertHeight(tG$height, "npc", valueOnly = TRUE)
+				nt <- length(tGX)
+				
+				
+				coords <- cbind(tGX, tGY)
+				if (gpl$text.along.lines && "plot_tm_lines" %in% fnames) {
+					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
+					lShp <- polylineGrob2Lines(lGrob)
+					
+					lShps <- lapply(lShp@lines, function(l){
+						SpatialLines(list(l), proj4string = lShp@proj4string)
+					})
+					
+					pShp <- SpatialPoints(coords, proj4string = lShp@proj4string)
+					ppShp <- as(gBuffer(pShp, width = buffer_width(bb(lShp))*1000, byid = TRUE), "SpatialLines")
+					ppShps <- lapply(ppShp@lines, function(l){
+						SpatialLines(list(l), proj4string = ppShp@proj4string)
+					})
+					iShps <- mapply(gIntersection, lShps, ppShps, MoreArgs = list(byid = FALSE))
+					
+					angles <- sapply(iShps, function(x) if (is.null(x)) 0 else .get_direction_angle(x@coords))
+				} else angles <- 0
+				
+
+				rG <- if (any(angles!=0)) {
+					.rectGrob2pathGrob(tGrob[[1]], angles)$rect
+				} else tG
+				
+				rGX <- convertX(rG$x, "npc", valueOnly = TRUE)
+				rGY <- convertY(rG$y, "npc", valueOnly = TRUE)
+				rGWidth <- convertWidth(rG$width, "npc", valueOnly = TRUE)
+				rGHeight <- convertHeight(rG$height, "npc", valueOnly = TRUE)
+				
 				
 				# Automatic label placement (Simulated Annealing)
 				if (gpl$text.auto.placement) {
-					xy <- pointLabelGrid(tGX, tGY, tGWidth, tGHeight, xyAspect = sasp)
-					shiftX <- xy$x - tGX
-					shiftY <- xy$y - tGY
+					xy <- pointLabelGrid(rGX, rGY, rGWidth, rGHeight, xyAspect = sasp)
+					shiftX <- xy$x - rGX
+					shiftY <- xy$y - rGY
 				} else {
 					shiftX <- 0
 					shiftY <- 0
 				}
-				tGX2 <- tGX + shiftX
-				tGY2 <- tGY + shiftY
+				rGX2 <- rGX + shiftX
+				rGY2 <- rGY + shiftY
 
-				nt <- length(tGX)
 				sel <- rep(TRUE, nt)
 				if (gpl$text.remove.overlap) {
 					# Check for overlap
 					for (i in 1:nt) {
-						x <- tGX2[i]
-						y <- tGY2[i]
-						w <- tGWidth[i]
-						h <- tGHeight[i]
+						x <- rGX2[i]
+						y <- rGY2[i]
+						w <- rGWidth[i]
+						h <- rGHeight[i]
 						x1 <- x - w/2
 						x2 <- x + w/2
 						y1 <- y - h/2
@@ -165,10 +198,10 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 						
 						seli <- sel
 						seli[i] <- FALSE
-						xr <- tGX2[seli]
-						yr <- tGY2[seli]
-						wr <- tGWidth[seli]
-						hr <- tGHeight[seli]
+						xr <- rGX2[seli]
+						yr <- rGY2[seli]
+						wr <- rGWidth[seli]
+						hr <- rGHeight[seli]
 						xr1 <- xr - wr/2
 						xr2 <- xr + wr/2
 						yr1 <- yr - hr/2
@@ -184,72 +217,40 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				if (gpl$text.auto.placement && (!all(sel))) {
 					shiftX <- rep(0, nt)
 					shiftY <- rep(0, nt)
-					xy <- pointLabelGrid(tGX2[sel], tGY2[sel], tGWidth[sel], tGHeight[sel], xyAspect = sasp)
-					shiftX[sel] <- xy$x - tGX2[sel]
-					shiftY[sel] <- xy$y - tGY2[sel]
-					tGX2 <- tGX2 + shiftX
-					tGY2 <- tGY2 + shiftY
+					xy <- pointLabelGrid(rGX2[sel], rGY2[sel], rGWidth[sel], rGHeight[sel], xyAspect = sasp)
+					shiftX[sel] <- xy$x - rGX2[sel]
+					shiftY[sel] <- xy$y - rGY2[sel]
+					rGX2 <- rGX2 + shiftX
+					rGY2 <- rGY2 + shiftY
 				}
 				
-				tGrob <- do.call("gList", lapply(tGrob, function(tg) {
-					tgx <- convertX(tg$x, "npc", valueOnly = TRUE)
-					tgy <- convertY(tg$y, "npc", valueOnly = TRUE)
-					tg$x <- unit(tgx + shiftX, "npc")[sel]
-					tg$y <- unit(tgy + shiftY, "npc")[sel]
-					tg$height <- tg$height[sel]
-					tg$width <- tg$width[sel]
-					tg$gp <- do.call("gpar", lapply(unclass(tg$gp)[names(tg$gp)!="font"], function(g) {
-						if (length(g)==nt) g[sel] else g	
-					}))
-					if ("label" %in% names(tg)) tg$label <- tg$label[sel]
-					tg
-				}))
-				cosel <- cbind(tGX2[sel], tGY2[sel])
+				tGrob <- do.call("gList", lapply(tGrob, .editGrob, sel=sel, shiftX=shiftX, shiftY=shiftY, angles=angles))
+				
 
-				get_direction_angle <- function(co) {
-					p1 <- co[1,]
-					p2 <- co[nrow(co),]
-					
-					a <- atan2(p2[2] - p1[2], p2[1] - p1[1]) * 180 / pi
-					if (a < 0) a <- a + 360
-					a
-				}
-				
-				if (gpl$text.along.lines && "plot_tm_lines" %in% fnames) {
-					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
-					lShp <- polylineGrob2Lines(lGrob)[sel,]
-					
-					lShps <- lapply(lShp@lines, function(l){
-						SpatialLines(list(l), proj4string = lShp@proj4string)
-					})
-				
-					pShp <- SpatialPoints(cosel, proj4string = lShp@proj4string)
-					ppShp <- as(gBuffer(pShp, width = buffer_width(bb(lShp))*1000, byid = TRUE), "SpatialLines")
-					ppShps <- lapply(ppShp@lines, function(l){
-						SpatialLines(list(l), proj4string = ppShp@proj4string)
-					})
-					iShps <- mapply(gIntersection, lShps, ppShps, MoreArgs = list(byid = FALSE))
-					
-					angles <- sapply(iShps, function(x) if (is.null(x)) 0 else get_direction_angle(x@coords))
-					
-				} else angles <- 0
-				
+
 				if (gpl$text.overwrite.lines && "plot_tm_lines" %in% fnames) {
 					# Remove line where labels overlap
 					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
 					
-					tShp <- gUnaryUnion(rectGrob2Poly(tGrob[[1]]))
+					tShp <- .grob2Poly(tGrob[[1]])
 					
 					lShp <- polylineGrob2Lines(lGrob)
 					
 					shp$tempID <- 1:length(shp)
-					keys <- as.character(shp$tempID)
-					dShp <- gDifference(lShp, tShp, byid = TRUE, id=keys)
+					ids <- as.character(shp$tempID)
+					dShp <- gDifference(lShp, tShp, byid = TRUE, id=ids)
+					ids <- as.character(shp$tempID) #bug in gDifference: ids changes
 					
-					lGrobSel <- lGrob[match(get_IDs(dShp), keys)]
+					matched <- match(get_IDs(dShp), ids)
+					nonmatched <- match(setdiff(ids, get_IDs(dShp)),ids)
 					
+					dShp <- sbind(dShp, lShp[nonmatched, ])
+					allmatched <- match(get_IDs(dShp),ids)
 					lco <- coordinates(dShp)
 					
+					sel2 <- (!(1:length(shp)) %in% nonmatched)[sel]
+					
+					lGrobSel <- lGrob[allmatched]
 					lGrob_new <- do.call("gList", mapply(function(lG, lC) {
 						nr <- sapply(lC, nrow)
 						coor <- do.call("rbind", lC)
@@ -258,10 +259,13 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 						lG$id <- do.call("c", mapply(rep, 1:length(lC), nr, SIMPLIFY=FALSE))
 						lG
 					}, lGrobSel, lco, SIMPLIFY=FALSE))
+
+					tGrob <- do.call("gList", lapply(tGrob, .editGrob, sel=sel2, shiftX=0, shiftY=0, angles=angles[sel]))
 					
 					grobs[[which(fnames=="plot_tm_lines")]] <- lGrob_new
 				}
-				tGrob[[2]]$rot <- angles
+
+				
 				
 				# remove unused background
 				grobs[[which(fnames=="plot_tm_text")]] <- if (is.na(tGrob[[1]]$gp$fill)) {
@@ -269,9 +273,9 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				} else tGrob
 			}
 		}
-
 		
-
+		
+		
 		items <- do.call("gList", args =  grobs)
 		gTree(children=items)
 	}, gp, shps, 1:nlayers, SIMPLIFY=FALSE)
@@ -306,510 +310,10 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 	
 	
 	grobsElemGrid <- do.call("gList", args = c(treeElements, list(grobWorldBB, treeGridLabels)))
-
+	
 	
 	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), lineInch=lineInch, metaX=metaX, metaY=metaY)
 }
 
 
-process_grid <- function(gt, bbx, proj, sasp) {
-	grid.n.x <- grid.n.y <- NULL
-	within(gt, { 
-		if (!is.na(grid.projection)) {
-			bbx_orig <- bbx
-			bbx <- bb(bbx, current.projection = proj, projection = grid.projection)
-		}
-		
-		## automatically determine number of grid lines
-		if (is.na(grid.n.x) && !is.na(grid.n.y)) {
-			grid.n.x <- grid.n.y * sasp
-		} else if (!is.na(grid.n.x) && is.na(grid.n.y)) {
-			grid.n.y <- grid.n.x / sasp
-		} else if (is.na(grid.n.x) && is.na(grid.n.y)) {
-			grid.n.lines <- 20 / gt$scale
-			grid.n.x <- round(sasp * (grid.n.lines/(1+sasp)))
-			grid.n.y <- round(grid.n.lines / (1+sasp))
-		}
-		
-		## find natural breaks
-		grid.x <- pretty(bbx[1,], n=grid.n.x)
-		grid.x <- grid.x[grid.x>bbx[1,1] & grid.x<bbx[1,2]]
-		grid.y <- pretty(bbx[2,], n=grid.n.y)
-		grid.y <- grid.y[grid.y>bbx[2,1] & grid.y<bbx[2,2]]
-		
-		## project grid lines
-		if (!is.na(grid.projection)) {
-			# create SLDF with straight grid lines in grid lines projection
-			lns <- SpatialLinesDataFrame(SpatialLines(list(
-				Lines(lapply(grid.x, function(x) {
-					m <- matrix(c(rep(x,100), seq(bbx[2,1], bbx[2,2], length.out=100)), ncol=2)
-					Line(m)
-				}), ID="x"),
-				Lines(lapply(grid.y, function(y) {
-					m <- matrix(c(seq(bbx[1,1], bbx[1,2], length.out=100), rep(y,100)), ncol=2)
-					Line(m)
-				}), ID="y")
-			), proj4string = CRS(get_proj4_code(grid.projection))), data.frame(ID=c("x", "y")), match.ID=FALSE)
-			
-			# project it to current projection
-			lns_proj <- set_projection(lns, projection = proj)
 
-			# extract and normalize coordinates
-			grid.co.x.lns <- lapply(lns_proj@lines[[1]]@Lines, function(l) {
-				lco <- attr(l, "coords")
-				lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
-				lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
-				lco
-			})
-			grid.co.y.lns <- lapply(lns_proj@lines[[2]]@Lines, function(l) {
-				lco <- attr(l, "coords")
-				lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
-				lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
-				lco
-			})
-			lns <- NULL
-			lns_proj <- NULL
-		} else {
-			# normalize coordinates
-			grid.co.x <- (grid.x-bbx[1,1]) / (bbx[1,2] - bbx[1,1])
-			grid.co.y <- (grid.y-bbx[2,1]) / (bbx[2,2] - bbx[2,1])
-			
-		}
-		
-		## format grid labels
-		grid.labels.x <- format(grid.x, big.mark = ",")
-		grid.labels.y <- format(grid.y, big.mark = ",")
-
-	})
-}
-
-plot_grid_labels_x <- function(gt, scale) {
-	# find coordinates for projected grid labels
-	if (!is.na(gt$grid.projection)) {
-		cogridx <- sapply(gt$grid.co.x.lns, function(i){
-			i[which(i[,2] > 0)[1], 1]
-		})
-	} else {
-		cogridx <- gt$grid.co.x	
-	}
-
-	labelsx <- gt$grid.labels.x
-
-	textGrob(labelsx, y=1, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
-		
-}
-
-plot_grid_labels_y <- function(gt, scale) {
-	# find coordinates for projected grid labels
-	if (!is.na(gt$grid.projection)) {
-		cogridy <- sapply(gt$grid.co.y.lns, function(i){
-			i[which(i[,1] > 0)[1], 2]
-		})
-	} else {
-		cogridy <- gt$grid.co.y
-	}
-	
-	labelsy <- gt$grid.labels.y
-	
-	textGrob(labelsy, y=cogridy, x=1, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
-}
-
-
-plot_grid <- function(gt, scale, add.labels) {
-	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
-	cogridx <- gt$grid.co.x
-	cogridy <- gt$grid.co.y
-	labelsx <- gt$grid.labels.x
-	labelsy <- gt$grid.labels.y
-	
-	cex <- gt$grid.labels.size*scale
-	
-	# find margins due to grid labels
-	if (add.labels) {
-		if (gt$draw.frame) {
-			if (gt$frame.double.line) {
-				fw <- 6 * convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
-				fh <- 6 * convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
-			} else {
-				fw <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
-				fh <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
-			}
-		} else {
-			fw <- 0
-			fh <- 0
-		}
-		labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE))  * cex + fw
-		labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE))  * cex + fh
-		spacerY <- convertWidth(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-		spacerX <- convertHeight(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-	} else {
-		labelsXw <- labelsYw <- spacerX <- spacerY <- 0
-	}	
-
-	# find coordinates for projected grid labels
-	if (!is.na(gt$grid.projection)) {
-		cogridx <- sapply(gt$grid.co.x.lns, function(i){
-			i[which(i[,2] > (labelsXw + spacerX))[1], 1]
-		})
-		cogridy <- sapply(gt$grid.co.y.lns, function(i){
-			i[which(i[,1] > (labelsYw + spacerY))[1], 2]
-		})
-	}
-	
-	# select grid labels to print
-	selx <- cogridx >= labelsYw + spacerY & cogridx <= 1 - spacerY
-	sely <- cogridy >= labelsXw + spacerX & cogridy <= 1 - spacerX
-	
-	# crop projected grid lines, and extract polylineGrob ingredients
-	if (!is.na(gt$grid.projection)) {
-		lns <- SpatialLinesDataFrame(SpatialLines(list(
-			Lines(lapply(gt$grid.co.x.lns, function(m) {
-				Line(m)
-			}), ID="x"),
-			Lines(lapply(gt$grid.co.y.lns, function(m) {
-				Line(m)
-			}), ID="y")
-		)), data.frame(ID=c("x", "y")), match.ID=FALSE)
-		lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY, labelsXw + spacerX, 1, 1)))
-		
-		cogridxlns <- do.call("rbind", mapply(function(l, i) {
-			co <- as.data.frame(attr(l, "coords"))
-			co$ID <- i
-			co
-		}, lns_crop@lines[[1]]@Lines, 1:length(lns_crop@lines[[1]]@Lines), SIMPLIFY=FALSE))
-		
-		cogridylns <- do.call("rbind", mapply(function(l, i) {
-			co <- as.data.frame(attr(l, "coords"))
-			co$ID <- i
-			co
-		}, lns_crop@lines[[2]]@Lines, 1:length(lns_crop@lines[[2]]@Lines), SIMPLIFY=FALSE))
-	}
-
-	## process x-axis grid lines and labels
-	if (any(selx)) {
-		cogridx <- cogridx[selx]
-		labelsx <- labelsx[selx]
-		
-		if (is.na(gt$grid.projection)) {
-			grobGridX <- polylineGrob(x=rep(cogridx, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx)), 
-									  id=rep(1:length(cogridx), each=2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
-		} else {
-			grobGridX <- polylineGrob(x=cogridxlns$x, y=cogridxlns$y, id=cogridxlns$ID, gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
-		}
-
-		grobGridTextX <- if (add.labels) {
-			 textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
-		} else NULL
-	} else {
-		grobGridX <- NULL
-		grobGridTextX <- NULL
-	}
-
-	
-	## process y-axis grid lines and labels
-	if (any(sely)) {
-		cogridy <- cogridy[sely]
-		labelsy <- labelsy[sely]
-		
-		if (is.na(gt$grid.projection)) {
-			grobGridY <- polylineGrob(y=rep(cogridy, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy)), 
-					  id=rep(1:length(cogridy), each=2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
-		} else {
-			grobGridY <- polylineGrob(x=cogridylns$x, y=cogridylns$y, id=cogridylns$ID, gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
-		}
-		
-		grobGridTextY <- if (add.labels) {
-			textGrob(labelsy, x=labelsYw+spacerY*.5, y=cogridy, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
-		} else NULL
-	} else {
-		grobGridY <- NULL
-		grobGridTextY <- NULL
-	}
-	list(treeGridLines=gTree(children=gList(grobGridX, grobGridY)),
-		 treeGridLabels=gTree(children=gList(grobGridTextX, grobGridTextY)),
-		 metaX=labelsYw+spacerY,
-		 metaY=labelsXw+spacerX)
-	
-}
-
-plot_bubbles <- function(co.npc, g, gt, lineInch, i, k) {
-	bubbleH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
-	bubbleW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
-	
-	with(g, {
-		co.npc[, 1] <- co.npc[, 1] + bubble.xmod * bubbleW
-		co.npc[, 2] <- co.npc[, 2] + bubble.ymod * bubbleH
-		npol <- nrow(co.npc)
-		if (length(bubble.size)!=npol) {
-			if (length(bubble.size)!=1) warning("less bubble size values than objects")
-			bubble.size <- rep(bubble.size, length.out=npol)
-		}
-		
-		bubble.size <- bubble.size * lineInch / 2
-		
-		cols <- rep(bubble.col, length.out=npol)
-		if (length(bubble.size)!=1) {
-			decreasing <- order(-bubble.size)
-			co.npc2 <- co.npc[decreasing,]
-			bubble.size2 <- bubble.size[decreasing]
-			cols2 <- if (length(cols)==1) cols else cols[decreasing]
-		} else {
-			co.npc2 <- co.npc
-			bubble.size2 <- bubble.size
-			cols2 <- cols
-		}
-
-		
-		bordercol <- bubble.border.col
-		idName <- paste("tm_bubbles", i, k, sep="_")
-		
-		
-		circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
-					r=unit(bubble.size2, "inch"),
-					gp=gpar(col=bordercol, lwd=bubble.border.lwd, fill=cols2), name=idName)
-	})
-}
-
-plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.margin=.10) {
-	lineHnpc <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
-	lineWnpc <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
-
-	npol <- nrow(co.npc)
-	with(g, {
-		if (!any(text_sel)) {
-			warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.")
-			return(NULL)
-		}
-		
-		co.npc[, 1] <- co.npc[, 1] + text.xmod * lineWnpc
-		co.npc[, 2] <- co.npc[, 2] + text.ymod * lineHnpc
-		
-		grobText <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.fontcolor[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
-		nlines <- rep(1, length(text))
-		
-		
-		lineH <- convertHeight(unit(text.size[text_sel], "lines"), "npc", valueOnly=TRUE)
-		lineW <- convertWidth(unit(text.size[text_sel], "lines"), "npc", valueOnly=TRUE)
-
-#		if (!is.na(text.bg.color)) {
-			
-			
-			tGH <- mapply(text[text_sel], text.size[text_sel], nlines[text_sel], FUN=function(x,y,z){
-				convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
-			
-			tGW <- mapply(text[text_sel], text.size[text_sel], FUN=function(x,y){
-				convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
-			tGX <- grobText$x + unit(ifelse(just[1]=="left", (tGW * .5), 
-									  ifelse(just[1]=="right", -(tGW * .5), 0)), "npc")
-			tGY <- grobText$y + unit(ifelse(just[2]=="top", -(tGH * .5), 
-									  ifelse(just[2]=="bottom", tGH * .5, 0)), "npc")
-		
-			tGH <- tGH + lineH * bg.margin
-			tGW <- tGW + lineW * bg.margin
-			grobTextBG <- rectGrob(x=tGX, y=tGY, width=tGW, height=tGH, gp=gpar(fill=text.bg.color, col=NA))
-# 		} else {
-# 			grobTextBG <- NULL
-# 		}
-		
-		if (text.shadow) {
-			grobTextSh <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1]+lineW * .05, "npc"), y=unit(co.npc[text_sel,2]- lineH * .05, "npc"), just=just, gp=gpar(col=text.shadowcol[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
-		} else {
-			grobTextSh <- NULL
-		}
-		
-		gList(grobTextBG, grobTextSh, grobText)
-	})
-}
-
-
-
-plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos) {
-	gt <- gp$tm_layout
-
-	shps <- get("shps", envir=shps.env)
-	
-	## in case of small multiples, get i'th shape
-	if (any(gt$shp_nr!=0) && (gt$drop.shapes || gt$free.coords)) {
-		shps <- shps[[i]]
-	}
-
-	bbx <- attr(shps[[1]], "bbox")
-	proj <- attr(shps[[1]], "proj4string")@projargs
-	
-	if (gt$grid.show) gt <- process_grid(gt, bbx, proj, sasp)
-	
-	
-	
-	
-	gp[c("tm_layout")] <- NULL
-	
-	if (!gt$legend.only) {
-		## calculate width and height of the shape based on the device asp ratio (dasp) and the shape aspect ratio (sasp)
-		margins <- gt$outer.margins
-		mar.y <- sum(margins[c(1,3)])
-		mar.x <- sum(margins[c(2,4)])
-		
-		height <- 1 - mar.y
-		width <- 1 - mar.x
-		if (dasp > sasp) {
-			width <- width * (sasp/dasp)
-		} else {
-			height <- height * (dasp/sasp)
-		}
-		
-		## calculate outer margins
-		margin.left <- (1 - width) * ifelse(mar.x==0, .5, (margins[2]/mar.x))
-		margin.top <- (1 - height) * ifelse(mar.y==0, .5, (margins[3]/mar.y))
-		
-
-		## background rectangle (whole device)
-		if (!gt$draw.frame) {
-			grobBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
-		} else {
-			grobBG <- NULL
-		}
-
-		if (gt$design.mode) {
-			grobBG <- rectGrob(gp=gpar(fill="yellow", col="yellow"))
-		}
-		
-		## create a 3x3 grid layout with the shape to be drawn in the middle cell
-		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
-													 heights=unit(c(margin.top, height, 1), 
-													 			 c("npc", "npc", "null")), 
-													 widths=unit(c(margin.left, width, 1), 
-													 			c("npc", "npc", "null"))),
-								  name="maingrid")
-		pushViewport(gridLayoutMap)
-
-		## the thematic map with background
-		treeMap <- cellplot(2, 2, name="aspvp", e={
-			## background rectangle (inside frame)
-			if (gt$draw.frame) {
-				grobBGframe <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="mapBG")
-			} else {
-				grobBGframe <- NULL
-			}
-			
-			if (gt$design.mode) {
-				grobBGframe <- rectGrob(gp=gpar(fill="blue", col="blue"), name="mapBG")
-				
-				aspWidth <- 1-sum(inner.margins.new[c(2,4)])
-				aspHeight <- 1-sum(inner.margins.new[c(1,3)])
-				grobAsp <- rectGrob(x = (inner.margins.new[2]+1-inner.margins.new[4])/2, y=(inner.margins.new[1]+1-inner.margins.new[3])/2, width=aspWidth, height=aspHeight, gp=gpar(fill="red", col="red"), name="aspRect")
-			} else {
-				grobAsp <- NULL
-			}
-			
-			## the thematic map
-			res <- plot_map(i, gp, gt, shps, bbx, proj, sasp)
-			treeElemGrid <- res$treeElemGrid
-			lineInch <- res$lineInch
-			metaX <- res$metaX
-			metaY <- res$metaY
-			gList(grobBGframe, grobAsp, treeElemGrid)
-		})
-		
-		## background rectangle (whole device), in case a frame is drawn and outer.bg.color is specified
-		treeBG <- if (!is.null(gt$outer.bg.color) && gt$draw.frame) {
-			cellplot(1:3,1:3, e=rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)), name="mapBG")
-		} else NULL
-		treeFrame <- cellplot(2,2, e={
-			if (gt$draw.frame) {
-				pH <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
-				pW <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
-				if (gt$frame.double.line) {
-					gList(
-						rectGrob(width = 1-4*pW, height=1-4*pH, gp=gpar(col=gt$bg.color, fill=NA, lwd=5*gt$frame.lwd, lineend="square")),
-						rectGrob(gp=gpar(col="#000000", fill=NA, lwd=3*gt$frame.lwd, lineend="square")),
-						rectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square")))
-				} else {
-					rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square"))
-				}
-				
-			} else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
-		}, name="mapFrame")
-		
-		treeGridLabels <- if (gt$grid.show && !gt$grid.labels.inside.frame) {
-			gTree(children=gList(
-				cellplot(3,2, e=plot_grid_labels_x(gt, scale=gt$scale), name="gridLabelsX"),
-				cellplot(2,1, e=plot_grid_labels_y(gt, scale=gt$scale), name="gridLabelsY")), name="gridLabels")
-		} else NULL
-		
-		
-		
-		treeMapX <- gTree(children=gList(grobBG, gTree(children=gList(treeBG, treeMap, treeFrame, treeGridLabels), vp=gridLayoutMap, name="outer_map")), name="BG")
-		
-		upViewport()
-	} else {
-		## bubble height needed to align with bubbles in legend
-		lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * gt$legend.text.size
-		treeMapX <- NULL
-		metaX <- 0
-		metaY <- 0
-	}
-	
-	## prepare legend items
-	leg <- legend_prepare(gp, gt, lineInch)
-	
-	## legend, title, and other thinks such as compass
-	if (!is.null(leg) || gt$title!="" || gt$credits.show || gt$scale.show || gt$compass.show) {
-		if (!gt$legend.only) {
-			vpLeg <- vpPath("maingrid", "aspvp")
-			d <- downViewport(vpLeg)
-			grobLegendBG <- NULL
-		} else {
-			vpLeg <- current.viewport()
-			grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
-		}
-		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY)
-		treeMetaX <- gTree(children=gList(grobLegendBG, treeMeta))
-		
-		if (!gt$legend.only) {
-			treeMapX <- addGrob(treeMapX, child=treeMetaX, gPath=gPath("outer_map", "aspvp"))
-			upViewport(d)
-		} else {
-			treeMapX <- treeMetaX
-		}
-		
-	}
-	
-	treeMapX
-}
-
-
-rectGrob2Poly <- function(g) {
-	x <- convertX(g$x, unitTo = "npc", valueOnly = TRUE)
-	y <- convertY(g$y, unitTo = "npc", valueOnly = TRUE)
-	w <- convertWidth(g$width, unitTo = "npc", valueOnly = TRUE)
-	h <- convertHeight(g$height, unitTo = "npc", valueOnly = TRUE)
-	x1 <- x - .5*w
-	x2 <- x + .5*w
-	y1 <- y - .5*h
-	y2 <- y + .5*h
-	
-	polys <- mapply(function(X1, X2, Y1, Y2) {
-		Polygon(cbind(c(X1, X2, X2, X1, X1),
-					  c(Y2, Y2, Y1, Y1, Y2)))
-	}, x1, x2, y1, y2, SIMPLIFY=FALSE)
-	
-	SpatialPolygons(list(Polygons(polys, ID="1")))
-}
-
-polylineGrob2Lines <- function(gL) {
-	k <- length(gL)
-	
-	SpatialLines(lapply(1:k, function(i) {
-		g <- gL[[i]]
-		x <- convertX(g$x, "npc", valueOnly = TRUE)
-		y <- convertY(g$y, "npc", valueOnly = TRUE)
-		id <- factor(g$id)
-		xs <- split(x, f = id)
-		ys <- split(y, f = id)
-		ids <- levels(id)
-		
-		Lines(mapply(function(X, Y) {
-			Line(cbind(X,Y))	
-		}, xs, ys, SIMPLIFY=FALSE), ID=i)
-	}))
-}

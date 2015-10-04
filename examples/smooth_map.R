@@ -12,15 +12,16 @@
 	# qtm(NLD_muni_smooth, layout.bg.color="grey80")
 	
 	randstad <- bb(xlim = c(50000, 150000), ylim=c(400000, 500000))
+	randstad2 <- bb(xlim = c(50000, 100000), ylim=c(425000, 475000))
 	
 	NLD_muni_list <- smooth_map(NLD_muni, var = "population_dens")
 
 	NLD_muni_list$iso$lev <- as.numeric(NLD_muni_list$iso$level)
 	
-	tm_shape(NLD_muni_list$iso, bbox = randstad) + tm_iso(size = .5, along.lines = T)
+	tm_shape(NLD_muni_list$iso, bbox = randstad2) + tm_iso(size = .5, along.lines = T)
 	
 	
-	tm_shape(NLD_muni_list$iso, bbox = randstad) + tm_lines() + tm_text("level", size = .5, along.lines = TRUE, overwrite.lines = T, auto.placement = F)
+	tm_shape(NLD_muni_list$iso, bbox = randstad2) + tm_lines() + tm_text("level", size = .5, along.lines = TRUE, overwrite.lines = T, auto.placement = F, remove.overlap = T, bg.color="green", bg.alpha=.25)
 	
 	qtm(NLD_muni_list$iso, line.col = "level", text="level")#, bubble.size="lev", bubble.col="level")
 	qtm(NLD_muni_list$dasy, fill = "level", fill.palette="Blues")
