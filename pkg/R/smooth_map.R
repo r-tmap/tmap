@@ -18,15 +18,16 @@
 #' @param cover \code{\link[sp:SpatialPolygons]{SpatialPolygons}} shape that determines the covered area in which the contour lines are placed. If specified, \code{cover.type} is ignored.
 #' @param cover.threshold numeric value between 0 and 1 that determines which part of the estimated 2D kernal density is returned as cover. Only applicable when \code{cover.type="smooth"}.
 #' @param weight single number that specifies the weight of a single point. Only applicable if \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.
-#' @param output character value or vector of character values specifying the output. Options:
+#' @param to.Raster should the "raster" output (see \code{output}) be a \code{\link[raster:Raster-class]{RasterLayer}}? By default, it is returned as a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}
+#' @return List with the following items:
 #' \describe{
 #' \item{\code{"raster"}}{A smooth raster, which is either a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} or a \code{\link[raster:Raster-class]{RasterLayer}} (see \code{to.Raster})}
-#' \item{\code{"contour"}}{Contour lines, which is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}}
+#' \item{\code{"iso"}}{Contour lines, which is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}}
 #' \item{\code{"dasy"}}{Dasymetric polygons, which is a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}}
+#' \item{\code{"bbox"}}{Bounding box of the used raster}
+#' \item{\code{"ncol"}}{Number of rows in the raster}
+#' \item{\code{"nrow"}}{Number of columns in the raster}
 #' }
-#' If only one of these output values is specified, the corresponding object is returned. Otherwise, a list is returned with the names of the values.
-#' @param to.Raster should the "raster" output (see \code{output}) be a \code{\link[raster:Raster-class]{RasterLayer}}? By default, it is returned as a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}
-#' @return As defined by \code{output}
 #' @import raster
 #' @import rgeos
 #' @import KernSmooth
@@ -157,20 +158,13 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=
 	
 	lns <- SpatialLinesDataFrame(gIntersection(cover, cl2, byid = TRUE), data=cl2@data, match.ID = FALSE)
 	
-	names(output) <- output
-	res <- lapply(output, function(out) {
-		if (out == "raster" && to.Raster) {
-			r
-		} else if (out == "raster" && !to.Raster) {
-			as(r, "SpatialGridDataFrame")
-		} else if (out == "iso") {
-			lns
-		} else if (out == "dasy") {
-			cp
-		} else warning("unknown output format")
-	})
-	if (length(output)==1) res[[1]] else res
-	res
+	list(raster = if(to.Raster) r else as(r, "SpatialGridDataFrame"),
+		 iso = lns,
+		 dasy = cp,
+		 bbox = bbx,
+		 nrow = nrow,
+		 ncol = ncol,
+		 bandwidth = bandwidth)
 }
 
 contour_lines_to_SLDF <- function (cL, proj4string = CRS(as.character(NA))) 

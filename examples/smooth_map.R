@@ -18,10 +18,11 @@
 
 	NLD_muni_list$iso$lev <- as.numeric(NLD_muni_list$iso$level)
 	
-	tm_shape(NLD_muni_list$iso, bbox = randstad2) + tm_iso(size = .5, along.lines = T)
+	tm_shape(NLD_muni_list$iso, bbox = randstad2) + tm_iso(size = .75, along.lines = T)
 	
+	tm_shape(NLD_muni_list$iso) +
+		tm_iso()
 	
-	tm_shape(NLD_muni_list$iso, bbox = randstad2) + tm_lines() + tm_text("level", size = .5, along.lines = TRUE, overwrite.lines = T, auto.placement = F, remove.overlap = T, bg.color="green", bg.alpha=.25)
 	
 	qtm(NLD_muni_list$iso, line.col = "level", text="level")#, bubble.size="lev", bubble.col="level")
 	qtm(NLD_muni_list$dasy, fill = "level", fill.palette="Blues")

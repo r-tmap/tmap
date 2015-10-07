@@ -34,7 +34,7 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily
 	g
 }
 
-tm_iso <- function(col="black", legend.col.show=FALSE, text="level", size=.25, auto.placement=FALSE,
+tm_iso <- function(col="black", legend.col.show=FALSE, text="level", size=.5, auto.placement=FALSE,
 				   remove.overlap=TRUE, along.lines=TRUE, overwrite.lines=TRUE, ...) {
 	tm_lines(col=col, legend.col.show=legend.col.show) +
 		tm_text(text=text, size=size, auto.placement = auto.placement, 
