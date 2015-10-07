@@ -48,8 +48,8 @@ DH_nbhd_dots <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2den
 
 
 # Show map
-tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
-	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title = "The Hague population") +
+tm_shape(DH_nbhd_osm) + tm_raster(saturation=0) +
+	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.25, palette="Dark2", title = "The Hague population") +
 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
 
 
