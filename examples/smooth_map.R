@@ -23,6 +23,9 @@
 	tm_shape(NLD_muni_list$iso) +
 		tm_iso()
 	
+	qtm(NLD_muni_list$iso)
+	qtm(NLD_muni_list$dasy)
+	
 	
 	qtm(NLD_muni_list$iso, line.col = "level", text="level")#, bubble.size="lev", bubble.col="level")
 	qtm(NLD_muni_list$dasy, fill = "level", fill.palette="Blues")
