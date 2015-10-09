@@ -71,7 +71,7 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 	current.proj4 <- get_proj4_code(current.projection)
 
 	if (is.na(shp.proj)) {
-		if (missing(current.projection)) {
+		if (missing(current.projection) || is.na(current.projection)) {
 			stop("Currect projection of shape object unknown. Please specify the argument current.projection. The value \"longlat\", which stands for Longitude-latitude (WGS84), is most commonly used.")
 		} else {
 			shp@proj4string <- CRS(current.proj4)

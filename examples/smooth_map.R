@@ -6,32 +6,13 @@
 	
 	NLD_muni$population_dens <- calc_densities(NLD_muni, "population")
 	
-	qtm(NLD_muni, fill="population_dens") + tm_grid()
+	qtm(NLD_muni, fill="population_dens")
 	
-	# NLD_muni_smooth <- smooth_raster(NLD_muni, var = "population_dens")
-	# qtm(NLD_muni_smooth, layout.bg.color="grey80")
-	
-	randstad <- bb(xlim = c(50000, 150000), ylim=c(400000, 500000))
-	randstad2 <- bb(xlim = c(50000, 100000), ylim=c(425000, 475000))
-	
-	NLD_muni_list <- smooth_map(NLD_muni, var = "population_dens")
+	NLD_smooth <- smooth_map(NLD_muni, var = "population_dens")
 
-	NLD_muni_list$iso$lev <- as.numeric(NLD_muni_list$iso$level)
+	qtm(NLD_smooth$raster, layout.bg.color="grey85")
+	qtm(NLD_smooth$dasy)
 	
-	tm_shape(NLD_muni_list$iso, bbox = randstad2) + tm_iso(size = .75, along.lines = T)
-	
-	tm_shape(NLD_muni_list$iso) +
-		tm_iso()
-	
-	qtm(NLD_muni_list$iso)
-	qtm(NLD_muni_list$dasy)
-	
-	
-	qtm(NLD_muni_list$iso, line.col = "level", text="level")#, bubble.size="lev", bubble.col="level")
-	qtm(NLD_muni_list$dasy, fill = "level", fill.palette="Blues")
-	qtm(NLD_muni_list$raster, layout.bg.color="grey80", raster.n=20)
-	
-
 	####################################
 	## Smooth points
 	####################################
@@ -66,7 +47,19 @@
 	World_list <- smooth_map(World_1mln_dots, cover = World)
 	qtm(World_list$raster, layout.bg.color="grey80")
 	qtm(World, borders=NA) + qtm(World_list$iso)
-	qtm(World_list$dasy, fill="level", fill.palette="Blues", layout.bg.color="grey80")
+	qtm(World_list$dasy, layout.bg.color="grey80")
+
+	####################################
+	## Already smooth raster
+	####################################
+	vol <- raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
+	vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
+	tm_shape(vol_smooth$dasy) +
+		tm_polygons(title="Elevation") +
+		tm_grid(labels.inside.frame = TRUE) +
+		tm_layout(legend.width=.15, legend.position=c("right", "top"), legend.bg.color="white", legend.frame = TRUE, inner.margins=0) +
+		tm_style_classic()
+		
 	
 	####################################
 	## Smooth raster
@@ -78,5 +71,5 @@
 	qtm(land, raster="trees", layout.bg.color="grey80")
 	qtm(land_smooth$raster, layout.bg.color="grey80")
 	qtm(land_smooth$iso)
-	qtm(land_smooth$dasy, fill="level", fill.palette="Greens")
+	qtm(land_smooth$dasy)
 }

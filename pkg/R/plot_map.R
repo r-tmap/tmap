@@ -223,10 +223,8 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					rGX2 <- rGX2 + shiftX
 					rGY2 <- rGY2 + shiftY
 				}
-				
 				tGrob <- do.call("gList", lapply(tGrob, .editGrob, sel=sel, shiftX=shiftX, shiftY=shiftY, angles=angles))
 				
-
 
 				if (gpl$text.overwrite.lines && "plot_tm_lines" %in% fnames) {
 					# Remove line where labels overlap

@@ -1,5 +1,6 @@
 get_proj4_code <- function(x) {
 	if (is.null(x)) return(NULL)
+	if (is.na(x)) return(NA)
 	y <- switch(x,
 		   longlat="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",
 			latlong="+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs",

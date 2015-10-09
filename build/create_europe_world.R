@@ -21,7 +21,7 @@ world110 <- readOGR("../shapes", "ne_110m_admin_0_countries_lakes")
 
 
 
-## 
+## repair shapes
 isV50 <- gIsValid(world50)
 isV110 <- gIsValid(world110)
 
@@ -33,7 +33,7 @@ gIsValid(world110)
 
 
 
-############ process data
+############ process data ########################################################################
 keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt", 
 			  "continent", "subregion",
 			  "pop_est", "gdp_md_est", "economy", "income_grp"
@@ -46,7 +46,6 @@ eur_sel <- world50$continent=="Europe" | world50$name %in%
 
 
 
-identical(world50@data[, keepVars],  world110@data[, keepVars])
 
 ## get world data
 wd <- world50@data[, keepVars]
@@ -78,12 +77,17 @@ for (na in names(nonASCII)) {
 	wd[[na]][nonASCII[[na]]] <- replASCII[[na]]
 }
 
+wd$name[wd$name=="Lao PDR"] <- "Laos"
+
 wd[, 1:7] <- lapply(wd[, 1:7], function(x){
 	factor(x)
 })
 
 wd$gdp_cap_est <- wd$gdp_md_est / wd$pop_est * 1000000
 
+wd$income_grp <- ordered(wd$income_grp)
+
+############ process areas ########################################################################
 
 
 
@@ -96,7 +100,7 @@ WBareas <- read.csv("../shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.csv", skip=2, 
 
 world50_eIV <- spTransform(world50, CRS("+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
 
-wd$area_approx <- approx_areas(world50_eIV, total.area.km2=WBareas$X2014[WBareas$Country.Code=="WLD"])
+wd$area_approx <- approx_areas(world50_eIV, total.area = WBareas$X2014[WBareas$Country.Code=="WLD"])
 
 wd$area_WB <- WBareas$X2014[match(wd$iso_a3, WBareas$Country.Code)]
 
@@ -107,14 +111,47 @@ wd$area_WB <- WBareas$X2014[match(wd$iso_a3, WBareas$Country.Code)]
 
 wd$area <- ifelse(is.na(wd$area_WB), wd$area_approx, wd$area_WB)
 
+
+#download.file("http://www.happyplanetindex.org/assets/hpi-data.xlsx", "../shapes/hpi-data.xlsx", mode = "wb")
+library(readxl)
+
+hpi <- read_excel("../shapes/hpi-data.xlsx", sheet="Complete HPI Dataset", skip=5, 
+				  col_types=c("blank", "numeric", "text", "text", rep("numeric", 5), rep("text", 3), rep("blank", 27)))
+
+hpi <- hpi[!is.na(hpi$Country), ]
+
+setdiff(hpi$Country, as.character(wd$name))
+setdiff(as.character(wd$name), hpi$Country)
+
+replace_from <- c("Bosnia and Herzegovina", "Central African Republic", "Congo, Dem. Rep. of the",  "Czech Republic",
+				  "Dominican Republic", "United States of America")
+replace_to <- c("Bosnia and Herz.", "Central African Rep.", "Dem. Rep. Congo",  "Czech Rep.",
+				"Dominican Rep.", "United States")
+
+
+hpi$Country[match(replace_from, hpi$Country)] <- replace_to
+
+setdiff(hpi$Country, as.character(wd$name))
+
+# dpulicated for South Sudan
+hpi <-rbind(hpi, hpi[hpi$Country=="Sudan", ])
+hpi$Country[nrow(hpi)] <- "S. Sudan"
+
+wd <- cbind(wd, data.frame(life_exp=NA, well_being=NA, HPI=NA))
+wd[match(hpi$Country, as.character(wd$name)), c("life_exp", "well_being", "HPI")] <- hpi[, c(4, 5, 8)]
+
+
+############ pop density ########################################################################
+
 wd$pop_est_dens <- wd$pop_est / wd$area
 
 
 wd <- wd[, c("iso_a3", "name", "sovereignt", "continent",
 			 "subregion", "area", "pop_est", "pop_est_dens",
 			 "gdp_md_est", "gdp_cap_est", "economy", 
-			 "income_grp")]
+			 "income_grp", "life_exp", "well_being", "HPI")]
 
+############ EU selection ########################################################################
 
 ## get data
 ed <- wd[eur_sel, ]
@@ -177,7 +214,7 @@ world2 <- world110
 ## crop to prevent inflated south pole
 bbw <- world2@bbox
 bbw[2, 1] <- -88 #-83.75
-world3 <- crop_shape(world2, bb=bbw)
+world3 <- crop(world2, bbw)
 gIsValid(world3)
 
 
@@ -251,6 +288,7 @@ setdiff(World$name, wd$name)
 
 World$name <- as.character(World$name)
 World$name[World$iso_a3=="CIV"] <- "Cote d'Ivoire"
+World$name[World$iso_a3=="LAO"] <- "Laos"
 World@data <- wd[match(World$name, wd$name),]
 
 save(World, file="./data/World.rda", compress="xz")

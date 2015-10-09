@@ -7,8 +7,7 @@
 smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
   smooth.raster = TRUE, nlevels = 5, style = ifelse(is.null(breaks),
   "pretty", "fixed"), breaks = NULL, bandwidth = NA, cover.type = NA,
-  cover = NULL, cover.threshold = 0.6, weight = 1, output = c("raster",
-  "iso", "dasy"), to.Raster = FALSE)
+  cover = NULL, cover.threshold = 0.6, weight = 1, to.Raster = FALSE)
 }
 \arguments{
 \item{shp}{shape object of class \code{\link[sp:Spatial]{Spatial}} or \code{\link[raster:Raster-class]{Raster}}. Spatial points, polygons, and grids are supported. Spatial lines are not.}
@@ -31,7 +30,7 @@ smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
 
 \item{bandwidth}{single numeric value or vector of two numeric values that specifiy the bandwidth of the kernal density estimator. By default, it is determined by this formula: (3 * ncol / bounding_box_width, 3 * nrow / bounding_box_height).}
 
-\item{cover.type}{character value that specifies the type of raster cover, in other words, how the boundaries are specified. Options: \code{"original"} uses the same boundaries as \code{shp} (default for polygons), \code{"smooth"} calculates a smooth boundary based on the 2D kernal density (determined by \code{\link{raster_cover}}), \code{"rect"} uses the bounding box of \code{shp} as boundaries (default for spatial points and grids).}
+\item{cover.type}{character value that specifies the type of raster cover, in other words, how the boundaries are specified. Options: \code{"original"} uses the same boundaries as \code{shp} (default for polygons), \code{"smooth"} calculates a smooth boundary based on the 2D kernal density (determined by \code{\link{smooth_raster_cover}}), \code{"rect"} uses the bounding box of \code{shp} as boundaries (default for spatial points and grids).}
 
 \item{cover}{\code{\link[sp:SpatialPolygons]{SpatialPolygons}} shape that determines the covered area in which the contour lines are placed. If specified, \code{cover.type} is ignored.}
 
@@ -39,18 +38,18 @@ smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
 
 \item{weight}{single number that specifies the weight of a single point. Only applicable if \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.}
 
-\item{output}{character value or vector of character values specifying the output. Options:
-\describe{
-\item{\code{"raster"}}{A smooth raster, which is either a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} or a \code{\link[raster:Raster-class]{RasterLayer}} (see \code{to.Raster})}
-\item{\code{"contour"}}{Contour lines, which is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}}
-\item{\code{"dasy"}}{Dasymetric polygons, which is a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}}
-}
-If only one of these output values is specified, the corresponding object is returned. Otherwise, a list is returned with the names of the values.}
-
 \item{to.Raster}{should the "raster" output (see \code{output}) be a \code{\link[raster:Raster-class]{RasterLayer}}? By default, it is returned as a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}}
 }
 \value{
-As defined by \code{output}
+List with the following items:
+\describe{
+\item{\code{"raster"}}{A smooth raster, which is either a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} or a \code{\link[raster:Raster-class]{RasterLayer}} (see \code{to.Raster})}
+\item{\code{"iso"}}{Contour lines, which is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}}
+\item{\code{"dasy"}}{Dasymetric polygons, which is a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}}
+\item{\code{"bbox"}}{Bounding box of the used raster}
+\item{\code{"ncol"}}{Number of rows in the raster}
+\item{\code{"nrow"}}{Number of columns in the raster}
+}
 }
 \description{
 Create contour lines (isolines) from a shape object. To make the iso lines smooth, a 2D kernal density estimator is applied on the shape object. These lines are used to draw an isopleth. Also, the polygons between the countour lines are returned. They can be used to create a dasymetric map.

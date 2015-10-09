@@ -86,6 +86,10 @@ print.tmap <- function(x, vp=NULL, ...) {
 				data$SHAPE_AREAS <- approx_areas(shp, unit=shp.unit, unit.size = shp.unit.size)
 				attr(data, "AREAS_is_projected") <- is_projected(shp)
 				if (apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
+				attr(data, "dasymetric") <- ("dasymetric" %in% names(attributes(shp)))
+			}
+			if (inherits(shp, "SpatialLinesDataFrame")) {
+				attr(data, "isolines") <- ("isolines" %in% names(attributes(shp)))
 			}
 		} else if (inherits(shp, "Raster")) {
 			if (fromDisk(shp)) {

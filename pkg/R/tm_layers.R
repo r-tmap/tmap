@@ -34,9 +34,9 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily
 	g
 }
 
-tm_iso <- function(col="black", legend.col.show=FALSE, text="level", size=.5, auto.placement=FALSE,
+tm_iso <- function(col="black", text="level", size=.5, auto.placement=FALSE,
 				   remove.overlap=TRUE, along.lines=TRUE, overwrite.lines=TRUE, ...) {
-	tm_lines(col=col, legend.col.show=legend.col.show) +
+	tm_lines(col=col) +
 		tm_text(text=text, size=size, auto.placement = auto.placement, 
 				remove.overlap=remove.overlap,
 				along.lines=along.lines,
@@ -218,7 +218,7 @@ tm_fill <- function(col="grey85",
 					id=NA,
 					...) {
 	
-	g <- list(tm_fill=c(as.list(environment()), list(map_coloring=list(...))))
+	g <- list(tm_fill=c(as.list(environment()), list(map_coloring=list(...), call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
 }	
@@ -248,7 +248,9 @@ tm_polygons <- function(col="grey85",
 	args <- list(...)
 	argsFill <- c(list(col=col, alpha=alpha), args[names(args)])
 	argsBorders <- c(list(col=border.col, alpha=border.alpha), args[intersect(names(args), names(formals("tm_borders")))])
-	do.call("tm_fill", argsFill) + do.call("tm_borders", argsBorders)
+	g <- do.call("tm_fill", argsFill) + do.call("tm_borders", argsBorders)
+	g$tm_fill$call <- names(match.call(expand.dots = TRUE)[-1])
+	g
 }
 
 

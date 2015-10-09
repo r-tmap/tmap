@@ -402,6 +402,7 @@ polylineGrob2Lines <- function(gL) {
 
 .editGrob <- function(tg, sel, shiftX, shiftY, angles) {  
 	nt <- length(sel)
+	angles <- rep(angles, length.out=nt)
 	if (any(angles!=0)) {
 		if (inherits(tg, "rect")) {
 			tg <- .rectGrob2pathGrob(tg, angles)$poly

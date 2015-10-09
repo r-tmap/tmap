@@ -5,7 +5,8 @@
 \title{Specify the shape object}
 \usage{
 tm_shape(shp, is.master = NA, projection = NULL, bbox = NULL,
-  unit = "km", unit.size = 1000, ...)
+  unit = "km", unit.size = 1000, line.center.type = c("segment",
+  "midpoint"), ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -45,6 +46,12 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
 \item{unit}{unit specification. Needed when calculating density values in choropleth maps (argument \code{convert2density} in \code{\link{tm_fill}}) drawing a scale bar with \code{\link{tm_scale_bar}}. See also \code{unit.size}.}
 
 \item{unit.size}{size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).}
+
+\item{line.center.type}{vector of two values specifying how the center of spatial lines is determined Only applicable if \code{shp} is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}, and bubbles, dots, and/or text labels are used for this shape. The two values are:
+\describe{
+\item{\code{"feature", "single"}}{If \code{"feature"} is specified, a pair of coordinates (used for bubbles, dots, and text labels) is chosen for each feature (i.e., a row in the \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}). If \code{"segment"} is specified, a pair of coordinates is chosed for each line segment.}
+\item{\code{"midpoint"} or \code{"centroid"}}{The midpoint is the middle point on the line, so the coordinates (used for bubbles, dots, and text labels) correspond to the midpoints of the line segments. In case the first value is \code{"feature"}, then per feature, the midpoint of the line segment that is closest to the centroid is taken.}
+}}
 
 \item{...}{Arguments passed on to \code{\link{bb}}, which creates a bounding box. The first argument that will be passed on \code{\link{bb}} is either \code{shp}, or \code{bbox} if it is specified.}
 }

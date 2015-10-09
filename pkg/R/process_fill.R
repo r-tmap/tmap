@@ -6,7 +6,7 @@ process_fill_vector <- function(x, g, gt, gst, tiny) {
 	
 	
 	if (is.factor(x)) {
-		palette <- if (is.null(g$palette)) ifelse(nlevels(x)>8, "Set3", "Dark2") else g$palette
+		palette <- if (is.null(g$palette)) ifelse(is.ordered(x), "YlOrBr", ifelse(nlevels(x)>8, "Set3", "Dark2")) else g$palette
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   contrast = g$contrast,
@@ -55,8 +55,6 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	
 	shpcols <- names(data)[1:(ncol(data)-2)]
 	
-	
-	
 	x <- g$col
 	# if by is specified, use first value only
 	if (nlevels(by)>1) x <- x[1]
@@ -64,7 +62,10 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	
 	# check for direct color input
 	is.colors <- all(valid_colors(x))
-	if (is.colors) {
+	if (attr(data, "dasymetric") && !("col" %in% g$call) && "level" %in% shpcols) {
+		is.colors <- FALSE
+		x <- "level"
+	} else if (is.colors) {
 		x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gst))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 		x <- paste("COLOR", 1:nx, sep="_")
@@ -94,9 +95,8 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 		to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
 		g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
 	}
-		
+
 	
-		
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {
 		if (!is.colors) {
@@ -159,7 +159,6 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
 		fill.legend.hist.title <- g$legend.hist.title
 	} else fill.legend.hist.title <- ""
-	
 	list(fill=fill,
 		 fill.legend.labels=fill.legend.labels,
 		 fill.legend.palette=fill.legend.palette,

@@ -46,13 +46,24 @@ qtm <- function(shp,
 				...) {
 	args <- list(...)
 	shp_name <- deparse(substitute(shp))
-	if (!inherits(shp, "SpatialPolygons")) {
+	called <- names(match.call(expand.dots = TRUE)[-1])
+	
+	if (inherits(shp, "SpatialPolygons")) {
+		if (!("fill" %in% called) && "dasymetric" %in% names(attributes(shp))) fill <- "level"
+	} else {
 		fill <- NULL
 		borders <- NULL
 		
 		if (inherits(shp, "SpatialLines")) {
+			isolines <- "isolines" %in% names(attributes(shp))
 			if (missing(line.lwd)) line.lwd <- 1
 			if (missing(line.col)) line.col <- "black"
+			if (missing(text) && isolines) text <- "level"
+			if (missing(text.size) && isolines) text.size <- .5
+			if (!"auto.placement" %in% called && isolines) args$auto.placement <- FALSE
+			if (!"remove.overlap" %in% called && isolines) args$remove.overlap <- TRUE
+			if (!"along.lines" %in% called && isolines) args$along.lines <- TRUE
+			if (!"overwrite.lines" %in% called && isolines) args$overwrite.lines <- TRUE
 		}
 		if (inherits(shp, "SpatialPoints") && !inherits(shp, "SpatialPixels")) {
 			if (missing(bubble.size)) bubble.size <- .2
