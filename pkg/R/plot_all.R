@@ -38,15 +38,14 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		
 		
 		## background rectangle (whole device)
-		if (!gt$draw.frame) {
-			grobBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
+		if (gt$design.mode) {
+			grobBG <- rectGrob(gp=gpar(fill="yellow", col="yellow"), name="bg_rect")
+		} else if (!gt$draw.frame) {
+			grobBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="bg_rect")
 		} else {
 			grobBG <- NULL
 		}
 		
-		if (gt$design.mode) {
-			grobBG <- rectGrob(gp=gpar(fill="yellow", col="yellow"))
-		}
 		
 		## create a 3x3 grid layout with the shape to be drawn in the middle cell
 		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
@@ -138,10 +137,11 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
 		}
 		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY)
-		treeMetaX <- gTree(children=gList(grobLegendBG, treeMeta))
+		treeMetaX <- gTree(children=gList(grobLegendBG, treeMeta), name="meta_with_bg", 
+						   vp = vpList(gridLayoutMap, viewport(layout.pos.row=2, layout.pos.col=2, name="meta_aspvp", clip=TRUE)))
 		
 		if (!gt$legend.only) {
-			treeMapX <- addGrob(treeMapX, child=treeMetaX, gPath=gPath("outer_map", "aspvp"))
+			treeMapX <- addGrob(treeMapX, child=treeMetaX, gPath=gPath("outer_map"))#, "aspvp"))
 			upViewport(d)
 		} else {
 			treeMapX <- treeMetaX

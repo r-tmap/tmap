@@ -309,12 +309,12 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 		grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(lwd=gt$scale, col=legend.frame.color, fill=legend.frame.fill))
 		
 		upViewport(2)
-		gTree(children=gList(grobLegBG, gTree(children=do.call("gList", grobList), vp=vpLeg)), vp=vpLegend)
+		gTree(children=gList(grobLegBG, gTree(children=do.call("gList", grobList), vp=vpLeg)), vp=vpLegend, name="legend")
 	} else {
 		NULL
 	}
 	
-	treeMeta <- gTree(children=gList(grobTitle, treeElem, treeLegend))
+	treeMeta <- gTree(children=gList(grobTitle, treeElem, treeLegend), name="meta")
 	
 	treeMeta
 }
@@ -602,7 +602,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	gTree(children=gList(
 		grobBG,
 		rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark))),
-		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))))
+		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))), name="scale_bar")
 	
 	
 }
@@ -640,7 +640,7 @@ plot_cred <- function(gt, just, id) {
 		rectGrob(x=x, width=width, just="left", gp=gpar(col=NA, fill=bg.col))
 	} else {
 		NULL
-	}, textGrob(label=gt$credits.text[id], x = x, y =.5, just=c(gt$credits.align[id], "center"), gp=gpar(cex=size, col=col, fontface=gt$credits.fontface[id], fontfamily=gt$credits.fontfamily[id]))))
+	}, textGrob(label=gt$credits.text[id], x = x, y =.5, just=c(gt$credits.align[id], "center"), gp=gpar(cex=size, col=col, fontface=gt$credits.fontface[id], fontfamily=gt$credits.fontfamily[id]))), name="credits")
 }
 
 
@@ -809,6 +809,6 @@ plot_compass <- function(gt, just) {
 	}
 	
 	
-	gTree(children=gList(grobBG, grobComp, grobLabels))
+	gTree(children=gList(grobBG, grobComp, grobLabels), name="compass")
 }
 	

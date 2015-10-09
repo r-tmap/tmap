@@ -211,8 +211,8 @@ plot_grid <- function(gt, scale, add.labels) {
 		grobGridY <- NULL
 		grobGridTextY <- NULL
 	}
-	list(treeGridLines=gTree(children=gList(grobGridX, grobGridY)),
-		 treeGridLabels=gTree(children=gList(grobGridTextX, grobGridTextY)),
+	list(treeGridLines=gTree(children=gList(grobGridX, grobGridY), name="grid_lines"),
+		 treeGridLabels=gTree(children=gList(grobGridTextX, grobGridTextY), name="grid_labels"),
 		 metaX=labelsYw+spacerY,
 		 metaY=labelsXw+spacerX)
 	
