@@ -18,8 +18,8 @@ tm_bubbles(size = 0.2, col = "blueviolet", alpha = NA, border.col = NA,
   legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
   legend.hist.z = NA, id = NA)
 
-tm_dots(col = "black", size = 0.02, title = NA,
-  legend.is.portrait = TRUE, legend.z = NA, ...)
+tm_dots(col = NA, size = 0.02, title = NA, legend.is.portrait = TRUE,
+  legend.z = NA, ...)
 }
 \arguments{
 \item{size}{a single value or a \code{shp} data variable that determines the bubble sizes. The reference value \code{size=1} corresponds to the area of bubbles that have the same height as one line of text. If a data variable is provided, the bubble sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest bubble will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).}

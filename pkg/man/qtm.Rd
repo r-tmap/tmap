@@ -4,10 +4,9 @@
 \alias{qtm}
 \title{Quick thematic map plot}
 \usage{
-qtm(shp, fill = "grey85", bubble.size = NULL, bubble.col = NULL,
-  text = NULL, text.size = 1, line.lwd = NULL, line.col = NULL,
-  raster = NA, borders = "grey40", theme = NULL, scale = NA,
-  title = NA, ...)
+qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
+  text.size = 1, line.lwd = NULL, line.col = NULL, raster = NA,
+  borders = NA, theme = NULL, scale = NA, title = NA, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of

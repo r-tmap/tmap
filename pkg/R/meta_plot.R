@@ -134,12 +134,12 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 		NULL
 	} else {
 		gTree(children=gList(if (gt$design.mode) {
-			rectGrob(x = title.position[1]-.5*mx, y = title.position[2], width=titleWidth+mx, just=c("left", "center"), height=titleHeight, gp=gpar(col="black", fill="#888888BB"))
+			rectGrob(x = title.position[1]-.5*mx, y = title.position[2], width=titleWidth+mx, just=c("left", "center"), height=titleHeight, gp=gpar(col=gt$title.color, fill="#888888BB"))
 		} else if (!is.na(gt$title.bg.color)) {
 			rectGrob(x = title.position[1]-.5*mx, y = title.position[2], width=titleWidth+mx, just=c("left", "center"), height=titleHeight, gp=gpar(col=NA, fill=gt$title.bg.col))
 		} else {
 			NULL
-		}, textGrob(label=gt$title, x = title.position[1], y = title.position[2], just=c("left", "center"), gp=gpar(cex=title.size, fontface=gt$fontface, fontfamily=gt$fontfamily))))
+		}, textGrob(label=gt$title, x = title.position[1], y = title.position[2], just=c("left", "center"), gp=gpar(col=gt$title.color, cex=title.size, fontface=gt$fontface, fontfamily=gt$fontfamily))))
 		
 	}
 
@@ -278,7 +278,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 		
 		pushViewport(vpLegend)
 		
-		legend.frame <- !is.logical(gt$legend.frame) || gt$legend.frame
+		legend.frame <- !is.na(gt$legend.frame)
 		legend.bg.color <- gt$legend.bg.color
 		
 		legend.frame.color <- if (legend.frame) {
@@ -306,7 +306,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 
 		if (gt$legend.inside.box) legWidth <- legWidth / (1-mx)
 		
-		grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(lwd=gt$scale, col=legend.frame.color, fill=legend.frame.fill))
+		grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(lwd=gt$scale, col=gt$legend.frame, fill=legend.frame.fill))
 		
 		upViewport(2)
 		gTree(children=gList(grobLegBG, gTree(children=do.call("gList", grobList), vp=vpLeg)), vp=vpLegend, name="legend")
@@ -335,7 +335,7 @@ legend_subplot <- function(x, id, gt, histWidth) {
 	list(cellplot(id, cols, e={
 	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		res <- if (legend.type=="hist") {
-			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25, legend.hist.bg.color = gt$legend.hist.bg.color)
+			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25, attr.color=gt$attr.color, legend.hist.bg.color = gt$legend.hist.bg.color)
 		} else if (legend.type=="TITLE") {
 			legend_title(x, gt, is.main.title=TRUE, lineHeight, m=.1)
 		} else if (legend.type=="title") {
@@ -367,7 +367,7 @@ legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	newsize <- min(size, 5/(lineHeight*nlines*6), (1-2*mx)/w)
 	
 	
-	list(textGrob(title, x=mx, y=6/12 , just=c("left", "center"), gp=gpar(cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily)), legWidth=2*mx+w*newsize)
+	list(textGrob(title, x=mx, y=6/12 , just=c("left", "center"), gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily)), legWidth=2*mx+w*newsize)
 }
 
 
@@ -439,7 +439,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
   				  		lineend="butt"))
 		}
 		grobLegendText <- textGrob(legend.labels, x=mx*2+wsmax,
-								   y=ys, just=c("left", "center"), gp=gpar(cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+								   y=ys, just=c("left", "center"), gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		legWidth <- mx*4+wsmax+max(wstext*newsize)
 		
 		list(gList(grobLegendItem, grobLegendText), legWidth=legWidth)
@@ -548,7 +548,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 						  		lineend="butt"))
 		}
 		grobLegendText <- textGrob(legend.labels, x=xs,
-				  y=my+lineHeight*legend.text.size, just=c("center", "top"), gp=gpar(cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
+				  y=my+lineHeight*legend.text.size, just=c("center", "top"), gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		
 		legWidth <- mx*2+xs[length(xs)]+max(xtraWidth, labelsws[nitems]*legend.text.size/2)
 
@@ -602,7 +602,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	gTree(children=gList(
 		grobBG,
 		rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark))),
-		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))), name="scale_bar")
+		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(col=gt$attr.color, cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))), name="scale_bar")
 	
 	
 }
@@ -780,7 +780,7 @@ plot_compass <- function(gt, just) {
 
 		lx <- lr * sin(ld+drotate) + .5
 		ly <- lr * cos(ld+drotate) + .5
-		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(cex=gt$compass.fontsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(col=gt$attr.color, cex=gt$compass.fontsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	}
 
 	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {

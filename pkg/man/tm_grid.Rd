@@ -4,8 +4,8 @@
 \alias{tm_grid}
 \title{Coordinate grid lines}
 \usage{
-tm_grid(n.x = NA, n.y = NA, projection = NA, col = "grey50", lwd = 1,
-  alpha = NA, labels.size = 0.75, labels.col = "grey20",
+tm_grid(n.x = NA, n.y = NA, projection = NA, col = NA, lwd = 1,
+  alpha = NA, labels.size = 0.75, labels.col = NA,
   labels.inside.frame = TRUE)
 }
 \arguments{

@@ -40,7 +40,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		## background rectangle (whole device)
 		if (gt$design.mode) {
 			grobBG <- rectGrob(gp=gpar(fill="yellow", col="yellow"), name="bg_rect")
-		} else if (!gt$draw.frame) {
+		} else if (is.na(gt$frame)) {
 			grobBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="bg_rect")
 		} else {
 			grobBG <- NULL
@@ -59,7 +59,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		## the thematic map with background
 		treeMap <- cellplot(2, 2, name="aspvp", e={
 			## background rectangle (inside frame)
-			if (gt$draw.frame) {
+			if (!is.na(gt$frame)) {
 				grobBGframe <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="mapBG")
 			} else {
 				grobBGframe <- NULL
@@ -85,20 +85,20 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		})
 		
 		## background rectangle (whole device), in case a frame is drawn and outer.bg.color is specified
-		treeBG <- if (!is.null(gt$outer.bg.color) && gt$draw.frame) {
+		treeBG <- if (!is.null(gt$outer.bg.color) && !is.na(gt$frame)) {
 			cellplot(1:3,1:3, e=rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)), name="mapBG")
 		} else NULL
 		treeFrame <- cellplot(2,2, e={
-			if (gt$draw.frame) {
+			if (!is.na(gt$frame)) {
 				pH <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
 				pW <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
 				if (gt$frame.double.line) {
 					gList(
 						rectGrob(width = 1-4*pW, height=1-4*pH, gp=gpar(col=gt$bg.color, fill=NA, lwd=5*gt$frame.lwd, lineend="square")),
-						rectGrob(gp=gpar(col="#000000", fill=NA, lwd=3*gt$frame.lwd, lineend="square")),
-						rectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square")))
+						rectGrob(gp=gpar(col=gt$frame, fill=NA, lwd=3*gt$frame.lwd, lineend="square")),
+						rectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col=gt$frame, fill=NA, lwd=gt$frame.lwd, lineend="square")))
 				} else {
-					rectGrob(gp=gpar(col="#000000", fill=NA, lwd=gt$frame.lwd, lineend="square"))
+					rectGrob(gp=gpar(col=gt$frame, fill=NA, lwd=gt$frame.lwd, lineend="square"))
 				}
 				
 			} else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))

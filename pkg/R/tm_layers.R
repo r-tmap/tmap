@@ -27,7 +27,7 @@
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, auto.placement=TRUE, remove.overlap=FALSE, along.lines=FALSE, overwrite.lines=FALSE, xmod=0, ymod=0) {
+tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, auto.placement=FALSE, remove.overlap=FALSE, along.lines=FALSE, overwrite.lines=FALSE, xmod=0, ymod=0) {
 	g <- list(tm_text=list(text=text, text.size=size, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.shadow=shadow, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
 							text.size.lowerbound=size.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.auto.placement=auto.placement, text.remove.overlap=remove.overlap, text.along.lines=along.lines, text.overwrite.lines=overwrite.lines, text.xmod=xmod, text.ymod=ymod))
 	class(g) <- "tmap"
@@ -103,7 +103,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 					  auto.palette.mapping = TRUE,
 					  contrast = 1,
 					  max.categories = 12, 
-					  colorNA = "grey65",
+					  colorNA = NA,
 					  textNA = "Missing",
 					 title.col=NA,
 					 title.lwd=NA,
@@ -192,7 +192,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' @example ../examples/tm_fill.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
-tm_fill <- function(col="grey85", 
+tm_fill <- function(col=NA, 
 					alpha=NA,
 				    palette = NULL,
 				    convert2density = FALSE,
@@ -204,7 +204,7 @@ tm_fill <- function(col="grey85",
 					auto.palette.mapping = TRUE,
 					contrast = 1,
 			 		max.categories = 12,
-			 		colorNA = "grey60",
+			 		colorNA = NA,
 			 		textNA = "Missing",
 					thres.poly = 1e-05,
 					title=NA,
@@ -229,7 +229,7 @@ tm_fill <- function(col="grey85",
 #' @param lwd border line width (see \code{\link[graphics:par]{par}})
 #' @param lty border line type (see \code{\link[graphics:par]{par}})
 #' @export
-tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
+tm_borders <- function(col=NA, lwd=1, lty="solid", alpha=NA) {
 	g <- list(tm_borders=as.list(environment()))
 	class(g) <- "tmap"
 	g
@@ -240,9 +240,9 @@ tm_borders <- function(col="grey40", lwd=1, lty="solid", alpha=NA) {
 #' @param border.col border line color
 #' @param border.alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @export
-tm_polygons <- function(col="grey85", 
+tm_polygons <- function(col=NA, 
 						alpha=NA,
-						border.col="grey40",
+						border.col=NA,
 						border.alpha=NA,
 						...) {
 	args <- list(...)
@@ -456,7 +456,7 @@ tm_bubbles <- function(size=.2, col="blueviolet",
 #' @rdname tm_bubbles
 #' @param ... arguments passed on to \code{tm_bubbles}
 #' @export
-tm_dots <- function(col="black", size=.02, title = NA, legend.is.portrait=TRUE, legend.z=NA, ...) {
+tm_dots <- function(col=NA, size=.02, title = NA, legend.is.portrait=TRUE, legend.z=NA, ...) {
 	do.call("tm_bubbles", c(list(size=size, col=col, title.col=title, 
 								 legend.col.is.portrait=legend.is.portrait,
 								 legend.size.z=legend.z), list(...)))

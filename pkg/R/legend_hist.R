@@ -1,4 +1,4 @@
-legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, legend.hist.bg.color) {
+legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.color, legend.hist.bg.color) {
 	with(x, {
 		if (is.factor(values)) {
 			numbers <- table(values)
@@ -100,7 +100,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, legend.hist.b
 		
 		histElems <- gList(
 			if (!is.na(legend.hist.bg.color)) cellplot(2,4,e={
-				rectGrob(gp=gpar(fill=legend.hist.bg.color, col="black"))
+				rectGrob(gp=gpar(fill=legend.hist.bg.color, col=attr.color))
 			}) else NULL,
 			cellplot(2,4, e={
 				rectGrob(x=x, y=0, width=ws, height=hs, gp=gpar(col=NA,fill=colors), just=c("left", "bottom"))
@@ -113,7 +113,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, legend.hist.b
 				polylineGrob(x=c(axisTicks.npc, axisTicks.npc, 
 								  rep(c(0,axisTicks.npc), length(pty))),
 							  y=c(0, 1, rep(hpty, each=2)),
-							  id=rep(1:(length(pty)+1),each=2), gp=gpar(lwd=scale))
+							  id=rep(1:(length(pty)+1),each=2), gp=gpar(col=attr.color, lwd=scale))
 			}),
 			cellplot(2:4,1,e={
 				maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size
@@ -122,7 +122,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, legend.hist.b
 				h_e <- h_extra / h_total
 				hpty <- h_e + hpty * (1-h_e)
 				textGrob(formattedY, x=maxWidth, y=hpty, 
-						  just=c(1,.4), gp=gpar(cex=size))
+						  just=c(1,.4), gp=gpar(col=attr.color, cex=size))
 			}),
 			# plot x axis tick marks
 			cellplot(3,4,e={
@@ -135,15 +135,15 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, legend.hist.b
 					
 					gTree(children = gList(linesGrob(x=c(0,1), y=c(1, 1), gp=gpar(lwd=scale)),
 										   polylineGrob(x=rep(xticks, each=2), y=rep(c(1, 1-axisTicks.npc), n), 
-								  id=rep(1:n, each=2), gp=gpar(lwd=scale)))) 
-				} else linesGrob(x=c(0,1), y=c(1, 1), gp=gpar(lwd=scale))
+								  id=rep(1:n, each=2), gp=gpar(col=attr.color, lwd=scale)))) 
+				} else linesGrob(x=c(0,1), y=c(1, 1), gp=gpar(col=attr.color, lwd=scale))
 			}),
 			if (draw_x_axis) cellplot(4,4:5,e={
  				w_total <- convertWidth(unit(1, "npc"), "inch", valueOnly = TRUE)
  				w_extra <- 3*mxInch
  				w_e <- w_extra / w_total
  				xticks <- xticks * (1-w_e)
-				textGrob(ptx, x=xticks, y=.5, gp=gpar(cex=size))
+				textGrob(ptx, x=xticks, y=.5, gp=gpar(col=attr.color, cex=size))
 			}) else NULL)
 		
 		treeHist <- gTree(children=histElems, vp=vpHist)

@@ -54,8 +54,13 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	by <- data$GROUP_BY
 	
 	shpcols <- names(data)[1:(ncol(data)-2)]
-	
+
 	x <- g$col
+	aes.color.light <- sum(col2rgb(gt$aes.color) * c(.299, .587, .114)) >= 128
+
+	if (is.na(x)[1]) x <- ifelse(aes.color.light, darker(gt$aes.color, .85), lighter(gt$aes.color, .85))
+	if (is.na(g$colorNA)[1]) g$colorNA <- ifelse(aes.color.light, darker(g$colorNA, .60), lighter(g$colorNA, .60))
+	
 	# if by is specified, use first value only
 	if (nlevels(by)>1) x <- x[1]
 	nx <- length(x)

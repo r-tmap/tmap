@@ -31,7 +31,7 @@
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @export
 qtm <- function(shp, 
-				fill="grey85",
+				fill=NA,
 				bubble.size=NULL,
 				bubble.col=NULL,
 				text=NULL,
@@ -39,7 +39,7 @@ qtm <- function(shp,
 				line.lwd=NULL,
 				line.col=NULL,
 				raster=NA,
-				borders="grey40",
+				borders=NA,
 				theme=NULL,
 				scale=NA,
 				title=NA,
@@ -57,7 +57,7 @@ qtm <- function(shp,
 		if (inherits(shp, "SpatialLines")) {
 			isolines <- "isolines" %in% names(attributes(shp))
 			if (missing(line.lwd)) line.lwd <- 1
-			if (missing(line.col)) line.col <- "black"
+			if (missing(line.col)) line.col <- "red"
 			if (missing(text) && isolines) text <- "level"
 			if (missing(text.size) && isolines) text.size <- .5
 			if (!"auto.placement" %in% called && isolines) args$auto.placement <- FALSE

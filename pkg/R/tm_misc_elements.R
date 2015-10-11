@@ -58,11 +58,11 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 tm_grid <- function(n.x=NA,
 					n.y=NA,
 					projection=NA,
-					col="grey50",
+					col=NA,
 					lwd=1,
 					alpha=NA,
 					labels.size=.75,
-					labels.col="grey20",
+					labels.col=NA,
 					labels.inside.frame=TRUE) {
 	g <- list(tm_grid=as.list(environment()))
 	names(g$tm_grid) <- paste("grid", names(g$tm_grid), sep=".")
@@ -77,7 +77,7 @@ tm_grid <- function(n.x=NA,
 #' 
 #' @param text text. Multiple lines can be created with the line break symbol \code{"\\n"}.
 #' @param size relative text size
-#' @param col color of the text
+#' @param col color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of \code{col} is used (normally 1).
 #' @param align horizontal alignment: \code{"left"} (default), \code{"center"}, or \code{"right"}. Only applicable if \code{text} contains multiple lines
 #' @param bg.color background color for the text
@@ -89,7 +89,7 @@ tm_grid <- function(n.x=NA,
 #' @example ../examples/tm_credits.R
 tm_credits <- function(text,
 					   size=.7,
-					   col="black",
+					   col=NA,
 					   alpha=NA,
 					   align="left",
 					   bg.color=NA,
@@ -110,7 +110,8 @@ tm_credits <- function(text,
 #' 
 #' @param breaks breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar.
 #' @param width (prefered) width of the scale bar. Only applicable when \code{breaks=N ULL}
-#' @param size relative text size (which is upperbound by the available label width) 
+#' @param size relative text size (which is upperbound by the available label width)
+#' @param text.color color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.
 #' @param color.dark color of the dark parts of the scale bar, typically (and by default) black.
 #' @param color.light color of the light parts of the scale bar, typically (and by default) white.
 #' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
@@ -119,6 +120,7 @@ tm_credits <- function(text,
 tm_scale_bar <- function(breaks=NULL,
 						 width=.25, 
 						 size=.5,
+						 text.color=NA,
 						 color.dark="black", 
 						 color.light="white",
 						 position=NA) {
@@ -139,6 +141,7 @@ tm_scale_bar <- function(breaks=NULL,
 #' @param size size of the compass in number of text lines. The default values depend on the \code{type}: for \code{"arrow"} it is 2, for \code{"4star"} and \code{"8star"} it is 4, and for \code{"radar"} and \code{"rose"} it is 6.
 #' @param show.labels number that specifies which labels are shown: 0 means no labels, 1 (default) means only north, 2 means all four cardinal directions, and 3 means the four cardinal directions and the four intercardinal directions (e.g. north-east).
 #' @param cardinal.directions labels that are used for the cardinal directions north, east, south, and west.
+#' @param text.color color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.
 #' @param color.dark color of the dark parts of the compass, typically (and by default) black.
 #' @param color.light color of the light parts of the compass, typically (and by default) white.
 #' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
@@ -150,8 +153,9 @@ tm_compass <- function(north=0,
 					   size=NA,
 					   show.labels=1, 
 					   cardinal.directions=c("N", "E", "S", "W"), 
-					   color.dark="black", 
-					   color.light="white",
+					   text.color=NA,
+					   color.dark=NA, 
+					   color.light=NA,
 					   position=NA) {
 	g <- list(tm_compass=as.list(environment()))
 	names(g$tm_compass) <- paste("compass", names(g$tm_compass), sep=".")

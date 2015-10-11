@@ -4,7 +4,7 @@
 \alias{tm_scale_bar}
 \title{Scale bar}
 \usage{
-tm_scale_bar(breaks = NULL, width = 0.25, size = 0.5,
+tm_scale_bar(breaks = NULL, width = 0.25, size = 0.5, text.color = NA,
   color.dark = "black", color.light = "white", position = NA)
 }
 \arguments{
@@ -13,6 +13,8 @@ tm_scale_bar(breaks = NULL, width = 0.25, size = 0.5,
 \item{width}{(prefered) width of the scale bar. Only applicable when \code{breaks=N ULL}}
 
 \item{size}{relative text size (which is upperbound by the available label width)}
+
+\item{text.color}{color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.}
 
 \item{color.dark}{color of the dark parts of the scale bar, typically (and by default) black.}
 

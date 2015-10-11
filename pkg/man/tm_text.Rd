@@ -7,7 +7,7 @@
 tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = NA,
   fontfamily = NA, alpha = NA, case = NA, shadow = FALSE,
   bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
-  print.tiny = FALSE, scale = 1, auto.placement = TRUE,
+  print.tiny = FALSE, scale = 1, auto.placement = FALSE,
   remove.overlap = FALSE, along.lines = FALSE, overwrite.lines = FALSE,
   xmod = 0, ymod = 0)
 }

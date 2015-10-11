@@ -78,6 +78,10 @@ process_lines <- function(data, g, gt, gst, gby, z) {
 	xcol <- g$lines.col
 	xlwd <- g$lines.lwd
 	
+	aes.color.light <- sum(col2rgb(gt$aes.color) * c(.299, .587, .114)) >= 128
+	if (is.na(xcol[1])) xcol <- gt$aes.color
+	if (is.na(g$colorNA)[1]) g$colorNA <- ifelse(aes.color.light, darker(g$colorNA, .60), lighter(g$colorNA, .60))
+	
 	if (nlevels(by)>1) {
 		xcol <- xcol[1]
 		xlwd <- xlwd[1]

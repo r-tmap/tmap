@@ -6,7 +6,7 @@
 \usage{
 tm_compass(north = 0, type = NA, fontsize = 0.8, size = NA,
   show.labels = 1, cardinal.directions = c("N", "E", "S", "W"),
-  color.dark = "black", color.light = "white", position = NA)
+  text.color = NA, color.dark = NA, color.light = NA, position = NA)
 }
 \arguments{
 \item{north}{north direction in degrees: 0 means up, 90 right, etc.}
@@ -20,6 +20,8 @@ tm_compass(north = 0, type = NA, fontsize = 0.8, size = NA,
 \item{show.labels}{number that specifies which labels are shown: 0 means no labels, 1 (default) means only north, 2 means all four cardinal directions, and 3 means the four cardinal directions and the four intercardinal directions (e.g. north-east).}
 
 \item{cardinal.directions}{labels that are used for the cardinal directions north, east, south, and west.}
+
+\item{text.color}{color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.}
 
 \item{color.dark}{color of the dark parts of the compass, typically (and by default) black.}
 

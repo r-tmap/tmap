@@ -6,20 +6,19 @@
 \alias{tm_polygons}
 \title{Draw polygons}
 \usage{
-tm_fill(col = "grey85", alpha = NA, palette = NULL,
-  convert2density = FALSE, area = NULL, n = 5,
-  style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
-  labels = NULL, auto.palette.mapping = TRUE, contrast = 1,
-  max.categories = 12, colorNA = "grey60", textNA = "Missing",
+tm_fill(col = NA, alpha = NA, palette = NULL, convert2density = FALSE,
+  area = NULL, n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
+  breaks = NULL, labels = NULL, auto.palette.mapping = TRUE,
+  contrast = 1, max.categories = 12, colorNA = NA, textNA = "Missing",
   thres.poly = 1e-05, title = NA, legend.show = TRUE,
   legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
   legend.hist.title = NA, legend.z = NA, legend.hist.z = NA, id = NA,
   ...)
 
-tm_borders(col = "grey40", lwd = 1, lty = "solid", alpha = NA)
+tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA)
 
-tm_polygons(col = "grey85", alpha = NA, border.col = "grey40",
-  border.alpha = NA, ...)
+tm_polygons(col = NA, alpha = NA, border.col = NA, border.alpha = NA,
+  ...)
 }
 \arguments{
 \item{col}{For \code{tm_fill}, it is one of

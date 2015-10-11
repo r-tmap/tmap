@@ -87,6 +87,8 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
 	
+	if (is.na(xcol)[1]) xcol <- gt$aes.color
+	
 	
 	if (is.null(xsize)) {
 		return(list(bubble.size=NULL,

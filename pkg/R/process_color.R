@@ -22,6 +22,24 @@ process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1, ...) {
 	}
 	do.call("rgb", c(unname(as.data.frame(res)), list(maxColorValue=255)))
 }
+
+is_light <- function(col) sum(col2rgb(col) * c(.299, .587, .114)) >= 128
+
+darker <- function(colour, rate, alpha=NA) {
+	col <- col2rgb(colour, TRUE)/255
+	col[1:3] <- col[1:3] * (1-rate)
+	if (is.na(alpha)) alpha <- col[4,] 
+	rgb(col[1, ], col[2, ], col[3, ], alpha)
+}
+
+lighter <- function(colour, rate, alpha=NA) {
+	col <- col2rgb(colour, TRUE)/255
+	col[1:3] <- col[1:3] + (1-col[1:3]) * rate
+	if (is.na(alpha)) alpha <- col[4,] 
+	rgb(col[1, ], col[2, ], col[3, ], alpha)
+}
+
+
 # get_alpha_col <- function(colour, alpha=NA) {
 # 	col <- col2rgb(colour, TRUE)/255
 # 	if (is.na(alpha)) alpha <- col[4,] 

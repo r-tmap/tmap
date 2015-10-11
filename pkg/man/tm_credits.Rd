@@ -4,7 +4,7 @@
 \alias{tm_credits}
 \title{Credits text}
 \usage{
-tm_credits(text, size = 0.7, col = "black", alpha = NA, align = "left",
+tm_credits(text, size = 0.7, col = NA, alpha = NA, align = "left",
   bg.color = NA, bg.alpha = NA, fontface = NA, fontfamily = NA,
   position = NA)
 }
@@ -13,7 +13,7 @@ tm_credits(text, size = 0.7, col = "black", alpha = NA, align = "left",
 
 \item{size}{relative text size}
 
-\item{col}{color of the text}
+\item{col}{color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of \code{col} is used (normally 1).}
 

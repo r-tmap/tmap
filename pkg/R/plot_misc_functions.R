@@ -112,7 +112,7 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 	# find margins due to grid labels
 	if (add.labels) {
-		if (gt$draw.frame) {
+		if (!is.na(gt$frame)) {
 			if (gt$frame.double.line) {
 				fw <- 6 * convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
 				fh <- 6 * convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd

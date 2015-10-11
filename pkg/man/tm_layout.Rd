@@ -11,19 +11,20 @@
 \title{Layout elements of cartographic maps}
 \usage{
 tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = NULL,
-  draw.frame = TRUE, asp = NA, outer.margins = rep(0.02, 4),
-  inner.margins = NA, outer.bg.color = NULL, earth.boundary = FALSE,
-  earth.boundary.color = "black", earth.boundary.lwd = 1,
-  earth.datum = "WGS84", space.color = NULL, legend.show = TRUE,
-  legend.only = FALSE, legend.position = NULL, legend.width = 0.3,
-  legend.height = 0.9, legend.hist.height = 0.3,
+  aes.color = "black", attr.color = "black", frame = TRUE, asp = NA,
+  outer.margins = rep(0.02, 4), inner.margins = NA, outer.bg.color = NULL,
+  earth.boundary = FALSE, earth.boundary.color = attr.color,
+  earth.boundary.lwd = 1, earth.datum = "WGS84", space.color = NULL,
+  legend.show = TRUE, legend.only = FALSE, legend.position = NULL,
+  legend.width = 0.3, legend.height = 0.9, legend.hist.height = 0.3,
   legend.hist.width = legend.width, legend.title.size = 1.1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.format = list(scientific = FALSE, digits = NA, text.separator = "to",
   text.less.than = "Less than", text.or.more = "or more"),
-  legend.frame = FALSE, legend.bg.color = NA, legend.bg.alpha = 1,
-  legend.hist.bg.color = NA, legend.hist.bg.alpha = 1,
-  title.snap.to.legend = FALSE, title.position = c("left", "top"),
+  legend.frame = FALSE, legend.text.color = attr.color,
+  legend.bg.color = NA, legend.bg.alpha = 1, legend.hist.bg.color = NA,
+  legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
+  title.position = c("left", "top"), title.color = attr.color,
   title.bg.color = NA, title.bg.alpha = 1, attr.position = c("right",
   "bottom"), design.mode = FALSE)
 
@@ -41,11 +42,11 @@ tm_layout_Europe_wide(title = NA, title.position = c("left", "top"),
   legend.position = c("left", "top"), inner.margins = c(0, 0.25, 0, 0),
   legend.width = 0.4, legend.hist.width = 0.4, ...)
 
-tm_layout_NLD(title = NA, draw.frame = FALSE, inner.margins = c(0.02, 0.2,
+tm_layout_NLD(title = NA, frame = FALSE, inner.margins = c(0.02, 0.2,
   0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.4, ...)
 
-tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
-  0.3, 0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.5,
+tm_layout_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
+  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.5,
   legend.hist.width = 0.35, ...)
 }
 \arguments{
@@ -57,7 +58,11 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{bg.color}{Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).}
 
-\item{draw.frame}{Boolean that determines whether a frame is drawn.}
+\item{aes.color}{Default color value for the aesthetics layers. Text and dots are by default colored with \code{"aes.color"} (with \code{"black"} as default value), and polygons fill and borders with a lighther colors  (which, by default, correspond to \code{"grey85"} and \code{"grey40"} respectively). The latter colors will be darker if \code{aes.color} is a light color.}
+
+\item{attr.color}{Default color value for map attributes}
+
+\item{frame}{Either a boolean that determines whether a frame is drawn, or a color value that specifies the color of the frame.}
 
 \item{asp}{Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.}
 
@@ -110,6 +115,8 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 
 \item{legend.frame}{either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color. The width of the frame is automatically determined, but is upper-bounded by \code{legend.width}.}
 
+\item{legend.text.color}{color of the legend text}
+
 \item{legend.bg.color}{Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 
 \item{legend.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).}
@@ -121,6 +128,8 @@ tm_layout_NLD_wide(title = NA, draw.frame = FALSE, inner.margins = c(0.02,
 \item{title.snap.to.legend}{Logical that determines whether the title is part of the legend.}
 
 \item{title.position}{Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default the title is placed on top of the legend (determined by \code{legend.position})}
+
+\item{title.color}{color of the title}
 
 \item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 

@@ -1,8 +1,19 @@
-process_text <- function(data, g, fill, gst) {
+process_text <- function(data, g, fill, gt, gst) {
 	root <- NULL; text.size.lowerbound <- NULL; text.scale <- NULL; text.bg.alpha <- NULL; text.case <- NULL; text.alpha <- NULL
 	text.shadow <- NULL
 	
 	npol <- nrow(data)
+	aes.color.light <- sum(col2rgb(gt$aes.color) * c(.299, .587, .114)) >= 128
+	
+	if (aes.color.light) {
+		collight <- gt$aes.color
+		coldark <- "black"
+	} else {
+		collight <- "white"
+		coldark <- gt$aes.color
+	}
+	
+	if (is.na(fill)) fill <- ifelse(aes.color.light, "black", "white")
 	
 	within(g, {
 		#xtext <- text
@@ -27,12 +38,12 @@ process_text <- function(data, g, fill, gst) {
 				apply(fill, MARGIN=2, function(f) {
 					fillrgb <- col2rgb(f)
 					light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
-					rep(ifelse(light, "black", "white"), length.out=npol)
+					rep(ifelse(light, coldark, collight), length.out=npol)
 				})
 			} else {
 				fillrgb <- col2rgb(fill)
 				light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
-				rep(ifelse(light, "black", "white"), length.out=npol)
+				rep(ifelse(light, coldark, collight), length.out=npol)
 			}
 		} else rep(text.fontcolor, length.out=npol)
 		
@@ -41,12 +52,12 @@ process_text <- function(data, g, fill, gst) {
 				apply(text.fontcolor, MARGIN=2, function(f) {
 					fillrgb <- col2rgb(f)
 					light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
-					rep(ifelse(light, "black", "white"), length.out=npol)
+					rep(ifelse(light, coldark, collight), length.out=npol)
 				})
 			} else {
 				fillrgb <- col2rgb(text.fontcolor)
 				light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
-				rep(ifelse(light, "black", "white"), length.out=npol)
+				rep(ifelse(light, coldark, collight), length.out=npol)
 			}
 		}
 		

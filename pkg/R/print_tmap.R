@@ -47,7 +47,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	
 	## find "MAP_COLORING" values
 	apply_map_coloring <- if ("tm_fill" %in% names(x)) {
-		any(sapply(x[which(names(x)=="tm_fill")], function(i)i$col[1]=="MAP_COLORS"))
+		any(sapply(x[which(names(x)=="tm_fill")], function(i)identical(i$col[1],"MAP_COLORS")))
 	} else FALSE
 	
 	
