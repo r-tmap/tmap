@@ -13,6 +13,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 			extraCall <- character(0)
 			for (i in 2:gtsn) {
 				gt[gts[[i]]$call] <- gts[[i]][gts[[i]]$call]
+				if ("attr.color" %in% gts[[i]]$call) gt[c("earth.boundary.color", "legend.text.color", "title.color")] <- gts[[i]]["attr.color"]
 				extraCall <- c(extraCall, gts[[i]]$call)
 			}
 			gt$call <- c(gt$call, extraCall)
