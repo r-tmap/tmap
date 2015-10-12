@@ -18,6 +18,8 @@
 #' @param cover \code{\link[sp:SpatialPolygons]{SpatialPolygons}} shape that determines the covered area in which the contour lines are placed. If specified, \code{cover.type} is ignored.
 #' @param cover.threshold numeric value between 0 and 1 that determines which part of the estimated 2D kernal density is returned as cover. Only applicable when \code{cover.type="smooth"}.
 #' @param weight single number that specifies the weight of a single point. Only applicable if \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.
+#' @param extracting.method Method of how coordinates are extracted from the dasymetric polygons. Options are: \code{"full"} (default), \code{"grid"}, and \code{"single"}. See details. For the slowest method \code{"full"}, \code{\link[raster:extract]{extract}} is used. For \code{"grid"}, points on a grid layout are selected that intersect with the polygon. For \code{"simple"}, a simple point is generated with \code{\link[rgeos:gPointOnSurface]{gPointOnSurface}}.
+#' @param buffer.width Buffer width of the iso lines to cut dasymetric polygons. Should be small enough to let the polygons touch each other without space in between. However, too low values may cause geometric errors.
 #' @param to.Raster should the "raster" output (see \code{output}) be a \code{\link[raster:Raster-class]{RasterLayer}}? By default, it is returned as a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}
 #' @return List with the following items:
 #' \describe{
@@ -32,7 +34,7 @@
 #' @import rgeos
 #' @import KernSmooth
 #' @export
-smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, to.Raster=FALSE) {
+smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, extracting.method=FULL, buffer.width=NA, to.Raster=FALSE) {
 	bbx <- bb(shp)
 	prj <- get_projection(shp)
 #	asp <- get_asp_ratio(shp)
@@ -86,6 +88,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=
 				} else if (inherits(shp, "SpatialPolygons")) {
 					cover <- gUnaryUnion(shp)
 				}
+				if (!gIsValid(cover)) cover <- gBuffer(cover, width=0)
 				cover@bbox <- bbx
 				cover_r <- poly_to_raster(cover, nrow = nrow, ncol = ncol, to.Raster = TRUE)
 			}
@@ -170,7 +173,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=
 	}
 	
 	# make sure lines are inside poly
-	cp <- lines2polygons(ply = cover, lns = cl2, rst = r, lvls=lvls, method="full")
+	cp <- lines2polygons(ply = cover, lns = cl2, rst = r, lvls=lvls, extracting.method="full", buffer.width = NA)
 	attr(cp, "dasymetric") <- TRUE
 	
 	lns <- SpatialLinesDataFrame(gIntersection(cover, cl2, byid = TRUE), data=cl2@data, match.ID = FALSE)
@@ -214,17 +217,17 @@ contour_lines_to_SLDF <- function (cL, proj4string = CRS(as.character(NA)))
 
 
 buffer_width <- function(bbx) {
-	sum(bbx[,2] - bbx[,1]) / 1e8
+	prod(bbx[,2] - bbx[,1]) / 1e12
 }
 
 
-lines2polygons <- function(ply, lns, rst=NULL, lvls, method="full") {
+lines2polygons <- function(ply, lns, rst=NULL, lvls, extracting.method="full", buffer.width=NA) {
 	prj <- get_projection(ply)
 	
 	# add a little width to lines
-	width <- buffer_width(bb(ply))
-	suppressWarnings(blpi <- gBuffer(lns, width = width))
-	suppressWarnings(ply <- gBuffer(ply, width = width))
+	if (is.na(buffer.width)) buffer.width <- buffer_width(bb(ply))
+	suppressWarnings(blpi <- gBuffer(lns, width = buffer.width))
+	suppressWarnings(ply <- gBuffer(ply, width = 0))
 	
 	# cut the poly with isolines
 	dpi <- gDifference(ply, blpi)
@@ -266,10 +269,10 @@ lines2polygons <- function(ply, lns, rst=NULL, lvls, method="full") {
 			Polygons(dpi@polygons[[1]]@Polygons[which(polyid==i)], ID=i)
 		}), proj4string = CRS(prj))
 		
-		if (method=="single") {
+		if (extracting.method=="single") {
 			pnts <- gPointOnSurface(dpi2, byid = TRUE)
 			values <- extract(rst, pnts)
-		} else if (method=="grid") {
+		} else if (extracting.method=="grid") {
 			values <- sapply(1:m, function(i) {
 				p <- dpi2[i,]
 				rs <- as(raster(extent(p), nrows=10, ncols=10), "SpatialPoints")
@@ -281,7 +284,7 @@ lines2polygons <- function(ply, lns, rst=NULL, lvls, method="full") {
 				mean(extract(rst, rs))
 			})
 		} else {
-			# method=="full"
+			# extracting.method=="full"
 			values <- sapply(extract(rst, dpi2), mean, na.rm=TRUE)
 		}
 		
