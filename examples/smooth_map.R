@@ -30,21 +30,22 @@
 	# define population density other than metropolitan areas
 	World$pop_est_dens_non_metro <- (World$pop_est - World$pop_metro) / World$area
 
-	# sample population dots from non-metropolitan areas (1 dot = 1mln people)
-	World_pop <- sample_dots(World, vars="pop_est_dens_non_metro", w = 1e6, npop = 7.3e9)
-	
 	# generate dots for metropolitan areas (1 dot = 1mln people)
 	metro_dots <- do.call("sbind", lapply(1:length(metro_eck), function(i) {
 		m <- metro_eck[i,]
 		m[rep(1, max(1, m$pop2010 %/% 1e6)),]
 	}))
 	
+	# sample population dots from non-metropolitan areas (1 dot = 1mln people)
+	World_pop <- sample_dots(World, vars="pop_est_dens_non_metro", w = 1e6, npop = 7.3e9 - length(metro_dots)*1e6)
+	
+	
 	# combine 
 	World_1mln_dots <- sbind(as(World_pop, "SpatialPoints"), as(metro_dots, "SpatialPoints"))
 
 	tm_shape(World_1mln_dots) + tm_dots()
 
-	World_list <- smooth_map(World_1mln_dots, cover = World)
+	World_list <- smooth_map(World_1mln_dots, cover.type = "rect") #cover = World,
 	qtm(World_list$raster, layout.bg.color="grey80")
 	qtm(World, borders=NA) + qtm(World_list$iso)
 	qtm(World_list$dasy, layout.bg.color="grey80")
@@ -52,7 +53,7 @@
 	####################################
 	## Already smooth raster
 	####################################
-	vol <- raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
+	vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
 	vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
 	tm_shape(vol_smooth$dasy) +
 		tm_polygons(title="Elevation") +
