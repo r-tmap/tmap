@@ -1,2 +1,1 @@
 library(devtools)
-setwd("pkg")

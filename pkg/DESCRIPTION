@@ -13,6 +13,7 @@ Date: 2015-10-12
 Depends:
     R (>= 3.0),
 Imports:
+	methods,
     sp,
     raster,
     grid,
