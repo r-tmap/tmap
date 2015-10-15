@@ -39,17 +39,28 @@
 	# sample population dots from non-metropolitan areas (1 dot = 1mln people)
 	World_pop <- sample_dots(World, vars="pop_est_dens_non_metro", w = 1e6, npop = 7.3e9 - length(metro_dots)*1e6)
 	
+	plot(World$area / gArea(World))
+	
 	
 	# combine 
 	World_1mln_dots <- sbind(as(World_pop, "SpatialPoints"), as(metro_dots, "SpatialPoints"))
 
 	tm_shape(World_1mln_dots) + tm_dots()
 
-	World_list <- smooth_map(World_1mln_dots, cover.type = "rect") #cover = World,
+	World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth=100000)
+	World_list2 <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth=100000, N=249840 * 3)
+	
+	#World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth = .5*c(132566.2 ,132102.0), N = 249840 * 3 )
+	
+
 	qtm(World_list$raster, layout.bg.color="grey80")
 	qtm(World, borders=NA) + qtm(World_list$iso)
 	qtm(World_list$dasy, layout.bg.color="grey80")
 
+	r <- raster(World_list$raster)
+	india <- intersect(r, World[World$name=="India",])
+	
+	
 	####################################
 	## Already smooth raster
 	####################################

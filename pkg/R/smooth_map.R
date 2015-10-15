@@ -9,6 +9,8 @@
 #' @param nrow number of rows in the raster that is used to smooth the shape object. Only applicable if shp is not a \code{\link[sp:SpatialGridDataFrame]{SpatialGrid(DataFrame)}} or \code{\link[raster:Raster-class]{Raster}}
 #' @param ncol number of rows in the raster that is used to smooth the shape object. Only applicable if shp is not a \code{\link[sp:SpatialGridDataFrame]{SpatialGrid(DataFrame)}} or \code{\link[raster:Raster-class]{Raster}}
 #' @param N preferred number of points in the raster that is used to smooth the shape object. Only applicable if shp is not a \code{\link[sp:SpatialGridDataFrame]{SpatialGrid(DataFrame)}} or \code{\link[raster:Raster-class]{Raster}}
+#' @param unit unit specification. Needed when calculating density values. When set to \code{NA}, the densities values are based on the dimensions of the raster (defined by \code{nrow} and \code{ncol}). See also \code{unit.size}.
+#' @param unit.size size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).
 #' @param smooth.raster logical that determines whether 2D kernel density smoothing is applied to the raster shape object. Not applicable when \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.
 #' @param nlevels preferred number of levels
 #' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}.
@@ -34,11 +36,12 @@
 #' @import rgeos
 #' @import KernSmooth
 #' @export
-smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, extracting.method=FULL, buffer.width=NA, to.Raster=FALSE) {
+smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", unit.size=1000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, extracting.method=FULL, buffer.width=NA, to.Raster=FALSE) {
 	bbx <- bb(shp)
 	prj <- get_projection(shp)
 #	asp <- get_asp_ratio(shp)
 
+	
 	if (!inherits(shp, c("SpatialPoints", "SpatialPolygons", "SpatialGrid", "Raster"))) {
 		stop("shp is not a Raster nor a SpatialPoints, -Polygons, or -Grid object")
 	}
@@ -60,6 +63,17 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=
 	}
 	N <- nrow * ncol
 
+	if (!is_projected(shp) || is.na(unit)) {
+		warning("shp is not projected; therefore density values cannot be calculated")
+		cell.area <- 1
+	} else {
+		cell.width <- (bbx[1,2] - bbx[1,1]) / (unit.size * ncol)
+		cell.height <- (bbx[2,2] - bbx[2,1]) / (unit.size * nrow)
+		cell.area <- cell.width * cell.height
+	}
+	
+	
+	
 	# edit bandwidth
 	if (is.na(bandwidth[1])) {
 		bandwidth <- 3 * (bbx[,2] - bbx[,1]) / c(ncol, nrow)
@@ -112,7 +126,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=
 		x <- bkde2D(co, bandwidth=bandwidth, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
 		
 		# normalize
-		x$fhat <- x$fhat * (length(shp) * weight / sum(x$fhat, na.rm=TRUE))
+		#x$fhat <- x$fhat * (length(shp) * weight / sum(x$fhat, na.rm=TRUE))
 		var <- "count"
 	} else {
 		if (missing(var)) var <- names(shp)[1]
@@ -126,14 +140,40 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=
 			x <- kde2D(m, bandwidth = bandwidth, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
 			
 			# normalize
-			x$fhat <- x$fhat * (sum(shp[[var]], na.rm=TRUE) / sum(x$fhat, na.rm=TRUE))
+			#x$fhat <- x$fhat * (sum(shp[[var]], na.rm=TRUE) / sum(x$fhat, na.rm=TRUE))
 		} else {
 			r <- shpr
 			lvls <- num2breaks(r[], n=nlevels, style=style, breaks=breaks)$brks
 		}
 	}
 	
-	if (!inherits(shp, "SpatialPoints") && !smooth.raster) {
+	if (inherits(shp, "SpatialPoints") || smooth.raster) {
+		# fill raster values
+		r <- raster(extent(bbx), nrows=nrow, ncols=ncol, crs=prj)
+		r[] <- as.vector(x$fhat[, ncol(x$fhat):1])
+		names(r) <- var
+		
+		# apply cover
+		r[is.na(cover_r[])] <- NA
+		
+		# normalize r and x$fhat
+		if (inherits(shp, "SpatialPoints")) {
+			norm_weight <- length(shp) * weight / sum(r[], na.rm=TRUE)
+		} else {
+			norm_weight <- sum(shp[[var]], na.rm=TRUE) / sum(r[], na.rm=TRUE)
+		}
+		r[] <- r[] * norm_weight / cell.area
+		x$fhat <- x$fhat * norm_weight / cell.area
+
+		lvls <- num2breaks(x$fhat, n=nlevels, style=style, breaks=breaks)$brks
+		#brks <- fancy_breaks(lvls, intervals=TRUE)
+		
+		cl <- contourLines(x$x1, x$x2, x$fhat, levels=lvls) 
+		if (length(cl) < 1L) stop("No iso lines found")
+		if (length(cl) > 10000) stop(paste("Number of iso lines over 10000:", length(cl)))
+		cl2 <- contour_lines_to_SLDF(cl, proj4string = CRS(prj))
+		#cl2$levelNR <- as.numeric(as.character(cl2$level))
+	} else {
 		bbr <- bb(r)
 		
 		# extend raster to prevent bleeding (due to isolines that do not reach the boundary)
@@ -151,25 +191,6 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=
 		r2[,(ncol(r2)-cxtra/2+1):ncol(r2)] <- r2[,ncol(r2)-cxtra/2]
 		
 		cl2 <- rasterToContour(r2, maxpixels = length(r2), levels=lvls)
-		
-	} else {
-		# fill raster values
-		r <- raster(extent(bbx), nrows=nrow, ncols=ncol, crs=prj)
-		r[] <- as.vector(x$fhat[, ncol(x$fhat):1])
-		names(r) <- var
-		
-		# apply cover
-		r[is.na(cover_r[])] <- NA
-		
-		lvls <- num2breaks(x$fhat, n=nlevels, style=style, breaks=breaks)$brks
-		#brks <- fancy_breaks(lvls, intervals=TRUE)
-		
-		cl <- contourLines(x$x1, x$x2, x$fhat, levels=lvls) 
-		if (length(cl) < 1L) stop("No iso lines found")
-		if (length(cl) > 10000) stop(paste("Number of iso lines over 10000:", length(cl)))
-		cl2 <- contour_lines_to_SLDF(cl, proj4string = CRS(prj))
-		#cl2$levelNR <- as.numeric(as.character(cl2$level))
-		
 	}
 	
 	# make sure lines are inside poly
@@ -185,6 +206,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, smooth.raster=
 		 bbox = bbx,
 		 nrow = nrow,
 		 ncol = ncol,
+		 cell.area=cell.area,
 		 bandwidth = bandwidth)
 }
 
@@ -299,6 +321,9 @@ lines2polygons <- function(ply, lns, rst=NULL, lvls, extracting.method="full", b
 		brks <- fancy_breaks(lvls, intervals=TRUE)
 		
 		ids <- cut(values, lvls, include.lowest=TRUE, right=FALSE, labels = FALSE)
+		
+		if (any(is.na(ids))) stop("raster values not in range")
+		
 		
 		res <- lapply(1:(length(lvls)-1), function(i) {
 			if (any(ids==i)) {

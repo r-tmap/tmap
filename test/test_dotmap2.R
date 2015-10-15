@@ -46,44 +46,59 @@ DH_nbhd_osm <- read_osm(bb(DH_bbox, current.projection="rd", projection="longlat
 # Sample dots (each dot represents 100 persons)
 DH_nbhd_dots <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2density = FALSE, N=250000, w=100, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), shp.id = "ID")
 
-
-# Show map
-tm_shape(DH_nbhd_osm) + tm_raster(saturation=0) +
-	tm_shape(DH_nbhd_dots) + tm_dots("class", size=.04, alpha=.25, palette="Dark2", title = "The Hague population") +
-	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
-
-
-tm_shape(DH_nbhd) +
-	tm_polygons(c("dutch", "west", "non_west"), style="kmeans") +
-	tm_facets(free.scales=FALSE)
-
-tm_shape(DH_nbhd) +
-	tm_polygons(c("P_NLD", "P_WEST_AL", "P_N_W_AL"), palette="Blues") +
-	tm_facets(free.scales=FALSE)
-
-
 # Sample dots (each dot represents 10 persons)
 DH_nbhd_dots2 <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2density = FALSE, N=750000, w=10, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), shp.id = "ID")
 
-tm_shape(DH_nbhd_dots2) + tm_dots("class", size=.02, alpha=.75, palette="Dark2", title = "The Hague population") +
+
+
+########################################################
+## Choropleth of population densities per group
+########################################################
+
+tm_shape(DH_nbhd) +
+	tm_polygons(c("dutch", "west", "non_west"), 
+				palette=list("Greens", "Oranges", "Purples"), 
+				breaks=c(0, 500, 1000, 1500, 2500, 5000))
+
+
+########################################################
+## Choropleth of percentages 
+########################################################
+
+tm_shape(DH_nbhd) +
+	tm_polygons(c("P_NLD", "P_WEST_AL", "P_N_W_AL"), 
+				palette=list("Greens", "Oranges", "Purples"), 
+				breaks=seq(0, 100, by=20))
+
+########################################################
+## Dotmap of population
+########################################################
+
+## each dot represents 100 people
+tm_shape(DH_nbhd_dots) + 
+	tm_dots("class", size=.04, alpha=.75,
+			palette="Dark2", title = "The Hague population") +
 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
 
 
-###### NLD
-
-NLD_nbhd_dots <- sample_dots(NLD_nbhd, c("dutch", "west", "non_west"), convert2density = FALSE, Npop=16810205, w=10000, var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), shp.id = "ID")
-
-tm_shape(NLD_nbhd_dots) + tm_dots("class", size=.04, alpha=.75, palette="Dark2", title = "Dutch population") +
+## with Open Streetmap layer
+tm_shape(DH_nbhd_osm) + tm_raster(saturation=0) +
+tm_shape(DH_nbhd_dots) + 
+	tm_dots("class", size=.04, alpha=.75,
+			palette="Dark2", title = "The Hague population") +
 	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
 
 
-tm_shape(NLD_nbhd) +
-	tm_fill(col=c("dutch", "west", "non_west"), style="kmeans")
-	
-save_tmap({
-	tm_shape(NLD_nbhd) +
-		tm_fill(col="dens", style="kmeans")
-}, filename = "../dm_choro1.png", width = 5, height=6)
+## each dot represents 10 people
+tm_shape(DH_nbhd_dots2) + 
+	tm_dots("class", size=.02, alpha=.75, 
+			palette="Dark2", title = "The Hague population") +
+	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
 
 
+########################################################
+## Links
+########################################################
 
+# http://demographics.coopercenter.org/DotMap/
+# http://research.cbs.nl/dotmap/
