@@ -75,7 +75,7 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 		x <- paste("COLOR", 1:nx, sep="_")
 	} else if (x[1]=="MAP_COLORS") {
-		palette <- if (is.null(g$palette)) "Set2" else g$palette
+		palette <- if (is.null(g$palette)) gt$aes.palette[["cat"]] else g$palette
 		mapcols <- do.call("map_coloring", args = c(list(x=attr(data, "NB"), palette=palette, contrast = g$contrast), g$map_coloring))
 		mapcols <- do.call("process_color", c(list(col=mapcols, alpha=g$alpha), gst))
 		

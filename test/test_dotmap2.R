@@ -58,7 +58,8 @@ DH_nbhd_dots2 <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), convert2de
 tm_shape(DH_nbhd) +
 	tm_polygons(c("dutch", "west", "non_west"), 
 				palette=list("Greens", "Oranges", "Purples"), 
-				breaks=c(0, 500, 1000, 1500, 2500, 5000))
+				breaks=c(0, 500, 1000, 1500, 2500, 5000)) +
+tm_layout(inner.margins=0)
 
 
 ########################################################
@@ -68,7 +69,8 @@ tm_shape(DH_nbhd) +
 tm_shape(DH_nbhd) +
 	tm_polygons(c("P_NLD", "P_WEST_AL", "P_N_W_AL"), 
 				palette=list("Greens", "Oranges", "Purples"), 
-				breaks=seq(0, 100, by=20))
+				breaks=seq(0, 100, by=20)) +
+tm_layout(inner.margins=0)
 
 ########################################################
 ## Dotmap of population
@@ -78,7 +80,7 @@ tm_shape(DH_nbhd) +
 tm_shape(DH_nbhd_dots) + 
 	tm_dots("class", size=.04, alpha=.75,
 			palette="Dark2", title = "The Hague population") +
-	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
+tm_layout(inner.margins=0, bg.color="white")
 
 
 ## with Open Streetmap layer
@@ -86,14 +88,14 @@ tm_shape(DH_nbhd_osm) + tm_raster(saturation=0) +
 tm_shape(DH_nbhd_dots) + 
 	tm_dots("class", size=.04, alpha=.75,
 			palette="Dark2", title = "The Hague population") +
-	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
+	tm_layout(inner.margins=0, bg.color="white")
 
 
 ## each dot represents 10 people
 tm_shape(DH_nbhd_dots2) + 
 	tm_dots("class", size=.02, alpha=.75, 
 			palette="Dark2", title = "The Hague population") +
-	tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
+tm_layout(inner.margins=0, bg.color="white")
 
 
 ########################################################
