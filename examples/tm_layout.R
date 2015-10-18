@@ -43,3 +43,36 @@ tm_shape(land_eck4) +
 		earth.boundary = TRUE, space.color="grey90") + 
 	tm_style_classic()
 }
+
+# Color theme comparison
+two_by_two_plot <- function(tm) {
+	require(grid)
+	grid.newpage()
+	pushViewport(viewport(layout = grid.layout(2,2)))
+	print(tm + tm_layout("Default theme"),vp = viewport(layout.pos.row = 1, layout.pos.col = 1))
+	print(tm + tm_colors_cobalt(title="Cobalt theme"), vp = viewport(layout.pos.row = 1, layout.pos.col = 2))
+	print(tm + tm_colors_albatross(title="Albatross theme"), vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
+	print(tm + tm_colors_beaver(title="Beaver theme"), vp = viewport(layout.pos.row = 2, layout.pos.col = 2))
+	upViewport()
+}
+
+# fixed aesthetics
+data(Europe, rivers, metro)
+two_by_two_plot(tm_shape(Europe) +
+	tm_fill() +
+	tm_shape(rivers) +
+	tm_lines() +
+	tm_shape(metro) +
+	tm_bubbles(size="pop2010") + 
+	tm_text("name", size="pop2010", auto.placement = TRUE))
+
+
+# for choropleth aesthetics
+data(NLD_muni, NLD_prov)
+two_by_two_plot(tm_shape(NLD_muni) +
+	tm_fill("population", convert2density = TRUE, style="kmeans") +
+tm_shape(NLD_prov) +
+	tm_borders(lwd=2) +
+	tm_text("name") +
+tm_layout(scale=.7))
+

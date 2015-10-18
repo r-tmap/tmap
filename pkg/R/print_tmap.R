@@ -12,9 +12,9 @@
 #' @import gridBase
 #' @import classInt
 #' @import rgeos
-#' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster, png, rgb
+#' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb
 #' @importFrom methods as slot slotNames
-#' @importFrom stats, na.omit
+#' @importFrom stats na.omit
 #' @importFrom spdep poly2nb
 #' @export
 #' @method print tmap

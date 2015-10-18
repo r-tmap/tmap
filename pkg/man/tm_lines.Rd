@@ -4,7 +4,7 @@
 \alias{tm_lines}
 \title{Draw spatial lines}
 \usage{
-tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
+tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
   lwd.legend = NULL, lwd.legend.labels = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
@@ -36,7 +36,7 @@ tm_lines(col = "red", lwd = 1, lty = "solid", alpha = NA, scale = 1,
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
 
-\item{palette}{color palette (see \code{RColorBrewer::display.brewer.all}) for the lines. Only when \code{col} is set to a variable.}
+\item{palette}{color palette (see \code{RColorBrewer::display.brewer.all}) for the lines. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.}
 
 \item{labels}{labels of the classes}
 

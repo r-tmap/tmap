@@ -59,7 +59,7 @@ tm_iso <- function(col="black", text="level", size=.5, auto.placement=FALSE,
 #' @param n preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.
 #' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{lwd} is the name of a numeric variable.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
-#' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the lines. Only when \code{col} is set to a variable.
+#' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the lines. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. In this case of line widths, obviously only the positive side is used. 
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
@@ -92,7 +92,7 @@ tm_iso <- function(col="black", text="level", size=.5, auto.placement=FALSE,
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_lines.R
 #' @return \code{\link{tmap-element}}
-tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
+tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					  scale=1,
 					  lwd.legend = NULL,
 					  lwd.legend.labels = NULL,
@@ -155,7 +155,7 @@ tm_lines <- function(col="red", lwd=1, lty="solid", alpha=NA,
 #' \item the name of a data variable that is contained in \code{shp}. Either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. #' \item \code{"MAP_COLORING"}. In this case polygons will be colored such that adjacent polygons do not get the same color. See the underlying function \code{\link{map_coloring}} for details.}
 #' For \code{tm_borders}, it is a single color value that specifies the border line color. If multiple values are specified, small multiples are drawn (see details).
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
-#' @param palette a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palette. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables, \code{"Dark2"} for categorical variables, and \code{"Set2"} for \code{col="MAP_COLORING"}.
+#' @param palette a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palette. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.
 #' @param area Name of the data variable that contains the area sizes in squared kilometer.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable).
@@ -262,7 +262,7 @@ tm_polygons <- function(col=NA,
 #' 
 #' @param col either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details). By default, it is the name of the first data variable.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
-#' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. By default, \code{"RdYlGn"} is taken for numeric variables and \code{"Dark2"} for categorical variables.
+#' @param palette palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
 #' @param style method to cut the color scale (in case \code{col} is a numeric variable): e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
@@ -342,7 +342,7 @@ tm_raster <- function(col=NA,
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
 #' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{col} is a numeric variable name.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
-#' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the bubbles. Only when \code{col} is set to a variable.
+#' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the bubbles. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
@@ -383,7 +383,7 @@ tm_raster <- function(col=NA,
 #' @references Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_bubbles <- function(size=.2, col="blueviolet",
+tm_bubbles <- function(size=.2, col=NA,
 						alpha=NA,
 						border.col=NA,
 						border.lwd=1,
@@ -447,7 +447,8 @@ tm_bubbles <- function(size=.2, col="blueviolet",
 							  legend.size.z=legend.size.z, 
 							  legend.col.z=legend.col.z,
 							  legend.hist.z=legend.hist.z,
-							  bubble.id=id))
+							  bubble.id=id,
+							  are.dots=FALSE))
 	class(g) <- "tmap"
 	g
 }
@@ -457,8 +458,10 @@ tm_bubbles <- function(size=.2, col="blueviolet",
 #' @param ... arguments passed on to \code{tm_bubbles}
 #' @export
 tm_dots <- function(col=NA, size=.02, title = NA, legend.is.portrait=TRUE, legend.z=NA, ...) {
-	do.call("tm_bubbles", c(list(size=size, col=col, title.col=title, 
+	g <- do.call("tm_bubbles", c(list(size=size, col=col, title.col=title, 
 								 legend.col.is.portrait=legend.is.portrait,
 								 legend.size.z=legend.z), list(...)))
+	g$tm_bubbles$are.dots <- TRUE
+	g
 }
 

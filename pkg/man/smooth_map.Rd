@@ -5,9 +5,11 @@
 \title{Create a smooth map in various formats: smooth raster, contour lines, and dasymetric polygons.}
 \usage{
 smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
-  smooth.raster = TRUE, nlevels = 5, style = ifelse(is.null(breaks),
-  "pretty", "fixed"), breaks = NULL, bandwidth = NA, cover.type = NA,
-  cover = NULL, cover.threshold = 0.6, weight = 1, to.Raster = FALSE)
+  unit = "km", unit.size = 1000, smooth.raster = TRUE, nlevels = 5,
+  style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
+  bandwidth = NA, cover.type = NA, cover = NULL, cover.threshold = 0.6,
+  weight = 1, extracting.method = FULL, buffer.width = NA,
+  to.Raster = FALSE)
 }
 \arguments{
 \item{shp}{shape object of class \code{\link[sp:Spatial]{Spatial}} or \code{\link[raster:Raster-class]{Raster}}. Spatial points, polygons, and grids are supported. Spatial lines are not.}
@@ -20,6 +22,10 @@ smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
 
 \item{N}{preferred number of points in the raster that is used to smooth the shape object. Only applicable if shp is not a \code{\link[sp:SpatialGridDataFrame]{SpatialGrid(DataFrame)}} or \code{\link[raster:Raster-class]{Raster}}}
 
+\item{unit}{unit specification. Needed when calculating density values. When set to \code{NA}, the densities values are based on the dimensions of the raster (defined by \code{nrow} and \code{ncol}). See also \code{unit.size}.}
+
+\item{unit.size}{size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).}
+
 \item{smooth.raster}{logical that determines whether 2D kernel density smoothing is applied to the raster shape object. Not applicable when \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.}
 
 \item{nlevels}{preferred number of levels}
@@ -28,7 +34,7 @@ smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
 
-\item{bandwidth}{single numeric value or vector of two numeric values that specifiy the bandwidth of the kernal density estimator. By default, it is determined by this formula: (3 * ncol / bounding_box_width, 3 * nrow / bounding_box_height).}
+\item{bandwidth}{single numeric value or vector of two numeric values that specifiy the bandwidth of the kernal density estimator. By default, it is 1/50th of the shortest side in units (specified with \code{unit.size}).}
 
 \item{cover.type}{character value that specifies the type of raster cover, in other words, how the boundaries are specified. Options: \code{"original"} uses the same boundaries as \code{shp} (default for polygons), \code{"smooth"} calculates a smooth boundary based on the 2D kernal density (determined by \code{\link{smooth_raster_cover}}), \code{"rect"} uses the bounding box of \code{shp} as boundaries (default for spatial points and grids).}
 
@@ -37,6 +43,10 @@ smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
 \item{cover.threshold}{numeric value between 0 and 1 that determines which part of the estimated 2D kernal density is returned as cover. Only applicable when \code{cover.type="smooth"}.}
 
 \item{weight}{single number that specifies the weight of a single point. Only applicable if \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.}
+
+\item{extracting.method}{Method of how coordinates are extracted from the dasymetric polygons. Options are: \code{"full"} (default), \code{"grid"}, and \code{"single"}. See details. For the slowest method \code{"full"}, \code{\link[raster:extract]{extract}} is used. For \code{"grid"}, points on a grid layout are selected that intersect with the polygon. For \code{"simple"}, a simple point is generated with \code{\link[rgeos:gPointOnSurface]{gPointOnSurface}}.}
+
+\item{buffer.width}{Buffer width of the iso lines to cut dasymetric polygons. Should be small enough to let the polygons touch each other without space in between. However, too low values may cause geometric errors.}
 
 \item{to.Raster}{should the "raster" output (see \code{output}) be a \code{\link[raster:Raster-class]{RasterLayer}}? By default, it is returned as a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}}
 }

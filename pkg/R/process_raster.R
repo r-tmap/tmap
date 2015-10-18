@@ -2,7 +2,7 @@ process_raster_vector <- function(x, g, gt, gst) {
 	textNA <- ifelse(any(is.na(x)) && !is.na(g$colorNA), g$textNA, NA)
 	
 	if (is.factor(x)) {
-		palette <- if (is.null(g$palette)) ifelse(nlevels(x)>8, "Set3", "Dark2") else g$palette
+		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] else g$palette
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   contrast = g$contrast,
@@ -13,7 +13,8 @@ process_raster_vector <- function(x, g, gt, gst) {
 						   process.colors=c(list(alpha=g$alpha), gst))
 		raster.breaks <- NA
 	} else {
-		palette <- if (is.null(g$palette)) "RdYlGn" else g$palette
+		is.diverging <- (any(na.omit(x)<0) || any(g$breaks<0)) && (any(na.omit(x)>0) || any(g$breaks>0))
+		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] else g$palette
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,

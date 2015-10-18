@@ -3,17 +3,16 @@ process_text <- function(data, g, fill, gt, gst) {
 	text.shadow <- NULL
 	
 	npol <- nrow(data)
-	aes.color.light <- sum(col2rgb(gt$aes.color) * c(.299, .587, .114)) >= 128
-	
-	if (aes.color.light) {
-		collight <- gt$aes.color
+
+	if (gt$aes.colors.light["text"]) {
+		collight <- gt$aes.colors["text"]
 		coldark <- "black"
 	} else {
 		collight <- "white"
-		coldark <- gt$aes.color
+		coldark <- gt$aes.colors["text"]
 	}
 	
-	if (is.na(fill)) fill <- ifelse(aes.color.light, "black", "white")
+	if (is.na(fill[1])) fill <- ifelse(gt$aes.colors.light["text"], "black", "white")
 	
 	within(g, {
 		#xtext <- text

@@ -119,7 +119,7 @@ NULL
 #' 
 #' The layout elements are
 #' \itemize{
-#' \item \code{\link{tm_layout}} to change the appearance of the map, for instance, legend position, background color, and margins. Predefined themes for the example shape objects are \code{\link{tm_layout_World}}, \code{\link{tm_layout_Europe}}, and \code{\link{tm_layout_NLD}}.
+#' \item \code{\link{tm_layout}} to change the appearance of the map, for instance, legend position, background color, and margins. Predefined formatting themes for the example shape objects are \code{\link{tm_layout_World}}, \code{\link{tm_layout_Europe}}, and \code{\link{tm_layout_NLD}}.
 #' \item \code{\link{tm_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
 #' \item \code{\link{tm_grid}} that specifies coordinate grid lines
 #' \item \code{\link{tm_credits}} that adds a credits/acknowledgements text label

@@ -15,7 +15,7 @@
 #' @param nlevels preferred number of levels
 #' @param style method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
-#' @param bandwidth single numeric value or vector of two numeric values that specifiy the bandwidth of the kernal density estimator. By default, it is determined by this formula: (3 * ncol / bounding_box_width, 3 * nrow / bounding_box_height).
+#' @param bandwidth single numeric value or vector of two numeric values that specifiy the bandwidth of the kernal density estimator. By default, it is 1/50th of the shortest side in units (specified with \code{unit.size}).
 #' @param cover.type character value that specifies the type of raster cover, in other words, how the boundaries are specified. Options: \code{"original"} uses the same boundaries as \code{shp} (default for polygons), \code{"smooth"} calculates a smooth boundary based on the 2D kernal density (determined by \code{\link{smooth_raster_cover}}), \code{"rect"} uses the bounding box of \code{shp} as boundaries (default for spatial points and grids).
 #' @param cover \code{\link[sp:SpatialPolygons]{SpatialPolygons}} shape that determines the covered area in which the contour lines are placed. If specified, \code{cover.type} is ignored.
 #' @param cover.threshold numeric value between 0 and 1 that determines which part of the estimated 2D kernal density is returned as cover. Only applicable when \code{cover.type="smooth"}.
@@ -76,7 +76,9 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	
 	# edit bandwidth
 	if (is.na(bandwidth[1])) {
-		bandwidth <- 3 * (bbx[,2] - bbx[,1]) / c(ncol, nrow)
+		#bandwidth <- 3 * (bbx[,2] - bbx[,1]) / c(ncol, nrow)
+		short_side <- min((bbx[,2] - bbx[,1]) / unit.size)
+		bandwidth <- rep(short_side/100, 2)
 	} else {
 		# make sure bandwith is a vector of 2
 		bandwidth <- rep(bandwidth, length.out=2)
@@ -107,7 +109,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 				cover_r <- poly_to_raster(cover, nrow = nrow, ncol = ncol, to.Raster = TRUE)
 			}
 		}  else if (cover.type=="smooth") {
-			cover_list <- smooth_raster_cover(shp, var=var, bandwidth = bandwidth, threshold = cover.threshold, output=c("RasterLayer", "SpatialPolygons"))	
+			cover_list <- smooth_raster_cover(shp, var=var, bandwidth = bandwidth*unit.size, threshold = cover.threshold, output=c("RasterLayer", "SpatialPolygons"))	
 			cover_r <- cover_list$RasterLayer
 			cover_r[!cover_r[]] <- NA
 			cover <- cover_list$SpatialPolygons
@@ -123,7 +125,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 
 	if (inherits(shp, "SpatialPoints")) {
 		co <- coordinates(shp)
-		x <- bkde2D(co, bandwidth=bandwidth, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
+		x <- bkde2D(co, bandwidth=bandwidth*unit.size, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
 		
 		# normalize
 		#x$fhat <- x$fhat * (length(shp) * weight / sum(x$fhat, na.rm=TRUE))
@@ -137,7 +139,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 		shpr <- raster(shp, layer=var)
 		if (smooth.raster) {
 			m <- as.matrix(shpr)
-			x <- kde2D(m, bandwidth = bandwidth, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
+			x <- kde2D(m, bandwidth = bandwidth*unit.size, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
 			
 			# normalize
 			#x$fhat <- x$fhat * (sum(shp[[var]], na.rm=TRUE) / sum(x$fhat, na.rm=TRUE))

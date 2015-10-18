@@ -66,7 +66,7 @@ process_meta <- function(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_rati
 		legend.text.size <- legend.text.size * scale
 		legend.hist.size <- legend.hist.size * scale
 				
-		if (is.null(bg.color)) bg.color <- "white"
+		#if (is.null(bg.color)) bg.color <- "white"
 		if (is.null(space.color)) space.color <- bg.color
 		
 		legend.inside.box <- if (!is.logical(legend.frame)) TRUE else legend.frame

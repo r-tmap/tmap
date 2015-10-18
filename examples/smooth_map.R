@@ -47,7 +47,8 @@
 
 	tm_shape(World_1mln_dots) + tm_dots()
 
-	World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth=100000)
+	World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6)
+	World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth=100)
 	World_list2 <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth=100000, N=249840 * 3)
 	
 	#World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth = .5*c(132566.2 ,132102.0), N = 249840 * 3 )

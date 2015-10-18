@@ -34,7 +34,9 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 process_bubbles_col_vector <- function(xc, xs, g, gt, gst) {
 	bubble.col.is.numeric <- is.numeric(xc)
 	if (bubble.col.is.numeric) {
-		palette <- if (is.null(g$palette))  "RdYlBu" else g$palette
+		is.diverging <- (any(na.omit(xc)<0) || any(g$breaks<0)) && (any(na.omit(xc)>0) || any(g$breaks>0))
+		
+		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] else g$palette
 		colsLeg <- num2pal(xc, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
@@ -47,7 +49,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt, gst) {
 		bubble.col.neutral <- colsLeg$legend.neutral.col
 		bubble.breaks <- colsLeg[[4]]
 	} else {
-		palette <- if (is.null(g$palette))  "Dark2" else g$palette
+		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.ordered(xc), "seq", "cat")]] else g$palette
 		#remove unused levels in legend
 		sel <- !is.na(xs)
 		colsLeg <- cat2pal(xc[sel],
@@ -87,7 +89,7 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 	xsize <- g$bubble.size
 	xcol <- g$bubble.col
 	
-	if (is.na(xcol)[1]) xcol <- gt$aes.color
+	if (is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["bubbles"]
 	
 	
 	if (is.null(xsize)) {

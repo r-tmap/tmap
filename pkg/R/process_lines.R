@@ -32,7 +32,8 @@ process_line_lwd_vector <- function(x, g, rescale) {
 process_line_col_vector <- function(x, g, gt, gst) {
 	line.col.is.numeric <- is.numeric(x)
 	if (line.col.is.numeric) {
-		palette <- if (is.null(g$palette))  "RdYlBu" else g$palette
+		is.diverging <- (any(na.omit(x)<0) || any(g$breaks<0)) && (any(na.omit(x)>0) || any(g$breaks>0))
+		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] else g$palette
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
@@ -42,7 +43,7 @@ process_line_col_vector <- function(x, g, gt, gst) {
 						   legend.format=g$legend.format)
 		line.breaks <- colsLeg[[4]]
 	} else {
-		palette <- if (is.null(g$palette))  "Dark2" else g$palette
+		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] else g$palette
 		#remove unused levels in legend
 		colsLeg <- cat2pal(x,
 						   palette = palette,
@@ -78,9 +79,8 @@ process_lines <- function(data, g, gt, gst, gby, z) {
 	xcol <- g$lines.col
 	xlwd <- g$lines.lwd
 	
-	aes.color.light <- sum(col2rgb(gt$aes.color) * c(.299, .587, .114)) >= 128
-	if (is.na(xcol[1])) xcol <- gt$aes.color
-	if (is.na(g$colorNA)[1]) g$colorNA <- ifelse(aes.color.light, darker(g$colorNA, .60), lighter(g$colorNA, .60))
+	if (is.na(xcol[1])) xcol <- gt$aes.colors["lines"]
+	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	
 	if (nlevels(by)>1) {
 		xcol <- xcol[1]

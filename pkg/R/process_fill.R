@@ -6,7 +6,7 @@ process_fill_vector <- function(x, g, gt, gst, tiny) {
 	
 	
 	if (is.factor(x)) {
-		palette <- if (is.null(g$palette)) ifelse(is.ordered(x), "YlOrBr", ifelse(nlevels(x)>8, "Set3", "Dark2")) else g$palette
+		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] else g$palette
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   contrast = g$contrast,
@@ -17,7 +17,8 @@ process_fill_vector <- function(x, g, gt, gst, tiny) {
 						   process.colors=c(list(alpha=g$alpha), gst))
 		fill.breaks <- NA
 	} else {
-		palette <- if (is.null(g$palette)) "RdYlGn" else g$palette
+		is.diverging <- (any(na.omit(x)<0) || any(g$breaks<0)) && (any(na.omit(x)>0) || any(g$breaks>0))
+		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] else g$palette
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
@@ -56,10 +57,9 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	shpcols <- names(data)[1:(ncol(data)-2)]
 
 	x <- g$col
-	aes.color.light <- sum(col2rgb(gt$aes.color) * c(.299, .587, .114)) >= 128
 
-	if (is.na(x)[1]) x <- ifelse(aes.color.light, darker(gt$aes.color, .85), lighter(gt$aes.color, .85))
-	if (is.na(g$colorNA)[1]) g$colorNA <- ifelse(aes.color.light, darker(g$colorNA, .60), lighter(g$colorNA, .60))
+	if (is.na(x)[1]) x <- gt$aes.colors["fill"]
+	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	
 	# if by is specified, use first value only
 	if (nlevels(by)>1) x <- x[1]

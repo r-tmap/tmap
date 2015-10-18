@@ -28,6 +28,23 @@ process_tm <- function(x, asp_ratio, shp_info) {
 		if (!"text.separator" %in% names(legend.format)) legend.format$text.separator <- "to"
 		if (!"text.less.than" %in% names(legend.format)) legend.format$text.less.than <- "Less than"
 		if (!"text.or.more" %in% names(legend.format)) legend.format$text.or.more <- "or more"
+		
+		# put aes colors in right order and name them
+		if (length(aes.color)==1 && is.null(names(aes.color))) names(aes.color) <- "base"
+		
+		if (!is.null(names(aes.color))) {
+			aes.colors <- c(fill="grey85", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60")
+			aes.colors[names(aes.color)] <- aes.color
+		} else {
+			aes.colors <- rep(aes.color, length.out=7)
+			names(aes.colors) <- c("fill", "borders", "bubbles", "dots", "lines", "text", "na")
+		}
+		if (is.na(aes.colors[1])) aes.colors[1] <- "black"
+
+		aes.colors.light <- sapply(aes.colors, function(col) {
+			sum(col2rgb(col) * c(.299, .587, .114)) >= 128
+		})
+
 	})
 	gt[gtnull] <- list(NULL)
 	

@@ -5,7 +5,7 @@
 \alias{tm_dots}
 \title{Draw bubbles or dots}
 \usage{
-tm_bubbles(size = 0.2, col = "blueviolet", alpha = NA, border.col = NA,
+tm_bubbles(size = 0.2, col = NA, alpha = NA, border.col = NA,
   border.lwd = 1, border.alpha = NA, scale = 1, perceptual = FALSE,
   size.lim = NA, sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
@@ -50,7 +50,7 @@ tm_dots(col = NA, size = 0.02, title = NA, legend.is.portrait = TRUE,
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
 
-\item{palette}{color palette (see \code{RColorBrewer::display.brewer.all}) for the bubbles. Only when \code{col} is set to a variable.}
+\item{palette}{color palette (see \code{RColorBrewer::display.brewer.all}) for the bubbles. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.}
 
 \item{labels}{labels of the classes}
 

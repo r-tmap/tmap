@@ -21,8 +21,7 @@ process_layers <- function(g, z, gt, gst, gf) {
 		by <- levels(data$GROUP_BY)
 	}
 	
-	aes.color.light <- sum(col2rgb(gt$aes.color) * c(.299, .587, .114)) >= 128
-	
+
 	# determine plotting order 
 	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_bubbles", "tm_lines", "tm_raster")]
 	plot.order[plot.order=="tm_borders"] <- "tm_fill"
@@ -34,7 +33,7 @@ process_layers <- function(g, z, gt, gst, gf) {
 	} else g$tm_borders
 	if (!is.null(gborders$col)) {
 		if (is.na(gborders$col)) {
-			gborders$col <- ifelse(aes.color.light, darker(gt$aes.color, .4), lighter(gt$aes.color, .4))
+			gborders$col <- gt$aes.colors["borders"]
 		}
 	} else {
 		gborders$col <- NA

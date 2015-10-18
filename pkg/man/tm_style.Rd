@@ -36,7 +36,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 This element specifies the style of the map. There are two main styles: modern, which corresponds to the default values, and classic, which is loaded by calling \code{tm_style_classic}. See details for the difference with \code{\link{tm_layout}}.
 }
 \details{
-The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controlled wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shape or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
+The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controleld wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. Furthermore, the default fixed colors (for background, title, attributes, and fixed aestethics) are defined with \code{tm_layout}. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes, thematic map type, or used colors. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
 }
 \examples{
 data(World)
@@ -84,6 +84,39 @@ tm_shape(land_eck4) +
 		earth.boundary = TRUE, space.color="grey90") + 
 	tm_style_classic()
 }
+
+# Color theme comparison
+two_by_two_plot <- function(tm) {
+	require(grid)
+	grid.newpage()
+	pushViewport(viewport(layout = grid.layout(2,2)))
+	print(tm + tm_layout("Default theme"),vp = viewport(layout.pos.row = 1, layout.pos.col = 1))
+	print(tm + tm_colors_cobalt(title="Cobalt theme"), vp = viewport(layout.pos.row = 1, layout.pos.col = 2))
+	print(tm + tm_colors_albatross(title="Albatross theme"), vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
+	print(tm + tm_colors_beaver(title="Beaver theme"), vp = viewport(layout.pos.row = 2, layout.pos.col = 2))
+	upViewport()
+}
+
+# fixed aesthetics
+data(Europe, rivers, metro)
+two_by_two_plot(tm_shape(Europe) +
+	tm_fill() +
+	tm_shape(rivers) +
+	tm_lines() +
+	tm_shape(metro) +
+	tm_bubbles(size="pop2010") + 
+	tm_text("name", size="pop2010", auto.placement = TRUE))
+
+
+# for choropleth aesthetics
+data(NLD_muni, NLD_prov)
+two_by_two_plot(tm_shape(NLD_muni) +
+	tm_fill("population", convert2density = TRUE, style="kmeans") +
+tm_shape(NLD_prov) +
+	tm_borders(lwd=2) +
+	tm_text("name") +
+tm_layout(scale=.7))
+
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

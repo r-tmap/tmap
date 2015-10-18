@@ -1,8 +1,8 @@
 #' Layout elements of cartographic maps
 #' 
-#' This element specifies the map layout. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a layout theme for your own map (see example below). The map can be further styled with \code{\link{tm_style}} (see details).
+#' This element specifies the map layout. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a format layout theme for your own map (see example below). The functions starting with \code{tm_color} are predefined color themes for fixed colors. The map can be further styled with \code{\link{tm_style}} (see details).
 #' 
-#' The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controleld wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes or thematic map type. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
+#' The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controleld wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. Furthermore, the default fixed colors (for background, title, attributes, and fixed aestethics) are defined with \code{tm_layout}. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes, thematic map type, or used colors. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
 #' 
 #' @name tm_layout
 #' @rdname tm_layout
@@ -10,7 +10,8 @@
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
 #' @param title.size Relative size of the title
 #' @param bg.color Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).
-#' @param aes.color Default color value for the aesthetics layers. Text and dots are by default colored with \code{"aes.color"} (with \code{"black"} as default value), and polygons fill and borders with a lighther colors  (which, by default, correspond to \code{"grey85"} and \code{"grey40"} respectively). The latter colors will be darker if \code{aes.color} is a light color.
+#' @param aes.color Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{bubbles}, \code{dots}, \code{lines}, \code{text}, \code{na}.
+#' @param aes.palette Default color palettes for the aesthetics. It takes a list of three items: \code{seq} for sequential palettes, \code{div} for diverging palettes, and \code{cat} for categorical palettes. By default, Color Brewer palettes (see (see \code{RColorBrewer::display.brewer.all})) are used. It is also possible provide a vector of colors for any of these items.
 #' @param attr.color Default color value for map attributes
 #' @param frame Either a boolean that determines whether a frame is drawn, or a color value that specifies the color of the frame. 
 #' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
@@ -62,8 +63,9 @@
 tm_layout <- function(title=NA,
 					  scale=1,
 					  title.size=1.3,
-					  bg.color=NULL,
-					  aes.color="black",
+					  bg.color= "grey90",
+					  aes.color=c(fill="grey70", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
+					  aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Set3"),
 					  attr.color="black",
 					  frame=TRUE,
 					  asp = NA,
@@ -105,6 +107,48 @@ tm_layout <- function(title=NA,
 	class(g) <- "tm"
 	g
 }
+
+#' @rdname tm_layout
+#' @export
+tm_colors_cobalt <- function(bg.color="#002240",
+					  aes.color=c(fill="#0088FF", borders="#002240", bubbles="#FF9D00", dots="#FF9D00", lines="#FFEE80", text="white", na="grey60"),
+					  aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
+					  attr.color="white", ...) {
+	# Bu="#0088FF" DaBu="#002240" LiBu="#BED6FF" Or="#FF9D00", W="white" Yl="FFEE80"
+	# See https://www.hartwork.org/beamer-theme-matrix/
+	
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+
+
+#' @rdname tm_layout
+#' @export
+tm_colors_albatross <- function(bg.color="#00007F",
+								aes.color=c(fill="#4C4C88", borders="#BFBFFF", bubbles="#BFBFFF", dots="#BFBFFF", lines="#BFBFFF", text="#FFE700", na="grey60"),
+								aes.palette=list(seq="YlOrRd", div="RdYlGn", cat="Set3"),
+								attr.color="#BFBFFF", ...) {
+	# Y="#FFE700", Bu="#00007F", DaBu="#00004C", Gr="#BFBFFF", DaGr="#4C4C88"
+	# See https://www.hartwork.org/beamer-theme-matrix/
+	
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+#' @rdname tm_layout
+#' @export
+tm_colors_beaver <- function(bg.color="#FFFFFF",
+							 aes.color=c(fill="#FFE200", borders="#000000", bubbles="#A30000", dots="#A30000", lines="#A30000", text="#000000", na="#E0E0E0"),
+							 aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Dark2"),
+							 attr.color="black", ...) {
+	# W="#FFFFFF" Y="#FFE200" Rd="#A30000" Bl="#000000" LiGr="#F0F0F0" Gr="E0E0E0"
+	# See https://www.hartwork.org/beamer-theme-matrix/
+	
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
 
 
 #' @rdname tm_layout
