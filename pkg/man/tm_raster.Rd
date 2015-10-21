@@ -35,7 +35,7 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
 
 \item{colorNA}{color used for missing values}
 
-\item{saturation}{Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_style}}).}
+\item{saturation}{Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).}
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 

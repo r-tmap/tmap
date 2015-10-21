@@ -82,8 +82,8 @@ tm_grid <- function(n.x=NA,
 #' @param align horizontal alignment: \code{"left"} (default), \code{"center"}, or \code{"right"}. Only applicable if \code{text} contains multiple lines
 #' @param bg.color background color for the text
 #' @param bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).
-#' @param fontface font face of the text. By default, determined by the fontface argument of \code{\link{tm_style}}.
-#' @param fontfamily font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_style}}.
+#' @param fontface font face of the text. By default, determined by the fontface argument of \code{\link{tm_layout}}.
+#' @param fontfamily font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.
 #' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_credits.R
@@ -136,7 +136,7 @@ tm_scale_bar <- function(breaks=NULL,
 #' Creates a map compass.
 #' 
 #' @param north north direction in degrees: 0 means up, 90 right, etc.
-#' @param type compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_style}} (which uses \code{"arrow"} for the default style)
+#' @param type compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_layout}} (which uses \code{"arrow"} for the default style)
 #' @param fontsize relative font size
 #' @param size size of the compass in number of text lines. The default values depend on the \code{type}: for \code{"arrow"} it is 2, for \code{"4star"} and \code{"8star"} it is 4, and for \code{"radar"} and \code{"rose"} it is 6.
 #' @param show.labels number that specifies which labels are shown: 0 means no labels, 1 (default) means only north, 2 means all four cardinal directions, and 3 means the four cardinal directions and the four intercardinal directions (e.g. north-east).

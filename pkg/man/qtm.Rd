@@ -6,7 +6,8 @@
 \usage{
 qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
   text.size = 1, line.lwd = NULL, line.col = NULL, raster = NA,
-  borders = NA, theme = NULL, scale = NA, title = NA, ...)
+  borders = NA, scale = NA, title = NA, format = NULL, colors = NULL,
+  style = NULL, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -37,11 +38,15 @@ qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
 
 \item{borders}{color of the polygon borders. Use \code{NA} to omit the borders.}
 
-\item{theme}{one of "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide"}
-
 \item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.}
 
 \item{title}{main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).}
+
+\item{format}{\code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).}
+
+\item{colors}{\code{\link{tm_layout}} wrapper used for color themes. Currently available in tmap: "cobalt", "albatross", "beaver".  Own wrappers can be used as well (see details).}
+
+\item{style}{\code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).}
 
 \item{...}{arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.}
 }
@@ -53,6 +58,8 @@ Draw a thematic map quickly.
 }
 \details{
 This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
+
+For \code{format} any character value, say "xxx" can be used if the wrapper function \code{"tm_format_xxx"} exists. The same applies for the arguments \code{colors}, and \code{style}.
 }
 \examples{
 data(Europe)
@@ -64,7 +71,7 @@ qtm(Europe)
 
 # choropleth
 qtm(World, fill = "economy", text="iso_a3", text.size = "AREA", 
-    fill.palette="-Blues", theme = "World", fill.title="Economy")
+    fill.palette="-Blues", format = "World", fill.title="Economy", colors="beaver")
 
 qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="pop_est", 
     fill.title="GDP per capita", fill.textNA="Non-European countries")
@@ -75,7 +82,7 @@ qtm(World, fill="HPI", fill.n=9, fill.palette="RdYlGn", fill.auto.palette.mappin
 
 # bubble map
 qtm(World, borders = NA) + qtm(metro, bubble.size = "pop2010", bubble.col="purple", 
-    bubble.title.size="Metropolitan Areas", theme = "World", bubble.scale=.5)
+    bubble.title.size="Metropolitan Areas", format = "World", bubble.scale=.5)
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

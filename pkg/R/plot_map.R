@@ -85,12 +85,12 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 
 		plot_tm_fill <- function() {
 			fill <- if (is.null(gpl$fill)) NA else gpl$fill
-			col <- process_color(gpl$col, alpha=gpl$alpha, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
+			col <- do.call("process_color", c(list(gpl$col, alpha=gpl$alpha), gt$pc))
 			grid.shape(shp, gp=gpar(fill=fill, col=col, lwd=gpl$lwd, lty=gpl$lty), bg.col=gt$bg.color, i, k)
 		}
 		
 		plot_tm_lines <- function() {
-			col <- process_color(gpl$line.col, alpha=gpl$line.alpha, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
+			col <- do.call("process_color", c(list(gpl$line.col, alpha=gpl$line.alpha), gt$pc))
 			grid.shplines(shp, gp=gpar(col=col, lwd=gpl$line.lwd, lty=gpl$line.lty,
 									   lineend="butt"), i, k)
 		}

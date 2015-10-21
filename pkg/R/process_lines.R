@@ -29,7 +29,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 		 line.lwd.legend.labels=line.lwd.legend.labels)
 }
 
-process_line_col_vector <- function(x, g, gt, gst) {
+process_line_col_vector <- function(x, g, gt) {
 	line.col.is.numeric <- is.numeric(x)
 	if (line.col.is.numeric) {
 		is.diverging <- (any(na.omit(x)<0) || any(g$breaks<0)) && (any(na.omit(x)>0) || any(g$breaks>0))
@@ -39,7 +39,7 @@ process_line_col_vector <- function(x, g, gt, gst) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   legend.NA.text=g$textNA,
-						   process.colors=c(list(alpha=g$lines.alpha), gst),
+						   process.colors=c(list(alpha=g$lines.alpha), gt$pc),
 						   legend.format=g$legend.format)
 		line.breaks <- colsLeg[[4]]
 	} else {
@@ -52,7 +52,7 @@ process_line_col_vector <- function(x, g, gt, gst) {
 						   legend.labels=g$labels,
 						   legend.NA.text=g$textNA,
 						   max_levels=g$max.categories,
-						   process.colors=c(list(alpha=g$lines.alpha), gst))
+						   process.colors=c(list(alpha=g$lines.alpha), gt$pc))
 		line.breaks <- NA
 	}
 	line.col <- colsLeg[[1]]
@@ -67,7 +67,7 @@ process_line_col_vector <- function(x, g, gt, gst) {
 	
 }
 
-process_lines <- function(data, g, gt, gst, gby, z) {
+process_lines <- function(data, g, gt, gby, z) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -108,7 +108,7 @@ process_lines <- function(data, g, gt, gst, gby, z) {
 	is.colors <- all(valid_colors(xcol))
 	if (!varycol) {
 		if (!is.colors) stop("Invalid line colors")
-		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$lines.alpha), gst))
+		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$lines.alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
@@ -142,7 +142,7 @@ process_lines <- function(data, g, gt, gst, gby, z) {
 	
 	if (is.matrix(dtcol)) {
 		line.col <- if (is.colors) {
-			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$lines.alpha), gst)),
+			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$lines.alpha), gt$pc)),
 				   ncol=ncol(dtcol))
 		} else dtcol
 		xcol <- rep(NA, nx)
@@ -155,7 +155,7 @@ process_lines <- function(data, g, gt, gst, gby, z) {
 	} else if (is.list(dtcol)) {
 		# multiple variables for col are defined
 		gsc <- split_g(g, n=nx)
-		res <- mapply(process_line_col_vector, dtcol, gsc, MoreArgs = list(gt, gst), SIMPLIFY = FALSE)
+		res <- mapply(process_line_col_vector, dtcol, gsc, MoreArgs = list(gt), SIMPLIFY = FALSE)
 		line.col <- sapply(res, function(r)r$line.col)
 		line.col.legend.labels <- lapply(res, function(r)r$line.col.legend.labels)
 		line.col.legend.palette <- lapply(res, function(r)r$line.col.legend.palette)
@@ -164,7 +164,7 @@ process_lines <- function(data, g, gt, gst, gby, z) {
 		line.values <- dtcol
 		
 	} else {
-		res <- process_line_col_vector(dtcol, g, gt, gst)
+		res <- process_line_col_vector(dtcol, g, gt)
 		line.col <- matrix(res$line.col, nrow=npol)
 		line.col.legend.labels <- res$line.col.legend.labels
 		line.col.legend.palette <- res$line.col.legend.palette

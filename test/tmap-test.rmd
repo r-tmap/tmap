@@ -148,7 +148,7 @@ tm_shape(rivers) +
 Numeric variable color with customization
 ```{r}
 tm_shape(rivers) +
-	tm_lines(col = "scalerank", lwd=2, style="quantile", palette="Greens", contrast=c(.4,1), text_separator = "my_text_separator")
+	tm_lines(col = "scalerank", lwd=2, style="quantile", palette="Greens", contrast=c(.4,1), legend.format=list(text.separator = "my_text_separator"))
 ```
 
 Variable width

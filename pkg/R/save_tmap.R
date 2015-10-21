@@ -21,7 +21,7 @@
 #' 	 tm_borders("black", alpha=.5) + 
 #' tm_shape(NLD_prov) +
 #' 	 tm_borders("grey25", lwd=2) +
-#' tm_layout_NLD(inner.margins = c(.02, .15, .06, .15)) + 
+#' tm_format_NLD(inner.margins = c(.02, .15, .06, .15)) + 
 #' tm_scale_bar(position = c("left", "bottom")) +
 #' tm_compass(position=c("right", "bottom")) + 
 #' tm_style_classic()) %>% save_tmap()

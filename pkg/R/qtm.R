@@ -4,6 +4,8 @@
 #' 
 #' This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
 #' 
+#' For \code{format} any character value, say "xxx" can be used if the wrapper function \code{"tm_format_xxx"} exists. The same applies for the arguments \code{colors}, and \code{style}.
+#' 
 #' @param shp shape object, which is one of
 #' \enumerate{
 #'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
@@ -22,9 +24,11 @@
 #' @param line.col either a line color or a name of the data variable that specifies the line colors. Only applicable when \code{shp} is type 3 (see above).
 #' @param raster either a color or a name of the data variable that specifices the raster colors. Only applicable when \code{shp} is type 4, 5, or 6 (see above).
 #' @param borders color of the polygon borders. Use \code{NA} to omit the borders.
-#' @param theme one of "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide"
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.
 #' @param title main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).
+#' @param format \code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).
+#' @param colors \code{\link{tm_layout}} wrapper used for color themes. Currently available in tmap: "cobalt", "albatross", "beaver".  Own wrappers can be used as well (see details).
+#' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).
 #' @param ... arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.  
 #' @return \code{\link{tmap-element}}
 #' @example ../examples/qtm.R
@@ -40,9 +44,11 @@ qtm <- function(shp,
 				line.col=NULL,
 				raster=NA,
 				borders=NA,
-				theme=NULL,
 				scale=NA,
 				title=NA,
+				format=NULL,
+				colors=NULL,
+				style=NULL,
 				...) {
 	args <- list(...)
 	shp_name <- deparse(substitute(shp))
@@ -74,7 +80,7 @@ qtm <- function(shp,
 		raster <- NULL
 	}
 	
-	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "bg.alpha", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "legend.format", "xmod", "ymod", "title", "title.size", "title.col", "legend.is.portrait", "legend.hist", "legend.hist.title", "legend.z", "legend.hist.z", "id")
+	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "bg.alpha", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "legend.format", "xmod", "ymod", "title", "title.size", "title.col", "legend.is.portrait", "legend.hist", "legend.hist.title", "legend.z", "legend.hist.z", "id", "saturation")
 	
 	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets")
 	fns_prefix <- c("shape", "fill", "borders", "bubble", "line", "raster", "text", "layout", "grid", "facets")
@@ -112,13 +118,16 @@ qtm <- function(shp,
 	if (length(args2[["tm_facets"]])) g <- g + do.call("tm_facets", args2[["tm_facets"]])
 
 	scaleLst <- if (!missing(scale)) list(title=title, scale=scale) else list(title=title)
-	if (missing(theme)) {
-		g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))	
-	} else {
-		if (!(theme %in% c("World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide"))) stop("Unknown theme")
-		funct <- paste("tm_layout", theme, sep="_")
-		g <- g + do.call(funct, c(scaleLst, args2[["tm_layout"]]))
+	if (!missing(format)) {
+		g <- g + do.call(paste("tm_format", format, sep="_"), list())
 	}
-	
+	if (!missing(colors)) {
+		g <- g + do.call(paste("tm_colors", colors, sep="_"), list())
+	}
+	if (!missing(style)) {
+		g <- g + do.call(paste("tm_style", style, sep="_"), list())
+	}
+	g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
+
 	g
 }

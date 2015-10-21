@@ -137,7 +137,7 @@ tm_shape(metro) +
         palette="-RdYlBu", contrast=1, 
         title.size="Metro population", 
         title.col="Growth rate (\%)") + 
-tm_layout_World()
+tm_format_World()
 
 tm_shape(Europe) +
     tm_borders() +
@@ -145,7 +145,7 @@ tm_shape(Europe) +
 tm_shape(metro) +
     tm_bubbles(size="pop2010", col="purple", size.lim=c(0, 1.2e7), title.size="Metro population") +
     tm_text("name", size="pop2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
-tm_layout_Europe()
+tm_format_Europe()
 }
 \references{
 Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.

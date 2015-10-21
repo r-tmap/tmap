@@ -25,7 +25,7 @@ The layers can be stacked by simply adding them with the + symbol. The combinati
 
 The layout elements are
 \itemize{
-\item \code{\link{tm_layout}} to change the appearance of the map, for instance, legend position, background color, and margins. Predefined formatting themes for the example shape objects are \code{\link{tm_layout_World}}, \code{\link{tm_layout_Europe}}, and \code{\link{tm_layout_NLD}}.
+\item \code{\link{tm_layout}} to change the appearance of the map, for instance, legend position, background color, and margins. Predefined formatting themes for the example shape objects are \code{\link{tm_format_World}}, \code{\link{tm_format_Europe}}, and \code{\link{tm_format_NLD}}.
 \item \code{\link{tm_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
 \item \code{\link{tm_grid}} that specifies coordinate grid lines
 \item \code{\link{tm_credits}} that adds a credits/acknowledgements text label
@@ -51,7 +51,7 @@ qtm(World, fill = "economy", text="iso_a3", text.size = "AREA", fill.palette="-B
 tm_shape(World) +
     tm_polygons("pop_est_dens", style="kmeans", palette="YlOrRd", title="Population per km2") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
-tm_layout_World()
+tm_format_World()
 
 # Choropleth and bubblemap
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
@@ -65,7 +65,7 @@ tm_shape(metro) +
         palette="-RdYlGn", contrast=1, 
         title.size="Metro population (2010)", 
         title.col="Annual growth rate (\%)") + 
-tm_layout_World(title="Income and\\nurbanization")
+tm_format_World(title="Income and\\nurbanization")
 
 # Bubblemap with text labels
 tm_shape(Europe) +
@@ -75,7 +75,7 @@ tm_shape(metro) +
     tm_bubbles(size="pop2010", col="purple", size.lim=c(0, 1.2e7), 
         title.size="Metro population") +
     tm_text("name", size="pop2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
-tm_layout_Europe()
+tm_format_Europe()
 
 # Small multiples choropleth
 tm_shape(NLD_muni) +
@@ -85,7 +85,7 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders(lwd=4) +
     tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
-tm_layout(legend.show = FALSE)
+tm_format(legend.show = FALSE)
 
 # Dasymetric map (using a raster)
 tm_shape(land, ylim = c(-88,88)) +
@@ -93,7 +93,7 @@ tm_shape(land, ylim = c(-88,88)) +
         title="Elevation") +
     tm_shape(World) +
         tm_borders() +
-tm_layout(inner.margins=0, legend.position = c(.02, .1), 
+tm_format(inner.margins=0, legend.position = c(.02, .1), 
     bg.color="lightblue")
 
 # Raster map with a dot map
@@ -104,7 +104,7 @@ tm_shape(metro) +
     tm_bubbles(size=.02, col="#E31A1C") +
 tm_shape(World) +
     tm_borders() +
-tm_layout_World(inner.margins=0, 
+tm_format_World(inner.margins=0, 
     legend.position = c("left","bottom"), 
     legend.bg.color = "white", legend.bg.alpha=.2, 
     legend.frame="gray50")

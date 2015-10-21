@@ -20,9 +20,9 @@ tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = NA,
 
 \item{fontcolor}{color of the text labels}
 
-\item{fontface}{font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_style}}.}
+\item{fontface}{font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_layout}}.}
 
-\item{fontfamily}{font family of the text labels. By default, determined by the fontfamily argument of \code{\link{tm_style}}.}
+\item{fontfamily}{font family of the text labels. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).}
 
@@ -75,7 +75,7 @@ tm_shape(Europe) +
         size.lowerbound = .1) +
 tm_shape(Europe) +
     tm_text("name", size="AREA", root=4, scale=1,
-        ymod=-.04 * approx_areas(Europe, unit = "norm")^(1/4))
+        ymod=-1 * approx_areas(Europe, unit = "norm")^(1/4))
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

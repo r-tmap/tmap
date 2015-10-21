@@ -558,9 +558,9 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 
 
 plot_scale <- function(gt, just, xrange, crop_factor) {
-	light <- process_color(gt$scale.color.light, alpha=1, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
-	dark <- process_color(gt$scale.color.dark, alpha=1, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
-	
+	light <- do.call("process_color", c(list(gt$scale.color.light, alpha=1), gt$pc))
+	dark <- do.call("process_color", c(list(gt$scale.color.dark, alpha=1), gt$pc))
+
 	xrange2 <- xrange/gt$unit.size
 	
 	if (is.null(gt$scale.breaks)) {
@@ -632,11 +632,11 @@ plot_cred <- function(gt, just, id) {
 	
 	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
 	
-	col <- process_color(gt$credits.col[id], alpha=gt$credits.alpha[id], sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
+	col <- do.call("process_color", c(list(gt$credits.col[id], alpha=gt$credits.alpha[id]), gt$pc))
 	
 	gTree(children=gList(grobBG,
 						 if (!is.na(gt$credits.bg.color[id])) {
-		bg.col <- process_color(gt$credits.bg.color[id], alpha=gt$credits.bg.alpha[id], sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
+		bg.col <- do.call("process_color", c(list(gt$credits.bg.color[id], alpha=gt$credits.bg.alpha[id]), gt$pc))
 		rectGrob(x=x, width=width, just="left", gp=gpar(col=NA, fill=bg.col))
 	} else {
 		NULL
@@ -649,8 +649,8 @@ plot_compass <- function(gt, just) {
 	#vpComp <- viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 
 	
-	light <- process_color(gt$compass.color.light, alpha=1, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
-	dark <- process_color(gt$compass.color.dark, alpha=1, sepia.intensity=gt$sepia.intensity, saturation=gt$saturation)
+	light <- do.call("process_color", c(list(gt$compass.color.light, alpha=1), gt$pc))
+	dark <- do.call("process_color", c(list(gt$compass.color.dark, alpha=1), gt$pc))
 	
 	if (gt$compass.type=="4star") {
 		s <- c(.5, .5, .57, .5, .5, .43, 0, .5, .43, 1, .5, .57)

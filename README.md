@@ -59,6 +59,7 @@ tm_shape(World) +
 ```
 
 Next CRAN release (version 1.1, in development)
+
 -----
 
 New features (already implemented):
@@ -69,13 +70,9 @@ New features (already implemented):
 * Interactive SVG output (function ```itmap```)
 * Map attributes and styling (see example above)
 
-New features (still working on):
-
-* Minor tweaks on the features listed above
-* Flow map (```tm_flow```)
-
 Features to be included in later versions:
 
+* Flow map
 * Cartogram
 
 

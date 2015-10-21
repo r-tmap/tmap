@@ -11,4 +11,4 @@ tm_shape(Europe) +
         size.lowerbound = .1) +
 tm_shape(Europe) +
     tm_text("name", size="AREA", root=4, scale=1,
-        ymod=-.04 * approx_areas(Europe, unit = "norm")^(1/4))
+        ymod=-1 * approx_areas(Europe, unit = "norm")^(1/4))

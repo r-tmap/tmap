@@ -31,7 +31,7 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 		 bubble.max.size=bubble.max.size)
 }
 
-process_bubbles_col_vector <- function(xc, xs, g, gt, gst) {
+process_bubbles_col_vector <- function(xc, xs, g, gt) {
 	bubble.col.is.numeric <- is.numeric(xc)
 	if (bubble.col.is.numeric) {
 		is.diverging <- (any(na.omit(xc)<0) || any(g$breaks<0)) && (any(na.omit(xc)>0) || any(g$breaks>0))
@@ -43,7 +43,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt, gst) {
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
 						   legend.NA.text=g$textNA,
-						   process.colors=c(list(alpha=g$bubble.alpha), gst),
+						   process.colors=c(list(alpha=g$bubble.alpha), gt$pc),
 						   legend.format=g$legend.format)
 		bubble.col <- colsLeg[[1]]
 		bubble.col.neutral <- colsLeg$legend.neutral.col
@@ -59,7 +59,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt, gst) {
 						   legend.labels=g$labels,
 						   legend.NA.text=g$textNA,
 						   max_levels=g$max.categories,
-						   process.colors=c(list(alpha=g$bubble.alpha), gst))
+						   process.colors=c(list(alpha=g$bubble.alpha), gt$pc))
 		
 		bubble.col <- rep(NA, length(sel))
 		bubble.col[sel] <- colsLeg[[1]]
@@ -77,7 +77,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt, gst) {
 		 bubble.breaks=bubble.breaks)
 }
 
-process_bubbles <- function(data, g, gt, gst, gby, z) {
+process_bubbles <- function(data, g, gt, gby, z) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -126,7 +126,7 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 	is.colors <- all(valid_colors(xcol))
 	if (!varycol) {
 		if (!is.colors) stop("Invalid bubble colors")
-		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$bubble.alpha), gst))
+		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$bubble.alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
@@ -164,7 +164,7 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 	
 	if (is.matrix(dtcol)) {
 		bubble.col <- if (!is.colors) {
-			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$bubble.alpha), gst)),
+			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$bubble.alpha), gt$pc)),
 				   ncol=ncol(dtcol))
 		} else dtcol
 		xcol <- rep(NA, nx)
@@ -179,7 +179,7 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 		# multiple variables for col are defined
 		gsc <- split_g(g, n=nx)
 		bubble.size_list <- as.list(as.data.frame(bubble.size))
-		res <- mapply(process_bubbles_col_vector, dtcol, bubble.size_list, gsc, MoreArgs=list(gt, gst), SIMPLIFY=FALSE)
+		res <- mapply(process_bubbles_col_vector, dtcol, bubble.size_list, gsc, MoreArgs=list(gt), SIMPLIFY=FALSE)
 		bubble.col <- sapply(res, function(r)r$bubble.col)
 		bubble.col.legend.labels <- lapply(res, function(r)r$bubble.col.legend.labels)
 		bubble.col.legend.palette <- lapply(res, function(r)r$bubble.col.legend.palette)
@@ -189,7 +189,7 @@ process_bubbles <- function(data, g, gt, gst, gby, z) {
 		bubble.values <- dtcol
 	} else {
 		bubble.size_vector <- unlist(bubble.size)
-		res <- process_bubbles_col_vector(dtcol, bubble.size_vector, g, gt, gst)
+		res <- process_bubbles_col_vector(dtcol, bubble.size_vector, g, gt)
 		bubble.col <- matrix(res$bubble.col, nrow=npol)
 		bubble.col.legend.labels <- res$bubble.col.legend.labels
 		bubble.col.legend.palette <- res$bubble.col.legend.palette

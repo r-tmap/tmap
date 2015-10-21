@@ -11,7 +11,7 @@ tm_compass(north = 0, type = NA, fontsize = 0.8, size = NA,
 \arguments{
 \item{north}{north direction in degrees: 0 means up, 90 right, etc.}
 
-\item{type}{compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_style}} (which uses \code{"arrow"} for the default style)}
+\item{type}{compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_layout}} (which uses \code{"arrow"} for the default style)}
 
 \item{fontsize}{relative font size}
 

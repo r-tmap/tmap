@@ -1,8 +1,6 @@
 #' Layout elements of cartographic maps
 #' 
-#' This element specifies the map layout. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a format layout theme for your own map (see example below). The functions starting with \code{tm_color} are predefined color themes for fixed colors. The map can be further styled with \code{\link{tm_style}} (see details).
-#' 
-#' The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controleld wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. Furthermore, the default fixed colors (for background, title, attributes, and fixed aestethics) are defined with \code{tm_layout}. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes, thematic map type, or used colors. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
+#' This element specifies the map layout. The main function \code{tm_layout} controlls title, margins, aspect ratio, colors, frame, legend, among many other things. The function \code{tm_legend} is a shortcut to access all \code{legend.} arguments without this prefix. All other functions are wrappers with other default values. The \code{tm_format_} wrapper functions are tailored for specifc shapes. The \code{tm_colors_} wrapper functions contain color themes. The \code{tm_style_} wrapper functions add a styling flavour to the map. Multiple \code{tm_layout} elements (or wrapper functions) can be stacked: called arguments will be overwritten.
 #' 
 #' @name tm_layout
 #' @rdname tm_layout
@@ -13,11 +11,18 @@
 #' @param aes.color Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{bubbles}, \code{dots}, \code{lines}, \code{text}, \code{na}.
 #' @param aes.palette Default color palettes for the aesthetics. It takes a list of three items: \code{seq} for sequential palettes, \code{div} for diverging palettes, and \code{cat} for categorical palettes. By default, Color Brewer palettes (see (see \code{RColorBrewer::display.brewer.all})) are used. It is also possible provide a vector of colors for any of these items.
 #' @param attr.color Default color value for map attributes
+#' @param sepia.intensity Number between 0 and 1 that defines the amount of sepia effect, which gives the map a brown/yellowish flavour. By default this effect is disabled (\code{sepia.intensity=0}). All colored used in the map are adjusted with this effect.
+#' @param saturation Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. A number larger than 1 results in very saturated maps. All colored used in the map are adjusted with this effect. Hacking tip: use a negative number.
 #' @param frame Either a boolean that determines whether a frame is drawn, or a color value that specifies the color of the frame. 
+#' @param frame.lwd width of the frame
+#' @param frame.double.line draw a double frame line border?
 #' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.
 #' @param outer.bg.color Background color outside the frame.
+#' @param fontface font face of all text in the map.
+#' @param fontfamily font family of the text labels.
+#' @param compass.type type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.
 #' @param earth.boundary Should the earth boundary be shown? Only applicable for projected world maps.
 #' @param earth.boundary.color Color of the earth boundary.
 #' @param earth.boundary.lwd Line width of the earth boundary.
@@ -57,21 +62,28 @@
 #' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "center" or "right", and the second value "top", "center", or "bottom". Positions can also be set separately in the map attribute fuctions.
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
 #' @param ... other arguments from \code{tm_layout}
-#' @seealso \code{\link{tm_style}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_layout.R
 #' @export
 tm_layout <- function(title=NA,
 					  scale=1,
 					  title.size=1.3,
-					  bg.color= "grey90",
+					  bg.color= "grey85",
 					  aes.color=c(fill="grey70", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
 					  aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Set3"),
 					  attr.color="black",
+  					  sepia.intensity=0, 
+  					  saturation=1, 
 					  frame=TRUE,
+  					  frame.lwd=1,
+  					  frame.double.line=FALSE,
 					  asp = NA,
 					  outer.margins = rep(0.02, 4),
 					  inner.margins = NA,
 					  outer.bg.color=NULL,
+					  fontface="plain", 
+					  fontfamily="sans",
+ 					  compass.type="arrow",
 					  earth.boundary=FALSE,
 					  earth.boundary.color=attr.color,
 					  earth.boundary.lwd=1,
@@ -110,10 +122,94 @@ tm_layout <- function(title=NA,
 
 #' @rdname tm_layout
 #' @export
+tm_legend <- function(...) {
+	x <- list(...)
+
+	tl_names <- names(formals("tm_layout"))
+	is_leg <- which(substr(tl_names, 1, 3)=="leg")
+	
+	legend_x <- which(names(x) %in% substr(tl_names[is_leg], 8, nchar(tl_names[is_leg])))
+	names(x)[legend_x] <- paste("legend", names(x)[legend_x], sep=".")
+
+	do.call("tm_layout", x)
+}
+
+#' @rdname tm_layout
+#' @export
+tm_format_World <- function(inner.margins=c(0, 0.05, 0.025, 0.01),
+							legend.position=c("left", "bottom"), 
+							scale=.8,
+							...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+
+#' @rdname tm_layout
+#' @export
+tm_format_World_wide <- function(inner.margins=c(0, 0.2, 0.025, 0.01),
+							legend.position=c("left", "bottom"), 
+							legend.width=0.4,
+							scale=.8,
+							...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+#' @rdname tm_layout
+#' @export
+tm_format_Europe <- function(title.position=c("left", "top"),
+							 legend.position=c("left", "top"), 
+							 inner.margins=c(0, 0.1, 0, 0),
+							 ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+#' @rdname tm_layout
+#' @export
+tm_format_Europe_wide <- function(title.position=c("left", "top"),
+							 legend.position=c("left", "top"), 
+							 inner.margins=c(0, 0.25, 0, 0),
+							 legend.width=0.4,
+							 legend.hist.width=0.4,
+							 ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+
+
+#' @rdname tm_layout
+#' @export
+tm_format_NLD <- function(frame=FALSE, 
+						  inner.margins=c(.02, .2, .06, .02),
+						  legend.position=c("left", "top"), 
+						  legend.width=0.4,
+						  ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+#' @rdname tm_layout
+#' @export
+tm_format_NLD_wide <- function(title=NA,
+						  frame=FALSE, 
+						  inner.margins=c(.02, .3, .06, .02),
+						  legend.position=c("left", "top"), 
+						  legend.width=0.5,
+						  legend.hist.width=0.35,
+						  ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+#' @rdname tm_layout
+#' @export
 tm_colors_cobalt <- function(bg.color="#002240",
-					  aes.color=c(fill="#0088FF", borders="#002240", bubbles="#FF9D00", dots="#FF9D00", lines="#FFEE80", text="white", na="grey60"),
-					  aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
-					  attr.color="white", ...) {
+							 aes.color=c(fill="#0088FF", borders="#002240", bubbles="#FF9D00", dots="#FF9D00", lines="#FFEE80", text="white", na="grey60"),
+							 aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
+							 attr.color="white", ...) {
 	# Bu="#0088FF" DaBu="#002240" LiBu="#BED6FF" Or="#FF9D00", W="white" Yl="FFEE80"
 	# See https://www.hartwork.org/beamer-theme-matrix/
 	
@@ -149,82 +245,16 @@ tm_colors_beaver <- function(bg.color="#FFFFFF",
 	do.call("tm_layout", args)
 }
 
-
-
 #' @rdname tm_layout
 #' @export
-tm_layout_World <- function(title=NA,
-							#title.bg.color=TRUE,
-							inner.margins=c(0, 0.05, 0.025, 0.01),
-							legend.position=c("left", "bottom"), 
-							scale=.8,
-							...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-
-#' @rdname tm_layout
-#' @export
-tm_layout_World_wide <- function(title=NA,
-							#title.bg.color=TRUE,
-							inner.margins=c(0, 0.2, 0.025, 0.01),
-							legend.position=c("left", "bottom"), 
-							legend.width=0.4,
-							scale=.8,
-							...) {
+tm_style_bw <- function(saturation=0, ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
 
 #' @rdname tm_layout
 #' @export
-tm_layout_Europe <- function(title=NA,
-							 title.position=c("left", "top"),
-							 legend.position=c("left", "top"), 
-							 inner.margins=c(0, 0.1, 0, 0),
-							 ...) {
+tm_style_classic <- function(sepia.intensity=.7, fontfamily="serif", frame.double.line=TRUE, compass.type="rose", ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
-
-#' @rdname tm_layout
-#' @export
-tm_layout_Europe_wide <- function(title=NA,
-							 title.position=c("left", "top"),
-							 legend.position=c("left", "top"), 
-							 inner.margins=c(0, 0.25, 0, 0),
-							 legend.width=0.4,
-							 legend.hist.width=0.4,
-							 ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-
-
-#' @rdname tm_layout
-#' @export
-tm_layout_NLD <- function(title=NA,
-						  frame=FALSE, 
-						  inner.margins=c(.02, .2, .06, .02),
-						  legend.position=c("left", "top"), 
-						  legend.width=0.4,
-						  ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-#' @rdname tm_layout
-#' @export
-tm_layout_NLD_wide <- function(title=NA,
-						  frame=FALSE, 
-						  inner.margins=c(.02, .3, .06, .02),
-						  legend.position=c("left", "top"), 
-						  legend.width=0.5,
-						  legend.hist.width=0.35,
-						  ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-

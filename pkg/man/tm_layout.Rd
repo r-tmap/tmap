@@ -4,21 +4,26 @@
 \alias{tm_colors_albatross}
 \alias{tm_colors_beaver}
 \alias{tm_colors_cobalt}
+\alias{tm_format_Europe}
+\alias{tm_format_Europe_wide}
+\alias{tm_format_NLD}
+\alias{tm_format_NLD_wide}
+\alias{tm_format_World}
+\alias{tm_format_World_wide}
 \alias{tm_layout}
-\alias{tm_layout_Europe}
-\alias{tm_layout_Europe_wide}
-\alias{tm_layout_NLD}
-\alias{tm_layout_NLD_wide}
-\alias{tm_layout_World}
-\alias{tm_layout_World_wide}
+\alias{tm_legend}
+\alias{tm_style_bw}
+\alias{tm_style_classic}
 \title{Layout elements of cartographic maps}
 \usage{
-tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "grey90",
+tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "grey85",
   aes.color = c(fill = "grey70", borders = "grey40", bubbles = "blueviolet",
   dots = "black", lines = "red", text = "black", na = "grey60"),
   aes.palette = list(seq = "YlOrBr", div = "RdYlGn", cat = "Set3"),
-  attr.color = "black", frame = TRUE, asp = NA,
+  attr.color = "black", sepia.intensity = 0, saturation = 1,
+  frame = TRUE, frame.lwd = 1, frame.double.line = FALSE, asp = NA,
   outer.margins = rep(0.02, 4), inner.margins = NA, outer.bg.color = NULL,
+  fontface = "plain", fontfamily = "sans", compass.type = "arrow",
   earth.boundary = FALSE, earth.boundary.color = attr.color,
   earth.boundary.lwd = 1, earth.datum = "WGS84", space.color = NULL,
   legend.show = TRUE, legend.only = FALSE, legend.position = NULL,
@@ -33,6 +38,29 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "grey90",
   title.position = c("left", "top"), title.color = attr.color,
   title.bg.color = NA, title.bg.alpha = 1, attr.position = c("right",
   "bottom"), design.mode = FALSE)
+
+tm_legend(...)
+
+tm_format_World(inner.margins = c(0, 0.05, 0.025, 0.01),
+  legend.position = c("left", "bottom"), scale = 0.8, ...)
+
+tm_format_World_wide(inner.margins = c(0, 0.2, 0.025, 0.01),
+  legend.position = c("left", "bottom"), legend.width = 0.4, scale = 0.8,
+  ...)
+
+tm_format_Europe(title.position = c("left", "top"),
+  legend.position = c("left", "top"), inner.margins = c(0, 0.1, 0, 0), ...)
+
+tm_format_Europe_wide(title.position = c("left", "top"),
+  legend.position = c("left", "top"), inner.margins = c(0, 0.25, 0, 0),
+  legend.width = 0.4, legend.hist.width = 0.4, ...)
+
+tm_format_NLD(frame = FALSE, inner.margins = c(0.02, 0.2, 0.06, 0.02),
+  legend.position = c("left", "top"), legend.width = 0.4, ...)
+
+tm_format_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
+  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.5,
+  legend.hist.width = 0.35, ...)
 
 tm_colors_cobalt(bg.color = "#002240", aes.color = c(fill = "#0088FF",
   borders = "#002240", bubbles = "#FF9D00", dots = "#FF9D00", lines = "#FFEE80",
@@ -49,26 +77,10 @@ tm_colors_beaver(bg.color = "#FFFFFF", aes.color = c(fill = "#FFE200",
   text = "#000000", na = "#E0E0E0"), aes.palette = list(seq = "YlOrBr", div =
   "RdYlGn", cat = "Dark2"), attr.color = "black", ...)
 
-tm_layout_World(title = NA, inner.margins = c(0, 0.05, 0.025, 0.01),
-  legend.position = c("left", "bottom"), scale = 0.8, ...)
+tm_style_bw(saturation = 0, ...)
 
-tm_layout_World_wide(title = NA, inner.margins = c(0, 0.2, 0.025, 0.01),
-  legend.position = c("left", "bottom"), legend.width = 0.4, scale = 0.8,
-  ...)
-
-tm_layout_Europe(title = NA, title.position = c("left", "top"),
-  legend.position = c("left", "top"), inner.margins = c(0, 0.1, 0, 0), ...)
-
-tm_layout_Europe_wide(title = NA, title.position = c("left", "top"),
-  legend.position = c("left", "top"), inner.margins = c(0, 0.25, 0, 0),
-  legend.width = 0.4, legend.hist.width = 0.4, ...)
-
-tm_layout_NLD(title = NA, frame = FALSE, inner.margins = c(0.02, 0.2,
-  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.4, ...)
-
-tm_layout_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
-  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.5,
-  legend.hist.width = 0.35, ...)
+tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
+  frame.double.line = TRUE, compass.type = "rose", ...)
 }
 \arguments{
 \item{title}{Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.}
@@ -85,7 +97,15 @@ tm_layout_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
 
 \item{attr.color}{Default color value for map attributes}
 
+\item{sepia.intensity}{Number between 0 and 1 that defines the amount of sepia effect, which gives the map a brown/yellowish flavour. By default this effect is disabled (\code{sepia.intensity=0}). All colored used in the map are adjusted with this effect.}
+
+\item{saturation}{Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. A number larger than 1 results in very saturated maps. All colored used in the map are adjusted with this effect. Hacking tip: use a negative number.}
+
 \item{frame}{Either a boolean that determines whether a frame is drawn, or a color value that specifies the color of the frame.}
+
+\item{frame.lwd}{width of the frame}
+
+\item{frame.double.line}{draw a double frame line border?}
 
 \item{asp}{Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.}
 
@@ -94,6 +114,12 @@ tm_layout_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
 \item{inner.margins}{Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.}
 
 \item{outer.bg.color}{Background color outside the frame.}
+
+\item{fontface}{font face of all text in the map.}
+
+\item{fontfamily}{font family of the text labels.}
+
+\item{compass.type}{type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.}
 
 \item{earth.boundary}{Should the earth boundary be shown? Only applicable for projected world maps.}
 
@@ -165,67 +191,64 @@ tm_layout_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
 \item{...}{other arguments from \code{tm_layout}}
 }
 \description{
-This element specifies the map layout. The main function \code{tm_layout} can be seen as a general layout theme. The functions \code{tm_layout_World}, \code{tm_layout_Europe}, and \code{tm_layout_NLD} are layout themes specified for the world, Europe, and Netherlands maps (which are contained in this package). For each of these layout themes, there is also an extra wide variant, with more space for the legend. Tip: create a format layout theme for your own map (see example below). The functions starting with \code{tm_color} are predefined color themes for fixed colors. The map can be further styled with \code{\link{tm_style}} (see details).
-}
-\details{
-The difference between \code{tm_layout} and \code{\link{tm_style}} is the following. Specifications regarding position and size, for instance margins and legend size, are controleld wtih \code{tm_layout}. These specifications are typically dependent on the shapes, and, to a lesser extent, on the type of thematic map. Therefore, map dependent wrappers such as \code{tm_layout_World} can be useful. Furthermore, the default fixed colors (for background, title, attributes, and fixed aestethics) are defined with \code{tm_layout}. On the other hand, \code{\link{tm_style}} controls the styling of the map, that is independent of the used shapes, thematic map type, or used colors. There are two main flavours: modern (default) or classic (\code{\link{tm_style_classic}}).
+This element specifies the map layout. The main function \code{tm_layout} controlls title, margins, aspect ratio, colors, frame, legend, among many other things. The function \code{tm_legend} is a shortcut to access all \code{legend.} arguments without this prefix. All other functions are wrappers with other default values. The \code{tm_format_} wrapper functions are tailored for specifc shapes. The \code{tm_colors_} wrapper functions contain color themes. The \code{tm_style_} wrapper functions add a styling flavour to the map. Multiple \code{tm_layout} elements (or wrapper functions) can be stacked: called arguments will be overwritten.
 }
 \examples{
 data(World)
 
 tm_shape(World) + 
-    tm_fill("pop_est_dens", style="kmeans", title="Population density") + 
-tm_layout_World("World Population", bg.color="lightblue")
+    tm_fill("pop_est_dens", style="kmeans", title="Population density") +
+	tm_compass(position = c("left", "center")) +
+tm_format_World(title="The World", compass.type="radar") + tm_colors_albatross()
 
-# A custom layout wrapper for Africa
-tm_layout_Africa <- function(title=NA,
-							 inner.margins = c(.02, .25, .02, .02),
-							 draw.frame = FALSE,
-							 title.position=c("left", "bottom"), 
-							 legend.position = c("left", "bottom"),
-							 legend.width = 0.5,
-							 bg.color = "lightskyblue2", ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-Africa <- World[World$continent=="Africa", ]
-
-qtm(Africa, fill="pop_est_dens", fill.style="kmeans", fill.title="Population density") + 
-    tm_layout_Africa("Africa")
-
-
-\dontrun{
-# classic styled world map
+# Classic styled world map
 data(land)
-	
-# convert to Eckert IV projection
-land_eck4 <- set_projection(land, "eck4")
+land_eck4 <- set_projection(land, "eck4") # convert to Eckert IV projection
 
 tm_shape(land_eck4) +
 	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
 		palette = terrain.colors(9), title="Elevation") +
-	tm_shape(World) +
+tm_shape(World) +
 	tm_borders("grey20") +
 	tm_grid(projection="longlat", labels.size = .5) +
 	tm_text("name", size="AREA") +
-	tm_compass(position = c(.65, .15), color.light = "grey90") +
-	tm_credits("Eckert IV projection", position = c(.85, 0)) +
-	tm_layout(inner.margins=c(.04,.03, .02, .01), legend.position = c("left", "bottom"), 
-		legend.frame = TRUE, bg.color="lightblue", legend.bg.color="lightblue", 
-		earth.boundary = TRUE, space.color="grey90") + 
-	tm_style_classic()
-}
+tm_compass(position = c(.65, .15), color.light = "grey90") +
+tm_credits("Eckert IV projection", position = c(.85, 0)) +
+tm_layout(inner.margins=c(.04,.03, .02, .01), 
+		  bg.color="lightblue", 
+		  legend.position = c("left", "bottom"), 
+		  legend.frame = TRUE,
+		  legend.bg.color="lightblue",
+		  earth.boundary = TRUE, space.color="grey90") + 
+tm_style_classic()
+
+# classic choropleth
+data(NLD_muni, NLD_prov)
+tm_shape(NLD_muni) +
+	tm_fill(col="population", convert2density=TRUE, 
+			style="kmeans", title="Population (per km2)", legend.hist=FALSE) +
+	tm_borders("black", alpha=.5) + 
+tm_shape(NLD_prov) +
+	tm_borders("grey25", lwd=2) +
+tm_format_NLD(inner.margins = c(.02, .15, .06, .15)) + 
+tm_scale_bar(position = c("left", "bottom")) +
+tm_compass(position=c("right", "bottom")) + 
+tm_style_classic()
+
 
 # Color theme comparison
 two_by_two_plot <- function(tm) {
 	require(grid)
 	grid.newpage()
 	pushViewport(viewport(layout = grid.layout(2,2)))
-	print(tm + tm_layout("Default theme"),vp = viewport(layout.pos.row = 1, layout.pos.col = 1))
-	print(tm + tm_colors_cobalt(title="Cobalt theme"), vp = viewport(layout.pos.row = 1, layout.pos.col = 2))
-	print(tm + tm_colors_albatross(title="Albatross theme"), vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
-	print(tm + tm_colors_beaver(title="Beaver theme"), vp = viewport(layout.pos.row = 2, layout.pos.col = 2))
+	print(tm + tm_layout("Default theme"), 
+		  vp = viewport(layout.pos.row = 1, layout.pos.col = 1))
+	print(tm + tm_colors_cobalt(title="Cobalt theme"), 
+		  vp = viewport(layout.pos.row = 1, layout.pos.col = 2))
+	print(tm + tm_colors_albatross(title="Albatross theme"), 
+		  vp = viewport(layout.pos.row = 2, layout.pos.col = 1))
+	print(tm + tm_colors_beaver(title="Beaver theme"), 
+		  vp = viewport(layout.pos.row = 2, layout.pos.col = 2))
 	upViewport()
 }
 
@@ -233,12 +256,11 @@ two_by_two_plot <- function(tm) {
 data(Europe, rivers, metro)
 two_by_two_plot(tm_shape(Europe) +
 	tm_fill() +
-	tm_shape(rivers) +
+tm_shape(rivers) +
 	tm_lines() +
-	tm_shape(metro) +
+tm_shape(metro) +
 	tm_bubbles(size="pop2010") + 
 	tm_text("name", size="pop2010", auto.placement = TRUE))
-
 
 # for choropleth aesthetics
 data(NLD_muni, NLD_prov)
@@ -251,6 +273,6 @@ tm_layout(scale=.7))
 
 }
 \seealso{
-\code{\link{tm_style}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 

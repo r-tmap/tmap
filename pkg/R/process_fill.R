@@ -1,4 +1,4 @@
-process_fill_vector <- function(x, g, gt, gst, tiny) {
+process_fill_vector <- function(x, g, gt, tiny) {
 	fill.values <- x
 	textNA <- ifelse(any(is.na(fill.values)), g$textNA, NA)
 	
@@ -14,7 +14,7 @@ process_fill_vector <- function(x, g, gt, gst, tiny) {
 						   legend.labels=g$labels,
 						   legend.NA.text = textNA,
 						   max_levels=g$max.categories,
-						   process.colors=c(list(alpha=g$alpha), gst))
+						   process.colors=c(list(alpha=g$alpha), gt$pc))
 		fill.breaks <- NA
 	} else {
 		is.diverging <- (any(na.omit(x)<0) || any(g$breaks<0)) && (any(na.omit(x)>0) || any(g$breaks>0))
@@ -25,7 +25,7 @@ process_fill_vector <- function(x, g, gt, gst, tiny) {
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
 						   legend.NA.text = textNA,
-						   process.colors=c(list(alpha=g$alpha), gst),
+						   process.colors=c(list(alpha=g$alpha), gt$pc),
 						   legend.format=g$legend.format)
 		fill.breaks <- colsLeg[[4]]
 	}
@@ -49,7 +49,7 @@ process_fill_vector <- function(x, g, gt, gst, tiny) {
 }
 
 
-process_fill <- function(data, g, gb, gt, gst, gby, z) {
+process_fill <- function(data, g, gb, gt, gby, z) {
 	
 	npol <- nrow(data)
 	by <- data$GROUP_BY
@@ -71,13 +71,13 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 		is.colors <- FALSE
 		x <- "level"
 	} else if (is.colors) {
-		x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gst))
+		x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 		x <- paste("COLOR", 1:nx, sep="_")
 	} else if (x[1]=="MAP_COLORS") {
 		palette <- if (is.null(g$palette)) gt$aes.palette[["cat"]] else g$palette
 		mapcols <- do.call("map_coloring", args = c(list(x=attr(data, "NB"), palette=palette, contrast = g$contrast), g$map_coloring))
-		mapcols <- do.call("process_color", c(list(col=mapcols, alpha=g$alpha), gst))
+		mapcols <- do.call("process_color", c(list(col=mapcols, alpha=g$alpha), gt$pc))
 		
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- mapcols
 		x <- paste("COLOR", 1:nx, sep="_")
@@ -105,7 +105,7 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {
 		if (!is.colors) {
-			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gst)),
+			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gt$pc)),
 						 ncol=ncol(dt))
 		}
 		return(list(fill=dt, xfill=rep(NA, nx), fill.lenged.title=rep(NA, nx)))	
@@ -135,7 +135,7 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 		dt[isNum & isDens] <- lapply(dt[isNum & isDens], function(d) {
 			d / areas
 		})
-		res <- mapply(process_fill_vector, dt, gs, MoreArgs = list(gt, gst, tiny), SIMPLIFY = FALSE)
+		res <- mapply(process_fill_vector, dt, gs, MoreArgs = list(gt, tiny), SIMPLIFY = FALSE)
 		fill <- sapply(res, function(r)r$fill)
 		fill.legend.labels <- lapply(res, function(r)r$fill.legend.labels)
 		fill.legend.palette <- lapply(res, function(r)r$fill.legend.palette)
@@ -146,7 +146,7 @@ process_fill <- function(data, g, gb, gt, gst, gby, z) {
 			if (show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
 			dt <- dt / areas
 		}
-		res <- process_fill_vector(dt, g, gt, gst, tiny)
+		res <- process_fill_vector(dt, g, gt, tiny)
 		fill <- matrix(res$fill, nrow=npol)
 		fill.legend.labels <- res$fill.legend.labels
 		fill.legend.palette <- res$fill.legend.palette

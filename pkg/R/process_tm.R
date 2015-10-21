@@ -23,6 +23,10 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	## preprocess gt
 	gtnull <- names(which(sapply(gt, is.null)))
 	gt <- within(gt, {
+		pc <- list(sepia.intensity=sepia.intensity, saturation=saturation)
+		sepia.intensity <- NULL
+		saturation <- NULL
+		
 		if (!"scientific" %in% names(legend.format)) legend.format$scientific <- FALSE
 		if (!"digits" %in% names(legend.format)) legend.format$digits <- NA
 		if (!"text.separator" %in% names(legend.format)) legend.format$text.separator <- "to"
@@ -48,14 +52,6 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	})
 	gt[gtnull] <- list(NULL)
 	
-	## get style element
-	styleid <- which(names(x)=="tm_style")[1]
-	if (is.na(styleid)) {
-		gst <- tm_style()$tm_style
-	} else {
-		gst <- x[[styleid]]
-	}
-
 	## get grid element
 	gridid <- which(names(x)=="tm_grid")[1]
 	gg <- x[[gridid]]
@@ -140,7 +136,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	
 	## convert clusters to layers
 	cnlx <- if (nshps==1) 0 else c(0, cumsum(nlx[1:(nshps-1)]-1))
-	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gst=gst, gf=gf), SIMPLIFY = FALSE)
+	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf), SIMPLIFY = FALSE)
 	names(gp) <- paste0("tmLayer", 1:length(gp))
 	
 	
@@ -187,7 +183,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
 	
 	## process meta
-	gmeta <- process_meta(gt, gst, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shp_info)
+	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shp_info)
 	
 	## split into small multiples
 	gps <- split_tm(gp, nx, order_by)

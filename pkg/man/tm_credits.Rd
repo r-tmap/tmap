@@ -23,9 +23,9 @@ tm_credits(text, size = 0.7, col = NA, alpha = NA, align = "left",
 
 \item{bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).}
 
-\item{fontface}{font face of the text. By default, determined by the fontface argument of \code{\link{tm_style}}.}
+\item{fontface}{font face of the text. By default, determined by the fontface argument of \code{\link{tm_layout}}.}
 
-\item{fontfamily}{font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_style}}.}
+\item{fontfamily}{font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.}
 
 \item{position}{position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.}
 }
@@ -42,7 +42,7 @@ tm_shape(NLD_muni) +
     tm_borders("grey25", alpha=.5) + 
     tm_shape(NLD_prov) +
     tm_borders("grey40", lwd=2) +
-tm_layout_NLD(bg.color="white", draw.frame = TRUE) +
+tm_format_NLD(bg.color="white", frame = TRUE) +
 tm_credits("(c) Statistics Netherlands (CBS) and\\nKadaster Nederland", position=c("left", "bottom"))
 }
 
