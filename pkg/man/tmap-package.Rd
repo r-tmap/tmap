@@ -6,21 +6,57 @@
 \alias{tmap-package}
 \title{Thematic Maps}
 \description{
-\tabular{ll}{
-Package: \tab tmap\cr
-Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2015-07-15\cr
-License: \tab GPL-3\cr
-LazyLoad: \tab yes\cr
-}
+Thematic maps are geographical maps in which statistical data are visualized. This package offers a flexible, layer-based, way to create thematic maps, such as choropleths and bubble maps.
 }
 \details{
-Thematic maps are geographical maps in which statistical data are visualized. This package offers a flexible, layer-based, way to create thematic maps, such as choropleths and bubble maps.
-To get started, see \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}.
+This page provides a brief overview of all package functions. See \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} for a short manual with examples.
+}
+\section{tmap elements}{
+
+Shape specification:
+\tabular{ll}{
+\code{\link{tm_shape}}\tab To specify a shape object
+}
+
+Aesthetics layers:
+\describe{
+\item{\code{\link{tm_fill}}}{To create a polygon layer (without borders)}
+\item{\code{\link{tm_borders}}}{To create polygon borders}
+\item{\code{\link{tm_polygons}}}{To create a polygon layer with borders}
+\item{\code{\link{tm_bubbles}}}{To create a layer of bubbles}
+\item{\code{\link{tm_dots}}}{To create a layer of dots}
+\item{\code{\link{tm_lines}}}{To create a layer of lines}
+\item{\code{\link{tm_raster}}}{To create a raster layer}
+}
+
+Attribute layers:
+\describe{
+\item{\code{\link{tm_grid}}}{To create grid lines}
+\item{\code{\link{tm_scale_bar}}}{To create a scale bar}
+\item{\code{\link{tm_compass}}}{To create a map compass}
+\item{\code{\link{tm_credits}}}{To create a text for credits}
+}
+
+Layout element:
+\describe{
+\item{\code{\link{tm_layout}}}{Main function to adjust the layout}
+}
+}
+
+\section{Other functions}{
+
+\describe{
+\item{\code{\link{bb}}}{To create, extract or modify a bounding box}
+\item{\code{\link{append_data}}}{To append a data frame to a shape object)}
+\item{\code{\link{calc_densities}}}{To calculate density values}
+\item{\code{\link{get_projection}}}{To get the map projection}
+}
 }
 \author{
 Martijn Tennekes \email{mtennekes@gmail.com}
+}
+\seealso{
+\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
 \keyword{GIS,}
 \keyword{bubble}

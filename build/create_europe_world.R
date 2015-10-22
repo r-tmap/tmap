@@ -3,20 +3,20 @@ library(maptools)
 library(raster)
 library(rgeos)
 library(rgdal)
-devtools::load_all(".")
+devtools::load_all("pkg")
 
 
 ###########################################################################
 ## download world shape files from http://www.naturalearthdata.com/features/
 ###########################################################################
 
-#download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries_lakes.zip", "../shapes/ne_50m_admin_0_countries_lakes.zip")
-unzip("../shapes/ne_50m_admin_0_countries_lakes.zip", exdir="../shapes")
-world50 <- readOGR("../shapes", "ne_50m_admin_0_countries_lakes")
+#download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/50m/cultural/ne_50m_admin_0_countries_lakes.zip", "./shapes/ne_50m_admin_0_countries_lakes.zip")
+unzip("./shapes/ne_50m_admin_0_countries_lakes.zip", exdir="./shapes")
+world50 <- readOGR("./shapes", "ne_50m_admin_0_countries_lakes")
 
-#download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "../shapes/ne_110m_admin_0_countries_lakes.zip")
-unzip("../shapes/ne_110m_admin_0_countries_lakes.zip", exdir="../shapes")
-world110 <- readOGR("../shapes", "ne_110m_admin_0_countries_lakes")
+#download.file("http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/cultural/ne_110m_admin_0_countries_lakes.zip", "./shapes/ne_110m_admin_0_countries_lakes.zip")
+unzip("./shapes/ne_110m_admin_0_countries_lakes.zip", exdir="./shapes")
+world110 <- readOGR("./shapes", "ne_110m_admin_0_countries_lakes")
 
 
 
@@ -93,10 +93,10 @@ wd$income_grp <- ordered(wd$income_grp)
 
 ## get land areas 
 
-#download.file("http://api.worldbank.org/v2/en/indicator/ag.lnd.totl.k2?downloadformat=csv", "../shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.zip", cacheOK = FALSE, mode="wb")
-#unzip("../shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.zip", exdir="../shapes")
+#download.file("http://api.worldbank.org/v2/en/indicator/ag.lnd.totl.k2?downloadformat=csv", "./shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.zip", cacheOK = FALSE, mode="wb")
+#unzip("./shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.zip", exdir="./shapes")
 
-WBareas <- read.csv("../shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.csv", skip=2, stringsAsFactors=FALSE)
+WBareas <- read.csv("./shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.csv", skip=4, stringsAsFactors=FALSE)
 
 world50_eIV <- spTransform(world50, CRS("+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
 
@@ -112,10 +112,10 @@ wd$area_WB <- WBareas$X2014[match(wd$iso_a3, WBareas$Country.Code)]
 wd$area <- ifelse(is.na(wd$area_WB), wd$area_approx, wd$area_WB)
 
 
-#download.file("http://www.happyplanetindex.org/assets/hpi-data.xlsx", "../shapes/hpi-data.xlsx", mode = "wb")
+#download.file("http://www.happyplanetindex.org/assets/hpi-data.xlsx", "./shapes/hpi-data.xlsx", mode = "wb")
 library(readxl)
 
-hpi <- read_excel("../shapes/hpi-data.xlsx", sheet="Complete HPI Dataset", skip=5, 
+hpi <- read_excel("./shapes/hpi-data.xlsx", sheet="Complete HPI Dataset", skip=5, 
 				  col_types=c("blank", "numeric", "text", "text", rep("numeric", 5), rep("text", 3), rep("blank", 27)))
 
 hpi <- hpi[!is.na(hpi$Country), ]
@@ -165,9 +165,9 @@ ed$part[which(ed$iso_a3=="TUR")] <- "Southern Europe"
 
 ed$part <- factor(as.character(ed$part), levels=c("Northern Europe", "Western Europe", "Southern Europe", "Eastern Europe"))
 
-names(ed)
+names(ed)[c(1:4, 16, 6:12, 13:15)]
 
-ed <- ed[, c(1:4, 13, 6:12)]
+ed <- ed[, c(1:4, 16, 6:12, 13:15)]
 
 ed[ed$continent!="Europe" & (ed$name !="Turkey"), 7:12] <- NA
 
@@ -200,7 +200,7 @@ eur5 <- append_data(eur4, ed)
 ## save Europe
 Europe <- eur5
 
-save(Europe, file="./data/Europe.rda", compress="xz")
+save(Europe, file="./pkg/data/Europe.rda", compress="xz")
 
 
 
@@ -291,7 +291,7 @@ World$name[World$iso_a3=="CIV"] <- "Cote d'Ivoire"
 World$name[World$iso_a3=="LAO"] <- "Laos"
 World@data <- wd[match(World$name, wd$name),]
 
-save(World, file="./data/World.rda", compress="xz")
+save(World, file="./pkg/data/World.rda", compress="xz")
 
 ## projections: see ?proj4string => package rgdal
 
