@@ -6,19 +6,20 @@
 \alias{tmap-package}
 \title{Thematic Maps}
 \description{
-Thematic maps are geographical maps in which statistical data are visualized. This package offers a flexible, layer-based, way to create thematic maps, such as choropleths and bubble maps.
+Thematic maps are geographical maps in which statistical data are visualized. This package offers a flexible, layer-based, way to create thematic maps, such as choropleths and bubble maps. It is based on the grammar of graphics, and resembles the syntax of ggplot2.
 }
 \details{
 This page provides a brief overview of all package functions. See \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} for a short manual with examples.
 }
-\section{Plotting thematic maps}{
+\section{Quick plotting}{
 
-
-Quick thematic map
 \tabular{ll}{
 \code{\link{qtm}}\tab To plot a thematic map \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
+}
+
+\section{Main plotting method}{
 
 Shape specification:
 \tabular{ll}{
@@ -44,6 +45,7 @@ Attribute layers:
 \code{\link{tm_scale_bar}}\tab To create a scale bar \cr
 \code{\link{tm_compass}}\tab To create a map compass \cr
 \code{\link{tm_credits}}\tab To create a text for credits \cr
+--------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 
 Layout element:
@@ -54,20 +56,32 @@ Layout element:
 }
 }
 
-\section{Other functions}{
+\section{Handy tool functions}{
 
 \tabular{ll}{
 \code{\link{bb}}\tab To create, extract or modify a bounding box \cr
 \code{\link{get_asp_ratio}}\tab To get the aspect ratio of a shape object \cr
 \code{\link{get_IDs}}\tab To get ID values of a shape object \cr
-\code{\link{append_data}}\tab To append a data frame to a shape object) \cr
+\code{\link{append_data}}\tab To append a data frame to a shape object \cr
 \code{\link{approx_areas}}\tab To approximate area sizes of polygons \cr
 \code{\link{calc_densities}}\tab To calculate density values \cr
 \code{\link{get_projection}}\tab To get the map projection \cr
 \code{\link{set_projection}}\tab To set the map projection \cr
-\code{\link{split}}\tab To split a shape \cr
+\code{\link{split}}\tab To split a shape object \cr
 \code{\link{sbind}}\tab To bind shape objects \cr
 \code{\link{map_coloring}}\tab To color polygons with different colors for adjacent polygons \cr
+--------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
+}
+}
+
+\section{Generate spatial objects}{
+
+\tabular{ll}{
+\code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and dasymetric polygons \cr
+\code{\link{smooth_raster_cover}}\tab To create a smoothed cover of a raster object \cr
+\code{\link{sample_dots}}\tab To sample dots from polygons \cr
+\code{\link{points_to_raster}}\tab To bin spatial points to a raster \cr
+\code{\link{poly_to_raster}}\tab To convert polygons to a raster \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }
@@ -82,23 +96,11 @@ Layout element:
 }
 }
 
-\section{Generate spatial objects}{
-
-\tabular{ll}{
-\code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and dasymetric polygons \cr
-\code{\link{smooth_raster_cover}}\tab To create a smoothed cover of a raster object \cr
-\code{\link{sample_dot}}\tab To sample dots from polygons \cr
-\code{\link{points_to_raster}}\tab To bin spatial points to a raster \cr
-\code{\link{poly_to_raster}}\tab To convert polygons to a raster \cr
---------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
-}
-}
-
 \section{Output functions}{
 
 \tabular{ll}{
 \code{\link{itmap}}\tab Interactive tmap widget \cr
-\code{\link{animation_map}}\tab Create an animation \cr
+\code{\link{animation_tmap}}\tab Create an animation \cr
 \code{\link{save_tmap}}\tab To save thematic maps \cr
 \code{\link{write_shape}}\tab To write a shape object \cr
 \code{\link{get_projection}}\tab To get the map projection \cr

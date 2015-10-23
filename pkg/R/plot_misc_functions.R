@@ -1,5 +1,5 @@
 process_grid <- function(gt, bbx, proj, sasp) {
-	grid.n.x <- grid.n.y <- NULL
+	grid.n.x <- grid.n.y <- grid.projection <- NULL
 	within(gt, { 
 		if (!is.na(grid.projection)) {
 			bbx_orig <- bbx

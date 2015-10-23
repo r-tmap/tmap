@@ -102,10 +102,7 @@ Creates a \code{\link{tmap-element}} that draws the polygons. \code{tm_fill} fil
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_fill} (and \code{tm_polygons}) is \code{col}. In the latter case, the arguments, except for \code{thres.poly}, and the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 }
 \examples{
-data(World)
-data(Europe)
-data(NLD_muni)
-data(NLD_prov)
+data(World, Europe, NLD_muni, NLD_prov)
 
 # Constant fill
 tm_shape(World) + tm_fill("darkolivegreen3") + tm_format_World(title="A green World")
@@ -128,37 +125,26 @@ tm_shape(NLD_prov) +
     tm_borders("grey40", lwd=2) +
 tm_format_NLD_wide(bg.color="white", frame = FALSE, legend.hist.bg.color="grey90")
 
-tm_shape(Europe) +
-    tm_polygons("gdp_cap_est", style="kmeans", textNA = "Non-European countries", 
-        title="GDP per capita") +
-    tm_text("iso_a3", size="AREA", root=4, scale=2) +
-tm_format_Europe()
-
 tm_shape(World) +
-    tm_polygons("pop_est_dens", style="kmeans", palette="YlOrRd", title="Population per km2") +
+    tm_polygons("HPI", palette="RdYlGn", n=7, auto.palette.mapping=FALSE, title="Happy Planet Index") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_format_World()
 
 # Categorical data variable
 tm_shape(World) +
-    tm_polygons("income_grp", palette="-Blues", title="Income classification") +
+    tm_polygons("income_grp", palette="-Purples", title="Income classification") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_format_World()
 
+# Map coloring algorithn
 tm_shape(NLD_prov) + 
-    tm_fill("name") + 
+    tm_fill("name", legend.show = FALSE) + 
 tm_shape(NLD_muni) + 
-    tm_borders() + 
+    tm_polygons("MAP_COLORS", palette="Greys", alpha = .25) + 
 tm_shape(NLD_prov) + 
     tm_borders(lwd=2) +
     tm_text("name", shadow=TRUE) +
-tm_format_NLD(title="Provinces and municipalities", legend.show=FALSE, bg.color="white")
-
-## World country map
-tm_shape(World) + 
-	tm_polygons("MAP_COLORS") + 
-	tm_text("name", size = "AREA", scale=1.5) +
-	tm_format_World(bg.color="lightblue2")
+tm_format_NLD(title="Dutch provinces and\\nmunicipalities", bg.color="white")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

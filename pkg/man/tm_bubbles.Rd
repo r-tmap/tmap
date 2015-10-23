@@ -123,9 +123,7 @@ Creates a \code{\link{tmap-element}} that draws bubbles or small dots. Both colo
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic arguments of \code{tm_bubbles} are \code{size} and \code{col}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 }
 \examples{
-data(World)
-data(Europe)
-data(metro)
+data(World, metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
 tm_shape(World) +
@@ -139,13 +137,10 @@ tm_shape(metro) +
         title.col="Growth rate (\%)") + 
 tm_format_World()
 
-tm_shape(Europe) +
-    tm_borders() +
-    tm_fill() +
-tm_shape(metro) +
-    tm_bubbles(size="pop2010", col="purple", size.lim=c(0, 1.2e7), title.size="Metro population") +
-    tm_text("name", size="pop2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
-tm_format_Europe()
+x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
+tm_shape(x) + 
+	tm_dots() + 
+tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
 }
 \references{
 Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.

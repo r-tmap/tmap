@@ -8,7 +8,7 @@ smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
   unit = "km", unit.size = 1000, smooth.raster = TRUE, nlevels = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   bandwidth = NA, cover.type = NA, cover = NULL, cover.threshold = 0.6,
-  weight = 1, extracting.method = FULL, buffer.width = NA,
+  weight = 1, extracting.method = "full", buffer.width = NA,
   to.Raster = FALSE)
 }
 \arguments{

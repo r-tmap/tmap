@@ -38,14 +38,16 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		
 		
 		## background rectangle (whole device)
-		if (gt$design.mode) {
-			grobBG <- rectGrob(gp=gpar(fill="yellow", col="yellow"), name="bg_rect")
-		} else if (is.na(gt$frame)) {
-			grobBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="bg_rect")
-		} else {
-			grobBG <- NULL
-		}
-		
+		grobBG <- if (gt$design.mode) {
+			rectGrob(gp=gpar(fill="yellow", col="yellow"), name="bg_rect")
+		} else if (is.na(gt$frame) && !gt$earth.boundary) {
+			rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="bg_rect")
+		} else if (is.na(gt$frame) && gt$earth.boundary) {
+			rectGrob(gp=gpar(fill=gt$space.color, col=NA), name="bg_rect")
+		} else if (!is.null(gt$outer.bg.color) && !is.na(gt$frame)) {
+			rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color), name="bg_rect")
+		} else NULL
+
 		
 		## create a 3x3 grid layout with the shape to be drawn in the middle cell
 		gridLayoutMap <- viewport(layout=grid.layout(3, 3, 
@@ -84,10 +86,6 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			gList(grobBGframe, grobAsp, treeElemGrid)
 		})
 		
-		## background rectangle (whole device), in case a frame is drawn and outer.bg.color is specified
-		treeBG <- if (!is.null(gt$outer.bg.color) && !is.na(gt$frame)) {
-			cellplot(1:3,1:3, e=rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color)), name="mapBG")
-		} else NULL
 		treeFrame <- cellplot(2,2, e={
 			if (!is.na(gt$frame)) {
 				pH <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
@@ -101,7 +99,9 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 					rectGrob(gp=gpar(col=gt$frame, fill=NA, lwd=gt$frame.lwd, lineend="square"))
 				}
 				
-			} else rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
+			} else if (!gt$earth.boundary) {
+				rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
+			} else NULL
 		}, name="mapFrame")
 		
 		treeGridLabels <- if (gt$grid.show && !gt$grid.labels.inside.frame) {
@@ -112,7 +112,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		
 		
 		
-		treeMapX <- gTree(children=gList(grobBG, gTree(children=gList(treeBG, treeMap, treeFrame, treeGridLabels), vp=gridLayoutMap, name="outer_map")), name="BG")
+		treeMapX <- gTree(children=gList(grobBG, gTree(children=gList(treeMap, treeFrame, treeGridLabels), vp=gridLayoutMap, name="outer_map")), name="BG")
 		
 		upViewport()
 	} else {

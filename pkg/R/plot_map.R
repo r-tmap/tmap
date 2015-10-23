@@ -292,6 +292,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		world_bb_co3 <- matrix(c((world_bb_co2[,1] - bbx[1,1])/(bbx[1,2]-bbx[1,1]),
 								 (world_bb_co2[,2] - bbx[2,1])/(bbx[2,2]-bbx[2,1])), ncol=2)
 		
+		worldBB_bg <- if (!is.na(gt$frame)) NULL else pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=NA, fill=gt$bg.color))
 		worldBB <- pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=gt$earth.boundary.color, fill=NA, lwd=gt$earth.boundary.lwd))
 		
 		worldBB_cut <- pathGrob(x = c(0, 0, 1, 1, rev(world_bb_co3[,1])), y = c(0, 1, 1, 0, rev(world_bb_co3[,2])), id=c(rep(1,4), rep(2,nrow(world_bb_co3))), gp=gpar(col=NA, fill=gt$space.color))
@@ -303,11 +304,12 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		}
 	} else {
 		grobWorldBB <- NULL
+		worldBB_bg <- NULL
 	}
 	
 	
 	
-	grobsElemGrid <- do.call("gList", args = c(treeElements, list(grobWorldBB, treeGridLabels)))
+	grobsElemGrid <- do.call("gList", args = c(list(worldBB_bg), treeElements, list(grobWorldBB, treeGridLabels)))
 	
 	
 	list(treeElemGrid=gTree(children=grobsElemGrid, name="mapElements"), lineInch=lineInch, metaX=metaX, metaY=metaY)

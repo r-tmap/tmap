@@ -31,9 +31,11 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 	# title properties
 	nlines <- length(strsplit(gt$title, "\n")[[1]])
 	
-	title.size <- min((1-2*mx) / convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE), gt$title.size)
+	title.width <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * 1.02
 	
-	titleWidth <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * title.size
+	title.size <- min((1-2*mx) / title.width, gt$title.size)
+	
+	titleWidth <- title.width * title.size
 	titleHeight <- lineHeight * (nlines) * title.size
 	
 	if (has.legend) {

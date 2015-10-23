@@ -50,7 +50,7 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders(lwd=4) +
     tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
-tm_format(legend.show = FALSE)
+tm_layout(legend.show = FALSE)
 
 # Dasymetric map (using a raster)
 tm_shape(land, ylim = c(-88,88)) +
@@ -58,7 +58,7 @@ tm_shape(land, ylim = c(-88,88)) +
         title="Elevation") +
     tm_shape(World) +
         tm_borders() +
-tm_format(inner.margins=0, legend.position = c(.02, .1), 
+tm_layout(inner.margins=0, legend.position = c(.02, .1), 
     bg.color="lightblue")
 
 # Raster map with a dot map

@@ -102,9 +102,9 @@ tm_shape(World) +
 tm_layout(legend.position = c("left","bottom"), bg.color="lightblue")
 
 tm_shape(land) +
-    tm_raster("black") +
-    tm_facets(by="cover_cls") +
-tm_layout(title.position = c("left", "bottom"), title.bg.color="gray80")
+	tm_raster("black") +
+	tm_facets(by="cover_cls") +
+	tm_layout(title.position = c("left", "bottom"), title.bg.color="gray80")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

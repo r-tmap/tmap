@@ -1,6 +1,4 @@
-data(World)
-data(Europe)
-data(metro)
+data(World, metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
 tm_shape(World) +
@@ -14,10 +12,7 @@ tm_shape(metro) +
         title.col="Growth rate (%)") + 
 tm_format_World()
 
-tm_shape(Europe) +
-    tm_borders() +
-    tm_fill() +
-tm_shape(metro) +
-    tm_bubbles(size="pop2010", col="purple", size.lim=c(0, 1.2e7), title.size="Metro population") +
-    tm_text("name", size="pop2010", scale=2, root=3, ymod=-.015 , bg.alpha=0) +
-tm_format_Europe()
+x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
+tm_shape(x) + 
+	tm_dots() + 
+tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))

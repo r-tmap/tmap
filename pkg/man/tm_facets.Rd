@@ -94,7 +94,6 @@ tm_shape(NLD_prov) +
     tm_borders(lwd=4) +
     tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
 tm_layout(legend.show = FALSE)
-
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

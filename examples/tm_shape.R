@@ -1,6 +1,4 @@
-data(World)
-data(metro)
-data(rivers)
+data(World, metro, rivers)
 
 tm_shape(World, projection="longlat") + 
     tm_polygons() + 
@@ -15,8 +13,8 @@ statistical purposes. In reality, Australia is 3 times larger than Greenland!",
 
 tm_shape(World, projection="wintri") + 
     tm_polygons() + 
-tm_layout("Winkel-Tripel projection, adapted as default by the 
-           National Geographic Society for world maps.",
+tm_layout(
+"Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps.",
     inner.margins=c(0,0,.1,0), title.size=.8)
 
 tm_shape(World) +

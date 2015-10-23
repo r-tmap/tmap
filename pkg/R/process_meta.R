@@ -1,5 +1,5 @@
 process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shp_info) {
-	
+	attr.color <- aes.color <- pc <- grid.alpha <- NULL
 	
 	gf <- within(gf, {
 		by <- NULL
@@ -163,7 +163,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 		gcomp <- list(compass.show=FALSE)
 	}
 	
-	
+	gt[c("compass.type", "compass.size")] <- NULL
 	
 	c(gt, gf, gg, gc, gsb, gcomp, shp_info)
 }

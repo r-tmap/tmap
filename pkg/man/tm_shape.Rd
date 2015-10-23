@@ -62,9 +62,7 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
 Creates a \code{\link{tmap-element}} that specifies the shape object. Also the projection and covered area (bounding box) can be set. It is possible to use multiple shape objects within one plot (see \code{\link{tmap-element}}).
 }
 \examples{
-data(World)
-data(metro)
-data(rivers)
+data(World, metro, rivers)
 
 tm_shape(World, projection="longlat") + 
     tm_polygons() + 
@@ -79,8 +77,8 @@ statistical purposes. In reality, Australia is 3 times larger than Greenland!",
 
 tm_shape(World, projection="wintri") + 
     tm_polygons() + 
-tm_layout("Winkel-Tripel projection, adapted as default by the 
-           National Geographic Society for world maps.",
+tm_layout(
+"Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps.",
     inner.margins=c(0,0,.1,0), title.size=.8)
 
 tm_shape(World) +

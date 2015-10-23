@@ -65,7 +65,7 @@
 #' \tabular{ll}{
 #' \code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and dasymetric polygons \cr
 #' \code{\link{smooth_raster_cover}}\tab To create a smoothed cover of a raster object \cr
-#' \code{\link{sample_dot}}\tab To sample dots from polygons \cr
+#' \code{\link{sample_dots}}\tab To sample dots from polygons \cr
 #' \code{\link{points_to_raster}}\tab To bin spatial points to a raster \cr
 #' \code{\link{poly_to_raster}}\tab To convert polygons to a raster \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
@@ -82,7 +82,7 @@
 #' @section Output functions: 
 #' \tabular{ll}{
 #' \code{\link{itmap}}\tab Interactive tmap widget \cr
-#' \code{\link{animation_map}}\tab Create an animation \cr
+#' \code{\link{animation_tmap}}\tab Create an animation \cr
 #' \code{\link{save_tmap}}\tab To save thematic maps \cr
 #' \code{\link{write_shape}}\tab To write a shape object \cr
 #' \code{\link{get_projection}}\tab To get the map projection \cr
