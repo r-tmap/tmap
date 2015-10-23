@@ -10,6 +10,8 @@
 \source{
 \url{http://www.naturalearthdata.com} for \code{World} and \code{Europe}
 
+\url{http://www.happyplanetindex.org} for \code{World} and \code{Europe}
+
 \url{http://www.cbs.nl} for \code{NLD_prov} and \code{NLD_muni}.
 }
 \usage{
@@ -37,5 +39,7 @@ The default projections for these maps are Eckhart IV (World), Lambert azimuthal
 Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{http://www.cbs.nl}.
 
 Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{http://www.kadaster.nl}.
+
+Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{http://www.cbs.nl}.
 }
 
