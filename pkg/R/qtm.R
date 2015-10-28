@@ -27,8 +27,7 @@
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.
 #' @param title main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).
 #' @param format \code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).
-#' @param colors \code{\link{tm_layout}} wrapper used for color themes. Currently available in tmap: "cobalt", "albatross", "beaver".  Own wrappers can be used as well (see details).
-#' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).
+#' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details). #Currently available in tmap: "cobalt", "albatross", "beaver".  
 #' @param ... arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.  
 #' @return \code{\link{tmap-element}}
 #' @example ../examples/qtm.R
@@ -47,7 +46,6 @@ qtm <- function(shp,
 				scale=NA,
 				title=NA,
 				format=NULL,
-				colors=NULL,
 				style=NULL,
 				...) {
 	args <- list(...)
@@ -119,12 +117,16 @@ qtm <- function(shp,
 
 	scaleLst <- if (!missing(scale)) list(title=title, scale=scale) else list(title=title)
 	if (!missing(format)) {
-		g <- g + do.call(paste("tm_format", format, sep="_"), list())
-	}
-	if (!missing(colors)) {
-		g <- g + do.call(paste("tm_colors", colors, sep="_"), list())
+		fname <- paste("tm_format", format, sep="_")
+		if (exists(fname)) {
+			g <- g + do.call(fname, list())
+		} else warning(paste("function", fname, "does not exist"))
 	}
 	if (!missing(style)) {
+		fname <- paste("tm_style", style, sep="_")
+		if (exists(fname)) {
+			g <- g + do.call(fname, list())
+		} else warning(paste("function", fname, "does not exist"))
 		g <- g + do.call(paste("tm_style", style, sep="_"), list())
 	}
 	g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))

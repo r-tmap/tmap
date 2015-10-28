@@ -83,8 +83,8 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 			if (shp_info$is_raster) rep(0, 4) else rep(0.02, 4)
 		} else rep(inner.margins, length.out=4)
 		
- 		attr.color.light <- sum(col2rgb(attr.color) * c(.299, .587, .114)) >= 128
- 		aes.color.light <- sum(col2rgb(aes.color) * c(.299, .587, .114)) >= 128
+ 		attr.color.light <- is_light(attr.color)
+ 		aes.color.light <- is_light(aes.color)
 
 		title.color <- do.call("process_color", c(list(col=title.color), pc))
 		legend.text.color <- do.call("process_color", c(list(col=legend.text.color), pc))

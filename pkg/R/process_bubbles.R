@@ -36,7 +36,11 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 	if (bubble.col.is.numeric) {
 		is.diverging <- (any(na.omit(xc)<0) || any(g$breaks<0)) && (any(na.omit(xc)>0) || any(g$breaks>0))
 		
-		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] else g$palette
+		palette <- if (is.null(g$palette)) {
+			gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] 
+		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
+			gt$aes.palette[[g$palette[1]]]
+		} else g$palette
 		colsLeg <- num2pal(xc, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
@@ -49,7 +53,11 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		bubble.col.neutral <- colsLeg$legend.neutral.col
 		bubble.breaks <- colsLeg[[4]]
 	} else {
-		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.ordered(xc), "seq", "cat")]] else g$palette
+		palette <- if (is.null(g$palette)) {
+			gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] 
+		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
+			gt$aes.palette[[g$palette[1]]]
+		} else g$palette
 		#remove unused levels in legend
 		sel <- !is.na(xs)
 		colsLeg <- cat2pal(xc[sel],

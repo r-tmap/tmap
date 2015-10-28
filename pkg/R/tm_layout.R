@@ -68,8 +68,8 @@
 tm_layout <- function(title=NA,
 					  scale=1,
 					  title.size=1.3,
-					  bg.color= "grey85",
-					  aes.color=c(fill="grey70", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
+					  bg.color= "white",
+					  aes.color=c(fill="grey85", borders="grey60", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey70"),
 					  aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Set3"),
 					  attr.color="black",
   					  sepia.intensity=0, 
@@ -136,7 +136,8 @@ tm_legend <- function(...) {
 
 #' @rdname tm_layout
 #' @export
-tm_format_World <- function(inner.margins=c(0, 0.05, 0.025, 0.01),
+tm_format_World <- function(title=NA,
+							inner.margins=c(0, 0.05, 0.025, 0.01),
 							legend.position=c("left", "bottom"), 
 							scale=.8,
 							...) {
@@ -147,7 +148,8 @@ tm_format_World <- function(inner.margins=c(0, 0.05, 0.025, 0.01),
 
 #' @rdname tm_layout
 #' @export
-tm_format_World_wide <- function(inner.margins=c(0, 0.2, 0.025, 0.01),
+tm_format_World_wide <- function(title=NA,
+								 inner.margins=c(0, 0.2, 0.025, 0.01),
 							legend.position=c("left", "bottom"), 
 							legend.width=0.4,
 							scale=.8,
@@ -158,9 +160,12 @@ tm_format_World_wide <- function(inner.margins=c(0, 0.2, 0.025, 0.01),
 
 #' @rdname tm_layout
 #' @export
-tm_format_Europe <- function(title.position=c("left", "top"),
+tm_format_Europe <- function(title=NA,
+							 title.position=c("left", "top"),
 							 legend.position=c("left", "top"), 
+							 attr.position=c("left", "bottom"),
 							 inner.margins=c(0, 0.1, 0, 0),
+							 
 							 ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
@@ -168,8 +173,10 @@ tm_format_Europe <- function(title.position=c("left", "top"),
 
 #' @rdname tm_layout
 #' @export
-tm_format_Europe_wide <- function(title.position=c("left", "top"),
+tm_format_Europe_wide <- function(title=NA,
+								  title.position=c("left", "top"),
 							 legend.position=c("left", "top"), 
+							 attr.position=c("left", "bottom"),
 							 inner.margins=c(0, 0.25, 0, 0),
 							 legend.width=0.4,
 							 legend.hist.width=0.4,
@@ -182,7 +189,8 @@ tm_format_Europe_wide <- function(title.position=c("left", "top"),
 
 #' @rdname tm_layout
 #' @export
-tm_format_NLD <- function(frame=FALSE, 
+tm_format_NLD <- function(title=NA,
+						  frame=FALSE, 
 						  inner.margins=c(.02, .2, .06, .02),
 						  legend.position=c("left", "top"), 
 						  legend.width=0.4,
@@ -206,7 +214,26 @@ tm_format_NLD_wide <- function(title=NA,
 
 #' @rdname tm_layout
 #' @export
-tm_colors_cobalt <- function(bg.color="#002240",
+tm_style_default <- function(...) {
+	args <- list(...)
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- names(g$tm_layout)[-length(g)]
+	g
+}
+
+#' @rdname tm_layout
+#' @export
+tm_style_gray <- tm_style_grey <- function(bg.color="grey85", 
+						   aes.color=c(fill="grey70", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
+						   ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+
+#' @rdname tm_layout
+#' @export
+tm_style_cobalt <- function(bg.color="#002240",
 							 aes.color=c(fill="#0088FF", borders="#002240", bubbles="#FF9D00", dots="#FF9D00", lines="#FFEE80", text="white", na="grey60"),
 							 aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
 							 attr.color="white", ...) {
@@ -217,12 +244,24 @@ tm_colors_cobalt <- function(bg.color="#002240",
 	do.call("tm_layout", args)
 }
 
+#' @rdname tm_layout
+#' @export
+tm_style_col_blind <- function(bg.color="white",
+							aes.color=c(fill="grey85", borders="black", bubbles="#D55E00", dots="#0072B2", lines="#009E73", text="black", na="white"),
+							aes.palette=list(seq="YlGn", div="RdYlGn", cat=c("#D55E00", "#56B4E9", "#E69F00", "#009E73", "#F0E442", "#0072B2","#CC79A7")),
+							attr.color="black", ...) {
+	# Bu="#0088FF" DaBu="#002240" LiBu="#BED6FF" Or="#FF9D00", W="white" Yl="FFEE80"
+	# See https://www.hartwork.org/beamer-theme-matrix/
+	
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
 
 
 #' @rdname tm_layout
 #' @export
-tm_colors_albatross <- function(bg.color="#00007F",
-								aes.color=c(fill="#4C4C88", borders="#BFBFFF", bubbles="#BFBFFF", dots="#BFBFFF", lines="#BFBFFF", text="#FFE700", na="grey60"),
+tm_style_albatross <- function(bg.color="#00007F",
+								aes.color=c(fill="#4C4C88", borders="#00004C", bubbles="#BFBFFF", dots="#BFBFFF", lines="#BFBFFF", text="#FFE700", na="grey60"),
 								aes.palette=list(seq="YlOrRd", div="RdYlGn", cat="Set3"),
 								attr.color="#BFBFFF", ...) {
 	# Y="#FFE700", Bu="#00007F", DaBu="#00004C", Gr="#BFBFFF", DaGr="#4C4C88"
@@ -234,7 +273,7 @@ tm_colors_albatross <- function(bg.color="#00007F",
 
 #' @rdname tm_layout
 #' @export
-tm_colors_beaver <- function(bg.color="#FFFFFF",
+tm_style_beaver <- function(bg.color="#FFFFFF",
 							 aes.color=c(fill="#FFE200", borders="#000000", bubbles="#A30000", dots="#A30000", lines="#A30000", text="#000000", na="#E0E0E0"),
 							 aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Dark2"),
 							 attr.color="black", ...) {

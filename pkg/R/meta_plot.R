@@ -131,7 +131,6 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 		}
 	} else title.position <- gt$title.position
 
-	
 	grobTitle <- if (snap || gt$title=="") {
 		NULL
 	} else {

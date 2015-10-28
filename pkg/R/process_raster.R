@@ -2,7 +2,11 @@ process_raster_vector <- function(x, g, gt) {
 	textNA <- ifelse(any(is.na(x)) && !is.na(g$colorNA), g$textNA, NA)
 	
 	if (is.factor(x)) {
-		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] else g$palette
+		palette <- if (is.null(g$palette)) {
+			gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] 
+		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
+			gt$aes.palette[[g$palette[1]]]
+		} else g$palette
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   contrast = g$contrast,
@@ -14,7 +18,11 @@ process_raster_vector <- function(x, g, gt) {
 		raster.breaks <- NA
 	} else {
 		is.diverging <- (any(na.omit(x)<0) || any(g$breaks<0)) && (any(na.omit(x)>0) || any(g$breaks>0))
-		palette <- if (is.null(g$palette)) gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] else g$palette
+		palette <- if (is.null(g$palette)) {
+			gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] 
+		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
+			gt$aes.palette[[g$palette[1]]]
+		} else g$palette
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,

@@ -34,38 +34,50 @@ num2pal <- function(x, n = 5,
 	
 	
 	# map palette
-	if (palette[1] %in% rownames(brewer.pal.info)) {
+	is.brewer <- palette[1] %in% rownames(brewer.pal.info)
+	
+	if (is.brewer) {
 		mc <- brewer.pal.info[palette, "maxcolors"]
-		if (auto.palette.mapping) {
-			pal.div <- (brewer.pal.info[palette, "category"]=="div")
-			
+		pal.div <- (brewer.pal.info[palette, "category"]=="div")
+	} else {
+		colpal_light <- get_light(palette[c(1, length(palette)/2, length(palette))])
+		# figure out whether palette is diverging
+		pal.div <- ((colpal_light[2]>colpal_light[1] && colpal_light[2]>colpal_light[3]) || (colpal_light[2]<colpal_light[1] && colpal_light[2]<colpal_light[3]))
+	}
+	
+	if (auto.palette.mapping) {
+		if (is.brewer) {
 			colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)))(101)
-			
-			ids <- if (pal.div) {
-				map2divscaleID(breaks, n=101, contrast=contrast)
-			} else {
-				map2seqscaleID(breaks, n=101, contrast=contrast)
-			}
-			
-			legend.palette <- colpal[ids]
-			if (any(ids<51) && any(ids>51)) {
-				ids.neutral <- min(ids[ids>=51]-51) + 51
-				legend.neutral.col <- colpal[ids.neutral]
-			} else {
-				legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
-			}
-			
 		} else {
+			colpal <- colorRampPalette(revPal(palette))(101)
+		}
+		
+		ids <- if (pal.div) {
+			map2divscaleID(breaks, n=101, contrast=contrast)
+		} else {
+			map2seqscaleID(breaks, n=101, contrast=contrast)
+		}
+		
+		legend.palette <- colpal[ids]
+		if (any(ids<51) && any(ids>51)) {
+			ids.neutral <- min(ids[ids>=51]-51) + 51
+			legend.neutral.col <- colpal[ids.neutral]
+		} else {
+			legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
+		}
+		
+	} else {
+		if (is.brewer) {
 			if (nbrks-1 > mc) {
 				legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)))(nbrks-1)
 			} else legend.palette <- revPal(brewer.pal(nbrks-1, palette))
-			legend.neutral.col <- legend.palette[round(((length(legend.palette)-1)/2)+1)]
+		} else {
+			legend.palette <- colorRampPalette(revPal(palette))(nbrks-1) #rep(palette, length.out=nbrks-1)
 		}
-	} else {
-		legend.palette <- rep(palette, length.out=nbrks-1)
-		legend.neutral.col <- legend.palette[1]
+		neutralID <- if (pal.div) round(((length(legend.palette)-1)/2)+1) else 1
+		legend.neutral.col <- legend.palette[neutralID]
 	}
-	
+
 	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
 	legend.neutral.col <- do.call("process_color", c(list(col=legend.neutral.col), process.colors))
 	colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
@@ -109,7 +121,7 @@ fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, text.separator=
 
 	### analyse the numeric vector
 	n <- length(vec)
-	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec)))
+	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec[!is.infinite(vec)])))
 	
 	# get width before decimal point
 	mag <- max(nchar(frm)-11)

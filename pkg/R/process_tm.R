@@ -2,24 +2,26 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL
 	## fill meta info
 	
-	## get tm_layout elements
-	if (!("tm_layout" %in% names(x))) {
-		gt <- tm_layout()$tm_layout
-	} else {
-		gts <- x[names(x)=="tm_layout"]
-		gtsn <- length(gts)
-		gt <- gts[[1]]
-		if (gtsn>1) {
-			extraCall <- character(0)
-			for (i in 2:gtsn) {
-				gt[gts[[i]]$call] <- gts[[i]][gts[[i]]$call]
-				if ("attr.color" %in% gts[[i]]$call) gt[c("earth.boundary.color", "legend.text.color", "title.color")] <- gts[[i]]["attr.color"]
-				extraCall <- c(extraCall, gts[[i]]$call)
-			}
-			gt$call <- c(gt$call, extraCall)
-		}
+	style <- options("tmap.style")
+	tln <- paste("tm_style", style,sep="_" )
+	if (!exists(tln)) {
+		warning(paste("Style", style, "unknown;", tln, "does not exist. Please specify another style with the option \"tmap.stype\".", sep=" "))
+		tln <- "tm_style_default"
 	}
-	
+	gt <- do.call(tln, args = list())$tm_layout
+
+	gts <- x[names(x)=="tm_layout"]
+	if (length(gts)) {
+		gtsn <- length(gts)
+		extraCall <- character(0)
+		for (i in 1:gtsn) {
+			gt[gts[[i]]$call] <- gts[[i]][gts[[i]]$call]
+			if ("attr.color" %in% gts[[i]]$call) gt[c("earth.boundary.color", "legend.text.color", "title.color")] <- gts[[i]]["attr.color"]
+			extraCall <- c(extraCall, gts[[i]]$call)
+		}
+		gt$call <- c(gt$call, extraCall)
+	}
+
 	## preprocess gt
 	gtnull <- names(which(sapply(gt, is.null)))
 	gt <- within(gt, {
@@ -45,9 +47,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 		}
 		if (is.na(aes.colors[1])) aes.colors[1] <- "black"
 
-		aes.colors.light <- sapply(aes.colors, function(col) {
-			sum(col2rgb(col) * c(.299, .587, .114)) >= 128
-		})
+		aes.colors.light <- sapply(aes.colors, is_light)
 
 	})
 	gt[gtnull] <- list(NULL)

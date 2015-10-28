@@ -6,8 +6,8 @@
 \usage{
 qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
   text.size = 1, line.lwd = NULL, line.col = NULL, raster = NA,
-  borders = NA, scale = NA, title = NA, format = NULL, colors = NULL,
-  style = NULL, ...)
+  borders = NA, scale = NA, title = NA, format = NULL, style = NULL,
+  ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -44,9 +44,7 @@ qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
 
 \item{format}{\code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).}
 
-\item{colors}{\code{\link{tm_layout}} wrapper used for color themes. Currently available in tmap: "cobalt", "albatross", "beaver".  Own wrappers can be used as well (see details).}
-
-\item{style}{\code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).}
+\item{style}{\code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details). #Currently available in tmap: "cobalt", "albatross", "beaver".}
 
 \item{...}{arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.}
 }

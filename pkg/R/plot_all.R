@@ -132,13 +132,15 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			vpLeg <- vpPath("maingrid", "aspvp")
 			d <- downViewport(vpLeg)
 			grobLegendBG <- NULL
+			treeMetaVP <- vpList(gridLayoutMap, viewport(layout.pos.row=2, layout.pos.col=2, name="meta_aspvp", clip=TRUE))
 		} else {
 			vpLeg <- current.viewport()
 			grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
+			treeMetaVP <- NULL
 		}
 		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY)
 		treeMetaX <- gTree(children=gList(grobLegendBG, treeMeta), name="meta_with_bg", 
-						   vp = vpList(gridLayoutMap, viewport(layout.pos.row=2, layout.pos.col=2, name="meta_aspvp", clip=TRUE)))
+						   vp = treeMetaVP)
 		
 		if (!gt$legend.only) {
 			treeMapX <- addGrob(treeMapX, child=treeMetaX, gPath=gPath("outer_map"))#, "aspvp"))

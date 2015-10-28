@@ -35,13 +35,11 @@ process_text <- function(data, g, fill, gt) {
 		text.fontcolor <- if (is.na(text.fontcolor[1])) {
 			if (is.matrix(fill)) {
 				apply(fill, MARGIN=2, function(f) {
-					fillrgb <- col2rgb(f)
-					light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
+					light <- is_light(f)
 					rep(ifelse(light, coldark, collight), length.out=npol)
 				})
 			} else {
-				fillrgb <- col2rgb(fill)
-				light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
+				light <- is_light(fill)
 				rep(ifelse(light, coldark, collight), length.out=npol)
 			}
 		} else rep(text.fontcolor, length.out=npol)
@@ -49,13 +47,11 @@ process_text <- function(data, g, fill, gt) {
 		if (text.shadow) {
 			text.shadowcol <- if (is.matrix(text.fontcolor)) {
 				apply(text.fontcolor, MARGIN=2, function(f) {
-					fillrgb <- col2rgb(f)
-					light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
+					light <- is_light(f)
 					rep(ifelse(light, coldark, collight), length.out=npol)
 				})
 			} else {
-				fillrgb <- col2rgb(text.fontcolor)
-				light <- apply(fillrgb * c(.299, .587, .114), MARGIN=2, sum) >= 128
+				light <- is_light(fontcolor)
 				rep(ifelse(light, coldark, collight), length.out=npol)
 			}
 		}
