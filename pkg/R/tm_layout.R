@@ -248,11 +248,9 @@ tm_style_cobalt <- function(bg.color="#002240",
 #' @export
 tm_style_col_blind <- function(bg.color="white",
 							aes.color=c(fill="grey85", borders="black", bubbles="#D55E00", dots="#0072B2", lines="#009E73", text="black", na="white"),
-							aes.palette=list(seq="YlGn", div="RdYlGn", cat=c("#D55E00", "#56B4E9", "#E69F00", "#009E73", "#F0E442", "#0072B2","#CC79A7")),
+							aes.palette=list(seq="Blues", div="RdBu", cat=c("#D55E00", "#56B4E9", "#E69F00", "#009E73", "#F0E442", "#0072B2","#CC79A7")),
 							attr.color="black", ...) {
-	# Bu="#0088FF" DaBu="#002240" LiBu="#BED6FF" Or="#FF9D00", W="white" Yl="FFEE80"
-	# See https://www.hartwork.org/beamer-theme-matrix/
-	
+
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
