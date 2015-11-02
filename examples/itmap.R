@@ -1,5 +1,4 @@
-data(World)
-data(metro)
+data(World, metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
 require(dplyr)

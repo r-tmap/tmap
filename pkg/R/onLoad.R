@@ -1,3 +1,3 @@
 .onLoad <- function(...) {
-	options(tmap.style="default")
+	options(tmap.style="white")
 } 

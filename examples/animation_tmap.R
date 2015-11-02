@@ -8,8 +8,7 @@ animation_tmap({
 		tm_layout(scale=2)
 }, width=1200, height=800, delay=100, filename="European countries.gif")
 
-data(World)
-data(metro)
+data(World, metro)
 
 animation_tmap({
 	tm_shape(World) +

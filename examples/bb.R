@@ -17,7 +17,6 @@ bb(NLD_muni, width=2, relative = TRUE)
 bb(NLD_muni, xlim=c(.25, .75), ylim=c(.25, .75), relative = TRUE)
 bb("Limburg", projection = get_projection(NLD_muni))
 
-
 tm_shape(World, bbox=bb("Italy", projection = "eck4")) + tm_polygons()
 #identical: tm_shape(World, x="Italy", projection = "eck4") + tm_polygons()
 

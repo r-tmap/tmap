@@ -26,10 +26,17 @@
 #' \code{\link{tm_dots}}\tab To create a layer of dots \cr
 #' \code{\link{tm_lines}}\tab To create a layer of lines \cr
 #' \code{\link{tm_raster}}\tab To create a raster layer \cr
+#' \code{\link{tm_text}}\tab To create a layer of text labels \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
-#' Attribute layers:
+#' Facetting (small multiples)
+#' \tabular{ll}{
+#' \code{\link{tm_facets}}\tab To define facets \cr
+#' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
+#' }
+#' 
+#' Attributes:
 #' \tabular{ll}{
 #' \code{\link{tm_grid}}\tab To create grid lines \cr
 #' \code{\link{tm_scale_bar}}\tab To create a scale bar \cr
@@ -63,8 +70,8 @@
 #' 
 #' @section Generate spatial objects: 
 #' \tabular{ll}{
-#' \code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and dasymetric polygons \cr
-#' \code{\link{smooth_raster_cover}}\tab To create a smoothed cover of a raster object \cr
+#' \code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and dasymetric polygons) \cr
+#' \code{\link{smooth_raster_cover}}\tab To create a smooth cover of a raster object \cr
 #' \code{\link{sample_dots}}\tab To sample dots from polygons \cr
 #' \code{\link{points_to_raster}}\tab To bin spatial points to a raster \cr
 #' \code{\link{poly_to_raster}}\tab To convert polygons to a raster \cr
@@ -191,13 +198,13 @@ NULL
 
 #' tmap element
 #'
-#' Building block for drawing thematic maps.
+#' Building block for drawing thematic maps. All element functions have the prefix \code{tm_}.
 #' 
-#' The only fundamental, and hence required element is
+#' The fundamental, and hence required element is
 #' \itemize{
-#' \item \code{\link{tm_shape}} that specifies the shape object, and also controls the projection and bounding box}
+#' \item \code{\link{tm_shape}} that specifies the shape object, and also specifies the projection and bounding box}
 #' 
-#' The elements that serve as drawing layers are
+#' The elements that serve as aesthetics layers are
 #' \itemize{
 #' \item \code{\link{tm_fill}} to fill the polygons
 #' \item \code{\link{tm_borders}} to draw polygon borders
@@ -207,17 +214,19 @@ NULL
 #' \item \code{\link{tm_text}} to add text annotations
 #' \item \code{\link{tm_raster}} to draw a raster}
 #' 
-#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}} (see examples below).
+#' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}}.
 #' 
-#' The layout elements are
+#' The attribute elements are
 #' \itemize{
-#' \item \code{\link{tm_layout}} to change the appearance of the map, for instance, legend position, background color, and margins. Predefined formatting themes for the example shape objects are \code{\link{tm_format_World}}, \code{\link{tm_format_Europe}}, and \code{\link{tm_format_NLD}}.
-#' \item \code{\link{tm_facets}} that specifies how small multiples are created, i.e. how many rows and colums, and whether the statistical data variables have free scales or not.
-#' \item \code{\link{tm_grid}} that specifies coordinate grid lines
-#' \item \code{\link{tm_credits}} that adds a credits/acknowledgements text label
-#' \item \code{\link{tm_scale_bar}} that adds a measurement scale bar
+#' \item \code{\link{tm_grid}} to specify coordinate grid lines
+#' \item \code{\link{tm_credits}} to add a credits/acknowledgements text label
+#' \item \code{\link{tm_scale_bar}} to add a measurement scale bar
+#' \item \code{\link{tm_compass}} to add a map compass
 #' }
-#'    
+#' 
+#' The element \code{\link{tm_facets}} specifies facets (small multiples). The element \code{\link{tm_layout}} is used to change the layout of the map.
+#' 
 #' @name tmap-element
-#' @example ../examples/tmap.R
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso The examples in each of the element functions
 NULL

@@ -25,14 +25,32 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		
 		## project grid lines
 		if (!is.na(grid.projection)) {
+			gnx2 <- floor(length(grid.x))
+			grid.x2 <- c(rev(seq(grid.x[1], by=-diff(grid.x[1:2]), length.out = gnx2)), 
+						 grid.x[-c(1, length(grid.x))],
+						 seq(grid.x[length(grid.x)], by=diff(grid.x[1:2]), length.out = gnx2))
+			gny2 <- floor(length(grid.y))
+			grid.y2 <- c(rev(seq(grid.y[1], by=-diff(grid.y[1:2]), length.out = gny2)), 
+						 grid.y[-c(1, length(grid.y))],
+						 seq(grid.y[length(grid.y)], by=diff(grid.y[1:2]), length.out = gny2))
+			if (grid.projection %in% c("longlat", "latlong")) {
+				grid.x2 <- grid.x2[grid.x2>=-180 & grid.x2<=180]	
+				grid.y2 <- grid.y2[grid.y2>=-90 & grid.y2<=90]	
+			}
+			grid.sel.x <- which(grid.x2 %in% grid.x)
+			grid.sel.y <- which(grid.y2 %in% grid.y)
+			
+			gnx2 <- gny2 <- NULL
+			
 			# create SLDF with straight grid lines in grid lines projection
+			#bbx2 <- bb(bbx, ext=3)
 			lns <- SpatialLinesDataFrame(SpatialLines(list(
-				Lines(lapply(grid.x, function(x) {
-					m <- matrix(c(rep(x,100), seq(bbx[2,1], bbx[2,2], length.out=100)), ncol=2)
+				Lines(lapply(grid.x2, function(x) {
+					m <- matrix(c(rep(x,100), seq(min(grid.y2), max(grid.y2), length.out=100)), ncol=2)
 					Line(m)
 				}), ID="x"),
-				Lines(lapply(grid.y, function(y) {
-					m <- matrix(c(seq(bbx[1,1], bbx[1,2], length.out=100), rep(y,100)), ncol=2)
+				Lines(lapply(grid.y2, function(y) {
+					m <- matrix(c(seq(min(grid.x2), max(grid.x2), length.out=100), rep(y,100)), ncol=2)
 					Line(m)
 				}), ID="y")
 			), proj4string = CRS(get_proj4_code(grid.projection))), data.frame(ID=c("x", "y")), match.ID=FALSE)
@@ -72,15 +90,11 @@ process_grid <- function(gt, bbx, proj, sasp) {
 plot_grid_labels_x <- function(gt, scale) {
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
-		cogridx <- sapply(gt$grid.co.x.lns, function(i){
-			i[which(i[,2] > 0)[1], 1]
-		})
+		cogridx <- get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = 0)
 	} else {
 		cogridx <- gt$grid.co.x	
 	}
-	
 	labelsx <- gt$grid.labels.x
-	
 	textGrob(labelsx, y=1, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	
 }
@@ -88,15 +102,11 @@ plot_grid_labels_x <- function(gt, scale) {
 plot_grid_labels_y <- function(gt, scale) {
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
-		cogridy <- sapply(gt$grid.co.y.lns, function(i){
-			i[which(i[,1] > 0)[1], 2]
-		})
+		cogridy <- get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = 0)
 	} else {
 		cogridy <- gt$grid.co.y
 	}
-	
 	labelsy <- gt$grid.labels.y
-	
 	textGrob(labelsy, y=cogridy, x=1, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 }
 
@@ -134,12 +144,8 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
-		cogridx <- sapply(gt$grid.co.x.lns, function(i){
-			i[which(i[,2] > (labelsXw + spacerX))[1], 1]
-		})
-		cogridy <- sapply(gt$grid.co.y.lns, function(i){
-			i[which(i[,1] > (labelsYw + spacerY))[1], 2]
-		})
+		cogridx <- get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX)
+		cogridy <- get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY)
 	}
 	
 	# select grid labels to print
@@ -217,6 +223,36 @@ plot_grid <- function(gt, scale, add.labels) {
 		 metaY=labelsXw+spacerX)
 	
 }
+
+get_gridline_labels <- function(lco, xax=NA, yax=NA) {
+	k <- length(lco)
+	d <- ifelse(!is.na(xax), 1, 2)
+	lns <- SpatialLines(mapply(function(m, id){
+		Lines(list(Line(m)), ID=id)
+	}, lco, 1:k, SIMPLIFY=FALSE))
+	if (!is.na(xax)) {
+		ax <- SpatialLines(list(Lines(Line(matrix(c(0, 1, xax, xax), nrow=2)), ID="base")))
+	} else {
+		ax <- SpatialLines(list(Lines(Line(matrix(c(yax, yax, 0, 1), nrow=2)), ID="base")))
+	}
+	gint <- gIntersects(lns, ax, byid = TRUE)
+	ins <- sapply(lco, function(m) {
+		l <- m[1,]
+		if (!is.na(xax)) {
+			res <- l[1] >= 0 && l[1] <= 1 && l[2] >= xax && l[2] <= 1
+		} else {
+			res <- l[1] >= yax && l[1] <= 1 && l[2] >= 0 && l[2] <= 1
+		}
+		if (res) l[d] else -1
+	})
+	cogrid <- ifelse(gint, 0, ins)
+	if (any(gint)) {
+		gints <- gIntersection(lns[gint, ], ax, byid = TRUE)
+		cogrid[gint] <- gints@coords[,d]
+	}
+	cogrid
+}
+
 
 plot_bubbles <- function(co.npc, g, gt, lineInch, i, k) {
 	bubbleH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale

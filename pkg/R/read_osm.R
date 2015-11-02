@@ -1,19 +1,19 @@
-#' Read Open Street Map data (prototype)
+#' Read Open Street Map data
 #' 
-#' Read Open Street Map data, either vector or raster based.
+#' Read Open Street Map data. Either OSM tiles are read and returned as a spatial raster, or vectorized OSM data are queried and returned as spatial polygons, lines, and/or points.
 #' 
 #' @param x bounding box or \code{\link[osmar:osmar]{osmar}} object
-#' @param raster logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...}). By default, \code{raster=TRUE} is no vector selections are made, and \code{raster=FALSE} otherwise.
+#' @param raster logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...}). By default, \code{raster=TRUE} if no vector selections are made, and \code{raster=FALSE} otherwise.
 #' @param zoom passed on to \code{\link[OpenStreetMap:openmap]{openmap}}. Only applicable when \code{raster=TRUE}.
 #' @param type passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
 #' @param minNumTiles passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
 #' @param mergeTiles passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.
-#' @param ... arguments that specify polygons, lines, and/or points queries, created with \code{osm_poly}, \code{osm_line}, and \code{osm_point}.
+#' @param ... arguments that specify polygons, lines, and/or points queries, created with \code{osm_poly}, \code{osm_line}, and \code{osm_point} respectively.
 #' @name read_osm
 #' @rdname read_osm
 #' @import sp
-#' @import osmar
-#' @import OpenStreetMap
+#' @importFrom osmar osmsource_api get_osm corner_bbox find way tags find_down node as_sp
+#' @importFrom OpenStreetMap openmap
 #' @import raster
 #' @import rgdal
 #' @export

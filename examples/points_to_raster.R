@@ -1,5 +1,5 @@
 \dontrun{
-	data(NLD_muni)
+	data(NLD_muni, NLD_prov)
 	
 	# sample points (each point represents 1000 people)
 	NLD_muni_points <- sample_dots(NLD_muni, vars = "population", 
@@ -12,5 +12,9 @@
 	NLD_rst <- points_to_raster(NLD_muni_points, N = 1e4)
 	
 	# plot raster
-	qtm(NLD_muni) + qtm(NLD_rst, raster="count")
+	tm_shape(NLD_rst) +
+		tm_raster() +
+	tm_shape(NLD_prov) + 
+		tm_borders() +
+	tm_format_NLD() + tm_style_grey()
 }

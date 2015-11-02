@@ -13,4 +13,3 @@ Europe <- append_data(Europe, domain_codes, key.shp = "iso_a3", key.data = "Alph
 					  ignore.na = TRUE)
 
 qtm(Europe, text="TopLevelDomain")
-

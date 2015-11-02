@@ -1,12 +1,9 @@
-data(rivers)
-data(World)
-data(Europe)
+data(World, Europe, rivers)
 
 qtm(rivers, line.col = "navy")
 
 tm_shape(Europe) +
-  tm_fill("darkolivegreen3") +
-  tm_borders("white") +
+  tm_fill("MAP_COLORS", palette = "Pastel2") +
 tm_shape(rivers) +
-  tm_lines(col="navy", lwd="scalerank", scale=2) +
-tm_layout("Rivers of Europe", legend.show=FALSE)
+  tm_lines(col="navy", lwd="scalerank", scale=2, legend.lwd.show = FALSE) +
+tm_layout("Rivers of Europe")

@@ -1,6 +1,29 @@
-#' Layout elements of cartographic maps
+#' Layout of cartographic maps
 #' 
-#' This element specifies the map layout. The main function \code{tm_layout} controlls title, margins, aspect ratio, colors, frame, legend, among many other things. The function \code{tm_legend} is a shortcut to access all \code{legend.} arguments without this prefix. All other functions are wrappers with other default values. The \code{tm_format_} wrapper functions are tailored for specifc shapes. The \code{tm_colors_} wrapper functions contain color themes. The \code{tm_style_} wrapper functions add a styling flavour to the map. Multiple \code{tm_layout} elements (or wrapper functions) can be stacked: called arguments will be overwritten.
+#' This element specifies the map layout. The main function \code{tm_layout} controlls title, margins, aspect ratio, colors, frame, legend, among many other things. The function \code{tm_legend} is a shortcut to access all \code{legend.} arguments without this prefix. The other functions are wrappers for two purposes: the \code{tm_format_} functions specify position related layout settings such as margins, and the \code{tm_style_} functions specify general styling related layout settings such as colors and font. Typically, the former functions are shape dependent, and the latter functions are shape independent. See details for predefined styles and formats. With the global option \code{tmap.style}, a default style can be specified. Multiple \code{tm_layout} elements (or wrapper functions) can be stacked: called arguments will be overwritten.
+#' 
+#' Predefined styles:
+#' \tabular{ll}{
+#' \code{tm_style_white}\tab White background, commonly used colors (default) \cr
+#' \code{tm_style_grey}/\code{_grey}\tab Grey background, useful to highlight sequential palettes (e.g. in choropleths) \cr
+#' \code{tm_style_bw}\tab Greyscale, obviously useful for greyscale printing \cr
+#' \code{tm_style_classic}\tab Classic styled maps (recommended) \cr
+#' \code{tm_style_cobalt}\tab Inspired by latex beamer style cobalt \cr
+#' \code{tm_style_albatross}\tab Inspired by latex beamer style cobalt \cr
+#' \code{tm_style_beaver}\tab Inspired by latex beamer style beaver \cr
+#' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
+#' }
+#'
+#' Predefined formats
+#' \tabular{ll}{
+#' \code{tm_format_World}\tab Format specified for world maps \cr
+#' \code{tm_format_World_wide}\tab Format specified for world maps with more space for the legend \cr
+#' \code{tm_format_Europe}\tab Format specified for maps of Europe \cr
+#' \code{tm_format_Europe_wide}\tab Format specified for maps of Europe with more space for the legend \cr
+#' \code{tm_format_NLD}\tab Format specified for maps of the Netherlands \cr
+#' \code{tm_format_NLD_wide}\tab Format specified for maps of the Netherlands with more space for the legend \cr
+#' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
+#' }
 #' 
 #' @name tm_layout
 #' @rdname tm_layout
@@ -212,12 +235,14 @@ tm_format_NLD_wide <- function(title=NA,
 	do.call("tm_layout", args)
 }
 
+style_args <- c("bg.color", "aes.color", "aes.palette", "attr.color", "saturation", "sepia.intensity", "fontfamily", "frame.double.line", "compass.type")
+
 #' @rdname tm_layout
 #' @export
-tm_style_default <- function(...) {
+tm_style_white <- function(...) {
 	args <- list(...)
 	g <- do.call("tm_layout", args)
-	g$tm_layout$call <- names(g$tm_layout)[-length(g)]
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
 	g
 }
 
@@ -227,7 +252,9 @@ tm_style_gray <- tm_style_grey <- function(bg.color="grey85",
 						   aes.color=c(fill="grey70", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
 						   ...) {
 	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
+	g
 }
 
 
@@ -241,7 +268,9 @@ tm_style_cobalt <- function(bg.color="#002240",
 	# See https://www.hartwork.org/beamer-theme-matrix/
 	
 	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
+	g
 }
 
 #' @rdname tm_layout
@@ -252,7 +281,9 @@ tm_style_col_blind <- function(bg.color="white",
 							attr.color="black", ...) {
 
 	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
+	g
 }
 
 
@@ -266,7 +297,9 @@ tm_style_albatross <- function(bg.color="#00007F",
 	# See https://www.hartwork.org/beamer-theme-matrix/
 	
 	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
+	g
 }
 
 #' @rdname tm_layout
@@ -279,19 +312,25 @@ tm_style_beaver <- function(bg.color="#FFFFFF",
 	# See https://www.hartwork.org/beamer-theme-matrix/
 	
 	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
+	g
 }
 
 #' @rdname tm_layout
 #' @export
 tm_style_bw <- function(saturation=0, ...) {
 	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
+	g
 }
 
 #' @rdname tm_layout
 #' @export
 tm_style_classic <- function(sepia.intensity=.7, fontfamily="serif", frame.double.line=TRUE, compass.type="rose", ...) {
 	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
+	g
 }

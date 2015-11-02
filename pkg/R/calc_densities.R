@@ -13,7 +13,6 @@
 #' @return Vector or data.frame (depending on whether \code{length(var)==1} with density values. This can be appended directly to the shape file with \code{\link{append_data}} with \code{fixed.order=TRUE}.
 #' @example  ../examples/calc_densities.R
 #' @export
-#' 
 calc_densities <- function(shp, var, unit="km", unit.size=1000, total.area=NA, suffix="", drop=TRUE) {
 	## calculate densities
 	areas <- approx_areas(shp, unit = unit, unit.size=unit.size, total.area=total.area)

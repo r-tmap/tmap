@@ -51,7 +51,7 @@ process_text <- function(data, g, fill, gt) {
 					rep(ifelse(light, coldark, collight), length.out=npol)
 				})
 			} else {
-				light <- is_light(fontcolor)
+				light <- is_light(text.fontcolor)
 				rep(ifelse(light, coldark, collight), length.out=npol)
 			}
 		}
