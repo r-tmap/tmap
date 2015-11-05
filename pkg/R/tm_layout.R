@@ -248,7 +248,7 @@ tm_style_white <- function(...) {
 
 #' @rdname tm_layout
 #' @export
-tm_style_gray <- tm_style_grey <- function(bg.color="grey85", 
+tm_style_gray <- function(bg.color="grey85", 
 						   aes.color=c(fill="grey70", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
 						   ...) {
 	args <- c(as.list(environment()), list(...))
@@ -257,6 +257,9 @@ tm_style_gray <- tm_style_grey <- function(bg.color="grey85",
 	g
 }
 
+#' @rdname tm_layout
+#' @export
+tm_style_grey <- tm_style_gray
 
 #' @rdname tm_layout
 #' @export

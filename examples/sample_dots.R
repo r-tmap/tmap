@@ -54,11 +54,10 @@ tm_shape(World_dots) + tm_dots(size = .02, jitter=.1) +
 	
 	# Sample dots (each dot represents 100 persons)
 	DH_nbhd_dots <- sample_dots(DH_nbhd, c("dutch", "west", "non_west"), 
-								convert2density = FALSE, 
-								N=250000, w=100, 
-								var.labels = c("Dutch (native)", "Western immigrants",
-											   "Non-western immigrants"), 
-								shp.id = "ID")
+		convert2density = FALSE, 
+		N=250000, w=100, 
+		var.labels = c("Dutch (native)", "Western immigrants", "Non-western immigrants"), 
+		shp.id = "ID")
 	
 	# Show map
 	tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +

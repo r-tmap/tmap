@@ -34,6 +34,10 @@ process_grid <- function(gt, bbx, proj, sasp) {
 						 grid.y[-c(1, length(grid.y))],
 						 seq(grid.y[length(grid.y)], by=diff(grid.y[1:2]), length.out = gny2))
 			if (grid.projection %in% c("longlat", "latlong")) {
+				grid.x2[abs(grid.x2-180)<1e-9] <- 180
+				grid.x2[abs(grid.x2- -180)<1e-9] <- -180
+				grid.y2[abs(grid.y2-90)<1e-9] <- 90
+				grid.y2[abs(grid.y2- -90)<1e-9] <- -90
 				grid.x2 <- grid.x2[grid.x2>=-180 & grid.x2<=180]	
 				grid.y2 <- grid.y2[grid.y2>=-90 & grid.y2<=90]	
 			}
@@ -53,7 +57,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 					m <- matrix(c(seq(min(grid.x2), max(grid.x2), length.out=100), rep(y,100)), ncol=2)
 					Line(m)
 				}), ID="y")
-			), proj4string = CRS(get_proj4_code(grid.projection))), data.frame(ID=c("x", "y")), match.ID=FALSE)
+			), proj4string = CRS(get_proj4(grid.projection))), data.frame(ID=c("x", "y")), match.ID=FALSE)
 			
 			# project it to current projection
 			lns_proj <- set_projection(lns, projection = proj)

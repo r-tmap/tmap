@@ -4,6 +4,7 @@
 #' @param shp shape object, either \code{\link[sp:Spatial]{Spatial}} or a \code{\link[raster:Raster-class]{Raster}}.
 #' @return aspect ratio
 #' @import sp
+#' @importFrom raster couldBeLonLat
 #' @export
 get_asp_ratio <- function(shp) {
 	bb <- bbox(shp)

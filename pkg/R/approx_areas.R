@@ -16,6 +16,7 @@
 #' @param total.area total area size of \code{shp} in number of squared units (by default kilometers). Useful if the total area of the \code{shp} differs from a reference total area value. 
 #' @return Numeric vector of area sizes.
 #' @example  ../examples/approx_areas.R
+#' @importFrom rgeos gArea
 #' @export
 approx_areas <- function(shp, unit="km", unit.size=1000, total.area=NA) {
 	x <- suppressWarnings(gArea(shp, byid = TRUE))

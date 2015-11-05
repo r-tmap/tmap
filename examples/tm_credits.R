@@ -1,5 +1,4 @@
-data(NLD_muni)
-data(NLD_prov)
+data(NLD_muni, NLD_prov)
 
 tm_shape(NLD_muni) +
     tm_fill(col="population", convert2density=TRUE, 

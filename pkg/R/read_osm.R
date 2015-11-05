@@ -14,8 +14,7 @@
 #' @import sp
 #' @importFrom osmar osmsource_api get_osm corner_bbox find way tags find_down node as_sp
 #' @importFrom OpenStreetMap openmap
-#' @import raster
-#' @import rgdal
+#' @importFrom raster raster
 #' @export
 #' @example ../examples/read_osm.R
 #' @return The output of \code{read_osm} is a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} if \code{raster=TRUE}, and otherwise a named list of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}, and/or \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} objects. The names of this list are the names of arguments defined at \code{...}.

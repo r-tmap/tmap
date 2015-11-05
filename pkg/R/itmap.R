@@ -9,7 +9,7 @@
 #' @importFrom gridSVG grid.garnish grid.export
 #' @import svgPanZoom
 #' @import htmlwidgets
-#' @import XML
+#' @importFrom XML xpathApply xmlAttrs addChildren newXMLNode replaceNodes getNodeSet 'xmlAttrs<-' removeAttributes
 #' @example ../examples/itmap.R
 #' @export
 itmap <- function(tm, file=NULL, width = NULL, height = NULL ) {

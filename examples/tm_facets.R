@@ -1,7 +1,4 @@
-data(World)
-data(Europe)
-data(NLD_muni)
-data(NLD_prov)
+data(World, Europe, NLD_muni, NLD_prov)
 
 # Facets defined by constant values
 tm_shape(World) +
@@ -19,6 +16,7 @@ tm_format_Europe()
 tm_shape(NLD_muni) +
     tm_fill(c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
         style="kmeans", 
+        palette=list("Oranges", "Greens", "Blues", "Purples", "Greys"),
         title=c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
             "Population 45 to 64", "Population 65 and older")) +
 tm_shape(NLD_prov) +

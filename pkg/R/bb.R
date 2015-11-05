@@ -32,8 +32,9 @@
 #' @param current.projection projection string (see \code{\link{set_projection}}) of the that corresponds to the 
 #' @param projection projection string (see \code{\link{set_projection}}) to transform the bounding box to.
 #' @import sp
-#' @import raster
-#' @import XML
+#' @importFrom raster extent
+#' @importFrom XML xmlTreeParse xmlChildren xmlRoot xmlAttrs
+#' @importFrom rgeos gIntersection
 #' @example ../examples/bb.R
 #' @export
 bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=NULL, ylim=NULL, relative = FALSE, current.projection=NULL, projection=NULL) {
@@ -135,20 +136,26 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		opt <- options(warn=-1, verbose=FALSE)
 		log <- capture.output({
 		while(errorFound) {
-			sp_pnts <- as(extent(b), "SpatialPoints")
-			co <- sp_pnts@coords
+			sp_poly <- as(extent(b), "SpatialPolygons")
+			world_end <- end_of_the_world(proj=current.projection)
+			
+			
+			sp_poly2 <- gIntersection(sp_poly, world_end)
+			if (is.null(sp_poly2)) sp_poly2 <- sp_poly
+			
+			co <- sp_poly2@polygons[[1]]@Polygons[[1]]@coords
 			
 			# add intermediate points
-			co2 <- apply(co[c(1:4,1),], 2, function(v) {
+			co2 <- apply(co, 2, function(v) {
 				n <- length(v)
 				c(v[1], rep(v[-n], each=4) + as.vector(sapply((v[-1] - v[-n]) / 4, function(w)cumsum(rep(w,4)))))
 			})
 			
-			sp_pnts2 <- SpatialPoints(co2, proj4string = CRS(get_proj4_code(current.projection)))
+			sp_pnts <- SpatialPoints(co2, proj4string = CRS(get_proj4(current.projection)))
 			
 			errorFound  <- FALSE
 			tryCatch({
-				sp_pnts2_prj <- set_projection(sp_pnts2, projection=projection)
+				sp_pnts2_prj <- set_projection(sp_pnts, projection=projection)
 			}, error=function(e) {
 				assign("b", bb(b, ext=.99), envir = parent.env(environment()))
 				assign("errorFound", TRUE, envir = parent.env(environment()))
@@ -161,7 +168,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		
 		#sp_rect_prj <- set_projection(sp_rect, projection=projection)
 		#sp_rect_prj <- set_projection(sp_rect, current.projection = current.projection, projection=projection)
-		#sp_rect_prj <- spTransform(sp_rect, CRSobj = get_proj4_code(projection))
+		#sp_rect_prj <- spTransform(sp_rect, CRSobj = get_proj4(projection))
 		b <- sp_pnts2_prj@bbox
 	}
 	

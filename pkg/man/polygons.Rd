@@ -126,17 +126,19 @@ tm_shape(NLD_prov) +
 tm_format_NLD_wide(bg.color="white", frame = FALSE, legend.hist.bg.color="grey90")
 
 tm_shape(World) +
-    tm_polygons("HPI", palette="RdYlGn", n=7, auto.palette.mapping=FALSE, title="Happy Planet Index") +
+    tm_polygons("HPI", palette="RdYlGn", n=7, auto.palette.mapping=FALSE, 
+    			title="Happy Planet Index") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
-tm_format_World()
+tm_format_World() + 
+tm_style_grey()
 
 # Categorical data variable
 tm_shape(World) +
-    tm_polygons("income_grp", palette="-Purples", title="Income classification") +
+    tm_polygons("economy", title="Economy") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_format_World()
 
-# Map coloring algorithn
+# Map coloring algorithm
 tm_shape(NLD_prov) + 
     tm_fill("name", legend.show = FALSE) + 
 tm_shape(NLD_muni) + 

@@ -12,7 +12,7 @@ statistical purposes. In reality, Australia is 3 times larger than Greenland!",
     inner.margins=c(0,0,.1,0), title.size=.6)
 
 tm_shape(World, projection="wintri") + 
-    tm_polygons() + 
+    tm_polygons() +
 tm_layout(
 "Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps.",
     inner.margins=c(0,0,.1,0), title.size=.8)

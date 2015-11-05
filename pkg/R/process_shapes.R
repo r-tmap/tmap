@@ -46,7 +46,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			warning("Unable to set projection for rasters. Please use set_projection.")
 			projection <- shp.proj
 		} else {
-			projection <- get_proj4_code(projection)
+			projection <- get_proj4(projection)
 			shp <- spTransform(shp, CRS(projection))
 			attr(shp, "projected") <- is_projected(shp)
 		}

@@ -409,7 +409,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		wsmax <- max(ws)
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 		
-		wstext <- convertWidth(stringWidth(legend.labels), unitTo = "npc", valueOnly = TRUE)
+		wstext <- convertWidth(stringWidth(paste(legend.labels, " ")), unitTo = "npc", valueOnly = TRUE)
 		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
 		
 		grobLegendItem <- if (legend.type %in% c("fill", "raster")) {

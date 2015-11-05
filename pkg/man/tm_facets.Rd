@@ -47,10 +47,7 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
 Creates a \code{\link{tmap-element}} that specifies how small multiples are placed in a facet grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 }
 \examples{
-data(World)
-data(Europe)
-data(NLD_muni)
-data(NLD_prov)
+data(World, Europe, NLD_muni, NLD_prov)
 
 # Facets defined by constant values
 tm_shape(World) +
@@ -68,6 +65,7 @@ tm_format_Europe()
 tm_shape(NLD_muni) +
     tm_fill(c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
         style="kmeans", 
+        palette=list("Oranges", "Greens", "Blues", "Purples", "Greys"),
         title=c("Population 0 to 14", "Population 15 to 24", "Population 25 to 44",
             "Population 45 to 64", "Population 65 and older")) +
 tm_shape(NLD_prov) +

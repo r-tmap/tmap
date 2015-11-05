@@ -14,6 +14,7 @@ tm_shape(Europe) +
 tm_shape(Europe) +
 	tm_polygons() +
 tm_shape(metro) +
-	tm_bubbles("pop2010", size.lim = c(0, 15e6), legend.size.is.portrait = TRUE, title.size = "European metropolitan areas") +
+	tm_bubbles("pop2010", size.lim = c(0, 15e6), legend.size.is.portrait = TRUE, 
+			   title.size = "European metropolitan areas") +
 tm_shape(metro[metro$pop2010>=2e6, ]) +
 	tm_text("name", auto.placement = TRUE)

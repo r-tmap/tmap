@@ -6,12 +6,12 @@
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param ... not used
 #' @import sp
-#' @import raster
+#' @importFrom raster raster extent setValues ncell couldBeLonLat fromDisk
 #' @import RColorBrewer
 #' @import grid
 #' @import gridBase
 #' @import classInt
-#' @import rgeos
+#' @importFrom rgeos gIntersection gIntersects
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb
 #' @importFrom methods as slot slotNames
 #' @importFrom stats na.omit

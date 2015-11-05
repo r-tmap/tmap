@@ -26,7 +26,7 @@
 #' Use \code{\link{set_projection}} to reproject the shape object.
 #' @param ... other parameters, such as \code{stringsAsFactors}, are passed on to \code{\link[rgdal:readOGR]{readOGR}}
 #' @return shape object
-#' @import rgdal
+#' @importFrom rgdal readOGR
 #' @import sp
 #' @export
 read_shape <- function(file, current.projection=NULL, ...){
@@ -76,6 +76,7 @@ read_shape <- function(file, current.projection=NULL, ...){
 #' @param shp a shape object
 #' @param file file name (including directory)
 #' @import sp
+#' @importFrom rgdal writeOGR
 #' @export
 write_shape <- function(shp, file) {
 	shpname <- deparse(substitute(shp))

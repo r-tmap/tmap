@@ -12,7 +12,7 @@
 #' @param to.Raster logical; should the output be a \code{\link[raster:Raster-class]{Raster}} object (\code{TRUE}), or a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} (\code{FALSE}). If \code{TRUE}, a \code{RasterBrick} is returned when \code{by} is specified, and a \code{RasterLayer} when \code{by} is unspecified.
 #' @return A \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}, or a \code{\link[raster:Raster-class]{Raster}} object when (\code{to.Raster=TRUE})
 #' @export
-#' @import raster
+#' @importFrom raster raster extent rasterize
 #' @example  ../examples/points_to_raster.R
 #' @seealso \code{\link{poly_to_raster}}
 points_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, by=NULL, to.Raster=FALSE) {
@@ -85,7 +85,7 @@ points_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, by=NULL, to.Raster
 #' @param ... arguments passed on to \code{\link[raster:rasterize]{rasterize}}
 #' @return A \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}, or a \code{\link[raster:Raster-class]{Raster}} object when (\code{to.Raster=TRUE})
 #' @export
-#' @import raster
+#' @importFrom raster raster extent rasterize
 #' @example  ../examples/poly_to_raster.R
 #' @seealso \code{\link{points_to_raster}}
 poly_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, use.cover=FALSE, to.Raster=FALSE, ...) {

@@ -32,9 +32,9 @@
 #' \item{\code{"ncol"}}{Number of rows in the raster}
 #' \item{\code{"nrow"}}{Number of columns in the raster}
 #' }
-#' @import raster
-#' @import rgeos
-#' @import KernSmooth
+#' @importFrom raster raster extent couldBeLonLat
+#' @importFrom rgeos gConvexHull gUnaryUnion gPointOnSurface gContains gIsValid gIntersection gArea
+#' @importFrom KernSmooth bkde2D
 #' @export
 smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", unit.size=1000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, extracting.method="full", buffer.width=NA, to.Raster=FALSE) {
 	bbx <- bb(shp)

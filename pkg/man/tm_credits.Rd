@@ -33,8 +33,7 @@ tm_credits(text, size = 0.7, col = NA, alpha = NA, align = "left",
 Creates a text annotation that could be used for credits or acknowledgements.
 }
 \examples{
-data(NLD_muni)
-data(NLD_prov)
+data(NLD_muni, NLD_prov)
 
 tm_shape(NLD_muni) +
     tm_fill(col="population", convert2density=TRUE, 

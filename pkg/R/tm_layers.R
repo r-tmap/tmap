@@ -34,13 +34,31 @@ tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily
 	g
 }
 
-tm_iso <- function(col="black", text="level", size=.5, auto.placement=FALSE,
+#' Draw iso (contour) lines with labels
+#' 
+#' This function is a wrapper of \code{\link{tm_lines}} and \code{\link{tm_text}} aimed to draw isopleths, which can be created with \code{\link{smooth_map}}. 
+#' 
+#' @param col line color. See \code{\link{tm_lines}}.
+#' @param text text to display. By default, it is the variable named \code{"level"} of the shape that is created with \code{\link{smooth_map}}
+#' @param size text size (see \code{\link{tm_text}})
+#' @param remove.overlap see \code{\link{tm_text}}
+#' @param along.lines see \code{\link{tm_text}}
+#' @param overwrite.lines see \code{\link{tm_text}}
+#' @param ... arguments passed on to \code{\link{tm_lines}} or \code{\link{tm_text}}
+#' @export
+#' @seealso \code{\link{smooth_map}}
+tm_iso <- function(col=NA, text="level", size=.5, 
 				   remove.overlap=TRUE, along.lines=TRUE, overwrite.lines=TRUE, ...) {
-	tm_lines(col=col) +
-		tm_text(text=text, size=size, auto.placement = auto.placement, 
-				remove.overlap=remove.overlap,
-				along.lines=along.lines,
-				overwrite.lines = overwrite.lines)
+	args <- list(...)
+	argsL <- args[intersect(names(formals("tm_lines")), names(args))]
+	argsT <- args[intersect(names(formals("tm_text")), names(args))]
+	
+	do.call("tm_lines", c(list(col=col), argsL)) +
+		do.call("tm_text", c(list(text=text, size=size, auto.placement = auto.placement, 
+								  remove.overlap=remove.overlap,
+								  along.lines=along.lines,
+								  overwrite.lines = overwrite.lines),
+							 argsT))
 }
 
 #' Draw spatial lines
