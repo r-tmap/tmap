@@ -139,8 +139,11 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 			sp_poly <- as(extent(b), "SpatialPolygons")
 			world_end <- end_of_the_world(proj=current.projection)
 			
-			
-			sp_poly2 <- gIntersection(sp_poly, world_end)
+			sp_poly2 <- tryCatch({
+				gIntersection(sp_poly, world_end)
+			}, error=function(e){
+				sp_poly
+			})
 			if (is.null(sp_poly2)) sp_poly2 <- sp_poly
 			
 			co <- sp_poly2@polygons[[1]]@Polygons[[1]]@coords

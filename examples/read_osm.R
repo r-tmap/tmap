@@ -11,8 +11,9 @@ osm_NLD <- read_osm(bb(NLD_muni, ext=1.1, projection ="longlat"))
 tm_shape(osm_NLD) +
 	tm_raster() +
 tm_shape(NLD_muni) +
-	tm_polygons("population", convert2density=TRUE, style="kmeans", alpha=.7, palette="Reds")
+	tm_polygons("population", convert2density=TRUE, style="kmeans", alpha=.7, palette="Purples")
 
+\dontrun{
 #### A close look at Aalborg Congress Centre (host for the useR2014)
 
 # define bounding box of Aalborg Congress Centre
@@ -50,3 +51,4 @@ tm_shape(vec_Aal$trees) +
 tm_shape(vec_Aal$railway) +
 	tm_lines(col = "grey40", lwd = 3, lty = "longdash") +
 tm_layout(inner.margins=0, bg.color="grey95")
+}

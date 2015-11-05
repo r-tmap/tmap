@@ -12,7 +12,9 @@ tm_shape(metro) +
         title.col="Growth rate (%)") + 
 tm_format_World()
 
+\dontrun{
 x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
 tm_shape(x) + 
 	tm_dots() + 
 tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
+}

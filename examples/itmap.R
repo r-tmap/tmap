@@ -1,3 +1,4 @@
+\dontrun{
 data(World, metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
@@ -14,3 +15,4 @@ require(dplyr)
 			   title.col="Growth rate (%)", id="name") + 
 	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE, asp=0)) %>% 
 itmap()
+}
