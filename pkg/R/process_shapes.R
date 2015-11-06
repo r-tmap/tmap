@@ -25,11 +25,14 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	shp.proj <- attr(shp, "proj4string")@projargs
 
 	# set bounding box arguments
-	if (is.character(args$x)) args$projection <- projection
+	if (is.character(args$x)) {
+		args$projection <- if (is.null(projection)) shp.proj else projection
+		args$current.projection <- "longlat"
+	}
 	if (!is.null(bbox) && !("x" %in% names(args))) {
 		args$x <- bbox 	
-		args$projection <- projection
-		args$current.projection <- shp.proj
+		args$projection <- if (is.null(projection)) shp.proj else projection
+		args$current.projection <- if (is.character(bbox)) "longlat" else shp.proj
 	}
 	
 	

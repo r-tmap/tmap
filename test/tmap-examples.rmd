@@ -15,7 +15,8 @@ x <- list.files("../examples", full.names = TRUE)
 
 for (fn in x) {
 	bn <- basename(fn)
-	if (substr(bn, 1, 3)%in%c("tm_", "qtm")) {
+	# todo: remove dontrun parts
+	if (substr(bn, 1, 3)%in%c("tm_", "qtm") & !(bn %in% c("tm_bubbles.R", "tm_layout.R"))) {
 		print(bn)
 		source(fn, local = TRUE, echo = TRUE)
 	}

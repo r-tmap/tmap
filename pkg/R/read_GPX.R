@@ -5,6 +5,7 @@
 #' @param file a GPX filename (including directory)
 #' @param layers vector of GPX layers. Possible options are \code{"waypoints"}, \code{"tracks"}, \code{"routes"}, \code{"track_points"}, \code{"route_points"}. By dedault, all those layers are read.
 #' @return for each defiend layer, a shape is returned (only if the layer has any features). If only one layer is defined, the corresponding shape is returned. If more than one layer is defined, a list of shape objects, one for each layer, is returned.
+#' @importFrom rgdal readOGR ogrInfo
 #' @export
 #' @example ../examples/read_GPX.r
 read_GPX <- function(file, layers=c("waypoints", "tracks", "routes", "track_points", "route_points")) {

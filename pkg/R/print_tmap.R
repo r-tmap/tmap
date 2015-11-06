@@ -11,7 +11,7 @@
 #' @import grid
 #' @import gridBase
 #' @import classInt
-#' @importFrom rgeos gIntersection gIntersects
+#' @importFrom rgeos gIntersection gIntersects gBuffer gDifference
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb
 #' @importFrom methods as slot slotNames
 #' @importFrom stats na.omit

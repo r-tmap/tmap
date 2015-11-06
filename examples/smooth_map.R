@@ -1,21 +1,24 @@
 \dontrun{
-	####################################
-	## Smooth polygons
-	####################################
-	data(NLD_muni)
-	
-	NLD_muni$population_dens <- calc_densities(NLD_muni, "population")
-	
-	qtm(NLD_muni, fill="population_dens")
-	
-	NLD_smooth <- smooth_map(NLD_muni, var = "population_dens")
+####################################
+## Smooth polygons
+####################################
+data(NLD_muni)
 
-	qtm(NLD_smooth$raster, layout.bg.color="grey85")
-	qtm(NLD_smooth$dasy)
+NLD_muni$population_dens <- calc_densities(NLD_muni, "population")
+
+qtm(NLD_muni, fill="population_dens")
+
+NLD_smooth <- smooth_map(NLD_muni, var = "population_dens")
+
+qtm(NLD_smooth$raster, style="grey", format="NLD")
+qtm(NLD_smooth$dasy, format="NLD")
 	
-	####################################
-	## Smooth points
-	####################################
+####################################
+## Smooth points
+####################################
+
+# Sample points using World and metro datasets: for each 1 million people, a dot is created
+create_dot_per_1mln_people <- function() {
 	data(World, metro)
 	metro_eck <- set_projection(metro, projection = "eck4")
 	
@@ -29,7 +32,7 @@
 	
 	# define population density other than metropolitan areas
 	World$pop_est_dens_non_metro <- (World$pop_est - World$pop_metro) / World$area
-
+	
 	# generate dots for metropolitan areas (1 dot = 1mln people)
 	metro_dots <- do.call("sbind", lapply(1:length(metro_eck), function(i) {
 		m <- metro_eck[i,]
@@ -39,50 +42,50 @@
 	# sample population dots from non-metropolitan areas (1 dot = 1mln people)
 	World_pop <- sample_dots(World, vars="pop_est_dens_non_metro", w = 1e6, npop = 7.3e9 - length(metro_dots)*1e6)
 	
-	plot(World$area / gArea(World))
-	
-	
 	# combine 
-	World_1mln_dots <- sbind(as(World_pop, "SpatialPoints"), as(metro_dots, "SpatialPoints"))
+	sbind(as(World_pop, "SpatialPoints"), as(metro_dots, "SpatialPoints"))
+}
 
-	tm_shape(World_1mln_dots) + tm_dots()
+World_1mln_dots <- create_dot_per_1mln_people()
 
-	World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6)
-	World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth=100)
-	World_list2 <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth=100000, N=249840 * 3)
-	
-	#World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6, bandwidth = .5*c(132566.2 ,132102.0), N = 249840 * 3 )
+
+# dot map
+tm_shape(World_1mln_dots) + tm_dots()
+
+# create smooth map
+World_list <- smooth_map(World_1mln_dots, cover = World, weight=1e6)
+
+# plot smooth raster map
+qtm(World_list$raster, style="grey")
+
+# plot smooth raster map
+qtm(World, bbox="India") + qtm(World_list$iso)
+
+# plot dasymetric map
+qtm(World_list$dasy, style="grey", format="World")
+
+
+####################################
+## Already smooth raster
+####################################
+vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
+vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
+tm_shape(vol_smooth$dasy) +
+	tm_polygons(title="Elevation") +
+	tm_grid(labels.inside.frame = TRUE) +
+	tm_layout(legend.width=.15, legend.position=c("right", "top"), legend.bg.color="white", legend.frame = TRUE, inner.margins=0) +
+	tm_style_classic()
 	
 
-	qtm(World_list$raster, layout.bg.color="grey80")
-	qtm(World, borders=NA) + qtm(World_list$iso)
-	qtm(World_list$dasy, layout.bg.color="grey80")
+####################################
+## Smooth raster
+####################################
+data(land)
 
-	r <- raster(World_list$raster)
-	india <- intersect(r, World[World$name=="India",])
-	
-	
-	####################################
-	## Already smooth raster
-	####################################
-	vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
-	vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
-	tm_shape(vol_smooth$dasy) +
-		tm_polygons(title="Elevation") +
-		tm_grid(labels.inside.frame = TRUE) +
-		tm_layout(legend.width=.15, legend.position=c("right", "top"), legend.bg.color="white", legend.frame = TRUE, inner.margins=0) +
-		tm_style_classic()
-		
-	
-	####################################
-	## Smooth raster
-	####################################
-	data(land)
+land_smooth <- smooth_map(land, var="trees", cover.type = "smooth")
 
-	land_smooth <- smooth_map(land, var="trees", cover.type = "smooth")
-	
-	qtm(land, raster="trees", layout.bg.color="grey80")
-	qtm(land_smooth$raster, layout.bg.color="grey80")
-	qtm(land_smooth$iso)
-	qtm(land_smooth$dasy)
+qtm(land, raster="trees", layout.bg.color="grey80")
+qtm(land_smooth$raster, layout.bg.color="grey80")
+qtm(land_smooth$iso)
+qtm(land_smooth$dasy)
 }

@@ -32,8 +32,8 @@
 #' \item{\code{"ncol"}}{Number of rows in the raster}
 #' \item{\code{"nrow"}}{Number of columns in the raster}
 #' }
-#' @importFrom raster raster extent couldBeLonLat
-#' @importFrom rgeos gConvexHull gUnaryUnion gPointOnSurface gContains gIsValid gIntersection gArea
+#' @importFrom raster raster extent couldBeLonLat as.matrix extract
+#' @importFrom rgeos gConvexHull gUnaryUnion gPointOnSurface gContains gIsValid gIntersection gArea gBuffer gDifference
 #' @importFrom KernSmooth bkde2D
 #' @export
 smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", unit.size=1000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, extracting.method="full", buffer.width=NA, to.Raster=FALSE) {
@@ -309,7 +309,7 @@ lines2polygons <- function(ply, lns, rst=NULL, lvls, extracting.method="full", b
 			})
 		} else {
 			# extracting.method=="full"
-			values <- sapply(extract(rst, dpi2), mean, na.rm=TRUE)
+			values <- sapply(extract(rst, dpi2), function(x)if (is.null(x)) NA else mean(x, na.rm=TRUE))
 		}
 		
 		
