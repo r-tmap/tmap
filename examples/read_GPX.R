@@ -24,6 +24,6 @@ tm_shape(AGR$tracks) +
 	tm_lines(col = "name", lwd = 4, title.col="Amstel Gold Race", palette="Dark2") + 
 tm_shape(AGR$waypoints) +
 	tm_bubbles(size=.1, col="gold", border.col = "black") + 
-tm_text("name", size = .75, bg.color="white", bg.alpha=.25, auto.placement = TRUE) +
+tm_text("name", size = .75, bg.color="white", bg.alpha=.25, auto.placement = .25) +
 tm_legend(position=c("right", "top"), frame=TRUE, bg.color = "gold")
 }

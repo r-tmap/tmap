@@ -136,8 +136,8 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				
 				tGX <- convertX(tG$x, "npc", valueOnly = TRUE)
 				tGY <- convertY(tG$y, "npc", valueOnly = TRUE)
-				tGWidth <- convertWidth(tG$width, "npc", valueOnly = TRUE)
-				tGHeight <- convertHeight(tG$height, "npc", valueOnly = TRUE)
+				#tGWidth <- convertWidth(tG$width, "npc", valueOnly = TRUE)
+				#tGHeight <- convertHeight(tG$height, "npc", valueOnly = TRUE)
 				nt <- length(tGX)
 				
 				
@@ -172,10 +172,15 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				
 				
 				# Automatic label placement (Simulated Annealing)
-				if (gpl$text.auto.placement) {
-					xy <- pointLabelGrid(rGX, rGY, rGWidth, rGHeight, xyAspect = sasp)
-					shiftX <- xy$x - rGX
-					shiftY <- xy$y - rGY
+				if (gpl$text.auto.placement || gpl$text.auto.placement==0) {
+					el <- if (is.numeric(gpl$text.auto.placement)) gpl$text.auto.placement else 0
+					textSizes <- gpl$text.size
+					elX <- convertWidth(unit(textSizes, "lines"), "npc", valueOnly = TRUE) * el
+					elY <- convertHeight(unit(textSizes, "lines"), "npc", valueOnly = TRUE) * el
+					xy <- pointLabelGrid(rGX-elX*.5, rGY-elY*.5, rGWidth+elX, rGHeight+elY, xyAspect = sasp)
+					dir <- atan2(xy$y - rGY, xy$x - rGX)
+					shiftX <- (xy$x - rGX) + elX * cos(dir)
+					shiftY <- (xy$y - rGY) + elY * sin(dir)
 				} else {
 					shiftX <- 0
 					shiftY <- 0
