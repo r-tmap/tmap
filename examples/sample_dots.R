@@ -63,6 +63,6 @@ tm_shape(World_dots) + tm_dots(size = .02, jitter=.1) +
 	tm_shape(DH_nbhd_osm) + tm_raster(saturation=.2) +
 		tm_shape(DH_nbhd_dots) + 
 		    tm_dots("class", size=.04, alpha=.75, palette="Dark2", 
-		    		title.col = "The Hague population") +
+		    		title = "The Hague population") +
 		tm_layout(inner.margins=0, legend.frame=TRUE, legend.bg.color="grey90")
 }

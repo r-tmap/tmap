@@ -1,6 +1,7 @@
 ```{r setup, include=FALSE}
 library(knitr)
 devtools::load_all("../pkg")
+run_dontrun <- TRUE
 ```
 
 # All examples
@@ -11,14 +12,36 @@ This runs all examples of the tmap package.
 ## Normal size
 ```{r}
 getwd()
-x <- list.files("../examples", full.names = TRUE)
+x <- list.files("./examples", full.names = TRUE)
 
 for (fn in x) {
 	bn <- basename(fn)
-	# todo: remove dontrun parts
-	if (substr(bn, 1, 3)%in%c("tm_", "qtm") & !(bn %in% c("tm_bubbles.R", "tm_layout.R"))) {
+	#substr(bn, 1, 3)%in%c("tm_", "qtm") & 
+	if (!(bn %in% c("github_teaser.R", "map2divscaleID.R", "map2seqscaleID.R"))) {
 		print(bn)
-		source(fn, local = TRUE, echo = TRUE)
+		
+		lns <- readLines(fn)
+		
+		if (bn=="sample_dots.R") {
+			lns[12] <- "\tdownload.file(\"http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/links/2014-buurtkaart-shape-versie-1-el.htm\", temp, mode=\"wb\")"     
+			lns[13] <- ""
+		}
+		
+		dr_start <- which(lns=="\\dontrun{")
+		dr_end <- which(lns=="}")
+		dr_end_matched <- sapply(dr_start, function(d)dr_end[which(dr_end>d)[1]])
+		dr_ids <- unlist(mapply(seq, dr_start, dr_end, SIMPLIFY=FALSE))
+		
+		lns <- if (run_dontrun) {
+			lns[-c(dr_start, dr_end)]	
+		} else {
+			lns[-dr_ids]
+		}
+		
+		tmp <- tempfile()
+		writeLines(lns, con = tmp)
+		
+		source(tmp, local = TRUE, echo = TRUE)
 	}
 }
 ```

@@ -12,7 +12,7 @@ pal8 <- c("#33A02C", "#B2DF8A", "#FDBF6F", "#1F78B4", "#999999", "#E31A1C", "#E6
 tm_shape(land, ylim = c(-88,88)) +
     tm_raster("cover_cls", palette = pal8, title="Global Land Cover") +
 tm_shape(World) +
-    tm_borders() +
+    tm_borders(col="black") +
 tm_layout(scale=.8, 
 	legend.position = c("left","bottom"),
     legend.bg.color = "white", legend.bg.alpha=.2, 
@@ -24,7 +24,9 @@ tm_shape(World) +
     tm_borders() +
 tm_layout(legend.position = c("left","bottom"), bg.color="lightblue")
 
+\dontrun{
 tm_shape(land) +
 	tm_raster("black") +
 	tm_facets(by="cover_cls") +
 	tm_layout(title.position = c("left", "bottom"), title.bg.color="gray80")
+}
