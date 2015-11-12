@@ -12,7 +12,7 @@ qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="pop_est",
 	format="Europe", style="cobalt")
 
 qtm(World, fill="HPI", fill.n=9, fill.palette="div", fill.auto.palette.mapping=FALSE, 
-	fill.title="Happy Planex Index", format="World")
+	fill.title="Happy Planet Index", format="World", style="gray")
 
 # bubble map
 qtm(World, borders = NULL) + qtm(metro, bubble.size = "pop2010", 

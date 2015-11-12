@@ -61,7 +61,7 @@ qtm <- function(shp,
 		if (inherits(shp, "SpatialLines")) {
 			isolines <- "isolines" %in% names(attributes(shp))
 			if (missing(line.lwd)) line.lwd <- 1
-			if (missing(line.col)) line.col <- "red"
+			if (missing(line.col)) line.col <- NA
 			if (missing(text) && isolines) text <- "level"
 			if (missing(text.size) && isolines) text.size <- .5
 			if (!"auto.placement" %in% called && isolines) args$auto.placement <- FALSE
@@ -71,7 +71,7 @@ qtm <- function(shp,
 		}
 		if (inherits(shp, "SpatialPoints") && !inherits(shp, "SpatialPixels")) {
 			if (missing(bubble.size)) bubble.size <- .2
-			if (missing(bubble.col)) bubble.col <- "blueviolet"
+			if (missing(bubble.col)) bubble.col <- NA
 		}
 	}
 	if (!inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster"))) {

@@ -1,3 +1,4 @@
+\dontrun{
 #### Choropleth with OSM background
 
 # load Netherlands shape
@@ -13,7 +14,6 @@ tm_shape(osm_NLD) +
 tm_shape(NLD_muni) +
 	tm_polygons("population", convert2density=TRUE, style="kmeans", alpha=.7, palette="Purples")
 
-\dontrun{
 #### A close look at Aalborg Congress Centre (host for the useR2014)
 
 # define bounding box of Aalborg Congress Centre

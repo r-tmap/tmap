@@ -22,7 +22,7 @@
 #' @param ... other arguments passed on to \code{\link{calc_densities}} and \code{\link{approx_areas}}
 #' @export
 #' @example ../examples/sample_dots.R
-#' @importFrom raster raster extent rasterize couldBeLonLat
+#' @importFrom raster raster extent rasterize couldBeLonLat crop
 sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA, N=250000, npop=NA, n=10000, w=NA, shp.id=NULL, var.name="class", var.labels=vars, unit="km", unit.size=1000, randomize=TRUE, ...) {
 	args <- list(...)
 	

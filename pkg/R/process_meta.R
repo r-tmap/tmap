@@ -103,6 +103,13 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 		if (!is.na(earth.boundary.color)) earth.boundary.color <- do.call("process_color", c(list(col=earth.boundary.color), pc))
 		space.color <- do.call("process_color", c(list(col=space.color), pc))
 		
+		earth.bounds <- if (is.logical(earth.boundary)) {
+			c(-180, 180, -90, 90)
+		} else {
+			raster::as.vector(extent(earth.boundary))
+		}
+		earth.boundary <- !identical(earth.boundary, FALSE)
+		
 		earth.boundary.lwd <- earth.boundary.lwd * scale
 		frame.lwd <- frame.lwd * scale
 	})	

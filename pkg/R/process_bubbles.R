@@ -54,7 +54,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		bubble.breaks <- colsLeg[[4]]
 	} else {
 		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] 
+			gt$aes.palette[[ifelse(is.ordered(xc), "seq", "cat")]] 
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
 			gt$aes.palette[[g$palette[1]]]
 		} else g$palette

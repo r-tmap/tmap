@@ -12,7 +12,7 @@ This runs all examples of the tmap package.
 ## Normal size
 ```{r}
 getwd()
-x <- list.files("./examples", full.names = TRUE)
+x <- list.files("../examples", full.names = TRUE)
 
 for (fn in x) {
 	bn <- basename(fn)
@@ -32,10 +32,12 @@ for (fn in x) {
 		dr_end_matched <- sapply(dr_start, function(d)dr_end[which(dr_end>d)[1]])
 		dr_ids <- unlist(mapply(seq, dr_start, dr_end, SIMPLIFY=FALSE))
 		
-		lns <- if (run_dontrun) {
-			lns[-c(dr_start, dr_end)]	
-		} else {
-			lns[-dr_ids]
+		if (!is.null(dr_ids)) {
+			lns <- if (run_dontrun) {
+				lns[-c(dr_start, dr_end)]	
+			} else {
+				lns[-dr_ids]
+			}
 		}
 		
 		tmp <- tempfile()

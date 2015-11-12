@@ -25,6 +25,8 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		
 		## project grid lines
 		if (!is.na(grid.projection)) {
+			
+			## add extra grid lines to make sure the warped grid is full
 			gnx2 <- floor(length(grid.x))
 			grid.x2 <- c(rev(seq(grid.x[1], by=-diff(grid.x[1:2]), length.out = gnx2)), 
 						 grid.x[-c(1, length(grid.x))],
@@ -41,20 +43,28 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				grid.x2 <- grid.x2[grid.x2>=-180 & grid.x2<=180]	
 				grid.y2 <- grid.y2[grid.y2>=-90 & grid.y2<=90]	
 			}
+			
+			## select which grid lines have labels
 			grid.sel.x <- which(grid.x2 %in% grid.x)
 			grid.sel.y <- which(grid.y2 %in% grid.y)
 			
 			gnx2 <- gny2 <- NULL
 			
+			## determine limits
+			grid.x2.min <- min(min(grid.x2), bbx[1, 1])
+			grid.x2.max <- max(max(grid.x2), bbx[1, 2])
+			grid.y2.min <- min(min(grid.y2), bbx[2, 1])
+			grid.y2.max <- max(max(grid.y2), bbx[2, 2])
+			
 			# create SLDF with straight grid lines in grid lines projection
 			#bbx2 <- bb(bbx, ext=3)
 			lns <- SpatialLinesDataFrame(SpatialLines(list(
 				Lines(lapply(grid.x2, function(x) {
-					m <- matrix(c(rep(x,100), seq(min(grid.y2), max(grid.y2), length.out=100)), ncol=2)
+					m <- matrix(c(rep(x,100), seq(grid.y2.min, grid.y2.max, length.out=100)), ncol=2)
 					Line(m)
 				}), ID="x"),
 				Lines(lapply(grid.y2, function(y) {
-					m <- matrix(c(seq(min(grid.x2), max(grid.x2), length.out=100), rep(y,100)), ncol=2)
+					m <- matrix(c(seq(grid.x2.min, grid.x2.max, length.out=100), rep(y,100)), ncol=2)
 					Line(m)
 				}), ID="y")
 			), proj4string = CRS(get_proj4(grid.projection))), data.frame(ID=c("x", "y")), match.ID=FALSE)
@@ -327,8 +337,8 @@ plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.ma
 			convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
 		tGX <- grobText$x + unit(ifelse(just[1]=="left", (tGW * .5), 
 										ifelse(just[1]=="right", -(tGW * .5), 0)), "npc")
-		tGY <- grobText$y + unit(ifelse(just[2]=="top", -(tGH * .5), 
-										ifelse(just[2]=="bottom", tGH * .5, 0)), "npc")
+		tGY <- grobText$y + unit(tGH * ifelse(just[2]=="top", -.5, 
+									   ifelse(just[2]=="bottom", .5, -.05)), "npc")
 		
 		tGH <- tGH + lineH * bg.margin
 		tGW <- tGW + lineW * bg.margin

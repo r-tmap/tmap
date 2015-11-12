@@ -61,7 +61,7 @@ tm_grid <- function(n.x=NA,
 					col=NA,
 					lwd=1,
 					alpha=NA,
-					labels.size=.75,
+					labels.size=.6,
 					labels.col=NA,
 					labels.inside.frame=TRUE) {
 	g <- list(tm_grid=as.list(environment()))
@@ -84,7 +84,7 @@ tm_grid <- function(n.x=NA,
 #' @param bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).
 #' @param fontface font face of the text. By default, determined by the fontface argument of \code{\link{tm_layout}}.
 #' @param fontfamily font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_credits.R
 tm_credits <- function(text,
@@ -114,7 +114,7 @@ tm_credits <- function(text,
 #' @param text.color color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.
 #' @param color.dark color of the dark parts of the scale bar, typically (and by default) black.
 #' @param color.light color of the light parts of the scale bar, typically (and by default) white.
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_scale_bar.R
 tm_scale_bar <- function(breaks=NULL,
@@ -144,7 +144,7 @@ tm_scale_bar <- function(breaks=NULL,
 #' @param text.color color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.
 #' @param color.dark color of the dark parts of the compass, typically (and by default) black.
 #' @param color.light color of the light parts of the compass, typically (and by default) white.
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_compass.R
 tm_compass <- function(north=0, 

@@ -1,5 +1,19 @@
 \dontrun{
 ####################################
+## Already smoothed raster
+####################################
+vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
+vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
+
+tm_shape(vol_smooth$dasy) +
+	tm_fill(palette=terrain.colors(11), title="Elevation") +
+	tm_shape(vol_smooth$iso) +
+	tm_iso(col = "black", size = .7, fontcolor="black") +
+	tm_layout("Maunga Whau volcano (Auckland)", title.position=c("left", "bottom"), inner.margins=0) +
+	tm_legend(width=.13, position=c("right", "top"), bg.color="gray80", frame = TRUE)
+	
+	
+####################################
 ## Smooth polygons
 ####################################
 data(NLD_muni)
@@ -66,26 +80,13 @@ qtm(World_list$dasy, style="grey", format="World")
 
 
 ####################################
-## Already smooth raster
-####################################
-vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
-vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
-tm_shape(vol_smooth$dasy) +
-	tm_polygons(title="Elevation") +
-	tm_grid(labels.inside.frame = TRUE) +
-	tm_layout(legend.width=.15, legend.position=c("right", "top"), legend.bg.color="white", legend.frame = TRUE, inner.margins=0) +
-	tm_style_classic()
-	
-
-####################################
 ## Smooth raster
 ####################################
 data(land)
 
 land_smooth <- smooth_map(land, var="trees", cover.type = "smooth")
 
-qtm(land, raster="trees", layout.bg.color="grey80")
-qtm(land_smooth$raster, layout.bg.color="grey80")
-qtm(land_smooth$iso)
-qtm(land_smooth$dasy)
+qtm(land, raster="trees", format="World", style="gray")
+qtm(land_smooth$raster, format="World", style="gray")
+qtm(land_smooth$dasy, format="World", style="gray")
 }

@@ -19,7 +19,8 @@ style_catalogue <- function(path="./tmap_style_previews", styles=NA, include.glo
 	if (!file.exists(path)) dir.create(path, recursive=TRUE)
 
 	# load and process data
-	data(Europe, metro, rivers, land)
+	Europe <- metro <- rivers <- land <- NULL
+	data(Europe, metro, rivers, land, envir = environment())
 	metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 	EUriv <- set_projection(rivers, get_projection(Europe))
 	

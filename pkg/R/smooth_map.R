@@ -32,7 +32,7 @@
 #' \item{\code{"ncol"}}{Number of rows in the raster}
 #' \item{\code{"nrow"}}{Number of columns in the raster}
 #' }
-#' @importFrom raster raster extent couldBeLonLat as.matrix extract
+#' @importFrom raster raster extent couldBeLonLat as.matrix extract extend rasterToContour
 #' @importFrom rgeos gConvexHull gUnaryUnion gPointOnSurface gContains gIsValid gIntersection gArea gBuffer gDifference
 #' @importFrom KernSmooth bkde2D
 #' @export

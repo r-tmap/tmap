@@ -54,7 +54,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 	argsT <- args[intersect(names(formals("tm_text")), names(args))]
 	
 	do.call("tm_lines", c(list(col=col), argsL)) +
-		do.call("tm_text", c(list(text=text, size=size, auto.placement = auto.placement, 
+		do.call("tm_text", c(list(text=text, size=size,
 								  remove.overlap=remove.overlap,
 								  along.lines=along.lines,
 								  overwrite.lines = overwrite.lines),

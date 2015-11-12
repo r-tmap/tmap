@@ -151,14 +151,23 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					})
 					
 					pShp <- SpatialPoints(coords, proj4string = lShp@proj4string)
-					ppShp <- as(gBuffer(pShp, width = buffer_width(bb(lShp))*1000, byid = TRUE), "SpatialLines")
+					ppShp <- as(gBuffer(pShp, width = .01, byid = TRUE), "SpatialLines")
 					ppShps <- lapply(ppShp@lines, function(l){
 						SpatialLines(list(l), proj4string = ppShp@proj4string)
 					})
 					iShps <- mapply(gIntersection, lShps, ppShps, MoreArgs = list(byid = FALSE))
 					
-					angles <- sapply(iShps, function(x) if (is.null(x)) 0 else .get_direction_angle(x@coords))
-				} else angles <- 0
+					angles <- sapply(iShps, function(x) {
+						if (is.null(x)) 0 else {
+							if (inherits(x, "SpatialPoints")) {
+								.get_direction_angle(x@coords)	
+							} else if (inherits(x, "SpatialLines")) {
+								.get_direction_angle(x@lines[[1]]@Lines[[1]]@coords)	
+							} else 0
+							
+						}
+					})
+				} else angles <- rep(0, nt)
 				
 
 				rG <- if (any(angles!=0)) {
@@ -286,7 +295,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 	
 	# cut map to projection boundaries (i.e. longlat bb -180 - 180, -90 to 90)
 	if (gt$earth.boundary) {
-		world_bb_sp2 <- end_of_the_world(earth.datum = gt$earth.datum, proj = proj)
+		world_bb_sp2 <- end_of_the_world(earth.datum = gt$earth.datum, proj = proj, bbx = gt$earth.bounds)
 		
 # 		world_bb_co <- matrix(c(
 # 			rep(-180, 181), seq(-179, 179), rep(180, 181), seq(179, -179),

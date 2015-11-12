@@ -6,6 +6,7 @@
 #' \tabular{ll}{
 #' \code{tm_style_white}\tab White background, commonly used colors (default) \cr
 #' \code{tm_style_grey}/\code{_grey}\tab Grey background, useful to highlight sequential palettes (e.g. in choropleths) \cr
+#' \code{tm_style_natural}\tab Emulation of natural view: blue waters and green land \cr
 #' \code{tm_style_bw}\tab Greyscale, obviously useful for greyscale printing \cr
 #' \code{tm_style_classic}\tab Classic styled maps (recommended) \cr
 #' \code{tm_style_cobalt}\tab Inspired by latex beamer style cobalt \cr
@@ -46,14 +47,14 @@
 #' @param fontface font face of all text in the map.
 #' @param fontfamily font family of the text labels.
 #' @param compass.type type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.
-#' @param earth.boundary Should the earth boundary be shown? Only applicable for projected world maps.
+#' @param earth.boundary Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, 180, -90, 90)}. Useful for rojected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, 180, -88, 88)}).
 #' @param earth.boundary.color Color of the earth boundary.
 #' @param earth.boundary.lwd Line width of the earth boundary.
 #' @param earth.datum Geodetic datum to determine the earth boundary. By default \code{"WGS84"}, other frequently used datums are \code{"NAD83"} and \code{"NAD27"}. Any other \code{PROJ.4} character string can be used.
 #' @param space.color Color of the space, i.e. the region inside the frame, and outsise the earth boundary.
 #' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
-#' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default, it is automatically placed in the corner with most space based on the (first) shape object.
+#' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object.
 #' @param legend.width maximum width of the legend
 #' @param legend.height maximum height of the legend.
 #' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
@@ -77,12 +78,13 @@
 #' @param legend.hist.bg.color Background color of the histogram
 #' @param legend.hist.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.hist.bg.color} is used (normally 1).
 #' @param title.snap.to.legend Logical that determines whether the title is part of the legend.
-#' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "center" or "right" for the first value and "top", "center", or "bottom" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the legend. By default the title is placed on top of the legend (determined by \code{legend.position})
+#' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
+#' By default the title is placed on top of the legend (determined by \code{legend.position}).
 #' @param title.color color of the title
 #' @param legend.frame either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color. The width of the frame is automatically determined, but is upper-bounded by \code{legend.width}.
 #' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param title.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).
-#' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "center" or "right", and the second value "top", "center", or "bottom". Positions can also be set separately in the map attribute fuctions.
+#' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions.
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
 #' @param ... other arguments from \code{tm_layout}
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
@@ -162,6 +164,7 @@ tm_legend <- function(...) {
 tm_format_World <- function(title=NA,
 							inner.margins=c(0, 0.05, 0.025, 0.01),
 							legend.position=c("left", "bottom"), 
+							attr.position=c("right", "bottom"),
 							scale=.8,
 							...) {
 	args <- c(as.list(environment()), list(...))
@@ -174,6 +177,7 @@ tm_format_World <- function(title=NA,
 tm_format_World_wide <- function(title=NA,
 								 inner.margins=c(0, 0.2, 0.025, 0.01),
 							legend.position=c("left", "bottom"), 
+							attr.position=c("right", "bottom"),
 							legend.width=0.4,
 							scale=.8,
 							...) {
@@ -217,6 +221,7 @@ tm_format_NLD <- function(title=NA,
 						  inner.margins=c(.02, .2, .06, .02),
 						  legend.position=c("left", "top"), 
 						  legend.width=0.4,
+						  attr.position=c("left", "bottom"),
 						  ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
@@ -230,12 +235,13 @@ tm_format_NLD_wide <- function(title=NA,
 						  legend.position=c("left", "top"), 
 						  legend.width=0.5,
 						  legend.hist.width=0.35,
+						  attr.position=c("left", "bottom"),
 						  ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
 }
 
-style_args <- c("bg.color", "aes.color", "aes.palette", "attr.color", "saturation", "sepia.intensity", "fontfamily", "frame.double.line", "compass.type")
+style_args <- c("bg.color", "aes.color", "aes.palette", "attr.color", "saturation", "sepia.intensity", "fontfamily", "frame.double.line", "compass.type", "space.color")
 
 #' @rdname tm_layout
 #' @export
@@ -251,6 +257,22 @@ tm_style_white <- function(...) {
 tm_style_gray <- function(bg.color="grey85", 
 						   aes.color=c(fill="grey70", borders="grey20", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
 						   ...) {
+	args <- c(as.list(environment()), list(...))
+	g <- do.call("tm_layout", args)
+	g$tm_layout$call <- union(g$tm_layout$call, style_args)
+	g
+}
+
+#' @rdname tm_layout
+#' @export
+tm_style_natural <- function(bg.color="lightskyblue1",
+							 aes.color=c(fill="darkolivegreen3", borders="black", bubbles="tomato2", dots="firebrick", lines="steelblue", text="black", na="white"),
+							 aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
+							 attr.color="black", 
+							 space.color="white",
+							 earth.boundary=TRUE,
+							 ...) {
+
 	args <- c(as.list(environment()), list(...))
 	g <- do.call("tm_layout", args)
 	g$tm_layout$call <- union(g$tm_layout$call, style_args)
