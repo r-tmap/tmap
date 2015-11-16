@@ -32,7 +32,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 process_line_col_vector <- function(x, g, gt) {
 	line.col.is.numeric <- is.numeric(x)
 	if (line.col.is.numeric) {
-		is.diverging <- (any(na.omit(x)<0) || any(g$breaks<0)) && (any(na.omit(x)>0) || any(g$breaks>0))
+		is.diverging <-  use_diverging_palette(x, g$breaks)
 		palette <- if (is.null(g$palette)) {
 			gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] 
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
