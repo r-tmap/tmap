@@ -10,7 +10,7 @@
 #' @import RColorBrewer
 #' @import grid
 #' @import gridBase
-#' @import classInt
+#' @importFrom classInt classIntervals findCols
 #' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb
 #' @importFrom methods as slot slotNames

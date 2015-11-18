@@ -20,11 +20,23 @@ num2pal <- function(x, n = 5,
 					   legend.NA.text = "Missing",
 					   process.colors=NULL,
 					   legend.format=list(scientific=FALSE)) {
+	breaks.specified <- !is.null(breaks)
+	is.cont <- (style=="cont")
 	
+	if (is.cont) {
+		style <- "equal"
+		if (is.null(legend.labels)) {
+			ncont <- n
+		} else {
+			ncont <- length(legend.labels)
+		}
+		n <- 101
+	}
+
 	q <- num2breaks(x=x, n=n, style=style, breaks=breaks)
 	breaks <- q$brks
 	nbrks <- length(breaks)
-	
+
 	
 	# reverse palette
 	if (length(palette)==1 && substr(palette[1], 1, 1)=="-") {
@@ -72,7 +84,7 @@ num2pal <- function(x, n = 5,
 		ids <- if (pal.div) {
 			map2divscaleID(breaks, n=101, contrast=contrast)
 		} else {
-			map2seqscaleID(breaks, n=101, contrast=contrast)
+			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified)
 		}
 		
 		legend.palette <- colpal[ids]
@@ -113,23 +125,54 @@ num2pal <- function(x, n = 5,
 	ids <- findCols(q)
 	cols <- legend.palette[ids]
 	anyNA <- any(is.na(cols))
+	breaks.palette <- legend.palette
 	if (anyNA) {
 		cols[is.na(cols)] <- colorNA
-		if (!is.na(legend.NA.text)) legend.palette <- c(legend.palette, colorNA)
+		if (!is.na(legend.NA.text) && !is.cont) legend.palette <- c(legend.palette, colorNA)
 	}
-	# create legend labels
-	if (is.null(legend.labels)) {
-		legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE), legend.format)) 
+
+	if (is.cont) {
+		# recreate legend palette for continuous cases
+		b <- pretty(breaks, n=ncont)
+		b <- b[b>=breaks[1] & b<=breaks[length(breaks)]]
+		nbrks_cont <- length(b)
+		id <- as.integer(cut(b, breaks=breaks))
+		id_step <- id[2] - id[1]
+		id_lst <- lapply(id, function(i){
+			res <- round(seq(i-floor(id_step/2), i+ceiling(id_step/2), length.out=11))[1:10]
+			res[res<1 | res>101] <- NA
+			res
+		})
+		legend.palette <- lapply(id_lst, function(i) legend.palette[i])
+		if (anyNA && !is.na(legend.NA.text)) legend.palette <- c(legend.palette, colorNA)
+		
+		# temporarily stack gradient colors
+		legend.palette <- sapply(legend.palette, paste, collapse="-")
+		
+		# create legend labels for continuous cases
+		if (is.null(legend.labels)) {
+			legend.labels <- do.call("fancy_breaks", c(list(vec=b, intervals=FALSE), legend.format)) 	
+		} else {
+			legend.labels <- rep(legend.labels, length.out=nbrks_cont)
+		}
+		if (anyNA && !is.na(legend.NA.text)) {
+			legend.labels <- c(legend.labels, legend.NA.text)
+		}		
+
 	} else {
-		if (length(legend.labels)!=nbrks-1) warning(paste("number of legend labels should be", nbrks-1))
-		legend.labels <- rep(legend.labels, length.out=nbrks-1)
+		# create legend labels for discrete cases
+		if (is.null(legend.labels)) {
+			legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE), legend.format)) 
+		} else {
+			if (length(legend.labels)!=nbrks-1) warning(paste("number of legend labels should be", nbrks-1))
+			legend.labels <- rep(legend.labels, length.out=nbrks-1)
+		}
+		
+		if (anyNA && !is.na(legend.NA.text)) {
+			legend.labels <- c(legend.labels, legend.NA.text)
+		}
 	}
-	
-	if (anyNA && !is.na(legend.NA.text)) {
-		legend.labels <- c(legend.labels, legend.NA.text)
-	}
-	
-	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks, legend.neutral.col = legend.neutral.col)
+	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks, breaks.palette=breaks.palette, legend.neutral.col = legend.neutral.col)
 }
 
 

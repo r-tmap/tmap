@@ -35,11 +35,12 @@ process_fill_vector <- function(x, g, gt, tiny) {
 						   legend.NA.text = textNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc),
 						   legend.format=g$legend.format)
-		fill.breaks <- colsLeg[[4]]
+		fill.breaks <- colsLeg$breaks
+		fill.colors <- colsLeg$breaks.palette
 	}
-	fill <- colsLeg[[1]]
-	fill.legend.labels <- colsLeg[[2]]
-	fill.legend.palette <- colsLeg[[3]]
+	fill <- colsLeg$cols
+	fill.legend.labels <- colsLeg$legend.labels
+	fill.legend.palette <- colsLeg$legend.palette
 	
 	## fill tiny
 	if (!is.na(fill.breaks[1])) {
@@ -47,8 +48,8 @@ process_fill_vector <- function(x, g, gt, tiny) {
 		tmp_breaks[1] <- -Inf
 		tmp_breaks[length(tmp_breaks)] <- Inf
 		tmp_int <- findInterval(fill.values[tiny], tmp_breaks)
-		tmp_int[is.na(tmp_int)] <- length(fill.legend.palette)
-		fill[tiny] <- fill.legend.palette[tmp_int]
+		tmp_int[is.na(tmp_int)] <- g$colorNA
+		fill[tiny] <- fill.colors[tmp_int]
 	}
 	return(list(fill=fill, 
 				fill.legend.labels=fill.legend.labels,

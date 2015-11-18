@@ -31,11 +31,11 @@ process_raster_vector <- function(x, g, gt) {
 						   legend.NA.text = textNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc),
 						   legend.format=g$legend.format)
-		raster.breaks <- colsLeg[[4]]
+		raster.breaks <- colsLeg$breaks
 	}
-	rast <- colsLeg[[1]]
-	raster.legend.labels <- colsLeg[[2]]
-	raster.legend.palette <- colsLeg[[3]]
+	rast <- colsLeg$cols
+	raster.legend.labels <- colsLeg$legend.labels
+	raster.legend.palette <- colsLeg$legend.palette
 	
 	return(list(raster=rast, 
 				raster.legend.labels=raster.legend.labels,

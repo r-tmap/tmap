@@ -60,9 +60,10 @@ map2divscaleID <- function(breaks, n=101, contrast=1) {
 # @param breaks vector of breaks
 # @param n number of classes, i.e. the length of a sequential colour palette.
 # @param contrast value between 0 and 1 that determines how much of the \code{(1, n)} range is used. Value \code{contrast=1} means that the most extreme break value, i.e. \code{max(abs(breaks))} is maped to n. There is no contrast at all for \code{contrast=0}, i.e. all index numbers will correspond to the first class (which has index number \code{1}.
+# @param breaks.specified logical that determines whether breaks have been specified by the user. If so a warning is shown if breaks are diverging.
 # @return vector of index numbers
-map2seqscaleID <- function(breaks, n=101, contrast=1) {
-	if (are_breaks_diverging(breaks)) stop("Breaks contains positive and negative values. Use diverging scale instead, or set auto.palette.mapping to FALSE.")
+map2seqscaleID <- function(breaks, n=101, contrast=1, breaks.specified=TRUE, impute=TRUE) {
+	if (are_breaks_diverging(breaks) && breaks.specified) warning("Breaks contains positive and negative values. Better is to use diverging scale instead, or set auto.palette.mapping to FALSE.")
 	m <- (n*2)-1
 	mh <- ((m-1)/2)+1
 	ids <- map2divscaleID(breaks, n=m, contrast=contrast)
@@ -75,11 +76,20 @@ map2seqscaleID <- function(breaks, n=101, contrast=1) {
 	
 	# checks:
 	if (any(ids>n)) {
-		warning("some index numbers exceed n and are replaced by NA")
-		ids[ids>n] <- NA
+		if (impute) {
+			ids[ids>n] <- n
+		} else {
+			warning("Some index numbers exceed n and are replaced by NA")
+			ids[ids>n] <- NA
+		}
+			
 	} else if (any(ids<1)) {
-		warning("some index numbers exceed 0 and are replaced by NA")
-		ids[ids<1] <- NA
+		if (impute) {
+			ids[ids<1] <- 1
+		} else {
+			warning("Some index numbers exceed 0 and are replaced by NA")
+			ids[ids<1] <- NA
+		}
 	}
 	round(ids)
 }

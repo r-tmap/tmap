@@ -408,6 +408,7 @@ legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 legend_portr <- function(x, gt, lineHeight, m) {
 	legend.text.size <- gt$legend.text.size
 	with(x, {
+		is.cont <- (nchar(legend.palette[1])>20)
 		
 		my <- lineHeight * legend.text.size * m
 		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
@@ -430,7 +431,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			lhs <- hs <- rep(r / nitems, nitems)
 		}
 		
-		if (legend.type=="bubble.col") {
+		if (legend.type=="bubble.col" && !is.cont) {
 			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
 			hs <- pmin(hs/s, bmax)
 		}
@@ -445,14 +446,42 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		wstext <- convertWidth(stringWidth(paste(legend.labels, " ")), unitTo = "npc", valueOnly = TRUE)
 		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
 		
-		grobLegendItem <- if (legend.type %in% c("fill", "raster")) {
+
+		grobLegendItem <- if (is.cont) {
+			fill <- legend.palette
+			xs <- mx+ws/2
+
+			# process fill colors
+			fill_list <- strsplit(fill, split = "-", fixed=TRUE)
+			fill_list <- lapply(fill_list, function(i) {
+				i[i=="NA"] <- NA
+				i
+			})
+			fill_len <- sapply(fill_list, length)
+			fill2 <- unlist(fill_list)
+			
+			# process x,y,w,h
+			xs2 <- unlist(mapply(rep, xs, fill_len, SIMPLIFY = FALSE))
+			ws2 <- unlist(mapply(rep, ws, fill_len, SIMPLIFY = FALSE))
+			
+			ys2 <- unlist(mapply(function(y, h, k) {
+				seq(y+h/2, y-h/2, length.out=k*2+1)[seq(2, k*2, by=2)]
+			}, ys, hs, fill_len, SIMPLIFY = FALSE))
+			hs2 <- unlist(mapply(function(h, k) rep(h/k, k), hs, fill_len, SIMPLIFY = FALSE))
+			
+			rectGrob(x=xs2, 
+					 y=ys2, 
+					 width= ws2, 
+					 height= hs2,
+					 gp=gpar(fill=fill2, col=NA))
+		} else if (legend.type %in% c("fill", "raster")) {
 			fill <- legend.palette
 			col <- ifelse(legend.type =="fill", border.col, NA)
 			if (legend.type=="raster") lwd <- NA
 			rectGrob(x=mx+ws/2, 
-					  y=ys, 
-					  width= ws, 
-					  height= hs,
+					 y=ys, 
+					 width= ws, 
+					 height= hs,
 					  gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
 			cols <- legend.palette
