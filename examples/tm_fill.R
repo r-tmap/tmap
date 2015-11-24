@@ -22,7 +22,7 @@ tm_shape(NLD_prov) +
 tm_format_NLD_wide(bg.color="white", frame = FALSE, legend.hist.bg.color="grey90")
 
 tm_shape(World) +
-    tm_polygons("HPI", palette="RdYlGn", n=7, auto.palette.mapping=FALSE, 
+    tm_polygons("HPI", palette="RdYlGn", style="cont", n=8, auto.palette.mapping=FALSE, 
     			title="Happy Planet Index") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_format_World() + 

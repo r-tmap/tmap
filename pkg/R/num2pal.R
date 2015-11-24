@@ -21,10 +21,10 @@ num2pal <- function(x, n = 5,
 					   process.colors=NULL,
 					   legend.format=list(scientific=FALSE)) {
 	breaks.specified <- !is.null(breaks)
-	is.cont <- (style=="cont")
+	is.cont <- (style=="cont" || style=="cont_quantile")
 	
 	if (is.cont) {
-		style <- "equal"
+		style <- ifelse(style=="cont_quantile", "quantile", "equal")
 		if (is.null(legend.labels)) {
 			ncont <- n
 		} else {
@@ -133,10 +133,17 @@ num2pal <- function(x, n = 5,
 
 	if (is.cont) {
 		# recreate legend palette for continuous cases
-		b <- pretty(breaks, n=ncont)
-		b <- b[b>=breaks[1] & b<=breaks[length(breaks)]]
-		nbrks_cont <- length(b)
-		id <- as.integer(cut(b, breaks=breaks))
+		if (style=="quantile") {
+			id <- seq(1, n+1, length.out=ncont)
+			b <- breaks[id]
+			nbrks_cont <- length(b)
+		} else {
+			b <- pretty(breaks, n=ncont)
+			b <- b[b>=breaks[1] & b<=breaks[length(breaks)]]
+			nbrks_cont <- length(b)
+			id <- as.integer(cut(b, breaks=breaks))
+		}
+
 		id_step <- id[2] - id[1]
 		id_lst <- lapply(id, function(i){
 			res <- round(seq(i-floor(id_step/2), i+ceiling(id_step/2), length.out=11))[1:10]
