@@ -106,7 +106,7 @@ process_lines <- function(data, g, gt, gby, z) {
 	if (nxlwd<nx) xlwd <- rep(xlwd, length.out=nx)
 
 	if (!varylwd) {
-		if (!all(is.numeric(xlwd))) stop("Line widths are neither numeric nor valid variable names")
+		if (!all(is.numeric(xlwd))) stop("Line widths are neither numeric nor valid variable name(s)")
 		for (i in 1:nx) data[[paste("lwd", i, sep="_")]] <- xlwd[i]
 		xlwd <- paste("lwd", 1:nx, sep="_")
 		gby$free.scales.line.lwd <- FALSE
@@ -129,11 +129,13 @@ process_lines <- function(data, g, gt, gby, z) {
 	if (is.list(dtlwd)) {
 		# multiple variables for lwd are defined
 		gsl <- split_g(g, n=nx)
+		if (!all(sapply(dtlwd, is.numeric))) stop("lwd argument of tm_lines contains a non-numeric variable")
 		res <- mapply(process_line_lwd_vector, dtlwd, gsl, MoreArgs = list(rescale=varylwd), SIMPLIFY = FALSE)
 		line.lwd <- sapply(res, function(r)r$line.lwd)
 		line.legend.lwds <- lapply(res, function(r)r$line.legend.lwds)
 		line.lwd.legend.labels <- lapply(res, function(r)r$line.lwd.legend.labels)
 	} else {
+		if (!is.numeric(dtlwd)) stop("lwd argument of tm_lines is not a numeric variable")
 		res <- process_line_lwd_vector(dtlwd, g, rescale=varylwd)
 		line.lwd <- matrix(res$line.lwd, nrow=npol)
 		if (varylwd) {

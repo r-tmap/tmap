@@ -4,6 +4,24 @@ process_layers <- function(g, z, gt, gf) {
 		g <- g[-dupl]	
 	} 
 	
+	type <- g$tm_shape$type
+	
+	if (type=="polygons" && "tm_lines" %in% names(g)) {
+		stop(g$tm_shape$shp_name, " consists of polygons, so it cannot accept tm_lines.")
+	} else if (type=="polygons" && "tm_raster" %in% names(g)) {
+		stop(g$tm_shape$shp_name, " consists of polygons, so it cannot accept tm_raster.")
+	} else if (type=="raster" && any(c("tm_fill", "tm_borders") %in% names(g))) {
+		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_fill/tm_borders/tm_polygons.")
+	} else if (type=="raster" && "tm_lines" %in% names(g)) {
+		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_lines.")
+	} else if (type=="raster" && "tm_bubbles" %in% names(g)) {
+		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_bubbles/tm_dots.")
+	} else if (type=="lines" && any(c("tm_fill", "tm_borders") %in% names(g))) {
+		stop(g$tm_shape$shp_name, " consists of spatial lines, so it cannot accept tm_fill/tm_borders/tm_polygons.")
+	} else if (type=="lines" && "tm_raster" %in% names(g)) {
+		stop(g$tm_shape$shp_name, " consists of spatial lines, so it cannot accept tm_raster.")
+	}
+	
 	data <- g$tm_shape$data
 	
 	scale <- gt$scale

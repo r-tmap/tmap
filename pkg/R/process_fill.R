@@ -95,7 +95,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- mapcols
 		x <- paste("COLOR", 1:nx, sep="_")
 	} else {
-		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable names")
+		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable name(s)")
 	}
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
 	## output: matrix=colors, list=free.scales, vector=!freescales

@@ -90,9 +90,14 @@ print.tmap <- function(x, vp=NULL, ...) {
 				attr(data, "AREAS_is_projected") <- is_projected(shp)
 				if (apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
 				attr(data, "dasymetric") <- ("dasymetric" %in% names(attributes(shp)))
-			}
-			if (inherits(shp, "SpatialLinesDataFrame")) {
+				type <- "polygons"
+			} else if (inherits(shp, "SpatialLinesDataFrame")) {
 				attr(data, "isolines") <- ("isolines" %in% names(attributes(shp)))
+				type <- "lines"
+			} else if (inherits(shp, "SpatialPointsDataFrame")) {
+				type <- "points"
+			} else {
+				type <- "raster"
 			}
 		} else if (inherits(shp, "Raster")) {
 			if (fromDisk(shp)) {
@@ -103,6 +108,9 @@ print.tmap <- function(x, vp=NULL, ...) {
 				data <- get_raster_data(shp)
 				shp <- raster(shp)
 			}
+			type <- "raster"
+		} else {
+			stop("Object ", y$shp_name, " is neither from class Spatial nor Raster.")
 		}
 		
 		if (inherits(shp, "Raster")) {
@@ -114,10 +122,12 @@ print.tmap <- function(x, vp=NULL, ...) {
 			attr(shp, "proj4string") <- shp@crs
 		}
 		attr(shp, "projected") <- is_projected(shp)
-		list(shp=shp, data=data)
+		
+		list(shp=shp, data=data, type=type)
 	})
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)
+	types <- lapply(shps_dts, "[[", 3)
 	
 	## find master shape
 	is_raster <- sapply(shps, inherits, "RasterLayer")
@@ -136,12 +146,13 @@ print.tmap <- function(x, vp=NULL, ...) {
 	shpM_asp <-	calc_asp_ratio(shpM_bb[1,], shpM_bb[2,], longlat=!attr(shps[[masterID]], "projected"))
 
 	## remove shapes from and add data to tm_shape objects
-	x[shape.id] <- mapply(function(y, dataset){
+	x[shape.id] <- mapply(function(y, dataset, type){
 		#bb <- bbox(y$shp)
+		y$type <- type
 		y$data <- dataset
 		y$shp <- NULL
 		y
-	}, x[shape.id], datasets, SIMPLIFY=FALSE)
+	}, x[shape.id], datasets, types, SIMPLIFY=FALSE)
 	
 	## prepare viewport
 	if (is.null(vp)) {

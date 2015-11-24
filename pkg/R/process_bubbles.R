@@ -124,7 +124,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	if (nxsize<nx) xsize <- rep(xsize, length.out=nx)
 	
 	if (!varysize) {
-		if (!all(is.numeric(xsize))) stop("Bubble sizes are neither numeric nor valid variable names")
+		if (!all(is.numeric(xsize))) stop("Bubble sizes are neither numeric nor valid variable name(s)")
 		for (i in 1:nx) data[[paste("SIZE", i, sep="_")]] <- xsize[i]
 		xsize <- paste("SIZE", 1:nx, sep="_")
 		gby$free.scales.bubble.size <- FALSE
@@ -148,12 +148,14 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	if (is.list(dtsize)) {
 		# multiple variables for size are defined
 		gss <- split_g(g, n=nx)
+		if (!all(sapply(dtsize, is.numeric))) stop("size argument of tm_bubbles/tm_dots contains a non-numeric variable")
 		res <- mapply(process_bubbles_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt), SIMPLIFY = FALSE)
 		bubble.size <- sapply(res, function(r)r$bubble.size)
 		bubble.size.legend.labels <- lapply(res, function(r)r$bubble.size.legend.labels)
 		bubble.legend.sizes <- lapply(res, function(r)r$bubble.legend.sizes)
 		bubble.max.size <- sapply(res, function(r)r$bubble.max.size)
 	} else {
+		if (!is.numeric(dtsize)) stop("size argument of tm_bubbles/tm_dots is not a numeric variable")
 		res <- process_bubbles_size_vector(dtsize, g, rescale=varysize, gt)
 		bubble.size <- matrix(res$bubble.size, nrow=npol)
 		if (varysize) {

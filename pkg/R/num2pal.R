@@ -1,4 +1,4 @@
-num2breaks <- function(x, n, style, breaks) {
+num2breaks <- function(x, n, style, breaks, approx=FALSE) {
 	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.")
 	# create intervals and assign colors
 	q <- suppressWarnings(if (style=="fixed") {
@@ -6,6 +6,21 @@ num2breaks <- function(x, n, style, breaks) {
 	} else {
 		classIntervals(x, n, style= style)
 	})
+	
+	# to prevent ugly rounded breaks such as -.5, .5, ..., 100.5 for n=101
+	if (approx && style != "fixed") {
+		brks <- q$brks
+		qm1 <- suppressWarnings(classIntervals(x, n-1, style= style))
+		brksm1 <- qm1$brks
+		qp1 <- suppressWarnings(classIntervals(x, n+1, style= style))
+		brksp1 <- qp1$brks
+		if (min(brksm1) > min(brks) && max(brksm1) < max(brks)) {
+			q <- qm1
+		} else if (min(brksp1) > min(brks) && max(brksp1) < max(brks)) {
+			q <- qp1
+		}
+	}
+	
 	q
 }
 
@@ -21,19 +36,21 @@ num2pal <- function(x, n = 5,
 					   process.colors=NULL,
 					   legend.format=list(scientific=FALSE)) {
 	breaks.specified <- !is.null(breaks)
-	is.cont <- (style=="cont" || style=="cont_quantile")
+	is.cont <- (style=="cont" || style=="order")
 	
 	if (is.cont) {
-		style <- ifelse(style=="cont_quantile", "quantile", "equal")
+		style <- ifelse(style=="order", "quantile", "equal")
 		if (is.null(legend.labels)) {
 			ncont <- n
 		} else {
 			ncont <- length(legend.labels)
 		}
-		n <- 101
+		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE)
+		n <- length(q$brks) - 1
+	} else {
+		q <- num2breaks(x=x, n=n, style=style, breaks=breaks)
 	}
 
-	q <- num2breaks(x=x, n=n, style=style, breaks=breaks)
 	breaks <- q$brks
 	nbrks <- length(breaks)
 
