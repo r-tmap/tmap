@@ -69,7 +69,7 @@ process_raster <- function(data, g, gt, gby, z) {
 		x <- g$col
 		
 		# by default, use the first data variable
-		if (is.na(x)) x <- names(data)[1]
+		if (is.na(x[1])) x <- names(data)[1]
 		
 		# if by is specified, use first value only
 		if (nlevels(by)>1) x <- x[1]
