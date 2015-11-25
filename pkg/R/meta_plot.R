@@ -513,6 +513,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 legend_landsc <- function(x, gt, lineHeight, m) {
 	legend.text.size <- gt$legend.text.size
 	with(x, {
+		is.cont <- (nchar(legend.palette[1])>20)
 		#grid.rect()
 		
 		if (lineHeight*legend.text.size * 3.25 > 1) {
@@ -582,7 +583,35 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 		
 		
-		grobLegendItem <- if (legend.type %in% c("fill", "raster")) {
+		grobLegendItem <- if (is.cont) {
+			fill <- legend.palette
+			xtraWidth <- ws[1]/2
+			ys <- 1-my-hs/2
+			
+			# process fill colors
+			fill_list <- strsplit(fill, split = "-", fixed=TRUE)
+			fill_list <- lapply(fill_list, function(i) {
+				i[i=="NA"] <- NA
+				i
+			})
+			fill_len <- sapply(fill_list, length)
+			fill2 <- unlist(fill_list)
+			
+			# process x,y,w,h
+			ys2 <- unlist(mapply(rep, ys, fill_len, SIMPLIFY = FALSE))
+			hs2 <- unlist(mapply(rep, hs, fill_len, SIMPLIFY = FALSE))
+			
+			xs2 <- unlist(mapply(function(x, w, k) {
+				seq(x-w/2, x+w/2, length.out=k*2+1)[seq(2, k*2, by=2)]
+			}, xs, ws, fill_len, SIMPLIFY = FALSE))
+			ws2 <- unlist(mapply(function(w, k) rep(w/k, k), ws, fill_len, SIMPLIFY = FALSE))
+			
+			rectGrob(x=xs2, 
+					 y=ys2, 
+					 width= ws2, 
+					 height= hs2,
+					 gp=gpar(fill=fill2, col=NA))
+		} else if (legend.type %in% c("fill", "raster")) {
 			fill <- legend.palette
 			xtraWidth <- ws[1]/2
 			rectGrob(x=xs, 

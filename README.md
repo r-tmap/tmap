@@ -9,12 +9,16 @@ Installation
 ------------
 
 `tmap` is available on [CRAN](http://cran.r-project.org/package=tmap)!
+
 The latest development version can be installed using `devtools`.
 
 ```r
 library(devtools)
 install_github("mtennekes/tmap", subdir = "pkg")
 ```
+
+Next CRAN release, version 1.2, expected mid December. From now on, odd numbered versions will be development versions, and even numbered versions stable CRAN releases (as with data.table).
+
 
 Usage
 -----
@@ -47,7 +51,7 @@ tm_shape(World) +
 	tm_grid(projection="longlat", labels.size = .5) +
 	tm_text("name", size="AREA") +
 	tm_compass(position = c(.65, .15), color.light = "grey90") +
-	tm_credits("Eckert IV projection", position = c(.85, 0)) +
+	tm_credits("Eckert IV projection", position = c("RIGHT", "BOTTOM")) +
 	tm_layout(inner.margins=c(.04,.03, .02, .01), 
 		legend.position = c("left", "bottom"), 
 		legend.frame = TRUE, 
@@ -58,7 +62,7 @@ tm_shape(World) +
 	tm_style_classic()
 ```
 
-Next CRAN release (version 1.1, in development)
+
 
 -----
 
