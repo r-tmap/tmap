@@ -62,7 +62,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 	} else if (is.matrix(x) && length(x)==4) {
 		b <- x
 	} else if (is.vector(x) && length(x)==4) {
-		b <- matrix(x, ncol=2)
+		b <- matrix(x, ncol=2, byrow=TRUE)
 	} else if (!is.na(x)[1]) {
 		stop("Incorrect x argument")	
 	} else {

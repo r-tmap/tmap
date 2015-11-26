@@ -179,7 +179,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 
 	## get by names
 	by_names_list <- lapply(gp, function(gpl) gpl$varnames$by)
-	by_names_specified <- !sapply(by_names_list, is.na)
+	by_names_specified <- !sapply(by_names_list, function(b) is.na(b[1]))
 	by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
 	
 	## process meta
