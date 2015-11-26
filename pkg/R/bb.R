@@ -135,6 +135,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		errorFound  <- TRUE
 		opt <- options(warn=-1, verbose=FALSE)
 		log <- capture.output({
+		iter <- 1
 		while(errorFound) {
 			sp_poly <- as(extent(b), "SpatialPolygons")
 			world_end <- end_of_the_world(proj=current.projection)
@@ -164,6 +165,8 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 				assign("errorFound", TRUE, envir = parent.env(environment()))
 				NULL
 			})
+			cat("test\n")
+			if (iter==100) stop("Something went wrong with the bounding box. Please check the projection.") else iter <- iter + 1
 		}
 		})
 

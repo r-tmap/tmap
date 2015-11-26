@@ -1,4 +1,4 @@
-end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1, bbx=c(-180, 180, -90, 90)) {
+end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1, bbx=c(-180+1e-6, 180-1e-6, -90+1e-6, 90-1e-6)) {
 	x1 <- bbx[1]
 	x2 <- bbx[2]
 	y1 <- bbx[3]

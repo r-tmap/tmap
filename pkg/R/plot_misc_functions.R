@@ -176,7 +176,7 @@ plot_grid <- function(gt, scale, add.labels) {
 				Line(m)
 			}), ID="y")
 		)), data.frame(ID=c("x", "y")), match.ID=FALSE)
-		lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY, labelsXw + spacerX, 1, 1)))
+		lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY, 1, labelsXw + spacerX, 1)))
 		
 		cogridxlns <- do.call("rbind", mapply(function(l, i) {
 			co <- as.data.frame(attr(l, "coords"))
