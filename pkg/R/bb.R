@@ -38,7 +38,6 @@
 #' @example ../examples/bb.R
 #' @export
 bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=NULL, ylim=NULL, relative = FALSE, current.projection=NULL, projection=NULL) {
-	if (missing(current.projection)) current.projection <- "longlat"
 	if (is.character(x)) {
 		q <- gsub(" ", "+", x, fixed = TRUE)
 		addr <- paste0("http://nominatim.openstreetmap.org/search?q=", q, "&format=xml&polygon=0&addressdetails=0")
@@ -132,6 +131,15 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		   dimnames=list(c("x", "y"), c("min", "max")))
 	
 	if (!missing(projection)) {
+		if (is.null(current.projection)) {
+			if (!maybe_longlat(b)) {
+				stop("Current projection unknown. Please specify the projection.")
+			}
+			warning("Current projection unknown. Long lat coordinates (wgs84) assumed.")
+			current.projection <- "longlat"	
+		} 
+		
+		
 		errorFound  <- TRUE
 		opt <- options(warn=-1, verbose=FALSE)
 		log <- capture.output({

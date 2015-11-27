@@ -37,7 +37,7 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{n}{preferred number of classes (in case \code{col} is a numeric variable).}
 
-\item{style}{method to cut the color scale (in case \code{col} is a numeric variable): e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}.}
+\item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", and "jenks". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified.}
 
@@ -126,7 +126,7 @@ tm_shape(NLD_prov) +
 tm_format_NLD_wide(bg.color="white", frame = FALSE, legend.hist.bg.color="grey90")
 
 tm_shape(World) +
-    tm_polygons("HPI", palette="RdYlGn", n=7, auto.palette.mapping=FALSE, 
+    tm_polygons("HPI", palette="RdYlGn", style="cont", n=8, auto.palette.mapping=FALSE, 
     			title="Happy Planet Index") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_format_World() + 

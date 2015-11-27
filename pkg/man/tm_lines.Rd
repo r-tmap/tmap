@@ -32,7 +32,7 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
 
 \item{n}{preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.}
 
-\item{style}{method to cut the color scale: e.g. "fixed", "equal", "pretty", "quantile", or "kmeans". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Only applicable when \code{lwd} is the name of a numeric variable.}
+\item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", and "jenks". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
 
