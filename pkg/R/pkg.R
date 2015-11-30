@@ -4,7 +4,7 @@
 #' 
 #' This page provides a brief overview of all package functions. See \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} for a short manual with examples.
 #'
-#' @section Quick plotting:
+#' @section Quick plotting method:
 #' \tabular{ll}{
 #' \code{\link{qtm}}\tab To plot a thematic map \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr

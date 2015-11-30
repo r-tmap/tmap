@@ -31,7 +31,7 @@ qtm(NLD_smooth$dasy, format="NLD")
 ## Smooth points
 ####################################
 
-# Sample points using World and metro datasets: for each 1 million people, a dot is created
+# Approximate world population density as spatial points, one for each 1 million people, in the following way. Each metropolitan area of x million people will be represented by x dots. The remaining population per country will be represented by dots that are sampled across the country.
 create_dot_per_1mln_people <- function() {
 	data(World, metro)
 	metro_eck <- set_projection(metro, projection = "eck4")
