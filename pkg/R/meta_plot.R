@@ -81,6 +81,10 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
 			} else if (!port && type == "bubble.size") {
 				max(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
+			} else if (port && type == "text.size") {
+				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
+			} else if (!port && type == "text.size") {
+				max(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
 			} else if (!port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
 				2*margin*lineHeight*gt$legend.text.size + 2.75 * lineHeight*gt$legend.text.size
 			} else if (type == "spacer") {
@@ -426,6 +430,16 @@ legend_portr <- function(x, gt, lineHeight, m) {
 				lhs <- lhs[1:(clipID-1)]
 				legend.labels <- legend.labels[1:(clipID-1)]
 			}
+		} else if (legend.type=="text.size") {
+			nitems <- length(legend.labels)
+			hs <- convertHeight(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE) * 2
+			lhs <- pmax(hs*s, legend.text.size * lineHeight)
+			if (sum(lhs)>r+1e-6) {
+				clipID <- which(cumsum(lhs) > r)[1]
+				hs <- hs[1:(clipID-1)]
+				lhs <- lhs[1:(clipID-1)]
+				legend.labels <- legend.labels[1:(clipID-1)]
+			}
 		} else {
 			nitems <- length(legend.labels)
 			lhs <- hs <- rep(r / nitems, nitems)
@@ -433,6 +447,9 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		
 		if (legend.type=="bubble.col" && !is.cont) {
 			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
+			hs <- pmin(hs/s, bmax)
+		} else if (legend.type=="text.col" && !is.cont) {
+			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE) * 2
 			hs <- pmin(hs/s, bmax)
 		}
 
@@ -490,6 +507,12 @@ legend_portr <- function(x, gt, lineHeight, m) {
 					gp=gpar(fill=cols,
 							col=bubble.border.col,
 							lwd=bubble.border.lwd))
+		} else if (legend.type %in% c("text.size", "text.col")) {
+			cols <- legend.palette
+			textGrob(legend.labels,
+					 x=mx+wsmax/2, 
+					 y=ys,
+					  gp=gpar(col=cols))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
 			cols <- legend.palette
@@ -539,6 +562,8 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 # 				legend.sizes <- legend.sizes[1:nitems]
 # 				hs <- hs[1:nitems]
 # 			}
+		} else if (legend.type=="text.size") {
+			hs <- convertHeight(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
 		} else {
 			hs <- rep(1.5*lineHeight*legend.text.size, nitems)
 		}
@@ -570,12 +595,29 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 				hs <- hs[1:nitems]
 				ws <- ws[1:nitems]
 			}
+		} else if (legend.type=="text.size") {
+			textws <- convertWidth(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
+			ws <- pmax(ws, textws*1.1)
+			
+			# delete too wide 
+			if (sum(ws)>rx) {
+				clipID2 <- which(cumsum(ws)>rx)[1]
+				nitems <- clipID2 - 1
+				legend.labels <- legend.labels[1:nitems]
+				if (length(legend.palette)>1) legend.palette <- legend.palette[1:nitems]
+				legend.sizes <- legend.sizes[1:nitems]
+				hs <- hs[1:nitems]
+				ws <- ws[1:nitems]
+			}
 		}
 		
 		xs <- mx + cumsum(ws) - ws/2
 					
 		if (legend.type=="bubble.col") {
 			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
+			hs <- pmin(hs, bmax)
+		} else if (legend.type=="text.col") {
+			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE)
 			hs <- pmin(hs, bmax)
 		}
 		
@@ -627,6 +669,12 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 						gp=gpar(fill=cols,
 								col=bubble.border.col,
 								lwd=bubble.border.lwd))
+		} else if (legend.type %in% c("text.size", "text.col")) {
+			cols <- legend.palette
+			xtraWidth <- convertWidth(unit(hsi, "inch"), "npc", valueOnly=TRUE)
+			textGrob(legend.labels,
+					 x=xs, y=1-my-hsmax/2,
+					   gp=gpar(col=cols))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
 			cols <- legend.palette

@@ -320,7 +320,7 @@ plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.ma
 		co.npc[, 1] <- co.npc[, 1] + text.xmod * lineWnpc
 		co.npc[, 2] <- co.npc[, 2] + text.ymod * lineHnpc
 		
-		grobText <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.fontcolor[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+		grobText <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.color[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		nlines <- rep(1, length(text))
 		
 		

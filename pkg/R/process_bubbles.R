@@ -22,9 +22,9 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 	
 	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	scaling <- ifelse(g$perceptual, 0.5716, 0.5)
-	bubble.size <- g$bubble.scale*(x/maxX)^scaling
+	bubble.size <- g$scale*(x/maxX)^scaling
 	bubble.max.size <- max(bubble.size, na.rm=TRUE)
-	bubble.legend.sizes <- g$bubble.scale*(x_legend/maxX)^scaling
+	bubble.legend.sizes <- g$scale*(x_legend/maxX)^scaling
 	list(bubble.size=bubble.size,
 		 bubble.size.legend.labels=bubble.size.legend.labels,
 		 bubble.legend.sizes=bubble.legend.sizes,
@@ -47,7 +47,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
 						   legend.NA.text=g$textNA,
-						   process.colors=c(list(alpha=g$bubble.alpha), gt$pc),
+						   process.colors=c(list(alpha=g$alpha), gt$pc),
 						   legend.format=g$legend.format)
 		bubble.col <- colsLeg[[1]]
 		bubble.col.neutral <- colsLeg$legend.neutral.col
@@ -67,7 +67,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 						   legend.labels=g$labels,
 						   legend.NA.text=g$textNA,
 						   max_levels=g$max.categories,
-						   process.colors=c(list(alpha=g$bubble.alpha), gt$pc))
+						   process.colors=c(list(alpha=g$alpha), gt$pc))
 		
 		bubble.col <- rep(NA, length(sel))
 		bubble.col[sel] <- colsLeg[[1]]
@@ -94,8 +94,8 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
 	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
 	
-	xsize <- g$bubble.size
-	xcol <- g$bubble.col
+	xsize <- g$size
+	xcol <- g$col
 	
 	if (is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["bubbles"]
 	
@@ -134,7 +134,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	is.colors <- all(valid_colors(xcol))
 	if (!varycol) {
 		if (!is.colors) stop("Invalid bubble colors")
-		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$bubble.alpha), gt$pc))
+		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
@@ -174,7 +174,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	
 	if (is.matrix(dtcol)) {
 		bubble.col <- if (!is.colors) {
-			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$bubble.alpha), gt$pc)),
+			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$alpha), gt$pc)),
 				   ncol=ncol(dtcol))
 		} else dtcol
 		xcol <- rep(NA, nx)
@@ -210,14 +210,14 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	}
 		
 		
-	xmod <- g$bubble.xmod
-	ymod <- g$bubble.ymod
+	xmod <- g$xmod
+	ymod <- g$ymod
 	xmod <- if (is.character(xmod)) data[[xmod]] else rep(xmod, length.out=npol)
 	ymod <-  if (is.character(ymod)) data[[ymod]] else rep(ymod, length.out=npol)
 
-	if (g$bubble.jitter>0) {
-		xmod <- xmod + rnorm(n=npol, sd=g$bubble.jitter)
-		ymod <- ymod + rnorm(n=npol, sd=g$bubble.jitter)
+	if (g$jitter>0) {
+		xmod <- xmod + rnorm(n=npol, sd=g$jitter)
+		ymod <- ymod + rnorm(n=npol, sd=g$jitter)
 	}
 	
 	
@@ -237,19 +237,19 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		bubble.col.legend.hist.title <- g$legend.hist.title
 	} else bubble.col.legend.hist.title <- ""
 	
-	bubble.border.col <- do.call("process_color", c(list(col=g$bubble.border.col, alpha=g$bubble.border.alpha)))
+	bubble.border.col <- do.call("process_color", c(list(col=g$border.col, alpha=g$border.alpha)))
 	
 	list(bubble.size=bubble.size,
 		 bubble.col=bubble.col,
-		 bubble.border.lwd=g$bubble.border.lwd,
+		 bubble.border.lwd=g$border.lwd,
 		 bubble.border.col=bubble.border.col,
-		 bubble.scale=g$bubble.scale,
+		 bubble.scale=g$scale,
 		 bubble.col.legend.labels=bubble.col.legend.labels,
 		 bubble.col.legend.palette=bubble.col.legend.palette,
-		 bubble.col.legend.misc=list(bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=bubble.border.col, bubble.max.size=bubble.max.size),
+		 bubble.col.legend.misc=list(bubble.border.lwd=g$border.lwd, bubble.border.col=bubble.border.col, bubble.max.size=bubble.max.size),
 		 bubble.size.legend.labels=bubble.size.legend.labels,
 		 bubble.size.legend.palette= bubble.size.legend.palette,
-		 bubble.size.legend.misc=list(bubble.border.lwd=g$bubble.border.lwd, bubble.border.col=bubble.border.col, legend.sizes=bubble.legend.sizes),
+		 bubble.size.legend.misc=list(bubble.border.lwd=g$border.lwd, bubble.border.col=bubble.border.col, legend.sizes=bubble.legend.sizes),
 		 bubble.col.legend.hist.misc=list(values=bubble.values, breaks=bubble.breaks),
 		 xsize=xsize,
 		 xcol=xcol,
@@ -266,5 +266,5 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		 bubble.size.legend.z=bubble.size.legend.z,
 		 bubble.col.legend.z=bubble.col.legend.z,
 		 bubble.col.legend.hist.z=bubble.legend.hist.z,
-		 bubble.id=g$bubble.id)
+		 bubble.id=g$id)
 }

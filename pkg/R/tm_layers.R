@@ -5,7 +5,8 @@
 #' @param text name of the variable in the shape object that contains the text labels
 #' @param size relative size of the text labels (see note). Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or the value \code{"AREA"}, where the text size is proportional to the area size of the polygons.
 #' @param root root number to which the font sizes are scaled. Only applicable if \code{size} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.
-#' @param fontcolor color of the text labels
+#' @param color color of the text labels
+
 #' @param fontface font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_layout}}.
 #' @param fontfamily font family of the text labels. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).
@@ -27,11 +28,41 @@
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_text <-  function(text, size=1, root=3, fontcolor=NA, fontface=NA, fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, auto.placement=FALSE, remove.overlap=FALSE, along.lines=FALSE, overwrite.lines=FALSE, xmod=0, ymod=0) {
-	g <- list(tm_text=list(text=text, text.size=size, root=root, text.fontcolor=fontcolor, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.shadow=shadow, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
-							text.size.lowerbound=size.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.auto.placement=auto.placement, text.remove.overlap=remove.overlap, text.along.lines=along.lines, text.overwrite.lines=overwrite.lines, text.xmod=xmod, text.ymod=ymod))
+tm_text <-  function(text, size=1, root=3, color=NA, sizes.legend = NULL,
+					 sizes.legend.labels = NULL,
+					 n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
+					 breaks = NULL,
+					 palette = NULL,
+					 labels = NULL,
+					 auto.palette.mapping = TRUE,
+					 contrast = 1,
+					 max.categories = 12,
+					 colorNA = "#FF1414",
+					 textNA = "Missing",
+					 fontface=NA, 
+					 fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, auto.placement=FALSE, remove.overlap=FALSE, along.lines=FALSE, overwrite.lines=FALSE, xmod=0, ymod=0,
+					 title.size = NA,
+					 title.col = NA,
+					 legend.size.show=TRUE,
+					 legend.col.show=TRUE,
+					 legend.format=list(),
+					 legend.size.is.portrait=FALSE,
+					 legend.col.is.portrait=TRUE,
+					 legend.hist=FALSE,
+					 legend.hist.title=NA,
+					 legend.size.z=NA,
+					 legend.col.z=NA,
+					 legend.hist.z=NA,
+					 id=NA) {
+	g <- list(tm_text=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
+	
+	
+# 	g <- list(tm_text=list(text=text, text.size=size, root=root, text.color=color, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.shadow=shadow, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
+# 							text.size.lowerbound=size.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.auto.placement=auto.placement, text.remove.overlap=remove.overlap, text.along.lines=along.lines, text.overwrite.lines=overwrite.lines, text.xmod=xmod, text.ymod=ymod))
+# 	class(g) <- "tmap"
+# 	g
 }
 
 #' Draw iso (contour) lines with labels
@@ -436,39 +467,44 @@ tm_bubbles <- function(size=.2, col=NA,
 						legend.col.z=NA,
 						legend.hist.z=NA,
 						id=NA) {
-	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.alpha=alpha, bubble.border.lwd=border.lwd,
-							   bubble.border.col=border.col,
-							   bubble.border.alpha=border.alpha,
-								 bubble.scale=scale,
-							     perceptual=perceptual,
-								 size.lim=size.lim,
-							     sizes.legend=sizes.legend,
-							     sizes.legend.labels=sizes.legend.labels,
-								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
-								 auto.palette.mapping=auto.palette.mapping,
-								 max.categories=max.categories,
-								 contrast=contrast,
-								 colorNA=colorNA,
-								 textNA=textNA,
-							  bubble.jitter=jitter,
-								 bubble.xmod=xmod,
-								 bubble.ymod=ymod,
-							  legend.format=legend.format,
-							  title.size=title.size,
-							  title.col=title.col,
-							  legend.size.show=legend.size.show,
-							  legend.col.show=legend.col.show,
-							  legend.size.is.portrait=legend.size.is.portrait, 
-							  legend.col.is.portrait=legend.col.is.portrait, 
-							  legend.hist=legend.hist,
-							  legend.hist.title=legend.hist.title,
-							  legend.size.z=legend.size.z, 
-							  legend.col.z=legend.col.z,
-							  legend.hist.z=legend.hist.z,
-							  bubble.id=id,
-							  are.dots=FALSE))
+	g <- list(tm_bubbles=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
+	
+	
+# 	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.alpha=alpha, bubble.border.lwd=border.lwd,
+# 							   bubble.border.col=border.col,
+# 							   bubble.border.alpha=border.alpha,
+# 								 bubble.scale=scale,
+# 							     perceptual=perceptual,
+# 								 size.lim=size.lim,
+# 							     sizes.legend=sizes.legend,
+# 							     sizes.legend.labels=sizes.legend.labels,
+# 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
+# 								 auto.palette.mapping=auto.palette.mapping,
+# 								 max.categories=max.categories,
+# 								 contrast=contrast,
+# 								 colorNA=colorNA,
+# 								 textNA=textNA,
+# 							  bubble.jitter=jitter,
+# 								 bubble.xmod=xmod,
+# 								 bubble.ymod=ymod,
+# 							  legend.format=legend.format,
+# 							  title.size=title.size,
+# 							  title.col=title.col,
+# 							  legend.size.show=legend.size.show,
+# 							  legend.col.show=legend.col.show,
+# 							  legend.size.is.portrait=legend.size.is.portrait, 
+# 							  legend.col.is.portrait=legend.col.is.portrait, 
+# 							  legend.hist=legend.hist,
+# 							  legend.hist.title=legend.hist.title,
+# 							  legend.size.z=legend.size.z, 
+# 							  legend.col.z=legend.col.z,
+# 							  legend.hist.z=legend.hist.z,
+# 							  bubble.id=id,
+# 							  are.dots=FALSE))
+# 	class(g) <- "tmap"
+# 	g
 }
 
 
