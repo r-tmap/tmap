@@ -30,10 +30,12 @@
 #' @return \code{\link{tmap-element}}
 tm_text <-  function(text, size=1, root=3, color=NA, sizes.legend = NULL,
 					 sizes.legend.labels = NULL,
+					 sizes.legend.text = NULL,
 					 n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
 					 breaks = NULL,
 					 palette = NULL,
 					 labels = NULL,
+					 labels.text = NULL,
 					 auto.palette.mapping = TRUE,
 					 contrast = 1,
 					 max.categories = 12,

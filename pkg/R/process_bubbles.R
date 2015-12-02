@@ -71,7 +71,7 @@ process_bubbles_col_vector <- function(xc, xs, g, gt) {
 		
 		bubble.col <- rep(NA, length(sel))
 		bubble.col[sel] <- colsLeg[[1]]
-		bubble.col.neutral <- bubble.col[sel[1]]
+		bubble.col.neutral <- bubble.col[which(sel)[1]]
 		bubble.breaks <- NA
 	}
 	bubble.col.legend.labels <- colsLeg[[2]]
@@ -195,7 +195,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		bubble.breaks <- lapply(res, function(r)r$bubble.breaks)
 		bubble.values <- dtcol
 	} else {
-		bubble.size_vector <- unlist(bubble.size)
+		bubble.size_vector <- as.vector(unlist(bubble.size))
 		res <- process_bubbles_col_vector(dtcol, bubble.size_vector, g, gt)
 		bubble.col <- matrix(res$bubble.col, nrow=npol)
 		bubble.col.legend.labels <- res$bubble.col.legend.labels

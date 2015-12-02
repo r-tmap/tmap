@@ -12,6 +12,7 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 				if (!is.na(gpl$varnames[[v]][1])) {
 					if (gpl[[paste(v, "legend.show", sep=".")]]) {
 						legend.labels <- paste(v, "legend.labels", sep=".")
+						legend.text <- paste(v, "legend.text", sep=".")
 						legend.palette <- paste(v, "legend.palette", sep=".")
 						legend.title <- paste(v, "legend.title", sep=".")
 						legend.is.portrait <- paste(v, "legend.is.portrait", sep=".")
@@ -27,6 +28,7 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 							   legend.is.portrait=gpl[[legend.is.portrait]],
 							   legend.z=gpl[[legend.z]],
 							   legend.labels=gpl[[legend.labels]],
+							   legend.text=gpl[[legend.text]],
 							   legend.palette=gpl[[legend.palette]]),
 						  list_misc)
 					}

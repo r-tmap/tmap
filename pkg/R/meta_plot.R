@@ -432,13 +432,14 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			}
 		} else if (legend.type=="text.size") {
 			nitems <- length(legend.labels)
-			hs <- convertHeight(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE) * 2
+			hs <- convertHeight(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
 			lhs <- pmax(hs*s, legend.text.size * lineHeight)
 			if (sum(lhs)>r+1e-6) {
 				clipID <- which(cumsum(lhs) > r)[1]
 				hs <- hs[1:(clipID-1)]
 				lhs <- lhs[1:(clipID-1)]
 				legend.labels <- legend.labels[1:(clipID-1)]
+				legend.text <- legend.text[1:(clipID-1)]
 			}
 		} else {
 			nitems <- length(legend.labels)
@@ -448,16 +449,23 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		if (legend.type=="bubble.col" && !is.cont) {
 			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
 			hs <- pmin(hs/s, bmax)
-		} else if (legend.type=="text.col" && !is.cont) {
-			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE) * 2
-			hs <- pmin(hs/s, bmax)
 		}
-
+		
+		
+		if (legend.type=="text.col" && !is.cont) {
+			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
+			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
+		} else if  (legend.type=="text.size") {
+			cex <- legend.sizes #pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE))
+			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
+		} else {
+			ws <- convertWidth(convertHeight(unit(hs, "npc"), "inch"), "npc", TRUE)
+		}
+		wsmax <- max(ws)
+		
 		ys <- 1 - my - cumsum(lhs) + lhs/2
 		size <- pmin(lhs / lineHeight, legend.text.size)
 		
-		ws <- convertWidth(convertHeight(unit(hs, "npc"), "inch"), "npc", TRUE)
-		wsmax <- max(ws)
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 		
 		wstext <- convertWidth(stringWidth(paste(legend.labels, " ")), unitTo = "npc", valueOnly = TRUE)
@@ -509,10 +517,11 @@ legend_portr <- function(x, gt, lineHeight, m) {
 							lwd=bubble.border.lwd))
 		} else if (legend.type %in% c("text.size", "text.col")) {
 			cols <- legend.palette
-			textGrob(legend.labels,
-					 x=mx+wsmax/2, 
+			textGrob(legend.text,
+					 x=mx, 
 					 y=ys,
-					  gp=gpar(col=cols))
+					 just=c("left", "center"),
+					  gp=gpar(cex=cex, col=cols))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
 			cols <- legend.palette
