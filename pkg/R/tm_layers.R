@@ -467,44 +467,10 @@ tm_bubbles <- function(size=.2, col=NA,
 						legend.col.z=NA,
 						legend.hist.z=NA,
 						id=NA) {
-	g <- list(tm_bubbles=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
+	g <- list(tm_bubbles=c(as.list(environment()), list(are.dots=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
 	
-	
-# 	g <- list(tm_bubbles=list(bubble.size=size, bubble.col=col, bubble.alpha=alpha, bubble.border.lwd=border.lwd,
-# 							   bubble.border.col=border.col,
-# 							   bubble.border.alpha=border.alpha,
-# 								 bubble.scale=scale,
-# 							     perceptual=perceptual,
-# 								 size.lim=size.lim,
-# 							     sizes.legend=sizes.legend,
-# 							     sizes.legend.labels=sizes.legend.labels,
-# 								 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
-# 								 auto.palette.mapping=auto.palette.mapping,
-# 								 max.categories=max.categories,
-# 								 contrast=contrast,
-# 								 colorNA=colorNA,
-# 								 textNA=textNA,
-# 							  bubble.jitter=jitter,
-# 								 bubble.xmod=xmod,
-# 								 bubble.ymod=ymod,
-# 							  legend.format=legend.format,
-# 							  title.size=title.size,
-# 							  title.col=title.col,
-# 							  legend.size.show=legend.size.show,
-# 							  legend.col.show=legend.col.show,
-# 							  legend.size.is.portrait=legend.size.is.portrait, 
-# 							  legend.col.is.portrait=legend.col.is.portrait, 
-# 							  legend.hist=legend.hist,
-# 							  legend.hist.title=legend.hist.title,
-# 							  legend.size.z=legend.size.z, 
-# 							  legend.col.z=legend.col.z,
-# 							  legend.hist.z=legend.hist.z,
-# 							  bubble.id=id,
-# 							  are.dots=FALSE))
-# 	class(g) <- "tmap"
-# 	g
 }
 
 

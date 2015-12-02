@@ -1,13 +1,4 @@
 process_text_size_vector <- function(x, text, g, rescale, gt) {
-	text_sel <- (x >= g$size.lowerbound)
-	text_empty <- is.na(text) | is.na(x)
-	
-	if (g$print.tiny) {
-		size[!text_sel & !text_empty] <- size.lowerbound
-		text_sel <- !text_empty
-	} else {
-		text_sel <- text_sel & !text_empty
-	}
 	
 	if (is.null(g$sizes.legend)) {
 		x_legend <- pretty(x, 5)
@@ -25,11 +16,29 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 		size.legend.labels <- g$sizes.legend.labels
 	}
 	
+	root <- ifelse(rescale, g$root, 1)
+	
 	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
-	size <- g$scale*(x / maxX) ^ (1/g$root)
+	size <- (x / maxX) ^ (1/root)
 	
 	max.size <- max(size, na.rm=TRUE)
-	legend.sizes <- g$scale*(x_legend/maxX) ^ (1/g$root)
+	legend.sizes <- (x_legend/maxX) ^ (1/root)
+	
+	
+	text_sel <- (size >= g$size.lowerbound)
+	text_empty <- is.na(text) | is.na(size)
+	
+	if (g$print.tiny) {
+		size[!text_sel & !text_empty] <- size.lowerbound
+		text_sel <- !text_empty
+	} else {
+		text_sel <- text_sel & !text_empty
+	}
+	
+	size <- size * g$scale
+	max.size <- max.size * g$scale
+	legend.sizes <- legend.sizes * g$scale
+
 	list(size=size,
 		 text_sel=text_sel,
 		 size.legend.labels=size.legend.labels,
@@ -60,7 +69,7 @@ process_text_col_vector <- function(xc, xs, g, gt) {
 		breaks <- colsLeg[[4]]
 	} else {
 		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] 
+			gt$aes.palette[[ifelse(is.ordered(xc), "seq", "cat")]] 
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
 			gt$aes.palette[[g$palette[1]]]
 		} else g$palette
@@ -173,6 +182,9 @@ process_text <- function(data, g, fill, gt, gby, z) {
 				cols <- rep(ifelse(light, coldark, collight), length.out=npol)
 				cols <- do.call("process_color", c(list(col=col2hex(cols), alpha=g$alpha), gt$pc))
 			}
+		} else {
+			colvec <- do.call("process_color", c(list(col=col2hex(xtcol), alpha=g$alpha), gt$pc))
+			cols <- matrix(colvec, nrow=npol, ncol=nx, byrow = TRUE)
 		}
 		if (!is.matrix(cols)) {
 			cols <- matrix(cols, ncol=nx)
@@ -194,7 +206,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	##
 	if (!all(xtext %in% shpcols)) stop("Incorrect data variable used for the text")
 
-	text <- if (nx > 1) matrix(unlist(lapply(data[, xtext]), as.character), ncol=nx) else as.character(data[[xtext]])
+	text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), ncol=nx) else as.character(data[[xtext]])
 	if (!is.na(g$case)) text <- if(case=="upper") toupper(text) else tolower(text)
 	
 	
@@ -226,10 +238,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	}
 	
 	if (is.matrix(dtcol)) {
-		col <- if (!is.colors) {
-			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$alpha), gt$pc)),
-				   ncol=ncol(dtcol))
-		} else dtcol
+		col <- dtcol
 		xtcol <- rep(NA, nx)
 		col.legend.title <- rep(NA, nx)
 		col.legend.labels <- NA
@@ -264,13 +273,13 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	
 
 	if (g$shadow) {
-		g$shadowcol <- if (is.matrix(color)) {
-			apply(color, MARGIN=2, function(f) {
+		g$shadowcol <- if (is.matrix(col)) {
+			apply(col, MARGIN=2, function(f) {
 				light <- is_light(f)
 				rep(ifelse(light, coldark, collight), length.out=npol)
 			})
 		} else {
-			light <- is_light(color)
+			light <- is_light(col)
 			rep(ifelse(light, coldark, collight), length.out=npol)
 		}
 	}
@@ -326,7 +335,6 @@ process_text <- function(data, g, fill, gt, gby, z) {
 		 text.xmod=xmod,
 		 text.ymod=ymod,
 		 text_sel=text_sel,
-		 light=light,
 		 text.size.legend.show=g$legend.size.show,
 		 text.col.legend.show=g$legend.col.show,
 		 text.size.legend.title=text.size.legend.title,

@@ -173,10 +173,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	
 	
 	if (is.matrix(dtcol)) {
-		bubble.col <- if (!is.colors) {
-			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$alpha), gt$pc)),
-				   ncol=ncol(dtcol))
-		} else dtcol
+		bubble.col <- dtcol
 		xcol <- rep(NA, nx)
 		bubble.col.legend.title <- rep(NA, nx)
 		bubble.col.legend.labels <- NA

@@ -5,7 +5,7 @@ tm_shape(World) +
 
 tm_shape(Europe) +
     tm_polygons() +
-    tm_text("iso_a3", size="AREA", root=4, shadow = TRUE, fontcolor = "grey20", scale=2,
+    tm_text("iso_a3", size="AREA", root=4, shadow = TRUE, color = "grey20", scale=2,
         size.lowerbound = .1) +
 tm_shape(Europe) +
     tm_text("name", size="AREA", root=4, scale=1,

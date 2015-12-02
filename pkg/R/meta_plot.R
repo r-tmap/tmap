@@ -75,7 +75,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 			port <- p$legend.is.portrait
 			if (type=="TITLE") {
 				titleHeight
-			} else if (port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
+			} else if (port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster", "text.col")) {
 				length(p$legend.labels) * lineHeight * gt$legend.text.size + 2*margin*lineHeight
 			} else if (port && type == "bubble.size") {
 				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
