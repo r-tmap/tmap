@@ -6,11 +6,17 @@ process_col_vector <- function(x, sel, g, gt) {
 	
 	
 	if (is.factor(x)) {
-		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] 
+		
+		if (is.null(g$palette)) {
+			palette.type <- ifelse(is.ordered(x), "seq", "cat")
+			palette <- gt$aes.palette[[palette.type]] 
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
-			gt$aes.palette[[g$palette[1]]]
-		} else g$palette
+			palette.type <- g$palette[1]
+			palette <- gt$aes.palette[[palette.type]]
+		} else {
+			palette <- g$palette
+			palette.type <- palette_type(palette)
+		}
 		colsLeg <- cat2pal(x,
 						   palette = palette,
 						   contrast = g$contrast,
@@ -20,7 +26,11 @@ process_col_vector <- function(x, sel, g, gt) {
 						   max_levels=g$max.categories,
 						   process.colors=c(list(alpha=g$alpha), gt$pc))
 		breaks <- NA
-		col.neutral <- colsLeg$legend.palette[1] #do.call("process_color", c(list(col=gt$aes.color["text"], alpha=g$alpha), gt$pc))
+		
+			
+			
+		neutralID <- if (palette.type=="div") round(((length(legend.palette)-1)/2)+1) else 1
+		col.neutral <- palette[1]
 		
 	} else {
 		is.diverging <- use_diverging_palette(x, g$breaks)

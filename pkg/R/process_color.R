@@ -49,6 +49,32 @@ lighter <- function(colour, rate, alpha=NA) {
 }
 
 
+# determine palette type
+# palettes of length 1,2 or 3 are cat
+# palette of length 4+ are seq if luminance is increasing or decreaing
+# palette of length 5+ are div if luminance is increasing in first half and decreasing in second half, or the other way round.
+palette_type <- function(palette) {
+	k <- length(palette)
+	if (k<4) return("cat")
+	
+	m <- floor((k-1)/2)
+	
+	colpal_light <- get_light(palette)
+	
+	s <- sign(colpal_light[-1] - colpal_light[-k])
+	
+	if (all(s==1) || all(s==-1)) {
+		return("seq")
+	} else if (k>4 && ((all(s[1:m]==1) && all(s[(k-m+1):k]==-1)) ||
+		(all(s[1:m]==-1) && all(s[(k-m+1):k]==1)))) {
+		return("div")
+	} else {
+		return("cat")
+	}
+}
+
+
+
 # get_alpha_col <- function(colour, alpha=NA) {
 # 	col <- col2rgb(colour, TRUE)/255
 # 	if (is.na(alpha)) alpha <- col[4,] 

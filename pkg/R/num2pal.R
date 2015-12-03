@@ -69,21 +69,23 @@ num2pal <- function(x, n = 5,
 		mc <- brewer.pal.info[palette, "maxcolors"]
 		pal.div <- (brewer.pal.info[palette, "category"]=="div")
 	} else {
-		k <- length(palette)
-		m <- floor((k-1)/2)
+# 		k <- length(palette)
+# 		m <- floor((k-1)/2)
+# 		
+# 		colpal_light <- get_light(palette)
+# 		
+# 		
+# 		s <- sign(colpal_light[-1] - colpal_light[-k])
+# 		
+# 		pal.div <- ((all(s[1:m]==1) && all(s[(k-m+1):k]==-1)) ||
+# 						(all(s[1:m]==-1) && all(s[(k-m+1):k]==1)))
+		palette.type <- palette_type(palette)
 		
-		colpal_light <- get_light(palette)
-		
-		
-		s <- sign(colpal_light[-1] - colpal_light[-k])
-		
-		pal.div <- ((all(s[1:m]==1) && all(s[(k-m+1):k]==-1)) ||
-						(all(s[1:m]==-1) && all(s[(k-m+1):k]==1)))
-		if (auto.palette.mapping && !pal.div && !all(s==1) && !all(s==-1)) {
+		if (auto.palette.mapping && palette.type=="cat") {
 			warning("could not determine whether palette is sequential or diverging. auto.palette.mapping will be set to FALSE.")
 			auto.palette.mapping <- FALSE
 		}
-		
+		pal.div <- palette.type=="div"
 			
 		
 		colpal_light <- get_light(palette[c(1, length(palette)/2, length(palette))])
