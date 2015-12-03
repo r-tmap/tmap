@@ -31,59 +31,6 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 		 bubble.max.size=bubble.max.size)
 }
 
-process_bubbles_col_vector <- function(xc, xs, g, gt) {
-	bubble.col.is.numeric <- is.numeric(xc)
-	if (bubble.col.is.numeric) {
-		
-		is.diverging <-  use_diverging_palette(xc, g$breaks)
-		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] 
-		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
-			gt$aes.palette[[g$palette[1]]]
-		} else g$palette
-		colsLeg <- num2pal(xc, g$n, style=g$style, breaks=g$breaks, 
-						   palette = palette,
-						   auto.palette.mapping = g$auto.palette.mapping,
-						   contrast = g$contrast, legend.labels=g$labels,
-						   colorNA=g$colorNA, 
-						   legend.NA.text=g$textNA,
-						   process.colors=c(list(alpha=g$alpha), gt$pc),
-						   legend.format=g$legend.format)
-		bubble.col <- colsLeg[[1]]
-		bubble.col.neutral <- colsLeg$legend.neutral.col
-		bubble.breaks <- colsLeg[[4]]
-	} else {
-		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.ordered(xc), "seq", "cat")]] 
-		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
-			gt$aes.palette[[g$palette[1]]]
-		} else g$palette
-		#remove unused levels in legend
-		sel <- !is.na(xs)
-		colsLeg <- cat2pal(xc[sel],
-						   palette = palette,
-						   contrast = g$contrast,
-						   colorNA = g$colorNA,
-						   legend.labels=g$labels,
-						   legend.NA.text=g$textNA,
-						   max_levels=g$max.categories,
-						   process.colors=c(list(alpha=g$alpha), gt$pc))
-		
-		bubble.col <- rep(NA, length(sel))
-		bubble.col[sel] <- colsLeg[[1]]
-		bubble.col.neutral <- bubble.col[which(sel)[1]]
-		bubble.breaks <- NA
-	}
-	bubble.col.legend.labels <- colsLeg[[2]]
-	bubble.col.legend.palette <- colsLeg[[3]]
-	
-	list(bubble.col=bubble.col,
-		 bubble.col.legend.labels=bubble.col.legend.labels,
-		 bubble.col.legend.palette=bubble.col.legend.palette,
-		 bubble.col.is.numeric=bubble.col.is.numeric,
-		 bubble.col.neutral=bubble.col.neutral,
-		 bubble.breaks=bubble.breaks)
-}
 
 process_bubbles <- function(data, g, gt, gby, z) {
 	npol <- nrow(data)
@@ -171,42 +118,19 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		}
 	}
 	
+	sel <- if (is.list(dtsize)) {
+		lapply(dtsize, function(i)!is.na(i))
+	} else !is.na(dtsize)
 	
-	if (is.matrix(dtcol)) {
-		bubble.col <- dtcol
-		xcol <- rep(NA, nx)
-		bubble.col.legend.title <- rep(NA, nx)
-		bubble.col.legend.labels <- NA
-		bubble.col.legend.palette <- NA
-		bubble.col.is.numeric <- NA
-		bubble.col.neutral <- apply(bubble.col, 2, function(bc) na.omit(bc)[1])
-		bubble.breaks <- NA
-		bubble.values <- NA
-	} else if (is.list(dtcol)) {
-		# multiple variables for col are defined
-		gsc <- split_g(g, n=nx)
-		bubble.size_list <- as.list(as.data.frame(bubble.size))
-		res <- mapply(process_bubbles_col_vector, dtcol, bubble.size_list, gsc, MoreArgs=list(gt), SIMPLIFY=FALSE)
-		bubble.col <- sapply(res, function(r)r$bubble.col)
-		bubble.col.legend.labels <- lapply(res, function(r)r$bubble.col.legend.labels)
-		bubble.col.legend.palette <- lapply(res, function(r)r$bubble.col.legend.palette)
-		bubble.col.is.numeric <- sapply(res, function(r)r$bubble.col.is.numeric)
-		bubble.col.neutral <- sapply(res, function(r)r$bubble.col.neutral)
-		bubble.breaks <- lapply(res, function(r)r$bubble.breaks)
-		bubble.values <- dtcol
-	} else {
-		bubble.size_vector <- as.vector(unlist(bubble.size))
-		res <- process_bubbles_col_vector(dtcol, bubble.size_vector, g, gt)
-		bubble.col <- matrix(res$bubble.col, nrow=npol)
-		bubble.col.legend.labels <- res$bubble.col.legend.labels
-		bubble.col.legend.palette <- res$bubble.col.legend.palette
-		bubble.col.is.numeric <- res$bubble.col.is.numeric
-		bubble.col.neutral <- res$bubble.col.neutral
-		bubble.breaks <- res$bubble.breaks
-		bubble.values <- split(dtcol, rep(1:nx, each=npol))
-	}
-		
-		
+	dcr <- process_dtcol(dtcol, sel, g, gt, nx, npol)
+	if (dcr$is.constant) xcol <- rep(NA, nx)
+	col <- dcr$col
+	col.legend.labels <- dcr$legend.labels
+	col.legend.palette <- dcr$legend.palette
+	col.neutral <- dcr$col.neutral
+	breaks <- dcr$breaks
+	values <- dcr$values
+	
 	xmod <- g$xmod
 	ymod <- g$ymod
 	xmod <- if (is.character(xmod)) data[[xmod]] else rep(xmod, length.out=npol)
@@ -218,8 +142,6 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	}
 	
 	
-	bubble.size.legend.palette <- bubble.col.neutral
-
 	bubble.size.legend.title <- if (is.na(g$title.size)[1]) xsize else g$title.size
 	bubble.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
 	bubble.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
@@ -237,17 +159,17 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	bubble.border.col <- do.call("process_color", c(list(col=g$border.col, alpha=g$border.alpha)))
 	
 	list(bubble.size=bubble.size,
-		 bubble.col=bubble.col,
+		 bubble.col=col,
 		 bubble.border.lwd=g$border.lwd,
 		 bubble.border.col=bubble.border.col,
 		 bubble.scale=g$scale,
-		 bubble.col.legend.labels=bubble.col.legend.labels,
-		 bubble.col.legend.palette=bubble.col.legend.palette,
+		 bubble.col.legend.labels=col.legend.labels,
+		 bubble.col.legend.palette=col.legend.palette,
 		 bubble.col.legend.misc=list(bubble.border.lwd=g$border.lwd, bubble.border.col=bubble.border.col, bubble.max.size=bubble.max.size),
 		 bubble.size.legend.labels=bubble.size.legend.labels,
-		 bubble.size.legend.palette= bubble.size.legend.palette,
+		 bubble.size.legend.palette= col.neutral,
 		 bubble.size.legend.misc=list(bubble.border.lwd=g$border.lwd, bubble.border.col=bubble.border.col, legend.sizes=bubble.legend.sizes),
-		 bubble.col.legend.hist.misc=list(values=bubble.values, breaks=bubble.breaks),
+		 bubble.col.legend.hist.misc=list(values=values, breaks=breaks),
 		 xsize=xsize,
 		 xcol=xcol,
 		 bubble.xmod=xmod,

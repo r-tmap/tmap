@@ -138,34 +138,54 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly")
-	if (is.list(dt)) {
-		# multiple variables are defined
-		gs <- split_g(g, n=nx)
-		isNum <- sapply(dt, is.numeric)
-		isDens <- sapply(gs, "[[", "convert2density")
-		
-		if (any(isNum & isDens) && show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
-		dt[isNum & isDens] <- lapply(dt[isNum & isDens], function(d) {
-			d / areas
-		})
-		res <- mapply(process_fill_vector, dt, gs, MoreArgs = list(gt, tiny), SIMPLIFY = FALSE)
-		fill <- sapply(res, function(r)r$fill)
-		fill.legend.labels <- lapply(res, function(r)r$fill.legend.labels)
-		fill.legend.palette <- lapply(res, function(r)r$fill.legend.palette)
-		fill.breaks <- lapply(res, function(r)r$fill.breaks)
-		fill.values <- lapply(dt, function(d)d[!tiny])
-	} else {
-		if (is.numeric(dt) && g$convert2density) {
-			if (show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
-			dt <- dt / areas
-		}
-		res <- process_fill_vector(dt, g, gt, tiny)
-		fill <- matrix(res$fill, nrow=npol)
-		fill.legend.labels <- res$fill.legend.labels
-		fill.legend.palette <- res$fill.legend.palette
-		fill.breaks <- res$fill.breaks
-		fill.values <- lapply(split(dt, rep(1:nx, each=npol)), function(d)d[!tiny])
-	}
+	
+	
+	sel <- if (is.list(dt)) rep(list(!tiny), nx) else !tiny
+	
+	dcr <- process_dtcol(dt, sel, g, gt, nx, npol, check_dens = TRUE, show_warning=show_warning, areas=areas)
+	if (dcr$is.constant) xfill <- rep(NA, nx)
+	col <- dcr$col
+	col.legend.labels <- dcr$legend.labels
+	col.legend.palette <- dcr$legend.palette
+	col.neutral <- dcr$col.neutral
+	breaks <- dcr$breaks
+	values <- dcr$values
+	
+	
+# 	
+# 	if (is.list(dt)) {
+# 		# multiple variables are defined
+# 		gs <- split_g(g, n=nx)
+# 		isNum <- sapply(dt, is.numeric)
+# 		isDens <- sapply(gs, "[[", "convert2density")
+# 		
+# 		if (any(isNum & isDens) && show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
+# 		dt[isNum & isDens] <- lapply(dt[isNum & isDens], function(d) {
+# 			d / areas
+# 		})
+# 		res <- mapply(process_col_vector, dt, gs, MoreArgs = list(gt, tiny), SIMPLIFY = FALSE)
+# 		fill <- sapply(res, function(r)r$fill)
+# 		fill.legend.labels <- lapply(res, function(r)r$fill.legend.labels)
+# 		fill.legend.palette <- lapply(res, function(r)r$fill.legend.palette)
+# 		fill.breaks <- lapply(res, function(r)r$fill.breaks)
+# 		fill.values <- lapply(dt, function(d)d[!tiny])
+# 	} else {
+# 		if (is.numeric(dt) && g$convert2density) {
+# 			if (show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
+# 			dt <- dt / areas
+# 		}
+# 		res <- process_fill_vector(dt, g, gt, tiny)
+# 		fill <- matrix(res$fill, nrow=npol)
+# 		fill.legend.labels <- res$fill.legend.labels
+# 		fill.legend.palette <- res$fill.legend.palette
+# 		fill.breaks <- res$fill.breaks
+# 		fill.values <- lapply(split(dt, rep(1:nx, each=npol)), function(d)d[!tiny])
+# 	}
+	
+	
+	
+	
+	
 	fill.legend.title <- if (is.na(g$title)[1]) x else g$title
 	fill.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
 	fill.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.5 else g$legend.hist.z
@@ -177,11 +197,13 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
 		fill.legend.hist.title <- g$legend.hist.title
 	} else fill.legend.hist.title <- ""
-	list(fill=fill,
-		 fill.legend.labels=fill.legend.labels,
-		 fill.legend.palette=fill.legend.palette,
+	
+	
+	list(fill=col,
+		 fill.legend.labels=col.legend.labels,
+		 fill.legend.palette=col.legend.palette,
 		 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col),
-		 fill.legend.hist.misc=list(values=fill.values, breaks=fill.breaks),
+		 fill.legend.hist.misc=list(values=values, breaks=breaks),
 		 xfill=x,
 		 fill.legend.show=g$legend.show,
 		 fill.legend.title=fill.legend.title,
