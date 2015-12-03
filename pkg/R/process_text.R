@@ -254,42 +254,24 @@ process_text <- function(data, g, fill, gt, gby, z) {
 		}, as.data.frame(text, stringsAsFactors = FALSE), as.data.frame(size), if (is.list(size.legend.labels)) size.legend.labels else list(size.legend.labels), if (is.list(legend.sizes)) legend.sizes else list(legend.sizes), if (is.list(dtsize)) gss else list(g), SIMPLIFY=FALSE)
 	}
 	
-	if (is.matrix(dtcol)) {
-		col <- dtcol
+	sel <- if (is.list(dtsize)) {
+		lapply(dtsize, function(i)!is.na(i))
+	} else !is.na(dtsize)
+	
+	dcr <- process_dtcol(dtcol, sel=sel, g, gt, nx, npol)
+	if (dcr$is.constant) {
 		xtcol <- rep(NA, nx)
-		col.legend.title <- rep(NA, nx)
-		col.legend.labels <- NA
 		col.legend.text <- NA
-		col.legend.palette <- NA
-		col.is.numeric <- NA
-		col.neutral <- apply(col, 2, function(bc) na.omit(bc)[1])
-		breaks <- NA
-		values <- NA
-	} else if (is.list(dtcol)) {
-		# multiple variables for col are defined
-		gsc <- split_g(g, n=nx)
-		size_list <- as.list(as.data.frame(size))
-		res <- mapply(process_text_col_vector, dtcol, size_list, gsc, MoreArgs=list(gt), SIMPLIFY=FALSE)
-		col <- sapply(res, function(r)r$col)
-		col.legend.labels <- lapply(res, function(r)r$col.legend.labels)
-		col.legend.palette <- lapply(res, function(r)r$col.legend.palette)
-		col.is.numeric <- sapply(res, function(r)r$col.is.numeric)
-		col.neutral <- sapply(res, function(r)r$col.neutral)
-		breaks <- lapply(res, function(r)r$breaks)
-		values <- dtcol
-	} else {
-		size_vector <- as.vector(unlist(size))
-		res <- process_text_col_vector(dtcol, size_vector, g, gt)
-		col <- matrix(res$col, nrow=npol)
-		col.legend.labels <- res$col.legend.labels
-		col.legend.palette <- res$col.legend.palette
-		col.is.numeric <- res$col.is.numeric
-		col.neutral <- res$col.neutral
-		breaks <- res$breaks
-		values <- split(dtcol, rep(1:nx, each=npol))
+		col.legend.title <- rep(NA, nx)
 	}
+	col <- dcr$col
+	col.legend.labels <- dcr$legend.labels
+	col.legend.palette <- dcr$legend.palette
+	col.neutral <- dcr$col.neutral
+	breaks <- dcr$breaks
+	values <- dcr$values
 	
-	
+
 	if (is.list(values)) {
 		# process legend text
 		col.legend.text <- mapply(function(txt, v, l, gsci) {
@@ -334,8 +316,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	if (is.na(g$fontface)) g$fontface <- gt$fontface
 	if (is.na(g$fontfamily)) g$fontfamily <- gt$fontfamily
 
-	size.legend.palette <- col.neutral
-	
+
 	text.size.legend.title <- if (is.na(g$title.size)[1]) xtsize else g$title.size
 	text.col.legend.title <- if (is.na(g$title.col)[1]) xtcol else g$title.col
 	text.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
@@ -371,7 +352,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 		 text.col.legend.misc=list(text.max.size=max.size),
 		 text.size.legend.labels=size.legend.labels,
 		 text.size.legend.text=size.legend.text,
-		 text.size.legend.palette= size.legend.palette,
+		 text.size.legend.palette= col.neutral,
 		 text.size.legend.misc=list(legend.sizes=legend.sizes),
 		 text.col.legend.hist.misc=list(values=values, breaks=breaks),
 		 xtsize=xtsize,

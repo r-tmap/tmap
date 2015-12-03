@@ -100,24 +100,38 @@ process_raster <- function(data, g, gt, gby, z) {
 		}
 		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx)))
 	}
-	if (is.list(dt)) {
-		# multiple variables are defined
-		gs <- split_g(g, n=nx)
-		isNum <- sapply(dt, is.numeric)
-		res <- mapply(process_raster_vector, dt, gs, MoreArgs = list(gt), SIMPLIFY = FALSE)
-		rast <- sapply(res, function(r)r$raster)
-		raster.legend.labels <- lapply(res, function(r)r$raster.legend.labels)
-		raster.legend.palette <- lapply(res, function(r)r$raster.legend.palette)
-		raster.breaks <- lapply(res, function(r)r$raster.breaks)
-		raster.values <- dt
-	} else {
-		res <- process_raster_vector(dt, g, gt)
-		rast <- matrix(res$raster, nrow=npol)
-		raster.legend.labels <- res$raster.legend.labels
-		raster.legend.palette <- res$raster.legend.palette
-		raster.breaks <- res$raster.breaks
-		raster.values <- split(dt, rep(1:nx, each=npol))
-	}
+	
+	dcr <- process_dtcol(dt, sel=TRUE, g, gt, nx, npol)
+	if (dcr$is.constant) x <- rep(NA, nx)
+	col <- dcr$col
+	col.legend.labels <- dcr$legend.labels
+	col.legend.palette <- dcr$legend.palette
+	breaks <- dcr$breaks
+	values <- dcr$values
+	
+	
+	
+	
+# 	if (is.list(dt)) {
+# 		# multiple variables are defined
+# 		gs <- split_g(g, n=nx)
+# 		isNum <- sapply(dt, is.numeric)
+# 		res <- mapply(process_raster_vector, dt, gs, MoreArgs = list(gt), SIMPLIFY = FALSE)
+# 		rast <- sapply(res, function(r)r$raster)
+# 		raster.legend.labels <- lapply(res, function(r)r$raster.legend.labels)
+# 		raster.legend.palette <- lapply(res, function(r)r$raster.legend.palette)
+# 		raster.breaks <- lapply(res, function(r)r$raster.breaks)
+# 		raster.values <- dt
+# 	} else {
+# 		res <- process_raster_vector(dt, g, gt)
+# 		rast <- matrix(res$raster, nrow=npol)
+# 		raster.legend.labels <- res$raster.legend.labels
+# 		raster.legend.palette <- res$raster.legend.palette
+# 		raster.breaks <- res$raster.breaks
+# 		raster.values <- split(dt, rep(1:nx, each=npol))
+# 	}
+	
+	
 	raster.legend.title <- if (is.na(g$title)[1]) x else g$title
 	raster.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
 	raster.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.5 else g$legend.hist.z
@@ -131,11 +145,11 @@ process_raster <- function(data, g, gt, gby, z) {
 	} else raster.legend.hist.title <- ""
 	
 	
-	list(raster=rast,
-		 raster.legend.labels=raster.legend.labels,
-		 raster.legend.palette=raster.legend.palette,
+	list(raster=col,
+		 raster.legend.labels=col.legend.labels,
+		 raster.legend.palette=col.legend.palette,
 		 raster.legend.misc=list(),
-		 raster.legend.hist.misc=list(values=raster.values, breaks=raster.breaks),
+		 raster.legend.hist.misc=list(values=values, breaks=breaks),
 		 xraster=x,
 		 raster.legend.show=g$legend.show,
 		 raster.legend.title=raster.legend.title,

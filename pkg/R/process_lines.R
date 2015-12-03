@@ -150,48 +150,25 @@ process_lines <- function(data, g, gt, gby, z) {
 		}
 	}
 	
-	if (is.matrix(dtcol)) {
-		line.col <- if (is.colors) {
-			matrix(do.call("process_color", c(list(col=dtcol, alpha=g$lines.alpha), gt$pc)),
-				   ncol=ncol(dtcol))
-		} else dtcol
-		xcol <- rep(NA, nx)
-		line.col.legend.title <- rep(NA, nx)
-		line.col.legend.labels <- NA
-		line.col.legend.palette <- NA
-		line.col.is.numeric <- NA
-		line.breaks <- NA
-		line.values <- NA
-	} else if (is.list(dtcol)) {
-		# multiple variables for col are defined
-		gsc <- split_g(g, n=nx)
-		res <- mapply(process_line_col_vector, dtcol, gsc, MoreArgs = list(gt), SIMPLIFY = FALSE)
-		line.col <- sapply(res, function(r)r$line.col)
-		line.col.legend.labels <- lapply(res, function(r)r$line.col.legend.labels)
-		line.col.legend.palette <- lapply(res, function(r)r$line.col.legend.palette)
-		line.col.is.numeric <- sapply(res, function(r)r$line.col.is.numeric)
-		line.breaks <- lapply(res, function(r)r$line.breaks)
-		line.values <- dtcol
-		
-	} else {
-		res <- process_line_col_vector(dtcol, g, gt)
-		line.col <- matrix(res$line.col, nrow=npol)
-		line.col.legend.labels <- res$line.col.legend.labels
-		line.col.legend.palette <- res$line.col.legend.palette
-		line.col.is.numeric <- res$line.col.is.numeric
-		line.breaks <- res$line.breaks
-		line.values <- split(dtcol, rep(1:nx, each=npol))
-	}
 	
-	line.lwd.legend.palette <- if (is.list(line.col.legend.palette)) {
-		mapply(function(pal, isnum) {
-			if (isnum) pal[length(pal)] else pal[1]
-		}, line.col.legend.palette, line.col.is.numeric)
-	} else if (is.na(line.col.legend.palette[1])) {
-		apply(line.col, 2, function(bc) na.omit(bc)[1])
-	} else {
-		rep(line.col.legend.palette[1], nx)
-	}
+	sel <- if (is.list(dtlwd)) {
+		lapply(dtlwd, function(i)!is.na(i))
+	} else !is.na(dtlwd)
+	
+	
+	
+	dcr <- process_dtcol(dtcol, sel, g, gt, nx, npol)
+	if (dcr$is.constant) xcol <- rep(NA, nx)
+	col <- dcr$col
+	col.legend.labels <- dcr$legend.labels
+	col.legend.palette <- dcr$legend.palette
+	col.neutral <- dcr$col.neutral
+	breaks <- dcr$breaks
+	values <- dcr$values
+	
+
+	line.lwd.legend.palette <- col.neutral
+		
 	
 	line.legend.lwd <- if (is.list(line.legend.lwds)) {
 		sapply(line.legend.lwds, function(x)quantile(x, probs=.75, na.rm=TRUE))
@@ -215,12 +192,12 @@ process_lines <- function(data, g, gt, gby, z) {
 		line.col.legend.hist.title <- g$legend.hist.title
 	} else line.col.legend.hist.title <- ""
 	
-	list(line.col=line.col,
+	list(line.col=col,
 		 line.lwd=line.lwd,
 		 line.lty=g$lines.lty,
 		 line.alpha=g$lines.alpha,
-		 line.col.legend.labels=line.col.legend.labels,
-		 line.col.legend.palette=line.col.legend.palette,
+		 line.col.legend.labels=col.legend.labels,
+		 line.col.legend.palette=col.legend.palette,
 		 line.col.legend.misc=list(line.legend.lwd=line.legend.lwd, 
 		 						  line.legend.lty=g$lines.lty,
 		 						  line.legend.alpha=g$lines.alpha),
@@ -229,7 +206,7 @@ process_lines <- function(data, g, gt, gby, z) {
 		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds,
 		 						  line.legend.lty=g$lines.lty,
 		 						  line.legend.alpha=g$lines.alpha),
-		 line.col.legend.hist.misc=list(values=line.values, breaks=line.breaks),
+		 line.col.legend.hist.misc=list(values=values, breaks=breaks),
 		 xline=xcol,
 		 xlinelwd=xlwd,
 		 line.col.legend.show=g$legend.col.show,

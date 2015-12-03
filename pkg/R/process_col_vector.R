@@ -45,8 +45,8 @@ process_col_vector <- function(x, sel, g, gt) {
 	cols <- colsLeg$cols
 	legend.labels <- colsLeg$legend.labels
 	legend.palette <- colsLeg$legend.palette
-	
-	## fill tiny
+
+	## color tiny
 	if (!is.na(breaks[1]) && any(!sel)) {
 		tmp_breaks <- breaks
 		tmp_breaks[1] <- -Inf
@@ -74,10 +74,12 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show
 		values <- NA
 	} else if (is.list(dtcol)) {
 		# multiple variables for col are defined
-
+		if (is.na(sel[1])) sel <- rep(TRUE, nx)
+		gsc <- split_g(g, n=nx)
+		
 		if (check_dens) {
 			isNum <- sapply(dtcol, is.numeric)
-			isDens <- sapply(gs, "[[", "convert2density")
+			isDens <- sapply(gsc, "[[", "convert2density")
 			
 			if (any(isNum & isDens) && show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
 			dtcol[isNum & isDens] <- lapply(dtcol[isNum & isDens], function(d) {
@@ -85,8 +87,6 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show
 			})
 		}
 		
-		if (is.na(sel[1])) sel <- rep(TRUE, nx)
-		gsc <- split_g(g, n=nx)
 		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt), SIMPLIFY=FALSE)
 		col <- sapply(res, function(r)r$cols)
 		legend.labels <- lapply(res, function(r)r$legend.labels)
