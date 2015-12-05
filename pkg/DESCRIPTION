@@ -26,7 +26,6 @@ Imports:
     classInt,
     htmlwidgets,
     KernSmooth,
-    OpenStreetMap,
     osmar,
     RColorBrewer,
     spdep,
@@ -35,5 +34,7 @@ Imports:
 Suggests:
     dplyr,
     knitr
+Enhances:
+    OpenStreetMap
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1

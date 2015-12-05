@@ -71,6 +71,7 @@ process_raster <- function(data, g, gt, gby, z) {
 		# by default, use the first data variable
 		if (is.na(x[1])) x <- names(data)[1]
 		
+		
 		# if by is specified, use first value only
 		if (nlevels(by)>1) x <- x[1]
 		nx <- length(x)
@@ -85,6 +86,8 @@ process_raster <- function(data, g, gt, gby, z) {
 			if (!all(x %in% shpcols)) stop("Raster argument neither colors nor valid variable name(s)")
 		}
 	}
+
+	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.raster, is.colors=is.colors)
 	## output: matrix=colors, list=free.scales, vector=!freescales

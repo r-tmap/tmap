@@ -1,6 +1,6 @@
 process_col_vector <- function(x, sel, g, gt) {
 	values <- x
-	textNA <- ifelse(any(is.na(values)), g$textNA, NA)
+	textNA <- ifelse(any(is.na(values[sel])), g$textNA, NA)
 	
 	x[!sel] <- NA
 	
@@ -30,7 +30,7 @@ process_col_vector <- function(x, sel, g, gt) {
 			
 			
 		neutralID <- if (palette.type=="div") round(((length(legend.palette)-1)/2)+1) else 1
-		col.neutral <- palette[1]
+		col.neutral <- colsLeg$legend.palette[1]
 		
 	} else {
 		is.diverging <- use_diverging_palette(x, g$breaks)

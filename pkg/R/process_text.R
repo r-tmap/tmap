@@ -1,4 +1,8 @@
 process_text_size_vector <- function(x, text, g, rescale, gt) {
+	if (!is.na(g$size.lim[1])) {
+		x[x<g$size.lim[1]] <- NA
+		x[x>g$size.lim[2]] <- g$size.lim[2]
+	}
 	
 	if (is.null(g$sizes.legend)) {
 		x_legend <- pretty(x, 5)
@@ -46,59 +50,6 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 		 max.size=max.size)
 }
 
-process_text_col_vector <- function(xc, xs, g, gt) {
-	col.is.numeric <- is.numeric(xc)
-	if (col.is.numeric) {
-		is.diverging <- (any(na.omit(xc)<0) || any(g$breaks<0)) && (any(na.omit(xc)>0) || any(g$breaks>0))
-		
-		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] 
-		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
-			gt$aes.palette[[g$palette[1]]]
-		} else g$palette
-		colsLeg <- num2pal(xc, g$n, style=g$style, breaks=g$breaks, 
-						   palette = palette,
-						   auto.palette.mapping = g$auto.palette.mapping,
-						   contrast = g$contrast, legend.labels=g$labels,
-						   colorNA=g$colorNA, 
-						   legend.NA.text=g$textNA,
-						   process.colors=c(list(alpha=g$alpha), gt$pc),
-						   legend.format=g$legend.format)
-		col <- colsLeg[[1]]
-		col.neutral <- colsLeg$legend.neutral.col
-		breaks <- colsLeg[[4]]
-	} else {
-		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.ordered(xc), "seq", "cat")]] 
-		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
-			gt$aes.palette[[g$palette[1]]]
-		} else g$palette
-		#remove unused levels in legend
-		sel <- !is.na(xs)
-		colsLeg <- cat2pal(xc[sel],
-						   palette = palette,
-						   contrast = g$contrast,
-						   colorNA = g$colorNA,
-						   legend.labels=g$labels,
-						   legend.NA.text=g$textNA,
-						   max_levels=g$max.categories,
-						   process.colors=c(list(alpha=g$alpha), gt$pc))
-		
-		col <- rep(NA, length(sel))
-		col[sel] <- colsLeg$cols
-		col.neutral <- do.call("process_color", c(list(col=gt$aes.color["text"], alpha=g$alpha), gt$pc))
-		breaks <- NA
-	}
-	col.legend.labels <- colsLeg$legend.labels
-	col.legend.palette <- colsLeg$legend.palette
-	
-	list(col=col,
-		 col.legend.labels=col.legend.labels,
-		 col.legend.palette=col.legend.palette,
-		 col.is.numeric=col.is.numeric,
-		 col.neutral=col.neutral,
-		 breaks=breaks)
-}
 
 
 
@@ -118,6 +69,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	
 	if (is.na(fill[1])) fill <- ifelse(gt$aes.colors.light["text"], "black", "white")
 
+	
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
 	
@@ -126,8 +78,12 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
 	
 	xtsize <- g$size
-	xtcol <- g$color
+	xtcol <- g$col
 	xtext <- g$text
+	
+	if (is.na(xtcol)[1]) xtcol <- gt$aes.colors["text"]
+	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
+	
 	
 	# if by is specified, use first value only
 	if (nlevels(by)>1) {
@@ -237,7 +193,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	if (is.list(dtsize) || varysize) {
 		# process legend text
 		size.legend.text <- mapply(function(txt, v, l, ls, gssi) {
-			if (is.null(gssi$sizes.legend.labels)) {
+			if (is.na(gssi$sizes.legend.text[1])) {
 				nl <- nlevels(v)
 				lss <- ls[-1] - ls[-length(ls)]
 				lss <- c(lss[1], (lss[-1] + lss[-length(lss)])/2, lss[length(lss)])
@@ -246,17 +202,15 @@ process_text <- function(data, g, fill, gt, gby, z) {
 					if (which.min(abs(v[r]-ls))[1]==j) r else NA
 				}, ls, 1:length(ls), SIMPLIFY=TRUE)
 				sizetext <- txt[ix]
-				sizetext[is.na(sizetext)] <- "X"
+				sizetext[is.na(sizetext)] <- "NA"
 			} else {
-				sizetext <- rep(gssi$sizes.legend.labels, length.out=length(l))
+				sizetext <- rep(gssi$sizes.legend.text, length.out=length(l))
 			}
 			sizetext
 		}, as.data.frame(text, stringsAsFactors = FALSE), as.data.frame(size), if (is.list(size.legend.labels)) size.legend.labels else list(size.legend.labels), if (is.list(legend.sizes)) legend.sizes else list(legend.sizes), if (is.list(dtsize)) gss else list(g), SIMPLIFY=FALSE)
 	}
 	
-	sel <- if (is.list(dtsize)) {
-		lapply(dtsize, function(i)!is.na(i))
-	} else !is.na(dtsize)
+	sel <- if (is.list(dtcol)) as.list(as.data.frame(text_sel)) else as.vector(text_sel)
 	
 	dcr <- process_dtcol(dtcol, sel=sel, g, gt, nx, npol)
 	if (dcr$is.constant) {
@@ -267,32 +221,41 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
 	col.legend.palette <- dcr$legend.palette
-	col.neutral <- dcr$col.neutral
+	col.neutral <- gt$aes.color[["text"]] # preferable over dcr$col.neutral to match examples
 	breaks <- dcr$breaks
 	values <- dcr$values
 	
 
 	if (is.list(values)) {
 		# process legend text
-		col.legend.text <- mapply(function(txt, v, l, gsci) {
-			if (is.null(gsci$labels.text)) {
-				nl <- nlevels(v)
-				ids <- as.integer(v)
-				ix <- sapply(1:nl, function(i)which(ids==i)[1])
+		col.legend.text <- mapply(function(txt, v, s, l, gsci) {
+			if (is.na(gsci$labels.text[1])) {
+				
+				if (is.na(breaks[1])) {
+					# categorical
+					nl <- nlevels(v)
+					ids <- as.integer(v)
+				} else {
+					# numeric
+					nl <- length(breaks) - 1
+					ids <- as.integer(cut(v, breaks=breaks, include.lowest = TRUE, right = FALSE))
+				}
+				ix <- sapply(1:nl, function(i)which(ids==i & s)[1])
 				if (length(l)==nl+1) {
 					ix <- c(ix, which(is.na(v))[1])
 				}
 				coltext <- txt[ix]
-				coltext[is.na(coltext)] <- "X"
+				coltext[is.na(coltext)] <- "NA"
+				
 			} else {
 				if (length(gsci$labels.text) == length(l)-1) {
-					coltext <- c(gsci$labels.text, "X")
+					coltext <- c(gsci$labels.text, "NA")
 				} else {
 					coltext <- rep(gsci$labels.text, length.out=length(l))
 				}
 			}
 			coltext
-		}, as.data.frame(text, stringsAsFactors = FALSE), values, if (is.list(col.legend.labels)) col.legend.labels else list(col.legend.labels), if (is.list(dtcol)) gsc else list(g), SIMPLIFY=FALSE)
+		}, as.data.frame(text, stringsAsFactors = FALSE), values, as.list(as.data.frame(text_sel)), if (is.list(col.legend.labels)) col.legend.labels else list(col.legend.labels), if (is.list(dtcol)) gsc else list(g), SIMPLIFY=FALSE)
 	}
 	
 

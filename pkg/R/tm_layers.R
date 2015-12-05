@@ -4,9 +4,23 @@
 #' 
 #' @param text name of the variable in the shape object that contains the text labels
 #' @param size relative size of the text labels (see note). Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or the value \code{"AREA"}, where the text size is proportional to the area size of the polygons.
+#' @param col color of the text labels. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).
 #' @param root root number to which the font sizes are scaled. Only applicable if \code{size} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.
-#' @param color color of the text labels
-
+#' @param size.lim vector of two limit values of the \code{size} variable. Only text labels are drawn whose value is greater than or equal to the first value. Text labels whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}. See also \code{size.lowerbound} which is a threshold of the relative font size.
+#' @param sizes.legend vector of text sizes that are shown in the legend. By default, this is determined automatically.
+#' @param sizes.legend.labels vector of labels for that correspond to \code{sizes.legend}.
+#' @param sizes.legend.text vector of example text to show in the legend next to sizes.legend.labels. By default "Abc". When \code{NA}, examples from the data variable whose sizes are close to the sizes.legend are taken and \code{"NA"} for classes where no match is found.
+#' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
+#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", and "jenks". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".
+#' @param breaks in case \code{style=="fixed"}, breaks should be specified
+#' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the text. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
+#' @param labels labels of the color classes, applicable if \code{col} is a data variable name
+#' @param labels.text Example text to show in the legend next to the \code{labels}. When \code{NA} (default), examples from the data variable are taken and \code{"NA"} for classes where they don't exist.
+#' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.
+#' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
+#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
+#' @param colorNA colour for missing values
+#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
 #' @param fontface font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_layout}}.
 #' @param fontfamily font family of the text labels. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).
@@ -28,18 +42,20 @@
 #' @example ../examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_text <-  function(text, size=1, root=3, color=NA, sizes.legend = NULL,
+tm_text <-  function(text, size=1, col=NA, root=3, 
+					 size.lim=NA,
+					 sizes.legend = NULL,
 					 sizes.legend.labels = NULL,
-					 sizes.legend.text = NULL,
+					 sizes.legend.text = "Abc",
 					 n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
 					 breaks = NULL,
 					 palette = NULL,
 					 labels = NULL,
-					 labels.text = NULL,
+					 labels.text = NA,
 					 auto.palette.mapping = TRUE,
 					 contrast = 1,
 					 max.categories = 12,
-					 colorNA = "#FF1414",
+					 colorNA = NA,
 					 textNA = "Missing",
 					 fontface=NA, 
 					 fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, auto.placement=FALSE, remove.overlap=FALSE, along.lines=FALSE, overwrite.lines=FALSE, xmod=0, ymod=0,
@@ -59,14 +75,8 @@ tm_text <-  function(text, size=1, root=3, color=NA, sizes.legend = NULL,
 	g <- list(tm_text=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
-	
-	
-# 	g <- list(tm_text=list(text=text, text.size=size, root=root, text.color=color, text.fontface=fontface, text.fontfamily=fontfamily, text.alpha=alpha, text.case=case, text.shadow=shadow, text.bg.color=bg.color, text.bg.alpha=bg.alpha,
-# 							text.size.lowerbound=size.lowerbound, text.print.tiny=print.tiny, text.scale=scale, text.auto.placement=auto.placement, text.remove.overlap=remove.overlap, text.along.lines=along.lines, text.overwrite.lines=overwrite.lines, text.xmod=xmod, text.ymod=ymod))
-# 	class(g) <- "tmap"
-# 	g
 }
-
+	
 #' Draw iso (contour) lines with labels
 #' 
 #' This function is a wrapper of \code{\link{tm_lines}} and \code{\link{tm_text}} aimed to draw isopleths, which can be created with \code{\link{smooth_map}}. 
@@ -451,7 +461,7 @@ tm_bubbles <- function(size=.2, col=NA,
 						auto.palette.mapping = TRUE,
 						contrast = 1,
 						max.categories = 12,
-						colorNA = "#FF1414",
+						colorNA = NA,
 						textNA = "Missing",
 						jitter=0,
 						xmod = 0,

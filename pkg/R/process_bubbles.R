@@ -45,6 +45,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	xcol <- g$col
 	
 	if (is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["bubbles"]
+	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	
 	
 	if (is.null(xsize)) {

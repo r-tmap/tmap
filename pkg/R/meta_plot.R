@@ -116,11 +116,11 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 										RIGHT=1-legendWidth,
 										as.numeric(gt$legend.position[1])),
 								 switch(gt$legend.position[2], 
-								 	   top= 1 - my - ifelse(gt$title.position[2]=="top", my,0) - legendHeight - ifelse(titleg && !snap && gt$title!="", titleHeight, 0), 
+								 	   top= 1 - legendHeight - ifelse(titleg && !snap && gt$title!="", titleHeight+ifelse(gt$title.position[2]=="top", 1.5*my,.5*my), my), 
 								 	   center=(1-legendHeight)/2, 
 								 	   centre=(1-legendHeight)/2, 
 								 	   bottom=my+metaY,
-								 	   TOP=1 - ifelse(gt$title.position[2]=="top", my,0) - legendHeight - ifelse(titleg && !snap && gt$title!="", titleHeight, 0),
+								 	   TOP= 1 - legendHeight - ifelse(titleg && !snap && gt$title!="", titleHeight+ifelse(gt$title.position[2]=="top", my,0), 0), 
 								 	   BOTTOM=0,
 								 	   as.numeric(gt$legend.position[2])))		
 		} else legend.position <- gt$legend.position
@@ -142,13 +142,13 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 			  	     top=1-titleHeight*.5-my,
 			  	     center=.5,
 			  	     centre=.5,
-			  	     bottom=my+metaY+titleHeight*.5 + ifelse(titleg && !snap && gt$title!="", legendHeight + ifelse(gt$legend.position[2]=="bottom", my,0), 0),
+			  	     bottom=metaY+titleHeight*.5 + ifelse(titleg && !snap && gt$title!="", legendHeight + ifelse(gt$legend.position[2]=="bottom", 1.5*my,.5*my), my),
 			  	     TOP=1-titleHeight*.5,
 			  	     BOTTOM=titleHeight*.5 + ifelse(titleg && !snap && gt$title!="", legendHeight + ifelse(gt$legend.position[2]=="bottom", my,0), 0),
 			  	     as.numeric(gt$title.position[2])))	
 		}
 	} else title.position <- gt$title.position
-	if (any(is.na(title.position))) stop("Wrong position argument for title")
+	if (!snap && any(is.na(title.position))) stop("Wrong position argument for title")
 	
 	grobTitle <- if (snap || gt$title=="") {
 		NULL
