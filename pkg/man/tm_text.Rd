@@ -4,21 +4,60 @@
 \alias{tm_text}
 \title{Add text labels}
 \usage{
-tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = NA,
+tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
+  sizes.legend = NULL, sizes.legend.labels = NULL,
+  sizes.legend.text = "Abc", n = 5, style = ifelse(is.null(breaks),
+  "pretty", "fixed"), breaks = NULL, palette = NULL, labels = NULL,
+  labels.text = NA, auto.palette.mapping = TRUE, contrast = 1,
+  max.categories = 12, colorNA = NA, textNA = "Missing", fontface = NA,
   fontfamily = NA, alpha = NA, case = NA, shadow = FALSE,
   bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
   print.tiny = FALSE, scale = 1, auto.placement = FALSE,
   remove.overlap = FALSE, along.lines = FALSE, overwrite.lines = FALSE,
-  xmod = 0, ymod = 0)
+  xmod = 0, ymod = 0, title.size = NA, title.col = NA,
+  legend.size.show = TRUE, legend.col.show = TRUE, legend.format = list(),
+  legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
+  legend.hist = FALSE, legend.hist.title = NA, legend.size.z = NA,
+  legend.col.z = NA, legend.hist.z = NA, id = NA)
 }
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
 
 \item{size}{relative size of the text labels (see note). Eiter one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or the value \code{"AREA"}, where the text size is proportional to the area size of the polygons.}
 
+\item{col}{color of the text labels. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
+
 \item{root}{root number to which the font sizes are scaled. Only applicable if \code{size} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.}
 
-\item{fontcolor}{color of the text labels}
+\item{size.lim}{vector of two limit values of the \code{size} variable. Only text labels are drawn whose value is greater than or equal to the first value. Text labels whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}. See also \code{size.lowerbound} which is a threshold of the relative font size.}
+
+\item{sizes.legend}{vector of text sizes that are shown in the legend. By default, this is determined automatically.}
+
+\item{sizes.legend.labels}{vector of labels for that correspond to \code{sizes.legend}.}
+
+\item{sizes.legend.text}{vector of example text to show in the legend next to sizes.legend.labels. By default "Abc". When \code{NA}, examples from the data variable whose sizes are close to the sizes.legend are taken and \code{"NA"} for classes where no match is found.}
+
+\item{n}{preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.}
+
+\item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", and "jenks". See the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".}
+
+\item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
+
+\item{palette}{color palette (see \code{RColorBrewer::display.brewer.all}) for the text. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.}
+
+\item{labels}{labels of the color classes, applicable if \code{col} is a data variable name}
+
+\item{labels.text}{Example text to show in the legend next to the \code{labels}. When \code{NA} (default), examples from the data variable are taken and \code{"NA"} for classes where they don't exist.}
+
+\item{auto.palette.mapping}{When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values.}
+
+\item{contrast}{vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).}
+
+\item{max.categories}{in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.}
+
+\item{colorNA}{colour for missing values}
+
+\item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 
 \item{fontface}{font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_layout}}.}
 
@@ -51,6 +90,41 @@ tm_text(text, size = 1, root = 3, fontcolor = NA, fontface = NA,
 \item{xmod}{horizontal position modification of the text (relatively): 0 means no modification, and 1 corresponds to the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.}
 
 \item{ymod}{vertical position modification. See xmod.}
+
+\item{title.size}{title of the legend element regarding the text sizes}
+
+\item{title.col}{title of the legend element regarding the text colors}
+
+\item{legend.size.show}{logical that determines whether the legend for the text sizes is shown}
+
+\item{legend.col.show}{logical that determines whether the legend for the text colors is shown}
+
+\item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+\describe{
+\item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+\item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+\item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+\item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+\item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+\item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+\item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+}}
+
+\item{legend.size.is.portrait}{logical that determines whether the legend element regarding the text sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.col.is.portrait}{logical that determines whether the legend element regarding the text colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.hist}{logical that determines whether a histogram is shown regarding the text colors}
+
+\item{legend.hist.title}{title for the histogram. By default, one title is used for both the histogram and the normal legend for text colors.}
+
+\item{legend.size.z}{index value that determines the position of the legend element regarding the text sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.}
+
+\item{legend.col.z}{index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})}
+
+\item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
+
+\item{id}{name of the data variable that specifies the indices of the text labels. Only used for SVG output (see \code{\link{itmap}}).}
 }
 \value{
 \code{\link{tmap-element}}
@@ -69,7 +143,7 @@ tm_shape(World) +
 
 tm_shape(Europe) +
     tm_polygons() +
-    tm_text("iso_a3", size="AREA", root=4, shadow = TRUE, fontcolor = "grey20", scale=2,
+    tm_text("iso_a3", size="AREA", col = "grey20", root=4, shadow = TRUE, scale=2,
         size.lowerbound = .1) +
 tm_shape(Europe) +
     tm_text("name", size="AREA", root=4, scale=1,
@@ -82,6 +156,10 @@ tm_shape(metro) +
 			   title.size = "European metropolitan areas") +
 tm_shape(metro[metro$pop2010>=2e6, ]) +
 	tm_text("name", auto.placement = TRUE)
+
+tm_shape(World) +
+	tm_text("name", size="pop_est", col="continent", palette="Dark2", 
+			title.size = "Population", title.col="Continent")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

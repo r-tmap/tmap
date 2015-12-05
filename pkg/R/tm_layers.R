@@ -37,6 +37,28 @@
 #' @param overwrite.lines logical that determines whether the part of the lines below the text labels is removed. Only applicabel if a spatial lines shape is used.
 #' @param xmod horizontal position modification of the text (relatively): 0 means no modification, and 1 corresponds to the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
+#' @param title.size title of the legend element regarding the text sizes
+#' @param title.col title of the legend element regarding the text colors
+#' @param legend.size.show logical that determines whether the legend for the text sizes is shown
+#' @param legend.col.show logical that determines whether the legend for the text colors is shown
+#' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+#' \describe{
+#' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+#' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+#' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+#' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
+#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
+#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+#' }
+#' @param legend.size.is.portrait logical that determines whether the legend element regarding the text sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.hist logical that determines whether a histogram is shown regarding the text colors
+#' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for text colors.
+#' @param legend.col.is.portrait logical that determines whether the legend element regarding the text colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.size.z index value that determines the position of the legend element regarding the text sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
+#' @param legend.col.z index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})
+#' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
+#' @param id name of the data variable that specifies the indices of the text labels. Only used for SVG output (see \code{\link{itmap}}).
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 #' @export
 #' @example ../examples/tm_text.R
@@ -179,27 +201,12 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 legend.lwd.z=NA,
 					 legend.hist.z=NA,
 					 id=NA) {
-	g <- list(tm_lines=list(lines.col=col, lines.lwd=lwd, lines.lty=lty, lines.alpha=alpha, lines.scale=scale,
-							lwd.legend=lwd.legend, lwd.legend.labels=lwd.legend.labels,
-							 n=n, style=style, breaks=breaks, palette=palette, labels=labels,
-							 auto.palette.mapping=auto.palette.mapping,
-							 max.categories=max.categories,
-							 contrast=contrast, colorNA=colorNA, textNA=textNA,
-							title.col=title.col, title.lwd=title.lwd, 
-							legend.col.show=legend.col.show,
-							legend.lwd.show=legend.lwd.show,
-							legend.format=legend.format,
-							legend.col.is.portrait=legend.col.is.portrait, legend.lwd.is.portrait=legend.lwd.is.portrait, legend.hist=legend.hist, legend.hist.title=legend.hist.title, legend.col.z=legend.col.z, legend.lwd.z=legend.lwd.z, legend.hist.z=legend.hist.z, line.id=id))
+	g <- list(tm_lines=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
 }
 
 
-# tm_iso <- function(col="black",
-# 				   lwd=1,
-# 				   lty="solid",
-# 				   alpha=NA,
-# 				   )
 
 
 #' Draw polygons

@@ -13,24 +13,30 @@
 #' @rdname read_osm
 #' @import sp
 #' @importFrom osmar osmsource_api get_osm corner_bbox find way tags find_down node as_sp
-#' @importFrom OpenStreetMap openmap
 #' @importFrom raster raster
 #' @export
 #' @example ../examples/read_osm.R
 #' @return The output of \code{read_osm} is a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} if \code{raster=TRUE}, and otherwise a named list of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}, and/or \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} objects. The names of this list are the names of arguments defined at \code{...}.
 read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL, ...) {
+	# @importFrom OpenStreetMap openmap
 	k <- v <- NULL
 	args <- list(...)
 	if (is.na(raster)) raster <- (length(args)==0)
 	
 	if (raster) {
-		optionalArgs <- list(zoom=zoom, type=type, minNumTiles=minNumTiles, mergeTiles=mergeTiles)
-		optionalArgs <- optionalArgs[!sapply(optionalArgs, is.null)]
-		om <- do.call("openmap", args = c(list(upperLeft=x[c(4,1)], lowerRight=x[c(2,3)]), optionalArgs))
-		omr <- raster(om)
-		oms <- as(omr, "SpatialGridDataFrame")
-		oms@data <- data.frame(PIXEL__COLOR = rgb(oms$layer.1, oms$layer.2, oms$layer.3, maxColorValue=255))
-		return(oms)
+		if (!requireNamespace("OpenStreetMap", quietly = TRUE)) {
+			stop("OpenStreetMap package needed for this function to work. Please install it.",
+				 call. = FALSE)
+		} else {
+			openmap <- get("openmap", envir=asNamespace("OpenStreetMap"), mode="function")
+			optionalArgs <- list(zoom=zoom, type=type, minNumTiles=minNumTiles, mergeTiles=mergeTiles)
+			optionalArgs <- optionalArgs[!sapply(optionalArgs, is.null)]
+			om <- do.call("openmap", args = c(list(upperLeft=x[c(4,1)], lowerRight=x[c(2,3)]), optionalArgs))
+			omr <- raster(om)
+			oms <- as(omr, "SpatialGridDataFrame")
+			oms@data <- data.frame(PIXEL__COLOR = rgb(oms$layer.1, oms$layer.2, oms$layer.3, maxColorValue=255))
+			return(oms)
+		}
 	} else {
 		if (inherits(x,  "osmar")) {
 			osm_obj <- x

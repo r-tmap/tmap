@@ -66,19 +66,22 @@ The function [`qtm`](../html/qtm.html) offers the same flexibility as the main p
 
 The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [elements](../html/tmap-element.html) that start with `tm_`. The first element to start with is [`tm_shape`](../html/tm_shape.html), which specifies the shape object. Next, one, or a combination of the following drawing layers should be specified:
 
-|Drawing layer	| Description | Main arguments	|
+|Drawing layer	| Description | Aesthetics	|
 |---	|---	|---  |
-|[`tm_fill`](../html/tm_fill.html)   	| Fills the polygons | col<sup>\*</sup>  	|
-|[`tm_borders`](../html/tm_borders.html)   	| Draws polygon borders | col<sup></sup>, lwd<sup></sup>  	|
-|[`tm_bubbles`](../html/tm_bubbles.html)   	| Draws bubbles | size<sup>\*</sup>, col<sup>\*</sup>  	|
-|[`tm_bubbles`](../html/tm_dots.html)   	| Draws dots | col<sup>\*</sup>  	|
-|[`tm_lines`](../html/tm_lines.html)		| Draws polylines | col<sup>\*</sup>, lwd<sup>\*</sup>	|
-|[`tm_lines`](../html/tm_raster.html)		| Draws a raster | col<sup>\*</sup>	|
-|[`tm_text`](../html/tm_text.html)   	| Add text labels | text<sup>\+</sup>, size<sup>\+</sup>  	|
-|[`tm_grid`](../html/tm_grid.html)   	| Add coordinate grid lines |   	|
-|[`tm_credits`](../html/tm_credits.html)   	| Add credits text label |   	|
-|[`tm_compass`](../html/tm_compass.html)   	| Add map compass |   	|
-|[`tm_scale_bar`](../html/tm_scale_bar.html)   	| Add scale bar |   	|
+|[`tm_fill`](../html/tm_fill.html)   	| Fills the polygons | col  	|
+|[`tm_borders`](../html/tm_borders.html)   	| Draws polygon borders | col, lwd  	|
+|[`tm_bubbles`](../html/tm_bubbles.html)   	| Draws bubbles | size, col  	|
+|[`tm_bubbles`](../html/tm_dots.html)   	| Draws dots | col  	|
+|[`tm_lines`](../html/tm_lines.html)		| Draws polylines | col, lwd	|
+|[`tm_lines`](../html/tm_raster.html)		| Draws a raster | col	|
+|[`tm_text`](../html/tm_text.html)   	| Add text labels | text, size, col  	|
+
+
+|Attribute layer	| Description |
+|[`tm_grid`](../html/tm_grid.html)   	| Add coordinate grid lines |
+|[`tm_credits`](../html/tm_credits.html)   	| Add credits text label |
+|[`tm_compass`](../html/tm_compass.html)   	| Add map compass |
+|[`tm_scale_bar`](../html/tm_scale_bar.html)   	| Add scale bar |
 
 
 The arguments with superscript symbols can be used as aesthetics. Both constant values as well as data variable names can be assigned to these arguments. For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth. Only for the arguments with a <sup>\*</sup>, a legend is created.
@@ -109,8 +112,8 @@ tm_shape(metro) +
 	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), 
         sizes.legend = c(1e6, 2e6, 4e6, 6e6, 10e6), title.size="Metropolitan Population") +
 tm_shape(Europe) +
-	tm_text("iso_a3", size="area", scale=1.5, root=8, size.lowerbound = .40, 
-        fontface="bold", case=NA, fontcolor = "gray35") + 
+	tm_text("iso_a3", size="area", col = "gray35", scale=1.5, root=8, size.lowerbound = .40, 
+        fontface="bold", case=NA) + 
 tm_format_Europe(title="Map of Europe", bg.color="lightblue2")
 ```
 

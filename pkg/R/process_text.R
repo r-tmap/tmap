@@ -33,7 +33,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 	text_empty <- is.na(text) | is.na(size)
 	
 	if (g$print.tiny) {
-		size[!text_sel & !text_empty] <- size.lowerbound
+		size[!text_sel & !text_empty] <- g$size.lowerbound
 		text_sel <- !text_empty
 	} else {
 		text_sel <- text_sel & !text_empty
@@ -56,6 +56,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 process_text <- function(data, g, fill, gt, gby, z) {
 	root <- NULL; size.lowerbound <- NULL; scale <- NULL; bg.alpha <- NULL; case <- NULL; alpha <- NULL
 	shadow <- NULL
+	gsc <- NULL
 	
 	npol <- nrow(data)
 

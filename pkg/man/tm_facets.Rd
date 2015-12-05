@@ -7,7 +7,8 @@
 tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
   drop.shapes = free.coords, free.scales = is.null(by),
   free.scales.fill = free.scales, free.scales.bubble.size = free.scales,
-  free.scales.bubble.col = free.scales, free.scales.line.col = free.scales,
+  free.scales.bubble.col = free.scales, free.scales.text.size = free.scales,
+  free.scales.text.col = free.scales, free.scales.line.col = free.scales,
   free.scales.line.lwd = free.scales, free.scales.raster = free.scales,
   inside.original.bbox = FALSE, scale.factor = 2)
 }
@@ -29,6 +30,10 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
 \item{free.scales.bubble.size}{logical. Should the bubble size scale for the bubble map be free?}
 
 \item{free.scales.bubble.col}{logical. Should the color scale for the bubble map be free?}
+
+\item{free.scales.text.size}{logical. Should the text size scale be free?}
+
+\item{free.scales.text.col}{logical. Should the text color scale be free?}
 
 \item{free.scales.line.col}{Should the line color scale be free?}
 

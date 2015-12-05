@@ -11,6 +11,8 @@
 #' @param free.scales.fill logical. Should the color scale for the choropleth be free?
 #' @param free.scales.bubble.size logical. Should the bubble size scale for the bubble map be free?
 #' @param free.scales.bubble.col logical. Should the color scale for the bubble map be free?
+#' @param free.scales.text.size logical. Should the text size scale be free?
+#' @param free.scales.text.col logical. Should the text color scale be free?
 #' @param free.scales.line.col Should the line color scale be free?
 #' @param free.scales.line.lwd Should the line width scale be free?
 #' @param free.scales.raster Should the color scale for raster layers be free?

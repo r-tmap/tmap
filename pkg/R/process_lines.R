@@ -11,7 +11,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 	
 	
 	maxW <- ifelse(rescale, max(x, na.rm=TRUE), 1)
-	line.legend.lwds <-  g$lines.scale * (w_legend/maxW)
+	line.legend.lwds <-  g$scale * (w_legend/maxW)
 	line.lwd.legend.labels <- format(w_legend, trim=TRUE)
 
 	if (is.null(g$line.lwd.legend.labels)) {
@@ -23,7 +23,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 	
 	
 	
-	line.lwd <- g$lines.scale * (x/maxW)
+	line.lwd <- g$scale * (x/maxW)
 	list(line.lwd=line.lwd,
 		 line.legend.lwds=line.legend.lwds,
 		 line.lwd.legend.labels=line.lwd.legend.labels)
@@ -43,7 +43,7 @@ process_line_col_vector <- function(x, g, gt) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   legend.NA.text=g$textNA,
-						   process.colors=c(list(alpha=g$lines.alpha), gt$pc),
+						   process.colors=c(list(alpha=g$alpha), gt$pc),
 						   legend.format=g$legend.format)
 		line.breaks <- colsLeg[[4]]
 	} else {
@@ -60,7 +60,7 @@ process_line_col_vector <- function(x, g, gt) {
 						   legend.labels=g$labels,
 						   legend.NA.text=g$textNA,
 						   max_levels=g$max.categories,
-						   process.colors=c(list(alpha=g$lines.alpha), gt$pc))
+						   process.colors=c(list(alpha=g$alpha), gt$pc))
 		line.breaks <- NA
 	}
 	line.col <- colsLeg[[1]]
@@ -84,8 +84,8 @@ process_lines <- function(data, g, gt, gby, z) {
 	to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
 	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
 	
-	xcol <- g$lines.col
-	xlwd <- g$lines.lwd
+	xcol <- g$col
+	xlwd <- g$lwd
 	
 	if (is.na(xcol[1])) xcol <- gt$aes.colors["lines"]
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
@@ -116,7 +116,7 @@ process_lines <- function(data, g, gt, gby, z) {
 	is.colors <- all(valid_colors(xcol))
 	if (!varycol) {
 		if (!is.colors) stop("Invalid line colors")
-		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$lines.alpha), gt$pc))
+		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
@@ -194,18 +194,18 @@ process_lines <- function(data, g, gt, gby, z) {
 	
 	list(line.col=col,
 		 line.lwd=line.lwd,
-		 line.lty=g$lines.lty,
-		 line.alpha=g$lines.alpha,
+		 line.lty=g$lty,
+		 line.alpha=g$alpha,
 		 line.col.legend.labels=col.legend.labels,
 		 line.col.legend.palette=col.legend.palette,
 		 line.col.legend.misc=list(line.legend.lwd=line.legend.lwd, 
-		 						  line.legend.lty=g$lines.lty,
-		 						  line.legend.alpha=g$lines.alpha),
+		 						  line.legend.lty=g$lty,
+		 						  line.legend.alpha=g$alpha),
 		 line.lwd.legend.labels=line.lwd.legend.labels,
 		 line.lwd.legend.palette=line.lwd.legend.palette,
 		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds,
-		 						  line.legend.lty=g$lines.lty,
-		 						  line.legend.alpha=g$lines.alpha),
+		 						  line.legend.lty=g$lty,
+		 						  line.legend.alpha=g$alpha),
 		 line.col.legend.hist.misc=list(values=values, breaks=breaks),
 		 xline=xcol,
 		 xlinelwd=xlwd,
