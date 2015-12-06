@@ -12,8 +12,7 @@ library(tmap)
 tmap in a nutshell
 ======================================================
 
-With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`. Also, the standard work flow that is needed to create a thematic map is embedded in tmap; convenient functions for reading and writing ESRI shape files, setting the proper projection, and appending data are contained in the tmap package.
-
+With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`. The tmap package also contains many facility functions for reading and processing shape files (see [overview](#misc)). This vignette will focus on the core business of tmap, which is plotting maps.
 
 ### Shape objects
 
@@ -71,13 +70,14 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_fill`](../html/tm_fill.html)   	| Fills the polygons | col  	|
 |[`tm_borders`](../html/tm_borders.html)   	| Draws polygon borders | col, lwd  	|
 |[`tm_bubbles`](../html/tm_bubbles.html)   	| Draws bubbles | size, col  	|
-|[`tm_bubbles`](../html/tm_dots.html)   	| Draws dots | col  	|
+|[`tm_dots`](../html/tm_dots.html)   	| Draws dots | col  	|
 |[`tm_lines`](../html/tm_lines.html)		| Draws polylines | col, lwd	|
-|[`tm_lines`](../html/tm_raster.html)		| Draws a raster | col	|
+|[`tm_raster`](../html/tm_raster.html)		| Draws a raster | col	|
 |[`tm_text`](../html/tm_text.html)   	| Add text labels | text, size, col  	|
 
 
 |Attribute layer	| Description |
+|---	|---	|
 |[`tm_grid`](../html/tm_grid.html)   	| Add coordinate grid lines |
 |[`tm_credits`](../html/tm_credits.html)   	| Add credits text label |
 |[`tm_compass`](../html/tm_compass.html)   	| Add map compass |
@@ -156,8 +156,8 @@ tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.siz
 
 Remarks: the argument `drop.shapes` is used to drop all non-selected shapes. If `drop.shapes=FALSE` then neighboring countries are also visible. The argument `thres.poly` is set to 0 in order to calculate the aesthetics for all polygons, so also for very small ones, like Vatican. 
 
-### Designing
-The layout of the thematic map can be changed with [`tm_layout`](../html/tm_layout.html). In the next example we use two wrapper functions, one for the overall format of world maps, and one for the legend.
+### Map layout
+The layout of the thematic map can be changed with [`tm_layout`](../html/tm_layout.html) or one of its wrapper functions. In the next example we use two of these wrapper functions, one for the overall format of world maps, and one for the legend.
 
 
 ```{r, fig.width=10}
@@ -182,12 +182,32 @@ tm_legend(text.size=1,
 		  hist.bg.alpha=.5)
 ```
 
+Tmap also contains wrapper functions for styles.
+```{r, fig.width=10}
+qtm(Europe, style="natural", title="Natural style") # equivalent to: qtm(Europe) + tm_style_natural(title="Natural style")
+```
+
+```{r, fig.width=10}
+qtm(Europe, style="cobalt", title="Cobalt style") # equivalent to: qtm(Europe) + tm_style_cobalt(title="Cobalt style")
+```
+
+Run `style_catalogue` for an extensive catalogue of the available styles. The default style is `tm_style_white`. This default can be changed with the global option called `tmap.style`:
+
+```{r, fig.width=10}
+# change to color-blind-friendly style
+opt <- options(tmap.style = "col_blind")
+
+# make a categorical map
+qtm(Europe, fill="economy")
+
+# change back
+options(opt)
+```
+
 Also, the outer and inner margins as well as the aspect ratio are determined with [`tm_layout`](../html/tm_layout.html):
 ```{r, fig.width=10}
-(tm <- tm_shape(World) +
-    tm_fill() +
-    tm_borders() +
-tm_layout(bg.color = "lightblue", outer.margins=c(.05,0,.05,0), 
+(tm <- qtm(World) +
+tm_layout(outer.margins=c(.05,0,.05,0), 
     inner.margins=c(0,0,.02,0), asp=0))
 ```
 
@@ -200,47 +220,67 @@ tm + tm_layout(design.mode=TRUE)
 The red rectangle is the bounding box of the shape object. Both `inner.margins` and `asp` determine the measurements of the frame, indicated by the blue rectagle. Setting the left inner margin is useful to have extra space for the legend. Setting the aspect ratio is handy when the plot is saved to an image with a specific resolution. For instance, to save a thematic World map as a png image of 1920 by 1080 pixels, the setting `outer.margins=0, asp=1920/1080` is recommended. When `asp=0`, as in the example above, the aspect ratio of the device (given the outer margins) is taken.
 
 
-### Complete work flow for creating thematic maps
+### Map attributes
+
+The following demo shows how a world map can be enhanced with map attributes such as grid lines and a map compass.
+
+
+```{r, fig.width=10}
+land_eck4 <- set_projection(land, "eck4")
+
+tm_shape(land_eck4) +
+	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
+		palette = terrain.colors(9), title="Elevation", auto.palette.mapping=FALSE) +
+tm_shape(World) +
+	tm_borders("grey20") +
+	tm_grid(projection="longlat", labels.size = .5) +
+	tm_text("name", size="AREA") +
+	tm_compass(position = c(.65, .15), color.light = "grey90") +
+	tm_credits("Eckert IV projection", position = c(.85, 0)) +
+	tm_style_classic(inner.margins=c(.04,.03, .02, .01), legend.position = c("left", "bottom"), 
+		legend.frame = TRUE, bg.color="lightblue", legend.bg.color="lightblue", 
+		earth.boundary = TRUE, space.color="grey90")
+```
+
+### Complete work flow for creating thematic maps<a name="misc"></a>
 
 Besides the `ggplot2`-style plotting functions, the package also offers functions to set up a work flow that is sufficient for most statistical applications.
 
-* Loading and preprocessing shape objects:
+
+* Input:
     + read ESRI shape files and write them with respectively [`read_shape`](../html/read_shape.html) and [`write_shape`](../html/write_shape.html);
-    + check and if necessary change map projections with [`get_projection` and `set_projection`](../html/set_projection.html);
-    + append data with [`append_data`](../html/append_data.html);
-    + approximate area sizes and calculate density variables respectively with [`approx_areas`](../html/approx_areas.html) and [`calc_densities`](../html/calc_densities.html).
-    + split or combine shape objects with [`split`](../html/split_shapes.html) and [`sbind`](../html/sbind.html)
-	+ get ID's of the shape items with [`get_IDs`](../html/get_IDs.html).
+    + read GPX files with [`read_GPX`](../html/read_GPX.html)
+    + read Open Street Map data with [`read_osm`](../html/read_osm.html)
     
+* Generate new spatial objects:
+	+ create a smooth map (raster, contour lines and dasymetric polygons) with [`smooth_map`](../html/smooth_map.html)
+	+ create a smooth cover of a raster object with [`smooth_raster_cover`](../html/smooth_raster_cover.html)
+	+ sample dots from polygons with [`sample_dots`](../html/sample_dots.html)
+	+ bin spatial points to a raster with [`points_to_raster`](../html/points_to_raster.html)
+	+ convert polygons to a raster with [`poly_to_raster`](../html/poly_to_raster.html)
+
+* Handy tool functions:
+	+ create, extract or modify a bounding box with [`bb`](../html/bb.html)
+	+ get the aspect ratio of a shape object with [`get_asp_ratio`](../html/get_asp_ratio.html)
+	+ get ID values of a shape object with [`get_IDs`](../html/get_IDs.html)
+	+ append a data frame to a shape object with [`append_data`](../html/append_data.html)
+	+ approximate area sizes of polygons with [`approx_areas`](../html/approx_areas.html)
+	+ calculate density values with [`calc_densities`](../html/calc_densities.html)
+	+ get the map projection with [`get_projection`](../html/get_projection.html)
+	+ set the map projection with [`set_projection`](../html/set_projection.html)
+	+ split a shape object with [`split`](../html/split_shapes.html)
+	+ bind shape objects with [`sbind`](../html/sbind.html)
+	+ color polygons with different colors for adjacent polygons with [`map_coloring`](../html/map_coloring.html)
+
 * Plotting shape objects:
     + with the [quick plotting](#qplot) function [`qtm`](../html/qtm.html), 
     + or with the [main plotting method](#plot).
-    
-* Saving the output for publication and presentation:
-    + with the usual R functions to save a pdf, png, jpeg, etc.:
-    
-    ```{r, eval=FALSE}
-    pdf("my_map.pdf", width=10, height=6)
-    tm_shape(Europe) +
-    	tm_fill("gdp_cap_est", textNA="Non-European countries", title="GDP per capita") +
-    	tm_borders() +
-    	tm_text("iso_a3", size="AREA", root=5)
-    dev.off()
-    ```
-    The `scale` argument in [`tm_layout`](../html/tm_layout.html) is very useful as overall scalar (comparable to the `scale` argument in `ggplot2`'s `ggsave`).
-    + Create animations (gif or mpeg) from a series of tmap plots [`animation_tmap`](../html/animation_tmap.html):
-    
-    ```{r, eval=FALSE}
-    animation_tmap({
-    	tm_shape(Europe) + 
-    	    tm_fill("yellow") + 
-    	    tm_borders() + 
-    	    tm_facets(by = "name", nrow=1,ncol=1)
-    }, width=1200, height=800, filename="my_animation.gif")
-    ```
-    Notice that, in order to create a series of plots where one map is shown at a time, both `nrow` and `ncol` are set to 1 in [`tm_facets`](../html/tm_facets.html).
 
-
+* Output:
+	+ interactive tmap SVG or widget [`itmap`](../html/itmap.html)
+	+ create an animation (gif or mpeg) from a series of tmap plots with [`animation_tmap`](../html/animation_tmap.html)
+	+ save thematic maps with [`save_tmap`](../html/save_tmap.html)
+	+ write shape file with [`write_shape`](../html/write_shape.html)
 
 
 ### Tips n' tricks

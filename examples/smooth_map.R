@@ -1,4 +1,3 @@
-\dontrun{
 ####################################
 ## Already smoothed raster
 ####################################
@@ -13,6 +12,7 @@ tm_shape(vol_smooth$dasy) +
 	tm_legend(width=.13, position=c("right", "top"), bg.color="gray80", frame = TRUE)
 	
 	
+\dontrun{
 ####################################
 ## Smooth polygons
 ####################################

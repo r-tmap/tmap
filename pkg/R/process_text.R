@@ -82,7 +82,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	xtcol <- g$col
 	xtext <- g$text
 	
-	if (is.na(xtcol)[1]) xtcol <- gt$aes.colors["text"]
+	#if (is.na(xtcol)[1]) xtcol <- gt$aes.colors["text"]
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	
 	

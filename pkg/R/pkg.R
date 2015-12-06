@@ -92,7 +92,6 @@
 #' \code{\link{animation_tmap}}\tab Create an animation \cr
 #' \code{\link{save_tmap}}\tab To save thematic maps \cr
 #' \code{\link{write_shape}}\tab To write a shape object \cr
-#' \code{\link{get_projection}}\tab To get the map projection \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
