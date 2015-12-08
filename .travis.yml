@@ -8,7 +8,12 @@ r_packages:
 env:
  global:
    - CRAN: http://cran.rstudio.com
-   
+ 
+apt_packages:
+ - r-cran-rjava
+ - gdal-bin 
+ - libgdal1 
+
 before_install: cd pkg
 
 notifications:
