@@ -8,6 +8,8 @@ r_packages:
 env:
  global:
    - CRAN: http://cran.rstudio.com
+   
+before_install: cd pkg
 
 notifications:
   email:
