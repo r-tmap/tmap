@@ -20,6 +20,7 @@
 #' @param bubble.col name of the data variable in \code{shp} for the bubble map that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param text Name of the data variable that contains the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param text.size Font size of the text labels. Either a constant value, or the name of a numeric data variable. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
+#' @param text.col name of the data variable in \code{shp} for the that specifies the colors of the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param line.lwd either a line width or a name of the data variable that specifies the line width. Only applicable when \code{shp} is type 3 (see above).
 #' @param line.col either a line color or a name of the data variable that specifies the line colors. Only applicable when \code{shp} is type 3 (see above).
 #' @param raster either a color or a name of the data variable that specifices the raster colors. Only applicable when \code{shp} is type 4, 5, or 6 (see above).
@@ -39,6 +40,7 @@ qtm <- function(shp,
 				bubble.col=NULL,
 				text=NULL,
 				text.size=1,
+				text.col=NA,
 				line.lwd=NULL,
 				line.col=NULL,
 				raster=NA,
@@ -109,7 +111,7 @@ qtm <- function(shp,
 		g <- g + do.call("tm_bubbles", c(bubbleLst, args2[["tm_bubbles"]]))	
 	} 
 	
-	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, size=text.size), args2[["tm_text"]]))
+	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, size=text.size, col=text.col), args2[["tm_text"]]))
 
 	if (!is.null(raster)) g <- g + do.call("tm_raster", c(list(col=raster), args2[["tm_raster"]]))
 	

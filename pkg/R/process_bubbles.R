@@ -157,7 +157,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 		bubble.col.legend.hist.title <- g$legend.hist.title
 	} else bubble.col.legend.hist.title <- ""
 	
-	bubble.border.col <- do.call("process_color", c(list(col=g$border.col, alpha=g$border.alpha)))
+	bubble.border.col <- do.call("process_color", c(list(col=g$border.col, alpha=g$border.alpha), gt$pc))
 	
 	list(bubble.size=bubble.size,
 		 bubble.col=col,

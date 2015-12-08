@@ -3,6 +3,8 @@ tmap
 
 R package for thematic maps
 
+[![Travis-CI Build Status](https://travis-ci.org/mtennekes/tmap.svg?branch=master)](https://travis-ci.org/mtennekes/tmap)
+
 ![Classic world map](http://www.von-tijn.nl/tijn/research/tmap_classic.png)
 
 Installation

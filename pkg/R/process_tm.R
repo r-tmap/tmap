@@ -217,6 +217,9 @@ process_tm <- function(x, asp_ratio, shp_info) {
 				
 				if (!is.null(text)) {
 					text.size <- text.size * scale
+					text.col.legend.misc$text.max.size <- text.col.legend.misc$text.max.size * scale
+					text.size.legend.misc$legend.sizes <- text.size.legend.misc$legend.sizes * scale
+					
 				}
 
 

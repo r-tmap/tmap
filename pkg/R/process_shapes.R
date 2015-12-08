@@ -253,40 +253,6 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 }
 
 
-# get_bbox_lim <- function(shp.bbox, relative, bbox, xlim, ylim, ext) {
-# 	if (!is.null(bbox)) {
-# 		bbox <- bbox
-# 	} else {
-# 		
-# 		if (!is.null(ext)) {
-# 			xtra <- (ext-1)/2
-# 			xlim <- c(-xtra, 1+xtra)
-# 			ylim <- c(-xtra, 1+xtra)
-# 			relative <- TRUE
-# 		}
-# 		
-# 		if (relative) {
-# 			steps <- shp.bbox[, 2] - shp.bbox[, 1]
-# 			xlim <- if (is.null(xlim)) {
-# 				shp.bbox[1, ]
-# 			} else {
-# 				shp.bbox[1,1] + xlim * steps[1]
-# 			}
-# 			ylim <- if (is.null(ylim)) {
-# 				shp.bbox[2, ]
-# 			} else {
-# 				shp.bbox[2,1] + ylim * steps[2]
-# 			}
-# 		} else {
-# 			if (is.null(xlim)) xlim <- shp.bbox[1, ]
-# 			if (is.null(ylim)) ylim <- shp.bbox[2, ]
-# 		}
-# 		bbox <- matrix(c(xlim, ylim), ncol = 2, byrow=TRUE, 
-# 					   dimnames=list(c("x", "y"), c("min", "max")))
-# 	}
-# 	bbox
-# }
-
 
 get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	# extend bounding box for asp ratio

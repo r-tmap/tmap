@@ -53,11 +53,11 @@ A choropleth is created with the following code:
 
 ```{r, fig.height=5}
 qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="AREA", root=5, fill.title="GDP per capita", 
-	fill.textNA="Non-European countries", format="Europe")
+	fill.textNA="Non-European countries", format="Europe", style="grey")
 ```
 
 In this code, `fill` and `text` serve as aesthetics. Both `gdp_cap_est` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to red, is mapped to the values of `gdp_cap_est`. The variable `iso_a3` contains the text labels, in this case the country codes.
-The arguments `text.size` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `fill.title` argument is the title for the `fill`-legend. The argument `fill.textNA` is the legend text for missing values. The `format` argument specifies predefined layout settings for this shape object.
+The arguments `text.size` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `fill.title` argument is the title for the `fill`-legend. The argument `fill.textNA` is the legend text for missing values. The final two arguments, `format` and `style` are predefined layout settings for this shape object (see [layout](#layout)).
 
 The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for tis readability.
 
@@ -75,6 +75,9 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_raster`](../html/tm_raster.html)		| Draws a raster | col	|
 |[`tm_text`](../html/tm_text.html)   	| Add text labels | text, size, col  	|
 
+Both constant values as well as data variable names can be assigned to the aesthetic arguments. For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth.
+
+The following layers are map attributes.
 
 |Attribute layer	| Description |
 |---	|---	|
@@ -84,8 +87,6 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_scale_bar`](../html/tm_scale_bar.html)   	| Add scale bar |
 
 
-The arguments with superscript symbols can be used as aesthetics. Both constant values as well as data variable names can be assigned to these arguments. For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth. Only for the arguments with a <sup>\*</sup>, a legend is created.
-
 The last plot is reproduced as follows:
 
 ```{r, eval=FALSE}
@@ -93,49 +94,51 @@ tm_shape(Europe) +
 	tm_fill("gdp_cap_est", textNA="Non-European countries", title="GDP per capita") +
 	tm_borders() +
 	tm_text("iso_a3", size="AREA", root=5) + 
-tm_format_Europe()
+tm_format_Europe() +
+tm_style_grey()
 ```
 
-We refer to [`tm_shape`](../html/tm_shape.html) and its subsequent drawing layers (all of the elements in the last example except `tm_layout`) as a **group**. Multiple groups can be stacked. To illustrate this, let's create a complex map of Europe:
+We refer to [`tm_shape`](../html/tm_shape.html) and its subsequent drawing layers as a **group**. Multiple groups can be stacked. To illustrate this, let's create a topographic map of Europe:
 
 ```{r, fig.width=10}
 data(rivers, metro)
 
 tm_shape(Europe) +
-    tm_fill("darkolivegreen3") +
+    tm_fill() +
     tm_borders() +
 tm_shape(rivers) +
-    tm_lines("dodgerblue3") +
+    tm_lines() +
 tm_shape(metro) +
     tm_text("name", size="pop2010", scale=1, root=4, size.lowerbound = .6, 
-        bg.color="white", bg.alpha = .25, auto.placement = TRUE) + 
+        bg.color="white", bg.alpha = .5, auto.placement = TRUE, legend.size.show = FALSE) + 
 	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), 
         sizes.legend = c(1e6, 2e6, 4e6, 6e6, 10e6), title.size="Metropolitan Population") +
 tm_shape(Europe) +
-	tm_text("iso_a3", size="area", col = "gray35", scale=1.5, root=8, size.lowerbound = .40, 
+	tm_text("iso_a3", size="AREA", col = "gray35", scale=1.5, root=5, size.lowerbound = .40, 
         fontface="bold", case=NA) + 
-tm_format_Europe(title="Map of Europe", bg.color="lightblue2")
+tm_format_Europe(title="Map of Europe") +
+	tm_style_natural()
 ```
 
 Things to learn from this code:
 
 * This plot has 4 groups of layers, respectively from the shape objects Europe, rivers, metro, and again Europe. 
 The order of (groups of) layers corresponds to the plotting order.
-* The shape objects can have different projections, and can also cover different areas (bounding boxes). Both the projection and the covered area are by default taken from shape object defined in the first [`tm_shape`](../html/tm_shape.html). Notice that the rivers shape object also contains rivers outside Europe: see `tm_shape(rivers) + tm_lines("dodgerblue3")`. Use [`tm_shape`](../html/tm_shape.html)'s `is.master` argument to take the projection and covered area from other shape objects.
-* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, margins, and colors. The element [`tm_format_Europe`](../html/tm_layout.html) is a wrapper function with some other defaults that are tailored for Europe: for instance, the left inner margin is increased to make space for the legend.
-
+* The shape objects can have different projections, and can also cover different areas (bounding boxes). Both the projection and the covered area are by default taken from shape object defined in the first [`tm_shape`](../html/tm_shape.html). Notice that the rivers shape object also contains rivers outside Europe: see `qtm(rivers)`. Use [`tm_shape`](../html/tm_shape.html)'s `is.master` argument to take the projection and covered area from other shape objects.
+* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, margins, and colors. The element [`tm_format_Europe`](../html/tm_layout.html) is a wrapper function with some other defaults that are tailored for Europe: for instance, the left inner margin is increased to make space for the legend. The element [`tm_layout`](../html/tm_style_natural.html) is another wrapper function of [`tm_layout`](../html/tm_layout.html) used to specify map-independent layout layout settings, such as default colors. See also [layout](#layout).
 
 
 ### Small multiples
 
 Small multiples are generated in two ways:
 
-1. By assigning multiple values to at least one of the 5 aesthetic arguments (in the table above indicated by the <sup>\*</sub> symbol)
+1. By assigning multiple values to at least one of the aesthetic arguments
 ```{r, fig.width=10, fig.height=3}
 tm_shape(Europe) +
 	tm_fill(c("pop_est_dens", "gdp_cap_est"), style="kmeans", 
         title=c("Population density", "GDP per capita")) +
-tm_format_Europe()
+tm_format_Europe() + 
+tm_style_grey()
 ```
 
 2. By defining a group-by variable in [`tm_facets`](../html/tm_facets.html):
@@ -143,7 +146,8 @@ tm_format_Europe()
 tm_shape(Europe) +
     tm_fill("gdp_cap_est", style="kmeans", title="GDP per capita") +
     tm_facets("part") +
-tm_format_Europe()
+tm_format_Europe() + 
+tm_style_grey()
 ```
 
 The scales of each aesthetic argument can be set to either fixed or free, and also, the coordinate ranges of the small multiples:
@@ -156,7 +160,7 @@ tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.siz
 
 Remarks: the argument `drop.shapes` is used to drop all non-selected shapes. If `drop.shapes=FALSE` then neighboring countries are also visible. The argument `thres.poly` is set to 0 in order to calculate the aesthetics for all polygons, so also for very small ones, like Vatican. 
 
-### Map layout
+### Map layout<a name="layout"></a>
 The layout of the thematic map can be changed with [`tm_layout`](../html/tm_layout.html) or one of its wrapper functions. In the next example we use two of these wrapper functions, one for the overall format of world maps, and one for the legend.
 
 
@@ -191,14 +195,17 @@ qtm(Europe, style="natural", title="Natural style") # equivalent to: qtm(Europe)
 qtm(Europe, style="cobalt", title="Cobalt style") # equivalent to: qtm(Europe) + tm_style_cobalt(title="Cobalt style")
 ```
 
-Run `style_catalogue` for an extensive catalogue of the available styles. The default style is `tm_style_white`. This default can be changed with the global option called `tmap.style`:
+Run `style_catalogue()` for an extensive catalogue of the available styles. The default style is `tm_style_white`. This default can be changed with the global option called `tmap.style`:
 
 ```{r, fig.width=10}
+# make a categorical map
+qtm(Europe, fill="economy", title=paste("Map according to style:", getOption("tmap.style")))
+
 # change to color-blind-friendly style
 opt <- options(tmap.style = "col_blind")
 
 # make a categorical map
-qtm(Europe, fill="economy")
+qtm(Europe, fill="economy", title=paste("Map according to style:", getOption("tmap.style")))
 
 # change back
 options(opt)
@@ -235,11 +242,11 @@ tm_shape(World) +
 	tm_borders("grey20") +
 	tm_grid(projection="longlat", labels.size = .5) +
 	tm_text("name", size="AREA") +
-	tm_compass(position = c(.65, .15), color.light = "grey90") +
-	tm_credits("Eckert IV projection", position = c(.85, 0)) +
-	tm_style_classic(inner.margins=c(.04,.03, .02, .01), legend.position = c("left", "bottom"), 
-		legend.frame = TRUE, bg.color="lightblue", legend.bg.color="lightblue", 
-		earth.boundary = TRUE, space.color="grey90")
+tm_compass(position = c(.65, .15), color.light = "grey90") +
+tm_credits("Eckert IV projection", position = c(.85, 0)) +
+tm_style_classic(inner.margins=c(.04,.03, .02, .01), legend.position = c("left", "bottom"), 
+	legend.frame = TRUE, bg.color="lightblue", legend.bg.color="lightblue", 
+	earth.boundary = TRUE, space.color="grey90")
 ```
 
 ### Complete work flow for creating thematic maps<a name="misc"></a>
@@ -304,3 +311,13 @@ tm_format_World()
 ```
 
 3. Each drawing element has a scalar argument called `scale`. The overall scaling and font sizes can be set by the `scale` argument in `tm_layout`.
+
+4. Arugments of the bounding box function [`bb`](../html/bb.html) can be passed directly to [`tm_shape`](../html/tm_shape.html):
+```{r, fig.height=3}
+tm_shape(World, bb="India") +
+	tm_polygons("MAP_COLORS", palette="Pastel2") +
+tm_shape(metro) +
+	tm_bubbles("pop2010", title.size = "Population") +
+	tm_text("name", size = "pop2010", legend.size.show = FALSE, root=8, size.lowerbound = .7, auto.placement = TRUE)
+```
+

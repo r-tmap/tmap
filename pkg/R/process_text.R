@@ -159,7 +159,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	##
 	if (!all(xtext %in% shpcols)) stop("Incorrect data variable used for the text")
 
-	text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), ncol=nx) else as.character(data[[xtext]])
+	text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), nrow=npol, ncol=nx) else as.character(data[[xtext]])
 	if (!is.na(g$case)) text <- if(case=="upper") toupper(text) else tolower(text)
 	
 	
@@ -280,6 +280,8 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	if (is.na(g$fontface)) g$fontface <- gt$fontface
 	if (is.na(g$fontfamily)) g$fontfamily <- gt$fontfamily
 
+	text.bg.color <- do.call("process_color", c(list(col=g$bg.color, alpha=g$bg.alpha), gt$pc))
+	text.shadowcol <- do.call("process_color", c(list(col=g$shadowcol), gt$pc))
 
 	text.size.legend.title <- if (is.na(g$title.size)[1]) xtsize else g$title.size
 	text.col.legend.title <- if (is.na(g$title.col)[1]) xtcol else g$title.col
@@ -302,9 +304,8 @@ process_text <- function(data, g, fill, gt, gby, z) {
 		 text.fontface=g$fontface,
 		 text.fontfamily=g$fontfamily,
 		 text.shadow=g$shadow,
-		 text.shadowcol=g$shadowcol,
-		 text.bg.color=g$bg.color,
-		 text.bg.alpha=g$bg.alpha,
+		 text.shadowcol=text.shadowcol,
+		 text.bg.color=text.bg.color,
 		 text.scale=g$scale,
 		 text.auto.placement=g$auto.placement,
 		 text.remove.overlap=g$remove.overlap,

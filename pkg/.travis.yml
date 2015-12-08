@@ -1,6 +1,9 @@
 language: r
-warnings_are_errors: false # for production this should be changed...
 sudo: required
+warnings_are_errors: false # for production this should be changed...
+
+r_packages:
+  - rmarkdown
 
 env:
  global:
