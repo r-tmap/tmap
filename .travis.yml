@@ -16,10 +16,10 @@ apt_packages:
 
 before_install: 
  - cd pkg
- - apt-get download -y libgdal-dev
- - dpkg-deb -x libgdal-dev*.deb /
- - ln -sf /usr/lib/libgdal.so.1 /usr/lib/libgdal.so
- - ldconfig
+ - sudo apt-get download -y libgdal-dev
+ - sudo dpkg-deb -x libgdal-dev*.deb /
+ - sudo ln -sf /usr/lib/libgdal.so.1 /usr/lib/libgdal.so
+ - sudo ldconfig
 
 notifications:
   email:
