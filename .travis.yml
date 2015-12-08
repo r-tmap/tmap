@@ -1,0 +1,12 @@
+language: r
+warnings_are_errors: false # for production this should be changed...
+sudo: required
+
+env:
+ global:
+   - CRAN: http://cran.rstudio.com
+
+notifications:
+  email:
+    on_success: change
+    on_failure: change

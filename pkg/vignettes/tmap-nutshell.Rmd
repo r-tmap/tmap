@@ -56,7 +56,7 @@ qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="AREA", root=5, fill.ti
 	fill.textNA="Non-European countries", format="Europe")
 ```
 
-In this code, `fill` and `text` serve as aesthetics. Both `gdp_cap_est` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to green, is mapped to the values of `gdp_cap_est`. The variable `iso_a3` contains the text labels, in this case the country codes.
+In this code, `fill` and `text` serve as aesthetics. Both `gdp_cap_est` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to red, is mapped to the values of `gdp_cap_est`. The variable `iso_a3` contains the text labels, in this case the country codes.
 The arguments `text.size` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `fill.title` argument is the title for the `fill`-legend. The argument `fill.textNA` is the legend text for missing values. The `format` argument specifies predefined layout settings for this shape object.
 
 The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for tis readability.
