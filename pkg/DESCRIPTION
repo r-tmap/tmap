@@ -10,8 +10,8 @@ Authors@R: c(
 Description: Thematic maps are geographical maps in which statistical data are
     visualized. This package offers a flexible, layer-based, way to create thematic
     maps, such as choropleths and bubble maps.
-Version: 1.1
-Date: 2015-10-12
+Version: 1.2
+Date: 2015-12-08
 Depends:
     R (>= 3.0),
 Imports:
@@ -36,4 +36,4 @@ Suggests:
     knitr,
     OpenStreetMap
 VignetteBuilder: knitr
-RoxygenNote: 5.0.0
+RoxygenNote: 5.0.1

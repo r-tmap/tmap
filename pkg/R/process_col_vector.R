@@ -5,7 +5,7 @@ process_col_vector <- function(x, sel, g, gt) {
 	x[!sel] <- NA
 	
 	
-	if (is.factor(x)) {
+	if (is.factor(x) || g$style=="cat") {
 		
 		if (is.null(g$palette)) {
 			palette.type <- ifelse(is.ordered(x), "seq", "cat")

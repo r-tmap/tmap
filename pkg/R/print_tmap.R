@@ -260,13 +260,19 @@ print.tmap <- function(x, vp=NULL, ...) {
 			lst <- list({if (!is.na(gpl$varnames$fill)[1]) {
 				c(gpl$idnames$fill, gpl$varnames$fill)
 			} else NULL}, 
-			{if (!is.na(gpl$varnames$bubble.size)[1] || !is.na(gpl$varnames$bubble.size)[1]) {
-				c(gpl$idnames$bubble, gpl$varnames$bubble.size, gpl$varnames$bubble.col, gpl$varnames$bubble.size)
+			{if (!is.na(gpl$varnames$bubble.size)[1] || !is.na(gpl$varnames$bubble.col)[1]) {
+				c(gpl$idnames$bubble, gpl$varnames$bubble.size, gpl$varnames$bubble.col)
 			} else NULL},
 			{if (!is.na(gpl$varnames$line.col)[1] || !is.na(gpl$varnames$line.lwd)[1]) {
 				c(gpl$idnames$line, gpl$varnames$line.col, gpl$varnames$line.lwd)
+			} else NULL},
+			{if (!is.na(gpl$varnames$raster)[1]) {
+				c(gpl$idnames$raster, gpl$varnames$raster)
+			} else NULL},
+			{if (!is.na(gpl$xtext)[1]) {
+				c(gpl$idnames$text, gpl$xtext, gpl$varnames$text.size, gpl$varnames$text.col)
 			} else NULL})
-			names(lst) <- paste("tm", c("polygons", "bubbles", "lines"), p, l, sep="_")
+			names(lst) <- paste("tm", c("polygons", "bubbles", "lines", "raster", "text"), p, l, sep="_")
 			lst
 		}, gp[1:nshps], 1:nshps, SIMPLIFY=FALSE)
 	}, gps, 1:nx, SIMPLIFY=FALSE))
@@ -274,17 +280,19 @@ print.tmap <- function(x, vp=NULL, ...) {
 		do.call("c", lapply(vars, "[[", i))
 	})
 	
-	dat <- do.call("c", unname(mapply(function(d, v) {
-		lapply(v, function(i) {
+	vars_types <- rep(list(c("fill", "bubble", "line", "raster", "text")), nshps)
+	
+	dat <- do.call("c", unname(mapply(function(d, v, tp) {
+		mapply(function(i, j) {
 			if (is.null(i)) return(NULL)
 			df <- subset(d, select=na.omit(i), drop=FALSE)
 			if (!is.na(i[1])) names(df)[1] <- "ID"
-			if (length(i)==4) {
-				df <- df[order(df[i[4]], decreasing=TRUE), -ncol(df)]				
+			if (j=="bubble") {
+				df <- df[order(df[i[2]], decreasing=TRUE), ]				
 			}
 			df
-		})
-	}, datasets, vars, SIMPLIFY=FALSE)))
+		}, v, tp, SIMPLIFY=FALSE)
+	}, datasets, vars, vars_types, SIMPLIFY=FALSE)))
 	dat <- dat[!sapply(dat, is.null)]
 	
 	invisible(dat)

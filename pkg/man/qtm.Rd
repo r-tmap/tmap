@@ -5,9 +5,9 @@
 \title{Quick thematic map plot}
 \usage{
 qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
-  text.size = 1, line.lwd = NULL, line.col = NULL, raster = NA,
-  borders = NA, scale = NA, title = NA, format = NULL, style = NULL,
-  ...)
+  text.size = 1, text.col = NA, line.lwd = NULL, line.col = NULL,
+  raster = NA, borders = NA, scale = NA, title = NA, format = NULL,
+  style = NULL, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -29,6 +29,8 @@ qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
 \item{text}{Name of the data variable that contains the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
 \item{text.size}{Font size of the text labels. Either a constant value, or the name of a numeric data variable. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+
+\item{text.col}{name of the data variable in \code{shp} for the that specifies the colors of the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
 \item{line.lwd}{either a line width or a name of the data variable that specifies the line width. Only applicable when \code{shp} is type 3 (see above).}
 

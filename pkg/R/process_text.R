@@ -320,6 +320,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 		 text.size.legend.palette= col.neutral,
 		 text.size.legend.misc=list(legend.sizes=legend.sizes),
 		 text.col.legend.hist.misc=list(values=values, breaks=breaks),
+		 xtext=xtext,
 		 xtsize=xtsize,
 		 xtcol=xtcol,
 		 text.xmod=xmod,

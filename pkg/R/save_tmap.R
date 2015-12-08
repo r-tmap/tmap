@@ -54,6 +54,7 @@ save_tmap <- function(tm, filename=shp_name(tm), width=par("din")[1], height=par
 	}
 	default_device <- function(filename) {
 		pieces <- strsplit(filename, "\\.")[[1]]
+		if (length(pieces)==1) stop("Please define extension in the filename.")
 		ext <- tolower(pieces[length(pieces)])
 		match.fun(ext)
 	}

@@ -1,14 +1,15 @@
-version 1.1 (under construction)
+version 1.2
 - added read_osm, a function to read Open Street Map data
 - added bb, a handy bounding box function
 - added layout themes with tm_style and tm_format
 - added automatic text labeling
 - added interactive SVG, that can be opend in RStudio (see itmap)
 - added map compass (tm_compass)
+- added text aesthetics size and col
 - added automatic map coloring
 - added earth boundary, which is useful for projected world maps
 - added warped grid lines (e.g. long-lat lines can be shown in projected maps)
-- added continuous color scales (enabled with style="cont" or "order")
+- added new color scale modes (enabled with style="cat", "cont", and "order")
 - added save_tmap
 - improved automatic layout regarding title, legend, and map attributes
 - layer arguments, e.g. palette, can take multiple values for small multiples
