@@ -1,5 +1,5 @@
 process_tm <- function(x, asp_ratio, shp_info) {
-	fill <- NULL; xfill <- NULL; xraster <- NULL
+	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL
 	## fill meta info
 	
 	style <- options("tmap.style")

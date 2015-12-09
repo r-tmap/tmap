@@ -7,16 +7,20 @@
 #' @param ... not used
 #' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 #' @import sp
-#' @importFrom raster raster extent setValues ncell couldBeLonLat fromDisk as.vector crop
+#' @importFrom raster raster extent setValues ncell couldBeLonLat fromDisk crop
+#' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @import grid
 #' @import gridBase
 #' @importFrom classInt classIntervals findCols
 #' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb
-#' @importFrom methods as slot slotNames
-#' @importFrom stats na.omit
+#' @importFrom methods as slot slotNames is
+#' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom spdep poly2nb
+#' @importFrom grDevices xy.coords
+#' @importFrom graphics par
+#' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @export
 #' @method print tmap
 print.tmap <- function(x, vp=NULL, ...) {

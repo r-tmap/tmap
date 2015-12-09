@@ -32,9 +32,11 @@
 #' \item{\code{"ncol"}}{Number of rows in the raster}
 #' \item{\code{"nrow"}}{Number of columns in the raster}
 #' }
-#' @importFrom raster raster extent couldBeLonLat as.matrix extract extend rasterToContour
+#' @importFrom raster raster extent couldBeLonLat extract extend rasterToContour
+#' @importMethodsFrom raster as.vector
 #' @importFrom rgeos gConvexHull gUnaryUnion gPointOnSurface gContains gIsValid gIntersection gArea gBuffer gDifference
 #' @importFrom KernSmooth bkde2D
+#' @importFrom grDevices contourLines
 #' @export
 smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", unit.size=1000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, extracting.method="full", buffer.width=NA, to.Raster=FALSE) {
 	bbx <- bb(shp)
