@@ -11,11 +11,15 @@ version 1.2
 - added warped grid lines (e.g. long-lat lines can be shown in projected maps)
 - added new color scale modes (enabled with style="cat", "cont", and "order")
 - added save_tmap
+- added smooth_map, smooth_raster_cover, sample_dots, points_to_raster and poly_to_raster
+- added read_GPX
 - improved automatic layout regarding title, legend, and map attributes
 - layer arguments, e.g. palette, can take multiple values for small multiples
 - improved grid lines (labels can also be placed outside frame)
 - arguments free.coords and drop.shapes of tm_facets working
+- updated examples and vignette
 - fixed viewport bug
+- see ?tmap for a structured overview of all tmap functions
 
 version 1.0
 - added tm_credits and tm_scale_bar

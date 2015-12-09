@@ -31,13 +31,6 @@ get_HCL <- function(v, H1 = 0, L.inverse = TRUE, to.colors=TRUE, L.lim=c(0,100),
 }
 
 
-get_HC(c(1,1, 10))
-get_HC(c(0,0, 1000))
-get_HC(c(1,1,0))
-get_HC(c(0,1,0))
-get_HC(c(0,0,1))
-get_HC(c(1,1,1))
-
 
 
 #####################

@@ -5,6 +5,7 @@
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param ... not used
+#' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 #' @import sp
 #' @importFrom raster raster extent setValues ncell couldBeLonLat fromDisk as.vector crop
 #' @import RColorBrewer

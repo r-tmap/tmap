@@ -1,9 +1,10 @@
-# download Dutch neighborhood shape file
-dir <- tempdir()
-temp <- tempfile()
-
-download.file("http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/links/2014-buurtkaart-shape-versie-1-el.htm", temp, mode="wb")
-unzip(temp, exdir = dir)
+# # download Dutch neighborhood shape file
+# dir <- tempdir()
+# temp <- tempfile()
+# 
+# download.file("http://www.cbs.nl/nl-NL/menu/themas/dossiers/nederland-regionaal/links/2014-buurtkaart-shape-versie-1-el.htm", temp, mode="wb")
+# unzip(temp, exdir = dir)
+dir <- "../shapes/"
 
 NLD_nbhd <- read_shape(file.path(dir, "buurt_2014.shp"))
 
@@ -93,7 +94,7 @@ tm_shape(DH_nbhd_dots) +
 
 ## each dot represents 10 people
 tm_shape(DH_nbhd_dots2) + 
-	tm_dots("class", size=.02, alpha=.75, 
+	tm_dots("class", size=.003, alpha=.75, 
 			palette="Dark2", title = "The Hague population") +
 tm_layout(inner.margins=0, bg.color="white")
 

@@ -23,13 +23,15 @@ get_i <- function(x, xname, i, n, oid) {
 		if (xname %in% c("varnames", "idnames")) {
 			x
 		} else if (substr(xname, ncx-10, ncx) %in% c("d.hist.misc", "legend.misc")) {
+			# these are lists themselves
 			mapply(get_i, x, names(x), MoreArgs = list(i=i, n=n, oid=NULL), SIMPLIFY=FALSE)
 		} else {
 			if (length(x)>=i) x[[i]] else x[[1]]
 		}
 	} else {
 		ncx <- nchar(xname)
-		if (xname %in% c("bubble.size.legend.palette", "bubble.max.size", "line.lwd.legend.palette", "line.legend.lwd") || substr(xname, ncx-11, ncx)=="legend.title") {
+		# split variables that consist of one value, but may differ across small multiples
+		if (xname %in% c("bubble.size.legend.palette", "bubble.max.size", "line.lwd.legend.palette", "line.legend.lwd", "text.max.size", "text.size.legend.palette") || substr(xname, ncx-11, ncx)=="legend.title") {
 			if (length(x)>=i) x[i] else x[1]
 		} else x
 	}

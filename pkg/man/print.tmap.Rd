@@ -13,6 +13,9 @@
 
 \item{...}{not used}
 }
+\value{
+A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
+}
 \description{
 Draw thematic map on current graphics device
 }
