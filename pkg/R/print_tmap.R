@@ -21,6 +21,7 @@
 #' @importFrom grDevices xy.coords
 #' @importFrom graphics par
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
+#' @importMethodsFrom raster as.vector
 #' @export
 #' @method print tmap
 print.tmap <- function(x, vp=NULL, ...) {

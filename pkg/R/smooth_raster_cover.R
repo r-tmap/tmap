@@ -10,6 +10,7 @@
 #' @param threshold numeric value between 0 and 1 that determines which part of the estimated 2D kernal density is returned as cover.
 #' @param output class of the returned object. One of: \code{\link[sp:SpatialPolygons]{SpatialPolygons}}, \code{\link[sp:SpatialLines]{SpatialLines}}, \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}, or \code{\link[raster:Raster-class]{RasterLayer}}. A vector of class names results in a list of output objects.
 #' @importFrom raster raster extent
+#' @importMethodsFrom raster as.matrix
 #' @export
 smooth_raster_cover <- function(shp, var=NA, bandwidth=NA, threshold=.6, output="SpatialPolygons") {
 	# convert to SGDF

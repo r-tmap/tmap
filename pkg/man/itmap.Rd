@@ -16,7 +16,7 @@ itmap(tm, file = NULL, width = NULL, height = NULL)
 \item{height}{height}
 }
 \description{
-Convert the tmap output to an interactive SVG, that can be plot in RStudio. In development. Requires the development version of svgPanZoom, see \url{devtools::install_github("timelyportfolio/svgPanZoom")}.
+Convert the tmap output to an interactive SVG, that can be plot in RStudio. In development.
 }
 \examples{
 \dontrun{

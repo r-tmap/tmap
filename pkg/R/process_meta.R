@@ -106,7 +106,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 		earth.bounds <- if (is.logical(earth.boundary)) {
 			c(-180, 180, -90, 90)
 		} else {
-			raster::as.vector(extent(earth.boundary))
+			as.vector(extent(earth.boundary))
 		}
 		earth.boundary <- !identical(earth.boundary, FALSE)
 		

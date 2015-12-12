@@ -1,6 +1,6 @@
 #' Interactive thematic map
 #' 
-#' Convert the tmap output to an interactive SVG, that can be plot in RStudio. In development. Requires the development version of svgPanZoom, see \url{devtools::install_github("timelyportfolio/svgPanZoom")}.
+#' Convert the tmap output to an interactive SVG, that can be plot in RStudio. In development.
 #' 
 #' @param tm tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param file file name. If specified, the SVG image is saved to this file.

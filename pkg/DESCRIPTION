@@ -12,13 +12,13 @@ Description: Thematic maps are geographical maps in which statistical data are
     visualized. This package offers a flexible, layer-based, way to create thematic
     maps, such as choropleths and bubble maps.
 Version: 1.2
-Date: 2015-12-09
+Date: 2015-12-11
 Depends:
     R (>= 3.0),
 Imports:
     methods,
     sp,
-    raster,
+    raster (>= 2.4-30),
     grid,
     gridBase,
     gridSVG,
