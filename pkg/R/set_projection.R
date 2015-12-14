@@ -22,6 +22,7 @@
 #' @rdname set_projection
 #' @import sp
 #' @importFrom raster projectRaster
+#' @importFrom rgdal getPROJ4VersionInfo
 #' @return \code{set_projection} returns a (transformed) shape object with
 #'   updated projection information. \code{get_projection} returns the
 #'   \code{PROJ.4} character string of \code{shp}.
@@ -37,12 +38,13 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 			stop("Currect projection of shape object unknown. Please specify the argument current.projection. The value \"longlat\", which stands for Longitude-latitude (WGS84), is most commonly used.")
 		} else {
 			shp@proj4string <- CRS(current.proj4)
+			current.projection <- current.proj4
 		}
 	} else {
 		if (!missing(current.projection)) {
 			if (current.proj4==shp.proj) {
 				warning(paste("Current projection of", shp.name, "already known."))
-			}else {
+			} else {
 				if (overwrite.current.projection) {
 					warning(paste("Current projection of", shp.name, "differs from", current.projection, ", but is overwritten."))
 					shp@proj4string <- CRS(current.proj4)
@@ -50,11 +52,19 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 					stop(paste(shp.name, "already has projection:", shp.proj, "This is different from the specified current projection", current.projection, ". If the specified projection is correct, use overwrite.current.projection=TRUE."))
 				}
 			} 
+		} else {
+			current.proj4 <- shp.proj
 		}
 	}
 	
+
 	if (!missing(projection)) {
 		proj4 <- get_proj4(projection)
+		PROJ4_version_nr <- get_proj4_version()
+		
+		if (length(grep("+proj=wintri", current.proj4, fixed = TRUE)) && PROJ4_version_nr < 491) {
+			stop("Unable to reproject a shape from the Winkel Tripel projection with PROJ.4 version < 4.9.1")
+		}	
 		
 		cls <- class(shp)
 		
@@ -76,6 +86,12 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 	shp
 }
 
+get_proj4_version <- function() {
+	PROJ4_version <- getPROJ4VersionInfo()
+	vid <- gregexpr("PJ_VERSION: ", PROJ4_version, fixed = TRUE)[[1]][1] + 12
+	as.integer(substr(PROJ4_version, vid, nchar(PROJ4_version)-1))
+}
+	
 
 #' @name get_projection
 #' @rdname set_projection

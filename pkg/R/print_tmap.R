@@ -20,6 +20,7 @@
 #' @importFrom spdep poly2nb
 #' @importFrom grDevices xy.coords
 #' @importFrom graphics par
+#' @importFrom rgdal getPROJ4VersionInfo
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
 #' @export
