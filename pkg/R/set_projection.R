@@ -87,7 +87,7 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 }
 
 get_proj4_version <- function() {
-	PROJ4_version <- getPROJ4VersionInfo()
+	PROJ4_version <- rgdal::getPROJ4VersionInfo()
 	vid <- gregexpr("PJ_VERSION: ", PROJ4_version, fixed = TRUE)[[1]][1] + 12
 	as.integer(substr(PROJ4_version, vid, nchar(PROJ4_version)-1))
 }
