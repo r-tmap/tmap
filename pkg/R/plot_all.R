@@ -16,7 +16,7 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		PROJ4_version_nr <- get_proj4_version()
 
 		if (length(grep("+proj=wintri", proj, fixed = TRUE)) && PROJ4_version_nr < 491 && !is.na(gt$grid.projection)) {
-			warning("Unable to reproject grid lines from the Winkel Triple projection with PROJ.4 version < 4.9.1")
+			warning("Unable to reproject grid lines from the Winkel Triple projection with PROJ.4 version < 4.9.1", call. = FALSE)
 			gt$grid.show <- FALSE
 		} else {
 			gt <- process_grid(gt, bbx, proj, sasp)

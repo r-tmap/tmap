@@ -57,7 +57,7 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 				duplicated_data <- paste(duplicated_data, collapse=", ")
 			}
 			if (ignore.duplicates) {
-				message(paste("data contains duplicated keys:", duplicated_data))
+				message("data contains duplicated keys: ", duplicated_data)
 				data <- data[!duplicated(ids.data), ]
 				ids.data <- ids.data[!duplicated(ids.data)]
 			} else stop(paste("data contains duplicated keys:", duplicated_data, 
@@ -122,19 +122,19 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 				nnm <- length(notMatched.shp)
 				nshp <- length(ids.shp)
 				if (nnm==nshp) stop("No match found")
-				message(paste("Under coverage. No data for", nnm, "out of", 
-							  nshp, "polygons:", 
+				message("Under coverage. No data for ", nnm, " out of ", 
+							  nshp, " polygons: ", 
 							  paste(head(notMatched.shp, 5), collapse=", "),
-							  ifelse(length(notMatched.shp)>5, ", ...", "")))
+							  ifelse(length(notMatched.shp)>5, ", ...", ""))
 			}				
 			if (!all(ids.data %in% ids.shp)) {
 				notMatched.data <- setdiff(ids.data, ids.shp)
 				nnm <- length(notMatched.data)
 				ndata <- length(ids.data)
-				message(paste("Over coverage.", nnm, "out of", ndata, 
-							  "unmatched data records:", 
+				message("Over coverage. ", nnm, " out of ", ndata, 
+							  " unmatched data records: ", 
 							  paste(head(notMatched.data, 5), collapse=", "),
-							  ifelse(length(notMatched.data)>5, ", ...", "")))
+							  ifelse(length(notMatched.data)>5, ", ...", ""))
 			}				
 		}
 		

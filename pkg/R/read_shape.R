@@ -34,7 +34,7 @@ read_shape <- function(file, current.projection=NULL, ...){
 	# determine region ID
 	if (file.exists(file)) {
 		fullfilename <- file
-	} else stop("unknown filename")
+	} else stop("unknown filename", call. = FALSE)
 
 	dir <- dirname(fullfilename)
 	base <- basename(fullfilename)
@@ -47,13 +47,13 @@ read_shape <- function(file, current.projection=NULL, ...){
 	
 	if (is.na(prj)) {
 		if (missing(current.projection)) {
-			warning("Current projection missing. Set the parameter current.project, or use set_projection")
+			warning("Current projection missing. Set the parameter current.project, or use set_projection", call. = FALSE)
 		} else {
 			shp <- set_projection(shp, current.projection=current.projection)
 		}
 	} else {
 		if (!missing(current.projection)) {
-			warning("Projection already specified in shape file. Use set_projection for reprojection.")
+			warning("Projection already specified in shape file. Use set_projection for reprojection.", call. = FALSE)
 		}
 			
 		## rd projection correction: add towgs84 parameter to frequently used rd projection strings
@@ -82,10 +82,10 @@ write_shape <- function(shp, file) {
 	shpname <- deparse(substitute(shp))
 	dir <- dirname(file)
 	base <- basename(file)
-	if (!file.exists(dir)) stop("unknown directory")
+	if (!file.exists(dir)) stop("unknown directory", call. = FALSE)
 
 	if (substr(base, nchar(base)-3, nchar(base))==".shp")
 		base <- substr(base, 1, nchar(base)-4)
-	if (!inherits(shp, "Spatial")) stop("shpname is not a Spatial object")
+	if (!inherits(shp, "Spatial")) stop("shpname is not a Spatial object", call. = FALSE)
 	writeOGR(shp, dir, base, driver = "ESRI Shapefile", overwrite_layer=TRUE)
 }

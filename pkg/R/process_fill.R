@@ -35,7 +35,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- mapcols
 		x <- paste("COLOR", 1:nx, sep="_")
 	} else {
-		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable name(s)")
+		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable name(s)", call. = FALSE)
 	}
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
 	## output: matrix=colors, list=free.scales, vector=!freescales
@@ -77,7 +77,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	areas_prop <- areas/sum(areas, na.rm=TRUE)
 	
 	tiny <- areas_prop < g$thres.poly
-	if (all(tiny)) warning("all relative area sizes are below thres.poly")
+	if (all(tiny)) warning("all relative area sizes are below thres.poly", call. = FALSE)
 	
 	
 	sel <- if (is.list(dt)) rep(list(!tiny), nx) else !tiny

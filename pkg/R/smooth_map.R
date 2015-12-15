@@ -67,7 +67,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	N <- nrow * ncol
 
 	if (!is_projected(shp) || is.na(unit)) {
-		warning("shp is not projected; therefore density values cannot be calculated")
+		warning("shp is not projected; therefore density values cannot be calculated", call. = FALSE)
 		cell.area <- 1
 	} else {
 		cell.width <- (bbx[1,2] - bbx[1,1]) / (unit.size * ncol)

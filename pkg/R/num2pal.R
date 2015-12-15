@@ -1,5 +1,5 @@
 num2breaks <- function(x, n, style, breaks, approx=FALSE) {
-	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.")
+	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.", call. = FALSE)
 	# create intervals and assign colors
 	q <- suppressWarnings(if (style=="fixed") {
 		classIntervals(x, n, style= style, fixedBreaks=breaks) 
@@ -82,7 +82,7 @@ num2pal <- function(x, n = 5,
 		palette.type <- palette_type(palette)
 		
 		if (auto.palette.mapping && palette.type=="cat") {
-			warning("could not determine whether palette is sequential or diverging. auto.palette.mapping will be set to FALSE.")
+			warning("could not determine whether palette is sequential or diverging. auto.palette.mapping will be set to FALSE.", call. = FALSE)
 			auto.palette.mapping <- FALSE
 		}
 		pal.div <- palette.type=="div"
@@ -190,7 +190,7 @@ num2pal <- function(x, n = 5,
 		if (is.null(legend.labels)) {
 			legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE), legend.format)) 
 		} else {
-			if (length(legend.labels)!=nbrks-1) warning(paste("number of legend labels should be", nbrks-1))
+			if (length(legend.labels)!=nbrks-1) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 			legend.labels <- rep(legend.labels, length.out=nbrks-1)
 		}
 		

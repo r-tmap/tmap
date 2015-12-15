@@ -135,7 +135,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 			if (!maybe_longlat(b)) {
 				stop("Current projection unknown. Please specify the projection.")
 			}
-			warning("Current projection unknown. Long lat coordinates (wgs84) assumed.")
+			warning("Current projection unknown. Long lat coordinates (wgs84) assumed.", call. = FALSE)
 			current.projection <- "longlat"	
 		} 
 		

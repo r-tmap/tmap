@@ -43,13 +43,13 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 	} else {
 		if (!missing(current.projection)) {
 			if (current.proj4==shp.proj) {
-				warning(paste("Current projection of", shp.name, "already known."))
+				warning("Current projection of ", shp.name, " already known.", call. = FALSE)
 			} else {
 				if (overwrite.current.projection) {
-					warning(paste("Current projection of", shp.name, "differs from", current.projection, ", but is overwritten."))
+					warning("Current projection of ", shp.name, " differs from ", current.projection, ", but is overwritten.", call. = FALSE)
 					shp@proj4string <- CRS(current.proj4)
 				} else {
-					stop(paste(shp.name, "already has projection:", shp.proj, "This is different from the specified current projection", current.projection, ". If the specified projection is correct, use overwrite.current.projection=TRUE."))
+					stop(shp.name, " already has projection: ", shp.proj, ". This is different from the specified current projection ", current.projection, ". If the specified projection is correct, use overwrite.current.projection=TRUE.", call. = FALSE)
 				}
 			} 
 		} else {

@@ -9,14 +9,14 @@
 #' @export
 #' @example ../examples/read_GPX.r
 read_GPX <- function(file, layers=c("waypoints", "tracks", "routes", "track_points", "route_points")) {
-	if (!all(layers %in% c("waypoints", "tracks", "routes", "track_points", "route_points"))) stop("Incorrect layer(s)")
+	if (!all(layers %in% c("waypoints", "tracks", "routes", "track_points", "route_points"))) stop("Incorrect layer(s)", call. = FALSE)
 	
 	# check if features exist per layer
 	suppressWarnings(hasF <- sapply(layers, function(l) {
 		ogrInfo(dsn = file, layer=l)$have_features
 	}))
 	
-	if (!any(hasF)) stop("None of the layer(s) has any features.")
+	if (!any(hasF)) stop("None of the layer(s) has any features.", call. = FALSE)
 	
 	res <- lapply(layers[hasF], function(l) {
 		readOGR(dsn = file, layer=l, verbose=FALSE)

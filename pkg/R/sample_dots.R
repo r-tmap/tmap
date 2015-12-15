@@ -50,7 +50,7 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 
 	## find total population number, and convert data to density values
 	if (convert2density) {
-		if (!projected) warning("shp should be projected when convert2density=TRUE, for otherwise the sampling method is unreliable.")
+		if (!projected) warning("shp should be projected when convert2density=TRUE, for otherwise the sampling method is unreliable.", call. = FALSE)
 		
 		if (is.na(npop)) npop <- sum(data)
 		
@@ -60,7 +60,7 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 		data[is.na(data)] <- 0
 	} else {
 		# calculate absolute values
-		if (!("total.area" %in% names(args)) && !projected) warning("unable to determine population total, unless total.area is specified.")
+		if (!("total.area" %in% names(args)) && !projected) warning("unable to determine population total, unless total.area is specified.", call. = FALSE)
 		if (is.na(npop)) {
 			area_approx_args <- args[names(args) == "total.area"]
 			areas <- do.call("approx_areas", args = c(list(shp=shp, unit=unit, unit.size=unit.size), area_approx_args))
@@ -125,7 +125,7 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 		sizes <- floor(sizes * rescale)
 		n <- sum(sizes)
 		w <- round(npop / n)
-		warning("Too many dots. Number of dots downsized.")
+		warning("Too many dots. Number of dots downsized.", call. = FALSE)
 	}
 	
 	# do the sampling (could be slow...)
@@ -135,13 +135,13 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 	sam <- unlist(samples)
 	stopifnot(n == length(sam))
 	
-	message(paste("Grid size: ", nrow, " by ", ncol, " ("), N, ")", sep="")
-	message(paste("Number of dots =", n))
+	message("Grid size: ", nrow, " by ", ncol, " (", N, ")")
+	message("Number of dots = ", n)
 
 	
 	if (projected || (!convert2density && ("total.area" %in% names(args)))) {
-		message(paste("Population size =", npop))
-		message(paste("One dot represents", w, "population units"))
+		message("Population size = ", npop)
+		message("One dot represents ", w, " population units")
 	}
 	
 	# convert to SPointsDF

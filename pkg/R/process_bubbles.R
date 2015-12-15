@@ -16,7 +16,7 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 	if (is.null(g$sizes.legend.labels)) {
 		bubble.size.legend.labels <- do.call("fancy_breaks", c(list(vec=x_legend, intervals=FALSE), g$legend.format))
 	} else {
-		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of bubbles in the legend")
+		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of bubbles in the legend", call. = FALSE)
 		bubble.size.legend.labels <- g$sizes.legend.labels
 	}
 	
@@ -72,7 +72,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	if (nxsize<nx) xsize <- rep(xsize, length.out=nx)
 	
 	if (!varysize) {
-		if (!all(is.numeric(xsize))) stop("Bubble sizes are neither numeric nor valid variable name(s)")
+		if (!all(is.numeric(xsize))) stop("Bubble sizes are neither numeric nor valid variable name(s)", call. = FALSE)
 		for (i in 1:nx) data[[paste("SIZE", i, sep="_")]] <- xsize[i]
 		xsize <- paste("SIZE", 1:nx, sep="_")
 		gby$free.scales.bubble.size <- FALSE
@@ -81,7 +81,7 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	# check for direct color input
 	is.colors <- all(valid_colors(xcol))
 	if (!varycol) {
-		if (!is.colors) stop("Invalid bubble colors")
+		if (!is.colors) stop("Invalid bubble colors", call. = FALSE)
 		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
@@ -96,14 +96,14 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	if (is.list(dtsize)) {
 		# multiple variables for size are defined
 		gss <- split_g(g, n=nx)
-		if (!all(sapply(dtsize, is.numeric))) stop("size argument of tm_bubbles/tm_dots contains a non-numeric variable")
+		if (!all(sapply(dtsize, is.numeric))) stop("size argument of tm_bubbles/tm_dots contains a non-numeric variable", call. = FALSE)
 		res <- mapply(process_bubbles_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt), SIMPLIFY = FALSE)
 		bubble.size <- sapply(res, function(r)r$bubble.size)
 		bubble.size.legend.labels <- lapply(res, function(r)r$bubble.size.legend.labels)
 		bubble.legend.sizes <- lapply(res, function(r)r$bubble.legend.sizes)
 		bubble.max.size <- sapply(res, function(r)r$bubble.max.size)
 	} else {
-		if (!is.numeric(dtsize)) stop("size argument of tm_bubbles/tm_dots is not a numeric variable")
+		if (!is.numeric(dtsize)) stop("size argument of tm_bubbles/tm_dots is not a numeric variable", call. = FALSE)
 		res <- process_bubbles_size_vector(dtsize, g, rescale=varysize, gt)
 		bubble.size <- matrix(res$bubble.size, nrow=npol)
 		if (varysize) {

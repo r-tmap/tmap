@@ -122,13 +122,13 @@ qtm <- function(shp,
 		fname <- paste("tm_format", format, sep="_")
 		if (exists(fname)) {
 			g <- g + do.call(fname, list())
-		} else warning(paste("function", fname, "does not exist"))
+		} else warning("function ", fname, " does not exist", call. = FALSE)
 	}
 	if (!missing(style)) {
 		fname <- paste("tm_style", style, sep="_")
 		if (exists(fname)) {
 			g <- g + do.call(fname, list())
-		} else warning(paste("function", fname, "does not exist"))
+		} else warning("function ", fname, " does not exist", call. = FALSE)
 		g <- g + do.call(paste("tm_style", style, sep="_"), list())
 	}
 	g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))

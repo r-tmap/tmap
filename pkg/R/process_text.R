@@ -16,7 +16,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 	if (is.null(g$sizes.legend.labels)) {
 		size.legend.labels <- do.call("fancy_breaks", c(list(vec=x_legend, intervals=FALSE), g$legend.format))
 	} else {
-		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of texts in the legend")
+		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of texts in the legend", call. = FALSE)
 		size.legend.labels <- g$sizes.legend.labels
 	}
 	
@@ -105,7 +105,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	if (nxtext<nx) xtext <- rep(xtext, length.out=nx)
 	
 	if (!varysize) {
-		if (!all(is.numeric(xtsize) | xtsize=="AREA")) stop("Incorrect text sizes.")
+		if (!all(is.numeric(xtsize) | xtsize=="AREA")) stop("Incorrect text sizes.", call. = FALSE)
 		if (is.numeric(xtsize[1])) {
 			g$size.lowerbound <- 0
 		}
@@ -120,7 +120,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	# check for direct color input
 	is.colors <- all(valid_colors(xtcol)) || is.na(xtcol[1])
 	if (!varycol) {
-		if (!is.colors) stop("Invalid text colors")
+		if (!is.colors) stop("Invalid text colors", call. = FALSE)
 		if (is.na(xtcol)[1]) {
 			if (is.matrix(fill)) {
 				cols <- apply(fill, MARGIN=2, function(f) {
@@ -157,7 +157,7 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	dtsize <- process_data(data[, xtsize, drop=FALSE], by=by, free.scales=gby$free.scales.text.size, is.colors=FALSE)
 	
 	##
-	if (!all(xtext %in% shpcols)) stop("Incorrect data variable used for the text")
+	if (!all(xtext %in% shpcols)) stop("Incorrect data variable used for the text", call. = FALSE)
 
 	text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), nrow=npol, ncol=nx) else as.character(data[[xtext]])
 	if (!is.na(g$case)) text <- if(case=="upper") toupper(text) else tolower(text)

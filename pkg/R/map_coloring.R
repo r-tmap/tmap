@@ -81,7 +81,7 @@ map_coloring <- function(x, algorithm="greedy", ncols=NA, minimize=FALSE, palett
 		}
 	} else stop("Unknown algorithm")
 	
-	if (showWarn) warning(paste("Unable to color with", ncols, "colors. Adjacent polygons may have the same color."))
+	if (showWarn) warning("Unable to color with ", ncols, " colors. Adjacent polygons may have the same color.", call. = FALSE)
 	
 	if (!is.null(palette)) {
 		palette2[cols]

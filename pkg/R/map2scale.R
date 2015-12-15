@@ -63,7 +63,7 @@ map2divscaleID <- function(breaks, n=101, contrast=1) {
 # @param breaks.specified logical that determines whether breaks have been specified by the user. If so a warning is shown if breaks are diverging.
 # @return vector of index numbers
 map2seqscaleID <- function(breaks, n=101, contrast=1, breaks.specified=TRUE, impute=TRUE) {
-	if (are_breaks_diverging(breaks) && breaks.specified) warning("Breaks contains positive and negative values. Better is to use diverging scale instead, or set auto.palette.mapping to FALSE.")
+	if (are_breaks_diverging(breaks) && breaks.specified) warning("Breaks contains positive and negative values. Better is to use diverging scale instead, or set auto.palette.mapping to FALSE.", call. = FALSE)
 	m <- (n*2)-1
 	mh <- ((m-1)/2)+1
 	ids <- map2divscaleID(breaks, n=m, contrast=contrast)
@@ -79,7 +79,7 @@ map2seqscaleID <- function(breaks, n=101, contrast=1, breaks.specified=TRUE, imp
 		if (impute) {
 			ids[ids>n] <- n
 		} else {
-			warning("Some index numbers exceed n and are replaced by NA")
+			warning("Some index numbers exceed n and are replaced by NA", call. = FALSE)
 			ids[ids>n] <- NA
 		}
 			
@@ -87,7 +87,7 @@ map2seqscaleID <- function(breaks, n=101, contrast=1, breaks.specified=TRUE, imp
 		if (impute) {
 			ids[ids<1] <- 1
 		} else {
-			warning("Some index numbers exceed 0 and are replaced by NA")
+			warning("Some index numbers exceed 0 and are replaced by NA", call. = FALSE)
 			ids[ids<1] <- NA
 		}
 	}

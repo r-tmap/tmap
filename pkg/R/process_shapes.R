@@ -38,7 +38,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	
 		
 	if (is.na(shp.proj)) {
-		warning(paste("Currect projection of shape", shp_name, "unknown. Long-lat (WGS84) is assumed."))
+		warning("Currect projection of shape ", shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 		shp.proj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 		attr(shp, "proj4string") <- CRS(shp.proj)
 	}
@@ -46,7 +46,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	# edit and set projection
 	if (!is.null(projection)) {
 		if (is.raster(shp)) {
-			warning("Unable to set projection for rasters. Please use set_projection.")
+			warning("Unable to set projection for rasters. Please use set_projection.", call. = FALSE)
 			projection <- shp.proj
 		} else {
 			projection <- get_proj4(projection)
@@ -68,17 +68,17 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			x.proj <- attr(x, "proj4string")@projargs
 			if (is.na(x.proj)) {
 				if (maybe_longlat(attr(x, "bbox"))) {
-					warning(paste("Currect projection of shape", shp_nm, "unknown. Long-lat (WGS84) is assumed."))
+					warning("Currect projection of shape ", shp_nm, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 					x.proj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
 				} else {
-					warning(paste("Currect projection of shape", shp_nm, "unknown. The projection of", shp_name, "is assumed."))
+					warning("Currect projection of shape ", shp_nm, " unknown. The projection of ", shp_name, " is assumed.", call. = FALSE)
 					x.proj <- shp.proj
 				}
 				attr(x, "proj4string") <- CRS(x.proj)
 			}
 			if (x.proj != projection) {
 				if (inherits(x, "Raster")) {
-					stop(paste("Raster", shp_nm, "has different projection and cannot easily be transformed. Please use set_projection for that."))
+					stop("Raster ", shp_nm, " has different projection and cannot easily be transformed. Please use set_projection for that.", call. = FALSE)
 				}
 				
 				x <- spTransform(x, CRS(projection))
@@ -292,7 +292,7 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 
 split_raster <- function(r, f) {
 	if (!is.factor(f)) {
-		warning("f is not a factor")
+		warning("f is not a factor", call. = FALSE)
 		f <- as.factor(f)
 	}
 	bbx <- attr(r, "bbox")

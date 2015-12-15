@@ -124,7 +124,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 								 	   BOTTOM=0,
 								 	   as.numeric(gt$legend.position[2])))		
 		} else legend.position <- gt$legend.position
-		if (any(is.na(legend.position))) stop("Wrong position argument for legend")
+		if (any(is.na(legend.position))) stop("Wrong position argument for legend", call. = FALSE)
 		
 	}
 	
@@ -148,7 +148,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 			  	     as.numeric(gt$title.position[2])))	
 		}
 	} else title.position <- gt$title.position
-	if (!snap && any(is.na(title.position))) stop("Wrong position argument for title")
+	if (!snap && any(is.na(title.position))) stop("Wrong position argument for title", call. = FALSE)
 	
 	grobTitle <- if (snap || gt$title=="") {
 		NULL
@@ -228,7 +228,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 								   	   TOP=1-elemHeight,
 								   	   BOTTOM=0,
 								   	   as.numeric(elpos[2])))	
-				if (any(is.na(elem.position))) stop("Wrong position argument for attributes")
+				if (any(is.na(elem.position))) stop("Wrong position argument for attributes", call. = FALSE)
 				elem.max.width <- 1 - mx - legendWidth - metaX - ifelse(gt$legend.position[1] %in% c("left", "right"), mx, 0) - ifelse(elpos[1] %in% c("left", "right"), mx, 0)
 			} else if (elemtitle) {
 				elem.position <- c(switch(elpos[1], 
@@ -247,7 +247,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 								   	   TOP=1-ifelse(gt$title.position[2]=="top", my, 0) - elemHeight - titleHeight,
 								   	   BOTTOM=ifelse(gt$title.position[2]=="bottom", my, 0)+titleHeight,
 								   	   as.numeric(elpos[2])))	
-				if (any(is.na(elem.position))) stop("Wrong position argument for attributes")
+				if (any(is.na(elem.position))) stop("Wrong position argument for attributes", call. = FALSE)
 				elem.max.width <- 1 - (if (has.legend && tolower(elpos[2])==tolower(gt$legend.position[2])) 2*mx + legendWidth else mx) - ifelse(elpos[1] %in% c("left", "right"), mx, 0) - metaX
 			} else {
 				elem.position <- c(switch(elpos[1], 
@@ -266,7 +266,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY) {
 								   	   TOP=1-elemHeight,
 								   	   BOTTOM=0,
 								   	   as.numeric(elpos[2])))
-				if (any(is.na(elem.position))) stop("Wrong position argument for attributes")
+				if (any(is.na(elem.position))) stop("Wrong position argument for attributes", call. = FALSE)
 				elem.max.width <- (if (has.legend && tolower(elpos[2])==tolower(gt$legend.position[2])) 1 - 3*mx - legendWidth else 1 - 2*mx) - metaX
 			}
 			elem.just <- switch(elpos[1],

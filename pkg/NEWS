@@ -1,3 +1,7 @@
+version 1.2-1
+- fixed bug with PROJ.4 version < 4.9.1
+- improved error messages
+
 version 1.2
 - added read_osm, a function to read Open Street Map data
 - added bb, a handy bounding box function

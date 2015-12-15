@@ -38,7 +38,7 @@ kde2D <- function (x, bandwidth, gridsize = c(51L, 51L), range.x, truncate = TRU
 	}
 	kapp <- kapid[[1L]] %*% (t(kapid[[2L]]))/n
 	if (min(L) == 0) 
-		warning("Binning grid too coarse for current (small) bandwidth: consider increasing 'gridsize'")
+		warning("Binning grid too coarse for current (small) bandwidth: consider increasing 'gridsize'", call. = FALSE)
 	P <- 2^(ceiling(log(M + L)/log(2)))
 	L1 <- L[1L]
 	L2 <- L[2L]

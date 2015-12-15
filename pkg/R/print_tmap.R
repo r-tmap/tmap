@@ -53,7 +53,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)
-	if (!nshps) stop("Required tm_shape layer missing.")
+	if (!nshps) stop("Required tm_shape layer missing.", call. = FALSE)
 	
 	## find "MAP_COLORING" values
 	apply_map_coloring <- if ("tm_fill" %in% names(x)) {
@@ -117,7 +117,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 			}
 			type <- "raster"
 		} else {
-			stop("Object ", y$shp_name, " is neither from class Spatial nor Raster.")
+			stop("Object ", y$shp_name, " is neither from class Spatial nor Raster.", call. = FALSE)
 		}
 		
 		if (inherits(shp, "Raster")) {
@@ -179,8 +179,8 @@ print.tmap <- function(x, vp=NULL, ...) {
 
 	xmarg <- sum(inner.margins[c(2,4)])
 	ymarg <- sum(inner.margins[c(1,3)])
-	if (xmarg >= .8) stop("Inner margins too large")
-	if (ymarg >= .8) stop("Inner margins too large")
+	if (xmarg >= .8) stop("Inner margins too large", call. = FALSE)
+	if (ymarg >= .8) stop("Inner margins too large", call. = FALSE)
 	shpM_asp_marg <- shpM_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
 	dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
 	asp_ratio <- shpM_asp_marg / dev_asp

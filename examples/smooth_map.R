@@ -24,7 +24,7 @@ qtm(NLD_muni, fill="population_dens")
 
 NLD_smooth <- smooth_map(NLD_muni, var = "population_dens")
 
-qtm(NLD_smooth$raster, style="grey", format="NLD")
+qtm(NLD_smooth$raster, style="grey")
 qtm(NLD_smooth$dasy, format="NLD")
 	
 ####################################
@@ -86,7 +86,7 @@ data(land)
 
 land_smooth <- smooth_map(land, var="trees", cover.type = "smooth")
 
-qtm(land, raster="trees", format="World", style="gray")
-qtm(land_smooth$raster, format="World", style="gray")
-qtm(land_smooth$dasy, format="World", style="gray")
+qtm(land, raster="trees")
+qtm(land_smooth$raster)
+qtm(land_smooth$dasy, format="World", style="grey")
 }

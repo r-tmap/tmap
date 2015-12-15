@@ -277,7 +277,7 @@ plot_bubbles <- function(co.npc, g, gt, lineInch, i, k) {
 		co.npc[, 2] <- co.npc[, 2] + bubble.ymod * bubbleH
 		npol <- nrow(co.npc)
 		if (length(bubble.size)!=npol) {
-			if (length(bubble.size)!=1) warning("less bubble size values than objects")
+			if (length(bubble.size)!=1) warning("less bubble size values than objects", call. = FALSE)
 			bubble.size <- rep(bubble.size, length.out=npol)
 		}
 		
@@ -313,7 +313,7 @@ plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.ma
 	npol <- nrow(co.npc)
 	with(g, {
 		if (!any(text_sel)) {
-			warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.")
+			warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.", call. = FALSE)
 			return(NULL)
 		}
 		

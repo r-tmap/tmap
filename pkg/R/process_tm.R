@@ -5,7 +5,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	style <- options("tmap.style")
 	tln <- paste("tm_style", style,sep="_" )
 	if (!exists(tln)) {
-		warning(paste("Style", style, "unknown;", tln, "does not exist. Please specify another style with the option \"tmap.stype\".", sep=" "))
+		warning("Style ", style, " unknown; ", tln, " does not exist. Please specify another style with the option \"tmap.stype\".", call. = FALSE)
 		tln <- "tm_style_default"
 	}
 	gt <- do.call(tln, args = list())$tm_layout
@@ -126,13 +126,13 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	
 	## split x into clusters
 	shape.id <- which(names(x)=="tm_shape")
-	if (shape.id[1] != 1) stop("First element should be a tm_shape element.")
+	if (shape.id[1] != 1) stop("First element should be a tm_shape element.", call. = FALSE)
 	y <- rep(0, n); y[shape.id] <- 1
 	cluster.id <- cumsum(y)
 	gs <- split(x, cluster.id)
 	
 	nlx <- sapply(gs, length)
-	if (any(nlx==1)) warning("Specify at least one layer after each tm_shape")
+	if (any(nlx==1)) warning("Specify at least one layer after each tm_shape", call. = FALSE)
 	
 	## convert clusters to layers
 	cnlx <- if (nshps==1) 0 else c(0, cumsum(nlx[1:(nshps-1)]-1))
@@ -169,7 +169,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	by_counts <- sapply(data_by, nlevels)
 	if (sum(by_counts>1)>1) {
 		by_counts_pos <- by_counts[by_counts>1]
-		if (any(by_counts_pos[-1]!=by_counts_pos[1])) stop("Number of facets defined by the 'by' argument of tm_facets are different for the groups.")
+		if (any(by_counts_pos[-1]!=by_counts_pos[1])) stop("Number of facets defined by the 'by' argument of tm_facets are different for the groups.", call. = FALSE)
 	}
 
 	## determine number of small multiples

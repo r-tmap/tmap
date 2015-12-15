@@ -17,7 +17,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 	if (is.null(g$line.lwd.legend.labels)) {
 		line.lwd.legend.labels <- do.call("fancy_breaks", c(list(vec=w_legend, intervals=FALSE), g$legend.format))
 	} else {
-		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of bubbles in the legend")
+		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of bubbles in the legend", call. = FALSE)
 		line.lwd.legend.labels <- g$line.lwd.legend.labels
 	}
 	
@@ -106,7 +106,7 @@ process_lines <- function(data, g, gt, gby, z) {
 	if (nxlwd<nx) xlwd <- rep(xlwd, length.out=nx)
 
 	if (!varylwd) {
-		if (!all(is.numeric(xlwd))) stop("Line widths are neither numeric nor valid variable name(s)")
+		if (!all(is.numeric(xlwd))) stop("Line widths are neither numeric nor valid variable name(s)", call. = FALSE)
 		for (i in 1:nx) data[[paste("lwd", i, sep="_")]] <- xlwd[i]
 		xlwd <- paste("lwd", 1:nx, sep="_")
 		gby$free.scales.line.lwd <- FALSE
@@ -115,7 +115,7 @@ process_lines <- function(data, g, gt, gby, z) {
 	# check for direct color input
 	is.colors <- all(valid_colors(xcol))
 	if (!varycol) {
-		if (!is.colors) stop("Invalid line colors")
+		if (!is.colors) stop("Invalid line colors", call. = FALSE)
 		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
@@ -129,13 +129,13 @@ process_lines <- function(data, g, gt, gby, z) {
 	if (is.list(dtlwd)) {
 		# multiple variables for lwd are defined
 		gsl <- split_g(g, n=nx)
-		if (!all(sapply(dtlwd, is.numeric))) stop("lwd argument of tm_lines contains a non-numeric variable")
+		if (!all(sapply(dtlwd, is.numeric))) stop("lwd argument of tm_lines contains a non-numeric variable", call. = FALSE)
 		res <- mapply(process_line_lwd_vector, dtlwd, gsl, MoreArgs = list(rescale=varylwd), SIMPLIFY = FALSE)
 		line.lwd <- sapply(res, function(r)r$line.lwd)
 		line.legend.lwds <- lapply(res, function(r)r$line.legend.lwds)
 		line.lwd.legend.labels <- lapply(res, function(r)r$line.lwd.legend.labels)
 	} else {
-		if (!is.numeric(dtlwd)) stop("lwd argument of tm_lines is not a numeric variable")
+		if (!is.numeric(dtlwd)) stop("lwd argument of tm_lines is not a numeric variable", call. = FALSE)
 		res <- process_line_lwd_vector(dtlwd, g, rescale=varylwd)
 		line.lwd <- matrix(res$line.lwd, nrow=npol)
 		if (varylwd) {

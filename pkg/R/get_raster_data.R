@@ -5,7 +5,7 @@ get_RasterLayer_data_vector <- function(r) {
 		if ("levels" %in% names(dt)) {
 			factor(values, levels=dt$ID, labels=dt$levels)
 		} else {
-			warning("No 'levels' column found in data@attributes.")
+			warning("No 'levels' column found in data@attributes.", call. = FALSE)
 			values
 		}
 	} else {

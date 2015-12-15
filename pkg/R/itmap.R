@@ -192,6 +192,6 @@ itmap <- function(tm, file=NULL, width = NULL, height = NULL ) {
 
 
 tmap2svg <- function(...) {
-	warning("'tmap2svg' is renamed to the catchier 'itmap'")
+	warning("'tmap2svg' is renamed to the catchier 'itmap'", call. = FALSE)
 	do.call("tmap2svg", list(...))
 }

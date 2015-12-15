@@ -47,7 +47,7 @@ read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, merge
 		}
 		
 		
-		if (length(args)==0) stop("Please specify at least one vector query")
+		if (length(args)==0) stop("Please specify at least one vector query", call. = FALSE)
 		
 		shps <- lapply(args, function(a) {
 			if (a$unit=="poly") {

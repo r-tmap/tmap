@@ -83,7 +83,7 @@ process_raster <- function(data, g, gt, gby, z) {
 			for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 			x <- paste("COLOR", 1:nx, sep="_")
 		} else {
-			if (!all(x %in% shpcols)) stop("Raster argument neither colors nor valid variable name(s)")
+			if (!all(x %in% shpcols)) stop("Raster argument neither colors nor valid variable name(s)", call. = FALSE)
 		}
 	}
 

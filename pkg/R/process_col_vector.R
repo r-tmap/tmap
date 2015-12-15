@@ -91,7 +91,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show
 			isNum <- sapply(dtcol, is.numeric)
 			isDens <- sapply(gsc, "[[", "convert2density")
 			
-			if (any(isNum & isDens) && show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
+			if (any(isNum & isDens) && show_warning) warning("Density values are not correct, because the shape coordinates are not projected.", call. = FALSE)
 			dtcol[isNum & isDens] <- lapply(dtcol[isNum & isDens], function(d) {
 				d / areas
 			})
@@ -107,7 +107,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show
 	} else {
 		if (check_dens) {
 			if (is.numeric(dtcol) && g$convert2density) {
-				if (show_warning) warning("Density values are not correct, because the shape coordinates are not projected.")
+				if (show_warning) warning("Density values are not correct, because the shape coordinates are not projected.", call. = FALSE)
 				dtcol <- dtcol / areas
 			}
 		}

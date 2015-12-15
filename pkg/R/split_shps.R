@@ -35,7 +35,7 @@ split.SpatialLines <- function(x, f, drop=FALSE, ...) split_shape(x, f, drop=FAL
 
 split_shape <- function(x, f, drop=TRUE, ...) {
 	if (!is.factor(f)) {
-		warning("f is not a factor")
+		warning("f is not a factor", call. = FALSE)
 		f <- as.factor(f)
 	}
 	lev <- intersect(levels(f), f)

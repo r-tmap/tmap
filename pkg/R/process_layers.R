@@ -1,25 +1,25 @@
 process_layers <- function(g, z, gt, gf) {
 	if (dupl <- anyDuplicated(names(g))) {
-		warning(paste("One tm layer group has duplicated layer types, which are omitted. To draw multiple layers of the same type, use multiple layer groups (i.e. specify tm_shape prior to each of them)."))
+		warning("One tm layer group has duplicated layer types, which are omitted. To draw multiple layers of the same type, use multiple layer groups (i.e. specify tm_shape prior to each of them).", call. = FALSE)
 		g <- g[-dupl]	
 	} 
 	
 	type <- g$tm_shape$type
 	
 	if (type=="polygons" && "tm_lines" %in% names(g)) {
-		stop(g$tm_shape$shp_name, " consists of polygons, so it cannot accept tm_lines.")
+		stop(g$tm_shape$shp_name, " consists of polygons, so it cannot accept tm_lines.", call. = FALSE)
 	} else if (type=="polygons" && "tm_raster" %in% names(g)) {
-		stop(g$tm_shape$shp_name, " consists of polygons, so it cannot accept tm_raster.")
+		stop(g$tm_shape$shp_name, " consists of polygons, so it cannot accept tm_raster.", call. = FALSE)
 	} else if (type=="raster" && any(c("tm_fill", "tm_borders") %in% names(g))) {
-		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_fill/tm_borders/tm_polygons.")
+		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_fill/tm_borders/tm_polygons.", call. = FALSE)
 	} else if (type=="raster" && "tm_lines" %in% names(g)) {
-		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_lines.")
+		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_lines.", call. = FALSE)
 	} else if (type=="raster" && "tm_bubbles" %in% names(g)) {
-		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_bubbles/tm_dots.")
+		stop(g$tm_shape$shp_name, " is a raster, so it cannot accept tm_bubbles/tm_dots.", call. = FALSE)
 	} else if (type=="lines" && any(c("tm_fill", "tm_borders") %in% names(g))) {
-		stop(g$tm_shape$shp_name, " consists of spatial lines, so it cannot accept tm_fill/tm_borders/tm_polygons.")
+		stop(g$tm_shape$shp_name, " consists of spatial lines, so it cannot accept tm_fill/tm_borders/tm_polygons.", call. = FALSE)
 	} else if (type=="lines" && "tm_raster" %in% names(g)) {
-		stop(g$tm_shape$shp_name, " consists of spatial lines, so it cannot accept tm_raster.")
+		stop(g$tm_shape$shp_name, " consists of spatial lines, so it cannot accept tm_raster.", call. = FALSE)
 	}
 	
 	data <- g$tm_shape$data
