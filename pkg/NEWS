@@ -1,6 +1,8 @@
 version 1.2-1
 - fixed bug with PROJ.4 version < 4.9.1
 - improved error messages
+- rd projection reset to +init=epsg:28992, since the latter now has a +towgs item
+- fixed bug of print.tmap returned object
 
 version 1.2
 - added read_osm, a function to read Open Street Map data

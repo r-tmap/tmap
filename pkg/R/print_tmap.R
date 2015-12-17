@@ -294,7 +294,7 @@ print.tmap <- function(x, vp=NULL, ...) {
 			if (is.null(i)) return(NULL)
 			df <- subset(d, select=na.omit(i), drop=FALSE)
 			if (!is.na(i[1])) names(df)[1] <- "ID"
-			if (j=="bubble") {
+			if (j=="bubble" && !is.na(i[2])) {
 				df <- df[order(df[i[2]], decreasing=TRUE), ]				
 			}
 			df
