@@ -4,6 +4,7 @@
 #' 
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
+#' @param return.asp Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.
 #' @param ... not used
 #' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 #' @import sp
@@ -25,7 +26,7 @@
 #' @importMethodsFrom raster as.vector
 #' @export
 #' @method print tmap
-print.tmap <- function(x, vp=NULL, ...) {
+print.tmap <- function(x, vp=NULL, return.asp=FALSE, ...) {
 	#### General process of tmap:
 	#  print.tmap: - puts shapes and shape data into right format
 	#              - calls process_tm for processing tm elements
@@ -208,6 +209,11 @@ print.tmap <- function(x, vp=NULL, ...) {
 	diff_shapes <- attr(shps, "diff_shapes")
 	inner.margins.new <- attr(shps, "inner.margins")
 
+	# shortcut used by save_tmap
+	if (return.asp) {
+		return(sasp)
+	}
+	
 	if (gmeta$design.mode) {
 		masterShapeName <- x[[masterID]]$shp_name
 		cat("aspect ratio device (yellow):", dev_asp, "\n")

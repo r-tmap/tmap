@@ -4,18 +4,18 @@
 \alias{save_tmap}
 \title{Save tmap}
 \usage{
-save_tmap(tm, filename = shp_name(tm), width = par("din")[1],
-  height = par("din")[2], units = c("in", "cm", "mm"), dpi = 300,
-  outer.margins = 0, asp = 0, scale = NA, ...)
+save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
+  units = c("in", "cm", "mm"), dpi = 300, outer.margins = 0, asp = 0,
+  scale = NA, ...)
 }
 \arguments{
 \item{tm}{tmap object}
 
 \item{filename}{filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, or tiff are supported. Use \code{\link{itmap}} to create an interactive svg.}
 
-\item{width}{width. Defaults to the width of current plotting window. Units are set with the argument \code{units}.}
+\item{width}{width. Units are set with the argument \code{units}. If set to \code{NA} and \code{height} is specified, it will be \code{height} * aspect ratio. If both \code{width} and \code{height} are not specified, then the width of the current plotting window will be taken.}
 
-\item{height}{height. Defaults to the height of current plotting window. Units are set with the argument \code{units}.}
+\item{height}{height. Units are set with the argument \code{units}. If set to \code{NA} and \code{width} is specified, it will be \code{width} / aspect ratio. If both \code{width} and \code{height} are not specified, then the height of the current plotting window will be taken.}
 
 \item{units}{units for width and height when either one is explicitly specified (in, cm, or mm)}
 

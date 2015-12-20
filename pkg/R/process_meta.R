@@ -73,7 +73,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 		legend.inside.box <- if (!is.logical(legend.frame)) TRUE else legend.frame
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
 		
-		if (identical(frame, TRUE)) frame <- attr.color else frame <- NA 
+		if (identical(frame, TRUE)) frame <- attr.color else if (identical(frame, FALSE)) frame <- NA 
 		if (is.logical(legend.frame)) if (identical(legend.frame, TRUE)) legend.frame <- attr.color else legend.frame <- NA 
 		
 		

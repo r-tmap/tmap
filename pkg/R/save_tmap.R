@@ -4,8 +4,8 @@
 #'
 #' @param tm tmap object
 #' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, or tiff are supported. Use \code{\link{itmap}} to create an interactive svg.
-#' @param width width. Defaults to the width of current plotting window. Units are set with the argument \code{units}.
-#' @param height height. Defaults to the height of current plotting window. Units are set with the argument \code{units}.
+#' @param width width. Units are set with the argument \code{units}. If set to \code{NA} and \code{height} is specified, it will be \code{height} * aspect ratio. If both \code{width} and \code{height} are not specified, then the width of the current plotting window will be taken.
+#' @param height height. Units are set with the argument \code{units}. If set to \code{NA} and \code{width} is specified, it will be \code{width} / aspect ratio. If both \code{width} and \code{height} are not specified, then the height of the current plotting window will be taken.
 #' @param units units for width and height when either one is explicitly specified (in, cm, or mm)
 #' @param dpi dots per inch. Only applicable for raster graphics.
 #' @param outer.margins overrides the outer.margins argument of \code{\link{tm_layout}} (unless set to \code{NA})
@@ -27,8 +27,27 @@
 #' tm_style_classic()) %>% save_tmap()
 #' }
 #' @export
-save_tmap <- function(tm, filename=shp_name(tm), width=par("din")[1], height=par("din")[2], units = c("in", "cm", "mm"),
+save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c("in", "cm", "mm"),
 					  dpi=300, outer.margins=0, asp=0, scale=NA, ...) {
+	if (is.na(width) && is.na(height)) {
+		width <- par("din")[1]
+		height <- par("din")[2]
+	} else {
+		if (is.na(width) || is.na(height)) {
+			tmp <- tempfile()
+			png(tmp, width=800, height=800)
+			sasp <- print(tm, return.asp = TRUE)
+			dev.off()
+			
+			if (is.na(width)) {
+				width <- height * sasp
+			} else if (is.na(height)) {
+				height <- width / sasp
+			}
+		}
+	}
+
+	
 	eps <- ps <- function(..., width, height) grDevices::postscript(..., 
 																	width = width, height = height, onefile = FALSE, horizontal = FALSE, 
 																	paper = "special")
