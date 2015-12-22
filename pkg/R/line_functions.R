@@ -33,10 +33,10 @@ double_line <- function(shp, width, sides="both") {
 	shp2s <- split(shp2, f=factor(get_IDs(shp2)))
 	
 	
-	shp3 <- gBuffer(shp2, width=width, capStyle="SQUARE", byid=TRUE)
+	shp3 <- suppressWarnings(gBuffer(shp2, width=width, capStyle="SQUARE", byid=TRUE))
 	shp4 <- as(shp3, "SpatialLines")
 	
-	shp5 <- gBuffer(shp2,width= width+margin,capStyle="FLAT", byid=TRUE)
+	shp5 <- suppressWarnings(gBuffer(shp2,width= width+margin,capStyle="FLAT", byid=TRUE))
 	
 	shp4s <- split(shp4, f=factor(get_IDs(shp4)))
 	shp5s <- split(shp5, f=factor(get_IDs(shp5)))

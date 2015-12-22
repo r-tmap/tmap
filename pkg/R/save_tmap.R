@@ -28,17 +28,25 @@
 #' }
 #' @export
 save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c("in", "cm", "mm"),
-					  dpi=300, outer.margins=0, asp=0, scale=NA, ...) {
+					  dpi=300, outer.margins=0, asp=0, scale=NA, frame=NA, ...) {
+	get_ext <- function(filename) {
+		pieces <- strsplit(filename, "\\.")[[1]]
+		if (length(pieces)==1) stop("Please define extension in the filename.")
+		tolower(pieces[length(pieces)])
+	}
+	
+	
+	if (missing(filename)) {
+		ext <- "png"
+		filename <- paste(filename, ext, sep=".")
+	} else ext <- get_ext(filename)
+	
 	if (is.na(width) && is.na(height)) {
 		width <- par("din")[1]
 		height <- par("din")[2]
 	} else {
 		if (is.na(width) || is.na(height)) {
-			tmp <- tempfile()
-			png(tmp, width=800, height=800)
-			sasp <- print(tm, return.asp = TRUE)
-			dev.off()
-			
+			sasp <- get_asp_ratio(tm)
 			if (is.na(width)) {
 				width <- height * sasp
 			} else if (is.na(height)) {
@@ -71,30 +79,25 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 	shp_name <- function(tm) {
 		paste(tm[[1]]$shp_name, ".pdf", sep = "")
 	}
-	default_device <- function(filename) {
-		pieces <- strsplit(filename, "\\.")[[1]]
-		if (length(pieces)==1) stop("Please define extension in the filename.")
-		ext <- tolower(pieces[length(pieces)])
-		match.fun(ext)
-	}
+	
 	units <- match.arg(units)
 	convert_to_inches <- function(x, units) {
 		x <- switch(units, `in` = x, cm = x/2.54, mm = x/2.54/10)
 	}
 	convert_from_inches <- function(x, units) {
-		x <- switch(units, `in` = x, cm = x * 2.54, mm = x * 
-						2.54 * 10)
+		x <- switch(units, `in` = x, cm = x * 2.54, mm = x * 2.54 * 10)
 	}
-	if (!missing(width)) {
-		width <- convert_to_inches(width, units)
+
+	width <- convert_to_inches(width, units)
+	height <- convert_to_inches(height, units)
+
+	if (ext=="pdf") {
+		round_to_1_72 <- function(x) x %/% (1/72) / 72
+		width <- round_to_1_72(width)
+		height <- round_to_1_72(height)
 	}
-	if (!missing(height)) {
-		height <- convert_to_inches(height, units)
-	}
-	if (missing(width) || missing(height)) {
-		message("Saving ", prettyNum(convert_from_inches(width, units), digits = 3), " x ", prettyNum(convert_from_inches(height, units), digits = 3), " ", units, " image")
-	}
-	device <- default_device(filename)
+	
+	device <- match.fun(ext)
 	
 	device(file = filename, width = width, height = height, ...)
 	on.exit(capture.output(dev.off()))

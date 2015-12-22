@@ -4,10 +4,10 @@
 \alias{get_asp_ratio}
 \title{Get aspect ratio}
 \usage{
-get_asp_ratio(shp)
+get_asp_ratio(x)
 }
 \arguments{
-\item{shp}{shape object, either \code{\link[sp:Spatial]{Spatial}} or a \code{\link[raster:Raster-class]{Raster}}.}
+\item{x}{shape object (either \code{\link[sp:Spatial]{Spatial}} or a \code{\link[raster:Raster-class]{Raster}}) or a tmap object.}
 }
 \value{
 aspect ratio
