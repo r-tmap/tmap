@@ -2,11 +2,8 @@
 #' @param offset offset from the original lines
 #' @export
 offset_line <- function(shp, offset) {
-	if (offset<0) {
-		double_line(shp, width=-offset*2, sides="left")
-	} else {
-		double_line(shp, width=offset*2, sides="right")
-	}
+	isLeft <- offset<0
+	double_line(shp, width=abs(offset*2), sides=ifelse(isLeft, "left", "right"))
 }
 	
 
@@ -23,27 +20,36 @@ offset_line <- function(shp, offset) {
 #' @import sp
 #' @importFrom rgeos gBuffer gIntersection
 double_line <- function(shp, width, sides="both") {
-	margin=width/100
+	ns <- length(shp)
 	hasData <- ("data" %in% slotNames(shp))
 		
+	# determine feature ids per line segment
 	linesCount <- sapply(shp@lines, length)
-	IDs <- mapply(rep, 1:length(shp), linesCount)
+	IDs <- mapply(rep, 1:ns, linesCount)
+
+	# process width and sides arguments
+	ws <- rep(width, length.out=ns)
+	ws2 <- ws[IDs]
+	margin=max(ws)/100
+	ss <- rep(sides, length.out=ns)
 	
+	# let each line segment be seperate SL(DF)
 	shp2 <- disaggregate(shp)
 	shp2s <- split(shp2, f=factor(get_IDs(shp2)))
-	
-	
-	shp3 <- suppressWarnings(gBuffer(shp2, width=width, capStyle="SQUARE", byid=TRUE))
-	shp4 <- as(shp3, "SpatialLines")
-	
-	shp5 <- suppressWarnings(gBuffer(shp2,width= width+margin,capStyle="FLAT", byid=TRUE))
-	
-	shp4s <- split(shp4, f=factor(get_IDs(shp4)))
-	shp5s <- split(shp5, f=factor(get_IDs(shp5)))
-	
-	shp6s <- mapply(gIntersection, shp4s, shp5s)
-	
-	shp7s <- mapply(FUN =  function(s2, s6) {
+
+	# Per line segment, determine left- and right-handside part
+	shp7s <- mapply(FUN =  function(s2, w) {
+		if (w==0) {
+			return(list(L=s2, R=s2))
+		}
+		
+		s3 <- suppressWarnings(gBuffer(s2, width=w, capStyle="SQUARE"))
+		s4 <- as(s3, "SpatialLines")
+		
+		s5 <- suppressWarnings(gBuffer(s2,width= w+margin,capStyle="FLAT"))
+		
+		s6 <- gIntersection(s4, s5)
+		
 		s6s <- disaggregate(s6)
 		
 		co2 <- s2@lines[[1]]@Lines[[1]]@coords
@@ -84,56 +90,43 @@ double_line <- function(shp, width, sides="both") {
 		}
 		
 		list(L=sldfL, R=sldfR)
-	}, shp2s, shp6s, SIMPLIFY = FALSE)
+	}, shp2s, ws2, SIMPLIFY = FALSE)
 	
-	
+	# get non-NULL argument selection
 	selL <- !sapply(shp7s, function(s) is.null(s[["L"]]))
 	selR <- !sapply(shp7s, function(s) is.null(s[["R"]]))
 	
+	# stack them
 	shpL <- do.call("sbind", lapply(shp7s, "[[", "L"))
 	shpR <- do.call("sbind", lapply(shp7s, "[[", "R"))
 	
-	llL <- lapply(1:length(shp), function(id) {
-		if (!any(IDs[selL]==id)) return(NULL)
-		Lines(do.call("c", lapply(shpL@lines[IDs[selL]==id], function(l) l@Lines)),ID = id)
-	})
-	selL2 <- !sapply(llL, is.null)
-	shpL2 <- SpatialLines(llL[selL2], proj4string = shp@proj4string)
-	shpL3 <- if (hasData) {
-		SpatialLinesDataFrame(shpL2, data=shp@data[selL2,], match.ID = FALSE)
-	} else shpL2
 	
-	llR <- lapply(1:length(shp), function(id) {
-		if (!any(IDs[selR]==id)) return(NULL)
-		Lines(do.call("c", lapply(shpR@lines[IDs[selR]==id], function(l) l@Lines)),ID = id)
-	})
-	selR2 <- !sapply(llR, is.null)
-	shpR2 <- SpatialLines(llR[selR2], proj4string = shp@proj4string)
-	shpR3 <- if (hasData) {
-		SpatialLinesDataFrame(shpR2, data=shp@data[selR2,], match.ID = FALSE)
-	} else shpR2
+	Lns <- mapply(function(id, s) {
+		L <- if (s %in% c("left", "both")) {
+			if (!any(IDs[selL]==id)) {
+				NULL
+			} else lapply(shpL@lines[IDs[selL]==id], function(l) l@Lines)
+		} else NULL
+		R <- if (s %in% c("right", "both")) {
+			if (!any(IDs[selR]==id)) {
+				NULL
+			} else lapply(shpR@lines[IDs[selR]==id], function(l) l@Lines)
+		} else NULL
+		
+		if (is.null(L) && is.null(R)) {
+			NULL
+		} else Lines(do.call("c", c(L, R)),ID = id)	
+	}, 1:ns, ss, SIMPLIFY=FALSE)
 	
-	selB <- selL | selR
-	shpB <- sbind(shpL3, shpR3)
-	IDb <- c(which(selL2), which(selR2))
+	Lns_sel <- !sapply(Lns, is.null)
 	
-	llB <- lapply(1:length(shp), function(id) {
-		if (!any(IDb==id)) return(NULL)
-		Lines(do.call("c", lapply(shpB@lines[IDb==id], function(l) l@Lines)),ID = id)
-	})
-	selB2 <- !sapply(llB, is.null)
-	shpB2 <- SpatialLines(llB[selB2], proj4string = shp@proj4string)
-	shpB3 <- if(hasData) {
-		SpatialLinesDataFrame(shpB2, data=shp@data[selB2,], match.ID = FALSE)	
-	} else shpB2
+	if (!any(Lns_sel)) stop("Unable to create offset lines")
 	
-	if (sides=="left") {
-		shpL3
-	} else if (sides=="right") {
-		shpR3
-	} else {
-		shpB3
-	}
+	shp8 <- SpatialLines(Lns[Lns_sel], proj4string = shp@proj4string)
+	shp9 <- if (hasData) {
+		SpatialLinesDataFrame(shp8, data=shp@data[Lns_sel,], match.ID = FALSE)
+	} else shp8
+	
 }
 
 
