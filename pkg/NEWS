@@ -1,3 +1,7 @@
+version 1.3 (development)
+- added double_line and offset_line
+- added insets option in save_tmap
+
 version 1.2-1
 - fixed bug with PROJ.4 version < 4.9.1
 - improved error messages

@@ -28,7 +28,7 @@
 #' }
 #' @export
 save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c("in", "cm", "mm"),
-					  dpi=300, outer.margins=0, asp=0, scale=NA, frame=NA, ...) {
+					  dpi=300, outer.margins=0, asp=0, scale=NA, frame=NA, insets_tm=NULL, insets_vp=NULL, ...) {
 	get_ext <- function(filename) {
 		pieces <- strsplit(filename, "\\.")[[1]]
 		if (length(pieces)==1) stop("Please define extension in the filename.")
@@ -104,5 +104,20 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 	args <- list(outer.margins=outer.margins, asp=asp)
 	if (!is.na(scale)) args$scale <- scale
 	print(tm + do.call("tm_layout", args))
+	
+	if (!missing(insets_tm) && !missing(insets_vp)) {
+	  args_inset <- if (!is.na(scale)) list(scale = scale) else list()
+	  if (class(insets_tm)=="list" && class(insets_vp)=="list") {
+	    if (length(insets_tm) != length(insets_vp)) stop("Number of insets unequal to number of viewports")
+	    mapply(function(tm_i, vp_i) {
+	      print(tm_i + do.call("tm_layout", args_inset), vp=vp_i)
+	    }, insets_tm, insets_vp)
+	  } else if (inherits(insets_tm, "tmap") && inherits(insets_vp, "viewport")) {
+	    print(insets_tm + do.call("tm_layout", args_inset), insets_vp)
+	  } else {
+	    stop("Insets and/or its viewports not in the correct format")
+	  }
+	}
+	
 	invisible()
 }
