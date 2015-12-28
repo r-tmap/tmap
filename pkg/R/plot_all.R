@@ -148,7 +148,19 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
 			treeMetaVP <- NULL
 		}
-		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY)
+		if (!is.na(gt$frame)) {
+			if (gt$frame.double.line) {
+				frameX <- 4.5 * pW
+				frameY <- 4.5 * pH
+			} else {
+				frameX <- pW/2
+				frameY <- pH/2
+			}
+		} else {
+			frameX <- 0
+			frameY <- 0
+		}
+		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY, frameX, frameY)
 		treeMetaX <- gTree(children=gList(grobLegendBG, treeMeta), name="meta_with_bg", 
 						   vp = treeMetaVP)
 		

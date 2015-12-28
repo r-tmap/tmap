@@ -1,6 +1,8 @@
 version 1.3 (development)
 - added double_line and offset_line
 - added insets option in save_tmap
+- legend position snaps to righthand-side without need to adjust legend.width
+- improved legend and attributes position when double frame is enabled
 
 version 1.2-1
 - fixed bug with PROJ.4 version < 4.9.1

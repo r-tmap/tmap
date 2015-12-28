@@ -117,7 +117,7 @@ tm_layout <- function(title=NA,
 					  legend.show = TRUE,
 					  legend.only = FALSE,
 					  legend.position = NULL,
-					  legend.width = 0.3,
+					  legend.width = 0.4,
 					  legend.height = 0.9,
 					  legend.hist.height = 0.3,
 					  legend.hist.width = legend.width,
@@ -178,7 +178,6 @@ tm_format_World_wide <- function(title=NA,
 								 inner.margins=c(0, 0.2, 0.025, 0.01),
 							legend.position=c("left", "bottom"), 
 							attr.position=c("right", "bottom"),
-							legend.width=0.4,
 							scale=.8,
 							...) {
 	args <- c(as.list(environment()), list(...))
@@ -205,8 +204,6 @@ tm_format_Europe_wide <- function(title=NA,
 							 legend.position=c("left", "top"), 
 							 attr.position=c("left", "bottom"),
 							 inner.margins=c(0, 0.25, 0, 0),
-							 legend.width=0.4,
-							 legend.hist.width=0.4,
 							 ...) {
 	args <- c(as.list(environment()), list(...))
 	do.call("tm_layout", args)
@@ -220,7 +217,6 @@ tm_format_NLD <- function(title=NA,
 						  frame=FALSE, 
 						  inner.margins=c(.02, .2, .06, .02),
 						  legend.position=c("left", "top"), 
-						  legend.width=0.4,
 						  attr.position=c("left", "bottom"),
 						  ...) {
 	args <- c(as.list(environment()), list(...))
@@ -233,8 +229,6 @@ tm_format_NLD_wide <- function(title=NA,
 						  frame=FALSE, 
 						  inner.margins=c(.02, .3, .06, .02),
 						  legend.position=c("left", "top"), 
-						  legend.width=0.5,
-						  legend.hist.width=0.35,
 						  attr.position=c("left", "bottom"),
 						  ...) {
 	args <- c(as.list(environment()), list(...))
