@@ -218,6 +218,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			elemleg <- all(tolower(elpos)==tolower(gt$legend.position)) && has.legend
 			elemtitle <- all(tolower(elpos)==tolower(gt$title.position)) && gt$title!="" && !snap
 			if (elemleg) {
+				elemSnapToRight <- legSnapToRight
 				elem.position <- c(switch(elpos[1], 
 										  left=frameX+metaX+mx+legendWidth+ifelse(gt$legend.position[1]=="left", mx, 0),
 										  center=.5 + mx + legendWidth/2,
@@ -237,6 +238,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				if (any(is.na(elem.position))) stop("Wrong position argument for attributes", call. = FALSE)
 				elem.max.width <- 1 - mx - legendWidth - metaX - ifelse(gt$legend.position[1] %in% c("left", "right"), mx, 0) - ifelse(elpos[1] %in% c("left", "right"), mx, 0) - 2*frameX
 			} else if (elemtitle) {
+				elemSnapToRight <- FALSE
 				elem.position <- c(switch(elpos[1], 
 										  left=mx+metaX+frameX,
 										  center=.5,
@@ -256,6 +258,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				if (any(is.na(elem.position))) stop("Wrong position argument for attributes", call. = FALSE)
 				elem.max.width <- 1 - (if (has.legend && tolower(elpos[2])==tolower(gt$legend.position[2])) 2*mx + legendWidth else mx) - ifelse(elpos[1] %in% c("left", "right"), mx, 0) - metaX - 2 * frameX
 			} else {
+				elemSnapToRight <- FALSE
 				elem.position <- c(switch(elpos[1], 
 										  left=mx+metaX+frameX,
 										  center=.5,
@@ -284,7 +287,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			
 			el$x <- elem.position[1] - if (elem.just=="left") 0 else el$width2
 			
-			lapply(1:nrow(el), function(i) {
+			structure(lapply(1:nrow(el), function(i) {
 				e <- el[i,]
 				vpi <- viewport(x=e$x, 
 								y=e$y,
@@ -302,13 +305,15 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				grt <- gTree(children=gList(grb), vp=vpi)
 				upViewport()
 				grt
-			})
+			}), snap=rep(elemSnapToRight, nrow(el)))
 		})
+		elemSnapToRight <- unlist(lapply(elemGrobs, attr, "snap"))
 		elemGrobs <- do.call("c", elemGrobs)
 		
 		
 		treeElem <- gTree(children=do.call("gList", elemGrobs))
 	} else {
+	  elemSnapToRight <- FALSE
 		treeElem <- NULL
 	}
 	
@@ -357,8 +362,18 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		upViewport(2 + gt$legend.inside.box)
 		
 		if (legSnapToRight) {
+		  
 			legWidthNpc <- convertWidth(unit(legWidthInch, "inch"), "npc", valueOnly = TRUE)
-			vpLegend$x <- unit(legend.position[1] + (legendWidth-legWidthNpc), "npc")
+			shiftX <- (legendWidth-legWidthNpc)
+			vpLegend$x <- unit(legend.position[1] + shiftX, "npc")
+			# vpLegend$width <- unit(legWidthNpc, "npc") #not working, since legend items are drawn with npc instead of inch
+			
+			if (any(elemSnapToRight)) {
+			  for (i in which(elemSnapToRight)) {
+			    treeElem$children[[i]]$vp$x <- treeElem$children[[i]]$vp$x + unit(shiftX, "npc")
+			  }
+			}
+			
 		}
 		
 		gTree(children=gList(grobLegBG, gTree(children=do.call("gList", grobList), vp=vpLeg)), vp=vpLegend, name="legend")

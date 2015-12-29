@@ -129,7 +129,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 
 	if (!is.null(gc)) {
 		gc <- within(gc, {
-			if (is.na(credits.col)) credits.col <- gt$attr.color
+		  credits.col[is.na(credits.col)] <- gt$attr.color
 			credits.col <- do.call("process_color", c(list(col=credits.col), gt$pc))
 			credits.size <- credits.size * gt$scale
 			credits.fontface[is.na(credits.fontface)] <-gt$fontface
