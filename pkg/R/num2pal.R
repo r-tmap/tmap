@@ -69,16 +69,6 @@ num2pal <- function(x, n = 5,
 		mc <- brewer.pal.info[palette, "maxcolors"]
 		pal.div <- (brewer.pal.info[palette, "category"]=="div")
 	} else {
-# 		k <- length(palette)
-# 		m <- floor((k-1)/2)
-# 		
-# 		colpal_light <- get_light(palette)
-# 		
-# 		
-# 		s <- sign(colpal_light[-1] - colpal_light[-k])
-# 		
-# 		pal.div <- ((all(s[1:m]==1) && all(s[(k-m+1):k]==-1)) ||
-# 						(all(s[1:m]==-1) && all(s[(k-m+1):k]==1)))
 		palette.type <- palette_type(palette)
 		
 		if (auto.palette.mapping && palette.type=="cat") {
@@ -95,14 +85,16 @@ num2pal <- function(x, n = 5,
 	
 	if (auto.palette.mapping) {
 		if (is.brewer) {
-			colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)))(101)
+			colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="Lab")(101)
 		} else {
-			colpal <- colorRampPalette(revPal(palette))(101)
+			colpal <- colorRampPalette(revPal(palette), space="Lab")(101)
 		}
 		
 		ids <- if (pal.div) {
+			if (is.na(contrast[1])) contrast <- default_contrast_div(n)
 			map2divscaleID(breaks, n=101, contrast=contrast)
 		} else {
+			if (is.na(contrast[1])) contrast <- default_contrast_seq(n)
 			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified)
 		}
 		
@@ -117,10 +109,10 @@ num2pal <- function(x, n = 5,
 	} else {
 		if (is.brewer) {
 			if (nbrks-1 > mc) {
-				legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)))(nbrks-1)
+				legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="Lab")(nbrks-1)
 			} else legend.palette <- revPal(brewer.pal(nbrks-1, palette))
 		} else {
-			legend.palette <- colorRampPalette(revPal(palette))(nbrks-1) #rep(palette, length.out=nbrks-1)
+			legend.palette <- colorRampPalette(revPal(palette), space="Lab")(nbrks-1) #rep(palette, length.out=nbrks-1)
 		}
 		neutralID <- if (pal.div) round(((length(legend.palette)-1)/2)+1) else 1
 		legend.neutral.col <- legend.palette[neutralID]

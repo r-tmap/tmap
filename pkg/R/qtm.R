@@ -72,7 +72,8 @@ qtm <- function(shp,
 			if (!"overwrite.lines" %in% called && isolines) args$overwrite.lines <- TRUE
 		}
 		if (inherits(shp, "SpatialPoints") && !inherits(shp, "SpatialPixels")) {
-			if (missing(bubble.size)) bubble.size <- .2
+		  dots_instead_of_bubbles <- missing(bubble.size)
+			if (dots_instead_of_bubbles) bubble.size <- .02
 			if (missing(bubble.col)) bubble.col <- NA
 		}
 	}
@@ -109,6 +110,7 @@ qtm <- function(shp,
 		bubbleLst <- c(if (!missing(bubble.size)) list(size=bubble.size) else list(),
 					   if (!missing(bubble.col)) list(col=bubble.col) else list())
 		g <- g + do.call("tm_bubbles", c(bubbleLst, args2[["tm_bubbles"]]))	
+		if (dots_instead_of_bubbles) g$tm_bubbles$are.dots <- TRUE
 	} 
 	
 	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, size=text.size, col=text.col), args2[["tm_text"]]))

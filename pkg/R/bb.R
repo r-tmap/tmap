@@ -146,10 +146,10 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		iter <- 1
 		while(errorFound) {
 			sp_poly <- as(extent(b), "SpatialPolygons")
-			world_end <- end_of_the_world(proj=current.projection)
 			
 			sp_poly2 <- tryCatch({
-				gIntersection(sp_poly, world_end)
+			  world_end <- end_of_the_world(proj=current.projection)
+			  gIntersection(sp_poly, world_end)
 			}, error=function(e){
 				sp_poly
 			})
@@ -173,7 +173,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 				assign("errorFound", TRUE, envir = parent.env(environment()))
 				NULL
 			})
-			cat("test\n")
+			#cat("test\n")
 			if (iter==100) stop("Something went wrong with the bounding box. Please check the projection.") else iter <- iter + 1
 		}
 		})

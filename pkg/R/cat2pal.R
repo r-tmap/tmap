@@ -33,18 +33,7 @@ cat2pal <- function(x,
 
 	n <- nlevels(x)
 	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
-		brewerpal <- brewer.pal(min(brewer.pal.info[palette, "maxcolors"], max(n, 3)), name=palette)
-		if (brewer.pal.info[palette, "category"]=="qual") {
-			p <- rep(brewerpal, length.out=nlevels(x))
-		} else {
-			if (length(contrast)==1) contrast <- c(0, contrast)
-			crange <- contrast[2] - contrast[1]
-			ext <- nlevels(x)/crange
-			from <- floor(contrast[1] * ext)
-			to <- from + nlevels(x)
-			p <- colorRampPalette(brewerpal)(ext)[from:to]
-		}
-		revPal(p)
+		revPal(get_brewer_pal(palette, n, contrast))
 	} else {
         rep(palette, length.out=nlevels(x))
 	}

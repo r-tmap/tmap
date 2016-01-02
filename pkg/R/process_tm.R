@@ -57,7 +57,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	gg <- x[[gridid]]
 	
 	## get credits, scale_bar and compass element
-	sc_compIDs <- match(c("tm_scale", "tm_compass"), names(x))
+	sc_compIDs <- match(c("tm_scale_bar", "tm_compass"), names(x))
 	gsb <- x[[sc_compIDs[1]]]
 	gcomp <- x[[sc_compIDs[2]]]
 	if (!is.null(gsb)) gsb$scale.id <- sc_compIDs[1]
@@ -112,7 +112,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 			if (length(fillBorderID) >= 2) {
 				belowGridLayers <- belowGridLayers[-fillBorderID[-1]]
 			}
-			sum(!(belowGridLayers %in% c("tm_layout", "tm_style", "tm_facets", "tm_credits", "tm_scale_bar"))) + 1
+			sum(!(belowGridLayers %in% c("tm_layout", "tm_style", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar"))) + 1
 		}
 	} else {
 		gridGrp <- 0
@@ -120,7 +120,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	
 
 	## split x into gmeta and gbody
-	x <- x[!(xnames %in% c("tm_layout", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_scale_bar"))]
+	x <- x[!(xnames %in% c("tm_layout", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar"))]
 
 	n <- length(x)
 	

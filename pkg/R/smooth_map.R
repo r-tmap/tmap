@@ -250,7 +250,7 @@ contour_lines_to_SLDF <- function (cL, proj4string = CRS(as.character(NA)))
 
 
 buffer_width <- function(bbx) {
-	prod(bbx[,2] - bbx[,1]) / 1e12
+	prod(bbx[,2] - bbx[,1]) / 1e10
 }
 
 

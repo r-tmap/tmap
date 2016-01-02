@@ -128,8 +128,8 @@ tm_scale_bar <- function(breaks=NULL,
 						 color.dark="black", 
 						 color.light="white",
 						 position=NA) {
-	g <- list(tm_scale=as.list(environment()))
-	names(g$tm_scale) <- paste("scale", names(g$tm_scale), sep=".")
+	g <- list(tm_scale_bar=as.list(environment()))
+	names(g$tm_scale_bar) <- paste("scale", names(g$tm_scale_bar), sep=".")
 	class(g) <- "tmap"
 	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
 	g
