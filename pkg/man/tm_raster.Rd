@@ -6,7 +6,7 @@
 \usage{
 tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
-  labels = NULL, auto.palette.mapping = TRUE, contrast = 1,
+  labels = NULL, auto.palette.mapping = TRUE, contrast = NA,
   max.categories = 12, colorNA = NA, saturation = 1, textNA = "Missing",
   title = NA, legend.show = TRUE, legend.format = list(),
   legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,

@@ -33,24 +33,12 @@ map_coloring <- function(x, algorithm="greedy", ncols=NA, minimize=FALSE, palett
 			palette <- substr(palette, 2, nchar(palette))
 		} else revPal <- function(p)p
 		
-		palette2 <- if (palette[1] %in% rownames(brewer.pal.info)) {
-			maxp <- brewer.pal.info[palette, "maxcolors"]
-			if (is.na(ncols)) ncols <- maxp
-			brewerpal <- brewer.pal(maxp, name=palette)
-			if (brewer.pal.info[palette, "category"]=="qual") {
-				p <- rep(brewerpal, length.out=ncols)
-			} else {
-				if (length(contrast)==1) contrast <- c(0, contrast)
-				crange <- contrast[2] - contrast[1]
-				ext <- ncols/crange
-				from <- floor(contrast[1] * ext)
-				to <- from + ncols
-				p <- colorRampPalette(brewerpal)(ext)[from:to]
-			}
-			revPal(p)
+		if (palette[1] %in% rownames(brewer.pal.info)) {
+			if (is.na(ncols)) ncols <- brewer.pal.info[palette, "maxcolors"]
+			palette2 <- revPal(get_brewer_pal(palette, ncols, contrast))
 		} else {
 			if (is.na(ncols)) ncols <- length(palette)
-			rep(palette, length.out=ncols)
+			palette2 <- rep(palette, length.out=ncols)
 		}
 	} else if (is.na(ncols)) ncols <- 8
 	

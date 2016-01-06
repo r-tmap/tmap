@@ -6,7 +6,7 @@
 \usage{
 save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
   units = c("in", "cm", "mm"), dpi = 300, outer.margins = 0, asp = 0,
-  scale = NA, ...)
+  scale = NA, frame = NA, insets_tm = NULL, insets_vp = NULL, ...)
 }
 \arguments{
 \item{tm}{tmap object}

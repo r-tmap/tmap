@@ -20,7 +20,6 @@ Imports:
     sp,
     raster (>= 2.4-30),
     grid,
-    gridBase,
     gridSVG,
     rgdal,
     rgeos,

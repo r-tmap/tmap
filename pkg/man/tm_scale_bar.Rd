@@ -5,7 +5,7 @@
 \title{Scale bar}
 \usage{
 tm_scale_bar(breaks = NULL, width = 0.25, size = 0.5, text.color = NA,
-  color.dark = "black", color.light = "white", position = NA)
+  color.dark = "black", color.light = "white", lwd = 1, position = NA)
 }
 \arguments{
 \item{breaks}{breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar.}

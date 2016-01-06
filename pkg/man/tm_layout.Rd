@@ -32,7 +32,7 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   earth.boundary = FALSE, earth.boundary.color = attr.color,
   earth.boundary.lwd = 1, earth.datum = "WGS84", space.color = NULL,
   legend.show = TRUE, legend.only = FALSE, legend.position = NULL,
-  legend.width = 0.3, legend.height = 0.9, legend.hist.height = 0.3,
+  legend.width = 0.4, legend.height = 0.9, legend.hist.height = 0.3,
   legend.hist.width = legend.width, legend.title.size = 1.1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.format = list(scientific = FALSE, digits = NA, text.separator = "to",
@@ -52,7 +52,7 @@ tm_format_World(title = NA, inner.margins = c(0, 0.05, 0.025, 0.01),
 
 tm_format_World_wide(title = NA, inner.margins = c(0, 0.2, 0.025, 0.01),
   legend.position = c("left", "bottom"), attr.position = c("right",
-  "bottom"), legend.width = 0.4, scale = 0.8, ...)
+  "bottom"), scale = 0.8, ...)
 
 tm_format_Europe(title = NA, title.position = c("left", "top"),
   legend.position = c("left", "top"), attr.position = c("left", "bottom"),
@@ -60,16 +60,15 @@ tm_format_Europe(title = NA, title.position = c("left", "top"),
 
 tm_format_Europe_wide(title = NA, title.position = c("left", "top"),
   legend.position = c("left", "top"), attr.position = c("left", "bottom"),
-  inner.margins = c(0, 0.25, 0, 0), legend.width = 0.4,
-  legend.hist.width = 0.4, ...)
+  inner.margins = c(0, 0.25, 0, 0), ...)
 
 tm_format_NLD(title = NA, frame = FALSE, inner.margins = c(0.02, 0.2,
-  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.4,
-  attr.position = c("left", "bottom"), ...)
+  0.06, 0.02), legend.position = c("left", "top"), attr.position = c("left",
+  "bottom"), ...)
 
 tm_format_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
-  0.06, 0.02), legend.position = c("left", "top"), legend.width = 0.5,
-  legend.hist.width = 0.35, attr.position = c("left", "bottom"), ...)
+  0.06, 0.02), legend.position = c("left", "top"), attr.position = c("left",
+  "bottom"), ...)
 
 tm_style_white(...)
 

@@ -12,7 +12,6 @@
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @import grid
-#' @import gridBase
 #' @importFrom classInt classIntervals findCols
 #' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb

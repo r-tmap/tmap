@@ -29,7 +29,7 @@ process_col_vector <- function(x, sel, g, gt) {
 		
 			
 			
-		neutralID <- if (palette.type=="div") round(((length(legend.palette)-1)/2)+1) else 1
+		neutralID <- if (palette.type=="div") round(((length(colsLeg$legend.palette)-1)/2)+1) else 1
 		col.neutral <- colsLeg$legend.palette[1]
 		
 	} else {

@@ -6,7 +6,8 @@
 \usage{
 tm_compass(north = 0, type = NA, fontsize = 0.8, size = NA,
   show.labels = 1, cardinal.directions = c("N", "E", "S", "W"),
-  text.color = NA, color.dark = NA, color.light = NA, position = NA)
+  text.color = NA, color.dark = NA, color.light = NA, lwd = 1,
+  position = NA)
 }
 \arguments{
 \item{north}{north direction in degrees: 0 means up, 90 right, etc.}
