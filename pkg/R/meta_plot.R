@@ -802,7 +802,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	
 	gTree(children=gList(
 		grobBG,
-		rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark))),
+		rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=gt$scale.lwd)),
 		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(col=gt$attr.color, cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))), name="scale_bar")
 	
 	
@@ -884,7 +884,7 @@ plot_compass <- function(gt, just) {
 		fill <- c(dark, light)
 	} else if (gt$compass.type=="radar") {
 		cr <- c(.45, .42, .2, .17, .1)
-		LWD <- round(convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE))
+		LWD <- round(convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE)) * gt$compass.lwd
 		
 		cd <- seq(1/8, 15/8, by=.25) * pi
 		cd2 <- seq(1/4, 7/4, by=.5) * pi
@@ -904,7 +904,7 @@ plot_compass <- function(gt, just) {
 
 	} else if (gt$compass.type=="rose") {
 		cr <- c(.45, .42, .2, .17, .1)
-		LWD <- convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE)
+		LWD <- convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE) * gt$compass.lwd
 		cd <- seq(1/8, 15/8, by=.25) * pi
 		cd2 <- seq(1/4, 7/4, by=.5) * pi
 		cd3 <- seq(0, 1.75, by=.25) * pi
@@ -989,7 +989,7 @@ plot_compass <- function(gt, just) {
 	}
 
 	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {
-		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill))
+		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill, lwd=gt$compass.lwd))
 	} else if (gt$compass.type=="radar") {
 		gTree(children = gList(
 			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),

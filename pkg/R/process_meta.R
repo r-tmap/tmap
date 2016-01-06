@@ -143,6 +143,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 	if (!is.null(gsb)) {
 		gsb <- within(gsb, {
 			scale.size <- scale.size * gt$scale
+			scale.lwd <- scale.lwd * gt$scale
 			scale.show <- TRUE
 		})
 	} else {
@@ -161,6 +162,8 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 			compass.color.light <- do.call("process_color", c(list(col=compass.color.light), gt$pc))
 			
 			compass.fontsize <- compass.fontsize * gt$scale
+			compass.lwd <- compass.lwd * gt$scale
+			
 			compass.show <- TRUE
 			if (is.na(compass.type)) compass.type <- gt$compass.type
 			if (is.na(compass.size)) compass.size <- switch(compass.type, arrow=2, radar=6, rose=6, 4)
