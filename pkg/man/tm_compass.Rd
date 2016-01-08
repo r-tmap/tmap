@@ -28,6 +28,8 @@ tm_compass(north = 0, type = NA, fontsize = 0.8, size = NA,
 
 \item{color.light}{color of the light parts of the compass, typically (and by default) white.}
 
+\item{lwd}{line width of the compass}
+
 \item{position}{position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.}
 }
 \description{

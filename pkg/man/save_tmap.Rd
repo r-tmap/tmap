@@ -6,7 +6,7 @@
 \usage{
 save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
   units = c("in", "cm", "mm"), dpi = 300, outer.margins = 0, asp = 0,
-  scale = NA, frame = NA, insets_tm = NULL, insets_vp = NULL, ...)
+  scale = NA, insets_tm = NULL, insets_vp = NULL, ...)
 }
 \arguments{
 \item{tm}{tmap object}
@@ -26,6 +26,10 @@ save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
 \item{asp}{overrides the asp argument of \code{\link{tm_layout}} (unless set to \code{NA})}
 
 \item{scale}{overrides the scale argument of \code{\link{tm_layout}} (unless set to \code{NA})}
+
+\item{insets_tm}{tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with \code{insets_vp}.}
+
+\item{insets_vp}{\code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.}
 
 \item{...}{arguments passed on to device functions}
 }

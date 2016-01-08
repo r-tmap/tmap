@@ -11,6 +11,8 @@
 #' @param outer.margins overrides the outer.margins argument of \code{\link{tm_layout}} (unless set to \code{NA})
 #' @param asp overrides the asp argument of \code{\link{tm_layout}} (unless set to \code{NA})
 #' @param scale overrides the scale argument of \code{\link{tm_layout}} (unless set to \code{NA})
+#' @param insets_tm tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with \code{insets_vp}.
+#' @param insets_vp \code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.
 #' @param ... arguments passed on to device functions
 #' @examples 
 #' \dontrun{
@@ -28,7 +30,7 @@
 #' }
 #' @export
 save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c("in", "cm", "mm"),
-					  dpi=300, outer.margins=0, asp=0, scale=NA, frame=NA, insets_tm=NULL, insets_vp=NULL, ...) {
+					  dpi=300, outer.margins=0, asp=0, scale=NA, insets_tm=NULL, insets_vp=NULL, ...) {
 	get_ext <- function(filename) {
 		pieces <- strsplit(filename, "\\.")[[1]]
 		if (length(pieces)==1) stop("Please define extension in the filename.")

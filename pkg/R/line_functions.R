@@ -24,8 +24,8 @@ double_line <- function(shp, width, sides="both") {
 	hasData <- ("data" %in% slotNames(shp))
 		
 	# determine feature ids per line segment
-	linesCount <- sapply(shp@lines, length)
-	IDs <- mapply(rep, 1:ns, linesCount)
+	linesCount <- sapply(shp@lines, function(x)length(x@Lines))
+	IDs <- unlist(mapply(rep, 1:ns, linesCount))
 
 	# process width and sides arguments
 	ws <- rep(width, length.out=ns)
@@ -36,6 +36,7 @@ double_line <- function(shp, width, sides="both") {
 	# let each line segment be seperate SL(DF)
 	shp2 <- disaggregate(shp)
 	shp2s <- split(shp2, f=factor(get_IDs(shp2)))
+
 
 	# Per line segment, determine left- and right-handside part
 	shp7s <- mapply(FUN =  function(s2, w) {
@@ -105,12 +106,12 @@ double_line <- function(shp, width, sides="both") {
 		L <- if (s %in% c("left", "both")) {
 			if (!any(IDs[selL]==id)) {
 				NULL
-			} else lapply(shpL@lines[IDs[selL]==id], function(l) l@Lines)
+			} else lapply(shpL@lines[IDs[selL]==id], function(l) if (is.null(l)) NULL else l@Lines)
 		} else NULL
 		R <- if (s %in% c("right", "both")) {
 			if (!any(IDs[selR]==id)) {
 				NULL
-			} else lapply(shpR@lines[IDs[selR]==id], function(l) l@Lines)
+			} else lapply(shpR@lines[IDs[selR]==id], function(l) if (is.null(l)) NULL else l@Lines)
 		} else NULL
 		
 		if (is.null(L) && is.null(R)) {
