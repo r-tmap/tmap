@@ -99,9 +99,10 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 		height <- round_to_1_72(height)
 	}
 	
-	device <- match.fun(ext)
-	
-	device(file = filename, width = width, height = height, ...)
+	#device <- match.fun(ext)
+	#device(file = filename, width = width, height = height, ...)
+
+	do.call(ext, args = c(list(file = filename, width = width, height = height), list(...)))
 	on.exit(capture.output(dev.off()))
 	args <- list(outer.margins=outer.margins, asp=asp)
 	if (!is.na(scale)) args$scale <- scale
