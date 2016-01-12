@@ -190,7 +190,7 @@ NULL
 #' @usage data(land)
 #' @name land
 #' @docType data
-#' @references Tateishi, R., Thanh Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014), Journal of Geography and Geology, 6 (3).
+#' @references Production of Global Land Cover Data – GLCNMO2008, Tateishi, R., Thanh Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014), Journal of Geography and Geology, 6 (3).
 #' @source \url{http://www.iscgm.org/gm/glcnmo.html}
 NULL
 

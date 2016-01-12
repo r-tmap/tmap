@@ -91,10 +91,10 @@ num2pal <- function(x, n = 5,
 		}
 		
 		ids <- if (pal.div) {
-			if (is.na(contrast[1])) contrast <- default_contrast_div(n)
+			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_div(n) else c(0, 1)
 			map2divscaleID(breaks, n=101, contrast=contrast)
 		} else {
-			if (is.na(contrast[1])) contrast <- default_contrast_seq(n)
+			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_seq(n) else c(0, 1)
 			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified)
 		}
 		
