@@ -769,13 +769,13 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	} else {
 		ticks2 <- gt$scale.breaks
 	}
-	ticksWidths <- convertWidth(stringWidth(paste(ticks2, " ")), "npc", TRUE)
+	ticks2Labels <- format(ticks2, trim=TRUE)
+	ticksWidths <- convertWidth(stringWidth(paste(ticks2Labels, " ")), "npc", TRUE)
 
-	labels <- c(ticks2, gt$unit)
+	labels <- c(ticks2Labels, gt$unit)
 	
 	n <- length(ticks2)
-	ticks <- ticks2*gt$unit.size
-	ticks3 <- ticks / xrange
+	ticks3 <- ticks2*gt$unit.size / xrange
 	
 	widths <- ticks3[2] - ticks3[1]
 	size <- min(gt$scale.size, widths/max(ticksWidths))

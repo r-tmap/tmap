@@ -7,20 +7,27 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE) {
 		classIntervals(x, n, style= style)
 	})
 	
-	# to prevent ugly rounded breaks such as -.5, .5, ..., 100.5 for n=101
 	if (approx && style != "fixed") {
-		brks <- q$brks
-		qm1 <- suppressWarnings(classIntervals(x, n-1, style= style))
-		brksm1 <- qm1$brks
-		qp1 <- suppressWarnings(classIntervals(x, n+1, style= style))
-		brksp1 <- qp1$brks
-		if (min(brksm1) > min(brks) && max(brksm1) < max(brks)) {
-			q <- qm1
-		} else if (min(brksp1) > min(brks) && max(brksp1) < max(brks)) {
-			q <- qp1
-		}
+	  if (n >= length(unique(x)) && style=="equal") {
+	    # to prevent classIntervals to set style to "unique"
+      q <- list(var=x, brks=seq(min(x, na.rm=TRUE), max(x, na.rm=TRUE), length.out=n))
+      attr(q, "intervalClosure") <- "left"
+      class(q) <- "classIntervals"
+	  } else {
+	    brks <- q$brks
+
+	    # to prevent ugly rounded breaks such as -.5, .5, ..., 100.5 for n=101
+	    qm1 <- suppressWarnings(classIntervals(x, n-1, style= style))
+	    brksm1 <- qm1$brks
+	    qp1 <- suppressWarnings(classIntervals(x, n+1, style= style))
+	    brksp1 <- qp1$brks
+	    if (min(brksm1) > min(brks) && max(brksm1) < max(brks)) {
+	      q <- qm1
+	    } else if (min(brksp1) > min(brks) && max(brksp1) < max(brks)) {
+	      q <- qp1
+	    }
+	  }
 	}
-	
 	q
 }
 

@@ -29,7 +29,7 @@
 #' tm_style_classic()) %>% save_tmap()
 #' }
 #' @export
-save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c("in", "cm", "mm"),
+save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c("in", "cm", "mm", "px"),
 					  dpi=300, outer.margins=0, asp=0, scale=NA, insets_tm=NULL, insets_vp=NULL, ...) {
 	get_ext <- function(filename) {
 		pieces <- strsplit(filename, "\\.")[[1]]
@@ -57,7 +57,9 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 		}
 	}
 
-	
+	units <- match.arg(units)
+	units_target <- ifelse(units=="px" && ext %in% c("png", "jpg", "jpeg", "bmp", "tiff"), "px", "in")
+		
 	eps <- ps <- function(..., width, height) grDevices::postscript(..., 
 																	width = width, height = height, onefile = FALSE, horizontal = FALSE, 
 																	paper = "special")
@@ -71,37 +73,37 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 	emf <- function(..., width, height) grDevices::win.metafile(..., 
 																width = width, height = height)
 	png <- function(..., width, height) grDevices::png(..., width = width, 
-													   height = height, res = dpi, units = "in")
+													   height = height, res = dpi, units = units_target)
 	jpg <- jpeg <- function(..., width, height) grDevices::jpeg(..., 
-																width = width, height = height, res = dpi, units = "in")
+																width = width, height = height, res = dpi, units = units_target)
 	bmp <- function(..., width, height) grDevices::bmp(..., width = width, 
-													   height = height, res = dpi, units = "in")
+													   height = height, res = dpi, units = units_target)
 	tiff <- function(..., width, height) grDevices::tiff(..., 
-														 width = width, height = height, res = dpi, units = "in")
+														 width = width, height = height, res = dpi, units = units_target)
 	shp_name <- function(tm) {
 		paste(tm[[1]]$shp_name, ".pdf", sep = "")
 	}
 	
-	units <- match.arg(units)
 	convert_to_inches <- function(x, units) {
-		x <- switch(units, `in` = x, cm = x/2.54, mm = x/2.54/10)
+		x <- switch(units, px = x/dpi, `in` = x, cm = x/2.54, mm = x/2.54/10)
 	}
-	convert_from_inches <- function(x, units) {
-		x <- switch(units, `in` = x, cm = x * 2.54, mm = x * 2.54 * 10)
-	}
-
-	width <- convert_to_inches(width, units)
-	height <- convert_to_inches(height, units)
-
-	if (ext=="pdf") {
-		round_to_1_72 <- function(x) x %/% (1/72) / 72
-		width <- round_to_1_72(width)
-		height <- round_to_1_72(height)
+	convert_to_pixels <- function(x, units) {
+	  x <- switch(units, px = x, `in` = dpi*x, cm = dpi*x/2.54, mm = dpi*x/2.54/10)
 	}
 	
-	#device <- match.fun(ext)
-	#device(file = filename, width = width, height = height, ...)
-
+	if (units_target=="in") {
+	  width <- convert_to_inches(width, units)
+	  height <- convert_to_inches(height, units)
+	  
+	  if (ext=="pdf") {
+	    round_to_1_72 <- function(x) x %/% (1/72) / 72
+	    width <- round_to_1_72(width)
+	    height <- round_to_1_72(height)
+	  }
+	} else {
+	  
+	}
+	
 	do.call(ext, args = c(list(file = filename, width = width, height = height), list(...)))
 	on.exit(capture.output(dev.off()))
 	args <- list(outer.margins=outer.margins, asp=asp)

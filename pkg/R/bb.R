@@ -53,6 +53,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		cy <- as.numeric(xmlAttrs(first_search_result)["lat"])
 		cx <- as.numeric(xmlAttrs(first_search_result)["lon"])
 		b <- matrix(as.numeric(unlist(strsplit(bbx, ","))), ncol=2, byrow=TRUE)[2:1,]
+		current.projection <- "longlat"
 	} else if (inherits(x, "Extent")) {
 		b <- bbox(x)		
 	} else if (inherits(x, c("Spatial", "Raster"))) {

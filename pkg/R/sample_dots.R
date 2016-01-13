@@ -19,11 +19,12 @@
 #' @param unit Unit, see \code{\link{calc_densities}}. Needed to relate \code{npop} to \code{w}, if they are not both specified.
 #' @param unit.size Unit size, see \code{\link{calc_densities}}. Needed to relate \code{npop} to \code{w}, if they are not both specified.
 #' @param randomize should the order of sampled dots be randomized? The dots are sampled class-wise (specified by \code{vars}). If this order is not randomized (so if \code{randomize=FALSE}), then the dots from the last class will be drawn on top, which may introduce a perception bias. By default \code{randomize=TRUE}, so the sampled dots are randomized to prevent this bias.
+#' @param output format of the output: use \code{"points"} for spatial points, and \code{"grid"} for a spatial grid.
 #' @param ... other arguments passed on to \code{\link{calc_densities}} and \code{\link{approx_areas}}
 #' @export
 #' @example ../examples/sample_dots.R
 #' @importFrom raster raster extent rasterize couldBeLonLat crop
-sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA, N=250000, npop=NA, n=10000, w=NA, shp.id=NULL, var.name="class", var.labels=vars, unit="km", unit.size=1000, randomize=TRUE, ...) {
+sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA, N=250000, npop=NA, n=10000, w=NA, shp.id=NULL, var.name="class", var.labels=vars, unit="km", unit.size=1000, randomize=TRUE, output = c("points", "grid"), ...) {
 	args <- list(...)
 	
 	bbx <- shp@bbox
@@ -144,28 +145,43 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 		message("One dot represents ", w, " population units")
 	}
 	
-	# convert to SPointsDF
-	p <- as(g, "SpatialPointsDataFrame")
-	p2 <- p[sam, ]
+	output <- match.arg(output)
 	
-	if (k > 1) {
-		p2[[var.name]] <- factor(unlist(mapply(rep, vars, sapply(samples, length))), levels=vars, labels=var.labels)
-	}
-	
-	# append ID variable
-	if (!missing(shp.id)) p2[[shp.id]] <- shp[[shp.id]][p2$ID__POLY] 
-
-	# clean data
-	if (k<= 1) {
-		p2 <- as(p2, "SpatialPoints")
+	if (output=="grid") {
+	  g[[var.name]] <- NA
+	  g[[var.name]][notNA[sam]] <- unlist(mapply(rep, vars, sapply(samples, length)))
+	  g[[var.name]] <- factor(g[[var.name]], levels=vars, labels=var.labels)
+	  
+	  # append ID variable
+	  if (!missing(shp.id)) {
+	    g[[shp.id]] <- shp[[shp.id]][g$ID__POLY] 
+	    g@data[, c("ID__POLY", "ID__POLY.data", "TOTAL__VARS", vars)] <- list()
+	  }
+	  g
 	} else {
-		p2@data[, c("ID__POLY", "ID__POLY.data", "TOTAL__VARS", vars)] <- list()
+	  # convert to SPointsDF
+	  p <- as(g, "SpatialPointsDataFrame")
+  	p2 <- p[sam, ]
+  	
+  	if (k > 1) {
+  		p2[[var.name]] <- factor(unlist(mapply(rep, vars, sapply(samples, length))), levels=vars, labels=var.labels)
+  	}
+  	
+  	# append ID variable
+  	if (!missing(shp.id)) p2[[shp.id]] <- shp[[shp.id]][p2$ID__POLY] 
+  
+  	# clean data
+  	if (k<= 1) {
+  		p2 <- as(p2, "SpatialPoints")
+  	} else {
+  		p2@data[, c("ID__POLY", "ID__POLY.data", "TOTAL__VARS", vars)] <- list()
+  	}
+  
+  	# shuffle points to prevent overplotting bias
+  	if (randomize) {
+  		p2[sample.int(n), ]
+  	} else p2
 	}
-
-	# shuffle points to prevent overplotting bias
-	if (randomize) {
-		p2[sample.int(n), ]
-	} else p2
 }
 
 #	For each row in matrix m, a value is sampled based on the values of that row.
