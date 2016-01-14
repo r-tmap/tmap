@@ -7,7 +7,7 @@
 sample_dots(shp, vars = NULL, convert2density = FALSE, nrow = NA,
   ncol = NA, N = 250000, npop = NA, n = 10000, w = NA,
   shp.id = NULL, var.name = "class", var.labels = vars, unit = "km",
-  unit.size = 1000, randomize = TRUE, ...)
+  unit.size = 1000, randomize = TRUE, output = c("points", "grid"), ...)
 }
 \arguments{
 \item{shp}{A shape object, more specifically, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}.}
@@ -39,6 +39,8 @@ sample_dots(shp, vars = NULL, convert2density = FALSE, nrow = NA,
 \item{unit.size}{Unit size, see \code{\link{calc_densities}}. Needed to relate \code{npop} to \code{w}, if they are not both specified.}
 
 \item{randomize}{should the order of sampled dots be randomized? The dots are sampled class-wise (specified by \code{vars}). If this order is not randomized (so if \code{randomize=FALSE}), then the dots from the last class will be drawn on top, which may introduce a perception bias. By default \code{randomize=TRUE}, so the sampled dots are randomized to prevent this bias.}
+
+\item{output}{format of the output: use \code{"points"} for spatial points, and \code{"grid"} for a spatial grid.}
 
 \item{...}{other arguments passed on to \code{\link{calc_densities}} and \code{\link{approx_areas}}}
 }

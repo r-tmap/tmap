@@ -4,7 +4,8 @@
 \alias{print.tmap}
 \title{Draw thematic map}
 \usage{
-\method{print}{tmap}(x, vp = NULL, return.asp = FALSE, ...)
+\method{print}{tmap}(x, vp = NULL, return.asp = FALSE, plot = TRUE,
+  interactive = FALSE, ...)
 }
 \arguments{
 \item{x}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}
@@ -12,6 +13,10 @@
 \item{vp}{\code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.}
 
 \item{return.asp}{Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.}
+
+\item{plot}{should \code{x} be plot?}
+
+\item{interactive}{should the plot be made ready for interaction? If \code{TRUE}, latitude longitude ( WGS84) coordinates are used, small multiples are ignored (only the first will be used), and margins will be set to 0.}
 
 \item{...}{not used}
 }

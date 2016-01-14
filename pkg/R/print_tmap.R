@@ -5,6 +5,8 @@
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param return.asp Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.
+#' @param plot should \code{x} be plot?
+#' @param interactive should the plot be made ready for interaction? If \code{TRUE}, latitude longitude ( WGS84) coordinates are used, small multiples are ignored (only the first will be used), and margins will be set to 0.
 #' @param ... not used
 #' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 #' @import sp
@@ -25,7 +27,7 @@
 #' @importMethodsFrom raster as.vector
 #' @export
 #' @method print tmap
-print.tmap <- function(x, vp=NULL, return.asp=FALSE, ...) {
+print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALSE, ...) {
 	#### General process of tmap:
 	#  print.tmap: - puts shapes and shape data into right format
 	#              - calls process_tm for processing tm elements
@@ -148,6 +150,10 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, ...) {
 		if (any(is_master)) which(is_master)[1] else 1
 	}
 	
+	if (interactive) {
+		x[shape.id[masterID]]$tm_shape$projection <- get_proj4("longlat")
+	}
+	
 	## determine aspect ratio of master shape
 	shpM_bb <- attr(shps[[masterID]], "bbox")
 	shpM_asp <-	calc_asp_ratio(shpM_bb[1,], shpM_bb[2,], longlat=!attr(shps[[masterID]], "projected"))
@@ -162,34 +168,46 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, ...) {
 	}, x[shape.id], datasets, types, SIMPLIFY=FALSE)
 	
 	## prepare viewport
-	if (is.null(vp)) {
-		grid.newpage()
+	if (plot) {
+		if (is.null(vp)) {
+			grid.newpage()
+		} else {
+			if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
+		}
+	
+		## calculate device aspect ratio (needed for small multiples' nrow and ncol)
+		inner.margins <- if ("tm_layout" %in% names(x)) {
+			x[[which(names(x)=="tm_layout")[1]]]$inner.margins
+		} else NA
+		
+		inner.margins <- if (is.na(inner.margins[1])) {
+			if (any_raster) rep(0, 4) else rep(0.02, 4)
+		} else rep(inner.margins, length.out=4)
+	
+		xmarg <- sum(inner.margins[c(2,4)])
+		ymarg <- sum(inner.margins[c(1,3)])
+		if (xmarg >= .8) stop("Inner margins too large", call. = FALSE)
+		if (ymarg >= .8) stop("Inner margins too large", call. = FALSE)
+		shpM_asp_marg <- shpM_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
+		dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
+		asp_ratio <- shpM_asp_marg / dev_asp
 	} else {
-		if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
+		asp_ratio <- 1
 	}
 	
-	## calculate device aspect ratio (needed for small multiples' nrow and ncol)
-	inner.margins <- if ("tm_layout" %in% names(x)) {
-		x[[which(names(x)=="tm_layout")[1]]]$inner.margins
-	} else NA
-	
-	inner.margins <- if (is.na(inner.margins[1])) {
-		if (any_raster) rep(0, 4) else rep(0.02, 4)
-	} else rep(inner.margins, length.out=4)
-
-	xmarg <- sum(inner.margins[c(2,4)])
-	ymarg <- sum(inner.margins[c(1,3)])
-	if (xmarg >= .8) stop("Inner margins too large", call. = FALSE)
-	if (ymarg >= .8) stop("Inner margins too large", call. = FALSE)
-	shpM_asp_marg <- shpM_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
-	dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
-	asp_ratio <- shpM_asp_marg / dev_asp
 	
 	## process tm objects
 	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size", "line.center.type")]
 	shp_info$is_raster <- any_raster
 	result <- process_tm(x, asp_ratio, shp_info)
 	gmeta <- result$gmeta
+	
+	# overrule margins if interactive
+	if (interactive) {
+		gmeta$inner.margins <- rep(0, 4)
+		gmeta$outer.margins <- rep(0, 4)
+		gmeta$asp <- NA
+	}
 	
 	gps <- result$gps
 	nx <- result$nx
@@ -213,7 +231,7 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, ...) {
 		return(sasp)
 	}
 	
-	if (gmeta$design.mode) {
+	if (gmeta$design.mode && !plot) {
 		masterShapeName <- x[[masterID]]$shp_name
 		cat("aspect ratio device (yellow):", dev_asp, "\n")
 		cat("aspect ratio frame (blue):", sasp, "\n")
@@ -260,54 +278,53 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, ...) {
 	## create an environment to pass on large shapes, which is more efficient then passing on shapes themselves(is it??)
 	shps.env <- environment()
 	
-	## plot
-	gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 	
-	## if vp is specified, go 1 viewport up, else go to root viewport
-	upViewport(n=as.integer(!is.null(vp)))
+	
+	## plot
+	if (plot) {
+		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos)
+		
+		## if vp is specified, go 1 viewport up, else go to root viewport
+		upViewport(n=as.integer(!is.null(vp)))
+	}
 
-	## return data
-	vars <- unname(mapply(function(gp, p) {
-		mapply(function(gpl, l) {
-			lst <- list({if (!is.na(gpl$varnames$fill)[1]) {
-				c(gpl$idnames$fill, gpl$varnames$fill)
-			} else NULL}, 
-			{if (!is.na(gpl$varnames$bubble.size)[1] || !is.na(gpl$varnames$bubble.col)[1]) {
-				c(gpl$idnames$bubble, gpl$varnames$bubble.size, gpl$varnames$bubble.col)
-			} else NULL},
-			{if (!is.na(gpl$varnames$line.col)[1] || !is.na(gpl$varnames$line.lwd)[1]) {
-				c(gpl$idnames$line, gpl$varnames$line.col, gpl$varnames$line.lwd)
-			} else NULL},
-			{if (!is.na(gpl$varnames$raster)[1]) {
-				c(gpl$idnames$raster, gpl$varnames$raster)
-			} else NULL},
-			{if (!is.na(gpl$xtext)[1]) {
-				c(gpl$idnames$text, gpl$xtext, gpl$varnames$text.size, gpl$varnames$text.col)
-			} else NULL})
-			names(lst) <- paste("tm", c("polygons", "bubbles", "lines", "raster", "text"), p, l, sep="_")
-			lst
-		}, gp[1:nshps], 1:nshps, SIMPLIFY=FALSE)
-	}, gps, 1:nx, SIMPLIFY=FALSE))
-	vars <- lapply(1:nshps, function(i){
-		do.call("c", lapply(vars, "[[", i))
+	# apped data to gps
+	gps2 <- lapply(gps, function(gp) {
+		gp[-length(gp)] <- mapply(function(gpl, dt) {
+			if (!is.na(gpl$xfill)) {
+				gpl$fill.values <- dt[[gpl$xfill]]
+				if (!is.na(gpl$idnames$fill)) {
+					gpl$fill.names <- dt[[gpl$idnames$fill]]
+				}
+			}
+			if (!is.na(gpl$xsize) || !is.na(gpl$xcol)) {
+				if (!is.na(gpl$xsize)) {
+					gpl$bubble.size.values <- dt[[gpl$xsize]]
+				}
+				if (!is.na(gpl$xcol)) {
+					gpl$bubble.col.values <- dt[[gpl$xcol]]
+				}
+				if (!is.na(gpl$idnames$bubble)) {
+					gpl$bubble.names <- dt[[gpl$idnames$bubble]]
+				}
+			}
+			if (!is.na(gpl$xline) || !is.na(gpl$xlinelwd)) {
+				if (!is.na(gpl$xline)) {
+					gpl$line.col.values <- dt[[gpl$xline]]
+				}
+				if (!is.na(gpl$xlinelwd)) {
+					gpl$line.lwd.values <- dt[[gpl$xlinelwd]]
+				}
+				if (!is.na(gpl$idnames$line)) {
+					gpl$line.names <- dt[[gpl$idnames$line]]
+				}
+			}
+			gpl
+		}, gp[-length(gp)], datasets, SIMPLIFY = FALSE)
+		gp
 	})
 	
-	vars_types <- rep(list(c("fill", "bubble", "line", "raster", "text")), nshps)
-	
-	dat <- do.call("c", unname(mapply(function(d, v, tp) {
-		mapply(function(i, j) {
-			if (is.null(i)) return(NULL)
-			df <- subset(d, select=na.omit(i), drop=FALSE)
-			if (!is.na(i[1])) names(df)[1] <- "ID"
-			if (j=="bubble" && !is.na(i[2])) {
-				df <- df[order(df[i[2]], decreasing=TRUE), ]				
-			}
-			df
-		}, v, tp, SIMPLIFY=FALSE)
-	}, datasets, vars, vars_types, SIMPLIFY=FALSE)))
-	dat <- dat[!sapply(dat, is.null)]
-	
-	invisible(dat)
+	invisible(list(shps=shps, gps=gps2))
 }
 
 

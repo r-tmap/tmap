@@ -5,8 +5,8 @@
 \title{Save tmap}
 \usage{
 save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
-  units = c("in", "cm", "mm"), dpi = 300, outer.margins = 0, asp = 0,
-  scale = NA, insets_tm = NULL, insets_vp = NULL, ...)
+  units = c("in", "cm", "mm", "px"), dpi = 300, outer.margins = 0,
+  asp = 0, scale = NA, insets_tm = NULL, insets_vp = NULL, ...)
 }
 \arguments{
 \item{tm}{tmap object}
