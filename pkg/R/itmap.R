@@ -53,8 +53,8 @@ itmap <- function(tm) {
 			if (!is.null(gpl$fill.legend.show) && gpl$fill.legend.show) {
 				legendRGBA <- col2rgb(gpl$fill.legend.palette, alpha = TRUE)
 				legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
-				
-				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$fill.legend.labels, opacity=fillOpacity[1])
+				title <- if (gpl$fill.legend.title=="") NULL else gpl$fill.legend.title
+				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$fill.legend.labels, opacity=fillOpacity[1], title=title)
 			}
 			assign("lf", lf, envir = e)
 			NULL
