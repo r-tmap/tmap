@@ -6,7 +6,7 @@
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param return.asp Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.
 #' @param plot should \code{x} be plot?
-#' @param interactive should the plot be made ready for interaction? If \code{TRUE}, latitude longitude ( WGS84) coordinates are used, small multiples are ignored (only the first will be used), and margins will be set to 0.
+#' @param interactive should the plot be prepared for interaction? If \code{TRUE}, latitude longitude ( WGS84) coordinates are used and margins will be set to 0.
 #' @param ... not used
 #' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 #' @import sp
@@ -151,7 +151,11 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	}
 	
 	if (interactive) {
-		x[shape.id[masterID]]$tm_shape$projection <- get_proj4("longlat")
+		if (is_raster[masterID]) {
+			if (is_projected(shps[[masterID]])) stop("Please use set_projection to reproject raster shape to latitude longitude coordinates")	
+		} else {
+			x[shape.id[masterID]]$tm_shape$projection <- get_proj4("longlat")
+		}
 	}
 	
 	## determine aspect ratio of master shape
@@ -319,6 +323,11 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 					gpl$line.names <- dt[[gpl$idnames$line]]
 				}
 			}
+			if (!is.na(gpl$xraster)) {
+				gpl$raster.values <- dt[[gpl$xraster]]
+			}
+			dt$SHAPE_AREAS <- NULL
+			gpl$data <- dt
 			gpl
 		}, gp[-length(gp)], datasets, SIMPLIFY = FALSE)
 		gp

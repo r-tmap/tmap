@@ -45,7 +45,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 
 	# edit and set projection
 	if (!is.null(projection)) {
-		if (is.raster(shp)) {
+		if (inherits(shp, "Raster")) {
 			warning("Unable to set projection for rasters. Please use set_projection.", call. = FALSE)
 			projection <- shp.proj
 		} else {

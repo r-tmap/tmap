@@ -3,12 +3,13 @@
 #' Create an interactive map
 #' 
 #' @param tm tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
+#' @param popup.all.data Should all data be shown in the popup, or only the aesthetics 
 #' @importFrom geosphere distGeo
 #' @import leaflet
 #' @importFrom htmltools htmlEscape
 #' @example ../examples/itmap.R
 #' @export
-itmap <- function(tm) {
+itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
 	x <- print(tm, plot=FALSE, interactive=TRUE)
 	
 	
@@ -16,7 +17,7 @@ itmap <- function(tm) {
 	gp <- x$gps[[1]]
 	
 	require(leaflet)
-	lf <- leaflet() %>% addTiles()
+	lf <- leaflet() %>% addProviderTiles("CartoDB.Positron", group = "Light gray") %>% addProviderTiles("CartoDB.DarkMatter", group = "Dark gray") %>% addProviderTiles("OpenTopoMap", group = "Topo")
 	
 	shps <- x$shps
 	
@@ -26,8 +27,9 @@ itmap <- function(tm) {
 	
 
 	e <- environment()
+	id <- 1
 	
-	mapply(function(shp, gpl) {
+	mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
 		
 		if (inherits(shp, "Spatial")) {
@@ -37,26 +39,33 @@ itmap <- function(tm) {
 		plot_tm_fill <- function() {
 			col <- do.call("process_color", c(list(gpl$col, alpha=gpl$alpha), gt$pc))
 			
-			fill <- if (!is.null(gpl$fill)) {
+			if(!is.null(gpl$fill)) {
 				fillRGBA <- col2rgb(gpl$fill, alpha = TRUE)
 				fillColor <- rgb(fillRGBA[1,], fillRGBA[2,], fillRGBA[3,], maxColorValue = 255)
-				fillOpacity <- fillRGBA[4,]/255
+				fillOpacity <- unname(fillRGBA[4,1]/255 * alpha)
 			} else {
 				fillColor <- NULL
 				fillOpacity <- 0
 			}
-			
-			popups <- format_popups(gpl$fill.names, gpl$xfill, list(gpl$fill.values))
+
+			dt <- gpl$data
+			if (popup.all.data) {
+				popups <- format_popups(gpl$fill.names, names(dt), dt)
+			} else {
+				popups <- format_popups(gpl$fill.names, gpl$xfill, list(gpl$fill.values))
+			}
+
 			if (length(popups)==1 && popups[1]=="") popups <- NULL
 
-			lf <- lf %>% addPolygons(data=shp, stroke=gpl$lwd>0 && !is.na(col), weight=gpl$lwd, color=col, fillColor = fillColor, fillOpacity = fillOpacity, popup = popups, options = pathOptions(clickable=!is.null(popups)))
-			if (!is.null(gpl$fill.legend.show) && gpl$fill.legend.show) {
+			lf <- lf %>% addPolygons(data=shp, stroke=gpl$lwd>0 && !is.na(col), weight=gpl$lwd, color=col, fillColor = fillColor, fillOpacity = fillOpacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id)
+			if (!is.null(gpl$fill.legend.show)) {
 				legendRGBA <- col2rgb(gpl$fill.legend.palette, alpha = TRUE)
 				legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
 				title <- if (gpl$fill.legend.title=="") NULL else gpl$fill.legend.title
-				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$fill.legend.labels, opacity=fillOpacity[1], title=title)
+				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$fill.legend.labels, opacity=fillOpacity, title=title)
 			}
 			assign("lf", lf, envir = e)
+			assign("id", id+1, envir = e)
 			NULL
 		}
 		
@@ -73,12 +82,17 @@ itmap <- function(tm) {
 			fill <- rep(gpl$bubble.col, length.out=npol)
 			fillRGBA <- col2rgb(fill, alpha = TRUE)
 			fillColor <- rgb(fillRGBA[1,], fillRGBA[2,], fillRGBA[3,], maxColorValue = 255)
-			fillOpacity <- fillRGBA[4,1]/255
+			fillOpacity <- unname(fillRGBA[4,1]/255) * alpha
 			
 			bubble.size <- gpl$bubble.size
 
-			popups <- format_popups(gpl$bubble.names, c(gpl$xsize, gpl$xcol), list(gpl$bubble.size.values, gpl$bubble.col.values))
-
+			dt <- gpl$data
+			if (popup.all.data) {
+				popups <- format_popups(gpl$bubble.names, names(dt), dt)
+			} else {
+				popups <- format_popups(gpl$bubble.names, c(gpl$xsize, gpl$xcol), c(list(gpl$bubble.size.values, gpl$bubble.col.values)))	
+			}
+			
 			# sort bubbles
 			if (length(bubble.size)!=1) {
 				decreasing <- order(-bubble.size)
@@ -94,16 +108,16 @@ itmap <- function(tm) {
 			}
 			
 			max_lines <- par("din")[2]*10
-			require(geosphere)
-			
+
 			# calculate top-center to bottom-center
 			vdist <- distGeo(p1=c(mean(bbx[1,]), bbx[2,1]),
 							 p2=c(mean(bbx[1,]), bbx[2,2]))
 			
 			rad <- bubble.size2 * vdist/max_lines
 			
-			lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fillColor2)), fillColor = fillColor2, fillOpacity=fillOpacity, color = gpl$bubble.border.col, radius=rad, weight =1, popup=popups2)
+			lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fillColor2)), fillColor = fillColor2, fillOpacity=fillOpacity, color = gpl$bubble.border.col, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id)
 			assign("lf", lf, envir = e)
+			assign("id", id+1, envir = e)
 			NULL
 			
 		}
@@ -111,7 +125,18 @@ itmap <- function(tm) {
 			stop("Text not implemented yet")
 		}
 		plot_tm_raster <- function() {
-			stop("Raster not implemented yet")
+			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
+			legendRGBA <- col2rgb(gpl$raster.legend.palette, alpha = TRUE)
+			legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
+			legendOpacity <- unname(legendRGBA[4,1]/255) * alpha
+			
+			lf <- lf %>% addRasterImage(x=shp, colors=legendColor, opacity = legendOpacity, group=shp_name)
+			if (!is.null(gpl$raster.legend.show)) {
+				title <- if (gpl$raster.legend.title=="") NULL else gpl$raster.legend.title
+				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$raster.legend.labels, opacity=legendOpacity, title=title)
+			}
+			assign("lf", lf, envir = e)
+			NULL
 		}
 		
 		e2 <- environment()
@@ -119,8 +144,8 @@ itmap <- function(tm) {
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		lf_layers <- lapply(fnames, do.call, args=list(), envir=e2)
 
-	}, shps, gp)
-	lf
+	}, shps, gp, gt$shp_name)
+	lf %>% addLayersControl(baseGroups=c("Light gray", "Dark gray", "Topo"), overlayGroups = gt$shp_name, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))
 }
 
 
@@ -131,14 +156,23 @@ format_popups <- function(id=NULL, titles, values) {
 	values <- values[!isnull]
 	
 	if (!is.null(id)) {
-		labels <- paste("<b>", htmlEscape(id), "</b><br>", sep="")
+		labels <- paste("<b>", htmlEscape(id), "</b>", sep="")
 	} else {
 		labels <- ""
 	}
-	labels2 <- mapply(function(l, v) {
-		htmlEscape(paste(l, v, sep=" = "))
-	}, titles, values, SIMPLIFY=FALSE)
 	
-	labels3 <- do.call("paste", c(labels2, list(sep="<br>")))
-	paste(labels, labels3, sep="")
+	titles_format <- sapply(titles, htmlEscape)
+	values_format <- lapply(values, function(v) {
+		htmlEscape(if (is.numeric(v)) fancy_breaks(v) else v)
+	})
+	
+
+	labels2 <- mapply(function(l, v) {
+		paste0("<tr><td style=\"color: #888888;\">", l, "</td><td>", v, "</td>")
+	}, titles_format, values_format, SIMPLIFY=FALSE)
+		
+	labels3 <- paste0(do.call("paste", c(labels2, list(sep="</tr>"))), "</tr>")
+	x <- paste("<div style=\"max-height:10em;overflow:auto;\"><table>
+			   <thead><tr><th colspan=\"2\">", labels, "</th></thead></tr>", labels3, "</table></div>", sep="")
+	x
 }
