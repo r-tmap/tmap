@@ -1,4 +1,4 @@
-process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop) {
+process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, raster.leaflet) {
 	
 	sh <- (dh/gm$nrow)# * (1-sum(gm$outer.margins[c(1,3)]))
 	sw <- (dw/gm$ncol)# * (1-sum(gm$outer.margins[c(2,4)]))
@@ -50,11 +50,21 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop) {
 			#projection <- shp.proj
 
 			projection <- get_proj4(projection)
-			shp <- suppressWarnings(projectRaster(shp, crs=projection, method = "ngb"))
-			attr(shp, "projected") <- is_projected(shp)
+			if (raster.leaflet) {
+				new_ext <- projectExtent(shp, crs = sp::CRS(get_proj4(3857)))
+				shp <- suppressWarnings(projectRaster(shp, to=new_ext, method="ngb"))
+  				new_extent <- extent(projectExtent(new_ext, crs = CRS(get_proj4(4326))))
+  				shp@extent <- new_extent
+  				print(shp@extent)
+  				shp@crs <- CRS(get_proj4(4326))
+ 				attr(shp, "proj4string") <- get_proj4(4326)
+			} else {
+				shp <- suppressWarnings(projectRaster(shp, crs=projection, method = "ngb"))
+				attr(shp, "proj4string") <- shp@crs
+			}
 			attr(shp, "bbox") <- bbox(shp)
-			attr(shp, "proj4string") <- shp@crs
-			
+			attr(shp, "projected") <- is_projected(shp)
+
 		} else {
 			projection <- get_proj4(projection)
 			shp <- spTransform(shp, CRS(projection))
@@ -86,7 +96,6 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop) {
 			if (x.proj != projection) {
 				if (inherits(x, "Raster")) {
 					#stop("Raster ", shp_nm, " has different projection and cannot easily be transformed. Please use set_projection for that.", call. = FALSE)
-					
 					x <- suppressWarnings(projectRaster(x, crs=projection, method = "ngb"))
 					#attr(shp, "projected") <- is_projected(x)
 					attr(x, "bbox") <- bbox(x)

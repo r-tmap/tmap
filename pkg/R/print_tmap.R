@@ -139,7 +139,9 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	types <- lapply(shps_dts, "[[", 3)
 	
 	# remove facets if interactive
-	if (interactive) x[names(x)=="tm_facets"] <- NULL
+	if (interactive) {
+		x[names(x)=="tm_facets"] <- NULL
+	}
 
 	## find master shape
 	is_raster <- sapply(shps, inherits, "RasterLayer")
@@ -227,7 +229,7 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 	shps_lengths <- sapply(shps, length)
 
-	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID, allow.crop = !interactive)
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID, allow.crop = !interactive, raster.leaflet=interactive)
 	
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")

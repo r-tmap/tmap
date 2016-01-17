@@ -10,7 +10,7 @@
 #' @example ../examples/itmap.R
 #' @export
 itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
-	x <- print(tm, plot=FALSE, interactive=TRUE)
+	x <- print(tm+tm_layout(aes.color=list(na="#00000000")), plot=FALSE, interactive=TRUE)
 	
 	
 	# take first small multiple
@@ -131,10 +131,21 @@ itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
 			legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
 			legendOpacity <- unname(legendRGBA[4,1]/255) * alpha
 			
-			lf <- lf %>% addRasterImage(x=shp, colors=legendColor, opacity = legendOpacity, group=shp_name, project = TRUE)
+			transNA <- which(gpl$raster.legend.palette=="#00000000")
+			
+			legendColor[transNA] <- "#00000000"
+			
+			lf <- lf %>% addRasterImage(x=shp, colors=legendColor, opacity = legendOpacity, group=shp_name, project = FALSE)
 			if (!is.null(gpl$raster.legend.show)) {
+				if (transNA) {
+					legendColor <- legendColor[-transNA]
+					legendLabels <- gpl$raster.legend.labels[-transNA]
+				} else {
+					legendLabels <- gpl$raster.legend.labels
+				}
+				
 				title <- if (gpl$raster.legend.title=="") NULL else gpl$raster.legend.title
-				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$raster.legend.labels, opacity=legendOpacity, title=title)
+				lf <- lf %>% addLegend(colors=legendColor, labels = legendLabels, opacity=legendOpacity, title=title)
 			}
 			assign("lf", lf, envir = e)
 			NULL
