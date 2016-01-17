@@ -1,4 +1,4 @@
-process_tm <- function(x, asp_ratio, shp_info) {
+process_tm <- function(x, asp_ratio, shp_info, allow.small.mult) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL
 	## fill meta info
 	
@@ -136,7 +136,7 @@ process_tm <- function(x, asp_ratio, shp_info) {
 	
 	## convert clusters to layers
 	cnlx <- if (nshps==1) 0 else c(0, cumsum(nlx[1:(nshps-1)]-1))
-	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf), SIMPLIFY = FALSE)
+	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf, allow.small.mult=allow.small.mult), SIMPLIFY = FALSE)
 	names(gp) <- paste0("tmLayer", 1:length(gp))
 	
 	

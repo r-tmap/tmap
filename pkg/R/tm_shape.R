@@ -22,7 +22,7 @@
 #' \item{\code{"feature", "single"}}{If \code{"feature"} is specified, a pair of coordinates (used for bubbles, dots, and text labels) is chosen for each feature (i.e., a row in the \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}). If \code{"segment"} is specified, a pair of coordinates is chosed for each line segment.}
 #' \item{\code{"midpoint"} or \code{"centroid"}}{The midpoint is the middle point on the line, so the coordinates (used for bubbles, dots, and text labels) correspond to the midpoints of the line segments. In case the first value is \code{"feature"}, then per feature, the midpoint of the line segment that is closest to the centroid is taken.}
 #' }
-#' @param ... Arguments passed on to \code{\link{bb}}, which creates a bounding box. The first argument that will be passed on \code{\link{bb}} is either \code{shp}, or \code{bbox} if it is specified.
+#' @param ... Arguments passed on to \code{\link{bb}}, which creates a bounding box. The first argument that will be passed on \code{\link{bb}} is \code{x}. If \code{x} is not specified, it will be set to either \code{shp} or \code{bbox}.
 #' @export
 #' @seealso \code{\link{read_shape}} to read ESRI shape files, \code{\link{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} 
 #' @example ../examples/tm_shape.R

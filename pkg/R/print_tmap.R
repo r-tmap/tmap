@@ -138,6 +138,9 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	datasets <- lapply(shps_dts, "[[", 2)
 	types <- lapply(shps_dts, "[[", 3)
 	
+	# remove facets if interactive
+	if (interactive) x[names(x)=="tm_facets"] <- NULL
+
 	## find master shape
 	is_raster <- sapply(shps, inherits, "RasterLayer")
 	is_master <- sapply(x[shape.id], "[[", "is.master")
@@ -151,11 +154,12 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	}
 	
 	if (interactive) {
-		if (is_raster[masterID]) {
-			if (is_projected(shps[[masterID]])) stop("Please use set_projection to reproject raster shape to latitude longitude coordinates")	
-		} else {
-			x[shape.id[masterID]]$tm_shape$projection <- get_proj4("longlat")
-		}
+		#if (!is_raster[masterID]) {
+			#if (is_projected(shps[[masterID]])) stop("Please use set_projection to reproject raster shape to latitude longitude coordinates")	
+		#} else {
+		x[shape.id[masterID]]$tm_shape$projection <- get_proj4("longlat")
+
+		#}
 	}
 	
 	## determine aspect ratio of master shape
@@ -203,7 +207,7 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	## process tm objects
 	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size", "line.center.type")]
 	shp_info$is_raster <- any_raster
-	result <- process_tm(x, asp_ratio, shp_info)
+	result <- process_tm(x, asp_ratio, shp_info, allow.small.mult=!interactive)
 	gmeta <- result$gmeta
 	
 	# overrule margins if interactive
@@ -222,7 +226,8 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
 	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 	shps_lengths <- sapply(shps, length)
-	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID)
+
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID, allow.crop = !interactive)
 	
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
@@ -295,38 +300,40 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	# apped data to gps
 	gps2 <- lapply(gps, function(gp) {
 		gp[-length(gp)] <- mapply(function(gpl, dt) {
-			if (!is.na(gpl$xfill)) {
-				gpl$fill.values <- dt[[gpl$xfill]]
-				if (!is.na(gpl$idnames$fill)) {
-					gpl$fill.names <- dt[[gpl$idnames$fill]]
+			if (interactive) {
+				if (!is.na(gpl$xfill)) {
+					gpl$fill.values <- dt[[gpl$xfill]]
+					if (!is.na(gpl$idnames$fill)) {
+						gpl$fill.names <- dt[[gpl$idnames$fill]]
+					}
 				}
+				if (!is.na(gpl$xsize) || !is.na(gpl$xcol)) {
+					if (!is.na(gpl$xsize)) {
+						gpl$bubble.size.values <- dt[[gpl$xsize]]
+					}
+					if (!is.na(gpl$xcol)) {
+						gpl$bubble.col.values <- dt[[gpl$xcol]]
+					}
+					if (!is.na(gpl$idnames$bubble)) {
+						gpl$bubble.names <- dt[[gpl$idnames$bubble]]
+					}
+				}
+				if (!is.na(gpl$xline) || !is.na(gpl$xlinelwd)) {
+					if (!is.na(gpl$xline)) {
+						gpl$line.col.values <- dt[[gpl$xline]]
+					}
+					if (!is.na(gpl$xlinelwd)) {
+						gpl$line.lwd.values <- dt[[gpl$xlinelwd]]
+					}
+					if (!is.na(gpl$idnames$line)) {
+						gpl$line.names <- dt[[gpl$idnames$line]]
+					}
+				}
+				if (!is.na(gpl$xraster)) {
+					gpl$raster.values <- dt[[gpl$xraster]]
+				}
+				dt$SHAPE_AREAS <- NULL
 			}
-			if (!is.na(gpl$xsize) || !is.na(gpl$xcol)) {
-				if (!is.na(gpl$xsize)) {
-					gpl$bubble.size.values <- dt[[gpl$xsize]]
-				}
-				if (!is.na(gpl$xcol)) {
-					gpl$bubble.col.values <- dt[[gpl$xcol]]
-				}
-				if (!is.na(gpl$idnames$bubble)) {
-					gpl$bubble.names <- dt[[gpl$idnames$bubble]]
-				}
-			}
-			if (!is.na(gpl$xline) || !is.na(gpl$xlinelwd)) {
-				if (!is.na(gpl$xline)) {
-					gpl$line.col.values <- dt[[gpl$xline]]
-				}
-				if (!is.na(gpl$xlinelwd)) {
-					gpl$line.lwd.values <- dt[[gpl$xlinelwd]]
-				}
-				if (!is.na(gpl$idnames$line)) {
-					gpl$line.names <- dt[[gpl$idnames$line]]
-				}
-			}
-			if (!is.na(gpl$xraster)) {
-				gpl$raster.values <- dt[[gpl$xraster]]
-			}
-			dt$SHAPE_AREAS <- NULL
 			gpl$data <- dt
 			gpl
 		}, gp[-length(gp)], datasets, SIMPLIFY = FALSE)

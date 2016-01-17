@@ -32,7 +32,7 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 }
 
 
-process_bubbles <- function(data, g, gt, gby, z) {
+process_bubbles <- function(data, g, gt, gby, z, allow.small.mult) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -43,6 +43,10 @@ process_bubbles <- function(data, g, gt, gby, z) {
 	
 	xsize <- g$size
 	xcol <- g$col
+	
+	if (!allow.small.mult) xsize <- xsize[1]
+	if (!allow.small.mult) xcol <- xcol[1]
+	
 	
 	if (is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["bubbles"]
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]

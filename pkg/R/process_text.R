@@ -53,7 +53,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 
 
 
-process_text <- function(data, g, fill, gt, gby, z) {
+process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	root <- NULL; size.lowerbound <- NULL; scale <- NULL; bg.alpha <- NULL; case <- NULL; alpha <- NULL
 	shadow <- NULL
 	gsc <- NULL
@@ -81,6 +81,10 @@ process_text <- function(data, g, fill, gt, gby, z) {
 	xtsize <- g$size
 	xtcol <- g$col
 	xtext <- g$text
+	
+	if (!allow.small.mult) xtsize <- xtsize[1]
+	if (!allow.small.mult) xtcol <- xtcol[1]
+	if (!allow.small.mult) xtext <- xtext[1]
 	
 	#if (is.na(xtcol)[1]) xtcol <- gt$aes.colors["text"]
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]

@@ -1,4 +1,4 @@
-process_layers <- function(g, z, gt, gf) {
+process_layers <- function(g, z, gt, gf, allow.small.mult) {
 	if (dupl <- anyDuplicated(names(g))) {
 		warning("One tm layer group has duplicated layer types, which are omitted. To draw multiple layers of the same type, use multiple layer groups (i.e. specify tm_shape prior to each of them).", call. = FALSE)
 		g <- g[-dupl]	
@@ -65,27 +65,27 @@ process_layers <- function(g, z, gt, gf) {
 	if (is.null(g$tm_fil)) {
 		gfill <- list(fill=NULL, xfill=NA, fill.legend.title=NA, fill.id=NA) 
 	} else {
-		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf, z=z+which(plot.order=="tm_fill"))
+		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf, z=z+which(plot.order=="tm_fill"), allow.small.mult=allow.small.mult)
 	}
 	# bubble info
 	if (is.null(g$tm_bubbles)) {
 		gbubble <- list(bubble.size=NULL, xsize=NA, xcol=NA, bubble.size.legend.title=NA, bubble.col.legend.title=NA, bubble.id=NA)
 	} else {
-		gbubble <- process_bubbles(data, g$tm_bubbles, gt, gf, z=z+which(plot.order=="tm_bubbles"))
+		gbubble <- process_bubbles(data, g$tm_bubbles, gt, gf, z=z+which(plot.order=="tm_bubbles"), allow.small.mult=allow.small.mult)
 	}
 
 	# lines info
 	if (is.null(g$tm_lines)) {
 		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA, line.col.legend.title=NA, line.lwd.legend.title=NA, line.id=NA) 
 	} else {
-		glines <- process_lines(data, g$tm_lines, gt, gf, z=z+which(plot.order=="tm_lines"))	
+		glines <- process_lines(data, g$tm_lines, gt, gf, z=z+which(plot.order=="tm_lines"), allow.small.mult=allow.small.mult)	
 	} 
 
 	# raster info
 	if (is.null(g$tm_raster)) {
 		graster <- list(raster=NULL, xraster=NA, raster.legend.title=NA) 
 	} else {
-		graster <- process_raster(data, g$tm_raster, gt, gf, z=z+which(plot.order=="tm_raster"))
+		graster <- process_raster(data, g$tm_raster, gt, gf, z=z+which(plot.order=="tm_raster"), allow.small.mult=allow.small.mult)
 	}	
 	
 	
@@ -93,7 +93,7 @@ process_layers <- function(g, z, gt, gf) {
 	if (is.null(g$tm_text)) {
 		gtext <- list(text=NULL, xtext=NA, xtsize=NA, xtcol=NA)
 	}  else {
-		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"))
+		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"), allow.small.mult=allow.small.mult)
 	}
 
 	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, bubble=gbubble$bubble.id, line=glines$line.id, raster=graster$raster.id, text=gtext$text.id), data_by=data$GROUP_BY, plot.order=plot.order), gborders, gfill, glines, gbubble, gtext, graster)

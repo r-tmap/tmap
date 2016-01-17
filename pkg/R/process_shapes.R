@@ -1,4 +1,4 @@
-process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
+process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop) {
 	
 	sh <- (dh/gm$nrow)# * (1-sum(gm$outer.margins[c(1,3)]))
 	sw <- (dw/gm$ncol)# * (1-sum(gm$outer.margins[c(2,4)]))
@@ -46,8 +46,15 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 	# edit and set projection
 	if (!is.null(projection)) {
 		if (inherits(shp, "Raster")) {
-			warning("Unable to set projection for rasters. Please use set_projection.", call. = FALSE)
-			projection <- shp.proj
+			#warning("Unable to set projection for rasters. Please use set_projection.", call. = FALSE)
+			#projection <- shp.proj
+
+			projection <- get_proj4(projection)
+			shp <- suppressWarnings(projectRaster(shp, crs=projection, method = "ngb"))
+			attr(shp, "projected") <- is_projected(shp)
+			attr(shp, "bbox") <- bbox(shp)
+			attr(shp, "proj4string") <- shp@crs
+			
 		} else {
 			projection <- get_proj4(projection)
 			shp <- spTransform(shp, CRS(projection))
@@ -78,10 +85,17 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			}
 			if (x.proj != projection) {
 				if (inherits(x, "Raster")) {
-					stop("Raster ", shp_nm, " has different projection and cannot easily be transformed. Please use set_projection for that.", call. = FALSE)
+					#stop("Raster ", shp_nm, " has different projection and cannot easily be transformed. Please use set_projection for that.", call. = FALSE)
+					
+					x <- suppressWarnings(projectRaster(x, crs=projection, method = "ngb"))
+					#attr(shp, "projected") <- is_projected(x)
+					attr(x, "bbox") <- bbox(x)
+					attr(x, "proj4string") <- x@crs
+					
+				} else {
+					x <- spTransform(x, CRS(projection))
 				}
 				
-				x <- spTransform(x, CRS(projection))
 			}
 		}
 		x
@@ -177,6 +191,10 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 				shps_by_splt[[shps_by_ind[i]]]
 			}
 			mapply(function(shp2, bb2){
+				if (!allow.crop) {
+					attr(shp2, "bbox") <- bb2
+					return(shp2)
+				}
 				prj <- attr(shp2, "proj4string")
 				y <- tryCatch({
 					crop(shp2, bb2)
@@ -197,6 +215,10 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
 			if (diff_shapes) {
 				lapply(bboxes, function(bb2){
+					if (!allow.crop) {
+						attr(x, "bbox") <- bb2
+						return(x)
+					}
 					prj <- attr(x, "proj4string")
 					y <- crop(x, bb2)
 					if (is.null(y)) y <- x
@@ -205,6 +227,10 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID) {
 					y
 				})
 			} else {
+				if (!allow.crop) {
+					attr(x, "bbox") <- bbx
+					return(x)
+				}
 				prj <- attr(x, "proj4string")
 				y <- tryCatch({
 					y <- crop(x, bbx)

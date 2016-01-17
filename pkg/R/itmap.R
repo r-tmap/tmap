@@ -122,7 +122,8 @@ itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
 			
 		}
 		plot_tm_text <- function() {
-			stop("Text not implemented yet")
+			#stop("Text not implemented yet")
+			NULL
 		}
 		plot_tm_raster <- function() {
 			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
@@ -130,13 +131,15 @@ itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
 			legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
 			legendOpacity <- unname(legendRGBA[4,1]/255) * alpha
 			
-			lf <- lf %>% addRasterImage(x=shp, colors=legendColor, opacity = legendOpacity, group=shp_name)
+			lf <- lf %>% addRasterImage(x=shp, colors=legendColor, opacity = legendOpacity, group=shp_name, project = TRUE)
 			if (!is.null(gpl$raster.legend.show)) {
 				title <- if (gpl$raster.legend.title=="") NULL else gpl$raster.legend.title
 				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$raster.legend.labels, opacity=legendOpacity, title=title)
 			}
 			assign("lf", lf, envir = e)
 			NULL
+		}
+		plot_tm_grid <- function() {
 		}
 		
 		e2 <- environment()

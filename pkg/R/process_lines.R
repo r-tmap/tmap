@@ -75,7 +75,7 @@ process_line_col_vector <- function(x, g, gt) {
 	
 }
 
-process_lines <- function(data, g, gt, gby, z) {
+process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -86,6 +86,9 @@ process_lines <- function(data, g, gt, gby, z) {
 	
 	xcol <- g$col
 	xlwd <- g$lwd
+	
+	if (!allow.small.mult) xcol <- xcol[1]
+	if (!allow.small.mult) xlwd <- xlwd[1]
 	
 	if (is.na(xcol[1])) xcol <- gt$aes.colors["lines"]
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]

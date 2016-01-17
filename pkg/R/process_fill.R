@@ -1,4 +1,4 @@
-process_fill <- function(data, g, gb, gt, gby, z) {
+process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 	
 	npol <- nrow(data)
 	by <- data$GROUP_BY
@@ -6,6 +6,7 @@ process_fill <- function(data, g, gb, gt, gby, z) {
 	shpcols <- names(data)[1:(ncol(data)-2)]
 
 	x <- g$col
+	if (!allow.small.mult) x <- x[1]
 
 	if (is.na(x)[1]) x <- gt$aes.colors["fill"]
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
