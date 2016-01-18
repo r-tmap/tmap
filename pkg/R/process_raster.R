@@ -88,7 +88,9 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 		}
 	}
 
+	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
+	if (g$colorNA=="#00000000") g$textNA <- NA
 	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.raster, is.colors=is.colors)
 	## output: matrix=colors, list=free.scales, vector=!freescales

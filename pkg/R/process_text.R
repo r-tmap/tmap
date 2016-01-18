@@ -86,8 +86,9 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	if (!allow.small.mult) xtcol <- xtcol[1]
 	if (!allow.small.mult) xtext <- xtext[1]
 	
-	#if (is.na(xtcol)[1]) xtcol <- gt$aes.colors["text"]
+	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
+	if (g$colorNA=="#00000000") g$textNA <- NA
 	
 	
 	# if by is specified, use first value only
@@ -226,7 +227,7 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
 	col.legend.palette <- dcr$legend.palette
-	col.neutral <- gt$aes.color[["text"]] # preferable over dcr$col.neutral to match examples
+	col.neutral <- gt$aes.colors[["text"]] # preferable over dcr$col.neutral to match examples
 	breaks <- dcr$breaks
 	values <- dcr$values
 	

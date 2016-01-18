@@ -42,7 +42,7 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
   title.position = c("left", "top"), title.color = attr.color,
   title.bg.color = NA, title.bg.alpha = 1, attr.position = c("right",
-  "bottom"), design.mode = FALSE)
+  "bottom"), design.mode = FALSE, popup.all.data = FALSE, alpha = 1)
 
 tm_legend(...)
 
@@ -121,7 +121,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{bg.color}{Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).}
 
-\item{aes.color}{Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{bubbles}, \code{dots}, \code{lines}, \code{text}, \code{na}.}
+\item{aes.color}{Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{bubbles}, \code{dots}, \code{lines}, \code{text}, \code{na}. Use \code{"#00000000"} for transparency.}
 
 \item{aes.palette}{Default color palettes for the aesthetics. It takes a list of three items: \code{seq} for sequential palettes, \code{div} for diverging palettes, and \code{cat} for categorical palettes. By default, Color Brewer palettes (see (see \code{RColorBrewer::display.brewer.all})) are used. It is also possible provide a vector of colors for any of these items.}
 

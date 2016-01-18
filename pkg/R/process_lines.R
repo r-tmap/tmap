@@ -91,8 +91,11 @@ process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 	if (!allow.small.mult) xlwd <- xlwd[1]
 	
 	if (is.na(xcol[1])) xcol <- gt$aes.colors["lines"]
+	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
+	if (g$colorNA=="#00000000") g$textNA <- NA
 	
+		
 	if (nlevels(by)>1) {
 		xcol <- xcol[1]
 		xlwd <- xlwd[1]

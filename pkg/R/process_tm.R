@@ -1,4 +1,4 @@
-process_tm <- function(x, asp_ratio, shp_info, allow.small.mult) {
+process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL
 	## fill meta info
 	
@@ -22,8 +22,13 @@ process_tm <- function(x, asp_ratio, shp_info, allow.small.mult) {
 		gt$call <- c(gt$call, extraCall)
 	}
 
+	if (any("tm_view" %in% names(x))) {
+		gv <- x[[which("tm_view" == names(x))[1]]]
+	} else {
+		gv <- tm_view_options()$tm_view
+	}
+	
 	## preprocess gt
-	gtnull <- names(which(sapply(gt, is.null)))
 	gt <- within(gt, {
 		pc <- list(sepia.intensity=sepia.intensity, saturation=saturation)
 		sepia.intensity <- NULL
@@ -45,11 +50,19 @@ process_tm <- function(x, asp_ratio, shp_info, allow.small.mult) {
 			aes.colors <- rep(aes.color, length.out=7)
 			names(aes.colors) <- c("fill", "borders", "bubbles", "dots", "lines", "text", "na")
 		}
-		if (is.na(aes.colors[1])) aes.colors[1] <- "black"
-
+		aes.colors <- sapply(aes.colors, function(ac) if (is.na(ac)) "#000000" else ac)
+		
+		# override na
+		if (interactive) aes.colors["na"] <- if (is.null(gv$na)) "#00000000" else if (is.na(gv$na)) aes.colors["na"] else gv$na
+		
 		aes.colors.light <- sapply(aes.colors, is_light)
-
+		aes.color <- NULL
+		
+		# append gv
+		alpha <- gv$alpha
+		popup.all.data <- gv$popup.all.data
 	})
+	gtnull <- names(which(sapply(gt, is.null)))
 	gt[gtnull] <- list(NULL)
 	
 	## get grid element
@@ -136,7 +149,7 @@ process_tm <- function(x, asp_ratio, shp_info, allow.small.mult) {
 	
 	## convert clusters to layers
 	cnlx <- if (nshps==1) 0 else c(0, cumsum(nlx[1:(nshps-1)]-1))
-	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf, allow.small.mult=allow.small.mult), SIMPLIFY = FALSE)
+	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf, allow.small.mult=!interactive), SIMPLIFY = FALSE)
 	names(gp) <- paste0("tmLayer", 1:length(gp))
 	
 	

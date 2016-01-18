@@ -36,7 +36,7 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
 \item{\code{"midpoint"} or \code{"centroid"}}{The midpoint is the middle point on the line, so the coordinates (used for bubbles, dots, and text labels) correspond to the midpoints of the line segments. In case the first value is \code{"feature"}, then per feature, the midpoint of the line segment that is closest to the centroid is taken.}
 }}
 
-\item{...}{Arguments passed on to \code{\link{bb}}, which creates a bounding box. The first argument that will be passed on \code{\link{bb}} is either \code{shp}, or \code{bbox} if it is specified.}
+\item{...}{Arguments passed on to \code{\link{bb}}, which creates a bounding box. The first argument that will be passed on \code{\link{bb}} is \code{x}. If \code{x} is not specified, it will be set to either \code{shp} or \code{bbox}.}
 }
 \value{
 \code{\link{tmap-element}}

@@ -25,9 +25,12 @@
 #' @importFrom rgdal getPROJ4VersionInfo
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
+#' @importFrom geosphere distGeo
+#' @import leaflet
+#' @importFrom htmltools htmlEscape
 #' @export
 #' @method print tmap
-print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALSE, ...) {
+print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), ...) {
 	#### General process of tmap:
 	#  print.tmap: - puts shapes and shape data into right format
 	#              - calls process_tm for processing tm elements
@@ -51,6 +54,7 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	#  plot_all:   - calls plot_map to create grob tree of map itself
 	#              - calls legend_prepare and plot_legend to create grob tree of legend
 	#              - creates grob tree for whole plot
+	interactive <- (mode == "view")
 	
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
@@ -156,12 +160,7 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	}
 	
 	if (interactive) {
-		#if (!is_raster[masterID]) {
-			#if (is_projected(shps[[masterID]])) stop("Please use set_projection to reproject raster shape to latitude longitude coordinates")	
-		#} else {
 		x[shape.id[masterID]]$tm_shape$projection <- get_proj4("longlat")
-
-		#}
 	}
 	
 	## determine aspect ratio of master shape
@@ -178,7 +177,9 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	}, x[shape.id], datasets, types, SIMPLIFY=FALSE)
 	
 	## prepare viewport
-	if (plot) {
+	if (interactive) {
+		asp_ratio <- 1
+	} else {
 		if (is.null(vp)) {
 			grid.newpage()
 		} else {
@@ -201,15 +202,13 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 		shpM_asp_marg <- shpM_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
 		dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
 		asp_ratio <- shpM_asp_marg / dev_asp
-	} else {
-		asp_ratio <- 1
 	}
 	
 	
 	## process tm objects
 	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size", "line.center.type")]
 	shp_info$is_raster <- any_raster
-	result <- process_tm(x, asp_ratio, shp_info, allow.small.mult=!interactive)
+	result <- process_tm(x, asp_ratio, shp_info, interactive)
 	gmeta <- result$gmeta
 	
 	# overrule margins if interactive
@@ -242,11 +241,11 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 		return(sasp)
 	}
 	
-	if (gmeta$design.mode && !plot) {
+	if (gmeta$design.mode && !interactive) {
 		masterShapeName <- x[[masterID]]$shp_name
-		cat("aspect ratio device (yellow):", dev_asp, "\n")
-		cat("aspect ratio frame (blue):", sasp, "\n")
-		cat("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp, "\n")
+		message("aspect ratio device (yellow):", dev_asp)
+		message("aspect ratio frame (blue):", sasp)
+		message("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp)
 	}
 	
 	## shapes have been subset (diff_shapes) and cropped. Therefore, the corresponding aesthetics have to be subset accordingly:
@@ -289,16 +288,6 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 	## create an environment to pass on large shapes, which is more efficient then passing on shapes themselves(is it??)
 	shps.env <- environment()
 	
-	
-	
-	## plot
-	if (plot) {
-		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos)
-		
-		## if vp is specified, go 1 viewport up, else go to root viewport
-		upViewport(n=as.integer(!is.null(vp)))
-	}
-
 	# apped data to gps
 	gps2 <- lapply(gps, function(gp) {
 		gp[-length(gp)] <- mapply(function(gpl, dt) {
@@ -342,7 +331,16 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, plot=TRUE, interactive=FALS
 		gp
 	})
 	
-	invisible(list(shps=shps, gps=gps2))
+	## plot
+	if (interactive) {
+		print(view_tmap(gps2, shps))
+	} else {
+		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos)
+		
+		## if vp is specified, go 1 viewport up, else go to root viewport
+		upViewport(n=as.integer(!is.null(vp)))
+		invisible(list(shps=shps, gps=gps2))
+	}
 }
 
 

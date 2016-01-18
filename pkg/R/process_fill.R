@@ -9,8 +9,11 @@ process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 	if (!allow.small.mult) x <- x[1]
 
 	if (is.na(x)[1]) x <- gt$aes.colors["fill"]
+	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
-	
+	if (g$colorNA=="#00000000") g$textNA <- NA
+
+		
 	# if by is specified, use first value only
 	if (nlevels(by)>1) x <- x[1]
 	nx <- length(x)

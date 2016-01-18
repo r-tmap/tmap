@@ -49,7 +49,7 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{max.categories}{in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.}
 
-\item{colorNA}{color used for missing values}
+\item{colorNA}{color used for missing values. Use \code{NULL} for transparency.}
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 

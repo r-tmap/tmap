@@ -84,7 +84,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 		} else rep(inner.margins, length.out=4)
 		
  		attr.color.light <- is_light(attr.color)
- 		aes.color.light <- is_light(aes.color)
+ 		aes.color.light <- is_light(aes.colors)
 
 		title.color <- do.call("process_color", c(list(col=title.color), pc))
 		legend.text.color <- do.call("process_color", c(list(col=legend.text.color), pc))

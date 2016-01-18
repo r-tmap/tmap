@@ -55,7 +55,7 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 
 \item{max.categories}{in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.}
 
-\item{colorNA}{colour for missing values}
+\item{colorNA}{colour for missing values. Use \code{NULL} for transparency.}
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 

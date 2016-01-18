@@ -33,7 +33,7 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
 
 \item{max.categories}{in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.}
 
-\item{colorNA}{color used for missing values}
+\item{colorNA}{color used for missing values. Use \code{NULL} for transparency.}
 
 \item{saturation}{Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).}
 
@@ -95,7 +95,7 @@ tm_layout(scale=.8,
     legend.frame="gray50")
 
 tm_shape(land, ylim = c(-88,88)) +
-    tm_raster("trees", palette = "Greens", title="Percent Tree Cover") +
+    tm_raster("trees", palette = "Greens", title="Percent Tree Cover", colorNA=NULL) +
 tm_shape(World) +
     tm_borders() +
 tm_layout(legend.position = c("left","bottom"), bg.color="lightblue")

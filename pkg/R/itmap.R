@@ -1,33 +1,16 @@
-#' Interactive thematic map
-#' 
-#' Create an interactive map
-#' 
-#' @param tm tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
-#' @param popup.all.data Should all data be shown in the popup, or only the aesthetics 
-#' @importFrom geosphere distGeo
-#' @import leaflet
-#' @importFrom htmltools htmlEscape
-#' @example ../examples/itmap.R
-#' @export
-itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
-	x <- print(tm+tm_layout(aes.color=list(na="#00000000")), plot=FALSE, interactive=TRUE)
-	
-	
+view_tmap <- function(gps, shps) {
 	# take first small multiple
-	gp <- x$gps[[1]]
+	gp <- gps[[1]]
 	
-	require(leaflet)
 	lf <- leaflet() %>% addProviderTiles("CartoDB.Positron", group = "Light gray") %>% addProviderTiles("CartoDB.DarkMatter", group = "Dark gray") %>% addProviderTiles("OpenTopoMap", group = "Topo")
 	
-	shps <- x$shps
-	
-
 	gt <- gp$tm_layout
 	gp$tm_layout <- NULL
 	
-
 	e <- environment()
 	id <- 1
+	alpha <- gt$alpha
+	popup.all.data <- gt$popup.all.data
 	
 	mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
@@ -42,7 +25,8 @@ itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
 			if(!is.null(gpl$fill)) {
 				fillRGBA <- col2rgb(gpl$fill, alpha = TRUE)
 				fillColor <- rgb(fillRGBA[1,], fillRGBA[2,], fillRGBA[3,], maxColorValue = 255)
-				fillOpacity <- unname(fillRGBA[4,1]/255 * alpha)
+				fillOpacity <- unname(fillRGBA[4,]/255 * alpha)
+				#fillColor[gpl$fill=="#00000000"] <- "#00000000"
 			} else {
 				fillColor <- NULL
 				fillOpacity <- 0
@@ -62,7 +46,7 @@ itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
 				legendRGBA <- col2rgb(gpl$fill.legend.palette, alpha = TRUE)
 				legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
 				title <- if (gpl$fill.legend.title=="") NULL else gpl$fill.legend.title
-				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$fill.legend.labels, opacity=fillOpacity, title=title)
+				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$fill.legend.labels, opacity=max(fillOpacity), title=title)
 			}
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
@@ -83,6 +67,7 @@ itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
 			fillRGBA <- col2rgb(fill, alpha = TRUE)
 			fillColor <- rgb(fillRGBA[1,], fillRGBA[2,], fillRGBA[3,], maxColorValue = 255)
 			fillOpacity <- unname(fillRGBA[4,1]/255) * alpha
+			
 			
 			bubble.size <- gpl$bubble.size
 
@@ -131,19 +116,19 @@ itmap <- function(tm, popup.all.data=FALSE, alpha=.8) {
 			legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
 			legendOpacity <- unname(legendRGBA[4,1]/255) * alpha
 			
-			transNA <- which(gpl$raster.legend.palette=="#00000000")
-			
-			legendColor[transNA] <- "#00000000"
-			
+# 			transNA <- which(gpl$raster.legend.palette=="#00000000")
+# 			
+# 			legendColor[transNA] <- "#00000000"
+# 			
 			lf <- lf %>% addRasterImage(x=shp, colors=legendColor, opacity = legendOpacity, group=shp_name, project = FALSE)
 			if (!is.null(gpl$raster.legend.show)) {
-				if (transNA) {
-					legendColor <- legendColor[-transNA]
-					legendLabels <- gpl$raster.legend.labels[-transNA]
-				} else {
-					legendLabels <- gpl$raster.legend.labels
-				}
-				
+# 				if (transNA) {
+# 					legendColor <- legendColor[-transNA]
+# 					legendLabels <- gpl$raster.legend.labels[-transNA]
+# 				} else {
+# 					
+# 				}
+				legendLabels <- gpl$raster.legend.labels
 				title <- if (gpl$raster.legend.title=="") NULL else gpl$raster.legend.title
 				lf <- lf %>% addLegend(colors=legendColor, labels = legendLabels, opacity=legendOpacity, title=title)
 			}
