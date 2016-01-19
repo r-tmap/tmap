@@ -2,7 +2,7 @@ process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1, ...) {
 	res <- t(col2rgb(col, alpha=TRUE))
 	
 	# set alpha values
-	if (!is.na(alpha)) res[,4] <- alpha * 255
+	if (!is.na(alpha)) res[res[,4] != 0, 4] <- alpha * 255
 
 	# convert to sepia
 	if (sepia.intensity!=0) {

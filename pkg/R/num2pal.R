@@ -183,7 +183,7 @@ num2pal <- function(x, n = 5,
 		if (anyNA && !is.na(legend.NA.text)) {
 			legend.labels <- c(legend.labels, legend.NA.text)
 		}		
-
+		attr(legend.palette, "style") <- style
 	} else {
 		# create legend labels for discrete cases
 		if (is.null(legend.labels)) {

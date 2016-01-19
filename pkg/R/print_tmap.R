@@ -294,6 +294,11 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			if (interactive) {
 				if (!is.na(gpl$xfill)) {
 					gpl$fill.values <- dt[[gpl$xfill]]
+					if (gpl$fill.legend.hist.misc$densities) {
+						densities <- gpl$fill.legend.hist.misc$values
+						gpl$fill.densities <- densities
+						dt[[paste(gpl$xfill[1], "density", "_")]] <- densities
+					}
 					if (!is.na(gpl$idnames$fill)) {
 						gpl$fill.names <- dt[[gpl$idnames$fill]]
 					}

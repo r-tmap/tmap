@@ -1,11 +1,19 @@
 view_tmap <- function(gps, shps) {
 	# take first small multiple
 	gp <- gps[[1]]
-	
-	lf <- leaflet() %>% addProviderTiles("CartoDB.Positron", group = "Light gray") %>% addProviderTiles("CartoDB.DarkMatter", group = "Dark gray") %>% addProviderTiles("OpenTopoMap", group = "Topo")
-	
 	gt <- gp$tm_layout
 	gp$tm_layout <- NULL
+	
+	#lf <- leaflet() %>% addProviderTiles("CartoDB.Positron", group = "Light gray") %>% addProviderTiles("CartoDB.DarkMatter", group = "Dark gray") %>% addProviderTiles("OpenTopoMap", group = "Topo")
+
+	lf <- leaflet()
+	for (bm in gt$basemaps) {
+		lf <- lf %>% addProviderTiles(bm, group=bm)
+	}
+	
+		
+	#lf <- leaflet() %>% addProviderTiles("CartoDB.Positron", group = "Light gray") %>% addProviderTiles("CartoDB.DarkMatter", group = "Dark gray") %>% addProviderTiles("OpenTopoMap", group = "Topo")
+	
 	
 	e <- environment()
 	id <- 1
@@ -20,34 +28,27 @@ view_tmap <- function(gps, shps) {
 		}
 		
 		plot_tm_fill <- function() {
-			col <- do.call("process_color", c(list(gpl$col, alpha=gpl$alpha), gt$pc))
+			bres <- split_alpha_channel(gpl$col, alpha=alpha)
+			bcol <- bres$col
+			bopacity <- bres$opacity
 			
-			if(!is.null(gpl$fill)) {
-				fillRGBA <- col2rgb(gpl$fill, alpha = TRUE)
-				fillColor <- rgb(fillRGBA[1,], fillRGBA[2,], fillRGBA[3,], maxColorValue = 255)
-				fillOpacity <- unname(fillRGBA[4,]/255 * alpha)
-				#fillColor[gpl$fill=="#00000000"] <- "#00000000"
-			} else {
-				fillColor <- NULL
-				fillOpacity <- 0
-			}
+			fres <- split_alpha_channel(gpl$fill, alpha=alpha)
+			fcol <- fres$col
+			fopacity <- fres$opacity
+			
+			popups <- get_popups(gpl, type="fill", popup.all.data=popup.all.data)
+			
+			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
+			
 
-			dt <- gpl$data
-			if (popup.all.data) {
-				popups <- format_popups(gpl$fill.names, names(dt), dt)
-			} else {
-				popups <- format_popups(gpl$fill.names, gpl$xfill, list(gpl$fill.values))
+			
+			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id)
+			
+			
+			if (!is.na(gpl$xfill)) {
+				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, aes="fill", alpha=alpha)
 			}
-
-			if (length(popups)==1 && popups[1]=="") popups <- NULL
-
-			lf <- lf %>% addPolygons(data=shp, stroke=gpl$lwd>0 && !is.na(col), weight=gpl$lwd, color=col, fillColor = fillColor, fillOpacity = fillOpacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id)
-			if (!is.null(gpl$fill.legend.show)) {
-				legendRGBA <- col2rgb(gpl$fill.legend.palette, alpha = TRUE)
-				legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
-				title <- if (gpl$fill.legend.title=="") NULL else gpl$fill.legend.title
-				lf <- lf %>% addLegend(colors=legendColor, labels = gpl$fill.legend.labels, opacity=max(fillOpacity), title=title)
-			}
+			
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
 			NULL
@@ -55,83 +56,77 @@ view_tmap <- function(gps, shps) {
 		
 		plot_tm_lines <- function() {
 			stop("Lines not implemented yet")
-# 			col <- do.call("process_color", c(list(gpl$line.col, alpha=gpl$line.alpha), gt$pc))
-# 			grid.shplines(shp, gp=gpar(col=col, lwd=gpl$line.lwd, lty=gpl$line.lty,
-# 									   lineend="butt"), i, k)
+			# 			col <- do.call("process_color", c(list(gpl$line.col, alpha=gpl$line.alpha), gt$pc))
+			# 			grid.shplines(shp, gp=gpar(col=col, lwd=gpl$line.lwd, lty=gpl$line.lty,
+			# 									   lineend="butt"), i, k)
 		}
 		
 		plot_tm_bubbles <- function() {
 			npol <- nrow(co)
 			
-			fill <- rep(gpl$bubble.col, length.out=npol)
-			fillRGBA <- col2rgb(fill, alpha = TRUE)
-			fillColor <- rgb(fillRGBA[1,], fillRGBA[2,], fillRGBA[3,], maxColorValue = 255)
-			fillOpacity <- unname(fillRGBA[4,1]/255) * alpha
+			bres <- split_alpha_channel(gpl$bubble.border.col, alpha=alpha)
+			bcol <- bres$col
+			bopacity <- bres$opacity
 			
+			fres <- split_alpha_channel(rep(gpl$bubble.col, length.out=npol), alpha=alpha)
+			fcol <- fres$col
+			fopacity <- fres$opacity
 			
 			bubble.size <- gpl$bubble.size
-
-			dt <- gpl$data
-			if (popup.all.data) {
-				popups <- format_popups(gpl$bubble.names, names(dt), dt)
-			} else {
-				popups <- format_popups(gpl$bubble.names, c(gpl$xsize, gpl$xcol), c(list(gpl$bubble.size.values, gpl$bubble.col.values)))	
-			}
 			
+			popups <- get_popups(gpl, type="bubble", popup.all.data=popup.all.data)
+
 			# sort bubbles
 			if (length(bubble.size)!=1) {
 				decreasing <- order(-bubble.size)
 				co2 <- co[decreasing,]
 				bubble.size2 <- bubble.size[decreasing]
-				fillColor2 <- if (length(fillColor)==1) fillColor else fillColor[decreasing]
+				fcol2 <- if (length(fcol)==1) fcol else fcol[decreasing]
 				popups2 <- popups[decreasing]
 			} else {
 				co2 <- co
 				bubble.size2 <- bubble.size
-				fillColor2 <- fillColor
+				fcol2 <- fcol
 				popups2 <- popups
 			}
 			
 			max_lines <- par("din")[2]*10
-
+			
 			# calculate top-center to bottom-center
 			vdist <- distGeo(p1=c(mean(bbx[1,]), bbx[2,1]),
 							 p2=c(mean(bbx[1,]), bbx[2,2]))
 			
 			rad <- bubble.size2 * vdist/max_lines
 			
-			lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fillColor2)), fillColor = fillColor2, fillOpacity=fillOpacity, color = gpl$bubble.border.col, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id)
+			fixed <- ifelse(gpl$bubble.size.legend.misc$bubble.are.dots, gt$dot.size.fixed, gt$bubble.size.fixed)
+			if (fixed) {
+				lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*bubble.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
+			} else {
+				lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id)
+			}
+			
+			
+			if (!is.na(gpl$xcol)) {
+				if (gpl$bubble.col.legend.show) lf <- lf %>% add_legend(gpl, aes="bubble.col", alpha=alpha)
+			}
+			
+
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
 			NULL
 			
 		}
 		plot_tm_text <- function() {
-			#stop("Text not implemented yet")
-			NULL
+ 			NULL
 		}
 		plot_tm_raster <- function() {
 			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
-			legendRGBA <- col2rgb(gpl$raster.legend.palette, alpha = TRUE)
-			legendColor <- rgb(legendRGBA[1,], legendRGBA[2,], legendRGBA[3,], maxColorValue = 255)
-			legendOpacity <- unname(legendRGBA[4,1]/255) * alpha
+			res_leg <- get_legend_info(gpl, aes="raster", alpha=alpha)
 			
-# 			transNA <- which(gpl$raster.legend.palette=="#00000000")
-# 			
-# 			legendColor[transNA] <- "#00000000"
-# 			
-			lf <- lf %>% addRasterImage(x=shp, colors=legendColor, opacity = legendOpacity, group=shp_name, project = FALSE)
-			if (!is.null(gpl$raster.legend.show)) {
-# 				if (transNA) {
-# 					legendColor <- legendColor[-transNA]
-# 					legendLabels <- gpl$raster.legend.labels[-transNA]
-# 				} else {
-# 					
-# 				}
-				legendLabels <- gpl$raster.legend.labels
-				title <- if (gpl$raster.legend.title=="") NULL else gpl$raster.legend.title
-				lf <- lf %>% addLegend(colors=legendColor, labels = legendLabels, opacity=legendOpacity, title=title)
-			}
+			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=shp_name, project = FALSE)
+
+			if (res_leg$show) lf <- lf %>% addLegend(colors=res_leg$col, labels = res_leg$labels, opacity=res_leg$opacity, title=res_leg$title)
+			
 			assign("lf", lf, envir = e)
 			NULL
 		}
@@ -142,9 +137,9 @@ view_tmap <- function(gps, shps) {
 		
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		lf_layers <- lapply(fnames, do.call, args=list(), envir=e2)
-
+		
 	}, shps, gp, gt$shp_name)
-	lf %>% addLayersControl(baseGroups=c("Light gray", "Dark gray", "Topo"), overlayGroups = gt$shp_name, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))
+	lf %>% addLayersControl(baseGroups=gt$basemaps, overlayGroups = gt$shp_name, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))
 }
 
 
@@ -165,13 +160,105 @@ format_popups <- function(id=NULL, titles, values) {
 		htmlEscape(if (is.numeric(v)) fancy_breaks(v) else v)
 	})
 	
-
+	
 	labels2 <- mapply(function(l, v) {
 		paste0("<tr><td style=\"color: #888888;\">", l, "</td><td>", v, "</td>")
 	}, titles_format, values_format, SIMPLIFY=FALSE)
-		
+	
 	labels3 <- paste0(do.call("paste", c(labels2, list(sep="</tr>"))), "</tr>")
 	x <- paste("<div style=\"max-height:10em;overflow:auto;\"><table>
 			   <thead><tr><th colspan=\"2\">", labels, "</th></thead></tr>", labels3, "</table></div>", sep="")
 	x
 }
+
+split_alpha_channel <- function(x, alpha) {
+	if (is.null(x)) {
+		list(col=NULL, opacity=0)
+	} else {
+		RGBA <- col2rgb(x, alpha = TRUE)
+		col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
+		opacity <- unname(RGBA[4,]/255 * alpha)
+		list(col=col, opacity=opacity)
+	}
+}
+get_x_name <- function(type) {
+	if (type=="fill") {
+		"xfill"
+	} else if (type=="bubble") {
+		c("xsize", "xcol")
+	} else if (type=="raster") {
+		"xraster"
+	} else if (type=="line") {
+		c("xline", "xlwd")
+	}
+}
+
+get_aes_name <- function(type) {
+	if (type=="fill") {
+		"fill"
+	} else if (type=="bubble") {
+		c("bubble.size", "bubble.col")
+	} else if (type=="raster") {
+		"raster"
+	} else if (type=="line") {
+		c("line.col", "line.lwd")
+	}
+}
+
+get_popups <- function(gpl, type, popup.all.data) {
+	var_names <- paste(type, "names", sep=".")
+	var_x <- get_x_name(type)
+	var_aes <- get_aes_name(type)
+	
+	var_values <- paste(var_aes, "values", sep=".")
+	
+	dt <- gpl$data
+	if (popup.all.data) {
+		popups <- format_popups(gpl[[var_names]], names(dt), dt)
+	} else {
+		if (type=="fill" && !is.null(gpl$fill.densities)) {
+			gpl$xfill_dens <- paste(gpl[[paste(var_x)]], "density", sep="_")
+			var_x <- c(var_x, "xfill_dens")
+			var_values <- c(var_values, "fill.densities")
+		}
+		popups <- format_popups(gpl[[var_names]], unlist(gpl[var_x]), gpl[var_values])
+	}
+	if (length(popups)==1 && popups[1]=="") popups <- NULL
+	popups
+}
+
+add_legend <- function(map, gpl, aes, alpha) {
+	pal_name <- paste(aes, "legend.palette", sep=".")
+	pal <- gpl[[pal_name]]
+	
+	if (nchar(pal[1])>10) {
+		style <- attr(pal, "style")
+		is.cont <- TRUE
+		pal <- sapply(pal, function(x) {
+			p <- strsplit(x, split = "-", fixed=TRUE)[[1]]
+			if (p[6]=="NA") p[5] else p[6]
+		})
+		val <- as.numeric(gsub(",", "", gpl$fill.legend.labels, fixed = TRUE))
+	} else {
+		is.cont <- FALSE
+	}
+	RGBA <- col2rgb(pal, alpha = TRUE)
+	col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
+	opacity <- unname(RGBA[4,1]/255) * alpha
+	
+	title_name <- paste(aes, "legend.title", sep=".")
+	lab_name <- paste(aes, "legend.labels", sep=".")
+	
+	title <- if (gpl[[title_name]]=="") NULL else gpl[[title_name]]
+
+	if (is.cont) {
+		if (style=="quantile") {
+			addLegend(map, pal=colorQuantile(pal, val), values=val)
+		} else {
+			addLegend(map, pal=colorNumeric(pal, val), values=val)
+		}
+	} else {
+		addLegend(map, colors=col, labels = gpl[[lab_name]], opacity=opacity, title=title)
+	}
+}
+

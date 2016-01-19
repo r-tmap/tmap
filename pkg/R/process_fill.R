@@ -112,7 +112,7 @@ process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 		 fill.legend.labels=col.legend.labels,
 		 fill.legend.palette=col.legend.palette,
 		 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col),
-		 fill.legend.hist.misc=list(values=values, breaks=breaks),
+		 fill.legend.hist.misc=list(values=values, breaks=breaks, densities=g$convert2density),
 		 xfill=x,
 		 fill.legend.show=g$legend.show,
 		 fill.legend.title=fill.legend.title,

@@ -175,7 +175,7 @@ process_bubbles <- function(data, g, gt, gby, z, allow.small.mult) {
 		 bubble.col.legend.misc=list(bubble.border.lwd=g$border.lwd, bubble.border.col=bubble.border.col, bubble.max.size=bubble.max.size),
 		 bubble.size.legend.labels=bubble.size.legend.labels,
 		 bubble.size.legend.palette= col.neutral,
-		 bubble.size.legend.misc=list(bubble.border.lwd=g$border.lwd, bubble.border.col=bubble.border.col, legend.sizes=bubble.legend.sizes),
+		 bubble.size.legend.misc=list(bubble.border.lwd=g$border.lwd, bubble.border.col=bubble.border.col, legend.sizes=bubble.legend.sizes, bubble.are.dots=g$are.dots),
 		 bubble.col.legend.hist.misc=list(values=values, breaks=breaks),
 		 xsize=xsize,
 		 xcol=xcol,

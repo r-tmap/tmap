@@ -58,10 +58,13 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		aes.colors.light <- sapply(aes.colors, is_light)
 		aes.color <- NULL
 		
-		# append gv
-		alpha <- gv$alpha
-		popup.all.data <- gv$popup.all.data
+# 		alpha <- gv$alpha
+# 		popup.all.data <- gv$popup.all.data
+# 		basemaps <- gv$basemaps
 	})
+	# append gv
+	gt <- c(gt, gv[names(gv)!="na"])
+	
 	gtnull <- names(which(sapply(gt, is.null)))
 	gt[gtnull] <- list(NULL)
 	

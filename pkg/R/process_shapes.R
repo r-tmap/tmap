@@ -22,7 +22,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 	bbox <- g[[masterID]]$bbox
 	args <- g[[masterID]][intersect(names(g[[masterID]]), c("x", "ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
 	
-	shp.proj <- attr(shp, "proj4string")@projargs
+	shp.proj <- get_projection(shp)
 
 	# set bounding box arguments
 	if (is.character(args$x)) {
@@ -51,13 +51,14 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 
 			projection <- get_proj4(projection)
 			if (raster.leaflet) {
-				new_ext <- projectExtent(shp, crs = sp::CRS(get_proj4(3857)))
-				shp <- suppressWarnings(projectRaster(shp, to=new_ext, method="ngb"))
-  				new_extent <- extent(projectExtent(new_ext, crs = CRS(get_proj4(4326))))
+				new_ext <- suppressWarnings(projectExtent(shp, crs = sp::CRS(get_proj4("merc"))))
+				if (shp.proj != get_proj4("merc")) {
+					shp <- suppressWarnings(projectRaster(shp, to=new_ext, method="ngb"))
+				}
+  				new_extent <- extent(projectExtent(new_ext, crs = CRS(get_proj4("longlat"))))
   				shp@extent <- new_extent
-  				print(shp@extent)
-  				shp@crs <- CRS(get_proj4(4326))
- 				attr(shp, "proj4string") <- get_proj4(4326)
+  				shp@crs <- CRS(get_proj4("longlat"))
+ 				attr(shp, "proj4string") <- get_proj4("longlat")
 			} else {
 				shp <- suppressWarnings(projectRaster(shp, crs=projection, method = "ngb"))
 				attr(shp, "proj4string") <- shp@crs
@@ -96,7 +97,19 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 			if (x.proj != projection) {
 				if (inherits(x, "Raster")) {
 					#stop("Raster ", shp_nm, " has different projection and cannot easily be transformed. Please use set_projection for that.", call. = FALSE)
-					x <- suppressWarnings(projectRaster(x, crs=projection, method = "ngb"))
+					if (raster.leaflet) {
+						new_ext <- suppressWarnings(projectExtent(shp, crs = sp::CRS(get_proj4("merc"))))
+						if (x.proj != get_proj4("merc")) {
+							shp <- suppressWarnings(projectRaster(shp, to=new_ext, method="ngb"))
+						}
+						new_extent <- extent(projectExtent(new_ext, crs = CRS(get_proj4("longlat"))))
+						shp@extent <- new_extent
+						shp@crs <- CRS(get_proj4("longlat"))
+						attr(shp, "proj4string") <- get_proj4("longlat")
+					} else {
+						x <- suppressWarnings(projectRaster(x, crs=projection, method = "ngb"))
+					}
+					
 					#attr(shp, "projected") <- is_projected(x)
 					attr(x, "bbox") <- bbox(x)
 					attr(x, "proj4string") <- x@crs
