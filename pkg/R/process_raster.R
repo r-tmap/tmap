@@ -104,7 +104,9 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gt$pc)), 
 						 ncol=ncol(dt))
 		}
-		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx)))
+		is.OpenStreetMap <- attr(data, "is.OpenStreetMap")
+		if (is.null(is.OpenStreetMap)) is.OpenStreetMap <- FALSE
+		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx), raster.misc=list(is.OpenStreetMap=is.OpenStreetMap)))
 	}
 	
 	dcr <- process_dtcol(dt, sel=TRUE, g, gt, nx, npol)
@@ -150,12 +152,12 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 		raster.legend.hist.title <- g$legend.hist.title
 	} else raster.legend.hist.title <- ""
 	
-	
 	list(raster=col,
 		 raster.legend.labels=col.legend.labels,
 		 raster.legend.palette=col.legend.palette,
 		 raster.legend.misc=list(),
 		 raster.legend.hist.misc=list(values=values, breaks=breaks),
+		 raster.misc=list(is.OpenStreetMap=FALSE),
 		 xraster=x,
 		 raster.legend.show=g$legend.show,
 		 raster.legend.title=raster.legend.title,

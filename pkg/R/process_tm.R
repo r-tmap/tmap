@@ -58,13 +58,34 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		aes.colors.light <- sapply(aes.colors, is_light)
 		aes.color <- NULL
 		
-# 		alpha <- gv$alpha
-# 		popup.all.data <- gv$popup.all.data
-# 		basemaps <- gv$basemaps
 	})
-	# append gv
-	gt <- c(gt, gv[names(gv)!="na"])
 	
+	# process view
+	gv <- within(gv, {
+		na <- NULL
+
+		if (!working_internet()) {
+			if (is.null(bg.overlay)) bg.overlay <- TRUE
+			basemaps <- character(0)
+		}
+		
+		# process background overlay
+		if (!is.null(bg.overlay)) {
+			if (identical(bg.overlay, TRUE)) bg.overlay <- gt$bg.color
+			bgo <- split_alpha_channel(bg.overlay, alpha=1)
+			bg.overlay.col <- bgo$col
+			bg.overlay.opacity <- if (is.na(bg.overlay.alpha)) bgo$opacity else bg.overlay.alpha
+			bgo <- NULL
+			if (bg.overlay.opacity==1) basemaps <- character(0)
+		}
+		if (is.null(basemaps)) basemaps <- character(0)
+		if (is.na(alpha)) alpha <- ifelse(length(basemaps), .7, 1)
+		
+	})
+
+	# append view to layout
+	gt <- c(gt, gv)
+
 	gtnull <- names(which(sapply(gt, is.null)))
 	gt[gtnull] <- list(NULL)
 	

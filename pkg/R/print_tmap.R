@@ -56,6 +56,16 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#              - creates grob tree for whole plot
 	interactive <- (mode == "view")
 	
+	if (length(x)==1) {
+		if (getOption("tmap.mode")=="plot") {
+			stop("Either specify shp, or set mode to \"view\" with tmap_mode or ttm")	
+		} else {
+			return(print(view_tmap(x)))
+		}
+		
+	}
+	
+	
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)
@@ -110,6 +120,7 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			} else if (inherits(shp, "SpatialPointsDataFrame")) {
 				type <- "points"
 			} else {
+				attr(data, "is.OpenStreetMap") <- attr(shp, "is.OpenStreetMap")
 				type <- "raster"
 			}
 		} else if (inherits(shp, "Raster")) {

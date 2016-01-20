@@ -13,7 +13,7 @@ tmap_mode <- function(mode=c("plot", "view")) {
 	}
 }	
 
-tmap_toggle <- function() {
+ttm <- function() {
 	current.mode <- getOption("tmap.mode")
 	tmap_mode(ifelse(current.mode=="plot", "view", "plot"))
 }

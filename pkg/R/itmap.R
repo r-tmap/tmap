@@ -7,13 +7,29 @@ view_tmap <- function(gps, shps) {
 	#lf <- leaflet() %>% addProviderTiles("CartoDB.Positron", group = "Light gray") %>% addProviderTiles("CartoDB.DarkMatter", group = "Dark gray") %>% addProviderTiles("OpenTopoMap", group = "Topo")
 
 	lf <- leaflet()
-	for (bm in gt$basemaps) {
-		lf <- lf %>% addProviderTiles(bm, group=bm)
+	basemaps <- gt$basemaps
+
+	# add base layer(s)
+	if (length(basemaps)) {
+		for (bm in basemaps) {
+			lf <- lf %>% addProviderTiles(bm, group=bm)
+		}
+	}
+	
+	# add background overlay
+	if (!is.null(gt$bg.overlay)) {
+		if (any(sapply(gp, function(gpl)!is.null(gpl$raster)))) {
+			warning("Background overlays do not work yet with raster images. Background disabled.")					} else {
+			lf <- lf %>%  addRectangles(-180,-90,180,90, stroke=FALSE, fillColor=gt$bg.overlay.col, fillOpacity = gt$bg.overlay.opacity, layerId=0) 
+			lf$x$limits <- NULL
+		}
 	}
 	
 		
-	#lf <- leaflet() %>% addProviderTiles("CartoDB.Positron", group = "Light gray") %>% addProviderTiles("CartoDB.DarkMatter", group = "Dark gray") %>% addProviderTiles("OpenTopoMap", group = "Topo")
-	
+	if (!length(gp)) {
+		if (length(basemaps)>1) lf <- lf %>% addLayersControl(baseGroups=basemaps, options = layersControlOptions(autoZIndex = TRUE))
+		return(lf)
+	}
 	
 	e <- environment()
 	id <- 1
@@ -98,7 +114,7 @@ view_tmap <- function(gps, shps) {
 			
 			rad <- bubble.size2 * vdist/max_lines
 			
-			fixed <- ifelse(gpl$bubble.size.legend.misc$bubble.are.dots, gt$dot.size.fixed, gt$bubble.size.fixed)
+			fixed <- ifelse(gpl$bubble.misc$bubble.are.dots, gt$dot.size.fixed, gt$bubble.size.fixed)
 			if (fixed) {
 				lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*bubble.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
 			} else {
@@ -120,14 +136,21 @@ view_tmap <- function(gps, shps) {
  			NULL
 		}
 		plot_tm_raster <- function() {
+			if (gpl$raster.misc$is.OpenStreetMap || is.na(gpl$xraster)) return(NULL)
+			
 			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
-			res_leg <- get_legend_info(gpl, aes="raster", alpha=alpha)
+			#res_leg <- get_legend_info(gpl, aes="raster", alpha=alpha)
 			
-			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=shp_name, project = FALSE)
+			res_leg <- add_legend(map=NULL, gpl, aes="raster", alpha = alpha, list.only=TRUE)
+			
+			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=shp_name, project = FALSE, layerId = id)
+			
+			if (!is.na(gpl$xraster)) {
+				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, aes="raster", alpha=alpha)
+			}
 
-			if (res_leg$show) lf <- lf %>% addLegend(colors=res_leg$col, labels = res_leg$labels, opacity=res_leg$opacity, title=res_leg$title)
-			
 			assign("lf", lf, envir = e)
+			assign("id", id+1, envir = e)
 			NULL
 		}
 		plot_tm_grid <- function() {
@@ -139,7 +162,7 @@ view_tmap <- function(gps, shps) {
 		lf_layers <- lapply(fnames, do.call, args=list(), envir=e2)
 		
 	}, shps, gp, gt$shp_name)
-	lf %>% addLayersControl(baseGroups=gt$basemaps, overlayGroups = gt$shp_name, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))
+	lf %>% addLayersControl(baseGroups=basemaps, overlayGroups = gt$shp_name, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))
 }
 
 
@@ -212,6 +235,8 @@ get_popups <- function(gpl, type, popup.all.data) {
 	
 	var_values <- paste(var_aes, "values", sep=".")
 	
+	if (is.na(gpl[var_x])) popup.all.data <- TRUE
+	
 	dt <- gpl$data
 	if (popup.all.data) {
 		popups <- format_popups(gpl[[var_names]], names(dt), dt)
@@ -227,7 +252,7 @@ get_popups <- function(gpl, type, popup.all.data) {
 	popups
 }
 
-add_legend <- function(map, gpl, aes, alpha) {
+add_legend <- function(map, gpl, aes, alpha, list.only=FALSE) {
 	pal_name <- paste(aes, "legend.palette", sep=".")
 	pal <- gpl[[pal_name]]
 	
@@ -246,6 +271,10 @@ add_legend <- function(map, gpl, aes, alpha) {
 	col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
 	opacity <- unname(RGBA[4,1]/255) * alpha
 	
+	if (list.only) {
+		return(list(col=col, opacity=opacity))
+	}
+	
 	title_name <- paste(aes, "legend.title", sep=".")
 	lab_name <- paste(aes, "legend.labels", sep=".")
 	
@@ -262,3 +291,14 @@ add_legend <- function(map, gpl, aes, alpha) {
 	}
 }
 
+working_internet <- function(url = "http://www.google.com") {
+		
+	# test the http capabilities of the current R build
+	if (!capabilities(what = "http/ftp")) return(FALSE)
+	
+	# test connection by trying to read first line of url
+	test <- try(suppressWarnings(readLines(url, n = 1)), silent = TRUE)
+	
+	# return FALSE if test inherits 'try-error' class
+	!inherits(test, "try-error")
+}

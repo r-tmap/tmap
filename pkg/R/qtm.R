@@ -54,6 +54,15 @@ qtm <- function(shp,
 	shp_name <- deparse(substitute(shp))
 	called <- names(match.call(expand.dots = TRUE)[-1])
 	
+	if (is.null(called)) {
+		# return minimal list required for leaflet basemap tile viewing
+		g <- list(list(tm_layout=list(basemaps=tm_view()$tm_view$basemaps)))
+		class(g) <- "tmap"
+		return(g)
+	}
+	
+	#getOption("tmap.mode")
+	
 	if (inherits(shp, "SpatialPolygons")) {
 		if (!("fill" %in% called) && "dasymetric" %in% names(attributes(shp))) fill <- "level"
 	} else {

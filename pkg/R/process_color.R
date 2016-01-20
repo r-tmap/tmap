@@ -1,4 +1,4 @@
-process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1, ...) {
+process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1) {
 	res <- t(col2rgb(col, alpha=TRUE))
 	
 	# set alpha values

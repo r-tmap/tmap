@@ -18,6 +18,8 @@
 #' @example ../examples/read_osm.R
 #' @return The output of \code{read_osm} is a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} if \code{raster=TRUE}, and otherwise a named list of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}, and/or \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} objects. The names of this list are the names of arguments defined at \code{...}.
 read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL, ...) {
+	if (!working_internet()) stop("No internet connection found.")
+	
 	# @importFrom OpenStreetMap openmap
 	k <- v <- NULL
 	args <- list(...)
@@ -35,6 +37,7 @@ read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, merge
 			omr <- raster(om)
 			oms <- as(omr, "SpatialGridDataFrame")
 			oms@data <- data.frame(PIXEL__COLOR = rgb(oms$layer.1, oms$layer.2, oms$layer.3, maxColorValue=255))
+			attr(oms, "is.OpenStreetMap") <- TRUE
 			return(oms)
 		}
 	} else {
