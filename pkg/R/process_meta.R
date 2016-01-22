@@ -96,7 +96,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 		
 		#attr.color <- do.call("process_color", c(list(col=attr.color), pc))
 		bg.color <- do.call("process_color", c(list(col=bg.color), pc))
-		if (!is.null(bg.overlay)) bg.overlay.col <- split_alpha_channel(do.call("process_color", c(list(col=bg.overlay.col), pc)), alpha=1)$col
+		bg.overlay <- do.call("process_color", c(list(col=bg.overlay), pc))
 		
 		if (!is.null(outer.bg.color)) outer.bg.color <- do.call("process_color", c(list(col=outer.bg.color), pc))
 		if (!is.na(legend.bg.color)) legend.bg.color <- do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), pc))

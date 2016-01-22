@@ -14,16 +14,14 @@
 
 \item{return.asp}{Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.}
 
+\item{mode}{the mode of tmap: \code{"plot"} (static) or \code{"view"} (interactive). See \code{\link{tmap_mode}} for details.}
+
 \item{...}{not used}
-
-\item{plot}{should \code{x} be plot?}
-
-\item{interactive}{should the plot be prepared for interaction? If \code{TRUE}, latitude longitude ( WGS84) coordinates are used and margins will be set to 0.}
 }
 \value{
 A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 }
 \description{
-Draw thematic map on current graphics device
+Draw thematic map. If the tmap mode is set to \code{"plot"} (see \code{\link{tmap_mode}}), the map is plot in the current graphics device. If the mode is set to \code{"view"}, the map is shown interactively as an htmlwidget.
 }
 

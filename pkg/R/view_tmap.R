@@ -17,10 +17,10 @@ view_tmap <- function(gps, shps) {
 	}
 	
 	# add background overlay
-	if (!is.null(gt$bg.overlay)) {
+	if (gt$bg.overlay.alpha!=0) {
 		if (any(sapply(gp, function(gpl)!is.null(gpl$raster)))) {
 			warning("Background overlays do not work yet with raster images. Background disabled.")					} else {
-			lf <- lf %>%  addRectangles(-180,-90,180,90, stroke=FALSE, fillColor=gt$bg.overlay.col, fillOpacity = gt$bg.overlay.opacity, layerId=0) 
+			lf <- lf %>%  addRectangles(-540,-90,540,90, stroke=FALSE, fillColor=gt$bg.overlay, fillOpacity = gt$bg.overlay.alpha, layerId=0) 
 			lf$x$limits <- NULL
 		}
 	}
@@ -36,7 +36,7 @@ view_tmap <- function(gps, shps) {
 	alpha <- gt$alpha
 	popup.all.data <- gt$popup.all.data
 	
-	mapply(function(shp, gpl, shp_name) {
+	group_selection <- mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
 		
 		if (inherits(shp, "Spatial")) {
@@ -67,11 +67,12 @@ view_tmap <- function(gps, shps) {
 			
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
-			NULL
+			TRUE
 		}
 		
 		plot_tm_lines <- function() {
-			stop("Lines not implemented yet")
+			warning("Lines not implemented yet")
+			FALSE
 			# 			col <- do.call("process_color", c(list(gpl$line.col, alpha=gpl$line.alpha), gt$pc))
 			# 			grid.shplines(shp, gp=gpar(col=col, lwd=gpl$line.lwd, lty=gpl$line.lty,
 			# 									   lineend="butt"), i, k)
@@ -129,18 +130,20 @@ view_tmap <- function(gps, shps) {
 
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
-			NULL
+			TRUE
 			
 		}
 		plot_tm_text <- function() {
- 			NULL
+ 			FALSE
 		}
 		plot_tm_raster <- function() {
-			if (gpl$raster.misc$is.OpenStreetMap || is.na(gpl$xraster)) return(NULL)
+			if (gpl$raster.misc$is.OpenStreetMap) return(FALSE)	
+			if (is.na(gpl$xraster)) {
+				gpl$raster.legend.palette <- unique(gpl$raster)
+			}
 			
 			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
-			#res_leg <- get_legend_info(gpl, aes="raster", alpha=alpha)
-			
+
 			res_leg <- add_legend(map=NULL, gpl, aes="raster", alpha = alpha, list.only=TRUE)
 			
 			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=shp_name, project = FALSE, layerId = id)
@@ -151,7 +154,7 @@ view_tmap <- function(gps, shps) {
 
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
-			NULL
+			TRUE
 		}
 		plot_tm_grid <- function() {
 		}
@@ -159,10 +162,17 @@ view_tmap <- function(gps, shps) {
 		e2 <- environment()
 		
 		fnames <- paste("plot", gpl$plot.order, sep="_")
-		lf_layers <- lapply(fnames, do.call, args=list(), envir=e2)
-		
-	}, shps, gp, gt$shp_name)
-	lf %>% addLayersControl(baseGroups=basemaps, overlayGroups = gt$shp_name, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))
+		layer_selection <- sapply(fnames, do.call, args=list(), envir=e2)
+		any(layer_selection)
+	}, shps, gp, gt$shp_name, SIMPLIFY = TRUE)
+	
+	groups <- gt$shp_name[group_selection]
+	
+	lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
+	#center <- c(mean(lims[c(1,3)]), mean(lims[c(2,4)]))
+	
+	
+	lf %>% addLayersControl(baseGroups=basemaps, overlayGroups = groups, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))  %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
 }
 
 
@@ -235,7 +245,7 @@ get_popups <- function(gpl, type, popup.all.data) {
 	
 	var_values <- paste(var_aes, "values", sep=".")
 	
-	if (is.na(gpl[var_x])) popup.all.data <- TRUE
+	if (all(is.na(unlist(gpl[var_x])))) popup.all.data <- TRUE
 	
 	dt <- gpl$data
 	if (popup.all.data) {

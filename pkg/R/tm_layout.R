@@ -86,6 +86,9 @@
 #' @param title.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).
 #' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions.
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
+#' @param basemaps vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.
+#' @param bg.overlay color of the background overlay rectangle used in the interactive view mode. See \code{\link{tm_view}}.
+#' @param bg.overlay.alpha alpha transparency of \code{bg.overlay}
 #' @param ... other arguments from \code{tm_layout}
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_layout.R
@@ -140,8 +143,9 @@ tm_layout <- function(title=NA,
 					  title.bg.alpha = 1,
 					  attr.position = c("right", "bottom"),
 					  design.mode = FALSE,
-					  popup.all.data=FALSE,
-					  alpha=1) {
+					  basemaps = c("CartoDB.Positron", "OpenStreetMap"),
+					  bg.overlay=NULL,
+					  bg.overlay.alpha=0) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tm"
 	g
@@ -267,6 +271,7 @@ tm_style_natural <- function(bg.color="lightskyblue1",
 							 attr.color="black", 
 							 space.color="white",
 							 earth.boundary=TRUE,
+							 basemaps="MapQuestOpen.OSM",
 							 ...) {
 
 	args <- c(as.list(environment()), list(...))
@@ -282,9 +287,11 @@ tm_style_grey <- tm_style_gray
 #' @rdname tm_layout
 #' @export
 tm_style_cobalt <- function(bg.color="#002240",
-							 aes.color=c(fill="#0088FF", borders="#002240", bubbles="#FF9D00", dots="#FF9D00", lines="#FFEE80", text="white", na="grey60"),
-							 aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
-							 attr.color="white", ...) {
+							aes.color=c(fill="#0088FF", borders="#002240", bubbles="#FF9D00", dots="#FF9D00", lines="#FFEE80", text="white", na="grey60"),
+							aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
+							attr.color="white", 
+							bg.overlay.alpha=.3,
+							...) {
 	# Bu="#0088FF" DaBu="#002240" LiBu="#BED6FF" Or="#FF9D00", W="white" Yl="FFEE80"
 	# See https://www.hartwork.org/beamer-theme-matrix/
 	
@@ -313,7 +320,9 @@ tm_style_col_blind <- function(bg.color="white",
 tm_style_albatross <- function(bg.color="#00007F",
 								aes.color=c(fill="#4C4C88", borders="#00004C", bubbles="#BFBFFF", dots="#BFBFFF", lines="#BFBFFF", text="#FFE700", na="grey60"),
 								aes.palette=list(seq="YlOrRd", div="RdYlGn", cat="Set3"),
-								attr.color="#BFBFFF", ...) {
+								attr.color="#BFBFFF",
+								bg.overlay.alpha=.3,
+								...) {
 	# Y="#FFE700", Bu="#00007F", DaBu="#00004C", Gr="#BFBFFF", DaGr="#4C4C88"
 	# See https://www.hartwork.org/beamer-theme-matrix/
 	
@@ -349,7 +358,14 @@ tm_style_bw <- function(saturation=0, ...) {
 
 #' @rdname tm_layout
 #' @export
-tm_style_classic <- function(sepia.intensity=.7, fontfamily="serif", frame.double.line=TRUE, compass.type="rose", ...) {
+tm_style_classic <- function(sepia.intensity=.7, 
+							 fontfamily="serif", 
+							 frame.double.line=TRUE, 
+							 compass.type="rose",
+							 bg.overlay="gold",
+							 bg.overlay.alpha=.5,
+							 basemaps="Esri.WorldTopoMap",
+							 ...) {
 	args <- c(as.list(environment()), list(...))
 	g <- do.call("tm_layout", args)
 	g$tm_layout$call <- union(g$tm_layout$call, style_args)

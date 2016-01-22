@@ -7,10 +7,10 @@
 tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   labels = NULL, auto.palette.mapping = TRUE, contrast = NA,
-  max.categories = 12, colorNA = NA, saturation = 1, textNA = "Missing",
-  title = NA, legend.show = TRUE, legend.format = list(),
-  legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.z = NA, legend.hist.z = NA)
+  max.categories = 12, colorNA = NULL, saturation = 1,
+  textNA = "Missing", title = NA, legend.show = TRUE,
+  legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA)
 }
 \arguments{
 \item{col}{either a single color value or the name of a data variable that is contained in \code{shp}. In the latter case, either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details). By default, it is the name of the first data variable.}
@@ -95,7 +95,7 @@ tm_layout(scale=.8,
     legend.frame="gray50")
 
 tm_shape(land, ylim = c(-88,88)) +
-    tm_raster("trees", palette = "Greens", title="Percent Tree Cover", colorNA=NULL) +
+    tm_raster("trees", palette = "Greens", title="Percent Tree Cover") +
 tm_shape(World) +
     tm_borders() +
 tm_layout(legend.position = c("left","bottom"), bg.color="lightblue")

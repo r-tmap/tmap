@@ -102,7 +102,7 @@ tm_dots(col = NA, size = 0.02, title = NA, legend.is.portrait = TRUE,
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
 
-\item{id}{name of the data variable that specifies the indices of the bubbles. Only used for SVG output (see \code{\link{itmap}}).}
+\item{id}{name of the data variable that specifies the indices of the bubbles. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
 
 \item{title}{shortcut for \code{title.col} for \code{tm_dots}}
 

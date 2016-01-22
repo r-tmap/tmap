@@ -42,7 +42,8 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
   title.position = c("left", "top"), title.color = attr.color,
   title.bg.color = NA, title.bg.alpha = 1, attr.position = c("right",
-  "bottom"), design.mode = FALSE, popup.all.data = FALSE, alpha = 1)
+  "bottom"), design.mode = FALSE, basemaps = c("CartoDB.Positron",
+  "OpenStreetMap"), bg.overlay = NULL, bg.overlay.alpha = 0)
 
 tm_legend(...)
 
@@ -80,7 +81,8 @@ tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   "darkolivegreen3", borders = "black", bubbles = "tomato2", dots = "firebrick",
   lines = "steelblue", text = "black", na = "white"), aes.palette = list(seq =
   "YlGn", div = "RdYlGn", cat = "Set3"), attr.color = "black",
-  space.color = "white", earth.boundary = TRUE, ...)
+  space.color = "white", earth.boundary = TRUE,
+  basemaps = "MapQuestOpen.OSM", ...)
 
 tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
   "grey20", bubbles = "blueviolet", dots = "black", lines = "red", text =
@@ -89,7 +91,8 @@ tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
 tm_style_cobalt(bg.color = "#002240", aes.color = c(fill = "#0088FF",
   borders = "#002240", bubbles = "#FF9D00", dots = "#FF9D00", lines = "#FFEE80",
   text = "white", na = "grey60"), aes.palette = list(seq = "YlGn", div =
-  "RdYlGn", cat = "Set3"), attr.color = "white", ...)
+  "RdYlGn", cat = "Set3"), attr.color = "white", bg.overlay.alpha = 0.3,
+  ...)
 
 tm_style_col_blind(bg.color = "white", aes.color = c(fill = "grey85",
   borders = "black", bubbles = "#D55E00", dots = "#0072B2", lines = "#009E73",
@@ -100,7 +103,8 @@ tm_style_col_blind(bg.color = "white", aes.color = c(fill = "grey85",
 tm_style_albatross(bg.color = "#00007F", aes.color = c(fill = "#4C4C88",
   borders = "#00004C", bubbles = "#BFBFFF", dots = "#BFBFFF", lines = "#BFBFFF",
   text = "#FFE700", na = "grey60"), aes.palette = list(seq = "YlOrRd", div =
-  "RdYlGn", cat = "Set3"), attr.color = "#BFBFFF", ...)
+  "RdYlGn", cat = "Set3"), attr.color = "#BFBFFF", bg.overlay.alpha = 0.3,
+  ...)
 
 tm_style_beaver(bg.color = "#FFFFFF", aes.color = c(fill = "#FFE200",
   borders = "#000000", bubbles = "#A30000", dots = "#A30000", lines = "#A30000",
@@ -110,7 +114,8 @@ tm_style_beaver(bg.color = "#FFFFFF", aes.color = c(fill = "#FFE200",
 tm_style_bw(saturation = 0, ...)
 
 tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
-  frame.double.line = TRUE, compass.type = "rose", ...)
+  frame.double.line = TRUE, compass.type = "rose", bg.overlay = "gold",
+  bg.overlay.alpha = 0.5, basemaps = "Esri.WorldTopoMap", ...)
 }
 \arguments{
 \item{title}{Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.}
@@ -218,6 +223,12 @@ By default the title is placed on top of the legend (determined by \code{legend.
 \item{attr.position}{Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions.}
 
 \item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.}
+
+\item{basemaps}{vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.}
+
+\item{bg.overlay}{color of the background overlay rectangle used in the interactive view mode. See \code{\link{tm_view}}.}
+
+\item{bg.overlay.alpha}{alpha transparency of \code{bg.overlay}}
 
 \item{...}{other arguments from \code{tm_layout}}
 }

@@ -25,7 +25,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	if (any("tm_view" %in% names(x))) {
 		gv <- x[[which("tm_view" == names(x))[1]]]
 	} else {
-		gv <- tm_view_options()$tm_view
+		gv <- tm_view()$tm_view
 	}
 	
 	## preprocess gt
@@ -55,6 +55,8 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		# override na
 		if (interactive) aes.colors["na"] <- if (is.null(gv$na)) "#00000000" else if (is.na(gv$na)) aes.colors["na"] else gv$na
 		
+		if (is.null(bg.overlay)) bg.overlay <- bg.color
+		
 		aes.colors.light <- sapply(aes.colors, is_light)
 		aes.color <- NULL
 		
@@ -62,28 +64,23 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	
 	# process view
 	gv <- within(gv, {
-		na <- NULL
-
-		if (!working_internet()) {
-			if (is.null(bg.overlay)) bg.overlay <- TRUE
+		if (!working_internet() || identical(as.numeric(bg.overlay.alpha), 1) || identical(basemaps, FALSE)) {
+			# solid background
+			if (is.na(bg.overlay.alpha)) bg.overlay.alpha <- 1
 			basemaps <- character(0)
+		} else {
+			# with basemap tiles
+			if (is.na(bg.overlay.alpha)) bg.overlay.alpha <- gt$bg.overlay.alpha
+			if (identical(basemaps, TRUE)) basemaps <- gt$basemaps
 		}
-		
-		# process background overlay
-		if (!is.null(bg.overlay)) {
-			if (identical(bg.overlay, TRUE)) bg.overlay <- gt$bg.color
-			bgo <- split_alpha_channel(bg.overlay, alpha=1)
-			bg.overlay.col <- bgo$col
-			bg.overlay.opacity <- if (is.na(bg.overlay.alpha)) bgo$opacity else bg.overlay.alpha
-			bgo <- NULL
-			if (bg.overlay.opacity==1) basemaps <- character(0)
-		}
-		if (is.null(basemaps)) basemaps <- character(0)
-		if (is.na(alpha)) alpha <- ifelse(length(basemaps), .7, 1)
-		
+		if (is.na(bg.overlay)) bg.overlay <- gt$bg.overlay
+		bg.overlay <- split_alpha_channel(bg.overlay, alpha=1)$col
+		na <- NULL
+		call <- NULL
 	})
 
 	# append view to layout
+	gt[c("basemaps", "bg.overlay", "bg.overlay.alpha")] <- NULL
 	gt <- c(gt, gv)
 
 	gtnull <- names(which(sapply(gt, is.null)))

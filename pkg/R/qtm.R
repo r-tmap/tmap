@@ -54,7 +54,7 @@ qtm <- function(shp,
 	shp_name <- deparse(substitute(shp))
 	called <- names(match.call(expand.dots = TRUE)[-1])
 	
-	if (is.null(called)) {
+	if (missing(shp)) {
 		# return minimal list required for leaflet basemap tile viewing
 		g <- list(list(tm_layout=list(basemaps=tm_view()$tm_view$basemaps)))
 		class(g) <- "tmap"

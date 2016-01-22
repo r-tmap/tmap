@@ -83,7 +83,7 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
 
 \item{legend.hist.z}{index value that determines the position of the legend element regarding the histogram. (See \code{legend.col.z})}
 
-\item{id}{name of the data variable that specifies the indices of the lines. Only used for SVG output (see \code{\link{itmap}}).}
+\item{id}{name of the data variable that specifies the indices of the lines. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
 }
 \value{
 \code{\link{tmap-element}}

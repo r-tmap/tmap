@@ -106,7 +106,7 @@ Layout element:
 \section{Output functions}{
  
 \tabular{ll}{
-\code{\link{itmap}}\tab Interactive tmap widget \cr
+\code{\link{print}}\tab Plot in graphics device or view interactively in web browser or RStudio's viewer pane \cr
 \code{\link{animation_tmap}}\tab Create an animation \cr
 \code{\link{save_tmap}}\tab To save thematic maps \cr
 \code{\link{write_shape}}\tab To write a shape object \cr

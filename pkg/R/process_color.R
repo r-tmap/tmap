@@ -1,4 +1,13 @@
 process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1) {
+	#if (length(col)>100) browser()
+	
+	isFactor <- is.factor(col)
+	
+	if (isFactor) {
+		x <- as.integer(col)
+		col <- levels(col)
+	}
+	
 	res <- t(col2rgb(col, alpha=TRUE))
 	
 	# set alpha values
@@ -20,7 +29,15 @@ process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1) {
 		res[res>255] <- 255
 		res[res<0] <- 0
 	}
-	do.call("rgb", c(unname(as.data.frame(res)), list(maxColorValue=255)))
+	if (all(res[,4]==255)) res <- res[,-4, drop=FALSE]
+
+	new_cols <- do.call("rgb", c(unname(as.data.frame(res)), list(maxColorValue=255)))
+	
+	if (isFactor) {
+		new_cols[x]
+	} else {
+		new_cols
+	}
 }
 
 is_light <- function(col) {

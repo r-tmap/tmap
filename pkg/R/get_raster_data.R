@@ -15,7 +15,9 @@ get_RasterLayer_data_vector <- function(r) {
 
 
 get_raster_data <- function(shp) {
-	if (inherits(shp, "RasterLayer")) {
+	if (fromDisk(shp)) {
+		data <- raster::as.data.frame(shp)
+	} else if (inherits(shp, "RasterLayer")) {
 		data <- data.frame(get_RasterLayer_data_vector(shp))
 		names(data) <- names(shp)
 		if (shp@data@names[1]=="" && ncol(data)>=1) names(data)[1] <- "FILE__VALUES"
@@ -38,5 +40,33 @@ get_raster_data <- function(shp) {
 			factor(d, levels=a$ID, labels=as.character(a[[levelsID]]))
 		}, data[isfactor], atb, SIMPLIFY=FALSE)
 	}	
+	
+	ct <- length(colortable(shp))
+	if (ct) {
+		minV <- min(minValue(shp))
+		maxV <- max(maxValue(shp))
+		plusone <- minV==0 && maxV<ct
+		data[[1]] <- data[[1]]+plusone
+	}
+
+	data
+}
+
+
+preprocess_raster_data <- function(data, sel) {
+	if (is.na(sel)[1] || !any(sel %in% names(data))) sel <- names(data)[1]
+	sel <- intersect(sel, names(data))
+	
+	data <- data[, sel, drop=FALSE]
+	
+	notNumCat <- sapply(data, function(x){
+		!is.numeric(x) && !is.factor(x)
+	})
+	
+	if (any(notNumCat)) {
+		data[, notNumCat] <- lapply(data[, notNumCat], function(x) {
+			factor(x)
+		})
+	}
 	data
 }

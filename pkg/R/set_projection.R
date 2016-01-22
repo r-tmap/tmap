@@ -37,7 +37,11 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 		if (missing(current.projection) || is.na(current.projection)) {
 			stop("Currect projection of shape object unknown. Please specify the argument current.projection. The value \"longlat\", which stands for Longitude-latitude (WGS84), is most commonly used.")
 		} else {
-			shp@proj4string <- CRS(current.proj4)
+			if (inherits(shp, "Spatial")) {
+				shp@proj4string <- CRS(current.proj4)
+			} else {
+				shp@crs <- CRS(current.proj4) 
+			}
 			current.projection <- current.proj4
 		}
 	} else {
@@ -47,7 +51,12 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 			} else {
 				if (overwrite.current.projection) {
 					warning("Current projection of ", shp.name, " differs from ", current.projection, ", but is overwritten.", call. = FALSE)
-					shp@proj4string <- CRS(current.proj4)
+					if (inherits(shp, "Spatial")) {
+						shp@proj4string <- CRS(current.proj4)
+					} else {
+						shp@crs <- CRS(current.proj4) 
+					}
+					
 				} else {
 					stop(shp.name, " already has projection: ", shp.proj, ". This is different from the specified current projection ", current.projection, ". If the specified projection is correct, use overwrite.current.projection=TRUE.", call. = FALSE)
 				}
@@ -73,7 +82,48 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 		}
 		
 		if (inherits(shp, "Raster")) {
-			shp <- suppressWarnings(projectRaster(shp, crs=proj4))
+			raster_data <- get_raster_data(shp)
+			has_color_table <- (length(colortable(shp))>0)
+			
+			# get factor levels (to be restored later)
+			lvls <- lapply(raster_data, levels)
+			# override factor levels with colortable values
+			if (has_color_table) {
+				lvls <- lapply(lvls, function(l) colortable(shp))
+			}
+			isnum <- sapply(lvls, is.null)
+			
+			new_ext <- suppressWarnings(projectExtent(shp, crs = CRS(proj4)))
+			if (any(isnum) && !all(isnum)) {
+				shp_num <- raster::subset(shp, subset=which(isnum))
+				shp_cat <- raster::subset(shp, subset=which(!isnum))
+				shp_num2 <- suppressWarnings(projectRaster(shp_num, to=new_ext, crs=proj4, method="bilinear"))
+				shp_cat2 <- suppressWarnings(projectRaster(shp_cat, to=new_ext, crs=proj4, method="ngb"))
+				
+				# restore order
+				o <- order(c(which(isnum), which(!isnum)))
+				rlayers <- c(lapply(1:nlayers(shp_num), function(i) raster(shp_num2, layer=i)),
+							 lapply(1:nlayers(shp_cat), function(i) raster(shp_cat2, layer=i)))[o]
+				shp <- do.call("brick", rlayers)
+			} else if (all(isnum)) {
+				shp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=proj4, method="bilinear"))
+			} else {
+				shp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=proj4, method="ngb"))
+			}
+			
+			new_raster_data <- as.data.frame(mapply(function(d, l) {
+				if (!is.null(l) && !is.factor(d)) factor(d, levels=1:length(l), labels=l) else d
+			}, get_raster_data(shp), lvls, SIMPLIFY=FALSE))
+			
+			if (any(!isnum)) {
+				shp@data@isfactor <- !isnum
+				dfs <- mapply(function(nm, lv) {
+					df <- data.frame(ID=1:length(lv), x=factor(lv, levels=lv))
+					names(df)[2] <- nm
+					df
+				}, names(which(!isnum)), lvls[!isnum], SIMPLIFY=FALSE)
+				shp@data@attributes <- dfs
+			}
 		} else {
 			shp <- spTransform(shp, CRS(proj4))
 		}

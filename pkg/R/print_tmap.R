@@ -1,16 +1,15 @@
 #' Draw thematic map
 #' 
-#' Draw thematic map on current graphics device
+#' Draw thematic map. If the tmap mode is set to \code{"plot"} (see \code{\link{tmap_mode}}), the map is plot in the current graphics device. If the mode is set to \code{"view"}, the map is shown interactively as an htmlwidget.
 #' 
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param return.asp Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.
-#' @param plot should \code{x} be plot?
-#' @param interactive should the plot be prepared for interaction? If \code{TRUE}, latitude longitude ( WGS84) coordinates are used and margins will be set to 0.
+#' @param mode the mode of tmap: \code{"plot"} (static) or \code{"view"} (interactive). See \code{\link{tmap_mode}} for details.
 #' @param ... not used
 #' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 #' @import sp
-#' @importFrom raster raster extent setValues ncell couldBeLonLat fromDisk crop
+#' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @import grid
@@ -76,79 +75,43 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		any(sapply(x[which(names(x)=="tm_fill")], function(i)identical(i$col[1],"MAP_COLORS")))
 	} else FALSE
 	
-	
-	## extract data.frames from shape/raster objects
-	shps_dts <- lapply(x[shape.id], function(y) {
-		shp <- y$shp
-		shp.unit <- y$unit
-		shp.unit.size <- y$unit.size
-		
-		if (inherits(shp, "Spatial")) {
-			if (inherits(shp, "SpatialPixelsDataFrame")) {
-				shp <- as(shp, "SpatialGridDataFrame")
-			}
-			## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
-			newData <- data.frame(tmapID = seq_len(length(shp)))
-			if ("data" %in% slotNames(shp)) {
-				data <- shp@data
-				shp@data <- newData
-				if (inherits(shp, "SpatialGridDataFrame")) {
-					shp <- raster(shp, layer=0)
-				}
-			} else {
-				data <- newData
-				shp <- if (inherits(shp, "SpatialPolygons")) {
-					SpatialPolygonsDataFrame(shp, data = newData, match.ID = FALSE)
-				} else if (inherits(shp, "SpatialLines")) {
-					SpatialLinesDataFrame(shp, data = newData, match.ID = FALSE)
-				} else if (inherits(shp, "SpatialPoints")) {
-					SpatialPointsDataFrame(shp, data = newData, match.ID = FALSE)
-				} else if (inherits(shp, c("SpatialGrid", "SpatialPixels"))) {
-					raster(shp, layer=0)
-				}
-			}
-			
-			if (inherits(shp, "SpatialPolygonsDataFrame")) {
-				data$SHAPE_AREAS <- approx_areas(shp, unit=shp.unit, unit.size = shp.unit.size)
-				attr(data, "AREAS_is_projected") <- is_projected(shp)
-				if (apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
-				attr(data, "dasymetric") <- ("dasymetric" %in% names(attributes(shp)))
-				type <- "polygons"
-			} else if (inherits(shp, "SpatialLinesDataFrame")) {
-				attr(data, "isolines") <- ("isolines" %in% names(attributes(shp)))
-				type <- "lines"
-			} else if (inherits(shp, "SpatialPointsDataFrame")) {
-				type <- "points"
-			} else {
-				attr(data, "is.OpenStreetMap") <- attr(shp, "is.OpenStreetMap")
-				type <- "raster"
-			}
-		} else if (inherits(shp, "Raster")) {
-			if (fromDisk(shp)) {
-				shp <- as(shp, "SpatialGridDataFrame")
-				data <- data.frame(FILE__VALUES = shp[[1]])
-				shp <- raster(shp, layer=0)
-			} else {
-				data <- get_raster_data(shp)
-				shp <- raster(shp)
-			}
-			type <- "raster"
-		} else {
-			stop("Object ", y$shp_name, " is neither from class Spatial nor Raster.", call. = FALSE)
-		}
-		
-		if (inherits(shp, "Raster")) {
-			## convert to a RasterLayer with ID numbers
-			shp <- setValues(shp, values=1:ncell(shp))
-			
-			## to be consistent with Spatial objects:
-			attr(shp, "bbox") <- bbox(shp)
-			attr(shp, "proj4string") <- shp@crs
-		}
-		attr(shp, "projected") <- is_projected(shp)
-		
-		list(shp=shp, data=data, type=type)
+
+	## find master shape
+	is_raster <- sapply(x[shape.id], function(xs) {
+		inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid"))	
 	})
+	is_master <- sapply(x[shape.id], "[[", "is.master")
+	
+	any_raster <- any(is_raster)
+	masterID <- if (!length(which(is_master))) {
+		if (any_raster) which(is_raster)[1] else 1
+	} else which(is_master)[1]
+	
+	## find master projection
+	master_proj <- get_proj4(x[[shape.id[masterID]]]$projection)
+	if (is.null(master_proj)) master_proj <- get_projection(x[[shape.id[masterID]]]$shp)
+	if (interactive) master_proj <- get_proj4("longlat")
+
+	## get raster and group by variable name (needed for eventual reprojection)
+	raster.id <- which(names(x)=="tm_raster")
+	facets_by <- lapply(1:nshps, function(i) {
+		from <- shape.id[i] + 1
+		to <- ifelse(i==nshps, length(x), shape.id[i+1]-1)
+		fid <- which(names(x)[from:to]=="tm_facets")
+		if (length(fid)) x[[from-1+fid[1]]]$by else NULL
+	})
+	
+	if (length(raster.id) != sum(is_raster)) stop("The number of raster shapes should be equal to the number of raster layers")
+	if (length(raster.id)) {
+		x[shape.id[is_raster]] <- mapply(function(rx, sx, fby) {
+			sx$col <- c(rx$col, fby)
+			sx
+		}, x[raster.id], x[shape.id[is_raster]], facets_by[is_raster], SIMPLIFY=FALSE)
+	}
+
+	## extract data.frames from shape/raster objects
+	shps_dts <- lapply(x[shape.id], preprocess_shapes, apply_map_coloring=apply_map_coloring, master_proj=master_proj, interactive=interactive)
+	
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)
 	types <- lapply(shps_dts, "[[", 3)
@@ -158,22 +121,7 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		x[names(x)=="tm_facets"] <- NULL
 	}
 
-	## find master shape
-	is_raster <- sapply(shps, inherits, "RasterLayer")
-	is_master <- sapply(x[shape.id], "[[", "is.master")
-	is_master <- is_master==TRUE & !is.na(is_master)
-	
-	any_raster <- any(is_raster)
-	masterID <- if (any_raster) {
-		if (any(is_master[is_raster])) which(is_raster)[is_master[is_raster]][1] else which(is_raster)[1]
-	} else {
-		if (any(is_master)) which(is_master)[1] else 1
-	}
-	
-	if (interactive) {
-		x[shape.id[masterID]]$tm_shape$projection <- get_proj4("longlat")
-	}
-	
+
 	## determine aspect ratio of master shape
 	shpM_bb <- attr(shps[[masterID]], "bbox")
 	shpM_asp <-	calc_asp_ratio(shpM_bb[1,], shpM_bb[2,], longlat=!attr(shps[[masterID]], "projected"))
@@ -239,7 +187,7 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 	shps_lengths <- sapply(shps, length)
 
-	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID, allow.crop = !interactive, raster.leaflet=interactive)
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
 	
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
