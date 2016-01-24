@@ -19,7 +19,8 @@ view_tmap <- function(gps, shps) {
 	# add background overlay
 	if (gt$bg.overlay.alpha!=0) {
 		if (any(sapply(gp, function(gpl)!is.null(gpl$raster)))) {
-			warning("Background overlays do not work yet with raster images. Background disabled.")					} else {
+			warning("Background overlays do not work yet with raster images. Background disabled.", call. = FALSE)
+		} else {
 			lf <- lf %>%  addRectangles(-540,-90,540,90, stroke=FALSE, fillColor=gt$bg.overlay, fillOpacity = gt$bg.overlay.alpha, layerId=0) 
 			lf$x$limits <- NULL
 		}
@@ -28,6 +29,12 @@ view_tmap <- function(gps, shps) {
 		
 	if (!length(gp)) {
 		if (length(basemaps)>1) lf <- lf %>% addLayersControl(baseGroups=basemaps, options = layersControlOptions(autoZIndex = TRUE))
+		
+		if (!is.null(gt$bbx)) {
+			lf <- lf %>% 
+				fitBounds(gt$bbx[1], gt$bbx[2], gt$bbx[3], gt$bbx[4]) %>% 
+				addMarkers(gt$center[1], gt$center[2])
+		}
 		return(lf)
 	}
 	
@@ -157,6 +164,7 @@ view_tmap <- function(gps, shps) {
 			TRUE
 		}
 		plot_tm_grid <- function() {
+			FALSE
 		}
 		
 		e2 <- environment()

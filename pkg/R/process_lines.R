@@ -225,7 +225,8 @@ process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 		 line.col.legend.hist.title=line.col.legend.hist.title,
 		 line.col.legend.z=line.col.legend.z,
 		 line.lwd.legend.z=line.lwd.legend.z,
-		 line.col.legend.hist.z=line.col.legend.hist.z
+		 line.col.legend.hist.z=line.col.legend.hist.z,
+		 line.id=g$id
 	)
 
 }

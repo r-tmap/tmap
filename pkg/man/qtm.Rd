@@ -18,7 +18,8 @@ qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
  \item{\code{\link[sp:SpatialGridDataFrame]{SpatialGrid(DataFrame)}}}
  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
-}}
+}
+In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly.}
 
 \item{fill}{either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).}
 

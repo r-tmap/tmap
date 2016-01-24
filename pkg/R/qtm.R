@@ -15,6 +15,7 @@
 #'  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
 #'  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 #' }
+#' In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly.
 #' @param fill either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).
 #' @param bubble.size name of the data variable in \code{shp} for the bubble map that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param bubble.col name of the data variable in \code{shp} for the bubble map that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
@@ -56,7 +57,13 @@ qtm <- function(shp,
 	
 	if (missing(shp)) {
 		# return minimal list required for leaflet basemap tile viewing
-		g <- list(list(tm_layout=list(basemaps=tm_view()$tm_view$basemaps)))
+		g <- list(tm_shortcut=list(basemaps=tm_style_white()$tm_layout$basemaps, bg.overlay.alpha=0))
+		class(g) <- "tmap"
+		return(g)
+	} else if (is.character(shp)) {
+		# return minimal list required for leaflet basemap tile viewing
+		res <- search_nominatim_OSM(shp)
+		g <- list(tm_shortcut=list(basemaps=tm_style_white()$tm_layout$basemaps, bg.overlay.alpha=0, bbx=res$bbx, center=res$center))
 		class(g) <- "tmap"
 		return(g)
 	}

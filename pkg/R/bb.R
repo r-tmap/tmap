@@ -39,20 +39,10 @@
 #' @export
 bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=NULL, ylim=NULL, relative = FALSE, current.projection=NULL, projection=NULL) {
 	if (is.character(x)) {
-		q <- gsub(" ", "+", x, fixed = TRUE)
-		addr <- paste0("http://nominatim.openstreetmap.org/search?q=", q, "&format=xml&polygon=0&addressdetails=0")
-
-		tmpfile <- tempfile()
-		suppressWarnings(download.file(addr, destfile = tmpfile, mode= "wb", quiet = TRUE))
-		
-		doc <- xmlTreeParse(tmpfile)
-		unlink(tmpfile)
-		if (length(xmlChildren(xmlRoot(doc)))==0) stop(paste("No results found for \"", x, "\".", sep=""))
-		first_search_result <- xmlChildren(xmlRoot(doc))[[1]]
-		bbx <- xmlAttrs(first_search_result)["boundingbox"]
-		cy <- as.numeric(xmlAttrs(first_search_result)["lat"])
-		cx <- as.numeric(xmlAttrs(first_search_result)["lon"])
-		b <- matrix(as.numeric(unlist(strsplit(bbx, ","))), ncol=2, byrow=TRUE)[2:1,]
+		res <- search_nominatim_OSM(x)
+		b <- res$bbx
+		cx <- res$center[1]
+		cy <- res$center[2]
 		current.projection <- "longlat"
 	} else if (inherits(x, "Extent")) {
 		b <- bbox(x)		
@@ -188,4 +178,24 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 	}
 	
 	b	
+}
+
+
+search_nominatim_OSM <- function(q) {
+	q <- gsub(" ", "+", q, fixed = TRUE)
+	addr <- paste0("http://nominatim.openstreetmap.org/search?q=", q, "&format=xml&polygon=0&addressdetails=0")
+	
+	tmpfile <- tempfile()
+	suppressWarnings(download.file(addr, destfile = tmpfile, mode= "wb", quiet = TRUE))
+	
+	doc <- xmlTreeParse(tmpfile)
+	unlink(tmpfile)
+	if (length(xmlChildren(xmlRoot(doc)))==0) stop(paste("No results found for \"", q, "\".", sep=""))
+	first_search_result <- xmlChildren(xmlRoot(doc))[[1]]
+	bbx <- xmlAttrs(first_search_result)["boundingbox"]
+	cy <- as.numeric(xmlAttrs(first_search_result)["lat"])
+	cx <- as.numeric(xmlAttrs(first_search_result)["lon"])
+	b <- matrix(as.numeric(unlist(strsplit(bbx, ","))), ncol=2, byrow=TRUE)[2:1,]
+	dimnames(b) <- list(c("x", "y"), c("min", "max"))
+	list(bbx=b, center=c(cx,cy))
 }

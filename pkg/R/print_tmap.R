@@ -6,10 +6,12 @@
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param return.asp Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.
 #' @param mode the mode of tmap: \code{"plot"} (static) or \code{"view"} (interactive). See \code{\link{tmap_mode}} for details.
+#' @param knit should \code{\link[knitr:knit_print]{knit_print}} be enabled, or the normal \code{\link[base:print]{print}} function?
+#' @param options options passed on to \code{\link[knitr:knit_print]{knit_print}}
 #' @param ... not used
 #' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 #' @import sp
-#' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent
+#' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @import grid
@@ -23,13 +25,18 @@
 #' @importFrom graphics par
 #' @importFrom rgdal getPROJ4VersionInfo
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
+#' @importFrom knitr knit_print
 #' @importMethodsFrom raster as.vector
 #' @importFrom geosphere distGeo
 #' @import leaflet
 #' @importFrom htmltools htmlEscape
 #' @export
 #' @method print tmap
-print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), ...) {
+print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), knit=FALSE, options=NULL, ...) {
+	print_tmap(x=x, vp=vp, return.asp=return.asp, mode=mode, knit=knit, options=options, ...)
+}
+
+print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), knit=FALSE, options=NULL, ...) {
 	#### General process of tmap:
 	#  print.tmap: - puts shapes and shape data into right format
 	#              - calls process_tm for processing tm elements
@@ -55,13 +62,30 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#              - creates grob tree for whole plot
 	interactive <- (mode == "view")
 	
-	if (length(x)==1) {
+	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
+	if (names(x)[1]=="tm_shortcut") {
 		if (getOption("tmap.mode")=="plot") {
-			stop("Either specify shp, or set mode to \"view\" with tmap_mode or ttm")	
+			stop("Either specify shp, or set mode to \"view\" with tmap_mode or ttm", call.=FALSE)	
 		} else {
-			return(print(view_tmap(x)))
+			gt <- preprocess_gt(x, interactive=interactive)
+			gt$bbx <- x$tm_shortcut$bbx
+			gt$center <- x$tm_shortcut$center
+			
+			lf <-view_tmap(list(list(tm_layout=gt)))
+			
+			
+			if (knit) {
+				# 			if (!requireNamespace("knitr", quietly = TRUE)) {
+				# 				stop("knitr package needed for this function to work. Please install it.",
+				# 					 call. = FALSE)
+				# 			} else {
+				# 				knit_print <- get("knit_print", envir=asNamespace("knitr"), mode="function")
+				#args <- list(...)
+				return(knit_print(lf, ..., options=options))
+			} else {
+				return(print(lf))
+			}
 		}
-		
 	}
 	
 	
@@ -297,7 +321,19 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	## plot
 	if (interactive) {
-		print(view_tmap(gps2, shps))
+		lf <- view_tmap(gps2, shps)
+		
+		if (knit) {
+			# 			if (!requireNamespace("knitr", quietly = TRUE)) {
+			# 				stop("knitr package needed for this function to work. Please install it.",
+			# 					 call. = FALSE)
+			# 			} else {
+			# 				knit_print <- get("knit_print", envir=asNamespace("knitr"), mode="function")
+			#args <- list(...)
+			return(knit_print(lf, ..., options=options))
+		} else {
+			return(print(lf))
+		}
 	} else {
 		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		
@@ -307,4 +343,8 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	}
 }
 
-
+#' @rdname print.tmap
+#' @export
+knit_print.tmap <- function(x, ..., options=NULL) {
+	print_tmap(x, knit=TRUE, options=options, ...)
+}

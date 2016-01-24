@@ -1,5 +1,5 @@
 process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shp_info) {
-	attr.color <- aes.color <- pc <- grid.alpha <- NULL
+	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- NULL
 	
 	gf <- within(gf, {
 		by <- NULL

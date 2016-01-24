@@ -28,10 +28,13 @@ Imports:
     osmar,
     RColorBrewer,
     spdep,
-    XML
+    XML,
+    leaflet,
+    geosphere,
+    knitr
 Suggests:
     dplyr,
-    knitr,
+    rmarkdown,
     OpenStreetMap
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
