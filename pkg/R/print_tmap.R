@@ -117,24 +117,18 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	if (interactive) master_proj <- get_proj4("longlat")
 
 	## get raster and group by variable name (needed for eventual reprojection)
-	raster.id <- which(names(x)=="tm_raster")
-	facets_by <- lapply(1:nshps, function(i) {
+	raster_facets_vars <- lapply(1:nshps, function(i) {
 		from <- shape.id[i] + 1
 		to <- ifelse(i==nshps, length(x), shape.id[i+1]-1)
 		fid <- which(names(x)[from:to]=="tm_facets")
-		if (length(fid)) x[[from-1+fid[1]]]$by else NULL
+		rid <- which(names(x)[from:to]=="tm_raster")
+		c(if (length(fid)) x[[from-1+fid[1]]]$by else NULL,
+		  if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
 	})
 	
-	if (length(raster.id) != sum(is_raster)) stop("The number of raster shapes should be equal to the number of raster layers")
-	if (length(raster.id)) {
-		x[shape.id[is_raster]] <- mapply(function(rx, sx, fby) {
-			sx$col <- c(rx$col, fby)
-			sx
-		}, x[raster.id], x[shape.id[is_raster]], facets_by[is_raster], SIMPLIFY=FALSE)
-	}
 
 	## extract data.frames from shape/raster objects
-	shps_dts <- lapply(x[shape.id], preprocess_shapes, apply_map_coloring=apply_map_coloring, master_proj=master_proj, interactive=interactive)
+	shps_dts <- mapply(preprocess_shapes, x[shape.id], raster_facets_vars, MoreArgs = list(apply_map_coloring=apply_map_coloring, master_proj=master_proj, interactive=interactive), SIMPLIFY = FALSE)
 	
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)

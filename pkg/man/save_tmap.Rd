@@ -31,7 +31,7 @@ save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
 
 \item{insets_vp}{\code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.}
 
-\item{...}{arguments passed on to device functions}
+\item{...}{arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}}
 }
 \description{
 Save tmap to a file, such as png, jpg, or pdf.

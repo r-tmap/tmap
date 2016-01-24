@@ -24,6 +24,7 @@ Imports:
     rgeos,
     classInt,
     htmltools,
+    htmlwidgets,
     KernSmooth,
     osmar,
     RColorBrewer,

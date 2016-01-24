@@ -30,6 +30,8 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 		data$GROUP_BY <- factor("_NA_")
 		by <- NA
 	} else {
+		if (!(g$tm_shape$by %in% names(data))) stop("Variable \"", g$tm_shape$by, "\" not found in ", g$tm_shape$shp_name, call.=FALSE)
+		
 		d <- data[[g$tm_shape$by]]
 		data$GROUP_BY <- if (is.factor(d)) {
 			factor(as.character(d), levels=levels(d)[table(d)>0])

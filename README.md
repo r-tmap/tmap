@@ -6,6 +6,8 @@ R package for thematic maps
 
 ![Classic world map](http://www.von-tijn.nl/tijn/research/tmap_classic.png)
 
+New: interactive maps. See [demo](http://von-tijn.nl/tijn/research/tmap/tmap_demo.html)
+
 Installation
 ------------
 
@@ -29,7 +31,6 @@ See [NEWS](https://github.com/mtennekes/tmap/blob/master/pkg/NEWS) for the lates
 Do you want to help with the development of the package? Please let me know! I could use some help with the following issues:
 
 * Implementation of [cartograms](https://github.com/mtennekes/tmap/issues/10)
-* Improvement of the [interactive tool](https://github.com/mtennekes/tmap/issues/20) `itmap`.
 * Finally, any feedback, requests, tips, or bug reports are welcome!
 
 

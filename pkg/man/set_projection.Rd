@@ -12,7 +12,7 @@ get_projection(shp)
 }
 \arguments{
 \item{shp}{shape object of class \code{\link[sp:Spatial]{Spatial}} or
-\code{\link[raster:Raster-class]{Raster}}}
+\code{\link[raster:Raster-class]{Raster}} (see details).}
 
 \item{projection}{character that determines the new projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. This argument is
 only used to transform the \code{shp}. Use \code{current.projection} to
@@ -38,5 +38,8 @@ used projections. The projection can also be set directly in the plot call
 with \code{\link{tm_shape}}. This function is also used to set the current
 projection information if this is missing. The function \code{get_projection}
 is used to get the projection information.
+}
+\details{
+For raster objects, the projection method is based on the type of data. For numeric layers, the bilinear method is used, and for categorical layers the nearest neighbor. See \code{\link[raster:projectRaster]{projectRaster}} for details.
 }
 

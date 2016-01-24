@@ -1,4 +1,6 @@
 version 1.3 (development)
+- interactive maps up and running. tmap has two modes: "plot" (graphics device) and "view" (interactive viewer, based on leaflet)
+- improved set_projection for raster objects
 - added double_line and offset_line
 - added insets option in save_tmap
 - improved default settings for contrast arugment regarding seq and div palettes

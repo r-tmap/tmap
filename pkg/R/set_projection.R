@@ -8,8 +8,10 @@
 #' projection information if this is missing. The function \code{get_projection}
 #' is used to get the projection information.
 #' 
+#' For raster objects, the projection method is based on the type of data. For numeric layers, the bilinear method is used, and for categorical layers the nearest neighbor. See \code{\link[raster:projectRaster]{projectRaster}} for details.
+#' 
 #' @param shp shape object of class \code{\link[sp:Spatial]{Spatial}} or
-#'   \code{\link[raster:Raster-class]{Raster}}
+#'   \code{\link[raster:Raster-class]{Raster}} (see details).
 #' @param projection character that determines the new projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. This argument is
 #'   only used to transform the \code{shp}. Use \code{current.projection} to
 #'   specify the current projection of \code{shp}.
@@ -77,8 +79,11 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 		
 		cls <- class(shp)
 		
-		if (inherits(shp, "SpatialGrid")) {
-			shp <- as(shp, "RasterBrick")
+		if (inherits(shp, c("SpatialGrid", "SpatialPixels"))) {
+			shp <- brick(shp)
+			recast <- TRUE
+		} else {
+			recast <- FALSE
 		}
 		
 		if (inherits(shp, "Raster")) {
@@ -92,7 +97,6 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 				lvls <- lapply(lvls, function(l) colortable(shp))
 			}
 			isnum <- sapply(lvls, is.null)
-			
 			new_ext <- suppressWarnings(projectExtent(shp, crs = CRS(proj4)))
 			if (any(isnum) && !all(isnum)) {
 				shp_num <- raster::subset(shp, subset=which(isnum))
@@ -118,8 +122,8 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 			if (any(!isnum)) {
 				shp@data@isfactor <- !isnum
 				dfs <- mapply(function(nm, lv) {
-					df <- data.frame(ID=1:length(lv), x=factor(lv, levels=lv))
-					names(df)[2] <- nm
+					df <- data.frame(ID=1:length(lv), levels=factor(lv, levels=lv))
+					if (cls=="RasterBrick") names(df)[2] <- nm
 					df
 				}, names(which(!isnum)), lvls[!isnum], SIMPLIFY=FALSE)
 				shp@data@attributes <- dfs
@@ -128,7 +132,7 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 			shp <- spTransform(shp, CRS(proj4))
 		}
 
-		if (class(shp) != cls) {
+		if (recast) {
 			shp <- as(shp, cls)
 		}
 	}

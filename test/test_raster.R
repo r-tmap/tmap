@@ -109,3 +109,24 @@ summaryRprof(tmp)
 unlink(tmp)
 
 
+## set_projection
+land2 <- set_projection(land, projection="eck4")
+qtm(land, raster="cover")
+qtm(land2, raster="cover_cover")
+
+rlB <- set_projection(rl, projection="eck4")
+qtm(rl, raster="cover_cls")
+qtm(rlB, raster="cover_cls")
+
+rl2B <- set_projection(rl2, projection="eck4")
+qtm(rl2, raster="trees")
+qtm(rl2B, raster="trees")
+
+
+rs2 <- set_projection(rs, projection="eck4")
+qtm(rs, raster="trees")
+qtm(rs2, raster="trees")
+
+rb2 <- set_projection(rb, projection="eck4")
+qtm(rb, raster="trees")
+qtm(rb2, raster="trees")

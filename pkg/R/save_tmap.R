@@ -13,7 +13,8 @@
 #' @param scale overrides the scale argument of \code{\link{tm_layout}} (unless set to \code{NA})
 #' @param insets_tm tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with \code{insets_vp}.
 #' @param insets_vp \code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.
-#' @param ... arguments passed on to device functions
+#' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}
+#' @importFrom htmlwidgets saveWidget
 #' @examples 
 #' \dontrun{
 #' data(NLD_muni, NLD_prov)
@@ -37,12 +38,21 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 		tolower(pieces[length(pieces)])
 	}
 	
+	interactive <- getOption("tmap.mode")=="view"
 	
 	if (missing(filename)) {
-		ext <- "png"
+		ext <- ifelse(interactive, "html", "png")
 		filename <- paste(filename, ext, sep=".")
 	} else ext <- get_ext(filename)
 	
+	interactive <- (ext=="html")
+	
+	if (interactive) {
+		lf <- print(tm, mode="view")
+		saveWidget(lf, file=filename, ...)
+		return(invisible())
+	}
+
 	if (is.na(width) && is.na(height)) {
 		width <- par("din")[1]
 		height <- par("din")[2]
