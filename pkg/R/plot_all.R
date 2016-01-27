@@ -149,6 +149,8 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 			treeMetaVP <- NULL
 		}
 		if (!is.na(gt$frame)) {
+			pH <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
+			pW <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
 			if (gt$frame.double.line) {
 				frameX <- 4.5 * pW
 				frameY <- 4.5 * pH
