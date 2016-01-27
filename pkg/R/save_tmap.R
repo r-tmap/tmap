@@ -15,20 +15,7 @@
 #' @param insets_vp \code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.
 #' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}
 #' @importFrom htmlwidgets saveWidget
-#' @examples 
-#' \dontrun{
-#' data(NLD_muni, NLD_prov)
-#' (tm_shape(NLD_muni) +
-#' 	 tm_fill(col="population", convert2density=TRUE, 
-#' 	   style="kmeans", title="Population (per km2)", legend.hist=FALSE) +
-#' 	 tm_borders("black", alpha=.5) + 
-#' tm_shape(NLD_prov) +
-#' 	 tm_borders("grey25", lwd=2) +
-#' tm_format_NLD(inner.margins = c(.02, .15, .06, .15)) + 
-#' tm_scale_bar(position = c("left", "bottom")) +
-#' tm_compass(position=c("right", "bottom")) + 
-#' tm_style_classic()) %>% save_tmap()
-#' }
+#' @example ../examples/save_tmap.R
 #' @export
 save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c("in", "cm", "mm", "px"),
 					  dpi=300, outer.margins=0, asp=0, scale=NA, insets_tm=NULL, insets_vp=NULL, ...) {
@@ -38,18 +25,20 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 		tolower(pieces[length(pieces)])
 	}
 	
-	interactive <- getOption("tmap.mode")=="view"
-	
+	tmap.mode <- getOption("tmap.mode")=="view"
+
 	if (missing(filename)) {
-		ext <- ifelse(interactive, "html", "png")
+		ext <- ifelse(tmap.mode=="view", "html", "png")
 		filename <- paste(filename, ext, sep=".")
 	} else ext <- get_ext(filename)
 	
 	interactive <- (ext=="html")
+	options(tmap.mode=ifelse(interactive, "view", "plot"))
 	
 	if (interactive) {
-		lf <- print(tm, mode="view")
+		lf <- print(tm)
 		saveWidget(lf, file=filename, ...)
+		options(tmap.mode=tmap.mode)
 		return(invisible())
 	}
 
@@ -134,5 +123,6 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 	  }
 	}
 	
+	options(tmap.mode=tmap.mode)
 	invisible()
 }
