@@ -1,5 +1,6 @@
 version 1.3 (development)
 - interactive maps up and running. tmap has two modes: "plot" (graphics device) and "view" (interactive viewer, based on leaflet)
+- added geocode_OSM, a function to find coordinates
 - improved set_projection for raster objects
 - added double_line and offset_line
 - added insets option in save_tmap

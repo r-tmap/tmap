@@ -8,7 +8,7 @@
 \method{print}{tmap}(x, vp = NULL, return.asp = FALSE,
   mode = getOption("tmap.mode"), knit = FALSE, options = NULL, ...)
 
-\method{knit_print}{tmap}(x, ..., options = NULL)
+knit_print.tmap(x, ..., options = NULL)
 }
 \arguments{
 \item{x}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}
@@ -19,9 +19,9 @@
 
 \item{mode}{the mode of tmap: \code{"plot"} (static) or \code{"view"} (interactive). See \code{\link{tmap_mode}} for details.}
 
-\item{knit}{should \code{\link[knitr:knit_print]{knit_print}} be enabled, or the normal \code{\link[base:print]{print}} function?}
+\item{knit}{should knitprint be enabled, or the normal \code{\link[base:print]{print}} function?}
 
-\item{options}{options passed on to \code{\link[knitr:knit_print]{knit_print}}}
+\item{options}{options passed on to knitprint}
 
 \item{...}{not used}
 }

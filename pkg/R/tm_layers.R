@@ -235,7 +235,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
-#' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. 
+#' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. By default, all polygons are drawn. To ignore polygons that are not visible in a normal plot, a value like \code{1e-05} is recommended.
 #' @param title title of the legend element
 #' @param legend.show logical that determines whether the legend is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
@@ -274,7 +274,7 @@ tm_fill <- function(col=NA,
 			 		max.categories = 12,
 			 		colorNA = NA,
 			 		textNA = "Missing",
-					thres.poly = 1e-05,
+					thres.poly = 0,
 					title=NA,
 					legend.show=TRUE,
 					legend.format=list(),

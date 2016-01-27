@@ -18,104 +18,20 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 	ylim <- g[[masterID]]$ylim
 	ext <- g[[masterID]]$ext
 	relative <- g[[masterID]]$relative
-	bbox <- g[[masterID]]$bbox
-	args <- g[[masterID]][intersect(names(g[[masterID]]), c("x", "ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
+	args <- g[[masterID]][intersect(names(g[[masterID]]), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
+	args$x <- g[[masterID]]$bbox
 	
 	# in case x is search query
-	if (is.character(args$x)) {
-		args$projection <- projection
-		args$current.projection <- "longlat"
+	if (!is.null(args$x)) {
+		if (is.character(args$x)) {
+			args$projection <- projection
+			args$current.projection <- "longlat"
+		} else {
+			args$projection <- NULL
+			args$current.projection <- NULL
+		}
 	}
-	
-	# 
-	if (!is.null(bbox) && !("x" %in% names(args))) {
-		args$x <- bbox 	
-		args$projection <- NULL
-		args$current.projection <- NULL
-	}
-	
-	
-# 	# edit and set projection
-# 	if (!is.null(projection)) {
-# 		if (inherits(shp, "Raster")) {
-# 			#warning("Unable to set projection for rasters. Please use set_projection.", call. = FALSE)
-# 			#projection <- shp.proj
-# 
-# 			projection <- get_proj4(projection)
-# 			if (raster.leaflet) {
-# 				new_ext <- suppressWarnings(projectExtent(shp, crs = sp::CRS(get_proj4("merc"))))
-# 				if (shp.proj != get_proj4("merc")) {
-# 					shp <- suppressWarnings(projectRaster(shp, to=new_ext, method="ngb"))
-# 				}
-#   				new_extent <- extent(projectExtent(new_ext, crs = CRS(get_proj4("longlat"))))
-#   				shp@extent <- new_extent
-#   				shp@crs <- CRS(get_proj4("longlat"))
-#  				attr(shp, "proj4string") <- get_proj4("longlat")
-# 			} else {
-# 				shp <- suppressWarnings(projectRaster(shp, crs=projection, method = "ngb"))
-# 				attr(shp, "proj4string") <- shp@crs
-# 			}
-# 			attr(shp, "bbox") <- bbox(shp)
-# 			attr(shp, "projected") <- is_projected(shp)
-# 
-# 		} else {
-# 			projection <- get_proj4(projection)
-# 			shp <- spTransform(shp, CRS(projection))
-# 			attr(shp, "projected") <- is_projected(shp)
-# 		}
-# 	} else {
-# 		projection <- shp.proj
-# 	}
-# 	
-# 	longlat <- !attr(shp, "projected") #is_projected(shp)
-# 
-# 	
-# 	# set projection for other shapes
-# 	shps <- mapply(function(x, shp_nm){
-# 		if (shp_nm==shp_name) {
-# 			x <- shp
-# 		} else {
-# 			x.proj <- attr(x, "proj4string")@projargs
-# 			if (is.na(x.proj)) {
-# 				if (maybe_longlat(attr(x, "bbox"))) {
-# 					warning("Currect projection of shape ", shp_nm, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
-# 					x.proj <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
-# 				} else {
-# 					warning("Currect projection of shape ", shp_nm, " unknown. The projection of ", shp_name, " is assumed.", call. = FALSE)
-# 					x.proj <- shp.proj
-# 				}
-# 				attr(x, "proj4string") <- CRS(x.proj)
-# 			}
-# 			if (x.proj != projection) {
-# 				if (inherits(x, "Raster")) {
-# 					#stop("Raster ", shp_nm, " has different projection and cannot easily be transformed. Please use set_projection for that.", call. = FALSE)
-# 					if (raster.leaflet) {
-# 						new_ext <- suppressWarnings(projectExtent(shp, crs = sp::CRS(get_proj4("merc"))))
-# 						if (x.proj != get_proj4("merc")) {
-# 							shp <- suppressWarnings(projectRaster(shp, to=new_ext, method="ngb"))
-# 						}
-# 						new_extent <- extent(projectExtent(new_ext, crs = CRS(get_proj4("longlat"))))
-# 						shp@extent <- new_extent
-# 						shp@crs <- CRS(get_proj4("longlat"))
-# 						attr(shp, "proj4string") <- get_proj4("longlat")
-# 					} else {
-# 						x <- suppressWarnings(projectRaster(x, crs=projection, method = "ngb"))
-# 					}
-# 					
-# 					#attr(shp, "projected") <- is_projected(x)
-# 					attr(x, "bbox") <- bbox(x)
-# 					attr(x, "proj4string") <- x@crs
-# 					
-# 				} else {
-# 					x <- spTransform(x, CRS(projection))
-# 				}
-# 				
-# 			}
-# 		}
-# 		x
-# 	}, shps, names(shps), SIMPLIFY=FALSE)
-	
-	
+
 	# define bounding box
 	longlat <- !is_projected(shp)
 	

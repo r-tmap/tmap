@@ -43,7 +43,8 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   title.position = c("left", "top"), title.color = attr.color,
   title.bg.color = NA, title.bg.alpha = 1, attr.position = c("right",
   "bottom"), design.mode = FALSE, basemaps = c("CartoDB.Positron",
-  "OpenStreetMap"), bg.overlay = NULL, bg.overlay.alpha = 0)
+  "OpenStreetMap", "Esri.WorldTopoMap"), bg.overlay = NULL,
+  bg.overlay.alpha = 0)
 
 tm_legend(...)
 
@@ -267,12 +268,10 @@ tm_shape(World) +
     tm_fill("pop_est_dens", style="kmeans", title="Population density") +
 tm_format_World(title="The World") + tm_style_albatross(frame.lwd=10)
 
-land_eck4 <- set_projection(land, "eck4") # convert to Eckert IV projection
-
-tm_shape(land_eck4) +
+tm_shape(land) +
 	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
 		palette = terrain.colors(9), title="Elevation", auto.palette.mapping = FALSE) +
-tm_shape(World) +
+tm_shape(World, is.master=TRUE) +
 	tm_borders("grey20") +
 	tm_grid(projection="longlat", labels.size = .5) +
 	tm_text("name", size="AREA") +
@@ -286,17 +285,6 @@ tm_legend(position = c("left", "bottom"),
 	frame = TRUE,
 	bg.color="lightblue")
 
-WorldOne <- rgeos::gUnaryUnion(World)
-tm_shape(World, projection="wintri") +
-	tm_fill("HPI", palette="div", auto.palette.mapping = FALSE, n=7, 
-			title = "Happy Planet Index") +
-	tm_shape(WorldOne) + 
-	tm_borders() +
-	tm_grid(projection = "longlat") +
-tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
-tm_style_natural(earth.boundary = c(-180,180,-87,87), inner.margins = .05) +
-tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
-
 \dontrun{
 # the last three elements (tm_layout, tm_style_classic, and tm_legend)
 # can also be merged into one element function:
@@ -309,14 +297,26 @@ tm_style_classic(inner.margins=c(.04,.03, .02, .01),
 	legend.bg.color="lightblue")
 }
 
+WorldOne <- rgeos::gUnaryUnion(World)
+tm_shape(World, projection="wintri") +
+	tm_fill("HPI", palette="div", auto.palette.mapping = FALSE, n=7, 
+			title = "Happy Planet Index") +
+	tm_shape(WorldOne) + 
+	tm_borders() +
+	tm_grid(projection = "longlat") +
+	tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
+	tm_style_natural(earth.boundary = c(-180,180,-87,87), inner.margins = .05) +
+	tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
+
+
 \dontrun{
 # global option tmap.style:
 qtm(World, fill="economy", format="World")
-options(tmap.style = "col_blind")
+tmap_style("col_blind")
 qtm(World, fill="economy", format="World")
-options(tmap.style = "cobalt")
+tmap_style("cobalt")
 qtm(World, fill="economy", format="World")
-options(tmap.style = "white") # the default
+tmap_style("white")
 }
 }
 \seealso{

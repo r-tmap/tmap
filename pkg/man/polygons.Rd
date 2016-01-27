@@ -10,7 +10,7 @@ tm_fill(col = NA, alpha = NA, palette = NULL, convert2density = FALSE,
   area = NULL, n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
   breaks = NULL, labels = NULL, auto.palette.mapping = TRUE,
   contrast = NA, max.categories = 12, colorNA = NA, textNA = "Missing",
-  thres.poly = 1e-05, title = NA, legend.show = TRUE,
+  thres.poly = 0, title = NA, legend.show = TRUE,
   legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
   legend.hist.title = NA, legend.z = NA, legend.hist.z = NA, id = NA,
   ...)
@@ -53,7 +53,7 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
 
-\item{thres.poly}{number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size.}
+\item{thres.poly}{number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. By default, all polygons are drawn. To ignore polygons that are not visible in a normal plot, a value like \code{1e-05} is recommended.}
 
 \item{title}{title of the legend element}
 

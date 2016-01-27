@@ -59,6 +59,15 @@ Layout element:
 \tabular{ll}{
 \code{\link{tm_layout}}\tab To adjust the layout (main function)\cr
 \code{\link{tm_legend}}\tab Shortcut to adjust the legend \cr
+\code{\link{tm_view}}\tab Options for the interactive view mode \cr
+--------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
+}
+
+Change options:
+\tabular{ll}{
+\code{\link{tmap_mode}}\tab To set the tmap mode: \code{"plot"} or \code{"view"}\cr
+\code{\link{ttm}}\tab To toggle between the modes\cr
+\code{\link{tmap_style}}\tab To set the default style \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }
@@ -67,6 +76,7 @@ Layout element:
  
 \tabular{ll}{
 \code{\link{bb}}\tab To create, extract or modify a bounding box \cr
+\code{\link{geocode_OSM}}\tab To get geocode based on location \cr
 \code{\link{get_asp_ratio}}\tab To get the aspect ratio of a shape object \cr
 \code{\link{get_IDs}}\tab To get ID values of a shape object \cr
 \code{\link{append_data}}\tab To append a data frame to a shape object \cr
@@ -132,6 +142,8 @@ Martijn Tennekes \email{mtennekes@gmail.com}
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+
+\href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
 }
 \keyword{GIS,}
 \keyword{bubble}

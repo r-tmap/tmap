@@ -6,8 +6,8 @@
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param return.asp Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.
 #' @param mode the mode of tmap: \code{"plot"} (static) or \code{"view"} (interactive). See \code{\link{tmap_mode}} for details.
-#' @param knit should \code{\link[knitr:knit_print]{knit_print}} be enabled, or the normal \code{\link[base:print]{print}} function?
-#' @param options options passed on to \code{\link[knitr:knit_print]{knit_print}}
+#' @param knit should knitprint be enabled, or the normal \code{\link[base:print]{print}} function?
+#' @param options options passed on to knitprint
 #' @param ... not used
 #' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
 #' @import sp
@@ -25,7 +25,6 @@
 #' @importFrom graphics par
 #' @importFrom rgdal getPROJ4VersionInfo
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
-#' @importFrom knitr knit_print
 #' @importMethodsFrom raster as.vector
 #' @importFrom geosphere distGeo
 #' @import leaflet
@@ -35,6 +34,14 @@
 print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), knit=FALSE, options=NULL, ...) {
 	print_tmap(x=x, vp=vp, return.asp=return.asp, mode=mode, knit=knit, options=options, ...)
 }
+
+#' @rdname print.tmap
+#' @export
+knit_print.tmap <- function(x, ..., options=NULL) {
+	# @importFrom knitr knit_print
+	print_tmap(x, knit=TRUE, options=options, ...)
+}
+
 
 print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), knit=FALSE, options=NULL, ...) {
 	#### General process of tmap:
@@ -75,13 +82,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			
 			
 			if (knit) {
-				# 			if (!requireNamespace("knitr", quietly = TRUE)) {
-				# 				stop("knitr package needed for this function to work. Please install it.",
-				# 					 call. = FALSE)
-				# 			} else {
-				# 				knit_print <- get("knit_print", envir=asNamespace("knitr"), mode="function")
-				#args <- list(...)
-				return(knit_print(lf, ..., options=options))
+				return(do.call("knit_print", c(list(x=lf), list(...), list(options=options))))
+				#return(knit_print(lf, ..., options=options))
 			} else {
 				return(print(lf))
 			}
@@ -139,10 +141,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		x[names(x)=="tm_facets"] <- NULL
 	}
 
-
 	## determine aspect ratio of master shape
-	shpM_bb <- attr(shps[[masterID]], "bbox")
-	shpM_asp <-	calc_asp_ratio(shpM_bb[1,], shpM_bb[2,], longlat=!attr(shps[[masterID]], "projected"))
+	bbx <- attr(shps[[masterID]], "bbox")
+	shpM_asp <-	calc_asp_ratio(bbx[1,], bbx[2,], longlat=!attr(shps[[masterID]], "projected"))
 
 	## remove shapes from and add data to tm_shape objects
 	x[shape.id] <- mapply(function(y, dataset, type){
@@ -318,13 +319,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		lf <- view_tmap(gps2, shps)
 		
 		if (knit) {
-			# 			if (!requireNamespace("knitr", quietly = TRUE)) {
-			# 				stop("knitr package needed for this function to work. Please install it.",
-			# 					 call. = FALSE)
-			# 			} else {
-			# 				knit_print <- get("knit_print", envir=asNamespace("knitr"), mode="function")
-			#args <- list(...)
-			return(knit_print(lf, ..., options=options))
+			return(do.call("knit_print", c(list(x=lf), list(...), list(options=options))))
+			#return(knit_print(lf, ..., options=options))
 		} else {
 			return(print(lf))
 		}
@@ -335,10 +331,4 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		upViewport(n=as.integer(!is.null(vp)))
 		invisible(list(shps=shps, gps=gps2))
 	}
-}
-
-#' @rdname print.tmap
-#' @export
-knit_print.tmap <- function(x, ..., options=NULL) {
-	print_tmap(x, knit=TRUE, options=options, ...)
 }

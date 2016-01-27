@@ -13,16 +13,20 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 				stop("No data found in raster shape. Please specify a SpatialGridDataFrame or Raster shape object.")
 			}
 
+			if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% names(shp))) raster_facets_vars <- names(shp)[1]
+			raster_facets_vars <- intersect(raster_facets_vars, names(shp))
+			
 			## subset data, make factors of non-numeric variables
 			raster_data <- preprocess_raster_data(shp@data, raster_facets_vars)
-			
+
+						
 			## color values are interpreted as factors and need to be cast back to characters
 			#is_color <- attr(shp@data, "is_color")
 			has_color_table <- FALSE
 
 			## use bilinear interpolation for numeric data only
 			use_interp <- (all(sapply(shp@data, is.numeric)))
-			shp <- brick(shp)
+			shp <- raster::subset(brick(shp), raster_facets_vars, drop=FALSE)
 		} else {
 			is.OSM <- FALSE
 			
@@ -102,7 +106,7 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 		
 		## to be consistent with Spatial objects:
 		attr(shp2, "bbox") <- bbox(shp2)
-		attr(shp2, "proj4string") <- shp@crs
+		attr(shp2, "proj4string") <- shp2@crs
 		
 		attr(data, "is.OpenStreetMap") <- is.OSM
 		

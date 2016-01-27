@@ -10,7 +10,7 @@
 #' @param bg.overlay.alpha alpha transparency of \code{bg.overlay}. If \code{0}, no background is used, if \code{1} a solid background is used (and therefore, basemaps will be omitted). By default, this value is  set to \code{\link{tm_layout}}'s argument \code{bg.overlay.alpha} (which is style dependent).
 #' @param bubble.size.fixed should bubble sizes be fixed while zooming?
 #' @param dot.size.fixed should dot sizes be fixed while zooming?
-#' 
+#' @example ../examples/tmap_mode.R
 #' @export
 tm_view <- function(alpha=NA,
 					popup.all.data=FALSE,

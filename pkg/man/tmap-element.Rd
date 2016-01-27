@@ -36,6 +36,8 @@ The element \code{\link{tm_facets}} specifies facets (small multiples). The elem
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 
+\href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
+
 The examples in each of the element functions
 }
 

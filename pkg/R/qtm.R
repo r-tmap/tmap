@@ -62,8 +62,8 @@ qtm <- function(shp,
 		return(g)
 	} else if (is.character(shp)) {
 		# return minimal list required for leaflet basemap tile viewing
-		res <- search_nominatim_OSM(shp)
-		g <- list(tm_shortcut=list(basemaps=tm_style_white()$tm_layout$basemaps, bg.overlay.alpha=0, bbx=res$bbx, center=res$center))
+		res <- geocode_OSM(shp)
+		g <- list(tm_shortcut=list(basemaps=tm_style_white()$tm_layout$basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
 		class(g) <- "tmap"
 		return(g)
 	}

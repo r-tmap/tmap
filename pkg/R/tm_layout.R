@@ -143,7 +143,7 @@ tm_layout <- function(title=NA,
 					  title.bg.alpha = 1,
 					  attr.position = c("right", "bottom"),
 					  design.mode = FALSE,
-					  basemaps = c("CartoDB.Positron", "OpenStreetMap"),
+					  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
 					  bg.overlay=NULL,
 					  bg.overlay.alpha=0) {
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
