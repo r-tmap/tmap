@@ -25,7 +25,7 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 		tolower(pieces[length(pieces)])
 	}
 	
-	tmap.mode <- getOption("tmap.mode")=="view"
+	tmap.mode <- getOption("tmap.mode")
 
 	if (missing(filename)) {
 		ext <- ifelse(tmap.mode=="view", "html", "png")

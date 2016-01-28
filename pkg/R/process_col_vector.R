@@ -19,6 +19,7 @@ process_col_vector <- function(x, sel, g, gt) {
 		}
 		colsLeg <- cat2pal(x,
 						   palette = palette,
+						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast,
 						   colorNA = g$colorNA,
 						   legend.labels=g$labels,

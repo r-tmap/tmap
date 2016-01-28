@@ -71,11 +71,13 @@ preprocess_gt <- function(x, interactive) {
 		} else {
 			# with basemap tiles
 			if (is.na(bg.overlay.alpha)) bg.overlay.alpha <- gt$bg.overlay.alpha
-			if (identical(basemaps, TRUE)) basemaps <- gt$basemaps
+			if (identical(basemaps, NA)) basemaps <- gt$basemaps
+			if (identical(basemaps, TRUE)) basemaps <- c("OpenStreetMap", "OpenStreetMap.Mapnik", "OpenTopoMap", "Stamen.Watercolor", "Esri.WorldTopoMap", "Esri.WorldImagery", "CartoDB.Positron", "CartoDB.DarkMatter")
 			if (is.na(alpha)) alpha <- .7
 		}
 		if (is.na(bg.overlay)) bg.overlay <- gt$bg.overlay
 		bg.overlay <- split_alpha_channel(bg.overlay, alpha=1)$col
+		if (!is.logical(set_bounds)) if (!length(set_bounds)==4 || !is.numeric(set_bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
 		na <- NULL
 		call <- NULL
 	})

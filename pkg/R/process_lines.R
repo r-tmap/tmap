@@ -29,51 +29,6 @@ process_line_lwd_vector <- function(x, g, rescale) {
 		 line.lwd.legend.labels=line.lwd.legend.labels)
 }
 
-process_line_col_vector <- function(x, g, gt) {
-	line.col.is.numeric <- is.numeric(x)
-	if (line.col.is.numeric) {
-		is.diverging <-  use_diverging_palette(x, g$breaks)
-		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] 
-		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
-			gt$aes.palette[[g$palette[1]]]
-		} else g$palette
-		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
-						   palette = palette,
-						   auto.palette.mapping = g$auto.palette.mapping,
-						   contrast = g$contrast, legend.labels=g$labels,
-						   legend.NA.text=g$textNA,
-						   process.colors=c(list(alpha=g$alpha), gt$pc),
-						   legend.format=g$legend.format)
-		line.breaks <- colsLeg[[4]]
-	} else {
-		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[[ifelse(is.ordered(x), "seq", "cat")]] 
-		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
-			gt$aes.palette[[g$palette[1]]]
-		} else g$palette
-		#remove unused levels in legend
-		colsLeg <- cat2pal(x,
-						   palette = palette,
-						   contrast = g$contrast,
-						   colorNA = g$colorNA,
-						   legend.labels=g$labels,
-						   legend.NA.text=g$textNA,
-						   max_levels=g$max.categories,
-						   process.colors=c(list(alpha=g$alpha), gt$pc))
-		line.breaks <- NA
-	}
-	line.col <- colsLeg[[1]]
-	line.col.legend.labels <- colsLeg[[2]]
-	line.col.legend.palette <- colsLeg[[3]]
-	
-	list(line.col=line.col,
-		 line.col.legend.labels=line.col.legend.labels,
-		 line.col.legend.palette=line.col.legend.palette,
-		 line.col.is.numeric=line.col.is.numeric,
-		 line.breaks=line.breaks)
-	
-}
 
 process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 	npol <- nrow(data)

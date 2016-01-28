@@ -43,9 +43,11 @@ view_tmap <- function(gps, shps) {
 	alpha <- gt$alpha
 	popup.all.data <- gt$popup.all.data
 	
+
 	group_selection <- mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
-		
+		upl <- units_per_line(bbx)
+		bpl <- bbx_per_line(bbx)
 		if (inherits(shp, "Spatial")) {
 			co <- get_sp_coordinates(shp, gpl, gt, bbx=bbox(shp))
 		}
@@ -88,6 +90,11 @@ view_tmap <- function(gps, shps) {
 		plot_tm_bubbles <- function() {
 			npol <- nrow(co)
 			
+			
+			co[, 1] <- co[, 1] + gpl$bubble.xmod * bpl
+			co[, 2] <- co[, 2] + gpl$bubble.ymod * bpl
+			
+			
 			bres <- split_alpha_channel(gpl$bubble.border.col, alpha=alpha)
 			bcol <- bres$col
 			bopacity <- bres$opacity
@@ -114,13 +121,8 @@ view_tmap <- function(gps, shps) {
 				popups2 <- popups
 			}
 			
-			max_lines <- par("din")[2]*10
 			
-			# calculate top-center to bottom-center
-			vdist <- distGeo(p1=c(mean(bbx[1,]), bbx[2,1]),
-							 p2=c(mean(bbx[1,]), bbx[2,2]))
-			
-			rad <- bubble.size2 * vdist/max_lines
+			rad <- bubble.size2 * upl
 			
 			fixed <- ifelse(gpl$bubble.misc$bubble.are.dots, gt$dot.size.fixed, gt$bubble.size.fixed)
 			if (fixed) {
@@ -176,11 +178,19 @@ view_tmap <- function(gps, shps) {
 	
 	groups <- gt$shp_name[group_selection]
 	
-	lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
 	#center <- c(mean(lims[c(1,3)]), mean(lims[c(2,4)]))
 	
 	
-	lf %>% addLayersControl(baseGroups=basemaps, overlayGroups = groups, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))  %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
+	lf <- lf %>% addLayersControl(baseGroups=basemaps, overlayGroups = groups, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))  
+	if (!(identical(gt$set_bounds, FALSE))) {
+		if (identical(gt$set_bounds, TRUE)) {
+			lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
+		} else {
+			lims <- gt$set_bounds
+		}
+		lf <- lf %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
+	}
+	lf
 }
 
 
@@ -319,4 +329,18 @@ working_internet <- function(url = "http://www.google.com") {
 	
 	# return FALSE if test inherits 'try-error' class
 	!inherits(test, "try-error")
+}
+
+bbx_per_line <- function(bbx) {
+	max_lines <- par("din")[2]*10
+	(bbx[2,2] - bbx[2,1]) / max_lines
+}
+
+units_per_line <- function(bbx) {
+	max_lines <- par("din")[2]*10
+	
+	# calculate top-center to bottom-center
+	vdist <- distGeo(p1=c(mean(bbx[1,]), bbx[2,1]),
+					 p2=c(mean(bbx[1,]), bbx[2,2]))
+	vdist/max_lines
 }

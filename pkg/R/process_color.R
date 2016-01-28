@@ -102,11 +102,16 @@ default_contrast_div <- function(k) {
 	c(0, min(.6 + (k-3) * (.4/8), 1))
 }
 
-get_brewer_pal <- function(palette, n, contrast) {
+
+get_brewer_pal <- function(palette, n, contrast, stretch=TRUE) {
 	nmax <- brewer.pal.info[palette, "maxcolors"]
 	if (brewer.pal.info[palette, "category"]=="qual") {
 		brewerpal <- brewer.pal(min(nmax, max(n, 3)), name=palette)
-		p <- rep(brewerpal, length.out=n)
+		if (stretch) {
+			p <- colorRampPalette(brewerpal)(n)
+		} else {
+			p <- rep(brewerpal, length.out=n)
+		}
 	} else if (brewer.pal.info[palette, "category"]=="seq") {
 		if (is.na(contrast[1])) contrast <- default_contrast_seq(n)
 		if (length(contrast)==1) contrast <- c(0, contrast)

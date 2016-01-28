@@ -43,6 +43,7 @@
 #' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
 #' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.
+#' @param between.margin Relative margin between facets (small multiples). The unit is one line height.
 #' @param outer.bg.color Background color outside the frame.
 #' @param fontface font face of all text in the map.
 #' @param fontfamily font family of the text labels.
@@ -108,6 +109,7 @@ tm_layout <- function(title=NA,
 					  asp = NA,
 					  outer.margins = rep(0.02, 4),
 					  inner.margins = NA,
+					  between.margin = 1,
 					  outer.bg.color=NULL,
 					  fontface="plain", 
 					  fontfamily="sans",
