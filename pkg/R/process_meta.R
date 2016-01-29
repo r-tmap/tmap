@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shp_info) {
+process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shpM_asp_marg, shp_info) {
 	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- NULL
 	
 	gf <- within(gf, {
@@ -75,9 +75,18 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 		
 		if (identical(frame, TRUE)) frame <- attr.color else if (identical(frame, FALSE)) frame <- NA 
 		if (is.logical(legend.frame)) if (identical(legend.frame, TRUE)) legend.frame <- attr.color else legend.frame <- NA 
-		
+# 		
+# 		between.margin.in <- convertHeight(unit(between.margin, "lines") * scale, "inch", valueOnly=TRUE)
+# 		
+# 		between.margin.y <-convertHeight(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) * gf$nrow
+# 		between.margin.x <-convertWidth(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) * gf$ncol
+# 		
 		
 		outer.margins <- rep(outer.margins, length.out=4)
+		#outer.margins <- rep(0, length.out=4)
+		# 		if (m>1) {
+# 			outer.margins <- c(between.margin.y, between.margin.x, between.margin.y, between.margin.x)
+# 		}
 		
 		inner.margins <- if (is.na(inner.margins[1])) {
 			if (shp_info$is_raster) rep(0, 4) else rep(0.02, 4)

@@ -1,4 +1,4 @@
-process_tm <- function(x, asp_ratio, shp_info, interactive) {
+process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL
 	## fill meta info
 	
@@ -135,7 +135,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
 	
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shp_info)
+	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shpM_asp_marg, shp_info)
 	
 	## split into small multiples
 	gps <- split_tm(gp, nx, order_by)

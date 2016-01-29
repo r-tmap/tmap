@@ -6,6 +6,7 @@ version 1.3 (development)
 - added insets option in save_tmap
 - improved default settings for contrast arugment regarding seq and div palettes
 - improved automatic positions of legend and map attributes (more specifically, legend snaps to righthand-side without need to adjust legend.width, and legend and attributes position improved when double frame is enabled)
+- added between.margin to tm_layout
 - lwd parameter added to tm_scale_bar and tm_compass
 - fixed bb bug
 

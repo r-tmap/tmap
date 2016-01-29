@@ -1,4 +1,4 @@
-plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos) {
+plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos, use_facets) {
 	gt <- gp$tm_layout
 	
 	shps <- get("shps", envir=shps.env)
@@ -49,7 +49,8 @@ plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos)
 		
 		## background rectangle (whole device)
 		grobBG <- if (gt$design.mode) {
-			rectGrob(gp=gpar(fill="yellow", col="yellow"), name="bg_rect")
+			fillCol <- ifelse(use_facets, "brown", "yellow")
+			rectGrob(gp=gpar(fill=fillCol, col=fillCol), name="bg_rect")
 		} else if (is.na(gt$frame) && !gt$earth.boundary) {
 			rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="bg_rect")
 		} else if (is.na(gt$frame) && gt$earth.boundary) {

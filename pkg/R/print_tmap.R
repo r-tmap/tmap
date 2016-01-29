@@ -157,6 +157,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	## prepare viewport
 	if (interactive) {
 		asp_ratio <- 1
+		shpM_asp_marg <- 1
 	} else {
 		if (is.null(vp)) {
 			grid.newpage()
@@ -186,7 +187,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	## process tm objects
 	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size", "line.center.type")]
 	shp_info$is_raster <- any_raster
-	result <- process_tm(x, asp_ratio, shp_info, interactive)
+	result <- process_tm(x, asp_ratio, shpM_asp_marg, shp_info, interactive)
 	gmeta <- result$gmeta
 	
 	# overrule margins if interactive
@@ -202,26 +203,62 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	## process shapes
 	margins <- gmeta$outer.margins
-	dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
-	dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
+	if (interactive) {
+		dw <- 1
+		dh <- 1
+	} else {
+		dw <- convertWidth(unit(1-sum(margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
+		dh <- convertHeight(unit(1-sum(margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
+	}
 	shps_lengths <- sapply(shps, length)
 
 	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
 	
 	dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
+	
+	# calculate facets and total device aspect ratio
+	fasp <- sasp * gmeta$ncol / gmeta$nrow
+	tasp <- dw/dh
+	
+	# spacer to let facets stick to each other	
+	if (nx>1 && !interactive) {
+		if (tasp>fasp) {
+			xs <- convertWidth(unit(dw-(fasp * dh), "inch"), "npc", valueOnly=TRUE)
+			ys <- 0
+		} else {
+			ys <- convertHeight(unit(dh-(dw / fasp), "inch"), "npc", valueOnly=TRUE)
+			xs <- 0
+		}
+	} else {
+		xs <- 0
+		ys <- 0
+	}
+
+	if (nx>1) {
+		between.margin.in <- convertHeight(unit(gmeta$between.margin, "lines") * gmeta$scale, "inch", valueOnly=TRUE)
+		
+		between.margin.y <- convertHeight(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) / (1-ys) * gmeta$nrow
+		between.margin.x <- convertWidth(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) / (1-xs) * gmeta$ncol
+		outer.margins <- c(between.margin.y, between.margin.x, between.margin.y, between.margin.x)
+		
+		gps <- lapply(gps, function(gp) {
+			gp$tm_layout$outer.margins <- outer.margins
+			gp
+		})
+	}
+	
 	legend_pos <- attr(shps, "legend_pos")
 	diff_shapes <- attr(shps, "diff_shapes")
 	inner.margins.new <- attr(shps, "inner.margins")
 
 	# shortcut used by save_tmap
-	if (return.asp) {
-		return(sasp)
-	}
-	
+	if (return.asp && !interactive) return(ifelse(nx>1, fasp, sasp))
+
 	if (gmeta$design.mode && !interactive) {
 		masterShapeName <- x[[masterID]]$shp_name
 		message("aspect ratio device (yellow):", dev_asp)
+		if (nx>1) message("aspect facets region (brown):", fasp)
 		message("aspect ratio frame (blue):", sasp)
 		message("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp)
 	}
@@ -325,7 +362,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			return(print(lf))
 		}
 	} else {
-		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos)
+		if (nx > 1) sasp <- dasp
+		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos, xs, ys, gmeta$design.mode)
 		
 		## if vp is specified, go 1 viewport up, else go to root viewport
 		upViewport(n=as.integer(!is.null(vp)))
