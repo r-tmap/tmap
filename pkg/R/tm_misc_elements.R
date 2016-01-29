@@ -79,7 +79,7 @@ tm_grid <- function(n.x=NA,
 #' 
 #' Creates a text annotation that could be used for credits or acknowledgements.
 #' 
-#' @param text text. Multiple lines can be created with the line break symbol \code{"\\n"}.
+#' @param text text. Multiple lines can be created with the line break symbol \code{"\\n"}. Facets can have different texts: in that case a vector of characters is required. Use \code{""} to omit the credits for specific facets.
 #' @param size relative text size
 #' @param col color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of \code{col} is used (normally 1).

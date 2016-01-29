@@ -9,7 +9,7 @@ tm_credits(text, size = 0.7, col = NA, alpha = NA, align = "left",
   position = NA)
 }
 \arguments{
-\item{text}{text. Multiple lines can be created with the line break symbol \code{"\\n"}.}
+\item{text}{text. Multiple lines can be created with the line break symbol \code{"\\n"}. Facets can have different texts: in that case a vector of characters is required. Use \code{""} to omit the credits for specific facets.}
 
 \item{size}{relative text size}
 

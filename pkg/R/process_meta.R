@@ -140,15 +140,16 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 
 	if (!is.null(gc)) {
 		gc <- within(gc, {
-		  credits.col[is.na(credits.col)] <- gt$attr.color
+		 	credits.col[is.na(credits.col)] <- gt$attr.color
 			credits.col <- do.call("process_color", c(list(col=credits.col), gt$pc))
 			credits.size <- credits.size * gt$scale
 			credits.fontface[is.na(credits.fontface)] <-gt$fontface
 			credits.fontfamily[is.na(credits.fontfamily)] <-gt$fontfamily
-			credits.show <- TRUE
+			credits.text <- lapply(credits.text, rep, length.out=m)
+			credits.show <- lapply(credits.text, function(ct) ct!="")
 		})
 	} else {
-		gc <- list(credits.show=FALSE)
+		gc <- list(credits.show=list(rep(FALSE, m)))
 	}
 
 	if (!is.null(gsb)) {

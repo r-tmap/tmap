@@ -17,7 +17,7 @@ osm_line(query)
 osm_point(query)
 }
 \arguments{
-\item{x}{bounding box or \code{\link[osmar:osmar]{osmar}} object}
+\item{x}{shape, bounding box, or \code{\link[osmar:osmar]{osmar}} object. If a shape (from class \code{\link[sp:Spatial]{Spatial}} or \code{\link[raster:Raster-class]{Raster}}) is specified, the bounding box of it is taken. See also \code{...} (other arguments)}
 
 \item{raster}{logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...}). By default, \code{raster=TRUE} if no vector selections are made, and \code{raster=FALSE} otherwise.}
 
@@ -29,7 +29,7 @@ osm_point(query)
 
 \item{mergeTiles}{passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.}
 
-\item{...}{arguments that specify polygons, lines, and/or points queries, created with \code{osm_poly}, \code{osm_line}, and \code{osm_point} respectively.}
+\item{...}{arguments passed on to \code{\link{bb}} in case \code{x} is a shape, or arguments that specify polygons, lines, and/or points queries, created with \code{osm_poly}, \code{osm_line}, and \code{osm_point} respectively.}
 
 \item{query}{query to select polygons, lines, or points. Currently, two formats are supported: 1) key, 2) key=value. See \url{http://wiki.openstreetmap.org/wiki/Map_Features} for Open Street Map keys and values.}
 }

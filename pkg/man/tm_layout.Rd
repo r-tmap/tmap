@@ -27,12 +27,13 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   aes.palette = list(seq = "YlOrBr", div = "RdYlGn", cat = "Set3"),
   attr.color = "black", sepia.intensity = 0, saturation = 1,
   frame = TRUE, frame.lwd = 1, frame.double.line = FALSE, asp = NA,
-  outer.margins = rep(0.02, 4), inner.margins = NA, outer.bg.color = NULL,
-  fontface = "plain", fontfamily = "sans", compass.type = "arrow",
-  earth.boundary = FALSE, earth.boundary.color = attr.color,
-  earth.boundary.lwd = 1, earth.datum = "WGS84", space.color = NULL,
-  legend.show = TRUE, legend.only = FALSE, legend.position = NULL,
-  legend.width = 0.4, legend.height = 0.9, legend.hist.height = 0.3,
+  outer.margins = rep(0.02, 4), inner.margins = NA, between.margin = 0.25,
+  outer.bg.color = NULL, fontface = "plain", fontfamily = "sans",
+  compass.type = "arrow", earth.boundary = FALSE,
+  earth.boundary.color = attr.color, earth.boundary.lwd = 1,
+  earth.datum = "WGS84", space.color = NULL, legend.show = TRUE,
+  legend.only = FALSE, legend.position = NULL, legend.width = 0.4,
+  legend.height = 0.9, legend.hist.height = 0.3,
   legend.hist.width = legend.width, legend.title.size = 1.1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.format = list(scientific = FALSE, digits = NA, text.separator = "to",
@@ -145,9 +146,11 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{asp}{Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.}
 
-\item{outer.margins}{Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1.}
+\item{outer.margins}{Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. Is omitted when facets are created (see \code{between.margin})}
 
 \item{inner.margins}{Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.}
+
+\item{between.margin}{Margin between facets (small multiples) in number of text line heights. The height of a text line is automatically scaled down based on the number of facets.}
 
 \item{outer.bg.color}{Background color outside the frame.}
 

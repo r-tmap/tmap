@@ -10,7 +10,7 @@
 #' @param bg.overlay.alpha alpha transparency of \code{bg.overlay}. If \code{0}, no background is used, if \code{1} a solid background is used (and therefore, basemaps will be omitted). By default, this value is  set to \code{\link{tm_layout}}'s argument \code{bg.overlay.alpha} (which is style dependent).
 #' @param bubble.size.fixed should bubble sizes be fixed while zooming?
 #' @param dot.size.fixed should dot sizes be fixed while zooming?
-#' @param set_bound logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).
+#' @param set_bounds logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).
 #' @example ../examples/tmap_mode.R
 #' @export
 tm_view <- function(alpha=NA,

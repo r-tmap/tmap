@@ -18,8 +18,12 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	if (is.na(gcIDs[1])) {
 		gc <- NULL
 	} else {
-		gc <- do.call("mapply", c(x[gcIDs], list(FUN=function(...)unname(c(...)), SIMPLIFY=FALSE)))  
-		gc$credits.position <- unname(lapply(x[gcIDs], "[[", "credits.position"))
+		gc <- do.call("mapply", c(x[gcIDs], list(nm=names(x[gcIDs][[1]]), FUN=function(..., nm) {
+			if (nm %in% c("credits.text", "credits.position")) {
+				unname(list(...))
+			} else unname(c(...))
+		}, SIMPLIFY=FALSE)))  
+		#gc$credits.position <- unname(lapply(x[gcIDs], "[[", "credits.position"))
 		gc$credits.id <- gcIDs
 	}
 	
@@ -181,7 +185,20 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 
 			})
 		})
-		
+
+		# process credits text per facet
+		gmeta$credits.show <- sapply(gmeta$credits.show, "[[", i)
+		if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
+		gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
+				"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
+				"credits.position", "credits.id")] <- lapply(
+					gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
+							"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
+							"credits.position", "credits.id")],
+					function(gm) {
+						gm[gmeta$credits.show]	
+					})
+		gmeta$credits.show <- any(gmeta$credits.show)
 		x$tm_layout <- gmeta
 		x$tm_layout$title <- x$tm_layout$title[i]
 		x
