@@ -96,7 +96,7 @@ wd$income_grp <- ordered(wd$income_grp)
 #download.file("http://api.worldbank.org/v2/en/indicator/ag.lnd.totl.k2?downloadformat=csv", "./shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.zip", cacheOK = FALSE, mode="wb")
 #unzip("./shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.zip", exdir="./shapes")
 
-WBareas <- read.csv("./shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.csv", skip=4, stringsAsFactors=FALSE)
+WBareas <- read.csv("./shapes/ag.lnd.totl.k2_Indicator_en_csv_v2.csv", skip=2, stringsAsFactors=FALSE)
 
 world50_eIV <- spTransform(world50, CRS("+proj=eck4 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
 
@@ -150,6 +150,9 @@ wd <- wd[, c("iso_a3", "name", "sovereignt", "continent",
 			 "subregion", "area", "pop_est", "pop_est_dens",
 			 "gdp_md_est", "gdp_cap_est", "economy", 
 			 "income_grp", "life_exp", "well_being", "HPI")]
+
+wd$gdp_md_est[wd$name=="Antarctica"] <- NA
+wd$gdp_cap_est[wd$name=="Antarctica"] <- NA
 
 ############ EU selection ########################################################################
 
@@ -298,8 +301,4 @@ save(World, file="./pkg/data/World.rda", compress="xz")
 ## test Antarctica
 # World_merc <- spTransform(World, CRS("+proj=merc"))
 # gIsValid(World_merc)
-# geo(World_merc)
-# require(plotGoogleMaps)
-# require(RColorBrewer)
-# 
-# m <- plotGoogleMaps(World, filename="world4.htm", zcol="income_grp", colPalette=brewer.pal(9, "Greens"))
+# qtm(World_merc)
