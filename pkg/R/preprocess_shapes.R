@@ -58,17 +58,17 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 		if (is.na(shp_proj)) {
 			if (!is_projected(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
+				shp_proj <- get_proj4("longlat")
+				shp <- set_projection(shp, current.projection = shp_proj)
 			} else {
-				stop("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
-			shp_proj <- get_proj4("longlat")
-			shp <- set_projection(shp, current.projection = shp_proj)
 		}
 		
 		# should raster shape be reprojected?
 		
 		new_ext <- suppressWarnings(projectExtent(shp, crs = CRS(get_proj4(master_proj))))
-		if (shp_proj!=master_proj) {
+		if (!is.na(shp_proj) && !is.na(master_proj) && shp_proj!=master_proj) {
 			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=CRS(master_proj), method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
 			data <- get_raster_data(shpTmp)
@@ -135,7 +135,16 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 		
 		# reproject if nessesary
 		shp_proj <- get_projection(shp)
-		if (shp_proj!=master_proj) {
+		if (is.na(shp_proj)) {
+			if (!is_projected(shp)) {
+				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
+				shp_proj <- get_proj4("longlat")
+				shp <- set_projection(shp, current.projection = shp_proj)
+			} else {
+				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+			}
+		}
+		if (!is.na(shp_proj) && !is.na(master_proj) && shp_proj!=master_proj) {
 			shp2 <- spTransform(shp, CRS(master_proj))
 		} else {
 			shp2 <- shp

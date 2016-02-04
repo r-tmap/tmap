@@ -1,5 +1,5 @@
 preprocess_gt <- function(x, interactive) {
-	bg.color <- NULL
+	set.bounds <- bg.color <- NULL
 	
 	style <- options("tmap.style")
 	tln <- paste("tm_style", style,sep="_" )
@@ -52,7 +52,7 @@ preprocess_gt <- function(x, interactive) {
 		aes.colors <- sapply(aes.colors, function(ac) if (is.na(ac)) "#000000" else ac)
 		
 		# override na
-		if (interactive) aes.colors["na"] <- if (is.null(gv$na)) "#00000000" else if (is.na(gv$na)) aes.colors["na"] else gv$na
+		if (interactive) aes.colors["na"] <- if (is.null(gv$colorNA)) "#00000000" else if (is.na(gv$colorNA)) aes.colors["na"] else gv$colorNA
 		
 		if (is.null(bg.overlay)) bg.overlay <- bg.color
 		
@@ -77,13 +77,28 @@ preprocess_gt <- function(x, interactive) {
 		}
 		if (is.na(bg.overlay)) bg.overlay <- gt$bg.overlay
 		bg.overlay <- split_alpha_channel(bg.overlay, alpha=1)$col
-		if (!is.logical(set_bounds)) if (!length(set_bounds)==4 || !is.numeric(set_bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
-		na <- NULL
-		call <- NULL
+		if (!is.logical(set.bounds)) if (!length(set.bounds)==4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
+
+		view.legend.position <- if (is.na(gv$legend.position)[1]) {
+			if (is.null(gt$legend.position)) {
+				"topright"
+			} else if (is.character(gt$legend.position) && 
+					   tolower(gt$legend.position[1]) %in% c("left", "right") &&
+					   tolower(gt$legend.position[2]) %in% c("top", "bottom")) {
+				paste(tolower(gt$legend.position[c(2,1)]), collapse="")
+			}
+		} else if (is.character(gv$legend.position) && 
+				   gv$legend.position[1] %in% c("left", "right") &&
+				   gv$legend.position[2] %in% c("top", "bottom")) {
+			paste(gv$legend.position[c(2,1)], collapse="")
+		} else {
+			"topright"
+		}
 	})
 	
 	# append view to layout
 	gt[c("basemaps", "bg.overlay", "bg.overlay.alpha")] <- NULL
+	gv[c("colorNA", "call", "legend.position")] <- NULL
 	gt <- c(gt, gv)
 	
 	gtnull <- names(which(sapply(gt, is.null)))

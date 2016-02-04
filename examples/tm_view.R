@@ -11,11 +11,17 @@ map1 <- tm_shape(metro) +
 			   title.col="Growth rate (%)", id="name") + 
 	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE)
 
-# initial mode: "plot"
-tmap_mode("view")
+current.mode <- tmap_mode("plot")
+
+# plot map
+map1
 
 # view map with default view options
+tmap_mode("view")
 map1
 
 # view map with changed view options
 map1 + tm_view(alpha = 1, popup.all.data = TRUE, basemaps = "Stamen.Watercolor")
+
+# restore current mode
+tmap_mode(current.mode)

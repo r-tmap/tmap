@@ -1,7 +1,5 @@
-plot_all <- function(i, gp, shps.env, dasp, sasp, inner.margins.new, legend_pos, use_facets) {
+plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use_facets) {
 	gt <- gp$tm_layout
-	
-	shps <- get("shps", envir=shps.env)
 	
 	## in case of small multiples, get i'th shape
 	if (any(gt$shp_nr!=0) && (gt$drop.shapes || gt$free.coords)) {

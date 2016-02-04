@@ -8,7 +8,7 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   labels = NULL, auto.palette.mapping = TRUE, contrast = NA,
   max.categories = 12, colorNA = NULL, saturation = 1,
-  textNA = "Missing", title = NA, legend.show = TRUE,
+  textNA = "Missing", showNA = NA, title = NA, legend.show = TRUE,
   legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
   legend.hist.title = NA, legend.z = NA, legend.hist.z = NA)
 }
@@ -37,7 +37,9 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
 
 \item{saturation}{Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).}
 
-\item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
+\item{textNA}{text used for missing values.}
+
+\item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
 
 \item{title}{title of the legend element}
 
@@ -74,7 +76,7 @@ Creates a \code{\link{tmap-element}} that draws a raster. Either a fixed color i
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_raster} is \code{col}. In the latter case, the arguments, except for \code{thres.poly}, and the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 }
 \examples{
-data(World, land)
+data(World, land, metro)
 
 pal20 <- c("#003200", "#3C9600", "#006E00", "#556E19", "#00C800", "#8CBE8C",
 		     "#467864", "#B4E664", "#9BC832", "#EBFF64", "#F06432", "#9132E6",
@@ -87,6 +89,7 @@ tm_layout(scale=.8, legend.position = c("left","bottom"))
 pal8 <- c("#33A02C", "#B2DF8A", "#FDBF6F", "#1F78B4", "#999999", "#E31A1C", "#E6E6E6", "#A6CEE3")
 tm_shape(land, ylim = c(-88,88)) +
     tm_raster("cover_cls", palette = pal8, title="Global Land Cover") +
+tm_shape(metro) + tm_dots(col="#E31A1C") +
 tm_shape(World) +
     tm_borders(col="black") +
 tm_layout(scale=.8, 
@@ -100,7 +103,10 @@ tm_shape(World) +
     tm_borders() +
 tm_layout(legend.position = c("left","bottom"), bg.color="lightblue")
 
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")
+
 \dontrun{
+# doesn't work in view mode, since it does not support small multiples
 tm_shape(land) +
 	tm_raster("black") +
 	tm_facets(by="cover_cls") +

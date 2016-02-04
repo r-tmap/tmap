@@ -145,11 +145,11 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 			credits.size <- credits.size * gt$scale
 			credits.fontface[is.na(credits.fontface)] <-gt$fontface
 			credits.fontfamily[is.na(credits.fontfamily)] <-gt$fontfamily
-			credits.text <- lapply(credits.text, rep, length.out=m)
+			credits.text <- lapply(credits.text, rep, length.out=nx)
 			credits.show <- lapply(credits.text, function(ct) ct!="")
 		})
 	} else {
-		gc <- list(credits.show=list(rep(FALSE, m)))
+		gc <- list(credits.show=list(rep(FALSE, nx)))
 	}
 
 	if (!is.null(gsb)) {

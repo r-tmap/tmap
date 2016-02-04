@@ -12,7 +12,6 @@
 #' @example ../examples/animation_tmap.R
 #' @export
 animation_tmap <- function(tm, filename="animation.gif", width=1000, height=1000, delay=40) {
-	
 	# determine OS to pass on system vs. shell command
 	if (.Platform$OS.type == "unix") {         
 		syscall <- system
@@ -24,9 +23,9 @@ animation_tmap <- function(tm, filename="animation.gif", width=1000, height=1000
 	
 	# create plots
 	d <- paste(tempdir(), "/tmap_plots", sep="/")
-	dir.create(d)
+	dir.create(d, showWarnings = FALSE)
 	png(filename=paste(d, "plot%03d.png", sep="/"), width=width, height=height)
-	print(tm)
+	print(tm, mode="plot")
 	dev.off()
 
 	# convert pngs to one gif using ImageMagick

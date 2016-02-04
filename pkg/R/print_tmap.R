@@ -300,9 +300,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		
 	}
 	
-	## create an environment to pass on large shapes, which is more efficient then passing on shapes themselves(is it??)
-	shps.env <- environment()
-	
 	# apped data to gps
 	gps2 <- lapply(gps, function(gp) {
 		gp[-length(gp)] <- mapply(function(gpl, dt) {
@@ -363,7 +360,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 	} else {
 		if (nx > 1) sasp <- dasp
-		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos, xs, ys, gmeta$design.mode)
+		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, xs, ys, gmeta$design.mode)
 		
 		## if vp is specified, go 1 viewport up, else go to root viewport
 		upViewport(n=as.integer(!is.null(vp)))

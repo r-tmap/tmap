@@ -20,7 +20,8 @@
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
-#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
+#' @param textNA text used for missing values. 
+#' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param fontface font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_layout}}.
 #' @param fontfamily font family of the text labels. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).
@@ -79,6 +80,7 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 max.categories = 12,
 					 colorNA = NA,
 					 textNA = "Missing",
+					 showNA = NA,
 					 fontface=NA, 
 					 fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, auto.placement=FALSE, remove.overlap=FALSE, along.lines=FALSE, overwrite.lines=FALSE, xmod=0, ymod=0,
 					 title.size = NA,
@@ -148,7 +150,8 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
-#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
+#' @param textNA text used for missing values.
+#' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param title.col title of the legend element regarding the line colors
 #' @param title.lwd title of the legend element regarding the line widths
 #' @param legend.col.show logical that determines whether the legend for the line colors is shown
@@ -188,6 +191,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					  max.categories = 12, 
 					  colorNA = NA,
 					  textNA = "Missing",
+					 showNA = NA,
 					 title.col=NA,
 					 title.lwd=NA,
 					 legend.col.show=TRUE,
@@ -234,7 +238,8 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
-#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
+#' @param textNA text used for missing values.
+#' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. By default, all polygons are drawn. To ignore polygons that are not visible in a normal plot, a value like \code{1e-05} is recommended.
 #' @param title title of the legend element
 #' @param legend.show logical that determines whether the legend is shown
@@ -274,6 +279,7 @@ tm_fill <- function(col=NA,
 			 		max.categories = 12,
 			 		colorNA = NA,
 			 		textNA = "Missing",
+					showNA = NA,
 					thres.poly = 0,
 					title=NA,
 					legend.show=TRUE,
@@ -340,7 +346,8 @@ tm_polygons <- function(col=NA,
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param saturation Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).
-#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
+#' @param textNA text used for missing values.
+#' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param title title of the legend element
 #' @param legend.show logical that determines whether the legend is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
@@ -375,6 +382,7 @@ tm_raster <- function(col=NA,
 					  colorNA = NULL,
 					  saturation = 1,
 					  textNA = "Missing",
+					  showNA = NA,
 					  title=NA,
 					  legend.show=TRUE,
 					  legend.format=list(),
@@ -416,7 +424,8 @@ tm_raster <- function(col=NA,
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
-#' @param textNA text used for missing values. Use \code{NA} to omit text for missing values in the legend
+#' @param textNA text used for missing values.
+#' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param xmod horizontal position modification of the bubbles, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the bubbles. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
@@ -471,6 +480,7 @@ tm_bubbles <- function(size=.2, col=NA,
 						max.categories = 12,
 						colorNA = NA,
 						textNA = "Missing",
+						showNA = NA,
 						jitter=0,
 						xmod = 0,
 						ymod = 0,

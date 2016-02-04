@@ -5,8 +5,7 @@
 data(NLD_muni)
 
 # read OSM raster data
-osm_NLD <- read_osm(bb(NLD_muni, ext=1.1, projection ="longlat"))
-
+osm_NLD <- read_osm(NLD_muni, ext=1.1)
 
 # plot with regular tmap functions
 tm_shape(osm_NLD) +
@@ -14,41 +13,39 @@ tm_shape(osm_NLD) +
 tm_shape(NLD_muni) +
 	tm_polygons("population", convert2density=TRUE, style="kmeans", alpha=.7, palette="Purples")
 
-#### A close look at Aalborg Congress Centre (host for the useR2014)
+#### A close look at the building of Statistics Netherlands in Heerlen
 
-# define bounding box of Aalborg Congress Centre
-bb_Aal <- bb(xlim = c(9.9075, 9.9175), ylim=c(57.043, 57.046))
+# create a bounding box around the CBS (Statistics Netherlands) building
+CBS_bb <- bb("CBS Weg 11, Heerlen", width=.003, height=.002)
 
-# read OSM raster data
-rast_Aal <- read_osm(bb_Aal, type="mapquest")
+# read Microsoft Bing satellite and OpenCycleMap OSM layers
+CBS_osm1 <- read_osm(CBS_bb, type="bing")
+CBS_osm2 <- read_osm(CBS_bb, type="opencyclemap")
 
-# raster OSM of Aalburg
-qtm(rast_Aal)
+# plot OSM raster data
+qtm(CBS_osm1)
+qtm(CBS_osm2)
 
-# read OSM vector data
-vec_Aal <- read_osm(bb_Aal,
-					buildings=osm_poly("building"),
-					roads=osm_line("highway"),
-					trees=osm_point("natural=tree"),
-					park=osm_poly("leisure=park"),
-					cemetery=osm_poly("landuse=cemetery"),
-					railway=osm_line("railway"),
-					parking=osm_poly("amenity=parking"))
+# read vectorized OSM data
+CBS_osm3 <- read_osm(CBS_bb, 
+					 roads=osm_line("highway"),
+					 parking=osm_poly("amenity=parking"),
+					 building=osm_poly("building"),
+					 park=osm_poly("leisure=park"),
+					 railway_area=osm_poly("landuse=railway"),
+					 railway=osm_line("railway"),
+					 forest=osm_poly("landuse=forest"),
+					 grass=osm_poly("landuse=grass"),
+					 bicycle=osm_line("highway=cycleway"))
 
-# vector OSM of Aalburg
-tm_shape(vec_Aal$park, bbox=bb_Aal) +
-	tm_polygons(col = "darkolivegreen3") +
-tm_shape(vec_Aal$cemetery) +
-	tm_polygons(col="darkolivegreen3") +
-tm_shape(vec_Aal$parking) +
-	tm_polygons(col="grey85") +
-tm_shape(vec_Aal$building) +
-	tm_polygons(col = "gold") +
-tm_shape(vec_Aal$roads) +
-	tm_lines("grey40", lwd = 3) +
-tm_shape(vec_Aal$trees) + 
-	tm_bubbles(size=.25, col="forestgreen") +
-tm_shape(vec_Aal$railway) +
-	tm_lines(col = "grey40", lwd = 3, lty = "longdash") +
-tm_layout(inner.margins=0, bg.color="grey95")
+# plot vectorized OSM data
+tm_shape(CBS_osm3$grass, bbox=CBS_bb) + tm_polygons("darkolivegreen3") +
+	tm_shape(CBS_osm3$forest) + tm_fill("forestgreen") +
+	tm_shape(CBS_osm3$railway_area) + tm_fill(col="grey70") +
+	tm_shape(CBS_osm3$parking) + tm_polygons("gold") +
+	tm_shape(CBS_osm3$building) + tm_polygons("grey50") +
+	tm_shape(CBS_osm3$roads, bbox=CBS_bb) + tm_lines(col="gold", lwd=3) + 
+	tm_shape(CBS_osm3$bicycle) + tm_lines(col="blue", lwd=3) + 
+	tm_shape(CBS_osm3$railway) + tm_lines(col="grey20", lwd=3, lty="dashed") + 
+	tm_layout(bg.color="grey90")
 }

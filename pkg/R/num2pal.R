@@ -40,6 +40,7 @@ num2pal <- function(x, n = 5,
 					   legend.labels = NULL,
 					   colorNA = "#FF1414",
 					   legend.NA.text = "Missing",
+					   showNA=NA,
 					   process.colors=NULL,
 					   legend.format=list(scientific=FALSE)) {
 	breaks.specified <- !is.null(breaks)
@@ -145,10 +146,15 @@ num2pal <- function(x, n = 5,
 	anyNA <- any(is.na(cols))
 	breaks.palette <- legend.palette
 	if (anyNA) {
+		if (is.na(showNA)) showNA <- TRUE
 		cols[is.na(cols)] <- colorNA
-		if (!is.na(legend.NA.text) && !is.cont) legend.palette <- c(legend.palette, colorNA)
+	} else {
+		if (is.na(showNA)) showNA <- FALSE
 	}
 
+	if (showNA && !is.cont) legend.palette <- c(legend.palette, colorNA)
+	
+	
 	if (is.cont) {
 		# recreate legend palette for continuous cases
 		if (style=="quantile") {
@@ -169,7 +175,7 @@ num2pal <- function(x, n = 5,
 			res
 		})
 		legend.palette <- lapply(id_lst, function(i) legend.palette[i])
-		if (anyNA && !is.na(legend.NA.text)) legend.palette <- c(legend.palette, colorNA)
+		if (showNA) legend.palette <- c(legend.palette, colorNA)
 		
 		# temporarily stack gradient colors
 		legend.palette <- sapply(legend.palette, paste, collapse="-")
@@ -180,7 +186,7 @@ num2pal <- function(x, n = 5,
 		} else {
 			legend.labels <- rep(legend.labels, length.out=nbrks_cont)
 		}
-		if (anyNA && !is.na(legend.NA.text)) {
+		if (showNA) {
 			legend.labels <- c(legend.labels, legend.NA.text)
 		}		
 		attr(legend.palette, "style") <- style
@@ -193,9 +199,7 @@ num2pal <- function(x, n = 5,
 			legend.labels <- rep(legend.labels, length.out=nbrks-1)
 		}
 		
-		if (anyNA && !is.na(legend.NA.text)) {
-			legend.labels <- c(legend.labels, legend.NA.text)
-		}
+		if (showNA) legend.labels <- c(legend.labels, legend.NA.text)
 	}
 	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks, breaks.palette=breaks.palette, legend.neutral.col = legend.neutral.col)
 }

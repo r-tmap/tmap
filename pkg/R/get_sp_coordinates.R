@@ -44,5 +44,5 @@ get_sp_coordinates <- function(shp, gpl, gt, bbx) {
 	} else {
 		co <- coordinates(shp) # prefered over gCentroid since coordinates correspond to first (normally largest) polygon of each object
 	}
-	co
+	list(co=co, gpl=gpl, shp=shp)
 }

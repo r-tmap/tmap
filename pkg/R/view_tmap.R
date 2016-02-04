@@ -42,14 +42,18 @@ view_tmap <- function(gps, shps) {
 	id <- 1
 	alpha <- gt$alpha
 	popup.all.data <- gt$popup.all.data
-	
 
 	group_selection <- mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
 		upl <- units_per_line(bbx)
 		bpl <- bbx_per_line(bbx)
 		if (inherits(shp, "Spatial")) {
-			co <- get_sp_coordinates(shp, gpl, gt, bbx=bbox(shp))
+			res <- get_sp_coordinates(shp, gpl, gt, bbx)
+			co <- res$co
+			if (gt$line.center.type[1]=="segment") {
+				gpl <- res$gpl
+				shp <- res$shp
+			}	
 		}
 		
 		plot_tm_fill <- function() {
@@ -61,17 +65,18 @@ view_tmap <- function(gps, shps) {
 			fcol <- fres$col
 			fopacity <- fres$opacity
 			
-			popups <- get_popups(gpl, type="fill", popup.all.data=popup.all.data)
-			
+			if (!is.null(gpl$fill)) {
+				popups <- get_popups(gpl, type="fill", popup.all.data=popup.all.data)
+			} else {
+				popups <- NULL
+			}
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
-			
-
 			
 			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id)
 			
 			
 			if (!is.na(gpl$xfill)) {
-				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, aes="fill", alpha=alpha)
+				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="fill", alpha=alpha)
 			}
 			
 			assign("lf", lf, envir = e)
@@ -80,8 +85,24 @@ view_tmap <- function(gps, shps) {
 		}
 		
 		plot_tm_lines <- function() {
-			warning("Lines not implemented yet")
-			FALSE
+			lres <- split_alpha_channel(gpl$line.col, alpha=alpha)
+			lcol <- lres$col
+			lopacity <- lres$opacity
+
+			popups <- get_popups(gpl, type="line", popup.all.data=popup.all.data)
+			dashArray <- lty2dashArray(gpl$line.lty)
+			
+			lf <- lf %>% addPolylines(data=shp, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id)
+
+			
+			if (!is.na(gpl$xline)) {
+				if (gpl$line.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="line.col", alpha=alpha)
+			}
+			
+			assign("lf", lf, envir = e)
+			assign("id", id+1, envir = e)
+			
+			TRUE
 			# 			col <- do.call("process_color", c(list(gpl$line.col, alpha=gpl$line.alpha), gt$pc))
 			# 			grid.shplines(shp, gp=gpar(col=col, lwd=gpl$line.lwd, lty=gpl$line.lty,
 			# 									   lineend="butt"), i, k)
@@ -133,7 +154,7 @@ view_tmap <- function(gps, shps) {
 			
 			
 			if (!is.na(gpl$xcol)) {
-				if (gpl$bubble.col.legend.show) lf <- lf %>% add_legend(gpl, aes="bubble.col", alpha=alpha)
+				if (gpl$bubble.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="bubble.col", alpha=alpha)
 			}
 			
 
@@ -153,12 +174,12 @@ view_tmap <- function(gps, shps) {
 			
 			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
 
-			res_leg <- add_legend(map=NULL, gpl, aes="raster", alpha = alpha, list.only=TRUE)
+			res_leg <- add_legend(map=NULL, gpl, gt, aes="raster", alpha = alpha, list.only=TRUE)
 			
 			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=shp_name, project = FALSE, layerId = id)
 			
 			if (!is.na(gpl$xraster)) {
-				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, aes="raster", alpha=alpha)
+				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha)
 			}
 
 			assign("lf", lf, envir = e)
@@ -180,13 +201,25 @@ view_tmap <- function(gps, shps) {
 	
 	#center <- c(mean(lims[c(1,3)]), mean(lims[c(2,4)]))
 	
+	if (is.na(gt$control.position[1])) {
+		control.position <- c("lefttop")
+	} else if (!is.character(gt$control.position) || (!length(gt$control.position)==2)) {
+		stop("Invalid control.position", call.=FALSE)
+	} else if (gt$control.position[1] %in% c("left", "right") &&
+		gt$control.position[2] %in% c("top", "bottom")) {
+		control.position <- paste(gt$control.position[c(2,1)], collapse="")
+	} else {
+		stop("Invalid control.position", call.=FALSE)
+	}
+
 	
-	lf <- lf %>% addLayersControl(baseGroups=basemaps, overlayGroups = groups, position=c("topleft"), options = layersControlOptions(autoZIndex = TRUE))  
-	if (!(identical(gt$set_bounds, FALSE))) {
-		if (identical(gt$set_bounds, TRUE)) {
+	
+	lf <- lf %>% addLayersControl(baseGroups=basemaps, overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
+	if (!(identical(gt$set.bounds, FALSE))) {
+		if (identical(gt$set.bounds, TRUE)) {
 			lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
 		} else {
-			lims <- gt$set_bounds
+			lims <- gt$set.bounds
 		}
 		lf <- lf %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
 	}
@@ -264,7 +297,7 @@ get_popups <- function(gpl, type, popup.all.data) {
 	var_values <- paste(var_aes, "values", sep=".")
 	
 	if (all(is.na(unlist(gpl[var_x])))) popup.all.data <- TRUE
-	
+
 	dt <- gpl$data
 	if (popup.all.data) {
 		popups <- format_popups(gpl[[var_names]], names(dt), dt)
@@ -280,18 +313,26 @@ get_popups <- function(gpl, type, popup.all.data) {
 	popups
 }
 
-add_legend <- function(map, gpl, aes, alpha, list.only=FALSE) {
+add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 	pal_name <- paste(aes, "legend.palette", sep=".")
 	pal <- gpl[[pal_name]]
 	
 	if (nchar(pal[1])>10) {
 		style <- attr(pal, "style")
 		is.cont <- TRUE
+		incl.na <- nchar(pal[length(pal)]) < 10
 		pal <- sapply(pal, function(x) {
 			p <- strsplit(x, split = "-", fixed=TRUE)[[1]]
-			if (p[6]=="NA") p[5] else p[6]
+			if (length(p)==1) p[1] else if (p[6]=="NA") p[5] else p[6]
 		})
-		val <- as.numeric(gsub(",", "", gpl$fill.legend.labels, fixed = TRUE))
+		if (incl.na) {
+			colNA <- unname(pal[length(pal)])
+			pal <- pal[-length(pal)]
+			val <- as.numeric(gsub(",", "", gpl$fill.legend.labels, fixed = TRUE))
+		} else {
+			val <- as.numeric(gsub(",", "", gpl$fill.legend.labels, fixed = TRUE))
+			colNA <- NA
+		}
 	} else {
 		is.cont <- FALSE
 	}
@@ -308,14 +349,19 @@ add_legend <- function(map, gpl, aes, alpha, list.only=FALSE) {
 	
 	title <- if (gpl[[title_name]]=="") NULL else gpl[[title_name]]
 
+	legend.position <- gt$view.legend.position
+
 	if (is.cont) {
 		if (style=="quantile") {
-			addLegend(map, pal=colorQuantile(pal, val), values=val)
+			addLegend(map, position=legend.position,
+					  pal=colorQuantile(pal, val, na.color=colNA), values=val)
 		} else {
-			addLegend(map, pal=colorNumeric(pal, val), values=val)
+			addLegend(map, position=legend.position,
+					  pal=colorNumeric(pal, val, na.color=colNA), values=val)
 		}
 	} else {
-		addLegend(map, colors=col, labels = gpl[[lab_name]], opacity=opacity, title=title)
+		addLegend(map, position=legend.position,
+				  colors=col, labels = gpl[[lab_name]], opacity=opacity, title=title)
 	}
 }
 
@@ -343,4 +389,21 @@ units_per_line <- function(bbx) {
 	vdist <- distGeo(p1=c(mean(bbx[1,]), bbx[2,1]),
 					 p2=c(mean(bbx[1,]), bbx[2,2]))
 	vdist/max_lines
+}
+
+lty2dashArray <- function(lty) {
+	numlty <- switch(lty,
+					 solid=0,
+					 # These numbers taken from ?par
+					 dashed=c(4, 4),
+					 dotted=c(1, 3),
+					 dotdash=c(1, 3, 4, 3),
+					 longdash=c(7, 3),
+					 twodash=c(2, 2, 6, 2),
+					 # Otherwise we're a hex string
+					 as.numeric(as.hexmode(strsplit(lty, "")[[1]])))
+	paste(ifelse(numlty == 0,
+				 "none",
+				 numlty),
+		  collapse=",")
 }

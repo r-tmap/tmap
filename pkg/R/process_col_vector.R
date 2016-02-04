@@ -1,6 +1,7 @@
 process_col_vector <- function(x, sel, g, gt) {
 	values <- x
-	textNA <- ifelse(any(is.na(values[sel])), g$textNA, NA)
+	#textNA <- ifelse(any(is.na(values[sel])), g$textNA, NA)
+	#showNA <- if (is.na(g$showNA)) any(is.na(values[sel])) else FALSE
 	
 	x[!sel] <- NA
 	
@@ -23,8 +24,9 @@ process_col_vector <- function(x, sel, g, gt) {
 						   contrast = g$contrast,
 						   colorNA = g$colorNA,
 						   legend.labels=g$labels,
-						   legend.NA.text = textNA,
 						   max_levels=g$max.categories,
+						   legend.NA.text = g$textNA,
+						   showNA = g$showNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc))
 		breaks <- NA
 		
@@ -45,7 +47,8 @@ process_col_vector <- function(x, sel, g, gt) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
-						   legend.NA.text = textNA,
+						   legend.NA.text = g$textNA,
+						   showNA = g$showNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc),
 						   legend.format=g$legend.format)
 		breaks <- colsLeg$breaks

@@ -11,11 +11,12 @@ tm_bubbles(size = 0.2, col = NA, alpha = NA, border.col = NA,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
   contrast = NA, max.categories = 12, colorNA = NA, textNA = "Missing",
-  jitter = 0, xmod = 0, ymod = 0, title.size = NA, title.col = NA,
-  legend.size.show = TRUE, legend.col.show = TRUE, legend.format = list(),
-  legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
-  legend.hist = FALSE, legend.hist.title = NA, legend.size.z = NA,
-  legend.col.z = NA, legend.hist.z = NA, id = NA)
+  showNA = NA, jitter = 0, xmod = 0, ymod = 0, title.size = NA,
+  title.col = NA, legend.size.show = TRUE, legend.col.show = TRUE,
+  legend.format = list(), legend.size.is.portrait = FALSE,
+  legend.col.is.portrait = TRUE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
+  legend.hist.z = NA, id = NA)
 
 tm_dots(col = NA, size = 0.02, title = NA, legend.show = TRUE,
   legend.is.portrait = TRUE, legend.z = NA, ...)
@@ -61,7 +62,9 @@ tm_dots(col = NA, size = 0.02, title = NA, legend.show = TRUE,
 
 \item{colorNA}{colour for missing values. Use \code{NULL} for transparency.}
 
-\item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
+\item{textNA}{text used for missing values.}
+
+\item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
 
 \item{jitter}{number that determines the amount of jittering, i.e. the random noise added to the position of the bubbles. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.}
 
@@ -144,6 +147,7 @@ tm_shape(x) +
 	tm_dots() + 
 tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
 }
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")
 }
 \references{
 Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.

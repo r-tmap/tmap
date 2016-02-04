@@ -88,7 +88,7 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
-	if (g$colorNA=="#00000000") g$textNA <- NA
+	if (g$colorNA=="#00000000") g$showNA <- FALSE
 	
 	
 	# if by is specified, use first value only

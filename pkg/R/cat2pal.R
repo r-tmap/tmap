@@ -6,6 +6,7 @@ cat2pal <- function(x,
 					legend.labels = NULL,
 					max_levels = 40,
 					legend.NA.text = "Missing",
+					showNA = NA,
 					process.colors) {
   if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
@@ -57,11 +58,16 @@ cat2pal <- function(x,
 		legend.labels <- rep(legend.labels, length.out = nCol)
 	}
 	if (any(colsNA)) {
-		cols[is.na(cols)] <- colorNA
-		if (!is.na(legend.NA.text)) {
-			legend.labels <- c(legend.labels, legend.NA.text)
-			legend.palette <- c(legend.palette, colorNA)
-		}
+		if (is.na(showNA)) showNA <- TRUE
+		cols[colsNA] <- colorNA
+	} else {
+		if (is.na(showNA)) showNA <- FALSE
+	}
+
+	
+	if (showNA) {
+		legend.labels <- c(legend.labels, legend.NA.text)
+		legend.palette <- c(legend.palette, colorNA)
 	}
 	
 	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette)

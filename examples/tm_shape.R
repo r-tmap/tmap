@@ -1,3 +1,5 @@
+current.mode <- tmap_mode("plot")
+
 data(World, metro, rivers)
 
 tm_shape(World, projection="longlat") + 
@@ -30,3 +32,6 @@ tm_shape(metro) +
 tm_shape(rivers) +
     tm_lines("lightcyan1") +
 tm_layout(bg.color="lightcyan1", inner.margins=c(0,0,.02,0), legend.show = FALSE)
+
+# restore current mode
+tmap_mode(current.mode)

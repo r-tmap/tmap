@@ -46,7 +46,7 @@ map1 <- tm_shape(World) +
 	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE)
 
 # initial mode: "plot"
-tmap_mode("plot")
+current.mode <- tmap_mode("plot")
 
 # plot map
 map1
@@ -67,5 +67,8 @@ tm_shape(NLD_muni) +
 	tm_borders("grey25", alpha=.5) + 
 	tm_shape(NLD_prov) +
 	tm_borders("grey40", lwd=2)
+
+# restore current mode
+tmap_mode(current.mode)
 }
 

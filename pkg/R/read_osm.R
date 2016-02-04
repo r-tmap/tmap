@@ -2,7 +2,7 @@
 #' 
 #' Read Open Street Map data. Either OSM tiles are read and returned as a spatial raster, or vectorized OSM data are queried and returned as spatial polygons, lines, and/or points.
 #' 
-#' @param x shape, bounding box, or \code{\link[osmar:osmar]{osmar}} object. If a shape (from class \code{\link[sp:Spatial]{Spatial}} or \code{\link[raster:Raster-class]{Raster}}) is specified, the bounding box of it is taken. See also \code{...} (other arguments)
+#' @param x shape, bounding box, or \code{\link[osmar:osmar]{osmar}} object. If a shape (from class \code{\link[sp:Spatial]{Spatial}} or \code{\link[raster:Raster-class]{Raster}}) is specified, the bounding box of it is taken. See also \code{...} (other arguments). If a bounding box is specified, it should be in longitude latitude coordinates.
 #' @param raster logical that determines whether a raster or vector shapes are returned. In the latter case, specify the vector selections (see argument \code{...}). By default, \code{raster=TRUE} if no vector selections are made, and \code{raster=FALSE} otherwise.
 #' @param zoom passed on to \code{\link[OpenStreetMap:openmap]{openmap}}. Only applicable when \code{raster=TRUE}.
 #' @param type passed on to \code{\link[OpenStreetMap:openmap]{openmap}} Only applicable when \code{raster=TRUE}.

@@ -9,9 +9,9 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
   sizes.legend.text = "Abc", n = 5, style = ifelse(is.null(breaks),
   "pretty", "fixed"), breaks = NULL, palette = NULL, labels = NULL,
   labels.text = NA, auto.palette.mapping = TRUE, contrast = NA,
-  max.categories = 12, colorNA = NA, textNA = "Missing", fontface = NA,
-  fontfamily = NA, alpha = NA, case = NA, shadow = FALSE,
-  bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
+  max.categories = 12, colorNA = NA, textNA = "Missing", showNA = NA,
+  fontface = NA, fontfamily = NA, alpha = NA, case = NA,
+  shadow = FALSE, bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
   print.tiny = FALSE, scale = 1, auto.placement = FALSE,
   remove.overlap = FALSE, along.lines = FALSE, overwrite.lines = FALSE,
   xmod = 0, ymod = 0, title.size = NA, title.col = NA,
@@ -57,7 +57,9 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 
 \item{colorNA}{colour for missing values. Use \code{NULL} for transparency.}
 
-\item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
+\item{textNA}{text used for missing values.}
+
+\item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
 
 \item{fontface}{font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_layout}}.}
 
@@ -136,6 +138,8 @@ Creates a \code{\link{tmap-element}} that adds text labels.
 The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 }
 \examples{
+current.mode <- tmap_mode("plot")
+
 data(World, Europe, metro)
 
 tm_shape(World) +
@@ -160,6 +164,9 @@ tm_shape(metro[metro$pop2010>=2e6, ]) +
 tm_shape(World) +
 	tm_text("name", size="pop_est", col="continent", palette="Dark2", 
 			title.size = "Population", title.col="Continent")
+
+# restore current mode
+tmap_mode(current.mode)
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

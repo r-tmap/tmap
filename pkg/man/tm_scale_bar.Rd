@@ -28,10 +28,15 @@ tm_scale_bar(breaks = NULL, width = 0.25, size = 0.5, text.color = NA,
 Creates a scale bar. By default, the coordinate units are assumed to be meters, and the map units in kilometers. This can be changed in \code{\link{tm_shape}}.
 }
 \examples{
+current.mode <- tmap_mode("plot")
+
 data(NLD_muni)
 qtm(NLD_muni, theme = "NLD") + tm_scale_bar(position=c("left", "bottom"))
 
 data(Europe)
 tm_shape(Europe, unit = "miles", unit.size=1609) + tm_polygons() + tm_scale_bar()
+
+# restore current mode
+tmap_mode(current.mode)
 }
 

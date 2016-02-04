@@ -37,6 +37,7 @@
 #' @importFrom rgeos gConvexHull gUnaryUnion gPointOnSurface gContains gIsValid gIntersection gArea gBuffer gDifference
 #' @importFrom KernSmooth bkde2D
 #' @importFrom grDevices contourLines
+#' @example ../examples/smooth_map.R
 #' @export
 smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", unit.size=1000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, extracting.method="full", buffer.width=NA, to.Raster=FALSE) {
 	bbx <- bb(shp)
@@ -203,7 +204,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	setTxtProgressBar(pb, .7)
 	
 	# make sure lines are inside poly
-	cp <- lines2polygons(ply = cover, lns = cl2, rst = r, lvls=lvls, extracting.method="full", buffer.width = NA)
+	cp <- lines2polygons(ply = cover, lns = cl2, rst = r, lvls=lvls, extracting.method="full", buffer.width = buffer.width)
 	attr(cp, "dasymetric") <- TRUE
 	
 	setTxtProgressBar(pb, .9)
@@ -250,7 +251,7 @@ contour_lines_to_SLDF <- function (cL, proj4string = CRS(as.character(NA)))
 
 
 buffer_width <- function(bbx) {
-	prod(bbx[,2] - bbx[,1]) / 1e10
+	prod(bbx[,2] - bbx[,1]) / 1e12
 }
 
 

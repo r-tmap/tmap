@@ -1,3 +1,5 @@
+current.mode <- tmap_mode("plot")
+
 data(World, Europe, metro)
 
 tm_shape(World) +
@@ -22,3 +24,6 @@ tm_shape(metro[metro$pop2010>=2e6, ]) +
 tm_shape(World) +
 	tm_text("name", size="pop_est", col="continent", palette="Dark2", 
 			title.size = "Population", title.col="Continent")
+
+# restore current mode
+tmap_mode(current.mode)

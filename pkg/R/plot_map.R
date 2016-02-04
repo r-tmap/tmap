@@ -27,9 +27,12 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		
 		## obtain coordinates (to draw bubbles and text)
 		if (inherits(shp, "Spatial")) {
-			co <- get_sp_coordinates(shp, gpl, gt, bbx)
-
-			co.npc <- co
+			res <- get_sp_coordinates(shp, gpl, gt, bbx)
+			co.npc <- res$co
+			if (gt$line.center.type[1]=="segment") {
+				gpl <- res$gpl
+				shp <- res$shp
+			}	
 			co.npc[,1] <- if (bbx[1, 2]-bbx[1,1]==0) .5 else {
 				(co.npc[,1]-bbx[1,1]) / (bbx[1, 2]-bbx[1,1])	
 			}
@@ -196,7 +199,6 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				}
 				tGrob <- do.call("gList", lapply(tGrob, .editGrob, sel=sel, shiftX=shiftX, shiftY=shiftY, angles=angles))
 				
-
 				if (gpl$text.overwrite.lines && "plot_tm_lines" %in% fnames) {
 					# Remove line where labels overlap
 					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]

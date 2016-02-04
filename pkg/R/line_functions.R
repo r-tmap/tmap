@@ -18,6 +18,7 @@ offset_line <- function(shp, offset) {
 #' @rdname double_line
 #' @export
 #' @import sp
+#' @example ../examples/double_line.R
 #' @importFrom rgeos gBuffer gIntersection
 double_line <- function(shp, width, sides="both") {
 	ns <- length(shp)

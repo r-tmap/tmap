@@ -18,3 +18,4 @@ tm_shape(x) +
 	tm_dots() + 
 tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
 }
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")

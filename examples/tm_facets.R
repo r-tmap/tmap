@@ -1,5 +1,7 @@
 data(World, Europe, NLD_muni, NLD_prov)
 
+current.mode <- tmap_mode("plot") # small multiples don't work in view mode
+
 # Facets defined by constant values
 tm_shape(World) +
     tm_fill(c("forestgreen", "goldenrod")) +
@@ -43,3 +45,25 @@ tm_shape(NLD_prov) +
     tm_borders(lwd=4) +
     tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
 tm_layout(legend.show = FALSE)
+
+# example: Meuse data
+\dontrun{
+library(sp)
+library(OpenStreetMap)
+data(meuse)
+coordinates(meuse) <- ~x+y
+proj4string(meuse) <- get_proj4("rd")
+
+meuse_osm <- read_osm(bb(meuse, ext=1.1, current.projection = "rd", projection = "longlat"))
+
+qtm(meuse_osm) + 
+	tm_shape(meuse) +
+	tm_bubbles(size=c("cadmium", "copper", "lead", "zinc"),
+	    col=c("orange", "orange3", "grey40", "grey70"),
+	    border.col="black",
+        border.alpha = .75,
+        scale=.7)
+}
+
+# restore current mode
+tmap_mode(current.mode)

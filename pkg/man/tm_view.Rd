@@ -4,16 +4,17 @@
 \alias{tm_view}
 \title{Options for the interactive tmap viewer}
 \usage{
-tm_view(alpha = NA, popup.all.data = FALSE, na = NA, basemaps = NA,
-  bg.overlay = NA, bg.overlay.alpha = NA, bubble.size.fixed = FALSE,
-  dot.size.fixed = TRUE, set_bounds = FALSE)
+tm_view(alpha = NA, popup.all.data = FALSE, colorNA = NULL,
+  basemaps = NA, bg.overlay = NA, bg.overlay.alpha = NA,
+  bubble.size.fixed = FALSE, dot.size.fixed = TRUE, set.bounds = FALSE,
+  legend.position = c("right", "top"), control.position = c("left", "top"))
 }
 \arguments{
 \item{alpha}{transparency parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
 
 \item{popup.all.data}{should only the aesthetic variables be shown in the popup windows, or all variables? By default \code{FALSE} unless no aesthetics are used.}
 
-\item{na}{color for missing values. The default value of \code{NULL} means transparent. It overrides the \code{na} value of the \code{aes.color} in \code{\link{tm_layout}}.}
+\item{colorNA}{default color for missing values (that is, in case \code{colorNA} is unspecified in layer functions such as \code{\link{tm_fill}}). The default value of \code{NULL} means transparent. It overrides the \code{na} value of the \code{aes.color} in \code{\link{tm_layout}}.}
 
 \item{basemaps}{vector of one or more names of baselayer maps, or a logical value. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. By default (\code{NA}), the choice of basemap(s) will be determined by the \code{basemaps} argument of \code{\link{tm_layout}}, which is style dependent. Use \code{TRUE} to select a large set of recommended basemaps. Use \code{FALSE} to omit basemap tiles.}
 
@@ -25,7 +26,11 @@ tm_view(alpha = NA, popup.all.data = FALSE, na = NA, basemaps = NA,
 
 \item{dot.size.fixed}{should dot sizes be fixed while zooming?}
 
-\item{set_bounds}{logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).}
+\item{set.bounds}{logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).}
+
+\item{legend.position}{Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.}
+
+\item{control.position}{Character vector of two values, specifing the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.}
 }
 \description{
 Set the options for the interactive tmap viewer. Some of these options can also be set with \code{\link{tm_layout}}, since they are style dependent (e.g., the choice of basemaps). The function \code{tm_view} overrides these options when specified.
@@ -47,7 +52,7 @@ map1 <- tm_shape(World) +
 	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE)
 
 # initial mode: "plot"
-tmap_mode("plot")
+current.mode <- tmap_mode("plot")
 
 # plot map
 map1
@@ -68,5 +73,8 @@ tm_shape(NLD_muni) +
 	tm_borders("grey25", alpha=.5) + 
 	tm_shape(NLD_prov) +
 	tm_borders("grey40", lwd=2)
+
+# restore current mode
+tmap_mode(current.mode)
 }
 

@@ -63,18 +63,13 @@ This function is a convenient wrapper of the main plotting method of stacking \c
 For \code{format} any character value, say "xxx" can be used if the wrapper function \code{"tm_format_xxx"} exists. The same applies for the arguments \code{colors}, and \code{style}.
 }
 \examples{
-data(Europe, World, metro)
+data(World, rivers, metro)
 
 # just the map
-qtm(Europe)
+qtm(World)
 
 # choropleth
-qtm(World, fill = "economy", text="iso_a3", text.size = "AREA", format = "World", 
-	fill.title="Economy", style="col_blind")
-
-qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="pop_est", 
-    fill.title="GDP per capita", fill.textNA="Non-European countries", 
-	format="Europe", style="cobalt")
+qtm(World, fill = "economy", format="World", style="col_blind")
 
 qtm(World, fill="HPI", fill.n=9, fill.palette="div", fill.auto.palette.mapping=FALSE, 
 	fill.title="Happy Planet Index", format="World", style="gray")
@@ -82,6 +77,8 @@ qtm(World, fill="HPI", fill.n=9, fill.palette="div", fill.auto.palette.mapping=F
 # bubble map
 qtm(World, borders = NULL) + qtm(metro, bubble.size = "pop2010", 
     bubble.title.size="Metropolitan Areas", bubble.scale=.5, format = "World")
+
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

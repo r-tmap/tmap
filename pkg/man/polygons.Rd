@@ -10,7 +10,7 @@ tm_fill(col = NA, alpha = NA, palette = NULL, convert2density = FALSE,
   area = NULL, n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
   breaks = NULL, labels = NULL, auto.palette.mapping = TRUE,
   contrast = NA, max.categories = 12, colorNA = NA, textNA = "Missing",
-  thres.poly = 0, title = NA, legend.show = TRUE,
+  showNA = NA, thres.poly = 0, title = NA, legend.show = TRUE,
   legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
   legend.hist.title = NA, legend.z = NA, legend.hist.z = NA, id = NA,
   ...)
@@ -51,7 +51,9 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{colorNA}{color used for missing values. Use \code{NULL} for transparency.}
 
-\item{textNA}{text used for missing values. Use \code{NA} to omit text for missing values in the legend}
+\item{textNA}{text used for missing values.}
+
+\item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
 
 \item{thres.poly}{number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. By default, all polygons are drawn. To ignore polygons that are not visible in a normal plot, a value like \code{1e-05} is recommended.}
 
@@ -119,7 +121,7 @@ tm_layout("Find the Netherlands!")
 # Numeric data variable
 tm_shape(NLD_muni) +
     tm_fill(col="population", convert2density=TRUE, 
-        style="kmeans", title="Population (per km2)", legend.hist=TRUE) +
+        style="kmeans", title="Population (per km2)", legend.hist=TRUE, id="name") +
     tm_borders("grey25", alpha=.5) + 
 tm_shape(NLD_prov) +
     tm_borders("grey40", lwd=2) +
@@ -127,14 +129,14 @@ tm_format_NLD_wide(bg.color="white", frame = FALSE, legend.hist.bg.color="grey90
 
 tm_shape(World) +
     tm_polygons("HPI", palette="RdYlGn", style="cont", n=8, auto.palette.mapping=FALSE, 
-    			title="Happy Planet Index") +
+    			title="Happy Planet Index", id="name") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_format_World() + 
 tm_style_grey()
 
 # Categorical data variable
 tm_shape(World) +
-    tm_polygons("economy", title="Economy") +
+    tm_polygons("economy", title="Economy", id="name") +
     tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_format_World()
 
@@ -147,6 +149,8 @@ tm_shape(NLD_prov) +
     tm_borders(lwd=2) +
     tm_text("name", shadow=TRUE) +
 tm_format_NLD(title="Dutch provinces and\\nmunicipalities", bg.color="white")
+
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")
 }
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}

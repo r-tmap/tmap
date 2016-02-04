@@ -176,6 +176,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		#sp_rect_prj <- set_projection(sp_rect, current.projection = current.projection, projection=projection)
 		#sp_rect_prj <- spTransform(sp_rect, CRSobj = get_proj4(projection))
 		b <- sp_pnts2_prj@bbox
+		dimnames(b) <- list(c("x", "y"), c("min", "max"))
 	}
 	
 	b	

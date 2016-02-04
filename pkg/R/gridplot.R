@@ -1,4 +1,4 @@
-gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, inner.margins.new, legend_pos, xs, ys, design.mode) {
+gridplot <- function(mfrow, mfcol, fun, nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, xs, ys, design.mode) {
 	#cl <- rw <- 1
 	
 	## number of pages
@@ -23,7 +23,7 @@ gridplot <- function(mfrow, mfcol, fun, nx, gps, shps.env, dasp, sasp, inner.mar
 		iend <- min(istart + pp-1, nx)
 		ni <- iend-istart+1
 		treeMults <- mapply(function(i, rw, cl) {
-			cellplot(rw, cl, e=do.call(fun, args=list(i, gps[[i]], shps.env, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = paste("multiple", i, sep="_"))
+			cellplot(rw, cl, e=do.call(fun, args=list(i, gps[[i]], shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = paste("multiple", i, sep="_"))
 		}, istart:iend, 
 		rep(1:mfrow, each=mfcol, length.out=ni)+1, 
 		rep(1:mfcol, times=mfrow, length.out=ni)+1, SIMPLIFY=FALSE)

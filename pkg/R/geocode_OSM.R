@@ -30,7 +30,7 @@ geocode_OSM <- function(q, projection="longlat") {
 	if (projection!="longlat") {
 		current.projection <- get_proj4("longlat")
 		prj <- get_proj4(projection)
-		single_point <- SpatialPoints(matrix(c(cx, cy), nrow=1), proj4string=CRS(current.projection))
+		single_point <- SpatialPoints(matrix(coords, nrow=1), proj4string=CRS(current.projection))
 		coords <- as.vector(attr(set_projection(single_point, projection = prj), "coords"))
 		names(coords) <- c("x", "y")
 		b <- bb(b, current.projection = current.projection, projection = prj)
