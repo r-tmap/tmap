@@ -110,21 +110,27 @@ qtm <- function(shp,
 	
 	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
 	
-	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
-		lnames <- setdiff(names(formals(f)), sk)
+	  if (pre=="dot") {
+	    lnames <- c(setdiff(names(formals(f)), sk),
+	                setdiff(names(formals("tm_bubbles")), c(sk, "size")))
+	  } else lnames <- setdiff(names(formals(f)), sk)
 		isD <- lnames %in% dupl
 		lnames2 <- lnames
 		lnames2[isD] <- paste(pre, lnames2[isD], sep=".")
 		arg <- args[intersect(names(args), lnames2)]
 		if (length(arg)) names(arg) <- lnames[match(names(arg), lnames2)]
+		
+		if (pre=="dot") {
+		  dotnames <- names(arg)
+		  rename <- dotnames %in% c("size", "title", "legend.show", "legend.is.portrait", " legend.z")
+		  if (any(rename)) names(arg)[rename] <- c("size", "title.col", "legend.col.show", "legend.col.is.portrait", " legend.col.z")[match(dotnames[rename], c("size", "title", "legend.show", "legend.is.portrait", " legend.z"))]
+		}
 		arg
 	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)
 	
 	# merge tm_dots and tm_bubbles arguments
-	dotnames <- names(args2$tm_dots)
-	names(args2$tm_dots) <- c("size", "title.col", "legend.col.show", "legend.col.is.portrait", " legend.col.z")[match(dotnames, c("size", "title", "legend.show", "legend.is.portrait", " legend.z"))]
-	if ("size" %in% dotnames) {
+	if ("size" %in% names(args2$tm_dots)) {
 		bubble.size <- args2$tm_dots$size
 		args2$tm_dots$size <- NULL
 	}
