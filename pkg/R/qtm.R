@@ -19,6 +19,7 @@
 #' @param fill either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).
 #' @param bubble.size name of the data variable in \code{shp} for the bubble map that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param bubble.col name of the data variable in \code{shp} for the bubble map that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
+#' @param dot.col name of the data variable in \code{shp} for the dot map that specifies the colors of the dots. 
 #' @param text Name of the data variable that contains the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param text.size Font size of the text labels. Either a constant value, or the name of a numeric data variable. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param text.col name of the data variable in \code{shp} for the that specifies the colors of the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
@@ -39,6 +40,7 @@ qtm <- function(shp,
 				fill=NA,
 				bubble.size=NULL,
 				bubble.col=NULL,
+				dot.col=NULL,
 				text=NULL,
 				text.size=1,
 				text.col=NA,
@@ -88,21 +90,25 @@ qtm <- function(shp,
 			if (!"overwrite.lines" %in% called && isolines) args$overwrite.lines <- TRUE
 		}
 		if (inherits(shp, "SpatialPoints") && !inherits(shp, "SpatialPixels")) {
-		  dots_instead_of_bubbles <- missing(bubble.size)
+			dots_instead_of_bubbles <- missing(bubble.size) && missing(bubble.col)
 			if (dots_instead_of_bubbles) bubble.size <- .02
-			if (missing(bubble.col)) bubble.col <- NA
+			if (missing(bubble.col) && missing(dot.col)) {
+				bubble.col <- NA
+			} else if (!missing(dot.col)) {
+				bubble.col <- dot.col
+			}
 		}
 	}
 	if (!inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster"))) {
 		raster <- NULL
 	}
 	
-	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "bg.alpha", "breaks", "col", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "textNA", "legend.format", "xmod", "ymod", "title", "title.size", "title.col", "legend.is.portrait", "legend.hist", "legend.hist.title", "legend.z", "legend.hist.z", "id", "saturation")
+	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "bg.alpha", "breaks", "col", "size", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "showNA", "textNA", "legend.format", "xmod", "ymod", "title", "title.size", "title.col", "legend.show", "legend.is.portrait", "legend.hist", "legend.hist.title", "legend.z", "legend.hist.z", "legend.format", "id", "saturation", "legend.col.show", "legend.col.is.portrait", "legend.col.z", "legend.size.show", "legend.size.is.portrait", "legend.size.z")
 	
-	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets")
-	fns_prefix <- c("shape", "fill", "borders", "bubble", "line", "raster", "text", "layout", "grid", "facets")
+	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_dots", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets")
+	fns_prefix <- c("shape", "fill", "borders", "bubble", "dot", "line", "raster", "text", "layout", "grid", "facets")
 	
-	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
+	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
 	
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
@@ -114,6 +120,16 @@ qtm <- function(shp,
 		if (length(arg)) names(arg) <- lnames[match(names(arg), lnames2)]
 		arg
 	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)
+	
+	# merge tm_dots and tm_bubbles arguments
+	dotnames <- names(args2$tm_dots)
+	names(args2$tm_dots) <- c("size", "title.col", "legend.col.show", "legend.col.is.portrait", " legend.col.z")[match(dotnames, c("size", "title", "legend.show", "legend.is.portrait", " legend.z"))]
+	if ("size" %in% dotnames) {
+		bubble.size <- args2$tm_dots$size
+		args2$tm_dots$size <- NULL
+	}
+	args2$tm_bubbles <- c(args2$tm_bubbles, args2$tm_dots)
+	args2$tm_dots <- NULL
 	
 	g <- do.call("tm_shape", c(list(shp=shp), args2[["tm_shape"]]))
 	g$tm_shape$shp_name <- shp_name
