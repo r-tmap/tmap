@@ -30,7 +30,8 @@
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.
 #' @param title main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).
 #' @param format \code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).
-#' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details). #Currently available in tmap: "cobalt", "albatross", "beaver".  
+#' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).
+#' @param basemaps basemaps for the view mode. See \code{\link{tm_view}}
 #' @param ... arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.  
 #' @return \code{\link{tmap-element}}
 #' @example ../examples/qtm.R
@@ -52,6 +53,7 @@ qtm <- function(shp,
 				title=NA,
 				format=NULL,
 				style=NULL,
+				basemaps=NA,
 				...) {
 	args <- list(...)
 	shp_name <- deparse(substitute(shp))
@@ -59,13 +61,17 @@ qtm <- function(shp,
 	
 	if (missing(shp)) {
 		# return minimal list required for leaflet basemap tile viewing
-		g <- list(tm_shortcut=list(basemaps=tm_style_white()$tm_layout$basemaps, bg.overlay.alpha=0))
+		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
+		g <- c(list(tm_shortcut=list()), tm_view(basemaps=basemaps, bg.overlay.alpha=0))
 		class(g) <- "tmap"
 		return(g)
 	} else if (is.character(shp)) {
 		# return minimal list required for leaflet basemap tile viewing
 		res <- geocode_OSM(shp)
-		g <- list(tm_shortcut=list(basemaps=tm_style_white()$tm_layout$basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
+		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
+		g <- c(list(tm_shortcut=list(bbx=res$bbox, center=res$coords)), tm_view(basemaps=basemaps, bg.overlay.alpha=0)) 
+			
+		#list(tm_shortcut=list(basemaps=basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
 		class(g) <- "tmap"
 		return(g)
 	}
@@ -103,12 +109,14 @@ qtm <- function(shp,
 		raster <- NULL
 	}
 	
-	dupl <- c("alpha", "auto.palette.mapping", "bg.color", "bg.alpha", "breaks", "col", "size", "colorNA", "contrast", "labels", "lty", "lwd", "max.categories", "n", "palette", "scale", "style", "showNA", "textNA", "legend.format", "xmod", "ymod", "title", "title.size", "title.col", "legend.show", "legend.is.portrait", "legend.hist", "legend.hist.title", "legend.z", "legend.hist.z", "legend.format", "id", "saturation", "legend.col.show", "legend.col.is.portrait", "legend.col.z", "legend.size.show", "legend.size.is.portrait", "legend.size.z")
+
+	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_dots", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets", "tm_view")
+	fns_prefix <- c("shape", "fill", "borders", "bubble", "dot", "line", "raster", "text", "layout", "grid", "facets", "view")
 	
-	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_dots", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets")
-	fns_prefix <- c("shape", "fill", "borders", "bubble", "dot", "line", "raster", "text", "layout", "grid", "facets")
+	argnames <- unlist(lapply(fns, function(f) names(formals(f))))
+	dupl <- setdiff(unique(argnames[duplicated(argnames)]), "...")
 	
-	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL)
+	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
 	  if (pre=="dot") {
@@ -128,7 +136,7 @@ qtm <- function(shp,
 		}
 		arg
 	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)
-	
+
 	# merge tm_dots and tm_bubbles arguments
 	if ("size" %in% names(args2$tm_dots)) {
 		bubble.size <- args2$tm_dots$size
@@ -172,6 +180,7 @@ qtm <- function(shp,
 		g <- g + do.call(paste("tm_style", style, sep="_"), list())
 	}
 	g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
-
+	g <- g + do.call("tm_view", c(list(basemaps=basemaps), args2[["tm_view"]]))
+	
 	g
 }

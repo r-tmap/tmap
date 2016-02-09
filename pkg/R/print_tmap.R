@@ -80,7 +80,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			
 			lf <-view_tmap(list(list(tm_layout=gt)))
 			
-			
 			if (knit) {
 				return(do.call("knit_print", c(list(x=lf), list(...), list(options=options))))
 				#return(knit_print(lf, ..., options=options))
