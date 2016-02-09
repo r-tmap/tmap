@@ -68,7 +68,7 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 			if (length(fillBorderID) >= 2) {
 				belowGridLayers <- belowGridLayers[-fillBorderID[-1]]
 			}
-			sum(!(belowGridLayers %in% c("tm_layout", "tm_style", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar"))) + 1
+			sum(!(belowGridLayers %in% c("tm_layout", "tm_view", "tm_style", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar"))) + 1
 		}
 	} else {
 		gridGrp <- 0
@@ -76,7 +76,7 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	
 
 	## split x into gmeta and gbody
-	x <- x[!(xnames %in% c("tm_layout", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar"))]
+	x <- x[!(xnames %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar"))]
 
 	n <- length(x)
 	

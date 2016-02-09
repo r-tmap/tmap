@@ -46,6 +46,7 @@ knit_print.tmap <- function(x, ..., options=NULL) {
 print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), knit=FALSE, options=NULL, ...) {
 	#### General process of tmap:
 	#  print.tmap: - puts shapes and shape data into right format
+	#              - calls preprocess_shapes for preprocessing (i.e. reprojecting) shapes
 	#              - calls process_tm for processing tm elements
 	#              - calls process_shapes for processing shapes
 	#              - calls plot function gridplot, that calls plot_all
@@ -58,8 +59,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#                  - process layer functions by calling indivudual functions, like tm_fill
 	#  process_meta: - determines number of rows and colums for small multiples
 	#                - applies scale factor to all meta elements (tm_layout, tm_style, tm_compass, tm_scale_bar, tm_grid)
-	#  process_shapes: - project shapes
-	#                  - determines bounding box(es)
+	#  preprocess_shapes: - project shapes
+	#  process_shapes: - determines bounding box(es)
 	#                  - crop shapes
 	#  gridplot:   - makes small multiples grid
 	#              - calls plot_all for grob trees

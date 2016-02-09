@@ -18,23 +18,39 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		}
 		
 		## find natural breaks
-		grid.x <- pretty(bbx[1,], n=grid.n.x)
+		grid.custom.x <- !is.na(grid.x[1])
+		grid.custom.y <- !is.na(grid.y[1])
+		
+		if (!grid.custom.x) grid.x <- pretty(bbx[1,], n=grid.n.x)
+		if (!grid.custom.y) grid.y <- pretty(bbx[2,], n=grid.n.y)
+
+		## crop
 		grid.x <- grid.x[grid.x>bbx[1,1] & grid.x<bbx[1,2]]
-		grid.y <- pretty(bbx[2,], n=grid.n.y)
 		grid.y <- grid.y[grid.y>bbx[2,1] & grid.y<bbx[2,2]]
 		
 		## project grid lines
 		if (!is.na(grid.projection)) {
-			
 			## add extra grid lines to make sure the warped grid is full
-			gnx2 <- floor(length(grid.x))
-			grid.x2 <- c(rev(seq(grid.x[1], by=-diff(grid.x[1:2]), length.out = gnx2)), 
-						 grid.x[-c(1, length(grid.x))],
-						 seq(grid.x[length(grid.x)], by=diff(grid.x[1:2]), length.out = gnx2))
-			gny2 <- floor(length(grid.y))
-			grid.y2 <- c(rev(seq(grid.y[1], by=-diff(grid.y[1:2]), length.out = gny2)), 
-						 grid.y[-c(1, length(grid.y))],
-						 seq(grid.y[length(grid.y)], by=diff(grid.y[1:2]), length.out = gny2))
+			if (grid.custom.x) {
+				grid.x2 <- grid.x
+			} else {
+				gnx2 <- floor(length(grid.x))
+				if (gnx2>0) {
+					grid.x2 <- c(rev(seq(grid.x[1], by=-diff(grid.x[1:2]), length.out = gnx2)),
+								 grid.x[-c(1, length(grid.x))],
+								 seq(grid.x[length(grid.x)], by=diff(grid.x[1:2]), length.out = gnx2))
+				} else grid.x2 <- NA
+			}
+			if (grid.custom.y) {
+				grid.y2 <- grid.y
+			} else {
+				gny2 <- floor(length(grid.y))
+				if (gny2>0) {
+					grid.y2 <- c(rev(seq(grid.y[1], by=-diff(grid.y[1:2]), length.out = gny2)),
+								 grid.y[-c(1, length(grid.y))],
+								 seq(grid.y[length(grid.y)], by=diff(grid.y[1:2]), length.out = gny2))
+				} else grid.y2 <- NA
+			}
 			if (grid.projection %in% c("longlat", "latlong")) {
 				grid.x2[abs(grid.x2-180)<1e-9] <- 180
 				grid.x2[abs(grid.x2- -180)<1e-9] <- -180
@@ -51,40 +67,48 @@ process_grid <- function(gt, bbx, proj, sasp) {
 			gnx2 <- gny2 <- NULL
 			
 			## determine limits
-			grid.x2.min <- min(min(grid.x2), bbx[1, 1])
-			grid.x2.max <- max(max(grid.x2), bbx[1, 2])
-			grid.y2.min <- min(min(grid.y2), bbx[2, 1])
-			grid.y2.max <- max(max(grid.y2), bbx[2, 2])
+			grid.x2.min <- min(min(grid.x2), bbx[1, 1], na.rm=TRUE)
+			grid.x2.max <- max(max(grid.x2), bbx[1, 2], na.rm=TRUE)
+			grid.y2.min <- min(min(grid.y2), bbx[2, 1], na.rm=TRUE)
+			grid.y2.max <- max(max(grid.y2), bbx[2, 2], na.rm=TRUE)
 			
 			# create SLDF with straight grid lines in grid lines projection
 			#bbx2 <- bb(bbx, ext=3)
-			lns <- SpatialLinesDataFrame(SpatialLines(list(
-				Lines(lapply(grid.x2, function(x) {
+			lnsList <- list(
+				if (is.na(grid.x2[1])) NULL else Lines(lapply(grid.x2, function(x) {
 					m <- matrix(c(rep(x,100), seq(grid.y2.min, grid.y2.max, length.out=100)), ncol=2)
 					Line(m)
 				}), ID="x"),
-				Lines(lapply(grid.y2, function(y) {
+				if (is.na(grid.y2[1])) NULL else Lines(lapply(grid.y2, function(y) {
 					m <- matrix(c(seq(grid.x2.min, grid.x2.max, length.out=100), rep(y,100)), ncol=2)
 					Line(m)
 				}), ID="y")
-			), proj4string = CRS(get_proj4(grid.projection))), data.frame(ID=c("x", "y")), match.ID=FALSE)
+			)
 			
-			# project it to current projection
-			lns_proj <- set_projection(lns, projection = proj)
-			
-			# extract and normalize coordinates
-			grid.co.x.lns <- lapply(lns_proj@lines[[1]]@Lines, function(l) {
-				lco <- attr(l, "coords")
-				lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
-				lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
-				lco
-			})
-			grid.co.y.lns <- lapply(lns_proj@lines[[2]]@Lines, function(l) {
-				lco <- attr(l, "coords")
-				lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
-				lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
-				lco
-			})
+			lnsSel <- !sapply(lnsList, is.null)
+			if (!any(lnsSel)) {
+				grid.co.x.lns <- numeric(0)
+				grid.co.y.lns <- numeric(0)
+			} else {
+				lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel], proj4string = CRS(get_proj4(grid.projection))), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
+				
+				# project it to current projection
+				lns_proj <- set_projection(lns, projection = proj)
+				
+				# extract and normalize coordinates
+				grid.co.x.lns <- if (lnsSel[1]) lapply(lns_proj@lines[[1]]@Lines, function(l) {
+					lco <- attr(l, "coords")
+					lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
+					lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
+					lco
+				}) else numeric(0)
+				grid.co.y.lns <- if (lnsSel[2]) lapply(lns_proj@lines[[sum(lnsSel)]]@Lines, function(l) {
+					lco <- attr(l, "coords")
+					lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
+					lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
+					lco
+				}) else numeric(0)
+			}
 			lns <- NULL
 			lns_proj <- NULL
 		} else {
@@ -126,6 +150,7 @@ plot_grid_labels_y <- function(gt, scale) {
 
 
 plot_grid <- function(gt, scale, add.labels) {
+	
 	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
 	cogridx <- gt$grid.co.x
 	cogridy <- gt$grid.co.y
@@ -133,6 +158,9 @@ plot_grid <- function(gt, scale, add.labels) {
 	labelsy <- gt$grid.labels.y
 	
 	cex <- gt$grid.labels.size*scale
+	
+	selx <- (length(cogridx) > 0)
+	sely <- (length(cogridy) > 0)
 	
 	# find margins due to grid labels
 	if (add.labels) {
@@ -148,47 +176,55 @@ plot_grid <- function(gt, scale, add.labels) {
 			fw <- 0
 			fh <- 0
 		}
-		labelsYw <- max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE))  * cex + fw
-		labelsXw <- max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE))  * cex + fh
+		labelsYw <- if (sely) max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE))  * cex + fw else 0
+		labelsXw <- if (selx) max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE))  * cex + fh else 0
 		spacerY <- convertWidth(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		spacerX <- convertHeight(unit(.75, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	} else {
 		labelsXw <- labelsYw <- spacerX <- spacerY <- 0
 	}	
-	
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
-		cogridx <- get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX)
-		cogridy <- get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY)
+		cogridx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX) else numeric(0)
+		cogridy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY) else numeric(0)
 	}
 	
 	# select grid labels to print
-	selx <- cogridx >= labelsYw + spacerY & cogridx <= 1 - spacerY
-	sely <- cogridy >= labelsXw + spacerX & cogridy <= 1 - spacerX
+	selx <- if (selx) (cogridx >= labelsYw + spacerY & cogridx <= 1 - spacerY) else selx
+	sely <- if (sely) (cogridy >= labelsXw + spacerX & cogridy <= 1 - spacerX) else sely
 	
 	# crop projected grid lines, and extract polylineGrob ingredients
 	if (!is.na(gt$grid.projection)) {
-		lns <- SpatialLinesDataFrame(SpatialLines(list(
-			Lines(lapply(gt$grid.co.x.lns, function(m) {
+		lnsList <- list(
+			if (any(selx)) Lines(lapply(gt$grid.co.x.lns, function(m) {
 				Line(m)
-			}), ID="x"),
-			Lines(lapply(gt$grid.co.y.lns, function(m) {
+			}), ID="x") else NULL,
+			if (any(sely)) Lines(lapply(gt$grid.co.y.lns, function(m) {
 				Line(m)
-			}), ID="y")
-		)), data.frame(ID=c("x", "y")), match.ID=FALSE)
-		lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY, 1, labelsXw + spacerX, 1)))
+			}), ID="y") else NULL
+		)
+		lnsSel <- !sapply(lnsList, is.null)
+		if (!any(lnsSel)) {
+			grid.co.x.lns <- numeric(0)
+			grid.co.y.lns <- numeric(0)
+		} else {
+			lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel]), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
+			lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY, 1, labelsXw + spacerX, 1)))
+			
+			cogridxlns <- if (any(selx)) do.call("rbind", mapply(function(l, i) {
+				co <- as.data.frame(attr(l, "coords"))
+				co$ID <- i
+				co
+			}, lns_crop@lines[[1]]@Lines, 1:length(lns_crop@lines[[1]]@Lines), SIMPLIFY=FALSE)) else numeric(0)
+			
+			cogridylns <- if (any(sely)) do.call("rbind", mapply(function(l, i) {
+				co <- as.data.frame(attr(l, "coords"))
+				co$ID <- i
+				co
+			}, lns_crop@lines[[sum(lnsSel)]]@Lines, 1:length(lns_crop@lines[[sum(lnsSel)]]@Lines), SIMPLIFY=FALSE)) else numeric(0)
+			
+		}
 		
-		cogridxlns <- do.call("rbind", mapply(function(l, i) {
-			co <- as.data.frame(attr(l, "coords"))
-			co$ID <- i
-			co
-		}, lns_crop@lines[[1]]@Lines, 1:length(lns_crop@lines[[1]]@Lines), SIMPLIFY=FALSE))
-		
-		cogridylns <- do.call("rbind", mapply(function(l, i) {
-			co <- as.data.frame(attr(l, "coords"))
-			co$ID <- i
-			co
-		}, lns_crop@lines[[2]]@Lines, 1:length(lns_crop@lines[[2]]@Lines), SIMPLIFY=FALSE))
 	}
 	
 	## process x-axis grid lines and labels

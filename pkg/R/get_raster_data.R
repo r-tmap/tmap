@@ -43,9 +43,8 @@ get_raster_data <- function(shp) {
 	
 	ct <- length(colortable(shp))
 	if (ct) {
-		minV <- min(minValue(shp))
-		maxV <- max(maxValue(shp))
-		plusone <- minV==0 && maxV<ct
+		minV <- minValue(shp)
+		plusone <- minV==0
 		data[[1]] <- data[[1]]+plusone
 	}
 

@@ -3,7 +3,7 @@
 #' Save tmap to a file, such as png, jpg, or pdf.
 #'
 #' @param tm tmap object
-#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, or tiff are supported.
+#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, or tiff are supported. If the extension is missing, the file will be saved as png image
 #' @param width width. Units are set with the argument \code{units}. If set to \code{NA} and \code{height} is specified, it will be \code{height} * aspect ratio. If both \code{width} and \code{height} are not specified, then the width of the current plotting window will be taken.
 #' @param height height. Units are set with the argument \code{units}. If set to \code{NA} and \code{width} is specified, it will be \code{width} / aspect ratio. If both \code{width} and \code{height} are not specified, then the height of the current plotting window will be taken.
 #' @param units units for width and height when either one is explicitly specified (in, cm, or mm)
@@ -21,7 +21,7 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 					  dpi=300, outer.margins=0, asp=0, scale=NA, insets_tm=NULL, insets_vp=NULL, ...) {
 	get_ext <- function(filename) {
 		pieces <- strsplit(filename, "\\.")[[1]]
-		if (length(pieces)==1) stop("Please define extension in the filename.")
+		if (length(pieces)==1) return("png")
 		tolower(pieces[length(pieces)])
 	}
 	
