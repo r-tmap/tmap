@@ -4,15 +4,28 @@ view_tmap <- function(gps, shps) {
 	gt <- gp$tm_layout
 	gp$tm_layout <- NULL
 	
-	#lf <- leaflet() %>% addProviderTiles("CartoDB.Positron", group = "Light gray") %>% addProviderTiles("CartoDB.DarkMatter", group = "Dark gray") %>% addProviderTiles("OpenTopoMap", group = "Topo")
-
 	lf <- leaflet()
 	basemaps <- gt$basemaps
 
+	if (is.null(names(basemaps))) names(basemaps) <- sapply(basemaps, FUN = function(bm) {
+		if (substr(bm, 1, 4) == "http") {
+			x <- strsplit(bm, "/", fixed=TRUE)[[1]]
+			x <- x[-c(1, (length(x)-2):length(x))]
+			x <- x[x!=""]
+			paste(x, collapse="/")
+		} else bm
+	})
+	
 	# add base layer(s)
 	if (length(basemaps)) {
-		for (bm in basemaps) {
-			lf <- lf %>% addProviderTiles(bm, group=bm)
+		for (i in 1:length(basemaps)) {
+			bm <- unname(basemaps[i])
+			bmname <- names(basemaps)[i]
+			if (substr(bm, 1, 4) == "http") {
+				lf <- lf %>% addTiles(bm, group=bmname)
+			} else {
+				lf <- lf %>% addProviderTiles(bm, group=bmname)
+			}
 		}
 	}
 	
@@ -28,7 +41,7 @@ view_tmap <- function(gps, shps) {
 	
 		
 	if (!length(gp)) {
-		if (length(basemaps)>1) lf <- lf %>% addLayersControl(baseGroups=basemaps, options = layersControlOptions(autoZIndex = TRUE))
+		if (length(basemaps)>1) lf <- lf %>% addLayersControl(baseGroups=names(basemaps), options = layersControlOptions(autoZIndex = TRUE))
 		
 		if (!is.null(gt$bbx)) {
 			lf <- lf %>% 
@@ -213,8 +226,7 @@ view_tmap <- function(gps, shps) {
 	}
 
 	
-	
-	lf <- lf %>% addLayersControl(baseGroups=basemaps, overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
+	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 	if (!(identical(gt$set.bounds, FALSE))) {
 		if (identical(gt$set.bounds, TRUE)) {
 			lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
@@ -295,8 +307,8 @@ get_popups <- function(gpl, type, popup.all.data) {
 	var_aes <- get_aes_name(type)
 	
 	var_values <- paste(var_aes, "values", sep=".")
-	
-	if (all(is.na(unlist(gpl[var_x])))) popup.all.data <- TRUE
+
+	if (all(is.na(unlist(gpl[var_x]))) || is.null(gpl[[var_names]])) popup.all.data <- TRUE
 
 	dt <- gpl$data
 	if (popup.all.data) {
