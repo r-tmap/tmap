@@ -11,6 +11,7 @@
 #' @param bubble.size.fixed should bubble sizes be fixed while zooming?
 #' @param dot.size.fixed should dot sizes be fixed while zooming?
 #' @param set.bounds logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).
+#' @param set.view numeric vector or three that determines the view: lng, lat, and zoom (see \code{\link[leaflet:setView]{setView}}).
 #' @param legend.position Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.
 #' @param control.position Character vector of two values, specifing the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.
 #' @example ../examples/tmap_mode.R
@@ -24,6 +25,7 @@ tm_view <- function(alpha=NA,
 					bubble.size.fixed=FALSE,
 					dot.size.fixed=TRUE,
 					set.bounds=FALSE,
+					set.view=NA,
 					legend.position=c("right", "top"),
 					control.position=c("left", "top")) {
 	g <- list(tm_view=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))

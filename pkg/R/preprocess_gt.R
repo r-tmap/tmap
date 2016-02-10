@@ -7,8 +7,9 @@ preprocess_gt <- function(x, interactive) {
 		warning("Style ", style, " unknown; ", tln, " does not exist. Please specify another style with the option \"tmap.stype\".", call. = FALSE)
 		tln <- "tm_style_default"
 	}
+
+	# process tm_layout: merge multiple to one gt
 	gt <- do.call(tln, args = list())$tm_layout
-	
 	gts <- x[names(x)=="tm_layout"]
 	if (length(gts)) {
 		gtsn <- length(gts)
@@ -20,9 +21,18 @@ preprocess_gt <- function(x, interactive) {
 		}
 		gt$call <- c(gt$call, extraCall)
 	}
-	
+
+	# process tm_view: merge multiple to one gv
 	if (any("tm_view" %in% names(x))) {
-		gv <- x[[which("tm_view" == names(x))[1]]]
+		vs <- which("tm_view" == names(x))
+		gv <- x[[vs[1]]]
+		if (length(vs)>1) {
+			for (i in 2:length(vs)) {
+				gv2 <- x[[vs[2]]]
+				gv[gv2$call] <- gv2[gv2$call]
+				gv$call <- unique(c(gv$call, gv2$call))
+			}
+		}
 	} else {
 		gv <- tm_view()$tm_view
 	}

@@ -48,6 +48,7 @@ view_tmap <- function(gps, shps) {
 				fitBounds(gt$bbx[1], gt$bbx[2], gt$bbx[3], gt$bbx[4]) %>% 
 				addMarkers(gt$center[1], gt$center[2])
 		}
+		lf <- set_bounds_view(lf, gt)
 		return(lf)
 	}
 	
@@ -227,6 +228,11 @@ view_tmap <- function(gps, shps) {
 
 	
 	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
+	
+	set_bounds_view(lf, gt)
+}
+
+set_bounds_view <- function(lf, gt) {
 	if (!(identical(gt$set.bounds, FALSE))) {
 		if (identical(gt$set.bounds, TRUE)) {
 			lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
@@ -235,9 +241,11 @@ view_tmap <- function(gps, shps) {
 		}
 		lf <- lf %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
 	}
+	if (!is.na(gt$set.view[1])) {
+		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
+	}
 	lf
 }
-
 
 format_popups <- function(id=NULL, titles, values) {
 	isnull <- sapply(values, is.null)

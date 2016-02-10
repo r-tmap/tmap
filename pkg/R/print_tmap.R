@@ -91,6 +91,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	}
 	
 	
+	
+	
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)

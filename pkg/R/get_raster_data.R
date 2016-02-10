@@ -63,7 +63,7 @@ preprocess_raster_data <- function(data, sel) {
 	})
 	
 	if (any(notNumCat)) {
-		data[, notNumCat] <- lapply(data[, notNumCat], function(x) {
+		data[, notNumCat] <- lapply(data[, notNumCat, drop=FALSE], function(x) {
 			factor(x)
 		})
 	}
