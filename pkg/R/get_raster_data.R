@@ -61,10 +61,9 @@ preprocess_raster_data <- function(data, sel) {
 	notNumCat <- sapply(data, function(x){
 		!is.numeric(x) && !is.factor(x)
 	})
-	
 	if (any(notNumCat)) {
 		data[, notNumCat] <- lapply(data[, notNumCat, drop=FALSE], function(x) {
-			factor(x)
+			if (is.logical(x)) factor(x, levels=c(FALSE, TRUE)) else factor(x)
 		})
 	}
 	data
