@@ -19,7 +19,6 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 			## subset data, make factors of non-numeric variables
 			raster_data <- preprocess_raster_data(shp@data, raster_facets_vars)
 
-						
 			## color values are interpreted as factors and need to be cast back to characters
 			#is_color <- attr(shp@data, "is_color")
 			has_color_table <- FALSE
@@ -79,7 +78,14 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 		
 		# restore factor levels
 		data <- as.data.frame(mapply(function(d, l) {
-			if (!is.null(l) && !is.factor(d)) factor(d, levels=1:length(l), labels=l) else d
+			if (!is.null(l) && !is.factor(d)) {
+				if (is.logical(d)) {
+					factor(as.integer(d)+1L, levels=1L:length(l), labels=l)	
+				} else {
+					plusone <- min(d, na.rm=TRUE)==0
+					factor(d+plusone, levels=1L:length(l), labels=l)
+				}
+			} else d
 		}, data, lvls, SIMPLIFY=FALSE))
 
 		# set values in order to align data later on (with cropping)
