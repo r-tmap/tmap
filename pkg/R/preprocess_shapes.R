@@ -34,8 +34,9 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 			#is_color <- rep(FALSE, length(y$col))
 			
 			# in order to not loose factor levels, subset the data here
-			if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% names(shp))) raster_facets_vars <- names(shp)[1]
-			raster_facets_vars <- intersect(raster_facets_vars, names(shp))
+			shpnames <- get_raster_names(shp)
+			if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% names(shp))) raster_facets_vars <- shpnames[1]
+			raster_facets_vars <- intersect(raster_facets_vars, shpnames)
 			raster_data <- get_raster_data(shp)[, raster_facets_vars, drop=FALSE]
 			
 			is_num <- sapply(raster_data, is.numeric)

@@ -80,7 +80,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 			y <- (cent[2] - bb_target[2,1]) / (bb_target[2,2] - bb_target[2,1])
 			
 			#if (inherits(shp, "Spatial")) shp <- as(shp, "RasterLayer")
-			rasterGrob(matrix(rast, ncol=shp@ncols, nrow=shp@nrows, byrow = TRUE), x=x, y=y, width=width, height=height)
+			rasterGrob(matrix(rast, ncol=shp@ncols, nrow=shp@nrows, byrow = TRUE), x=x, y=y, width=width, height=height, interpolate = FALSE)
 		} 
 		
 		e <- environment()

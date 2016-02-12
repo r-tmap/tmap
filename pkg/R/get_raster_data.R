@@ -13,22 +13,32 @@ get_RasterLayer_data_vector <- function(r) {
 	}
 }
 
+get_raster_names <- function(shp) {
+	nms <- names(shp)
+	
+	# overwrite unknown first names with FILE__VALUES
+	if (inherits(shp, "RasterStack")) {
+		if (shp@layers[[1]]@data@names[1]=="") nms[1] <- "FILE__VALUES"	
+	} else {
+		if (shp@data@names[1]=="") nms[1] <- "FILE__VALUES"	
+	}
+	nms
+}
 
 get_raster_data <- function(shp) {
 	if (fromDisk(shp)) {
 		data <- raster::as.data.frame(shp)
 	} else if (inherits(shp, "RasterLayer")) {
 		data <- data.frame(get_RasterLayer_data_vector(shp))
-		names(data) <- names(shp)
-		if (shp@data@names[1]=="" && ncol(data)>=1) names(data)[1] <- "FILE__VALUES"
+		names(data) <- get_raster_names(shp)
 	} else if (inherits(shp, "RasterStack")) {
 		data <- as.data.frame(lapply(shp@layers, get_RasterLayer_data_vector))
-		names(data) <- names(shp)
+		names(data) <- get_raster_names(shp)
 	} else if (inherits(shp, "RasterBrick")) {
 		isfactor <- shp@data@isfactor
 		data <- as.data.frame(shp@data@values)
-		if (is.null(dimnames(shp@data@values))) names(data) <- shp@data@names
-		
+		if (is.null(dimnames(shp@data@values)))	names(data) <- get_raster_names(shp)
+
 		atb <- shp@data@attributes
 		atb <- atb[sapply(atb, length)!=0]
 		
