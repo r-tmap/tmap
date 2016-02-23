@@ -123,7 +123,7 @@ poly_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, use.cover=FALSE, cop
 		res <- do.call("cbind", lapply(1:np, function(i) {
 			s <- shp[i, ]
 			rst <- rasterize(s, r, field="ID__UNITS", getCover=TRUE, ...)
-			getValues(rst)
+			raster::getValues(rst)
 		}))
 		IDs <- apply(res, MARGIN=1, which.max)
 	} else {
