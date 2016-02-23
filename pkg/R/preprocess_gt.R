@@ -69,6 +69,8 @@ preprocess_gt <- function(x, interactive) {
 		aes.colors.light <- sapply(aes.colors, is_light)
 		aes.color <- NULL
 		
+		
+		
 	})
 	
 	# process view
@@ -89,7 +91,26 @@ preprocess_gt <- function(x, interactive) {
 		bg.overlay <- split_alpha_channel(bg.overlay, alpha=1)$col
 		if (!is.logical(set.bounds)) if (!length(set.bounds)==4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
 
-		view.legend.position <- if (is.na(gv$legend.position)[1]) {
+		if (!is.na(set.view[1])) {
+			if (!is.numeric(set.view)) stop("set.view is not numeric")
+			if (!length(set.view)==3) stop("set.view does not have length 3")
+		}
+		if (!is.na(set.zoom.limits[1])) {
+			if (!is.numeric(set.zoom.limits)) stop("set.zoom.limits is not numeric")
+			if (!length(set.zoom.limits)==2) stop("set.zoom.limits does not have length 2")
+			if (set.zoom.limits[1]<0 || set.zoom.limits[1] >= set.zoom.limits[2]) stop("incorrect set.zoom.limits")
+		}
+		if (!is.na(set.view[1]) && !is.na(set.zoom.limits[1])) {
+			if (set.view[3] < set.zoom.limits[1]) {
+				warning("default zoom smaller than minimum zoom, now it is set to the minimum zoom")
+				set.view[3] <- set.zoom.limits[1]
+			}
+			if (set.view[3] > set.zoom.limits[2]) {
+				warning("default zoom larger than maximum zoom, now it is set to the maximum zoom")
+				set.view[3] <- set.zoom.limits[2]
+			}
+		}
+		view.legend.position <- if (is.na(legend.position)[1]) {
 			if (is.null(gt$legend.position)) {
 				"topright"
 			} else if (is.character(gt$legend.position) && 
@@ -97,10 +118,10 @@ preprocess_gt <- function(x, interactive) {
 					   tolower(gt$legend.position[2]) %in% c("top", "bottom")) {
 				paste(tolower(gt$legend.position[c(2,1)]), collapse="")
 			}
-		} else if (is.character(gv$legend.position) && 
-				   gv$legend.position[1] %in% c("left", "right") &&
-				   gv$legend.position[2] %in% c("top", "bottom")) {
-			paste(gv$legend.position[c(2,1)], collapse="")
+		} else if (is.character(legend.position) && 
+				   legend.position[1] %in% c("left", "right") &&
+				   legend.position[2] %in% c("top", "bottom")) {
+			paste(legend.position[c(2,1)], collapse="")
 		} else {
 			"topright"
 		}

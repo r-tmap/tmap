@@ -16,15 +16,21 @@ view_tmap <- function(gps, shps) {
 		} else bm
 	})
 	
+	if (!is.na(gt$set.zoom.limits[1])) {
+	  tileOptions <- tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2])
+	} else {
+	  tileOptions <- tileOptions()
+	}
+	
 	# add base layer(s)
 	if (length(basemaps)) {
 		for (i in 1:length(basemaps)) {
 			bm <- unname(basemaps[i])
 			bmname <- names(basemaps)[i]
 			if (substr(bm, 1, 4) == "http") {
-				lf <- lf %>% addTiles(bm, group=bmname)
+				lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions)
 			} else {
-				lf <- lf %>% addProviderTiles(bm, group=bmname)
+				lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions)
 			}
 		}
 	}
@@ -233,14 +239,20 @@ view_tmap <- function(gps, shps) {
 }
 
 set_bounds_view <- function(lf, gt) {
+	if (is.logical(gt$set.bounds)) {
+		lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
+	} else {
+		lims <- gt$set.bounds
+	}
 	if (!(identical(gt$set.bounds, FALSE))) {
-		if (identical(gt$set.bounds, TRUE)) {
-			lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
-		} else {
-			lims <- gt$set.bounds
-		}
 		lf <- lf %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
 	}
+	if (!is.na(gt$set.zoom.limits[1])) {
+		if (is.na(gt$set.view[1])) {
+			gt$set.view <- c(mean(lims[c(1,3)]), mean(lims[c(2,4)]), gt$set.zoom.limits[1])
+		}
+	}
+	
 	if (!is.na(gt$set.view[1])) {
 		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
 	}

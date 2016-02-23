@@ -6,7 +6,8 @@
 \title{Draw thematic map}
 \usage{
 \method{print}{tmap}(x, vp = NULL, return.asp = FALSE,
-  mode = getOption("tmap.mode"), knit = FALSE, options = NULL, ...)
+  mode = getOption("tmap.mode"), show = TRUE, knit = FALSE,
+  options = NULL, ...)
 
 knit_print.tmap(x, ..., options = NULL)
 }
@@ -19,14 +20,16 @@ knit_print.tmap(x, ..., options = NULL)
 
 \item{mode}{the mode of tmap: \code{"plot"} (static) or \code{"view"} (interactive). See \code{\link{tmap_mode}} for details.}
 
-\item{knit}{should knitprint be enabled, or the normal \code{\link[base:print]{print}} function?}
+\item{show}{logical that determines whether to show to map. Obviously \code{TRUE} by default, but \code{show=FALSE} can be useful for just obtaining the returned objects.}
+
+\item{knit}{should \code{\link[knitr:knit_print]{knit_print}} be enabled, or the normal \code{\link[base:print]{print}} function?}
 
 \item{options}{options passed on to knitprint}
 
 \item{...}{not used}
 }
 \value{
-A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
+If \code{mode=="plot"}, then a list is returned with the processed shapes and the metadata. If \code{mode=="view"}, a \code{\link[leaflet:leaflet]{leaflet}} object is returned (see also \code{\link{tmap_leaflet}})
 }
 \description{
 Draw thematic map. If the tmap mode is set to \code{"plot"} (see \code{\link{tmap_mode}}), the map is plot in the current graphics device. If the mode is set to \code{"view"}, the map is shown interactively as an htmlwidget.

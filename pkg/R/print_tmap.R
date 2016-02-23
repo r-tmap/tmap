@@ -6,10 +6,11 @@
 #' @param vp \code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.
 #' @param return.asp Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.
 #' @param mode the mode of tmap: \code{"plot"} (static) or \code{"view"} (interactive). See \code{\link{tmap_mode}} for details.
-#' @param knit should knitprint be enabled, or the normal \code{\link[base:print]{print}} function?
+#' @param show logical that determines whether to show to map. Obviously \code{TRUE} by default, but \code{show=FALSE} can be useful for just obtaining the returned objects.
+#' @param knit should \code{\link[knitr:knit_print]{knit_print}} be enabled, or the normal \code{\link[base:print]{print}} function?
 #' @param options options passed on to knitprint
 #' @param ... not used
-#' @return A list of data.frames is silently returned, containing all ID and aesthetic variables per layer group.
+#' @return If \code{mode=="plot"}, then a list is returned with the processed shapes and the metadata. If \code{mode=="view"}, a \code{\link[leaflet:leaflet]{leaflet}} object is returned (see also \code{\link{tmap_leaflet}})
 #' @import sp
 #' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue
 #' @importMethodsFrom raster as.vector
@@ -31,8 +32,8 @@
 #' @importFrom htmltools htmlEscape
 #' @export
 #' @method print tmap
-print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), knit=FALSE, options=NULL, ...) {
-	print_tmap(x=x, vp=vp, return.asp=return.asp, mode=mode, knit=knit, options=options, ...)
+print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, ...) {
+	print_tmap(x=x, vp=vp, return.asp=return.asp, mode=mode, show=show, knit=knit, options=options, ...)
 }
 
 #' @rdname print.tmap
@@ -42,8 +43,23 @@ knit_print.tmap <- function(x, ..., options=NULL) {
 	print_tmap(x, knit=TRUE, options=options, ...)
 }
 
+#' Create leaflet object from tmap object
+#' 
+#' Create a leaflet object from a tmap object.
+#'  
+#' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
+#' @param mode the mode of tmap, which is set to \code{"view"} in order to obtain the leaflet object. See \code{\link{tmap_mode}} for details.
+#' @param show should the leaflet map be shown? \code{FALSE} by default
+#' @param ... arguments passed on to \code{\link{print.tmap}}
+#' @example ../examples/tmap_leaflet.r
+#' @seealso \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
+#' @export
+tmap_leaflet <- function(x, mode="view", show = FALSE, ...) {
+  print.tmap(x, mode=mode, show=show, ...)
+}
 
-print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), knit=FALSE, options=NULL, ...) {
+
+print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, ...) {
 	#### General process of tmap:
 	#  print.tmap: - puts shapes and shape data into right format
 	#              - calls preprocess_shapes for preprocessing (i.e. reprojecting) shapes
@@ -68,6 +84,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#  plot_all:   - calls plot_map to create grob tree of map itself
 	#              - calls legend_prepare and plot_legend to create grob tree of legend
 	#              - creates grob tree for whole plot
+
 	interactive <- (mode == "view")
 	
 	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
@@ -354,18 +371,23 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	if (interactive) {
 		lf <- view_tmap(gps2, shps)
 		
-		if (knit) {
-			return(do.call("knit_print", c(list(x=lf), list(...), list(options=options))))
-			#return(knit_print(lf, ..., options=options))
-		} else {
-			return(print(lf))
-		}
+		if (show) {
+			if (knit) {
+				return(do.call("knit_print", c(list(x=lf), list(...), list(options=options))))
+				#return(knit_print(lf, ..., options=options))
+			} else {
+				return(print(lf))
+			}
+		} else lf
 	} else {
-		if (nx > 1) sasp <- dasp
-		gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, xs, ys, gmeta$design.mode)
-		
-		## if vp is specified, go 1 viewport up, else go to root viewport
-		upViewport(n=as.integer(!is.null(vp)))
-		invisible(list(shps=shps, gps=gps2))
+		if (show) {
+			if (nx > 1) sasp <- dasp
+			gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, xs, ys, gmeta$design.mode)
+			## if vp is specified, go 1 viewport up, else go to root viewport
+			upViewport(n=as.integer(!is.null(vp)))
+			invisible(list(shps=shps, gps=gps2))
+		} else {
+			list(shps=shps, gps=gps2)
+		}
 	}
 }

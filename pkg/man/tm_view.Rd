@@ -7,8 +7,8 @@
 tm_view(alpha = NA, popup.all.data = FALSE, colorNA = NULL,
   basemaps = NA, bg.overlay = NA, bg.overlay.alpha = NA,
   bubble.size.fixed = FALSE, dot.size.fixed = TRUE, set.bounds = FALSE,
-  set.view = NA, legend.position = c("right", "top"),
-  control.position = c("left", "top"))
+  set.view = NA, set.zoom.limits = NA, legend.position = c("right",
+  "top"), control.position = c("left", "top"))
 }
 \arguments{
 \item{alpha}{transparency parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
@@ -30,6 +30,8 @@ tm_view(alpha = NA, popup.all.data = FALSE, colorNA = NULL,
 \item{set.bounds}{logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).}
 
 \item{set.view}{numeric vector or three that determines the view: lng, lat, and zoom (see \code{\link[leaflet:setView]{setView}}).}
+
+\item{set.zoom.limits}{numeric vector of two that set the minimum and maximum zoom levels (see \code{\link[leaflet:tileOptions]{tileOptions}}).}
 
 \item{legend.position}{Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.}
 
