@@ -90,12 +90,12 @@ num2pal <- function(x, n = 5,
 		# figure out whether palette is diverging
 		pal.div <- ((colpal_light[2]>colpal_light[1] && colpal_light[2]>colpal_light[3]) || (colpal_light[2]<colpal_light[1] && colpal_light[2]<colpal_light[3]))
 	}
-	
+
 	if (auto.palette.mapping) {
 		if (is.brewer) {
-			colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="Lab")(101)
+			colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
 		} else {
-			colpal <- colorRampPalette(revPal(palette), space="Lab")(101)
+			colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
 		}
 		
 		ids <- if (pal.div) {
@@ -117,10 +117,10 @@ num2pal <- function(x, n = 5,
 	} else {
 		if (is.brewer) {
 			if (nbrks-1 > mc) {
-				legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="Lab")(nbrks-1)
+				legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(nbrks-1)
 			} else legend.palette <- revPal(brewer.pal(nbrks-1, palette))
 		} else {
-			legend.palette <- colorRampPalette(revPal(palette), space="Lab")(nbrks-1) #rep(palette, length.out=nbrks-1)
+			legend.palette <- colorRampPalette(revPal(palette), space="rgb")(nbrks-1) #rep(palette, length.out=nbrks-1)
 		}
 		neutralID <- if (pal.div) round(((length(legend.palette)-1)/2)+1) else 1
 		legend.neutral.col <- legend.palette[neutralID]

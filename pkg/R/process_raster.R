@@ -10,6 +10,7 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 	# update gt$pc's saturation
 	gt$pc$saturation <- gt$pc$saturation * g$saturation
 	
+	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_raster is not a numeric", call. = FALSE)
 	if ("PIXEL__COLOR" %in% names(data)) {
 		x <- "PIXEL__COLOR"
 		data$PIXEL__COLOR <- do.call("process_color", c(list(col=data$PIXEL__COLOR, alpha=g$alpha), gt$pc))
@@ -45,6 +46,7 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE
+	
 	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.raster, is.colors=is.colors)
 	## output: matrix=colors, list=free.scales, vector=!freescales

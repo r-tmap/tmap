@@ -11,7 +11,7 @@ save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
 \arguments{
 \item{tm}{tmap object}
 
-\item{filename}{filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, or tiff are supported.}
+\item{filename}{filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, or tiff are supported. If the extension is missing, the file will be saved as png image}
 
 \item{width}{width. Units are set with the argument \code{units}. If set to \code{NA} and \code{height} is specified, it will be \code{height} * aspect ratio. If both \code{width} and \code{height} are not specified, then the width of the current plotting window will be taken.}
 

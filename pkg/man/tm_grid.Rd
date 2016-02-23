@@ -4,11 +4,15 @@
 \alias{tm_grid}
 \title{Coordinate grid lines}
 \usage{
-tm_grid(n.x = NA, n.y = NA, projection = NA, col = NA, lwd = 1,
-  alpha = NA, labels.size = 0.6, labels.col = NA,
+tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
+  col = NA, lwd = 1, alpha = NA, labels.size = 0.6, labels.col = NA,
   labels.inside.frame = TRUE)
 }
 \arguments{
+\item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}
+
+\item{y}{y coordinates for horizontal grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.y}.}
+
 \item{n.x}{prefered number of grid lines for the x axis.}
 
 \item{n.y}{prefered number of grid lines for the y axis.}

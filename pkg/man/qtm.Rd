@@ -4,10 +4,11 @@
 \alias{qtm}
 \title{Quick thematic map plot}
 \usage{
-qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
-  text.size = 1, text.col = NA, line.lwd = NULL, line.col = NULL,
-  raster = NA, borders = NA, scale = NA, title = NA, format = NULL,
-  style = NULL, ...)
+qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL,
+  dot.col = NULL, text = NULL, text.size = 1, text.col = NA,
+  line.lwd = NULL, line.col = NULL, raster = NA, borders = NA,
+  scale = NA, title = NA, format = NULL, style = NULL, basemaps = NA,
+  ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -19,13 +20,15 @@ qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL, text = NULL,
  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 }
-In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly.}
+In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly. Arguments of \code{\link{tm_view}}, such as \code{set.view} can be passed on directly.}
 
 \item{fill}{either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).}
 
 \item{bubble.size}{name of the data variable in \code{shp} for the bubble map that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
 \item{bubble.col}{name of the data variable in \code{shp} for the bubble map that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+
+\item{dot.col}{name of the data variable in \code{shp} for the dot map that specifies the colors of the dots.}
 
 \item{text}{Name of the data variable that contains the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
@@ -47,7 +50,9 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{format}{\code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).}
 
-\item{style}{\code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details). #Currently available in tmap: "cobalt", "albatross", "beaver".}
+\item{style}{\code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).}
+
+\item{basemaps}{basemaps for the view mode. See \code{\link{tm_view}}}
 
 \item{...}{arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.}
 }

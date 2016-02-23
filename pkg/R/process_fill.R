@@ -13,6 +13,7 @@ process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE
 
+	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_polygons/tm_fill is not a numeric", call. = FALSE)
 		
 	# if by is specified, use first value only
 	if (nlevels(by)>1) x <- x[1]

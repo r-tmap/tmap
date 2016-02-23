@@ -67,7 +67,13 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 		
 		# should raster shape be reprojected?
 		
-		new_ext <- suppressWarnings(projectExtent(shp, crs = CRS(get_proj4(master_proj))))
+		if ((!is.na(shp_proj) && !is.na(master_proj) && shp_proj!=master_proj) || interactive) {
+		  if (is.na(master_proj)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
+		  new_ext <- suppressWarnings(projectExtent(shp, crs = CRS(get_proj4(master_proj))))
+		}
+		
+		
+		  
 		if (!is.na(shp_proj) && !is.na(master_proj) && shp_proj!=master_proj) {
 			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=CRS(master_proj), method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
