@@ -127,7 +127,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 				}
 				prj <- attr(shp2, "proj4string")
 				y <- tryCatch({
-					crop(shp2, bb2)
+					crop(shp2, bb(bb2, ext=-1.01))
 				}, error = function(e) {
 					#cat("error\n")
 					shp2
@@ -142,7 +142,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 	} else {
 	
 		shps2 <- mapply(function(x, shp_nm){
-			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame
+			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame. Use a little wider bounding box to prevent polygons following cropbb(bbx, ext=-1.01)
 			if (diff_shapes) {
 				lapply(bboxes, function(bb2){
 					if (!allow.crop) {
@@ -150,7 +150,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 						return(x)
 					}
 					prj <- attr(x, "proj4string")
-					y <- crop(x, bb2)
+					y <- crop(x, bb(bb2, ext=-1.01))
 					if (is.null(y)) y <- x
 					attr(y, "bbox") <- bb2
 					attr(y, "proj4string") <- prj
@@ -163,7 +163,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 				}
 				prj <- attr(x, "proj4string")
 				y <- tryCatch({
-					y <- crop(x, bbx)
+					y <- crop(x, bb(bbx, ext=-1.01))
 					if (is.null(y)) x else y
 				}, error=function(e) {
 					x	

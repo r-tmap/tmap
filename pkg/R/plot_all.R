@@ -109,7 +109,8 @@ plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use
 				}
 				
 			} else if (!gt$earth.boundary) {
-				rectGrob(gp=gpar(col=gt$bg.color, fill=NA))
+				NULL
+				#rectGrob(gp=gpar(col=gt$bg.color, fill=NA)) # to prevent polygon lines at cropped rect. Solved with wider bouding box and clipping enabled
 			} else NULL
 		}, name="mapFrame")
 		
