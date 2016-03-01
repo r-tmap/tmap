@@ -50,22 +50,14 @@ mapWorld
 
 The current mode can be obtained and set with the function tmap_mode:
 
-```{r}
-# current mode:
-tmap_mode()
-
-getwd()
-
-```
-
-```{r, eval=F, echo=F, warning=F, message=F}
+```{r, eval=F}
 # set mode to view:
 tmap_mode("view")
-``` 
+```
 
 Now the mode is set to view, we can interactively view it by printing it again:
 
-```{r, eval=F, echo=F, warning=F, message=F}
+```{r, eval=F, echo=T, warning=F, message=F}
 mapWorld
 ```
 

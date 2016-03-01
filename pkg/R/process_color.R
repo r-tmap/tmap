@@ -130,7 +130,7 @@ get_brewer_pal <- function(palette, n, contrast, stretch=TRUE) {
 
 
 valid_colors <- function(x) {
-	(x %in% colors()) |	(sapply(gregexpr("^#([[:xdigit:]]){6}$", x), "[[", 1) == 1L)
+	(x %in% colors()) |	(sapply(gregexpr("^#(([[:xdigit:]]){6}|([[:xdigit:]]){8})$", x), "[[", 1) == 1L)
 }
 
 
