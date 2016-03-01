@@ -1,5 +1,5 @@
 preprocess_gt <- function(x, interactive) {
-	set.bounds <- bg.color <- NULL
+	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- NULL
 	
 	style <- options("tmap.style")
 	tln <- paste("tm_style", style,sep="_" )

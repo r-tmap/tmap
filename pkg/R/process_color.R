@@ -129,6 +129,11 @@ get_brewer_pal <- function(palette, n, contrast, stretch=TRUE) {
 }
 
 
+valid_colors <- function(x) {
+	(x %in% colors()) |	(sapply(gregexpr("^#([[:xdigit:]]){6}$", x), "[[", 1) == 1L)
+}
+
+
 
 # get_alpha_col <- function(colour, alpha=NA) {
 # 	col <- col2rgb(colour, TRUE)/255

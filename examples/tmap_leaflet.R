@@ -19,4 +19,5 @@ lf <- print(map1, mode="view", show = FALSE)
 
 lf
 
+require(leaflet)
 lf %>% leaflet::addMarkers(2.2945, 48.8582, popup = "Eiffel tower")
