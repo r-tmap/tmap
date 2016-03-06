@@ -31,19 +31,37 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 	
 	scale <- gt$scale
 		
-	if (g$tm_shape$by=="") {
+	if (g$tm_shape$by[1]=="") {
 		data$GROUP_BY <- factor("_NA_")
 		by <- NA
+		ncol <- NA
+		nrow <- NA
+		panel.names <- NA
 	} else {
-		if (!(g$tm_shape$by %in% names(data))) stop("Variable \"", g$tm_shape$by, "\" not found in ", g$tm_shape$shp_name, call.=FALSE)
+		if (!all(g$tm_shape$by %in% names(data))) stop("Variable(s) \"", paste(setdiff(g$tm_shape$by, names(data)), collapse=", "), "\" not found in ", g$tm_shape$shp_name, call.=FALSE)
 		
-		d <- data[[g$tm_shape$by]]
-		data$GROUP_BY <- if (is.factor(d)) {
-			factor(as.character(d), levels=levels(d)[table(d)>0])
+		d <- data[, g$tm_shape$by, drop=FALSE]
+		d2 <- lapply(d, function(dcol) {
+			if (is.factor(dcol)) {
+				factor(as.character(dcol), levels=levels(dcol))#[table(dcol)>0])
+			} else {
+				factor(dcol)
+			}
+		})
+		if (length(g$tm_shape$by)==1) {
+			data$GROUP_BY <- d2[[1]]
+			by <- levels(data$GROUP_BY)
+			ncol <- NA
+			nrow <- NA
+			panel.names <- by
 		} else {
-			factor(d)
+			by <- paste(rep(levels(d2[[1]]), each=nlevels(d2[[2]])),
+						rep(levels(d2[[2]]), times=nlevels(d2[[1]])), sep="__")
+			data$GROUP_BY <- factor(paste(d2[[1]], d2[[2]], sep="__"), levels = by)
+			ncol <- nlevels(d2[[2]])
+			nrow <- nlevels(d2[[1]])
+			panel.names <- list(levels(d2[[1]]), levels(d2[[2]]))
 		}
-		by <- levels(data$GROUP_BY)
 	}
 	
 
@@ -103,5 +121,5 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"), allow.small.mult=allow.small.mult)
 	}
 
-	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, bubble=gbubble$bubble.id, line=glines$line.id, raster=graster$raster.id, text=gtext$text.id), data_by=data$GROUP_BY, plot.order=plot.order), gborders, gfill, glines, gbubble, gtext, graster)
+	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, bubble=gbubble$bubble.id, line=glines$line.id, raster=graster$raster.id, text=gtext$text.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, plot.order=plot.order), gborders, gfill, glines, gbubble, gtext, graster)
 }

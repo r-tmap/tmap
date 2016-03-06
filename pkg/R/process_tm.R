@@ -38,7 +38,7 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 		gf <- if (facet.ids[i]==0) tm_facets()$tm_facets else x[[facet.ids[i]]]
 		gf$shp_name <- x[[shape.id.orig[i]]]$shp_name
 		gf$shp_nr <- ifelse(!is.null(gf$by), i, 0)
-		gf$by <- ifelse(is.null(gf$by), "", gf$by)
+		gf$by <- if (is.null(gf$by)) "" else gf$by
 		gf
 	})
 	gf <- gfs[[1]]
@@ -52,7 +52,6 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 			x[[shape.id.orig[i]]]$by <- gfs[[i]]$by
 		}
 	}
-	
 	xnames <- names(x)
 
 	## find tm_grid position
@@ -126,24 +125,50 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	if (sum(by_counts>1)>1) {
 		by_counts_pos <- by_counts[by_counts>1]
 		if (any(by_counts_pos[-1]!=by_counts_pos[1])) stop("Number of facets defined by the 'by' argument of tm_facets are different for the groups.", call. = FALSE)
+		
+	}
+	
+	if (any(by_counts>1)) {
+		# get panel names
+		panel.names <- gp[[which(by_counts>1)[1]]]$panel.names
+	} else {
+		panel.names <- NA
 	}
 
+	## check number of levels for two variables and override gf
+	ncols <- sapply(gp, function(i)i$ncol)
+	nrows <- sapply(gp, function(i)i$nrow)
+	if (!any(is.na(ncols))) {
+		if (!all(ncols==ncols[[1]]) | !all(nrows==nrows[[1]])) stop("Inconsistent levels of the 'by' argument of tm_facets.", call.=FALSE)
+		gf$ncol <- ncols[1]
+		gf$nrow <- nrows[1]
+	}
+	
+	
 	## determine number of small multiples
 	nx <- max(sapply(gp, function(x){
 		max(sapply(x$varnames, length))
 	}))
 
 	## get by names
-	by_names_list <- lapply(gp, function(gpl) gpl$varnames$by)
-	by_names_specified <- !sapply(by_names_list, function(b) is.na(b[1]))
-	by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
+	# by_names_list <- lapply(gp, function(gpl) gpl$varnames$by)
+	# by_names_specified <- !sapply(by_names_list, function(b) is.na(b[1]))
+	# by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
 	
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shpM_asp_marg, shp_info)
+	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, asp_ratio, shpM_asp_marg, shp_info)
+	panel.mode <- if (!gmeta$use.panel.labels) {
+		"none"
+	} else if (is.list(panel.names)) {
+		"both"
+	} else "one"
+	
+	if (panel.mode!="none") gmeta$title <- rep("", nx)
 	
 	## split into small multiples
 	gps <- split_tm(gp, nx, order_by)
 	scale <- gmeta$scale
+	
 	gps <- mapply(function(x, i){
 		x <- lapply(x, function(xx) {
 			within(xx, {
@@ -203,6 +228,9 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 		x$tm_layout$title <- x$tm_layout$title[i]
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
-	
+
+	#gmeta$panel.names <- panel.names
+	gmeta$panel.mode <- panel.mode
+
 	list(gmeta=gmeta, gps=gps, nx=nx, data_by=data_by)
 }

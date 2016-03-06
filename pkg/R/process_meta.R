@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, shpM_asp_marg, shp_info) {
+process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, asp_ratio, shpM_asp_marg, shp_info) {
 	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- NULL
 	
 	gf <- within(gf, {
@@ -46,12 +46,33 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 			legend.width <- 1
 			legend.height <- 1
 		} else {
-			title <- if (is.na(title[1])) {
-				if (is.na(by_names[1])) "" else by_names
-			} else title
-			title <- rep(title, length.out=nx)
+			if (nx>1) {
+				if (is.na(panel.names[1])) {
+					title <- if (is.na(title[1])) rep("", nx) else rep(title, nx)
+				} else if (is.list(panel.names) && gf$use.panel.labels) {
+					if (is.na(title[1])) {
+						title <- panel.names
+					} else {
+						if (!is.list(title) || length(title)!=2) stop("for cross table facets, title should be a list containing the row names in the first, and column names in the second item.", call. = FALSE)
+						if (length(title[[1]])!=length(panel.names[[1]])) stop("number of row names incorrect")
+						if (length(title[[2]])!=length(panel.names[[2]])) stop("number of column names incorrect")
+					}
+				} else {
+					if (is.list(title)) stop("unable to use row and column names unless use.panel.labels in tm_facets is TRUE", call.=FALSE)
+					title <- if (is.na(title[1])) {
+						if (is.list(panel.names)) rep("", nx) else panel.names
+					} else rep(title, nx)
+				}
+				
+				if (gf$use.panel.labels) {
+					panel.names <- title
+					title <- rep("", nx)
+				}
+			} else {
+				title <- if (is.na(title[1])) "" else title[1]
+			}
 		}
-		
+
 		if (asp_ratio>1) {
 			asp_w <- 1
 			asp_h <- 1/asp_ratio
@@ -66,6 +87,8 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, asp_ratio, sh
 		legend.title.size <- legend.title.size * scale
 		legend.text.size <- legend.text.size * scale
 		legend.hist.size <- legend.hist.size * scale
+		
+		panel.label.size <- panel.label.size * scale
 				
 		#if (is.null(bg.color)) bg.color <- "white"
 		if (is.null(space.color)) space.color <- bg.color

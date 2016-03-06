@@ -22,7 +22,7 @@
 #' @importFrom methods as slot slotNames is
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom spdep poly2nb
-#' @importFrom grDevices xy.coords
+#' @importFrom grDevices xy.coords colors
 #' @importFrom graphics par
 #' @importFrom rgdal getPROJ4VersionInfo
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
@@ -208,7 +208,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	shp_info$is_raster <- any_raster
 	result <- process_tm(x, asp_ratio, shpM_asp_marg, shp_info, interactive)
 	gmeta <- result$gmeta
-	
+
 	# overrule margins if interactive
 	if (interactive) {
 		gmeta$inner.margins <- rep(0, 4)
@@ -219,7 +219,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	gps <- result$gps
 	nx <- result$nx
 	data_by <- result$data_by
-	
 	## process shapes
 	margins <- gmeta$outer.margins
 	if (interactive) {
@@ -237,35 +236,105 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	sasp <- attr(shps, "sasp")
 	
 	# calculate facets and total device aspect ratio
-	fasp <- sasp * gmeta$ncol / gmeta$nrow
 	tasp <- dw/dh
 	
-	# spacer to let facets stick to each other	
+	# set small multiples layout
 	if (nx>1 && !interactive) {
-		if (tasp>fasp) {
-			xs <- convertWidth(unit(dw-(fasp * dh), "inch"), "npc", valueOnly=TRUE)
-			ys <- 0
+		
+		between.margin.in <- convertHeight(unit(gmeta$between.margin, "lines"), "inch", valueOnly=TRUE) * gmeta$scale
+		
+		pS <-  convertHeight(unit(gmeta$panel.label.size, "lines"), "inch", valueOnly=TRUE) * 1.25
+		
+		
+		fasp <- sasp * gmeta$ncol / gmeta$nrow
+		
+		if (fasp>tasp) {
+			fW <- dw
+			fH <- dw / fasp
 		} else {
-			ys <- convertHeight(unit(dh-(dw / fasp), "inch"), "npc", valueOnly=TRUE)
-			xs <- 0
+			fH <- dh
+			fW <- dh * fasp
 		}
-	} else {
-		xs <- 0
-		ys <- 0
-	}
 
-	if (nx>1) {
-		between.margin.in <- convertHeight(unit(gmeta$between.margin, "lines") * gmeta$scale, "inch", valueOnly=TRUE)
+		if (gmeta$panel.mode=="none") {
+			gH <- fH
+			gW <- fW
+		} else if (gmeta$panel.mode=="one") {
+			gH <- fH + gmeta$nrow * pS + (gmeta$nrow - 1) * gmeta$between.margin
+			gW <- fW
+		} else {
+			gH <- fH + pS + gmeta$between.margin * gmeta$nrow
+			gW <- fW + pS + gmeta$between.margin * gmeta$ncol
+		}
 		
-		between.margin.y <- convertHeight(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) / (1-ys) * gmeta$nrow
-		between.margin.x <- convertWidth(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) / (1-xs) * gmeta$ncol
-		outer.margins <- c(between.margin.y, between.margin.x, between.margin.y, between.margin.x)
+		gasp <- gW/gH
+		if (gasp>tasp) {
+			xs <- 0
+			ys <- convertHeight(unit(dh-(dw / gasp), "inch"), "npc", valueOnly=TRUE)
+		} else {
+			xs <- convertWidth(unit(dw-(gasp * dh), "inch"), "npc", valueOnly=TRUE)
+			ys <- 0
+		}
+		outerx <- sum(gmeta$outer.margins[c(2,4)])
+		outery <- sum(gmeta$outer.margins[c(1,3)])
 		
+		gmeta <- within(gmeta, {
+			between.margin.y <- convertHeight(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE)
+			between.margin.x <- convertWidth(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE)
+			panelh <- convertHeight(unit(pS, "inch"), "npc", valueOnly=TRUE)
+			panelw <- convertWidth(unit(pS, "inch"), "npc", valueOnly=TRUE)
+			
+			
+			if (panel.mode=="none") {
+				colrange <- (1:ncol)*2 + 1
+				rowrange <- (1:nrow)*2 + 1
+				facetw <- ((1-outerx)-xs-between.margin.x*(ncol-1))/ncol
+				faceth <- ((1-outery)-ys-between.margin.y*(nrow-1))/nrow
+				colws <- c(outer.margins[2], xs/2, rep(c(facetw, between.margin.x), ncol-1), facetw, xs/2, outer.margins[4])
+				rowhs <- c(outer.margins[3], ys/2, rep(c(faceth, between.margin.y), nrow-1), faceth, ys/2, outer.margins[1])
+
+			} else if (panel.mode=="one") {
+				colrange <- (1:ncol)*2 + 1
+				rowrange <- (1:nrow)*3 + 1
+				
+				facetw <- ((1-outerx)-xs-between.margin.x*(ncol-1))/ncol
+				faceth <- ((1-outery)-ys-between.margin.y*(nrow-1))/nrow - panelh
+				
+				colws <- c(outer.margins[2], xs/2, rep(c(facetw, between.margin.x), ncol-1), facetw, xs/2, outer.margins[4])
+				rowhs <- c(outer.margins[3], ys/2, rep(c(panelh, faceth, between.margin.y), nrow-1), panelh, faceth, ys/2, outer.margins[1])
+			} else {
+				colrange <- (1:ncol)*2 + 3
+				rowrange <- (1:nrow)*2 + 3
+
+				colpanelrow <- 3
+				rowpanelcol <- 3
+				
+				facetw <- ((1-outerx)-xs-between.margin.x*ncol-panelw)/ncol
+				faceth <- ((1-outery)-ys-between.margin.y*nrow-panelh)/nrow
+				
+				colws <- c(outer.margins[2], xs/2, panelw, rep(c(between.margin.x, facetw), ncol), xs/2, outer.margins[4])
+				rowhs <- c(outer.margins[3], ys/2, panelh, rep(c(between.margin.y, faceth), nrow), ys/2, outer.margins[1])
+				
+			}
+		})
+		# remove outer.margins 
 		gps <- lapply(gps, function(gp) {
-			gp$tm_layout$outer.margins <- outer.margins
+			gp$tm_layout$outer.margins <- rep(0, 4)
 			gp
 		})
+		
+		
+	} else {
+		gmeta <- within(gmeta, {
+			colws <- 1
+			rowhs <- 1
+			rowrange <- 1
+			colrange <- 1
+		})
+		gasp <- NA
 	}
+
+
 	
 	legend_pos <- attr(shps, "legend_pos")
 	diff_shapes <- attr(shps, "diff_shapes")
@@ -277,7 +346,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	if (gmeta$design.mode && !interactive) {
 		masterShapeName <- x[[masterID]]$shp_name
 		message("aspect ratio device (yellow):", dev_asp)
-		if (nx>1) message("aspect facets region (brown):", fasp)
+		if (nx>1) message("aspect facets region (brown):", gasp)
 		message("aspect ratio frame (blue):", sasp)
 		message("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp)
 	}
@@ -382,7 +451,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	} else {
 		if (show) {
 			if (nx > 1) sasp <- dasp
-			gridplot(gmeta$nrow, gmeta$ncol, "plot_all", nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, xs, ys, gmeta$design.mode)
+			gridplot(gmeta, "plot_all", nx, gps, shps, dasp, sasp, fasp, inner.margins.new, legend_pos)
 			## if vp is specified, go 1 viewport up, else go to root viewport
 			upViewport(n=as.integer(!is.null(vp)))
 			invisible(list(shps=shps, gps=gps2))

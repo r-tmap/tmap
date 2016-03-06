@@ -41,7 +41,7 @@
 #' @param frame.lwd width of the frame
 #' @param frame.double.line draw a double frame line border?
 #' @param asp Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.
-#' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. Is omitted when facets are created (see \code{between.margin})
+#' @param outer.margins Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. When facets are created, the outer margins are the margins between the outer panels and the device borders (see also \code{between.margin})
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.
 #' @param between.margin Margin between facets (small multiples) in number of text line heights. The height of a text line is automatically scaled down based on the number of facets. 
 #' @param outer.bg.color Background color outside the frame.
@@ -109,7 +109,7 @@ tm_layout <- function(title=NA,
 					  asp = NA,
 					  outer.margins = rep(0.02, 4),
 					  inner.margins = NA,
-					  between.margin = .25,
+					  between.margin = .5,
 					  outer.bg.color=NULL,
 					  fontface="plain", 
 					  fontfamily="",
@@ -143,6 +143,10 @@ tm_layout <- function(title=NA,
 					  title.color=attr.color,
 					  title.bg.color=NA,
 					  title.bg.alpha = 1,
+					  panel.label.size = 1,
+					  panel.label.bg.color = c("orange", "purple"),
+					  panel.label.color = "white",
+					  panel.label.rot = c(0, 90),
 					  attr.position = c("right", "bottom"),
 					  design.mode = FALSE,
 					  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),

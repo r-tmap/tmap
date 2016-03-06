@@ -2,9 +2,9 @@
 #' 
 #' Creates a \code{\link{tmap-element}} that specifies how small multiples are placed in a facet grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 #' 
-#' @param by data variable name by which the data is split
-#' @param ncol number of columns of the small multiples grid
-#' @param nrow number of rows of the small multiples grid
+#' @param by data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).
+#' @param ncol number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.
+#' @param nrow number of rows of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param free.coords logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?
 #' @param drop.shapes logical. If the \code{by} argument is specified, should all non-selected shapes be dropped?
 #' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_bubbles}} and line color from \code{\link{tm_lines}}.
@@ -35,6 +35,7 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					  free.scales.line.lwd=free.scales,
 					  free.scales.raster=free.scales,
 					  inside.original.bbox=FALSE,
+					  use.panel.labels=!is.null(by),
 					  scale.factor=2) {
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	if ("free.scales" %in% calls) calls <- union(calls, c("free.scales.fill", "free.scales.bubble.size", "free.scales.bubble.col", "free.scales.line.col", "free.scales.line.lwd"))
