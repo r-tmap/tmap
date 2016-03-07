@@ -239,13 +239,48 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	tasp <- dw/dh
 	
 	# set small multiples layout
-	if (nx>1 && !interactive) {
+	
+	#external_grid_labels <- gmeta$grid.show && grid.labels.inside.frame
+	external_legend <- !identical(gmeta$legend.outside, FALSE)
+	
+	use_facets_grid <- (!interactive && (nx > 1 || external_legend))
+
+	
+	
+	if (!interactive && use_facets_grid) {
+		# outer.margins are processed here, instead of in plot_all
+		dasp <- sasp
 		
 		between.margin.in <- convertHeight(unit(gmeta$between.margin, "lines"), "inch", valueOnly=TRUE) * gmeta$scale
 		
+		if (external_legend) {
+			lhnpc <- gmeta$legend.outside.size[1]
+			lwnpc <- gmeta$legend.outside.size[2]
+			ext_leg_pos <- ifelse(identical(gmeta$legend.outside, TRUE), "right", gmeta$legend.outside)
+			
+			lH <- convertWidth(unit(lhnpc,"npc"), "inch", valueOnly=TRUE)
+			lW <- convertWidth(unit(lwnpc,"npc"), "inch", valueOnly=TRUE)
+			
+			if (ext_leg_pos == "left") {
+				legmar <- c(0, lwnpc, 0, 0)
+			} else if (ext_leg_pos == "right") {
+				legmar <- c(0, 0, 0, lwnpc)
+			} else if (ext_leg_pos == "top") {
+				legmar <- c(0, 0, lhnpc, 0)
+			} else if (ext_leg_pos == "bottom") {
+				legmar <- c(lhnpc, 0, 0, 0)
+			}
+			
+		} else {
+			legmar <- rep(0, 4)
+			lH <- 0
+			lW <- 0
+		}
+		legmarx <- sum(legmar[c(2,4)])
+		legmary <- sum(legmar[c(1,3)])
+		
 		pS <-  convertHeight(unit(gmeta$panel.label.size, "lines"), "inch", valueOnly=TRUE) * 1.25
-		
-		
+
 		fasp <- sasp * gmeta$ncol / gmeta$nrow
 		
 		if (fasp>tasp) {
@@ -257,14 +292,14 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 
 		if (gmeta$panel.mode=="none") {
-			gH <- fH
-			gW <- fW
+			gH <- fH + lH
+			gW <- fW + lW
 		} else if (gmeta$panel.mode=="one") {
-			gH <- fH + gmeta$nrow * pS + (gmeta$nrow - 1) * gmeta$between.margin
-			gW <- fW
+			gH <- fH + gmeta$nrow * pS + (gmeta$nrow - 1) * gmeta$between.margin + lH
+			gW <- fW + lW
 		} else {
-			gH <- fH + pS + gmeta$between.margin * gmeta$nrow
-			gW <- fW + pS + gmeta$between.margin * gmeta$ncol
+			gH <- fH + pS + gmeta$between.margin * gmeta$nrow + lH
+			gW <- fW + pS + gmeta$between.margin * gmeta$ncol + lW
 		}
 		
 		gasp <- gW/gH
@@ -283,47 +318,46 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			between.margin.x <- convertWidth(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE)
 			panelh <- convertHeight(unit(pS, "inch"), "npc", valueOnly=TRUE)
 			panelw <- convertWidth(unit(pS, "inch"), "npc", valueOnly=TRUE)
-			
+			cat("mode ", panel.mode, "\n")
 			
 			if (panel.mode=="none") {
-				colrange <- (1:ncol)*2 + 1
-				rowrange <- (1:nrow)*2 + 1
-				facetw <- ((1-outerx)-xs-between.margin.x*(ncol-1))/ncol
-				faceth <- ((1-outery)-ys-between.margin.y*(nrow-1))/nrow
-				colws <- c(outer.margins[2], xs/2, rep(c(facetw, between.margin.x), ncol-1), facetw, xs/2, outer.margins[4])
-				rowhs <- c(outer.margins[3], ys/2, rep(c(faceth, between.margin.y), nrow-1), faceth, ys/2, outer.margins[1])
+				colrange <- (1:ncol)*2 + 2
+				rowrange <- (1:nrow)*2 + 2
+				facetw <- ((1-outerx)-xs-legmarx-between.margin.x*(ncol-1))/ncol
+				faceth <- ((1-outery)-ys-legmary-between.margin.y*(nrow-1))/nrow
+				colws <- c(outer.margins[2], xs/2, legmar[2], rep(c(facetw, between.margin.x), ncol-1), facetw, legmar[4], xs/2, outer.margins[4])
+				rowhs <- c(outer.margins[3], ys/2, legmar[3], rep(c(faceth, between.margin.y), nrow-1), faceth, legmar[1], ys/2, outer.margins[1])
 
 			} else if (panel.mode=="one") {
-				colrange <- (1:ncol)*2 + 1
-				rowrange <- (1:nrow)*3 + 1
+				colrange <- (1:ncol)*2 + 2
+				rowrange <- (1:nrow)*3 + 2
 				
-				facetw <- ((1-outerx)-xs-between.margin.x*(ncol-1))/ncol
-				faceth <- ((1-outery)-ys-between.margin.y*(nrow-1))/nrow - panelh
+				facetw <- ((1-outerx)-xs-legmarx-between.margin.x*(ncol-1))/ncol
+				faceth <- ((1-outery)-ys-legmary-between.margin.y*(nrow-1))/nrow - panelh
 				
-				colws <- c(outer.margins[2], xs/2, rep(c(facetw, between.margin.x), ncol-1), facetw, xs/2, outer.margins[4])
-				rowhs <- c(outer.margins[3], ys/2, rep(c(panelh, faceth, between.margin.y), nrow-1), panelh, faceth, ys/2, outer.margins[1])
+				colws <- c(outer.margins[2], xs/2, legmar[2], rep(c(facetw, between.margin.x), ncol-1), facetw, legmar[4], xs/2, outer.margins[4])
+				rowhs <- c(outer.margins[3], ys/2, legmar[3], rep(c(panelh, faceth, between.margin.y), nrow-1), panelh, faceth, legmar[1], ys/2, outer.margins[1])
 			} else {
-				colrange <- (1:ncol)*2 + 3
-				rowrange <- (1:nrow)*2 + 3
+				colrange <- (1:ncol)*2 + 4
+				rowrange <- (1:nrow)*2 + 4
 
-				colpanelrow <- 3
-				rowpanelcol <- 3
+				colpanelrow <- 4
+				rowpanelcol <- 4
 				
 				facetw <- ((1-outerx)-xs-between.margin.x*ncol-panelw)/ncol
 				faceth <- ((1-outery)-ys-between.margin.y*nrow-panelh)/nrow
 				
-				colws <- c(outer.margins[2], xs/2, panelw, rep(c(between.margin.x, facetw), ncol), xs/2, outer.margins[4])
-				rowhs <- c(outer.margins[3], ys/2, panelh, rep(c(between.margin.y, faceth), nrow), ys/2, outer.margins[1])
+				colws <- c(outer.margins[2], xs/2, legmar[2], panelw, rep(c(between.margin.x, facetw), ncol), legmar[4], xs/2, outer.margins[4])
+				rowhs <- c(outer.margins[3], ys/2, legmar[3], panelh, rep(c(between.margin.y, faceth), nrow), legmar[1], ys/2, outer.margins[1])
 				
 			}
 		})
 		# remove outer.margins 
 		gps <- lapply(gps, function(gp) {
 			gp$tm_layout$outer.margins <- rep(0, 4)
+			gp$tm_layout$legend.show <- FALSE
 			gp
 		})
-		
-		
 	} else {
 		gmeta <- within(gmeta, {
 			colws <- 1
@@ -331,11 +365,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			rowrange <- 1
 			colrange <- 1
 		})
-		gasp <- NA
 	}
 
-
-	
 	legend_pos <- attr(shps, "legend_pos")
 	diff_shapes <- attr(shps, "diff_shapes")
 	inner.margins.new <- attr(shps, "inner.margins")

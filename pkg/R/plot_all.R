@@ -28,6 +28,10 @@ plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use
 	
 	if (!gt$legend.only) {
 		## calculate width and height of the shape based on the device asp ratio (dasp) and the shape aspect ratio (sasp)
+		
+		cat(dasp, "dasp\n")
+		cat(sasp, "sasp\n")
+		
 		margins <- gt$outer.margins
 		mar.y <- sum(margins[c(1,3)])
 		mar.x <- sum(margins[c(2,4)])

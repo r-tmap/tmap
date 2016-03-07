@@ -41,6 +41,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, 
 	legend.only <- legend.frame <- legend.bg.alpha <- legend.hist.bg.alpha <- title.bg.alpha <- NULL
 	
 	gt <- within(gt, {
+		if (is.na(panel.show)) panel.show <- !is.na(panel.names[1])
 		if (legend.only) {
 			title <- rep("", nx)
 			legend.width <- 1
@@ -49,7 +50,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, 
 			if (nx>1) {
 				if (is.na(panel.names[1])) {
 					title <- if (is.na(title[1])) rep("", nx) else rep(title, nx)
-				} else if (is.list(panel.names) && gf$use.panel.labels) {
+				} else if (is.list(panel.names) && panel.show) {
 					if (is.na(title[1])) {
 						title <- panel.names
 					} else {
@@ -64,7 +65,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, 
 					} else rep(title, nx)
 				}
 				
-				if (gf$use.panel.labels) {
+				if (panel.show) {
 					panel.names <- title
 					title <- rep("", nx)
 				}

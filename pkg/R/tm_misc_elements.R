@@ -35,7 +35,6 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					  free.scales.line.lwd=free.scales,
 					  free.scales.raster=free.scales,
 					  inside.original.bbox=FALSE,
-					  use.panel.labels=!is.null(by),
 					  scale.factor=2) {
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	if ("free.scales" %in% calls) calls <- union(calls, c("free.scales.fill", "free.scales.bubble.size", "free.scales.bubble.col", "free.scales.line.col", "free.scales.line.lwd"))

@@ -157,7 +157,7 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	
 	## process meta
 	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, asp_ratio, shpM_asp_marg, shp_info)
-	panel.mode <- if (!gmeta$use.panel.labels) {
+	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {
 		"both"

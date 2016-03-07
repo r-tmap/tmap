@@ -55,6 +55,8 @@
 #' @param space.color Color of the space, i.e. the region inside the frame, and outsise the earth boundary.
 #' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
+#' @param legend.outside Value that determines whether the legend is plot outside of the map/facets. Use \code{FALSE} to place the legend inside the map (see \code{legend.position}). Use \code{TRUE} or \code{"right"} to place the legend on the right-hand side of the map/facets. Use \code{"left"}, \code{"top"}, or \code{"bottom"} to place the legend respectively on the left-hand side, above, or under the map/facets. Especially useful when using facets that have a common legend (i.e. with \code{free.scales=FALSE}).
+#' @param legend.outside.size Vector of two values that determine the relative width and height of legend when it is plot outside the map/facets
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object.
 #' @param legend.width maximum width of the legend
 #' @param legend.height maximum height of the legend.
@@ -121,6 +123,8 @@ tm_layout <- function(title=NA,
 					  space.color=NULL,
 					  legend.show = TRUE,
 					  legend.only = FALSE,
+					  legend.outside=FALSE,
+					  legend.outside.size=c(0.3, 0.3),
 					  legend.position = NULL,
 					  legend.width = 0.4,
 					  legend.height = 0.9,
@@ -143,10 +147,11 @@ tm_layout <- function(title=NA,
 					  title.color=attr.color,
 					  title.bg.color=NA,
 					  title.bg.alpha = 1,
+					  panel.show = NA,
 					  panel.label.size = 1,
-					  panel.label.bg.color = c("orange", "purple"),
-					  panel.label.color = "white",
-					  panel.label.rot = c(0, 90),
+					  panel.label.bg.color = c("grey80", "grey80"),
+					  panel.label.color = "black",
+					  panel.label.rot = c(90, 0),
 					  attr.position = c("right", "bottom"),
 					  design.mode = FALSE,
 					  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
