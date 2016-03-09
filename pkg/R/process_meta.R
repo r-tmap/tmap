@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, asp_ratio, shpM_asp_marg, shp_info) {
+process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, asp_ratio, shpM_asp_marg, shp_info, any.legend) {
 	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- NULL
 	
 	gf <- within(gf, {
@@ -39,8 +39,17 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, 
 	m <- gf$ncol * gf$nrow
 	
 	legend.only <- legend.frame <- legend.bg.alpha <- legend.hist.bg.alpha <- title.bg.alpha <- NULL
+	freescales <- names(gf)[substr(names(gf), 1, 11) == "free.scales"]
 	
 	gt <- within(gt, {
+		if (!any.legend) {
+			if (legend.only) stop("No legend to show.", call.=FALSE)
+			legend.show <- FALSE
+			legend.outside <- FALSE
+		} else {
+			if (is.na(legend.outside)) legend.outside <- (nx > 1) && !any(vapply(gf[freescales], "[", logical(1), 1))
+		}
+		
 		if (is.na(panel.show)) panel.show <- !is.na(panel.names[1])
 		if (legend.only) {
 			title <- rep("", nx)
@@ -55,11 +64,11 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, 
 						title <- panel.names
 					} else {
 						if (!is.list(title) || length(title)!=2) stop("for cross table facets, title should be a list containing the row names in the first, and column names in the second item.", call. = FALSE)
-						if (length(title[[1]])!=length(panel.names[[1]])) stop("number of row names incorrect")
-						if (length(title[[2]])!=length(panel.names[[2]])) stop("number of column names incorrect")
+						if (length(title[[1]])!=length(panel.names[[1]])) stop("number of row names incorrect", call.=FALSE)
+						if (length(title[[2]])!=length(panel.names[[2]])) stop("number of column names incorrect", call.=FALSE)
 					}
 				} else {
-					if (is.list(title)) stop("unable to use row and column names unless use.panel.labels in tm_facets is TRUE", call.=FALSE)
+					if (is.list(title)) stop("unable to use row and column names unless panel.show in tm_layout is TRUE", call.=FALSE)
 					title <- if (is.na(title[1])) {
 						if (is.list(panel.names)) rep("", nx) else panel.names
 					} else rep(title, nx)
@@ -81,8 +90,8 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, 
 			asp_w <- asp_ratio
 			asp_h <- 1
 		}
-		
-		scale <- scale * (min(1/ (asp_w * gf$ncol), 1 / (asp_h * gf$nrow))) ^ (1/gf$scale.factor)
+		scale.extra <- (min(1/ (asp_w * gf$ncol), 1 / (asp_h * gf$nrow))) ^ (1/gf$scale.factor)
+		scale <- scale * scale.extra
 
 		title.size <- title.size * scale
 		legend.title.size <- legend.title.size * scale

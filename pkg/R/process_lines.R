@@ -156,6 +156,10 @@ process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 		line.col.legend.hist.title <- g$legend.hist.title
 	} else line.col.legend.hist.title <- ""
 	
+	if (!g$legend.lwd.show) line.lwd.legend.title <- NA
+	if (!g$legend.col.show) line.col.legend.title <- NA
+	
+	
 	list(line.col=col,
 		 line.lwd=line.lwd,
 		 line.lty=g$lty,

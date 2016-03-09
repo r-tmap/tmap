@@ -304,6 +304,10 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 		text.col.legend.hist.title <- g$legend.hist.title
 	} else text.col.legend.hist.title <- ""
 
+	if (!g$legend.size.show) text.size.legend.title <- NA
+	if (!g$legend.col.show) text.col.legend.title <- NA
+	
+	
 	list(text=text,
 		 text.size=size,
 		 #root=g$root,

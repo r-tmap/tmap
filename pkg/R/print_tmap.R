@@ -238,133 +238,46 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	# calculate facets and total device aspect ratio
 	tasp <- dw/dh
 	
-	# set small multiples layout
-	
-	#external_grid_labels <- gmeta$grid.show && grid.labels.inside.frame
-	external_legend <- !identical(gmeta$legend.outside, FALSE)
-	
-	use_facets_grid <- (!interactive && (nx > 1 || external_legend))
+	external_grid_labels <- gmeta$grid.show && !gmeta$grid.labels.inside.frame
+	external_legend <- gmeta$legend.outside
+	use_facets_grid <- (!interactive && (nx > 1 || !external_grid_labels))
 
-	
-	
 	if (!interactive && use_facets_grid) {
-		# outer.margins are processed here, instead of in plot_all
+		# The facet layout will be used, even though there is one map. Outer margins will be processed in gridplot
+		gmeta <- process_facet_layout(gmeta, external_legend, sasp, tasp, dh, dw)
+		gasp <- gmeta$gasp
 		dasp <- sasp
 		
-		between.margin.in <- convertHeight(unit(gmeta$between.margin, "lines"), "inch", valueOnly=TRUE) * gmeta$scale
-		
 		if (external_legend) {
-			lhnpc <- gmeta$legend.outside.size[1]
-			lwnpc <- gmeta$legend.outside.size[2]
-			ext_leg_pos <- ifelse(identical(gmeta$legend.outside, TRUE), "right", gmeta$legend.outside)
-			
-			lH <- convertWidth(unit(lhnpc,"npc"), "inch", valueOnly=TRUE)
-			lW <- convertWidth(unit(lwnpc,"npc"), "inch", valueOnly=TRUE)
-			
-			if (ext_leg_pos == "left") {
-				legmar <- c(0, lwnpc, 0, 0)
-			} else if (ext_leg_pos == "right") {
-				legmar <- c(0, 0, 0, lwnpc)
-			} else if (ext_leg_pos == "top") {
-				legmar <- c(0, 0, lhnpc, 0)
-			} else if (ext_leg_pos == "bottom") {
-				legmar <- c(lhnpc, 0, 0, 0)
-			}
-			
+			gp_leg <- gps[[1]]
+			gp_leg$tm_layout <- within(gp_leg$tm_layout, {
+				legend.only <- TRUE
+				legend.width <- 1
+				legend.height <- 1
+				title.size <- title.size / scale.extra
+				legend.title.size <- legend.title.size / scale.extra
+				legend.text.size <- legend.text.size / scale.extra
+				legend.hist.size <- legend.hist.size / scale.extra
+			})
 		} else {
-			legmar <- rep(0, 4)
-			lH <- 0
-			lW <- 0
+			gp_leg <- NULL
 		}
-		legmarx <- sum(legmar[c(2,4)])
-		legmary <- sum(legmar[c(1,3)])
-		
-		pS <-  convertHeight(unit(gmeta$panel.label.size, "lines"), "inch", valueOnly=TRUE) * 1.25
-
-		fasp <- sasp * gmeta$ncol / gmeta$nrow
-		
-		if (fasp>tasp) {
-			fW <- dw
-			fH <- dw / fasp
-		} else {
-			fH <- dh
-			fW <- dh * fasp
-		}
-
-		if (gmeta$panel.mode=="none") {
-			gH <- fH + lH
-			gW <- fW + lW
-		} else if (gmeta$panel.mode=="one") {
-			gH <- fH + gmeta$nrow * pS + (gmeta$nrow - 1) * gmeta$between.margin + lH
-			gW <- fW + lW
-		} else {
-			gH <- fH + pS + gmeta$between.margin * gmeta$nrow + lH
-			gW <- fW + pS + gmeta$between.margin * gmeta$ncol + lW
-		}
-		
-		gasp <- gW/gH
-		if (gasp>tasp) {
-			xs <- 0
-			ys <- convertHeight(unit(dh-(dw / gasp), "inch"), "npc", valueOnly=TRUE)
-		} else {
-			xs <- convertWidth(unit(dw-(gasp * dh), "inch"), "npc", valueOnly=TRUE)
-			ys <- 0
-		}
-		outerx <- sum(gmeta$outer.margins[c(2,4)])
-		outery <- sum(gmeta$outer.margins[c(1,3)])
-		
-		gmeta <- within(gmeta, {
-			between.margin.y <- convertHeight(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE)
-			between.margin.x <- convertWidth(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE)
-			panelh <- convertHeight(unit(pS, "inch"), "npc", valueOnly=TRUE)
-			panelw <- convertWidth(unit(pS, "inch"), "npc", valueOnly=TRUE)
-			cat("mode ", panel.mode, "\n")
-			
-			if (panel.mode=="none") {
-				colrange <- (1:ncol)*2 + 2
-				rowrange <- (1:nrow)*2 + 2
-				facetw <- ((1-outerx)-xs-legmarx-between.margin.x*(ncol-1))/ncol
-				faceth <- ((1-outery)-ys-legmary-between.margin.y*(nrow-1))/nrow
-				colws <- c(outer.margins[2], xs/2, legmar[2], rep(c(facetw, between.margin.x), ncol-1), facetw, legmar[4], xs/2, outer.margins[4])
-				rowhs <- c(outer.margins[3], ys/2, legmar[3], rep(c(faceth, between.margin.y), nrow-1), faceth, legmar[1], ys/2, outer.margins[1])
-
-			} else if (panel.mode=="one") {
-				colrange <- (1:ncol)*2 + 2
-				rowrange <- (1:nrow)*3 + 2
-				
-				facetw <- ((1-outerx)-xs-legmarx-between.margin.x*(ncol-1))/ncol
-				faceth <- ((1-outery)-ys-legmary-between.margin.y*(nrow-1))/nrow - panelh
-				
-				colws <- c(outer.margins[2], xs/2, legmar[2], rep(c(facetw, between.margin.x), ncol-1), facetw, legmar[4], xs/2, outer.margins[4])
-				rowhs <- c(outer.margins[3], ys/2, legmar[3], rep(c(panelh, faceth, between.margin.y), nrow-1), panelh, faceth, legmar[1], ys/2, outer.margins[1])
-			} else {
-				colrange <- (1:ncol)*2 + 4
-				rowrange <- (1:nrow)*2 + 4
-
-				colpanelrow <- 4
-				rowpanelcol <- 4
-				
-				facetw <- ((1-outerx)-xs-between.margin.x*ncol-panelw)/ncol
-				faceth <- ((1-outery)-ys-between.margin.y*nrow-panelh)/nrow
-				
-				colws <- c(outer.margins[2], xs/2, legmar[2], panelw, rep(c(between.margin.x, facetw), ncol), legmar[4], xs/2, outer.margins[4])
-				rowhs <- c(outer.margins[3], ys/2, legmar[3], panelh, rep(c(between.margin.y, faceth), nrow), legmar[1], ys/2, outer.margins[1])
-				
-			}
-		})
 		# remove outer.margins 
 		gps <- lapply(gps, function(gp) {
 			gp$tm_layout$outer.margins <- rep(0, 4)
-			gp$tm_layout$legend.show <- FALSE
+			if (external_legend) gp$tm_layout$legend.show <- FALSE
 			gp
 		})
 	} else {
+		# The original layout will be used, only applicable for one map. Outer margins will be processed in plot_all. Only used for one map where outer grid line labels are used.
 		gmeta <- within(gmeta, {
 			colws <- 1
 			rowhs <- 1
 			rowrange <- 1
 			colrange <- 1
 		})
+		gp_leg <- NULL
+		gasp <- sasp
 	}
 
 	legend_pos <- attr(shps, "legend_pos")
@@ -372,12 +285,12 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	inner.margins.new <- attr(shps, "inner.margins")
 
 	# shortcut used by save_tmap
-	if (return.asp && !interactive) return(ifelse(nx>1, fasp, sasp))
+	if (return.asp && !interactive) return(gasp)
 
 	if (gmeta$design.mode && !interactive) {
 		masterShapeName <- x[[masterID]]$shp_name
 		message("aspect ratio device (yellow):", dev_asp)
-		if (nx>1) message("aspect facets region (brown):", gasp)
+		if (gasp!=sasp) message("aspect facets region (brown):", gasp)
 		message("aspect ratio frame (blue):", sasp)
 		message("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp)
 	}
@@ -482,7 +395,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	} else {
 		if (show) {
 			if (nx > 1) sasp <- dasp
-			gridplot(gmeta, "plot_all", nx, gps, shps, dasp, sasp, fasp, inner.margins.new, legend_pos)
+			gridplot(gmeta, "plot_all", nx, gps, shps, dasp, sasp, fasp, inner.margins.new, legend_pos, gp_leg)
 			## if vp is specified, go 1 viewport up, else go to root viewport
 			upViewport(n=as.integer(!is.null(vp)))
 			invisible(list(shps=shps, gps=gps2))

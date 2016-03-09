@@ -166,6 +166,9 @@ process_bubbles <- function(data, g, gt, gby, z, allow.small.mult) {
 	
 	bubble.border.col <- do.call("process_color", c(list(col=g$border.col, alpha=g$border.alpha), gt$pc))
 	
+	if (!g$legend.size.show) bubble.size.legend.title <- NA
+	if (!g$legend.col.show) bubble.col.legend.title <- NA
+
 	list(bubble.size=bubble.size,
 		 bubble.col=col,
 		 bubble.border.lwd=g$border.lwd,

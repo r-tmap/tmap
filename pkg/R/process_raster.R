@@ -88,6 +88,9 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 		raster.legend.hist.title <- g$legend.hist.title
 	} else raster.legend.hist.title <- ""
 	
+	if (!g$legend.show) raster.legend.title <- NA
+	
+	
 	list(raster=col,
 		 raster.legend.labels=col.legend.labels,
 		 raster.legend.palette=col.legend.palette,

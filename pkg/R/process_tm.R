@@ -34,6 +34,7 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	facet.shp.id <- sapply(facet.id.orig, function(i){tail(which(shape.id.orig<i), 1)})
 	facet.ids <- rep(0, nshps)
 	if (length(facet.shp.id)) facet.ids[facet.shp.id] <- facet.id.orig
+	# create gf for each shape
 	gfs <- lapply(1:nshps, function(i){
 		gf <- if (facet.ids[i]==0) tm_facets()$tm_facets else x[[facet.ids[i]]]
 		gf$shp_name <- x[[shape.id.orig[i]]]$shp_name
@@ -41,10 +42,22 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 		gf$by <- if (is.null(gf$by)) "" else gf$by
 		gf
 	})
-	gf <- gfs[[1]]
-	x[[shape.id.orig[1]]]$by <- gf$by
-	if (nshps>1) {
-		for (i in 2:nshps) {
+	
+	# get first specified gf
+	startID <- which(vapply(gfs, FUN = function(x)!is.null(x$call), FUN.VALUE = 1)==1)[1]
+	if (is.na(startID)) startID <- 1
+	gf <- gfs[[startID]]
+	if (startID>1) {
+		gf$shp_name <- vapply(1:startID, FUN = function(x) gfs[[x]]$shp_name, FUN.VALUE = character(1))
+		gf$shp_nr <- vapply(1:startID, FUN = function(x) gfs[[x]]$shp_nr, FUN.VALUE = numeric(1))
+	}
+	for (i in 1:startID) {
+		x[[shape.id.orig[i]]]$by <- gfs[[i]]$by
+	}
+	
+	# update with remaining gf's
+	if (nshps>startID) {
+		for (i in (startID+1):nshps) {
 			gf$shp_name <- c(gf$shp_name, gfs[[i]]$shp_name)
 			gf$shp_nr <- c(gf$shp_nr, gfs[[i]]$shp_nr)
 			gf_args <- setdiff(gfs[[i]]$call, "by")
@@ -138,10 +151,10 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	## check number of levels for two variables and override gf
 	ncols <- sapply(gp, function(i)i$ncol)
 	nrows <- sapply(gp, function(i)i$nrow)
-	if (!any(is.na(ncols))) {
-		if (!all(ncols==ncols[[1]]) | !all(nrows==nrows[[1]])) stop("Inconsistent levels of the 'by' argument of tm_facets.", call.=FALSE)
-		gf$ncol <- ncols[1]
-		gf$nrow <- nrows[1]
+	if (any(!is.na(ncols))) {
+		if (!all(na.omit(ncols)==na.omit(ncols)[[1]]) | !all(na.omit(nrows)==na.omit(nrows)[[1]])) stop("Inconsistent levels of the 'by' argument of tm_facets.", call.=FALSE)
+		gf$ncol <- na.omit(ncols)[1]
+		gf$nrow <- na.omit(nrows)[1]
 	}
 	
 	
@@ -150,13 +163,15 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 		max(sapply(x$varnames, length))
 	}))
 
+	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1)))
+
 	## get by names
 	# by_names_list <- lapply(gp, function(gpl) gpl$varnames$by)
 	# by_names_specified <- !sapply(by_names_list, function(b) is.na(b[1]))
 	# by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
 	
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, asp_ratio, shpM_asp_marg, shp_info)
+	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, asp_ratio, shpM_asp_marg, shp_info, any.legend)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {

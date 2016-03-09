@@ -29,9 +29,6 @@ plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use
 	if (!gt$legend.only) {
 		## calculate width and height of the shape based on the device asp ratio (dasp) and the shape aspect ratio (sasp)
 		
-		cat(dasp, "dasp\n")
-		cat(sasp, "sasp\n")
-		
 		margins <- gt$outer.margins
 		mar.y <- sum(margins[c(1,3)])
 		mar.x <- sum(margins[c(2,4)])
@@ -51,14 +48,13 @@ plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use
 		
 		## background rectangle (whole device)
 		grobBG <- if (gt$design.mode) {
-			fillCol <- ifelse(use_facets, "brown", "yellow")
-			rectGrob(gp=gpar(fill=fillCol, col=fillCol), name="bg_rect")
+			rectGrob(gp=gpar(fill="yellow", col=NA), name="bg_rect")
 		} else if (is.na(gt$frame) && !gt$earth.boundary) {
 			rectGrob(gp=gpar(fill=gt$bg.color, col=NA), name="bg_rect")
 		} else if (is.na(gt$frame) && gt$earth.boundary) {
 			rectGrob(gp=gpar(fill=gt$space.color, col=NA), name="bg_rect")
 		} else if (!is.null(gt$outer.bg.color) && !is.na(gt$frame)) {
-			rectGrob(gp=gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color), name="bg_rect")
+			rectGrob(gp=  gpar(col=gt$outer.bg.color, fill=gt$outer.bg.color), name="bg_rect")
 		} else NULL
 
 		
@@ -145,11 +141,11 @@ plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use
 		if (!gt$legend.only) {
 			vpLeg <- vpPath("maingrid", "aspvp")
 			d <- downViewport(vpLeg)
-			grobLegendBG <- NULL
+			#grobLegendBG <- NULL
 			treeMetaVP <- vpList(gridLayoutMap, viewport(layout.pos.row=2, layout.pos.col=2, name="meta_aspvp", clip=TRUE))
 		} else {
 			vpLeg <- current.viewport()
-			grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
+			#grobLegendBG <- rectGrob(gp=gpar(fill=gt$bg.color, col=NA))
 			treeMetaVP <- NULL
 		}
 		if (!is.na(gt$frame)) {
@@ -167,8 +163,8 @@ plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use
 			frameY <- 0
 		}
 		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY, frameX, frameY)
-		treeMetaX <- gTree(children=gList(grobLegendBG, treeMeta), name="meta_with_bg", 
-						   vp = treeMetaVP)
+		treeMetaX <- gTree(children=gList(treeMeta), name="meta_with_bg", 
+						   vp = treeMetaVP) # previously with grobLegendBG
 		
 		if (!gt$legend.only) {
 			treeMapX <- addGrob(treeMapX, child=treeMetaX, gPath=gPath("outer_map"))#, "aspvp"))

@@ -55,8 +55,9 @@
 #' @param space.color Color of the space, i.e. the region inside the frame, and outsise the earth boundary.
 #' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
-#' @param legend.outside Value that determines whether the legend is plot outside of the map/facets. Use \code{FALSE} to place the legend inside the map (see \code{legend.position}). Use \code{TRUE} or \code{"right"} to place the legend on the right-hand side of the map/facets. Use \code{"left"}, \code{"top"}, or \code{"bottom"} to place the legend respectively on the left-hand side, above, or under the map/facets. Especially useful when using facets that have a common legend (i.e. with \code{free.scales=FALSE}).
-#' @param legend.outside.size Vector of two values that determine the relative width and height of legend when it is plot outside the map/facets
+#' @param legend.outside Logical that determines whether the legend is plot outside of the map/facets. Especially useful when using facets that have a common legend (i.e. with \code{free.scales=FALSE}).
+#' @param legend.outside.position Character vector of two values that determine the outside position of the legend. Only applicable when \code{legend.outside=TRUE}. The first value determines the side of the map/facets, one of: \code{"right"}, \code{"left"}, \code{"top"}, or \code{"bottom"}. The second value determines the alignment of the legend, one of \code{"top"}, \code{"center"}, or \code{"bottom"} when the first value is \code{"left"} or \code{"right"}; one of \code{"left"}, \code{"center"}, \code{"right"} when the first value is \code{"top"} or \code{"bottom"}.
+#' @param legend.outside.size Numeric value that determines the relative size of the legend, when \code{legend.outside=TRUE}. If the first value of \code{legend.outside.position} is \code{"top"} or \code{"bottom"}, then it is the width of the legend, else it is the height of the legend.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object.
 #' @param legend.width maximum width of the legend
 #' @param legend.height maximum height of the legend.
@@ -123,8 +124,9 @@ tm_layout <- function(title=NA,
 					  space.color=NULL,
 					  legend.show = TRUE,
 					  legend.only = FALSE,
-					  legend.outside=FALSE,
-					  legend.outside.size=c(0.3, 0.3),
+					  legend.outside=NA,
+					  legend.outside.position="right",
+					  legend.outside.size=0.3,
 					  legend.position = NULL,
 					  legend.width = 0.4,
 					  legend.height = 0.9,
@@ -149,8 +151,9 @@ tm_layout <- function(title=NA,
 					  title.bg.alpha = 1,
 					  panel.show = NA,
 					  panel.label.size = 1,
-					  panel.label.bg.color = c("grey80", "grey80"),
 					  panel.label.color = "black",
+					  panel.label.bg.color = "grey80",
+					  panel.label.height = 1.25,
 					  panel.label.rot = c(90, 0),
 					  attr.position = c("right", "bottom"),
 					  design.mode = FALSE,

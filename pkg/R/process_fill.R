@@ -107,7 +107,8 @@ process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
 		fill.legend.hist.title <- g$legend.hist.title
 	} else fill.legend.hist.title <- ""
-	
+
+	if (!g$legend.show) fill.legend.title <- NA
 	
 	list(fill=col,
 		 fill.legend.labels=col.legend.labels,
