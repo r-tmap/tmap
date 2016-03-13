@@ -238,46 +238,32 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	# calculate facets and total device aspect ratio
 	tasp <- dw/dh
 	
-	external_grid_labels <- gmeta$grid.show && !gmeta$grid.labels.inside.frame
 	external_legend <- gmeta$legend.outside
-	use_facets_grid <- (!interactive && (nx > 1 || !external_grid_labels))
 
-	if (!interactive && use_facets_grid) {
-		# The facet layout will be used, even though there is one map. Outer margins will be processed in gridplot
-		gmeta <- process_facet_layout(gmeta, external_legend, sasp, tasp, dh, dw)
-		gasp <- gmeta$gasp
-		dasp <- sasp
-		
-		if (external_legend) {
-			gp_leg <- gps[[1]]
-			gp_leg$tm_layout <- within(gp_leg$tm_layout, {
-				legend.only <- TRUE
-				legend.width <- 1
-				legend.height <- 1
-				title.size <- title.size / scale.extra
-				legend.title.size <- legend.title.size / scale.extra
-				legend.text.size <- legend.text.size / scale.extra
-				legend.hist.size <- legend.hist.size / scale.extra
-			})
-		} else {
-			gp_leg <- NULL
-		}
-		# remove outer.margins 
-		gps <- lapply(gps, function(gp) {
-			gp$tm_layout$outer.margins <- rep(0, 4)
-			if (external_legend) gp$tm_layout$legend.show <- FALSE
-			gp
+	gmeta <- process_facet_layout(gmeta, external_legend, sasp, tasp, dh, dw)
+	gasp <- gmeta$gasp
+	dasp <- sasp
+	
+	if (external_legend) {
+		gp_leg <- gps[[1]]
+		gp_leg$tm_layout <- within(gp_leg$tm_layout, {
+			legend.only <- TRUE
+			legend.width <- 1
+			legend.height <- 1
+			title.size <- title.size / scale.extra
+			legend.title.size <- legend.title.size / scale.extra
+			legend.text.size <- legend.text.size / scale.extra
+			legend.hist.size <- legend.hist.size / scale.extra
 		})
 	} else {
-		# The original layout will be used, only applicable for one map. Outer margins will be processed in plot_all. Only used for one map where outer grid line labels are used.
-		gmeta <- within(gmeta, {
-			colws <- 1
-			rowhs <- 1
-			rowrange <- 1
-			colrange <- 1
-		})
 		gp_leg <- NULL
-		gasp <- sasp
+	}
+
+	if (external_legend) {
+		gps <- lapply(gps, function(gp) {
+			gp$tm_layout$legend.show <- FALSE
+			gp
+		})
 	}
 
 	legend_pos <- attr(shps, "legend_pos")

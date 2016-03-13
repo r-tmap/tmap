@@ -38,11 +38,10 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 	group_by <- any(gm$shp_nr != 0)
 	
 	free_coords <- group_by && gm$free.coords
-	drop_shapes <- group_by && gm$drop.shapes
+	drop_shapes <- group_by && gm$drop.units
 	diff_shapes <- free_coords || drop_shapes
 	
 	inside_bbox <- group_by && gm$inside.original.bbox
-	
 	if (diff_shapes) {
 		if (is.na(pasp)) pasp <- dasp
 		
@@ -55,25 +54,24 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 		
 		shps_by_splt <- mapply(function(s_by, d_by) {
 			if (inherits(s_by, "Spatial")) {
-				split_shape(s_by, f = d_by)	
+				split_shape(s_by, f = d_by, drop=FALSE)	
 			}  else {
-				split_raster(s_by, f = d_by)
+				split_raster(s_by, f = d_by, drop=FALSE)
 			} 
 		}, shps_by, data_by, SIMPLIFY=FALSE)
 	}
 	
-	
 	if (free_coords) {
-		
+		# find maximum bbox
 		shp.by.bbox <- sapply(shps_by, attr, which="bbox")
 		shp.by.bbox <- matrix(c(apply(shp.by.bbox[1:2,,drop=FALSE], MARGIN = 1, min), apply(shp.by.bbox[3:4,,drop=FALSE], MARGIN = 1, max)),
 							   nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
 		shp.by.bbox <- get_bbox_asp(shp.by.bbox, gm$inner.margins, longlat, pasp=NA)$bbox
-		
 		bboxes <- do.call("mapply", c(list(FUN=function(...){
 			x <- list(...)
 			
 			bbx <- sapply(x, attr, which="bbox")
+			if (is.null(bbx[[1]])) return(NULL)
 			bbx <- matrix(c(apply(bbx[1:2,,drop=FALSE], MARGIN = 1, min), apply(bbx[3:4,,drop=FALSE], MARGIN = 1, max)),
 								  nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
 			
@@ -121,6 +119,7 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 				shps_by_splt[[shps_by_ind[i]]]
 			}
 			mapply(function(shp2, bb2){
+				if (is.null(shp2)) return(NULL)
 				if (!allow.crop) {
 					attr(shp2, "bbox") <- bb2
 					return(shp2)
@@ -142,9 +141,12 @@ process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, r
 	} else {
 	
 		shps2 <- mapply(function(x, shp_nm){
+			if (is.null(x)) return(NULL)
+			
 			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame. Use a little wider bounding box to prevent polygons following cropbb(bbx, ext=-1.01)
 			if (diff_shapes) {
 				lapply(bboxes, function(bb2){
+					if (is.null(bb2)) return(NULL)
 					if (!allow.crop) {
 						attr(x, "bbox") <- bb2
 						return(x)
@@ -246,15 +248,17 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	list(bbox=bbx, sasp=sasp, inner.margins=inner.margins.new)
 }
 
-split_raster <- function(r, f) {
+split_raster <- function(r, f, drop=TRUE) {
 	if (!is.factor(f)) {
 		warning("f is not a factor", call. = FALSE)
 		f <- as.factor(f)
 	}
 	bbx <- attr(r, "bbox")
-	lev <- intersect(levels(f), f)
+	lev <- if (drop) {
+		intersect(levels(f), f)	
+	} else levels(f)
 	lapply(lev, function(l){
-		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=r@ncol, nrow=r@nrow, byrow = TRUE)
+		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=r@ncols, nrow=r@nrows, byrow = TRUE)
 		cls <- colSums(m)
 		rws <- rev(rowSums(m))
 		
@@ -264,8 +268,8 @@ split_raster <- function(r, f) {
 		xrng[1] <- xrng[1] - 1
 		yrng[1] <- yrng[1] - 1
 		
-		xlim <- xrng / r@ncol
-		ylim <- yrng / r@nrow
+		xlim <- xrng / r@ncols
+		ylim <- yrng / r@nrows
 		
 		attr(r, "bbox") <- matrix(c(bbx[1,1] + (bbx[1,2] - bbx[1,1]) * xlim[1],
 				 bbx[1,1] + (bbx[1,2] - bbx[1,1]) * xlim[2],

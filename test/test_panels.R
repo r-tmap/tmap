@@ -52,3 +52,15 @@ tm_shape(World, projection="wintri") +
 	tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
 	tm_style_natural(earth.boundary = c(-180,180,-87,87), inner.margins = .05, design.mode=T) +
 	tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
+
+
+tm_shape(World) + 
+	tm_polygons("pop_est_dens") +
+	tm_grid(labels.inside.frame = FALSE) + tm_layout(design.mode=T)
+
+
+tm_shape(World) + 
+	tm_polygons("pop_est_dens") +
+	tm_grid(labels.inside.frame = T)
+
+

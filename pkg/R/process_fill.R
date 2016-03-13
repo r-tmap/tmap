@@ -43,6 +43,7 @@ process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable name(s)", call. = FALSE)
 	}
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
+	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dt, "anyNA")
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
 	nx <- max(nx, nlevels(by))

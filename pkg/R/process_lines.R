@@ -74,7 +74,8 @@ process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 		for (i in 1:nx) data[[paste("lwd", i, sep="_")]] <- xlwd[i]
 		xlwd <- paste("lwd", 1:nx, sep="_")
 		gby$free.scales.line.lwd <- FALSE
-	}
+		split.by <- FALSE
+	} else split.by <- TRUE
 	
 	# check for direct color input
 	is.colors <- all(valid_colors(xcol))
@@ -88,8 +89,9 @@ process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 	nx <- max(nx, nlevels(by))
 	
 	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.line.col, is.colors=is.colors)
-	dtlwd <- process_data(data[, xlwd, drop=FALSE], by=by, free.scales=gby$free.scales.line.lwd, is.colors=FALSE)
+	dtlwd <- process_data(data[, xlwd, drop=FALSE], by=by, free.scales=gby$free.scales.line.lwd, is.colors=FALSE, split.by=split.by)
 	
+	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dtcol, "anyNA")
 	if (is.list(dtlwd)) {
 		# multiple variables for lwd are defined
 		gsl <- split_g(g, n=nx)
@@ -114,13 +116,19 @@ process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 		}
 	}
 	
-	
+	# selection: which line widths are NA?
 	sel <- if (is.list(dtlwd)) {
 		lapply(dtlwd, function(i)!is.na(i))
-	} else !is.na(dtlwd)
+	} else {
+		if (is.list(dtcol)) {
+			cnts <- vapply(dtcol, length, integer(1))
+			cnts2 <- 1:length(dtcol)
+			f <- factor(unlist(mapply(rep, cnts2, cnts, SIMPLIFY = FALSE)))
+			split(dtlwd, f = f)
+		} else !is.na(dtlwd)
+	} 
 	
-	
-	
+
 	dcr <- process_dtcol(dtcol, sel, g, gt, nx, npol)
 	if (dcr$is.constant) xcol <- rep(NA, nx)
 	col <- dcr$col

@@ -30,7 +30,6 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 	data <- g$tm_shape$data
 	
 	scale <- gt$scale
-		
 	if (g$tm_shape$by[1]=="") {
 		data$GROUP_BY <- factor("_NA_")
 		by <- NA
@@ -42,11 +41,18 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 		
 		d <- data[, g$tm_shape$by, drop=FALSE]
 		d2 <- lapply(d, function(dcol) {
+			showNA <- ifelse(is.na(gf$showNA), any(is.na(dcol)), gf$showNA)
 			if (is.factor(dcol)) {
-				factor(as.character(dcol), levels=levels(dcol))#[table(dcol)>0])
+				lev <- if (gf$drop.empty.facets) levels(dcol)[table(dcol)>0] else levels(dcol)
+				dcol <- as.character(dcol)
 			} else {
-				factor(dcol)
+				lev <- as.character(sort(unique(dcol)))
 			}
+			if (showNA) {
+				lev <- c(lev, gf$textNA)
+				dcol[is.na(dcol)] <- gf$textNA
+			}
+			factor(dcol, levels=lev)
 		})
 		if (length(g$tm_shape$by)==1) {
 			data$GROUP_BY <- d2[[1]]
@@ -63,7 +69,6 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 			panel.names <- list(levels(d2[[1]]), levels(d2[[2]]))
 		}
 	}
-	
 
 	# determine plotting order 
 	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_bubbles", "tm_lines", "tm_raster")]

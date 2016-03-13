@@ -38,8 +38,13 @@ split_shape <- function(x, f, drop=TRUE, ...) {
 		warning("f is not a factor", call. = FALSE)
 		f <- as.factor(f)
 	}
-	lev <- intersect(levels(f), f)
-	xlist <- lapply(lev, function(l)x[which(f==l),])
+	lev <- if (drop) {
+		intersect(levels(f), f)	
+	} else levels(f)
+	xlist <- lapply(lev, function(l) {
+		ids <- which(f==l)
+		if (length(ids)==0L) NULL else x[ids,]
+	})
 	names(xlist) <- lev
 	xlist
 }

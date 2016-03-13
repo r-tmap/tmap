@@ -100,6 +100,9 @@ process_bubbles <- function(data, g, gt, gby, z, allow.small.mult) {
 	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.col, is.colors=is.colors)
 	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.bubble.size, is.colors=FALSE)
 	
+	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dtcol, "anyNA")
+	
+	
 	if (is.list(dtsize)) {
 		# multiple variables for size are defined
 		gss <- split_g(g, n=nx)
@@ -126,9 +129,17 @@ process_bubbles <- function(data, g, gt, gby, z, allow.small.mult) {
 		}
 	}
 	
+	# selection: which line widths are NA?
 	sel <- if (is.list(dtsize)) {
 		lapply(dtsize, function(i)!is.na(i))
-	} else !is.na(dtsize)
+	} else {
+		if (is.list(dtcol)) {
+			cnts <- vapply(dtcol, length, integer(1))
+			cnts2 <- 1:length(dtcol)
+			f <- factor(unlist(mapply(rep, cnts2, cnts, SIMPLIFY = FALSE)))
+			split(dtsize, f = f)
+		} else !is.na(dtsize)
+	} 
 	
 	dcr <- process_dtcol(dtcol, sel, g, gt, nx, npol)
 	if (dcr$is.constant) xcol <- rep(NA, nx)

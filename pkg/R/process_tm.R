@@ -123,15 +123,18 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	
 	## get by vector
 	data_by <- lapply(gp, function(i)i$data_by)
-
-	## for each 'grouped by' shape, where drop.shapes=TRUE, get order ids (used by split_tm) 
-	order_by <- lapply(data_by, function(d) {
-		if (levels(d)[1]=="_NA_" || !gf$drop.shapes) {
+	
+	## for raster: ignore drop.units
+	is_raster <- lapply(gp, function(i)!is.null(i$raster))
+	
+	## for each 'grouped by' shape, where drop.units=TRUE, get order ids (used by split_tm) 
+	order_by <- mapply(function(d, isr) {
+		if (levels(d)[1]=="_NA_" || !gf$drop.units || isr) {
 			NULL
 		} else {
 			lapply(1:nlevels(d), function(i)which(as.numeric(d)==i))
 		}
-	})
+	}, data_by, is_raster, SIMPLIFY=FALSE)
 	
 	## check if by is consistent among groups
 	by_counts <- sapply(data_by, nlevels)

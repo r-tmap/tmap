@@ -80,10 +80,14 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		} else {
 			if (steps[1] > steps[2]) {
 				height <- -ext
-				width <- 1 + (-ext-1) * (steps[2]/ steps[1])
+				fact <- (steps[2]/ steps[1])
+				if (is.nan(fact)) fact <- 1
+				width <- 1 + (-ext-1) * fact
 			} else {
 				width <- -ext
-				height <- 1 + (-ext-1) * (steps[1]/ steps[2])
+				fact <- (steps[1]/ steps[2])
+				if (is.nan(fact)) fact <- 1
+				height <- 1 + (-ext-1) * fact
 			}
 		}
 	}

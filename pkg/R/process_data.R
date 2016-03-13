@@ -1,4 +1,4 @@
-process_data <- function(data, by, free.scales, is.colors) {
+process_data <- function(data, by, free.scales, is.colors, split.by=TRUE) {
 	
 	nby <- nlevels(by)
 	cls <- check_tm_classes(data, is.colors)
@@ -12,15 +12,19 @@ process_data <- function(data, by, free.scales, is.colors) {
 				lvls <- if (free.scales) intersect(xlvls, ch) else xlvls
 				factor(ch, levels=lvls)
 			} else {
-				ifelse(by==l, dat, NA)
+				if (split.by) {
+					ifelse(by==l, dat, NA)	
+				} else dat
 			}
 		})
-		names(X) <- x <- levels(data$GROUP_BY)
+		names(X) <- levels(by)
 		if (cls[1]=="col") {
 			return(matrix(unlist(X), ncol=nby))
 		} else if (cls[1]=="num" && !free.scales) {
-			return(unlist(X))
-		} else return(X)		
+			Y <- unlist(X)
+		} else Y <- X
+		attr(Y, "anyNA") <- any(is.na(dat))
+		return(Y)
 	} else {
 		if (all(cls=="col")) return(as.matrix(data))
 		

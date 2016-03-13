@@ -163,6 +163,8 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	dtcol <- process_data(data[, xtcol, drop=FALSE], by=by, free.scales=gby$free.scales.text.col, is.colors=is.colors)	
 	dtsize <- process_data(data[, xtsize, drop=FALSE], by=by, free.scales=gby$free.scales.text.size, is.colors=FALSE)
 	
+	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dtcol, "anyNA")
+	
 	##
 	if (!all(xtext %in% shpcols)) stop("Incorrect data variable used for the text", call. = FALSE)
 
@@ -220,6 +222,19 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	
 	sel <- if (is.list(dtcol)) as.list(as.data.frame(text_sel)) else as.vector(text_sel)
 	
+	# 
+	# # selection: which line widths are NA?
+	# sel <- if (is.list(dtsize)) {
+	# 	lapply(dtsize, function(i)!is.na(i))
+	# } else {
+	# 	if (is.list(dtcol)) {
+	# 		cnts <- vapply(dtcol, length, integer(1))
+	# 		cnts2 <- 1:length(dtcol)
+	# 		f <- factor(unlist(mapply(rep, cnts2, cnts, SIMPLIFY = FALSE)))
+	# 		split(dtsize, f = f)
+	# 	} else !is.na(dtsize)
+	# } 
+	
 	dcr <- process_dtcol(dtcol, sel=sel, g, gt, nx, npol)
 	if (dcr$is.constant) {
 		xtcol <- rep(NA, nx)
@@ -233,7 +248,10 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	breaks <- dcr$breaks
 	values <- dcr$values
 	
-
+	if (is.list(dtcol)) {
+		gsc <- split_g(g, n=nx)
+	}
+	
 	if (is.list(values)) {
 		# process legend text
 		col.legend.text <- mapply(function(txt, v, s, l, gsci) {
