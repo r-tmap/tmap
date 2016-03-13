@@ -5,23 +5,31 @@
 \title{Small multiples}
 \usage{
 tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
-  drop.shapes = free.coords, free.scales = is.null(by),
+  drop.units = free.coords, drop.empty.facets = TRUE, showNA = NA,
+  textNA = "Missing", free.scales = is.null(by),
   free.scales.fill = free.scales, free.scales.bubble.size = free.scales,
   free.scales.bubble.col = free.scales, free.scales.text.size = free.scales,
   free.scales.text.col = free.scales, free.scales.line.col = free.scales,
   free.scales.line.lwd = free.scales, free.scales.raster = free.scales,
-  inside.original.bbox = FALSE, scale.factor = 2)
+  inside.original.bbox = FALSE, scale.factor = 2,
+  drop.shapes = drop.units)
 }
 \arguments{
-\item{by}{data variable name by which the data is split}
+\item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).}
 
-\item{ncol}{number of columns of the small multiples grid}
+\item{ncol}{number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.}
 
-\item{nrow}{number of rows of the small multiples grid}
+\item{nrow}{number of rows of the small multiples grid. Not applicable if \code{by} contains two variable names.}
 
 \item{free.coords}{logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?}
 
-\item{drop.shapes}{logical. If the \code{by} argument is specified, should all non-selected shapes be dropped?}
+\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE}, they are plotted where mapped aesthetics are regared as missing values. By default, \code{TRUE} if \code{free.coords=TRUE}. Not applicable for raster shapes.}
+
+\item{drop.empty.facets}{logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and colums are dropped.}
+
+\item{showNA}{If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{table}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
+
+\item{textNA}{text used for facets of missing values.}
 
 \item{free.scales}{logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_bubbles}} and line color from \code{\link{tm_lines}}.}
 
@@ -44,6 +52,8 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
 \item{inside.original.bbox}{If \code{free.coords}, should the bounding box of each small multiple be inside the original bounding box?}
 
 \item{scale.factor}{Number that determines how the elements (e.g. font sizes, bubble sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.}
+
+\item{drop.shapes}{deprecated: renamed to \code{drop.units}}
 }
 \value{
 \code{\link{tmap-element}}
@@ -52,7 +62,7 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
 Creates a \code{\link{tmap-element}} that specifies how small multiples are placed in a facet grid. Either the argument \code{by} should be specified, i.e. the name of a variable by which the data is grouped, or multiple variable names sould be provided with \code{\link{tm_fill}}, \code{\link{tm_lines}}, or \code{\link{tm_bubbles}}. In this function, the number of rows and columns can be specified, as well as whether the scales are free (i.e. independent of each other).
 }
 \examples{
-data(World, Europe, NLD_muni, NLD_prov)
+data(World, Europe, NLD_muni, NLD_prov, land, metro)
 
 current.mode <- tmap_mode("plot") # small multiples don't work in view mode
 
@@ -88,7 +98,7 @@ tm_shape(NLD_prov) +
 
 tm_shape(NLD_prov) +
     tm_fill("gold2") + tm_borders() +
-    tm_facets(by="name", free.coords = TRUE, drop.shapes=TRUE) +
+    tm_facets(by="name", free.coords = TRUE, drop.units=TRUE) +
 tm_layout()
 
 tm_shape(NLD_muni) +
@@ -97,8 +107,35 @@ tm_shape(NLD_muni) +
     tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
     tm_borders(lwd=4) +
-    tm_facets(by="name", free.coords=TRUE, drop.shapes=TRUE) +
-tm_layout(legend.show = FALSE)
+    tm_facets(by="name", free.coords=TRUE, drop.units=TRUE)
+
+\dontrun{
+tm_shape(land) +
+tm_raster("black") +
+tm_facets(by="cover_cls")
+}
+	
+# Facets defined by groupings defined by two variables
+
+World$HPI3 <- cut(World$HPI, breaks = c(20, 35, 50, 65), 
+    labels = c("HPI low", "HPI medium", "HPI high"))
+World$GDP3 <- cut(World$gdp_cap_est, breaks = c(0, 5000, 20000, Inf), 
+    labels = c("GDP low", "GDP medium", "GDP high"))
+
+tm_shape(World) + 
+	tm_fill("HPI3", palette="Dark2", colorNA="grey90", legend.show = FALSE) + 
+	tm_facets(c("HPI3", "GDP3"), showNA=FALSE)
+
+metro$pop1950cat <- cut(metro$pop1950, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
+metro$pop2020cat <- cut(metro$pop2020, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
+
+tm_shape(World) +
+	tm_fill() +
+tm_shape(metro) +
+tm_dots("red") +
+	tm_facets(c("pop1950cat", "pop2020cat")) +
+tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)
+	
 
 # example: Meuse data
 \dontrun{
@@ -118,6 +155,9 @@ qtm(meuse_osm) +
         border.alpha = .75,
         scale=.7)
 }
+
+
+
 
 # restore current mode
 tmap_mode(current.mode)

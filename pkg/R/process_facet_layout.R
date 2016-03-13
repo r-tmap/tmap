@@ -1,4 +1,5 @@
 process_facet_layout <- function(gmeta, external_legend, sasp, tasp, dh, dw) {
+	panel.mode <- outer.margins <- NULL
 	between.margin.in <- convertHeight(unit(gmeta$between.margin, "lines"), "inch", valueOnly=TRUE) * gmeta$scale
 	
 	if (external_legend) {

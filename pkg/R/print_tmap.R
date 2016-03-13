@@ -84,7 +84,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#  plot_all:   - calls plot_map to create grob tree of map itself
 	#              - calls legend_prepare and plot_legend to create grob tree of legend
 	#              - creates grob tree for whole plot
-
+	scale.extra <- NULL
+	
 	interactive <- (mode == "view")
 	
 	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
@@ -381,7 +382,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	} else {
 		if (show) {
 			if (nx > 1) sasp <- dasp
-			gridplot(gmeta, "plot_all", nx, gps, shps, dasp, sasp, fasp, inner.margins.new, legend_pos, gp_leg)
+			gridplot(gmeta, "plot_all", nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg)
 			## if vp is specified, go 1 viewport up, else go to root viewport
 			upViewport(n=as.integer(!is.null(vp)))
 			invisible(list(shps=shps, gps=gps2))

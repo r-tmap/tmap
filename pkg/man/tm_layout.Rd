@@ -27,25 +27,28 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   aes.palette = list(seq = "YlOrBr", div = "RdYlGn", cat = "Set3"),
   attr.color = "black", sepia.intensity = 0, saturation = 1,
   frame = TRUE, frame.lwd = 1, frame.double.line = FALSE, asp = NA,
-  outer.margins = rep(0.02, 4), inner.margins = NA, between.margin = 0.25,
+  outer.margins = rep(0.02, 4), inner.margins = NA, between.margin = 0.5,
   outer.bg.color = NULL, fontface = "plain", fontfamily = "",
   compass.type = "arrow", earth.boundary = FALSE,
   earth.boundary.color = attr.color, earth.boundary.lwd = 1,
   earth.datum = "WGS84", space.color = NULL, legend.show = TRUE,
-  legend.only = FALSE, legend.position = NULL, legend.width = 0.4,
-  legend.height = 0.9, legend.hist.height = 0.3,
-  legend.hist.width = legend.width, legend.title.size = 1.1,
-  legend.text.size = 0.7, legend.hist.size = 0.7,
+  legend.only = FALSE, legend.outside = NA,
+  legend.outside.position = "right", legend.outside.size = 0.3,
+  legend.position = NULL, legend.width = 0.4, legend.height = 0.9,
+  legend.hist.height = 0.3, legend.hist.width = legend.width,
+  legend.title.size = 1.1, legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.format = list(scientific = FALSE, digits = NA, text.separator = "to",
   text.less.than = "Less than", text.or.more = "or more"),
   legend.frame = FALSE, legend.text.color = attr.color,
   legend.bg.color = NA, legend.bg.alpha = 1, legend.hist.bg.color = NA,
   legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
   title.position = c("left", "top"), title.color = attr.color,
-  title.bg.color = NA, title.bg.alpha = 1, attr.position = c("right",
-  "bottom"), design.mode = FALSE, basemaps = c("CartoDB.Positron",
-  "OpenStreetMap", "Esri.WorldTopoMap"), bg.overlay = NULL,
-  bg.overlay.alpha = 0)
+  title.bg.color = NA, title.bg.alpha = 1, panel.show = NA,
+  panel.label.size = 1, panel.label.color = "black",
+  panel.label.bg.color = "grey80", panel.label.height = 1.25,
+  panel.label.rot = c(90, 0), attr.position = c("right", "bottom"),
+  design.mode = FALSE, basemaps = c("CartoDB.Positron", "OpenStreetMap",
+  "Esri.WorldTopoMap"), bg.overlay = NULL, bg.overlay.alpha = 0)
 
 tm_legend(...)
 
@@ -146,7 +149,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{asp}{Aspect ratio. The aspect ratio of the map (width/height). If \code{NA}, it is determined by the bounding box (see argument \code{bbox} of \code{\link{tm_shape}}), the \code{outer.margins}, and the \code{inner.margins}. If \code{0}, then the aspect ratio is adjusted to the aspect ratio of the device.}
 
-\item{outer.margins}{Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. Is omitted when facets are created (see \code{between.margin})}
+\item{outer.margins}{Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. When facets are created, the outer margins are the margins between the outer panels and the device borders (see also \code{between.margin})}
 
 \item{inner.margins}{Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.}
 
@@ -173,6 +176,12 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 \item{legend.show}{Logical that determines whether the legend is shown.}
 
 \item{legend.only}{logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.}
+
+\item{legend.outside}{Logical that determines whether the legend is plot outside of the map/facets. Especially useful when using facets that have a common legend (i.e. with \code{free.scales=FALSE}).}
+
+\item{legend.outside.position}{Character vector of two values that determine the outside position of the legend. Only applicable when \code{legend.outside=TRUE}. The first value determines the side of the map/facets, one of: \code{"right"}, \code{"left"}, \code{"top"}, or \code{"bottom"}. The second value determines the alignment of the legend, one of \code{"top"}, \code{"center"}, or \code{"bottom"} when the first value is \code{"left"} or \code{"right"}; one of \code{"left"}, \code{"center"}, \code{"right"} when the first value is \code{"top"} or \code{"bottom"}.}
+
+\item{legend.outside.size}{Numeric value that determines the relative size of the legend, when \code{legend.outside=TRUE}. If the first value of \code{legend.outside.position} is \code{"top"} or \code{"bottom"}, then it is the width of the legend, else it is the height of the legend.}
 
 \item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object.}
 
@@ -223,6 +232,18 @@ By default the title is placed on top of the legend (determined by \code{legend.
 \item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 
 \item{title.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).}
+
+\item{panel.show}{Logical that determines if the map(s) are shown as panels. If \code{TRUE}, the title will be placed in the panel header instead of inside the map. By default, it is \code{TRUE} when small multiples are created with the \code{by} variable. (See \code{\link{tm_facets}})}
+
+\item{panel.label.size}{Relative font size of the panel labels}
+
+\item{panel.label.color}{Font color of the panel labels}
+
+\item{panel.label.bg.color}{Background color of the panel labels}
+
+\item{panel.label.height}{Height of the labels in number of text line heights.}
+
+\item{panel.label.rot}{Rotation angles of the panel labels. Vector of two values: the first is the rotation angle (in degrees) of the row panels, which are only used in cross-table facets (when \code{\link{tm_facets}}'s \code{by} is specified with two variables). The second is the rotation angle of the column panels.}
 
 \item{attr.position}{Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions.}
 

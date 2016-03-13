@@ -109,8 +109,7 @@ tm_layout(legend.position = c("left","bottom"), bg.color="lightblue")
 # doesn't work in view mode, since it does not support small multiples
 tm_shape(land) +
 	tm_raster("black") +
-	tm_facets(by="cover_cls") +
-	tm_layout(title.position = c("left", "bottom"), title.bg.color="gray80")
+	tm_facets(by="cover_cls")
 }
 }
 \seealso{

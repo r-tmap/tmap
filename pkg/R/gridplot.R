@@ -1,4 +1,4 @@
-gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, fasp, inner.margins.new, legend_pos, gp_leg) {
+gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg) {
 	mfrow <- gmeta$nrow
 	mfcol <- gmeta$ncol
 	
@@ -16,13 +16,15 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, fasp, inner.margins.
 	ncl <- length(gmeta$colws)
 	nrw <- length(gmeta$rowhs)
 	
-	bbxproj <- if (is.list(shps[[1]])) {
-		lapply(shps, function(s) {
+	multi_shapes <- (is.list(shps[[1]]))
+	
+	if (multi_shapes) {
+		bbxproj <- lapply(shps, function(s) {
 			s2 <- s[[1]]
 			if (is.null(s2)) NULL else list(bbx = attr(s2, "bbox"), proj = attr(s2, "proj4string")@projargs)
 		})
 	} else {
-		list(bbx = attr(shps[[1]], "bbox"), proj = attr(shps[[1]], "proj4string")@projargs)
+		bbxproj <- list(bbx = attr(shps[[1]], "bbox"), proj = attr(shps[[1]], "proj4string")@projargs)
 	}
 	
 	external_grid_labels <- gmeta$grid.show && !gmeta$grid.labels.inside.frame
@@ -69,6 +71,13 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, fasp, inner.margins.
 		## draw outside grid labels
 		treeGridLabels <- if (external_grid_labels) {
 			mapply(function(i, rw, cl) {
+				if (multi_shapes) {
+					proj <- bbxproj[[i]]$proj
+					bbx <- bbxproj[[i]]$bbx
+				} else {
+					proj <- bbxproj$proj
+					bbx <- bbxproj$bbx
+				}
 				gt <- gps[[i]]$tm_layout
 				if (gt$grid.show) {
 					# non inverse projection avaiable PROJ.4 4.8.0 for Winkel Tripel projection

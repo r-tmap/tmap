@@ -168,13 +168,8 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1)))
 
-	## get by names
-	# by_names_list <- lapply(gp, function(gpl) gpl$varnames$by)
-	# by_names_specified <- !sapply(by_names_list, function(b) is.na(b[1]))
-	# by_names <- if (any(by_names_specified)) by_names_list[[which(by_names_specified)[1]]] else NA
-	
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, by_names, panel.names, asp_ratio, shpM_asp_marg, shp_info, any.legend)
+	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio, shpM_asp_marg, shp_info, any.legend)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {
