@@ -73,13 +73,12 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 						if (is.list(panel.names)) rep("", nx) else panel.names
 					} else rep(title, nx)
 				}
-				
-				if (panel.show) {
-					panel.names <- title
-					title <- rep("", nx)
-				}
 			} else {
 				title <- if (is.na(title[1])) "" else title[1]
+			}
+			if (panel.show) {
+				panel.names <- title
+				title <- rep("", nx)
 			}
 		}
 

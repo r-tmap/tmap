@@ -19,7 +19,7 @@
 #' @importFrom classInt classIntervals findCols
 #' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb
-#' @importFrom methods as slot slotNames is
+#' @importFrom methods as slot slotNames is inherits
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom spdep poly2nb
 #' @importFrom grDevices xy.coords colors
@@ -231,17 +231,22 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	}
 	shps_lengths <- sapply(shps, length)
 
-	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dw, dh, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
+	external_legend <- gmeta$legend.outside
+	fpi <- preprocess_facet_layout(gmeta, external_legend, dh, dw)
 	
-	dasp <- attr(shps, "dasp")
+	#browser()
+	dasp <- fpi$dsw / fpi$dsh #-  fpi$pSH - fpi$between.margin.in)
+	
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
+	
+	#dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
 	
 	# calculate facets and total device aspect ratio
 	tasp <- dw/dh
 	
-	external_legend <- gmeta$legend.outside
 
-	gmeta <- process_facet_layout(gmeta, external_legend, sasp, tasp, dh, dw)
+	gmeta <- do.call("process_facet_layout", c(list(gmeta, external_legend, sasp, tasp, dh, dw), fpi))
 	gasp <- gmeta$gasp
 	dasp <- sasp
 	

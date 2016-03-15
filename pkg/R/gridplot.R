@@ -1,7 +1,7 @@
 gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg) {
 	mfrow <- gmeta$nrow
 	mfcol <- gmeta$ncol
-	
+
 	## number of pages
 	np <- ceiling(nx / (mfrow * mfcol))
 	
@@ -100,17 +100,17 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 		## draw panels		
 		if (panel.mode=="both") {
 			rowPanels <- lapply((1:mfrow), function(i) {
-				cellplot(gmeta$rowrange[i], gmeta$colpanelrow, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color)),
+				cellplot(gmeta$rowrange[i], gmeta$colpanelrow, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
 									   textGrob(gmeta$panel.names[[1]][i], rot=gmeta$panel.label.rot[1], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size))))
 			})
 			
 			colPanels <- lapply((1:mfcol), function(i) {
-				cellplot(gmeta$colpanelrow, gmeta$colrange[i], e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color)),
+				cellplot(gmeta$colpanelrow, gmeta$colrange[i], e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
 									   textGrob(gmeta$panel.names[[2]][i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size))))
 			})
 		}  else if (panel.mode=="one") {
 			colPanels <- mapply(function(i, rw, cl) {
-				cellplot(rw, cl, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color)),
+				cellplot(rw, cl, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
 										 textGrob(gmeta$panel.names[i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size))))
 			}, istart:iend, 
 			rep(gmeta$rowrange-1, each=mfcol, length.out=ni), 

@@ -1,9 +1,5 @@
-process_shapes <- function(shps, g, gm, data_by, dw, dh, masterID, allow.crop, raster.leaflet, projection) {
+process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, raster.leaflet, projection) {
 	
-	sh <- (dh/gm$nrow)# * (1-sum(gm$outer.margins[c(1,3)]))
-	sw <- (dw/gm$ncol)# * (1-sum(gm$outer.margins[c(2,4)]))
-	
-	dasp <- sw/sh
 	pasp <- gm$asp
 	if (identical(pasp, 0)) pasp <- dasp
 	
