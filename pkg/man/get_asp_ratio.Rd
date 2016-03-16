@@ -4,15 +4,24 @@
 \alias{get_asp_ratio}
 \title{Get aspect ratio}
 \usage{
-get_asp_ratio(x)
+get_asp_ratio(x, width = 700, height = 700, res = 100)
 }
 \arguments{
 \item{x}{shape object (either \code{\link[sp:Spatial]{Spatial}} or a \code{\link[raster:Raster-class]{Raster}}) or a tmap object.}
+
+\item{width}{See details; only applicable if \code{x} is a tmap object.}
+
+\item{height}{See details; only applicable if \code{x} is a tmap object.}
+
+\item{res}{See details; only applicable if \code{x} is a tmap object.}
 }
 \value{
 aspect ratio
 }
 \description{
 Get the aspect ratio of a shape object, i.e., the map width devided by the map height.
+}
+\details{
+The arguments \code{width}, \code{height}, and \code{res} are passed on to \code{\link[grDevices:png]{png}}. If \code{x} is a tmap object, a temporarily png image is created to calculate the aspect ratio of a tmap object. The default size of this image is 700 by 700 pixels at 100 dpi.
 }
 

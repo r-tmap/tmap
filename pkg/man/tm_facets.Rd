@@ -116,7 +116,6 @@ tm_facets(by="cover_cls")
 }
 	
 # Facets defined by groupings defined by two variables
-
 World$HPI3 <- cut(World$HPI, breaks = c(20, 35, 50, 65), 
     labels = c("HPI low", "HPI medium", "HPI high"))
 World$GDP3 <- cut(World$gdp_cap_est, breaks = c(0, 5000, 20000, Inf), 
@@ -126,6 +125,7 @@ tm_shape(World) +
 	tm_fill("HPI3", palette="Dark2", colorNA="grey90", legend.show = FALSE) + 
 	tm_facets(c("HPI3", "GDP3"), showNA=FALSE)
 
+\dontrun{
 metro$pop1950cat <- cut(metro$pop1950, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
 metro$pop2020cat <- cut(metro$pop2020, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
 
@@ -135,7 +135,7 @@ tm_shape(metro) +
 tm_dots("red") +
 	tm_facets(c("pop1950cat", "pop2020cat")) +
 tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)
-	
+}
 
 # example: Meuse data
 \dontrun{

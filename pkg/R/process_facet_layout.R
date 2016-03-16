@@ -58,56 +58,25 @@ preprocess_facet_layout <- function(gmeta, external_legend, dh, dw) {
 }
 
 
-process_facet_layout <- function(gmeta, external_legend, sasp, tasp, dh, dw, legH, legW, pSH, pSW, legmar, legmarx, legmary, between.margin.in, dsh, dsw) {
+process_facet_layout <- function(gmeta, external_legend, sasp, dh, dw, legH, legW, pSH, pSW, legmar, legmarx, legmary, between.margin.in, dsh, dsw) {
 	panel.mode <- outer.margins <- NULL
 	
-	# if (external_legend) {
-	# 	lnpc <- gmeta$legend.outside.size
-	# 	ext_leg_pos <- gmeta$legend.outside.position[1]
-	# 	
-	# 	if (ext_leg_pos == "left") {
-	# 		legmar <- c(0, lnpc, 0, 0)
-	# 	} else if (ext_leg_pos == "right") {
-	# 		legmar <- c(0, 0, 0, lnpc)
-	# 	} else if (ext_leg_pos == "top") {
-	# 		legmar <- c(0, 0, lnpc, 0)
-	# 	} else if (ext_leg_pos == "bottom") {
-	# 		legmar <- c(lnpc, 0, 0, 0)
-	# 	}
-	# 	
-	# } else {
-	# 	legmar <- rep(0, 4)
-	# }
-	# legmarx <- sum(legmar[c(2,4)])
-	# legmary <- sum(legmar[c(1,3)])
-	# legW <- convertWidth(unit(legmarx, "npc"), "inch", valueOnly=TRUE)
-	# legH <- convertHeight(unit(legmary, "npc"), "inch", valueOnly=TRUE)
-	# 
-	# 
-	# pS <-  convertHeight(unit(gmeta$panel.label.size, "lines"), "inch", valueOnly=TRUE) * gmeta$panel.label.height
-	# 
-	# pSH <- ifelse(gmeta$panel.label.rot[2]==0, pS, {
-	# 	panelnames <- if (is.list(gmeta$panel.names)) gmeta$panel.names[[2]] else gmeta$panel.names
-	# 	max(convertWidth(stringWidth(panelnames), "inch", valueOnly=TRUE) * 1.25 * gmeta$panel.label.size)
-	# })
-	# 
-	# pSW <- ifelse(gmeta$panel.label.rot[1]==90, pS, {
-	# 	max(convertWidth(stringWidth(gmeta$panel.names[[1]]), "inch", valueOnly=TRUE) * 1.25 * gmeta$panel.label.size)
-	# })
+
+	## calculate facets and total device aspect ratio
+	dasp <- dw/dh
+	hasp <- sasp * gmeta$ncol / gmeta$nrow
 	
-	fasp <- sasp * gmeta$ncol / gmeta$nrow
-	
-	if (fasp>tasp) {
+	if (hasp>dasp) {
 		fW <- dw
-		fH <- dw / fasp
+		fH <- dw / hasp
 	} else {
 		fH <- dh
-		fW <- dh * fasp
+		fW <- dh * hasp
 	}
 	
 	if (gmeta$panel.mode=="none") {
-		gH <- fH + legH
-		gW <- fW + legW
+		gH <- fH + (gmeta$nrow - 1) * between.margin.in + legH
+		gW <- fW + (gmeta$ncol - 1) * between.margin.in + legW
 	} else if (gmeta$panel.mode=="one") {
 		gH <- fH + gmeta$nrow * pSH + (gmeta$nrow - 1) * between.margin.in + legH
 		gW <- fW + (gmeta$ncol - 1) * between.margin.in + legW
@@ -118,7 +87,7 @@ process_facet_layout <- function(gmeta, external_legend, sasp, tasp, dh, dw, leg
 	
 	gasp <- gW/gH
 	
-	if (gasp>tasp) {
+	if (gasp>dasp) {
 		xs <- 0
 		ys <- convertHeight(unit(dh-(dw / gasp), "inch"), "npc", valueOnly=TRUE)
 	} else {
@@ -182,7 +151,6 @@ process_facet_layout <- function(gmeta, external_legend, sasp, tasp, dh, dw, leg
 			legy <- length(rowhs)-2
 			legx <- 4:(length(colws)-3)
 		}
-		
 	})
 	gmeta$gasp <- gasp
 	gmeta

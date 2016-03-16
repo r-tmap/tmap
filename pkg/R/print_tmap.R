@@ -16,10 +16,10 @@
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @import grid
+#' @import methods
 #' @importFrom classInt classIntervals findCols
 #' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb
-#' @importFrom methods as slot slotNames is inherits
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom spdep poly2nb
 #' @importFrom grDevices xy.coords colors
@@ -43,14 +43,15 @@ knit_print.tmap <- function(x, ..., options=NULL) {
 	print_tmap(x, knit=TRUE, options=options, ...)
 }
 
-#' Create leaflet object from tmap object
+#' Create a leaflet widget from a tmap object
 #' 
-#' Create a leaflet object from a tmap object.
+#' Create a leaflet widget from a tmap object. An interactive map (see \code{\link{tmap_mode}}) is an automatically generated leaflet widget. With this function, this leaflet widget is obtained, which can then be changed or extended by using leaflet's own methods.
 #'  
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param mode the mode of tmap, which is set to \code{"view"} in order to obtain the leaflet object. See \code{\link{tmap_mode}} for details.
 #' @param show should the leaflet map be shown? \code{FALSE} by default
 #' @param ... arguments passed on to \code{\link{print.tmap}}
+#' @return \code{\link[leaflet:leaflet]{leaflet}} object
 #' @example ../examples/tmap_leaflet.r
 #' @seealso \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
 #' @export
@@ -65,6 +66,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#              - calls preprocess_shapes for preprocessing (i.e. reprojecting) shapes
 	#              - calls process_tm for processing tm elements
 	#              - calls process_shapes for processing shapes
+	#              - calls (pre)process_facet_layout
 	#              - calls plot function gridplot, that calls plot_all
 	#  process_tm: - get all non-layer elements, (tm_layout, tm_grid, ...)
 	#              - process layer elements by calling process_layers (result is gp)
@@ -78,6 +80,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#  preprocess_shapes: - project shapes
 	#  process_shapes: - determines bounding box(es)
 	#                  - crop shapes
+	#  (pre)process_facet_layout - arranges the grid layout of the map/facets, which is input for gridplot
 	#  gridplot:   - makes small multiples grid
 	#              - calls plot_all for grob trees
 	#              - plot the grob trees
@@ -108,9 +111,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 	}
 	
-	
-	
-	
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)
@@ -120,14 +120,12 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	apply_map_coloring <- if ("tm_fill" %in% names(x)) {
 		any(sapply(x[which(names(x)=="tm_fill")], function(i)identical(i$col[1],"MAP_COLORS")))
 	} else FALSE
-	
 
 	## find master shape
 	is_raster <- sapply(x[shape.id], function(xs) {
 		inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid"))	
 	})
 	is_master <- sapply(x[shape.id], "[[", "is.master")
-	
 	any_raster <- any(is_raster)
 	masterID <- if (!length(which(is_master))) {
 		if (any_raster) which(is_raster)[1] else 1
@@ -138,7 +136,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	if (is.null(master_proj)) master_proj <- get_projection(x[[shape.id[masterID]]]$shp)
 	if (interactive) master_proj <- get_proj4("longlat")
 
-	## get raster and group by variable name (needed for eventual reprojection)
+	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
 	raster_facets_vars <- lapply(1:nshps, function(i) {
 		from <- shape.id[i] + 1
 		to <- ifelse(i==nshps, length(x), shape.id[i+1]-1)
@@ -148,26 +146,24 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		  if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
 	})
 	
-
-	## extract data.frames from shape/raster objects
+	## split data.frames from shape/raster objects, and determine shape types
 	shps_dts <- mapply(preprocess_shapes, x[shape.id], raster_facets_vars, MoreArgs = list(apply_map_coloring=apply_map_coloring, master_proj=master_proj, interactive=interactive), SIMPLIFY = FALSE)
 	
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)
 	types <- lapply(shps_dts, "[[", 3)
 	
-	# remove facets if interactive
+	## remove facets if interactive
 	if (interactive) {
 		x[names(x)=="tm_facets"] <- NULL
 	}
 
 	## determine aspect ratio of master shape
 	bbx <- attr(shps[[masterID]], "bbox")
-	shpM_asp <-	calc_asp_ratio(bbx[1,], bbx[2,], longlat=!attr(shps[[masterID]], "projected"))
+	masp <-	calc_asp_ratio(bbx[1,], bbx[2,], longlat=!attr(shps[[masterID]], "projected"))
 
 	## remove shapes from and add data to tm_shape objects
 	x[shape.id] <- mapply(function(y, dataset, type){
-		#bb <- bbox(y$shp)
 		y$type <- type
 		y$data <- dataset
 		y$shp <- NULL
@@ -177,7 +173,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	## prepare viewport
 	if (interactive) {
 		asp_ratio <- 1
-		shpM_asp_marg <- 1
+		iasp <- 1
 	} else {
 		if (is.null(vp)) {
 			grid.newpage()
@@ -189,34 +185,24 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		inner.margins <- if ("tm_layout" %in% names(x)) {
 			x[[which(names(x)=="tm_layout")[1]]]$inner.margins
 		} else NA
-		
 		inner.margins <- if (is.na(inner.margins[1])) {
 			if (any_raster) rep(0, 4) else rep(0.02, 4)
 		} else rep(inner.margins, length.out=4)
-	
 		xmarg <- sum(inner.margins[c(2,4)])
 		ymarg <- sum(inner.margins[c(1,3)])
 		if (xmarg >= .8) stop("Inner margins too large", call. = FALSE)
 		if (ymarg >= .8) stop("Inner margins too large", call. = FALSE)
-		shpM_asp_marg <- shpM_asp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
-		dev_asp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
-		asp_ratio <- shpM_asp_marg / dev_asp
+		iasp <- masp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
+		dasp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
+		asp_ratio <- iasp / dasp
 	}
-	
 	
 	## process tm objects
 	shp_info <- x[[shape.id[masterID]]][c("unit", "unit.size", "line.center.type")]
 	shp_info$is_raster <- any_raster
-	result <- process_tm(x, asp_ratio, shpM_asp_marg, shp_info, interactive)
+	result <- process_tm(x, asp_ratio, shp_info, interactive)
 	gmeta <- result$gmeta
 
-	# overrule margins if interactive
-	if (interactive) {
-		gmeta$inner.margins <- rep(0, 4)
-		gmeta$outer.margins <- rep(0, 4)
-		gmeta$asp <- NA
-	}
-	
 	gps <- result$gps
 	nx <- result$nx
 	data_by <- result$data_by
@@ -234,28 +220,25 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	external_legend <- gmeta$legend.outside
 	fpi <- preprocess_facet_layout(gmeta, external_legend, dh, dw)
 	
-	#browser()
-	dasp <- fpi$dsw / fpi$dsh #-  fpi$pSH - fpi$between.margin.in)
+	tasp <- dw/dh
+	fasp <- fpi$dsw / fpi$dsh #-  fpi$pSH - fpi$between.margin.in)
 	
-	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, dasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, fasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
 	
 	#dasp <- attr(shps, "dasp")
 	sasp <- attr(shps, "sasp")
 	
-	# calculate facets and total device aspect ratio
-	tasp <- dw/dh
 	
 
-	gmeta <- do.call("process_facet_layout", c(list(gmeta, external_legend, sasp, tasp, dh, dw), fpi))
+	gmeta <- do.call("process_facet_layout", c(list(gmeta, external_legend, sasp, dh, dw), fpi))
 	gasp <- gmeta$gasp
-	dasp <- sasp
-	
+
 	if (external_legend) {
 		gp_leg <- gps[[1]]
 		gp_leg$tm_layout <- within(gp_leg$tm_layout, {
 			legend.only <- TRUE
-			legend.width <- 1
-			legend.height <- 1
+			legend.width <- .9
+			legend.height <- .9
 			title.size <- title.size / scale.extra
 			legend.title.size <- legend.title.size / scale.extra
 			legend.text.size <- legend.text.size / scale.extra
@@ -276,16 +259,36 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	diff_shapes <- attr(shps, "diff_shapes")
 	inner.margins.new <- attr(shps, "inner.margins")
 
-	# shortcut used by save_tmap
-	if (return.asp && !interactive) return(gasp)
 
+	## show aspect ratios in design mode
 	if (gmeta$design.mode && !interactive) {
 		masterShapeName <- x[[masterID]]$shp_name
-		message("aspect ratio device (yellow):", dev_asp)
-		if (gasp!=sasp) message("aspect facets region (brown):", gasp)
-		message("aspect ratio frame (blue):", sasp)
-		message("aspect ratio master shape,", masterShapeName, "(red):", shpM_asp)
+		showBrown <- gasp!=sasp
+		showGreen <- !(!is.na(gmeta$asp) && gmeta$asp==0 && nx==1)
+		pretext <- c("specified (asp argument of tm_layout)", "device (yellow)", "device without outer margins (green)",  "facets region (brown)", "frame (blue)", paste("master shape, ", masterShapeName, ", (red)", sep=""))
+		posttext <- format(c(gmeta$asp, dasp, tasp, gasp, sasp, masp))
+		if (!showBrown) {
+			pretext <- pretext[-4]
+			posttext <- posttext[-4]
+		}
+		if (!showGreen) {
+			pretext <- pretext[-3]
+			posttext <- posttext[-3]
+		}
+		
+		lns <- nchar(pretext) + nchar(posttext)
+		l <- max(max(nchar(pretext)) + max(nchar(posttext)) + 1, 25)
+		medtext <- vapply(l-lns, function(i)paste(rep(" ", i), collapse=""), character(1))
+		
+		texts <- c(paste("----------------aspect ratios--", paste(rep("-", l-25), collapse=""), sep=""),
+				   paste("|", pretext, medtext, posttext, "|"),
+				   paste(rep("-", l+6), collapse=""))
+		
+		for (tx in texts) message(tx)
 	}
+	
+	# shortcut used by save_tmap
+	if (return.asp && !interactive) return(gasp)
 	
 	## shapes have been subset (diff_shapes) and cropped. Therefore, the corresponding aesthetics have to be subset accordingly:
 	if (diff_shapes) {

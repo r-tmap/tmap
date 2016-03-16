@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio, shpM_asp_marg, shp_info, any.legend) {
+process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio, shp_info, any.legend, interactive) {
 	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- NULL
 	
 	gf <- within(gf, {
@@ -53,8 +53,8 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 		if (is.na(panel.show)) panel.show <- !is.na(panel.names[1])
 		if (legend.only) {
 			title <- rep("", nx)
-			legend.width <- 1
-			legend.height <- 1
+			legend.width <- .9
+			legend.height <- .9
 		} else {
 			if (nx>1) {
 				if (is.na(panel.names[1])) {
@@ -155,6 +155,14 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 		
 		earth.boundary.lwd <- earth.boundary.lwd * scale
 		frame.lwd <- frame.lwd * scale
+		
+		## overrule margins if interactive
+		if (interactive) {
+			inner.margins <- rep(0, 4)
+			outer.margins <- rep(0, 4)
+			asp <- NA
+		}
+		
 	})	
 
 	if (!is.null(gg)) {

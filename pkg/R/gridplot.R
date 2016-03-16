@@ -53,6 +53,11 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 											  heights=unit(gmeta$rowhs, "npc")), name = "multiples_grid")
 		pushViewport(vpGrid)
 		
+		grobBG2 <- if (gmeta$design.mode) {
+			cellplot(2:(length(gmeta$rowhs)-1), 2:(length(gmeta$colws)-1), e=rectGrob(gp=gpar(fill="green", col=NA), name="bg_wo_outer"))
+		} else NULL
+		
+		
 		## additional background rect for design mode only
 		grobFacetBG <- if (gmeta$design.mode) {
 			cellplot(3:(length(gmeta$rowhs)-2), 3:(length(gmeta$colws)-2), e=rectGrob(gp=gpar(fill="brown", col=NA), name="bg_facets_rect"))
@@ -128,7 +133,7 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 			legPanel <- NULL
 		}
 		
-		tree <- gTree(children=do.call("gList", c(list(grobBG, grobFacetBG), treeGridLabels, treeMults, rowPanels, colPanels, legPanel)), vp=vpGrid)
+		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG), treeGridLabels, treeMults, rowPanels, colPanels, legPanel)), vp=vpGrid)
 		grid.draw(tree)
 	})
 	upViewport()

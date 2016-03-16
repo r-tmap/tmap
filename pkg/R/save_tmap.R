@@ -25,6 +25,16 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 		tolower(pieces[length(pieces)])
 	}
 	
+	convert_to_inches <- function(x, units) {
+		x <- switch(units, px = x/dpi, `in` = x, cm = x/2.54, mm = x/2.54/10)
+	}
+	convert_to_pixels <- function(x, units) {
+		x <- switch(units, px = x, `in` = dpi*x, cm = dpi*x/2.54, mm = dpi*x/2.54/10)
+	}
+	units <- match.arg(units)
+	units_target <- ifelse(units=="px" && ext %in% c("png", "jpg", "jpeg", "bmp", "tiff"), "px", "in")
+	
+	
 	tmap.mode <- getOption("tmap.mode")
 
 	if (missing(filename)) {
@@ -45,19 +55,20 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 	if (is.na(width) && is.na(height)) {
 		width <- par("din")[1]
 		height <- par("din")[2]
-	} else {
-		if (is.na(width) || is.na(height)) {
-			sasp <- get_asp_ratio(tm)
-			if (is.na(width)) {
-				width <- height * sasp
-			} else if (is.na(height)) {
-				height <- width / sasp
-			}
+	} else if (is.na(width) || is.na(height)) {
+			
+		if (!is.na(width)) {
+			temp_size <- convert_to_pixels(width, units)
+		} else temp_size <- convert_to_pixels(height, units)
+		
+		sasp <- get_asp_ratio(tm, width = temp_size, height = temp_size, res = dpi)
+		if (is.na(width)) {
+			width <- height * sasp
+		} else if (is.na(height)) {
+			height <- width / sasp
 		}
 	}
 
-	units <- match.arg(units)
-	units_target <- ifelse(units=="px" && ext %in% c("png", "jpg", "jpeg", "bmp", "tiff"), "px", "in")
 		
 	eps <- ps <- function(..., width, height) grDevices::postscript(..., 
 																	width = width, height = height, onefile = FALSE, horizontal = FALSE, 
@@ -82,13 +93,7 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 	shp_name <- function(tm) {
 		paste(tm[[1]]$shp_name, ".pdf", sep = "")
 	}
-	
-	convert_to_inches <- function(x, units) {
-		x <- switch(units, px = x/dpi, `in` = x, cm = x/2.54, mm = x/2.54/10)
-	}
-	convert_to_pixels <- function(x, units) {
-	  x <- switch(units, px = x, `in` = dpi*x, cm = dpi*x/2.54, mm = dpi*x/2.54/10)
-	}
+
 	
 	if (units_target=="in") {
 	  width <- convert_to_inches(width, units)
@@ -100,7 +105,8 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = c(
 	    height <- round_to_1_72(height)
 	  }
 	} else {
-	  
+		width <- convert_to_pixels(width, units)
+		height <- convert_to_pixels(height, units)
 	}
 	
 	do.call(ext, args = c(list(file = filename, width = width, height = height), list(...)))

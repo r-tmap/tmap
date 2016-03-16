@@ -2,7 +2,7 @@
 % Please edit documentation in R/print_tmap.R
 \name{tmap_leaflet}
 \alias{tmap_leaflet}
-\title{Create leaflet object from tmap object}
+\title{Create a leaflet widget from a tmap object}
 \usage{
 tmap_leaflet(x, mode = "view", show = FALSE, ...)
 }
@@ -15,8 +15,11 @@ tmap_leaflet(x, mode = "view", show = FALSE, ...)
 
 \item{...}{arguments passed on to \code{\link{print.tmap}}}
 }
+\value{
+\code{\link[leaflet:leaflet]{leaflet}} object
+}
 \description{
-Create a leaflet object from a tmap object.
+Create a leaflet widget from a tmap object. An interactive map (see \code{\link{tmap_mode}}) is an automatically generated leaflet widget. With this function, this leaflet widget is obtained, which can then be changed or extended by using leaflet's own methods.
 }
 \examples{
 # world choropleth/bubble map of the world

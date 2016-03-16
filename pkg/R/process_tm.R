@@ -1,4 +1,4 @@
-process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
+process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL
 	## fill meta info
 	
@@ -169,7 +169,7 @@ process_tm <- function(x, asp_ratio, shpM_asp_marg, shp_info, interactive) {
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1)))
 
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio, shpM_asp_marg, shp_info, any.legend)
+	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio, shp_info, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {
