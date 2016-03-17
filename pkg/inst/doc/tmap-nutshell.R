@@ -50,7 +50,7 @@ tm_style_grey()
 tm_shape(Europe) +
     tm_fill("gdp_cap_est", style="kmeans", title="GDP per capita") +
     tm_facets("part") +
-tm_format_Europe() + 
+tm_format_Europe(legend.outside=TRUE) + 
 tm_style_grey()
 
 ## ---- fig.width=10-------------------------------------------------------

@@ -14,10 +14,9 @@ map1 <- tm_shape(metro) +
 
 lf <- tmap_leaflet(map1)
 
-# this function is a wrapper of the print function
-lf <- print(map1, mode="view", show = FALSE)
-
+# show leaflet widget
 lf
 
+# add marker
 require(leaflet)
 lf %>% leaflet::addMarkers(2.2945, 48.8582, popup = "Eiffel tower")

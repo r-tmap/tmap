@@ -22,8 +22,6 @@ library(leaflet)
 
 The tmap package provides two drawing modes: `"plot"` for static plotting, and `"view"` for interactive viewing. The default and most extensive mode is `"plot"`. See [`vignette("tmap-nutshell")`](../doc/tmap-nutshell.html) for a getting started tutorial and [`pkg`](../html/pkg.html) for an overview of functions. The `"view"` mode lacks some of the features offered by the `"plot"` mode, but is fully interactive.
 
-### World map
-
 First, let's create a thematic world map.
 
 ```{r}
@@ -50,29 +48,20 @@ mapWorld
 
 The current mode can be obtained and set with the function tmap_mode:
 
-```{r}
-# current mode:
-tmap_mode()
-
-getwd()
-
-```
-
-```{r, eval=F, echo=F, warning=F, message=F}
+```{r, eval=F}
 # set mode to view:
 tmap_mode("view")
-``` 
+```
 
 Now the mode is set to view, we can interactively view it by printing it again:
 
-```{r, eval=F, echo=F, warning=F, message=F}
+```{r, eval=F, echo=T, warning=F, message=F}
 mapWorld
 ```
 
-<img src="images/view_mode.png" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just an image of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
+<img src="images/view_mode.png" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
-Note this is just an image of the visualization so it's not interactive. You can play with the interactive version by running the code above.
-
+In interactive mode, a leaflet widget is created and shown. If you want to change or extend the widget, you can use the function [`tmap_leaflet`](../html/tmap_leaflet.html) to obtain the leaflet widget object, and use leaflet's own function to adjust it.
 
 ```{r, include=FALSE}
 tmap_mode("plot")

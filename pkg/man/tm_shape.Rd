@@ -60,7 +60,7 @@ tm_layout("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.size=
 World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
 tm_shape(World, projection="merc", ylim=c(.1, 1), relative = TRUE) + 
     tm_polygons("highlighted") + 
-tm_layout("Mercator projection. Although used in Google Maps, it is discouraged for
+tm_layout("Web Mercator projection. Although widely used, it is discouraged for
 statistical purposes. In reality, Australia is 3 times larger than Greenland!",
     inner.margins=c(0,0,.1,0), title.size=.6)
 

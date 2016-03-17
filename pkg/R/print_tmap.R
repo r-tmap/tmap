@@ -251,6 +251,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	if (external_legend) {
 		gps <- lapply(gps, function(gp) {
 			gp$tm_layout$legend.show <- FALSE
+			gp$tm_layout$title <- ""
 			gp
 		})
 	}

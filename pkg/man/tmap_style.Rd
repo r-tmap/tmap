@@ -16,11 +16,15 @@ the style before changing
 Set the default tmap style, which is contained in the global option \code{tmap.style}.
 }
 \examples{
-current.style <- tmap_style("classic")
-
 data(World)
-qtm(World, fill="life_exp")
 
+current.style <- tmap_style("classic")
+qtm(World, fill="life_exp", fill.title="Life expectancy")
+
+tmap_style("cobalt")
+qtm(World, fill="life_exp", fill.title="Life expectancy")
+
+# restore current style
 tmap_style(current.style)
 }
 \seealso{
