@@ -4,6 +4,9 @@ tmap: thematic maps in R
 
 ![Classic world map](http://www.von-tijn.nl/tijn/research/tmap_classic.png)
 
+[`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps, written by [Martijn Tennekes][3]. The API is based on [*A Layered Grammar of Graphics*][4] by Hadley Wickham and resembles the syntax of `ggplot2`, a popular R-library for drawing charts.
+
+
 Installation
 ------------
 
@@ -40,7 +43,9 @@ library(tmap)
 Examples
 -----
 
-The example shown above works with the latest CRAN version.
+See package documentation for many more examples.
+
+### 1. Classic World map
 
 ```r
 
@@ -72,8 +77,26 @@ tm_shape(World) +
 	tm_style_classic()
 ```
 
+Result: see above
 
-[`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps, written by [Martijn Tennekes][3]. The API is based on [*A Layered Grammar of Graphics*][4] by Hadley Wickham and resembles the syntax of [tag:ggplot2], a popular R-library for drawing charts.
+### 2. US Choropleth
+
+[R code][13]
+
+![US Choropleth](http://www.von-tijn.nl/tijn/research/tmap/USchoro.png)
+
+### 3. Crimes in Greater London
+
+[R code][14]
+
+![Dotmap of crimes in Greater London](http://www.von-tijn.nl/tijn/research/tmap/dotmap.png)
+
+![Dasymetric map of crimes in Greater London](http://www.von-tijn.nl/tijn/research/tmap/dasy.png)
+
+![Crimes in London city by type](http://www.von-tijn.nl/tijn/research/tmap/crimes_facets.png)
+
+![Screenshot interactive map](http://www.von-tijn.nl/tijn/research/tmap/view_crimes.jpg)
+
 
 
 Vignettes
@@ -107,5 +130,5 @@ Other resources
   [10]: http://von-tijn.nl/tijn/research/presentations/tmap_user2015.pdf
   [11]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-modes.html
   [12]: http://cwrld.us/Rmaps10
-
-
+  [13]: https://github.com/mtennekes/tmap/blob/master/demo/US_choropleth.R
+  [14]: https://github.com/mtennekes/tmap/blob/master/demo/crimes_in_Greater_London.R
