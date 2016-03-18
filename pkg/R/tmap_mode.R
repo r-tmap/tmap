@@ -1,6 +1,6 @@
 #' Set tmap mode to static plotting or interactive viewing
 #' 
-#' Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm} is a toggle switch between the two modes.
+#' Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm} is a toggle switch between the two modes. Tip: use \code{tmap_mode} in scripts and \code{ttm} in the console.
 #' 
 #' @param mode one of
 #' \describe{
@@ -16,7 +16,7 @@
 #'    	}}
 #' @return the mode before changing
 #' @example ../examples/tmap_mode.R
-#' @seealso \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget
+#' @seealso \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget
 #' @export
 tmap_mode <- function(mode=c("plot", "view")) {
 	current.mode <- getOption("tmap.mode")
@@ -46,9 +46,9 @@ ttm <- function() {
 #' 
 #' Set the default tmap style, which is contained in the global option \code{tmap.style}.
 #' 
-#' @param style name of the style. The function \code{tm_style_<style>} should exist and be a wrapper of \code{\link{tm_layout}}. The default style when loading the package is "white", which corresponds to the function \code{\link{tm_style_white}}.
+#' @param style name of the style. The function \code{tm_style_<style>} should exist and be a wrapper of \code{\link{tm_layout}}. The default style when loading the package is \code{"white"}, which corresponds to the function \code{\link{tm_style_white}}.
 #' @return the style before changing
-#' @seealso \code{\link{tm_layout}} for predefined styles, and \code{\link{style_catalogue}} for a style catelogue.
+#' @seealso \code{\link{tm_layout}} for predefined styles, and \code{\link{style_catalogue}} to create a style catelogue of all available styles.
 #' @example ../examples/tmap_style.R
 #' @export
 tmap_style <- function(style) {
@@ -58,8 +58,9 @@ tmap_style <- function(style) {
 	} else {
 		obs <- c(ls(), ls("package:tmap"))
 		fname <- paste("tm_style", style, sep="_")
-		if (!fname %in% obs) warning("current style \"" , style, "\" unknown, i.e. the function \"" , fname, "\" does not exist.")
+		if (!fname %in% obs) stop("current style \"" , style, "\" unknown, i.e. the function \"" , fname, "\" does not exist.")
 		options(tmap.style=style)
+		message("tmap style set to \"", style, "\"")
 	}
 	invisible(current.style)
 }

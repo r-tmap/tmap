@@ -12,4 +12,14 @@
 	     tm_style_classic()
 	
 	save_tmap(m, "choropleth.png", height=7)
+	
+	m2 <- tm_shape(World) +
+		tm_fill("well_being", id="name", title="Well-being") +
+		tm_format_World()
+
+	# save image
+	save_tmap(m2, "World_map.png", width=1920, height=1080)
+
+	# save interactive plot
+	save_tmap(m2, "World_map.html")
 }

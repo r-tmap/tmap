@@ -25,4 +25,6 @@
 		tm_text("name", size = .75, bg.color="white", bg.alpha=.25, auto.placement = .25) +
 	tm_legend(position=c("right", "top"), frame=TRUE, bg.color = "gold") +
 	tm_view(basemaps = "Esri.WorldTopoMap")
+	
+	# TIP: also run the plot in viewing mode, enabled with tmap_mode("view")
 }

@@ -132,6 +132,9 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 		if (!is.na(frame)) frame <- do.call("process_color", c(list(col=frame), pc))
 		if (!is.na(legend.frame)) legend.frame <- do.call("process_color", c(list(col=legend.frame), pc))
 		
+		panel.label.color <- do.call("process_color", c(list(col=panel.label.color), pc))
+		panel.label.bg.color <- do.call("process_color", c(list(col=panel.label.bg.color), pc))
+		
 		if (is.na(earth.boundary.color)) earth.boundary.color <- attr.color
 		earth.boundary.color <- do.call("process_color", c(list(col=earth.boundary.color), pc))
 		

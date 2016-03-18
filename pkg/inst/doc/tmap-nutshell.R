@@ -30,34 +30,34 @@ tm_shape(rivers) +
     tm_lines() +
 tm_shape(metro) +
     tm_text("name", size="pop2010", scale=1, root=4, size.lowerbound = .6, 
-        bg.color="white", bg.alpha = .5, auto.placement = TRUE, legend.size.show = FALSE) + 
-	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, size.lim = c(0, 11e6), 
-        sizes.legend = c(1e6, 2e6, 4e6, 6e6, 10e6), title.size="Metropolitan Population") +
+        bg.color="white", bg.alpha = .5, 
+        auto.placement = TRUE, legend.size.show = FALSE) + 
+	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, 
+		size.lim = c(0, 11e6), sizes.legend = c(1e6, 2e6, 4e6, 6e6, 10e6), 
+		title.size="Metropolitan Population") +
 tm_shape(Europe) +
-	tm_text("iso_a3", size="AREA", col = "gray35", scale=1.5, root=5, size.lowerbound = .40, 
-        fontface="bold", case=NA) + 
+	tm_text("iso_a3", size="AREA", col = "gray35", scale=1.5, root=5, 
+		size.lowerbound = .40, fontface="bold", case=NA) + 
 tm_format_Europe(title="Map of Europe") +
 	tm_style_natural()
 
 ## ---- fig.width=10, fig.height=3-----------------------------------------
 tm_shape(Europe) +
-	tm_fill(c("pop_est_dens", "gdp_cap_est"), style="kmeans", 
+	tm_polygons(c("pop_est_dens", "gdp_cap_est"), style="kmeans", 
         title=c("Population density", "GDP per capita")) +
 tm_format_Europe() + 
 tm_style_grey()
 
 ## ---- fig.width=10-------------------------------------------------------
 tm_shape(Europe) +
-    tm_fill("gdp_cap_est", style="kmeans", title="GDP per capita") +
+    tm_polygons("gdp_cap_est", style="kmeans", title="GDP per capita") +
     tm_facets("part") +
-tm_format_Europe(legend.outside=TRUE) + 
 tm_style_grey()
 
 ## ---- fig.width=10-------------------------------------------------------
 tm_shape(Europe[Europe$continent=="Europe",]) +
-    tm_fill("part", thres.poly = 0) +
-    tm_facets("name", free.coords=TRUE, drop.shapes=TRUE) +
-tm_layout(legend.show = FALSE, title.position = c("center", "center"), title.size = 2)
+    tm_fill("part", legend.show = FALSE) +
+    tm_facets("name", free.coords=TRUE, drop.units=TRUE)
 
 ## ---- fig.width=10-------------------------------------------------------
 data(land)
@@ -88,16 +88,16 @@ qtm(Europe, style="cobalt", title="Cobalt style") # equivalent to: qtm(Europe) +
 
 ## ---- fig.width=10-------------------------------------------------------
 # make a categorical map
-qtm(Europe, fill="economy", title=paste("Map according to style:", getOption("tmap.style")))
+qtm(Europe, fill="economy", title=paste("Map according to style:", tmap_style()))
 
 # change to color-blind-friendly style
-opt <- options(tmap.style = "col_blind")
+current_style <- tmap_style("col_blind")
 
 # make a categorical map
-qtm(Europe, fill="economy", title=paste("Map according to style:", getOption("tmap.style")))
+qtm(Europe, fill="economy", title=paste("Map according to style:", tmap_style()))
 
 # change back
-options(opt)
+tmap_style(current_style)
 
 ## ---- fig.width=10-------------------------------------------------------
 (tm <- qtm(World) +
@@ -122,6 +122,17 @@ tm_credits("Eckert IV projection", position = c(.85, 0)) +
 tm_style_classic(inner.margins=c(.04,.03, .02, .01), legend.position = c("left", "bottom"), 
 	legend.frame = TRUE, bg.color="lightblue", legend.bg.color="lightblue", 
 	earth.boundary = TRUE, space.color="grey90")
+
+## ------------------------------------------------------------------------
+tm <- tm_shape(World) +
+	tm_fill("well_being", id="name", title="Well-being") +
+	tm_format_World()
+
+## ------------------------------------------------------------------------
+save_tmap(tm, "World_map.png", width=1920, height=1080)
+
+## ------------------------------------------------------------------------
+save_tmap(tm, "World_map.html")
 
 ## ---- fig.height=4-------------------------------------------------------
 tm_shape(Europe[Europe$name=="Austria", ]) +

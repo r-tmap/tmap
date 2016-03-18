@@ -5,8 +5,8 @@
 \title{Save tmap}
 \usage{
 save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
-  units = c("in", "cm", "mm", "px"), dpi = 300, outer.margins = 0,
-  asp = 0, scale = NA, insets_tm = NULL, insets_vp = NULL, ...)
+  units = NA, dpi = 300, outer.margins = 0, asp = 0, scale = NA,
+  insets_tm = NULL, insets_vp = NULL, verbose = TRUE, ...)
 }
 \arguments{
 \item{tm}{tmap object}
@@ -17,7 +17,7 @@ save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
 
 \item{height}{height. Units are set with the argument \code{units}. If set to \code{NA} and \code{width} is specified, it will be \code{width} / aspect ratio. If both \code{width} and \code{height} are not specified, then the height of the current plotting window will be taken.}
 
-\item{units}{units for width and height when either one is explicitly specified (in, cm, or mm)}
+\item{units}{units for width and height (\code{"in"}, \code{"cm"}, or \code{"mm"}). By default, pixels (\code{"px"}) are used if either width or height is set to a value greater than 50. Else, the units are inches (\code{"in"})}
 
 \item{dpi}{dots per inch. Only applicable for raster graphics.}
 
@@ -30,6 +30,8 @@ save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
 \item{insets_tm}{tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with \code{insets_vp}.}
 
 \item{insets_vp}{\code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.}
+
+\item{verbose}{should information messages be returned?}
 
 \item{...}{arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}}
 }
@@ -51,6 +53,16 @@ Save tmap to a file, such as png, jpg, or pdf.
 	     tm_style_classic()
 	
 	save_tmap(m, "choropleth.png", height=7)
+	
+	m2 <- tm_shape(World) +
+		tm_fill("well_being", id="name", title="Well-being") +
+		tm_format_World()
+
+	# save image
+	save_tmap(m2, "World_map.png", width=1920, height=1080)
+
+	# save interactive plot
+	save_tmap(m2, "World_map.html")
 }
 }
 

@@ -1,17 +1,13 @@
-tmap
+tmap: thematic maps in R
 ===
 
 
-R package for thematic maps
-
 ![Classic world map](http://www.von-tijn.nl/tijn/research/tmap_classic.png)
-
-New: interactive maps. See [demo](http://von-tijn.nl/tijn/research/tmap/tmap_demo.html)
 
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.2 (December 2015).
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.4 (March 2016).
 
 
 Development
@@ -41,7 +37,7 @@ Usage
 library(tmap)
 ```
 
-Example
+Examples
 -----
 
 The example shown above works with the latest CRAN version.
@@ -80,10 +76,11 @@ tm_shape(World) +
 [`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps, written by [Martijn Tennekes][3]. The API is based on [*A Layered Grammar of Graphics*][4] by Hadley Wickham and resembles the syntax of [tag:ggplot2], a popular R-library for drawing charts.
 
 
-
-Vignette
+Vignettes
 -----
 [tmap in a nutshell][6]
+
+[tmap modes: plot and interactive view][11]
 
 Presentation
 -----
@@ -95,6 +92,7 @@ Other resources
 * [Tutorial Creating maps in R][9]
 * [Blog post StatialControl][7]
 * [Blog post TWIAV][8]
+* [Computer World: Create maps in R in 10 (fairly) easy steps][12]
 
 
   [1]: http://cran.r-project.org/web/packages/tmap/index.html
@@ -107,6 +105,7 @@ Other resources
   [8]: http://www.twiav.nl/en/blog0002en.php
   [9]: https://github.com/Robinlovelace/Creating-maps-in-R/raw/master/intro-spatial-rl.pdf
   [10]: http://von-tijn.nl/tijn/research/presentations/tmap_user2015.pdf
-
+  [11]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-modes.html
+  [12]: http://cwrld.us/Rmaps10
 
 

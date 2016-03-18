@@ -15,7 +15,8 @@
 #' @param set.zoom.limits numeric vector of two that set the minimum and maximum zoom levels (see \code{\link[leaflet:tileOptions]{tileOptions}}).
 #' @param legend.position Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.
 #' @param control.position Character vector of two values, specifing the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.
-#' @example ../examples/tmap_mode.R
+#' @example ../examples/tm_view.R
+#' @seealso \code{\link{tmap_mode}} and \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
 #' @export
 tm_view <- function(alpha=NA,
 					popup.all.data=FALSE,

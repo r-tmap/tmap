@@ -7,7 +7,7 @@
 tmap_style(style)
 }
 \arguments{
-\item{style}{name of the style. The function \code{tm_style_<style>} should exist and be a wrapper of \code{\link{tm_layout}}. The default style when loading the package is "white", which corresponds to the function \code{\link{tm_style_white}}.}
+\item{style}{name of the style. The function \code{tm_style_<style>} should exist and be a wrapper of \code{\link{tm_layout}}. The default style when loading the package is \code{"white"}, which corresponds to the function \code{\link{tm_style_white}}.}
 }
 \value{
 the style before changing
@@ -28,6 +28,6 @@ qtm(World, fill="life_exp", fill.title="Life expectancy")
 tmap_style(current.style)
 }
 \seealso{
-\code{\link{tm_layout}} for predefined styles, and \code{\link{style_catalogue}} for a style catelogue.
+\code{\link{tm_layout}} for predefined styles, and \code{\link{style_catalogue}} to create a style catelogue of all available styles.
 }
 
