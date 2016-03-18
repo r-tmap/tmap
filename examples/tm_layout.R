@@ -4,6 +4,7 @@ tm_shape(World) +
     tm_fill("pop_est_dens", style="kmeans", title="Population density") +
 tm_format_World(title="The World") + tm_style_albatross(frame.lwd=10)
 
+\dontrun{
 tm_shape(land) +
 	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
 		palette = terrain.colors(9), title="Elevation", auto.palette.mapping = FALSE) +
@@ -20,7 +21,8 @@ tm_style_classic(bg.color="lightblue") +
 tm_legend(position = c("left", "bottom"), 
 	frame = TRUE,
 	bg.color="lightblue")
-
+}
+	
 WorldOne <- rgeos::gUnaryUnion(World)
 tm_shape(World, projection="wintri") +
 	tm_fill("HPI", palette="div", auto.palette.mapping = FALSE, n=7, 

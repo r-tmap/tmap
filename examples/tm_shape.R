@@ -25,6 +25,7 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
     inner.margins=c(0,0,.1,0), title.size=.8)
 
 # three groups of layers, each starting with tm_shape
+\dontrun{
 tm_shape(World) +
     tm_fill("darkolivegreen3") +
 tm_shape(metro) +
@@ -32,6 +33,7 @@ tm_shape(metro) +
 tm_shape(rivers) +
     tm_lines("lightcyan1") +
 tm_layout(bg.color="lightcyan1", inner.margins=c(0,0,.02,0), legend.show = FALSE)
+}
 
 # restore current mode
 tmap_mode(current.mode)
