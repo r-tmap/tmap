@@ -5,7 +5,7 @@ process_col_vector <- function(x, sel, g, gt) {
 	
 	x[!sel] <- NA
 	
-	if (length(na.omit(unique(x)))==1) g$style <- "cat"
+	if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
 	
 	if (is.factor(x) || g$style=="cat") {
 		

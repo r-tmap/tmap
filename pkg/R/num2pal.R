@@ -1,11 +1,16 @@
 num2breaks <- function(x, n, style, breaks, approx=FALSE) {
-	if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead.", call. = FALSE)
 	# create intervals and assign colors
-	q <- suppressWarnings(if (style=="fixed") {
-		classIntervals(x, n, style= style, fixedBreaks=breaks) 
+	if (style=="fixed") {
+		q <- list(var=x,
+				  brks=breaks)
+		attr(q, "style") <- "fixed"
+		attr(q, "nobs") <- sum(!is.na(x))
+		attr(q, "intervalClosure") <- "left"
+		class(q) <- "classIntervals"
 	} else {
-		classIntervals(x, n, style= style)
-	})
+		if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead, or specify breaks", call. = FALSE)
+		q <- suppressWarnings(classIntervals(x, n, style= style))
+	}
 	
 	if (approx && style != "fixed") {
 	  if (n >= length(unique(x)) && style=="equal") {
@@ -45,7 +50,6 @@ num2pal <- function(x, n = 5,
 					   legend.format=list(scientific=FALSE)) {
 	breaks.specified <- !is.null(breaks)
 	is.cont <- (style=="cont" || style=="order")
-	
 	if (is.cont) {
 		style <- ifelse(style=="order", "quantile", "equal")
 		if (is.null(legend.labels)) {
