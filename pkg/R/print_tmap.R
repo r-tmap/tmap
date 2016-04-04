@@ -243,6 +243,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			legend.title.size <- legend.title.size / scale.extra
 			legend.text.size <- legend.text.size / scale.extra
 			legend.hist.size <- legend.hist.size / scale.extra
+			grid.show <- FALSE
+			scale.show <- FALSE
+			compass.show <- FALSE
+			credits.show <- FALSE
 		})
 	} else {
 		gp_leg <- NULL

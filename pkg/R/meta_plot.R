@@ -170,7 +170,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	}
 
 	
-	if (gt$credits.show || gt$scale.show || gt$compass.show) {
+	if ((gt$credits.show || gt$scale.show || gt$compass.show) && !gt$legend.only) {
 		elems <- do.call("rbind", list(
 			if (gt$credits.show) data.frame(type="credits",
 				 height=unname(mapply(function(txt, sz) {
