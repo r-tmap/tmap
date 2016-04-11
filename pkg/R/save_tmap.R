@@ -154,7 +154,7 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = NA
 				wp <- format(convert_to_pixels(width, "in"))
 				hp <- format(convert_to_pixels(height, "in"))
 			}
-			message("Resolution: ", format(wp), " by ", format(wp), " pixels") 
+			message("Resolution: ", format(wp), " by ", format(hp), " pixels") 
 			message("Size: ", wi, " by ", hi, " inches (", format(dpi), " dpi)") 
 		} else {
 			wi <- format(width)

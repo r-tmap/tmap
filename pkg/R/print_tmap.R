@@ -239,7 +239,12 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			legend.only <- TRUE
 			legend.width <- .9
 			legend.height <- .9
-			title.size <- title.size / scale.extra
+			
+			if (title.snap.to.legend) {
+				title.size <- title.size / scale.extra
+			} else {
+				title <- ""
+			}
 			legend.title.size <- legend.title.size / scale.extra
 			legend.text.size <- legend.text.size / scale.extra
 			legend.hist.size <- legend.hist.size / scale.extra
@@ -255,7 +260,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	if (external_legend) {
 		gps <- lapply(gps, function(gp) {
 			gp$tm_layout$legend.show <- FALSE
-			gp$tm_layout$title <- ""
+			if (gp$tm_layout$title.snap.to.legend) gp$tm_layout$title <- ""
 			gp
 		})
 	}

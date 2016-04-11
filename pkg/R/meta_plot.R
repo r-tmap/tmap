@@ -78,7 +78,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			} else if (port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster", "text.col")) {
 				length(p$legend.labels) * lineHeight * gt$legend.text.size + 2*margin*lineHeight
 			} else if (port && type == "bubble.size") {
-				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
+				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.35, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
 			} else if (!port && type == "bubble.size") {
 				max(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
 			} else if (port && type == "text.size") {

@@ -12,7 +12,6 @@ process_bubbles_size_vector <- function(x, g, rescale, gt) {
 	} else {
 		x_legend <- g$sizes.legend
 	}
-
 	if (is.null(g$sizes.legend.labels)) {
 		bubble.size.legend.labels <- do.call("fancy_breaks", c(list(vec=x_legend, intervals=FALSE), g$legend.format))
 	} else {
