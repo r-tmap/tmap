@@ -135,6 +135,11 @@ tm_format_World() +
 tm_style_grey()
 
 # Categorical data variable
+pal <- RColorBrewer::brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
+tm_shape(Europe) +
+	tm_polygons("EU_Schengen", palette=pal, title = "European Countries", showNA=FALSE) +
+tm_format_Europe_wide()
+
 tm_shape(World) +
     tm_polygons("economy", title="Economy", id="name") +
     tm_text("iso_a3", size="AREA", scale=1.5) +

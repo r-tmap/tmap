@@ -40,9 +40,9 @@ keepVars <- c("iso_a3", "name", "name_long", "formal_en", "sovereignt",
 			  )
 
 eur_sel <- world50$continent=="Europe" | world50$name %in% 
-	c("Morocco", "Algeria", "Tunesia", "Libya", "Egypt", "Israel", "Palestine", "Lebanon",
-	  "Syria", "Iraq", "Kuwait", "Turkey", "Jordan", "Saudi Arabia", "Iran", "Armenia", 
-	  "Azerbaijan", "Georgia", "Kazakhstan", "Turkmenistan", "Uzbekistan")
+	c("Morocco", "Algeria", "Tunisia", "Israel", "Palestine", "Lebanon",
+	  "Syria", "Iraq", "Turkey", "Jordan", "Saudi Arabia", "Iran", "Armenia", 
+	  "Azerbaijan", "Georgia", "Kazakhstan", "Cyprus", "Greenland")
 
 
 
@@ -168,9 +168,20 @@ ed$part[which(ed$iso_a3=="TUR")] <- "Southern Europe"
 
 ed$part <- factor(as.character(ed$part), levels=c("Northern Europe", "Western Europe", "Southern Europe", "Eastern Europe"))
 
-names(ed)[c(1:4, 16, 6:12, 13:15)]
+C_eu <- c("AUT", "BEL", "BGR", "HRV", "CYP", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "IRL", "ITA", "LVA", "LTU", "LUX", "MLT", "NLD", "POL", "PRT", "ROU", "SVK", "SVN", "ESP", "SWE", "GBR")
+C_sng <- c("AUT", "BEL", "CZE", "DNK", "EST", "FIN", "FRA", "DEU", "GRC", "HUN", "ISL", "ITA", "LVA", "LTU", "LIE", "LUX", "MLT", "NLD", "NOR", "POL", "PRT", "SVK", "SVN", "ESP", "SWE", "CHE")
+C_sng_cand <- c("ROU", "BGR", "CYP", "HRV")
 
-ed <- ed[, c(1:4, 16, 6:12, 13:15)]
+ed$EU_Schengen <- factor(   ifelse(ed$iso_a3 %in% C_eu, 
+				  			ifelse(ed$iso_a3 %in% C_sng, "EU Schengen",
+				  		    ifelse(ed$iso_a3 %in% C_sng_cand, "EU Schengen cand.", "EU Non-Schengen")), 
+				  			ifelse(ed$iso_a3 %in% C_sng, "Schengen Non-EU", NA)),
+							levels=c("EU Schengen", "EU Schengen cand.", "EU Non-Schengen", "Schengen Non-EU"))
+				  
+
+names(ed)[c(1:4, 16:17, 6:12, 13:15)]
+
+ed <- ed[, c(1:4, 16:17, 6:12, 13:15)]
 
 ed[ed$continent!="Europe" & (ed$name !="Turkey"), 7:12] <- NA
 
@@ -179,20 +190,31 @@ ed[ed$continent!="Europe" & (ed$name !="Turkey"), 7:12] <- NA
 #proj4string(world50) <- "+proj=longlat +datum=WGS84"
 eur1 <- world50[eur_sel,]
 
+
+
+
 ## global cropping
-CP <- as(extent(-25, 87, 15, 82), "SpatialPolygons")
+CP <- as(extent(-50, 87, 15, 85), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(eur1))
 eur2 <- gIntersection(eur1, CP, byid=TRUE)
 
 
 # Lambert azimuthal equal-area projection
-eur4 <- spTransform(eur2, CRS("+proj=laea +lat_0=35 +lon_0=15 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
+#eur4 <- spTransform(eur2, CRS("+proj=laea +lat_0=35 +lon_0=15 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"))
+eur3 <- spTransform(eur2, CRS("+proj=laea +lat_0=52 +lon_0=10 +x_0=4321000 +y_0=3210000 +ellps=GRS80 +units=m +no_defs"))
+
+gIsValid(eur3, reason = TRUE)
+
+
+## crop
+EU_marg <- 2e6
+CP2 <- as(extent(2500000-EU_marg, 7350000, 1400000, 5750000), "SpatialPolygons")
+proj4string(CP2) <- CRS(proj4string(eur3))
+eur4 <- gIntersection(eur3, CP2, byid=TRUE)
+
+eur4@bbox[,] <- c(2500000, 1400000, 7350000, 5750000)
 
 gIsValid(eur4, reason = TRUE)
-
-
-## set bounding box
-eur4@bbox[,] <- c(-3200000, -50000, 3000000, 4100000)
 
 
 #eur5 <- append_data(eur4, ed[c(1:70, 58), ]) ## needed for Russia-asia
@@ -205,6 +227,11 @@ Europe <- eur5
 
 save(Europe, file="./pkg/data/Europe.rda", compress="xz")
 
+
+pal <- RColorBrewer::brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
+tm_shape(Europe) +
+	tm_polygons("EU_Schengen", palette=pal, title = "European Countries", showNA=FALSE) +
+	tm_format_Europe_wide()
 
 
 ###########################################################################

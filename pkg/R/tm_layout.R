@@ -107,7 +107,7 @@ tm_layout <- function(title=NA,
 					  scale=1,
 					  title.size=1.3,
 					  bg.color= "white",
-					  aes.color=c(fill="grey85", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey70"),
+					  aes.color=c(fill="grey85", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey85"),
 					  aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Set3"),
 					  attr.color="black",
   					  sepia.intensity=0, 
@@ -214,9 +214,9 @@ tm_format_World_wide <- function(title=NA,
 #' @export
 tm_format_Europe <- function(title=NA,
 							 title.position=c("left", "top"),
-							 legend.position=c("left", "top"), 
-							 attr.position=c("left", "bottom"),
-							 inner.margins=c(0, 0.1, 0, 0),
+							 legend.position=c("right", "top"), 
+							 attr.position=c("right", "bottom"),
+							 inner.margins=c(0, 0, 0, 0),
 							 
 							 ...) {
 	args <- c(as.list(environment()), list(...))
@@ -275,7 +275,7 @@ tm_style_white <- function(...) {
 #' @rdname tm_layout
 #' @export
 tm_style_gray <- function(bg.color="grey85", 
-						   aes.color=c(fill="grey70", borders="grey20", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
+						   aes.color=c(fill="grey70", borders="grey20", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey70"),
 						   ...) {
 	args <- c(as.list(environment()), list(...))
 	g <- do.call("tm_layout", args)

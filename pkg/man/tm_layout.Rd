@@ -23,7 +23,7 @@
 \usage{
 tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   aes.color = c(fill = "grey85", borders = "grey40", bubbles = "blueviolet",
-  dots = "black", lines = "red", text = "black", na = "grey70"),
+  dots = "black", lines = "red", text = "black", na = "grey85"),
   aes.palette = list(seq = "YlOrBr", div = "RdYlGn", cat = "Set3"),
   attr.color = "black", sepia.intensity = 0, saturation = 1,
   frame = TRUE, frame.lwd = 1, frame.double.line = FALSE, asp = NA,
@@ -61,8 +61,8 @@ tm_format_World_wide(title = NA, inner.margins = c(0, 0.2, 0.025, 0.01),
   "bottom"), scale = 0.8, ...)
 
 tm_format_Europe(title = NA, title.position = c("left", "top"),
-  legend.position = c("left", "top"), attr.position = c("left", "bottom"),
-  inner.margins = c(0, 0.1, 0, 0), ...)
+  legend.position = c("right", "top"), attr.position = c("right", "bottom"),
+  inner.margins = c(0, 0, 0, 0), ...)
 
 tm_format_Europe_wide(title = NA, title.position = c("left", "top"),
   legend.position = c("left", "top"), attr.position = c("left", "bottom"),
@@ -80,7 +80,7 @@ tm_style_white(...)
 
 tm_style_gray(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
   "grey20", bubbles = "blueviolet", dots = "black", lines = "red", text =
-  "black", na = "grey60"), ...)
+  "black", na = "grey70"), ...)
 
 tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   "darkolivegreen3", borders = "black", bubbles = "tomato2", dots = "firebrick",
@@ -91,7 +91,7 @@ tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
 
 tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
   "grey20", bubbles = "blueviolet", dots = "black", lines = "red", text =
-  "black", na = "grey60"), ...)
+  "black", na = "grey70"), ...)
 
 tm_style_cobalt(bg.color = "#002240", aes.color = c(fill = "#0088FF",
   borders = "#002240", bubbles = "#FF9D00", dots = "#FF9D00", lines = "#FFEE80",
