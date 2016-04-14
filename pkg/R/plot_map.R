@@ -56,7 +56,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		}
 		
 		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, gt, lineInch, i, k)
-		plot_tm_text <- function() plot_text(co.npc, gpl, gt, lineInch)
+		plot_tm_text <- function() plot_text(co.npc, gpl, gt, lineInch, just=gpl$text.just)
 		
 		
 		plot_tm_grid <- function() treeGridLines

@@ -297,7 +297,8 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 			rep(ifelse(light, coldark, collight), length.out=npol)
 		}
 	}
-	
+
+ 	text.just <- g$just
 	xmod <- if (is.character(g$xmod)) data[[g$xmod]] else rep(g$xmod, length.out=npol)
 	ymod <-  if (is.character(g$ymod)) data[[g$ymod]] else rep(g$ymod, length.out=npol)
 	
@@ -352,6 +353,7 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 		 xtext=xtext,
 		 xtsize=xtsize,
 		 xtcol=xtcol,
+ 		 text.just=text.just,
 		 text.xmod=xmod,
 		 text.ymod=ymod,
 		 text_sel=text_sel,
