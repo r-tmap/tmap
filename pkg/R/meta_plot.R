@@ -15,14 +15,14 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	# legend justification
 	gt$legend.just <- c(
 		if (is.null(gt$legend.just) || !is_num_string(gt$legend.position[1])) {
-			ifelse(gt$legend.position[1] %in% c("right", "RIGHT"), "right", "left")
+			0
 		} else {
-			gt$legend.just[1]
-		}, 
+			as.numeric(ifelse(is_num_string(gt$legend.just[1]), gt$legend.just[1], gt$legend.just[1]=="right"))
+		},
 		if (is.null(gt$legend.just) || !is_num_string(gt$legend.position[2])) {
-			ifelse(gt$legend.position[2] %in% c("bottom", "BOTTOM"), "bottom", "top")
+			0
 		} else {
-			gt$legend.just[2]
+			as.numeric(ifelse(is_num_string(gt$legend.just[2]), gt$legend.just[2], gt$legend.just[1]=="top"))
 		}
 	)
 
@@ -144,12 +144,16 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		}
 		if (any(is.na(legend.position))) stop("Wrong position argument for legend", call. = FALSE)
 		
-		legSnapToRight <- ifelse(is_num_string(gt$legend.position[1]),
-								 gt$legend.position[1]=="right",
+		legSnapToRight <- ifelse(!is_num_string(gt$legend.position[1]),
+								 gt$legend.position[1]%in%c("right", "RIGHT"),
 								 ifelse(is_num_string(gt$legend.just[1]),
 								 	   as.numeric(gt$legend.just[1]),
 								 	   gt$legend.just[1]=="right"))
 	}
+	
+	# cat("lp", legend.position, "\n")
+	# cat("lj", gt$legend.just, "\n")
+	# cat("ls", legSnapToRight, "\n")
 	
 	if (is.character(gt$title.position) || snap) {
 		title.position <- if (snap) NULL else {
