@@ -34,9 +34,10 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   earth.datum = "WGS84", space.color = NULL, legend.show = TRUE,
   legend.only = FALSE, legend.outside = NA,
   legend.outside.position = "right", legend.outside.size = 0.3,
-  legend.position = NULL, legend.width = 0.4, legend.height = 0.9,
-  legend.hist.height = 0.3, legend.hist.width = legend.width,
-  legend.title.size = 1.1, legend.text.size = 0.7, legend.hist.size = 0.7,
+  legend.position = NULL, legend.just = c("left", "bottom"),
+  legend.width = 0.4, legend.height = 0.9, legend.hist.height = 0.3,
+  legend.hist.width = legend.width, legend.title.size = 1.1,
+  legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.format = list(scientific = FALSE, digits = NA, text.separator = "to",
   text.less.than = "Less than", text.or.more = "or more"),
   legend.frame = FALSE, legend.text.color = attr.color,
@@ -184,6 +185,8 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 \item{legend.outside.size}{Numeric value that determines the relative size of the legend, when \code{legend.outside=TRUE}. If the first value of \code{legend.outside.position} is \code{"top"} or \code{"bottom"}, then it is the width of the legend, else it is the height of the legend.}
 
 \item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object.}
+
+\item{legend.just}{justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: ‘"left"’, ‘"right"’, ‘"center"’, ‘"bottom"’, and ‘"top"’. Numeric values of 0 specify left alignment and 1 right alignment. This option is only used, if legend.position is specified by numeric coordinates.}
 
 \item{legend.width}{maximum width of the legend}
 

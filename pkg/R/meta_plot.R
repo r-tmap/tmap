@@ -12,6 +12,11 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		}
 	}
 
+	# legend justification
+	if (is.null(gt$legend.just) | is.null(gt$legend.position) | !is.numeric(gt$legend.position)) {
+			gt$legend.just <- c("left", "bottom")
+		}
+  
 	# title positioning
 	# titleg: is title attached to legend?
 	if (is.null(gt$title.position)) {
@@ -323,7 +328,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	
 		vpLegend <- viewport(y=legend.position[2], x=legend.position[1], 
 							 height=legendHeight, width=legendWidth, 
-							 just=c("left", "bottom"), name="legend")
+							 just=gt$legend.just, name="legend")
 		
 		pushViewport(vpLegend)
 		
