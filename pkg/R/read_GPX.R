@@ -7,7 +7,7 @@
 #' @return for each defiend layer, a shape is returned (only if the layer has any features). If only one layer is defined, the corresponding shape is returned. If more than one layer is defined, a list of shape objects, one for each layer, is returned.
 #' @importFrom rgdal readOGR ogrInfo
 #' @export
-#' @example ../examples/read_GPX.r
+#' @example ../examples/read_GPX.R
 read_GPX <- function(file, layers=c("waypoints", "tracks", "routes", "track_points", "route_points")) {
 	if (!all(layers %in% c("waypoints", "tracks", "routes", "track_points", "route_points"))) stop("Incorrect layer(s)", call. = FALSE)
 	
