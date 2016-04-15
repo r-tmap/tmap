@@ -49,7 +49,7 @@ get_proj4 <- function(x) {
 					eqc45="+proj=eqc +lat_ts=45 +lat_0=0 +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs",
 					rd="+init=epsg:28992",
 					x)
-		if (suppressWarnings(!is.na(as.numeric(y)))) {
+		if (is_num_string(y)) {
 			y <- paste("+init=epsg:", y, sep="")
 			if (!checkCRSArgs(y)[[1]]) stop("unknown EPSG code")
 		} else if (substr(y, 1, 3)=="utm") {

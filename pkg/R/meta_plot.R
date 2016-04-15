@@ -13,10 +13,19 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	}
 
 	# legend justification
-	if (is.null(gt$legend.just) | is.null(gt$legend.position) | !is.numeric(gt$legend.position)) {
-			gt$legend.just <- c("left", "bottom")
+	gt$legend.just <- c(
+		if (is.null(gt$legend.just) || !is_num_string(gt$legend.position[1])) {
+			ifelse(gt$legend.position[1] %in% c("right", "RIGHT"), "right", "left")
+		} else {
+			gt$legend.just[1]
+		}, 
+		if (is.null(gt$legend.just) || !is_num_string(gt$legend.position[2])) {
+			ifelse(gt$legend.position[2] %in% c("bottom", "BOTTOM"), "bottom", "top")
+		} else {
+			gt$legend.just[2]
 		}
-  
+	)
+
 	# title positioning
 	# titleg: is title attached to legend?
 	if (is.null(gt$title.position)) {
@@ -128,15 +137,18 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 								 	   TOP= 1 - legendHeight - ifelse(titleg && !snap && gt$title!="", titleHeight+ifelse(gt$title.position[2]=="top", my,0), 0) - frameY, 
 								 	   BOTTOM=frameY,
 								 	   as.numeric(gt$legend.position[2])))	
-			legSnapToRight <- gt$legend.position[1] %in% c("right", "RIGHT")
 			legWidthCorr <- if(gt$legend.position[1] == c("right")) mx else 0 
 		} else {
 			legend.position <- gt$legend.position
-			legSnapToRight <- ifelse(is.numeric(gt$legend.just), gt$legend.just[1], gt$legend.just[1] == "right")
 			legWidthCorr <- 0
 		}
 		if (any(is.na(legend.position))) stop("Wrong position argument for legend", call. = FALSE)
 		
+		legSnapToRight <- ifelse(is_num_string(gt$legend.position[1]),
+								 gt$legend.position[1]=="right",
+								 ifelse(is_num_string(gt$legend.just[1]),
+								 	   as.numeric(gt$legend.just[1]),
+								 	   gt$legend.just[1]=="right"))
 	}
 	
 	if (is.character(gt$title.position) || snap) {
@@ -365,7 +377,6 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(lwd=gt$scale, col=gt$legend.frame, fill=legend.frame.fill))
 		
 		upViewport(2 + gt$legend.inside.box)
-		
 		if (legSnapToRight) {
 		  
 			legWidthNpc <- convertWidth(unit(legWidthInch, "inch"), "npc", valueOnly = TRUE)
