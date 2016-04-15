@@ -132,7 +132,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			legWidthCorr <- if(gt$legend.position[1] == c("right")) mx else 0 
 		} else {
 			legend.position <- gt$legend.position
-			legSnapToRight <- FALSE
+			legSnapToRight <- ifelse(is.numeric(gt$legend.just), gt$legend.just[1], gt$legend.just[1] == "right")
 			legWidthCorr <- 0
 		}
 		if (any(is.na(legend.position))) stop("Wrong position argument for legend", call. = FALSE)
@@ -369,7 +369,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		if (legSnapToRight) {
 		  
 			legWidthNpc <- convertWidth(unit(legWidthInch, "inch"), "npc", valueOnly = TRUE)
-			shiftX <- (legendWidth-legWidthNpc)
+			shiftX <- (legendWidth-legWidthNpc) * legSnapToRight
 			vpLegend$x <- unit(legend.position[1] + shiftX, "npc")
 			# vpLegend$width <- unit(legWidthNpc, "npc") #not working, since legend items are drawn with npc instead of inch
 			
