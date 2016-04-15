@@ -194,7 +194,7 @@ eur1 <- world50[eur_sel,]
 
 
 ## global cropping
-CP <- as(extent(-50, 87, 15, 85), "SpatialPolygons")
+CP <- as(extent(-55, 87, 15, 85), "SpatialPolygons")
 proj4string(CP) <- CRS(proj4string(eur1))
 eur2 <- gIntersection(eur1, CP, byid=TRUE)
 
@@ -207,10 +207,19 @@ gIsValid(eur3, reason = TRUE)
 
 
 ## crop
-EU_marg <- 2e6
-CP2 <- as(extent(2500000-EU_marg, 7350000, 1400000, 5750000), "SpatialPolygons")
+EU_marg <- .1e6
+CP2 <- as(extent(2500000-10*EU_marg, 7350000+3*EU_marg, 1400000-EU_marg, 5750000+7*EU_marg), "SpatialPolygons")
 proj4string(CP2) <- CRS(proj4string(eur3))
 eur4 <- gIntersection(eur3, CP2, byid=TRUE)
+
+
+
+qtm(CP2) + qtm(eur4, fill = "gold")
+
+
+
+
+
 
 eur4@bbox[,] <- c(2500000, 1400000, 7350000, 5750000)
 
