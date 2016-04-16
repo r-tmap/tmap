@@ -145,7 +145,8 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		if (any(is.na(legend.position))) stop("Wrong position argument for legend", call. = FALSE)
 		
 		legSnapToRight <- ifelse(!is_num_string(gt$legend.position[1]),
-								 gt$legend.position[1]%in%c("right", "RIGHT"),
+								 ifelse(gt$legend.position[1]%in%c("center", "centre"),
+								 	   .5, gt$legend.position[1]%in%c("right", "RIGHT")),
 								 ifelse(is_num_string(gt$legend.just[1]),
 								 	   as.numeric(gt$legend.just[1]),
 								 	   gt$legend.just[1]=="right"))
