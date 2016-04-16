@@ -216,8 +216,11 @@ tm_format_World_wide <- function(title=NA,
 #' @export
 tm_format_Europe <- function(title=NA,
 							 title.position=c("left", "top"),
-							 legend.position=c("right", "top"), 
+							 legend.position=c("right", "top"),
+							 legend.just=c("right", "top"),
 							 attr.position=c("right", "bottom"),
+							 legend.frame=TRUE,
+							 legend.bg.color=TRUE,
 							 inner.margins=c(0, 0, 0, 0),
 							 
 							 ...) {
@@ -228,8 +231,10 @@ tm_format_Europe <- function(title=NA,
 #' @rdname tm_layout
 #' @export
 tm_format_Europe_wide <- function(title=NA,
-								  title.position=c("left", "top"),
-							 legend.position=c("left", "top"), 
+								  title.position=c("left",.85),
+								  title.snap.to.legend=TRUE,
+							 legend.position=c("left", .85), 
+							 legend.just=c("left", "top"),
 							 attr.position=c("left", "bottom"),
 							 inner.margins=c(0, 0.25, 0, 0),
 							 ...) {
@@ -237,7 +242,20 @@ tm_format_Europe_wide <- function(title=NA,
 	do.call("tm_layout", args)
 }
 
-
+#' @rdname tm_layout
+#' @export
+tm_format_Europe2 <- function(title=NA,
+							 title.position=c("left", "top"),
+							 legend.position=c("left", "top"),
+							 legend.outside=TRUE,
+							 legend.outside.size=.2,
+							 legend.just=c("right", "top"),
+							 attr.position=c("right", "bottom"),
+							 inner.margins=c(0, 0, 0, 0),
+							 ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
 
 #' @rdname tm_layout
 #' @export

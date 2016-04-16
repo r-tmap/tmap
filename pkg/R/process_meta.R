@@ -143,7 +143,12 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 		bg.overlay <- do.call("process_color", c(list(col=bg.overlay), pc))
 		
 		if (!is.null(outer.bg.color)) outer.bg.color <- do.call("process_color", c(list(col=outer.bg.color), pc))
-		if (!is.na(legend.bg.color)) legend.bg.color <- do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), pc))
+		if (!is.na(legend.bg.color)) {
+			legend.bg.color <- if (identical(legend.bg.color, TRUE)) {
+				bg.color
+			} else {
+				do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), pc))				}
+		} 
 		if (!is.na(legend.hist.bg.color)) legend.hist.bg.color <- do.call("process_color", c(list(col=legend.hist.bg.color, alpha=legend.hist.bg.alpha), pc))
 		if (!is.na(title.bg.color)) title.bg.color <- do.call("process_color", c(list(col=title.bg.color, alpha=title.bg.alpha), pc))
 		if (!is.na(earth.boundary.color)) earth.boundary.color <- do.call("process_color", c(list(col=earth.boundary.color), pc))
