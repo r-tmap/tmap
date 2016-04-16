@@ -50,6 +50,8 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 			if (is.na(legend.outside)) legend.outside <- (nx > 1) && !any(vapply(gf[freescales], "[", logical(1), 1))
 		}
 		
+		if (is.na(title.snap.to.legend)) title.snap.to.legend <- legend.outside
+		
 		if (is.na(panel.show)) panel.show <- !is.na(panel.names[1])
 		if (legend.only) {
 			title <- rep("", nx)
@@ -57,28 +59,31 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 			legend.height <- .9
 		} else {
 			if (nx>1) {
-				if (is.na(panel.names[1])) {
-					title <- if (is.na(title[1])) rep("", nx) else rep(title, nx)
-				} else if (is.list(panel.names) && panel.show) {
-					if (is.na(title[1])) {
-						title <- panel.names
-					} else {
-						if (!is.list(title) || length(title)!=2) stop("for cross table facets, title should be a list containing the row names in the first, and column names in the second item.", call. = FALSE)
-						if (length(title[[1]])!=length(panel.names[[1]])) stop("number of row names incorrect", call.=FALSE)
-						if (length(title[[2]])!=length(panel.names[[2]])) stop("number of column names incorrect", call.=FALSE)
-					}
-				} else {
-					if (is.list(title)) stop("unable to use row and column names unless panel.show in tm_layout is TRUE", call.=FALSE)
-					title <- if (is.na(title[1])) {
-						if (is.list(panel.names)) rep("", nx) else panel.names
-					} else rep(title, nx)
+				title <- if (is.na(title[1])) rep("", nx) else rep(title, nx)
+				
+				if (panel.show) {
+					if (is.na(panel.labels[1])) {
+						if (!is.na(panel.names[1])) {
+							panel.labels <- panel.names
+						} else panel.labels <- rep("", nx)
+					} else if (is.list(panel.names)) {
+						if (!is.list(panel.labels) || length(panel.labels)!=2) stop("for cross table facets, panel.labels should be a list containing the row names in the first, and column names in the second item.", call. = FALSE)
+						if (length(panel.labels[[1]])!=length(panel.names[[1]])) stop("number of row names incorrect", call.=FALSE)
+						if (length(panel.labels[[2]])!=length(panel.names[[2]])) stop("number of column names incorrect", call.=FALSE)
+					} else if (is.list(panel.labels)) stop("unable to use row and column names unless panel.show in tm_layout is TRUE", call.=FALSE)
 				}
+				
+				if (title.snap.to.legend) title <- title[1]
 			} else {
+				if (is.na(panel.labels[1])) {
+					if (!is.na(panel.names[1])) {
+						panel.labels <- panel.names[1]
+					} else panel.labels <- ""
+				}
 				title <- if (is.na(title[1])) "" else title[1]
 			}
 			if (panel.show) {
-				panel.names <- title
-				title <- rep("", nx)
+				panel.names <- panel.labels
 			}
 		}
 
