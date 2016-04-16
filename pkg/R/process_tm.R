@@ -176,7 +176,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		"both"
 	} else "one"
 	
-	if (panel.mode!="none") gmeta$title <- rep("", nx)
+	#if (panel.mode!="none") gmeta$title <- rep("", nx)
 	
 	## split into small multiples
 	gps <- split_tm(gp, nx, order_by)

@@ -22,7 +22,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		if (is.null(gt$legend.just) || !is_num_string(gt$legend.position[2])) {
 			0
 		} else {
-			as.numeric(ifelse(is_num_string(gt$legend.just[2]), gt$legend.just[2], gt$legend.just[1]=="top"))
+			as.numeric(ifelse(is_num_string(gt$legend.just[2]), gt$legend.just[2], gt$legend.just[2]=="top"))
 		}
 	)
 

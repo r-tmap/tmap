@@ -232,7 +232,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 
 	gmeta <- do.call("process_facet_layout", c(list(gmeta, external_legend, sasp, dh, dw), fpi))
 	gasp <- gmeta$gasp
-
+	
 	if (external_legend) {
 		gp_leg <- gps[[1]]
 		gp_leg$tm_layout <- within(gp_leg$tm_layout, {
@@ -256,7 +256,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	} else {
 		gp_leg <- NULL
 	}
-
+	
 	if (external_legend) {
 		gps <- lapply(gps, function(gp) {
 			gp$tm_layout$legend.show <- FALSE

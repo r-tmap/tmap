@@ -28,7 +28,7 @@
 #' 
 #' @name tm_layout
 #' @rdname tm_layout
-#' @param title Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.
+#' @param title Global title of the map. For small multiples, multiple titles can be specified. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}). 
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
 #' @param title.size Relative size of the title
 #' @param bg.color Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).
@@ -82,7 +82,7 @@
 #' @param legend.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).
 #' @param legend.hist.bg.color Background color of the histogram
 #' @param legend.hist.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.hist.bg.color} is used (normally 1).
-#' @param title.snap.to.legend Logical that determines whether the title is part of the legend.
+#' @param title.snap.to.legend Logical that determines whether the title is part of the legend. By default false, unless \code{legend.outside} is \code{TRUE}
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
 #' By default the title is placed on top of the legend (determined by \code{legend.position}).
 #' @param title.color color of the title
@@ -90,6 +90,7 @@
 #' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param title.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).
 #' @param panel.show Logical that determines if the map(s) are shown as panels. If \code{TRUE}, the title will be placed in the panel header instead of inside the map. By default, it is \code{TRUE} when small multiples are created with the \code{by} variable. (See \code{\link{tm_facets}}) 
+#' @param panel.labels Panel labels. Only applicable when \code{panel.show} is \code{TRUE}. For cross tables facets, it should be a list containing the row names in the first, and column names in the second item.
 #' @param panel.label.size Relative font size of the panel labels
 #' @param panel.label.color Font color of the panel labels
 #' @param panel.label.bg.color Background color of the panel labels
@@ -152,12 +153,13 @@ tm_layout <- function(title=NA,
 					  legend.bg.alpha = 1,
 					  legend.hist.bg.color = NA,
 					  legend.hist.bg.alpha = 1,
-					  title.snap.to.legend = FALSE,
+					  title.snap.to.legend = NA,
 					  title.position = c("left", "top"),
 					  title.color=attr.color,
 					  title.bg.color=NA,
 					  title.bg.alpha = 1,
 					  panel.show = NA,
+					  panel.labels=NA,
 					  panel.label.size = 1,
 					  panel.label.color = "black",
 					  panel.label.bg.color = "grey80",
@@ -216,8 +218,11 @@ tm_format_World_wide <- function(title=NA,
 #' @export
 tm_format_Europe <- function(title=NA,
 							 title.position=c("left", "top"),
-							 legend.position=c("right", "top"), 
+							 legend.position=c("right", "top"),
+							 legend.just=c("right", "top"),
 							 attr.position=c("right", "bottom"),
+							 legend.frame=TRUE,
+							 legend.bg.color=TRUE,
 							 inner.margins=c(0, 0, 0, 0),
 							 
 							 ...) {
@@ -227,9 +232,26 @@ tm_format_Europe <- function(title=NA,
 
 #' @rdname tm_layout
 #' @export
+tm_format_Europe2 <- function(title=NA,
+							  title.position=c("left", "top"),
+							  legend.position=c("left", "top"),
+							  legend.outside=TRUE,
+							  legend.outside.size=.2,
+							  legend.just=c("right", "top"),
+							  attr.position=c("right", "bottom"),
+							  inner.margins=c(0, 0, 0, 0),
+							  ...) {
+	args <- c(as.list(environment()), list(...))
+	do.call("tm_layout", args)
+}
+
+#' @rdname tm_layout
+#' @export
 tm_format_Europe_wide <- function(title=NA,
-								  title.position=c("left", "top"),
-							 legend.position=c("left", "top"), 
+								  title.position=c("left",.85),
+								  title.snap.to.legend=TRUE,
+							 legend.position=c("left", .85), 
+							 legend.just=c("left", "top"),
 							 attr.position=c("left", "bottom"),
 							 inner.margins=c(0, 0.25, 0, 0),
 							 ...) {
