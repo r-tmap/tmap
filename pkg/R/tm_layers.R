@@ -36,7 +36,7 @@
 #' @param remove.overlap logical that determines whether the overlapping labels are removed
 #' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicabel if a spatial lines shape is used.
 #' @param overwrite.lines logical that determines whether the part of the lines below the text labels is removed. Only applicabel if a spatial lines shape is used.
-#' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: ‘"left"’, ‘"right"’, ‘"center"’, ‘"bottom"’, and ‘"top"’. Numeric values of 0 specify left alignment and 1 right alignment.
+#' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.
 #' @param xmod horizontal position modification of the text (relatively): 0 means no modification, and 1 corresponds to the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @param title.size title of the legend element regarding the text sizes
@@ -396,6 +396,16 @@ tm_raster <- function(col=NA,
 	class(g) <- "tmap"
 	g
 }
+
+# 
+# tm_rgb <- function(saturation) {
+# 	g <- list(tm_raster=as.list(environment()))
+# 	g$tm_raster$col <- "_RGB_"
+# 	class(g) <- "tmap"
+# 	g
+# }
+
+
 
 #' Draw bubbles or dots
 #' 

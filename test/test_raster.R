@@ -72,47 +72,10 @@ tm_shape(rb) +
 	tm_style_white()
 
 
-## File1 (tile with elevation data)
-rt <- raster("e:/data/elevation/dataNL/tif/i69cn2.tif")
-qtm(rt)
-
-## OSM tile
-m <- read_osm(bb("Maastricht, Netherlands"))
-qtm(m)
-
-tm_shape(m, projection="eck4") +
-	tm_raster()
-
-
-
-m <- read_osm(bb("Maastricht, Netherlands"))
-qtm(m)
-
-tm_shape(m, projection="eck4") +
-	tm_raster()
-
-
-r3 <- brick("e:/pictures/2013-10 USA/jpg/desert.tif")
-
-r3 <- set_projection(r3, current.projection = "rd")
-qtm(r3)
-
-r4 <- raster("sx99.tif")
-r4 <- set_projection(r4, current.projection = "rd")
-qtm(r4)
-
-## performance
-Rprof(tmp <- tempfile())
-qtm(r4)
-Rprof()
-summaryRprof(tmp)
-unlink(tmp)
-
-
 ## set_projection
 land2 <- set_projection(land, projection="eck4")
 qtm(land, raster="cover")
-qtm(land2, raster="cover_cover")
+qtm(land2, raster="cover")
 
 rlB <- set_projection(rl, projection="eck4")
 qtm(rl, raster="cover_cls")
@@ -130,3 +93,47 @@ qtm(rs2, raster="trees")
 rb2 <- set_projection(rb, projection="eck4")
 qtm(rb, raster="trees")
 qtm(rb2, raster="trees")
+
+
+
+## test get_raster_data
+system.time({rsdf <- raster::as.data.frame(rs)})
+system.time({rsdf2 <- get_raster_data(rs)})
+
+system.time({rbdf <- raster::as.data.frame(rb)})
+system.time({rbdf2 <- get_raster_data(rb)})
+
+
+## test RGB rasters
+data(NLD_muni)
+osm <- read_osm(NLD_muni, ext=1.2)
+
+qtm(osm)
+
+
+# download from http://www.terracolor.net/sample_imagery.html
+# large raster (4323 x 4323)
+x <- brick("TC_NG_SFBay_US_Geo.tif")
+
+system.time({
+	plotRGB(x)
+})
+
+system.time({
+	print(qtm(x))
+})
+
+y <- aggregate(x, fact=32)
+
+system.time({
+	print(qtm(y))
+})
+
+tmap_mode("view")
+qtm(y)
+
+## download from http://www.ordnancesurvey.co.uk/docs/sample-data/25k-raster-sample-data.zip .
+rosm <- raster("sx99.tif")
+rosm <- set_projection(rosm, current.projection = "rd") # projection unknown
+qtm(rosm)
+

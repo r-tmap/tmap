@@ -40,8 +40,8 @@ read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, merge
 			om <- do.call("openmap", args = c(list(upperLeft=x[c(4,1)], lowerRight=x[c(2,3)]), optionalArgs))
 			omr <- raster(om)
 			oms <- as(omr, "SpatialGridDataFrame")
-			oms@data <- data.frame(PIXEL__COLOR = rgb(oms$layer.1, oms$layer.2, oms$layer.3, maxColorValue=255))
-			attr(oms, "is.OpenStreetMap") <- TRUE
+			oms@data <- raster_colors(oms)
+			attr(oms, "is.OSM") <- TRUE
 			return(oms)
 		}
 	} else {

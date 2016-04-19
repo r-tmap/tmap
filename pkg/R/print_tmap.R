@@ -24,7 +24,7 @@
 #' @importFrom spdep poly2nb
 #' @importFrom grDevices xy.coords colors
 #' @importFrom graphics par
-#' @importFrom rgdal getPROJ4VersionInfo
+#' @importFrom rgdal getPROJ4VersionInfo SGDF2PCT
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
 #' @importFrom geosphere distGeo
@@ -142,6 +142,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		to <- ifelse(i==nshps, length(x), shape.id[i+1]-1)
 		fid <- which(names(x)[from:to]=="tm_facets")
 		rid <- which(names(x)[from:to]=="tm_raster")
+		
+		# if (length(rid)) {
+		# 	if (is.na(x[[from-1+rid[1]]]$col[1])) return(NA)
+		# }
 		c(if (length(fid)) x[[from-1+fid[1]]]$by else NULL,
 		  if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
 	})

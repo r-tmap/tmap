@@ -13,6 +13,37 @@ get_RasterLayer_data_vector <- function(r) {
 	}
 }
 
+
+get_RasterLayer_levels <- function(r) {
+	if (r@data@isfactor) {
+		dt <- r@data@attributes[[1]]
+		if ("levels" %in% names(dt)) {
+			dt$levels
+		} else {
+			NULL
+		}
+	} else {
+		NULL
+	}
+}
+
+raster_colors <- function(x) {
+	if (inherits(x, "Raster")) {
+		x <- as(x, "SpatialGridDataFrame")
+	}
+	if (!all(vapply(x@data, is.integer, FUN.VALUE = logical(1)))) {
+		x@data <- as.data.frame(lapply(x@data, as.integer))
+	}
+	
+	y <- SGDF2PCT(x, adjust.bands = FALSE)
+
+	data <- data.frame(PIXEL__COLOR = as.integer(y$idx))
+	levels(data$PIXEL__COLOR) <- as.vector(na.omit(y$ct))
+	class(data$PIXEL__COLOR) <- "factor"
+	data
+}
+
+
 get_raster_names <- function(shp) {
 	nms <- names(shp)
 	
@@ -24,6 +55,7 @@ get_raster_names <- function(shp) {
 	}
 	nms
 }
+
 
 get_raster_data <- function(shp) {
 	if (fromDisk(shp)) {
@@ -38,7 +70,7 @@ get_raster_data <- function(shp) {
 		isfactor <- shp@data@isfactor
 		data <- as.data.frame(shp@data@values)
 		if (is.null(dimnames(shp@data@values)))	names(data) <- get_raster_names(shp)
-
+		
 		atb <- shp@data@attributes
 		atb <- atb[sapply(atb, length)!=0]
 		
@@ -51,14 +83,47 @@ get_raster_data <- function(shp) {
 		}, data[isfactor], atb, SIMPLIFY=FALSE)
 	}	
 	
-	ct <- length(colortable(shp))
-	if (ct) {
-		minV <- minValue(shp)
-		plusone <- minV==0
-		data[[1]] <- data[[1]]+plusone
-	}
-
 	data
+}
+
+get_raster_levels <- function(shp, layerIDs) {
+	shpnames <- get_raster_names(shp)[layerIDs]
+	if (inherits(shp, "RasterLayer")) {
+		lvls <- list(get_RasterLayer_levels(shp))
+	} else if (inherits(shp, "RasterStack")) {
+		lvls <- lapply(shp@layers[layerIDs], get_RasterLayer_levels)
+	} else if (inherits(shp, "RasterBrick")) {
+		isfactor <- shp@data@isfactor
+		atb <- shp@data@attributes
+		atb <- atb[sapply(atb, length)!=0]
+		stopifnot(sum(isfactor)==length(atb))
+		isfactor2 <- isfactor[layerIDs]
+
+		lvls <- rep(list(NULL), length(layerIDs))
+		if (any(isfactor2)) {
+			atb2 <- atb[match(layerIDs[isfactor2], which(isfactor))]
+			
+			lvls[isfactor2] <- lapply(atb2, function(a) {
+				if (class(a)=="list") a <- a[[1]]
+				levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
+				as.character(a[[levelsID]])
+			})	
+		} 
+	}	
+	names(lvls) <- shpnames
+	lvls
+}
+
+get_data_frame_levels <- function(data) {
+	lapply(data, function(x) {
+		if (is.factor(x)) {
+			levels(x)
+		} else if (is.numeric(x)) {
+			NULL
+		} else {
+			if (is.logical(x)) factor(x, levels=c(FALSE, TRUE)) else sort(unique(x))
+		}
+	})
 }
 
 

@@ -2,6 +2,7 @@
 % Please edit documentation in R/tm_layout.R
 \name{tm_layout}
 \alias{tm_format_Europe}
+\alias{tm_format_Europe2}
 \alias{tm_format_Europe_wide}
 \alias{tm_format_NLD}
 \alias{tm_format_NLD_wide}
@@ -42,10 +43,10 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   text.less.than = "Less than", text.or.more = "or more"),
   legend.frame = FALSE, legend.text.color = attr.color,
   legend.bg.color = NA, legend.bg.alpha = 1, legend.hist.bg.color = NA,
-  legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
+  legend.hist.bg.alpha = 1, title.snap.to.legend = NA,
   title.position = c("left", "top"), title.color = attr.color,
   title.bg.color = NA, title.bg.alpha = 1, panel.show = NA,
-  panel.label.size = 1, panel.label.color = "black",
+  panel.labels = NA, panel.label.size = 1, panel.label.color = "black",
   panel.label.bg.color = "grey80", panel.label.height = 1.25,
   panel.label.rot = c(90, 0), attr.position = c("right", "bottom"),
   design.mode = FALSE, basemaps = c("CartoDB.Positron", "OpenStreetMap",
@@ -62,11 +63,18 @@ tm_format_World_wide(title = NA, inner.margins = c(0, 0.2, 0.025, 0.01),
   "bottom"), scale = 0.8, ...)
 
 tm_format_Europe(title = NA, title.position = c("left", "top"),
-  legend.position = c("right", "top"), attr.position = c("right", "bottom"),
-  inner.margins = c(0, 0, 0, 0), ...)
+  legend.position = c("right", "top"), legend.just = c("right", "top"),
+  attr.position = c("right", "bottom"), legend.frame = TRUE,
+  legend.bg.color = TRUE, inner.margins = c(0, 0, 0, 0), ...)
 
-tm_format_Europe_wide(title = NA, title.position = c("left", "top"),
-  legend.position = c("left", "top"), attr.position = c("left", "bottom"),
+tm_format_Europe2(title = NA, title.position = c("left", "top"),
+  legend.position = c("left", "top"), legend.outside = TRUE,
+  legend.outside.size = 0.2, legend.just = c("right", "top"),
+  attr.position = c("right", "bottom"), inner.margins = c(0, 0, 0, 0), ...)
+
+tm_format_Europe_wide(title = NA, title.position = c("left", 0.85),
+  title.snap.to.legend = TRUE, legend.position = c("left", 0.85),
+  legend.just = c("left", "top"), attr.position = c("left", "bottom"),
   inner.margins = c(0, 0.25, 0, 0), ...)
 
 tm_format_NLD(title = NA, frame = FALSE, inner.margins = c(0.02, 0.2,
@@ -124,7 +132,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
   bg.overlay.alpha = 0.5, basemaps = "Esri.WorldTopoMap", ...)
 }
 \arguments{
-\item{title}{Title(s). By default, the name of the statistical variable of which the legend is drawn at the top (see \code{legend.config}) is used as a title.}
+\item{title}{Global title of the map. For small multiples, multiple titles can be specified. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}).}
 
 \item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.}
 
@@ -186,7 +194,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object.}
 
-\item{legend.just}{justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: ‘"left"’, ‘"right"’, ‘"center"’, ‘"bottom"’, and ‘"top"’. Numeric values of 0 specify left alignment and 1 right alignment. This option is only used, if legend.position is specified by numeric coordinates.}
+\item{legend.just}{justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. This option is only used, if legend.position is specified by numeric coordinates.}
 
 \item{legend.width}{maximum width of the legend}
 
@@ -225,7 +233,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{legend.hist.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.hist.bg.color} is used (normally 1).}
 
-\item{title.snap.to.legend}{Logical that determines whether the title is part of the legend.}
+\item{title.snap.to.legend}{Logical that determines whether the title is part of the legend. By default false, unless \code{legend.outside} is \code{TRUE}}
 
 \item{title.position}{Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
 By default the title is placed on top of the legend (determined by \code{legend.position}).}
@@ -237,6 +245,8 @@ By default the title is placed on top of the legend (determined by \code{legend.
 \item{title.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).}
 
 \item{panel.show}{Logical that determines if the map(s) are shown as panels. If \code{TRUE}, the title will be placed in the panel header instead of inside the map. By default, it is \code{TRUE} when small multiples are created with the \code{by} variable. (See \code{\link{tm_facets}})}
+
+\item{panel.labels}{Panel labels. Only applicable when \code{panel.show} is \code{TRUE}. For cross tables facets, it should be a list containing the row names in the first, and column names in the second item.}
 
 \item{panel.label.size}{Relative font size of the panel labels}
 

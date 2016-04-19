@@ -87,14 +87,15 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 		}
 		
 		if (inherits(shp, "Raster")) {
-			raster_data <- get_raster_data(shp)
+			#raster_data <- get_raster_data(shp)
 			has_color_table <- (length(colortable(shp))>0)
 			
 			# get factor levels (to be restored later)
-			lvls <- lapply(raster_data, levels)
+			lvls <- get_raster_levels(shp, 1:nlayers(shp))
 			# override factor levels with colortable values
 			if (has_color_table) {
-				lvls <- lapply(lvls, function(l) colortable(shp))
+				lvls <- list(colortable(shp))
+#				raster_data <- data.frame(PIXEL__COLOR=getValues(shp[[1]])+1L)
 			}
 			isnum <- sapply(lvls, is.null)
 			new_ext <- suppressWarnings(projectExtent(shp, crs = CRS(proj4)))
@@ -115,9 +116,9 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 				shp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=proj4, method="ngb"))
 			}
 			
-			new_raster_data <- as.data.frame(mapply(function(d, l) {
-				if (!is.null(l) && !is.factor(d)) factor(d, levels=1:length(l), labels=l) else d
-			}, get_raster_data(shp), lvls, SIMPLIFY=FALSE))
+			# new_raster_data <- as.data.frame(mapply(function(d, l) {
+			# 	if (!is.null(l) && !is.factor(d)) factor(d, levels=1:length(l), labels=l) else d
+			# }, get_raster_data(shp), lvls, SIMPLIFY=FALSE))
 			
 			if (any(!isnum)) {
 				shp@data@isfactor <- !isnum
@@ -131,9 +132,9 @@ set_projection <- function(shp, projection=NULL, current.projection=NULL, overwr
 		} else {
 			shp <- spTransform(shp, CRS(proj4))
 		}
-
 		if (recast) {
 			shp <- as(shp, cls)
+			names(shp) <- names(isnum)
 		}
 	}
 		

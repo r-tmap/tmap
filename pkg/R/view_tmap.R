@@ -187,7 +187,7 @@ view_tmap <- function(gps, shps) {
  			FALSE
 		}
 		plot_tm_raster <- function() {
-			if (gpl$raster.misc$is.OpenStreetMap) return(FALSE)	
+			if (gpl$raster.misc$is.OSM) return(FALSE)	
 			if (is.na(gpl$xraster)) {
 				gpl$raster.legend.palette <- unique(gpl$raster)
 			}
