@@ -59,10 +59,10 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 			legend.height <- .9
 		} else {
 			if (nx>1) {
-				title <- if (is.na(title[1])) rep("", nx) else rep(title, nx)
+				title <- rep(nonna_text(title), length.out=nx)
 				
 				if (panel.show) {
-					if (is.na(panel.labels[1])) {
+					if (is.ena(panel.labels[1])) {
 						if (!is.na(panel.names[1])) {
 							panel.labels <- panel.names
 						} else panel.labels <- rep("", nx)
@@ -75,12 +75,12 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 				
 				if (title.snap.to.legend) title <- title[1]
 			} else {
-				if (is.na(panel.labels[1])) {
+				if (is.ena(panel.labels[1])) {
 					if (!is.na(panel.names[1])) {
 						panel.labels <- panel.names[1]
 					} else panel.labels <- ""
 				}
-				title <- if (is.na(title[1])) "" else title[1]
+				title <- nonna_text(title[1])
 			}
 			if (panel.show) {
 				panel.names <- panel.labels
@@ -199,7 +199,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 			credits.fontface[is.na(credits.fontface)] <-gt$fontface
 			credits.fontfamily[is.na(credits.fontfamily)] <-gt$fontfamily
 			credits.text <- lapply(credits.text, rep, length.out=nx)
-			credits.show <- lapply(credits.text, function(ct) ct!="")
+			credits.show <- lapply(credits.text, nonempty_text)
 		})
 	} else {
 		gc <- list(credits.show=list(rep(FALSE, nx)))

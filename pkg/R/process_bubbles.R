@@ -160,13 +160,13 @@ process_bubbles <- function(data, g, gt, gby, z, allow.small.mult) {
 	}
 	
 	
-	bubble.size.legend.title <- if (is.na(g$title.size)[1]) xsize else g$title.size
-	bubble.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
+	bubble.size.legend.title <- if (is.ena(g$title.size)[1]) xsize else g$title.size
+	bubble.col.legend.title <- if (is.ena(g$title.col)[1]) xcol else g$title.col
 	bubble.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
 	bubble.col.legend.z <- if (is.na(g$legend.col.z)) z+.33 else g$legend.col.z
 	bubble.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.66 else g$legend.hist.z
 	
-	if (g$legend.hist && is.na(g$legend.hist.title) && bubble.col.legend.z>bubble.legend.hist.z) {
+	if (g$legend.hist && is.ena(g$legend.hist.title) && bubble.col.legend.z>bubble.legend.hist.z) {
 		# histogram is drawn between title and legend enumeration
 		bubble.col.legend.hist.title <- bubble.col.legend.title
 		bubble.col.legend.title <- ""

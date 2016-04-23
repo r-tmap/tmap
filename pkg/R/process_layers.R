@@ -126,7 +126,7 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"), allow.small.mult=allow.small.mult)
 	}
 
-	any.legend <- any(!is.na(c(gfill$fill.legend.title, gbubble$bubble.size.legend.title, gbubble$bubble.col.legend.title, glines$line.col.legend.title, glines$line.lwd.legend.title, graster$raster.legend.title, gtext$text.size.legend.title, gtext$text.col.legend.title)))
+	any.legend <- any(!is.ena(c(gfill$fill.legend.title, gbubble$bubble.size.legend.title, gbubble$bubble.col.legend.title, glines$line.col.legend.title, glines$line.lwd.legend.title, graster$raster.legend.title, gtext$text.size.legend.title, gtext$text.col.legend.title)))
 	# 	glines$line.lwd.legend.title
 	
 	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, bubble.size=gbubble$xsize, bubble.col=gbubble$xcol, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, bubble=gbubble$bubble.id, line=glines$line.id, raster=graster$raster.id, text=gtext$text.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gbubble, gtext, graster)

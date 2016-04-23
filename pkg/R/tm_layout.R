@@ -109,7 +109,7 @@ tm_layout <- function(title=NA,
 					  scale=1,
 					  title.size=1.3,
 					  bg.color= "white",
-					  aes.color=c(fill="grey85", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey85"),
+					  aes.color=c(fill="grey85", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey75"),
 					  aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Set3"),
 					  attr.color="black",
   					  sepia.intensity=0, 
@@ -299,7 +299,7 @@ tm_style_white <- function(...) {
 #' @rdname tm_layout
 #' @export
 tm_style_gray <- function(bg.color="grey85", 
-						   aes.color=c(fill="grey70", borders="grey20", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey70"),
+						   aes.color=c(fill="grey70", borders="grey20", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
 						   ...) {
 	args <- c(as.list(environment()), list(...))
 	g <- do.call("tm_layout", args)

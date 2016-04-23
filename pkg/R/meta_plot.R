@@ -43,7 +43,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
 	# title properties
-	nlines <- length(strsplit(gt$title, "\n")[[1]])
+	nlines <- number_text_lines(gt$title)
 	
 	title.width <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * 1.02
 	
@@ -62,7 +62,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			#id_title <- paste("title", name, sep=".")
 			#id_spacer <- paste("spacer", name, sep=".")
 			list_spacer <- list(legend.type="spacer", legend.is.portrait=FALSE)
-			list_title <- if(y$legend.title=="") NULL else list(legend.type="title", title=y$legend.title, legend.is.portrait=FALSE)
+			list_title <- if(!nonempty_text(y$legend.title)) NULL else list(legend.type="title", title=y$legend.title, legend.is.portrait=FALSE)
 			list(list_spacer, list_title, y)
 		})
 		x <- do.call("c", x)[-1]
@@ -104,7 +104,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			} else if (type == "spacer") {
 				legend.title.npc * .25
 			} else if (type == "title") {
-				nlines <- length(strsplit(p$title, "\n")[[1]])
+				nlines <- number_text_lines(p$title)
 				legend.title.npc * nlines
 			} else if (type == "hist") {
 				gt$legend.hist.height
@@ -178,7 +178,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	} else title.position <- gt$title.position
 	if (!snap && any(is.na(title.position))) stop("Wrong position argument for title", call. = FALSE)
 	
-	grobTitle <- if (snap || gt$title=="") {
+	grobTitle <- if (snap || !nonempty_text(gt$title)) {
 		NULL
 	} else {
 		gTree(children=gList(if (gt$design.mode) {
@@ -195,8 +195,8 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	if ((gt$credits.show || gt$scale.show || gt$compass.show) && !gt$legend.only) {
 		elems <- do.call("rbind", list(
 			if (gt$credits.show) data.frame(type="credits",
-				 height=unname(mapply(function(txt, sz) {
-				 	lineHeight * (length(strsplit(txt, "\n")[[1]])*1.2+.25) * 
+				 height=unname(emapply(function(txt, sz) {
+				 	lineHeight * (number_text_lines(txt)*1.2+.25) * 
 				 	min((1-2*convertWidth(convertHeight(unit(lineHeight / 2, "npc"), "inch"), "npc", TRUE)) / 
 				 			convertWidth(stringWidth(txt), "npc", valueOnly=TRUE), sz)
 				 	}, gt$credits.text, gt$credits.size)),
@@ -447,7 +447,7 @@ legend_subplot <- function(x, id, gt, histWidth) {
 legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	size <- ifelse(is.main.title, gt$title.size, gt$legend.title.size)
 	title <- x$title
-	nlines <- length(strsplit(x$title, "\n")[[1]])
+	nlines <- number_text_lines(x$title)
 	my <- lineHeight * size * m
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
@@ -837,11 +837,12 @@ plot_cred <- function(gt, just, id) {
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
 	# number of lines
-	nlines <- length(strsplit(gt$credits.text[id], "\n")[[1]])
+	txt <- gt$credits.text[id]
+	nlines <- number_text_lines(txt)
 	
-	size <- min((1-2*mx) / convertWidth(stringWidth(gt$credits.text[id]), "npc", valueOnly=TRUE), gt$credits.size[id])
+	size <- min((1-2*mx) / convertWidth(stringWidth(txt), "npc", valueOnly=TRUE), gt$credits.size[id])
 	
-	width <- (convertWidth(stringWidth(gt$credits.text[id]), "npc", valueOnly=TRUE)+1*mx) * size
+	width <- (convertWidth(stringWidth(txt), "npc", valueOnly=TRUE)+1*mx) * size
 	#height <- lineHeight * (nlines) * size
 
 	x <- if (just=="left") 0 else 1-width #-mx*size
@@ -866,7 +867,7 @@ plot_cred <- function(gt, just, id) {
 		rectGrob(x=x, width=width, just="left", gp=gpar(col=NA, fill=bg.col))
 	} else {
 		NULL
-	}, textGrob(label=gt$credits.text[id], x = tx, y =.5, just=c(gt$credits.align[id], "center"), gp=gpar(cex=size, col=col, fontface=gt$credits.fontface[id], fontfamily=gt$credits.fontfamily[id]))), name="credits")
+	}, textGrob(label=txt, x = tx, y =.5, just=c(gt$credits.align[id], "center"), gp=gpar(cex=size, col=col, fontface=gt$credits.fontface[id], fontfamily=gt$credits.fontfamily[id]))), name="credits")
 }
 
 

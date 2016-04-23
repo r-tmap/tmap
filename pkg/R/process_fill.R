@@ -97,11 +97,11 @@ process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 	breaks <- dcr$breaks
 	values <- dcr$values
 	
-	fill.legend.title <- if (is.na(g$title)[1]) x else g$title
+	fill.legend.title <- if (is.ena(g$title)[1]) x else g$title
 	fill.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
 	fill.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.5 else g$legend.hist.z
 	
-	if (g$legend.hist && is.na(g$legend.hist.title) && fill.legend.z>fill.legend.hist.z) {
+	if (g$legend.hist && is.ena(g$legend.hist.title) && fill.legend.z>fill.legend.hist.z) {
 		# histogram is drawn between title and legend enumeration
 		fill.legend.hist.title <- fill.legend.title
 		fill.legend.title <- ""

@@ -150,13 +150,13 @@ process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 		rep(quantile(line.legend.lwds, probs=.75, na.rm=TRUE), nx)
 	}
 	
-	line.col.legend.title <- if (is.na(g$title.col)[1]) xcol else g$title.col
-	line.lwd.legend.title <- if (is.na(g$title.lwd)[1]) xlwd else g$title.lwd
+	line.col.legend.title <- if (is.ena(g$title.col)[1]) xcol else g$title.col
+	line.lwd.legend.title <- if (is.ena(g$title.lwd)[1]) xlwd else g$title.lwd
 	line.col.legend.z <- if (is.na(g$legend.col.z)) z else g$legend.col.z
 	line.lwd.legend.z <- if (is.na(g$legend.lwd.z)) z+.33 else g$legend.lwd.z
 	line.col.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.66 else g$legend.hist.z
 
-	if (g$legend.hist && is.na(g$legend.hist.title) && line.col.legend.z>line.col.legend.hist.z) {
+	if (g$legend.hist && is.ena(g$legend.hist.title) && line.col.legend.z>line.col.legend.hist.z) {
 		# histogram is drawn between title and legend enumeration
 		line.col.legend.hist.title <- line.col.legend.title
 		line.col.legend.title <- ""

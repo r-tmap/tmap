@@ -226,7 +226,8 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 
 		# process credits text per facet
 		gmeta$credits.show <- sapply(gmeta$credits.show, "[[", i)
-		if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
+		if (!is.null(gmeta$credits.text)) gmeta$credits.text <- get_text_i(gmeta$credits.text, i)
+		#if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
 		gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
 				"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
 				"credits.position", "credits.id")] <- lapply(

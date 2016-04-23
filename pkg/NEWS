@@ -1,3 +1,10 @@
+version 1.4-1
+- fixed bugs regarding 
+- add just argument as anchor for text labels and legend position
+- RGB raster support, see tm_raster
+- static text (i.e titles, credits, legend titles, labels) support expressions
+- updated Europe projection (now consistent with Eurostat publications)
+
 version 1.4
 - [!] interactive mapping added. Now, tmap has two modes: "plot" (graphics device) and "view" (interactive viewer, which is a leaflet widget)
 - [!] facets (small multiples) improved: group by two variables possible, panel layout added, missing data can be shown separately

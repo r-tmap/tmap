@@ -78,11 +78,11 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 	
 
 	
-	raster.legend.title <- if (is.na(g$title)[1]) x else g$title
+	raster.legend.title <- if (is.ena(g$title)[1]) x else g$title
 	raster.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
 	raster.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.5 else g$legend.hist.z
 	
-	if (g$legend.hist && is.na(g$legend.hist.title) && raster.legend.z>raster.legend.hist.z) {
+	if (g$legend.hist && is.ena(g$legend.hist.title) && raster.legend.z>raster.legend.hist.z) {
 		# histogram is drawn between title and legend enumeration
 		raster.legend.hist.title <- raster.legend.title
 		raster.legend.title <- ""

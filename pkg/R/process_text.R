@@ -309,13 +309,13 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	text.bg.color <- do.call("process_color", c(list(col=g$bg.color, alpha=g$bg.alpha), gt$pc))
 	text.shadowcol <- do.call("process_color", c(list(col=g$shadowcol), gt$pc))
 
-	text.size.legend.title <- if (is.na(g$title.size)[1]) xtsize else g$title.size
-	text.col.legend.title <- if (is.na(g$title.col)[1]) xtcol else g$title.col
+	text.size.legend.title <- if (is.ena(g$title.size)[1]) xtsize else g$title.size
+	text.col.legend.title <- if (is.ena(g$title.col)[1]) xtcol else g$title.col
 	text.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
 	text.col.legend.z <- if (is.na(g$legend.col.z)) z+.33 else g$legend.col.z
 	text.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.66 else g$legend.hist.z
 	
-	if (g$legend.hist && is.na(g$legend.hist.title) && text.col.legend.z>text.legend.hist.z) {
+	if (g$legend.hist && is.ena(g$legend.hist.title) && text.col.legend.z>text.legend.hist.z) {
 		# histogram is drawn between title and legend enumeration
 		text.col.legend.hist.title <- text.col.legend.title
 		text.col.legend.title <- ""
