@@ -178,8 +178,9 @@ qtm <- function(shp,
 		fname <- paste("tm_style", style, sep="_")
 		if (exists(fname)) {
 			g <- g + do.call(fname, list())
-		} else warning("function ", fname, " does not exist", call. = FALSE)
-		g <- g + do.call(paste("tm_style", style, sep="_"), list())
+		} else {
+			warning("function ", fname, " does not exist", call. = FALSE)
+		}
 	}
 	g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
 	g <- g + do.call("tm_view", c(list(basemaps=basemaps), args2[["tm_view"]]))

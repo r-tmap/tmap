@@ -32,7 +32,7 @@ tm_style_grey()
 pal <- RColorBrewer::brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
 tm_shape(Europe) +
 	tm_polygons("EU_Schengen", palette=pal, title = "European Countries", showNA=FALSE) +
-tm_format_Europe_wide()
+tm_format_Europe()
 
 tm_shape(World) +
     tm_polygons("economy", title="Economy", id="name") +
