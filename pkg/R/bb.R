@@ -31,6 +31,8 @@
 #' @param relative boolean that determines whether relative values are used for \code{width}, \code{height}, \code{xlim} and \code{ylim} or absolute. If \code{x} is unspecified, \code{relative} is set to \code{"FALSE"}.
 #' @param current.projection projection string (see \code{\link{set_projection}}) of the that corresponds to the 
 #' @param projection projection string (see \code{\link{set_projection}}) to transform the bounding box to.
+#' @param as.extent should the bounding box be returned as extent? If \code{FALSE} (default) then a matrix is returned
+#' @return bounding box (see argument \code{as.extent})
 #' @import sp
 #' @importFrom raster extent
 #' @importFrom XML xmlTreeParse xmlChildren xmlRoot xmlAttrs
@@ -38,7 +40,7 @@
 #' @example ../examples/bb.R
 #' @seealso \code{\link{geocode_OSM}}
 #' @export
-bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=NULL, ylim=NULL, relative = FALSE, current.projection=NULL, projection=NULL) {
+bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=NULL, ylim=NULL, relative = FALSE, current.projection=NULL, projection=NULL, as.extent=FALSE) {
 	if (is.character(x)) {
 		res <- geocode_OSM(x)
 		b <- res$bbox
@@ -183,5 +185,5 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		dimnames(b) <- list(c("x", "y"), c("min", "max"))
 	}
 	
-	b	
+	if (as.extent) extent(b) else b
 }

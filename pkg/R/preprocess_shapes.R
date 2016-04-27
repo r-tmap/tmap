@@ -1,4 +1,4 @@
-preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, raster_facets_vars) {
+preprocess_shapes <- function(y, apply_map_coloring, master_proj, master_bbx, interactive, raster_facets_vars) {
 	shp <- y$shp
 	shp.unit <- y$unit
 	shp.unit.size <- y$unit.size
@@ -90,17 +90,27 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, interactive, r
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
-		
+
 		# should raster shape be reprojected?
-		
 		if ((!is.na(shp_proj) && !is.na(master_proj) && shp_proj!=master_proj) || interactive) {
-		  if (is.na(master_proj)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
-		  new_ext <- suppressWarnings(projectExtent(shp, crs = CRS(get_proj4(master_proj))))
-		}
-		
-		
-		  
-		if (!is.na(shp_proj) && !is.na(master_proj) && shp_proj!=master_proj) {
+			if (is.na(master_proj)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
+			new_ext <- tryCatch({
+			  	suppressWarnings(projectExtent(shp, crs = CRS(get_proj4(master_proj))))
+			}, error=function(e){
+		  		NULL
+		  	})
+			
+			if (is.null(new_ext)) {
+				shp <- crop_shape(shp, bb(master_bbx, projection = shp_proj, current.projection = master_proj))	
+				new_ext <- tryCatch({
+					suppressWarnings(projectExtent(shp, crs = CRS(get_proj4(master_proj))))
+				}, error=function(e){
+					stop("Unable to reproject raster shape \"", y$shp_name, "\", probably due to non-finite points.", call. = FALSE)
+				})
+			}
+		} else new_ext <- NULL
+
+		if (!is.null(new_ext)) {
 			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=CRS(master_proj), method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
 			data <- get_raster_data(shpTmp)

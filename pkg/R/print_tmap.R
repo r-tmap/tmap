@@ -88,6 +88,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#              - calls legend_prepare and plot_legend to create grob tree of legend
 	#              - creates grob tree for whole plot
 	scale.extra <- NULL
+	title.snap.to.legend <- NULL
 	
 	interactive <- (mode == "view")
 	
@@ -135,6 +136,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	master_proj <- get_proj4(x[[shape.id[masterID]]]$projection)
 	if (is.null(master_proj)) master_proj <- get_projection(x[[shape.id[masterID]]]$shp)
 	if (interactive) master_proj <- get_proj4("longlat")
+	
+	## find master bounding box (unprocessed)
+	bbx_raw <- bb(x[[shape.id[masterID]]]$shp)
 
 	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
 	raster_facets_vars <- lapply(1:nshps, function(i) {
@@ -151,7 +155,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	})
 	
 	## split data.frames from shape/raster objects, and determine shape types
-	shps_dts <- mapply(preprocess_shapes, x[shape.id], raster_facets_vars, MoreArgs = list(apply_map_coloring=apply_map_coloring, master_proj=master_proj, interactive=interactive), SIMPLIFY = FALSE)
+	shps_dts <- mapply(preprocess_shapes, x[shape.id], raster_facets_vars, MoreArgs = list(apply_map_coloring=apply_map_coloring, master_proj=master_proj, master_bbx=bbx_raw, interactive=interactive), SIMPLIFY = FALSE)
 	
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)

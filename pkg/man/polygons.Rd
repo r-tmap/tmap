@@ -98,7 +98,7 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 \code{\link{tmap-element}}
 }
 \description{
-Creates a \code{\link{tmap-element}} that draws the polygons. \code{tm_fill} fills the polygons. Either a fixed color is used, or a color palette is mapped to a data variable. By default, a divering color palette is used for numeric variables and a qualitative palette for categorical variables. \code{tm_borders} draws the borders of the polygons. \code{tm_polygons} fills the polygons and draws the polygon borders.
+Creates a \code{\link{tmap-element}} that draws the polygons. \code{tm_fill} fills the polygons. Either a fixed color is used, or a color palette is mapped to a data variable. \code{tm_borders} draws the borders of the polygons. \code{tm_polygons} fills the polygons and draws the polygon borders.
 }
 \details{
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_fill} (and \code{tm_polygons}) is \code{col}. In the latter case, the arguments, except for \code{thres.poly}, and the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
@@ -121,7 +121,8 @@ tm_layout("Find the Netherlands!")
 # Numeric data variable
 tm_shape(NLD_muni) +
     tm_fill(col="population", convert2density=TRUE, 
-        style="kmeans", title="Population (per km2)", legend.hist=TRUE, id="name") +
+        style="kmeans", title = expression(paste("Population (per ", km^2, ")")), 
+        legend.hist=TRUE, id="name") +
     tm_borders("grey25", alpha=.5) + 
 tm_shape(NLD_prov) +
     tm_borders("grey40", lwd=2) +
@@ -138,7 +139,7 @@ tm_style_grey()
 pal <- RColorBrewer::brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
 tm_shape(Europe) +
 	tm_polygons("EU_Schengen", palette=pal, title = "European Countries", showNA=FALSE) +
-tm_format_Europe_wide()
+tm_format_Europe()
 
 tm_shape(World) +
     tm_polygons("economy", title="Economy", id="name") +

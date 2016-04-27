@@ -87,7 +87,7 @@
 #' By default the title is placed on top of the legend (determined by \code{legend.position}).
 #' @param title.color color of the title
 #' @param legend.frame either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color. The width of the frame is automatically determined, but is upper-bounded by \code{legend.width}.
-#' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.
+#' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}. By default, it is \code{TRUE} if \code{legend.frame} is \code{TRUE} or a color.
 #' @param title.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).
 #' @param panel.show Logical that determines if the map(s) are shown as panels. If \code{TRUE}, the title will be placed in the panel header instead of inside the map. By default, it is \code{TRUE} when small multiples are created with the \code{by} variable. (See \code{\link{tm_facets}}) 
 #' @param panel.labels Panel labels. Only applicable when \code{panel.show} is \code{TRUE}. For cross tables facets, it should be a list containing the row names in the first, and column names in the second item.
@@ -222,7 +222,6 @@ tm_format_Europe <- function(title=NA,
 							 legend.just=c("right", "top"),
 							 attr.position=c("right", "bottom"),
 							 legend.frame=TRUE,
-							 legend.bg.color=TRUE,
 							 inner.margins=c(0, 0, 0, 0),
 							 
 							 ...) {
@@ -314,6 +313,7 @@ tm_style_natural <- function(bg.color="lightskyblue1",
 							 aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
 							 attr.color="black", 
 							 space.color="white",
+							 legend.bg.color="grey90",
 							 earth.boundary=TRUE,
 							 basemaps="MapQuestOpen.OSM",
 							 ...) {

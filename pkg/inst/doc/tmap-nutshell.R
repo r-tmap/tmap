@@ -9,15 +9,16 @@ data(Europe)
 qtm(Europe)
 
 ## ---- fig.height=5-------------------------------------------------------
-qtm(Europe, fill="gdp_cap_est", text="iso_a3", text.size="AREA", root=5, fill.title="GDP per capita", 
-	fill.textNA="Non-European countries", format="Europe", style="grey")
+qtm(Europe, fill="well_being", text="iso_a3", text.size="AREA", root=5, fill.title="Well-Being Index", 
+	fill.textNA="Non-European countries", 
+	format="Europe_wide", style="gray")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  tm_shape(Europe) +
-#  	tm_fill("gdp_cap_est", textNA="Non-European countries", title="GDP per capita") +
+#  	tm_fill("well_being", textNA="Non-European countries", title="Well-Being Index") +
 #  	tm_borders() +
 #  	tm_text("iso_a3", size="AREA", root=5) +
-#  tm_format_Europe() +
+#  tm_format_Europe_wide() +
 #  tm_style_grey()
 
 ## ---- fig.width=10-------------------------------------------------------
@@ -50,7 +51,7 @@ tm_style_grey()
 
 ## ---- fig.width=10-------------------------------------------------------
 tm_shape(Europe) +
-    tm_polygons("gdp_cap_est", style="kmeans", title="GDP per capita") +
+    tm_polygons("well_being", title="Well-Being Index") +
     tm_facets("part") +
 tm_style_grey()
 
@@ -88,13 +89,13 @@ qtm(Europe, style="cobalt", title="Cobalt style") # equivalent to: qtm(Europe) +
 
 ## ---- fig.width=10-------------------------------------------------------
 # make a categorical map
-qtm(Europe, fill="economy", title=paste("Map according to style:", tmap_style()))
+qtm(Europe, fill="economy", title=paste("Style:", tmap_style()))
 
 # change to color-blind-friendly style
 current_style <- tmap_style("col_blind")
 
 # make a categorical map
-qtm(Europe, fill="economy", title=paste("Map according to style:", tmap_style()))
+qtm(Europe, fill="economy", title=paste("Style:", tmap_style()))
 
 # change back
 tmap_style(current_style)
@@ -108,9 +109,7 @@ tm_layout(outer.margins=c(.05,0,.05,0),
 tm + tm_layout(design.mode=TRUE)
 
 ## ---- fig.width=10-------------------------------------------------------
-land_eck4 <- set_projection(land, "eck4")
-
-tm_shape(land_eck4) +
+tm_shape(land, projection="eck4") +
 	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
 		palette = terrain.colors(9), title="Elevation", auto.palette.mapping=FALSE) +
 tm_shape(World) +

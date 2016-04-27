@@ -379,7 +379,7 @@ add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 	title_name <- paste(aes, "legend.title", sep=".")
 	lab_name <- paste(aes, "legend.labels", sep=".")
 	
-	title <- if (gpl[[title_name]]=="") NULL else gpl[[title_name]]
+	title <- if (nonempty_text(gpl[[title_name]])) expr_to_char(gpl[[title_name]]) else NULL
 
 	legend.position <- gt$view.legend.position
 

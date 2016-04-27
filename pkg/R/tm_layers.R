@@ -136,7 +136,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic arguments of \code{tm_lines} are \code{col} and \code{lwd}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
 #' @param col color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).
-#' @param lwd line width. If multiple values are specified, small multiples are drawn (see details).
+#' @param lwd line width. Either a numeric value or a data variable. In the latter case, the class of the highest values (see \code{style}) will get the line width defined by \code{scale}. If multiple values are specified, small multiples are drawn (see details).
 #' @param lty line type.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param scale line width multiplier number. 

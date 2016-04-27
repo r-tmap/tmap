@@ -4,8 +4,8 @@
 \alias{animation_tmap}
 \title{Create animation}
 \usage{
-animation_tmap(tm, filename = "animation.gif", width = 1000,
-  height = 1000, delay = 40)
+animation_tmap(tm, filename = "animation.gif", width = NA, height = NA,
+  delay = 40)
 }
 \arguments{
 \item{tm}{tmap object. In order to create a series of tmap plots, which will be the frames of the animation, it is important to set nrow and ncol in \code{\link{tm_facets}}, for otherwise a small multiples plot is generated. Commonly, where one map is shown at a time, both nrow and ncol are set to 1.}
@@ -31,10 +31,9 @@ data(World, metro, Europe)
 m1 <- tm_shape(Europe) + 
 	      tm_fill("yellow") + 
 	      tm_borders() + 
-	  tm_facets(by = "name", nrow=1,ncol=1) + 
-      tm_layout(scale=2, outer.margins=0, asp=0)
+	  tm_facets(by = "name", nrow=1,ncol=1)
 
-animation_tmap(m1, filename="European countries.gif", width=1200, height=800, delay=100)
+animation_tmap(m1, filename="European countries.gif", width=800, delay=40)
 
 m2 <- tm_shape(World) +
           tm_polygons() +
@@ -42,9 +41,9 @@ m2 <- tm_shape(World) +
           tm_bubbles(paste0("pop", seq(1970, 2030, by=10)), 
               border.col = "black", border.alpha = .5) +
       tm_facets(free.scales.bubble.size = FALSE, nrow=1,ncol=1) + 
-      tm_format_World(scale=2, outer.margins=0,asp=0)
+      tm_format_World(scale=.5)
 
-animation_tmap(m2, filename="World population.gif", width=1200, height=550, delay=100)
+animation_tmap(m2, filename="World population.gif", width=1200, delay=100)
 }
 }
 \keyword{animation}

@@ -111,6 +111,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
 		
 		if (identical(frame, TRUE)) frame <- attr.color else if (identical(frame, FALSE)) frame <- NA 
+
 		if (is.logical(legend.frame)) if (identical(legend.frame, TRUE)) legend.frame <- attr.color else legend.frame <- NA 
 # 		
 # 		between.margin.in <- convertHeight(unit(between.margin, "lines") * scale, "inch", valueOnly=TRUE)
@@ -148,8 +149,12 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 		bg.overlay <- do.call("process_color", c(list(col=bg.overlay), pc))
 		
 		if (!is.null(outer.bg.color)) outer.bg.color <- do.call("process_color", c(list(col=outer.bg.color), pc))
+		
+		if (is.na(legend.bg.color)) legend.bg.color <- !is.na(legend.frame)
 		if (!is.na(legend.bg.color)) {
-			legend.bg.color <- if (identical(legend.bg.color, TRUE)) {
+			legend.bg.color <- if (identical(legend.bg.color, FALSE)) {
+				NA
+			} else if (identical(legend.bg.color, TRUE)) {
 				bg.color
 			} else {
 				do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), pc))				}

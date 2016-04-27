@@ -40,6 +40,15 @@ nonempty_text <- function(txt) {
 	} else rep(TRUE, length(txt))
 }
 
+expr_to_char <- function(txt) {
+	if (is.character(txt)) {
+		txt
+	} else {
+		as.character(txt)
+	}
+}
+
+
 # same as lapply, but expression are subsetted by [ rather than [[
 elapply <- function(X, FUN, ...) {
 	ise <- is.expression(X)

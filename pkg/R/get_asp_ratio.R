@@ -18,7 +18,7 @@ get_asp_ratio <- function(x, width=700, height=700, res=100) {
 		asp <- calc_asp_ratio(bbx[1, ], bbx[2, ], !is_projected(x))
 	} else if (inherits(x, "tmap")) {
 		tmp <- tempfile()
-		png(tmp, width=800, height=800)
+		png(tmp, width=width, height=height)
 		asp <- print(x, return.asp = TRUE)
 		dev.off()
 	} else {

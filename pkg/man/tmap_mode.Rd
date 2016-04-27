@@ -63,7 +63,8 @@ NLD_muni$pop_dens <- calc_densities(NLD_muni, var = "population")
 
 tm_shape(NLD_muni) +
 	tm_fill(col="pop_dens", 
-		style="kmeans", title="Population (per km2)", id = "name") +
+		style="kmeans", 
+		title = "Population (per km^2)", id = "name") +
 	tm_borders("grey25", alpha=.5) + 
 	tm_shape(NLD_prov) +
 	tm_borders("grey40", lwd=2)

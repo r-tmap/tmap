@@ -183,7 +183,7 @@ names(ed)[c(1:4, 16:17, 6:12, 13:15)]
 
 ed <- ed[, c(1:4, 16:17, 6:12, 13:15)]
 
-ed[ed$continent!="Europe" & (ed$name !="Turkey"), 7:12] <- NA
+ed[ed$continent!="Europe" & (ed$name !="Turkey"), 7:16] <- NA
 
 
 ## subset europe and neighboring countries
