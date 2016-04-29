@@ -48,9 +48,11 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   title.bg.color = NA, title.bg.alpha = 1, panel.show = NA,
   panel.labels = NA, panel.label.size = 1, panel.label.color = "black",
   panel.label.bg.color = "grey80", panel.label.height = 1.25,
-  panel.label.rot = c(90, 0), attr.position = c("right", "bottom"),
-  design.mode = FALSE, basemaps = c("CartoDB.Positron", "OpenStreetMap",
-  "Esri.WorldTopoMap"), bg.overlay = NULL, bg.overlay.alpha = 0)
+  panel.label.rot = c(90, 0), attr.outside = FALSE,
+  attr.outside.position = "bottom", attr.outside.size = NA,
+  attr.position = c("right", "bottom"), design.mode = FALSE,
+  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
+  bg.overlay = NULL, bg.overlay.alpha = 0)
 
 tm_legend(...)
 
@@ -65,7 +67,7 @@ tm_format_World_wide(title = NA, inner.margins = c(0, 0.2, 0.025, 0.01),
 tm_format_Europe(title = NA, title.position = c("left", "top"),
   legend.position = c("right", "top"), legend.just = c("right", "top"),
   attr.position = c("right", "bottom"), legend.frame = TRUE,
-  legend.bg.color = TRUE, inner.margins = c(0, 0, 0, 0), ...)
+  inner.margins = c(0, 0, 0, 0), ...)
 
 tm_format_Europe2(title = NA, title.position = c("left", "top"),
   legend.position = c("left", "top"), legend.outside = TRUE,
@@ -95,8 +97,8 @@ tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   "darkolivegreen3", borders = "black", bubbles = "tomato2", dots = "firebrick",
   lines = "steelblue", text = "black", na = "white"), aes.palette = list(seq =
   "YlGn", div = "RdYlGn", cat = "Set3"), attr.color = "black",
-  space.color = "white", earth.boundary = TRUE,
-  basemaps = "MapQuestOpen.OSM", ...)
+  space.color = "white", legend.bg.color = "grey90",
+  earth.boundary = TRUE, basemaps = "MapQuestOpen.OSM", ...)
 
 tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
   "grey20", bubbles = "blueviolet", dots = "black", lines = "red", text =
@@ -188,11 +190,11 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{legend.outside}{Logical that determines whether the legend is plot outside of the map/facets. Especially useful when using facets that have a common legend (i.e. with \code{free.scales=FALSE}).}
 
-\item{legend.outside.position}{Character vector of two values that determine the outside position of the legend. Only applicable when \code{legend.outside=TRUE}. The first value determines the side of the map/facets, one of: \code{"right"}, \code{"left"}, \code{"top"}, or \code{"bottom"}. The second value determines the alignment of the legend, one of \code{"top"}, \code{"center"}, or \code{"bottom"} when the first value is \code{"left"} or \code{"right"}; one of \code{"left"}, \code{"center"}, \code{"right"} when the first value is \code{"top"} or \code{"bottom"}.}
+\item{legend.outside.position}{Character that determines the outside position of the legend. Only applicable when \code{legend.outside=TRUE}. One of: \code{"right"}, \code{"left"}, \code{"top"}, or \code{"bottom"}.}
 
 \item{legend.outside.size}{Numeric value that determines the relative size of the legend, when \code{legend.outside=TRUE}. If the first value of \code{legend.outside.position} is \code{"top"} or \code{"bottom"}, then it is the width of the legend, else it is the height of the legend.}
 
-\item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object.}
+\item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object. If \code{legend.outside=TRUE}, this argument specifies the legend position within the outside panel.}
 
 \item{legend.just}{justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. This option is only used, if legend.position is specified by numeric coordinates.}
 
@@ -240,7 +242,7 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{title.color}{color of the title}
 
-\item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
+\item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}. By default, it is \code{TRUE} if \code{legend.frame} is \code{TRUE} or a color.}
 
 \item{title.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).}
 
@@ -258,7 +260,13 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{panel.label.rot}{Rotation angles of the panel labels. Vector of two values: the first is the rotation angle (in degrees) of the row panels, which are only used in cross-table facets (when \code{\link{tm_facets}}'s \code{by} is specified with two variables). The second is the rotation angle of the column panels.}
 
-\item{attr.position}{Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions.}
+\item{attr.outside}{Logical that determines whether the attributes are plot outside of the map/facets.}
+
+\item{attr.outside.position}{Character that determines the outside position of the legend, either \code{top} or \code{bottom}. Only applicable when \code{attr.outside=TRUE}.}
+
+\item{attr.outside.size}{Numeric value that determines the relative size of the legend, when \code{attr.outside=TRUE}.}
+
+\item{attr.position}{Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions. If \code{attr.outside=TRUE}, this argument specifies the position of the attributes within the outside panel.}
 
 \item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.}
 

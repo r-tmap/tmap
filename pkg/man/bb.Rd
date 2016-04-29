@@ -6,7 +6,7 @@
 \usage{
 bb(x = NA, ext = NULL, cx = NULL, cy = NULL, width = NULL,
   height = NULL, xlim = NULL, ylim = NULL, relative = FALSE,
-  current.projection = NULL, projection = NULL)
+  current.projection = NULL, projection = NULL, as.extent = FALSE)
 }
 \arguments{
 \item{x}{One of the following:
@@ -35,6 +35,11 @@ If \code{x} is not specified, a bounding box can be created from scratch (see de
 \item{current.projection}{projection string (see \code{\link{set_projection}}) of the that corresponds to the}
 
 \item{projection}{projection string (see \code{\link{set_projection}}) to transform the bounding box to.}
+
+\item{as.extent}{should the bounding box be returned as extent? If \code{FALSE} (default) then a matrix is returned}
+}
+\value{
+bounding box (see argument \code{as.extent})
 }
 \description{
 Swiss army knife for bounding boxes. Modify an existing bounding box or create a new bounding box from scratch. See details.

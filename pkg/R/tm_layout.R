@@ -56,9 +56,9 @@
 #' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
 #' @param legend.outside Logical that determines whether the legend is plot outside of the map/facets. Especially useful when using facets that have a common legend (i.e. with \code{free.scales=FALSE}).
-#' @param legend.outside.position Character vector of two values that determine the outside position of the legend. Only applicable when \code{legend.outside=TRUE}. The first value determines the side of the map/facets, one of: \code{"right"}, \code{"left"}, \code{"top"}, or \code{"bottom"}. The second value determines the alignment of the legend, one of \code{"top"}, \code{"center"}, or \code{"bottom"} when the first value is \code{"left"} or \code{"right"}; one of \code{"left"}, \code{"center"}, \code{"right"} when the first value is \code{"top"} or \code{"bottom"}.
+#' @param legend.outside.position Character that determines the outside position of the legend. Only applicable when \code{legend.outside=TRUE}. One of: \code{"right"}, \code{"left"}, \code{"top"}, or \code{"bottom"}.
 #' @param legend.outside.size Numeric value that determines the relative size of the legend, when \code{legend.outside=TRUE}. If the first value of \code{legend.outside.position} is \code{"top"} or \code{"bottom"}, then it is the width of the legend, else it is the height of the legend.
-#' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object.
+#' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object. If \code{legend.outside=TRUE}, this argument specifies the legend position within the outside panel.
 #' @param legend.just justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. This option is only used, if legend.position is specified by numeric coordinates.
 #' @param legend.width maximum width of the legend
 #' @param legend.height maximum height of the legend.
@@ -96,7 +96,10 @@
 #' @param panel.label.bg.color Background color of the panel labels
 #' @param panel.label.height Height of the labels in number of text line heights.
 #' @param panel.label.rot Rotation angles of the panel labels. Vector of two values: the first is the rotation angle (in degrees) of the row panels, which are only used in cross-table facets (when \code{\link{tm_facets}}'s \code{by} is specified with two variables). The second is the rotation angle of the column panels.
-#' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions.
+#' @param attr.outside Logical that determines whether the attributes are plot outside of the map/facets.
+#' @param attr.outside.position Character that determines the outside position of the legend, either \code{top} or \code{bottom}. Only applicable when \code{attr.outside=TRUE}.
+#' @param attr.outside.size Numeric value that determines the relative size of the legend, when \code{attr.outside=TRUE}.
+#' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions. If \code{attr.outside=TRUE}, this argument specifies the position of the attributes within the outside panel.
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
 #' @param basemaps vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.
 #' @param bg.overlay color of the background overlay rectangle used in the interactive view mode. See \code{\link{tm_view}}.
@@ -165,6 +168,9 @@ tm_layout <- function(title=NA,
 					  panel.label.bg.color = "grey80",
 					  panel.label.height = 1.25,
 					  panel.label.rot = c(90, 0),
+					  attr.outside = FALSE,
+					  attr.outside.position = "bottom",
+					  attr.outside.size=NA,
 					  attr.position = c("right", "bottom"),
 					  design.mode = FALSE,
 					  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),

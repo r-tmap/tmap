@@ -226,6 +226,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	shps_lengths <- sapply(shps, length)
 
 	external_legend <- gmeta$legend.outside
+	external_attr <- gmeta$attr.outside
 	fpi <- preprocess_facet_layout(gmeta, external_legend, dh, dw)
 	
 	tasp <- dw/dh
@@ -261,17 +262,33 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			compass.show <- FALSE
 			credits.show <- FALSE
 		})
-	} else {
-		gp_leg <- NULL
-	}
-	
-	if (external_legend) {
 		gps <- lapply(gps, function(gp) {
 			gp$tm_layout$legend.show <- FALSE
 			if (gp$tm_layout$title.snap.to.legend) gp$tm_layout$title <- ""
 			gp
 		})
+	} else {
+		gp_leg <- NULL
 	}
+
+	
+	if (external_attr) {
+		gp_attr <- gps[[1]]
+		gp_attr$tm_layout <- within(gp_attr$tm_layout, {
+			legend.only <- TRUE
+			legend.show <- FALSE
+			title <- ""
+		})	
+		gps <- lapply(gps, function(gp) {
+			gp$tm_layout$scale.show <- FALSE
+			gp$tm_layout$compass.show <- FALSE
+			gp$tm_layout$credits.show <- FALSE
+			gp
+		})
+	} else {
+		gp_attr <- NULL
+	}
+	
 
 	legend_pos <- attr(shps, "legend_pos")
 	diff_shapes <- attr(shps, "diff_shapes")
@@ -408,7 +425,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	} else {
 		if (show) {
 			if (nx > 1) sasp <- dasp
-			gridplot(gmeta, "plot_all", nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg)
+			gridplot(gmeta, "plot_all", nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr)
 			## if vp is specified, go 1 viewport up, else go to root viewport
 			upViewport(n=as.integer(!is.null(vp)))
 			invisible(list(shps=shps, gps=gps2))

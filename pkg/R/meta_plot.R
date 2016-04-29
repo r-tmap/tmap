@@ -52,6 +52,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	titleWidth <- title.width * title.size
 	titleHeight <- lineHeight * (nlines*1.2) * title.size
 	
+	#############################################################################################
+	## legend
+	#############################################################################################
 	if (has.legend) {
 
 		zs <- sapply(x, function(y) y$legend.z)
@@ -150,11 +153,14 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 								 ifelse(is_num_string(gt$legend.just[1]),
 								 	   as.numeric(gt$legend.just[1]),
 								 	   gt$legend.just[1]=="right"))
+		
+		
 	}
 	
-	# cat("lp", legend.position, "\n")
-	# cat("lj", gt$legend.just, "\n")
-	# cat("ls", legSnapToRight, "\n")
+
+	#############################################################################################
+	## title
+	#############################################################################################
 	
 	if (is.character(gt$title.position) || snap) {
 		title.position <- if (snap) NULL else {
@@ -191,8 +197,10 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		
 	}
 
-	
-	if ((gt$credits.show || gt$scale.show || gt$compass.show) && !gt$legend.only) {
+	#############################################################################################
+	## attributes
+	#############################################################################################
+	if (gt$credits.show || gt$scale.show || gt$compass.show) {
 		elems <- do.call("rbind", list(
 			if (gt$credits.show) data.frame(type="credits",
 				 height=unname(emapply(function(txt, sz) {
@@ -241,13 +249,15 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			elemtitle <- all(tolower(elpos)==tolower(gt$title.position)) && gt$title!="" && !snap
 			if (elemleg) {
 				elemSnapToRight <- legSnapToRight
+				xcor1 <- frameX+mx+legendWidth+mx
+				XCOR1 <- frameX+legendWidth+mx
 				elem.position <- c(switch(elpos[1], 
-										  left=frameX+metaX+mx+legendWidth+ifelse(gt$legend.position[1]=="left", mx, 0),
-										  center=.5 + mx + legendWidth/2,
-										  centre=.5 + mx + legendWidth/2,
-										  right=1-mx-frameX-legendWidth - ifelse(gt$legend.position[1]=="right", mx, 0),
-										  LEFT=frameX+legendWidth+ifelse(gt$legend.position[1]=="left", mx, 0),
-										  RIGHT=1-frameX-legendWidth-ifelse(gt$legend.position[1]=="right", mx, 0),
+										  left=xcor1+metaX,#frameX+metaX+mx+legendWidth+ifelse(gt$legend.position[1]=="left", mx, 0),
+										  center=.5-legendWidth/2-mx ,#.5 + mx + legendWidth/2,
+										  centre=.5-legendWidth/2-mx,#.5 + mx + legendWidth/2,
+										  right=1-xcor1,#1-mx-frameX-legendWidth - ifelse(gt$legend.position[1]=="right", mx, 0),
+										  LEFT=XCOR1,#frameX+legendWidth+ifelse(gt$legend.position[1]=="left", mx, 0),
+										  RIGHT=1-XCOR1,#1-frameX-legendWidth-ifelse(gt$legend.position[1]=="right", mx, 0),
 								   		  as.numeric(elpos[1])),
 								   switch(elpos[2],
 								   	   top= 1-my-frameY-elemHeight, 
@@ -258,16 +268,22 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 								   	   BOTTOM=frameY,
 								   	   as.numeric(elpos[2])))	
 				if (any(is.na(elem.position))) stop("Wrong position argument for attributes", call. = FALSE)
-				elem.max.width <- 1 - mx - legendWidth - metaX - ifelse(gt$legend.position[1] %in% c("left", "right"), mx, 0) - ifelse(elpos[1] %in% c("left", "right"), mx, 0) - 2*frameX
+				elem.max.width <- if (gt$legend.position[1] %in% c("center", "centre")) {
+					.5 - mx - legendWidth/2 - metaX - 2*frameX
+				} else {
+					1 - mx - legendWidth - ifelse(gt$legend.position[1] %in% c("left"), metaX, 0) - ifelse(gt$legend.position[1] %in% c("left", "right"), mx, 0) - ifelse(elpos[1] %in% c("left", "right"), mx, 0) - 2*frameX
+				}
 			} else if (elemtitle) {
 				elemSnapToRight <- FALSE
+				xcor1 <- mx+frameX
+				XCOR1 <- frameX
 				elem.position <- c(switch(elpos[1], 
-										  left=mx+metaX+frameX,
-										  center=.5,
-										  centre=.5,
-										  right=1-mx-frameX,
-										  LEFT=frameX,
-										  RIGHT=1-frameX,
+										  left=xcor1+metaX,#mx+metaX+frameX,
+										  center=xcor1,#.5,
+										  centre=xcor1,#.5,
+										  right=1-xcor1,#1-mx-frameX,
+										  LEFT=XCOR1,#frameX,
+										  RIGHT=1-XCOR1,#1-frameX,
 										  as.numeric(elpos[1])),
 								   switch(elpos[2],
 								   	   top= 1-frameY-ifelse(gt$title.position[2]=="top", my, 0) - elemHeight - titleHeight, 
@@ -281,13 +297,15 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				elem.max.width <- 1 - (if (has.legend && tolower(elpos[2])==tolower(gt$legend.position[2])) 2*mx + legendWidth else mx) - ifelse(elpos[1] %in% c("left", "right"), mx, 0) - metaX - 2 * frameX
 			} else {
 				elemSnapToRight <- FALSE
+				xcor1 <- mx+frameX
+				XCOR1 <- frameX
 				elem.position <- c(switch(elpos[1], 
-										  left=mx+metaX+frameX,
+										  left=xcor1+metaX,#mx+metaX+frameX,
 										  center=.5,
 										  centre=.5,
-										  right=1-mx-frameX,
-										  LEFT=frameX,
-										  RIGHT=1-frameX,
+										  right=1-xcor1,#1-mx-frameX,
+										  LEFT=XCOR1,#frameX,
+										  RIGHT=1-XCOR1,#1-frameX,
 										  as.numeric(elpos[1])),
 								   switch(elpos[2],
 								   	   top= 1-my-elemHeight-frameY, 
@@ -301,22 +319,30 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				elem.max.width <- (if (has.legend && tolower(elpos[2])==tolower(gt$legend.position[2])) 1 - 3*mx - legendWidth else 1 - 2*mx) - metaX - 2 * frameX
 			}
 			elem.just <- switch(elpos[1],
+								center="center",
+								centre="center",
 								right="right",
 								RIGHT="right",
 								"left")
+			if (elemleg && elem.just=="center") elem.just <- "right"
+			
 			el$y <- elem.position[2] + c(0, cumsum(el$height))[1:nrow(el)]
 			el$width2 <- pmin(el$width, elem.max.width)
 			
-			el$x <- elem.position[1] - if (elem.just=="left") 0 else el$width2
+			el$x <- elem.position[1] #+ if (elem.just=="left") 0 else if (elem.just=="center") el$width2/2 else el$width2
+			
+			print(el)
+			print(elem.just)
 			
 			structure(lapply(1:nrow(el), function(i) {
 				e <- el[i,]
 				vpi <- viewport(x=e$x, 
 								y=e$y,
 								height=e$height, width=e$width2,
-								just=c("left", "bottom"),
+								just=c(elem.just, "bottom"),
 								name=as.character(e$type))
 				pushViewport(vpi)
+				
 				if (e$type=="credits") {
 					grb <- plot_cred(gt, just=elem.just, id=e$cred.id)
 				} else if (e$type=="scale_bar") {
@@ -324,6 +350,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				} else {
 					grb <- plot_compass(gt, just=elem.just)
 				}
+				#grt <- gTree(children=gList(rectGrob()), vp=vpi)
 				grt <- gTree(children=gList(grb), vp=vpi)
 				upViewport()
 				grt
@@ -389,8 +416,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			vpLegend$x <- unit(legend.position[1] + shiftX, "npc")
 			# vpLegend$width <- unit(legWidthNpc, "npc") #not working, since legend items are drawn with npc instead of inch
 			
-			if (any(elemSnapToRight)) {
-			  for (i in which(elemSnapToRight)) {
+			iselemSnapToRight <- as.logical(elemSnapToRight)
+			if (any(iselemSnapToRight)) {
+			  for (i in which(iselemSnapToRight)) {
 			    treeElem$children[[i]]$vp$x <- treeElem$children[[i]]$vp$x + unit(shiftX, "npc")
 			  }
 			}
@@ -407,635 +435,3 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	treeMeta
 }
 
-elem_subplot <- function(x, id, gt, just) {
-	type <- x$type
-	cols <- if (type=="credits") c(1,2) else ifelse(just=="left", 1, 2)
-	cellplot(id, cols, e={
-		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
-		rectGrob(gp=gpar(col="green", fill=NA))
-	})
-}
-
-
-legend_subplot <- function(x, id, gt, histWidth) {
-	legend.type <- x$legend.type
-	cols <- if (legend.type=="hist") 1 else c(1,2)
-	list(cellplot(id, cols, e={
-	    lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
-		res <- if (legend.type=="hist") {
-			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25, attr.color=gt$attr.color, legend.hist.bg.color = gt$legend.hist.bg.color)
-		} else if (legend.type=="TITLE") {
-			legend_title(x, gt, is.main.title=TRUE, lineHeight, m=.1)
-		} else if (legend.type=="title") {
-			legend_title(x, gt, is.main.title=FALSE, lineHeight, m=.1)
-		} else if (legend.type=="spacer") {
-			list(NULL, 0)
-		} else if (x$legend.is.portrait) {
-			legend_portr(x, gt, lineHeight, m=.25)
-		} else {
-			legend_landsc(x, gt, lineHeight, m=.25)
-		}
-		legGrob <- res[[1]]
-		legWidth <- res[[2]]
-		if (legend.type=="hist") legWidth <- histWidth
-		if (gt$design.mode) {
-			gTree(children=gList(rectGrob(gp=gpar(fill="#CCCCCCCC")), legGrob))	
-		} else legGrob
-	}), legWidth=legWidth)
-}
-
-legend_title <- function(x, gt, is.main.title, lineHeight, m) {
-	size <- ifelse(is.main.title, gt$title.size, gt$legend.title.size)
-	title <- x$title
-	nlines <- number_text_lines(x$title)
-	my <- lineHeight * size * m
-	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-	
-	w <- convertWidth(stringWidth(paste(title, " ")), unitTo = "npc", valueOnly = TRUE)# * size * 1.05
-	newsize <- min(size, 5/(lineHeight*nlines*6), (1-2*mx)/w)
-	
-	
-	list(textGrob(title, x=mx, y=6/12 , just=c("left", "center"), gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily)), legWidth=2*mx+w*newsize)
-}
-
-
-legend_portr <- function(x, gt, lineHeight, m) {
-	legend.text.size <- gt$legend.text.size
-	with(x, {
-		is.cont <- (nchar(legend.palette[1])>20)
-		
-		my <- lineHeight * legend.text.size * m
-		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-		s <- 1.25 ## for bubbles only
-		r <- 1-2*my
-		
-
-		if (legend.type=="bubble.size") {
-			nitems <- length(legend.labels)
-			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
-			lhs <- pmax(hs*s, legend.text.size * lineHeight)
-			if (sum(lhs)>r+1e-6) {
-				clipID <- which(cumsum(lhs) > r)[1]
-				hs <- hs[1:(clipID-1)]
-				lhs <- lhs[1:(clipID-1)]
-				legend.labels <- legend.labels[1:(clipID-1)]
-			}
-		} else if (legend.type=="text.size") {
-			nitems <- length(legend.labels)
-			hs <- convertHeight(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
-			lhs <- pmax(hs*s, legend.text.size * lineHeight)
-			if (sum(lhs)>r+1e-6) {
-				clipID <- which(cumsum(lhs) > r)[1]
-				hs <- hs[1:(clipID-1)]
-				lhs <- lhs[1:(clipID-1)]
-				legend.labels <- legend.labels[1:(clipID-1)]
-				legend.text <- legend.text[1:(clipID-1)]
-			}
-		} else {
-			nitems <- length(legend.labels)
-			lhs <- hs <- rep(r / nitems, nitems)
-		}
-		
-		if (legend.type=="bubble.col" && !is.cont) {
-			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
-			hs <- pmin(hs/s, bmax)
-		}
-		
-		
-		if (legend.type=="text.col" && !is.cont) {
-			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
-			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
-		} else if  (legend.type=="text.size") {
-			cex <- legend.sizes #pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE))
-			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
-		} else {
-			ws <- convertWidth(convertHeight(unit(hs, "npc"), "inch"), "npc", TRUE)
-		}
-		wsmax <- max(ws)
-		
-		ys <- 1 - my - cumsum(lhs) + lhs/2
-		size <- pmin(lhs / lineHeight, legend.text.size)
-		
-		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
-		
-		wstext <- convertWidth(stringWidth(paste(legend.labels, " ")), unitTo = "npc", valueOnly = TRUE)
-		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
-		
-
-		grobLegendItem <- if (is.cont) {
-			fill <- legend.palette
-			xs <- mx+ws/2
-
-			# process fill colors
-			fill_list <- strsplit(fill, split = "-", fixed=TRUE)
-			fill_list <- lapply(fill_list, function(i) {
-				i[i=="NA"] <- NA
-				i
-			})
-			fill_len <- sapply(fill_list, length)
-			fill2 <- unlist(fill_list)
-			
-			# process x,y,w,h
-			xs2 <- unlist(mapply(rep, xs, fill_len, SIMPLIFY = FALSE))
-			ws2 <- unlist(mapply(rep, ws, fill_len, SIMPLIFY = FALSE))
-			
-			ys2 <- unlist(mapply(function(y, h, k) {
-				seq(y+h/2, y-h/2, length.out=k*2+1)[seq(2, k*2, by=2)]
-			}, ys, hs, fill_len, SIMPLIFY = FALSE))
-			hs2 <- unlist(mapply(function(h, k) rep(h/k, k), hs, fill_len, SIMPLIFY = FALSE))
-			
-			rectGrob(x=xs2, 
-					 y=ys2, 
-					 width= ws2, 
-					 height= hs2,
-					 gp=gpar(fill=fill2, col=NA))
-		} else if (legend.type %in% c("fill", "raster")) {
-			fill <- legend.palette
-			col <- ifelse(legend.type =="fill", border.col, NA)
-			if (legend.type=="raster") lwd <- NA
-			rectGrob(x=mx+ws/2, 
-					 y=ys, 
-					 width= ws, 
-					 height= hs,
-					  gp=gpar(fill=fill, col=col, lwd=lwd))
-		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
-			cols <- legend.palette
-			circleGrob(x=mx+wsmax/2, 
-					y=ys, r=unit(hsi/2, "inch"),
-					gp=gpar(fill=cols,
-							col=bubble.border.col,
-							lwd=bubble.border.lwd))
-		} else if (legend.type %in% c("text.size", "text.col")) {
-			cols <- legend.palette
-			textGrob(legend.text,
-					 x=mx, 
-					 y=ys,
-					 just=c("left", "center"),
-					  gp=gpar(cex=cex, col=cols))
-		} else if (legend.type %in% c("line.col", "line.lwd")) {
-			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
-			cols <- legend.palette
-			polylineGrob(x=mx+ c(0,1)*rep(ws, each=2),
-  				  y=rep(ys, each=2), 
-  				  id=rep(1:nitems, each=2),
-  				  gp=gpar(col=cols, 
-  				  		lwd=lwds,
-  				  		lty=line.legend.lty,
-  				  		lineend="butt"))
-		}
-		grobLegendText <- textGrob(legend.labels, x=mx*2+wsmax,
-								   y=ys, just=c("left", "center"), gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
-		legWidth <- mx*4+wsmax+max(wstext*newsize)
-		
-		list(gList(grobLegendItem, grobLegendText), legWidth=legWidth)
-	})
-}
-
-## design from top to bottom: .25 margin, 1.5 items, 1.25 text, .25 margin
-legend_landsc <- function(x, gt, lineHeight, m) {
-	legend.text.size <- gt$legend.text.size
-	with(x, {
-		is.cont <- (nchar(legend.palette[1])>20)
-		#grid.rect()
-		
-		if (lineHeight*legend.text.size * 3.25 > 1) {
-			legend.text.size <- 1/(lineHeight * 3.25)
-		}
-		
-		my <- lineHeight * legend.text.size * m
-		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-		rx <- 1-2*mx
-		ry <- 1-2*my
-		
-		nitems <- length(legend.labels)
-		# delete too high 
-		if (legend.type=="bubble.size") {
-			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
-# 			nofit <- which(hs>(ry-1.25*lineHeight*legend.text.size))
-# 			
-# 			if (length(nofit)) {
-# 				clipID <- nofit[1]
-# 				nitems <- clipID - 1
-# 				legend.labels <- legend.labels[1:nitems]
-# 				if (length(legend.palette)>1) legend.palette <- legend.palette[1:nitems]
-# 				legend.sizes <- legend.sizes[1:nitems]
-# 				hs <- hs[1:nitems]
-# 			}
-		} else if (legend.type=="text.size") {
-			hs <- convertHeight(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
-		} else {
-			hs <- rep(1.5*lineHeight*legend.text.size, nitems)
-		}
-		
-		if (legend.type=="text.col" && !is.cont) {
-			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
-			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
-		} else if  (legend.type=="text.size") {
-			cex <- legend.sizes #pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE))
-			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
-		} else {
-			ws <- convertWidth(convertHeight(unit(hs, "npc"), "inch"), "npc", TRUE)
-		}
-		
-		labelsws <- convertWidth(stringWidth(paste(legend.labels, " ")), "npc", TRUE) * legend.text.size
-		
-		
-		if (legend.type=="text.col" && !is.cont) {
-			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
-			textws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
-			labelsws <- pmax(labelsws, textws)
-		} else if  (legend.type=="text.size") {
-			cex <- legend.sizes
-			textws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
-			labelsws <- pmax(labelsws, textws)
-		}
-		
-		maxlabelsws <- max(labelsws)
-		
-		ws <- rep(maxlabelsws, nitems)
-		if (sum(ws)>rx && legend.type!="text.size") {
-			ratio <- (sum(ws)/rx)
-			ws <- ws / ratio
-			legend.text.size <- legend.text.size / ratio
-		}
-		
-		wsmax <- rx/nitems
-		
-		if (legend.type=="bubble.size") {
-			bubblews <- convertWidth(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
-			ws <- pmax(ws, bubblews*1.1)
-			
-			# delete too wide 
-			if (sum(ws)>rx) {
-				clipID2 <- which(cumsum(ws)>rx)[1]
-				nitems <- clipID2 - 1
-				legend.labels <- legend.labels[1:nitems]
-				if (length(legend.palette)>1) legend.palette <- legend.palette[1:nitems]
-				legend.sizes <- legend.sizes[1:nitems]
-				hs <- hs[1:nitems]
-				ws <- ws[1:nitems]
-			}
-		} else if (legend.type=="text.size") {
-			#textws <- convertWidth(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
-			#ws <- pmax(ws, textws*1.1)
-			
-			# delete too wide 
-			if (sum(ws)>rx) {
-				clipID2 <- which(cumsum(ws)>rx)[1]
-				nitems <- clipID2 - 1
-				legend.labels <- legend.labels[1:nitems]
-				if (length(legend.palette)>1) legend.palette <- legend.palette[1:nitems]
-				legend.sizes <- legend.sizes[1:nitems]
-				hs <- hs[1:nitems]
-				ws <- ws[1:nitems]
-			}
-		}
-		
-		xs <- mx + cumsum(ws) - ws/2
-					
-		if (legend.type=="bubble.col") {
-			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
-			hs <- pmin(hs, bmax)
-		} else if (legend.type=="text.col") {
-			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE)
-			hs <- pmin(hs, bmax)
-		}
-		
-		hsmax <- max(hs)
-		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
-		
-		
-		grobLegendItem <- if (is.cont) {
-			fill <- legend.palette
-			xtraWidth <- ws[1]/2
-			ys <- 1-my-hs/2
-			
-			# process fill colors
-			fill_list <- strsplit(fill, split = "-", fixed=TRUE)
-			fill_list <- lapply(fill_list, function(i) {
-				i[i=="NA"] <- NA
-				i
-			})
-			fill_len <- sapply(fill_list, length)
-			fill2 <- unlist(fill_list)
-			
-			# process x,y,w,h
-			ys2 <- unlist(mapply(rep, ys, fill_len, SIMPLIFY = FALSE))
-			hs2 <- unlist(mapply(rep, hs, fill_len, SIMPLIFY = FALSE))
-			
-			xs2 <- unlist(mapply(function(x, w, k) {
-				seq(x-w/2, x+w/2, length.out=k*2+1)[seq(2, k*2, by=2)]
-			}, xs, ws, fill_len, SIMPLIFY = FALSE))
-			ws2 <- unlist(mapply(function(w, k) rep(w/k, k), ws, fill_len, SIMPLIFY = FALSE))
-			
-			rectGrob(x=xs2, 
-					 y=ys2, 
-					 width= ws2, 
-					 height= hs2,
-					 gp=gpar(fill=fill2, col=NA))
-		} else if (legend.type %in% c("fill", "raster")) {
-			fill <- legend.palette
-			xtraWidth <- ws[1]/2
-			rectGrob(x=xs, 
-					  y=1-my-hs/2, 
-					  width= ws, 
-					  height= hs,
-					  gp=gpar(fill=fill, col=border.col, lwd=lwd))
-		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
-			cols <- legend.palette
-			bubbleR <- unit(hsi/2, "inch")
-			xtraWidth <- convertWidth(max(bubbleR), "npc", valueOnly=TRUE)
-			circleGrob(x=xs, y=1-my-hsmax/2, r=bubbleR,
-						gp=gpar(fill=cols,
-								col=bubble.border.col,
-								lwd=bubble.border.lwd))
-		} else if (legend.type %in% c("text.size", "text.col")) {
-
-			cols <- legend.palette
-			xtraWidth <- convertWidth(unit(hsi, "inch"), "npc", valueOnly=TRUE)
-			textGrob(legend.text,
-					 x=xs, y=1-my-hsmax/2,
-					 just=c("center", "center"),
-					   gp=gpar(cex=cex, col=cols))
-		} else if (legend.type %in% c("line.col", "line.lwd")) {
-			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
-			cols <- legend.palette
-			xtraWidth <- convertWidth(unit(lwds[nitems], "points"), "npc", valueOnly=TRUE)/2
-			polylineGrob(x=rep(xs, each=2), 
-						  y=1-my-c(0,1)*rep(hs, each=2),
-						  id=rep(1:nitems, each=2),
-						  gp=gpar(col=cols, 
-						  		lwd=lwds,
-						  		lty=line.legend.lty,
-						  		lineend="butt"))
-		}
-		grobLegendText <- textGrob(legend.labels, x=xs,
-				  y=my+lineHeight*legend.text.size, just=c("center", "top"), gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
-		
-		legWidth <- mx*2+xs[length(xs)]+max(xtraWidth, labelsws[nitems]*legend.text.size/2)
-
-		list(gList(grobLegendItem, grobLegendText), legWidth=legWidth)
-	})
-}
-
-
-plot_scale <- function(gt, just, xrange, crop_factor) {
-	light <- do.call("process_color", c(list(gt$scale.color.light, alpha=1), gt$pc))
-	dark <- do.call("process_color", c(list(gt$scale.color.dark, alpha=1), gt$pc))
-
-	xrange2 <- xrange/gt$unit.size
-	
-	if (is.null(gt$scale.breaks)) {
-		ticks2 <- pretty(c(0, xrange2*crop_factor), 4)
-	} else {
-		ticks2 <- gt$scale.breaks
-	}
-	ticks2Labels <- format(ticks2, trim=TRUE)
-	ticksWidths <- convertWidth(stringWidth(paste(ticks2Labels, " ")), "npc", TRUE)
-
-	labels <- c(ticks2Labels, gt$unit)
-	
-	n <- length(ticks2)
-	ticks3 <- ticks2*gt$unit.size / xrange
-	
-	widths <- ticks3[2] - ticks3[1]
-	size <- min(gt$scale.size, widths/max(ticksWidths))
-	x <- ticks3[1:(n-1)] + .5*ticksWidths[1]*size
-	
-# 	cat(size, "s\n")
-# 	cat(gt$scale.size, "gts\n")
-	
-	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
-	#my <- lineHeight / 2
-	#mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-	
-	unitWidth <- convertWidth(stringWidth(paste(gt$unit, " ")), "npc", TRUE) * size
-	width <- widths * (n-1) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
-	
-	xtext <- x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
-
-	if (just=="right") {
-		x <- 1-width+x
-		xtext <- 1-width+xtext
-	}
-	
-	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
-	
-	gTree(children=gList(
-		grobBG,
-		rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=gt$scale.lwd)),
-		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(col=gt$attr.color, cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))), name="scale_bar")
-	
-	
-}
-
-
-plot_cred <- function(gt, just, id) {
-	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
-
-	my <- lineHeight / 2
-	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-	
-	# number of lines
-	txt <- gt$credits.text[id]
-	nlines <- number_text_lines(txt)
-	
-	size <- min((1-2*mx) / convertWidth(stringWidth(txt), "npc", valueOnly=TRUE), gt$credits.size[id])
-	
-	width <- (convertWidth(stringWidth(txt), "npc", valueOnly=TRUE)+1*mx) * size
-	#height <- lineHeight * (nlines) * size
-
-	x <- if (just=="left") 0 else 1-width #-mx*size
-	tx <- if (just=="left") mx*.5*size else 1-width+mx*.5*size
-	
-	if (gt$credits.align[id]=="center") {
-		x <- x + width/2
-		tx <- tx + width/2
-	} else if (gt$credits.align[id]=="right") {
-		x <- x + width
-		tx <- tx + width
-	}
-	
-
-	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
-	
-	col <- do.call("process_color", c(list(gt$credits.col[id], alpha=gt$credits.alpha[id]), gt$pc))
-	
-	gTree(children=gList(grobBG,
-						 if (!is.na(gt$credits.bg.color[id])) {
-		bg.col <- do.call("process_color", c(list(gt$credits.bg.color[id], alpha=gt$credits.bg.alpha[id]), gt$pc))
-		rectGrob(x=x, width=width, just="left", gp=gpar(col=NA, fill=bg.col))
-	} else {
-		NULL
-	}, textGrob(label=txt, x = tx, y =.5, just=c(gt$credits.align[id], "center"), gp=gpar(cex=size, col=col, fontface=gt$credits.fontface[id], fontfamily=gt$credits.fontfamily[id]))), name="credits")
-}
-
-
-plot_compass <- function(gt, just) {
-	u <- 1/(gt$compass.nlines)
-	#vpComp <- viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
-
-	
-	light <- do.call("process_color", c(list(gt$compass.color.light, alpha=1), gt$pc))
-	dark <- do.call("process_color", c(list(gt$compass.color.dark, alpha=1), gt$pc))
-	
-	if (gt$compass.type=="4star") {
-		s <- c(.5, .5, .57, .5, .5, .43, 0, .5, .43, 1, .5, .57)
-		x <- list(rep.int(s, 2))
-		y <- list(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)])
-		id <- rep(1:8, each=3)
-		fill <- c(dark, light, dark, light, light, dark, light, dark)
-	} else if (gt$compass.type=="8star") {
-		s <- c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
-		s2 <- c(.5, .62, .7, .5, .56, .7, .5, .38, .3, .5, .44, .3)
-		x <- list(c(rep.int(s, 2), rep.int(s2, 2)))
-		y <- list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
-		id <- rep(1:16, each=3)
-		fill <- c(dark, light, dark, light, light, dark, light, dark)
-	} else if (gt$compass.type=="8star") {
-		s <- c(.5, .5, .56, .5, .5, .44, 0, .5, .38, 1, .5, .62)
-		s2 <- c(.5, .62, .7, .5, .56, .7, .5, .38, .3, .5, .44, .3)
-		x <- list(c(rep.int(s, 2), rep.int(s2, 2)))
-		y <- list(c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
-		id <- rep(1:16, each=3)
-		fill <- c(dark, light, dark, light, light, dark, light, dark)
-	} else if (gt$compass.type=="arrow") {
-		x <- list(c(.5, .7, .5, .5, .3, .5))
-		y <- list(c(1, 0, .2, 1, 0, .2))
-		id <- rep(1:2, each=3)
-		fill <- c(dark, light)
-	} else if (gt$compass.type=="radar") {
-		cr <- c(.45, .42, .2, .17, .1)
-		LWD <- round(convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE)) * gt$compass.lwd
-		
-		cd <- seq(1/8, 15/8, by=.25) * pi
-		cd2 <- seq(1/4, 7/4, by=.5) * pi
-		cd3 <- seq(0, 1.75, by=.25) * pi
-		
-		x <- list(.5,
-				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5)),
-				  .5 + c(0, cr[1]-.005, 0, -cr[1]+.005, 0, 0, 0, 0),
-				  unlist(lapply(.5 + sin(cd2) * cr[1], c, .5)),
-				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE)))
-		
-		y <- list(.5,
-				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5)),
-				  .5 + c(0, 0, 0, 0, 0, cr[1]-.005, 0, -cr[1]+.005),
-				  unlist(lapply(.5 + cos(cd2) * cr[1], c, .5)),
-				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE)))
-
-	} else if (gt$compass.type=="rose") {
-		cr <- c(.45, .42, .2, .17, .1)
-		LWD <- convertWidth(unit(.01, "npc"), "points", valueOnly=TRUE) * gt$compass.lwd
-		cd <- seq(1/8, 15/8, by=.25) * pi
-		cd2 <- seq(1/4, 7/4, by=.5) * pi
-		cd3 <- seq(0, 1.75, by=.25) * pi
-
-		b <- cr[4]
-		a <- 0.4142136 * b # 1/16th circleL
-		s <- c(.5, .5, .5+a, .5, .5, .5-a, 0, .5, .5-b, 1, .5, .5+b)
-		s2 <- c(.5, .5+b, .78, .5, .5+a, .78, .5, .5-b, .22, .5, .5-a, .22)
-
-		id <- rep(1:16, each=3)
-		fill <- c(dark, light, dark, light, light, dark, light, dark)
-		
-				
-		x <- list(.5,
-				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5)),
-				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE)),
-				  c(rep.int(s, 2), rep.int(s2, 2)))
-		
-		y <- list(.5,
-				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5)),
-				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE)),
-				  c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
-		
-	}
-
-
-	# rescale
-	resc <- function(a) (a-.5)*(gt$compass.size/gt$compass.nlines) + .5
-	
-	x <- lapply(x, resc)
-	y <- lapply(y, resc)
-	if (gt$compass.type %in% c("radar", "rose")) cr <- cr * (gt$compass.size/gt$compass.nlines)
-	
-	
-	#x <- (x-.5)*(gt$compass.size/(gt$compass.nlines)) + .5
-	#y <- (y-.5)*(gt$compass.size/(gt$compass.nlines)) + .5
-	
-	if (gt$compass.north!=0) {
-		drotate <- gt$compass.north/180*pi
-
-		xy <- mapply(function(a,b){
-			d <- atan2(b-.5, a-.5)
-			r <- sqrt((a-.5)^2 + (b-.5)^2)
-			
-			list(x=r * sin(d+drotate) + .5,
-				 y=r * cos(d+drotate) + .5)
-		}, x, y, SIMPLIFY=FALSE)
-		x <- lapply(xy, "[", 1)
-		y <- lapply(xy, "[", 2)
-	} else drotate <- 0
-	
-	
-	# shift
-	if (gt$compass.show.labels==1) {
-		x <- lapply(x, function(a) a - (u/2) * sin(drotate))
-		y <- lapply(y, function(b) b - (u/2) * cos(drotate))
-	}
-	
-	
-	
-	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
-	
-	grobLabels <- if (gt$compass.show.labels==0) {
-		NULL
-	} else {
-		selection <- if (gt$compass.show.labels==1) {
-			c(TRUE, rep.int(FALSE, 7))
-		} else if (gt$compass.show.labels==2) {
-			rep.int(c(TRUE, FALSE), 4)
-		} else rep.int(TRUE, 8)
-
-		labels <- gt$compass.cardinal.directions[c(1, 1, 2, 3, 3, 3, 4, 1)]
-		labels[c(2,4,6,8)] <- paste(labels[c(2,4,6,8)], gt$compass.cardinal.directions[c(2, 2, 4, 4)], sep="")
-		labels <- labels[selection]
-		
-		lr <- (1-u)/2
-		ld <- (seq(0, 1.75, by=.25) * pi)[selection]
-
-		lx <- lr * sin(ld+drotate) + .5
-		ly <- lr * cos(ld+drotate) + .5
-		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(col=gt$attr.color, cex=gt$compass.fontsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
-	}
-
-	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {
-		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill, lwd=gt$compass.lwd))
-	} else if (gt$compass.type=="radar") {
-		gTree(children = gList(
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
-			polylineGrob(x=x[[2]], y=y[[2]], id=rep(1:8, each=2), gp=gpar(lwd=1*LWD, col=dark)),
-			polylineGrob(x=x[[3]], y=y[[3]], id=rep(1:4, each=2), gp=gpar(lwd=2*LWD, col=dark)),
-			polylineGrob(x=x[[4]], y=y[[4]], id=rep(1:4, each=2), gp=gpar(lwd=1*LWD, col=dark)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[2], gp=gpar(lwd=1*LWD, col=dark, fill=NA)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[3], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[4], gp=gpar(lwd=1*LWD, col=NA, fill=dark)),
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[5], gp=gpar(lwd=1*LWD, col=NA, fill=light)),
-			polylineGrob(x=x[[5]], y=y[[5]], id=rep(1:8, each=2), gp=gpar(lwd=2*LWD, col=light))))
-	} else if (gt$compass.type=="rose") {
-		gTree(children = gList(
-			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
-			polygonGrob(x=x[[4]], y=y[[4]], id=id, gp=gpar(lwd=1*LWD, fill=fill)),
-			polylineGrob(x=x[[2]], y=y[[2]], id=rep(1:8, each=2), gp=gpar(lwd=1*LWD, col=dark)),
- 			circleGrob(x=x[[1]], y=y[[1]], r = cr[2], gp=gpar(lwd=1*LWD, col=dark, fill=NA)),
- 			circleGrob(x=x[[1]], y=y[[1]], r = cr[3], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
- 			circleGrob(x=x[[1]], y=y[[1]], r = cr[4], gp=gpar(lwd=1*LWD, col=NA, fill=dark)),
- 			circleGrob(x=x[[1]], y=y[[1]], r = cr[5], gp=gpar(lwd=1*LWD, col=NA, fill=light)),
- 			polylineGrob(x=x[[3]], y=y[[3]], id=rep(1:8, each=2), gp=gpar(lwd=2*LWD, col=light))))
-	}
-	
-	
-	gTree(children=gList(grobBG, grobComp, grobLabels), name="compass")
-}
-	

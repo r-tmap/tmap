@@ -1,6 +1,10 @@
 process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio, shp_info, any.legend, interactive) {
 	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- NULL
 	
+	credit.show <- !is.null(gc)
+	scale.show <- !is.null(gsb)
+	compass.show <- !is.null(gcomp)
+	
 	gf <- within(gf, {
 		by <- NULL
 		if (is.null(ncol) && is.null(nrow)) {
@@ -174,6 +178,16 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 		earth.boundary.lwd <- earth.boundary.lwd * scale
 		frame.lwd <- frame.lwd * scale
 		
+		if (is.na(attr.outside.size)) attr.outside.size <- if (!credit.show && !scale.show && !compass.show) {
+			0
+		} else if (credit.show && scale.show && compass.show) {
+			.25 * scale
+		} else if ((credit.show && scale.show && !compass.show) || (!credit.show && !scale.show && compass.show)) {
+			.15 * scale
+		} else if (compass.show) {
+			.2 * scale
+		} else .1 * scale
+		
 		## overrule margins if interactive
 		if (interactive) {
 			inner.margins <- rep(0, 4)
@@ -195,8 +209,8 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 	} else {
 		gg <- list(grid.show=FALSE)
 	}
-
-	if (!is.null(gc)) {
+	
+	if (credit.show) {
 		gc <- within(gc, {
 		 	credits.col[is.na(credits.col)] <- gt$attr.color
 			credits.col <- do.call("process_color", c(list(col=credits.col), gt$pc))
@@ -209,8 +223,8 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 	} else {
 		gc <- list(credits.show=list(rep(FALSE, nx)))
 	}
-
-	if (!is.null(gsb)) {
+	
+	if (scale.show) {
 		gsb <- within(gsb, {
 			scale.size <- scale.size * gt$scale
 			scale.lwd <- scale.lwd * gt$scale
@@ -221,11 +235,11 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 	}
 	
 	compass.show.labels <- NULL
-	if (!is.null(gcomp)) {
+	if (compass.show) {
 		gcomp <- within(gcomp, {
 			if (is.na(compass.text.color)) compass.text.color <- gt$attr.color
 			compass.text.color <- do.call("process_color", c(list(col=compass.text.color), gt$pc))
-
+			
 			if (is.na(compass.color.dark)) compass.color.dark <- ifelse(gt$attr.color.light, "black", gt$attr.color)
 			if (is.na(compass.color.light)) compass.color.light <- ifelse(gt$attr.color.light, gt$attr.color, "white")
 			compass.color.dark <- do.call("process_color", c(list(col=compass.color.dark), gt$pc))

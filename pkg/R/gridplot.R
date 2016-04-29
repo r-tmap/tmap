@@ -1,4 +1,4 @@
-gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg) {
+gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr) {
 	mfrow <- gmeta$nrow
 	mfcol <- gmeta$ncol
 
@@ -74,7 +74,7 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 		rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)
 		
 		## draw outside grid labels
-		treeGridLabels <- if (external_grid_labels) {
+		treeGridLabels <- if (external_grid_labels && gmeta$grid.show) {
 			mapply(function(i, rw, cl) {
 				if (multi_shapes) {
 					proj <- bbxproj[[i]]$proj
@@ -133,7 +133,16 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 			legPanel <- NULL
 		}
 		
-		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG), treeGridLabels, treeMults, rowPanels, colPanels, legPanel)), vp=vpGrid)
+		## draw attributes legend
+		if (!is.null(gp_attr)) {
+			attrPanel <- gList(cellplot(gmeta$attry, gmeta$attrx, e=do.call(fun, args=list(1, gp_attr, shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = "outside_attr"))
+		} else {
+			attrPanel <- NULL
+		}
+
+		
+		
+		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG), treeGridLabels, treeMults, rowPanels, colPanels, legPanel, attrPanel)), vp=vpGrid)
 		grid.draw(tree)
 	})
 	upViewport()

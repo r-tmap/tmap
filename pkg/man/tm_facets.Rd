@@ -74,8 +74,10 @@ tm_format_World(title=c("A green world", "A dry world"), bg.color="lightskyblue2
 
 # Facets defined by multiple variables
 tm_shape(Europe) +
-    tm_borders() +
-    tm_fill(c("well_being", "pop_est_dens"), style=c("pretty", "kmeans"), 
+    tm_polygons(c("well_being", "life_exp"), 
+    	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)), 
+    	palette=list("Oranges", "Purples"),
+    	border.col = "black",
         title=c("Well-Being Index", "Population Density")) +
 tm_format_Europe()
 

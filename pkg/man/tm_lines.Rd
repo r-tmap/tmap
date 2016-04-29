@@ -18,7 +18,7 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
 
-\item{lwd}{line width. If multiple values are specified, small multiples are drawn (see details).}
+\item{lwd}{line width. Either a numeric value or a data variable. In the latter case, the class of the highest values (see \code{style}) will get the line width defined by \code{scale}. If multiple values are specified, small multiples are drawn (see details).}
 
 \item{lty}{line type.}
 
