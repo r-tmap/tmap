@@ -140,9 +140,22 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 			attrPanel <- NULL
 		}
 
+		if (gmeta$xlab.show) {
+			xlabPanel <- gList(cellplot(gmeta$xlaby, gmeta$xlabx, e=textGrob(gmeta$xlab.text, rot=gmeta$xlab.rotation, 
+																			 gp=gpar(cex=gmeta$xlab.size)), name = "xlab"))
+		} else {
+			xlabPanel <- NULL
+		}
+		
+		if (gmeta$ylab.show) {
+			ylabPanel <- gList(cellplot(gmeta$ylaby, gmeta$ylabx, e=textGrob(gmeta$ylab.text, rot=gmeta$ylab.rotation, 
+																			 gp=gpar(cex=gmeta$ylab.size)), name = "ylab"))
+		} else {
+			ylabPanel <- NULL
+		}
 		
 		
-		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG), treeGridLabels, treeMults, rowPanels, colPanels, legPanel, attrPanel)), vp=vpGrid)
+		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG), treeGridLabels, treeMults, rowPanels, colPanels, legPanel, attrPanel, xlabPanel, ylabPanel)), vp=vpGrid)
 		grid.draw(tree)
 	})
 	upViewport()

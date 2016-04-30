@@ -237,7 +237,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		
 		elems$isChar1 <- (elems$position1 %in% c("left", "center", "centre", "right", "LEFT", "RIGHT"))
 		elems$isChar2 <- (elems$position2 %in% c("top", "center", "centre", "bottom", "TOP", "BOTTOM"))
-		elems$id <- paste(elems$position1, elems$position2, (!elems$isChar1 | !elems$isChar1) * (1:nrow(elems))) # create id for elements that are snapped to each other
+		#elems$id <- paste(elems$position1, elems$position2, (!elems$isChar1 | !elems$isChar1) * (1:nrow(elems))) # create id for elements that are snapped to each other
+		elems$id <- paste(elems$position1, elems$position2)
+		
 		
 		elemsOrder <- order(elems$sortid, decreasing=TRUE)
 		elemsList <- split(elems[elemsOrder,], f = elems$id[elemsOrder])
@@ -252,12 +254,12 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				xcor1 <- frameX+mx+legendWidth+mx
 				XCOR1 <- frameX+legendWidth+mx
 				elem.position <- c(switch(elpos[1], 
-										  left=xcor1+metaX,#frameX+metaX+mx+legendWidth+ifelse(gt$legend.position[1]=="left", mx, 0),
-										  center=.5-legendWidth/2-mx ,#.5 + mx + legendWidth/2,
-										  centre=.5-legendWidth/2-mx,#.5 + mx + legendWidth/2,
-										  right=1-xcor1,#1-mx-frameX-legendWidth - ifelse(gt$legend.position[1]=="right", mx, 0),
-										  LEFT=XCOR1,#frameX+legendWidth+ifelse(gt$legend.position[1]=="left", mx, 0),
-										  RIGHT=1-XCOR1,#1-frameX-legendWidth-ifelse(gt$legend.position[1]=="right", mx, 0),
+										  left=xcor1+metaX,
+										  center=.5-legendWidth/2-mx ,
+										  centre=.5-legendWidth/2-mx,
+										  right=1-xcor1,
+										  LEFT=XCOR1,
+										  RIGHT=1-XCOR1,
 								   		  as.numeric(elpos[1])),
 								   switch(elpos[2],
 								   	   top= 1-my-frameY-elemHeight, 
@@ -299,7 +301,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				elemSnapToRight <- FALSE
 				xcor1 <- mx+frameX
 				XCOR1 <- frameX
-				elem.position <- c(switch(elpos[1], 
+				elem.position <- c(switch(as.character(elpos[1]), 
 										  left=xcor1+metaX,#mx+metaX+frameX,
 										  center=.5,
 										  centre=.5,
@@ -307,7 +309,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 										  LEFT=XCOR1,#frameX,
 										  RIGHT=1-XCOR1,#1-frameX,
 										  as.numeric(elpos[1])),
-								   switch(elpos[2],
+								   switch(as.character(elpos[2]),
 								   	   top= 1-my-elemHeight-frameY, 
 								   	   center=.5, 
 								   	   centre=.5, 
@@ -315,40 +317,57 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 								   	   TOP=1-elemHeight-frameY,
 								   	   BOTTOM=frameY,
 								   	   as.numeric(elpos[2])))
+								   	   
 				if (any(is.na(elem.position))) stop("Wrong position argument for attributes", call. = FALSE)
 				elem.max.width <- (if (has.legend && tolower(elpos[2])==tolower(gt$legend.position[2])) 1 - 3*mx - legendWidth else 1 - 2*mx) - metaX - 2 * frameX
 			}
-			elem.just <- switch(elpos[1],
+			elem.just <- c(switch(as.character(elpos[1]),
 								center="center",
 								centre="center",
 								right="right",
 								RIGHT="right",
-								"left")
-			if (elemleg && elem.just=="center") elem.just <- "right"
+								left="left",
+								LEFT="left",
+								gt$attr.just[1]),
+							ifelse(elpos[2] %in% c("top", "TOP", "bottom", "BOTTOM"), "bottom",
+							ifelse(elpos[2] %in% c("center", "centre"), "center", gt$attr.just[2])))
 			
+			if (elemleg && elem.just[1]=="center") elem.just[1] <- "right"
+			
+			elem.just <- c(ifelse(is_num_string(elem.just[1]),
+								  as.numeric(elem.just[1]),
+								  ifelse(elem.just[1]%in%c("center", "centre"),
+								  	   .5, as.integer(elem.just[1]=="right"))),
+						   ifelse(is_num_string(elem.just[2]),
+						   	   as.numeric(elem.just[2]),
+						   	   ifelse(elem.just[2]%in%c("center", "centre"),
+						   	   	   .5, as.integer(elem.just[2]=="top"))))
+
 			el$y <- elem.position[2] + c(0, cumsum(el$height))[1:nrow(el)]
+			
+			
+
+			el$y <- el$y - elem.just[2] * sum(el$height)
+			
 			el$width2 <- pmin(el$width, elem.max.width)
 			
 			el$x <- elem.position[1] #+ if (elem.just=="left") 0 else if (elem.just=="center") el$width2/2 else el$width2
-			
-			print(el)
-			print(elem.just)
 			
 			structure(lapply(1:nrow(el), function(i) {
 				e <- el[i,]
 				vpi <- viewport(x=e$x, 
 								y=e$y,
 								height=e$height, width=e$width2,
-								just=c(elem.just, "bottom"),
+								just=c(elem.just[1], 0),
 								name=as.character(e$type))
 				pushViewport(vpi)
 				
 				if (e$type=="credits") {
-					grb <- plot_cred(gt, just=elem.just, id=e$cred.id)
+					grb <- plot_cred(gt, just=elem.just[1], id=e$cred.id)
 				} else if (e$type=="scale_bar") {
-					grb <- plot_scale(gt, just=elem.just, xrange=(bb[1,2] - bb[1,1])*e$width2, crop_factor=gt$scale.width/e$width2)
+					grb <- plot_scale(gt, just=elem.just[1], xrange=(bb[1,2] - bb[1,1])*e$width2, crop_factor=gt$scale.width/e$width2)
 				} else {
-					grb <- plot_compass(gt, just=elem.just)
+					grb <- plot_compass(gt, just=elem.just[1])
 				}
 				#grt <- gTree(children=gList(rectGrob()), vp=vpi)
 				grt <- gTree(children=gList(grb), vp=vpi)

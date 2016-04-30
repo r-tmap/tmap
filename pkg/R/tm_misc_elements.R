@@ -186,6 +186,26 @@ tm_compass <- function(north=0,
 }
 
 
+tm_xlab <- function(text,
+					size=.8,
+					rotation=0) {
+	g <- list(tm_xlab=as.list(environment()))
+	names(g$tm_xlab) <- paste("xlab", names(g$tm_xlab), sep=".")
+	class(g) <- "tmap"
+	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	g
+}
+
+tm_ylab <- function(text,
+					size=.8,
+					rotation=90) {
+	g <- list(tm_ylab=as.list(environment()))
+	names(g$tm_ylab) <- paste("ylab", names(g$tm_ylab), sep=".")
+	class(g) <- "tmap"
+	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	g
+}
+
 
 
 #' Stacking of tmap elements

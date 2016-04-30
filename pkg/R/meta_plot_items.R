@@ -405,13 +405,16 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	
 	xtext <- x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
 	
-	if (just=="right") {
-		x <- 1-width+x
-		xtext <- 1-width+xtext
-	} else if (just=="center") {
-		x <- .5-.5*width+x
-		xtext <- .5-.5*width+xtext
-	}
+	x <- just-just*width+x
+	xtext <- just-just*width+xtext
+	
+	# if (just=="right") {
+	# 	x <- 1-width+x
+	# 	xtext <- 1-width+xtext
+	# } else if (just=="center") {
+	# 	x <- .5-.5*width+x
+	# 	xtext <- .5-.5*width+xtext
+	# }
 	
 	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
 	
@@ -439,19 +442,22 @@ plot_cred <- function(gt, just, id) {
 	width <- (convertWidth(stringWidth(txt), "npc", valueOnly=TRUE)+1*mx) * size
 	#height <- lineHeight * (nlines) * size
 	
-	x <- if (just=="left") {
-		0	
-	} else if (just=="center") {
-		.5-width/2
-	} else 1-width #-mx*size
+	x <- just - just*width
+	tx <- mx*.5*size + just - just*width
 	
-	tx <- if (just=="left") {
-		mx*.5*size 
-	} else if (just=="center") {
-		.5-width/2+mx*.5*size
-	} else {
-		1-width+mx*.5*size
-	}
+	# x <- if (just=="left") {
+	# 	0	
+	# } else if (just=="center") {
+	# 	.5-width/2
+	# } else 1-width #-mx*size
+	# 
+	# tx <- if (just=="left") {
+	# 	mx*.5*size 
+	# } else if (just=="center") {
+	# 	.5-width/2+mx*.5*size
+	# } else {
+	# 	1-width+mx*.5*size
+	# }
 		
 	
 	if (gt$credits.align[id]=="center") {

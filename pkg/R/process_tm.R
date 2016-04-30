@@ -6,6 +6,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	
 	## get grid element
 	gridid <- which(names(x)=="tm_grid")[1]
+	if (length(gridid)>1) gridid <- gridid[length(gridid)]
 	gg <- x[[gridid]]
 	
 	## get credits, scale_bar and compass element
@@ -27,6 +28,14 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		gc$credits.id <- gcIDs
 	}
 	
+	# get xlab and ylab element
+	gxlabid <- which(names(x)=="tm_xlab")[1]
+	if (length(gxlabid)>1) gxlabid <- gxlabid[length(gxlabid)]
+	gylabid <- which(names(x)=="tm_ylab")[1]
+	if (length(gylabid)>1) gylabid <- gylabid[length(gylabid)]
+	glab <- c(if(is.na(gxlabid)) NULL else x[[gxlabid]],
+			  if(is.na(gylabid)) NULL else x[[gylabid]])
+			  
 	## get facets element
 	shape.id.orig <- which(names(x)=="tm_shape")
 	facet.id.orig <- which(names(x)=="tm_facets")
@@ -80,7 +89,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 			if (length(fillBorderID) >= 2) {
 				belowGridLayers <- belowGridLayers[-fillBorderID[-1]]
 			}
-			sum(!(belowGridLayers %in% c("tm_layout", "tm_view", "tm_style", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar"))) + 1
+			sum(!(belowGridLayers %in% c("tm_layout", "tm_view", "tm_style", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))) + 1
 		}
 	} else {
 		gridGrp <- 0
@@ -88,7 +97,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	
 
 	## split x into gmeta and gbody
-	x <- x[!(xnames %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar"))]
+	x <- x[!(xnames %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))]
 
 	n <- length(x)
 	
@@ -169,7 +178,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1)))
 
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio, shp_info, any.legend, interactive)
+	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, glab, nx, panel.names, asp_ratio, shp_info, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {

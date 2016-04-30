@@ -59,7 +59,7 @@
 #' @param legend.outside.position Character that determines the outside position of the legend. Only applicable when \code{legend.outside=TRUE}. One of: \code{"right"}, \code{"left"}, \code{"top"}, or \code{"bottom"}.
 #' @param legend.outside.size Numeric value that determines the relative size of the legend, when \code{legend.outside=TRUE}. If the first value of \code{legend.outside.position} is \code{"top"} or \code{"bottom"}, then it is the width of the legend, else it is the height of the legend.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object. If \code{legend.outside=TRUE}, this argument specifies the legend position within the outside panel.
-#' @param legend.just justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. This option is only used, if legend.position is specified by numeric coordinates.
+#' @param legend.just justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if legend.position is specified by numeric coordinates.
 #' @param legend.width maximum width of the legend
 #' @param legend.height maximum height of the legend.
 #' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
@@ -100,6 +100,7 @@
 #' @param attr.outside.position Character that determines the outside position of the legend, either \code{top} or \code{bottom}. Only applicable when \code{attr.outside=TRUE}.
 #' @param attr.outside.size Numeric value that determines the relative size of the legend, when \code{attr.outside=TRUE}.
 #' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions. If \code{attr.outside=TRUE}, this argument specifies the position of the attributes within the outside panel.
+#' @param attr.just justification of the attributes relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if legend.position is specified by numeric coordinates.
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
 #' @param basemaps vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.
 #' @param bg.overlay color of the background overlay rectangle used in the interactive view mode. See \code{\link{tm_view}}.
@@ -139,7 +140,7 @@ tm_layout <- function(title=NA,
 					  legend.outside.position="right",
 					  legend.outside.size=0.3,
 					  legend.position = NULL,
-            legend.just = c("left", "bottom"),
+					  legend.just = c("left", "bottom"),
 					  legend.width = 0.4,
 					  legend.height = 0.9,
 					  legend.hist.height = 0.3,
@@ -172,6 +173,7 @@ tm_layout <- function(title=NA,
 					  attr.outside.position = "bottom",
 					  attr.outside.size=NA,
 					  attr.position = c("right", "bottom"),
+					  attr.just = c("right", "center"),
 					  design.mode = FALSE,
 					  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
 					  bg.overlay=NULL,

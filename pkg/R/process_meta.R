@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio, shp_info, any.legend, interactive) {
+process_meta <- function(gt, gf, gg, gc, gsb, gcomp, glab, nx, panel.names, asp_ratio, shp_info, any.legend, interactive) {
 	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- NULL
 	
 	credit.show <- !is.null(gc)
@@ -257,7 +257,28 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, nx, panel.names, asp_ratio,
 		gcomp <- list(compass.show=FALSE)
 	}
 	
+	if (!is.null(glab)) {
+		glab <- within(glab, {
+			if (exists("xlab.text")) {
+				xlab.size <- xlab.size * gt$scale
+				xlab.show <- TRUE
+			} else {
+				xlab.show <- FALSE
+			}
+			if (exists("ylab.text")) {
+				ylab.size <- ylab.size * gt$scale
+				ylab.show <- TRUE
+			} else {
+				ylab.show <- FALSE
+			}
+		})
+	} else {
+		glab <- list(xlab.show=FALSE, ylab.show=FALSE)
+	}
+	
+	
+	
 	gt[c("compass.type", "compass.size")] <- NULL
 	
-	c(gt, gf, gg, gc, gsb, gcomp, shp_info)
+	c(gt, gf, gg, gc, gsb, gcomp, glab, shp_info)
 }
