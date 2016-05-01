@@ -50,9 +50,9 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   panel.label.bg.color = "grey80", panel.label.height = 1.25,
   panel.label.rot = c(90, 0), attr.outside = FALSE,
   attr.outside.position = "bottom", attr.outside.size = NA,
-  attr.position = c("right", "bottom"), design.mode = FALSE,
-  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
-  bg.overlay = NULL, bg.overlay.alpha = 0)
+  attr.position = c("right", "bottom"), attr.just = c("right", "center"),
+  design.mode = FALSE, basemaps = c("CartoDB.Positron", "OpenStreetMap",
+  "Esri.WorldTopoMap"), bg.overlay = NULL, bg.overlay.alpha = 0)
 
 tm_legend(...)
 
@@ -196,7 +196,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object. If \code{legend.outside=TRUE}, this argument specifies the legend position within the outside panel.}
 
-\item{legend.just}{justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. This option is only used, if legend.position is specified by numeric coordinates.}
+\item{legend.just}{justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if legend.position is specified by numeric coordinates.}
 
 \item{legend.width}{maximum width of the legend}
 
@@ -267,6 +267,8 @@ By default the title is placed on top of the legend (determined by \code{legend.
 \item{attr.outside.size}{Numeric value that determines the relative size of the legend, when \code{attr.outside=TRUE}.}
 
 \item{attr.position}{Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is "left", "LEFT", "center", "right", or "RIGHT", and the second value "top", "TOP", "center", "bottom", or "BOTTOM". The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions. If \code{attr.outside=TRUE}, this argument specifies the position of the attributes within the outside panel.}
+
+\item{attr.just}{justification of the attributes relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if legend.position is specified by numeric coordinates.}
 
 \item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.}
 

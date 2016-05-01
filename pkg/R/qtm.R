@@ -29,6 +29,7 @@
 #' @param borders color of the polygon borders. Use \code{NA} to omit the borders.
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.
 #' @param title main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).
+#' @param projection character that determines the projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.
 #' @param format \code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).
 #' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).
 #' @param basemaps basemaps for the view mode. See \code{\link{tm_view}}
@@ -51,6 +52,7 @@ qtm <- function(shp,
 				borders=NA,
 				scale=NA,
 				title=NA,
+				projection=NULL,
 				format=NULL,
 				style=NULL,
 				basemaps=NA,
@@ -118,7 +120,7 @@ qtm <- function(shp,
 	argnames <- unlist(lapply(fns, function(f) names(formals(f))))
 	dupl <- setdiff(unique(argnames[duplicated(argnames)]), "...")
 	
-	skips <- list(tm_shape="shp", tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
+	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
 	  if (pre=="dot") {
@@ -147,7 +149,7 @@ qtm <- function(shp,
 	args2$tm_bubbles <- c(args2$tm_bubbles, args2$tm_dots)
 	args2$tm_dots <- NULL
 	
-	g <- do.call("tm_shape", c(list(shp=shp), args2[["tm_shape"]]))
+	g <- do.call("tm_shape", c(list(shp=shp, projection=projection), args2[["tm_shape"]]))
 	g$tm_shape$shp_name <- shp_name
 	if (!is.null(borders)) g <- g + do.call("tm_borders", c(list(col=borders), args2[["tm_borders"]]))
 	if (!is.null(fill)) g <- g + do.call("tm_fill", c(list(col=fill), args2[["tm_fill"]]))

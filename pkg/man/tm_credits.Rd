@@ -49,4 +49,7 @@ tm_credits("(c) Statistics Netherlands (CBS) and\\nKadaster Nederland", position
 # restore current mode
 tmap_mode(current.mode)
 }
+\seealso{
+\code{\link{tm_xlab}}
+}
 

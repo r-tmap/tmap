@@ -42,6 +42,7 @@
 #' \code{\link{tm_scale_bar}}\tab To create a scale bar \cr
 #' \code{\link{tm_compass}}\tab To create a map compass \cr
 #' \code{\link{tm_credits}}\tab To create a text for credits \cr
+#' \code{\link{tm_xlab} and \link{tm_ylab}}\tab To create axis labels \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 

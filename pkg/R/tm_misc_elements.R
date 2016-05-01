@@ -103,6 +103,7 @@ tm_grid <- function(x=NA,
 #' @param fontfamily font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.
 #' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @export
+#' @seealso \code{\link{tm_xlab}}
 #' @example ../examples/tm_credits.R
 tm_credits <- function(text,
 					   size=.7,
@@ -185,7 +186,17 @@ tm_compass <- function(north=0,
 	g
 }
 
-
+#' Axis labels
+#' 
+#' Add axis labels
+#' 
+#' @param text text for the axis
+#' @param size fontsize, by default 0.8
+#' @param rotation rotation angle in degrees. By default, 0 for the x axis label and 90 for the y axis label.
+#' @export
+#' @name tm_xlab
+#' @rdname axis_labels
+#' @example  ../examples/tm_lab.R
 tm_xlab <- function(text,
 					size=.8,
 					rotation=0) {
@@ -196,6 +207,9 @@ tm_xlab <- function(text,
 	g
 }
 
+#' @name tm_ylab
+#' @rdname axis_labels
+#' @export
 tm_ylab <- function(text,
 					size=.8,
 					rotation=90) {

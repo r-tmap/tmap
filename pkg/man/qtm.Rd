@@ -7,8 +7,8 @@
 qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL,
   dot.col = NULL, text = NULL, text.size = 1, text.col = NA,
   line.lwd = NULL, line.col = NULL, raster = NA, borders = NA,
-  scale = NA, title = NA, format = NULL, style = NULL, basemaps = NA,
-  ...)
+  scale = NA, title = NA, projection = NULL, format = NULL,
+  style = NULL, basemaps = NA, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -47,6 +47,8 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 \item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.}
 
 \item{title}{main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).}
+
+\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
 
 \item{format}{\code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).}
 
