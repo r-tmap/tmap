@@ -176,7 +176,7 @@ plot_grid <- function(gt, scale, add.labels) {
 			fw <- 0
 			fh <- 0
 		}
-		labelsYw <- if (sely) max(convertWidth(stringWidth(labelsy), "npc", valueOnly=TRUE))  * cex + fw else 0
+		labelsYw <- if (sely) max(text_width_npc(labelsy, space=FALSE))  * cex + fw else 0
 		labelsXw <- if (selx) max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE))  * cex + fh else 0
 		spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex

@@ -121,7 +121,7 @@ tm_layout("Find the Netherlands!")
 # Numeric data variable
 tm_shape(NLD_muni) +
     tm_fill(col="population", convert2density=TRUE, 
-        style="kmeans", title = expression(paste("Population (per ", km^2, ")")), 
+        style="kmeans", title = expression("Population (per " * km^2 * ")"), 
         legend.hist=TRUE, id="name") +
     tm_borders("grey25", alpha=.5) + 
 tm_shape(NLD_prov) +

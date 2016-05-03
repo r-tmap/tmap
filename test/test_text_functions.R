@@ -63,3 +63,18 @@ tm_shape(NLD_muni) +
 	tm_polygons("population", convert2density = TRUE) +
 	tm_facets("province", free.coords = T) +
 	tm_layout(panel.labels = e12)
+
+## nchar?
+data(Europe)
+qtm(Europe, fill="pop_est", format="Europe", fill.title="Population in km2")
+qtm(Europe, fill="pop_est", format="Europe", fill.title=expression("Population in " * km2))
+
+library(grid)
+convertWidth(stringWidth("Population in km2"), "npc")
+convertWidth(stringWidth(expression("Population in " * km2)), "npc")
+
+convertWidth(stringWidth(paste(expression("Population in " * km2), " ")), "npc")
+
+
+text_width_npc(c("Population in km2", ""))
+text_width_npc(expression("Population in " * km2))

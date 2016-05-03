@@ -52,7 +52,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.color, l
 		
 		formattedY <- format(pty, trim=TRUE)
 		
-		width.npc <- max(convertWidth(stringWidth(paste(ptx, " ")), unitTo="npc", valueOnly=TRUE)) * (length(ptx)+1)
+		width.npc <- max(text_width_npc(ptx)) * (length(ptx)+1)
 		height.npc <- convertHeight(unit(length(formattedY)+2, "lines"), "npc", valueOnly=TRUE) 
 		
 		my <- lineHeight * legend.hist.size * m
@@ -81,7 +81,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.color, l
 		height.npc <- height.npc * size
 		
 		
-		width.yaxis <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size
+		width.yaxis <- max(text_width_npc(formattedY, space = FALSE)) * size
 		height.xaxis <- lineHeight * size * ifelse(draw_x_axis, 1, .25)
 		
 		axisTicks <- convertWidth(unit(mx, "npc"), "inch", valueOnly=TRUE)
@@ -116,7 +116,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.color, l
 							  id=rep(1:(length(pty)+1),each=2), gp=gpar(col=attr.color, lwd=scale))
 			}),
 			cellplot(2:4,1,e={
-				maxWidth <- max(convertWidth(stringWidth(formattedY), unitTo="npc", valueOnly=TRUE)) * size
+				maxWidth <- max(text_width_npc(formattedY, space=FALSE)) * size
 				h_total <- convertHeight(unit(1, "npc"), "inch", valueOnly = TRUE)
 				h_extra <- axisTicks+height.xaxisInch
 				h_e <- h_extra / h_total

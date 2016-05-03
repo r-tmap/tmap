@@ -45,8 +45,8 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	# title properties
 	nlines <- number_text_lines(gt$title)
 	
-	title.width <- convertWidth(stringWidth(gt$title), "npc", valueOnly=TRUE) * 1.02
-	
+	title.width <- text_width_npc(gt$title, space=FALSE) * 1.02
+ 	
 	title.size <- min((1-2*mx) / title.width, gt$title.size)
 	
 	titleWidth <- title.width * title.size
@@ -206,7 +206,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				 height=unname(emapply(function(txt, sz) {
 				 	lineHeight * (number_text_lines(txt)*1.2+.25) * 
 				 	min((1-2*convertWidth(convertHeight(unit(lineHeight / 2, "npc"), "inch"), "npc", TRUE)) / 
-				 			convertWidth(stringWidth(txt), "npc", valueOnly=TRUE), sz)
+				 			text_width_npc(txt, space = FALSE), sz)
 				 	}, gt$credits.text, gt$credits.size)),
 				 width=1,
 				 position1=sapply(gt$credits.position, "[", 1, USE.NAMES=FALSE),

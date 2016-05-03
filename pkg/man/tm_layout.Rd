@@ -50,7 +50,7 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   panel.label.bg.color = "grey80", panel.label.height = 1.25,
   panel.label.rot = c(90, 0), attr.outside = FALSE,
   attr.outside.position = "bottom", attr.outside.size = NA,
-  attr.position = c("right", "bottom"), attr.just = c("right", "center"),
+  attr.position = c("right", "bottom"), attr.just = c("left", "bottom"),
   design.mode = FALSE, basemaps = c("CartoDB.Positron", "OpenStreetMap",
   "Esri.WorldTopoMap"), bg.overlay = NULL, bg.overlay.alpha = 0)
 
@@ -97,7 +97,7 @@ tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   "darkolivegreen3", borders = "black", bubbles = "tomato2", dots = "firebrick",
   lines = "steelblue", text = "black", na = "white"), aes.palette = list(seq =
   "YlGn", div = "RdYlGn", cat = "Set3"), attr.color = "black",
-  space.color = "white", legend.bg.color = "grey90",
+  space.color = "white", legend.frame = TRUE, legend.bg.color = "grey90",
   earth.boundary = TRUE, basemaps = "MapQuestOpen.OSM", ...)
 
 tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =

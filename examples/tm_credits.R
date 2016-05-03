@@ -4,7 +4,7 @@ data(NLD_muni, NLD_prov)
 
 tm_shape(NLD_muni) +
     tm_fill(col="population", convert2density=TRUE, 
-        style="kmeans", title = expression(paste("Population (per ", km^2, ")"))) +
+        style="kmeans", title = expression("Population (per " * km^2 * ")")) +
     tm_borders("grey25", alpha=.5) + 
     tm_shape(NLD_prov) +
     tm_borders("grey40", lwd=2) +

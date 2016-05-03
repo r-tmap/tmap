@@ -48,6 +48,11 @@ expr_to_char <- function(txt) {
 	}
 }
 
+text_width_npc <- function(txt, space=TRUE) {
+	convertWidth(stringWidth(txt), "npc", TRUE) + 
+		ifelse(space, convertWidth(stringWidth(" "), "npc", TRUE), 0)
+}
+
 
 # same as lapply, but expression are subsetted by [ rather than [[
 elapply <- function(X, FUN, ...) {

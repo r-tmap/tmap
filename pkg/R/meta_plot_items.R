@@ -42,7 +42,7 @@ legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	my <- lineHeight * size * m
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
-	w <- convertWidth(stringWidth(paste(title, " ")), unitTo = "npc", valueOnly = TRUE)# * size * 1.05
+	w <- text_width_npc(title)
 	newsize <- min(size, 5/(lineHeight*nlines*6), (1-2*mx)/w)
 	
 	
@@ -95,10 +95,10 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		
 		if (legend.type=="text.col" && !is.cont) {
 			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
-			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
+			ws <- text_width_npc(legend.text, space = FALSE) * cex
 		} else if  (legend.type=="text.size") {
 			cex <- legend.sizes #pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE))
-			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
+			ws <- text_width_npc(legend.text, space=FALSE) * cex
 		} else {
 			ws <- convertWidth(convertHeight(unit(hs, "npc"), "inch"), "npc", TRUE)
 		}
@@ -109,7 +109,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
 		
-		wstext <- convertWidth(stringWidth(paste(legend.labels, " ")), unitTo = "npc", valueOnly = TRUE)
+		wstext <- text_width_npc(legend.labels)
 		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
 		
 		
@@ -220,24 +220,24 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		
 		if (legend.type=="text.col" && !is.cont) {
 			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
-			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
+			ws <- text_width_npc(legend.text, space=FALSE) * cex
 		} else if  (legend.type=="text.size") {
 			cex <- legend.sizes #pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE))
-			ws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
+			ws <- text_width_npc(legend.text, space=FALSE) * cex
 		} else {
 			ws <- convertWidth(convertHeight(unit(hs, "npc"), "inch"), "npc", TRUE)
 		}
 		
-		labelsws <- convertWidth(stringWidth(paste(legend.labels, " ")), "npc", TRUE) * legend.text.size
+		labelsws <- text_width_npc(legend.labels) * legend.text.size
 		
 		
 		if (legend.type=="text.col" && !is.cont) {
 			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
-			textws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
+			textws <- text_width_npc(legend.text, space=FALSE) * cex
 			labelsws <- pmax(labelsws, textws)
 		} else if  (legend.type=="text.size") {
 			cex <- legend.sizes
-			textws <- convertWidth(stringWidth(legend.text), "npc", TRUE) * cex
+			textws <- text_width_npc(legend.text, space=FALSE) * cex
 			labelsws <- pmax(labelsws, textws)
 		}
 		
@@ -382,7 +382,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 		ticks2 <- gt$scale.breaks
 	}
 	ticks2Labels <- format(ticks2, trim=TRUE)
-	ticksWidths <- convertWidth(stringWidth(paste(ticks2Labels, " ")), "npc", TRUE)
+	ticksWidths <- text_width_npc(ticks2Labels)
 	
 	labels <- c(ticks2Labels, gt$unit)
 	
@@ -400,7 +400,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	#my <- lineHeight / 2
 	#mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
-	unitWidth <- convertWidth(stringWidth(paste(gt$unit, " ")), "npc", TRUE) * size
+	unitWidth <- text_width_npc(gt$unit) * size
 	width <- widths * (n-1) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
 	
 	xtext <- x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
@@ -437,9 +437,9 @@ plot_cred <- function(gt, just, id) {
 	txt <- gt$credits.text[id]
 	nlines <- number_text_lines(txt)
 	
-	size <- min((1-2*mx) / convertWidth(stringWidth(txt), "npc", valueOnly=TRUE), gt$credits.size[id])
+	size <- min((1-2*mx) / text_width_npc(txt, space=FALSE), gt$credits.size[id])
 	
-	width <- (convertWidth(stringWidth(txt), "npc", valueOnly=TRUE)+1*mx) * size
+	width <- (text_width_npc(txt, space=FALSE)+1*mx) * size
 	#height <- lineHeight * (nlines) * size
 	
 	x <- just - just*width
