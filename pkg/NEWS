@@ -1,9 +1,10 @@
 version 1.4-1
-- fixed bugs regarding 
-- add just argument as anchor for text labels and legend position
+- add just argument as anchor for text labels, legend and attributes position
+- map attributes (such as scale bar) can be placed outside the frame
+- added tm_xlab and tm_ylab
 - RGB raster support, see tm_raster
 - static text (i.e titles, credits, legend titles, labels) support expressions
-- updated Europe projection (now consistent with Eurostat publications)
+- updated Europe shape: projection and boundig box are now consistent with Eurostat publications
 
 version 1.4
 - [!] interactive mapping added. Now, tmap has two modes: "plot" (graphics device) and "view" (interactive viewer, which is a leaflet widget)

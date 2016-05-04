@@ -106,17 +106,17 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 		if (panel.mode=="both") {
 			rowPanels <- lapply((1:mfrow), function(i) {
 				cellplot(gmeta$rowrange[i], gmeta$colpanelrow, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-									   textGrob(gmeta$panel.names[[1]][i], rot=gmeta$panel.label.rot[1], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size))))
+									   textGrob(gmeta$panel.names[[1]][i], rot=gmeta$panel.label.rot[1], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			})
 			
 			colPanels <- lapply((1:mfcol), function(i) {
 				cellplot(gmeta$colpanelrow, gmeta$colrange[i], e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-									   textGrob(gmeta$panel.names[[2]][i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size))))
+									   textGrob(gmeta$panel.names[[2]][i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			})
 		}  else if (panel.mode=="one") {
 			colPanels <- mapply(function(i, rw, cl) {
 				cellplot(rw, cl, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-										 textGrob(gmeta$panel.names[i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size))))
+										 textGrob(gmeta$panel.names[i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			}, istart:iend, 
 			rep(gmeta$rowrange-1, each=mfcol, length.out=ni), 
 			rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)
@@ -142,14 +142,14 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 
 		if (gmeta$xlab.show) {
 			xlabPanel <- gList(cellplot(gmeta$xlaby, gmeta$xlabx, e=textGrob(gmeta$xlab.text, rot=gmeta$xlab.rotation, 
-																			 gp=gpar(cex=gmeta$xlab.size)), name = "xlab"))
+																			 gp=gpar(cex=gmeta$xlab.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily)), name = "xlab"))
 		} else {
 			xlabPanel <- NULL
 		}
 		
 		if (gmeta$ylab.show) {
 			ylabPanel <- gList(cellplot(gmeta$ylaby, gmeta$ylabx, e=textGrob(gmeta$ylab.text, rot=gmeta$ylab.rotation, 
-																			 gp=gpar(cex=gmeta$ylab.size)), name = "ylab"))
+																			 gp=gpar(cex=gmeta$ylab.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily)), name = "ylab"))
 		} else {
 			ylabPanel <- NULL
 		}

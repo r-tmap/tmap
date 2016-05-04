@@ -61,7 +61,7 @@ mapWorld
 
 <img src="images/view_mode.png" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
-In interactive mode, a leaflet widget is created and shown. If you want to change or extend the widget, you can use the function [`tmap_leaflet`](../html/tmap_leaflet.html) to obtain the leaflet widget object, and use leaflet's own function to adjust it.
+In interactive mode, a leaflet widget is created and shown. If you want to change or extend the widget, you can use the function [`tmap_leaflet`](../html/tmap_leaflet.html) to obtain the leaflet widget object, and use leaflet's own functions to adjust it.
 
 ```{r, include=FALSE}
 tmap_mode("plot")

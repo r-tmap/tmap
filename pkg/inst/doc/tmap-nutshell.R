@@ -11,36 +11,34 @@ qtm(Europe)
 ## ---- fig.height=5-------------------------------------------------------
 qtm(Europe, fill="well_being", text="iso_a3", text.size="AREA", root=5, fill.title="Well-Being Index", 
 	fill.textNA="Non-European countries", 
-	format="Europe_wide", style="gray")
+	format="Europe", style="gray")
 
 ## ---- eval=FALSE---------------------------------------------------------
 #  tm_shape(Europe) +
 #  	tm_fill("well_being", textNA="Non-European countries", title="Well-Being Index") +
 #  	tm_borders() +
 #  	tm_text("iso_a3", size="AREA", root=5) +
-#  tm_format_Europe_wide() +
+#  tm_format_Europe() +
 #  tm_style_grey()
 
 ## ---- fig.width=10-------------------------------------------------------
-data(rivers, metro)
+data(land, rivers, metro)
 
-tm_shape(Europe) +
-    tm_fill() +
-    tm_borders() +
+tm_shape(land) + 
+	tm_raster("trees", breaks=seq(0, 100, by=20), legend.show = FALSE) +
+tm_shape(Europe, is.master = TRUE) +
+	tm_borders() +
 tm_shape(rivers) +
-    tm_lines() +
+    tm_lines(lwd="strokelwd", scale=5, legend.lwd.show = FALSE) +
 tm_shape(metro) +
-    tm_text("name", size="pop2010", scale=1, root=4, size.lowerbound = .6, 
-        bg.color="white", bg.alpha = .5, 
-        auto.placement = TRUE, legend.size.show = FALSE) + 
 	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, 
 		size.lim = c(0, 11e6), sizes.legend = c(1e6, 2e6, 4e6, 6e6, 10e6), 
 		title.size="Metropolitan Population") +
-tm_shape(Europe) +
-	tm_text("iso_a3", size="AREA", col = "gray35", scale=1.5, root=5, 
-		size.lowerbound = .40, fontface="bold", case=NA) + 
-tm_format_Europe(title="Map of Europe") +
-	tm_style_natural()
+    tm_text("name", size="pop2010", scale=1, root=4, size.lowerbound = .6, 
+        bg.color="white", bg.alpha = .75, 
+        auto.placement = 1, legend.size.show = FALSE) + 
+tm_format_Europe() +
+tm_style_natural()
 
 ## ---- fig.width=10, fig.height=3-----------------------------------------
 tm_shape(Europe) +
