@@ -138,11 +138,11 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 		var <- "count"
 	} else {
 		if (missing(var)) var <- names(shp)[1]
-		
 		if (inherits(shp, "SpatialPolygons")){
-			shp <- poly_to_raster(shp, nrow = nrow, ncol=ncol)
+			shp@data <- shp@data[,var, drop=FALSE]
+			shp <- poly_to_raster(shp, nrow = nrow, ncol=ncol, copy.data = TRUE)
 		}
-		shpr <- raster(shp, layer=var)
+		shpr <- raster(shp, layer=var) #if (nlayers(shp)>1) raster(shp, layer=var) else shp
 		if (smooth.raster) {
 			m <- as.matrix(shpr)
 			x <- kde2D(m, bandwidth = bandwidth*unit.size, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))

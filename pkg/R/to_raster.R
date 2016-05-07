@@ -57,7 +57,9 @@ points_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, by=NULL, to.Raster
 		if ("data" %in% names(attributes(s))) {
 			s$ones <- 1
 		} else s <- SpatialPointsDataFrame(s, data=data.frame(ones=rep(1, length(s))), match.ID=FALSE)
-		rst <- rasterize(s, r, field="ones", fun='count')
+		rst <- suppressWarnings({ # may have warnings about deprecated embedding lists with S4
+			rasterize(s, r, field="ones", fun='count')
+		})
 		rst@data@values
 	}))
 	rshp <- SpatialGridDataFrame(as(r, "SpatialGrid"), data=res)
@@ -122,12 +124,16 @@ poly_to_raster <- function(shp, nrow=NA, ncol=NA, N=250000, use.cover=FALSE, cop
 	if (use.cover) {
 		res <- do.call("cbind", lapply(1:np, function(i) {
 			s <- shp[i, ]
-			rst <- rasterize(s, r, field="ID__UNITS", getCover=TRUE, ...)
+			rst <- suppressWarnings({ # may have warnings about deprecated embedding lists with S4
+				rasterize(s, r, field="ID__UNITS", getCover=TRUE, ...)
+			})
 			raster::getValues(rst)
 		}))
 		IDs <- apply(res, MARGIN=1, which.max)
 	} else {
-		rst <- rasterize(shp, r, field="ID__UNITS", getCover=FALSE, ...)
+		rst <- suppressWarnings({ # may have warnings about deprecated embedding lists with S4
+			rasterize(shp, r, field="ID__UNITS", getCover=FALSE, ...)
+		})
 		if (copy.data) IDs <- getValues(rst)
 	}
 	

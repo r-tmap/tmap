@@ -5,6 +5,7 @@ version 1.4-1
 - RGB raster support, see tm_raster
 - static text (i.e titles, credits, legend titles, labels) support expressions
 - updated Europe shape: projection and boundig box are now consistent with Eurostat publications
+- added crop_shape, a convenient wrapper around raster::crop
 
 version 1.4
 - [!] interactive mapping added. Now, tmap has two modes: "plot" (graphics device) and "view" (interactive viewer, which is a leaflet widget)

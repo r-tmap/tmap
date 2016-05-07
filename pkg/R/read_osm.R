@@ -18,7 +18,7 @@
 #' @example ../examples/read_osm.R
 #' @return The output of \code{read_osm} is a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} if \code{raster=TRUE}, and otherwise a named list of \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}, \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}, and/or \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} objects. The names of this list are the names of arguments defined at \code{...}.
 read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, mergeTiles=NULL, ...) {
-	if (!working_internet()) stop("No internet connection found.")
+	if (!get(".internet", envir = .TMAP_CACHE)) stop("No internet connection found.")
 	
 	# @importFrom OpenStreetMap openmap
 	k <- v <- NULL
@@ -37,7 +37,7 @@ read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, merge
 			openmap <- get("openmap", envir=asNamespace("OpenStreetMap"), mode="function")
 			optionalArgs <- list(zoom=zoom, type=type, minNumTiles=minNumTiles, mergeTiles=mergeTiles)
 			optionalArgs <- optionalArgs[!sapply(optionalArgs, is.null)]
-			om <- do.call("openmap", args = c(list(upperLeft=x[c(4,1)], lowerRight=x[c(2,3)]), optionalArgs))
+			om <- suppressWarnings({do.call("openmap", args = c(list(upperLeft=x[c(4,1)], lowerRight=x[c(2,3)]), optionalArgs))})
 			omr <- raster(om)
 			oms <- as(omr, "SpatialGridDataFrame")
 			oms@data <- raster_colors(oms)

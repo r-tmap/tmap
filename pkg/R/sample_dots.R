@@ -90,7 +90,9 @@ sample_dots <- function(shp, vars=NULL, convert2density=FALSE, nrow=NA, ncol=NA,
 	
 	## rasterize (SLOW...)
 	r <- raster(extent(bbx), nrows=nrow, ncols=ncol, crs=prj)
-	r2 <- rasterize(shp, r, field=data$ID__POLY) #raster with poly id's
+	r2 <- suppressWarnings({ # may have warnings about deprecated embedding lists with S4
+		rasterize(shp, r, field=data$ID__POLY) #raster with poly id's
+	})
 	r2@data@names <- "ID__POLY"
 	g <- as(r2, "SpatialGridDataFrame")
 	

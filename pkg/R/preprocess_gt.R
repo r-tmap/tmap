@@ -75,7 +75,8 @@ preprocess_gt <- function(x, interactive) {
 	
 	# process view
 	gv <- within(gv, {
-		if (!working_internet() || identical(as.numeric(bg.overlay.alpha), 1) || identical(basemaps, FALSE)) {
+		if (!get(".internet", envir = .TMAP_CACHE) || 
+			identical(as.numeric(bg.overlay.alpha), 1) || identical(basemaps, FALSE)) {
 			# solid background
 			if (is.na(bg.overlay.alpha)) bg.overlay.alpha <- 1
 			basemaps <- character(0)

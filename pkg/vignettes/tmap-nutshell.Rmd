@@ -146,8 +146,8 @@ Things to learn from this code:
 
 * This plot has 4 groups of layers, respectively from the shape objects land, Europe, rivers, and metro. 
 The order of (groups of) layers corresponds to the plotting order.
-* The shape objects can have different projections, and can also cover different areas (bounding boxes). Both the projection and the covered area are by default taken from shape object defined in the first [`tm_shape`](../html/tm_shape.html). Notice that the rivers shape object also contains rivers outside Europe: see `qtm(rivers)`. Use [`tm_shape`](../html/tm_shape.html)'s `is.master` argument to take the projection and covered area from other shape objects.
-* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, margins, and colors. The element [`tm_format_Europe`](../html/tm_layout.html) is a wrapper function with some other defaults that are tailored for Europe: for instance, the left inner margin is increased to make space for the legend. The element [`tm_layout_natural`](../html/tm_style_natural.html) is another wrapper function of [`tm_layout`](../html/tm_layout.html) used to specify map-independent layout layout settings, such as default colors. See also [layout](#layout).
+* The shape objects can have different projections, and can also cover different areas (bounding boxes). Both the projection and the covered area are by default taken from shape object defined in the first [`tm_shape`](../html/tm_shape.html), but in this case in the second [`tm_shape`](../html/tm_shape.html) since `is.master=TRUE`. Notice that the other shapes, i.e. `land`, `rivers`, and `metro` also contains outside Europe: see for instance `qtm(rivers)`.
+* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, margins, and colors. The element [`tm_format_Europe`](../html/tm_layout.html) is a wrapper function with some other defaults that are tailored for Europe: for instance, the legend is placed top right. The element [`tm_layout_natural`](../html/tm_style_natural.html) is another wrapper function of [`tm_layout`](../html/tm_layout.html) used to specify map-independent layout layout settings, such as default colors. See also [layout](#layout).
 
 
 ### Small multiples
@@ -336,6 +336,7 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
 	+ set the map projection with [`set_projection`](../html/set_projection.html)
 	+ split a shape object with [`split`](../html/split_shapes.html)
 	+ bind shape objects with [`sbind`](../html/sbind.html)
+	+ crop shape objects with [`sbind`](../html/crop_shape.html)
 	+ color polygons with different colors for adjacent polygons with [`map_coloring`](../html/map_coloring.html)
 
 * Plotting shape objects:

@@ -1,3 +1,15 @@
+#' Crop shape object
+#' 
+#' Crop a shape object (from class \code{\link[sp:Spatial]{Spatial-class}} or \code{\link[raster:Raster-class]{Raster}}).
+#' 
+#' This function is a wrapper around \code{\link[raster:crop]{crop}} from the raster package. It does two things in addition: \code{\link[sp:SpatialGrid]{SpatialGrid}} objects are allowed, and if \code{y} is a shape object with a different projection, it is temporarily reprojected in order to obtain a bounding box by which \code{x} is cropped.
+#' 
+#' @param x shape object, i.e. an object from class \code{\link[sp:Spatial]{Spatial-class}} or \code{\link[raster:Raster-class]{Raster}}
+#' @param y bounding box (2 by 2 matrix), an \code{\link[raster:extent]{extent}}, or a shape object from which the bounding box is extracted.
+#' @param ... arguments passed on to \code{\link[raster:crop]{crop}}
+#' @export
+#' @seealso \code{\link{bb}}
+#' @example ../examples/crop_shape.R
 crop_shape <- function(x, y, ...) {
 	xname <- deparse(substitute(x))
 	yname <- deparse(substitute(y))

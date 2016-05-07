@@ -36,7 +36,7 @@ If \code{x} is not specified, a bounding box can be created from scratch (see de
 
 \item{projection}{projection string (see \code{\link{set_projection}}) to transform the bounding box to.}
 
-\item{as.extent}{should the bounding box be returned as extent? If \code{FALSE} (default) then a matrix is returned}
+\item{as.extent}{should the bounding box be returned as \code{\link[raster:extent]{extent}}? If \code{FALSE} (default) then a matrix is returned}
 }
 \value{
 bounding box (see argument \code{as.extent})

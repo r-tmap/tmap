@@ -87,6 +87,7 @@ Change options:
 \code{\link{set_projection}}\tab To set the map projection \cr
 \code{\link{split}}\tab To split a shape object \cr
 \code{\link{sbind}}\tab To bind shape objects \cr
+\code{\link{crop_shape}}\tab To crop shape objects \cr
 \code{\link{map_coloring}}\tab To color polygons with different colors for adjacent polygons \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }

@@ -31,7 +31,7 @@
 #' @param relative boolean that determines whether relative values are used for \code{width}, \code{height}, \code{xlim} and \code{ylim} or absolute. If \code{x} is unspecified, \code{relative} is set to \code{"FALSE"}.
 #' @param current.projection projection string (see \code{\link{set_projection}}) of the that corresponds to the 
 #' @param projection projection string (see \code{\link{set_projection}}) to transform the bounding box to.
-#' @param as.extent should the bounding box be returned as extent? If \code{FALSE} (default) then a matrix is returned
+#' @param as.extent should the bounding box be returned as \code{\link[raster:extent]{extent}}? If \code{FALSE} (default) then a matrix is returned
 #' @return bounding box (see argument \code{as.extent})
 #' @import sp
 #' @importFrom raster extent

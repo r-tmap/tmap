@@ -398,7 +398,6 @@ add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 }
 
 working_internet <- function(url = "http://www.google.com") {
-		
 	# test the http capabilities of the current R build
 	if (!capabilities(what = "http/ftp")) return(FALSE)
 	
