@@ -77,7 +77,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, glab, nx, panel.names, asp_
 					} else if (is.list(panel.labels)) stop("unable to use row and column names unless panel.show in tm_layout is TRUE", call.=FALSE)
 				}
 				
-				if (title.snap.to.legend) title <- title[1]
+				#if (title.snap.to.legend) title <- title[1]
 			} else {
 				if (is.ena(panel.labels[1])) {
 					if (!is.na(panel.names[1])) {

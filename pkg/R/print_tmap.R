@@ -243,24 +243,28 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	gasp <- gmeta$gasp
 	
 	if (external_legend) {
-		gp_leg <- gps[[1]]
-		gp_leg$tm_layout <- within(gp_leg$tm_layout, {
-			legend.only <- TRUE
-			legend.width <- .9
-			legend.height <- .9
-			
-			if (title.snap.to.legend) {
-				title.size <- title.size / scale.extra
-			} else {
-				title <- ""
-			}
-			legend.title.size <- legend.title.size / scale.extra
-			legend.text.size <- legend.text.size / scale.extra
-			legend.hist.size <- legend.hist.size / scale.extra
-			grid.show <- FALSE
-			scale.show <- FALSE
-			compass.show <- FALSE
-			credits.show <- FALSE
+		leg_ids <- seq(1, nx, by=gmeta$ncol * gmeta$nrow)
+		gp_leg <- lapply(leg_ids, function(li) {
+			gli <- gps[[li]]
+			gli$tm_layout <- within(gli$tm_layout, {
+				legend.only <- TRUE
+				legend.width <- .9
+				legend.height <- .9
+				
+				if (title.snap.to.legend) {
+					title.size <- title.size / scale.extra
+				} else {
+					title <- ""
+				}
+				legend.title.size <- legend.title.size / scale.extra
+				legend.text.size <- legend.text.size / scale.extra
+				legend.hist.size <- legend.hist.size / scale.extra
+				grid.show <- FALSE
+				scale.show <- FALSE
+				compass.show <- FALSE
+				credits.show <- FALSE
+			})
+			gli
 		})
 		gps <- lapply(gps, function(gp) {
 			gp$tm_layout$legend.show <- FALSE
@@ -271,14 +275,18 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		gp_leg <- NULL
 	}
 
-	
 	if (external_attr) {
-		gp_attr <- gps[[1]]
-		gp_attr$tm_layout <- within(gp_attr$tm_layout, {
-			legend.only <- TRUE
-			legend.show <- FALSE
-			title <- ""
-		})	
+		leg_ids <- seq(1, nx, by=gmeta$ncol * gmeta$nrow)
+		gp_attr <- lapply(attr_ids, function(ai) {
+			gai <- gps[[ai]]
+			gai$tm_layout <- within(gai$tm_layout, {
+				legend.only <- TRUE
+				legend.show <- FALSE
+				title <- ""
+			})	
+			gai
+		})
+			
 		gps <- lapply(gps, function(gp) {
 			gp$tm_layout$scale.show <- FALSE
 			gp$tm_layout$compass.show <- FALSE

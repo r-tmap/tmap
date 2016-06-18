@@ -35,5 +35,7 @@ Suggests:
     rmarkdown,
     knitr,
     OpenStreetMap
+URL: https://github.com/mtennekes/tmap
+BugReports: https://github.com/mtennekes/tmap/issues
 VignetteBuilder: knitr
 RoxygenNote: 5.0.1
