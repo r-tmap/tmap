@@ -35,8 +35,9 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   earth.datum = "WGS84", space.color = NULL, legend.show = TRUE,
   legend.only = FALSE, legend.outside = NA,
   legend.outside.position = "right", legend.outside.size = 0.3,
-  legend.position = NULL, legend.just = c("left", "bottom"),
-  legend.width = 0.4, legend.height = 0.9, legend.hist.height = 0.3,
+  legend.position = NULL, legend.stack = c("vertical", "horizontal"),
+  legend.just = c("left", "bottom"), legend.width = 0.4,
+  legend.height = 0.9, legend.hist.height = 0.3,
   legend.hist.width = legend.width, legend.title.size = 1.1,
   legend.text.size = 0.7, legend.hist.size = 0.7,
   legend.format = list(scientific = FALSE, digits = NA, text.separator = "to",
@@ -196,11 +197,13 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{legend.position}{Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains \code{"left"}, \code{"LEFT"}, \code{"center"}, \code{"right"}, or \code{"RIGHT"} for the first value and \code{"top"}, \code{"TOP"}, \code{"center"}, \code{"bottom"}, or \code{"BOTTOM"} for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object. If \code{legend.outside=TRUE}, this argument specifies the legend position within the outside panel.}
 
+\item{legend.stack}{Value that determines how the legend items are stacked: \code{"vertical"} or \code{"horizontal"}.}
+
 \item{legend.just}{Justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if legend.position is specified by numeric coordinates.}
 
-\item{legend.width}{maximum width of the legend}
+\item{legend.width}{width of the legend. If it is a negative number, it will be the exact legend width. If it is a positive number (by default), it will be the maximum legend width; the actual legend width will be decreased automatically based on the legend content and font sizes.}
 
-\item{legend.height}{maximum height of the legend.}
+\item{legend.height}{height of the legend. If it is a negative number, it will be the exact legend height. If it is a positive number (by default), it will be the maximum legend height; the actual legend height will be decreased automatically based on the legend content and font sizes.}
 
 \item{legend.hist.height}{height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.}
 

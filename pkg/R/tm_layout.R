@@ -59,9 +59,10 @@
 #' @param legend.outside.position Character that determines the outside position of the legend. Only applicable when \code{legend.outside=TRUE}. One of: \code{"right"}, \code{"left"}, \code{"top"}, or \code{"bottom"}.
 #' @param legend.outside.size Numeric value that determines the relative size of the legend, when \code{legend.outside=TRUE}. If the first value of \code{legend.outside.position} is \code{"top"} or \code{"bottom"}, then it is the width of the legend, else it is the height of the legend.
 #' @param legend.position Position of the legend. Vector of two values, specifing the x and y coordinates. Either this vector contains \code{"left"}, \code{"LEFT"}, \code{"center"}, \code{"right"}, or \code{"RIGHT"} for the first value and \code{"top"}, \code{"TOP"}, \code{"center"}, \code{"bottom"}, or \code{"BOTTOM"} for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object. If \code{legend.outside=TRUE}, this argument specifies the legend position within the outside panel.
+#' @param legend.stack Value that determines how the legend items are stacked: \code{"vertical"} or \code{"horizontal"}.
 #' @param legend.just Justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if legend.position is specified by numeric coordinates.
-#' @param legend.width maximum width of the legend
-#' @param legend.height maximum height of the legend.
+#' @param legend.width width of the legend. If it is a negative number, it will be the exact legend width. If it is a positive number (by default), it will be the maximum legend width; the actual legend width will be decreased automatically based on the legend content and font sizes.
+#' @param legend.height height of the legend. If it is a negative number, it will be the exact legend height. If it is a positive number (by default), it will be the maximum legend height; the actual legend height will be decreased automatically based on the legend content and font sizes.
 #' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
 #' @param legend.hist.width width of the histogram. By default, it is equal to the \code{legend.width}.
 #' @param legend.title.size Relative font size for the legend title
@@ -140,6 +141,7 @@ tm_layout <- function(title=NA,
 					  legend.outside.position="right",
 					  legend.outside.size=0.3,
 					  legend.position = NULL,
+					  legend.stack = c("vertical", "horizontal"),
 					  legend.just = c("left", "bottom"),
 					  legend.width = 0.4,
 					  legend.height = 0.9,
@@ -178,6 +180,7 @@ tm_layout <- function(title=NA,
 					  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
 					  bg.overlay=NULL,
 					  bg.overlay.alpha=0) {
+	legend.stack <- match.arg(legend.stack)
 	g <- list(tm_layout=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tm"
 	g

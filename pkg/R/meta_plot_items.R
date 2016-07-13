@@ -35,6 +35,38 @@ legend_subplot <- function(x, id, gt, histWidth) {
 	}), legWidth=legWidth)
 }
 
+
+legend_subplot2 <- function(x, id, rel_height, gt, histWidth) {
+	if (is.null(x)) return(list(NULL, 0))
+	legend.type <- x$legend.type
+	row <- if ((id %% 2)==1) 1 else 2
+	list(cellplot(row, ((id-1) %/% 2) + 1, e={
+		pushViewport(viewport(height=rel_height, y=1-.5*rel_height))
+		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
+		res <- if (legend.type=="hist") {
+			legend_hist(x, gt$legend.hist.size, lineHeight, scale=gt$scale, m=.25, attr.color=gt$attr.color, legend.hist.bg.color = gt$legend.hist.bg.color)
+		} else if (legend.type=="TITLE") {
+			legend_title(x, gt, is.main.title=TRUE, lineHeight, m=.1)
+		} else if (legend.type=="title") {
+			legend_title(x, gt, is.main.title=FALSE, lineHeight, m=.1)
+		} else if (legend.type=="spacer") {
+			list(NULL, 0)
+		} else if (x$legend.is.portrait) {
+			legend_portr(x, gt, lineHeight, m=.25)
+		} else {
+			legend_landsc(x, gt, lineHeight, m=.25)
+		}
+		v <- current.viewport()
+		upViewport(1)
+		legGrob <- gTree(children=gList(res[[1]]), vp=v)
+		legWidth <- res[[2]]
+		if (legend.type=="hist") legWidth <- histWidth
+		if (gt$design.mode) {
+			gTree(children=gList(rectGrob(gp=gpar(fill="#CCCCCCCC")), legGrob))	
+		} else legGrob
+	}), legWidth=legWidth)
+}
+
 legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	size <- ifelse(is.main.title, gt$title.size, gt$legend.title.size)
 	title <- x$title

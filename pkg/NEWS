@@ -1,3 +1,6 @@
+version 1.5 (devel)
+- legend items can now be stacked horizontally
+
 version 1.4-1
 - add just argument as anchor for text labels, legend and attributes position
 - map attributes (such as scale bar) can be placed outside the frame
