@@ -88,7 +88,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			if (stackV) {
 				x <- c(TITLE=list(list(legend.type="TITLE", title=gt$title, legend.is.portrait=FALSE)), x)
 			} else {
-				xtitle <- list(list(legend.type="TITLE", title=gt$title, legend.is.portrait=FALSE))
+				xtitle <- list(legend.type="TITLE", title=gt$title, legend.is.portrait=FALSE)
 			}
 		} else {
 			xtitle <- NULL
@@ -477,7 +477,11 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			vpLeg <- viewport(layout=grid.layout(k, 2, heights=heights, widths=c(histWidth, 1-histWidth)), name="legend_grid")
 		} else {
 			#legTitleHeight
-			vpLeg <- viewport(layout=grid.layout(2, nx, heights=nh*c(legItemTitleHeight, legItemHeight), widths=legendWidth/nx), name="legend_grid")
+			if (!is.null(xtitle)) {
+				vpLeg <- viewport(layout=grid.layout(3, nx, heights=nh*c(legTitleHeight, legItemTitleHeight, legItemHeight), widths=legendWidth/nx), name="legend_grid")
+			} else {
+				vpLeg <- viewport(layout=grid.layout(2, nx, heights=nh*c(legItemTitleHeight, legItemHeight), widths=legendWidth/nx), name="legend_grid")
+			}
 			
 		}
 		
@@ -495,7 +499,10 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			#x_null <- sapply(x, is.null)
 			#grobListRes <- mapply("legend_subplot2", x[!x_null], id=(1:k)[!x_null], rel_height=rel_heights[!x_null], MoreArgs = list(gt=gt, histWidth=histWidth), SIMPLIFY = FALSE)
 			
-			grobListRes <- mapply("legend_subplot2", x, id=(1:k), rel_height=rel_heights, MoreArgs = list(gt=gt, histWidth=histWidth), SIMPLIFY = FALSE)
+			grobListRes <- mapply("legend_subplot2", x, id=(1:k), rel_height=rel_heights, MoreArgs = list(gt=gt, histWidth=histWidth, titleRow=as.numeric(!is.null(xtitle))), SIMPLIFY = FALSE)
+			if (!is.null(xtitle)) {
+				grobListRes <- c(grobListRes, list(legend_subplot2(xtitle, id=-nx, rel_height=1, gt=gt, histWidth=histWidth, titleRow=0)))
+			}
 			
 		}
 	
@@ -535,7 +542,11 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			vpLegend <- viewport(y=legend.position[2], x=legend.position[1],
 								 height=legendHeight, width=sum(legendWidth/nx*legWidths),
 								 just=gt$legend.just, name="legend")
-			vpLeg <- viewport(layout=grid.layout(2, nx, heights=nh*c(legItemTitleHeight, legItemHeight), widths=legWidths), name="legend_grid")
+			if (!is.null(xtitle)) {
+				vpLeg <- viewport(layout=grid.layout(3, nx, heights=nh*c(legTitleHeight, legItemTitleHeight, legItemHeight), widths=legWidths), name="legend_grid")
+			} else {
+				vpLeg <- viewport(layout=grid.layout(2, nx, heights=nh*c(legItemTitleHeight, legItemHeight), widths=legWidths), name="legend_grid")
+			}
 
 			if (gt$legend.inside.box) {
 				vpLegFrame <- viewport(width=1-mx, height=1-my, name="legend_frame")

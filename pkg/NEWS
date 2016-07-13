@@ -1,5 +1,6 @@
 version 1.5 (devel)
 - legend items can now be stacked horizontally
+- legend width and height can be determined fully manually (with negative values for legend.height and legend.width)
 
 version 1.4-1
 - add just argument as anchor for text labels, legend and attributes position

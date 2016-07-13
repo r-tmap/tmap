@@ -36,11 +36,19 @@ legend_subplot <- function(x, id, gt, histWidth) {
 }
 
 
-legend_subplot2 <- function(x, id, rel_height, gt, histWidth) {
+legend_subplot2 <- function(x, id, rel_height, gt, histWidth, titleRow) {
 	if (is.null(x)) return(list(NULL, 0))
 	legend.type <- x$legend.type
-	row <- if ((id %% 2)==1) 1 else 2
-	list(cellplot(row, ((id-1) %/% 2) + 1, e={
+	
+	if (id<0) {
+		row <- 1
+		col <- 1:(-id)
+	} else {
+		row <- (if ((id %% 2)==1) 1 else 2) + titleRow
+		col <- ((id-1) %/% 2) + 1
+	}
+	
+	list(cellplot(row, col, e={
 		pushViewport(viewport(height=rel_height, y=1-.5*rel_height))
 		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
 		res <- if (legend.type=="hist") {
