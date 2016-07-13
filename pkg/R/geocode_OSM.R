@@ -10,7 +10,7 @@
 #' @example ../examples/geocode_OSM.R
 #' @seealso \code{\link{bb}}
 geocode_OSM <- function(q, projection="longlat") {
-	q <- gsub(" ", "+", q, fixed = TRUE)
+	q <- gsub(" ", "+", enc2utf8(q), fixed = TRUE)
 	addr <- paste0("http://nominatim.openstreetmap.org/search?q=", q, "&format=xml&polygon=0&addressdetails=0")
 	
 	tmpfile <- tempfile()
