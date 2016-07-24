@@ -209,53 +209,54 @@ num2pal <- function(x, n = 5,
 }
 
 
-fancy_breaks <- function(vec, intervals=FALSE, scientific=FALSE, text.separator="to", text.less.than="less than", text.or.more="or more", digits=NA, ...) {
+fancy_breaks <- function(vec, intervals=FALSE, fun=NULL, scientific=FALSE, text.separator="to", text.less.than="less than", text.or.more="or more", digits=NA, ...) {
 	args <- list(...)
-
-	### analyse the numeric vector
 	n <- length(vec)
-	frm <- gsub(" ", "", sprintf("%20.10f", abs(vec[!is.infinite(vec)])))
 	
-	# get width before decimal point
-	mag <- max(nchar(frm)-11)
-	
-	# get number of decimals (which is number of decimals in vec, which is reduced when mag is large)
-	ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
-	if (is.na(digits)) digits <- max(min(ndec, 4-mag), 0)
-	
-	
-	if (!scientific) {
-		if (mag>11 || (mag > 9 && all(vec - floor(vec/1e9)*1e9 < 1))) {
-			vec <- vec / 1e9
-			ext <- " bln"
-		} else if (mag > 8 || (mag > 6 && all(vec - floor(vec/1e6)*1e6 < 1))) {
-			vec <- vec / 1e6
-			ext <- " mln"
+	if (!is.null(fun)) {
+		x <- do.call(fun, list(vec))
+	} else {
+		### analyse the numeric vector
+		frm <- gsub(" ", "", sprintf("%20.10f", abs(vec[!is.infinite(vec)])))
+		
+		# get width before decimal point
+		mag <- max(nchar(frm)-11)
+		
+		# get number of decimals (which is number of decimals in vec, which is reduced when mag is large)
+		ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
+		if (is.na(digits)) digits <- max(min(ndec, 4-mag), 0)
+		
+		if (!scientific) {
+			if (mag>11 || (mag > 9 && all(vec - floor(vec/1e9)*1e9 < 1))) {
+				vec <- vec / 1e9
+				ext <- " bln"
+			} else if (mag > 8 || (mag > 6 && all(vec - floor(vec/1e6)*1e6 < 1))) {
+				vec <- vec / 1e6
+				ext <- " mln"
+			} else {
+				ext <- ""
+			}
+			
+			# set default values
+			if (!("big.mark" %in% names(args))) args$big.mark <- ","
+			if (!("format" %in% names(args))) args$format <- "f"
+			if (!("preserve.width" %in% names(args))) args$preserve.width <- "none"
+			x <- paste(do.call("formatC", c(list(x=vec, digits=digits), args)), ext, sep="")
 		} else {
-			ext <- ""
+			if (!("format" %in% names(args))) args$format <- "g"
+			x <- do.call("formatC", c(list(x=vec, digits=digits), args))
 		}
-		
-		# set default values
-		if (!("big.mark" %in% names(args))) args$big.mark <- ","
-		if (!("format" %in% names(args))) args$format <- "f"
-		if (!("preserve.width" %in% names(args))) args$preserve.width <- "none"
-		
-		x <- paste(do.call("formatC", c(list(x=vec, digits=digits), args)), ext, sep="")
-
-		if (intervals) {
+	}
+	
+	if (intervals) {
+		if (scientific) {
+			lbls <- paste("[", x[-n], ", ", x[-1], ")", sep="")
+			lbls[n-1] <- paste(substr(lbls[n-1], 1, nchar(lbls[n-1])-1), "]", sep="")
+		} else {
 			x[vec==-Inf] <- ""
 			lbls <- paste(x[-n], x[-1], sep = paste0(" ", text.separator, " "))
 			if (vec[1]==-Inf) lbls[1] <- paste(text.less.than, x[2])
 			if (vec[n]==Inf) lbls[n-1] <- paste(x[n-1], text.or.more)
-		}
-		
-	} else {
-		if (!("format" %in% names(args))) args$format <- "g"
-		
-		x <- do.call("formatC", c(list(x=vec, digits=digits), args))
-		if (intervals) {
-			lbls <- paste("[", x[-n], ", ", x[-1], ")", sep="")
-			lbls[n-1] <- paste(substr(lbls[n-1], 1, nchar(lbls[n-1])-1), "]", sep="")
 		}
 	}
 	

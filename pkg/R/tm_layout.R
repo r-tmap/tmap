@@ -68,8 +68,9 @@
 #' @param legend.title.size Relative font size for the legend title
 #' @param legend.text.size Relative font size for the legend text elements
 #' @param legend.hist.size Relative font size for the choropleth histogram
-#' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
+#' @param legend.format list of formatting options for the legend numbers. Only applicable for layer functions (such as \code{\link{tm_fill}}) where if \code{labels} is undefined. Parameters are:
 #' \describe{
+#' \item{fun}{Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items \code{scientific}, \code{format}, and \code{digits} (see below) are not used.}
 #' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
 #' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
@@ -150,7 +151,7 @@ tm_layout <- function(title=NA,
 					  legend.title.size=1.1,
 					  legend.text.size=0.7,
 					  legend.hist.size=0.7,
-					  legend.format=list(scientific = FALSE, digits= NA, 
+					  legend.format=list(fun=NULL, scientific = FALSE, digits= NA, 
 					  				   text.separator = "to", text.less.than = "Less than",
 					  				   text.or.more = "or more"),
 					  legend.frame = FALSE,

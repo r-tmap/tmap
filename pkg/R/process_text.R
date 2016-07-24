@@ -74,10 +74,6 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
 	
-	# update legend format from tm_layout
-	to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
-	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
-	
 	xtsize <- g$size
 	xtcol <- g$col
 	xtext <- g$text
@@ -159,6 +155,9 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	}
 	
 	nx <- max(nx, nlevels(by))
+	
+	# update legend format from tm_layout
+	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
 	
 	dtcol <- process_data(data[, xtcol, drop=FALSE], by=by, free.scales=gby$free.scales.text.col, is.colors=is.colors)	
 	dtsize <- process_data(data[, xtsize, drop=FALSE], by=by, free.scales=gby$free.scales.text.size, is.colors=FALSE)

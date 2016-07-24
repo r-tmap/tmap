@@ -276,7 +276,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	}
 
 	if (external_attr) {
-		leg_ids <- seq(1, nx, by=gmeta$ncol * gmeta$nrow)
+		attr_ids <- seq(1, nx, by=gmeta$ncol * gmeta$nrow)
 		gp_attr <- lapply(attr_ids, function(ai) {
 			gai <- gps[[ai]]
 			gai$tm_layout <- within(gai$tm_layout, {

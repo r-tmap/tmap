@@ -3,10 +3,7 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
 
-	# update legend format from tm_layout
-	to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
-	g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
-	
+
 	# update gt$pc's saturation
 	gt$pc$saturation <- gt$pc$saturation * g$saturation
 	
@@ -55,6 +52,10 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 	
 	
 	nx <- max(nx, nlevels(by))
+	
+	# update legend format from tm_layout
+	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
+	
 		
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {

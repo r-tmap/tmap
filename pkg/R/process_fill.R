@@ -49,18 +49,8 @@ process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 	nx <- max(nx, nlevels(by))
 	
 	# update legend format from tm_layout
-	if (length(g$legend.format)==nx && all(sapply(g$legend.format, is.list))) {
-		g$legend.format <- lapply(g$legend.format, function(lf) {
-			to_be_assigned <- setdiff(names(gt$legend.format), names(lf))
-			lf[to_be_assigned] <- gt$legend.format[to_be_assigned]
-			lf
-		})
-	} else {
-		to_be_assigned <- setdiff(names(gt$legend.format), names(g$legend.format))
-		g$legend.format[to_be_assigned] <- gt$legend.format[to_be_assigned]
-	}
+	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
 
-	
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {
 		if (!is.colors) {
