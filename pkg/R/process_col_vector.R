@@ -44,6 +44,7 @@ process_col_vector <- function(x, sel, g, gt) {
 			gt$aes.palette[[g$palette[1]]]
 		} else g$palette
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
+						   interval.closure=g$interval.closure,
 						   palette = palette,
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,

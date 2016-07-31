@@ -13,6 +13,7 @@
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
 #' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
+#' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.
 #' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the text. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
 #' @param labels labels of the color classes, applicable if \code{col} is a data variable name
 #' @param labels.text Example text to show in the legend next to the \code{labels}. When \code{NA} (default), examples from the data variable are taken and \code{"NA"} for classes where they don't exist.
@@ -74,6 +75,7 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 sizes.legend.text = "Abc",
 					 n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
 					 breaks = NULL,
+					 interval.closure = "left",
 					 palette = NULL,
 					 labels = NULL,
 					 labels.text = NA,
@@ -146,6 +148,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param n preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.
 #' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
+#' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.
 #' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the lines. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. In this case of line widths, obviously only the positive side is used. When categorical color palettes are used, this method stretches the palette is there are more levels than colors.
@@ -182,18 +185,19 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @example ../examples/tm_lines.R
 #' @return \code{\link{tmap-element}}
 tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
-					  scale=1,
-					  lwd.legend = NULL,
-					  lwd.legend.labels = NULL,
-					  n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
-					  breaks = NULL,
-					  palette = NULL,
-					  labels = NULL,
-					  auto.palette.mapping = TRUE,
-					  contrast = NA,
-					  max.categories = 12, 
-					  colorNA = NA,
-					  textNA = "Missing",
+					 scale=1,
+					 lwd.legend = NULL,
+					 lwd.legend.labels = NULL,
+					 n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
+					 breaks = NULL,
+					 interval.closure = "left",
+					 palette = NULL,
+					 labels = NULL,
+					 auto.palette.mapping = TRUE,
+					 contrast = NA,
+					 max.categories = 12, 
+					 colorNA = NA,
+					 textNA = "Missing",
 					 showNA = NA,
 					 title.col=NA,
 					 title.lwd=NA,
@@ -236,6 +240,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param n preferred number of classes (in case \code{col} is a numeric variable).
 #' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified.
+#' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.
 #' @param labels labels of the classes.
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette is there are more levels than colors.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
@@ -277,6 +282,7 @@ tm_fill <- function(col=NA,
 				    n = 5,
 				    style = ifelse(is.null(breaks), "pretty", "fixed"),
 					breaks = NULL,
+					interval.closure = "left",
 				    labels = NULL,
 					auto.palette.mapping = TRUE,
 					contrast = NA,
@@ -345,6 +351,7 @@ tm_polygons <- function(col=NA,
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
 #' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
+#' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette is there are more levels than colors.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
@@ -381,6 +388,7 @@ tm_raster <- function(col=NA,
 					  n = 5,
 					  style = ifelse(is.null(breaks), "pretty", "fixed"),
 					  breaks = NULL,
+					  interval.closure = "left",
 					  labels = NULL,
 					  auto.palette.mapping = TRUE,
 					  contrast = NA,
@@ -434,6 +442,7 @@ tm_raster <- function(col=NA,
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
 #' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
+#' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.
 #' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the bubbles. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette is there are more levels than colors.
@@ -490,6 +499,7 @@ tm_bubbles <- function(size=.2, col=NA,
 						sizes.legend.labels = NULL,
 						n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
 						breaks = NULL,
+						interval.closure = "left",
 						palette = NULL,
 						labels = NULL,
 						auto.palette.mapping = TRUE,

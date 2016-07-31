@@ -8,12 +8,12 @@
 \usage{
 tm_fill(col = NA, alpha = NA, palette = NULL, convert2density = FALSE,
   area = NULL, n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
-  breaks = NULL, labels = NULL, auto.palette.mapping = TRUE,
-  contrast = NA, max.categories = 12, colorNA = NA, textNA = "Missing",
-  showNA = NA, thres.poly = 0, title = NA, legend.show = TRUE,
-  legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
-  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA, id = NA,
-  ...)
+  breaks = NULL, interval.closure = "left", labels = NULL,
+  auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
+  colorNA = NA, textNA = "Missing", showNA = NA, thres.poly = 0,
+  title = NA, legend.show = TRUE, legend.format = list(),
+  legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,
+  legend.z = NA, legend.hist.z = NA, id = NA, ...)
 
 tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA)
 
@@ -40,6 +40,8 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 \item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified.}
+
+\item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.}
 
 \item{labels}{labels of the classes.}
 

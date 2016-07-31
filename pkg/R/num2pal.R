@@ -1,30 +1,30 @@
-num2breaks <- function(x, n, style, breaks, approx=FALSE) {
+num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left") {
 	# create intervals and assign colors
 	if (style=="fixed") {
 		q <- list(var=x,
 				  brks=breaks)
 		attr(q, "style") <- "fixed"
 		attr(q, "nobs") <- sum(!is.na(x))
-		attr(q, "intervalClosure") <- "left"
+		attr(q, "intervalClosure") <- interval.closure
 		class(q) <- "classIntervals"
 	} else {
 		if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead, or specify breaks", call. = FALSE)
-		q <- suppressWarnings(classIntervals(x, n, style= style))
+		q <- suppressWarnings(classIntervals(x, n, style= style, intervalClosure=interval.closure))
 	}
 	
 	if (approx && style != "fixed") {
 	  if (n >= length(unique(x)) && style=="equal") {
 	    # to prevent classIntervals to set style to "unique"
       q <- list(var=x, brks=seq(min(x, na.rm=TRUE), max(x, na.rm=TRUE), length.out=n))
-      attr(q, "intervalClosure") <- "left"
+      attr(q, "intervalClosure") <- interval.closure
       class(q) <- "classIntervals"
 	  } else {
 	    brks <- q$brks
 
 	    # to prevent ugly rounded breaks such as -.5, .5, ..., 100.5 for n=101
-	    qm1 <- suppressWarnings(classIntervals(x, n-1, style= style))
+	    qm1 <- suppressWarnings(classIntervals(x, n-1, style= style, intervalClosure=interval.closure))
 	    brksm1 <- qm1$brks
-	    qp1 <- suppressWarnings(classIntervals(x, n+1, style= style))
+	    qp1 <- suppressWarnings(classIntervals(x, n+1, style= style, intervalClosure=interval.closure))
 	    brksp1 <- qp1$brks
 	    if (min(brksm1) > min(brks) && max(brksm1) < max(brks)) {
 	      q <- qm1
@@ -39,6 +39,7 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE) {
 num2pal <- function(x, n = 5,
 					   style = "pretty",
                        breaks = NULL,
+					   interval.closure="left",
 					   palette = NULL,
 					   auto.palette.mapping = TRUE,
 					   contrast = 1,
@@ -57,15 +58,15 @@ num2pal <- function(x, n = 5,
 		} else {
 			ncont <- length(legend.labels)
 		}
-		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE)
+		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE, interval.closure=interval.closure)
 		n <- length(q$brks) - 1
 	} else {
-		q <- num2breaks(x=x, n=n, style=style, breaks=breaks)
+		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure)
 	}
 
 	breaks <- q$brks
 	nbrks <- length(breaks)
-
+	int.closure <- attr(q, "intervalClosure")
 	
 	# reverse palette
 	if (length(palette)==1 && substr(palette[1], 1, 1)=="-") {
@@ -186,7 +187,7 @@ num2pal <- function(x, n = 5,
 		
 		# create legend labels for continuous cases
 		if (is.null(legend.labels)) {
-			legend.labels <- do.call("fancy_breaks", c(list(vec=b, intervals=FALSE), legend.format)) 	
+			legend.labels <- do.call("fancy_breaks", c(list(vec=b, intervals=FALSE, interval.closure=int.closure), legend.format)) 	
 		} else {
 			legend.labels <- rep(legend.labels, length.out=nbrks_cont)
 		}
@@ -197,7 +198,7 @@ num2pal <- function(x, n = 5,
 	} else {
 		# create legend labels for discrete cases
 		if (is.null(legend.labels)) {
-			legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE), legend.format)) 
+			legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE, interval.closure=int.closure), legend.format)) 
 		} else {
 			if (length(legend.labels)!=nbrks-1) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 			legend.labels <- rep(legend.labels, length.out=nbrks-1)
@@ -209,7 +210,7 @@ num2pal <- function(x, n = 5,
 }
 
 
-fancy_breaks <- function(vec, intervals=FALSE, fun=NULL, scientific=FALSE, text.separator="to", text.less.than="less than", text.or.more="or more", digits=NA, ...) {
+fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL, scientific=FALSE, text.separator="to", text.less.than="less than", text.or.more="or more", digits=NA, ...) {
 	args <- list(...)
 	n <- length(vec)
 	
@@ -250,8 +251,13 @@ fancy_breaks <- function(vec, intervals=FALSE, fun=NULL, scientific=FALSE, text.
 	
 	if (intervals) {
 		if (scientific) {
-			lbls <- paste("[", x[-n], ", ", x[-1], ")", sep="")
-			lbls[n-1] <- paste(substr(lbls[n-1], 1, nchar(lbls[n-1])-1), "]", sep="")
+			if (interval.closure=="left") {
+				lbls <- paste("[", x[-n], ", ", x[-1], ")", sep="")
+				lbls[n-1] <- paste(substr(lbls[n-1], 1, nchar(lbls[n-1])-1), "]", sep="")
+			} else {
+				lbls <- paste("(", x[-n], ", ", x[-1], "]", sep="")
+				lbls[1] <- paste("[", substr(lbls[1], 2, nchar(lbls[1])), sep="")
+			}
 		} else {
 			x[vec==-Inf] <- ""
 			lbls <- paste(x[-n], x[-1], sep = paste0(" ", text.separator, " "))
