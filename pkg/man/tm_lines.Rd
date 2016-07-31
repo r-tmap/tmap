@@ -7,13 +7,14 @@
 tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
   lwd.legend = NULL, lwd.legend.labels = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
-  palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
-  contrast = NA, max.categories = 12, colorNA = NA, textNA = "Missing",
-  showNA = NA, title.col = NA, title.lwd = NA, legend.col.show = TRUE,
-  legend.lwd.show = TRUE, legend.format = list(),
-  legend.col.is.portrait = TRUE, legend.lwd.is.portrait = FALSE,
-  legend.hist = FALSE, legend.hist.title = NA, legend.col.z = NA,
-  legend.lwd.z = NA, legend.hist.z = NA, id = NA)
+  interval.closure = "left", palette = NULL, labels = NULL,
+  auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
+  colorNA = NA, textNA = "Missing", showNA = NA, title.col = NA,
+  title.lwd = NA, legend.col.show = TRUE, legend.lwd.show = TRUE,
+  legend.format = list(), legend.col.is.portrait = TRUE,
+  legend.lwd.is.portrait = FALSE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.col.z = NA, legend.lwd.z = NA,
+  legend.hist.z = NA, id = NA)
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
@@ -35,6 +36,8 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
+
+\item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.}
 
 \item{palette}{color palette (see \code{RColorBrewer::display.brewer.all}) for the lines. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.}
 

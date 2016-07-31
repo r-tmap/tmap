@@ -7,11 +7,12 @@
 tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
   sizes.legend = NULL, sizes.legend.labels = NULL,
   sizes.legend.text = "Abc", n = 5, style = ifelse(is.null(breaks),
-  "pretty", "fixed"), breaks = NULL, palette = NULL, labels = NULL,
-  labels.text = NA, auto.palette.mapping = TRUE, contrast = NA,
-  max.categories = 12, colorNA = NA, textNA = "Missing", showNA = NA,
-  fontface = NA, fontfamily = NA, alpha = NA, case = NA,
-  shadow = FALSE, bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
+  "pretty", "fixed"), breaks = NULL, interval.closure = "left",
+  palette = NULL, labels = NULL, labels.text = NA,
+  auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
+  colorNA = NA, textNA = "Missing", showNA = NA, fontface = NA,
+  fontfamily = NA, alpha = NA, case = NA, shadow = FALSE,
+  bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
   print.tiny = FALSE, scale = 1, auto.placement = FALSE,
   remove.overlap = FALSE, along.lines = FALSE, overwrite.lines = FALSE,
   just = c("center", "center"), xmod = 0, ymod = 0, title.size = NA,
@@ -43,6 +44,8 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 \item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
+
+\item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.}
 
 \item{palette}{color palette (see \code{RColorBrewer::display.brewer.all}) for the text. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.}
 
