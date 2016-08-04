@@ -107,7 +107,7 @@ get_brewer_pal <- function(palette, n, contrast, stretch=TRUE) {
 	nmax <- brewer.pal.info[palette, "maxcolors"]
 	if (brewer.pal.info[palette, "category"]=="qual") {
 		brewerpal <- brewer.pal(min(nmax, max(n, 3)), name=palette)
-		if (stretch) {
+		if (stretch && n > length(brewerpal)) {
 			p <- colorRampPalette(brewerpal)(n)
 		} else {
 			p <- rep(brewerpal, length.out=n)
