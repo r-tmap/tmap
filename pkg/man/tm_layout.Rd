@@ -291,12 +291,12 @@ This element specifies the map layout. The main function \code{tm_layout} contro
 Predefined styles:
 \tabular{ll}{
 \code{tm_style_white}\tab White background, commonly used colors (default) \cr
-\code{tm_style_grey}/\code{_grey}\tab Grey background, useful to highlight sequential palettes (e.g. in choropleths) \cr
+\code{tm_style_gray}/\code{_grey}\tab Grey background, useful to highlight sequential palettes (e.g. in choropleths) \cr
 \code{tm_style_natural}\tab Emulation of natural view: blue waters and green land \cr
 \code{tm_style_bw}\tab Greyscale, obviously useful for greyscale printing \cr
 \code{tm_style_classic}\tab Classic styled maps (recommended) \cr
 \code{tm_style_cobalt}\tab Inspired by latex beamer style cobalt \cr
-\code{tm_style_albatross}\tab Inspired by latex beamer style cobalt \cr
+\code{tm_style_albatross}\tab Inspired by latex beamer style albatross \cr
 \code{tm_style_beaver}\tab Inspired by latex beamer style beaver \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
