@@ -387,13 +387,13 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				}
 				if (!is.na(gpl$xsize) || !is.na(gpl$xcol)) {
 					if (!is.na(gpl$xsize)) {
-						gpl$bubble.size.values <- dt[[gpl$xsize]]
+						gpl$symbol.size.values <- dt[[gpl$xsize]]
 					}
 					if (!is.na(gpl$xcol)) {
-						gpl$bubble.col.values <- dt[[gpl$xcol]]
+						gpl$symbol.col.values <- dt[[gpl$xcol]]
 					}
-					if (!is.na(gpl$idnames$bubble)) {
-						gpl$bubble.names <- dt[[gpl$idnames$bubble]]
+					if (!is.na(gpl$idnames$symbol)) {
+						gpl$symbol.names <- dt[[gpl$idnames$symbol]]
 					}
 				}
 				if (!is.na(gpl$xline) || !is.na(gpl$xlinelwd)) {

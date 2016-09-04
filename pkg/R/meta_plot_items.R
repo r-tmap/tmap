@@ -97,11 +97,11 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		
 		my <- lineHeight * legend.text.size * m
 		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-		s <- 1.25 ## for bubbles only
+		s <- 1.25 ## for symbols only
 		r <- 1-2*my
 		
 		
-		if (legend.type=="bubble.size") {
+		if (legend.type=="symbol.size") {
 			nitems <- length(legend.labels)
 			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
 			lhs <- pmax(hs*s, legend.text.size * lineHeight)
@@ -127,8 +127,8 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			lhs <- hs <- rep(r / nitems, nitems)
 		}
 		
-		if (legend.type=="bubble.col" && !is.cont) {
-			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
+		if (legend.type=="symbol.col" && !is.cont) {
+			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) * 2
 			hs <- pmin(hs/s, bmax)
 		}
 		
@@ -189,13 +189,21 @@ legend_portr <- function(x, gt, lineHeight, m) {
 					 width= ws, 
 					 height= hs,
 					 gp=gpar(fill=fill, col=col, lwd=lwd))
-		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
+		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
-			circleGrob(x=mx+wsmax/2, 
-					   y=ys, r=unit(hsi/2, "inch"),
+			pointsGrob(x=rep(mx+wsmax/2, nitems),
+					   y=ys,
+					   size=unit(hsi*1.1, "inch"),
+					   pch=symbol.shapes,
 					   gp=gpar(fill=cols,
-					   		col=bubble.border.col,
-					   		lwd=bubble.border.lwd))
+					   		col=symbol.border.col,
+					   		lwd=symbol.border.lwd))
+			
+			# circleGrob(x=mx+wsmax/2,
+			# 		   y=ys, r=unit(hsi/2, "inch"),
+			# 		   gp=gpar(fill=cols,
+			# 		   		col=symbol.border.col,
+			# 		   		lwd=symbol.border.lwd))
 		} else if (legend.type %in% c("text.size", "text.col")) {
 			cols <- legend.palette
 			textGrob(legend.text,
@@ -240,7 +248,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		
 		nitems <- length(legend.labels)
 		# delete too high 
-		if (legend.type=="bubble.size") {
+		if (legend.type=="symbol.size") {
 			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
 			# 			nofit <- which(hs>(ry-1.25*lineHeight*legend.text.size))
 			# 			
@@ -292,9 +300,9 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		
 		wsmax <- rx/nitems
 		
-		if (legend.type=="bubble.size") {
-			bubblews <- convertWidth(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
-			ws <- pmax(ws, bubblews*1.1)
+		if (legend.type=="symbol.size") {
+			symbolws <- convertWidth(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
+			ws <- pmax(ws, symbolws*1.1)
 			
 			# delete too wide 
 			if (sum(ws)>rx) {
@@ -324,8 +332,8 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		
 		xs <- mx + cumsum(ws) - ws/2
 		
-		if (legend.type=="bubble.col") {
-			bmax <- convertHeight(unit(bubble.max.size, "inch"), "npc", valueOnly=TRUE) * 2
+		if (legend.type %in% c("symbol.col", "symbol.shape")) {
+			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) * 2
 			hs <- pmin(hs, bmax)
 		} else if (legend.type=="text.col") {
 			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE)
@@ -372,14 +380,21 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 					 width= ws, 
 					 height= hs,
 					 gp=gpar(fill=fill, col=border.col, lwd=lwd))
-		} else if (legend.type %in% c("bubble.size", "bubble.col")) {
+		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
-			bubbleR <- unit(hsi/2, "inch")
-			xtraWidth <- convertWidth(max(bubbleR), "npc", valueOnly=TRUE)
-			circleGrob(x=xs, y=1-my-hsmax/2, r=bubbleR,
+			symbolR <- unit(hsi*1.1, "inch")
+			xtraWidth <- convertWidth(max(symbolR), "npc", valueOnly=TRUE)
+			
+			pointsGrob(x=xs, y=rep(1-my-hsmax/2, nitems), size=symbolR,
+					   pch=symbol.shapes,
 					   gp=gpar(fill=cols,
-					   		col=bubble.border.col,
-					   		lwd=bubble.border.lwd))
+					   		col=symbol.border.col,
+					   		lwd=symbol.border.lwd))
+
+			# circleGrob(x=xs, y=1-my-hsmax/2, r=symbolR,
+			# 		   gp=gpar(fill=cols,
+			# 		   		col=symbol.border.col,
+			# 		   		lwd=symbol.border.lwd))
 		} else if (legend.type %in% c("text.size", "text.col")) {
 			
 			cols <- legend.palette

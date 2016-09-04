@@ -8,7 +8,7 @@
 #' @param basemaps vector of one or more names of baselayer maps, or a logical value. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. By default (\code{NA}), the choice of basemap(s) will be determined by the \code{basemaps} argument of \code{\link{tm_layout}}, which is style dependent. Use \code{TRUE} to select a large set of recommended basemaps. Use \code{FALSE} to omit basemap tiles. If a named vector is provided, the names are used in the layer control legend.
 #' @param bg.overlay value that determines whether the background should be colored. By default (\code{NA}), it is set to \code{\link{tm_layout}}'s argument \code{bg.overlay} (which is style dependent).
 #' @param bg.overlay.alpha alpha transparency of \code{bg.overlay}. If \code{0}, no background is used, if \code{1} a solid background is used (and therefore, basemaps will be omitted). By default, this value is  set to \code{\link{tm_layout}}'s argument \code{bg.overlay.alpha} (which is style dependent).
-#' @param bubble.size.fixed should bubble sizes be fixed while zooming?
+#' @param symbol.size.fixed should symbol sizes be fixed while zooming?
 #' @param dot.size.fixed should dot sizes be fixed while zooming?
 #' @param set.bounds logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).
 #' @param set.view numeric vector or three that determines the view: lng, lat, and zoom (see \code{\link[leaflet:setView]{setView}}).
@@ -24,7 +24,7 @@ tm_view <- function(alpha=NA,
 					basemaps=NA,
 					bg.overlay=NA,
 					bg.overlay.alpha=NA,
-					bubble.size.fixed=FALSE,
+					symbol.size.fixed=FALSE,
 					dot.size.fixed=TRUE,
 					set.bounds=FALSE,
 					set.view=NA,

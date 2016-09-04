@@ -200,15 +200,15 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 					if (!is.na(xfill[1])) fill.legend.misc$lwd <- fill.legend.misc$lwd * scale
 				}
 
-				if (!is.null(bubble.size)) {
+				if (!is.null(symbol.size)) {
 					
-					bubble.size <- bubble.size * scale
-					bubble.border.lwd <- bubble.border.lwd * scale
-					bubble.col.legend.misc$bubble.max.size <- bubble.col.legend.misc$bubble.max.size * scale
-					bubble.col.legend.misc$bubble.border.lwd <- bubble.col.legend.misc$bubble.border.lwd * scale
+					symbol.size <- symbol.size * scale
+					symbol.border.lwd <- symbol.border.lwd * scale
+					symbol.col.legend.misc$symbol.max.size <- symbol.col.legend.misc$symbol.max.size * scale
+					symbol.col.legend.misc$symbol.border.lwd <- symbol.col.legend.misc$symbol.border.lwd * scale
 					
-					bubble.size.legend.misc$legend.sizes <- bubble.size.legend.misc$legend.sizes * scale
-					bubble.size.legend.misc$bubble.border.lwd <- bubble.size.legend.misc$bubble.border.lwd * scale
+					symbol.size.legend.misc$legend.sizes <- symbol.size.legend.misc$legend.sizes * scale
+					symbol.size.legend.misc$symbol.border.lwd <- symbol.size.legend.misc$symbol.border.lwd * scale
 				}
 				
 				if (!is.null(line.lwd)) {

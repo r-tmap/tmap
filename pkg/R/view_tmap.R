@@ -128,53 +128,53 @@ view_tmap <- function(gps, shps) {
 			# 									   lineend="butt"), i, k)
 		}
 		
-		plot_tm_bubbles <- function() {
+		plot_tm_symbols <- function() {
 			npol <- nrow(co)
 			
 			
-			co[, 1] <- co[, 1] + gpl$bubble.xmod * bpl
-			co[, 2] <- co[, 2] + gpl$bubble.ymod * bpl
+			co[, 1] <- co[, 1] + gpl$symbol.xmod * bpl
+			co[, 2] <- co[, 2] + gpl$symbol.ymod * bpl
 			
 			
-			bres <- split_alpha_channel(gpl$bubble.border.col, alpha=alpha)
+			bres <- split_alpha_channel(gpl$symbol.border.col, alpha=alpha)
 			bcol <- bres$col
 			bopacity <- bres$opacity
 			
-			fres <- split_alpha_channel(rep(gpl$bubble.col, length.out=npol), alpha=alpha)
+			fres <- split_alpha_channel(rep(gpl$symbol.col, length.out=npol), alpha=alpha)
 			fcol <- fres$col
 			fopacity <- fres$opacity
 			
-			bubble.size <- gpl$bubble.size
+			symbol.size <- gpl$symbol.size
 			
-			popups <- get_popups(gpl, type="bubble", popup.all.data=popup.all.data)
+			popups <- get_popups(gpl, type="symbol", popup.all.data=popup.all.data)
 
-			# sort bubbles
-			if (length(bubble.size)!=1) {
-				decreasing <- order(-bubble.size)
+			# sort symbols
+			if (length(symbol.size)!=1) {
+				decreasing <- order(-symbol.size)
 				co2 <- co[decreasing,]
-				bubble.size2 <- bubble.size[decreasing]
+				symbol.size2 <- symbol.size[decreasing]
 				fcol2 <- if (length(fcol)==1) fcol else fcol[decreasing]
 				popups2 <- popups[decreasing]
 			} else {
 				co2 <- co
-				bubble.size2 <- bubble.size
+				symbol.size2 <- symbol.size
 				fcol2 <- fcol
 				popups2 <- popups
 			}
 			
 			
-			rad <- bubble.size2 * upl
+			rad <- symbol.size2 * upl
 			
-			fixed <- ifelse(gpl$bubble.misc$bubble.are.dots, gt$dot.size.fixed, gt$bubble.size.fixed)
+			fixed <- ifelse(gpl$symbol.misc$symbol.are.dots, gt$dot.size.fixed, gt$symbol.size.fixed)
 			if (fixed) {
-				lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*bubble.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
+				lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
 			} else {
 				lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id)
 			}
 			
 			
 			if (!is.na(gpl$xcol)) {
-				if (gpl$bubble.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="bubble.col", alpha=alpha)
+				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha)
 			}
 			
 
@@ -300,8 +300,8 @@ split_alpha_channel <- function(x, alpha) {
 get_x_name <- function(type) {
 	if (type=="fill") {
 		"xfill"
-	} else if (type=="bubble") {
-		c("xsize", "xcol")
+	} else if (type=="symbol") {
+		c("xsize", "xcol", "xshape")
 	} else if (type=="raster") {
 		"xraster"
 	} else if (type=="line") {
@@ -312,8 +312,8 @@ get_x_name <- function(type) {
 get_aes_name <- function(type) {
 	if (type=="fill") {
 		"fill"
-	} else if (type=="bubble") {
-		c("bubble.size", "bubble.col")
+	} else if (type=="symbol") {
+		c("symbol.size", "symbol.col")
 	} else if (type=="raster") {
 		"raster"
 	} else if (type=="line") {

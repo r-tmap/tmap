@@ -17,8 +17,8 @@
 #' }
 #' In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly. Arguments of \code{\link{tm_view}}, such as \code{set.view} can be passed on directly.
 #' @param fill either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).
-#' @param bubble.size name of the data variable in \code{shp} for the bubble map that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
-#' @param bubble.col name of the data variable in \code{shp} for the bubble map that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
+#' @param symbol.size name of the data variable in \code{shp} for the symbol map that specifies the sizes of the symbols. If neither \code{symbol.size} nor \code{symbol.col} is specified, no symbol map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
+#' @param symbol.col name of the data variable in \code{shp} for the symbol map that specifies the colors of the symbols. If neither \code{symbol.size} nor \code{symbol.col} is specified, no symbol map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param dot.col name of the data variable in \code{shp} for the dot map that specifies the colors of the dots. 
 #' @param text Name of the data variable that contains the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param text.size Font size of the text labels. Either a constant value, or the name of a numeric data variable. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
@@ -27,21 +27,21 @@
 #' @param line.col either a line color or a name of the data variable that specifies the line colors. Only applicable when \code{shp} is type 3 (see above).
 #' @param raster either a color or a name of the data variable that specifices the raster colors. Only applicable when \code{shp} is type 4, 5, or 6 (see above).
 #' @param borders color of the polygon borders. Use \code{NA} to omit the borders.
-#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. The parameters \code{symbol.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{symbol.scale}, \code{text.scale}, and \code{line.scale}.
 #' @param title main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).
 #' @param projection character that determines the projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.
 #' @param format \code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).
 #' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).
 #' @param basemaps basemaps for the view mode. See \code{\link{tm_view}}
-#' @param ... arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.  
+#' @param ... arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.  
 #' @return \code{\link{tmap-element}}
 #' @example ../examples/qtm.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @export
 qtm <- function(shp, 
 				fill=NA,
-				bubble.size=NULL,
-				bubble.col=NULL,
+				symbol.size=NULL,
+				symbol.col=NULL,
 				dot.col=NULL,
 				text=NULL,
 				text.size=1,
@@ -100,12 +100,12 @@ qtm <- function(shp,
 			if (!"overwrite.lines" %in% called && isolines) args$overwrite.lines <- TRUE
 		}
 		if (inherits(shp, "SpatialPoints") && !inherits(shp, "SpatialPixels")) {
-			dots_instead_of_bubbles <- missing(bubble.size) && missing(bubble.col)
-			if (dots_instead_of_bubbles) bubble.size <- .02
-			if (missing(bubble.col) && missing(dot.col)) {
-				bubble.col <- NA
+			dots_instead_of_symbols <- missing(symbol.size) && missing(symbol.col)
+			if (dots_instead_of_symbols) symbol.size <- .02
+			if (missing(symbol.col) && missing(dot.col)) {
+				symbol.col <- NA
 			} else if (!missing(dot.col)) {
-				bubble.col <- dot.col
+				symbol.col <- dot.col
 			}
 		}
 	}
@@ -114,18 +114,18 @@ qtm <- function(shp,
 	}
 	
 
-	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_bubbles", "tm_dots", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets", "tm_view")
-	fns_prefix <- c("shape", "fill", "borders", "bubble", "dot", "line", "raster", "text", "layout", "grid", "facets", "view")
+	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_symbols", "tm_dots", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets", "tm_view")
+	fns_prefix <- c("shape", "fill", "borders", "symbol", "dot", "line", "raster", "text", "layout", "grid", "facets", "view")
 	
 	argnames <- unlist(lapply(fns, function(f) names(formals(f))))
 	dupl <- setdiff(unique(argnames[duplicated(argnames)]), "...")
 	
-	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_bubbles=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
+	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_symbols=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
 	  if (pre=="dot") {
 	    lnames <- c(setdiff(names(formals(f)), sk),
-	                setdiff(names(formals("tm_bubbles")), c(sk, "size")))
+	                setdiff(names(formals("tm_symbols")), c(sk, "size")))
 	  } else lnames <- setdiff(names(formals(f)), sk)
 		isD <- lnames %in% dupl
 		lnames2 <- lnames
@@ -141,12 +141,12 @@ qtm <- function(shp,
 		arg
 	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)
 
-	# merge tm_dots and tm_bubbles arguments
+	# merge tm_dots and tm_symbols arguments
 	if ("size" %in% names(args2$tm_dots)) {
-		bubble.size <- args2$tm_dots$size
+		symbol.size <- args2$tm_dots$size
 		args2$tm_dots$size <- NULL
 	}
-	args2$tm_bubbles <- c(args2$tm_bubbles, args2$tm_dots)
+	args2$tm_symbols <- c(args2$tm_symbols, args2$tm_dots)
 	args2$tm_dots <- NULL
 	
 	g <- do.call("tm_shape", c(list(shp=shp, projection=projection), args2[["tm_shape"]]))
@@ -156,11 +156,11 @@ qtm <- function(shp,
 
 	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("tm_lines", c(list(lwd=line.lwd, col=line.col), args2[["tm_lines"]]))
 	
-	if (!missing(bubble.size) || !missing(bubble.col)) {
-		bubbleLst <- c(if (!missing(bubble.size)) list(size=bubble.size) else list(),
-					   if (!missing(bubble.col)) list(col=bubble.col) else list())
-		g <- g + do.call("tm_bubbles", c(bubbleLst, args2[["tm_bubbles"]]))	
-		if (dots_instead_of_bubbles) g$tm_bubbles$are.dots <- TRUE
+	if (!missing(symbol.size) || !missing(symbol.col)) {
+		symbolLst <- c(if (!missing(symbol.size)) list(size=symbol.size) else list(),
+					   if (!missing(symbol.col)) list(col=symbol.col) else list())
+		g <- g + do.call("tm_symbols", c(symbolLst, args2[["tm_symbols"]]))	
+		if (dots_instead_of_symbols) g$tm_symbols$are.dots <- TRUE
 	} 
 	
 	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, size=text.size, col=text.col), args2[["tm_text"]]))

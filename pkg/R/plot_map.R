@@ -55,7 +55,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 									   lineend="butt"), i, k)
 		}
 		
-		plot_tm_bubbles <- function() plot_bubbles(co.npc, gpl, gt, lineInch, i, k)
+		plot_tm_symbols <- function() plot_symbols(co.npc, gpl, gt, lineInch, i, k)
 		plot_tm_text <- function() plot_text(co.npc, gpl, gt, lineInch, just=gpl$text.just)
 		
 		

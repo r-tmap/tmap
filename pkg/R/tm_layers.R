@@ -33,7 +33,7 @@
 #' @param size.lowerbound lowerbound for \code{size}. Only applicable when \code{size} is not a constant. If \code{print.tiny} is \code{TRUE}, then all text labels which relative text is smaller than \code{size.lowerbound} are depicted at relative size \code{size.lowerbound}. If \code{print.tiny} is \code{FALSE}, then text labels are only depicted if their relative sizes are at least \code{size.lowerbound} (in other words, tiny labels are omitted).
 #' @param print.tiny boolean, see \code{size.lowerbound}
 #' @param scale text size multiplier, useful in case \code{size} is variable or \code{"AREA"}.
-#' @param auto.placement logical (or numeric) that determines whether the labels are placed automatically. If \code{TRUE}, the labels are placed next to the coordinate points with as little overlap as possible using the simulated annealing algorithm. Therefore, it is recommended for labeling spatial dots or bubbles. If a numeric value is provided, this value acts as a parameter that specifies the distance between the coordinate points and the text labels in terms of text line heights.
+#' @param auto.placement logical (or numeric) that determines whether the labels are placed automatically. If \code{TRUE}, the labels are placed next to the coordinate points with as little overlap as possible using the simulated annealing algorithm. Therefore, it is recommended for labeling spatial dots or symbols. If a numeric value is provided, this value acts as a parameter that specifies the distance between the coordinate points and the text labels in terms of text line heights.
 #' @param remove.overlap logical that determines whether the overlapping labels are removed
 #' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicabel if a spatial lines shape is used.
 #' @param overwrite.lines logical that determines whether the part of the lines below the text labels is removed. Only applicabel if a spatial lines shape is used.
@@ -420,30 +420,30 @@ tm_raster <- function(col=NA,
 
 
 
-#' Draw bubbles or dots
+#' Draw symbols
 #' 
-#' Creates a \code{\link{tmap-element}} that draws bubbles or small dots. Both colors and sizes of the bubbles can be mapped to data variables. 
+#' Creates a \code{\link{tmap-element}} that draws symbols, including symbols and dots. The color, size, and shape of the symbols can be mapped to data variables. 
 #' 
-#' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic arguments of \code{tm_bubbles} are \code{size} and \code{col}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
+#' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments, which are \code{size}, \code{col}, and \code{shape}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
-#' @name tm_bubbles
-#' @rdname tm_bubbles
-#' @param size a single value or a \code{shp} data variable that determines the bubble sizes. The reference value \code{size=1} corresponds to the area of bubbles that have the same height as one line of text. If a data variable is provided, the bubble sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest bubble will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
-#' @param col color(s) of the bubble. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
+#' @name tm_symbols
+#' @rdname tm_symbols
+#' @param size a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest symbol will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
+#' @param col color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
-#' @param border.col color of the bubble borders.
-#' @param border.lwd line width of the bubble borders. If \code{NA} (default), no bubble borders are drawn.
-#' @param border.alpha transparency number, regarding the bubble borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
-#' @param scale bubble size multiplier number. 
-#' @param perceptual logical that determines whether bubbles are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger bubbles is often underestimated. Flannery (1971) experimentally derived a method to compensate this, which is enabled by this argument.
-#' @param size.lim vector of two limit values of the \code{size} variable. Only bubbles are drawn whose value is greater than or equal to the first value. Bubbles whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
-#' @param sizes.legend vector of bubble sizes that are shown in the legend. By default, this is determined automatically.
+#' @param border.col color of the symbol borders.
+#' @param border.lwd line width of the symbol borders. If \code{NA} (default), no symbol borders are drawn.
+#' @param border.alpha transparency number, regarding the symbol borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
+#' @param scale symbol size multiplier number. 
+#' @param perceptual logical that determines whether symbols are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument.
+#' @param size.lim vector of two limit values of the \code{size} variable. Only symbols are drawn whose value is greater than or equal to the first value. symbols whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
+#' @param sizes.legend vector of symbol sizes that are shown in the legend. By default, this is determined automatically.
 #' @param sizes.legend.labels vector of labels for that correspond to \code{sizes.legend}.
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
 #' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are "cont" and "order". The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.
-#' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the bubbles. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
+#' @param palette color palette (see \code{RColorBrewer::display.brewer.all}) for the symbols. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.
 #' @param labels labels of the classes
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette is there are more levels than colors.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
@@ -451,13 +451,13 @@ tm_raster <- function(col=NA,
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
-#' @param xmod horizontal position modification of the bubbles, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the bubbles. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the bubbles to the left, and negative \code{ymod} values to the bottom.
+#' @param xmod horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the symbols. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the symbols to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
-#' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the bubbles. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
-#' @param title.size title of the legend element regarding the bubble sizes
-#' @param title.col title of the legend element regarding the bubble colors
-#' @param legend.size.show logical that determines whether the legend for the bubble sizes is shown
-#' @param legend.col.show logical that determines whether the legend for the bubble colors is shown
+#' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
+#' @param title.size title of the legend element regarding the symbol sizes
+#' @param title.col title of the legend element regarding the symbol colors
+#' @param legend.size.show logical that determines whether the legend for the symbol sizes is shown
+#' @param legend.col.show logical that determines whether the legend for the symbol colors is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 #' \describe{
 #' \item{fun}{Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items \code{scientific}, \code{format}, and \code{digits} (see below) are not used.}
@@ -469,25 +469,26 @@ tm_raster <- function(col=NA,
 #' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
-#' @param legend.size.is.portrait logical that determines whether the legend element regarding the bubble sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
-#' @param legend.hist logical that determines whether a histogram is shown regarding the bubble colors
-#' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for bubble colors.
-#' @param legend.col.is.portrait logical that determines whether the legend element regarding the bubble colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
-#' @param legend.size.z index value that determines the position of the legend element regarding the bubble sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
-#' @param legend.col.z index value that determines the position of the legend element regarding the bubble colors. (See \code{legend.size.z})
+#' @param legend.size.is.portrait logical that determines whether the legend element regarding the symbol sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.hist logical that determines whether a histogram is shown regarding the symbol colors
+#' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for symbol colors.
+#' @param legend.col.is.portrait logical that determines whether the legend element regarding the symbol colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.size.z index value that determines the position of the legend element regarding the symbol sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
+#' @param legend.col.z index value that determines the position of the legend element regarding the symbol colors. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
-#' @param id name of the data variable that specifies the indices of the bubbles. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
+#' @param id name of the data variable that specifies the indices of the symbols. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
 #' @param title shortcut for \code{title.col} for \code{tm_dots}
 #' @param legend.show shortcut for \code{legend.col.show} for \code{tm_dots}
 #' @param legend.is.portrait shortcut for \code{legend.col.is.portrait} for \code{tm_dots}
 #' @param legend.z shortcut for \code{legend.col.z shortcut} for \code{tm_dots}
-#' @keywords bubble map
+#' @keywords symbol map
 #' @export
-#' @example ../examples/tm_bubbles.R
+#' @example ../examples/tm_symbols.R
 #' @references Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_bubbles <- function(size=.2, col=NA,
+tm_symbols <- function(size=1, col=NA,
+					   shape=21,
 						alpha=NA,
 						border.col=NA,
 						border.lwd=1,
@@ -508,39 +509,73 @@ tm_bubbles <- function(size=.2, col=NA,
 						colorNA = NA,
 						textNA = "Missing",
 						showNA = NA,
+						shapes = 21:25,
 						jitter=0,
 						xmod = 0,
 						ymod = 0,
 						title.size = NA,
 						title.col = NA,
+						title.shape=NA,
 						legend.size.show=TRUE,
 						legend.col.show=TRUE,
+						legend.shape.show=TRUE,
 						legend.format=list(),
 					   	legend.size.is.portrait=FALSE,
 					    legend.col.is.portrait=TRUE,
-					   	legend.hist=FALSE,
+						legend.shape.is.portrait=TRUE,
+						legend.hist=FALSE,
 						legend.hist.title=NA,
 						legend.size.z=NA,
 						legend.col.z=NA,
+						legend.shape.z=NA,
 						legend.hist.z=NA,
 						id=NA) {
-	g <- list(tm_bubbles=c(as.list(environment()), list(are.dots=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))
+	g <- list(tm_symbols=c(as.list(environment()), list(are.dots=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
 	
 }
 
-
-#' @rdname tm_bubbles
-#' @param ... arguments passed on to \code{tm_bubbles}
+#' @rdname tm_symbols
+#' @param ... arguments passed on to \code{tm_symbols}
 #' @export
-tm_dots <- function(col=NA, size=.02, title = NA, legend.show=TRUE, 
-					legend.is.portrait=TRUE, legend.z=NA, ...) {
-	g <- do.call("tm_bubbles", c(list(size=size, col=col, title.col=title, 
+tm_squares <- function(size=1, 
+					   col=NA,
+					   shape=22,
+					   ...) {
+	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape), list(...)))
+	g
+}
+
+#' @rdname tm_symbols
+#' @param ... arguments passed on to \code{tm_symbols}
+#' @export
+tm_bubbles <- function(size=1,
+					   col=NA,
+					   shape=21,
+					   ...) {
+	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape), list(...)))
+	g
+}
+
+
+
+#' @rdname tm_symbols
+#' @param ... arguments passed on to \code{tm_symbols}
+#' @export
+tm_dots <- function(size=.02, 
+					col=NA, 
+					shape=16,
+					title = NA, 
+					legend.show=TRUE, 
+					legend.is.portrait=TRUE, 
+					legend.z=NA, ...) {
+	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape,
+									  title.col=title, 
 									  legend.col.show=legend.show,
-								 legend.col.is.portrait=legend.is.portrait,
-								 legend.size.z=legend.z), list(...)))
-	g$tm_bubbles$are.dots <- TRUE
+									  legend.col.is.portrait=legend.is.portrait,
+									  legend.col.z=legend.z), list(...)))
+	g$tm_symbols$are.dots <- TRUE
 	g
 }
 

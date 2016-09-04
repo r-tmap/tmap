@@ -8,7 +8,7 @@ get_sp_coordinates <- function(shp, gpl, gt, bbx) {
 			attr(shp, "bbox") <- bbx
 			id <- shp_lst$id
 			
-			aes <- intersect(names(gpl), c("line.col", "line.lwd", "bubble.size", "text", "text.size", "text.color", "text.xmod", "text.ymod", "text_sel", "bubble.size", "bubble.col", "bubble.xmod", "bubble.ymod"))
+			aes <- intersect(names(gpl), c("line.col", "line.lwd", "text", "text.size", "text.color", "text.xmod", "text.ymod", "text_sel", "symbol.size", "symbol.col", "symbol.xmod", "symbol.ymod"))
 			
 			gpl[aes] <- lapply(gpl[aes], function(a) {
 				if (length(a)==ns) {

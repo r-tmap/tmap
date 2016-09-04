@@ -10,7 +10,7 @@
 #'    	\itemize{
 #'    	\item The map is always projected accoring to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from \code{\link{tm_shape}}).
 #'    	\item Small multiples are not supported
-#'    	\item The legend cannot be made for aesthetics regarding size, which are bubble size and line width.
+#'    	\item The legend cannot be made for aesthetics regarding size, which are symbol size and line width.
 #'    	\item Text labels are not supported (yet)
 #'    	\item The layout options set with \code{\link{tm_layout}}) regarding map format are not used. However, the styling options still apply.}
 #'    	}}

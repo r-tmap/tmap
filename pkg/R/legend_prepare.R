@@ -1,7 +1,7 @@
 legend_prepare <- function(gp, gt, scaleFactor) {
 
-	varnames <- c("fill", "bubble.size", "bubble.col", "line.col", "line.lwd", "raster", "text.size", "text.col")
-	varnames_hist <- c("fill", "bubble.col", "line.col", "raster")
+	varnames <- c("fill", "symbol.size", "symbol.col", "symbol.shape", "line.col", "line.lwd", "raster", "text.size", "text.col")
+	varnames_hist <- c("fill", "symbol.col", "line.col", "raster")
 	
 	# todo hist: "fill_hist"
 	# is.portrait
@@ -19,8 +19,8 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 						legend.z <- paste(v, "legend.z", sep=".")
 						legend.misc <- paste(v, "legend.misc", sep=".")
 						list_misc <- gpl[[legend.misc]]
-						if (v=="bubble.size") list_misc$legend.sizes <- list_misc$legend.size * scaleFactor / 2
-						if (v=="bubble.col") list_misc$bubble.max.size <- list_misc$bubble.max.size * scaleFactor / 2
+						if (v=="symbol.size") list_misc$legend.sizes <- list_misc$legend.size * scaleFactor / 2
+						if (v %in% c("symbol.col", "symbol.shape")) list_misc$symbol.max.size <- list_misc$symbol.max.size * scaleFactor / 2
 						
 						
 						c(list(legend.type=v,

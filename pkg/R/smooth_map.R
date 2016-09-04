@@ -44,7 +44,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	prj <- get_projection(shp)
 #	asp <- get_asp_ratio(shp)
 
-	pb <- txtProgressBar()
+	pb <- txtProgressBar(style=3)
 	
 	if (!inherits(shp, c("SpatialPoints", "SpatialPolygons", "SpatialGrid", "Raster"))) {
 		stop("shp is not a Raster nor a SpatialPoints, -Polygons, or -Grid object")
@@ -211,6 +211,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	
 	lns <- SpatialLinesDataFrame(gIntersection(cover, cl2, byid = TRUE), data=cl2@data, match.ID = FALSE)
 	attr(lns, "isolines") <- TRUE
+	setTxtProgressBar(pb, 1)
 	
 	list(raster = if(to.Raster) r else as(r, "SpatialGridDataFrame"),
 		 iso = lns,

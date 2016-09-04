@@ -312,41 +312,48 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 }
 
 
-plot_bubbles <- function(co.npc, g, gt, lineInch, i, k) {
-	bubbleH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
-	bubbleW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
+plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
+	symbolH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
+	symbolW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
 	
 	with(g, {
-		co.npc[, 1] <- co.npc[, 1] + bubble.xmod * bubbleW
-		co.npc[, 2] <- co.npc[, 2] + bubble.ymod * bubbleH
+		co.npc[, 1] <- co.npc[, 1] + symbol.xmod * symbolW
+		co.npc[, 2] <- co.npc[, 2] + symbol.ymod * symbolH
 		npol <- nrow(co.npc)
-		if (length(bubble.size)!=npol) {
-			if (length(bubble.size)!=1) warning("less bubble size values than objects", call. = FALSE)
-			bubble.size <- rep(bubble.size, length.out=npol)
+		if (length(symbol.size)!=npol) {
+			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
+			symbol.size <- rep(symbol.size, length.out=npol)
 		}
 		
-		bubble.size <- bubble.size * lineInch / 2
+		#symbol.size <- symbol.size * lineInch * 1.1
+		symbol.size <- symbol.size * lineInch / 2
 		
-		cols <- rep(bubble.col, length.out=npol)
-		if (length(bubble.size)!=1) {
-			decreasing <- order(-bubble.size)
+		cols <- rep(symbol.col, length.out=npol)
+		if (length(symbol.size)!=1) {
+			decreasing <- order(-symbol.size)
 			co.npc2 <- co.npc[decreasing,]
-			bubble.size2 <- bubble.size[decreasing]
+			symbol.size2 <- symbol.size[decreasing]
+			symbol.shape2 <- symbol.shape[decreasing]
 			cols2 <- if (length(cols)==1) cols else cols[decreasing]
 		} else {
 			co.npc2 <- co.npc
-			bubble.size2 <- bubble.size
+			symbol.size2 <- symbol.size
+			symbol.shape2 <- symbol.shape
 			cols2 <- cols
 		}
 		
 		
-		bordercol <- bubble.border.col
-		idName <- paste("tm_bubbles", i, k, sep="_")
+		bordercol <- symbol.border.col
+		idName <- paste("tm_symbols", i, k, sep="_")
 		
+		pointsGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
+				   size=unit(symbol.size2, "inch"),
+				   pch=symbol.shape2,
+				   gp=gpar(col=bordercol, lwd=symbol.border.lwd, fill=cols2), name=idName)
 		
-		circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
-				   r=unit(bubble.size2, "inch"),
-				   gp=gpar(col=bordercol, lwd=bubble.border.lwd, fill=cols2), name=idName)
+		# circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
+		# 		   r=unit(symbol.size2, "inch"),
+		# 		   gp=gpar(col=bordercol, lwd=symbol.border.lwd, fill=cols2), name=idName)
 	})
 }
 

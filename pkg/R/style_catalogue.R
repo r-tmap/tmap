@@ -44,7 +44,7 @@ style_catalogue <- function(path="./tmap_style_previews", styles=NA, include.glo
 		print(tm_shape(Europe) +
 			  	tm_polygons() +
 			  	tm_text("iso_a3", size="AREA") +
-			  	tm_bubbles() +
+			  	tm_symbols() +
 			  	tm_shape(rivers) +
 			  	tm_lines() + 
 			  	tm_compass() +
@@ -81,7 +81,7 @@ style_catalogue <- function(path="./tmap_style_previews", styles=NA, include.glo
 		print(tm_shape(Europe) +
 			  	tm_polygons() +
 			  	tm_shape(metro) +
-			  	tm_bubbles(size = "pop2010", col = "growth", breaks = c(-Inf, -2, -1, -.5, .5, 1, 2, Inf)) + tml + tm_format_Europe(title="Bubble map"),
+			  	tm_symbols(size = "pop2010", col = "growth", breaks = c(-Inf, -2, -1, -.5, .5, 1, 2, Inf)) + tml + tm_format_Europe(title="symbol map"),
 			  vp = viewport(layout.pos.row = 3, layout.pos.col = 2))
 		setTxtProgressBar(pb, pbii(6))
 		

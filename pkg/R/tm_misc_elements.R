@@ -10,17 +10,18 @@
 #' @param drop.empty.facets logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and colums are dropped.
 #' @param showNA If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{table}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.
 #' @param textNA text used for facets of missing values.
-#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_bubbles}} and line color from \code{\link{tm_lines}}.
+#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_symbols}} and line color from \code{\link{tm_lines}}.
 #' @param free.scales.fill logical. Should the color scale for the choropleth be free?
-#' @param free.scales.bubble.size logical. Should the bubble size scale for the bubble map be free?
-#' @param free.scales.bubble.col logical. Should the color scale for the bubble map be free?
+#' @param free.scales.symbol.size logical. Should the symbol size scale for the symbol map be free?
+#' @param free.scales.symbol.col logical. Should the color scale for the symbol map be free?
+#' @param free.scales.symbol.shape logical. Should the symbol shape scale for the symbol map be free?
 #' @param free.scales.text.size logical. Should the text size scale be free?
 #' @param free.scales.text.col logical. Should the text color scale be free?
 #' @param free.scales.line.col Should the line color scale be free?
 #' @param free.scales.line.lwd Should the line width scale be free?
 #' @param free.scales.raster Should the color scale for raster layers be free?
 #' @param inside.original.bbox If \code{free.coords}, should the bounding box of each small multiple be inside the original bounding box?
-#' @param scale.factor Number that determines how the elements (e.g. font sizes, bubble sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.
+#' @param scale.factor Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.
 #' @param drop.shapes deprecated: renamed to \code{drop.units}
 #' @export
 #' @example ../examples/tm_facets.R
@@ -34,8 +35,9 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					  textNA="Missing",
 					  free.scales=is.null(by),
 					  free.scales.fill=free.scales,
-					  free.scales.bubble.size=free.scales,
-					  free.scales.bubble.col=free.scales,
+					  free.scales.symbol.size=free.scales,
+					  free.scales.symbol.col=free.scales,
+					  free.scales.symbol.shape=free.scales,
 					  free.scales.text.size=free.scales,
 					  free.scales.text.col=free.scales,
 					  free.scales.line.col=free.scales,
@@ -46,7 +48,7 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 					  drop.shapes=drop.units) {
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	if ("drop.shapes" %in% calls) warning("The argument drop.shapes has been renamed to drop.units, and is therefore deprecated", call.=FALSE)
-	if ("free.scales" %in% calls) calls <- union(calls, c("free.scales.fill", "free.scales.bubble.size", "free.scales.bubble.col", "free.scales.line.col", "free.scales.line.lwd"))
+	if ("free.scales" %in% calls) calls <- union(calls, c("free.scales.fill", "free.scales.symbol.size", "free.scales.symbol.col", "free.scales.symbol.shape", "free.scales.line.col", "free.scales.line.lwd"))
 	g <- list(tm_facets=c(as.list(environment()), list(call=calls)))
 	class(g) <- "tmap"
 	#attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])

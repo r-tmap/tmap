@@ -53,11 +53,11 @@ preprocess_gt <- function(x, interactive) {
 		if (length(aes.color)==1 && is.null(names(aes.color))) names(aes.color) <- "base"
 		
 		if (!is.null(names(aes.color))) {
-			aes.colors <- c(fill="grey85", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60")
+			aes.colors <- c(fill="grey85", borders="grey40", symbols="blueviolet", dots="black", lines="red", text="black", na="grey60")
 			aes.colors[names(aes.color)] <- aes.color
 		} else {
 			aes.colors <- rep(aes.color, length.out=7)
-			names(aes.colors) <- c("fill", "borders", "bubbles", "dots", "lines", "text", "na")
+			names(aes.colors) <- c("fill", "borders", "symbols", "dots", "lines", "text", "na")
 		}
 		aes.colors <- sapply(aes.colors, function(ac) if (is.na(ac)) "#000000" else ac)
 		

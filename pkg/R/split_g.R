@@ -2,7 +2,7 @@ split_g <- function(g, n) {
 	# single valued-arguments: small multiples can take vectors (vnames)
 	# vector-argments: small multiples can take lists (lnames)
 	# list-arguments: small multiples can take nested lists (nlnames)
-	vnames <- c("alpha", "convert2density", "n", "style", "auto.palette.mapping", "contrast", "max.categories", "colorNA", "textNA", "bubble.border.col", "bubble.border.lwd", "bubble.border.alpha", "bubble.scale")
+	vnames <- c("alpha", "convert2density", "n", "style", "auto.palette.mapping", "contrast", "max.categories", "colorNA", "textNA", "symbol.border.col", "symbol.border.lwd", "symbol.border.alpha", "symbol.scale")
 	lnames <- c("palette", "breaks", "labels", "size.lim", "size.lim", "sizes.legend", "sizes.legend.labels", "lwd.legend", "lwd.legend.labels")
 	nlnames <- c("legend.format")
 	lapply(1:n, function(i) {

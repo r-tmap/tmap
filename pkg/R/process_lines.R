@@ -17,7 +17,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 	if (is.null(g$line.lwd.legend.labels)) {
 		line.lwd.legend.labels <- do.call("fancy_breaks", c(list(vec=w_legend, intervals=FALSE), g$legend.format))
 	} else {
-		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of bubbles in the legend", call. = FALSE)
+		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of lines in the legend", call. = FALSE)
 		line.lwd.legend.labels <- g$line.lwd.legend.labels
 	}
 	

@@ -29,10 +29,10 @@
 #' @name tm_layout
 #' @rdname tm_layout
 #' @param title Global title of the map. For small multiples, multiple titles can be specified. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}). 
-#' @param scale numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
 #' @param title.size Relative size of the title
 #' @param bg.color Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).
-#' @param aes.color Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{bubbles}, \code{dots}, \code{lines}, \code{text}, \code{na}. Use \code{"#00000000"} for transparency.
+#' @param aes.color Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{symbols}, \code{dots}, \code{lines}, \code{text}, \code{na}. Use \code{"#00000000"} for transparency.
 #' @param aes.palette Default color palettes for the aesthetics. It takes a list of three items: \code{seq} for sequential palettes, \code{div} for diverging palettes, and \code{cat} for categorical palettes. By default, Color Brewer palettes (see (see \code{RColorBrewer::display.brewer.all})) are used. It is also possible provide a vector of colors for any of these items.
 #' @param attr.color Default color value for map attributes
 #' @param sepia.intensity Number between 0 and 1 that defines the amount of sepia effect, which gives the map a brown/yellowish flavour. By default this effect is disabled (\code{sepia.intensity=0}). All colored used in the map are adjusted with this effect.
@@ -115,7 +115,7 @@ tm_layout <- function(title=NA,
 					  scale=1,
 					  title.size=1.3,
 					  bg.color= "white",
-					  aes.color=c(fill="grey85", borders="grey40", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey75"),
+					  aes.color=c(fill="grey85", borders="grey40", symbols="blueviolet", dots="black", lines="red", text="black", na="grey75"),
 					  aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Set3"),
 					  attr.color="black",
   					  sepia.intensity=0, 
@@ -310,7 +310,7 @@ tm_style_white <- function(...) {
 #' @rdname tm_layout
 #' @export
 tm_style_gray <- function(bg.color="grey85", 
-						   aes.color=c(fill="grey70", borders="grey20", bubbles="blueviolet", dots="black", lines="red", text="black", na="grey60"),
+						   aes.color=c(fill="grey70", borders="grey20", symbols="blueviolet", dots="black", lines="red", text="black", na="grey60"),
 						   ...) {
 	args <- c(as.list(environment()), list(...))
 	g <- do.call("tm_layout", args)
@@ -321,7 +321,7 @@ tm_style_gray <- function(bg.color="grey85",
 #' @rdname tm_layout
 #' @export
 tm_style_natural <- function(bg.color="lightskyblue1",
-							 aes.color=c(fill="darkolivegreen3", borders="black", bubbles="tomato2", dots="firebrick", lines="steelblue", text="black", na="white"),
+							 aes.color=c(fill="darkolivegreen3", borders="black", symbols="tomato2", dots="firebrick", lines="steelblue", text="black", na="white"),
 							 aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
 							 attr.color="black", 
 							 space.color="white",
@@ -344,7 +344,7 @@ tm_style_grey <- tm_style_gray
 #' @rdname tm_layout
 #' @export
 tm_style_cobalt <- function(bg.color="#002240",
-							aes.color=c(fill="#0088FF", borders="#002240", bubbles="#FF9D00", dots="#FF9D00", lines="#FFEE80", text="white", na="grey60"),
+							aes.color=c(fill="#0088FF", borders="#002240", symbols="#FF9D00", dots="#FF9D00", lines="#FFEE80", text="white", na="grey60"),
 							aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
 							attr.color="white", 
 							bg.overlay.alpha=.3,
@@ -361,7 +361,7 @@ tm_style_cobalt <- function(bg.color="#002240",
 #' @rdname tm_layout
 #' @export
 tm_style_col_blind <- function(bg.color="white",
-							aes.color=c(fill="grey85", borders="black", bubbles="#D55E00", dots="#0072B2", lines="#009E73", text="black", na="white"),
+							aes.color=c(fill="grey85", borders="black", symbols="#D55E00", dots="#0072B2", lines="#009E73", text="black", na="white"),
 							aes.palette=list(seq="Blues", div="RdBu", cat=c("#D55E00", "#56B4E9", "#E69F00", "#009E73", "#F0E442", "#0072B2","#CC79A7")),
 							attr.color="black", ...) {
 
@@ -375,7 +375,7 @@ tm_style_col_blind <- function(bg.color="white",
 #' @rdname tm_layout
 #' @export
 tm_style_albatross <- function(bg.color="#00007F",
-								aes.color=c(fill="#4C4C88", borders="#00004C", bubbles="#BFBFFF", dots="#BFBFFF", lines="#BFBFFF", text="#FFE700", na="grey60"),
+								aes.color=c(fill="#4C4C88", borders="#00004C", symbols="#BFBFFF", dots="#BFBFFF", lines="#BFBFFF", text="#FFE700", na="grey60"),
 								aes.palette=list(seq="YlOrRd", div="RdYlGn", cat="Set3"),
 								attr.color="#BFBFFF",
 								bg.overlay.alpha=.3,
@@ -392,7 +392,7 @@ tm_style_albatross <- function(bg.color="#00007F",
 #' @rdname tm_layout
 #' @export
 tm_style_beaver <- function(bg.color="#FFFFFF",
-							 aes.color=c(fill="#FFE200", borders="#000000", bubbles="#A30000", dots="#A30000", lines="#A30000", text="#000000", na="#E0E0E0"),
+							 aes.color=c(fill="#FFE200", borders="#000000", symbols="#A30000", dots="#A30000", lines="#A30000", text="#000000", na="#E0E0E0"),
 							 aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Dark2"),
 							 attr.color="black", ...) {
 	# W="#FFFFFF" Y="#FFE200" Rd="#A30000" Bl="#000000" LiGr="#F0F0F0" Gr="E0E0E0"

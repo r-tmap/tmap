@@ -139,7 +139,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 		shps2 <- mapply(function(x, shp_nm){
 			if (is.null(x)) return(NULL)
 			
-			## try to crop the shape file at the bounding box in order to place bubbles and text labels inside the frame. Use a little wider bounding box to prevent polygons following cropbb(bbx, ext=-1.01)
+			## try to crop the shape file at the bounding box in order to place symbols and text labels inside the frame. Use a little wider bounding box to prevent polygons following cropbb(bbx, ext=-1.01)
 			if (diff_shapes) {
 				lapply(bboxes, function(bb2){
 					if (is.null(bb2)) return(NULL)

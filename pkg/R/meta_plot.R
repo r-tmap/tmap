@@ -110,17 +110,17 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			port <- p$legend.is.portrait
 			if (type=="TITLE") {
 				titleHeight
-			} else if (port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster", "text.col")) {
+			} else if (port && type %in% c("fill", "symbol.col", "symbol.shape", "line.col", "line.lwd", "raster", "text.col")) {
 				length(p$legend.labels) * lineHeight * gt$legend.text.size + 2*margin*lineHeight
-			} else if (port && type == "bubble.size") {
+			} else if (port && type == "symbol.size") {
 				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.35, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
-			} else if (!port && type == "bubble.size") {
+			} else if (!port && type == "symbol.size") {
 				max(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
 			} else if (port && type == "text.size") {
 				sum(pmax(convertHeight(unit(p$legend.sizes, "lines"), "npc", valueOnly=TRUE) * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
 			} else if (!port && type == "text.size") {
 				max(convertHeight(unit(p$legend.sizes, "lines"), "npc", valueOnly=TRUE), 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
-			} else if (!port && type %in% c("fill", "bubble.col", "line.col", "line.lwd", "raster")) {
+			} else if (!port && type %in% c("fill", "symbol.col", "symbol.shape", "line.col", "line.lwd", "raster")) {
 				2*margin*lineHeight*gt$legend.text.size + 2.75 * lineHeight*gt$legend.text.size
 			} else if (type == "spacer") {
 				legend.title.npc * .25
