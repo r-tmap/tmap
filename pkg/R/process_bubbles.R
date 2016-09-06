@@ -214,7 +214,7 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 			shape.legend.shapes <- NA
 			xshape <- rep(NA, nx)
 			symbol.shape.legend.title <- rep(NA, nx)
-			shape.neutral <- g$shapes[1]
+			shape.neutral <- symbol.shape[1]
 		}
 	}
 	
@@ -242,7 +242,7 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	
 	symbol.size.legend.title <- if (is.ena(g$title.size)[1]) xsize else g$title.size
 	symbol.col.legend.title <- if (is.ena(g$title.col)[1]) xcol else g$title.col
-	symbol.shape.legend.title <- if (is.ena(g$title.shape)[1]) xcol else g$title.shape
+	symbol.shape.legend.title <- if (is.ena(g$title.shape)[1]) xshape else g$title.shape
 	symbol.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
 	symbol.col.legend.z <- if (is.na(g$legend.col.z)) z+.33 else g$legend.col.z
 	symbol.shape.legend.z <- if (is.na(g$legend.shape.z)) z+.80 else g$legend.shape.z

@@ -324,9 +324,9 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
 			symbol.size <- rep(symbol.size, length.out=npol)
 		}
-		
-		#symbol.size <- symbol.size * lineInch * 1.1
-		symbol.size <- symbol.size * lineInch / 2
+
+		symbol.size <- symbol.size * lineInch # * 1.1
+		#symbol.size <- symbol.size * lineInch / 2
 		
 		cols <- rep(symbol.col, length.out=npol)
 		if (length(symbol.size)!=1) {
@@ -346,6 +346,7 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		bordercol <- symbol.border.col
 		idName <- paste("tm_symbols", i, k, sep="_")
 		
+
 		pointsGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
 				   size=unit(symbol.size2, "inch"),
 				   pch=symbol.shape2,

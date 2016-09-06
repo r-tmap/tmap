@@ -91,14 +91,17 @@ legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 
 
 legend_portr <- function(x, gt, lineHeight, m) {
+	
 	legend.text.size <- gt$legend.text.size
 	with(x, {
 		is.cont <- (nchar(legend.palette[1])>20)
 		
 		my <- lineHeight * legend.text.size * m
 		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-		s <- 1.25 ## for symbols only
+		s <- 1.25 ## for text only
+		s2 <- 1.1 ## for symbols only
 		r <- 1-2*my
+		
 		
 		
 		if (legend.type=="symbol.size") {
@@ -127,9 +130,9 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			lhs <- hs <- rep(r / nitems, nitems)
 		}
 		
-		if (legend.type=="symbol.col" && !is.cont) {
-			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) * 2
-			hs <- pmin(hs/s, bmax)
+		if (legend.type %in% c("symbol.col", "symbol.shape") && !is.cont) {
+			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE)
+			hs <- min(hs*s2, bmax)
 		}
 		
 		
@@ -191,19 +194,15 @@ legend_portr <- function(x, gt, lineHeight, m) {
 					 gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
+
 			pointsGrob(x=rep(mx+wsmax/2, nitems),
-					   y=ys,
-					   size=unit(hsi*1.1, "inch"),
+					   y=ys+symbol_legend_y_correction(symbol.shapes),
+					   size=unit(hsi, "inch"),
 					   pch=symbol.shapes,
-					   gp=gpar(fill=cols,
-					   		col=symbol.border.col,
-					   		lwd=symbol.border.lwd))
-			
-			# circleGrob(x=mx+wsmax/2,
-			# 		   y=ys, r=unit(hsi/2, "inch"),
-			# 		   gp=gpar(fill=cols,
-			# 		   		col=symbol.border.col,
-			# 		   		lwd=symbol.border.lwd))
+					   gp=get_symbol_gpar(x=symbol.shapes,
+					   				   fill=cols,
+					   				   col=symbol.border.col,
+					   				   lwd=symbol.border.lwd))
 		} else if (legend.type %in% c("text.size", "text.col")) {
 			cols <- legend.palette
 			textGrob(legend.text,
@@ -333,7 +332,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		xs <- mx + cumsum(ws) - ws/2
 		
 		if (legend.type %in% c("symbol.col", "symbol.shape")) {
-			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) * 2
+			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE)
 			hs <- pmin(hs, bmax)
 		} else if (legend.type=="text.col") {
 			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE)

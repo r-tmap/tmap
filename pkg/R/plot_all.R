@@ -88,7 +88,7 @@ plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use
 		#upViewport()
 	} else {
 		## bubble height needed to align with bubbles in legend
-		lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * gt$legend.text.size
+		lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE)# * gt$legend.text.size
 		treeMapX <- NULL
 		metaX <- 0
 		metaY <- 0

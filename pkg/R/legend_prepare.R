@@ -19,8 +19,8 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 						legend.z <- paste(v, "legend.z", sep=".")
 						legend.misc <- paste(v, "legend.misc", sep=".")
 						list_misc <- gpl[[legend.misc]]
-						if (v=="symbol.size") list_misc$legend.sizes <- list_misc$legend.size * scaleFactor / 2
-						if (v %in% c("symbol.col", "symbol.shape")) list_misc$symbol.max.size <- list_misc$symbol.max.size * scaleFactor / 2
+						if (v=="symbol.size") list_misc$legend.sizes <- list_misc$legend.size * scaleFactor
+						if (v %in% c("symbol.col", "symbol.shape")) list_misc$symbol.max.size <- list_misc$symbol.max.size * scaleFactor
 						
 						
 						c(list(legend.type=v,

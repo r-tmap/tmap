@@ -206,6 +206,9 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 					symbol.border.lwd <- symbol.border.lwd * scale
 					symbol.col.legend.misc$symbol.max.size <- symbol.col.legend.misc$symbol.max.size * scale
 					symbol.col.legend.misc$symbol.border.lwd <- symbol.col.legend.misc$symbol.border.lwd * scale
+
+					symbol.shape.legend.misc$symbol.max.size <- symbol.shape.legend.misc$symbol.max.size * scale
+					symbol.shape.legend.misc$symbol.border.lwd <- symbol.shape.legend.misc$symbol.border.lwd * scale
 					
 					symbol.size.legend.misc$legend.sizes <- symbol.size.legend.misc$legend.sizes * scale
 					symbol.size.legend.misc$symbol.border.lwd <- symbol.size.legend.misc$symbol.border.lwd * scale
