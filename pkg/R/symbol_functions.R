@@ -1,0 +1,48 @@
+# Adjust y value of symbols such that not the centroid is in the middle, but (ymin+ymax)/2
+symbol_legend_y_correction <- function(x) {
+	is_num <- is.numeric(x)
+	res <- lapply(x, function(s) {
+		if (is.numeric(s)) {
+			ifelse(s %in% c(2, 17, 24), -.025,
+			ifelse(s %in% c(6, 25), .025, 0))
+		} else 0
+	})	
+	if (is_num) {
+		unlist(res)
+	} else {
+		res
+	}
+}
+
+get_symbol_gpar <- function(x, fill, col, lwd) {
+	is_num <- is.numeric(x)
+	n <- max(length(x), length(fill), length(col), length(lwd))
+	
+	x <- rep(x, length.out=n)
+	fill <- rep(fill, length.out=n)
+	col <- rep(col, length.out=n)
+	lwd <- rep(lwd, length.out=n)
+	
+	res <- lapply(1:n, function(i) {
+		if (is.numeric(x[i])) {
+			if (x[i] %in% 21:25) {
+				list(fill=fill[i],
+					 col=col[i],
+					 lwd=lwd[i])
+			} else {
+				list(fill=NA,
+					 col=fill[i],
+					 lwd=lwd[i])
+			}
+		} else {
+			list(fill=fill[i],
+				 col=col[i],
+				 lwd=lwd[i])
+		}
+	})	
+	
+	fills <- sapply(res, function(r)r$fill)
+	cols <- sapply(res, function(r)r$col)
+	lwds <- sapply(res, function(r)r$lwd)
+	gpar(fill=fills, col=cols, lwd=lwds)
+}

@@ -134,7 +134,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		
 		if (legend.type %in% c("symbol.col", "symbol.shape") && !is.cont) {
 			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) / s2
-			hs <- pmin(hs/s, bmax)
+			hs <- pmin(hs/s*symbol.normal.size, bmax)
 		}
 		
 		

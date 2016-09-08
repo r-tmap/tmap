@@ -19,3 +19,16 @@ tm_shape(x) +
 tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
 }
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")
+
+\dontrun{
+# plot all available symbol shapes:
+library(ggplot2)
+ggplot(data.frame(p=c(0:25,32:127))) +
+	geom_point(aes(x=p%%16, y=-(p%/%16), shape=p), size=5, fill="red") +
+	geom_text(mapping=aes(x=p%%16, y=-(p%/%16+0.25), label=p), size=3) +
+	scale_shape_identity() +
+	theme(axis.title=element_blank(),
+		  axis.text=element_blank(),
+		  axis.ticks=element_blank(),
+		  panel.background=element_blank())
+}

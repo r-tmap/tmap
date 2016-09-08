@@ -45,6 +45,7 @@ process_symbols_size_vector <- function(x, g, rescale, gt) {
 	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	scaling <- ifelse(g$perceptual, 0.5716, 0.5)
 	symbol.size <- g$scale*(x/maxX)^scaling
+	cat(g$legend.max.symbol.size, "dss\n")
 	symbol.max.size <- max(symbol.size, na.rm=TRUE)
 	symbol.legend.sizes <- g$scale*(x_legend/maxX)^scaling
 	list(symbol.size=symbol.size,
@@ -270,13 +271,13 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		 symbol.scale=g$scale,
 		 symbol.col.legend.labels=col.legend.labels,
 		 symbol.col.legend.palette=col.legend.palette,
-		 symbol.col.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.max.size=symbol.max.size, symbol.shapes=shape.neutral),
+		 symbol.col.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.max.size=symbol.max.size, symbol.shapes=shape.neutral, symbol.normal.size=g$legend.max.symbol.size),
 		 symbol.size.legend.labels=symbol.size.legend.labels,
 		 symbol.size.legend.palette= col.neutral,
-		 symbol.size.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, legend.sizes=symbol.legend.sizes, symbol.shapes=shape.neutral),
+		 symbol.size.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, legend.sizes=symbol.legend.sizes, symbol.shapes=shape.neutral, symbol.normal.size=g$legend.max.symbol.size),
 		 symbol.shape.legend.labels=shape.legend.labels,
 		 symbol.shape.legend.palette=col.neutral,
-		 symbol.shape.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.max.size=symbol.max.size, symbol.shapes=shape.legend.shapes), 
+		 symbol.shape.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.max.size=symbol.max.size, symbol.shapes=shape.legend.shapes, symbol.normal.size=g$legend.max.symbol.size), 
 		 symbol.col.legend.hist.misc=list(values=values, breaks=breaks),
 		 symbol.misc = list(symbol.are.dots=g$are.dots),
 		 xsize=xsize,
