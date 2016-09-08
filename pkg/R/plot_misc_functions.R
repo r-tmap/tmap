@@ -346,11 +346,17 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		bordercol <- symbol.border.col
 		idName <- paste("tm_symbols", i, k, sep="_")
 		
+		
+		
 
 		pointsGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
 				   size=unit(symbol.size2, "inch"),
 				   pch=symbol.shape2,
-				   gp=gpar(col=bordercol, lwd=symbol.border.lwd, fill=cols2), name=idName)
+				   gp=get_symbol_gpar(x=symbol.shape2,
+				   				   fill=cols2,
+				   				   col=bordercol,
+				   				   lwd=symbol.border.lwd), 
+				   name=idName)
 		
 		# circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
 		# 		   r=unit(symbol.size2, "inch"),

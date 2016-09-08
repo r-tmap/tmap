@@ -104,6 +104,8 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		# shrink heights (remove white space)
 		margin <- 0.25 * gt$legend.text.size
 		
+		s2 <- 4/3
+		
 		heights <- sapply(x, function(p){
 			if (is.null(p)) return(0)
 			type <- p$legend.type
@@ -113,9 +115,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			} else if (port && type %in% c("fill", "symbol.col", "symbol.shape", "line.col", "line.lwd", "raster", "text.col")) {
 				length(p$legend.labels) * lineHeight * gt$legend.text.size + 2*margin*lineHeight
 			} else if (port && type == "symbol.size") {
-				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2 * 1.35, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
+				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) /s2 * 1.35, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
 			} else if (!port && type == "symbol.size") {
-				max(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
+				max(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE)/s2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
 			} else if (port && type == "text.size") {
 				sum(pmax(convertHeight(unit(p$legend.sizes, "lines"), "npc", valueOnly=TRUE) * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
 			} else if (!port && type == "text.size") {

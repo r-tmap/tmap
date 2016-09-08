@@ -99,20 +99,21 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		my <- lineHeight * legend.text.size * m
 		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 		s <- 1.25 ## for text only
-		s2 <- 1.1 ## for symbols only
+		s2 <- 4/3 ## for symbols only
 		r <- 1-2*my
 		
 		
 		
 		if (legend.type=="symbol.size") {
 			nitems <- length(legend.labels)
-			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
+			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) / s2
 			lhs <- pmax(hs*s, legend.text.size * lineHeight)
 			if (sum(lhs)>r+1e-6) {
 				clipID <- which(cumsum(lhs) > r)[1]
 				hs <- hs[1:(clipID-1)]
 				lhs <- lhs[1:(clipID-1)]
 				legend.labels <- legend.labels[1:(clipID-1)]
+				nitems <- length(legend.labels)
 			}
 		} else if (legend.type=="text.size") {
 			nitems <- length(legend.labels)
@@ -124,6 +125,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 				lhs <- lhs[1:(clipID-1)]
 				legend.labels <- legend.labels[1:(clipID-1)]
 				legend.text <- legend.text[1:(clipID-1)]
+				nitems <- length(legend.labels)
 			}
 		} else {
 			nitems <- length(legend.labels)
@@ -131,8 +133,8 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		}
 		
 		if (legend.type %in% c("symbol.col", "symbol.shape") && !is.cont) {
-			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE)
-			hs <- min(hs*s2, bmax)
+			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) / s2
+			hs <- pmin(hs/s, bmax)
 		}
 		
 		
@@ -150,7 +152,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		ys <- 1 - my - cumsum(lhs) + lhs/2
 		size <- pmin(lhs / lineHeight, legend.text.size)
 		
-		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
+		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE) * s2
 		
 		wstext <- text_width_npc(legend.labels)
 		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
@@ -235,6 +237,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 	with(x, {
 		is.cont <- (nchar(legend.palette[1])>20)
 		#grid.rect()
+		s2 <- 4/3
 		
 		if (lineHeight*legend.text.size * 3.25 > 1) {
 			legend.text.size <- 1/(lineHeight * 3.25)
@@ -248,7 +251,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		nitems <- length(legend.labels)
 		# delete too high 
 		if (legend.type=="symbol.size") {
-			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
+			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) / s2
 			# 			nofit <- which(hs>(ry-1.25*lineHeight*legend.text.size))
 			# 			
 			# 			if (length(nofit)) {
@@ -300,7 +303,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		wsmax <- rx/nitems
 		
 		if (legend.type=="symbol.size") {
-			symbolws <- convertWidth(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) * 2
+			symbolws <- convertWidth(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) / s2
 			ws <- pmax(ws, symbolws*1.1)
 			
 			# delete too wide 
@@ -332,16 +335,18 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		xs <- mx + cumsum(ws) - ws/2
 		
 		if (legend.type %in% c("symbol.col", "symbol.shape")) {
-			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE)
+			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) / s2
+			cat("hs",hs, "\n")
 			hs <- pmin(hs, bmax)
+			cat("bmax",bmax, "\n")
 		} else if (legend.type=="text.col") {
 			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE)
 			hs <- pmin(hs, bmax)
 		}
 		
 		hsmax <- max(hs)
-		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE)
-		
+		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE) * s2
+		cat("hs",hs, "\n")
 		
 		grobLegendItem <- if (is.cont) {
 			fill <- legend.palette
@@ -381,7 +386,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 					 gp=gpar(fill=fill, col=border.col, lwd=lwd))
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
-			symbolR <- unit(hsi*1.1, "inch")
+			symbolR <- unit(hsi, "inch")
 			xtraWidth <- convertWidth(max(symbolR), "npc", valueOnly=TRUE)
 			
 			pointsGrob(x=xs, y=rep(1-my-hsmax/2, nitems), size=symbolR,
