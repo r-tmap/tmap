@@ -196,12 +196,12 @@ legend_portr <- function(x, gt, lineHeight, m) {
 					 gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
-
+			shapes <- if (legend.type=="symbol.shape") symbol.shapes else symbol.shape
 			pointsGrob(x=rep(mx+wsmax/2, nitems),
-					   y=ys+symbol_legend_y_correction(symbol.shapes),
+					   y=ys+symbol_legend_y_correction(shapes),
 					   size=unit(hsi, "inch"),
-					   pch=symbol.shapes,
-					   gp=get_symbol_gpar(x=symbol.shapes,
+					   pch=shapes,
+					   gp=get_symbol_gpar(x=shapes,
 					   				   fill=cols,
 					   				   col=symbol.border.col,
 					   				   lwd=symbol.border.lwd))
@@ -336,9 +336,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		
 		if (legend.type %in% c("symbol.col", "symbol.shape")) {
 			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) / s2
-			cat("hs",hs, "\n")
 			hs <- pmin(hs, bmax)
-			cat("bmax",bmax, "\n")
 		} else if (legend.type=="text.col") {
 			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE)
 			hs <- pmin(hs, bmax)
@@ -346,8 +344,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		
 		hsmax <- max(hs)
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE) * s2
-		cat("hs",hs, "\n")
-		
+
 		grobLegendItem <- if (is.cont) {
 			fill <- legend.palette
 			xtraWidth <- ws[1]/2
@@ -386,14 +383,17 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 					 gp=gpar(fill=fill, col=border.col, lwd=lwd))
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
-			symbolR <- unit(hsi, "inch")
-			xtraWidth <- convertWidth(max(symbolR), "npc", valueOnly=TRUE)
+			shapes <- if (legend.type=="symbol.shape") symbol.shapes else symbol.shape
 			
-			pointsGrob(x=xs, y=rep(1-my-hsmax/2, nitems), size=symbolR,
-					   pch=symbol.shapes,
-					   gp=gpar(fill=cols,
-					   		col=symbol.border.col,
-					   		lwd=symbol.border.lwd))
+			symbolR <- unit(hsi, "inch")
+			xtraWidth <- convertWidth(max(symbolR), "npc", valueOnly=TRUE)/2/s2
+			
+			pointsGrob(x=xs, y=rep(1-my-hsmax/2+symbol_legend_y_correction(shapes), nitems), size=symbolR,
+					   pch=shapes,
+					   gp=get_symbol_gpar(x=shapes,
+					   					fill=cols,
+					   					col=symbol.border.col,
+					   					lwd=symbol.border.lwd))
 
 			# circleGrob(x=xs, y=1-my-hsmax/2, r=symbolR,
 			# 		   gp=gpar(fill=cols,
@@ -451,9 +451,6 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	widths <- ticks3[2] - ticks3[1]
 	size <- min(gt$scale.size, widths/max(ticksWidths))
 	x <- ticks3[1:(n-1)] + .5*ticksWidths[1]*size
-	
-	# 	cat(size, "s\n")
-	# 	cat(gt$scale.size, "gts\n")
 	
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
 	#my <- lineHeight / 2

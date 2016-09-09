@@ -12,6 +12,11 @@ tm_shape(metro) +
         title.col="Growth rate (%)") + 
 tm_format_World()
 
+tm_shape(metro) +
+	tm_symbols(size = "pop2010", col="pop2010", shape="pop2010") +
+tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
+
+
 \dontrun{
 x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
 tm_shape(x) + 

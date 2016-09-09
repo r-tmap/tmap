@@ -1,60 +1,3 @@
-process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt) {
-	if (map_shapes) {
-		x2 <- as.factor(x)
-		
-		shape.legend.labels <- levels(x2)
-		shape.legend.shapes <- rep(g$shapes, length.out=nlevels(x2))
-		
-		symbol.shape <- shape.legend.shapes[as.integer(x2)]
-		shape.neutral <- shape.legend.shapes[1]
-	} else {
-		symbol.shape <- x
-		shape.legend.labels <- NA
-		shape.legend.shapes <- NA
-		shape.neutral <- x[1]
-	}
-	
-	list(symbol.shape=symbol.shape,
-		 shape.legend.labels=shape.legend.labels,
-		 shape.legend.shapes=shape.legend.shapes,
-		 shape.neutral=shape.neutral)
-
-}
-
-process_symbols_size_vector <- function(x, g, rescale, gt) {
-	if (!is.na(g$size.lim[1])) {
-		x[x<g$size.lim[1]] <- NA
-		x[x>g$size.lim[2]] <- g$size.lim[2]
-	}
-	
-	if (is.null(g$sizes.legend)) {
-		x_legend <- pretty(x, 5)
-		x_legend <- x_legend[x_legend!=0]
-		nxl <- length(x_legend)
-		if (nxl>5) x_legend <- x_legend[-c(nxl-3, nxl-1)]
-	} else {
-		x_legend <- g$sizes.legend
-	}
-	if (is.null(g$sizes.legend.labels)) {
-		symbol.size.legend.labels <- do.call("fancy_breaks", c(list(vec=x_legend, intervals=FALSE), g$legend.format))
-	} else {
-		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of symbols in the legend", call. = FALSE)
-		symbol.size.legend.labels <- g$sizes.legend.labels
-	}
-	
-	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
-	scaling <- ifelse(g$perceptual, 0.5716, 0.5)
-	symbol.size <- g$scale*(x/maxX)^scaling
-	cat(g$legend.max.symbol.size, "dss\n")
-	symbol.max.size <- max(symbol.size, na.rm=TRUE)
-	symbol.legend.sizes <- g$scale*(x_legend/maxX)^scaling
-	list(symbol.size=symbol.size,
-		 symbol.size.legend.labels=symbol.size.legend.labels,
-		 symbol.legend.sizes=symbol.legend.sizes,
-		 symbol.max.size=symbol.max.size)
-}
-
-
 process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
@@ -170,28 +113,45 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	
 	
 	# selection: which symbol sizes are NA?
-	sel <- if (is.list(dtsize)) {
-		lapply(dtsize, function(i)!is.na(i))
+	selCol <- if (is.list(dtsize)) {
+		if (is.list(dtcol)) {
+			lapply(dtsize, function(i)!is.na(i))	
+		} else {
+			!is.na(unlist(dtsize))
+		}
 	} else {
 		if (is.list(dtcol)) {
 			cnts <- vapply(dtcol, length, integer(1))
 			cnts2 <- 1:length(dtcol)
 			f <- factor(unlist(mapply(rep, cnts2, cnts, SIMPLIFY = FALSE)))
-			split(dtsize, f = f)
-		} else if (is.list(dtshape)) {
+			split(!is.na(dtsize), f = f)
+		} else {
+			!is.na(dtsize)
+		}
+	}
+	
+	
+	selShape <- if (is.list(dtsize)) {
+		if (is.list(dtshape)) {
+			lapply(dtsize, function(i)!is.na(i))	
+		} else {
+			!is.na(unlist(dtsize))
+		}
+	} else {
+		if (is.list(dtshape)) {
 			cnts <- vapply(dtshape, length, integer(1))
 			cnts2 <- 1:length(dtshape)
 			f <- factor(unlist(mapply(rep, cnts2, cnts, SIMPLIFY = FALSE)))
-			split(dtsize, f = f)
-		} else !is.na(dtsize)
-	} 
+			split(!is.na(dtsize), f = f)
+		} else {
+			!is.na(dtsize)
+		}
+	}
 	
-	
-	
-	
+
 	
 	if (is.list(dtshape)) {
-		sel2 <- if (is.na(sel[1])) rep(TRUE, nx) else sel
+		sel2 <- if (is.na(selShape[1])) rep(TRUE, nx) else selShape
 		
 		# multiple variables for size are defined
 		gsp <- split_g(g, n=nx)
@@ -201,9 +161,10 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		shape.legend.labels <- lapply(res, function(r)r$shape.legend.labels)
 		shape.legend.shapes <- lapply(res, function(r)r$shape.legend.shapes)
 		shape.neutral <- sapply(res, function(r)r$shape.neutral)
+		if (!varyshape) xshape <- rep(NA, nx)
 	} else {
 		#if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
-		sel2 <- if (is.na(sel[1])) TRUE else sel
+		sel2 <- if (is.na(selShape[1])) TRUE else selShape
 		res <- process_symbols_shape_vector(dtshape, sel2, g, map_shapes=varyshape, gt)
 		symbol.shape <- matrix(res$symbol.shape, nrow=npol)
 		if (varyshape) {
@@ -221,7 +182,7 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	
 	
 	
-	dcr <- process_dtcol(dtcol, sel, g, gt, nx, npol)
+	dcr <- process_dtcol(dtcol, selCol, g, gt, nx, npol)
 	if (dcr$is.constant) xcol <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
@@ -271,10 +232,10 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		 symbol.scale=g$scale,
 		 symbol.col.legend.labels=col.legend.labels,
 		 symbol.col.legend.palette=col.legend.palette,
-		 symbol.col.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.max.size=symbol.max.size, symbol.shapes=shape.neutral, symbol.normal.size=g$legend.max.symbol.size),
+		 symbol.col.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.max.size=symbol.max.size, symbol.shape=shape.neutral, symbol.normal.size=g$legend.max.symbol.size),
 		 symbol.size.legend.labels=symbol.size.legend.labels,
 		 symbol.size.legend.palette= col.neutral,
-		 symbol.size.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, legend.sizes=symbol.legend.sizes, symbol.shapes=shape.neutral, symbol.normal.size=g$legend.max.symbol.size),
+		 symbol.size.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, legend.sizes=symbol.legend.sizes, symbol.shape=shape.neutral, symbol.normal.size=g$legend.max.symbol.size),
 		 symbol.shape.legend.labels=shape.legend.labels,
 		 symbol.shape.legend.palette=col.neutral,
 		 symbol.shape.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.max.size=symbol.max.size, symbol.shapes=shape.legend.shapes, symbol.normal.size=g$legend.max.symbol.size), 

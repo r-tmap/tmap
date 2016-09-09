@@ -18,3 +18,21 @@ split_g <- function(g, n) {
 		g
 	})
 }
+
+split_list <- function(l, n) {
+	if (n==1) {
+		l
+	} else {
+		lapply(1:n, function(i) {
+			mapply(function(x, y) {
+				if (length(x)==n && !(y %in% c("legend.sizes"))) x[i] else x[1]
+			}, l, names(l), SIMPLIFY=FALSE)
+		})
+	}
+}
+
+
+
+
+
+
