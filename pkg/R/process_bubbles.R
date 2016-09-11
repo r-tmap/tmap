@@ -38,11 +38,11 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	}
 	nxsize <- length(xsize)
 	nxcol <- length(xcol)
-	nxshape <- length(xshape)
+	nxshape <- if (inherits(xshape, c("grob", "ggplot"))) 1 else length(xshape)
 	
 	varysize <- all(xsize %in% shpcols) && !is.null(xsize)
 	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
-	varyshape <- all(xshape %in% shpcols) && !is.null(xshape)
+	varyshape <- is.vector(xshape) && all(xshape %in% shpcols) && !is.null(xshape)
 	
 	nx <- max(nxcol, nxsize, nxshape)
 	if (nxcol<nx) xcol <- rep(xcol, length.out=nx)
@@ -64,13 +64,42 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
-	
+
+	# symbol shapes: create a library with all the custom symbols (grobs), represented by symbol numbers 1000+
 	if (!varyshape) {
-		if (!all(is.numeric(xshape))) stop("symbol shapes are neither numeric nor valid variable name(s)", call. = FALSE)
+		if (is.vector(xshape)) {
+			if (!all(is.numeric(xshape))) stop("symbol shape(s) ('shape' argument) is/are neither numeric nor valid variable name(s)", call. = FALSE)
+			shapeLib <- list()
+		} else if (inherits(xshape, c("ggplot", "grob"))) {
+			shapeLib <- list(xshape)
+			xshape <- 1000
+		} else if (is.list(xshape)) {
+			shapeLib <- xshape
+			xshape <- 999 + (1:length(xshape))
+		} else {
+			stop("symbol shape(s) ('shape' argument) is/are neither symbol numers, nor grobs, nor ggplot2 plots, nor valid variable name(s)", call. = FALSE)
+		}
 		for (i in 1:nx) data[[paste("SHAPE", i, sep="_")]] <- xshape[i]
 		xshape <- paste("SHAPE", 1:nx, sep="_")
+	} else {
+		shapeLib <- list()
 	}
-	
+	if (is.list(g$shapes)) {
+		if (is.grob(g$shapes)) g$shapes <- list(g$shapes)
+		
+		shape_is_correct <- sapply(g$shapes, function(gshp) inherits(gshp, c("grob", "numeric", "integer")))
+		if (!all(shape_is_correct)) stop("symbol shapes (shapes argument)", !which(shape_is_correct), "not correct" , call. = FALSE)
+
+		shape_is_grob <- sapply(g$shapes, function(gshp) inherits(gshp, "grob"))
+		
+		lib_ids <- (999 + length(shapeLib)) + 1:sum(shape_is_grob)
+		shapeLib <- c(shapeLib, g$shapes[shape_is_grob])
+		g$shapes[shape_is_grob] <- lib_ids
+		if (is.list(g$shapes)) g$shapes <- unlist(g$shapes)
+		
+	}
+	assign(".shapeLib", shapeLib, envir = .TMAP_CACHE)
+
 	nx <- max(nx, nlevels(by))
 	
 	# update legend format from tm_layout

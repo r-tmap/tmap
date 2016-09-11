@@ -10,7 +10,7 @@ qtm(World, fill="HPI", fill.n=9, fill.palette="div", fill.auto.palette.mapping=F
 	fill.title="Happy Planet Index", format="World", style="gray")
 
 # bubble map
-qtm(World, borders = NULL) + qtm(metro, bubble.size = "pop2010", 
-    bubble.title.size="Metropolitan Areas", bubble.scale=.5, format = "World")
+qtm(World, borders = NULL) + qtm(metro, symbol.size = "pop2010", 
+    symbol.title.size="Metropolitan Areas", format = "World")
 
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")

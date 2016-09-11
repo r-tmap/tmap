@@ -9,6 +9,8 @@ cat2shape <- function(x,
 	
 	# quick&dirty
 	nCol <- nlevels(x)
+	max_levels <- length(shapes)
+	
 	if (nCol > max_levels) {
 		warning("Number of levels (unique values) larger than number of symbol shapes.")
 		

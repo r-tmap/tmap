@@ -346,21 +346,39 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		bordercol <- symbol.border.col
 		idName <- paste("tm_symbols", i, k, sep="_")
 		
+		shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 		
+		if (any(symbol.shape2>999)) {
+			gpars <- get_symbol_gpar(x=symbol.shape2,
+									 fill=cols2,
+									 col=bordercol,
+									 lwd=symbol.border.lwd,
+									 separate=TRUE)
+			grobs <- lapply(1:npol, function(i) {
+				if (symbol.shape2[i]>999) {
+					gTree(children=gList(shapeLib[[symbol.shape2[i]-999]]), vp=viewport(x=unit(co.npc2[i,1], "npc"), 
+														  y=unit(co.npc2[i,2], "npc"),
+														  width=unit(symbol.size2[i], "inch"),
+														  height=unit(symbol.size2[i], "inch")))
+				} else {
+					pointsGrob(x=unit(co.npc2[i,1], "npc"), y=unit(co.npc2[i,2], "npc"),
+							   size=unit(symbol.size2[i], "inch"),
+							   pch=symbol.shape2[i],
+							   gp=gpars[[i]])
+				}
+			})
+			x <- gTree(children=do.call(gList, grobs), name=idName)
+		} else {
+			pointsGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
+					   size=unit(symbol.size2, "inch"),
+					   pch=symbol.shape2,
+					   gp=get_symbol_gpar(x=symbol.shape2,
+					   				   fill=cols2,
+					   				   col=bordercol,
+					   				   lwd=symbol.border.lwd), 
+					   name=idName)
+		}
 		
-
-		pointsGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
-				   size=unit(symbol.size2, "inch"),
-				   pch=symbol.shape2,
-				   gp=get_symbol_gpar(x=symbol.shape2,
-				   				   fill=cols2,
-				   				   col=bordercol,
-				   				   lwd=symbol.border.lwd), 
-				   name=idName)
-		
-		# circleGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
-		# 		   r=unit(symbol.size2, "inch"),
-		# 		   gp=gpar(col=bordercol, lwd=symbol.border.lwd, fill=cols2), name=idName)
 	})
 }
 

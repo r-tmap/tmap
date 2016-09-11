@@ -39,20 +39,40 @@ x <- intersection_shapes(NLD_muni, NLD_prov)
 NLD_muni$province <- factor(levels(NLD_prov$name)[apply(x, MARGIN = 1, function(a) which(a>.999))], levels=levels(NLD_prov$name))
 
 # check: qtm(NLD_muni, fill="province")
+shp$P_NATIVE <- 100 - shp$P_N_W_AL - shp$P_WEST_AL
 
 data <- shp@data[, c("AANT_INW", "AANT_MAN", "AANT_VROUW", "P_00_14_JR", "P_15_24_JR", 
-					 "P_25_44_JR", "P_45_64_JR", "P_65_EO_JR")]
+					 "P_25_44_JR", "P_45_64_JR", "P_65_EO_JR", "P_NATIVE", "P_WEST_AL", "P_N_W_AL")]
 
 names(data) <- c("population", "pop_men", "pop_women", 
 				 "pop_0_14", "pop_15_24", "pop_25_44",
-				 "pop_45_64", "pop_65plus")
+				 "pop_45_64", "pop_65plus", "origin_native", "origin_west", "origin_non_west")
 
 
 NLD_muni <- append_data(NLD_muni, data=data, fixed.order=TRUE)
 
-NLD_prov <- convert_shape_data(NLD_muni, NLD_prov)
+#NLD_prov <- convert_shape_data(NLD_muni, NLD_prov)
 
-NLD_prov@data <- NLD_prov@data[, c("code", "name", "population", "pop_men", "pop_women")]
+library(dplyr)
+data2 <- NLD_muni@data %>% 
+	group_by(province) %>% 
+	summarise(pop_0_14=round(weighted.mean(pop_0_14, population)),
+			  pop_15_24=round(weighted.mean(pop_15_24, population)),
+			  pop_25_44=round(weighted.mean(pop_25_44, population)),
+			  pop_45_64=round(weighted.mean(pop_45_64, population)),
+			  origin_west=round(weighted.mean(origin_west, population)),
+			  origin_non_west=round(weighted.mean(origin_non_west, population)),
+			  population=sum(population),
+			  pop_men=sum(pop_men),
+			  pop_women=sum(pop_women)) %>% 
+	mutate(pop_65plus=100-pop_0_14-pop_15_24-pop_25_44-pop_45_64,
+		   origin_native=100-origin_west-origin_non_west) %>%
+	select(population, pop_men, pop_women, 
+			 pop_0_14, pop_15_24, pop_25_44,
+			 pop_45_64, pop_65plus, origin_native, origin_west, origin_non_west)
+	
+
+NLD_prov <- append_data(NLD_prov, data2, fixed.order = TRUE)
 
 
 ## check data

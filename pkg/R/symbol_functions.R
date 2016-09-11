@@ -14,7 +14,7 @@ symbol_legend_y_correction <- function(x) {
 	}
 }
 
-get_symbol_gpar <- function(x, fill, col, lwd) {
+get_symbol_gpar <- function(x, fill, col, lwd, separate=FALSE) {
 	is_num <- is.numeric(x)
 	n <- max(length(x), length(fill), length(col), length(lwd))
 	
@@ -41,8 +41,14 @@ get_symbol_gpar <- function(x, fill, col, lwd) {
 		}
 	})	
 	
-	fills <- sapply(res, function(r)r$fill)
-	cols <- sapply(res, function(r)r$col)
-	lwds <- sapply(res, function(r)r$lwd)
-	gpar(fill=fills, col=cols, lwd=lwds)
+	if (separate) {
+		lapply(res, function(r){
+			do.call(gpar, r)
+		})	
+	} else {
+		fills <- sapply(res, function(r)r$fill)
+		cols <- sapply(res, function(r)r$col)
+		lwds <- sapply(res, function(r)r$lwd)
+		gpar(fill=fills, col=cols, lwd=lwds)
+	}
 }

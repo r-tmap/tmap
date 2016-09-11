@@ -197,14 +197,40 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
 			shapes <- if (legend.type=="symbol.shape") symbol.shapes else symbol.shape
-			pointsGrob(x=rep(mx+wsmax/2, nitems),
-					   y=ys+symbol_legend_y_correction(shapes),
-					   size=unit(hsi, "inch"),
-					   pch=shapes,
-					   gp=get_symbol_gpar(x=shapes,
-					   				   fill=cols,
-					   				   col=symbol.border.col,
-					   				   lwd=symbol.border.lwd))
+			shapes <- rep(shapes, length.out=nitems)
+			if (any(shapes>999)) {
+				shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
+				
+				gpars <- get_symbol_gpar(x=shapes,
+										 fill=cols,
+										 col=symbol.border.col,
+										 lwd=symbol.border.lwd,
+										 separate=TRUE)
+				grobs <- lapply(1:nitems, function(i) {
+					if (shapes[i]>999) {
+						gTree(children=gList(shapeLib[[shapes[i]-999]]), vp=viewport(x=unit(mx+wsmax/2, "npc"), 
+																							y=ys[i]+symbol_legend_y_correction(shapes[i]),
+																							width=unit(hsi[i], "inch"),
+																							height=unit(hsi[i], "inch")))
+					} else {
+						pointsGrob(x=unit(mx+wsmax/2, "npc"), 
+								   y=ys[i]+symbol_legend_y_correction(shapes[i]),
+								   size=unit(hsi[i], "inch"),
+								   pch=shapes[i],
+								   gp=gpars[[i]])
+					}
+				})
+				gTree(children=do.call(gList, grobs))				
+			} else {
+				pointsGrob(x=rep(mx+wsmax/2, nitems),
+						   y=ys+symbol_legend_y_correction(shapes),
+						   size=unit(hsi, "inch"),
+						   pch=shapes,
+						   gp=get_symbol_gpar(x=shapes,
+						   				   fill=cols,
+						   				   col=symbol.border.col,
+						   				   lwd=symbol.border.lwd))
+			}
 		} else if (legend.type %in% c("text.size", "text.col")) {
 			cols <- legend.palette
 			textGrob(legend.text,
@@ -384,17 +410,42 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
 			shapes <- if (legend.type=="symbol.shape") symbol.shapes else symbol.shape
+			shapes <- rep(shapes, length.out=nitems)
 			
 			symbolR <- unit(hsi, "inch")
 			xtraWidth <- convertWidth(max(symbolR), "npc", valueOnly=TRUE)/2/s2
 			
-			pointsGrob(x=xs, y=rep(1-my-hsmax/2+symbol_legend_y_correction(shapes), nitems), size=symbolR,
-					   pch=shapes,
-					   gp=get_symbol_gpar(x=shapes,
-					   					fill=cols,
-					   					col=symbol.border.col,
-					   					lwd=symbol.border.lwd))
-
+			if (any(shapes>999)) {
+				shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
+				
+				gpars <- get_symbol_gpar(x=shapes,
+										 fill=cols,
+										 col=symbol.border.col,
+										 lwd=symbol.border.lwd,
+										 separate=TRUE)
+				grobs <- lapply(1:nitems, function(i) {
+					if (shapes[i]>999) {
+						gTree(children=gList(shapeLib[[shapes[i]-999]]), vp=viewport(x=xs[i], 
+																					 y=1-my-hsmax/2+symbol_legend_y_correction(shapes[i]),
+																					 width=unit(symbolR[i], "inch"),
+																					 height=unit(symbolR[i], "inch")))
+					} else {
+						pointsGrob(x=xs[i], 
+								   y=1-my-hsmax/2+symbol_legend_y_correction(shapes[i]),
+								   size=unit(symbolR[i], "inch"),
+								   pch=shapes[i],
+								   gp=gpars[[i]])
+					}
+				})
+				gTree(children=do.call(gList, grobs))				
+			} else {
+				pointsGrob(x=xs, y=1-my-hsmax/2+symbol_legend_y_correction(shapes), size=symbolR,
+						   pch=shapes,
+						   gp=get_symbol_gpar(x=shapes,
+						   					fill=cols,
+						   					col=symbol.border.col,
+						   					lwd=symbol.border.lwd))
+			}
 			# circleGrob(x=xs, y=1-my-hsmax/2, r=symbolR,
 			# 		   gp=gpar(fill=cols,
 			# 		   		col=symbol.border.col,

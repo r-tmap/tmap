@@ -33,6 +33,8 @@
 #' @param format \code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).
 #' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).
 #' @param basemaps basemaps for the view mode. See \code{\link{tm_view}}
+#' @param bubble.size deprecated. Please use symbol.size.
+#' @param bubble.col deprecated. Please use symbol.col.
 #' @param ... arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.  
 #' @return \code{\link{tmap-element}}
 #' @example ../examples/qtm.R
@@ -42,6 +44,7 @@ qtm <- function(shp,
 				fill=NA,
 				symbol.size=NULL,
 				symbol.col=NULL,
+				symbol.shape=NULL,
 				dot.col=NULL,
 				text=NULL,
 				text.size=1,
@@ -56,6 +59,8 @@ qtm <- function(shp,
 				format=NULL,
 				style=NULL,
 				basemaps=NA,
+				bubble.size=NULL,
+				bubble.col=NULL,
 				...) {
 	args <- list(...)
 	shp_name <- deparse(substitute(shp))
@@ -80,7 +85,33 @@ qtm <- function(shp,
 		return(g)
 	}
 	
-	#getOption("tmap.mode")
+	if (!missing(bubble.size)) {
+		if (missing(symbol.size)) symbol.size <- bubble.size
+		warning("bubble.size is deprecated. Please use symbol.size instead", call.=FALSE)
+	}
+	if (!missing(bubble.col)) {
+		if (missing(symbol.col)) symbol.col <- bubble.col
+		warning("bubble.col is deprecated. Please use symbol.col instead", call.=FALSE)
+	}
+	
+	show_symbols <- (!inherits(shp, "SpatialPixels")) && 
+		(inherits(shp, "SpatialPoints") || 
+		 	!missing(symbol.size) || !missing(symbol.shape) || 
+		 	!missing(symbol.col) || !missing(dot.col))
+	
+	if (show_symbols) {
+		dots_instead_of_symbols <- missing(symbol.size) && missing(symbol.shape) && missing(symbol.col)
+		if (dots_instead_of_symbols) {
+			symbol.size <- .02
+			symbol.shape <- 21
+		}
+		if (missing(symbol.col) && missing(dot.col)) {
+			symbol.col <- NA
+		} else if (!missing(dot.col)) {
+			symbol.col <- dot.col
+		}
+	}
+	
 	
 	if (inherits(shp, "SpatialPolygons")) {
 		if (!("fill" %in% called) && "dasymetric" %in% names(attributes(shp))) fill <- "level"
@@ -99,15 +130,6 @@ qtm <- function(shp,
 			if (!"along.lines" %in% called && isolines) args$along.lines <- TRUE
 			if (!"overwrite.lines" %in% called && isolines) args$overwrite.lines <- TRUE
 		}
-		if (inherits(shp, "SpatialPoints") && !inherits(shp, "SpatialPixels")) {
-			dots_instead_of_symbols <- missing(symbol.size) && missing(symbol.col)
-			if (dots_instead_of_symbols) symbol.size <- .02
-			if (missing(symbol.col) && missing(dot.col)) {
-				symbol.col <- NA
-			} else if (!missing(dot.col)) {
-				symbol.col <- dot.col
-			}
-		}
 	}
 	if (!inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster"))) {
 		raster <- NULL
@@ -120,7 +142,7 @@ qtm <- function(shp,
 	argnames <- unlist(lapply(fns, function(f) names(formals(f))))
 	dupl <- setdiff(unique(argnames[duplicated(argnames)]), "...")
 	
-	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_symbols=c("size", "col"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
+	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_symbols=c("size", "col", "shape"), tm_dots="col", tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
 	  if (pre=="dot") {
@@ -156,7 +178,7 @@ qtm <- function(shp,
 
 	if (!missing(line.lwd) || !missing(line.col)) g <- g + do.call("tm_lines", c(list(lwd=line.lwd, col=line.col), args2[["tm_lines"]]))
 	
-	if (!missing(symbol.size) || !missing(symbol.col)) {
+	if (show_symbols) {
 		symbolLst <- c(if (!missing(symbol.size)) list(size=symbol.size) else list(),
 					   if (!missing(symbol.col)) list(col=symbol.col) else list())
 		g <- g + do.call("tm_symbols", c(symbolLst, args2[["tm_symbols"]]))	
