@@ -95,10 +95,27 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		gridGrp <- 0
 	}
 	
+	
+	## find additional legends
+	# legid <- which(names(x)=="tm_add_legend")
+	# cat(legid, "\n")
+	# 
+	# if (length(legid)) {
+	# 	gal <- x[legid]
+	# } else {
+	# 	gal <- NULL
+	# }
+	
 
 	## split x into gmeta and gbody
-	x <- x[!(xnames %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))]
+	x <- x[!(xnames %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))] #, "tm_add_legend"
 
+	legids <- which(names(x)=="tm_add_legend") 
+	if (length(legids)) {
+		names(x)[legids] <- paste(names(x)[legids], 1L:length(legids), sep="_")
+	}
+	
+	
 	n <- length(x)
 	
 	## split x into clusters
@@ -115,6 +132,12 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	cnlx <- if (nshps==1) 0 else c(0, cumsum(nlx[1:(nshps-1)]-1))
 	gp <- mapply(FUN=process_layers, gs, cnlx, MoreArgs = list(gt=gt, gf=gf, allow.small.mult=!interactive), SIMPLIFY = FALSE)
 	names(gp) <- paste0("tmLayer", 1:length(gp))
+	
+	gal <- do.call(c, lapply(gp, function(g) g$add_legends))
+	gp <- lapply(gp, function(g) {
+		g$add_legends <- NULL
+		g
+	})
 	
 	
 	## add tm_grid to plot order
@@ -258,5 +281,5 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	#gmeta$panel.names <- panel.names
 	gmeta$panel.mode <- panel.mode
 
-	list(gmeta=gmeta, gps=gps, nx=nx, data_by=data_by)
+	list(gmeta=gmeta, gps=gps, gal=gal, nx=nx, data_by=data_by)
 }

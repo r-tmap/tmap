@@ -212,6 +212,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	gmeta <- result$gmeta
 
 	gps <- result$gps
+	gal <- result$gal
 	nx <- result$nx
 	data_by <- result$data_by
 	## process shapes
@@ -433,7 +434,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	} else {
 		if (show) {
 			if (nx > 1) sasp <- dasp
-			gridplot(gmeta, "plot_all", nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr)
+			gridplot(gmeta, "plot_all", nx, gps, gal, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr)
 			## if vp is specified, go 1 viewport up, else go to root viewport
 			upViewport(n=as.integer(!is.null(vp)))
 			invisible(list(shps=shps, gps=gps2))

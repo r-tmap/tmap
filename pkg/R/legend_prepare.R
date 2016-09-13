@@ -1,4 +1,4 @@
-legend_prepare <- function(gp, gt, scaleFactor) {
+legend_prepare <- function(gp, gal, gt, scaleFactor) {
 
 	varnames <- c("fill", "symbol.size", "symbol.col", "symbol.shape", "line.col", "line.lwd", "raster", "text.size", "text.col")
 	varnames_hist <- c("fill", "symbol.col", "line.col", "raster")
@@ -7,6 +7,42 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 	# is.portrait
 	
 	if (gt$legend.show) {
+		xadd <- lapply(gal, function(g) {
+			type <- if(g$type=="symbol") {
+				if (is.null(g$size)) {
+					"symbol.col"
+				} else "symbol.size"
+			} else if (g$type=="line") {
+				if (is.null(g$lwd)) {
+					"line.col"
+				} else {
+					"line.lwd"
+				}
+			} else if (g$type=="text") {
+				if (is.null(g$size)) {
+					"text.col"
+				} else {
+					"text.size"
+				}
+			} else "fill"
+			
+			list(legend.type=type,
+				 legend.title=g$title,
+				 legend.is.portrait=g$is.portrait,
+				 legend.z=g$z,
+				 legend.labels=g$labels,
+				 legend.text=g$text,
+				 legend.palette=if (is.null(g$col)) "grey50" else g$col,
+				 border.col=g$border.col,
+				 lwd=g$border.lwd,
+				 symbol.border.lwd=g$border.lwd,
+				 symbol.border.col=g$border.col,
+				 legend.sizes=if (is.null(g$size)) 1 else g$size * scaleFactor,
+				 symbol.shape=if (is.null(g$shape)) 21 else g$shape,
+				 symbol.normal.size=1,
+				 symbol.max.size=if (is.null(g$size)) NULL else max(g$size) * scaleFactor)
+		})
+		
 		x <- lapply(gp, function(gpl) {
 			y <- lapply(varnames, function(v) {
 				if (!is.na(gpl$varnames[[v]][1])) {
@@ -57,10 +93,10 @@ legend_prepare <- function(gp, gt, scaleFactor) {
 					} else NULL
 				} else NULL
 			})
-			
 			c(y[!sapply(y, is.null)], yhist[!sapply(yhist, is.null)])
 		})
-		legelem <- do.call("c", x)
+		#x <- c(x, xadd)
+		legelem <- c(do.call("c", x), xadd)
 	} else legelem <- list(NULL)
 	
 

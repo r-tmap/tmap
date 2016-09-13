@@ -1,4 +1,4 @@
-plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use_facets) {
+plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos, use_facets) {
 	gt <- gp$tm_layout
 	
 	## in case of small multiples, get i'th shape
@@ -95,7 +95,7 @@ plot_all <- function(i, gp, shps, dasp, sasp, inner.margins.new, legend_pos, use
 	}
 	
 	## prepare legend items
-	leg <- legend_prepare(gp, gt, lineInch)
+	leg <- legend_prepare(gp, gal, gt, lineInch)
 	
 	## legend, title, and other thinks such as compass
 	if (!is.null(leg) || nonempty_text(gt$title) || gt$credits.show || gt$scale.show || gt$compass.show) {

@@ -1,4 +1,4 @@
-gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr) {
+gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr) {
 	mfrow <- gmeta$nrow
 	mfcol <- gmeta$ncol
 
@@ -68,7 +68,7 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 		iend <- min(istart + pp-1, nx)
 		ni <- iend-istart+1
 		treeMults <- mapply(function(i, rw, cl) {
-			cellplot(rw, cl, e=do.call(fun, args=list(i, gps[[i]], shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = paste("multiple", i, sep="_"))
+			cellplot(rw, cl, e=do.call(fun, args=list(i, gps[[i]], gal, shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = paste("multiple", i, sep="_"))
 		}, istart:iend, 
 		rep(gmeta$rowrange, each=mfcol, length.out=ni), 
 		rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)
@@ -128,14 +128,14 @@ gridplot <- function(gmeta, fun, nx, gps, shps, dasp, sasp, inner.margins.new, l
 
 		## draw outside legend
 		if (!is.null(gp_leg)) {
-			legPanel <- gList(cellplot(gmeta$legy, gmeta$legx, e=do.call(fun, args=list(1, gp_leg[[k]], shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = "outside_legend"))
+			legPanel <- gList(cellplot(gmeta$legy, gmeta$legx, e=do.call(fun, args=list(1, gp_leg[[k]], gal, shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = "outside_legend"))
 		} else {
 			legPanel <- NULL
 		}
 		
 		## draw attributes legend
 		if (!is.null(gp_attr)) {
-			attrPanel <- gList(cellplot(gmeta$attry, gmeta$attrx, e=do.call(fun, args=list(1, gp_attr[[k]], shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = "outside_attr"))
+			attrPanel <- gList(cellplot(gmeta$attry, gmeta$attrx, e=do.call(fun, args=list(1, gp_attr[[k]], gal, shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = "outside_attr"))
 		} else {
 			attrPanel <- NULL
 		}
