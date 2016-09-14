@@ -430,7 +430,7 @@ tm_raster <- function(col=NA,
 #' @rdname tm_symbols
 #' @param size a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest symbol will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
 #' @param col color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
-#' @param shape shape(s) of the symbol. Either an integer number (vector) that specifies the plotting character of the symbol (see parameter \code{pch} of \code{\link[graphics:points]{points} and the last example to create a plot with all options), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
+#' @param shape shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. A direct shape specification is either a numeric value/vector that specifies the plotting character of the symbol (see parameter \code{pch} of \code{\link[graphics:points]{points} and the last example to create a plot with all options), or a (list of) grob object(s), which may consist bitmap images or ggplot2 plots (see examples below). If a vector/list is specified, small multiples are drawn (see details).
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param border.col color of the symbol borders.
 #' @param border.lwd line width of the symbol borders. If \code{NA} (default), no symbol borders are drawn.
@@ -452,7 +452,10 @@ tm_raster <- function(col=NA,
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
-#' @param shapes palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). See parameter \code{pch} of \code{\link[graphics:points]{points} and the last example to create a plot with all options. By default, the filled symbols 21 to 25 are taken.
+#' @param shapes palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). A shape is either an integer number (seee parameter \code{pch} of \code{\link[graphics:points]{points} and the last example to create a plot with all options) or a grob object. By default, the filled symbols 21 to 25 are taken.
+#' @param shapes.legend symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.
+#' @param shapes.legend.fill Fill color of legend shapes (see \code{shapes.legend})
+#' @param shapes.labels Legend labels for the symbol shapes
 #' @param legend.max.symbol.size. Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for \code{tm_bubbles})
 #' @param xmod horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the symbols. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the symbols to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
@@ -493,7 +496,7 @@ tm_raster <- function(col=NA,
 tm_symbols <- function(size=1, col=NA,
 					   shape=21,
 						alpha=NA,
-						border.col="gray70",
+						border.col="black",
 						border.lwd=1,
 						border.alpha=NA,
 						scale=1,
@@ -513,6 +516,8 @@ tm_symbols <- function(size=1, col=NA,
 						textNA = "Missing",
 						showNA = NA,
 						shapes = 21:25,
+						shapes.legend = NULL,
+						shapes.legend.fill = NA,
 						shapes.labels = NULL,
 						shapeNA = 4,
 						shape.textNA = "Missing",
@@ -563,6 +568,7 @@ tm_squares <- function(size=1,
 tm_bubbles <- function(size=1,
 					   col=NA,
 					   shape=21,
+					   border.col=NA,
 					   legend.max.symbol.size=1,
 					   ...) {
 	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape, legend.max.symbol.size=legend.max.symbol.size), list(...)))

@@ -198,7 +198,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		max(sapply(x$varnames, length))
 	}))
 
-	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1)))
+	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1))) || (length(legids))
 
 	## process meta
 	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, glab, nx, panel.names, asp_ratio, shp_info, any.legend, interactive)
@@ -214,6 +214,13 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	gps <- split_tm(gp, nx, order_by)
 	scale <- gmeta$scale
 	
+	gal <- lapply(gal, function(x) {
+		if (!is.null(x$size)) x$size <- x$size * scale
+		if (!is.null(x$border.lwd)) x$border.lwd <- x$border.lwd * scale
+		x
+	})
+	
+	
 	gps <- mapply(function(x, i){
 		x <- lapply(x, function(xx) {
 			within(xx, {
@@ -228,12 +235,20 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 					symbol.size <- symbol.size * scale
 					symbol.border.lwd <- symbol.border.lwd * scale
 					symbol.col.legend.misc$symbol.max.size <- symbol.col.legend.misc$symbol.max.size * scale
+					symbol.col.legend.misc$symbol.normal.size <- symbol.col.legend.misc$symbol.normal.size * scale
 					symbol.col.legend.misc$symbol.border.lwd <- symbol.col.legend.misc$symbol.border.lwd * scale
 
+					symbol.col.legend.sizes <- symbol.col.legend.sizes * scale
+					
 					symbol.shape.legend.misc$symbol.max.size <- symbol.shape.legend.misc$symbol.max.size * scale
 					symbol.shape.legend.misc$symbol.border.lwd <- symbol.shape.legend.misc$symbol.border.lwd * scale
 					
-					symbol.size.legend.misc$legend.sizes <- symbol.size.legend.misc$legend.sizes * scale
+
+					symbol.shape.legend.sizes <- symbol.shape.legend.sizes * scale
+					
+					symbol.size.legend.sizes <- symbol.size.legend.sizes * scale
+					
+					#symbol.size.legend.misc$legend.sizes <- symbol.size.legend.misc$legend.sizes * scale
 					symbol.size.legend.misc$symbol.border.lwd <- symbol.size.legend.misc$symbol.border.lwd * scale
 				}
 				

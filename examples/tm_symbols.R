@@ -25,9 +25,39 @@ tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right
 }
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")
 
+
+require(ggplot2)
+require(dplyr)
+require(tidyr)
+require(RColorBrewer)
+
+origin_data <- NLD_prov@data %>% 
+	mutate(FID= factor(1:n())) %>% 
+	select(FID, origin_native, origin_west, origin_non_west) %>% 
+	gather(key=origin, value=perc, origin_native, origin_west, origin_non_west, factor_key=TRUE)
+
+origin_cols <- brewer.pal(3, "Dark2")
+
+grobs <- lapply(split(origin_data, origin_data$FID), function(x) {
+	ggplotGrob(ggplot(x, aes(x="", y=-perc, fill=origin)) +
+			   	geom_bar(width=1, stat="identity") +
+			   	scale_y_continuous(expand=c(0,0)) +
+			   	scale_fill_manual(values=origin_cols) +
+			   	theme_ps(plot.axes = F))
+})
+
+tm_shape(NLD_prov) +
+	tm_polygons() +
+	tm_symbols(size="population", shape="name", shapes=grobs, sizes.legend=c(.5, 1,3)*1e6, scale=4, legend.shape.show = FALSE, legend.size.is.portrait = T, shapes.legend = 22, title.size = "Population") +
+	tm_add_legend(type="fill", col=origin_cols, labels=c("Native", "Western", "Non-western"), title="Origin") +
+tm_format_NLD(scale=3)
+
+
+
+
 \dontrun{
 # plot all available symbol shapes:
-library(ggplot2)
+require(ggplot2)
 ggplot(data.frame(p=c(0:25,32:127))) +
 	geom_point(aes(x=p%%16, y=-(p%/%16), shape=p), size=5, fill="red") +
 	geom_text(mapping=aes(x=p%%16, y=-(p%/%16+0.25), label=p), size=3) +

@@ -34,7 +34,10 @@ Imports:
 Suggests:
     rmarkdown,
     knitr,
-    OpenStreetMap
+    OpenStreetMap,
+    ggplot2,
+    dplyr,
+    tidyr
 URL: https://github.com/mtennekes/tmap
 BugReports: https://github.com/mtennekes/tmap/issues
 VignetteBuilder: knitr

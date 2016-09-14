@@ -133,7 +133,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		}
 		
 		if (legend.type %in% c("symbol.col", "symbol.shape") && !is.cont) {
-			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) / s2
+			bmax <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) / s2
 			hs <- pmin(hs/s*symbol.normal.size, bmax)
 		}
 		
@@ -196,7 +196,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 					 gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
-			shapes <- if (legend.type=="symbol.shape") symbol.shapes else symbol.shape
+			shapes <- legend.shapes
 			shapes <- rep(shapes, length.out=nitems)
 			if (any(shapes>999)) {
 				shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
@@ -208,10 +208,15 @@ legend_portr <- function(x, gt, lineHeight, m) {
 										 separate=TRUE)
 				grobs <- lapply(1:nitems, function(i) {
 					if (shapes[i]>999) {
-						gTree(children=gList(shapeLib[[shapes[i]-999]]), vp=viewport(x=unit(mx+wsmax/2, "npc"), 
-																							y=ys[i]+symbol_legend_y_correction(shapes[i]),
-																							width=unit(hsi[i], "inch"),
-																							height=unit(hsi[i], "inch")))
+						grbs <- if (is.na(symbol.border.col)) {
+							gList(shapeLib[[shapes[i]-999]])
+						} else {
+							gList(shapeLib[[shapes[i]-999]], rectGrob(gp=gpar(fill=NA, col=symbol.border.col, lwd=symbol.border.lwd)))	
+						}
+						gTree(children=grbs, vp=viewport(x=unit(mx+wsmax/2, "npc"), 
+														 y=ys[i]+symbol_legend_y_correction(shapes[i]),
+														 width=unit(hsi[i]*2/3, "inch"),
+														 height=unit(hsi[i]*2/3, "inch")))
 					} else {
 						pointsGrob(x=unit(mx+wsmax/2, "npc"), 
 								   y=ys[i]+symbol_legend_y_correction(shapes[i]),
@@ -334,6 +339,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 			
 			# delete too wide 
 			if (sum(ws)>rx) {
+				cat(legend.sizes, "\n")
 				clipID2 <- which(cumsum(ws)>rx)[1]
 				nitems <- clipID2 - 1
 				legend.labels <- legend.labels[1:nitems]
@@ -341,6 +347,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 				legend.sizes <- legend.sizes[1:nitems]
 				hs <- hs[1:nitems]
 				ws <- ws[1:nitems]
+				warning("The legend is too narrow to place all symbol sizes.", call.=FALSE)
 			}
 		} else if (legend.type=="text.size") {
 			#textws <- convertWidth(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
@@ -425,10 +432,16 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 										 separate=TRUE)
 				grobs <- lapply(1:nitems, function(i) {
 					if (shapes[i]>999) {
-						gTree(children=gList(shapeLib[[shapes[i]-999]]), vp=viewport(x=xs[i], 
+						grbs <- if (is.na(symbol.border.col)) {
+							gList(shapeLib[[shapes[i]-999]])
+						} else {
+							gList(shapeLib[[shapes[i]-999]], rectGrob(gp=gpar(fill=NA, col=symbol.border.col, lwd=symbol.border.lwd)))	
+						}
+						
+						gTree(children=grbs, vp=viewport(x=xs[i], 
 																					 y=1-my-hsmax/2+symbol_legend_y_correction(shapes[i]),
-																					 width=unit(symbolR[i], "inch"),
-																					 height=unit(symbolR[i], "inch")))
+																					 width=unit(symbolR[i], "inch")*(2/3),
+																					 height=unit(symbolR[i], "inch")*(2/3)))
 					} else {
 						pointsGrob(x=xs[i], 
 								   y=1-my-hsmax/2+symbol_legend_y_correction(shapes[i]),

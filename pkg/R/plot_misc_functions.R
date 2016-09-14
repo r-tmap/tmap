@@ -356,10 +356,15 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 									 separate=TRUE)
 			grobs <- lapply(1:npol, function(i) {
 				if (symbol.shape2[i]>999) {
-					gTree(children=gList(shapeLib[[symbol.shape2[i]-999]]), vp=viewport(x=unit(co.npc2[i,1], "npc"), 
+					grbs <- if (is.na(bordercol)) {
+						gList(shapeLib[[symbol.shape2[i]-999]])	
+					} else {
+						gList(shapeLib[[symbol.shape2[i]-999]], rectGrob(gp=gpar(fill=NA, col=bordercol, lwd=symbol.border.lwd)))	
+					}
+					gTree(children=grbs, vp=viewport(x=unit(co.npc2[i,1], "npc"), 
 														  y=unit(co.npc2[i,2], "npc"),
-														  width=unit(symbol.size2[i], "inch"),
-														  height=unit(symbol.size2[i], "inch")))
+														  width=unit(symbol.size2[i]*2/3, "inch"),
+														  height=unit(symbol.size2[i]*2/3, "inch")))
 				} else {
 					pointsGrob(x=unit(co.npc2[i,1], "npc"), y=unit(co.npc2[i,2], "npc"),
 							   size=unit(symbol.size2[i], "inch"),
