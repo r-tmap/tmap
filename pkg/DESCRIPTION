@@ -30,7 +30,8 @@ Imports:
     spdep,
     XML,
     leaflet,
-    geosphere
+    geosphere,
+    cartogram
 Suggests:
     rmarkdown,
     knitr,

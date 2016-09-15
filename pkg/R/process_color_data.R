@@ -107,7 +107,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show
 		col <- sapply(res, function(r)r$cols)
 		legend.labels <- lapply(res, function(r)r$legend.labels)
 		legend.palette <- lapply(res, function(r)r$legend.palette)
-		col.neutral <- sapply(res, function(r)r$col.neutral)
+		col.neutral <- lapply(res, function(r)r$col.neutral)
 		breaks <- lapply(res, function(r)r$breaks)
 		values <- dtcol
 	} else {

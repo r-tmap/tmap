@@ -31,6 +31,8 @@ require(dplyr)
 require(tidyr)
 require(RColorBrewer)
 
+data(NLD_prov)
+
 origin_data <- NLD_prov@data %>% 
 	mutate(FID= factor(1:n())) %>% 
 	select(FID, origin_native, origin_west, origin_non_west) %>% 
@@ -43,17 +45,24 @@ grobs <- lapply(split(origin_data, origin_data$FID), function(x) {
 			   	geom_bar(width=1, stat="identity") +
 			   	scale_y_continuous(expand=c(0,0)) +
 			   	scale_fill_manual(values=origin_cols) +
-			   	theme_ps(plot.axes = F))
+			   	theme_ps(plot.axes = FALSE))
 })
 
 tm_shape(NLD_prov) +
 	tm_polygons() +
-	tm_symbols(size="population", shape="name", shapes=grobs, sizes.legend=c(.5, 1,3)*1e6, scale=4, legend.shape.show = FALSE, legend.size.is.portrait = T, shapes.legend = 22, title.size = "Population") +
-	tm_add_legend(type="fill", col=origin_cols, labels=c("Native", "Western", "Non-western"), title="Origin") +
+	tm_symbols(size="population", shape="name", 
+			   shapes=grobs, 
+			   sizes.legend=c(.5, 1,3)*1e6, 
+			   scale=4, 
+			   legend.shape.show = FALSE, 
+			   legend.size.is.portrait = TRUE, 
+			   shapes.legend = 22, 
+			   title.size = "Population") +
+	tm_add_legend(type="fill", 
+				  col=origin_cols, 
+				  labels=c("Native", "Western", "Non-western"), 
+				  title="Origin") +
 tm_format_NLD(scale=3)
-
-
-
 
 \dontrun{
 # plot all available symbol shapes:

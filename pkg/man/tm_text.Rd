@@ -85,7 +85,7 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 
 \item{scale}{text size multiplier, useful in case \code{size} is variable or \code{"AREA"}.}
 
-\item{auto.placement}{logical (or numeric) that determines whether the labels are placed automatically. If \code{TRUE}, the labels are placed next to the coordinate points with as little overlap as possible using the simulated annealing algorithm. Therefore, it is recommended for labeling spatial dots or bubbles. If a numeric value is provided, this value acts as a parameter that specifies the distance between the coordinate points and the text labels in terms of text line heights.}
+\item{auto.placement}{logical (or numeric) that determines whether the labels are placed automatically. If \code{TRUE}, the labels are placed next to the coordinate points with as little overlap as possible using the simulated annealing algorithm. Therefore, it is recommended for labeling spatial dots or symbols. If a numeric value is provided, this value acts as a parameter that specifies the distance between the coordinate points and the text labels in terms of text line heights.}
 
 \item{remove.overlap}{logical that determines whether the overlapping labels are removed}
 

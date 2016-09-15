@@ -32,7 +32,7 @@ num2shape <- function(x,
 		if (is.na(showNA)) showNA <- FALSE
 	}
 	
-	if (showNA) shapes <- c(shapes, colorNA)
+	if (showNA) shapes <- c(shapes, shapeNA)
 	
 	# create legend labels for discrete cases
 	if (is.null(legend.labels)) {

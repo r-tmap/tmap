@@ -6,7 +6,7 @@
 \usage{
 tm_view(alpha = NA, popup.all.data = FALSE, colorNA = NULL,
   basemaps = NA, bg.overlay = NA, bg.overlay.alpha = NA,
-  bubble.size.fixed = FALSE, dot.size.fixed = TRUE, set.bounds = FALSE,
+  symbol.size.fixed = FALSE, dot.size.fixed = TRUE, set.bounds = FALSE,
   set.view = NA, set.zoom.limits = NA, legend.position = c("right",
   "top"), control.position = c("left", "top"))
 }
@@ -23,7 +23,7 @@ tm_view(alpha = NA, popup.all.data = FALSE, colorNA = NULL,
 
 \item{bg.overlay.alpha}{alpha transparency of \code{bg.overlay}. If \code{0}, no background is used, if \code{1} a solid background is used (and therefore, basemaps will be omitted). By default, this value is  set to \code{\link{tm_layout}}'s argument \code{bg.overlay.alpha} (which is style dependent).}
 
-\item{bubble.size.fixed}{should bubble sizes be fixed while zooming?}
+\item{symbol.size.fixed}{should symbol sizes be fixed while zooming?}
 
 \item{dot.size.fixed}{should dot sizes be fixed while zooming?}
 

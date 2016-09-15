@@ -17,8 +17,9 @@
 #' }
 #' In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly. Arguments of \code{\link{tm_view}}, such as \code{set.view} can be passed on directly.
 #' @param fill either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).
-#' @param symbol.size name of the data variable in \code{shp} for the symbol map that specifies the sizes of the symbols. If neither \code{symbol.size} nor \code{symbol.col} is specified, no symbol map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
-#' @param symbol.col name of the data variable in \code{shp} for the symbol map that specifies the colors of the symbols. If neither \code{symbol.size} nor \code{symbol.col} is specified, no symbol map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
+#' @param symbol.size either the size of the symbols or a name of the data variable in \code{shp} that specifies the sizes of the symbols.  See also the \code{size} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
+#' @param symbol.col either the color of the symbols or a name of the data variable in \code{shp} that specifies the colors of the symbols. See also the \code{col} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
+#' @param symbol.shape  either the shape of the symbols or a name of the data variable in \code{shp} that specifies the shapes of the symbols. See also the \code{shape} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param dot.col name of the data variable in \code{shp} for the dot map that specifies the colors of the dots. 
 #' @param text Name of the data variable that contains the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param text.size Font size of the text labels. Either a constant value, or the name of a numeric data variable. Only applicable when \code{shp} is type 1, 2, or 3 (see above).

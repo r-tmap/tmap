@@ -4,11 +4,12 @@
 \alias{qtm}
 \title{Quick thematic map plot}
 \usage{
-qtm(shp, fill = NA, bubble.size = NULL, bubble.col = NULL,
-  dot.col = NULL, text = NULL, text.size = 1, text.col = NA,
-  line.lwd = NULL, line.col = NULL, raster = NA, borders = NA,
-  scale = NA, title = NA, projection = NULL, format = NULL,
-  style = NULL, basemaps = NA, ...)
+qtm(shp, fill = NA, symbol.size = NULL, symbol.col = NULL,
+  symbol.shape = NULL, dot.col = NULL, text = NULL, text.size = 1,
+  text.col = NA, line.lwd = NULL, line.col = NULL, raster = NA,
+  borders = NA, scale = NA, title = NA, projection = NULL,
+  format = NULL, style = NULL, basemaps = NA, bubble.size = NULL,
+  bubble.col = NULL, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -24,9 +25,11 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{fill}{either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).}
 
-\item{bubble.size}{name of the data variable in \code{shp} for the bubble map that specifies the sizes of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+\item{symbol.size}{either the size of the symbols or a name of the data variable in \code{shp} that specifies the sizes of the symbols.  See also the \code{size} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
-\item{bubble.col}{name of the data variable in \code{shp} for the bubble map that specifies the colors of the bubbles. If neither \code{bubble.size} nor \code{bubble.col} is specified, no bubble map is drawn. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+\item{symbol.col}{either the color of the symbols or a name of the data variable in \code{shp} that specifies the colors of the symbols. See also the \code{col} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+
+\item{symbol.shape}{either the shape of the symbols or a name of the data variable in \code{shp} that specifies the shapes of the symbols. See also the \code{shape} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
 \item{dot.col}{name of the data variable in \code{shp} for the dot map that specifies the colors of the dots.}
 
@@ -44,7 +47,7 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{borders}{color of the polygon borders. Use \code{NA} to omit the borders.}
 
-\item{scale}{numeric value that serves as the global scale parameter. All font sizes, bubble sizes, border widths, and line widths are controled by this value. The parameters \code{bubble.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{bubble.scale}, \code{text.scale}, and \code{line.scale}.}
+\item{scale}{numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. The parameters \code{symbol.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{symbol.scale}, \code{text.scale}, and \code{line.scale}.}
 
 \item{title}{main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).}
 
@@ -56,7 +59,11 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{basemaps}{basemaps for the view mode. See \code{\link{tm_view}}}
 
-\item{...}{arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_bubbles}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.}
+\item{bubble.size}{deprecated. Please use symbol.size.}
+
+\item{bubble.col}{deprecated. Please use symbol.col.}
+
+\item{...}{arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.}
 }
 \value{
 \code{\link{tmap-element}}
@@ -82,8 +89,8 @@ qtm(World, fill="HPI", fill.n=9, fill.palette="div", fill.auto.palette.mapping=F
 	fill.title="Happy Planet Index", format="World", style="gray")
 
 # bubble map
-qtm(World, borders = NULL) + qtm(metro, bubble.size = "pop2010", 
-    bubble.title.size="Metropolitan Areas", bubble.scale=.5, format = "World")
+qtm(World, borders = NULL) + qtm(metro, symbol.size = "pop2010", 
+    symbol.title.size="Metropolitan Areas", format = "World")
 
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")
 }

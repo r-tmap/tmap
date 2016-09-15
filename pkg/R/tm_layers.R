@@ -430,7 +430,7 @@ tm_raster <- function(col=NA,
 #' @rdname tm_symbols
 #' @param size a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest symbol will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
 #' @param col color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
-#' @param shape shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. A direct shape specification is either a numeric value/vector that specifies the plotting character of the symbol (see parameter \code{pch} of \code{\link[graphics:points]{points} and the last example to create a plot with all options), or a (list of) grob object(s), which may consist bitmap images or ggplot2 plots (see examples below). If a vector/list is specified, small multiples are drawn (see details).
+#' @param shape shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. A direct shape specification is either a numeric value/vector that specifies the plotting character of the symbol (see parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options), or a (list of) grob object(s), which may consist bitmap images or ggplot2 plots (see examples below). If a vector/list is specified, small multiples are drawn (see details).
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param border.col color of the symbol borders.
 #' @param border.lwd line width of the symbol borders. If \code{NA} (default), no symbol borders are drawn.
@@ -450,20 +450,28 @@ tm_raster <- function(col=NA,
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
-#' @param textNA text used for missing values.
+#' @param textNA text used for missing values of the color variable.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
-#' @param shapes palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). A shape is either an integer number (seee parameter \code{pch} of \code{\link[graphics:points]{points} and the last example to create a plot with all options) or a grob object. By default, the filled symbols 21 to 25 are taken.
+#' @param shapes palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). A shape is either an integer number (seee parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options) or a grob object. By default, the filled symbols 21 to 25 are taken.
 #' @param shapes.legend symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.
 #' @param shapes.legend.fill Fill color of legend shapes (see \code{shapes.legend})
 #' @param shapes.labels Legend labels for the symbol shapes
-#' @param legend.max.symbol.size. Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for \code{tm_bubbles})
+#' @param shapeNA the shape (a number or grob) for missing values. By default a cross (number 4).
+#' @param shape.textNA text used for missing values of the shape variable.
+#' @param shapes.n preferred number of shape classes. Only applicable when \code{shape} is a numeric variable name.
+#' @param shapes.style method to process the shape scale when \code{shape} is a numeric variable. See \code{style} argument for options
+#' @param shapes.breaks in case \code{shapes.style=="fixed"}, breaks should be specified
+#' @param shapes.interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{shape} is a numerc variable.
+#' @param legend.max.symbol.size Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for \code{tm_bubbles})
 #' @param xmod horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the symbols. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the symbols to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
 #' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
 #' @param title.size title of the legend element regarding the symbol sizes
 #' @param title.col title of the legend element regarding the symbol colors
+#' @param title.shape title of the legend element regarding the symbol shapes
 #' @param legend.size.show logical that determines whether the legend for the symbol sizes is shown
 #' @param legend.col.show logical that determines whether the legend for the symbol colors is shown
+#' @param legend.shape.show logical that determines whether the legend for the symbol shapes is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 #' \describe{
 #' \item{fun}{Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items \code{scientific}, \code{format}, and \code{digits} (see below) are not used.}
@@ -476,11 +484,13 @@ tm_raster <- function(col=NA,
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the symbol sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.col.is.portrait logical that determines whether the legend element regarding the symbol colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.shape.is.portrait logical that determines whether the legend element regarding the symbol shapes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.hist logical that determines whether a histogram is shown regarding the symbol colors
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for symbol colors.
-#' @param legend.col.is.portrait logical that determines whether the legend element regarding the symbol colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.size.z index value that determines the position of the legend element regarding the symbol sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.col.z index value that determines the position of the legend element regarding the symbol colors. (See \code{legend.size.z})
+#' @param legend.shape.z index value that determines the position of the legend element regarding the symbol shapes. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
 #' @param id name of the data variable that specifies the indices of the symbols. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
 #' @param title shortcut for \code{title.col} for \code{tm_dots}
@@ -552,7 +562,6 @@ tm_symbols <- function(size=1, col=NA,
 }
 
 #' @rdname tm_symbols
-#' @param ... arguments passed on to \code{tm_symbols}
 #' @export
 tm_squares <- function(size=1, 
 					   col=NA,
@@ -563,7 +572,6 @@ tm_squares <- function(size=1,
 }
 
 #' @rdname tm_symbols
-#' @param ... arguments passed on to \code{tm_symbols}
 #' @export
 tm_bubbles <- function(size=1,
 					   col=NA,

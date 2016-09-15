@@ -120,7 +120,7 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		symbol.size <- sapply(res, function(r)r$symbol.size)
 		symbol.size.legend.labels <- lapply(res, function(r)r$symbol.size.legend.labels)
 		symbol.legend.sizes <- lapply(res, function(r)r$symbol.legend.sizes)
-		symbol.max.size <- sapply(res, function(r)r$symbol.max.size)
+		symbol.max.size <- lapply(res, function(r)r$symbol.max.size)
 	} else {
 		if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
 		res <- process_symbols_size_vector(dtsize, g, rescale=varysize, gt)
@@ -189,7 +189,7 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		symbol.shape <- sapply(res, function(r)r$symbol.shape)
 		shape.legend.labels <- lapply(res, function(r)r$shape.legend.labels)
 		shape.legend.shapes <- lapply(res, function(r)r$shape.legend.shapes)
-		shape.neutral <- sapply(res, function(r)r$shape.neutral)
+		shape.neutral <- lapply(res, function(r)r$shape.neutral)
 		if (!varyshape) xshape <- rep(NA, nx)
 	} else {
 		#if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)

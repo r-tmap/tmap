@@ -139,7 +139,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		
 		
 		if (legend.type=="text.col" && !is.cont) {
-			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
+			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), legend.sizes)
 			ws <- text_width_npc(legend.text, space = FALSE) * cex
 		} else if  (legend.type=="text.size") {
 			cex <- legend.sizes #pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE))
@@ -416,7 +416,8 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 					 gp=gpar(fill=fill, col=border.col, lwd=lwd))
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
-			shapes <- if (legend.type=="symbol.shape") symbol.shapes else symbol.shape
+			
+			shapes <- legend.shapes
 			shapes <- rep(shapes, length.out=nitems)
 			
 			symbolR <- unit(hsi, "inch")

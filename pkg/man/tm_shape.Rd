@@ -18,7 +18,7 @@ tm_shape(shp, is.master = NA, projection = NULL, bbox = NULL,
  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 }
-For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_bubbles}} and \code{\link{tm_text}} accept 1 to 3. For layer \code{\link{tm_raster}}, 4, 5, or 6 is required.}
+For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_symbols}} and \code{\link{tm_text}} accept 1 to 3. For layer \code{\link{tm_raster}}, 4, 5, or 6 is required.}
 
 \item{is.master}{logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.}
 
@@ -34,10 +34,10 @@ If unspecified, the current bounding box of \code{shp} is taken. The bounding bo
 
 \item{unit.size}{size of the unit in terms of coordinate units. The coordinate system of many projections is approximately in meters while thematic maps typically range many kilometers, so by default \code{unit="km"} and \code{unit.size=1000} (meaning 1 kilometer equals 1000 coordinate units).}
 
-\item{line.center.type}{vector of two values specifying how the center of spatial lines is determined Only applicable if \code{shp} is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}, and bubbles, dots, and/or text labels are used for this shape. The two values are:
+\item{line.center.type}{vector of two values specifying how the center of spatial lines is determined Only applicable if \code{shp} is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}, and symbols, dots, and/or text labels are used for this shape. The two values are:
 \describe{
-\item{\code{"feature", "single"}}{If \code{"feature"} is specified, a pair of coordinates (used for bubbles, dots, and text labels) is chosen for each feature (i.e., a row in the \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}). If \code{"segment"} is specified, a pair of coordinates is chosed for each line segment.}
-\item{\code{"midpoint"} or \code{"centroid"}}{The midpoint is the middle point on the line, so the coordinates (used for bubbles, dots, and text labels) correspond to the midpoints of the line segments. In case the first value is \code{"feature"}, then per feature, the midpoint of the line segment that is closest to the centroid is taken.}
+\item{\code{"feature", "single"}}{If \code{"feature"} is specified, a pair of coordinates (used for symbols, dots, and text labels) is chosen for each feature (i.e., a row in the \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}). If \code{"segment"} is specified, a pair of coordinates is chosed for each line segment.}
+\item{\code{"midpoint"} or \code{"centroid"}}{The midpoint is the middle point on the line, so the coordinates (used for symbols, dots, and text labels) correspond to the midpoints of the line segments. In case the first value is \code{"feature"}, then per feature, the midpoint of the line segment that is closest to the centroid is taken.}
 }}
 
 \item{...}{Arguments passed on to \code{\link{bb}}. For instance, with the expension factor \code{ext}, the bounding box can be enlarges or shrinked.}

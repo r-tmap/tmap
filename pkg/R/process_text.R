@@ -179,7 +179,7 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 		text_sel <- sapply(res, function(r)r$text_sel)
 		size.legend.labels <- lapply(res, function(r)r$size.legend.labels)
 		legend.sizes <- lapply(res, function(r)r$legend.sizes)
-		max.size <- sapply(res, function(r)r$max.size)
+		max.size <- lapply(res, function(r)r$max.size)
 	} else {
 		res <- process_text_size_vector(dtsize, text, g, rescale=varysize, gt)
 		size <- matrix(res$size, nrow=npol)
@@ -343,11 +343,13 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 		 text.col.legend.labels=col.legend.labels,
 		 text.col.legend.text=col.legend.text,
 		 text.col.legend.palette=col.legend.palette,
-		 text.col.legend.misc=list(text.max.size=max.size),
+		 text.col.legend.sizes = max.size,
+		 text.col.legend.misc=list(),
 		 text.size.legend.labels=size.legend.labels,
 		 text.size.legend.text=size.legend.text,
 		 text.size.legend.palette= col.neutral,
-		 text.size.legend.misc=list(legend.sizes=legend.sizes),
+		 text.size.legend.sizes = legend.sizes,
+		 text.size.legend.misc=list(),
 		 text.col.legend.hist.misc=list(values=values, breaks=breaks),
 		 xtext=xtext,
 		 xtsize=xtsize,
