@@ -35,8 +35,18 @@ raster_colors <- function(x) {
 		x@data <- as.data.frame(lapply(x@data, as.integer))
 	}
 	
+	# get alpha transparency
+	if (ncol(x@data)==4) {
+		a <- x@data[,4]
+		x@data <- x@data[,1:3]
+	} else {
+		a <- NULL
+	}
+	
 	y <- SGDF2PCT(x, adjust.bands = FALSE)
-
+	if (!is.null(a)) {
+		y$idx[a!=255] <- NA
+	}
 	data <- data.frame(PIXEL__COLOR = as.integer(y$idx))
 	levels(data$PIXEL__COLOR) <- as.vector(na.omit(y$ct))
 	class(data$PIXEL__COLOR) <- "factor"
@@ -94,21 +104,25 @@ get_raster_levels <- function(shp, layerIDs) {
 		lvls <- lapply(shp@layers[layerIDs], get_RasterLayer_levels)
 	} else if (inherits(shp, "RasterBrick")) {
 		isfactor <- shp@data@isfactor
-		atb <- shp@data@attributes
-		atb <- atb[sapply(atb, length)!=0]
-		stopifnot(sum(isfactor)==length(atb))
-		isfactor2 <- isfactor[layerIDs]
-
-		lvls <- rep(list(NULL), length(layerIDs))
-		if (any(isfactor2)) {
-			atb2 <- atb[match(layerIDs[isfactor2], which(isfactor))]
+		if (all(!isfactor)) {
+			lvls <- lapply(shpnames, function(sn) NULL)
+		} else {
+			atb <- shp@data@attributes
+			atb <- atb[sapply(atb, length)!=0]
+			stopifnot(sum(isfactor)==length(atb))
+			isfactor2 <- isfactor[layerIDs]
 			
-			lvls[isfactor2] <- lapply(atb2, function(a) {
-				if (class(a)=="list") a <- a[[1]]
-				levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
-				as.character(a[[levelsID]])
-			})	
-		} 
+			lvls <- rep(list(NULL), length(layerIDs))
+			if (any(isfactor2)) {
+				atb2 <- atb[match(layerIDs[isfactor2], which(isfactor))]
+				
+				lvls[isfactor2] <- lapply(atb2, function(a) {
+					if (class(a)=="list") a <- a[[1]]
+					levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
+					as.character(a[[levelsID]])
+				})	
+			} 
+		}
 	}	
 	names(lvls) <- shpnames
 	lvls

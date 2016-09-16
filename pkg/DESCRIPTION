@@ -36,6 +36,7 @@ Suggests:
     rmarkdown,
     knitr,
     OpenStreetMap,
+    png,
     ggplot2,
     dplyr,
     tidyr

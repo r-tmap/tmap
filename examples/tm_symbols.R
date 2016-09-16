@@ -65,6 +65,19 @@ tm_shape(NLD_prov) +
 tm_format_NLD(scale=3)
 
 \dontrun{
+	require(rnaturalearth)
+	airports <- ne_download(scale=10, type="airports")
+
+	airplane <- pngGrob("http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons-256/blue-jelly-icons-transport-travel/037463-blue-jelly-icon-transport-travel-transportation-airplane22.png")
+	
+	data(Europe)
+	qtm(Europe, bbox="Germany") +
+		tm_shape(airports) +
+		tm_symbols(size="scalerank", shape=airplane, legend.size.show = FALSE, scale=5, border.col = NA)
+}
+
+
+\dontrun{
 # plot all available symbol shapes:
 require(ggplot2)
 ggplot(data.frame(p=c(0:25,32:127))) +
