@@ -62,18 +62,29 @@ tm_shape(NLD_prov) +
 				  col=origin_cols, 
 				  labels=c("Native", "Western", "Non-western"), 
 				  title="Origin") +
-tm_format_NLD(scale=3)
+tm_format_NLD()
 
 \dontrun{
 	require(rnaturalearth)
 	airports <- ne_download(scale=10, type="airports")
-
-	airplane <- pngGrob("http://cdn.mysitemyway.com/etc-mysitemyway/icons/legacy-previews/icons-256/blue-jelly-icons-transport-travel/037463-blue-jelly-icon-transport-travel-transportation-airplane22.png")
+	ports <- ne_download(scale=10, type="ports")
+	
+	airplane <- pngGrob(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
+		"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
+		"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
+	
+	ship <- pngGrob(paste0("http://www.iconsdb.com/icons/preview/icon-sets/",
+		"web-2-blue/cargo-ship-xxl.png"))
 	
 	data(Europe)
 	qtm(Europe, bbox="Germany") +
-		tm_shape(airports) +
-		tm_symbols(size="scalerank", shape=airplane, legend.size.show = FALSE, scale=5, border.col = NA)
+	tm_shape(ports) +
+		tm_symbols(size="scalerank", shape=ship, 
+			legend.size.show = FALSE, scale=2, border.col = NA) +
+	tm_shape(airports) +
+		tm_symbols(size="scalerank", shape=airplane, 
+			legend.size.show = FALSE, scale=7, border.col = NA)
+		
 }
 
 

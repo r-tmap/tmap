@@ -26,6 +26,12 @@ tm_add_legend(type = c("fill", "symbol", "text", "line"), labels,
 
 \item{alpha}{legend fill transparancy}
 
+\item{border.col}{legend border col (if \code{type} is \code{"fill"} or \code{"symbol"})}
+
+\item{border.lwd}{legend border width (if \code{type} is \code{"fill"} or \code{"symbol"})}
+
+\item{border.alpha}{legend border alpha (if \code{type} is \code{"fill"} or \code{"symbol"})}
+
 \item{title}{legend title}
 
 \item{is.portrait}{is legend portrait (\code{TRUE}) or landscape (\code{FALSE})}

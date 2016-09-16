@@ -310,7 +310,7 @@ tm_style_white <- function(...) {
 #' @rdname tm_layout
 #' @export
 tm_style_gray <- function(bg.color="grey85", 
-						   aes.color=c(fill="grey70", borders="grey20", symbols="blueviolet", dots="black", lines="red", text="black", na="grey60"),
+						   aes.color=c(fill="grey70", borders="grey20", symbols="grey50", dots="black", lines="red", text="black", na="grey60"),
 						   ...) {
 	args <- c(as.list(environment()), list(...))
 	g <- do.call("tm_layout", args)

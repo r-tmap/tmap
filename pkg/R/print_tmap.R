@@ -92,6 +92,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	interactive <- (mode == "view")
 	
+	# reset symbol shape list
+	assign(".shapeLib", list(), envir = .TMAP_CACHE)
+	
 	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
 	if (names(x)[1]=="tm_shortcut") {
 		if (getOption("tmap.mode")=="plot") {

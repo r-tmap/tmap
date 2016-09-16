@@ -3,7 +3,7 @@
 #' Render a png image (from file path or url) to a grob, which can be used for proportional symbol maps
 #' 
 #' @param file character value containing the ile path or url
-#' @return \code{\link[grid::rasterGrob]{rasterGrob}}
+#' @return \code{\link[grid:rasterGrob]{rasterGrob}}
 #' @export
 #' @seealso \code{\link{tm_symbols}}
 pngGrob <- function(file) {
@@ -13,7 +13,7 @@ pngGrob <- function(file) {
 	} else {
 		pu <- is_path_or_url(file)
 		if (is.na(pu)) {
-			error(file, " is neither a valid path nor url", call.=FALSE)
+			stop(file, " is neither a valid path nor url", call.=FALSE)
 		}
 		
 		if (!pu) {

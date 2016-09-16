@@ -66,23 +66,22 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	}
 
 	# symbol shapes: create a library with all the custom symbols (grobs), represented by symbol numbers 1000+
+	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 	if (!varyshape) {
 		if (is.vector(xshape)) {
 			if (!all(is.numeric(xshape))) stop("symbol shape(s) ('shape' argument) is/are neither numeric nor valid variable name(s)", call. = FALSE)
-			shapeLib <- list()
-		} else if (inherits(xshape, c("ggplot", "grob"))) {
-			shapeLib <- list(xshape)
-			xshape <- 1000
+		} else if (is.grob(xshape)) {
+			shapeLib <- c(shapeLib, list(xshape))
+			xshape <- 999 + length(shapeLib)
 		} else if (is.list(xshape)) {
-			shapeLib <- xshape
-			xshape <- 999 + (1:length(xshape))
+			libs_ids <- 999 + length(shapeLib) + (1:length(xshape))
+			shapeLib <- c(shapeLib, xshape)
+			xshape <- libs_ids
 		} else {
-			stop("symbol shape(s) ('shape' argument) is/are neither symbol numers, nor grobs, nor ggplot2 plots, nor valid variable name(s)", call. = FALSE)
+			stop("symbol shape(s) ('shape' argument) is/are neither symbol numers, nor grobs, nor valid variable name(s)", call. = FALSE)
 		}
 		for (i in 1:nx) data[[paste("SHAPE", i, sep="_")]] <- xshape[i]
 		xshape <- paste("SHAPE", 1:nx, sep="_")
-	} else {
-		shapeLib <- list()
 	}
 	if (is.list(g$shapes)) {
 		if (is.grob(g$shapes)) g$shapes <- list(g$shapes)

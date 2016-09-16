@@ -123,6 +123,8 @@ tm_dots(size = 0.02, col = NA, shape = 16, title = NA,
 
 \item{legend.col.show}{logical that determines whether the legend for the symbol colors is shown}
 
+\item{legend.shape.show}{logical that determines whether the legend for the symbol shapes is shown}
+
 \item{legend.format}{list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
 \describe{
 \item{fun}{Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items \code{scientific}, \code{format}, and \code{digits} (see below) are not used.}
@@ -239,7 +241,31 @@ tm_shape(NLD_prov) +
 				  col=origin_cols, 
 				  labels=c("Native", "Western", "Non-western"), 
 				  title="Origin") +
-tm_format_NLD(scale=3)
+tm_format_NLD()
+
+\dontrun{
+	require(rnaturalearth)
+	airports <- ne_download(scale=10, type="airports")
+	ports <- ne_download(scale=10, type="ports")
+	
+	airplane <- pngGrob(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
+		"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
+		"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
+	
+	ship <- pngGrob(paste0("http://www.iconsdb.com/icons/preview/icon-sets/",
+		"web-2-blue/cargo-ship-xxl.png"))
+	
+	data(Europe)
+	qtm(Europe, bbox="Germany") +
+	tm_shape(ports) +
+		tm_symbols(size="scalerank", shape=ship, 
+			legend.size.show = FALSE, scale=2, border.col = NA) +
+	tm_shape(airports) +
+		tm_symbols(size="scalerank", shape=airplane, 
+			legend.size.show = FALSE, scale=7, border.col = NA)
+		
+}
+
 
 \dontrun{
 # plot all available symbol shapes:

@@ -91,8 +91,8 @@ tm_format_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
 tm_style_white(...)
 
 tm_style_gray(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
-  "grey20", symbols = "blueviolet", dots = "black", lines = "red", text =
-  "black", na = "grey60"), ...)
+  "grey20", symbols = "grey50", dots = "black", lines = "red", text = "black",
+  na = "grey60"), ...)
 
 tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   "darkolivegreen3", borders = "black", symbols = "tomato2", dots = "firebrick",
@@ -102,8 +102,8 @@ tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   earth.boundary = TRUE, basemaps = "MapQuestOpen.OSM", ...)
 
 tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
-  "grey20", symbols = "blueviolet", dots = "black", lines = "red", text =
-  "black", na = "grey60"), ...)
+  "grey20", symbols = "grey50", dots = "black", lines = "red", text = "black",
+  na = "grey60"), ...)
 
 tm_style_cobalt(bg.color = "#002240", aes.color = c(fill = "#0088FF",
   borders = "#002240", symbols = "#FF9D00", dots = "#FF9D00", lines = "#FFEE80",
