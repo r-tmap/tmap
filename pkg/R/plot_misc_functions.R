@@ -324,22 +324,31 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
 			symbol.size <- rep(symbol.size, length.out=npol)
 		}
-
+		
+		#cols <- rep(symbol.col, length.out=npol)
+		sel <- !is.na(symbol.size) & !is.na(symbol.col) & !is.na(symbol.shape)
+		
+		if (!all(sel)) {
+			co.npc <- co.npc[sel, ]
+			symbol.size <- symbol.size[sel]
+			symbol.col <- symbol.col[sel]
+			symbol.shape <- symbol.shape[sel]
+		}
+		
 		symbol.size <- symbol.size * lineInch # * 1.1
 		#symbol.size <- symbol.size * lineInch / 2
 		
-		cols <- rep(symbol.col, length.out=npol)
 		if (length(symbol.size)!=1) {
 			decreasing <- order(-symbol.size)
 			co.npc2 <- co.npc[decreasing,]
 			symbol.size2 <- symbol.size[decreasing]
 			symbol.shape2 <- symbol.shape[decreasing]
-			cols2 <- if (length(cols)==1) cols else cols[decreasing]
+			symbol.col2 <- symbol.col[decreasing]
 		} else {
 			co.npc2 <- co.npc
 			symbol.size2 <- symbol.size
 			symbol.shape2 <- symbol.shape
-			cols2 <- cols
+			symbol.col2 <- symbol.col
 		}
 		
 		
@@ -348,14 +357,14 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		
 		shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 		
-		if (any(symbol.shape2>999)) {
+		if (any(!is.na(symbol.shape2) & symbol.shape2>999)) {
 			gpars <- get_symbol_gpar(x=symbol.shape2,
-									 fill=cols2,
+									 fill=symbol.col2,
 									 col=bordercol,
 									 lwd=symbol.border.lwd,
 									 separate=TRUE)
 			grobs <- lapply(1:npol, function(i) {
-				if (symbol.shape2[i]>999) {
+				if (!is.na(symbol.shape2[i]) && symbol.shape2[i]>999) {
 					grbs <- if (is.na(bordercol)) {
 						gList(shapeLib[[symbol.shape2[i]-999]])	
 					} else {
@@ -378,7 +387,7 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 					   size=unit(symbol.size2, "inch"),
 					   pch=symbol.shape2,
 					   gp=get_symbol_gpar(x=symbol.shape2,
-					   				   fill=cols2,
+					   				   fill=symbol.col2,
 					   				   col=bordercol,
 					   				   lwd=symbol.border.lwd), 
 					   name=idName)

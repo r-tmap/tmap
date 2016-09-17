@@ -358,6 +358,7 @@ tm_polygons <- function(col=NA,
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param saturation Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).
+#' @param interpolate Should the raster image be interpolated? By default \code{FALSE} when \code{col} is a data variable and \code{TRUE} when the raster is a bitmap image (e.g. a basemap created with \code{\link{read_osm}}).
 #' @param textNA text used for missing values.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param title title of the legend element
@@ -395,6 +396,7 @@ tm_raster <- function(col=NA,
 					  max.categories = 12,
 					  colorNA = NULL,
 					  saturation = 1,
+					  interpolate = NA,
 					  textNA = "Missing",
 					  showNA = NA,
 					  title=NA,

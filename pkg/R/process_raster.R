@@ -39,7 +39,8 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 			if (!all(x %in% shpcols)) stop("Raster argument neither colors nor valid variable name(s)", call. = FALSE)
 		}
 	}
-
+	interpolate <- ifelse(is.na(g$interpolate), is.colors, g$interpolate)
+	
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE
@@ -65,7 +66,7 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 		}
 		is.OSM <- attr(data, "is.OSM")
 		if (is.null(is.OSM)) is.OSM <- FALSE
-		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx), raster.misc=list(is.OSM=is.OSM)))
+		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx), raster.misc=list(is.OSM=is.OSM, interpolate=interpolate)))
 	}
 	
 	dcr <- process_dtcol(dt, sel=TRUE, g, gt, nx, npol)
@@ -99,7 +100,7 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 		 raster.legend.palette=col.legend.palette,
 		 raster.legend.misc=list(),
 		 raster.legend.hist.misc=list(values=values, breaks=breaks),
-		 raster.misc=list(is.OSM=FALSE),
+		 raster.misc=list(is.OSM=FALSE, interpolate=interpolate),
 		 xraster=x,
 		 raster.legend.show=g$legend.show,
 		 raster.legend.title=raster.legend.title,
