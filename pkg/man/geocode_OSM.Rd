@@ -4,15 +4,25 @@
 \alias{geocode_OSM}
 \title{Geocodes a location using OpenStreetMap Nominatim}
 \usage{
-geocode_OSM(q, projection = "longlat")
+geocode_OSM(q, projection = "longlat", return.first.only = TRUE,
+  details = FALSE, as.data.frame = details,
+  server = "http://nominatim.openstreetmap.org")
 }
 \arguments{
 \item{q}{a character that specifies a search query. For instance \code{"India"} or \code{"CBS Weg 11, Heerlen, Netherlands"}.}
 
 \item{projection}{projection in which the coordinates and bounding box are returned. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values.}
+
+\item{return.first.only}{Only return the first result}
+
+\item{details}{provide output details, other than the point coordinates and bounding box}
+
+\item{as.data.frame}{Return the output as a \code{data.frame}. If \code{FALSE}, a list is returned with at least two items: \code{"coords"}, a vector containing the longitude and latitude coordinates, and \code{"bbox"}, the corresponding bounding box.}
+
+\item{server}{OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.}
 }
 \value{
-A list of two items: \code{"coords"}, a vector containing the longitude and latitude coordinates, and \code{"bbox"}, the corresponding bounding box.
+See \code{as.data.frame}
 }
 \description{
 Geocodes a location (based on a search query) to coordinates and a bounding box. Similar to geocode from the ggmap package. It uses OpenStreetMap Nominatim.

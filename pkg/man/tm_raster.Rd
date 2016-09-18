@@ -8,9 +8,10 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   interval.closure = "left", labels = NULL, auto.palette.mapping = TRUE,
   contrast = NA, max.categories = 12, colorNA = NULL, saturation = 1,
-  textNA = "Missing", showNA = NA, title = NA, legend.show = TRUE,
-  legend.format = list(), legend.is.portrait = TRUE, legend.hist = FALSE,
-  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA)
+  interpolate = NA, textNA = "Missing", showNA = NA, title = NA,
+  legend.show = TRUE, legend.format = list(), legend.is.portrait = TRUE,
+  legend.hist = FALSE, legend.hist.title = NA, legend.z = NA,
+  legend.hist.z = NA)
 }
 \arguments{
 \item{col}{three options: a single color value, the name of a data variable that is contained in \code{shp}, or the name of a variable in \code{shp} that contain color values. In the second case the values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If omitted, and if \code{shp} contains three numeric layers that range between 0 and 255, these are interpreted as RGB values, else, the first data variable is selected.
@@ -39,6 +40,8 @@ If multiple values are specified, small multiples are drawn (see details). By de
 \item{colorNA}{color used for missing values. Use \code{NULL} for transparency.}
 
 \item{saturation}{Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).}
+
+\item{interpolate}{Should the raster image be interpolated? By default \code{FALSE} when \code{col} is a data variable and \code{TRUE} when the raster is a bitmap image (e.g. a basemap created with \code{\link{read_osm}}).}
 
 \item{textNA}{text used for missing values.}
 

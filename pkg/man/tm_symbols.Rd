@@ -244,6 +244,7 @@ tm_shape(NLD_prov) +
 tm_format_NLD()
 
 \dontrun{
+	devtools::install_github("ropenscilabs/rnaturalearthdata")
 	require(rnaturalearth)
 	airports <- ne_download(scale=10, type="airports")
 	ports <- ne_download(scale=10, type="ports")

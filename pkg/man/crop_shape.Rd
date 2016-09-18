@@ -4,12 +4,14 @@
 \alias{crop_shape}
 \title{Crop shape object}
 \usage{
-crop_shape(x, y, ...)
+crop_shape(x, y, polygon = FALSE, ...)
 }
 \arguments{
 \item{x}{shape object, i.e. an object from class \code{\link[sp:Spatial]{Spatial-class}} or \code{\link[raster:Raster-class]{Raster}}}
 
-\item{y}{bounding box (2 by 2 matrix), an \code{\link[raster:extent]{extent}}, or a shape object from which the bounding box is extracted.}
+\item{y}{bounding box (2 by 2 matrix), an \code{\link[raster:extent]{extent}}, or a shape object from which the bounding box is extracted (unless \code{polygon} is \code{TRUE} and \code{x} is a \code{SpatialPolygons} object).}
+
+\item{polygon}{should \code{x} be cropped by the polygon defined by \code{y}. If \code{FALSE} (default), \code{x} is cropped by the bounding box of \code{x}. Polygon cropping only works when \code{x} is a spatial object and \code{y} is a \code{SpatialPolygons} object.}
 
 \item{...}{arguments passed on to \code{\link[raster:crop]{crop}}}
 }
