@@ -98,13 +98,19 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 #' @param y y coordinate(s)
 #' @param zoom zoom level
 #' @param projection projection in which the coordinates \code{x} and \code{y} are provided
+#' @param as.data.frame return as data.frame (\code{TRUE}) or list (\code{FALSE}). By default a list, unless multiple coordinates are provided.
 #' @param server OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.
 #' @export
 #' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse
 #' @return A data frmame with all atributes that are contained in the search result
 #' @example ../examples/geocode_OSM.R
 #' @seealso \code{\link{bb}}
-rev_geocode_OSM <- function(x, y, zoom=NULL, projection="longlat", server="http://nominatim.openstreetmap.org") {
+rev_geocode_OSM <- function(x, y, zoom=NULL, projection="longlat", as.data.frame=NA, server="http://nominatim.openstreetmap.org") {
+	if (length(x) > 1 || length(y) > 1) {
+		n <- max(length(x), length(y))
+		x <- rep(x, length.out=n)
+		y <- rep(y, length.out=n)
+	}
 	if (projection=="longlat") {
 		lon <- x
 		lat <- y
@@ -126,15 +132,11 @@ rev_geocode_OSM <- function(x, y, zoom=NULL, projection="longlat", server="http:
 	
 	addr <- paste0(server, "/reverse?format=xml&lat=", lat, "&lon=", lon, qzoom, "&addressdetails=1")
 	
-	n <- length(addr)
-	
+
 	dfs <- lapply(1:n, function(i) {
 		tmpfile <- tempfile()
 		suppressWarnings(download.file(addr[i], destfile = tmpfile, mode= "wb", quiet = TRUE))
-		
 		doc <- xmlTreeParse(tmpfile, encoding="UTF-8")
-		
-		#doc <- xmlTreeParse(addr[i], isURL=TRUE)
 		unlink(tmpfile)
 		
 		res <- xmlChildren(xmlRoot(doc)) 
@@ -148,7 +150,7 @@ rev_geocode_OSM <- function(x, y, zoom=NULL, projection="longlat", server="http:
 		
 		names(dfvalues) <- dfnames
 
-		addrdf <- as.data.frame(dfvalues, stringsAsFactors = FALSE)
+		#addrdf <- as.data.frame(dfvalues, stringsAsFactors = FALSE)
 		
 		lat <- as.numeric(search_result["lat"])
 		lon <- as.numeric(search_result["lon"])
@@ -163,9 +165,9 @@ rev_geocode_OSM <- function(x, y, zoom=NULL, projection="longlat", server="http:
 		osm_type <- search_result["osm_type"]
 		osm_id <- search_result["osm_id"]
 		ref <- search_result["ref"]
-		cbind(data.frame(x=x[i],
-				   y=y[i],
-				   name=result_name,
+		c(list(x=x[i],
+			 y=y[i],
+			 name=result_name,
 			 lat=lat,
 			 lon=lon,
 			 xmin=xmin,
@@ -175,34 +177,39 @@ rev_geocode_OSM <- function(x, y, zoom=NULL, projection="longlat", server="http:
 			 place_id=as.numeric(unname(place_id)),
 			 osm_type=unname(osm_type),
 			 osm_id=as.numeric(unname(osm_id)),
-			 ref=unname(ref), stringsAsFactors = FALSE),
-			 addrdf)
+			 ref=unname(ref)),
+		  dfvalues)
 	})
 	
-	addrnames <- sort(unique(unlist(lapply(dfs, function(df) {
-		names(df)[14:ncol(df)]
-	}))))
-	addrlist <- lapply(addrnames, function(a)NA)
-	names(addrlist) <- addrnames
-	init <- c(list(x=NA,
-		 y=NA,
-		 name=NA,
-		 lat=NA,
-		 lon=NA,
-		 xmin=NA,
-		 xmax=NA,
-		 ymin=NA,
-		 ymax=NA,
-		 place_id=NA,
-		 osm_type=NA,
-		 osm_id=NA,
-		 ref=NA), addrlist)
+	if (as.data.frame) {
+		addrnames <- sort(unique(unlist(lapply(dfs, function(df) {
+			names(df)[14:length(df)]
+		}))))
+		addrlist <- lapply(addrnames, function(a)NA)
+		names(addrlist) <- addrnames
+		init <- c(list(x=NA,
+					   y=NA,
+					   name=NA,
+					   lat=NA,
+					   lon=NA,
+					   xmin=NA,
+					   xmax=NA,
+					   ymin=NA,
+					   ymax=NA,
+					   place_id=NA,
+					   osm_type=NA,
+					   osm_id=NA,
+					   ref=NA), addrlist)
+		
+		
+		do.call(rbind, c(lapply(dfs, function(df) {
+			init[names(df)]	<- df
+			as.data.frame(init, stringsAsFactors=FALSE)
+		}), list(stringsAsFactors=FALSE)))
+	} else {
+		dfs
+	}
 	
-	
-	do.call(rbind, c(lapply(dfs, function(df) {
-		init[names(df)]	<- as.list(df)
-		as.data.frame(init, stringsAsFactors=FALSE)
-	}), list(stringsAsFactors=FALSE)))
 	
 }
 

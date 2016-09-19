@@ -5,7 +5,7 @@
 \title{Reverse geocodes a location using OpenStreetMap Nominatim}
 \usage{
 rev_geocode_OSM(x, y, zoom = NULL, projection = "longlat",
-  server = "http://nominatim.openstreetmap.org")
+  as.data.frame = NA, server = "http://nominatim.openstreetmap.org")
 }
 \arguments{
 \item{x}{x coordinate(s)}
@@ -15,6 +15,8 @@ rev_geocode_OSM(x, y, zoom = NULL, projection = "longlat",
 \item{zoom}{zoom level}
 
 \item{projection}{projection in which the coordinates \code{x} and \code{y} are provided}
+
+\item{as.data.frame}{return as data.frame (\code{TRUE}) or list (\code{FALSE}). By default a list, unless multiple coordinates are provided.}
 
 \item{server}{OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.}
 }
