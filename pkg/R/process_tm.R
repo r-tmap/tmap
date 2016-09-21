@@ -234,13 +234,13 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 					
 					symbol.size <- symbol.size * scale
 					symbol.border.lwd <- symbol.border.lwd * scale
-					symbol.col.legend.misc$symbol.max.size <- symbol.col.legend.misc$symbol.max.size * scale
-					symbol.col.legend.misc$symbol.normal.size <- symbol.col.legend.misc$symbol.normal.size * scale
+					#symbol.col.legend.misc$symbol.max.size <- symbol.col.legend.misc$symbol.max.size * scale
+					#symbol.col.legend.misc$symbol.normal.size <- symbol.col.legend.misc$symbol.normal.size * scale
 					symbol.col.legend.misc$symbol.border.lwd <- symbol.col.legend.misc$symbol.border.lwd * scale
 
 					symbol.col.legend.sizes <- symbol.col.legend.sizes * scale
 					
-					symbol.shape.legend.misc$symbol.max.size <- symbol.shape.legend.misc$symbol.max.size * scale
+					#symbol.shape.legend.misc$symbol.max.size <- symbol.shape.legend.misc$symbol.max.size * scale
 					symbol.shape.legend.misc$symbol.border.lwd <- symbol.shape.legend.misc$symbol.border.lwd * scale
 					
 
