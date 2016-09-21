@@ -1,6 +1,6 @@
-#' Create a smooth map in various formats: smooth raster, contour lines, and dasymetric polygons.
+#' Create a smooth map in various formats: smooth raster, contour lines, and polygons.
 #' 
-#' Create contour lines (isolines) from a shape object. To make the iso lines smooth, a 2D kernal density estimator is applied on the shape object. These lines are used to draw an isopleth. Also, the polygons between the countour lines are returned. They can be used to create a dasymetric map.
+#' Create contour lines (isolines) from a shape object. To make the iso lines smooth, a 2D kernal density estimator is applied on the shape object. These lines are used to draw an isopleth. Also, the polygons between the countour lines are returned. They can be used to create a kernel density map.
 #' 
 #' For the estimation of the 2D kernal density, code is borrowed from \code{\link[KernSmooth:bkde2D]{bkde2D}}. This implemention is slightly different: \code{\link[KernSmooth:bkde2D]{bkde2D}} takes point coordinates and applies linear binning, whereas in this function, the data is already binned, with values 1 if the values of \code{var} are not missing and 0 if values of \code{var} are missing.
 #' 
@@ -20,14 +20,14 @@
 #' @param cover \code{\link[sp:SpatialPolygons]{SpatialPolygons}} shape that determines the covered area in which the contour lines are placed. If specified, \code{cover.type} is ignored.
 #' @param cover.threshold numeric value between 0 and 1 that determines which part of the estimated 2D kernal density is returned as cover. Only applicable when \code{cover.type="smooth"}.
 #' @param weight single number that specifies the weight of a single point. Only applicable if \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.
-#' @param extracting.method Method of how coordinates are extracted from the dasymetric polygons. Options are: \code{"full"} (default), \code{"grid"}, and \code{"single"}. See details. For the slowest method \code{"full"}, \code{\link[raster:extract]{extract}} is used. For \code{"grid"}, points on a grid layout are selected that intersect with the polygon. For \code{"simple"}, a simple point is generated with \code{\link[rgeos:gPointOnSurface]{gPointOnSurface}}.
-#' @param buffer.width Buffer width of the iso lines to cut dasymetric polygons. Should be small enough to let the polygons touch each other without space in between. However, too low values may cause geometric errors.
+#' @param extracting.method Method of how coordinates are extracted from the kernel density polygons. Options are: \code{"full"} (default), \code{"grid"}, and \code{"single"}. See details. For the slowest method \code{"full"}, \code{\link[raster:extract]{extract}} is used. For \code{"grid"}, points on a grid layout are selected that intersect with the polygon. For \code{"simple"}, a simple point is generated with \code{\link[rgeos:gPointOnSurface]{gPointOnSurface}}.
+#' @param buffer.width Buffer width of the iso lines to cut kernel density polygons. Should be small enough to let the polygons touch each other without space in between. However, too low values may cause geometric errors.
 #' @param to.Raster should the "raster" output (see \code{output}) be a \code{\link[raster:Raster-class]{RasterLayer}}? By default, it is returned as a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}
 #' @return List with the following items:
 #' \describe{
 #' \item{\code{"raster"}}{A smooth raster, which is either a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} or a \code{\link[raster:Raster-class]{RasterLayer}} (see \code{to.Raster})}
 #' \item{\code{"iso"}}{Contour lines, which is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}}
-#' \item{\code{"dasy"}}{Dasymetric polygons, which is a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}}
+#' \item{\code{"polygons"}}{Kernel density polygons, which is a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}}
 #' \item{\code{"bbox"}}{Bounding box of the used raster}
 #' \item{\code{"ncol"}}{Number of rows in the raster}
 #' \item{\code{"nrow"}}{Number of columns in the raster}
@@ -205,7 +205,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	
 	# make sure lines are inside poly
 	cp <- lines2polygons(ply = cover, lns = cl2, rst = r, lvls=lvls, extracting.method="full", buffer.width = buffer.width)
-	attr(cp, "dasymetric") <- TRUE
+	attr(cp, "kernel_density") <- TRUE
 	
 	setTxtProgressBar(pb, .9)
 	
@@ -215,7 +215,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	
 	list(raster = if(to.Raster) r else as(r, "SpatialGridDataFrame"),
 		 iso = lns,
-		 dasy = cp,
+		 polygons = cp,
 		 bbox = bbx,
 		 nrow = nrow,
 		 ncol = ncol,

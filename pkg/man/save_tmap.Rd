@@ -5,7 +5,7 @@
 \title{Save tmap}
 \usage{
 save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
-  units = NA, dpi = 300, outer.margins = 0, asp = 0, scale = NA,
+  units = NA, dpi = 300, outer.margins = 0, asp = NULL, scale = NA,
   insets_tm = NULL, insets_vp = NULL, verbose = TRUE, ...)
 }
 \arguments{
@@ -23,7 +23,7 @@ save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
 
 \item{outer.margins}{overrides the outer.margins argument of \code{\link{tm_layout}} (unless set to \code{NA})}
 
-\item{asp}{overrides the asp argument of \code{\link{tm_layout}} (unless set to \code{NA})}
+\item{asp}{if specified, it overrides the asp argument of \code{\link{tm_layout}}. Tip: set to \code{0} if map frame should be placed on the edges of the image.}
 
 \item{scale}{overrides the scale argument of \code{\link{tm_layout}} (unless set to \code{NA})}
 
@@ -56,13 +56,17 @@ Save tmap to a file, such as png, jpg, or pdf.
 	
 	save_tmap(m, "choropleth.png", height=7)
 	
+	data(World)
 	m2 <- tm_shape(World) +
 		tm_fill("well_being", id="name", title="Well-being") +
 		tm_format_World()
 
 	# save image
-	save_tmap(m2, "World_map.png", width=1920, height=1080)
+	save_tmap(m2, "World_map.png", width=1920, height=1080, asp=0)
 
+	# cut left inner margin to make sure Antarctica is snapped to frame
+	save_tmap(m2 + tm_layout(inner.margins = c(0, -.1, 0.05, 0.01)), "World_map2.png", width=1920, height=1080, asp=0)
+	
 	# save interactive plot
 	save_tmap(m2, "World_map.html")
 }

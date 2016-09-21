@@ -2,7 +2,7 @@
 % Please edit documentation in R/smooth_map.R
 \name{smooth_map}
 \alias{smooth_map}
-\title{Create a smooth map in various formats: smooth raster, contour lines, and dasymetric polygons.}
+\title{Create a smooth map in various formats: smooth raster, contour lines, and polygons.}
 \usage{
 smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
   unit = "km", unit.size = 1000, smooth.raster = TRUE, nlevels = 5,
@@ -44,9 +44,9 @@ smooth_map(shp, var = NULL, nrow = NA, ncol = NA, N = 250000,
 
 \item{weight}{single number that specifies the weight of a single point. Only applicable if \code{shp} is a \code{\link[sp:SpatialPoints]{SpatialPoints}} object.}
 
-\item{extracting.method}{Method of how coordinates are extracted from the dasymetric polygons. Options are: \code{"full"} (default), \code{"grid"}, and \code{"single"}. See details. For the slowest method \code{"full"}, \code{\link[raster:extract]{extract}} is used. For \code{"grid"}, points on a grid layout are selected that intersect with the polygon. For \code{"simple"}, a simple point is generated with \code{\link[rgeos:gPointOnSurface]{gPointOnSurface}}.}
+\item{extracting.method}{Method of how coordinates are extracted from the kernel density polygons. Options are: \code{"full"} (default), \code{"grid"}, and \code{"single"}. See details. For the slowest method \code{"full"}, \code{\link[raster:extract]{extract}} is used. For \code{"grid"}, points on a grid layout are selected that intersect with the polygon. For \code{"simple"}, a simple point is generated with \code{\link[rgeos:gPointOnSurface]{gPointOnSurface}}.}
 
-\item{buffer.width}{Buffer width of the iso lines to cut dasymetric polygons. Should be small enough to let the polygons touch each other without space in between. However, too low values may cause geometric errors.}
+\item{buffer.width}{Buffer width of the iso lines to cut kernel density polygons. Should be small enough to let the polygons touch each other without space in between. However, too low values may cause geometric errors.}
 
 \item{to.Raster}{should the "raster" output (see \code{output}) be a \code{\link[raster:Raster-class]{RasterLayer}}? By default, it is returned as a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}}
 }
@@ -55,14 +55,14 @@ List with the following items:
 \describe{
 \item{\code{"raster"}}{A smooth raster, which is either a \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}} or a \code{\link[raster:Raster-class]{RasterLayer}} (see \code{to.Raster})}
 \item{\code{"iso"}}{Contour lines, which is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}}
-\item{\code{"dasy"}}{Dasymetric polygons, which is a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}}
+\item{\code{"polygons"}}{Kernel density polygons, which is a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}}
 \item{\code{"bbox"}}{Bounding box of the used raster}
 \item{\code{"ncol"}}{Number of rows in the raster}
 \item{\code{"nrow"}}{Number of columns in the raster}
 }
 }
 \description{
-Create contour lines (isolines) from a shape object. To make the iso lines smooth, a 2D kernal density estimator is applied on the shape object. These lines are used to draw an isopleth. Also, the polygons between the countour lines are returned. They can be used to create a dasymetric map.
+Create contour lines (isolines) from a shape object. To make the iso lines smooth, a 2D kernal density estimator is applied on the shape object. These lines are used to draw an isopleth. Also, the polygons between the countour lines are returned. They can be used to create a kernel density map.
 }
 \details{
 For the estimation of the 2D kernal density, code is borrowed from \code{\link[KernSmooth:bkde2D]{bkde2D}}. This implemention is slightly different: \code{\link[KernSmooth:bkde2D]{bkde2D}} takes point coordinates and applies linear binning, whereas in this function, the data is already binned, with values 1 if the values of \code{var} are not missing and 0 if values of \code{var} are missing.
@@ -74,7 +74,7 @@ For the estimation of the 2D kernal density, code is borrowed from \code{\link[K
 vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
 vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
 
-tm_shape(vol_smooth$dasy) +
+tm_shape(vol_smooth$polygons) +
 	tm_fill(palette=terrain.colors(11), title="Elevation") +
 	tm_shape(vol_smooth$iso) +
 	tm_iso(col = "black", size = .7, fontcolor="black") +
@@ -96,7 +96,7 @@ qtm(NLD_muni, fill="population_dens")
 NLD_smooth <- smooth_map(NLD_muni, var = "population_dens")
 
 qtm(NLD_smooth$raster, style="grey")
-qtm(NLD_smooth$dasy, format="NLD")
+qtm(NLD_smooth$polygons, format="NLD")
 	
 ####################################
 ## Smooth points
@@ -151,8 +151,8 @@ qtm(World_list$raster, style="grey")
 # plot smooth raster map
 qtm(World, bbox="India") + qtm(World_list$iso)
 
-# plot dasymetric map
-qtm(World_list$dasy, style="grey", format="World")
+# plot kernel density map
+qtm(World_list$polygons, style="grey", format="World")
 
 ####################################
 ## Smooth raster
@@ -163,7 +163,7 @@ land_smooth <- smooth_map(land, var="trees", cover.type = "smooth")
 
 qtm(land, raster="trees")
 qtm(land_smooth$raster)
-qtm(land_smooth$dasy, format="World", style="grey")
+qtm(land_smooth$polygons, format="World", style="grey")
 }
 }
 

@@ -318,7 +318,7 @@ Besides the `ggplot2`-style plotting functions, the package also offers function
     + read Open Street Map data with [`read_osm`](../html/read_osm.html)
     
 * Generate new spatial objects:
-	+ create a smooth map (raster, contour lines and dasymetric polygons) with [`smooth_map`](../html/smooth_map.html)
+	+ create a smooth map (raster, contour lines and kernel density polygons) with [`smooth_map`](../html/smooth_map.html)
 	+ create a smooth cover of a raster object with [`smooth_raster_cover`](../html/smooth_raster_cover.html)
 	+ sample dots from polygons with [`sample_dots`](../html/sample_dots.html)
 	+ bin spatial points to a raster with [`points_to_raster`](../html/points_to_raster.html)

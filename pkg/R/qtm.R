@@ -115,7 +115,7 @@ qtm <- function(shp,
 	
 	
 	if (inherits(shp, "SpatialPolygons")) {
-		if (!("fill" %in% called) && "dasymetric" %in% names(attributes(shp))) fill <- "level"
+		if (!("fill" %in% called) && "kernel_density" %in% names(attributes(shp))) fill <- "level"
 	} else {
 		fill <- NULL
 		borders <- NULL

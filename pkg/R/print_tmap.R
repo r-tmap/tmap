@@ -233,15 +233,18 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	external_attr <- gmeta$attr.outside
 	fpi <- preprocess_facet_layout(gmeta, external_legend, dh, dw)
 	
+	# aspect ratio of total device
 	tasp <- dw/dh
+	
+	# aspect ratio per facet
 	fasp <- fpi$dsw / fpi$dsh #-  fpi$pSH - fpi$between.margin.in)
 	
-	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, fasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
+	# aspect ratio per facet minus extern legend
+	lasp <- fasp * (1-fpi$legmarx) / (1-fpi$legmary)
 	
-	#dasp <- attr(shps, "dasp")
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, lasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
+	
 	sasp <- attr(shps, "sasp")
-	
-	
 
 	gmeta <- do.call("process_facet_layout", c(list(gmeta, external_legend, sasp, dh, dw), fpi))
 	gasp <- gmeta$gasp

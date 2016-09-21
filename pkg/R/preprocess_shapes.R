@@ -198,7 +198,7 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, master_bbx, in
 			data$SHAPE_AREAS <- approx_areas(shp2, unit=shp.unit, unit.size = shp.unit.size)
 			attr(data, "AREAS_is_projected") <- is_projected(shp2)
 			if (apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
-			attr(data, "dasymetric") <- ("dasymetric" %in% names(attributes(shp)))
+			attr(data, "kernel_density") <- ("kernel_density" %in% names(attributes(shp)))
 			type <- "polygons"
 		} else if (inherits(shp2, "SpatialLinesDataFrame")) {
 			attr(data, "isolines") <- ("isolines" %in% names(attributes(shp)))

@@ -82,7 +82,7 @@
 #' 
 #' @section Generate spatial objects: 
 #' \tabular{ll}{
-#' \code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and dasymetric polygons) \cr
+#' \code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and kernel density polygons) \cr
 #' \code{\link{smooth_raster_cover}}\tab To create a smooth cover of a raster object \cr
 #' \code{\link{sample_dots}}\tab To sample dots from polygons \cr
 #' \code{\link{points_to_raster}}\tab To bin spatial points to a raster \cr

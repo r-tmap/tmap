@@ -21,7 +21,7 @@ process_fill <- function(data, g, gb, gt, gby, z, allow.small.mult) {
 	
 	# check for direct color input
 	is.colors <- all(valid_colors(x))
-	if (attr(data, "dasymetric") && !("col" %in% g$call) && "level" %in% shpcols) {
+	if (attr(data, "kernel_density") && !("col" %in% g$call) && "level" %in% shpcols) {
 		is.colors <- FALSE
 		x <- "level"
 	} else if (is.colors) {

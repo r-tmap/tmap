@@ -4,7 +4,7 @@
 vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
 vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
 
-tm_shape(vol_smooth$dasy) +
+tm_shape(vol_smooth$polygons) +
 	tm_fill(palette=terrain.colors(11), title="Elevation") +
 	tm_shape(vol_smooth$iso) +
 	tm_iso(col = "black", size = .7, fontcolor="black") +
@@ -26,7 +26,7 @@ qtm(NLD_muni, fill="population_dens")
 NLD_smooth <- smooth_map(NLD_muni, var = "population_dens")
 
 qtm(NLD_smooth$raster, style="grey")
-qtm(NLD_smooth$dasy, format="NLD")
+qtm(NLD_smooth$polygons, format="NLD")
 	
 ####################################
 ## Smooth points
@@ -81,8 +81,8 @@ qtm(World_list$raster, style="grey")
 # plot smooth raster map
 qtm(World, bbox="India") + qtm(World_list$iso)
 
-# plot dasymetric map
-qtm(World_list$dasy, style="grey", format="World")
+# plot kernel density map
+qtm(World_list$polygons, style="grey", format="World")
 
 ####################################
 ## Smooth raster
@@ -93,5 +93,5 @@ land_smooth <- smooth_map(land, var="trees", cover.type = "smooth")
 
 qtm(land, raster="trees")
 qtm(land_smooth$raster)
-qtm(land_smooth$dasy, format="World", style="grey")
+qtm(land_smooth$polygons, format="World", style="grey")
 }
