@@ -10,7 +10,7 @@
 #' @param server OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.
 #' @return See \code{as.data.frame}
 #' @export
-#' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse
+#' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse xmlValue
 #' @example ../examples/geocode_OSM.R
 #' @seealso \code{\link{bb}}
 geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details=FALSE, as.data.frame=details, server="http://nominatim.openstreetmap.org") {
@@ -101,7 +101,7 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 #' @param as.data.frame return as data.frame (\code{TRUE}) or list (\code{FALSE}). By default a list, unless multiple coordinates are provided.
 #' @param server OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.
 #' @export
-#' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse
+#' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse xmlValue
 #' @return A data frmame with all atributes that are contained in the search result
 #' @example ../examples/geocode_OSM.R
 #' @seealso \code{\link{bb}}

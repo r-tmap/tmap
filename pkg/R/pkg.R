@@ -22,6 +22,7 @@
 #' \code{\link{tm_fill}}\tab To create a polygon layer (without borders) \cr
 #' \code{\link{tm_borders}}\tab To create polygon borders \cr
 #' \code{\link{tm_polygons}}\tab To create a polygon layer with borders \cr
+#' \code{\link{tm_symbols}}\tab To create a layer of symbols \cr
 #' \code{\link{tm_bubbles}}\tab To create a layer of bubbles \cr
 #' \code{\link{tm_dots}}\tab To create a layer of dots \cr
 #' \code{\link{tm_lines}}\tab To create a layer of lines \cr
@@ -65,7 +66,8 @@
 #' @section Handy tool functions: 
 #' \tabular{ll}{
 #' \code{\link{bb}}\tab To create, extract or modify a bounding box \cr
-#' \code{\link{geocode_OSM}}\tab To get geocode based on location \cr
+#' \code{\link{geocode_OSM}}\tab To get location from an address description \cr
+#' \code{\link{rev_geocode_OSM}}\tab To get address description from a location \cr
 #' \code{\link{get_asp_ratio}}\tab To get the aspect ratio of a shape object \cr
 #' \code{\link{get_IDs}}\tab To get ID values of a shape object \cr
 #' \code{\link{append_data}}\tab To append a data frame to a shape object \cr
@@ -87,6 +89,7 @@
 #' \code{\link{sample_dots}}\tab To sample dots from polygons \cr
 #' \code{\link{points_to_raster}}\tab To bin spatial points to a raster \cr
 #' \code{\link{poly_to_raster}}\tab To convert polygons to a raster \cr
+#' \code{\link{cartogram}}\tab To create cartogram polygons \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 

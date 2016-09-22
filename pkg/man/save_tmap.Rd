@@ -65,7 +65,8 @@ Save tmap to a file, such as png, jpg, or pdf.
 	save_tmap(m2, "World_map.png", width=1920, height=1080, asp=0)
 
 	# cut left inner margin to make sure Antarctica is snapped to frame
-	save_tmap(m2 + tm_layout(inner.margins = c(0, -.1, 0.05, 0.01)), "World_map2.png", width=1920, height=1080, asp=0)
+	save_tmap(m2 + tm_layout(inner.margins = c(0, -.1, 0.05, 0.01)), 
+        "World_map2.png", width=1920, height=1080, asp=0)
 	
 	# save interactive plot
 	save_tmap(m2, "World_map.html")

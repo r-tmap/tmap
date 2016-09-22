@@ -22,11 +22,18 @@ Crop a shape object (from class \code{\link[sp:Spatial]{Spatial-class}} or \code
 This function is a wrapper around \code{\link[raster:crop]{crop}} from the raster package. It does two things in addition: \code{\link[sp:SpatialGrid]{SpatialGrid}} objects are allowed, and if \code{y} is a shape object with a different projection, it is temporarily reprojected in order to obtain a bounding box by which \code{x} is cropped.
 }
 \examples{
-data(Europe, land)
+data(Europe, land, metro)
 
 land_europe <- crop_shape(land, Europe)
 
 qtm(land_europe, raster="trees", style="natural")
+
+metro_europe <- crop_shape(metro, Europe, polygon = TRUE)
+
+qtm(Europe) +
+tm_shape(metro_europe) +
+	tm_bubbles("pop2010", col="red", title.size="European cities") +
+	tm_legend(frame=TRUE)
 }
 \seealso{
 \code{\link{bb}}
