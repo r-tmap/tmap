@@ -38,6 +38,11 @@
 append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.duplicates=FALSE, ignore.na=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
 	spatialDF <- inherits(shp, c("SpatialPolygonsDataFrame", "SpatialPointsDataFrame", "SpatialLinesDataFrame", "SpatialGridDataFrame", "SpatialPixelsDataFrame"))
 
+	callAD <- deparse(match.call())
+	
+	dataName <- deparse(substitute(data))
+	shpName <- deparse(substitute(shp))
+	
 	if (fixed.order) {
 		if (length(shp)!=nrow(data)) 
 			stop("Number of shapes not equal to number of data rows")
@@ -46,7 +51,10 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 		if (missing(key.data)) {
 			message("No key.data specified. Therefore, rownames are taken as keys.\n")
 			ids.data <- rownames(data)
-		} else ids.data <- as.character(data[[key.data]])
+		} else {
+			if (!key.data %in% names(data)) stop("Variable \"", key.data, "\" not found in ", dataName, ".")
+			ids.data <- as.character(data[[key.data]])
+		} 
 	
 		# key.data remove duplicates
 		if (any(duplicated(ids.data))) {
@@ -58,16 +66,19 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 			}
 			if (ignore.duplicates) {
 				message("data contains duplicated keys: ", duplicated_data)
-				data <- data[!duplicated(ids.data), ]
-				ids.data <- ids.data[!duplicated(ids.data)]
-			} else stop(paste("data contains duplicated keys:", duplicated_data, 
-							  "Set ignore.duplicates=TRUE to ignore duplicates in data."))
+			  data_ID <- which(!duplicated(ids.data))
+				data <- data[data_ID, ]
+				ids.data <- ids.data[data_ID]
+			} else stop("data contains duplicated keys: ", duplicated_data, 
+							  ". Set ignore.duplicates=TRUE to ignore duplicates in data.")
+		} else {
+		  data_ID <- 1L:nrow(data)
 		}
 		
 		# key.data any NA?
 		if (any(is.na(ids.data))) {
 			if (ignore.na) {
-				message("data key contains NA's, which are ignored")
+				message(dataName, " key variable \"", key.data, "\" contains NA's, which are ignored")
 				ids.data[is.na(ids.data)] <- "data_key_NA"
 			} else {
 				stop("data key contains NA's. Set ignore.na = TRUE to ignore them.")
@@ -81,9 +92,9 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 		} else {
 			# use the key.shp variable of shp@data
 			if (!spatialDF) 
-				stop("shp is not a Spatial*DataFrame, while key.shp is specified")
+				stop(shpName, " is not a Spatial*DataFrame, while key.shp is specified")
 			if (!key.shp %in% names(shp@data))
-				stop("key.shp is not available in shp@data")
+				stop("Variable \"", key.shp, "\" not found in ", shpName, "@data")
 			ids.shp <- as.character(shp@data[[key.shp]])
 		}
 		
@@ -95,69 +106,96 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 			} else {
 				duplicated_shp <- paste(duplicated_shp, collapse=", ")
 			}
-			message("shp contains duplicated keys:", duplicated_shp, "\n")
+			message(shpName, " key variable \"", key.shp, "\" contains duplicated keys:", duplicated_shp, "\n")
 		}
 	
 		# key.shp any NA?
 		if (any(is.na(ids.shp))) {
 			if (ignore.na) {
-				message("shp key contains NA's, which are ignored")
+				message(shpName, " key variable \"", key.shp ,"\" contains NA's, which are ignored")
 				ids.shp[is.na(ids.shp)] <- "shp_key_NA"
 			} else {
-				stop("shp key contains NA's. Set ignore.na = TRUE to ignore them.")
+				stop(shpName, " key variable \"", key.shp ,"\" contains NA's. Set ignore.na = TRUE to ignore them.")
 			}
 		}
-				
+
 		# prepare data
-		data <- data[match(ids.shp, ids.data),]
+		data2 <- data[match(ids.shp, ids.data),]
+		
+		data2[[key.data]] <- NULL
 
 		# check coverage
-		ids.data <- setdiff(ids.data, "data_key_NA")
-		ids.shp <- setdiff(ids.shp, "shp_key_NA")
-		if (setequal(ids.data, ids.shp)) {
+		uc_id <- which(!(ids.shp %in% ids.data))
+		oc_id <- which(!(ids.data %in% ids.shp))
+
+		ndata <- nrow(data)
+		nshp <- length(shp)
+				
+		#ids.data <- setdiff(ids.data, "data_key_NA")
+		#ids.shp <- setdiff(ids.shp, "shp_key_NA")
+		if (length(uc_id)==0 && length(oc_id)==0) {
 			message("Keys match perfectly.\n")
 		} else {
-			if (!all(ids.shp %in% ids.data)) {
-				notMatched.shp <- setdiff(ids.shp, ids.data)
-				nnm <- length(notMatched.shp)
-				nshp <- length(ids.shp)
+			if (length(uc_id)) {
+				nnm <- length(uc_id)
 				if (nnm==nshp) stop("No match found")
-				message("Under coverage. No data for ", nnm, " out of ", 
-							  nshp, " polygons: ", 
-							  paste(head(notMatched.shp, 5), collapse=", "),
-							  ifelse(length(notMatched.shp)>5, ", ...", ""))
-			}				
-			if (!all(ids.data %in% ids.shp)) {
-				notMatched.data <- setdiff(ids.data, ids.shp)
-				nnm <- length(notMatched.data)
-				ndata <- length(ids.data)
-				message("Over coverage. ", nnm, " out of ", ndata, 
-							  " unmatched data records: ", 
-							  paste(head(notMatched.data, 5), collapse=", "),
-							  ifelse(length(notMatched.data)>5, ", ...", ""))
-			}				
+				uc_res <- paste("Under coverage: no data for ", nnm, " out of ", nshp, " features." , sep="")
+				message(uc_res, " Run under_coverage() to get the corresponding key values.")
+			} else {
+				uc_res <- "No under coverage: each shape feature has appended data."
+			}
+			if (length(oc_id)) {
+				nnm <- length(oc_id)
+				oc_res <- paste("Over coverage: ", nnm, " out of ", ndata, " unmatched data records.", sep="")
+				message(oc_res, " Run over_coverage() to get the corresponding key values.")
+			} else {
+				oc_res <- "No over coverage: each data record is appended to a shape feature."
+			}
 		}
-		
+		assign(".underCoverage", list(result=uc_res, call=callAD, id=uc_id, value=shp@data[uc_id, key.shp]), envir = .TMAP_CACHE)
+		assign(".overCoverage", list(result=oc_res, call=callAD, id=data_ID[oc_id], value=data[oc_id, key.data]), envir = .TMAP_CACHE)
 		
 	}
 	
 	# attach data to shp
 	if (spatialDF) {
-		doubleNames <- names(data) %in% names(shp@data)
-		names(data)[doubleNames] <- paste(names(data)[doubleNames], ".data", sep="")
-		shp@data <- cbind(shp@data, data)
+		doubleNames <- names(data2) %in% names(shp@data)
+		names(data2)[doubleNames] <- paste(names(data2)[doubleNames], ".data", sep="")
+		shp@data <- cbind(shp@data, data2)
 	} else if (inherits(shp, "SpatialPolygons")) {
-		shp <- SpatialPolygonsDataFrame(shp, data, match.ID = FALSE)
+		shp <- SpatialPolygonsDataFrame(shp, data2, match.ID = FALSE)
 	} else if (inherits(shp, "SpatialPoints")) {
-		shp <- SpatialPointsDataFrame(shp, data, match.ID = FALSE)
+		shp <- SpatialPointsDataFrame(shp, data2, match.ID = FALSE)
 	} else if (inherits(shp, "SpatialLines")) {
-		shp <- SpatialLinesDataFrame(shp, data, match.ID = FALSE)
+		shp <- SpatialLinesDataFrame(shp, data2, match.ID = FALSE)
 	} else if (inherits(shp, "SpatialGrid")) {
-		shp <- SpatialGridDataFrame(shp, data)
+		shp <- SpatialGridDataFrame(shp, data2)
 	} else if (inherits(shp, "SpatialPixels")) {
-		shp <- SpatialPixelsDataFrame(shp, data)
+		shp <- SpatialPixelsDataFrame(shp, data2)
 	} else {
 		stop("shp is not a shape file")
 	}
 	shp
+}
+
+under_coverage <- function() {
+	res <- get(".underCoverage", envir = .TMAP_CACHE)
+	if (is.null(res)) {
+		message("Function append_data not called yet.")
+		invisible()
+	} else {
+		#if (length(res$id)==0) message("No under coverage: each shape feature has appended data.")
+		res
+	}
+}
+
+over_coverage <- function() {
+	res <- get(".overCoverage", envir = .TMAP_CACHE)
+	if (is.null(res)) {
+		message("Function append_data not called yet.")
+		invisible()
+	} else {
+		#if (length(res$id)==0) message("No over coverage: each data record is appended to a shape feature.")
+		res
+	}
 }
