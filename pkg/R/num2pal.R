@@ -170,7 +170,7 @@ num2pal <- function(x, n = 5,
 			b <- pretty(breaks, n=ncont)
 			b <- b[b>=breaks[1] & b<=breaks[length(breaks)]]
 			nbrks_cont <- length(b)
-			id <- as.integer(cut(b, breaks=breaks))
+			id <- as.integer(cut(b, breaks=breaks, include.lowest = TRUE))
 		}
 
 		id_step <- id[2] - id[1]
