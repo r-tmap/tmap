@@ -200,6 +200,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 	
 	attr(shps2, "sasp") <- ifelse(is.na(pasp), sasp, pasp)
 	attr(shps2, "dasp") <- dasp
+	attr(shps2, "bbx") <- bbx
 	attr(shps2, "legend_pos") <- legend_pos
 	attr(shps2, "diff_shapes") <- diff_shapes
 	attr(shps2, "inner.margins") <- inner.margins

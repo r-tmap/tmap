@@ -30,7 +30,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 }
 
 
-process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
+process_lines <- function(data, g, gt, gby, z, interactive) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -39,8 +39,8 @@ process_lines <- function(data, g, gt, gby, z, allow.small.mult) {
 	xcol <- g$col
 	xlwd <- g$lwd
 	
-	if (!allow.small.mult) xcol <- xcol[1]
-	if (!allow.small.mult) xlwd <- xlwd[1]
+	if (interactive) xcol <- xcol[1]
+	if (interactive) xlwd <- xlwd[1]
 	
 	if (is.na(xcol[1])) xcol <- gt$aes.colors["lines"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"

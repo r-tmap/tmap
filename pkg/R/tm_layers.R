@@ -428,11 +428,18 @@ tm_raster <- function(col=NA,
 #' 
 #' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments, which are \code{size}, \code{col}, and \code{shape}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
+#' A  shape specification is one of the following three options:
+#' \enumerate{
+#'  \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options. To specify multiple shapes, a vector of numeric values is required.}
+#'  \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot or a png icon (see \code{\link{pngGrob}}). To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
+#'  \item{A list that specifies icon data, which can be created with \code{\link[leaflet:icons]{icons}}. To specify multiple shapes, either vectorize each item of icons, of specify a list of lists. This options is especially useful in view mode. In plot mode, only the list item \code{iconUrl} is used, since the icon size is determined by the \code{size} argument and the tip of the icon (anchor) by the \code{just} argument.}}
+#'  When multiple shapes are specified, these options can be mixed by providing a list.
+#' 
 #' @name tm_symbols
 #' @rdname tm_symbols
 #' @param size a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest symbol will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
 #' @param col color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
-#' @param shape shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. A direct shape specification is either a numeric value/vector that specifies the plotting character of the symbol (see parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options), or a (list of) grob object(s), which may consist bitmap images or ggplot2 plots (see examples below). If a vector/list is specified, small multiples are drawn (see details).
+#' @param shape shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. See details for the shape specification.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param border.col color of the symbol borders.
 #' @param border.lwd line width of the symbol borders. If \code{NA} (default), no symbol borders are drawn.
@@ -454,7 +461,7 @@ tm_raster <- function(col=NA,
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values of the color variable.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
-#' @param shapes palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). A shape is either an integer number (seee parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options) or a grob object. By default, the filled symbols 21 to 25 are taken.
+#' @param shapes palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.
 #' @param shapes.legend symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.
 #' @param shapes.legend.fill Fill color of legend shapes (see \code{shapes.legend})
 #' @param shapes.labels Legend labels for the symbol shapes
@@ -465,9 +472,10 @@ tm_raster <- function(col=NA,
 #' @param shapes.breaks in case \code{shapes.style=="fixed"}, breaks should be specified
 #' @param shapes.interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{shape} is a numerc variable.
 #' @param legend.max.symbol.size Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for \code{tm_bubbles})
+#' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.
+#' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
 #' @param xmod horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the symbols. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the symbols to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
-#' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
 #' @param title.size title of the legend element regarding the symbol sizes
 #' @param title.col title of the legend element regarding the symbol colors
 #' @param title.shape title of the legend element regarding the symbol shapes
@@ -537,6 +545,7 @@ tm_symbols <- function(size=1, col=NA,
 						shapes.breaks = NULL,
 						shapes.interval.closure = "left",
 						legend.max.symbol.size = .8,
+						just=c("center", "center"),
 						jitter=0,
 						xmod = 0,
 						ymod = 0,
@@ -557,7 +566,7 @@ tm_symbols <- function(size=1, col=NA,
 						legend.shape.z=NA,
 						legend.hist.z=NA,
 						id=NA) {
-	g <- list(tm_symbols=c(as.list(environment()), list(are.dots=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))
+	g <- list(tm_symbols=c(as.list(environment()), list(are.dots=FALSE, are.markers=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
 	
@@ -590,8 +599,8 @@ tm_bubbles <- function(size=1,
 #' @rdname tm_symbols
 #' @param ... arguments passed on to \code{tm_symbols}
 #' @export
-tm_dots <- function(size=.02, 
-					col=NA, 
+tm_dots <- function(col=NA, 
+					size=.02, 
 					shape=16,
 					title = NA, 
 					legend.show=TRUE, 
@@ -605,4 +614,41 @@ tm_dots <- function(size=.02,
 	g$tm_symbols$are.dots <- TRUE
 	g
 }
+
+tm_markers <- function(shape=20,
+					   col=NA,
+					   size=3,
+					   just = c("center", "bottom"),
+					   border.col=NA,
+					   text=NULL,
+					   text.just=c("center", "top"),
+					   markers.on.top.of.text=TRUE,
+					   ...) {
+	args <- list(...)
+	argsS <- args[intersect(names(formals("tm_symbols")), names(args))]
+
+	# all text label items are preceeded with "text."
+	argsT <- args[intersect(paste("text", names(formals("tm_text")), sep="."), names(args))]
+	argsT[c("text.text", "text.text.just")] <- NULL # already explicit arguments
+	argsT_names <- names(argsT)
+	
+	names(argsT) <- substr(argsT_names, 6, nchar(argsT_names))
+	
+	if (is.null(text)) {
+		tmT <- NULL
+	} else {
+		tmT <- do.call("tm_text", c(list(text=text, just=text.just), argsT))
+	}
+	
+	tmS <- do.call("tm_symbols", c(list(shape=shape, col=col, size=size, just=just, border.col=border.col), argsS))
+	
+	g <- if (markers.on.top.of.text) {
+		tmS + tmT
+	} else {
+		tmT + tmS
+	}
+	g$tm_symbols$are.markers <- TRUE
+	g
+}
+
 

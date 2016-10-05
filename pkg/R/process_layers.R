@@ -1,4 +1,4 @@
-process_layers <- function(g, z, gt, gf, allow.small.mult) {
+process_layers <- function(g, z, gt, gf, interactive) {
 	if (dupl <- anyDuplicated(names(g))) {
 		warning("One tm layer group has duplicated layer types, which are omitted. To draw multiple layers of the same type, use multiple layer groups (i.e. specify tm_shape prior to each of them).", call. = FALSE)
 		g <- g[-dupl]	
@@ -95,27 +95,27 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 	if (is.null(g$tm_fil)) {
 		gfill <- list(fill=NULL, xfill=NA, fill.legend.title=NA, fill.id=NA) 
 	} else {
-		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf, z=z+which(plot.order=="tm_fill"), allow.small.mult=allow.small.mult)
+		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf, z=z+which(plot.order=="tm_fill"), interactive=interactive)
 	}
 	# symbol info
 	if (is.null(g$tm_symbols)) {
 		gsymbol <- list(symbol.size=NULL, xsize=NA, xcol=NA, xshape=NA, symbol.size.legend.title=NA, symbol.col.legend.title=NA, symbol.shape.legend.title=NA, symbol.id=NA)
 	} else {
-		gsymbol <- process_symbols(data, g$tm_symbols, gt, gf, z=z+which(plot.order=="tm_symbols"), allow.small.mult=allow.small.mult)
+		gsymbol <- process_symbols(data, g$tm_symbols, gt, gf, z=z+which(plot.order=="tm_symbols"), interactive=interactive)
 	}
 
 	# lines info
 	if (is.null(g$tm_lines)) {
 		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA, line.col.legend.title=NA, line.lwd.legend.title=NA, line.id=NA) 
 	} else {
-		glines <- process_lines(data, g$tm_lines, gt, gf, z=z+which(plot.order=="tm_lines"), allow.small.mult=allow.small.mult)	
+		glines <- process_lines(data, g$tm_lines, gt, gf, z=z+which(plot.order=="tm_lines"), interactive=interactive)	
 	} 
 
 	# raster info
 	if (is.null(g$tm_raster)) {
 		graster <- list(raster=NULL, xraster=NA, raster.legend.title=NA) 
 	} else {
-		graster <- process_raster(data, g$tm_raster, gt, gf, z=z+which(plot.order=="tm_raster"), allow.small.mult=allow.small.mult)
+		graster <- process_raster(data, g$tm_raster, gt, gf, z=z+which(plot.order=="tm_raster"), interactive=interactive)
 	}	
 	
 	
@@ -123,7 +123,7 @@ process_layers <- function(g, z, gt, gf, allow.small.mult) {
 	if (is.null(g$tm_text)) {
 		gtext <- list(text=NULL, xtext=NA, xtsize=NA, xtcol=NA, text.size.legend.title=NA, text.col.legend.title=NA)
 	}  else {
-		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"), allow.small.mult=allow.small.mult)
+		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"), interactive=interactive)
 	}
 
 	any.legend <- any(!is.ena(c(gfill$fill.legend.title, gsymbol$symbol.size.legend.title, gsymbol$symbol.col.legend.title, gsymbol$symbol.shape.legend.title, glines$line.col.legend.title, glines$line.lwd.legend.title, graster$raster.legend.title, gtext$text.size.legend.title, gtext$text.col.legend.title)))

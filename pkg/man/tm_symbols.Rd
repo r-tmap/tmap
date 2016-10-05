@@ -19,9 +19,9 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   shape.textNA = "Missing", shapes.n = 5,
   shapes.style = ifelse(is.null(shapes.breaks), "pretty", "fixed"),
   shapes.breaks = NULL, shapes.interval.closure = "left",
-  legend.max.symbol.size = 0.8, jitter = 0, xmod = 0, ymod = 0,
-  title.size = NA, title.col = NA, title.shape = NA,
-  legend.size.show = TRUE, legend.col.show = TRUE,
+  legend.max.symbol.size = 0.8, just = c("center", "center"), jitter = 0,
+  xmod = 0, ymod = 0, title.size = NA, title.col = NA,
+  title.shape = NA, legend.size.show = TRUE, legend.col.show = TRUE,
   legend.shape.show = TRUE, legend.format = list(),
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
   legend.shape.is.portrait = TRUE, legend.hist = FALSE,
@@ -33,7 +33,7 @@ tm_squares(size = 1, col = NA, shape = 22, ...)
 tm_bubbles(size = 1, col = NA, shape = 21, border.col = NA,
   legend.max.symbol.size = 1, ...)
 
-tm_dots(size = 0.02, col = NA, shape = 16, title = NA,
+tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
   legend.show = TRUE, legend.is.portrait = TRUE, legend.z = NA, ...)
 }
 \arguments{
@@ -41,7 +41,7 @@ tm_dots(size = 0.02, col = NA, shape = 16, title = NA,
 
 \item{col}{color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).}
 
-\item{shape}{shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. A direct shape specification is either a numeric value/vector that specifies the plotting character of the symbol (see parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options), or a (list of) grob object(s), which may consist bitmap images or ggplot2 plots (see examples below). If a vector/list is specified, small multiples are drawn (see details).}
+\item{shape}{shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. See details for the shape specification.}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
@@ -85,7 +85,7 @@ tm_dots(size = 0.02, col = NA, shape = 16, title = NA,
 
 \item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
 
-\item{shapes}{palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). A shape is either an integer number (seee parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options) or a grob object. By default, the filled symbols 21 to 25 are taken.}
+\item{shapes}{palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.}
 
 \item{shapes.legend}{symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.}
 
@@ -106,6 +106,8 @@ tm_dots(size = 0.02, col = NA, shape = 16, title = NA,
 \item{shapes.interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{shape} is a numerc variable.}
 
 \item{legend.max.symbol.size}{Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for \code{tm_bubbles})}
+
+\item{just}{justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.}
 
 \item{jitter}{number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.}
 
@@ -175,6 +177,13 @@ Creates a \code{\link{tmap-element}} that draws symbols, including symbols and d
 }
 \details{
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments, which are \code{size}, \code{col}, and \code{shape}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
+
+A  shape specification is one of the following three options:
+\enumerate{
+ \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options. To specify multiple shapes, a vector of numeric values is required.}
+ \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot or a png icon (see \code{\link{pngGrob}}). To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
+ \item{A list that specifies icon data, which can be created with \code{\link[leaflet:icons]{icons}}. To specify multiple shapes, either vectorize each item of icons, of specify a list of lists. This options is especially useful in view mode. In plot mode, only the list item \code{iconUrl} is used, since the icon size is determined by the \code{size} argument and the tip of the icon (anchor) by the \code{just} argument.}}
+ When multiple shapes are specified, these options can be mixed by providing a list.
 }
 \examples{
 data(World, metro)
@@ -194,7 +203,6 @@ tm_format_World()
 tm_shape(metro) +
 	tm_symbols(size = "pop2010", col="pop2010", shape="pop2010") +
 tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
-
 
 \dontrun{
 x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
@@ -244,27 +252,26 @@ tm_shape(NLD_prov) +
 tm_format_NLD()
 
 \dontrun{
-	devtools::install_github("ropenscilabs/rnaturalearthdata")
-	require(rnaturalearth)
-	airports <- ne_download(scale=10, type="airports")
-	ports <- ne_download(scale=10, type="ports")
-	
-	airplane <- pngGrob(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
-		"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
-		"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
-	
-	ship <- pngGrob(paste0("http://www.iconsdb.com/icons/preview/icon-sets/",
-		"web-2-blue/cargo-ship-xxl.png"))
-	
-	data(Europe)
-	qtm(Europe, bbox="Germany") +
-	tm_shape(ports) +
-		tm_symbols(size="scalerank", shape=ship, 
-			legend.size.show = FALSE, scale=2, border.col = NA) +
-	tm_shape(airports) +
-		tm_symbols(size="scalerank", shape=airplane, 
-			legend.size.show = FALSE, scale=7, border.col = NA)
-		
+devtools::install_github("ropenscilabs/rnaturalearthdata")
+require(rnaturalearth)
+airports <- ne_download(scale=10, type="airports")
+ports <- ne_download(scale=10, type="ports")
+
+airplane <- pngGrob(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
+	"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
+	"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
+
+ship <- pngGrob(paste0("http://www.iconsdb.com/icons/preview/icon-sets/",
+	"web-2-blue/cargo-ship-xxl.png"))
+
+data(Europe)
+qtm(Europe, bbox="Germany") +
+tm_shape(ports) +
+	tm_symbols(size="scalerank", shape=ship, 
+		legend.size.show = FALSE, scale=2, border.col = NA) +
+tm_shape(airports) +
+	tm_symbols(size="scalerank", shape=airplane, 
+		legend.size.show = FALSE, scale=7, border.col = NA)
 }
 
 

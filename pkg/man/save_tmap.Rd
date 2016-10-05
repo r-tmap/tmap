@@ -4,7 +4,7 @@
 \alias{save_tmap}
 \title{Save tmap}
 \usage{
-save_tmap(tm, filename = shp_name(tm), width = NA, height = NA,
+save_tmap(tm = NULL, filename = NULL, width = NA, height = NA,
   units = NA, dpi = 300, outer.margins = 0, asp = NULL, scale = NA,
   insets_tm = NULL, insets_vp = NULL, verbose = TRUE, ...)
 }

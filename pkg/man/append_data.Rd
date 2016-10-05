@@ -2,11 +2,17 @@
 % Please edit documentation in R/append_data.R
 \name{append_data}
 \alias{append_data}
+\alias{over_coverage}
+\alias{under_coverage}
 \title{Append data to a shape object}
 \usage{
 append_data(shp, data, key.shp = NULL, key.data = NULL,
   ignore.duplicates = FALSE, ignore.na = FALSE,
   fixed.order = is.null(key.data) && is.null(key.shp))
+
+under_coverage()
+
+over_coverage()
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -31,10 +37,10 @@ append_data(shp, data, key.shp = NULL, key.data = NULL,
 \item{fixed.order}{should the data be append in the same order as the shapes in \code{shp}?}
 }
 \value{
-Shape object with appended data.
+Shape object with appended data. Tip: run \code{append_data} without assigning the result to check the coverage.
 }
 \description{
-Data, in the format of a data.frame, is appended to a shape object. This is either done by a right join where keys are specified for both data and shape, or by fixed order.
+Data, in the format of a data.frame, is appended to a shape object. This is either done by a left join where keys are specified for both shape and data, or by fixed order. Under coverage (shape items that do not correspond to data records), over coverage (data records that do not correspond to shape items respectively) as well as the existence of duplicated key values are automatically checked and reported via console messages. With \code{under_coverage} and \code{over_coverage} the under and over coverage key values from the last \code{append_data} call can be retrieved. Tip: run \code{append_data} without assigning the result to check the coverage.
 }
 \examples{
 \dontrun{

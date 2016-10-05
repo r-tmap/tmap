@@ -13,8 +13,9 @@ cat2shape <- function(x,
 	
 	if (nCol > max_levels) {
 		warning("Number of levels (unique values) larger than number of symbol shapes.")
-		
-		mapping <- as.numeric(cut(seq.int(nCol), breaks=max_levels))
+		mapping <- if (max_levels==1) {
+			rep(1, nCol)
+		} else as.numeric(cut(seq.int(nCol), breaks=max_levels))
 		to <- c(which(mapping[-nCol] - mapping[-1]!=0), nCol)
 		from <- c(0, to[-max_levels]) + 1
 		

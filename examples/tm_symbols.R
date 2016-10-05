@@ -16,7 +16,6 @@ tm_shape(metro) +
 	tm_symbols(size = "pop2010", col="pop2010", shape="pop2010") +
 tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
 
-
 \dontrun{
 x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
 tm_shape(x) + 
@@ -65,27 +64,26 @@ tm_shape(NLD_prov) +
 tm_format_NLD()
 
 \dontrun{
-	devtools::install_github("ropenscilabs/rnaturalearthdata")
-	require(rnaturalearth)
-	airports <- ne_download(scale=10, type="airports")
-	ports <- ne_download(scale=10, type="ports")
-	
-	airplane <- pngGrob(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
-		"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
-		"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
-	
-	ship <- pngGrob(paste0("http://www.iconsdb.com/icons/preview/icon-sets/",
-		"web-2-blue/cargo-ship-xxl.png"))
-	
-	data(Europe)
-	qtm(Europe, bbox="Germany") +
-	tm_shape(ports) +
-		tm_symbols(size="scalerank", shape=ship, 
-			legend.size.show = FALSE, scale=2, border.col = NA) +
-	tm_shape(airports) +
-		tm_symbols(size="scalerank", shape=airplane, 
-			legend.size.show = FALSE, scale=7, border.col = NA)
-		
+devtools::install_github("ropenscilabs/rnaturalearthdata")
+require(rnaturalearth)
+airports <- ne_download(scale=10, type="airports")
+ports <- ne_download(scale=10, type="ports")
+
+airplane <- pngGrob(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
+	"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
+	"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
+
+ship <- pngGrob(paste0("http://www.iconsdb.com/icons/preview/icon-sets/",
+	"web-2-blue/cargo-ship-xxl.png"))
+
+data(Europe)
+qtm(Europe, bbox="Germany") +
+tm_shape(ports) +
+	tm_symbols(size="scalerank", shape=ship, 
+		legend.size.show = FALSE, scale=2, border.col = NA) +
+tm_shape(airports) +
+	tm_symbols(size="scalerank", shape=airplane, 
+		legend.size.show = FALSE, scale=7, border.col = NA)
 }
 
 

@@ -235,5 +235,44 @@ tm_ylab <- function(text,
 "+.tmap" <- function(e1, e2) {
 	g <- c(e1,e2)
 	class(g) <- "tmap"
+	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
 	g
 }
+
+
+#' Retrieve the last map to be modified or created
+#' 
+#' Retrieve the last map to be modified or created. Works in the same way as \code{ggplot2}'s \code{\link[ggplot2:last_plot]{last_plot}}, although there is a difference: \code{last_map} returns the last call instead of the stacked \code{\link{tmap-element}s}.
+#' 
+#' @return call
+#' @export
+#' @seealso \code{\link{save_tmap}}
+last_map <- function() {
+	x <- get(".last_map", envir = .TMAP_CACHE)
+	if (is.null(x)) warning("A map has not been created yet")
+	eval(x)
+}
+
+save_last_map <- function() {
+	lt <- get(".last_map", envir = .TMAP_CACHE)
+	ltnew <- get(".last_map_new", envir = .TMAP_CACHE)
+	if (!is.null(ltnew)) lt <- replace_last_tmap_by_correct_call(ltnew, lt)
+	assign(".last_map", lt, envir = .TMAP_CACHE)
+	assign(".last_map_new", NULL, envir = .TMAP_CACHE)
+}
+
+
+replace_last_tmap_by_correct_call <- function(mc, lt) {
+	if (is.symbol(mc)) {
+		mc
+	} else if (as.character(mc[1])=="last_map") {
+		lt
+	} else {
+		if (as.character(mc[1]) %in% c("+.tmap", "+")) {
+			if (!is.null(mc[[2]])) mc[2] <- list(replace_last_tmap_by_correct_call(mc[[2]], lt))
+			if (!is.null(mc[[3]])) mc[3] <- list(replace_last_tmap_by_correct_call(mc[[3]], lt))
+		}
+		mc
+	}
+}
+

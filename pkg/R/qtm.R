@@ -209,6 +209,6 @@ qtm <- function(shp,
 	}
 	g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
 	g <- g + do.call("tm_view", c(list(basemaps=basemaps), args2[["tm_view"]]))
-	
+	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
 	g
 }

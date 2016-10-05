@@ -1,4 +1,8 @@
-view_tmap <- function(gps, shps) {
+view_tmap <- function(gps, shps, bbx) {
+	
+	# determine view
+	view <- get_view(bbx)
+	
 	# take first small multiple
 	gp <- gps[[1]]
 	gt <- gp$tm_layout
@@ -145,6 +149,7 @@ view_tmap <- function(gps, shps) {
 			fopacity <- fres$opacity
 			
 			symbol.size <- gpl$symbol.size
+			symbol.shape <- gpl$symbol.shape
 			
 			popups <- get_popups(gpl, type="symbol", popup.all.data=popup.all.data)
 
@@ -153,11 +158,14 @@ view_tmap <- function(gps, shps) {
 				decreasing <- order(-symbol.size)
 				co2 <- co[decreasing,]
 				symbol.size2 <- symbol.size[decreasing]
+				symbol.shape2 <- symbol.shape[decreasing]
+				
 				fcol2 <- if (length(fcol)==1) fcol else fcol[decreasing]
 				popups2 <- popups[decreasing]
 			} else {
 				co2 <- co
 				symbol.size2 <- symbol.size
+				symbol.shape2 <- symbol.shape
 				fcol2 <- fcol
 				popups2 <- popups
 			}
@@ -166,7 +174,20 @@ view_tmap <- function(gps, shps) {
 			rad <- symbol.size2 * upl
 			
 			fixed <- ifelse(gpl$symbol.misc$symbol.are.dots, gt$dot.size.fixed, gt$symbol.size.fixed)
-			if (fixed) {
+			markers <- gpl$symbol.misc$symbol.are.markers
+			
+			if (markers) {
+				if (any(symbol.shape2<1000)) {
+					icons <- NULL
+				} else {
+					iconLib <- get(".shapeLib", envir = .TMAP_CACHE)[symbol.shape2-999]
+					icons <- merge_icons(iconLib)
+					#print(summary(symbol.size2))
+					icons$iconWidth <- icons$iconWidth * symbol.size2
+					icons$iconHeight <- icons$iconHeight * symbol.size2
+				}
+				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], group=shp_name, icon=icons, layerId = id)
+			} else if (fixed) {
 				lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
 			} else {
 				lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id)
@@ -235,10 +256,10 @@ view_tmap <- function(gps, shps) {
 	
 	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 	
-	set_bounds_view(lf, gt)
+	set_bounds_view(lf, gt, bbx)
 }
 
-set_bounds_view <- function(lf, gt) {
+set_bounds_view <- function(lf, gt, bbx) {
 	if (is.logical(gt$set.bounds)) {
 		lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
 	} else {
@@ -255,6 +276,9 @@ set_bounds_view <- function(lf, gt) {
 	
 	if (!is.na(gt$set.view[1])) {
 		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
+	} else {
+		bbx <- unname(bbx)
+		lf <- lf %>% fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) #setView(view[1], view[2], view[3])
 	}
 	lf
 }
@@ -301,7 +325,7 @@ get_x_name <- function(type) {
 	if (type=="fill") {
 		"xfill"
 	} else if (type=="symbol") {
-		c("xsize", "xcol", "xshape")
+		c("xsize", "xcol")
 	} else if (type=="raster") {
 		"xraster"
 	} else if (type=="line") {
@@ -437,4 +461,20 @@ lty2dashArray <- function(lty) {
 				 "none",
 				 numlty),
 		  collapse=",")
+}
+
+get_view <- function(bbx) {
+	lng <- mean(bbx[1,])
+	lat <- mean(bbx[2,])
+	
+	lng_diff <- range(bbx[1,])
+	lat_diff <- range(bbx[2,])
+	max_diff <- max(lng_diff, lat_diff)
+	if (max_diff < 360 / (2^20)) {
+		zoom <- -21
+	} else {
+		zoom <- round(-(log2(max_diff) - (log2(360)))) + 2
+		if (zoom < 1) zoom <- 1
+	}
+	c(lng=lng, lat=lat, zoom=zoom)
 }

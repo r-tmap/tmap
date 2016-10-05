@@ -18,8 +18,21 @@
 #' @importFrom htmlwidgets saveWidget
 #' @example ../examples/save_tmap.R
 #' @export
-save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = NA,
+save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 					  dpi=300, outer.margins=0, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose=TRUE, ...) {
+	if (missing(tm)) {
+		tm <- last_map()
+	}
+	
+	shp_name <- function(tm) {
+		paste(tm[[1]]$shp_name, ".pdf", sep = "")
+	}
+	
+	if (missing(filename)) {
+		filename <- shp_name(tm)
+	}
+	
+	
 	get_ext <- function(filename) {
 		pieces <- strsplit(filename, "\\.")[[1]]
 		if (length(pieces)==1) return("png")
@@ -101,9 +114,7 @@ save_tmap <- function(tm, filename=shp_name(tm), width=NA, height=NA, units = NA
 													   height = height, res = dpi, units = units_target)
 	tiff <- function(..., width, height) grDevices::tiff(..., 
 														 width = width, height = height, res = dpi, units = units_target)
-	shp_name <- function(tm) {
-		paste(tm[[1]]$shp_name, ".pdf", sep = "")
-	}
+
 
 	
 	if (units_target=="in") {

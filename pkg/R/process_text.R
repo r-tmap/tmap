@@ -53,7 +53,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 
 
 
-process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
+process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	root <- NULL; size.lowerbound <- NULL; scale <- NULL; bg.alpha <- NULL; case <- NULL; alpha <- NULL
 	shadow <- NULL
 	gsc <- NULL
@@ -78,9 +78,9 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 	xtcol <- g$col
 	xtext <- g$text
 	
-	if (!allow.small.mult) xtsize <- xtsize[1]
-	if (!allow.small.mult) xtcol <- xtcol[1]
-	if (!allow.small.mult) xtext <- xtext[1]
+	if (interactive) xtsize <- xtsize[1]
+	if (interactive) xtcol <- xtcol[1]
+	if (interactive) xtext <- xtext[1]
 	
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
@@ -128,9 +128,7 @@ process_text <- function(data, g, fill, gt, gby, z, allow.small.mult) {
 			if (is.matrix(fill)) {
 				cols <- apply(fill, MARGIN=2, function(f) {
 					light <- is_light(f)
-					rep(ifelse(light, coldark, collight), length.out=npol)
-				})
-				cols <- apply(cols, MARGIN=2, function(cl) {
+					cl <- rep(ifelse(light, coldark, collight), length.out=npol)
 					do.call("process_color", c(list(col=col2hex(cl), alpha=g$alpha), gt$pc))
 				})
 			} else {

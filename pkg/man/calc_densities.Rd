@@ -40,7 +40,6 @@ tm_shape(NLD_muni) +
         title=expression("Population per " * km^2), style="quantile") +
 tm_facets(free.scales = FALSE) +
 tm_layout(panel.show = TRUE, panel.labels=c("Men", "Women"))
-	
 }
 \keyword{densities}
 

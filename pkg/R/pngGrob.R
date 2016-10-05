@@ -27,6 +27,51 @@ pngGrob <- function(file) {
 	}
 }
 
+icon2grob <- function(icon) {
+	if (!is.list(icon)) stop("icon is not a list")
+	if (!"iconUrl" %in% names(icon)) stop("iconUrl not defined")
+	if (length(icon$iconUrl)==1) {
+		pngGrob(icon$iconUrl)
+	} else {
+		lapply(icon$iconUrl, pngGrob)
+	}
+}
+
+grob2icon <- function(grob, res=32, png.res=256) {
+	tmp <- tempfile(fileext=".png")
+	png(filename=tmp, width=png.res, height=png.res)
+	grid.draw(grob)
+	dev.off()
+	icons(iconUrl = tmp, iconWidth = res, iconHeight = res, iconAnchorX = res/2, iconAnchorY = res/2)
+}
+
+split_icon <- function(icon) {
+	ni <- max(sapply(icon, length))
+	icon_max <- lapply(icon, function(ic) {
+		rep(ic, length.out=ni)
+	})
+	lapply(1:ni, function(i) {
+		lapply(icon_max, function(ic) {
+			ic[i]	
+		})
+	})
+}
+
+merge_icons <- function(icons) {
+	list_names <- unique(unlist(lapply(icons, names)))
+	names(list_names) <- list_names
+	
+	lapply(list_names, function(ln) {
+		unname(sapply(icons, function(ic) {
+			if (ln %in% names(ic)) {
+				ic[[ln]][1]
+			} else NA
+		}))
+	})
+	
+}
+
+
 is_path_or_url <- function(file) {
 	if (file.exists(file)) {
 		TRUE

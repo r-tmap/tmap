@@ -1,4 +1,4 @@
-process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
+process_raster <- function(data, g, gt, gby, z, interactive) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -19,7 +19,7 @@ process_raster <- function(data, g, gt, gby, z, allow.small.mult) {
 		nx <- 1
 	} else {
 		x <- g$col
-		if (!allow.small.mult) x <- x[1]
+		if (interactive) x <- x[1]
 		
 		# by default, use the first data variable
 		if (is.na(x[1])) x <- names(data)[1]

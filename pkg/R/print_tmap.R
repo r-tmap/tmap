@@ -87,6 +87,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#  plot_all:   - calls plot_map to create grob tree of map itself
 	#              - calls legend_prepare and plot_legend to create grob tree of legend
 	#              - creates grob tree for whole plot
+
 	scale.extra <- NULL
 	title.snap.to.legend <- NULL
 	
@@ -94,6 +95,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	# reset symbol shape list
 	assign(".shapeLib", list(), envir = .TMAP_CACHE)
+	assign(".iconLib", list(), envir = .TMAP_CACHE)
 	
 	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
 	if (names(x)[1]=="tm_shortcut") {
@@ -245,6 +247,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, lasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
 	
 	sasp <- attr(shps, "sasp")
+	bbx <- attr(shps, "bbx")
 
 	gmeta <- do.call("process_facet_layout", c(list(gmeta, external_legend, sasp, dh, dw), fpi))
 	gasp <- gmeta$gasp
@@ -427,9 +430,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	## plot
 	if (interactive) {
-		lf <- view_tmap(gps2, shps)
-		
+		lf <- view_tmap(gps2, shps, bbx)
 		if (show) {
+			save_last_map()
 			if (knit) {
 				return(do.call("knit_print", c(list(x=lf), list(...), list(options=options))))
 				#return(knit_print(lf, ..., options=options))
@@ -443,6 +446,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			gridplot(gmeta, "plot_all", nx, gps, gal, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr)
 			## if vp is specified, go 1 viewport up, else go to root viewport
 			upViewport(n=as.integer(!is.null(vp)))
+			save_last_map()
 			invisible(list(shps=shps, gps=gps2))
 		} else {
 			list(shps=shps, gps=gps2)

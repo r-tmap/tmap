@@ -1,6 +1,6 @@
 #' Append data to a shape object
 #' 
-#' Data, in the format of a data.frame, is appended to a shape object. This is either done by a right join where keys are specified for both data and shape, or by fixed order.
+#' Data, in the format of a data.frame, is appended to a shape object. This is either done by a left join where keys are specified for both shape and data, or by fixed order. Under coverage (shape items that do not correspond to data records), over coverage (data records that do not correspond to shape items respectively) as well as the existence of duplicated key values are automatically checked and reported via console messages. With \code{under_coverage} and \code{over_coverage} the under and over coverage key values from the last \code{append_data} call can be retrieved. Tip: run \code{append_data} without assigning the result to check the coverage.
 #'
 #' @param shp shape object, which is one of
 #' \enumerate{
@@ -16,7 +16,7 @@
 #' @param ignore.duplicates should duplicated keys in \code{data} be ignored? (\code{FALSE} by default)
 #' @param ignore.na should NA values in \code{key.data} and \code{key.shp} be ignored? (\code{FALSE} by default)
 #' @param fixed.order should the data be append in the same order as the shapes in \code{shp}?
-#' @return Shape object with appended data.
+#' @return Shape object with appended data. Tip: run \code{append_data} without assigning the result to check the coverage.
 #' @examples
 #' \dontrun{
 #' data(Europe)
@@ -34,6 +34,7 @@
 #' 
 #' qtm(Europe, text="TopLevelDomain")
 #' }
+#' @rdname append_data
 #' @export
 append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.duplicates=FALSE, ignore.na=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {
 	spatialDF <- inherits(shp, c("SpatialPolygonsDataFrame", "SpatialPointsDataFrame", "SpatialLinesDataFrame", "SpatialGridDataFrame", "SpatialPixelsDataFrame"))
@@ -46,6 +47,7 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 	if (fixed.order) {
 		if (length(shp)!=nrow(data)) 
 			stop("Number of shapes not equal to number of data rows")
+		data2 <- data
 	} else {
 		# key.data specification
 		if (missing(key.data)) {
@@ -135,19 +137,21 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 		#ids.shp <- setdiff(ids.shp, "shp_key_NA")
 		if (length(uc_id)==0 && length(oc_id)==0) {
 			message("Keys match perfectly.\n")
+			uc_res <- "No under coverage: each shape feature has appended data."
+			oc_res <- "No over coverage: each data record is appended to a shape feature."
 		} else {
 			if (length(uc_id)) {
 				nnm <- length(uc_id)
 				if (nnm==nshp) stop("No match found")
-				uc_res <- paste("Under coverage: no data for ", nnm, " out of ", nshp, " features." , sep="")
-				message(uc_res, " Run under_coverage() to get the corresponding key values.")
+				uc_res <- paste("Under coverage: ", nnm, " out of ", nshp, " shape features did not get appended data." , sep="")
+				message(uc_res, " Run under_coverage() to get the corresponding feature id numbers and key values.")
 			} else {
 				uc_res <- "No under coverage: each shape feature has appended data."
 			}
 			if (length(oc_id)) {
 				nnm <- length(oc_id)
-				oc_res <- paste("Over coverage: ", nnm, " out of ", ndata, " unmatched data records.", sep="")
-				message(oc_res, " Run over_coverage() to get the corresponding key values.")
+				oc_res <- paste("Over coverage: ", nnm, " out of ", ndata, " data records were not appended.", sep="")
+				message(oc_res, " Run over_coverage() to get the corresponding data row numbers and key values.")
 			} else {
 				oc_res <- "No over coverage: each data record is appended to a shape feature."
 			}
@@ -175,9 +179,11 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 	} else {
 		stop("shp is not a shape file")
 	}
-	shp
+	invisible(shp)
 }
 
+#' @rdname append_data
+#' @export
 under_coverage <- function() {
 	res <- get(".underCoverage", envir = .TMAP_CACHE)
 	if (is.null(res)) {
@@ -189,6 +195,8 @@ under_coverage <- function() {
 	}
 }
 
+#' @export
+#' @rdname append_data
 over_coverage <- function() {
 	res <- get(".overCoverage", envir = .TMAP_CACHE)
 	if (is.null(res)) {

@@ -10,8 +10,8 @@ x <- data.frame(CODE=c(21, 24:32), value=1:10)
 NLD_prov2 <- append_data(NLD_prov, x, key.shp="code", key.data="code") # should throw error
 NLD_prov2 <- append_data(NLD_prov, x, key.shp="code", key.data="CODE")
 
+x
 NLD_prov2@data
-
 under_coverage()
 over_coverage()
 
@@ -19,6 +19,9 @@ over_coverage()
 ## perfect match
 x <- data.frame(CODE=20:31, value=1:12)
 NLD_prov2 <- append_data(NLD_prov, x, key.shp="code", key.data="CODE")
+
+x
+NLD_prov2@data
 under_coverage()
 over_coverage()
 

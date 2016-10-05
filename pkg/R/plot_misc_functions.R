@@ -315,10 +315,17 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 	symbolH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
 	symbolW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
-	
 	with(g, {
-		co.npc[, 1] <- co.npc[, 1] + symbol.xmod * symbolW
-		co.npc[, 2] <- co.npc[, 2] + symbol.ymod * symbolH
+		size.npc.w <- convertWidth(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
+		size.npc.h <- convertHeight(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
+
+		just <- g$symbol.misc$just
+		justx <- size.npc.w * (ifelse(is_num_string(just[1]), as.numeric(just[1]), ifelse(just[1]=="left", 1, ifelse(just[1]=="right", 0, .5))) - .5)
+		justy <- size.npc.h * (ifelse(is_num_string(just[2]), as.numeric(just[2]), ifelse(just[2]=="bottom", 1, ifelse(just[2]=="top", 0, .5))) - .5)
+		
+		
+		co.npc[, 1] <- co.npc[, 1] + symbol.xmod * symbolW + justx * lineInch * 2 / 3
+		co.npc[, 2] <- co.npc[, 2] + symbol.ymod * symbolH + justy * lineInch * 2 / 3
 		npol <- nrow(co.npc)
 		if (length(symbol.size)!=npol) {
 			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
@@ -350,13 +357,13 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 			symbol.shape2 <- symbol.shape
 			symbol.col2 <- symbol.col
 		}
+
 		
 		
 		bordercol <- symbol.border.col
 		idName <- paste("tm_symbols", i, k, sep="_")
 		
 		shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
-		
 		if (any(!is.na(symbol.shape2) & symbol.shape2>999)) {
 			gpars <- get_symbol_gpar(x=symbol.shape2,
 									 fill=symbol.col2,

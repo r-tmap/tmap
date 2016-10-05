@@ -1,4 +1,4 @@
-process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
+process_symbols <- function(data, g, gt, gby, z, interactive) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
@@ -8,9 +8,13 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	xcol <- g$col
 	xshape <- g$shape
 	
-	if (!allow.small.mult) xsize <- xsize[1]
-	if (!allow.small.mult) xcol <- xcol[1]
-	if (!allow.small.mult) xshape <- xshape[1]
+	if (is.list(xshape) && "iconUrl" %in% names(xshape)) xshape <- split_icon(xshape)
+	if (is.grob(xshape)) xshape <- list(xshape)
+	
+	
+	if (interactive) xsize <- xsize[1]
+	if (interactive) xcol <- xcol[1]
+	if (interactive) xshape <- xshape[1]
 	
 	
 	if (is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["symbols"]
@@ -38,7 +42,7 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	}
 	nxsize <- length(xsize)
 	nxcol <- length(xcol)
-	nxshape <- if (inherits(xshape, c("grob", "ggplot"))) 1 else length(xshape)
+	nxshape <- length(xshape)
 	
 	varysize <- all(xsize %in% shpcols) && !is.null(xsize)
 	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
@@ -65,18 +69,12 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
 
-	# symbol shapes: create a library with all the custom symbols (grobs), represented by symbol numbers 1000+
-	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
+	# symbol shapes: create a library with all the custom symbols (grobs) or icons, represented by symbol numbers 1000+
 	if (!varyshape) {
-		if (is.vector(xshape)) {
+		if (!is.list(xshape)) {
 			if (!all(is.numeric(xshape))) stop("symbol shape(s) ('shape' argument) is/are neither numeric nor valid variable name(s)", call. = FALSE)
-		} else if (is.grob(xshape)) {
-			shapeLib <- c(shapeLib, list(xshape))
-			xshape <- 999 + length(shapeLib)
 		} else if (is.list(xshape)) {
-			libs_ids <- 999 + length(shapeLib) + (1:length(xshape))
-			shapeLib <- c(shapeLib, xshape)
-			xshape <- libs_ids
+			xshape <- submit_symbol_shapes(xshape, interactive=interactive)
 		} else {
 			stop("symbol shape(s) ('shape' argument) is/are neither symbol numers, nor grobs, nor valid variable name(s)", call. = FALSE)
 		}
@@ -84,21 +82,9 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		xshape <- paste("SHAPE", 1:nx, sep="_")
 	}
 	if (is.list(g$shapes)) {
-		if (is.grob(g$shapes)) g$shapes <- list(g$shapes)
-		
-		shape_is_correct <- sapply(g$shapes, function(gshp) inherits(gshp, c("grob", "numeric", "integer")))
-		if (!all(shape_is_correct)) stop("symbol shapes (shapes argument)", !which(shape_is_correct), "not correct" , call. = FALSE)
-
-		shape_is_grob <- sapply(g$shapes, function(gshp) inherits(gshp, "grob"))
-		
-		lib_ids <- (999 + length(shapeLib)) + 1:sum(shape_is_grob)
-		shapeLib <- c(shapeLib, g$shapes[shape_is_grob])
-		g$shapes[shape_is_grob] <- lib_ids
-		if (is.list(g$shapes)) g$shapes <- unlist(g$shapes)
-		
-	}
-	assign(".shapeLib", shapeLib, envir = .TMAP_CACHE)
-
+		if ("iconUrl" %in% names(g$shapes)) g$shapes <- split_icon(g$shapes)
+		g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive)	
+	} 
 	nx <- max(nx, nlevels(by))
 	
 	# update legend format from tm_layout
@@ -257,6 +243,13 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 	if (!g$legend.col.show) symbol.col.legend.title <- NA
 	if (!g$legend.shape.show) symbol.shape.legend.title <- NA
 	
+	are.markers <- g$are.markers
+	
+	if (!are.markers && interactive && any(symbol.shape>999)) {
+		are.markers <- TRUE
+	}
+	
+	
 	list(symbol.size=symbol.size,
 		 symbol.col=col,
 		 symbol.shape=symbol.shape,
@@ -279,7 +272,7 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		 symbol.shape.legend.shapes=shape.legend.shapes,
 		 symbol.shape.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.normal.size=g$legend.max.symbol.size), 
 		 symbol.col.legend.hist.misc=list(values=values, breaks=breaks),
-		 symbol.misc = list(symbol.are.dots=g$are.dots),
+		 symbol.misc = list(symbol.are.dots=g$are.dots, symbol.are.markers=are.markers, just=g$just),
 		 xsize=xsize,
 		 xcol=xcol,
 		 xshape=xshape,
@@ -304,4 +297,46 @@ process_symbols <- function(data, g, gt, gby, z, allow.small.mult) {
 		 symbol.col.legend.z=symbol.col.legend.z,
 		 symbol.col.legend.hist.z=symbol.legend.hist.z,
 		 symbol.id=g$id)
+}
+
+submit_symbol_shapes <- function(x, interactive) {
+	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
+	n <- length(x)
+	id <- 999 + length(shapeLib)
+	if (interactive) {
+		items <- lapply(x, function(xs) {
+			if ("iconUrl" %in% names(xs)) {
+				split_icon(xs)[[1]]
+			} else if (is.grob(xs)) {
+				grob2icon(xs)
+			} else NA
+		})
+		
+	} else {
+		items <- lapply(x, function(xs) {
+			if ("iconUrl" %in% names(xs)) {
+				grb <- icon2grob(xs)
+				# take first one
+				if (is.grob(grb)) grb else grb[[1]]
+			} else if (is.grob(xs)) {
+				xs
+			} else NA
+		})	
+	}
+	
+	numbers <- is.na(items)
+
+	if (all(numbers)) return(unlist(x))
+	
+	new_id <- id + 1:sum(!numbers)
+	
+	x2 <- integer(n)
+	x2[numbers] <- unlist(x[numbers])
+	x2[!numbers] <- new_id
+	
+	cat(paste(x2, collapse=","), "\n")
+	shapeLib <- c(shapeLib, items[!numbers])
+#browser()
+	assign(".shapeLib", shapeLib, envir = .TMAP_CACHE)
+	x2
 }

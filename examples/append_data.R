@@ -11,4 +11,13 @@ domain_codes$Alpha3Code <- toupper(domain_codes$Alpha3Code)
 Europe <- append_data(Europe, domain_codes, key.shp = "iso_a3", key.data = "Alpha3Code",
 					  ignore.na = TRUE)
 
+# codes in the data, but not in Europe:
+oc <- over_coverage()
+oc$value
+
+# European countries without appended data:
+uc <- under_coverage()
+qtm(Europe[uc$id,], text="name")
+
+# plot the result
 qtm(Europe, text="TopLevelDomain")
