@@ -135,6 +135,9 @@ append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.dupli
 		#ids.shp <- setdiff(ids.shp, "shp_key_NA")
 		if (length(uc_id)==0 && length(oc_id)==0) {
 			message("Keys match perfectly.\n")
+			uc_res <- "No under coverage: each shape feature has appended data."
+			oc_res <- "No over coverage: each data record is appended to a shape feature."
+			
 		} else {
 			if (length(uc_id)) {
 				nnm <- length(uc_id)
