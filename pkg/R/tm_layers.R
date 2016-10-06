@@ -428,12 +428,12 @@ tm_raster <- function(col=NA,
 #' 
 #' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments, which are \code{size}, \code{col}, and \code{shape}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
-#' A  shape specification is one of the following three options:
+#' A  shape specification is one of the following three options. To specify multiple shapes, a vector or list of these shape specification is required. The shape specification options can also be mixed.
 #' \enumerate{
-#'  \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options. To specify multiple shapes, a vector of numeric values is required.}
-#'  \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot or a png icon (see \code{\link{pngGrob}}). To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
-#'  \item{A list that specifies icon data, which can be created with \code{\link[leaflet:icons]{icons}}. To specify multiple shapes, either vectorize each item of icons, of specify a list of lists. This options is especially useful in view mode. In plot mode, only the list item \code{iconUrl} is used, since the icon size is determined by the \code{size} argument and the tip of the icon (anchor) by the \code{just} argument.}}
-#'  When multiple shapes are specified, these options can be mixed by providing a list.
+#'  \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options.}
+#'  \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot object created with \code{\link[ggplot2:ggplotGrob]{ggplotGrob}}. To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
+#'  \item{An icon specification, which can be created with \code{\link{tmap_icons}}.}
+#'  }
 #' 
 #' @name tm_symbols
 #' @rdname tm_symbols
@@ -472,10 +472,12 @@ tm_raster <- function(col=NA,
 #' @param shapes.breaks in case \code{shapes.style=="fixed"}, breaks should be specified
 #' @param shapes.interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{shape} is a numerc variable.
 #' @param legend.max.symbol.size Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for \code{tm_bubbles})
-#' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. The default value of \code{just} is \code{c("center", "center")}. However, it can be overriden with icon data, i.e., the \code{iconAnchorX} and \code{iconAnchorY} argments of \code{\link[leaflet:icons]{icons}}.
+#' @param just justification of the symbols relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. The default value is \code{c("center", "center")}. For icons, this value may already be speficied (see \code{\link{tmap_icons}}). The \code{just}, if specified, will overrides this.
 #' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
 #' @param xmod horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the symbols. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the symbols to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
+#' @param icon.scale scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}
+#' @param grob.dim vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic succesfully. Only needed for the view mode.
 #' @param title.size title of the legend element regarding the symbol sizes
 #' @param title.col title of the legend element regarding the symbol colors
 #' @param title.shape title of the legend element regarding the symbol shapes
@@ -545,15 +547,12 @@ tm_symbols <- function(size=1, col=NA,
 						shapes.breaks = NULL,
 						shapes.interval.closure = "left",
 						legend.max.symbol.size = .8,
-						just=c("center", "center"),
+						just=NA,
 						jitter=0,
 						xmod = 0,
 						ymod = 0,
 						icon.scale = 3,
-						icon.width = 32,
-						icon.height = 32,
-						icon.render.width = 256,
-						icon.render.height = 256,
+						grob.dim = c(width=48, height=48, render.width=256, render.height=256),
 						title.size = NA,
 						title.col = NA,
 						title.shape=NA,
@@ -602,7 +601,6 @@ tm_bubbles <- function(size=1,
 
 
 #' @rdname tm_symbols
-#' @param ... arguments passed on to \code{tm_symbols}
 #' @export
 tm_dots <- function(col=NA, 
 					size=.02, 
@@ -620,9 +618,15 @@ tm_dots <- function(col=NA,
 	g
 }
 
-tm_markers <- function(shape=20,
+
+#' @rdname tm_symbols
+#' @param text text of the markers. Shown in plot mode, and as popup text in view mode.
+#' @param text.just justification of marker text (see \code{just} argument of \code{\link{tm_text}}). Only applicable in plot mode.
+#' @param markers.on.top.of.text For \code{tm_markers}, should the markers be drawn on top of the text labels? 
+#' @param ... arguments passed on to \code{tm_symbols}. For \code{tm_markers}, arguments can also be passed on to \code{tm_text}. In that case, they have to be prefixed with \code{text.}, e.g. the \code{col} argument should be names \code{text.col}
+#' @export
+tm_markers <- function(shape=marker_icon(),
 					   col=NA,
-					   size=3,
 					   border.col=NA,
 					   text=NULL,
 					   text.just=c("center", "top"),
@@ -644,7 +648,7 @@ tm_markers <- function(shape=20,
 		tmT <- do.call("tm_text", c(list(text=text, just=text.just), argsT))
 	}
 	
-	tmS <- do.call("tm_symbols", c(list(shape=shape, col=col, size=size, border.col=border.col), argsS))
+	tmS <- do.call("tm_symbols", c(list(shape=shape, col=col, border.col=border.col), argsS))
 	
 	g <- if (markers.on.top.of.text) {
 		tmS + tmT

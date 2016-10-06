@@ -184,7 +184,7 @@ view_tmap <- function(gps, shps, bbx) {
 			are.icons <- gpl$symbol.misc$symbol.are.icons
 			
 			if (are.icons) {
-				symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
+				#symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
 				if (any(symbol.shape2<1000)) {
 					icons <- NULL
 				} else {

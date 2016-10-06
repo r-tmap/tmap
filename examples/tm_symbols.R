@@ -1,4 +1,4 @@
-data(World, metro)
+data(World, Europe, metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
 tm_shape(World) +
@@ -22,8 +22,10 @@ tm_shape(x) +
 	tm_dots() + 
 tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
 }
-# TIP: check out these examples in view mode, enabled with tmap_mode("view")
 
+qtm(Europe, bbox="Italy") +
+tm_shape(metro) +
+	tm_markers(text="name")
 
 require(ggplot2)
 require(dplyr)
@@ -67,25 +69,18 @@ tm_format_NLD()
 devtools::install_github("ropenscilabs/rnaturalearthdata")
 require(rnaturalearth)
 airports <- ne_download(scale=10, type="airports")
-ports <- ne_download(scale=10, type="ports")
-
-airplane <- pngGrob(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
+airplane <- tmap_icon(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
 	"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
 	"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
 
-ship <- pngGrob(paste0("http://www.iconsdb.com/icons/preview/icon-sets/",
-	"web-2-blue/cargo-ship-xxl.png"))
-
-data(Europe)
-qtm(Europe, bbox="Germany") +
-tm_shape(ports) +
-	tm_symbols(size="scalerank", shape=ship, 
-		legend.size.show = FALSE, scale=2, border.col = NA) +
-tm_shape(airports) +
-	tm_symbols(size="scalerank", shape=airplane, 
-		legend.size.show = FALSE, scale=7, border.col = NA)
+tm_shape(airports, bbox="Germany") +
+	tm_symbols(shape=airplane, size="natlscale",
+		legend.size.show = FALSE, scale=2, border.col = NA)
 }
 
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")
+
+#####################################################################################
 
 \dontrun{
 # plot all available symbol shapes:

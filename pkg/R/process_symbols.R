@@ -70,20 +70,27 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	}
 
 	# symbol shapes: create a library with all the custom symbols (grobs) or icons, represented by symbol numbers 1000+
-	
 	just <- g$just
-	just <- c(ifelse(is_num_string(just[1]), as.numeric(just[1]), ifelse(just[1]=="left", 1, ifelse(just[1]=="right", 0, .5))),
-			  ifelse(is_num_string(just[2]), as.numeric(just[2]), ifelse(just[2]=="bottom", 1, ifelse(just[2]=="top", 0, .5))))
+	
+	if (any(is.na(just))) {
+		just <- c(.5, .5)
+		just.override <- FALSE
+	} else {
+		just <- c(ifelse(is_num_string(just[1]), as.numeric(just[1]), ifelse(just[1]=="left", 1, ifelse(just[1]=="right", 0, .5))),
+				  ifelse(is_num_string(just[2]), as.numeric(just[2]), ifelse(just[2]=="bottom", 1, ifelse(just[2]=="top", 0, .5))))
+		just.override <- TRUE
+	}
+	
+	
+	
 	#justx <- size.npc.w * ( - .5)
 	#justy <- size.npc.h * ( - .5)
-	
-	icon.data <- g[c("icon.width", "icon.height", "icon.render.width", "icon.render.height")]
 	
 	if (!varyshape) {
 		if (!is.list(xshape)) {
 			if (!all(is.numeric(xshape))) stop("symbol shape(s) ('shape' argument) is/are neither numeric nor valid variable name(s)", call. = FALSE)
 		} else if (is.list(xshape)) {
-			xshape <- submit_symbol_shapes(xshape, interactive=interactive, just=just, icon.data=icon.data)
+			xshape <- submit_symbol_shapes(xshape, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)
 		} else {
 			stop("symbol shape(s) ('shape' argument) is/are neither symbol numers, nor grobs, nor valid variable name(s)", call. = FALSE)
 		}
@@ -92,7 +99,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	}
 	if (is.list(g$shapes)) {
 		if ("iconUrl" %in% names(g$shapes)) g$shapes <- split_icon(g$shapes)
-		g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, icon.data=icon.data)	
+		g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
 	} 
 	nx <- max(nx, nlevels(by))
 	
@@ -254,7 +261,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	
 	are.icons <- any(symbol.shape>999)
 	
-	if (are.icons) {
+	if (are.icons && !interactive) {
 		scale <- g$scale * g$icon.scale
 		symbol.size <- symbol.size * g$icon.scale
 	} else scale <- g$scale
@@ -308,7 +315,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 symbol.id=g$id)
 }
 
-submit_symbol_shapes <- function(x, interactive, just, icon.data) {
+submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) {
 	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 	justLib <- get(".justLib", envir = .TMAP_CACHE)
 	n <- length(x)
@@ -318,20 +325,23 @@ submit_symbol_shapes <- function(x, interactive, just, icon.data) {
 			ic <- if ("iconUrl" %in% names(xs)) {
 				split_icon(xs)[[1]]
 			} else if (is.grob(xs)) {
-				grob2icon(xs, icon.data, just)
+				grob2icon(xs, grob.dim, just)
 			} else NA
 			
 			# add anchor based on just specs
-			if (all(c("iconWidth", "iconHeight") %in% names(ic)) && (!any(c("iconAnchorX", "iconAnchorY") %in% names(ic)))) {
+			if (all(c("iconWidth", "iconHeight") %in% names(ic)) && 
+				((!any(c("iconAnchorX", "iconAnchorY") %in% names(ic))) || just.override)) {
 				ic$iconAnchorX <- ic$iconWidth * (1-just[1])
 				ic$iconAnchorY <- ic$iconHeight * just[2]
 			}
 			ic
 		})
-		justLib <- as.list(rep(NA, n))
+		just_items <- as.list(rep(NA, n))
 	} else {
-		justLib <- lapply(x, function(xs) {
-			if ("iconUrl" %in% names(xs)) {
+		just_items <- lapply(x, function(xs) {
+			if (just.override) {
+				just
+			} else if ("iconUrl" %in% names(xs)) {
 				if (all(c("iconWidth", "iconHeight", "iconAnchorX", "iconAnchorY") %in% names(xs))) {
 					c(1-(xs$iconAnchorX / xs$iconWidth), xs$iconAnchorY / xs$iconHeight)
 				} else NA
@@ -360,7 +370,7 @@ submit_symbol_shapes <- function(x, interactive, just, icon.data) {
 	x2[!numbers] <- new_id
 	
 	shapeLib <- c(shapeLib, items[!numbers])
-	justLib <- c(justLib, items[!numbers])
+	justLib <- c(justLib, just_items[!numbers])
 	assign(".shapeLib", shapeLib, envir = .TMAP_CACHE)
 	assign(".justLib", justLib, envir = .TMAP_CACHE)
 	x2

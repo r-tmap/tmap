@@ -6,8 +6,8 @@ grob_mod <- function(grb, x.a=0, x.b=1, y.a=0, y.b=1) {
 		if ("x" %in% nms) grb$x <- unit_mod(grb$x, a=x.a, b=x.b)
 		if ("y" %in% nms) grb$y <- unit_mod(grb$y, a=y.a, b=y.b)
 		
-		if ("width" %in% nms) grb$width <- unit_mod(grb$width, b=x.b)
-		if ("height" %in% nms) grb$height <- unit_mod(grb$height, b=y.b)
+		if ("width" %in% nms && !is.null(grb$width)) grb$width <- unit_mod(grb$width, b=x.b)
+		if ("height" %in% nms && !is.null(grb$height)) grb$height <- unit_mod(grb$height, b=y.b)
 	}
 	grb
 }

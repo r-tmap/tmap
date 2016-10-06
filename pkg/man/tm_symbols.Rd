@@ -3,6 +3,7 @@
 \name{tm_symbols}
 \alias{tm_bubbles}
 \alias{tm_dots}
+\alias{tm_markers}
 \alias{tm_squares}
 \alias{tm_symbols}
 \title{Draw symbols}
@@ -19,8 +20,9 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   shape.textNA = "Missing", shapes.n = 5,
   shapes.style = ifelse(is.null(shapes.breaks), "pretty", "fixed"),
   shapes.breaks = NULL, shapes.interval.closure = "left",
-  legend.max.symbol.size = 0.8, just = c("center", "center"), jitter = 0,
-  xmod = 0, ymod = 0, title.size = NA, title.col = NA,
+  legend.max.symbol.size = 0.8, just = NA, jitter = 0, xmod = 0,
+  ymod = 0, icon.scale = 3, grob.dim = c(width = 48, height = 48,
+  render.width = 256, render.height = 256), title.size = NA, title.col = NA,
   title.shape = NA, legend.size.show = TRUE, legend.col.show = TRUE,
   legend.shape.show = TRUE, legend.format = list(),
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
@@ -35,6 +37,10 @@ tm_bubbles(size = 1, col = NA, shape = 21, border.col = NA,
 
 tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
   legend.show = TRUE, legend.is.portrait = TRUE, legend.z = NA, ...)
+
+tm_markers(shape = marker_icon(), col = NA, border.col = NA,
+  text = NULL, text.just = c("center", "top"),
+  markers.on.top.of.text = TRUE, ...)
 }
 \arguments{
 \item{size}{a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest symbol will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).}
@@ -107,13 +113,17 @@ tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
 
 \item{legend.max.symbol.size}{Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for \code{tm_bubbles})}
 
-\item{just}{justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.}
+\item{just}{justification of the symbols relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. The default value is \code{c("center", "center")}. For icons, this value may already be speficied (see \code{\link{tmap_icons}}). The \code{just}, if specified, will overrides this.}
 
 \item{jitter}{number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.}
 
 \item{xmod}{horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the symbols. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the symbols to the left, and negative \code{ymod} values to the bottom.}
 
 \item{ymod}{vertical position modification. See xmod.}
+
+\item{icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}}
+
+\item{grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic succesfully. Only needed for the view mode.}
 
 \item{title.size}{title of the legend element regarding the symbol sizes}
 
@@ -159,7 +169,7 @@ tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
 
 \item{id}{name of the data variable that specifies the indices of the symbols. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
 
-\item{...}{arguments passed on to \code{tm_symbols}}
+\item{...}{arguments passed on to \code{tm_symbols}. For \code{tm_markers}, arguments can also be passed on to \code{tm_text}. In that case, they have to be prefixed with \code{text.}, e.g. the \code{col} argument should be names \code{text.col}}
 
 \item{title}{shortcut for \code{title.col} for \code{tm_dots}}
 
@@ -168,6 +178,12 @@ tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
 \item{legend.is.portrait}{shortcut for \code{legend.col.is.portrait} for \code{tm_dots}}
 
 \item{legend.z}{shortcut for \code{legend.col.z shortcut} for \code{tm_dots}}
+
+\item{text}{text of the markers. Shown in plot mode, and as popup text in view mode.}
+
+\item{text.just}{justification of marker text (see \code{just} argument of \code{\link{tm_text}}). Only applicable in plot mode.}
+
+\item{markers.on.top.of.text}{For \code{tm_markers}, should the markers be drawn on top of the text labels?}
 }
 \value{
 \code{\link{tmap-element}}
@@ -178,15 +194,15 @@ Creates a \code{\link{tmap-element}} that draws symbols, including symbols and d
 \details{
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments, which are \code{size}, \code{col}, and \code{shape}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 
-A  shape specification is one of the following three options:
+A  shape specification is one of the following three options. To specify multiple shapes, a vector or list of these shape specification is required. The shape specification options can also be mixed.
 \enumerate{
- \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options. To specify multiple shapes, a vector of numeric values is required.}
- \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot or a png icon (see \code{\link{pngGrob}}). To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
- \item{A list that specifies icon data, which can be created with \code{\link[leaflet:icons]{icons}}. To specify multiple shapes, either vectorize each item of icons, of specify a list of lists. This options is especially useful in view mode. In plot mode, only the list item \code{iconUrl} is used, since the icon size is determined by the \code{size} argument and the tip of the icon (anchor) by the \code{just} argument.}}
- When multiple shapes are specified, these options can be mixed by providing a list.
+ \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options.}
+ \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot object created with \code{\link[ggplot2:ggplotGrob]{ggplotGrob}}. To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
+ \item{An icon specification, which can be created with \code{\link{tmap_icons}}.}
+ }
 }
 \examples{
-data(World, metro)
+data(World, Europe, metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
 tm_shape(World) +
@@ -210,8 +226,10 @@ tm_shape(x) +
 	tm_dots() + 
 tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
 }
-# TIP: check out these examples in view mode, enabled with tmap_mode("view")
 
+qtm(Europe, bbox="Italy") +
+tm_shape(metro) +
+	tm_markers(text="name")
 
 require(ggplot2)
 require(dplyr)
@@ -240,7 +258,7 @@ tm_shape(NLD_prov) +
 	tm_symbols(size="population", shape="name", 
 			   shapes=grobs, 
 			   sizes.legend=c(.5, 1,3)*1e6, 
-			   scale=4, 
+			   scale=1, 
 			   legend.shape.show = FALSE, 
 			   legend.size.is.portrait = TRUE, 
 			   shapes.legend = 22, 
@@ -255,25 +273,18 @@ tm_format_NLD()
 devtools::install_github("ropenscilabs/rnaturalearthdata")
 require(rnaturalearth)
 airports <- ne_download(scale=10, type="airports")
-ports <- ne_download(scale=10, type="ports")
-
-airplane <- pngGrob(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
+airplane <- tmap_icon(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
 	"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
 	"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
 
-ship <- pngGrob(paste0("http://www.iconsdb.com/icons/preview/icon-sets/",
-	"web-2-blue/cargo-ship-xxl.png"))
-
-data(Europe)
-qtm(Europe, bbox="Germany") +
-tm_shape(ports) +
-	tm_symbols(size="scalerank", shape=ship, 
-		legend.size.show = FALSE, scale=2, border.col = NA) +
-tm_shape(airports) +
-	tm_symbols(size="scalerank", shape=airplane, 
-		legend.size.show = FALSE, scale=7, border.col = NA)
+tm_shape(airports, bbox="Germany") +
+	tm_symbols(shape=airplane, size="natlscale",
+		legend.size.show = FALSE, scale=2, border.col = NA)
 }
 
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")
+
+#####################################################################################
 
 \dontrun{
 # plot all available symbol shapes:

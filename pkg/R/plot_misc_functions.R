@@ -323,14 +323,12 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		size.npc.h <- convertHeight(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
 
 		just <- g$symbol.misc$just
-		
 		justs <- lapply(symbol.shape, function(ss) {
 			if (ss>999) {
 				js <- justLib[[ss-999]]
 				if (is.na(js[1])) just else js
 			} else just
 		})
-		
 		justs.x <- sapply(justs, "[[", 1)
 		justs.y <- sapply(justs, "[[", 2)
 		
