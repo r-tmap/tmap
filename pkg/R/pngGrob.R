@@ -37,12 +37,14 @@ icon2grob <- function(icon) {
 	}
 }
 
-grob2icon <- function(grob, res=32, png.res=256) {
+grob2icon <- function(grob, icon.data, just) {
 	tmp <- tempfile(fileext=".png")
-	png(filename=tmp, width=png.res, height=png.res)
+	png(filename=tmp, width=icon.data$icon.render.width, height=icon.data$icon.render.height)
 	grid.draw(grob)
 	dev.off()
-	icons(iconUrl = tmp, iconWidth = res, iconHeight = res, iconAnchorX = res/2, iconAnchorY = res/2)
+	w <- icon.data$icon.width
+	h <- icon.data$icon.height
+	icons(iconUrl = tmp, iconWidth = w, iconHeight = h, iconAnchorX = w * (1-just[1]), iconAnchorY = h * just[2])
 }
 
 split_icon <- function(icon) {

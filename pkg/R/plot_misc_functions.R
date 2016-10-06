@@ -315,13 +315,28 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 	symbolH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
 	symbolW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
+	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
+	justLib <- get(".justLib", envir = .TMAP_CACHE)
+	
 	with(g, {
 		size.npc.w <- convertWidth(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
 		size.npc.h <- convertHeight(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
 
 		just <- g$symbol.misc$just
-		justx <- size.npc.w * (ifelse(is_num_string(just[1]), as.numeric(just[1]), ifelse(just[1]=="left", 1, ifelse(just[1]=="right", 0, .5))) - .5)
-		justy <- size.npc.h * (ifelse(is_num_string(just[2]), as.numeric(just[2]), ifelse(just[2]=="bottom", 1, ifelse(just[2]=="top", 0, .5))) - .5)
+		
+		justs <- lapply(symbol.shape, function(ss) {
+			if (ss>999) {
+				js <- justLib[[ss-999]]
+				if (is.na(js[1])) just else js
+			} else just
+		})
+		
+		justs.x <- sapply(justs, "[[", 1)
+		justs.y <- sapply(justs, "[[", 2)
+		
+		
+		justx <- size.npc.w * (justs.x-.5) #(ifelse(is_num_string(just[1]), as.numeric(just[1]), ifelse(just[1]=="left", 1, ifelse(just[1]=="right", 0, .5))) - .5)
+		justy <- size.npc.h * (justs.y-.5) #(ifelse(is_num_string(just[2]), as.numeric(just[2]), ifelse(just[2]=="bottom", 1, ifelse(just[2]=="top", 0, .5))) - .5)
 		
 		
 		co.npc[, 1] <- co.npc[, 1] + symbol.xmod * symbolW + justx * lineInch * 2 / 3
@@ -363,7 +378,6 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		bordercol <- symbol.border.col
 		idName <- paste("tm_symbols", i, k, sep="_")
 		
-		shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 		if (any(!is.na(symbol.shape2) & symbol.shape2>999)) {
 			gpars <- get_symbol_gpar(x=symbol.shape2,
 									 fill=symbol.col2,

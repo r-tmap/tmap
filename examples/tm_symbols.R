@@ -52,7 +52,7 @@ tm_shape(NLD_prov) +
 	tm_symbols(size="population", shape="name", 
 			   shapes=grobs, 
 			   sizes.legend=c(.5, 1,3)*1e6, 
-			   scale=4, 
+			   scale=1, 
 			   legend.shape.show = FALSE, 
 			   legend.size.is.portrait = TRUE, 
 			   shapes.legend = 22, 

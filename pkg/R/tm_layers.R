@@ -472,7 +472,7 @@ tm_raster <- function(col=NA,
 #' @param shapes.breaks in case \code{shapes.style=="fixed"}, breaks should be specified
 #' @param shapes.interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{shape} is a numerc variable.
 #' @param legend.max.symbol.size Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for \code{tm_bubbles})
-#' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.
+#' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment. The default value of \code{just} is \code{c("center", "center")}. However, it can be overriden with icon data, i.e., the \code{iconAnchorX} and \code{iconAnchorY} argments of \code{\link[leaflet:icons]{icons}}.
 #' @param jitter number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of \code{jitter} times the height of one line of text line.
 #' @param xmod horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the symbols. See also \code{jitter} for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the symbols to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
@@ -549,6 +549,11 @@ tm_symbols <- function(size=1, col=NA,
 						jitter=0,
 						xmod = 0,
 						ymod = 0,
+						icon.scale = 3,
+						icon.width = 32,
+						icon.height = 32,
+						icon.render.width = 256,
+						icon.render.height = 256,
 						title.size = NA,
 						title.col = NA,
 						title.shape=NA,
@@ -618,7 +623,6 @@ tm_dots <- function(col=NA,
 tm_markers <- function(shape=20,
 					   col=NA,
 					   size=3,
-					   just = c("center", "bottom"),
 					   border.col=NA,
 					   text=NULL,
 					   text.just=c("center", "top"),
@@ -640,7 +644,7 @@ tm_markers <- function(shape=20,
 		tmT <- do.call("tm_text", c(list(text=text, just=text.just), argsT))
 	}
 	
-	tmS <- do.call("tm_symbols", c(list(shape=shape, col=col, size=size, just=just, border.col=border.col), argsS))
+	tmS <- do.call("tm_symbols", c(list(shape=shape, col=col, size=size, border.col=border.col), argsS))
 	
 	g <- if (markers.on.top.of.text) {
 		tmS + tmT

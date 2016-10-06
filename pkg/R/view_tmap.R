@@ -135,7 +135,6 @@ view_tmap <- function(gps, shps, bbx) {
 		plot_tm_symbols <- function() {
 			npol <- nrow(co)
 			
-			
 			co[, 1] <- co[, 1] + gpl$symbol.xmod * bpl
 			co[, 2] <- co[, 2] + gpl$symbol.ymod * bpl
 			
@@ -150,6 +149,14 @@ view_tmap <- function(gps, shps, bbx) {
 			
 			symbol.size <- gpl$symbol.size
 			symbol.shape <- gpl$symbol.shape
+			
+			#browser()
+			
+			if (gpl$symbol.misc$symbol.are.markers) {
+				if (is.null(gpl$symbol.names)) {
+					gpl$symbol.names <- gpl$text
+				}
+			}
 			
 			popups <- get_popups(gpl, type="symbol", popup.all.data=popup.all.data)
 
@@ -174,9 +181,10 @@ view_tmap <- function(gps, shps, bbx) {
 			rad <- symbol.size2 * upl
 			
 			fixed <- ifelse(gpl$symbol.misc$symbol.are.dots, gt$dot.size.fixed, gt$symbol.size.fixed)
-			markers <- gpl$symbol.misc$symbol.are.markers
+			are.icons <- gpl$symbol.misc$symbol.are.icons
 			
-			if (markers) {
+			if (are.icons) {
+				symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
 				if (any(symbol.shape2<1000)) {
 					icons <- NULL
 				} else {
@@ -185,8 +193,12 @@ view_tmap <- function(gps, shps, bbx) {
 					#print(summary(symbol.size2))
 					icons$iconWidth <- icons$iconWidth * symbol.size2
 					icons$iconHeight <- icons$iconHeight * symbol.size2
+					if (all(c("iconAnchorX", "iconAnchorY") %in% names(icons))) {
+						icons$iconAnchorX <- icons$iconAnchorX * symbol.size2
+						icons$iconAnchorY <- icons$iconAnchorY * symbol.size2
+					}
 				}
-				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], group=shp_name, icon=icons, layerId = id)
+				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, group=shp_name, icon=icons, layerId = id)
 			} else if (fixed) {
 				lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
 			} else {
@@ -325,11 +337,13 @@ get_x_name <- function(type) {
 	if (type=="fill") {
 		"xfill"
 	} else if (type=="symbol") {
-		c("xsize", "xcol")
+		c("xsize", "xcol", "xshape")
 	} else if (type=="raster") {
 		"xraster"
 	} else if (type=="line") {
 		c("xline", "xlwd")
+	} else if (type=="text") {
+		c("xtext", "xtsize", "xtcol")
 	}
 }
 
@@ -337,11 +351,13 @@ get_aes_name <- function(type) {
 	if (type=="fill") {
 		"fill"
 	} else if (type=="symbol") {
-		c("symbol.size", "symbol.col")
+		c("symbol.size", "symbol.col", "symbol.shape")
 	} else if (type=="raster") {
 		"raster"
 	} else if (type=="line") {
 		c("line.col", "line.lwd")
+	} else if (type=="text") {
+		c("text", "text.size", "text.color")
 	}
 }
 
