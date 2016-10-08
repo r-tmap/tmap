@@ -4,11 +4,11 @@
 \alias{rev_geocode_OSM}
 \title{Reverse geocodes a location using OpenStreetMap Nominatim}
 \usage{
-rev_geocode_OSM(x, y, zoom = NULL, projection = "longlat",
+rev_geocode_OSM(x, y = NULL, zoom = NULL, projection = "longlat",
   as.data.frame = NA, server = "http://nominatim.openstreetmap.org")
 }
 \arguments{
-\item{x}{x coordinate(s)}
+\item{x}{x coordinate(s), or a \code{\link[sp:SpatialPoints]{SpatialPoints}} object}
 
 \item{y}{y coordinate(s)}
 
@@ -24,16 +24,24 @@ rev_geocode_OSM(x, y, zoom = NULL, projection = "longlat",
 A data frmame with all atributes that are contained in the search result
 }
 \description{
-Reverse geocodes a location (based on spatial coordinates) to an address. It uses OpenStreetMap Nominatim.
+Reverse geocodes a location (based on spatial coordinates) to an address. It uses OpenStreetMap Nominatim. For processing large amount of queries, please read the usage policy (\url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}).
 }
 \examples{
-geocode_OSM("India")
+\dontrun{
+data(metro)
 
-geocode_OSM("CBS Weg 1, Heerlen")
+five_cities <- metro[sample(length(metro), 5), ]
 
-geocode_OSM("CBS Weg 1, Heerlen", projection = "rd")
+addresses <- rev_geocode_OSM(five_cities, zoom = 6)
+
+five_cities <- append_data(five_cities, addresses, fixed.order = TRUE)
+
+tmap_mode("view")
+tm_shape(five_cities) +
+	tm_markers(text="city")
+}
 }
 \seealso{
-\code{\link{bb}}
+\code{\link{geocode_OSM}}
 }
 

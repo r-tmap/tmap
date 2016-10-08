@@ -62,7 +62,7 @@ List with the following items:
 }
 }
 \description{
-Create contour lines (isolines) from a shape object. To make the iso lines smooth, a 2D kernal density estimator is applied on the shape object. These lines are used to draw an isopleth. Also, the polygons between the countour lines are returned. They can be used to create a kernel density map.
+Create a smooth map from a shape object. A 2D kernel density estimator is applied to the shape, which can be a spatial points, polygons, or raster object. Various format are returned: a smooth raster, contour lines, and polygons. The covered area can be specified, i.e., the area outside of it is extracted from the output.
 }
 \details{
 For the estimation of the 2D kernal density, code is borrowed from \code{\link[KernSmooth:bkde2D]{bkde2D}}. This implemention is slightly different: \code{\link[KernSmooth:bkde2D]{bkde2D}} takes point coordinates and applies linear binning, whereas in this function, the data is already binned, with values 1 if the values of \code{var} are not missing and 0 if values of \code{var} are missing.

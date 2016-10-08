@@ -1,6 +1,6 @@
 #' Create a smooth map in various formats: smooth raster, contour lines, and polygons.
 #' 
-#' Create contour lines (isolines) from a shape object. To make the iso lines smooth, a 2D kernal density estimator is applied on the shape object. These lines are used to draw an isopleth. Also, the polygons between the countour lines are returned. They can be used to create a kernel density map.
+#' Create a smooth map from a shape object. A 2D kernel density estimator is applied to the shape, which can be a spatial points, polygons, or raster object. Various format are returned: a smooth raster, contour lines, and polygons. The covered area can be specified, i.e., the area outside of it is extracted from the output.
 #' 
 #' For the estimation of the 2D kernal density, code is borrowed from \code{\link[KernSmooth:bkde2D]{bkde2D}}. This implemention is slightly different: \code{\link[KernSmooth:bkde2D]{bkde2D}} takes point coordinates and applies linear binning, whereas in this function, the data is already binned, with values 1 if the values of \code{var} are not missing and 0 if values of \code{var} are missing.
 #' 
@@ -67,6 +67,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	}
 	N <- nrow * ncol
 
+	# determine cell area (needed to calculate densities)
 	if (!is_projected(shp) || is.na(unit)) {
 		warning("shp is not projected; therefore density values cannot be calculated", call. = FALSE)
 		cell.area <- 1
@@ -88,11 +89,12 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 		bandwidth <- rep(bandwidth, length.out=2)
 	}
 
+	# create an empty grid
 	cover_r <- raster(extent(bbx), nrows=nrow, ncols=ncol, crs=prj)
 	
 	setTxtProgressBar(pb, .1)
 		
-	## process cover
+	## process cover: fill the empty grid with T/F that indicates whether grid cells are inside or not
 	if (is.na(cover.type)) cover.type <- ifelse(inherits(shp, "SpatialPolygons"), "original", "rect")
 	if (missing(cover)) {
 			
@@ -130,26 +132,27 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	
 
 	if (inherits(shp, "SpatialPoints")) {
+		# for spatial points, use the 2d binned kernel density estimator from KernSmooth
 		co <- coordinates(shp)
 		x <- bkde2D(co, bandwidth=bandwidth*unit.size, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
 		
-		# normalize
-		#x$fhat <- x$fhat * (length(shp) * weight / sum(x$fhat, na.rm=TRUE))
 		var <- "count"
 	} else {
+		# otherwise, the shape is converted to a grid (if it isn't already)
 		if (missing(var)) var <- names(shp)[1]
 		if (inherits(shp, "SpatialPolygons")){
 			shp@data <- shp@data[,var, drop=FALSE]
 			shp <- poly_to_raster(shp, nrow = nrow, ncol=ncol, copy.data = TRUE)
 		}
-		shpr <- raster(shp, layer=var) #if (nlayers(shp)>1) raster(shp, layer=var) else shp
+		# get raster with selected variable
+		shpr <- raster(shp, layer=var)
 		if (smooth.raster) {
+			# apply 2d kernel density estimator, similar to bkde2D, but without binning (since this is already binned data)
 			m <- as.matrix(shpr)
 			x <- kde2D(m, bandwidth = bandwidth*unit.size, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
 			
-			# normalize
-			#x$fhat <- x$fhat * (sum(shp[[var]], na.rm=TRUE) / sum(x$fhat, na.rm=TRUE))
 		} else {
+			# copy raster (without 2d kernel density) and deterine levels
 			r <- shpr
 			lvls <- num2breaks(r[], n=nlevels, style=style, breaks=breaks)$brks
 		}
@@ -157,6 +160,8 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	setTxtProgressBar(pb, .5)
 	
 	if (inherits(shp, "SpatialPoints") || smooth.raster) {
+		# in this case, the 2d kernel density has been applied
+		
 		# fill raster values
 		r <- raster(extent(bbx), nrows=nrow, ncols=ncol, crs=prj)
 		r[] <- as.vector(x$fhat[, ncol(x$fhat):1])
@@ -183,6 +188,8 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 		cl2 <- contour_lines_to_SLDF(cl, proj4string = CRS(prj))
 		#cl2$levelNR <- as.numeric(as.character(cl2$level))
 	} else {
+		# no 2d kernel density has been applied. Instead contour lines are found from the original raster
+		
 		bbr <- bb(r)
 		
 		# extend raster to prevent bleeding (due to isolines that do not reach the boundary)
