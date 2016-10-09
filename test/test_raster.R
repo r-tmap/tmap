@@ -137,3 +137,11 @@ rosm <- raster("sx99.tif")
 rosm <- set_projection(rosm, current.projection = "rd") # projection unknown
 qtm(rosm)
 
+# test raster smoothing
+data(land)
+
+land1 <- raster(land, layer="cover_cls")
+
+
+x <- smooth_map(land1, cover.type="smooth")
+

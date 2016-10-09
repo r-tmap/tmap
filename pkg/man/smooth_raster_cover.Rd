@@ -4,7 +4,7 @@
 \alias{smooth_raster_cover}
 \title{Get a smoothed cover of a raster object}
 \usage{
-smooth_raster_cover(shp, var = NA, bandwidth = NA, threshold = 0.6,
+smooth_raster_cover(shp, var = NULL, bandwidth = NA, threshold = 0.6,
   output = "SpatialPolygons")
 }
 \arguments{

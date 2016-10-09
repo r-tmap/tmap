@@ -1,9 +1,9 @@
-version 1.5 (devel)
-- added tm_symbols, to create proportional symbol maps: besides bubbles, it also supports other symbol shapes, png icons, and ggplot2 plots
-- imported cartogram function from cartogram package
-- crop_shape can also handle polygons as cropping area
-- reverse geocoding function rev_geocode_OSM added
+version 1.6 (will be published on CRAN soon)
+- [!] added tm_symbols, to create proportional symbol maps: besides bubbles, it also supports other symbol shapes, png icons, and ggplot2 plots
+- [!] imported cartogram function from cartogram package (tnx Sebastian!)
+- [!] reverse geocoding function rev_geocode_OSM added
 - last_map added, which retrieves the last produced map
+- crop_shape can also handle polygons as cropping area
 - append_data improved; the under and over coverage information can be retrieved with under_coverage and over_coverage
 - interpolate parameter added to tm_rasters
 - added support for custom legend formating functions

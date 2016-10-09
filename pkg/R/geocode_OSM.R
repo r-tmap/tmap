@@ -94,7 +94,9 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 	if (as.data.frame) {
 		do.call(rbind, output3)
 	} else {
-		output3
+		if (length(output3)==1) {
+			output3[[1]]
+		} else output3
 	}
 }
 
@@ -120,7 +122,7 @@ rev_geocode_OSM <- function(x, y=NULL, zoom=NULL, projection="longlat", as.data.
 		isproj <- is.projected(x)
 		
 		if (is.na(isproj)) {
-			warming("Projection of SpatialPoints object unknown. Assuming ", projection)
+			warning("Projection of SpatialPoints object unknown. Assuming ", projection)
 			if (projection!="longlat") x <- set_projection(x, current.projection = projection, projection="longlat")
 		} else {
 			if (isproj) {

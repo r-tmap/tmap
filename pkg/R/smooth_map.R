@@ -40,6 +40,7 @@
 #' @example ../examples/smooth_map.R
 #' @export
 smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", unit.size=1000, smooth.raster=TRUE, nlevels=5, style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL, bandwidth=NA, cover.type=NA, cover=NULL, cover.threshold=.6, weight=1, extracting.method="full", buffer.width=NA, to.Raster=FALSE) {
+	
 	bbx <- bb(shp)
 	prj <- get_projection(shp)
 #	asp <- get_asp_ratio(shp)
@@ -49,6 +50,12 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	if (!inherits(shp, c("SpatialPoints", "SpatialPolygons", "SpatialGrid", "Raster"))) {
 		stop("shp is not a Raster nor a SpatialPoints, -Polygons, or -Grid object")
 	}
+	
+	if (!inherits(shp, c("SpatialPoints"))) {
+		if (inherits(shp, "Spatial") && !("data" %in% slotNames(shp))) stop("No data found in shape.")
+		if (missing(var)) var <- names(shp)[1]
+	}
+	
 		
 	## determine bounding box and grid size
 	if (inherits(shp, c("SpatialPoints", "SpatialPolygons"))) {
@@ -61,9 +68,19 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 		}
 		
 	} else {
-		if (inherits(shp, "Raster")) shp <- as(shp, "SpatialGridDataFrame")
-		ncol <- shp@grid@cells.dim[1]
-		nrow <- shp@grid@cells.dim[2]
+		#if (inherits(shp, "Raster")) shp <- as(shp, "SpatialGridDataFrame")
+		if (!inherits(shp, "RasterLayer")) shp <- raster(shp, layer=var)
+		# if (inherits(shp, "SpatialGrid")) {
+		# 	shp <- raster(shp, layer=var)
+		# } else {
+		# 	shp <- raster(shp, layer=var)
+		# }
+			# shp <- as(shp, "SpatialGridDataFrame")
+		ncol <- ncol(shp)
+		nrow <- nrow(shp)
+		
+		#ncol <- shp@grid@cells.dim[1]
+		#nrow <- shp@grid@cells.dim[2]
 	}
 	N <- nrow * ncol
 
@@ -93,7 +110,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 	cover_r <- raster(extent(bbx), nrows=nrow, ncols=ncol, crs=prj)
 	
 	setTxtProgressBar(pb, .1)
-		
+	
 	## process cover: fill the empty grid with T/F that indicates whether grid cells are inside or not
 	if (is.na(cover.type)) cover.type <- ifelse(inherits(shp, "SpatialPolygons"), "original", "rect")
 	if (missing(cover)) {
@@ -103,8 +120,13 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 			if (!is.na(prj)) cover <- set_projection(cover, current.projection = prj)
 			cover_r[] <- TRUE
 		} else if (cover.type=="original") {
-			if (inherits(shp, "SpatialGrid")) {
-				cover_r[] <- shp[[var]]
+			if (inherits(shp, "Raster")) {
+				warning("cover.type=\"original\" only applied to raster output")
+				cover <- as(extent(bbx), "SpatialPolygons")
+				if (!is.na(prj)) cover <- set_projection(cover, current.projection = prj)
+				
+				cover_r <- shp
+
 			} else {
 				if (inherits(shp, "SpatialPoints")) {
 					cover <- gConvexHull(shp)
@@ -116,6 +138,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 				cover_r <- poly_to_raster(cover, nrow = nrow, ncol = ncol, to.Raster = TRUE)
 			}
 		}  else if (cover.type=="smooth") {
+			if (!inherits(shp, "Raster")) stop("Raster shape required when cover.type=\"smooth\"")
 			cover_list <- smooth_raster_cover(shp, var=var, bandwidth = bandwidth*unit.size, threshold = cover.threshold, output=c("RasterLayer", "SpatialPolygons"))	
 			cover_r <- cover_list$RasterLayer
 			cover_r[!cover_r[]] <- NA
@@ -138,22 +161,23 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 		
 		var <- "count"
 	} else {
-		# otherwise, the shape is converted to a grid (if it isn't already)
-		if (missing(var)) var <- names(shp)[1]
+		# otherwise, the shape is converted to a raster (if it isn't already)
 		if (inherits(shp, "SpatialPolygons")){
 			shp@data <- shp@data[,var, drop=FALSE]
-			shp <- poly_to_raster(shp, nrow = nrow, ncol=ncol, copy.data = TRUE)
+			shp <- poly_to_raster(shp, nrow = nrow, ncol=ncol, copy.data = TRUE, to.Raster = TRUE)
 		}
 		# get raster with selected variable
-		shpr <- raster(shp, layer=var)
+		# shpr <- raster(shp, layer=var)
+		# browser()
+		
 		if (smooth.raster) {
 			# apply 2d kernel density estimator, similar to bkde2D, but without binning (since this is already binned data)
-			m <- as.matrix(shpr)
+			m <- as.matrix(shp)
 			x <- kde2D(m, bandwidth = bandwidth*unit.size, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
 			
 		} else {
 			# copy raster (without 2d kernel density) and deterine levels
-			r <- shpr
+			r <- shp
 			lvls <- num2breaks(r[], n=nlevels, style=style, breaks=breaks)$brks
 		}
 	}
@@ -174,7 +198,7 @@ smooth_map <- function(shp, var=NULL, nrow=NA, ncol=NA, N=250000, unit="km", uni
 		if (inherits(shp, "SpatialPoints")) {
 			norm_weight <- length(shp) * weight / sum(r[], na.rm=TRUE)
 		} else {
-			norm_weight <- sum(shp[[var]], na.rm=TRUE) / sum(r[], na.rm=TRUE)
+			norm_weight <- sum(shp[], na.rm=TRUE) / sum(r[], na.rm=TRUE)
 		}
 		r[] <- r[] * norm_weight / cell.area
 		x$fhat <- x$fhat * norm_weight / cell.area

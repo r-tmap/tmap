@@ -12,21 +12,21 @@
 #' @importFrom raster raster extent
 #' @importMethodsFrom raster as.matrix
 #' @export
-smooth_raster_cover <- function(shp, var=NA, bandwidth=NA, threshold=.6, output="SpatialPolygons") {
-	# convert to SGDF
-	if (inherits(shp, "Raster")) {
-		shp <- as(shp, "SpatialGridDataFrame")
+smooth_raster_cover <- function(shp, var=NULL, bandwidth=NA, threshold=.6, output="SpatialPolygons") {
+
+	# convert to rasterlayer	
+	if (!inherits(shp, "RasterLayer")) {
+		if (missing(var)) var <- names(shp)[1]
+		shp <- raster(shp, layer=var)
 	}
+	ncol <- ncol(shp)
+	nrow <- nrow(shp)
 	
-	# take first variable if unspecified
-	if (is.na(var)) var <- names(shp)[1]
 	
 	# get shape properties
 	bbx <- bb(shp)
 	prj <- get_projection(shp)
-	ncol <- shp@grid@cells.dim[1]
-	nrow <- shp@grid@cells.dim[2]
-	
+
 	if (is.na(bandwidth[1])) {
 		bandwidth <- 3 * (bbx[,2] - bbx[,1]) / c(ncol, nrow)
 	} else {
@@ -35,13 +35,13 @@ smooth_raster_cover <- function(shp, var=NA, bandwidth=NA, threshold=.6, output=
 	}
 
 	## find non-NA areas
-	shp$N__NA <- !is.na(shp[[var]])
+	shp$N__NA <- !is.na(shp[])
 	m_nna <- as.matrix(raster(shp, layer="N__NA"))
 	m_nna <- matrix(as.integer(m_nna), ncol = ncol(m_nna))
 	x_nna <- kde2D(m_nna, bandwidth = bandwidth, gridsize=c(ncol, nrow), range.x=list(bbx[1,], bbx[2,]))
 	
 	# normalize results
-	x_nna$fhat <- x_nna$fhat * (sum(shp$N__NA) / sum(x_nna$fhat, na.rm=TRUE))
+	x_nna$fhat <- x_nna$fhat * (sum(shp$N__NA[]) / sum(x_nna$fhat, na.rm=TRUE))
 	
 	# append to shape
 	shp$NNA__VALUES <- as.vector(x_nna$fhat[, ncol(x_nna$fhat):1])
@@ -67,10 +67,11 @@ smooth_raster_cover <- function(shp, var=NA, bandwidth=NA, threshold=.6, output=
 	SP <- as(cp_nna, "SpatialPolygons")
 	
 	# SpatialGridDataFrame
-	shp@data <- data.frame(cover=shp$NNA__VALUES >= threshold)
+	SG <- as(shp$NNA__VALUES, "SpatialGridDataFrame")
+	SG@data <- data.frame(cover=SG$NNA__VALUES >= threshold, drop=FALSE)
 
 	# RasterLayer
-	RL <- raster(shp, layer="cover")
+	RL <- raster(SG, layer="cover")
 	
 	if (length(output)==1) {
 		switch(output,

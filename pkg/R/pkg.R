@@ -17,17 +17,24 @@
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
-#' Aesthetics layers:
+#' Aesthetics base layers:
 #' \tabular{ll}{
-#' \code{\link{tm_fill}}\tab To create a polygon layer (without borders) \cr
-#' \code{\link{tm_borders}}\tab To create polygon borders \cr
-#' \code{\link{tm_polygons}}\tab To create a polygon layer with borders \cr
+#' \code{\link{tm_polygons}}\tab To create a polygon layer (with borders) \cr
 #' \code{\link{tm_symbols}}\tab To create a layer of symbols \cr
-#' \code{\link{tm_bubbles}}\tab To create a layer of bubbles \cr
-#' \code{\link{tm_dots}}\tab To create a layer of dots \cr
 #' \code{\link{tm_lines}}\tab To create a layer of lines \cr
 #' \code{\link{tm_raster}}\tab To create a raster layer \cr
 #' \code{\link{tm_text}}\tab To create a layer of text labels \cr
+#' }
+#' 
+#' #' Aesthetics derived layers:
+#' \tabular{ll}{
+#' \code{\link{tm_fill}}\tab To create a polygon layer (without borders) \cr
+#' \code{\link{tm_borders}}\tab To create polygon borders \cr
+#' \code{\link{tm_bubbles}}\tab To create a layer of bubbles \cr
+#' \code{\link{tm_squares}}\tab To create a layer of squares \cr
+#' \code{\link{tm_dots}}\tab To create a layer of dots \cr
+#' \code{\link{tm_markers}}\tab To create a layer of markers \cr
+#' \code{\link{tm_iso}}\tab To create a iso/contour lines \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
@@ -79,10 +86,11 @@
 #' \code{\link{sbind}}\tab To bind shape objects \cr
 #' \code{\link{crop_shape}}\tab To crop shape objects \cr
 #' \code{\link{map_coloring}}\tab To color polygons with different colors for adjacent polygons \cr
+#' \code{\link{tmap_icons}}\tab To specify icons for markers or proportional symbols \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
-#' @section Generate spatial objects: 
+#' @section Statistical transformation functions: 
 #' \tabular{ll}{
 #' \code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and kernel density polygons) \cr
 #' \code{\link{smooth_raster_cover}}\tab To create a smooth cover of a raster object \cr
@@ -104,6 +112,7 @@
 #' @section Output functions: 
 #' \tabular{ll}{
 #' \code{\link{print}}\tab Plot in graphics device or view interactively in web browser or RStudio's viewer pane \cr
+#' \code{\link{last_map}}\tab Redraw the last map \cr
 #' \code{\link{tmap_leaflet}}\tab Obtain a leaflet widget object \cr
 #' \code{\link{animation_tmap}}\tab Create an animation \cr
 #' \code{\link{save_tmap}}\tab To save thematic maps (both in plot and view mode) \cr
