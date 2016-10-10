@@ -61,9 +61,17 @@ mapWorld
 
 <img src="images/view_mode.png" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
+
 In interactive mode, a leaflet widget is created and shown. If you want to change or extend the widget, you can use the function [`tmap_leaflet`](../html/tmap_leaflet.html) to obtain the leaflet widget object, and use leaflet's own functions to adjust it.
 
 ```{r, include=FALSE}
 tmap_mode("plot")
 ```
 
+
+In order to toggle fast between the drawing  modes, there are two handy functions. With [`ttm`](../html/ttm.html) the other mode is activated. The function [`last_map`](../html/last_map.html) can be used to redraw the last map. So whatever map is shown, with the following code, the same map is redrawn in the other mode.
+
+```{r,eval=F, echo=T, warning=F, message=F}
+ttm()
+last_map()
+```

@@ -41,7 +41,7 @@ lf <- tmap_leaflet(map1)
 # show leaflet widget
 lf
 
-# add marker
+# add marker (which could also be done using tm_markers)
 require(leaflet)
 lf \%>\% leaflet::addMarkers(2.2945, 48.8582, popup = "Eiffel tower")
 }
