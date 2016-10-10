@@ -264,6 +264,9 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	if (are.icons && !interactive) {
 		scale <- g$scale * g$icon.scale
 		symbol.size <- symbol.size * g$icon.scale
+		symbol.legend.sizes <- symbol.legend.sizes * g$icon.scale
+		g$legend.max.symbol.size <- g$legend.max.symbol.size * g$icon.scale
+		
 	} else scale <- g$scale
 
 	list(symbol.size=symbol.size,
