@@ -84,7 +84,7 @@
 #' @param legend.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).
 #' @param legend.hist.bg.color Background color of the histogram
 #' @param legend.hist.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.hist.bg.color} is used (normally 1).
-#' @param title.snap.to.legend Logical that determines whether the title is part of the legend. By default false, unless \code{legend.outside} is \code{TRUE}
+#' @param title.snap.to.legend Logical that determines whether the title is part of the legend. By default \code{FALSE}
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
 #' By default the title is placed on top of the legend (determined by \code{legend.position}).
 #' @param title.color color of the title

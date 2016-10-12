@@ -324,7 +324,7 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 
 		just <- g$symbol.misc$just
 		justs <- lapply(symbol.shape, function(ss) {
-			if (ss>999) {
+			if (!is.na(ss) && ss>999) {
 				js <- justLib[[ss-999]]
 				if (is.na(js[1])) just else js
 			} else just

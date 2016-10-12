@@ -198,7 +198,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			cols <- legend.palette
 			shapes <- legend.shapes
 			shapes <- rep(shapes, length.out=nitems)
-			if (any(shapes>999)) {
+			if (any(!is.na(shapes) & shapes>999)) {
 				shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 				
 				gpars <- get_symbol_gpar(x=shapes,
@@ -207,7 +207,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 										 lwd=symbol.border.lwd,
 										 separate=TRUE)
 				grobs <- lapply(1:nitems, function(i) {
-					if (shapes[i]>999) {
+					if (!is.na(shapes[i]) & shapes[i]>999) {
 						grbs <- if (is.na(symbol.border.col)) {
 							gList(shapeLib[[shapes[i]-999]])
 						} else {
@@ -423,7 +423,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 			symbolR <- unit(hsi, "inch")
 			xtraWidth <- convertWidth(max(symbolR), "npc", valueOnly=TRUE)/2/s2
 			
-			if (any(shapes>999)) {
+			if (any(!is.na(shapes) & shapes>999)) {
 				shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 				
 				gpars <- get_symbol_gpar(x=shapes,
@@ -432,7 +432,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 										 lwd=symbol.border.lwd,
 										 separate=TRUE)
 				grobs <- lapply(1:nitems, function(i) {
-					if (shapes[i]>999) {
+					if (!is.na(shapes[i]) && shapes[i]>999) {
 						grbs <- if (is.na(symbol.border.col)) {
 							gList(shapeLib[[shapes[i]-999]])
 						} else {

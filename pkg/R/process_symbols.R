@@ -259,7 +259,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	if (!g$legend.col.show) symbol.col.legend.title <- NA
 	if (!g$legend.shape.show) symbol.shape.legend.title <- NA
 	
-	are.icons <- any(symbol.shape>999)
+	are.icons <- any(!is.na(symbol.shape) & symbol.shape>999)
 	
 	if (are.icons && !interactive) {
 		scale <- g$scale * g$icon.scale
