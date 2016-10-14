@@ -271,7 +271,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	#############################################################################################
 	## attributes
 	#############################################################################################
-	if (gt$credits.show || gt$scale.show || gt$compass.show) {
+	if (gt$credits.show || gt$logo.show || gt$scale.show || gt$compass.show) {
 		elems <- do.call("rbind", list(
 			if (gt$credits.show) data.frame(type="credits",
 				 height=unname(emapply(function(txt, sz) {
@@ -284,6 +284,13 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				 position2=sapply(gt$credits.position, "[", 2, USE.NAMES=FALSE), 
 				 sortid=gt$credits.id,
 				 stringsAsFactors = FALSE) else NULL,
+			if (gt$logo.show) data.frame(type="logo",
+				height=sapply(gt$logo.height, function(lh) (lh+1) * lineHeight),
+				width=sapply(gt$logo.width, function(lw) (lw+1) * lineWidth),
+				position1=sapply(gt$logo.position, "[", 1, USE.NAMES=FALSE),
+				position2=sapply(gt$logo.position, "[", 2, USE.NAMES=FALSE), 
+				sortid=gt$logo.id,
+				stringsAsFactors = FALSE) else NULL,
 			if (gt$scale.show) data.frame(type="scale_bar",
 				height=3*lineHeight * gt$scale.size,
 				width=1,
@@ -302,6 +309,10 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		
 		elems$cred.id <- NA
 		elems$cred.id[elems$type=="credits"] <- order(order(elems$sortid[elems$type=="credits"]))
+		
+		elems$logo.id <- NA
+		elems$logo.id[elems$type=="logo"] <- order(order(elems$sortid[elems$type=="logo"]))
+		
 		
 		elems$position1[is.na(elems$position1)] <- gt$attr.position[1]
 		elems$position2[is.na(elems$position2)] <- gt$attr.position[2]
@@ -435,6 +446,8 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				
 				if (e$type=="credits") {
 					grb <- plot_cred(gt, just=elem.just[1], id=e$cred.id)
+				} else if (e$type=="logo") {
+					grb <- plot_logo(gt, just=elem.just[1], id=e$cred.id)
 				} else if (e$type=="scale_bar") {
 					grb <- plot_scale(gt, just=elem.just[1], xrange=(bb[1,2] - bb[1,1])*e$width2, crop_factor=gt$scale.width/e$width2)
 				} else {

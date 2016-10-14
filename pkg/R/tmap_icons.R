@@ -19,7 +19,8 @@ tmap_icons <- function(file, width=48, height=48, keep.asp=TRUE, just=c("center"
 	merge_icons(icons)
 }
 
-tmap_one_icon <- function(file, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), as.local=TRUE, ...) {
+
+tmap_one_icon <- function(file, width, height, keep.asp, just, as.local, ...) {
 	args <- list(...)
 	args$iconUrl <- NULL # already specified with file
 	pu <- is_path_or_url(file)

@@ -36,7 +36,7 @@
 #' @param basemaps basemaps for the view mode. See \code{\link{tm_view}}
 #' @param bubble.size deprecated. Please use symbols.size.
 #' @param bubble.col deprecated. Please use symbols.col.
-#' @param ... arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.  
+#' @param ... arguments passed on to the \code{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.
 #' @return \code{\link{tmap-element}}
 #' @example ../examples/qtm.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
@@ -103,8 +103,8 @@ qtm <- function(shp,
 	if (show_symbols) {
 		dots_instead_of_symbols <- missing(symbols.size) && missing(symbols.shape) && missing(symbols.col)
 		if (dots_instead_of_symbols) {
-			symbols.size <- .02
-			symbols.shape <- 16
+			symbols.size <- if ("dots.size" %in% names(args)) args$dots.size else .02
+			symbols.shape <- if ("dots.shape" %in% names(args)) args$dots.shape else 16
 		}
 		if (missing(symbols.col) && missing(dots.col)) {
 			symbols.col <- NA
@@ -137,18 +137,23 @@ qtm <- function(shp,
 	}
 	
 
-	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_polygons", "tm_symbols", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets", "tm_view")
-	fns_prefix <- c("shape", "fill", "borders", "polygons", "symbols", "lines", "raster", "text", "layout", "grid", "facets", "view")
+	fns <- c("tm_shape", "tm_fill", "tm_borders", "tm_polygons", "tm_symbols", "tm_dots", "tm_lines", "tm_raster", "tm_text", "tm_layout", "tm_grid", "tm_facets", "tm_view")
+	fns_prefix <- c("shape", "fill", "borders", "polygons", "symbols", "dots", "lines", "raster", "text", "layout", "grid", "facets", "view")
 	
 	argnames <- unlist(lapply(fns, function(f) names(formals(f))))
 	dupl <- setdiff(unique(argnames[duplicated(argnames)]), "...")
 	
-	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_polygons="col", tm_symbols=c("size", "col", "shape"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size", "col"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
+	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_polygons="col", tm_symbols=c("size", "col", "shape"), tm_dots=c("size", "col", "shape"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size", "col"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
 		
 		# get function argument names
-		lnames <- setdiff(names(formals(f)), sk)
+		fnames <- names(formals(f))
+		
+		if (f=="tm_dots") fnames <- c(fnames, names(formals("tm_symbols")))
+		if (f=="tm_polygons") fnames <- c(fnames, names(formals("tm_fill")))
+		
+		lnames <- setdiff(fnames, sk)
 		
 		# add prefix
 		lnames_pre <- paste(pre, lnames, sep=".")
@@ -171,11 +176,6 @@ qtm <- function(shp,
 	g <- do.call("tm_shape", c(list(shp=shp, projection=projection), args2[["tm_shape"]]))
 	g$tm_shape$shp_name <- shp_name
 	
-	# add polygon layer
-	# if (!is.null(fill)) {
-	# 	
-	# 	
-	# }
 
 	if (!is.null(borders)) {
 		if ("border.col" %in% names(args2$tm_polygons)) {
@@ -195,10 +195,17 @@ qtm <- function(shp,
 	if (!missing(lines.lwd) || !missing(lines.col)) g <- g + do.call("tm_lines", c(list(lwd=lines.lwd, col=lines.col), args2[["tm_lines"]]))
 	
 	if (show_symbols) {
+		
+		adots <- args2$tm_dots
+		names(adots)[names(adots)=="title"] <- "title.col"
+		names(adots)[names(adots)=="legend.show"] <- "legend.col.show"
+		names(adots)[names(adots)=="legend.is.portrait"] <- "legend.col.is.portrait"
+		names(adots)[names(adots)=="legend.z"] <- "legend.col.z"
+		
 		symbolLst <- c(if (!missing(symbols.size)) list(size=symbols.size) else list(),
 					   if (!missing(symbols.col)) list(col=symbols.col) else list(),
 					   if (!missing(symbols.shape)) list(shape=symbols.shape) else list())
-		g <- g + do.call("tm_symbols", c(symbolLst, args2[["tm_symbols"]]))	
+		g <- g + do.call("tm_symbols", c(symbolLst, args2[["tm_symbols"]], adots))	
 		if (dots_instead_of_symbols) g$tm_symbols$are.dots <- TRUE
 	} 
 	

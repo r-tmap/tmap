@@ -7,14 +7,3 @@
 ##' @rdname cartogram
 ##' @export
 NULL
-
-
-##' Create a list of icon data
-##' 
-##' Create a list of icon data. Imported from leaflet package
-##' 
-##' @importFrom leaflet icons
-##' @name icons
-##' @rdname icons
-##' @export
-NULL

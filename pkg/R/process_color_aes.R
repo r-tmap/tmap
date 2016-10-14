@@ -7,12 +7,14 @@ check_aes_args <- function(g) {
 	}
 	
 	if (!is.null(g$palette)) {
-		if (is.list(g$palette)) stop("Only one palette can be defined per small multiple (unless free.scales=TRUE)", call.=FALSE)
-		if (!is.character(g$palette)) stop("Palette should be a character", call.=FALSE)
-		if (length(g$palette)==1) {
-			if (!g$palette %in% rownames(brewer.pal.info) && !valid_colors(g$palette)) stop("Invalid palette", call.=FALSE)
+		gpal <- g$palette
+		if (is.list(gpal)) stop("Only one palette can be defined per small multiple (unless free.scales=TRUE)", call.=FALSE)
+		if (!is.character(gpal)) stop("Palette should be a character", call.=FALSE)
+		if (length(gpal)==1) {
+			if (substr(gpal, 1, 1)=="-") gpal <- substr(gpal, 2, nchar(gpal))
+			if (!gpal %in% rownames(brewer.pal.info) && !valid_colors(gpal)) stop("Invalid palette", call.=FALSE)
 		} else {
-			if (!all(valid_colors(g$palette))) stop("Invalid palette", call.=FALSE)
+			if (!all(valid_colors(gpal))) stop("Invalid palette", call.=FALSE)
 		}
 	}
 	

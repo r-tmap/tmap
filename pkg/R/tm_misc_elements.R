@@ -123,6 +123,25 @@ tm_credits <- function(text,
 	g
 }
 
+#' Logo
+#'
+#' Creates a map logo.
+#' 
+#' @param file either a filename or url of a png image, or a icon created with \code{\link{tmap_icon}}
+#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo
+#' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.
+#' @export
+tm_logo <- function(file,
+					position=NA,
+					height=3) {
+	g <- list(tm_logo=as.list(environment()))
+	names(g$tm_logo) <- paste("logo", names(g$tm_logo), sep=".")
+	class(g) <- "tmap"
+	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	g
+}
+
 
 #' Scale bar
 #' 

@@ -4,10 +4,10 @@
 \alias{tm_add_legend}
 \title{Add manual legend}
 \usage{
-tm_add_legend(type = c("fill", "symbol", "text", "line"), labels,
-  col = NULL, size = NULL, shape = NULL, lwd = NULL, text = NULL,
-  alpha = NA, border.col = "black", border.lwd = 1, border.alpha = NA,
-  title = "", is.portrait = TRUE, z = NA)
+tm_add_legend(type = c("fill", "symbol", "text", "line"), labels = NULL,
+  col = NULL, size = NULL, shape = NULL, lwd = NULL, lty = NULL,
+  text = NULL, alpha = NA, border.col = "black", border.lwd = 1,
+  border.alpha = NA, title = "", is.portrait = TRUE, z = NA)
 }
 \arguments{
 \item{type}{type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, or \code{"line"}}
@@ -21,6 +21,8 @@ tm_add_legend(type = c("fill", "symbol", "text", "line"), labels,
 \item{shape}{legend symbol shapes (if \code{type=="symbol"})}
 
 \item{lwd}{legend line widths (if \code{type=="line"})}
+
+\item{lty}{legend line types (if \code{type=="line"})}
 
 \item{text}{legend texts (if \code{type=="text"})}
 

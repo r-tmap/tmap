@@ -547,6 +547,16 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	
 }
 
+plot_logo <- function(gt, just, id) {
+	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
+	grobLogo <- pngGrob(gt$logo.file)
+	
+	gTree(children=gList(
+		grobBG,
+		grobLogo
+	))
+	
+}
 
 plot_cred <- function(gt, just, id) {
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)

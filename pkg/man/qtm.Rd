@@ -4,9 +4,9 @@
 \alias{qtm}
 \title{Quick thematic map plot}
 \usage{
-qtm(shp, fill = NA, symbol.size = NULL, symbol.col = NULL,
-  symbol.shape = NULL, dot.col = NULL, text = NULL, text.size = 1,
-  text.col = NA, line.lwd = NULL, line.col = NULL, raster = NA,
+qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
+  symbols.shape = NULL, dots.col = NULL, text = NULL, text.size = 1,
+  text.col = NA, lines.lwd = NULL, lines.col = NULL, raster = NA,
   borders = NA, scale = NA, title = NA, projection = NULL,
   format = NULL, style = NULL, basemaps = NA, bubble.size = NULL,
   bubble.col = NULL, ...)
@@ -23,15 +23,15 @@ qtm(shp, fill = NA, symbol.size = NULL, symbol.col = NULL,
 }
 In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly. Arguments of \code{\link{tm_view}}, such as \code{set.view} can be passed on directly.}
 
-\item{fill}{either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).}
+\item{fill}{either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).  Set \code{fill=NULL} to draw only polygon borders. See also argument \code{borders}.}
 
-\item{symbol.size}{either the size of the symbols or a name of the data variable in \code{shp} that specifies the sizes of the symbols.  See also the \code{size} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+\item{symbols.size}{either the size of the symbols or a name of the data variable in \code{shp} that specifies the sizes of the symbols.  See also the \code{size} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
-\item{symbol.col}{either the color of the symbols or a name of the data variable in \code{shp} that specifies the colors of the symbols. See also the \code{col} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+\item{symbols.col}{either the color of the symbols or a name of the data variable in \code{shp} that specifies the colors of the symbols. See also the \code{col} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
-\item{symbol.shape}{either the shape of the symbols or a name of the data variable in \code{shp} that specifies the shapes of the symbols. See also the \code{shape} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
+\item{symbols.shape}{either the shape of the symbols or a name of the data variable in \code{shp} that specifies the shapes of the symbols. See also the \code{shape} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
-\item{dot.col}{name of the data variable in \code{shp} for the dot map that specifies the colors of the dots.}
+\item{dots.col}{name of the data variable in \code{shp} for the dot map that specifies the colors of the dots. If \code{dots.col} is specified instead \code{symbols.col}, dots instead of bubbles are drawn (unless \code{symbols.shape} is specified).}
 
 \item{text}{Name of the data variable that contains the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
@@ -39,15 +39,15 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{text.col}{name of the data variable in \code{shp} for the that specifies the colors of the text labels. Only applicable when \code{shp} is type 1, 2, or 3 (see above).}
 
-\item{line.lwd}{either a line width or a name of the data variable that specifies the line width. Only applicable when \code{shp} is type 3 (see above).}
+\item{lines.lwd}{either a line width or a name of the data variable that specifies the line width. Only applicable when \code{shp} is type 3 (see above).}
 
-\item{line.col}{either a line color or a name of the data variable that specifies the line colors. Only applicable when \code{shp} is type 3 (see above).}
+\item{lines.col}{either a line color or a name of the data variable that specifies the line colors. Only applicable when \code{shp} is type 3 (see above).}
 
 \item{raster}{either a color or a name of the data variable that specifices the raster colors. Only applicable when \code{shp} is type 4, 5, or 6 (see above).}
 
-\item{borders}{color of the polygon borders. Use \code{NA} to omit the borders.}
+\item{borders}{color of the polygon borders. Use \code{NULL} to omit the borders.}
 
-\item{scale}{numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. The parameters \code{symbol.size}, \code{text.size}, and \code{line.lwd} can be scaled seperately with respectively \code{symbol.scale}, \code{text.scale}, and \code{line.scale}.}
+\item{scale}{numeric value that serves as the global scale parameter. All font sizes, sy mbol sizes, border widths, and line widths are controled by this value. The parameters \code{symbols.size}, \code{text.size}, and \code{lines.lwd} can be scaled seperately with respectively \code{symbols.scale}, \code{text.scale}, and \code{lines.scale}. See also \code{...}.}
 
 \item{title}{main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).}
 
@@ -59,11 +59,11 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{basemaps}{basemaps for the view mode. See \code{\link{tm_view}}}
 
-\item{bubble.size}{deprecated. Please use symbol.size.}
+\item{bubble.size}{deprecated. Please use symbols.size.}
 
-\item{bubble.col}{deprecated. Please use symbol.col.}
+\item{bubble.col}{deprecated. Please use symbols.col.}
 
-\item{...}{arguments passed on to the \code{tm_*} functions. If an argument name is not unique for a particular \code{tm_} function, then it should be prefixed with the function name without \code{"tm_"}. For instance, \code{style} is an argument of \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}. Therefore, in order to define the \code{style} for a choropleth, its arugment name should be \code{fill.style}.}
+\item{...}{arguments passed on to the \code{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.}
 }
 \value{
 \code{\link{tmap-element}}
@@ -74,7 +74,7 @@ Draw a thematic map quickly.
 \details{
 This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
 
-For \code{format} any character value, say "xxx" can be used if the wrapper function \code{"tm_format_xxx"} exists. The same applies for the arguments \code{colors}, and \code{style}.
+For \code{format}, any character value, say "xxx" can be used if the wrapper function \code{"tm_format_xxx"} exists. The same applies for the argument \code{style}.
 }
 \examples{
 data(World, rivers, metro)
@@ -89,8 +89,8 @@ qtm(World, fill="HPI", fill.n=9, fill.palette="div", fill.auto.palette.mapping=F
 	fill.title="Happy Planet Index", format="World", style="gray")
 
 # bubble map
-qtm(World, borders = NULL) + qtm(metro, symbol.size = "pop2010", 
-    symbol.title.size="Metropolitan Areas", format = "World")
+qtm(World, borders = NULL) + qtm(metro, symbols.size = "pop2010", 
+    symbols.title.size="Metropolitan Areas", format = "World")
 
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")
 }

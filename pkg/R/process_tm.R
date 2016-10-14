@@ -9,7 +9,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	if (length(gridid)>1) gridid <- gridid[length(gridid)]
 	gg <- x[[gridid]]
 	
-	## get credits, scale_bar and compass element
+	## get credits, scale_bar, compass, and logo element
 	sc_compIDs <- match(c("tm_scale_bar", "tm_compass"), names(x))
 	gsb <- x[[sc_compIDs[1]]]
 	gcomp <- x[[sc_compIDs[2]]]
@@ -26,6 +26,18 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		}, SIMPLIFY=FALSE)))  
 		#gc$credits.position <- unname(lapply(x[gcIDs], "[[", "credits.position"))
 		gc$credits.id <- gcIDs
+	}
+	glIDs <- which(names(x)=="tm_logo")
+	if (is.na(glIDs[1])) {
+		gl <- NULL
+	} else {
+		if (any(sapply(glIDs, function(i) is.null(x[[i]]$logo.file)))) stop("Logo file missing", call.=FALSE)
+		gl <- do.call("mapply", c(x[glIDs], list(nm=names(x[glIDs][[1]]), FUN=function(..., nm) {
+			if (nm %in% c("logo.file", "logo.position", "logo.just")) {
+				unname(list(...))
+			} else unname(c(...))
+		}, SIMPLIFY=FALSE)))  
+		gl$logo.id <- glIDs
 	}
 	
 	# get xlab and ylab element
@@ -89,7 +101,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 			if (length(fillBorderID) >= 2) {
 				belowGridLayers <- belowGridLayers[-fillBorderID[-1]]
 			}
-			sum(!(belowGridLayers %in% c("tm_layout", "tm_view", "tm_style", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))) + 1
+			sum(!(belowGridLayers %in% c("tm_layout", "tm_view", "tm_style", "tm_facets", "tm_credits", "tm_logo", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))) + 1
 		}
 	} else {
 		gridGrp <- 0
@@ -108,7 +120,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	
 
 	## split x into gmeta and gbody
-	x <- x[!(xnames %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))] #, "tm_add_legend"
+	x <- x[!(xnames %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_logo", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))] #, "tm_add_legend"
 
 	legids <- which(names(x)=="tm_add_legend") 
 	if (length(legids)) {
@@ -201,7 +213,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1))) || (length(legids))
 
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gsb, gcomp, glab, nx, panel.names, asp_ratio, shp_info, any.legend, interactive)
+	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, asp_ratio, shp_info, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {
@@ -288,6 +300,19 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 						gm[gmeta$credits.show]	
 					})
 		gmeta$credits.show <- any(gmeta$credits.show)
+		
+		# process logos per facet
+		gmeta$logo.show <- sapply(gmeta$logo.show, "[[", i)
+		if (!is.null(gmeta$logo.file)) gmeta$logo.file <- get_text_i(gmeta$logo.file, i)
+		#if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
+		gmeta[c("logo.file", "logo.position", "logo.height", "logo.just", "logo.id")] <- lapply(
+					gmeta[c("logo.file", "logo.position", "logo.height", "logo.just", "logo.id")],
+					function(gm) {
+						gm[gmeta$logo.show]	
+					})
+		gmeta$logo.show <- any(gmeta$logo.show)
+		
+		
 		x$tm_layout <- gmeta
 		x$tm_layout$title <- x$tm_layout$title[i]
 		x

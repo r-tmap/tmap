@@ -273,6 +273,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				scale.show <- FALSE
 				compass.show <- FALSE
 				credits.show <- FALSE
+				logo.show <- FALSE
 			})
 			gli
 		})
@@ -301,6 +302,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			gp$tm_layout$scale.show <- FALSE
 			gp$tm_layout$compass.show <- FALSE
 			gp$tm_layout$credits.show <- FALSE
+			gp$tm_layout$logo.show <- FALSE
 			gp
 		})
 	} else {

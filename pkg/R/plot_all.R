@@ -98,7 +98,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 	leg <- legend_prepare(gp, gal, gt, lineInch)
 	
 	## legend, title, and other thinks such as compass
-	if (!is.null(leg) || nonempty_text(gt$title) || gt$credits.show || gt$scale.show || gt$compass.show) {
+	if (!is.null(leg) || nonempty_text(gt$title) || gt$credits.show || gt$logo.show || gt$scale.show || gt$compass.show) {
 		if (!is.na(gt$frame)) {
 			pH <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
 			pW <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*gt$frame.lwd
