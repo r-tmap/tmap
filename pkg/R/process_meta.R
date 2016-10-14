@@ -54,7 +54,7 @@ process_meta <- function(gt, gf, gg, gc, gsb, gcomp, glab, nx, panel.names, asp_
 			if (is.na(legend.outside)) legend.outside <- (nx > 1) && !any(vapply(gf[freescales], "[", logical(1), 1))
 		}
 		
-		if (is.na(panel.show)) panel.show <- !is.na(panel.names[1])
+		if (is.na(panel.show)) panel.show <- !is.na(panel.names[1]) || !is.ena(panel.labels[1])
 		if (legend.only) {
 			title <- rep("", nx)
 			legend.width <- .9

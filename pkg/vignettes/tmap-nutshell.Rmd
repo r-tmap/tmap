@@ -19,8 +19,11 @@ library(tmap)
 ```
 
 
-With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`. The tmap package also contains many facility functions for reading and processing shape files (see [overview](#misc)). This vignette will focus on the core business of tmap, which is plotting maps. It's also possible to plot maps interactively; see [`vignette("tmap-modes")`](../doc/tmap-modes.html).
+With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`. The tmap package also contains many facility functions for reading and processing shape files (see [overview](#misc)). This vignette will focus on the core business of tmap, which is plotting maps. 
 
+### Static plot and interactive view
+
+Each map can be plotted as a static map and shown interactively. These two modes, called the `"plot"` mode and the `"view"` mode respectively, are described in [`vignette("tmap-modes")`](../doc/tmap-modes.html). In the remainder of this vignette, the `"plot"` mode is used.
 
 ### Shape objects
 
@@ -50,7 +53,7 @@ Shape objects in ESRI format can be read with [`read_shape`](../html/read_shape.
 ### Quick thematic map
 <a name="qplot"></a>
 
-The plotting syntax is based on that of `ggplot`. The [`qtm`](../html/qtm.html) function is `tmap`'s equivalent to `ggplot2`'s `qplot`. The first, and only required argument is a shape object:
+The plotting syntax is based on that of `ggplot2`. The [`qtm`](../html/qtm.html) function is `tmap`'s equivalent to `ggplot2`'s `qplot`. The first, and only required argument is a shape object:
 
 ```{r, fig.height=5}
 qtm(Europe)
@@ -61,13 +64,15 @@ So, by default, the polygons (in case the shape object is a SpatialPolygonsDataF
 A choropleth is created with the following code:
 
 ```{r, fig.height=5}
-qtm(Europe, fill="well_being", text="iso_a3", text.size="AREA", root=5, fill.title="Well-Being Index", 
-	fill.textNA="Non-European countries", 
-	format="Europe", style="gray")
+qtm(Europe, fill="well_being", text="iso_a3", text.size="AREA", format="Europe", style="gray", 
+	text.root=5, fill.title="Well-Being Index", fill.textNA="Non-European countries")
 ```
 
-In this code, `fill` and `text` serve as aesthetics. Both `well_being` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to red, is mapped to the values of `well_being`. The variable `iso_a3` contains the text labels, in this case the country codes.
-The arguments `text.size` and `root` determine the fontsizes of the text labels (in this case, the fifth root of the area sizes are taken). The `fill.title` argument is the title for the `fill`-legend. The argument `fill.textNA` is the legend text for missing values. The final two arguments, `format` and `style` are predefined layout settings for this shape object (see [layout](#layout)).
+In this code, `fill`,`text`, and `text.size` serve as aesthetics. Both `well_being` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to brown, is mapped to the values of `well_being`. The variable `iso_a3` contains the text labels, in this case the country codes. The value `"AREA"` is a derived variable that contains the polygon area sizes. So text is sized increasingly with coutry area size. 
+
+The two arguments `format` and `style` are predefined layout settings (see [layout](#layout)).
+
+The other arguments are passed on to the layer functions, which are described below. The argument `text.root` determines how text size is increased; in this case, the fifth root of the area sizes are taken. The result is that the text label for Russia does not dominate the other text labels. The `fill.title` argument is the title for the `fill`-legend. The argument `fill.textNA` is the legend text for missing values.
 
 The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for tis readability.
 
@@ -89,10 +94,10 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_fill`][6] | Fills the polygons | see tm_polygons |
 |[`tm_borders`][7] | Draws polygon borders | none |
 |[`tm_bubbles`][8] | Draws bubbles | see tm_symbols |
-|[`tm_sqaures`][9] | Draws squared | see tm_symbols |
+|[`tm_sqaures`][9] | Draws squares | see tm_symbols |
 |[`tm_dots`][10] | Draws dots | see tm_symbols |
 |[`tm_markers`][11] | Draws markers | see tm_symbols and tm_text |
-|[`tm_iso`][12] | Draws markers | see tm_lines and tm_text |
+|[`tm_iso`][12] | Draws iso/contour lines | see tm_lines and tm_text |
 
 
 [1]: ../html/tm_polygons.html
@@ -108,7 +113,7 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 [11]: ../html/tm_markers.html
 [12]: ../html/tm_iso.html
 
-Both constant values as well as data variable names can be assigned to the aesthetic arguments (except for `tm_borders`). For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth. If a vector of constant values or variable names are provided, [small multiples](#facets) are created.
+Each aesthetic can take a constant value or a data variable name. For instance, `tm_fill(col="blue")` colors all polygons blue, while `tm_fill(col="var1")`, where `"var1"` is the name of a data variable in the shape object, creates a choropleth. If a vector of constant values or variable names are provided, [small multiples](#facets) are created.
 
 The following layers are map attributes:
 
@@ -124,8 +129,7 @@ The last plot is reproduced as follows:
 
 ```{r, eval=FALSE}
 tm_shape(Europe) +
-	tm_fill("well_being", textNA="Non-European countries", title="Well-Being Index") +
-	tm_borders() +
+	tm_polygons("well_being", textNA="Non-European countries", title="Well-Being Index") +
 	tm_text("iso_a3", size="AREA", root=5) + 
 tm_format_Europe() +
 tm_style_grey()
@@ -166,16 +170,33 @@ The order of (groups of) layers corresponds to the plotting order.
 
 Small multiples are generated in two ways:
 
-1. By assigning multiple values to at least one of the aesthetic arguments:
+#### 1. By assigning multiple values to at least one of the aesthetic arguments:
+
 ```{r, fig.width=10, fig.height=3}
 tm_shape(Europe) +
-	tm_polygons(c("pop_est_dens", "gdp_cap_est"), style="kmeans", 
-        title=c("Population density", "GDP per capita")) +
+	tm_polygons(c("HPI", "gdp_cap_est"), 
+		style=c("pretty", "kmeans"),
+		palette=list("RdYlGn", "Purples"),
+		auto.palette.mapping=FALSE,
+        title=c("Happy Planet Index", "GDP per capita")) +
 tm_format_Europe() + 
 tm_style_grey()
 ```
 
-2. By defining a group-by variable in [`tm_facets`](../html/tm_facets.html):
+In this case, two independent maps are created, with different scales. All arugments of the layer functions can be vectorized, one for each small multiple. Arugments that normally can take a vector, such as `palette` should be placed in a `list`.
+
+This method is normally used to show two totally different variables, such as in this example Happy Planet Index and GDP. However, it is also possible to show variables that are related, as if they are subsets from the same data:
+
+```{r, fig.width=10}
+tm_shape(metro) +
+    tm_bubbles(size=c("pop1970", "pop2020"), title.size="Population") +
+    tm_facets(free.scales=FALSE) +
+tm_layout(panel.labels=c("1970", "2020"))
+```
+
+Notice that this plot uses panels and that the common legend is plot outside of the maps. 
+
+#### 2. By defining a group-by variable in [`tm_facets`](../html/tm_facets.html):
 ```{r, fig.width=10}
 tm_shape(Europe) +
     tm_polygons("well_being", title="Well-Being Index") +
@@ -183,7 +204,7 @@ tm_shape(Europe) +
 tm_style_grey()
 ```
 
-Notice that this plot has a different layout than the previous one. In the last plot, panels are used, and the legend is shown next to the maps. These options can be changed with the arguments `panel.show` and `legend.outside` of [`tm_layout`](../html/tm_layout.html). By default, the panel/external legend layout is used when the group-by variable is specified, since in that case, the multiples share a common legend.
+This plot also uses the panel layout with the common legend drawn outside the maps. These options can be changed with the arguments `panel.show` and `legend.outside` of [`tm_layout`](../html/tm_layout.html). By default, the panel/external legend layout is used when the group-by variable is specified, since in that case, the multiples share a common legend.
 
 The scales of each aesthetic argument can be set to either fixed or free, and also, the coordinate ranges of the small multiples:
 ```{r, fig.width=10}
@@ -374,15 +395,15 @@ tm_shape(Europe[Europe$name=="Austria", ]) +
 	tm_polygons()
 ```
 
-2. A one-item legend can be generated by using a categorical data variable with a one category, and assigning a single color value to palette:
+2. A manual legend can be generated [`tm_add_legend`](../html/tm_add_legend.html):
 ```{r, fig.height=3}
 data(World)
 
-rivers$constant <- factor("Rivers")
 tm_shape(World) +
 	tm_fill() +
 tm_shape(rivers) +
-	tm_lines(col="constant", palette="dodgerblue3", title.col="World map") +
+	tm_lines(col="dodgerblue3") +
+	tm_add_legend(type="line", col="dodgerblue3", title="World map") +
 tm_format_World()
 ```
 

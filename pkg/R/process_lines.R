@@ -1,35 +1,3 @@
-process_line_lwd_vector <- function(x, g, rescale) {
-	
-	if (is.null(g$lwd.legend)) {
-		w_legend <- pretty(x, 7)
-		w_legend <- w_legend[w_legend!=0]
-		w_legend <- w_legend[-c(length(w_legend)-3,length(w_legend)-1)]
-	} else {
-		w_legend <- g$lwd.legend
-	}
-	
-	
-	
-	maxW <- ifelse(rescale, max(x, na.rm=TRUE), 1)
-	line.legend.lwds <-  g$scale * (w_legend/maxW)
-	line.lwd.legend.labels <- format(w_legend, trim=TRUE)
-
-	if (is.null(g$line.lwd.legend.labels)) {
-		line.lwd.legend.labels <- do.call("fancy_breaks", c(list(vec=w_legend, intervals=FALSE), g$legend.format))
-	} else {
-		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of lines in the legend", call. = FALSE)
-		line.lwd.legend.labels <- g$line.lwd.legend.labels
-	}
-	
-	
-	
-	line.lwd <- g$scale * (x/maxW)
-	list(line.lwd=line.lwd,
-		 line.legend.lwds=line.legend.lwds,
-		 line.lwd.legend.labels=line.lwd.legend.labels)
-}
-
-
 process_lines <- function(data, g, gt, gby, z, interactive) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY

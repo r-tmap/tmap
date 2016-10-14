@@ -9,34 +9,33 @@ legend_prepare <- function(gp, gal, gt, scaleFactor) {
 	if (gt$legend.show) {
 		xadd <- lapply(gal, function(g) {
 			type <- if(g$type=="symbol") {
-				if (is.null(g$size)) {
+				if (is.null(g$size) || length(g$size)==1) {
 					"symbol.col"
 				} else "symbol.size"
 			} else if (g$type=="line") {
-				if (is.null(g$lwd)) {
-					"line.col"
-				} else {
-					"line.lwd"
-				}
+				"line.col"
 			} else if (g$type=="text") {
-				if (is.null(g$size)) {
+				if (is.null(g$size) || length(g$size)==1) {
 					"text.col"
 				} else {
 					"text.size"
 				}
 			} else "fill"
 			
+			nitems <- max(length(g$col), length(g$size), length(g$shape), length(g$labels), length(g$text), length(g$lwd), length(g$lty))
 			list(legend.type=type,
 				 legend.title=g$title,
 				 legend.is.portrait=g$is.portrait,
 				 legend.z=g$z,
-				 legend.labels=g$labels,
-				 legend.text=g$text,
-				 legend.palette=if (is.null(g$col)) "grey50" else g$col,
-				 legend.sizes=if (is.null(g$size)) 1 else g$size, # * scaleFactor,
-				 legend.shapes=if (is.null(g$shape)) 21 else g$shape,
+				 legend.labels=if (is.null(g$labels)) rep("", nitems) else rep(g$labels, length.out=nitems),
+				 legend.text=if (is.null(g$text)) NULL else rep(g$text, length.out=nitems),
+				 legend.palette=if (is.null(g$col)) rep("grey50", nitems) else rep(g$col, length.out=nitems),
+				 legend.sizes=if (is.null(g$size)) rep(1, nitems) else re(g$size, length.out=nitems), # * scaleFactor,
+				 legend.shapes=if (is.null(g$shape)) rep(21, nitems) else rep(g$shape, length.out=nitems),
 				 border.col=g$border.col,
 				 lwd=g$border.lwd,
+				 line.legend.lwd=if (is.null(g$lwd)) NULL else rep(g$lwd, length.out=nitems),
+				 line.legend.lty=if (is.null(g$lty)) NULL else rep(g$lty, length.out=nitems),
 				 symbol.border.lwd=g$border.lwd,
 				 symbol.border.col=g$border.col,
 				 symbol.normal.size=1,

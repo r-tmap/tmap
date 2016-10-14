@@ -1,9 +1,37 @@
+check_aes_args <- function(g) {
+	nms <- names(g)
+	if ("style" %in% nms) {
+		if (length(g$style) != 1) stop("Only one value for style allowed per small multiple (unless free.scales=TRUE)", call.=FALSE)
+		if (!is.character(g$style)) stop("Style is not a character", call.=FALSE)
+		if (!g$style %in% c("cat", "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "cont", "order")) stop("Invalid style value(s)", call.=FALSE)
+	}
+	
+	if (!is.null(g$palette)) {
+		if (is.list(g$palette)) stop("Only one palette can be defined per small multiple (unless free.scales=TRUE)", call.=FALSE)
+		if (!is.character(g$palette)) stop("Palette should be a character", call.=FALSE)
+		if (length(g$palette)==1) {
+			if (!g$palette %in% rownames(brewer.pal.info) && !valid_colors(g$palette)) stop("Invalid palette", call.=FALSE)
+		} else {
+			if (!all(valid_colors(g$palette))) stop("Invalid palette", call.=FALSE)
+		}
+	}
+	
+	if (!is.null(g$labels)) {
+		if (is.list(g$labels)) stop("Only one label vector can be defined per small multiple (unless free.scales=TRUE)", call.=FALSE)
+		if (!is.character(g$labels)) stop("Labels should be a character vector", call.=FALSE)
+	}
+	
+	NULL
+}
+
 process_col_vector <- function(x, sel, g, gt) {
 	values <- x
 	#textNA <- ifelse(any(is.na(values[sel])), g$textNA, NA)
 	#showNA <- if (is.na(g$showNA)) any(is.na(values[sel])) else FALSE
 	
 	x[!sel] <- NA
+	
+	check_aes_args(g)
 	
 	if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
 	

@@ -317,11 +317,18 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 	symbolW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
 	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 	justLib <- get(".justLib", envir = .TMAP_CACHE)
-	
+
 	with(g, {
+		npol <- nrow(co.npc)
+		if (length(symbol.size)!=npol) {
+			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
+			symbol.size <- rep(symbol.size, length.out=npol)
+		}
+
 		size.npc.w <- convertWidth(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
 		size.npc.h <- convertHeight(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
 
+		# determine justification per symbol
 		just <- g$symbol.misc$just
 		justs <- lapply(symbol.shape, function(ss) {
 			if (!is.na(ss) && ss>999) {
@@ -331,36 +338,29 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		})
 		justs.x <- sapply(justs, "[[", 1)
 		justs.y <- sapply(justs, "[[", 2)
+		justx <- size.npc.w * (justs.x-.5)
+		justy <- size.npc.h * (justs.y-.5)
 		
-		
-		justx <- size.npc.w * (justs.x-.5) #(ifelse(is_num_string(just[1]), as.numeric(just[1]), ifelse(just[1]=="left", 1, ifelse(just[1]=="right", 0, .5))) - .5)
-		justy <- size.npc.h * (justs.y-.5) #(ifelse(is_num_string(just[2]), as.numeric(just[2]), ifelse(just[2]=="bottom", 1, ifelse(just[2]=="top", 0, .5))) - .5)
-		
-		
+		# adjust the coordinates
 		co.npc[, 1] <- co.npc[, 1] + symbol.xmod * symbolW + justx * lineInch * 2 / 3
 		co.npc[, 2] <- co.npc[, 2] + symbol.ymod * symbolH + justy * lineInch * 2 / 3
-		npol <- nrow(co.npc)
-		if (length(symbol.size)!=npol) {
-			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
-			symbol.size <- rep(symbol.size, length.out=npol)
-		}
 		
-		#cols <- rep(symbol.col, length.out=npol)
 		sel <- !is.na(symbol.size) & !is.na(symbol.col) & !is.na(symbol.shape)
 		
+		# return NULL is no symbols are selected (see tm_facets example)
+		if (!any(sel)) return(NULL)
+		
 		if (!all(sel)) {
-			co.npc <- co.npc[sel, ]
+			co.npc <- co.npc[sel, , drop=FALSE]
 			symbol.size <- symbol.size[sel]
 			symbol.col <- symbol.col[sel]
 			symbol.shape <- symbol.shape[sel]
 		}
-		
-		symbol.size <- symbol.size * lineInch # * 1.1
-		#symbol.size <- symbol.size * lineInch / 2
+		symbol.size <- symbol.size * lineInch
 		
 		if (length(symbol.size)!=1) {
 			decreasing <- order(-symbol.size)
-			co.npc2 <- co.npc[decreasing,]
+			co.npc2 <- co.npc[decreasing,,drop=FALSE]
 			symbol.size2 <- symbol.size[decreasing]
 			symbol.shape2 <- symbol.shape[decreasing]
 			symbol.col2 <- symbol.col[decreasing]
@@ -371,8 +371,6 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 			symbol.col2 <- symbol.col
 		}
 
-		
-		
 		bordercol <- symbol.border.col
 		idName <- paste("tm_symbols", i, k, sep="_")
 		

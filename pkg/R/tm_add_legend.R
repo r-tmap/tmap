@@ -8,6 +8,7 @@
 #' @param size legend symbol sizes (if \code{type=="symbol"})
 #' @param shape legend symbol shapes (if \code{type=="symbol"})
 #' @param lwd legend line widths (if \code{type=="line"})
+#' @param lty legend line types (if \code{type=="line"})
 #' @param text legend texts (if \code{type=="text"})
 #' @param alpha legend fill transparancy
 #' @param border.col legend border col (if \code{type} is \code{"fill"} or \code{"symbol"})
@@ -19,11 +20,12 @@
 #' @export
 #' @seealso \code{\link{tm_symbols}} for an example
 tm_add_legend <- function(type = c("fill", "symbol", "text", "line"), 
-						  labels, 
+						  labels=NULL, 
 						  col=NULL, 
 						  size=NULL, 
 						  shape=NULL,
 						  lwd=NULL,
+						  lty=NULL,
 						  text=NULL, 
 						  alpha=NA,
 						  border.col="black",

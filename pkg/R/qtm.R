@@ -143,15 +143,27 @@ qtm <- function(shp,
 	argnames <- unlist(lapply(fns, function(f) names(formals(f))))
 	dupl <- setdiff(unique(argnames[duplicated(argnames)]), "...")
 	
-	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_polygons="col", tm_symbols=c("size", "col", "shape"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
+	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_polygons="col", tm_symbols=c("size", "col", "shape"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size", "col"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
+		
+		# get function argument names
 		lnames <- setdiff(names(formals(f)), sk)
-		isD <- lnames %in% dupl
-		lnames2 <- lnames
-		lnames2[isD] <- paste(pre, lnames2[isD], sep=".")
-		arg <- args[intersect(names(args), lnames2)]
-		if (length(arg)) names(arg) <- lnames[match(names(arg), lnames2)]
+		
+		# add prefix
+		lnames_pre <- paste(pre, lnames, sep=".")
+		
+		# which ones can be called without prefix? add prefix to them
+		lunique <- setdiff(lnames, dupl)
+		names_args <- names(args)
+		names_args[names_args %in% lunique] <- paste(pre, names_args[names_args %in% lunique], sep=".")
+		names(args) <- names_args
+		
+		# match
+		arg <- args[intersect(names_args, lnames_pre)]
+		
+		# cut off the prefix
+		if (length(arg)) names(arg) <- lnames[match(names(arg), lnames_pre)]
 		
 		arg
 	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)

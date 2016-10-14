@@ -38,8 +38,7 @@ tm_shape(NLD_prov) +
 
 tm_shape(NLD_prov) +
     tm_fill("gold2") + tm_borders() +
-    tm_facets(by="name", free.coords = TRUE, drop.units=TRUE) +
-tm_layout()
+    tm_facets(by="name", free.coords = TRUE, drop.units=TRUE)
 
 \dontrun{
 tm_shape(NLD_muni) +
