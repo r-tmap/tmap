@@ -20,7 +20,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		gc <- NULL
 	} else {
 		gc <- do.call("mapply", c(x[gcIDs], list(nm=names(x[gcIDs][[1]]), FUN=function(..., nm) {
-			if (nm %in% c("credits.text", "credits.position")) {
+			if (nm %in% c("credits.text", "credits.position", "credits.just")) {
 				unname(list(...))
 			} else unname(c(...))
 		}, SIMPLIFY=FALSE)))  
@@ -33,10 +33,12 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	} else {
 		if (any(sapply(glIDs, function(i) is.null(x[[i]]$logo.file)))) stop("Logo file missing", call.=FALSE)
 		gl <- do.call("mapply", c(x[glIDs], list(nm=names(x[glIDs][[1]]), FUN=function(..., nm) {
-			if (nm %in% c("logo.file", "logo.position", "logo.just")) {
+			if (nm %in% c("logo.file", "logo.position", "logo.just", "logo.height")) {
 				unname(list(...))
 			} else unname(c(...))
 		}, SIMPLIFY=FALSE)))  
+		gl$logo.file <- lapply(gl$logo.file, function(lf) if (!is.list(lf)) list(lf) else lf)
+		gl$logo.height <- lapply(gl$logo.height, function(lh) if (!is.list(lh)) list(lh) else lh)
 		gl$logo.id <- glIDs
 	}
 	
@@ -292,10 +294,10 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		#if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
 		gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
 				"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
-				"credits.position", "credits.id")] <- lapply(
+				"credits.position", "credits.just", "credits.id")] <- lapply(
 					gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
 							"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
-							"credits.position", "credits.id")],
+							"credits.position", "credits.just", "credits.id")],
 					function(gm) {
 						gm[gmeta$credits.show]	
 					})
@@ -303,15 +305,18 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 		
 		# process logos per facet
 		gmeta$logo.show <- sapply(gmeta$logo.show, "[[", i)
-		if (!is.null(gmeta$logo.file)) gmeta$logo.file <- get_text_i(gmeta$logo.file, i)
+		if (!is.null(gmeta$logo.file)) {
+			gmeta$logo.file <- lapply(gmeta$logo.file, function(lf)lf[[i]])
+			gmeta$logo.height <- lapply(gmeta$logo.height, function(lh)lh[[i]])
+			gmeta$logo.width <- lapply(gmeta$logo.width, function(lw)lw[[i]])
+		}
 		#if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
-		gmeta[c("logo.file", "logo.position", "logo.height", "logo.just", "logo.id")] <- lapply(
-					gmeta[c("logo.file", "logo.position", "logo.height", "logo.just", "logo.id")],
+		gmeta[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")] <- lapply(
+					gmeta[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")],
 					function(gm) {
 						gm[gmeta$logo.show]	
 					})
 		gmeta$logo.show <- any(gmeta$logo.show)
-		
 		
 		x$tm_layout <- gmeta
 		x$tm_layout$title <- x$tm_layout$title[i]

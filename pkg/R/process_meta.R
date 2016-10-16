@@ -227,13 +227,48 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 	
 	if (logo.show) {
 		gl <- within(gl, {
-			logo.height <- logo.height * gt$scale
-			logo.file <- lapply(logo.file, rep, length.out=nx)
-			logo.show <- lapply(logo.file, nonempty_text)
-			logo.width <- lapply(logo.file, function(lf) {
-				ti <- tmap_icons(lf)
-				logo.height * ti$iconWidth / ti$iconHeight
+			# get local file names
+			logo.file <- lapply(gl$logo.file, function(lf){
+				# loop over different tm_logos
+				lapply(lf, function(lf2) {
+					lf3 <- lf2
+					lf3[lf2!=""] <- tmap_icons(lf2[lf2!=""])$iconUrl
+					lf3
+				})
+				# loop over different multiples
 			})
+			
+			
+			# one for each small multiple
+			logo.height <- lapply(logo.height, function(lh) rep(lh, length.out=nx))
+			logo.file <- lapply(logo.file, rep, length.out=nx)
+			
+			
+			# make heights consistent with files
+			logo.height <- mapply(function(lf, lh) {
+				mapply(function(lf2, lh2) {
+					hts <- rep(lh2, length.out=length(lf2))
+					hts[lf2==""] <- 0
+					hts * gt$scale
+				}, lf, lh, SIMPLIFY=FALSE)
+			}, logo.file, logo.height, SIMPLIFY=FALSE)
+			
+			# which ones to show
+			logo.show <- lapply(logo.file, function(lf) sapply(lf, function(lf2) any(nonempty_text(lf2))))
+			
+			# calculate widths per icon
+			logo.width <- mapply(function(lf, lh) {
+				# loop over different tm_logos
+				mapply(function(lf2, lh2) {
+					# loop over different multiples
+					mapply(function(lf3, lh3) {
+						# loop over different icons in a row
+						if (lf3=="") return(0)
+						ti <- tmap_icons(lf3, height = 1e3 * lh3, width = 1e6 * lh3)
+						ti$iconWidth / 1e3
+					}, lf2, lh2, USE.NAMES = FALSE)
+				}, lf, lh, SIMPLIFY=FALSE)
+			}, logo.file, logo.height, SIMPLIFY=FALSE)
 		})
 	} else {
 		gl <- list(logo.show=list(rep(FALSE, nx)))

@@ -548,13 +548,49 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 }
 
 plot_logo <- function(gt, just, id) {
-	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
-	grobLogo <- pngGrob(gt$logo.file)
+	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
-	gTree(children=gList(
-		grobBG,
+	
+	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
+	
+	files <- gt$logo.file[[id]]
+	heights <- gt$logo.height[[id]]
+	widths <- gt$logo.width[[id]]
+	margin <- gt$logo.margin[id]
+	halign <- gt$logo.halign[id]
+	
+	n <- length(files)
+	xs <- c(0, cumsum(widths))[-(n+1)] + (1:n)*margin +  (widths / 2)
+
+	# translate to number from 0 (bottom) to 1 (top)
+	halign_num <- ifelse(is_num_string(halign), as.numeric(halign), ifelse(halign=="top", 1, ifelse(halign=="bottom", 0, 0.5)))
+	
+	# rescale to -1 to 1
+	halign_num <- (halign_num-.5) * 2
+	
+	h <- convertHeight(unit(1, "npc"), "lines", valueOnly=TRUE)
+	
+	ys <- h/2 + (max(heights) - heights)/2 * halign_num
+	
+		
+	heights_npc <- convertHeight(unit(heights, "lines"), "npc", valueOnly=TRUE)
+	widths_npc <- convertWidth(unit(widths, "lines"), "npc", valueOnly=TRUE)
+	xs_npc <- convertX(unit(xs, "lines"), "npc", valueOnly=TRUE)
+	ys_npc <- convertY(unit(ys, "lines"), "npc", valueOnly=TRUE)
+	
+	
+	grobsLogo <- do.call(gList, c(list(grobBG=grobBG), mapply(function(f, h, w, x, y) {
+		grobLogo <- pngGrob(f)
+		grobLogo$x <- unit(x, "npc")
+		grobLogo$y <- unit(y, "npc")
+		grobLogo$width <- unit(w, "npc")
+		grobLogo$height <- unit(h, "npc")
 		grobLogo
-	))
+	}, files, heights_npc, widths_npc, xs_npc, ys_npc, SIMPLIFY = FALSE)))
+	
+	
+	
+	gTree(children=grobsLogo)
 	
 }
 

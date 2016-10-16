@@ -95,7 +95,7 @@ pngGrob <- function(file) {
 		}
 		
 		x <- png::readPNG(file)
-		rasterGrob(x)
+		rasterGrob(x, interpolate=TRUE)
 	}
 }
 

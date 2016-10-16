@@ -53,9 +53,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	titleHeight <- lineHeight * (nlines*1.2) * title.size
 	
 	stackV <- gt$legend.stack=="vertical"
-	#############################################################################################
+	########################################################################################
 	## legend
-	#############################################################################################
+	########################################################################################
 	if (has.legend) {
 		nx <- length(x)
 		
@@ -229,9 +229,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 	}
 	
 
-	#############################################################################################
+	#########################################################################################
 	## title
-	#############################################################################################
+	#########################################################################################
 	
 	if (is.character(gt$title.position) || snap) {
 		title.position <- if (snap) NULL else {
@@ -268,9 +268,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		
 	}
 
-	#############################################################################################
+	#########################################################################################
 	## attributes
-	#############################################################################################
+	#########################################################################################
 	if (gt$credits.show || gt$logo.show || gt$scale.show || gt$compass.show) {
 		elems <- do.call("rbind", list(
 			if (gt$credits.show) data.frame(type="credits",
@@ -282,13 +282,22 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				 width=1,
 				 position1=sapply(gt$credits.position, "[", 1, USE.NAMES=FALSE),
 				 position2=sapply(gt$credits.position, "[", 2, USE.NAMES=FALSE), 
+				 just1=sapply(gt$credits.just, "[", 1, USE.NAMES=FALSE),
+				 just2=sapply(gt$credits.just, "[", 2, USE.NAMES=FALSE),
 				 sortid=gt$credits.id,
 				 stringsAsFactors = FALSE) else NULL,
 			if (gt$logo.show) data.frame(type="logo",
-				height=sapply(gt$logo.height, function(lh) (lh+1) * lineHeight),
-				width=sapply(gt$logo.width, function(lw) (lw+1) * lineWidth),
+				height=mapply(function(lh, m) {
+					(max(unlist(lh)) + m*2) * lineHeight
+				}, gt$logo.height, gt$logo.margin, SIMPLIFY = TRUE, USE.NAMES = FALSE),#  sapply(gt$logo.height, function(lh) (lh+1) * lineHeight),
+				width=mapply(function(lw, m) {
+					(sum(unlist(lw) + m) + m) * lineWidth
+				}, gt$logo.width, gt$logo.margin, SIMPLIFY = TRUE, USE.NAMES = FALSE),#  sapply(gt$logo.height, function(lh) (lh+1) * lineHeight),
+				#width=sapply(gt$logo.width, function(lw) (lw+1) * lineWidth),
 				position1=sapply(gt$logo.position, "[", 1, USE.NAMES=FALSE),
-				position2=sapply(gt$logo.position, "[", 2, USE.NAMES=FALSE), 
+				position2=sapply(gt$logo.position, "[", 2, USE.NAMES=FALSE),
+				just1=sapply(gt$logo.just, "[", 1, USE.NAMES=FALSE),
+				just2=sapply(gt$logo.just, "[", 2, USE.NAMES=FALSE),
 				sortid=gt$logo.id,
 				stringsAsFactors = FALSE) else NULL,
 			if (gt$scale.show) data.frame(type="scale_bar",
@@ -296,6 +305,8 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				width=1,
 				position1=gt$scale.position[1],
 				position2=gt$scale.position[2], 
+				just1=gt$scale.just[1],
+				just2=gt$scale.just[2], 
 				sortid=gt$scale.id,
 				stringsAsFactors = FALSE) else NULL,
 			if (gt$compass.show) data.frame(type="compass",
@@ -303,6 +314,8 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				width=(gt$compass.nlines * gt$compass.fontsize)*lineWidth,
 				position1=gt$compass.position[1],
 				position2=gt$compass.position[2], 
+				just1=gt$compass.just[1],
+				just2=gt$compass.just[2], 
 				sortid=gt$compass.id,
 				stringsAsFactors = FALSE) else NULL))
 
@@ -317,6 +330,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		elems$position1[is.na(elems$position1)] <- gt$attr.position[1]
 		elems$position2[is.na(elems$position2)] <- gt$attr.position[2]
 		
+		elems$just1[is.na(elems$just1)] <- gt$attr.just[1]
+		elems$just2[is.na(elems$just2)] <- gt$attr.just[2]
+		
 		elems$isChar1 <- (elems$position1 %in% c("left", "center", "centre", "right", "LEFT", "RIGHT"))
 		elems$isChar2 <- (elems$position2 %in% c("top", "center", "centre", "bottom", "TOP", "BOTTOM"))
 		#elems$id <- paste(elems$position1, elems$position2, (!elems$isChar1 | !elems$isChar1) * (1:nrow(elems))) # create id for elements that are snapped to each other
@@ -329,6 +345,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		elemGrobs <- lapply(elemsList, function(el) {
 			elemHeight <- sum(el$height)
 			elpos <- c(el$position1[1], el$position2[1])
+			eljust <- c(el$just1[1], el$just2[1])
 			elemleg <- all(tolower(elpos)==tolower(gt$legend.position)) && has.legend
 			elemtitle <- all(tolower(elpos)==tolower(gt$title.position)) && gt$title!="" && !snap
 			if (elemleg) {
@@ -410,9 +427,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 								RIGHT="right",
 								left="left",
 								LEFT="left",
-								gt$attr.just[1]),
+								eljust[1]),
 							ifelse(elpos[2] %in% c("top", "TOP", "bottom", "BOTTOM"), "bottom",
-							ifelse(elpos[2] %in% c("center", "centre"), "center", gt$attr.just[2])))
+							ifelse(elpos[2] %in% c("center", "centre"), "center", eljust[2])))
 			
 			if (elemleg && elem.just[1]=="center") elem.just[1] <- "right"
 			
@@ -447,7 +464,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				if (e$type=="credits") {
 					grb <- plot_cred(gt, just=elem.just[1], id=e$cred.id)
 				} else if (e$type=="logo") {
-					grb <- plot_logo(gt, just=elem.just[1], id=e$cred.id)
+					grb <- plot_logo(gt, just=elem.just[1], id=e$logo.id)
 				} else if (e$type=="scale_bar") {
 					grb <- plot_scale(gt, just=elem.just[1], xrange=(bb[1,2] - bb[1,1])*e$width2, crop_factor=gt$scale.width/e$width2)
 				} else {

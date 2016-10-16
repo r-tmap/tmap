@@ -104,6 +104,7 @@ tm_grid <- function(x=NA,
 #' @param fontface font face of the text. By default, determined by the fontface argument of \code{\link{tm_layout}}.
 #' @param fontfamily font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.
 #' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @export
 #' @seealso \code{\link{tm_xlab}}
 #' @example ../examples/tm_credits.R
@@ -115,7 +116,8 @@ tm_credits <- function(text,
 					   bg.color=NA,
 					   bg.alpha=NA,
 					   fontface=NA, fontfamily=NA,
-					   position=NA) {
+					   position=NA,
+					   just=NA) {
 	g <- list(tm_credits=as.list(environment()))
 	names(g$tm_credits) <- paste("credits", names(g$tm_credits), sep=".")
 	class(g) <- "tmap"
@@ -125,16 +127,21 @@ tm_credits <- function(text,
 
 #' Logo
 #'
-#' Creates a map logo.
+#' Creates a map logo. Multiple logos can be specified which are shown next to each other. Logos placed on top of each other can be specified with stacking \code{tm_logo} elements.
 #' 
-#' @param file either a filename or url of a png image, or a icon created with \code{\link{tmap_icon}}
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
-#' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo
-#' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.
+#' @param file either a filename or url of a png image, or a icon created with \code{\link{tmap_icon}}. If multiple files/urls are provided with a character vector, the logos are placed near each other. To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.
+#' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo. If multiple logos are specified by a vector or list, the heights can be specified accordingly.
+#' @param halign if logos in one row have different heights, \code{halign} specifies the vertical alignment. Possible values are \code{"top"}, \code{"center"} and \code{"bottom"}.
+#' @param margin margin around the logo in number of text line heights.
+#' @param position position of the logo. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @export
 tm_logo <- function(file,
+					height=3,
+					halign="center",
+					margin=0.15,
 					position=NA,
-					height=3) {
+					just=NA) {
 	g <- list(tm_logo=as.list(environment()))
 	names(g$tm_logo) <- paste("logo", names(g$tm_logo), sep=".")
 	class(g) <- "tmap"
@@ -154,7 +161,8 @@ tm_logo <- function(file,
 #' @param color.dark color of the dark parts of the scale bar, typically (and by default) black.
 #' @param color.light color of the light parts of the scale bar, typically (and by default) white.
 #' @param lwd line width of the scale bar
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param position position of the scale bar Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_scale_bar.R
 tm_scale_bar <- function(breaks=NULL,
@@ -164,7 +172,8 @@ tm_scale_bar <- function(breaks=NULL,
 						 color.dark="black", 
 						 color.light="white",
 						 lwd=1,
-						 position=NA) {
+						 position=NA,
+						 just=NA) {
 	g <- list(tm_scale_bar=as.list(environment()))
 	names(g$tm_scale_bar) <- paste("scale", names(g$tm_scale_bar), sep=".")
 	class(g) <- "tmap"
@@ -186,7 +195,8 @@ tm_scale_bar <- function(breaks=NULL,
 #' @param color.dark color of the dark parts of the compass, typically (and by default) black.
 #' @param color.light color of the light parts of the compass, typically (and by default) white.
 #' @param lwd line width of the compass
-#' @param position position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param position position of the compass. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @export
 #' @example ../examples/tm_compass.R
 tm_compass <- function(north=0, 
@@ -199,7 +209,8 @@ tm_compass <- function(north=0,
 					   color.dark=NA, 
 					   color.light=NA,
 					   lwd=1,
-					   position=NA) {
+					   position=NA,
+					   just=NA) {
 	g <- list(tm_compass=as.list(environment()))
 	names(g$tm_compass) <- paste("compass", names(g$tm_compass), sep=".")
 	class(g) <- "tmap"

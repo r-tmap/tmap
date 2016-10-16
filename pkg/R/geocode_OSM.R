@@ -7,18 +7,23 @@
 #' @param return.first.only Only return the first result
 #' @param details provide output details, other than the point coordinates and bounding box
 #' @param as.data.frame Return the output as a \code{data.frame}. If \code{FALSE}, a list is returned with at least two items: \code{"coords"}, a vector containing the coordinates, and \code{"bbox"}, the corresponding bounding box. By default false, unless \code{q} contains multiple queries
+#' @param as.SPDF Return the output as \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}. If \code{TRUE}, \code{return.first.only} will be set to \code{TRUE}.
 #' @param server OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.
-#' @return See \code{as.data.frame}
+#' @return If \code{as.SPDF} then a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is returned. Else, if \code{as.data.frame}, then a \code{data.frame} is returned, else a list.
 #' @export
 #' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse xmlValue
 #' @example ../examples/geocode_OSM.R
 #' @seealso \code{\link{rev_geocode_OSM}}, \code{\link{bb}}
-geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details=FALSE, as.data.frame=NA, server="http://nominatim.openstreetmap.org") {
+geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details=FALSE, as.data.frame=NA, as.SPDF=FALSE, server="http://nominatim.openstreetmap.org") {
 	n <- length(q)
 	q2 <- gsub(" ", "+", enc2utf8(q), fixed = TRUE)
 	addr <- paste0(server, "/search?q=", q2, "&format=xml&polygon=0&addressdetails=0")
 	
 	if (is.na(as.data.frame)) as.data.frame <- (n>1)
+	if (as.SPDF) {
+		as.data.frame <- TRUE
+		return.first.only <- TRUE
+	}
 
 	
 	output2 <- lapply(1:n, function(k) {
@@ -70,7 +75,7 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 				names(coords) <- c("x", "y")
 				
 				search_result_loc <- as.list(coords)
-				names(search_result_loc) <- c("y", "x")
+				names(search_result_loc) <- c("x", "y")
 			}
 
 			res <- if (as.data.frame) {
@@ -92,7 +97,22 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 	output3 <- do.call(c, output2)
 	
 	if (as.data.frame) {
-		do.call(rbind, output3)
+		df <- do.call(rbind, output3)
+		
+		if (as.SPDF) {
+			if (projection=="longlat") {
+				spdf <- SpatialPointsDataFrame(df[, c("lon", "lat")], proj4string=CRS(get_proj4("longlat")), 
+											   data = df,
+											   match.ID = FALSE)
+			} else {
+				spdf <- SpatialPointsDataFrame(df[, c("x", "y")], proj4string=CRS(get_proj4(projection)), 
+											   data = df,
+											   match.ID = FALSE)
+			}
+			spdf
+		} else {
+			df
+		}
 	} else {
 		if (length(output3)==1) {
 			output3[[1]]

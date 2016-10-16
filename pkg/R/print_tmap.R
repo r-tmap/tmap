@@ -139,11 +139,13 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	## find master projection
 	master_proj <- get_proj4(x[[shape.id[masterID]]]$projection)
-	if (is.null(master_proj)) master_proj <- get_projection(x[[shape.id[masterID]]]$shp)
+	mshp_raw <- x[[shape.id[masterID]]]$shp
+	if (is.null(master_proj)) master_proj <- get_projection(mshp_raw)
+	orig_proj <- master_proj # needed for adjusting bbox in process_shapes
 	if (interactive) master_proj <- get_proj4("longlat")
 	
 	## find master bounding box (unprocessed)
-	bbx_raw <- bb(x[[shape.id[masterID]]]$shp)
+	bbx_raw <- bb(mshp_raw)
 
 	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
 	raster_facets_vars <- lapply(1:nshps, function(i) {
@@ -172,8 +174,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	}
 
 	## determine aspect ratio of master shape
-	bbx <- attr(shps[[masterID]], "bbox")
-	masp <-	calc_asp_ratio(bbx[1,], bbx[2,], longlat=!attr(shps[[masterID]], "projected"))
+	mshp <- shps[[masterID]]
+	
+	bbx <- attr(mshp, "bbox")
+	masp <-	calc_asp_ratio(bbx[1,], bbx[2,], longlat=!attr(mshp, "projected"))
 
 	## remove shapes from and add data to tm_shape objects
 	x[shape.id] <- mapply(function(y, dataset, type){
@@ -244,7 +248,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	# aspect ratio per facet minus extern legend
 	lasp <- fasp * (1-fpi$legmarx) / (1-fpi$legmary)
 	
-	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, lasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj)
+	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, lasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, projection=master_proj, interactive=interactive, orig.projection=orig_proj)
 	
 	sasp <- attr(shps, "sasp")
 	bbx <- attr(shps, "bbx")

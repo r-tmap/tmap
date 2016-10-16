@@ -1,4 +1,4 @@
-process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, raster.leaflet, projection) {
+process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, raster.leaflet, projection, interactive, orig.projection) {
 	
 	pasp <- gm$asp
 	if (identical(pasp, 0)) pasp <- dasp
@@ -22,6 +22,9 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 		if (is.character(args$x)) {
 			args$projection <- projection
 			args$current.projection <- "longlat"
+		} else if (interactive) {
+			args$projection <- projection
+			args$current.projection <- orig.projection
 		} else {
 			args$projection <- NULL
 			args$current.projection <- NULL
