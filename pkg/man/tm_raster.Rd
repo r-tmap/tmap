@@ -19,7 +19,7 @@ If multiple values are specified, small multiples are drawn (see details). By de
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
-\item{palette}{palette name. See \code{RColorBrewer::display.brewer.all()} for options. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.}
+\item{palette}{a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palettes. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}, which typically depends on the style. The type of palette from \code{aes.palette} is automatically determined, but can be overwritten: use \code{"seq"} for sequential, \code{"div"} for diverging, and \code{"cat"} for categorical.}
 
 \item{n}{preferred number of classes (in case \code{col} is a numeric variable)}
 

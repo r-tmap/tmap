@@ -77,8 +77,8 @@ marker_icon <- function() {
 }
 
 
-
-pngGrob <- function(file) {
+# fix.borders is needed to prevent that right-hand side and bottom edges disappear
+pngGrob <- function(file, fix.borders=FALSE) {
 	if (!requireNamespace("png", quietly = TRUE)) {
 		stop("png package needed for this function to work. Please install it.",
 			 call. = FALSE)
@@ -95,8 +95,26 @@ pngGrob <- function(file) {
 		}
 		
 		x <- png::readPNG(file)
-		rasterGrob(x, interpolate=TRUE)
+		
+		if (fix.borders) {
+			if (dim(x)[3]==3) {
+				x <- array(c(x, rep(1, dim(x)[1]*dim(x)[2])), dim = c(dim(x)[1], dim(x)[2], dim(x)[3]+1))
+			}
+			x2 <- add_zero_borders_to_3d_array(x)
+			rasterGrob(x2, interpolate=TRUE)
+		} else {
+			rasterGrob(x, interpolate=TRUE)
+		}
 	}
+}
+
+add_zero_borders_to_3d_array <- function(x, n=4) {
+	dims <- dim(x)
+	res <- lapply(1:dims[3], function(i) {
+		rbind(cbind(x[,,i], matrix(0, nrow=nrow(x), ncol=n)), matrix(0, nrow=n, ncol=ncol(x)+n))
+	})
+
+	array(unlist(res), dim = c(dim(x)[1]+n, dim(x)[2]+n, dim(x)[3]))
 }
 
 

@@ -6,7 +6,7 @@
 \usage{
 tm_credits(text, size = 0.7, col = NA, alpha = NA, align = "left",
   bg.color = NA, bg.alpha = NA, fontface = NA, fontfamily = NA,
-  position = NA)
+  position = NA, just = NA)
 }
 \arguments{
 \item{text}{text. Multiple lines can be created with the line break symbol \code{"\\n"}. Facets can have different texts: in that case a vector of characters is required. Use \code{""} to omit the credits for specific facets.}
@@ -28,6 +28,8 @@ tm_credits(text, size = 0.7, col = NA, alpha = NA, align = "left",
 \item{fontfamily}{font family of the text. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.}
 
 \item{position}{position of the text. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.}
+
+\item{just}{Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.}
 }
 \description{
 Creates a text annotation that could be used for credits or acknowledgements.

@@ -580,7 +580,7 @@ plot_logo <- function(gt, just, id) {
 	
 	
 	grobsLogo <- do.call(gList, c(list(grobBG=grobBG), mapply(function(f, h, w, x, y) {
-		grobLogo <- pngGrob(f)
+		grobLogo <- pngGrob(f, fix.borders = TRUE)
 		grobLogo$x <- unit(x, "npc")
 		grobLogo$y <- unit(y, "npc")
 		grobLogo$width <- unit(w, "npc")

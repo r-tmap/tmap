@@ -30,7 +30,7 @@ legend_prepare <- function(gp, gal, gt, scaleFactor) {
 				 legend.labels=if (is.null(g$labels)) rep("", nitems) else rep(g$labels, length.out=nitems),
 				 legend.text=if (is.null(g$text)) NULL else rep(g$text, length.out=nitems),
 				 legend.palette=if (is.null(g$col)) rep("grey50", nitems) else rep(g$col, length.out=nitems),
-				 legend.sizes=if (is.null(g$size)) rep(1, nitems) else re(g$size, length.out=nitems), # * scaleFactor,
+				 legend.sizes=if (is.null(g$size)) rep(1, nitems) else rep(g$size, length.out=nitems), # * scaleFactor,
 				 legend.shapes=if (is.null(g$shape)) rep(21, nitems) else rep(g$shape, length.out=nitems),
 				 border.col=g$border.col,
 				 lwd=g$border.lwd,

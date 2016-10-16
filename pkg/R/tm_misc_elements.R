@@ -129,17 +129,18 @@ tm_credits <- function(text,
 #'
 #' Creates a map logo. Multiple logos can be specified which are shown next to each other. Logos placed on top of each other can be specified with stacking \code{tm_logo} elements.
 #' 
-#' @param file either a filename or url of a png image, or a icon created with \code{\link{tmap_icon}}. If multiple files/urls are provided with a character vector, the logos are placed near each other. To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.
+#' @param file either a filename or url of a png image. If multiple files/urls are provided with a character vector, the logos are placed near each other. To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.
 #' @param height height of the logo in number of text line heights. The width is scaled based the height and the aspect ratio of the logo. If multiple logos are specified by a vector or list, the heights can be specified accordingly.
 #' @param halign if logos in one row have different heights, \code{halign} specifies the vertical alignment. Possible values are \code{"top"}, \code{"center"} and \code{"bottom"}.
 #' @param margin margin around the logo in number of text line heights.
 #' @param position position of the logo. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
+#' @example ../examples/tm_logo.R
 #' @export
 tm_logo <- function(file,
 					height=3,
 					halign="center",
-					margin=0.15,
+					margin=0.2,
 					position=NA,
 					just=NA) {
 	g <- list(tm_logo=as.list(environment()))

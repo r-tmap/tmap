@@ -75,7 +75,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NA,
 
 \item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.}
 
-\item{palette}{color palette (see \code{RColorBrewer::display.brewer.all}) for the symbols. Only when \code{col} is set to a variable. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}.}
+\item{palette}{a palette name or a vector of colors. See \code{RColorBrewer::display.brewer.all()} for the named palettes. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}, which typically depends on the style. The type of palette from \code{aes.palette} is automatically determined, but can be overwritten: use \code{"seq"} for sequential, \code{"div"} for diverging, and \code{"cat"} for categorical.}
 
 \item{labels}{labels of the classes}
 

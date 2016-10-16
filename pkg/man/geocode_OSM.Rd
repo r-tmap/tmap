@@ -5,7 +5,7 @@
 \title{Geocodes a location using OpenStreetMap Nominatim}
 \usage{
 geocode_OSM(q, projection = "longlat", return.first.only = TRUE,
-  details = FALSE, as.data.frame = NA,
+  details = FALSE, as.data.frame = NA, as.SPDF = FALSE,
   server = "http://nominatim.openstreetmap.org")
 }
 \arguments{
@@ -19,10 +19,12 @@ geocode_OSM(q, projection = "longlat", return.first.only = TRUE,
 
 \item{as.data.frame}{Return the output as a \code{data.frame}. If \code{FALSE}, a list is returned with at least two items: \code{"coords"}, a vector containing the coordinates, and \code{"bbox"}, the corresponding bounding box. By default false, unless \code{q} contains multiple queries}
 
+\item{as.SPDF}{Return the output as \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}. If \code{TRUE}, \code{return.first.only} will be set to \code{TRUE}.}
+
 \item{server}{OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.}
 }
 \value{
-See \code{as.data.frame}
+If \code{as.SPDF} then a \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}} is returned. Else, if \code{as.data.frame}, then a \code{data.frame} is returned, else a list.
 }
 \description{
 Geocodes a location (based on a search query) to coordinates and a bounding box. Similar to geocode from the ggmap package. It uses OpenStreetMap Nominatim. For processing large amount of queries, please read the usage policy (\url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}).
