@@ -20,7 +20,7 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
   legend.format = list(), legend.size.is.portrait = FALSE,
   legend.col.is.portrait = TRUE, legend.hist = FALSE,
   legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
-  legend.hist.z = NA, id = NA)
+  legend.hist.z = NA)
 }
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
@@ -132,8 +132,6 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 \item{legend.col.z}{index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})}
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
-
-\item{id}{name of the data variable that specifies the indices of the text labels. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
 }
 \value{
 \code{\link{tmap-element}}

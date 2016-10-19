@@ -62,7 +62,6 @@
 #' @param legend.size.z index value that determines the position of the legend element regarding the text sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.col.z index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
-#' @param id name of the data variable that specifies the indices of the text labels. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 #' @export
 #' @example ../examples/tm_text.R
@@ -98,8 +97,7 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 legend.hist.title=NA,
 					 legend.size.z=NA,
 					 legend.col.z=NA,
-					 legend.hist.z=NA,
-					 id=NA) {
+					 legend.hist.z=NA) {
 	g <- list(tm_text=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -180,6 +178,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param legend.lwd.z index value that determines the position of the legend element regarding the line widths. (See \code{legend.col.z})
 #' @param legend.hist.z index value that determines the position of the legend element regarding the histogram. (See \code{legend.col.z})
 #' @param id name of the data variable that specifies the indices of the lines. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
+#' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.
 #' @export
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ../examples/tm_lines.R
@@ -211,7 +210,8 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 legend.col.z=NA,
 					 legend.lwd.z=NA,
 					 legend.hist.z=NA,
-					 id=NA) {
+					 id=NA,
+					 popup.vars=NA) {
 	g <- list(tm_lines=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -268,6 +268,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @param id name of the data variable that specifies the indices of the polygons. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
+#' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.
 #' @param ... for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link{map_coloring}}.
 #' @keywords choropleth
 #' @export
@@ -300,6 +301,7 @@ tm_fill <- function(col=NA,
 					legend.z=NA,
 					legend.hist.z=NA,
 					id=NA,
+					popup.vars=NA,
 					...) {
 	
 	g <- list(tm_fill=c(as.list(environment()), list(map_coloring=list(...), call=names(match.call(expand.dots = TRUE)[-1]))))
@@ -505,6 +507,7 @@ tm_raster <- function(col=NA,
 #' @param legend.shape.z index value that determines the position of the legend element regarding the symbol shapes. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
 #' @param id name of the data variable that specifies the indices of the symbols. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
+#' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.
 #' @param title shortcut for \code{title.col} for \code{tm_dots}
 #' @param legend.show shortcut for \code{legend.col.show} for \code{tm_dots}
 #' @param legend.is.portrait shortcut for \code{legend.col.is.portrait} for \code{tm_dots}
@@ -569,7 +572,8 @@ tm_symbols <- function(size=1, col=NA,
 						legend.col.z=NA,
 						legend.shape.z=NA,
 						legend.hist.z=NA,
-						id=NA) {
+						id=NA,
+						popup.vars=NA) {
 	g <- list(tm_symbols=c(as.list(environment()), list(are.dots=FALSE, are.markers=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g

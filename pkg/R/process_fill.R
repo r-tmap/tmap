@@ -57,7 +57,11 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gt$pc)),
 						 ncol=ncol(dt))
 		}
-		return(list(fill=dt, xfill=rep(NA, nx), fill.lenged.title=rep(NA, nx)))	
+		return(list(fill=dt, 
+					xfill=rep(NA, nx), 
+					fill.lenged.title=rep(NA, nx),
+					fill.id=g$id,
+					fill.popup.vars=g$popup.vars))	
 	} 
 
 	# process areas
@@ -114,5 +118,6 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 		 fill.legend.hist.title=fill.legend.hist.title,
 		 fill.legend.z=fill.legend.z,
 		 fill.legend.hist.z=fill.legend.hist.z,
-		 fill.id=g$id)
+		 fill.id=g$id,
+		 fill.popup.vars=g$popup.vars)
 }

@@ -21,8 +21,16 @@
 save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 					  dpi=300, outer.margins=0, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose=TRUE, ...) {
 	if (missing(tm)) {
-		tm <- last_map()
+		lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
+		tm <- suppressWarnings(last_map())
+		if (is.null(tm)) stop("A map has not been created yet")
+	} else {
+		lastcall <- NULL
 	}
+	
+	on.exit({
+		if (!is.null(lastcall)) assign(".last_map", lastcall, envir = .TMAP_CACHE)
+	})
 	
 	shp_name <- function(tm) {
 		paste(tm[[1]]$shp_name, ".pdf", sep = "")
@@ -132,7 +140,7 @@ save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	}
 	
 	do.call(ext, args = c(list(file = filename, width = width, height = height), list(...)))
-	on.exit(capture.output(dev.off()))
+	on.exit(capture.output(dev.off()), add = TRUE)
 	args <- list(outer.margins=outer.margins)
 	if (!missing(asp)) args$asp <- asp
 	if (!is.na(scale)) args$scale <- scale

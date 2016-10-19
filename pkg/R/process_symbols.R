@@ -31,7 +31,9 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 					xshape=NA,
 					symbol.size.legend.title=NA,
 					symbol.col.legend.title=NA,
-					symbol.shape.legend.title))
+					symbol.shape.legend.title=NA,
+					symbol.id=g$id,
+					symbol.popup.vars=g$popup.vars))
 	}
 	
 	# if by is specified, use first value only
@@ -315,7 +317,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 symbol.col.legend.hist.title=symbol.col.legend.hist.title,
 		 symbol.col.legend.z=symbol.col.legend.z,
 		 symbol.col.legend.hist.z=symbol.legend.hist.z,
-		 symbol.id=g$id)
+		 symbol.id=g$id,
+		 symbol.popup.vars=g$popup.vars)
 }
 
 submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) {

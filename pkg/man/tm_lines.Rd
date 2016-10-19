@@ -14,7 +14,7 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
   legend.format = list(), legend.col.is.portrait = TRUE,
   legend.lwd.is.portrait = FALSE, legend.hist = FALSE,
   legend.hist.title = NA, legend.col.z = NA, legend.lwd.z = NA,
-  legend.hist.z = NA, id = NA)
+  legend.hist.z = NA, id = NA, popup.vars = NA)
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
@@ -90,6 +90,8 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{legend.hist.z}{index value that determines the position of the legend element regarding the histogram. (See \code{legend.col.z})}
 
 \item{id}{name of the data variable that specifies the indices of the lines. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
+
+\item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.}
 }
 \value{
 \code{\link{tmap-element}}

@@ -4,16 +4,14 @@
 \alias{tm_view}
 \title{Options for the interactive tmap viewer}
 \usage{
-tm_view(alpha = NA, popup.all.data = FALSE, colorNA = NULL,
-  basemaps = NA, bg.overlay = NA, bg.overlay.alpha = NA,
-  symbol.size.fixed = FALSE, dot.size.fixed = TRUE, set.bounds = FALSE,
-  set.view = NA, set.zoom.limits = NA, legend.position = c("right",
-  "top"), control.position = c("left", "top"))
+tm_view(alpha = NA, colorNA = NULL, basemaps = NA, bg.overlay = NA,
+  bg.overlay.alpha = NA, symbol.size.fixed = FALSE, dot.size.fixed = TRUE,
+  set.bounds = FALSE, set.view = NA, set.zoom.limits = NA,
+  legend.position = c("right", "top"), control.position = c("left", "top"),
+  popup.all.data = NULL)
 }
 \arguments{
 \item{alpha}{transparency parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
-
-\item{popup.all.data}{should only the aesthetic variables be shown in the popup windows, or all variables? By default \code{TRUE} unless aesthetics are used and the corresponding \code{id} arguement is specified.}
 
 \item{colorNA}{default color for missing values (that is, in case \code{colorNA} is unspecified in layer functions such as \code{\link{tm_fill}}). The default value of \code{NULL} means transparent. It overrides the \code{na} value of the \code{aes.color} in \code{\link{tm_layout}}.}
 
@@ -36,6 +34,8 @@ tm_view(alpha = NA, popup.all.data = FALSE, colorNA = NULL,
 \item{legend.position}{Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.}
 
 \item{control.position}{Character vector of two values, specifing the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.}
+
+\item{popup.all.data}{not used anymore. As of version 1.6, the popups are specified by the argument \code{popup.vars} in the layer functions \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}.}
 }
 \description{
 Set the options for the interactive tmap viewer. Some of these options can also be set with \code{\link{tm_layout}}, since they are style dependent (e.g., the choice of basemaps). The function \code{tm_view} overrides these options when specified.
@@ -51,7 +51,8 @@ map1 <- tm_shape(metro) +
 		style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
 		palette="-RdYlBu", contrast=1, 
 		title.size="Metro population", 
-		title.col="Growth rate (\%)", id="name") + 
+		title.col="Growth rate (\%)", id="name", 
+		    popup.vars=c("pop2010", "pop2020", "growth")) + 
 	tm_legend(outside=TRUE)
 
 current.mode <- tmap_mode("plot")

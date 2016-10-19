@@ -78,7 +78,7 @@ marker_icon <- function() {
 
 
 # fix.borders is needed to prevent that right-hand side and bottom edges disappear
-pngGrob <- function(file, fix.borders=FALSE) {
+pngGrob <- function(file, fix.borders=FALSE, n=NULL, height.inch=NULL, target.dpi=NULL) {
 	if (!requireNamespace("png", quietly = TRUE)) {
 		stop("png package needed for this function to work. Please install it.",
 			 call. = FALSE)
@@ -100,7 +100,7 @@ pngGrob <- function(file, fix.borders=FALSE) {
 			if (dim(x)[3]==3) {
 				x <- array(c(x, rep(1, dim(x)[1]*dim(x)[2])), dim = c(dim(x)[1], dim(x)[2], dim(x)[3]+1))
 			}
-			x2 <- add_zero_borders_to_3d_array(x)
+			x2 <- add_zero_borders_to_3d_array(x, n=n, height.inch=height.inch,target.dpi=target.dpi)
 			rasterGrob(x2, interpolate=TRUE)
 		} else {
 			rasterGrob(x, interpolate=TRUE)
@@ -108,13 +108,21 @@ pngGrob <- function(file, fix.borders=FALSE) {
 	}
 }
 
-add_zero_borders_to_3d_array <- function(x, n=4) {
+add_zero_borders_to_3d_array <- function(x, perc=NA, n=NULL, height.inch=NULL, target.dpi=NULL) {
 	dims <- dim(x)
-	res <- lapply(1:dims[3], function(i) {
-		rbind(cbind(x[,,i], matrix(0, nrow=nrow(x), ncol=n)), matrix(0, nrow=n, ncol=ncol(x)+n))
-	})
+	
+	if (is.na(perc)) {
+		dpi <- dims[2] / height.inch
+		compress <- dpi/target.dpi
+		borders <- rep(compress * n, 2)
+	} else {
+		borders <- round(dims / 100 * perc)
+	}
 
-	array(unlist(res), dim = c(dim(x)[1]+n, dim(x)[2]+n, dim(x)[3]))
+	res <- lapply(1:dims[3], function(i) {
+		rbind(cbind(x[,,i], matrix(0, nrow=nrow(x), ncol=borders[2])), matrix(0, nrow=borders[1], ncol=ncol(x)+borders[2]))
+	})
+	array(unlist(res), dim = c(dim(x)[1]+borders[1], dim(x)[2]+borders[2], dim(x)[3]))
 }
 
 

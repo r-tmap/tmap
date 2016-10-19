@@ -28,7 +28,7 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
   legend.shape.is.portrait = TRUE, legend.hist = FALSE,
   legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
-  legend.shape.z = NA, legend.hist.z = NA, id = NA)
+  legend.shape.z = NA, legend.hist.z = NA, id = NA, popup.vars = NA)
 
 tm_squares(size = 1, col = NA, shape = 22, ...)
 
@@ -169,6 +169,8 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NA,
 
 \item{id}{name of the data variable that specifies the indices of the symbols. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
 
+\item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.}
+
 \item{...}{arguments passed on to \code{tm_symbols}. For \code{tm_markers}, arguments can also be passed on to \code{tm_text}. In that case, they have to be prefixed with \code{text.}, e.g. the \code{col} argument should be names \code{text.col}}
 
 \item{title}{shortcut for \code{title.col} for \code{tm_dots}}
@@ -269,20 +271,22 @@ tm_shape(NLD_prov) +
 				  title="Origin") +
 tm_format_NLD()
 
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")
+
 \dontrun{
-devtools::install_github("ropenscilabs/rnaturalearthdata")
-require(rnaturalearth)
+require(rnaturalearth) # if not on CRAN: devtools::install_github("ropenscilabs/rnaturalearth")
+
 airports <- ne_download(scale=10, type="airports")
-airplane <- tmap_icon(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
+airplane <- tmap_icons(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
 	"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
 	"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
 
+tmap_mode("view")
 tm_shape(airports, bbox="Germany") +
 	tm_symbols(shape=airplane, size="natlscale",
 		legend.size.show = FALSE, scale=2, border.col = NA)
 }
 
-# TIP: check out these examples in view mode, enabled with tmap_mode("view")
 
 #####################################################################################
 

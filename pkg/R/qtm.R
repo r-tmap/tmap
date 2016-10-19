@@ -28,8 +28,9 @@
 #' @param lines.col either a line color or a name of the data variable that specifies the line colors. Only applicable when \code{shp} is type 3 (see above).
 #' @param raster either a color or a name of the data variable that specifices the raster colors. Only applicable when \code{shp} is type 4, 5, or 6 (see above).
 #' @param borders color of the polygon borders. Use \code{NULL} to omit the borders.
+#' @param by data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns). See also \code{\link{tm_facets}}
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, sy mbol sizes, border widths, and line widths are controled by this value. The parameters \code{symbols.size}, \code{text.size}, and \code{lines.lwd} can be scaled seperately with respectively \code{symbols.scale}, \code{text.scale}, and \code{lines.scale}. See also \code{...}.
-#' @param title main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).
+#' @param title main title. For legend titles, use \code{X.style}, where X is the layer name (see \code{...}).
 #' @param projection character that determines the projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.
 #' @param format \code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).
 #' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).
@@ -54,6 +55,7 @@ qtm <- function(shp,
 				lines.col=NULL,
 				raster=NA,
 				borders=NA,
+				by=NULL,
 				scale=NA,
 				title=NA,
 				projection=NULL,
@@ -143,7 +145,7 @@ qtm <- function(shp,
 	argnames <- unlist(lapply(fns, function(f) names(formals(f))))
 	dupl <- setdiff(unique(argnames[duplicated(argnames)]), "...")
 	
-	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_polygons="col", tm_symbols=c("size", "col", "shape"), tm_dots=c("size", "col", "shape"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size", "col"), tm_layout="scale", tm_grid=NULL, tm_facets=NULL, tm_view="basemaps")
+	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_polygons="col", tm_symbols=c("size", "col", "shape"), tm_dots=c("size", "col", "shape"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size", "col"), tm_layout="scale", tm_grid=NULL, tm_facets="by", tm_view="basemaps")
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
 		
@@ -213,7 +215,9 @@ qtm <- function(shp,
 
 	if (!is.null(raster)) g <- g + do.call("tm_raster", c(list(col=raster), args2[["tm_raster"]]))
 	
-	if (length(args2[["tm_facets"]])) g <- g + do.call("tm_facets", args2[["tm_facets"]])
+	if (length(args2[["tm_facets"]]) || !missing(by)) {
+		g <- g + do.call("tm_facets", c(list(by=by), args2[["tm_facets"]]))	
+	} 
 
 	scaleLst <- if (!missing(scale)) list(title=title, scale=scale) else list(title=title)
 	if (!missing(format)) {

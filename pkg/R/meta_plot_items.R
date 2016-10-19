@@ -578,15 +578,24 @@ plot_logo <- function(gt, just, id) {
 	xs_npc <- convertX(unit(xs, "lines"), "npc", valueOnly=TRUE)
 	ys_npc <- convertY(unit(ys, "lines"), "npc", valueOnly=TRUE)
 	
+	heights_in <- convertHeight(unit(heights, "lines"), "inch", valueOnly=TRUE)
+	widths_in <- convertHeight(unit(widths, "lines"), "inch", valueOnly=TRUE)
 	
-	grobsLogo <- do.call(gList, c(list(grobBG=grobBG), mapply(function(f, h, w, x, y) {
-		grobLogo <- pngGrob(f, fix.borders = TRUE)
+	
+	grobsLogo <- do.call(gList, c(list(grobBG=grobBG), mapply(function(f, h, w, x, y, hin, win) {
+		grobLogo <- pngGrob(f, fix.borders = T, n=2, height.inch=hin, target.dpi=96)
+		
+		rdim <- dim(grobLogo$raster)
+		grobLogo$raster <- matrix(do.call("process_color", c(list(as.vector(grobLogo$raster), alpha=1), gt$pc)), nrow = rdim[1], ncol=rdim[2])
+		# correct width to logo asp
+		win2 <- hin * 1/do.call("/", as.list(rdim))
+		w2 <- convertWidth(unit(win2, "inch"), "npc", valueOnly=TRUE)
 		grobLogo$x <- unit(x, "npc")
 		grobLogo$y <- unit(y, "npc")
-		grobLogo$width <- unit(w, "npc")
+		grobLogo$width <- unit(w2, "npc")
 		grobLogo$height <- unit(h, "npc")
 		grobLogo
-	}, files, heights_npc, widths_npc, xs_npc, ys_npc, SIMPLIFY = FALSE)))
+	}, files, heights_npc, widths_npc, xs_npc, ys_npc, heights_in, widths_in, SIMPLIFY = FALSE)))
 	
 	
 	

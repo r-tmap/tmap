@@ -164,7 +164,8 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		 line.col.legend.z=line.col.legend.z,
 		 line.lwd.legend.z=line.lwd.legend.z,
 		 line.col.legend.hist.z=line.col.legend.hist.z,
-		 line.id=g$id
+		 line.id=g$id,
+		 line.popup.vars=g$popup.vars
 	)
 
 }

@@ -65,7 +65,6 @@ view_tmap <- function(gps, shps, bbx) {
 	e <- environment()
 	id <- 1
 	alpha <- gt$alpha
-	popup.all.data <- gt$popup.all.data
 
 	group_selection <- mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
@@ -90,7 +89,7 @@ view_tmap <- function(gps, shps, bbx) {
 			fopacity <- fres$opacity
 			
 			if (!is.null(gpl$fill)) {
-				popups <- get_popups(gpl, type="fill", popup.all.data=popup.all.data)
+				popups <- get_popups(gpl, type="fill")
 			} else {
 				popups <- NULL
 			}
@@ -113,7 +112,7 @@ view_tmap <- function(gps, shps, bbx) {
 			lcol <- lres$col
 			lopacity <- lres$opacity
 
-			popups <- get_popups(gpl, type="line", popup.all.data=popup.all.data)
+			popups <- get_popups(gpl, type="line")
 			dashArray <- lty2dashArray(gpl$line.lty)
 			
 			lf <- lf %>% addPolylines(data=shp, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id)
@@ -158,7 +157,7 @@ view_tmap <- function(gps, shps, bbx) {
 				}
 			}
 			
-			popups <- get_popups(gpl, type="symbol", popup.all.data=popup.all.data)
+			popups <- get_popups(gpl, type="symbol")
 
 			# sort symbols
 			if (length(symbol.size)!=1) {
@@ -361,27 +360,17 @@ get_aes_name <- function(type) {
 	}
 }
 
-get_popups <- function(gpl, type, popup.all.data) {
+get_popups <- function(gpl, type) {
 	var_names <- paste(type, "names", sep=".")
-	var_x <- get_x_name(type)
-	var_aes <- get_aes_name(type)
+	var_vars <- paste(type, "popup.vars", sep=".")
 	
-	var_values <- paste(var_aes, "values", sep=".")
-
-	if (all(is.na(unlist(gpl[var_x]))) || is.null(gpl[[var_names]])) popup.all.data <- TRUE
-
 	dt <- gpl$data
-	if (popup.all.data) {
-		popups <- format_popups(gpl[[var_names]], names(dt), dt)
+	
+	if (is.na(gpl[[var_vars]][1])) {
+		popups <- NULL
 	} else {
-		if (type=="fill" && !is.null(gpl$fill.densities)) {
-			gpl$xfill_dens <- paste(gpl[[paste(var_x)]], "density", sep="_")
-			var_x <- c(var_x, "xfill_dens")
-			var_values <- c(var_values, "fill.densities")
-		}
-		popups <- format_popups(gpl[[var_names]], unlist(gpl[var_x]), gpl[var_values])
+		popups <- format_popups(dt[[gpl[[var_names]]]], gpl[[var_vars]], dt[, gpl[[var_vars]], drop=FALSE])
 	}
-	if (length(popups)==1 && popups[1]=="") popups <- NULL
 	popups
 }
 

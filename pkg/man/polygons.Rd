@@ -13,7 +13,7 @@ tm_fill(col = NA, alpha = NA, palette = NULL, convert2density = FALSE,
   colorNA = NA, textNA = "Missing", showNA = NA, thres.poly = 0,
   title = NA, legend.show = TRUE, legend.format = list(),
   legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.z = NA, legend.hist.z = NA, id = NA, ...)
+  legend.z = NA, legend.hist.z = NA, id = NA, popup.vars = NA, ...)
 
 tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA)
 
@@ -86,6 +86,8 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 \item{legend.hist.z}{index value that determines the position of the histogram legend element}
 
 \item{id}{name of the data variable that specifies the indices of the polygons. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
+
+\item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.}
 
 \item{...}{for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link{map_coloring}}.}
 

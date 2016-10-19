@@ -7,7 +7,7 @@
 qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
   symbols.shape = NULL, dots.col = NULL, text = NULL, text.size = 1,
   text.col = NA, lines.lwd = NULL, lines.col = NULL, raster = NA,
-  borders = NA, scale = NA, title = NA, projection = NULL,
+  borders = NA, by = NULL, scale = NA, title = NA, projection = NULL,
   format = NULL, style = NULL, basemaps = NA, bubble.size = NULL,
   bubble.col = NULL, ...)
 }
@@ -47,9 +47,11 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{borders}{color of the polygon borders. Use \code{NULL} to omit the borders.}
 
+\item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns). See also \code{\link{tm_facets}}}
+
 \item{scale}{numeric value that serves as the global scale parameter. All font sizes, sy mbol sizes, border widths, and line widths are controled by this value. The parameters \code{symbols.size}, \code{text.size}, and \code{lines.lwd} can be scaled seperately with respectively \code{symbols.scale}, \code{text.scale}, and \code{lines.scale}. See also \code{...}.}
 
-\item{title}{main title. For legend titles, use \code{X.style}, where X is layer name (see \code{...}).}
+\item{title}{main title. For legend titles, use \code{X.style}, where X is the layer name (see \code{...}).}
 
 \item{projection}{character that determines the projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
 
