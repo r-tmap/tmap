@@ -328,7 +328,7 @@ tm_style_natural <- function(bg.color="lightskyblue1",
 							 legend.frame=TRUE,
 							 legend.bg.color="grey90",
 							 earth.boundary=TRUE,
-							 basemaps="MapQuestOpen.OSM",
+							 basemaps="Thunderforest.Landscape",
 							 ...) {
 
 	args <- c(as.list(environment()), list(...))

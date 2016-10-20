@@ -3,6 +3,8 @@ version 1.6 (will be published on CRAN soon)
 - [!] imported cartogram function from cartogram package (tnx Sebastian!)
 - [!] reverse geocoding function rev_geocode_OSM added
 - [!] tm_logo added
+- added popup.vars to base layer functions 
+- bounding box (argument bbox in tm_shape) working in view mode
 - geocode_OSM improved: a SpatialPointsDataFrame can now be returned
 - last_map added, which retrieves the last produced map
 - crop_shape can also handle polygons as cropping area
@@ -13,6 +15,7 @@ version 1.6 (will be published on CRAN soon)
 - legend width and height can be determined fully manually (with negative values for legend.height and legend.width)
 - argument interval.closure added to layer functions to determine where intervals are closed
 - fixed raster brick bug
+- fixed save_tmap/get_asp_ratio bug
 
 version 1.4-1
 - add just argument as anchor for text labels, legend and attributes position

@@ -20,16 +20,14 @@
 #' @export
 save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 					  dpi=300, outer.margins=0, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose=TRUE, ...) {
+	lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
 	if (missing(tm)) {
-		lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
 		tm <- suppressWarnings(last_map())
 		if (is.null(tm)) stop("A map has not been created yet")
-	} else {
-		lastcall <- NULL
 	}
 	
 	on.exit({
-		if (!is.null(lastcall)) assign(".last_map", lastcall, envir = .TMAP_CACHE)
+		assign(".last_map", lastcall, envir = .TMAP_CACHE)
 	})
 	
 	shp_name <- function(tm) {

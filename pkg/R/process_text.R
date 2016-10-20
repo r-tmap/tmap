@@ -23,10 +23,12 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	xtcol <- g$col
 	xtext <- g$text
 	
-	if (interactive) xtsize <- xtsize[1]
-	if (interactive) xtcol <- xtcol[1]
-	if (interactive) xtext <- xtext[1]
-	
+	if (interactive) {
+		xtsize <- xtsize[1]
+		xtcol <- xtcol[1]
+		xtext <- xtext[1]
+	}
+
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE

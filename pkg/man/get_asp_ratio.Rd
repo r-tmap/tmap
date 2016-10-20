@@ -4,10 +4,10 @@
 \alias{get_asp_ratio}
 \title{Get aspect ratio}
 \usage{
-get_asp_ratio(x, width = 700, height = 700, res = 100)
+get_asp_ratio(x = NULL, width = 700, height = 700, res = 100)
 }
 \arguments{
-\item{x}{shape object (either \code{\link[sp:Spatial]{Spatial}} or a \code{\link[raster:Raster-class]{Raster}}) or a tmap object.}
+\item{x}{shape object (either \code{\link[sp:Spatial]{Spatial}} or a \code{\link[raster:Raster-class]{Raster}}) or a tmap object. If \code{x} is not specified, the \code{\link{last_map}} is taken.}
 
 \item{width}{See details; only applicable if \code{x} is a tmap object.}
 

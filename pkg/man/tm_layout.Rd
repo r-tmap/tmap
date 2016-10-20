@@ -99,7 +99,7 @@ tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   lines = "steelblue", text = "black", na = "white"), aes.palette = list(seq =
   "YlGn", div = "RdYlGn", cat = "Set3"), attr.color = "black",
   space.color = "white", legend.frame = TRUE, legend.bg.color = "grey90",
-  earth.boundary = TRUE, basemaps = "MapQuestOpen.OSM", ...)
+  earth.boundary = TRUE, basemaps = "Thunderforest.Landscape", ...)
 
 tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
   "grey20", symbols = "grey50", dots = "black", lines = "red", text = "black",

@@ -170,6 +170,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	## remove facets if interactive
 	if (interactive) {
+		if (any(names(x)=="tm_facets")) {
+			facetsby <- x[[which(names(x)=="tm_facets")[1]]]$by
+			if (!is.null(facetsby)) warning("Facets are not supported in view mode yet. The data is not split by \"", facetsby, "\"", call.=FALSE)	
+		} 
 		x[names(x)=="tm_facets"] <- NULL
 	}
 

@@ -7,8 +7,13 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 	xcol <- g$col
 	xlwd <- g$lwd
 	
-	if (interactive) xcol <- xcol[1]
-	if (interactive) xlwd <- xlwd[1]
+	if (interactive) {
+		if (length(xcol)>1) warning("Facets are not supported in view mode yet. Only line color aesthetic value \"", xcol[1], "\" will be shown.", call.=FALSE)
+		if (length(xlwd)>1) warning("Facets are not supported in view mode yet. Only line width aesthetic value \"", xlwd[1], "\" will be shown.", call.=FALSE)
+		xcol <- xcol[1]	
+		xlwd <- xlwd[1]
+	} 
+	if (interactive) 
 	
 	if (is.na(xcol[1])) xcol <- gt$aes.colors["lines"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"

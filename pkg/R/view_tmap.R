@@ -1,8 +1,7 @@
 view_tmap <- function(gps, shps, bbx) {
 	
 	# determine view
-	view <- get_view(bbx)
-	
+
 	# take first small multiple
 	gp <- gps[[1]]
 	gt <- gp$tm_layout
@@ -219,7 +218,10 @@ view_tmap <- function(gps, shps, bbx) {
  			FALSE
 		}
 		plot_tm_raster <- function() {
-			if (gpl$raster.misc$is.OSM) return(FALSE)	
+			if (gpl$raster.misc$is.OSM) {
+				warning("Raster data is read with read_osm, and therefore not shown in view mode.", call.=FALSE)
+				return(FALSE)	
+			}
 			if (is.na(gpl$xraster)) {
 				gpl$raster.legend.palette <- unique(gpl$raster)
 			}
@@ -287,7 +289,7 @@ set_bounds_view <- function(lf, gt, bbx) {
 	
 	if (!is.na(gt$set.view[1])) {
 		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
-	} else {
+	} else if (!missing(bbx)) {
 		bbx <- unname(bbx)
 		lf <- lf %>% fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) #setView(view[1], view[2], view[3])
 	}
