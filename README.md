@@ -10,7 +10,7 @@ tmap: thematic maps in R
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.4 (March 2016).
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.6 (2016-10-21).
 
 
 Development
@@ -29,7 +29,8 @@ See [NEWS](https://github.com/mtennekes/tmap/blob/master/pkg/NEWS) for the lates
 
 Do you want to help with the development of the package? Please let me know! I could use some help with the following issues:
 
-* Implementation of [cartograms](https://github.com/mtennekes/tmap/issues/10)
+* Interactive small multiples (i.e. small multiples in view mode)
+* Flow map
 * Finally, any feedback, requests, tips, or bug reports are welcome!
 
 
@@ -116,7 +117,7 @@ Other resources
 * [Blog post StatialControl][7]
 * [Blog post TWIAV][8]
 * [Computer World: Create maps in R in 10 (fairly) easy steps][12]
-
+* [Tutorial Visualising spatial data: from base to shiny - workshop][15]
 
   [1]: http://cran.r-project.org/web/packages/tmap/index.html
   [2]: http://stackoverflow.com/tags/r/info
@@ -132,3 +133,4 @@ Other resources
   [12]: http://cwrld.us/Rmaps10
   [13]: https://github.com/mtennekes/tmap/blob/master/demo/US_choropleth.R
   [14]: https://github.com/mtennekes/tmap/blob/master/demo/crimes_in_Greater_London.R
+  [15]: https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd
