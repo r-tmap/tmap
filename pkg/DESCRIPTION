@@ -14,6 +14,7 @@ Version: 1.6
 Date: 2016-10-21
 Depends:
     R (>= 3.0),
+    methods
 Imports:
     methods,
     sp,
