@@ -117,6 +117,27 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 	}
 	
+	
+	## remove non-supported elements if interactive
+	if (interactive) {
+		if (any(names(x)=="tm_facets")) {
+			facetsby <- x[[which(names(x)=="tm_facets")[1]]]$by
+			if (!is.null(facetsby)) warning("Facets are not supported in view mode yet. The data is not split by \"", facetsby, "\"", call.=FALSE)	
+				
+		} 
+		if (any(names(x)=="tm_grid")) warning("Grid lines not supported in view mode.", call.=FALSE)
+		if (any(names(x)=="tm_scale_bar")) warning("Scale bar not supported in view mode.", call.=FALSE)
+		if (any(names(x)=="tm_credits")) warning("Credits not supported in view mode.", call.=FALSE)
+		if (any(names(x)=="tm_logo")) warning("Logo not supported in view mode.", call.=FALSE)
+		if (any(names(x)=="tm_compass")) warning("Compass not supported in view mode.", call.=FALSE)
+		if (any(names(x)=="tm_xlab")) warning("X-axis label not supported in view mode.", call.=FALSE)
+		if (any(names(x)=="tm_ylab")) warning("Y-axis label not supported in view mode.", call.=FALSE)
+		
+		x[names(x) %in% c("tm_grid", "tm_scale_bar", "tm_credits", "tm_logo", "tm_compass", "tm_xlab", "tm_ylab", "tm_facets")] <- NULL
+	}
+	
+	
+	
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)
@@ -167,15 +188,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)
 	types <- lapply(shps_dts, "[[", 3)
-	
-	## remove facets if interactive
-	if (interactive) {
-		if (any(names(x)=="tm_facets")) {
-			facetsby <- x[[which(names(x)=="tm_facets")[1]]]$by
-			if (!is.null(facetsby)) warning("Facets are not supported in view mode yet. The data is not split by \"", facetsby, "\"", call.=FALSE)	
-		} 
-		x[names(x)=="tm_facets"] <- NULL
-	}
 
 	## determine aspect ratio of master shape
 	mshp <- shps[[masterID]]
@@ -423,7 +435,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				} else if (identical(gpl$line.popup.vars, TRUE)) {
 					gpl$line.popup.vars <- names(dt)
 				} else if (is.na(gpl$line.popup.vars[1])) {
-					gpl$line.popup.vars <- na.omit(c(gpl$xline, gpl$xlinelwd))
+					gpl$line.popup.vars <- unique(na.omit(c(gpl$xline, gpl$xlinelwd)))
 					if (length(gpl$line.popup.vars) == 0) gpl$line.popup.vars <- names(dt)
 				} else {
 					if (!all(gpl$line.popup.vars %in% names(dt))) stop("Not all popup variables are contained in the data", call.=FALSE)
@@ -434,7 +446,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				} else if (identical(gpl$symbol.popup.vars, TRUE)) {
 					gpl$symbol.popup.vars <- names(dt)
 				} else if (is.na(gpl$symbol.popup.vars[1])) {
-					gpl$symbol.popup.vars <- na.omit(c(gpl$xsize, gpl$xcol, gpl$xshape))
+					gpl$symbol.popup.vars <- unique(na.omit(c(gpl$xsize, gpl$xcol, gpl$xshape)))
 					if (length(gpl$symbol.popup.vars) == 0) gpl$symbol.popup.vars <- names(dt)
 				} else {
 					if (!all(gpl$symbol.popup.vars %in% names(dt))) stop("Not all popup variables are contained in the data", call.=FALSE)

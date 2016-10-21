@@ -14,6 +14,7 @@ version 1.6 (will be published on CRAN soon)
 - legend items can now be stacked horizontally
 - legend width and height can be determined fully manually (with negative values for legend.height and legend.width)
 - argument interval.closure added to layer functions to determine where intervals are closed
+- added warnings for non-supported elements in view mode
 - fixed raster brick bug
 - fixed save_tmap/get_asp_ratio bug
 

@@ -148,11 +148,10 @@ view_tmap <- function(gps, shps, bbx) {
 			symbol.size <- gpl$symbol.size
 			symbol.shape <- gpl$symbol.shape
 			
-			#browser()
-			
 			if (gpl$symbol.misc$symbol.are.markers) {
-				if (is.null(gpl$symbol.names)) {
-					gpl$symbol.names <- gpl$text
+				if (is.na(gpl$symbol.names)) {
+					gpl$data$MARKER__TEXT <- gpl$text 
+					gpl$symbol.names <- "MARKER__TEXT"
 				}
 			}
 			
@@ -197,11 +196,18 @@ view_tmap <- function(gps, shps, bbx) {
 					}
 				}
 				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, group=shp_name, icon=icons, layerId = id)
-			} else if (fixed) {
-				lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
 			} else {
-				lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id)
+				if (!all(symbol.shape2 %in% c(1, 16, 19, 20, 21))) {
+					warning("Symbol shapes other than circles are not supported in view mode.", call.=FALSE)
+				}
+				
+				if (fixed) {
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
+				} else {
+					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id)
+				}
 			}
+				
 			
 			
 			if (!is.na(gpl$xcol)) {
@@ -215,11 +221,12 @@ view_tmap <- function(gps, shps, bbx) {
 			
 		}
 		plot_tm_text <- function() {
+			if (is.null(gpl$symbol.misc) || !gpl$symbol.misc$symbol.are.markers) warning("Text labels not supported in view mode.", call.=FALSE)
  			FALSE
 		}
 		plot_tm_raster <- function() {
 			if (gpl$raster.misc$is.OSM) {
-				warning("Raster data is read with read_osm, and therefore not shown in view mode.", call.=FALSE)
+				warning("Raster data contains OpenStreetMapData (read with read_osm), and therefore not shown in view mode.", call.=FALSE)
 				return(FALSE)	
 			}
 			if (is.na(gpl$xraster)) {
@@ -367,7 +374,7 @@ get_popups <- function(gpl, type) {
 	var_vars <- paste(type, "popup.vars", sep=".")
 	
 	dt <- gpl$data
-	
+
 	if (is.na(gpl[[var_vars]][1])) {
 		popups <- NULL
 	} else {

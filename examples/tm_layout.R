@@ -35,14 +35,21 @@ tm_style_natural(earth.boundary = c(-180,180,-87,87), inner.margins = .05) +
 tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
 
 \dontrun{
-# global option tmap.style:
+# global option tmap.style demo
+	
+# get current style
+current.style <- tmap_style() 
+	
 qtm(World, fill="economy", format="World")
+
 tmap_style("col_blind")
 qtm(World, fill="economy", format="World")
+
 tmap_style("cobalt")
 qtm(World, fill="economy", format="World")
-tmap_style("white")
+
+# set to current style
+tmap_style(current.style)
 }
 
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")
-

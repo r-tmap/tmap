@@ -41,9 +41,18 @@ lf <- tmap_leaflet(map1)
 # show leaflet widget
 lf
 
-# add marker (which could also be done using tm_markers)
+# add marker
 require(leaflet)
 lf \%>\% leaflet::addMarkers(2.2945, 48.8582, popup = "Eiffel tower")
+
+\dontrun{
+# alternative
+eiffelTower <- geocode_OSM("Eiffel Tower", as.SPDF = TRUE)
+
+map1 + 
+tm_shape(eiffelTower) +
+	tm_markers()
+}
 }
 \seealso{
 \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}

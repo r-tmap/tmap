@@ -81,7 +81,7 @@ tm_shape(Europe) +
     	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)), 
     	palette=list("Oranges", "Purples"),
     	border.col = "black",
-        title=c("Well-Being Index", "Population Density")) +
+        title=c("Well-Being Index", "Life Expectancy")) +
 tm_format_Europe()
 
 \dontrun{
@@ -98,10 +98,10 @@ tm_format_NLD(frame = TRUE, asp=0)
 
 # Facets defined by groupings
 tm_shape(NLD_prov) +
-    tm_borders() +
-    tm_fill("gold2") +
-    tm_facets(by="name") +
-    tm_layout()
+    tm_polygons("gold2") +
+    tm_facets(by="name")
+
+# alternatively: qtm(NLD_prov, fill="gold2", by="name")
 
 tm_shape(NLD_prov) +
     tm_fill("gold2") + tm_borders() +
@@ -117,8 +117,8 @@ tm_shape(NLD_prov) +
     tm_facets(by="name", free.coords=TRUE, drop.units=TRUE)
 
 tm_shape(land) +
-tm_raster("black") +
-tm_facets(by="cover_cls")
+    tm_raster("black") +
+    tm_facets(by="cover_cls")
 }
 	
 # Facets defined by groupings defined by two variables

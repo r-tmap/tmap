@@ -264,7 +264,10 @@ tm_shape(NLD_prov) +
 			   legend.shape.show = FALSE, 
 			   legend.size.is.portrait = TRUE, 
 			   shapes.legend = 22, 
-			   title.size = "Population") +
+			   title.size = "Population",
+			   id = "name",
+			   popup.vars = c("population", "origin_native", 
+			   			   "origin_west", "origin_non_west")) +
 	tm_add_legend(type="fill", 
 				  col=origin_cols, 
 				  labels=c("Native", "Western", "Non-western"), 
@@ -286,7 +289,6 @@ tm_shape(airports, bbox="Germany") +
 	tm_symbols(shape=airplane, size="natlscale",
 		legend.size.show = FALSE, scale=2, border.col = NA)
 }
-
 
 #####################################################################################
 

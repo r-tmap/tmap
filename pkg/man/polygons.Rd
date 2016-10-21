@@ -169,7 +169,6 @@ NLD_prov_pop <- cartogram(NLD_prov, "population")
 
 tm_shape(NLD_prov_pop) +
 	tm_polygons("origin_non_west", title = "Non-western origin (\%)")
-qtm(NLD_prov_pop)
 }
 
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")

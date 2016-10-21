@@ -22,7 +22,7 @@ tmap_mode("view")
 map1
 
 # view map with changed view options
-map1 + tm_view(alpha = 1, popup.all.data = TRUE, basemaps = "Stamen.Watercolor")
+map1 + tm_view(alpha = 1, basemaps = "Stamen.Watercolor")
 
 # restore current mode
 tmap_mode(current.mode)
