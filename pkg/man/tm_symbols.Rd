@@ -30,10 +30,10 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
   legend.shape.z = NA, legend.hist.z = NA, id = NA, popup.vars = NA)
 
-tm_squares(size = 1, col = NA, shape = 22, ...)
+tm_squares(size = 1, col = NA, shape = 22, scale = 4/3, ...)
 
-tm_bubbles(size = 1, col = NA, shape = 21, border.col = NA,
-  legend.max.symbol.size = 1, ...)
+tm_bubbles(size = 1, col = NA, shape = 21, scale = 4/3,
+  border.col = NA, legend.max.symbol.size = 1, ...)
 
 tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
   legend.show = TRUE, legend.is.portrait = TRUE, legend.z = NA, ...)

@@ -585,8 +585,9 @@ tm_symbols <- function(size=1, col=NA,
 tm_squares <- function(size=1, 
 					   col=NA,
 					   shape=22,
+					   scale=4/3,
 					   ...) {
-	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape), list(...)))
+	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape, scale=scale), list(...)))
 	g
 }
 
@@ -595,10 +596,11 @@ tm_squares <- function(size=1,
 tm_bubbles <- function(size=1,
 					   col=NA,
 					   shape=21,
+					   scale=4/3,
 					   border.col=NA,
 					   legend.max.symbol.size=1,
 					   ...) {
-	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape, legend.max.symbol.size=legend.max.symbol.size), list(...)))
+	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape, scale=scale, legend.max.symbol.size=legend.max.symbol.size), list(...)))
 	g
 }
 
