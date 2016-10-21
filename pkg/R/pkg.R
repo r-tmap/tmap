@@ -26,7 +26,7 @@
 #' \code{\link{tm_text}}\tab To create a layer of text labels \cr
 #' }
 #' 
-#' #' Aesthetics derived layers:
+#' Aesthetics derived layers:
 #' \tabular{ll}{
 #' \code{\link{tm_fill}}\tab To create a polygon layer (without borders) \cr
 #' \code{\link{tm_borders}}\tab To create polygon borders \cr
@@ -50,6 +50,7 @@
 #' \code{\link{tm_scale_bar}}\tab To create a scale bar \cr
 #' \code{\link{tm_compass}}\tab To create a map compass \cr
 #' \code{\link{tm_credits}}\tab To create a text for credits \cr
+#' \code{\link{tm_logo}}\tab To create a logo \cr
 #' \code{\link{tm_xlab} and \link{tm_ylab}}\tab To create axis labels \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
