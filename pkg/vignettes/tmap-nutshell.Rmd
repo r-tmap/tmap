@@ -1,11 +1,9 @@
 ---
 title: "tmap in a nutshell"
 output: 
-  html_document:
-    highlight: kate
+  rmarkdown::html_vignette:
+    keep_md: true 
     toc: true
-    toc_depth: 4
-    mathjax: null
 self_contained: no
 vignette: >
   %\VignetteIndexEntry{tmap in a nutshell}

@@ -1,11 +1,9 @@
 ---
 title: "tmap modes: plot and interactive view"
 output: 
-  html_document:
-    highlight: kate
+  rmarkdown::html_vignette:
+    keep_md: true 
     toc: true
-    toc_depth: 4
-    mathjax: null
 self_contained: no
 vignette: >
   %\VignetteIndexEntry{tmap modes: plot and interactive view}
