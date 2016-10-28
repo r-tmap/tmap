@@ -8,7 +8,17 @@ env:
 	global:
 	- CRAN: http://cran.rstudio.com
 
+# http://askubuntu.com/questions/206593/how-to-install-rgdal-on-ubuntu-12-10
 before_install: 
 	- cd pkg
-	- apt-get install libgdal-dev
+	- sudo apt-get install libspatialite3=3.0.0~beta20110817-3
+`	- echo libspatialite3 hold | sudo dpkg --set-selections
+	- sudo apt-get install libspatialite-dev
+	- sudo apt-get install libgeos-c1=3.3.3-1.1~pgdg12.4+1
+	- echo libgeos-c1 hold | sudo dpkg --set-selections
+	- sudo apt-get install libgdal1=1.9.0-3.1~pgdg12.4+1
+	- echo libgdal1 hold | sudo dpkg --set-selections
+	- sudo apt-get install libgdal-dev
+	- sudo apt-get install libgdal1-dev
+	- gdal-config
 	- apt-get install libproj-dev
