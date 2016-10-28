@@ -3,7 +3,7 @@
 #' Geocodes a location (based on a search query) to coordinates and a bounding box. Similar to geocode from the ggmap package. It uses OpenStreetMap Nominatim. For processing large amount of queries, please read the usage policy (\url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}).
 #' 
 #' @param q a character (vector) that specifies a search query. For instance \code{"India"} or \code{"CBS Weg 11, Heerlen, Netherlands"}.
-#' @param projection projection in which the coordinates and bounding box are returned. Either a PROJ.4 character string, a shortcut (see \code{\link{get_proj4}}), or a \code{\link[sp:CRS]{CRS}} object. By default latitude longitude coordinates.
+#' @param projection projection in which the coordinates and bounding box are returned. Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default latitude longitude coordinates.
 #' @param return.first.only Only return the first result
 #' @param details provide output details, other than the point coordinates and bounding box
 #' @param as.data.frame Return the output as a \code{data.frame}. If \code{FALSE}, a list is returned with at least two items: \code{"coords"}, a vector containing the coordinates, and \code{"bbox"}, the corresponding bounding box. By default false, unless \code{q} contains multiple queries
@@ -132,7 +132,7 @@ geocode_OSM <- function(q, projection=NULL, return.first.only=TRUE, details=FALS
 #' @param x x coordinate(s), or a \code{\link[sp:SpatialPoints]{SpatialPoints}} object
 #' @param y y coordinate(s)
 #' @param zoom zoom level
-#' @param projection projection in which the coordinates \code{x} and \code{y} are provided. Either a PROJ.4 character string, a shortcut (see \code{\link{get_proj4}}), or a \code{\link[sp:CRS]{CRS}} object. By default latitude longitude coordinates.
+#' @param projection projection in which the coordinates \code{x} and \code{y} are provided. Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default latitude longitude coordinates.
 #' @param as.data.frame return as data.frame (\code{TRUE}) or list (\code{FALSE}). By default a list, unless multiple coordinates are provided.
 #' @param server OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.
 #' @export

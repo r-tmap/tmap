@@ -14,7 +14,7 @@ rev_geocode_OSM(x, y = NULL, zoom = NULL, projection = NULL,
 
 \item{zoom}{zoom level}
 
-\item{projection}{projection in which the coordinates \code{x} and \code{y} are provided. Either a PROJ.4 character string, a shortcut (see \code{\link{get_proj4}}), or a \code{\link[sp:CRS]{CRS}} object. By default latitude longitude coordinates.}
+\item{projection}{projection in which the coordinates \code{x} and \code{y} are provided. Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default latitude longitude coordinates.}
 
 \item{as.data.frame}{return as data.frame (\code{TRUE}) or list (\code{FALSE}). By default a list, unless multiple coordinates are provided.}
 

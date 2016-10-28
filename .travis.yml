@@ -1,0 +1,14 @@
+language: r
+
+r_packages:
+	- knitr
+	- rmarkdown
+
+env:
+	global:
+	- CRAN: http://cran.rstudio.com
+
+before_install: 
+	- cd pkg
+	- apt-get install libgdal-dev
+	- apt-get install libproj-dev

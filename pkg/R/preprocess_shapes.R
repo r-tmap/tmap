@@ -189,7 +189,11 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 			}
 		}
 		if (!is.na(shp_CRS) && !is.na(master_CRS) && !identical(shp_CRS, master_CRS)) {
-			shp2 <- spTransform(shp, master_CRS)
+			shp2 <- tryCatch({
+				suppressWarnings(spTransform(shp, master_CRS))
+			}, error=function(e) {
+				stop("Unable to project shape ", y$shp_name, " to the projection ", CRSargs(master_CRS), ".", call.=FALSE)
+			})
 		} else {
 			shp2 <- shp
 		}

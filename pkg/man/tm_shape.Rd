@@ -22,7 +22,7 @@ For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is requ
 
 \item{is.master}{logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.}
 
-\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
+\item{projection}{Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
 
 \item{bbox}{bounding box. One of the following:
 \itemize{

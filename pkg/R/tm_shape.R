@@ -13,7 +13,7 @@
 #' }
 #'For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_symbols}} and \code{\link{tm_text}} accept 1 to 3. For layer \code{\link{tm_raster}}, 4, 5, or 6 is required.
 #' @param is.master logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.
-#' @param projection character that determines the projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.
+#' @param projection Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.
 #' @param bbox bounding box. One of the following:
 #' \itemize{
 #' \item A bounding box (either 2 by 2 matrix or an \code{\link[raster:Extent]{Extent}} object). 

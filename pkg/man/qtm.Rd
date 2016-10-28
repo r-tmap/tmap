@@ -53,7 +53,7 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{title}{main title. For legend titles, use \code{X.style}, where X is the layer name (see \code{...}).}
 
-\item{projection}{character that determines the projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
+\item{projection}{Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link{get_projection}}.}
 
 \item{format}{\code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).}
 

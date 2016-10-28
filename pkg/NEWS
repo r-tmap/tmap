@@ -1,6 +1,6 @@
 version 1.6-1
 - Rscript works: methods is moved from imports to depends
-- bb example error in Debian: now placed in dontrun
+- improved projections: code is more efficient, shortcuts are renewed, CRS objects are now supported for all project argument
 
 version 1.6
 - [!] tm_symbols added, to create proportional symbol maps: besides bubbles, it also supports other symbol shapes, png icons, and small ggplot2 plots

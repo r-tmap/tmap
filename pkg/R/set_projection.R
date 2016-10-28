@@ -124,7 +124,11 @@ set_projection <- function(shp, projection=NA, current.projection=NA, overwrite.
 				shp@data@attributes <- dfs
 			}
 		} else {
-			shp <- spTransform(shp, proj.CRS)
+			shp <- tryCatch({
+				suppressWarnings(spTransform(shp, proj.CRS))
+			}, error=function(e) {
+				stop("Unable to set the projection to ", CRSargs(proj.CRS), ".", call.=FALSE)
+			})
 		}
 		if (recast) {
 			shp <- as(shp, cls)
