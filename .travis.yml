@@ -8,7 +8,6 @@ env:
 	global:
 	- CRAN: http://cran.rstudio.com
 
-# http://askubuntu.com/questions/206593/how-to-install-rgdal-on-ubuntu-12-10
 before_install: 
 	- cd pkg
 	- sudo apt-get install libspatialite3=3.0.0~beta20110817-3
