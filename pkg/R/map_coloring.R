@@ -11,12 +11,6 @@
 #' @return If \code{palette} is defined, a vector of colors is returned, otherwise a vector of color indices.
 #' @importFrom spdep poly2nb
 #' @example ../examples/map_coloring.R
-#' @examples 
-#' \dontrun{
-#' qtm(World, fill="MAP_COLORS", fill.palette="Pastel2")
-#' tm_shape(World) +
-#'   tm_polygons("MAP_COLORS", palette="Pastel2")
-#' }
 #' @export
 map_coloring <- function(x, algorithm="greedy", ncols=NA, minimize=FALSE, palette=NULL, contrast=1) {
 	if (inherits(x, "SpatialPolygons")) {

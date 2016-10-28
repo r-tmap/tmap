@@ -1,5 +1,8 @@
 end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1, bbx=c(-180, 180, -90, 90), buffer=1e-6) {
 	
+	CRS_datum <- get_proj4(earth.datum, as.CRS = TRUE)
+	proj <- get_proj4(proj, as.CRS = TRUE)
+	
 	for (b in buffer*(10^(0:6))) {
 		x1 <- bbx[1] + b
 		x2 <- bbx[2] - b
@@ -17,7 +20,7 @@ end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1, bbx=c
 			rep(x1, ny), rep(seq(x1+step, x2-step, by=step), length.out=nx-2), rep(x2, ny), rep(seq(x2-step, x1+step, by=-step), length.out=nx-2),
 			rep(seq(y1, y2, by=step), length.out=ny), rep(y2, nx-2), rep(seq(y2, y1, by=-step), length.out=ny), rep(y1, nx-2)), ncol=2)
 		
-		world_bb_sp <- SpatialPolygons(list(Polygons(list(Polygon(coords=world_bb_co)), ID="world_bb")), proj4string=CRS(get_proj4(earth.datum)))
+		world_bb_sp <- SpatialPolygons(list(Polygons(list(Polygon(coords=world_bb_co)), ID="world_bb")), proj4string=CRS_datum)
 		
 		if (is.na(proj)) return(world_bb_sp) else {
 			res <- tryCatch({
@@ -32,18 +35,3 @@ end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1, bbx=c
 	}
 	stop("Unable to determine end of the world in projection ", proj, call. = FALSE)
 }
-
-# end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1) {
-# 	ny <- 180 * subdegrees + 1
-# 	nx <- 360 * subdegrees + 1
-# 	
-# 	step <- 1/subdegrees
-# 	
-# 	world_bb_co <- matrix(c(
-# 		rep(-180, ny), rep(seq(-180+step, 180-step, by=step), length.out=nx-2), rep(180, ny), rep(seq(180-step, -180+step, by=-step), length.out=nx-2),
-# 		rep(seq(-90, 90, by=step), length.out=ny), rep(90, nx-2), rep(seq(90, -90, by=-step), length.out=ny), rep(-90, nx-2)), ncol=2)
-# 	
-# 	world_bb_sp <- SpatialPolygons(list(Polygons(list(Polygon(coords=world_bb_co)), ID="world_bb")), proj4string=CRS(get_proj4(earth.datum)))
-# 	
-# 	if (is.na(proj)) world_bb_sp else set_projection(world_bb_sp, projection = proj)
-# }

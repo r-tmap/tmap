@@ -4,14 +4,14 @@
 \alias{geocode_OSM}
 \title{Geocodes a location using OpenStreetMap Nominatim}
 \usage{
-geocode_OSM(q, projection = "longlat", return.first.only = TRUE,
+geocode_OSM(q, projection = NULL, return.first.only = TRUE,
   details = FALSE, as.data.frame = NA, as.SPDF = FALSE,
   server = "http://nominatim.openstreetmap.org")
 }
 \arguments{
 \item{q}{a character (vector) that specifies a search query. For instance \code{"India"} or \code{"CBS Weg 11, Heerlen, Netherlands"}.}
 
-\item{projection}{projection in which the coordinates and bounding box are returned. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values.}
+\item{projection}{projection in which the coordinates and bounding box are returned. Either a PROJ.4 character string, a shortcut (see \code{\link{get_proj4}}), or a \code{\link[sp:CRS]{CRS}} object. By default latitude longitude coordinates.}
 
 \item{return.first.only}{Only return the first result}
 

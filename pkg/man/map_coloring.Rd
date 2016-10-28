@@ -27,11 +27,6 @@ If \code{palette} is defined, a vector of colors is returned, otherwise a vector
 Color the polygons of a map such that adjacent polygons have different colors
 }
 \examples{
-\dontrun{
-qtm(World, fill="MAP_COLORS", fill.palette="Pastel2")
-tm_shape(World) +
-  tm_polygons("MAP_COLORS", palette="Pastel2")
-}
 data(World, metro)
 
 World$color <- map_coloring(World, palette="Pastel2")

@@ -43,7 +43,6 @@ Shape object with appended data. Tip: run \code{append_data} without assigning t
 Data, in the format of a data.frame, is appended to a shape object. This is either done by a left join where keys are specified for both shape and data, or by fixed order. Under coverage (shape items that do not correspond to data records), over coverage (data records that do not correspond to shape items respectively) as well as the existence of duplicated key values are automatically checked and reported via console messages. With \code{under_coverage} and \code{over_coverage} the under and over coverage key values from the last \code{append_data} call can be retrieved. Tip: run \code{append_data} without assigning the result to check the coverage.
 }
 \examples{
-\dontrun{
 data(Europe)
 
 f <- tempfile()
@@ -55,9 +54,17 @@ domain_codes <- subset(domain_codes, select = c("Alpha3Code", "TopLevelDomain"))
 domain_codes$Alpha3Code <- toupper(domain_codes$Alpha3Code)
 
 Europe <- append_data(Europe, domain_codes, key.shp = "iso_a3", key.data = "Alpha3Code",
-    ignore.na = TRUE)
+					  ignore.na = TRUE)
 
+# codes in the data, but not in Europe:
+oc <- over_coverage()
+oc$value
+
+# European countries without appended data:
+uc <- under_coverage()
+qtm(Europe[uc$id,], text="name")
+
+# plot the result
 qtm(Europe, text="TopLevelDomain")
-}
 }
 

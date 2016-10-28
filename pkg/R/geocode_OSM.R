@@ -3,7 +3,7 @@
 #' Geocodes a location (based on a search query) to coordinates and a bounding box. Similar to geocode from the ggmap package. It uses OpenStreetMap Nominatim. For processing large amount of queries, please read the usage policy (\url{http://wiki.openstreetmap.org/wiki/Nominatim_usage_policy}).
 #' 
 #' @param q a character (vector) that specifies a search query. For instance \code{"India"} or \code{"CBS Weg 11, Heerlen, Netherlands"}.
-#' @param projection projection in which the coordinates and bounding box are returned. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values.
+#' @param projection projection in which the coordinates and bounding box are returned. Either a PROJ.4 character string, a shortcut (see \code{\link{get_proj4}}), or a \code{\link[sp:CRS]{CRS}} object. By default latitude longitude coordinates.
 #' @param return.first.only Only return the first result
 #' @param details provide output details, other than the point coordinates and bounding box
 #' @param as.data.frame Return the output as a \code{data.frame}. If \code{FALSE}, a list is returned with at least two items: \code{"coords"}, a vector containing the coordinates, and \code{"bbox"}, the corresponding bounding box. By default false, unless \code{q} contains multiple queries
@@ -14,10 +14,14 @@
 #' @importFrom XML xmlChildren xmlRoot xmlAttrs xmlTreeParse xmlValue
 #' @example ../examples/geocode_OSM.R
 #' @seealso \code{\link{rev_geocode_OSM}}, \code{\link{bb}}
-geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details=FALSE, as.data.frame=NA, as.SPDF=FALSE, server="http://nominatim.openstreetmap.org") {
+geocode_OSM <- function(q, projection=NULL, return.first.only=TRUE, details=FALSE, as.data.frame=NA, as.SPDF=FALSE, server="http://nominatim.openstreetmap.org") {
 	n <- length(q)
 	q2 <- gsub(" ", "+", enc2utf8(q), fixed = TRUE)
 	addr <- paste0(server, "/search?q=", q2, "&format=xml&polygon=0&addressdetails=0")
+	
+	project <- !missing(projection)
+	if (project) projection <- get_proj4(projection, as.CRS = TRUE)
+	
 	
 	if (is.na(as.data.frame)) as.data.frame <- (n>1)
 	if (as.SPDF) {
@@ -55,7 +59,7 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 			
 			search_result_bb <- as.numeric(unlist(strsplit(search_result["boundingbox"], ",")))
 			
-			if (projection=="longlat") {
+			if (!project) {
 				names(search_result_bb) <- c("lat_min", "lat_max", "lon_min", "lon_max")
 				b <- bb(xlim=search_result_bb[3:4], ylim=search_result_bb[1:2])
 				
@@ -63,13 +67,13 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 				names(coords) <- c("x", "y")
 				
 			} else {
-				b <- bb(xlim=search_result_bb[3:4], ylim=search_result_bb[1:2], current.projection = get_proj4("longlat"), projection=get_proj4(projection))
+				b <- bb(xlim=search_result_bb[3:4], ylim=search_result_bb[1:2], current.projection = .CRS_longlat, projection=projection)
 				
 				search_result_bb <- b[c(2,4,1,3)]
 				names(search_result_bb) <- c("y_min", "y_max", "x_min", "x_max")
 				
 				
-				p <- SpatialPoints(matrix(search_result_loc[2:1], nrow=1), proj4string=CRS(get_proj4("longlat")))
+				p <- SpatialPoints(matrix(search_result_loc[2:1], nrow=1), proj4string=.CRS_longlat)
 				p <- set_projection(p, projection=projection)
 				coords <- as.vector(attr(p, "coords"))
 				names(coords) <- c("x", "y")
@@ -100,12 +104,12 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 		df <- do.call(rbind, output3)
 		
 		if (as.SPDF) {
-			if (projection=="longlat") {
-				spdf <- SpatialPointsDataFrame(df[, c("lon", "lat")], proj4string=CRS(get_proj4("longlat")), 
+			if (!project) {
+				spdf <- SpatialPointsDataFrame(df[, c("lon", "lat")], proj4string=.CRS_longlat, 
 											   data = df,
 											   match.ID = FALSE)
 			} else {
-				spdf <- SpatialPointsDataFrame(df[, c("x", "y")], proj4string=CRS(get_proj4(projection)), 
+				spdf <- SpatialPointsDataFrame(df[, c("x", "y")], proj4string=projection, 
 											   data = df,
 											   match.ID = FALSE)
 			}
@@ -128,7 +132,7 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 #' @param x x coordinate(s), or a \code{\link[sp:SpatialPoints]{SpatialPoints}} object
 #' @param y y coordinate(s)
 #' @param zoom zoom level
-#' @param projection projection in which the coordinates \code{x} and \code{y} are provided
+#' @param projection projection in which the coordinates \code{x} and \code{y} are provided. Either a PROJ.4 character string, a shortcut (see \code{\link{get_proj4}}), or a \code{\link[sp:CRS]{CRS}} object. By default latitude longitude coordinates.
 #' @param as.data.frame return as data.frame (\code{TRUE}) or list (\code{FALSE}). By default a list, unless multiple coordinates are provided.
 #' @param server OpenStreetMap Nominatim server name. Could also be a local OSM Nominatim server.
 #' @export
@@ -136,18 +140,27 @@ geocode_OSM <- function(q, projection="longlat", return.first.only=TRUE, details
 #' @return A data frmame with all atributes that are contained in the search result
 #' @example ../examples/rev_geocode_OSM.R
 #' @seealso \code{\link{geocode_OSM}}
-rev_geocode_OSM <- function(x, y=NULL, zoom=NULL, projection="longlat", as.data.frame=NA, server="http://nominatim.openstreetmap.org") {
+rev_geocode_OSM <- function(x, y=NULL, zoom=NULL, projection=NULL, as.data.frame=NA, server="http://nominatim.openstreetmap.org") {
+	
+	project <- !missing(projection)
+	
+	if (project) projection <- get_proj4(projection, as.CRS = TRUE)
+	
 	if (inherits(x, "SpatialPoints")) {
 		
 		isproj <- is.projected(x)
 		
 		if (is.na(isproj)) {
-			warning("Projection of SpatialPoints object unknown. Assuming ", projection)
-			if (projection!="longlat") x <- set_projection(x, current.projection = projection, projection="longlat")
-		} else {
-			if (isproj) {
-				x <- set_projection(x, projection = "longlat")
+			if (project) {
+				x <- set_projection(x, current.projection = projection, projection=.CRS_longlat)
+			} else {
+				ll <- maybe_longlat(attr(x, "bbox"))
+				if (!ll) stop("Projection of x unknown. Please specify projection.")
+				warning("Projection of SpatialPoints object unknown. Assuming longitude latitude coordinates.")
+				x <- set_projection(x, current.projection = .CRS_longlat)
 			}
+		} else {
+			if (isproj) x <- set_projection(x, projection = .CRS_longlat)
 		}
 		n <- length(x)
 		co <- coordinates(x)
@@ -159,13 +172,13 @@ rev_geocode_OSM <- function(x, y=NULL, zoom=NULL, projection="longlat", as.data.
 			x <- rep(x, length.out=n)
 			y <- rep(y, length.out=n)
 		}
-		if (projection=="longlat") {
+		if (!project) {
 			lon <- x
 			lat <- y
 		} else {
-			projection <- get_proj4(projection)
-			single_point <- SpatialPoints(matrix(c(x,y), ncol=2), proj4string=CRS(projection))
-			coords <- attr(set_projection(single_point, projection = get_proj4("longlat")), "coords")
+			projection <- get_proj4(projection, as.CRS = TRUE)
+			single_point <- SpatialPoints(matrix(c(x,y), ncol=2), proj4string=projection)
+			coords <- attr(set_projection(single_point, projection = .CRS_longlat), "coords")
 			lon <- coords[,1]
 			lat <- coords[,2]
 		}

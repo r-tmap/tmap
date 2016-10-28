@@ -11,7 +11,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 	if (emptyShp && gt$legend.only) return(NULL)
 	if (!emptyShp) {
 		bbx <- attr(shps[[1]], "bbox")
-		proj <- attr(shps[[1]], "proj4string")@projargs
+		proj <- get_projection(shps[[1]])
 		
 		if (gt$grid.show) {
 			# non inverse projection avaiable PROJ.4 4.8.0 for Winkel Tripel projection
@@ -25,9 +25,6 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 			}
 		}
 	}
-	
-	
-	
 	
 	gp[c("tm_layout")] <- NULL
 	

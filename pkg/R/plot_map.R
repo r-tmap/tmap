@@ -255,12 +255,6 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 	if (gt$earth.boundary) {
 		world_bb_sp2 <- end_of_the_world(earth.datum = gt$earth.datum, proj = proj, bbx = gt$earth.bounds)
 		
-# 		world_bb_co <- matrix(c(
-# 			rep(-180, 181), seq(-179, 179), rep(180, 181), seq(179, -179),
-# 			seq(-90, 90), rep(90, 359), seq(90, -90), rep(-90, 359)), ncol=2)
-# 		
-# 		world_bb_sp <- SpatialPolygons(list(Polygons(list(Polygon(coords=world_bb_co)), ID="world_bb")), proj4string=CRS(get_proj4(gt$earth.datum)))
-# 		world_bb_sp2 <- set_projection(world_bb_sp, projection = proj)
 		world_bb_co2 <- world_bb_sp2@polygons[[1]]@Polygons[[1]]@coords
 		
 		world_bb_co3 <- matrix(c((world_bb_co2[,1] - bbx[1,1])/(bbx[1,2]-bbx[1,1]),

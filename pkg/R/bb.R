@@ -46,12 +46,12 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		b <- res$bbox
 		cx <- res$coords[1]
 		cy <- res$coords[2]
-		current.projection <- "longlat"
+		current.projection <- .CRS_longlat
 	} else if (inherits(x, "Extent")) {
 		b <- bbox(x)		
 	} else if (inherits(x, c("Spatial", "Raster"))) {
 		b <- bbox(x)	
-		current.projection <- proj4string(x)
+		current.projection <- get_projection(x, as.CRS = TRUE)
 	} else if (is.matrix(x) && length(x)==4) {
 		b <- x
 	} else if (is.vector(x) && length(x)==4) {
@@ -134,19 +134,21 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 				stop("Current projection unknown. Please specify the projection.")
 			}
 			warning("Current projection unknown. Long lat coordinates (wgs84) assumed.", call. = FALSE)
-			current.projection <- "longlat"	
-		} 
+			current.projection <- .CRS_longlat
+		} else current.projection <- get_proj4(current.projection, as.CRS = TRUE)
+		projection <- get_proj4(projection, as.CRS = TRUE)
 		
 		
 		errorFound  <- TRUE
-		opt <- options(warn=-1, verbose=FALSE)
-		log <- capture.output({
+		#opt <- options(warn=-1, verbose=FALSE)
+		#log <- capture.output({
 		iter <- 1
+		world_end <- end_of_the_world(proj=current.projection)
 		while(errorFound) {
 			sp_poly <- as(extent(b), "SpatialPolygons")
+			attr(sp_poly, "proj4string") <- current.projection
 			
 			sp_poly2 <- tryCatch({
-			  world_end <- end_of_the_world(proj=current.projection)
 			  gIntersection(sp_poly, world_end)
 			}, error=function(e){
 				sp_poly
@@ -161,7 +163,7 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 				c(v[1], rep(v[-n], each=4) + as.vector(sapply((v[-1] - v[-n]) / 4, function(w)cumsum(rep(w,4)))))
 			})
 			
-			sp_pnts <- SpatialPoints(co2, proj4string = CRS(get_proj4(current.projection)))
+			sp_pnts <- SpatialPoints(co2, proj4string = current.projection)
 			
 			errorFound  <- FALSE
 			tryCatch({
@@ -171,16 +173,12 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 				assign("errorFound", TRUE, envir = parent.env(environment()))
 				NULL
 			})
-			#cat("test\n")
-			if (iter==100) stop("Something went wrong with the bounding box. Please check the projection.") else iter <- iter + 1
+			# cat(iter, "\n")
+			if (iter==10) stop("Something went wrong with the bounding box. Please check the projection.") else iter <- iter + 1
 		}
-		})
-
-		do.call("options", opt)
+		#})
+		#do.call("options", opt)
 		
-		#sp_rect_prj <- set_projection(sp_rect, projection=projection)
-		#sp_rect_prj <- set_projection(sp_rect, current.projection = current.projection, projection=projection)
-		#sp_rect_prj <- spTransform(sp_rect, CRSobj = get_proj4(projection))
 		b <- sp_pnts2_prj@bbox
 		dimnames(b) <- list(c("x", "y"), c("min", "max"))
 	}

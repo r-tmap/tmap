@@ -1,10 +1,10 @@
-preprocess_shapes <- function(y, apply_map_coloring, master_proj, master_bbx, interactive, raster_facets_vars) {
+preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, interactive, raster_facets_vars) {
 	shp <- y$shp
 	shp.unit <- y$unit
 	shp.unit.size <- y$unit.size
 	
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
-		if (interactive) master_proj <- get_proj4("merc")
+		if (interactive) master_CRS <- .CRS_merc
 		if (inherits(shp, "Spatial")) {
 			
 			# attribute get from read_osm
@@ -80,30 +80,30 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, master_bbx, in
 		}
 		
 		# get current projection (assume longlat if unkown)
-		shp_proj <- get_projection(shp)
-		if (is.na(shp_proj)) {
+		shp_CRS <- get_projection(shp, as.CRS = TRUE)
+		if (is.na(shp_CRS)) {
 			if (!is_projected(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
-				shp_proj <- get_proj4("longlat")
-				shp <- set_projection(shp, current.projection = shp_proj)
+				shp_CRS <- .CRS_longlat
+				shp <- set_projection(shp, current.projection = shp_CRS)
 			} else {
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
 
 		# should raster shape be reprojected?
-		if ((!is.na(shp_proj) && !is.na(master_proj) && shp_proj!=master_proj) || interactive) {
-			if (is.na(master_proj)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
+		if ((!is.na(shp_CRS) && !is.na(master_CRS) && !identical(shp_CRS, master_CRS)) || interactive) {
+			if (is.na(master_CRS)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
 			new_ext <- tryCatch({
-			  	suppressWarnings(projectExtent(shp, crs = CRS(get_proj4(master_proj))))
+			  	suppressWarnings(projectExtent(shp, crs = master_CRS))
 			}, error=function(e){
 		  		NULL
 		  	})
 			
 			if (is.null(new_ext)) {
-				shp <- crop_shape(shp, bb(master_bbx, projection = shp_proj, current.projection = master_proj))	
+				shp <- crop_shape(shp, bb(master_bbx, projection = shp_CRS, current.projection = master_CRS))	
 				new_ext <- tryCatch({
-					suppressWarnings(projectExtent(shp, crs = CRS(get_proj4(master_proj))))
+					suppressWarnings(projectExtent(shp, crs = master_CRS))
 				}, error=function(e){
 					stop("Unable to reproject raster shape \"", y$shp_name, "\", probably due to non-finite points.", call. = FALSE)
 				})
@@ -111,7 +111,7 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, master_bbx, in
 		} else new_ext <- NULL
 
 		if (!is.null(new_ext)) {
-			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=CRS(master_proj), method = ifelse(use_interp, "bilinear", "ngb")))
+			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=master_CRS, method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
 			data <- get_raster_data(shpTmp)
 		} else {
@@ -143,9 +143,9 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, master_bbx, in
 
 		# interactive raster require merc projection with longlat extent		
 		if (interactive) {
-			new_ext_ll <- extent(projectExtent(new_ext, crs = CRS(get_proj4("longlat"))))
+			new_ext_ll <- extent(projectExtent(new_ext, crs = .CRS_longlat))
 			shp2@extent <- new_ext_ll
-			shp2@crs <- CRS(get_proj4("longlat"))
+			shp2@crs <- .CRS_longlat
 		}
 		
 		## to be consistent with Spatial objects:
@@ -178,18 +178,18 @@ preprocess_shapes <- function(y, apply_map_coloring, master_proj, master_bbx, in
 		}
 		
 		# reproject if nessesary
-		shp_proj <- get_projection(shp)
-		if (is.na(shp_proj)) {
+		shp_CRS <- get_projection(shp, as.CRS = TRUE)
+		if (is.na(shp_CRS)) {
 			if (!is_projected(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
-				shp_proj <- get_proj4("longlat")
-				shp <- set_projection(shp, current.projection = shp_proj)
+				shp_CRS <- .CRS_longlat
+				shp <- set_projection(shp, current.projection = shp_CRS)
 			} else {
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
-		if (!is.na(shp_proj) && !is.na(master_proj) && shp_proj!=master_proj) {
-			shp2 <- spTransform(shp, CRS(master_proj))
+		if (!is.na(shp_CRS) && !is.na(master_CRS) && !identical(shp_CRS, master_CRS)) {
+			shp2 <- spTransform(shp, master_CRS)
 		} else {
 			shp2 <- shp
 		}

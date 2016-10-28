@@ -17,23 +17,7 @@
 #' @param ignore.na should NA values in \code{key.data} and \code{key.shp} be ignored? (\code{FALSE} by default)
 #' @param fixed.order should the data be append in the same order as the shapes in \code{shp}?
 #' @return Shape object with appended data. Tip: run \code{append_data} without assigning the result to check the coverage.
-#' @examples
-#' \dontrun{
-#' data(Europe)
-#' 
-#' f <- tempfile()
-#' download.file("http://kejser.org/wp-content/uploads/2014/06/Country.csv", destfile = f)
-#' domain_codes <- read.table(f, header=TRUE, sep="|")
-#' unlink(f)
-#' 
-#' domain_codes <- subset(domain_codes, select = c("Alpha3Code", "TopLevelDomain"))
-#' domain_codes$Alpha3Code <- toupper(domain_codes$Alpha3Code)
-#' 
-#' Europe <- append_data(Europe, domain_codes, key.shp = "iso_a3", key.data = "Alpha3Code",
-#'     ignore.na = TRUE)
-#' 
-#' qtm(Europe, text="TopLevelDomain")
-#' }
+#' @example ../examples/append_data.R
 #' @rdname append_data
 #' @export
 append_data <- function(shp, data, key.shp = NULL, key.data = NULL, ignore.duplicates=FALSE, ignore.na=FALSE, fixed.order=is.null(key.data) && is.null(key.shp)) {

@@ -1,4 +1,4 @@
-process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, raster.leaflet, projection, interactive, orig.projection) {
+process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, raster.leaflet, master_CRS, interactive, orig_CRS) {
 	
 	pasp <- gm$asp
 	if (identical(pasp, 0)) pasp <- dasp
@@ -20,11 +20,11 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 	# in case x is search query
 	if (!is.null(args$x)) {
 		if (is.character(args$x)) {
-			args$projection <- projection
-			args$current.projection <- "longlat"
+			args$projection <- master_CRS
+			args$current.projection <- .CRS_longlat
 		} else if (interactive) {
-			args$projection <- projection
-			args$current.projection <- orig.projection
+			args$projection <- master_CRS
+			args$current.projection <- orig_CRS
 		} else {
 			args$projection <- NULL
 			args$current.projection <- NULL

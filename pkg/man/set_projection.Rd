@@ -5,30 +5,25 @@
 \alias{set_projection}
 \title{Set and get the map projection}
 \usage{
-set_projection(shp, projection = NULL, current.projection = NULL,
+set_projection(shp, projection = NA, current.projection = NA,
   overwrite.current.projection = FALSE)
 
-get_projection(shp)
+get_projection(shp, as.CRS = FALSE)
 }
 \arguments{
 \item{shp}{shape object of class \code{\link[sp:Spatial]{Spatial}} or
 \code{\link[raster:Raster-class]{Raster}} (see details).}
 
-\item{projection}{character that determines the new projection. Either a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. This argument is
-only used to transform the \code{shp}. Use \code{current.projection} to
-specify the current projection of \code{shp}.}
+\item{projection}{new projection. Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link{get_proj4}} for a list of shortcut values. This argument is only used to transform the \code{shp}. Use \code{current.projection} to specify the current projection of \code{shp}.}
 
-\item{current.projection}{the current projection of \code{shp}. Only use this
-if the current projection is missing or wrong.}
+\item{current.projection}{the current projection of \code{shp}. See \code{projection} for possible formats. Only use this if the current projection is missing or wrong.}
 
-\item{overwrite.current.projection}{logical that determines whether the
-current projection is overwritten if it already has a projection that is
-different.}
+\item{overwrite.current.projection}{logical that determines whether the current projection is overwritten if it already has a projection that is different.}
+
+\item{as.CRS}{should a CRS object be returned instead of a PROJ.4 character string? Default is \code{FALSE}.}
 }
 \value{
-\code{set_projection} returns a (transformed) shape object with
-  updated projection information. \code{get_projection} returns the
-  \code{PROJ.4} character string of \code{shp}.
+\code{set_projection} returns a (transformed) shape object with updated projection information. \code{get_projection} returns the \code{PROJ.4} character string of \code{shp}.
 }
 \description{
 The function \code{set_projection} sets the projection of a shape file. It is

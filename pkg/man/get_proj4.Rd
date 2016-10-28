@@ -4,10 +4,10 @@
 \alias{get_proj4}
 \title{Get a PROJ.4 character string}
 \usage{
-get_proj4(x)
+get_proj4(x, as.CRS = FALSE)
 }
 \arguments{
-\item{x}{a \code{PROJ.4} character string or a shortcut, which is one of:
+\item{x}{a \code{PROJ.4} character string, a shortcut, or a \code{\link[sp:CRS]{CRS}} object. The following shortcuts are available:
 \describe{
        \item{\code{"longlat"}}{Not really a projection, but a plot of the longitude-latitude coordinates (WGS84 datum).} 
        \item{\code{"wintri"}}{Winkel Tripel (1921). Popular projection that is useful in world maps. It is the standard of world maps made by the National Geographic Society. Type: compromise} 
@@ -23,12 +23,14 @@ get_proj4(x)
        \item{\code{"eqc45"}}{Equirectangular (120). Projection in which distances along meridians are conserved. The latitude of 45 is the standard parallel. Also known as Gall isographic. Type: equidistant}
        \item{\code{"rd"}}{Rijksdriehoekstelsel. Triangulation coordinate system used in the Netherlands.}
        \item{EPSG code}{A valid code from the EPSG database}}}
+
+\item{as.CRS}{should a CRS object be returned instead of a PROJ.4 character string? Default is \code{FALSE}.}
 }
 \value{
-validated PROJ.4 character string
+validated PROJ.4 character string, or, if \code{as.CRS=TRUE} a \code{\link[sp:CRS]{CRS}} object.
 }
 \description{
-Get full PROJ.4 string from either an existing PROJ.4 string or a shortcut.
+Get full PROJ.4 string from an existing PROJ.4 string, a shortcut, or a \code{\link[sp:CRS]{CRS}} object.
 }
 \seealso{
 \url{http://en.wikipedia.org/wiki/List_of_map_projections} for a overview of projections. \url{http://trac.osgeo.org/proj/} for the \code{PROJ.4} project home page. An extensive list of \code{PROJ.4} codes can be created with rgdal's \code{\link[rgdal:make_EPSG]{make_EPSG}}.

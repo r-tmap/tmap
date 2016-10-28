@@ -27,7 +27,7 @@ read_osm <- function(x, raster=NA, zoom=NULL, type=NULL, minNumTiles=NULL, merge
 	args_bb <- args[intersect(names(args), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
 	args_other <- args[setdiff(names(args), names(args_bb))]
 	if (is.na(raster)) raster <- (length(args_other)==0)
-	if (inherits(x, c("Spatial", "Raster"))) x <- do.call("bb", c(list(x=x, projection = "longlat"), args_bb))
+	if (inherits(x, c("Spatial", "Raster"))) x <- do.call("bb", c(list(x=x, projection = .CRS_longlat), args_bb))
 
 	if (raster) {
 		if (!requireNamespace("OpenStreetMap", quietly = TRUE)) {
