@@ -1,4 +1,5 @@
-end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1, bbx=c(-180, 180, -90, 90), buffer=1e-6) {
+# Reproject the end of the world (-180, 180; -90, 90) to polygon. Needed 1) to return feasible bounding boxes (bb) and 2) to cut grid lines in world maps
+end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1, bbx=c(-180, 180, -90, 90), buffer=1e-6, suppress.warnings=TRUE) {
 	
 	CRS_datum <- get_proj4(earth.datum, as.CRS = TRUE)
 	proj <- get_proj4(proj, as.CRS = TRUE)
@@ -22,16 +23,20 @@ end_of_the_world <- function(earth.datum="longlat", proj=NA, subdegrees=1, bbx=c
 		
 		world_bb_sp <- SpatialPolygons(list(Polygons(list(Polygon(coords=world_bb_co)), ID="world_bb")), proj4string=CRS_datum)
 		
-		if (is.na(proj)) return(world_bb_sp) else {
-			res <- tryCatch({
-				set_projection(world_bb_sp, projection = proj)
+		res <- if (is.na(proj)) {
+			world_bb_sp 
+		} else {
+			tryCatch({
+				spTransform(world_bb_sp, proj)
 			}, error=function(e){
 				NULL
 			}, warning=function(w){
 				NULL
 			})
-			if (!is.null(res)) return(res)
 		}
+		if (!is.null(res)) break
 	}
-	stop("Unable to determine end of the world in projection ", proj, call. = FALSE)
+
+	if (is.null(res)) stop("Unable to determine end of the world in projection ", proj, call. = FALSE)
+	res
 }

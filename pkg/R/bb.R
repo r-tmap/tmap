@@ -129,6 +129,9 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		   dimnames=list(c("x", "y"), c("min", "max")))
 	
 	if (!missing(projection)) {
+		#####################################################
+		# Reproject bounding box
+		#####################################################
 		if (is.null(current.projection)) {
 			if (!maybe_longlat(b)) {
 				stop("Current projection unknown. Please specify the projection.")
@@ -143,7 +146,9 @@ bb <- function(x=NA, ext=NULL, cx=NULL, cy=NULL, width=NULL, height=NULL, xlim=N
 		
 		# STEP 1: try to cut the bounding box, such that it is feasible (i.e. corresponding to lon between -180 and 180 and lat between -90 and 90)
 		world_end <- tryCatch({
-			end_of_the_world(proj=current.projection)
+			suppressMessages({
+				end_of_the_world(proj=current.projection)
+			})
 		}, error=function(e) {
 			NULL
 		})

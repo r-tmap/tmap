@@ -1,6 +1,6 @@
 version 1.6-1
+- improved projections: code is more efficient now and shortcuts are renewed. Also, CRS objects are now supported for all project arguments (e.g. tm_shape, set_projection), and as.CRS is added to get_projection and get_proj4.
 - Rscript works: methods is moved from imports to depends
-- improved projections: code is more efficient, shortcuts are renewed, CRS objects are now supported for all project argument
 
 version 1.6
 - [!] tm_symbols added, to create proportional symbol maps: besides bubbles, it also supports other symbol shapes, png icons, and small ggplot2 plots

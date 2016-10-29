@@ -125,9 +125,11 @@ set_projection <- function(shp, projection=NA, current.projection=NA, overwrite.
 			}
 		} else {
 			shp <- tryCatch({
-				suppressWarnings(spTransform(shp, proj.CRS))
+				spTransform(shp, proj.CRS)
 			}, error=function(e) {
 				stop("Unable to set the projection to ", CRSargs(proj.CRS), ".", call.=FALSE)
+			}, warning=function(w){
+				NULL
 			})
 		}
 		if (recast) {
@@ -163,3 +165,4 @@ get_projection <- function(shp, as.CRS=FALSE) {
 		proj4string(shp)
 	}
 }
+

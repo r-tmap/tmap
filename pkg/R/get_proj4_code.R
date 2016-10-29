@@ -40,6 +40,8 @@ get_proj4 <- function(x, as.CRS=FALSE) {
 		} else {
 			return(CRSargs(x))
 		}
+	} else if (!is.numeric(x) && !is.character(x)) {
+		stop("x is not a CRS, a character, not a number", call.=FALSE)
 	} else {
 		if (x %in% names(.proj_sc)) {
 			y <- unname(.proj_sc[x])
