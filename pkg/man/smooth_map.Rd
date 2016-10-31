@@ -68,10 +68,12 @@ Create a smooth map from a shape object. A 2D kernel density estimator is applie
 For the estimation of the 2D kernal density, code is borrowed from \code{\link[KernSmooth:bkde2D]{bkde2D}}. This implemention is slightly different: \code{\link[KernSmooth:bkde2D]{bkde2D}} takes point coordinates and applies linear binning, whereas in this function, the data is already binned, with values 1 if the values of \code{var} are not missing and 0 if values of \code{var} are missing.
 }
 \examples{
+# set mode to plotting mode
+current.mode <- tmap_mode("plot")
+
 ####################################
 ## Already smoothed raster
 ####################################
-tmap_mode("plot")
 vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
 vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
 
@@ -166,5 +168,8 @@ qtm(land, raster="trees")
 qtm(land_smooth$raster)
 qtm(land_smooth$polygons, format="World", style="grey")
 }
+
+# reset current mode
+tmap_mode(current.mode)
 }
 

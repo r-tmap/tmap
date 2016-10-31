@@ -46,11 +46,17 @@ five_cities <- append_data(five_cities, locations, fixed.order = TRUE)
 five_cities2 <- five_cities@data
 sp::coordinates(five_cities2) <- ~lon+lat
 
+# change to interactive mode
+current.mode <- tmap_mode("view")
 tmap_mode("view")
+
 tm_shape(five_cities) +
 	tm_dots(col = "blue") +
 tm_shape(five_cities2) +
 	tm_dots(col = "red")
+
+# restore current mode
+tmap_mode(current.mode)
 }
 }
 \seealso{
