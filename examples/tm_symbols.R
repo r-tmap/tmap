@@ -71,7 +71,7 @@ tm_format_NLD()
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")
 
 \dontrun{
-require(rnaturalearth) # if not on CRAN: devtools::install_github("ropenscilabs/rnaturalearth")
+if (require(rnaturalearth)) {# if not on CRAN: devtools::install_github("ropenscilabs/rnaturalearth")
 
 airports <- ne_download(scale=10, type="airports")
 airplane <- tmap_icons(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
@@ -82,6 +82,7 @@ tmap_mode("view")
 tm_shape(airports, bbox="Germany") +
 	tm_symbols(shape=airplane, size="natlscale",
 		legend.size.show = FALSE, scale=2, border.col = NA)
+}
 }
 
 #####################################################################################

@@ -163,7 +163,13 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	mshp_raw <- x[[shape.id[masterID]]]$shp
 	if (is.null(master_CRS)) master_CRS <- get_projection(mshp_raw, as.CRS = TRUE)
 	orig_CRS <- master_CRS # needed for adjusting bbox in process_shapes
-	if (interactive) master_CRS <- .CRS_longlat
+	if (interactive) {
+		if (is.na(get_projection(mshp_raw, as.CRS = TRUE)) && is_projected(mshp_raw)) {
+			
+			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
+		}
+		master_CRS <- .CRS_longlat
+	}
 	
 	## find master bounding box (unprocessed)
 	bbx_raw <- bb(mshp_raw)

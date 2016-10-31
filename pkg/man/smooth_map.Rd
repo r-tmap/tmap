@@ -71,6 +71,7 @@ For the estimation of the 2D kernal density, code is borrowed from \code{\link[K
 ####################################
 ## Already smoothed raster
 ####################################
+tmap_mode("plot")
 vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
 vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
 
