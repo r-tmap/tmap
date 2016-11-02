@@ -268,7 +268,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	fasp <- fpi$dsw / fpi$dsh #-  fpi$pSH - fpi$between.margin.in)
 	
 	# aspect ratio per facet minus extern legend
-	lasp <- fasp * (1-fpi$legmarx) / (1-fpi$legmary)
+	lasp <- fasp * (1-fpi$legmarx) / (1-fpi$legmary-fpi$attrmary)
 	
 	shps <- process_shapes(shps, x[shape.id], gmeta, data_by, lasp, masterID, allow.crop = !interactive, raster.leaflet=interactive, master_CRS=master_CRS, interactive=interactive, orig_CRS=orig_CRS)
 	
