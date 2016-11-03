@@ -600,7 +600,7 @@ tm_bubbles <- function(size=1,
 					   border.col=NA,
 					   legend.max.symbol.size=1,
 					   ...) {
-	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape, scale=scale, legend.max.symbol.size=legend.max.symbol.size), list(...)))
+	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape, scale=scale, border.col=border.col, legend.max.symbol.size=legend.max.symbol.size), list(...)))
 	g
 }
 
