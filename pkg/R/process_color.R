@@ -65,6 +65,12 @@ lighter <- function(colour, rate, alpha=NA) {
 	rgb(col[1, ], col[2, ], col[3, ], alpha)
 }
 
+col2hex <- function(x) {
+	y <- apply(col2rgb(x), MARGIN=2, FUN=function(y)do.call(rgb, c(as.list(y), list(maxColorValue=255))))
+	y[is.na(x)] <- NA
+	y
+}
+
 
 # determine palette type
 # palettes of length 1,2 or 3 are cat
@@ -130,7 +136,7 @@ get_brewer_pal <- function(palette, n, contrast, stretch=TRUE) {
 
 
 valid_colors <- function(x) {
-	(x %in% colors()) |	(sapply(gregexpr("^#(([[:xdigit:]]){6}|([[:xdigit:]]){8})$", x), "[[", 1) == 1L)
+	is.na(x) | (x %in% colors()) |	(sapply(gregexpr("^#(([[:xdigit:]]){6}|([[:xdigit:]]){8})$", x), "[[", 1) == 1L)
 }
 
 

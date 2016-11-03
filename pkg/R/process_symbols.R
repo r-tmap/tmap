@@ -21,7 +21,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	}
 
 	
-	if (is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["symbols"]
+	if (length(xcol)==1 && is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["symbols"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE

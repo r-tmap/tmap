@@ -11,7 +11,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 		x <- x[1]	
 	} 
 
-	if (is.na(x)[1]) x <- gt$aes.colors["fill"]
+	if (length(x)==1 && is.na(x)[1]) x <- gt$aes.colors["fill"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE

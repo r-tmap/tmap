@@ -14,7 +14,7 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		xlwd <- xlwd[1]
 	} 
 
-	if (is.na(xcol[1])) xcol <- gt$aes.colors["lines"]
+	if (length(xcol)==1 && is.na(xcol)[1]) x <- gt$aes.colors["lines"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE

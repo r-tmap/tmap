@@ -1,5 +1,6 @@
-version 1.7 (in development)
+version 1.7 (in development; could become CRAN version 1.6-2 or 1.8)
 - added error message for NA-projected shapes in view mode
+- NA values allowed in direct color variables
 
 version 1.6-1
 - improved projections: code is more efficient now and shortcuts are renewed. Also, CRS objects are now supported for all project arguments (e.g. tm_shape, set_projection), and as.CRS is added to get_projection and get_proj4.
