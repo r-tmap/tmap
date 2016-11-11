@@ -52,7 +52,7 @@ get_proj4 <- function(x, as.CRS=FALSE) {
 			y <- ycheck[[2]]
 			check_args <- FALSE
 		} else if (substr(x, 1, 3)=="utm") {
-			y <- paste("+proj=utm +zone=", substr(y, 4, 5), ifelse(substr(y, 6, 6)=="s", " +south", ""), " +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0", sep="")
+			y <- paste("+proj=utm +zone=", substr(x, 4, 5), ifelse(substr(x, 6, 6)=="s", " +south", ""), " +ellps=WGS84 +datum=WGS84 +units=m +no_defs +towgs84=0,0,0", sep="")
 			check_args <- TRUE
 		} else {
 			y <- x
