@@ -114,15 +114,14 @@ set_projection <- function(shp, projection=NA, current.projection=NA, overwrite.
 			# 	if (!is.null(l) && !is.factor(d)) factor(d, levels=1:length(l), labels=l) else d
 			# }, get_raster_data(shp), lvls, SIMPLIFY=FALSE))
 			
-			if (any(!isnum)) {
-				shp@data@isfactor <- !isnum
-				dfs <- mapply(function(nm, lv) {
-					df <- data.frame(ID=1:length(lv), levels=factor(lv, levels=lv))
-					if (cls=="RasterBrick") names(df)[2] <- nm
-					df
-				}, names(which(!isnum)), lvls[!isnum], SIMPLIFY=FALSE)
-				shp@data@attributes <- dfs
-			}
+			if (any(!isnum)) shp <- set_raster_levels(shp, lvls)
+			# shp@data@isfactor <- !isnum
+			# dfs <- mapply(function(nm, lv) {
+			# 	df <- data.frame(ID=1:length(lv), levels=factor(lv, levels=lv))
+			# 	if (cls=="RasterBrick") names(df)[2] <- nm
+			# 	df
+			# }, names(which(!isnum)), lvls[!isnum], SIMPLIFY=FALSE)
+			# shp@data@attributes <- dfs
 		} else {
 			shp <- tryCatch({
 				spTransform(shp, proj.CRS)

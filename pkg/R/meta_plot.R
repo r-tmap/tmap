@@ -17,12 +17,14 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 		if (is.null(gt$legend.just) || !is_num_string(gt$legend.position[1])) {
 			0
 		} else {
-			as.numeric(ifelse(is_num_string(gt$legend.just[1]), gt$legend.just[1], gt$legend.just[1]=="right"))
+			as.numeric(ifelse(is_num_string(gt$legend.just[1]), gt$legend.just[1], 
+					   ifelse(gt$legend.just[1]=="right", 1, ifelse(gt$legend.just[1]=="left", 0, .5))))
 		},
 		if (is.null(gt$legend.just) || !is_num_string(gt$legend.position[2])) {
 			0
 		} else {
-			as.numeric(ifelse(is_num_string(gt$legend.just[2]), gt$legend.just[2], gt$legend.just[2]=="top"))
+			as.numeric(ifelse(is_num_string(gt$legend.just[2]), gt$legend.just[2], 
+					  ifelse(gt$legend.just[2]=="top", 1, ifelse(gt$legend.just[2]=="bottom", 0, .5))))
 		}
 	)
 

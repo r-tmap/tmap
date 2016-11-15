@@ -323,13 +323,13 @@ tm <- tm_shape(World) +
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 save_tmap(tm, "World_map.png", width=1920, height=1080)
 ```
 
 This function can also save interactive maps to stand-alone HTML files:
 
-```{r}
+```{r, eval=FALSE}
 save_tmap(tm, "World_map.html")
 ```
 

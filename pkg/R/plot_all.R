@@ -25,7 +25,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 			}
 		}
 	}
-	
+
 	gp[c("tm_layout")] <- NULL
 	
 	if (!gt$legend.only) {
@@ -86,7 +86,6 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 	} else {
 		## bubble height needed to align with bubbles in legend
 		lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE)# * gt$legend.text.size
-		treeMapX <- NULL
 		metaX <- 0
 		metaY <- 0
 	}
@@ -117,7 +116,12 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 			treeMapX <- addGrob(treeMapX, child=treeMetaX) #, gPath=gPath("outer_map"))#, "aspvp"))
 			#upViewport(d)
 		} else {
-			treeMapX <- treeMetaX
+			treeMapX <- if (gt$design.mode) {
+				attrBG <- rectGrob(gp=gpar(fill="purple", col="black"), name="attrBG")
+				gTree(children=gList(attrBG, treeMetaX), name="meta_with_bg")
+			} else {
+				treeMetaX
+			}
 		}
 	}
 	treeMapX

@@ -14,6 +14,7 @@ get_RasterLayer_data_vector <- function(r) {
 }
 
 
+
 get_RasterLayer_levels <- function(r) {
 	if (r@data@isfactor) {
 		dt <- r@data@attributes[[1]]
@@ -96,7 +97,30 @@ get_raster_data <- function(shp) {
 	data
 }
 
+set_raster_levels <- function(shp, lvls) {
+	isf <- !sapply(lvls, is.null)
+	cls <- class(shp)
+	if (any(isf)) {
+		shp@data@isfactor <- isf
+		dfs <- mapply(function(nm, lv) {
+			df <- data.frame(ID=1:length(lv), levels=factor(lv, levels=lv))
+			if (cls=="RasterBrick") names(df)[2] <- nm
+			df
+		}, names(which(isf)), lvls[isf], SIMPLIFY=FALSE)
+		shp@data@attributes <- dfs
+	}
+	shp
+}
+
+
+
 get_raster_levels <- function(shp, layerIDs) {
+	if (missing(layerIDs)) layerIDs <- 1L:nlayers(shp)
+	
+	if (inherits(shp, "Spatial")) {
+		return(lapply(attr(shp, "data")[,layerIDs], levels))
+	}
+	
 	shpnames <- get_raster_names(shp)[layerIDs]
 	if (inherits(shp, "RasterLayer")) {
 		lvls <- list(get_RasterLayer_levels(shp))
