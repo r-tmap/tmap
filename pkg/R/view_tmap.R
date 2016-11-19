@@ -477,18 +477,3 @@ lty2dashArray <- function(lty) {
 		  collapse=",")
 }
 
-get_view <- function(bbx) {
-	lng <- mean(bbx[1,])
-	lat <- mean(bbx[2,])
-	
-	lng_diff <- range(bbx[1,])
-	lat_diff <- range(bbx[2,])
-	max_diff <- max(lng_diff, lat_diff)
-	if (max_diff < 360 / (2^20)) {
-		zoom <- -21
-	} else {
-		zoom <- round(-(log2(max_diff) - (log2(360)))) + 2
-		if (zoom < 1) zoom <- 1
-	}
-	c(lng=lng, lat=lat, zoom=zoom)
-}

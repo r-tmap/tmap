@@ -234,8 +234,16 @@ qtm <- function(shp,
 			warning("function ", fname, " does not exist", call. = FALSE)
 		}
 	}
-	g <- g + do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
-	g <- g + do.call("tm_view", c(list(basemaps=basemaps), args2[["tm_view"]]))
+	
+	glayout <- do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
+	glayoutcall <- c(intersect(called, c("title", "scale")), names(args2[["tm_layout"]]))
+	glayout$tm_layout["call"] <- list(call=if(length(glayoutcall)==0) NULL else glayoutcall)
+	
+	gview <- do.call("tm_view", c(list(basemaps=basemaps), args2[["tm_view"]]))
+	gviewcall <- c(intersect(called, "basemaps"), names(args2[["tm_view"]]))
+	gview$tm_view["call"] <- list(call=if(length(gviewcall)==0) NULL else gviewcall)
+	
+	g <- g + glayout + gview
 	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
 	g
 }

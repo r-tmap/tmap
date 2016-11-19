@@ -28,7 +28,7 @@ preprocess_gt <- function(x, interactive) {
 		gv <- x[[vs[1]]]
 		if (length(vs)>1) {
 			for (i in 2:length(vs)) {
-				gv2 <- x[[vs[2]]]
+				gv2 <- x[[vs[i]]]
 				gv[gv2$call] <- gv2[gv2$call]
 				gv$call <- unique(c(gv$call, gv2$call))
 			}
