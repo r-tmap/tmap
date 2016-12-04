@@ -18,7 +18,8 @@ before_install:
   - make
   - sudo make install
   - sudo ldconfig
-  - cd ~/pkg
+  - cd $TRAVIS_BUILD_DIR
+  - cd pkg
 
 sudo: required
 
