@@ -3,16 +3,26 @@ tmap: thematic maps in R
 
 [`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps, written by [Martijn Tennekes][3]. The API is based on [*A Layered Grammar of Graphics*][4] by Hadley Wickham and resembles the syntax of `ggplot2`, a popular R-library for drawing charts.
 
-<div style="height:300px;">
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap"><img src="http://www.von-tijn.nl/tijn/research/tmap_classic.png" alt="Classic World Map" width="150px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/classic.jpg" alt="Classic World Map" height="125px"/></a>
 
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/USchoro.png" alt="US Choropleth" width="150px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/bubble.jpg" alt="Bubble Map" height="125px"/></a>
 
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth">
-<img src="http://www.von-tijn.nl/tijn/research/tmap/dasy.png" alt="Crimes density in Greater London" width="150px"/>
-<img src="http://www.von-tijn.nl/tijn/research/tmap/crimes_facets.png" alt="Crimes in the City of London" width="150px"/>
-</a>
-</div>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/view_metro2.jpg" alt="Bubble Map" height="125px"/></a>
+
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/world_facets2.jpg" alt="World facets" height="125px"/></a>
+
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/USchoro.png" alt="US Choropleth" height="125px"/></a>
+
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/US_PR.png" alt="US Choropleth" height="125px"/></a>
+
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
+<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes4.jpg" alt="London Crimes" height="125px"/></a>
+
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
+<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes5.jpg" alt="London Crimes" height="125px"/></a>
+
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
+<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/view_metro2.jpg" alt="London Crimes" height="125px"/></a>
 
 Installation
 ------------
@@ -28,16 +38,14 @@ sudo apt-get install libproj-dev
 sudo apt-get install libgeos-dev
 ```
 
-See source pages for [gdal](http://trac.osgeo.org/gdal), [proj](http://trac.osgeo.org/proj), and [geos](http://trac.osgeo.org/geos).
+See source pages for [gdal](http://trac.osgeo.org/gdal), [proj](http://trac.osgeo.org/proj), and [geos](http://trac.osgeo.org/geos). For Mac OS users, see http://www.kyngchaos.com.
 
-For Mac OS users, see http://www.kyngchaos.com.
 
-        
 
 Development
 ------------
 
-Odd numbered versions will be development versions, and even numbered versions stable CRAN releases (as with data.table).
+Odd numbered versions will be development versions and even numbered versions stable CRAN releases (as with data.table).
 
 The latest development version can be installed using `devtools`.
 
@@ -46,13 +54,9 @@ library(devtools)
 install_github("mtennekes/tmap", subdir = "pkg")
 ```
 
-See [NEWS](https://github.com/mtennekes/tmap/blob/master/pkg/NEWS) for the latest features and improvements.
+See [NEWS](https://github.com/mtennekes/tmap/blob/master/pkg/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
 
-Do you want to help with the development of the package? Please let me know! I could use some help with the following issues:
-
-* Interactive small multiples (i.e. small multiples in view mode)
-* Flow map
-* Finally, any feedback, requests, tips, or bug reports are welcome!
+Do you want to help with the development of the package? Please let me know! Any feedback, requests, tips, or bug reports are welcome!
 
 
 Usage
@@ -62,14 +66,17 @@ Usage
 library(tmap)
 ```
 
-See [demo pages](https://github.com/mtennekes/tmap/tree/master/demo) and [examples](https://github.com/mtennekes/tmap/tree/master/examples) for reproducible examples.
 
-
-Vignettes
+Vignettes, Demos, and Examples
 -----
 [tmap in a nutshell][6]
 
 [tmap modes: plot and interactive view][11]
+
+[demo pages](https://github.com/mtennekes/tmap/tree/master/demo)
+
+[examples](https://github.com/mtennekes/tmap/tree/master/examples)
+
 
 Presentation
 -----
@@ -83,7 +90,7 @@ Other resources
 * [Blog post TWIAV][8]
 * [Computer World: Create maps in R in 10 (fairly) easy steps][12]
 * [Tutorial Visualising spatial data: from base to shiny - workshop][15]
-* [Stack Overflow questions][16]
+* [Stack Overflow questions (#tmap)][16]
 
 
   [1]: http://cran.r-project.org/web/packages/tmap/index.html

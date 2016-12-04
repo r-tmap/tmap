@@ -1,13 +1,20 @@
-library("tmap")
 library("sp")
 library("rnaturalearth")
 # if rnaturalearth is not on CRAN yet, please install it with devtools::install_github("ropenscilabs/rnaturalearth")
 
-# read crime data, downloaded from https://data.police.uk/data/
-tmpdir <- tempdir()
-unzip("crimes_in_Greater_London_2015-10.zip", exdir = tmpdir)
-crimes <- rbind(read.csv(file.path(tmpdir, "2015-10-city-of-london-street.csv")),
-				read.csv(file.path(tmpdir, "2015-10-metropolitan-street.csv")))
+# functions to obtain crimes data
+get_crimes_data <- function() {
+	tmp_file <- tempfile(fileext = ".zip")
+	download.file("http://www.von-tijn.nl/tijn/research/tmap/crimes_in_Greater_London_2015-10.zip", destfile = tmp_file)
+	
+	tmp_dir <- tempdir()
+	unzip(tmp_file, exdir=tmp_dir)
+	rbind(read.csv(file.path(tmp_dir, "2015-10-city-of-london-street.csv")),
+		  read.csv(file.path(tmp_dir, "2015-10-metropolitan-street.csv")))
+}
+
+# please download the file "crimes_in_Greater_London_2015-10.zip" (available on https://www.jstatsoft.org as a supplement of this paper), and change the path argument below to the location of the downloaded file:
+crimes <- get_crimes_data()
 
 # create SpatialPointsDataFrame of known locations
 crimes <- crimes[!is.na(crimes$Longitude) & !is.na(crimes$Latitude), ]

@@ -1,27 +1,24 @@
 ### Crimes in Greater London
 
-
-![Dotmap of crimes in Greater London](http://www.von-tijn.nl/tijn/research/tmap/dotmap.png)
-
-![Kernel Density Map of crimes in Greater London](http://www.von-tijn.nl/tijn/research/tmap/dasy.png)
-
-![Crimes in London city by type](http://www.von-tijn.nl/tijn/research/tmap/crimes_facets.png)
-
-![Screenshot interactive map](http://www.von-tijn.nl/tijn/research/tmap/view_crimes.jpg)
-
-
-
 ```r
 library("tmap")
 library("sp")
 library("rnaturalearth")
 # if rnaturalearth is not on CRAN yet, please install it with devtools::install_github("ropenscilabs/rnaturalearth")
 
-# read crime data, downloaded from https://data.police.uk/data/
-tmpdir <- tempdir()
-unzip("crimes_in_Greater_London_2015-10.zip", exdir = tmpdir)
-crimes <- rbind(read.csv(file.path(tmpdir, "2015-10-city-of-london-street.csv")),
-				read.csv(file.path(tmpdir, "2015-10-metropolitan-street.csv")))
+# functions to obtain crimes data
+get_crimes_data <- function() {
+	tmp_file <- tempfile(fileext = ".zip")
+	download.file("http://www.von-tijn.nl/tijn/research/tmap/crimes_in_Greater_London_2015-10.zip", destfile = tmp_file)
+	
+	tmp_dir <- tempdir()
+	unzip(tmp_file, exdir=tmp_dir)
+	rbind(read.csv(file.path(tmp_dir, "2015-10-city-of-london-street.csv")),
+		  read.csv(file.path(tmp_dir, "2015-10-metropolitan-street.csv")))
+}
+
+# please download the file "crimes_in_Greater_London_2015-10.zip" (available on https://www.jstatsoft.org as a supplement of this paper), and change the path argument below to the location of the downloaded file:
+crimes <- get_crimes_data()
 
 # create SpatialPointsDataFrame of known locations
 crimes <- crimes[!is.na(crimes$Longitude) & !is.na(crimes$Latitude), ]
@@ -32,16 +29,30 @@ crimes <- set_projection(crimes, current.projection = "longlat", projection = 27
 
 # first glace at the data
 qtm(crimes)
+```
 
+
+<span>
+<img src="http://www.von-tijn.nl/tijn/research/tmap/crimes1.png" alt="Dot map of crime locations" width="45%"/>
+<img src="http://www.von-tijn.nl/tijn/research/tmap/crimes2.png" alt="Dot map with added basemap layer" width="45%"/>
+</span>
+
+```r
 # detecting outliers
 crimes_osm <- read_osm(crimes)
 qtm(crimes_osm) + qtm(crimes, symbols.col = "red", symbols.size = 0.5)
+```
 
+```r
 # show crime type of outliers
 qtm(crimes_osm, raster.alpha = 0.5) + 
 	qtm(crimes, symbols.col = "Crime.type", symbols.size = 0.5) + 
 	tm_legend(outside = TRUE)
+```
 
+![Map of crimes colored by type](http://www.von-tijn.nl/tijn/research/tmap/crimes3.png)
+
+```r
 # download districts borders of Greater London
 regions <- ne_download(scale = "large", type = "states", category = "cultural")
 london <- regions[which(regions$region == "Greater London"),]
@@ -54,7 +65,12 @@ crimes_london <- crop_shape(crimes, london, polygon =  TRUE)
 qtm(crimes_london, dots.alpha = 0.1) +
 	tm_shape(london) + 
 	tm_borders()
+```
 
+![Dot map of crimes in Greater London](http://www.von-tijn.nl/tijn/research/tmap/crimes3b.png)
+
+
+```r
 # calculate kernal densities
 crime_densities <- smooth_map(crimes_london, bandwidth = 0.5, breaks = c(0, 50, 100, 250, 500, 1000), cover = london)
 
@@ -70,7 +86,11 @@ tm_shape(crime_densities$polygons) +
 	tm_compass(position = c("left", "bottom")) +
 	tm_scale_bar(position = c("left", "bottom")) + 
 	tm_style_gray(title="Crimes in Greater London\nOctober 2015")
+```
 
+![Kernel density map of crimes in Greater London](http://www.von-tijn.nl/tijn/research/tmap/crimes4.png)
+
+```r
 # select City of London
 london_city <- london[london$name == "City",]
 crimes_city <- crop_shape(crimes_london, london_city, polygon = TRUE)
@@ -81,8 +101,12 @@ london_osm <- read_osm(london_city, type = "stamen-watercolor", zoom = 13)
 # small multiples of the City of London
 qtm(london_osm) +
 	qtm(crimes_city, dots.size = 0.2, by = "Crime.type")
+```
+
+![Crimes in London city by type](http://www.von-tijn.nl/tijn/research/tmap/crimes5.png)
 
 
+```
 # group crime types
 crime_lookup <- c('Anti-social behaviour'=2, 
 				  'Bicycle theft'=1, 
@@ -115,3 +139,4 @@ tm_shape(crimes_city) +
 			basemaps = "Esri.WorldTopoMap")
 ```
 
+![Screenshot interactive map](http://www.von-tijn.nl/tijn/research/tmap/view_crimes2.jpg)
