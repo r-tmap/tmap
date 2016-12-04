@@ -12,6 +12,10 @@ apt_packages:
   - r-cran-rgdal
   - libproj-dev
 
+before_install:
+  - cd $TRAVIS_BUILD_DIR
+  - cd pkg
+  
 r_packages:
   - rgdal
   - rgeos
