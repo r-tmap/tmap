@@ -266,7 +266,7 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{attr.outside}{Logical that determines whether the attributes are plot outside of the map/facets.}
 
-\item{attr.outside.position}{Character that determines the outside position of the legend, either \code{top} or \code{bottom}. Only applicable when \code{attr.outside=TRUE}.}
+\item{attr.outside.position}{Character that determines the outside position of the attributes: \code{"top"} or \code{"bottom"}. Only applicable when \code{attr.outside=TRUE}. If the legend is also drawn outside (with \code{legend.outside=TRUE}) and on the same side of the map (e.g. also \code{"top"} or \code{"bottom"}), the attributes are placed between the map and the legend. This can be changed by setting \code{attr.outside.position} to \code{"TOP"} or \code{"BOTTOM"}: in this case, the attributes are placed above respecvitely below the legend.}
 
 \item{attr.outside.size}{Numeric value that determines the relative height of the attribute viewport, when \code{attr.outside=TRUE}.}
 

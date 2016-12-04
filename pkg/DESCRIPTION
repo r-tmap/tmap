@@ -31,7 +31,8 @@ Imports:
     XML,
     leaflet,
     geosphere,
-    cartogram
+    cartogram,
+    stats
 Suggests:
     rmarkdown,
     knitr,

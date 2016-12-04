@@ -35,10 +35,28 @@ weighted.modal <- function(x, w, na.rm=FALSE) {
 	} else cat
 }
 
-
-# mean, wmean, mode, wmode, first
+#' Aggregate map
+#' 
+#' Aggregate spatial polygons, spatial lines or raster objects. For spatial polygons and lines, the units will be merged with the \code{by} variable. For rasters, the \code{fact} parameter determined how many rasters cells are aggregated both horizontally and vertically. Per data variable, an aggregation formula can be specified, by default mean for numeric and modal for categorical varaibles. 
+#' 
+#' @param shp shape object, which is one of
+#' \enumerate{
+#'  \item{\code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialGridDataFrame]{SpatialGrid(DataFrame)}}}
+#'  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
+#'  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
+#' }
+#' @param by variable by which polygons or lines are merged. Does not apply to raster objects.
+#' @param fact number that specifies how many cells in both horizontal and vertical direction are merged. Only applied to raster objects.
+#' @param agg.fun aggregation function(s). Either 1) one function (name) by which all variables are aggregated, or a vector of two function names called \code{"num"} and \code{"cat"} that determin the functions by which numeric respectively categorical variables are aggregated, 3) a list where per variable the (names of the) function(s) are provided. The list names should correspond to the variable names. These predefined functions can be used: \code{"mean"}, \code{"modal"}, \code{"first"}, and \code{"last"}.
+#' @param weights weights applied to the aggregation function. If provided, it is passed on as second argument. Works with aggregation functions \code{"mean"} and \code{"modal"}. Use \code{"AREA"} for weighting to the polygon area sizes.
+#' @param na.rm passed on to the aggregation function(s) \code{agg.fun}.
+#' @param ... other arguments passed on to the aggregation function(s) \code{agg.fun}.
+#' @importFrom stats weighted.mean
 aggregate_map <- function(shp, by=NULL, fact=NULL, agg.fun=c(num="mean", cat="modal"), weights=NULL, na.rm=FALSE, ...) {
-	
+	weighted.mean <- NULL
+
 	# process aggregation functions
 	is_raster <- (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid")))
 	shpnms <- names(shp)
@@ -214,7 +232,7 @@ aggregate_map <- function(shp, by=NULL, fact=NULL, agg.fun=c(num="mean", cat="mo
 				} else {
 					dvs <- split(as.integer(dv), IDs_fact)
 					ws <- split(w, IDs_fact)
-					unlist(mapply(dvs, ws, FUN = get_function(fun), na.rm=na.rm, SIMPLIFY = FALSE, USE.NAMES = FALSE))
+					unlist(mapply(dvs, ws, FUN = get_function(fun), MoreArgs = c(list(na.rm=na.rm), list(...)), SIMPLIFY = FALSE, USE.NAMES = FALSE))
 				}
 				if (is.factor(dv)) factor(v, levels=1L:nlevels(dv), labels=levels(dv)) else v
 			}, names(agg.fun), agg.fun, SIMPLIFY = FALSE, USE.NAMES = FALSE)
