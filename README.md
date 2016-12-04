@@ -37,7 +37,12 @@ sudo apt-get install libgeos-dev
 
 See source pages for [gdal](http://trac.osgeo.org/gdal), [proj](http://trac.osgeo.org/proj), and [geos](http://trac.osgeo.org/geos). For Mac OS users, see http://www.kyngchaos.com.
 
+Java is required for obtaining OpenStreetMap image (with the function`read_osm`). It can be installed in Linux (Ubuntu) with:
 
+```bash
+sudo-apt install openjdk-9-jre
+sudo R CMD javareconf
+```
 
 Development
 ------------
