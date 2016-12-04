@@ -18,8 +18,7 @@ before_install:
   - make
   - sudo make install
   - sudo ldconfig
-  - cd $CURWD
-  - cd pkg
+  - cd ~/pkg
 
 sudo: required
 
