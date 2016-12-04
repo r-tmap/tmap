@@ -1,6 +1,5 @@
 ### US Choropleth
 
-![US Choropleth](http://www.von-tijn.nl/tijn/research/tmap/USchoro.png)
 
 ```r
 library("readxl")
@@ -51,14 +50,14 @@ ttm()
 qtm(US[unmatched_counties$id,], fill = "red")
 ```
 
-![Unmatched counties are located in Puerto Rico](http://www.von-tijn.nl/tijn/research/tmap/US_PR.png)
+![Unmatched counties are located in Puerto Rico](http://www.von-tijn.nl/tijn/research/tmap/US_PR.jpg)
 
 ```r
 # interactive choropleth
 qtm(US, fill = "PCT_OBESE_ADULTS10")
 ```
 
-![Interactive choropleth of adult obesity percentages per county](http://www.von-tijn.nl/tijn/research/tmap/US2.png)
+![Interactive choropleth of adult obesity percentages per county](http://www.von-tijn.nl/tijn/research/tmap/US2.jpg)
 
 ```r
 # split shape 

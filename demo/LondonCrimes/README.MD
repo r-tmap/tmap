@@ -34,7 +34,7 @@ qtm(crimes)
 
 <span>
 <img src="http://www.von-tijn.nl/tijn/research/tmap/crimes1.png" alt="Dot map of crime locations" width="45%"/>
-<img src="http://www.von-tijn.nl/tijn/research/tmap/crimes2.png" alt="Dot map with added basemap layer" width="45%"/>
+<img src="http://www.von-tijn.nl/tijn/research/tmap/crimes2.jpg" alt="Dot map with added basemap layer" width="45%"/>
 </span>
 
 ```r
@@ -50,7 +50,7 @@ qtm(crimes_osm, raster.alpha = 0.5) +
 	tm_legend(outside = TRUE)
 ```
 
-![Map of crimes colored by type](http://www.von-tijn.nl/tijn/research/tmap/crimes3.png)
+![Map of crimes colored by type](http://www.von-tijn.nl/tijn/research/tmap/crimes3.jpg)
 
 ```r
 # download districts borders of Greater London
@@ -139,4 +139,4 @@ tm_shape(crimes_city) +
 			basemaps = "Esri.WorldTopoMap")
 ```
 
-![Screenshot interactive map](http://www.von-tijn.nl/tijn/research/tmap/view_crimes2.jpg)
+![Screenshot interactive map](http://www.von-tijn.nl/tijn/research/tmap/view_crimes2.JPG)

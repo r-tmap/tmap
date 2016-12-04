@@ -11,11 +11,13 @@ tmap: thematic maps in R
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/USchoro.jpg" alt="US Choropleth" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/US_PR.jpg" alt="US Choropleth" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
+<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes3.jpg" alt="London Crimes" height="125px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
 <img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes4.jpg" alt="London Crimes" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
 <img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes5.jpg" alt="London Crimes" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/view_metro2.jpg" alt="London Crimes" height="125px"/></a>
+<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/view_crimes2.jpg" alt="London Crimes" height="125px"/></a>
 </span>
 
 
