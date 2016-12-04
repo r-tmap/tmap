@@ -3,16 +3,16 @@ tmap: thematic maps in R
 
 [`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps, written by [Martijn Tennekes][3]. The API is based on [*A Layered Grammar of Graphics*][4] by Hadley Wickham and resembles the syntax of `ggplot2`, a popular R-library for drawing charts.
 
+<div style="height:300px;">
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap"><img src="http://www.von-tijn.nl/tijn/research/tmap_classic.png" alt="Classic World Map"/></a>
 
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap"><img src="http://www.von-tijn.nl/tijn/research/tmap_classic.png" alt="Classic World Map" style="width: 150px;"/></a>
-
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/USchoro.png" alt="US Choropleth" style="width: 150px;"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/USchoro.png" alt="US Choropleth"/></a>
 
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth">
-<img src="http://www.von-tijn.nl/tijn/research/tmap/dasy.png" alt="Crimes density in Greater London" style="width: 150px;"/>
-<img src="http://www.von-tijn.nl/tijn/research/tmap/crimes_facets.png" alt="Crimes in the City of London" style="width: 150px;"/>
+<img src="http://www.von-tijn.nl/tijn/research/tmap/dasy.png" alt="Crimes density in Greater London"/>
+<img src="http://www.von-tijn.nl/tijn/research/tmap/crimes_facets.png" alt="Crimes in the City of London"/>
 </a>
-
+</div>
 
 Installation
 ------------
