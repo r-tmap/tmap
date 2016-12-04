@@ -17,12 +17,15 @@ before_install:
   - make
   - sudo make install
   - cd
-  - wget http://download.osgeo.org/geos/geos-3.5.1.tar.bz2
-  - tar -jxvf geos-3.5.1.tar.bz2
-  - cd geos-3.5.1
+  - wget http://download.osgeo.org/geos/geos-3.5.0.tar.bz2
+  - tar -jxvf geos-3.5.0.tar.bz2
+  - cd geos-3.5.0
   - ./configure
   - make
   - sudo make install
+  - gdalinfo --version
+  - geos-config --version
+  - pkg-config --modversion proj
   - cd $TRAVIS_BUILD_DIR
   - cd pkg
 
