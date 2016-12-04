@@ -94,7 +94,7 @@ view_tmap <- function(gps, shps, bbx) {
 			}
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
-			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id)
+			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id)
 			
 			
 			if (!is.na(gpl$xfill)) {
