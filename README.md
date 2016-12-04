@@ -3,26 +3,21 @@ tmap: thematic maps in R
 
 [`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps, written by [Martijn Tennekes][3]. The API is based on [*A Layered Grammar of Graphics*][4] by Hadley Wickham and resembles the syntax of `ggplot2`, a popular R-library for drawing charts.
 
+<span>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/classic.jpg" alt="Classic World Map" height="125px"/></a>
-
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/bubble.jpg" alt="Bubble Map" height="125px"/></a>
-
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/view_metro2.jpg" alt="Bubble Map" height="125px"/></a>
-
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/world_facets2.jpg" alt="World facets" height="125px"/></a>
-
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/USchoro.png" alt="US Choropleth" height="125px"/></a>
-
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/US_PR.png" alt="US Choropleth" height="125px"/></a>
-
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/USchoro.jpg" alt="US Choropleth" height="125px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/US_PR.jpg" alt="US Choropleth" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
 <img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes4.jpg" alt="London Crimes" height="125px"/></a>
-
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
 <img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes5.jpg" alt="London Crimes" height="125px"/></a>
-
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
 <img src="http://www.von-tijn.nl/tijn/research/tmap/icons/view_metro2.jpg" alt="London Crimes" height="125px"/></a>
+</span>
+
 
 Installation
 ------------

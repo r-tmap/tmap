@@ -38,4 +38,4 @@ qtm(World, fill = "income_grp", text = "iso_a3", text.size = "AREA")
 qtm(metro, symbols.size = "pop2010", symbols.col = "growth")
 ```
 
-![Interactive mode](http://www.von-tijn.nl/tijn/research/tmap/view_metro2.png)
+![Interactive mode](http://www.von-tijn.nl/tijn/research/tmap/view_metro2.jpg)
