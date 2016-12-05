@@ -54,4 +54,4 @@ r_github_packages:
   - jimhester/covr
 
 after_success:
-  - R -e 'covr::codecov()'
+  - R -e 'covr::codecov(path="pkg")'
