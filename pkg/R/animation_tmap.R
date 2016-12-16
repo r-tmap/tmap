@@ -10,6 +10,7 @@
 #' @note Not only tmap plots are supported, but any series of R plots.
 #' @keywords animation
 #' @example ../examples/animation_tmap.R
+#' @import tmaptools
 #' @export
 animation_tmap <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40) {
 	# determine OS to pass on system vs. shell command

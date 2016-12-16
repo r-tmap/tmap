@@ -146,8 +146,8 @@ tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)
 
 # example: Meuse data
 \dontrun{
-library(sp)
-library(OpenStreetMap)
+require(sp)
+require(tmaptools)
 data(meuse)
 coordinates(meuse) <- ~x+y
 proj4string(meuse) <- get_proj4("rd")

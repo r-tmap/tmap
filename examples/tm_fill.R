@@ -30,10 +30,12 @@ tm_format_World() +
 tm_style_grey()
 
 # Categorical data variable
-pal <- RColorBrewer::brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
+if (require(RColorBrewer)) {
+pal <- brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
 tm_shape(Europe) +
 	tm_polygons("EU_Schengen", palette=pal, title = "European Countries", showNA=FALSE) +
-tm_format_Europe()
+	tm_format_Europe()
+}
 
 tm_shape(World) +
     tm_polygons("economy", title="Economy", id="name") +
@@ -54,10 +56,12 @@ tm_format_NLD(title="Dutch provinces and\nmunicipalities", bg.color="white")
 
 # Cartogram
 \dontrun{
-NLD_prov_pop <- cartogram(NLD_prov, "population")
-
-tm_shape(NLD_prov_pop) +
-	tm_polygons("origin_non_west", title = "Non-western origin (%)")
+if (require(cartogram)) {
+	NLD_prov_pop <- cartogram(NLD_prov, "population")
+	
+	tm_shape(NLD_prov_pop) +
+		tm_polygons("origin_non_west", title = "Non-western origin (%)")
+}
 }
 
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")

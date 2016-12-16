@@ -1,4 +1,5 @@
 version 1.7 (in development; could become CRAN version 1.6-2 or 1.8)
+- [!] package split: non-plotting functions migrated to tmaptools
 - added error message for NA-projected shapes in view mode
 - NA values allowed in direct color variables
 

@@ -34,7 +34,7 @@ cat2pal <- function(x,
 	
 
 	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
-		revPal(get_brewer_pal(palette, nCol, contrast, stretch = auto.palette.mapping))
+		revPal(suppressWarnings(get_brewer_pal(palette, nCol, contrast, stretch = auto.palette.mapping, plot = FALSE)))
 	} else {
 		if (auto.palette.mapping) {
 			colorRampPalette(palette)(nCol)

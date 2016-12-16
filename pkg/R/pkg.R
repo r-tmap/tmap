@@ -1,4 +1,4 @@
-#' Thematic Maps
+#' Thematic Map Visualization
 #'
 #' Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps. It is based on the grammar of graphics, and resembles the syntax of ggplot2.
 #' 
@@ -71,44 +71,12 @@
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
-#' @section Handy tool functions: 
+#' Create icons:
 #' \tabular{ll}{
-#' \code{\link{bb}}\tab To create, extract or modify a bounding box \cr
-#' \code{\link{geocode_OSM}}\tab To get location from an address description \cr
-#' \code{\link{rev_geocode_OSM}}\tab To get address description from a location \cr
-#' \code{\link{get_asp_ratio}}\tab To get the aspect ratio of a shape object \cr
-#' \code{\link{get_IDs}}\tab To get ID values of a shape object \cr
-#' \code{\link{append_data}}\tab To append a data frame to a shape object \cr
-#' \code{\link{approx_areas}}\tab To approximate area sizes of polygons \cr
-#' \code{\link{calc_densities}}\tab To calculate density values \cr
-#' \code{\link{get_projection}}\tab To get the map projection \cr
-#' \code{\link{set_projection}}\tab To set the map projection \cr
-#' \code{\link{split}}\tab To split a shape object \cr
-#' \code{\link{sbind}}\tab To bind shape objects \cr
-#' \code{\link{crop_shape}}\tab To crop shape objects \cr
-#' \code{\link{map_coloring}}\tab To color polygons with different colors for adjacent polygons \cr
 #' \code{\link{tmap_icons}}\tab To specify icons for markers or proportional symbols \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
-#' @section Statistical transformation functions: 
-#' \tabular{ll}{
-#' \code{\link{smooth_map}}\tab To create a smooth map (raster, contour lines and kernel density polygons) \cr
-#' \code{\link{smooth_raster_cover}}\tab To create a smooth cover of a raster object \cr
-#' \code{\link{sample_dots}}\tab To sample dots from polygons \cr
-#' \code{\link{points_to_raster}}\tab To bin spatial points to a raster \cr
-#' \code{\link{poly_to_raster}}\tab To convert polygons to a raster \cr
-#' \code{\link{cartogram}}\tab To create cartogram polygons \cr
-#' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
-#' }
-#' 
-#' @section Input functions: 
-#' \tabular{ll}{
-#' \code{\link{read_shape}}\tab To read a shape object \cr
-#' \code{\link{read_GPX}}\tab To read a GPX file \cr
-#' \code{\link{read_osm}}\tab To read Open Street Map data \cr
-#' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
-#' }
 #' 
 #' @section Output functions: 
 #' \tabular{ll}{
@@ -117,7 +85,6 @@
 #' \code{\link{tmap_leaflet}}\tab Obtain a leaflet widget object \cr
 #' \code{\link{animation_tmap}}\tab Create an animation \cr
 #' \code{\link{save_tmap}}\tab To save thematic maps (both in plot and view mode) \cr
-#' \code{\link{write_shape}}\tab To write a shape object \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
@@ -146,7 +113,7 @@ NULL
 #' 
 #' Maps of the world, Europe, and the Netherlands (province and municipality level), class \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}
 #' 
-#' The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection arugment of \code{\link{tm_shape}} (or \code{\link{qtm}}).
+#' The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link[tmaptools:set_projection]{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection arugment of \code{\link{tm_shape}} (or \code{\link{qtm}}).
 #' 
 #' \code{World} World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for choropleths.
 #' 

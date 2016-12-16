@@ -336,55 +336,6 @@ save_tmap(tm, "World_map.html")
 See [`vignette("tmap-modes")`](../doc/tmap-modes.html) for more on interactive maps.
 
 
-### Complete work flow for creating thematic maps
-<a name="misc"></a>
-
-Besides the `ggplot2`-style plotting functions, the package also offers functions to set up a work flow that is sufficient for most statistical applications.
-
-
-* Input:
-    + read ESRI shape files and write them with respectively [`read_shape`](../html/read_shape.html) and [`write_shape`](../html/write_shape.html);
-    + read GPX files with [`read_GPX`](../html/read_GPX.html)
-    + read Open Street Map data with [`read_osm`](../html/read_osm.html)
-    
-* Statistical transformation functions:
-	+ create a smooth map (raster, contour lines and kernel density polygons) with [`smooth_map`](../html/smooth_map.html)
-	+ create a smooth cover of a raster object with [`smooth_raster_cover`](../html/smooth_raster_cover.html)
-	+ sample dots from polygons with [`sample_dots`](../html/sample_dots.html)
-	+ bin spatial points to a raster with [`points_to_raster`](../html/points_to_raster.html)
-	+ convert polygons to a raster with [`poly_to_raster`](../html/poly_to_raster.html)
-	+ create a cartogram shape [`cartogram`](../html/cartogram.html)
-
-* Handy tool functions:
-	+ create, extract or modify a bounding box with [`bb`](../html/bb.html)
-	+ get location based on a address [`geocode_OSM`](../html/geocode_OSM.html)
-	+ get address based on a location [`rev_geocode_OSM`](../html/rev_geocode_OSM.html)
-	+ get the aspect ratio of a shape object with [`get_asp_ratio`](../html/get_asp_ratio.html)
-	+ get ID values of a shape object with [`get_IDs`](../html/get_IDs.html)
-	+ append a data frame to a shape object with [`append_data`](../html/append_data.html)
-	+ approximate area sizes of polygons with [`approx_areas`](../html/approx_areas.html)
-	+ calculate density values with [`calc_densities`](../html/calc_densities.html)
-	+ get the map projection with [`get_projection`](../html/get_projection.html)
-	+ set the map projection with [`set_projection`](../html/set_projection.html)
-	+ split a shape object with [`split`](../html/split_shapes.html)
-	+ bind shape objects with [`sbind`](../html/sbind.html)
-	+ crop shape objects with [`sbind`](../html/crop_shape.html)
-	+ color polygons with different colors for adjacent polygons with [`map_coloring`](../html/map_coloring.html)
-	+ create icons for proportional symbol maps with [`tmap_icons`](../html/tmap_icons.html)
-
-* Plotting shape objects:
-    + with the [quick plotting](#qplot) function [`qtm`](../html/qtm.html), 
-    + or with the [main plotting method](#plot).
-
-* Output:
-	+ plot in graphics device or view interactively in web browser or RStudio's viewer pane [`print`](../html/print.tmap.html)
-	+ redraw the last map with [`last_map`](../html/last_map.html)
-	+ create an animation (gif or mpeg) from a series of tmap plots with [`animation_tmap`](../html/animation_tmap.html)
-	+ save thematic maps with [`save_tmap`](../html/save_tmap.html)
-	+ obtain leaflet widget with [`tmap_leaflet`](../html/tmap_leaflet.html)
-	+ write shape file with [`write_shape`](../html/write_shape.html)
-
-
 ### Tips n' tricks
 
 1. Selections can be made by treating the data.frame of the shape object:

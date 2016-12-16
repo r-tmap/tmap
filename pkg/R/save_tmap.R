@@ -16,6 +16,7 @@
 #' @param verbose should information messages be returned?
 #' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}
 #' @importFrom htmlwidgets saveWidget
+#' @import tmaptools
 #' @example ../examples/save_tmap.R
 #' @export
 save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,

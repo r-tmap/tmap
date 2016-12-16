@@ -56,10 +56,11 @@ Development
 
 Odd numbered versions will be development versions and even numbered versions stable CRAN releases (as with data.table).
 
-The latest development version can be installed using `devtools`.
+The latest development version can be installed using `devtools`. In the latest development version, non-plotting functions have been migrated to [tmaptools](http://github.com/mtennekes/tmaptools).
 
 ```r
 library(devtools)
+install_github("mtennekes/tmaptools", subdir = "pkg")
 install_github("mtennekes/tmap", subdir = "pkg")
 ```
 

@@ -10,7 +10,7 @@ tm_iso(col = NA, text = "level", size = 0.5, remove.overlap = TRUE,
 \arguments{
 \item{col}{line color. See \code{\link{tm_lines}}.}
 
-\item{text}{text to display. By default, it is the variable named \code{"level"} of the shape that is created with \code{\link{smooth_map}}}
+\item{text}{text to display. By default, it is the variable named \code{"level"} of the shape that is created with \code{\link[tmaptools:smooth_map]{smooth_map}}}
 
 \item{size}{text size (see \code{\link{tm_text}})}
 
@@ -23,9 +23,9 @@ tm_iso(col = NA, text = "level", size = 0.5, remove.overlap = TRUE,
 \item{...}{arguments passed on to \code{\link{tm_lines}} or \code{\link{tm_text}}}
 }
 \description{
-This function is a wrapper of \code{\link{tm_lines}} and \code{\link{tm_text}} aimed to draw isopleths, which can be created with \code{\link{smooth_map}}.
+This function is a wrapper of \code{\link{tm_lines}} and \code{\link{tm_text}} aimed to draw isopleths, which can be created with \code{\link[tmaptools:smooth_map]{smooth_map}}.
 }
 \seealso{
-\code{\link{smooth_map}}
+\code{\link[tmaptools:smooth_map]{smooth_map}}
 }
 

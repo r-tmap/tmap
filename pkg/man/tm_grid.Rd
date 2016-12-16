@@ -17,7 +17,7 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
 
 \item{n.y}{prefered number of grid lines for the y axis.}
 
-\item{projection}{projection character. If specified, the grid lines are projected accordingly. See \code{\link{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.}
+\item{projection}{projection character. If specified, the grid lines are projected accordingly. See \code{\link[tmaptools:set_projection]{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.}
 
 \item{col}{color of the grid lines.}
 

@@ -24,7 +24,7 @@ tm_polygons(col = NA, alpha = NA, border.col = NA, border.alpha = NA,
 \item{col}{For \code{tm_fill}, it is one of
 \itemize{
 \item a single color value
-\item the name of a data variable that is contained in \code{shp}. Either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. #' \item \code{"MAP_COLORING"}. In this case polygons will be colored such that adjacent polygons do not get the same color. See the underlying function \code{\link{map_coloring}} for details.}
+\item the name of a data variable that is contained in \code{shp}. Either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. #' \item \code{"MAP_COLORING"}. In this case polygons will be colored such that adjacent polygons do not get the same color. See the underlying function \code{\link[tmaptools:map_coloring]{map_coloring}} for details.}
 For \code{tm_borders}, it is a single color value that specifies the border line color. If multiple values are specified, small multiples are drawn (see details).}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
@@ -89,7 +89,7 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.}
 
-\item{...}{for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link{map_coloring}}.}
+\item{...}{for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link[tmaptools:map_coloring]{map_coloring}}.}
 
 \item{lwd}{border line width (see \code{\link[graphics:par]{par}})}
 
@@ -141,10 +141,12 @@ tm_format_World() +
 tm_style_grey()
 
 # Categorical data variable
-pal <- RColorBrewer::brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
+if (require(RColorBrewer)) {
+pal <- brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
 tm_shape(Europe) +
 	tm_polygons("EU_Schengen", palette=pal, title = "European Countries", showNA=FALSE) +
-tm_format_Europe()
+	tm_format_Europe()
+}
 
 tm_shape(World) +
     tm_polygons("economy", title="Economy", id="name") +
@@ -165,10 +167,12 @@ tm_format_NLD(title="Dutch provinces and\\nmunicipalities", bg.color="white")
 
 # Cartogram
 \dontrun{
-NLD_prov_pop <- cartogram(NLD_prov, "population")
-
-tm_shape(NLD_prov_pop) +
-	tm_polygons("origin_non_west", title = "Non-western origin (\%)")
+if (require(cartogram)) {
+	NLD_prov_pop <- cartogram(NLD_prov, "population")
+	
+	tm_shape(NLD_prov_pop) +
+		tm_polygons("origin_non_west", title = "Non-western origin (\%)")
+}
 }
 
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")

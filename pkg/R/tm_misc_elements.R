@@ -64,7 +64,7 @@ tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL,
 #' @param y y coordinates for horizontal grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.y}.
 #' @param n.x prefered number of grid lines for the x axis.
 #' @param n.y prefered number of grid lines for the y axis.
-#' @param projection projection character. If specified, the grid lines are projected accordingly. See \code{\link{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.
+#' @param projection projection character. If specified, the grid lines are projected accordingly. See \code{\link[tmaptools:set_projection]{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.
 #' @param col color of the grid lines.
 #' @param lwd line width of the grid lines
 #' @param alpha alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken. 

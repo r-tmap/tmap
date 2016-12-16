@@ -41,7 +41,7 @@ If multiple values are specified, small multiples are drawn (see details). By de
 
 \item{saturation}{Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).}
 
-\item{interpolate}{Should the raster image be interpolated? By default \code{FALSE} when \code{col} is a data variable and \code{TRUE} when the raster is a bitmap image (e.g. a basemap created with \code{\link{read_osm}}).}
+\item{interpolate}{Should the raster image be interpolated? By default \code{FALSE} when \code{col} is a data variable and \code{TRUE} when the raster is a bitmap image (e.g. a basemap created with \code{\link[tmaptools:read_osm]{read_osm}}).}
 
 \item{textNA}{text used for missing values.}
 

@@ -35,7 +35,7 @@ raster_colors <- function(x) {
 	if (!all(vapply(x@data, is.integer, FUN.VALUE = logical(1)))) {
 		x@data <- as.data.frame(lapply(x@data, as.integer))
 	}
-	
+
 	# get alpha transparency
 	if (ncol(x@data)==4) {
 		a <- x@data[,4]
@@ -43,7 +43,7 @@ raster_colors <- function(x) {
 	} else {
 		a <- NULL
 	}
-	
+
 	y <- SGDF2PCT(x, adjust.bands = FALSE)
 	if (!is.null(a)) {
 		y$idx[a!=255] <- NA
@@ -57,12 +57,12 @@ raster_colors <- function(x) {
 
 get_raster_names <- function(shp) {
 	nms <- names(shp)
-	
+
 	# overwrite unknown first names with FILE__VALUES
 	if (inherits(shp, "RasterStack")) {
-		if (shp@layers[[1]]@data@names[1]=="") nms[1] <- "FILE__VALUES"	
+		if (shp@layers[[1]]@data@names[1]=="") nms[1] <- "FILE__VALUES"
 	} else {
-		if (shp@data@names[1]=="") nms[1] <- "FILE__VALUES"	
+		if (shp@data@names[1]=="") nms[1] <- "FILE__VALUES"
 	}
 	nms
 }
@@ -81,19 +81,19 @@ get_raster_data <- function(shp) {
 		isfactor <- shp@data@isfactor
 		data <- as.data.frame(shp@data@values)
 		if (is.null(dimnames(shp@data@values)))	names(data) <- get_raster_names(shp)
-		
+
 		atb <- shp@data@attributes
 		atb <- atb[sapply(atb, length)!=0]
-		
+
 		stopifnot(sum(isfactor)==length(atb))
-		
+
 		if (any(isfactor)) data[isfactor] <- mapply(function(d, a){
 			if (class(a)=="list") a <- a[[1]]
 			levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
 			factor(d, levels=a$ID, labels=as.character(a[[levelsID]]))
 		}, data[isfactor], atb, SIMPLIFY=FALSE)
-	}	
-	
+	}
+
 	data
 }
 
@@ -116,11 +116,11 @@ set_raster_levels <- function(shp, lvls) {
 
 get_raster_levels <- function(shp, layerIDs) {
 	if (missing(layerIDs)) layerIDs <- 1L:nlayers(shp)
-	
+
 	if (inherits(shp, "Spatial")) {
 		return(lapply(attr(shp, "data")[,layerIDs], levels))
 	}
-	
+
 	shpnames <- get_raster_names(shp)[layerIDs]
 	if (inherits(shp, "RasterLayer")) {
 		lvls <- list(get_RasterLayer_levels(shp))
@@ -135,19 +135,19 @@ get_raster_levels <- function(shp, layerIDs) {
 			atb <- atb[sapply(atb, length)!=0]
 			stopifnot(sum(isfactor)==length(atb))
 			isfactor2 <- isfactor[layerIDs]
-			
+
 			lvls <- rep(list(NULL), length(layerIDs))
 			if (any(isfactor2)) {
 				atb2 <- atb[match(layerIDs[isfactor2], which(isfactor))]
-				
+
 				lvls[isfactor2] <- lapply(atb2, function(a) {
 					if (class(a)=="list") a <- a[[1]]
 					levelsID <- ncol(a) # levels is always the last column of the attributes data.frame (?)
 					as.character(a[[levelsID]])
-				})	
-			} 
+				})
+			}
 		}
-	}	
+	}
 	names(lvls) <- shpnames
 	lvls
 }
@@ -163,7 +163,6 @@ get_data_frame_levels <- function(data) {
 		}
 	})
 }
-
 
 preprocess_raster_data <- function(data, sel) {
 	if (is.na(sel)[1] || !any(sel %in% names(data))) sel <- names(data)[1]

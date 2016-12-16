@@ -51,6 +51,7 @@ r_packages:
   - rmarkdown
 
 r_github_packages: 
+  - mtennekes/tmaptools
   - jimhester/covr
 
 after_success:

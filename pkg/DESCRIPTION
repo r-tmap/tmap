@@ -16,28 +16,26 @@ Depends:
     R (>= 3.0),
     methods
 Imports:
+	tmaptools (>= 1.0),
     sp,
     raster (>= 2.5-2),
     grid,
     rgdal,
     rgeos,
+    RColorBrewer,
     classInt,
+    spdep,
     htmltools,
     htmlwidgets,
-    KernSmooth,
-    osmar,
-    RColorBrewer,
-    spdep,
     XML,
     leaflet,
     geosphere,
-    cartogram,
     stats
 Suggests:
     rmarkdown,
     knitr,
-    OpenStreetMap,
     png,
+    cartogram,
     ggplot2,
     dplyr,
     tidyr

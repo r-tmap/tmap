@@ -59,6 +59,7 @@ ttm()
 map1
 
 # choropleth of the Dutch population in interactive mode:
+require(tmaptools)
 data(NLD_muni, NLD_prov)
 NLD_muni$pop_dens <- calc_densities(NLD_muni, var = "population")
 

@@ -97,43 +97,6 @@ palette_type <- function(palette) {
 	}
 }
 
-default_contrast_seq <- function(k) {
-	c1 <- max((9-k) * (.15/6), 0)
-	c2 <- min(.7 + (k-3) * (.3/6), 1)
-	
-	c(c1,c2)
-}
-
-default_contrast_div <- function(k) {
-	c(0, min(.6 + (k-3) * (.4/8), 1))
-}
-
-
-get_brewer_pal <- function(palette, n, contrast, stretch=TRUE) {
-	nmax <- brewer.pal.info[palette, "maxcolors"]
-	if (brewer.pal.info[palette, "category"]=="qual") {
-		brewerpal <- brewer.pal(min(nmax, max(n, 3)), name=palette)
-		if (stretch && n > length(brewerpal)) {
-			p <- colorRampPalette(brewerpal)(n)
-		} else {
-			p <- rep(brewerpal, length.out=n)
-		}
-	} else if (brewer.pal.info[palette, "category"]=="seq") {
-		if (is.na(contrast[1])) contrast <- default_contrast_seq(n)
-		if (length(contrast)==1) contrast <- c(0, contrast)
-		brewerpal <- brewer.pal(nmax, name=palette)
-		contrastIDs <- round(seq(contrast[1]*100, contrast[2]*100, length.out=n))+1
-		p <- colorRampPalette(brewerpal)(101)[contrastIDs]
-	} else {
-		if (is.na(contrast[1])) contrast <- default_contrast_div(n)
-		if (length(contrast)==1) contrast <- c(0, contrast)
-		brewerpal <- brewer.pal(nmax, name=palette)
-		contrastIDs <- map2divscaleID(breaks=seq(-10,10, length.out=n+1), contrast=contrast)
-		p <- colorRampPalette(brewerpal)(101)[contrastIDs]
-	}
-	p
-}
-
 
 valid_colors <- function(x) {
 	is.na(x) | (x %in% colors()) |	(sapply(gregexpr("^#(([[:xdigit:]]){6}|([[:xdigit:]]){8})$", x), "[[", 1) == 1L)

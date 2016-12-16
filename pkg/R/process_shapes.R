@@ -53,7 +53,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 		
 		shps_by_splt <- mapply(function(s_by, d_by) {
 			if (inherits(s_by, "Spatial")) {
-				split_shape(s_by, f = d_by, drop=FALSE)	
+				split(s_by, f = d_by, drop=FALSE)	 # split_shape
 			}  else {
 				split_raster(s_by, f = d_by, drop=FALSE)
 			} 

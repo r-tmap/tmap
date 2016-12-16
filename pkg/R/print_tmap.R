@@ -11,20 +11,21 @@
 #' @param options options passed on to knitprint
 #' @param ... not used
 #' @return If \code{mode=="plot"}, then a list is returned with the processed shapes and the metadata. If \code{mode=="view"}, a \code{\link[leaflet:leaflet]{leaflet}} object is returned (see also \code{\link{tmap_leaflet}})
+#' @import tmaptools
 #' @import sp
-#' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue
+#' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue getValues
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @import grid
 #' @import methods
 #' @importFrom classInt classIntervals findCols
-#' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid
+#' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid gUnaryUnion
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom spdep poly2nb
 #' @importFrom grDevices xy.coords colors
 #' @importFrom graphics par
-#' @importFrom rgdal getPROJ4VersionInfo SGDF2PCT
+#' @importFrom rgdal getPROJ4VersionInfo SGDF2PCT CRSargs
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
 #' @importFrom geosphere distGeo
