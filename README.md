@@ -60,7 +60,7 @@ The latest development version can be installed using `devtools`. In the latest 
 
 ```r
 library(devtools)
-install_github("mtennekes/tmaptools", subdir = "pkg")
+install_github("mtennekes/tmaptools")
 install_github("mtennekes/tmap", subdir = "pkg")
 ```
 
