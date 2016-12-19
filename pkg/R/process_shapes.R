@@ -213,6 +213,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 
 
 get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
+	
 	# extend bounding box for asp ratio
 	bbrange <- bbox[,2] - bbox[,1]
 	
@@ -227,6 +228,8 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	ylim <- bbx[2,]
 	
 	sasp <- calc_asp_ratio(xlim, ylim, longlat)
+	
+	if (is.na(pasp)) return(list(bbox=bbox, sasp=sasp, inner.margins= rep(0,4)))
 	
 	if (!is.na(pasp)) {
 		if (pasp > sasp) {

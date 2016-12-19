@@ -149,8 +149,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 		
 		#attr.color <- do.call("process_color", c(list(col=attr.color), pc))
 		bg.color <- do.call("process_color", c(list(col=bg.color), pc))
-		bg.overlay <- do.call("process_color", c(list(col=bg.overlay), pc))
-		
+
 		if (!is.null(outer.bg.color)) outer.bg.color <- do.call("process_color", c(list(col=outer.bg.color), pc))
 		
 		if (is.na(legend.bg.color)) legend.bg.color <- !is.na(legend.frame)

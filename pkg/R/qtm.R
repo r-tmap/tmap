@@ -73,7 +73,7 @@ qtm <- function(shp,
 		# return minimal list required for leaflet basemap tile viewing
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		g <- c(list(tm_shortcut=list()), do.call("tm_view", c(list(basemaps=basemaps, bg.overlay.alpha=0), viewargs)))
+		g <- c(list(tm_shortcut=list()), do.call("tm_view", c(list(basemaps=basemaps), viewargs)))
 		class(g) <- "tmap"
 		return(g)
 	} else if (is.character(shp)) {
@@ -81,7 +81,7 @@ qtm <- function(shp,
 		res <- geocode_OSM(shp)
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		g <- c(list(tm_shortcut=list(bbx=res$bbox, center=res$coords)), do.call("tm_view", c(list(basemaps=basemaps, bg.overlay.alpha=0), viewargs))) 
+		g <- c(list(tm_shortcut=list(bbx=res$bbox, center=res$coords)), do.call("tm_view", c(list(basemaps=basemaps), viewargs))) 
 			
 		#list(tm_shortcut=list(basemaps=basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
 		class(g) <- "tmap"

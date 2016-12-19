@@ -67,18 +67,20 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
 
 
 num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left") {
-    # create intervals and assign colors
-    if (style=="fixed") {
-        q <- list(var=x,
-                  brks=breaks)
-        attr(q, "style") <- "fixed"
-        attr(q, "nobs") <- sum(!is.na(x))
-        attr(q, "intervalClosure") <- interval.closure
-        class(q) <- "classIntervals"
-    } else {
-        if (length(x)==1) stop("Statistical numerical variable only contains one value. Please use a constant value instead, or specify breaks", call. = FALSE)
-        q <- suppressWarnings(classIntervals(x, n, style= style, intervalClosure=interval.closure))
-    }
+	nobs <- sum(!is.na(x))
+	# create intervals and assign colors
+	if (style=="fixed") {
+		q <- list(var=x,
+				  brks=breaks)
+		attr(q, "style") <- "fixed"
+		attr(q, "nobs") <- nobs
+		attr(q, "intervalClosure") <- interval.closure
+		class(q) <- "classIntervals"
+	} else {
+		if (nobs==0) stop("Numerical variable only contains missing values.", call.=FALSE)
+		if (length(x)==1) stop("Numerical variable only contains one value. Please use a constant value instead, or specify breaks", call. = FALSE)
+		q <- suppressWarnings(classIntervals(x, n, style= style, intervalClosure=interval.closure))
+	}
 
     if (approx && style != "fixed") {
         if (n >= length(unique(x)) && style=="equal") {

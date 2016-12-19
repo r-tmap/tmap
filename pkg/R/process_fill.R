@@ -6,10 +6,10 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	shpcols <- names(data)[1:(ncol(data)-2)]
 
 	x <- g$col
-	if (interactive) {
-		if (length(x)>1) warning("Facets are not supported in view mode yet. Only polygon fill aesthetic value \"", x[1], "\" will be shown.", call.=FALSE)
-		x <- x[1]	
-	} 
+	# if (interactive) {
+	# 	if (length(x)>1) warning("Facets are not supported in view mode yet. Only polygon fill aesthetic value \"", x[1], "\" will be shown.", call.=FALSE)
+	# 	x <- x[1]	
+	# } 
 
 	if (length(x)==1 && is.na(x)[1]) x <- gt$aes.colors["fill"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"

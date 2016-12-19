@@ -19,10 +19,10 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		nx <- 1
 	} else {
 		x <- g$col
-		if (interactive) {
-			if (length(x)>1) warning("Facets are not supported in view mode yet. Only raster color aesthetic value \"", x[1], "\" will be shown.", call.=FALSE)
-			x <- x[1]
-		} 
+		# if (interactive) {
+		# 	if (length(x)>1) warning("Facets are not supported in view mode yet. Only raster color aesthetic value \"", x[1], "\" will be shown.", call.=FALSE)
+		# 	x <- x[1]
+		# } 
 		
 		# by default, use the first data variable
 		if (is.na(x[1])) x <- names(data)[1]

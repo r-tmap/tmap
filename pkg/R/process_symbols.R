@@ -12,13 +12,13 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	if (is.grob(xshape)) xshape <- list(xshape)
 	
 	
-	if (interactive) {
-		if (length(xsize)>1) warning("Facets are not supported in view mode yet. Only symbol size aesthetic value \"", xsize[1], "\" will be shown.", call.=FALSE)
-		if (length(xcol)>1) warning("Facets are not supported in view mode yet. Only symbol color aesthetic value \"", xcol[1], "\" will be shown.", call.=FALSE)
-		xsize <- xsize[1]
-		xcol <- xcol[1]
-		xshape <- xshape[1]
-	}
+	# if (interactive) {
+	# 	if (length(xsize)>1) warning("Facets are not supported in view mode yet. Only symbol size aesthetic value \"", xsize[1], "\" will be shown.", call.=FALSE)
+	# 	if (length(xcol)>1) warning("Facets are not supported in view mode yet. Only symbol color aesthetic value \"", xcol[1], "\" will be shown.", call.=FALSE)
+	# 	xsize <- xsize[1]
+	# 	xcol <- xcol[1]
+	# 	xshape <- xshape[1]
+	# }
 
 	
 	if (length(xcol)==1 && is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["symbols"]

@@ -1,15 +1,17 @@
-view_tmap <- function(gps, shps, bbx) {
+view_tmap <- function(gp, shps=NULL) {
 	
 	# determine view
 
 	# take first small multiple
-	gp <- gps[[1]]
+	#gp <- gps[[1]]
 	gt <- gp$tm_layout
 	gp$tm_layout <- NULL
 	
 	lf <- leaflet()
 	basemaps <- gt$basemaps
-
+	basemaps.alpha <- gt$basemaps.alpha
+	
+	
 	if (is.null(names(basemaps))) names(basemaps) <- sapply(basemaps, FUN = function(bm) {
 		if (substr(bm, 1, 4) == "http") {
 			x <- strsplit(bm, "/", fixed=TRUE)[[1]]
@@ -20,9 +22,14 @@ view_tmap <- function(gps, shps, bbx) {
 	})
 	
 	if (!is.na(gt$set.zoom.limits[1])) {
-	  tileOptions <- tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2])
+	  tileOptions <- lapply(basemaps.alpha, function(a) {
+	  	tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a)
+	  })
+	  	
 	} else {
-	  tileOptions <- tileOptions()
+	  tileOptions <- lapply(basemaps.alpha, function(a) {
+	  	tileOptions(opacity=a)
+	  })
 	}
 	
 	# add base layer(s)
@@ -31,30 +38,36 @@ view_tmap <- function(gps, shps, bbx) {
 			bm <- unname(basemaps[i])
 			bmname <- names(basemaps)[i]
 			if (substr(bm, 1, 4) == "http") {
-				lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions)
+				lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
 			} else {
-				lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions)
+				lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
 			}
 		}
 	}
 	
 	# add background overlay
-	if (gt$bg.overlay.alpha!=0) {
-		if (any(sapply(gp, function(gpl)!is.null(gpl$raster)))) {
-			warning("Background overlays do not work yet with raster images. Background disabled.", call. = FALSE)
-		} else {
-			lf <- lf %>%  addRectangles(-540,-90,540,90, stroke=FALSE, fillColor=gt$bg.overlay, fillOpacity = gt$bg.overlay.alpha, layerId=0) 
-			lf$x$limits <- NULL
-		}
-	}
+	lf <- appendContent(lf, {
+		tags$head(
+			tags$style(HTML(paste(".leaflet-container {background:", gt$bg.color, ";}", sep="")))
+		)	
+	})
 	
-		
+	# if (gt$bg.overlay.alpha!=0) {
+	# 	if (any(sapply(gp, function(gpl)!is.null(gpl$raster)))) {
+	# 		warning("Background overlays do not work yet with raster images. Background disabled.", call. = FALSE)
+	# 	} else {
+	# 		lf <- lf %>%  addRectangles(-540,-90,540,90, stroke=FALSE, fillColor=gt$bg.overlay, fillOpacity = gt$bg.overlay.alpha, layerId=0)
+	# 		lf$x$limits <- NULL
+	# 	}
+	# }
+	
+
 	if (!length(gp)) {
 		if (length(basemaps)>1) lf <- lf %>% addLayersControl(baseGroups=names(basemaps), options = layersControlOptions(autoZIndex = TRUE))
-		
+
 		if (!is.null(gt$bbx)) {
-			lf <- lf %>% 
-				fitBounds(gt$bbx[1], gt$bbx[2], gt$bbx[3], gt$bbx[4]) %>% 
+			lf <- lf %>%
+				fitBounds(gt$bbx[1], gt$bbx[2], gt$bbx[3], gt$bbx[4]) %>%
 				addMarkers(gt$center[1], gt$center[2])
 		}
 		lf <- set_bounds_view(lf, gt)
@@ -65,6 +78,8 @@ view_tmap <- function(gps, shps, bbx) {
 	id <- 1
 	alpha <- gt$alpha
 
+	bbx <- attr(shps[[1]], "bbox")
+	
 	group_selection <- mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
 		upl <- units_per_line(bbx)
@@ -82,25 +97,26 @@ view_tmap <- function(gps, shps, bbx) {
 			bres <- split_alpha_channel(gpl$col, alpha=alpha)
 			bcol <- bres$col
 			bopacity <- bres$opacity
-			
+
 			fres <- split_alpha_channel(gpl$fill, alpha=alpha)
 			fcol <- fres$col
 			fopacity <- fres$opacity
-			
+
 			if (!is.null(gpl$fill)) {
 				popups <- get_popups(gpl, type="fill")
 			} else {
 				popups <- NULL
 			}
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
-			
+
+		
 			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id)
-			
-			
-			if (!is.na(gpl$xfill)) {
+
+
+			if (!is.na(gpl$xfill[1])) {
 				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="fill", alpha=alpha)
 			}
-			
+
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
 			TRUE
@@ -277,6 +293,7 @@ view_tmap <- function(gps, shps, bbx) {
 	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 	
 	set_bounds_view(lf, gt, bbx)
+	
 }
 
 set_bounds_view <- function(lf, gt, bbx) {

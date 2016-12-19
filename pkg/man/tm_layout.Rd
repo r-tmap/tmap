@@ -53,7 +53,8 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   attr.outside.position = "bottom", attr.outside.size = NA,
   attr.position = c("right", "bottom"), attr.just = c("left", "bottom"),
   design.mode = FALSE, basemaps = c("CartoDB.Positron", "OpenStreetMap",
-  "Esri.WorldTopoMap"), bg.overlay = NULL, bg.overlay.alpha = 0)
+  "Esri.WorldTopoMap"), basemaps.alpha = c(0.5, 1, 1), bg.overlay = NULL,
+  bg.overlay.alpha = 0)
 
 tm_legend(...)
 
@@ -99,7 +100,8 @@ tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   lines = "steelblue", text = "black", na = "white"), aes.palette = list(seq =
   "YlGn", div = "RdYlGn", cat = "Set3"), attr.color = "black",
   space.color = "white", legend.frame = TRUE, legend.bg.color = "grey90",
-  earth.boundary = TRUE, basemaps = "Thunderforest.Landscape", ...)
+  earth.boundary = TRUE, basemaps = "Thunderforest.Landscape",
+  basemaps.alpha = 1, ...)
 
 tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
   "grey20", symbols = "grey50", dots = "black", lines = "red", text = "black",
@@ -108,8 +110,8 @@ tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
 tm_style_cobalt(bg.color = "#002240", aes.color = c(fill = "#0088FF",
   borders = "#002240", symbols = "#FF9D00", dots = "#FF9D00", lines = "#FFEE80",
   text = "white", na = "grey60"), aes.palette = list(seq = "YlGn", div =
-  "RdYlGn", cat = "Set3"), attr.color = "white", bg.overlay.alpha = 0.3,
-  ...)
+  "RdYlGn", cat = "Set3"), attr.color = "white",
+  basemaps = "CartoDB.DarkMatter", basemaps.alpha = 0.5, ...)
 
 tm_style_col_blind(bg.color = "white", aes.color = c(fill = "grey85",
   borders = "black", symbols = "#D55E00", dots = "#0072B2", lines = "#009E73",
@@ -120,8 +122,8 @@ tm_style_col_blind(bg.color = "white", aes.color = c(fill = "grey85",
 tm_style_albatross(bg.color = "#00007F", aes.color = c(fill = "#4C4C88",
   borders = "#00004C", symbols = "#BFBFFF", dots = "#BFBFFF", lines = "#BFBFFF",
   text = "#FFE700", na = "grey60"), aes.palette = list(seq = "YlOrRd", div =
-  "RdYlGn", cat = "Set3"), attr.color = "#BFBFFF", bg.overlay.alpha = 0.3,
-  ...)
+  "RdYlGn", cat = "Set3"), attr.color = "#BFBFFF",
+  basemaps = "CartoDB.DarkMatter", basemaps.alpha = 0.5, ...)
 
 tm_style_beaver(bg.color = "#FFFFFF", aes.color = c(fill = "#FFE200",
   borders = "#000000", symbols = "#A30000", dots = "#A30000", lines = "#A30000",
@@ -131,8 +133,8 @@ tm_style_beaver(bg.color = "#FFFFFF", aes.color = c(fill = "#FFE200",
 tm_style_bw(saturation = 0, ...)
 
 tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
-  frame.double.line = TRUE, compass.type = "rose", bg.overlay = "gold",
-  bg.overlay.alpha = 0.5, basemaps = "Esri.WorldTopoMap", ...)
+  frame.double.line = TRUE, compass.type = "rose",
+  basemaps = "Esri.WorldTopoMap", basemaps.alpha = 0.5, ...)
 }
 \arguments{
 \item{title}{Global title of the map. For small multiples, multiple titles can be specified. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}).}
@@ -278,9 +280,11 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{basemaps}{vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.}
 
-\item{bg.overlay}{color of the background overlay rectangle used in the interactive view mode. See \code{\link{tm_view}}.}
+\item{basemaps.alpha}{alpha transparancy (opacity) of the basemaps. See \code{\link{tm_view}}.}
 
-\item{bg.overlay.alpha}{alpha transparency of \code{bg.overlay}}
+\item{bg.overlay}{Not used anymore. See \code{\link{tm_view}}.}
+
+\item{bg.overlay.alpha}{Not used anymore. See \code{\link{tm_view}}.}
 
 \item{...}{other arguments from \code{tm_layout}}
 }

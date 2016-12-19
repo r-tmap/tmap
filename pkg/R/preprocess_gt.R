@@ -64,8 +64,6 @@ preprocess_gt <- function(x, interactive) {
 		# override na
 		if (interactive) aes.colors["na"] <- if (is.null(gv$colorNA)) "#00000000" else if (is.na(gv$colorNA)) aes.colors["na"] else gv$colorNA
 		
-		if (is.null(bg.overlay)) bg.overlay <- bg.color
-		
 		aes.colors.light <- sapply(aes.colors, is_light)
 		aes.color <- NULL
 		
@@ -75,21 +73,16 @@ preprocess_gt <- function(x, interactive) {
 	
 	# process view
 	gv <- within(gv, {
-		if (!get(".internet", envir = .TMAP_CACHE) || 
-			identical(as.numeric(bg.overlay.alpha), 1) || identical(basemaps, FALSE)) {
-			# solid background
-			if (is.na(bg.overlay.alpha)) bg.overlay.alpha <- 1
+		if (!get(".internet", envir = .TMAP_CACHE) || identical(basemaps, FALSE)) {
 			basemaps <- character(0)
-			if (is.na(alpha)) alpha <- 1
 		} else {
 			# with basemap tiles
-			if (is.na(bg.overlay.alpha)) bg.overlay.alpha <- gt$bg.overlay.alpha
+			if (is.na(basemaps.alpha)) basemaps.alpha <- gt$basemaps.alpha
 			if (identical(basemaps, NA)) basemaps <- gt$basemaps
 			if (identical(basemaps, TRUE)) basemaps <- c("OpenStreetMap", "OpenStreetMap.Mapnik", "OpenTopoMap", "Stamen.Watercolor", "Esri.WorldTopoMap", "Esri.WorldImagery", "CartoDB.Positron", "CartoDB.DarkMatter")
+			basemaps.alpha <- rep(basemaps.alpha, length.out=length(basemaps))
 			if (is.na(alpha)) alpha <- .7
 		}
-		if (is.na(bg.overlay)) bg.overlay <- gt$bg.overlay
-		bg.overlay <- split_alpha_channel(bg.overlay, alpha=1)$col
 		if (!is.logical(set.bounds)) if (!length(set.bounds)==4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
 
 		if (!is.na(set.view[1])) {
@@ -129,7 +122,7 @@ preprocess_gt <- function(x, interactive) {
 	})
 	
 	# append view to layout
-	gt[c("basemaps", "bg.overlay", "bg.overlay.alpha")] <- NULL
+	gt[c("basemaps", "basemaps.alpha")] <- NULL
 	gv[c("colorNA", "call", "legend.position")] <- NULL
 	gt <- c(gt, gv)
 	

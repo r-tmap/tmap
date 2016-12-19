@@ -4,22 +4,20 @@
 \alias{tm_view}
 \title{Options for the interactive tmap viewer}
 \usage{
-tm_view(alpha = NA, colorNA = NULL, basemaps = NA, bg.overlay = NA,
-  bg.overlay.alpha = NA, symbol.size.fixed = FALSE, dot.size.fixed = TRUE,
-  set.bounds = FALSE, set.view = NA, set.zoom.limits = NA,
-  legend.position = c("right", "top"), control.position = c("left", "top"),
-  popup.all.data = NULL)
+tm_view(alpha = NA, colorNA = NULL, basemaps = NA, basemaps.alpha = NA,
+  symbol.size.fixed = FALSE, dot.size.fixed = TRUE, set.bounds = FALSE,
+  set.view = NA, set.zoom.limits = NA, legend.position = c("right",
+  "top"), control.position = c("left", "top"), popup.all.data = NULL,
+  bg.overlay = NULL, bg.overlay.alpha = NULL)
 }
 \arguments{
-\item{alpha}{transparency parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
+\item{alpha}{transparency (opacity) parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
 
 \item{colorNA}{default color for missing values (that is, in case \code{colorNA} is unspecified in layer functions such as \code{\link{tm_fill}}). The default value of \code{NULL} means transparent. It overrides the \code{na} value of the \code{aes.color} in \code{\link{tm_layout}}.}
 
 \item{basemaps}{vector of one or more names of baselayer maps, or a logical value. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. By default (\code{NA}), the choice of basemap(s) will be determined by the \code{basemaps} argument of \code{\link{tm_layout}}, which is style dependent. Use \code{TRUE} to select a large set of recommended basemaps. Use \code{FALSE} to omit basemap tiles. If a named vector is provided, the names are used in the layer control legend.}
 
-\item{bg.overlay}{value that determines whether the background should be colored. By default (\code{NA}), it is set to \code{\link{tm_layout}}'s argument \code{bg.overlay} (which is style dependent).}
-
-\item{bg.overlay.alpha}{alpha transparency of \code{bg.overlay}. If \code{0}, no background is used, if \code{1} a solid background is used (and therefore, basemaps will be omitted). By default, this value is  set to \code{\link{tm_layout}}'s argument \code{bg.overlay.alpha} (which is style dependent).}
+\item{basemaps.alpha}{transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.}
 
 \item{symbol.size.fixed}{should symbol sizes be fixed while zooming?}
 
@@ -36,6 +34,10 @@ tm_view(alpha = NA, colorNA = NULL, basemaps = NA, bg.overlay = NA,
 \item{control.position}{Character vector of two values, specifing the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.}
 
 \item{popup.all.data}{not used anymore. As of version 1.6, the popups are specified by the argument \code{popup.vars} in the layer functions \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}.}
+
+\item{bg.overlay}{not used anymore as of version 1.7. Instead of an overlay, a background color is set, which is determined by \code{bg.color} of \code{\link{tm_layout}}, which is style dependent.}
+
+\item{bg.overlay.alpha}{not used anymore as of version 1.7. Instead of an overlay, a background color is set. The trade-off between background and basemaps can now be set by \code{basemaps.alpha}}
 }
 \description{
 Set the options for the interactive tmap viewer. Some of these options can also be set with \code{\link{tm_layout}}, since they are style dependent (e.g., the choice of basemaps). The function \code{tm_view} overrides these options when specified.

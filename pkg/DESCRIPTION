@@ -27,8 +27,8 @@ Imports:
     spdep,
     htmltools,
     htmlwidgets,
-    XML,
     leaflet,
+    mapview,
     geosphere,
     stats
 Suggests:
