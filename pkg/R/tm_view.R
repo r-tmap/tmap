@@ -30,6 +30,7 @@ tm_view <- function(alpha=NA,
 					set.zoom.limits=NA,
 					legend.position=c("right", "top"),
 					control.position=c("left", "top"),
+					max = c(polygons=30000, points=20000, lines=20000),
 					popup.all.data=NULL,
 					bg.overlay=NULL,
 					bg.overlay.alpha=NULL) {

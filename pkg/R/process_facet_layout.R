@@ -84,7 +84,7 @@ preprocess_facet_layout <- function(gmeta, external_legend, dh, dw) {
 }
 
 
-process_facet_layout <- function(gmeta, external_legend, sasp, dh, dw, legH, legW, attrH, pSH, pSW, legmar, legmarx, legmary, attrmar, attrmary, xlabHin, ylabWin, between.margin.in, dsh, dsw) {
+process_facet_layout <- function(gmeta, sasp, dh, dw, legH, legW, attrH, pSH, pSW, legmar, legmarx, legmary, attrmar, attrmary, xlabHin, ylabWin, between.margin.in, dsh, dsw) {
 	panel.mode <- outer.margins <- attr.outside.position <- legend.outside.position <- NULL
 	
 	dh2 <- dh - legH - attrH

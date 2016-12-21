@@ -65,7 +65,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 		shp.by.bbox <- sapply(shps_by, attr, which="bbox")
 		shp.by.bbox <- matrix(c(apply(shp.by.bbox[1:2,,drop=FALSE], MARGIN = 1, min), apply(shp.by.bbox[3:4,,drop=FALSE], MARGIN = 1, max)),
 							   nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
-		shp.by.bbox <- get_bbox_asp(shp.by.bbox, gm$inner.margins, longlat, pasp=NA)$bbox
+		shp.by.bbox <- get_bbox_asp(shp.by.bbox, gm$inner.margins, longlat, pasp=NA, interactive=interactive)$bbox
 		bboxes <- do.call("mapply", c(list(FUN=function(...){
 			x <- list(...)
 			
@@ -80,7 +80,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 			}
 			if (!("x" %in% names(args))) args$x <- bbx
 			bbox <- do.call("bb", args)  #get_bbox_lim(bbx, relative, bbox, xlim, ylim, ext)
-			bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)$bbox
+			bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp, interactive=interactive)$bbox
 			
 			if (inside_bbox) {
 				if (bbox_asp[1,1] < shp.by.bbox[1,1]) bbox_asp[1,] <- bbox_asp[1, ] + (shp.by.bbox[1,1] - bbox_asp[1,1])
@@ -101,7 +101,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 		if (!("x" %in% names(args))) args$x <- shp.bbox
 		
 		bbox <- do.call("bb", args)  #bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim, ext)
-		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp)
+		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp, interactive=interactive)
 		bbx <- bbox_asp$bbox
 		if (drop_shapes) bboxes <- rep(list(bbx), nplots)
 		sasp <- bbox_asp$sasp
@@ -212,7 +212,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 
 
 
-get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
+get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	
 	# extend bounding box for asp ratio
 	bbrange <- bbox[,2] - bbox[,1]
@@ -229,7 +229,7 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp) {
 	
 	sasp <- calc_asp_ratio(xlim, ylim, longlat)
 	
-	if (is.na(pasp)) return(list(bbox=bbox, sasp=sasp, inner.margins= rep(0,4)))
+	if (interactive) return(list(bbox=bbox, sasp=sasp, inner.margins= rep(0,4)))
 	
 	if (!is.na(pasp)) {
 		if (pasp > sasp) {

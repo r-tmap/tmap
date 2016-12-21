@@ -157,8 +157,10 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 		type <- "raster"
 		
 	} else {
-		if (!inherits(shp, "Spatial")) {
-			stop("Object ", y$shp_name, " is neither from class Spatial nor Raster.", call. = FALSE)
+		if (inherits(shp, "sf")) {
+			shp <- as(shp, "Spatial")
+		} else if (!inherits(shp, "Spatial")) {
+			stop("Object ", y$shp_name, " is neither from class Spatial, Raster, nor sf.", call. = FALSE)
 		}
 		
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
