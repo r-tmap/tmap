@@ -1,4 +1,6 @@
 process_gps <- function(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths, interactive, return.asp) {
+	title.snap.to.legend <- NULL
+	scale.extra <- NULL
 	
 	if (!interactive) {
 

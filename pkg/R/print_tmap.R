@@ -62,7 +62,7 @@ tmap_leaflet <- function(x, mode="view", show = FALSE, ...) {
   print.tmap(x, mode=mode, show=show, ...)
 }
 
-print_shortcut <- function(x, interactive) {
+print_shortcut <- function(x, interactive, args, knit) {
 	if (getOption("tmap.mode")=="plot") {
 		stop("Either specify shp, or set mode to \"view\" with tmap_mode or ttm", call.=FALSE)	
 	} else {
@@ -73,7 +73,7 @@ print_shortcut <- function(x, interactive) {
 		lf <-view_tmap(list(tm_layout=gt))
 		
 		if (knit) {
-			return(do.call("knit_print", c(list(x=lf), list(...), list(options=options))))
+			return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
 			#return(knit_print(lf, ..., options=options))
 		} else {
 			return(print(lf))
@@ -201,6 +201,7 @@ determine_asp_ratios <- function(gmeta, interactive) {
 
 
 print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, ...) {
+	args <- list(...)
 	scale.extra <- NULL
 	title.snap.to.legend <- NULL
 	
@@ -211,7 +212,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	assign(".justLib", list(), envir = .TMAP_CACHE)
 	
 	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
-	if (names(x)[1]=="tm_shortcut") print_shortcut(x, interactive)
+	if (names(x)[1]=="tm_shortcut") print_shortcut(x, interactive, args, knit)
 		
 	## remove non-supported elements if interactive
 	if (interactive) x <- x[supported_elem_view_mode(names(x))]
@@ -322,7 +323,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		if (show) {
 			save_last_map()
 			if (knit) {
-				return(do.call("knit_print", c(list(x=lf), list(...), list(options=options))))
+				return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
 			} else {
 				return(print(lf))
 			}

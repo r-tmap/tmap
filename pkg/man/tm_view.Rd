@@ -7,8 +7,9 @@
 tm_view(alpha = NA, colorNA = NULL, basemaps = NA, basemaps.alpha = NA,
   symbol.size.fixed = FALSE, dot.size.fixed = TRUE, set.bounds = FALSE,
   set.view = NA, set.zoom.limits = NA, legend.position = c("right",
-  "top"), control.position = c("left", "top"), popup.all.data = NULL,
-  bg.overlay = NULL, bg.overlay.alpha = NULL)
+  "top"), control.position = c("left", "top"), max = c(polygons = 30000,
+  points = 20000, lines = 20000), popup.all.data = NULL, bg.overlay = NULL,
+  bg.overlay.alpha = NULL)
 }
 \arguments{
 \item{alpha}{transparency (opacity) parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
@@ -32,6 +33,8 @@ tm_view(alpha = NA, colorNA = NULL, basemaps = NA, basemaps.alpha = NA,
 \item{legend.position}{Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.}
 
 \item{control.position}{Character vector of two values, specifing the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.}
+
+\item{max}{maximum amount of units that are printed in view mode}
 
 \item{popup.all.data}{not used anymore. As of version 1.6, the popups are specified by the argument \code{popup.vars} in the layer functions \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}.}
 
