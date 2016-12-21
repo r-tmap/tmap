@@ -1,4 +1,4 @@
-process_gps <- function(gps, shps, datasets, gmeta, nx, p, a, s, shps_lengths, interactive, return.asp) {
+process_gps <- function(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths, interactive, return.asp) {
 	
 	if (!interactive) {
 
@@ -63,10 +63,10 @@ process_gps <- function(gps, shps, datasets, gmeta, nx, p, a, s, shps_lengths, i
 		## show aspect ratios in design mode
 		if (gmeta$design.mode && !interactive) {
 			masterShapeName <- x[[s$masterID]]$shp_name
-			showBrown <- gmeta$gasp!=sasp
+			showBrown <- gmeta$gasp!=p$sasp
 			showGreen <- !(!is.na(gmeta$asp) && gmeta$asp==0 && nx==1)
 			pretext <- c("specified (asp argument of tm_layout)", "device (yellow)", "device without outer margins (green)",  "facets region (brown)", "frame (blue)", paste("master shape, ", masterShapeName, ", (red)", sep=""))
-			posttext <- format(c(gmeta$asp, v$dasp, a$tasp, gmeta$gasp, sasp, masp))
+			posttext <- format(c(gmeta$asp, v$dasp, a$tasp, gmeta$gasp, p$sasp, masp))
 			if (!showBrown) {
 				pretext <- pretext[-4]
 				posttext <- posttext[-4]

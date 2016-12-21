@@ -294,7 +294,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	if (!interactive) gmeta <- do.call("process_facet_layout", c(list(gmeta, p$sasp, a$dh, a$dw), a$fpi))
 		
 	## create external legend and attributes objects
-	g <- process_gps(gps, shps, datasets, gmeta, nx, p, a, s, shps_lengths, interactive, return.asp)
+	g <- process_gps(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths, interactive, return.asp)
 	
 	## adds data to gps (needed for view mode)
 	gps2 <- add_data_to_gps(g$gps, s, datasets, g$matchIDs, interactive)
