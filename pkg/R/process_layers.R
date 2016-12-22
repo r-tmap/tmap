@@ -92,7 +92,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	
 	# fill info
-	if (is.null(g$tm_fil)) {
+	if (is.null(g$tm_fill)) {
 		gfill <- list(fill=NULL, xfill=NA, fill.legend.title=NA, fill.id=NA) 
 	} else {
 		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf, z=z+which(plot.order=="tm_fill"), interactive=interactive)
