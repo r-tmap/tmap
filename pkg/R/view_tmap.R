@@ -1,4 +1,4 @@
-view_tmap <- function(gp, shps=NULL) {
+view_tmap <- function(gp, shps=NULL, showWarns=TRUE) {
 	
 	# determine view
 
@@ -79,6 +79,8 @@ view_tmap <- function(gp, shps=NULL) {
 	alpha <- gt$alpha
 
 	bbx <- attr(shps[[1]], "bbox")
+	
+	warns <- c(symbol=FALSE, text=FALSE, raster=FALSE) # to prevent a warning for each shape
 	
 	group_selection <- mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
@@ -214,9 +216,10 @@ view_tmap <- function(gp, shps=NULL) {
 				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, group=shp_name, icon=icons, layerId = id)
 			} else {
 				if (!all(symbol.shape2 %in% c(1, 16, 19, 20, 21))) {
-					warning("Symbol shapes other than circles are not supported in view mode.", call.=FALSE)
+					warns["symbol"]
+					assign("warns", warns, envir = e)
 				}
-				
+
 				if (fixed) {
 					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
 				} else {
@@ -237,12 +240,16 @@ view_tmap <- function(gp, shps=NULL) {
 			
 		}
 		plot_tm_text <- function() {
-			if (is.null(gpl$symbol.misc) || !gpl$symbol.misc$symbol.are.markers) warning("Text labels not supported in view mode.", call.=FALSE)
+			if (is.null(gpl$symbol.misc) || !gpl$symbol.misc$symbol.are.markers) {
+				warns["text"] <- TRUE
+				assign("warns", warns, envir = e)
+			}
  			FALSE
 		}
 		plot_tm_raster <- function() {
 			if (gpl$raster.misc$is.OSM) {
-				warning("Raster data contains OpenStreetMapData (read with read_osm), and therefore not shown in view mode.", call.=FALSE)
+				warns["raster"] <- TRUE
+				assign("warns", warns, envir = e)
 				return(FALSE)	
 			}
 			if (is.na(gpl$xraster[1])) {
@@ -273,6 +280,12 @@ view_tmap <- function(gp, shps=NULL) {
 		layer_selection <- sapply(fnames, do.call, args=list(), envir=e2)
 		any(layer_selection)
 	}, shps, gp, gt$shp_name, SIMPLIFY = TRUE)
+	
+	if (showWarns) {
+		if (warns["symbol"]) warning("Symbol shapes other than circles are not supported in view mode.", call.=FALSE)
+		if (warns["text"]) warning("Text labels not supported in view mode.", call.=FALSE)
+		if (warns["raster"]) warning("Raster data contains OpenStreetMapData (read with read_osm), and therefore not shown in view mode.", call.=FALSE)
+	}
 	
 	groups <- gt$shp_name[group_selection]
 	

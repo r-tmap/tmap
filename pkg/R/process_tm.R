@@ -211,6 +211,22 @@ process_tm <- function(x, gm, interactive) {
 	nx <- max(sapply(gp, function(x){
 		max(sapply(x$varnames, length))
 	}))
+	
+	# bound number of facets
+	tmap.limits <- getOption("tmap.limits")
+	if (is.null(tmap.limits) || any(is.na(tmap.limits)) || !setequal(names(tmap.limits), c("facets.plot", "facets.view")))
+		warning("Incorrect global option \"tmap.limits\". See the documentation of tm_facets for details.")
+	else {
+		tmap.limits.mode <- paste("facets", ifelse(interactive, "view", "plot"), sep=".")
+		nx_lim <- tmap.limits[tmap.limits.mode]
+		if (nx_lim < nx) {
+			tmap.limits[tmap.limits.mode] <- nx
+			
+			warning("The number of facets exceeds the limit of ", nx_lim, ". The limit can be extended with:\noptions(tmap.limits=c(facets.plot=", tmap.limits["facets.plot"], ", facets.view=", tmap.limits["facets.view"], "))")
+			nx <- min(nx, nx_lim)
+		}
+	}
+	
 
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1))) || (length(legids))
 

@@ -1,5 +1,5 @@
 .onLoad <- function(...) {
-	options(tmap.style="white", tmap.mode="plot")
+	options(tmap.style="white", tmap.mode="plot", tmap.limits=c(facets.view=4, facets.plot=64))
 	internet <- working_internet()
 	assign(".internet", internet, envir = .TMAP_CACHE)
 	assign(".underCoverage", NULL, envir = .TMAP_CACHE)

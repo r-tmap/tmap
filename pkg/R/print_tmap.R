@@ -324,10 +324,11 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		
 		
 		multi_shapes <- (is.list(shps[[1]]))
+		showWarns <- c(TRUE, rep(FALSE, length(gps)-1))
 		if (multi_shapes) {
-			lfs <- mapply(view_tmap, gps2, shps, SIMPLIFY = FALSE)
+			lfs <- mapply(view_tmap, gps2, shps, showWarns=showWarns, SIMPLIFY = FALSE)
 		} else {
-			lfs <- lapply(gps2, view_tmap, shps)
+			lfs <- mapply(view_tmap, gps2, showWarns=showWarns, MoreArgs = list(shps=shps), SIMPLIFY = FALSE)
 		}
 		lfs <<- lfs
 		lf <- if (nx==1) lfs[[1]] else do.call(mapview::latticeView, c(lfs, lVargs))
