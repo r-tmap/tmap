@@ -1,7 +1,7 @@
 get_sp_coordinates <- function(shp, gpl, gt, bbx) {
 	if (inherits(shp, "SpatialLines")) {
 		
-		if (gt$line.center.type[1]=="segment") {
+		if (gt$shape.line.center.type[1]=="segment") {
 			ns <- length(shp)
 			shp_lst <- one_line_per_lines(shp)
 			shp <- shp_lst$shp
@@ -17,10 +17,10 @@ get_sp_coordinates <- function(shp, gpl, gt, bbx) {
 			})
 		}
 		
-		if (gt$line.center.type[2]=="midpoint") {
+		if (gt$shape.line.center.type[2]=="midpoint") {
 			co <- lines_midpoints(shp)@coords
 			
-			if (gt$line.center.type[1]=="feature") {
+			if (gt$shape.line.center.type[1]=="feature") {
 				lC <- gCentroid(shp, byid=TRUE)@coords
 				lCX <- lC[,1]
 				lCY <- lC[,2]

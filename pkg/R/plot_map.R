@@ -29,7 +29,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		if (inherits(shp, "Spatial")) {
 			res <- get_sp_coordinates(shp, gpl, gt, bbx)
 			co.npc <- res$co
-			if (gt$line.center.type[1]=="segment") {
+			if (gt$shape.line.center.type[1]=="segment") {
 				gpl <- res$gpl
 				shp <- res$shp
 			}	
@@ -253,22 +253,26 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 	
 	# cut map to projection boundaries (i.e. longlat bb -180 - 180, -90 to 90)
 	if (gt$earth.boundary) {
-		world_bb_sp2 <- end_of_the_world(earth.datum = gt$earth.datum, proj = proj, bbx = gt$earth.bounds)
-		
-		world_bb_co2 <- world_bb_sp2@polygons[[1]]@Polygons[[1]]@coords
-		
-		world_bb_co3 <- matrix(c((world_bb_co2[,1] - bbx[1,1])/(bbx[1,2]-bbx[1,1]),
-								 (world_bb_co2[,2] - bbx[2,1])/(bbx[2,2]-bbx[2,1])), ncol=2)
-		
-		worldBB_bg <- if (!is.na(gt$frame)) NULL else pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=NA, fill=gt$bg.color))
-		worldBB <- pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=gt$earth.boundary.color, fill=NA, lwd=gt$earth.boundary.lwd))
-		
-		worldBB_cut <- pathGrob(x = c(0, 0, 1, 1, rev(world_bb_co3[,1])), y = c(0, 1, 1, 0, rev(world_bb_co3[,2])), id=c(rep(1,4), rep(2,nrow(world_bb_co3))), gp=gpar(col=NA, fill=gt$space.color))
-		
-		if (any(world_bb_co3[,1]>0 & world_bb_co3[,1]< 1 & world_bb_co3[,2] > 0 & world_bb_co3[,2] < 1)) {
-			grobWorldBB <- gTree(children=gList(worldBB_cut, worldBB))	
+		world_bb_sp2 <- tmaptools::bb_earth(projection = proj, earth.datum = gt$earth.datum, bbx = gt$earth.bounds)
+		if (!is.null(world_bb_sp2)) {
+			world_bb_co2 <- world_bb_sp2@polygons[[1]]@Polygons[[1]]@coords
+			
+			world_bb_co3 <- matrix(c((world_bb_co2[,1] - bbx[1,1])/(bbx[1,2]-bbx[1,1]),
+									 (world_bb_co2[,2] - bbx[2,1])/(bbx[2,2]-bbx[2,1])), ncol=2)
+			
+			worldBB_bg <- if (!is.na(gt$frame)) NULL else pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=NA, fill=gt$bg.color))
+			worldBB <- pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=gt$earth.boundary.color, fill=NA, lwd=gt$earth.boundary.lwd))
+			
+			worldBB_cut <- pathGrob(x = c(0, 0, 1, 1, rev(world_bb_co3[,1])), y = c(0, 1, 1, 0, rev(world_bb_co3[,2])), id=c(rep(1,4), rep(2,nrow(world_bb_co3))), gp=gpar(col=NA, fill=gt$space.color))
+			
+			if (any(world_bb_co3[,1]>0 & world_bb_co3[,1]< 1 & world_bb_co3[,2] > 0 & world_bb_co3[,2] < 1)) {
+				grobWorldBB <- gTree(children=gList(worldBB_cut, worldBB))	
+			} else {
+				grobWorldBB <- NULL
+			}
 		} else {
 			grobWorldBB <- NULL
+			worldBB_bg <- NULL
 		}
 	} else {
 		grobWorldBB <- NULL

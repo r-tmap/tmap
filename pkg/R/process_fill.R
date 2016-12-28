@@ -69,10 +69,8 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 
 	# process areas
 	if (is.null(g$area)) {
-		show_warning <- (!attr(data, "AREAS_is_projected"))
 		area_var <- "SHAPE_AREAS"
 	} else {
-		show_warning <- FALSE
 		area_var <- g$area
 	}
 	
@@ -85,7 +83,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	
 	sel <- if (is.list(dt)) rep(list(!tiny), nx) else !tiny
 	
-	dcr <- process_dtcol(dt, sel, g, gt, nx, npol, check_dens = TRUE, show_warning=show_warning, areas=areas)
+	dcr <- process_dtcol(dt, sel, g, gt, nx, npol, check_dens = TRUE, areas=areas, areas_unit=attr(areas, "unit"))
 	if (dcr$is.constant) xfill <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
@@ -93,8 +91,9 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	col.neutral <- dcr$col.neutral
 	breaks <- dcr$breaks
 	values <- dcr$values
+	title_append <- dcr$title_append
 	
-	fill.legend.title <- if (is.ena(g$title)[1]) x else g$title
+	fill.legend.title <- if (is.ena(g$title)[1]) paste(x, title_append) else g$title
 	fill.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
 	fill.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.5 else g$legend.hist.z
 	
@@ -107,7 +106,6 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	} else fill.legend.hist.title <- ""
 
 	if (!g$legend.show) fill.legend.title <- NA
-	
 	list(fill=col,
 		 fill.legend.labels=col.legend.labels,
 		 fill.legend.palette=col.legend.palette,

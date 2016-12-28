@@ -109,7 +109,7 @@ process_col_vector <- function(x, sel, g, gt) {
 }
 
 
-process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show_warning=FALSE, areas=NULL) {
+process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL) {
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
 		col <- dtcol
@@ -118,19 +118,21 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show
 		col.neutral <- apply(col, 2, function(bc) na.omit(bc)[1])
 		breaks <- NA
 		values <- NA
+		title_append <- ""
 	} else if (is.list(dtcol)) {
 		# multiple variables for col are defined
 		if (is.na(sel[1])) sel <- rep(TRUE, nx)
 		gsc <- split_g(g, n=nx)
 		
+		title_append <- rep("", nx)
 		if (check_dens) {
 			isNum <- sapply(dtcol, is.numeric)
 			isDens <- sapply(gsc, "[[", "convert2density")
 			
-			if (any(isNum & isDens) && show_warning) warning("Density values are not correct, because the shape coordinates are not projected.", call. = FALSE)
 			dtcol[isNum & isDens] <- lapply(dtcol[isNum & isDens], function(d) {
 				d / areas
 			})
+			title_append[isNum & isDens] <- paste("per", areas_unit)
 		}
 		
 		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt), SIMPLIFY=FALSE)
@@ -143,10 +145,12 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show
 	} else {
 		if (check_dens) {
 			if (is.numeric(dtcol) && g$convert2density) {
-				if (show_warning) warning("Density values are not correct, because the shape coordinates are not projected.", call. = FALSE)
 				dtcol <- dtcol / areas
+				title_append <- paste("per", areas_unit)
+			} else {
+				title_append <- ""
 			}
-		}
+		} else title_append <- ""
 		
 		if (is.na(sel[1])) sel <- TRUE
 		res <- process_col_vector(dtcol, sel, g, gt)
@@ -163,7 +167,8 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, show
 		 legend.palette=legend.palette,
 		 col.neutral=col.neutral,
 		 breaks=breaks,
-		 values=values)
+		 values=values,
+		 title_append=title_append)
 }
 
 

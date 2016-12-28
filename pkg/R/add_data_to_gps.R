@@ -1,5 +1,4 @@
-add_data_to_gps <- function(gps, s, datasets, matchIDs, interactive) {
-	
+add_data_to_gps <- function(gps, gm, datasets, matchIDs, interactive) {
 	# append data to gps
 	mapply(function(gp, masterID) {
 		gp[-length(gp)] <- mapply(function(gpl, indices, dt) {
@@ -55,9 +54,9 @@ add_data_to_gps <- function(gps, s, datasets, matchIDs, interactive) {
 				gpl$symbol.names <- gpl$idnames$symbol
 			}
 			
-			gpl$data <- dt[indices, ]
+			gpl$data <- dt[indices, , drop=FALSE]
 			gpl
-		}, gp[-length(gp)], s$masterID, datasets, SIMPLIFY = FALSE)
+		}, gp[-length(gp)], masterID, datasets, SIMPLIFY = FALSE)
 		gp
 	}, gps, matchIDs, SIMPLIFY=FALSE)
 }

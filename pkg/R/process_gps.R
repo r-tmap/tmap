@@ -1,11 +1,48 @@
-process_gps <- function(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths, interactive, return.asp) {
+process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 	title.snap.to.legend <- NULL
 	scale.extra <- NULL
+
 	
+	gps <- mapply(function(gp, i) {
+		# process credits text per facet
+		gm$credits.show <- sapply(gm$credits.show, "[[", i)
+		if (!is.null(gm$credits.text)) gm$credits.text <- get_text_i(gm$credits.text, i)
+		#if (!is.null(gm$credits.text)) gm$credits.text <- sapply(gm$credits.text, "[[", i)
+		gm[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
+			 "credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
+			 "credits.position", "credits.just", "credits.id")] <- lapply(
+			 	gm[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
+			 		 "credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
+			 		 "credits.position", "credits.just", "credits.id")],
+			 	function(gm2) {
+			 		gm2[gm$credits.show]	
+			 	})
+		gm$credits.show <- any(gm$credits.show)
+		
+		# process logos per facet
+		gm$logo.show <- sapply(gm$logo.show, "[[", i)
+		if (!is.null(gm$logo.file)) {
+			gm$logo.file <- lapply(gm$logo.file, function(lf)lf[[i]])
+			gm$logo.height <- lapply(gm$logo.height, function(lh)lh[[i]])
+			gm$logo.width <- lapply(gm$logo.width, function(lw)lw[[i]])
+		}
+		#if (!is.null(gm$credits.text)) gm$credits.text <- sapply(gm$credits.text, "[[", i)
+		gm[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")] <- lapply(
+			gm[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")],
+			function(gm) {
+				gm[gm$logo.show]	
+			})
+		gm$logo.show <- any(gm$logo.show)
+		
+		gp$tm_layout <- gm
+		gp$tm_layout$title <- gp$tm_layout$title[i]
+		gp
+	}, gps, 1:nx, SIMPLIFY=FALSE)
+		
 	if (!interactive) {
 
-		if (gmeta$legend.outside) {
-			leg_ids <- seq(1, nx, by=gmeta$ncol * gmeta$nrow)
+		if (gm$legend.outside) {
+			leg_ids <- seq(1, nx, by=gm$ncol * gm$nrow)
 			gp_leg <- lapply(leg_ids, function(li) {
 				gli <- gps[[li]]
 				gli$tm_layout <- within(gli$tm_layout, {
@@ -38,8 +75,8 @@ process_gps <- function(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths,
 			gp_leg <- NULL
 		}
 		
-		if (gmeta$attr.outside) {
-			attr_ids <- seq(1, nx, by=gmeta$ncol * gmeta$nrow)
+		if (gm$attr.outside) {
+			attr_ids <- seq(1, nx, by=gm$ncol * gm$nrow)
 			gp_attr <- lapply(attr_ids, function(ai) {
 				gai <- gps[[ai]]
 				gai$tm_layout <- within(gai$tm_layout, {
@@ -63,12 +100,12 @@ process_gps <- function(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths,
 		
 		
 		## show aspect ratios in design mode
-		if (gmeta$design.mode && !interactive) {
-			masterShapeName <- x[[s$masterID]]$shp_name
-			showBrown <- gmeta$gasp!=p$sasp
-			showGreen <- !(!is.na(gmeta$asp) && gmeta$asp==0 && nx==1)
+		if (gm$design.mode && !interactive) {
+			masterShapeName <- x[[gm$shape.masterID]]$shp_name
+			showBrown <- gm$gasp!=gm$shape.sasp
+			showGreen <- !(!is.na(gm$asp) && gm$asp==0 && nx==1)
 			pretext <- c("specified (asp argument of tm_layout)", "device (yellow)", "device without outer margins (green)",  "facets region (brown)", "frame (blue)", paste("master shape, ", masterShapeName, ", (red)", sep=""))
-			posttext <- format(c(gmeta$asp, v$dasp, a$tasp, gmeta$gasp, p$sasp, masp))
+			posttext <- format(c(gm$asp, gm$shape.dasp, gm$shape.tasp, gm$gasp, gm$shape.sasp, gm$shape.masp))
 			if (!showBrown) {
 				pretext <- pretext[-4]
 				posttext <- posttext[-4]
@@ -90,14 +127,14 @@ process_gps <- function(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths,
 		}
 		
 		# shortcut used by save_tmap
-		if (return.asp && !interactive) return(gmeta$gasp)
+		if (return.asp && !interactive) return(gm$gasp)
 	} else {
 		gp_leg <- NULL
 		gp_attr <- NULL
 	}
 	
 	## shapes have been subset (diff_shapes) and cropped. Therefore, the corresponding aesthetics have to be subset accordingly:
-	if (p$diff_shapes) {
+	if (gm$shape.diff_shapes) {
 		matchIDs <- lapply(shps, function(ss) lapply(ss, function(s) if (inherits(s, "Raster")) s[] else s$tmapID))
 	} else {
 		matchIDs <- lapply(shps, function(s) if (inherits(s, "Raster")) s[] else s$tmapID)
@@ -105,39 +142,20 @@ process_gps <- function(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths,
 	}
 	
 	gps <- mapply(function(gp, masterID) {
-		gp[1:s$nshps] <- mapply(function(gpl, indices, l) {
+		gp[1:gm$shape.nshps] <- mapply(function(gpl, indices, l) {
 			gpl$npol <- length(indices)
 			lapply(gpl, function(gplx) {
 				if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==l) {
-					gplx <- gplx[indices]	
+					gplx[indices]	
 				} else {
 					gplx
 				}
 			})
-		},  gp[1:s$nshps], masterID, shps_lengths, SIMPLIFY=FALSE)
+		},  gp[1:gm$shape.nshps], masterID, gm$shape.shps_lengths, SIMPLIFY=FALSE)
 		gp
 	}, gps, matchIDs, SIMPLIFY=FALSE)
 	
-	# } else {
-	
-	# 
-	# gps <- lapply(gps, function(gp) {
-	# 	gp[1:nshps] <- mapply(function(gpl, indices, l) {
-	# 		gpl$npol <- length(indices)
-	# 		lapply(gpl, function(gplx) {
-	# 			if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==l) {
-	# 				gplx <- gplx[indices]	
-	# 			} else {
-	# 				gplx
-	# 			}
-	# 		})
-	# 	},  gp[1:nshps], matchIDs, shps_lengths, SIMPLIFY=FALSE)
-	# 	gp
-	# })
-	
-	# }
-	
-	#print(matchIDs)
+
 	
 	list(gps=gps,
 		 matchIDs=matchIDs,

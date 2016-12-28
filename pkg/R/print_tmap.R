@@ -28,11 +28,11 @@
 #' @importFrom rgdal getPROJ4VersionInfo SGDF2PCT CRSargs
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
-#' @importFrom geosphere distGeo
 #' @import leaflet
 #' @importFrom htmlwidgets appendContent
 #' @importFrom htmltools tags HTML htmlEscape
 #' @importFrom mapview latticeView
+#' @importFrom utils packageVersion
 #' @export
 #' @method print tmap
 print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, ...) {
@@ -67,8 +67,8 @@ print_shortcut <- function(x, interactive, args, knit) {
 		stop("Either specify shp, or set mode to \"view\" with tmap_mode or ttm", call.=FALSE)	
 	} else {
 		gt <- preprocess_gt(x, interactive=interactive)
-		gt$bbx <- x$tm_shortcut$bbx
-		gt$center <- x$tm_shortcut$center
+		gt$shape.bbx <- x$tm_shortcut$bbx
+		gt$shape.center <- x$tm_shortcut$center
 		
 		lf <-view_tmap(list(tm_layout=gt))
 		
@@ -83,12 +83,12 @@ print_shortcut <- function(x, interactive, args, knit) {
 
 supported_elem_view_mode <- function(nms) {
 	if (any(nms=="tm_grid")) warning("Grid lines not supported in view mode.", call.=FALSE)
-	if (any(nms=="tm_scale_bar")) warning("Scale bar not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_credits")) warning("Credits not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_logo")) warning("Logo not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_compass")) warning("Compass not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_xlab")) warning("X-axis label not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_ylab")) warning("Y-axis label not supported in view mode.", call.=FALSE)
+	if (any(nms=="tm_scale_bar")) warning("Scale bar not yet supported in view mode, it will be in the next version.", call.=FALSE)
 	
 	which(!(nms %in% c("tm_grid", "tm_scale_bar", "tm_credits", "tm_logo", "tm_compass", "tm_xlab", "tm_ylab")))
 }
@@ -115,35 +115,62 @@ gather_shape_info <- function(x, interactive) {
 		if (any_raster) which(is_raster)[1] else 1
 	} else which(is_master)[1]
 	
-	## find master projection
+	## find master projection (and set to longlat when in view mode)
 	master_CRS <- get_proj4(x[[shape.id[masterID]]]$projection, as.CRS = TRUE)
 	mshp_raw <- x[[shape.id[masterID]]]$shp
 	if (is.null(master_CRS)) master_CRS <- get_projection(mshp_raw, as.CRS = TRUE)
 	orig_CRS <- master_CRS # needed for adjusting bbox in process_shapes
 	if (interactive) {
-		if (is.na(get_projection(mshp_raw, as.CRS = TRUE)) && is_projected(mshp_raw)) {
+		if (is.na(get_projection(mshp_raw, as.CRS = TRUE)) && tmaptools::is_projected(mshp_raw)) {
 			
 			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
 		}
 		master_CRS <- .CRS_longlat
 	}
+	
 	## find master bounding box (unprocessed)
 	bbx_raw <- bb(mshp_raw)
 	
+	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
+	raster_facets_vars <- lapply(1:nshps, function(i) {
+		from <- shape.id[i] + 1
+		to <- ifelse(i==nshps, length(x), shape.id[i+1]-1)
+		fid <- which(names(x)[from:to]=="tm_facets")
+		rid <- which(names(x)[from:to]=="tm_raster")
+		
+		c(if (length(fid)) x[[from-1+fid[1]]]$by else NULL,
+		  if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
+	})
+	
+	## get arguments related to units (approx_areas)
+	units_args <- x[[shape.id[masterID]]][c("unit", "coords.unit", "unit.size", "total.area")]
+	units_args <- units_args[!sapply(units_args, is.null)]
+	
+	## get arguments related to bb
+	bb_args <- x[[masterID]][intersect(names(x[[masterID]]), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
+	bb_args$x <- x[[masterID]]$bbox
+	
+	## add other shape arguments
+	line.center.type <- x[[shape.id[masterID]]]$line.center.type
+
 	list(shape.id=shape.id,
-		 nshps=nshps,
-		 apply_map_coloring=apply_map_coloring,
-		 any_raster=any_raster,
-		 masterID=masterID,
-		 master_CRS=master_CRS,
-		 orig_CRS=orig_CRS,
-		 bbx_raw=bbx_raw)
+		 shape.nshps=nshps,
+		 shape.apply_map_coloring=apply_map_coloring,
+		 shape.any_raster=any_raster,
+		 shape.masterID=masterID,
+		 shape.master_CRS=master_CRS,
+		 shape.orig_CRS=orig_CRS,
+		 shape.bbx_raw=bbx_raw,
+		 shape.units_args=units_args,
+		 shape.bb_args=bb_args,
+		 shape.line.center.type=line.center.type,
+		 shape.raster_facets_vars=raster_facets_vars)
 }
 
-prepare_vp <- function(vp, s, interactive, x, masp) {
+prepare_vp <- function(vp, gm, interactive, x) {
 	if (interactive) {
-		list(dasp = 1,
-			 asp_ratio = 1)
+		list(shape.dasp = 1,
+			 shape.asp_ratio = 1)
 	} else {
 		if (is.null(vp)) {
 			grid.newpage()
@@ -156,21 +183,21 @@ prepare_vp <- function(vp, s, interactive, x, masp) {
 			x[[which(names(x)=="tm_layout")[1]]]$inner.margins
 		} else NA
 		inner.margins <- if (is.na(inner.margins[1])) {
-			if (s$any_raster) rep(0, 4) else rep(0.02, 4)
+			if (gm$shape.any_raster) rep(0, 4) else rep(0.02, 4)
 		} else rep(inner.margins, length.out=4)
 		xmarg <- sum(inner.margins[c(2,4)])
 		ymarg <- sum(inner.margins[c(1,3)])
 		if (xmarg >= .8) stop("Inner margins too large", call. = FALSE)
 		if (ymarg >= .8) stop("Inner margins too large", call. = FALSE)
-		iasp <- masp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
+		iasp <- gm$shape.masp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
 		dasp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
 		asp_ratio <- iasp / dasp
-		list(dasp = dasp,
-			 asp_ratio = asp_ratio)
+		list(shape.dasp = dasp,
+			 shape.asp_ratio = asp_ratio)
 	}
 }
 
-determine_asp_ratios <- function(gmeta, interactive) {
+determine_asp_ratios <- function(gm, interactive) {
 	if (interactive) {
 		dw <- 1
 		dh <- 1
@@ -178,10 +205,10 @@ determine_asp_ratios <- function(gmeta, interactive) {
 		lasp <- NA
 		fpi <- NULL
 	} else {
-		dw <- convertWidth(unit(1-sum(gmeta$margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
-		dh <- convertHeight(unit(1-sum(gmeta$margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
+		dw <- convertWidth(unit(1-sum(gm$margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
+		dh <- convertHeight(unit(1-sum(gm$margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 		
-		fpi <- preprocess_facet_layout(gmeta, gmeta$legend.outside, dh, dw)
+		fpi <- preprocess_facet_layout(gm, gm$legend.outside, dh, dw)
 		
 		# aspect ratio of total device
 		tasp <- dw/dh
@@ -192,12 +219,13 @@ determine_asp_ratios <- function(gmeta, interactive) {
 		# aspect ratio per facet minus extern legend
 		lasp <- fasp * (1-fpi$legmarx) / (1-fpi$legmary-fpi$attrmary)
 	}
-	list(dw = dw,
-		 dh = dh,
-		 tasp = tasp,
-		 lasp = lasp,
-		 fpi = fpi)
+	list(shape.dw = dw,
+		 shape.dh = dh,
+		 shape.tasp = tasp,
+		 shape.lasp = lasp,
+		 shape.fpi = fpi)
 }
+
 
 
 print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, ...) {
@@ -218,43 +246,29 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	if (interactive) x <- x[supported_elem_view_mode(names(x))]
 	
 	## gather shape info
-	s <- gather_shape_info(x, interactive)
+	gm <- gather_shape_info(x, interactive)
 
-	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
-	raster_facets_vars <- lapply(1:s$nshps, function(i) {
-		from <- s$shape.id[i] + 1
-		to <- ifelse(i==s$nshps, length(x), s$shape.id[i+1]-1)
-		fid <- which(names(x)[from:to]=="tm_facets")
-		rid <- which(names(x)[from:to]=="tm_raster")
-		
-		# if (length(rid)) {
-		# 	if (is.na(x[[from-1+rid[1]]]$col[1])) return(NA)
-		# }
-		c(if (length(fid)) x[[from-1+fid[1]]]$by else NULL,
-		  if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
-	})
-	
 	## split data.frames from shape/raster objects, and determine shape types
-	shps_dts <- mapply(preprocess_shapes, x[s$shape.id], raster_facets_vars, MoreArgs = list(apply_map_coloring=s$apply_map_coloring, master_CRS=s$master_CRS, master_bbx=s$bbx_raw, interactive=interactive), SIMPLIFY = FALSE)
+	shps_dts <- mapply(preprocess_shapes, x[gm$shape.id], gm$shape.raster_facets_vars, MoreArgs = list(gm=gm, interactive=interactive), SIMPLIFY = FALSE)
 	shps <- lapply(shps_dts, "[[", 1)
 	datasets <- lapply(shps_dts, "[[", 2)
 	types <- lapply(shps_dts, "[[", 3)
 
 	## determine bounding box and aspect ratio of master shape
-	mshp <- shps[[s$masterID]]
-	bbx <- attr(mshp, "bbox")
-	masp <-	calc_asp_ratio(bbx[1,], bbx[2,], longlat=!attr(mshp, "projected"))
+	mshp <- shps[[gm$shape.masterID]]
+	gm$shape.bbx_cropped <- attr(mshp, "bbox")
+	gm$shape.masp <-	get_asp_ratio(gm$shape.bbx_cropped, is.projected=attr(mshp, "projected"))
 
 	## remove shapes from and add data to tm_shape objects
-	x[s$shape.id] <- mapply(function(y, dataset, type){
+	x[gm$shape.id] <- mapply(function(y, dataset, type){
 		y$type <- type
 		y$data <- dataset
 		y$shp <- NULL
 		y
-	}, x[s$shape.id], datasets, types, SIMPLIFY=FALSE)
+	}, x[gm$shape.id], datasets, types, SIMPLIFY=FALSE)
 	
 	## prepare viewport (needed to determine asp_ratio for facet layout)
-	v <- prepare_vp(vp, s, interactive, x, masp)
+	gm  <- c(gm, prepare_vp(vp, gm, interactive, x))
 
 	## process tm objects
 	#  - get all non-layer elements, (tm_layout, tm_grid, ...)
@@ -266,48 +280,46 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#  		- determines number of rows and colums for small multiples
 	#       - applies scale factor to all meta elements (tm_layout, tm_style, tm_compass, tm_scale_bar, tm_grid)
 	#  - split gp into small multiples (result is gps)
-	shp_info <- x[[s$shape.id[s$masterID]]][c("unit", "unit.size", "line.center.type")]
-	shp_info$is_raster <- s$any_raster
-	result <- process_tm(x, v$asp_ratio, shp_info, interactive)
-	gmeta <- result$gmeta
+	# si <- x[[s$shape.id[s$masterID]]]
+	# si$data <- NULL
+	# 
+	# s <- c(s, si)
+	result <- process_tm(x, gm, interactive)
+	gm <- c(result$gmeta, gm)
 	gps <- result$gps
 	gal <- result$gal
 	nx <- result$nx
 	data_by <- result$data_by
 	
-	shps_lengths <- sapply(shps, length)
+	gm$shape.shps_lengths <- sapply(shps, length)
 
 	## arranges aspect ratios, the grid layout of the map/facets, etc
-	a <- determine_asp_ratios(gmeta, interactive)
+	gm <- c(gm, determine_asp_ratios(gm, interactive))
 	
 	## process shapes (bbox and crop)
-	shps <- process_shapes(shps, x[s$shape.id], gmeta, data_by, a$lasp, s$masterID, allow.crop = !interactive, raster.leaflet=interactive, master_CRS=s$master_CRS, interactive=interactive, orig_CRS=s$orig_CRS)
-	
-	p <- list(sasp = attr(shps, "sasp"),
-			  bbx = attr(shps, "bbx"),
-			  legend_pos = attr(shps, "legend_pos"),
-			  diff_shapes = attr(shps, "diff_shapes"),
-			  inner.margins.new = attr(shps, "inner.margins"))
-	
-	
-	
+	shps <- process_shapes(shps, x[gm$shape.id], gm, data_by, allow.crop = !interactive, interactive=interactive)
+	gm <- c(gm, attr(shps, "info"))
+
 	## further arranges the grid layout of the map/facets
-	if (!interactive) gmeta <- do.call("process_facet_layout", c(list(gmeta, p$sasp, a$dh, a$dw), a$fpi))
-		
+	if (!interactive) gm <- process_facet_layout(gm)
+
+	#browser()
+	#gm$units <- s$shape.units
+	
 	## create external legend and attributes objects
-	g <- process_gps(gps, shps, x, gmeta, nx, p, a, s, v, masp, shps_lengths, interactive, return.asp)
+	g <- process_gps(gps, shps, x, gm, nx, interactive, return.asp)
+	
+	## return in case g is a number, i.e. the aspect ratio
+	if (is.numeric(g)) return(g)
 	
 	## adds data to gps (needed for view mode)
-	gps2 <- add_data_to_gps(g$gps, s, datasets, g$matchIDs, interactive)
-	
-	
-	
+	gps2 <- add_data_to_gps(g$gps, gm, datasets, g$matchIDs, interactive)
 	
 	## plot
 	if (interactive) {
-		lVargs <- list(ncol=gmeta$ncol,
-					   sync=ifelse(gmeta$sync, "all", "none"),
-					   sync.cursor=gmeta$sync,
+		lVargs <- list(ncol=gm$ncol,
+					   sync=ifelse(gm$sync, "all", "none"),
+					   sync.cursor=gm$sync,
 					   no.initial.sync = TRUE)
 		
 		
@@ -330,14 +342,14 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		} else lf
 	} else {
 		if (show) {
-			if (nx > 1) sasp <- v$dasp
+			if (nx > 1) sasp <- gm$shape.dasp
 			#  gridplot:   - makes small multiples grid
 			#              - calls plot_all for grob trees
 			#              - plot the grob trees
 			#  plot_all:   - calls plot_map to create grob tree of map itself
 			#              - calls legend_prepare and plot_legend to create grob tree of legend
 			#              - creates grob tree for whole plot
-			gridplot(gmeta, "plot_all", nx, g$gps, gal, shps, v$dasp, p$sasp, p$inner.margins.new, p$legend_pos, g$gp_leg, g$gp_attr)
+			gridplot(gm, "plot_all", nx, g$gps, gal, shps, gm$shape.dasp, gm$shape.sasp, gm$shape.inner.margins, gm$shape.legend_pos, g$gp_leg, g$gp_attr)
 			## if vp is specified, go 1 viewport up, else go to root viewport
 			upViewport(n=as.integer(!is.null(vp)))
 			save_last_map()

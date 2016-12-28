@@ -67,8 +67,8 @@ view_tmap <- function(gp, shps=NULL) {
 
 		if (!is.null(gt$bbx)) {
 			lf <- lf %>%
-				fitBounds(gt$bbx[1], gt$bbx[2], gt$bbx[3], gt$bbx[4]) %>%
-				addMarkers(gt$center[1], gt$center[2])
+				fitBounds(gt$shape.bbx[1], gt$shape.bbx[2], gt$shape.bbx[3], gt$shape.bbx[4]) %>%
+				addMarkers(gt$shape.center[1], gt$shape.center[2])
 		}
 		lf <- set_bounds_view(lf, gt)
 		return(lf)
@@ -87,7 +87,7 @@ view_tmap <- function(gp, shps=NULL) {
 		if (inherits(shp, "Spatial")) {
 			res <- get_sp_coordinates(shp, gpl, gt, bbx)
 			co <- res$co
-			if (gt$line.center.type[1]=="segment") {
+			if (gt$shape.line.center.type[1]=="segment") {
 				gpl <- res$gpl
 				shp <- res$shp
 			}	
@@ -133,7 +133,7 @@ view_tmap <- function(gp, shps=NULL) {
 			lf <- lf %>% addPolylines(data=shp, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id)
 
 			
-			if (!is.na(gpl$xline)) {
+			if (!is.na(gpl$xline[1])) {
 				if (gpl$line.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="line.col", alpha=alpha)
 			}
 			
@@ -226,7 +226,7 @@ view_tmap <- function(gp, shps=NULL) {
 				
 			
 			
-			if (!is.na(gpl$xcol)) {
+			if (!is.na(gpl$xcol[1])) {
 				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha)
 			}
 			
@@ -245,7 +245,7 @@ view_tmap <- function(gp, shps=NULL) {
 				warning("Raster data contains OpenStreetMapData (read with read_osm), and therefore not shown in view mode.", call.=FALSE)
 				return(FALSE)	
 			}
-			if (is.na(gpl$xraster)) {
+			if (is.na(gpl$xraster[1])) {
 				gpl$raster.legend.palette <- unique(gpl$raster)
 			}
 			
@@ -255,7 +255,7 @@ view_tmap <- function(gp, shps=NULL) {
 			
 			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=shp_name, project = FALSE, layerId = id)
 			
-			if (!is.na(gpl$xraster)) {
+			if (!is.na(gpl$xraster[1])) {
 				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha)
 			}
 
@@ -291,6 +291,17 @@ view_tmap <- function(gp, shps=NULL) {
 
 	
 	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
+
+	# if (gt$scale.show) {
+	# 	leaflet_version <- packageVersion("leaflet")
+	# 	if (leaflet_version > "1.0.2") {
+	# 		u <- gt$shape.units_args$unit
+	# 		metric <- (u %in% c("m", "km", "metric"))
+	# 		lf <- lf %>% addScaleBar(position = gt$scale.position, options = scaleBarOptions(maxWidth=gt$scale.width, metric=metric, imperial = !metric))
+	# 	} else {
+	# 		message("Scale bar support in view mode need leaflet >= 1.02; installed version: ", leaflet_version)
+	# 	}
+	# }
 	
 	set_bounds_view(lf, gt, bbx)
 	
@@ -472,8 +483,7 @@ units_per_line <- function(bbx) {
 	max_lines <- par("din")[2]*10
 	
 	# calculate top-center to bottom-center
-	vdist <- distGeo(p1=c(mean(bbx[1,]), bbx[2,1]),
-					 p2=c(mean(bbx[1,]), bbx[2,2]))
+	vdist <- tmaptools::approx_distances(bbx, projection = "longlat")$vdist
 	vdist/max_lines
 }
 

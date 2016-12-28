@@ -1,10 +1,10 @@
-preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, interactive, raster_facets_vars) {
+preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
-	shp.unit <- y$unit
-	shp.unit.size <- y$unit.size
+	shp.aa <- y[c("unit", "coords.unit", "unit.size", "total.area")]
+	shp.aa <- shp.aa[!sapply(shp.aa, is.null)]
 	
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
-		if (interactive) master_CRS <- .CRS_merc
+		if (interactive) gm$shape.master_CRS <- .CRS_merc
 		if (inherits(shp, "Spatial")) {
 			
 			# attribute get from read_osm
@@ -82,7 +82,7 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 		# get current projection (assume longlat if unkown)
 		shp_CRS <- get_projection(shp, as.CRS = TRUE)
 		if (is.na(shp_CRS)) {
-			if (!is_projected(shp)) {
+			if (!tmaptools::is_projected(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 				shp_CRS <- .CRS_longlat
 				shp <- set_projection(shp, current.projection = shp_CRS)
@@ -92,18 +92,18 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 		}
 
 		# should raster shape be reprojected?
-		if ((!is.na(shp_CRS) && !is.na(master_CRS) && !identical(shp_CRS, master_CRS)) || interactive) {
-			if (is.na(master_CRS)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
+		if ((!is.na(shp_CRS) && !is.na(gm$shape.master_CRS) && !identical(shp_CRS, gm$shape.master_CRS)) || interactive) {
+			if (is.na(gm$shape.master_CRS)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
 			new_ext <- tryCatch({
-			  	suppressWarnings(projectExtent(shp, crs = master_CRS))
+			  	suppressWarnings(projectExtent(shp, crs = gm$shape.master_CRS))
 			}, error=function(e){
 		  		NULL
 		  	})
 			
 			if (is.null(new_ext)) {
-				shp <- crop_shape(shp, bb(master_bbx, projection = shp_CRS, current.projection = master_CRS))	
+				shp <- crop_shape(shp, bb(gm$shape.bbx_raw, projection = shp_CRS, current.projection = gm$shape.master_CRS))	
 				new_ext <- tryCatch({
-					suppressWarnings(projectExtent(shp, crs = master_CRS))
+					suppressWarnings(projectExtent(shp, crs = gm$shape.master_CRS))
 				}, error=function(e){
 					stop("Unable to reproject raster shape \"", y$shp_name, "\", probably due to non-finite points.", call. = FALSE)
 				})
@@ -111,7 +111,7 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 		} else new_ext <- NULL
 
 		if (!is.null(new_ext)) {
-			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=master_CRS, method = ifelse(use_interp, "bilinear", "ngb")))
+			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=gm$shape.master_CRS, method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
 			data <- get_raster_data(shpTmp)
 		} else {
@@ -182,7 +182,7 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 		# reproject if nessesary
 		shp_CRS <- get_projection(shp, as.CRS = TRUE)
 		if (is.na(shp_CRS)) {
-			if (!is_projected(shp)) {
+			if (!tmaptools::is_projected(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 				shp_CRS <- .CRS_longlat
 				shp <- set_projection(shp, current.projection = shp_CRS)
@@ -190,11 +190,11 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
-		if (!is.na(shp_CRS) && !is.na(master_CRS) && !identical(shp_CRS, master_CRS)) {
+		if (!is.na(shp_CRS) && !is.na(gm$shape.master_CRS) && !identical(shp_CRS, gm$shape.master_CRS)) {
 			shp2 <- tryCatch({
-				spTransform(shp, master_CRS)
+				spTransform(shp, gm$shape.master_CRS)
 			}, error=function(e) {
-				stop("Unable to project shape ", y$shp_name, " to the projection ", CRSargs(master_CRS), ".", call.=FALSE)
+				stop("Unable to project shape ", y$shp_name, " to the projection ", CRSargs(gm$shape.master_CRS), ".", call.=FALSE)
 			}, warning=function(w){
 				NULL
 			})
@@ -203,9 +203,8 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 		}
 		
 		if (inherits(shp2, "SpatialPolygonsDataFrame")) {
-			data$SHAPE_AREAS <- approx_areas(shp2, unit=shp.unit, unit.size = shp.unit.size)
-			attr(data, "AREAS_is_projected") <- is_projected(shp2)
-			if (apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
+			data$SHAPE_AREAS <- do.call(tmaptools::approx_areas, c(list(shp=shp2), shp.aa))
+			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
 			attr(data, "kernel_density") <- ("kernel_density" %in% names(attributes(shp)))
 			type <- "polygons"
 		} else if (inherits(shp2, "SpatialLinesDataFrame")) {
@@ -215,7 +214,7 @@ preprocess_shapes <- function(y, apply_map_coloring, master_CRS, master_bbx, int
 			type <- "points"
 		}
 	}
-	attr(shp2, "projected") <- is_projected(shp2)
+	attr(shp2, "projected") <- tmaptools::is_projected(shp2)
 	
 	list(shp=shp2, data=data, type=type)
 }

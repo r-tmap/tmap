@@ -157,8 +157,8 @@ tm_logo <- function(file,
 #' 
 #' Creates a scale bar. By default, the coordinate units are assumed to be meters, and the map units in kilometers. This can be changed in \code{\link{tm_shape}}.
 #' 
-#' @param breaks breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar.
-#' @param width (prefered) width of the scale bar. Only applicable when \code{breaks=N ULL}
+#' @param breaks breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar. Not available for view mode.
+#' @param width (prefered) width of the scale bar. Only applicable when \code{breaks=NULL}. In plot mode, it corresponds the relative width; the default is 0.25 so one fourth of the map width. In view mode, it corresponds to the width in pixels; the default is 100.
 #' @param size relative text size (which is upperbound by the available label width)
 #' @param text.color color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.
 #' @param color.dark color of the dark parts of the scale bar, typically (and by default) black.
@@ -169,7 +169,7 @@ tm_logo <- function(file,
 #' @export
 #' @example ../examples/tm_scale_bar.R
 tm_scale_bar <- function(breaks=NULL,
-						 width=.25, 
+						 width=NA, 
 						 size=.5,
 						 text.color=NA,
 						 color.dark="black", 

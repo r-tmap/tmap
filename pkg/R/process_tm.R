@@ -1,4 +1,4 @@
-process_tm <- function(x, asp_ratio, shp_info, interactive) {
+process_tm <- function(x, gm, interactive) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL
 	## fill meta info
 	
@@ -215,7 +215,7 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1))) || (length(legids))
 
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, asp_ratio, shp_info, any.legend, interactive)
+	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, gm, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {
@@ -288,38 +288,38 @@ process_tm <- function(x, asp_ratio, shp_info, interactive) {
 			})
 		})
 
-		# process credits text per facet
-		gmeta$credits.show <- sapply(gmeta$credits.show, "[[", i)
-		if (!is.null(gmeta$credits.text)) gmeta$credits.text <- get_text_i(gmeta$credits.text, i)
-		#if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
-		gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
-				"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
-				"credits.position", "credits.just", "credits.id")] <- lapply(
-					gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
-							"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
-							"credits.position", "credits.just", "credits.id")],
-					function(gm) {
-						gm[gmeta$credits.show]	
-					})
-		gmeta$credits.show <- any(gmeta$credits.show)
-		
-		# process logos per facet
-		gmeta$logo.show <- sapply(gmeta$logo.show, "[[", i)
-		if (!is.null(gmeta$logo.file)) {
-			gmeta$logo.file <- lapply(gmeta$logo.file, function(lf)lf[[i]])
-			gmeta$logo.height <- lapply(gmeta$logo.height, function(lh)lh[[i]])
-			gmeta$logo.width <- lapply(gmeta$logo.width, function(lw)lw[[i]])
-		}
-		#if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
-		gmeta[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")] <- lapply(
-					gmeta[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")],
-					function(gm) {
-						gm[gmeta$logo.show]	
-					})
-		gmeta$logo.show <- any(gmeta$logo.show)
-		
-		x$tm_layout <- gmeta
-		x$tm_layout$title <- x$tm_layout$title[i]
+		# # process credits text per facet
+		# gmeta$credits.show <- sapply(gmeta$credits.show, "[[", i)
+		# if (!is.null(gmeta$credits.text)) gmeta$credits.text <- get_text_i(gmeta$credits.text, i)
+		# #if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
+		# gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
+		# 		"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
+		# 		"credits.position", "credits.just", "credits.id")] <- lapply(
+		# 			gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
+		# 					"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
+		# 					"credits.position", "credits.just", "credits.id")],
+		# 			function(gm) {
+		# 				gm[gmeta$credits.show]	
+		# 			})
+		# gmeta$credits.show <- any(gmeta$credits.show)
+		# 
+		# # process logos per facet
+		# gmeta$logo.show <- sapply(gmeta$logo.show, "[[", i)
+		# if (!is.null(gmeta$logo.file)) {
+		# 	gmeta$logo.file <- lapply(gmeta$logo.file, function(lf)lf[[i]])
+		# 	gmeta$logo.height <- lapply(gmeta$logo.height, function(lh)lh[[i]])
+		# 	gmeta$logo.width <- lapply(gmeta$logo.width, function(lw)lw[[i]])
+		# }
+		# #if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
+		# gmeta[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")] <- lapply(
+		# 			gmeta[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")],
+		# 			function(gm) {
+		# 				gm[gmeta$logo.show]	
+		# 			})
+		# gmeta$logo.show <- any(gmeta$logo.show)
+		# 
+		# x$tm_layout <- gmeta
+		# x$tm_layout$title <- x$tm_layout$title[i]
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 

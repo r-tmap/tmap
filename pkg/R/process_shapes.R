@@ -1,30 +1,24 @@
-process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, raster.leaflet, master_CRS, interactive, orig_CRS) {
+process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	pasp <- gm$asp
-	if (identical(pasp, 0)) pasp <- dasp
+	if (identical(pasp, 0)) pasp <- gm$shape.lasp
 	
 	nx <- length(shps)
 	shp_names <- sapply(g, function(i)i[[1]])
 	names(shps) <- shp_names
 	
 	# get master shape and info
-	shp <- shps[[masterID]]
-	shp_name <- shp_names[masterID]
-	xlim <- g[[masterID]]$xlim
-	ylim <- g[[masterID]]$ylim
-	ext <- g[[masterID]]$ext
-	relative <- g[[masterID]]$relative
-	args <- g[[masterID]][intersect(names(g[[masterID]]), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
-	args$x <- g[[masterID]]$bbox
+	shp <- shps[[gm$shape.masterID]]
+	args <- gm$shape.bb_args
 	
 	# in case x is search query
 	if (!is.null(args$x)) {
 		if (is.character(args$x)) {
-			args$projection <- master_CRS
+			args$projection <- gm$shape.master_CRS
 			args$current.projection <- .CRS_longlat
 		} else if (interactive) {
-			args$projection <- master_CRS
-			args$current.projection <- orig_CRS
+			args$projection <- gm$shape.master_CRS
+			args$current.projection <- gm$shape.orig_CRS
 		} else {
 			args$projection <- NULL
 			args$current.projection <- NULL
@@ -32,7 +26,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 	}
 
 	# define bounding box
-	longlat <- !is_projected(shp)
+	longlat <- !tmaptools::is_projected(shp)
 	
 	group_by <- any(gm$shp_nr != 0)
 	
@@ -42,7 +36,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 	
 	inside_bbox <- group_by && gm$inside.original.bbox
 	if (diff_shapes) {
-		if (is.na(pasp)) pasp <- dasp
+		if (is.na(pasp)) pasp <- gm$shape.lasp
 		
 		#shp_by_names <- gm$shp_name[gm$shp_nr != 0]
 		data_by <- data_by[gm$shp_nr != 0]
@@ -93,7 +87,7 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 		}), shps_by_splt, list(SIMPLIFY=FALSE)))
 		bbx <- bboxes[[1]]
 
-		sasp <- calc_asp_ratio(bbx[1,], bbx[2,], longlat)
+		sasp <- get_asp_ratio(bbx, is.projected = !longlat)
 		inner.margins <- gm$inner.margins
 		
 	} else {
@@ -201,12 +195,15 @@ process_shapes <- function(shps, g, gm, data_by, dasp, masterID, allow.crop, ras
 		legend_pos <- 2
 	}
 	
-	attr(shps2, "sasp") <- ifelse(is.na(pasp), sasp, pasp)
-	attr(shps2, "dasp") <- dasp
-	attr(shps2, "bbx") <- bbx
-	attr(shps2, "legend_pos") <- legend_pos
-	attr(shps2, "diff_shapes") <- diff_shapes
-	attr(shps2, "inner.margins") <- inner.margins
+	units <- tmaptools::get_shape_units(projection=gm$shape.master_CRS, latitude=mean(bbx[c(2,4)]), target.unit = gm$shape.units_args$unit)
+	
+	attr(shps2, "info") <-
+		list(shape.sasp = ifelse(is.na(pasp), sasp, pasp),
+			 shape.bbx = bbx,
+			 shape.legend_pos = legend_pos,
+			 shape.diff_shapes = diff_shapes,
+			 shape.inner.margins = inner.margins,
+			 shape.units=units)
 	shps2
 }
 
@@ -227,7 +224,7 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	xlim <- bbx[1,]
 	ylim <- bbx[2,]
 	
-	sasp <- calc_asp_ratio(xlim, ylim, longlat)
+	sasp <- get_asp_ratio(bbx, is.projected = !longlat)
 	
 	if (interactive) return(list(bbox=bbox, sasp=sasp, inner.margins= rep(0,4)))
 	
