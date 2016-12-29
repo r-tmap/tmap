@@ -64,7 +64,7 @@
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 #' @export
-#' @example ../examples/tm_text.R
+#' @example ./examples/tm_text.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_text <-  function(text, size=1, col=NA, root=3, 
@@ -181,7 +181,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.
 #' @export
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
-#' @example ../examples/tm_lines.R
+#' @example ./examples/tm_lines.R
 #' @return \code{\link{tmap-element}}
 tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 scale=1,
@@ -272,7 +272,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param ... for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link[tmaptools:map_coloring]{map_coloring}}.
 #' @keywords choropleth
 #' @export
-#' @example ../examples/tm_fill.R
+#' @example ./examples/tm_fill.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
 tm_fill <- function(col=NA, 
@@ -382,7 +382,7 @@ tm_polygons <- function(col=NA,
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @export
-#' @example ../examples/tm_raster.R
+#' @example ./examples/tm_raster.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}	
 tm_raster <- function(col=NA,
@@ -514,7 +514,7 @@ tm_raster <- function(col=NA,
 #' @param legend.z shortcut for \code{legend.col.z shortcut} for \code{tm_dots}
 #' @keywords symbol map
 #' @export
-#' @example ../examples/tm_symbols.R
+#' @example ./examples/tm_symbols.R
 #' @references Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8 (2), 96-109.
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}

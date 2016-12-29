@@ -17,7 +17,7 @@
 #' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}
 #' @importFrom htmlwidgets saveWidget
 #' @import tmaptools
-#' @example ../examples/save_tmap.R
+#' @example ./examples/save_tmap.R
 #' @export
 save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 					  dpi=300, outer.margins=0, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose=TRUE, ...) {

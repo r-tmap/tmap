@@ -27,7 +27,7 @@
 #' @param scale.factor Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the \code{scale.factor}th root of the scaling factor of the shapes. So, for \code{scale.factor=1}, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, \code{scale.factor=2}.
 #' @param drop.shapes deprecated: renamed to \code{drop.units}
 #' @export
-#' @example ../examples/tm_facets.R
+#' @example ./examples/tm_facets.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
 tm_facets <- function(by=NULL, ncol=NULL, nrow=NULL, 
@@ -111,7 +111,7 @@ tm_grid <- function(x=NA,
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @export
 #' @seealso \code{\link{tm_xlab}}
-#' @example ../examples/tm_credits.R
+#' @example ./examples/tm_credits.R
 tm_credits <- function(text,
 					   size=.7,
 					   col=NA,
@@ -139,7 +139,7 @@ tm_credits <- function(text,
 #' @param margin margin around the logo in number of text line heights.
 #' @param position position of the logo. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
-#' @example ../examples/tm_logo.R
+#' @example ./examples/tm_logo.R
 #' @export
 tm_logo <- function(file,
 					height=3,
@@ -169,7 +169,7 @@ tm_logo <- function(file,
 #' @param position position of the scale bar Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @export
-#' @example ../examples/tm_scale_bar.R
+#' @example ./examples/tm_scale_bar.R
 tm_scale_bar <- function(breaks=NULL,
 						 width=NA, 
 						 size=.5,
@@ -203,7 +203,7 @@ tm_scale_bar <- function(breaks=NULL,
 #' @param position position of the compass. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @export
-#' @example ../examples/tm_compass.R
+#' @example ./examples/tm_compass.R
 tm_compass <- function(north=0, 
 					   type=NA, 
 					   fontsize=.8, 
@@ -233,7 +233,7 @@ tm_compass <- function(north=0,
 #' @export
 #' @name tm_xlab
 #' @rdname axis_labels
-#' @example  ../examples/tm_lab.R
+#' @example  ./examples/tm_lab.R
 tm_xlab <- function(text,
 					size=.8,
 					rotation=0) {

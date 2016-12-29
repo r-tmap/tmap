@@ -55,7 +55,7 @@ knit_print.tmap <- function(x, ..., options=NULL) {
 #' @param show should the leaflet map be shown? \code{FALSE} by default
 #' @param ... arguments passed on to \code{\link{print.tmap}}
 #' @return \code{\link[leaflet:leaflet]{leaflet}} object
-#' @example ../examples/tmap_leaflet.R
+#' @example ./examples/tmap_leaflet.R
 #' @seealso \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
 #' @export
 tmap_leaflet <- function(x, mode="view", show = FALSE, ...) {

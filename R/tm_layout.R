@@ -110,7 +110,7 @@
 #' @param bg.overlay.alpha Not used anymore. See \code{\link{tm_view}}.
 #' @param ... other arguments from \code{tm_layout}
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
-#' @example ../examples/tm_layout.R
+#' @example ./examples/tm_layout.R
 #' @export
 tm_layout <- function(title=NA,
 					  scale=1,

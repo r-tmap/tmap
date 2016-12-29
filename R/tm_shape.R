@@ -28,7 +28,7 @@
 #' @param ... Arguments passed on to \code{\link[tmaptools:bb]{bb}}. For instance, with the expension factor \code{ext}, the bounding box can be enlarged or shrinked.
 #' @export
 #' @seealso \code{\link[tmaptools:read_shape]{read_shape}} to read ESRI shape files, \code{\link[tmaptools:set_projection]{set_projection}}, \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} 
-#' @example ../examples/tm_shape.R
+#' @example ./examples/tm_shape.R
 #' @return \code{\link{tmap-element}}
 tm_shape <- function(shp, 
 					 is.master = NA,

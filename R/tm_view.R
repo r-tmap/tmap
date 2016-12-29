@@ -16,7 +16,7 @@
 #' @param popup.all.data not used anymore. As of version 1.6, the popups are specified by the argument \code{popup.vars} in the layer functions \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}.
 #' @param bg.overlay not used anymore as of version 1.7. Instead of an overlay, a background color is set, which is determined by \code{bg.color} of \code{\link{tm_layout}}, which is style dependent.
 #' @param bg.overlay.alpha not used anymore as of version 1.7. Instead of an overlay, a background color is set. The trade-off between background and basemaps can now be set by \code{basemaps.alpha}
-#' @example ../examples/tm_view.R
+#' @example ./examples/tm_view.R
 #' @seealso \code{\link{tmap_mode}} and \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
 #' @export
 tm_view <- function(alpha=NA,

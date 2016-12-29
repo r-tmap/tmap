@@ -19,10 +19,10 @@
 
 
 # produced vignettes
-pkg/vignettes/tmap-nutshell_files/
-pkg/vignettes/*.html
-pkg/vignettes/*.pdf
-pkg/vignettes/*.md
+vignettes/tmap-nutshell_files/
+vignettes/*.html
+vignettes/*.pdf
+vignettes/*.md
 
 # OAuth2 token, see https://github.com/hadley/httr/releases/tag/v0.3
 .httr-oauth

@@ -9,7 +9,7 @@
 #' @param delay delay time between images (in 1/100th of a second)
 #' @note Not only tmap plots are supported, but any series of R plots.
 #' @keywords animation
-#' @example ../examples/animation_tmap.R
+#' @example ./examples/animation_tmap.R
 #' @import tmaptools
 #' @export
 animation_tmap <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40) {

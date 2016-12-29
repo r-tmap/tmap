@@ -15,7 +15,7 @@
 #'    	\item The layout options set with \code{\link{tm_layout}}) regarding map format are not used. However, the styling options still apply.}
 #'    	}}
 #' @return the mode before changing
-#' @example ../examples/tmap_mode.R
+#' @example ./examples/tmap_mode.R
 #' @seealso \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}, \code{\link{last_map}} to show the last map, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget
 #' @export
 tmap_mode <- function(mode=c("plot", "view")) {
@@ -49,7 +49,7 @@ ttm <- function() {
 #' @param style name of the style. The function \code{tm_style_<style>} should exist and be a wrapper of \code{\link{tm_layout}}. The default style when loading the package is \code{"white"}, which corresponds to the function \code{\link{tm_style_white}}.
 #' @return the style before changing
 #' @seealso \code{\link{tm_layout}} for predefined styles, and \code{\link{style_catalogue}} to create a style catelogue of all available styles.
-#' @example ../examples/tmap_style.R
+#' @example ./examples/tmap_style.R
 #' @export
 tmap_style <- function(style) {
 	current.style <- getOption("tmap.style")

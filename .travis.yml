@@ -26,7 +26,6 @@ before_install:
   - sudo ldconfig
   - geos-config --version
   - cd $TRAVIS_BUILD_DIR
-  - cd pkg
 
 sudo: required
 
@@ -43,4 +42,4 @@ r_github_packages:
   - jimhester/covr
 
 after_success:
-  - R -e 'covr::codecov(path="pkg")'
+  - R -e 'covr::codecov()'

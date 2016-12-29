@@ -12,12 +12,6 @@ install:
 
 # Adapt as necessary starting from here
 
-before_build:
-  - cp ../travis-tool.sh travis-tool.sh
-  - cp travis-tool.sh.cmd pkg/travis-tool.sh.cmd
-  - cd pkg
-  - bash -c "echo '^travis-tool/.sh/.cmd$' >> .Rbuildignore"
-
 build_script:
   - travis-tool.sh install_deps
   - travis-tool.sh install_github mtennekes/tmaptools
