@@ -36,6 +36,17 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 			grid.newpage()
 		}
 		
+		## in order to keep aspect ratio while resizing
+		if (dasp > 1) {
+			cw <- dasp
+			ch <- 1
+		} else {
+			ch <- 1/dasp
+			cw <- 1
+		}
+		vpContainer <- viewport(width = unit(cw, "snpc"), height = unit(ch, "snpc"))
+		pushViewport(vpContainer)
+
 		## background rect
 		grobBG <- if (gmeta$design.mode) {
 			rectGrob(gp=gpar(fill="yellow", col=NA), name="bg_rect")
@@ -68,6 +79,7 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		iend <- min(istart + pp-1, nx)
 		ni <- iend-istart+1
 		treeMults <- mapply(function(i, rw, cl) {
+			#cellplot(rw, cl, e=grid.rect(gp=gpar(fill="blue")))
 			cellplot(rw, cl, e=do.call(fun, args=list(i, gps[[i]], gal, shps, dasp, sasp, inner.margins.new, legend_pos, nx>1)), name = paste("multiple", i, sep="_"))
 		}, istart:iend, 
 		rep(gmeta$rowrange, each=mfcol, length.out=ni), 
@@ -158,6 +170,6 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG), treeGridLabels, treeMults, rowPanels, colPanels, legPanel, attrPanel, xlabPanel, ylabPanel)), vp=vpGrid)
 		grid.draw(tree)
 	})
-	upViewport()
+	upViewport(2)
 	invisible()
 }
