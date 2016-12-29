@@ -25,7 +25,7 @@ theme_ps <- function(base_size = 12, base_family = "", plot.axes=FALSE, plot.leg
 				  plot.background = ggplot2::element_blank(), 
 				  plot.title = ggplot2::element_blank(),
 				  strip.text = ggplot2::element_blank(),
-				  panel.margin = unit(0,"null"),
+				  panel.spacing = unit(0,"null"),
 				  plot.margin = rep(unit(0,"null"),4)))
 		
 		if (!plot.legend) {

@@ -9,3 +9,5 @@ README
 .Rprofile
 .travis.yml
 appveyor.yml
+gdal-2.1.0
+gdal-2.1.0.tar.gz
