@@ -4,7 +4,7 @@
 \alias{tm_facets}
 \title{Small multiples}
 \usage{
-tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
+tm_facets(by = NULL, ncol = NA, nrow = NA, free.coords = FALSE,
   drop.units = free.coords, drop.empty.facets = TRUE, sync = !free.coords,
   showNA = NA, textNA = "Missing", free.scales = is.null(by),
   free.scales.fill = free.scales, free.scales.symbol.size = free.scales,
@@ -28,7 +28,7 @@ tm_facets(by = NULL, ncol = NULL, nrow = NULL, free.coords = FALSE,
 
 \item{drop.empty.facets}{logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and colums are dropped.}
 
-\item{sync}{logical. Should the navigation in view mode (zooming and panning) be synchronized. By default \code{TRUE}, unless \code{free.coords} is set to \code{TRUE}.}
+\item{sync}{logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE}, unless \code{free.coords} is set to \code{TRUE}.}
 
 \item{showNA}{If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{table}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
 

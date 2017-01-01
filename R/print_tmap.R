@@ -29,7 +29,7 @@
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
 #' @import leaflet
-#' @importFrom htmlwidgets appendContent
+#' @importFrom htmlwidgets appendContent onRender
 #' @importFrom htmltools tags HTML htmlEscape
 #' @importFrom mapview latticeView
 #' @importFrom utils packageVersion
@@ -143,7 +143,8 @@ gather_shape_info <- function(x, interactive) {
 	})
 	
 	## get arguments related to units (approx_areas)
-	units_args <- x[[shape.id[masterID]]][c("unit", "coords.unit", "unit.size", "total.area")]
+	units_args <- x[[shape.id[masterID]]][c("unit", "orig", "to", "total.area")]
+	names(units_args)[names(units_args)=="unit"] <- "target"
 	units_args <- units_args[!sapply(units_args, is.null)]
 	
 	## get arguments related to bb
@@ -168,9 +169,12 @@ gather_shape_info <- function(x, interactive) {
 }
 
 prepare_vp <- function(vp, gm, interactive, x) {
+	
 	if (interactive) {
-		list(shape.dasp = 1,
-			 shape.asp_ratio = 1)
+		devsize <- par("din")
+		dasp <- devsize[1] / devsize[2]
+		iasp <- gm$shape.masp
+		asp_ratio <- iasp / dasp
 	} else {
 		if (is.null(vp)) {
 			grid.newpage()
@@ -190,11 +194,11 @@ prepare_vp <- function(vp, gm, interactive, x) {
 		if (xmarg >= .8) stop("Inner margins too large", call. = FALSE)
 		if (ymarg >= .8) stop("Inner margins too large", call. = FALSE)
 		iasp <- gm$shape.masp * (1+(xmarg/(1-xmarg))) / (1+(ymarg/(1-ymarg)))
-		dasp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE)
+		dasp <- convertWidth(unit(1,"npc"), "inch", valueOnly=TRUE)/convertHeight(unit(1,"npc"), "inch", valueOnly=TRUE) # it may be different than dev.size, since vp can be defined
 		asp_ratio <- iasp / dasp
-		list(shape.dasp = dasp,
-			 shape.asp_ratio = asp_ratio)
 	}
+	list(shape.dasp = dasp,
+		 shape.asp_ratio = asp_ratio)
 }
 
 determine_asp_ratios <- function(gm, interactive) {
@@ -326,19 +330,20 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		multi_shapes <- (is.list(shps[[1]]))
 		showWarns <- c(TRUE, rep(FALSE, length(gps)-1))
 		if (multi_shapes) {
-			lfs <- mapply(view_tmap, gps2, shps, showWarns=showWarns, SIMPLIFY = FALSE)
+			lfs <- mapply(view_tmap, gps2, shps, leaflet_id=1:nx, showWarns=showWarns, SIMPLIFY = FALSE)
 		} else {
-			lfs <- mapply(view_tmap, gps2, showWarns=showWarns, MoreArgs = list(shps=shps), SIMPLIFY = FALSE)
+			lfs <- mapply(view_tmap, gps2, leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(shps=shps), SIMPLIFY = FALSE)
 		}
-		lfs <<- lfs
-		lf <- if (nx==1) lfs[[1]] else do.call(mapview::latticeView, c(lfs, lVargs))
+		lf <- if (nx==1) lfs[[1]] else lfmv <- do.call(mapview::latticeView, c(lfs, lVargs))
 		
+		lf2 <- add_leaflet_titles(lf)
+
 		if (show) {
 			save_last_map()
 			if (knit) {
-				return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
+				return(do.call("knit_print", c(list(x=lf2), args, list(options=options))))
 			} else {
-				return(print(lf))
+				return(print(lf2))
 			}
 		} else lf
 	} else {
@@ -360,3 +365,38 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 	}
 }
+
+
+
+
+add_leaflet_titles <- function(lf) {
+	if (inherits(lf, "shiny.tag.list")) {
+		ncld <- length(lf[[1]])
+		lf[[1]] <- mapply(function(l, i) {
+			l$children[[1]] <- l$children[[1]] %>% htmlwidgets::onRender(paste("
+					function(el, x) {
+						var tldiv = document.getElementsByClassName(\"leaflet-top leaflet-left\")[",i,"];
+						var titlediv = document.createElement('div');
+						titlediv.className = \"info legend leaflet-control\";
+						titlediv.innerHTML = \"<b>", l$children[[1]]$title, "</b>\";
+						tldiv.insertBefore(titlediv, tldiv.childNodes[0]);
+					}", sep="")
+			)
+			l
+		}, lf[[1]], 0:(ncld-1), SIMPLIFY = FALSE)
+	} else {
+		lf <- lf %>% htmlwidgets::onRender(paste("
+					function(el, x) {
+						var tldiv = document.getElementsByClassName(\"leaflet-top leaflet-left\")[0];
+						var titlediv = document.createElement('div');
+						titlediv.className = \"info legend leaflet-control\";
+						titlediv.innerHTML = \"<b>", lf$title, "</b>\";
+						tldiv.insertBefore(titlediv, tldiv.childNodes[0]);
+					}", sep="")
+		)
+		
+	}
+	lf
+}
+
+

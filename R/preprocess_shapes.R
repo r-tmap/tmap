@@ -1,6 +1,7 @@
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
-	shp.aa <- y[c("unit", "coords.unit", "unit.size", "total.area")]
+	shp.aa <- y[c("unit", "orig", "to", "total.area")]
+	names(shp.aa)[names(shp.aa)=="unit"] <- "target"
 	shp.aa <- shp.aa[!sapply(shp.aa, is.null)]
 	
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
@@ -203,7 +204,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 		
 		if (inherits(shp2, "SpatialPolygonsDataFrame")) {
-			data$SHAPE_AREAS <- do.call(tmaptools::approx_areas, c(list(shp=shp2), shp.aa))
+			data$SHAPE_AREAS <- do.call(tmaptools::approx_areas, c(list(shp=shp2, show.warnings=FALSE), shp.aa))
 			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
 			attr(data, "kernel_density") <- ("kernel_density" %in% names(attributes(shp)))
 			type <- "polygons"

@@ -8,5 +8,10 @@ Europe2 <- spTransform(Europe, CRS("+proj=omerc +lat_0=42 +gamma=0 +lonc=10 +alp
 
 plot(Europe2) # works
 
-tm_shape(Europe2, unit="m", unit.size=1) +
+
+tm_shape(Europe, projection="+proj=omerc +lat_0=42 +gamma=0 +lonc=10 +alpha=-90 +k_0=1 +x_0=0 +y_0=0", unit="m", unit.size=1) +
+	tm_polygons() 
+
+
+tm_shape(Europe, projection="+proj=omerc +lat_0=42 +gamma=0 +lonc=10 +alpha=-90 +k_0=1 +x_0=0 +y_0=0") +
 	tm_polygons() 

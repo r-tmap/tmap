@@ -499,7 +499,13 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	dark <- do.call("process_color", c(list(gt$scale.color.dark, alpha=1), gt$pc))
 
 	unit <- gt$shape.units$target
-	unit.size <- 1/gt$shape.units$to_target
+	unit.size <- 1/gt$shape.units$to
+	
+	if (is.na(unit.size)) {
+		warning("Unable to determine shape coordinate units. Please check if the \"+units\" part of the projection is present. Otherwise, specify coords.unit or unit.size")
+	} else if (!gt$shape.units$projected && ((gt$shape.bbx[4]-gt$shape.bbx[2]) > 30)) {
+		warning("Scale bar set for latitude ", gsub("long@lat(.+)$", "\\1", gt$shape.units$unit), " and will be different at the top and bottom of the map.")
+	}
 	
 	xrange2 <- xrange/unit.size
 	

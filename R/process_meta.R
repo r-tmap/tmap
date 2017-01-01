@@ -8,36 +8,13 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 	
 	gf <- within(gf, {
 		by <- NULL
-		if (is.null(ncol) && is.null(nrow)) {
-			#           asp ~ nrow      
-			#       |-------------- 
-			#   1   |
-			# ~ncol |       nx
-			#       | 
-			ncol_init <- sqrt(nx/gm$shape.asp_ratio)
-			nrow_init <- nx / ncol_init
-			
-			# rounding:
-			nrow_ceiling <- min(ceiling(nrow_init), nx)
-			ncol_ceiling <- min(ceiling(ncol_init), nx)
-			
-			# find minimal change
-			nrow_xtra <- abs(nrow_ceiling - nrow_init) * ncol_init
-			ncol_xtra <- abs(ncol_ceiling - ncol_init) * nrow_init
-			
-			# calculaet the other, and subtract 1 when possible
-			if (nrow_xtra < ncol_xtra) {
-				nrow <- nrow_ceiling
-				ncol <- ceiling(nx / nrow)
-				if ((nrow-1) * ncol >= nx) nrow <- nrow - 1
-			} else {
-				ncol <- ncol_ceiling
-				nrow <- ceiling(nx / ncol)
-				if ((ncol-1) * nrow >= nx) ncol <- ncol - 1
-			}
+		if (is.na(ncol) && is.na(nrow)) {
+			nrowcol <- get_arrangement(nx = nx, asp_ratio = gm$shape.asp_ratio)
+			nrow <- nrowcol[1]
+			ncol <- nrowcol[2]
 		} else {
-			if (is.null(ncol)) ncol <- ceiling(nx / nrow)
-			if (is.null(nrow)) nrow <- ceiling(nx / ncol)
+			if (is.na(ncol)) ncol <- ceiling(nx / nrow)
+			if (is.na(nrow)) nrow <- ceiling(nx / ncol)
 		}
 	})
 	
@@ -194,6 +171,18 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 			inner.margins <- rep(0, 4)
 			outer.margins <- rep(0, 4)
 			asp <- NA
+			if (title[1]=="" && !is.ena(panel.names[1]) && panel.names[1]!="") {
+				if (is.list(panel.names)) {
+					title <- unlist(lapply(panel.names[[1]], function(n1) {
+						lapply(panel.names[[2]], function(n2) {
+							paste(n1, n2, sep = " / ")
+						})
+					}))
+				} else {
+					title <- panel.names
+				}
+				
+			}
 		}
 		
 	})	

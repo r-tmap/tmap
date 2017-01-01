@@ -194,8 +194,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	} else {
 		legend_pos <- 2
 	}
-	
-	units <- tmaptools::get_shape_units(projection=gm$shape.master_CRS, latitude=mean(bbx[c(2,4)]), target.unit = gm$shape.units_args$unit)
+
+	units <- do.call(tmaptools::projection_units, c(list(x=gm$shape.master_CRS, latitude=mean(bbx[c(2,4)])), gm$shape.units_args))
+
+	#units <- tmaptools::get_shape_units(projection=gm$shape.master_CRS, latitude=mean(bbx[c(2,4)]), target.unit = gm$shape.units_args$unit)
 	
 	attr(shps2, "info") <-
 		list(shape.sasp = ifelse(is.na(pasp), sasp, pasp),

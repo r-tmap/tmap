@@ -1,4 +1,4 @@
-view_tmap <- function(gp, shps=NULL, showWarns=TRUE) {
+view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	
 	# determine view
 
@@ -315,9 +315,21 @@ view_tmap <- function(gp, shps=NULL, showWarns=TRUE) {
 	# 		message("Scale bar support in view mode need leaflet >= 1.02; installed version: ", leaflet_version)
 	# 	}
 	# }
+	# print(leaflet_id)
+	# if (gt$title!="") {
+	# 	lf <- lf %>% onRender(paste("
+	# 		function(el, x) {
+	# 			var tldiv = document.getElementsByClassName(\"leaflet-top leaflet-left\")[", leaflet_id-1, "];
+	# 			var titlediv = document.createElement('div');
+	# 			titlediv.className = \"info legend leaflet-control\";
+	# 			titlediv.innerHTML = \"<b>", gt$title, "</b>\";
+	# 			tldiv.insertBefore(titlediv, tldiv.childNodes[0]);
+	# 		}", sep=""))
+	# }
 	
-	set_bounds_view(lf, gt, bbx)
-	
+	lf <- set_bounds_view(lf, gt, bbx)
+	lf$title <- gt$title
+	lf
 }
 
 set_bounds_view <- function(lf, gt, bbx) {
@@ -460,7 +472,7 @@ add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 	
 	title <- if (nonempty_text(gpl[[title_name]])) expr_to_char(gpl[[title_name]]) else NULL
 
-	legend.position <- gt$view.legend.position
+	legend.position <-gt$view.legend.position
 
 	if (is.cont) {
 		if (style=="quantile") {
@@ -496,7 +508,7 @@ units_per_line <- function(bbx) {
 	max_lines <- par("din")[2]*10
 	
 	# calculate top-center to bottom-center
-	vdist <- tmaptools::approx_distances(bbx, projection = "longlat")$vdist
+	vdist <- tmaptools::approx_distances(bbx, projection = "longlat", target = "m")$vdist
 	vdist/max_lines
 }
 
