@@ -29,8 +29,7 @@ addons:
   apt:
     packages:
       - libv8-dev
-- valgrind
-
+      - valgrind
 
 before_install:
   - wget http://download.osgeo.org/gdal/2.1.0/gdal-2.1.0.tar.gz
