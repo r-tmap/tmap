@@ -15,7 +15,7 @@
 #'  \item{\code{\link[sp:SpatialPixelsDataFrame]{SpatialPixels(DataFrame)}}}
 #'  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 #' }
-#' In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly. Arguments of \code{\link{tm_view}}, such as \code{set.view} can be passed on directly.
+#' In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly. Arguments of \code{\link{tm_view}}, such as \code{set.view} can be passed on directly.tm_
 #' @param fill either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} is type 1 (see above).  Set \code{fill=NULL} to draw only polygon borders. See also argument \code{borders}.
 #' @param symbols.size either the size of the symbols or a name of the data variable in \code{shp} that specifies the sizes of the symbols.  See also the \code{size} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
 #' @param symbols.col either the color of the symbols or a name of the data variable in \code{shp} that specifies the colors of the symbols. See also the \code{col} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} is type 1, 2, or 3 (see above).
@@ -213,7 +213,16 @@ qtm <- function(shp,
 	
 	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, size=text.size, col=text.col), args2[["tm_text"]]))
 
-	if (!is.null(raster)) g <- g + do.call("tm_raster", c(list(col=raster), args2[["tm_raster"]]))
+	is.OSM <- attr(shp, "is.OSM")
+	is_raster <- !is.null(is.OSM) && is.OSM
+	is.RGB <- ifelse(is_raster, TRUE, NA)
+	
+	if (!("interpolate" %in% names(args2[["tm_raster"]]))) args2$tm_raster <- c(args2$tm_raster, list(interpolate=is.RGB)) 
+	if (!is.null(raster)) {
+		g <- g + do.call("tm_raster", c(list(col=raster), args2[["tm_raster"]]))
+		g$tm_raster$is.RGB <- is.RGB
+	}
+
 	
 	if (length(args2[["tm_facets"]]) || !missing(by)) {
 		g <- g + do.call("tm_facets", c(list(by=by), args2[["tm_facets"]]))	

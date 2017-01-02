@@ -45,9 +45,7 @@ raster_colors <- function(x) {
 	}
 
 	y <- SGDF2PCT(x, adjust.bands = FALSE)
-	if (!is.null(a)) {
-		y$idx[a!=255] <- NA
-	}
+	if (!is.null(a)) y$idx[a!=255] <- NA
 	data <- data.frame(PIXEL__COLOR = as.integer(y$idx))
 	levels(data$PIXEL__COLOR) <- as.vector(na.omit(y$ct))
 	class(data$PIXEL__COLOR) <- "factor"

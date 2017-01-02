@@ -138,8 +138,15 @@ gather_shape_info <- function(x, interactive) {
 		fid <- which(names(x)[from:to]=="tm_facets")
 		rid <- which(names(x)[from:to]=="tm_raster")
 		
-		c(if (length(fid)) x[[from-1+fid[1]]]$by else NULL,
-		  if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
+		if (length(rid)) {
+			is.RGB <- x[[from-1+rid[1]]]$is.RGB 
+		} else is.RGB <- FALSE
+
+		res <- c(if (length(fid)) x[[from-1+fid[1]]]$by else NULL,
+				 if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
+		if (is.null(res)) res <- NA
+		attr(res, "is.RGB") <- is.RGB
+		res
 	})
 	
 	## get arguments related to units (approx_areas)

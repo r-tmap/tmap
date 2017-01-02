@@ -165,6 +165,18 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			
 			symbol.size <- gpl$symbol.size
 			symbol.shape <- gpl$symbol.shape
+			sel <- !is.na(symbol.size) & !is.na(fcol) & !is.na(symbol.shape)
+			
+			# return NULL is no symbols are selected (see tm_facets example)
+			if (!any(sel)) return(FALSE)
+			
+			if (!all(sel)) {
+				co <- co[sel, , drop=FALSE]
+				fcol <- fcol[sel]
+				fopacity <- fopacity[sel]
+				symbol.size <- symbol.size[sel]
+				symbol.shape <- symbol.shape[sel]
+			}
 			
 			if (gpl$symbol.misc$symbol.are.markers) {
 				if (is.na(gpl$symbol.names)) {
@@ -173,7 +185,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				}
 			}
 			
-			popups <- get_popups(gpl, type="symbol")
+			popups <- get_popups(gpl, type="symbol")[sel]
 
 			# sort symbols
 			if (length(symbol.size)!=1) {

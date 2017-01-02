@@ -234,7 +234,7 @@ tm_shape(metro) +
 	tm_markers(text="name")
 
 
-if (require(ggplot2) && require(dplyr) && require(tidyr) && require(RColorBrewer)) {
+if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools)) {
 data(NLD_prov)
 
 origin_data <- NLD_prov@data \%>\% 
@@ -242,7 +242,7 @@ mutate(FID= factor(1:n())) \%>\%
 select(FID, origin_native, origin_west, origin_non_west) \%>\% 
 gather(key=origin, value=perc, origin_native, origin_west, origin_non_west, factor_key=TRUE)
 
-origin_cols <- brewer.pal(3, "Dark2")
+origin_cols <- get_brewer_pal("Dark2", 3)
 
 grobs <- lapply(split(origin_data, origin_data$FID), function(x) {
 ggplotGrob(ggplot(x, aes(x="", y=-perc, fill=origin)) +

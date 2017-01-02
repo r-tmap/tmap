@@ -1,6 +1,7 @@
 version 1.8
 - [!] package split: non-plotting functions migrated to tmaptools
 - added tmap_arrange for arranging custom small multiples
+- added simplify argument to tm_shape
 - added error message for NA-projected shapes in view mode
 - improved unit handling, which now can be set to metric or imperial
 - NA values allowed in direct color variables

@@ -5,7 +5,8 @@
 \title{Specify the shape object}
 \usage{
 tm_shape(shp, is.master = NA, projection = NULL, bbox = NULL,
-  unit = "metric", line.center.type = c("segment", "midpoint"), ...)
+  unit = "metric", simplify = 1, line.center.type = c("segment",
+  "midpoint"), ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -31,13 +32,15 @@ If unspecified, the current bounding box of \code{shp} is taken. The bounding bo
 
 \item{unit}{desired units of the map. One of \code{"metric"} (default), \code{"imperial"}, \code{"km"}, \code{"m"}, \code{"mi"} and \code{"ft"}. For other units, please specify \code{orig} and \code{to}, which are passed on to \code{\link[tmaptools:projection_units]{projection_units}}. Used to specify the scale bar (see \code{\link{tm_scale_bar}}) and to calculate densities for choropleths (see argument \code{convert2density} in \code{\link{tm_fill}}).}
 
+\item{simplify}{simplification factor for spatial polygons and spatial lines. A number between 0 and 1 that indicates how many coordinates are kept. See the underlying function \code{\link[tmaptools:simplify_shape]{simplify_shape}}, from which the arguments \code{keep.units} and \code{keep.subunits} can be passed on (see \code{...}).}
+
 \item{line.center.type}{vector of two values specifying how the center of spatial lines is determined Only applicable if \code{shp} is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}, and symbols, dots, and/or text labels are used for this shape. The two values are:
 \describe{
 \item{\code{"feature", "single"}}{If \code{"feature"} is specified, a pair of coordinates (used for symbols, dots, and text labels) is chosen for each feature (i.e., a row in the \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}). If \code{"segment"} is specified, a pair of coordinates is chosed for each line segment.}
 \item{\code{"midpoint"} or \code{"centroid"}}{The midpoint is the middle point on the line, so the coordinates (used for symbols, dots, and text labels) correspond to the midpoints of the line segments. In case the first value is \code{"feature"}, then per feature, the midpoint of the line segment that is closest to the centroid is taken.}
 }}
 
-\item{...}{Arguments passed on to \code{\link[tmaptools:bb]{bb}}. For instance, with the expension factor \code{ext}, the bounding box can be enlarged or shrinked.}
+\item{...}{Arguments passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrinke a bounding box), \code{\link[tmaptools:projection_units]{projection_units}} (the arguments \code{orig} and \code{to}), and \code{\link[tmaptools:simplify_shape]{simplify_shape}} (the arguments \code{keep.units} and \code{keep.subunits})}
 }
 \value{
 \code{\link{tmap-element}}
@@ -71,6 +74,18 @@ tm_shape(World) +
     tm_polygons() + 
 tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-area property.",
     inner.margins=c(0,0,.1,0), title.size=.8)
+
+
+# different levels of simplification
+\dontrun{
+tm1 <- tm_shape(World, simplify = 0.05) + tm_polygons() + tm_layout("Simplification: 0.05")
+tm2 <- tm_shape(World, simplify = 0.1) + tm_polygons() + tm_layout("Simplification: 0.1")
+tm3 <- tm_shape(World, simplify = 0.25) + tm_polygons() + tm_layout("Simplification: 0.25")
+tm4 <- tm_shape(World, simplify = 0.5) + tm_polygons() + tm_layout("Simplification: 0.5")
+
+require(tmaptools)
+tmap_arrange(tm1, tm2, tm3, tm4)
+}
 
 # three groups of layers, each starting with tm_shape
 \dontrun{

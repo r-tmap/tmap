@@ -113,7 +113,7 @@ qtm(osm)
 
 # download from http://www.terracolor.net/sample_imagery.html
 # large raster (4323 x 4323)
-x <- brick("TC_NG_SFBay_US_Geo.tif")
+x <- brick("../shape_files/TerraColor_SanFrancisco_US_15m.tif")
 
 system.time({
 	plotRGB(x)
@@ -123,7 +123,7 @@ system.time({
 	print(qtm(x))
 })
 
-y <- aggregate(x, fact=32)
+y <- aggregate_map(x, fact=32)
 
 system.time({
 	print(qtm(y))
@@ -133,7 +133,7 @@ tmap_mode("view")
 qtm(y)
 
 ## download from http://www.ordnancesurvey.co.uk/docs/sample-data/25k-raster-sample-data.zip .
-rosm <- raster("sx99.tif")
+rosm <- raster("../shape_files/sx99.tif")
 rosm <- set_projection(rosm, current.projection = "rd") # projection unknown
 qtm(rosm)
 
