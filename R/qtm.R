@@ -86,6 +86,8 @@ qtm <- function(shp,
 		#list(tm_shortcut=list(basemaps=basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
 		class(g) <- "tmap"
 		return(g)
+	} else if (inherits(shp, "sf")) {
+		shp <- as(shp, "Spatial")
 	}
 	
 	if (!missing(bubble.size)) {
