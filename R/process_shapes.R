@@ -158,7 +158,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 				}
 				prj <- attr(x, "proj4string")
 				y <- tryCatch({
-					y <- crop(x, bb(bbx, ext=-1.01))
+					y <- crop_shape(x, bb(bbx, ext=-1.01))
 					if (is.null(y)) x else y
 				}, error=function(e) {
 					x	
