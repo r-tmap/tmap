@@ -1,0 +1,15 @@
+---
+title: "tmap-test"
+output: html_document
+---
+
+```{r}
+devtools::load_all()
+data(Europe)
+
+qtm(Europe)
+
+tmap_mode("view")
+last_map()
+```
+
