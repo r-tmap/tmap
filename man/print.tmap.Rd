@@ -9,7 +9,7 @@
   mode = getOption("tmap.mode"), show = TRUE, knit = FALSE,
   options = NULL, ...)
 
-knit_print.tmap(x, ..., options = NULL)
+\method{knit_print}{tmap}(x, ..., options = NULL)
 }
 \arguments{
 \item{x}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}

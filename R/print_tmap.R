@@ -348,7 +348,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		if (show) {
 			save_last_map()
 			if (knit) {
-				return(do.call("knit_print", c(list(x=lf2), args, list(options=options))))
+				kp <- get("knit_print", asNamespace("knitr"))
+				return(do.call(kp, c(list(x=lf2), args, list(options=options))))
 			} else {
 				return(print(lf2))
 			}

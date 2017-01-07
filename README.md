@@ -30,7 +30,7 @@ tmap: thematic maps in R
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.6-1 (2016-10-29).
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.8 (2017-01-03).
 
 The `tmap` packages relies on the R packages `rgdal` and `rgeos`, which depend on the external libraries `gdal`, `proj.4` and `geos`. On Windows, these are embedded in `rgdal` and `rgeos`. On Linux (Ubuntu), these libraries can be installed as follows:
 
@@ -92,6 +92,16 @@ Other resources
 * [Computer World: Create maps in R in 10 (fairly) easy steps][12]
 * [Tutorial Visualising spatial data: from base to shiny - workshop][15]
 * [Stack Overflow questions (#tmap)][16]
+
+
+Getting help
+-----
+
+There are two main places to get help with ggplot2:
+
+1.  [stackoverflow](http://stackoverflow.com/tags/tmap) is a great source of answers to common tmap questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Please tag your questions with *tmap*.
+2.  If you have a request or if think your problem is caused by a bug, please open an [issue](https://github.com/mtennekes/tmap/issues), preferably with are reproducible example.
+
 
 
   [1]: http://cran.r-project.org/web/packages/tmap/index.html
