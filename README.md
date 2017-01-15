@@ -42,6 +42,12 @@ sudo apt-get install libgeos-dev
 
 See source pages for [gdal](http://trac.osgeo.org/gdal), [proj](http://trac.osgeo.org/proj), and [geos](http://trac.osgeo.org/geos). For Mac OS users, see http://www.kyngchaos.com.
 
+Also, `tmap` relies indirectly on the R package `V8`. For Linux (Ubuntu), the `v8` library needs to be installed for this:
+
+```bash
+sudo apt-get install libv8-dev
+```
+
 Development
 ------------
 
