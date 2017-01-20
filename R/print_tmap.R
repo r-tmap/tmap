@@ -70,14 +70,7 @@ print_shortcut <- function(x, interactive, args, knit) {
 		gt$shape.bbx <- x$tm_shortcut$bbx
 		gt$shape.center <- x$tm_shortcut$center
 		
-		lf <-view_tmap(list(tm_layout=gt))
-		
-		if (knit) {
-			return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
-			#return(knit_print(lf, ..., options=options))
-		} else {
-			return(print(lf))
-		}
+		view_tmap(list(tm_layout=gt))
 	}
 }
 
@@ -251,7 +244,15 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	assign(".justLib", list(), envir = .TMAP_CACHE)
 	
 	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
-	if (names(x)[1]=="tm_shortcut") print_shortcut(x, interactive, args, knit)
+	if (names(x)[1]=="tm_shortcut") {
+		lf <- print_shortcut(x, interactive, args, knit)
+		if (knit) {
+			return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
+			#return(knit_print(lf, ..., options=options))
+		} else {
+			return(print(lf))
+		}
+	}
 		
 	## remove non-supported elements if interactive
 	if (interactive) x <- x[supported_elem_view_mode(names(x))]
@@ -332,7 +333,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 					   sync=ifelse(gm$sync, "all", "none"),
 					   sync.cursor=gm$sync,
 					   no.initial.sync = TRUE)
-		
 		
 		multi_shapes <- (is.list(shps[[1]]))
 		showWarns <- c(TRUE, rep(FALSE, length(gps)-1))

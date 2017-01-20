@@ -61,11 +61,10 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	# 	}
 	# }
 	
-
 	if (!length(gp)) {
 		if (length(basemaps)>1) lf <- lf %>% addLayersControl(baseGroups=names(basemaps), options = layersControlOptions(autoZIndex = TRUE))
 
-		if (!is.null(gt$bbx)) {
+		if (!is.null(gt$shape.bbx)) {
 			lf <- lf %>%
 				fitBounds(gt$shape.bbx[1], gt$shape.bbx[2], gt$shape.bbx[3], gt$shape.bbx[4]) %>%
 				addMarkers(gt$shape.center[1], gt$shape.center[2])
