@@ -213,6 +213,12 @@ process_tm <- function(x, gm, interactive) {
 	}))
 	
 
+	providers <- unname(sapply(gp, function(x) {
+		if ("raster.misc" %in% names(x)) {
+			x$raster.misc$leaflet.provider
+		} else NA
+	}))
+	if (any(!is.na(providers))) gt$basemaps <- providers[!is.na(providers)][1]
 	
 	nx <- limit_nx(nx)
 

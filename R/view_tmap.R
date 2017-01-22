@@ -259,8 +259,15 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		}
 		plot_tm_raster <- function() {
 			if (gpl$raster.misc$is.OSM) {
-				warns["raster"] <- TRUE
-				assign("warns", warns, envir = e)
+				if (is.na(gpl$raster.misc$leaflet.provider)) {
+					warns["raster"] <- TRUE
+					assign("warns", warns, envir = e)
+				} else {
+					if (gpl$raster.misc$leaflet.provider==gt$basemaps[1]) {
+						warns["raster"] <- gpl$raster.misc$leaflet.provider
+						assign("warns", warns, envir = e)
+					}
+				}
 				return(FALSE)	
 			}
 			if (is.na(gpl$xraster[1])) {
@@ -295,7 +302,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	if (showWarns) {
 		if (warns["symbol"]) warning("Symbol shapes other than circles are not supported in view mode.", call.=FALSE)
 		if (warns["text"]) warning("Text labels not supported in view mode.", call.=FALSE)
-		if (warns["raster"]) warning("Raster data contains OpenStreetMapData (read with read_osm), and therefore not shown in view mode.", call.=FALSE)
+		if (identical(unname(warns["raster"]), TRUE)) {
+			warning("Raster data contains OpenStreetMapData (read with read_osm) from provider that is not known from http://leaflet-extras.github.io/leaflet-providers/preview/index.html", call.=FALSE)	
+		} else if (!(identical(warns["raster"], FALSE))) {
+			message("Raster data contains OpenStreetMapData (read with read_osm). Therefore, the basemap has been set to \"", warns["raster"], "\"")
+		}
 	}
 	
 	groups <- gt$shp_name[group_selection]
