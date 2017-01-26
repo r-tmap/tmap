@@ -14,7 +14,7 @@ This page provides a brief overview of all package functions. See \href{../doc/t
 \section{Quick plotting method}{
 
 \tabular{ll}{
-\code{\link{qtm}}\tab To plot a thematic map \cr
+\code{\link{qtm}}\tab Plot a thematic map \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }
@@ -23,67 +23,67 @@ This page provides a brief overview of all package functions. See \href{../doc/t
 
 Shape specification:
 \tabular{ll}{
-\code{\link{tm_shape}}\tab To specify a shape object \cr
+\code{\link{tm_shape}}\tab Specify a shape object \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 
 Aesthetics base layers:
 \tabular{ll}{
-\code{\link{tm_polygons}}\tab To create a polygon layer (with borders) \cr
-\code{\link{tm_symbols}}\tab To create a layer of symbols \cr
-\code{\link{tm_lines}}\tab To create a layer of lines \cr
-\code{\link{tm_raster}}\tab To create a raster layer \cr
-\code{\link{tm_text}}\tab To create a layer of text labels \cr
+\code{\link{tm_polygons}}\tab Create a polygon layer (with borders) \cr
+\code{\link{tm_symbols}}\tab Create a layer of symbols \cr
+\code{\link{tm_lines}}\tab Create a layer of lines \cr
+\code{\link{tm_raster}}\tab Create a raster layer \cr
+\code{\link{tm_text}}\tab Create a layer of text labels \cr
 }
 
 Aesthetics derived layers:
 \tabular{ll}{
-\code{\link{tm_fill}}\tab To create a polygon layer (without borders) \cr
-\code{\link{tm_borders}}\tab To create polygon borders \cr
-\code{\link{tm_bubbles}}\tab To create a layer of bubbles \cr
-\code{\link{tm_squares}}\tab To create a layer of squares \cr
-\code{\link{tm_dots}}\tab To create a layer of dots \cr
-\code{\link{tm_markers}}\tab To create a layer of markers \cr
-\code{\link{tm_iso}}\tab To create a iso/contour lines \cr
+\code{\link{tm_fill}}\tab Create a polygon layer (without borders) \cr
+\code{\link{tm_borders}}\tab Create polygon borders \cr
+\code{\link{tm_bubbles}}\tab Create a layer of bubbles \cr
+\code{\link{tm_squares}}\tab Create a layer of squares \cr
+\code{\link{tm_dots}}\tab Create a layer of dots \cr
+\code{\link{tm_markers}}\tab Create a layer of markers \cr
+\code{\link{tm_iso}}\tab Create a iso/contour lines \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 
 Facetting (small multiples)
 \tabular{ll}{
-\code{\link{tm_facets}}\tab To define facets \cr
+\code{\link{tm_facets}}\tab Define facets \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 
 Attributes:
 \tabular{ll}{
-\code{\link{tm_grid}}\tab To create grid lines \cr
-\code{\link{tm_scale_bar}}\tab To create a scale bar \cr
-\code{\link{tm_compass}}\tab To create a map compass \cr
-\code{\link{tm_credits}}\tab To create a text for credits \cr
-\code{\link{tm_logo}}\tab To create a logo \cr
-\code{\link{tm_xlab} and \link{tm_ylab}}\tab To create axis labels \cr
+\code{\link{tm_grid}}\tab Create grid lines \cr
+\code{\link{tm_scale_bar}}\tab Create a scale bar \cr
+\code{\link{tm_compass}}\tab Create a map compass \cr
+\code{\link{tm_credits}}\tab Create a text for credits \cr
+\code{\link{tm_logo}}\tab Create a logo \cr
+\code{\link{tm_xlab} and \link{tm_ylab}}\tab Create axis labels \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 
 Layout element:
 \tabular{ll}{
-\code{\link{tm_layout}}\tab To adjust the layout (main function)\cr
-\code{\link{tm_legend}}\tab Shortcut to adjust the legend \cr
-\code{\link{tm_view}}\tab Options for the interactive view mode \cr
+\code{\link{tm_layout}}\tab Adjust the layout (main function)\cr
+\code{\link{tm_legend}}\tab Adjust the legend \cr
+\code{\link{tm_view}}\tab Configure the interactive view mode \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 
 Change options:
 \tabular{ll}{
-\code{\link{tmap_mode}}\tab To set the tmap mode: \code{"plot"} or \code{"view"}\cr
-\code{\link{ttm}}\tab To toggle between the modes\cr
-\code{\link{tmap_style}}\tab To set the default style \cr
+\code{\link{tmap_mode}}\tab Set the tmap mode: \code{"plot"} or \code{"view"}\cr
+\code{\link{ttm}}\tab Toggle between the modes\cr
+\code{\link{tmap_style}}\tab Set the default style \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 
 Create icons:
 \tabular{ll}{
-\code{\link{tmap_icons}}\tab To specify icons for markers or proportional symbols \cr
+\code{\link{tmap_icons}}\tab Specify icons for markers or proportional symbols \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }
@@ -95,7 +95,7 @@ Create icons:
 \code{\link{last_map}}\tab Redraw the last map \cr
 \code{\link{tmap_leaflet}}\tab Obtain a leaflet widget object \cr
 \code{\link{animation_tmap}}\tab Create an animation \cr
-\code{\link{save_tmap}}\tab To save thematic maps (both in plot and view mode) \cr
+\code{\link{save_tmap}}\tab Save thematic maps (both in plot and view mode) \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }

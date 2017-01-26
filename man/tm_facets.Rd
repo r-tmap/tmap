@@ -157,7 +157,7 @@ data(meuse)
 coordinates(meuse) <- ~x+y
 proj4string(meuse) <- get_proj4("rd")
 
-meuse_osm <- read_osm(bb(meuse, ext=1.1, current.projection = "rd", projection = "longlat"))
+meuse_osm <- read_osm(meuse, ext=1.1)
 
 qtm(meuse_osm) + 
 	tm_shape(meuse) +

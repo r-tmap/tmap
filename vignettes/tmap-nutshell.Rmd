@@ -17,7 +17,7 @@ library(tmap)
 ```
 
 
-With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`. The tmap package also contains many facility functions for reading and processing shape files (see [overview](#misc)). This vignette will focus on the core business of tmap, which is plotting maps. 
+With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`. The add-on package tmaptools contains tool functions for reading and processing shape files.
 
 ### Static plot and interactive view
 
@@ -38,15 +38,14 @@ We refer to **shape objects** as objects from the class `Spatial` or `Raster`, r
 |Raster		| 					| RasterBrick				|
 |Raster		| 					| RasterStack				|
 
-Obviously, shape objects with data (the right-hand side column) are recommended, since data is what we want to show.
+Also simple features from the new `sf` package are supported. Obviously, shape objects with data (the right-hand side column) are recommended, since data is what we want to show.
 
 Load shape object of Europe (contained in this package):
 ```{r}
 data(Europe)
 ```
 
-Shape objects in ESRI format can be read with [`read_shape`](../html/read_shape.html) and written with [`write_shape`](../html/write_shape.html). Projection can be get and set with [`get_projection` and `set_projection`](../html/set_projection.html) respectively. Note: projections can also directly (and temporarily) be set in the plotting method (as argument of [`tm_shape`](../html/read_shape.html), see below).
-
+The `tmaptools` package contains functions to read ESRI shape files and process them. Many of these processing steps can also be done directly in `tmap`, e.g. setting to a different map projection.
 
 ### Quick thematic map
 <a name="qplot"></a>
@@ -166,7 +165,7 @@ The order of (groups of) layers corresponds to the plotting order.
 ### Small multiples
 <a name="facets"></a>
 
-Small multiples are generated in two ways:
+Small multiples are generated in three ways:
 
 #### 1. By assigning multiple values to at least one of the aesthetic arguments:
 
@@ -213,6 +212,12 @@ tm_shape(Europe[Europe$continent=="Europe",]) +
 
 The argument `drop.units` is used to drop all non-selected spatial units. If `drop.shapes=FALSE` then neighboring countries are also visible.
 
+#### 3. By creating multiple stand-alone maps with [`tmap_arrange`](../html/tmap_arrange.html):
+```{r, fig.width=10}
+tm1 <- qtm(Europe, fill = "red")
+tm2 <- qtm(Europe, fill = "blue")
+tmap_arrange(tm1, tm2, asp = NA)
+```
 
 
 ### Map layout
@@ -231,16 +236,16 @@ tm_shape(World) +
     tm_borders() +
 tm_format_World(inner.margins=0) +
 tm_legend(text.size=1,
-		  title.size=1.2,
-		  position = c("left","bottom"), 
-		  bg.color = "white", 
-		  bg.alpha=.2, 
-		  frame="gray50", 
-		  height=.6, 
-		  hist.width=.2,
-		  hist.height=.2, 
-		  hist.bg.color="gray60", 
-		  hist.bg.alpha=.5)
+	title.size=1.2,
+	position = c("left","bottom"), 
+	bg.color = "white", 
+	bg.alpha=.2, 
+	frame="gray50", 
+	height=.6, 
+	hist.width=.2,
+	hist.height=.2, 
+	hist.bg.color="gray60", 
+	hist.bg.alpha=.5)
 ```
 
 The wrapper functions starting with `tm_format_` specify the format for a specifc shape. In the tmap package, a couple of them are included, for instance `tm_format_World` that is taylored for world maps. It's also possible to create your own wrapper function for shapes that you will use frequently.

@@ -246,29 +246,29 @@ origin_cols <- get_brewer_pal("Dark2", 3)
 
 grobs <- lapply(split(origin_data, origin_data$FID), function(x) {
 ggplotGrob(ggplot(x, aes(x="", y=-perc, fill=origin)) +
-		   	geom_bar(width=1, stat="identity") +
-		   	scale_y_continuous(expand=c(0,0)) +
-		   	scale_fill_manual(values=origin_cols) +
-		   	theme_ps(plot.axes = FALSE))
+	geom_bar(width=1, stat="identity") +
+	scale_y_continuous(expand=c(0,0)) +
+	scale_fill_manual(values=origin_cols) +
+	theme_ps(plot.axes = FALSE))
 })
 
 tm_shape(NLD_prov) +
 tm_polygons() +
 tm_symbols(size="population", shape="name", 
-		   shapes=grobs, 
-		   sizes.legend=c(.5, 1,3)*1e6, 
-		   scale=1, 
-		   legend.shape.show = FALSE, 
-		   legend.size.is.portrait = TRUE, 
-		   shapes.legend = 22, 
-		   title.size = "Population",
-		   id = "name",
-		   popup.vars = c("population", "origin_native", 
-		   			   "origin_west", "origin_non_west")) +
+	shapes=grobs, 
+	sizes.legend=c(.5, 1,3)*1e6, 
+	scale=1, 
+	legend.shape.show = FALSE, 
+	legend.size.is.portrait = TRUE, 
+	shapes.legend = 22, 
+	title.size = "Population",
+	id = "name",
+	popup.vars = c("population", "origin_native",
+				   "origin_west", "origin_non_west")) +
 tm_add_legend(type="fill", 
-			  col=origin_cols, 
-			  labels=c("Native", "Western", "Non-western"), 
-			  title="Origin") +
+	col=origin_cols, 
+	labels=c("Native", "Western", "Non-western"), 
+	title="Origin") +
 tm_format_NLD()	
 }
 
@@ -298,13 +298,13 @@ tm_shape(airports, bbox="Germany") +
 # plot all available symbol shapes:
 if (require(ggplot2)) {
 	ggplot(data.frame(p=c(0:25,32:127))) +
-		geom_point(aes(x=p\%\%16, y=-(p\%/\%16), shape=p), size=5, fill="red") +
-		geom_text(mapping=aes(x=p\%\%16, y=-(p\%/\%16+0.25), label=p), size=3) +
-		scale_shape_identity() +
-		theme(axis.title=element_blank(),
-			  axis.text=element_blank(),
-			  axis.ticks=element_blank(),
-			  panel.background=element_blank())
+	geom_point(aes(x=p\%\%16, y=-(p\%/\%16), shape=p), size=5, fill="red") +
+	geom_text(mapping=aes(x=p\%\%16, y=-(p\%/\%16+0.25), label=p), size=3) +
+	scale_shape_identity() +
+	theme(axis.title=element_blank(),
+		  axis.text=element_blank(),
+		  axis.ticks=element_blank(),
+		  panel.background=element_blank())
 }
 }
 }

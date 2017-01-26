@@ -194,8 +194,8 @@ plot_grid <- function(gt, scale, add.labels) {
 	sely2 <- if (sely) (cogridy >= labelsXw + spacerX & cogridy <= 1 - spacerX) else sely
 	
 	# select grid lines to draw
-	selx <- if (selx) (cogridx >= labelsYw & cogridx <= 1) else selx
-	sely <- if (sely) (cogridy >= labelsXw & cogridy <= 1) else sely
+	selx <- if (selx) (cogridx >= labelsYw + spacerY & cogridx <= 1) else selx
+	sely <- if (sely) (cogridy >= labelsXw + spacerX & cogridy <= 1) else sely
 	
 	
 	

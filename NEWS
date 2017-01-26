@@ -1,5 +1,7 @@
-version 1.9 (devel: could become CRAN 1.8-1 or 1.10)
+version 1.8-1
+- added tm_rgb (shortcut for rgb rasters)
 - fixed interactive maps in rmarkdown
+- fixed but in qtm called without arguments
 
 version 1.8
 - [!] package split: non-plotting functions migrated to tmaptools

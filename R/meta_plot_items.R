@@ -339,7 +339,6 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 			
 			# delete too wide 
 			if (sum(ws)>rx) {
-				cat(legend.sizes, "\n")
 				clipID2 <- which(cumsum(ws)>rx)[1]
 				nitems <- clipID2 - 1
 				legend.labels <- legend.labels[1:nitems]
