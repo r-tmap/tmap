@@ -304,7 +304,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		if (warns["text"]) warning("Text labels not supported in view mode.", call.=FALSE)
 		if (identical(unname(warns["raster"]), TRUE)) {
 			warning("Raster data contains OpenStreetMapData (read with read_osm) from provider that is not known from http://leaflet-extras.github.io/leaflet-providers/preview/index.html", call.=FALSE)	
-		} else if (!(identical(warns["raster"], FALSE))) {
+		} else if (!(identical(unname(warns["raster"]), FALSE))) {
 			message("Raster data contains OpenStreetMapData (read with read_osm). Therefore, the basemap has been set to \"", warns["raster"], "\"")
 		}
 	}
