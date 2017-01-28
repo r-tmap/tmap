@@ -58,6 +58,7 @@ ttm()
 # view map
 map1
 
+\dontrun{
 # choropleth of the Dutch population in interactive mode:
 require(tmaptools)
 data(NLD_muni, NLD_prov)
@@ -70,6 +71,7 @@ tm_shape(NLD_muni) +
 	tm_borders("grey25", alpha=.5) + 
 	tm_shape(NLD_prov) +
 	tm_borders("grey40", lwd=2)
+}
 
 # restore current mode
 tmap_mode(current.mode)

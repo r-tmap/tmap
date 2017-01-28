@@ -109,7 +109,7 @@ Creates a \code{\link{tmap-element}} that draws the polygons. \code{tm_fill} fil
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_fill} (and \code{tm_polygons}) is \code{col}. In the latter case, the arguments, except for \code{thres.poly}, and the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 }
 \examples{
-data(World, Europe, NLD_muni, NLD_prov)
+data(World, Europe)
 
 # Constant fill
 tm_shape(World) + tm_fill("darkolivegreen3") + tm_format_World(title="A green World")
@@ -123,38 +123,39 @@ tm_shape(Europe) +
     tm_fill("isNLD") +
 tm_layout("Find the Netherlands!")
 
-# Numeric data variable
-tm_shape(NLD_muni) +
-    tm_fill(col="population", convert2density=TRUE, 
-        style="kmeans", title = expression("Population (per " * km^2 * ")"), 
-        legend.hist=TRUE, id="name") +
-    tm_borders("grey25", alpha=.5) + 
-tm_shape(NLD_prov) +
-    tm_borders("grey40", lwd=2) +
-tm_format_NLD_wide(bg.color="white", frame = FALSE, legend.hist.bg.color="grey90")
-
-tm_shape(World) +
-    tm_polygons("HPI", palette="RdYlGn", style="cont", n=8, auto.palette.mapping=FALSE, 
-    			title="Happy Planet Index", id="name") +
-    tm_text("iso_a3", size="AREA", scale=1.5) +
-tm_format_World() + 
-tm_style_grey()
-
 # Categorical data variable
 if (require(RColorBrewer)) {
 pal <- brewer.pal(10, "Set3")[c(10, 8, 4, 5)]
 tm_shape(Europe) +
 	tm_polygons("EU_Schengen", palette=pal, title = "European Countries", showNA=FALSE) +
-	tm_format_Europe()
+tm_format_Europe()
 }
 
 tm_shape(World) +
-    tm_polygons("economy", title="Economy", id="name") +
-    tm_text("iso_a3", size="AREA", scale=1.5) +
-tm_format_World()
+	tm_polygons("economy", title="Economy", id="name") +
+	tm_text("iso_a3", size="AREA", scale=1.5) +
+	tm_format_World()
+
+# Numeric data variable
+tm_shape(World) +
+	tm_polygons("HPI", palette="RdYlGn", style="cont", n=8, auto.palette.mapping=FALSE,
+		title="Happy Planet Index", id="name") +
+	tm_text("iso_a3", size="AREA", scale=1.5) +
+tm_format_World() + 
+tm_style_grey()
+
+\dontrun{
+data(NLD_muni, NLD_prov)
+tm_shape(NLD_muni) +
+	tm_fill(col="population", convert2density=TRUE, 
+		style="kmeans", title = expression("Population (per " * km^2 * ")"), 
+		legend.hist=TRUE, id="name") +
+	tm_borders("grey25", alpha=.5) + 
+tm_shape(NLD_prov) +
+	tm_borders("grey40", lwd=2) +
+tm_format_NLD_wide(bg.color="white", frame = FALSE, legend.hist.bg.color="grey90")
 
 # Map coloring algorithm
-\dontrun{
 tm_shape(NLD_prov) +
     tm_fill("name", legend.show = FALSE) +
 tm_shape(NLD_muni) +
@@ -163,10 +164,8 @@ tm_shape(NLD_prov) +
     tm_borders(lwd=2) +
     tm_text("name", shadow=TRUE) +
 tm_format_NLD(title="Dutch provinces and\\nmunicipalities", bg.color="white")
-}
 
 # Cartogram
-\dontrun{
 if (require(cartogram)) {
 	NLD_prov_pop <- cartogram(NLD_prov, "population")
 	

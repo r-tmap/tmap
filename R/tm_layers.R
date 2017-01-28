@@ -227,7 +227,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_fill} (and \code{tm_polygons}) is \code{col}. In the latter case, the arguments, except for \code{thres.poly}, and the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
 #' @name tm_fill
-#' @rdname polygons
+#' @rdname tm_polygons
 #' @param col For \code{tm_fill}, it is one of
 #' \itemize{
 #' \item a single color value
@@ -311,7 +311,7 @@ tm_fill <- function(col=NA,
 
 
 #' @name tm_borders
-#' @rdname polygons
+#' @rdname tm_polygons
 #' @param lwd border line width (see \code{\link[graphics:par]{par}})
 #' @param lty border line type (see \code{\link[graphics:par]{par}})
 #' @export
@@ -322,7 +322,7 @@ tm_borders <- function(col=NA, lwd=1, lty="solid", alpha=NA) {
 }
 
 #' @name tm_polygons
-#' @rdname polygons
+#' @rdname tm_polygons
 #' @param border.col border line color
 #' @param border.alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @export
@@ -383,7 +383,7 @@ tm_polygons <- function(col=NA,
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @param ... arguments passed on from \code{tm_raster} to \code{tm_rgb}
 #' @name tm_raster
-#' @rdname raster
+#' @rdname tm_raster
 #' @export
 #' @example ./examples/tm_raster.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
@@ -419,7 +419,7 @@ tm_raster <- function(col=NA,
 }
 
 #' @name tm_rgb
-#' @rdname raster
+#' @rdname tm_raster
 #' @export
 tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 	g <- do.call("tm_raster", c(list(alpha=alpha, saturation=saturation, interpolate=interpolate), list(...)))

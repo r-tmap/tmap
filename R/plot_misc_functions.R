@@ -24,6 +24,10 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		if (!grid.custom.x) grid.x <- pretty(bbx[1,], n=grid.n.x)
 		if (!grid.custom.y) grid.y <- pretty(bbx[2,], n=grid.n.y)
 
+		## copy grid.x and y
+		grid.x.orig <- grid.x
+		grid.y.orig <- grid.y
+		
 		## crop
 		grid.x <- grid.x[grid.x>bbx[1,1] & grid.x<bbx[1,2]]
 		grid.y <- grid.y[grid.y>bbx[2,1] & grid.y<bbx[2,2]]
@@ -32,7 +36,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		if (!is.na(grid.projection)) {
 			## add extra grid lines to make sure the warped grid is full
 			if (grid.custom.x) {
-				grid.x2 <- grid.x
+				grid.x2 <- grid.x.orig
 			} else {
 				gnx2 <- floor(length(grid.x))
 				if (gnx2>0) {
@@ -42,7 +46,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				} else grid.x2 <- NA
 			}
 			if (grid.custom.y) {
-				grid.y2 <- grid.y
+				grid.y2 <- grid.y.orig
 			} else {
 				gny2 <- floor(length(grid.y))
 				if (gny2>0) {
