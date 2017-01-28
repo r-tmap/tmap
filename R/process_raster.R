@@ -107,7 +107,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		 raster.legend.palette=col.legend.palette,
 		 raster.legend.misc=list(),
 		 raster.legend.hist.misc=list(values=values, breaks=breaks),
-		 raster.misc=list(is.OSM=FALSE, interpolate=interpolate),
+		 raster.misc=list(is.OSM=FALSE, leaflet.provider=NA, interpolate=interpolate),
 		 xraster=x,
 		 raster.legend.show=g$legend.show,
 		 raster.legend.title=raster.legend.title,

@@ -57,7 +57,6 @@ tm_format_NLD(title="Dutch provinces and\nmunicipalities", bg.color="white")
 # Cartogram
 if (require(cartogram)) {
 	NLD_prov_pop <- cartogram(NLD_prov, "population")
-	
 	tm_shape(NLD_prov_pop) +
 		tm_polygons("origin_non_west", title = "Non-western origin (%)")
 }

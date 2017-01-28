@@ -11,7 +11,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	basemaps <- gt$basemaps
 	basemaps.alpha <- gt$basemaps.alpha
 	
-	
 	if (is.null(names(basemaps))) names(basemaps) <- sapply(basemaps, FUN = function(bm) {
 		if (substr(bm, 1, 4) == "http") {
 			x <- strsplit(bm, "/", fixed=TRUE)[[1]]
