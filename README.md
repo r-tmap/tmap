@@ -30,7 +30,7 @@ tmap: thematic maps in R
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.8 (2017-01-03).
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.8-1 (2017-01-29).
 
 The `tmap` packages relies on the R packages `rgdal` and `rgeos`, which depend on the external libraries `gdal`, `proj.4` and `geos`. On Windows, these are embedded in `rgdal` and `rgeos`. On Linux (Ubuntu), these libraries can be installed as follows:
 

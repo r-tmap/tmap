@@ -177,7 +177,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		type <- "raster"
 		
 	} else {
-		if (inherits(shp, "sf")) {
+		if (inherits(shp, c("sf", "sfc"))) {
 			shp <- as(shp, "Spatial")
 		} else if (!inherits(shp, "Spatial")) {
 			stop("Object ", y$shp_name, " is neither from class Spatial, Raster, nor sf.", call. = FALSE)
