@@ -445,7 +445,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' 
 #' @name tm_symbols
 #' @rdname tm_symbols
-#' @param size a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest symbol will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).
+#' @param size a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where by default the symbol with the largest data value will get \code{size=1} (see also \code{size.max}). If multiple values are specified, small multiples are drawn (see details).
 #' @param col color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).
 #' @param shape shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. See details for the shape specification.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
@@ -454,7 +454,8 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param border.alpha transparency number, regarding the symbol borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param scale symbol size multiplier number. 
 #' @param perceptual logical that determines whether symbols are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument.
-#' @param size.lim vector of two limit values of the \code{size} variable. Only symbols are drawn whose value is greater than or equal to the first value. symbols whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
+#' @param size.max value that is mapped to \code{size=1}. By default (\code{NA}), the maximum data value is chosen. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
+#' @param size.lim vector of two limit values of the \code{size} variable. Only symbols are drawn whose value is greater than or equal to the first value. Symbols whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
 #' @param sizes.legend vector of symbol sizes that are shown in the legend. By default, this is determined automatically.
 #' @param sizes.legend.labels vector of labels for that correspond to \code{sizes.legend}.
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
@@ -532,6 +533,7 @@ tm_symbols <- function(size=1, col=NA,
 						border.alpha=NA,
 						scale=1,
 						perceptual=FALSE,
+						size.max=NA,
 						size.lim=NA,
 						sizes.legend = NULL,
 						sizes.legend.labels = NULL,

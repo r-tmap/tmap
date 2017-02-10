@@ -72,7 +72,7 @@ process_symbols_size_vector <- function(x, g, rescale, gt) {
 		symbol.size.legend.labels <- g$sizes.legend.labels
 	}
 	
-	maxX <- ifelse(rescale, max(x, na.rm=TRUE), 1)
+	maxX <- ifelse(rescale, ifelse(is.na(g$size.max), max(x, na.rm=TRUE), g$size.max), 1)
 	scaling <- ifelse(g$perceptual, 0.5716, 0.5)
 	symbol.size <- g$scale*(x/maxX)^scaling
 	symbol.max.size <- max(symbol.size, na.rm=TRUE)
