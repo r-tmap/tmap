@@ -377,11 +377,19 @@ set_bounds_view <- function(lf, gt, bbx) {
 	lf
 }
 
-format_popups <- function(id=NULL, titles, values) {
+format_popups <- function(id=NULL, titles, format, values) {
 	isnull <- sapply(values, is.null)
 	
 	titles <- titles[!isnull]
+	titles[names(titles)!=""] <- names(titles)[names(titles)!=""]
+	
 	values <- values[!isnull]
+	
+	islist <- is.list(format) && length(format)>0 && is.list(format[[1]])
+	if (!islist) {
+		format <- lapply(1:length(titles), function(i) format)
+	}
+	
 	
 	if (!is.null(id)) {
 		labels <- paste("<b>", htmlEscape(id), "</b>", sep="")
@@ -390,9 +398,9 @@ format_popups <- function(id=NULL, titles, values) {
 	}
 	
 	titles_format <- sapply(titles, htmlEscape)
-	values_format <- lapply(values, function(v) {
-		htmlEscape(if (is.numeric(v)) fancy_breaks(v) else v)
-	})
+	values_format <- mapply(function(v, f) {
+		htmlEscape(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=v, intervals=FALSE), f)) else v)
+	}, values, format, SIMPLIFY = FALSE)
 	
 	
 	labels2 <- mapply(function(l, v) {
@@ -446,13 +454,14 @@ get_aes_name <- function(type) {
 get_popups <- function(gpl, type) {
 	var_names <- paste(type, "names", sep=".")
 	var_vars <- paste(type, "popup.vars", sep=".")
+	var_format <- paste(type, "popup.format", sep=".")
 	
 	dt <- gpl$data
 
 	if (is.na(gpl[[var_vars]][1])) {
 		popups <- NULL
 	} else {
-		popups <- format_popups(dt[[gpl[[var_names]]]], gpl[[var_vars]], dt[, gpl[[var_vars]], drop=FALSE])
+		popups <- format_popups(dt[[gpl[[var_names]]]], gpl[[var_vars]], gpl[[var_format]], dt[, gpl[[var_vars]], drop=FALSE])
 	}
 	popups
 }

@@ -37,7 +37,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 					symbol.col.legend.title=NA,
 					symbol.shape.legend.title=NA,
 					symbol.id=g$id,
-					symbol.popup.vars=g$popup.vars))
+					symbol.popup.vars=g$popup.vars,
+					symbol.popup.format=g$popup.format))
 	}
 	
 	# if by is specified, use first value only
@@ -111,6 +112,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	
 	# update legend format from tm_layout
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
+	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
 	
 	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.col, is.colors=is.colors)
 	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.size, is.colors=FALSE)
@@ -322,7 +324,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 symbol.col.legend.z=symbol.col.legend.z,
 		 symbol.col.legend.hist.z=symbol.legend.hist.z,
 		 symbol.id=g$id,
-		 symbol.popup.vars=g$popup.vars)
+		 symbol.popup.vars=g$popup.vars,
+		 symbol.popup.format=g$popup.format)
 }
 
 submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) {

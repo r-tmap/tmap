@@ -10,7 +10,7 @@
 \usage{
 tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   border.col = "black", border.lwd = 1, border.alpha = NA, scale = 1,
-  perceptual = FALSE, size.lim = NA, sizes.legend = NULL,
+  perceptual = FALSE, size.max = NA, size.lim = NA, sizes.legend = NULL,
   sizes.legend.labels = NULL, n = 5, style = ifelse(is.null(breaks),
   "pretty", "fixed"), breaks = NULL, interval.closure = "left",
   palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
@@ -28,7 +28,8 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
   legend.shape.is.portrait = TRUE, legend.hist = FALSE,
   legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
-  legend.shape.z = NA, legend.hist.z = NA, id = NA, popup.vars = NA)
+  legend.shape.z = NA, legend.hist.z = NA, id = NA, popup.vars = NA,
+  popup.format = list())
 
 tm_squares(size = 1, col = NA, shape = 22, scale = 4/3, ...)
 
@@ -43,7 +44,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NA,
   markers.on.top.of.text = TRUE, ...)
 }
 \arguments{
-\item{size}{a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where the largest symbol will get \code{size=1}. If multiple values are specified, small multiples are drawn (see details).}
+\item{size}{a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where by default the symbol with the largest data value will get \code{size=1} (see also \code{size.max}). If multiple values are specified, small multiples are drawn (see details).}
 
 \item{col}{color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).}
 
@@ -61,7 +62,9 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NA,
 
 \item{perceptual}{logical that determines whether symbols are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument.}
 
-\item{size.lim}{vector of two limit values of the \code{size} variable. Only symbols are drawn whose value is greater than or equal to the first value. symbols whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}}
+\item{size.max}{value that is mapped to \code{size=1}. By default (\code{NA}), the maximum data value is chosen. Only applicable when \code{size} is the name of a numeric variable of \code{shp}}
+
+\item{size.lim}{vector of two limit values of the \code{size} variable. Only symbols are drawn whose value is greater than or equal to the first value. Symbols whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}}
 
 \item{sizes.legend}{vector of symbol sizes that are shown in the legend. By default, this is determined automatically.}
 
@@ -71,7 +74,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NA,
 
 \item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, and \code{"jenks"}. A numeric variable is processed as a categorial variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options, see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are \code{"cont"} and \code{"order"}. The former maps the values of \code{col} to a smooth gradient, whereas the latter maps the order of values of \code{col} to a smooth gradient. They are the continuous variants of respectively the discrete methods "equal" and quantile".}
 
-\item{breaks}{in case \code{style=="fixed"}, breaks should be specified}
+\item{breaks}{in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or divering color palette.}
 
 \item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numerc variable.}
 
@@ -169,7 +172,9 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NA,
 
 \item{id}{name of the data variable that specifies the indices of the symbols. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
 
-\item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups.}
+\item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.}
+
+\item{popup.format}{list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.}
 
 \item{...}{arguments passed on to \code{tm_symbols}. For \code{tm_markers}, arguments can also be passed on to \code{tm_text}. In that case, they have to be prefixed with \code{text.}, e.g. the \code{col} argument should be names \code{text.col}}
 

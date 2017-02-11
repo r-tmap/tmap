@@ -217,7 +217,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{legend.hist.size}{Relative font size for the choropleth histogram}
 
-\item{legend.format}{list of formatting options for the legend numbers. Only applicable for layer functions (such as \code{\link{tm_fill}}) where if \code{labels} is undefined. Parameters are:
+\item{legend.format}{list of formatting options for the legend numbers. Only applicable for layer functions (such as \code{\link{tm_fill}}) where \code{labels} is undefined. Parameters are:
 \describe{
 \item{fun}{Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items \code{scientific}, \code{format}, and \code{digits} (see below) are not used.}
 \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}

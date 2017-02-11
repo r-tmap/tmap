@@ -14,12 +14,30 @@ num2pal <- function(x, n = 5,
 	breaks.specified <- !is.null(breaks)
 	is.cont <- (style=="cont" || style=="order")
 	if (is.cont) {
-		style <- ifelse(style=="order", "quantile", "equal")
+		style <- ifelse(style=="order", "quantile", "fixed")
+
+		if (style=="fixed") {
+			custom_breaks <- breaks
+			
+			if (!is.null(custom_breaks)) {
+				n <- length(breaks) - 1
+			} else {
+				breaks <- range(x, na.rm = TRUE)
+			}
+			breaks <- cont_breaks(breaks, n=101)
+		}
+		
 		if (is.null(legend.labels)) {
 			ncont <- n
 		} else {
-			ncont <- length(legend.labels)
+			if (!is.null(custom_breaks) && length(legend.labels) != n+1) {
+				warning("legend.labels not the same length as breaks", call.=FALSE)
+				legend.labels <- NULL
+			} else {
+				ncont <- length(legend.labels)	
+			}
 		}
+		
 		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE, interval.closure=interval.closure)
 		n <- length(q$brks) - 1
 	} else {
@@ -129,8 +147,12 @@ num2pal <- function(x, n = 5,
 			b <- breaks[id]
 			nbrks_cont <- length(b)
 		} else {
-			b <- pretty(breaks, n=ncont)
-			b <- b[b>=breaks[1] & b<=breaks[length(breaks)]]
+			if (!is.null(custom_breaks)) {
+				b <- custom_breaks
+			} else {
+				b <- pretty(breaks, n=ncont)
+				b <- b[b>=breaks[1] & b<=breaks[length(breaks)]]
+			}
 			nbrks_cont <- length(b)
 			id <- as.integer(cut(b, breaks=breaks, include.lowest = TRUE))
 		}
@@ -170,3 +192,15 @@ num2pal <- function(x, n = 5,
 	}
 	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks, breaks.palette=breaks.palette, legend.neutral.col = legend.neutral.col)
 }
+
+
+cont_breaks <- function(breaks, n=101) {
+	x <- round(seq(1, 101, length.out=length(breaks)))
+	
+	
+	unlist(lapply(1L:(length(breaks)-1L), function(i) {
+		y <- seq(breaks[i], breaks[i+1], length.out=x[i+1]-x[i]+1)	
+		if (i!=1) y[-1] else y
+	}))
+}
+

@@ -59,7 +59,8 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 	
 	# update legend format from tm_layout
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
-
+	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
+	
 	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.line.col, is.colors=is.colors)
 	dtlwd <- process_data(data[, xlwd, drop=FALSE], by=by, free.scales=gby$free.scales.line.lwd, is.colors=FALSE, split.by=split.by)
 	
@@ -169,7 +170,8 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		 line.lwd.legend.z=line.lwd.legend.z,
 		 line.col.legend.hist.z=line.col.legend.hist.z,
 		 line.id=g$id,
-		 line.popup.vars=g$popup.vars
+		 line.popup.vars=g$popup.vars,
+		 line.popup.format=g$popup.format
 	)
 
 }
