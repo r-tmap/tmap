@@ -203,7 +203,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			}
 			
 			
-			rad <- symbol.size2 * upl
+			rad <- unname(symbol.size2 * upl)
 			
 			fixed <- ifelse(gpl$symbol.misc$symbol.are.dots, gt$dot.size.fixed, gt$symbol.size.fixed)
 			are.icons <- gpl$symbol.misc$symbol.are.icons
