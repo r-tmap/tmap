@@ -39,7 +39,7 @@ tm_shape <- function(shp,
 					 simplify = 1,
 					 line.center.type = c("segment", "midpoint"),
 					 ...) {
-	shp_name <- deparse(substitute(shp))
+	shp_name <- deparse(substitute(shp))[1]
 	g <- list(tm_shape=c(as.list(environment()), list(...)))
 	class(g) <- "tmap"
 	g

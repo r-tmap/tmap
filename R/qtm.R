@@ -66,7 +66,7 @@ qtm <- function(shp,
 				bubble.col=NULL,
 				...) {
 	args <- list(...)
-	shp_name <- deparse(substitute(shp))
+	shp_name <- deparse(substitute(shp))[1]
 	called <- names(match.call(expand.dots = TRUE)[-1])
 	
 	if (missing(shp)) {
