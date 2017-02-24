@@ -34,4 +34,3 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
 \description{
 Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default the coordinate system of the (master) shape object is used, which results in horizontal and vertical lines. Alternatively, grid lines can be reprojected, for instance to latitude longitude coordinates, and hence be curved.
 }
-

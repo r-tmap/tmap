@@ -44,4 +44,3 @@ tm_scale_bar()  + tm_layout(attr.outside = TRUE)
 # restore current mode
 tmap_mode(current.mode)
 }
-

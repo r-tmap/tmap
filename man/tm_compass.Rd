@@ -48,4 +48,3 @@ qtm(NLD_muni, theme = "NLD") + tm_compass(type="radar", position=c("left", "top"
 # restore current mode
 tmap_mode(current.mode)
 }
-

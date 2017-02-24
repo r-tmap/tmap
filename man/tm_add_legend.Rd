@@ -46,4 +46,3 @@ Creates a \code{\link{tmap-element}} that adds a manual legend.
 \seealso{
 \code{\link{tm_symbols}} for an example
 }
-

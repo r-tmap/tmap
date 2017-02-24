@@ -121,4 +121,3 @@ tm_style_cobalt()
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
-

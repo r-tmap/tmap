@@ -15,4 +15,3 @@ Retrieve the last map to be modified or created. Works in the same way as \code{
 \seealso{
 \code{\link{save_tmap}}
 }
-

@@ -79,4 +79,3 @@ tmap_mode(current.mode)
 \seealso{
 \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}, \code{\link{last_map}} to show the last map, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget
 }
-

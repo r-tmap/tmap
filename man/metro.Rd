@@ -16,4 +16,3 @@ Spatial data of metropolitan areas, of class \code{\link[sp:SpatialPointsDataFra
 \references{
 United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects: The 2014 Revision, CD-ROM Edition.
 }
-

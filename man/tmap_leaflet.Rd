@@ -57,4 +57,3 @@ tm_shape(eiffelTower) +
 \seealso{
 \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
 }
-

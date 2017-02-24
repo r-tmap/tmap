@@ -174,4 +174,3 @@ tmap_mode(current.mode)
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
-

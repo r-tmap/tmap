@@ -19,4 +19,3 @@ Spatial data of global land cover, of class \code{\link[sp:SpatialGridDataFrame]
 \references{
 Production of Global Land Cover Data - GLCNMO2008, Tateishi, R., Thanh Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014), Journal of Geography and Geology, 6 (3).
 }
-

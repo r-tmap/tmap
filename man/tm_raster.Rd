@@ -130,4 +130,3 @@ tm_shape(land) +
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
-

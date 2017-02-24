@@ -2,8 +2,8 @@
 % Please edit documentation in R/pkg.R
 \docType{package}
 \name{tmap-package}
-\alias{tmap}
 \alias{tmap-package}
+\alias{tmap}
 \title{Thematic Map Visualization}
 \description{
 Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps. It is based on the grammar of graphics, and resembles the syntax of ggplot2.
@@ -113,13 +113,14 @@ Create icons:
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }
-\author{
-Martijn Tennekes \email{mtennekes@gmail.com}
-}
+
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 
 \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
+}
+\author{
+Martijn Tennekes \email{mtennekes@gmail.com}
 }
 \keyword{GIS,}
 \keyword{bubble}
@@ -128,4 +129,3 @@ Martijn Tennekes \email{mtennekes@gmail.com}
 \keyword{maps,}
 \keyword{statistical}
 \keyword{thematic}
-

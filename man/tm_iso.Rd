@@ -28,4 +28,3 @@ This function is a wrapper of \code{\link{tm_lines}} and \code{\link{tm_text}} a
 \seealso{
 \code{\link[tmaptools:smooth_map]{smooth_map}}
 }
-

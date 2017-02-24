@@ -37,4 +37,3 @@ current.mode <- tmap_mode("plot")
 tmap_arrange(w1, w2, w3, w4)
 tmap_mode(current.mode)
 }
-

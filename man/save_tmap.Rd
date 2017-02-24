@@ -72,4 +72,3 @@ Save tmap to a file, such as png, jpg, or pdf.
 	save_tmap(m2, "World_map.html")
 }
 }
-

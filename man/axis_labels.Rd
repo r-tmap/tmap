@@ -27,4 +27,3 @@ qtm(World, fill="#FFF8DC", projection="longlat", inner.margins=0) +
 	tm_xlab("Longitude") +
 	tm_ylab("Latitude")
 }
-

@@ -2,10 +2,10 @@
 % Please edit documentation in R/pkg.R
 \docType{data}
 \name{World}
-\alias{Europe}
-\alias{NLD_muni}
-\alias{NLD_prov}
 \alias{World}
+\alias{Europe}
+\alias{NLD_prov}
+\alias{NLD_muni}
 \title{World, Europe, and Netherlands map}
 \source{
 \url{http://www.naturalearthdata.com} for \code{World} and \code{Europe}
@@ -40,4 +40,3 @@ Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{http://www.c
 
 Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{http://www.kadaster.nl}.
 }
-

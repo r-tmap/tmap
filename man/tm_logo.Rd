@@ -44,4 +44,3 @@ tm_shape(World) +
 	tm_format_World()
 }
 }
-

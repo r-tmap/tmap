@@ -30,4 +30,3 @@ tmap_style(current.style)
 \seealso{
 \code{\link{tm_layout}} for predefined styles, and \code{\link{style_catalogue}} to create a style catelogue of all available styles.
 }
-

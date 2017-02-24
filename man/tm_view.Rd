@@ -75,4 +75,3 @@ tmap_mode(current.mode)
 \seealso{
 \code{\link{tmap_mode}} and \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
 }
-

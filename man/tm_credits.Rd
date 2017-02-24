@@ -54,4 +54,3 @@ tmap_mode(current.mode)
 \seealso{
 \code{\link{tm_xlab}}
 }
-

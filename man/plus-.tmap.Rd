@@ -17,4 +17,3 @@ The plus operator allows you to stack \code{\link{tmap-element}s}, and groups of
 \seealso{
 \code{\link{tmap-element}} and \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
-

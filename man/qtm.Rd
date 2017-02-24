@@ -104,4 +104,3 @@ qtm(metro, symbols.size = "pop2010",
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }
-

@@ -40,4 +40,3 @@ The element \code{\link{tm_facets}} specifies facets (small multiples). The elem
 
 The examples in each of the element functions
 }
-

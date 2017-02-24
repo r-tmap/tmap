@@ -305,7 +305,7 @@ tm_fill <- function(col=NA,
 					legend.hist.z=NA,
 					id=NA,
 					popup.vars=NA,
-					popup.legend=list(),
+					popup.format=list(),
 					...) {
 	
 	g <- list(tm_fill=c(as.list(environment()), list(map_coloring=list(...), call=names(match.call(expand.dots = TRUE)[-1]))))
