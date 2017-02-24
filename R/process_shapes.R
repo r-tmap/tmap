@@ -1,6 +1,7 @@
 process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	pasp <- gm$asp
+	if (gm$legend.only) pasp <- 0
 	if (identical(pasp, 0)) pasp <- gm$shape.lasp
 	
 	nx <- length(shps)

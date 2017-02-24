@@ -1,13 +1,3 @@
-elem_subplot <- function(x, id, gt, just) {
-	type <- x$type
-	cols <- if (type=="credits") c(1,2) else ifelse(just=="left", 1, 2)
-	cellplot(id, cols, e={
-		lineHeight <- convertHeight(unit(1, "lines"), unitTo="npc", valueOnly=TRUE)
-		rectGrob(gp=gpar(col="green", fill=NA))
-	})
-}
-
-
 legend_subplot <- function(x, id, gt, histWidth) {
 	legend.type <- x$legend.type
 	cols <- if (legend.type=="hist") 1 else c(1,2)
