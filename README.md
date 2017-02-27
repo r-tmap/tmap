@@ -58,7 +58,7 @@ The latest development version can be installed using `devtools`. In the latest 
 ```r
 library(devtools)
 install_github("mtennekes/tmaptools")
-install_github("mtennekes/tmap", subdir = "pkg")
+install_github("mtennekes/tmap")
 ```
 
 See [NEWS](https://github.com/mtennekes/tmap/blob/master/pkg/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
