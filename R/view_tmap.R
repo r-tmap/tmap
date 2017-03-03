@@ -250,11 +250,61 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			
 		}
 		plot_tm_text <- function() {
-			if (is.null(gpl$symbol.misc) || !gpl$symbol.misc$symbol.are.markers) {
-				warns["text"] <- TRUE
-				assign("warns", warns, envir = e)
+# 			if (is.null(gpl$symbol.misc) || !gpl$symbol.misc$symbol.are.markers) {
+# 				warns["text"] <- TRUE
+# 				assign("warns", warns, envir = e)
+# 			}
+#  			FALSE
+			npol <- nrow(co)
+			text <- gpl$text
+			col <- unname(gpl$text.color)
+			size <- unname(gpl$text.size)
+			
+			opacity <- gpl$text.alpha
+			
+			
+			co[, 1] <- co[, 1] + gpl$text.xmod * bpl
+			co[, 2] <- co[, 2] + gpl$text.ymod * bpl
+			
+			# return NULL is no symbols are selected (see tm_facets example)
+			if (!any(gpl$text_sel)) return(FALSE)
+			
+			if (!all(gpl$text_sel)) {
+				co <- co[gpl$text_sel, , drop=FALSE]
+				text <- text[gpl$text_sel]
+				col <- col[gpl$text_sel]
+				size <- size[gpl$text_sel]
 			}
- 			FALSE
+			
+			sizeChar <- paste(round(size * 10), "px", sep="")
+			colsize <- paste(col, sizeChar, sep="_^_")
+			
+			just <- switch(gpl$text.just[1],
+						   left="right", 
+						   right="left",
+						   "bottom")
+			
+				
+			cs_set <- unique(colsize)
+			
+			for (cs in cs_set) {
+				sel_cs <- which(cs_set==cs)
+				lf <- lf %>% addLabelOnlyMarkers(lng = co[sel_cs,1], lat = co[sel_cs,2], label=text[sel_cs],
+												 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
+												 							opacity=opacity,
+												 							textsize=sizeChar[sel_cs],
+												 							style=list(color=col[sel_cs])))
+			}
+				
+
+			if (!is.na(gpl$xtcol[1])) {
+				if (gpl$text.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="text.col", alpha=alpha)
+			}
+			
+			assign("lf", lf, envir = e)
+			assign("id", id+1, envir = e)
+			
+			TRUE
 		}
 		plot_tm_raster <- function() {
 			if (gpl$raster.misc$is.OSM) {
@@ -288,7 +338,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			TRUE
 		}
 		plot_tm_grid <- function() {
-			FALSE
+			lf <- lf %>% addGraticule()
+			
+			assign("lf", lf, envir = e)
+			assign("id", id+1, envir = e)
+			TRUE
 		}
 		
 		e2 <- environment()
@@ -326,16 +380,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	
 	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 
-	# if (gt$scale.show) {
-	# 	leaflet_version <- packageVersion("leaflet")
-	# 	if (leaflet_version > "1.0.2") {
-	# 		u <- gt$shape.units_args$unit
-	# 		metric <- (u %in% c("m", "km", "metric"))
-	# 		lf <- lf %>% addScaleBar(position = gt$scale.position, options = scaleBarOptions(maxWidth=gt$scale.width, metric=metric, imperial = !metric))
-	# 	} else {
-	# 		message("Scale bar support in view mode need leaflet >= 1.02; installed version: ", leaflet_version)
-	# 	}
-	# }
+	if (gt$scale.show) {
+		u <- gt$shape.units_args$unit
+		metric <- (u %in% c("m", "km", "metric"))
+	 	lf <- lf %>% addScaleBar(position = gt$scale.position, options = scaleBarOptions(maxWidth=gt$scale.width, metric=metric, imperial = !metric))
+	}
 	# print(leaflet_id)
 	# if (gt$title!="") {
 	# 	lf <- lf %>% onRender(paste("

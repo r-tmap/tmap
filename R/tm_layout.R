@@ -330,7 +330,7 @@ tm_style_natural <- function(bg.color="lightskyblue1",
 							 legend.frame=TRUE,
 							 legend.bg.color="grey90",
 							 earth.boundary=TRUE,
-							 basemaps="Thunderforest.Landscape",
+							 basemaps="Esri.NatGeoWorldMap",
 							 basemaps.alpha=1,
 							 ...) {
 

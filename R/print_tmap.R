@@ -75,15 +75,15 @@ print_shortcut <- function(x, interactive, args, knit) {
 }
 
 supported_elem_view_mode <- function(nms) {
-	if (any(nms=="tm_grid")) warning("Grid lines not supported in view mode.", call.=FALSE)
+	#if (any(nms=="tm_grid")) warning("Grid lines not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_credits")) warning("Credits not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_logo")) warning("Logo not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_compass")) warning("Compass not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_xlab")) warning("X-axis label not supported in view mode.", call.=FALSE)
 	if (any(nms=="tm_ylab")) warning("Y-axis label not supported in view mode.", call.=FALSE)
-	if (any(nms=="tm_scale_bar")) warning("Scale bar not yet supported in view mode, it will be in the next version.", call.=FALSE)
+	#if (any(nms=="tm_scale_bar")) warning("Scale bar not yet supported in view mode, it will be in the next version.", call.=FALSE)
 	
-	which(!(nms %in% c("tm_grid", "tm_scale_bar", "tm_credits", "tm_logo", "tm_compass", "tm_xlab", "tm_ylab")))
+	which(!(nms %in% c("tm_credits", "tm_logo", "tm_compass", "tm_xlab", "tm_ylab")))
 }
 
 
@@ -381,28 +381,33 @@ add_leaflet_titles <- function(lf) {
 	if (inherits(lf, "shiny.tag.list")) {
 		ncld <- length(lf[[1]])
 		lf[[1]] <- mapply(function(l, i) {
-			l$children[[1]] <- l$children[[1]] %>% htmlwidgets::onRender(paste("
+			title <- l$children[[1]]$title
+			if (title!="") {
+				l$children[[1]] <- l$children[[1]] %>% htmlwidgets::onRender(paste("
 					function(el, x) {
 						var tldiv = document.getElementsByClassName(\"leaflet-top leaflet-left\")[",i,"];
 						var titlediv = document.createElement('div');
 						titlediv.className = \"info legend leaflet-control\";
-						titlediv.innerHTML = \"<b>", l$children[[1]]$title, "</b>\";
+						titlediv.innerHTML = \"<b>", title, "</b>\";
 						tldiv.insertBefore(titlediv, tldiv.childNodes[0]);
 					}", sep="")
-			)
+				)
+			}
 			l
 		}, lf[[1]], 0:(ncld-1), SIMPLIFY = FALSE)
 	} else {
-		lf <- lf %>% htmlwidgets::onRender(paste("
-					function(el, x) {
-						var tldiv = document.getElementsByClassName(\"leaflet-top leaflet-left\")[0];
-						var titlediv = document.createElement('div');
-						titlediv.className = \"info legend leaflet-control\";
-						titlediv.innerHTML = \"<b>", lf$title, "</b>\";
-						tldiv.insertBefore(titlediv, tldiv.childNodes[0]);
-					}", sep="")
-		)
-		
+		title <- lf$title
+		if (title!="") {
+			lf <- lf %>% htmlwidgets::onRender(paste("
+						function(el, x) {
+							var tldiv = document.getElementsByClassName(\"leaflet-top leaflet-left\")[0];
+							var titlediv = document.createElement('div');
+							titlediv.className = \"info legend leaflet-control\";
+							titlediv.innerHTML = \"<b>", title, "</b>\";
+							tldiv.insertBefore(titlediv, tldiv.childNodes[0]);
+						}", sep="")
+			)
+		}
 	}
 	lf
 }

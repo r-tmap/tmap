@@ -100,7 +100,7 @@ tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
   lines = "steelblue", text = "black", na = "white"), aes.palette = list(seq =
   "YlGn", div = "RdYlGn", cat = "Set3"), attr.color = "black",
   space.color = "white", legend.frame = TRUE, legend.bg.color = "grey90",
-  earth.boundary = TRUE, basemaps = "Thunderforest.Landscape",
+  earth.boundary = TRUE, basemaps = "Esri.NatGeoWorldMap",
   basemaps.alpha = 1, ...)
 
 tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
