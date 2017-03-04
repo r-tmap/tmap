@@ -5,10 +5,10 @@
 \title{Options for the interactive tmap viewer}
 \usage{
 tm_view(alpha = NA, colorNA = NULL, basemaps = NA, basemaps.alpha = NA,
-  symbol.size.fixed = FALSE, dot.size.fixed = TRUE, set.bounds = FALSE,
-  set.view = NA, set.zoom.limits = NA, legend.position = c("right",
-  "top"), control.position = c("left", "top"), popup.all.data = NULL,
-  bg.overlay = NULL, bg.overlay.alpha = NULL)
+  projection = 3857, symbol.size.fixed = FALSE, dot.size.fixed = TRUE,
+  set.bounds = FALSE, set.view = NA, set.zoom.limits = NA,
+  legend.position = c("right", "top"), control.position = c("left", "top"),
+  popup.all.data = NULL, bg.overlay = NULL, bg.overlay.alpha = NULL)
 }
 \arguments{
 \item{alpha}{transparency (opacity) parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
@@ -18,6 +18,8 @@ tm_view(alpha = NA, colorNA = NULL, basemaps = NA, basemaps.alpha = NA,
 \item{basemaps}{vector of one or more names of baselayer maps, or a logical value. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. By default (\code{NA}), the choice of basemap(s) will be determined by the \code{basemaps} argument of \code{\link{tm_layout}}, which is style dependent. Use \code{TRUE} to select a large set of recommended basemaps. Use \code{FALSE} to omit basemap tiles. If a named vector is provided, the names are used in the layer control legend.}
 
 \item{basemaps.alpha}{transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.}
+
+\item{projection}{projection. Either a EPSG number, or a \code{leaflet_crs} object created with \code{\link[leaflet:leafletCRS]{leafletCRS}}. By default, the Web Mercator (3857) is used, since the vast majority of basemaps are rendered accordingly. Other standards are EPSG numbers 4326 (WGS84) and 3395 (Mercator). If set to 0, the projection of the master shape is used (see \code{\link{tm_shape}}) provided that a EPSG number can be extracted.}
 
 \item{symbol.size.fixed}{should symbol sizes be fixed while zooming?}
 

@@ -2,7 +2,7 @@ process_tm <- function(x, gm, interactive) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL
 	## fill meta info
 	
-	gt <- preprocess_gt(x, interactive=interactive)
+	gt <- preprocess_gt(x, interactive=interactive, orig_CRS = gm$shape.orig_CRS)
 	
 	## get grid element
 	gridid <- which(names(x)=="tm_grid")[1]

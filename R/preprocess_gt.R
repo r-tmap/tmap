@@ -1,4 +1,4 @@
-preprocess_gt <- function(x, interactive) {
+preprocess_gt <- function(x, interactive, orig_CRS) {
 	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- NULL
 	
 	style <- options("tmap.style")
@@ -119,6 +119,30 @@ preprocess_gt <- function(x, interactive) {
 		} else {
 			"topright"
 		}
+		
+		if (!inherits(projection, "leaflet_crs")) {
+			
+			if (projection==0) {
+				epsg <- get_epsg_number(orig_CRS)
+				if (is.na(epsg)) {
+					projection <- 3857
+				} else {
+					projection <- epsg
+				}
+			}
+			
+			if (projection %in% c(3857, 4326, 3395)) {
+				projection <- leaflet::leafletCRS(crsClass = paste("L.CRS.EPSG", projection, sep=""))	
+			} else {
+				projection <- leaflet::leafletCRS(crsClass = "L.Proj.CRS", 
+												  code= paste("EPSG", projection, sep=":"),
+												  proj4def=get_proj4(projection),
+												  resolutions = c(65536, 32768, 16384, 8192, 4096, 2048,1024, 512, 256, 128))	
+			}
+			
+			
+		}
+		
 	})
 	
 	# append view to layout

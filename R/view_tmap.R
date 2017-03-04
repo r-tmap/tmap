@@ -7,7 +7,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	gt <- gp$tm_layout
 	gp$tm_layout <- NULL
 	
-	lf <- leaflet()
+	lf <- leaflet(options = leaflet::leafletOptions(crs=gt$projection))
 	basemaps <- gt$basemaps
 	basemaps.alpha <- gt$basemaps.alpha
 	
@@ -606,5 +606,13 @@ lty2dashArray <- function(lty) {
 				 "none",
 				 numlty),
 		  collapse=",")
+}
+
+get_epsg_number <- function(proj) {
+	if (inherits(proj, "CRS")) proj <- attr(proj, "projargs")
+	
+	pat <- "^.*\\=epsg ?: ?(\\S*)(.*)$"
+	epsg <- as.numeric(sub(pat, "\\1", proj[grepl(pat, proj)]))
+	if (length(epsg)==0) NA else epsg
 }
 
