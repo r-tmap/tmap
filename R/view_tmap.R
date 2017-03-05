@@ -290,14 +290,14 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			cs_set <- unique(colsize)
 			
 			if (length(cs_set)==1) {
-				lf <- lf %>% addLabelOnlyMarkers(lng = co[,1], lat = co[,2], label=sizeChar,#text[sel_cs],
+				lf <- lf %>% addLabelOnlyMarkers(lng = co[,1], lat = co[,2], label=text,
 												 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
 												 							opacity=opacity,
 												 							textsize=sizeChar[1],
 												 							style=list(color=col[1])))
 			} else {
 				for (i in 1:length(text)) {
-					lf <- lf %>% addLabelOnlyMarkers(lng = co[i,1], lat = co[i,2], label=sizeChar[i],#text[sel_cs],
+					lf <- lf %>% addLabelOnlyMarkers(lng = co[i,1], lat = co[i,2], label=text[i],
 													 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
 													 							opacity=opacity,
 													 							textsize=sizeChar[i],
