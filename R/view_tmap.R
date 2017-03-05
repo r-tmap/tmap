@@ -11,6 +11,8 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	basemaps <- gt$basemaps
 	basemaps.alpha <- gt$basemaps.alpha
 	
+	pOptions <- leaflet::popupOptions(minWidth = 200, maxWidth = 200)
+	
 	if (is.null(names(basemaps))) names(basemaps) <- sapply(basemaps, FUN = function(bm) {
 		if (substr(bm, 1, 4) == "http") {
 			x <- strsplit(bm, "/", fixed=TRUE)[[1]]
@@ -110,7 +112,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 
 		
-			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id)
+			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id, popupOptions = pOptions)
 
 
 			if (!is.na(gpl$xfill[1])) {
@@ -130,7 +132,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			popups <- get_popups(gpl, type="line")
 			dashArray <- lty2dashArray(gpl$line.lty)
 			
-			lf <- lf %>% addPolylines(data=shp, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id)
+			lf <- lf %>% addPolylines(data=shp, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id, popupOptions = pOptions)
 
 			
 			if (!is.na(gpl$xline[1])) {
@@ -231,9 +233,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				}
 
 				if (fixed) {
-					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id)
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions)
 				} else {
-					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id)
+					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions)
 				}
 			}
 				
@@ -287,16 +289,22 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				
 			cs_set <- unique(colsize)
 			
-			for (cs in cs_set) {
-				sel_cs <- which(cs_set==cs)
-				lf <- lf %>% addLabelOnlyMarkers(lng = co[sel_cs,1], lat = co[sel_cs,2], label=text[sel_cs],
+			if (length(cs_set)==1) {
+				lf <- lf %>% addLabelOnlyMarkers(lng = co[,1], lat = co[,2], label=sizeChar,#text[sel_cs],
 												 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
 												 							opacity=opacity,
-												 							textsize=sizeChar[sel_cs],
-												 							style=list(color=col[sel_cs])))
+												 							textsize=sizeChar[1],
+												 							style=list(color=col[1])))
+			} else {
+				for (i in 1:length(text)) {
+					lf <- lf %>% addLabelOnlyMarkers(lng = co[i,1], lat = co[i,2], label=sizeChar[i],#text[sel_cs],
+													 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
+													 							opacity=opacity,
+													 							textsize=sizeChar[i],
+													 							style=list(color=col[i])))	
+				}
 			}
-				
-
+			
 			if (!is.na(gpl$xtcol[1])) {
 				if (gpl$text.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="text.col", alpha=alpha)
 			}
