@@ -398,11 +398,13 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		} else if (legend.type %in% c("fill", "raster")) {
 			fill <- legend.palette
 			xtraWidth <- ws[1]/2
+			col <- ifelse(legend.type =="fill", border.col, NA)
+			if (legend.type=="raster") lwd <- NA
 			rectGrob(x=xs, 
 					 y=1-my-hs/2, 
 					 width= ws, 
 					 height= hs,
-					 gp=gpar(fill=fill, col=border.col, lwd=lwd))
+					 gp=gpar(fill=fill, col=col, lwd=lwd))
 		} else if (legend.type %in% c("symbol.size", "symbol.col", "symbol.shape")) {
 			cols <- legend.palette
 			
