@@ -84,12 +84,13 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 		
 		#upViewport()
 	} else {
+		treeMapX <- NULL
 		## bubble height needed to align with bubbles in legend
 		lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE)# * gt$legend.text.size
 		metaX <- 0
 		metaY <- 0
 	}
-	
+
 	## prepare legend items
 	leg <- legend_prepare(gp, gal, gt, lineInch)
 	
@@ -111,7 +112,6 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 		}
 		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY, frameX, frameY)
 		treeMetaX <- gTree(children=gList(treeMeta), name="meta_with_bg") #, vp = treeMetaVP) # previously with grobLegendBG
-		
 		if (!gt$legend.only) {
 			treeMapX <- addGrob(treeMapX, child=treeMetaX) #, gPath=gPath("outer_map"))#, "aspvp"))
 			#upViewport(d)
