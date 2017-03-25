@@ -24,7 +24,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 	freescales <- names(gf)[substr(names(gf), 1, 11) == "free.scales"]
 	
 	gt <- within(gt, {
-		if (!any.legend) {
+		if (!any.legend || !legend.show) {
 			if (legend.only) stop("No legend to show.", call.=FALSE)
 			legend.show <- FALSE
 			legend.outside <- FALSE
@@ -32,6 +32,12 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 			if (is.na(legend.outside)) legend.outside <- (nx > 1) && !any(vapply(gf[freescales], "[", logical(1), 1))
 		}
 		
+		if (legend.outside) {
+			title.snap.to.legend <- TRUE
+		} else if (is.na(title.snap.to.legend)) {
+			title.snap.to.legend <- FALSE
+		}
+
 		if (is.na(panel.show)) panel.show <- !is.na(panel.names[1]) || !is.ena(panel.labels[1])
 		if (legend.only) {
 			title <- rep("", nx)

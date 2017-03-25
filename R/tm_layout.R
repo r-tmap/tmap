@@ -84,7 +84,7 @@
 #' @param legend.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).
 #' @param legend.hist.bg.color Background color of the histogram
 #' @param legend.hist.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.hist.bg.color} is used (normally 1).
-#' @param title.snap.to.legend Logical that determines whether the title is part of the legend. By default \code{FALSE}
+#' @param title.snap.to.legend Logical that determines whether the title is part of the legend. By default \code{FALSE}, unless the legend is drawn outside the map (see \code{legend.outside}).
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
 #' By default the title is placed on top of the legend (determined by \code{legend.position}).
 #' @param title.color color of the title
@@ -161,7 +161,7 @@ tm_layout <- function(title=NA,
 					  legend.bg.alpha = 1,
 					  legend.hist.bg.color = NA,
 					  legend.hist.bg.alpha = 1,
-					  title.snap.to.legend = FALSE,
+					  title.snap.to.legend = NA,
 					  title.position = c("left", "top"),
 					  title.color=attr.color,
 					  title.bg.color=NA,
