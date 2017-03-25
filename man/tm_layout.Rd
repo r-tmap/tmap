@@ -44,7 +44,7 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   = "Less than", text.or.more = "or more"), legend.frame = FALSE,
   legend.text.color = attr.color, legend.bg.color = NA,
   legend.bg.alpha = 1, legend.hist.bg.color = NA,
-  legend.hist.bg.alpha = 1, title.snap.to.legend = FALSE,
+  legend.hist.bg.alpha = 1, title.snap.to.legend = NA,
   title.position = c("left", "top"), title.color = attr.color,
   title.bg.color = NA, title.bg.alpha = 1, panel.show = NA,
   panel.labels = NA, panel.label.size = 1, panel.label.color = "black",
@@ -241,7 +241,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{legend.hist.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.hist.bg.color} is used (normally 1).}
 
-\item{title.snap.to.legend}{Logical that determines whether the title is part of the legend. By default \code{FALSE}}
+\item{title.snap.to.legend}{Logical that determines whether the title is part of the legend. By default \code{FALSE}, unless the legend is drawn outside the map (see \code{legend.outside}).}
 
 \item{title.position}{Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
 By default the title is placed on top of the legend (determined by \code{legend.position}).}

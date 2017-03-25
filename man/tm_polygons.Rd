@@ -25,7 +25,8 @@ tm_polygons(col = NA, alpha = NA, border.col = NA, border.alpha = NA,
 \item{col}{For \code{tm_fill}, it is one of
 \itemize{
 \item a single color value
-\item the name of a data variable that is contained in \code{shp}. Either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. #' \item \code{"MAP_COLORING"}. In this case polygons will be colored such that adjacent polygons do not get the same color. See the underlying function \code{\link[tmaptools:map_coloring]{map_coloring}} for details.}
+\item the name of a data variable that is contained in \code{shp}. Either the data variable contains color values, or values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. In the latter case, a choropleth is drawn. 
+\item \code{"MAP_COLORS"}. In this case polygons will be colored such that adjacent polygons do not get the same color. See the underlying function \code{\link[tmaptools:map_coloring]{map_coloring}} for details.}
 For \code{tm_borders}, it is a single color value that specifies the border line color. If multiple values are specified, small multiples are drawn (see details).}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
