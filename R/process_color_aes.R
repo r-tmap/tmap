@@ -152,7 +152,9 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 			}
 		} else title_append <- ""
 		
-		if (is.na(sel[1])) sel <- TRUE
+		#if (is.na(sel[1])) sel <- TRUE
+		sel[is.na(sel)] <- TRUE
+		
 		res <- process_col_vector(dtcol, sel, g, gt)
 		col <- matrix(res$cols, nrow=npol)
 		legend.labels <- res$legend.labels
