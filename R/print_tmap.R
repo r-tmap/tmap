@@ -209,8 +209,8 @@ determine_asp_ratios <- function(gm, interactive) {
 		lasp <- NA
 		fpi <- NULL
 	} else {
-		dw <- convertWidth(unit(1-sum(gm$margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
-		dh <- convertHeight(unit(1-sum(gm$margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
+		dw <- convertWidth(unit(1-sum(gm$outer.margins[c(2,4)]),"npc"), "inch", valueOnly=TRUE)
+		dh <- convertHeight(unit(1-sum(gm$outer.margins[c(1,3)]),"npc"), "inch", valueOnly=TRUE)
 		
 		fpi <- preprocess_facet_layout(gm, gm$legend.outside, dh, dw)
 		
