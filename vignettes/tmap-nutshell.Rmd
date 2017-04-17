@@ -65,13 +65,13 @@ qtm(Europe, fill="well_being", text="iso_a3", text.size="AREA", format="Europe",
 	text.root=5, fill.title="Well-Being Index", fill.textNA="Non-European countries")
 ```
 
-In this code, `fill`,`text`, and `text.size` serve as aesthetics. Both `well_being` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to brown, is mapped to the values of `well_being`. The variable `iso_a3` contains the text labels, in this case the country codes. The value `"AREA"` is a derived variable that contains the polygon area sizes. So text is sized increasingly with coutry area size. 
+In this code, `fill`,`text`, and `text.size` serve as aesthetics. Both `well_being` and `iso_a3` are variables of the data contained in the shape object `Europe`. A color palette, in this case the qualitative palette from yellow to brown, is mapped to the values of `well_being`. The variable `iso_a3` contains the text labels, in this case the country codes. The value `"AREA"` is a derived variable that contains the polygon area sizes. So text is sized increasingly with country area size.
 
 The two arguments `format` and `style` are predefined layout settings (see [layout](#layout)).
 
 The other arguments are passed on to the layer functions, which are described below. The argument `text.root` determines how text size is increased; in this case, the fifth root of the area sizes are taken. The result is that the text label for Russia does not dominate the other text labels. The `fill.title` argument is the title for the `fill`-legend. The argument `fill.textNA` is the legend text for missing values.
 
-The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for tis readability.
+The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for its readability.
 
 ### Plotting with tmap elements
 <a name="plot"></a>
@@ -91,7 +91,7 @@ The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [e
 |[`tm_fill`][6] | Fills the polygons | see tm_polygons |
 |[`tm_borders`][7] | Draws polygon borders | none |
 |[`tm_bubbles`][8] | Draws bubbles | see tm_symbols |
-|[`tm_sqaures`][9] | Draws squares | see tm_symbols |
+|[`tm_squares`][9] | Draws squares | see tm_symbols |
 |[`tm_dots`][10] | Draws dots | see tm_symbols |
 |[`tm_markers`][11] | Draws markers | see tm_symbols and tm_text |
 |[`tm_iso`][12] | Draws iso/contour lines | see tm_lines and tm_text |
@@ -180,7 +180,7 @@ tm_format_Europe() +
 tm_style_grey()
 ```
 
-In this case, two independent maps are created, with different scales. All arugments of the layer functions can be vectorized, one for each small multiple. Arugments that normally can take a vector, such as `palette` should be placed in a `list`.
+In this case, two independent maps are created, with different scales. All arguments of the layer functions can be vectorized, one for each small multiple. Arguments that normally can take a vector, such as `palette` should be placed in a `list`.
 
 This method is normally used to show two totally different variables, such as in this example Happy Planet Index and GDP. However, it is also possible to show variables that are related, as if they are subsets from the same data:
 
@@ -248,7 +248,7 @@ tm_legend(text.size=1,
 	hist.bg.alpha=.5)
 ```
 
-The wrapper functions starting with `tm_format_` specify the format for a specifc shape. In the tmap package, a couple of them are included, for instance `tm_format_World` that is taylored for world maps. It's also possible to create your own wrapper function for shapes that you will use frequently.
+The wrapper functions starting with `tm_format_` specify the format for a specific shape. In the tmap package, a couple of them are included, for instance `tm_format_World` that is tailored for world maps. It's also possible to create your own wrapper function for shapes that you will use frequently.
 
 Besides the shape-dependent `tm_format_` wrapper functions, tmap also contains wrapper functions for shape-independent styles.
 
@@ -289,7 +289,7 @@ The behaviour of `outer.margins`, `inner.margins`, and `asp` are correlated. To 
 tm + tm_layout(design.mode=TRUE)
 ```
 
-The red rectangle is the bounding box of the shape object. Both `inner.margins` and `asp` determine the measurements of the frame, indicated by the blue rectagle. Setting the left inner margin is useful to have extra space for the legend. 
+The red rectangle is the bounding box of the shape object. Both `inner.margins` and `asp` determine the measurements of the frame, indicated by the blue rectangle. Setting the left inner margin is useful to have extra space for the legend.
 
 Setting the aspect ratio is handy when the plot is saved to an image with a specific resolution. For instance, to save a thematic World map as a png image of 1920 by 1080 pixels, the setting `outer.margins=0, asp=1920/1080` can be used. When `asp=0`, as in the example above, the aspect ratio of the device (given the outer margins) is taken. See [`save_tmap`](#save), which uses these tricks under the hood.
 
