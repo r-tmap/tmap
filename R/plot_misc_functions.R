@@ -137,7 +137,13 @@ plot_grid_labels_x <- function(gt, scale) {
 		cogridx <- gt$grid.co.x	
 	}
 	labelsx <- gt$grid.labels.x
-	textGrob(labelsx, y=1, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	
+	cex <- gt$grid.labels.size*scale
+	
+	spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+	marginX <- convertWidth(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+
+	textGrob(labelsx, y=1-spacerX-marginX, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	
 }
 
@@ -149,7 +155,13 @@ plot_grid_labels_y <- function(gt, scale) {
 		cogridy <- gt$grid.co.y
 	}
 	labelsy <- gt$grid.labels.y
-	textGrob(labelsy, y=cogridy, x=1, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	
+	cex <- gt$grid.labels.size*scale
+
+	spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+	marginY <- convertWidth(unit(gt$grid.labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+	
+	textGrob(labelsy, y=cogridy, x=1-spacerY-marginY, just="right", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 }
 
 
@@ -161,6 +173,7 @@ plot_grid <- function(gt, scale, add.labels) {
 	labelsx <- gt$grid.labels.x
 	labelsy <- gt$grid.labels.y
 	
+
 	cex <- gt$grid.labels.size*scale
 	
 	selx <- (length(cogridx) > 0)
@@ -184,24 +197,24 @@ plot_grid <- function(gt, scale, add.labels) {
 		labelsXw <- if (selx) max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE))  * cex + fh else 0
 		spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+		marginY <- convertWidth(unit(gt$grid.labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+		marginX <- convertWidth(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	} else {
-		labelsXw <- labelsYw <- spacerX <- spacerY <- 0
+		labelsXw <- labelsYw <- spacerX <- spacerY <- marginY <- marginX <- 0
 	}	
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
-		cogridx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX) else numeric(0)
-		cogridy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY) else numeric(0)
+		cogridx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX) else numeric(0)
+		cogridy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY+marginY) else numeric(0)
 	}
 	
 	# select grid labels to print
-	selx2 <- if (selx) (cogridx >= labelsYw + spacerY & cogridx <= 1 - spacerY) else selx
-	sely2 <- if (sely) (cogridy >= labelsXw + spacerX & cogridy <= 1 - spacerX) else sely
+	selx2 <- if (selx) (cogridx >= labelsYw + spacerY + marginY & cogridx <= 1 - spacerY) else selx
+	sely2 <- if (sely) (cogridy >= labelsXw + spacerX + marginX & cogridy <= 1 - spacerX) else sely
 	
 	# select grid lines to draw
-	selx <- if (selx) (cogridx >= labelsYw + spacerY & cogridx <= 1) else selx
-	sely <- if (sely) (cogridy >= labelsXw + spacerX & cogridy <= 1) else sely
-	
-	
+	selx <- if (selx) (cogridx >= labelsYw + spacerY + marginY & cogridx <= 1) else selx
+	sely <- if (sely) (cogridy >= labelsXw + spacerX + marginX & cogridy <= 1) else sely
 	
 	# crop projected grid lines, and extract polylineGrob ingredients
 	if (!is.na(gt$grid.projection)) {
@@ -219,7 +232,7 @@ plot_grid <- function(gt, scale, add.labels) {
 			grid.co.y.lns <- numeric(0)
 		} else {
 			lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel]), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
-			lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY, 1, labelsXw + spacerX, 1)))
+			lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY + marginY, 1, labelsXw + spacerX + marginX, 1)))
 			
 			cogridxlns <- if (any(selx)) do.call("rbind", mapply(function(l, i) {
 				co <- as.data.frame(attr(l, "coords"))
@@ -244,14 +257,14 @@ plot_grid <- function(gt, scale, add.labels) {
 		labelsx <- labelsx[selx2]
 		
 		if (is.na(gt$grid.projection)) {
-			grobGridX <- polylineGrob(x=rep(cogridx2, each=2), y=rep(c(labelsXw+spacerX,1), length(cogridx2)), 
+			grobGridX <- polylineGrob(x=rep(cogridx2, each=2), y=rep(c(labelsXw+spacerX+marginX,1), length(cogridx2)), 
 									  id=rep(1:length(cogridx2), each=2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		} else {
 			grobGridX <- polylineGrob(x=cogridxlns$x, y=cogridxlns$y, id=cogridxlns$ID, gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		}
 		
 		grobGridTextX <- if (add.labels && any(selx2)) {
-			textGrob(labelsx, y=labelsXw+spacerX*.5, x=cogridx3, just="top", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+			textGrob(labelsx, y=labelsXw+spacerX*.5+marginX, x=cogridx3, just="top", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
 		grobGridX <- NULL
@@ -266,14 +279,14 @@ plot_grid <- function(gt, scale, add.labels) {
 		labelsy <- labelsy[sely2]
 		
 		if (is.na(gt$grid.projection)) {
-			grobGridY <- polylineGrob(y=rep(cogridy2, each=2), x=rep(c(labelsYw+spacerY,1), length(cogridy2)), 
+			grobGridY <- polylineGrob(y=rep(cogridy2, each=2), x=rep(c(labelsYw+spacerY+marginY,1), length(cogridy2)), 
 									  id=rep(1:length(cogridy2), each=2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		} else {
 			grobGridY <- polylineGrob(x=cogridylns$x, y=cogridylns$y, id=cogridylns$ID, gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		}
 		
 		grobGridTextY <- if (add.labels && any(sely2)) {
-			textGrob(labelsy, x=labelsYw+spacerY*.5, y=cogridy3, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
+			textGrob(labelsy, x=labelsYw+spacerY*.5+marginY, y=cogridy3, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
 		grobGridY <- NULL

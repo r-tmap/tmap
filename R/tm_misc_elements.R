@@ -74,6 +74,8 @@ tm_facets <- function(by=NULL, ncol=NA, nrow=NA,
 #' @param alpha alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken. 
 #' @param labels.size font size of the tick labels
 #' @param labels.col font color of the tick labels
+#' @param labels.margin.x margin between tick labels of x axis and the frame
+#' @param labels.margin.y margin between tick labels of y axis and the frame
 #' @param labels.inside.frame Show labels inside the frame?
 #' @export
 tm_grid <- function(x=NA,
@@ -86,6 +88,8 @@ tm_grid <- function(x=NA,
 					alpha=NA,
 					labels.size=.6,
 					labels.col=NA,
+					labels.margin.x=0,
+					labels.margin.y=0,
 					labels.inside.frame=TRUE) {
 	g <- list(tm_grid=as.list(environment()))
 	names(g$tm_grid) <- paste("grid", names(g$tm_grid), sep=".")
