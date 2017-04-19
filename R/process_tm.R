@@ -63,6 +63,7 @@ process_tm <- function(x, gm, interactive) {
 		gf$shp_name <- x[[shape.id.orig[i]]]$shp_name
 		gf$shp_nr <- ifelse(!is.null(gf$by), i, 0)
 		gf$by <- if (is.null(gf$by)) "" else gf$by
+		gf$along <- if (is.null(gf$along)) "" else gf$along
 		gf
 	})
 	
@@ -76,6 +77,7 @@ process_tm <- function(x, gm, interactive) {
 	}
 	for (i in 1:startID) {
 		x[[shape.id.orig[i]]]$by <- gfs[[i]]$by
+		x[[shape.id.orig[i]]]$along <- gfs[[i]]$along
 	}
 	
 	# update with remaining gf's
@@ -83,9 +85,10 @@ process_tm <- function(x, gm, interactive) {
 		for (i in (startID+1):nshps) {
 			gf$shp_name <- c(gf$shp_name, gfs[[i]]$shp_name)
 			gf$shp_nr <- c(gf$shp_nr, gfs[[i]]$shp_nr)
-			gf_args <- setdiff(gfs[[i]]$call, "by")
+			gf_args <- setdiff(gfs[[i]]$call, c("by", "along"))
 			gf[gf_args] <- gfs[[i]][gf_args]
 			x[[shape.id.orig[i]]]$by <- gfs[[i]]$by
+			x[[shape.id.orig[i]]]$along <- gfs[[i]]$along
 		}
 	}
 	xnames <- names(x)

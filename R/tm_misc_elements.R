@@ -30,7 +30,9 @@
 #' @example ./examples/tm_facets.R
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @return \code{\link{tmap-element}}
-tm_facets <- function(by=NULL, ncol=NA, nrow=NA, 
+tm_facets <- function(by=NULL, 
+					  along=NULL,
+					  ncol=NA, nrow=NA, 
 					  free.coords=FALSE,
 					  drop.units=free.coords,
 					  drop.empty.facets=TRUE,

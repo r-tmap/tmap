@@ -30,6 +30,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	data <- g$tm_shape$data
 	
 	scale <- gt$scale
+	
 	if (g$tm_shape$by[1]=="") {
 		data$GROUP_BY <- factor("_NA_")
 		by <- NA
@@ -69,6 +70,46 @@ process_layers <- function(g, z, gt, gf, interactive) {
 			panel.names <- list(levels(d2[[1]]), levels(d2[[2]]))
 		}
 	}
+	
+	a <- g$tm_shape$along
+	if (a=="") {
+		alev <- NA
+		data$ALONG <- factor("_NA_")
+		along.names <- NA
+	} else {
+		if (!(a %in% names(data))) stop("Variable \"", a, "\" not found in ", g$tm_shape$shp_name, call.=FALSE)
+		acol <- data[[a]]
+		if (is.factor(acol)) {
+			alev <- levels(acol)
+			acol <- as.character(acol)
+		} else {
+			alev <- as.character(sort(unique(acol)))
+		}
+		data$ALONG <- factor(acol, levels=alev)
+		along.names <- alev
+	}
+	
+	cat("by: ", by, "\n")
+	cat("alev: ", alev, "\n")
+	
+	
+	if (is.na(by[1])) {
+		data$GROUP_BY <- data$ALONG
+		#by <- alev
+	} else if (!is.na(alev[1])) {
+		ablev <- apply(expand.grid(by, alev, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE), MARGIN=1, paste, collapse="__")
+		data$GROUP_BY <- factor(paste(as.character(data$GROUP_BY),
+							   as.character(data$ALONG),
+							   sep = "__"), levels=ablev)
+				
+		#by <- ablev		   
+	}
+	
+	cat("by: ", by, "\n")
+	
+	
+	
+	
 
 	# determine plotting order 
 	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_symbols", "tm_lines", "tm_raster") | substr(names(g), 1, 13)=="tm_add_legend"]
@@ -145,5 +186,5 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	plot.order <- plot.order[substr(plot.order, 1, 13)!="tm_add_legend"]
 	
-	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, list(add_legends=add_legends))
+	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, list(add_legends=add_legends))
 }
