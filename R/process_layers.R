@@ -95,14 +95,14 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	if (is.na(by[1])) {
 		data$GROUP_BY <- data$ALONG
-		#by <- alev
+		by <- alev
 	} else if (!is.na(alev[1])) {
 		ablev <- apply(expand.grid(by, alev, KEEP.OUT.ATTRS = FALSE, stringsAsFactors = FALSE), MARGIN=1, paste, collapse="__")
 		data$GROUP_BY <- factor(paste(as.character(data$GROUP_BY),
 							   as.character(data$ALONG),
 							   sep = "__"), levels=ablev)
 				
-		#by <- ablev		   
+		by <- ablev		   
 	}
 	
 	cat("by: ", by, "\n")
