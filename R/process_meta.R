@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, gm, any.legend, interactive) {
+process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxpp, panel.names, gm, any.legend, interactive) {
 	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- NULL
 	
 	credit.show <- !is.null(gc)
@@ -9,12 +9,12 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 	gf <- within(gf, {
 		by <- NULL
 		if (is.na(ncol) && is.na(nrow)) {
-			nrowcol <- get_arrangement(nx = nx, asp_ratio = gm$shape.asp_ratio)
+			nrowcol <- get_arrangement(nx = nxpp, asp_ratio = gm$shape.asp_ratio)
 			nrow <- nrowcol[1]
 			ncol <- nrowcol[2]
 		} else {
-			if (is.na(ncol)) ncol <- ceiling(nx / nrow)
-			if (is.na(nrow)) nrow <- ceiling(nx / ncol)
+			if (is.na(ncol)) ncol <- ceiling(nxpp / nrow)
+			if (is.na(nrow)) nrow <- ceiling(nxpp / ncol)
 		}
 	})
 	
@@ -24,6 +24,19 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 	freescales <- names(gf)[substr(names(gf), 1, 11) == "free.scales"]
 	
 	gt <- within(gt, {
+		nxpp <- nxpp
+		
+		## number of pages (np) and number of plots (small multiples) per page (pp)
+		if (nxpp==1) {
+			# wrap of plots
+			np <- ceiling(nx / (gf$nrow * gf$ncol))
+			pp <- min(gf$nrow * gf$ncol, nx)
+		} else {
+			# plots along
+			np <- nx / nxpp
+			pp <- nxpp
+		}
+
 		if (!any.legend || !legend.show) {
 			if (legend.only) stop("No legend to show.", call.=FALSE)
 			legend.show <- FALSE
@@ -70,6 +83,9 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, 
 			}
 			if (panel.show) {
 				panel.names <- panel.labels
+				if (nxpp > 1 && !is.list(panel.names)) {
+					panel.names <- rep(panel.names, np)
+				}
 			}
 		}
 

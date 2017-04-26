@@ -78,20 +78,25 @@ process_layers <- function(g, z, gt, gf, interactive) {
 		along.names <- NA
 	} else {
 		if (!(a %in% names(data))) stop("Variable \"", a, "\" not found in ", g$tm_shape$shp_name, call.=FALSE)
+
 		acol <- data[[a]]
+		showNA <- ifelse(is.na(gf$showNA), any(is.na(acol)), gf$showNA)
 		if (is.factor(acol)) {
 			alev <- levels(acol)
 			acol <- as.character(acol)
 		} else {
 			alev <- as.character(sort(unique(acol)))
 		}
+		if (showNA) {
+			alev <- c(alev, gf$textNA)
+			acol[is.na(acol)] <- gf$textNA
+		}
+		
 		data$ALONG <- factor(acol, levels=alev)
 		along.names <- alev
 	}
 	
-	cat("by: ", by, "\n")
-	cat("alev: ", alev, "\n")
-	
+
 	
 	if (is.na(by[1])) {
 		data$GROUP_BY <- data$ALONG
@@ -104,11 +109,6 @@ process_layers <- function(g, z, gt, gf, interactive) {
 				
 		by <- ablev		   
 	}
-	
-	cat("by: ", by, "\n")
-	
-	
-	
 	
 
 	# determine plotting order 

@@ -42,7 +42,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 	if (!interactive) {
 
 		if (gm$legend.outside) {
-			leg_ids <- seq(1, nx, by=gm$ncol * gm$nrow)
+			leg_ids <- seq(1, nx, by=gm$pp) #ncol * gm$nrow)
 			gp_leg <- lapply(leg_ids, function(li) {
 				gli <- gps[[li]]
 				gli$tm_layout <- within(gli$tm_layout, {

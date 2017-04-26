@@ -2,11 +2,10 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 	mfrow <- gmeta$nrow
 	mfcol <- gmeta$ncol
 
-	## number of pages
-	np <- ceiling(nx / (mfrow * mfcol))
 	
-	## number of plots (small multiples) per page
-	pp <- min(mfrow * mfcol, nx)
+	np <- gmeta$np
+	pp <- gmeta$pp
+	
 	
 	## panels
 	panel.mode <- gmeta$panel.mode
@@ -35,6 +34,16 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		if (k!=1) {
 			grid.newpage()
 		}
+		
+		# get panel names
+		panel.namesk <- panel.names
+			
+		# 	if (gmeta$nxpp>1) {
+		# 	panel.names[[k]]
+		# } else {
+		# 	panel.names
+		# }
+		
 		
 		## in order to keep aspect ratio while resizing
 		if (dasp > 1) {
@@ -118,17 +127,17 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		if (panel.mode=="both") {
 			rowPanels <- lapply((1:mfrow), function(i) {
 				cellplot(gmeta$rowrange[i], gmeta$colpanelrow, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-									   textGrob(gmeta$panel.names[[1]][i], rot=gmeta$panel.label.rot[1], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
+									   textGrob(panel.namesk[[1]][i], rot=gmeta$panel.label.rot[1], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			})
 			
 			colPanels <- lapply((1:mfcol), function(i) {
 				cellplot(gmeta$colpanelrow, gmeta$colrange[i], e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-									   textGrob(gmeta$panel.names[[2]][i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
+									   textGrob(panel.namesk[[2]][i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			})
 		}  else if (panel.mode=="one") {
 			colPanels <- mapply(function(i, rw, cl) {
 				cellplot(rw, cl, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-										 textGrob(gmeta$panel.names[i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
+										 textGrob(panel.namesk[i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			}, istart:iend, 
 			rep(gmeta$rowrange-1, each=mfcol, length.out=ni), 
 			rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)

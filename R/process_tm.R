@@ -199,7 +199,11 @@ process_tm <- function(x, gm, interactive) {
 	} else {
 		panel.names <- NA
 	}
-
+	
+	## get along names
+	along.names <- gp[[1]]$along.names
+	np <- length(along.names)
+	
 	## check number of levels for two variables and override gf
 	ncols <- sapply(gp, function(i)i$ncol)
 	nrows <- sapply(gp, function(i)i$nrow)
@@ -223,12 +227,14 @@ process_tm <- function(x, gm, interactive) {
 	}))
 	if (any(!is.na(providers))) gt$basemaps <- providers[!is.na(providers)][1]
 	
-	nx <- limit_nx(nx)
 
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1))) || (length(legids))
 
 	## process meta
-	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, panel.names, gm, any.legend, interactive)
+	nxpp <- nx / np
+	nxpp <- limit_nx(nxpp)
+	
+	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxpp, panel.names, gm, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {
