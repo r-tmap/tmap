@@ -20,10 +20,6 @@ tm_shape(Europe) +
 	tm_polygons("red") +
 	tm_facets(by="size", along = "loc")
 
-tm_shape(Europe) +
-	tm_polygons("red") +
-	tm_facets(by="size", along = "loc")
-
 
 tm_shape(Europe) +
 	tm_polygons("red") +

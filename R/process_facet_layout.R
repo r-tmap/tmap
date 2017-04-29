@@ -3,7 +3,7 @@ process_facet_layout <- function(gm) {
 	
 	fpi <- gm$shape.fpi
 	
-	dh2 <- gm$shape.dh - fpi$legH - fpi$attrH
+	dh2 <- gm$shape.dh - fpi$legH - fpi$attrH - fpi$mainH
 	dw2 <- gm$shape.dw - fpi$legW
 	
 	## calculate facets and total device aspect ratio
@@ -57,48 +57,48 @@ process_facet_layout <- function(gm) {
 		
 		if (panel.mode=="none") {
 			colrange <- (1:ncol)*2 + 3
-			rowrange <- (1:nrow)*2 + 3
+			rowrange <- (1:nrow)*2 + 4
 			facetw <- ((1-spc-outerx)-xs-fpi$legmarx-ylabWnpc-between.margin.x*(ncol-1))/ncol
-			faceth <- ((1-spc-outery)-ys-fpi$legmary-fpi$attrmary-xlabHnpc-between.margin.y*(nrow-1))/nrow
+			faceth <- ((1-spc-outery)-ys-fpi$legmary-fpi$attrmary-fpi$mainmary-xlabHnpc-between.margin.y*(nrow-1))/nrow
 			colws <- c(outer.margins[2], xs/2, fpi$legmar[2], ylabWnpc, rep(c(facetw, between.margin.x), ncol-1), facetw, fpi$legmar[4], xs/2, outer.margins[4])
 			
 			if (attr.between.legend.and.map) {
-				rowhs <- c(outer.margins[3], ys/2, fpi$legmar[3], fpi$attrmar[3], rep(c(faceth, between.margin.y), nrow-1), faceth, xlabHnpc, fpi$attrmar[1], fpi$legmar[1], ys/2, outer.margins[1])
+				rowhs <- c(outer.margins[3], ys/2, fpi$mainmary, fpi$legmar[3], fpi$attrmar[3], rep(c(faceth, between.margin.y), nrow-1), faceth, xlabHnpc, fpi$attrmar[1], fpi$legmar[1], ys/2, outer.margins[1])
 			} else {
-				rowhs <- c(outer.margins[3], ys/2, fpi$attrmar[3], fpi$legmar[3], rep(c(faceth, between.margin.y), nrow-1), faceth, xlabHnpc, fpi$legmar[1], fpi$attrmar[1], ys/2, outer.margins[1])
+				rowhs <- c(outer.margins[3], ys/2, fpi$mainmary, fpi$attrmar[3], fpi$legmar[3], rep(c(faceth, between.margin.y), nrow-1), faceth, xlabHnpc, fpi$legmar[1], fpi$attrmar[1], ys/2, outer.margins[1])
 			}
 			
 
 		} else if (panel.mode=="one") {
 			colrange <- (1:ncol)*2 + 3
-			rowrange <- (1:nrow)*3 + 3
+			rowrange <- (1:nrow)*3 + 4
 			
 			facetw <- ((1-spc-outerx)-xs-fpi$legmarx-ylabWnpc-between.margin.x*(ncol-1))/ncol
-			faceth <- ((1-spc-outery)-ys-fpi$legmary-fpi$attrmary-xlabHnpc-between.margin.y*(nrow-1))/nrow - panelh
+			faceth <- ((1-spc-outery)-ys-fpi$legmary-fpi$attrmary-fpi$mainmary-xlabHnpc-between.margin.y*(nrow-1))/nrow - panelh
 			
 			colws <- c(outer.margins[2], xs/2, fpi$legmar[2], ylabWnpc, rep(c(facetw, between.margin.x), ncol-1), facetw, fpi$legmar[4], xs/2, outer.margins[4])
 			if (attr.between.legend.and.map) {
-				rowhs <- c(outer.margins[3], ys/2, fpi$legmar[3], fpi$attrmar[3], rep(c(panelh, faceth, between.margin.y), nrow-1), panelh, faceth, xlabHnpc, fpi$attrmar[1], fpi$legmar[1], ys/2, outer.margins[1])
+				rowhs <- c(outer.margins[3], ys/2, fpi$mainmary, fpi$legmar[3], fpi$attrmar[3], rep(c(panelh, faceth, between.margin.y), nrow-1), panelh, faceth, xlabHnpc, fpi$attrmar[1], fpi$legmar[1], ys/2, outer.margins[1])
 			} else {
-				rowhs <- c(outer.margins[3], ys/2, fpi$attrmar[3], fpi$legmar[3], rep(c(panelh, faceth, between.margin.y), nrow-1), panelh, faceth, xlabHnpc, fpi$legmar[1], fpi$attrmar[1], ys/2, outer.margins[1])
+				rowhs <- c(outer.margins[3], ys/2, fpi$mainmary, fpi$attrmar[3], fpi$legmar[3], rep(c(panelh, faceth, between.margin.y), nrow-1), panelh, faceth, xlabHnpc, fpi$legmar[1], fpi$attrmar[1], ys/2, outer.margins[1])
 			}
 			
 		} else {
 			colrange <- (1:ncol)*2 + 5
-			rowrange <- (1:nrow)*2 + 5
+			rowrange <- (1:nrow)*2 + 6
 			
-			colpanelrow <- 5
-			rowpanelcol <- 4
+			colpanelrow <- 6
+			rowpanelcol <- 5
 			
 			facetw <- ((1-spc-outerx)-xs-fpi$legmarx-ylabWnpc-between.margin.x*ncol-panelw)/ncol
-			faceth <- ((1-spc-outery)-ys-fpi$legmary-fpi$attrmary-xlabHnpc-between.margin.y*nrow-panelh)/nrow
+			faceth <- ((1-spc-outery)-ys-fpi$legmary-fpi$attrmary-fpi$mainmary-xlabHnpc-between.margin.y*nrow-panelh)/nrow
 			
 			colws <- c(outer.margins[2], xs/2, fpi$legmar[2], ylabWnpc, panelw, rep(c(between.margin.x, facetw), ncol), fpi$legmar[4], xs/2, outer.margins[4])
 			
 			if (attr.between.legend.and.map) {
-				rowhs <- c(outer.margins[3], ys/2, fpi$legmar[3], fpi$attrmar[3], panelh, rep(c(between.margin.y, faceth), nrow), xlabHnpc, fpi$attrmar[1],fpi$legmar[1], ys/2, outer.margins[1])
+				rowhs <- c(outer.margins[3], ys/2, fpi$mainmary, fpi$legmar[3], fpi$attrmar[3], panelh, rep(c(between.margin.y, faceth), nrow), xlabHnpc, fpi$attrmar[1],fpi$legmar[1], ys/2, outer.margins[1])
 			} else {
-				rowhs <- c(outer.margins[3], ys/2, fpi$attrmar[3], fpi$legmar[3], panelh, rep(c(between.margin.y, faceth), nrow), xlabHnpc, fpi$legmar[1], fpi$attrmar[1], ys/2, outer.margins[1])
+				rowhs <- c(outer.margins[3], ys/2, fpi$mainmary, fpi$attrmar[3], fpi$legmar[3], panelh, rep(c(between.margin.y, faceth), nrow), xlabHnpc, fpi$legmar[1], fpi$attrmar[1], ys/2, outer.margins[1])
 			}
 			
 		}

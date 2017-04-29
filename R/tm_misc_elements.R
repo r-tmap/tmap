@@ -5,6 +5,7 @@
 #' The global option \code{tmap.limits} controlls the limit of the number of facets that are plotted. By default, \code{options(tmap.limits=c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
 #' 
 #' @param by data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).
+#' @param along data varialbe name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{animation_tmap}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).
 #' @param ncol number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param nrow number of rows of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param free.coords logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?
@@ -39,7 +40,7 @@ tm_facets <- function(by=NULL,
 					  sync=!free.coords,
 					  showNA=NA,
 					  textNA="Missing",
-					  free.scales=is.null(by),
+					  free.scales=is.null(by) && is.null(along),
 					  free.scales.fill=free.scales,
 					  free.scales.symbol.size=free.scales,
 					  free.scales.symbol.col=free.scales,

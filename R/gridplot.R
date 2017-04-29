@@ -35,16 +35,7 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 			grid.newpage()
 		}
 		
-		# get panel names
-		panel.namesk <- panel.names
-			
-		# 	if (gmeta$nxpp>1) {
-		# 	panel.names[[k]]
-		# } else {
-		# 	panel.names
-		# }
-		
-		
+
 		## in order to keep aspect ratio while resizing
 		if (dasp > 1) {
 			cw <- dasp
@@ -80,8 +71,25 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		
 		## additional background rect for design mode only
 		grobFacetBG <- if (gmeta$design.mode) {
-			cellplot(3:(length(gmeta$rowhs)-2), 3:(length(gmeta$colws)-2), e=rectGrob(gp=gpar(fill="brown", col=NA), name="bg_facets_rect"))
+			cellplot(4:(length(gmeta$rowhs)-2), 3:(length(gmeta$colws)-2), e=rectGrob(gp=gpar(fill="brown", col=NA), name="bg_facets_rect"))
 		} else NULL
+		
+		## print main title
+		grobMainBG <- if (gmeta$main.title[k]!="" && gmeta$design.mode) {
+			cellplot(3, 3:(length(gmeta$colws)-2), e=rectGrob(gp=gpar(fill="gold", col=NA), name="bg_main_rect"))
+		} else NULL
+		
+
+		grobMain <- if (gmeta$main.title[k]!="") {
+			cellplot(3,  3:(length(gmeta$colws)-2), e={
+				margin <- convertWidth(unit(gmeta$main.title.size, "lines"), "npc", valueOnly = TRUE) * .25
+				main_pos <- gmeta$main.title.position
+				main_align <- ifelse(is.character(main_pos), ifelse(main_pos %in% c("center", "centre"), "center", ifelse(main_pos == "left", "left", "right")), "left")
+				main_pos <- ifelse(is.character(main_pos), ifelse(main_pos %in% c("center", "centre"), .5, ifelse(main_pos == "left", margin, 1-margin)), main_pos)
+				textGrob(gmeta$main.title[k], x = main_pos, just = main_align, gp=gpar(cex=gmeta$main.title.size, col=gmeta$main.title.color, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))
+			}, name="main_title")
+		} else NULL
+			
 		
 		## draw maps
 		istart <- (k-1) * pp + 1
@@ -126,18 +134,18 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		## draw panels		
 		if (panel.mode=="both") {
 			rowPanels <- lapply((1:mfrow), function(i) {
-				cellplot(gmeta$rowrange[i], gmeta$colpanelrow, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-									   textGrob(panel.namesk[[1]][i], rot=gmeta$panel.label.rot[1], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
+				cellplot(gmeta$rowrange[i], gmeta$rowpanelcol, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
+									   textGrob(panel.names[[1]][i], rot=gmeta$panel.label.rot[1], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			})
 			
 			colPanels <- lapply((1:mfcol), function(i) {
 				cellplot(gmeta$colpanelrow, gmeta$colrange[i], e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-									   textGrob(panel.namesk[[2]][i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
+									   textGrob(panel.names[[2]][i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			})
 		}  else if (panel.mode=="one") {
 			colPanels <- mapply(function(i, rw, cl) {
 				cellplot(rw, cl, e=gList(rectGrob(gp=gpar(fill=gmeta$panel.label.bg.color, lwd=gmeta$frame.lwd)),
-										 textGrob(panel.namesk[i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
+										 textGrob(panel.names[i], rot=gmeta$panel.label.rot[2], gp=gpar(col=gmeta$panel.label.color, cex=gmeta$panel.label.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily))))
 			}, istart:iend, 
 			rep(gmeta$rowrange-1, each=mfcol, length.out=ni), 
 			rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)
@@ -176,7 +184,7 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		}
 		
 		
-		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG), treeGridLabels, treeMults, rowPanels, colPanels, legPanel, attrPanel, xlabPanel, ylabPanel)), vp=vpGrid)
+		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG, grobMainBG, grobMain), treeGridLabels, treeMults, rowPanels, colPanels, legPanel, attrPanel, xlabPanel, ylabPanel)), vp=vpGrid)
 		grid.draw(tree)
 	})
 	upViewport(2)

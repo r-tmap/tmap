@@ -221,7 +221,7 @@ determine_asp_ratios <- function(gm, interactive) {
 		fasp <- fpi$dsw / fpi$dsh #-  fpi$pSH - fpi$between.margin.in)
 		
 		# aspect ratio per facet minus extern legend
-		lasp <- fasp * (1-fpi$legmarx) / (1-fpi$legmary-fpi$attrmary)
+		lasp <- fasp * (1-fpi$legmarx) / (1-fpi$legmary-fpi$attrmary-fpi$attrmary)
 	}
 	list(shape.dw = dw,
 		 shape.dh = dh,

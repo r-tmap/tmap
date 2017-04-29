@@ -72,7 +72,8 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	}
 	
 	a <- g$tm_shape$along
-	if (a=="") {
+	if (a=="" || interactive) {
+		if (a!="") warning("along not supported in view mode", call. = FALSE)
 		alev <- NA
 		data$ALONG <- factor("_NA_")
 		along.names <- NA

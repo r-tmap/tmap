@@ -200,10 +200,7 @@ process_tm <- function(x, gm, interactive) {
 		panel.names <- NA
 	}
 	
-	## get along names
-	along.names <- gp[[1]]$along.names
-	np <- length(along.names)
-	
+
 	## check number of levels for two variables and override gf
 	ncols <- sapply(gp, function(i)i$ncol)
 	nrows <- sapply(gp, function(i)i$nrow)
@@ -230,11 +227,13 @@ process_tm <- function(x, gm, interactive) {
 
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1))) || (length(legids))
 
-	## process meta
-	nxpp <- nx / np
-	nxpp <- limit_nx(nxpp)
+	## get along names
+	along.names <- gp[[1]]$along.names
 	
-	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxpp, panel.names, gm, any.legend, interactive)
+	nxa <- nx / length(along.names)
+	nxa <- limit_nx(nxa)
+	
+	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, gm, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {

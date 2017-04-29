@@ -3,7 +3,7 @@ data(World, metro, Europe)
 
 m1 <- tm_shape(Europe) + 
 	      tm_polygons("yellow") +
-	  tm_facets(by = "name", nrow=1,ncol=1)
+	  tm_facets(along = "name")
 
 animation_tmap(m1, filename="European countries.gif", width=800, delay=40)
 

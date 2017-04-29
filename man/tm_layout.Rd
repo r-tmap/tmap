@@ -49,12 +49,13 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   title.bg.color = NA, title.bg.alpha = 1, panel.show = NA,
   panel.labels = NA, panel.label.size = 1, panel.label.color = "black",
   panel.label.bg.color = "grey80", panel.label.height = 1.25,
-  panel.label.rot = c(90, 0), attr.outside = FALSE,
-  attr.outside.position = "bottom", attr.outside.size = NA,
-  attr.position = c("right", "bottom"), attr.just = c("left", "bottom"),
-  design.mode = FALSE, basemaps = c("CartoDB.Positron", "OpenStreetMap",
-  "Esri.WorldTopoMap"), basemaps.alpha = c(0.5, 1, 1), bg.overlay = NULL,
-  bg.overlay.alpha = 0)
+  panel.label.rot = c(90, 0), main.title = NA, main.title.size = 1.5,
+  main.title.color = "black", main.title.position = "left",
+  attr.outside = FALSE, attr.outside.position = "bottom",
+  attr.outside.size = NA, attr.position = c("right", "bottom"),
+  attr.just = c("left", "bottom"), design.mode = FALSE,
+  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
+  basemaps.alpha = c(0.5, 1, 1), bg.overlay = NULL, bg.overlay.alpha = 0)
 
 tm_legend(...)
 
@@ -137,7 +138,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
   basemaps = "Esri.WorldTopoMap", basemaps.alpha = 0.5, ...)
 }
 \arguments{
-\item{title}{Global title of the map. For small multiples, multiple titles can be specified. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}).}
+\item{title}{Global title of the map. For small multiples, multiple titles can be specified. The title is drawn inside the map. Alternatively, use \code{panel.labels} to print the map as a panel, with the title inside the panel header (especially useful for small multiples). Another alternative is the \code{main.title} which prints a title above the map. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}).}
 
 \item{scale}{numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.}
 
@@ -265,6 +266,14 @@ By default the title is placed on top of the legend (determined by \code{legend.
 \item{panel.label.height}{Height of the labels in number of text line heights.}
 
 \item{panel.label.rot}{Rotation angles of the panel labels. Vector of two values: the first is the rotation angle (in degrees) of the row panels, which are only used in cross-table facets (when \code{\link{tm_facets}}'s \code{by} is specified with two variables). The second is the rotation angle of the column panels.}
+
+\item{main.title}{Title that is printed above the map (or small multiples). When multiple pages are generated (see \code{along} argument of \code{\link{tm_facets}}), a vector can be provided. By default, the main title is only printed when this \code{along} argument is specified.}
+
+\item{main.title.size}{Size of the main title}
+
+\item{main.title.color}{Color of the main title}
+
+\item{main.title.position}{Position of the main title. Either a numeric value between 0 (left) and 1 (right), or a character value: \code{"left"}, \code{"center"}, or \code{"right"}.}
 
 \item{attr.outside}{Logical that determines whether the attributes are plot outside of the map/facets.}
 

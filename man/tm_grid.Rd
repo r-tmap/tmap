@@ -6,7 +6,7 @@
 \usage{
 tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
   col = NA, lwd = 1, alpha = NA, labels.size = 0.6, labels.col = NA,
-  labels.inside.frame = TRUE)
+  labels.margin.x = 0, labels.margin.y = 0, labels.inside.frame = TRUE)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}
@@ -28,6 +28,10 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
 \item{labels.size}{font size of the tick labels}
 
 \item{labels.col}{font color of the tick labels}
+
+\item{labels.margin.x}{margin between tick labels of x axis and the frame}
+
+\item{labels.margin.y}{margin between tick labels of y axis and the frame}
 
 \item{labels.inside.frame}{Show labels inside the frame?}
 }

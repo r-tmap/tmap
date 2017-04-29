@@ -4,10 +4,11 @@
 \alias{tm_facets}
 \title{Small multiples}
 \usage{
-tm_facets(by = NULL, ncol = NA, nrow = NA, free.coords = FALSE,
-  drop.units = free.coords, drop.empty.facets = TRUE, sync = !free.coords,
-  showNA = NA, textNA = "Missing", free.scales = is.null(by),
-  free.scales.fill = free.scales, free.scales.symbol.size = free.scales,
+tm_facets(by = NULL, along = NULL, ncol = NA, nrow = NA,
+  free.coords = FALSE, drop.units = free.coords, drop.empty.facets = TRUE,
+  sync = !free.coords, showNA = NA, textNA = "Missing",
+  free.scales = is.null(by), free.scales.fill = free.scales,
+  free.scales.symbol.size = free.scales,
   free.scales.symbol.col = free.scales,
   free.scales.symbol.shape = free.scales,
   free.scales.text.size = free.scales, free.scales.text.col = free.scales,
@@ -17,6 +18,8 @@ tm_facets(by = NULL, ncol = NA, nrow = NA, free.coords = FALSE,
 }
 \arguments{
 \item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).}
+
+\item{along}{data varialbe name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{animation_tmap}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).}
 
 \item{ncol}{number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.}
 

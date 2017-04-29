@@ -48,8 +48,14 @@ preprocess_facet_layout <- function(gm, external_legend, dh, dw) {
 		attrmar <- rep(0, 4)
 	}
 	attrmary <- sum(attrmar[c(1,3)])
-	attrH <- convertHeight(unit(attrmary, "npc"), "inch", valueOnly=TRUE)
+	attrH <- convertHeight(unit(attrmary, "npc"), "inch", valueOnly = TRUE)
 	
+	mainTitleLines <- max(sapply(gm$main.title, function(mt) {
+		if (mt==0) 0 else number_text_lines(mt)
+	}))
+	mainH <- convertHeight(unit(mainTitleLines, "lines")*1.2*gm$main.title.size, "inch", valueOnly=TRUE)
+	mainmary <- convertHeight(unit(mainH, "inch"), "npc", valueOnly = TRUE)
+
 	pS <-  convertHeight(unit(gm$panel.label.size, "lines"), "inch", valueOnly=TRUE) * gm$panel.label.height
 	
 	pSH <- if (gm$panel.show) {
@@ -69,16 +75,16 @@ preprocess_facet_layout <- function(gm, external_legend, dh, dw) {
 	# calculate facet device size
 	if (gm$panel.mode=="none") {
 		dsw <- (dw - between.margin.in * (gm$ncol-1) - legW) / gm$ncol
-		dsh <- (dh - between.margin.in * (gm$nrow-1) - legH - attrH) / gm$nrow
+		dsh <- (dh - between.margin.in * (gm$nrow-1) - legH - attrH - mainH) / gm$nrow
 	} else if (gm$panel.mode=="one") {
 		dsw <- (dw - between.margin.in * (gm$ncol-1) - legW) / gm$ncol
-		dsh <- ((dh - between.margin.in * (gm$nrow-1) - legH - attrH) / gm$nrow) - pSH
+		dsh <- ((dh - between.margin.in * (gm$nrow-1) - legH - attrH - mainH) / gm$nrow) - pSH
 	} else {
 		dsw <- (dw - between.margin.in * (gm$ncol-1)-pSW - legW) / gm$ncol
-		dsh <- ((dh - between.margin.in * (gm$nrow-1)-pSH - legH - attrH) / gm$nrow)
+		dsh <- ((dh - between.margin.in * (gm$nrow-1)-pSH - legH - attrH - mainH) / gm$nrow)
 	}
 	
 	
 	
-	return(list(legH=legH, legW=legW, attrH=attrH, pSH=pSH, pSW=pSW, legmar=legmar, legmarx=legmarx, legmary=legmary, attrmar=attrmar, attrmary=attrmary, xlabHin=xlabHin, ylabWin=ylabWin, between.margin.in=between.margin.in, dsh=dsh, dsw=dsw))
+	return(list(legH=legH, legW=legW, attrH=attrH, mainH=mainH, pSH=pSH, pSW=pSW, legmar=legmar, legmarx=legmarx, legmary=legmary, attrmar=attrmar, attrmary=attrmary, mainmary=mainmary, xlabHin=xlabHin, ylabWin=ylabWin, between.margin.in=between.margin.in, dsh=dsh, dsw=dsw))
 }

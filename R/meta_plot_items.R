@@ -663,6 +663,8 @@ plot_compass <- function(gt, just) {
 	u <- 1/(gt$compass.nlines)
 	#vpComp <- viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	
+	cat("light", gt$compass.color.light, "\n")
+	cat("dark", gt$compass.color.dark, "\n")
 	
 	light <- do.call("process_color", c(list(gt$compass.color.light, alpha=1), gt$pc))
 	dark <- do.call("process_color", c(list(gt$compass.color.dark, alpha=1), gt$pc))
@@ -799,7 +801,7 @@ plot_compass <- function(gt, just) {
 	}
 	
 	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {
-		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill, lwd=gt$compass.lwd))
+		polygonGrob(x=x[[1]], y=y[[1]], id=id, gp=gpar(fill=fill, lwd=gt$compass.lwd, col=dark))
 	} else if (gt$compass.type=="radar") {
 		gTree(children = gList(
 			circleGrob(x=x[[1]], y=y[[1]], r = cr[1], gp=gpar(lwd=2*LWD, col=dark, fill=light)),
