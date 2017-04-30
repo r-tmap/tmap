@@ -34,6 +34,8 @@ num2shape <- function(x,
 	
 	if (showNA) shapes <- c(shapes, shapeNA)
 	
+	legend.values <- breaks
+	
 	# create legend labels for discrete cases
 	if (is.null(legend.labels)) {
 		legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE, interval.closure=int.closure), legend.format)) 
@@ -44,6 +46,6 @@ num2shape <- function(x,
 	
 	if (showNA) legend.labels <- c(legend.labels, legend.NA.text)
 	
-	list(shps=shps, legend.labels=legend.labels, shapes=shapes)
+	list(shps=shps, legend.labels=legend.labels, legend.values=legend.values, shapes=shapes)
 }
 

@@ -169,6 +169,9 @@ num2pal <- function(x, n = 5,
 		# temporarily stack gradient colors
 		legend.palette <- sapply(legend.palette, paste, collapse="-")
 		
+		# create legend values
+		legend.values <- b
+		
 		# create legend labels for continuous cases
 		if (is.null(legend.labels)) {
 			legend.labels <- do.call("fancy_breaks", c(list(vec=b, intervals=FALSE, interval.closure=int.closure), legend.format)) 	
@@ -180,6 +183,9 @@ num2pal <- function(x, n = 5,
 		}		
 		attr(legend.palette, "style") <- style
 	} else {
+		# create legend values
+		legend.values <- breaks[-nbrks]
+		
 		# create legend labels for discrete cases
 		if (is.null(legend.labels)) {
 			legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE, interval.closure=int.closure), legend.format)) 
@@ -190,7 +196,7 @@ num2pal <- function(x, n = 5,
 		
 		if (showNA) legend.labels <- c(legend.labels, legend.NA.text)
 	}
-	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette, breaks=breaks, breaks.palette=breaks.palette, legend.neutral.col = legend.neutral.col)
+	list(cols=cols, legend.labels=legend.labels, legend.values=legend.values, legend.palette=legend.palette, breaks=breaks, breaks.palette=breaks.palette, legend.neutral.col = legend.neutral.col)
 }
 
 

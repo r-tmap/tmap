@@ -73,6 +73,7 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		line.lwd <- sapply(res, function(r)r$line.lwd)
 		line.legend.lwds <- lapply(res, function(r)r$line.legend.lwds)
 		line.lwd.legend.labels <- lapply(res, function(r)r$line.lwd.legend.labels)
+		line.lwd.legend.values <- lapply(res, function(r)r$line.lwd.legend.values)
 	} else {
 		if (!is.numeric(dtlwd)) stop("lwd argument of tm_lines is not a numeric variable", call. = FALSE)
 		res <- process_line_lwd_vector(dtlwd, g, rescale=varylwd)
@@ -80,9 +81,11 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		if (varylwd) {
 			line.legend.lwds <- res$line.legend.lwds
 			line.lwd.legend.labels <- res$line.lwd.legend.labels
+			line.lwd.legend.values <- res$line.lwd.legend.values
 		} else {
 			line.legend.lwds <- NA
 			line.lwd.legend.labels <- NA
+			line.lwd.legend.values <- NA
 			xlwd <- rep(NA, nx)
 			line.lwd.legend.title <- rep(NA, nx)
 			
@@ -106,6 +109,7 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 	if (dcr$is.constant) xcol <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
+	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
 	col.neutral <- dcr$col.neutral
 	breaks <- dcr$breaks
@@ -146,11 +150,13 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		 line.lty=g$lty,
 		 line.alpha=g$alpha,
 		 line.col.legend.labels=col.legend.labels,
+		 line.col.legend.values=col.legend.values,
 		 line.col.legend.palette=col.legend.palette,
 		 line.col.legend.misc=list(line.legend.lwd=line.legend.lwd, 
 		 						  line.legend.lty=g$lty,
 		 						  line.legend.alpha=g$alpha),
 		 line.lwd.legend.labels=line.lwd.legend.labels,
+		 line.lwd.legend.values=line.lwd.legend.values,
 		 line.lwd.legend.palette=line.lwd.legend.palette,
 		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds,
 		 						  line.legend.lty=g$lty,

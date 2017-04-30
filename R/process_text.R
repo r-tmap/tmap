@@ -123,6 +123,7 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		size <- sapply(res, function(r)r$size)
 		text_sel <- sapply(res, function(r)r$text_sel)
 		size.legend.labels <- lapply(res, function(r)r$size.legend.labels)
+		size.legend.values <- lapply(res, function(r)r$size.legend.values)
 		legend.sizes <- lapply(res, function(r)r$legend.sizes)
 		max.size <- lapply(res, function(r)r$max.size)
 	} else {
@@ -132,10 +133,12 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		
 		if (varysize) {
 			size.legend.labels <- res$size.legend.labels
+			size.legend.values <- res$size.legend.values
 			legend.sizes <- res$legend.sizes
 			max.size <- res$max.size
 		} else {
 			size.legend.labels <- NA
+			size.legend.values <- NA
 			size.legend.text <- NA
 			legend.sizes <- NA
 			max.size <- res$max.size
@@ -187,6 +190,7 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	}
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
+	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
 	col.neutral <- gt$aes.colors[["text"]] # preferable over dcr$col.neutral to match examples
 	breaks <- dcr$breaks
@@ -286,11 +290,13 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		 text.along.lines=g$along.lines,
 		 text.overwrite.lines=g$overwrite.lines,
 		 text.col.legend.labels=col.legend.labels,
+		 text.col.legend.values=col.legend.values,
 		 text.col.legend.text=col.legend.text,
 		 text.col.legend.palette=col.legend.palette,
 		 text.col.legend.sizes = max.size,
 		 text.col.legend.misc=list(),
 		 text.size.legend.labels=size.legend.labels,
+		 text.size.legend.values=size.legend.values,
 		 text.size.legend.text=size.legend.text,
 		 text.size.legend.palette= col.neutral,
 		 text.size.legend.sizes = legend.sizes,

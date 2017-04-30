@@ -90,6 +90,7 @@ process_col_vector <- function(x, sel, g, gt) {
 	}
 	cols <- colsLeg$cols
 	legend.labels <- colsLeg$legend.labels
+	legend.values <- colsLeg$legend.values
 	legend.palette <- colsLeg$legend.palette
 
 	## color tiny
@@ -103,6 +104,7 @@ process_col_vector <- function(x, sel, g, gt) {
 	}
 	return(list(cols=cols, 
 				legend.labels=legend.labels,
+				legend.values=legend.values,
 				legend.palette=legend.palette,
 				col.neutral=col.neutral,
 				breaks=breaks))
@@ -114,6 +116,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 	if (is.constant) {
 		col <- dtcol
 		legend.labels <- NA
+		legend.values <- NA
 		legend.palette <- NA
 		col.neutral <- apply(col, 2, function(bc) na.omit(bc)[1])
 		breaks <- NA
@@ -138,6 +141,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt), SIMPLIFY=FALSE)
 		col <- sapply(res, function(r)r$cols)
 		legend.labels <- lapply(res, function(r)r$legend.labels)
+		legend.values <- lapply(res, function(r)r$legend.values)
 		legend.palette <- lapply(res, function(r)r$legend.palette)
 		col.neutral <- lapply(res, function(r)r$col.neutral)
 		breaks <- lapply(res, function(r)r$breaks)
@@ -158,6 +162,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		res <- process_col_vector(dtcol, sel, g, gt)
 		col <- matrix(res$cols, nrow=npol)
 		legend.labels <- res$legend.labels
+		legend.values <- res$legend.values
 		legend.palette <- res$legend.palette
 		col.neutral <- res$col.neutral
 		breaks <- res$breaks
@@ -166,6 +171,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 	list(is.constant=is.constant,
 		 col=col,
 		 legend.labels=legend.labels,
+		 legend.values=legend.values,
 		 legend.palette=legend.palette,
 		 col.neutral=col.neutral,
 		 breaks=breaks,

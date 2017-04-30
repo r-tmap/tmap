@@ -14,6 +14,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt) {
 								   showNA = g$showNA)
 			symbol.shape <- shapesLeg$shps
 			shape.legend.labels <- shapesLeg$legend.labels
+			shape.legend.values <- shapesLeg$legend.values
 			shape.legend.shapes <- shapesLeg$shapes
 			shape.neutral <- shape.legend.shapes[1]
 		} else {
@@ -31,6 +32,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt) {
 								   legend.format=g$legend.format)
 			symbol.shape <- shapesLeg$shps
 			shape.legend.labels <- shapesLeg$legend.labels
+			shape.legend.values <- shapesLeg$legend.values
 			shape.legend.shapes <- shapesLeg$shapes
 			shape.neutral <- shape.legend.shapes[1]
 		}
@@ -38,12 +40,14 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt) {
 	} else {
 		symbol.shape <- x
 		shape.legend.labels <- NA
+		shape.legend.values <- NA
 		shape.legend.shapes <- NA
 		shape.neutral <- x[1]
 	}
 	
 	list(symbol.shape=symbol.shape,
 		 shape.legend.labels=shape.legend.labels,
+		 shape.legend.values=shape.legend.values,
 		 shape.legend.shapes=shape.legend.shapes,
 		 shape.neutral=shape.neutral)
 	
@@ -65,6 +69,8 @@ process_symbols_size_vector <- function(x, g, rescale, gt) {
 	} else {
 		x_legend <- g$sizes.legend
 	}
+	symbol.size.legend.values <- x_legend
+	
 	if (is.null(g$sizes.legend.labels)) {
 		symbol.size.legend.labels <- do.call("fancy_breaks", c(list(vec=x_legend, intervals=FALSE), g$legend.format))
 	} else {
@@ -79,6 +85,7 @@ process_symbols_size_vector <- function(x, g, rescale, gt) {
 	symbol.legend.sizes <- g$scale*(x_legend/maxX)^scaling
 	list(symbol.size=symbol.size,
 		 symbol.size.legend.labels=symbol.size.legend.labels,
+		 symbol.size.legend.values=symbol.size.legend.values,
 		 symbol.legend.sizes=symbol.legend.sizes,
 		 symbol.max.size=symbol.max.size)
 }
@@ -99,6 +106,8 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 	} else {
 		x_legend <- g$sizes.legend
 	}
+	
+	size.legend.values <- x_legend
 	
 	if (is.null(g$sizes.legend.labels)) {
 		size.legend.labels <- do.call("fancy_breaks", c(list(vec=x_legend, intervals=FALSE), g$legend.format))
@@ -133,6 +142,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 	list(size=size,
 		 text_sel=text_sel,
 		 size.legend.labels=size.legend.labels,
+		 size.legend.values=size.legend.values,
 		 legend.sizes=legend.sizes,
 		 max.size=max.size)
 }
@@ -152,6 +162,7 @@ process_line_lwd_vector <- function(x, g, rescale) {
 	
 	maxW <- ifelse(rescale, max(x, na.rm=TRUE), 1)
 	line.legend.lwds <-  g$scale * (w_legend/maxW)
+	line.lwd.legend.values <- w_legend
 	line.lwd.legend.labels <- format(w_legend, trim=TRUE)
 	
 	if (is.null(g$line.lwd.legend.labels)) {
@@ -166,7 +177,8 @@ process_line_lwd_vector <- function(x, g, rescale) {
 	line.lwd <- g$scale * (x/maxW)
 	list(line.lwd=line.lwd,
 		 line.legend.lwds=line.legend.lwds,
-		 line.lwd.legend.labels=line.lwd.legend.labels)
+		 line.lwd.legend.labels=line.lwd.legend.labels,
+		 line.lwd.legend.values=line.lwd.legend.values)
 }
 
 

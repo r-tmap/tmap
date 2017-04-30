@@ -64,11 +64,12 @@ cat2pal <- function(x,
 		if (is.na(showNA)) showNA <- FALSE
 	}
 
+	legend.values <- legend.labels
 	
 	if (showNA) {
 		legend.labels <- c(legend.labels, legend.NA.text)
 		legend.palette <- c(legend.palette, colorNA)
 	}
 	
-	list(cols=cols, legend.labels=legend.labels, legend.palette=legend.palette)
+	list(cols=cols, legend.labels=legend.labels, legend.values=legend.values, legend.palette=legend.palette)
 }

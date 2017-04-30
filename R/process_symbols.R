@@ -128,6 +128,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		res <- mapply(process_symbols_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt), SIMPLIFY = FALSE)
 		symbol.size <- sapply(res, function(r)r$symbol.size)
 		symbol.size.legend.labels <- lapply(res, function(r)r$symbol.size.legend.labels)
+		symbol.size.legend.values <- lapply(res, function(r)r$symbol.size.legend.values)
 		symbol.legend.sizes <- lapply(res, function(r)r$symbol.legend.sizes)
 		symbol.max.size <- lapply(res, function(r)r$symbol.max.size)
 	} else {
@@ -136,10 +137,12 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		symbol.size <- matrix(res$symbol.size, nrow=npol)
 		if (varysize) {
 			symbol.size.legend.labels <- res$symbol.size.legend.labels
+			symbol.size.legend.values <- res$symbol.size.legend.values
 			symbol.legend.sizes <- res$symbol.legend.sizes
 			symbol.max.size <- res$symbol.max.size
 		} else {
 			symbol.size.legend.labels <- NA
+			symbol.size.legend.values <- NA
 			symbol.legend.sizes <- NA
 			symbol.max.size <- res$symbol.max.size
 			xsize <- rep(NA, nx)
@@ -197,6 +200,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		res <- mapply(process_symbols_shape_vector, dtshape, sel2, gsp, MoreArgs = list(map_shapes=varyshape, gt), SIMPLIFY = FALSE)
 		symbol.shape <- sapply(res, function(r)r$symbol.shape)
 		shape.legend.labels <- lapply(res, function(r)r$shape.legend.labels)
+		shape.legend.values <- lapply(res, function(r)r$shape.legend.values)
 		shape.legend.shapes <- lapply(res, function(r)r$shape.legend.shapes)
 		shape.neutral <- lapply(res, function(r)r$shape.neutral)
 		if (!varyshape) xshape <- rep(NA, nx)
@@ -207,10 +211,12 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		symbol.shape <- matrix(res$symbol.shape, nrow=npol)
 		if (varyshape) {
 			shape.legend.labels <- res$shape.legend.labels
+			shape.legend.values <- res$shape.legend.values
 			shape.legend.shapes <- res$shape.legend.shapes
 			shape.neutral <- res$shape.neutral
 		} else {
 			shape.legend.labels <- NA
+			shape.legend.values <- NA
 			shape.legend.shapes <- NA
 			xshape <- rep(NA, nx)
 			symbol.shape.legend.title <- rep(NA, nx)
@@ -224,6 +230,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	if (dcr$is.constant) xcol <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
+	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
 	col.neutral <- dcr$col.neutral
 	breaks <- dcr$breaks
@@ -284,16 +291,19 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 symbol.border.col=symbol.border.col,
 		 #symbol.scale=scale, # not needed anymore?
 		 symbol.col.legend.labels=col.legend.labels,
+		 symbol.col.legend.values=col.legend.values,
 		 symbol.col.legend.palette=col.legend.palette,
 		 symbol.col.legend.sizes=symbol.max.size,
 		 symbol.col.legend.shapes=shape.neutral,
 		 symbol.col.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.normal.size=g$legend.max.symbol.size),
 		 symbol.size.legend.labels=symbol.size.legend.labels,
+		 symbol.size.legend.values=symbol.size.legend.values,
 		 symbol.size.legend.palette= col.neutral,
 		 symbol.size.legend.sizes=symbol.legend.sizes,
 		 symbol.size.legend.shapes=shape.neutral,
 		 symbol.size.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.normal.size=g$legend.max.symbol.size),
 		 symbol.shape.legend.labels=shape.legend.labels,
+		 symbol.shape.legend.values=shape.legend.values,
 		 symbol.shape.legend.palette=col.neutral,
 		 symbol.shape.legend.sizes=symbol.max.size,
 		 symbol.shape.legend.shapes=shape.legend.shapes,

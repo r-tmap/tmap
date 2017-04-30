@@ -525,7 +525,12 @@ get_popups <- function(gpl, type) {
 
 add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 	pal_name <- paste(aes, "legend.palette", sep=".")
+	val_name <- paste(aes, "legend.values", sep=".")
+	lab_name <- paste(aes, "legend.labels", sep=".")
+	
 	pal <- gpl[[pal_name]]
+	val <- gpl[[val_name]]
+	lab <- gpl[[lab_name]]
 	
 	if (nchar(pal[1])>10) {
 		style <- attr(pal, "style")
@@ -538,14 +543,24 @@ add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 		if (incl.na) {
 			colNA <- unname(pal[length(pal)])
 			pal <- pal[-length(pal)]
-			val <- as.numeric(gsub(",", "", gpl$fill.legend.labels, fixed = TRUE))
+			textNA <- lab[length(lab)]
 		} else {
-			val <- as.numeric(gsub(",", "", gpl$fill.legend.labels, fixed = TRUE))
 			colNA <- NA
+			textNA <- NA
 		}
 	} else {
 		is.cont <- FALSE
+		if (length(pal) != length(val)) {
+			colNA <- pal[length(pal)]
+			textNA <- lab[length(pal)]
+			pal <- pal[-length(pal)]
+			lab <- lab[-length(lab)]
+		} else {
+			colNA <- NA
+			textNA <- NA
+		}
 	}
+	
 	RGBA <- col2rgb(pal, alpha = TRUE)
 	col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
 	opacity <- unname(RGBA[4,1]/255) * alpha
@@ -555,23 +570,26 @@ add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 	}
 	
 	title_name <- paste(aes, "legend.title", sep=".")
-	lab_name <- paste(aes, "legend.labels", sep=".")
 	
 	title <- if (nonempty_text(gpl[[title_name]])) expr_to_char(gpl[[title_name]]) else NULL
 
 	legend.position <-gt$view.legend.position
 
 	if (is.cont) {
+		legvals <- if (!is.na(colNA)) c(val, NA) else val
+
 		if (style=="quantile") {
 			addLegend(map, position=legend.position,
-					  pal=colorQuantile(pal, val, na.color=colNA), values=val)
+					  pal=colorQuantile(pal, val, na.color=colNA), values=legvals, na.label = textNA)
 		} else {
 			addLegend(map, position=legend.position,
-					  pal=colorNumeric(pal, val, na.color=colNA), values=val)
+					  pal=colorNumeric(pal, val, na.color=colNA), values=legvals, na.label = textNA)
 		}
 	} else {
-		addLegend(map, position=legend.position,
-				  colors=col, labels = gpl[[lab_name]], opacity=opacity, title=title)
+		legvals <- if (!is.na(colNA)) factor(c(lab, NA), levels=lab) else factor(lab, levels=lab)
+		lab <- factor(lab, levels=lab)
+		addLegend(map, position=legend.position, 
+				  pal=colorFactor(pal, domain=lab, na.color = colNA, ordered = TRUE), values = legvals, na.label=textNA)
 	}
 }
 

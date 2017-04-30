@@ -47,11 +47,12 @@ cat2shape <- function(x,
 		if (is.na(showNA)) showNA <- FALSE
 	}
 	
+	legend.values <- legend.labels
 	
 	if (showNA) {
 		legend.labels <- c(legend.labels, legend.NA.text)
 		shapes <- c(shapes, shapeNA)
 	}
 	
-	list(shps=shps, legend.labels=legend.labels, shapes=shapes)
+	list(shps=shps, legend.labels=legend.labels, legend.values=legend.values, shapes=shapes)
 }

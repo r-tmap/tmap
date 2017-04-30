@@ -80,6 +80,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 	if (dcr$is.constant) x <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
+	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
 	breaks <- dcr$breaks
 	values <- dcr$values
@@ -104,6 +105,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 	
 	list(raster=col,
 		 raster.legend.labels=col.legend.labels,
+		 raster.legend.values=col.legend.values,
 		 raster.legend.palette=col.legend.palette,
 		 raster.legend.misc=list(),
 		 raster.legend.hist.misc=list(values=values, breaks=breaks),
