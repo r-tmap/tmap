@@ -29,8 +29,8 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 		#if (!is.null(gm$credits.text)) gm$credits.text <- sapply(gm$credits.text, "[[", i)
 		gm[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")] <- lapply(
 			gm[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")],
-			function(gm) {
-				gm[gm$logo.show]	
+			function(gmi) {
+				gmi[gm$logo.show]	
 			})
 		gm$logo.show <- any(gm$logo.show)
 		
