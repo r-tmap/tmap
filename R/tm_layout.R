@@ -188,7 +188,7 @@ tm_layout <- function(title=NA,
 					  attr.just = c("left", "bottom"),
 					  design.mode = FALSE,
 					  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
-					  basemaps.alpha = c(.5, 1, 1),
+					  basemaps.alpha = c(1, 1, 1),
 					  bg.overlay=NULL,
 					  bg.overlay.alpha=0) {
 	legend.stack <- match.arg(legend.stack)

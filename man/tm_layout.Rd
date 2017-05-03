@@ -55,7 +55,7 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   attr.outside.size = NA, attr.position = c("right", "bottom"),
   attr.just = c("left", "bottom"), design.mode = FALSE,
   basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
-  basemaps.alpha = c(0.5, 1, 1), bg.overlay = NULL, bg.overlay.alpha = 0)
+  basemaps.alpha = c(1, 1, 1), bg.overlay = NULL, bg.overlay.alpha = 0)
 
 tm_legend(...)
 

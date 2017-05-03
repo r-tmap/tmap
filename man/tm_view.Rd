@@ -4,7 +4,7 @@
 \alias{tm_view}
 \title{Options for the interactive tmap viewer}
 \usage{
-tm_view(alpha = NA, colorNA = NULL, basemaps = NA, basemaps.alpha = NA,
+tm_view(alpha = NA, colorNA = NA, basemaps = NA, basemaps.alpha = NA,
   projection = 3857, symbol.size.fixed = FALSE, dot.size.fixed = TRUE,
   set.bounds = FALSE, set.view = NA, set.zoom.limits = NA,
   legend.position = c("right", "top"), control.position = c("left", "top"),
@@ -13,7 +13,7 @@ tm_view(alpha = NA, colorNA = NULL, basemaps = NA, basemaps.alpha = NA,
 \arguments{
 \item{alpha}{transparency (opacity) parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
 
-\item{colorNA}{default color for missing values (that is, in case \code{colorNA} is unspecified in layer functions such as \code{\link{tm_fill}}). The default value of \code{NULL} means transparent. It overrides the \code{na} value of the \code{aes.color} in \code{\link{tm_layout}}.}
+\item{colorNA}{default color for missing values in interactive mode. If the color of missing values is not defined in the layer functions (e.g. \code{\link{tm_fill}}), then the default color is taken from the \code{na} value of the \code{aes.color} argument in \code{\link{tm_layout}}. This \code{colorNA} argument (if not \code{NA} itself) overrides that default value. For interactive maps, it can be useful to set \code{colorNA} to \code{NULL}, which means transparent.}
 
 \item{basemaps}{vector of one or more names of baselayer maps, or a logical value. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. By default (\code{NA}), the choice of basemap(s) will be determined by the \code{basemaps} argument of \code{\link{tm_layout}}, which is style dependent. Use \code{TRUE} to select a large set of recommended basemaps. Use \code{FALSE} to omit basemap tiles. If a named vector is provided, the names are used in the layer control legend.}
 

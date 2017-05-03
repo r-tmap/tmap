@@ -13,6 +13,7 @@ num2pal <- function(x, n = 5,
 					   legend.format=list(scientific=FALSE)) {
 	breaks.specified <- !is.null(breaks)
 	is.cont <- (style=="cont" || style=="order")
+	
 	if (is.cont) {
 		style <- ifelse(style=="order", "quantile", "fixed")
 

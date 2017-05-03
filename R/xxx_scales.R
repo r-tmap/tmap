@@ -21,7 +21,17 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
 
         # get number of decimals (which is number of decimals in vec, which is reduced when mag is large)
         ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
-        if (is.na(digits)) digits <- max(min(ndec, 4-mag), 0)
+        if (is.na(digits)) {
+            digits <- max(min(ndec, 4-mag), 0)
+
+            # test if number of digits is sufficient for unique labels
+            if (!scientific) {
+                while (anyDuplicated(substr(frm, 1, mag+1+digits)) && (digits < 10)) {
+                    digits <- digits + 1
+                }
+            }
+
+        }
 
         if (!scientific) {
             if (mag>11 || (mag > 9 && all(vec - floor(vec/1e9)*1e9 < 1))) {
