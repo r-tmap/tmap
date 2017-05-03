@@ -363,7 +363,7 @@ tm_format_World()
 
 3. Each drawing element has a scalar argument called `scale`. The overall scaling and font sizes can be set by the `scale` argument in `tm_layout`.
 
-4. Arugments of the bounding box function [`bb`](../html/bb.html) can be passed directly to [`tm_shape`](../html/tm_shape.html):
+4. Arguments of the bounding box function [`bb`](../html/bb.html) can be passed directly to [`tm_shape`](../html/tm_shape.html):
 ```{r, fig.height=5}
 tm_shape(World, bbox = "India") +
 	tm_polygons("MAP_COLORS", palette="Pastel2") +
