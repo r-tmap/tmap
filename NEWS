@@ -1,6 +1,9 @@
-version 1.9 (development)
+version 1.10
 - [!] tm_scale_bar, tm_text, and tm_grid now supported in view mode (required leaflet 1.1.0)
-- added  along argument to tm_facets, which enables facetting along multiple pages (or animation frames)
+- added along argument to tm_facets, which enables facetting along multiple pages (or animation frames)
+- added main.title argument to tm_layout
+- improved automatic labeling of breaks
+- improved legend in view mode: missing values are shown by default (like in plot mode)
 
 version 1.8-1
 - added tm_rgb (shortcut for rgb rasters)

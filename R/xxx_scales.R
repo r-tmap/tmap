@@ -24,9 +24,12 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
         if (is.na(digits)) {
             digits <- max(min(ndec, 4-mag), 0)
 
+            # add sign to frm
+            frm_sign <- paste0(ifelse(vec<0, "-", "+"), frm)
+            
             # test if number of digits is sufficient for unique labels
             if (!scientific) {
-                while (anyDuplicated(substr(frm, 1, mag+1+digits)) && (digits < 10)) {
+                while (anyDuplicated(substr(frm_sign, 1, nchar(frm_sign)-10 + digits)) && (digits < 10)) {
                     digits <- digits + 1
                 }
             }

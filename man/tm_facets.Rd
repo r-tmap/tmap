@@ -19,7 +19,7 @@ tm_facets(by = NULL, along = NULL, ncol = NA, nrow = NA,
 \arguments{
 \item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).}
 
-\item{along}{data varialbe name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{animation_tmap}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).}
+\item{along}{data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{animation_tmap}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).}
 
 \item{ncol}{number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.}
 
