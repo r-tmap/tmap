@@ -14,7 +14,8 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
         x <- do.call(fun, list(vec))
     } else {
         ### analyse the numeric vector
-        frm <- gsub(" ", "", sprintf("%20.10f", abs(vec[!is.infinite(vec)])))
+    	vec_fin <- vec[!is.infinite(vec)]
+        frm <- gsub(" ", "", sprintf("%20.10f", abs(vec_fin)))
 
         # get width before decimal point
         mag <- max(nchar(frm)-11)
@@ -25,7 +26,7 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
             digits <- max(min(ndec, 4-mag), 0)
 
             # add sign to frm
-            frm_sign <- paste0(ifelse(vec<0, "-", "+"), frm)
+            frm_sign <- paste0(ifelse(vec_fin<0, "-", "+"), frm)
             
             # test if number of digits is sufficient for unique labels
             if (!scientific) {

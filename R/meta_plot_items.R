@@ -663,9 +663,6 @@ plot_compass <- function(gt, just) {
 	u <- 1/(gt$compass.nlines)
 	#vpComp <- viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	
-	cat("light", gt$compass.color.light, "\n")
-	cat("dark", gt$compass.color.dark, "\n")
-	
 	light <- do.call("process_color", c(list(gt$compass.color.light, alpha=1), gt$pc))
 	dark <- do.call("process_color", c(list(gt$compass.color.dark, alpha=1), gt$pc))
 	
