@@ -23,11 +23,11 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	xtcol <- g$col
 	xtext <- g$text
 	
-	if (interactive) {
-		xtsize <- xtsize[1]
-		xtcol <- xtcol[1]
-		xtext <- xtext[1]
-	}
+	# if (interactive) {
+	# 	xtsize <- xtsize[1]
+	# 	xtcol <- xtcol[1]
+	# 	xtext <- xtext[1]
+	# }
 
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
@@ -46,6 +46,14 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	nxtext <- length(xtext)
 	
 	varysize <- all(xtsize %in% shpcols) && !is.null(xtsize)
+	
+	if ((varysize || identical(xtsize, "AREA")) && interactive && !gt$text.size.variable) {
+		message("Text size will be constant in view mode. Set tm_view(text.size.variable = TRUE) to enable text size variables.")
+		varysize <- FALSE
+		nxtsize <- 1
+		xtsize <- 1
+	}
+	
 	varycol <- all(xtcol %in% shpcols) && !is.null(xtcol) && !(is.na(xtcol[1]))
 	
 	nx <- max(nxtcol, nxtsize, nxtext)
@@ -88,7 +96,7 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 			cols <- matrix(colvec, nrow=npol, ncol=nx, byrow = TRUE)
 		}
 		if (!is.matrix(cols)) {
-			cols <- matrix(cols, ncol=nx)
+			cols <- matrix(cols, nrow=npol,ncol=nx)
 		} else {
 			if (ncol(cols)!=nx) {
 				cols <- cols[,rep(1:ncol(cols), length.out=nx)]
@@ -202,17 +210,17 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	
 	if (is.list(values)) {
 		# process legend text
-		col.legend.text <- mapply(function(txt, v, s, l, gsci) {
+		col.legend.text <- mapply(function(txt, v, b, s, l, gsci) {
 			if (is.na(gsci$labels.text[1])) {
 				
-				if (is.na(breaks[1])) {
+				if (is.na(b[1])) {
 					# categorical
 					nl <- nlevels(v)
 					ids <- as.integer(v)
 				} else {
 					# numeric
-					nl <- length(breaks) - 1
-					ids <- as.integer(cut(v, breaks=breaks, include.lowest = TRUE, right = FALSE))
+					nl <- length(b) - 1
+					ids <- as.integer(cut(v, breaks=b, include.lowest = TRUE, right = FALSE))
 				}
 				ix <- sapply(1:nl, function(i)which(ids==i & s)[1])
 				if (length(l)==nl+1) {
@@ -229,7 +237,7 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 				}
 			}
 			coltext
-		}, as.data.frame(text, stringsAsFactors = FALSE), values, as.list(as.data.frame(text_sel)), if (is.list(col.legend.labels)) col.legend.labels else list(col.legend.labels), if (is.list(dtcol)) gsc else list(g), SIMPLIFY=FALSE)
+		}, as.data.frame(text, stringsAsFactors = FALSE), values, breaks, as.list(as.data.frame(text_sel)), if (is.list(col.legend.labels)) col.legend.labels else list(col.legend.labels), if (is.list(dtcol)) gsc else list(g), SIMPLIFY=FALSE)
 	}
 	
 

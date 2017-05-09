@@ -6,9 +6,10 @@
 \usage{
 tm_view(alpha = NA, colorNA = NA, basemaps = NA, basemaps.alpha = NA,
   projection = 3857, symbol.size.fixed = FALSE, dot.size.fixed = TRUE,
-  set.bounds = FALSE, set.view = NA, set.zoom.limits = NA,
-  legend.position = c("right", "top"), control.position = c("left", "top"),
-  popup.all.data = NULL, bg.overlay = NULL, bg.overlay.alpha = NULL)
+  text.size.variable = FALSE, set.bounds = FALSE, set.view = NA,
+  set.zoom.limits = NA, legend.position = c("right", "top"),
+  control.position = c("left", "top"), popup.all.data = NULL,
+  bg.overlay = NULL, bg.overlay.alpha = NULL)
 }
 \arguments{
 \item{alpha}{transparency (opacity) parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
@@ -24,6 +25,8 @@ tm_view(alpha = NA, colorNA = NA, basemaps = NA, basemaps.alpha = NA,
 \item{symbol.size.fixed}{should symbol sizes be fixed while zooming?}
 
 \item{dot.size.fixed}{should dot sizes be fixed while zooming?}
+
+\item{text.size.variable}{should text size variables be allowed in view mode? By default \code{FALSE}, since in many applications, the main reason to vary text size is to prevent occlusion in plot mode, which is often not a problem in view mode due to the ability to zoom in.}
 
 \item{set.bounds}{logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).}
 

@@ -278,7 +278,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				size <- size[gpl$text_sel]
 			}
 			
-			sizeChar <- paste(round(size * 10), "px", sep="")
+			sizeChar <- paste(round(size * 12), "px", sep="")
 			colsize <- paste(col, sizeChar, sep="_^_")
 			
 			just <- switch(gpl$text.just[1],

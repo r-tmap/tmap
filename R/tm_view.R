@@ -9,6 +9,7 @@
 #' @param projection projection. Either a EPSG number, or a \code{leaflet_crs} object created with \code{\link[leaflet:leafletCRS]{leafletCRS}}. By default, the Web Mercator (3857) is used, since the vast majority of basemaps are rendered accordingly. Other standards are EPSG numbers 4326 (WGS84) and 3395 (Mercator). If set to 0, the projection of the master shape is used (see \code{\link{tm_shape}}) provided that a EPSG number can be extracted.
 #' @param symbol.size.fixed should symbol sizes be fixed while zooming?
 #' @param dot.size.fixed should dot sizes be fixed while zooming?
+#' @param text.size.variable should text size variables be allowed in view mode? By default \code{FALSE}, since in many applications, the main reason to vary text size is to prevent occlusion in plot mode, which is often not a problem in view mode due to the ability to zoom in.
 #' @param set.bounds logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).
 #' @param set.view numeric vector or three that determines the view: lng, lat, and zoom (see \code{\link[leaflet:setView]{setView}}).
 #' @param set.zoom.limits numeric vector of two that set the minimum and maximum zoom levels (see \code{\link[leaflet:tileOptions]{tileOptions}}).
@@ -27,6 +28,7 @@ tm_view <- function(alpha=NA,
 					projection=3857,
 					symbol.size.fixed=FALSE,
 					dot.size.fixed=TRUE,
+					text.size.variable=FALSE,
 					set.bounds=FALSE,
 					set.view=NA,
 					set.zoom.limits=NA,
