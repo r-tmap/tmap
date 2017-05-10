@@ -37,7 +37,6 @@ num2shape <- function(x,
 	legend.values <- breaks
 	
 	# create legend labels for discrete cases
-	cat("ns\n")
 	if (is.null(legend.labels)) {
 		legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE, interval.closure=int.closure), legend.format)) 
 	} else {

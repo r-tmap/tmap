@@ -2,6 +2,7 @@ version 1.10
 - [!] tm_scale_bar, tm_text, and tm_grid now supported in view mode (required leaflet 1.1.0)
 - added along argument to tm_facets, which enables facetting along multiple pages (or animation frames)
 - added main.title argument to tm_layout
+- added tmap_options, including the new option tmap.unit ("metric" or "imperial"")
 - improved automatic labeling of breaks
 - improved legend in view mode: missing values are shown by default (like in plot mode)
 - improved bubble scaling in view mode

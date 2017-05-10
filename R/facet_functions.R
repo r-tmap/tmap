@@ -3,14 +3,14 @@ limit_nx <- function(nx) {
 	tmap.limits <- getOption("tmap.limits")
 	mode <- getOption("tmap.mode")
 	if (is.null(tmap.limits) || any(is.na(tmap.limits)) || !setequal(names(tmap.limits), c("facets.plot", "facets.view")))
-		warning("Incorrect global option \"tmap.limits\". See the documentation of tm_facets for details.")
+		warning("Incorrect global option \"tmap.limits\". See the documentation of tmap_options for details.")
 	else {
 		tmap.limits.mode <- paste("facets", mode, sep=".")
 		nx_lim <- tmap.limits[tmap.limits.mode]
 		if (nx_lim < nx) {
 			tmap.limits[tmap.limits.mode] <- nx
 			
-			warning("The number of facets exceeds the limit of ", nx_lim, ". The limit can be extended to ", nx, " with:\noptions(tmap.limits=c(facets.plot=", tmap.limits["facets.plot"], ", facets.view=", tmap.limits["facets.view"], "))")
+			warning("The number of facets exceeds the limit of ", nx_lim, ". The limit can be extended to ", nx, " with:\ntmap_options(tmap.limits=c(facets.plot=", tmap.limits["facets.plot"], ", facets.view=", tmap.limits["facets.view"], "))")
 			nx <- min(nx, nx_lim)
 		}
 	}

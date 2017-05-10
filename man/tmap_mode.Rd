@@ -27,7 +27,7 @@ ttm()
 the mode before changing
 }
 \description{
-Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm} is a toggle switch between the two modes. Tip 1: use \code{tmap_mode} in scripts and \code{ttm} in the console. Tip 2: use \code{ttm} in combination with \code{\link{last_map}} to redraw the last map in the other mode.
+Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also \code{\link{tmap_options}}. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm} is a toggle switch between the two modes. Tip 1: use \code{tmap_mode} in scripts and \code{ttm} in the console. Tip 2: use \code{ttm} in combination with \code{\link{last_map}} to redraw the last map in the other mode.
 }
 \examples{
 # world choropleth/bubble map of the world
@@ -77,5 +77,5 @@ tm_shape(NLD_muni) +
 tmap_mode(current.mode)
 }
 \seealso{
-\href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}, \code{\link{last_map}} to show the last map, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget
+\href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}, \code{\link{last_map}} to show the last map, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget, and \code{\link{tmap_options}} for tmap options.
 }

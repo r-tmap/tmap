@@ -232,6 +232,7 @@ process_tm <- function(x, gm, interactive) {
 	
 	nxa <- nx / length(along.names)
 	nxa <- limit_nx(nxa)
+	nx <- nxa * length(along.names)
 	
 	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, gm, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {

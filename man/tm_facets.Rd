@@ -70,7 +70,7 @@ tm_facets(by = NULL, along = NULL, ncol = NA, nrow = NA,
 Creates a \code{\link{tmap-element}} that specifies facets (small multiples). Small multiples can be created in two ways: 1) by specifying the \code{by} argument with one or two variable names, by which the data is grouped, 2) by specifying multiple variable names in any of the aesthetic argument of the layer functions (for instance, the argument \code{col} in \code{\link{tm_fill}}). This function further specifies the facets, for instance number of rows and columns, and whether the coordinate and scales are fixed or free (i.e. independent of each other).
 }
 \details{
-The global option \code{tmap.limits} controlls the limit of the number of facets that are plotted. By default, \code{options(tmap.limits=c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
+The global option \code{tmap.limits} controlls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits=c(facets.plot=64, facets.view=4))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
 }
 \examples{
 data(World, Europe, NLD_muni, NLD_prov, land, metro)

@@ -17,6 +17,7 @@ tm_shape(metro) +
 tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
 
 \dontrun{
+require(tmaptools)
 x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
 tm_shape(x) + 
 	tm_dots() + 
@@ -81,7 +82,7 @@ airplane <- tmap_icons(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/
 tmap_mode("view")
 tm_shape(airports, bbox="Germany") +
 	tm_symbols(shape=airplane, size="natlscale",
-		legend.size.show = FALSE, scale=2, border.col = NA)
+		legend.size.show = FALSE, scale=2, border.col = NULL, id="name", popup.vars = TRUE)
 }
 }
 

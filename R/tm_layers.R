@@ -647,7 +647,7 @@ tm_dots <- function(col=NA,
 #' @export
 tm_markers <- function(shape=marker_icon(),
 					   col=NA,
-					   border.col=NA,
+					   border.col=NULL,
 					   text=NULL,
 					   text.just=c("center", "top"),
 					   markers.on.top.of.text=TRUE,

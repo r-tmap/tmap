@@ -35,7 +35,7 @@ tm_shape <- function(shp,
 					 is.master = NA,
 					 projection=NULL,
 					 bbox = NULL,
-					 unit = "metric",
+					 unit = getOption("tmap.unit"),
 					 simplify = 1,
 					 line.center.type = c("segment", "midpoint"),
 					 ...) {

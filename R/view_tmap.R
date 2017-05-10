@@ -80,7 +80,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 
 	bbx <- attr(shps[[1]], "bbox")
 	
-	warns <- c(symbol=FALSE, text=FALSE, raster=FALSE) # to prevent a warning for each shape
+	warns <- c(symbol=FALSE, text=FALSE, raster=FALSE, symbol_legend=FALSE, linelwd_legend=FALSE) # to prevent a warning for each shape
 	
 	group_selection <- mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
@@ -138,6 +138,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			if (!is.na(gpl$xline[1])) {
 				if (gpl$line.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="line.col", alpha=alpha)
 			}
+			
+			if (!is.na(gpl$xlinelwd[1]) && gpl$line.lwd.legend.show) {
+				warns["linelwd_legend"] <- TRUE
+				assign("warns", warns, envir = e)
+			}
+			
 			
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
@@ -228,7 +234,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, group=shp_name, icon=icons, layerId = id)
 			} else {
 				if (!all(symbol.shape2 %in% c(1, 16, 19, 20, 21))) {
-					warns["symbol"]
+					warns["symbol"] <- TRUE
 					assign("warns", warns, envir = e)
 				}
 
@@ -244,6 +250,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			if (!is.na(gpl$xcol[1])) {
 				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha)
 			}
+			
+			if (!is.na(gpl$xsize[1]) && gpl$symbol.size.legend.show) {
+				warns["symbol_legend"] <- TRUE
+				assign("warns", warns, envir = e)
+			}
+
 			
 
 			assign("lf", lf, envir = e)
@@ -361,10 +373,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	}, shps, gp, gt$shp_name, SIMPLIFY = TRUE)
 	
 	if (showWarns) {
-		if (warns["symbol"]) warning("Symbol shapes other than circles are not supported in view mode.", call.=FALSE)
-		if (warns["text"]) warning("Text labels not supported in view mode.", call.=FALSE)
+		if (warns["symbol"]) message("Symbol shapes other than circles or icons are not supported in view mode.")
+		if (warns["symbol_legend"]) message("Legend for symbol sizes not available in view mode.")
+		if (warns["linelwd_legend"]) message("Legend for line widths not available in view mode.")
 		if (identical(unname(warns["raster"]), TRUE)) {
-			warning("Raster data contains OpenStreetMapData (read with read_osm) from provider that is not known from http://leaflet-extras.github.io/leaflet-providers/preview/index.html", call.=FALSE)	
+			message("Raster data contains OpenStreetMapData (read with read_osm) from provider that is not known from http://leaflet-extras.github.io/leaflet-providers/preview/index.html")	
 		} else if (!(identical(unname(warns["raster"]), FALSE))) {
 			message("Raster data contains OpenStreetMapData (read with read_osm). Therefore, the basemap has been set to \"", warns["raster"], "\"")
 		}
@@ -389,7 +402,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 
 	if (gt$scale.show) {
-		u <- gt$shape.units_args$unit
+		u <- gt$shape.units_args$target
 		metric <- (u %in% c("m", "km", "metric"))
 	 	lf <- lf %>% addScaleBar(position = gt$scale.position, options = scaleBarOptions(maxWidth=gt$scale.width, metric=metric, imperial = !metric))
 	}

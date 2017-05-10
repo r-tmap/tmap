@@ -39,7 +39,7 @@ tm_bubbles(size = 1, col = NA, shape = 21, scale = 4/3,
 tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
   legend.show = TRUE, legend.is.portrait = TRUE, legend.z = NA, ...)
 
-tm_markers(shape = marker_icon(), col = NA, border.col = NA,
+tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
   text = NULL, text.just = c("center", "top"),
   markers.on.top.of.text = TRUE, ...)
 }
@@ -228,6 +228,7 @@ tm_shape(metro) +
 tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
 
 \dontrun{
+require(tmaptools)
 x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
 tm_shape(x) + 
 	tm_dots() + 
@@ -292,7 +293,7 @@ airplane <- tmap_icons(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/
 tmap_mode("view")
 tm_shape(airports, bbox="Germany") +
 	tm_symbols(shape=airplane, size="natlscale",
-		legend.size.show = FALSE, scale=2, border.col = NA)
+		legend.size.show = FALSE, scale=2, border.col = NULL, id="name", popup.vars = TRUE)
 }
 }
 
