@@ -72,7 +72,6 @@ tm_format_NLD()
 
 \dontrun{
 if (require(rnaturalearth)) {
-# if not on CRAN: devtools::install_github("ropenscilabs/rnaturalearth")
 
 airports <- ne_download(scale=10, type="airports")
 airplane <- tmap_icons(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",

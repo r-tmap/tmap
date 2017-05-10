@@ -4,6 +4,7 @@ version 1.10
 - added main.title argument to tm_layout
 - improved automatic labeling of breaks
 - improved legend in view mode: missing values are shown by default (like in plot mode)
+- improved bubble scaling in view mode
 - fixed bug aspect ratio bug
 
 version 1.8-1

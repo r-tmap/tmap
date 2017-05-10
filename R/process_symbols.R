@@ -263,7 +263,17 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		symbol.col.legend.hist.title <- g$legend.hist.title
 	} else symbol.col.legend.hist.title <- ""
 	
-	symbol.border.col <- do.call("process_color", c(list(col=g$border.col, alpha=g$border.alpha), gt$pc))
+	if (is.null(g$border.col)) {
+		symbol.border.col <- NA
+		g$border.lwd <- NA
+	} else {
+		symbol.border.col <- g$border.col
+		if (is.na(symbol.border.col)) {
+			symbol.border.col <- gt$aes.colors["borders"]
+		}
+		symbol.border.col <- do.call("process_color", c(list(col=symbol.border.col, alpha=g$border.alpha), gt$pc))
+	}
+	
 	
 	if (!is.null(g$shapes.legend)) {
 		shape.neutral <- g$shapes.legend

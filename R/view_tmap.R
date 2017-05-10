@@ -103,7 +103,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			fres <- split_alpha_channel(gpl$fill, alpha=alpha)
 			fcol <- fres$col
 			fopacity <- fres$opacity
-
+			
 			if (!is.null(gpl$fill)) {
 				popups <- get_popups(gpl, type="fill")
 			} else {
@@ -611,13 +611,13 @@ working_internet <- function(url = "http://www.google.com") {
 }
 
 bbx_per_line <- function(bbx) {
-	max_lines <- par("din")[2]*10
+	max_lines <- 60 #par("din")[2]*10 #disabled because window height doesn't influence scaling
 	(bbx[2,2] - bbx[2,1]) / max_lines
 }
 
 units_per_line <- function(bbx) {
-	max_lines <- par("din")[2]*10
-	
+	max_lines <- 60 #par("din")[2]*10 #disabled because window height doesn't influence scaling
+
 	# calculate top-center to bottom-center
 	vdist <- tmaptools::approx_distances(bbx, projection = "longlat", target = "m")$vdist
 	vdist/max_lines

@@ -455,7 +455,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param shape shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the \code{shapes} argument. See details for the shape specification.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param border.col color of the symbol borders.
-#' @param border.lwd line width of the symbol borders. If \code{NA} (default), no symbol borders are drawn.
+#' @param border.lwd line width of the symbol borders. If \code{NA}, no symbol borders are drawn.
 #' @param border.alpha transparency number, regarding the symbol borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param scale symbol size multiplier number. 
 #' @param perceptual logical that determines whether symbols are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument.
@@ -534,7 +534,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 tm_symbols <- function(size=1, col=NA,
 					   shape=21,
 						alpha=NA,
-						border.col="black",
+						border.col=NA,
 						border.lwd=1,
 						border.alpha=NA,
 						scale=1,
@@ -612,10 +612,9 @@ tm_bubbles <- function(size=1,
 					   col=NA,
 					   shape=21,
 					   scale=4/3,
-					   border.col=NA,
 					   legend.max.symbol.size=1,
 					   ...) {
-	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape, scale=scale, border.col=border.col, legend.max.symbol.size=legend.max.symbol.size), list(...)))
+	g <- do.call("tm_symbols", c(list(size=size, col=col, shape=shape, scale=scale, legend.max.symbol.size=legend.max.symbol.size), list(...)))
 	g
 }
 

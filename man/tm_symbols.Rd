@@ -9,7 +9,7 @@
 \title{Draw symbols}
 \usage{
 tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
-  border.col = "black", border.lwd = 1, border.alpha = NA, scale = 1,
+  border.col = NA, border.lwd = 1, border.alpha = NA, scale = 1,
   perceptual = FALSE, size.max = NA, size.lim = NA, sizes.legend = NULL,
   sizes.legend.labels = NULL, n = 5, style = ifelse(is.null(breaks),
   "pretty", "fixed"), breaks = NULL, interval.closure = "left",
@@ -34,7 +34,7 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
 tm_squares(size = 1, col = NA, shape = 22, scale = 4/3, ...)
 
 tm_bubbles(size = 1, col = NA, shape = 21, scale = 4/3,
-  border.col = NA, legend.max.symbol.size = 1, ...)
+  legend.max.symbol.size = 1, ...)
 
 tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
   legend.show = TRUE, legend.is.portrait = TRUE, legend.z = NA, ...)
@@ -54,7 +54,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NA,
 
 \item{border.col}{color of the symbol borders.}
 
-\item{border.lwd}{line width of the symbol borders. If \code{NA} (default), no symbol borders are drawn.}
+\item{border.lwd}{line width of the symbol borders. If \code{NA}, no symbol borders are drawn.}
 
 \item{border.alpha}{transparency number, regarding the symbol borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 
@@ -283,7 +283,6 @@ tm_format_NLD()
 
 \dontrun{
 if (require(rnaturalearth)) {
-# if not on CRAN: devtools::install_github("ropenscilabs/rnaturalearth")
 
 airports <- ne_download(scale=10, type="airports")
 airplane <- tmap_icons(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",

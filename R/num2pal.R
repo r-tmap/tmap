@@ -174,6 +174,7 @@ num2pal <- function(x, n = 5,
 		legend.values <- b
 		
 		# create legend labels for continuous cases
+		cat("np\n")
 		if (is.null(legend.labels)) {
 			legend.labels <- do.call("fancy_breaks", c(list(vec=b, intervals=FALSE, interval.closure=int.closure), legend.format)) 	
 		} else {

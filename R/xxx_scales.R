@@ -14,7 +14,7 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
         x <- do.call(fun, list(vec))
     } else {
         ### analyse the numeric vector
-    	vec_fin <- vec[!is.infinite(vec)]
+    	vec_fin <- unique(vec[!is.infinite(vec)])
         frm <- gsub(" ", "", sprintf("%20.10f", abs(vec_fin)))
 
         # get width before decimal point
