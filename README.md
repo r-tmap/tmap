@@ -30,7 +30,7 @@ tmap: thematic maps in R
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.8-1 (2017-01-29).
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap). The latest version is 1.10 (2017-05-10).
 
 The `tmap` packages relies on the R packages `rgdal` and `rgeos`, which depend on the external libraries `gdal`, `proj.4` and `geos`. On Windows, these are embedded in `rgdal` and `rgeos`. On Linux (Ubuntu), these libraries can be installed as follows:
 
@@ -51,9 +51,9 @@ sudo apt-get install libv8-dev
 Development
 ------------
 
-Odd numbered versions will be development versions and even numbered versions stable CRAN releases (as with data.table).
+Odd numbered versions will be development versions and even numbered versions stable CRAN releases.
 
-The latest development version can be installed using `devtools`. In the latest development version, non-plotting functions have been migrated to [tmaptools](http://github.com/mtennekes/tmaptools).
+The latest development version can be installed using `devtools`. In order to use the development version of `tmap`, it is recommended to use the development version of `tmaptools` as well (see [tmaptools](http://github.com/mtennekes/tmaptools))
 
 ```r
 library(devtools)
@@ -92,10 +92,12 @@ Presentation
 Other resources
 -----
 
-* [Tutorial Creating maps in R][9]
+* 
+* [Introduction to visualising spatial data in R][9]
 * [Blog post StatialControl][7]
 * [Blog post TWIAV][8]
 * [Computer World: Create maps in R in 10 (fairly) easy steps][12]
+* [Computer World: Great R packages for data import, wrangling and visualization][17]
 * [Tutorial Visualising spatial data: from base to shiny - workshop][15]
 * [Stack Overflow questions (#tmap)][16]
 
@@ -103,7 +105,7 @@ Other resources
 Getting help
 -----
 
-There are two main places to get help with ggplot2:
+There are two main places to get help with tmap:
 
 1.  [stackoverflow](http://stackoverflow.com/tags/tmap) is a great source of answers to common tmap questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Please tag your questions with *tmap*.
 2.  If you have a request or if think your problem is caused by a bug, please open an [issue](https://github.com/mtennekes/tmap/issues), preferably with are reproducible example.
@@ -118,7 +120,7 @@ There are two main places to get help with ggplot2:
   [6]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-nutshell.html
   [7]: http://spatcontrol.net/SpatialControl/2015/11/06/tmap-r-package/
   [8]: http://www.twiav.nl/en/blog0002en.php
-  [9]: https://github.com/Robinlovelace/Creating-maps-in-R/raw/master/intro-spatial-rl.pdf
+  [9]: https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
   [10]: http://von-tijn.nl/tijn/research/presentations/tmap_user2015.pdf
   [11]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-modes.html
   [12]: http://cwrld.us/Rmaps10
@@ -126,4 +128,5 @@ There are two main places to get help with ggplot2:
   [14]: https://github.com/mtennekes/tmap/blob/master/demo/crimes_in_Greater_London.R
   [15]: https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd
   [16]: http://stackoverflow.com/questions/tagged/tmap
+  [17]: http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html
   
