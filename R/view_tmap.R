@@ -574,9 +574,16 @@ add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 		}
 	}
 
-	RGBA <- col2rgb(pal, alpha = TRUE)
-	col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
-	opacity <- unname(RGBA[4,1]/255) * alpha
+	allNAs <- (length(pal) == 0)
+	
+	if (allNAs) {
+		col <- character()
+		opacity <- alpha
+	} else {
+		RGBA <- col2rgb(pal, alpha = TRUE)
+		col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
+		opacity <- unname(RGBA[4,1]/255) * alpha
+	}
 	
 	if (!is.na(colNA)) {
 		RGBA_NA <- col2rgb(colNA, alpha = TRUE)
@@ -605,10 +612,14 @@ add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 					  pal=colorNumeric(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity)
 		}
 	} else {
-		legvals <- if (!is.na(colNA)) factor(c(lab, NA), levels=lab) else factor(lab, levels=lab)
-		lab <- factor(lab, levels=lab)
-		addLegend(map, position=legend.position, 
-				  pal=colorFactor(col, domain=lab, na.color = colNA, ordered = TRUE, alpha = FALSE), values = legvals, na.label=textNA, title=title, opacity=opacity)
+		if (allNAs) {
+			addLegend(map, position=legend.position, colors=colNA, labels=textNA, title=title, opacity=opacity)
+		} else {
+			legvals <- if (!is.na(colNA)) factor(c(lab, NA), levels=lab) else factor(lab, levels=lab)
+			lab <- factor(lab, levels=lab)
+			addLegend(map, position=legend.position, 
+					  pal=colorFactor(col, domain=lab, na.color = colNA, ordered = TRUE, alpha = FALSE), values = legvals, na.label=textNA, title=title, opacity=opacity)
+		}
 	}
 }
 
