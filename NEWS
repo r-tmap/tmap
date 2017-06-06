@@ -1,5 +1,6 @@
 version 1.11 (development)
 - fixed bug with all NA's in view mode
+- fixed bug with dismo::gmap raster shapes
 
 version 1.10
 - [!] tm_scale_bar, tm_text, and tm_grid now supported in view mode (required leaflet 1.1.0)

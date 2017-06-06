@@ -81,9 +81,13 @@ Vignettes and Examples
 [tmap modes: plot and interactive view][11]
 
 [Example 1: Metropolitan Areas](https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap)
+
 [Example 2: Classic World Map](https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap)
+
 [Example 3: Two World Views](https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets)
+
 [Example 4: Obesity in the United States](https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth)
+
 [Example 5: Crimes in Greater London](https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes)
 
 
