@@ -74,15 +74,17 @@ library(tmap)
 ```
 
 
-Vignettes, Demos, and Examples
+Vignettes and Examples
 -----
 [tmap in a nutshell][6]
 
 [tmap modes: plot and interactive view][11]
 
-[demo pages](https://github.com/mtennekes/tmap/tree/master/demo)
-
-[examples](https://github.com/mtennekes/tmap/tree/master/examples)
+[Example 1: Metropolitan Areas](https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap)
+[Example 2: Classic World Map](https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap)
+[Example 3: Two World Views](https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets)
+[Example 4: Obesity in the United States](https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth)
+[Example 5: Crimes in Greater London](https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes)
 
 
 Presentation
@@ -92,7 +94,8 @@ Presentation
 Other resources
 -----
 
-* 
+* [Computer World: Mapping in R just got a whole lot easier][18]
+* [National Socio-Environmental Synthesis Center: Maps in R][19]
 * [Introduction to visualising spatial data in R][9]
 * [Blog post StatialControl][7]
 * [Blog post TWIAV][8]
@@ -129,4 +132,6 @@ There are two main places to get help with tmap:
   [15]: https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd
   [16]: http://stackoverflow.com/questions/tagged/tmap
   [17]: http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html
+  [18]:	http://www.computerworld.com/article/3175623/data-analytics/mapping-in-r-just-got-a-whole-lot-easier.html
+  [19]: https://sesync-ci.github.io/maps-in-R-lesson/
   

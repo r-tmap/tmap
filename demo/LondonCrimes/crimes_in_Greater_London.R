@@ -1,20 +1,18 @@
 library("sp")
 library("rnaturalearth")
-# if rnaturalearth is not on CRAN yet, please install it with devtools::install_github("ropenscilabs/rnaturalearth")
 
 # functions to obtain crimes data
-get_crimes_data <- function() {
-	tmp_file <- tempfile(fileext = ".zip")
-	download.file("http://www.von-tijn.nl/tijn/research/tmap/crimes_in_Greater_London_2015-10.zip", destfile = tmp_file)
-	
+get_crimes_data <- function(path) {
+	stopifnot(file.exists(path), ("crimes_in_Greater_London_2015-10.zip" %in% list.files(path)))
 	tmp_dir <- tempdir()
-	unzip(tmp_file, exdir=tmp_dir)
+	unzip(file.path(path, "crimes_in_Greater_London_2015-10.zip"), exdir=tmp_dir)
 	rbind(read.csv(file.path(tmp_dir, "2015-10-city-of-london-street.csv")),
 		  read.csv(file.path(tmp_dir, "2015-10-metropolitan-street.csv")))
 }
 
 # please download the file "crimes_in_Greater_London_2015-10.zip" (available on https://www.jstatsoft.org as a supplement of this paper), and change the path argument below to the location of the downloaded file:
-crimes <- get_crimes_data()
+download.file("http://www.von-tijn.nl/tijn/research/tmap/crimes_in_Greater_London_2015-10.zip", "crimes_in_Greater_London_2015-10.zip")
+crimes <- get_crimes_data(path = ".")
 
 # create SpatialPointsDataFrame of known locations
 crimes <- crimes[!is.na(crimes$Longitude) & !is.na(crimes$Latitude), ]
@@ -24,6 +22,7 @@ coordinates(crimes) <- ~ Longitude + Latitude
 crimes <- set_projection(crimes, current.projection = "longlat", projection = 27700)
 
 # first glace at the data
+tmap_mode("plot")
 qtm(crimes)
 
 # detecting outliers
@@ -75,7 +74,6 @@ london_osm <- read_osm(london_city, type = "stamen-watercolor", zoom = 13)
 qtm(london_osm) +
 	qtm(crimes_city, dots.size = 0.2, by = "Crime.type")
 
-
 # group crime types
 crime_lookup <- c('Anti-social behaviour'=2, 
 				  'Bicycle theft'=1, 
@@ -106,3 +104,6 @@ tm_shape(crimes_city) +
 	tm_dots(jitter = 0.2, col = "Crime.group", palette = "Dark2", popup.vars = TRUE) +
 	tm_view(alpha = 1,
 			basemaps = "Esri.WorldTopoMap")
+
+# save the map to a stand-alone HTML page
+save_tmap(filename = "index.html")

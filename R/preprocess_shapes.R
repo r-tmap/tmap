@@ -52,7 +52,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			# color values are encoded by a colortable (and not interpreted as factors)
 			if (length(colortable(shp))>0) {
-				lvls <- list(colortable(shp))
+				lvls <- list(unique(colortable(shp)))
 				if (nlayers(shp)>1) shp <- raster::subset(shp, 1)
 				shp <- setValues(shp, getValues(shp) + 1L)
 				names(shp) <- "PIXEL__COLOR"
