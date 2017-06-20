@@ -52,11 +52,17 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			# color values are encoded by a colortable (and not interpreted as factors)
 			if (length(colortable(shp))>0) {
-				lvls <- list(unique(colortable(shp)))
+				ctable <- colortable(shp)
+				uctable <- unique(ctable)
+				mtch <- match(ctable, uctable)
+
 				if (nlayers(shp)>1) shp <- raster::subset(shp, 1)
-				shp <- setValues(shp, getValues(shp) + 1L)
+				shp <- setValues(shp, mtch[getValues(shp) + 1L])
 				names(shp) <- "PIXEL__COLOR"
 				use_interp <- FALSE
+				
+				lvls <- list(uctable)
+				
 			} else {
 				# in order to not loose factor levels, subset the data here
 				shpnames <- get_raster_names(shp)
