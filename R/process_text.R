@@ -56,7 +56,9 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	
 	varycol <- all(xtcol %in% shpcols) && !is.null(xtcol) && !(is.na(xtcol[1]))
 	
-	nx <- max(nxtcol, nxtsize, nxtext)
+	nxfill <- if (is.matrix(fill)) ncol(fill) else 1
+	
+	nx <- max(nxtcol, nxtsize, nxtext, nxfill)
 	if (nxtcol<nx) xtcol <- rep(xtcol, length.out=nx)
 	if (nxtsize<nx) xtsize <- rep(xtsize, length.out=nx)
 	if (nxtext<nx) xtext <- rep(xtext, length.out=nx)
