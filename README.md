@@ -91,9 +91,12 @@ Vignettes and Examples
 [Example 5: Crimes in Greater London](https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes)
 
 
-Presentation
+Presentations
 -----
-[tmap: creating thematic maps in a flexible way][10]
+[tmap: creating thematic maps in a flexible way (useR!2015)][10]
+Exploring and presenting maps
+with tmap (useR!2017)[Abstract][20][Presentation][21]
+
 
 Other resources
 -----
@@ -138,4 +141,5 @@ There are two main places to get help with tmap:
   [17]: http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html
   [18]:	http://www.computerworld.com/article/3175623/data-analytics/mapping-in-r-just-got-a-whole-lot-easier.html
   [19]: https://sesync-ci.github.io/maps-in-R-lesson/
-  
+  [20]: http://von-tijn.nl/tijn/research/publications/abstract_tmap.pdf
+  [21]: http://von-tijn.nl/tijn/research/presentations/tmap_user2017.pdf
