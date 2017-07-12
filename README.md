@@ -45,7 +45,7 @@ See source pages for [gdal](http://trac.osgeo.org/gdal), [proj](http://trac.osge
 Also, `tmap` relies indirectly on the R package `V8`. For Linux (Ubuntu), the `v8` library needs to be installed for this:
 
 ```bash
-sudo apt-get install libv8-dev
+sudo apt-get install libv8-3.14-dev
 ```
 
 Development
