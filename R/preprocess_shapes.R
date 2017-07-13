@@ -183,10 +183,10 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		type <- "raster"
 		
 	} else {
-		if (inherits(shp, c("sf", "sfc"))) {
-			shp <- as(shp, "Spatial")
-		} else if (!inherits(shp, "Spatial")) {
-			stop("Object ", y$shp_name, " is neither from class Spatial, Raster, nor sf.", call. = FALSE)
+		if (inherits(shp, "Spatial")) {
+			shp <- as(shp, "sf")
+		} else if (!inherits(shp, "sf")) {
+			stop("Object ", y$shp_name, " is neither from class sf, Spatial, nor Raster.", call. = FALSE)
 		}
 		
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
@@ -205,12 +205,15 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			}
 		}
 		
+		shp$tmapID <- seq_len(nrow(shp))
+		
+browser()		
 		# reproject if nessesary
-		shp_CRS <- get_projection(shp, as.CRS = TRUE)
+		shp_CRS <- get_projection(shp, output="crs")
 		if (is.na(shp_CRS)) {
 			if (!tmaptools::is_projected(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
-				shp_CRS <- .CRS_longlat
+				shp_CRS <- .crs_longlat
 				shp <- set_projection(shp, current.projection = shp_CRS)
 			} else {
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)

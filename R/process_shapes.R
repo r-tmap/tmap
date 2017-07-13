@@ -215,7 +215,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	
 	# extend bounding box for asp ratio
-	bbrange <- bbox[,2] - bbox[,1]
+	bbrange <- bbox[3:4] - bbox[1:2]
 	
 	xspan <- 1 - inner.margins[2] - inner.margins[4]
 	yspan <- 1 - inner.margins[1] - inner.margins[3]
@@ -224,8 +224,8 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	bbmarg[c(1,2)] <- -bbmarg[c(1,2)]
 	bbx <- bbox + rep(bbrange/c(xspan, yspan), 2) * bbmarg
 	
-	xlim <- bbx[1,]
-	ylim <- bbx[2,]
+	xlim <- bbx[c(1,3)]
+	ylim <- bbx[c(2,4)]
 	
 	sasp <- get_asp_ratio(bbx, is.projected = !longlat)
 	
@@ -235,17 +235,17 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 		if (pasp > sasp) {
 			## landscape map
 			xdiff <- if (longlat) diff(ylim) * pasp / cos((mean(ylim) * pi)/180) else diff(ylim) * (pasp)
-			bbx[1, ] <- mean(xlim) + (xdiff * c(-.5, .5))
+			bbx[c(1,3)] <- mean(xlim) + (xdiff * c(-.5, .5))
 			
 		} else {
 			## portrait map
 			ydiff <- if (longlat) (diff(xlim) * cos((mean(ylim) * pi)/180)) / pasp else diff(xlim) / (pasp)
-			bbx[2, ] <- mean(ylim) + (ydiff * c(-.5, .5))
+			bbx[c(2,4)] <- mean(ylim) + (ydiff * c(-.5, .5))
 		}
 	}
 	
 	# recalculate inner.margins (needed for design.mode)
-	bb_diff <- (bbx-bbox) / (bbx[,2] - bbx[,1])
+	bb_diff <- (bbx-bbox) / (bbx[3:4] - bbx[1:2])
 	inner.margins.new <- c(-bb_diff[2], -bb_diff[1], bb_diff[4], bb_diff[3])
 
 	list(bbox=bbx, sasp=sasp, inner.margins=inner.margins.new)

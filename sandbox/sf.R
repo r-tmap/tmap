@@ -1,7 +1,23 @@
 library(sf)
-library(tmaptools)
+library(sp)
+library(raster)
+library(mapview)
 
-data(World, rivers, metro)
+devtools::load_all("../tmaptools")
+devtools::load_all(".")
+
+
+data(World, rivers, metro, land)
+
+W <- as(World, "sf")
+r <- as(rivers, "sf")
+m <- as(metro, "sf")
+landr <- as(land, "RasterBrick")
+
+tm_shape(World) +
+	tm_polygons("HPI")
+
+
 
 World@proj4string <- sp::CRS()
 
@@ -34,3 +50,6 @@ st_crs(W2)
 # --- process_shapes
 # split
 # crop
+
+
+
