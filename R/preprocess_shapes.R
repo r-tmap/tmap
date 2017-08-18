@@ -8,10 +8,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	names(shp.sim)[names(shp.sim)=="simplify"] <- "fact"
 	shp.sim <- shp.sim[!sapply(shp.sim, is.null)]
 	
-	
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
 		is.RGB <- attr(raster_facets_vars, "is.RGB")
-		if (interactive) gm$shape.master_CRS <- .CRS_merc
+		if (interactive) gm$shape.master_crs <- .crs_merc
 		if (inherits(shp, "Spatial")) {
 			
 			# attribute get from read_osm
@@ -103,30 +102,30 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 		
 		# get current projection (assume longlat if unkown)
-		shp_CRS <- get_projection(shp, as.CRS = TRUE)
-		if (is.na(shp_CRS)) {
+		shp_crs <- get_projection(shp, output="crs")
+		if (is.na(shp_crs)) {
 			if (!tmaptools::is_projected(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
-				shp_CRS <- .CRS_longlat
-				shp <- set_projection(shp, current.projection = shp_CRS)
+				shp_crs <- .crs_longlat
+				shp <- set_projection(shp, current.projection = shp_crs)
 			} else {
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
 
 		# should raster shape be reprojected?
-		if ((!is.na(shp_CRS) && !is.na(gm$shape.master_CRS) && !identical(shp_CRS, gm$shape.master_CRS)) || interactive) {
-			if (is.na(gm$shape.master_CRS)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
+		if ((!is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) || interactive) {
+			if (is.na(gm$shape.master_crs)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
 			new_ext <- tryCatch({
-			  	suppressWarnings(projectExtent(shp, crs = gm$shape.master_CRS))
+			  	suppressWarnings(projectExtent(shp, crs = gm$shape.master_crs$proj4string))
 			}, error=function(e){
 		  		NULL
 		  	})
 			
 			if (is.null(new_ext)) {
-				shp <- crop_shape(shp, bb(gm$shape.bbx_raw, projection = shp_CRS, current.projection = gm$shape.master_CRS))	
+				shp <- crop_shape(shp, bb(gm$shape.bbx_raw, projection = shp_crs, current.projection = gm$shape.master_crs))	
 				new_ext <- tryCatch({
-					suppressWarnings(projectExtent(shp, crs = gm$shape.master_CRS))
+					suppressWarnings(projectExtent(shp, crs = gm$shape.master_crs$proj4string))
 				}, error=function(e){
 					stop("Unable to reproject raster shape \"", y$shp_name, "\", probably due to non-finite points.", call. = FALSE)
 				})
@@ -134,7 +133,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		} else new_ext <- NULL
 
 		if (!is.null(new_ext)) {
-			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=gm$shape.master_CRS, method = ifelse(use_interp, "bilinear", "ngb")))
+			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=gm$shape.master_crs$proj4string, method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
 			data <- get_raster_data(shpTmp)
 		} else {
@@ -173,7 +172,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		## to be consistent with Spatial objects:
 		attr(shp2, "bbox") <- bbox(shp2)
-		attr(shp2, "proj4string") <- shp2@crs
+		attr(shp2, "proj4string") <- attr(shp2@crs, "projargs")
 		
 		attr(data, "is.OSM") <- is.OSM
 		attr(data, "leaflet.provider") <- leaflet.provider
@@ -185,45 +184,40 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	} else {
 		if (inherits(shp, "Spatial")) {
 			shp <- as(shp, "sf")
-		} else if (!inherits(shp, "sf")) {
+		} else if (!inherits(shp, c("sf", "sfc"))) {
 			stop("Object ", y$shp_name, " is neither from class sf, Spatial, nor Raster.", call. = FALSE)
 		}
 		
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
-		newData <- data.frame(tmapID = seq_len(length(shp)))
-		if ("data" %in% slotNames(shp)) {
-			data <- shp@data
-			shp@data <- newData
+		
+		
+		if (inherits(shp, "sfc")) {
+			data <- data.frame(tmapID = seq_len(length(shp)))
+			shp <- st_sf(data, geometry=shp)
 		} else {
-			data <- newData
-			shp <- if (inherits(shp, "SpatialPolygons")) {
-				SpatialPolygonsDataFrame(shp, data = newData, match.ID = FALSE)
-			} else if (inherits(shp, "SpatialLines")) {
-				SpatialLinesDataFrame(shp, data = newData, match.ID = FALSE)
-			} else if (inherits(shp, "SpatialPoints")) {
-				SpatialPointsDataFrame(shp, data = newData, match.ID = FALSE)
-			}
+			data <- shp
+			st_geometry(data) <- NULL
+
+			shp[, setdiff(names(shp), "geometry")] <- list(NULL)
+			shp$tmapID <- seq_len(nrow(shp))
 		}
 		
-		shp$tmapID <- seq_len(nrow(shp))
-		
-browser()		
 		# reproject if nessesary
-		shp_CRS <- get_projection(shp, output="crs")
-		if (is.na(shp_CRS)) {
+		shp_crs <- get_projection(shp, output="crs")
+		if (is.na(shp_crs)) {
 			if (!tmaptools::is_projected(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
-				shp_CRS <- .crs_longlat
-				shp <- set_projection(shp, current.projection = shp_CRS)
+				shp_crs <- .crs_longlat
+				shp <- set_projection(shp, current.projection = shp_crs)
 			} else {
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
-		if (!is.na(shp_CRS) && !is.na(gm$shape.master_CRS) && !identical(shp_CRS, gm$shape.master_CRS)) {
+		if (!is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
 			shp2 <- tryCatch({
-				spTransform(shp, gm$shape.master_CRS)
+				st_transform(shp, gm$shape.master_crs)
 			}, error=function(e) {
-				stop("Unable to project shape ", y$shp_name, " to the projection ", CRSargs(gm$shape.master_CRS), ".", call.=FALSE)
+				stop("Unable to project shape ", y$shp_name, " to the projection ", gm$shape.master_crs$proj4string, ".", call.=FALSE)
 			}, warning=function(w){
 				NULL
 			})
@@ -231,27 +225,39 @@ browser()
 			shp2 <- shp
 		}
 		
-		if (inherits(shp2, "SpatialPolygonsDataFrame")) {
-			data$SHAPE_AREAS <- do.call(tmaptools::approx_areas, c(list(shp=shp2, show.warnings=FALSE), shp.aa))
-			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(shp)
+		if (inherits(shp2$geometry, c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
+			## TODO use st_area
+			data$SHAPE_AREAS <- do.call(tmaptools::approx_areas, c(list(shp=as(shp2, "Spatial"), show.warnings=FALSE), shp.aa))
+			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else poly2nb(as(shp, "Spatial"))
 			attr(data, "kernel_density") <- ("kernel_density" %in% names(attributes(shp)))
 			type <- "polygons"
-		} else if (inherits(shp2, "SpatialLinesDataFrame")) {
-			attr(data, "isolines") <- ("isolines" %in% names(attributes(shp)))
+		} else if (inherits(shp2$geometry, c("sfc_LINESTRING", "sfc_MULTILINESTRING"))) {
+			##attr(data, "isolines") <- ("isolines" %in% names(attributes(shp)))
+			## TODO update smooth_map to sf
 			type <- "lines"
-		} else if (inherits(shp2, "SpatialPointsDataFrame")) {
+		} else if (inherits(shp2$geometry, c("sfc_POINT", "sfc_MULTIPOINT"))){
 			type <- "points"
+		} else {
+			type <- "geometrycollection"
 		}
 		
 		# simplify shape
-		if (shp.sim$fact < 1 && type %in% c("polygons", "lines")) {
-			shp2 <- do.call(tmaptools::simplify_shape, c(list(shp=shp2), shp.sim))
-			data <- data[shp2$tmapID, , drop=FALSE]
-			shp2$tmapID <- seq_len(length(shp2))
+		
+		if (shp.sim$fact != 1 && type %in% c("polygons", "lines")) {
+			## TODO convert fact to tolerance
+			
+			shp2 <- st_simplify(shp2, preserveTopology = TRUE, dTolerance = shp.sim$fact)
+			# shp2 <- do.call(tmaptools::simplify_shape, c(list(shp=shp2), shp.sim))
+			# data <- data[shp2$tmapID, , drop=FALSE]
+			# shp2$tmapID <- seq_len(length(shp2))
 		}
 		
+		# be consistent with rasters (originated from sp objects)
+		attr(shp2, "bbox") <- st_bbox(shp2)
+		attr(shp2, "proj4string") <- st_crs(shp2)
 	}
 	attr(shp2, "projected") <- tmaptools::is_projected(shp2)
+	
 	
 	list(shp=shp2, data=data, type=type)
 }

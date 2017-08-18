@@ -94,7 +94,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				grid.co.x.lns <- numeric(0)
 				grid.co.y.lns <- numeric(0)
 			} else {
-				lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel], proj4string = get_proj4(grid.projection, as.CRS = TRUE)), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
+				lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel], proj4string = get_proj4(grid.projection, output="CRS")), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
 				
 				# project it to current projection
 				lns_proj <- set_projection(lns, projection = proj)

@@ -15,12 +15,12 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 	ncl <- length(gmeta$colws)
 	nrw <- length(gmeta$rowhs)
 	
-	multi_shapes <- (is.list(shps[[1]]))
+	multi_shapes <- !(is.data.frame(shps[[1]]))
 	
 	if (multi_shapes) {
 		bbxproj <- lapply(shps, function(s) {
 			s2 <- s[[1]]
-			if (is.null(s2)) NULL else list(bbx = attr(s2, "bbox"), proj = get_projection(s2))
+			if (is.null(s2)) NULL else list(bbx = bb(s2), proj = get_projection(s2))
 		})
 	} else {
 		bbxproj <- list(bbx = attr(shps[[1]], "bbox"), proj = get_projection(shps[[1]]))

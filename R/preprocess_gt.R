@@ -1,4 +1,4 @@
-preprocess_gt <- function(x, interactive, orig_CRS) {
+preprocess_gt <- function(x, interactive, orig_crs) {
 	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- NULL
 	
 	style <- options("tmap.style")
@@ -123,7 +123,7 @@ preprocess_gt <- function(x, interactive, orig_CRS) {
 		if (!inherits(projection, "leaflet_crs")) {
 			
 			if (projection==0) {
-				epsg <- get_epsg_number(orig_CRS)
+				epsg <- get_epsg_number(orig_crs)
 				if (is.na(epsg)) {
 					projection <- 3857
 				} else {

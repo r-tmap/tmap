@@ -15,11 +15,11 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	# in case x is search query
 	if (!is.null(args$x)) {
 		if (is.character(args$x)) {
-			args$projection <- gm$shape.master_CRS
-			args$current.projection <- .CRS_longlat
+			args$projection <- gm$shape.master_crs
+			args$current.projection <- .crs_longlat
 		} else if (interactive) {
-			args$projection <- gm$shape.master_CRS
-			args$current.projection <- gm$shape.orig_CRS
+			args$projection <- gm$shape.master_crs
+			args$current.projection <- gm$shape.orig_crs
 		} else {
 			args$projection <- NULL
 			args$current.projection <- NULL
@@ -196,7 +196,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		legend_pos <- 2
 	}
 
-	units <- do.call(tmaptools::projection_units, c(list(x=gm$shape.master_CRS, latitude=mean(bbx[c(2,4)])), gm$shape.units_args))
+	units <- do.call(tmaptools::projection_units, c(list(x=gm$shape.master_crs, latitude=mean(bbx[c(2,4)])), gm$shape.units_args))
 
 	#units <- tmaptools::get_shape_units(projection=gm$shape.master_CRS, latitude=mean(bbx[c(2,4)]), target.unit = gm$shape.units_args$unit)
 	

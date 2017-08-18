@@ -665,6 +665,13 @@ lty2dashArray <- function(lty) {
 }
 
 get_epsg_number <- function(proj) {
+	if (inherits(proj, "crs")) {
+		if (!is.na(proj$epsg)) {
+			return(proj$epsg)	
+		} else {
+			proj <- proj$proj4string
+		}
+	}
 	if (inherits(proj, "CRS")) proj <- attr(proj, "projargs")
 	
 	pat <- "^.*\\=epsg ?: ?(\\S*)(.*)$"

@@ -20,7 +20,7 @@ lines_midpoints <- function (sldf)
 		df <- as.data.frame(cbind(df0, Ind))
 	}
 	else df <- data.frame(Ind = Ind)
-	spdf <- SpatialPointsDataFrame(midpoints, data = df, proj4string = get_projection(sldf, as.CRS = TRUE))
+	spdf <- SpatialPointsDataFrame(midpoints, data = df, proj4string = get_projection(sldf, output = "CRS"))
 	return(spdf)
 }
 

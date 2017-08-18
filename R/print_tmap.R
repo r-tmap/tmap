@@ -109,16 +109,16 @@ gather_shape_info <- function(x, interactive) {
 	} else which(is_master)[1]
 	
 	## find master projection (and set to longlat when in view mode)
-	master_CRS <- get_proj4(x[[shape.id[masterID]]]$projection, as.CRS = TRUE)
+	master_crs <- get_proj4(x[[shape.id[masterID]]]$projection, output = "crs")
 	mshp_raw <- x[[shape.id[masterID]]]$shp
-	if (is.null(master_CRS)) master_CRS <- get_projection(mshp_raw, as.CRS = TRUE)
-	orig_CRS <- master_CRS # needed for adjusting bbox in process_shapes
+	if (is.null(master_crs)) master_crs <- get_projection(mshp_raw, output = "crs")
+	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
 	if (interactive) {
-		if (is.na(get_projection(mshp_raw, as.CRS = TRUE)) && tmaptools::is_projected(mshp_raw)) {
+		if (is.na(get_projection(mshp_raw, output = "crs")) && tmaptools::is_projected(mshp_raw)) {
 			
 			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
 		}
-		master_CRS <- .CRS_longlat
+		master_crs <- .crs_longlat
 	}
 	
 	## find master bounding box (unprocessed)
@@ -159,8 +159,8 @@ gather_shape_info <- function(x, interactive) {
 		 shape.apply_map_coloring=apply_map_coloring,
 		 shape.any_raster=any_raster,
 		 shape.masterID=masterID,
-		 shape.master_CRS=master_CRS,
-		 shape.orig_CRS=orig_CRS,
+		 shape.master_crs=master_crs,
+		 shape.orig_crs=orig_crs,
 		 shape.bbx_raw=bbx_raw,
 		 shape.units_args=units_args,
 		 shape.bb_args=bb_args,
@@ -269,6 +269,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	## determine bounding box and aspect ratio of master shape
 	mshp <- shps[[gm$shape.masterID]]
 	gm$shape.bbx_cropped <- attr(mshp, "bbox")
+	
 	gm$shape.masp <-	get_asp_ratio(gm$shape.bbx_cropped, is.projected=attr(mshp, "projected"))
 
 	## remove shapes from and add data to tm_shape objects

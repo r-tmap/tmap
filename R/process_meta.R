@@ -228,7 +228,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 			grid.labels.col <- do.call("process_color", c(list(col=grid.labels.col), gt$pc))
 			grid.lwd <- grid.lwd * gt$scale
 			grid.is.projected <- !grid.projection=="longlat"
-			grid.projection <- get_proj4(grid.projection, as.CRS = TRUE)
+			grid.projection <- get_proj4(grid.projection, output = "crs")
 		})
 	} else {
 		gg <- list(grid.show=FALSE)
