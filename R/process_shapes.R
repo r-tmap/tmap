@@ -176,15 +176,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	}
 	
 	
-	if (inherits(shp, "Spatial")) {
+	if (inherits(shp, "sf")) {
 		## determine automatic legend position based on polygon centers
-		co <- if (inherits(shp, "SpatialLines")) {
-			do.call("rbind", lapply(coordinates(shp), function(x) {
-				do.call("rbind", x)	
-			}))
-		} else {
-			coordinates(shp)
-		}
+		co <- st_coordinates(st_geometry(st_centroid(shp)))
+		
 		xn <- (co[,1]-bbx[1])/(bbx[3]-bbx[1])
 		yn <- (co[,2]-bbx[2])/(bbx[4]-bbx[2])
 		legend_pos <- which.max(c(

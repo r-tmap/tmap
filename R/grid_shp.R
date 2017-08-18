@@ -4,7 +4,7 @@ grid.shape <- function(shp, gp=gpar(), bg.col=NA, i, k) {
 	
 	## TO DO relative coordinates
 	
-	bb <- st_bbox(shp)
+	bb <- attr(shp, "bbox")
 	
 	# easy fix
 	x.b <- 1/ (bb[3] - bb[1])
