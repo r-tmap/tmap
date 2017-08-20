@@ -2,6 +2,7 @@ library(sf)
 library(sp)
 library(raster)
 library(mapview)
+library(grid)
 
 devtools::load_all("../tmaptools")
 devtools::load_all(".")
@@ -16,6 +17,34 @@ landr <- as(land, "RasterBrick")
 
 tm_shape(World) +
 	tm_polygons("HPI")
+
+
+data(Europe)
+tm_shape(Europe) + tm_polygons("income_grp")
+
+tm_shape(metro) + tm_bubbles()
+
+tm_shape(rivers) + tm_lines("purple")
+
+x <- st_as_grob(W$geometry[[136]])
+
+grid.newpage()
+grid.draw(x)
+
+pushViewport(viewport(xscale = st_bbox(W)[c(1,3)], yscale = st_bbox(W)[c(2,4)]))
+
+
+plot(W[5,])
+
+attr(W, "bbox") <- st_bbox(W)
+x <- grid.shape(W, i = 1, k=1, gp=gpar(fill="red"))
+
+grid.newpage()
+grid.draw(x)
+
+
+
+grb <- sf::st_as_grob(W)
 
 
 

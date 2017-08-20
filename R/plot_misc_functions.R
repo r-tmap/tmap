@@ -329,21 +329,21 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 }
 
 
-plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
-	symbolH <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
-	symbolW <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
+plot_symbols <- function(co.native, g, gt, lineInch, i, k) {
+	symbolH <- convertHeight(unit(lineInch, "inch"), "native", valueOnly=TRUE) * gt$scale
+	symbolW <- convertWidth(unit(lineInch, "inch"), "native", valueOnly=TRUE) * gt$scale
 	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 	justLib <- get(".justLib", envir = .TMAP_CACHE)
 
 	with(g, {
-		npol <- nrow(co.npc)
+		npol <- nrow(co.native)
 		if (length(symbol.size)!=npol) {
 			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
 			symbol.size <- rep(symbol.size, length.out=npol)
 		}
 
-		size.npc.w <- convertWidth(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
-		size.npc.h <- convertHeight(unit(symbol.size, "inch"), "npc", valueOnly = TRUE)
+		size.native.w <- convertWidth(unit(symbol.size, "inch"), "native", valueOnly = TRUE)
+		size.native.h <- convertHeight(unit(symbol.size, "inch"), "native", valueOnly = TRUE)
 
 		# determine justification per symbol
 		just <- g$symbol.misc$just
@@ -355,12 +355,12 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		})
 		justs.x <- sapply(justs, "[[", 1)
 		justs.y <- sapply(justs, "[[", 2)
-		justx <- size.npc.w * (justs.x-.5)
-		justy <- size.npc.h * (justs.y-.5)
+		justx <- size.native.w * (justs.x-.5)
+		justy <- size.native.h * (justs.y-.5)
 		
 		# adjust the coordinates
-		co.npc[, 1] <- co.npc[, 1] + symbol.xmod * symbolW + justx * lineInch * 2 / 3
-		co.npc[, 2] <- co.npc[, 2] + symbol.ymod * symbolH + justy * lineInch * 2 / 3
+		co.native[, 1] <- co.native[, 1] + symbol.xmod * symbolW + justx * lineInch * 2 / 3
+		co.native[, 2] <- co.native[, 2] + symbol.ymod * symbolH + justy * lineInch * 2 / 3
 		
 		sel <- !is.na(symbol.size) & !is.na(symbol.col) & !is.na(symbol.shape)
 		
@@ -368,7 +368,7 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		if (!any(sel)) return(NULL)
 		
 		if (!all(sel)) {
-			co.npc <- co.npc[sel, , drop=FALSE]
+			co.native <- co.native[sel, , drop=FALSE]
 			symbol.size <- symbol.size[sel]
 			symbol.col <- symbol.col[sel]
 			symbol.shape <- symbol.shape[sel]
@@ -377,12 +377,12 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 		
 		if (length(symbol.size)!=1) {
 			decreasing <- order(-symbol.size)
-			co.npc2 <- co.npc[decreasing,,drop=FALSE]
+			co.native2 <- co.native[decreasing,,drop=FALSE]
 			symbol.size2 <- symbol.size[decreasing]
 			symbol.shape2 <- symbol.shape[decreasing]
 			symbol.col2 <- symbol.col[decreasing]
 		} else {
-			co.npc2 <- co.npc
+			co.native2 <- co.native
 			symbol.size2 <- symbol.size
 			symbol.shape2 <- symbol.shape
 			symbol.col2 <- symbol.col
@@ -404,12 +404,12 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 					} else {
 						gList(shapeLib[[symbol.shape2[i]-999]], rectGrob(gp=gpar(fill=NA, col=bordercol, lwd=symbol.border.lwd)))	
 					}
-					gTree(children=grbs, vp=viewport(x=unit(co.npc2[i,1], "npc"), 
-														  y=unit(co.npc2[i,2], "npc"),
+					gTree(children=grbs, vp=viewport(x=unit(co.native2[i,1], "native"), 
+														  y=unit(co.native2[i,2], "native"),
 														  width=unit(symbol.size2[i]*2/3, "inch"),
 														  height=unit(symbol.size2[i]*2/3, "inch")))
 				} else {
-					pointsGrob(x=unit(co.npc2[i,1], "npc"), y=unit(co.npc2[i,2], "npc"),
+					pointsGrob(x=unit(co.native2[i,1], "native"), y=unit(co.native2[i,2], "native"),
 							   size=unit(symbol.size2[i], "inch"),
 							   pch=symbol.shape2[i],
 							   gp=gpars[[i]])
@@ -417,7 +417,7 @@ plot_symbols <- function(co.npc, g, gt, lineInch, i, k) {
 			})
 			x <- gTree(children=do.call(gList, grobs), name=idName)
 		} else {
-			pointsGrob(x=unit(co.npc2[,1], "npc"), y=unit(co.npc2[,2], "npc"),
+			pointsGrob(x=unit(co.native2[,1], "native"), y=unit(co.native2[,2], "native"),
 					   size=unit(symbol.size2, "inch"),
 					   pch=symbol.shape2,
 					   gp=get_symbol_gpar(x=symbol.shape2,

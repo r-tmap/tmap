@@ -26,21 +26,24 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		bbx <- attr(shp, "bbox")
 		
 		## obtain coordinates (to draw bubbles and text)
-		if (inherits(shp, "Spatial")) {
-			res <- get_sp_coordinates(shp, gpl, gt, bbx)
-			co.npc <- res$co
-			if (gt$shape.line.center.type[1]=="segment") {
-				gpl <- res$gpl
-				shp <- res$shp
-			}	
-			co.npc[,1] <- if (bbx[1, 2]-bbx[1,1]==0) .5 else {
-				(co.npc[,1]-bbx[1,1]) / (bbx[1, 2]-bbx[1,1])	
-			}
-			co.npc[,2] <- if (bbx[2, 2]-bbx[2,1]==0) .5 else {
-				(co.npc[,2]-bbx[2,1]) / (bbx[2, 2]-bbx[2,1])
-			}
+		if (inherits(shp, "sf")) {
+			co.native <- st_coordinates(shp)
+			
+			# res <- get_sp_coordinates(shp, gpl, gt, bbx)
+			# co.npc <- res$co
+			# if (gt$shape.line.center.type[1]=="segment") {
+			# 	gpl <- res$gpl
+			# 	shp <- res$shp
+			# }	
+			# co.npc[,1] <- if (bbx[1, 2]-bbx[1,1]==0) .5 else {
+			# 	(co.npc[,1]-bbx[1,1]) / (bbx[1, 2]-bbx[1,1])	
+			# }
+			# co.npc[,2] <- if (bbx[2, 2]-bbx[2,1]==0) .5 else {
+			# 	(co.npc[,2]-bbx[2,1]) / (bbx[2, 2]-bbx[2,1])
+			# }
 		} else {
-			co.npc <- NA
+			# co.npc <- NA
+			co.native <- NA
 		}
 
 		plot_tm_fill <- function() {
@@ -55,8 +58,8 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 									   lineend="butt"), i, k)
 		}
 		
-		plot_tm_symbols <- function() plot_symbols(co.npc, gpl, gt, lineInch, i, k)
-		plot_tm_text <- function() plot_text(co.npc, gpl, gt, lineInch, just=gpl$text.just)
+		plot_tm_symbols <- function() plot_symbols(co.native, gpl, gt, lineInch, i, k)
+		plot_tm_text <- function() plot_text(co.native, gpl, gt, lineInch, just=gpl$text.just)
 		
 		
 		plot_tm_grid <- function() treeGridLines

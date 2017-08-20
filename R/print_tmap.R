@@ -310,7 +310,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	gm <- c(gm, determine_asp_ratios(gm, interactive))
 	
 	## process shapes (bbox and crop)
-	shps <- process_shapes(shps, x[gm$shape.id], gm, data_by, allow.crop = !interactive, interactive=interactive)
+	shps <- process_shapes(shps, x[gm$shape.id], gm, data_by, allow.crop = FALSE, interactive=interactive) # allow.crop was !interactive
 	gm <- c(gm, attr(shps, "info"))
 
 	## further arranges the grid layout of the map/facets

@@ -78,7 +78,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 		} else NULL
 		
 		#treeMapX <- gTree(children=gList(grobBG, gTree(children=gList(treeMap, treeFrame), vp=gridLayoutMap, name="outer_map")), name="BG")
-		treeMapX <- gTree(children=gList(treeMap, treeFrame), name="BG")
+		treeMapX <- gTree(children=gList(treeMap, treeFrame), name="BG", vp = viewport(xscale = bbx[c(1,3)], yscale = bbx[c(2,4)]))
 		
 		if (emptyShp) return(treeMapX)
 		

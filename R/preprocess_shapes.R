@@ -182,6 +182,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		type <- "raster"
 		
 	} else {
+		# save_bbox (sp objects allow for custom bboxes, sf objects don't)
+		shp_bbx <- bb(shp)
+		
 		if (inherits(shp, "Spatial")) {
 			shp <- as(shp, "sf")
 		} else if (!inherits(shp, c("sf", "sfc"))) {
@@ -221,6 +224,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			}, warning=function(w){
 				NULL
 			})
+			
+			# override bounding box (since it now is projected)
+			shp_bbx <- bb(shp2)
 		} else {
 			shp2 <- shp
 		}
@@ -253,7 +259,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 		
 		# be consistent with rasters (originated from sp objects)
-		attr(shp2, "bbox") <- st_bbox(shp2)
+		attr(shp2, "bbox") <- shp_bbx
 		attr(shp2, "proj4string") <- st_crs(shp2)
 	}
 	attr(shp2, "projected") <- tmaptools::is_projected(shp2)
