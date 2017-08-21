@@ -20,7 +20,7 @@
 #' @example ./examples/save_tmap.R
 #' @export
 save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
-					  dpi=300, outer.margins=0, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose=TRUE, ...) {
+					  dpi=300, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose=TRUE, ...) {
 	lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
 	if (missing(tm)) {
 		tm <- suppressWarnings(last_map())
@@ -140,7 +140,8 @@ save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	
 	do.call(ext, args = c(list(file = filename, width = width, height = height), list(...)))
 	on.exit(capture.output(dev.off()), add = TRUE)
-	args <- list(outer.margins=outer.margins)
+	args <- list()
+	if (!is.na(outer.margins[1])) args$outer.margins <- outer.margins
 	if (!missing(asp)) args$asp <- asp
 	if (!is.na(scale)) args$scale <- scale
 	print(tm + do.call("tm_layout", args))
