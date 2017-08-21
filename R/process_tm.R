@@ -130,7 +130,18 @@ process_tm <- function(x, gm, interactive) {
 	legids <- which(names(x)=="tm_add_legend") 
 	if (length(legids)) {
 		names(x)[legids] <- paste(names(x)[legids], 1L:length(legids), sep="_")
+		
+		for (legid in legids) {
+			if (x[[legid]]$type == "symbol" && is.list(x[[legid]]$shape)) {
+				just <- x[[legid]]$just
+				
+				x[[legid]]$shape <- submit_symbol_shapes(x[[legid]]$shape, interactive=interactive, just = c(.5, .5),
+														 just.override = FALSE, grob.dim = c(width=48, height=48, render.width=256, render.height=256))
+			}
+		}
+		
 	}
+	
 	
 	
 	n <- length(x)
