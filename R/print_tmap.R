@@ -304,7 +304,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	nx <- result$nx
 	data_by <- result$data_by
 	
-	gm$shape.shps_lengths <- sapply(shps, length)
+	gm$shape.shps_lengths <- sapply(datasets, nrow)
 
 	## arranges aspect ratios, the grid layout of the map/facets, etc
 	gm <- c(gm, determine_asp_ratios(gm, interactive))

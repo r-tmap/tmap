@@ -27,7 +27,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		
 		## obtain coordinates (to draw bubbles and text)
 		if (inherits(shp, "sf")) {
-			co.native <- st_coordinates(shp)
+			co.native <- st_coordinates(st_geometry(st_centroid(shp))) #st_coordinates(shp)
 			
 			# res <- get_sp_coordinates(shp, gpl, gt, bbx)
 			# co.npc <- res$co

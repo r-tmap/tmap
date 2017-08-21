@@ -8,7 +8,7 @@ devtools::load_all("../tmaptools")
 devtools::load_all(".")
 
 
-data(World, rivers, metro, land)
+data(World, Europe, rivers, metro, land)
 
 W <- as(World, "sf")
 r <- as(rivers, "sf")
@@ -18,8 +18,12 @@ landr <- as(land, "RasterBrick")
 tm_shape(World) +
 	tm_polygons("HPI")
 
+tm_shape(World) +
+	tm_bubbles()
 
-data(Europe)
+tm_shape(World) + tm_polygons() +
+	tm_bubbles()
+
 tm_shape(Europe) + tm_polygons("income_grp")
 
 tm_shape(metro) + tm_bubbles()
