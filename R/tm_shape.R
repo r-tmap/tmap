@@ -12,6 +12,7 @@
 #'  \item{\code{\link[raster:Raster-class]{RasterLayer, RasterStack, or RasterBrick}}}
 #' }
 #' Simple features (\code{sf} objects) are also supported. For drawing layers \code{\link{tm_fill}} and \code{\link{tm_borders}}, 1 is required. For drawing layer \code{\link{tm_lines}}, 3 is required. Layers \code{\link{tm_symbols}} and \code{\link{tm_text}} accept 1 to 3. For layer \code{\link{tm_raster}}, 4, 5, or 6 is required.
+#' @param name name of the shape object (character) as it appears in the legend in \code{"view"} mode. Default value is the name of \code{shp}.
 #' @param is.master logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.
 #' @param projection Either a \code{\link[sp:CRS]{CRS}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.
 #' @param bbox bounding box. One of the following:
@@ -32,6 +33,7 @@
 #' @example ./examples/tm_shape.R
 #' @return \code{\link{tmap-element}}
 tm_shape <- function(shp, 
+					 name = NULL,
 					 is.master = NA,
 					 projection=NULL,
 					 bbox = NULL,
@@ -39,7 +41,7 @@ tm_shape <- function(shp,
 					 simplify = 1,
 					 line.center.type = c("segment", "midpoint"),
 					 ...) {
-	shp_name <- deparse(substitute(shp))[1]
+	shp_name <- ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name)
 	g <- list(tm_shape=c(as.list(environment()), list(...)))
 	class(g) <- "tmap"
 	g

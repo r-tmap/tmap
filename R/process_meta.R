@@ -228,7 +228,10 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 			grid.labels.col <- do.call("process_color", c(list(col=grid.labels.col), gt$pc))
 			grid.lwd <- grid.lwd * gt$scale
 			grid.is.projected <- !grid.projection=="longlat"
+			
 			grid.projection <- get_proj4(grid.projection, output = "crs")
+			
+			if (!grid.labels.inside.frame && any(gt$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using save_tmap, notice that outer.margins are set to 0 by default, unless set to NA.")
 		})
 	} else {
 		gg <- list(grid.show=FALSE)

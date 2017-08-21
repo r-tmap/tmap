@@ -114,8 +114,11 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 			port <- p$legend.is.portrait
 			if (type=="TITLE") {
 				titleHeight
-			} else if (port && type %in% c("fill", "symbol.col", "symbol.shape", "line.col", "line.lwd", "raster", "text.col")) {
+			} else if (port && type %in% c("fill", "line.col", "line.lwd", "raster", "text.col")) {
 				length(p$legend.labels) * lineHeight * gt$legend.text.size + 2*margin*lineHeight
+			} else if (port && type %in% c("symbol.col", "symbol.shape")) {
+				legend.sizes <- rep(if (length(p$legend.sizes)==1) rep(0, length.out=length(p$legend.labels)) else p$legend.sizes) 
+				sum(pmax(convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) /s2 * 1.35, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
 			} else if (port && type == "symbol.size") {
 				sum(pmax(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE) /s2 * 1.35, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
 			} else if (!port && type == "symbol.size") {

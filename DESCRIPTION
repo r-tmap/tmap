@@ -8,7 +8,8 @@ Authors@R: c(
 	person("Joel", "Gombin", email="joel.gombin@gmail.com", role="ctb"),
 	person("Sebastian", "Jeworutzki", email="Sebastian.Jeworutzki@rub.de", role="ctb"),
 	person("Kent", "Russell", email="kent.russell@timelyportfolio.com", role="ctb"),
-	person("Richard", "Zijdeman", email="richard.zijdeman@iisg.nl", role="ctb"))
+	person("Richard", "Zijdeman", email="richard.zijdeman@iisg.nl", role="ctb"),
+	person("John", "Clouse", email="", role="ctb"))
 Description: Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps.
 Version: 1.11
 Date: 2017-06-06
