@@ -220,7 +220,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 			shape.legend.shapes <- NA
 			xshape <- rep(NA, nx)
 			symbol.shape.legend.title <- rep(NA, nx)
-			shape.neutral <- symbol.shape[1]
+			shape.neutral <- symbol.shape[which(!is.na(symbol.shape))[1]]
 		}
 	}
 	
