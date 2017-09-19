@@ -12,7 +12,9 @@
 #' @param ... not used
 #' @return If \code{mode=="plot"}, then a list is returned with the processed shapes and the metadata. If \code{mode=="view"}, a \code{\link[leaflet:leaflet]{leaflet}} object is returned (see also \code{\link{tmap_leaflet}})
 #' @import tmaptools
+#' @import sf
 #' @import sp
+#' @importFrom units set_units
 #' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue getValues
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
@@ -143,9 +145,11 @@ gather_shape_info <- function(x, interactive) {
 	})
 	
 	## get arguments related to units (approx_areas)
-	units_args <- x[[shape.id[masterID]]][c("unit", "orig", "to", "total.area")]
-	names(units_args)[names(units_args)=="unit"] <- "target"
-	units_args <- units_args[!sapply(units_args, is.null)]
+	unit <- x[[shape.id[masterID]]]$unit
+	
+	# units_args <- x[[shape.id[masterID]]][c("unit", "orig", "to", "total.area")]
+	# names(units_args)[names(units_args)=="unit"] <- "target"
+	# units_args <- units_args[!sapply(units_args, is.null)]
 	
 	## get arguments related to bb
 	bb_args <- x[[masterID]][intersect(names(x[[masterID]]), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
@@ -162,7 +166,7 @@ gather_shape_info <- function(x, interactive) {
 		 shape.master_crs=master_crs,
 		 shape.orig_crs=orig_crs,
 		 shape.bbx_raw=bbx_raw,
-		 shape.units_args=units_args,
+		 shape.unit=unit,
 		 shape.bb_args=bb_args,
 		 shape.line.center.type=line.center.type,
 		 shape.raster_facets_vars=raster_facets_vars)

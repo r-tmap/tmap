@@ -82,6 +82,8 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	
 	warns <- c(symbol=FALSE, text=FALSE, raster=FALSE, symbol_legend=FALSE, linelwd_legend=FALSE) # to prevent a warning for each shape
 	
+	if (inherits(shps, "sf")) shps <- list(shps)
+	
 	group_selection <- mapply(function(shp, gpl, shp_name) {
 		bbx <- attr(shp, "bbox")
 		upl <- units_per_line(bbx)
@@ -402,7 +404,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 
 	if (gt$scale.show) {
-		u <- gt$shape.units_args$target
+		u <- gt$shape.units$unit
 		metric <- (u %in% c("m", "km", "metric"))
 	 	lf <- lf %>% addScaleBar(position = gt$scale.position, options = scaleBarOptions(maxWidth=gt$scale.width, metric=metric, imperial = !metric))
 	}
@@ -636,7 +638,7 @@ working_internet <- function(url = "http://www.google.com") {
 
 bbx_per_line <- function(bbx) {
 	max_lines <- 60 #par("din")[2]*10 #disabled because window height doesn't influence scaling
-	(bbx[2,2] - bbx[2,1]) / max_lines
+	(bbx[4] - bbx[2]) / max_lines
 }
 
 units_per_line <- function(bbx) {

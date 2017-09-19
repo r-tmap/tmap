@@ -471,7 +471,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
 				} else if (e$type=="logo") {
 					grb <- plot_logo(gt, just=elem.just[1], id=e$logo.id)
 				} else if (e$type=="scale_bar") {
-					grb <- plot_scale(gt, just=elem.just[1], xrange=(bb[1,2] - bb[1,1])*e$width2, crop_factor=gt$scale.width/e$width2)
+					grb <- plot_scale(gt, just=elem.just[1], xrange=(bb[3] - bb[1])*e$width2, crop_factor=gt$scale.width/e$width2)
 				} else {
 					grb <- plot_compass(gt, just=elem.just[1])
 				}

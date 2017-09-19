@@ -178,7 +178,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	if (inherits(shp, "sf")) {
 		## determine automatic legend position based on polygon centers
-		co <- st_coordinates(st_geometry(st_centroid(shp)))
+		co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
 		
 		xn <- (co[,1]-bbx[1])/(bbx[3]-bbx[1])
 		yn <- (co[,2]-bbx[2])/(bbx[4]-bbx[2])
@@ -191,8 +191,25 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		legend_pos <- 2
 	}
 
-	units <- do.call(tmaptools::projection_units, c(list(x=gm$shape.master_crs, latitude=mean(bbx[c(2,4)])), gm$shape.units_args))
+	#units <- do.call(tmaptools::projection_units, c(list(x=gm$shape.master_crs, latitude=mean(bbx[c(2,4)])), gm$shape.units_args))
+	
+	shape.unit <- ifelse(gm$shape.unit=="metric", "km", ifelse(gm$shape.unit=="imperial", "mi", gm$shape.unit))
+	
+	if (longlat) {
+		latitude <- mean(bbx[c(2,4)])
+		bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
+		ad <- approx_distances(bbxll, projection=gm$shape.master_crs)
+		to <- as.numeric(units::set_units(ad$hdist, shape.unit))
+	} else {
+		ad <- approx_distances(bbx, projection=gm$shape.master_crs)
+		to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator), shape.unit))
+	}
+	
 
+	units <- list(projection=gm$shape.master_crs, unit=shape.unit, to=to, projected = !longlat)
+	
+	
+	
 	#units <- tmaptools::get_shape_units(projection=gm$shape.master_CRS, latitude=mean(bbx[c(2,4)]), target.unit = gm$shape.units_args$unit)
 	
 	attr(shps2, "info") <-

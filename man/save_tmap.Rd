@@ -5,7 +5,7 @@
 \title{Save tmap}
 \usage{
 save_tmap(tm = NULL, filename = NULL, width = NA, height = NA,
-  units = NA, dpi = 300, outer.margins = 0, asp = NULL, scale = NA,
+  units = NA, dpi = 300, outer.margins = NA, asp = NULL, scale = NA,
   insets_tm = NULL, insets_vp = NULL, verbose = TRUE, ...)
 }
 \arguments{
