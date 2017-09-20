@@ -88,13 +88,15 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		bbx <- attr(shp, "bbox")
 		upl <- units_per_line(bbx)
 		bpl <- bbx_per_line(bbx)
-		if (inherits(shp, "Spatial")) {
-			res <- get_sp_coordinates(shp, gpl, gt, bbx)
-			co <- res$co
-			if (gt$shape.line.center.type[1]=="segment") {
-				gpl <- res$gpl
-				shp <- res$shp
-			}	
+		if (inherits(shp, "sf")) {
+			co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
+			
+			# res <- get_sp_coordinates(shp, gpl, gt, bbx)
+			# co <- res$co
+			# if (gt$shape.line.center.type[1]=="segment") {
+			# 	gpl <- res$gpl
+			# 	shp <- res$shp
+			# }	
 		}
 		
 		plot_tm_fill <- function() {

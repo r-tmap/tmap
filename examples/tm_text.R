@@ -11,7 +11,7 @@ tm_shape(Europe) +
         size.lowerbound = .1) +
 tm_shape(Europe) +
     tm_text("name", size="AREA", root=4, scale=1,
-        ymod=-100000 * as.numeric(tmaptools::approx_areas(Europe, target = "norm"))^(1/4))
+        ymod=-1 * as.numeric(tmaptools::approx_areas(Europe, target = "norm"))^(1/4))
 
 tm_shape(Europe) +
 	tm_polygons() +

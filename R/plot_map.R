@@ -85,14 +85,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 			x <- (cent[1] - bb_target[1]) / (bb_target[3] - bb_target[1])
 			y <- (cent[2] - bb_target[2]) / (bb_target[4] - bb_target[2])
 			#if (inherits(shp, "Spatial")) shp <- as(shp, "RasterLayer")
-			print(cent)
-			print(bb_target)
-			print(bb_real)
-			print(width)
-			print(height)
-			print(x)
-			print(y)
-			
+
 			rasterGrob(matrix(rast, ncol=shp@ncols, nrow=shp@nrows, byrow = TRUE), x=x, y=y, width=width, height=height, interpolate = gpl$raster.misc$interpolate)
 		} 
 		

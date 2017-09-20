@@ -26,7 +26,6 @@
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom spdep poly2nb
 #' @importFrom grDevices xy.coords colors
-#' @importFrom graphics par
 #' @importFrom rgdal getPROJ4VersionInfo SGDF2PCT CRSargs
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
@@ -341,7 +340,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 					   sync.cursor=gm$sync,
 					   no.initial.sync = TRUE)
 		
-		multi_shapes <- (is.list(shps[[1]]))
+		multi_shapes <- is.list(shps[[1]]) && !inherits(shps[[1]], "sf")
 		showWarns <- c(TRUE, rep(FALSE, length(gps)-1))
 		if (multi_shapes) {
 			lfs <- mapply(view_tmap, gps2[1:nx], shps[1:nx], leaflet_id=1:nx, showWarns=showWarns, SIMPLIFY = FALSE)
