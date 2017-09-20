@@ -146,6 +146,8 @@ gather_shape_info <- function(x, interactive) {
 	
 	## get arguments related to units (approx_areas)
 	unit <- x[[shape.id[masterID]]]$unit
+	if (unit == "metric") unit <- "km"
+	if (unit == "imperial") unit <- "mi"
 	
 	# units_args <- x[[shape.id[masterID]]][c("unit", "orig", "to", "total.area")]
 	# names(units_args)[names(units_args)=="unit"] <- "target"

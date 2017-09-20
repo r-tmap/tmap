@@ -1,7 +1,7 @@
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
-	shp.unit <- y$unit
+	shp.unit <- gm$shape.unit
 	# shp.aa <- y[c("unit", "orig", "to", "total.area")]
 	# names(shp.aa)[names(shp.aa)=="unit"] <- "target"
 	# shp.aa <- shp.aa[!sapply(shp.aa, is.null)]

@@ -70,7 +70,7 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		}
 		if (any(xtsize=="AREA") && !("SHAPE_AREAS" %in% shpcols)) stop("size=\"AREA\" only valid for spatial polygons.", call.=FALSE)
 		for (i in 1:nx) data[[paste("SIZE", i, sep="_")]] <- if (is.numeric(xtsize[i])) xtsize[i] else {
-			tmp <- data$SHAPE_AREAS
+			tmp <- as.numeric(data$SHAPE_AREAS)
 			(tmp / max(tmp, na.rm=TRUE)) ^ (1/g$root)
 		}
 		xtsize <- paste("SIZE", 1:nx, sep="_")

@@ -84,5 +84,9 @@ st_crs(W2)
 # split
 # crop
 
+h <- read_osm("Maastricht")
+
+qtm(h)
 
 
+tm_shape(h, ext=.02, unit = "imperial") + tm_rgb() + tm_scale_bar()

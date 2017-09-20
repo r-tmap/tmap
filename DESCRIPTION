@@ -19,6 +19,8 @@ Depends:
 Imports:
 	tmaptools (>= 1.2),
     sp,
+    sf,
+    units,
     raster (>= 2.5-2),
     grid,
     rgdal,

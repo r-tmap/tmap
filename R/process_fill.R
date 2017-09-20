@@ -77,7 +77,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	}
 	
 	areas <- data[[area_var]]
-	areas_prop <- areas/sum(areas, na.rm=TRUE)
+	areas_prop <- as.numeric(areas/sum(areas, na.rm=TRUE))
 	
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly", call. = FALSE)
@@ -85,7 +85,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	
 	sel <- if (is.list(dt)) rep(list(!tiny), nx) else !tiny
 	
-	dcr <- process_dtcol(dt, sel, g, gt, nx, npol, check_dens = TRUE, areas=areas, areas_unit=attr(areas, "unit"))
+	dcr <- process_dtcol(dt, sel, g, gt, nx, npol, check_dens = TRUE, areas=as.numeric(areas), areas_unit=attr(areas, "unit"))
 	if (dcr$is.constant) xfill <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels

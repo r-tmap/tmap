@@ -329,9 +329,9 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 }
 
 
-plot_symbols <- function(co.native, g, gt, lineInch, i, k) {
-	symbolH <- convertHeight(unit(lineInch, "inch"), "native", valueOnly=TRUE) * gt$scale
-	symbolW <- convertWidth(unit(lineInch, "inch"), "native", valueOnly=TRUE) * gt$scale
+plot_symbols <- function(co.native, g, gt, lineInch, lineNatH, lineNatW, i, k) {
+	symbolH <- lineNatH * gt$scale
+	symbolW <- lineNatW * gt$scale
 	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
 	justLib <- get(".justLib", envir = .TMAP_CACHE)
 
@@ -359,8 +359,8 @@ plot_symbols <- function(co.native, g, gt, lineInch, i, k) {
 		justy <- size.native.h * (justs.y-.5)
 		
 		# adjust the coordinates
-		co.native[, 1] <- co.native[, 1] + symbol.xmod * symbolW + justx * lineInch * 2 / 3
-		co.native[, 2] <- co.native[, 2] + symbol.ymod * symbolH + justy * lineInch * 2 / 3
+		co.native[, 1] <- co.native[, 1] + symbol.xmod * symbolW + justx * lineNatW * 2 / 3
+		co.native[, 2] <- co.native[, 2] + symbol.ymod * symbolH + justy * lineNatH * 2 / 3
 		
 		sel <- !is.na(symbol.size) & !is.na(symbol.col) & !is.na(symbol.shape)
 		
@@ -430,39 +430,44 @@ plot_symbols <- function(co.native, g, gt, lineInch, i, k) {
 	})
 }
 
-plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.margin=.10) {
-	lineHnpc <- convertHeight(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
-	lineWnpc <- convertWidth(unit(lineInch, "inch"), "npc", valueOnly=TRUE) * gt$scale
+plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "center"), bg.margin=.10) {
+	lineHnative <- lineNatH * gt$scale
+	lineWnative <- lineNatW * gt$scale
 	
-	npol <- nrow(co.npc)
+	npol <- nrow(co.native)
 	with(g, {
 		if (!any(text_sel)) {
 			warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.", call. = FALSE)
 			return(NULL)
 		}
 		
-		co.npc[, 1] <- co.npc[, 1] + text.xmod * lineWnpc
-		co.npc[, 2] <- co.npc[, 2] + text.ymod * lineHnpc
+		co.native[, 1] <- co.native[, 1] + text.xmod * lineWnative
+		co.native[, 2] <- co.native[, 2] + text.ymod * lineHnative
+
 		
-		grobText <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1], "npc"), y=unit(co.npc[text_sel,2], "npc"), just=just, gp=gpar(col=text.color[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+		#grobText <- textGrob(text[text_sel], x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"), just=just, gp=gpar(col=text.color[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+
+		# grobText <- pointsGrob(x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"))
+		
+		grobText <- textGrob(text[text_sel], x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"), just=just, gp=gpar(col=text.color[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		nlines <- rep(1, length(text))
 		
 		
-		lineH <- convertHeight(unit(text.size[text_sel], "lines"), "npc", valueOnly=TRUE)
-		lineW <- convertWidth(unit(text.size[text_sel], "lines"), "npc", valueOnly=TRUE)
+		lineH <- convertHeight(unit(text.size[text_sel], "lines"), "native", valueOnly=TRUE)
+		lineW <- convertWidth(unit(text.size[text_sel], "lines"), "native", valueOnly=TRUE)
 		
 		#		if (!is.na(text.bg.color)) {
 		
 		
 		tGH <- mapply(text[text_sel], text.size[text_sel], nlines[text_sel], FUN=function(x,y,z){
-			convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
+			convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"native", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE)
 		
 		tGW <- mapply(text[text_sel], text.size[text_sel], FUN=function(x,y){
-			convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"npc", valueOnly=TRUE)}, USE.NAMES=FALSE)
+			convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"native", valueOnly=TRUE)}, USE.NAMES=FALSE)
 		tGX <- grobText$x + unit(ifelse(just[1]=="left", (tGW * .5), 
-										ifelse(just[1]=="right", -(tGW * .5), 0)), "npc")
+										ifelse(just[1]=="right", -(tGW * .5), 0)), "native")
 		tGY <- grobText$y + unit(tGH * ifelse(just[2]=="top", -.5, 
-									   ifelse(just[2]=="bottom", .5, -.05)), "npc")
+									   ifelse(just[2]=="bottom", .5, -.05)), "native")
 		
 		tGH <- tGH + lineH * bg.margin
 		tGW <- tGW + lineW * bg.margin
@@ -472,7 +477,7 @@ plot_text <- function(co.npc, g, gt, lineInch, just=c("center", "center"), bg.ma
 		# 		}
 		
 		if (text.shadow) {
-			grobTextSh <- textGrob(text[text_sel], x=unit(co.npc[text_sel,1]+lineW * .05, "npc"), y=unit(co.npc[text_sel,2]- lineH * .05, "npc"), just=just, gp=gpar(col=text.shadowcol[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
+			grobTextSh <- textGrob(text[text_sel], x=unit(co.native[text_sel,1]+lineW * .05, "native"), y=unit(co.native[text_sel,2]- lineH * .05, "native"), just=just, gp=gpar(col=text.shadowcol[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		} else {
 			grobTextSh <- NULL
 		}
