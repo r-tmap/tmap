@@ -61,7 +61,7 @@ process_tm <- function(x, gm, interactive) {
 	gfs <- lapply(1:nshps, function(i){
 		gf <- if (facet.ids[i]==0) tm_facets()$tm_facets else x[[facet.ids[i]]]
 		gf$shp_name <- x[[shape.id.orig[i]]]$shp_name
-		gf$shp_nr <- ifelse(!is.null(gf$by), i, 0)
+		gf$shp_nr <- ifelse(!is.null(gf$by) || !is.null(gf$along), i, 0)
 		gf$by <- if (is.null(gf$by)) "" else gf$by
 		gf$along <- if (is.null(gf$along)) "" else gf$along
 		gf
