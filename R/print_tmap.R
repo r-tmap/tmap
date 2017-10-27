@@ -353,7 +353,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			} else {
 				return(print(lf2))
 			}
-		} else lf
+		} else lf2
 	} else {
 		if (show) {
 			if (nx > 1) sasp <- gm$shape.dasp
