@@ -143,9 +143,10 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 	
 	gps <- mapply(function(gp, masterID) {
 		gp[1:gm$shape.nshps] <- mapply(function(gpl, indices, l) {
+			npol_old <- gpl$npol
 			gpl$npol <- length(indices)
 			lapply(gpl, function(gplx) {
-				if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==l) {
+				if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==npol_old) {
 					gplx[indices]	
 				} else {
 					gplx
