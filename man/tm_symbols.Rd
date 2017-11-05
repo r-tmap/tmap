@@ -26,10 +26,11 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   title.shape = NA, legend.size.show = TRUE, legend.col.show = TRUE,
   legend.shape.show = TRUE, legend.format = list(),
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
-  legend.shape.is.portrait = TRUE, legend.hist = FALSE,
-  legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
-  legend.shape.z = NA, legend.hist.z = NA, id = NA, popup.vars = NA,
-  popup.format = list())
+  legend.shape.is.portrait = TRUE, legend.size.reverse = FALSE,
+  legend.col.reverse = FALSE, legend.shape.reverse = FALSE,
+  legend.hist = FALSE, legend.hist.title = NA, legend.size.z = NA,
+  legend.col.z = NA, legend.shape.z = NA, legend.hist.z = NA, id = NA,
+  popup.vars = NA, popup.format = list())
 
 tm_squares(size = 1, col = NA, shape = 22, scale = 4/3, ...)
 
@@ -158,6 +159,12 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 
 \item{legend.shape.is.portrait}{logical that determines whether the legend element regarding the symbol shapes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
 
+\item{legend.size.reverse}{logical that determines whether the items of the legend regarding the symbol sizes are shown in reverse order, i.e. from bottom to top when \code{legend.size.is.portrait = TRUE} and from right to left when \code{legend.size.is.portrait = FALSE}}
+
+\item{legend.col.reverse}{logical that determines whether the items of the legend regarding the symbol colors are shown in reverse order, i.e. from bottom to top when \code{legend.col.is.portrait = TRUE} and from right to left when \code{legend.col.is.portrait = FALSE}}
+
+\item{legend.shape.reverse}{logical that determines whether the items of the legend regarding the symbol shapes are shown in reverse order, i.e. from bottom to top when \code{legend.shape.is.portrait = TRUE} and from right to left when \code{legend.shape.is.portrait = FALSE}}
+
 \item{legend.hist}{logical that determines whether a histogram is shown regarding the symbol colors}
 
 \item{legend.hist.title}{title for the histogram. By default, one title is used for both the histogram and the normal legend for symbol colors.}
@@ -257,6 +264,8 @@ ggplotGrob(ggplot(x, aes(x="", y=-perc, fill=origin)) +
 	scale_fill_manual(values=origin_cols) +
 	theme_ps(plot.axes = FALSE))
 })
+
+names(grobs) <- NLD_prov$name
 
 tm_shape(NLD_prov) +
 tm_polygons() +

@@ -3,7 +3,7 @@ split_tm <- function(gp, nx, order_by) {
 		g <- mapply(function(x, o) {
 			oid <- if(is.null(o)) NULL else o[[i]]
 			res <- mapply(get_i, x, names(x), MoreArgs = list(i=i, n=x$npol, oid=oid), SIMPLIFY=FALSE)
-			res$npol <- length(oid)
+			res$npol <- if (is.null(oid)) x$npol else length(oid)
 			res
 		}, gp, order_by, SIMPLIFY=FALSE)
 	})

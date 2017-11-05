@@ -67,9 +67,11 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		gby$free.scales.symbol.size <- FALSE
 	}
 	
-	# check for direct color input
-	is.colors <- all(valid_colors(xcol))
-	if (!varycol) {
+	if (varycol) {
+		is.colors <- FALSE
+	} else {
+		# check for direct color input
+		is.colors <- all(valid_colors(xcol))
 		if (!is.colors) stop("Invalid symbol colors", call. = FALSE)
 		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
@@ -105,8 +107,16 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		xshape <- paste("SHAPE", 1:nx, sep="_")
 	}
 	if (is.list(g$shapes)) {
-		if ("iconUrl" %in% names(g$shapes)) g$shapes <- split_icon(g$shapes)
-		g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
+		# check if g$shapes is nested list (i.e. small multiples)
+		if (!inherits(g$shapes[[1]], "grob") && (!("iconUrl" %in% names(g$shapes[[1]])))) {
+			g$shapes <- lapply(g$shapes, function(gshape) {
+				if ("iconUrl" %in% names(gshape)) gshape <- split_icon(gshape)
+				submit_symbol_shapes(gshape, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
+			})
+		} else {
+			if ("iconUrl" %in% names(g$shapes)) g$shapes <- split_icon(g$shapes)
+			g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
+		}
 	} 
 	nx <- max(nx, nlevels(by))
 	
@@ -125,7 +135,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		# multiple variables for size are defined
 		gss <- split_g(g, n=nx)
 		if (!all(sapply(dtsize, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
-		res <- mapply(process_symbols_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt), SIMPLIFY = FALSE)
+		res <- mapply(process_symbols_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt=gt, reverse=g$legend.size.reverse), SIMPLIFY = FALSE)
 		symbol.size <- sapply(res, function(r)r$symbol.size)
 		symbol.size.legend.labels <- lapply(res, function(r)r$symbol.size.legend.labels)
 		symbol.size.legend.values <- lapply(res, function(r)r$symbol.size.legend.values)
@@ -133,7 +143,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		symbol.max.size <- lapply(res, function(r)r$symbol.max.size)
 	} else {
 		if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
-		res <- process_symbols_size_vector(dtsize, g, rescale=varysize, gt)
+		res <- process_symbols_size_vector(dtsize, g, rescale=varysize, gt=gt, reverse=g$legend.size.reverse)
 		symbol.size <- matrix(res$symbol.size, nrow=npol)
 		if (varysize) {
 			symbol.size.legend.labels <- res$symbol.size.legend.labels
@@ -197,7 +207,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		# multiple variables for size are defined
 		gsp <- split_g(g, n=nx)
 		#if (!all(sapply(dtshape, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
-		res <- mapply(process_symbols_shape_vector, dtshape, sel2, gsp, MoreArgs = list(map_shapes=varyshape, gt), SIMPLIFY = FALSE)
+		res <- mapply(process_symbols_shape_vector, dtshape, sel2, gsp, MoreArgs = list(map_shapes=varyshape, gt=gt, reverse=g$legend.shape.reverse), SIMPLIFY = FALSE)
 		symbol.shape <- sapply(res, function(r)r$symbol.shape)
 		shape.legend.labels <- lapply(res, function(r)r$shape.legend.labels)
 		shape.legend.values <- lapply(res, function(r)r$shape.legend.values)
@@ -207,7 +217,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	} else {
 		#if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
 		sel2 <- if (is.na(selShape[1])) TRUE else selShape
-		res <- process_symbols_shape_vector(dtshape, sel2, g, map_shapes=varyshape, gt)
+		res <- process_symbols_shape_vector(dtshape, sel2, g, map_shapes=varyshape, gt=gt, reverse=g$legend.shape.reverse)
 		symbol.shape <- matrix(res$symbol.shape, nrow=npol)
 		if (varyshape) {
 			shape.legend.labels <- res$shape.legend.labels
@@ -225,8 +235,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	}
 	
 	
-	
-	dcr <- process_dtcol(dtcol, selCol, g, gt, nx, npol)
+	dcr <- process_dtcol(dtcol, selCol, g, gt, nx, npol, reverse=g$legend.col.reverse)
 	if (dcr$is.constant) xcol <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
@@ -328,10 +337,12 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 symbol.size.legend.show=g$legend.size.show,
 		 symbol.size.legend.title=symbol.size.legend.title,
 		 symbol.size.legend.is.portrait=g$legend.size.is.portrait,
+		 symbol.size.legend.reverse=g$legend.size.reverse,
 		 symbol.size.legend.z=symbol.size.legend.z,
 		 symbol.shape.legend.show=g$legend.shape.show,
 		 symbol.shape.legend.title=symbol.shape.legend.title,
 		 symbol.shape.legend.is.portrait=g$legend.shape.is.portrait,
+		 symbol.shape.legend.reverse=g$legend.shape.reverse,
 		 #symbol.shape.legend.hist=g$legend.hist,
 		 #symbol.shape.legend.hist.title=symbol.shape.legend.hist.title,
 		 symbol.shape.legend.z=symbol.shape.legend.z,
@@ -339,6 +350,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 symbol.col.legend.show=g$legend.col.show,
 		 symbol.col.legend.title=symbol.col.legend.title,
 		 symbol.col.legend.is.portrait=g$legend.col.is.portrait,
+		 symbol.col.legend.reverse=g$legend.col.reverse,
 		 symbol.col.legend.hist=g$legend.hist,
 		 symbol.col.legend.hist.title=symbol.col.legend.hist.title,
 		 symbol.col.legend.z=symbol.col.legend.z,
@@ -406,5 +418,6 @@ submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) 
 	justLib <- c(justLib, just_items[!numbers])
 	assign(".shapeLib", shapeLib, envir = .TMAP_CACHE)
 	assign(".justLib", justLib, envir = .TMAP_CACHE)
+	names(x2) <- names(x)
 	x2
 }

@@ -11,8 +11,8 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   contrast = NA, max.categories = 12, colorNA = NULL, saturation = 1,
   interpolate = FALSE, textNA = "Missing", showNA = NA, title = NA,
   legend.show = TRUE, legend.format = list(), legend.is.portrait = TRUE,
-  legend.hist = FALSE, legend.hist.title = NA, legend.z = NA,
-  legend.hist.z = NA)
+  legend.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
+  legend.z = NA, legend.hist.z = NA)
 
 tm_rgb(alpha = NA, saturation = 1, interpolate = TRUE, ...)
 }
@@ -67,6 +67,8 @@ If multiple values are specified, small multiples are drawn (see details). By de
 }}
 
 \item{legend.is.portrait}{logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.reverse}{logical that determines whether the items of the legend regarding the text sizes are shown in reverse order, i.e. from bottom to top when \code{legend.is.portrait = TRUE} and from right to left when \code{legend.is.portrait = FALSE}}
 
 \item{legend.hist}{logical that determines whether a histogram is shown}
 

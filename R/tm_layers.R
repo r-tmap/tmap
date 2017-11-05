@@ -56,9 +56,11 @@
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the text sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.size.reverse logical that determines whether the items of the legend regarding the text sizes are shown in reverse order, i.e. from bottom to top when \code{legend.size.is.portrait = TRUE} and from right to left when \code{legend.size.is.portrait = FALSE}
 #' @param legend.hist logical that determines whether a histogram is shown regarding the text colors
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for text colors.
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the text colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.col.reverse logical that determines whether the items of the legend regarding the text colors are shown in reverse order, i.e. from bottom to top when \code{legend.col.is.portrait = TRUE} and from right to left when \code{legend.col.is.portrait = FALSE}
 #' @param legend.size.z index value that determines the position of the legend element regarding the text sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.col.z index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
@@ -93,6 +95,8 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 legend.format=list(),
 					 legend.size.is.portrait=FALSE,
 					 legend.col.is.portrait=TRUE,
+					 legend.size.reverse=FALSE,
+					 legend.col.reverse=FALSE,
 					 legend.hist=FALSE,
 					 legend.hist.title=NA,
 					 legend.size.z=NA,
@@ -172,6 +176,8 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' }
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the line colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.lwd.is.portrait logical that determines whether the legend element regarding the line widths is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.col.reverse logical that determines whether the items of the legend regarding the line colors sizes are shown in reverse order, i.e. from bottom to top when \code{legend.col.is.portrait = TRUE} and from right to left when \code{legend.col.is.portrait = FALSE}
+#' @param legend.lwd.reverse logical that determines whether the items of the legend regarding the line widths are shown in reverse order, i.e. from bottom to top when \code{legend.lwd.is.portrait = TRUE} and from right to left when \code{legend.lwd.is.portrait = FALSE}
 #' @param legend.hist logical that determines whether a histogram is shown regarding the line colors
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for line colors.
 #' @param legend.col.z index value that determines the position of the legend element regarding the line colors with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
@@ -206,6 +212,8 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 legend.format=list(),
 					 legend.col.is.portrait=TRUE,
 					 legend.lwd.is.portrait=FALSE,
+					 legend.col.reverse=FALSE,
+					 legend.lwd.reverse=FALSE,
 					 legend.hist=FALSE,
 					 legend.hist.title=NA,
 					 legend.col.z=NA,
@@ -266,6 +274,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.reverse logical that determines whether the items are shown in reverse order, i.e. from bottom to top when \code{legend.is.portrait = TRUE} and from right to left when \code{legend.is.portrait = FALSE}
 #' @param legend.hist logical that determines whether a histogram is shown
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
@@ -300,6 +309,7 @@ tm_fill <- function(col=NA,
 					legend.show=TRUE,
 					legend.format=list(),
 					legend.is.portrait=TRUE,
+					legend.reverse=FALSE,
 					legend.hist=FALSE,
 					legend.hist.title=NA,
 					legend.z=NA,
@@ -382,6 +392,7 @@ tm_polygons <- function(col=NA,
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.reverse logical that determines whether the items of the legend regarding the text sizes are shown in reverse order, i.e. from bottom to top when \code{legend.is.portrait = TRUE} and from right to left when \code{legend.is.portrait = FALSE}
 #' @param legend.hist logical that determines whether a histogram is shown
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
@@ -413,6 +424,7 @@ tm_raster <- function(col=NA,
 					  legend.show=TRUE,
 					  legend.format=list(),
 					  legend.is.portrait=TRUE,
+					  legend.reverse=FALSE,
 					  legend.hist=FALSE,
 					  legend.hist.title=NA,
 					  legend.z=NA,
@@ -512,6 +524,9 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the symbol sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the symbol colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
 #' @param legend.shape.is.portrait logical that determines whether the legend element regarding the symbol shapes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
+#' @param legend.size.reverse logical that determines whether the items of the legend regarding the symbol sizes are shown in reverse order, i.e. from bottom to top when \code{legend.size.is.portrait = TRUE} and from right to left when \code{legend.size.is.portrait = FALSE}
+#' @param legend.col.reverse logical that determines whether the items of the legend regarding the symbol colors are shown in reverse order, i.e. from bottom to top when \code{legend.col.is.portrait = TRUE} and from right to left when \code{legend.col.is.portrait = FALSE}
+#' @param legend.shape.reverse logical that determines whether the items of the legend regarding the symbol shapes are shown in reverse order, i.e. from bottom to top when \code{legend.shape.is.portrait = TRUE} and from right to left when \code{legend.shape.is.portrait = FALSE}
 #' @param legend.hist logical that determines whether a histogram is shown regarding the symbol colors
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend for symbol colors.
 #' @param legend.size.z index value that determines the position of the legend element regarding the symbol sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
@@ -580,6 +595,9 @@ tm_symbols <- function(size=1, col=NA,
 					   	legend.size.is.portrait=FALSE,
 					    legend.col.is.portrait=TRUE,
 						legend.shape.is.portrait=TRUE,
+						legend.size.reverse=FALSE,
+						legend.col.reverse=FALSE,
+						legend.shape.reverse=FALSE,
 						legend.hist=FALSE,
 						legend.hist.title=NA,
 						legend.size.z=NA,

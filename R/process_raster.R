@@ -2,8 +2,8 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
-
-
+	
+	
 	# update gt$pc's saturation
 	gt$pc$saturation <- gt$pc$saturation * g$saturation
 	
@@ -33,13 +33,16 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		nx <- length(x)
 		
 		# check for direct color input
-		is.colors <- all(valid_colors(x))
-		if (is.colors) {
+		if (all(x %in% shpcols)) {
+			is.colors <- FALSE
+		} else {
+			# check for direct color input
+			is.colors <- all(valid_colors(x))
+			if (!is.colors) stop("Invalid line colors", call. = FALSE)
+			
 			x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gt$pc))
 			for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
 			x <- paste("COLOR", 1:nx, sep="_")
-		} else {
-			if (!all(x %in% shpcols)) stop("Raster argument neither colors nor valid variable name(s)", call. = FALSE)
 		}
 	}
 	interpolate <- ifelse(is.na(g$interpolate), is.colors, g$interpolate)
@@ -60,7 +63,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 	# update legend format from tm_layout
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
 	
-		
+	
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {
 		if (!is.colors) {
@@ -76,7 +79,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx), raster.misc=list(is.OSM=is.OSM, leaflet.provider=leaflet.provider, interpolate=interpolate)))
 	}
 	
-	dcr <- process_dtcol(dt, sel=TRUE, g, gt, nx, npol)
+	dcr <- process_dtcol(dt, sel=TRUE, g, gt, nx, npol, reverse=g$legend.reverse)
 	if (dcr$is.constant) x <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
@@ -86,7 +89,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 	values <- dcr$values
 	
 	
-
+	
 	
 	raster.legend.title <- if (is.ena(g$title)[1]) x else g$title
 	raster.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
@@ -114,6 +117,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		 raster.legend.show=g$legend.show,
 		 raster.legend.title=raster.legend.title,
 		 raster.legend.is.portrait=g$legend.is.portrait,
+		 raster.legend.reverse=g$legend.reverse,
 		 raster.legend.hist=g$legend.hist,
 		 raster.legend.hist.title=raster.legend.hist.title,
 		 raster.legend.z=raster.legend.z,

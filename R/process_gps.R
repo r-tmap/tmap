@@ -140,7 +140,6 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 		matchIDs <- lapply(shps, function(s) if (inherits(s, "Raster")) s[] else s$tmapID)
 		matchIDs <- lapply(1:nx, function(i) matchIDs)
 	}
-	
 	gps <- mapply(function(gp, masterID) {
 		gp[1:gm$shape.nshps] <- mapply(function(gpl, indices, l) {
 			npol_old <- gpl$npol

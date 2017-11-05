@@ -1,4 +1,4 @@
-process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt) {
+process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 	check_aes_args(g)
 	
 	if (map_shapes) {
@@ -11,7 +11,8 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt) {
 								   legend.labels=g$labels,
 								   shapeNA = g$shapeNA,
 								   legend.NA.text = g$shape.textNA,
-								   showNA = g$showNA)
+								   showNA = g$showNA,
+								   reverse=reverse)
 			symbol.shape <- shapesLeg$shps
 			shape.legend.labels <- shapesLeg$legend.labels
 			shape.legend.values <- shapesLeg$legend.values
@@ -29,7 +30,8 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt) {
 								   legend.NA.text = g$shape.textNA,
 								   shapeNA=g$shapeNA, 
 								   showNA = g$showNA,
-								   legend.format=g$legend.format)
+								   legend.format=g$legend.format,
+								   reverse=reverse)
 			symbol.shape <- shapesLeg$shps
 			shape.legend.labels <- shapesLeg$legend.labels
 			shape.legend.values <- shapesLeg$legend.values
@@ -53,8 +55,8 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt) {
 	
 }
 
-process_symbols_size_vector <- function(x, g, rescale, gt) {
-	check_aes_args(g)
+process_symbols_size_vector <- function(x, g, rescale, gt, reverse) {
+	#check_aes_args(g)
 	
 	if (!is.na(g$size.lim[1])) {
 		x[x<g$size.lim[1]] <- NA
@@ -83,6 +85,12 @@ process_symbols_size_vector <- function(x, g, rescale, gt) {
 	symbol.size <- g$scale*(x/maxX)^scaling
 	symbol.max.size <- max(symbol.size, na.rm=TRUE)
 	symbol.legend.sizes <- g$scale*(x_legend/maxX)^scaling
+	
+	if (reverse) {
+		symbol.legend.sizes <- rev(symbol.legend.sizes)
+		symbol.size.legend.labels <- rev(symbol.size.legend.labels)
+	}
+	
 	list(symbol.size=symbol.size,
 		 symbol.size.legend.labels=symbol.size.legend.labels,
 		 symbol.size.legend.values=symbol.size.legend.values,
@@ -90,7 +98,7 @@ process_symbols_size_vector <- function(x, g, rescale, gt) {
 		 symbol.max.size=symbol.max.size)
 }
 
-process_text_size_vector <- function(x, text, g, rescale, gt) {
+process_text_size_vector <- function(x, text, g, rescale, gt, reverse) {
 	check_aes_args(g)
 	
 	if (!is.na(g$size.lim[1])) {
@@ -139,6 +147,12 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 	max.size <- max.size * g$scale
 	legend.sizes <- legend.sizes * g$scale
 	
+	if (reverse) {
+		size.legend.labels <- rev(size.legend.labels)
+		size.legend.values <- rev(size.legend.values)
+		legend.sizes <- legend.sizes
+	}
+	
 	list(size=size,
 		 text_sel=text_sel,
 		 size.legend.labels=size.legend.labels,
@@ -147,7 +161,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt) {
 		 max.size=max.size)
 }
 
-process_line_lwd_vector <- function(x, g, rescale) {
+process_line_lwd_vector <- function(x, g, rescale, reverse) {
 	check_aes_args(g)
 
 	if (is.null(g$lwd.legend)) {
@@ -172,9 +186,12 @@ process_line_lwd_vector <- function(x, g, rescale) {
 		line.lwd.legend.labels <- g$line.lwd.legend.labels
 	}
 	
-	
-	
 	line.lwd <- g$scale * (x/maxW)
+	if (reverse) {
+		line.legend.lwds <- rev(line.legend.lwds)
+		line.lwd.legend.labels <- rev(line.lwd.legend.labels)
+	}
+	
 	list(line.lwd=line.lwd,
 		 line.legend.lwds=line.legend.lwds,
 		 line.lwd.legend.labels=line.lwd.legend.labels,

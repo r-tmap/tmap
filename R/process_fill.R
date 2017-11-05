@@ -22,29 +22,34 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	if (nlevels(by)>1) x <- x[1]
 	nx <- length(x)
 	
-	# check for direct color input
-	is.colors <- all(valid_colors(x))
 	if (attr(data, "kernel_density") && !("col" %in% g$call) && "level" %in% shpcols) {
 		is.colors <- FALSE
 		x <- "level"
-	} else if (is.colors) {
-		x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gt$pc))
-		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
-		x <- paste("COLOR", 1:nx, sep="_")
-	} else if (x[1]=="MAP_COLORS") {
-		palette <- if (is.null(g$palette)) {
-			gt$aes.palette[["cat"]]
-		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
-			gt$aes.palette[[g$palette[1]]] 
-		} else g$palette
-		mapcols <- do.call("map_coloring", args = c(list(x=attr(data, "NB"), palette=palette, contrast = g$contrast), g$map_coloring))
-		mapcols <- do.call("process_color", c(list(col=mapcols, alpha=g$alpha), gt$pc))
-		
-		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- mapcols
-		x <- paste("COLOR", 1:nx, sep="_")
+	} else if (!all(x %in% shpcols)) {
+		# check for direct color input
+		is.colors <- all(valid_colors(x))
+		if (is.colors) {
+			x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gt$pc))
+			for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
+			x <- paste("COLOR", 1:nx, sep="_")
+		} else if (x[1]=="MAP_COLORS") {
+			palette <- if (is.null(g$palette)) {
+				gt$aes.palette[["cat"]]
+			} else if (g$palette[1] %in% c("seq", "div", "cat")) {
+				gt$aes.palette[[g$palette[1]]] 
+			} else g$palette
+			mapcols <- do.call("map_coloring", args = c(list(x=attr(data, "NB"), palette=palette, contrast = g$contrast), g$map_coloring))
+			mapcols <- do.call("process_color", c(list(col=mapcols, alpha=g$alpha), gt$pc))
+			
+			for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- mapcols
+			x <- paste("COLOR", 1:nx, sep="_")
+		} else {
+			stop("Fill argument neither colors nor valid variable name(s)", call. = FALSE)
+		}
 	} else {
-		if (!all(x %in% shpcols)) stop("Fill argument neither colors nor valid variable name(s)", call. = FALSE)
+		is.colors <- FALSE
 	}
+		
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
 	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dt, "anyNA")
 	## output: matrix=colors, list=free.scales, vector=!freescales
@@ -85,7 +90,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	
 	sel <- if (is.list(dt)) rep(list(!tiny), nx) else !tiny
 	
-	dcr <- process_dtcol(dt, sel, g, gt, nx, npol, check_dens = TRUE, areas=areas, areas_unit=attr(areas, "unit"))
+	dcr <- process_dtcol(dt, sel, g, gt, nx, npol, check_dens = TRUE, areas=areas, areas_unit=attr(areas, "unit"), reverse=g$legend.reverse)
 	if (dcr$is.constant) xfill <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
@@ -119,6 +124,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 		 fill.legend.show=g$legend.show,
 		 fill.legend.title=fill.legend.title,
 		 fill.legend.is.portrait=g$legend.is.portrait,
+		 fill.legend.reverse=g$legend.reverse,
 		 fill.legend.hist=g$legend.hist,
 		 fill.legend.hist.title=fill.legend.hist.title,
 		 fill.legend.z=fill.legend.z,

@@ -23,19 +23,22 @@ legend_prepare <- function(gp, gal, gt, scaleFactor) {
 			} else "fill"
 			
 			nitems <- max(length(g$col), length(g$size), length(g$shape), length(g$labels), length(g$text), length(g$lwd), length(g$lty))
+			
+			revfun <- if (g$reverse) rev else function(x)x
+			
 			list(legend.type=type,
 				 legend.title=g$title,
 				 legend.is.portrait=g$is.portrait,
 				 legend.z=g$z,
-				 legend.labels=if (is.null(g$labels)) rep("", nitems) else rep(g$labels, length.out=nitems),
-				 legend.text=if (is.null(g$text)) NULL else rep(g$text, length.out=nitems),
-				 legend.palette=if (is.null(g$col)) rep("grey50", nitems) else rep(g$col, length.out=nitems),
-				 legend.sizes=if (is.null(g$size)) rep(1, nitems) else rep(g$size, length.out=nitems), # * scaleFactor,
-				 legend.shapes=if (is.null(g$shape)) rep(21, nitems) else rep(g$shape, length.out=nitems),
+				 legend.labels=revfun(if (is.null(g$labels)) rep("", nitems) else rep(g$labels, length.out=nitems)),
+				 legend.text=revfun(if (is.null(g$text)) NULL else rep(g$text, length.out=nitems)),
+				 legend.palette=revfun(if (is.null(g$col)) rep("grey50", nitems) else rep(g$col, length.out=nitems)),
+				 legend.sizes=revfun(if (is.null(g$size)) rep(1, nitems) else rep(g$size, length.out=nitems)), # * scaleFactor,
+				 legend.shapes=revfun(if (is.null(g$shape)) rep(21, nitems) else rep(g$shape, length.out=nitems)),
 				 border.col=g$border.col,
 				 lwd=g$border.lwd,
-				 line.legend.lwd=if (is.null(g$lwd)) NULL else rep(g$lwd, length.out=nitems),
-				 line.legend.lty=if (is.null(g$lty)) NULL else rep(g$lty, length.out=nitems),
+				 line.legend.lwd=revfun(if (is.null(g$lwd)) NULL else rep(g$lwd, length.out=nitems)),
+				 line.legend.lty=revfun(if (is.null(g$lty)) NULL else rep(g$lty, length.out=nitems)),
 				 symbol.border.lwd=g$border.lwd,
 				 symbol.border.col=g$border.col,
 				 symbol.normal.size=1,

@@ -47,6 +47,8 @@ ggplotGrob(ggplot(x, aes(x="", y=-perc, fill=origin)) +
 	theme_ps(plot.axes = FALSE))
 })
 
+names(grobs) <- NLD_prov$name
+
 tm_shape(NLD_prov) +
 tm_polygons() +
 tm_symbols(size="population", shape="name", 

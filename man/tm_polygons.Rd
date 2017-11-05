@@ -12,9 +12,9 @@ tm_fill(col = NA, alpha = NA, palette = NULL, convert2density = FALSE,
   auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
   colorNA = NA, textNA = "Missing", showNA = NA, thres.poly = 0,
   title = NA, legend.show = TRUE, legend.format = list(),
-  legend.is.portrait = TRUE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.z = NA, legend.hist.z = NA, id = NA, popup.vars = NA,
-  popup.format = list(), ...)
+  legend.is.portrait = TRUE, legend.reverse = FALSE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA, id = NA,
+  popup.vars = NA, popup.format = list(), ...)
 
 tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA)
 
@@ -78,6 +78,8 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 }}
 
 \item{legend.is.portrait}{logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.reverse}{logical that determines whether the items are shown in reverse order, i.e. from bottom to top when \code{legend.is.portrait = TRUE} and from right to left when \code{legend.is.portrait = FALSE}}
 
 \item{legend.hist}{logical that determines whether a histogram is shown}
 
