@@ -18,9 +18,9 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
   just = c("center", "center"), xmod = 0, ymod = 0, title.size = NA,
   title.col = NA, legend.size.show = TRUE, legend.col.show = TRUE,
   legend.format = list(), legend.size.is.portrait = FALSE,
-  legend.col.is.portrait = TRUE, legend.hist = FALSE,
-  legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
-  legend.hist.z = NA)
+  legend.col.is.portrait = TRUE, legend.size.reverse = FALSE,
+  legend.col.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
+  legend.size.z = NA, legend.col.z = NA, legend.hist.z = NA)
 }
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
@@ -122,6 +122,10 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 \item{legend.size.is.portrait}{logical that determines whether the legend element regarding the text sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
 
 \item{legend.col.is.portrait}{logical that determines whether the legend element regarding the text colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.size.reverse}{logical that determines whether the items of the legend regarding the text sizes are shown in reverse order, i.e. from bottom to top when \code{legend.size.is.portrait = TRUE} and from right to left when \code{legend.size.is.portrait = FALSE}}
+
+\item{legend.col.reverse}{logical that determines whether the items of the legend regarding the text colors are shown in reverse order, i.e. from bottom to top when \code{legend.col.is.portrait = TRUE} and from right to left when \code{legend.col.is.portrait = FALSE}}
 
 \item{legend.hist}{logical that determines whether a histogram is shown regarding the text colors}
 

@@ -2,7 +2,9 @@ split_tm <- function(gp, nx, order_by) {
 	gpnx <- lapply(1:nx, function(i){
 		g <- mapply(function(x, o) {
 			oid <- if(is.null(o)) NULL else o[[i]]
-			mapply(get_i, x, names(x), MoreArgs = list(i=i, n=x$npol, oid=oid), SIMPLIFY=FALSE)
+			res <- mapply(get_i, x, names(x), MoreArgs = list(i=i, n=x$npol, oid=oid), SIMPLIFY=FALSE)
+			res$npol <- if (is.null(oid)) x$npol else length(oid)
+			res
 		}, gp, order_by, SIMPLIFY=FALSE)
 	})
 	names(gpnx) <- paste0("plot", 1:nx)

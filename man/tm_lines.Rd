@@ -12,9 +12,10 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
   colorNA = NA, textNA = "Missing", showNA = NA, title.col = NA,
   title.lwd = NA, legend.col.show = TRUE, legend.lwd.show = TRUE,
   legend.format = list(), legend.col.is.portrait = TRUE,
-  legend.lwd.is.portrait = FALSE, legend.hist = FALSE,
-  legend.hist.title = NA, legend.col.z = NA, legend.lwd.z = NA,
-  legend.hist.z = NA, id = NA, popup.vars = NA, popup.format = list())
+  legend.lwd.is.portrait = FALSE, legend.col.reverse = FALSE,
+  legend.lwd.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
+  legend.col.z = NA, legend.lwd.z = NA, legend.hist.z = NA, id = NA,
+  popup.vars = NA, popup.format = list())
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
@@ -78,6 +79,10 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{legend.col.is.portrait}{logical that determines whether the legend element regarding the line colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
 
 \item{legend.lwd.is.portrait}{logical that determines whether the legend element regarding the line widths is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})}
+
+\item{legend.col.reverse}{logical that determines whether the items of the legend regarding the line colors sizes are shown in reverse order, i.e. from bottom to top when \code{legend.col.is.portrait = TRUE} and from right to left when \code{legend.col.is.portrait = FALSE}}
+
+\item{legend.lwd.reverse}{logical that determines whether the items of the legend regarding the line widths are shown in reverse order, i.e. from bottom to top when \code{legend.lwd.is.portrait = TRUE} and from right to left when \code{legend.lwd.is.portrait = FALSE}}
 
 \item{legend.hist}{logical that determines whether a histogram is shown regarding the line colors}
 

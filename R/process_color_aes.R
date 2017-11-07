@@ -26,7 +26,7 @@ check_aes_args <- function(g) {
 	NULL
 }
 
-process_col_vector <- function(x, sel, g, gt) {
+process_col_vector <- function(x, sel, g, gt, reverse) {
 	values <- x
 	#textNA <- ifelse(any(is.na(values[sel])), g$textNA, NA)
 	#showNA <- if (is.na(g$showNA)) any(is.na(values[sel])) else FALSE
@@ -58,7 +58,8 @@ process_col_vector <- function(x, sel, g, gt) {
 						   max_levels=g$max.categories,
 						   legend.NA.text = g$textNA,
 						   showNA = g$showNA,
-						   process.colors=c(list(alpha=g$alpha), gt$pc))
+						   process.colors=c(list(alpha=g$alpha), gt$pc),
+						   reverse=reverse)
 		breaks <- NA
 		
 			
@@ -82,7 +83,8 @@ process_col_vector <- function(x, sel, g, gt) {
 						   legend.NA.text = g$textNA,
 						   showNA = g$showNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc),
-						   legend.format=g$legend.format)
+						   legend.format=g$legend.format,
+						   reverse=reverse)
 		breaks <- colsLeg$breaks
 		breakspal <- colsLeg$breaks.palette
 		col.neutral <- colsLeg$legend.neutral.col
@@ -111,7 +113,7 @@ process_col_vector <- function(x, sel, g, gt) {
 }
 
 
-process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL) {
+process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL, reverse) {
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
 		col <- dtcol
@@ -138,7 +140,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 			title_append[isNum & isDens] <- paste("per", areas_unit)
 		}
 		
-		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt), SIMPLIFY=FALSE)
+		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse), SIMPLIFY=FALSE)
 		col <- sapply(res, function(r)r$cols)
 		legend.labels <- lapply(res, function(r)r$legend.labels)
 		legend.values <- lapply(res, function(r)r$legend.values)
@@ -159,7 +161,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		#if (is.na(sel[1])) sel <- TRUE
 		sel[is.na(sel)] <- TRUE
 		
-		res <- process_col_vector(dtcol, sel, g, gt)
+		res <- process_col_vector(dtcol, sel, g, gt, reverse)
 		col <- matrix(res$cols, nrow=npol)
 		legend.labels <- res$legend.labels
 		legend.values <- res$legend.values

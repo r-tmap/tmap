@@ -47,8 +47,11 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 	} else split.by <- TRUE
 	
 	# check for direct color input
-	is.colors <- all(valid_colors(xcol))
-	if (!varycol) {
+	if (varycol) {
+		is.colors <- FALSE
+	} else {
+		# check for direct color input
+		is.colors <- all(valid_colors(xcol))
 		if (!is.colors) stop("Invalid line colors", call. = FALSE)
 		xcol <- do.call("process_color", c(list(col=col2hex(xcol), alpha=g$alpha), gt$pc))
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
@@ -69,14 +72,14 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		# multiple variables for lwd are defined
 		gsl <- split_g(g, n=nx)
 		if (!all(sapply(dtlwd, is.numeric))) stop("lwd argument of tm_lines contains a non-numeric variable", call. = FALSE)
-		res <- mapply(process_line_lwd_vector, dtlwd, gsl, MoreArgs = list(rescale=varylwd), SIMPLIFY = FALSE)
+		res <- mapply(process_line_lwd_vector, dtlwd, gsl, MoreArgs = list(rescale=varylwd, reverse=g$legend.lwd.reverse), SIMPLIFY = FALSE)
 		line.lwd <- sapply(res, function(r)r$line.lwd)
 		line.legend.lwds <- lapply(res, function(r)r$line.legend.lwds)
 		line.lwd.legend.labels <- lapply(res, function(r)r$line.lwd.legend.labels)
 		line.lwd.legend.values <- lapply(res, function(r)r$line.lwd.legend.values)
 	} else {
 		if (!is.numeric(dtlwd)) stop("lwd argument of tm_lines is not a numeric variable", call. = FALSE)
-		res <- process_line_lwd_vector(dtlwd, g, rescale=varylwd)
+		res <- process_line_lwd_vector(dtlwd, g, rescale=varylwd, reverse=g$legend.lwd.reverse)
 		line.lwd <- matrix(res$line.lwd, nrow=npol)
 		if (varylwd) {
 			line.legend.lwds <- res$line.legend.lwds
@@ -105,7 +108,7 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 	} 
 	
 
-	dcr <- process_dtcol(dtcol, sel, g, gt, nx, npol)
+	dcr <- process_dtcol(dtcol, sel, g, gt, nx, npol, reverse=g$legend.col.reverse)
 	if (dcr$is.constant) xcol <- rep(NA, nx)
 	col <- dcr$col
 	col.legend.labels <- dcr$legend.labels
@@ -170,6 +173,8 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		 line.lwd.legend.title=line.lwd.legend.title,
 		 line.col.legend.is.portrait=g$legend.col.is.portrait,
 		 line.lwd.legend.is.portrait=g$legend.lwd.is.portrait,
+		 line.col.legend.reverse=g$legend.col.reverse,
+		 line.lwd.legend.reverse=g$legend.lwd.reverse,
 		 line.col.legend.hist=g$legend.hist,
 		 line.col.legend.hist.title=line.col.legend.hist.title,
 		 line.col.legend.z=line.col.legend.z,

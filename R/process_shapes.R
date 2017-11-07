@@ -48,7 +48,11 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		
 		shps_by_splt <- mapply(function(s_by, d_by) {
 			if (inherits(s_by, "Spatial")) {
-				split(s_by, f = d_by, drop=FALSE)	 # split_shape
+				s_by2 <- split(s_by, f = d_by, drop=FALSE)	 # split_shape
+				lapply(s_by2, function(s2) {
+					s2$tmapID <- 1L:length(s2$tmapID)	
+					s2
+				})
 			}  else {
 				split_raster(s_by, f = d_by, drop=FALSE)
 			} 
@@ -172,7 +176,9 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	}
 	if (diff_shapes) {
-		shps2 <- lapply(1:nplots, function(i)lapply(shps2, function(j)j[[i]]))
+		shps2 <- lapply(1:nplots, function(i)lapply(shps2, function(j) {
+			j[[i]]
+		}))
 	}
 	
 	

@@ -8,7 +8,8 @@ num2shape <- function(x,
 					shapeNA = NA,
 					legend.NA.text = "Missing",
 					showNA=NA,
-					legend.format=list(scientific=FALSE)) {
+					legend.format=list(scientific=FALSE),
+					reverse=FALSE) {
 	breaks.specified <- !is.null(breaks)
 	q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure)
 
@@ -32,7 +33,10 @@ num2shape <- function(x,
 		if (is.na(showNA)) showNA <- FALSE
 	}
 	
-	if (showNA) shapes <- c(shapes, shapeNA)
+	if (reverse) {
+		legend.labels <- rev(legend.labels)
+		shapes <- rev(shapes)
+	}
 	
 	legend.values <- breaks
 	
@@ -44,7 +48,10 @@ num2shape <- function(x,
 		legend.labels <- rep(legend.labels, length.out=nbrks-1)
 	}
 	
-	if (showNA) legend.labels <- c(legend.labels, legend.NA.text)
+	if (showNA) {
+		legend.labels <- c(legend.labels, legend.NA.text)
+		shapes <- c(shapes, shapeNA)
+	}
 	
 	list(shps=shps, legend.labels=legend.labels, legend.values=legend.values, shapes=shapes)
 }

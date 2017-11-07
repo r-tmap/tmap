@@ -7,7 +7,8 @@ cat2pal <- function(x,
 					max_levels = 40,
 					legend.NA.text = "Missing",
 					showNA = NA,
-					process.colors) {
+					process.colors,
+					reverse=FALSE) {
   if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
 	
@@ -65,6 +66,12 @@ cat2pal <- function(x,
 	}
 
 	legend.values <- legend.labels
+	
+	
+	if (reverse) {
+		legend.labels <- rev(legend.labels)
+		legend.palette <- rev(legend.palette)
+	}
 	
 	if (showNA) {
 		legend.labels <- c(legend.labels, legend.NA.text)
