@@ -11,6 +11,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
 		is.RGB <- attr(raster_facets_vars, "is.RGB")
+		to.Cat <- attr(raster_facets_vars, "to.Cat")
 		if (interactive) gm$shape.master_CRS <- .CRS_merc
 		if (inherits(shp, "Spatial")) {
 			
@@ -44,7 +45,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			lvls <- get_data_frame_levels(shp@data[, raster_facets_vars, drop=FALSE])
 			
 			## use bilinear interpolation for numeric data only
-			use_interp <- (all(sapply(lvls, is.null)))
+			use_interp <- (all(sapply(lvls, is.null))) && !to.Cat
 			shp <- raster::subset(brick(shp), raster_facets_vars, drop=FALSE)
 		} else {
 			is.OSM <- FALSE
@@ -94,7 +95,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 					if (nlayers(shp)>1) shp <- raster::subset(shp, raster_facets_vars)
 					
 					#lvls <- get_raster_levels(shp)
-					use_interp <- (all(sapply(lvls, is.null)))
+					use_interp <- (all(sapply(lvls, is.null))) && !to.Cat
 
 				} else {
 					use_interp <- FALSE

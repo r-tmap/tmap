@@ -133,12 +133,17 @@ gather_shape_info <- function(x, interactive) {
 		
 		if (length(rid)) {
 			is.RGB <- x[[from-1+rid[1]]]$is.RGB 
-		} else is.RGB <- FALSE
+			to.Cat <- x[[from-1+rid[1]]]$style == "cat"
+		} else {
+			is.RGB <- FALSE
+			to.Cat <- FALSE
+		}
 
 		res <- c(if (length(fid)) x[[from-1+fid[1]]]$by else NULL,
 				 if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
 		if (is.null(res)) res <- NA
 		attr(res, "is.RGB") <- is.RGB
+		attr(res, "to.Cat") <- to.Cat
 		res
 	})
 	

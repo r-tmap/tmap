@@ -9,17 +9,21 @@ cat2pal <- function(x,
 					showNA = NA,
 					process.colors,
 					reverse=FALSE) {
-  if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
+	if (!is.factor(x)) {
+		su <- sort(unique(x))
+		if (is.numeric(su) && length(su) > max_levels) stop("Number of unique values is more than max.categories, so style = \"cat\" cannot be used. Please use numeric intervals instead, e.g. with style =  \"pretty\"")
+		x <- factor(x, levels=su)
+	}
 	
 	
 	# quick&dirty
 	nCol <- nlevels(x)
 	if (nCol > max_levels && !auto.palette.mapping) {
-
+	
 		mapping <- as.numeric(cut(seq.int(nCol), breaks=max_levels))
 		to <- c(which(mapping[-nCol] - mapping[-1]!=0), nCol)
 		from <- c(0, to[-max_levels]) + 1
-
+	
 		lvls <- levels(x)
 		new_lvls <- paste0(lvls[from], "...", lvls[to])
 		
@@ -33,7 +37,7 @@ cat2pal <- function(x,
 		palette <- substr(palette, 2, nchar(palette))
 	} else revPal <- function(p)p
 	
-
+	
 	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
 		revPal(suppressWarnings(get_brewer_pal(palette, nCol, contrast, stretch = auto.palette.mapping, plot = FALSE)))
 	} else {
@@ -41,18 +45,18 @@ cat2pal <- function(x,
 			colorRampPalette(palette)(nCol)	
 		} else rep(palette, length.out=nCol)
 	}
-    
-# 	if (!is.null(process.colors)) {
-# 		legend.palette <- process.colors(legend.palette)
-# 		colorNA <- process.colors(colorNA)
-# 	}
+	
+	# 	if (!is.null(process.colors)) {
+	# 		legend.palette <- process.colors(legend.palette)
+	# 		colorNA <- process.colors(colorNA)
+	# 	}
 	
 	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
 	colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
-
+	
 	cols <- legend.palette[as.integer(x)]
 	colsNA <- is.na(cols)
-
+	
 	if (is.null(legend.labels)) {
 		legend.labels <- levels(x)	
 	} else {
@@ -64,7 +68,7 @@ cat2pal <- function(x,
 	} else {
 		if (is.na(showNA)) showNA <- FALSE
 	}
-
+	
 	legend.values <- legend.labels
 	
 	
