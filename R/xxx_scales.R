@@ -6,7 +6,7 @@ are_breaks_diverging <- function(brks) {
     negb && posb
 }
 
-fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL, scientific=FALSE, text.separator="to", text.less.than="less than", text.or.more="or more", text.align="left", text.to.columns=FALSE, digits=NA, ...) {
+fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL, scientific=FALSE, text.separator="to", text.less.than=c("less", "than"), text.or.more=c("or", "more"), text.align="left", text.to.columns=FALSE, digits=NA, ...) {
     args <- list(...)
     n <- length(vec)
 
@@ -72,21 +72,35 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
             x[vec==-Inf] <- ""
             
             lbls <- paste(x[-n], x[-1], sep = paste0(" ", text.separator, " "))
-            if (vec[1]==-Inf) lbls[1] <- paste(text.less.than, x[2])
-            if (vec[n]==Inf) lbls[n-1] <- paste(x[n-1], text.or.more)
+            if (vec[1]==-Inf) lbls[1] <- paste(paste(text.less.than, collapse = " "), x[2], sep = " ")
+            if (vec[n]==Inf) lbls[n-1] <- paste(x[n-1], paste(text.or.more, collapse = " "), sep = " ")
             
             if (text.to.columns) {
-            	xtra <- as.numeric(!is.na(text.align) && text.align=="right")
+            	#xtra <- as.numeric(!is.na(text.align) && text.align=="right")
             	
-            	nc1 <- nchar(paste(x[-n], " ", sep = "")) + xtra
+            	
+            	nc1 <- nchar(paste(x[-n], " ", sep = "")) + 1
             	nc2 <- rep(nchar(paste(text.separator, " ", sep = "")), n-1)
 
             	lbls_breaks <- matrix(c(nc1, nc1+nc2), ncol=2)
             		
-            	if (vec[1]==-Inf) lbls_breaks[1,] <- cumsum(c(nchar(paste(text.less.than, " ", sep = "")) + 1, 0))
-            	if (vec[n]==Inf) lbls_breaks[n-1,] <- cumsum(c(nchar(paste(x[n-1], " ", sep = "")) + 1, 0))
+            	if (vec[1]==-Inf) {
+            		if (length(text.less.than)==1) {
+            			lbls_breaks[1,] <- rep(nchar(paste(text.less.than[1], " ", sep = "")) + 1, 2)
+            		} else {
+            			lbls_breaks[1,] <- cumsum(c(nchar(paste(text.less.than[1], " ", sep = "")) + 1, nchar(text.less.than[2])+1))
+            		}
+            	}
+            	if (vec[n]==Inf) { 
+            		if (length(text.or.more)==1) {
+            			lbls_breaks[n-1,] <- rep(nchar(paste(x[n-1], " ", sep = "")) + 1, 2)	
+            		} else {
+            			lbls_breaks[n-1,] <- cumsum(c(nchar(paste(x[n-1], " ", sep = "")) + 1, nchar(text.or.more[1])+1))
+            		}
+            		
+            	}
 
-            	attr(lbls, "brks") <- lbls_breaks - xtra
+            	attr(lbls, "brks") <- lbls_breaks
             }
         }
     }

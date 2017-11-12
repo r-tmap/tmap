@@ -226,9 +226,12 @@ num2pal <- function(x, n = 5,
 		if (showNA) {
 			legend.labels.brks <- attr(legend.labels, "brks")
 			legend.labels.align <- attr(legend.labels, "align")
-			legend.labels <- c(legend.labels, legend.NA.text)
+			#legend.labels <- c(legend.labels, legend.NA.text)
 			if (!is.null(legend.labels.brks)) {
-				attr(legend.labels, "brks") <- rbind(legend.labels.brks, rep(nchar(legend.NA.text) + 1, 2))
+				legend.labels <- c(legend.labels, paste(legend.NA.text, " ", sep = ""))
+				attr(legend.labels, "brks") <- rbind(legend.labels.brks, rep(nchar(legend.NA.text) + 2, 2))
+			} else {
+				legend.labels <- c(legend.labels, legend.NA.text)
 			}
 			attr(legend.labels, "align") <- legend.labels.align
 			legend.palette <- c(legend.palette, colorNA)

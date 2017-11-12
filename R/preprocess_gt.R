@@ -46,8 +46,8 @@ preprocess_gt <- function(x, interactive, orig_CRS) {
 		if (!"scientific" %in% names(legend.format)) legend.format$scientific <- FALSE
 		if (!"digits" %in% names(legend.format)) legend.format$digits <- NA
 		if (!"text.separator" %in% names(legend.format)) legend.format$text.separator <- "to"
-		if (!"text.less.than" %in% names(legend.format)) legend.format$text.less.than <- "Less than"
-		if (!"text.or.more" %in% names(legend.format)) legend.format$text.or.more <- "or more"
+		if (!"text.less.than" %in% names(legend.format)) legend.format$text.less.than <- c("Less", "than")
+		if (!"text.or.more" %in% names(legend.format)) legend.format$text.or.more <- c("or", "more")
 		if (!"text.align" %in% names(legend.format)) legend.format$text.align <- NA
 		if (!"text.to.columns" %in% names(legend.format)) legend.format$text.to.columns <- FALSE
 		

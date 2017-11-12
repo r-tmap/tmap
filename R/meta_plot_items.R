@@ -144,7 +144,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE) * s2
 		
-		wstext <- text_width_npc(legend.labels, space = FALSE)
+		wstext <- text_width_npc(legend.labels, space = TRUE)
 		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
 		
 		
