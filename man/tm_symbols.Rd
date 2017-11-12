@@ -150,6 +150,8 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
 \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
 \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+\item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+\item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 }}
 
@@ -231,7 +233,8 @@ tm_shape(metro) +
 tm_format_World()
 
 tm_shape(metro) +
-	tm_symbols(size = "pop2010", col="pop2010", shape="pop2010") +
+	tm_symbols(size = "pop2010", col="pop2010", shape="pop2010",
+		legend.format = list(text.align="right", text.to.columns = TRUE)) +
 tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
 
 \dontrun{

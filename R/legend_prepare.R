@@ -26,11 +26,16 @@ legend_prepare <- function(gp, gal, gt, scaleFactor) {
 			
 			revfun <- if (g$reverse) rev else function(x)x
 			
+			legend.format <- process_legend_format(g$legend.format, gt$legend.format, 1)
+			
+			legend.labels <- revfun(if (is.null(g$labels)) rep("", nitems) else rep(g$labels, length.out=nitems))
+			attr(legend.labels, "align") <- legend.format$text.align
+
 			list(legend.type=type,
 				 legend.title=g$title,
 				 legend.is.portrait=g$is.portrait,
 				 legend.z=g$z,
-				 legend.labels=revfun(if (is.null(g$labels)) rep("", nitems) else rep(g$labels, length.out=nitems)),
+				 legend.labels=legend.labels,
 				 legend.text=revfun(if (is.null(g$text)) NULL else rep(g$text, length.out=nitems)),
 				 legend.palette=revfun(if (is.null(g$col)) rep("grey50", nitems) else rep(g$col, length.out=nitems)),
 				 legend.sizes=revfun(if (is.null(g$size)) rep(1, nitems) else rep(g$size, length.out=nitems)), # * scaleFactor,

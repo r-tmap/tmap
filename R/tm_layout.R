@@ -77,6 +77,8 @@
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
 #' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
 #' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.text.color color of the legend text
@@ -158,7 +160,9 @@ tm_layout <- function(title=NA,
 					  legend.hist.size=0.7,
 					  legend.format=list(fun=NULL, scientific = FALSE, digits= NA, 
 					  				   text.separator = "to", text.less.than = "Less than",
-					  				   text.or.more = "or more"),
+					  				   text.or.more = "or more",
+					  				   text.align = NA, 
+					  				   text.to.columns = FALSE),
 					  legend.frame = FALSE,
 					  legend.text.color = attr.color,
 					  legend.bg.color = NA,

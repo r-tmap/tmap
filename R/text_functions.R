@@ -49,8 +49,31 @@ expr_to_char <- function(txt) {
 }
 
 text_width_npc <- function(txt, space=TRUE) {
-	convertWidth(stringWidth(txt), "npc", TRUE) + 
-		ifelse(space, convertWidth(stringWidth(" "), "npc", TRUE), 0)
+	brks <- attr(txt, "brks")
+	if (space) txt <- paste(txt, " ", sep = "")
+	
+	if (is.null(brks)) {
+		convertWidth(stringWidth(txt), "npc", TRUE)
+	} else {
+		txt_splits <- split_legend_labels(txt, brks)
+		
+		res <- lapply(txt_splits, function(tx) convertWidth(stringWidth(tx), "npc", TRUE))
+
+		max1 <- max(sapply(res, "[", 1))
+		max2 <- max(sapply(res, "[", 2))
+		r3 <- sapply(res, "[", 3)
+		widths <- max1 + max2 + r3
+		attr(widths, "cw") <- do.call(rbind, res) # c(max1, max2, max(r3))
+		widths
+	}
+}
+
+split_legend_labels <- function(txt, brks) {
+	lapply(1L:length(txt), function(i) {
+		c(substr(txt[i], 1, brks[i,1]-1),
+		  substr(txt[i], brks[i,1], brks[i,2]-1),
+		  substr(txt[i], brks[i,2], nchar(txt[i])))
+	})
 }
 
 

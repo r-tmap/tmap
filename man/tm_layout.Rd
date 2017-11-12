@@ -41,9 +41,9 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   legend.hist.width = legend.width, legend.title.size = 1.1,
   legend.text.size = 0.7, legend.hist.size = 0.7, legend.format = list(fun
   = NULL, scientific = FALSE, digits = NA, text.separator = "to", text.less.than
-  = "Less than", text.or.more = "or more"), legend.frame = FALSE,
-  legend.text.color = attr.color, legend.bg.color = NA,
-  legend.bg.alpha = 1, legend.hist.bg.color = NA,
+  = "Less than", text.or.more = "or more", text.align = NA, text.to.columns =
+  FALSE), legend.frame = FALSE, legend.text.color = attr.color,
+  legend.bg.color = NA, legend.bg.alpha = 1, legend.hist.bg.color = NA,
   legend.hist.bg.alpha = 1, title.snap.to.legend = NA,
   title.position = c("left", "top"), title.color = attr.color,
   title.bg.color = NA, title.bg.alpha = 1, panel.show = NA,
@@ -227,6 +227,8 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
 \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
 \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+\item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+\item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 }}
 

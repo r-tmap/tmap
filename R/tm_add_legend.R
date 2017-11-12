@@ -16,6 +16,7 @@
 #' @param border.alpha legend border alpha (if \code{type} is \code{"fill"} or \code{"symbol"})
 #' @param title legend title
 #' @param is.portrait is legend portrait (\code{TRUE}) or landscape (\code{FALSE})?
+#' @param legend.format options to format the legend, see \code{\link{tm_layout}}
 #' @param reverse are the legend items reversed (by default \code{FALSE})?
 #' @param z legend stack position
 #' @export
@@ -34,6 +35,7 @@ tm_add_legend <- function(type = c("fill", "symbol", "text", "line"),
 						  border.alpha=NA,
 						  title="", 
 						  is.portrait=TRUE, 
+						  legend.format=list(),
 						  reverse=FALSE,
 						  z=NA) {
 	type <- match.arg(type)

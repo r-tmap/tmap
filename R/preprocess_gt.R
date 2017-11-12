@@ -48,6 +48,8 @@ preprocess_gt <- function(x, interactive, orig_CRS) {
 		if (!"text.separator" %in% names(legend.format)) legend.format$text.separator <- "to"
 		if (!"text.less.than" %in% names(legend.format)) legend.format$text.less.than <- "Less than"
 		if (!"text.or.more" %in% names(legend.format)) legend.format$text.or.more <- "or more"
+		if (!"text.align" %in% names(legend.format)) legend.format$text.align <- NA
+		if (!"text.to.columns" %in% names(legend.format)) legend.format$text.to.columns <- FALSE
 		
 		# put aes colors in right order and name them
 		if (length(aes.color)==1 && is.null(names(aes.color))) names(aes.color) <- "base"

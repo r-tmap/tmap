@@ -74,6 +74,8 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
 \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
 \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+\item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+\item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 }}
 

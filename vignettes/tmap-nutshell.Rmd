@@ -357,7 +357,7 @@ tm_shape(World) +
 	tm_fill() +
 tm_shape(rivers) +
 	tm_lines(col="dodgerblue3") +
-	tm_add_legend(type="line", col="dodgerblue3", title="World map") +
+	tm_add_legend(type="line", col="dodgerblue3", labels = "Rivers", title="World map") +
 tm_format_World()
 ```
 

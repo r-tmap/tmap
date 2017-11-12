@@ -59,6 +59,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 						   legend.NA.text = g$textNA,
 						   showNA = g$showNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc),
+						   legend.format=g$legend.format,
 						   reverse=reverse)
 		breaks <- NA
 		

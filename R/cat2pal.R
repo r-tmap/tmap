@@ -8,6 +8,7 @@ cat2pal <- function(x,
 					legend.NA.text = "Missing",
 					showNA = NA,
 					process.colors,
+					legend.format=list(align="left"),
 					reverse=FALSE) {
 	if (!is.factor(x)) {
 		su <- sort(unique(x))
@@ -81,6 +82,7 @@ cat2pal <- function(x,
 		legend.labels <- c(legend.labels, legend.NA.text)
 		legend.palette <- c(legend.palette, colorNA)
 	}
+	attr(legend.labels, "align") <- legend.format$text.align
 	
 	list(cols=cols, legend.labels=legend.labels, legend.values=legend.values, legend.palette=legend.palette)
 }
