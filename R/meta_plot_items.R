@@ -92,6 +92,8 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		s2 <- 4/3 ## for symbols only
 		r <- 1-2*my
 		
+		brks <- attr(legend.labels, "brks")
+		align <- attr(legend.labels, "align")
 		
 		
 		if (legend.type=="symbol.size") {
@@ -245,8 +247,6 @@ legend_portr <- function(x, gt, lineHeight, m) {
 						 		lineend="butt"))
 		}
 		
-		brks <- attr(legend.labels, "brks")
-		align <- attr(legend.labels, "align")
 		
 		if (is.null(brks)) {
 			if (is.na(align) || align=="left") {
