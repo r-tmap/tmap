@@ -172,7 +172,7 @@ split_icon <- function(icon) {
 	res
 }
 
-merge_icons <- function(icons, icon_names) {
+merge_icons <- function(icons, icon_names = NULL) {
 	list_names <- unique(unlist(lapply(icons, names)))
 	names(list_names) <- list_names
 	
