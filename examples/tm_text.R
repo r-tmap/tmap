@@ -23,7 +23,7 @@ tm_shape(metro[metro$pop2010>=2e6, ]) +
 	tm_format_Europe()
 
 tm_shape(World) +
-	tm_text("name", size="pop_est", col="continent", palette="Dark2", 
+	tm_text("name", size="pop_est", col="continent", palette="Dark2",
 			title.size = "Population", title.col="Continent") +
 	tm_legend(outside = TRUE)
 

@@ -5,7 +5,7 @@
 \title{Small multiples}
 \usage{
 tm_facets(by = NULL, along = NULL, ncol = NA, nrow = NA,
-  free.coords = FALSE, drop.units = free.coords, drop.empty.facets = TRUE,
+  free.coords = TRUE, drop.units = free.coords, drop.empty.facets = TRUE,
   sync = !free.coords, showNA = NA, textNA = "Missing",
   free.scales = is.null(by) && is.null(along),
   free.scales.fill = free.scales, free.scales.symbol.size = free.scales,
@@ -27,7 +27,7 @@ tm_facets(by = NULL, along = NULL, ncol = NA, nrow = NA,
 
 \item{free.coords}{logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?}
 
-\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE}, they are plotted where mapped aesthetics are regared as missing values. By default, \code{TRUE} if \code{free.coords=TRUE}. Not applicable for raster shapes.}
+\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE} (default), they are plotted where mapped aesthetics are regared as missing values. Not applicable for raster shapes.}
 
 \item{drop.empty.facets}{logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and colums are dropped.}
 
@@ -110,12 +110,6 @@ tm_shape(NLD_prov) +
     tm_polygons("gold2") +
     tm_facets(by="name")
 
-# alternatively: qtm(NLD_prov, fill="gold2", by="name")
-
-tm_shape(NLD_prov) +
-    tm_fill("gold2") + tm_borders() +
-    tm_facets(by="name", free.coords = TRUE, drop.units=TRUE)
-
 \dontrun{
 tm_shape(NLD_muni) +
     tm_borders() +
@@ -123,7 +117,7 @@ tm_shape(NLD_muni) +
     tm_fill("population", style="kmeans", convert2density = TRUE) +
 tm_shape(NLD_prov) +
     tm_borders(lwd=4) +
-    tm_facets(by="name", free.coords=TRUE, drop.units=TRUE)
+    tm_facets(by="name")
 
 tm_shape(land) +
     tm_raster("black") +
@@ -139,7 +133,7 @@ World$GDP3 <- cut(World$gdp_cap_est, breaks = c(0, 5000, 20000, Inf),
 
 tm_shape(World) + 
 	tm_fill("HPI3", palette="Dark2", colorNA="grey90", legend.show = FALSE) + 
-	tm_facets(c("HPI3", "GDP3"), showNA=FALSE)
+	tm_facets(c("HPI3", "GDP3"), showNA=FALSE, free.coords = FALSE)
 
 metro$pop1950cat <- cut(metro$pop1950, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
 metro$pop2020cat <- cut(metro$pop2020, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
@@ -147,8 +141,8 @@ metro$pop2020cat <- cut(metro$pop2020, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e
 tm_shape(World) +
 	tm_fill() +
 tm_shape(metro) +
-tm_dots("red") +
-	tm_facets(c("pop1950cat", "pop2020cat")) +
+tm_dots("red", size = .5) +
+	tm_facets(c("pop1950cat", "pop2020cat"), free.coords = FALSE) +
 tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)
 }
 

@@ -4,6 +4,7 @@ cat2shape <- function(x,
 					  shapeNA = NA,
 					  legend.NA.text = "Missing",
 					  showNA = NA,
+					  legend.format=list(align="left"),
 					  reverse = FALSE) {
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
@@ -79,6 +80,6 @@ cat2shape <- function(x,
 		legend.labels <- c(legend.labels, legend.NA.text)
 		shapes <- c(shapes, shapeNA)
 	}
-	
+	attr(legend.labels, "align") <- legend.format$text.align
 	list(shps=shps, legend.labels=legend.labels, legend.values=legend.values, shapes=shapes)
 }

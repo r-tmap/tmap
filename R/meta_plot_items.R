@@ -92,6 +92,8 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		s2 <- 4/3 ## for symbols only
 		r <- 1-2*my
 		
+		brks <- attr(legend.labels, "brks")
+		align <- attr(legend.labels, "align")
 		
 		
 		if (legend.type=="symbol.size") {
@@ -144,7 +146,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		
 		hsi <- convertHeight(unit(hs, "npc"), "inch", valueOnly=TRUE) * s2
 		
-		wstext <- text_width_npc(legend.labels)
+		wstext <- text_width_npc(legend.labels, space = TRUE)
 		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
 		
 		
@@ -244,8 +246,46 @@ legend_portr <- function(x, gt, lineHeight, m) {
 						 		lty=line.legend.lty,
 						 		lineend="butt"))
 		}
-		grobLegendText <- textGrob(legend.labels, x=mx*2+wsmax,
-								   y=ys, just=c("left", "center"), gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		
+		
+		if (is.null(brks)) {
+			if (is.na(align) || align=="left") {
+				x2 <- mx*2+wsmax
+				just <- c("left", "center")
+			} else if (align=="right") {
+				x2 <- mx*2+wsmax + (max(wstext) * newsize)
+				just <- c("right", "center")
+			} else {
+				x2 <- mx*2+wsmax + (max(wstext) * newsize * .5)
+				just <- c("center", "center")
+			}
+			
+			grobLegendText <- textGrob(legend.labels, x=x2,
+									   y=ys, just=just, gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		} else {
+			splits <- split_legend_labels(legend.labels, brks)
+			
+			xsplits <- apply(attr(wstext, "cw") * newsize, 2, max)
+			xsplitscs <- cumsum(xsplits)
+			
+			legend.labels2 <- unlist(splits)
+			
+			if (is.na(align) || align=="left") {
+				x2 <- mx*2+wsmax + rep(c(0, xsplitscs[-3]), times=length(legend.labels))
+				just <- c("left", "center")
+			} else if (align=="right") {
+				x2 <- mx*2+wsmax + rep(c(0, xsplitscs[-3]), times=length(legend.labels)) + xsplits
+				just <- c("right", "center")
+			} else {
+				x2 <- mx*2+wsmax + rep(c(0, xsplitscs[-3]), times=length(legend.labels)) + xsplits / 2
+				just <- c("center", "center")
+			}
+			
+			y2 <- rep(ys, each=3)
+			grobLegendText <- textGrob(legend.labels2, x=x2,
+									   y=y2, just=just, gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		}
+		
 		legWidth <- mx*4+wsmax+max(wstext*newsize)
 		
 		list(gList(grobLegendItem, grobLegendText), legWidth=legWidth)
@@ -322,6 +362,8 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		}
 		
 		wsmax <- rx/nitems
+		align <- attr(legend.labels, "align")
+		
 		
 		if (legend.type=="symbol.size") {
 			symbolws <- convertWidth(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) / s2
@@ -475,8 +517,20 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 						 		lty=line.legend.lty,
 						 		lineend="butt"))
 		}
-		grobLegendText <- textGrob(legend.labels, x=xs,
-								   y=my+lineHeight*legend.text.size, just=c("center", "top"), gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		
+		if (is.na(align) || align=="center") {
+			x2 <- xs
+			just <- c("center", "top")
+		} else if (align=="right") {
+			x2 <- xs + ws/2
+			just <- c("right", "top")
+		} else {
+			x2 <- xs - ws/2
+			just <- c("left", "top")
+		}
+		
+		grobLegendText <- textGrob(legend.labels, x=x2,
+								   y=my+lineHeight*legend.text.size, just=just, gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		
 		legWidth <- mx*2+xs[length(xs)]+max(xtraWidth, labelsws[nitems]*legend.text.size/2)
 		

@@ -197,17 +197,17 @@ Notice that this plot uses panels and that the common legend is plot outside of 
 ```{r, fig.width=10}
 tm_shape(Europe) +
     tm_polygons("well_being", title="Well-Being Index") +
-    tm_facets("part") +
+    tm_facets("part", free.coords=FALSE) +
 tm_style_grey()
 ```
 
 This plot also uses the panel layout with the common legend drawn outside the maps. These options can be changed with the arguments `panel.show` and `legend.outside` of [`tm_layout`](../html/tm_layout.html). By default, the panel/external legend layout is used when the group-by variable is specified, since in that case, the multiples share a common legend.
 
-The scales of each aesthetic argument can be set to either fixed or free, and also, the coordinate ranges of the small multiples:
+The scales of each aesthetic argument can be set to either fixed or free, and also, the coordinate ranges of the small multiples. By default, the latter is set to `TRUE`:
 ```{r, fig.width=10}
 tm_shape(Europe[Europe$continent=="Europe",]) +
     tm_fill("part", legend.show = FALSE) +
-    tm_facets("name", free.coords=TRUE, drop.units=TRUE)
+    tm_facets("name")
 ```
 
 The argument `drop.units` is used to drop all non-selected spatial units. If `drop.shapes=FALSE` then neighboring countries are also visible.
@@ -357,7 +357,7 @@ tm_shape(World) +
 	tm_fill() +
 tm_shape(rivers) +
 	tm_lines(col="dodgerblue3") +
-	tm_add_legend(type="line", col="dodgerblue3", title="World map") +
+	tm_add_legend(type="line", col="dodgerblue3", labels = "Rivers", title="World map") +
 tm_format_World()
 ```
 

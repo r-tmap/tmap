@@ -1,8 +1,11 @@
 version 1.11 (development)
+- added text.align and text.to.columns to legend.format
+- legend.(aes).reverse added to the layer functions
+- symbol shapes can be put in a list for small multiples
+- grid labels can now be rotated and formatted
+- changed default values of free.coords and drop.units in tm_facets
 - fixed bug with all NA's in view mode
 - fixed bug with dismo::gmap raster shapes
-- symbol shapes can be put in a list for small multiples
-- legend.(aes).reverse added to the layer functions
 - fixed bug for ambiguous values for aesthetics (e.g. when "blue" is also a variable name)
 
 version 1.10

@@ -123,8 +123,8 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		}
 		
 		## format grid labels
-		grid.labels.x <- format(grid.x, big.mark = ",")
-		grid.labels.y <- format(grid.y, big.mark = ",")
+		grid.labels.x <- do.call("fancy_breaks", c(list(vec=grid.x, intervals=FALSE), gt$grid.labels.format)) #format(grid.x, big.mark = ",")
+		grid.labels.y <- do.call("fancy_breaks", c(list(vec=grid.y, intervals=FALSE), gt$grid.labels.format)) #format(grid.y, big.mark = ",")
 		
 	})
 }
@@ -143,7 +143,9 @@ plot_grid_labels_x <- function(gt, scale) {
 	spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	marginX <- convertWidth(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 
-	textGrob(labelsx, y=1-spacerX-marginX, x=cogridx, just="top", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	just <- ifelse(gt$grid.labels.rot[1] == 90, "right", ifelse(gt$grid.labels.rot[1] == 270, "left", ifelse(gt$grid.labels.rot[1] == 180, "bottom", "top")))
+	
+	textGrob(labelsx, y=1-spacerX-marginX, x=cogridx, just=just, rot=gt$grid.labels.rot[1], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	
 }
 
@@ -161,7 +163,9 @@ plot_grid_labels_y <- function(gt, scale) {
 	spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	marginY <- convertWidth(unit(gt$grid.labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	
-	textGrob(labelsy, y=cogridy, x=1-spacerY-marginY, just="right", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	just <- ifelse(gt$grid.labels.rot[2] == 90, "bottom", ifelse(gt$grid.labels.rot[2] == 270, "top", ifelse(gt$grid.labels.rot[2] == 180, "left", "right")))
+	
+	textGrob(labelsy, y=cogridy, x=1-spacerY-marginY, just=just, rot=gt$grid.labels.rot[2], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 }
 
 
@@ -193,8 +197,19 @@ plot_grid <- function(gt, scale, add.labels) {
 			fw <- 0
 			fh <- 0
 		}
-		labelsYw <- if (sely) max(text_width_npc(labelsy, space=FALSE))  * cex + fw else 0
-		labelsXw <- if (selx) max(convertHeight(stringHeight(labelsx), "npc", valueOnly=TRUE))  * cex + fh else 0
+		
+		if (gt$grid.labels.rot[1] %in% c(0, 180)) {
+			labelsXw <- if (selx) max(text_height_npc(labelsx))  * cex + fh else 0
+		} else {
+			labelsXw <- if (selx) max(text_width_npc(labelsx, space=FALSE, to_height = TRUE))  * cex + fh else 0
+		}
+		
+		if (gt$grid.labels.rot[2] %in% c(0, 180)) {
+			labelsYw <- if (sely) max(text_width_npc(labelsy, space=FALSE))  * cex + fw else 0
+		} else {
+			labelsYw <- if (sely) max(text_height_npc(labelsy, to_width = TRUE))  * cex + fw else 0
+		}
+		
 		spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		marginY <- convertWidth(unit(gt$grid.labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
@@ -264,7 +279,9 @@ plot_grid <- function(gt, scale, add.labels) {
 		}
 		
 		grobGridTextX <- if (add.labels && any(selx2)) {
-			textGrob(labelsx, y=labelsXw+spacerX*.5+marginX, x=cogridx3, just="top", gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+			just <- ifelse(gt$grid.labels.rot[1] == 90, "right", ifelse(gt$grid.labels.rot[1] == 270, "left", ifelse(gt$grid.labels.rot[1] == 180, "bottom", "top")))
+
+			textGrob(labelsx, y=labelsXw+spacerX*.5+marginX, x=cogridx3, just=just, rot=gt$grid.labels.rot[1], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
 		grobGridX <- NULL
@@ -286,7 +303,9 @@ plot_grid <- function(gt, scale, add.labels) {
 		}
 		
 		grobGridTextY <- if (add.labels && any(sely2)) {
-			textGrob(labelsy, x=labelsYw+spacerY*.5+marginY, y=cogridy3, just="right", gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
+			just <- ifelse(gt$grid.labels.rot[2] == 90, "bottom", ifelse(gt$grid.labels.rot[2] == 270, "top", ifelse(gt$grid.labels.rot[2] == 180, "left", "right")))
+
+			textGrob(labelsy, x=labelsYw+spacerY*.5+marginY, y=cogridy3, just=just, rot=gt$grid.labels.rot[2], gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
 		grobGridY <- NULL

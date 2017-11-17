@@ -75,8 +75,12 @@
 #' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
-#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
-#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.or.more}{Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.text.color color of the legend text
@@ -157,8 +161,11 @@ tm_layout <- function(title=NA,
 					  legend.text.size=0.7,
 					  legend.hist.size=0.7,
 					  legend.format=list(fun=NULL, scientific = FALSE, digits= NA, 
-					  				   text.separator = "to", text.less.than = "Less than",
-					  				   text.or.more = "or more"),
+					  				   text.separator = "to", 
+					  				   text.less.than = c("Less", "than"),
+					  				   text.or.more = c("or", "more"),
+					  				   text.align = NA, 
+					  				   text.to.columns = FALSE),
 					  legend.frame = FALSE,
 					  legend.text.color = attr.color,
 					  legend.bg.color = NA,

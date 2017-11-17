@@ -47,10 +47,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		nplots <- nlevels(data_by[[1]])
 		
 		shps_by_splt <- mapply(function(s_by, d_by) {
-			if (inherits(s_by, "Spatial")) {
+			if (inherits(s_by, "sf")) {
 				s_by2 <- split(s_by, f = d_by, drop=FALSE)	 # split_shape
 				lapply(s_by2, function(s2) {
-					s2$tmapID <- 1L:length(s2$tmapID)	
+					if (length(s2)>0) s2$tmapID <- 1L:length(s2$tmapID)	
 					s2
 				})
 			}  else {
@@ -62,31 +62,33 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	if (free_coords) {
 		# find maximum bbox
 		shp.by.bbox <- sapply(shps_by, attr, which="bbox")
-		shp.by.bbox <- matrix(c(apply(shp.by.bbox[1:2,,drop=FALSE], MARGIN = 1, min), apply(shp.by.bbox[3:4,,drop=FALSE], MARGIN = 1, max)),
-							   nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
+		shp.by.bbox <- c(apply(shp.by.bbox[1:2,,drop=FALSE], MARGIN = 1, min), apply(shp.by.bbox[3:4,,drop=FALSE], MARGIN = 1, max))
 		shp.by.bbox <- get_bbox_asp(shp.by.bbox, gm$inner.margins, longlat, pasp=NA, interactive=interactive)$bbox
 		bboxes <- do.call("mapply", c(list(FUN=function(...){
 			x <- list(...)
-			
-			bbx <- sapply(x, attr, which="bbox")
+			bbx <- sapply(x, st_bbox)
+			#bbx <- sapply(x, attr, which="bbox")
 			if (is.null(bbx[[1]])) return(NULL)
-			bbx <- matrix(c(apply(bbx[1:2,,drop=FALSE], MARGIN = 1, min), apply(bbx[3:4,,drop=FALSE], MARGIN = 1, max)),
-								  nrow=2, dimnames=list(c("x", "y"), c("min", "max")))
+			bbx <- c(apply(bbx[1:2,,drop=FALSE], MARGIN = 1, min), apply(bbx[3:4,,drop=FALSE], MARGIN = 1, max))
 			
 			if (inside_bbox) {
-				bbx[,1] <- pmax(bbx[,1], shp.by.bbox[,1])
-				bbx[,2] <- pmin(bbx[,2], shp.by.bbox[,2])
+				bbx <- c(pmax(bbx[1:2], shp.by.bbox[1:2]),
+						 pmin(bbx[3:4], shp.by.bbox[3:4]))
 			}
 			if (!("x" %in% names(args))) args$x <- bbx
 			bbox <- do.call("bb", args)  #get_bbox_lim(bbx, relative, bbox, xlim, ylim, ext)
+			
+			if (any((bbox[3:4] - bbox[1:2]) < 1e-8)) bbox <- bb(cx = bbox[1], cy = bbox[2], width = 1, height = 1)
+			
+			
 			bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp, interactive=interactive)$bbox
 			
 			if (inside_bbox) {
-				if (bbox_asp[1,1] < shp.by.bbox[1,1]) bbox_asp[1,] <- bbox_asp[1, ] + (shp.by.bbox[1,1] - bbox_asp[1,1])
-				if (bbox_asp[2,1] < shp.by.bbox[2,1]) bbox_asp[2,] <- bbox_asp[2, ] + (shp.by.bbox[2,1] - bbox_asp[2,1])
+				if (bbox_asp[1] < shp.by.bbox[1]) bbox_asp[c(1,3)] <- bbox_asp[c(1,3)] + (shp.by.bbox[1] - bbox_asp[1])
+				if (bbox_asp[2] < shp.by.bbox[2]) bbox_asp[c(2,4)] <- bbox_asp[c(2,4)] + (shp.by.bbox[2] - bbox_asp[2])
 				
-				if (bbox_asp[1,2] > shp.by.bbox[1,2]) bbox_asp[1,] <- bbox_asp[1, ] - (bbox_asp[1,2] - shp.by.bbox[1,2])
-				if (bbox_asp[2,2] > shp.by.bbox[2,2]) bbox_asp[2,] <- bbox_asp[2, ] - (bbox_asp[2,2] - shp.by.bbox[2,2])
+				if (bbox_asp[3] > shp.by.bbox[3]) bbox_asp[c(1,3)] <- bbox_asp[c(1,3)] - (bbox_asp[3] - shp.by.bbox[3])
+				if (bbox_asp[4] > shp.by.bbox[4]) bbox_asp[c(2,4)] <- bbox_asp[c(2,4)] - (bbox_asp[4] - shp.by.bbox[4])
 			}
 			bbox_asp
 		}), shps_by_splt, list(SIMPLIFY=FALSE)))
@@ -100,6 +102,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		if (!("x" %in% names(args))) args$x <- shp.bbox
 		
 		bbox <- do.call("bb", args)  #bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim, ext)
+		
+		if (any((bbox[3:4] - bbox[1:2]) < 1e-8)) bbox <- bb(cx = bbox[1], cy = bbox[2], width = 1, height = 1)
+		
+		
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp, interactive=interactive)
 		bbx <- bbox_asp$bbox
 		if (drop_shapes) bboxes <- rep(list(bbx), nplots)
@@ -205,10 +211,11 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		latitude <- mean(bbx[c(2,4)])
 		bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
 		ad <- approx_distances(bbxll, projection=gm$shape.master_crs)
-		to <- as.numeric(units::set_units(ad$hdist, shape.unit))
+		to <- as.numeric(units::set_units(ad$hdist, parse_unit(shape.unit)))
 	} else {
 		ad <- approx_distances(bbx, projection=gm$shape.master_crs)
-		to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator), shape.unit))
+
+		to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator), parse_unit(shape.unit)))
 	}
 	
 

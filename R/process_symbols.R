@@ -107,15 +107,15 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		xshape <- paste("SHAPE", 1:nx, sep="_")
 	}
 	if (is.list(g$shapes)) {
-		# check if g$shapes is nested list (i.e. small multiples)
-		if (!inherits(g$shapes[[1]], "grob") && (!("iconUrl" %in% names(g$shapes[[1]])))) {
+		if (inherits(g$shapes, "grob") || inherits(g$shapes[[1]], "grob") || (("iconUrl" %in% names(g$shapes)))) {
+			# one grob, list of grobs or icon(s)			
+			if ("iconUrl" %in% names(g$shapes)) g$shapes <- split_icon(g$shapes)
+			g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)			} else {
+			# list of list of grobs or icons
 			g$shapes <- lapply(g$shapes, function(gshape) {
 				if ("iconUrl" %in% names(gshape)) gshape <- split_icon(gshape)
 				submit_symbol_shapes(gshape, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
 			})
-		} else {
-			if ("iconUrl" %in% names(g$shapes)) g$shapes <- split_icon(g$shapes)
-			g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
 		}
 	} 
 	nx <- max(nx, nlevels(by))
@@ -255,6 +255,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		ymod <- ymod + rnorm(n=npol, sd=g$jitter)
 	}
 	
+	xmod <- matrix(xmod, nrow=npol, ncol=nx)
+	ymod <- matrix(ymod, nrow=npol, ncol=nx)
 	
 	symbol.size.legend.title <- if (is.ena(g$title.size)[1]) xsize else g$title.size
 	symbol.col.legend.title <- if (is.ena(g$title.col)[1]) xcol else g$title.col

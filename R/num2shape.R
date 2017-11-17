@@ -46,13 +46,17 @@ num2shape <- function(x,
 	} else {
 		if (length(legend.labels)!=nbrks-1) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 		legend.labels <- rep(legend.labels, length.out=nbrks-1)
+		attr(legend.labels, "align") < legend.format$align
 	}
 	
 	if (showNA) {
+		legend.labels.align <- attr(legend.labels, "align")
 		legend.labels <- c(legend.labels, legend.NA.text)
+		attr(legend.labels, "align") <- legend.labels.align
 		shapes <- c(shapes, shapeNA)
 	}
 	
+
 	list(shps=shps, legend.labels=legend.labels, legend.values=legend.values, shapes=shapes)
 }
 

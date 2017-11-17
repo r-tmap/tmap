@@ -7,8 +7,8 @@
 tm_add_legend(type = c("fill", "symbol", "text", "line"), labels = NULL,
   col = NULL, size = NULL, shape = NULL, lwd = NULL, lty = NULL,
   text = NULL, alpha = NA, border.col = "black", border.lwd = 1,
-  border.alpha = NA, title = "", is.portrait = TRUE, reverse = FALSE,
-  z = NA)
+  border.alpha = NA, title = "", is.portrait = TRUE,
+  legend.format = list(), reverse = FALSE, z = NA)
 }
 \arguments{
 \item{type}{type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, or \code{"line"}}
@@ -38,6 +38,8 @@ tm_add_legend(type = c("fill", "symbol", "text", "line"), labels = NULL,
 \item{title}{legend title}
 
 \item{is.portrait}{is legend portrait (\code{TRUE}) or landscape (\code{FALSE})?}
+
+\item{legend.format}{options to format the legend, see \code{\link{tm_layout}}}
 
 \item{reverse}{are the legend items reversed (by default \code{FALSE})?}
 

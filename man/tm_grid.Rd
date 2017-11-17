@@ -6,6 +6,7 @@
 \usage{
 tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
   col = NA, lwd = 1, alpha = NA, labels.size = 0.6, labels.col = NA,
+  labels.rot = c(0, 0), labels.format = list(big.mark = ","),
   labels.margin.x = 0, labels.margin.y = 0, labels.inside.frame = TRUE)
 }
 \arguments{
@@ -28,6 +29,17 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
 \item{labels.size}{font size of the tick labels}
 
 \item{labels.col}{font color of the tick labels}
+
+\item{labels.rot}{Rotation angles of the labels. Vector of two values: the first is the rotation angle (in degrees) of the tick labels on the x axis and the second is the rotation angle of the tick labels on the y axis. Only \code{0}, \code{90}, \code{180}, and \code{270} are valid values.}
+
+\item{labels.format}{list of formatting options for the grid labels. Parameters are:
+\describe{
+\item{fun}{Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items \code{scientific}, \code{format}, and \code{digits} (see below) are not used.}
+\item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+\item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+\item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
+\item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
+}}
 
 \item{labels.margin.x}{margin between tick labels of x axis and the frame}
 

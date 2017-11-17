@@ -15,8 +15,9 @@
 #' @name tmap_icons
 #' @rdname tmap_icons
 tmap_icons <- function(file, width=48, height=48, keep.asp=TRUE, just=c("center", "center"), as.local=TRUE, ...) {
+	icon_names <- names(file)
 	icons <- lapply(file, tmap_one_icon, width=width, height=height, keep.asp=keep.asp, just=just, as.local=as.local, ...)
-	merge_icons(icons)
+	merge_icons(icons, icon_names)
 }
 
 
@@ -152,25 +153,38 @@ split_icon <- function(icon) {
 	icon_max <- lapply(icon, function(ic) {
 		rep(ic, length.out=ni)
 	})
-	lapply(1:ni, function(i) {
+
+	if ("iconNames" %in% names(icon_max)) {
+		icon_names <- icon_max$iconNames
+		icon_max$iconNames <- NULL
+	} else {
+		icon_names <- NULL
+	}
+	
+	res <- lapply(1:ni, function(i) {
 		lapply(icon_max, function(ic) {
 			ic[i]	
 		})
 	})
+	
+	if (!is.null(icon_names)) names(res) <- icon_names
+	
+	res
 }
 
-merge_icons <- function(icons) {
+merge_icons <- function(icons, icon_names = NULL) {
 	list_names <- unique(unlist(lapply(icons, names)))
 	names(list_names) <- list_names
 	
-	lapply(list_names, function(ln) {
+	res <- lapply(list_names, function(ln) {
 		unname(sapply(icons, function(ic) {
 			if (ln %in% names(ic)) {
 				ic[[ln]][1]
 			} else NA
 		}))
 	})
-	
+	if (!is.null(icon_names)) res$iconNames <- icon_names
+	res
 }
 
 

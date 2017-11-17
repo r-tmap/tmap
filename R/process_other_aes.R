@@ -12,6 +12,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 								   shapeNA = g$shapeNA,
 								   legend.NA.text = g$shape.textNA,
 								   showNA = g$showNA,
+								   legend.format=g$legend.format,
 								   reverse=reverse)
 			symbol.shape <- shapesLeg$shps
 			shape.legend.labels <- shapesLeg$legend.labels

@@ -51,8 +51,10 @@
 #' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
-#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
-#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.or.more}{Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the text sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
@@ -170,8 +172,10 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
-#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
-#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.or.more}{Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.col.is.portrait logical that determines whether the legend element regarding the line colors is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
@@ -269,8 +273,10 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
-#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
-#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.or.more}{Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
@@ -387,8 +393,10 @@ tm_polygons <- function(col=NA,
 #' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
-#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
-#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.or.more}{Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.is.portrait logical that determines whether the legend is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})
@@ -517,8 +525,10 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
-#' \item{text.less.than}{Character string to use to translate "Less than" (which is the default).}
-#' \item{text.or.more}{Character string to use to translate "or more" (which is the default). }
+#' \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.or.more}{Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
 #' @param legend.size.is.portrait logical that determines whether the legend element regarding the symbol sizes is in portrait mode (\code{TRUE}) or landscape (\code{FALSE})

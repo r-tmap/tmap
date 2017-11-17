@@ -1,5 +1,5 @@
 process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, gm, any.legend, interactive) {
-	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- grid.labels.inside.frame <- NULL
+	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- grid.labels.inside.frame <- grid.labels.rot <- NULL
 	
 	credit.show <- !is.null(gc)
 	logo.show <- !is.null(gl)
@@ -224,6 +224,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 			grid.show <- TRUE
 			if (is.na(grid.col)) grid.col <- ifelse(gt$attr.color.light, darker(gt$attr.color, .5), lighter(gt$attr.color, .5))
 			if (is.na(grid.labels.col)) grid.labels.col <- ifelse(gt$attr.color.light, darker(gt$attr.color, .2), lighter(gt$attr.color, .2))
+			if (!is.numeric(grid.labels.rot) || length(grid.labels.rot) != 2) stop("labels.rot should be a numeric vector of length two")
 			grid.col <- do.call("process_color", c(list(col=grid.col, alpha=grid.alpha), gt$pc))
 			grid.labels.col <- do.call("process_color", c(list(col=grid.labels.col), gt$pc))
 			grid.lwd <- grid.lwd * gt$scale
@@ -232,6 +233,9 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 			grid.projection <- get_proj4(grid.projection, output = "crs")
 			
 			if (!grid.labels.inside.frame && any(gt$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using save_tmap, notice that outer.margins are set to 0 by default, unless set to NA.")
+			if (!"scientific" %in% names(grid.labels.format)) grid.labels.format$scientific <- FALSE
+			if (!"digits" %in% names(grid.labels.format)) grid.labels.format$digits <- NA
+
 		})
 	} else {
 		gg <- list(grid.show=FALSE)
