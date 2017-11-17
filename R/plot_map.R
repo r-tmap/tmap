@@ -1,6 +1,6 @@
 plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 	nlayers <- length(gp)
-	
+
 	## bubble height needed to align with bubbles in legend
 	lineInch <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE)
 	
@@ -23,6 +23,8 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 
 	## thematic map layers
 	treeElements <- mapply(function(gpl, shp, k) {
+		if (length(shp)==0) return(NULL)
+		
 		bbx <- attr(shp, "bbox")
 		
 		## obtain coordinates (to draw bubbles and text)
@@ -86,6 +88,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		fnames <- paste("plot", gpl$plot.order, sep="_")
 		grobs <- lapply(fnames, do.call, args=list(), envir=e)
 		
+		#browser()
 		
 		
 		if ("plot_tm_text" %in% fnames) {
@@ -243,7 +246,6 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				} else tGrob
 			}
 		}
-		
 		
 		
 		items <- do.call("gList", args =  grobs)

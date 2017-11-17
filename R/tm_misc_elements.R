@@ -9,7 +9,7 @@
 #' @param ncol number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param nrow number of rows of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param free.coords logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?
-#' @param drop.units logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE}, they are plotted where mapped aesthetics are regared as missing values. By default, \code{TRUE} if \code{free.coords=TRUE}. Not applicable for raster shapes.
+#' @param drop.units logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE} (default), they are plotted where mapped aesthetics are regared as missing values. Not applicable for raster shapes.
 #' @param drop.empty.facets logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and colums are dropped.
 #' @param sync logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE}, unless \code{free.coords} is set to \code{TRUE}.
 #' @param showNA If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{table}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.
@@ -34,7 +34,7 @@
 tm_facets <- function(by=NULL, 
 					  along=NULL,
 					  ncol=NA, nrow=NA, 
-					  free.coords=FALSE,
+					  free.coords=TRUE,
 					  drop.units=free.coords,
 					  drop.empty.facets=TRUE,
 					  sync=!free.coords,

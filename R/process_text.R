@@ -260,7 +260,9 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	xmod <- if (is.character(g$xmod)) data[[g$xmod]] else rep(g$xmod, length.out=npol)
 	ymod <-  if (is.character(g$ymod)) data[[g$ymod]] else rep(g$ymod, length.out=npol)
 	
-
+	xmod <- matrix(xmod, nrow=npol, ncol=nx)
+	ymod <- matrix(ymod, nrow=npol, ncol=nx)
+	
 	if (is.na(g$fontface)) g$fontface <- gt$fontface
 	if (is.na(g$fontfamily)) g$fontfamily <- gt$fontfamily
 

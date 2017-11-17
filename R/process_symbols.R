@@ -255,6 +255,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		ymod <- ymod + rnorm(n=npol, sd=g$jitter)
 	}
 	
+	xmod <- matrix(xmod, nrow=npol, ncol=nx)
+	ymod <- matrix(ymod, nrow=npol, ncol=nx)
 	
 	symbol.size.legend.title <- if (is.ena(g$title.size)[1]) xsize else g$title.size
 	symbol.col.legend.title <- if (is.ena(g$title.col)[1]) xcol else g$title.col

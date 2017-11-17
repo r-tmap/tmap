@@ -1,5 +1,5 @@
 process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, gm, any.legend, interactive) {
-	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- grid.labels.inside.frame <- NULL
+	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- grid.labels.inside.frame <- grid.labels.rot <- NULL
 	
 	credit.show <- !is.null(gc)
 	logo.show <- !is.null(gl)
