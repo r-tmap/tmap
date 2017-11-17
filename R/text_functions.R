@@ -48,12 +48,26 @@ expr_to_char <- function(txt) {
 	}
 }
 
-text_width_npc <- function(txt, space=TRUE) {
+text_height_npc <- function(txt, to_width = FALSE) {
+	if (to_width) {
+		convertWidth(convertHeight(stringHeight(txt), "inch"), "npc", TRUE)
+	} else {
+		convertHeight(stringHeight(txt), "npc", TRUE)
+	}
+}
+
+text_width_npc <- function(txt, space=TRUE, to_height = FALSE) {
 	brks <- attr(txt, "brks")
 	
 	if (is.null(brks)) {
 		if (space) txt <- paste(txt, " ", sep = "")
-		convertWidth(stringWidth(txt), "npc", TRUE)
+		
+		if (to_height) {
+			convertHeight(convertWidth(stringWidth(txt), "inch"), "npc", TRUE)
+		} else {
+			convertWidth(stringWidth(txt), "npc", TRUE)
+		}
+		
 	} else {
 		txt_splits <- split_legend_labels(txt, brks)
 		spx <- if (space) convertWidth(stringWidth(" "), "npc", TRUE) * 1.5 else 0
