@@ -29,27 +29,58 @@ get_RasterLayer_levels <- function(r) {
 }
 
 raster_colors <- function(x) {
-	if (inherits(x, "Raster")) {
-		x <- as(x, "SpatialGridDataFrame")
-	}
-	if (!all(vapply(x@data, is.integer, FUN.VALUE = logical(1)))) {
-		x@data <- as.data.frame(lapply(x@data, as.integer))
-	}
-
+	n <- nrow(x)
+	
 	# get alpha transparency
-	if (ncol(x@data)==4) {
-		a <- x@data[,4]
-		x@data <- x@data[,1:3]
+	if (ncol(x)==4) {
+		a <- x[,4]
+		x <- x[,1:3]
 	} else {
 		a <- NULL
 	}
+	storage.mode(x) <- "integer"
+	v <- x[, 1] * 1e6L + x[, 2] * 1e3L + x[, 3]
+	
+	isna <- is.na(v)
+	if (!is.null(a)) isna <- isna & (a==255)
+	
+	v <- v[!isna]
+	u <- unique(v)
+	nu <- length(u)
+	m <- match(v, u)
+	nc <- (min(256, nu))
+	ta <- tabulate(m, nbins = nu)
+	mo <- order(ta, decreasing = TRUE)
+	ids <- mo[1:nc]
 
-	y <- SGDF2PCT(x, adjust.bands = FALSE)
-	if (!is.null(a)) y$idx[a!=255] <- NA
-	data <- data.frame(PIXEL__COLOR = as.integer(y$idx))
-	levels(data$PIXEL__COLOR) <- as.vector(na.omit(y$ct))
-	class(data$PIXEL__COLOR) <- "factor"
-	data
+	r <- floor(u/1e6L)
+	g <- floor((u-r*1e6L)/1e3L)
+	b <- (u - r * 1e6L - g * 1e3L)
+	rs <- r[ids]
+	gs <- g[ids]
+	bs <- b[ids]
+	
+	RGB <- cbind(r, g, b)
+	RGBs <- cbind(rs, gs, bs)
+	
+	
+	dists <- apply(RGBs, MARGIN = 1, function(rw) {
+		sqrt((rw[1]-RGB[,1])^2 + (rw[2]-RGB[,2])^2 + (rw[3]-RGB[,3])^2)
+	})
+	
+	ids2 <- apply(dists, MARGIN = 1, which.min)
+	
+	m2 <- ids[m]
+	
+	ind <- integer(length=n)
+	
+	
+	ind[!isna] <- m2
+	ind[isna] <- NA
+	
+	cols <- rgb(rs, gs, bs, maxColorValue = 255)
+	
+	factor(ind, levels=cols)
 }
 
 

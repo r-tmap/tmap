@@ -148,12 +148,10 @@ tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)
 
 # example: Meuse data
 \dontrun{
-require(sp)
+require(sf)
 require(tmaptools)
 data(meuse)
-coordinates(meuse) <- ~x+y
-proj4string(meuse) <- get_proj4("rd")
-
+meuse <- st_as_sf(meuse, coords = c("x", "y"), crs = 28992, agr = "constant")
 meuse_osm <- read_osm(meuse, ext=1.1)
 
 qtm(meuse_osm) + 

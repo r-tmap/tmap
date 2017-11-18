@@ -34,8 +34,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 						}
 					}, FUN.VALUE = logical(1))))	
 				} else FALSE
-
-				if (convert.RGB) shp@data <- raster_colors(shp)
+				
+				if (convert.RGB) shp@data <- data.frame(PIXEL__COLOR=raster_colors(shp@data))
 				raster_facets_vars <- names(shp)[1]
 			} else {
 				raster_facets_vars <- intersect(raster_facets_vars, names(shp))
@@ -71,11 +71,11 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				shpnames <- get_raster_names(shp)
 				if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% names(shp))) {
 					convert.RGB <- if (!identical(is.RGB, FALSE)) {
-						(nlayers(shp)>=3 && nlayers(shp)<=4 && minValue(shp)>=0 && maxValue(shp)<= 255)	
+						(nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255))	
 					} else FALSE
 
 					if (convert.RGB) {
-						pix <- raster_colors(shp)$PIXEL__COLOR
+						pix <- raster_colors(get_raster_data(shp))
 						shp <- raster(shp, layer=0)
 						shp <- setValues(shp, as.integer(pix))
 						names(shp) <- "PIXEL__COLOR"

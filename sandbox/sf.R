@@ -90,3 +90,17 @@ qtm(h)
 
 
 tm_shape(h, ext=.02, unit = "imperial") + tm_rgb() + tm_scale_bar()
+
+
+
+str(land)
+
+land$cover <- as.integer(land$cover) * 12
+land$cover_cls <- as.integer(land$cover_cls) * 31
+land$elevation <- (land$elevation + 500) / 28
+
+land_europe <- crop_shape(land, Europe)
+
+
+qtm(land_europe)
+
