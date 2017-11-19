@@ -237,7 +237,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		if (inherits(shp2$geometry, c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
 			## TODO use st_area
-			data$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, "^2", sep=""))
+			data$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" "))
 			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else st_neighbours(shp) #poly2nb(as(shp, "Spatial"))
 			attr(data, "kernel_density") <- ("kernel_density" %in% names(attributes(shp)))
 			type <- "polygons"
