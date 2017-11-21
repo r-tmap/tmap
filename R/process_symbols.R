@@ -305,6 +305,14 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		
 	} else scale <- g$scale
 
+	clustering <- g$clustering
+	if (identical(clustering, FALSE)) {
+		clustering <- NULL
+	} else if (identical(clustering, TRUE)) {
+		clustering <- leaflet::markerClusterOptions()	
+	}
+	
+	
 	list(symbol.size=symbol.size,
 		 symbol.col=col,
 		 symbol.shape=symbol.shape,
@@ -330,7 +338,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 symbol.shape.legend.shapes=shape.legend.shapes,
 		 symbol.shape.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.normal.size=g$legend.max.symbol.size), 
 		 symbol.col.legend.hist.misc=list(values=values, breaks=breaks),
-		 symbol.misc = list(symbol.are.dots=g$are.dots, symbol.are.markers=g$are.markers, symbol.are.icons=are.icons, just=just),
+		 symbol.misc = list(symbol.are.dots=g$are.dots, symbol.are.markers=g$are.markers, symbol.are.icons=are.icons, just=just, clustering=clustering),
 		 xsize=xsize,
 		 xcol=xcol,
 		 xshape=xshape,

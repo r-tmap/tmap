@@ -10,14 +10,14 @@
 \usage{
 tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   border.col = NA, border.lwd = 1, border.alpha = NA, scale = 1,
-  perceptual = FALSE, size.max = NA, size.lim = NA, sizes.legend = NULL,
-  sizes.legend.labels = NULL, n = 5, style = ifelse(is.null(breaks),
-  "pretty", "fixed"), breaks = NULL, interval.closure = "left",
-  palette = NULL, labels = NULL, auto.palette.mapping = TRUE,
-  contrast = NA, max.categories = 12, colorNA = NA, textNA = "Missing",
-  showNA = NA, shapes = 21:25, shapes.legend = NULL,
-  shapes.legend.fill = NA, shapes.labels = NULL, shapeNA = 4,
-  shape.textNA = "Missing", shapes.n = 5,
+  perceptual = FALSE, clustering = FALSE, size.max = NA, size.lim = NA,
+  sizes.legend = NULL, sizes.legend.labels = NULL, n = 5,
+  style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
+  interval.closure = "left", palette = NULL, labels = NULL,
+  auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
+  colorNA = NA, textNA = "Missing", showNA = NA, shapes = 21:25,
+  shapes.legend = NULL, shapes.legend.fill = NA, shapes.labels = NULL,
+  shapeNA = 4, shape.textNA = "Missing", shapes.n = 5,
   shapes.style = ifelse(is.null(shapes.breaks), "pretty", "fixed"),
   shapes.breaks = NULL, shapes.interval.closure = "left",
   legend.max.symbol.size = 0.8, just = NA, jitter = 0, xmod = 0,
@@ -41,7 +41,7 @@ tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
   legend.show = TRUE, legend.is.portrait = TRUE, legend.z = NA, ...)
 
 tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
-  text = NULL, text.just = c("center", "top"),
+  clustering = TRUE, text = NULL, text.just = c("center", "top"),
   markers.on.top.of.text = TRUE, ...)
 }
 \arguments{
@@ -62,6 +62,8 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 \item{scale}{symbol size multiplier number.}
 
 \item{perceptual}{logical that determines whether symbols are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument.}
+
+\item{clustering}{value that determines whether the symbols are clustered in \code{"view"} mode. It does not work proportional bubbles (i.e. \code{tm_bubbles}). One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 
 \item{size.max}{value that is mapped to \code{size=1}. By default (\code{NA}), the maximum data value is chosen. Only applicable when \code{size} is the name of a numeric variable of \code{shp}}
 

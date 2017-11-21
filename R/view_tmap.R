@@ -215,6 +215,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			
 			fixed <- ifelse(gpl$symbol.misc$symbol.are.dots, gt$dot.size.fixed, gt$symbol.size.fixed)
 			are.icons <- gpl$symbol.misc$symbol.are.icons
+			clustering <- gpl$symbol.misc$clustering
 			
 			if (are.icons) {
 				#symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
@@ -231,7 +232,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 						icons$iconAnchorY <- icons$iconAnchorY * symbol.size2
 					}
 				}
-				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, group=shp_name, icon=icons, layerId = id)
+				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, group=shp_name, icon=icons, layerId = id, clusterOptions=clustering)
 			} else {
 				if (!all(symbol.shape2 %in% c(1, 16, 19, 20, 21))) {
 					warns["symbol"] <- TRUE
@@ -239,7 +240,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				}
 
 				if (fixed) {
-					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions)
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions, clusterOptions=clustering)
 				} else {
 					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions)
 				}
