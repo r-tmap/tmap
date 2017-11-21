@@ -479,6 +479,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param border.alpha transparency number, regarding the symbol borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param scale symbol size multiplier number. 
 #' @param perceptual logical that determines whether symbols are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument.
+#' @param clustering value that determines whether the symbols are clustered in \code{"view"} mode. It does not work proportional bubbles (i.e. \code{tm_bubbles}). One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.
 #' @param size.max value that is mapped to \code{size=1}. By default (\code{NA}), the maximum data value is chosen. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
 #' @param size.lim vector of two limit values of the \code{size} variable. Only symbols are drawn whose value is greater than or equal to the first value. Symbols whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}
 #' @param sizes.legend vector of symbol sizes that are shown in the legend. By default, this is determined automatically.
@@ -564,6 +565,7 @@ tm_symbols <- function(size=1, col=NA,
 						border.alpha=NA,
 						scale=1,
 						perceptual=FALSE,
+						clustering=FALSE,
 						size.max=NA,
 						size.lim=NA,
 						sizes.legend = NULL,
@@ -676,6 +678,7 @@ tm_dots <- function(col=NA,
 tm_markers <- function(shape=marker_icon(),
 					   col=NA,
 					   border.col=NULL,
+					   clustering=TRUE,
 					   text=NULL,
 					   text.just=c("center", "top"),
 					   markers.on.top.of.text=TRUE,

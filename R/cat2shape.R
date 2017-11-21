@@ -15,9 +15,10 @@ cat2shape <- function(x,
 	
 	named <- !is.null(names(shapes))
 	
+
 	if (named) {
 		nms <- names(shapes)
-		xs <- as.character(x)
+		xs <- levels(x)
 		
 		if (!setequal(xs, nms)) {
 			c1 <- setdiff(xs, nms)
