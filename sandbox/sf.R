@@ -104,3 +104,32 @@ land_europe <- crop_shape(land, Europe)
 
 qtm(land_europe)
 
+
+# bug in smooth_map output
+vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
+vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
+
+x <- vol_smooth$polygons
+
+rgeos::gIsValid(x)
+
+plot(x)
+tm_shape(x) + tm_polygons()
+
+
+xsf <- as(x, "sf")
+
+plot(xsf)
+qtm(xsf)
+
+
+
+
+
+
+
+
+
+
+
+
