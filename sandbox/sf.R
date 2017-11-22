@@ -124,8 +124,10 @@ qtm(xsf)
 
 
 
+load("test/wkr.rdata")
 
-
+ttm()
+qtm(wkr)
 
 
 
