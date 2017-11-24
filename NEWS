@@ -1,3 +1,6 @@
+version 2.0 (in development)
+- [!] tmap migrated from sp to sf. sp objects are still supported, but all internal functions are based on sf
+
 version 1.11
 - added text.align and text.to.columns to legend.format
 - legend.(aes).reverse added to the layer functions
