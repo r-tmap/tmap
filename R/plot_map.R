@@ -265,10 +265,11 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 	if (gt$earth.boundary) {
 		world_bb_sp2 <- tmaptools::bb_earth(projection = proj, earth.datum = gt$earth.datum, bbx = gt$earth.bounds)
 		if (!is.null(world_bb_sp2)) {
-			world_bb_co2 <- world_bb_sp2@polygons[[1]]@Polygons[[1]]@coords
 			
-			world_bb_co3 <- matrix(c((world_bb_co2[,1] - bbx[1,1])/(bbx[1,2]-bbx[1,1]),
-									 (world_bb_co2[,2] - bbx[2,1])/(bbx[2,2]-bbx[2,1])), ncol=2)
+			world_bb_co2 <- sf::st_coordinates(world_bb_sp2)
+			
+			world_bb_co3 <- matrix(c((world_bb_co2[,1] - bbx[1])/(bbx[3]-bbx[1]),
+									 (world_bb_co2[,2] - bbx[2])/(bbx[4]-bbx[2])), ncol=2)
 			
 			worldBB_bg <- if (!is.na(gt$frame)) NULL else pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=NA, fill=gt$bg.color))
 			worldBB <- pathGrob(x = world_bb_co3[,1], y = world_bb_co3[,2], id=rep(1,nrow(world_bb_co3)), gp=gpar(col=gt$earth.boundary.color, fill=NA, lwd=gt$earth.boundary.lwd))

@@ -13,7 +13,7 @@ vignette: >
 
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, fig.width=8, fig.height=4)
-devtools::install_github("mtennekes/tmaptools")
+#devtools::install_github("mtennekes/tmaptools")
 library(tmap)
 ```
 

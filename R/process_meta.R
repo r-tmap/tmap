@@ -177,7 +177,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 		space.color <- do.call("process_color", c(list(col=space.color), pc))
 		
 		earth.bounds <- if (is.logical(earth.boundary)) {
-			c(-180, 180, -90, 90)
+			c(-180, -90, 180, 90)
 		} else {
 			as.vector(extent(earth.boundary))
 		}
