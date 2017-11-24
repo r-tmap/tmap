@@ -711,3 +711,7 @@ tm_markers <- function(shape=marker_icon(),
 }
 
 
+tm_sf <- function(col, fill, lwd) {
+	
+}
+

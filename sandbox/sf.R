@@ -130,7 +130,55 @@ ttm()
 qtm(wkr)
 
 
+## test feature split in sf
+data(World, rivers)
+W <- as(World, "sf")
+R <- as(rivers, "sf")
 
+
+tm_shape(W) +
+	tm_polygons() +
+	tm_dots() +
+tm_shape(R) +
+	tm_lines()
+
+
+
+W
+tm_sf
+
+
+
+nrow(R)
+
+R2 <- st_cast(R, "LINESTRING")
+
+which(World$name=="Canada")
+
+W$geometry[28] <- st_cast(W$geometry[28], "MULTILINESTRING")
+
+tm_shape(World) +
+	tm_fill() +
+	tm_dots() +
+tm_shape(World) +
+	tm_borders("red") + 
+tm_shape(R) +
+	tm_lines()
+
+########### test geometrycollection
+W <- as(World, "sf")
+W$geometry[W$continent == "Africa"] <- st_centroid(W$geometry[W$continent == "Africa"])
+W$geometry[W$continent == "South America"] <- st_cast(W$geometry[W$continent == "South America"], "MULTILINESTRING", group_or_split = FALSE)
+
+plot(W[,1])
+
+a <- st_is(W, c("MULTIPOLYGON", "MULTILINESTRING"))
+a <- st_is(W, "MULTILINESTRING")
+a <- st_is(W, "POLYGON")
+
+
+
+lapply(st_geometry(W), class)
 
 
 

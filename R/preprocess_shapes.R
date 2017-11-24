@@ -236,7 +236,6 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 		
 		if (inherits(shp2$geometry, c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
-			## TODO use st_area
 			data$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" "))
 			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else get_neighbours(shp) #poly2nb(as(shp, "Spatial"))
 			attr(data, "kernel_density") <- ("kernel_density" %in% names(attributes(shp)))
@@ -248,7 +247,15 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		} else if (inherits(shp2$geometry, c("sfc_POINT", "sfc_MULTIPOINT"))){
 			type <- "points"
 		} else {
+			
+			types <- factor(rep(NA, nrow(shp2)), levels=c("polygons", "lines", "points"))
+			types[st_is(W, c("MULTIPOLYGON", "POLYGON"))] <- "polygons"
+			types[st_is(W, c("MULTILINESTRING", "LINESTRING"))] <- "lines"
+			types[st_is(W, c("MULTIPOINT", "POINT"))] <- "points"
+			
 			type <- "geometrycollection"
+			attr(type, "types") <- type
+			
 		}
 		
 		# simplify shape
