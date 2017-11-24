@@ -1,12 +1,6 @@
 language: r
 cache: packages
 
-addons:
-  apt:
-    packages:
-      - libv8-dev
-      - valgrind
-
 before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
   - sudo apt-get --yes --force-yes update -qq
@@ -31,6 +25,7 @@ r_github_packages:
   - mtennekes/tmaptools
 
 r_packages:
+  - sf
   - sp
   - rgdal
   - rgeos
