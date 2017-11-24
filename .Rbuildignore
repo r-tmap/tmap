@@ -12,3 +12,4 @@ appveyor.yml
 gdal-2.1.0
 gdal-2.1.0.tar.gz
 ubuntu_installation.sh
+^cran-comments\.md$
