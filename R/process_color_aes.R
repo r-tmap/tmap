@@ -35,6 +35,12 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 	
 	check_aes_args(g)
 	
+	rng <- range(x, na.rm = TRUE)
+	if (abs(rng[2] - rng[1]) < 1e-9) {
+		warning("The value range is less than 1e-9", call. = FALSE)
+		x[!is.na(x)] <- round(rng[1], 9)
+	}
+	
 	if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
 	
 	if (is.factor(x) || g$style=="cat") {

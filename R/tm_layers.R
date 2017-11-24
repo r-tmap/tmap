@@ -461,12 +461,13 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' 
 #' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments, which are \code{size}, \code{col}, and \code{shape}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
-#' A  shape specification is one of the following three options. To specify multiple shapes, a vector or list of these shape specification is required. The shape specification options can also be mixed.
+#' A  shape specification is one of the following three options. To specify multiple shapes (needed for the \code{shapes} argument), a vector or list of these shape specification is required. The shape specification options can also be mixed. For the \code{shapes} argument, it is possible to use a named vector or list, where the names correspond to the value of the variable speficied by the \code{shape} argument.
 #' \enumerate{
 #'  \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options.}
 #'  \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot object created with \code{\link[ggplot2:ggplotGrob]{ggplotGrob}}. To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
 #'  \item{An icon specification, which can be created with \code{\link{tmap_icons}}.}
 #'  }
+#'  For small multiples, a list of these shape specification(s) should be provided.
 #' 
 #' @name tm_symbols
 #' @rdname tm_symbols
