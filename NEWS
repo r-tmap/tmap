@@ -1,12 +1,13 @@
-version 1.11 (development)
+version 1.11
 - added text.align and text.to.columns to legend.format
 - legend.(aes).reverse added to the layer functions
-- symbol shapes can be put in a list for small multiples
+- symbol shapes can be put in a list for small multiples, and named according the values of the variable specified with the shape argument
 - grid labels can now be rotated and formatted
 - changed default values of free.coords and drop.units in tm_facets
 - fixed bug with all NA's in view mode
 - fixed bug with dismo::gmap raster shapes
 - fixed bug for ambiguous values for aesthetics (e.g. when "blue" is also a variable name)
+- NOTE: this will be the last version before the major update (in which sf fully replaces sp)
 
 version 1.10
 - [!] tm_scale_bar, tm_text, and tm_grid now supported in view mode (required leaflet 1.1.0)
