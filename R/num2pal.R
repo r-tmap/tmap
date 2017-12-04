@@ -140,8 +140,6 @@ num2pal <- function(x, n = 5,
 		if (is.na(showNA)) showNA <- FALSE
 	}
 
-	
-	
 	if (is.cont) {
 		# recreate legend palette for continuous cases
 		if (style=="quantile") {
@@ -184,7 +182,7 @@ num2pal <- function(x, n = 5,
 			legend.labels <- do.call("fancy_breaks", c(list(vec=b, intervals=FALSE, interval.closure=int.closure), legend.format)) 	
 		} else {
 			legend.labels <- rep(legend.labels, length.out=nbrks_cont)
-			attr(legend.labels, "align") < legend.format$align
+			attr(legend.labels, "align") <- legend.format$text.align
 		}
 		
 		if (reverse) {
@@ -210,7 +208,7 @@ num2pal <- function(x, n = 5,
 		} else {
 			if (length(legend.labels)!=nbrks-1) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 			legend.labels <- rep(legend.labels, length.out=nbrks-1)
-			attr(legend.labels, "align") < legend.format$align
+			attr(legend.labels, "align") <- legend.format$text.align
 		}
 		
 		if (reverse) {
