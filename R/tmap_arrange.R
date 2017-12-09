@@ -55,7 +55,7 @@ tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins
 		lfs <- lapply(tms, function(tm) {
 			tmap_leaflet(tm)
 		})
-		lfmv <- do.call(mapview::latticeView, c(lfs, list(ncol=ncol, sync=sync)))
+		lfmv <- do.call(mapview::latticeView, c(lfs, list(ncol=ncol, sync=ifelse(sync, "all", "none"))))
 		add_leaflet_titles(lfmv)
 	} else {
 		grid.newpage()
