@@ -162,8 +162,9 @@ gather_shape_info <- function(x, interactive) {
 	bb_args$x <- x[[masterID]]$bbox
 	
 	## add other shape arguments
-	line.center.type <- x[[shape.id[masterID]]]$line.center.type
-
+	point.per <- x[[shape.id[masterID]]]$point.per
+	line.center <- x[[shape.id[masterID]]]$line.center
+	
 	list(shape.id=shape.id,
 		 shape.nshps=nshps,
 		 shape.apply_map_coloring=apply_map_coloring,
@@ -174,7 +175,8 @@ gather_shape_info <- function(x, interactive) {
 		 shape.bbx_raw=bbx_raw,
 		 shape.unit=unit,
 		 shape.bb_args=bb_args,
-		 shape.line.center.type=line.center.type,
+		 shape.point.per=point.per,
+		 shape.line.center=line.center,
 		 shape.raster_facets_vars=raster_facets_vars)
 }
 

@@ -39,7 +39,8 @@ tm_shape <- function(shp,
 					 bbox = NULL,
 					 unit = getOption("tmap.unit"),
 					 simplify = 1,
-					 line.center.type = c("segment", "midpoint"),
+					 point.per = "largest",
+					 line.center = "midpoint",
 					 ...) {
 	shp_name <- ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name)
 	g <- list(tm_shape=c(as.list(environment()), list(...)))

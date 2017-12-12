@@ -170,6 +170,8 @@ W <- as(World, "sf")
 W$geometry[W$continent == "Africa"] <- st_centroid(W$geometry[W$continent == "Africa"])
 W$geometry[W$continent == "South America"] <- st_cast(W$geometry[W$continent == "South America"], "MULTILINESTRING", group_or_split = FALSE)
 
+W$geometry[which(W$name == "Canada")]
+
 plot(W[,1])
 
 a <- st_is(W, c("MULTIPOLYGON", "MULTILINESTRING"))
@@ -181,5 +183,39 @@ a <- st_is(W, "POLYGON")
 lapply(st_geometry(W), class)
 
 
+shp <- W
+
+
+W2 <- sf_expand(W)
+
+
+W2 <- sf_expand(W)
+
+
+vol <- raster::raster(t(volcano[, ncol(volcano):1]), xmn=0, xmx=870, ymn=0, ymx=610)
+vol_smooth <- smooth_map(vol, smooth.raster = FALSE, nlevels = 10)
+shp <- as(vol_smooth$iso, "sf")
+
+tm_shape(vol_smooth$iso) +
+tm_iso(col = "black", size = .7, fontcolor="black")
+
+tm_shape(vol_smooth$polygons) +
+	tm_fill("level", palette=terrain.colors(11), title="Elevation") +
+	tm_shape(vol_smooth$iso) +
+	tm_iso(col = "black", size = .7, fontcolor="black") +
+	tm_layout("Maunga Whau volcano (Auckland)", title.position=c("left", "bottom"),
+			  inner.margins=0) +
+	tm_legend(width=.13, position=c("right", "top"), bg.color="gray80", frame = TRUE)
+
+
+s <- shp[1,]
+plot(s)
+
+s <- sf_expand(s)
+coor <- st_coordinates(s)
+coors <- split.data.frame(coor[,1:2], f = coor[,3], drop=FALSE)
+
+
+qtm(s) + qtm(st_centroid(s))
 
 
