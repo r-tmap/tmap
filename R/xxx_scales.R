@@ -14,49 +14,54 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
         x <- do.call(fun, list(vec))
     } else {
         ### analyse the numeric vector
-    	vec_fin <- unique(vec[!is.infinite(vec)])
-        frm <- gsub(" ", "", sprintf("%20.10f", abs(vec_fin)))
-
-        # get width before decimal point
-        mag <- max(nchar(frm)-11)
-
-        # get number of decimals (which is number of decimals in vec, which is reduced when mag is large)
-        ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
-        if (is.na(digits)) {
-            digits <- max(min(ndec, 4-mag), 0)
-
-            # add sign to frm
-            frm_sign <- paste0(ifelse(vec_fin<0, "-", "+"), frm)
-            
-            # test if number of digits is sufficient for unique labels
-            if (!scientific) {
-                while (anyDuplicated(substr(frm_sign, 1, nchar(frm_sign)-10 + digits)) && (digits < 10)) {
-                    digits <- digits + 1
-                }
-            }
-
-        }
-
-        if (!scientific) {
-            if (mag>11 || (mag > 9 && all(vec - floor(vec/1e9)*1e9 < 1))) {
-                vec <- vec / 1e9
-                ext <- " bln"
-            } else if (mag > 8 || (mag > 6 && all(vec - floor(vec/1e6)*1e6 < 1))) {
-                vec <- vec / 1e6
-                ext <- " mln"
-            } else {
-                ext <- ""
-            }
-
-            # set default values
-            if (!("big.mark" %in% names(args))) args$big.mark <- ","
-            if (!("format" %in% names(args))) args$format <- "f"
-            if (!("preserve.width" %in% names(args))) args$preserve.width <- "none"
-            x <- paste(do.call("formatC", c(list(x=vec, digits=digits), args)), ext, sep="")
-        } else {
-            if (!("format" %in% names(args))) args$format <- "g"
-            x <- do.call("formatC", c(list(x=vec, digits=digits), args))
-        }
+    	if (all(is.infinite(vec))) {
+    		x <- as.character(vec)
+    	} else {
+    		vec_fin <- unique(vec[!is.infinite(vec)])
+    		frm <- gsub(" ", "", sprintf("%20.10f", abs(vec_fin)))
+    		
+    		# get width before decimal point
+    		#if (length(frm)==0) browser()
+    		mag <- max(nchar(frm)-11)
+    		
+    		# get number of decimals (which is number of decimals in vec, which is reduced when mag is large)
+    		ndec <- max(10 - nchar(frm) + nchar(sub("0+$","",frm)))
+    		if (is.na(digits)) {
+    			digits <- max(min(ndec, 4-mag), 0)
+    			
+    			# add sign to frm
+    			frm_sign <- paste0(ifelse(vec_fin<0, "-", "+"), frm)
+    			
+    			# test if number of digits is sufficient for unique labels
+    			if (!scientific) {
+    				while (anyDuplicated(substr(frm_sign, 1, nchar(frm_sign)-10 + digits)) && (digits < 10)) {
+    					digits <- digits + 1
+    				}
+    			}
+    			
+    		}
+    		
+    		if (!scientific) {
+    			if (mag>11 || (mag > 9 && all(vec - floor(vec/1e9)*1e9 < 1))) {
+    				vec <- vec / 1e9
+    				ext <- " bln"
+    			} else if (mag > 8 || (mag > 6 && all(vec - floor(vec/1e6)*1e6 < 1))) {
+    				vec <- vec / 1e6
+    				ext <- " mln"
+    			} else {
+    				ext <- ""
+    			}
+    			
+    			# set default values
+    			if (!("big.mark" %in% names(args))) args$big.mark <- ","
+    			if (!("format" %in% names(args))) args$format <- "f"
+    			if (!("preserve.width" %in% names(args))) args$preserve.width <- "none"
+    			x <- paste(do.call("formatC", c(list(x=vec, digits=digits), args)), ext, sep="")
+    		} else {
+    			if (!("format" %in% names(args))) args$format <- "g"
+    			x <- do.call("formatC", c(list(x=vec, digits=digits), args))
+    		}
+    	}
     }
 
     if (intervals) {

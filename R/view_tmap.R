@@ -11,7 +11,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	basemaps <- gt$basemaps
 	basemaps.alpha <- gt$basemaps.alpha
 	
-	pOptions <- leaflet::popupOptions(minWidth = 200, maxWidth = 200)
+	pOptions <- function(cw) {
+		if (is.null(cw)) cw <- 20
+		leaflet::popupOptions(minWidth = 100, maxWidth = max(100, cw * 20))
+	}
+		
 	
 	if (is.null(names(basemaps))) names(basemaps) <- sapply(basemaps, FUN = function(bm) {
 		if (substr(bm, 1, 4) == "http") {
@@ -114,9 +118,10 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				popups <- NULL
 			}
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
-
-		
-			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id, popupOptions = pOptions)
+			
+			charwidth <- attr(popups, "charwidth")
+	
+			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
 
 
 			if (!is.na(gpl$xfill[1])) {
@@ -134,9 +139,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			lopacity <- lres$opacity
 
 			popups <- get_popups(gpl, type="line")
+			charwidth <- attr(popups, "charwidth")
+			
 			dashArray <- lty2dashArray(gpl$line.lty)
 			
-			lf <- lf %>% addPolylines(data=shp, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id, popupOptions = pOptions)
+			lf <- lf %>% addPolylines(data=shp, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
 
 			
 			if (!is.na(gpl$xline[1])) {
@@ -195,8 +202,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				}
 			}
 			
-			popups <- get_popups(gpl, type="symbol")[sel]
-
+			popups <- get_popups(gpl, type="symbol")
+			charwidth <- attr(popups, "charwidth")
+			
+			popups <- popups[sel]
+			
 			# sort symbols
 			if (length(symbol.size)!=1) {
 				decreasing <- order(-symbol.size)
@@ -244,9 +254,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				}
 
 				if (fixed) {
-					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions, clusterOptions=clustering)
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions(charwidth), clusterOptions=clustering)
 				} else {
-					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions)
+					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
 				}
 			}
 				
@@ -485,6 +495,9 @@ format_popups <- function(id=NULL, titles, format, values) {
 	labels3 <- paste0(do.call("paste", c(labels2, list(sep="</tr>"))), "</tr>")
 	x <- paste("<div style=\"max-height:10em;overflow:auto;\"><table>
 			   <thead><tr><th colspan=\"2\">", labels, "</th></thead></tr>", labels3, "</table></div>", sep="")
+	
+	charwidth <- max(nchar(labels)) + max(nchar(labels3))
+	attr(x, "charwidth") <- charwidth
 	x
 }
 
