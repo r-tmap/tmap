@@ -254,7 +254,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			types[st_is(W, c("MULTIPOINT", "POINT"))] <- "points"
 			
 			type <- "geometrycollection"
-			attr(type, "types") <- type
+			attr(data, "kernel_density") <- FALSE
+			attr(type, "types") <- types
 			
 		}
 		

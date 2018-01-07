@@ -178,7 +178,19 @@ a <- st_is(W, c("MULTIPOLYGON", "MULTILINESTRING"))
 a <- st_is(W, "MULTILINESTRING")
 a <- st_is(W, "POLYGON")
 
+tm_shape(W) +
+	tm_fill("HPI") +
+	tm_dots() +
+tm_shape(metro) +
+	tm_dots()
 
+
+tm_shape(W) +
+	tm_fill("HPI") +
+	tm_dots() +
+	tm_lines() +
+tm_shape(metro) +
+	tm_dots()
 
 lapply(st_geometry(W), class)
 
