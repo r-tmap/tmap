@@ -712,7 +712,24 @@ tm_markers <- function(shape=marker_icon(),
 }
 
 
-tm_sf <- function(col, fill, lwd) {
+tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, palette=NULL, border.col=NA, border.lwd=1, border.lty = "solid", border.alpha=NA, ...) {
+	args <- list(...)
 	
+	argsFill <- c(list(col = col, alpha = alpha, palette = palette), args[intersect(names(args), names(formals("tm_fill")))])
+	argsBorders <- c(list(col = border.col, alpha = border.alpha, lty = border.lty))
+	argsLines <- c(list(col = col, lwd = lwd, lty = lty, alpha = alpha, palette = palette), args[intersect(names(args), names(formals("tm_lines")))])
+	argsSymbols <- c(list(col = col, size = size, shape = shape, alpha = alpha, palette = palette, border.col = border.col, border.lwd = border.lwd, border.alpha = border.alpha), args[intersect(names(args), names(formals("tm_symbols")))])
+	
+	g <- do.call("tm_fill", argsFill) + do.call("tm_borders", argsBorders) + do.call("tm_lines", argsLines) + do.call("tm_symbols", argsSymbols)
+	
+	called_names <- names(match.call(expand.dots = TRUE)[-1])
+	
+	
+	
+	g$tm_fill$call <- called_names
+	g$tm_lines$call <- called_names
+	g$tm_symbols$call <- called_names
+
+	g	
 }
 
