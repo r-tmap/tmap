@@ -21,16 +21,16 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		grid.custom.x <- !is.na(grid.x[1])
 		grid.custom.y <- !is.na(grid.y[1])
 		
-		if (!grid.custom.x) grid.x <- pretty(bbx[1,], n=grid.n.x)
-		if (!grid.custom.y) grid.y <- pretty(bbx[2,], n=grid.n.y)
+		if (!grid.custom.x) grid.x <- pretty(bbx[c(1,3)], n=grid.n.x)
+		if (!grid.custom.y) grid.y <- pretty(bbx[c(2,4)], n=grid.n.y)
 
 		## copy grid.x and y
 		grid.x.orig <- grid.x
 		grid.y.orig <- grid.y
 		
 		## crop
-		grid.x <- grid.x[grid.x>bbx[1,1] & grid.x<bbx[1,2]]
-		grid.y <- grid.y[grid.y>bbx[2,1] & grid.y<bbx[2,2]]
+		grid.x <- grid.x[grid.x>bbx[1] & grid.x<bbx[3]]
+		grid.y <- grid.y[grid.y>bbx[2] & grid.y<bbx[4]]
 		
 		## project grid lines
 		if (!is.na(grid.projection)) {
@@ -71,54 +71,98 @@ process_grid <- function(gt, bbx, proj, sasp) {
 			gnx2 <- gny2 <- NULL
 			
 			## determine limits
-			grid.x2.min <- min(min(grid.x2), bbx[1, 1], na.rm=TRUE)
-			grid.x2.max <- max(max(grid.x2), bbx[1, 2], na.rm=TRUE)
-			grid.y2.min <- min(min(grid.y2), bbx[2, 1], na.rm=TRUE)
-			grid.y2.max <- max(max(grid.y2), bbx[2, 2], na.rm=TRUE)
+			grid.x2.min <- min(min(grid.x2), bbx[1], na.rm=TRUE)
+			grid.x2.max <- max(max(grid.x2), bbx[3], na.rm=TRUE)
+			grid.y2.min <- min(min(grid.y2), bbx[2], na.rm=TRUE)
+			grid.y2.max <- max(max(grid.y2), bbx[4], na.rm=TRUE)
 			
 			# create SLDF with straight grid lines in grid lines projection
 			#bbx2 <- bb(bbx, ext=3)
+			
+
 			lnsList <- list(
-				if (is.na(grid.x2[1])) NULL else Lines(lapply(grid.x2, function(x) {
+				if (is.na(grid.x2[1])) NULL else st_multilinestring(lapply(grid.x2, function(x) {
 					m <- matrix(c(rep(x,100), seq(grid.y2.min, grid.y2.max, length.out=100)), ncol=2)
-					Line(m)
-				}), ID="x"),
-				if (is.na(grid.y2[1])) NULL else Lines(lapply(grid.y2, function(y) {
+				})),
+				if (is.na(grid.y2[1])) NULL else st_multilinestring(lapply(grid.y2, function(y) {
 					m <- matrix(c(seq(grid.x2.min, grid.x2.max, length.out=100), rep(y,100)), ncol=2)
-					Line(m)
-				}), ID="y")
+				}))
 			)
+			
+			
+			# lnsList <- list(
+			# 	if (is.na(grid.x2[1])) NULL else Lines(lapply(grid.x2, function(x) {
+			# 		m <- matrix(c(rep(x,100), seq(grid.y2.min, grid.y2.max, length.out=100)), ncol=2)
+			# 		Line(m)
+			# 	}), ID="x"),
+			# 	if (is.na(grid.y2[1])) NULL else Lines(lapply(grid.y2, function(y) {
+			# 		m <- matrix(c(seq(grid.x2.min, grid.x2.max, length.out=100), rep(y,100)), ncol=2)
+			# 		Line(m)
+			# 	}), ID="y")
+			# )
 			
 			lnsSel <- !sapply(lnsList, is.null)
 			if (!any(lnsSel)) {
 				grid.co.x.lns <- numeric(0)
 				grid.co.y.lns <- numeric(0)
 			} else {
-				lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel], proj4string = get_proj4(grid.projection, output="CRS")), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
+				
+				lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = grid.projection))
+				
+				#lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel], proj4string = get_proj4(grid.projection, output="CRS")), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
 				
 				# project it to current projection
-				lns_proj <- set_projection(lns, projection = proj)
+				#lns_proj <- set_projection(lns, projection = proj)
+				lns_proj <- st_transform(lns, crs = proj)
+				
 				
 				# extract and normalize coordinates
-				grid.co.x.lns <- if (lnsSel[1]) lapply(lns_proj@lines[[1]]@Lines, function(l) {
-					lco <- attr(l, "coords")
-					lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
-					lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
-					lco
-				}) else numeric(0)
-				grid.co.y.lns <- if (lnsSel[2]) lapply(lns_proj@lines[[sum(lnsSel)]]@Lines, function(l) {
-					lco <- attr(l, "coords")
-					lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
-					lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
-					lco
-				}) else numeric(0)
+				
+				if (lnsSel[1]) {
+					xco <- st_coordinates(lns_proj$geometry[1])
+					grid.co.x.lns <- lapply(1L:length(lns_proj$geometry[1][[1]]), function(i) {
+						lco <- xco[xco[,3]==i, 1:2]
+						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
+						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
+						lco
+					})
+					xco <- NULL
+				} else {
+					grid.co.x.lns <- numeric(0)
+				}
+
+				if (lnsSel[2]) {
+					yco <- st_coordinates(lns_proj$geometry[sum(lnsSel)])
+					grid.co.y.lns <- lapply(1L:length(lns_proj$geometry[sum(lnsSel)][[1]]), function(i) {
+						lco <- yco[yco[,3]==i, 1:2]
+						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
+						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
+						lco
+					})
+					yco <- NULL
+				} else {
+					grid.co.x.lns <- numeric(0)
+				}
+				
+				# grid.co.x.lns <- if (lnsSel[1]) lapply(lns_proj@lines[[1]]@Lines, function(l) {
+				# 	lco <- attr(l, "coords")
+				# 	lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
+				# 	lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
+				# 	lco
+				# }) else numeric(0)
+				# grid.co.y.lns <- if (lnsSel[2]) lapply(lns_proj@lines[[sum(lnsSel)]]@Lines, function(l) {
+				# 	lco <- attr(l, "coords")
+				# 	lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
+				# 	lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
+				# 	lco
+				# }) else numeric(0)
 			}
 			lns <- NULL
 			lns_proj <- NULL
 		} else {
 			# normalize coordinates
-			grid.co.x <- (grid.x-bbx[1,1]) / (bbx[1,2] - bbx[1,1])
-			grid.co.y <- (grid.y-bbx[2,1]) / (bbx[2,2] - bbx[2,1])
+			grid.co.x <- (grid.x-bbx[1]) / (bbx[3] - bbx[1])
+			grid.co.y <- (grid.y-bbx[2]) / (bbx[4] - bbx[2])
 			
 		}
 		
@@ -234,32 +278,60 @@ plot_grid <- function(gt, scale, add.labels) {
 	# crop projected grid lines, and extract polylineGrob ingredients
 	if (!is.na(gt$grid.projection)) {
 		lnsList <- list(
-			if (any(selx)) Lines(lapply(gt$grid.co.x.lns, function(m) {
-				Line(m)
-			}), ID="x") else NULL,
-			if (any(sely)) Lines(lapply(gt$grid.co.y.lns, function(m) {
-				Line(m)
-			}), ID="y") else NULL
+			if (any(selx)) st_multilinestring(gt$grid.co.x.lns) else NULL,
+			if (any(sely)) st_multilinestring(gt$grid.co.y.lns) else NULL
 		)
+		
+		# lnsList <- list(
+		# 	if (any(selx)) Lines(lapply(gt$grid.co.x.lns, function(m) {
+		# 		Line(m)
+		# 	}), ID="x") else NULL,
+		# 	if (any(sely)) Lines(lapply(gt$grid.co.y.lns, function(m) {
+		# 		Line(m)
+		# 	}), ID="y") else NULL
+		# )
 		lnsSel <- !sapply(lnsList, is.null)
 		if (!any(lnsSel)) {
 			grid.co.x.lns <- numeric(0)
 			grid.co.y.lns <- numeric(0)
 		} else {
-			lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel]), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
-			lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY + marginY, 1, labelsXw + spacerX + marginX, 1)))
 			
-			cogridxlns <- if (any(selx)) do.call("rbind", mapply(function(l, i) {
-				co <- as.data.frame(attr(l, "coords"))
-				co$ID <- i
-				co
-			}, lns_crop@lines[[1]]@Lines, 1:length(lns_crop@lines[[1]]@Lines), SIMPLIFY=FALSE)) else numeric(0)
+			lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = 4326)) # trick for 0-1 coordinates
 			
-			cogridylns <- if (any(sely)) do.call("rbind", mapply(function(l, i) {
-				co <- as.data.frame(attr(l, "coords"))
-				co$ID <- i
-				co
-			}, lns_crop@lines[[sum(lnsSel)]]@Lines, 1:length(lns_crop@lines[[sum(lnsSel)]]@Lines), SIMPLIFY=FALSE)) else numeric(0)
+			
+			#lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel]), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
+			
+			sf_bbox <- tmaptools::create_sf_rect(bb(c(labelsYw + spacerY + marginY, labelsXw + spacerX + marginX, 1, 1)))
+			
+			lns_crop <- suppressWarnings(suppressMessages(st_intersection(lns, sf_bbox)))
+			#lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY + marginY, 1, labelsXw + spacerX + marginX, 1)))
+			
+			
+			
+			if (any(selx)) {
+				cogridxlns <- as.data.frame(st_coordinates(lns_crop$geometry[1])[,1:3])
+				names(cogridxlns) <- c("x", "y", "ID")
+			} else {
+				cogridxlns <- numeric(0)
+			}
+			
+			if (any(sely)) {
+				cogridylns <- as.data.frame(st_coordinates(lns_crop$geometry[sum(lnsSel)])[,1:3])
+				names(cogridylns) <- c("x", "y", "ID")
+			} else {
+				cogridylns <- numeric(0)
+			}
+			# cogridxlns <- if (any(selx)) do.call("rbind", mapply(function(l, i) {
+			# 	co <- as.data.frame(attr(l, "coords"))
+			# 	co$ID <- i
+			# 	co
+			# }, lns_crop@lines[[1]]@Lines, 1:length(lns_crop@lines[[1]]@Lines), SIMPLIFY=FALSE)) else numeric(0)
+			# 
+			# cogridylns <- if (any(sely)) do.call("rbind", mapply(function(l, i) {
+			# 	co <- as.data.frame(attr(l, "coords"))
+			# 	co$ID <- i
+			# 	co
+			# }, lns_crop@lines[[sum(lnsSel)]]@Lines, 1:length(lns_crop@lines[[sum(lnsSel)]]@Lines), SIMPLIFY=FALSE)) else numeric(0)
 			
 		}
 		
