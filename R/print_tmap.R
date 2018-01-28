@@ -14,7 +14,7 @@
 #' @import tmaptools
 #' @import sf
 #' @import sp
-#' @importFrom units set_units parse_unit
+#' @importFrom units set_units as_units
 #' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue getValues
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
