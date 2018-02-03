@@ -38,6 +38,7 @@ raster_colors <- function(x) {
 	} else {
 		a <- NULL
 	}
+	
 	storage.mode(x) <- "integer"
 	v <- x[, 1] * 1e6L + x[, 2] * 1e3L + x[, 3]
 	
@@ -52,7 +53,7 @@ raster_colors <- function(x) {
 	ta <- tabulate(m, nbins = nu)
 	mo <- order(ta, decreasing = TRUE)
 	ids <- mo[1:nc]
-
+	
 	r <- floor(u/1e6L)
 	g <- floor((u-r*1e6L)/1e3L)
 	b <- (u - r * 1e6L - g * 1e3L)
@@ -70,7 +71,7 @@ raster_colors <- function(x) {
 	
 	ids2 <- apply(dists, MARGIN = 1, which.min)
 	
-	m2 <- ids[m]
+	m2 <- ids2[m]
 	
 	ind <- integer(length=n)
 	
@@ -80,7 +81,7 @@ raster_colors <- function(x) {
 	
 	cols <- rgb(rs, gs, bs, maxColorValue = 255)
 	
-	factor(ind, levels=cols)
+	factor(ind, labels=cols)
 }
 
 

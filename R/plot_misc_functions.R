@@ -301,7 +301,7 @@ plot_grid <- function(gt, scale, add.labels) {
 			
 			#lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel]), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
 			
-			sf_bbox <- tmaptools::bb_poly(bb(c(labelsYw + spacerY + marginY, labelsXw + spacerX + marginX, 1, 1)))
+			sf_bbox <- tmaptools::bb_poly(bb(c(labelsYw + spacerY + marginY, labelsXw + spacerX + marginX, 1, 1)), projection = 4326)
 			
 			lns_crop <- suppressWarnings(suppressMessages(st_intersection(lns, sf_bbox)))
 			#lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY + marginY, 1, labelsXw + spacerX + marginX, 1)))
