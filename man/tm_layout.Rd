@@ -179,7 +179,7 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 
 \item{compass.type}{type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.}
 
-\item{earth.boundary}{Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, 180, -90, 90)}. Useful for rojected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, 180, -88, 88)}).}
+\item{earth.boundary}{Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for rojected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).}
 
 \item{earth.boundary.color}{Color of the earth boundary.}
 
@@ -357,14 +357,14 @@ tm_legend(position = c("left", "bottom"),
 }
 	
 WorldOne <- rgeos::gUnaryUnion(World)
-tm_shape(World, projection="wintri") +
+tm_shape(World, projection="robin") +
 	tm_fill("HPI", palette="div", auto.palette.mapping = FALSE, n=7, 
 			title = "Happy Planet Index") +
 tm_shape(WorldOne) + 
 	tm_borders() +
 	tm_grid(projection = "longlat") +
 tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
-tm_style_natural(earth.boundary = c(-180,180,-87,87), inner.margins = .05) +
+tm_style_natural(earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
 
 \dontrun{

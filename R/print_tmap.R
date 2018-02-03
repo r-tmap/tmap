@@ -20,6 +20,7 @@
 #' @import RColorBrewer
 #' @import grid
 #' @import methods
+#' @importFrom graphics par
 #' @importFrom classInt classIntervals findCols
 #' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid gUnaryUnion
 #' @importFrom grDevices col2rgb colorRampPalette dev.off is.raster png rgb

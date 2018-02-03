@@ -6,7 +6,7 @@
 \usage{
 tm_shape(shp, name = NULL, is.master = NA, projection = NULL,
   bbox = NULL, unit = getOption("tmap.unit"), simplify = 1,
-  line.center.type = c("segment", "midpoint"), ...)
+  point.per = "largest", line.center = "midpoint", ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -36,11 +36,9 @@ If unspecified, the current bounding box of \code{shp} is taken. The bounding bo
 
 \item{simplify}{simplification factor for spatial polygons and spatial lines. A number between 0 and 1 that indicates how many coordinates are kept. See the underlying function \code{\link[tmaptools:simplify_shape]{simplify_shape}}, from which the arguments \code{keep.units} and \code{keep.subunits} can be passed on (see \code{...}).}
 
-\item{line.center.type}{vector of two values specifying how the center of spatial lines is determined Only applicable if \code{shp} is a \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}, and symbols, dots, and/or text labels are used for this shape. The two values are:
-\describe{
-\item{\code{"feature", "single"}}{If \code{"feature"} is specified, a pair of coordinates (used for symbols, dots, and text labels) is chosen for each feature (i.e., a row in the \code{\link[sp:SpatialLinesDataFrame]{SpatialLines(DataFrame)}}). If \code{"segment"} is specified, a pair of coordinates is chosed for each line segment.}
-\item{\code{"midpoint"} or \code{"centroid"}}{The midpoint is the middle point on the line, so the coordinates (used for symbols, dots, and text labels) correspond to the midpoints of the line segments. In case the first value is \code{"feature"}, then per feature, the midpoint of the line segment that is closest to the centroid is taken.}
-}}
+\item{point.per}{specification of how points are plotted when the geometry is a multi line or a multi polygon. Either \code{"segment"} or \code{"largest"}. The former generates a plot for every line/polygon, the latter only of the largest line/polygon.}
+
+\item{line.center}{specification of where points are placed for (multi)line geometries. Either \code{"midpoint"} or \code{"centroid"}. The former places a point at the middle of the line, the latter at the controid.}
 
 \item{...}{Arguments passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrinke a bounding box), and \code{\link[tmaptools:simplify_shape]{simplify_shape}} (the arguments \code{keep.units} and \code{keep.subunits})}
 }
@@ -66,7 +64,7 @@ tm_layout("Web Mercator projection. Although widely used, it is discouraged for
 statistical purposes. In reality, Australia is 3 times larger than Greenland!",
     inner.margins=c(0,0,.1,0), title.size=.6)
 
-tm_shape(World, projection="wintri") + 
+tm_shape(World, projection="robin") + 
     tm_polygons() +
 tm_layout(
 "Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps.",

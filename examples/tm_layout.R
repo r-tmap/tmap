@@ -24,14 +24,14 @@ tm_legend(position = c("left", "bottom"),
 }
 	
 WorldOne <- rgeos::gUnaryUnion(World)
-tm_shape(World, projection="wintri") +
+tm_shape(World, projection="robin") +
 	tm_fill("HPI", palette="div", auto.palette.mapping = FALSE, n=7, 
 			title = "Happy Planet Index") +
 tm_shape(WorldOne) + 
 	tm_borders() +
 	tm_grid(projection = "longlat") +
 tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
-tm_style_natural(earth.boundary = c(-180,180,-87,87), inner.margins = .05) +
+tm_style_natural(earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
 
 \dontrun{

@@ -6,4 +6,5 @@ sudo apt-get install libv8-dev
 sudo apt-get install libjq-dev 
 sudo apt-get install libprotobuf-dev 
 sudo apt-get install protobuf-compiler
-sudo apt-get install -y libssl-dev
+sudo apt-get install libssl-dev
+sudo apt-get install libcairo2-dev

@@ -185,7 +185,7 @@ tm_shape(W) +
 tm_shape(metro) +
 	tm_dots()
 
-
+str(W)
 tm_shape(W) +
 	tm_fill("HPI") +
 	tm_dots() +
@@ -197,6 +197,16 @@ tm_shape(W) +
 	tm_sf()
 
 lapply(st_geometry(W), class)
+
+
+
+
+
+tmqtm(W[5,])
+
+tm_shape(W[5,], point.per = "largest") +
+	tm_lines() +
+	tm_symbols()
 
 
 shp <- W
@@ -214,6 +224,8 @@ shp <- as(vol_smooth$iso, "sf")
 
 tm_shape(vol_smooth$iso) +
 tm_iso(col = "black", size = .7, fontcolor="black")
+
+
 
 tm_shape(vol_smooth$polygons) +
 	tm_fill("level", palette=terrain.colors(11), title="Elevation") +

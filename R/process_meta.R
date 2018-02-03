@@ -179,7 +179,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 		earth.bounds <- if (is.logical(earth.boundary)) {
 			c(-180, -90, 180, 90)
 		} else {
-			as.vector(extent(earth.boundary))
+			as.vector(bb(earth.boundary))
 		}
 		earth.boundary <- !identical(earth.boundary, FALSE)
 		

@@ -249,9 +249,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		} else {
 			
 			types <- factor(rep(NA, nrow(shp2)), levels=c("polygons", "lines", "points"))
-			types[st_is(W, c("MULTIPOLYGON", "POLYGON"))] <- "polygons"
-			types[st_is(W, c("MULTILINESTRING", "LINESTRING"))] <- "lines"
-			types[st_is(W, c("MULTIPOINT", "POINT"))] <- "points"
+			types[st_is(shp2, c("MULTIPOLYGON", "POLYGON"))] <- "polygons"
+			types[st_is(shp2, c("MULTILINESTRING", "LINESTRING"))] <- "lines"
+			types[st_is(shp2, c("MULTIPOINT", "POINT"))] <- "points"
 			
 			type <- "geometrycollection"
 			attr(data, "kernel_density") <- FALSE
