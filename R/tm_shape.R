@@ -22,7 +22,7 @@
 #' If unspecified, the current bounding box of \code{shp} is taken. The bounding box is feed to \code{\link[tmaptools:bb]{bb}} (as argument \code{x}. The other arguments of \code{\link[tmaptools:bb]{bb}} can be specified directly as well (see \code{..}). 
 #' @param unit desired units of the map. One of \code{"metric"} (default), \code{"imperial"}, \code{"km"}, \code{"m"}, \code{"mi"} and \code{"ft"}. Used to specify the scale bar (see \code{\link{tm_scale_bar}}) and to calculate densities for choropleths (see argument \code{convert2density} in \code{\link{tm_fill}}).
 #' @param simplify simplification factor for spatial polygons and spatial lines. A number between 0 and 1 that indicates how many coordinates are kept. See the underlying function \code{\link[tmaptools:simplify_shape]{simplify_shape}}, from which the arguments \code{keep.units} and \code{keep.subunits} can be passed on (see \code{...}).
-#' @param point.per specification of how points are plotted when the geometry is a multi line or a multi polygon. Either \code{"segment"} or \code{"largest"}. The former generates a plot for every line/polygon, the latter only of the largest line/polygon.
+#' @param point.per specification of how points or text labels are plotted when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a point/label for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.
 #' @param line.center specification of where points are placed for (multi)line geometries. Either \code{"midpoint"} or \code{"centroid"}. The former places a point at the middle of the line, the latter at the controid.
 #' @param ... Arguments passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrinke a bounding box), and \code{\link[tmaptools:simplify_shape]{simplify_shape}} (the arguments \code{keep.units} and \code{keep.subunits})
 #' @export
@@ -36,7 +36,7 @@ tm_shape <- function(shp,
 					 bbox = NULL,
 					 unit = getOption("tmap.unit"),
 					 simplify = 1,
-					 point.per = "largest",
+					 point.per = "feature",
 					 line.center = "midpoint",
 					 ...) {
 	shp_name <- ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name)

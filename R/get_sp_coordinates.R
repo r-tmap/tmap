@@ -39,12 +39,12 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 			coors <- split.data.frame(coor[,1:2], f = coor[,ncol(coor)], drop=FALSE)
 			co <- do.call(rbind, lapply(coors, get_midpoint))
 		} else {
-			co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
+			co <- suppressWarnings(st_coordinates(st_centroid(shp)))
 		}
 	} else if (st_geometry_type(shp)[1] %in% c("POLYGON", "MULTIPOLYGON"))  {
-		co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp, of_largest_polygon = (gt$shape.point.per == "largest")))))
+		co <- suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = (gt$shape.point.per == "largest"))))
 	} else {
-		co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
+		co <- suppressWarnings(st_coordinates(shp))
 	}
 
 	if (!is.null(id)) {
