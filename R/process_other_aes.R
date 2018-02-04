@@ -45,7 +45,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 		shape.legend.labels <- NA
 		shape.legend.values <- NA
 		shape.legend.shapes <- NA
-		shape.neutral <- x[1]
+		shape.neutral <- x[which(!is.na(x))[1]]
 	}
 	
 	list(symbol.shape=symbol.shape,

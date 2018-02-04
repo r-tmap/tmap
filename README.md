@@ -43,10 +43,10 @@ No additional installation required.
 
 
 **Linux (Ubuntu)**
-See [installation script](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation.sh).
+See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation_16.sh) and [17](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation_17.sh). See also [issue thread]https://github.com/mtennekes/tmap/issues/150)
 
 **macOS**
-See http://www.kyngchaos.com
+See http://www.kyngchaos.com and [issue thread]https://github.com/mtennekes/tmap/issues/149)
 
 
 Development

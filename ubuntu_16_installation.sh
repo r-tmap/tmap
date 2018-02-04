@@ -13,3 +13,7 @@ sudo apt-get install -y libjq-dev
 
 # install libraries needed for the R package protolite, which reverse imports: geojson -> geojsonio -> rmapshaper -> tmaptools -> tmap
 sudo apt-get install -y libprotobuf-dev protobuf-compiler
+
+# other libraries
+sudo apt-get install libssl-dev
+sudo apt-get install libcairo2-dev
