@@ -119,8 +119,8 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				# extract and normalize coordinates
 				
 				if (lnsSel[1]) {
-					xco <- st_coordinates(lns_proj$geometry[1])
-					grid.co.x.lns <- lapply(1L:length(lns_proj$geometry[1][[1]]), function(i) {
+					xco <- st_coordinates(st_geometry(lns_proj)[1])
+					grid.co.x.lns <- lapply(1L:length(st_geometry(lns_proj)[1][[1]]), function(i) {
 						lco <- xco[xco[,3]==i, 1:2]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
@@ -132,8 +132,8 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				}
 
 				if (lnsSel[2]) {
-					yco <- st_coordinates(lns_proj$geometry[sum(lnsSel)])
-					grid.co.y.lns <- lapply(1L:length(lns_proj$geometry[sum(lnsSel)][[1]]), function(i) {
+					yco <- st_coordinates(st_geometry(lns_proj)[sum(lnsSel)])
+					grid.co.y.lns <- lapply(1L:length(st_geometry(lns_proj)[sum(lnsSel)][[1]]), function(i) {
 						lco <- yco[yco[,3]==i, 1:2]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
@@ -309,14 +309,14 @@ plot_grid <- function(gt, scale, add.labels) {
 			
 			
 			if (any(selx)) {
-				cogridxlns <- as.data.frame(st_coordinates(lns_crop$geometry[1])[,1:3])
+				cogridxlns <- as.data.frame(st_coordinates(st_geometry(lns_crop)[1])[,1:3])
 				names(cogridxlns) <- c("x", "y", "ID")
 			} else {
 				cogridxlns <- numeric(0)
 			}
 			
 			if (any(sely)) {
-				cogridylns <- as.data.frame(st_coordinates(lns_crop$geometry[sum(lnsSel)])[,1:3])
+				cogridylns <- as.data.frame(st_coordinates(st_geometry(lns_crop)[sum(lnsSel)])[,1:3])
 				names(cogridylns) <- c("x", "y", "ID")
 			} else {
 				cogridylns <- numeric(0)

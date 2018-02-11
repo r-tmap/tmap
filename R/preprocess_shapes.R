@@ -205,7 +205,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			data <- shp
 			st_geometry(data) <- NULL
 
-			shp[, setdiff(names(shp), "geometry")] <- list(NULL)
+			shp <- shp[, attr(shp, "sf_column")]
 			shp$tmapID <- seq_len(nrow(shp))
 		}
 		
@@ -235,16 +235,16 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			shp2 <- shp
 		}
 		
-		if (inherits(shp2$geometry, c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
+		if (inherits(st_geometry(shp2), c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
 			data$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" "))
 			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else get_neighbours(shp) #poly2nb(as(shp, "Spatial"))
 			attr(data, "kernel_density") <- ("kernel_density" %in% names(attributes(shp)))
 			type <- "polygons"
-		} else if (inherits(shp2$geometry, c("sfc_LINESTRING", "sfc_MULTILINESTRING"))) {
+		} else if (inherits(st_geometry(shp2), c("sfc_LINESTRING", "sfc_MULTILINESTRING"))) {
 			##attr(data, "isolines") <- ("isolines" %in% names(attributes(shp)))
 			## TODO update smooth_map to sf
 			type <- "lines"
-		} else if (inherits(shp2$geometry, c("sfc_POINT", "sfc_MULTIPOINT"))){
+		} else if (inherits(st_geometry(shp2), c("sfc_POINT", "sfc_MULTIPOINT"))){
 			type <- "points"
 		} else {
 			
