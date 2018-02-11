@@ -13,7 +13,6 @@
 #' @return If \code{mode=="plot"}, then a list is returned with the processed shapes and the metadata. If \code{mode=="view"}, a \code{\link[leaflet:leaflet]{leaflet}} object is returned (see also \code{\link{tmap_leaflet}})
 #' @import tmaptools
 #' @import sf
-#' @import sp
 #' @importFrom units set_units as_units
 #' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue getValues
 #' @importMethodsFrom raster as.vector

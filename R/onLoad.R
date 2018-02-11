@@ -13,9 +13,6 @@
 .crs_longlat <- sf::st_crs(4326)
 .crs_merc <- sf::st_crs(3857)
 
-.CRS_longlat <- CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs +towgs84=0,0,0", doCheckCRSArgs = FALSE)
-.CRS_merc <- CRS("+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +no_defs", doCheckCRSArgs = FALSE)
-
 get_proj4_version <- function() {
 	PROJ4_version <- rgdal::getPROJ4VersionInfo()
 	vid <- gregexpr("PJ_VERSION: ", PROJ4_version, fixed = TRUE)[[1]][1] + 12

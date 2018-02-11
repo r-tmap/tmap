@@ -18,7 +18,6 @@ Depends:
     methods
 Imports:
 	tmaptools (>= 1.2),
-    sp,
     sf (>= 0.6-0),
     units (>= 0.5-1),
     raster (>= 2.5-2),

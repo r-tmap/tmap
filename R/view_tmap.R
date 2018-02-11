@@ -114,15 +114,24 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			
 			if (!is.null(gpl$fill)) {
 				popups <- get_popups(gpl, type="fill")
+				labels <- get_labels(gpl, type="fill")
 			} else {
 				popups <- NULL
+				labels <- NULL
 			}
+
+			if (!is.null(labels)) shp$tmapID <- labels
+			
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
 			charwidth <- attr(popups, "charwidth")
 	
-			lf <- lf %>% addPolygons(data=shp, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
-
+			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
+			
+			# if (!is.null(labels)) {
+			# 	lf <- lf %>% 
+			# 		addSearchFeatures(targetGroups  = shp_name, options = searchFeaturesOptions(zoom = 7, openPopup=FALSE))
+			# }
 
 			if (!is.na(gpl$xfill[1])) {
 				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="fill", alpha=alpha)
@@ -139,12 +148,19 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			lopacity <- lres$opacity
 
 			popups <- get_popups(gpl, type="line")
+			labels <- get_labels(gpl, type="line")
 			charwidth <- attr(popups, "charwidth")
 			
 			dashArray <- lty2dashArray(gpl$line.lty)
 			
-			lf <- lf %>% addPolylines(data=shp, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
+			if (!is.null(labels)) shp$tmapID <- labels
+			
+			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id, popupOptions = pOptions(charwidth)) 
 
+			# if (!is.null(labels)) {
+			# 	lf <- lf %>% 
+			# 		addSearchFeatures(targetGroups  = shp_name, options = searchFeaturesOptions(zoom = 7, openPopup=FALSE))
+			# }
 			
 			if (!is.na(gpl$xline[1])) {
 				if (gpl$line.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="line.col", alpha=alpha)
@@ -203,6 +219,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			}
 			
 			popups <- get_popups(gpl, type="symbol")
+			labels <- get_labels(gpl, type="symbol")
 			charwidth <- attr(popups, "charwidth")
 			
 			popups <- popups[sel]
@@ -216,12 +233,14 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				
 				fcol2 <- if (length(fcol)==1) fcol else fcol[decreasing]
 				popups2 <- popups[decreasing]
+				labels2 <- labels[decreasing]
 			} else {
 				co2 <- co
 				symbol.size2 <- symbol.size
 				symbol.shape2 <- symbol.shape
 				fcol2 <- fcol
 				popups2 <- popups
+				labels2 <- labels
 			}
 			
 			
@@ -246,7 +265,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 						icons$iconAnchorY <- icons$iconAnchorY * symbol.size2
 					}
 				}
-				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, group=shp_name, icon=icons, layerId = id, clusterOptions=clustering)
+				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, label = labels2, group=shp_name, icon=icons, layerId = id, clusterOptions=clustering)
 			} else {
 				if (!all(symbol.shape2 %in% c(1, 16, 19, 20, 21))) {
 					warns["symbol"] <- TRUE
@@ -254,13 +273,16 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				}
 
 				if (fixed) {
-					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions(charwidth), clusterOptions=clustering)
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions(charwidth), clusterOptions=clustering)
 				} else {
-					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
+					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
 				}
 			}
 				
-			
+			# if (!is.null(labels)) {
+			# 	lf <- lf %>% 
+			# 		addSearchFeatures(targetGroups  = shp_name, options = searchFeaturesOptions(zoom = 7, openPopup=FALSE))
+			# }
 			
 			if (!is.na(gpl$xcol[1])) {
 				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha)
@@ -537,6 +559,11 @@ get_aes_name <- function(type) {
 	} else if (type=="text") {
 		c("text", "text.size", "text.color")
 	}
+}
+
+get_labels <- function(gpl, type) {
+	var_names <- paste(type, "names", sep=".")
+	gpl$data[[gpl[[var_names]]]]
 }
 
 get_popups <- function(gpl, type) {

@@ -393,15 +393,28 @@ plot_grid <- function(gt, scale, add.labels) {
 get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 	k <- length(lco)
 	d <- ifelse(!is.na(xax), 1, 2)
-	lns <- SpatialLines(mapply(function(m, id){
-		Lines(list(Line(m)), ID=id)
-	}, lco, 1:k, SIMPLIFY=FALSE))
+	
+	
+	lns <- st_sf(geometry=st_sfc(lapply(lco, function(l) {
+		st_linestring(l)
+	})), crs = 4326) # trick for 0-1 coordinates
+
+	# lns <- SpatialLines(mapply(function(m, id){
+	# 	Lines(list(Line(m)), ID=id)
+	# }, lco, 1:k, SIMPLIFY=FALSE))
+	
+	
+	
 	if (!is.na(xax)) {
-		ax <- SpatialLines(list(Lines(Line(matrix(c(0, 1, xax, xax), nrow=2)), ID="base")))
+		ax <- st_sf(geometry=st_sfc(st_linestring(matrix(c(0, 1, xax, xax), nrow=2))), crs = 4326)
+		#ax <- SpatialLines(list(Lines(Line(matrix(c(0, 1, xax, xax), nrow=2)), ID="base")))
 	} else {
-		ax <- SpatialLines(list(Lines(Line(matrix(c(yax, yax, 0, 1), nrow=2)), ID="base")))
+		ax <- st_sf(geometry=st_sfc(st_linestring(matrix(c(yax, yax, 0, 1), nrow=2))), crs = 4326)
+		#ax <- SpatialLines(list(Lines(Line(matrix(c(yax, yax, 0, 1), nrow=2)), ID="base")))
 	}
-	gint <- gIntersects(lns, ax, byid = TRUE)
+	gint <- suppressMessages(st_intersects(lns, ax, sparse = FALSE, prepared = FALSE))[,1]
+	
+#	gint <- gIntersects(lns, ax, byid = TRUE)
 	ins <- sapply(lco, function(m) {
 		l <- m[1,]
 		if (!is.na(xax)) {
@@ -413,8 +426,8 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 	})
 	cogrid <- ifelse(gint, 0, ins)
 	if (any(gint)) {
-		gints <- gIntersection(lns[gint, ], ax, byid = TRUE)
-		cogrid[gint] <- gints@coords[,d]
+		gints <- suppressMessages(st_intersection(lns[gint, ], ax))
+		cogrid[gint] <- st_coordinates(gints)[,d]
 	}
 	cogrid
 }
@@ -577,130 +590,129 @@ plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "ce
 	})
 }
 
+################!!!!! Functions below needed for Advanced text options !!!!####################
+
+# .grob2Poly <- function(g) {
+# 	x <- convertX(g$x, unitTo = "npc", valueOnly = TRUE)
+# 	y <- convertY(g$y, unitTo = "npc", valueOnly = TRUE)
+# 	if (inherits(g, "rect")) {
+# 		w <- convertWidth(g$width, unitTo = "npc", valueOnly = TRUE)
+# 		h <- convertHeight(g$height, unitTo = "npc", valueOnly = TRUE)
+# 		x1 <- x - .5*w
+# 		x2 <- x + .5*w
+# 		y1 <- y - .5*h
+# 		y2 <- y + .5*h
+# 		polys <- mapply(function(X1, X2, Y1, Y2) {
+# 			Polygon(cbind(c(X1, X2, X2, X1, X1),
+# 						  c(Y2, Y2, Y1, Y1, Y2)))
+# 		}, x1, x2, y1, y2, SIMPLIFY=FALSE)
+# 	} else if (inherits(g, "polygon")) {
+# 		xs <- split(x, g$id)	
+# 		ys <- split(y, g$id)	
+# 		polys <- mapply(function(X, Y) {
+# 			Polygon(cbind(X[c(1:4,1)],
+# 						  Y[c(1:4,1)]))
+# 		}, xs, ys, SIMPLIFY=FALSE)
+# 	} else return(NULL)
+# 	
+# 	ids <- 1:length(polys)
+# 	gUnaryUnion(SpatialPolygons(mapply(function(p, i) {
+# 		Polygons(list(p), ID=i)
+# 	}, polys, ids, SIMPLIFY=FALSE)))
+# }
+# 
+# polylineGrob2Lines <- function(gL) {
+# 	k <- length(gL)
+# 	
+# 	SpatialLines(lapply(1:k, function(i) {
+# 		g <- gL[[i]]
+# 		x <- convertX(g$x, "npc", valueOnly = TRUE)
+# 		y <- convertY(g$y, "npc", valueOnly = TRUE)
+# 		id <- factor(g$id)
+# 		xs <- split(x, f = id)
+# 		ys <- split(y, f = id)
+# 		ids <- levels(id)
+# 		
+# 		Lines(mapply(function(X, Y) {
+# 			Line(cbind(X,Y))	
+# 		}, xs, ys, SIMPLIFY=FALSE), ID=i)
+# 	}))
+# }
+
+# 
+# .rectGrob2pathGrob <- function(rg, angles) {
+# 	x <- convertX(rg$x, "inch", valueOnly=TRUE)
+# 	y <- convertY(rg$y, "inch", valueOnly=TRUE)
+# 	w <- convertWidth(rg$width, "inch", valueOnly=TRUE)
+# 	h <- convertHeight(rg$height, "inch", valueOnly=TRUE)
+# 	
+# 	a <- atan2(h, w)
+# 	
+# 	as <- as.vector(sapply(a, function(a)c(a,pi-a, pi+a,-a)))
+# 	
+# 	as2 <- as + rep(angles * pi / 180, each=4)
+# 	
+# 	dst <- rep(sqrt((w/2)^2+(h/2)^2), each=4)
+# 	
+# 	xs <- rep(x, each=4) + cos(as2) * dst	
+# 	ys <- rep(y, each=4) + sin(as2) * dst	
+# 	
+# 	xs2 <- convertX(unit(xs, "inch"), "npc")
+# 	ys2 <- convertY(unit(ys, "inch"), "npc")
+# 	
+# 	id <- rep(1:length(x), each=4)
+# 	
+# 	w2 <- w + (h-w) * abs(sin(angles*pi/180))
+# 	h2 <- h + (w-h) * abs(sin(angles*pi/180))
+# 	
+# 	w3 <- convertWidth(unit(w2, "inch"), "npc")
+# 	h3 <- convertHeight(unit(h2, "inch"), "npc")
+# 	
+# 	list(poly=polygonGrob(xs2, ys2, id=id, gp=rg$gp),
+# 		 rect=rectGrob(rg$x, rg$y, width = w3, height=h3))
+# }
+
+# .get_direction_angle <- function(co) {
+# 	p1 <- co[1,]
+# 	p2 <- co[nrow(co),]
+# 	
+# 	a <- atan2(p2[2] - p1[2], p2[1] - p1[1]) * 180 / pi
+# 	if (a < 0) a <- a + 360
+# 	a
+# }
 
 
-
-
-.grob2Poly <- function(g) {
-	x <- convertX(g$x, unitTo = "npc", valueOnly = TRUE)
-	y <- convertY(g$y, unitTo = "npc", valueOnly = TRUE)
-	if (inherits(g, "rect")) {
-		w <- convertWidth(g$width, unitTo = "npc", valueOnly = TRUE)
-		h <- convertHeight(g$height, unitTo = "npc", valueOnly = TRUE)
-		x1 <- x - .5*w
-		x2 <- x + .5*w
-		y1 <- y - .5*h
-		y2 <- y + .5*h
-		polys <- mapply(function(X1, X2, Y1, Y2) {
-			Polygon(cbind(c(X1, X2, X2, X1, X1),
-						  c(Y2, Y2, Y1, Y1, Y2)))
-		}, x1, x2, y1, y2, SIMPLIFY=FALSE)
-	} else if (inherits(g, "polygon")) {
-		xs <- split(x, g$id)	
-		ys <- split(y, g$id)	
-		polys <- mapply(function(X, Y) {
-			Polygon(cbind(X[c(1:4,1)],
-						  Y[c(1:4,1)]))
-		}, xs, ys, SIMPLIFY=FALSE)
-	} else return(NULL)
-	
-	ids <- 1:length(polys)
-	gUnaryUnion(SpatialPolygons(mapply(function(p, i) {
-		Polygons(list(p), ID=i)
-	}, polys, ids, SIMPLIFY=FALSE)))
-}
-
-polylineGrob2Lines <- function(gL) {
-	k <- length(gL)
-	
-	SpatialLines(lapply(1:k, function(i) {
-		g <- gL[[i]]
-		x <- convertX(g$x, "npc", valueOnly = TRUE)
-		y <- convertY(g$y, "npc", valueOnly = TRUE)
-		id <- factor(g$id)
-		xs <- split(x, f = id)
-		ys <- split(y, f = id)
-		ids <- levels(id)
-		
-		Lines(mapply(function(X, Y) {
-			Line(cbind(X,Y))	
-		}, xs, ys, SIMPLIFY=FALSE), ID=i)
-	}))
-}
-
-.rectGrob2pathGrob <- function(rg, angles) {
-	x <- convertX(rg$x, "inch", valueOnly=TRUE)
-	y <- convertY(rg$y, "inch", valueOnly=TRUE)
-	w <- convertWidth(rg$width, "inch", valueOnly=TRUE)
-	h <- convertHeight(rg$height, "inch", valueOnly=TRUE)
-	
-	a <- atan2(h, w)
-	
-	as <- as.vector(sapply(a, function(a)c(a,pi-a, pi+a,-a)))
-	
-	as2 <- as + rep(angles * pi / 180, each=4)
-	
-	dst <- rep(sqrt((w/2)^2+(h/2)^2), each=4)
-	
-	xs <- rep(x, each=4) + cos(as2) * dst	
-	ys <- rep(y, each=4) + sin(as2) * dst	
-	
-	xs2 <- convertX(unit(xs, "inch"), "npc")
-	ys2 <- convertY(unit(ys, "inch"), "npc")
-	
-	id <- rep(1:length(x), each=4)
-	
-	w2 <- w + (h-w) * abs(sin(angles*pi/180))
-	h2 <- h + (w-h) * abs(sin(angles*pi/180))
-	
-	w3 <- convertWidth(unit(w2, "inch"), "npc")
-	h3 <- convertHeight(unit(h2, "inch"), "npc")
-	
-	list(poly=polygonGrob(xs2, ys2, id=id, gp=rg$gp),
-		 rect=rectGrob(rg$x, rg$y, width = w3, height=h3))
-}
-
-.get_direction_angle <- function(co) {
-	p1 <- co[1,]
-	p2 <- co[nrow(co),]
-	
-	a <- atan2(p2[2] - p1[2], p2[1] - p1[1]) * 180 / pi
-	if (a < 0) a <- a + 360
-	a
-}
-
-
-.editGrob <- function(tg, sel, shiftX, shiftY, angles) {  
-	nt <- length(sel)
-	angles <- rep(angles, length.out=nt)
-	if (any(angles!=0)) {
-		if (inherits(tg, "rect")) {
-			tg <- .rectGrob2pathGrob(tg, angles)$poly
-		}
-	}
-	tgx <- convertX(tg$x, "npc", valueOnly = TRUE)
-	tgy <- convertY(tg$y, "npc", valueOnly = TRUE)
-	
-	if (inherits(tg, "polygon")) {
-		sel4 <- rep(sel, each=4)
-		tg$x <- unit(tgx + rep(shiftX, each=4), "npc")[sel4]
-		tg$y <- unit(tgy + rep(shiftY, each=4), "npc")[sel4]
-		tg$id <- rep(1:sum(sel), each=4)
-	} else {
-		tg$x <- unit(tgx + shiftX, "npc")[sel]
-		tg$y <- unit(tgy + shiftY, "npc")[sel]
-		if (inherits(tg, "rect")) {
-			tg$height <- tg$height[sel]
-			tg$width <- tg$width[sel]
-		} else if (inherits(tg, "text")) {
-			tg$label <- tg$label[sel]
-			tg$rot <- angles[sel]
-		}
-	}
-	
-	
-	tg$gp <- do.call("gpar", lapply(unclass(tg$gp)[names(tg$gp)!="font"], function(g) {
-		if (length(g)==nt) g[sel] else g	
-	}))
-	tg
-}
+# .editGrob <- function(tg, sel, shiftX, shiftY, angles) {  
+# 	nt <- length(sel)
+# 	angles <- rep(angles, length.out=nt)
+# 	if (any(angles!=0)) {
+# 		if (inherits(tg, "rect")) {
+# 			tg <- .rectGrob2pathGrob(tg, angles)$poly
+# 		}
+# 	}
+# 	tgx <- convertX(tg$x, "npc", valueOnly = TRUE)
+# 	tgy <- convertY(tg$y, "npc", valueOnly = TRUE)
+# 	
+# 	if (inherits(tg, "polygon")) {
+# 		sel4 <- rep(sel, each=4)
+# 		tg$x <- unit(tgx + rep(shiftX, each=4), "npc")[sel4]
+# 		tg$y <- unit(tgy + rep(shiftY, each=4), "npc")[sel4]
+# 		tg$id <- rep(1:sum(sel), each=4)
+# 	} else {
+# 		tg$x <- unit(tgx + shiftX, "npc")[sel]
+# 		tg$y <- unit(tgy + shiftY, "npc")[sel]
+# 		if (inherits(tg, "rect")) {
+# 			tg$height <- tg$height[sel]
+# 			tg$width <- tg$width[sel]
+# 		} else if (inherits(tg, "text")) {
+# 			tg$label <- tg$label[sel]
+# 			tg$rot <- angles[sel]
+# 		}
+# 	}
+# 	
+# 	
+# 	tg$gp <- do.call("gpar", lapply(unclass(tg$gp)[names(tg$gp)!="font"], function(g) {
+# 		if (length(g)==nt) g[sel] else g	
+# 	}))
+# 	tg
+# }

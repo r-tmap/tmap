@@ -169,13 +169,13 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 
 		# interactive raster require merc projection with longlat extent		
 		if (interactive) {
-			new_ext_ll <- extent(projectExtent(new_ext, crs = .CRS_longlat))
+			new_ext_ll <- extent(projectExtent(new_ext, crs = .crs_longlat$proj4string))
 			shp2@extent <- new_ext_ll
-			shp2@crs <- .CRS_longlat
+			shp2@crs <- .crs_longlat$proj4string
 		}
 		
 		## to be consistent with Spatial objects:
-		attr(shp2, "bbox") <- bbox(shp2)
+		attr(shp2, "bbox") <- bb(shp2)
 		attr(shp2, "proj4string") <- attr(shp2@crs, "projargs")
 		
 		attr(data, "is.OSM") <- is.OSM
