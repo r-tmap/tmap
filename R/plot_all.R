@@ -2,7 +2,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 	gt <- gp$tm_layout
 	
 	## in case of small multiples, get i'th shape
-	if (use_facets) { #any(gt$shp_nr!=0) && (gt$drop.units || gt$free.coords)
+	if (any(gt$shp_nr!=0) && (gt$drop.units || gt$free.coords)) {
 		shps <- shps[[i]]
 	}
 
