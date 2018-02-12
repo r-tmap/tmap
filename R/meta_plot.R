@@ -1,11 +1,11 @@
-meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY) {
+meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_facets) {
 	# are there any legend elements? if not, title.only=TRUE
 	#title.only <- all(sapply(x, is.null))
 	has.legend <- !is.null(x)
 	
 	# legend positioning
 	if (is.null(gt$legend.position)) {
-		if (gt$free.coords || gt$legend.only) {
+		if ((use_facets && gt$free.coords) || gt$legend.only) {
 			gt$legend.position <- c("left", "top")
 		} else {
 			gt$legend.position <- c(ifelse(legend_pos<3, "left", "right"), ifelse(legend_pos %in% c(1,4), "bottom", "top"))
