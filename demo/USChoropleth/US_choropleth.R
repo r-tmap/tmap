@@ -13,7 +13,9 @@ get_US_county_2010_shape <- function() {
 	dir <- tempdir()
 	download.file("http://www2.census.gov/geo/tiger/GENZ2010/gz_2010_us_050_00_20m.zip", destfile = file.path(dir, "gz_2010_us_050_00_20m.zip"))
 	unzip(file.path(dir, "gz_2010_us_050_00_20m.zip"), exdir = dir)
-	read_shape(file.path(dir, "gz_2010_us_050_00_20m.shp"))
+	US <- read_shape(file.path(dir, "gz_2010_us_050_00_20m.shp"))
+	levels(US@data$NAME) <- iconv(levels(US@data$NAME), from = "latin1", to = "utf8")
+	US
 }
 
 # obtain Food Environment Atlas data

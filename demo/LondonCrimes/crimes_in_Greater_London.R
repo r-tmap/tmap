@@ -72,7 +72,7 @@ london_osm <- read_osm(london_city, type = "stamen-watercolor", zoom = 13)
 
 # small multiples of the City of London
 qtm(london_osm) +
-	qtm(crimes_city, dots.size = 0.2, by = "Crime.type")
+	qtm(crimes_city, dots.size = 0.2, by = "Crime.type", free.coords = FALSE)
 
 # group crime types
 crime_lookup <- c('Anti-social behaviour'=2, 

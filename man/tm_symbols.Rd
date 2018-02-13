@@ -305,10 +305,11 @@ airplane <- tmap_icons(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/
 	"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
 	"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
 
-tmap_mode("view")
+current.mode <- tmap_mode("view")
 tm_shape(airports, bbox="Germany") +
 	tm_symbols(shape=airplane, size="natlscale",
 		legend.size.show = FALSE, scale=2, border.col = NULL, id="name", popup.vars = TRUE)
+tmap_mode(current.mode)
 }
 }
 

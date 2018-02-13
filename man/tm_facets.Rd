@@ -93,7 +93,6 @@ tm_shape(Europe) +
 tm_format_Europe()
 
 \dontrun{
-tmap_mode("plot")
 tm_shape(NLD_muni) +
     tm_fill(c("pop_0_14", "pop_15_24", "pop_25_44", "pop_45_64", "pop_65plus"),
         style="kmeans", 
