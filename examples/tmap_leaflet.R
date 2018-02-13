@@ -23,7 +23,7 @@ lf %>% leaflet::addMarkers(2.2945, 48.8582, popup = "Eiffel tower")
 
 \dontrun{
 # alternative
-eiffelTower <- geocode_OSM("Eiffel Tower", as.SPDF = TRUE)
+eiffelTower <- geocode_OSM("Eiffel Tower, Paris", as.SPDF = TRUE)
 
 map1 + 
 tm_shape(eiffelTower) +

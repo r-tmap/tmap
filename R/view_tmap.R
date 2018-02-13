@@ -377,7 +377,8 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				return(FALSE)	
 			}
 			if (is.na(gpl$xraster[1])) {
-				gpl$raster.legend.palette <- unique(gpl$raster)
+				gpl$raster.legend.palette <- na.omit(unique(gpl$raster))
+				gpl$raster.legend.values <- 1
 			}
 			
 			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
