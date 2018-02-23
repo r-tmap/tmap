@@ -510,6 +510,9 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 		
 		legend.frame.fill <- if (gt$design.mode) "#888888BB" else legend.bg.color
 		
+		
+		legend.frame.lwd <- gt$scale * gt$legend.frame.lwd
+		
 		if (stackV) {
 			vpLeg <- viewport(layout=grid.layout(k, 2, heights=heights, widths=c(histWidth, 1-histWidth)), name="legend_grid")
 		} else {
@@ -556,7 +559,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 			}
 			legWidthInch <- convertWidth(unit(legWidth, "npc"), "inch", valueOnly=TRUE)
 			
-			grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(lwd=gt$scale, col=gt$legend.frame, fill=legend.frame.fill))
+			grobLegBG <- rectGrob(x=0, width=legWidth, just=c("left", "center"), gp=gpar(lwd=legend.frame.lwd, col=legend.frame.color, fill=legend.frame.fill))
 			
 		} else {
 			lW <- sapply(grobListRes, "[[", 2)

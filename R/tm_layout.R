@@ -92,7 +92,8 @@
 #' @param title.position Position of the title. Vector of two values, specifing the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
 #' By default the title is placed on top of the legend (determined by \code{legend.position}).
 #' @param title.color color of the title
-#' @param legend.frame either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color. The width of the frame is automatically determined, but is upper-bounded by \code{legend.width}.
+#' @param legend.frame either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.
+#' @param legend.frame.lwd line width of the legend frame (applicable if \code{legend.frame} is \code{TRUE} or a color)
 #' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}. By default, it is \code{TRUE} if \code{legend.frame} is \code{TRUE} or a color.
 #' @param title.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).
 #' @param panel.show Logical that determines if the map(s) are shown as panels. If \code{TRUE}, the title will be placed in the panel header instead of inside the map. By default, it is \code{TRUE} when small multiples are created with the \code{by} variable. (See \code{\link{tm_facets}}) 
@@ -167,6 +168,7 @@ tm_layout <- function(title=NA,
 					  				   text.align = NA, 
 					  				   text.to.columns = FALSE),
 					  legend.frame = FALSE,
+					  legend.frame.lwd = 1,
 					  legend.text.color = attr.color,
 					  legend.bg.color = NA,
 					  legend.bg.alpha = 1,
