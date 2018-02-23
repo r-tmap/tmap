@@ -15,7 +15,7 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 	ncl <- length(gmeta$colws)
 	nrw <- length(gmeta$rowhs)
 	
-	multi_shapes <- !(is.data.frame(shps[[1]]))
+	multi_shapes <- !inherits(shps[[1]], c("sf", "Raster"))
 	
 	if (multi_shapes) {
 		bbxproj <- lapply(shps, function(s) {
