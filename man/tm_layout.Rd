@@ -42,7 +42,7 @@ tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
   legend.text.size = 0.7, legend.hist.size = 0.7, legend.format = list(fun
   = NULL, scientific = FALSE, digits = NA, text.separator = "to", text.less.than
   = c("Less", "than"), text.or.more = c("or", "more"), text.align = NA,
-  text.to.columns = FALSE), legend.frame = FALSE,
+  text.to.columns = FALSE), legend.frame = FALSE, legend.frame.lwd = 1,
   legend.text.color = attr.color, legend.bg.color = NA,
   legend.bg.alpha = 1, legend.hist.bg.color = NA,
   legend.hist.bg.alpha = 1, title.snap.to.legend = NA,
@@ -235,7 +235,9 @@ tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
 \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 }}
 
-\item{legend.frame}{either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color. The width of the frame is automatically determined, but is upper-bounded by \code{legend.width}.}
+\item{legend.frame}{either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.}
+
+\item{legend.frame.lwd}{line width of the legend frame (applicable if \code{legend.frame} is \code{TRUE} or a color)}
 
 \item{legend.text.color}{color of the legend text}
 
