@@ -101,8 +101,6 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		
 		
 		if ("plot_tm_text" %in% fnames) {
-			if (gpl$text.auto.placement || gpl$text.remove.overlap || gpl$text.along.lines || gpl$text.overwrite.lines)
-			
 			tGrob <- grobs[[which(fnames=="plot_tm_text")]]
 			if (!is.null(tGrob[[1]])) {
 				tG <- tGrob[[1]]
