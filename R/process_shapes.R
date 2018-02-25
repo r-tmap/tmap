@@ -8,6 +8,9 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	shp_names <- sapply(g, function(i)i[[1]])
 	names(shps) <- shp_names
 	
+	point.per <- sapply(shps, attr, "point.per")
+	line.center <- sapply(shps, attr, "line.center")
+	
 	# get master shape and info
 	shp <- shps[[gm$shape.masterID]]
 	args <- gm$shape.bb_args
@@ -138,6 +141,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 				if (is.null(y)) y <- shp2
 				attr(y, "bbox") <- bb2
 				attr(y, "proj4string") <- prj
+				attr(y, "point.per") <- point.per
+				attr(y, "line.center") <- line.center
 				y
 			}, x, bboxes, SIMPLIFY=FALSE)
 		})
@@ -160,6 +165,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 					if (is.null(y)) y <- x
 					attr(y, "bbox") <- bb2
 					attr(y, "proj4string") <- prj
+					attr(y, "point.per") <- point.per
+					attr(y, "line.center") <- line.center
 					y
 				})
 			} else {
@@ -176,6 +183,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 				})
 				attr(y, "bbox") <- bbx
 				attr(y, "proj4string") <- prj
+				attr(y, "point.per") <- point.per
+				attr(y, "line.center") <- line.center
 				y	
 			}
 		}, shps, names(shps), SIMPLIFY=FALSE)

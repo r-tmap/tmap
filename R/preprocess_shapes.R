@@ -189,6 +189,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		# save_bbox (sp objects allow for custom bboxes, sf objects don't)
 		shp_bbx <- bb(shp)
 		
+		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
+		isolines <- ("isolines" %in% names(attributes(shp)))
+		
 		if (inherits(shp, "Spatial")) {
 			shp <- as(shp, "sf")
 		} else if (!inherits(shp, c("sf", "sfc"))) {
@@ -204,7 +207,6 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		} else {
 			data <- shp
 			st_geometry(data) <- NULL
-
 			shp <- shp[, attr(shp, "sf_column")]
 			shp$tmapID <- seq_len(nrow(shp))
 		}
@@ -238,10 +240,10 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (inherits(st_geometry(shp2), c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
 			data$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" "))
 			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else get_neighbours(shp) #poly2nb(as(shp, "Spatial"))
-			attr(data, "kernel_density") <- ("kernel_density" %in% names(attributes(shp)))
+			attr(data, "kernel_density") <- kernel_density
 			type <- "polygons"
 		} else if (inherits(st_geometry(shp2), c("sfc_LINESTRING", "sfc_MULTILINESTRING"))) {
-			##attr(data, "isolines") <- ("isolines" %in% names(attributes(shp)))
+			attr(data, "isolines") <- isolines
 			## TODO update smooth_map to sf
 			type <- "lines"
 		} else if (inherits(st_geometry(shp2), c("sfc_POINT", "sfc_MULTIPOINT"))){
@@ -270,12 +272,14 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			# shp2$tmapID <- seq_len(length(shp2))
 		}
 		
+		
 		# be consistent with rasters (originated from sp objects)
 		attr(shp2, "bbox") <- shp_bbx
 		attr(shp2, "proj4string") <- st_crs(shp2)
 	}
+	attr(shp2, "point.per") <- y$point.per
+	attr(shp2, "line.center") <- y$line.center
 	attr(shp2, "projected") <- tmaptools::is_projected(shp2)
-	
 	
 	list(shp=shp2, data=data, type=type)
 }

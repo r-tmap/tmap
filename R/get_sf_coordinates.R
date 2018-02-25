@@ -1,13 +1,15 @@
 get_sf_coordinates <- function(shp, gpl, gt, bbx) {
-	
+
+	point.per <- attr(shp, "point.per")
+	line.center <- attr(shp, "line.center")
+		
 	id <- NULL
-	
 	if (any(st_geometry_type(shp) %in% c("MULTILINESTRING", "MULTIPOINT"))) {
-		if (gt$shape.point.per=="segment") {
+		if (point.per=="segment") {
 			ns <- nrow(shp)
 			shp <- sf_expand(shp)
 			id <- shp$split__id
-		} else if (gt$shape.point.per == "largest") {
+		} else if (point.per == "largest") {
 			if (st_geometry_type(shp)[1] %in% c("LINESTRING", "MULTILINESTRING")) {
 				ns <- nrow(shp)
 				shp2 <- sf_expand(shp)
@@ -34,7 +36,7 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 	
 	
 	if (st_geometry_type(shp)[1] %in% c("LINESTRING", "MULTILINESTRING")) {
-		if (gt$shape.line.center=="midpoint") {
+		if (line.center=="midpoint") {
 			coor <- st_coordinates(shp)
 			coors <- split.data.frame(coor[,1:2], f = coor[,ncol(coor)], drop=FALSE)
 			co <- do.call(rbind, lapply(coors, get_midpoint))
@@ -42,7 +44,7 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 			co <- suppressWarnings(st_coordinates(st_centroid(shp)))
 		}
 	} else if (st_geometry_type(shp)[1] %in% c("POLYGON", "MULTIPOLYGON"))  {
-		co <- suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = (gt$shape.point.per == "largest"))))
+		co <- suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = (point.per == "largest"))))
 	} else {
 		co <- suppressWarnings(st_coordinates(shp))
 	}

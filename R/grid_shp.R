@@ -57,6 +57,9 @@ grid.shplines <- function(shp, gp=gpar(), i, k) {
 	# x.a <- -bb[1] * x.b
 	# y.b <- 1/ (bb[4] - bb[2])
 	# y.a <- -bb[2] * y.b
+	
+	geoms <- st_cast(geoms, "MULTILINESTRING")
+	
 	do.call("gList", mapply(function(p, id1) {	
 		gp2 <- lapply(gp, function(g) {
 			if (length(g)==nrow(shp)) g[id1] else g
