@@ -46,7 +46,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		data_by <- data_by[gm$shp_nr != 0]
 		
 		shps_by <- shps[gm$shp_nr != 0]
-		
+
 		nplots <- nlevels(data_by[[1]])
 		
 		shps_by_splt <- mapply(function(s_by, d_by) {
@@ -120,6 +120,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	if (drop_shapes) {
 		shps_by_ind <- ifelse(gm$shp_nr==0, 0, cumsum(gm$shp_nr!=0))
 		shps2 <- lapply(1:nx, function(i){
+			pp <- point.per[i]
+			lc <- line.center[i]
 			x <- if (gm$shp_nr[i]==0) {
 				lapply(1:nplots, function(j) shps[[i]])
 			} else {
@@ -129,6 +131,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 				if (is.null(shp2)) return(NULL)
 				if (!allow.crop) {
 					attr(shp2, "bbox") <- bb2
+					attr(shp2, "point.per") <- pp
+					attr(shp2, "line.center") <- lc
 					return(shp2)
 				}
 				prj <- attr(shp2, "proj4string")
@@ -141,15 +145,15 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 				if (is.null(y)) y <- shp2
 				attr(y, "bbox") <- bb2
 				attr(y, "proj4string") <- prj
-				attr(y, "point.per") <- point.per
-				attr(y, "line.center") <- line.center
+				attr(y, "point.per") <- pp
+				attr(y, "line.center") <- lc
 				y
 			}, x, bboxes, SIMPLIFY=FALSE)
 		})
 		
 	} else {
 	
-		shps2 <- mapply(function(x, shp_nm){
+		shps2 <- mapply(function(x, shp_nm, pp, lc){
 			if (is.null(x)) return(NULL)
 			
 			## try to crop the shape file at the bounding box in order to place symbols and text labels inside the frame. Use a little wider bounding box to prevent polygons following cropbb(bbx, ext=-1.01)
@@ -165,8 +169,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 					if (is.null(y)) y <- x
 					attr(y, "bbox") <- bb2
 					attr(y, "proj4string") <- prj
-					attr(y, "point.per") <- point.per
-					attr(y, "line.center") <- line.center
+					attr(y, "point.per") <- pp
+					attr(y, "line.center") <- lc
 					y
 				})
 			} else {
@@ -183,11 +187,11 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 				})
 				attr(y, "bbox") <- bbx
 				attr(y, "proj4string") <- prj
-				attr(y, "point.per") <- point.per
-				attr(y, "line.center") <- line.center
+				attr(y, "point.per") <- pp
+				attr(y, "line.center") <- lc
 				y	
 			}
-		}, shps, names(shps), SIMPLIFY=FALSE)
+		}, shps, names(shps), point.per, line.center, SIMPLIFY=FALSE)
 	
 	}
 	if (diff_shapes) {
