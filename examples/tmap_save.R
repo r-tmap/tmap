@@ -13,7 +13,7 @@
 	     tm_compass(position=c("right", "bottom")) + 
 	     tm_style_classic()
 	
-	save_tmap(m, "choropleth.png", height=7)
+	tmap_save(m, "choropleth.png", height=7)
 	
 	data(World)
 	m2 <- tm_shape(World) +
@@ -21,12 +21,12 @@
 		tm_format_World()
 
 	# save image
-	save_tmap(m2, "World_map.png", width=1920, height=1080, asp=0)
+	tmap_save(m2, "World_map.png", width=1920, height=1080, asp=0)
 
 	# cut left inner margin to make sure Antarctica is snapped to frame
-	save_tmap(m2 + tm_layout(inner.margins = c(0, -.1, 0.05, 0.01)), 
+	tmap_save(m2 + tm_layout(inner.margins = c(0, -.1, 0.05, 0.01)), 
         "World_map2.png", width=1920, height=1080, asp=0)
 	
 	# save interactive plot
-	save_tmap(m2, "World_map.html")
+	tmap_save(m2, "World_map.html")
 }

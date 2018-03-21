@@ -299,8 +299,8 @@ tm_ylab <- function(text,
 #' 
 #' @return call
 #' @export
-#' @seealso \code{\link{save_tmap}}
-last_map <- function() {
+#' @seealso \code{\link{tmap_save}}
+tmap_last <- function() {
 	x <- get(".last_map", envir = .TMAP_CACHE)
 	if (is.null(x)) warning("A map has not been created yet")
 	eval(x)

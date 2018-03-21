@@ -8,7 +8,7 @@
 #' @import grid
 #' @rdname style_catalogue
 #' @export
-style_catalogue <- function(path="./tmap_style_previews", styles=NA, include.global.styles=TRUE) {
+tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA, include.global.styles=TRUE) {
 	# get all styles
 	if (is.na(styles[1])) {
 		lst <- ls("package:tmap")
@@ -111,6 +111,6 @@ style_catalogue <- function(path="./tmap_style_previews", styles=NA, include.glo
 }
 
 #' @rdname style_catalogue
-style_catalog <- style_catalogue
+tmap_style_catalog <- tmap_style_catalogue
 
 

@@ -17,9 +17,9 @@
 #' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}
 #' @importFrom htmlwidgets saveWidget
 #' @import tmaptools
-#' @example ./examples/save_tmap.R
+#' @example ./examples/tmap_save.R
 #' @export
-save_tmap <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
+tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 					  dpi=300, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose=TRUE, ...) {
 	lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
 	if (missing(tm)) {

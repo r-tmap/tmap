@@ -92,10 +92,10 @@ Create icons:
  
 \tabular{ll}{
 \code{\link{print}}\tab Plot in graphics device or view interactively in web browser or RStudio's viewer pane \cr
-\code{\link{last_map}}\tab Redraw the last map \cr
+\code{\link{tmap_last}}\tab Redraw the last map \cr
 \code{\link{tmap_leaflet}}\tab Obtain a leaflet widget object \cr
-\code{\link{animation_tmap}}\tab Create an animation \cr
-\code{\link{save_tmap}}\tab Save thematic maps (both in plot and view mode) \cr
+\code{\link{tmap_animation}}\tab Create an animation \cr
+\code{\link{tmap_save}}\tab Save thematic maps (both in plot and view mode) \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }

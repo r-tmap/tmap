@@ -5,7 +5,7 @@ m1 <- tm_shape(Europe) +
 	      tm_polygons("yellow") +
 	  tm_facets(along = "name")
 
-animation_tmap(m1, filename="European countries.gif", width=800, delay=40)
+tmap_animation(m1, filename="European countries.gif", width=800, delay=40)
 
 m2 <- tm_shape(World) +
           tm_polygons() +
@@ -15,5 +15,5 @@ m2 <- tm_shape(World) +
       tm_facets(free.scales.symbol.size = FALSE, nrow=1,ncol=1) + 
       tm_format_World(scale=.5)
 
-animation_tmap(m2, filename="World population.gif", width=1200, delay=100)
+tmap_animation(m2, filename="World population.gif", width=1200, delay=100)
 }

@@ -126,7 +126,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 			for (tx in texts) message(tx)
 		}
 		
-		# shortcut used by save_tmap
+		# shortcut used by tmap_save
 		if (return.asp && !interactive) return(gm$gasp)
 	} else {
 		gp_leg <- NULL

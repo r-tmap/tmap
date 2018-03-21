@@ -9,10 +9,10 @@
 #' @param delay delay time between images (in 1/100th of a second)
 #' @note Not only tmap plots are supported, but any series of R plots.
 #' @keywords animation
-#' @example ./examples/animation_tmap.R
+#' @example ./examples/tmap_animation.R
 #' @import tmaptools
 #' @export
-animation_tmap <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40) {
+tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40) {
 	# determine OS to pass on system vs. shell command
 	if (.Platform$OS.type == "unix") {         
 		syscall <- system
@@ -25,7 +25,7 @@ animation_tmap <- function(tm, filename="animation.gif", width=NA, height=NA, de
 	# create plots
 	d <- paste(tempdir(), "/tmap_plots", sep="/")
 	dir.create(d, showWarnings = FALSE)
-	save_tmap(tm, filename = paste(d, "plot%03d.png", sep="/"), width=width, height=height)
+	tmap_save(tm, filename = paste(d, "plot%03d.png", sep="/"), width=width, height=height)
 
 	# convert pngs to one gif using ImageMagick
 	output <- syscall(paste("convert -delay ", delay, " ", d, "/*.png \"", filename, "\"", sep=""))

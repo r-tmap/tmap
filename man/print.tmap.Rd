@@ -16,7 +16,7 @@ knit_print.tmap(x, ..., options = NULL)
 
 \item{vp}{\code{\link[grid:viewport]{viewport}} to draw the plot in. This is particularly useful for insets.}
 
-\item{return.asp}{Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{save_tmap}} to determine the aspect ratio of the map.}
+\item{return.asp}{Logical that determines whether the aspect ratio of the map is returned. In that case, \code{\link[grid:grid.newpage]{grid.newpage()}} will be called, but without plotting of the map. This is used by \code{\link{tmap_save}} to determine the aspect ratio of the map.}
 
 \item{mode}{the mode of tmap: \code{"plot"} (static) or \code{"view"} (interactive). See \code{\link{tmap_mode}} for details.}
 
