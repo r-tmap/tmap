@@ -54,52 +54,28 @@ ttm <- function() {
 #' @export
 tmap_style <- function(style) {
 	current.style <- getOption("tmap.style")
+	
 	if (missing(style)) {
 		message("current tmap style is \"", current.style, "\"")
 	} else {
+		.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
 		check_style(style)
 		options(tmap.style=style)
+		if (style == "white") {
+			.tmapOptions <- .defaultTmapOptions
+		} else {
+			styleOptions <- .tmapStyles[[style]]
+			.tmapOptions[names(styleOptions)] <- styleOptions
+		}
+			
+		assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)	
 		message("tmap style set to \"", style, "\"")
 	}
 	invisible(current.style)
 }
 
 
-#' Options for tmap
-#' 
-#' Get or set global options for tmap. The behaviour is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned.
-#' 
-#' The following tmap options exist:
-#' \describe{
-#' \item{tmap.unit}{This is the default value for the \code{unit} argument of \code{\link{tm_shape}}. It specifies the unit of measurement, which is used in the scale bar and the calculation of density values. By default (when loading the package), it is \code{"metric"}. Other valid values are \code{"imperial"}, \code{"km"}, \code{"m"}, \code{"mi"}, and \code{"ft"}.}
-#' \item{tmap.style}{This option determines the current style. See \code{\link{tmap_style}} for details.}
-#' \item{tmap.mode}{This options determines the current mode. See \code{\link{tmap_mode}} for details.}
-#' \item{tmap.limits}{This option determines how many facets (small multiples) are allowed for per mode. It should be a vector of two numeric values named \code{facets.view} and \code{facets.plot}. By default (i.e. when loading the package), it is set to \code{c(facets.view = 4, facets.plot = 64)}}
-#' }
-#' 
-#' @param ... tmap options, using name = value. See below for the available tmap options. Alternatively, a named list can be provided.
-#' @example ./examples/tmap_options.R
-#' @export
-#' @seealso \code{\link{tmap_mode}}, \code{\link{tmap_style}}
-tmap_options <- function(...) {
-	all_opts <- c("tmap.unit", "tmap.style", "tmap.mode", "tmap.limits")
-	args <- list(...)
-	if (length(args)==0) {
-		options()[all_opts]
-	} else {
-		if (is.list(args[[1]])) args <- args[[1]]	
-		if (length(args)==0) {
-			options()[all_opts]
-		} else {
-			if (!all(names(args) %in% all_opts)) stop("incorrect option names")
-			if ("tmap.unit" %in% names(args)) check_unit(args$tmap.unit)
-			if ("tmap.style" %in% names(args)) check_style(args$tmap.style)
-			if ("tmap.mode" %in% names(args)) check_mode(args$tmap.mode)
-			if ("tmap.limits" %in% names(args)) args$tmap.limits <- check_limits(args$tmap.limits)
-			options(args)
-		}
-	}
-}
+
 
 
 

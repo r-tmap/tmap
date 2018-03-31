@@ -1,32 +1,45 @@
-# save current options
-current_options <- tmap_options()
+# load data
+data(World)
 
-# show current options
+# get current options
 tmap_options()
 
-# switch to other view
-ttm()
+# get current style
+tmap_style()
 
-# show current options
-tmap_options()
+# plot map (with default options)
+tm_shape(World) + tm_polygons("HPI")
 
-# set style to cobalt
-tmap_options(tmap.style = "cobalt")
+# change style to cobalt
+tmap_style("cobalt")
 
-# show current options
-tmap_options()
+# observe the changed options
+tmap_options_diff()
 
-# set style usign tmap_style
-tmap_style("classic")
+# plot the map again
+tm_shape(World) + tm_polygons("HPI")
 
-# show current options
-tmap_options()
+# change the background color
+tmap_options(bg.color = "red")
 
-# set unit to imperial
-tmap_options(tmap.unit = "imperial", tmap.limits = c(facets.view = 8, facets.plot = 16))
+# observe the changed options
+tmap_options_diff()
 
-# show current options
-tmap_options()
+# note that the current style is modified
+tmap_style()
 
-# restore options
-tmap_options(current_options)
+# plot the map again
+tm_shape(World) + tm_polygons("HPI")
+
+# the specified arguments of tm_layout and tm_view will override the options temporarily:
+tm_shape(World) + tm_polygons("HPI") + tm_layout(bg.color="purple")
+
+# when tm_style_ is called, it will override all options temporarily:
+tm_shape(World) + tm_polygons("HPI") + tm_layout(bg.color="purple") + tm_style_classic()
+
+# reset all options
+tmap_options_reset()
+
+# check style and options
+tmap_style()
+tmap_options_diff()

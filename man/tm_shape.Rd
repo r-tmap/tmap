@@ -5,8 +5,8 @@
 \title{Specify the shape object}
 \usage{
 tm_shape(shp, name = NULL, is.master = NA, projection = NULL,
-  bbox = NULL, unit = getOption("tmap.unit"), simplify = 1,
-  point.per = "feature", line.center = "midpoint", ...)
+  bbox = NULL, unit = NULL, simplify = 1, point.per = "feature",
+  line.center = "midpoint", ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of

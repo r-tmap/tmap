@@ -13,31 +13,36 @@
 #' @param set.bounds logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).
 #' @param set.view numeric vector or three that determines the view: lng, lat, and zoom (see \code{\link[leaflet:setView]{setView}}).
 #' @param set.zoom.limits numeric vector of two that set the minimum and maximum zoom levels (see \code{\link[leaflet:tileOptions]{tileOptions}}).
-#' @param legend.position Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.
+#' @param view.legend.position Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.
 #' @param control.position Character vector of two values, specifing the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.
 #' @param popup.all.data not used anymore. As of version 1.6, the popups are specified by the argument \code{popup.vars} in the layer functions \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}.
 #' @param bg.overlay not used anymore as of version 1.7. Instead of an overlay, a background color is set, which is determined by \code{bg.color} of \code{\link{tm_layout}}, which is style dependent.
 #' @param bg.overlay.alpha not used anymore as of version 1.7. Instead of an overlay, a background color is set. The trade-off between background and basemaps can now be set by \code{basemaps.alpha}
+#' @param legend.position not used anymore, renamed to view.legend.position
 #' @example ./examples/tm_view.R
 #' @seealso \code{\link{tmap_mode}} and \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
 #' @export
-tm_view <- function(alpha=NA,
-					colorNA=NA,
-					basemaps=NA,
-					basemaps.alpha=NA,
-					projection=3857,
-					symbol.size.fixed=FALSE,
-					dot.size.fixed=TRUE,
-					text.size.variable=FALSE,
-					set.bounds=FALSE,
-					set.view=NA,
-					set.zoom.limits=NA,
-					legend.position=c("right", "top"),
-					control.position=c("left", "top"),
-					popup.all.data=NULL,
-					bg.overlay=NULL,
-					bg.overlay.alpha=NULL) {
-	g <- list(tm_view=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
+tm_view <- function(alpha,
+					colorNA,
+					basemaps,
+					basemaps.alpha,
+					projection,
+					symbol.size.fixed,
+					dot.size.fixed,
+					text.size.variable,
+					set.bounds,
+					set.view,
+					set.zoom.limits,
+					view.legend.position,
+					control.position,
+					popup.all.data,
+					bg.overlay,
+					bg.overlay.alpha,
+					legend.position) {
+	args <- as.list(match.call()[-1])
+	args$style <- NA
+	
+	g <- list(tm_layout=args)
 	class(g) <- "tm"
 	g
 }

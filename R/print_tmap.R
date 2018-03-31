@@ -150,6 +150,7 @@ gather_shape_info <- function(x, interactive) {
 	
 	## get arguments related to units (approx_areas)
 	unit <- x[[shape.id[masterID]]]$unit
+	if (is.null(unit)) unit <- get(".tmapOptions", envir = .TMAP_CACHE)$unit
 	if (unit == "metric") unit <- "km"
 	if (unit == "imperial") unit <- "mi"
 	
@@ -180,7 +181,7 @@ gather_shape_info <- function(x, interactive) {
 		 shape.raster_facets_vars=raster_facets_vars)
 }
 
-prepare_vp <- function(vp, gm, interactive, x) {
+prepare_vp <- function(vp, gm, interactive, gt) {
 	
 	if (interactive) {
 		devsize <- par("din")
@@ -195,9 +196,7 @@ prepare_vp <- function(vp, gm, interactive, x) {
 		}
 		
 		## calculate device aspect ratio (needed for small multiples' nrow and ncol)
-		inner.margins <- if ("tm_layout" %in% names(x)) {
-			x[[which(names(x)=="tm_layout")[1]]]$inner.margins
-		} else NA
+		inner.margins <- gt$inner.margins
 		inner.margins <- if (is.na(inner.margins[1])) {
 			if (gm$shape.any_raster) rep(0, 4) else rep(0.02, 4)
 		} else rep(inner.margins, length.out=4)
@@ -415,7 +414,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	# }, x[gm$shape.id], datasets, types, SIMPLIFY=FALSE)
 	
 	## prepare viewport (needed to determine asp_ratio for facet layout)
-	gm  <- c(gm, prepare_vp(vp, gm, interactive, x))
+	
+	gt <- preprocess_gt(x, interactive=interactive, orig_crs = gm$shape.orig_crs)
+	
+	gm  <- c(gm, prepare_vp(vp, gm, interactive, gt))
 
 	## process tm objects
 	#  - get all non-layer elements, (tm_layout, tm_grid, ...)
@@ -431,7 +433,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	# si$data <- NULL
 	# 
 	# s <- c(s, si)
-	result <- process_tm(x, gm, interactive)
+	
+	
+	result <- process_tm(x, gt, gm, interactive)
 	gm <- c(result$gmeta, gm)
 	gps <- result$gps
 	gal <- result$gal

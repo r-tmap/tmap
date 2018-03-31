@@ -1,41 +1,63 @@
 preprocess_gt <- function(x, interactive, orig_crs) {
 	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- NULL
 	
-	style <- options("tmap.style")
-	tln <- paste("tm_style", style,sep="_" )
-	if (!exists(tln)) {
-		warning("Style ", style, " unknown; ", tln, " does not exist. Please specify another style with the option \"tmap.stype\".", call. = FALSE)
-		tln <- "tm_style_default"
-	}
+	
+	gt <- get(".tmapOptions", envir = .TMAP_CACHE)
+	
+	# style <- getOption("tmap.style")
+	# if (style != "white") {
+	# 	if (!style %in% names(.tmapStyles)) warning("Style ", style, " unknown; ", style, " does not exist. Please specify another style with the option \"tmap.stype\".", call. = FALSE)
+	# 	gt <- do.call(tmap_options, .tmapStyles[[style]])	
+	# }
+	
+	# tln <- paste("tm_style", style,sep="_" )
+	# if (!exists(tln)) {
+	# 	warning("Style ", style, " unknown; ", tln, " does not exist. Please specify another style with the option \"tmap.stype\".", call. = FALSE)
+	# 	tln <- "tm_style_default"
+	# }
 
 	# process tm_layout: merge multiple to one gt
-	gt <- do.call(tln, args = list())$tm_layout
-	gts <- x[names(x)=="tm_layout"]
-	if (length(gts)) {
-		gtsn <- length(gts)
-		extraCall <- character(0)
-		for (i in 1:gtsn) {
-			gt[gts[[i]]$call] <- gts[[i]][gts[[i]]$call]
-			if ("attr.color" %in% gts[[i]]$call) gt[c("earth.boundary.color", "legend.text.color", "title.color")] <- gts[[i]]["attr.color"]
-			extraCall <- c(extraCall, gts[[i]]$call)
-		}
-		gt$call <- c(gt$call, extraCall)
+#	gt <- get(".tmapOptions", envir = .TMAP_CACHE)
+	gts <- x[names(x) == "tm_layout"]
+	if (length(gts)) for (g in gts) {
+		if (!is.na(g$style)) {
+			gt <- .defaultTmapOptions
+			if (g$style != "white") {
+				styleOptions <- .tmapStyles[[g$style]]
+				gt[names(styleOptions)] <- styleOptions
+			}
+		} 
+		g$style <- NULL
+		if (length(g)) gt[names(g)] <- g
 	}
 
-	# process tm_view: merge multiple to one gv
-	if (any("tm_view" %in% names(x))) {
-		vs <- which("tm_view" == names(x))
-		gv <- x[[vs[1]]]
-		if (length(vs)>1) {
-			for (i in 2:length(vs)) {
-				gv2 <- x[[vs[i]]]
-				gv[gv2$call] <- gv2[gv2$call]
-				gv$call <- unique(c(gv$call, gv2$call))
-			}
-		}
-	} else {
-		gv <- tm_view()$tm_view
-	}
+	# gt <- do.call(tln, args = list())$tm_layout
+	# gts <- x[names(x)=="tm_layout"]
+	# if (length(gts)) {
+	# 	gtsn <- length(gts)
+	# 	extraCall <- character(0)
+	# 	for (i in 1:gtsn) {
+	# 		gt[gts[[i]]$call] <- gts[[i]][gts[[i]]$call]
+	# 		if ("attr.color" %in% gts[[i]]$call) gt[c("earth.boundary.color", "legend.text.color", "title.color")] <- gts[[i]]["attr.color"]
+	# 		extraCall <- c(extraCall, gts[[i]]$call)
+	# 	}
+	# 	gt$call <- c(gt$call, extraCall)
+	# }
+
+	# # process tm_view: merge multiple to one gv
+	# if (any("tm_view" %in% names(x))) {
+	# 	vs <- which("tm_view" == names(x))
+	# 	gv <- x[[vs[1]]]
+	# 	if (length(vs)>1) {
+	# 		for (i in 2:length(vs)) {
+	# 			gv2 <- x[[vs[i]]]
+	# 			gv[gv2$call] <- gv2[gv2$call]
+	# 			gv$call <- unique(c(gv$call, gv2$call))
+	# 		}
+	# 	}
+	# } else {
+	# 	gv <- tm_view()$tm_view
+	# }
 	
 	## preprocess gt
 	gt <- within(gt, {
@@ -64,29 +86,25 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		aes.colors <- sapply(aes.colors, function(ac) if (is.na(ac)) "#000000" else ac)
 		
 		# override na
-		if (interactive) aes.colors["na"] <- if (is.null(gv$colorNA)) "#00000000" else if (is.na(gv$colorNA)) aes.colors["na"] else gv$colorNA
+		if (interactive) aes.colors["na"] <- if (is.null(colorNA)) "#00000000" else if (is.na(colorNA)) aes.colors["na"] else colorNA
 		
 		aes.colors.light <- sapply(aes.colors, is_light)
 		aes.color <- NULL
 		
+		######################### tm_view
 		
-		
-	})
-	
-	# process view
-	gv <- within(gv, {
 		if (!get(".internet", envir = .TMAP_CACHE) || identical(basemaps, FALSE)) {
 			basemaps <- character(0)
 		} else {
 			# with basemap tiles
-			if (is.na(basemaps.alpha)) basemaps.alpha <- gt$basemaps.alpha
-			if (identical(basemaps, NA)) basemaps <- gt$basemaps
+			#if (is.na(basemaps.alpha)) basemaps.alpha <- gt$basemaps.alpha
+			#if (identical(basemaps, NA)) basemaps <- gt$basemaps
 			if (identical(basemaps, TRUE)) basemaps <- c("OpenStreetMap", "OpenStreetMap.Mapnik", "OpenTopoMap", "Stamen.Watercolor", "Esri.WorldTopoMap", "Esri.WorldImagery", "CartoDB.Positron", "CartoDB.DarkMatter")
 			basemaps.alpha <- rep(basemaps.alpha, length.out=length(basemaps))
 			if (is.na(alpha)) alpha <- .7
 		}
 		if (!is.logical(set.bounds)) if (!length(set.bounds)==4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
-
+		
 		if (!is.na(set.view[1])) {
 			if (!is.numeric(set.view)) stop("set.view is not numeric")
 			if (!length(set.view)==3) stop("set.view does not have length 3")
@@ -106,18 +124,18 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 				set.view[3] <- set.zoom.limits[2]
 			}
 		}
-		view.legend.position <- if (is.na(legend.position)[1]) {
-			if (is.null(gt$legend.position)) {
+		view.legend.position <- if (is.na(view.legend.position)[1]) {
+			if (is.null(legend.position)) {
 				"topright"
-			} else if (is.character(gt$legend.position) && 
-					   tolower(gt$legend.position[1]) %in% c("left", "right") &&
-					   tolower(gt$legend.position[2]) %in% c("top", "bottom")) {
-				paste(tolower(gt$legend.position[c(2,1)]), collapse="")
+			} else if (is.character(legend.position) && 
+					   tolower(legend.position[1]) %in% c("left", "right") &&
+					   tolower(legend.position[2]) %in% c("top", "bottom")) {
+				paste(tolower(legend.position[c(2,1)]), collapse="")
 			}
-		} else if (is.character(legend.position) && 
-				   legend.position[1] %in% c("left", "right") &&
-				   legend.position[2] %in% c("top", "bottom")) {
-			paste(legend.position[c(2,1)], collapse="")
+		} else if (is.character(view.legend.position) && 
+				   view.legend.position[1] %in% c("left", "right") &&
+				   view.legend.position[2] %in% c("top", "bottom")) {
+			paste(view.legend.position[c(2,1)], collapse="")
 		} else {
 			"topright"
 		}
@@ -144,13 +162,15 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 			
 			
 		}
-		
+
+				
 	})
 	
+
 	# append view to layout
-	gt[c("basemaps", "basemaps.alpha")] <- NULL
-	gv[c("colorNA", "call", "legend.position")] <- NULL
-	gt <- c(gt, gv)
+	# gt[c("basemaps", "basemaps.alpha")] <- NULL
+	# gv[c("colorNA", "call", "legend.position")] <- NULL
+	# gt <- c(gt, gv)
 	
 	gtnull <- names(which(sapply(gt, is.null)))
 	gt[gtnull] <- list(NULL)

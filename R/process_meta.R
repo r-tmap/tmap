@@ -118,6 +118,12 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 				
 		#if (is.null(bg.color)) bg.color <- "white"
 		if (is.null(space.color)) space.color <- bg.color
+		if (is.null(earth.boundary.color)) earth.boundary.color <- attr.color
+		if (is.null(legend.text.color)) legend.text.color <- attr.color
+		if (is.null(title.color)) title.color <- attr.color
+
+		if (is.null(legend.hist.width)) legend.hist.width <- legend.width
+		
 		
 		legend.inside.box <- if (!is.logical(legend.frame)) TRUE else legend.frame
 		if (identical(title.bg.color, TRUE)) title.bg.color <- bg.color
@@ -154,7 +160,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 		panel.label.color <- do.call("process_color", c(list(col=panel.label.color), pc))
 		panel.label.bg.color <- do.call("process_color", c(list(col=panel.label.bg.color), pc))
 		
-		if (is.na(earth.boundary.color)) earth.boundary.color <- attr.color
+		#if (is.na(earth.boundary.color)) earth.boundary.color <- attr.color
 		earth.boundary.color <- do.call("process_color", c(list(col=earth.boundary.color), pc))
 		
 		#attr.color <- do.call("process_color", c(list(col=attr.color), pc))

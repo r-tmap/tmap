@@ -4,12 +4,10 @@
 \alias{tm_view}
 \title{Options for the interactive tmap viewer}
 \usage{
-tm_view(alpha = NA, colorNA = NA, basemaps = NA, basemaps.alpha = NA,
-  projection = 3857, symbol.size.fixed = FALSE, dot.size.fixed = TRUE,
-  text.size.variable = FALSE, set.bounds = FALSE, set.view = NA,
-  set.zoom.limits = NA, legend.position = c("right", "top"),
-  control.position = c("left", "top"), popup.all.data = NULL,
-  bg.overlay = NULL, bg.overlay.alpha = NULL)
+tm_view(alpha, colorNA, basemaps, basemaps.alpha, projection, symbol.size.fixed,
+  dot.size.fixed, text.size.variable, set.bounds, set.view, set.zoom.limits,
+  view.legend.position, control.position, popup.all.data, bg.overlay,
+  bg.overlay.alpha, legend.position)
 }
 \arguments{
 \item{alpha}{transparency (opacity) parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
@@ -34,7 +32,7 @@ tm_view(alpha = NA, colorNA = NA, basemaps = NA, basemaps.alpha = NA,
 
 \item{set.zoom.limits}{numeric vector of two that set the minimum and maximum zoom levels (see \code{\link[leaflet:tileOptions]{tileOptions}}).}
 
-\item{legend.position}{Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.}
+\item{view.legend.position}{Character vector of two values, specifing the position of the legend. Use "left" or "right" for the first value and "top" or "bottom" for the second value. It overrides the value of \code{legend.position} of \code{\link{tm_layout}}, unless set to \code{NA}.}
 
 \item{control.position}{Character vector of two values, specifing the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.}
 
@@ -43,6 +41,8 @@ tm_view(alpha = NA, colorNA = NA, basemaps = NA, basemaps.alpha = NA,
 \item{bg.overlay}{not used anymore as of version 1.7. Instead of an overlay, a background color is set, which is determined by \code{bg.color} of \code{\link{tm_layout}}, which is style dependent.}
 
 \item{bg.overlay.alpha}{not used anymore as of version 1.7. Instead of an overlay, a background color is set. The trade-off between background and basemaps can now be set by \code{basemaps.alpha}}
+
+\item{legend.position}{not used anymore, renamed to view.legend.position}
 }
 \description{
 Set the options for the interactive tmap viewer. Some of these options can also be set with \code{\link{tm_layout}}, since they are style dependent (e.g., the choice of basemaps). The function \code{tm_view} overrides these options when specified.

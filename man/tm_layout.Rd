@@ -22,41 +22,22 @@
 \alias{tm_style_classic}
 \title{Layout of cartographic maps}
 \usage{
-tm_layout(title = NA, scale = 1, title.size = 1.3, bg.color = "white",
-  aes.color = c(fill = "grey85", borders = "grey40", symbols = "grey60", dots
-  = "black", lines = "red", text = "black", na = "grey75"),
-  aes.palette = list(seq = "YlOrBr", div = "RdYlGn", cat = "Set3"),
-  attr.color = "black", sepia.intensity = 0, saturation = 1,
-  frame = TRUE, frame.lwd = 1, frame.double.line = FALSE, asp = NA,
-  outer.margins = rep(0.02, 4), inner.margins = NA, between.margin = 0.5,
-  outer.bg.color = NULL, fontface = "plain", fontfamily = "",
-  compass.type = "arrow", earth.boundary = FALSE,
-  earth.boundary.color = attr.color, earth.boundary.lwd = 1,
-  earth.datum = "WGS84", space.color = NULL, legend.show = TRUE,
-  legend.only = FALSE, legend.outside = NA,
-  legend.outside.position = "right", legend.outside.size = 0.3,
-  legend.position = NULL, legend.stack = c("vertical", "horizontal"),
-  legend.just = c("left", "bottom"), legend.width = 0.4,
-  legend.height = 0.9, legend.hist.height = 0.3,
-  legend.hist.width = legend.width, legend.title.size = 1.1,
-  legend.text.size = 0.7, legend.hist.size = 0.7, legend.format = list(fun
-  = NULL, scientific = FALSE, digits = NA, text.separator = "to", text.less.than
-  = c("Less", "than"), text.or.more = c("or", "more"), text.align = NA,
-  text.to.columns = FALSE), legend.frame = FALSE, legend.frame.lwd = 1,
-  legend.text.color = attr.color, legend.bg.color = NA,
-  legend.bg.alpha = 1, legend.hist.bg.color = NA,
-  legend.hist.bg.alpha = 1, title.snap.to.legend = NA,
-  title.position = c("left", "top"), title.color = attr.color,
-  title.bg.color = NA, title.bg.alpha = 1, panel.show = NA,
-  panel.labels = NA, panel.label.size = 1, panel.label.color = "black",
-  panel.label.bg.color = "grey80", panel.label.height = 1.25,
-  panel.label.rot = c(90, 0), main.title = NA, main.title.size = 1.5,
-  main.title.color = "black", main.title.position = "left",
-  attr.outside = FALSE, attr.outside.position = "bottom",
-  attr.outside.size = NA, attr.position = c("right", "bottom"),
-  attr.just = c("left", "bottom"), design.mode = FALSE,
-  basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
-  basemaps.alpha = c(1, 1, 1), bg.overlay = NULL, bg.overlay.alpha = 0)
+tm_layout(title, scale, title.size, bg.color, aes.color, aes.palette,
+  attr.color, sepia.intensity, saturation, frame, frame.lwd, frame.double.line,
+  asp, outer.margins, inner.margins, between.margin, outer.bg.color, fontface,
+  fontfamily, compass.type, earth.boundary, earth.boundary.color,
+  earth.boundary.lwd, earth.datum, space.color, legend.show, legend.only,
+  legend.outside, legend.outside.position, legend.outside.size, legend.position,
+  legend.stack, legend.just, legend.width, legend.height, legend.hist.height,
+  legend.hist.width, legend.title.size, legend.text.size, legend.hist.size,
+  legend.format, legend.frame, legend.frame.lwd, legend.text.color,
+  legend.bg.color, legend.bg.alpha, legend.hist.bg.color, legend.hist.bg.alpha,
+  title.snap.to.legend, title.position, title.color, title.bg.color,
+  title.bg.alpha, panel.show, panel.labels, panel.label.size, panel.label.color,
+  panel.label.bg.color, panel.label.height, panel.label.rot, main.title,
+  main.title.size, main.title.color, main.title.position, attr.outside,
+  attr.outside.position, attr.outside.size, attr.position, attr.just,
+  design.mode, basemaps, basemaps.alpha, bg.overlay, bg.overlay.alpha)
 
 tm_legend(...)
 
@@ -93,50 +74,23 @@ tm_format_NLD_wide(title = NA, frame = FALSE, inner.margins = c(0.02, 0.3,
 
 tm_style_white(...)
 
-tm_style_gray(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
-  "grey20", symbols = "grey50", dots = "black", lines = "red", text = "black",
-  na = "grey60"), ...)
+tm_style_gray(...)
 
-tm_style_natural(bg.color = "lightskyblue1", aes.color = c(fill =
-  "darkolivegreen3", borders = "black", symbols = "tomato2", dots = "firebrick",
-  lines = "steelblue", text = "black", na = "white"), aes.palette = list(seq =
-  "YlGn", div = "RdYlGn", cat = "Set3"), attr.color = "black",
-  space.color = "white", legend.frame = TRUE, legend.bg.color = "grey90",
-  earth.boundary = TRUE, basemaps = "Esri.NatGeoWorldMap",
-  basemaps.alpha = 1, ...)
+tm_style_natural(...)
 
-tm_style_grey(bg.color = "grey85", aes.color = c(fill = "grey70", borders =
-  "grey20", symbols = "grey50", dots = "black", lines = "red", text = "black",
-  na = "grey60"), ...)
+tm_style_grey(...)
 
-tm_style_cobalt(bg.color = "#002240", aes.color = c(fill = "#0088FF",
-  borders = "#002240", symbols = "#FF9D00", dots = "#FF9D00", lines = "#FFEE80",
-  text = "white", na = "grey60"), aes.palette = list(seq = "YlGn", div =
-  "RdYlGn", cat = "Set3"), attr.color = "white",
-  basemaps = "CartoDB.DarkMatter", basemaps.alpha = 0.5, ...)
+tm_style_cobalt(...)
 
-tm_style_col_blind(bg.color = "white", aes.color = c(fill = "grey85",
-  borders = "black", symbols = "#D55E00", dots = "#0072B2", lines = "#009E73",
-  text = "black", na = "white"), aes.palette = list(seq = "Blues", div =
-  "RdBu", cat = c("#D55E00", "#56B4E9", "#E69F00", "#009E73", "#F0E442",
-  "#0072B2", "#CC79A7")), attr.color = "black", ...)
+tm_style_col_blind(...)
 
-tm_style_albatross(bg.color = "#00007F", aes.color = c(fill = "#4C4C88",
-  borders = "#00004C", symbols = "#BFBFFF", dots = "#BFBFFF", lines = "#BFBFFF",
-  text = "#FFE700", na = "grey60"), aes.palette = list(seq = "YlOrRd", div =
-  "RdYlGn", cat = "Set3"), attr.color = "#BFBFFF",
-  basemaps = "CartoDB.DarkMatter", basemaps.alpha = 0.5, ...)
+tm_style_albatross(...)
 
-tm_style_beaver(bg.color = "#FFFFFF", aes.color = c(fill = "#FFE200",
-  borders = "#000000", symbols = "#A30000", dots = "#A30000", lines = "#A30000",
-  text = "#000000", na = "#E0E0E0"), aes.palette = list(seq = "YlOrBr", div =
-  "RdYlGn", cat = "Dark2"), attr.color = "black", ...)
+tm_style_beaver(...)
 
-tm_style_bw(saturation = 0, ...)
+tm_style_bw(...)
 
-tm_style_classic(sepia.intensity = 0.7, fontfamily = "serif",
-  frame.double.line = TRUE, compass.type = "rose",
-  basemaps = "Esri.WorldTopoMap", basemaps.alpha = 0.5, ...)
+tm_style_classic(...)
 }
 \arguments{
 \item{title}{Global title of the map. For small multiples, multiple titles can be specified. The title is drawn inside the map. Alternatively, use \code{panel.labels} to print the map as a panel, with the title inside the panel header (especially useful for small multiples). Another alternative is the \code{main.title} which prints a title above the map. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}).}
