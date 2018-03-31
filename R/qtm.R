@@ -86,8 +86,8 @@ qtm <- function(shp,
 		#list(tm_shortcut=list(basemaps=basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
 		class(g) <- "tmap"
 		return(g)
-	} else if (inherits(shp, c("sf", "sfc"))) {
-		shp <- as(shp, "Spatial")
+	} else if (inherits(shp, "Spatial") && !(inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid")))) {
+		shp <- as(shp, "sf")
 	}
 	
 	if (!missing(bubble.size)) {
@@ -99,32 +99,44 @@ qtm <- function(shp,
 		warning("bubble.col is deprecated. Please use symbols.col instead", call.=FALSE)
 	}
 	
-	# show symbol/dot map if shape is spatial points or if symbols. ... is defined
-	show_symbols <- (!inherits(shp, "SpatialPixels")) && 
-		(inherits(shp, "SpatialPoints") || 
-		 	!missing(symbols.size) || !missing(symbols.shape) || 
-		 	!missing(symbols.col) || !missing(dots.col))
-	if (show_symbols) {
-		dots_instead_of_symbols <- missing(symbols.size) && missing(symbols.shape) && missing(symbols.col)
-		if (dots_instead_of_symbols) {
-			symbols.size <- if ("dots.size" %in% names(args)) args$dots.size else .02
-			symbols.shape <- if ("dots.shape" %in% names(args)) args$dots.shape else 16
-		}
-		if (missing(symbols.col) && missing(dots.col)) {
-			symbols.col <- NA
-		} else if (!missing(dots.col)) {
-			symbols.col <- dots.col
-		}
-	}
 	
+	isRaster <- (inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster")))
 	
-	if (inherits(shp, "SpatialPolygons")) {
-		if (!("fill" %in% called) && "kernel_density" %in% names(attributes(shp))) fill <- "level"
-	} else {
+	if (isRaster) {
 		fill <- NULL
 		borders <- NULL
+		showPoints <- FALSE
+	} else {
+		raster <- NULL
+		hasPolys <- inherits(st_geometry(shp), c("sfc_POLYGON", "sfc_MULTIPOLYGON")) || (inherits(st_geometry(shp), "sfc_GEOMETRY") && any(st_is(shp, c("MULTIPOLYGON", "POLYGON"))))
+		hasLines <- inherits(st_geometry(shp), c("sfc_LINESTRING", "sfc_MULTILINESTRING")) || (inherits(st_geometry(shp), "sfc_GEOMETRY") && any(st_is(shp, c("MULTILINESTRING", "LINESTRING"))))
+		hasPoints <- inherits(st_geometry(shp), c("sfc_POINT", "sfc_MULTIPOINT")) || (inherits(st_geometry(shp), "sfc_GEOMETRY") && any(st_is(shp, c("MULTIPOINT", "POINT"))))
+
+
+		showPoints <- (hasPoints || !missing(symbols.size) || !missing(symbols.shape) || !missing(symbols.col) || !missing(dots.col))
+
+
+		if (showPoints) {
+			dots_instead_of_symbols <- missing(symbols.size) && missing(symbols.shape) && missing(symbols.col)
+			if (dots_instead_of_symbols) {
+				symbols.size <- if ("dots.size" %in% names(args)) args$dots.size else .02
+				symbols.shape <- if ("dots.shape" %in% names(args)) args$dots.shape else 16
+			}
+			if (missing(symbols.col) && missing(dots.col)) {
+				symbols.col <- NA
+			} else if (!missing(dots.col)) {
+				symbols.col <- dots.col
+			}
+		}
 		
-		if (inherits(shp, "SpatialLines")) {
+		if (hasPolys) {
+			if (!("fill" %in% called) && "kernel_density" %in% names(attributes(shp))) fill <- "level"	
+		} else {
+			fill <- NULL
+			borders <- NULL	
+		}
+		
+		if (hasLines) {
 			isolines <- "isolines" %in% names(attributes(shp))
 			if (missing(lines.lwd)) lines.lwd <- 1
 			if (missing(lines.col)) lines.col <- NA
@@ -135,9 +147,6 @@ qtm <- function(shp,
 			if (!"along.lines" %in% called && isolines) args$along.lines <- TRUE
 			if (!"overwrite.lines" %in% called && isolines) args$overwrite.lines <- TRUE
 		}
-	}
-	if (!inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster"))) {
-		raster <- NULL
 	}
 	
 
@@ -198,7 +207,7 @@ qtm <- function(shp,
 
 	if (!missing(lines.lwd) || !missing(lines.col)) g <- g + do.call("tm_lines", c(list(lwd=lines.lwd, col=lines.col), args2[["tm_lines"]]))
 	
-	if (show_symbols) {
+	if (showPoints) {
 		
 		adots <- args2$tm_dots
 		names(adots)[names(adots)=="title"] <- "title.col"
@@ -247,12 +256,12 @@ qtm <- function(shp,
 	}
 	
 	glayout <- do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
-	glayoutcall <- c(intersect(called, c("title", "scale")), names(args2[["tm_layout"]]))
-	glayout$tm_layout["call"] <- list(call=if(length(glayoutcall)==0) NULL else glayoutcall)
+	#glayoutcall <- c(intersect(called, c("title", "scale")), names(args2[["tm_layout"]]))
+	#glayout$tm_layout["call"] <- list(call=if(length(glayoutcall)==0) NULL else glayoutcall)
 	
 	gview <- do.call("tm_view", c(list(basemaps=basemaps), args2[["tm_view"]]))
-	gviewcall <- c(intersect(called, "basemaps"), names(args2[["tm_view"]]))
-	gview$tm_view["call"] <- list(call=if(length(gviewcall)==0) NULL else gviewcall)
+	#gviewcall <- c(intersect(called, "basemaps"), names(args2[["tm_view"]]))
+	#gview$tm_view["call"] <- list(call=if(length(gviewcall)==0) NULL else gviewcall)
 	
 	g <- g + glayout + gview
 	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)

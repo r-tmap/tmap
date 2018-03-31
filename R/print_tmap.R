@@ -293,8 +293,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		xs_shp <- mapply(function(xp, shp, dataset, type, k) {
 			if (type == "geometrycollection") {
 				tps <- attr(type, "types")
-				
-				cnts <- tabulate(tps)
+				cnts <- tabulate(tps, nbins = 3)
 				
 				if (cnts[1]>0) {
 					xp_poly <- 	xp[!(names(xp) %in% c("tm_lines", "tm_iso", "tm_raster"))]
@@ -310,7 +309,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 						attr(shp_poly, "bbox") <- attr(shp, "bbox")
 						attr(shp_poly, "proj4string") <- attr(shp, "proj4string")
 						attr(shp_poly, "projected") <- attr(shp, "projected")
+						attr(shp_poly, "point.per") <- attr(shp, "point.per")
+						attr(shp_poly, "line.center") <- attr(shp, "line.center")
 						
+												
 						data_poly <- dataset[sel_poly, ]
 						data_poly$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp_poly, target = paste(gm$shape.unit, gm$shape.unit, sep=" "))
 						if (gm$shape.apply_map_coloring) attr(data_poly, "NB") <- if (length(shp_poly)==1) list(0) else get_neighbours(shp_poly) #poly2nb(as(shp, "Spatial"))
@@ -337,6 +339,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 						attr(shp_lines, "bbox") <- attr(shp, "bbox")
 						attr(shp_lines, "proj4string") <- attr(shp, "proj4string")
 						attr(shp_lines, "projected") <- attr(shp, "projected")
+						attr(shp_lines, "point.per") <- attr(shp, "point.per")
+						attr(shp_lines, "line.center") <- attr(shp, "line.center")
 						xp_lines[[1]]$type <- "lines"
 						xp_lines[[1]]$data <- dataset[sel_lines, ]
 						xp_lines[[1]]$shp <- NULL
@@ -359,6 +363,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 						attr(shp_points, "bbox") <- attr(shp, "bbox")
 						attr(shp_points, "proj4string") <- attr(shp, "proj4string")
 						attr(shp_points, "projected") <- attr(shp, "projected")
+						attr(shp_points, "point.per") <- attr(shp, "point.per")
+						attr(shp_points, "line.center") <- attr(shp, "line.center")
+						
 						xp_points[[1]]$type <- "points"
 						xp_points[[1]]$data <- dataset[sel_points, ]
 						xp_points[[1]]$shp <- NULL
@@ -372,6 +379,17 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				shp <- list(shp_poly, shp_lines, shp_points)
 				k <- rep(k, sum(cnts>0))
 			} else {
+				
+				# subset elements when tm_sf is called
+				if (("tm_fill" %in% names(xp)) && ("from_tm_sf" %in% names(xp[[2]]))) {
+					if (type == "polygons") {
+						xp <- xp[c("tm_shape", "tm_fill", "tm_borders")]
+					} else if (type == "lines") {
+						xp <- xp[c("tm_shape", "tm_lines")]
+					} else if (type == "points") {
+						xp <- xp[c("tm_shape", "tm_symbols")]
+					}
+				}
 				xp[[1]]$type <- type
 				xp[[1]]$data <- dataset
 				xp[[1]]$shp <- NULL

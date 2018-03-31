@@ -195,8 +195,8 @@ tm_layout <- function(title,
 					  basemaps.alpha,
 					  bg.overlay,
 					  bg.overlay.alpha) {
-	
-	args <- as.list(match.call()[-1])
+
+	args <- lapply(as.list(match.call()[-1]), eval)
 	args$style <- NA
 	
 	g <- list(tm_layout=args)

@@ -727,6 +727,8 @@ tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, 
 	
 	
 	g$tm_fill$call <- called_names
+	g$tm_fill$from_tm_sf <- TRUE
+	
 	g$tm_lines$call <- called_names
 	g$tm_symbols$call <- called_names
 
