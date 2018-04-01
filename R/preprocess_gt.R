@@ -1,5 +1,5 @@
 preprocess_gt <- function(x, interactive, orig_crs) {
-	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- NULL
+	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- colorNA <- NULL
 	
 	
 	gt <- get(".tmapOptions", envir = .TMAP_CACHE)

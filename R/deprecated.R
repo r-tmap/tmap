@@ -22,14 +22,14 @@ save_tmap <- function(...) {
 
 #' @name style_catalogue
 #' @rdname Deprecated
-style_catalogue <- function() {
+style_catalogue <- function(...) {
 	warning("style_catalogue is deprecated as of tmap version 2.0. Please use tmap_style_catalogue")
 	tmap_style_catalogue(...)
 }
 
 #' @name style_catalog
 #' @rdname Deprecated
-style_catalog <- function() {
+style_catalog <- function(...) {
 	warning("style_catalog is deprecated as of tmap version 2.0. Please use tmap_style_catalog")
 	tmap_style_catalog(...)
 }

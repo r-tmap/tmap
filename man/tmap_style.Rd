@@ -28,7 +28,7 @@ qtm(World, fill="life_exp", fill.title="Life expectancy")
 tmap_style(current.style)
 }
 \seealso{
-\code{\link{tm_layout}} for predefined styles, \code{\link{style_catalogue}} to create a style catelogue of all available styles, and \code{\link{tmap_options}} for tmap options.
+\code{\link{tm_layout}} for predefined styles, \code{\link{tmap_style_catalogue}} to create a style catelogue of all available styles, and \code{\link{tmap_options}} for tmap options.
 
 \code{\link{tmap_options}} for tmap options
 }

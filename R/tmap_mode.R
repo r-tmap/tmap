@@ -48,7 +48,7 @@ ttm <- function() {
 #' 
 #' @param style name of the style. The function \code{tm_style_<style>} should exist and be a wrapper of \code{\link{tm_layout}}. The default style when loading the package is \code{"white"}, which corresponds to the function \code{\link{tm_style_white}}. See \code{\link{tm_layout}} for predefined styles, and \code{\link{style_catalogue}} for creating a catelogue.
 #' @return the style before changing
-#' @seealso \code{\link{tm_layout}} for predefined styles, \code{\link{style_catalogue}} to create a style catelogue of all available styles, and \code{\link{tmap_options}} for tmap options.
+#' @seealso \code{\link{tm_layout}} for predefined styles, \code{\link{tmap_style_catalogue}} to create a style catelogue of all available styles, and \code{\link{tmap_options}} for tmap options.
 #' @example ./examples/tmap_style.R
 #' @seealso \code{\link{tmap_options}} for tmap options
 #' @export

@@ -6,7 +6,7 @@
 #' @param styles vector of \code{tm_style_XXX} function names. By default, it contains all styles that are included in tmap, and, if \code{include.global.styles=TRUE}, also the user defined \code{tm_style_XXX} function names.
 #' @param include.global.styles See above
 #' @import grid
-#' @rdname style_catalogue
+#' @rdname tmap_style_catalogue
 #' @export
 tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA, include.global.styles=TRUE) {
 	# get all styles
@@ -110,7 +110,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA, includ
 	invisible()
 }
 
-#' @rdname style_catalogue
+#' @rdname tmap_style_catalogue
 tmap_style_catalog <- tmap_style_catalogue
 
 

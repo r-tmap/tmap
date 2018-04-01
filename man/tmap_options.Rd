@@ -2,9 +2,15 @@
 % Please edit documentation in R/tmap_options.R
 \name{tmap_options}
 \alias{tmap_options}
+\alias{tmap_options_diff}
+\alias{tmap_options_reset}
 \title{Options for tmap}
 \usage{
 tmap_options(unit, limits, ...)
+
+tmap_options_diff()
+
+tmap_options_reset()
 }
 \arguments{
 \item{unit}{This is the default value for the \code{unit} argument of \code{\link{tm_shape}}. It specifies the unit of measurement, which is used in the scale bar and the calculation of density values. By default (when loading the package), it is \code{"metric"}. Other valid values are \code{"imperial"}, \code{"km"}, \code{"m"}, \code{"mi"}, and \code{"ft"}.}
@@ -14,7 +20,7 @@ tmap_options(unit, limits, ...)
 \item{...}{options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Note that the difference with using \code{\link{tm_layout}} or \code{\link{tm_view}} directly, is that options set with \code{tmap_options} remain for the entire session (unless changed with \code{tmap_options} or \code{\link{tmap_style}}).}
 }
 \description{
-Get or set global options for tmap. The behaviour is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}).
+Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}.
 }
 \examples{
 # load data

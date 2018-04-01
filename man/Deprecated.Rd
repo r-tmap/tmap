@@ -12,9 +12,9 @@ animation_tmap(...)
 
 save_tmap(...)
 
-style_catalogue()
+style_catalogue(...)
 
-style_catalog()
+style_catalog(...)
 
 last_map()
 }
