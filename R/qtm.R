@@ -34,7 +34,6 @@
 #' @param projection Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.
 #' @param format \code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).
 #' @param style \code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).
-#' @param basemaps basemaps for the view mode. See \code{\link{tm_view}}
 #' @param bubble.size deprecated. Please use symbols.size.
 #' @param bubble.col deprecated. Please use symbols.col.
 #' @param ... arguments passed on to the \code{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.
@@ -61,7 +60,6 @@ qtm <- function(shp,
 				projection=NULL,
 				format=NULL,
 				style=NULL,
-				basemaps=NA,
 				bubble.size=NULL,
 				bubble.col=NULL,
 				...) {
@@ -73,7 +71,7 @@ qtm <- function(shp,
 		# return minimal list required for leaflet basemap tile viewing
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		g <- c(list(tm_shortcut=list()), do.call("tm_view", c(list(basemaps=basemaps), viewargs)))
+		g <- c(list(tm_shortcut=list()), do.call("tm_view", viewargs))
 		class(g) <- "tmap"
 		return(g)
 	} else if (is.character(shp)) {
@@ -81,7 +79,7 @@ qtm <- function(shp,
 		res <- geocode_OSM(shp)
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		g <- c(list(tm_shortcut=list(bbx=res$bbox, center=res$coords)), do.call("tm_view", c(list(basemaps=basemaps), viewargs))) 
+		g <- c(list(tm_shortcut=list(bbx=res$bbox, center=res$coords)), do.call("tm_view", viewargs)) 
 			
 		#list(tm_shortcut=list(basemaps=basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
 		class(g) <- "tmap"
@@ -156,7 +154,7 @@ qtm <- function(shp,
 	argnames <- unlist(lapply(fns, function(f) names(formals(f))))
 	dupl <- setdiff(unique(argnames[duplicated(argnames)]), "...")
 	
-	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_polygons="col", tm_symbols=c("size", "col", "shape"), tm_dots=c("size", "col", "shape"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size", "col"), tm_layout="scale", tm_grid=NULL, tm_facets="by", tm_view="basemaps")
+	skips <- list(tm_shape=c("shp", "projection"), tm_fill="col", tm_borders="col", tm_polygons="col", tm_symbols=c("size", "col", "shape"), tm_dots=c("size", "col", "shape"), tm_lines=c("col", "lwd"), tm_raster="raster", tm_text=c("text", "size", "col"), tm_layout="scale", tm_grid=NULL, tm_facets="by", tm_view = NULL)
 	
 	args2 <- mapply(function(f, pre, sk, args, dupl){
 		
@@ -259,7 +257,7 @@ qtm <- function(shp,
 	#glayoutcall <- c(intersect(called, c("title", "scale")), names(args2[["tm_layout"]]))
 	#glayout$tm_layout["call"] <- list(call=if(length(glayoutcall)==0) NULL else glayoutcall)
 	
-	gview <- do.call("tm_view", c(list(basemaps=basemaps), args2[["tm_view"]]))
+	gview <- do.call("tm_view", args2[["tm_view"]])
 	#gviewcall <- c(intersect(called, "basemaps"), names(args2[["tm_view"]]))
 	#gview$tm_view["call"] <- list(call=if(length(gviewcall)==0) NULL else gviewcall)
 	
