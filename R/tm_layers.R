@@ -735,3 +735,15 @@ tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, 
 	g	
 }
 
+tm_basemap <- function(provider=NA, group = NA, alpha = 1, grouptype = "base") {
+	g <- list(tm_tiles=as.list(environment()))
+	class(g) <- "tmap"
+	g
+}
+
+tm_tiles <- function(provider, group = NA, alpha = 1, grouptype = "overlay") {
+	if (missing(provider)) stop("Please specify provider (name or url)")
+	g <- list(tm_tiles=as.list(environment()))
+	class(g) <- "tmap"
+	g
+}

@@ -53,6 +53,8 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 			co.native <- NA
 		}
 
+		plot_tm_tiles <- function() NULL
+		
 		plot_tm_fill <- function() {
 			fill <- if (is.null(gpl$fill)) NA else gpl$fill
 			col <- gpl$col

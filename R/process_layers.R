@@ -5,7 +5,10 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	} 
 	
 	type <- g$tm_shape$type
-	if (type=="polygons" && "tm_lines" %in% names(g)) {
+	
+	if ((type=="tiles") && any(c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster") %in% names(g))) {
+		stop("tm layer called without tm_shape", call. = FALSE)
+	} else if (type=="polygons" && "tm_lines" %in% names(g)) {
 		stop(g$tm_shape$shp_name, " consists of polygons, so it cannot accept tm_lines.", call. = FALSE)
 	} else if (type=="polygons" && "tm_raster" %in% names(g)) {
 		stop(g$tm_shape$shp_name, " consists of polygons, so it cannot accept tm_raster.", call. = FALSE)
@@ -113,7 +116,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 
 	# determine plotting order 
-	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_symbols", "tm_lines", "tm_raster") | substr(names(g), 1, 13)=="tm_add_legend"]
+	plot.order <- names(g)[names(g) %in% c("tm_fill", "tm_borders", "tm_text", "tm_symbols", "tm_lines", "tm_raster", "tm_tiles") | substr(names(g), 1, 13)=="tm_add_legend"]
 	plot.order[plot.order=="tm_borders"] <- "tm_fill"
 	plot.order <- unique(plot.order)
 	
@@ -167,6 +170,14 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	}  else {
 		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"), interactive=interactive)
 	}
+	
+	# tiles info
+	if (is.null(g$tm_tiles)) {
+		gtiles <- list(tiles.providers = NULL, tiles.alpha = NA)	
+	} else {
+		gtiles <- process_tiles(g$tm_tiles)
+	}
+	
 
 	any.legend <- any(!is.ena(c(gfill$fill.legend.title, gsymbol$symbol.size.legend.title, gsymbol$symbol.col.legend.title, gsymbol$symbol.shape.legend.title, glines$line.col.legend.title, glines$line.lwd.legend.title, graster$raster.legend.title, gtext$text.size.legend.title, gtext$text.col.legend.title)))
 	# 	glines$line.lwd.legend.title
@@ -187,5 +198,5 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	plot.order <- plot.order[substr(plot.order, 1, 13)!="tm_add_legend"]
 	
-	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, list(add_legends=add_legends))
+	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, gtiles, list(add_legends=add_legends))
 }

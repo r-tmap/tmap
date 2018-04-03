@@ -95,7 +95,7 @@ process_tm <- function(x, gt, gm, interactive) {
 
 	## find tm_grid position
 	if ("tm_grid" %in% xnames) {
-		gridID <- which(xnames=="tm_grid")
+		gridID <- which(xnames=="tm_grid")[1]
 		shapeID <- which(xnames=="tm_shape")
 		gridGrp <- tail(which(shapeID<gridID), 1)
 		gridShpPos <- shapeID[gridGrp]
@@ -113,17 +113,6 @@ process_tm <- function(x, gt, gm, interactive) {
 	}
 	
 	
-	## find additional legends
-	# legid <- which(names(x)=="tm_add_legend")
-	# cat(legid, "\n")
-	# 
-	# if (length(legid)) {
-	# 	gal <- x[legid]
-	# } else {
-	# 	gal <- NULL
-	# }
-	
-
 	## split x into gmeta and gbody
 	x <- x[!(xnames %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_logo", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))] #, "tm_add_legend"
 

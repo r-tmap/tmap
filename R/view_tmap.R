@@ -17,39 +17,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	}
 		
 	
-	if (is.null(names(basemaps))) names(basemaps) <- sapply(basemaps, FUN = function(bm) {
-		if (substr(bm, 1, 4) == "http") {
-			x <- strsplit(bm, "/", fixed=TRUE)[[1]]
-			x <- x[-c(1, (length(x)-2):length(x))]
-			x <- x[x!=""]
-			paste(x, collapse="/")
-		} else bm
-	})
-	
-	if (!is.na(gt$set.zoom.limits[1])) {
-	  tileOptions <- lapply(basemaps.alpha, function(a) {
-	  	tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a)
-	  })
-	  	
-	} else {
-	  tileOptions <- lapply(basemaps.alpha, function(a) {
-	  	tileOptions(opacity=a)
-	  })
-	}
-	
-	# add base layer(s)
-	if (length(basemaps)) {
-		for (i in 1:length(basemaps)) {
-			bm <- unname(basemaps[i])
-			bmname <- names(basemaps)[i]
-			if (substr(bm, 1, 4) == "http") {
-				lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
-			} else {
-				lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
-			}
-		}
-	}
-	
 	# add background overlay
 	lf <- appendContent(lf, {
 		tags$head(
@@ -82,25 +49,27 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	id <- 1
 	alpha <- gt$alpha
 
-	bbx <- attr(shps[[1]], "bbox")
+	bbx <- attr(shps[[gt$shape.masterID]], "bbox")
 	
 	warns <- c(symbol=FALSE, text=FALSE, raster=FALSE, symbol_legend=FALSE, linelwd_legend=FALSE) # to prevent a warning for each shape
 	
 	if (inherits(shps, "sf")) shps <- list(shps)
-	
+
 	group_selection <- mapply(function(shp, gpl, shp_name) {
-		bbx <- attr(shp, "bbox")
-		upl <- units_per_line(bbx)
-		bpl <- bbx_per_line(bbx)
-		if (inherits(shp, "sf")) {
-			co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
-			
-			# res <- get_sp_coordinates(shp, gpl, gt, bbx)
-			# co <- res$co
-			# if (gt$shape.line.center.type[1]=="segment") {
-			# 	gpl <- res$gpl
-			# 	shp <- res$shp
-			# }	
+		if (!is.null(shp)) {
+			bbx <- attr(shp, "bbox")
+			upl <- units_per_line(bbx)
+			bpl <- bbx_per_line(bbx)
+			if (inherits(shp, "sf")) {
+				co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
+				
+				# res <- get_sp_coordinates(shp, gpl, gt, bbx)
+				# co <- res$co
+				# if (gt$shape.line.center.type[1]=="segment") {
+				# 	gpl <- res$gpl
+				# 	shp <- res$shp
+				# }	
+			}
 		}
 		
 		plot_tm_fill <- function() {
@@ -400,6 +369,48 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			
 			assign("lf", lf, envir = e)
 			assign("id", id+1, envir = e)
+			TRUE
+		}
+		
+		plot_tm_tiles <- function() {
+			basemaps <- gpl$tiles.provider
+			basemaps.alpha <- gpl$tiles.alpha
+			
+			if (is.null(names(basemaps))) names(basemaps) <- sapply(basemaps, FUN = function(bm) {
+				if (substr(bm, 1, 4) == "http") {
+					x <- strsplit(bm, "/", fixed=TRUE)[[1]]
+					x <- x[-c(1, (length(x)-2):length(x))]
+					x <- x[x!=""]
+					paste(x, collapse="/")
+				} else bm
+			})
+			
+			if (!is.na(gt$set.zoom.limits[1])) {
+				tileOptions <- lapply(basemaps.alpha, function(a) {
+					tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a)
+				})
+				
+			} else {
+				tileOptions <- lapply(basemaps.alpha, function(a) {
+					tileOptions(opacity=a)
+				})
+			}
+			
+			# add base layer(s)
+			if (length(basemaps)) {
+				for (i in 1:length(basemaps)) {
+					bm <- unname(basemaps[i])
+					bmname <- names(basemaps)[i]
+					if (substr(bm, 1, 4) == "http") {
+						lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
+					} else {
+						lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
+					}
+				}
+			}
+			assign("lf", lf, envir = e)
+			assign("id", id+1, envir = e)
+			
 			TRUE
 		}
 		

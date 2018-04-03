@@ -8,8 +8,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	shp_names <- sapply(g, function(i)i[[1]])
 	names(shps) <- shp_names
 	
-	point.per <- sapply(shps, attr, "point.per")
-	line.center <- sapply(shps, attr, "line.center")
+	point.per <- sapply(shps, function(s) if (is.null(s)) "" else attr(s, "point.per"))
+	line.center <- sapply(shps, function(s) if (is.null(s)) "" else attr(s, "line.center"))
 	
 	# get master shape and info
 	shp <- shps[[gm$shape.masterID]]
@@ -155,7 +155,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 		shps2 <- mapply(function(x, shp_nm, pp, lc){
 			if (is.null(x)) return(NULL)
-			
+
 			## try to crop the shape file at the bounding box in order to place symbols and text labels inside the frame. Use a little wider bounding box to prevent polygons following cropbb(bbx, ext=-1.01)
 			if (diff_shapes) {
 				lapply(bboxes, function(bb2){
@@ -192,7 +192,6 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 				y	
 			}
 		}, shps, names(shps), point.per, line.center, SIMPLIFY=FALSE)
-	
 	}
 	if (diff_shapes) {
 		shps2 <- lapply(1:nplots, function(i)lapply(shps2, function(j) {

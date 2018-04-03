@@ -101,12 +101,12 @@ gather_shape_info <- function(x, interactive) {
 	
 	## find master shape
 	is_raster <- sapply(x[shape.id], function(xs) {
-		inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid"))	
+		!is.null(xs$shp) && inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid"))	
 	})
 	is_master <- sapply(x[shape.id], "[[", "is.master")
 	any_raster <- any(is_raster)
 	masterID <- if (!length(which(is_master))) {
-		if (any_raster) which(is_raster)[1] else 1
+		if (any_raster) which(is_raster)[1] else which(is.na(is_master))[1]
 	} else which(is_master)[1]
 	
 	## find master projection (and set to longlat when in view mode)
@@ -263,6 +263,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		} else {
 			return(print(lf))
 		}
+	} else if (names(x)[1] == "tm_tiles") {
+		## add dummy
+		x <- c(list(tm_shape = list(shp = NULL, shp_name = "dummy", is.master = FALSE)), x)
 	}
 		
 	## remove non-supported elements if interactive
@@ -287,9 +290,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	order_x <- function(x, shps, datasets, types, gm) {
 		n <- length(x)
 		y <- rep(0, n); y[gm$shape.id] <- 1
+
 		cluster.id <- cumsum(y)
 		xs <- split(x, cluster.id)
-		
 		xs_shp <- mapply(function(xp, shp, dataset, type, k) {
 			if (type == "geometrycollection") {
 				tps <- attr(type, "types")
@@ -381,7 +384,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			} else {
 				
 				# subset elements when tm_sf is called
-				if (("tm_fill" %in% names(xp)) && ("from_tm_sf" %in% names(xp[[2]]))) {
+				if ((!("tm_tiles" %in% names(xp))) && ("tm_fill" %in% names(xp)) && ("from_tm_sf" %in% names(xp[[2]]))) {
 					if (type == "polygons") {
 						xp <- xp[c("tm_shape", "tm_fill", "tm_borders")]
 					} else if (type == "lines") {
