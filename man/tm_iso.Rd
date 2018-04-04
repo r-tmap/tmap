@@ -5,7 +5,7 @@
 \title{Draw iso (contour) lines with labels}
 \usage{
 tm_iso(col = NA, text = "level", size = 0.5, remove.overlap = TRUE,
-  along.lines = TRUE, overwrite.lines = TRUE, ...)
+  along.lines = TRUE, overwrite.lines = TRUE, group = NA, ...)
 }
 \arguments{
 \item{col}{line color. See \code{\link{tm_lines}}.}
@@ -19,6 +19,8 @@ tm_iso(col = NA, text = "level", size = 0.5, remove.overlap = TRUE,
 \item{along.lines}{see \code{\link{tm_text}}}
 
 \item{overwrite.lines}{see \code{\link{tm_text}}}
+
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
 
 \item{...}{arguments passed on to \code{\link{tm_lines}} or \code{\link{tm_text}}}
 }

@@ -55,6 +55,30 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	
 	if (inherits(shps, "sf")) shps <- list(shps)
 
+	bases <- gt$base.groups
+	overlays <- gt$overlay.groups
+	
+	grouplock <- !is.na(bases) || !is.na(overlays)
+	
+	addBaseGroup <- function(group) {
+		for (g in group) {
+			if (is.na(bases[1])) {
+				bases <- g
+			} else if (!(g %in% bases)) {
+				bases <- c(bases, g)
+			}
+		}
+		assign("bases", bases, envir = e)
+	}
+	addOverlayGroup <- function(group) {
+		if (is.na(overlays[1])) {
+			overlays <- group
+		} else if (!(group %in% overlays)) {
+			overlays <- c(overlays, group)
+		}
+		assign("overlays", overlays, envir = e)
+	}
+	
 	group_selection <- mapply(function(shp, gpl, shp_name) {
 		if (!is.null(shp)) {
 			bbx <- attr(shp, "bbox")
@@ -94,8 +118,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
 			charwidth <- attr(popups, "charwidth")
-	
-			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
+
+			group_name <- if (is.na(gpl$fill.group)) shp_name else gpl$fill.group
+			if (!grouplock) addOverlayGroup(group_name)
+			
+			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), group=group_name, layerId = id, popupOptions = pOptions(charwidth))
 			
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
@@ -124,7 +151,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			
 			if (!is.null(labels)) shp$tmapID <- labels
 			
-			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=shp_name, layerId = id, popupOptions = pOptions(charwidth)) 
+			group_name <- if (is.na(gpl$line.group)) shp_name else gpl$line.group
+			if (!grouplock) addOverlayGroup(group_name)
+			
+			
+			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups)), dashArray=dashArray, group=group_name, layerId = id, popupOptions = pOptions(charwidth)) 
 
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
@@ -219,6 +250,10 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			are.icons <- gpl$symbol.misc$symbol.are.icons
 			clustering <- gpl$symbol.misc$clustering
 			
+			group_name <- if (is.na(gpl$symbol.group)) shp_name else gpl$symbol.group
+			if (!grouplock) addOverlayGroup(group_name)
+			
+			
 			if (are.icons) {
 				#symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
 				if (any(symbol.shape2<1000)) {
@@ -234,7 +269,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 						icons$iconAnchorY <- icons$iconAnchorY * symbol.size2
 					}
 				}
-				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, label = labels2, group=shp_name, icon=icons, layerId = id, clusterOptions=clustering)
+				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, label = labels2, group=group_name, icon=icons, layerId = id, clusterOptions=clustering)
 			} else {
 				if (!all(symbol.shape2 %in% c(1, 16, 19, 20, 21))) {
 					warns["symbol"] <- TRUE
@@ -242,9 +277,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				}
 
 				if (fixed) {
-					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions(charwidth), clusterOptions=clustering)
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, layerId = id, popupOptions = pOptions(charwidth), clusterOptions=clustering)
 				} else {
-					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=shp_name, layerId = id, popupOptions = pOptions(charwidth))
+					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=group_name, layerId = id, popupOptions = pOptions(charwidth))
 				}
 			}
 				
@@ -307,8 +342,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				
 			cs_set <- unique(colsize)
 			
+			group_name <- if (is.na(gpl$text.group)) shp_name else gpl$text.group
+			if (!grouplock) addOverlayGroup(group_name)
+			
 			if (length(cs_set)==1) {
 				lf <- lf %>% addLabelOnlyMarkers(lng = co[,1], lat = co[,2], label=text,
+												 group=group_name, layerId = id,
 												 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
 												 							opacity=opacity,
 												 							textsize=sizeChar[1],
@@ -316,6 +355,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			} else {
 				for (i in 1:length(text)) {
 					lf <- lf %>% addLabelOnlyMarkers(lng = co[i,1], lat = co[i,2], label=text[i],
+													 group=group_name, layerId = id,
 													 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
 													 							opacity=opacity,
 													 							textsize=sizeChar[i],
@@ -334,12 +374,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		}
 		plot_tm_raster <- function() {
 			if (gpl$raster.misc$is.OSM) {
-				if (is.na(gpl$raster.misc$leaflet.provider)) {
+				if (is.na(gpl$raster.misc$leaflet.server)) {
 					warns["raster"] <- TRUE
 					assign("warns", warns, envir = e)
 				} else {
-					if (gpl$raster.misc$leaflet.provider==gt$basemaps[1]) {
-						warns["raster"] <- gpl$raster.misc$leaflet.provider
+					if (gpl$raster.misc$leaflet.server==gt$basemaps[1]) {
+						warns["raster"] <- gpl$raster.misc$leaflet.server
 						assign("warns", warns, envir = e)
 					}
 				}
@@ -354,7 +394,10 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 
 			res_leg <- add_legend(map=NULL, gpl, gt, aes="raster", alpha = alpha, list.only=TRUE)
 			
-			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=shp_name, project = FALSE, layerId = id)
+			group_name <- if (is.na(gpl$raster.group)) shp_name else gpl$raster.group
+			if (!grouplock) addOverlayGroup(group_name)
+			
+			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=group_name, project = FALSE, layerId = id)
 			
 			if (!is.na(gpl$xraster[1])) {
 				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha)
@@ -373,17 +416,30 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		}
 		
 		plot_tm_tiles <- function() {
-			basemaps <- gpl$tiles.provider
-			basemaps.alpha <- gpl$tiles.alpha
+			basemaps <- gpl$tile.server
+			basemaps.alpha <- gpl$tile.alpha
 			
-			if (is.null(names(basemaps))) names(basemaps) <- sapply(basemaps, FUN = function(bm) {
-				if (substr(bm, 1, 4) == "http") {
-					x <- strsplit(bm, "/", fixed=TRUE)[[1]]
-					x <- x[-c(1, (length(x)-2):length(x))]
-					x <- x[x!=""]
-					paste(x, collapse="/")
-				} else bm
-			})
+			group_names <- if (is.na(gpl$tile.group[1])) {
+				sapply(basemaps, FUN = function(bm) {
+					if (substr(bm, 1, 4) == "http") {
+						x <- strsplit(bm, "/", fixed=TRUE)[[1]]
+						x <- x[-c(1, (length(x)-2):length(x))]
+						x <- x[x!=""]
+						paste(x, collapse="/")
+					} else bm
+				})
+			} else {
+				rep(gpl$tile.group, length.out = length(basemaps))
+			}
+			
+			type <- gpl$tile.grouptype
+			
+			if (!grouplock) if (type == "base") {
+				addBaseGroup(group_names)	
+			} else {
+				addOverlayGroup(group_names)
+			}
+			
 			
 			if (!is.na(gt$set.zoom.limits[1])) {
 				tileOptions <- lapply(basemaps.alpha, function(a) {
@@ -400,7 +456,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			if (length(basemaps)) {
 				for (i in 1:length(basemaps)) {
 					bm <- unname(basemaps[i])
-					bmname <- names(basemaps)[i]
+					bmname <- unname(group_names[i])
 					if (substr(bm, 1, 4) == "http") {
 						lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
 					} else {
@@ -432,7 +488,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		}
 	}
 	
-	groups <- gt$shp_name[group_selection]
+	#groups <- gt$shp_name[group_selection]
 	
 	#center <- c(mean(lims[c(1,3)]), mean(lims[c(2,4)]))
 	
@@ -447,8 +503,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		stop("Invalid control.position", call.=FALSE)
 	}
 
-	
-	lf <- lf %>% addLayersControl(baseGroups=names(basemaps), overlayGroups = groups, options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
+	lf <- lf %>% addLayersControl(baseGroups=unname(bases), overlayGroups = unname(overlays), options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 
 	if (gt$scale.show) {
 		u <- gt$shape.units$unit
@@ -735,4 +790,3 @@ get_epsg_number <- function(proj) {
 	epsg <- as.numeric(sub(pat, "\\1", proj[grepl(pat, proj)]))
 	if (length(epsg)==0) NA else epsg
 }
-

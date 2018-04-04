@@ -20,7 +20,7 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
   legend.format = list(), legend.size.is.portrait = FALSE,
   legend.col.is.portrait = TRUE, legend.size.reverse = FALSE,
   legend.col.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.size.z = NA, legend.col.z = NA, legend.hist.z = NA)
+  legend.size.z = NA, legend.col.z = NA, legend.hist.z = NA, group = NA)
 }
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
@@ -138,6 +138,8 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 \item{legend.col.z}{index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})}
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
+
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
 }
 \value{
 \code{\link{tmap-element}}

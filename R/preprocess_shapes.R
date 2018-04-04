@@ -21,7 +21,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			# attribute get from read_osm
 			is.OSM <- attr(shp, "is.OSM")
-			leaflet.provider <- attr(shp, "leaflet.provider")
+			leaflet.server <- attr(shp, "leaflet.server")
 
 			
 			if (!("data" %in% slotNames(shp))) stop("No data found in raster shape. Please specify a SpatialGridDataFrame or Raster shape object.")
@@ -53,7 +53,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			shp <- raster::subset(brick(shp), raster_facets_vars, drop=FALSE)
 		} else {
 			is.OSM <- FALSE
-			leaflet.provider <- NA
+			leaflet.server <- NA
 			
 			# color values are encoded by a colortable (and not interpreted as factors)
 			if (length(colortable(shp))>0) {
@@ -181,7 +181,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		attr(shp2, "proj4string") <- attr(shp2@crs, "projargs")
 		
 		attr(data, "is.OSM") <- is.OSM
-		attr(data, "leaflet.provider") <- leaflet.provider
+		attr(data, "leaflet.server") <- leaflet.server
 		
 		#attr(data, "is.RGB") <- is.RGB
 		

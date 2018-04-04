@@ -78,6 +78,8 @@
 					 design.mode = FALSE,
 					 basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
 					 basemaps.alpha = c(1, 1, 1),
+					base.groups=NA,
+					overlay.groups=NA,
 					alpha=NA,
 					colorNA=NA,
 					projection=3857,

@@ -4,8 +4,9 @@
 \alias{tm_view}
 \title{Options for the interactive tmap viewer}
 \usage{
-tm_view(alpha, colorNA, basemaps, basemaps.alpha, projection, symbol.size.fixed,
-  dot.size.fixed, text.size.variable, set.bounds, set.view, set.zoom.limits,
+tm_view(alpha, colorNA, basemaps, basemaps.alpha, base.groups = NA,
+  overlay.groups = NA, projection, symbol.size.fixed, dot.size.fixed,
+  text.size.variable, set.bounds, set.view, set.zoom.limits,
   view.legend.position, control.position, popup.all.data, bg.overlay,
   bg.overlay.alpha, legend.position)
 }
@@ -14,7 +15,7 @@ tm_view(alpha, colorNA, basemaps, basemaps.alpha, projection, symbol.size.fixed,
 
 \item{colorNA}{default color for missing values in interactive mode. If the color of missing values is not defined in the layer functions (e.g. \code{\link{tm_fill}}), then the default color is taken from the \code{na} value of the \code{aes.color} argument in \code{\link{tm_layout}}. This \code{colorNA} argument (if not \code{NA} itself) overrides that default value. For interactive maps, it can be useful to set \code{colorNA} to \code{NULL}, which means transparent.}
 
-\item{basemaps}{vector of one or more names of baselayer maps, or a logical value. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. By default (\code{NA}), the choice of basemap(s) will be determined by the \code{basemaps} argument of \code{\link{tm_layout}}, which is style dependent. Use \code{TRUE} to select a large set of recommended basemaps. Use \code{FALSE} to omit basemap tiles. If a named vector is provided, the names are used in the layer control legend.}
+\item{basemaps}{vector of one or more names of baselayer maps, or a logical value. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. The default value for \code{basemaps} is style dependent. For the default style \code{"white"}, it is \code{c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap")}. Use \code{TRUE} to select a large set of recommended basemaps. Use \code{FALSE} to omit basemap tiles. If a named vector is provided, the names are used in the layer control legend. Basemaps can also be set with \code{\link{tm_basemap}}).}
 
 \item{basemaps.alpha}{transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.}
 

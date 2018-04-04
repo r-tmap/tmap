@@ -333,6 +333,7 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		 text.col.legend.hist.title=text.col.legend.hist.title,
 		 text.size.legend.z=text.size.legend.z,
 		 text.col.legend.z=text.col.legend.z,
-		 text.col.legend.hist.z=text.legend.hist.z)
+		 text.col.legend.hist.z=text.legend.hist.z,
+		 text.group = g$group)
 	
 }

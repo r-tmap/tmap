@@ -367,7 +367,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 symbol.col.legend.hist.z=symbol.legend.hist.z,
 		 symbol.id=g$id,
 		 symbol.popup.vars=g$popup.vars,
-		 symbol.popup.format=g$popup.format)
+		 symbol.popup.format=g$popup.format,
+		 symbol.group = g$group)
 }
 
 submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) {

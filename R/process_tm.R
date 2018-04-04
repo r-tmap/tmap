@@ -217,12 +217,12 @@ process_tm <- function(x, gt, gm, interactive) {
 	}))
 	
 
-	providers <- unname(sapply(gp, function(x) {
+	servers <- unname(sapply(gp, function(x) {
 		if ("raster.misc" %in% names(x)) {
-			x$raster.misc$leaflet.provider
+			x$raster.misc$leaflet.server
 		} else NA
 	}))
-	if (any(!is.na(providers))) gt$basemaps <- providers[!is.na(providers)][1]
+	if (any(!is.na(servers))) gt$basemaps <- servers[!is.na(servers)][1]
 	
 
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1))) || (length(legids))

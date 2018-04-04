@@ -1,4 +1,5 @@
-process_tiles <- function(g) {
-	provider <- if (is.na(g$provider)) "OpenStreetMap" else g$provider
-	list(tiles.provider = provider, tiles.alpha = g$alpha)
+process_tiles <- function(g, gt) {
+	server <- if (is.na(g$server)) gt$basemaps else g$server
+	alpha <- if (is.na(g$alpha)) gt$basemaps.alpha else g$alpha
+	list(tile.server = server, tile.alpha = alpha, tile.group = g$group, tile.grouptype = g$grouptype)
 }

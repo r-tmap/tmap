@@ -182,7 +182,8 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		 line.col.legend.hist.z=line.col.legend.hist.z,
 		 line.id=g$id,
 		 line.popup.vars=g$popup.vars,
-		 line.popup.format=g$popup.format
+		 line.popup.format=g$popup.format,
+		 line.group = g$group
 	)
 
 }

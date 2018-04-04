@@ -248,9 +248,9 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.}
 
-\item{basemaps}{vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.}
+\item{basemaps}{Migrated to \code{\link{tm_view}}. vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.}
 
-\item{basemaps.alpha}{alpha transparancy (opacity) of the basemaps. See \code{\link{tm_view}}.}
+\item{basemaps.alpha}{Migrated to \code{\link{tm_view}}. alpha transparancy (opacity) of the basemaps. See \code{\link{tm_view}}.}
 
 \item{bg.overlay}{Not used anymore. See \code{\link{tm_view}}.}
 

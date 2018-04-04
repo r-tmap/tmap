@@ -142,7 +142,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 	}
 	gps <- mapply(function(gp, masterID) {
 		gp[1:gm$shape.nshps] <- mapply(function(gpl, indices, l) {
-			if (!is.null(gpl$tiles.provider)) return(gpl)
+			if (!is.null(gpl$tile.server)) return(gpl)
 			npol_old <- gpl$npol
 			gpl$npol <- length(indices)
 			lapply(gpl, function(gplx) {

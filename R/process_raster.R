@@ -71,12 +71,12 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 						 ncol=ncol(dt))
 		}
 		is.OSM <- attr(data, "is.OSM")
-		leaflet.provider <- attr(data, "leaflet.provider")
+		leaflet.server <- attr(data, "leaflet.server")
 		
 		if (is.null(is.OSM)) is.OSM <- FALSE
-		if (is.null(leaflet.provider)) leaflet.provider <- NA
+		if (is.null(leaflet.server)) leaflet.server <- NA
 		
-		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx), raster.misc=list(is.OSM=is.OSM, leaflet.provider=leaflet.provider, interpolate=interpolate)))
+		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx), raster.misc=list(is.OSM=is.OSM, leaflet.server=leaflet.server, interpolate=interpolate)))
 	}
 	
 	dcr <- process_dtcol(dt, sel=TRUE, g, gt, nx, npol, reverse=g$legend.reverse)
@@ -112,7 +112,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		 raster.legend.palette=col.legend.palette,
 		 raster.legend.misc=list(),
 		 raster.legend.hist.misc=list(values=values, breaks=breaks),
-		 raster.misc=list(is.OSM=FALSE, leaflet.provider=NA, interpolate=interpolate),
+		 raster.misc=list(is.OSM=FALSE, leaflet.server=NA, interpolate=interpolate),
 		 xraster=x,
 		 raster.legend.show=g$legend.show,
 		 raster.legend.title=raster.legend.title,
@@ -121,5 +121,6 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		 raster.legend.hist=g$legend.hist,
 		 raster.legend.hist.title=raster.legend.hist.title,
 		 raster.legend.z=raster.legend.z,
-		 raster.legend.hist.z=raster.legend.hist.z)
+		 raster.legend.hist.z=raster.legend.hist.z,
+		 raster.group = g$group)
 }

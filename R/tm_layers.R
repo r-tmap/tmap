@@ -66,6 +66,7 @@
 #' @param legend.size.z index value that determines the position of the legend element regarding the text sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.col.z index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 #' @export
 #' @example ./examples/tm_text.R
@@ -103,7 +104,8 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 legend.hist.title=NA,
 					 legend.size.z=NA,
 					 legend.col.z=NA,
-					 legend.hist.z=NA) {
+					 legend.hist.z=NA,
+					 group = NA) {
 	g <- list(tm_text=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -119,11 +121,13 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 #' @param remove.overlap see \code{\link{tm_text}}
 #' @param along.lines see \code{\link{tm_text}}
 #' @param overwrite.lines see \code{\link{tm_text}}
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
 #' @param ... arguments passed on to \code{\link{tm_lines}} or \code{\link{tm_text}}
 #' @export
 #' @seealso \code{\link[tmaptools:smooth_map]{smooth_map}}
 tm_iso <- function(col=NA, text="level", size=.5, 
-				   remove.overlap=TRUE, along.lines=TRUE, overwrite.lines=TRUE, ...) {
+				   remove.overlap=TRUE, along.lines=TRUE, overwrite.lines=TRUE,
+				   group = NA, ...) {
 	args <- list(...)
 	argsL <- args[intersect(names(formals("tm_lines")), names(args))]
 	argsT <- args[intersect(names(formals("tm_text")), names(args))]
@@ -190,6 +194,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param id name of the data variable that specifies the indices of the lines. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
 #' @export
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @example ./examples/tm_lines.R
@@ -225,7 +230,8 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 legend.hist.z=NA,
 					 id=NA,
 					 popup.vars=NA,
-					 popup.format=list()) {
+					 popup.format=list(),
+					 group = NA) {
 	g <- list(tm_lines=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -288,6 +294,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param id name of the data variable that specifies the indices of the polygons. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
 #' @param ... for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link[tmaptools:map_coloring]{map_coloring}}.
 #' @keywords choropleth
 #' @export
@@ -323,6 +330,7 @@ tm_fill <- function(col=NA,
 					id=NA,
 					popup.vars=NA,
 					popup.format=list(),
+					group = NA,
 					...) {
 	
 	g <- list(tm_fill=c(as.list(environment()), list(map_coloring=list(...), call=names(match.call(expand.dots = TRUE)[-1]))))
@@ -336,7 +344,7 @@ tm_fill <- function(col=NA,
 #' @param lwd border line width (see \code{\link[graphics:par]{par}})
 #' @param lty border line type (see \code{\link[graphics:par]{par}})
 #' @export
-tm_borders <- function(col=NA, lwd=1, lty="solid", alpha=NA) {
+tm_borders <- function(col=NA, lwd=1, lty="solid", alpha=NA, group = NA) {
 	g <- list(tm_borders=as.list(environment()))
 	class(g) <- "tmap"
 	g
@@ -351,6 +359,7 @@ tm_polygons <- function(col=NA,
 						alpha=NA,
 						border.col=NA,
 						border.alpha=NA,
+						group = NA,
 						...) {
 	args <- list(...)
 	argsFill <- c(list(col=col, alpha=alpha), args[setdiff(names(args), c("lwd", "lty"))])
@@ -405,6 +414,7 @@ tm_polygons <- function(col=NA,
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
 #' @param ... arguments passed on from \code{tm_raster} to \code{tm_rgb}
 #' @name tm_raster
 #' @rdname tm_raster
@@ -436,7 +446,8 @@ tm_raster <- function(col=NA,
 					  legend.hist=FALSE,
 					  legend.hist.title=NA,
 					  legend.z=NA,
-					  legend.hist.z=NA) {
+					  legend.hist.z=NA,
+					  group = NA) {
 	g <- list(tm_raster=as.list(environment()))
 	g$tm_raster$is.RGB <- FALSE
 	class(g) <- "tmap"
@@ -552,6 +563,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param legend.show shortcut for \code{legend.col.show} for \code{tm_dots}
 #' @param legend.is.portrait shortcut for \code{legend.col.is.portrait} for \code{tm_dots}
 #' @param legend.z shortcut for \code{legend.col.z shortcut} for \code{tm_dots}
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
 #' @keywords symbol map
 #' @export
 #' @example ./examples/tm_symbols.R
@@ -619,7 +631,8 @@ tm_symbols <- function(size=1, col=NA,
 						legend.hist.z=NA,
 						id=NA,
 						popup.vars=NA,
-						popup.format=list()) {
+						popup.format=list(),
+						group = NA) {
 	g <- list(tm_symbols=c(as.list(environment()), list(are.dots=FALSE, are.markers=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -683,6 +696,7 @@ tm_markers <- function(shape=marker_icon(),
 					   text=NULL,
 					   text.just=c("center", "top"),
 					   markers.on.top.of.text=TRUE,
+					   group = NA,
 					   ...) {
 	args <- list(...)
 	argsS <- args[intersect(names(formals("tm_symbols")), names(args))]
@@ -711,8 +725,29 @@ tm_markers <- function(shape=marker_icon(),
 	g
 }
 
+#' Draw simple features
+#' 
+#' Creates a \code{\link{tmap-element}} that draws simple features. Basically, it is a stack of \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_dots}}. In other words, polygons are plotted as polygons, lines as lines and points as dots.
 
-tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, palette=NULL, border.col=NA, border.lwd=1, border.lty = "solid", border.alpha=NA, ...) {
+#' @param col color of the simple features. See the \code{col} argument of \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_symbols}}.
+#' @param size size of the dots. See the \code{size} argument \code{\link{tm_symbols}}. By default, the size is similar to dot size (see \code{\link{tm_dots}})
+#' @param shape shape of the dots. See the \code{shape} argument \code{\link{tm_symbols}}. By default, dots are shown.
+#' @param lwd width of the lines. See the \code{lwd} argument of \code{\link{tm_lines}}
+#' @param lty type of the lines. See the \code{lty} argument of \code{\link{tm_lines}}
+#' @param alpha transparency number. See \code{alpha} argument of \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_symbols}}
+#' @param palette palette. See \code{palette} argument of \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_symbols}}
+#' @param border.col color of the borders. See \code{border.col} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}. 
+#' @param border.lwd line width of the borders. See \code{border.lwd} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}.
+#' @param border.lty line type of the borders. See \code{border.lwd} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}.
+#' @param border.alpha transparency of the borders. See \code{border.alpha} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}.
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param ... other arguments passed on to \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_symbols}}
+#' @keywords simple features
+#' @export
+#' @example ./examples/tm_sf.R
+#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @return \code{\link{tmap-element}}
+tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, palette=NULL, border.col=NA, border.lwd=1, border.lty = "solid", border.alpha=NA, group = NA, ...) {
 	args <- list(...)
 	
 	argsFill <- c(list(col = col, alpha = alpha, palette = palette), args[intersect(names(args), names(formals("tm_fill")))])
@@ -735,15 +770,27 @@ tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, 
 	g	
 }
 
-tm_basemap <- function(provider=NA, group = NA, alpha = 1, grouptype = "base") {
-	g <- list(tm_tiles=as.list(environment()))
+#' @rdname tm_tiles
+#' @export
+tm_basemap <- function(server=NA, group = NA, alpha = NA) {
+	g <- list(tm_tiles=c(as.list(environment()), list(grouptype = "base")))
 	class(g) <- "tmap"
 	g
 }
 
-tm_tiles <- function(provider, group = NA, alpha = 1, grouptype = "overlay") {
-	if (missing(provider)) stop("Please specify provider (name or url)")
-	g <- list(tm_tiles=as.list(environment()))
+#' Draw tile layer
+#' 
+#' Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}.
+#' 
+#' @param server name of the provider or url
+#' @param group group
+#' @param alpha alpha
+#' @export
+#' @rdname tm_tiles
+#' @name tm_tiles
+tm_tiles <- function(server, group = NA, alpha = 1) {
+	if (missing(server)) stop("Please specify server (name or url)")
+	g <- list(tm_tiles=c(as.list(environment()), list(grouptype = "overlay")))
 	class(g) <- "tmap"
 	g
 }

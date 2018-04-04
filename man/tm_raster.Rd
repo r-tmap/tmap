@@ -12,7 +12,7 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   interpolate = FALSE, textNA = "Missing", showNA = NA, title = NA,
   legend.show = TRUE, legend.format = list(), legend.is.portrait = TRUE,
   legend.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.z = NA, legend.hist.z = NA)
+  legend.z = NA, legend.hist.z = NA, group = NA)
 
 tm_rgb(alpha = NA, saturation = 1, interpolate = TRUE, ...)
 }
@@ -79,6 +79,8 @@ If multiple values are specified, small multiples are drawn (see details). By de
 \item{legend.z}{index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.}
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element}
+
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
 
 \item{...}{arguments passed on from \code{tm_raster} to \code{tm_rgb}}
 }

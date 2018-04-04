@@ -173,9 +173,9 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	# tiles info
 	if (is.null(g$tm_tiles)) {
-		gtiles <- list(tiles.providers = NULL, tiles.alpha = NA)	
+		gtiles <- list(tile.server = NULL, tile.alpha = NA)	
 	} else {
-		gtiles <- process_tiles(g$tm_tiles)
+		gtiles <- process_tiles(g$tm_tiles, gt)
 	}
 	
 

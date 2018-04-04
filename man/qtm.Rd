@@ -8,8 +8,8 @@ qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
   symbols.shape = NULL, dots.col = NULL, text = NULL, text.size = 1,
   text.col = NA, lines.lwd = NULL, lines.col = NULL, raster = NA,
   borders = NA, by = NULL, scale = NA, title = NA, projection = NULL,
-  format = NULL, style = NULL, basemaps = NA, bubble.size = NULL,
-  bubble.col = NULL, ...)
+  format = NULL, style = NULL, bubble.size = NULL, bubble.col = NULL,
+  ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -58,8 +58,6 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 \item{format}{\code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).}
 
 \item{style}{\code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).}
-
-\item{basemaps}{basemaps for the view mode. See \code{\link{tm_view}}}
 
 \item{bubble.size}{deprecated. Please use symbols.size.}
 

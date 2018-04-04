@@ -14,12 +14,12 @@ tm_fill(col = NA, alpha = NA, palette = NULL, convert2density = FALSE,
   title = NA, legend.show = TRUE, legend.format = list(),
   legend.is.portrait = TRUE, legend.reverse = FALSE, legend.hist = FALSE,
   legend.hist.title = NA, legend.z = NA, legend.hist.z = NA, id = NA,
-  popup.vars = NA, popup.format = list(), ...)
+  popup.vars = NA, popup.format = list(), group = NA, ...)
 
-tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA)
+tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA, group = NA)
 
 tm_polygons(col = NA, alpha = NA, border.col = NA, border.alpha = NA,
-  ...)
+  group = NA, ...)
 }
 \arguments{
 \item{col}{For \code{tm_fill}, it is one of
@@ -96,6 +96,8 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 \item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.}
 
 \item{popup.format}{list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.}
+
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
 
 \item{...}{for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link[tmaptools:map_coloring]{map_coloring}}.}
 
