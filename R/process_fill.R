@@ -71,7 +71,8 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 					fill.lenged.title=rep(NA, nx),
 					fill.id=g$id,
 					fill.popup.vars=g$popup.vars,
-					fill.popup.format=g$popup.format))	
+					fill.popup.format=g$popup.format,
+					fill.group = g$group))	
 	} 
 
 	# process areas

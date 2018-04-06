@@ -76,7 +76,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		if (is.null(is.OSM)) is.OSM <- FALSE
 		if (is.null(leaflet.server)) leaflet.server <- NA
 		
-		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx), raster.misc=list(is.OSM=is.OSM, leaflet.server=leaflet.server, interpolate=interpolate)))
+		return(list(raster=dt, xraster=rep(NA, nx), raster.legend.title=rep(NA, nx), raster.misc=list(is.OSM=is.OSM, leaflet.server=leaflet.server, interpolate=interpolate), raster.group = g$group))
 	}
 	
 	dcr <- process_dtcol(dt, sel=TRUE, g, gt, nx, npol, reverse=g$legend.reverse)

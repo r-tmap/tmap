@@ -38,7 +38,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 					symbol.shape.legend.title=NA,
 					symbol.id=g$id,
 					symbol.popup.vars=g$popup.vars,
-					symbol.popup.format=g$popup.format))
+					symbol.popup.format=g$popup.format,
+					symbol.group = g$group))
 	}
 	
 	# if by is specified, use first value only

@@ -773,7 +773,7 @@ tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, 
 #' @rdname tm_tiles
 #' @export
 tm_basemap <- function(server=NA, group = NA, alpha = NA) {
-	g <- list(tm_tiles=c(as.list(environment()), list(grouptype = "base")))
+	g <- list(tm_basemap=c(as.list(environment()), list(grouptype = "base")))
 	class(g) <- "tmap"
 	g
 }

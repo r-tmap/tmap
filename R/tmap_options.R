@@ -86,6 +86,7 @@
 					symbol.size.fixed=FALSE,
 					dot.size.fixed=TRUE,
 					text.size.variable=FALSE,
+					bbox = NULL,
 					set.bounds=FALSE,
 					set.view=NA,
 					set.zoom.limits=NA,

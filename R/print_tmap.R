@@ -68,10 +68,15 @@ print_shortcut <- function(x, interactive, args, knit) {
 		stop("Either specify shp, or set mode to \"view\" with tmap_mode or ttm", call.=FALSE)	
 	} else {
 		gt <- preprocess_gt(x, interactive=interactive)
-		gt$shape.bbx <- x$tm_shortcut$bbx
-		gt$shape.center <- x$tm_shortcut$center
+		#gt$shape.bbx <- x$tm_shortcut$bbx
+		#gt$shape.center <- x$tm_shortcut$center
 		
-		view_tmap(list(tm_layout=gt))
+		x[names(x) == "tm_tiles"] <- lapply(x[names(x) == "tm_tiles"], function(xi) {
+			process_tiles(xi, gt)
+		})
+		
+		
+		view_tmap(x)
 	}
 }
 
@@ -253,9 +258,39 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	# reset symbol shape / shape just/anchor lists
 	assign(".shapeLib", list(), envir = .TMAP_CACHE)
 	assign(".justLib", list(), envir = .TMAP_CACHE)
-	
+
+	## first checks
+
+
 	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
-	if (names(x)[1]=="tm_shortcut") {
+	# (names(x)=="tm_shortcut") {
+	# 	lf <- print_shortcut(x, interactive, args, knit)
+	# 	if (knit) {
+	# 		return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
+	# 		#return(knit_print(lf, ..., options=options))
+	# 	} else {
+	# 		return(print(lf))
+	# 	}
+	# } else 
+	
+	dummy <- list(tm_shape = list(shp = NULL, shp_name = "dummy", is.master = FALSE))
+	
+	res <- prearrange_element_order(names(x))
+	newname <- res$name
+	newid <- res$index
+	
+	
+	x2 <- rep(dummy, length(newname))
+	x2[which(!is.na(newid) & newid != 0)] <- x[newid[!is.na(newid) & newid != 0]]
+	if (length(which(newid==0))) x2[which(newid==0)] <- rep(tm_basemap(), sum(newid==0))
+	names(x2) <- newname
+
+	x <- x2
+	
+	if (!"tm_shape" %in% newname) {
+		if (any(newname %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster"))) {
+			stop("Required tm_shape layer missing.", call. = FALSE)
+		}
 		lf <- print_shortcut(x, interactive, args, knit)
 		if (knit) {
 			return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
@@ -263,10 +298,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		} else {
 			return(print(lf))
 		}
-	} else if (names(x)[1] == "tm_tiles") {
-		## add dummy
-		x <- c(list(tm_shape = list(shp = NULL, shp_name = "dummy", is.master = FALSE)), x)
 	}
+	
 		
 	## remove non-supported elements if interactive
 	if (interactive) x <- x[supported_elem_view_mode(names(x))]

@@ -105,6 +105,24 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		}
 		if (!is.logical(set.bounds)) if (!length(set.bounds)==4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
 		
+		if (!is.null(bbox)) {
+			if (is.character(bbox)) {
+				res <- geocode_OSM(bbox)
+				bbox <- res$bbox
+				center <- res$coords
+				res <- NULL
+			} else {
+				bbox <- bb(bbox)
+				if (!is.na(attr(bbox))) {
+					if (!maybe_longlat(bbx)) stop("bounding box specified with tm_view (or tmap_options) is projected, but the projection is unknown", call. = FALSE)
+				} else {
+					bbox <- bb(bbox, projection = .crs_longlat)
+				}
+				center <- NULL
+			}
+			set.view <- NA
+		}
+
 		if (!is.na(set.view[1])) {
 			if (!is.numeric(set.view)) stop("set.view is not numeric")
 			if (!length(set.view)==3) stop("set.view does not have length 3")

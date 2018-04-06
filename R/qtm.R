@@ -71,16 +71,19 @@ qtm <- function(shp,
 		# return minimal list required for leaflet basemap tile viewing
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		g <- c(list(tm_shortcut=list()), do.call("tm_view", viewargs))
+		g <- c(list(tm_basemap = tm_basemap()), do.call("tm_view", viewargs))
 		class(g) <- "tmap"
 		return(g)
 	} else if (is.character(shp)) {
 		# return minimal list required for leaflet basemap tile viewing
-		res <- geocode_OSM(shp)
+		
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
-		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		g <- c(list(tm_shortcut=list(bbx=res$bbox, center=res$coords)), do.call("tm_view", viewargs)) 
-			
+		viewargs <- c(args[intersect(names(args), names(formals(tm_view)))], list(bbox = shp))
+		g <- c(list(tm_basemap = tm_basemap()), do.call("tm_view", viewargs)) 
+		#res <- geocode_OSM(shp)
+		#tm_shortcut=list(bbx=res$bbox, center=res$coords)	
+		
+		
 		#list(tm_shortcut=list(basemaps=basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
 		class(g) <- "tmap"
 		return(g)

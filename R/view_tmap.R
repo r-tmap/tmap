@@ -33,23 +33,26 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	# 	}
 	# }
 	
-	if (!length(gp)) {
-		if (length(basemaps)>1) lf <- lf %>% addLayersControl(baseGroups=names(basemaps), options = layersControlOptions(autoZIndex = TRUE))
-
-		if (!is.null(gt$shape.bbx)) {
-			lf <- lf %>%
-				fitBounds(gt$shape.bbx[1], gt$shape.bbx[2], gt$shape.bbx[3], gt$shape.bbx[4]) %>%
-				addMarkers(gt$shape.center[1], gt$shape.center[2])
-		}
-		lf <- set_bounds_view(lf, gt)
-		return(lf)
-	}
+	# if (!length(gp)) {
+	# 	if (length(basemaps)>1) lf <- lf %>% addLayersControl(baseGroups=names(basemaps), options = layersControlOptions(autoZIndex = TRUE))
+	# 
+	# 	if (!is.null(gt$shape.bbx)) {
+	# 		lf <- lf %>%
+	# 			fitBounds(gt$shape.bbx[1], gt$shape.bbx[2], gt$shape.bbx[3], gt$shape.bbx[4]) %>%
+	# 			addMarkers(gt$shape.center[1], gt$shape.center[2])
+	# 	}
+	# 	lf <- set_bounds_view(lf, gt)
+	# 	return(lf)
+	# }
 	
 	e <- environment()
 	id <- 1
 	alpha <- gt$alpha
 
-	bbx <- attr(shps[[gt$shape.masterID]], "bbox")
+
+	
+	if (is.null(gt$bbox)) gt$bbox <- attr(shps[[gt$shape.masterID]], "bbox")
+	
 	
 	warns <- c(symbol=FALSE, text=FALSE, raster=FALSE, symbol_legend=FALSE, linelwd_legend=FALSE) # to prevent a warning for each shape
 	
@@ -522,12 +525,20 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	# 		}", sep=""))
 	# }
 	
-	lf <- set_bounds_view(lf, gt, bbx)
+	
+
+	lf <- set_bounds_view(lf, gt)
 	lf$title <- gt$title
 	lf
 }
 
-set_bounds_view <- function(lf, gt, bbx) {
+set_bounds_view <- function(lf, gt) {
+	# if (!is.null(gt$shape.bbx)) {
+	# 	lf <- lf %>%
+	# 		fitBounds(gt$shape.bbx[1], gt$shape.bbx[2], gt$shape.bbx[3], gt$shape.bbx[4]) %>%
+	# 		addMarkers(gt$shape.center[1], gt$shape.center[2])
+	# }
+	
 	if (is.logical(gt$set.bounds)) {
 		lims <- unname(unlist(lf$x$limits)[c(3,1,4,2)])
 	} else {
@@ -542,12 +553,15 @@ set_bounds_view <- function(lf, gt, bbx) {
 		}
 	}
 	
-	if (!is.na(gt$set.view[1])) {
-		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
-	} else if (!missing(bbx)) {
-		bbx <- unname(bbx)
+	if (!is.null(gt$bbox)) {
+		bbx <- unname(gt$bbox)
 		lf <- lf %>% fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) #setView(view[1], view[2], view[3])
+	} else if (!is.na(gt$set.view[1])) {
+		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
 	}
+	
+	if (!is.null(gt$center)) lf <- lf %>% addMarkers(gt$center[1], gt$center[2])
+	
 	lf
 }
 
