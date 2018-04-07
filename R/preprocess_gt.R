@@ -25,7 +25,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		if (!is.na(g$style)) {
 			gt <- .defaultTmapOptions
 			if (g$style != "white") {
-				styleOptions <- .tmapStyles[[g$style]]
+				styleOptions <- get(".tmapStyles", envir = .TMAP_CACHE)[[g$style]]
 				gt[names(styleOptions)] <- styleOptions
 			}
 		} 

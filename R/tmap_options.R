@@ -1,4 +1,4 @@
-.defaultTmapOptions <- list(
+.defaultTmapOptions <- structure(list(
 					unit="metric",
 					limits=c(facets.plot=64, facets.view=4),
 					 title=NA,
@@ -92,9 +92,10 @@
 					set.zoom.limits=NA,
 					view.legend.position=c("right", "top"),
 					control.position=c("left", "top"),
-					popup.all.data=NULL)
+					popup.all.data=NULL),
+					style = "white")
 
-.tmapStyles <- list(gray = list(bg.color="grey85", 
+.defaultTmapStyles <- list(gray = list(bg.color="grey85", 
 								aes.color=c(fill="grey70", borders="grey20", symbols="grey50", dots="black", lines="red", text="black", na="grey60")),
 					grey = list(bg.color="grey85", 
 								aes.color=c(fill="grey70", borders="grey20", symbols="grey50", dots="black", lines="red", text="black", na="grey60")),
@@ -151,34 +152,62 @@
 tmap_options <- function(unit, limits, ...) {
 
 	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
-	style <- getOption("tmap.style")
+	current.style <- getOption("tmap.style")
 	
 	
 	args <- lapply(as.list(match.call()[-1]), eval)
+
+	unknown_args <- setdiff(names(args), names(.defaultTmapOptions))
+	if (length(unknown_args) == 1) {
+		stop("the following option does not exist: ", unknown_args)
+	} else if (length(unknown_args) > 1) {
+		stop("the following options do not exist: ", paste(unknown_args, collapse = ", "))
+	}
 	
 	
 	if (!length(args)) {
-		return(.tmapOptions)
+		return(.tmapOptions)	
 	} else {
 		backup <- .tmapOptions
 		.tmapOptions[names(args)] <- args
+		
+		newstyle <- if (substr(current.style, nchar(current.style) - 9, nchar(current.style)) == "(modified)") {
+			current.style
+		} else paste(current.style, "(modified)")	
+	
+		options(tmap.style=newstyle)
+		attr(.tmapOptions, "style") <- newstyle
 		assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)
-		options(tmap.style=paste(style, "(modified)"))
 		invisible(backup)
 	}
+}
+
+
+tmap_options_save <- function(style) {
+	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+	
+	options(tmap.style=style)
+	attr(.tmapOptions, "style") <- style
+	assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)
+	
+	styles <- get(".tmapStyles", envir = .TMAP_CACHE)
+	styles[[style]] <- suppressMessages(tmap_options_diff())
+	assign(".tmapStyles", styles, envir = .TMAP_CACHE)
+
+	message("current tmap options saved as style \"", style, "\"")
+	invisible(NULL)
 }
 
 #' @rdname tmap_options
 #' @export
 tmap_options_diff <- function() {
 	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
-	.defaultTmapOptions
-	
 	iden <- mapply(identical, .tmapOptions, .defaultTmapOptions)
 	
 	if (all(iden)) {
-		message("current tmap options are similar to the default tmap options")
+		message("current tmap options are similar to the default tmap options (style \"white\")")
 	} else {
+		message("current tmap options (style \"", attr(.tmapOptions, "style"), "\") that are different from default tmap options (style \"white\"):")
 		.tmapOptions[!iden]
 	}
 }

@@ -55,8 +55,11 @@ ttm <- function() {
 tmap_style <- function(style) {
 	current.style <- getOption("tmap.style")
 	
+	
+	
 	if (missing(style)) {
 		message("current tmap style is \"", current.style, "\"")
+		message("other available styles are: \"", paste(other_styles(current.style), collapse = "\", \""), "\" ")
 	} else {
 		.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
 		check_style(style)
@@ -64,18 +67,39 @@ tmap_style <- function(style) {
 		if (style == "white") {
 			.tmapOptions <- .defaultTmapOptions
 		} else {
-			styleOptions <- .tmapStyles[[style]]
+			styleOptions <- get(".tmapStyles", envir = .TMAP_CACHE)[[style]]
 			.tmapOptions[names(styleOptions)] <- styleOptions
+			attr(.tmapOptions, "style") <- style
 		}
 			
 		assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)	
 		message("tmap style set to \"", style, "\"")
+		message("other available styles are: \"", paste(other_styles(style), collapse = "\", \""), "\" ")
 	}
 	invisible(current.style)
 }
 
 
+other_styles <- function(style) {
+	otherstyles <- setdiff(names(get(".tmapStyles", envir = .TMAP_CACHE)), style)
+	if (style %in% c("gray", "grey")) {
+		otherstyles <- setdiff(otherstyles, c("gray", "grey"))
+	} else {
+		otherstyles <- setdiff(otherstyles, "grey")
+	}
+	otherstyles
+}
 
+
+tmap_style_load <- function(x) {
+	style <- attr(x, "style")
+	attr(x, "style") <- NULL
+	styles <- get(".tmapStyles", envir = .TMAP_CACHE)
+	styles[[style]] <- x
+	assign(".tmapStyles", styles, envir = .TMAP_CACHE)
+	message("style \"", style, "\" loaded successfully")
+	invisible(NULL)
+}
 
 
 

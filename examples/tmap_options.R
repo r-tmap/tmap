@@ -22,11 +22,14 @@ tm_shape(World) + tm_polygons("HPI")
 # change the background color
 tmap_options(bg.color = "red")
 
+# note that the current style is modified
+tmap_style()
+
 # observe the changed options
 tmap_options_diff()
 
-# note that the current style is modified
-tmap_style()
+# save the current options as style "red"
+tmap_options(style = "red")
 
 # plot the map again
 tm_shape(World) + tm_polygons("HPI")
