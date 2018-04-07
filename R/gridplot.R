@@ -15,15 +15,18 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 	ncl <- length(gmeta$colws)
 	nrw <- length(gmeta$rowhs)
 	
-	multi_shapes <- !inherits(shps[[1]], c("sf", "Raster"))
+	
+	# check if first not-null shape is not a sf or raster
+	multi_shapes <- !inherits(shps[[which(!sapply(shps, is.null))[1]]], c("sf", "Raster"))
+	masterID <- gmeta$shape.masterID
 	
 	if (multi_shapes) {
 		bbxproj <- lapply(shps, function(s) {
-			s2 <- s[[1]]
+			s2 <- s[[masterID]]
 			if (is.null(s2)) NULL else list(bbx = bb(s2), proj = get_projection(s2))
 		})
 	} else {
-		bbxproj <- list(bbx = attr(shps[[1]], "bbox"), proj = get_projection(shps[[1]]))
+		bbxproj <- list(bbx = attr(shps[[masterID]], "bbox"), proj = get_projection(shps[[masterID]]))
 	}
 	
 	external_grid_labels <- gmeta$grid.show && !gmeta$grid.labels.inside.frame

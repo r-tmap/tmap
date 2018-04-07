@@ -130,6 +130,11 @@ for (e in examples) {
 	}, error = function(e) print(e))
 }
 
+data(World)
+bb_italy <- tmaptools::bb("Italy", projection = "eck4")
 
+tm_shape(World, bbox=bb_italy) + tm_polygons()
+
+tm_shape(World) + tm_polygons() + tm_view(bbox = bb_italy)
 
 

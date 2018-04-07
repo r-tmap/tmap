@@ -3,19 +3,35 @@
 \name{tm_basemap}
 \alias{tm_basemap}
 \alias{tm_tiles}
-\title{Draw tile layer}
+\title{Draw a tile layer}
 \usage{
 tm_basemap(server = NA, group = NA, alpha = NA)
 
 tm_tiles(server, group = NA, alpha = 1)
 }
 \arguments{
-\item{server}{name of the provider or url}
+\item{server}{name of the provider or an URL. The list of available providers can be obtained with \code{leaflet::providers}. See \url{http://leaflet-extras.github.io/leaflet-providers/preview} for a preview of those. When a URL is provided, it should be in templace format, e.g. \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable the basemaps.}
 
-\item{group}{group}
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups.}
 
 \item{alpha}{alpha}
 }
 \description{
-Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}.
+Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}. \code{tm_tiles} draws the tile layer as overlay layer where it follows the plotting order in which this layer is called.
+}
+\details{
+\code{tm_basemap} draws the tile layer as basemap (so as bottom layer). Basemaps are configured in \code{\link{tmap_options}} (see also \code{\link{tm_view}}). By default (for style \code{"white"}) three basemaps are drawn: \code{c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)}
+
+By default every interactive map has a basmap
+}
+\examples{
+data(World, metro)
+tmap_mode("view")
+
+tm_basemap(leaflet::providers$CartoDB.PositronNoLabels) +
+tm_shape(World) +
+	tm_polygons("HPI") +
+tm_tiles(leaflet::providers$CartoDB.PositronOnlyLabels) +
+tm_shape(metro) +
+	tm_dots(col = "red")
 }

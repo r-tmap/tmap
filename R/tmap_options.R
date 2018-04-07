@@ -153,7 +153,8 @@ tmap_options <- function(unit, limits, ...) {
 	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
 	style <- getOption("tmap.style")
 	
-	args <- as.list(match.call()[-1])
+	
+	args <- lapply(as.list(match.call()[-1]), eval)
 	
 	
 	if (!length(args)) {

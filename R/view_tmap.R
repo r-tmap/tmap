@@ -73,6 +73,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		}
 		assign("bases", bases, envir = e)
 	}
+	
+	eraseBaseGroup <- function() {
+		assign("bases", character(0), envir = e)
+	}
+	
 	addOverlayGroup <- function(group) {
 		if (is.na(overlays[1])) {
 			overlays <- group
@@ -421,6 +426,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		plot_tm_tiles <- function() {
 			basemaps <- gpl$tile.server
 			basemaps.alpha <- gpl$tile.alpha
+			
+			if (is.na(basemaps[1])) {
+				eraseBaseGroup()
+				return(FALSE) 
+			}
 			
 			group_names <- if (is.na(gpl$tile.group[1])) {
 				sapply(basemaps, FUN = function(bm) {

@@ -41,6 +41,19 @@ tm_sf(col = NA, size = 0.02, shape = 16, lwd = 1, lty = "solid",
 \description{
 Creates a \code{\link{tmap-element}} that draws simple features. Basically, it is a stack of \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_dots}}. In other words, polygons are plotted as polygons, lines as lines and points as dots.
 }
+\examples{
+data(World)
+
+World <- as(World, "sf")
+World$geometry[World$continent == "Africa"] <- 
+  sf::st_centroid(World$geometry[World$continent == "Africa"])
+World$geometry[World$continent == "South America"] <- 
+  sf::st_cast(World$geometry[World$continent == "South America"], 
+    "MULTILINESTRING", group_or_split = FALSE)
+
+tm_shape(World) + 
+	tm_sf()
+}
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 }

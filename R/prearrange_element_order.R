@@ -1,4 +1,6 @@
-prearrange_element_order <- function(a) {
+prearrange_element_order <- function(x) {
+	a <- names(x)
+
 	aid <- 1L:length(a)
 	bid <- 1L:length(a)
 
@@ -38,11 +40,9 @@ prearrange_element_order <- function(a) {
 	bc <- split(b, cluster.id)
 	bcid <- split(bid, cluster.id)
 	
-	bci <- bc[[2]]
-	bcidi <- bcid[[2]]
-	
+
 	res <- mapply(function(bci, bcidi) {
-		lid <- which(bci %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster"))
+		lid <- which(bci %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster", "tm_text"))
 		
 		if (bci == "tm_shape" && !length(lid)) stop("no layer elements defined after tm_shape", call. = FALSE)
 		if (bci == "tm_dummy" && length(lid)) stop("tm_shape element missing", call. = FALSE)
@@ -67,7 +67,7 @@ prearrange_element_order <- function(a) {
 			if (length(tid) > 1) {
 				
 				# add tm_shape/tm_dummy for tm_tiles 2,..,k in reverse order
-				lid <- which(bci %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster"))
+				lid <- which(bci %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster", "tm_text"))
 				for (tidi in rev(tid[-1])) {
 					if (any(lid>tidi)) {
 						# copy tm_shape element
@@ -86,5 +86,17 @@ prearrange_element_order <- function(a) {
 	bc2 <- unname(do.call(c, lapply(res, "[[", 1)))
 	bcid2 <- unname(do.call(c, lapply(res, "[[", 2)))
 	bc2[bc2=="tm_dummy"] <- "tm_shape"
-	return(list(name = bc2, index = bcid2))
+	
+	
+	
+
+	dummy <- list(tm_shape = list(shp = NULL, shp_name = "dummy", is.master = FALSE))
+	
+	x2 <- rep(dummy, length(bc2))
+	xid <- which(!is.na(bcid2) & bcid2 != 0)
+	x2[xid] <- x[bcid2[xid]]
+	if (length(which(bcid2==0))) x2[which(bcid2==0)] <- rep(tm_basemap(), length(which(bcid2==0)))
+	names(x2) <- bc2
+	
+	x2
 }

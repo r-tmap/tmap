@@ -39,5 +39,5 @@ style_catalog <- function(...) {
 #' @rdname Deprecated
 last_map <- function() {
 	warning("last_map is deprecated as of tmap version 2.0. Please use tmap_last")
-	tmap_last(...)
+	tmap_last()
 }

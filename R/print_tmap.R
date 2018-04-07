@@ -164,8 +164,8 @@ gather_shape_info <- function(x, interactive) {
 	# units_args <- units_args[!sapply(units_args, is.null)]
 	
 	## get arguments related to bb
-	bb_args <- x[[masterID]][intersect(names(x[[masterID]]), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
-	bb_args$x <- x[[masterID]]$bbox
+	bb_args <- x[[shape.id[masterID]]][intersect(names(x[[shape.id[masterID]]]), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
+	bb_args$x <- x[[shape.id[masterID]]]$bbox
 	
 	## add other shape arguments
 	# point.per <- x[[shape.id[masterID]]]$point.per
@@ -273,22 +273,11 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	# 	}
 	# } else 
 	
-	dummy <- list(tm_shape = list(shp = NULL, shp_name = "dummy", is.master = FALSE))
 	
-	res <- prearrange_element_order(names(x))
-	newname <- res$name
-	newid <- res$index
+	x <- prearrange_element_order(x)
 	
-	
-	x2 <- rep(dummy, length(newname))
-	x2[which(!is.na(newid) & newid != 0)] <- x[newid[!is.na(newid) & newid != 0]]
-	if (length(which(newid==0))) x2[which(newid==0)] <- rep(tm_basemap(), sum(newid==0))
-	names(x2) <- newname
-
-	x <- x2
-	
-	if (!"tm_shape" %in% newname) {
-		if (any(newname %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster"))) {
+	if (!"tm_shape" %in% names(x)) {
+		if (any(names(x) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster"))) {
 			stop("Required tm_shape layer missing.", call. = FALSE)
 		}
 		lf <- print_shortcut(x, interactive, args, knit)
@@ -327,12 +316,16 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		cluster.id <- cumsum(y)
 		xs <- split(x, cluster.id)
 		xs_shp <- mapply(function(xp, shp, dataset, type, k) {
+			from_sf <- ("from_tm_sf" %in% names(xp[[2]]))
+			
 			if (type == "geometrycollection") {
 				tps <- attr(type, "types")
 				cnts <- tabulate(tps, nbins = 3)
 				
 				if (cnts[1]>0) {
 					xp_poly <- 	xp[!(names(xp) %in% c("tm_lines", "tm_iso", "tm_raster"))]
+					if (from_sf) xp_poly <- xp_poly[names(xp_poly) != "tm_symbols"]
+
 					
 					if (length(xp_poly) == 1) {
 						xp_poly <- NULL
@@ -364,6 +357,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 					
 				if (cnts[2]>0) {
 					xp_lines <- xp[!(names(xp) %in% c("tm_fill", "tm_borders", "tm_raster"))]
+					if (from_sf) xp_lines <- xp_lines[names(xp_lines) != "tm_symbols"]
+					
 					if (length(xp_lines) == 1) {
 						xp_lines <- NULL
 						shp_lines <- NULL
@@ -417,7 +412,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			} else {
 				
 				# subset elements when tm_sf is called
-				if ((!("tm_tiles" %in% names(xp))) && ("tm_fill" %in% names(xp)) && ("from_tm_sf" %in% names(xp[[2]]))) {
+				if ((!("tm_tiles" %in% names(xp))) && ("tm_fill" %in% names(xp)) && from_sf) {
 					if (type == "polygons") {
 						xp <- xp[c("tm_shape", "tm_fill", "tm_borders")]
 					} else if (type == "lines") {

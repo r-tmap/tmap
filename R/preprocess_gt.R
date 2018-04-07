@@ -1,3 +1,5 @@
+maybe_longlat <- function (bb) (bb[1] >= -180.1 && bb[3] <= 180.1 && bb[2] >= -90.1 && bb[4] <= 90.1)
+
 preprocess_gt <- function(x, interactive, orig_crs) {
 	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- colorNA <- NULL
 	
@@ -113,8 +115,8 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 				res <- NULL
 			} else {
 				bbox <- bb(bbox)
-				if (!is.na(attr(bbox))) {
-					if (!maybe_longlat(bbx)) stop("bounding box specified with tm_view (or tmap_options) is projected, but the projection is unknown", call. = FALSE)
+				if (is.na(attr(bbox, "crs"))) {
+					if (!maybe_longlat(bbox)) stop("bounding box specified with tm_view (or tmap_options) is projected, but the projection is unknown", call. = FALSE)
 				} else {
 					bbox <- bb(bbox, projection = .crs_longlat)
 				}
