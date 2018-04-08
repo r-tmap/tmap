@@ -212,10 +212,12 @@ process_tm <- function(x, gt, gm, interactive) {
 	
 	
 	## determine number of small multiples
-	nx <- max(sapply(gp, function(x){
+	nxl <- unname(sapply(gp, function(x){
 		max(sapply(x$varnames, length))
 	}))
 	
+	nx <- max(nxl)
+	layer_vary <- unname(which(nxl==nx))
 
 	servers <- unname(sapply(gp, function(x) {
 		if ("raster.misc" %in% names(x)) {
@@ -228,12 +230,16 @@ process_tm <- function(x, gt, gm, interactive) {
 	any.legend <- any(vapply(gp, function(x)x$any.legend, logical(1))) || (length(legids))
 
 	## get along names
-	along.names <- gp[[1]]$along.names
+	along_layer <- which(gf$shp_nr!=0)[1]
+	if (is.na(along_layer)) along_layer <- 1
+
+	along.names <- gp[[along_layer]]$along.names
 	
 	nxa <- nx / length(along.names)
 	nxa <- limit_nx(nxa)
 	nx <- nxa * length(along.names)
 	
+
 	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, gm, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"

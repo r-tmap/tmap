@@ -29,7 +29,7 @@ tmap_style()
 tmap_options_diff()
 
 # save the current options as style "red"
-tmap_options(style = "red")
+tmap_options_save(style = "red")
 
 # plot the map again
 tm_shape(World) + tm_polygons("HPI")

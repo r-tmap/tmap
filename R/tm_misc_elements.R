@@ -6,6 +6,7 @@
 #' 
 #' @param by data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).
 #' @param along data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{animation_tmap}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).
+#' @param as.layers logical that determines whether facets are shown as different layers in \code{"view"} mode. By default \code{FALSE}, i.e. facets are drawn as small multiples.
 #' @param ncol number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param nrow number of rows of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param free.coords logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?
@@ -33,6 +34,7 @@
 #' @return \code{\link{tmap-element}}
 tm_facets <- function(by=NULL, 
 					  along=NULL,
+					  as.layers = FALSE,
 					  ncol=NA, nrow=NA, 
 					  free.coords=TRUE,
 					  drop.units=free.coords,

@@ -53,7 +53,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 			if (inherits(s_by, "sf")) {
 				s_by2 <- split(s_by, f = d_by, drop=FALSE)	 # split_shape
 				lapply(s_by2, function(s2) {
-					if (length(s2)>0) s2$tmapID <- 1L:length(s2$tmapID)	
+					if (nrow(s2)>0) s2$tmapID <- 1L:length(s2$tmapID)	
 					s2
 				})
 			}  else {
@@ -71,7 +71,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 			x <- list(...)
 			bbx <- sapply(x, st_bbox)
 			#bbx <- sapply(x, attr, which="bbox")
-			if (is.null(bbx[[1]])) return(NULL)
+			#if (is.null(bbx[[1]])) return(NULL)
+			if (any(is.na(bbx))) return(NULL)
 			bbx <- c(apply(bbx[1:2,,drop=FALSE], MARGIN = 1, min), apply(bbx[3:4,,drop=FALSE], MARGIN = 1, max))
 			
 			if (inside_bbox) {
@@ -95,7 +96,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 			}
 			bbox_asp
 		}), shps_by_splt, list(SIMPLIFY=FALSE)))
-		bbx <- bboxes[[1]]
+		bbx_notnull <- which(!sapply(bboxes, is.null))
+		if (!length(bbx_notnull)) stop("Nothing to plot", call. = FALSE)
+		
+		bbx <- bboxes[[bbx_notnull[1]]]
 
 		sasp <- get_asp_ratio(bbx, is.projected = !longlat)
 		inner.margins <- gm$inner.margins
@@ -317,10 +321,10 @@ split_raster <- function(r, f, drop=TRUE) {
 		xlim <- xrng / r@ncols
 		ylim <- yrng / r@nrows
 		
-		attr(r, "bbox") <- matrix(c(bbx[1,1] + (bbx[1,2] - bbx[1,1]) * xlim[1],
-				 bbx[1,1] + (bbx[1,2] - bbx[1,1]) * xlim[2],
-				 bbx[2,1] + (bbx[2,2] - bbx[2,1]) * ylim[1],
-				 bbx[2,1] + (bbx[2,2] - bbx[2,1]) * ylim[2]), ncol=2, dimnames=dimnames(bbx), byrow = TRUE)
+		attr(r, "bbox") <- matrix(c(bbx[1] + (bbx[3] - bbx[1]) * xlim[1],
+				 bbx[1] + (bbx[3] - bbx[1]) * xlim[2],
+				 bbx[2] + (bbx[4] - bbx[2]) * ylim[1],
+				 bbx[2] + (bbx[4] - bbx[2]) * ylim[2]), ncol=2, dimnames=dimnames(bbx), byrow = TRUE)
 		r
 	})
 }
