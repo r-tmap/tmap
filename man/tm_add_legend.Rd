@@ -27,7 +27,7 @@ tm_add_legend(type = c("fill", "symbol", "text", "line"), labels = NULL,
 
 \item{text}{legend texts (if \code{type=="text"})}
 
-\item{alpha}{legend fill transparancy}
+\item{alpha}{legend fill transparency}
 
 \item{border.col}{legend border col (if \code{type} is \code{"fill"} or \code{"symbol"})}
 

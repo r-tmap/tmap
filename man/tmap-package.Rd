@@ -107,13 +107,16 @@ Create icons:
 \code{\link{Europe}}\tab European country data (spatial polygons) \cr
 \code{\link{NLD_prov}}\tab Netherlands province data (spatial polygons) \cr
 \code{\link{NLD_muni}}\tab Netherlands municipal data (spatial polygons) \cr
-\code{\link{metro}}\tab Metropolitan araes (spatial points) \cr
+\code{\link{metro}}\tab Metropolitan areas (spatial points) \cr
 \code{\link{rivers}}\tab Rivers (spatial lines) \cr
 \code{\link{land}}\tab Global land cover (spatial grid)\cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }
 
+\references{
+Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+}
 \seealso{
 \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 

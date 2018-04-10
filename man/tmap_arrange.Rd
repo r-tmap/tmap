@@ -21,10 +21,10 @@ tmap_arrange(..., ncol = NA, nrow = NA, sync = FALSE, asp = 0,
 \item{outer.margins}{outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the \code{outer.margins} argument from \code{\link{tm_layout}}, unless set to \code{NULL}.}
 }
 \description{
-Arrange small multilples in a grid layout. Normally, small multiples are created by specifying multiple variables for one aesthetic or by specifying the by argument (see \code{\link{tm_facets}}). This function can be used to arrange custom small multiples in a grid layout.
+Arrange small multiples in a grid layout. Normally, small multiples are created by specifying multiple variables for one aesthetic or by specifying the by argument (see \code{\link{tm_facets}}). This function can be used to arrange custom small multiples in a grid layout.
 }
 \details{
-The global option \code{tmap.limits} controlls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits=c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
+The global option \code{tmap.limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits=c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
 }
 \examples{
 data(World)

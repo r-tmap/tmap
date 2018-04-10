@@ -14,9 +14,9 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
 
 \item{y}{y coordinates for horizontal grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.y}.}
 
-\item{n.x}{prefered number of grid lines for the x axis.}
+\item{n.x}{preferred number of grid lines for the x axis.}
 
-\item{n.y}{prefered number of grid lines for the y axis.}
+\item{n.y}{preferred number of grid lines for the y axis.}
 
 \item{projection}{projection character. If specified, the grid lines are projected accordingly. See \code{\link[tmaptools:set_projection]{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.}
 
@@ -35,8 +35,8 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
 \item{labels.format}{list of formatting options for the grid labels. Parameters are:
 \describe{
 \item{fun}{Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items \code{scientific}, \code{format}, and \code{digits} (see below) are not used.}
-\item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
-\item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+\item{scientific}{Should the labels be formatted scientifically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+\item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientifically, i.e. \code{n.dddE+nn} if needed to save space.}
 \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 }}

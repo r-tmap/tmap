@@ -1,0 +1,15 @@
+bibentry(bibtype = "Article",
+  title        = "{tmap}: Thematic Maps in {R}",
+  author       = person(given = "Martijn",
+                        family = "Tennekes",
+                        email = "mtennekes@gmail.com"),
+  journal      = "Journal of Statistical Software",
+  year         = "2018",
+  volume       = "84",
+  number       = "6",
+  pages        = "1--39",
+  doi          = "10.18637/jss.v084.i06",
+
+  header       = "To cite tmap/tmaptools in publications use:"
+)
+

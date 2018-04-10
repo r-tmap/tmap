@@ -11,7 +11,7 @@ tm_scale_bar(breaks = NULL, width = NA, size = 0.5, text.color = NA,
 \arguments{
 \item{breaks}{breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar. Not available for view mode.}
 
-\item{width}{(prefered) width of the scale bar. Only applicable when \code{breaks=NULL}. In plot mode, it corresponds the relative width; the default is 0.25 so one fourth of the map width. In view mode, it corresponds to the width in pixels; the default is 100.}
+\item{width}{(preferred) width of the scale bar. Only applicable when \code{breaks=NULL}. In plot mode, it corresponds the relative width; the default is 0.25 so one fourth of the map width. In view mode, it corresponds to the width in pixels; the default is 100.}
 
 \item{size}{relative text size (which is upperbound by the available label width)}
 

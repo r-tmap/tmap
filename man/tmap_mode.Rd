@@ -14,9 +14,9 @@ ttm()
 \describe{
        \item{\code{"plot"}}{Thematic maps are shown in the graphics device. This is the default mode, and supports all tmap's features, such as small multiples (see \code{\link{tm_facets}}) and extensive layout settings (see \code{\link{tm_layout}}). It is recommended for saving static maps (see \code{\link{tmap_save}}).} 
        \item{\code{"view"}}{Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see \code{\link{tm_tiles}}). See also \code{\link{tm_view}} for options related to the \code{"view"} mode. This mode generates a \code{\link[leaflet:leaflet]{leaflet}} widget, which can also be directly obtained with \code{\link{tmap_leaflet}}. With RMarkdown, it is possible to publish it to an HTML page. 
-       There are a couple of contraints in comparison to \code{"plot"}:
+       There are a couple of constraints in comparison to \code{"plot"}:
        \itemize{
-       \item The map is always projected accoring to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from \code{\link{tm_shape}}).
+       \item The map is always projected according to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from \code{\link{tm_shape}}).
        \item Small multiples are not supported
        \item The legend cannot be made for aesthetics regarding size, which are symbol size and line width.
        \item Text labels are not supported (yet)
@@ -75,6 +75,9 @@ tm_shape(NLD_muni) +
 
 # restore current mode
 tmap_mode(current.mode)
+}
+\references{
+Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
 \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}, \code{\link{last_map}} to show the last map, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget, and \code{\link{tmap_options}} for tmap options.

@@ -1,6 +1,6 @@
 #' Layout of cartographic maps
 #' 
-#' This element specifies the map layout. The main function \code{tm_layout} controlls title, margins, aspect ratio, colors, frame, legend, among many other things. The function \code{tm_legend} is a shortcut to access all \code{legend.} arguments without this prefix. The other functions are wrappers for two purposes: \code{tm_format} specifies position related layout settings such as margins, and \code{tm_style} specifies general styling related layout settings such as colors and font. Typically, the former functions are shape dependent, and the latter functions are shape independent. See details for predefined styles and formats. With \code{tmap.style}, a default style can be specified. Multiple \code{tm_layout} elements (or wrapper functions) can be stacked: called arguments will be overwritten.
+#' This element specifies the map layout. The main function \code{tm_layout} controls title, margins, aspect ratio, colors, frame, legend, among many other things. The function \code{tm_legend} is a shortcut to access all \code{legend.} arguments without this prefix. The other functions are wrappers for two purposes: \code{tm_format} specifies position related layout settings such as margins, and \code{tm_style} specifies general styling related layout settings such as colors and font. Typically, the former functions are shape dependent, and the latter functions are shape independent. See details for predefined styles and formats. With \code{tmap.style}, a default style can be specified. Multiple \code{tm_layout} elements (or wrapper functions) can be stacked: called arguments will be overwritten.
 #' 
 #' Predefined styles:
 #' \tabular{ll}{
@@ -29,7 +29,7 @@
 #' @name tm_layout
 #' @rdname tm_layout
 #' @param title Global title of the map. For small multiples, multiple titles can be specified. The title is drawn inside the map. Alternatively, use \code{panel.labels} to print the map as a panel, with the title inside the panel header (especially useful for small multiples). Another alternative is the \code{main.title} which prints a title above the map. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}).
-#' @param scale numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independantly with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independently with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
 #' @param title.size Relative size of the title
 #' @param bg.color Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).
 #' @param aes.color Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{symbols}, \code{dots}, \code{lines}, \code{text}, \code{na}. Use \code{"#00000000"} for transparency.
@@ -48,11 +48,11 @@
 #' @param fontface font face of all text in the map.
 #' @param fontfamily font family of the text labels.
 #' @param compass.type type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.
-#' @param earth.boundary Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for rojected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).
+#' @param earth.boundary Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).
 #' @param earth.boundary.color Color of the earth boundary.
 #' @param earth.boundary.lwd Line width of the earth boundary.
 #' @param earth.datum Geodetic datum to determine the earth boundary. By default \code{"WGS84"}, other frequently used datums are \code{"NAD83"} and \code{"NAD27"}. Any other \code{PROJ.4} character string can be used.
-#' @param space.color Color of the space, i.e. the region inside the frame, and outsise the earth boundary.
+#' @param space.color Color of the space, i.e. the region inside the frame, and outside the earth boundary.
 #' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.
 #' @param legend.outside Logical that determines whether the legend is plot outside of the map/facets. Especially useful when using facets that have a common legend (i.e. with \code{free.scales=FALSE}).
@@ -63,7 +63,7 @@
 #' @param legend.just Justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{legend.position} is specified by numeric coordinates.
 #' @param legend.width width of the legend. If it is a negative number, it will be the exact legend width. If it is a positive number (by default), it will be the maximum legend width; the actual legend width will be decreased automatically based on the legend content and font sizes.
 #' @param legend.height height of the legend. If it is a negative number, it will be the exact legend height. If it is a positive number (by default), it will be the maximum legend height; the actual legend height will be decreased automatically based on the legend content and font sizes.
-#' @param legend.hist.height height of the histogram. This hight is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
+#' @param legend.hist.height height of the histogram. This height is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
 #' @param legend.hist.width width of the histogram. By default, it is equal to the \code{legend.width}.
 #' @param legend.title.size Relative font size for the legend title
 #' @param legend.text.size Relative font size for the legend text elements
@@ -71,8 +71,8 @@
 #' @param legend.format list of formatting options for the legend numbers. Only applicable for layer functions (such as \code{\link{tm_fill}}) where \code{labels} is undefined. Parameters are:
 #' \describe{
 #' \item{fun}{Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items \code{scientific}, \code{format}, and \code{digits} (see below) are not used.}
-#' \item{scientific}{Should the labels be formatted scientically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
-#' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientically, i.e. \code{n.dddE+nn} if needed to save space.}
+#' \item{scientific}{Should the labels be formatted scientifically? If so, square brackets are used, and the \code{format} of the numbers is \code{"g"}. Otherwise, \code{format="f"}, and \code{text.separator}, \code{text.less.than}, and \code{text.or.more} are used. Also, the numbers are automatically  rounded to millions or billions if applicable.}
+#' \item{format}{By default, \code{"f"}, i.e. the standard notation \code{xxx.xxx}, is used. If \code{scientific=TRUE} then \code{"g"}, which means that numbers are formatted scientifically, i.e. \code{n.dddE+nn} if needed to save space.}
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
 #' \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
@@ -108,17 +108,18 @@
 #' @param main.title.color Color of the main title
 #' @param main.title.position Position of the main title. Either a numeric value between 0 (left) and 1 (right), or a character value: \code{"left"}, \code{"center"}, or \code{"right"}.
 #' @param attr.outside Logical that determines whether the attributes are plot outside of the map/facets.
-#' @param attr.outside.position Character that determines the outside position of the attributes: \code{"top"} or \code{"bottom"}. Only applicable when \code{attr.outside=TRUE}. If the legend is also drawn outside (with \code{legend.outside=TRUE}) and on the same side of the map (e.g. also \code{"top"} or \code{"bottom"}), the attributes are placed between the map and the legend. This can be changed by setting \code{attr.outside.position} to \code{"TOP"} or \code{"BOTTOM"}: in this case, the attributes are placed above respecvitely below the legend.
+#' @param attr.outside.position Character that determines the outside position of the attributes: \code{"top"} or \code{"bottom"}. Only applicable when \code{attr.outside=TRUE}. If the legend is also drawn outside (with \code{legend.outside=TRUE}) and on the same side of the map (e.g. also \code{"top"} or \code{"bottom"}), the attributes are placed between the map and the legend. This can be changed by setting \code{attr.outside.position} to \code{"TOP"} or \code{"BOTTOM"}: in this case, the attributes are placed above respectively below the legend.
 #' @param attr.outside.size Numeric value that determines the relative height of the attribute viewport, when \code{attr.outside=TRUE}.
 #' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}} and \code{\link{tm_compass}}. Vector of two values, specifing the x and y coordinates. The first value is \code{"left"}, \code{"LEFT"}, \code{"center"}, \code{"right"}, or \code{"RIGHT"}, and the second value \code{"top"}, \code{"TOP"}, \code{"center"}, \code{"bottom"}, or \code{"BOTTOM"}. The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute fuctions. If \code{attr.outside=TRUE}, this argument specifies the position of the attributes within the outside panel.
 #' @param attr.just Justification of the attributes relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{attr.position} is specified by numeric coordinates. It can also be specified per attribute function.
-#' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitely shown. Also, feedback text in the console is given.
+#' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.
 #' @param basemaps Migrated to \code{\link{tm_view}}. vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.
 #' @param basemaps.alpha Migrated to \code{\link{tm_view}}. alpha transparancy (opacity) of the basemaps. See \code{\link{tm_view}}.
 #' @param bg.overlay Not used anymore. See \code{\link{tm_view}}.
 #' @param bg.overlay.alpha Not used anymore. See \code{\link{tm_view}}.
 #' @param ... other arguments from \code{tm_layout}
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @example ./examples/tm_layout.R
 #' @export
 tm_layout <- function(title,

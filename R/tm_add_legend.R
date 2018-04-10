@@ -10,7 +10,7 @@
 #' @param lwd legend line widths (if \code{type=="line"})
 #' @param lty legend line types (if \code{type=="line"})
 #' @param text legend texts (if \code{type=="text"})
-#' @param alpha legend fill transparancy
+#' @param alpha legend fill transparency
 #' @param border.col legend border col (if \code{type} is \code{"fill"} or \code{"symbol"})
 #' @param border.lwd legend border width (if \code{type} is \code{"fill"} or \code{"symbol"})
 #' @param border.alpha legend border alpha (if \code{type} is \code{"fill"} or \code{"symbol"})

@@ -94,7 +94,7 @@
 #' \code{\link{Europe}}\tab European country data (spatial polygons) \cr
 #' \code{\link{NLD_prov}}\tab Netherlands province data (spatial polygons) \cr
 #' \code{\link{NLD_muni}}\tab Netherlands municipal data (spatial polygons) \cr
-#' \code{\link{metro}}\tab Metropolitan araes (spatial points) \cr
+#' \code{\link{metro}}\tab Metropolitan areas (spatial points) \cr
 #' \code{\link{rivers}}\tab Rivers (spatial lines) \cr
 #' \code{\link{land}}\tab Global land cover (spatial grid)\cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
@@ -107,13 +107,14 @@
 #' @keywords GIS, thematic maps, statistical maps, choropleth, bubble map
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @seealso \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 NULL
 
 #' World, Europe, and Netherlands map
 #' 
 #' Maps of the world, Europe, and the Netherlands (province and municipality level), class \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}
 #' 
-#' The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link[tmaptools:set_projection]{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection arugment of \code{\link{tm_shape}} (or \code{\link{qtm}}).
+#' The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link[tmaptools:set_projection]{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection argument of \code{\link{tm_shape}} (or \code{\link{qtm}}).
 #' 
 #' \code{World} World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for choropleths.
 #' 
@@ -221,5 +222,6 @@ NULL
 #' @name tmap-element
 #' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
 #' @seealso \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @seealso The examples in each of the element functions
 NULL
