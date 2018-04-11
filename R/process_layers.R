@@ -138,27 +138,27 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	# fill info
 	if (is.null(g$tm_fill)) {
-		gfill <- list(fill=NULL, xfill=NA, fill.legend.title=NA, fill.id=NA) 
+		gfill <- list(fill=NULL, xfill=NA, fill.legend.title=NA, fill.id=NA, fill.group = NA) 
 	} else {
 		gfill <- process_fill(data, g$tm_fill, gborders, gt, gf, z=z+which(plot.order=="tm_fill"), interactive=interactive)
 	}
 	# symbol info
 	if (is.null(g$tm_symbols)) {
-		gsymbol <- list(symbol.size=NULL, xsize=NA, xcol=NA, xshape=NA, symbol.size.legend.title=NA, symbol.col.legend.title=NA, symbol.shape.legend.title=NA, symbol.id=NA)
+		gsymbol <- list(symbol.size=NULL, xsize=NA, xcol=NA, xshape=NA, symbol.size.legend.title=NA, symbol.col.legend.title=NA, symbol.shape.legend.title=NA, symbol.id=NA, symbol.group = NA)
 	} else {
 		gsymbol <- process_symbols(data, g$tm_symbols, gt, gf, z=z+which(plot.order=="tm_symbols"), interactive=interactive)
 	}
 
 	# lines info
 	if (is.null(g$tm_lines)) {
-		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA, line.col.legend.title=NA, line.lwd.legend.title=NA, line.id=NA) 
+		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA, line.col.legend.title=NA, line.lwd.legend.title=NA, line.id=NA, line.group = NA) 
 	} else {
 		glines <- process_lines(data, g$tm_lines, gt, gf, z=z+which(plot.order=="tm_lines"), interactive=interactive)	
 	} 
 
 	# raster info
 	if (is.null(g$tm_raster)) {
-		graster <- list(raster=NULL, xraster=NA, raster.legend.title=NA) 
+		graster <- list(raster=NULL, xraster=NA, raster.legend.title=NA, raster.group = NA) 
 	} else {
 		graster <- process_raster(data, g$tm_raster, gt, gf, z=z+which(plot.order=="tm_raster"), interactive=interactive)
 	}	
@@ -166,14 +166,14 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	# text info
 	if (is.null(g$tm_text)) {
-		gtext <- list(text=NULL, xtext=NA, xtsize=NA, xtcol=NA, text.size.legend.title=NA, text.col.legend.title=NA)
+		gtext <- list(text=NULL, xtext=NA, xtsize=NA, xtcol=NA, text.size.legend.title=NA, text.col.legend.title=NA, text.group = NA)
 	}  else {
 		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"), interactive=interactive)
 	}
 	
 	# tiles info
 	if (is.null(g$tm_tiles)) {
-		gtiles <- list(tile.server = NULL, tile.alpha = NA)	
+		gtiles <- list(tile.server = NULL, tile.alpha = NA, tile.group = NA)	
 	} else {
 		gtiles <- process_tiles(g$tm_tiles, gt)
 	}
