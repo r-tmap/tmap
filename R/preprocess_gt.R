@@ -6,20 +6,6 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 	
 	gt <- get(".tmapOptions", envir = .TMAP_CACHE)
 	
-	# style <- getOption("tmap.style")
-	# if (style != "white") {
-	# 	if (!style %in% names(.tmapStyles)) warning("Style ", style, " unknown; ", style, " does not exist. Please specify another style with the option \"tmap.stype\".", call. = FALSE)
-	# 	gt <- do.call(tmap_options, .tmapStyles[[style]])	
-	# }
-	
-	# tln <- paste("tm_style", style,sep="_" )
-	# if (!exists(tln)) {
-	# 	warning("Style ", style, " unknown; ", tln, " does not exist. Please specify another style with the option \"tmap.stype\".", call. = FALSE)
-	# 	tln <- "tm_style_default"
-	# }
-
-	# process tm_layout: merge multiple to one gt
-#	gt <- get(".tmapOptions", envir = .TMAP_CACHE)
 	gts <- x[names(x) == "tm_layout"]
 	if (length(gts)) for (g in gts) {
 		if (!is.na(g$style)) {
@@ -127,7 +113,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 
 		if (!is.na(set.view[1])) {
 			if (!is.numeric(set.view)) stop("set.view is not numeric")
-			if (!length(set.view)==3) stop("set.view does not have length 3")
+			if (!length(set.view) %in% c(1,3)) stop("set.view does not have length 3")
 		}
 		if (!is.na(set.zoom.limits[1])) {
 			if (!is.numeric(set.zoom.limits)) stop("set.zoom.limits is not numeric")

@@ -29,7 +29,7 @@ tmap_style()
 tmap_options_diff()
 
 # save the current options as style "red"
-tmap_options_save(style = "red")
+tmap_style_save("red")
 
 # plot the map again
 tm_shape(World) + tm_polygons("HPI")
@@ -38,7 +38,7 @@ tm_shape(World) + tm_polygons("HPI")
 tm_shape(World) + tm_polygons("HPI") + tm_layout(bg.color="purple")
 
 # when tm_style_ is called, it will override all options temporarily:
-tm_shape(World) + tm_polygons("HPI") + tm_layout(bg.color="purple") + tm_style_classic()
+tm_shape(World) + tm_polygons("HPI") + tm_layout(bg.color="purple") + tm_style("classic")
 
 # reset all options
 tmap_options_reset()

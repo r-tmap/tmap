@@ -15,5 +15,5 @@ tm_shape(World) +
         system.file("img/tmap.png", package="tmap"))) +
 	tm_logo("http://blog.kulikulifoods.com/wp-content/uploads/2014/10/logo.png", 
         height=5, position = c("left", "top")) +
-	tm_format_World()
+	tm_format("World")
 }

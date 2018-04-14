@@ -129,8 +129,8 @@ The last plot is reproduced as follows:
 tm_shape(Europe) +
 	tm_polygons("well_being", textNA="Non-European countries", title="Well-Being Index") +
 	tm_text("iso_a3", size="AREA", root=5) + 
-tm_format_Europe() +
-tm_style_grey()
+tm_format("Europe") +
+tm_style("grey")
 ```
 
 We refer to [`tm_shape`](../html/tm_shape.html) and its subsequent drawing layers as a **group**. Multiple groups can be stacked. To illustrate this, let's create a topographic map of Europe:
@@ -151,8 +151,8 @@ tm_shape(metro) +
     tm_text("name", size="pop2010", scale=1, root=4, size.lowerbound = .6, 
         bg.color="white", bg.alpha = .75, 
         auto.placement = 1, legend.size.show = FALSE) + 
-tm_format_Europe() +
-tm_style_natural()
+tm_format("Europe") +
+tm_style("natural")
 ```
 
 Things to learn from this code:
@@ -160,7 +160,7 @@ Things to learn from this code:
 * This plot has 4 groups of layers, respectively from the shape objects land, Europe, rivers, and metro. 
 The order of (groups of) layers corresponds to the plotting order.
 * The shape objects can have different projections, and can also cover different areas (bounding boxes). Both the projection and the covered area are by default taken from shape object defined in the first [`tm_shape`](../html/tm_shape.html), but in this case in the second [`tm_shape`](../html/tm_shape.html) since `is.master=TRUE`. Notice that the other shapes, i.e. `land`, `rivers`, and `metro` also contains outside Europe: see for instance `qtm(rivers)`.
-* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, margins, and colors. The element [`tm_format_Europe`](../html/tm_layout.html) is a wrapper function with some other defaults that are tailored for Europe: for instance, the legend is placed top right. The element [`tm_layout_natural`](../html/tm_style_natural.html) is another wrapper function of [`tm_layout`](../html/tm_layout.html) used to specify map-independent layout layout settings, such as default colors. See also [layout](#layout).
+* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, margins, and colors. The element [`tm_format_Europe`](../html/tm_layout.html) is a wrapper function with some other defaults that are tailored for Europe: for instance, the legend is placed top right. The element [`tm_layout_natural`](../html/tm_style.html) is another wrapper function of [`tm_layout`](../html/tm_layout.html) used to specify map-independent layout layout settings, such as default colors. See also [layout](#layout).
 
 
 ### Small multiples
@@ -177,8 +177,8 @@ tm_shape(Europe) +
 		palette=list("RdYlGn", "Purples"),
 		auto.palette.mapping=FALSE,
         title=c("Happy Planet Index", "GDP per capita")) +
-tm_format_Europe() + 
-tm_style_grey()
+tm_format("Europe") + 
+tm_style("grey")
 ```
 
 In this case, two independent maps are created, with different scales. All arguments of the layer functions can be vectorized, one for each small multiple. Arguments that normally can take a vector, such as `palette` should be placed in a `list`.
@@ -199,7 +199,7 @@ Notice that this plot uses panels and that the common legend is plot outside of 
 tm_shape(Europe) +
     tm_polygons("well_being", title="Well-Being Index") +
     tm_facets("part", free.coords=FALSE) +
-tm_style_grey()
+tm_style("grey")
 ```
 
 This plot also uses the panel layout with the common legend drawn outside the maps. These options can be changed with the arguments `panel.show` and `legend.outside` of [`tm_layout`](../html/tm_layout.html). By default, the panel/external legend layout is used when the group-by variable is specified, since in that case, the multiples share a common legend.
@@ -254,14 +254,14 @@ The wrapper functions starting with `tm_format_` specify the format for a specif
 Besides the shape-dependent `tm_format_` wrapper functions, tmap also contains wrapper functions for shape-independent styles.
 
 ```{r, fig.width=10}
-qtm(Europe, style="natural", title="Natural style") # equivalent to: qtm(Europe) + tm_style_natural(title="Natural style")
+qtm(Europe, style="natural", title="Natural style") # equivalent to: qtm(Europe) + tm_style("natural")(title="Natural style")
 ```
 
 ```{r, fig.width=10}
 qtm(Europe, style="cobalt", title="Cobalt style") # equivalent to: qtm(Europe) + tm_style_cobalt(title="Cobalt style")
 ```
 
-Run `style_catalogue()` to create an extensive catalogue of the available styles. The default style is `tm_style_white`. This default can be changed with the global option called `tmap.style`, which can be get and set with [`tmap_style`](../html/tmap_style.html):
+Run `style_catalogue()` to create an extensive catalogue of the available styles. The default style is `tm_style("white")`. This default can be changed with the global option called `tmap.style`, which can be get and set with [`tmap_style`](../html/tmap_style.html):
 
 ```{r, fig.width=10}
 # make a categorical map
@@ -311,7 +311,7 @@ tm_shape(World) +
 	tm_text("name", size="AREA") +
 tm_compass(position = c(.65, .15), color.light = "grey90") +
 tm_credits("Eckert IV projection", position = c(.85, 0)) +
-tm_style_classic(inner.margins=c(.04,.03, .02, .01), legend.position = c("left", "bottom"), 
+tm_style("classic", inner.margins=c(.04,.03, .02, .01), legend.position = c("left", "bottom"), 
 	legend.frame = TRUE, bg.color="lightblue", legend.bg.color="lightblue", 
 	earth.boundary = TRUE, space.color="grey90")
 ```
@@ -325,7 +325,7 @@ A handy function for saving maps is [`save_tmap`](../html/save_tmap.html):
 ```{r}
 tm <- tm_shape(World) +
 	tm_fill("well_being", id="name", title="Well-being") +
-	tm_format_World()
+	tm_format("World")
 ```
 
 
@@ -359,7 +359,7 @@ tm_shape(World) +
 tm_shape(rivers) +
 	tm_lines(col="dodgerblue3") +
 	tm_add_legend(type="line", col="dodgerblue3", labels = "Rivers", title="World map") +
-tm_format_World()
+tm_format("World")
 ```
 
 3. Each drawing element has a scalar argument called `scale`. The overall scaling and font sizes can be set by the `scale` argument in `tm_layout`.

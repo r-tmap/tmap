@@ -5,17 +5,17 @@ current.mode <- tmap_mode("plot") # small multiples don't work in view mode
 # Facets defined by constant values
 tm_shape(World) +
     tm_fill(c("forestgreen", "goldenrod")) +
-tm_format_World(title=c("A green world", "A dry world"), bg.color="lightskyblue2", 
+tm_format("World", title=c("A green world", "A dry world"), bg.color="lightskyblue2", 
     title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables
-tm_shape(Europe) +
-    tm_polygons(c("well_being", "life_exp"), 
-    	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)), 
-    	palette=list("Oranges", "Purples"),
-    	border.col = "black",
-        title=c("Well-Being Index", "Life Expectancy")) +
-tm_format_Europe()
+# tm_shape(Europe) +
+#     tm_polygons(c("well_being", "life_exp"), 
+#     	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)), 
+#     	palette=list("Oranges", "Purples"),
+#     	border.col = "black",
+#         title=c("Well-Being Index", "Life Expectancy")) +
+# tm_format_Europe()
 
 \dontrun{
 tm_shape(NLD_muni) +
@@ -26,7 +26,7 @@ tm_shape(NLD_muni) +
             "Population 45 to 64", "Population 65 and older")) +
 tm_shape(NLD_prov) +
     tm_borders() +
-tm_format_NLD(frame = TRUE, asp=0)
+tm_format("NLD", frame = TRUE, asp=0)
 }
 
 # Facets defined by groupings

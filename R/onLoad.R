@@ -8,6 +8,7 @@
 	assign(".last_map_new", NULL, envir = .TMAP_CACHE)
 	assign(".tmapOptions", .defaultTmapOptions, envir = .TMAP_CACHE)
 	assign(".tmapStyles", .defaultTmapStyles, envir = .TMAP_CACHE)
+	assign(".tmapFormats", .defaultTmapFormats, envir = .TMAP_CACHE)
 } 
 
 .TMAP_CACHE <- new.env(FALSE, parent=globalenv())

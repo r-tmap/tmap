@@ -137,6 +137,26 @@
 								   basemaps="Esri.WorldTopoMap",
 								   basemaps.alpha=.5))
 
+
+.defaultTmapFormats <- list(World = list(inner.margins=c(0, 0.05, 0.025, 0.01),
+							  legend.position=c("left", "bottom"), 
+							  attr.position=c("right", "bottom"),
+							  scale=.8),
+				 World_wide = list(inner.margins=c(0, 0.2, 0.025, 0.01),
+							  legend.position=c("left", "bottom"), 
+							  attr.position=c("right", "bottom"),
+							  scale=.8),
+				 Europe = list(scale=1), #dummy
+				 NLD = list(frame=FALSE, 
+				 		   inner.margins=c(.02, .2, .06, .02),
+				 		   legend.position=c("left", "top"), 
+				 		   attr.position=c("left", "bottom")),
+				 NLD_wide = list(frame=FALSE, 
+				 				inner.margins=c(.02, .3, .06, .02),
+				 				legend.position=c("left", "top"), 
+				 				attr.position=c("left", "bottom")))
+				 
+
 #' Options for tmap
 #' 
 #' Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}.
@@ -183,20 +203,6 @@ tmap_options <- function(unit, limits, ...) {
 }
 
 
-tmap_options_save <- function(style) {
-	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
-	
-	options(tmap.style=style)
-	attr(.tmapOptions, "style") <- style
-	assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)
-	
-	styles <- get(".tmapStyles", envir = .TMAP_CACHE)
-	styles[[style]] <- suppressMessages(tmap_options_diff())
-	assign(".tmapStyles", styles, envir = .TMAP_CACHE)
-
-	message("current tmap options saved as style \"", style, "\"")
-	invisible(NULL)
-}
 
 #' @rdname tmap_options
 #' @export

@@ -49,17 +49,17 @@ Save tmap to a file, such as png, jpg, or pdf.
 		     tm_borders("black", alpha=.5) + 
 		 tm_shape(NLD_prov) +
 		     tm_borders("grey25", lwd=2) +
-	     tm_format_NLD(inner.margins = c(.02, .15, .06, .15)) + 
+		 tm_format("NLD", inner.margins = c(.02, .15, .06, .15)) + 
 	     tm_scale_bar(position = c("left", "bottom")) +
 	     tm_compass(position=c("right", "bottom")) + 
-	     tm_style_classic()
+	     tm_style("classic")
 	
 	tmap_save(m, "choropleth.png", height=7)
 	
 	data(World)
 	m2 <- tm_shape(World) +
 		tm_fill("well_being", id="name", title="Well-being") +
-		tm_format_World()
+		tm_format("World")
 
 	# save image
 	tmap_save(m2, "World_map.png", width=1920, height=1080, asp=0)

@@ -2,7 +2,7 @@ data(World, land)
 
 tm_shape(World) + 
     tm_fill("pop_est_dens", style="kmeans", title="Population density") +
-tm_format_World(title="The World") + tm_style_albatross(frame.lwd=10)
+tm_format("World", title="The World") + tm_style_albatross(frame.lwd=10)
 
 \dontrun{
 tm_shape(land) +
@@ -17,7 +17,7 @@ tm_credits("Eckert IV projection", position = c("right", "BOTTOM")) +
 tm_layout(inner.margins=c(.04,.03, .02, .01), 
 	earth.boundary = TRUE, 
 	space.color="grey90") +
-tm_style_classic(bg.color="lightblue") +
+tm_style("classic", bg.color="lightblue") +
 tm_legend(position = c("left", "bottom"), 
 	frame = TRUE,
 	bg.color="lightblue")
@@ -31,7 +31,7 @@ tm_shape(WorldOne) +
 	tm_borders() +
 	tm_grid(projection = "longlat") +
 tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
-tm_style_natural(earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
+tm_style("natural", earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
 
 \dontrun{

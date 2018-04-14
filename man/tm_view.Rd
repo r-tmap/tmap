@@ -39,7 +39,7 @@ If set, it overrides \code{set.view} and all bbox arguments of \code{\link{tm_sh
 
 \item{set.bounds}{logical that determines whether maximum bounds are set, or a numeric vector of four values that specify the lng1, lat1, lng2, and lat2 coordinates (see \code{\link[leaflet:setMaxBounds]{setMaxBounds}}).}
 
-\item{set.view}{numeric vector or three that determines the view: lng, lat, and zoom (see \code{\link[leaflet:setView]{setView}}). Only applicable if \code{bbox} is not specified}
+\item{set.view}{numeric vector that determines the view. Either a vector of three: lng, lat, and zoom, or a single value: zoom. See \code{\link[leaflet:setView]{setView}}. Only applicable if \code{bbox} is not specified}
 
 \item{set.zoom.limits}{numeric vector of two that set the minimum and maximum zoom levels (see \code{\link[leaflet:tileOptions]{tileOptions}}).}
 

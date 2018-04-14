@@ -241,19 +241,17 @@ qtm <- function(shp,
 	} 
 
 	scaleLst <- if (!missing(scale)) list(title=title, scale=scale) else list(title=title)
-	if (!missing(format)) {
-		fname <- paste("tm_format", format, sep="_")
-		if (exists(fname)) {
-			g <- g + do.call(fname, list())
-		} else warning("function ", fname, " does not exist", call. = FALSE)
-	}
+	
 	if (!missing(style)) {
-		fname <- paste("tm_style", style, sep="_")
-		if (exists(fname)) {
-			g <- g + do.call(fname, list())
-		} else {
-			warning("function ", fname, " does not exist", call. = FALSE)
-		}
+		.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+		check_style(style)
+		g <- g + tm_style(style)
+	}
+	
+	if (!missing(format)) {
+		.tmapFormats <- get(".tmapFormats", envir = .TMAP_CACHE)
+		if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
+		g <- g + tm_format(format)
 	}
 	
 	glayout <- do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))

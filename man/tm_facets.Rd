@@ -4,10 +4,10 @@
 \alias{tm_facets}
 \title{Small multiples}
 \usage{
-tm_facets(by = NULL, along = NULL, ncol = NA, nrow = NA,
-  free.coords = TRUE, drop.units = free.coords, drop.empty.facets = TRUE,
-  sync = !free.coords, showNA = NA, textNA = "Missing",
-  free.scales = is.null(by) && is.null(along),
+tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
+  nrow = NA, free.coords = TRUE, drop.units = free.coords,
+  drop.empty.facets = TRUE, sync = !free.coords, showNA = NA,
+  textNA = "Missing", free.scales = is.null(by) && is.null(along),
   free.scales.fill = free.scales, free.scales.symbol.size = free.scales,
   free.scales.symbol.col = free.scales,
   free.scales.symbol.shape = free.scales,
@@ -20,6 +20,8 @@ tm_facets(by = NULL, along = NULL, ncol = NA, nrow = NA,
 \item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).}
 
 \item{along}{data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{animation_tmap}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).}
+
+\item{as.layers}{logical that determines whether facets are shown as different layers in \code{"view"} mode. By default \code{FALSE}, i.e. facets are drawn as small multiples.}
 
 \item{ncol}{number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.}
 
@@ -80,17 +82,17 @@ current.mode <- tmap_mode("plot") # small multiples don't work in view mode
 # Facets defined by constant values
 tm_shape(World) +
     tm_fill(c("forestgreen", "goldenrod")) +
-tm_format_World(title=c("A green world", "A dry world"), bg.color="lightskyblue2", 
+tm_format("World", title=c("A green world", "A dry world"), bg.color="lightskyblue2", 
     title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables
-tm_shape(Europe) +
-    tm_polygons(c("well_being", "life_exp"), 
-    	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)), 
-    	palette=list("Oranges", "Purples"),
-    	border.col = "black",
-        title=c("Well-Being Index", "Life Expectancy")) +
-tm_format_Europe()
+# tm_shape(Europe) +
+#     tm_polygons(c("well_being", "life_exp"), 
+#     	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)), 
+#     	palette=list("Oranges", "Purples"),
+#     	border.col = "black",
+#         title=c("Well-Being Index", "Life Expectancy")) +
+# tm_format_Europe()
 
 \dontrun{
 tm_shape(NLD_muni) +
@@ -101,7 +103,7 @@ tm_shape(NLD_muni) +
             "Population 45 to 64", "Population 65 and older")) +
 tm_shape(NLD_prov) +
     tm_borders() +
-tm_format_NLD(frame = TRUE, asp=0)
+tm_format("NLD", frame = TRUE, asp=0)
 }
 
 # Facets defined by groupings

@@ -1,4 +1,4 @@
-data(World, Europe, metro)
+data(World, metro)
 metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
 tm_shape(World) +
@@ -10,7 +10,7 @@ tm_shape(metro) +
         palette="-RdYlBu", contrast=1, 
         title.size="Metro population", 
         title.col="Growth rate (%)") + 
-tm_format_World()
+tm_format("World")
 
 tm_shape(metro) +
 	tm_symbols(size = "pop2010", col="pop2010", shape="pop2010",
@@ -25,9 +25,9 @@ tm_shape(x) +
 tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
 }
 
-qtm(Europe, bbox="Italy") +
-tm_shape(metro) +
-	tm_markers(text="name")
+# qtm(Europe, bbox="Italy") +
+# tm_shape(metro) +
+# 	tm_markers(text="name")
 
 
 if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools)) {
@@ -67,7 +67,7 @@ tm_add_legend(type="fill",
 	col=origin_cols, 
 	labels=c("Native", "Western", "Non-western"), 
 	title="Origin") +
-tm_format_NLD()	
+tm_format("NLD")
 }
 
 

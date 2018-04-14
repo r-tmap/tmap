@@ -1,17 +1,17 @@
 #' Layout of cartographic maps
 #' 
-#' This element specifies the map layout. The main function \code{tm_layout} controlls title, margins, aspect ratio, colors, frame, legend, among many other things. The function \code{tm_legend} is a shortcut to access all \code{legend.} arguments without this prefix. The other functions are wrappers for two purposes: the \code{tm_format_} functions specify position related layout settings such as margins, and the \code{tm_style_} functions specify general styling related layout settings such as colors and font. Typically, the former functions are shape dependent, and the latter functions are shape independent. See details for predefined styles and formats. With the global option \code{tmap.style}, a default style can be specified. Multiple \code{tm_layout} elements (or wrapper functions) can be stacked: called arguments will be overwritten.
+#' This element specifies the map layout. The main function \code{tm_layout} controlls title, margins, aspect ratio, colors, frame, legend, among many other things. The function \code{tm_legend} is a shortcut to access all \code{legend.} arguments without this prefix. The other functions are wrappers for two purposes: \code{tm_format} specifies position related layout settings such as margins, and \code{tm_style} specifies general styling related layout settings such as colors and font. Typically, the former functions are shape dependent, and the latter functions are shape independent. See details for predefined styles and formats. With \code{tmap.style}, a default style can be specified. Multiple \code{tm_layout} elements (or wrapper functions) can be stacked: called arguments will be overwritten.
 #' 
 #' Predefined styles:
 #' \tabular{ll}{
-#' \code{tm_style_white}\tab White background, commonly used colors (default) \cr
-#' \code{tm_style_gray}/\code{_grey}\tab Grey background, useful to highlight sequential palettes (e.g. in choropleths) \cr
-#' \code{tm_style_natural}\tab Emulation of natural view: blue waters and green land \cr
-#' \code{tm_style_bw}\tab Greyscale, obviously useful for greyscale printing \cr
-#' \code{tm_style_classic}\tab Classic styled maps (recommended) \cr
-#' \code{tm_style_cobalt}\tab Inspired by latex beamer style cobalt \cr
-#' \code{tm_style_albatross}\tab Inspired by latex beamer style albatross \cr
-#' \code{tm_style_beaver}\tab Inspired by latex beamer style beaver \cr
+#' \code{"white"}\tab White background, commonly used colors (default) \cr
+#' \code{"gray"}/\code{"grey"}\tab Grey background, useful to highlight sequential palettes (e.g. in choropleths) \cr
+#' \code{"natural"}\tab Emulation of natural view: blue waters and green land \cr
+#' \code{"bw"}\tab Greyscale, obviously useful for greyscale printing \cr
+#' \code{"classic"}\tab Classic styled maps (recommended) \cr
+#' \code{"cobalt"}\tab Inspired by latex beamer style cobalt \cr
+#' \code{"albatross"}\tab Inspired by latex beamer style albatross \cr
+#' \code{"beaver"}\tab Inspired by latex beamer style beaver \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #'
@@ -223,197 +223,35 @@ tm_legend <- function(...) {
 	do.call("tm_layout", x)
 }
 
-#' @rdname tm_layout
-#' @export
-tm_format_World <- function(title=NA,
-							inner.margins=c(0, 0.05, 0.025, 0.01),
-							legend.position=c("left", "bottom"), 
-							attr.position=c("right", "bottom"),
-							scale=.8,
-							...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
 
 #' @rdname tm_layout
+#' @param style name of the style
 #' @export
-tm_format_World_wide <- function(title=NA,
-								 inner.margins=c(0, 0.2, 0.025, 0.01),
-							legend.position=c("left", "bottom"), 
-							attr.position=c("right", "bottom"),
-							scale=.8,
-							...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-#' @rdname tm_layout
-#' @export
-tm_format_Europe <- function(title=NA,
-							 title.position=c("left", "top"),
-							 legend.position=c("right", "top"),
-							 legend.just=c("right", "top"),
-							 attr.position=c("right", "bottom"),
-							 legend.frame=TRUE,
-							 inner.margins=c(0, 0, 0, 0),
-							 
-							 ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-#' @rdname tm_layout
-#' @export
-tm_format_Europe2 <- function(title=NA,
-							  title.position=c("left", "top"),
-							  legend.position=c("left", "top"),
-							  legend.outside=TRUE,
-							  legend.outside.size=.2,
-							  legend.just=c("right", "top"),
-							  attr.position=c("right", "bottom"),
-							  inner.margins=c(0, 0, 0, 0),
-							  ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-#' @rdname tm_layout
-#' @export
-tm_format_Europe_wide <- function(title=NA,
-								  title.position=c("left",.85),
-								  title.snap.to.legend=TRUE,
-							 legend.position=c("left", .85), 
-							 legend.just=c("left", "top"),
-							 attr.position=c("left", "bottom"),
-							 inner.margins=c(0, 0.25, 0, 0),
-							 ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-
-
-#' @rdname tm_layout
-#' @export
-tm_format_NLD <- function(title=NA,
-						  frame=FALSE, 
-						  inner.margins=c(.02, .2, .06, .02),
-						  legend.position=c("left", "top"), 
-						  attr.position=c("left", "bottom"),
-						  ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-#' @rdname tm_layout
-#' @export
-tm_format_NLD_wide <- function(title=NA,
-						  frame=FALSE, 
-						  inner.margins=c(.02, .3, .06, .02),
-						  legend.position=c("left", "top"), 
-						  attr.position=c("left", "bottom"),
-						  ...) {
-	args <- c(as.list(environment()), list(...))
-	do.call("tm_layout", args)
-}
-
-style_args <- c("bg.color", "aes.color", "aes.palette", "attr.color", "saturation", "sepia.intensity", "fontfamily", "frame.double.line", "compass.type", "space.color")
-
-#' @rdname tm_layout
-#' @export
-tm_style_white <- function(...) {
+tm_style <- function(style, ...) {
 	args <- list(...)
-	args$style <- "white"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
+	
+	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+	check_style(style)
+	
+	args$style <- style
+	structure(list(tm_layout=args), class = "tm")
 }
 
 #' @rdname tm_layout
+#' @param format name of the format
 #' @export
-tm_style_gray <- function(...) {
+tm_format <- function(format, ...) {
 	args <- list(...)
-	args$style <- "gray"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
+	
+	.tmapFormats <- get(".tmapFormats", envir = .TMAP_CACHE)
+	
+	if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
+	
+	formatArgs <- .tmapFormats[[format]]
+	if (length(args)) {
+		formatArgs[names(args)] <- args	
+	}
+	formatArgs$style <- NA
+	structure(list(tm_layout=formatArgs), class = "tm")
 }
 
-#' @rdname tm_layout
-#' @export
-tm_style_natural <- function(...) {
-	args <- list(...)
-	args$style <- "natural"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
-}
-
-
-#' @rdname tm_layout
-#' @export
-tm_style_grey <- tm_style_gray
-
-#' @rdname tm_layout
-#' @export
-tm_style_cobalt <- function(...) {
-	args <- list(...)
-	args$style <- "cobalt"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
-}
-# Bu="#0088FF" DaBu="#002240" LiBu="#BED6FF" Or="#FF9D00", W="white" Yl="FFEE80"
-# See https://www.hartwork.org/beamer-theme-matrix/
-
-#' @rdname tm_layout
-#' @export
-tm_style_col_blind <- function(...) {
-	args <- list(...)
-	args$style <- "col_blind"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
-}
-
-
-#' @rdname tm_layout
-#' @export
-tm_style_albatross <- function(...) {
-	args <- list(...)
-	args$style <- "albatross"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
-}
-
-#' @rdname tm_layout
-#' @export
-tm_style_beaver <- function(...) {
-	args <- list(...)
-	args$style <- "beaver"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
-}
-
-#' @rdname tm_layout
-#' @export
-tm_style_bw <- function(...) {
-	args <- list(...)
-	args$style <- "bw"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
-}
-
-#' @rdname tm_layout
-#' @export
-tm_style_classic <- function(...) {
-	args <- list(...)
-	args$style <- "classic"
-	g <- list(tm_layout=args)
-	class(g) <- "tm"
-	g
-}
