@@ -1,14 +1,14 @@
-data(World, Europe)
+data(World)
 
 # Constant fill
-tm_shape(World) + tm_fill("darkolivegreen3") + tm_format_World(title="A green World")
+tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title="A green World")
 
 # Borders only
-tm_shape(Europe) + tm_borders()
+tm_shape(World) + tm_borders()
 
 # Data variable containing colours values
-Europe$isNLD <- ifelse(Europe$name=="Netherlands", "darkorange", "darkolivegreen3")
-tm_shape(Europe) +
+World$isNLD <- ifelse(World$name=="Netherlands", "darkorange", "darkolivegreen3")
+tm_shape(World) +
     tm_fill("isNLD") +
 tm_layout("Find the Netherlands!")
 

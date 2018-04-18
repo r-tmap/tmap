@@ -83,6 +83,16 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	}
 	
 	areas <- data[[area_var]]
+	
+	if (any(is.na(areas)) || any(is.infinite(areas))) {
+		if (g$convert2density) {
+			warning("Some polygon areas cannot be determined. Therefore, convert2density is set to FALSE.", call. = FALSE)
+		}
+		areas_na_inf <- is.na(areas) | is.infinite(areas)
+		areas[areas_na_inf] <- mean(areas[!areas_na_inf])
+		
+	}
+	
 	areas_prop <- as.numeric(areas/sum(areas, na.rm=TRUE))
 	
 	tiny <- areas_prop < g$thres.poly

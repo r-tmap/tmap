@@ -9,7 +9,7 @@
 Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps. It is based on the grammar of graphics, and resembles the syntax of ggplot2.
 }
 \details{
-This page provides a brief overview of all package functions. See \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} for a short introduction with examples. See \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}} for a short demo of the two output modes: plot and interactive view.
+This page provides a brief overview of all package functions. See \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} for a short introduction with examples. See \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}} for a short demo of the two output modes: plot and interactive view.
 }
 \section{Quick plotting method}{
 
@@ -104,7 +104,6 @@ Create icons:
  
 \tabular{ll}{
 \code{\link{World}}\tab World country data (spatial polygons) \cr
-\code{\link{Europe}}\tab European country data (spatial polygons) \cr
 \code{\link{NLD_prov}}\tab Netherlands province data (spatial polygons) \cr
 \code{\link{NLD_muni}}\tab Netherlands municipal data (spatial polygons) \cr
 \code{\link{metro}}\tab Metropolitan areas (spatial points) \cr

@@ -17,18 +17,6 @@ tm_shape(metro) +
 		legend.format = list(text.align="right", text.to.columns = TRUE)) +
 tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
 
-\dontrun{
-require(tmaptools)
-x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
-tm_shape(x) + 
-	tm_dots() + 
-tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
-}
-
-# qtm(Europe, bbox="Italy") +
-# tm_shape(metro) +
-# 	tm_markers(text="name")
-
 
 if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools)) {
 data(NLD_prov)

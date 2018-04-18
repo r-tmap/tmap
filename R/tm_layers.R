@@ -70,7 +70,7 @@
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 #' @export
 #' @example ./examples/tm_text.R
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @return \code{\link{tmap-element}}
 tm_text <-  function(text, size=1, col=NA, root=3, 
@@ -197,7 +197,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
 #' @export
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @example ./examples/tm_lines.R
 #' @return \code{\link{tmap-element}}
@@ -301,7 +301,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @keywords choropleth
 #' @export
 #' @example ./examples/tm_fill.R
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @return \code{\link{tmap-element}}	
 tm_fill <- function(col=NA, 
@@ -423,7 +423,7 @@ tm_polygons <- function(col=NA,
 #' @rdname tm_raster
 #' @export
 #' @example ./examples/tm_raster.R
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @return \code{\link{tmap-element}}	
 tm_raster <- function(col=NA,
@@ -573,7 +573,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @example ./examples/tm_symbols.R
 #' @references Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8(2), 96-109.
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @return \code{\link{tmap-element}}
 tm_symbols <- function(size=1, col=NA,
 					   shape=21,
@@ -750,7 +750,7 @@ tm_markers <- function(shape=marker_icon(),
 #' @keywords simple features
 #' @export
 #' @example ./examples/tm_sf.R
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @return \code{\link{tmap-element}}
 tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, palette=NULL, border.col=NA, border.lwd=1, border.lty = "solid", border.alpha=NA, group = NA, ...) {
 	args <- list(...)

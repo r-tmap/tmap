@@ -5,7 +5,7 @@
 					 scale=1,
 					 title.size=1.3,
 					 bg.color= "white",
-					 aes.color=c(fill="grey85", borders="grey40", symbols="grey60", dots="black", lines="red", text="black", na="grey75"),
+					 aes.color=c(fill="grey85", borders="grey40", symbols="grey60", dots="black", lines="black", text="black", na="grey75"),
 					 aes.palette=list(seq="YlOrBr", div="RdYlGn", cat="Set3"),
 					 attr.color="black",
 					 sepia.intensity=0, 
@@ -96,9 +96,9 @@
 					style = "white")
 
 .defaultTmapStyles <- list(gray = list(bg.color="grey85", 
-								aes.color=c(fill="grey70", borders="grey20", symbols="grey50", dots="black", lines="red", text="black", na="grey60")),
+								aes.color=c(fill="grey70", borders="grey20", symbols="grey50", dots="black", lines="black", text="black", na="grey60")),
 					grey = list(bg.color="grey85", 
-								aes.color=c(fill="grey70", borders="grey20", symbols="grey50", dots="black", lines="red", text="black", na="grey60")),
+								aes.color=c(fill="grey70", borders="grey20", symbols="grey50", dots="black", lines="black", text="black", na="grey60")),
 					natural = list(bg.color="lightskyblue1",
 								   aes.color=c(fill="darkolivegreen3", borders="black", symbols="tomato2", dots="firebrick", lines="steelblue", text="black", na="white"),
 								   aes.palette=list(seq="YlGn", div="RdYlGn", cat="Set3"),
@@ -146,7 +146,6 @@
 							  legend.position=c("left", "bottom"), 
 							  attr.position=c("right", "bottom"),
 							  scale=.8),
-				 Europe = list(scale=1), #dummy
 				 NLD = list(frame=FALSE, 
 				 		   inner.margins=c(.02, .2, .06, .02),
 				 		   legend.position=c("left", "top"), 

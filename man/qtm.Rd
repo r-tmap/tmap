@@ -55,9 +55,9 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{projection}{Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.}
 
-\item{format}{\code{\link{tm_layout}} wrapper used for format. Currently available in tmap: "World", "Europe", "NLD", "World_wide", "Europe_wide", "NLD_wide". Own wrappers can be used as well (see details).}
+\item{format}{Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.}
 
-\item{style}{\code{\link{tm_layout}} wrapper used for style. Available in tmap: "bw", "classic". Own wrappers can be used as well (see details).}
+\item{style}{Layout options (see \code{\link{tm_layout}}) that define the style. See \code{\link{tmap_style}} for details.}
 
 \item{bubble.size}{deprecated. Please use symbols.size.}
 
@@ -73,8 +73,6 @@ Draw a thematic map quickly.
 }
 \details{
 This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
-
-For \code{format}, any character value, say "xxx" can be used if the wrapper function \code{"tm_format_xxx"} exists. The same applies for the argument \code{style}.
 }
 \examples{
 data(World, rivers, metro)
@@ -103,5 +101,5 @@ qtm(metro, symbols.size = "pop2010",
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }

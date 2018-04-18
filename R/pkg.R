@@ -2,7 +2,7 @@
 #'
 #' Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps. It is based on the grammar of graphics, and resembles the syntax of ggplot2.
 #' 
-#' This page provides a brief overview of all package functions. See \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}} for a short introduction with examples. See \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}} for a short demo of the two output modes: plot and interactive view.
+#' This page provides a brief overview of all package functions. See \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} for a short introduction with examples. See \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}} for a short demo of the two output modes: plot and interactive view.
 #'
 #' @section Quick plotting method:
 #' \tabular{ll}{
@@ -91,7 +91,6 @@
 #' @section Spatial datasets: 
 #' \tabular{ll}{
 #' \code{\link{World}}\tab World country data (spatial polygons) \cr
-#' \code{\link{Europe}}\tab European country data (spatial polygons) \cr
 #' \code{\link{NLD_prov}}\tab Netherlands province data (spatial polygons) \cr
 #' \code{\link{NLD_muni}}\tab Netherlands municipal data (spatial polygons) \cr
 #' \code{\link{metro}}\tab Metropolitan areas (spatial points) \cr
@@ -110,15 +109,13 @@
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 NULL
 
-#' World, Europe, and Netherlands map
+#' World and Netherlands map
 #' 
-#' Maps of the world, Europe, and the Netherlands (province and municipality level), class \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygonsDataFrame}}
+#' Maps of the world and the Netherlands (province and municipality level), class \code{\link[sf:sf]{sf}}
 #' 
-#' The default projections for these maps are Eckhart IV (World), Lambert azimuthal (Europe), and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link[tmaptools:set_projection]{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection argument of \code{\link{tm_shape}} (or \code{\link{qtm}}).
+#' The default projections for these maps are Eckhart IV (World) and Rijksdriehoekstelsel (Netherlands). See below. To change the projection, use \code{\link[tmaptools:set_projection]{set_projection}}. Alternatively, the projection can be changed temporarily for plotting purposes by using the projection argument of \code{\link{tm_shape}} (or \code{\link{qtm}}).
 #' 
 #' \code{World} World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for choropleths.
-#' 
-#' \code{Europe} Europe map. The ETRS-LAEA projection is used by default for this map. This projection, as well as the bounding box, are also used in the maps published by Eurostat. Several countries are transcontinental and are partly located in Asia. From these countries, only data from Russia and Turkey have been included in this shape file since they are widely considered as European countries. The data is taken from the \code{World} data, where variables \code{"part"} and \code{"EU_Schengen"} have been added.
 #' 
 #' \code{NLD_prov} and \code{NLD_muni}, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection. \strong{Important:} publication of these maps is only allowed when cited to Statistics Netherlands (CBS) and Kadaster Nederland as source.
 #' 
@@ -126,19 +123,13 @@ NULL
 #' @name World
 #' @rdname Shapes
 #' @docType data
-#' @source \url{http://www.naturalearthdata.com} for \code{World} and \code{Europe}
-#' @source \url{http://www.happyplanetindex.org} for \code{World} and \code{Europe}
+#' @source \url{http://www.naturalearthdata.com} for \code{World}
+#' @source \url{http://www.happyplanetindex.org} for \code{World}
 #' @source \url{http://www.cbs.nl} for \code{NLD_prov} and \code{NLD_muni}. 
 #' @references Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{http://www.cbs.nl}.
 #' @references Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{http://www.kadaster.nl}.
 NULL
 
-
-#' @usage data(Europe)
-#' @name Europe
-#' @rdname Shapes
-#' @docType data
-NULL
 
 #' @usage data(NLD_prov)
 #' @name NLD_prov
@@ -156,7 +147,7 @@ NULL
 
 #' Spatial data of rivers
 #' 
-#' Spatial data of rivers, of class \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}
+#' Spatial data of rivers, of class \code{\link[sf:sf]{sf}}
 #' 
 #' @usage data(rivers)
 #' @name rivers
@@ -166,7 +157,7 @@ NULL
 
 #' Spatial data of metropolitan areas
 #' 
-#' Spatial data of metropolitan areas, of class \code{\link[sp:SpatialPointsDataFrame]{SpatialPointsDataFrame}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
+#' Spatial data of metropolitan areas, of class \code{\link[sf:sf]{sf}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 #' 
 #' @usage data(metro)
 #' @name metro
@@ -177,7 +168,7 @@ NULL
 
 #' Spatial data of global land cover
 #' 
-#' Spatial data of global land cover, of class \code{\link[sp:SpatialGridDataFrame]{SpatialGridDataFrame}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
+#' Spatial data of global land cover, of class \code{\link[raster:brick]{RasterBrick}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 #' 
 #' \strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown. See \url{http://www.iscgm.org/gm/glcnmo.html#use}.
 #' 

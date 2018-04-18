@@ -1,12 +1,12 @@
-data(World, Europe, rivers)
+data(World, rivers)
 
 qtm(rivers)
 
 \dontrun{
-tm_shape(Europe) +
+tm_shape(World) +
     tm_fill() +
 tm_shape(rivers) +
     tm_lines(col="black", lwd="scalerank", scale=2, legend.lwd.show = FALSE) +
-tm_layout("Rivers of Europe") +
-tm_style("cobalt")
+tm_style("cobalt", title = "Rivers of the World") +
+tm_format("World")
 }

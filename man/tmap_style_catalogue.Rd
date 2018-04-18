@@ -5,18 +5,14 @@
 \alias{tmap_style_catalog}
 \title{Create a style catalogue}
 \usage{
-tmap_style_catalogue(path = "./tmap_style_previews", styles = NA,
-  include.global.styles = TRUE)
+tmap_style_catalogue(path = "./tmap_style_previews", styles = NA)
 
-tmap_style_catalog(path = "./tmap_style_previews", styles = NA,
-  include.global.styles = TRUE)
+tmap_style_catalog(path = "./tmap_style_previews", styles = NA)
 }
 \arguments{
 \item{path}{path where the png images are stored}
 
-\item{styles}{vector of \code{tm_style_XXX} function names. By default, it contains all styles that are included in tmap, and, if \code{include.global.styles=TRUE}, also the user defined \code{tm_style_XXX} function names.}
-
-\item{include.global.styles}{See above}
+\item{styles}{vector of styles function names (see \code{\link{tmap_style}}) for which a preview is generated. By default, a preview is generated for all loaded styles.}
 }
 \description{
 Create a style catalogue for each predefined tmap style. The result is a set of png images, one for each style.

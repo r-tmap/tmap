@@ -56,6 +56,10 @@ cat(paste0("pal8 <- c(\"", paste(pal8, collapse = "\", \""), "\")"))
 save(land, file="./data/land.rda", compress="xz")
 
 
-# test
+# convert to raster
+data(land)
+library(raster)
 
+land <- brick(land)
+save(land, file="./data/land.rda", compress="xz")
 

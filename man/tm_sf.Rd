@@ -55,7 +55,7 @@ tm_shape(World) +
 	tm_sf()
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }
 \keyword{features}
 \keyword{simple}

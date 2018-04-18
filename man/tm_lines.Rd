@@ -114,22 +114,22 @@ Creates a \code{\link{tmap-element}} that draw spatial lines.
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic arguments of \code{tm_lines} are \code{col} and \code{lwd}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 }
 \examples{
-data(World, Europe, rivers)
+data(World, rivers)
 
 qtm(rivers)
 
 \dontrun{
-tm_shape(Europe) +
+tm_shape(World) +
     tm_fill() +
 tm_shape(rivers) +
     tm_lines(col="black", lwd="scalerank", scale=2, legend.lwd.show = FALSE) +
-tm_layout("Rivers of Europe") +
-tm_style("cobalt")
+tm_style("cobalt", title = "Rivers of the World") +
+tm_format("World")
 }
 }
 \references{
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }

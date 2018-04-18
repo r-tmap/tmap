@@ -242,18 +242,6 @@ tm_shape(metro) +
 		legend.format = list(text.align="right", text.to.columns = TRUE)) +
 tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
 
-\dontrun{
-require(tmaptools)
-x <- sample_dots(World, vars="gdp_md_est", convert2density = TRUE, w = 100000)
-tm_shape(x) + 
-	tm_dots() + 
-tm_layout("World GDP (one dot is 100 billon dollars)", title.position = c("right", "bottom"))
-}
-
-# qtm(Europe, bbox="Italy") +
-# tm_shape(metro) +
-# 	tm_markers(text="name")
-
 
 if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools)) {
 data(NLD_prov)
@@ -337,7 +325,7 @@ Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Sym
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }
 \keyword{map}
 \keyword{symbol}

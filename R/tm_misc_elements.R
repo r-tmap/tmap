@@ -5,7 +5,7 @@
 #' The global option \code{tmap.limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits=c(facets.plot=64, facets.view=4))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
 #' 
 #' @param by data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).
-#' @param along data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{animation_tmap}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).
+#' @param along data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{tmap_animation}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).
 #' @param as.layers logical that determines whether facets are shown as different layers in \code{"view"} mode. By default \code{FALSE}, i.e. facets are drawn as small multiples.
 #' @param ncol number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param nrow number of rows of the small multiples grid. Not applicable if \code{by} contains two variable names.
@@ -30,7 +30,7 @@
 #' @param drop.shapes deprecated: renamed to \code{drop.units}
 #' @export
 #' @example ./examples/tm_facets.R
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @return \code{\link{tmap-element}}
 tm_facets <- function(by=NULL, 
@@ -286,7 +286,7 @@ tm_ylab <- function(text,
 #' 
 #' @param e1 first \code{\link{tmap-element}}
 #' @param e2 second \code{\link{tmap-element}}
-#' @seealso \code{\link{tmap-element}} and \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \code{\link{tmap-element}} and \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @export
 "+.tmap" <- function(e1, e2) {

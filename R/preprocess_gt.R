@@ -7,16 +7,20 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 	gt <- get(".tmapOptions", envir = .TMAP_CACHE)
 	
 	gts <- x[names(x) == "tm_layout"]
-	if (length(gts)) for (g in gts) {
-		if (!is.na(g$style)) {
-			gt <- .defaultTmapOptions
-			if (g$style != "white") {
-				styleOptions <- get(".tmapStyles", envir = .TMAP_CACHE)[[g$style]]
-				gt[names(styleOptions)] <- styleOptions
-			}
-		} 
-		g$style <- NULL
-		if (length(g)) gt[names(g)] <- g
+	if (length(gts)) {
+		for (i in 1L:length(gts)) {
+			g <- gts[[i]]
+			if (!is.na(g$style)) {
+				if (i !=1) warning("Note that tm_style(\"", g$style, "\") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.", call. = FALSE)
+				gt <- .defaultTmapOptions
+				if (g$style != "white") {
+					styleOptions <- get(".tmapStyles", envir = .TMAP_CACHE)[[g$style]]
+					gt[names(styleOptions)] <- styleOptions
+				}
+			} 
+			g$style <- NULL
+			if (length(g)) gt[names(g)] <- g
+		}
 	}
 
 	# gt <- do.call(tln, args = list())$tm_layout

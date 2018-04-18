@@ -119,17 +119,17 @@ Creates a \code{\link{tmap-element}} that draws the polygons. \code{tm_fill} fil
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_fill} (and \code{tm_polygons}) is \code{col}. In the latter case, the arguments, except for \code{thres.poly}, and the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 }
 \examples{
-data(World, Europe)
+data(World)
 
 # Constant fill
-tm_shape(World) + tm_fill("darkolivegreen3") + tm_format_World(title="A green World")
+tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title="A green World")
 
 # Borders only
-tm_shape(Europe) + tm_borders()
+tm_shape(World) + tm_borders()
 
 # Data variable containing colours values
-Europe$isNLD <- ifelse(Europe$name=="Netherlands", "darkorange", "darkolivegreen3")
-tm_shape(Europe) +
+World$isNLD <- ifelse(World$name=="Netherlands", "darkorange", "darkolivegreen3")
+tm_shape(World) +
     tm_fill("isNLD") +
 tm_layout("Find the Netherlands!")
 
@@ -189,6 +189,6 @@ if (require(cartogram)) {
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }
 \keyword{choropleth}

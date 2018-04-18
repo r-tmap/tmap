@@ -13,7 +13,7 @@ tmap_style_load(x)
 tmap_style_save(style)
 }
 \arguments{
-\item{style}{name of the style. The function \code{tm_style_<style>} should exist and be a wrapper of \code{\link{tm_layout}}. The default style when loading the package is \code{"white"}, which corresponds to the function \code{\link{tm_style_white}}. See \code{\link{tm_layout}} for predefined styles, and \code{\link{style_catalogue}} for creating a catelogue.}
+\item{style}{name of the style. When omitted, \code{tmap_style} returns the current style and also shows all available styles. When the style is specified, \code{tmap_style} sets the style accordingly. Note that in that case, all tmap options (see \code{\link{tmap_options}}) will be reset according to the style definition. See \code{\link{tm_layout}} for predefined styles, and \code{\link{tmap_style_catalogue}} for creating a catelogue.}
 
 \item{x}{tmap options list (should be the same format as \code{tmap_options()})}
 }
@@ -36,7 +36,7 @@ qtm(World, fill="life_exp", fill.title="Life expectancy")
 tmap_style(current.style)
 }
 \seealso{
-\code{\link{tm_layout}} for predefined styles, \code{\link{tmap_style_catalogue}} to create a style catelogue of all available styles, and \code{\link{tmap_options}} for tmap options.
+\code{\link{tmap_options}} for tmap options, \code{\link{tmap_style_catalogue}} to create a style catelogue of all available styles, and \code{\link{tmap_options}} for tmap options.
 
 \code{\link{tmap_options}} for tmap options
 }

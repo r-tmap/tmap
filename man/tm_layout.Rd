@@ -225,12 +225,10 @@ Predefined styles:
 
 Predefined formats
 \tabular{ll}{
-\code{tm_format_World}\tab Format specified for world maps \cr
-\code{tm_format_World_wide}\tab Format specified for world maps with more space for the legend \cr
-\code{tm_format_Europe}\tab Format specified for maps of Europe \cr
-\code{tm_format_Europe_wide}\tab Format specified for maps of Europe with more space for the legend \cr
-\code{tm_format_NLD}\tab Format specified for maps of the Netherlands \cr
-\code{tm_format_NLD_wide}\tab Format specified for maps of the Netherlands with more space for the legend \cr
+\code{"World"}\tab Format specified for world maps \cr
+\code{"World_wide"}\tab Format specified for world maps with more space for the legend \cr
+\code{"NLD"}\tab Format specified for maps of the Netherlands \cr
+\code{"NLD_wide"}\tab Format specified for maps of the Netherlands with more space for the legend \cr
 --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 }
 }
@@ -260,13 +258,9 @@ tm_legend(position = c("left", "bottom"),
 	bg.color="lightblue")
 }
 	
-WorldOne <- rgeos::gUnaryUnion(World)
 tm_shape(World, projection="robin") +
-	tm_fill("HPI", palette="div", auto.palette.mapping = FALSE, n=7, 
+	tm_polygons("HPI", palette="div", auto.palette.mapping = FALSE, n=7, 
 			title = "Happy Planet Index") +
-tm_shape(WorldOne) + 
-	tm_borders() +
-	tm_grid(projection = "longlat") +
 tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
 tm_style("natural", earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
@@ -295,5 +289,5 @@ tmap_style(current.style)
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }

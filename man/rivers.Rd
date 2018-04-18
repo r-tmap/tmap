@@ -11,5 +11,5 @@
 data(rivers)
 }
 \description{
-Spatial data of rivers, of class \code{\link[sp:SpatialLinesDataFrame]{SpatialLinesDataFrame}}
+Spatial data of rivers, of class \code{\link[sf:sf]{sf}}
 }

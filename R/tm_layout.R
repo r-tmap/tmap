@@ -17,12 +17,10 @@
 #'
 #' Predefined formats
 #' \tabular{ll}{
-#' \code{tm_format_World}\tab Format specified for world maps \cr
-#' \code{tm_format_World_wide}\tab Format specified for world maps with more space for the legend \cr
-#' \code{tm_format_Europe}\tab Format specified for maps of Europe \cr
-#' \code{tm_format_Europe_wide}\tab Format specified for maps of Europe with more space for the legend \cr
-#' \code{tm_format_NLD}\tab Format specified for maps of the Netherlands \cr
-#' \code{tm_format_NLD_wide}\tab Format specified for maps of the Netherlands with more space for the legend \cr
+#' \code{"World"}\tab Format specified for world maps \cr
+#' \code{"World_wide"}\tab Format specified for world maps with more space for the legend \cr
+#' \code{"NLD"}\tab Format specified for maps of the Netherlands \cr
+#' \code{"NLD_wide"}\tab Format specified for maps of the Netherlands with more space for the legend \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
@@ -118,7 +116,7 @@
 #' @param bg.overlay Not used anymore. See \code{\link{tm_view}}.
 #' @param bg.overlay.alpha Not used anymore. See \code{\link{tm_view}}.
 #' @param ... other arguments from \code{tm_layout}
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @example ./examples/tm_layout.R
 #' @export

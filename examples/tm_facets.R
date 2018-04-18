@@ -1,4 +1,4 @@
-data(World, Europe, NLD_muni, NLD_prov, land, metro)
+data(World, NLD_muni, NLD_prov, land, metro)
 
 current.mode <- tmap_mode("plot") # small multiples don't work in view mode
 
@@ -9,13 +9,13 @@ tm_format("World", title=c("A green world", "A dry world"), bg.color="lightskybl
     title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables
-# tm_shape(Europe) +
-#     tm_polygons(c("well_being", "life_exp"), 
-#     	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)), 
-#     	palette=list("Oranges", "Purples"),
-#     	border.col = "black",
-#         title=c("Well-Being Index", "Life Expectancy")) +
-# tm_format_Europe()
+tm_shape(World) +
+    tm_polygons(c("well_being", "life_exp"),
+    	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)),
+    	palette=list("Oranges", "Purples"),
+    	border.col = "black",
+        title=c("Well-Being Index", "Life Expectancy")) +
+tm_format("World")
 
 \dontrun{
 tm_shape(NLD_muni) +

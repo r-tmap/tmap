@@ -19,7 +19,7 @@ tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
 \arguments{
 \item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).}
 
-\item{along}{data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{animation_tmap}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).}
+\item{along}{data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with \code{\link{tmap_animation}}. The \code{along} argument can be used in combination with the \code{by} argument. It is only supported in \code{"plot"} mode (so not in \code{"view"} mode).}
 
 \item{as.layers}{logical that determines whether facets are shown as different layers in \code{"view"} mode. By default \code{FALSE}, i.e. facets are drawn as small multiples.}
 
@@ -75,7 +75,7 @@ Creates a \code{\link{tmap-element}} that specifies facets (small multiples). Sm
 The global option \code{tmap.limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits=c(facets.plot=64, facets.view=4))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
 }
 \examples{
-data(World, Europe, NLD_muni, NLD_prov, land, metro)
+data(World, NLD_muni, NLD_prov, land, metro)
 
 current.mode <- tmap_mode("plot") # small multiples don't work in view mode
 
@@ -86,13 +86,13 @@ tm_format("World", title=c("A green world", "A dry world"), bg.color="lightskybl
     title.position=c("left", "bottom"))
 
 # Facets defined by multiple variables
-# tm_shape(Europe) +
-#     tm_polygons(c("well_being", "life_exp"), 
-#     	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)), 
-#     	palette=list("Oranges", "Purples"),
-#     	border.col = "black",
-#         title=c("Well-Being Index", "Life Expectancy")) +
-# tm_format_Europe()
+tm_shape(World) +
+    tm_polygons(c("well_being", "life_exp"),
+    	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)),
+    	palette=list("Oranges", "Purples"),
+    	border.col = "black",
+        title=c("Well-Being Index", "Life Expectancy")) +
+tm_format("World")
 
 \dontrun{
 tm_shape(NLD_muni) +
@@ -171,5 +171,5 @@ tmap_mode(current.mode)
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }

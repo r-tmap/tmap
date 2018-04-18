@@ -101,6 +101,8 @@ Presentations
 Other resources
 -----
 
+* [Geocomputation with R; Making maps with R, Robin Lovelace, Jakub Nowosad, Jannes Muenchow][23]
+* [Working with Spatial Data and using tmap, Samantha A. Alger][22]
 * [Computer World: Mapping in R just got a whole lot easier][18]
 * [National Socio-Environmental Synthesis Center: Maps in R][19]
 * [Introduction to visualising spatial data in R][9]
@@ -119,7 +121,6 @@ There are two main places to get help with tmap:
 
 1.  [stackoverflow](http://stackoverflow.com/tags/tmap) is a great source of answers to common tmap questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Please tag your questions with *tmap*.
 2.  If you have a request or if think your problem is caused by a bug, please open an [issue](https://github.com/mtennekes/tmap/issues), preferably with are reproducible example.
-
 
 
   [1]: http://cran.r-project.org/web/packages/tmap/index.html
@@ -143,3 +144,6 @@ There are two main places to get help with tmap:
   [19]: https://sesync-ci.github.io/maps-in-R-lesson/
   [20]: http://von-tijn.nl/tijn/research/publications/abstract_tmap.pdf
   [21]: http://von-tijn.nl/tijn/research/presentations/tmap_user2017.pdf
+  [22]: https://gotellilab.github.io/Bio381/StudentPresentations/SpatialDataTutorial.html
+  [23]: http://geocompr.robinlovelace.net/adv-map.html
+  
