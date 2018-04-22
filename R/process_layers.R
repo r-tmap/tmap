@@ -179,7 +179,9 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	}
 	
 
-	any.legend <- any(!is.ena(c(gfill$fill.legend.title, gsymbol$symbol.size.legend.title, gsymbol$symbol.col.legend.title, gsymbol$symbol.shape.legend.title, glines$line.col.legend.title, glines$line.lwd.legend.title, graster$raster.legend.title, gtext$text.size.legend.title, gtext$text.col.legend.title)))
+	legend.titles <- c(gfill$fill.legend.title, gsymbol$symbol.size.legend.title, gsymbol$symbol.col.legend.title, gsymbol$symbol.shape.legend.title, glines$line.col.legend.title, glines$line.lwd.legend.title, graster$raster.legend.title, gtext$text.size.legend.title, gtext$text.col.legend.title)
+	
+	any.legend <- any(!is.ena(legend.titles))
 	# 	glines$line.lwd.legend.title
 	
 	

@@ -8,28 +8,32 @@
 #'  \item \code{style_catalogue}: replaced by \code{\link{tmap_style_catalogue}}
 #'  \item \code{style_catalog}: replaced by \code{\link{tmap_style_catalog}}
 #'  \item \code{last_map}: replaced by \code{\link{tmap_last}}
-#'  \item \code{tm_style_white}: replaced by \code{\link{tm_style}(("white")}
-#'  \item \code{tm_style_gray}: replaced by \code{\link{tm_style}(("gray")}
-#'  \item \code{tm_style_grey}: replaced by \code{\link{tm_style}(("grey")}
-#'  \item \code{tm_style_natural}: replaced by \code{\link{tm_style}(("natural")}
-#'  \item \code{tm_style_cobalt}: replaced by \code{\link{tm_style}(("cobalt")}
-#'  \item \code{tm_style_col_blind}: replaced by \code{\link{tm_style}(("col_blind")}
-#'  \item \code{tm_style_albatross}: replaced by \code{\link{tm_style}(("albatross")}
-#'  \item \code{tm_style_beaver}: replaced by \code{\link{tm_style}(("beaver")}
-#'  \item \code{tm_style_bw}: replaced by \code{\link{tm_style}(("bw")}
-#'  \item \code{tm_style_classic}: replaced by \code{\link{tm_style}(("classic")}
-#'  \item \code{tm_format_World}: replaced by \code{\link{tm_format}(("World")}
-#'  \item \code{tm_format_World_wide}: replaced by \code{\link{tm_format}(("World_wide")}
-#'  \item \code{tm_format_NLD}: replaced by \code{\link{tm_format}(("NLD")}
-#'  \item \code{tm_format_NLD_wide}: replaced by \code{\link{tm_format}(("NLD_wide")}
+#'  \item \code{tm_style_white}: replaced by \code{\link{tm_style}("white")}
+#'  \item \code{tm_style_gray}: replaced by \code{\link{tm_style}("gray")}
+#'  \item \code{tm_style_grey}: replaced by \code{\link{tm_style}("grey")}
+#'  \item \code{tm_style_natural}: replaced by \code{\link{tm_style}("natural")}
+#'  \item \code{tm_style_cobalt}: replaced by \code{\link{tm_style}("cobalt")}
+#'  \item \code{tm_style_col_blind}: replaced by \code{\link{tm_style}("col_blind")}
+#'  \item \code{tm_style_albatross}: replaced by \code{\link{tm_style}("albatross")}
+#'  \item \code{tm_style_beaver}: replaced by \code{\link{tm_style}("beaver")}
+#'  \item \code{tm_style_bw}: replaced by \code{\link{tm_style}("bw")}
+#'  \item \code{tm_style_classic}: replaced by \code{\link{tm_style}("classic")}
+#'  \item \code{tm_format_World}: replaced by \code{\link{tm_format}("World")}
+#'  \item \code{tm_format_World_wide}: replaced by \code{\link{tm_format}("World_wide")}
+#'  \item \code{tm_format_NLD}: replaced by \code{\link{tm_format}("NLD")}
+#'  \item \code{tm_format_NLD_wide}: replaced by \code{\link{tm_format}("NLD_wide")}
 #'  \item \code{tm_format_Europe}: not used anymore, since the dataset Europe is no longer maintained
 #'  \item \code{tm_format_Europe2}: not used anymore, since the dataset Europe is no longer maintained
 #'  \item \code{tm_format_Europe_wide}: not used anymore, since the dataset Europe is no longer maintained
 #' }
 #' 
-#' @name deprecated functions
+#' @rdname deprecated_functions
+#' @name deprecated_functions
 NULL
 
+#' @rdname deprecated_functions
+#' @param ... passed on to replacing functions
+#' @name animation_tmap
 #' @keywords internal
 #' @export
 animation_tmap <- function(...) {
@@ -37,6 +41,8 @@ animation_tmap <- function(...) {
 	tmap_animation(...)
 }
 
+#' @rdname deprecated_functions
+#' @name save_tmap
 #' @keywords internal
 #' @export
 save_tmap <- function(...) {
@@ -45,6 +51,8 @@ save_tmap <- function(...) {
 }
 
 
+#' @rdname deprecated_functions
+#' @name style_catalogue
 #' @keywords internal
 #' @export
 style_catalogue <- function(...) {
@@ -53,6 +61,8 @@ style_catalogue <- function(...) {
 }
 
 
+#' @rdname deprecated_functions
+#' @name style_catalog
 #' @export
 style_catalog <- function(...) {
 	warning("style_catalog is deprecated as of tmap version 2.0. Please use tmap_style_catalog")
@@ -60,6 +70,8 @@ style_catalog <- function(...) {
 }
 
 
+#' @rdname deprecated_functions
+#' @name last_map
 #' @keywords internal
 #' @export
 last_map <- function() {
@@ -67,6 +79,8 @@ last_map <- function() {
 	tmap_last()
 }
 
+#' @rdname deprecated_functions
+#' @name tm_style_white
 #' @keywords internal
 #' @export
 tm_style_white <- function(...) {
@@ -74,6 +88,8 @@ tm_style_white <- function(...) {
 	tm_style("white", ...)
 }
 
+#' @rdname deprecated_functions
+#' @name tm_style_gray
 #' @keywords internal
 #' @export
 tm_style_gray <- function(...) {
@@ -81,6 +97,8 @@ tm_style_gray <- function(...) {
 	tm_style("gray", ...)
 }
 
+#' @rdname deprecated_functions
+#' @name tm_style_natural
 #' @keywords internal
 #' @export
 tm_style_natural <- function(...) {
@@ -89,20 +107,26 @@ tm_style_natural <- function(...) {
 }
 
 
-#' @rdname tm_layout
+#' @rdname deprecated_functions
+#' @name tm_style_grey
+#' @keywords internal
 #' @export
 tm_style_grey <- function(...) {
 	warning("tm_style_grey is deprecated as of tmap version 2.0. Please use tm_style(\"grey\", ...) instead")
 	tm_style("grey", ...)
 }
 
-#' @rdname tm_layout
+#' @rdname deprecated_functions
+#' @name tm_style_cobalt
+#' @keywords internal
 #' @export
 tm_style_cobalt <- function(...) {
 	warning("tm_style_white is deprecated as of tmap version 2.0. Please use tm_style(\"cobalt\", ...) instead")
 	tm_style("cobalt", ...)
 }
 
+#' @rdname deprecated_functions
+#' @name tm_style_col_blind
 #' @keywords internal
 #' @export
 tm_style_col_blind <- function(...) {
@@ -111,6 +135,8 @@ tm_style_col_blind <- function(...) {
 }
 
 
+#' @rdname deprecated_functions
+#' @name tm_style_albatross
 #' @keywords internal
 #' @export
 tm_style_albatross <- function(...) {
@@ -118,6 +144,8 @@ tm_style_albatross <- function(...) {
 	tm_style("albatross", ...)
 }
 
+#' @rdname deprecated_functions
+#' @name tm_style_beaver
 #' @keywords internal
 #' @export
 tm_style_beaver <- function(...) {
@@ -125,6 +153,8 @@ tm_style_beaver <- function(...) {
 	tm_style("beaver", ...)
 }
 
+#' @rdname deprecated_functions
+#' @name tm_style_bw
 #' @keywords internal
 #' @export
 tm_style_bw <- function(...) {
@@ -132,6 +162,8 @@ tm_style_bw <- function(...) {
 	tm_style("bw", ...)
 }
 
+#' @rdname deprecated_functions
+#' @name tm_style_classic
 #' @keywords internal
 #' @export
 tm_style_classic <- function(...) {
@@ -139,6 +171,8 @@ tm_style_classic <- function(...) {
 	tm_style("classic", ...)
 }
 
+#' @rdname deprecated_functions
+#' @name tm_format_World
 #' @keywords internal
 #' @export
 tm_format_World <- function(...) {
@@ -147,6 +181,8 @@ tm_format_World <- function(...) {
 }
 
 
+#' @rdname deprecated_functions
+#' @name tm_format_World_wide
 #' @keywords internal
 #' @export
 tm_format_World_wide <- function(...) {
@@ -155,6 +191,8 @@ tm_format_World_wide <- function(...) {
 }
 
 
+#' @rdname deprecated_functions
+#' @name tm_format_Europe
 #' @keywords internal
 #' @export
 tm_format_Europe <- function(...) {
@@ -162,6 +200,8 @@ tm_format_Europe <- function(...) {
 }
 
 
+#' @rdname deprecated_functions
+#' @name style_catalog
 #' @keywords internal
 #' @export
 tm_format_Europe2 <- function(...) {
@@ -169,6 +209,8 @@ tm_format_Europe2 <- function(...) {
 }
 
 
+#' @rdname deprecated_functions
+#' @name tm_format_Europe_wide
 #' @keywords internal
 #' @export
 tm_format_Europe_wide <- function(...) {
@@ -178,6 +220,8 @@ tm_format_Europe_wide <- function(...) {
 
 
 
+#' @rdname deprecated_functions
+#' @name tm_format_NLD
 #' @keywords internal
 #' @export
 tm_format_NLD <- function(...) {
@@ -185,6 +229,8 @@ tm_format_NLD <- function(...) {
 	tm_format("NLD", ...)
 }
 
+#' @rdname deprecated_functions
+#' @name tm_format_NLD_wide
 #' @keywords internal
 #' @export
 tm_format_NLD_wide <- function(...) {

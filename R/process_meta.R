@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, gm, any.legend, interactive) {
+process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive) {
 	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- grid.labels.inside.frame <- grid.labels.rot <- NULL
 	
 	credit.show <- !is.null(gc)
@@ -38,6 +38,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 			pp <- nxa
 			along <- TRUE
 		}
+		layer_vary <- layer_vary
 
 		if (!any.legend || !legend.show) {
 			if (legend.only) stop("No legend to show.", call.=FALSE)

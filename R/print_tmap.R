@@ -508,9 +508,17 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	## create external legend and attributes objects
 	g <- process_gps(gps, shps, x, gm, nx, interactive, return.asp)
+	shps <- g$shps
+	nx <- g$nx
 	
 	## return in case g is a number, i.e. the aspect ratio
 	if (is.numeric(g)) return(g)
+
+	## multiple datasets for each layer (when as.layers=TRUE in tm_facets)
+	if (interactive && gm$as.layers) {
+		datasets <- datasets[g$layerids]
+		gm$shp_name <- gm$shp_name[g$layerids]
+	}
 	
 	## adds data to gps (needed for view mode)
 	gps2 <- add_data_to_gps(g$gps, gm, datasets, g$matchIDs, interactive)

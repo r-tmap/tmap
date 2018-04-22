@@ -232,15 +232,21 @@ process_tm <- function(x, gt, gm, interactive) {
 	## get along names
 	along_layer <- which(gf$shp_nr!=0)[1]
 	if (is.na(along_layer)) along_layer <- 1
-
 	along.names <- gp[[along_layer]]$along.names
-	
-	nxa <- nx / length(along.names)
-	nxa <- limit_nx(nxa)
-	nx <- nxa * length(along.names)
+
+	if (interactive && gf$as.layers) {
+		if (!is.na(along.names)) warning("along argument not used when as.layers = TRUE", call. = FALSE)
+		along.names <- NA
+		nxa <- nx
+	} else {
+		nxa <- nx / length(along.names)
+		nxa <- limit_nx(nxa)
+		nx <- nxa * length(along.names)
+	}
 	
 
-	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, gm, any.legend, interactive)
+
+	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {

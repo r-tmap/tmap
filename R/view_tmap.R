@@ -595,7 +595,7 @@ set_bounds_view <- function(lf, gt) {
 			gt$set.view <- c(mean(lims[c(1,3)]), mean(lims[c(2,4)]), gt$set.zoom.limits[1])
 		}
 	}
-	if (length(gt$set.view) == 1) {
+	if (length(gt$set.view) == 1 && !is.na(gt$set.view[1])) {
 		gt$set.view <- c(mean(lims[c(1,3)]), mean(lims[c(2,4)]), gt$set.view)
 	}
 	

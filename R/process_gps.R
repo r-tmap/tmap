@@ -39,6 +39,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 		gp
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 		
+	layerids <- NULL
 	if (!interactive) {
 
 		if (gm$legend.outside) {
@@ -129,6 +130,94 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 		# shortcut used by tmap_save
 		if (return.asp && !interactive) return(gm$gasp)
 	} else {
+		if (nx>=2 && gm$as.layers) {
+			nLayers <- length(gps[[1]]) - 1L
+			
+			layerids <- unlist(lapply(1:nLayers, function(i) {
+				rep(i, ifelse(i %in% gm$layer_vary, nx, 1))
+			}))
+			
+			layers <- lapply(1:nLayers, function(i) {
+				if (i %in% gm$layer_vary) {
+					mapply(function(gpsi, showLeg) {
+						gpsii <- gpsi[[i]]
+						if (!showLeg) {
+							nms <- names(gpsii)
+							legend.show.items <- nms[substr(nms, nchar(nms)-10, nchar(nms)) == "legend.show"]
+
+							if (length(legend.show.items)) {
+								fs <- paste0("free.scales.", substr(legend.show.items, 1, nchar(legend.show.items)-12))
+								gpsii[legend.show.items] <- gm[fs] #as.list(rep(FALSE, length(legend.show.items)))
+							}
+						}
+						gpsii
+					}, gps, c(TRUE, rep(FALSE, nx-1)), SIMPLIFY = FALSE)
+					
+					# lapply(gps, function(gpsi) {
+					# 	gpsi[[i]]
+					# })
+				} else {
+					gps[[1]][i]
+				}
+			})
+			layers <- do.call(c, layers)
+			names(layers) <- paste0("tmLayer", 1L:length(layers))
+			
+			#varnames <- layers[[1]]$varnames
+			
+			
+			
+			gpsL <- gps[[1]]["tm_layout"]
+			gpsL[[1]]$shp_name <- unlist(lapply(1:nLayers, function(i) {
+				if (i %in% gm$layer_vary) {
+					if (is.null(gpsL$tm_layout$panel.names)) {
+						nms <- unname(sapply(gps, function(gpsi) {
+							gpsii <- gpsi[[i]]
+							if (gpsii$any.legend) {
+								nm <- names(which(sapply(gpsii$varnames, function(vn)!is.na(vn[1]))))[1]
+								gpsii[[paste0(nm, ".legend.title")]]
+							} else {
+								NA
+							}
+						}))
+						if (any(is.na(nms))) nms <- gm$title
+						nms
+					} else {
+						gpsL$tm_layout$panel.names	
+					}
+				} else {
+					gpsL[[1]]$shp_name[i]
+				}
+			})) # gpsL[[1]]$shp_name[layerids]
+			
+			gps <- list(plot1 = c(layers, gpsL))
+			
+
+			if (gm$shape.diff_shapes) {
+				shps_layers <- lapply(1:nLayers, function(i) {
+					if (i %in% gm$layer_vary) {
+						lapply(shps, function(shpsi) {
+							shpsi[[i]]
+						})
+					} else {
+						shps[[1]][i]
+					}
+				})
+				shps <- do.call(c, shps_layers)
+			} else {
+				shps <- shps[layerids]
+			}
+			
+			
+			gm$shape.nshps <- length(shps)
+			gm$shape.diff_shapes <- FALSE
+			gm$shape.shps_lengths <- append(gm$shape.shps_lengths, rep(gm$shape.shps_lengths[gm$layer_vary], nx - 1), after = gm$layer_vary)
+			
+			nx <- 1
+		}
+		
+		
+		
 		gp_leg <- NULL
 		gp_attr <- NULL
 	}
@@ -140,6 +229,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 		matchIDs <- lapply(shps, function(s) if (inherits(s, "Raster")) s[] else s$tmapID)
 		matchIDs <- lapply(1:nx, function(i) matchIDs)
 	}
+	
 	gps <- mapply(function(gp, masterID) {
 		gp[1:gm$shape.nshps] <- mapply(function(gpl, indices, l) {
 			if (!is.null(gpl$tile.server)) return(gpl)
@@ -159,7 +249,10 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 
 	
 	list(gps=gps,
+		 shps = shps,
+		 nx = nx,
 		 matchIDs=matchIDs,
+		 layerids = layerids,
 		 gp_leg=gp_leg,
 		 gp_attr=gp_attr)
 }

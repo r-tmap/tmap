@@ -5,7 +5,6 @@ add_data_to_gps <- function(gps, gm, datasets, matchIDs, interactive) {
 			dt$SHAPE_AREAS <- NULL
 			
 			if (interactive) {
-				
 				# add density values
 				if (!is.na(gpl$xfill[1])) {
 					if (gpl$fill.legend.hist.misc$densities) {

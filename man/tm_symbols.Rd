@@ -243,10 +243,11 @@ tm_shape(metro) +
 tm_layout(legend.outside = TRUE, legend.outside.position = "bottom", legend.stack = "horizontal")
 
 
-if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools)) {
+if (require(ggplot2) && require(dplyr) && require(tidyr) && require(tmaptools) && require(sf)) {
 data(NLD_prov)
 
-origin_data <- NLD_prov@data \%>\% 
+origin_data <- NLD_prov \%>\% 
+	st_set_geometry(NULL) \%>\% 
 mutate(FID= factor(1:n())) \%>\% 
 select(FID, origin_native, origin_west, origin_non_west) \%>\% 
 gather(key=origin, value=perc, origin_native, origin_west, origin_non_west, factor_key=TRUE)
