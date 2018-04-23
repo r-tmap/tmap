@@ -54,7 +54,7 @@ knit_print.tmap <- function(x, ..., options=NULL) {
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param mode the mode of tmap, which is set to \code{"view"} in order to obtain the leaflet object. See \code{\link{tmap_mode}} for details.
 #' @param show should the leaflet map be shown? \code{FALSE} by default
-#' @param interactive_titles add titles to leaflet object
+#' @param add.titles add titles to leaflet object
 #' @param ... arguments passed on to \code{\link{print.tmap}}
 #' @return \code{\link[leaflet:leaflet]{leaflet}} object
 #' @example ./examples/tmap_leaflet.R

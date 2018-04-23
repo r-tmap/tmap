@@ -160,7 +160,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			# }
 
 			if (!is.na(gpl$xfill[1])) {
-				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="fill", alpha=alpha)
+				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="fill", alpha=alpha, group = if (gt$free.scales.fill) group_name else NULL)
 			}
 
 			assign("lf", lf, envir = e)
@@ -193,7 +193,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			# }
 			
 			if (!is.na(gpl$xline[1])) {
-				if (gpl$line.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="line.col", alpha=alpha)
+				if (gpl$line.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="line.col", alpha=alpha, group = if (gt$free.scales.line.lwd) group_name else NULL)
 			}
 			
 			if (!is.na(gpl$xlinelwd[1]) && gpl$line.lwd.legend.show) {
@@ -319,7 +319,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			# }
 			
 			if (!is.na(gpl$xcol[1])) {
-				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha)
+				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha, group = if (gt$free.scales.symbol.col) group_name else NULL)
 			}
 			
 			if (!is.na(gpl$xsize[1]) && gpl$symbol.size.legend.show) {
@@ -396,7 +396,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			}
 			
 			if (!is.na(gpl$xtcol[1])) {
-				if (gpl$text.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="text.col", alpha=alpha)
+				if (gpl$text.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="text.col", alpha=alpha, group = if (gt$free.scales.text.col) group_name else NULL)
 			}
 			
 			assign("lf", lf, envir = e)
@@ -424,15 +424,16 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			
 			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
 
-			res_leg <- add_legend(map=NULL, gpl, gt, aes="raster", alpha = alpha, list.only=TRUE)
 			
 			group_name <- if (is.na(gpl$raster.group)) shp_name else gpl$raster.group
 			if (!grouplock) addOverlayGroup(group_name)
 			
+			res_leg <- add_legend(map=NULL, gpl, gt, aes="raster", alpha = alpha, group = if (gt$free.scales.raster) group_name else NULL, list.only=TRUE)
+			
 			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=group_name, project = FALSE, layerId = id)
 			
 			if (!is.na(gpl$xraster[1])) {
-				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha)
+				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha, group = if (gt$free.scales.raster) group_name else NULL)
 			}
 
 			assign("lf", lf, envir = e)
@@ -708,7 +709,7 @@ get_popups <- function(gpl, type) {
 	popups
 }
 
-add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
+add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 	pal_name <- paste(aes, "legend.palette", sep=".")
 	val_name <- paste(aes, "legend.values", sep=".")
 	lab_name <- paste(aes, "legend.labels", sep=".")
@@ -777,19 +778,19 @@ add_legend <- function(map, gpl, gt, aes, alpha, list.only=FALSE) {
 		legvals <- if (!is.na(colNA)) c(val, NA) else val
 
 		if (style=="quantile") {
-			addLegend(map, position=legend.position,
+			addLegend(map, position=legend.position, group = group,
 					  pal=colorQuantile(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity)
 		} else {
-			addLegend(map, position=legend.position,
+			addLegend(map, position=legend.position, group = group,
 					  pal=colorNumeric(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity)
 		}
 	} else {
 		if (allNAs) {
-			addLegend(map, position=legend.position, colors=colNA, labels=textNA, title=title, opacity=opacity)
+			addLegend(map, position=legend.position, group = group, colors=colNA, labels=textNA, title=title, opacity=opacity)
 		} else {
 			legvals <- if (!is.na(colNA)) factor(c(lab, NA), levels=lab) else factor(lab, levels=lab)
 			lab <- factor(lab, levels=lab)
-			addLegend(map, position=legend.position, 
+			addLegend(map, position=legend.position, group = group,
 					  pal=colorFactor(col, domain=lab, na.color = colNA, ordered = TRUE, alpha = FALSE), values = legvals, na.label=textNA, title=title, opacity=opacity)
 		}
 	}

@@ -4,7 +4,7 @@
 \alias{tmap_leaflet}
 \title{Create a leaflet widget from a tmap object}
 \usage{
-tmap_leaflet(x, mode = "view", show = FALSE, ...)
+tmap_leaflet(x, mode = "view", show = FALSE, add.titles = TRUE, ...)
 }
 \arguments{
 \item{x}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}
@@ -12,6 +12,8 @@ tmap_leaflet(x, mode = "view", show = FALSE, ...)
 \item{mode}{the mode of tmap, which is set to \code{"view"} in order to obtain the leaflet object. See \code{\link{tmap_mode}} for details.}
 
 \item{show}{should the leaflet map be shown? \code{FALSE} by default}
+
+\item{add.titles}{add titles to leaflet object}
 
 \item{...}{arguments passed on to \code{\link{print.tmap}}}
 }

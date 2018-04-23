@@ -14,7 +14,6 @@ vignette: >
 ```{r, echo = FALSE, message = FALSE}
 knitr::opts_chunk$set(collapse = T, fig.width=8, fig.height=4)
 #devtools::install_github("mtennekes/tmaptools")
-library(dplyr)
 library(tmap)
 library(sf)
 ```
@@ -82,8 +81,7 @@ We refer to [`tm_shape`](../html/tm_shape.html) and its subsequent drawing layer
 ```{r, fig.width=10}
 data(land, rivers, metro)
 
-metro_large <- metro %>% 
-	filter(pop2010 > 1e7)
+metro_large <- metro[metro$pop2010 > 1e7, ]
 
 tm_shape(land) + 
 	tm_raster("trees", breaks=seq(0, 100, by=20), legend.show = FALSE) +
