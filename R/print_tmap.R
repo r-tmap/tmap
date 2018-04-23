@@ -54,13 +54,14 @@ knit_print.tmap <- function(x, ..., options=NULL) {
 #' @param x tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.
 #' @param mode the mode of tmap, which is set to \code{"view"} in order to obtain the leaflet object. See \code{\link{tmap_mode}} for details.
 #' @param show should the leaflet map be shown? \code{FALSE} by default
+#' @param interactive_titles add titles to leaflet object
 #' @param ... arguments passed on to \code{\link{print.tmap}}
 #' @return \code{\link[leaflet:leaflet]{leaflet}} object
 #' @example ./examples/tmap_leaflet.R
 #' @seealso \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
 #' @export
-tmap_leaflet <- function(x, mode="view", show = FALSE, ...) {
-  print.tmap(x, mode=mode, show=show, ...)
+tmap_leaflet <- function(x, mode="view", show = FALSE, add.titles = TRUE, ...) {
+  print.tmap(x, mode=mode, show=show, interactive_titles = add.titles, ...)
 }
 
 print_shortcut <- function(x, interactive, args, knit) {
@@ -248,7 +249,7 @@ determine_asp_ratios <- function(gm, interactive) {
 
 
 
-print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, ...) {
+print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, interactive_titles = TRUE, ...) {
 	args <- list(...)
 	scale.extra <- NULL
 	title.snap.to.legend <- NULL
@@ -508,11 +509,12 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	## create external legend and attributes objects
 	g <- process_gps(gps, shps, x, gm, nx, interactive, return.asp)
+	## return in case g is a number, i.e. the aspect ratio
+	if (is.numeric(g)) return(g)
+	
 	shps <- g$shps
 	nx <- g$nx
 	
-	## return in case g is a number, i.e. the aspect ratio
-	if (is.numeric(g)) return(g)
 
 	## multiple datasets for each layer (when as.layers=TRUE in tm_facets)
 	if (interactive && gm$as.layers) {
@@ -539,8 +541,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 		lf <- if (nx==1) lfs[[1]] else lfmv <- do.call(mapview::latticeView, c(lfs, lVargs))
 		
-		lf2 <- add_leaflet_titles(lf)
-
+		lf2 <- if (interactive_titles) add_leaflet_titles(lf) else lf
+		
 		if (show) {
 			save_last_map()
 			if (knit) {
