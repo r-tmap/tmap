@@ -286,6 +286,13 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	if (!g$legend.size.show) text.size.legend.title <- NA
 	if (!g$legend.col.show) text.col.legend.title <- NA
 	
+	clustering <- g$clustering
+	if (identical(clustering, FALSE)) {
+		clustering <- NULL
+	} else if (identical(clustering, TRUE)) {
+		clustering <- leaflet::markerClusterOptions()	
+	}
+	
 	
 	list(text=text,
 		 text.size=size,
@@ -314,6 +321,7 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		 text.size.legend.sizes = legend.sizes,
 		 text.size.legend.misc=list(),
 		 text.col.legend.hist.misc=list(values=values, breaks=breaks),
+		 text.misc = list(clustering = clustering),
 		 xtext=xtext,
 		 xtsize=xtsize,
 		 xtcol=xtcol,

@@ -6,6 +6,7 @@
 #' @param size relative size of the text labels (see note). Either one number, a name of a numeric variable in the shape data that is used to scale the sizes proportionally, or the value \code{"AREA"}, where the text size is proportional to the area size of the polygons.
 #' @param col color of the text labels. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).
 #' @param root root number to which the font sizes are scaled. Only applicable if \code{size} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.
+#' @param clustering value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.
 #' @param size.lim vector of two limit values of the \code{size} variable. Only text labels are drawn whose value is greater than or equal to the first value. Text labels whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}. See also \code{size.lowerbound} which is a threshold of the relative font size.
 #' @param sizes.legend vector of text sizes that are shown in the legend. By default, this is determined automatically.
 #' @param sizes.legend.labels vector of labels for that correspond to \code{sizes.legend}.
@@ -74,6 +75,7 @@
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @return \code{\link{tmap-element}}
 tm_text <-  function(text, size=1, col=NA, root=3, 
+					 clustering=FALSE,
 					 size.lim=NA,
 					 sizes.legend = NULL,
 					 sizes.legend.labels = NULL,
@@ -716,10 +718,10 @@ tm_markers <- function(shape=marker_icon(),
 	if (is.null(text)) {
 		tmT <- NULL
 	} else {
-		tmT <- do.call("tm_text", c(list(text=text, just=text.just), argsT))
+		tmT <- do.call("tm_text", c(list(text=text, just=text.just, clustering = clustering), argsT))
 	}
 	
-	tmS <- do.call("tm_symbols", c(list(shape=shape, col=col, border.col=border.col), argsS))
+	tmS <- do.call("tm_symbols", c(list(shape=shape, col=col, border.col=border.col, clustering = clustering), argsS))
 	
 	g <- if (markers.on.top.of.text) {
 		tmS + tmT
