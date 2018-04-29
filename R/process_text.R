@@ -3,8 +3,23 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	shadow <- NULL
 	gsc <- NULL
 	
+	## general variables
 	npol <- nrow(data)
+	by <- data$GROUP_BY
+	shpcols <- names(data)[1:(ncol(data)-1)]
 
+	## aesthetics
+	xtsize <- g$size
+	xtcol <- g$col
+	xtext <- g$text
+	
+	## general (!color aesthetic), color NA, alpha checks / defaults
+	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
+	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
+	if (g$colorNA=="#00000000") g$showNA <- FALSE
+	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_text is not a numeric", call. = FALSE)
+	
+	## text-specific aesthetic defaults
 	if (gt$aes.colors.light["text"]) {
 		collight <- gt$aes.colors["text"]
 		coldark <- "black"
@@ -13,30 +28,14 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		coldark <- gt$aes.colors["text"]
 	}
 	
+	## determine background of the text (normally defined by polygons below), such that text color will be collight or coldark
 	if (is.na(fill[1])) fill <- ifelse(gt$aes.colors.light["text"], "black", "white")
 
 	
-	by <- data$GROUP_BY
-	shpcols <- names(data)[1:(ncol(data)-1)]
-	
-	xtsize <- g$size
-	xtcol <- g$col
-	xtext <- g$text
-	
-	# if (interactive) {
-	# 	xtsize <- xtsize[1]
-	# 	xtcol <- xtcol[1]
-	# 	xtext <- xtext[1]
-	# }
-
-	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
-	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
-	if (g$colorNA=="#00000000") g$showNA <- FALSE
-	
-	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_text is not a numeric", call. = FALSE)
-	
-	# if by is specified, use first value only
-	if (nlevels(by)>1) {
+	## general 'by' check: if by => |aes| = 1, and determine nx
+	## make aesthetics same length and check whether they specified with variable names (e.g. vary...)
+	if (nlevels(by)>1 && (length(xtsize) > 1 || length(xtcol) > 1 || length(xtext) > 1)) {
+		warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
 		xtsize <- xtsize[1]
 		xtcol <- xtcol[1]
 		xtext <- xtext[1]
@@ -44,8 +43,10 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	nxtsize <- length(xtsize)
 	nxtcol <- length(xtcol)
 	nxtext <- length(xtext)
+	nxfill <- if (is.matrix(fill)) ncol(fill) else 1
 	
 	varysize <- all(xtsize %in% shpcols) && !is.null(xtsize)
+	varycol <- all(xtcol %in% shpcols) && !is.null(xtcol) && !(is.na(xtcol[1]))
 	
 	if ((varysize || identical(xtsize, "AREA")) && interactive && !gt$text.size.variable) {
 		message("Text size will be constant in view mode. Set tm_view(text.size.variable = TRUE) to enable text size variables.")
@@ -53,16 +54,14 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		nxtsize <- 1
 		xtsize <- 1
 	}
-	
-	varycol <- all(xtcol %in% shpcols) && !is.null(xtcol) && !(is.na(xtcol[1]))
-	
-	nxfill <- if (is.matrix(fill)) ncol(fill) else 1
-	
 	nx <- max(nxtcol, nxtsize, nxtext, nxfill)
+
 	if (nxtcol<nx) xtcol <- rep(xtcol, length.out=nx)
 	if (nxtsize<nx) xtsize <- rep(xtsize, length.out=nx)
 	if (nxtext<nx) xtext <- rep(xtext, length.out=nx)
 	
+	
+	## set dummy variable for size aesthetic (if not variable)
 	if (!varysize) {
 		if (!all(is.numeric(xtsize) | xtsize=="AREA")) stop("Incorrect text sizes.", call. = FALSE)
 		if (is.numeric(xtsize[1])) {
@@ -109,17 +108,19 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		xtcol <- paste("COLOR", 1:nx, sep="_")
 	}
 	
+	## set nx to number of by facets if applicable
 	nx <- max(nx, nlevels(by))
 	
 	# update legend format from tm_layout
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
 	
+	## process data for the color and size aesthetic
 	dtcol <- process_data(data[, xtcol, drop=FALSE], by=by, free.scales=gby$free.scales.text.col, is.colors=is.colors)	
 	dtsize <- process_data(data[, xtsize, drop=FALSE], by=by, free.scales=gby$free.scales.text.size, is.colors=FALSE)
 	
+	## generic: set showNA to anyNA
 	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dtcol, "anyNA")
 	
-	##
 	if (!all(xtext %in% shpcols)) stop("Incorrect data variable used for the text", call. = FALSE)
 
 	text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), nrow=npol, ncol=nx) else as.character(data[[xtext]])
@@ -202,6 +203,8 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	col.legend.labels <- dcr$legend.labels
 	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
+	col.nonemptyFacets <- dcr$nonemptyFacets
+
 	col.neutral <- gt$aes.colors[["text"]] # preferable over dcr$col.neutral to match examples
 	breaks <- dcr$breaks
 	values <- dcr$values

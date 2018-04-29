@@ -1,33 +1,26 @@
 process_symbols <- function(data, g, gt, gby, z, interactive) {
+	## general variables
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
-	
-	
+
+	## aesthetics
 	xsize <- g$size
 	xcol <- g$col
 	xshape <- g$shape
-	
+
+	## specific symbol shape preprocessing
 	if (is.list(xshape) && "iconUrl" %in% names(xshape)) xshape <- split_icon(xshape)
 	if (is.grob(xshape)) xshape <- list(xshape)
 	
-	
-	# if (interactive) {
-	# 	if (length(xsize)>1) warning("Facets are not supported in view mode yet. Only symbol size aesthetic value \"", xsize[1], "\" will be shown.", call.=FALSE)
-	# 	if (length(xcol)>1) warning("Facets are not supported in view mode yet. Only symbol color aesthetic value \"", xcol[1], "\" will be shown.", call.=FALSE)
-	# 	xsize <- xsize[1]
-	# 	xcol <- xcol[1]
-	# 	xshape <- xshape[1]
-	# }
-
-	
+	## general color aesthetic, color NA, alpha checks / defaults
 	if (length(xcol)==1 && is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["symbols"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE
-	
 	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_symbols/tm_dots is not a numeric", call. = FALSE)
 	
+	## shortcut (why?)		
 	if (is.null(xsize)) {
 		return(list(symbol.size=NULL,
 					xsize=NA,
@@ -42,8 +35,9 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 					symbol.group = g$group))
 	}
 	
-	# if by is specified, use first value only
-	if (nlevels(by)>1) {
+	## general 'by' check: if by => |aes| = 1, and determine nx
+	if (nlevels(by)>1 && (length(xsize) > 1 || length(xcol) > 1 || length(xshape) > 1)) {
+		warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
 		xsize <- xsize[1]
 		xcol <- xcol[1]
 		xshape <- xshape[1]
@@ -51,15 +45,21 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	nxsize <- length(xsize)
 	nxcol <- length(xcol)
 	nxshape <- length(xshape)
-	
+	nx <- max(nxcol, nxsize, nxshape)
+
+	## make aesthetics same length and check whether they specified with variable names (e.g. vary...)
 	varysize <- all(xsize %in% shpcols) && !is.null(xsize)
 	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
 	varyshape <- is.vector(xshape) && all(xshape %in% shpcols) && !is.null(xshape)
-	
-	nx <- max(nxcol, nxsize, nxshape)
 	if (nxcol<nx) xcol <- rep(xcol, length.out=nx)
 	if (nxsize<nx) xsize <- rep(xsize, length.out=nx)
 	if (nxshape<nx) xshape <- rep(xshape, length.out=nx)
+	
+	
+	
+	
+	
+	
 	
 	if (!varysize) {
 		if (!all(is.numeric(xsize))) stop("symbol sizes are neither numeric nor valid variable name(s)", call. = FALSE)
@@ -121,6 +121,10 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	} 
 	nx <- max(nx, nlevels(by))
 	
+	symbol.size.legend.show <- rep(g$legend.size.show, length.out = nx)
+	symbol.shape.legend.show <- rep(g$legend.shape.show, length.out = nx)
+	symbol.col.legend.show <- rep(g$legend.col.show, length.out = nx)
+	
 	# update legend format from tm_layout
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
 	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
@@ -142,6 +146,9 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		symbol.size.legend.values <- lapply(res, function(r)r$symbol.size.legend.values)
 		symbol.legend.sizes <- lapply(res, function(r)r$symbol.legend.sizes)
 		symbol.max.size <- lapply(res, function(r)r$symbol.max.size)
+		
+		emptySizeLegend <- sapply(symbol.size.legend.labels, function(ssll) is.na(ssll[1]))
+		symbol.size.legend.show[emptySizeLegend] <- FALSE
 	} else {
 		if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
 		res <- process_symbols_size_vector(dtsize, g, rescale=varysize, gt=gt, reverse=g$legend.size.reverse)
@@ -151,6 +158,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 			symbol.size.legend.values <- res$symbol.size.legend.values
 			symbol.legend.sizes <- res$symbol.legend.sizes
 			symbol.max.size <- res$symbol.max.size
+			
+			symbol.size.nonemptyFacets <- rep(TRUE, nx)
 		} else {
 			symbol.size.legend.labels <- NA
 			symbol.size.legend.values <- NA
@@ -158,9 +167,11 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 			symbol.max.size <- res$symbol.max.size
 			xsize <- rep(NA, nx)
 			symbol.size.legend.title <- rep(NA, nx)
+			symbol.size.nonemptyFacets <- rep(TRUE, nx)
 		}
 	}
-	
+	symbol.nonemptyFacets <- apply(symbol.size, MARGIN = 2,function(v) !all(is.na(v)))
+	print(symbol.nonemptyFacets)
 	
 	
 	
@@ -242,6 +253,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	col.legend.labels <- dcr$legend.labels
 	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
+	col.nonemptyFacets <- dcr$nonemptyFacets
+	
 	col.neutral <- dcr$col.neutral
 	breaks <- dcr$breaks
 	values <- dcr$values
@@ -317,6 +330,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	list(symbol.size=symbol.size,
 		 symbol.col=col,
 		 symbol.shape=symbol.shape,
+		 symbol.nonemptyFacets = symbol.nonemptyFacets,
 		 symbol.border.lwd=g$border.lwd,
 		 symbol.border.col=symbol.border.col,
 		 #symbol.scale=scale, # not needed anymore?
@@ -345,12 +359,12 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 xshape=xshape,
 		 symbol.xmod=xmod,
 		 symbol.ymod=ymod,
-		 symbol.size.legend.show=g$legend.size.show,
+		 symbol.size.legend.show=symbol.size.legend.show,
 		 symbol.size.legend.title=symbol.size.legend.title,
 		 symbol.size.legend.is.portrait=g$legend.size.is.portrait,
 		 symbol.size.legend.reverse=g$legend.size.reverse,
 		 symbol.size.legend.z=symbol.size.legend.z,
-		 symbol.shape.legend.show=g$legend.shape.show,
+		 symbol.shape.legend.show=symbol.shape.legend.show,
 		 symbol.shape.legend.title=symbol.shape.legend.title,
 		 symbol.shape.legend.is.portrait=g$legend.shape.is.portrait,
 		 symbol.shape.legend.reverse=g$legend.shape.reverse,
@@ -358,7 +372,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		 #symbol.shape.legend.hist.title=symbol.shape.legend.hist.title,
 		 symbol.shape.legend.z=symbol.shape.legend.z,
 		 #symbol.shape.legend.hist.z=symbol.legend.hist.z,
-		 symbol.col.legend.show=g$legend.col.show,
+		 symbol.col.legend.show=symbol.col.legend.show,
 		 symbol.col.legend.title=symbol.col.legend.title,
 		 symbol.col.legend.is.portrait=g$legend.col.is.portrait,
 		 symbol.col.legend.reverse=g$legend.col.reverse,

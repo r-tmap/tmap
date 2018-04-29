@@ -35,13 +35,21 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 	
 	check_aes_args(g)
 	
-	if (is.numeric(x)) {
-		if (all(is.na(x))) stop("Numerical variable only contains missing values.", call. = FALSE)
-		rng <- range(x, na.rm = TRUE)
-		if (abs(rng[2] - rng[1]) < 1e-9) {
-			warning("The value range is less than 1e-9", call. = FALSE)
-			x[!is.na(x)] <- round(rng[1], 9)
+	allNA <- all(is.na(x)) 
+	isNUM <- is.numeric(x)
+
+	if (isNUM) {
+		if (allNA) {
+			g$style <- "cat"
+		} else {
+			rng <- range(x, na.rm = TRUE)
+			if (abs(rng[2] - rng[1]) < 1e-9) {
+				warning("The value range is less than 1e-9", call. = FALSE)
+				x[!is.na(x)] <- round(rng[1], 9)
+			}
 		}
+	} else if (allNA) {
+		g$style <- "cat"
 	}
 	
 	if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
@@ -49,7 +57,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 	if (is.factor(x) || g$style=="cat") {
 		
 		if (is.null(g$palette)) {
-			palette.type <- ifelse(is.ordered(x), "seq", "cat")
+			palette.type <- ifelse(is.ordered(x) || (isNUM), "seq", "cat")
 			palette <- gt$aes.palette[[palette.type]] 
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
 			palette.type <- g$palette[1]
@@ -63,6 +71,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast,
 						   colorNA = g$colorNA,
+						   colorNULL=g$colorNULL,
 						   legend.labels=g$labels,
 						   max_levels=g$max.categories,
 						   legend.NA.text = g$textNA,
@@ -90,6 +99,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
+						   colorNULL=g$colorNULL,
 						   legend.NA.text = g$textNA,
 						   showNA = g$showNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc),
@@ -180,6 +190,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		breaks <- res$breaks
 		values <- split(dtcol, rep(1:nx, each=npol))
 	}
+	nonemptyFacets <- if(is.list(values)) sapply(values, function(v) !all(is.na(v))) else TRUE
 	list(is.constant=is.constant,
 		 col=col,
 		 legend.labels=legend.labels,
@@ -188,6 +199,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		 col.neutral=col.neutral,
 		 breaks=breaks,
 		 values=values,
+		 nonemptyFacets=nonemptyFacets,
 		 title_append=title_append)
 }
 

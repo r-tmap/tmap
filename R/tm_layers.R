@@ -24,6 +24,7 @@
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values. 
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
+#' @param colorNULL colour for polygons that are shown on the map that are out of scope 
 #' @param fontface font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_layout}}.
 #' @param fontfamily font family of the text labels. By default, determined by the fontfamily argument of \code{\link{tm_layout}}.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{fontcolor} is used (normally 1).
@@ -92,6 +93,7 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 colorNA = NA,
 					 textNA = "Missing",
 					 showNA = NA,
+					 colorNULL = NA,
 					 fontface=NA, 
 					 fontfamily=NA, alpha=NA, case=NA, shadow=FALSE, bg.color=NA, bg.alpha=NA, size.lowerbound=.4, print.tiny=FALSE, scale=1, auto.placement=FALSE, remove.overlap=FALSE, along.lines=FALSE, overwrite.lines=FALSE, just=c("center","center"), xmod=0, ymod=0,
 					 title.size = NA,
@@ -168,6 +170,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
+#' @param colorNULL colour for polygons that are shown on the map that are out of scope 
 #' @param title.col title of the legend element regarding the line colors
 #' @param title.lwd title of the legend element regarding the line widths
 #' @param legend.col.show logical that determines whether the legend for the line colors is shown
@@ -218,6 +221,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 colorNA = NA,
 					 textNA = "Missing",
 					 showNA = NA,
+					 colorNULL = NA,
 					 title.col=NA,
 					 title.lwd=NA,
 					 legend.col.show=TRUE,
@@ -273,6 +277,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
+#' @param colorNULL colour for polygons that are shown on the map that are out of scope 
 #' @param thres.poly number that specifies the threshold at which polygons are taken into account. The number itself corresponds to the proportion of the area sizes of the polygons to the total polygon size. By default, all polygons are drawn. To ignore polygons that are not visible in a normal plot, a value like \code{1e-05} is recommended.
 #' @param title title of the legend element
 #' @param legend.show logical that determines whether the legend is shown
@@ -322,6 +327,7 @@ tm_fill <- function(col=NA,
 			 		colorNA = NA,
 			 		textNA = "Missing",
 					showNA = NA,
+					colorNULL = NA,
 					thres.poly = 0,
 					title=NA,
 					legend.show=TRUE,
@@ -393,11 +399,12 @@ tm_polygons <- function(col=NA,
 #' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette if there are more levels than colors.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
 #' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
-#' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param saturation Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).
 #' @param interpolate Should the raster image be interpolated? By default \code{FALSE} for \code{tm_raster} and \code{TRUE} for \code{tm_rgb}.
+#' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
+#' @param colorNULL colour for polygons that are shown on the map that are out of scope 
 #' @param title title of the legend element
 #' @param legend.show logical that determines whether the legend is shown
 #' @param legend.format list of formatting options for the legend numbers. Only applicable if \code{labels} is undefined. Parameters are:
@@ -439,11 +446,12 @@ tm_raster <- function(col=NA,
 					  auto.palette.mapping = TRUE,
 					  contrast = NA,
 					  max.categories = 12,
-					  colorNA = NULL,
 					  saturation = 1,
 					  interpolate = FALSE,
+					  colorNA = NULL,
 					  textNA = "Missing",
 					  showNA = NA,
+					  colorNULL = NULL,
 					  title=NA,
 					  legend.show=TRUE,
 					  legend.format=list(),
@@ -514,6 +522,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values of the color variable.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
+#' @param colorNULL colour for polygons that are shown on the map that are out of scope 
 #' @param shapes palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.
 #' @param shapes.legend symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.
 #' @param shapes.legend.fill Fill color of legend shapes (see \code{shapes.legend})
@@ -601,6 +610,7 @@ tm_symbols <- function(size=1, col=NA,
 						colorNA = NA,
 						textNA = "Missing",
 						showNA = NA,
+						colorNULL = NA,
 						shapes = 21:25,
 						shapes.legend = NULL,
 						shapes.legend.fill = NA,

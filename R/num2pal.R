@@ -7,12 +7,19 @@ num2pal <- function(x, n = 5,
 					   contrast = 1,
 					   legend.labels = NULL,
 					   colorNA = "#FF1414",
+					   colorNULL = "#FFFFFF",
 					   legend.NA.text = "Missing",
 					   showNA=NA,
 					   process.colors=NULL,
 					   legend.format=list(scientific=FALSE),
 					reverse=FALSE
 					) {
+	sel <- attr(x, "sel")
+	if (is.null(sel)) sel <- rep(TRUE, length(x))
+	
+	x[!sel] <- NA
+	
+	
 	breaks.specified <- !is.null(breaks)
 	is.cont <- (style=="cont" || style=="order")
 	
@@ -131,14 +138,15 @@ num2pal <- function(x, n = 5,
 	
 	ids <- findCols(q)
 	cols <- legend.palette[ids]
-	anyNA <- any(is.na(cols))
+	anyNA <- any(is.na(cols) & sel)
 	breaks.palette <- legend.palette
 	if (anyNA) {
-		if (is.na(showNA)) showNA <- TRUE
+		if (is.na(showNA)) showNA <- any(is.na(cols) & sel)
 		cols[is.na(cols)] <- colorNA
 	} else {
 		if (is.na(showNA)) showNA <- FALSE
 	}
+	cols[!sel] <- colorNULL
 
 	if (is.cont) {
 		# recreate legend palette for continuous cases

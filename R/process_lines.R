@@ -1,42 +1,36 @@
 process_lines <- function(data, g, gt, gby, z, interactive) {
+	## general variables
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
 
-
+	## aesthetics
 	xcol <- g$col
 	xlwd <- g$lwd
 	
-	# if (interactive) {
-	# 	if (length(xcol)>1) warning("Facets are not supported in view mode yet. Only line color aesthetic value \"", xcol[1], "\" will be shown.", call.=FALSE)
-	# 	if (length(xlwd)>1) warning("Facets are not supported in view mode yet. Only line width aesthetic value \"", xlwd[1], "\" will be shown.", call.=FALSE)
-	# 	xcol <- xcol[1]	
-	# 	xlwd <- xlwd[1]
-	# } 
-
+	## general color aesthetic, color NA, alpha checks / defaults
 	if (length(xcol)==1 && is.na(xcol)[1]) xcol <- gt$aes.colors["lines"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE
-	
 	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_lines is not a numeric", call. = FALSE)
 	
-	
-		
-	if (nlevels(by)>1) {
+	## general 'by' check: if by => |aes| = 1, and determine nx
+	if (nlevels(by)>1 && (length(xcol) > 1 || length(xlwd) > 1)) {
+		warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
 		xcol <- xcol[1]
 		xlwd <- xlwd[1]
 	}
-	
 	nxcol <- length(xcol)
 	nxlwd <- length(xlwd)
+	nx <- max(nxcol, nxlwd)
 	
+	## make aesthetics same length and check whether they specified with variable names (e.g. vary...)
+	if (nxcol<nx) xcol <- rep(xcol, length.out=nx)
+	if (nxlwd<nx) xlwd <- rep(xlwd, length.out=nx)
 	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
 	varylwd <- all(xlwd %in% shpcols) && !is.null(xlwd)
 	
-	nx <- max(nxcol, nxlwd)
-	if (nxcol<nx) xcol <- rep(xcol, length.out=nx)
-	if (nxlwd<nx) xlwd <- rep(xlwd, length.out=nx)
 
 	if (!varylwd) {
 		if (!all(is.numeric(xlwd))) stop("Line widths are neither numeric nor valid variable name(s)", call. = FALSE)
@@ -114,6 +108,8 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 	col.legend.labels <- dcr$legend.labels
 	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
+	col.nonemptyFacets <- dcr$nonemptyFacets
+	
 	col.neutral <- dcr$col.neutral
 	breaks <- dcr$breaks
 	values <- dcr$values

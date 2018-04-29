@@ -59,6 +59,14 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 process_symbols_size_vector <- function(x, g, rescale, gt, reverse) {
 	#check_aes_args(g)
 	
+	if (all(is.na(x))) {
+		return(list(symbol.size=rep(NA, length(x)),
+					symbol.size.legend.labels=NA,
+					symbol.size.legend.values=NA,
+					symbol.legend.sizes=NA,
+					symbol.max.size=g$size.max))
+	}
+	
 	if (!is.na(g$size.lim[1])) {
 		x[x<g$size.lim[1]] <- NA
 		x[x>g$size.lim[2]] <- g$size.lim[2]
@@ -79,6 +87,7 @@ process_symbols_size_vector <- function(x, g, rescale, gt, reverse) {
 	} else {
 		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of symbols in the legend", call. = FALSE)
 		symbol.size.legend.labels <- g$sizes.legend.labels
+		attr(symbol.size.legend.labels, "align") <- g$legend.format$text.align
 	}
 	
 	maxX <- ifelse(rescale, ifelse(is.na(g$size.max), max(x, na.rm=TRUE), g$size.max), 1)
@@ -123,6 +132,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt, reverse) {
 	} else {
 		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of texts in the legend", call. = FALSE)
 		size.legend.labels <- g$sizes.legend.labels
+		attr(size.legend.labels, "align") <- g$legend.format$text.align
 	}
 	
 	root <- ifelse(rescale, g$root, 1)
@@ -185,6 +195,7 @@ process_line_lwd_vector <- function(x, g, rescale, reverse) {
 	} else {
 		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of lines in the legend", call. = FALSE)
 		line.lwd.legend.labels <- g$line.lwd.legend.labels
+		attr(line.lwd.legend.labels, "align") <- g$legend.format$text.align
 	}
 	
 	line.lwd <- g$scale * (x/maxW)

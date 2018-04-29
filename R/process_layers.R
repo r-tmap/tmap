@@ -200,5 +200,31 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	plot.order <- plot.order[substr(plot.order, 1, 13)!="tm_add_legend"]
 	
+	# if (!is.na(by[1])) {
+	# 	print(levels(data$GROUP_BY))
+	# 	print(panel.names)
+	# }
+	
+	if (!is.na(by[1]) && gf$drop.NA.facets) { #identical(gf$showNA, FALSE)
+		neFL <- list(gfill$fill.nonemptyFacets,
+			 glines$line.nonemptyFacets,
+			 gsymbol$symbol.nonemptyFacets,
+			 gtext$text.nonemptyFacets,
+			 graster$raster.nonemptyFacets)
+		neFLS <- sapply(neFL, function(nef) length(nef)==length(by))
+		neFL <- neFL[neFLS]
+		neFM <- do.call(cbind, neFL)
+		eF <- rowSums(neFM) == 0 & (as.integer(table(data$GROUP_BY)) != 0) # the latter is controlled by drop.empty.facets
+		#data$GROUP_BY[eF] <- NA
+
+		lev <- levels(data$GROUP_BY)[!eF]
+
+		data$GROUP_BY <- factor(as.character(data$GROUP_BY), levels = lev)
+		by <- by[!eF]
+		gfill$fill <- gfill$fill[, !eF]
+		panel.names <- panel.names[!eF]
+	}
+	
+	
 	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, gtiles, list(add_legends=add_legends))
 }

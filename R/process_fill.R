@@ -1,27 +1,26 @@
 process_fill <- function(data, g, gb, gt, gby, z, interactive) {
-	
+	## general variables
 	npol <- nrow(data)
 	by <- data$GROUP_BY
-	
 	shpcols <- names(data)[1:(ncol(data)-2)]
 
+	## aesthetics
 	x <- g$col
-	# if (interactive) {
-	# 	if (length(x)>1) warning("Facets are not supported in view mode yet. Only polygon fill aesthetic value \"", x[1], "\" will be shown.", call.=FALSE)
-	# 	x <- x[1]	
-	# } 
 
+	## general color aesthetic, color NA, alpha checks / defaults
 	if (length(x)==1 && is.na(x)[1]) x <- gt$aes.colors["fill"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
+	if (is.null(g$colorNULL)) g$colorNULL <- "#00000000"
+	if (is.na(g$colorNULL)[1]) g$colorNULL <- gt$aes.colors["null"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE
-
 	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_polygons/tm_fill is not a numeric", call. = FALSE)
 		
-	# if by is specified, use first value only
-	if (nlevels(by)>1) x <- x[1]
+	## general 'by' check: if by => |aes| = 1, and determine nx
+	if (nlevels(by)>1 && length(x) > 1) warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
 	nx <- length(x)
 	
+
 	if (attr(data, "kernel_density") && !("col" %in% g$call) && "level" %in% shpcols) {
 		is.colors <- FALSE
 		x <- "level"
@@ -51,7 +50,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	}
 		
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
-	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dt, "anyNA")
+	if (nlevels(by)>1) if (is.na(g$showNA) && !gby$free.scales.fill) g$showNA <- any(attr(dt, "anyNA") & !(gby$drop.NA.facets) & attr(dt, "allNA"))
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
 	nx <- max(nx, nlevels(by))
@@ -109,10 +108,19 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	col.legend.labels <- dcr$legend.labels
 	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
+	col.nonemptyFacets <- dcr$nonemptyFacets
 	col.neutral <- dcr$col.neutral
 	breaks <- dcr$breaks
 	values <- dcr$values
 	title_append <- dcr$title_append
+	
+	fill.legend.show <- rep(g$legend.show, length.out = nx)
+	
+	if (nx > 1 && gby$free.scales.fill) {
+		emptyLegend <- sapply(col.legend.labels, function(ssll) is.na(ssll[1]))
+		fill.legend.show[emptyLegend] <- FALSE
+	}
+	
 	
 	fill.legend.title <- if (is.ena(g$title)[1]) paste(x, title_append) else g$title
 	fill.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
@@ -126,15 +134,19 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 		fill.legend.hist.title <- g$legend.hist.title
 	} else fill.legend.hist.title <- ""
 
-	if (!g$legend.show) fill.legend.title <- NA
+	#if (!g$legend.show) fill.legend.title <- NA
+	
+	if (any(!g$legend.show)) fill.legend.title[!g$legend.show]
+	
 	list(fill=col,
+		 fill.nonemptyFacets = col.nonemptyFacets,
 		 fill.legend.labels=col.legend.labels,
 		 fill.legend.values=col.legend.values,
 		 fill.legend.palette=col.legend.palette,
 		 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col),
 		 fill.legend.hist.misc=list(values=values, breaks=breaks, densities=g$convert2density),
 		 xfill=x,
-		 fill.legend.show=g$legend.show,
+		 fill.legend.show=fill.legend.show,
 		 fill.legend.title=fill.legend.title,
 		 fill.legend.is.portrait=g$legend.is.portrait,
 		 fill.legend.reverse=g$legend.reverse,

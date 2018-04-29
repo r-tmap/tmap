@@ -5,25 +5,41 @@ process_data <- function(data, by, free.scales, is.colors, split.by=TRUE) {
 	if (nby > 1) {
 		nx <- nby
 		dat <- data[[1]]
+		if (cls[1]=="cha") {
+			dat <- as.factor(dat)
+			cls[1] <- "fac"
+		}
 		if (cls[1]=="fac") xlvls <- levels(dat)
 		X <- lapply(levels(by), function(l) {
-			if (cls[1]=="fac") {
-				ch <- ifelse(by==l, as.character(dat), NA) 
+			sel <- by==l
+			dat2 <- if (cls[1]=="fac") {
+				ch <- ifelse(sel, as.character(dat), NA) 
 				lvls <- if (free.scales) intersect(xlvls, ch) else xlvls
 				factor(ch, levels=lvls)
 			} else {
 				if (split.by) {
-					ifelse(by==l, dat, NA)	
+					ifelse(sel, dat, NA)	
 				} else dat
 			}
+			
+			attr(dat2, "sel") <- sel
+			dat2
 		})
+		
+		Xsel <- lapply(X, attr, "sel")
+		
 		names(X) <- levels(by)
 		if (cls[1]=="col") {
-			return(matrix(unlist(X), ncol=nby))
+			M <- matrix(unlist(X), ncol=nby)
+			attr(M, "sel") <- matrix(unlist(Xsel), ncol=nby)
+			return(M)
 		} else if (cls[1]=="num" && !free.scales) {
 			Y <- unlist(X)
+			attr(Y, "sel") <- unlist(Xsel)
 		} else Y <- X
-		attr(Y, "anyNA") <- any(is.na(dat))
+		
+		attr(Y, "anyNA") <- sapply(X, function(i) any(is.na(i) & attr(i, "sel")))
+		attr(Y, "allNA") <- sapply(X, function(i) all(is.na(i)[attr(i, "sel")]))
 		return(Y)
 	} else {
 		if (all(cls=="col")) return(as.matrix(data))

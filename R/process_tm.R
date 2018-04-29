@@ -185,6 +185,7 @@ process_tm <- function(x, gt, gm, interactive) {
 		}
 	}, data_by, is_raster, SIMPLIFY=FALSE)
 	
+	
 	## check if by is consistent among groups
 	by_counts <- sapply(data_by, nlevels)
 	if (sum(by_counts>1)>1) {

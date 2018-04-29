@@ -1,13 +1,19 @@
 process_raster <- function(data, g, gt, gby, z, interactive) {
+	## general variables
 	npol <- nrow(data)
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-1)]
-	
-	
+
 	# update gt$pc's saturation
 	gt$pc$saturation <- gt$pc$saturation * g$saturation
 	
+	## general (!color aesthetic), color NA, alpha checks / defaults
+	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
+	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
+	if (g$colorNA=="#00000000") g$showNA <- FALSE
 	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_raster is not a numeric", call. = FALSE)
+	
+	## check raster shortcuts
 	if ("PIXEL__COLOR" %in% names(data)) {
 		x <- "PIXEL__COLOR"
 		data$PIXEL__COLOR <- do.call("process_color", c(list(col=data$PIXEL__COLOR, alpha=g$alpha), gt$pc))
@@ -19,17 +25,15 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 		nx <- 1
 	} else {
 		x <- g$col
-		# if (interactive) {
-		# 	if (length(x)>1) warning("Facets are not supported in view mode yet. Only raster color aesthetic value \"", x[1], "\" will be shown.", call.=FALSE)
-		# 	x <- x[1]
-		# } 
-		
+
 		# by default, use the first data variable
 		if (is.na(x[1])) x <- names(data)[1]
-		
-		
-		# if by is specified, use first value only
-		if (nlevels(by)>1) x <- x[1]
+
+		## general 'by' check: if by => |aes| = 1, and determine nx
+		if (nlevels(by)>1 && length(x) > 1) {
+			warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
+			x <- x[1]
+		}
 		nx <- length(x)
 		
 		# check for direct color input
@@ -45,11 +49,9 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 			x <- paste("COLOR", 1:nx, sep="_")
 		}
 	}
-	interpolate <- ifelse(is.na(g$interpolate), is.colors, g$interpolate)
 	
-	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
-	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
-	if (g$colorNA=="#00000000") g$showNA <- FALSE
+	## set interpolate: TRUE if is.colors (i.e. image)
+	interpolate <- ifelse(is.na(g$interpolate), is.colors, g$interpolate)
 	
 	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.raster, is.colors=is.colors)
@@ -85,6 +87,8 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 	col.legend.labels <- dcr$legend.labels
 	col.legend.values <- dcr$legend.values
 	col.legend.palette <- dcr$legend.palette
+	col.nonemptyFacets <- dcr$nonemptyFacets
+	
 	breaks <- dcr$breaks
 	values <- dcr$values
 	
@@ -107,6 +111,7 @@ process_raster <- function(data, g, gt, gby, z, interactive) {
 	
 	
 	list(raster=col,
+		 raster.nonemptyFacets = col.nonemptyFacets,
 		 raster.legend.labels=col.legend.labels,
 		 raster.legend.values=col.legend.values,
 		 raster.legend.palette=col.legend.palette,
