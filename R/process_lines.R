@@ -148,6 +148,7 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		 line.lwd=line.lwd,
 		 line.lty=g$lty,
 		 line.alpha=g$alpha,
+		 line.nonemptyFacets = col.nonemptyFacets,
 		 line.col.legend.labels=col.legend.labels,
 		 line.col.legend.values=col.legend.values,
 		 line.col.legend.palette=col.legend.palette,

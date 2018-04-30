@@ -15,6 +15,8 @@ cat2pal <- function(x,
 	sel <- attr(x, "sel")
 	if (is.null(sel)) sel <- rep(TRUE, length(x))
 	
+	x[!sel] <- NA
+	
 	if (!is.factor(x)) {
 		su <- sort(unique(x))
 		if (is.numeric(su) && length(su) > max_levels) stop("Number of unique values is more than max.categories, so style = \"cat\" cannot be used. Please use numeric intervals instead, e.g. with style =  \"pretty\"")

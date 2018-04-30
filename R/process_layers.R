@@ -187,7 +187,6 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	
 	legids <- which(substr(names(g), 1, 13)=="tm_add_legend")
-	
 	if (length(legids)) {
 		add_legends <- mapply(function(gal, name) {
 			if (is.na(gal$z)) gal$z <- z + which(plot.order==name)
@@ -200,11 +199,8 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	plot.order <- plot.order[substr(plot.order, 1, 13)!="tm_add_legend"]
 	
-	# if (!is.na(by[1])) {
-	# 	print(levels(data$GROUP_BY))
-	# 	print(panel.names)
-	# }
-	
+
+	## drop NA facets (when drop.NA.facets==TRUE)
 	if (!is.na(by[1]) && gf$drop.NA.facets) { #identical(gf$showNA, FALSE)
 		neFL <- list(gfill$fill.nonemptyFacets,
 			 glines$line.nonemptyFacets,
@@ -212,19 +208,55 @@ process_layers <- function(g, z, gt, gf, interactive) {
 			 gtext$text.nonemptyFacets,
 			 graster$raster.nonemptyFacets)
 		neFLS <- sapply(neFL, function(nef) length(nef)==length(by))
-		neFL <- neFL[neFLS]
-		neFM <- do.call(cbind, neFL)
-		eF <- rowSums(neFM) == 0 & (as.integer(table(data$GROUP_BY)) != 0) # the latter is controlled by drop.empty.facets
-		#data$GROUP_BY[eF] <- NA
 
-		lev <- levels(data$GROUP_BY)[!eF]
+		if (any(neFLS)) {
+			neFL <- neFL[neFLS]
+			neFM <- do.call(cbind, neFL)
+			eF <- rowSums(neFM) == 0 & (as.integer(table(data$GROUP_BY)) != 0) # the latter is controlled by drop.empty.facets
+			#data$GROUP_BY[eF] <- NA
 
-		data$GROUP_BY <- factor(as.character(data$GROUP_BY), levels = lev)
-		by <- by[!eF]
-		gfill$fill <- gfill$fill[, !eF]
-		panel.names <- panel.names[!eF]
+			lev <- levels(data$GROUP_BY)[!eF]
+
+			data$GROUP_BY <- factor(as.character(data$GROUP_BY), levels = lev)
+			by <- by[!eF]
+			if (neFLS[1]) gfill <- within(gfill, {
+				fill <- fill[, !eF]
+				fill.nonemptyFacets <- fill.nonemptyFacets[!eF]
+				fill.legend.labels <- truncate_labels(fill.legend.labels, !eF)
+				fill.legend.values <- fill.legend.values[!eF]
+				fill.legend.palette <- fill.legend.palette[!eF]
+				fill.legend.hist.misc$values <- fill.legend.hist.misc$values[!eF]
+				fill.legend.hist.misc$breaks <- fill.legend.hist.misc$breaks[!eF]
+				fill.legend.show <- fill.legend.show[!eF]
+				fill.legend.title <- fill.legend.title[!eF]
+			})
+			if (neFLS[2]) glines <- within(glines, {
+				line.col <- line.col[, !eF]
+				line.lwd <- line.lwd[, !eF]
+
+				line.nonemptyFacets <- line.nonemptyFacets[!eF]
+				line.col.legend.labels <- line.col.legend.labels[!eF]
+				line.col.legend.values <- line.col.legend.values[!eF]
+				line.col.legend.palette <- line.col.legend.palette[!eF]
+				line.legend.hist.misc$values <- line.legend.hist.misc$values[!eF]
+				line.legend.hist.misc$breaks <- line.legend.hist.misc$breaks[!eF]
+			})
+			panel.names <- panel.names[!eF]
+		}
 	}
-	
+
 	
 	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, gtiles, list(add_legends=add_legends))
+}
+
+truncate_label_vec <- function(label, sel) {
+	structure(label[sel], align = attr(label, "align"))	
+}
+
+truncate_labels <- function(labels, sel) {
+	if (is.list(labels)) {
+		labels[sel]
+	} else {
+		truncate_label_vec(labels, sel)
+	}
 }
