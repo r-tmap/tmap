@@ -12,6 +12,7 @@ process_data <- function(data, by, free.scales, is.colors, split.by=TRUE) {
 		if (cls[1]=="fac") xlvls <- levels(dat)
 		X <- lapply(levels(by), function(l) {
 			sel <- by==l
+			sel[is.na(sel)] <- FALSE
 			dat2 <- if (cls[1]=="fac") {
 				ch <- ifelse(sel, as.character(dat), NA) 
 				lvls <- if (free.scales) intersect(xlvls, ch) else xlvls

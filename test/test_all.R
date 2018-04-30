@@ -20,11 +20,11 @@ tm_shape(NLD_prov) +
 
 settings <- list(drop.units = c(TRUE, FALSE),
 				 free.coords = c(TRUE, FALSE),
+				 free.scales = c(TRUE, FALSE),
 				 drop.empty.facets = c(TRUE, FALSE),
-				 drop.NA.facets = FALSE, #c(TRUE, FALSE),
-				 showNA = c(TRUE, FALSE),
-				 free.scales = c(TRUE, FALSE))
-shortcuts <- c("du", "fc", "de", "dn", "sn", "fs")
+				 drop.NA.facets = c(TRUE, FALSE),
+				 showNA = c(TRUE, FALSE))
+shortcuts <- c("du", "fc", "fs", "de", "dn", "sn")
 comb <- do.call(expand.grid, c(settings, list(KEEP.OUT.ATTRS = FALSE)))
 
 pdf("tests.pdf", width = 7, height = 7)
@@ -47,9 +47,12 @@ for (i in 1:nrow(comb)) {
 }
 dev.off()
 
-
-tm_shape(NLD_prov) +
-	tm_polygons("v1") +
-	tm_facets(by = "by", drop.units = F, free.coords = T, drop.empty.facets = F, drop.NA.facets = F, showNA = F, free.scales = F)
-	
+# 
+# tm_shape(NLD_prov) +
+# 	tm_polygons("v1") +
+# 	tm_facets(by = "by", drop.units = F, free.coords = T, drop.empty.facets = F, drop.NA.facets = F, showNA = F, free.scales = F)
+# 	
 	#do.call(tm_facets, c(list(by="by"), comb[29,]))
+
+# 12 showNA=FALSE -> areas NULL instead of NA
+# 13-16 deF_dnF_snF_fsT
