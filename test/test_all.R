@@ -10,11 +10,6 @@ NLD_prov$v2 <- c("x", "y", NA, NA, NA, NA, "x", "y", "x", "y", NA, NA)
 NLD_prov$name[c(5, 7, 8, 9)] <- NA
 
 
-
-NLD_prov$geometry <- sf::st_cast(NLD_prov$geometry, "MULTILINESTRING", group_or_split = FALSE)
-
-
-
 tests <- list(
 	list(layer = "polygons", args = list(col = "green")),
 	list(layer = "polygons", args = list(col = "v1")),
@@ -24,13 +19,14 @@ tests <- list(
 	list(layer = "lines", args = list(col = "v2"))
 )
 
-test <- tests[[2]]
+test <- tests[[5]]
 
-test_tmap_facet_by(tests[[2]])
-
-					
-test_tmap_facet_by <- function(test) {
-	filename <- paste0("test_", test$layer, ".pdf")
+for (test in tests) {
+	if (test$layer == "lines") {
+		NLD_prov$geometry <- sf::st_cast(NLD_prov$geometry, "MULTILINESTRING", group_or_split = FALSE)
+	}
+	
+	filename <- paste0("test_", test$layer, "_", unname(unlist(test$args))[1], ".pdf")
 	fun <- paste0("tm_", test$layer)
 	
 	pdf(filename, width = 7, height = 7)
@@ -44,18 +40,23 @@ test_tmap_facet_by <- function(test) {
 	shortcuts <- c("du", "fc", "fs", "de", "dn", "sn")
 	comb <- do.call(expand.grid, c(settings, list(KEEP.OUT.ATTRS = FALSE)))
 	
+	
+	# comb[c(44,60), ]
+	
 	pb <- txtProgressBar(min = 1, max = nrow(comb), initial = 1)
 	
 	for (i in 1:nrow(comb)) {
 		setTxtProgressBar(pb, i)
 		cb <- as.list(comb[i,])
 		name <- paste(mapply(paste0, shortcuts, c("F", "T")[as.numeric(unlist(cb)) + 1]), collapse = "_")
-
+		
 		tryCatch({
 			print(tm_shape(NLD_prov) +
 				  	do.call(fun, test$args) +
 				  	do.call(tm_facets, c(list(by="by"), cb)) +
-				  	tm_layout(title=name))
+				  	tm_layout(title=name)
+			)
+			
 		}, error=function(e) {
 			#		grid.newpage()
 			grid::upViewport(0)
@@ -69,11 +70,19 @@ test_tmap_facet_by <- function(test) {
 
 
 
-tm_shape(NLD_prov) +
-	tm_polygons("green") +
-	tm_facets(by = "by", drop.units = T, free.coords = T, drop.empty.facets = T, drop.NA.facets = T, showNA = T, free.scales = T)
 
+# 
+# 
+# tm_shape(NLD_prov) +
+# 	tm_polygons("green") +
+# 	tm_facets(by = "by", drop.units = T, free.coords = T, drop.empty.facets = T, drop.NA.facets = T, showNA = T, free.scales = T)
+# 
+# 
+# tm_shape(NLD_prov) +
+# tm_polygons("v1") +
+# tm_facets(by = "by", drop.units = T, free.coords = T, free.scales = F, drop.empty.facets = F, drop.NA.facets = T, showNA = T)
 
 tm_shape(NLD_prov) +
-tm_polygons("v1") +
-tm_facets(by = "by", drop.units = F, free.coords = F, drop.empty.facets = F, drop.NA.facets = T, showNA = T, free.scales = T)
+	tm_lines("v1") +
+	tm_facets(by = "by", drop.units = F, free.coords = F, free.scales = T, drop.empty.facets = F,  showNA = T, drop.NA.facets = F)
+

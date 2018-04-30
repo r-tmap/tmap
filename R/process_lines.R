@@ -61,7 +61,7 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.line.col, is.colors=is.colors)
 	dtlwd <- process_data(data[, xlwd, drop=FALSE], by=by, free.scales=gby$free.scales.line.lwd, is.colors=FALSE, split.by=split.by)
 	
-	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dtcol, "anyNA")
+	if (nlevels(by)>1) if (is.na(g$showNA) && !gby$free.scales.line.col) g$showNA <- any(attr(dt, "anyNA") & !(gby$drop.NA.facets & attr(dt, "allNA")))
 	if (is.list(dtlwd)) {
 		# multiple variables for lwd are defined
 		gsl <- split_g(g, n=nx)
@@ -126,6 +126,20 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		rep(quantile(line.legend.lwds, probs=.75, na.rm=TRUE), nx)
 	}
 	
+	
+	col.legend.show <- rep(g$legend.col.show, length.out = nx)
+	lwd.legend.show <- rep(g$legend.lwd.show, length.out = nx)
+	
+	if (nx > 1 && gby$free.scales.line.col) {
+		emptyLegend <- sapply(col.legend.labels, function(ssll) is.na(ssll[1]))
+		col.legend.show[emptyLegend] <- FALSE
+	}
+	if (nx > 1 && gby$free.scales.line.lwd) {
+		emptyLegend <- sapply(line.lwd.legend.labels, function(ssll) is.na(ssll[1]))
+		lwd.legend.show[emptyLegend] <- FALSE
+	}
+	
+	
 	line.col.legend.title <- if (is.ena(g$title.col)[1]) xcol else g$title.col
 	line.lwd.legend.title <- if (is.ena(g$title.lwd)[1]) xlwd else g$title.lwd
 	line.col.legend.z <- if (is.na(g$legend.col.z)) z else g$legend.col.z
@@ -164,8 +178,8 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 		 line.col.legend.hist.misc=list(values=values, breaks=breaks),
 		 xline=xcol,
 		 xlinelwd=xlwd,
-		 line.col.legend.show=g$legend.col.show,
-		 line.lwd.legend.show=g$legend.lwd.show,
+		 line.col.legend.show=col.legend.show,
+		 line.lwd.legend.show=lwd.legend.show,
 		 line.col.legend.title=line.col.legend.title,
 		 line.lwd.legend.title=line.lwd.legend.title,
 		 line.col.legend.is.portrait=g$legend.col.is.portrait,

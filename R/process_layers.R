@@ -223,23 +223,24 @@ process_layers <- function(g, z, gt, gf, interactive) {
 				fill <- fill[, !eF]
 				fill.nonemptyFacets <- fill.nonemptyFacets[!eF]
 				fill.legend.labels <- truncate_labels(fill.legend.labels, !eF)
-				fill.legend.values <- fill.legend.values[!eF]
-				fill.legend.palette <- fill.legend.palette[!eF]
-				fill.legend.hist.misc$values <- fill.legend.hist.misc$values[!eF]
-				fill.legend.hist.misc$breaks <- fill.legend.hist.misc$breaks[!eF]
+				fill.legend.values <- truncate_other(fill.legend.values, !eF)
+				fill.legend.palette <- truncate_other(fill.legend.palette, !eF)
+				fill.legend.hist.misc$values <- truncate_other(fill.legend.hist.misc$values, !eF)
+				fill.legend.hist.misc$breaks <- truncate_other(fill.legend.hist.misc$breaks, !eF)
 				fill.legend.show <- fill.legend.show[!eF]
 				fill.legend.title <- fill.legend.title[!eF]
 			})
 			if (neFLS[2]) glines <- within(glines, {
 				line.col <- line.col[, !eF]
 				line.lwd <- line.lwd[, !eF]
-
 				line.nonemptyFacets <- line.nonemptyFacets[!eF]
-				line.col.legend.labels <- line.col.legend.labels[!eF]
-				line.col.legend.values <- line.col.legend.values[!eF]
-				line.col.legend.palette <- line.col.legend.palette[!eF]
-				line.legend.hist.misc$values <- line.legend.hist.misc$values[!eF]
-				line.legend.hist.misc$breaks <- line.legend.hist.misc$breaks[!eF]
+				line.col.legend.labels <- truncate_labels(line.col.legend.labels, !eF)
+				line.col.legend.values <- truncate_other(line.col.legend.values, !eF)
+				line.col.legend.palette <- truncate_other(line.col.legend.palette, !eF)
+				line.legend.hist.misc$values <- truncate_other(line.legend.hist.misc$values, !eF)
+				line.legend.hist.misc$breaks <- truncate_other(line.legend.hist.misc$breaks, !eF)
+				line.col.legend.show <- line.col.legend.show[!eF]
+				line.col.legend.title <- line.col.legend.title[!eF]
 			})
 			panel.names <- panel.names[!eF]
 		}
@@ -257,6 +258,14 @@ truncate_labels <- function(labels, sel) {
 	if (is.list(labels)) {
 		labels[sel]
 	} else {
-		truncate_label_vec(labels, sel)
+		labels #truncate_label_vec(labels, sel)
+	}
+}
+
+truncate_other <- function(x, sel) {
+	if (is.list(x)) {
+		x[sel]
+	} else {
+		x
 	}
 }

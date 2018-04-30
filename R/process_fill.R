@@ -50,7 +50,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	}
 		
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
-	if (nlevels(by)>1) if (is.na(g$showNA) && !gby$free.scales.fill) g$showNA <- any(attr(dt, "anyNA") & !(gby$drop.NA.facets) & attr(dt, "allNA"))
+	if (nlevels(by)>1) if (is.na(g$showNA) && !gby$free.scales.fill) g$showNA <- any(attr(dt, "anyNA") & !(gby$drop.NA.facets & attr(dt, "allNA")))
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
 	nx <- max(nx, nlevels(by))
