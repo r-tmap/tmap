@@ -17,6 +17,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	if (length(xcol)==1 && is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["symbols"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
 	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
+	if (is.null(g$colorNULL)) g$colorNULL <- "#00000000"
+	if (is.na(g$colorNULL)[1]) g$colorNULL <- gt$aes.colors["null"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE
 	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_symbols/tm_dots is not a numeric", call. = FALSE)
 	
@@ -133,7 +135,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.size, is.colors=FALSE)
 	dtshape <- process_data(data[, xshape, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.shape, is.colors=FALSE)
 	
-	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dtcol, "anyNA")
+	if (nlevels(by)>1 && varycol) if (is.na(g$showNA) && !gby$free.scales.symbol.col) g$showNA <- any(attr(dtcol, "anyNA") & !(gby$drop.NA.facets & attr(dtcol, "allNA")))
 	
 	
 	if (is.list(dtsize)) {
@@ -171,7 +173,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		}
 	}
 	symbol.nonemptyFacets <- apply(symbol.size, MARGIN = 2,function(v) !all(is.na(v)))
-	print(symbol.nonemptyFacets)
+	#print(symbol.nonemptyFacets)
 	
 	
 	

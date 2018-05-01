@@ -175,6 +175,15 @@ process_text_size_vector <- function(x, text, g, rescale, gt, reverse) {
 process_line_lwd_vector <- function(x, g, rescale, reverse) {
 	check_aes_args(g)
 
+	
+	if (all(is.na(x))) {
+		return(list(
+			line.lwd=rep(NA, length.out=length(x)),
+			line.legend.lwds=NA,
+			line.lwd.legend.labels=NA,
+			line.lwd.legend.values=NA))
+	}
+	
 	if (is.null(g$lwd.legend)) {
 		w_legend <- pretty(x, 7)
 		w_legend <- w_legend[w_legend!=0]

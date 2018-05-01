@@ -1,193 +1,86 @@
-####################################################################################################
-## Test drop.units and free.coords combinations
-####################################################################################################
-data(NLD_muni)
+library(sf)
+library(grid)
+
 data(NLD_prov)
 
-tm_shape(NLD_muni) +
-	tm_borders() +
-	tm_facets(by="province") +
-	tm_fill("population", style="kmeans", convert2density = TRUE) +
-	tm_shape(NLD_prov) +
-	tm_borders(lwd=4) +
-	tm_facets(by="name", drop.units=FALSE, free.coords=FALSE) +
-	tm_layout(legend.show = FALSE)
-
-tm_shape(NLD_muni) +
-	tm_borders() +
-	tm_facets(by="province") +
-	tm_fill("population", style="kmeans", convert2density = TRUE) +
-	tm_shape(NLD_prov) +
-	tm_borders(lwd=4) +
-	tm_facets(by="name", drop.units=TRUE, free.coords=FALSE) +
-	tm_layout(legend.show = FALSE)
-
-tm_shape(NLD_muni) +
-	tm_borders() +
-	tm_facets(by="province") +
-	tm_fill("population", style="kmeans", convert2density = TRUE) +
-	tm_shape(NLD_prov) +
-	tm_borders(lwd=4) +
-	tm_facets(by="name", drop.units=FALSE, free.coords=TRUE) +
-	tm_layout(legend.show = FALSE)
-
-tm_shape(NLD_muni) +
-	tm_borders() +
-	tm_facets(by="province") +
-	tm_fill("population", style="kmeans", convert2density = TRUE) +
-	tm_shape(NLD_prov) +
-	tm_borders(lwd=4) +
-	tm_facets(by="name", free.coords=TRUE, drop.units=TRUE) +
-	tm_layout(legend.show = FALSE)
+NLD_prov <- st_sf(name = as.character(NLD_prov$name), geometry=NLD_prov$geometry, stringsAsFactors = FALSE)
+NLD_prov$by <- factor(rep(c(NA,2,3, 4), each = 3), levels=1:4, labels = letters[1:4])
+NLD_prov$v1 <- c(9, 8, 3, 7, 8, NA, NA, NA, NA, 3, 5, NA)
+NLD_prov$v2 <- c("x", "y", NA, NA, NA, NA, "x", "y", "x", "y", NA, NA)
+NLD_prov$name[c(5, 7, 8, 9)] <- NA
 
 
-####################################################################################################
-## Test group by variants with polygons
-####################################################################################################
-N <- NLD_prov[1:4,]
+tests <- list(
+	list(layer = "polygons", args = list(col = "green")),
+	list(layer = "polygons", args = list(col = "v1")),
+	list(layer = "polygons", args = list(col = "v2")),
+	list(layer = "lines", args = list(col = "green", lwd = 10)),
+	list(layer = "lines", args = list(col = "v1", lwd = 10)),
+	list(layer = "lines", args = list(col = "v2", lwd = 10)),
+	list(layer = "lines", args = list(col = "blue", lwd = "v1", scale = 5)),
+	list(layer = "symbols", args = list(col = "green")),
+	list(layer = "symbols", args = list(col = "v1")),
+	list(layer = "symbols", args = list(col = "v2"))
+)
 
-N$by <- factor(c("R", "L", "R", "L"), levels=c("L", "R", "S"))
-N$var <- factor(c(NA, "A", "A", "B"), levels=c("A", "B"))
+test <- tests[[9]]
 
-N$by2 <- factor(c("R", "L", "R", NA), levels=c("L", "R"))
-N$var2 <- factor(c("B", "A", "A", "B"), levels=c("A", "B"))
-
-
-tm_shape(N) +
-	tm_polygons("gold") +
-	tm_facets(by="by", drop.empty.facets = F)
-
-tm_shape(N) +
-	tm_polygons("gold") +
-	tm_facets(by="by", drop.units = TRUE, free.coords = T)
-
-
-tm_shape(N) +
-	tm_polygons("var") +
-	tm_facets(by="by")
-
-tm_shape(N) +
-	tm_polygons("var") +
-	tm_facets(by="by", drop.units = T)
-
-tm_shape(N) +
-	tm_polygons("var2") +
-	tm_facets(by="by2")
-
-tm_shape(N) +
-	tm_polygons("var2") +
-	tm_facets(by="by2", drop.units = T)
-
-
-####################################################################################################
-## Test group by variants with lines
-####################################################################################################
-
-data(rivers)
-library(rgeos)
-R <- rivers[order(gLength(rivers, byid = T), decreasing = T)[1:4], ]
-
-R$by <- factor(c("R", "L", "R", "L"), levels=c("L", "R"))
-R$var <- factor(c(NA, "A", "A", "B"), levels=c("A", "B"))
-
-R$by2 <- factor(c("R", "L", "R", NA), levels=c("L", "R"))
-R$var2 <- factor(c("B", "A", "A", "B"), levels=c("A", "B"))
-R$len <- c(1,10,2,11)
-
-tm_shape(R) +
-	tm_lines("var", lwd=5, palette="Set1") +
-	tm_facets(by="by")
-
-tm_shape(R) +
-	tm_lines("var", lwd="len", palette="Set1", scale=5) +
-	tm_facets(by="by", free.scales = F)
-
-tm_shape(R) +
-	tm_lines("var", lwd=5, palette="Set1") +
-	tm_facets(by="by", drop.units = T)
-
-tm_shape(R) +
-	tm_lines("var2", lwd=5, palette="Set1") +
-	tm_facets(by="by2")
-
-tm_shape(R) +
-	tm_lines("var2", lwd=5, palette="Set1") +
-	tm_facets(by="by2", drop.units = T)
-
-####################################################################################################
-## Test group by variants with points
-####################################################################################################
-
-data(metro)
-metro$name
-
-M <- metro[match(c("London", "Paris", "Berlin", "Rome"), metro$name), ]
-qtm(M)
-
-M$by <- factor(c("M", "L", "M", "L"), levels=c("L", "M"))
-M$var <- factor(c(NA, "A", "A", "B"), levels=c("A", "B"))
-
-M$by2 <- factor(c("M", "L", "M", NA), levels=c("L", "M"))
-M$var2 <- factor(c("B", "A", "A", "B"), levels=c("A", "B"))
-M$len <- c(1,10,2,11)
-
-tm_shape(M) +
-	tm_bubbles("var", size=5, palette="Set1") +
-	tm_facets(by="by")
-
-tm_shape(M) +
-	tm_bubbles("var", size="len", palette="Set1", scale=5) +
-	tm_facets(by="by", free.scales = F)
-
-tm_shape(M) +
-	tm_bubbles("var", size=5, palette="Set1") +
-	tm_facets(by="by", drop.units = T)
-
-tm_shape(M) +
-	tm_bubbles("var2", size=5, palette="Set1") +
-	tm_facets(by="by2")
-
-tm_shape(M) +
-	tm_bubbles("var2", size=5, palette="Set1") +
-	tm_facets(by="by2", drop.units = T)
-
-####################################################################################################
-## Test group by variants with text
-####################################################################################################
-
-tm_shape(M) +
-	tm_text("name", col =  "var", size=5, palette="Set1") +
-	tm_facets(by="by")
-
-tm_shape(M) +
-	tm_text("name", "var", size="len", palette="Set1", scale=5) +
-	tm_facets(by="by", free.scales = F)
-
-tm_shape(M) +
-	tm_text("name", "var", size=5, palette="Set1") +
-	tm_facets(by="by", drop.units = T)
-
-tm_shape(M) +
-	tm_text("name", "var2", size=5, palette="Set1") +
-	tm_facets(by="by2", free.coords = T, drop.units=T)
-
-tm_shape(M) +
-	tm_text("name", "var2", size=5, palette="Set1") +
-	tm_facets(by="by2", drop.units = T)
-
-####################################################################################################
-## Test group by variants with rasters
-####################################################################################################
-
-data(land)
-L <- land[as.integer(land$cover_cls) < 5,]
-
-tm_shape(L) +
-	tm_raster("cover") +
-	tm_facets("cover_cls", free.coords = T)
-
-tm_shape(L) +
-	tm_raster("cover") +
-	tm_facets("cover_cls", free.coords = T, showNA = F)
+for (test in tests) {
+	shp <- NLD_prov
+	if (test$layer == "lines") {
+		shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
+	}
+	
+	filename <- paste0("test_", test$layer, "_", unname(unlist(test$args))[1], ".pdf")
+	fun <- paste0("tm_", test$layer)
+	
+	pdf(filename, width = 7, height = 7)
+	
+	settings <- list(drop.units = c(TRUE, FALSE),
+					 free.coords = c(TRUE, FALSE),
+					 free.scales = c(TRUE, FALSE),
+					 drop.empty.facets = c(TRUE, FALSE),
+					 showNA = c(TRUE, FALSE),
+					 drop.NA.facets = c(TRUE, FALSE))
+	shortcuts <- c("du", "fc", "fs", "de", "dn", "sn")
+	comb <- do.call(expand.grid, c(settings, list(KEEP.OUT.ATTRS = FALSE)))
+	
+	
+	# comb[c(44,60), ]
+	
+	pb <- txtProgressBar(min = 1, max = nrow(comb), initial = 1)
+	
+	for (i in 1:nrow(comb)) {
+		setTxtProgressBar(pb, i)
+		cb <- as.list(comb[i,])
+		name <- paste(mapply(paste0, shortcuts, c("F", "T")[as.numeric(unlist(cb)) + 1]), collapse = "_")
+		
+		tryCatch({
+			print(tm_shape(shp) +
+				  	do.call(fun, test$args) +
+				  	do.call(tm_facets, c(list(by="by"), cb)) +
+				  	tm_layout(title=name)
+			)
+			
+		}, error=function(e) {
+			#		grid.newpage()
+			grid::upViewport(0)
+			grid.text(y = .8, label = name)
+			grid.text(y = .2, label = e)
+		})
+	}
+	dev.off()
+}
 
 
+shp <- NLD_prov
+shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
+tm_shape(shp) +
+	tm_lines("blue", lwd = "v2", scale = 5, lwd.legend = 1:10) +
+	tm_facets(by = "by", drop.units = T, free.coords = T, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = T)
+
+
+shp <- NLD_prov
+tm_shape(shp) +
+	tm_symbols(col="v1", n=19) +
+	tm_facets(by = "by", drop.units = T, free.coords = T, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = T)

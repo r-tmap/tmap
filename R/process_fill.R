@@ -48,7 +48,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	} else {
 		is.colors <- FALSE
 	}
-		
+	
 	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
 	if (nlevels(by)>1) if (is.na(g$showNA) && !gby$free.scales.fill) g$showNA <- any(attr(dt, "anyNA") & !(gby$drop.NA.facets & attr(dt, "allNA")))
 	## output: matrix=colors, list=free.scales, vector=!freescales
@@ -65,6 +65,8 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gt$pc)),
 						 ncol=ncol(dt))
 		}
+		sel <- attr(dt, "sel")
+		dt[!sel] <- g$colorNULL
 		return(list(fill=dt, 
 					xfill=rep(NA, nx), 
 					fill.lenged.title=rep(NA, nx),
@@ -136,7 +138,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 
 	#if (!g$legend.show) fill.legend.title <- NA
 	
-	if (any(!g$legend.show)) fill.legend.title[!g$legend.show]
+	if (any(!fill.legend.show)) fill.legend.title[!fill.legend.show]
 	
 	list(fill=col,
 		 fill.nonemptyFacets = col.nonemptyFacets,

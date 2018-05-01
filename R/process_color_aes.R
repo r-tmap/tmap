@@ -141,6 +141,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		legend.values <- NA
 		legend.palette <- NA
 		col.neutral <- apply(col, 2, function(bc) na.omit(bc)[1])
+		col.neutral[is.na(col.neutral)] <- "#000000" #dummy for empty facets
 		breaks <- NA
 		values <- NA
 		title_append <- ""

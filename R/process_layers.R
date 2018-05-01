@@ -237,10 +237,53 @@ process_layers <- function(g, z, gt, gf, interactive) {
 				line.col.legend.labels <- truncate_labels(line.col.legend.labels, !eF)
 				line.col.legend.values <- truncate_other(line.col.legend.values, !eF)
 				line.col.legend.palette <- truncate_other(line.col.legend.palette, !eF)
-				line.legend.hist.misc$values <- truncate_other(line.legend.hist.misc$values, !eF)
-				line.legend.hist.misc$breaks <- truncate_other(line.legend.hist.misc$breaks, !eF)
+				line.col.legend.misc$line.legend.lwd <- truncate_vec(line.col.legend.misc$line.legend.lwd, !eF)
+				line.col.legend.hist.misc$values <- truncate_other(line.col.legend.hist.misc$values, !eF)
+				line.col.legend.hist.misc$breaks <- truncate_other(line.col.legend.hist.misc$breaks, !eF)
 				line.col.legend.show <- line.col.legend.show[!eF]
 				line.col.legend.title <- line.col.legend.title[!eF]
+				
+				line.lwd.legend.labels <- truncate_labels(line.lwd.legend.labels, !eF)
+				line.lwd.legend.values <- truncate_other(line.lwd.legend.values, !eF)
+				line.lwd.legend.palette <- truncate_vec(line.lwd.legend.palette, !eF)
+				line.lwd.legend.misc$legend.lwds <- truncate_other(line.lwd.legend.misc$legend.lwds, !eF)
+				xline <- truncate_vec(xline, !eF)
+				xlinelwd <- truncate_vec(xlinelwd, !eF)
+				line.lwd.legend.show <- line.lwd.legend.show[!eF]
+				line.lwd.legend.title <- line.lwd.legend.title[!eF]
+			})
+			if (neFLS[3]) gsymbol <- within(gsymbol, {
+				symbol.size <- symbol.size[, !eF]
+				symbol.col <- symbol.col[, !eF]
+				symbol.shape <- symbol.shape[, !eF]
+				
+				symbol.nonemptyFacets <- symbol.nonemptyFacets[!eF]
+				
+				symbol.col.legend.labels <- truncate_labels(symbol.col.legend.labels, !eF)
+				symbol.col.legend.values <- truncate_other(symbol.col.legend.values, !eF)
+				symbol.col.legend.palette <- truncate_other(symbol.col.legend.palette, !eF)
+				symbol.col.legend.hist.misc$values <- truncate_other(symbol.col.legend.hist.misc$values, !eF)
+				symbol.col.legend.hist.misc$breaks <- truncate_other(symbol.col.legend.hist.misc$breaks, !eF)
+				symbol.col.legend.show <- symbol.col.legend.show[!eF]
+				symbol.col.legend.title <- symbol.col.legend.title[!eF]
+				
+				symbol.size.legend.labels <- truncate_labels(symbol.size.legend.labels, !eF)
+				symbol.size.legend.values <- truncate_other(symbol.size.legend.values, !eF)
+				symbol.size.legend.palette <- truncate_other(symbol.size.legend.palette, !eF)
+				symbol.size.legend.sizes <- truncate_other(symbol.size.legend.sizes, !eF)
+				symbol.size.legend.shapes <- truncate_other(symbol.size.legend.shapes, !eF)
+				symbol.size.legend.show <- symbol.size.legend.show[!eF]
+				symbol.size.legend.title <- symbol.size.legend.title[!eF]
+				symbol.col.legend.hist.misc  <- truncate_other(symbol.col.legend.hist.misc , !eF)
+				
+				symbol.shape.legend.labels <- truncate_labels(symbol.shape.legend.labels, !eF)
+				symbol.shape.legend.values <- truncate_other(symbol.shape.legend.values, !eF)
+				symbol.shape.legend.palette <- truncate_other(symbol.shape.legend.palette, !eF)
+				symbol.shape.legend.show <- symbol.shape.legend.show[!eF]
+				symbol.shape.legend.title <- symbol.shape.legend.title[!eF]
+				
+				xsize <- truncate_vec(xsize, !eF)
+				xcol <- truncate_vec(xcol, !eF)
 			})
 			panel.names <- panel.names[!eF]
 		}
@@ -261,6 +304,14 @@ truncate_labels <- function(labels, sel) {
 		labels #truncate_label_vec(labels, sel)
 	}
 }
+truncate_vec <- function(x, sel) {
+	if (length(x) > 1) {
+		x[sel]
+	} else {
+		x
+	}
+}
+
 
 truncate_other <- function(x, sel) {
 	if (is.list(x)) {
