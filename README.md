@@ -2,7 +2,7 @@ tmap: thematic maps in R
 ===
 
 [![Build Status](https://travis-ci.org/mtennekes/tmap.png?branch=master)](https://travis-ci.org/mtennekes/tmap)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mtennekes/tmap?branch=master&svg=true)](https://ci.appveyor.com/project/mtennekes/tmap)<!---[![Coverage Status](https://img.shields.io/codecov/c/github/mtennekes/tmap/master.svg)](https://codecov.io/github/mtennekes/tmap?branch=master)--->
+[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/mtennekes/tmap?branch=master&svg=true)](https://ci.appveyor.com/project/mtennekes/tmap)<!-- [![Coverage Status](https://img.shields.io/codecov/c/github/mtennekes/tmap/master.svg)](https://codecov.io/github/mtennekes/tmap?branch=master) -->
 [![License](https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat)](http://www.gnu.org/licenses/gpl-3.0.html) 
 [![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
 [![Downloads](http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](http://www.r-pkg.org/pkg/tmap)
@@ -41,19 +41,18 @@ However, for some operating systems require additional libraries. The installati
 **Windows**
 No additional installation required.
 
-
 **Linux (Ubuntu)**
-See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation_16.sh) and [17](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation_17.sh). See also [issue thread]https://github.com/mtennekes/tmap/issues/150)
+See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation_16.sh) and [17](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation_17.sh). See also [issue thread](https://github.com/mtennekes/tmap/issues/150).
 
 **macOS**
-See http://www.kyngchaos.com and [issue thread]https://github.com/mtennekes/tmap/issues/149)
+See http://www.kyngchaos.com and [issue thread](https://github.com/mtennekes/tmap/issues/149).
 
 
 Development
 ------------
 
 
-The latest development version can be installed using `devtools`. In order to use the development version of `tmap`, it is recommended to use the development version of `tmaptools` as well (see [tmaptools](http://github.com/mtennekes/tmaptools))
+The latest development version can be installed using `devtools`. In order to use the development version of `tmap`, it is recommended to use the development version of `tmaptools` as well (see [tmaptools](http://github.com/mtennekes/tmaptools)):
 
 ```r
 library(devtools)
@@ -117,7 +116,7 @@ Other resources
 Getting help
 -----
 
-There are two main places to get help with tmap:
+There are two main places to get help with `tmap`:
 
 1.  [stackoverflow](http://stackoverflow.com/tags/tmap) is a great source of answers to common tmap questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Please tag your questions with *tmap*.
 2.  If you have a request or if think your problem is caused by a bug, please open an [issue](https://github.com/mtennekes/tmap/issues), preferably with are reproducible example.
