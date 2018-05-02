@@ -7,6 +7,9 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	## aesthetics
 	x <- g$col
 
+	
+	g <- check_g(g, gt)
+	
 	## general color aesthetic, color NA, alpha checks / defaults
 	if (length(x)==1 && is.na(x)[1]) x <- gt$aes.colors["fill"]
 	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
@@ -49,7 +52,7 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 		is.colors <- FALSE
 	}
 	
-	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
+	dt <- process_data(data[, x, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
 	if (nlevels(by)>1) if (is.na(g$showNA) && !gby$free.scales.fill) g$showNA <- any(attr(dt, "anyNA") & !(gby$drop.NA.facets & attr(dt, "allNA")))
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
@@ -61,13 +64,19 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	
 	# return if data is matrix of color values
 	if (is.matrix(dt)) {
+		sel <- attr(dt, "sel")
+		allNA <- attr(dt, "allNA")
+		fillna <- is.na(dt)
 		if (!is.colors) {
 			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gt$pc)),
 						 ncol=ncol(dt))
 		}
-		sel <- attr(dt, "sel")
+		dt[fillna] <- g$colorNA
 		dt[!sel] <- g$colorNULL
+		col.nonemptyFacets <- !allNA
+		
 		return(list(fill=dt, 
+					fill.nonemptyFacets = col.nonemptyFacets,
 					xfill=rep(NA, nx), 
 					fill.lenged.title=rep(NA, nx),
 					fill.id=g$id,

@@ -39,6 +39,7 @@ tm_shape <- function(shp,
 					 simplify = 1,
 					 point.per = "feature",
 					 line.center = "midpoint",
+					 filter = NULL,
 					 ...) {
 	shp_name <- ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name)
 	g <- list(tm_shape=c(as.list(environment()), list(...)))

@@ -7,7 +7,9 @@ NLD_prov <- st_sf(name = as.character(NLD_prov$name), geometry=NLD_prov$geometry
 NLD_prov$by <- factor(rep(c(NA,2,3, 4), each = 3), levels=1:4, labels = letters[1:4])
 NLD_prov$v1 <- c(9, 8, 3, 7, 8, NA, NA, NA, NA, 3, 5, NA)
 NLD_prov$v2 <- c("x", "y", NA, NA, NA, NA, "x", "y", "x", "y", NA, NA)
+NLD_prov$name2 <- NLD_prov$name
 NLD_prov$name[c(5, 7, 8, 9)] <- NA
+
 
 
 tests <- list(
@@ -23,9 +25,11 @@ tests <- list(
 	list(layer = "symbols", args = list(col = "v2"))
 )
 
-test <- tests[[9]]
+test <- tests[[8]]
 
-for (test in tests) {
+filter <- c(TRUE, TRUE) # extra option: if c(T, F) units 1, 3, ... are selected
+
+for (test in tests[8:10]) {
 	shp <- NLD_prov
 	if (test$layer == "lines") {
 		shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
@@ -56,7 +60,7 @@ for (test in tests) {
 		name <- paste(mapply(paste0, shortcuts, c("F", "T")[as.numeric(unlist(cb)) + 1]), collapse = "_")
 		
 		tryCatch({
-			print(tm_shape(shp) +
+			print(tm_shape(shp, filter = filter) +
 				  	do.call(fun, test$args) +
 				  	do.call(tm_facets, c(list(by="by"), cb)) +
 				  	tm_layout(title=name)
@@ -81,6 +85,27 @@ tm_shape(shp) +
 
 
 shp <- NLD_prov
-tm_shape(shp) +
-	tm_symbols(col="v1", n=19) +
-	tm_facets(by = "by", drop.units = T, free.coords = T, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = T)
+shp$v3 <- letters[1:12]
+shp$v2b <- "green"
+shp$v2b[is.na(shp$v2)] <- NA
+tm_shape(shp, filter = c(TRUE, F)) +
+	tm_polygons(col="v2") +
+	tm_facets(by = "by", drop.units = T, free.coords = F, free.scales = F, drop.empty.facets = T,  showNA = F, drop.NA.facets = T)
+
+shp$by2 <- factor("a", levels=letters[1:3])
+shp$v4 <- 1:12
+
+tm_shape(shp, filter = c(TRUE, F)) +
+	tm_polygons(col="v4") +
+	tm_facets(by = "by2", drop.units = T, free.coords = F, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = F)
+
+
+
+shp <- NLD_prov
+shp$v3 <- letters[1:12]
+shp$v2b <- "green"
+shp$v2b[is.na(shp$v2)] <- NA
+tm_shape(shp, filter = c(TRUE, T)) +
+	tm_symbols(col="v2b") +
+	tm_facets(by = "by", drop.units = T, free.coords = F, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = F)
+

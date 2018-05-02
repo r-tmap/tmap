@@ -213,6 +213,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			shp$tmapID <- seq_len(nrow(shp))
 		}
 		
+		data$tmapfilter <- if (is.null(y$filter)) rep(TRUE, nrow(shp)) else rep(y$filter, length.out = nrow(shp))
+		
 		# reproject if nessesary
 		shp_crs <- get_projection(shp, output="crs")
 		if (is.na(shp_crs)) {

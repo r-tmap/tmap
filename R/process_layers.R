@@ -220,18 +220,21 @@ process_layers <- function(g, z, gt, gf, interactive) {
 			data$GROUP_BY <- factor(as.character(data$GROUP_BY), levels = lev)
 			by <- by[!eF]
 			if (neFLS[1]) gfill <- within(gfill, {
-				fill <- fill[, !eF]
+				fill <- fill[, !eF, drop=FALSE]
+				xfill <- truncate_vec(xfill, !eF)
 				fill.nonemptyFacets <- fill.nonemptyFacets[!eF]
-				fill.legend.labels <- truncate_labels(fill.legend.labels, !eF)
-				fill.legend.values <- truncate_other(fill.legend.values, !eF)
-				fill.legend.palette <- truncate_other(fill.legend.palette, !eF)
-				fill.legend.hist.misc$values <- truncate_other(fill.legend.hist.misc$values, !eF)
-				fill.legend.hist.misc$breaks <- truncate_other(fill.legend.hist.misc$breaks, !eF)
-				fill.legend.show <- fill.legend.show[!eF]
-				fill.legend.title <- fill.legend.title[!eF]
+				if (!is.na(xfill[1])) {
+					fill.legend.labels <- truncate_labels(fill.legend.labels, !eF)
+					fill.legend.values <- truncate_other(fill.legend.values, !eF)
+					fill.legend.palette <- truncate_other(fill.legend.palette, !eF)
+					fill.legend.hist.misc$values <- truncate_other(fill.legend.hist.misc$values, !eF)
+					fill.legend.hist.misc$breaks <- truncate_other(fill.legend.hist.misc$breaks, !eF)
+					fill.legend.show <- fill.legend.show[!eF]
+					fill.legend.title <- fill.legend.title[!eF]
+				}
 			})
 			if (neFLS[2]) glines <- within(glines, {
-				line.col <- line.col[, !eF]
+				line.col <- line.col[, !eF, drop=FALSE]
 				line.lwd <- line.lwd[, !eF]
 				line.nonemptyFacets <- line.nonemptyFacets[!eF]
 				line.col.legend.labels <- truncate_labels(line.col.legend.labels, !eF)
@@ -253,9 +256,9 @@ process_layers <- function(g, z, gt, gf, interactive) {
 				line.lwd.legend.title <- line.lwd.legend.title[!eF]
 			})
 			if (neFLS[3]) gsymbol <- within(gsymbol, {
-				symbol.size <- symbol.size[, !eF]
-				symbol.col <- symbol.col[, !eF]
-				symbol.shape <- symbol.shape[, !eF]
+				symbol.size <- symbol.size[, !eF, drop=FALSE]
+				symbol.col <- symbol.col[, !eF, drop=FALSE]
+				symbol.shape <- symbol.shape[, !eF, drop=FALSE]
 				
 				symbol.nonemptyFacets <- symbol.nonemptyFacets[!eF]
 				

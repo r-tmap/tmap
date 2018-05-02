@@ -137,6 +137,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
 		col <- dtcol
+		col[is.na(col)] <- g$colorNA
 		legend.labels <- NA
 		legend.values <- NA
 		legend.palette <- NA

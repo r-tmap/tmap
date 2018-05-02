@@ -131,9 +131,9 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
 	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
 	
-	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.col, is.colors=is.colors)
-	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.size, is.colors=FALSE)
-	dtshape <- process_data(data[, xshape, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.shape, is.colors=FALSE)
+	dtcol <- process_data(data[, xcol, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby$free.scales.symbol.col, is.colors=is.colors)
+	dtsize <- process_data(data[, xsize, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby$free.scales.symbol.size, is.colors=FALSE)
+	dtshape <- process_data(data[, xshape, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby$free.scales.symbol.shape, is.colors=FALSE)
 	
 	if (nlevels(by)>1 && varycol) if (is.na(g$showNA) && !gby$free.scales.symbol.col) g$showNA <- any(attr(dtcol, "anyNA") & !(gby$drop.NA.facets & attr(dtcol, "allNA")))
 	

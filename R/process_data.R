@@ -1,7 +1,9 @@
-process_data <- function(data, by, free.scales, is.colors, split.by=TRUE) {
+process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE) {
 	
 	nby <- nlevels(by)
 	cls <- check_tm_classes(data, is.colors)
+	data[!filter, ] <- NA
+	by[!filter] <- NA
 	if (nby > 1) {
 		nx <- nby
 		dat <- data[[1]]
@@ -32,7 +34,12 @@ process_data <- function(data, by, free.scales, is.colors, split.by=TRUE) {
 		names(X) <- levels(by)
 		if (cls[1]=="col") {
 			M <- matrix(unlist(X), ncol=nby)
-			attr(M, "sel") <- matrix(unlist(Xsel), ncol=nby)
+			sel  <- matrix(unlist(Xsel), ncol=nby)
+			
+			attr(M, "sel") <- sel
+			attr(M, "anyNA") <- apply(is.na(M) & sel, MARGIN = 2, any)
+			attr(M, "allNA") <- !apply(!is.na(M) & sel, MARGIN = 2, any)
+
 			return(M)
 		} else if (cls[1]=="num" && !free.scales) {
 			Y <- unlist(X)
@@ -43,24 +50,42 @@ process_data <- function(data, by, free.scales, is.colors, split.by=TRUE) {
 		attr(Y, "allNA") <- sapply(X, function(i) all(is.na(i)[attr(i, "sel")]))
 		return(Y)
 	} else {
-		if (all(cls=="col")) return(as.matrix(data))
+		#data[!filter, ] <- NA
+		if (all(cls=="col")) {
+			m <- as.matrix(data)
+			attr(m, "sel") <- matrix(filter, nrow = nrow(data), ncol=ncol(data))
+			return(m)
+		}
 		
 		if (!free.scales) {
 			if (all(cls=="num")) {
-				return(unlist(data))
+				datavec <- unlist(data)
+				attr(datavec, "sel") <- rep(filter, ncol(data))
+				return(datavec)
 			} else {
 				xlvls_list <- mapply(function(d, cl){
 					if (cl=="fac") levels(d) else na.omit(unique(d))
 				}, data, cls, SIMPLIFY=FALSE)
 				
 				xlvls <- unique(unlist(xlvls_list))
-				return(factor(unlist(lapply(data, as.character)), levels=xlvls))
+				datavec <- factor(unlist(lapply(data, as.character)), levels=xlvls)
+				attr(datavec, "sel") <- rep(filter, ncol(data))
+				return(datavec)
 			}
 		} else {
 			if (any(cls=="cha")) data[cls=="cha"] <- lapply(data[cls=="cha"], as.factor)
 			if (ncol(data)==1) {
-				return(data[[1]])
-			} else return(as.list(data))
+				datavec <- data[[1]]
+				attr(datavec, "sel") <- filter
+				return(datavec)
+			} else {
+				datalist <- as.list(data)
+				datalist <- lapply(datalist, function(dl) {
+					attr(dl, "sel") <- filter
+					dl
+				})
+				return(datalist)
+			}
 		}
 	}
 }
