@@ -29,7 +29,7 @@ test <- tests[[8]]
 
 filter <- c(TRUE, TRUE) # extra option: if c(T, F) units 1, 3, ... are selected
 
-for (test in tests[8:10]) {
+for (test in tests[1:3]) {
 	shp <- NLD_prov
 	if (test$layer == "lines") {
 		shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
@@ -82,6 +82,12 @@ shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FA
 tm_shape(shp) +
 	tm_lines("blue", lwd = "v2", scale = 5, lwd.legend = 1:10) +
 	tm_facets(by = "by", drop.units = T, free.coords = T, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = T)
+
+
+shp <- NLD_prov
+tm_shape(shp) +
+	tm_polygons(col="v1") +
+	tm_facets(by = "by", drop.units = T, free.coords = F, free.scales = T, drop.empty.facets = F,  showNA = F, drop.NA.facets = F)
 
 
 shp <- NLD_prov

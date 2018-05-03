@@ -134,6 +134,13 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 
 
 process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL, reverse) {
+	## dtcol = matrix if direct colors are given
+	## dtcol = list in case of disjoint small multiples
+	## dtcol = vector in case of small multiples processed once (i.e. they share the legend)
+	
+	## return as color matrix (object col)
+	
+	
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
 		col <- dtcol
@@ -199,8 +206,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		 legend.values=legend.values,
 		 legend.palette=legend.palette,
 		 col.neutral=col.neutral,
-		 breaks=breaks,
-		 values=values,
+		 legend.hist.misc=list(values=values, breaks=breaks),
 		 nonemptyFacets=nonemptyFacets,
 		 title_append=title_append)
 }

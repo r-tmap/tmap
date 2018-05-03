@@ -51,16 +51,25 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 		return(Y)
 	} else {
 		#data[!filter, ] <- NA
+		
+		sel <- matrix(filter, nrow = nrow(data), ncol=ncol(data))
+		anyNA <- !apply(sel, MARGIN = 2, all)
+		allNA <- !apply(sel, MARGIN = 2, any)
+		
 		if (all(cls=="col")) {
 			m <- as.matrix(data)
-			attr(m, "sel") <- matrix(filter, nrow = nrow(data), ncol=ncol(data))
+			attr(m, "sel") <- sel
+			attr(m, "anyNA") <- anyNA
+			attr(m, "allNA") <- allNA
 			return(m)
 		}
 		
 		if (!free.scales) {
 			if (all(cls=="num")) {
 				datavec <- unlist(data)
-				attr(datavec, "sel") <- rep(filter, ncol(data))
+				attr(datavec, "sel") <- sel
+				attr(datavec, "anyNA") <- anyNA
+				attr(datavec, "allNA") <- allNA
 				return(datavec)
 			} else {
 				xlvls_list <- mapply(function(d, cl){
@@ -69,21 +78,24 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 				
 				xlvls <- unique(unlist(xlvls_list))
 				datavec <- factor(unlist(lapply(data, as.character)), levels=xlvls)
-				attr(datavec, "sel") <- rep(filter, ncol(data))
+				attr(datavec, "sel") <- sel
+				attr(datavec, "anyNA") <- anyNA
+				attr(datavec, "allNA") <- allNA
 				return(datavec)
 			}
 		} else {
 			if (any(cls=="cha")) data[cls=="cha"] <- lapply(data[cls=="cha"], as.factor)
 			if (ncol(data)==1) {
 				datavec <- data[[1]]
-				attr(datavec, "sel") <- filter
+				attr(datavec, "sel") <- sel
+				attr(datavec, "anyNA") <- anyNA
+				attr(datavec, "allNA") <- allNA
 				return(datavec)
 			} else {
 				datalist <- as.list(data)
-				datalist <- lapply(datalist, function(dl) {
-					attr(dl, "sel") <- filter
-					dl
-				})
+				attr(datalist, "sel") <- as.list(as.data.frame(sel))
+				attr(datalist, "anyNA") <- anyNA
+				attr(datalist, "allNA") <- allNA
 				return(datalist)
 			}
 		}

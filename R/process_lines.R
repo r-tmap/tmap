@@ -174,43 +174,48 @@ process_lines <- function(data, g, gt, gby, z, interactive) {
 	if (any(!col.legend.show)) line.col.legend.title[!col.legend.show]
 
 
-	list(line.col=col,
-		 line.lwd=line.lwd,
-		 line.lty=g$lty,
-		 line.alpha=g$alpha,
-		 line.nonemptyFacets = nonemptyFacets,
+	list(
+		 line.col=col,
 		 line.col.legend.labels=col.legend.labels,
 		 line.col.legend.values=col.legend.values,
 		 line.col.legend.palette=col.legend.palette,
 		 line.col.legend.misc=list(line.legend.lwd=line.legend.lwd,
 		 						  line.legend.lty=g$lty,
 		 						  line.legend.alpha=g$alpha),
+		 line.col.legend.hist.misc=list(values=values, breaks=breaks),
+		 line.col.legend.show=col.legend.show,
+		 line.col.legend.title=line.col.legend.title,
+		 line.col.legend.is.portrait=g$legend.col.is.portrait,
+		 line.col.legend.reverse=g$legend.col.reverse,
+		 line.col.legend.hist=g$legend.hist,
+		 line.col.legend.hist.title=line.col.legend.hist.title,
+		 line.col.legend.z=line.col.legend.z,
+		 line.col.legend.hist.z=line.col.legend.hist.z,
+		 xline=xcol,
+		 
+		 
+		 line.lwd=line.lwd,
 		 line.lwd.legend.labels=line.lwd.legend.labels,
 		 line.lwd.legend.values=line.lwd.legend.values,
 		 line.lwd.legend.palette=line.lwd.legend.palette,
 		 line.lwd.legend.misc=list(legend.lwds=line.legend.lwds,
 		 						  line.legend.lty=g$lty,
 		 						  line.legend.alpha=g$alpha),
-		 line.col.legend.hist.misc=list(values=values, breaks=breaks),
-		 xline=xcol,
-		 xlinelwd=xlwd,
-		 line.col.legend.show=col.legend.show,
 		 line.lwd.legend.show=lwd.legend.show,
-		 line.col.legend.title=line.col.legend.title,
 		 line.lwd.legend.title=line.lwd.legend.title,
-		 line.col.legend.is.portrait=g$legend.col.is.portrait,
 		 line.lwd.legend.is.portrait=g$legend.lwd.is.portrait,
-		 line.col.legend.reverse=g$legend.col.reverse,
 		 line.lwd.legend.reverse=g$legend.lwd.reverse,
-		 line.col.legend.hist=g$legend.hist,
-		 line.col.legend.hist.title=line.col.legend.hist.title,
-		 line.col.legend.z=line.col.legend.z,
 		 line.lwd.legend.z=line.lwd.legend.z,
-		 line.col.legend.hist.z=line.col.legend.hist.z,
+		 xlinelwd=xlwd,
+		 
+		 line.lty=g$lty,
+		 line.alpha=g$alpha,
+		 line.nonemptyFacets = nonemptyFacets,
 		 line.id=g$id,
 		 line.popup.vars=g$popup.vars,
 		 line.popup.format=g$popup.format,
 		 line.group = g$group
+
 	)
 
 }
