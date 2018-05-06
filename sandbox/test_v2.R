@@ -11,3 +11,10 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_fill("HPI") +
 	tm_facets("continent")
+
+
+data(rivers)
+
+tm_shape(rivers) +
+	tm_lines(col="scalerank", lwd = "strokelwd") +
+	tm_facets(by = "type", free.scales.line.lwd = TRUE)

@@ -1,5 +1,23 @@
 process_lines <- function(data, g, gt, gby, z, interactive) {
+
+	# aesthetics
+	xs <- list(line.col = g$col, line.lwd = g$lwd)
+
+	res <- process_aes(type = "line", xs, data, g, gt, gby, z, interactive)
+
 	
+	fill <- res$fill
+	names(fill) <- paste0("fill.", names(fill))
+	names(fill)[1] <- "fill"
+	names(fill)[names(fill)=="fill.x"] <- "xfill"
+	
+	layerInfo <- res$layerInfo
+	
+	names(layerInfo) <- paste0("fill.", names(layerInfo))
+	
+	return(c(fill, layerInfo))
+	
+
 	#process_aes(data, g, gt, gby, z, interactive, aes = c(line.col = "col", line.lwd = "lwd"))
 	
 	## general variables

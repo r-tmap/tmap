@@ -230,7 +230,9 @@ process_aes_old <- function(data, g, gt, gby, z, interactive, aes) {
 	
 }
 
-process_dtlwd <- function(dtlwd, sel, g, gt, nx, npol, reverse) {
+process_dtlwd <- function(dtlwd, g, gt, nx, npol, varylwd) {
+	reverse <- g$legend.lwd.reverse
+	is.constant <- FALSE
 	if (is.list(dtlwd)) {
 		# multiple variables for lwd are defined
 		gsl <- split_g(g, n=nx)
@@ -242,7 +244,7 @@ process_dtlwd <- function(dtlwd, sel, g, gt, nx, npol, reverse) {
 		line.lwd.legend.values <- lapply(res, function(r)r$line.lwd.legend.values)
 	} else {
 		if (!is.numeric(dtlwd)) stop("lwd argument of tm_lines is not a numeric variable", call. = FALSE)
-		res <- process_line_lwd_vector(dtlwd, g, rescale=varylwd, reverse=g$legend.lwd.reverse)
+		res <- process_line_lwd_vector(dtlwd, g, rescale=varylwd, reverse=reverse)
 		line.lwd <- matrix(res$line.lwd, nrow=npol)
 		if (varylwd) {
 			line.legend.lwds <- res$line.legend.lwds
@@ -252,9 +254,30 @@ process_dtlwd <- function(dtlwd, sel, g, gt, nx, npol, reverse) {
 			line.legend.lwds <- NA
 			line.lwd.legend.labels <- NA
 			line.lwd.legend.values <- NA
-			xlwd <- rep(NA, nx)
-			line.lwd.legend.title <- rep(NA, nx)
-			
+			is.constant <- TRUE
 		}
 	}
+	lwd.nonemptyFacets <- apply(line.lwd, MARGIN = 2, function(v) !all(is.na(v)))
+	
+	# 
+	# list(is.constant=is.constant,
+	# 	 col=col,
+	# 	 legend.labels=legend.labels,
+	# 	 legend.values=legend.values,
+	# 	 legend.palette=legend.palette,
+	# 	 col.neutral=col.neutral,
+	# 	 legend.misc = legend.misc,
+	# 	 legend.hist.misc=list(values=values, breaks=breaks, densities=g$convert2density),
+	# 	 nonemptyFacets=nonemptyFacets,
+	# 	 title_append=title_append)
+	
+	list(is.constant=is.constant,
+		 lwd=line.lwd,
+		 legend.labels=line.lwd.legend.labels,
+		 legend.values=line.lwd.legend.values,
+		 legend.misc=list(legend.lwds=line.legend.lwds,
+		 				 line.legend.lty=g$lty,
+		 				 line.legend.alpha=g$alpha),
+		 nonemptyFacets = lwd.nonemptyFacets,
+		 title_append = "")
 }

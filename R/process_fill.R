@@ -1,13 +1,4 @@
-## general color aesthetic, color NA, alpha checks / defaults
-check_g <- function(g, gt) {
-	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
-	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
-	if (is.null(g$colorNULL)) g$colorNULL <- "#00000000"
-	if (is.na(g$colorNULL)[1]) g$colorNULL <- gt$aes.colors["null"]
-	if (g$colorNA=="#00000000") g$showNA <- FALSE
-	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_polygons/tm_fill is not a numeric", call. = FALSE)
-	g
-}
+
 
 check_fill_specials <- function(x, g, gt, shpcols, data, nx) {
 	if (attr(data, "kernel_density") && !("col" %in% g$call) && "level" %in% shpcols) {
@@ -75,51 +66,22 @@ check_poly_sizes <- function(g, data, nx, islist) {
 process_fill <- function(data, g, gt, gby, z, interactive) {
 	
 	
-	type <- "Lfill"
+	
 	
 	## aesthetics
 	xs <- list(fill = g$col)
 	
-	res <- process_aes(type, xs, data, g, gt, gby, z, interactive)
+	res <- process_aes(type = "fill", xs, data, g, gt, gby, z, interactive)
 
 	fill <- res$fill
 	names(fill) <- paste0("fill.", names(fill))
 	names(fill)[1] <- "fill"
-	names(fill)[names(fill=="fill.x")] <- "xfill"
+	names(fill)[names(fill)=="fill.x"] <- "xfill"
 
 	layerInfo <- res$layerInfo
 		
 	names(layerInfo) <- paste0("fill.", names(layerInfo))
 	
 	c(fill, layerInfo)
-	
-	# list(fill=col,
-	# 	 fill.legend.labels=col.legend.labels,
-	# 	 fill.legend.values=col.legend.values,
-	# 	 fill.legend.palette=col.legend.palette,
-	# 	 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col),
-	# 	 fill.legend.hist.misc=list(values=values, breaks=breaks, densities=g$convert2density),
-	# 	 xfill=x,
-	# 	 fill.legend.show=fill.legend.show,
-	# 	 fill.legend.title=fill.legend.title,
-	# 	 fill.legend.is.portrait=g$legend.is.portrait,
-	# 	 fill.legend.reverse=g$legend.reverse,
-	# 	 fill.legend.hist=g$legend.hist,
-	# 	 fill.legend.hist.title=fill.legend.hist.title,
-	# 	 fill.legend.z=fill.legend.z,
-	# 	 fill.legend.hist.z=fill.legend.hist.z,
-	# 	 
-	# 	 fill.nonemptyFacets = col.nonemptyFacets,
-	# 	 fill.id=g$id,
-	# 	 fill.popup.vars=g$popup.vars,
-	# 	 fill.popup.format=g$popup.format,
-	# 	 fill.group = g$group)
 }
 
-aname <- function(x, a) {
-	if (a == "fill") {
-		x
-	} else {
-		x
-	}
-}

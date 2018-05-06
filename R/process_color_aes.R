@@ -133,18 +133,23 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 }
 
 
-process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL, reverse) {
+process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL) {
 	## dtcol = matrix if direct colors are given
 	## dtcol = list in case of disjoint small multiples
 	## dtcol = vector in case of small multiples processed once (i.e. they share the legend)
 	
+	reverse <- g[[aname("legend.reverse", xname)]]
+	
 	## return as color matrix (object col)
+	if (is.na(sel[1])) sel <- rep(TRUE, npol * nx)
+	sel[is.na(sel)] <- TRUE
+	
 	
 	
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
 		col <- dtcol
-		col[is.na(col)] <- g$colorNA
+		col[is.na(col)] <- g$colorNULL
 		legend.labels <- NA
 		legend.values <- NA
 		legend.palette <- NA
@@ -155,7 +160,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		title_append <- ""
 	} else if (is.list(dtcol)) {
 		# multiple variables for col are defined
-		if (is.na(sel[1])) sel <- rep(TRUE, nx)
+		
 		gsc <- split_g(g, n=nx)
 		
 		title_append <- rep("", nx)
@@ -169,6 +174,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 			title_append[isNum & isDens] <- paste("per", areas_unit)
 		}
 		
+		sel <- split(sel, f = rep(1L:nx, each = npol))
 		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse), SIMPLIFY=FALSE)
 		col <- sapply(res, function(r)r$cols)
 		legend.labels <- lapply(res, function(r)r$legend.labels)
@@ -188,7 +194,7 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		} else title_append <- ""
 		
 		#if (is.na(sel[1])) sel <- TRUE
-		sel[is.na(sel)] <- TRUE
+		
 		
 		res <- process_col_vector(dtcol, sel, g, gt, reverse)
 		col <- matrix(res$cols, nrow=npol)
@@ -199,6 +205,16 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		breaks <- res$breaks
 		values <- split(dtcol, rep(1:nx, each=npol))
 	}
+	
+	legend.misc <- list(lwd=g$gborders$lwd, border.col=g$gborders$col)
+	
+	
+	
+	
+	
+	
+	
+	
 	nonemptyFacets <- if(is.list(values)) sapply(values, function(v) !all(is.na(v))) else TRUE
 	list(is.constant=is.constant,
 		 col=col,
@@ -206,7 +222,8 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		 legend.values=legend.values,
 		 legend.palette=legend.palette,
 		 col.neutral=col.neutral,
-		 legend.hist.misc=list(values=values, breaks=breaks),
+		 legend.misc = legend.misc,
+		 legend.hist.misc=list(values=values, breaks=breaks, densities=g$convert2density),
 		 nonemptyFacets=nonemptyFacets,
 		 title_append=title_append)
 }
