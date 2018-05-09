@@ -44,7 +44,10 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 		} else if (cls[1]=="num" && !free.scales) {
 			Y <- unlist(X)
 			attr(Y, "sel") <- unlist(Xsel)
-		} else Y <- X
+		} else {
+			Y <- X
+			attr(Y, "sel") <- matrix(unlist(Xsel), ncol=nby)
+		}
 		
 		attr(Y, "anyNA") <- sapply(X, function(i) any(is.na(i) & attr(i, "sel")))
 		attr(Y, "allNA") <- sapply(X, function(i) all(is.na(i)[attr(i, "sel")]))
@@ -93,7 +96,7 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 				return(datavec)
 			} else {
 				datalist <- as.list(data)
-				attr(datalist, "sel") <- as.list(as.data.frame(sel))
+				attr(datalist, "sel") <- sel #as.list(as.data.frame(sel))
 				attr(datalist, "anyNA") <- anyNA
 				attr(datalist, "allNA") <- allNA
 				return(datalist)

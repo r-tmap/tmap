@@ -206,16 +206,16 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		values <- split(dtcol, rep(1:nx, each=npol))
 	}
 	
-	legend.misc <- list(lwd=g$gborders$lwd, border.col=g$gborders$col)
+	if (xname == "fill") {
+		legend.misc <- list(lwd=g$gborders$lwd, border.col=g$gborders$col)	
+	} else if (xname == "line.col") {
+		legend.misc <- list(line.legend.lty = g$lty, line.legend.alpha = g$alpha) # legend.lwd added later
+	} else if (xname == "symbol.col") {
+		legend.misc <- list(symbol.border.lwd=g$border.lwd, symbol.normal.size=g$legend.max.symbol.size) # symbol.border.col added later
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	nonemptyFacets <- if(is.list(values)) sapply(values, function(v) !all(is.na(v))) else TRUE
+
+	nonemptyFacets <- if(is.list(values)) sapply(values, function(v) !all(is.na(v))) else rep(TRUE, nx)
 	list(is.constant=is.constant,
 		 col=col,
 		 legend.labels=legend.labels,

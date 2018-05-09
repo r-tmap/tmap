@@ -58,30 +58,15 @@ check_poly_sizes <- function(g, data, nx, islist) {
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly", call. = FALSE)
 	
-	sel <- if (islist) rep(list(!tiny), nx) else !tiny
+	sel <- !tiny #if (islist) rep(list(!tiny), nx) else !tiny
 	list(areas = areas, sel = sel)
 }
 
 
 process_fill <- function(data, g, gt, gby, z, interactive) {
 	
-	
-	
-	
 	## aesthetics
 	xs <- list(fill = g$col)
-	
-	res <- process_aes(type = "fill", xs, data, g, gt, gby, z, interactive)
-
-	fill <- res$fill
-	names(fill) <- paste0("fill.", names(fill))
-	names(fill)[1] <- "fill"
-	names(fill)[names(fill)=="fill.x"] <- "xfill"
-
-	layerInfo <- res$layerInfo
-		
-	names(layerInfo) <- paste0("fill.", names(layerInfo))
-	
-	c(fill, layerInfo)
+	process_aes(type = "fill", xs, "xfill", "fill", data, g, gt, gby, z, interactive)
 }
 

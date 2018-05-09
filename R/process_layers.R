@@ -156,6 +156,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 		glines <- list(line.lwd=NULL, xline=NA, xlinelwd=NA, line.col.legend.title=NA, line.lwd.legend.title=NA, line.id=NA, line.group = NA) 
 	} else {
 		glines <- process_lines(data, g$tm_lines, gt, gf, z=z+which(plot.order=="tm_lines"), interactive=interactive)	
+		assign("tmap_new", glines, envir = .GlobalEnv)
 	} 
 
 	# raster info

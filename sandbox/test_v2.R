@@ -1,4 +1,3 @@
-
 data(World)
 
 tm_shape(World) +
@@ -18,3 +17,6 @@ data(rivers)
 tm_shape(rivers) +
 	tm_lines(col="scalerank", lwd = "strokelwd") +
 	tm_facets(by = "type", free.scales.line.lwd = TRUE)
+
+tm_shape(rivers) +
+	tm_lines(col="scalerank", lwd = "strokelwd")

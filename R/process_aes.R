@@ -4,7 +4,7 @@ aname <- function(x, a) {
 	if (a %in% c("fill", "raster")) {
 		x
 	} else {
-		y <- gsub(".*\\.", "\\1", x)
+		y <- gsub("^[a-z]*\\.", "\\1", x)
 		if (y == "title") {
 			paste("title", a, sep = ".")
 		} else {
@@ -25,7 +25,7 @@ check_g <- function(g, gt) {
 	g
 }
 
-process_aes <- function(type, xs, data, g, gt, gby, z, interactive) {
+process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interactive) {
 	
 	
 	## general variables
@@ -37,7 +37,7 @@ process_aes <- function(type, xs, data, g, gt, gby, z, interactive) {
 	
 	xs <- mapply(function(x, nm) {
 		if (length(x)==1 && is.na(x)[1]) gt$aes.colors[nm] else x
-	}, xs, names(xs), SIMPLIFY = FALSE)
+	}, xs, colname, SIMPLIFY = FALSE)
 	
 	g <- check_g(g, gt)
 	
@@ -57,28 +57,51 @@ process_aes <- function(type, xs, data, g, gt, gby, z, interactive) {
 		if (length(x) < nx) rep(x, length.out=nx) else x
 	})
 	
-	xvary <- lapply(xs, function(x) {
+	xvary <- sapply(xs, function(x) {
 		all(x %in% shpcols) && !is.null(x)
 	})
 	
 
-	## check fill special inputs (kernel density and map colors)
+	## check special inputs
 	
 	if (type == "fill") {
 		res <- check_fill_specials(xs[["fill"]], g, gt, shpcols, data, nx)
 		xs[["fill"]] <- res$x
 		data <- res$data
 		is.colors <- res$is.colors
+		split.by <- TRUE
+	} else if (type == "line") {
+		res <- check_line_specials(xs[["line.col"]], xs[["line.lwd"]], g, gt, gby, xvary, data, nx)
+
+		xs[["line.col"]] <- res$xcol
+		xs[["line.lwd"]] <- res$xlwd
+		gby <- res$gby
+		data <- res$data
+		is.colors <- c(res$is.colors, FALSE)
+		split.by <- c(TRUE, res$split.by)
+	} else if (type == "symbol") {
+		res <- check_symbol_specials(xs[["symbol.col"]], xs[["symbol.size"]], xs[["symbol.shape"]], g, gt, gby, xvary, data, nx, interactive)
+		
+		xs[["symbol.col"]] <- res$xcol
+		xs[["symbol.size"]] <- res$xsize
+		xs[["symbol.shape"]] <- res$xshape
+		g <- res$g
+		gby <- res$gby
+		data <- res$data
+		is.colors <- c(res$is.colors, FALSE, FALSE)
+		just <- res$just
+		split.by <- rep(TRUE, 3)
 	} else {
 		is.colors <- FALSE
+		split.by <- TRUE
 	}
 	
 	
 	fsnames <- paste0("free.scales.", names(xs))
 	
-	dts <- mapply(function(x, fsname) {
-		process_data(data[, x, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby[[fsname]], is.colors=is.colors)
-	}, xs, fsnames, SIMPLIFY = FALSE)
+	dts <- mapply(function(x, fsname, isc, sby) {
+		process_data(data[, x, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby[[fsname]], is.colors=isc, split.by = sby)
+	}, xs, fsnames, is.colors, split.by, SIMPLIFY = FALSE)
 	
 	
 
@@ -143,9 +166,13 @@ process_aes <- function(type, xs, data, g, gt, gby, z, interactive) {
 		
 		if (xname %in% c("fill", "line.col", "symbol.col", "raster", "text.col")) {
 			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, check_dens = (xname == "fill"), areas=as.numeric(areas), areas_unit=attr(areas, "unit"))
+			assign("col.neutral", dcr$col.neutral, pos = 1)
 		} else if (xname == "line.lwd") {
-			dcr <- process_dtlwd(dt, g, gt, nx, npol, xvary$line.lwd)
+			dcr <- process_dtlwd(dt, g, gt, nx, npol, xvary["line.lwd"], col.neutral)
 		} else if (xname == "symbol.size") {
+			dcr <- process_dtsize(dt, g, gt, nx, npol, xvary["symbol.size"], col.neutral)
+		} else if (xname == "symbol.shape") {
+			dcr <- process_dtshape(dt, g, gt, sel, nx, npol, xvary["symbol.shape"], col.neutral)
 		} else if (xname == "text.size") {
 		} else if (xname == "symbol.shape") {
 		} else {
@@ -154,7 +181,7 @@ process_aes <- function(type, xs, data, g, gt, gby, z, interactive) {
 
 		if (dcr$is.constant) x <- rep(NA, nx)
 		legend.show <- if (dcr$is.constant) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
-		legend.title <- if (is.ena(g[[aname("title", xname)]])[1]) paste(x, dcr$title_append) else g[[aname("title", xname)]]
+		legend.title <- rep(if (is.ena(g[[aname("title", xname)]])[1]) paste(x, dcr$title_append) else g[[aname("title", xname)]], length.out = nx)
 		legend.z <- if (is.na(g[[aname("legend.z", xname)]])) z else g[[aname("legend.z", xname)]]
 
 		if (nx > 1 && gby[[fsname]]) {
@@ -182,10 +209,14 @@ process_aes <- function(type, xs, data, g, gt, gby, z, interactive) {
 				
 		dcr[c("is.constant", "title_append", "col.neutral")] <- NULL
 
-		c(dcr, list(x=x, legend.show = legend.show, legend.title = legend.title, legend.is.portrait = g$legend.is.portrait, legend.reverse = g$legend.reverse, legend.z = legend.z), hlist)
+		c(dcr, list(x=x, legend.show = legend.show, legend.title = legend.title, legend.is.portrait = g[[aname("legend.is.portrait", xname)]], legend.reverse = g[[aname("legend.reverse", xname)]], legend.z = legend.z), hlist)
 
 	}, xs, names(xs), dts, fsnames, SIMPLIFY = FALSE)
 	names(res) <- names(xs)
+	
+	
+	
+
 	
 	nonemptyFacets <- unname(apply(as.matrix(sapply(res, function(r) {
 		r$nonemptyFacets	
@@ -197,5 +228,25 @@ process_aes <- function(type, xs, data, g, gt, gby, z, interactive) {
 						   popup.format = g$popup.format,
 						   group = g$group)
 	
-	c(res, list(layerInfo = layerInfo))
+	
+	
+	
+	res <- mapply(function(rs, xn, xl) {
+		names(rs) <- paste(xn, names(rs), sep = ".")
+		names(rs)[1] <- xn
+		names(rs)[names(rs)==paste0(xn, ".x")] <- xl
+		rs
+	}, res, names(xs), xlabels, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+	res <- do.call(c, res)
+	
+	if (type == "line") {
+		res$line.col.legend.misc$line.legend.lwd <- assign_legend_line_widths(res$line.lwd.legend.misc$legend.lwds, res$line.lwd, nx)
+	} else if (type == "symbol") {
+		res <- postprocess_symbols(res, g, gt, data, npol, nx, just, interactive)
+	}
+	
+	
+	names(layerInfo) <- paste(type, names(layerInfo), sep = ".")
+
+	c(res, layerInfo)
 }

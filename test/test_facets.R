@@ -22,10 +22,12 @@ tests <- list(
 	list(layer = "lines", args = list(col = "blue", lwd = "v1", scale = 5)),
 	list(layer = "symbols", args = list(col = "green")),
 	list(layer = "symbols", args = list(col = "v1")),
-	list(layer = "symbols", args = list(col = "v2"))
+	list(layer = "symbols", args = list(col = "v2")),
+	list(layer = "symbols", args = list(col = "blue", size = "v1")),
+	list(layer = "symbols", args = list(col = "red", shape = "v2"))
 )
 
-test <- tests[[4]]
+test <- tests[[7]]
 
 filter <- c(TRUE, TRUE) # extra option: if c(T, F) units 1, 3, ... are selected
 
@@ -88,6 +90,11 @@ for (test in tests[1:7]) {
 	names(errs2) <- filename
 	errsL <- c(errsL, errs2)
 }
+
+
+edf <- do.call(rbind, errsL)
+View(edf)
+
 
 
 shp <- NLD_prov
