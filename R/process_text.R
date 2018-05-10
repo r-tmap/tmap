@@ -71,7 +71,7 @@ check_text_specials <- function(fill, xtcol, xtsize, g, gt, gby, xvary, data, sh
 }
 
 
-postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text) {
+postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text, collight, coldark) {
 	if (g$shadow) {
 		g$shadowcol <- if (is.matrix(col)) {
 			apply(col, MARGIN=2, function(f) {

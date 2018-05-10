@@ -26,8 +26,7 @@ check_g <- function(g, gt) {
 }
 
 process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interactive, fill = NA) {
-	
-	
+
 	## general variables
 	npol <- nrow(data)
 	by <- data$GROUP_BY
@@ -188,7 +187,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	if (type == "text") {
 		text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), nrow=npol, ncol=nx) else as.character(data[[xtext]])
-		if (!is.na(g$case)) text <- if(case=="upper") toupper(text) else tolower(text)
+		if (!is.na(g$case)) text <- if(g$case=="upper") toupper(text) else tolower(text)
 	} else {
 		text <- NULL
 	}
@@ -199,18 +198,18 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		
 		if (xname %in% c("fill", "line.col", "symbol.col", "raster", "text.col")) {
 			if (xname == "text.col") sel <- as.vector(text_sel)
-			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, check_dens = (xname == "fill"), areas=as.numeric(areas), areas_unit=attr(areas, "unit"), text = text, text_sel = text_sel)
+			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, check_dens = (xname == "fill"), areas=as.numeric(areas), areas_unit=attr(areas, "unit"), text = text, text_sel = get("text_sel", envir = .TMAP_CACHE))
 			#if (xname == "fill") assign("dcr_fill", dcr$col, pos = 1) # needed for tm_text
-			assign("col.neutral", dcr$col.neutral, pos = 1)
+			assign("col.neutral", dcr$col.neutral, envir = .TMAP_CACHE)
 		} else if (xname == "line.lwd") {
-			dcr <- process_dtlwd(dt, g, gt, nx, npol, xvary["line.lwd"], col.neutral)
+			dcr <- process_dtlwd(dt, g, gt, nx, npol, xvary["line.lwd"], get("col.neutral", envir = .TMAP_CACHE))
 		} else if (xname == "symbol.size") {
-			dcr <- process_dtsize(dt, g, gt, nx, npol, xvary["symbol.size"], col.neutral)
+			dcr <- process_dtsize(dt, g, gt, nx, npol, xvary["symbol.size"], get("col.neutral", envir = .TMAP_CACHE))
 		} else if (xname == "symbol.shape") {
-			dcr <- process_dtshape(dt, g, gt, sel, nx, npol, xvary["symbol.shape"], col.neutral)
+			dcr <- process_dtshape(dt, g, gt, sel, nx, npol, xvary["symbol.shape"], get("col.neutral", envir = .TMAP_CACHE))
 		} else if (xname == "text.size") {
 			dcr <- process_dttsize(dt, text, g, gt, nx, npol, xvary["text.size"]) 
-			assign("text_sel", dcr$text_sel, pos = 1)
+			assign("text_sel", dcr$text_sel, .TMAP_CACHE)
 		} else {
 			stop("xname unknown")
 		}
@@ -303,7 +302,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	} else if (type == "raster") {
 		res$raster.misc <- misc
 	} else if (type == "text") {
-		res <- postprocess_text(res, g, gt, data, npol, nx, just, interactive, text)
+		res <- postprocess_text(res, g, gt, data, npol, nx, just, interactive, text, collight, coldark)
 	}
 	
 	

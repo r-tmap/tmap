@@ -4,15 +4,15 @@
 \alias{tm_text}
 \title{Add text labels}
 \usage{
-tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
-  sizes.legend = NULL, sizes.legend.labels = NULL,
+tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
+  size.lim = NA, sizes.legend = NULL, sizes.legend.labels = NULL,
   sizes.legend.text = "Abc", n = 5, style = ifelse(is.null(breaks),
   "pretty", "fixed"), breaks = NULL, interval.closure = "left",
   palette = NULL, labels = NULL, labels.text = NA,
   auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
-  colorNA = NA, textNA = "Missing", showNA = NA, fontface = NA,
-  fontfamily = NA, alpha = NA, case = NA, shadow = FALSE,
-  bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
+  colorNA = NA, textNA = "Missing", showNA = NA, colorNULL = NA,
+  fontface = NA, fontfamily = NA, alpha = NA, case = NA,
+  shadow = FALSE, bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
   print.tiny = FALSE, scale = 1, auto.placement = FALSE,
   remove.overlap = FALSE, along.lines = FALSE, overwrite.lines = FALSE,
   just = c("center", "center"), xmod = 0, ymod = 0, title.size = NA,
@@ -30,6 +30,8 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 \item{col}{color of the text labels. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
 
 \item{root}{root number to which the font sizes are scaled. Only applicable if \code{size} is a variable name or \code{"AREA"}. If \code{root=2}, the square root is taken, if \code{root=3}, the cube root etc.}
+
+\item{clustering}{value that determines whether the text labels are clustered in \code{"view"} mode. One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 
 \item{size.lim}{vector of two limit values of the \code{size} variable. Only text labels are drawn whose value is greater than or equal to the first value. Text labels whose values exceed the second value are drawn at the size of the second value. Only applicable when \code{size} is the name of a numeric variable of \code{shp}. See also \code{size.lowerbound} which is a threshold of the relative font size.}
 
@@ -64,6 +66,8 @@ tm_text(text, size = 1, col = NA, root = 3, size.lim = NA,
 \item{textNA}{text used for missing values.}
 
 \item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
+
+\item{colorNULL}{colour for polygons that are shown on the map that are out of scope}
 
 \item{fontface}{font face of the text labels. By default, determined by the fontface argument of \code{\link{tm_layout}}.}
 
@@ -153,7 +157,7 @@ The absolute fontsize (in points) is determined by the (ROOT) viewport, which ma
 \examples{
 current.mode <- tmap_mode("plot")
 
-data(World, Europe, metro)
+data(World, metro)
 
 tm_shape(World) +
     tm_text("name", size="AREA")

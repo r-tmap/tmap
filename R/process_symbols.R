@@ -163,3 +163,67 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	xs <- list(symbol.col = g$col, symbol.size = g$size, symbol.shape = g$shape)
 	process_aes(type = "symbol", xs, c("xcol", "xsize", "xshape"), ifelse(g$are.dots, "dots", "symbols"), data, g, gt, gby, z, interactive)
 }
+
+
+submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) {
+	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
+	justLib <- get(".justLib", envir = .TMAP_CACHE)
+	n <- length(x)
+	id <- 999 + length(shapeLib)
+	if (interactive) {
+		items <- lapply(x, function(xs) {
+			ic <- if ("iconUrl" %in% names(xs)) {
+				split_icon(xs)[[1]]
+			} else if (is.grob(xs)) {
+				grob2icon(xs, grob.dim, just)
+			} else NA
+			
+			# add anchor based on just specs
+			if (all(c("iconWidth", "iconHeight") %in% names(ic)) && 
+				((!any(c("iconAnchorX", "iconAnchorY") %in% names(ic))) || just.override)) {
+				ic$iconAnchorX <- ic$iconWidth * (1-just[1])
+				ic$iconAnchorY <- ic$iconHeight * just[2]
+			}
+			ic
+		})
+		just_items <- as.list(rep(NA, n))
+	} else {
+		just_items <- lapply(x, function(xs) {
+			if (just.override) {
+				just
+			} else if ("iconUrl" %in% names(xs)) {
+				if (all(c("iconWidth", "iconHeight", "iconAnchorX", "iconAnchorY") %in% names(xs))) {
+					c(1-(xs$iconAnchorX / xs$iconWidth), xs$iconAnchorY / xs$iconHeight)
+				} else NA
+			} else NA
+		})
+		
+		items <- lapply(x, function(xs) {
+			if ("iconUrl" %in% names(xs)) {
+				grb <- icon2grob(xs)
+				# take first one
+				if (is.grob(grb)) grb else grb[[1]]
+			} else if (is.grob(xs)) {
+				xs
+			} else NA
+		})	
+	}
+	
+	numbers <- is.na(items)
+	
+	if (all(numbers)) return(unlist(x))
+	
+	new_id <- id + 1:sum(!numbers)
+	
+	x2 <- integer(n)
+	x2[numbers] <- unlist(x[numbers])
+	x2[!numbers] <- new_id
+	
+	shapeLib <- c(shapeLib, items[!numbers])
+	justLib <- c(justLib, just_items[!numbers])
+	assign(".shapeLib", shapeLib, envir = .TMAP_CACHE)
+	assign(".justLib", justLib, envir = .TMAP_CACHE)
+	names(x2) <- names(x)
+	x2
+}
+
