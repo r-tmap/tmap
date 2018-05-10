@@ -15,9 +15,10 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   interval.closure = "left", palette = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
-  colorNA = NA, textNA = "Missing", showNA = NA, shapes = 21:25,
-  shapes.legend = NULL, shapes.legend.fill = NA, shapes.labels = NULL,
-  shapeNA = 4, shape.textNA = "Missing", shapes.n = 5,
+  colorNA = NA, textNA = "Missing", showNA = NA, colorNULL = NA,
+  shapes = 21:25, shapes.legend = NULL, shapes.legend.fill = NA,
+  shapes.labels = NULL, shapeNA = 4, shape.textNA = "Missing",
+  shape.showNA = NA, shapes.n = 5,
   shapes.style = ifelse(is.null(shapes.breaks), "pretty", "fixed"),
   shapes.breaks = NULL, shapes.interval.closure = "left",
   legend.max.symbol.size = 0.8, just = NA, jitter = 0, xmod = 0,
@@ -97,6 +98,8 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 
 \item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
 
+\item{colorNULL}{colour for polygons that are shown on the map that are out of scope}
+
 \item{shapes}{palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.}
 
 \item{shapes.legend}{symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.}
@@ -108,6 +111,8 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 \item{shapeNA}{the shape (a number or grob) for missing values. By default a cross (number 4).}
 
 \item{shape.textNA}{text used for missing values of the shape variable.}
+
+\item{shape.showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
 
 \item{shapes.n}{preferred number of shape classes. Only applicable when \code{shape} is a numeric variable name.}
 

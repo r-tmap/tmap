@@ -35,13 +35,21 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 	
 	check_aes_args(g)
 	
-	if (is.numeric(x)) {
-		if (all(is.na(x))) stop("Numerical variable only contains missing values.", call. = FALSE)
-		rng <- range(x, na.rm = TRUE)
-		if (abs(rng[2] - rng[1]) < 1e-9) {
-			warning("The value range is less than 1e-9", call. = FALSE)
-			x[!is.na(x)] <- round(rng[1], 9)
+	allNA <- all(is.na(x)) 
+	isNUM <- is.numeric(x)
+
+	if (isNUM) {
+		if (allNA) {
+			g$style <- "cat"
+		} else {
+			rng <- range(x, na.rm = TRUE)
+			if (abs(rng[2] - rng[1]) < 1e-9) {
+				warning("The value range is less than 1e-9", call. = FALSE)
+				x[!is.na(x)] <- round(rng[1], 9)
+			}
 		}
+	} else if (allNA) {
+		g$style <- "cat"
 	}
 	
 	if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
@@ -49,7 +57,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 	if (is.factor(x) || g$style=="cat") {
 		
 		if (is.null(g$palette)) {
-			palette.type <- ifelse(is.ordered(x), "seq", "cat")
+			palette.type <- ifelse(is.ordered(x) || (isNUM), "seq", "cat")
 			palette <- gt$aes.palette[[palette.type]] 
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
 			palette.type <- g$palette[1]
@@ -63,6 +71,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast,
 						   colorNA = g$colorNA,
+						   colorNULL=g$colorNULL,
 						   legend.labels=g$labels,
 						   max_levels=g$max.categories,
 						   legend.NA.text = g$textNA,
@@ -90,6 +99,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 						   auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
+						   colorNULL=g$colorNULL,
 						   legend.NA.text = g$textNA,
 						   showNA = g$showNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc),
@@ -123,20 +133,33 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 }
 
 
-process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL, reverse) {
+process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL, text = NULL, text_sel = NULL) {
+	## dtcol = matrix if direct colors are given
+	## dtcol = list in case of disjoint small multiples
+	## dtcol = vector in case of small multiples processed once (i.e. they share the legend)
+	
+	reverse <- g[[aname("legend.reverse", xname)]]
+	
+	## return as color matrix (object col)
+	if (is.na(sel[1])) sel <- rep(TRUE, npol * nx)
+	sel[is.na(sel)] <- TRUE
+	
+
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
 		col <- dtcol
+		col.neutral <- apply(col, 2, function(bc) na.omit(bc)[1])
+		col.neutral[is.na(col.neutral)] <- "#000000" #dummy for empty facets
+		col[is.na(col)] <- g$colorNULL
 		legend.labels <- NA
 		legend.values <- NA
 		legend.palette <- NA
-		col.neutral <- apply(col, 2, function(bc) na.omit(bc)[1])
 		breaks <- NA
 		values <- NA
 		title_append <- ""
 	} else if (is.list(dtcol)) {
 		# multiple variables for col are defined
-		if (is.na(sel[1])) sel <- rep(TRUE, nx)
+		
 		gsc <- split_g(g, n=nx)
 		
 		title_append <- rep("", nx)
@@ -147,9 +170,10 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 			dtcol[isNum & isDens] <- lapply(dtcol[isNum & isDens], function(d) {
 				d / areas
 			})
-			title_append[isNum & isDens] <- paste("per", areas_unit)
+			title_append[isNum & isDens] <- paste("per", areas_unit, " ")
 		}
 		
+		sel <- split(sel, f = rep(1L:nx, each = npol))
 		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse), SIMPLIFY=FALSE)
 		col <- sapply(res, function(r)r$cols)
 		legend.labels <- lapply(res, function(r)r$legend.labels)
@@ -162,14 +186,14 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		if (check_dens) {
 			if (is.numeric(dtcol) && g$convert2density) {
 				dtcol <- dtcol / areas
-				title_append <- paste("per", areas_unit)
+				title_append <- paste("per", areas_unit, " ")
 			} else {
 				title_append <- ""
 			}
 		} else title_append <- ""
 		
 		#if (is.na(sel[1])) sel <- TRUE
-		sel[is.na(sel)] <- TRUE
+		
 		
 		res <- process_col_vector(dtcol, sel, g, gt, reverse)
 		col <- matrix(res$cols, nrow=npol)
@@ -180,14 +204,66 @@ process_dtcol <- function(dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, area
 		breaks <- res$breaks
 		values <- split(dtcol, rep(1:nx, each=npol))
 	}
+	
+	if (xname == "fill") {
+		legend.misc <- list(lwd=g$gborders$lwd, border.col=g$gborders$col)	
+	} else if (xname == "line.col") {
+		legend.misc <- list(line.legend.lty = g$lty, line.legend.alpha = g$alpha) # legend.lwd added later
+	} else if (xname == "symbol.col") {
+		legend.misc <- list(symbol.border.lwd=g$border.lwd, symbol.normal.size=g$legend.max.symbol.size) # symbol.border.col added later
+	} else if (xname == "raster") {
+		legend.misc <- list()
+	} else if (xname == "text.col") {
+		if (is.list(dtcol)) {
+			gsc <- split_g(g, n=nx)
+		}
+		if (is.list(values)) {
+			# process legend text
+			legend.text <- mapply(function(txt, v, b, s, l, gsci) {
+				if (is.na(gsci$labels.text[1])) {
+					
+					if (is.na(b[1])) {
+						# categorical
+						nl <- nlevels(v)
+						ids <- as.integer(v)
+					} else {
+						# numeric
+						nl <- length(b) - 1
+						ids <- as.integer(cut(v, breaks=b, include.lowest = TRUE, right = FALSE))
+					}
+					ix <- sapply(1:nl, function(i)which(ids==i & s)[1])
+					if (length(l)==nl+1) {
+						ix <- c(ix, which(is.na(v))[1])
+					}
+					coltext <- txt[ix]
+					coltext[is.na(coltext)] <- "NA"
+					
+				} else {
+					if (length(gsci$labels.text) == length(l)-1) {
+						coltext <- c(gsci$labels.text, "NA")
+					} else {
+						coltext <- rep(gsci$labels.text, length.out=length(l))
+					}
+				}
+				coltext
+			}, as.data.frame(text, stringsAsFactors = FALSE), values, breaks, as.list(as.data.frame(text_sel)), if (is.list(legend.labels)) legend.labels else list(legend.labels), if (is.list(dtcol)) gsc else list(g), SIMPLIFY=FALSE)
+		} else {
+			legend.text <- NA
+		}
+		legend.misc <- list(legend.text = legend.text)
+	}
+	
+
+	nonemptyFacets <- if (is.constant) NULL else if(is.list(values)) sapply(values, function(v) !all(is.na(v))) else rep(TRUE, nx)
 	list(is.constant=is.constant,
 		 col=col,
 		 legend.labels=legend.labels,
 		 legend.values=legend.values,
 		 legend.palette=legend.palette,
 		 col.neutral=col.neutral,
-		 breaks=breaks,
-		 values=values,
+		 legend.misc = legend.misc,
+		 legend.hist.misc=list(values=values, breaks=breaks, densities=g$convert2density),
+		 nonemptyFacets=nonemptyFacets,
 		 title_append=title_append)
 }
 

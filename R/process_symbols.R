@@ -1,74 +1,13 @@
-process_symbols <- function(data, g, gt, gby, z, interactive) {
-	npol <- nrow(data)
-	by <- data$GROUP_BY
-	shpcols <- names(data)[1:(ncol(data)-1)]
-	
-	
-	xsize <- g$size
-	xcol <- g$col
-	xshape <- g$shape
-	
-	if (is.list(xshape) && "iconUrl" %in% names(xshape)) xshape <- split_icon(xshape)
-	if (is.grob(xshape)) xshape <- list(xshape)
-	
-	
-	# if (interactive) {
-	# 	if (length(xsize)>1) warning("Facets are not supported in view mode yet. Only symbol size aesthetic value \"", xsize[1], "\" will be shown.", call.=FALSE)
-	# 	if (length(xcol)>1) warning("Facets are not supported in view mode yet. Only symbol color aesthetic value \"", xcol[1], "\" will be shown.", call.=FALSE)
-	# 	xsize <- xsize[1]
-	# 	xcol <- xcol[1]
-	# 	xshape <- xshape[1]
-	# }
+check_symbol_specials <- function(xcol, xsize, xshape, g, gt, gby, xvary, data, nx, interactive) {
 
-	
-	if (length(xcol)==1 && is.na(xcol)[1]) xcol <- if (g$are.dots) gt$aes.colors["dots"] else gt$aes.colors["symbols"]
-	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
-	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
-	if (g$colorNA=="#00000000") g$showNA <- FALSE
-	
-	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_symbols/tm_dots is not a numeric", call. = FALSE)
-	
-	if (is.null(xsize)) {
-		return(list(symbol.size=NULL,
-					xsize=NA,
-					xcol=NA,
-					xshape=NA,
-					symbol.size.legend.title=NA,
-					symbol.col.legend.title=NA,
-					symbol.shape.legend.title=NA,
-					symbol.id=g$id,
-					symbol.popup.vars=g$popup.vars,
-					symbol.popup.format=g$popup.format,
-					symbol.group = g$group))
-	}
-	
-	# if by is specified, use first value only
-	if (nlevels(by)>1) {
-		xsize <- xsize[1]
-		xcol <- xcol[1]
-		xshape <- xshape[1]
-	}
-	nxsize <- length(xsize)
-	nxcol <- length(xcol)
-	nxshape <- length(xshape)
-	
-	varysize <- all(xsize %in% shpcols) && !is.null(xsize)
-	varycol <- all(xcol %in% shpcols) && !is.null(xcol)
-	varyshape <- is.vector(xshape) && all(xshape %in% shpcols) && !is.null(xshape)
-	
-	nx <- max(nxcol, nxsize, nxshape)
-	if (nxcol<nx) xcol <- rep(xcol, length.out=nx)
-	if (nxsize<nx) xsize <- rep(xsize, length.out=nx)
-	if (nxshape<nx) xshape <- rep(xshape, length.out=nx)
-	
-	if (!varysize) {
+	if (!xvary[["symbol.size"]]) {
 		if (!all(is.numeric(xsize))) stop("symbol sizes are neither numeric nor valid variable name(s)", call. = FALSE)
 		for (i in 1:nx) data[[paste("SIZE", i, sep="_")]] <- xsize[i]
 		xsize <- paste("SIZE", 1:nx, sep="_")
 		gby$free.scales.symbol.size <- FALSE
 	}
 	
-	if (varycol) {
+	if (xvary[["symbol.col"]]) {
 		is.colors <- FALSE
 	} else {
 		# check for direct color input
@@ -78,7 +17,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- xcol[i]
 		xcol <- paste("COLOR", 1:nx, sep="_")
 	}
-
+	
 	# symbol shapes: create a library with all the custom symbols (grobs) or icons, represented by symbol numbers 1000+
 	just <- g$just
 	
@@ -92,11 +31,10 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 	}
 	
 	
-	
 	#justx <- size.npc.w * ( - .5)
 	#justy <- size.npc.h * ( - .5)
 	
-	if (!varyshape) {
+	if (!xvary[["symbol.shape"]]) {
 		if (!is.list(xshape)) {
 			if (!all(is.numeric(xshape))) stop("symbol shape(s) ('shape' argument) is/are neither numeric nor valid variable name(s)", call. = FALSE)
 		} else if (is.list(xshape)) {
@@ -112,169 +50,21 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 			# one grob, list of grobs or icon(s)			
 			if ("iconUrl" %in% names(g$shapes)) g$shapes <- split_icon(g$shapes)
 			g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)			} else {
-			# list of list of grobs or icons
-			g$shapes <- lapply(g$shapes, function(gshape) {
-				if ("iconUrl" %in% names(gshape)) gshape <- split_icon(gshape)
-				submit_symbol_shapes(gshape, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
-			})
-		}
+				# list of list of grobs or icons
+				g$shapes <- lapply(g$shapes, function(gshape) {
+					if ("iconUrl" %in% names(gshape)) gshape <- split_icon(gshape)
+					submit_symbol_shapes(gshape, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
+				})
+			}
 	} 
-	nx <- max(nx, nlevels(by))
-	
-	# update legend format from tm_layout
-	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
-	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
-	
-	dtcol <- process_data(data[, xcol, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.col, is.colors=is.colors)
-	dtsize <- process_data(data[, xsize, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.size, is.colors=FALSE)
-	dtshape <- process_data(data[, xshape, drop=FALSE], by=by, free.scales=gby$free.scales.symbol.shape, is.colors=FALSE)
-	
-	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dtcol, "anyNA")
-	
-	
-	if (is.list(dtsize)) {
-		# multiple variables for size are defined
-		gss <- split_g(g, n=nx)
-		if (!all(sapply(dtsize, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
-		res <- mapply(process_symbols_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt=gt, reverse=g$legend.size.reverse), SIMPLIFY = FALSE)
-		symbol.size <- sapply(res, function(r)r$symbol.size)
-		symbol.size.legend.labels <- lapply(res, function(r)r$symbol.size.legend.labels)
-		symbol.size.legend.values <- lapply(res, function(r)r$symbol.size.legend.values)
-		symbol.legend.sizes <- lapply(res, function(r)r$symbol.legend.sizes)
-		symbol.max.size <- lapply(res, function(r)r$symbol.max.size)
-	} else {
-		if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
-		res <- process_symbols_size_vector(dtsize, g, rescale=varysize, gt=gt, reverse=g$legend.size.reverse)
-		symbol.size <- matrix(res$symbol.size, nrow=npol)
-		if (varysize) {
-			symbol.size.legend.labels <- res$symbol.size.legend.labels
-			symbol.size.legend.values <- res$symbol.size.legend.values
-			symbol.legend.sizes <- res$symbol.legend.sizes
-			symbol.max.size <- res$symbol.max.size
-		} else {
-			symbol.size.legend.labels <- NA
-			symbol.size.legend.values <- NA
-			symbol.legend.sizes <- NA
-			symbol.max.size <- res$symbol.max.size
-			xsize <- rep(NA, nx)
-			symbol.size.legend.title <- rep(NA, nx)
-		}
-	}
 	
 	
 	
 	
-	# selection: which symbol sizes are NA?
-	selCol <- if (is.list(dtsize)) {
-		if (is.list(dtcol)) {
-			lapply(dtsize, function(i)!is.na(i))	
-		} else {
-			!is.na(unlist(dtsize))
-		}
-	} else {
-		if (is.list(dtcol)) {
-			cnts <- vapply(dtcol, length, integer(1))
-			cnts2 <- 1:length(dtcol)
-			f <- factor(unlist(mapply(rep, cnts2, cnts, SIMPLIFY = FALSE)))
-			split(!is.na(dtsize), f = f)
-		} else {
-			!is.na(dtsize)
-		}
-	}
-	
-	
-	selShape <- if (is.list(dtsize)) {
-		if (is.list(dtshape)) {
-			lapply(dtsize, function(i)!is.na(i))	
-		} else {
-			!is.na(unlist(dtsize))
-		}
-	} else {
-		if (is.list(dtshape)) {
-			cnts <- vapply(dtshape, length, integer(1))
-			cnts2 <- 1:length(dtshape)
-			f <- factor(unlist(mapply(rep, cnts2, cnts, SIMPLIFY = FALSE)))
-			split(!is.na(dtsize), f = f)
-		} else {
-			!is.na(dtsize)
-		}
-	}
-	
+	list(xcol = xcol, xsize = xsize, xshape = xshape, g=g, gby = gby, data = data, is.colors = is.colors, just = just)		
+}
 
-	
-	if (is.list(dtshape)) {
-		sel2 <- if (is.na(selShape[1])) rep(TRUE, nx) else selShape
-		
-		# multiple variables for size are defined
-		gsp <- split_g(g, n=nx)
-		#if (!all(sapply(dtshape, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
-		res <- mapply(process_symbols_shape_vector, dtshape, sel2, gsp, MoreArgs = list(map_shapes=varyshape, gt=gt, reverse=g$legend.shape.reverse), SIMPLIFY = FALSE)
-		symbol.shape <- sapply(res, function(r)r$symbol.shape)
-		shape.legend.labels <- lapply(res, function(r)r$shape.legend.labels)
-		shape.legend.values <- lapply(res, function(r)r$shape.legend.values)
-		shape.legend.shapes <- lapply(res, function(r)r$shape.legend.shapes)
-		shape.neutral <- lapply(res, function(r)r$shape.neutral)
-		if (!varyshape) xshape <- rep(NA, nx)
-	} else {
-		#if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
-		sel2 <- if (is.na(selShape[1])) TRUE else selShape
-		res <- process_symbols_shape_vector(dtshape, sel2, g, map_shapes=varyshape, gt=gt, reverse=g$legend.shape.reverse)
-		symbol.shape <- matrix(res$symbol.shape, nrow=npol)
-		if (varyshape) {
-			shape.legend.labels <- res$shape.legend.labels
-			shape.legend.values <- res$shape.legend.values
-			shape.legend.shapes <- res$shape.legend.shapes
-			shape.neutral <- res$shape.neutral
-		} else {
-			shape.legend.labels <- NA
-			shape.legend.values <- NA
-			shape.legend.shapes <- NA
-			xshape <- rep(NA, nx)
-			symbol.shape.legend.title <- rep(NA, nx)
-			shape.neutral <- symbol.shape[which(!is.na(symbol.shape))[1]]
-		}
-	}
-	
-	
-	dcr <- process_dtcol(dtcol, selCol, g, gt, nx, npol, reverse=g$legend.col.reverse)
-	if (dcr$is.constant) xcol <- rep(NA, nx)
-	col <- dcr$col
-	col.legend.labels <- dcr$legend.labels
-	col.legend.values <- dcr$legend.values
-	col.legend.palette <- dcr$legend.palette
-	col.neutral <- dcr$col.neutral
-	breaks <- dcr$breaks
-	values <- dcr$values
-	
-	xmod <- g$xmod
-	ymod <- g$ymod
-	xmod <- if (is.character(xmod)) data[[xmod]] else rep(xmod, length.out=npol)
-	ymod <-  if (is.character(ymod)) data[[ymod]] else rep(ymod, length.out=npol)
-
-	if (g$jitter>0) {
-		xmod <- xmod + rnorm(n=npol, sd=g$jitter)
-		ymod <- ymod + rnorm(n=npol, sd=g$jitter)
-	}
-	
-	xmod <- matrix(xmod, nrow=npol, ncol=nx)
-	ymod <- matrix(ymod, nrow=npol, ncol=nx)
-	
-	symbol.size.legend.title <- if (is.ena(g$title.size)[1]) xsize else g$title.size
-	symbol.col.legend.title <- if (is.ena(g$title.col)[1]) xcol else g$title.col
-	symbol.shape.legend.title <- if (is.ena(g$title.shape)[1]) xshape else g$title.shape
-	symbol.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
-	symbol.col.legend.z <- if (is.na(g$legend.col.z)) z+.33 else g$legend.col.z
-	symbol.shape.legend.z <- if (is.na(g$legend.shape.z)) z+.80 else g$legend.shape.z
-	symbol.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.66 else g$legend.hist.z
-	
-	if (g$legend.hist && is.ena(g$legend.hist.title) && symbol.col.legend.z>symbol.legend.hist.z) {
-		# histogram is drawn between title and legend enumeration
-		symbol.col.legend.hist.title <- symbol.col.legend.title
-		symbol.col.legend.title <- ""
-	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
-		symbol.col.legend.hist.title <- g$legend.hist.title
-	} else symbol.col.legend.hist.title <- ""
-	
+postprocess_symbols <- function(res, g, gt, data, npol, nx, just, interactive) {
 	if (is.null(g$border.col)) {
 		symbol.border.col <- NA
 		g$border.lwd <- NA
@@ -292,20 +82,34 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		col.neutral <- if (is.na(g$shapes.legend.fill)[1]) gt$aes.colors["symbols"] else  g$shapes.legend.fill
 	}
 	
-	if (!g$legend.size.show) symbol.size.legend.title <- NA
-	if (!g$legend.col.show) symbol.col.legend.title <- NA
-	if (!g$legend.shape.show) symbol.shape.legend.title <- NA
+	# if (!g$legend.size.show) symbol.size.legend.title <- NA
+	# if (!g$legend.col.show) symbol.col.legend.title <- NA
+	# if (!g$legend.shape.show) symbol.shape.legend.title <- NA
 	
-	are.icons <- any(!is.na(symbol.shape) & symbol.shape>999)
+	are.icons <- any(!is.na(res$symbol.shape) & res$symbol.shape>999)
 	
 	if (are.icons && !interactive) {
 		scale <- g$scale * g$icon.scale
-		symbol.size <- symbol.size * g$icon.scale
-		symbol.legend.sizes <- symbol.legend.sizes * g$icon.scale
+		res$symbol.size <- res$symbol.size * g$icon.scale
+		res$symbol.size.legend.sizes <- res$symbol.size.legend.sizes * g$icon.scale
 		g$legend.max.symbol.size <- g$legend.max.symbol.size * g$icon.scale
 		
 	} else scale <- g$scale
-
+	
+	xmod <- g$xmod
+	ymod <- g$ymod
+	xmod <- if (is.character(xmod)) data[[xmod]] else rep(xmod, length.out=npol)
+	ymod <-  if (is.character(ymod)) data[[ymod]] else rep(ymod, length.out=npol)
+	
+	if (g$jitter>0) {
+		xmod <- xmod + rnorm(n=npol, sd=g$jitter)
+		ymod <- ymod + rnorm(n=npol, sd=g$jitter)
+	}
+	
+	xmod <- matrix(xmod, nrow=npol, ncol=nx)
+	ymod <- matrix(ymod, nrow=npol, ncol=nx)
+	
+	
 	clustering <- g$clustering
 	if (identical(clustering, FALSE)) {
 		clustering <- NULL
@@ -313,64 +117,53 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 		clustering <- leaflet::markerClusterOptions()	
 	}
 	
+	# list(
+	# 	 shape.neutral = shape.neutral,
+	# 	 col.neutral = col.neutral,
+	# 	 are.icons = are.icons,
+	# 	 scale = scale)
 	
-	list(symbol.size=symbol.size,
-		 symbol.col=col,
-		 symbol.shape=symbol.shape,
-		 symbol.border.lwd=g$border.lwd,
-		 symbol.border.col=symbol.border.col,
-		 #symbol.scale=scale, # not needed anymore?
-		 symbol.col.legend.labels=col.legend.labels,
-		 symbol.col.legend.values=col.legend.values,
-		 symbol.col.legend.palette=col.legend.palette,
-		 symbol.col.legend.sizes=symbol.max.size,
-		 symbol.col.legend.shapes=shape.neutral,
-		 symbol.col.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.normal.size=g$legend.max.symbol.size),
-		 symbol.size.legend.labels=symbol.size.legend.labels,
-		 symbol.size.legend.values=symbol.size.legend.values,
-		 symbol.size.legend.palette= col.neutral,
-		 symbol.size.legend.sizes=symbol.legend.sizes,
-		 symbol.size.legend.shapes=shape.neutral,
-		 symbol.size.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.normal.size=g$legend.max.symbol.size),
-		 symbol.shape.legend.labels=shape.legend.labels,
-		 symbol.shape.legend.values=shape.legend.values,
-		 symbol.shape.legend.palette=col.neutral,
-		 symbol.shape.legend.sizes=symbol.max.size,
-		 symbol.shape.legend.shapes=shape.legend.shapes,
-		 symbol.shape.legend.misc=list(symbol.border.lwd=g$border.lwd, symbol.border.col=symbol.border.col, symbol.normal.size=g$legend.max.symbol.size), 
-		 symbol.col.legend.hist.misc=list(values=values, breaks=breaks),
-		 symbol.misc = list(symbol.are.dots=g$are.dots, symbol.are.markers=g$are.markers, symbol.are.icons=are.icons, just=just, clustering=clustering),
-		 xsize=xsize,
-		 xcol=xcol,
-		 xshape=xshape,
-		 symbol.xmod=xmod,
-		 symbol.ymod=ymod,
-		 symbol.size.legend.show=g$legend.size.show,
-		 symbol.size.legend.title=symbol.size.legend.title,
-		 symbol.size.legend.is.portrait=g$legend.size.is.portrait,
-		 symbol.size.legend.reverse=g$legend.size.reverse,
-		 symbol.size.legend.z=symbol.size.legend.z,
-		 symbol.shape.legend.show=g$legend.shape.show,
-		 symbol.shape.legend.title=symbol.shape.legend.title,
-		 symbol.shape.legend.is.portrait=g$legend.shape.is.portrait,
-		 symbol.shape.legend.reverse=g$legend.shape.reverse,
-		 #symbol.shape.legend.hist=g$legend.hist,
-		 #symbol.shape.legend.hist.title=symbol.shape.legend.hist.title,
-		 symbol.shape.legend.z=symbol.shape.legend.z,
-		 #symbol.shape.legend.hist.z=symbol.legend.hist.z,
-		 symbol.col.legend.show=g$legend.col.show,
-		 symbol.col.legend.title=symbol.col.legend.title,
-		 symbol.col.legend.is.portrait=g$legend.col.is.portrait,
-		 symbol.col.legend.reverse=g$legend.col.reverse,
-		 symbol.col.legend.hist=g$legend.hist,
-		 symbol.col.legend.hist.title=symbol.col.legend.hist.title,
-		 symbol.col.legend.z=symbol.col.legend.z,
-		 symbol.col.legend.hist.z=symbol.legend.hist.z,
-		 symbol.id=g$id,
-		 symbol.popup.vars=g$popup.vars,
-		 symbol.popup.format=g$popup.format,
-		 symbol.group = g$group)
+	
+	res$symbol.col.legend.misc$symbol.border.col <- symbol.border.col
+	res$symbol.size.legend.misc$symbol.border.col <- symbol.border.col
+	res$symbol.shape.legend.misc$symbol.border.col <- symbol.border.col
+	
+	
+	
+	res$symbol.col.legend.sizes <- res$symbol.size.legend.misc$symbol.max.size
+	res$symbol.col.legend.shapes <- res$symbol.shape.legend.misc$shape.neutral
+
+	#res$symbol.size.legend.sizes=symbol.legend.sizes,
+	res$symbol.size.legend.shapes <- res$symbol.shape.legend.misc$shape.neutral
+
+	res$symbol.shape.legend.sizes <- res$symbol.size.legend.misc$symbol.max.size
+	#res$symbol.shape.legend.shapes=shape.legend.shapes,
+	
+	
+	
+	
+	res$symbol.misc <- list(symbol.are.dots=g$are.dots, symbol.are.markers=g$are.markers, symbol.are.icons=are.icons, just=just, clustering=clustering)
+	
+	res$symbol.xmod <- xmod
+	res$symbol.ymod <- ymod
+	
+	res$symbol.border.lwd <- g$border.lwd
+	res$symbol.border.col <- symbol.border.col
+	
+	res
+	
 }
+
+
+
+process_symbols <- function(data, g, gt, gby, z, interactive) {
+	
+	
+	# aesthetics
+	xs <- list(symbol.col = g$col, symbol.size = g$size, symbol.shape = g$shape)
+	process_aes(type = "symbol", xs, c("xcol", "xsize", "xshape"), ifelse(g$are.dots, "dots", "symbols"), data, g, gt, gby, z, interactive)
+}
+
 
 submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) {
 	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
@@ -417,7 +210,7 @@ submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) 
 	}
 	
 	numbers <- is.na(items)
-
+	
 	if (all(numbers)) return(unlist(x))
 	
 	new_id <- id + 1:sum(!numbers)
@@ -433,3 +226,4 @@ submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) 
 	names(x2) <- names(x)
 	x2
 }
+

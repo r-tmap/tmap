@@ -33,7 +33,7 @@ get_i <- function(x, xname, i, n, oid) {
 	} else {
 		ncx <- nchar(xname)
 		# split variables that consist of one value, but may differ across small multiples
-		if (xname %in% c("symbol.size.legend.palette", "symbol.border.lwd", "symbol.border.col", "symbol.max.size", "symbol.shape", "line.lwd.legend.palette", "line.legend.lwd", "text.max.size", "text.size.legend.palette") || substr(xname, ncx-11, ncx)=="legend.title") {
+		if (xname %in% c("symbol.size.legend.palette", "symbol.border.lwd", "symbol.border.col", "symbol.max.size", "symbol.shape", "symbol.size.legend.palette", "symbol.shape.legend.palette", "line.lwd.legend.palette", "line.legend.lwd", "text.max.size", "text.size.legend.palette") || substr(xname, ncx-11, ncx)=="legend.title" || substr(xname, ncx-10, ncx)=="legend.show") {
 			if (length(x)>=i) x[i] else x[1]
 		} else x
 	}

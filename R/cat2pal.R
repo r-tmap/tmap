@@ -3,6 +3,7 @@ cat2pal <- function(x,
 					auto.palette.mapping = TRUE,
 					contrast = 1, 
 					colorNA = "#FF1414",
+					colorNULL = "#FFFFFF",
 					legend.labels = NULL,
 					max_levels = 40,
 					legend.NA.text = "Missing",
@@ -10,6 +11,12 @@ cat2pal <- function(x,
 					process.colors,
 					legend.format=list(align="left"),
 					reverse=FALSE) {
+	
+	sel <- attr(x, "sel")
+	if (is.null(sel)) sel <- rep(TRUE, length(x))
+	
+	x[!sel] <- NA
+	
 	if (!is.factor(x)) {
 		su <- sort(unique(x))
 		if (is.numeric(su) && length(su) > max_levels) stop("Number of unique values is more than max.categories, so style = \"cat\" cannot be used. Please use numeric intervals instead, e.g. with style =  \"pretty\"")
@@ -64,11 +71,12 @@ cat2pal <- function(x,
 		legend.labels <- rep(legend.labels, length.out = nCol)
 	}
 	if (any(colsNA)) {
-		if (is.na(showNA)) showNA <- TRUE
+		if (is.na(showNA)) showNA <- any(colsNA & sel)
 		cols[colsNA] <- colorNA
 	} else {
 		if (is.na(showNA)) showNA <- FALSE
 	}
+	cols[!sel] <- colorNULL
 	
 	legend.values <- legend.labels
 	

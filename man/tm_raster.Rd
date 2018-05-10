@@ -8,9 +8,10 @@
 tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   interval.closure = "left", labels = NULL, auto.palette.mapping = TRUE,
-  contrast = NA, max.categories = 12, colorNA = NULL, saturation = 1,
-  interpolate = FALSE, textNA = "Missing", showNA = NA, title = NA,
-  legend.show = TRUE, legend.format = list(), legend.is.portrait = TRUE,
+  contrast = NA, max.categories = 12, saturation = 1,
+  interpolate = FALSE, colorNA = NULL, textNA = "Missing", showNA = NA,
+  colorNULL = NULL, title = NA, legend.show = TRUE,
+  legend.format = list(), legend.is.portrait = TRUE,
   legend.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
   legend.z = NA, legend.hist.z = NA, group = NA)
 
@@ -40,15 +41,17 @@ If multiple values are specified, small multiples are drawn (see details). By de
 
 \item{max.categories}{in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.}
 
-\item{colorNA}{color used for missing values. Use \code{NULL} for transparency.}
-
 \item{saturation}{Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).}
 
 \item{interpolate}{Should the raster image be interpolated? By default \code{FALSE} for \code{tm_raster} and \code{TRUE} for \code{tm_rgb}.}
 
+\item{colorNA}{color used for missing values. Use \code{NULL} for transparency.}
+
 \item{textNA}{text used for missing values.}
 
 \item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
+
+\item{colorNULL}{colour for polygons that are shown on the map that are out of scope}
 
 \item{title}{title of the legend element}
 

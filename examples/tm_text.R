@@ -1,6 +1,6 @@
 current.mode <- tmap_mode("plot")
 
-data(World, Europe, metro)
+data(World, metro)
 
 tm_shape(World) +
     tm_text("name", size="AREA")

@@ -9,13 +9,14 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   interval.closure = "left", palette = NULL, labels = NULL,
   auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
-  colorNA = NA, textNA = "Missing", showNA = NA, title.col = NA,
-  title.lwd = NA, legend.col.show = TRUE, legend.lwd.show = TRUE,
-  legend.format = list(), legend.col.is.portrait = TRUE,
-  legend.lwd.is.portrait = FALSE, legend.col.reverse = FALSE,
-  legend.lwd.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.col.z = NA, legend.lwd.z = NA, legend.hist.z = NA, id = NA,
-  popup.vars = NA, popup.format = list(), group = NA)
+  colorNA = NA, textNA = "Missing", showNA = NA, colorNULL = NA,
+  title.col = NA, title.lwd = NA, legend.col.show = TRUE,
+  legend.lwd.show = TRUE, legend.format = list(),
+  legend.col.is.portrait = TRUE, legend.lwd.is.portrait = FALSE,
+  legend.col.reverse = FALSE, legend.lwd.reverse = FALSE,
+  legend.hist = FALSE, legend.hist.title = NA, legend.col.z = NA,
+  legend.lwd.z = NA, legend.hist.z = NA, id = NA, popup.vars = NA,
+  popup.format = list(), group = NA)
 }
 \arguments{
 \item{col}{color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).}
@@ -55,6 +56,8 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
 \item{textNA}{text used for missing values.}
 
 \item{showNA}{logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.}
+
+\item{colorNULL}{colour for polygons that are shown on the map that are out of scope}
 
 \item{title.col}{title of the legend element regarding the line colors}
 

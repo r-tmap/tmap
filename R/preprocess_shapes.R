@@ -180,6 +180,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		attr(shp2, "bbox") <- bb(shp2)
 		attr(shp2, "proj4string") <- attr(shp2@crs, "projargs")
 		
+		data$tmapfilter <- TRUE
+		
 		attr(data, "is.OSM") <- is.OSM
 		attr(data, "leaflet.server") <- leaflet.server
 		
@@ -212,6 +214,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			shp <- shp[, attr(shp, "sf_column")]
 			shp$tmapID <- seq_len(nrow(shp))
 		}
+		
+		data$tmapfilter <- if (is.null(y$filter)) rep(TRUE, nrow(shp)) else rep(y$filter, length.out = nrow(shp))
 		
 		# reproject if nessesary
 		shp_crs <- get_projection(shp, output="crs")

@@ -1,4 +1,5 @@
 plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos, use_facets) {
+	
 	gt <- gp$tm_layout
 	
 	## in case of small multiples, get i'th shape
@@ -8,7 +9,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 
 	emptyShp <- is.null(shps[[gt$shape.masterID]]) || (nrow(shps[[gt$shape.masterID]]) == 0)
 	
-	if (emptyShp && gt$legend.only) return(NULL)
+	#if (emptyShp && gt$legend.only) return(NULL)
 	if (!emptyShp) {
 		bbx <- attr(shps[[gt$shape.masterID]], "bbox")
 		proj <- get_projection(shps[[gt$shape.masterID]])
@@ -98,7 +99,9 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 
 	## prepare legend items
 	leg <- legend_prepare(gp, gal, gt, lineInch)
-	
+
+		
+
 	## legend, title, and other thinks such as compass
 	if (!is.null(leg) || nonempty_text(gt$title) || gt$credits.show || gt$logo.show || gt$scale.show || gt$compass.show) {
 		if (!is.na(gt$frame)) {

@@ -1,27 +1,6 @@
-process_fill <- function(data, g, gb, gt, gby, z, interactive) {
-	
-	npol <- nrow(data)
-	by <- data$GROUP_BY
-	
-	shpcols <- names(data)[1:(ncol(data)-2)]
 
-	x <- g$col
-	# if (interactive) {
-	# 	if (length(x)>1) warning("Facets are not supported in view mode yet. Only polygon fill aesthetic value \"", x[1], "\" will be shown.", call.=FALSE)
-	# 	x <- x[1]	
-	# } 
 
-	if (length(x)==1 && is.na(x)[1]) x <- gt$aes.colors["fill"]
-	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
-	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
-	if (g$colorNA=="#00000000") g$showNA <- FALSE
-
-	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_polygons/tm_fill is not a numeric", call. = FALSE)
-		
-	# if by is specified, use first value only
-	if (nlevels(by)>1) x <- x[1]
-	nx <- length(x)
-	
+check_fill_specials <- function(x, g, gt, shpcols, data, nx) {
 	if (attr(data, "kernel_density") && !("col" %in% g$call) && "level" %in% shpcols) {
 		is.colors <- FALSE
 		x <- "level"
@@ -49,32 +28,14 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 	} else {
 		is.colors <- FALSE
 	}
-		
-	dt <- process_data(data[, x, drop=FALSE], by=by, free.scales=gby$free.scales.fill, is.colors=is.colors)
-	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dt, "anyNA")
-	## output: matrix=colors, list=free.scales, vector=!freescales
 	
-	nx <- max(nx, nlevels(by))
-	
-	# update legend format from tm_layout
-	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
-	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
-	
-	# return if data is matrix of color values
-	if (is.matrix(dt)) {
-		if (!is.colors) {
-			dt <- matrix(do.call("process_color", c(list(col=dt, alpha=g$alpha), gt$pc)),
-						 ncol=ncol(dt))
-		}
-		return(list(fill=dt, 
-					xfill=rep(NA, nx), 
-					fill.lenged.title=rep(NA, nx),
-					fill.id=g$id,
-					fill.popup.vars=g$popup.vars,
-					fill.popup.format=g$popup.format,
-					fill.group = g$group))	
-	} 
+	list(x = x,
+		 data = data,
+		 is.colors = is.colors)
+}
 
+
+check_poly_sizes <- function(g, data, nx, islist) {
 	# process areas
 	if (is.null(g$area)) {
 		area_var <- "SHAPE_AREAS"
@@ -92,60 +53,20 @@ process_fill <- function(data, g, gb, gt, gby, z, interactive) {
 		areas[areas_na_inf] <- mean(areas[!areas_na_inf])
 		
 	}
-	
 	areas_prop <- as.numeric(areas/sum(areas, na.rm=TRUE))
 	
 	tiny <- areas_prop < g$thres.poly
 	if (all(tiny)) warning("all relative area sizes are below thres.poly", call. = FALSE)
 	
-	
-	sel <- if (is.list(dt)) rep(list(!tiny), nx) else !tiny
-	
-
-	dcr <- process_dtcol(dt, sel, g, gt, nx, npol, check_dens = TRUE, areas=as.numeric(areas), areas_unit=attr(areas, "unit"), reverse=g$legend.reverse)
-
-	if (dcr$is.constant) xfill <- rep(NA, nx)
-	col <- dcr$col
-	col.legend.labels <- dcr$legend.labels
-	col.legend.values <- dcr$legend.values
-	col.legend.palette <- dcr$legend.palette
-	col.neutral <- dcr$col.neutral
-	breaks <- dcr$breaks
-	values <- dcr$values
-	title_append <- dcr$title_append
-	
-	fill.legend.title <- if (is.ena(g$title)[1]) paste(x, title_append) else g$title
-	fill.legend.z <- if (is.na(g$legend.z)) z else g$legend.z
-	fill.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.5 else g$legend.hist.z
-	
-	if (g$legend.hist && is.ena(g$legend.hist.title) && fill.legend.z>fill.legend.hist.z) {
-		# histogram is drawn between title and legend enumeration
-		fill.legend.hist.title <- fill.legend.title
-		fill.legend.title <- ""
-	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
-		fill.legend.hist.title <- g$legend.hist.title
-	} else fill.legend.hist.title <- ""
-
-	if (!g$legend.show) fill.legend.title <- NA
-	list(fill=col,
-		 fill.legend.labels=col.legend.labels,
-		 fill.legend.values=col.legend.values,
-		 fill.legend.palette=col.legend.palette,
-		 fill.legend.misc=list(lwd=gb$lwd, border.col=gb$col),
-		 fill.legend.hist.misc=list(values=values, breaks=breaks, densities=g$convert2density),
-		 xfill=x,
-		 fill.legend.show=g$legend.show,
-		 fill.legend.title=fill.legend.title,
-		 fill.legend.is.portrait=g$legend.is.portrait,
-		 fill.legend.reverse=g$legend.reverse,
-		 fill.legend.hist=g$legend.hist,
-		 fill.legend.hist.title=fill.legend.hist.title,
-		 fill.legend.z=fill.legend.z,
-		 fill.legend.hist.z=fill.legend.hist.z,
-		 fill.id=g$id,
-		 fill.popup.vars=g$popup.vars,
-		 fill.popup.format=g$popup.format,
-		 fill.group = g$group)
+	sel <- !tiny #if (islist) rep(list(!tiny), nx) else !tiny
+	list(areas = areas, sel = sel)
 }
 
+
+process_fill <- function(data, g, gt, gby, z, interactive) {
+	
+	## aesthetics
+	xs <- list(fill = g$col)
+	process_aes(type = "fill", xs, "xfill", "fill", data, g, gt, gby, z, interactive)
+}
 

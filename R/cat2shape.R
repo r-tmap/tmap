@@ -6,6 +6,13 @@ cat2shape <- function(x,
 					  showNA = NA,
 					  legend.format=list(align="left"),
 					  reverse = FALSE) {
+	
+	sel <- attr(x, "sel")
+	if (is.null(sel)) sel <- rep(TRUE, length(x))
+	
+	x[!sel] <- NA
+	
+	
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
 	
@@ -64,7 +71,7 @@ cat2shape <- function(x,
 	
 	
 	if (any(shpsNA)) {
-		if (is.na(showNA)) showNA <- TRUE
+		if (is.na(showNA)) showNA <- any(shpsNA & sel)
 		shps[shpsNA] <- shapeNA
 	} else {
 		if (is.na(showNA)) showNA <- FALSE

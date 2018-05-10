@@ -6,7 +6,7 @@
 \usage{
 tm_shape(shp, name = NULL, is.master = NA, projection = NULL,
   bbox = NULL, unit = NULL, simplify = 1, point.per = "feature",
-  line.center = "midpoint", ...)
+  line.center = "midpoint", filter = NULL, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -39,6 +39,8 @@ If unspecified, the current bounding box of \code{shp} is taken. The bounding bo
 \item{point.per}{specification of how points or text labels are plotted when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a point/label for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
 
 \item{line.center}{specification of where points are placed for (multi)line geometries. Either \code{"midpoint"} or \code{"centroid"}. The former places a point at the middle of the line, the latter at the controid.}
+
+\item{filter}{logical vector which indicated per feature whether it should be included. Features for which filter is \code{FALSE} will be colored light gray (see the \code{colorNULL} argument in the layer functions)}
 
 \item{...}{Arguments passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrinke a bounding box), and \code{\link[tmaptools:simplify_shape]{simplify_shape}} (the arguments \code{keep.units} and \code{keep.subunits})}
 }
