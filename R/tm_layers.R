@@ -529,6 +529,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param shapes.labels Legend labels for the symbol shapes
 #' @param shapeNA the shape (a number or grob) for missing values. By default a cross (number 4).
 #' @param shape.textNA text used for missing values of the shape variable.
+#' @param shape.showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param shapes.n preferred number of shape classes. Only applicable when \code{shape} is a numeric variable name.
 #' @param shapes.style method to process the shape scale when \code{shape} is a numeric variable. See \code{style} argument for options
 #' @param shapes.breaks in case \code{shapes.style=="fixed"}, breaks should be specified
@@ -617,6 +618,7 @@ tm_symbols <- function(size=1, col=NA,
 						shapes.labels = NULL,
 						shapeNA = 4,
 						shape.textNA = "Missing",
+						shape.showNA = NA,
 						shapes.n = 5, shapes.style = ifelse(is.null(shapes.breaks), "pretty", "fixed"),
 						shapes.breaks = NULL,
 						shapes.interval.closure = "left",

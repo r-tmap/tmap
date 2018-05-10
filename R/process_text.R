@@ -1,24 +1,4 @@
-process_text <- function(data, g, fill, gt, gby, z, interactive) {
-	root <- NULL; size.lowerbound <- NULL; scale <- NULL; bg.alpha <- NULL; case <- NULL; alpha <- NULL
-	shadow <- NULL
-	gsc <- NULL
-	
-	## general variables
-	npol <- nrow(data)
-	by <- data$GROUP_BY
-	shpcols <- names(data)[1:(ncol(data)-1)]
-
-	## aesthetics
-	xtsize <- g$size
-	xtcol <- g$col
-	xtext <- g$text
-	
-	## general (!color aesthetic), color NA, alpha checks / defaults
-	if (is.null(g$colorNA)) g$colorNA <- "#00000000"
-	if (is.na(g$colorNA)[1]) g$colorNA <- gt$aes.colors["na"]
-	if (g$colorNA=="#00000000") g$showNA <- FALSE
-	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_text is not a numeric", call. = FALSE)
-	
+check_text_specials <- function(fill, xtcol, xtsize, g, gt, gby, xvary, data, shpcols, nx, npol, interactive) {
 	## text-specific aesthetic defaults
 	if (gt$aes.colors.light["text"]) {
 		collight <- gt$aes.colors["text"]
@@ -30,39 +10,13 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	
 	## determine background of the text (normally defined by polygons below), such that text color will be collight or coldark
 	if (is.na(fill[1])) fill <- ifelse(gt$aes.colors.light["text"], "black", "white")
+	
+	
 
-	
-	## general 'by' check: if by => |aes| = 1, and determine nx
-	## make aesthetics same length and check whether they specified with variable names (e.g. vary...)
-	if (nlevels(by)>1 && (length(xtsize) > 1 || length(xtcol) > 1 || length(xtext) > 1)) {
-		warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
-		xtsize <- xtsize[1]
-		xtcol <- xtcol[1]
-		xtext <- xtext[1]
-	}
-	nxtsize <- length(xtsize)
-	nxtcol <- length(xtcol)
-	nxtext <- length(xtext)
-	nxfill <- if (is.matrix(fill)) ncol(fill) else 1
-	
-	varysize <- all(xtsize %in% shpcols) && !is.null(xtsize)
-	varycol <- all(xtcol %in% shpcols) && !is.null(xtcol) && !(is.na(xtcol[1]))
-	
-	if ((varysize || identical(xtsize, "AREA")) && interactive && !gt$text.size.variable) {
-		message("Text size will be constant in view mode. Set tm_view(text.size.variable = TRUE) to enable text size variables.")
-		varysize <- FALSE
-		nxtsize <- 1
-		xtsize <- 1
-	}
-	nx <- max(nxtcol, nxtsize, nxtext, nxfill)
-
-	if (nxtcol<nx) xtcol <- rep(xtcol, length.out=nx)
-	if (nxtsize<nx) xtsize <- rep(xtsize, length.out=nx)
-	if (nxtext<nx) xtext <- rep(xtext, length.out=nx)
 	
 	
 	## set dummy variable for size aesthetic (if not variable)
-	if (!varysize) {
+	if (!xvary["text.size"]) {
 		if (!all(is.numeric(xtsize) | xtsize=="AREA")) stop("Incorrect text sizes.", call. = FALSE)
 		if (is.numeric(xtsize[1])) {
 			g$size.lowerbound <- 0
@@ -78,7 +32,7 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	
 	# check for direct color input
 	is.colors <- all(valid_colors(xtcol)) || is.na(xtcol[1])
-	if (!varycol) {
+	if (!xvary["text.col"]) {
 		if (!is.colors) stop("Invalid text colors", call. = FALSE)
 		if (is.na(xtcol)[1]) {
 			if (is.matrix(fill)) {
@@ -103,150 +57,21 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 				cols <- cols[,rep(1:ncol(cols), length.out=nx)]
 			}
 		}
-
+		
 		for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- cols[, i]
 		xtcol <- paste("COLOR", 1:nx, sep="_")
 	}
 	
-	## set nx to number of by facets if applicable
-	nx <- max(nx, nlevels(by))
-	
-	# update legend format from tm_layout
-	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
-	
-	## process data for the color and size aesthetic
-	dtcol <- process_data(data[, xtcol, drop=FALSE], by=by, free.scales=gby$free.scales.text.col, is.colors=is.colors)	
-	dtsize <- process_data(data[, xtsize, drop=FALSE], by=by, free.scales=gby$free.scales.text.size, is.colors=FALSE)
-	
-	## generic: set showNA to anyNA
-	if (nlevels(by)>1) if (is.na(g$showNA)) g$showNA <- attr(dtcol, "anyNA")
+	xtext <- g$text
 	
 	if (!all(xtext %in% shpcols)) stop("Incorrect data variable used for the text", call. = FALSE)
-
-	text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), nrow=npol, ncol=nx) else as.character(data[[xtext]])
-	if (!is.na(g$case)) text <- if(case=="upper") toupper(text) else tolower(text)
 	
+	list(xtcol = xtcol, xtsize = xtsize, g=g, gby = gby, data = data, is.colors = is.colors, fill = fill, collight = collight, coldark = coldark, xtext = xtext)	
 	
-	if (is.list(dtsize)) {
-		# multiple variables for size are defined
-		gss <- split_g(g, n=nx)
-		res <- mapply(process_text_size_vector, dtsize, as.list(as.data.frame(text)), gss, MoreArgs = list(rescale=varysize, gt=gt, reverse=g$legend.size.reverse), SIMPLIFY = FALSE)
-		size <- sapply(res, function(r)r$size)
-		text_sel <- sapply(res, function(r)r$text_sel)
-		size.legend.labels <- lapply(res, function(r)r$size.legend.labels)
-		size.legend.values <- lapply(res, function(r)r$size.legend.values)
-		legend.sizes <- lapply(res, function(r)r$legend.sizes)
-		max.size <- lapply(res, function(r)r$max.size)
-	} else {
-		res <- process_text_size_vector(dtsize, text, g, rescale=varysize, gt=gt, reverse=g$legend.size.reverse)
-		size <- matrix(res$size, nrow=npol)
-		text_sel <- matrix(res$text_sel, nrow=npol)
-		
-		if (varysize) {
-			size.legend.labels <- res$size.legend.labels
-			size.legend.values <- res$size.legend.values
-			legend.sizes <- res$legend.sizes
-			max.size <- res$max.size
-		} else {
-			size.legend.labels <- NA
-			size.legend.values <- NA
-			size.legend.text <- NA
-			legend.sizes <- NA
-			max.size <- res$max.size
-			xtsize <- rep(NA, nx)
-			size.legend.title <- rep(NA, nx)
-		}
-	}
-	
-	if (is.list(dtsize) || varysize) {
-		# process legend text
-		size.legend.text <- mapply(function(txt, v, l, ls, gssi) {
-			if (is.na(gssi$sizes.legend.text[1])) {
-				nl <- nlevels(v)
-				lss <- ls[-1] - ls[-length(ls)]
-				lss <- c(lss[1], (lss[-1] + lss[-length(lss)])/2, lss[length(lss)])
-				ix <- mapply(function(i, j) {
-					r <- which.min(abs(v-i))[1]
-					if (which.min(abs(v[r]-ls))[1]==j) r else NA
-				}, ls, 1:length(ls), SIMPLIFY=TRUE)
-				sizetext <- txt[ix]
-				sizetext[is.na(sizetext)] <- "NA"
-			} else {
-				sizetext <- rep(gssi$sizes.legend.text, length.out=length(l))
-			}
-			sizetext
-		}, as.data.frame(text, stringsAsFactors = FALSE), as.data.frame(size), if (is.list(size.legend.labels)) size.legend.labels else list(size.legend.labels), if (is.list(legend.sizes)) legend.sizes else list(legend.sizes), if (is.list(dtsize)) gss else list(g), SIMPLIFY=FALSE)
-	}
-	
-	sel <- if (is.list(dtcol)) as.list(as.data.frame(text_sel)) else as.vector(text_sel)
-	
-	# 
-	# # selection: which line widths are NA?
-	# sel <- if (is.list(dtsize)) {
-	# 	lapply(dtsize, function(i)!is.na(i))
-	# } else {
-	# 	if (is.list(dtcol)) {
-	# 		cnts <- vapply(dtcol, length, integer(1))
-	# 		cnts2 <- 1:length(dtcol)
-	# 		f <- factor(unlist(mapply(rep, cnts2, cnts, SIMPLIFY = FALSE)))
-	# 		split(dtsize, f = f)
-	# 	} else !is.na(dtsize)
-	# } 
-	
-	dcr <- process_dtcol(dtcol, sel=sel, g, gt, nx, npol, reverse=g$legend.col.reverse)
-	if (dcr$is.constant) {
-		xtcol <- rep(NA, nx)
-		col.legend.text <- NA
-		col.legend.title <- rep(NA, nx)
-	}
-	col <- dcr$col
-	col.legend.labels <- dcr$legend.labels
-	col.legend.values <- dcr$legend.values
-	col.legend.palette <- dcr$legend.palette
-	col.nonemptyFacets <- dcr$nonemptyFacets
-
-	col.neutral <- gt$aes.colors[["text"]] # preferable over dcr$col.neutral to match examples
-	breaks <- dcr$breaks
-	values <- dcr$values
-	
-	if (is.list(dtcol)) {
-		gsc <- split_g(g, n=nx)
-	}
-	
-	if (is.list(values)) {
-		# process legend text
-		col.legend.text <- mapply(function(txt, v, b, s, l, gsci) {
-			if (is.na(gsci$labels.text[1])) {
-				
-				if (is.na(b[1])) {
-					# categorical
-					nl <- nlevels(v)
-					ids <- as.integer(v)
-				} else {
-					# numeric
-					nl <- length(b) - 1
-					ids <- as.integer(cut(v, breaks=b, include.lowest = TRUE, right = FALSE))
-				}
-				ix <- sapply(1:nl, function(i)which(ids==i & s)[1])
-				if (length(l)==nl+1) {
-					ix <- c(ix, which(is.na(v))[1])
-				}
-				coltext <- txt[ix]
-				coltext[is.na(coltext)] <- "NA"
-				
-			} else {
-				if (length(gsci$labels.text) == length(l)-1) {
-					coltext <- c(gsci$labels.text, "NA")
-				} else {
-					coltext <- rep(gsci$labels.text, length.out=length(l))
-				}
-			}
-			coltext
-		}, as.data.frame(text, stringsAsFactors = FALSE), values, breaks, as.list(as.data.frame(text_sel)), if (is.list(col.legend.labels)) col.legend.labels else list(col.legend.labels), if (is.list(dtcol)) gsc else list(g), SIMPLIFY=FALSE)
-	}
-	
+}
 
 
+postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text) {
 	if (g$shadow) {
 		g$shadowcol <- if (is.matrix(col)) {
 			apply(col, MARGIN=2, function(f) {
@@ -258,8 +83,8 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 			rep(ifelse(light, coldark, collight), length.out=npol)
 		}
 	}
-
- 	text.just <- g$just
+	
+	text.just <- g$just
 	xmod <- if (is.character(g$xmod)) data[[g$xmod]] else rep(g$xmod, length.out=npol)
 	ymod <-  if (is.character(g$ymod)) data[[g$ymod]] else rep(g$ymod, length.out=npol)
 	
@@ -268,26 +93,9 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 	
 	if (is.na(g$fontface)) g$fontface <- gt$fontface
 	if (is.na(g$fontfamily)) g$fontfamily <- gt$fontfamily
-
+	
 	text.bg.color <- do.call("process_color", c(list(col=g$bg.color, alpha=g$bg.alpha), gt$pc))
 	text.shadowcol <- do.call("process_color", c(list(col=g$shadowcol), gt$pc))
-
-	text.size.legend.title <- if (is.ena(g$title.size)[1]) xtsize else g$title.size
-	text.col.legend.title <- if (is.ena(g$title.col)[1]) xtcol else g$title.col
-	text.size.legend.z <- if (is.na(g$legend.size.z)) z else g$legend.size.z
-	text.col.legend.z <- if (is.na(g$legend.col.z)) z+.33 else g$legend.col.z
-	text.legend.hist.z <- if (is.na(g$legend.hist.z)) z+.66 else g$legend.hist.z
-	
-	if (g$legend.hist && is.ena(g$legend.hist.title) && text.col.legend.z>text.legend.hist.z) {
-		# histogram is drawn between title and legend enumeration
-		text.col.legend.hist.title <- text.col.legend.title
-		text.col.legend.title <- ""
-	} else if (g$legend.hist && !is.na(g$legend.hist.title)) {
-		text.col.legend.hist.title <- g$legend.hist.title
-	} else text.col.legend.hist.title <- ""
-
-	if (!g$legend.size.show) text.size.legend.title <- NA
-	if (!g$legend.col.show) text.col.legend.title <- NA
 	
 	clustering <- g$clustering
 	if (identical(clustering, FALSE)) {
@@ -296,55 +104,34 @@ process_text <- function(data, g, fill, gt, gby, z, interactive) {
 		clustering <- leaflet::markerClusterOptions()	
 	}
 	
+	res$text.col.legend.text <- res$text.col.legend.misc$legend.text
+	res$text.col.legend.misc <- list()
 	
-	list(text=text,
-		 text.size=size,
-		 #root=g$root,
-		 text.color=col,
-		 text.fontface=g$fontface,
-		 text.fontfamily=g$fontfamily,
-		 text.shadow=g$shadow,
-		 text.shadowcol=text.shadowcol,
-		 text.bg.color=text.bg.color,
-		 text.scale=g$scale,
-		 text.auto.placement=g$auto.placement,
-		 text.remove.overlap=g$remove.overlap,
-		 text.along.lines=g$along.lines,
-		 text.overwrite.lines=g$overwrite.lines,
-		 text.col.legend.labels=col.legend.labels,
-		 text.col.legend.values=col.legend.values,
-		 text.col.legend.text=col.legend.text,
-		 text.col.legend.palette=col.legend.palette,
-		 text.col.legend.sizes = max.size,
-		 text.col.legend.misc=list(),
-		 text.size.legend.labels=size.legend.labels,
-		 text.size.legend.values=size.legend.values,
-		 text.size.legend.text=size.legend.text,
-		 text.size.legend.palette= col.neutral,
-		 text.size.legend.sizes = legend.sizes,
-		 text.size.legend.misc=list(),
-		 text.col.legend.hist.misc=list(values=values, breaks=breaks),
-		 text.misc = list(clustering = clustering),
-		 xtext=xtext,
-		 xtsize=xtsize,
-		 xtcol=xtcol,
- 		 text.just=text.just,
-		 text.xmod=xmod,
-		 text.ymod=ymod,
-		 text_sel=text_sel,
-		 text.size.legend.show=g$legend.size.show,
-		 text.col.legend.show=g$legend.col.show,
-		 text.size.legend.title=text.size.legend.title,
-		 text.col.legend.title=text.col.legend.title,
-		 text.size.legend.is.portrait=g$legend.size.is.portrait,
-		 text.col.legend.is.portrait=g$legend.col.is.portrait,
-		 text.size.legend.reverse=g$legend.size.reverse,
-		 text.col.legend.reverse=g$legend.col.reverse,
-		 text.col.legend.hist=g$legend.hist,
-		 text.col.legend.hist.title=text.col.legend.hist.title,
-		 text.size.legend.z=text.size.legend.z,
-		 text.col.legend.z=text.col.legend.z,
-		 text.col.legend.hist.z=text.legend.hist.z,
-		 text.group = g$group)
+	names(res)[names(res)== "text.size.max.size"] <- "text.col.legend.sizes"
+	names(res)[names(res)== "text.size.text_sel"] <- "text_sel"
+	names(res)[names(res)== "text.col"] <- "text.color"
 	
+	extra <- list(text = text,
+				  text.fontface=g$fontface,
+				  text.fontfamily=g$fontfamily,
+				  text.shadow=g$shadow,
+				  text.shadowcol=text.shadowcol,
+				  text.bg.color=text.bg.color,
+				  text.scale=g$scale,
+				  text.auto.placement=g$auto.placement,
+				  text.remove.overlap=g$remove.overlap,
+				  text.along.lines=g$along.lines,
+				  text.overwrite.lines=g$overwrite.lines,
+				  text.just = text.just,
+				  text.xmod=xmod,
+				  text.ymod=ymod,
+				  text.misc = list(clustering = clustering))
+	c(res, extra)
+}
+
+
+process_text <- function(data, g, fill, gt, gby, z, interactive) {
+	# aesthetics
+	xs <- list(text.size = g$size, text.col = g$col)
+	process_aes(type = "text", xs, c("xtsize", "xtcol"), "text", data, g, gt, gby, z, interactive, fill)
 }

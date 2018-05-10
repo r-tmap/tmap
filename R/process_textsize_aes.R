@@ -1,3 +1,71 @@
+process_dttsize <- function(dtsize, text, g, gt, nx, npol, varysize, varycol) {
+	is.constant <- FALSE
+	if (is.list(dtsize)) {
+		# multiple variables for size are defined
+		gss <- split_g(g, n=nx)
+		res <- mapply(process_text_size_vector, dtsize, as.list(as.data.frame(text)), gss, MoreArgs = list(rescale=varysize, gt=gt, reverse=g$legend.size.reverse), SIMPLIFY = FALSE)
+		size <- sapply(res, function(r)r$size)
+		text_sel <- sapply(res, function(r)r$text_sel)
+		size.legend.labels <- lapply(res, function(r)r$size.legend.labels)
+		size.legend.values <- lapply(res, function(r)r$size.legend.values)
+		legend.sizes <- lapply(res, function(r)r$legend.sizes)
+		max.size <- lapply(res, function(r)r$max.size)
+	} else {
+		res <- process_text_size_vector(dtsize, text, g, rescale=varysize, gt=gt, reverse=g$legend.size.reverse)
+		size <- matrix(res$size, nrow=npol)
+		text_sel <- matrix(res$text_sel, nrow=npol)
+		
+		if (varysize) {
+			size.legend.labels <- res$size.legend.labels
+			size.legend.values <- res$size.legend.values
+			legend.sizes <- res$legend.sizes
+			max.size <- res$max.size
+		} else {
+			is.constant <- TRUE
+			size.legend.labels <- NA
+			size.legend.values <- NA
+			size.legend.text <- NA
+			legend.sizes <- NA
+			max.size <- res$max.size
+			#xtsize <- rep(NA, nx)
+			#size.legend.title <- rep(NA, nx)
+		}
+	}
+	
+	if (is.list(dtsize) || varysize) {
+		# process legend text
+		size.legend.text <- mapply(function(txt, v, l, ls, gssi) {
+			if (is.na(gssi$sizes.legend.text[1])) {
+				nl <- nlevels(v)
+				lss <- ls[-1] - ls[-length(ls)]
+				lss <- c(lss[1], (lss[-1] + lss[-length(lss)])/2, lss[length(lss)])
+				ix <- mapply(function(i, j) {
+					r <- which.min(abs(v-i))[1]
+					if (which.min(abs(v[r]-ls))[1]==j) r else NA
+				}, ls, 1:length(ls), SIMPLIFY=TRUE)
+				sizetext <- txt[ix]
+				sizetext[is.na(sizetext)] <- "NA"
+			} else {
+				sizetext <- rep(gssi$sizes.legend.text, length.out=length(l))
+			}
+			sizetext
+		}, as.data.frame(text, stringsAsFactors = FALSE), as.data.frame(size), if (is.list(size.legend.labels)) size.legend.labels else list(size.legend.labels), if (is.list(legend.sizes)) legend.sizes else list(legend.sizes), if (is.list(dtsize)) gss else list(g), SIMPLIFY=FALSE)
+	}
+	
+	list(is.constant = is.constant,
+		 size = size,
+		 legend.labels = size.legend.labels,
+		 legend.values = size.legend.values,
+		 legend.palette = gt$aes.colors[["text"]],
+		 legend.text = size.legend.text,
+		 legend.sizes = legend.sizes,
+		 max.size = max.size,
+		 legend.misc = list(),
+		 #xtsize = xtsize,
+		 #legend.title = size.legend.title,
+		 text_sel = text_sel)
+}
+
 process_text_size_vector <- function(x, text, g, rescale, gt, reverse) {
 	check_aes_args(g)
 	

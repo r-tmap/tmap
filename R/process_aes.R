@@ -25,7 +25,7 @@ check_g <- function(g, gt) {
 	g
 }
 
-process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interactive) {
+process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interactive, fill = NA) {
 	
 	
 	## general variables
@@ -48,9 +48,14 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
 		xs <- lapply(xs, "[[", 1)
 	}
+	
 	xlen <- sapply(xs, length)
 	
-	nx <- max(xlen)
+	nx_fill <- if (is.na(fill[1])) 1 else if (is.matrix(fill)) ncol(fill) else 1 # backgrond for tm_text
+	
+	
+	
+	nx <- max(xlen, nx_fill)
 	
 	## make aesthetics same length and check whether they specified with variable names (e.g. vary...)
 	xs <- lapply(xs, function(x) {
@@ -60,7 +65,23 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	xvary <- sapply(xs, function(x) {
 		all(x %in% shpcols) && !is.null(x)
 	})
+
+	if (type == "text") {
+		if ((xvary[["text.size"]] || identical(xs[["text.size"]], "AREA")) && interactive && !gt$text.size.variable) {
+			message("Text size will be constant in view mode. Set tm_view(text.size.variable = TRUE) to enable text size variables.")
+			xvary[["text.size"]] <- FALSE
+			xlen["text.size"] <- 1
+			xs[["text.size"]] <- 1
+			
+			# recalculate nx and xs
+			nx <- max(xlen, nx_fill)
+			xs <- lapply(xs, function(x) {
+				if (length(x) < nx) rep(x, length.out=nx) else x
+			})
+		}	
+	} 
 	
+		
 
 	## check special inputs
 	
@@ -91,9 +112,36 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		is.colors <- c(res$is.colors, FALSE, FALSE)
 		just <- res$just
 		split.by <- rep(TRUE, 3)
-	} else {
-		is.colors <- FALSE
+	} else if (type == "raster") {
+		res <- check_raster_specials(xs[["raster"]], g, gt, shpcols, data, nx)
+		
+		xs[["raster"]] <- res$x
+		data <- res$data
+		is.colors <- res$is.colors
+		nx <- res$nx
+		misc <- res$misc
 		split.by <- TRUE
+	} else if (type == "text") {
+		res <- check_text_specials(fill, xs[["text.col"]], xs[["text.size"]], g, gt, gby, xvary, data, shpcols, nx, npol, interactive)
+
+		xs[["text.col"]] <- res$xtcol
+		xs[["text.size"]] <- res$xtsize
+		g <- res$g
+		gby <- res$gby
+		data <- res$data
+		is.colors <- c(res$is.colors, FALSE)
+
+		fill <- res$fill
+		collight <- res$collight
+		coldark <- res$coldark
+		
+		xtext <- res$xtext
+		
+		split.by <- rep(TRUE, 2)
+	}
+	
+	if (type != "text") {
+		text_sel <- NULL
 	}
 	
 	
@@ -107,6 +155,11 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 
 	## impute showNA for first (i.e. color) aesthetic
 	if (nlevels(by)>1) if (is.na(g$showNA) && !gby[[fsnames[[1]]]]) g$showNA <- any(attr(dts[[1]], "anyNA") & !(gby$drop.NA.facets & attr(dts[[1]], "allNA")))
+	
+	if (type == "symbol") {
+		if (nlevels(by)>1) if (is.na(g$shape.showNA) && !gby[[fsnames[[3]]]]) g$shape.showNA <- any(attr(dts[[3]], "anyNA") & !(gby$drop.NA.facets & attr(dts[[3]], "allNA")))
+	}
+	
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	
 	
@@ -116,28 +169,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	# update legend format from tm_layout
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
 	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
-	
-	
-	
-	# # return if data is matrix of color values
-	# if (is.matrix(dt)) {
-	# 	sel <- attr(dt, "sel")
-	# 	allNA <- attr(dt, "allNA")
-	# 	fillna <- is.na(dt)
-	# 	dt[fillna] <- g$colorNA
-	# 	dt[!sel] <- g$colorNULL
-	# 	col.nonemptyFacets <- !allNA
-	# 	
-	# 	return(list(fill=dt, 
-	# 				fill.nonemptyFacets = col.nonemptyFacets,
-	# 				xfill=rep(NA, nx), 
-	# 				fill.lenged.title=rep(NA, nx),
-	# 				fill.id=g$id,
-	# 				fill.popup.vars=g$popup.vars,
-	# 				fill.popup.format=g$popup.format,
-	# 				fill.group = g$group))	
-	# } 
-	
+
 	if (type == "fill") {
 		res <- check_poly_sizes(g, data, nx, islist = is.list(dts[[1]]))
 		areas <- res$areas
@@ -154,18 +186,21 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		}
 	}
 	
-	# ####################
-	# ## back to old
-	# x <- xs[["fill"]]
-	# dt <- dts[[1]]
-	# 
-	# ############
+	if (type == "text") {
+		text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), nrow=npol, ncol=nx) else as.character(data[[xtext]])
+		if (!is.na(g$case)) text <- if(case=="upper") toupper(text) else tolower(text)
+	} else {
+		text <- NULL
+	}
+	
 	
 
 	res <- mapply(function(x, xname, dt, fsname) {
 		
 		if (xname %in% c("fill", "line.col", "symbol.col", "raster", "text.col")) {
-			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, check_dens = (xname == "fill"), areas=as.numeric(areas), areas_unit=attr(areas, "unit"))
+			if (xname == "text.col") sel <- as.vector(text_sel)
+			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, check_dens = (xname == "fill"), areas=as.numeric(areas), areas_unit=attr(areas, "unit"), text = text, text_sel = text_sel)
+			#if (xname == "fill") assign("dcr_fill", dcr$col, pos = 1) # needed for tm_text
 			assign("col.neutral", dcr$col.neutral, pos = 1)
 		} else if (xname == "line.lwd") {
 			dcr <- process_dtlwd(dt, g, gt, nx, npol, xvary["line.lwd"], col.neutral)
@@ -174,14 +209,28 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		} else if (xname == "symbol.shape") {
 			dcr <- process_dtshape(dt, g, gt, sel, nx, npol, xvary["symbol.shape"], col.neutral)
 		} else if (xname == "text.size") {
-		} else if (xname == "symbol.shape") {
+			dcr <- process_dttsize(dt, text, g, gt, nx, npol, xvary["text.size"]) 
+			assign("text_sel", dcr$text_sel, pos = 1)
 		} else {
 			stop("xname unknown")
 		}
 
+		
 		if (dcr$is.constant) x <- rep(NA, nx)
 		legend.show <- if (dcr$is.constant) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
-		legend.title <- rep(if (is.ena(g[[aname("title", xname)]])[1]) paste(x, dcr$title_append) else g[[aname("title", xname)]], length.out = nx)
+		
+		if (xname=="symbol.size" && is.list(dcr$legend.labels)) {
+			emptySizeLegend <- sapply(dcr$legend.labels, function(ssll) is.na(ssll[1]))
+			legend.show[emptySizeLegend] <- FALSE
+		} else if (xname == "text.col") {
+			dcr$legend.text <- dcr$legend.misc$legend.text
+		}
+		
+		# else if (xname == "text.size") {
+		# 	dcr$legend.text <- dcr$legend.misc$legend.text
+		# }
+		
+		legend.title <- rep(if (is.ena(g[[aname("title", xname)]])[1]) paste0(x, dcr$title_append) else g[[aname("title", xname)]], length.out = nx)
 		legend.z <- if (is.na(g[[aname("legend.z", xname)]])) z else g[[aname("legend.z", xname)]]
 
 		if (nx > 1 && gby[[fsname]]) {
@@ -216,11 +265,19 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	
 	
-
+	nFs <- lapply(res, function(r) r$nonemptyFacets)
+	nFsNULL <- sapply(nFs, is.null)
 	
-	nonemptyFacets <- unname(apply(as.matrix(sapply(res, function(r) {
-		r$nonemptyFacets	
-	})), MARGIN = 1, all))
+	if (all(nFsNULL)) {
+		nonemptyFacets <- NULL
+	} else {
+		mat <- do.call(cbind, nFs[!nFsNULL])
+		nonemptyFacets <- unname(apply(mat, MARGIN = 1, all))	
+	}
+	
+	
+	
+	
 	
 	layerInfo <- list(nonemptyFacets = nonemptyFacets,
 						   id = g$id,
@@ -243,6 +300,10 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		res$line.col.legend.misc$line.legend.lwd <- assign_legend_line_widths(res$line.lwd.legend.misc$legend.lwds, res$line.lwd, nx)
 	} else if (type == "symbol") {
 		res <- postprocess_symbols(res, g, gt, data, npol, nx, just, interactive)
+	} else if (type == "raster") {
+		res$raster.misc <- misc
+	} else if (type == "text") {
+		res <- postprocess_text(res, g, gt, data, npol, nx, just, interactive, text)
 	}
 	
 	

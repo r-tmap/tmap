@@ -25,7 +25,7 @@ process_dtlwd <- function(dtlwd, g, gt, nx, npol, varylwd, col.neutral) {
 			is.constant <- TRUE
 		}
 	}
-	lwd.nonemptyFacets <- apply(line.lwd, MARGIN = 2, function(v) !all(is.na(v)))
+	lwd.nonemptyFacets <- if (is.constant) NULL else apply(line.lwd, MARGIN = 2, function(v) !all(is.na(v)))
 	
 	# 
 	# list(is.constant=is.constant,

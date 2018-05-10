@@ -220,6 +220,8 @@ process_layers <- function(g, z, gt, gf, interactive) {
 
 			lev <- levels(data$GROUP_BY)[!eF]
 
+
+			
 			data$GROUP_BY <- factor(as.character(data$GROUP_BY), levels = lev)
 			by <- by[!eF]
 			if (neFLS[1]) gfill <- within(gfill, {
@@ -275,7 +277,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 				
 				symbol.size.legend.labels <- truncate_labels(symbol.size.legend.labels, !eF)
 				symbol.size.legend.values <- truncate_other(symbol.size.legend.values, !eF)
-				symbol.size.legend.palette <- truncate_other(symbol.size.legend.palette, !eF)
+				symbol.size.legend.palette <- truncate_vec(symbol.size.legend.palette, !eF)
 				symbol.size.legend.sizes <- truncate_other(symbol.size.legend.sizes, !eF)
 				symbol.size.legend.shapes <- truncate_other(symbol.size.legend.shapes, !eF)
 				symbol.size.legend.show <- symbol.size.legend.show[!eF]
@@ -285,10 +287,16 @@ process_layers <- function(g, z, gt, gf, interactive) {
 				symbol.shape.legend.labels <- truncate_labels(symbol.shape.legend.labels, !eF)
 				symbol.shape.legend.values <- truncate_other(symbol.shape.legend.values, !eF)
 				symbol.shape.legend.palette <- truncate_other(symbol.shape.legend.palette, !eF)
+				symbol.shape.legend.sizes <- truncate_other(symbol.shape.legend.sizes, !eF)
+				symbol.shape.legend.shapes <- truncate_other(symbol.shape.legend.shapes, !eF)
 				symbol.shape.legend.show <- symbol.shape.legend.show[!eF]
 				symbol.shape.legend.title <- symbol.shape.legend.title[!eF]
 				
+				symbol.xmod <- symbol.xmod[, !eF, drop = FALSE]
+				symbol.ymod <- symbol.ymod[, !eF, drop = FALSE]
+				
 				xsize <- truncate_vec(xsize, !eF)
+				xshape <- truncate_vec(xshape, !eF)
 				xcol <- truncate_vec(xcol, !eF)
 			})
 			panel.names <- panel.names[!eF]
@@ -298,6 +306,38 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, gtiles, list(add_legends=add_legends))
 }
+
+###############################
+###### to do: tidy up, e.g:
+###############################
+# remove_NA_facets <- function(g, type, aes, xs) {
+# 	g[xs] <- lapply(g[xs], function(gi) gi[, !eF, drop = FALSE])
+# 
+# 	lname <- sapply(aes, function(a) paste(a, "legend.labels", sep = "."))
+# 	oname <- unlist(lapply(aes, function(a) paste(a, c("legend.labels", "legend.values"))))
+# 	hname <- paste(aes[1], "legend.hist.misc", sep = ".")
+# 	vname <- unlist(lapply(aes, function(a) paste(a, c("legend.show", "legend.title"))))
+# 
+# 	fname <- paste(type, "nonemptyFacets", sep = ".")
+# 	
+# 	g[lname] <- lapply(g[lname], function(gi) truncate_labels(gi, !eF))
+# 	g[oname] <- lapply(g[oname], function(gi) truncate_other(gi, !eF))
+# 	g[[hname]] <- local({
+# 		gi <- g[[hname]]
+# 		gi$values <- truncate_other(gi$values, !eF)
+# 		gi$breaks <- truncate_other(gi$breaks, !eF)
+# 		gi
+# 	})
+# 	g[vname] <- lapply(g[vname], function(gi) gi[!eF])
+# 	g[[fname]] <- g[[fname]][!eF]
+# 	
+# 	g[xs] <- lapply(g[xs], function(gi) truncate_vec(gi, !eF))
+# }
+# 
+# gfill <- remove_NA_facets(gfill, "fill", "fill", "xfill")
+# glines <- remove_NA_facets(glines, "line", c("line.col", "line.lwd"), c("xline", "xlinelwd"))
+# gsymbol <- remove_NA_facets(gsymbol, "symbol", c("symbol.col", "symbol.size", "symbol.shape"), c("xcol", "xsize", "xshape"))
+
 
 truncate_label_vec <- function(label, sel) {
 	structure(label[sel], align = attr(label, "align"))	

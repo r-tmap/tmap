@@ -3,7 +3,7 @@ process_dtsize <- function(dtsize, g, gt, nx, npol, varysize, col.neutral) {
 	if (is.list(dtsize)) {
 		# multiple variables for size are defined
 		gss <- split_g(g, n=nx)
-		if (!all(sapply(dtsize, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
+		#if (!all(sapply(dtsize, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
 		res <- mapply(process_symbols_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt=gt, reverse=g$legend.size.reverse), SIMPLIFY = FALSE)
 		symbol.size <- sapply(res, function(r)r$symbol.size)
 		symbol.size.legend.labels <- lapply(res, function(r)r$symbol.size.legend.labels)
@@ -11,8 +11,8 @@ process_dtsize <- function(dtsize, g, gt, nx, npol, varysize, col.neutral) {
 		symbol.legend.sizes <- lapply(res, function(r)r$symbol.legend.sizes)
 		symbol.max.size <- lapply(res, function(r)r$symbol.max.size)
 		
-		emptySizeLegend <- sapply(symbol.size.legend.labels, function(ssll) is.na(ssll[1]))
-		symbol.size.legend.show[emptySizeLegend] <- FALSE
+		# emptySizeLegend <- sapply(symbol.size.legend.labels, function(ssll) is.na(ssll[1]))
+		# symbol.size.legend.show[emptySizeLegend] <- FALSE
 	} else {
 		if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
 		res <- process_symbols_size_vector(dtsize, g, rescale=varysize, gt=gt, reverse=g$legend.size.reverse)
@@ -34,7 +34,7 @@ process_dtsize <- function(dtsize, g, gt, nx, npol, varysize, col.neutral) {
 		}
 	}
 	
-	nonemptyFacets <- apply(symbol.size, MARGIN = 2, function(v) !all(is.na(v)))
+	nonemptyFacets <- if (is.constant) NULL else apply(symbol.size, MARGIN = 2, function(v) !all(is.na(v)))
 	
 	list(is.constant=is.constant,
 		 symbol.size=symbol.size,

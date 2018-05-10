@@ -180,6 +180,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		attr(shp2, "bbox") <- bb(shp2)
 		attr(shp2, "proj4string") <- attr(shp2@crs, "projargs")
 		
+		data$tmapfilter <- TRUE
+		
 		attr(data, "is.OSM") <- is.OSM
 		attr(data, "leaflet.server") <- leaflet.server
 		

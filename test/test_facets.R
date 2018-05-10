@@ -1,5 +1,6 @@
 library(sf)
 library(grid)
+library(raster)
 
 data(NLD_prov)
 
@@ -9,6 +10,16 @@ NLD_prov$v1 <- c(9, 8, 3, 7, 8, NA, NA, NA, NA, 3, 5, NA)
 NLD_prov$v2 <- c("x", "y", NA, NA, NA, NA, "x", "y", "x", "y", NA, NA)
 NLD_prov$name2 <- NLD_prov$name
 NLD_prov$name[c(5, 7, 8, 9)] <- NA
+
+# test <- tmaptools::poly_to_raster(NLD_prov)
+# d <- st_set_geometry(NLD_prov, NULL)[test[], ]
+# d <- lapply(d, function(di) {
+# 	if (is.character(di)) as.factor(di) else di
+# })
+# test2 <- do.call(brick, lapply(1:5, function(i) {
+# 	tmp <- setValues(test, d[[i]])
+# 	if (is.factor(d[[i]])) as.factor(tmp) else tmp
+# }))
 
 
 
@@ -20,20 +31,23 @@ tests <- list(
 	list(layer = "lines", args = list(col = "v1", lwd = 10)),
 	list(layer = "lines", args = list(col = "v2", lwd = 10)),
 	list(layer = "lines", args = list(col = "blue", lwd = "v1", scale = 5)),
+	list(layer = "lines", args = list(palette = "Set1", col = "v2", lwd = "v1", scale = 5)),
 	list(layer = "symbols", args = list(col = "green")),
 	list(layer = "symbols", args = list(col = "v1")),
 	list(layer = "symbols", args = list(col = "v2")),
 	list(layer = "symbols", args = list(col = "blue", size = "v1")),
-	list(layer = "symbols", args = list(col = "red", shape = "v2"))
+	list(layer = "symbols", args = list(col = "red", shape = "v2")),
+	list(layer = "raster", args = list(col = "green")),
+	list(layer = "raster", args = list(col = "green"))
 )
 
-test <- tests[[7]]
 
 filter <- c(TRUE, TRUE) # extra option: if c(T, F) units 1, 3, ... are selected
 
 errsL <- list()
+test <- tests[[12]]
 
-for (test in tests[1:7]) {
+for (test in tests[9:13]) {
 	shp <- NLD_prov
 	if (test$layer == "lines") {
 		shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
@@ -66,7 +80,9 @@ for (test in tests[1:7]) {
 		name <- paste(mapply(paste0, shortcuts, c("F", "T")[as.numeric(unlist(cb)) + 1]), collapse = "_")
 		
 		errs[i, 2] <- tryCatch({
-			print(tm_shape(shp, filter = filter) +
+			tm <- tm_shape(shp, filter = filter)
+			if (fun == "tm_symbols") tm <- tm + tm_borders()	
+			print(tm +
 				  	do.call(fun, test$args) +
 				  	do.call(tm_facets, c(list(by="by"), cb)) +
 				  	tm_layout(title=name)
@@ -96,42 +112,78 @@ edf <- do.call(rbind, errsL)
 View(edf)
 
 
+get_test <- function(tnr, i) {
+	test <- tests[[tnr]]
+	fun <- paste0("tm_", test$layer)
+	
+	settings <- list(drop.units = c(TRUE, FALSE),
+					 free.coords = c(TRUE, FALSE),
+					 free.scales = c(TRUE, FALSE),
+					 drop.empty.facets = c(TRUE, FALSE),
+					 showNA = c(TRUE, FALSE),
+					 drop.NA.facets = c(TRUE, FALSE))
+	shortcuts <- c("du", "fc", "fs", "de", "dn", "sn")
+	comb <- do.call(expand.grid, c(settings, list(KEEP.OUT.ATTRS = FALSE)))
+	
+	cb <- as.list(comb[i,])
+	name <- paste(mapply(paste0, shortcuts, c("F", "T")[as.numeric(unlist(cb)) + 1]), collapse = "_")
+	
+	cat("shp <- NLD_prov\n")
+	if (test$layer == "lines") {
+		cat("shp$geometry <- sf::st_cast(shp$geometry, \"MULTILINESTRING\", group_or_split = FALSE)\n")
+	}
+	if (fun == "tm_symbols") {
+		cat("tm_shape(shp) + tm_borders() +\n")
+	} else {
+		cat("tm_shape(shp) + \n")	
+	}
+	
+	anames <- names(test$args)
+	aclass <- sapply(test$args, class)
+	avalues <- unname(unlist(test$args))
+	
+	if (any(aclass=="character")) {
+		avalues[aclass == "character"] <- paste0("\"", avalues[aclass == "character"], "\"")	
+	}
+
+	cat(paste0(fun, "(", paste(unlist(mapply(paste, anames, avalues, MoreArgs = list(sep = " = "), SIMPLIFY = FALSE)), collapse=", "), ")"), "+\n")
+	cbnames <- names(cb)
+	cbvalues <- unname(unlist(cb))
+	cat(paste0("tm_facets(by = \"by\", ", paste(unlist(mapply(paste, cbnames, cbvalues, MoreArgs = list(sep = " = "), SIMPLIFY = FALSE)), collapse=", "), ")"), "\n")
+}
+
+trace_test <- function(ids, rev = FALSE) {
+	settings <- list(drop.units = c(TRUE, FALSE),
+					 free.coords = c(TRUE, FALSE),
+					 free.scales = c(TRUE, FALSE),
+					 drop.empty.facets = c(TRUE, FALSE),
+					 showNA = c(TRUE, FALSE),
+					 drop.NA.facets = c(TRUE, FALSE))
+	shortcuts <- c("du", "fc", "fs", "de", "dn", "sn")
+	comb <- do.call(expand.grid, c(settings, list(KEEP.OUT.ATTRS = FALSE)))
+	
+	if (rev) ids <- setdiff(1L:nrow(comb), ids)
+	comb[ids, ]
+} 
+
+
+get_test(12, 9)
+
+#trace_test(c(5:12, 21:28, ), FALSE)
 
 shp <- NLD_prov
-shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
-tm_shape(shp) +
-	tm_lines("blue", lwd = "v2", scale = 5, lwd.legend = 1:10) +
-	tm_facets(by = "by", drop.units = T, free.coords = T, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = T)
-
-
-shp <- NLD_prov
-tm_shape(shp) +
-	tm_polygons(col="v1") +
-	tm_facets(by = "by", drop.units = T, free.coords = F, free.scales = T, drop.empty.facets = F,  showNA = F, drop.NA.facets = F)
-
-
-shp <- NLD_prov
-shp$v3 <- letters[1:12]
-shp$v2b <- "green"
-shp$v2b[is.na(shp$v2)] <- NA
-tm_shape(shp, filter = c(TRUE, F)) +
-	tm_polygons(col="v2") +
-	tm_facets(by = "by", drop.units = T, free.coords = F, free.scales = F, drop.empty.facets = T,  showNA = F, drop.NA.facets = T)
-
-shp$by2 <- factor("a", levels=letters[1:3])
-shp$v4 <- 1:12
-
-tm_shape(shp, filter = c(TRUE, F)) +
-	tm_polygons(col="v4") +
-	tm_facets(by = "by2", drop.units = T, free.coords = F, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = F)
+tm_shape(shp) + tm_borders() +
+	tm_symbols(col = "blue", size = "v1") +
+	tm_facets(by = "by", drop.units = TRUE, free.coords = TRUE, free.scales = TRUE, drop.empty.facets = FALSE, showNA = TRUE, drop.NA.facets = TRUE) 
 
 
 
-shp <- NLD_prov
-shp$v3 <- letters[1:12]
-shp$v2b <- "green"
-shp$v2b[is.na(shp$v2)] <- NA
-tm_shape(shp, filter = c(TRUE, T)) +
-	tm_symbols(col="v2b") +
-	tm_facets(by = "by", drop.units = T, free.coords = F, free.scales = F, drop.empty.facets = F,  showNA = F, drop.NA.facets = F)
+
+######### extra tests
+
+tm_shape(World) +
+	tm_text("name", size="pop_est", col="continent", palette="Dark2",
+			title.size = "Population", title.col="Continent") +
+	tm_legend(outside = TRUE) + tm_facets(by = "continent")
+
 

@@ -3,6 +3,8 @@ process_dtshape <- function(dtshape, g, gt, sel, nx, npol, varyshape, col.neutra
 	if (is.list(dtshape)) {
 		sel2 <- if (is.na(sel[1])) rep(TRUE, nx) else sel
 		
+		sel2 <- split(sel2, f = rep(1L:nx, each = npol))
+		
 		# multiple variables for size are defined
 		gsp <- split_g(g, n=nx)
 		#if (!all(sapply(dtshape, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
@@ -13,6 +15,7 @@ process_dtshape <- function(dtshape, g, gt, sel, nx, npol, varyshape, col.neutra
 		shape.legend.shapes <- lapply(res, function(r)r$shape.legend.shapes)
 		shape.neutral <- lapply(res, function(r)r$shape.neutral)
 		if (!varyshape) xshape <- rep(NA, nx)
+		values <- dtshape
 	} else {
 		#if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
 		sel2 <- if (is.na(sel[1])) TRUE else sel
@@ -23,6 +26,7 @@ process_dtshape <- function(dtshape, g, gt, sel, nx, npol, varyshape, col.neutra
 			shape.legend.values <- res$shape.legend.values
 			shape.legend.shapes <- res$shape.legend.shapes
 			shape.neutral <- res$shape.neutral
+			values <- split(dtshape, rep(1:nx, each=npol))
 		} else {
 			is.constant <- TRUE
 			shape.legend.labels <- NA
@@ -34,7 +38,7 @@ process_dtshape <- function(dtshape, g, gt, sel, nx, npol, varyshape, col.neutra
 		}
 	}
 
-	nonemptyFacets <- apply(symbol.shape, MARGIN = 2, function(v) !all(is.na(v)))
+	nonemptyFacets <- if (is.constant) NULL else if(is.list(values)) sapply(values, function(v) !all(is.na(v))) else rep(TRUE, nx)
 	
 	list(is.constant=is.constant,
 		 symbol.shape=symbol.shape,
@@ -61,7 +65,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 								   legend.labels=g$labels,
 								   shapeNA = g$shapeNA,
 								   legend.NA.text = g$shape.textNA,
-								   showNA = g$showNA,
+								   showNA = g$shape.showNA,
 								   legend.format=g$legend.format,
 								   reverse=reverse)
 			symbol.shape <- shapesLeg$shps
@@ -80,7 +84,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 								   shapes=g$shapes,
 								   legend.NA.text = g$shape.textNA,
 								   shapeNA=g$shapeNA, 
-								   showNA = g$showNA,
+								   showNA = g$shape.showNA,
 								   legend.format=g$legend.format,
 								   reverse=reverse)
 			symbol.shape <- shapesLeg$shps
@@ -97,7 +101,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 		shape.legend.shapes <- NA
 		shape.neutral <- x[which(!is.na(x))[1]]
 	}
-	
+
 	list(symbol.shape=symbol.shape,
 		 shape.legend.labels=shape.legend.labels,
 		 shape.legend.values=shape.legend.values,
