@@ -30,7 +30,7 @@ tmap: thematic maps in R
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (the latest version is 1.11-1, published on 2017-11-24). Installation is straightforward:
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (the latest version is 1.11-2, published on 2018-04-10). Version 2.0 will be published soon (see below). Installation is straightforward:
 
 ```r
 install.packages("tmap")
@@ -71,6 +71,10 @@ Usage
 ```r
 library(tmap)
 ```
+
+Reference
+----
+[Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
 
 
 Vignettes and Examples

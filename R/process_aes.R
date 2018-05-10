@@ -139,11 +139,6 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		split.by <- rep(TRUE, 2)
 	}
 	
-	if (type != "text") {
-		text_sel <- NULL
-	}
-	
-	
 	fsnames <- paste0("free.scales.", names(xs))
 	
 	dts <- mapply(function(x, fsname, isc, sby) {
@@ -197,8 +192,14 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	res <- mapply(function(x, xname, dt, fsname) {
 		
 		if (xname %in% c("fill", "line.col", "symbol.col", "raster", "text.col")) {
-			if (xname == "text.col") sel <- as.vector(text_sel)
-			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, check_dens = (xname == "fill"), areas=as.numeric(areas), areas_unit=attr(areas, "unit"), text = text, text_sel = get("text_sel", envir = .TMAP_CACHE))
+			if (xname == "text.col") {
+				text_sel <- get("text_sel", envir = .TMAP_CACHE)
+				sel <- as.vector(text_sel)
+			} else {
+				text_sel <- NULL
+			}
+			
+			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, check_dens = (xname == "fill"), areas=as.numeric(areas), areas_unit=attr(areas, "unit"), text = text, text_sel = text_sel)
 			#if (xname == "fill") assign("dcr_fill", dcr$col, pos = 1) # needed for tm_text
 			assign("col.neutral", dcr$col.neutral, envir = .TMAP_CACHE)
 		} else if (xname == "line.lwd") {

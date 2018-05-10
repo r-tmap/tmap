@@ -1,0 +1,59 @@
+---
+title: `tmap: what is changed in version 2.0?`
+output: 
+  rmarkdown::html_vignette:
+    keep_md: true 
+    toc: true
+self_contained: no
+vignette: >
+  %\VignetteIndexEntry{tmap in a nutshell}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(collapse = T, fig.width=8, fig.height=4)
+#devtools::install_github(`mtennekes/tmaptools`)
+library(tmap)
+library(sf)
+```
+
+This vignette summarizes the main changes in tmap 2.0 in comparison to tmap 1.11-2, which is discussing in
+
+Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, https://doi.org/10.18637/jss.v084.i06
+
+### Function renaming: tm_ and tmap_
+
+As of version 2.0, all tmap functions have the prefix `tm_` or `tmap_`, with the exception of the function qtm. Just like in tmap version 1.x, the layer functions start with `tm_`. In tmap 1.x, the names of the other functions where inconsistent, e.g. `animation_tmap` and `tmap_arrange`. As of tmap 2.0, these functions are prefixed with `tmap_`. For instance `animation_tmap` has been renamed to `tmap_animation`.
+
+### sf
+
+The `sf` package has replaced `sp` as the leading package of spatial data processing for vectorized data. Although tmap 1.x already supported `sf` objects, it was build upon `sp`.
+
+tmap version 2.0 is fully build on `sf`. For raster objects, it still uses `raster`(until `stars` is published and stable).
+
+An `sf` object (which stands for simple features) has a less complex structure than `sp` objects. An `sf` object is nothing more than a `data.frame` with a special geometry column, which contains the geometries for the corresponding rows. Such a geometry can be a spatial point, line, polygon, or any combination. The layers functions, such as `tm_polygons`, will only draw what they are supposed to draw (in this case polygons). 
+The newly added layer function `tm_sf` will draw all geometries.
+
+Finally, all data objects in `tmap` (except `land`) have been transformed to `sf` objects.
+
+
+### tm_tiles
+
+Tile layers can now be added, not only as basemaps. There are two new layer functions: `tm_basemap` and `tm_tiles`. The former creates a basemap tile and the latter an overlay tile, which is especially useful for semi-transparent layers.
+
+```{r}
+data(World, metro)
+tmap_mode("view")
+
+tm_basemap(leaflet::providers$CartoDB.PositronNoLabels, group = "CartoDB basemap") +
+tm_shape(World) +
+	tm_polygons("HPI", group = "Countries") +
+tm_tiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "CartoDB labels") +
+tm_shape(metro) +
+	tm_dots(col = "red", group = "Metropolitan areas")
+```
+
+### tmap options and styles
+
+
