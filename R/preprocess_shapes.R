@@ -21,7 +21,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			# attribute get from read_osm
 			is.OSM <- attr(shp, "is.OSM")
-			leaflet.server <- attr(shp, "leaflet.server")
+			leaflet.server <- attr(shp, "leaflet.provider")
 
 			
 			if (!("data" %in% slotNames(shp))) stop("No data found in raster shape. Please specify a SpatialGridDataFrame or Raster shape object.")
@@ -173,7 +173,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (interactive) {
 			new_ext_ll <- extent(projectExtent(new_ext, crs = .crs_longlat$proj4string))
 			shp2@extent <- new_ext_ll
-			shp2@crs <- .crs_longlat$proj4string
+			shp2@crs <- raster::crs(.crs_longlat$proj4string)
 		}
 		
 		## to be consistent with Spatial objects:

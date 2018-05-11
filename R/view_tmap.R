@@ -522,9 +522,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		if (warns["symbol_legend"]) message("Legend for symbol sizes not available in view mode.")
 		if (warns["linelwd_legend"]) message("Legend for line widths not available in view mode.")
 		if (identical(unname(warns["raster"]), TRUE)) {
-			message("Raster data contains OpenStreetMapData (read with read_osm) from provider that is not known from http://leaflet-extras.github.io/leaflet-providers/preview/index.html")	
+			message("OpenStreetMapData read with read_osm is static, so not usable in view mode. Please use tm_basemap or tm_tiles.")	
 		} else if (!(identical(unname(warns["raster"]), FALSE))) {
-			message("Raster data contains OpenStreetMapData (read with read_osm). Therefore, the basemap has been set to \"", warns["raster"], "\"")
+			message("OpenStreetMapData read with read_osm is static, so not usable in view mode. Please use tm_basemap or tm_tiles, with the provider name set to \"", warns["raster"], "\"")
 		}
 	}
 	

@@ -68,16 +68,24 @@ print_shortcut <- function(x, interactive, args, knit) {
 	if (getOption("tmap.mode")=="plot") {
 		stop("Either specify shp, or set mode to \"view\" with tmap_mode or ttm", call.=FALSE)	
 	} else {
+		xtiles <- which(names(x) == "tm_tiles")
+		
 		gt <- preprocess_gt(x, interactive=interactive)
+		gt$shp_name <- rep("dummy", length(xtiles))
+		if (is.null(gt$bbox)) gt$bbox <- c(-190, -90, 180, 90)
+		gt$scale.show <- FALSE
 		#gt$shape.bbx <- x$tm_shortcut$bbx
 		#gt$shape.center <- x$tm_shortcut$center
 		
-		x[names(x) == "tm_tiles"] <- lapply(x[names(x) == "tm_tiles"], function(xi) {
-			process_tiles(xi, gt)
+		x[xtiles] <- lapply(x[xtiles], function(xi) {
+			xi <- process_tiles(xi, gt)
+			xi$plot.order <- "tm_tiles"
+			xi
 		})
+		x[names(x) == "tm_shape"] <- NULL
+		x$tm_layout <- gt
 		
-		
-		view_tmap(x)
+		view_tmap(x, shps = list(dummy = NULL))
 	}
 }
 
@@ -277,10 +285,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	x <- prearrange_element_order(x)
 	
-	if (!"tm_shape" %in% names(x)) {
-		if (any(names(x) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster"))) {
-			stop("Required tm_shape layer missing.", call. = FALSE)
-		}
+	if (!any(names(x) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster"))) {
 		lf <- print_shortcut(x, interactive, args, knit)
 		if (knit) {
 			return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
