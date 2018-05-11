@@ -298,6 +298,8 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	if (type == "line") {
 		res$line.col.legend.misc$line.legend.lwd <- assign_legend_line_widths(res$line.lwd.legend.misc$legend.lwds, res$line.lwd, nx)
+		res$line.lty <- g$lty
+		res$line.alpha <- g$alpha
 	} else if (type == "symbol") {
 		res <- postprocess_symbols(res, g, gt, data, npol, nx, just, interactive)
 	} else if (type == "raster") {
