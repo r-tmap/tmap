@@ -1,5 +1,5 @@
 ---
-title: `tmap: what is changed in version 2.0?`
+title: "tmap: what is changed in version 2.0?"
 output: 
   rmarkdown::html_vignette:
     keep_md: true 
@@ -42,7 +42,7 @@ Finally, all data objects in `tmap` (except `land`) have been transformed to `sf
 
 Tile layers can now be added, not only as basemaps. There are two new layer functions: `tm_basemap` and `tm_tiles`. The former creates a basemap tile and the latter an overlay tile, which is especially useful for semi-transparent layers.
 
-```{r}
+```{r, eval = FALSE}
 data(World, metro)
 tmap_mode("view")
 
