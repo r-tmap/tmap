@@ -285,7 +285,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	x <- prearrange_element_order(x)
 	
-	if (!any(names(x) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster"))) {
+	if (!any(names(x) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster", "tm_text"))) {
 		lf <- print_shortcut(x, interactive, args, knit)
 		if (knit) {
 			return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
