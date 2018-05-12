@@ -33,6 +33,8 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 	
 	x[!sel] <- NA
 	
+	attr(x, "sel") <- as.vector(attr(x, "sel")) & as.vector(sel)
+	
 	check_aes_args(g)
 	
 	allNA <- all(is.na(x)) 
@@ -149,7 +151,13 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 	if (is.constant) {
 		col <- dtcol
 		col.neutral <- apply(col, 2, function(bc) na.omit(bc)[1])
-		col.neutral[is.na(col.neutral)] <- "#000000" #dummy for empty facets
+		
+		if (all(is.na(col.neutral))) {
+			col.neutral[is.na(col.neutral)] <- "#000000" #dummy for empty facets
+		} else {
+			col.neutral[is.na(col.neutral)] <- col.neutral[which(!is.na(col.neutral))[1]]	## impute first non-NA value (in case of !free.scales, the legend of the first facet is taken)
+		}
+
 		col[is.na(col)] <- g$colorNULL
 		legend.labels <- NA
 		legend.values <- NA
@@ -182,6 +190,10 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		col.neutral <- lapply(res, function(r)r$col.neutral)
 		breaks <- lapply(res, function(r)r$breaks)
 		values <- dtcol
+		
+		## remove legend from facets with empty selection (due to zero size or lwd)
+		noData <- !sapply(sel, function(s) any(s))
+		legend.labels[noData] <- NA
 	} else {
 		if (check_dens) {
 			if (is.numeric(dtcol) && g$convert2density) {

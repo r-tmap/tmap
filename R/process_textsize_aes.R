@@ -69,6 +69,16 @@ process_dttsize <- function(dtsize, text, g, gt, nx, npol, varysize, varycol) {
 process_text_size_vector <- function(x, text, g, rescale, gt, reverse) {
 	check_aes_args(g)
 	
+	if (all(is.na(x))) {
+		return(list(size=x,
+			 text_sel=rep(FALSE, length(x)),
+			 size.legend.labels=NA,
+			 size.legend.values=NA,
+			 legend.sizes=NA,
+			 max.size=NA))
+	}
+	
+	
 	if (!is.na(g$size.lim[1])) {
 		x[x<g$size.lim[1]] <- NA
 		x[x>g$size.lim[2]] <- g$size.lim[2]

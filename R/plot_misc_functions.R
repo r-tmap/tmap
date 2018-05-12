@@ -541,7 +541,7 @@ plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "ce
 	npol <- nrow(co.native)
 	with(g, {
 		if (!any(text_sel)) {
-			warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.", call. = FALSE)
+			#warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.", call. = FALSE)
 			return(NULL)
 		}
 		

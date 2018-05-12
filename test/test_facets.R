@@ -37,17 +37,18 @@ tests <- list(
 	list(layer = "symbols", args = list(col = "v2")),
 	list(layer = "symbols", args = list(col = "blue", size = "v1")),
 	list(layer = "symbols", args = list(col = "red", shape = "v2")),
-	list(layer = "raster", args = list(col = "green")),
-	list(layer = "raster", args = list(col = "green"))
+	list(layer = "text", args = list(col = "green", text = "name2")),
+	list(layer = "text", args = list(col = "red", text = "name2",  size = "v1")),
+	list(layer = "text", args = list(col = "v2", text = "name2"))
 )
 
 
 filter <- c(TRUE, TRUE) # extra option: if c(T, F) units 1, 3, ... are selected
 
 errsL <- list()
-test <- tests[[12]]
+#test <- tests[[16]]
 
-for (test in tests[9:13]) {
+for (test in tests) {
 	shp <- NLD_prov
 	if (test$layer == "lines") {
 		shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
@@ -167,23 +168,47 @@ trace_test <- function(ids, rev = FALSE) {
 } 
 
 
-get_test(12, 9)
+get_test(16, 2)
+
+
+trace_test(11:13, FALSE)
 
 #trace_test(c(5:12, 21:28, ), FALSE)
 
 shp <- NLD_prov
-tm_shape(shp) + tm_borders() +
-	tm_symbols(col = "blue", size = "v1") +
-	tm_facets(by = "by", drop.units = TRUE, free.coords = TRUE, free.scales = TRUE, drop.empty.facets = FALSE, showNA = TRUE, drop.NA.facets = TRUE) 
-
-
-
-
+tm_shape(shp) + 
+	tm_text(col = "v2", text = "name2") +
+	tm_facets(by = "by", drop.units = FALSE, free.coords = TRUE, free.scales = TRUE, drop.empty.facets = TRUE, showNA = TRUE, drop.NA.facets = TRUE) 
 ######### extra tests
 
 tm_shape(World) +
 	tm_text("name", size="pop_est", col="continent", palette="Dark2",
 			title.size = "Population", title.col="Continent") +
 	tm_legend(outside = TRUE) + tm_facets(by = "continent")
+
+tm_shape(World) +
+	tm_text("name", size="pop_est", col="continent", palette="Dark2",
+			title.size = "Population", title.col="Continent", scale = 4) +
+	tm_legend(outside = TRUE)
+
+
+
+
+
+tm_shape(NLD_prov) +
+	tm_polygons(col = "name2") +
+	tm_facets(by="by")
+
+tm_shape(NLD_prov) +
+	tm_symbols(col = "name2", size = "v1")
+
+
+tm_shape(NLD_prov) +
+	tm_text(text = "name2", col = "name2", size = "v1")
+
+
+
+
+
 
 

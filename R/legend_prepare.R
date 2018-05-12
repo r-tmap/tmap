@@ -66,6 +66,8 @@ legend_prepare <- function(gp, gal, gt, scaleFactor) {
 						list_misc <- gpl[[legend.misc]]
 						if (v %in% c("symbol.col", "symbol.shape")) list_misc$symbol.max.size <- list_misc$symbol.max.size * scaleFactor
 
+						size_ext <- ifelse(v == "text.size", 1, scaleFactor)
+						
 						c(list(legend.type=v,
 							   legend.title=gpl[[legend.title]],
 							   legend.is.portrait=gpl[[legend.is.portrait]],
@@ -73,7 +75,7 @@ legend_prepare <- function(gp, gal, gt, scaleFactor) {
 							   legend.labels=gpl[[legend.labels]],
 							   legend.text=gpl[[legend.text]],
 							   legend.palette=gpl[[legend.palette]],
-							   legend.sizes=gpl[[legend.sizes]] * scaleFactor,
+							   legend.sizes=gpl[[legend.sizes]] * size_ext,
 							   legend.shapes=gpl[[legend.shapes]]),
 						  list_misc)
 					}

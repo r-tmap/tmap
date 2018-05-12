@@ -141,9 +141,9 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	fsnames <- paste0("free.scales.", names(xs))
 	
-	dts <- mapply(function(x, fsname, isc, sby) {
-		process_data(data[, x, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby[[fsname]], is.colors=isc, split.by = sby)
-	}, xs, fsnames, is.colors, split.by, SIMPLIFY = FALSE)
+	dts <- mapply(function(x, fsname, isc, sby, xv) {
+		process_data(data[, x, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby[[fsname]], is.colors=isc, split.by = sby, vary = xv)
+	}, xs, fsnames, is.colors, split.by, xvary, SIMPLIFY = FALSE)
 	
 	
 
@@ -219,10 +219,16 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		if (dcr$is.constant) x <- rep(NA, nx)
 		legend.show <- if (dcr$is.constant) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
 		
-		if (xname=="symbol.size" && is.list(dcr$legend.labels)) {
+		#if (xname %in% c("symbol.size", "line.lwd") && is.list(dcr$legend.labels)) {
+		
+		if (is.list(dcr$legend.labels)) {
 			emptySizeLegend <- sapply(dcr$legend.labels, function(ssll) is.na(ssll[1]))
 			legend.show[emptySizeLegend] <- FALSE
-		} else if (xname == "text.col") {
+		}
+		
+	
+		
+		if (xname == "text.col") {
 			dcr$legend.text <- dcr$legend.misc$legend.text
 		}
 		
@@ -233,10 +239,11 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		legend.title <- rep(if (is.ena(g[[aname("title", xname)]])[1]) paste0(x, dcr$title_append) else g[[aname("title", xname)]], length.out = nx)
 		legend.z <- if (is.na(g[[aname("legend.z", xname)]])) z else g[[aname("legend.z", xname)]]
 
-		if (nx > 1 && gby[[fsname]]) {
-			emptyLegend <- sapply(dcr$legend.labels, function(ssll) is.na(ssll[1]))
-			legend.show[emptyLegend] <- FALSE
-		}
+		# if (nx > 1 && gby[[fsname]]) {
+		# 	emptyLegend <- sapply(dcr$legend.labels, function(ssll) is.na(ssll[1]))
+		# 	legend.show[emptyLegend] <- FALSE
+		# }
+		
 		if (any(!legend.show)) legend.title[!legend.show] <- NA
 
 		
@@ -305,7 +312,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	} else if (type == "raster") {
 		res$raster.misc <- misc
 	} else if (type == "text") {
-		res <- postprocess_text(res, g, gt, data, npol, nx, just, interactive, text, collight, coldark)
+		res <- postprocess_text(res, g, gt, data, npol, nx, just, interactive, text, collight, coldark, xtext)
 	}
 	
 	

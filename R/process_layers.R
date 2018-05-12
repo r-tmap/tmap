@@ -281,8 +281,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 				symbol.size.legend.shapes <- truncate_other(symbol.size.legend.shapes, !eF)
 				symbol.size.legend.show <- symbol.size.legend.show[!eF]
 				symbol.size.legend.title <- symbol.size.legend.title[!eF]
-				symbol.col.legend.hist.misc  <- truncate_other(symbol.col.legend.hist.misc , !eF)
-				
+
 				symbol.shape.legend.labels <- truncate_labels(symbol.shape.legend.labels, !eF)
 				symbol.shape.legend.values <- truncate_other(symbol.shape.legend.values, !eF)
 				symbol.shape.legend.palette <- truncate_other(symbol.shape.legend.palette, !eF)
@@ -297,6 +296,38 @@ process_layers <- function(g, z, gt, gf, interactive) {
 				xsize <- truncate_vec(xsize, !eF)
 				xshape <- truncate_vec(xshape, !eF)
 				xcol <- truncate_vec(xcol, !eF)
+			})
+			if (neFLS[4]) gtext <- within(gtext, {
+				text.size <- text.size[, !eF, drop=FALSE]
+				text.color <- text.color[, !eF, drop=FALSE]
+				text <- text[, !eF, drop=FALSE]
+				text_sel <- text_sel[, !eF, drop=FALSE]
+				
+				text.nonemptyFacets <- text.nonemptyFacets[!eF]
+				
+				text.col.legend.labels <- truncate_labels(text.col.legend.labels, !eF)
+				text.col.legend.values <- truncate_other(text.col.legend.values, !eF)
+				text.col.legend.palette <- truncate_other(text.col.legend.palette, !eF)
+				text.col.legend.text <- truncate_other(text.col.legend.text, !eF)
+				text.col.legend.hist.misc$values <- truncate_other(text.col.legend.hist.misc$values, !eF)
+				text.col.legend.hist.misc$breaks <- truncate_other(text.col.legend.hist.misc$breaks, !eF)
+				text.col.legend.show <- text.col.legend.show[!eF]
+				text.col.legend.title <- text.col.legend.title[!eF]
+				
+				text.size.legend.labels <- truncate_labels(text.size.legend.labels, !eF)
+				text.size.legend.values <- truncate_other(text.size.legend.values, !eF)
+				text.size.legend.palette <- truncate_vec(text.size.legend.palette, !eF)
+				text.size.legend.sizes <- truncate_other(text.size.legend.sizes, !eF)
+				text.size.legend.text <- truncate_other(text.size.legend.text, !eF)
+				text.size.legend.show <- text.size.legend.show[!eF]
+				text.size.legend.title <- text.size.legend.title[!eF]
+
+				text.xmod <- text.xmod[, !eF, drop = FALSE]
+				text.ymod <- text.ymod[, !eF, drop = FALSE]
+				
+				xtsize <- truncate_vec(xtsize, !eF)
+				xtcol <- truncate_vec(xtcol, !eF)
+				xtext <- truncate_vec(xtext, !eF)
 			})
 			panel.names <- panel.names[!eF]
 		}

@@ -1,4 +1,4 @@
-process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE) {
+process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE, vary) {
 	
 	nby <- nlevels(by)
 	cls <- check_tm_classes(data, is.colors)
@@ -32,7 +32,7 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 		Xsel <- lapply(X, attr, "sel")
 		
 		names(X) <- levels(by)
-		if (cls[1]=="col") {
+		if (cls[1]=="col" || !vary) {
 			M <- matrix(unlist(X), ncol=nby)
 			sel  <- matrix(unlist(Xsel), ncol=nby)
 			
@@ -41,7 +41,7 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 			attr(M, "allNA") <- !apply(!is.na(M) & sel, MARGIN = 2, any)
 
 			return(M)
-		} else if (cls[1]=="num" && !free.scales) {
+		} else if (!free.scales) {
 			Y <- unlist(X)
 			attr(Y, "sel") <- unlist(Xsel)
 		} else {

@@ -307,8 +307,9 @@ process_tm <- function(x, gt, gm, interactive) {
 				
 				if (!is.null(text)) {
 					text.size <- text.size * scale
+					text.size.legend.sizes <- text.size.legend.sizes * scale
 					text.col.legend.misc$text.max.size <- text.col.legend.misc$text.max.size * scale
-					text.size.legend.misc$legend.sizes <- text.size.legend.misc$legend.sizes * scale
+					#text.size.legend.misc$legend.sizes <- text.size.legend.misc$legend.sizes * scale
 					
 				}
 

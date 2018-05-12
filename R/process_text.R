@@ -71,7 +71,7 @@ check_text_specials <- function(fill, xtcol, xtsize, g, gt, gby, xvary, data, sh
 }
 
 
-postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text, collight, coldark) {
+postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text, collight, coldark, xtext) {
 	if (g$shadow) {
 		g$shadowcol <- if (is.matrix(col)) {
 			apply(col, MARGIN=2, function(f) {
@@ -125,7 +125,8 @@ postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text
 				  text.just = text.just,
 				  text.xmod=xmod,
 				  text.ymod=ymod,
-				  text.misc = list(clustering = clustering))
+				  text.misc = list(clustering = clustering),
+				  xtext = xtext)
 	c(res, extra)
 }
 
