@@ -50,7 +50,8 @@ tm_view <- function(alpha,
 					bg.overlay,
 					bg.overlay.alpha,
 					legend.position) {
-	args <- lapply(as.list(match.call()[-1]), eval)
+	e1 <- parent.frame()
+	args <- lapply(as.list(match.call()[-1]), eval, envir = e1)
 	args$style <- NA
 	
 	g <- list(tm_layout=args)

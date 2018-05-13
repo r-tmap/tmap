@@ -174,8 +174,9 @@ tmap_options <- function(unit, limits, ...) {
 	current.style <- getOption("tmap.style")
 	
 	
-	args <- lapply(as.list(match.call()[-1]), eval)
-
+	e1 <- parent.frame()
+	args <- lapply(as.list(match.call()[-1]), eval, envir = e1)
+	
 	unknown_args <- setdiff(names(args), names(.defaultTmapOptions))
 	if (length(unknown_args) == 1) {
 		stop("the following option does not exist: ", unknown_args)

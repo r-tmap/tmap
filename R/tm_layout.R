@@ -195,7 +195,8 @@ tm_layout <- function(title,
 					  bg.overlay,
 					  bg.overlay.alpha) {
 
-	args <- lapply(as.list(match.call()[-1]), eval)
+	e1 <- parent.frame()
+	args <- lapply(as.list(match.call()[-1]), eval, envir = e1)
 	args$style <- NA
 	
 	if (any(c("basemaps", "basemaps.alpha") %in% names(args))) warning("As of version 2.0, basemaps and basemaps.alpha have to be called from tm_view")
