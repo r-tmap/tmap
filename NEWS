@@ -1,11 +1,11 @@
 version 2.0 (in development)
 - [!] tmap migrated from sp to sf. sp objects are still supported, but all internal functions are based on sf
 - [!] added tm_sf which draws sf objects
+- [!] renamed all xxx_tmap functions (e.g. save_tmap) to tmap_xxx for consistency
 - [!] added tm_basemap and tm_tiles: now, multiple (overlay) tiled maps can be shown, e.g. a basemap without labels, a choropleth layer, and on top a transparent tile layer of layers
 - [!] rearranged tmap options, styles and formats. See tmap_options, tmap_style, tmap_format, tm_style and tm_format
-- added filter argument to tm_shape and added colorNULL to layer functions
+- [!] added filter argument to tm_shape and added colorNULL to layer functions
 - added remove.NA.facets to tm_facets
-- renamed all xxx_tmap functions (e.g. save_tmap) to tmap_xxx for consistency
 - all changes are backwards compatible with 1.11-2
 
 version 1.11-2

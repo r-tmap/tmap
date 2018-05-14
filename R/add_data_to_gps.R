@@ -3,6 +3,7 @@ add_data_to_gps <- function(gps, gm, datasets, matchIDs, interactive) {
 	mapply(function(gp, masterID) {
 		gp[-length(gp)] <- mapply(function(gpl, indices, dt) {
 			dt$SHAPE_AREAS <- NULL
+			dt$tmapfilter <- NULL
 			
 			if (interactive) {
 				# add density values
