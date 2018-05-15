@@ -16,7 +16,7 @@ tmap_style <- function(style) {
 		message("current tmap style is \"", current.style, "\"")
 		message("other available styles are: \"", paste(other_styles(current.style), collapse = "\", \""), "\" ")
 	} else {
-		.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+		.tmapOptions <- .defaultTmapOptions	
 		check_style(style)
 		options(tmap.style=style)
 		if (style == "white") {

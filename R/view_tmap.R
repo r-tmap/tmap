@@ -48,13 +48,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	e <- environment()
 	alpha <- gt$alpha
 
-	gt$bbox_from_shape <- is.null(gt$bbox)
+	gt$global_bbox_specified <- !is.null(gt$bbox)
 	
-	if (gt$bbox_from_shape) {
+	if (!gt$global_bbox_specified) {
 		gt$bbox <- attr(shps[[gt$shape.masterID]], "bbox")
 	}
-	
-	
+
 	warns <- c(symbol=FALSE, text=FALSE, raster=FALSE, symbol_legend=FALSE, linelwd_legend=FALSE) # to prevent a warning for each shape
 	
 	if (inherits(shps, "sf")) shps <- list(shps)
@@ -368,6 +367,8 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				
 			cs_set <- unique(colsize)
 			
+			clustering <- gpl$text.misc$clustering
+			
 			group_name <- if (is.na(gpl$text.group)) shp_name else gpl$text.group
 			if (!grouplock) addOverlayGroup(group_name)
 			usePane()
@@ -378,7 +379,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 												 							opacity=opacity,
 												 							textsize=sizeChar[1],
 												 							style=list(color=col[1])),
-												 clusterOptions = TRUE,
+												 clusterOptions = clustering,
 												 options = markerOptions(pane = pane))
 			} else {
 				for (i in 1:length(text)) {
@@ -388,6 +389,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 													 							opacity=opacity,
 													 							textsize=sizeChar[i],
 													 							style=list(color=col[i])),
+													 clusterOptions = clustering,
 													 options = markerOptions(pane = pane))	
 				}
 			}
@@ -593,11 +595,11 @@ set_bounds_view <- function(lf, gt) {
 		gt$set.view <- c(mean(lims[c(1,3)]), mean(lims[c(2,4)]), gt$set.view)
 	}
 	
-	if (!is.null(gt$bbox) && !gt$bbox_from_shape) {
+	if (!is.na(gt$set.view[1]) && !gt$global_bbox_specified) {
+		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
+	} else {
 		bbx <- unname(gt$bbox)
 		lf <- lf %>% fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) #setView(view[1], view[2], view[3])
-	} else if (!is.na(gt$set.view[1])) {
-		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
 	}
 	
 	if (!is.null(gt$center)) lf <- lf %>% addMarkers(gt$center[1], gt$center[2])

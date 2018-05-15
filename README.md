@@ -42,7 +42,7 @@ However, for some operating systems require additional libraries. The installati
 No additional installation required.
 
 **Linux (Ubuntu)**
-See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation_16.sh) and [17](https://github.com/mtennekes/tmap/tree/master/ubuntu_installation_17.sh). See also [issue thread](https://github.com/mtennekes/tmap/issues/150).
+See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/blob/master/ubuntu_16_installation.sh) and [17](https://github.com/mtennekes/tmap/blob/master/ubuntu_17_installation.sh). See also [issue thread](https://github.com/mtennekes/tmap/issues/150).
 
 **macOS**
 See http://www.kyngchaos.com and [issue thread](https://github.com/mtennekes/tmap/issues/149).
@@ -74,14 +74,28 @@ library(tmap)
 
 Reference
 ----
-[Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
+[Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
 
 
-Vignettes and Examples
+Vignettes 
 -----
-[tmap in a nutshell][6]
+
+*Version 1.x*
+
+[tmap in a nutshell][6] 
 
 [tmap modes: plot and interactive view][11]
+
+*Version 2.x*
+
+[tmap: get started!](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-getstarted.Rmd)
+
+[tmap modes: plot and interactive view](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-modes.Rmd)
+
+[tmap: what is changed in version 2.0?](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-changes-v2.Rmd)
+
+Examples and tutorials
+-----
 
 [Example 1: Metropolitan Areas](https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap)
 
@@ -93,12 +107,17 @@ Vignettes and Examples
 
 [Example 5: Crimes in Greater London](https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes)
 
+[Demo: tmap in RMarkdown](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.R)
+
+[Demo: tmap in Shiny](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/shiny_tmap.R)
+
 
 Presentations
 -----
 
-* [tmap: creating thematic maps in a flexible way (useR!2015)][10]
+* [Plotting spatial data with R] (eRum 2018) https://github.com/mtennekes/tmap-workshop
 * Exploring and presenting maps with tmap (useR!2017) [(Abstract)][20] [(Presentation)][21]
+* [tmap: creating thematic maps in a flexible way (useR!2015)][10]
 
 
 Other resources
