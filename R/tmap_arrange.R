@@ -26,14 +26,14 @@ tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins
 		
 		## determine 'overall' aspect ratio by overlaying the maps		
 		tmp <- tempfile(fileext = ".png")
-		tasps <- sapply(tms, function(tm) {
+		tasps <- vapply(tms, function(tm) {
 			png( tmp, width=700, height=700, res = 100)
 			asp <- print_tmap(tm, return.asp = TRUE, mode = "plot")
 			dev.off()
 			asp
-		})
-		hs <- sapply(tasps, function(tasp) ifelse(tasp>1, 1, 1/tasp))
-		ws <- sapply(tasps, function(tasp) ifelse(tasp>1, tasp, 1))
+		}, numeric(1))
+		hs <- vapply(tasps, function(tasp) ifelse(tasp>1, 1, 1/tasp), numeric(1))
+		ws <- vapply(tasps, function(tasp) ifelse(tasp>1, tasp, 1), numeric(1))
 		iasp <- max(ws) / max(hs)
 		
 		asp_ratio <- iasp / dasp
@@ -65,7 +65,7 @@ tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins
 		
 		if (!is.null(asp) || !is.null(outer.margins)) {
 			layout_args <- list(asp=asp, outer.margins=outer.margins)
-			layout_args <- layout_args[!sapply(layout_args, is.null)]
+			layout_args <- layout_args[!vapply(layout_args, is.null, logical(1))]
 			tml <- do.call(tm_layout, layout_args)
 		} else {
 			tml <- NULL

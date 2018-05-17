@@ -101,7 +101,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 			# 	}), ID="y")
 			# )
 			
-			lnsSel <- !sapply(lnsList, is.null)
+			lnsSel <- !vapply(lnsList, is.null, logical(1))
 			if (!any(lnsSel)) {
 				grid.co.x.lns <- numeric(0)
 				grid.co.y.lns <- numeric(0)
@@ -290,7 +290,7 @@ plot_grid <- function(gt, scale, add.labels) {
 		# 		Line(m)
 		# 	}), ID="y") else NULL
 		# )
-		lnsSel <- !sapply(lnsList, is.null)
+		lnsSel <- !vapply(lnsList, is.null, logical(1))
 		if (!any(lnsSel)) {
 			grid.co.x.lns <- numeric(0)
 			grid.co.y.lns <- numeric(0)
@@ -415,7 +415,7 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 	gint <- suppressMessages(st_intersects(lns, ax, sparse = FALSE, prepared = FALSE))[,1]
 	
 #	gint <- gIntersects(lns, ax, byid = TRUE)
-	ins <- sapply(lco, function(m) {
+	ins <- vapply(lco, function(m) {
 		l <- m[1,]
 		if (!is.na(xax)) {
 			res <- l[1] >= 0 && l[1] <= 1 && l[2] >= xax && l[2] <= 1
@@ -423,7 +423,7 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 			res <- l[1] >= yax && l[1] <= 1 && l[2] >= 0 && l[2] <= 1
 		}
 		if (res) l[d] else -1
-	})
+	}, numeric(1))
 	cogrid <- ifelse(gint, 0, ins)
 	if (any(gint)) {
 		gints <- suppressMessages(st_intersection(lns[gint, ], ax))
@@ -457,8 +457,8 @@ plot_symbols <- function(co.native, g, gt, lineInch, lineNatH, lineNatW, i, k) {
 				if (is.na(js[1])) just else js
 			} else just
 		})
-		justs.x <- sapply(justs, "[[", 1)
-		justs.y <- sapply(justs, "[[", 2)
+		justs.x <- vapply(justs, "[[", numeric(1), 1)
+		justs.y <- vapply(justs, "[[", numeric(1), 2)
 		justx <- size.native.w * (justs.x-.5)
 		justy <- size.native.h * (justs.y-.5)
 		
@@ -656,8 +656,8 @@ native_to_npc_to_native <- function(x, scale) {
 	h <- convertHeight(rg$height, "inch", valueOnly=TRUE)
 
 	a <- atan2(h, w)
-
-	as <- as.vector(sapply(a, function(a)c(a,pi-a, pi+a,-a)))
+print("test")
+	as <- as.vector(vapply(a, function(a)c(a,pi-a, pi+a,-a), numeric(4)))
 
 	as2 <- as + rep(angles * pi / 180, each=4)
 

@@ -50,9 +50,9 @@ preprocess_facet_layout <- function(gm, external_legend, dh, dw) {
 	attrmary <- sum(attrmar[c(1,3)])
 	attrH <- convertHeight(unit(attrmary, "npc"), "inch", valueOnly = TRUE)
 	
-	mainTitleLines <- max(sapply(gm$main.title, function(mt) {
+	mainTitleLines <- max(vapply(gm$main.title, function(mt) {
 		if (mt==0) 0 else number_text_lines(mt)
-	}))
+	}, numeric(1)))
 	mainH <- convertHeight(unit(mainTitleLines, "lines")*1.2*gm$main.title.size, "inch", valueOnly=TRUE)
 	mainmary <- convertHeight(unit(mainH, "inch"), "npc", valueOnly = TRUE)
 

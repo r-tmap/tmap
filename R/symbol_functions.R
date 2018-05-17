@@ -30,7 +30,7 @@ get_symbol_gpar <- function(x, fill, col, lwd, separate=FALSE) {
 					 col=col[i],
 					 lwd=lwd[i])
 			} else {
-				list(fill=NA,
+				list(fill=as.character(NA),
 					 col=fill[i],
 					 lwd=lwd[i])
 			}
@@ -46,9 +46,9 @@ get_symbol_gpar <- function(x, fill, col, lwd, separate=FALSE) {
 			do.call(gpar, r)
 		})	
 	} else {
-		fills <- sapply(res, function(r)r$fill)
-		cols <- sapply(res, function(r)r$col)
-		lwds <- sapply(res, function(r)r$lwd)
+		fills <- vapply(res, function(r)r$fill, character(1))
+		cols <- vapply(res, function(r)r$col, character(1))
+		lwds <- vapply(res, function(r)r$lwd, numeric(1))
 		gpar(fill=fills, col=cols, lwd=lwds)
 	}
 }

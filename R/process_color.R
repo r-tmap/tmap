@@ -99,7 +99,7 @@ palette_type <- function(palette) {
 
 
 valid_colors <- function(x) {
-	is.na(x) | (x %in% colors()) |	(sapply(gregexpr("^#(([[:xdigit:]]){6}|([[:xdigit:]]){8})$", x), "[[", 1) == 1L)
+	is.na(x) | (x %in% colors()) |	(vapply(gregexpr("^#(([[:xdigit:]]){6}|([[:xdigit:]]){8})$", x), "[[", integer(1), 1) == 1L)
 }
 
 

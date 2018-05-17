@@ -140,9 +140,9 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					
 					iShps <- mapply(st_intersection, lShp, pbShp)
 
-					angles <- sapply(iShps, function(x) {
+					angles <- vapply(iShps, function(x) {
 						if (length(x) == 0) 0 else .get_direction_angle(st_coordinates(x)[,1:2])
-					})
+					}, numeric(1))
 				} else angles <- rep(0, nt)
 
 				rG <- if (any(angles!=0)) {

@@ -209,7 +209,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 			 gsymbol$symbol.nonemptyFacets,
 			 gtext$text.nonemptyFacets,
 			 graster$raster.nonemptyFacets)
-		neFLS <- sapply(neFL, function(nef) length(nef)==length(by))
+		neFLS <- vapply(neFL, function(nef) length(nef)==length(by), logical(1))
 
 		if (any(neFLS)) {
 			neFL <- neFL[neFLS]

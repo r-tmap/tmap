@@ -108,14 +108,14 @@ legend_prepare <- function(gp, gal, gt, scaleFactor) {
 					} else NULL
 				} else NULL
 			})
-			c(y[!sapply(y, is.null)], yhist[!sapply(yhist, is.null)])
+			c(y[!vapply(y, is.null, logical(1))], yhist[!vapply(yhist, is.null, logical(1))])
 		})
 		#x <- c(x, xadd)
 		legelem <- c(do.call("c", x), xadd)
 	} else legelem <- list(NULL)
 	
 
-	if (all(sapply(legelem, is.null))) {
+	if (all(vapply(legelem, is.null, logical(1)))) {
 		return(NULL)
 	} else {
 		legelem

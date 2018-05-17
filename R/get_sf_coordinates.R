@@ -14,10 +14,10 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 				ns <- nrow(shp)
 				shp2 <- sf_expand(shp)
 				lengths <- st_length(shp2)
-				id_max <- sapply(split(lengths, f=shp2$split__id), which.max)
-				id_max2 <- sapply(1L:ns, function(i) {
+				id_max <- vapply(split(lengths, f=shp2$split__id), which.max, integer(1))
+				id_max2 <- vapply(1L:ns, function(i) {
 					which(shp2$split__id==i)[id_max[i]]
-				})
+				}, integer(1))
 				shp <- shp2[id_max2,]
 			} else if (st_geometry_type(shp)[1] %in% c("POINT", "MULTIPOINT")) {
 				# take the first one
@@ -25,9 +25,9 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 				ns <- nrow(shp)
 				shp2 <- sf_expand(shp)
 				lengths <- st_length(shp2)
-				id_max2 <- sapply(1L:ns, function(i) {
+				id_max2 <- vapply(1L:ns, function(i) {
 					which(shp2$split__id==i)[1]
-				})
+				}, integer(1))
 				shp <- shp2[id_max2,]
 			} # Polygons: see of_largest_polygon
 		}

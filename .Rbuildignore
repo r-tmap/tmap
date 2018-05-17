@@ -15,3 +15,4 @@ gdal-2.1.0.tar.gz
 ubuntu_16_installation.sh
 ubuntu_17_installation.sh
 ^cran-comments\.md$
+^codecov\.yml$

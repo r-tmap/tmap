@@ -6,7 +6,7 @@ process_dtlwd <- function(dtlwd, g, gt, nx, npol, varylwd, col.neutral) {
 		gsl <- split_g(g, n=nx)
 		#if (!all(sapply(dtlwd, is.numeric))) stop("lwd argument of tm_lines contains a non-numeric variable", call. = FALSE)
 		res <- mapply(process_line_lwd_vector, dtlwd, gsl, MoreArgs = list(rescale=varylwd, reverse=reverse), SIMPLIFY = FALSE)
-		line.lwd <- sapply(res, function(r)r$line.lwd)
+		line.lwd <- vapply(res, function(r)r$line.lwd, numeric(1))
 		line.legend.lwds <- lapply(res, function(r)r$line.legend.lwds)
 		line.lwd.legend.labels <- lapply(res, function(r)r$line.lwd.legend.labels)
 		line.lwd.legend.values <- lapply(res, function(r)r$line.lwd.legend.values)

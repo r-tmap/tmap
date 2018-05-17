@@ -1,6 +1,6 @@
 get_text_i <- function(txt, i) {
 	if (is.character(txt[[1]])) {
-		sapply(txt, "[[", i)
+		vapply(txt, "[[", character(1), i)
 	} else if (is.expression(txt[[1]])) {
 		sapply(txt, "[", i)
 	}

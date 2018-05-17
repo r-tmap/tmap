@@ -31,7 +31,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	if (is.na(glIDs[1])) {
 		gl <- NULL
 	} else {
-		if (any(sapply(glIDs, function(i) is.null(x[[i]]$logo.file)))) stop("Logo file missing", call.=FALSE)
+		if (any(vapply(glIDs, function(i) is.null(x[[i]]$logo.file), logical(1)))) stop("Logo file missing", call.=FALSE)
 		gl <- do.call("mapply", c(x[glIDs], list(nm=names(x[glIDs][[1]]), FUN=function(..., nm) {
 			if (nm %in% c("logo.file", "logo.position", "logo.just", "logo.height")) {
 				unname(list(...))
@@ -54,7 +54,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	shape.id.orig <- which(names(x)=="tm_shape")
 	facet.id.orig <- which(names(x)=="tm_facets")
 	nshps <- length(shape.id.orig)
-	facet.shp.id <- sapply(facet.id.orig, function(i){tail(which(shape.id.orig<i), 1)})
+	facet.shp.id <- vapply(facet.id.orig, function(i){tail(which(shape.id.orig<i), 1)}, integer(1))
 	facet.ids <- rep(0, nshps)
 	if (length(facet.shp.id)) facet.ids[facet.shp.id] <- facet.id.orig
 	# create gf for each shape
@@ -142,7 +142,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	cluster.id <- cumsum(y)
 	gs <- split(x, cluster.id)
 	
-	nlx <- sapply(gs, length)
+	nlx <- vapply(gs, length, integer(1))
 	if (any(nlx==1)) stop("Specify at least one layer after each tm_shape", call. = FALSE)
 	
 	## convert clusters to layers
@@ -187,7 +187,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	
 	
 	## check if by is consistent among groups
-	by_counts <- sapply(data_by, nlevels)
+	by_counts <- vapply(data_by, nlevels, integer(1))
 	if (sum(by_counts>1)>1) {
 		by_counts_pos <- by_counts[by_counts>1]
 		if (any(by_counts_pos[-1]!=by_counts_pos[1])) stop("Number of facets defined by the 'by' argument of tm_facets are different for the groups.", call. = FALSE)
@@ -203,8 +203,8 @@ process_tm <- function(x, gt, gm, interactive) {
 	
 
 	## check number of levels for two variables and override gf
-	ncols <- sapply(gp, function(i)i$ncol)
-	nrows <- sapply(gp, function(i)i$nrow)
+	ncols <- vapply(gp, function(i)i$ncol, integer(1))
+	nrows <- vapply(gp, function(i)i$nrow, integer(1))
 	if (any(!is.na(ncols))) {
 		if (!all(na.omit(ncols)==na.omit(ncols)[[1]]) | !all(na.omit(nrows)==na.omit(nrows)[[1]])) stop("Inconsistent levels of the 'by' argument of tm_facets.", call.=FALSE)
 		gf$ncol <- na.omit(ncols)[1]
@@ -213,18 +213,18 @@ process_tm <- function(x, gt, gm, interactive) {
 	
 	
 	## determine number of small multiples
-	nxl <- unname(sapply(gp, function(x){
-		max(sapply(x$varnames, length))
-	}))
+	nxl <- unname(vapply(gp, function(x){
+		max(vapply(x$varnames, length, integer(1)))
+	}, integer(1)))
 	
 	nx <- max(nxl)
 	layer_vary <- unname(which(nxl==nx))
 
-	servers <- unname(sapply(gp, function(x) {
+	servers <- unname(vapply(gp, function(x) {
 		if ("raster.misc" %in% names(x)) {
-			x$raster.misc$leaflet.server
-		} else NA
-	}))
+			as.character(x$raster.misc$leaflet.server)
+		} else as.character(NA)
+	}, character(1)))
 	if (any(!is.na(servers))) gt$basemaps <- servers[!is.na(servers)][1]
 	
 

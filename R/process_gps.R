@@ -5,7 +5,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 	
 	gps <- mapply(function(gp, i) {
 		# process credits text per facet
-		gm$credits.show <- sapply(gm$credits.show, "[[", i)
+		gm$credits.show <- vapply(gm$credits.show, "[[", logical(1), i)
 		if (!is.null(gm$credits.text)) gm$credits.text <- get_text_i(gm$credits.text, i)
 		#if (!is.null(gm$credits.text)) gm$credits.text <- sapply(gm$credits.text, "[[", i)
 		gm[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
@@ -20,7 +20,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 		gm$credits.show <- any(gm$credits.show)
 		
 		# process logos per facet
-		gm$logo.show <- sapply(gm$logo.show, "[[", i)
+		gm$logo.show <- vapply(gm$logo.show, "[[", logical(1), i)
 		if (!is.null(gm$logo.file)) {
 			gm$logo.file <- lapply(gm$logo.file, function(lf)lf[[i]])
 			gm$logo.height <- lapply(gm$logo.height, function(lh)lh[[i]])
@@ -171,15 +171,15 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 			gpsL[[1]]$shp_name <- unlist(lapply(1:nLayers, function(i) {
 				if (i %in% gm$layer_vary) {
 					if (is.null(gpsL$tm_layout$panel.names)) {
-						nms <- unname(sapply(gps, function(gpsi) {
+						nms <- unname(vapply(gps, function(gpsi) {
 							gpsii <- gpsi[[i]]
 							if (gpsii$any.legend) {
-								nm <- names(which(sapply(gpsii$varnames, function(vn)!is.na(vn[1]))))[1]
+								nm <- names(which(vapply(gpsii$varnames, function(vn)!is.na(vn[1]), logical(1))))[1]
 								gpsii[[paste0(nm, ".legend.title")]]
 							} else {
-								NA
+								as.character(NA)
 							}
-						}))
+						}, character(1)))
 						if (any(is.na(nms))) nms <- gm$title
 						nms
 					} else {

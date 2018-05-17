@@ -49,8 +49,8 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 			attr(Y, "sel") <- matrix(unlist(Xsel), ncol=nby)
 		}
 		
-		attr(Y, "anyNA") <- sapply(X, function(i) any(is.na(i) & attr(i, "sel")))
-		attr(Y, "allNA") <- sapply(X, function(i) all(is.na(i)[attr(i, "sel")]))
+		attr(Y, "anyNA") <- vapply(X, function(i) any(is.na(i) & attr(i, "sel")), logical(1))
+		attr(Y, "allNA") <- vapply(X, function(i) all(is.na(i)[attr(i, "sel")]), logical(1))
 		return(Y)
 	} else {
 		#data[!filter, ] <- NA
@@ -110,7 +110,7 @@ check_tm_classes <- function(x, is.colors) {
 	if (is.colors) {
 		rep("col", ncol(x))	
 	} else {
-		sapply(x, function(y) {
+		vapply(x, function(y) {
 			if (is.numeric(y)) { 
 				"num"
 			} else if (is.factor(y)) {
@@ -120,6 +120,6 @@ check_tm_classes <- function(x, is.colors) {
 			} else if (all(valid_colors(y))) {
 				"col"
 			} else "cha"
-		})
+		}, character(1))
 	}
 }

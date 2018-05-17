@@ -5,11 +5,11 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	if (identical(pasp, 0)) pasp <- gm$shape.lasp
 	
 	nx <- length(shps)
-	shp_names <- sapply(g, function(i)i[[1]])
+	shp_names <- vapply(g, function(i)i[[1]], character(1))
 	names(shps) <- shp_names
 	
-	point.per <- sapply(shps, function(s) if (is.null(s)) "" else attr(s, "point.per"))
-	line.center <- sapply(shps, function(s) if (is.null(s)) "" else attr(s, "line.center"))
+	point.per <- vapply(shps, function(s) if (is.null(s)) "" else attr(s, "point.per"), character(1))
+	line.center <- vapply(shps, function(s) if (is.null(s)) "" else attr(s, "line.center"), character(1))
 	
 	# get master shape and info
 	shp <- shps[[gm$shape.masterID]]

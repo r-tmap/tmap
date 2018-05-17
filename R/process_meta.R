@@ -291,7 +291,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 			}, logo.file, logo.height, SIMPLIFY=FALSE)
 			
 			# which ones to show
-			logo.show <- lapply(logo.file, function(lf) sapply(lf, function(lf2) any(nonempty_text(lf2))))
+			logo.show <- lapply(logo.file, function(lf) vapply(lf, function(lf2) any(nonempty_text(lf2)), logical(1)))
 			
 			# calculate widths per icon
 			logo.width <- mapply(function(lf, lh) {

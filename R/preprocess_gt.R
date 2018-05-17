@@ -75,12 +75,12 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 			aes.colors <- rep(aes.color, length.out=7)
 			names(aes.colors) <- c("fill", "borders", "symbols", "dots", "lines", "text", "na")
 		}
-		aes.colors <- sapply(aes.colors, function(ac) if (is.na(ac)) "#000000" else ac)
+		aes.colors <- vapply(aes.colors, function(ac) if (is.na(ac)) "#000000" else ac, character(1))
 		
 		# override na
 		if (interactive) aes.colors["na"] <- if (is.null(colorNA)) "#00000000" else if (is.na(colorNA)) aes.colors["na"] else colorNA
 		
-		aes.colors.light <- sapply(aes.colors, is_light)
+		aes.colors.light <- vapply(aes.colors, is_light, logical(1))
 		aes.color <- NULL
 		
 		######################### tm_view
@@ -182,7 +182,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 	# gv[c("colorNA", "call", "legend.position")] <- NULL
 	# gt <- c(gt, gv)
 	
-	gtnull <- names(which(sapply(gt, is.null)))
+	gtnull <- names(which(vapply(gt, is.null, logical(1))))
 	gt[gtnull] <- list(NULL)
 	gt
 }

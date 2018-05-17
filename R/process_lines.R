@@ -23,7 +23,7 @@ check_line_specials <- function(xcol, xlwd, g, gt, gby, xvary, data, nx) {
 
 assign_legend_line_widths <- function(line.legend.lwds, line.lwd, nx) {
 	if (is.list(line.legend.lwds)) {
-		sapply(line.legend.lwds, function(x)quantile(x, probs=.75, na.rm=TRUE))
+		vapply(line.legend.lwds, function(x)quantile(x, probs=.75, na.rm=TRUE), numeric(1))
 	} else if (is.na(line.legend.lwds[1])) {
 		apply(line.lwd, 2, function(bc) quantile(bc, probs=.75, na.rm=TRUE))
 	} else {

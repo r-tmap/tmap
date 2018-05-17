@@ -17,7 +17,7 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 	
 	
 	# check if first not-null shape is not a sf or raster
-	multi_shapes <- !inherits(shps[[which(!sapply(shps, is.null))[1]]], c("sf", "Raster"))
+	multi_shapes <- !inherits(shps[[which(!vapply(shps, is.null, logical(1)))[1]]], c("sf", "Raster"))
 	masterID <- gmeta$shape.masterID
 	
 	if (multi_shapes) {

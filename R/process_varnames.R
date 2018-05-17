@@ -8,7 +8,7 @@ process_varnames <- function(gp, nx) {
 	names(vars) <- varnames
 	
 	vars2 <- lapply(vars, function(v) {
-		ids <- which(sapply(v, function(x)!is.na(x)))
+		ids <- which(vapply(v, function(x)!is.na(x), logical(1)))
 		
 		lapply(ids, function(i) rep(v[[i]], length.out=nx))
 		

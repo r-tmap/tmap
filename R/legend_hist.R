@@ -27,7 +27,7 @@ legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.color, l
 			breaks[1] <- -Inf
 			breaks[length(breaks)] <- Inf
 			
-			colors <- legend.palette[sapply(bins.mean, function(x) which(x<breaks)[1]-1)]
+			colors <- legend.palette[vapply(bins.mean, function(x) which(x<breaks)[1]-1L, integer(1))]
 			
 			ptx <- pretty(breaks2, n=5)
 			ptx <- ptx[ptx>breaks2[1] & ptx<tail(breaks2,1)]

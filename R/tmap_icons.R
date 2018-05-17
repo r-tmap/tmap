@@ -149,7 +149,7 @@ grob2icon <- function(grob, grob.dim, just) {
 }
 
 split_icon <- function(icon) {
-	ni <- max(sapply(icon, length))
+	ni <- max(vapply(icon, length, integer(1)))
 	icon_max <- lapply(icon, function(ic) {
 		rep(ic, length.out=ni)
 	})

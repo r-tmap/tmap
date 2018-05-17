@@ -61,7 +61,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 	if (has.legend) {
 		nx <- length(x)
 		
-		zs <- sapply(x, function(y) y$legend.z)
+		zs <- vapply(x, function(y) y$legend.z, numeric(1))
 		x <- x[order(zs)]
 		
 		if (stackV) {
@@ -97,7 +97,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 		}
 
 		# remove empty legend elements
-		x.not.null <- !sapply(x, is.null)
+		x.not.null <- !vapply(x, is.null, logical(1))
 		if (stackV) {
 			k <- sum(x.not.null)
 			x <- x[x.not.null]
@@ -108,7 +108,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 		
 		s2 <- 4/3
 		
-		heights <- sapply(x, function(p){
+		heights <- vapply(x, function(p){
 			if (is.null(p)) return(0)
 			type <- p$legend.type
 			port <- p$legend.is.portrait
@@ -137,7 +137,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 			} else if (type == "hist") {
 				gt$legend.hist.height
 			}
-		})
+		}, numeric(1))
 		
 		legendWidth <- gt$legend.width
 		

@@ -42,13 +42,13 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	
 	# find length, and readjust it to 1 if by is specified
-	xlen <- sapply(xs, length)
+	xlen <- vapply(xs, length, integer(1))
 	if (nlevels(by)>1 && any(xlen > 1)) {
 		warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
 		xs <- lapply(xs, "[[", 1)
 	}
 	
-	xlen <- sapply(xs, length)
+	xlen <- vapply(xs, length, integer(1))
 	
 	nx_fill <- if (is.na(fill[1])) 1 else if (is.matrix(fill)) ncol(fill) else 1 # backgrond for tm_text
 	
@@ -61,9 +61,9 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		if (length(x) < nx) rep(x, length.out=nx) else x
 	})
 	
-	xvary <- sapply(xs, function(x) {
+	xvary <- vapply(xs, function(x) {
 		all(x %in% shpcols) && !is.null(x)
-	})
+	}, logical(1))
 
 	if (type == "text") {
 		if ((xvary[["text.size"]] || identical(xs[["text.size"]], "AREA")) && interactive && !gt$text.size.variable) {
@@ -222,7 +222,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		#if (xname %in% c("symbol.size", "line.lwd") && is.list(dcr$legend.labels)) {
 		
 		if (is.list(dcr$legend.labels)) {
-			emptySizeLegend <- sapply(dcr$legend.labels, function(ssll) is.na(ssll[1]))
+			emptySizeLegend <- vapply(dcr$legend.labels, function(ssll) is.na(ssll[1]), logical(1))
 			legend.show[emptySizeLegend] <- FALSE
 		}
 		
@@ -273,7 +273,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	
 	nFs <- lapply(res, function(r) r$nonemptyFacets)
-	nFsNULL <- sapply(nFs, is.null)
+	nFsNULL <- vapply(nFs, is.null, logical(1))
 	
 	if (all(nFsNULL)) {
 		nonemptyFacets <- NULL

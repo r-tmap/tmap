@@ -110,7 +110,7 @@ for (test in tests) {
 
 
 edf <- do.call(rbind, errsL)
-View(edf)
+print(edf)
 
 
 get_test <- function(tnr, i) {
@@ -168,47 +168,8 @@ trace_test <- function(ids, rev = FALSE) {
 } 
 
 
-get_test(16, 2)
-
-
-trace_test(11:13, FALSE)
-
-#trace_test(c(5:12, 21:28, ), FALSE)
-
-shp <- NLD_prov
-tm_shape(shp) + 
-	tm_text(col = "v2", text = "name2") +
-	tm_facets(by = "by", drop.units = FALSE, free.coords = TRUE, free.scales = TRUE, drop.empty.facets = TRUE, showNA = TRUE, drop.NA.facets = TRUE) 
-######### extra tests
-
-tm_shape(World) +
-	tm_text("name", size="pop_est", col="continent", palette="Dark2",
-			title.size = "Population", title.col="Continent") +
-	tm_legend(outside = TRUE) + tm_facets(by = "continent")
-
-tm_shape(World) +
-	tm_text("name", size="pop_est", col="continent", palette="Dark2",
-			title.size = "Population", title.col="Continent", scale = 4) +
-	tm_legend(outside = TRUE)
-
-
-
-
-
-tm_shape(NLD_prov) +
-	tm_polygons(col = "name2") +
-	tm_facets(by="by")
-
-tm_shape(NLD_prov) +
-	tm_symbols(col = "name2", size = "v1")
-
-
-tm_shape(NLD_prov) +
-	tm_text(text = "name2", col = "name2", size = "v1")
-
-
-
-
+# get_test(16, 2)
+# trace_test(11:13, FALSE)
 
 
 

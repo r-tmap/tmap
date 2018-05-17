@@ -2,7 +2,7 @@ data(World, land)
 
 tm_shape(World) + 
     tm_fill("pop_est_dens", style="kmeans", title="Population density") +
-tm_format("World", title="The World") + tm_style_albatross(frame.lwd=10)
+tm_style("albatross", frame.lwd=10) + tm_format("World", title="The World")
 
 \dontrun{
 tm_shape(land) +

@@ -454,14 +454,14 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			}
 			
 			group_names <- if (is.na(gpl$tile.group[1])) {
-				sapply(basemaps, FUN = function(bm) {
+				vapply(basemaps, FUN = function(bm) {
 					if (substr(bm, 1, 4) == "http") {
 						x <- strsplit(bm, "/", fixed=TRUE)[[1]]
 						x <- x[-c(1, (length(x)-2):length(x))]
 						x <- x[x!=""]
 						paste(x, collapse="/")
 					} else bm
-				})
+				}, character(1))
 			} else {
 				rep(gpl$tile.group, length.out = length(basemaps))
 			}
@@ -515,7 +515,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		e2 <- environment()
 		
 		fnames <- paste("plot", gpl$plot.order, sep="_")
-		layer_selection <- sapply(fnames, do.call, args=list(), envir=e2)
+		layer_selection <- vapply(fnames, do.call, logical(1), args=list(), envir=e2)
 		any(layer_selection)
 	}, shps, gp, gt$shp_name, SIMPLIFY = TRUE)
 	
@@ -608,7 +608,7 @@ set_bounds_view <- function(lf, gt) {
 }
 
 format_popups <- function(id=NULL, titles, format, values) {
-	isnull <- sapply(values, is.null)
+	isnull <- vapply(values, is.null, logical(1))
 	
 	titles <- titles[!isnull]
 	titles[names(titles)!=""] <- names(titles)[names(titles)!=""]
@@ -627,7 +627,7 @@ format_popups <- function(id=NULL, titles, format, values) {
 		labels <- ""
 	}
 	
-	titles_format <- sapply(titles, htmlEscape)
+	titles_format <- vapply(titles, htmlEscape, character(1))
 	values_format <- mapply(function(v, f) {
 		htmlEscape(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=v, intervals=FALSE), f)) else v)
 	}, values, format, SIMPLIFY = FALSE)
@@ -717,10 +717,10 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 		style <- attr(pal, "style")
 		is.cont <- TRUE
 		incl.na <- nchar(pal[length(pal)]) < 10
-		pal <- sapply(pal, function(x) {
+		pal <- vapply(pal, function(x) {
 			p <- strsplit(x, split = "-", fixed=TRUE)[[1]]
 			if (length(p)==1) p[1] else if (p[6]=="NA") p[5] else p[6]
-		})
+		}, character(1))
 		if (incl.na) {
 			colNA <- unname(pal[length(pal)])
 			pal <- pal[-length(pal)]

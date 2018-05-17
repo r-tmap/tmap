@@ -10,7 +10,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	
 	shp.sim <- y[c("simplify", "keep.units", "keep.subunits", "method", "no_repair", "snap", "force_FC", "drop_null_geometries")]
 	names(shp.sim)[names(shp.sim)=="simplify"] <- "fact"
-	shp.sim <- shp.sim[!sapply(shp.sim, is.null)]
+	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
 		is.RGB <- attr(raster_facets_vars, "is.RGB")
@@ -49,7 +49,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			lvls <- get_data_frame_levels(shp@data[, raster_facets_vars, drop=FALSE])
 			
 			## use bilinear interpolation for numeric data only
-			use_interp <- (all(sapply(lvls, is.null))) && !to.Cat
+			use_interp <- (all(vapply(lvls, is.null, logical(1)))) && !to.Cat
 			shp <- raster::subset(brick(shp), raster_facets_vars, drop=FALSE)
 		} else {
 			is.OSM <- FALSE
@@ -99,7 +99,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 					if (nlayers(shp)>1) shp <- raster::subset(shp, raster_facets_vars)
 					
 					#lvls <- get_raster_levels(shp)
-					use_interp <- (all(sapply(lvls, is.null))) && !to.Cat
+					use_interp <- (all(vapply(lvls, is.null, logical(1)))) && !to.Cat
 
 				} else {
 					use_interp <- FALSE

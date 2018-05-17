@@ -113,7 +113,7 @@ get_raster_data <- function(shp) {
 		if (is.null(dimnames(shp@data@values)))	names(data) <- get_raster_names(shp)
 
 		atb <- shp@data@attributes
-		atb <- atb[sapply(atb, length)!=0]
+		atb <- atb[vapply(atb, length, integer(1))!=0]
 
 		stopifnot(sum(isfactor)==length(atb))
 
@@ -128,7 +128,7 @@ get_raster_data <- function(shp) {
 }
 
 set_raster_levels <- function(shp, lvls) {
-	isf <- !sapply(lvls, is.null)
+	isf <- !vapply(lvls, is.null, logical(1))
 	cls <- class(shp)
 	if (any(isf)) {
 		shp@data@isfactor <- isf
@@ -162,7 +162,7 @@ get_raster_levels <- function(shp, layerIDs) {
 			lvls <- lapply(shpnames, function(sn) NULL)
 		} else {
 			atb <- shp@data@attributes
-			atb <- atb[sapply(atb, length)!=0]
+			atb <- atb[vapply(atb, length, integer(1))!=0]
 			stopifnot(sum(isfactor)==length(atb))
 			isfactor2 <- isfactor[layerIDs]
 
@@ -200,9 +200,9 @@ preprocess_raster_data <- function(data, sel) {
 	
 	data <- data[, sel, drop=FALSE]
 	
-	notNumCat <- sapply(data, function(x){
+	notNumCat <- vapply(data, function(x){
 		!is.numeric(x) && !is.factor(x)
-	})
+	}, logical(1))
 	if (any(notNumCat)) {
 		data[, notNumCat] <- lapply(data[, notNumCat, drop=FALSE], function(x) {
 			if (is.logical(x)) factor(x, levels=c(FALSE, TRUE)) else factor(x)

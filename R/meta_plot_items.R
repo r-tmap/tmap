@@ -160,7 +160,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 				i[i=="NA"] <- NA
 				i
 			})
-			fill_len <- sapply(fill_list, length)
+			fill_len <- vapply(fill_list, length, integer(1))
 			fill2 <- unlist(fill_list)
 			
 			# process x,y,w,h
@@ -420,7 +420,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 				i[i=="NA"] <- NA
 				i
 			})
-			fill_len <- sapply(fill_list, length)
+			fill_len <- vapply(fill_list, length, integer(1))
 			fill2 <- unlist(fill_list)
 			
 			# process x,y,w,h

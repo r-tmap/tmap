@@ -40,7 +40,9 @@ Suggests:
     cartogram,
     ggplot2,
     dplyr,
-    tidyr
+    tidyr,
+    testthat,
+    covr
 URL: https://github.com/mtennekes/tmap
 BugReports: https://github.com/mtennekes/tmap/issues
 VignetteBuilder: knitr

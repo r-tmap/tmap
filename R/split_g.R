@@ -14,7 +14,7 @@ split_g <- function(g, n) {
 			if (is.list(x) && length(x)==n) x[[i]] else x
 		})
 		g[nlnames] <- lapply(g[nlnames], function(x) {
-			if (all(sapply(x, is.list)) && length(x)==n) x[[i]] else x
+			if (all(vapply(x, is.list, logical(1))) && length(x)==n) x[[i]] else x
 		})
 		g
 	})

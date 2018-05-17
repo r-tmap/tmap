@@ -21,7 +21,7 @@ sf_expand <- function(shp) {
 			st_geometry(ge)
 		}
 	}, st_geometry_type(shp), st_geometry(shp), SIMPLIFY = FALSE)
-	ids <- rep(1L:length(x), sapply(x, length))
+	ids <- rep(1L:length(x), vapply(x, length, integer(1)))
 	shp3 <- st_sf(geometry=st_sfc(do.call(c, x)))
 	shp3$split__id <- ids
 	shp3

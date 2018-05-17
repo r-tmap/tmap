@@ -172,8 +172,8 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		
 		title_append <- rep("", nx)
 		if (check_dens) {
-			isNum <- sapply(dtcol, is.numeric)
-			isDens <- sapply(gsc, "[[", "convert2density")
+			isNum <- vapply(dtcol, is.numeric, logical(1))
+			isDens <- vapply(gsc, "[[", logical(1), "convert2density")
 			
 			dtcol[isNum & isDens] <- lapply(dtcol[isNum & isDens], function(d) {
 				d / areas
