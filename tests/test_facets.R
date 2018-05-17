@@ -1,6 +1,7 @@
 library(sf)
 library(grid)
 library(raster)
+library(tmap)
 
 data(NLD_prov)
 
@@ -42,13 +43,10 @@ tests <- list(
 	list(layer = "text", args = list(col = "v2", text = "name2"))
 )
 
-
 filter <- c(TRUE, TRUE) # extra option: if c(T, F) units 1, 3, ... are selected
 
-errsL <- list()
 #test <- tests[[16]]
-
-for (test in tests) {
+errsL <- lapply(tests, function(test) {
 	shp <- NLD_prov
 	if (test$layer == "lines") {
 		shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
@@ -101,16 +99,15 @@ for (test in tests) {
 	}
 	dev.off()
 	
-	errs <- errs[errs$err != "", ]
-	
-	errs2 <- list(errs)
-	names(errs2) <- filename
-	errsL <- c(errsL, errs2)
-}
+	errs[errs$err != "", ]
+})
 
+names(errsL) <- sapply(tests, function(test) paste0(test$layer, "_", unname(unlist(test$args))[1]))
 
 edf <- do.call(rbind, errsL)
 print(edf)
+
+if (nrow(edf) > 0) stop("facet test fails")
 
 
 get_test <- function(tnr, i) {
@@ -170,6 +167,3 @@ trace_test <- function(ids, rev = FALSE) {
 
 # get_test(16, 2)
 # trace_test(11:13, FALSE)
-
-
-
