@@ -17,21 +17,34 @@ tm_tiles(server, group = NA, alpha = 1)
 \item{alpha}{alpha}
 }
 \description{
-Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}. \code{tm_tiles} draws the tile layer as overlay layer where it follows the plotting order in which this layer is called.
+Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}. \code{tm_tiles} draws the tile layer as overlay layer where it follows the plotting order in which this layer is called. \code{tm_basemap} draws the tile layer as basemap (so as bottom layer). Note that basemaps are shown by default (see details).
 }
 \details{
-\code{tm_basemap} draws the tile layer as basemap (so as bottom layer). Basemaps are configured in \code{\link{tmap_options}} (see also \code{\link{tm_view}}). By default (for style \code{"white"}) three basemaps are drawn: \code{c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)}
-
-By default every interactive map has a basmap
+When \code{tm_basemap} is not specified, the default basemaps, which can be configured by the \code{basemaps} arugument in \code{\link{tmap_options}}, are shown. By default (for style \code{"white"}) three basemaps are drawn: \code{c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)} to the plot, or set \code{tmap_options(basemaps = NULL)}. Similarly, when \code{tm_tiles} is not specified, the overlay maps specified by the \code{overlays} argument in in \code{\link{tmap_options}} are shown as front layer. By default, this argument is set to \code{NULL}, so no overlay maps are shown by default. See examples.
 }
 \examples{
-data(World, metro)
-tmap_mode("view")
+current.mode <- tmap_mode("view")
 
-tm_basemap(leaflet::providers$CartoDB.PositronNoLabels, group = "CartoDB basemap") +
-tm_shape(World) +
-	tm_polygons("HPI", group = "Countries") +
-tm_tiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "CartoDB labels") +
-tm_shape(metro) +
-	tm_dots(col = "red", group = "Metropolitan areas")
+data(World, metro)
+
+tm_basemap(leaflet::providers$Stamen.Watercolor) +
+tm_shape(metro, bbox = "India") + tm_dots(col = "red", group = "Metropolitan areas") +
+tm_tiles(paste0("http://services.arcgisonline.com/arcgis/rest/services/Canvas/",
+    "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"), group = "Labels")
+
+
+\dontrun{
+# Use tmap optinos to set the basemap and overlay map permanently during the R session:
+opts <- tmap_options(basemaps = c(Canvas = "Esri.WorldGrayCanvas", Imagery = "Esri.WorldImagery"),
+    overlays = c(Labels = paste0("http://services.arcgisonline.com/arcgis/rest/services/Canvas/",
+                                 "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}")))
+	
+	qtm(World, fill = "HPI", fill.palette = "RdYlGn")
+
+	# restore options
+	tmap_options(opts)
+}
+
+# restore current mode
+tmap_mode(current.mode)
 }

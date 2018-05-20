@@ -6,18 +6,31 @@
 \alias{tmap_options_reset}
 \title{Options for tmap}
 \usage{
-tmap_options(unit, limits, ...)
+tmap_options(..., unit, limits, max.categories, show.messages, basemaps,
+  basemaps.alpha, overlays, overlays.alpha)
 
 tmap_options_diff()
 
 tmap_options_reset()
 }
 \arguments{
+\item{...}{options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Note that the difference with using \code{\link{tm_layout}} or \code{\link{tm_view}} directly, is that options set with \code{tmap_options} remain for the entire session (unless changed with \code{tmap_options} or \code{\link{tmap_style}}). If can also be a single unnamed argument which is a named list (like \code{\link[base:options]{options}}).}
+
 \item{unit}{This is the default value for the \code{unit} argument of \code{\link{tm_shape}}. It specifies the unit of measurement, which is used in the scale bar and the calculation of density values. By default (when loading the package), it is \code{"metric"}. Other valid values are \code{"imperial"}, \code{"km"}, \code{"m"}, \code{"mi"}, and \code{"ft"}.}
 
 \item{limits}{This option determines how many facets (small multiples) are allowed for per mode. It should be a vector of two numeric values named \code{facets.view} and \code{facets.plot}. By default (i.e. when loading the package), it is set to \code{c(facets.view = 4, facets.plot = 64)}}
 
-\item{...}{options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Note that the difference with using \code{\link{tm_layout}} or \code{\link{tm_view}} directly, is that options set with \code{tmap_options} remain for the entire session (unless changed with \code{tmap_options} or \code{\link{tmap_style}}).}
+\item{max.categories}{in case \code{col} is the name of a categorical variable in the layer functions (e.g. \code{\link{tm_polygons}}), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.}
+
+\item{show.messages}{should messages be shown?}
+
+\item{basemaps}{default basemaps. Basemaps are normally configured with \code{\link{tm_basemap}}. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or \code{NULL} if basemaps should be omitted. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. If a named vector is provided, the names are used in the layer control legend (similar to the \code{group} argument of \code{\link{tm_basemap}}. See also \code{overlays}, which is the default option for overlay tiles.}
+
+\item{basemaps.alpha}{default transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.}
+
+\item{overlays}{default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparant. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.}
+
+\item{overlays.alpha}{default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.}
 }
 \description{
 Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}.

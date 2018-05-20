@@ -1,6 +1,7 @@
 cat2pal <- function(x, 
 					palette = "Set3",
-					auto.palette.mapping = TRUE,
+					stretch.palette = TRUE,
+					#auto.palette.mapping = TRUE,
 					contrast = 1, 
 					colorNA = "#FF1414",
 					colorNULL = "#FFFFFF",
@@ -26,7 +27,8 @@ cat2pal <- function(x,
 	
 	# quick&dirty
 	nCol <- nlevels(x)
-	if (nCol > max_levels && !auto.palette.mapping) {
+	if (nCol > max_levels) {
+		warning("Number of levels is larger than max.categories, so levels are combined. Set max.categories = ", nCol, " in the layer function to show all levels.", call. = FALSE)
 	
 		mapping <- as.numeric(cut(seq.int(nCol), breaks=max_levels))
 		to <- c(which(mapping[-nCol] - mapping[-1]!=0), nCol)
@@ -47,9 +49,9 @@ cat2pal <- function(x,
 	
 	
 	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
-		revPal(suppressWarnings(get_brewer_pal(palette, nCol, contrast, stretch = auto.palette.mapping, plot = FALSE)))
+		revPal(suppressWarnings(get_brewer_pal(palette, nCol, contrast, stretch = stretch.palette, plot = FALSE)))
 	} else {
-		if (auto.palette.mapping && (length(palette) < nCol)) {
+		if (stretch.palette && (length(palette) < nCol)) {
 			colorRampPalette(palette)(nCol)	
 		} else rep(palette, length.out=nCol)
 	}

@@ -85,16 +85,16 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		
 		######################### tm_view
 		
-		if (!get(".internet", envir = .TMAP_CACHE) || identical(basemaps, FALSE)) {
-			basemaps <- character(0)
-		} else {
-			# with basemap tiles
-			#if (is.na(basemaps.alpha)) basemaps.alpha <- gt$basemaps.alpha
-			#if (identical(basemaps, NA)) basemaps <- gt$basemaps
-			if (identical(basemaps, TRUE)) basemaps <- c("OpenStreetMap", "OpenStreetMap.Mapnik", "OpenTopoMap", "Stamen.Watercolor", "Esri.WorldTopoMap", "Esri.WorldImagery", "CartoDB.Positron", "CartoDB.DarkMatter")
-			basemaps.alpha <- rep(basemaps.alpha, length.out=length(basemaps))
-			if (is.na(alpha)) alpha <- .7
-		}
+		# if (!get(".internet", envir = .TMAP_CACHE) || identical(basemaps, FALSE)) {
+		# 	basemaps <- character(0)
+		# } else {
+		# 	# with basemap tiles
+		# 	#if (is.na(basemaps.alpha)) basemaps.alpha <- gt$basemaps.alpha
+		# 	#if (identical(basemaps, NA)) basemaps <- gt$basemaps
+		# 	if (identical(basemaps, TRUE)) basemaps <- c("OpenStreetMap", "OpenStreetMap.Mapnik", "OpenTopoMap", "Stamen.Watercolor", "Esri.WorldTopoMap", "Esri.WorldImagery", "CartoDB.Positron", "CartoDB.DarkMatter")
+		# 	basemaps.alpha <- rep(basemaps.alpha, length.out=length(basemaps))
+		# 	if (is.na(alpha)) alpha <- 1
+		# }
 		if (!is.logical(set.bounds)) if (!length(set.bounds)==4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
 		
 		if (!is.null(bbox)) {

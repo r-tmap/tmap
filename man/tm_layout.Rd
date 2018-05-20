@@ -243,10 +243,11 @@ tm_shape(World, is.master=TRUE) +
 	tm_text("name", size="AREA") +
 tm_compass(position = c(.65, .15), color.light = "grey90") +
 tm_credits("Eckert IV projection", position = c("right", "BOTTOM")) +
-tm_layout(inner.margins=c(.04,.03, .02, .01), 
+tm_style("classic") +
+tm_layout(bg.color="lightblue",
+	inner.margins=c(.04,.03, .02, .01), 
 	earth.boundary = TRUE, 
 	space.color="grey90") +
-tm_style("classic", bg.color="lightblue") +
 tm_legend(position = c("left", "bottom"), 
 	frame = TRUE,
 	bg.color="lightblue")

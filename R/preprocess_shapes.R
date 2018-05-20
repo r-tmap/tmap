@@ -138,7 +138,10 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			}
 		} else new_ext <- NULL
 
-		if (!is.null(new_ext)) {
+		
+		raster.projected <- !is.null(new_ext)
+		
+		if (raster.projected) {
 			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=gm$shape.master_crs$proj4string, method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
 			data <- get_raster_data(shpTmp)
@@ -179,11 +182,13 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		## to be consistent with Spatial objects:
 		attr(shp2, "bbox") <- bb(shp2)
 		attr(shp2, "proj4string") <- attr(shp2@crs, "projargs")
+
 		
 		data$tmapfilter <- TRUE
 		
 		attr(data, "is.OSM") <- is.OSM
 		attr(data, "leaflet.server") <- leaflet.server
+		attr(data, "raster.projected") <- raster.projected
 		
 		#attr(data, "is.RGB") <- is.RGB
 		

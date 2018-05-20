@@ -1,5 +1,5 @@
 process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive) {
-	attr.color <- aes.colors <- aes.color <- pc <- grid.alpha <- grid.labels.inside.frame <- grid.labels.rot <- NULL
+	attr.color <- aes.colors <- aes.color <- pc <- NULL
 	
 	credit.show <- !is.null(gc)
 	logo.show <- !is.null(gl)
@@ -226,28 +226,8 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 		
 	})	
 
-	if (!is.null(gg)) {
-		gg <- within(gg, {
-			grid.show <- TRUE
-			if (is.na(grid.col)) grid.col <- ifelse(gt$attr.color.light, darker(gt$attr.color, .5), lighter(gt$attr.color, .5))
-			if (is.na(grid.labels.col)) grid.labels.col <- ifelse(gt$attr.color.light, darker(gt$attr.color, .2), lighter(gt$attr.color, .2))
-			if (!is.numeric(grid.labels.rot) || length(grid.labels.rot) != 2) stop("labels.rot should be a numeric vector of length two")
-			grid.col <- do.call("process_color", c(list(col=grid.col, alpha=grid.alpha), gt$pc))
-			grid.labels.col <- do.call("process_color", c(list(col=grid.labels.col), gt$pc))
-			grid.lwd <- grid.lwd * gt$scale
-			grid.is.projected <- !grid.projection=="longlat"
-			
-			grid.projection <- get_proj4(grid.projection, output = "crs")
-			
-			if (!grid.labels.inside.frame && any(gt$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using tmap_save, notice that outer.margins are set to 0 by default, unless set to NA.")
-			if (!"scientific" %in% names(grid.labels.format)) grid.labels.format$scientific <- FALSE
-			if (!"digits" %in% names(grid.labels.format)) grid.labels.format$digits <- NA
+	gg <- process_meta_grid(gg, gt)
 
-		})
-	} else {
-		gg <- list(grid.show=FALSE)
-	}
-	
 	if (credit.show) {
 		gc <- within(gc, {
 		 	credits.col[is.na(credits.col)] <- gt$attr.color
@@ -311,39 +291,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 		gl <- list(logo.show=list(rep(FALSE, nx)))
 	}	
 	
-	if (scale.show) {
-		gsb <- within(gsb, {
-			if (interactive) {
-				if (is.na(scale.width))
-					scale.width <- 100
-				else if (scale.width < 1) {
-					message("Scale bar width set to 100 pixels")
-					scale.width <- 100
-				}
-				
-				if (is.na(scale.position[1])) scale.position <- gt$attr.position
-				if (is_num_string(scale.position[1])) {
-					scale.position <- paste(ifelse(as.numeric(scale.position[2])<.5, "bottom", "top"),
-											ifelse(as.numeric(scale.position[1])<.5, "left", "right"), sep="")
-				} else {
-					scale.position <- paste(ifelse(scale.position[2] == "bottom", "bottom", "top"),
-											ifelse(scale.position[1] == "left", "left", "right"), sep="")
-				}
-			} else {
-				if (is.na(scale.width))
-					scale.width <- .25
-				else if (scale.width > 1) {
-					message("Scale bar width set to 0.25 of the map width")
-					scale.width <- .25
-				}
-			}
-			scale.size <- scale.size * gt$scale
-			scale.lwd <- scale.lwd * gt$scale
-			scale.show <- TRUE
-		})
-	} else {
-		gsb <- list(scale.show=FALSE)
-	}
+	gsb <- process_meta_scale_bar(gsb, interactive, gt)
 	
 	compass.show.labels <- NULL
 	if (compass.show) {
@@ -392,4 +340,68 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 	
 
 	c(gt, gf, gg, gc, gl, gsb, gcomp, glab, gm)
+}
+
+
+process_meta_scale_bar <- function(gsb, interactive, gt) {
+	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	
+	if (!is.null(gsb)) {
+		gsb <- within(gsb, {
+			if (interactive) {
+				if (is.na(scale.width))
+					scale.width <- 100
+				else if (scale.width < 1) {
+					if (show.messages) message("Scale bar width set to 100 pixels")
+					scale.width <- 100
+				}
+				
+				if (is.na(scale.position[1])) scale.position <- gt$attr.position
+				if (is_num_string(scale.position[1])) {
+					scale.position <- paste(ifelse(as.numeric(scale.position[2])<.5, "bottom", "top"),
+											ifelse(as.numeric(scale.position[1])<.5, "left", "right"), sep="")
+				} else {
+					scale.position <- paste(ifelse(scale.position[2] == "bottom", "bottom", "top"),
+											ifelse(scale.position[1] == "left", "left", "right"), sep="")
+				}
+			} else {
+				if (is.na(scale.width))
+					scale.width <- .25
+				else if (scale.width > 1) {
+					if (show.messages) message("Scale bar width set to 0.25 of the map width")
+					scale.width <- .25
+				}
+			}
+			scale.size <- scale.size * gt$scale
+			scale.lwd <- scale.lwd * gt$scale
+			scale.show <- TRUE
+		})
+	} else {
+		gsb <- list(scale.show=FALSE)
+	}
+}
+
+process_meta_grid <- function(gg, gt) {
+	grid.alpha <- grid.labels.inside.frame <- grid.labels.rot <- NULL
+	if (!is.null(gg)) {
+		gg <- within(gg, {
+			grid.show <- TRUE
+			if (is.na(grid.col)) grid.col <- ifelse(gt$attr.color.light, darker(gt$attr.color, .5), lighter(gt$attr.color, .5))
+			if (is.na(grid.labels.col)) grid.labels.col <- ifelse(gt$attr.color.light, darker(gt$attr.color, .2), lighter(gt$attr.color, .2))
+			if (!is.numeric(grid.labels.rot) || length(grid.labels.rot) != 2) stop("labels.rot should be a numeric vector of length two")
+			grid.col <- do.call("process_color", c(list(col=grid.col, alpha=grid.alpha), gt$pc))
+			grid.labels.col <- do.call("process_color", c(list(col=grid.labels.col), gt$pc))
+			grid.lwd <- grid.lwd * gt$scale
+			grid.is.projected <- !grid.projection=="longlat"
+			
+			grid.projection <- get_proj4(grid.projection, output = "crs")
+			
+			if (!grid.labels.inside.frame && any(gt$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using tmap_save, notice that outer.margins are set to 0 by default, unless set to NA.")
+			if (!"scientific" %in% names(grid.labels.format)) grid.labels.format$scientific <- FALSE
+			if (!"digits" %in% names(grid.labels.format)) grid.labels.format$digits <- NA
+			
+		})
+	} else {
+		gg <- list(grid.show=FALSE)
+	}
 }

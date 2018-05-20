@@ -1,3 +1,12 @@
+check_deprecated_layer_fun_args <- function(auto.palette.mapping, max.categories, midpoint) {
+	if (!is.null(auto.palette.mapping)) {
+		warning("The argument auto.palette.mapping is deprecated. Please use midpoint for numeric data and stretch.palette for categorical data to control the palette mapping.", call. = FALSE)
+		if (auto.palette.mapping && is.null(midpoint)) midpoint <- 0 # for backwards compatability
+	}
+	if (!is.null(max.categories)) warning("The argument max.categories is deprecated. It can be specified with tmap_options.", call. = FALSE)
+	midpoint
+}
+
 #' Add text labels
 #' 
 #' Creates a \code{\link{tmap-element}} that adds text labels.
@@ -18,9 +27,9 @@
 #' @param palette a palette name or a vector of colors. See \code{tmaptools::palette_explorer()} for the named palettes. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}, which typically depends on the style. The type of palette from \code{aes.palette} is automatically determined, but can be overwritten: use \code{"seq"} for sequential, \code{"div"} for diverging, and \code{"cat"} for categorical.
 #' @param labels labels of the color classes, applicable if \code{col} is a data variable name
 #' @param labels.text Example text to show in the legend next to the \code{labels}. When \code{NA} (default), examples from the data variable are taken and \code{"NA"} for classes where they don't exist.
-#' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette if there are more levels than colors.
+#' @param midpoint The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a divering color palette.
+#' @param stretch.palette Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If \code{TRUE} (default), interpolated colors are used (like a rainbow). If \code{FALSE}, the palette is repeated.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
-#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values. 
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
@@ -69,6 +78,8 @@
 #' @param legend.col.z index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param auto.palette.mapping deprecated. It has beeen replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
+#' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
 #' @export
 #' @example ./examples/tm_text.R
@@ -87,9 +98,9 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 palette = NULL,
 					 labels = NULL,
 					 labels.text = NA,
-					 auto.palette.mapping = TRUE,
+					 midpoint = NULL,
+					 stretch.palette = TRUE,
 					 contrast = NA,
-					 max.categories = 12,
 					 colorNA = NA,
 					 textNA = "Missing",
 					 showNA = NA,
@@ -110,7 +121,11 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 legend.size.z=NA,
 					 legend.col.z=NA,
 					 legend.hist.z=NA,
-					 group = NA) {
+					 group = NA,
+					 auto.palette.mapping = NULL,
+					 max.categories = NULL) {
+	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
+
 	g <- list(tm_text=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -164,9 +179,9 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable.
 #' @param palette a palette name or a vector of colors. See \code{tmaptools::palette_explorer()} for the named palettes. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}, which typically depends on the style. The type of palette from \code{aes.palette} is automatically determined, but can be overwritten: use \code{"seq"} for sequential, \code{"div"} for diverging, and \code{"cat"} for categorical.
 #' @param labels labels of the classes
-#' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. In this case of line widths, obviously only the positive side is used. When categorical color palettes are used, this method stretches the palette if there are more levels than colors.
+#' @param midpoint The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a divering color palette.
+#' @param stretch.palette Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If \code{TRUE} (default), interpolated colors are used (like a rainbow). If \code{FALSE}, the palette is repeated.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
-#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
@@ -201,6 +216,8 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param auto.palette.mapping deprecated. It has beeen replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
+#' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @export
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
@@ -215,9 +232,9 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 interval.closure = "left",
 					 palette = NULL,
 					 labels = NULL,
-					 auto.palette.mapping = TRUE,
+					 midpoint = NULL,
+					 stretch.palette = TRUE,
 					 contrast = NA,
-					 max.categories = 12, 
 					 colorNA = NA,
 					 textNA = "Missing",
 					 showNA = NA,
@@ -239,7 +256,10 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 id=NA,
 					 popup.vars=NA,
 					 popup.format=list(),
-					 group = NA) {
+					 group = NA,
+					 auto.palette.mapping = NULL,
+					 max.categories = NULL) {
+	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
 	g <- list(tm_lines=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -271,9 +291,9 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or diverging color palette.
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable.
 #' @param labels labels of the classes.
-#' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette if there are more levels than colors.
+#' @param midpoint The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a divering color palette.
+#' @param stretch.palette Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If \code{TRUE} (default), interpolated colors are used (like a rainbow). If \code{FALSE}, the palette is repeated.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
-#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
@@ -304,6 +324,8 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param auto.palette.mapping deprecated. It has beeen replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
+#' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @param ... for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link[tmaptools:map_coloring]{map_coloring}}.
 #' @keywords choropleth
 #' @export
@@ -321,9 +343,9 @@ tm_fill <- function(col=NA,
 					breaks = NULL,
 					interval.closure = "left",
 				    labels = NULL,
-					auto.palette.mapping = TRUE,
+					midpoint = NULL,
+					stretch.palette = TRUE,
 					contrast = NA,
-			 		max.categories = 12,
 			 		colorNA = NA,
 			 		textNA = "Missing",
 					showNA = NA,
@@ -342,8 +364,10 @@ tm_fill <- function(col=NA,
 					popup.vars=NA,
 					popup.format=list(),
 					group = NA,
+					auto.palette.mapping = NULL,
+					max.categories = NULL,
 					...) {
-	
+	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
 	g <- list(tm_fill=c(as.list(environment()), list(map_coloring=list(...), call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -396,9 +420,9 @@ tm_polygons <- function(col=NA,
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or diverging color palette.
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable.
 #' @param labels labels of the classes
-#' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette if there are more levels than colors.
+#' @param midpoint The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a divering color palette.
+#' @param stretch.palette Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If \code{TRUE} (default), interpolated colors are used (like a rainbow). If \code{FALSE}, the palette is repeated.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
-#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param saturation Number that determines how much saturation (also known as chroma) is used: \code{saturation=0} is greyscale and \code{saturation=1} is normal. This saturation value is multiplied by the overall saturation of the map (see \code{\link{tm_layout}}).
 #' @param interpolate Should the raster image be interpolated? By default \code{FALSE} for \code{tm_raster} and \code{TRUE} for \code{tm_rgb}.
 #' @param colorNA color used for missing values. Use \code{NULL} for transparency.
@@ -427,6 +451,8 @@ tm_polygons <- function(col=NA,
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param auto.palette.mapping deprecated. It has beeen replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
+#' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @param ... arguments passed on from \code{tm_raster} to \code{tm_rgb}
 #' @name tm_raster
 #' @rdname tm_raster
@@ -443,9 +469,9 @@ tm_raster <- function(col=NA,
 					  breaks = NULL,
 					  interval.closure = "left",
 					  labels = NULL,
-					  auto.palette.mapping = TRUE,
+					  midpoint = NULL,
+					  stretch.palette = TRUE,
 					  contrast = NA,
-					  max.categories = 12,
 					  saturation = 1,
 					  interpolate = FALSE,
 					  colorNA = NULL,
@@ -461,7 +487,10 @@ tm_raster <- function(col=NA,
 					  legend.hist.title=NA,
 					  legend.z=NA,
 					  legend.hist.z=NA,
-					  group = NA) {
+					  group = NA,
+					  auto.palette.mapping = NULL,
+					  max.categories = NULL) {
+	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
 	g <- list(tm_raster=as.list(environment()))
 	g$tm_raster$is.RGB <- FALSE
 	class(g) <- "tmap"
@@ -516,9 +545,9 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable.
 #' @param palette a palette name or a vector of colors. See \code{tmaptools::palette_explorer()} for the named palettes. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}, which typically depends on the style. The type of palette from \code{aes.palette} is automatically determined, but can be overwritten: use \code{"seq"} for sequential, \code{"div"} for diverging, and \code{"cat"} for categorical.
 #' @param labels labels of the classes
-#' @param auto.palette.mapping When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette if there are more levels than colors.
+#' @param midpoint The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a divering color palette.
+#' @param stretch.palette Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If \code{TRUE} (default), interpolated colors are used (like a rainbow). If \code{FALSE}, the palette is repeated.
 #' @param contrast vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).
-#' @param max.categories in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.
 #' @param colorNA colour for missing values. Use \code{NULL} for transparency.
 #' @param textNA text used for missing values of the color variable.
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
@@ -580,6 +609,8 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param legend.is.portrait shortcut for \code{legend.col.is.portrait} for \code{tm_dots}
 #' @param legend.z shortcut for \code{legend.col.z shortcut} for \code{tm_dots}
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param auto.palette.mapping deprecated. It has beeen replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
+#' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @keywords symbol map
 #' @export
 #' @example ./examples/tm_symbols.R
@@ -605,9 +636,9 @@ tm_symbols <- function(size=1, col=NA,
 						interval.closure = "left",
 						palette = NULL,
 						labels = NULL,
-						auto.palette.mapping = TRUE,
+						midpoint = NULL,
+						stretch.palette = TRUE,
 						contrast = NA,
-						max.categories = 12,
 						colorNA = NA,
 						textNA = "Missing",
 						showNA = NA,
@@ -651,7 +682,10 @@ tm_symbols <- function(size=1, col=NA,
 						id=NA,
 						popup.vars=NA,
 						popup.format=list(),
-						group = NA) {
+						group = NA,
+						auto.palette.mapping = NULL,
+						max.categories = NULL) {
+	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
 	g <- list(tm_symbols=c(as.list(environment()), list(are.dots=FALSE, are.markers=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
@@ -799,12 +833,9 @@ tm_basemap <- function(server=NA, group = NA, alpha = NA) {
 
 #' Draw a tile layer
 #' 
-#' Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}. \code{tm_tiles} draws the tile layer as overlay layer where it follows the plotting order in which this layer is called. 
+#' Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}. \code{tm_tiles} draws the tile layer as overlay layer where it follows the plotting order in which this layer is called. \code{tm_basemap} draws the tile layer as basemap (so as bottom layer). Note that basemaps are shown by default (see details).
 #' 
-#' \code{tm_basemap} draws the tile layer as basemap (so as bottom layer). Basemaps are configured in \code{\link{tmap_options}} (see also \code{\link{tm_view}}). By default (for style \code{"white"}) three basemaps are drawn: \code{c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)}
-#' 
-#' 
-#' By default every interactive map has a basmap
+#' When \code{tm_basemap} is not specified, the default basemaps, which can be configured by the \code{basemaps} arugument in \code{\link{tmap_options}}, are shown. By default (for style \code{"white"}) three basemaps are drawn: \code{c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)} to the plot, or set \code{tmap_options(basemaps = NULL)}. Similarly, when \code{tm_tiles} is not specified, the overlay maps specified by the \code{overlays} argument in in \code{\link{tmap_options}} are shown as front layer. By default, this argument is set to \code{NULL}, so no overlay maps are shown by default. See examples.
 #' 
 #' @param server name of the provider or an URL. The list of available providers can be obtained with \code{leaflet::providers}. See \url{http://leaflet-extras.github.io/leaflet-providers/preview} for a preview of those. When a URL is provided, it should be in templace format, e.g. \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable the basemaps.
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups.

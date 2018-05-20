@@ -4,24 +4,15 @@
 \alias{tm_view}
 \title{Options for the interactive tmap viewer}
 \usage{
-tm_view(alpha, colorNA, basemaps, basemaps.alpha, base.groups = NA,
-  overlay.groups = NA, projection, symbol.size.fixed, dot.size.fixed,
+tm_view(alpha, colorNA, projection, symbol.size.fixed, dot.size.fixed,
   text.size.variable, bbox, set.bounds, set.view, set.zoom.limits,
-  view.legend.position, control.position, popup.all.data, bg.overlay,
-  bg.overlay.alpha, legend.position)
+  view.legend.position, control.position, popup.all.data, legend.position,
+  basemaps = NULL, basemaps.alpha = NULL)
 }
 \arguments{
 \item{alpha}{transparency (opacity) parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}
 
 \item{colorNA}{default color for missing values in interactive mode. If the color of missing values is not defined in the layer functions (e.g. \code{\link{tm_fill}}), then the default color is taken from the \code{na} value of the \code{aes.color} argument in \code{\link{tm_layout}}. This \code{colorNA} argument (if not \code{NA} itself) overrides that default value. For interactive maps, it can be useful to set \code{colorNA} to \code{NULL}, which means transparent.}
-
-\item{basemaps}{vector of one or more names of baselayer maps, or a logical value. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. The default value for \code{basemaps} is style dependent. For the default style \code{"white"}, it is \code{c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap")}. Use \code{TRUE} to select a large set of recommended basemaps. Use \code{FALSE} to omit basemap tiles. If a named vector is provided, the names are used in the layer control legend. Basemaps can also be set with \code{\link{tm_basemap}}).}
-
-\item{basemaps.alpha}{transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.}
-
-\item{base.groups}{group names that are plotted as base layers. Groups names are defined in the element functions (e.g. \code{\link{tm_symbols}}).}
-
-\item{overlay.groups}{group names that are plotted as overlay layers. Groups names are defined in the element functions (e.g. \code{\link{tm_symbols}}).}
 
 \item{projection}{projection. Either a EPSG number, or a \code{leaflet_crs} object created with \code{\link[leaflet:leafletCRS]{leafletCRS}}. By default, the Web Mercator (3857) is used, since the vast majority of basemaps are rendered accordingly. Other standards are EPSG numbers 4326 (WGS84) and 3395 (Mercator). If set to 0, the projection of the master shape is used (see \code{\link{tm_shape}}) provided that a EPSG number can be extracted.}
 
@@ -49,11 +40,11 @@ If set, it overrides \code{set.view} and all bbox arguments of \code{\link{tm_sh
 
 \item{popup.all.data}{not used anymore. As of version 1.6, the popups are specified by the argument \code{popup.vars} in the layer functions \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}.}
 
-\item{bg.overlay}{not used anymore as of version 1.7. Instead of an overlay, a background color is set, which is determined by \code{bg.color} of \code{\link{tm_layout}}, which is style dependent.}
-
-\item{bg.overlay.alpha}{not used anymore as of version 1.7. Instead of an overlay, a background color is set. The trade-off between background and basemaps can now be set by \code{basemaps.alpha}}
-
 \item{legend.position}{not used anymore, renamed to view.legend.position}
+
+\item{basemaps}{Deprecated. Use \code{\link{tm_basemap}} instead, or set the default basemaps in \code{\link{tmap_options}}}
+
+\item{basemaps.alpha}{Deprecated. See \code{basemaps}}
 }
 \description{
 Set the options for the interactive tmap viewer. Some of these options can also be set with \code{\link{tm_layout}}, since they are style dependent (e.g., the choice of basemaps). The function \code{tm_view} overrides these options when specified.

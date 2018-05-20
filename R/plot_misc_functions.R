@@ -656,7 +656,6 @@ native_to_npc_to_native <- function(x, scale) {
 	h <- convertHeight(rg$height, "inch", valueOnly=TRUE)
 
 	a <- atan2(h, w)
-print("test")
 	as <- as.vector(vapply(a, function(a)c(a,pi-a, pi+a,-a), numeric(4)))
 
 	as2 <- as + rep(angles * pi / 180, each=4)

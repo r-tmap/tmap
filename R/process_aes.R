@@ -67,7 +67,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 
 	if (type == "text") {
 		if ((xvary[["text.size"]] || identical(xs[["text.size"]], "AREA")) && interactive && !gt$text.size.variable) {
-			message("Text size will be constant in view mode. Set tm_view(text.size.variable = TRUE) to enable text size variables.")
+			if (gt$show.messages) message("Text size will be constant in view mode. Set tm_view(text.size.variable = TRUE) to enable text size variables.")
 			xvary[["text.size"]] <- FALSE
 			xlen["text.size"] <- 1
 			xs[["text.size"]] <- 1
@@ -145,14 +145,17 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		process_data(data[, x, drop=FALSE], filter = data$tmapfilter, by=by, free.scales=gby[[fsname]], is.colors=isc, split.by = sby, vary = xv)
 	}, xs, fsnames, is.colors, split.by, xvary, SIMPLIFY = FALSE)
 	
-	
-
 	## impute showNA for first (i.e. color) aesthetic
 	if (nlevels(by)>1) if (is.na(g$showNA) && !gby[[fsnames[[1]]]]) g$showNA <- any(attr(dts[[1]], "anyNA") & !(gby$drop.NA.facets & attr(dts[[1]], "allNA")))
 	
 	if (type == "symbol") {
 		if (nlevels(by)>1) if (is.na(g$shape.showNA) && !gby[[fsnames[[3]]]]) g$shape.showNA <- any(attr(dts[[3]], "anyNA") & !(gby$drop.NA.facets & attr(dts[[3]], "allNA")))
 	}
+	
+	if (type == "raster") {
+		attr(dts[[1]], "raster.projected") <- attr(data, "raster.projected")
+	}
+	
 	
 	## output: matrix=colors, list=free.scales, vector=!freescales
 	

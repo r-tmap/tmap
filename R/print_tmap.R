@@ -72,8 +72,29 @@ print_shortcut <- function(x, interactive, args, knit) {
 		
 		gt <- preprocess_gt(x, interactive=interactive)
 		gt$shp_name <- rep("dummy", length(xtiles))
+		gt$shape.units <- list(unit = get(".tmapOptions", envir = .TMAP_CACHE)$unit)
 		if (is.null(gt$bbox)) gt$bbox <- c(-190, -90, 180, 90)
-		gt$scale.show <- FALSE
+		
+		if (any(names(x) == "tm_scale_bar")) {
+			gsbid <- which(names(x) == "tm_scale_bar")[1]
+			gsb <- x[[gsbid]]
+		} else {
+			gsb <- NULL
+		}
+		gsb <- process_meta_scale_bar(gsb, interactive = TRUE, gt)
+
+		if (any(names(x) == "tm_grid")) {
+			ggid <- which(names(x) == "tm_grid")[1]
+			gg <- x[[ggid]]
+		} else {
+			gg <- NULL
+		}		
+		gg <- process_meta_grid(gg, gt)
+		
+		gt <- c(gt, gsb, gg)
+		
+		
+		#gt$scale.show <- FALSE
 		#gt$shape.bbx <- x$tm_shortcut$bbx
 		#gt$shape.center <- x$tm_shortcut$center
 		
@@ -82,7 +103,14 @@ print_shortcut <- function(x, interactive, args, knit) {
 			xi$plot.order <- "tm_tiles"
 			xi
 		})
+		
+		if (gt$grid.show) x[[xtiles[1]]]$plot.order <- c("tm_tiles", "tm_grid")
+		
+		
 		x[names(x) == "tm_shape"] <- NULL
+		
+		x <- x[!(names(x) %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_logo", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))]
+		
 		x$tm_layout <- gt
 		
 		view_tmap(x, shps = list(dummy = NULL))
@@ -90,14 +118,13 @@ print_shortcut <- function(x, interactive, args, knit) {
 }
 
 supported_elem_view_mode <- function(nms) {
-	#if (any(nms=="tm_grid")) warning("Grid lines not supported in view mode.", call.=FALSE)
-	if (any(nms=="tm_credits")) warning("Credits not supported in view mode.", call.=FALSE)
-	if (any(nms=="tm_logo")) warning("Logo not supported in view mode.", call.=FALSE)
-	if (any(nms=="tm_compass")) warning("Compass not supported in view mode.", call.=FALSE)
-	if (any(nms=="tm_xlab")) warning("X-axis label not supported in view mode.", call.=FALSE)
-	if (any(nms=="tm_ylab")) warning("Y-axis label not supported in view mode.", call.=FALSE)
-	#if (any(nms=="tm_scale_bar")) warning("Scale bar not yet supported in view mode, it will be in the next version.", call.=FALSE)
-	
+	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+		if (any(nms=="tm_credits")) message("Credits not supported in view mode.")
+		if (any(nms=="tm_logo")) message("Logo not supported in view mode.")
+		if (any(nms=="tm_compass")) message("Compass not supported in view mode.")
+		if (any(nms=="tm_xlab")) message("X-axis label not supported in view mode.")
+		if (any(nms=="tm_ylab")) message("Y-axis label not supported in view mode.")
+	}
 	which(!(nms %in% c("tm_credits", "tm_logo", "tm_compass", "tm_xlab", "tm_ylab")))
 }
 

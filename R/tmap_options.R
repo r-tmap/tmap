@@ -1,6 +1,8 @@
 .defaultTmapOptions <- structure(list(
 					unit="metric",
 					limits=c(facets.plot=64, facets.view=4),
+					max.categories = 30,
+					show.messages = TRUE,
 					 title=NA,
 					 scale=1,
 					 title.size=1.3,
@@ -76,10 +78,10 @@
 					 attr.position = c("right", "bottom"),
 					 attr.just = c("left", "bottom"),
 					 design.mode = FALSE,
-					 basemaps = c("CartoDB.Positron", "OpenStreetMap", "Esri.WorldTopoMap"),
+					 basemaps = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 					 basemaps.alpha = c(1, 1, 1),
-					base.groups=NA,
-					overlay.groups=NA,
+					overlays = NULL,
+					overlays.alpha = 1,
 					alpha=NA,
 					colorNA=NA,
 					projection=3857,
@@ -160,23 +162,40 @@
 #' 
 #' Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}.
 #' 
+#' @param ...  options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Note that the difference with using \code{\link{tm_layout}} or \code{\link{tm_view}} directly, is that options set with \code{tmap_options} remain for the entire session (unless changed with \code{tmap_options} or \code{\link{tmap_style}}). If can also be a single unnamed argument which is a named list (like \code{\link[base:options]{options}}).
 #' @param unit This is the default value for the \code{unit} argument of \code{\link{tm_shape}}. It specifies the unit of measurement, which is used in the scale bar and the calculation of density values. By default (when loading the package), it is \code{"metric"}. Other valid values are \code{"imperial"}, \code{"km"}, \code{"m"}, \code{"mi"}, and \code{"ft"}.
 #' @param limits This option determines how many facets (small multiples) are allowed for per mode. It should be a vector of two numeric values named \code{facets.view} and \code{facets.plot}. By default (i.e. when loading the package), it is set to \code{c(facets.view = 4, facets.plot = 64)}
-#' @param ...  options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Note that the difference with using \code{\link{tm_layout}} or \code{\link{tm_view}} directly, is that options set with \code{tmap_options} remain for the entire session (unless changed with \code{tmap_options} or \code{\link{tmap_style}}).
+#' @param max.categories in case \code{col} is the name of a categorical variable in the layer functions (e.g. \code{\link{tm_polygons}}), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
+#' @param basemaps default basemaps. Basemaps are normally configured with \code{\link{tm_basemap}}. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or \code{NULL} if basemaps should be omitted. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. If a named vector is provided, the names are used in the layer control legend (similar to the \code{group} argument of \code{\link{tm_basemap}}. See also \code{overlays}, which is the default option for overlay tiles.
+#' @param basemaps.alpha default transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.
+#' @param overlays default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparant. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.
+#' @param overlays.alpha default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.
+#' @param show.messages should messages be shown?
 #' @example ./examples/tmap_options.R
 #' @rdname tmap_options
 #' @name tmap_options
 #' @export
 #' @seealso \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}
-tmap_options <- function(unit, limits, ...) {
+tmap_options <- function(..., unit, limits, max.categories, show.messages, basemaps, basemaps.alpha, overlays, overlays.alpha) {
 
 	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
 	current.style <- getOption("tmap.style")
 	
 	
 	e1 <- parent.frame()
-	args <- lapply(as.list(match.call()[-1]), eval, envir = e1)
 	
+	lst <- list(...)
+	if (length(lst) >= 1 && is.null(names(lst))) {
+		arg <- lst[[1]]
+		if (is.list(arg)) {
+			args <- arg
+		} else {
+			return(.tmapOptions[arg])
+		}
+	} else {
+		args <- lapply(as.list(match.call()[-1]), eval, envir = e1)	
+	}
+
 	unknown_args <- setdiff(names(args), names(.defaultTmapOptions))
 	if (length(unknown_args) == 1) {
 		stop("the following option does not exist: ", unknown_args)
@@ -188,7 +207,7 @@ tmap_options <- function(unit, limits, ...) {
 	if (!length(args)) {
 		return(.tmapOptions)	
 	} else {
-		backup <- .tmapOptions
+		backup <- .tmapOptions[names(args)]
 		.tmapOptions[names(args)] <- args
 		
 		newstyle <- if (substr(current.style, nchar(current.style) - 9, nchar(current.style)) == "(modified)") {

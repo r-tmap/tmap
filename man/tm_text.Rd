@@ -8,11 +8,11 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
   size.lim = NA, sizes.legend = NULL, sizes.legend.labels = NULL,
   sizes.legend.text = "Abc", n = 5, style = ifelse(is.null(breaks),
   "pretty", "fixed"), breaks = NULL, interval.closure = "left",
-  palette = NULL, labels = NULL, labels.text = NA,
-  auto.palette.mapping = TRUE, contrast = NA, max.categories = 12,
-  colorNA = NA, textNA = "Missing", showNA = NA, colorNULL = NA,
-  fontface = NA, fontfamily = NA, alpha = NA, case = NA,
-  shadow = FALSE, bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
+  palette = NULL, labels = NULL, labels.text = NA, midpoint = NULL,
+  stretch.palette = TRUE, contrast = NA, colorNA = NA,
+  textNA = "Missing", showNA = NA, colorNULL = NA, fontface = NA,
+  fontfamily = NA, alpha = NA, case = NA, shadow = FALSE,
+  bg.color = NA, bg.alpha = NA, size.lowerbound = 0.4,
   print.tiny = FALSE, scale = 1, auto.placement = FALSE,
   remove.overlap = FALSE, along.lines = FALSE, overwrite.lines = FALSE,
   just = c("center", "center"), xmod = 0, ymod = 0, title.size = NA,
@@ -20,7 +20,8 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
   legend.format = list(), legend.size.is.portrait = FALSE,
   legend.col.is.portrait = TRUE, legend.size.reverse = FALSE,
   legend.col.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.size.z = NA, legend.col.z = NA, legend.hist.z = NA, group = NA)
+  legend.size.z = NA, legend.col.z = NA, legend.hist.z = NA, group = NA,
+  auto.palette.mapping = NULL, max.categories = NULL)
 }
 \arguments{
 \item{text}{name of the variable in the shape object that contains the text labels}
@@ -55,11 +56,11 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
 
 \item{labels.text}{Example text to show in the legend next to the \code{labels}. When \code{NA} (default), examples from the data variable are taken and \code{"NA"} for classes where they don't exist.}
 
-\item{auto.palette.mapping}{When diverging colour palettes are used (i.e. "RdBu") this method automatically maps colors to values such that the middle colors (mostly white or yellow) are assigned to values of 0, and the two sides of the color palette are assigned to negative respectively positive values. When categorical color palettes are used, this method stretches the palette if there are more levels than colors.}
+\item{midpoint}{The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a divering color palette.}
+
+\item{stretch.palette}{Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If \code{TRUE} (default), interpolated colors are used (like a rainbow). If \code{FALSE}, the palette is repeated.}
 
 \item{contrast}{vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when \code{auto.palette.mapping=TRUE}). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).}
-
-\item{max.categories}{in case \code{col} is the name of a categorical variable, this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories} and \code{auto.palette.mapping} is \code{FALSE}, then levels are combined.}
 
 \item{colorNA}{colour for missing values. Use \code{NULL} for transparency.}
 
@@ -144,6 +145,10 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
 
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
+
+\item{auto.palette.mapping}{deprecated. It has beeen replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
+
+\item{max.categories}{deprecated. It has moved to \code{\link{tmap_options}}.}
 }
 \value{
 \code{\link{tmap-element}}

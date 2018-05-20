@@ -13,14 +13,17 @@
 #' @param scale overrides the scale argument of \code{\link{tm_layout}} (unless set to \code{NA})
 #' @param insets_tm tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with \code{insets_vp}.
 #' @param insets_vp \code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.
-#' @param verbose should information messages be returned?
+#' @param verbose Deprecated. It is now controlled by the tmap option \code{show.messages} (see \code{\link{tmap_options}})
 #' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}
 #' @importFrom htmlwidgets saveWidget
 #' @import tmaptools
 #' @example ./examples/tmap_save.R
 #' @export
 tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
-					  dpi=300, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose=TRUE, ...) {
+					  dpi=300, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose = NULL, ...) {
+	if (!missing(verbose)) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
+	verbose <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	
 	lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
 	if (missing(tm)) {
 		tm <- suppressWarnings(last_map())

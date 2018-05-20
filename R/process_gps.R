@@ -101,7 +101,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 		
 		
 		## show aspect ratios in design mode
-		if (gm$design.mode && !interactive) {
+		if (gm$design.mode && !interactive && gm$show.messages) {
 			masterShapeName <- x[[gm$shape.masterID]]$shp_name
 			showBrown <- gm$gasp!=gm$shape.sasp
 			showGreen <- !(!is.na(gm$asp) && gm$asp==0 && nx==1)
@@ -232,7 +232,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 	
 	gps <- mapply(function(gp, masterID) {
 		gp[1:gm$shape.nshps] <- mapply(function(gpl, indices, l) {
-			if (!is.null(gpl$tile.server)) return(gpl)
+			if (is.null(gpl$npol)) return(gpl)
 			npol_old <- gpl$npol
 			gpl$npol <- length(indices)
 			lapply(gpl, function(gplx) {

@@ -6,7 +6,7 @@ test_that("qtm plots polygons", {
 	expect_silent({
 		tm_shape(land) +
 			tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
-					  palette = terrain.colors(9), title="Elevation", auto.palette.mapping = FALSE) +
+					  palette = terrain.colors(9), title="Elevation") +
 			tm_shape(World, is.master=TRUE) +
 			tm_borders("grey20") +
 			tm_shape(rivers) +

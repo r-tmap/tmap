@@ -15,7 +15,7 @@ tmap_format <- function(format) {
 	formats <- names(.tmapFormats)
 	
 	if (missing(format)) {
-		message("available formats are: \"", paste(formats, collapse = "\", \""), "\" ")
+		if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) message("available formats are: \"", paste(formats, collapse = "\", \""), "\" ")
 		return(invisible(formats))
 	} else if (format %in% formats) {
 		return(.tmapFormats[[format]])
@@ -38,7 +38,7 @@ tmap_format_add <- function(..., name) {
 	.tmapFormats[[name]] <- args
 	assign(".tmapFormats", .tmapFormats, envir = .TMAP_CACHE)
 	
-	message("format ", name, " succesfully added. Use this format with tm_format(\"", name, "\")")
+	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) message("format ", name, " succesfully added. Use this format with tm_format(\"", name, "\")")
 	invisible(NULL)
 }
 

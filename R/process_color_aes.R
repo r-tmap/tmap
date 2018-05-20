@@ -26,7 +26,8 @@ check_aes_args <- function(g) {
 	NULL
 }
 
-process_col_vector <- function(x, sel, g, gt, reverse) {
+process_col_vector <- function(x, sel, g, gt, reverse, raster.projected) {
+	
 	values <- x
 	#textNA <- ifelse(any(is.na(values[sel])), g$textNA, NA)
 	#showNA <- if (is.na(g$showNA)) any(is.na(values[sel])) else FALSE
@@ -49,6 +50,12 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 				warning("The value range is less than 1e-9", call. = FALSE)
 				x[!is.na(x)] <- round(rng[1], 9)
 			}
+			if (!is.null(raster.projected) && raster.projected) {
+				if (rng[1] < 0 && rng[2] > 0 && -rng[1] < (rng[2] * 1e3)) {
+					message("Negative values may have been introduced by the projection of the raster")
+				}
+			}
+			
 		}
 	} else if (allNA) {
 		g$style <- "cat"
@@ -70,12 +77,12 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 		}
 		colsLeg <- cat2pal(x,
 						   palette = palette,
-						   auto.palette.mapping = g$auto.palette.mapping,
+						   stretch.palette = g$stretch.palette,
 						   contrast = g$contrast,
 						   colorNA = g$colorNA,
 						   colorNULL=g$colorNULL,
 						   legend.labels=g$labels,
-						   max_levels=g$max.categories,
+						   max_levels=gt$max.categories,
 						   legend.NA.text = g$textNA,
 						   showNA = g$showNA,
 						   process.colors=c(list(alpha=g$alpha), gt$pc),
@@ -98,7 +105,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
 						   interval.closure=g$interval.closure,
 						   palette = palette,
-						   auto.palette.mapping = g$auto.palette.mapping,
+						   midpoint = g$midpoint, #auto.palette.mapping = g$auto.palette.mapping,
 						   contrast = g$contrast, legend.labels=g$labels,
 						   colorNA=g$colorNA, 
 						   colorNULL=g$colorNULL,
@@ -147,6 +154,8 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 	sel[is.na(sel)] <- TRUE
 	
 
+	raster.projected <- attr(dtcol, "raster.projected")
+	
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
 		col <- dtcol
@@ -182,7 +191,7 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		}
 		
 		sel <- split(sel, f = rep(1L:nx, each = npol))
-		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse), SIMPLIFY=FALSE)
+		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse, raster.projected = raster.projected), SIMPLIFY=FALSE)
 		col <- sapply(res, function(r)r$cols)
 		legend.labels <- lapply(res, function(r)r$legend.labels)
 		legend.values <- lapply(res, function(r)r$legend.values)
@@ -207,7 +216,7 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		#if (is.na(sel[1])) sel <- TRUE
 		
 		
-		res <- process_col_vector(dtcol, sel, g, gt, reverse)
+		res <- process_col_vector(dtcol, sel, g, gt, reverse, raster.projected)
 		col <- matrix(res$cols, nrow=npol)
 		legend.labels <- res$legend.labels
 		legend.values <- res$legend.values
@@ -225,6 +234,7 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		legend.misc <- list(symbol.border.lwd=g$border.lwd, symbol.normal.size=g$legend.max.symbol.size) # symbol.border.col added later
 	} else if (xname == "raster") {
 		legend.misc <- list()
+		if (is.constant) legend.palette <- as.list(col.neutral)
 	} else if (xname == "text.col") {
 		if (is.list(dtcol)) {
 			gsc <- split_g(g, n=nx)

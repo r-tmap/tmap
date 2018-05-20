@@ -21,15 +21,19 @@
 #' @export
 tmap_mode <- function(mode=c("plot", "view")) {
 	current.mode <- getOption("tmap.mode")
-	if (is.null(match.call(expand.dots = TRUE)[-1])) {
+	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	
+	if (is.null(match.call(expand.dots = TRUE)[-1]) && show.messages) {
 		message("current tmap mode is \"", current.mode, "\"")
 	} else {
 		mode <- match.arg(mode)
 		options(tmap.mode=mode)
-		if (mode=="plot") {
-			message("tmap mode set to plotting")
-		} else {
-			message("tmap mode set to interactive viewing")
+		if (show.messages) {
+			if (mode=="plot") {
+				message("tmap mode set to plotting")
+			} else {
+				message("tmap mode set to interactive viewing")
+			}
 		}
 	}
 	invisible(current.mode)

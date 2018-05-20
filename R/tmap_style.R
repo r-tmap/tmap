@@ -11,8 +11,9 @@
 #' @rdname tmap_style
 tmap_style <- function(style) {
 	current.style <- getOption("tmap.style")
+	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
-	if (missing(style)) {
+	if (missing(style) && show.messages) {
 		message("current tmap style is \"", current.style, "\"")
 		message("other available styles are: \"", paste(other_styles(current.style), collapse = "\", \""), "\" ")
 	} else {
@@ -28,8 +29,11 @@ tmap_style <- function(style) {
 		}
 		
 		assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)	
-		message("tmap style set to \"", style, "\"")
-		message("other available styles are: \"", paste(other_styles(style), collapse = "\", \""), "\" ")
+		
+		if (show.messages) {
+			message("tmap style set to \"", style, "\"")
+			message("other available styles are: \"", paste(other_styles(style), collapse = "\", \""), "\" ")
+		}
 	}
 	invisible(current.style)
 }
@@ -54,19 +58,21 @@ tmap_style_load <- function(x) {
 	styles <- get(".tmapStyles", envir = .TMAP_CACHE)
 	styles[[style]] <- x
 	assign(".tmapStyles", styles, envir = .TMAP_CACHE)
-	message("style \"", style, "\" loaded successfully")
+	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) message("style \"", style, "\" loaded successfully")
 	invisible(NULL)
 }
 
 #' @export
 #' @rdname tmap_style
 tmap_style_save <- function(style) {
+	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	
 	stylediff <- suppressMessages(tmap_options_diff())
 	
 	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
 	
 	if (is.null(stylediff)) {
-		message("current style is the same as the default style, so nothing to save")
+		if (show.messages) message("current style is the same as the default style, so nothing to save")
 		return(invisible(.tmapOptions))
 	}
 	
@@ -78,7 +84,7 @@ tmap_style_save <- function(style) {
 	styles[[style]] <- suppressMessages(tmap_options_diff())
 	assign(".tmapStyles", styles, envir = .TMAP_CACHE)
 	
-	message("current tmap options saved as style \"", style, "\"")
+	if (show.messages) message("current tmap options saved as style \"", style, "\"")
 	invisible(.tmapOptions)
 }
 

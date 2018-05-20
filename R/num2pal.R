@@ -3,7 +3,7 @@ num2pal <- function(x, n = 5,
                        breaks = NULL,
 					   interval.closure="left",
 					   palette = NULL,
-					   auto.palette.mapping = TRUE,
+					   midpoint = NA, #auto.palette.mapping = TRUE,
 					   contrast = 1,
 					   legend.labels = NULL,
 					   colorNA = "#FF1414",
@@ -47,15 +47,16 @@ num2pal <- function(x, n = 5,
 				ncont <- length(legend.labels)	
 			}
 		}
-		
 		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE, interval.closure=interval.closure)
-		n <- length(q$brks) - 1
 	} else {
 		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure)
 	}
-
+	
+	
 	breaks <- q$brks
 	nbrks <- length(breaks)
+	n <- nbrks - 1
+	
 	int.closure <- attr(q, "intervalClosure")
 	
 	# reverse palette
@@ -70,56 +71,61 @@ num2pal <- function(x, n = 5,
 	
 	if (is.brewer) {
 		mc <- brewer.pal.info[palette, "maxcolors"]
-		pal.div <- (brewer.pal.info[palette, "category"]=="div")
+		pal.div <- (!is.null(midpoint)) || (brewer.pal.info[palette, "category"]=="div")
 	} else {
-		palette.type <- palette_type(palette)
+		palette.type <- if (!is.null(midpoint)) "div" else palette_type(palette)
 		
-		if (auto.palette.mapping && palette.type=="cat") {
-			warning("could not determine whether palette is sequential or diverging. auto.palette.mapping will be set to FALSE.", call. = FALSE)
-			auto.palette.mapping <- FALSE
-		}
 		pal.div <- palette.type=="div"
-			
-		
-		colpal_light <- get_light(palette[c(1, length(palette)/2, length(palette))])
-		# figure out whether palette is diverging
-		pal.div <- ((colpal_light[2]>colpal_light[1] && colpal_light[2]>colpal_light[3]) || (colpal_light[2]<colpal_light[1] && colpal_light[2]<colpal_light[3]))
 	}
 
-	if (auto.palette.mapping) {
-		if (is.brewer) {
-			colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
+	if (is.null(midpoint) || is.na(midpoint)) {
+		rng <- range(x, na.rm = TRUE)
+		if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
+			midpoint <- 0
 		} else {
-			colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
+			if ((n %% 2) == 1) {
+				# number of classes is odd, so take middle class (average of those breaks)
+				midpoint <- mean(breaks[c((n+1) / 2, (n+3) / 2)])
+			} else {
+				midpoint <- breaks[(n+2) / 2]
+			}
 		}
-		
-		ids <- if (pal.div) {
-			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_div(n) else c(0, 1)
-			map2divscaleID(breaks, n=101, contrast=contrast)
-		} else {
-			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_seq(n) else c(0, 1)
-			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified)
-		}
-		
-		legend.palette <- colpal[ids]
-		if (any(ids<51) && any(ids>51)) {
-			ids.neutral <- min(ids[ids>=51]-51) + 51
-			legend.neutral.col <- colpal[ids.neutral]
-		} else {
-			legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
-		}
-		
-	} else {
-		if (is.brewer) {
-			if (nbrks-1 > mc) {
-				legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(nbrks-1)
-			} else legend.palette <- revPal(brewer.pal(nbrks-1, palette))
-		} else {
-			legend.palette <- colorRampPalette(revPal(palette), space="rgb")(nbrks-1) #rep(palette, length.out=nbrks-1)
-		}
-		neutralID <- if (pal.div) round(((length(legend.palette)-1)/2)+1) else 1
-		legend.neutral.col <- legend.palette[neutralID]
 	}
+	
+	
+	if (is.brewer) {
+		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
+	} else {
+		colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
+	}
+	
+	ids <- if (pal.div) {
+		if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_div(n) else c(0, 1)
+		map2divscaleID(breaks - midpoint, n=101, contrast=contrast)
+	} else {
+		if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_seq(n) else c(0, 1)
+		map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified)
+	}
+	
+	legend.palette <- colpal[ids]
+	if (any(ids<51) && any(ids>51)) {
+		ids.neutral <- min(ids[ids>=51]-51) + 51
+		legend.neutral.col <- colpal[ids.neutral]
+	} else {
+		legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
+	}
+		
+	# } else {
+	# 	if (is.brewer) {
+	# 		if (nbrks-1 > mc) {
+	# 			legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(nbrks-1)
+	# 		} else legend.palette <- revPal(brewer.pal(nbrks-1, palette))
+	# 	} else {
+	# 		legend.palette <- colorRampPalette(revPal(palette), space="rgb")(nbrks-1) #rep(palette, length.out=nbrks-1)
+	# 	}
+	# 	neutralID <- if (pal.div) round(((length(legend.palette)-1)/2)+1) else 1
+	# 	legend.neutral.col <- legend.palette[neutralID]
+	# }
 
 	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
 	legend.neutral.col <- do.call("process_color", c(list(col=legend.neutral.col), process.colors))
