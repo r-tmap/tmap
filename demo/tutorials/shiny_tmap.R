@@ -21,7 +21,7 @@ runApp(list(
   server = function(input, output) {
     output$map = renderLeaflet({
       if (packageVersion("tmap") >= 2.0) {
-        tm <- tm_basemap(leaflet::providers$Stamen.TerrainBackground, group = "Basemap") +
+        tm <- tm_basemap(leaflet::providers$Stamen.TerrainBackground) +
           tm_shape(World) +
           tm_polygons(input$var) +
           tm_tiles(leaflet::providers$Stamen.TonerLabels, group = "Labels")  

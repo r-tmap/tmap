@@ -12,8 +12,8 @@ check_raster_specials <- function(x, g, gt, shpcols, data, nx) {
 	} else {
 		x <- g$col
 		
-		# by default, use the first data variable
-		if (is.na(x[1])) x <- names(data)[1]
+		# by default, use the all data variables
+		if (is.na(x[1])) x <- setdiff(names(data), c("tmapfilter", "GROUP_BY", "ALONG"))
 		
 		## general 'by' check: if by => |aes| = 1, and determine nx
 		if (nlevels(by)>1 && length(x) > 1) {

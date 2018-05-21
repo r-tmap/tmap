@@ -168,7 +168,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
 
 	if (type == "fill") {
-		res <- check_poly_sizes(g, data, nx, islist = is.list(dts[[1]]))
+		res <- check_poly_sizes(g, data, nx, islist = is.list(dts[[1]]), show.messages = gt$show.messages)
 		areas <- res$areas
 		sel <- rep(res$sel, nx)
 	} else {

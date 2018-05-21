@@ -35,7 +35,7 @@ check_fill_specials <- function(x, g, gt, shpcols, data, nx) {
 }
 
 
-check_poly_sizes <- function(g, data, nx, islist) {
+check_poly_sizes <- function(g, data, nx, islist, show.messages) {
 	# process areas
 	if (is.null(g$area)) {
 		area_var <- "SHAPE_AREAS"
@@ -56,7 +56,7 @@ check_poly_sizes <- function(g, data, nx, islist) {
 	areas_prop <- as.numeric(areas/sum(areas, na.rm=TRUE))
 	
 	tiny <- areas_prop < g$thres.poly
-	if (all(tiny)) warning("all relative area sizes are below thres.poly", call. = FALSE)
+	if (all(tiny) && show.messages) warning("all relative area sizes are below thres.poly", call. = FALSE)
 	
 	sel <- !tiny #if (islist) rep(list(!tiny), nx) else !tiny
 	list(areas = areas, sel = sel)

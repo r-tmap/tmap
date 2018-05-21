@@ -56,7 +56,8 @@ run_facet_test <- function() {
 			shp$geometry <- sf::st_cast(shp$geometry, "MULTILINESTRING", group_or_split = FALSE)
 		}
 		
-		filename <- paste0("test_", test$layer, "_", unname(unlist(test$args))[1], ".pdf")
+		dir.create("output", showWarnings = FALSE)
+		filename <- paste0("output/test_", test$layer, "_", unname(unlist(test$args))[1], ".pdf")
 		fun <- paste0("tm_", test$layer)
 		
 		pdf(filename, width = 7, height = 7)
@@ -113,7 +114,7 @@ run_facet_test <- function() {
 	
 	edf <- do.call(rbind, errsL)
 	
-	saveRDS(edf, file = paste0("edf_", tmap_mode(), ".rds"))
+	saveRDS(edf, file = paste0("output/edf_", tmap_mode(), ".rds"))
 	
 	get_test <- function(tnr, i) {
 		test <- tests[[tnr]]

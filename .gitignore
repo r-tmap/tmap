@@ -39,5 +39,8 @@ vignettes/*.md
 # Output
 /output/
 
+# Test output
+/tests/testthat/output/
+
 # R Profile
 .Rprofile

@@ -378,7 +378,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 				legend.sizes <- legend.sizes[1:nitems]
 				hs <- hs[1:nitems]
 				ws <- ws[1:nitems]
-				warning("The legend is too narrow to place all symbol sizes.", call.=FALSE)
+				if (gt$show.messages) message("The legend is too narrow to place all symbol sizes.")
 			}
 		} else if (legend.type=="text.size") {
 			#textws <- convertWidth(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
@@ -549,7 +549,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	if (is.na(unit.size)) {
 		warning("Unable to determine shape coordinate units. Please check if the \"+units\" part of the projection is present. Otherwise, specify coords.unit or unit.size")
 	} else if (!gt$shape.units$projected && ((gt$shape.bbx[4]-gt$shape.bbx[2]) > 30)) {
-		warning("Scale bar set for latitude ", gsub("long@lat(.+)$", "\\1", unit), " and will be different at the top and bottom of the map.")
+		if (gt$show.messages) message("Scale bar set for latitude ", gsub("long@lat(.+)$", "\\1", unit), " and will be different at the top and bottom of the map.")
 	}
 	
 	xrange2 <- xrange/unit.size

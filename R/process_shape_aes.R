@@ -9,7 +9,7 @@ process_dtshape <- function(dtshape, g, gt, sel, nx, npol, varyshape, col.neutra
 		gsp <- split_g(g, n=nx)
 		#if (!all(sapply(dtshape, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
 		res <- mapply(process_symbols_shape_vector, dtshape, sel2, gsp, MoreArgs = list(map_shapes=varyshape, gt=gt, reverse=g$legend.shape.reverse), SIMPLIFY = FALSE)
-		symbol.shape <- vapply(res, function(r)r$symbol.shape, numeric(1))
+		symbol.shape <- sapply(res, function(r)r$symbol.shape)
 		shape.legend.labels <- lapply(res, function(r)r$shape.legend.labels)
 		shape.legend.values <- lapply(res, function(r)r$shape.legend.values)
 		shape.legend.shapes <- lapply(res, function(r)r$shape.legend.shapes)

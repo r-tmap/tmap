@@ -50,9 +50,11 @@ process_col_vector <- function(x, sel, g, gt, reverse, raster.projected) {
 				warning("The value range is less than 1e-9", call. = FALSE)
 				x[!is.na(x)] <- round(rng[1], 9)
 			}
-			if (!is.null(raster.projected) && raster.projected) {
+			if (!is.null(raster.projected) && raster.projected && gt$show.messages) {
 				if (rng[1] < 0 && rng[2] > 0 && -rng[1] < (rng[2] * 1e3)) {
-					message("Negative values may have been introduced by the projection of the raster")
+					message("Negative values may have been introduced by the projection of the raster. Consequently, the default palette type is now set to diverging, with midpoint = 0.")
+				} else if (rng[1] < 0 && rng[2] > 0 && rng[2] < (-rng[1] * 1e3)) {
+					message("Positive values may have been introduced by the projection of the raster. Consequently, the default palette type is now set to diverging, with midpoint = 0.")
 				}
 			}
 			

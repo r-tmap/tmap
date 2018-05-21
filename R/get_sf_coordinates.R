@@ -2,9 +2,10 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 
 	point.per <- attr(shp, "point.per")
 	line.center <- attr(shp, "line.center")
-		
+	
+
 	id <- NULL
-	if (any(st_geometry_type(shp) %in% c("MULTILINESTRING", "MULTIPOINT"))) {
+	if (any(st_geometry_type(shp) %in% c("MULTILINESTRING", "MULTIPOINT", "MULTIPOLYGON"))) {
 		if (point.per=="segment") {
 			ns <- nrow(shp)
 			shp <- sf_expand(shp)

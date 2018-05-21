@@ -1,6 +1,7 @@
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
+
 	if (is.null(shp)) return(list(shp=NULL, data=NULL, type="tiles"))
 
 	shp.unit <- gm$shape.unit
@@ -25,7 +26,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 
 			
 			if (!("data" %in% slotNames(shp))) stop("No data found in raster shape. Please specify a SpatialGridDataFrame or Raster shape object.")
-
+			
 			if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% names(shp))) {
 				convert.RGB <- if (!identical(is.RGB, FALSE)) {
 					(ncol(shp)>=3 && ncol(shp)<=4 && all(vapply(shp@data, FUN = function(x) {
@@ -38,7 +39,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				} else FALSE
 				
 				if (convert.RGB) shp@data <- data.frame(PIXEL__COLOR=raster_colors(shp@data))
-				raster_facets_vars <- names(shp)[1]
+				raster_facets_vars <- names(shp)
 			} else {
 				raster_facets_vars <- intersect(raster_facets_vars, names(shp))
 			}
@@ -54,7 +55,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		} else {
 			is.OSM <- FALSE
 			leaflet.server <- NA
-			
+
 			# color values are encoded by a colortable (and not interpreted as factors)
 			if (length(colortable(shp))>0) {
 				ctable <- colortable(shp)
@@ -83,7 +84,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 						names(shp) <- "PIXEL__COLOR"
 						raster_facets_vars <- "PIXEL__COLOR"
 						lvls <- list(levels(pix))
-					} else raster_facets_vars <- shpnames[1]
+					} else raster_facets_vars <- shpnames
 				} else {
 					convert.RGB <- FALSE
 					raster_facets_vars <- intersect(raster_facets_vars, shpnames)
@@ -288,9 +289,11 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		attr(shp2, "bbox") <- shp_bbx
 		attr(shp2, "proj4string") <- st_crs(shp2)
 	}
-	attr(shp2, "point.per") <- y$point.per
+	
+	point.per <- if (is.na(y$point.per)) ifelse(type %in% c("points", "geometrycollection"), "segment", "feature") else y$point.per
+
+	attr(shp2, "point.per") <- point.per
 	attr(shp2, "line.center") <- y$line.center
 	attr(shp2, "projected") <- tmaptools::is_projected(shp2)
-	
 	list(shp=shp2, data=data, type=type)
 }

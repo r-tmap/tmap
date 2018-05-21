@@ -1,5 +1,16 @@
 language: r
-cache: packages
+
+r:
+  - release
+  - oldrel
+  - devel
+
+sudo: required
+dist: trusty
+
+cache: 
+  - packages
+  - ccache
 
 before_install:
   - sudo add-apt-repository ppa:ubuntugis/ubuntugis-unstable --yes
@@ -18,10 +29,6 @@ before_install:
   - sudo apt-get install -y libprotobuf-dev protobuf-compiler
   - sudo apt-get install libssl-dev
   - sudo apt-get install libcairo2-dev
-
-sudo: required
-
-dist: trusty
 
 warnings_are_errors: true
 
