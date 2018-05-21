@@ -20,7 +20,7 @@ tm_rgb(alpha = NA, saturation = 1, interpolate = TRUE, ...)
 }
 \arguments{
 \item{col}{three options: a single color value, the name of a data variable that is contained in \code{shp}, or the name of a variable in \code{shp} that contain color values. In the second case the values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If omitted, and if \code{shp} contains three numeric layers that range between 0 and 255, these are interpreted as RGB values, else, the first data variable is selected.
-If multiple values are specified, small multiples are drawn (see details). By default, it is the name of the first data variable.}
+If multiple values are specified, small multiples are drawn (see details). By default, it is a vector of the names of all data variables.}
 
 \item{alpha}{transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).}
 

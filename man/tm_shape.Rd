@@ -5,7 +5,7 @@
 \title{Specify the shape object}
 \usage{
 tm_shape(shp, name = NULL, is.master = NA, projection = NULL,
-  bbox = NULL, unit = NULL, simplify = 1, point.per = "feature",
+  bbox = NULL, unit = NULL, simplify = 1, point.per = NA,
   line.center = "midpoint", filter = NULL, ...)
 }
 \arguments{
@@ -36,7 +36,7 @@ If unspecified, the current bounding box of \code{shp} is taken. The bounding bo
 
 \item{simplify}{simplification factor for spatial polygons and spatial lines. A number between 0 and 1 that indicates how many coordinates are kept. See the underlying function \code{\link[tmaptools:simplify_shape]{simplify_shape}}, from which the arguments \code{keep.units} and \code{keep.subunits} can be passed on (see \code{...}).}
 
-\item{point.per}{specification of how points or text labels are plotted when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a point/label for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower.}
+\item{point.per}{specification of how points or text labels are plotted when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a point/label for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower. By default, it is set to \code{"segment"} if the geometry of shp is a (multi)points geometry or a geometrycollection, and \code{"feature"} otherwise.}
 
 \item{line.center}{specification of where points are placed for (multi)line geometries. Either \code{"midpoint"} or \code{"centroid"}. The former places a point at the middle of the line, the latter at the controid.}
 
