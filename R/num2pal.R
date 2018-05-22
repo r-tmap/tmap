@@ -19,6 +19,8 @@ num2pal <- function(x, n = 5,
 	
 	x[!sel] <- NA
 	
+	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	
 	
 	breaks.specified <- !is.null(breaks)
 	is.cont <- (style=="cont" || style=="order")
@@ -81,6 +83,7 @@ num2pal <- function(x, n = 5,
 	if (is.null(midpoint) || is.na(midpoint)) {
 		rng <- range(x, na.rm = TRUE)
 		if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
+			if (show.messages) message("Variable contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show to full spectrum of the color palette.")
 			midpoint <- 0
 		} else {
 			if ((n %% 2) == 1) {
