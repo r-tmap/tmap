@@ -79,8 +79,8 @@ num2pal <- function(x, n = 5,
 		
 		pal.div <- palette.type=="div"
 	}
-
-	if (is.null(midpoint) || is.na(midpoint)) {
+	
+	if ((is.null(midpoint) || is.na(midpoint)) && pal.div) {
 		rng <- range(x, na.rm = TRUE)
 		if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
 			if (show.messages) message("Variable contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show to full spectrum of the color palette.")
