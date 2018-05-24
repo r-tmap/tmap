@@ -51,7 +51,7 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 	}
 
 	if (!is.null(id)) {
-		aes <- intersect(names(gpl), c("fill.col", "line.col", "line.lwd", "text", "text.size", "text.color", "text.xmod", "text.ymod", "text_sel", "symbol.size", "symbol.col", "symbol.shape", "symbol.xmod", "symbol.ymod"))
+		aes <- intersect(names(gpl), c("fill", "line.col", "line.lwd", "text", "text.size", "text.color", "text.xmod", "text.ymod", "text_sel", "symbol.size", "symbol.col", "symbol.shape", "symbol.xmod", "symbol.ymod"))
 		gpl[aes] <- lapply(gpl[aes], function(a) {
 			if (length(a)==ns) {
 				a[id]

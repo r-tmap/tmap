@@ -11,8 +11,10 @@ order_x <- function(x, shps, datasets, types, gm) {
 			tps <- attr(type, "types")
 			cnts <- tabulate(tps, nbins = 3)
 			
+			xp_tiles <- xp[names(xp) == "tiles"]
+			
 			if (cnts[1]>0) {
-				xp_poly <- 	xp[!(names(xp) %in% c("tm_lines", "tm_iso", "tm_raster"))]
+				xp_poly <- 	xp[!(names(xp) %in% c("tm_lines", "tm_iso", "tm_raster", "tm_tiles"))]
 				if (from_sf) xp_poly <- xp_poly[names(xp_poly) != "tm_symbols"]
 				
 				
@@ -45,7 +47,7 @@ order_x <- function(x, shps, datasets, types, gm) {
 			}
 			
 			if (cnts[2]>0) {
-				xp_lines <- xp[!(names(xp) %in% c("tm_fill", "tm_borders", "tm_raster"))]
+				xp_lines <- xp[!(names(xp) %in% c("tm_fill", "tm_borders", "tm_raster", "tm_tiles"))]
 				if (from_sf) xp_lines <- xp_lines[names(xp_lines) != "tm_symbols"]
 				
 				if (length(xp_lines) == 1) {
@@ -71,7 +73,7 @@ order_x <- function(x, shps, datasets, types, gm) {
 			}
 			
 			if (cnts[3]>0) {
-				xp_points <- xp[!(names(xp) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_iso", "tm_raster"))]
+				xp_points <- xp[!(names(xp) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_iso", "tm_raster", "tm_tiles"))]
 				if (length(xp_points) == 1) {
 					xp_points <- NULL
 					shp_points <- NULL
@@ -101,13 +103,13 @@ order_x <- function(x, shps, datasets, types, gm) {
 		} else {
 			
 			# subset elements when tm_sf is called
-			if ((!("tm_tiles" %in% names(xp))) && ("tm_fill" %in% names(xp)) && from_sf) {
+			if (("tm_fill" %in% names(xp)) && from_sf) {
 				if (type == "polygons") {
-					xp <- xp[c("tm_shape", "tm_fill", "tm_borders")]
+					xp <- xp[c("tm_shape", "tm_fill", "tm_borders", "tm_tiles")]
 				} else if (type == "lines") {
-					xp <- xp[c("tm_shape", "tm_lines")]
+					xp <- xp[c("tm_shape", "tm_lines", "tm_tiles")]
 				} else if (type == "points") {
-					xp <- xp[c("tm_shape", "tm_symbols")]
+					xp <- xp[c("tm_shape", "tm_symbols", "tm_tiles")]
 				}
 			}
 			xp[[1]]$type <- type

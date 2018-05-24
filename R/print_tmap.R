@@ -341,11 +341,17 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	gm$shape.masp <-	get_asp_ratio(gm$shape.bbx_cropped, is.projected=attr(mshp, "projected"))
 
+
+	# split x and datasets into multiple layers if shape(s) aer geometrycollection 
 	res <- order_x(x, shps, datasets, types, gm)
 
 	x <- res$x
 	gm <- res$gm
 	shps <- res$shps
+	
+	datasets <- lapply(x[names(x)=="tm_shape"], "[[", "data")
+	
+	#datasets <- res$datasets
 	
 	## prepare viewport (needed to determine asp_ratio for facet layout)
 	

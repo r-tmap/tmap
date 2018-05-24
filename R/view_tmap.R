@@ -820,7 +820,6 @@ working_internet <- function(url = "http://www.google.com") {
 	
 	# test connection by trying to read first line of url
 	test <- try(suppressWarnings(readLines(url, n = 1)), silent = TRUE)
-	
 	# return FALSE if test inherits 'try-error' class
 	!inherits(test, "try-error")
 }
