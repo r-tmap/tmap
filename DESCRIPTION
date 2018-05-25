@@ -25,6 +25,7 @@ Imports:
     rgdal,
     rgeos,
     RColorBrewer,
+    viridisLite,
     classInt,
     spdep,
     htmltools,

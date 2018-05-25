@@ -69,14 +69,16 @@ num2pal <- function(x, n = 5,
 	
 	
 	# map palette
-	is.brewer <- palette[1] %in% rownames(brewer.pal.info)
+	is.palette.name <- palette[1] %in% rownames(tmap.pal.info)
 	
-	if (is.brewer) {
-		mc <- brewer.pal.info[palette, "maxcolors"]
-		pal.div <- (!is.null(midpoint)) || (brewer.pal.info[palette, "category"]=="div")
+	is.brewer <- is.palette.name && tmap.pal.info[palette[1], "origin"] == "brewer"
+	is.viridis <- is.palette.name &&  tmap.pal.info[palette[1], "origin"] == "viridis"
+	
+	if (is.palette.name) {
+		mc <- tmap.pal.info[palette, "maxcolors"]
+		pal.div <- (!is.null(midpoint)) || (tmap.pal.info[palette, "category"]=="div")
 	} else {
 		palette.type <- if (!is.null(midpoint)) "div" else palette_type(palette)
-		
 		pal.div <- palette.type=="div"
 	}
 	
@@ -94,10 +96,11 @@ num2pal <- function(x, n = 5,
 			}
 		}
 	}
-	
-	
+
 	if (is.brewer) {
 		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
+	} else if (is.viridis) {
+		colpal <- rev(viridis(101, option = palette))
 	} else {
 		colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
 	}
@@ -118,31 +121,12 @@ num2pal <- function(x, n = 5,
 		legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
 	}
 		
-	# } else {
-	# 	if (is.brewer) {
-	# 		if (nbrks-1 > mc) {
-	# 			legend.palette <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(nbrks-1)
-	# 		} else legend.palette <- revPal(brewer.pal(nbrks-1, palette))
-	# 	} else {
-	# 		legend.palette <- colorRampPalette(revPal(palette), space="rgb")(nbrks-1) #rep(palette, length.out=nbrks-1)
-	# 	}
-	# 	neutralID <- if (pal.div) round(((length(legend.palette)-1)/2)+1) else 1
-	# 	legend.neutral.col <- legend.palette[neutralID]
-	# }
 
 	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
 	legend.neutral.col <- do.call("process_color", c(list(col=legend.neutral.col), process.colors))
 	colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
 	
-# 	if (!is.null(process.colors)) {
-# 		legend.palette <- process.colors(legend.palette)
-# 		legend.neutral.col <- process.colors(legend.neutral.col)
-# 		colorNA <- process.colors(colorNA)
-# 	}
-# 	
-# 	legend.palette <- get_alpha_col(legend.palette, alpha)
-# 	legend.neutral.col <- get_alpha_col(legend.neutral.col, alpha)
-# 	colorNA <- get_alpha_col(colorNA, alpha)
+
 	
 	
 	ids <- findCols(q)

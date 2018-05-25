@@ -17,6 +17,7 @@
 #' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue getValues
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
+#' @importFrom viridisLite viridis
 #' @import grid
 #' @import methods
 #' @importFrom graphics par

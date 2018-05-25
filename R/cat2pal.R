@@ -48,8 +48,13 @@ cat2pal <- function(x,
 	} else revPal <- function(p)p
 	
 	
-	legend.palette <- if (palette[1] %in% rownames(brewer.pal.info)) {
-		revPal(suppressWarnings(get_brewer_pal(palette, nCol, contrast, stretch = stretch.palette, plot = FALSE)))
+	legend.palette <- if (palette[1] %in% rownames(tmap.pal.info)) {
+		if (tmap.pal.info[palette[1], "origin"] == "brewer") {
+			revPal(suppressWarnings(get_brewer_pal(palette[1], nCol, contrast, stretch = stretch.palette, plot = FALSE)))			
+		} else {
+			# viridis palette
+			revPal(viridis(nCol, option = palette[1]))
+		}
 	} else {
 		if (stretch.palette && (length(palette) < nCol)) {
 			colorRampPalette(palette)(nCol)	

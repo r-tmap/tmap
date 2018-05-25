@@ -34,12 +34,14 @@ tmap version 2.0 is fully build on `sf`. For raster objects, it still uses `rast
 
 An `sf` object (which stands for simple features) has a less complex structure than `sp` objects. An `sf` object is nothing more than a `data.frame` with a special geometry column, which contains the geometries for the corresponding rows. Such a geometry can be spatial point(s), line(s), polygon(s), or any combination. The layers functions, such as `tm_polygons`, will only draw what they are supposed to draw (in this case polygons). The newly added layer function `tm_sf` will draw all geometries.
 
-Finally, all data objects in `tmap` (except `land`) have been transformed to `sf` objects.
+Finally, all data objects in `tmap` (except `land`) have been transformed to `sf` objects. The object `land` has been transformed to a `RasterBrick`.
 
 
 ### tm_tiles
 
-Tile layers can now be added, not only as basemaps. There are two new layer functions: `tm_basemap` and `tm_tiles`. The former creates a basemap tile and the latter an overlay tile, which is especially useful for semi-transparent layers.
+Layer functions have been added to facilitate tile layers. In version 1.x, it was already possible to add basemaps. In version 2.0, this is facilitated with the explicit layer functions `tm_basemap` and `tm_tiles`. The former creates a basemap tile and the latter an overlay tile. The difference is that `tm_basemap` layers are always drawn at the bottom, whereas the plotting order of (overlay) `tm_tiles` layers is derived from the plot call. Overlay layers should be semi-transparent to be useful.
+
+Tip: all tilemaps from http://leaflet-extras.github.io/leaflet-providers/preview/ can be used. The names of these maps can also be found in the list object `leaflet::providers`. 
 
 ```{r, eval = FALSE}
 data(World, metro)
@@ -95,6 +97,19 @@ Unlike a style, a format cannot be set globally. Instead, it has to be specified
 tm_shape(World) + tm_polygons("HPI") + tm_format("panorama")
 # or: qtm(World, fill = "HPI", format = "panorama")
 ```
+
+
+### color palettes
+
+Viridis palettes (from the `viridis`/`viridisLite` package) are supported natively. E.g. `qtm(World, "HPI", fill.palette = "-plasma")`. Notice that, like with color brewer palette names, a minus sign will reverse the palette. See `tmaptools::palette_explorer()` to explore the color brewer and viridis palettes interactively.
+
+The arguments that define the color palette mapping has been made more intuitive. The newly added layer function arguments `midpoint` and `stretch.palette` replace `auto.palette.mapping`:
+
+* Categorical palettes. The argument `stretch.palette` determines whether a palette is stretched out when there are more categories than available colors. If set to `FALSE`, the palette is repeated.
+* Diverging palettes. The argument `midpoint` determines which value should be mapped to the middle (neutral) color of the diverging color palette. By default, it is set to 0 if there are positive and negatie values. This could mean that only a part of the color palette is used, e.g. when the value range is [-5, 20] and the palette is `"RdBu"`, the colors will range from light red (-5) to white (0) to dark blue (20). If there are only positive or only negative values, the full palette is shown.
+* Sequential palettes. Nothing has changed for sequential palettes. When `midpoint` has been specified, the palette is regarded as a diverging palette, with the middle color interpreted as the neutral color. 
+
+
 
 
 

@@ -35,7 +35,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	
 	xs <- mapply(function(x, nm) {
-		if (length(x)==1 && is.na(x)[1]) gt$aes.colors[nm] else x
+		if (length(x)==1 && is.na(x)[1] && type != "text") gt$aes.colors[nm] else x
 	}, xs, colname, SIMPLIFY = FALSE)
 	
 	g <- check_g(g, gt)

@@ -38,6 +38,7 @@ test_that("qtm plots dots", {
 
 test_that("qtm plots raster", {
 	data(land)
+	tmap_options(show.messages = FALSE)
 	expect_silent({
 		print(qtm(land))
 	})
