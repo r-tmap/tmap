@@ -105,6 +105,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 	invisible()
 }
 
+#' @export
 #' @rdname tmap_style_catalogue
 tmap_style_catalog <- tmap_style_catalogue
 
