@@ -1,12 +1,12 @@
 ---
-title: "tmap: what is changed in version 2.0?"
+title: "tmap: changes in version 2.0"
 output: 
   rmarkdown::html_vignette:
     keep_md: true 
     toc: true
 self_contained: no
 vignette: >
-  %\VignetteIndexEntry{tmap in a nutshell}
+  %\VignetteIndexEntry{tmap: changes in version 2.0}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -18,9 +18,7 @@ library(tmap)
 library(sf)
 ```
 
-This vignette summarizes the main changes in tmap 2.0 in comparison to tmap 1.11-2, which is described in detail in
-
-Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, https://doi.org/10.18637/jss.v084.i06
+This vignette summarizes the main changes in tmap 2.0 in comparison to tmap 1.11-2, which is described in detail in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06)
 
 ### Function renaming: tm_ and tmap_
 

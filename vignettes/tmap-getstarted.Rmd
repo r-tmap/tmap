@@ -6,7 +6,7 @@ output:
     toc: true
 self_contained: no
 vignette: >
-  %\VignetteIndexEntry{tmap in a nutshell}
+  %\VignetteIndexEntry{tmap: get started!}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -19,287 +19,190 @@ library(sf)
 ```
 
 
-With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`, but tailored to maps.
+With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of `ggplot2`, but tailored to maps. This vignette is for those who want to get started with tmap within a couple of minutes. A more detailed description of tmap can be found in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06). Note that this paper is written for tmap version 1.11-2. The changes in version 2.0 are described in [`vignette("tmap-changes")`](../doc/tmap-changes-v2.html)
 
 
-### Static plot and interactive view
+### Hello World!
 
-Each map can be plotted as a static map and shown interactively. These two modes, called the `"plot"` mode and the `"view"` mode respectively, are described in [`vignette("tmap-modes")`](../doc/tmap-modes.html). In the remainder of this vignette, the `"plot"` mode is used.
-
-
-### Shape objects
-
-We refer to **shape objects** as objects from spatial classes defined in the `sf`, `sp` and `raster` packages.
-
-
-Load shape object of world countries (contained in this package):
 ```{r}
 data("World")
-```
 
-
-### Quick thematic map
-<a name="qplot"></a>
-
-The plotting syntax is based on that of `ggplot2`. The [`qtm`](../html/qtm.html) function is `tmap`'s equivalent to `ggplot2`'s `qplot`. The first, and only required argument is a shape object:
-
-```{r, fig.height=5}
-qtm(World)
-```
-
-So, by default, the polygons are filled with light grey, and the polygon borders are drawn in dark grey.
-
-A choropleth is created with the following code:
-
-```{r, fig.height=5}
-qtm(World, fill = "well_being", text = "iso_a3", text.size = "AREA", fill.title = "Well-Being Index", format = "World", style = "gray")
-```
-
-In this code, `fill`,`text`, and `text.size` serve as aesthetics. Both `well_being` and `iso_a3` are variables of the data contained in the shape object `World`. A color palette, in this case the qualitative palette from yellow to brown, is mapped to the values of `well_being`. The variable `iso_a3` contains the text labels, in this case the country codes. The value `"AREA"` is a derived variable that contains the polygon area sizes. So text is sized increasingly with country area size. The argument `fill.title` specifies the title that corresponds to the `fill` aesthetic.
-
-The two arguments `format` and `style` are predefined layout settings (see [layout](#layout)).
-
-The function [`qtm`](../html/qtm.html) offers the same flexibility as the main plotting method (to be described next). However, for more complex plots, the main plotting method is recommended for its readability.
-
-### Plotting with tmap elements
-<a name="plot"></a>
-
-The main plotting method, the equivalent to `ggplot2`'s `ggplot`, consists of [elements](../html/tmap-element.html) that start with `tm_`. The first element to start with is [`tm_shape`](../html/tm_shape.html), which specifies the shape object. Next, one, or a combination of the drawing layers should be specified, e.g. `tm_polygons` or `tm_dots`. Note that all layer functions have `tm_` as prefix.
-
-The last plot is reproduced as follows:
-
-```{r, eval=FALSE}
 tm_shape(World) +
-	tm_polygons("well_being", title = "Well-Being Index") +
-	tm_text("iso_a3", size = "AREA") + 
-tm_style("gray") +
-tm_format("World")
+	tm_polygons("HPI")
 ```
 
-We refer to [`tm_shape`](../html/tm_shape.html) and its subsequent drawing layers as a **group**. Multiple groups can be stacked. To illustrate this, let's create a topographic map:
+The object `World` is a spatial `sf` object; it is a `data.frame` with a special column that contains the geometry of the units, in this case polygons. In order to plot it in tmap, you first need to specify it with `tm_shape`. With the `+` operator plotting layers can be added, in this case `tm_polyongs`. There are many layer functions in tmap, which can easlily be found in the documentation by their `tm_` prefix.
 
-```{r, fig.width=10}
-data(land, rivers, metro)
+### Interactive maps
 
-metro_large <- metro[metro$pop2010 > 1e7, ]
+Each map can be plotted as a static image and interactively viewed. These are called respectively the \code{"plot"} and the \code{"view"} mode respectively. The mode can be set with the function `tmap_mode`, and toggling between the modes can be done with `ttm()`.
 
-tm_shape(land) + 
-	tm_raster("trees", breaks=seq(0, 100, by=20), legend.show = FALSE) +
-tm_shape(World, is.master = TRUE) +
-	tm_borders() +
-tm_shape(rivers) +
-    tm_lines(lwd="strokelwd", scale=5, legend.lwd.show = FALSE) +
-tm_shape(metro_large) +
-	tm_bubbles("pop2010", "red", border.col = "black", border.lwd=1, 
-		title.size="Metropolitan Population") +
-    tm_text("name", size="pop2010", scale=1, root=4, size.lowerbound = .6, 
-        bg.color="white", bg.alpha = .75, 
-        auto.placement = 1, legend.size.show = FALSE) + 
-tm_style("natural") +
-tm_format("World")
-```
 
-Things to learn from this code:
+```{r}
+tmap_mode("view")
 
-* This plot has 4 groups of layers, respectively from the shape objects land, World, rivers, and metro. 
-The order of (groups of) layers corresponds to the plotting order.
-* The shape objects can have different projections, and can also cover different areas (bounding boxes). Both the projection and the covered area are by default taken from shape object defined in the first [`tm_shape`](../html/tm_shape.html), but in this case in the second [`tm_shape`](../html/tm_shape.html) since `is.master=TRUE`.
-* The element [`tm_layout`](../html/tm_layout.html) controls all layout options such as fonts, legends, margins, and colors. The element functions [`tm_style`](../html/tm_style.html) and [`tm_format`](../html/tm_format.html) are wrapper functions with predefined styles and formats.
-
-### Small multiples
-<a name="facets"></a>
-
-Small multiples are generated in three ways:
-
-#### 1. By assigning multiple values to at least one of the aesthetic arguments:
-
-```{r, fig.width=10, fig.height=3}
 tm_shape(World) +
-	tm_polygons(c("HPI", "gdp_cap_est"), 
-		style=c("pretty", "kmeans"),
-		palette=list("RdYlGn", "Purples"),
-		auto.palette.mapping=FALSE,
-        title=c("Happy Planet Index", "GDP per capita")) +
-tm_style("grey") +
-tm_format("World")
+	tm_polygons("HPI")
 ```
 
-In this case, two independent maps are created, with different scales. All arguments of the layer functions can be vectorized, one for each small multiple. Arguments that normally can take a vector, such as `palette` should be placed in a `list`.
 
-This method is normally used to show two totally different variables, such as in this example Happy Planet Index and GDP. However, it is also possible to show variables that are related, as if they are subsets from the same data:
+### Multiple shapes and layers
 
-```{r, fig.width=10}
+A shape is an spatial object (with a class from `sf`, `sp` or `raster`). Mutliple shapes can be plotted, and also multiple layers per shape:
+
+```{r}
+data(World, metro, rivers, land)
+
+tmap_mode("plot")
+tm_shape(land) +
+	tm_raster("elevation", palette = terrain.colors(10)) +
+tm_shape(World) +
+	tm_borders("white", lwd = .5) +
+	tm_text("iso_a3", size = "AREA") +
 tm_shape(metro) +
-    tm_bubbles(size=c("pop1970", "pop2020"), title.size="Population") +
-    tm_facets(free.scales=FALSE) +
-tm_layout(panel.labels=c("1970", "2020"))
+	tm_symbols(col = "red", size = "pop2020", scale = .5) +
+tm_legend(show = FALSE)
 ```
 
-Notice that this plot uses panels and that the common legend is plot outside of the maps. 
+### Facets
 
-#### 2. By defining a group-by variable in [`tm_facets`](../html/tm_facets.html):
-```{r, fig.width=10}
+```{r}
+tmap_mode("view")
 tm_shape(World) +
-    tm_polygons("well_being", title="Well-Being Index") +
-    tm_facets("continent") +
-tm_style("gray")
+	tm_polygons(c("HPI", "economy")) +
+	tm_facets(sync = TRUE)
 ```
 
-This plot also uses the panel layout with the common legend drawn outside the maps. These options can be changed with the arguments `panel.show` and `legend.outside` of [`tm_layout`](../html/tm_layout.html). By default, the panel/external legend layout is used when the group-by variable is specified, since in that case, the multiples share a common legend.
+```{r}
+tmap_mode("plot")
 
+data(NLD_muni)
 
-#### 3. By creating multiple stand-alone maps with [`tmap_arrange`](../html/tmap_arrange.html):
-```{r, fig.width=10}
-tm1 <- qtm(World, fill = "red")
-tm2 <- qtm(World, fill = "blue")
-tmap_arrange(tm1, tm2, asp = NA)
+NLD_muni$perc_men <- NLD_muni$pop_men / NLD_muni$population * 100
+
+tm_shape(NLD_muni) +
+	tm_polygons("perc_men", palette = "RdYlBu") +
+	tm_facets("province")
 ```
 
+### Basemaps and overlay tile maps
 
-### Map layout
-<a name="layout"></a>
+Tiled basemaps can be added with the layer function `tm_basemap`. Semi-transparent overlay maps (for example annotation labels) can be added with `tm_tiles`.
 
-The layout of the thematic map can be changed with [`tm_layout`](../html/tm_layout.html) or one of its wrapper functions. In the next example we use two of these wrapper functions, one for the overall format of world maps, and one for the legend.
+```{r}
+tm_basemap("Stamen.Watercolor") +
+tm_shape(metro) + tm_bubbles(size = "pop2020", col = "red") +
+tm_tiles("Stamen.TonerLabels")
+```
 
+See a [preview of the available tilemaps](http://leaflet-extras.github.io/leaflet-providers/preview/). This list is also accessible in R: `leaflet::providers`.
 
-```{r, fig.width=10}
-data(land)
-data(World)
-pal8 <- c("#33A02C", "#B2DF8A", "#FDBF6F", "#1F78B4", "#999999", "#E31A1C", "#E6E6E6", "#A6CEE3")
-tm_shape(land, ylim = c(-88,88), relative=FALSE) +
-    tm_raster("cover_cls", palette = pal8, title="Global Land Cover", legend.hist=TRUE, legend.hist.z=0) +
+### Options and styles
+
+The functions `tm_layout` and `tm_view` are used to specify the map layout and the interactive aspects respectively. These functions can be used in the same way as the layer functions, e.g.
+
+```{r}
+tmap_mode("plot")
+
 tm_shape(World) +
-    tm_borders() +
-tm_format("World", inner.margins=0) +
-tm_legend(text.size=1,
-	title.size=1.2,
-	position = c("left","bottom"), 
-	bg.color = "white", 
-	bg.alpha=.2, 
-	frame="gray50", 
-	height=.6, 
-	hist.width=.2,
-	hist.height=.2, 
-	hist.bg.color="gray60", 
-	hist.bg.alpha=.5)
+	tm_polygons("HPI") +
+	tm_layout(bg.color = "skyblue", inner.margins = c(0, .02, .02, .02))
 ```
 
-The wrapper functions starting with `tm_format_` specify the format for a specific shape. In the tmap package, a couple of them are included, for instance `tm_format_World` that is tailored for world maps. It's also possible to create your own wrapper function for shapes that you will use frequently.
+However, these options, as well as a couple of other, can also be set within an R session with `tmap_options`, which works in the same way as the base R function `options`:
 
-Besides the shape-dependent `tm_format_` wrapper functions, tmap also contains wrapper functions for shape-independent styles.
+```{r}
+tmap_options(bg.color = "black", legend.text.color = "white")
 
-```{r, fig.width=10}
-qtm(World, style="natural", title="Natural style") # equivalent to: qtm(World) + tm_style("natural", title="Natural style")
-```
-
-```{r, fig.width=10}
-qtm(World, style="cobalt", title="Cobalt style") # equivalent to: qtm(World) + tm_style("cobalt", title="Cobalt style")
-```
-
-Run `style_catalogue()` to create an extensive catalogue of the available styles. The default style is `tm_style("white")`. This default can be changed with the global option called `tmap.style`, which can be get and set with [`tmap_style`](../html/tmap_style.html):
-
-```{r, fig.width=10}
-# make a categorical map
-qtm(World, fill="economy", title=paste("Style:", tmap_style()))
-
-# change to color-blind-friendly style
-current_style <- tmap_style("col_blind")
-
-# make a categorical map
-qtm(World, fill="economy", title=paste("Style:", tmap_style()))
-
-# change back
-tmap_style(current_style)
-```
-
-Also, the outer and inner margins as well as the aspect ratio are determined with [`tm_layout`](../html/tm_layout.html):
-```{r, fig.width=10}
-(tm <- qtm(World) +
-tm_layout(outer.margins=c(.05,0,.05,0), 
-    inner.margins=c(0,0,.02,0), asp=0))
-```
-
-The behaviour of `outer.margins`, `inner.margins`, and `asp` are correlated. To see the rectangles that these arguments determine, the design mode can be enabled:
-
-```{r, fig.width=10}
-tm + tm_layout(design.mode=TRUE)
-```
-
-The red rectangle is the bounding box of the shape object. Both `inner.margins` and `asp` determine the measurements of the frame, indicated by the blue rectangle. Setting the left inner margin is useful to have extra space for the legend.
-
-Setting the aspect ratio is handy when the plot is saved to an image with a specific resolution. For instance, to save a thematic World map as a png image of 1920 by 1080 pixels, the setting `outer.margins=0, asp=1920/1080` can be used. When `asp=0`, as in the example above, the aspect ratio of the device (given the outer margins) is taken. See [`save_tmap`](#save), which uses these tricks under the hood.
-
-
-
-### Map attributes
-
-The following demo shows how a world map can be enhanced with map attributes such as grid lines and a map compass.
-
-
-```{r, fig.width=10}
-tm_shape(land, projection="eck4") +
-	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
-		palette = terrain.colors(9), title="Elevation", auto.palette.mapping=FALSE) +
 tm_shape(World) +
-	tm_borders("grey20") +
-	tm_grid(projection="longlat", labels.size = .5) +
-	tm_text("name", size="AREA") +
-tm_compass(position = c(.65, .15), color.light = "grey90") +
-tm_credits("Eckert IV projection", position = c(.85, 0)) +
-tm_style("classic", inner.margins=c(.04,.03, .02, .01), legend.position = c("left", "bottom"), 
-	legend.frame = TRUE, bg.color="lightblue", legend.bg.color="lightblue", 
-	earth.boundary = TRUE, space.color="grey90")
+	tm_polygons("HPI", legend.title = "Happy Planet Index")
 ```
 
-<a name="save"></a>
+A style is a certain configuration of the tmap options. 
 
-### Saving maps
+```{r}
+tmap_style("classic")
 
-A handy function for saving maps is [`save_tmap`](../html/save_tmap.html):
+tm_shape(World) +
+	tm_polygons("HPI", legend.title = "Happy Planet Index")
+```
+
+```{r}
+
+# see what options have been changed
+tmap_options_diff()
+
+# reset the options to the default values
+tmap_options_reset()
+```
+
+### Exporting maps
+
 
 ```{r}
 tm <- tm_shape(World) +
-	tm_fill("well_being", id="name", title="Well-being") +
-	tm_format("World")
+	tm_polygons("HPI", legend.title = "Happy Planet Index")
+
+## save an image ("plot" mode)
+tmap_save(tm, filename = "world_map.png")
+
+## save as stand-alone HTML file ("view" mode)
+tmap_save(tm, filename = "world_map.html")
+
+```
+
+### leaflet and shiny integration
+
+Maps made with tmap can be exported to leaflet with the function `tmap_leaflet`. Hence, it is possible to make use of leaflet own functionalities. This function is also needed when using tmap in shiny:
+
+
+```{r, eval = FALSE}
+# in ui part:
+leafletOutput("my_tmap")
+
+# in server part
+output$my_tmap = renderLeaflet({
+	tm <- tm_shape(World) + tm_polygons("HPI", legend.title = "Happy Planet Index")
+    tmap_leaflet(tm)
+})
+```
+
+See full [tmap - shiny example](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/shiny_tmap.R)
+
+
+### Quick thematic map
+
+Maps can also be made with one function call. This function is `qtm`:
+
+```{r}
+qtm(World, fill = "HPI", fill.pallete = "RdYlGn")
 ```
 
 
-```{r, eval=FALSE}
-save_tmap(tm, "World_map.png", width=1920, height=1080)
-```
 
-This function can also save interactive maps to stand-alone HTML files:
-
-```{r, eval=FALSE}
-save_tmap(tm, "World_map.html")
-```
-
-See [`vignette("tmap-modes")`](../doc/tmap-modes.html) for more on interactive maps.
+<!-- ### Tips n' tricks -->
 
 
-### Tips n' tricks
+<!-- 1. A manual legend can be generated [`tm_add_legend`](../html/tm_add_legend.html): -->
+<!-- ```{r, fig.height=3} -->
+<!-- data(World) -->
 
+<!-- tm_shape(World) + -->
+<!-- 	tm_fill() + -->
+<!-- tm_shape(rivers) + -->
+<!-- 	tm_lines(col="dodgerblue3") + -->
+<!-- 	tm_add_legend(type="line", col="dodgerblue3", labels = "Rivers", title="World map") + -->
+<!-- tm_format("World") -->
+<!-- ``` -->
 
-1. A manual legend can be generated [`tm_add_legend`](../html/tm_add_legend.html):
-```{r, fig.height=3}
-data(World)
+<!-- 2. Each drawing element has a scalar argument called `scale`. The overall scaling and font sizes can be set by the `scale` argument in `tm_layout`. -->
 
-tm_shape(World) +
-	tm_fill() +
-tm_shape(rivers) +
-	tm_lines(col="dodgerblue3") +
-	tm_add_legend(type="line", col="dodgerblue3", labels = "Rivers", title="World map") +
-tm_format("World")
-```
-
-2. Each drawing element has a scalar argument called `scale`. The overall scaling and font sizes can be set by the `scale` argument in `tm_layout`.
-
-3. Arguments of the bounding box function [`bb`](../html/bb.html) can be passed directly to [`tm_shape`](../html/tm_shape.html):
-```{r, fig.height=5}
-tm_shape(World, bbox = "India") +
-	tm_polygons("MAP_COLORS", palette="Pastel2") +
-tm_shape(metro) +
-	tm_bubbles("pop2010", title.size = "Population") +
-	tm_text("name", size = "pop2010", legend.size.show = FALSE, root=8, size.lowerbound = .7, auto.placement = TRUE)
-```
+<!-- 3. Arguments of the bounding box function [`bb`](../html/bb.html) can be passed directly to [`tm_shape`](../html/tm_shape.html): -->
+<!-- ```{r, fig.height=5} -->
+<!-- tm_shape(World, bbox = "India") + -->
+<!-- 	tm_polygons("MAP_COLORS", palette="Pastel2") + -->
+<!-- tm_shape(metro) + -->
+<!-- 	tm_bubbles("pop2010", title.size = "Population") + -->
+<!-- 	tm_text("name", size = "pop2010", legend.size.show = FALSE, root=8, size.lowerbound = .7, auto.placement = TRUE) -->
+<!-- ``` -->
 
