@@ -651,7 +651,7 @@ format_popups <- function(id=NULL, titles, format, values) {
 	
 	titles_format <- vapply(titles, htmlEscape, character(1))
 	values_format <- mapply(function(v, f) {
-		htmlEscape(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=v, intervals=FALSE), f)) else v)
+		htmlEscape(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=as.numeric(v), intervals=FALSE), f)) else v)
 	}, values, format, SIMPLIFY = FALSE)
 	
 	

@@ -25,27 +25,42 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	verbose <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
 	lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
+	
 	if (missing(tm)) {
 		tm <- suppressWarnings(last_map())
 		if (is.null(tm)) stop("A map has not been created yet")
+		is.arrange <- FALSE
+	} else if (inherits(tm, "tmap")) {
+		is.arrange <- FALSE
+	} else if (inherits(tm, "tmap_arrange")) {
+		is.arrange <- TRUE
+	} else {
+		stop("Unknown format. tm should be either a tmap output, or a list of tmap outputs")
+	}
+	
+	tmap.mode <- getOption("tmap.mode")
+	default_ext <- ifelse(tmap.mode == "plot", "png", "html")
+	
+	if (!is.arrange) {
+		shp_name <- function(tm) {
+			paste0(tm[[1]]$shp_name, ".", default_ext)
+		}
+		if (missing(filename)) {
+			filename <- shp_name(tm)
+		}
+	} else if (missing(filename)) {
+		filename <- paste0("map.", default_ext)
 	}
 	
 	on.exit({
 		assign(".last_map", lastcall, envir = .TMAP_CACHE)
 	})
 	
-	shp_name <- function(tm) {
-		paste(tm[[1]]$shp_name, ".pdf", sep = "")
-	}
-	
-	if (missing(filename)) {
-		filename <- shp_name(tm)
-	}
 	
 	
-	get_ext <- function(filename) {
+	get_ext <- function(filename, default_ext) {
 		pieces <- strsplit(filename, "\\.")[[1]]
-		if (length(pieces)==1) return("png")
+		if (length(pieces)==1) return(default_ext)
 		tolower(pieces[length(pieces)])
 	}
 	
@@ -56,19 +71,19 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 		x <- switch(units, px = x, `in` = dpi*x, cm = dpi*x/2.54, mm = dpi*x/2.54/10)
 	}
 	
-	
-	tmap.mode <- getOption("tmap.mode")
-
-	if (missing(filename)) {
-		ext <- ifelse(tmap.mode=="view", "html", "png")
-		filename <- paste(filename, ext, sep=".")
-	} else ext <- get_ext(filename)
+	ext <- get_ext(filename, default_ext)
 	
 	interactive <- (ext=="html")
+	
 	options(tmap.mode=ifelse(interactive, "view", "plot"))
 	
 	if (interactive) {
-		lf <- tmap_leaflet(tm)
+		if (is.arrange) {
+			lf <- tm
+		} else {
+			lf <- tmap_leaflet(tm)
+		}
+			
 		saveWidget(lf, file=filename, ...)
 		options(tmap.mode=tmap.mode)
 		if (verbose) {
@@ -92,7 +107,14 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 			temp_size <- convert_to_pixels(height, units)
 		}
 		
-		sasp <- get_asp_ratio(tm, width = temp_size, height = temp_size, res = dpi)
+		if (is.arrange) {
+			sasp <- 1
+		} else {
+			show.messages <- tmap_options(show.messages = FALSE)
+			on.exit(tmap_options(show.messages))
+			sasp <- get_asp_ratio(tm, width = temp_size, height = temp_size, res = dpi)	
+			tmap_options(show.messages)
+		} 
 		if (is.na(width)) {
 			width <- height * sasp
 		} else if (is.na(height)) {
@@ -143,13 +165,23 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	
 	do.call(ext, args = c(list(file = filename, width = width, height = height), list(...)))
 	on.exit(capture.output(dev.off()), add = TRUE)
-	args <- list()
-	if (!is.na(outer.margins[1])) args$outer.margins <- outer.margins
-	if (!missing(asp)) args$asp <- asp
-	if (!is.na(scale)) args$scale <- scale
-	print(tm + do.call("tm_layout", args))
 	
-	if (!missing(insets_tm) && !missing(insets_vp)) {
+	if (is.arrange) {
+		if (is.na(outer.margins[1])) {
+			do.call(tmap_arrange, tm)
+		} else {
+			do.call(tmap_arrange, c(tm, list(outer.margins = outer.margins)))
+		}
+	} else {
+		args <- list()
+		if (!is.na(outer.margins[1])) args$outer.margins <- outer.margins
+		if (!missing(asp)) args$asp <- asp
+		if (!is.na(scale)) args$scale <- scale
+		print(tm + do.call("tm_layout", args))
+	}
+	
+	
+	if (!is.arrange && !missing(insets_tm) && !missing(insets_vp)) {
 	  args_inset <- if (!is.na(scale)) list(scale = scale) else list()
 	  if (class(insets_tm)=="list" && class(insets_vp)=="list") {
 	    if (length(insets_tm) != length(insets_vp)) stop("Number of insets unequal to number of viewports")
