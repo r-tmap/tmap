@@ -239,7 +239,7 @@ qtm <- function(shp,
 		g <- g + do.call("tm_facets", c(list(by=by), args2[["tm_facets"]]))	
 	} 
 
-	scaleLst <- if (!missing(scale)) list(title=title, scale=scale) else list(title=title)
+	scaleLst <- if (!is.na(scale) && !is.na(title[1])) list(title=title, scale=scale) else if (!is.na(scale)) list(scale=scale) else if (!is.na(title[1])) list(title=title) else list()
 	
 	if (!missing(style)) {
 		.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
