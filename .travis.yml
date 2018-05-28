@@ -35,6 +35,7 @@ addons:
       - libgdal-dev
       - libjson-c-dev
       - postgresql-server-dev-9.6
+      - libpng16-16
 
 before_install:
   # install postgis from source:
