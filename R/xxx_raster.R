@@ -2,12 +2,8 @@ get_RasterLayer_data_vector <- function(r) {
 	values <- r@data@values
 	if (r@data@isfactor) {
 		dt <- r@data@attributes[[1]]
-		if ("levels" %in% names(dt)) {
-			factor(values, levels=dt$ID, labels=dt$levels)
-		} else {
-			warning("No 'levels' column found in data@attributes.", call. = FALSE)
-			values
-		}
+		levelsID <- ncol(dt)
+		factor(values, levels=dt$ID, labels=dt[[levelsID]])
 	} else {
 		values
 	}
@@ -18,11 +14,8 @@ get_RasterLayer_data_vector <- function(r) {
 get_RasterLayer_levels <- function(r) {
 	if (r@data@isfactor) {
 		dt <- r@data@attributes[[1]]
-		if ("levels" %in% names(dt)) {
-			dt$levels
-		} else {
-			NULL
-		}
+		levelsID <- ncol(dt)
+		as.character(dt[[levelsID]])
 	} else {
 		NULL
 	}

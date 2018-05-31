@@ -56,8 +56,8 @@ tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins
 			tmap_leaflet(tm, add.titles = FALSE)
 		})
 		lfmv <- do.call(mapview::latticeView, c(lfs, list(ncol=ncol, sync=ifelse(sync, "all", "none"))))
-		
-		add_leaflet_titles(lfmv)
+		class(lfmv) <- c("tmap_arrange", class(lfmv))
+		return(invisible(add_leaflet_titles(lfmv)))
 	} else {
 		grid.newpage()
 		vp <- viewport(layout=grid.layout(nrow=nrow, ncol=ncol), name = "tmap_arrangement")
@@ -84,4 +84,7 @@ tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins
 			}
 		}
 	}
+	class(tms) <- c("tmap_arrange", class(tms))
+	
+	invisible(tms)
 }

@@ -17,7 +17,7 @@ Depends:
     R (>= 3.0),
     methods
 Imports:
-	tmaptools (>= 1.2),
+	tmaptools (>= 2.0),
     sf (>= 0.6-0),
     units (>= 0.5-1),
     raster (>= 2.5-2),
