@@ -62,7 +62,7 @@ after_success:
   - R -q -e 'covr::codecov(quiet = FALSE)'
 
 install: R -q -e 'tic::install()'
-script: travis_wait 20 R -q -e 'tic::script()'
+script: R -q -e 'tic::script()'
 before_deploy: R -q -e 'tic::before_deploy()'
 deploy:
    provider: script
