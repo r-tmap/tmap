@@ -2,7 +2,7 @@
 data(World)
 
 # get current options
-tmap_options()
+str(tmap_options())
 
 # get current style
 tmap_style()
@@ -29,7 +29,7 @@ tmap_style()
 tmap_options_diff()
 
 # save the current options as style "red"
-tmap_style_save("red")
+tmap_options_save("red")
 
 # plot the map again
 tm_shape(World) + tm_polygons("HPI")
@@ -46,3 +46,36 @@ tmap_options_reset()
 # check style and options
 tmap_style()
 tmap_options_diff()
+
+##############################
+# define black style
+##############################
+
+# create style list
+# note: a normal list (i.e. without the structure wrapping and style attribute) also works, but without style name
+black_style  <- structure(
+    list(
+		bg.color = "black",
+		aes.color = c(fill = "grey40", borders = "grey40", dots = "white", 
+		              lines = "white", text = "white", na = "grey30", null = "grey15"),
+		aes.palette = list(seq = "plasma", div = "PiYG", cat = "Dark2"),
+		attr.color = "white",
+		panel.label.color = "white",
+		panel.label.bg.color = "grey40",
+		main.title.color = "white"
+	),
+	style = "black"
+)
+
+# assign the style
+tmap_options(black_style)
+
+# observe that "black" is a new style
+tmap_style()
+
+# plot the world map again, this time with the newly created black style
+tm_shape(World) +
+	tm_polygons("HPI")
+
+# reset all options
+tmap_options_reset()

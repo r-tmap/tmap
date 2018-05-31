@@ -2,7 +2,6 @@ language: r
 
 r:
   - release
-  - devel
 
 sudo: required
 dist: trusty
@@ -63,7 +62,7 @@ after_success:
   - R -q -e 'covr::codecov(quiet = FALSE)'
 
 install: R -q -e 'tic::install()'
-script: travis_wait 15 R -q -e 'tic::script()'
+script: travis_wait 20 R -q -e 'tic::script()'
 before_deploy: R -q -e 'tic::before_deploy()'
 deploy:
    provider: script

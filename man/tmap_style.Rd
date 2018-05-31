@@ -2,26 +2,25 @@
 % Please edit documentation in R/tmap_style.R
 \name{tmap_style}
 \alias{tmap_style}
-\alias{tmap_style_load}
-\alias{tmap_style_save}
-\title{Set the default tmap style}
+\title{Set or get the default tmap style}
 \usage{
 tmap_style(style)
-
-tmap_style_load(x)
-
-tmap_style_save(style)
 }
 \arguments{
 \item{style}{name of the style. When omitted, \code{tmap_style} returns the current style and also shows all available styles. When the style is specified, \code{tmap_style} sets the style accordingly. Note that in that case, all tmap options (see \code{\link{tmap_options}}) will be reset according to the style definition. See \code{\link{tm_layout}} for predefined styles, and \code{\link{tmap_style_catalogue}} for creating a catelogue.}
-
-\item{x}{tmap options list (should be the same format as \code{tmap_options()})}
 }
 \value{
 the style before changing
 }
 \description{
-Set the default tmap style, which is contained in the global option \code{tmap.style} (see also \code{\link{tmap_options}}. The default style (i.e. when loading the package) is \code{"white"}.
+Set or get the default tmap style. Without arguments, the current style is returned. Also the available styles are displayed. When a style is set, the corresponding tmap options  (see \code{\link{tmap_options}}) will be set accordingly. The default style (i.e. when loading the package) is \code{"white"}.
+}
+\details{
+Note that \code{\link{tm_style}} is used within a plot call (so it only affects that plot), whereas \code{tmap_style} sets the style globally.
+
+After loading a style, the options that defined this style (i.e. the difference with the default \code{"white"} style) can be obtained by \code{\link{tmap_options_diff}}.
+
+The documentation of \code{\link{tmap_options}} (details and the examples) shows how a new style is created.
 }
 \examples{
 data(World)

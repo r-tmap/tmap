@@ -100,7 +100,7 @@ num2pal <- function(x, n = 5,
 	if (is.brewer) {
 		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
 	} else if (is.viridis) {
-		colpal <- rev(viridis(101, option = palette))
+		colpal <- revPal(viridis(101, option = palette))
 	} else {
 		colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
 	}

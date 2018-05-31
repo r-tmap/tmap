@@ -4,14 +4,17 @@
 \alias{tmap_options}
 \alias{tmap_options_diff}
 \alias{tmap_options_reset}
+\alias{tmap_options_save}
 \title{Options for tmap}
 \usage{
-tmap_options(..., unit, limits, max.categories, show.messages, basemaps,
-  basemaps.alpha, overlays, overlays.alpha)
+tmap_options(..., unit, limits, max.categories, basemaps, basemaps.alpha,
+  overlays, overlays.alpha, show.messages)
 
 tmap_options_diff()
 
 tmap_options_reset()
+
+tmap_options_save(style)
 }
 \arguments{
 \item{...}{options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Note that the difference with using \code{\link{tm_layout}} or \code{\link{tm_view}} directly, is that options set with \code{tmap_options} remain for the entire session (unless changed with \code{tmap_options} or \code{\link{tmap_style}}). If can also be a single unnamed argument which is a named list (like \code{\link[base:options]{options}}).}
@@ -22,8 +25,6 @@ tmap_options_reset()
 
 \item{max.categories}{in case \code{col} is the name of a categorical variable in the layer functions (e.g. \code{\link{tm_polygons}}), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.}
 
-\item{show.messages}{should messages be shown?}
-
 \item{basemaps}{default basemaps. Basemaps are normally configured with \code{\link{tm_basemap}}. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or \code{NULL} if basemaps should be omitted. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. If a named vector is provided, the names are used in the layer control legend (similar to the \code{group} argument of \code{\link{tm_basemap}}. See also \code{overlays}, which is the default option for overlay tiles.}
 
 \item{basemaps.alpha}{default transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.}
@@ -31,16 +32,27 @@ tmap_options_reset()
 \item{overlays}{default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparant. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.}
 
 \item{overlays.alpha}{default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.}
+
+\item{show.messages}{should messages be shown?}
+
+\item{style}{style name}
 }
 \description{
-Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}.
+Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned as a list. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}. The function \code{tmap_options_save} can be used to save the current options as a new style. See details below on how to create a new stytle.
+}
+\details{
+The options can be divided into three parts: one part contains the arguments \code{\link{tm_layout}}, one part contains the arguments from \code{\link{tm_view}}, and one part contains options that can only be set with \code{tmap_options}. Observe that the options from \code{\link{tm_layout}} and \code{\link{tm_view}} can also be set with those functions. It is recommended to use \code{tmap_options} when setting specific options during global session. However, options that are only relevant for a specifc map can better be set with \code{\link{tm_layout}} or \code{\link{tm_view}}.
+
+A new style can be created in two ways. The first approach is to use the function \code{tmap_options_save}, which takes a snapshot of the current tmap options. E.g., \code{tmap_options_save("my_style")} will save the current tmap options as a style called \code{"my_style"}. See the examples in which a style called \code{"red"} is created. The second way to create a style is to create a list with tmap options and with a attribute called style. This approach is illustrated in the last example, in which a style called \code{"black"} is created.
+
+The newly created style, say \code{"my_style"}, will be accessible globally via \code{tmap_style("my_style")} and \code{+ tm_style("my_style")} until the R session is restarted or \code{tmap} is reloaded. In order to save the style for future use or sharing, obtain the option list as follows: \code{my_style <- tmap_options()} and save the object \code{my_style} in the usual way. Next time, the style can be loaded simply by running \code{tmap_options(my_style)} (which corresponds to the second way which described the paragraph above).
 }
 \examples{
 # load data
 data(World)
 
 # get current options
-tmap_options()
+str(tmap_options())
 
 # get current style
 tmap_style()
@@ -67,7 +79,7 @@ tmap_style()
 tmap_options_diff()
 
 # save the current options as style "red"
-tmap_style_save("red")
+tmap_options_save("red")
 
 # plot the map again
 tm_shape(World) + tm_polygons("HPI")
@@ -84,6 +96,39 @@ tmap_options_reset()
 # check style and options
 tmap_style()
 tmap_options_diff()
+
+##############################
+# define black style
+##############################
+
+# create style list
+# note: a normal list (i.e. without the structure wrapping and style attribute) also works, but without style name
+black_style  <- structure(
+    list(
+		bg.color = "black",
+		aes.color = c(fill = "grey40", borders = "grey40", dots = "white", 
+		              lines = "white", text = "white", na = "grey30", null = "grey15"),
+		aes.palette = list(seq = "plasma", div = "PiYG", cat = "Dark2"),
+		attr.color = "white",
+		panel.label.color = "white",
+		panel.label.bg.color = "grey40",
+		main.title.color = "white"
+	),
+	style = "black"
+)
+
+# assign the style
+tmap_options(black_style)
+
+# observe that "black" is a new style
+tmap_style()
+
+# plot the world map again, this time with the newly created black style
+tm_shape(World) +
+	tm_polygons("HPI")
+
+# reset all options
+tmap_options_reset()
 }
 \seealso{
 \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}

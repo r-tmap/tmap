@@ -10,7 +10,7 @@
 tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 	# get all styles
 	
-	styles <- c("white", other_styles("white"))
+	styles <- get_style_names()
 
 	ns <- length(styles)
 	
@@ -76,7 +76,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 		print(tm_shape(World) +
 			  	tm_polygons() +
 			  	tm_shape(metro) +
-			  	tm_symbols(size = "pop2010", col = "growth", breaks = c(-Inf, -2, -1, -.5, .5, 1, 2, Inf)) + tm_style(style) + tm_format("World", title="symbol map"),
+			  	tm_symbols(size = "pop2010", col = "growth", breaks = c(-Inf, -2, -1, -.5, .5, 1, 2, Inf), midpoint = 0) + tm_style(style) + tm_format("World", title="symbol map"),
 			  vp = viewport(layout.pos.row = 3, layout.pos.col = 2))
 		setTxtProgressBar(pb, pbii(6))
 		
@@ -88,7 +88,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 			  vp = viewport(layout.pos.row = 1, layout.pos.col = 3))
 		setTxtProgressBar(pb, pbii(7))
 		print(tm_shape(World) +
-			  	tm_polygons("HPI", palette="div", auto.palette.mapping=FALSE, n=9) +
+			  	tm_polygons("HPI", palette="div", n=9) +
 			  	tm_text("iso_a3", size="AREA") + tm_style(style) + tm_format("World", title="Choropleth (diverging)"),
 			  vp = viewport(layout.pos.row = 2, layout.pos.col = 3))
 		setTxtProgressBar(pb, pbii(8))
