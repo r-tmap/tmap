@@ -7,7 +7,7 @@ tm_style("albatross", frame.lwd=10) + tm_format("World", title="The World")
 \dontrun{
 tm_shape(land) +
 	tm_raster("elevation", breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
-		palette = terrain.colors(9), title="Elevation", auto.palette.mapping = FALSE) +
+		palette = terrain.colors(9), title="Elevation", midpoint = NA) +
 tm_shape(World, is.master=TRUE) +
 	tm_borders("grey20") +
 	tm_grid(projection="longlat", labels.size = .5) +
@@ -25,7 +25,7 @@ tm_legend(position = c("left", "bottom"),
 }
 	
 tm_shape(World, projection="robin") +
-	tm_polygons("HPI", palette="div", auto.palette.mapping = FALSE, n=7, 
+	tm_polygons("HPI", palette="div", n=7, 
 			title = "Happy Planet Index") +
 tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
 tm_style("natural", earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +

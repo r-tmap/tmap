@@ -155,7 +155,7 @@ tm_shape(World) +
 
 # Numeric data variable
 tm_shape(World) +
-	tm_polygons("HPI", palette="RdYlGn", style="cont", n=8, auto.palette.mapping=FALSE,
+	tm_polygons("HPI", palette="RdYlGn", style="cont", n=8,
 		title="Happy Planet Index", id="name") +
 	tm_text("iso_a3", size="AREA", scale=1.5) +
 tm_format("World") + 

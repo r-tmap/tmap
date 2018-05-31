@@ -101,8 +101,7 @@ tmap_options_diff()
 # define black style
 ##############################
 
-# create style list
-# note: a normal list (i.e. without the structure wrapping and style attribute) also works, but without style name
+# create style list with style attribute
 black_style  <- structure(
     list(
 		bg.color = "black",

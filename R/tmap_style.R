@@ -56,10 +56,12 @@ get_style_names <- function(except_style = NULL, remove_grey = TRUE) {
 	}
 	
 	# remove double name gray/grey
-	if (!is.null(except_style) && (except_style %in% c("gray", "grey"))) {
-		styles <- setdiff(styles, c("gray", "grey"))
-	} else {
-		styles <- setdiff(styles, "grey")
+	if (remove_grey) {
+		if (!is.null(except_style) && (except_style %in% c("gray", "grey"))) {
+			styles <- setdiff(styles, c("gray", "grey"))
+		} else {
+			styles <- setdiff(styles, "grey")
+		}
 	}
 	
 	styles

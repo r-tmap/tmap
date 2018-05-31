@@ -36,7 +36,7 @@ tm_shape(NLD_muni) +
 data(World)
 
 tm_shape(World) +
-	tm_polygons("HPI", palette="RdYlGn", auto.palette.mapping=FALSE) +
+	tm_polygons("HPI", palette="RdYlGn") +
 	tm_logo(c("https://www.r-project.org/logo/Rlogo.png", 
         system.file("img/tmap.png", package="tmap"))) +
 	tm_logo("http://blog.kulikulifoods.com/wp-content/uploads/2014/10/logo.png", 

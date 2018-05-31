@@ -83,7 +83,7 @@ qtm(World)
 # choropleth
 qtm(World, fill = "economy", format="World", style="col_blind")
 
-qtm(World, fill="HPI", fill.n=9, fill.palette="div", fill.auto.palette.mapping=FALSE, 
+qtm(World, fill="HPI", fill.n=9, fill.palette="div",
 	fill.title="Happy Planet Index", fill.id="name", format="World", style="gray")
 
 # bubble map
