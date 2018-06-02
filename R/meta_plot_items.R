@@ -95,7 +95,6 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		brks <- attr(legend.labels, "brks")
 		align <- attr(legend.labels, "align")
 		
-		
 		if (legend.type=="symbol.size") {
 			nitems <- length(legend.labels)
 			hs <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) / s2
@@ -308,6 +307,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 		rx <- 1-2*mx
 		ry <- 1-2*my
+		
 		
 		nitems <- length(legend.labels)
 		# delete too high 

@@ -618,7 +618,14 @@ set_bounds_view <- function(lf, gt) {
 	}
 	
 	if (!is.na(gt$set.view[1]) && !gt$global_bbox_specified) {
-		lf <- lf %>% setView(gt$set.view[1], gt$set.view[2], gt$set.view[3])
+		set.view <- gt$set.view
+		
+		if (!is.null(names(set.view))) {
+			if (!setequal(names(set.view), c("lon", "lat", "zoom"))) stop("Incorrect set.view names. They should be \"lon\", \"lat\", and \"zoom\"", call. = FALSE)
+			set.view <- unname(set.view[c("lon", "lat", "zoom")])
+		}
+		
+		lf <- lf %>% setView(set.view[1], set.view[2], set.view[3])
 	} else {
 		bbx <- unname(gt$bbox)
 		if (!is.null(bbx)) lf <- lf %>% fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) #setView(view[1], view[2], view[3])

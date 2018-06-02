@@ -68,14 +68,10 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		# put aes colors in right order and name them
 		if (length(aes.color)==1 && is.null(names(aes.color))) names(aes.color) <- "base"
 		
-		if (!is.null(names(aes.color))) {
-			aes.colors <- c(fill="grey85", borders="grey40", symbols="blueviolet", dots="black", lines="red", text="black", na="grey60")
-			aes.colors[names(aes.color)] <- aes.color
-		} else {
-			aes.colors <- rep(aes.color, length.out=7)
-			names(aes.colors) <- c("fill", "borders", "symbols", "dots", "lines", "text", "na")
+		if (!is.vector(aes.color) || !is.character(aes.color) || length(aes.color) != 8 || !setequal(names(aes.color), c("fill", "borders", "symbols", "dots", "lines", "text", "na", "null"))) {
+			stop("aes.color should the be a character vector of 8 colors named \"fill\", \"borders\", \"symbols\", \"dots\", \"lines\", \"text\", \"na\", \"null\"", call. = FALSE)
 		}
-		aes.colors <- vapply(aes.colors, function(ac) if (is.na(ac)) "#000000" else ac, character(1))
+		aes.colors <- vapply(aes.color, function(ac) if (is.na(ac)) "#000000" else ac, character(1))
 		
 		# override na
 		if (interactive) aes.colors["na"] <- if (is.null(colorNA)) "#00000000" else if (is.na(colorNA)) aes.colors["na"] else colorNA

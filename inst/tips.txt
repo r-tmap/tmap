@@ -1,0 +1,84 @@
+
+1.11-2
+An manual legend can be created with tm_add_legend.
+plot
+data(metro)
+tm_shape(metro) + 
+  tm_symbols(col = "pop2020", size = "pop2020", legend.col.show = FALSE, legend.size.show = FALSE) + 
+  tm_add_legend(type = "symbol", border.col = "grey40",
+                col = tmaptools::get_brewer_pal("YlOrRd", 4, plot = FALSE), 
+                size = sqrt(seq(1:4) / 4),
+                labels = c("0 to 10 mln", "10 to 20 mln", "20 to 30 mln", "30 to 40 mln"),
+                title = "Population in 2020")
+
+1.11-2
+The orientation of a legend block can be changed in the layer functions with legend.is.portrait or legend.[aes].is.portrait with aes the name of the aesthetic (used when there are multiple aesthetics).
+plot
+data(metro)
+tm_shape(metro) + 
+  tm_bubbles(size = "pop2020", legend.size.is.portrait = TRUE)
+
+1.11-2
+The design.mode can be used to design a static map, especially regarding margins and legend box sizes.
+plot
+data(World)
+data(metro)
+tm_shape(World) + 
+  tm_polygons("HPI") +
+tm_shape(metro) +
+  tm_bubbles(size = "pop2020") +
+tm_layout(design.mode = TRUE)
+
+1.11-2
+Color palettes can be reversed by prefixing the palette name with a "-" sign.
+plot
+data(World)
+tm_shape(World) +
+  tm_polygons("well_being", palette = "-Reds")
+
+1.11-2
+A panel that is usually used for facets can also be used for a single map.
+plot
+data(World)
+tm_shape(World) +
+  tm_polygons("life_exp", title = "") + 
+tm_layout(panel.labels = "Life Expectancy")
+
+1.11-2
+A stand-alone legend (so without map) can be created by setting legend.only to TRUE.
+plot
+data(World)
+tm_shape(World) +
+  tm_polygons("HPI") + 
+tm_layout(legend.only = TRUE)
+
+1.11-2
+With tm_symbols, any type symbol can be created, also icons.
+view
+data(metro)
+tm_shape(metro[metro$pop2020 > 5e6, ]) +
+tm_symbols(size = "pop2020", shape = tmap_icons(system.file("img/city.png", package = "tmap")))
+
+2.0
+Semi-transparent tile layers can be added with tm_tiles.
+view
+data(World)
+tm_shape(World) +
+  tm_polygons("life_exp") +
+tm_tiles("Stamen.TonerLines") +
+tm_view(set.view = c(lon = 15, lat = 48, zoom = 4))
+
+2.0
+The middle color for diverging palette can be set with midpoint.
+plot
+data(World)
+tm_shape(World) +
+  tm_polygons("HPI", palette = "RdYlGn", midpoint = 35)
+
+2.0
+Facets can be placed in layers in view mode.
+view
+data(World)
+tm_shape(World) +
+  tm_polygons(c("HPI", "well_being", "life_exp"), palette = list("RdYlGn", "Purples", "Greens")) +
+tm_facets(as.layers = TRUE)

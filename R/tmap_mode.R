@@ -23,7 +23,7 @@ tmap_mode <- function(mode=c("plot", "view")) {
 	current.mode <- getOption("tmap.mode")
 	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
-	if (is.null(match.call(expand.dots = TRUE)[-1]) && show.messages) {
+	if (is.null(match.call(expand.dots = TRUE)[-1])) {
 		message("current tmap mode is \"", current.mode, "\"")
 	} else {
 		mode <- match.arg(mode)

@@ -38,6 +38,12 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		if (length(x)==1 && is.na(x)[1] && type != "text") gt$aes.colors[nm] else x
 	}, xs, colname, SIMPLIFY = FALSE)
 	
+	## put symbol shapes in list
+	if (type == "symbol") {
+		if (is.list(xs[["symbol.shape"]]) && "iconUrl" %in% names(xs[["symbol.shape"]])) xs[["symbol.shape"]] <- split_icon(xs[["symbol.shape"]])
+		if (is.grob(xs[["symbol.shape"]])) xs[["symbol.shape"]] <- list(xs[["symbol.shape"]])
+	} 
+	
 	g <- check_g(g, gt)
 	
 	
@@ -78,7 +84,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 				if (length(x) < nx) rep(x, length.out=nx) else x
 			})
 		}	
-	} 
+	}
 	
 		
 
