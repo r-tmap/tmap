@@ -33,7 +33,7 @@ tm_format(format, ...)
 \arguments{
 \item{title}{Global title of the map. For small multiples, multiple titles can be specified. The title is drawn inside the map. Alternatively, use \code{panel.labels} to print the map as a panel, with the title inside the panel header (especially useful for small multiples). Another alternative is the \code{main.title} which prints a title above the map. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}).}
 
-\item{scale}{numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independently with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.}
+\item{scale}{numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. Each of these elements can be scaled independently with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.}
 
 \item{title.size}{Relative size of the title}
 
@@ -188,7 +188,7 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{basemaps}{Migrated to \code{\link{tm_view}}. vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.}
 
-\item{basemaps.alpha}{Migrated to \code{\link{tm_view}}. alpha transparancy (opacity) of the basemaps. See \code{\link{tm_view}}.}
+\item{basemaps.alpha}{Migrated to \code{\link{tm_view}}. alpha transparency (opacity) of the basemaps. See \code{\link{tm_view}}.}
 
 \item{bg.overlay}{Not used anymore. See \code{\link{tm_view}}.}
 

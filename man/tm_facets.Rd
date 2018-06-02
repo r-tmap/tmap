@@ -30,7 +30,7 @@ tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
 
 \item{free.coords}{logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?}
 
-\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE} (default), they are plotted where mapped aesthetics are regared as missing values. Not applicable for raster shapes.}
+\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE} (default), they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes.}
 
 \item{drop.empty.facets}{logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and columns are dropped.}
 

@@ -6,6 +6,7 @@ version 2.0 (in development)
 - [!] rearranged tmap options, styles and formats. See tmap_options, tmap_style, tmap_format, tm_style and tm_format
 - [!] added filter argument to tm_shape and added colorNULL to layer functions
 - added remove.NA.facets to tm_facets
+- added tmap_tips()
 - all changes are backwards compatible with 1.11-2
 
 version 1.11-2

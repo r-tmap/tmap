@@ -1,5 +1,12 @@
-tmap_tip <- function(newest.version = FALSE) {
-	tip <- get_tip(newest.version)
+#' Get a tip about tmap
+#'
+#' Generates a tip with an example. The tip and example code are printed, and the example itself is executed.
+#' 
+#' @param latest.version should only tips be generated from the latest version of tmap? False by default.
+#' @export
+#' @examples tmap_tip() 
+tmap_tip <- function(latest.version = FALSE) {
+	tip <- get_tip(latest.version)
 
 	def_opts <- .defaultTmapOptions
 	attr(def_opts, "style") <- NULL # to prevent overwriting the style "white"
@@ -7,9 +14,8 @@ tmap_tip <- function(newest.version = FALSE) {
 	opts <- tmap_options(def_opts)
 	mode <- tmap_mode(tip$mode)
 	
-	message(tip$text)
-	message("")
-	message(paste(tip$code, collapse="\n"))
+	cat(tip$text, "\n\n")
+	cat(paste(tip$code, collapse="\n"))
 	
 	print(eval(parse(text = tip$code)))
 	
@@ -57,12 +63,12 @@ get_new_tip_id <- function(ids, id) {
 	}
 }
 
-get_tip <- function(newest) {
+get_tip <- function(latest.version) {
 	cks <- read_tmap_tips()
 	ids <- get(".tmapTipsIds", envir = .TMAP_CACHE)
 	id <- get(".tmapTipsId", envir = .TMAP_CACHE)
 	
-	if (newest) id <- get_new_tip_id(ids, id)
+	if (latest.version) id <- get_new_tip_id(ids, id)
 	
 	assign(".tmapTipsId", ifelse(id == length(ids), 1, id + 1), envir = .TMAP_CACHE)
 	cks[[ids[id]]]

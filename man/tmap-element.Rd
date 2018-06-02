@@ -7,28 +7,43 @@
 Building block for drawing thematic maps. All element functions have the prefix \code{tm_}.
 }
 \details{
-The fundamental, and hence required element is
-\itemize{
-\item \code{\link{tm_shape}} that specifies the shape object, and also specifies the projection and bounding box}
+The fundamental, and hence required element is \code{\link{tm_shape}}, which specifies the shape object, and also specifies the projection and bounding box.
 
 The elements that serve as aesthetics layers are
-\itemize{
-\item \code{\link{tm_fill}} to fill the polygons
-\item \code{\link{tm_borders}} to draw polygon borders
-\item \code{\link{tm_polygons}} to draw polygons (it is a combination of \code{\link{tm_fill}} and \code{\link{tm_borders}})
-\item \code{\link{tm_bubbles}} to draw bubbles
-\item \code{\link{tm_lines}} to draw lines
-\item \code{\link{tm_text}} to add text annotations
-\item \code{\link{tm_raster}} to draw a raster}
+
+Base layers:
+\tabular{ll}{
+\code{\link{tm_polygons}}\tab Create a polygon layer (with borders) \cr
+\code{\link{tm_symbols}}\tab Create a layer of symbols \cr
+\code{\link{tm_lines}}\tab Create a layer of lines \cr
+\code{\link{tm_raster}}\tab Create a raster layer \cr
+\code{\link{tm_text}}\tab Create a layer of text labels \cr
+\code{\link{tm_basemap}}\tab Create a layer of basemap tiles \cr
+\code{\link{tm_tiles}}\tab Create a layer of overlay tiles \cr
+}
+
+Derived layers:
+\tabular{ll}{
+\code{\link{tm_fill}}\tab Create a polygon layer (without borders) \cr
+\code{\link{tm_borders}}\tab Create polygon borders \cr
+\code{\link{tm_bubbles}}\tab Create a layer of bubbles \cr
+\code{\link{tm_squares}}\tab Create a layer of squares \cr
+\code{\link{tm_dots}}\tab Create a layer of dots \cr
+\code{\link{tm_markers}}\tab Create a layer of markers \cr
+\code{\link{tm_iso}}\tab Create a iso/contour lines \cr
+\code{\link{tm_rgb}}\tab Create a raster layer of an image \cr
+}
 
 The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}}.
 
-The attribute elements are
-\itemize{
-\item \code{\link{tm_grid}} to specify coordinate grid lines
-\item \code{\link{tm_credits}} to add a credits/acknowledgements text label
-\item \code{\link{tm_scale_bar}} to add a measurement scale bar
-\item \code{\link{tm_compass}} to add a map compass
+Attributes layers:
+\tabular{ll}{
+\code{\link{tm_grid}}\tab Create grid lines \cr
+\code{\link{tm_scale_bar}}\tab Create a scale bar \cr
+\code{\link{tm_compass}}\tab Create a map compass \cr
+\code{\link{tm_credits}}\tab Create a text for credits \cr
+\code{\link{tm_logo}}\tab Create a logo \cr
+\code{\link{tm_xlab} and \link{tm_ylab}}\tab Create axis labels \cr
 }
 
 The element \code{\link{tm_facets}} specifies facets (small multiples). The element \code{\link{tm_layout}} is used to change the layout of the map.
@@ -37,9 +52,7 @@ The element \code{\link{tm_facets}} specifies facets (small multiples). The elem
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
-
-\href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 
 The examples in each of the element functions
 }

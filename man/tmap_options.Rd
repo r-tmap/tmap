@@ -29,7 +29,7 @@ tmap_options_save(style)
 
 \item{basemaps.alpha}{default transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.}
 
-\item{overlays}{default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparant. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.}
+\item{overlays}{default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparent. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.}
 
 \item{overlays.alpha}{default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.}
 
@@ -38,7 +38,7 @@ tmap_options_save(style)
 \item{style}{style name}
 }
 \description{
-Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned as a list. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}. The function \code{tmap_options_save} can be used to save the current options as a new style. See details below on how to create a new stytle.
+Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned as a list. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}. The function \code{tmap_options_save} can be used to save the current options as a new style. See details below on how to create a new style.
 }
 \details{
 The options can be divided into three parts: one part contains the arguments \code{\link{tm_layout}}, one part contains the arguments from \code{\link{tm_view}}, and one part contains options that can only be set with \code{tmap_options}. Observe that the options from \code{\link{tm_layout}} and \code{\link{tm_view}} can also be set with those functions. It is recommended to use \code{tmap_options} when setting specific options during global session. However, options that are only relevant for a specifc map can better be set with \code{\link{tm_layout}} or \code{\link{tm_view}}.
@@ -105,7 +105,7 @@ tmap_options_diff()
 black_style  <- structure(
     list(
 		bg.color = "black",
-		aes.color = c(fill = "grey40", borders = "grey40", dots = "white", 
+		aes.color = c(fill = "grey40", borders = "grey40", symbols = "grey80", dots = "grey80", 
 		              lines = "white", text = "white", na = "grey30", null = "grey15"),
 		aes.palette = list(seq = "plasma", div = "PiYG", cat = "Dark2"),
 		attr.color = "white",

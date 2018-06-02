@@ -1,6 +1,6 @@
 #' Get or add format options
 #' 
-#' Format options are tmap options that are shape dependend. With \code{tmap_format()} the predefined formats can be retrieved. The values for a specific format can be retrieved with \code{tmap_format(format)}, where format is the name of the format. The function \code{tmap_format_add} is used to add a format.
+#' Format options are tmap options that are shape dependent. With \code{tmap_format()} the predefined formats can be retrieved. The values for a specific format can be retrieved with \code{tmap_format(format)}, where format is the name of the format. The function \code{tmap_format_add} is used to add a format.
 #' 
 #' @param format name of the format. Run \code{tmap_format()} to see the choices.
 #' @return the function \code{tmap_format()} returns the names of the available formats. When \code{format} is defined, it returns the option list corresponding the that format.

@@ -86,7 +86,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 
 \item{labels}{labels of the classes}
 
-\item{midpoint}{The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a divering color palette.}
+\item{midpoint}{The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.}
 
 \item{stretch.palette}{Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If \code{TRUE} (default), interpolated colors are used (like a rainbow). If \code{FALSE}, the palette is repeated.}
 
@@ -134,7 +134,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 
 \item{icon.scale}{scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see \code{\link{tmap_icons}}) or, if grobs are specified by \code{grob.width} and \code{grob.heigth}}
 
-\item{grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic succesfully. Only needed for the view mode.}
+\item{grob.dim}{vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.}
 
 \item{title.size}{title of the legend element regarding the symbol sizes}
 
@@ -194,7 +194,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
 
-\item{auto.palette.mapping}{deprecated. It has beeen replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
+\item{auto.palette.mapping}{deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
 
 \item{max.categories}{deprecated. It has moved to \code{\link{tmap_options}}.}
 
@@ -223,7 +223,7 @@ Creates a \code{\link{tmap-element}} that draws symbols, including symbols and d
 \details{
 Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments, which are \code{size}, \code{col}, and \code{shape}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 
-A  shape specification is one of the following three options. To specify multiple shapes (needed for the \code{shapes} argument), a vector or list of these shape specification is required. The shape specification options can also be mixed. For the \code{shapes} argument, it is possible to use a named vector or list, where the names correspond to the value of the variable speficied by the \code{shape} argument.
+A  shape specification is one of the following three options. To specify multiple shapes (needed for the \code{shapes} argument), a vector or list of these shape specification is required. The shape specification options can also be mixed. For the \code{shapes} argument, it is possible to use a named vector or list, where the names correspond to the value of the variable specified by the \code{shape} argument.
 \enumerate{
  \item{A numeric value that specifies the plotting character of the symbol. See parameter \code{pch} of \code{\link[graphics:points]{points}} and the last example to create a plot with all options.}
  \item{A \code{\link[grid:grid.grob]{grob}} object, which can be a ggplot2 plot object created with \code{\link[ggplot2:ggplotGrob]{ggplotGrob}}. To specify multiple shapes, a list of grob objects is required. See example of a proportional symbol map with ggplot2 plots}.
@@ -301,14 +301,13 @@ tm_format("NLD")
 if (require(rnaturalearth)) {
 
 airports <- ne_download(scale=10, type="airports")
-airplane <- tmap_icons(paste0("http://cdn.mysitemyway.com/etc-mysitemyway/icons/",
-	"legacy-previews/icons-256/retro-green-floral-icons-transport-travel/",
-	"040553-retro-green-floral-icon-transport-travel-transportation-airplane22.png"))
+airplane <- tmap_icons(system.file("img/airplane.png", package = "tmap"))
 
 current.mode <- tmap_mode("view")
-tm_shape(airports, bbox="Germany") +
+tm_shape(airports) +
 	tm_symbols(shape=airplane, size="natlscale",
-		legend.size.show = FALSE, scale=2, border.col = NULL, id="name", popup.vars = TRUE)
+        legend.size.show = FALSE, scale=1, border.col = NULL, id="name", popup.vars = TRUE) +
+tm_view(set.view = c(lon = 15, lat = 48, zoom = 4))
 tmap_mode(current.mode)
 }
 }

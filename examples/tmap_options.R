@@ -55,8 +55,10 @@ tmap_options_diff()
 black_style  <- structure(
     list(
 		bg.color = "black",
-		aes.color = c(fill = "grey40", borders = "grey40", dots = "white", 
-		              lines = "white", text = "white", na = "grey30", null = "grey15"),
+		aes.color = c(fill = "grey40", borders = "grey40", 
+					  symbols = "grey80", dots = "grey80", 
+		              lines = "white", text = "white", 
+					  na = "grey30", null = "grey15"),
 		aes.palette = list(seq = "plasma", div = "PiYG", cat = "Dark2"),
 		attr.color = "white",
 		panel.label.color = "white",

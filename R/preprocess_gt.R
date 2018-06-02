@@ -91,6 +91,8 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		# 	basemaps.alpha <- rep(basemaps.alpha, length.out=length(basemaps))
 		# 	if (is.na(alpha)) alpha <- 1
 		# }
+		if (is.na(alpha)) alpha <- 1
+		
 		if (!is.logical(set.bounds)) if (!length(set.bounds)==4 || !is.numeric(set.bounds)) stop("Incorrect set_bounds argument", call.=FALSE)
 		
 		if (!is.null(bbox)) {

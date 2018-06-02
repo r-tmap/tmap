@@ -2,7 +2,7 @@
 #'
 #' Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps. It is based on the grammar of graphics, and resembles the syntax of ggplot2.
 #' 
-#' This page provides a brief overview of all package functions. See \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} for a short introduction with examples. See \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}} for a short demo of the two output modes: plot and interactive view.
+#' This page provides a brief overview of all package functions. See \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} for a short introduction with examples.
 #'
 #' @section Quick plotting method:
 #' \tabular{ll}{
@@ -24,6 +24,8 @@
 #' \code{\link{tm_lines}}\tab Create a layer of lines \cr
 #' \code{\link{tm_raster}}\tab Create a raster layer \cr
 #' \code{\link{tm_text}}\tab Create a layer of text labels \cr
+#' \code{\link{tm_basemap}}\tab Create a layer of basemap tiles \cr
+#' \code{\link{tm_tiles}}\tab Create a layer of overlay tiles \cr
 #' }
 #' 
 #' Aesthetics derived layers:
@@ -35,10 +37,11 @@
 #' \code{\link{tm_dots}}\tab Create a layer of dots \cr
 #' \code{\link{tm_markers}}\tab Create a layer of markers \cr
 #' \code{\link{tm_iso}}\tab Create a iso/contour lines \cr
+#' \code{\link{tm_rgb}}\tab Create a raster layer of an image \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
-#' Facetting (small multiples)
+#' Faceting (small multiples)
 #' \tabular{ll}{
 #' \code{\link{tm_facets}}\tab Define facets \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
@@ -66,7 +69,8 @@
 #' Change options:
 #' \tabular{ll}{
 #' \code{\link{tmap_mode}}\tab Set the tmap mode: \code{"plot"} or \code{"view"}\cr
-#' \code{\link{ttm}}\tab Toggle between the modes\cr
+#' \code{\link{ttm}}\tab Toggle between the modes \cr
+#' \code{\link{tmap_options}}\tab Set global tmap options (from \code{\link{tm_layout}}, \code{\link{tm_view}}, and a couple of others) \cr
 #' \code{\link{tmap_style}}\tab Set the default style \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
@@ -84,6 +88,7 @@
 #' \code{\link{tmap_last}}\tab Redraw the last map \cr
 #' \code{\link{tmap_leaflet}}\tab Obtain a leaflet widget object \cr
 #' \code{\link{tmap_animation}}\tab Create an animation \cr
+#' \code{\link{tmap_arrange}}\tab Create small multiple of separate maps \cr
 #' \code{\link{tmap_save}}\tab Save thematic maps (both in plot and view mode) \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
@@ -104,8 +109,7 @@
 #' @docType package
 #' @author Martijn Tennekes \email{mtennekes@@gmail.com}
 #' @keywords GIS, thematic maps, statistical maps, choropleth, bubble map
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
-#' @seealso \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 NULL
 
@@ -184,35 +188,49 @@ NULL
 #'
 #' Building block for drawing thematic maps. All element functions have the prefix \code{tm_}.
 #' 
-#' The fundamental, and hence required element is
-#' \itemize{
-#' \item \code{\link{tm_shape}} that specifies the shape object, and also specifies the projection and bounding box}
+#' The fundamental, and hence required element is \code{\link{tm_shape}}, which specifies the shape object, and also specifies the projection and bounding box.
 #' 
 #' The elements that serve as aesthetics layers are
-#' \itemize{
-#' \item \code{\link{tm_fill}} to fill the polygons
-#' \item \code{\link{tm_borders}} to draw polygon borders
-#' \item \code{\link{tm_polygons}} to draw polygons (it is a combination of \code{\link{tm_fill}} and \code{\link{tm_borders}})
-#' \item \code{\link{tm_bubbles}} to draw bubbles
-#' \item \code{\link{tm_lines}} to draw lines
-#' \item \code{\link{tm_text}} to add text annotations
-#' \item \code{\link{tm_raster}} to draw a raster}
+#' 
+#' Base layers:
+#' \tabular{ll}{
+#' \code{\link{tm_polygons}}\tab Create a polygon layer (with borders) \cr
+#' \code{\link{tm_symbols}}\tab Create a layer of symbols \cr
+#' \code{\link{tm_lines}}\tab Create a layer of lines \cr
+#' \code{\link{tm_raster}}\tab Create a raster layer \cr
+#' \code{\link{tm_text}}\tab Create a layer of text labels \cr
+#' \code{\link{tm_basemap}}\tab Create a layer of basemap tiles \cr
+#' \code{\link{tm_tiles}}\tab Create a layer of overlay tiles \cr
+#' }
+#' 
+#' Derived layers:
+#' \tabular{ll}{
+#' \code{\link{tm_fill}}\tab Create a polygon layer (without borders) \cr
+#' \code{\link{tm_borders}}\tab Create polygon borders \cr
+#' \code{\link{tm_bubbles}}\tab Create a layer of bubbles \cr
+#' \code{\link{tm_squares}}\tab Create a layer of squares \cr
+#' \code{\link{tm_dots}}\tab Create a layer of dots \cr
+#' \code{\link{tm_markers}}\tab Create a layer of markers \cr
+#' \code{\link{tm_iso}}\tab Create a iso/contour lines \cr
+#' \code{\link{tm_rgb}}\tab Create a raster layer of an image \cr
+#' }
 #' 
 #' The layers can be stacked by simply adding them with the + symbol. The combination of the elements described above form one group. Multiple groups can be stacked. Each group should start with \code{\link{tm_shape}}.
 #' 
-#' The attribute elements are
-#' \itemize{
-#' \item \code{\link{tm_grid}} to specify coordinate grid lines
-#' \item \code{\link{tm_credits}} to add a credits/acknowledgements text label
-#' \item \code{\link{tm_scale_bar}} to add a measurement scale bar
-#' \item \code{\link{tm_compass}} to add a map compass
+#' Attributes layers:
+#' \tabular{ll}{
+#' \code{\link{tm_grid}}\tab Create grid lines \cr
+#' \code{\link{tm_scale_bar}}\tab Create a scale bar \cr
+#' \code{\link{tm_compass}}\tab Create a map compass \cr
+#' \code{\link{tm_credits}}\tab Create a text for credits \cr
+#' \code{\link{tm_logo}}\tab Create a logo \cr
+#' \code{\link{tm_xlab} and \link{tm_ylab}}\tab Create axis labels \cr
 #' }
 #' 
 #' The element \code{\link{tm_facets}} specifies facets (small multiples). The element \code{\link{tm_layout}} is used to change the layout of the map.
 #' 
 #' @name tmap-element
-#' @seealso \href{../doc/tmap-nutshell.html}{\code{vignette("tmap-nutshell")}}
-#' @seealso \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @seealso The examples in each of the element functions
 NULL

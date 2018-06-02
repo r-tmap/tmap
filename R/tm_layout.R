@@ -27,7 +27,7 @@
 #' @name tm_layout
 #' @rdname tm_layout
 #' @param title Global title of the map. For small multiples, multiple titles can be specified. The title is drawn inside the map. Alternatively, use \code{panel.labels} to print the map as a panel, with the title inside the panel header (especially useful for small multiples). Another alternative is the \code{main.title} which prints a title above the map. Titles for the legend items are specified at the layer functions (e.g. \code{\link{tm_fill}}).
-#' @param scale numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controled by this value. Each of these elements can be scaled independently with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
+#' @param scale numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. Each of these elements can be scaled independently with the \code{scale}, \code{lwd}, or \code{size} arguments provided by the \code{\link{tmap-element}s}.
 #' @param title.size Relative size of the title
 #' @param bg.color Background color. By default it is \code{"white"}. A recommended alternative for choropleths is light grey (e.g., \code{"grey85"}).
 #' @param aes.color Default color values for the aesthetics layers. Should be a named vector with the names chosen from: \code{fill}, \code{borders}, \code{symbols}, \code{dots}, \code{lines}, \code{text}, \code{na}. Use \code{"#00000000"} for transparency.
@@ -112,7 +112,7 @@
 #' @param attr.just Justification of the attributes relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{attr.position} is specified by numeric coordinates. It can also be specified per attribute function.
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.
 #' @param basemaps Migrated to \code{\link{tm_view}}. vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.
-#' @param basemaps.alpha Migrated to \code{\link{tm_view}}. alpha transparancy (opacity) of the basemaps. See \code{\link{tm_view}}.
+#' @param basemaps.alpha Migrated to \code{\link{tm_view}}. alpha transparency (opacity) of the basemaps. See \code{\link{tm_view}}.
 #' @param bg.overlay Not used anymore. See \code{\link{tm_view}}.
 #' @param bg.overlay.alpha Not used anymore. See \code{\link{tm_view}}.
 #' @param ... other arguments from \code{tm_layout}

@@ -57,7 +57,15 @@ With tm_symbols, any type symbol can be created, also icons.
 view
 data(metro)
 tm_shape(metro[metro$pop2020 > 5e6, ]) +
-tm_symbols(size = "pop2020", shape = tmap_icons(system.file("img/city.png", package = "tmap")))
+  tm_symbols(size = "pop2020", shape = tmap_icons(system.file("img/city.png", package = "tmap")))
+
+1.11-2
+Each element function has a scalar argument called scale. The overall scaling and font sizes can be set by the scale argument in tm_layout (or globally, in tmap_options).
+plot
+data(metro)
+tm_shape(metro) +
+ tm_bubbles(col = "gold", size = "pop2020", scale = 3, title.size = "Population in 2020") +
+tm_legend(outside = TRUE)
 
 2.0
 Semi-transparent tile layers can be added with tm_tiles.
@@ -76,9 +84,23 @@ tm_shape(World) +
   tm_polygons("HPI", palette = "RdYlGn", midpoint = 35)
 
 2.0
-Facets can be placed in layers in view mode.
+Facets can be shown as layers in view mode (instead of small multiples).
 view
 data(World)
 tm_shape(World) +
   tm_polygons(c("HPI", "well_being", "life_exp"), palette = list("RdYlGn", "Purples", "Greens")) +
 tm_facets(as.layers = TRUE)
+
+2.0
+Basemaps can be disabled as follows, or by setting tmap_options(basemaps = NULL).
+view
+data(World)
+tm_basemap(NULL) +
+qtm(World, "HPI")
+
+2.0
+The filter argument of tm_shape can be used to filter spatial units.
+plot
+data(World)
+tm_shape(World, filter = World$continent == "Africa") +
+tm_polygons("HPI")

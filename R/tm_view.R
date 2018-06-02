@@ -23,7 +23,7 @@
 #' @param basemaps Deprecated. Use \code{\link{tm_basemap}} instead, or set the default basemaps in \code{\link{tmap_options}}
 #' @param basemaps.alpha Deprecated. See \code{basemaps}
 #' @example ./examples/tm_view.R
-#' @seealso \code{\link{tmap_mode}} and \href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @export
 tm_view <- function(alpha,

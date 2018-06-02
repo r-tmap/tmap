@@ -48,7 +48,7 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{labels}{labels of the classes.}
 
-\item{midpoint}{The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a divering color palette.}
+\item{midpoint}{The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.}
 
 \item{stretch.palette}{Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If \code{TRUE} (default), interpolated colors are used (like a rainbow). If \code{FALSE}, the palette is repeated.}
 
@@ -102,7 +102,7 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
 
-\item{auto.palette.mapping}{deprecated. It has beeen replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
+\item{auto.palette.mapping}{deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
 
 \item{max.categories}{deprecated. It has moved to \code{\link{tmap_options}}.}
 

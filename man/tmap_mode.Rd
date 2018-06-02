@@ -80,5 +80,5 @@ tmap_mode(current.mode)
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\href{../doc/tmap-modes.html}{\code{vignette("tmap-modes")}}, \code{\link{tmap_last}} to show the last map, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget, and \code{\link{tmap_options}} for tmap options.
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}, \code{\link{tmap_last}} to show the last map, \code{\link{tm_view}} for viewing options, and \code{\link{tmap_leaflet}} for obtaining a leaflet widget, and \code{\link{tmap_options}} for tmap options.
 }

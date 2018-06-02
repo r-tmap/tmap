@@ -209,7 +209,7 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		if (check_dens) {
 			if (is.numeric(dtcol) && g$convert2density) {
 				dtcol <- dtcol / areas
-				title_append <- paste("per", areas_unit, " ")
+				title_append <- paste(" per", areas_unit, " ")
 			} else {
 				title_append <- ""
 			}

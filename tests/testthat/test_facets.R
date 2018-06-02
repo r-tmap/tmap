@@ -34,6 +34,19 @@ test_that("facets (polygons, plot)", {
 	expect_equal(sum(nrs), expected = 0)
 })
 
+test_that("facets (polygons, view)", {
+	tmap_mode("view")
+	
+	tests <- list(
+		list(layer = "polygons", args = list(col = "green"), use_filter = FALSE),
+		list(layer = "polygons", args = list(col = "v1"), use_filter = FALSE),
+		list(layer = "polygons", args = list(col = "v2"), use_filter = FALSE))
+	
+	nrs <- sapply(tests, run_facet_test)
+	
+	expect_equal(sum(nrs), expected = 0)
+})
+
 test_that("facets (lines, plot)", {
 	tmap_mode("plot")
 	
