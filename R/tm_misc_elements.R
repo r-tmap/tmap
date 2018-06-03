@@ -280,6 +280,21 @@ tm_ylab <- function(text,
 	g
 }
 
+#' Minimap
+#' 
+#' Creates a minimap in view mode. See \code{\link[leaflet:addMiniMap]{addMiniMap}}.
+#' 
+#' @param position position of the scale bar Vector of two values, specifying the x and y coordinates. The first is either "left" or "right", the second either "top" or "bottom". The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param ... arguments passed on to \code{\link[leaflet:addMiniMap]{addMiniMap}}.
+#' @seealso \code{\link[leaflet:addMiniMap]{addMiniMap}}
+#' @export
+tm_minimap <- function(position=NA, ...) {
+	g <- list(tm_minimap=c(as.list(environment()), list(...)))
+	names(g$tm_minimap) <- paste("minimap", names(g$tm_minimap), sep=".")
+	class(g) <- "tmap"
+	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
+	g	
+}
 
 
 #' Stacking of tmap elements

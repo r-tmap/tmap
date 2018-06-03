@@ -19,6 +19,18 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 				}
 			} 
 			g$style <- NULL
+			if ("aes.color" %in% names(g)) {
+				aes <- g$aes.color
+				if (!all(names(aes) %in% names(gt$aes.color))) stop("Names in aes.color unknown: ", paste(setdiff(names(aes), names(gt$aes.color)), collapse = ", "), call. = FALSE)
+				g$aes.color <- gt$aes.color
+				g$aes.color[names(aes)] <- aes
+			}
+			if ("aes.palette" %in% names(g)) {
+				aes <- g$aes.palette
+				if (!all(names(aes) %in% names(gt$aes.palette))) stop("Names in aes.color unknown: ", paste(setdiff(names(aes), names(gt$aes.palette)), collapse = ", "), call. = FALSE)
+				g$aes.palette <- gt$aes.palette
+				g$aes.palette[names(aes)] <- aes
+			}
 			if (length(g)) gt[names(g)] <- g
 		}
 	}

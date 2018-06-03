@@ -574,6 +574,15 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 		metric <- (u %in% c("m", "km", "metric"))
 	 	lf <- lf %>% addScaleBar(position = gt$scale.position, options = scaleBarOptions(maxWidth=gt$scale.width, metric=metric, imperial = !metric))
 	}
+	
+	if (gt$minimap.show) {
+		mmargs <- gt[substr(names(gt), 1, 4) == "mini"]
+		names(mmargs) <- substr(names(mmargs), 9, nchar(names(mmargs)))
+		mmargs$show <- NULL
+		
+		lf <- do.call(addMiniMap, c(list(map = lf), mmargs))
+	}
+	
 	# print(leaflet_id)
 	# if (gt$title!="") {
 	# 	lf <- lf %>% onRender(paste("

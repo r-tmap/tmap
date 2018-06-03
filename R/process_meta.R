@@ -1,4 +1,4 @@
-process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive) {
+process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive) {
 	attr.color <- aes.colors <- aes.color <- pc <- NULL
 	
 	credit.show <- !is.null(gc)
@@ -338,8 +338,31 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.na
 
 	gt[c("compass.type", "compass.size")] <- NULL
 	
+	gmm <- process_meta_minimap(gmm, interactive, gt)
+	
+	c(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, gm)
+}
 
-	c(gt, gf, gg, gc, gl, gsb, gcomp, glab, gm)
+process_meta_minimap <- function(gmm, interactive, gt) {
+	if (!is.null(gmm) && interactive) {
+		if (is.na(gmm$minimap.position[1])) gmm$minimap.position <- gt$attr.position
+		gmm$minimap.position <- find_leaflet_position(gmm$minimap.position)
+		gmm$minimap.show <- TRUE
+	} else {
+		gmm <- list(minimap.show = FALSE)
+	}
+	gmm
+}
+
+
+find_leaflet_position <- function(position) {
+	if (is_num_string(position[1])) {
+		paste(ifelse(as.numeric(position[2])<.5, "bottom", "top"),
+								ifelse(as.numeric(position[1])<.5, "left", "right"), sep="")
+	} else {
+		paste(ifelse(position[2] %in% c("BOTTOM", "bottom"), "bottom", "top"),
+								ifelse(position[1] %in% c("LEFT", "left"), "left", "right"), sep="")
+	}	
 }
 
 
@@ -357,13 +380,7 @@ process_meta_scale_bar <- function(gsb, interactive, gt) {
 				}
 				
 				if (is.na(scale.position[1])) scale.position <- gt$attr.position
-				if (is_num_string(scale.position[1])) {
-					scale.position <- paste(ifelse(as.numeric(scale.position[2])<.5, "bottom", "top"),
-											ifelse(as.numeric(scale.position[1])<.5, "left", "right"), sep="")
-				} else {
-					scale.position <- paste(ifelse(scale.position[2] == "bottom", "bottom", "top"),
-											ifelse(scale.position[1] == "left", "left", "right"), sep="")
-				}
+				scale.position <- find_leaflet_position(scale.position)
 			} else {
 				if (is.na(scale.width))
 					scale.width <- .25

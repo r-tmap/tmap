@@ -8,8 +8,8 @@ qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
   symbols.shape = NULL, dots.col = NULL, text = NULL, text.size = 1,
   text.col = NA, lines.lwd = NULL, lines.col = NULL, raster = NA,
   borders = NA, by = NULL, scale = NA, title = NA, projection = NULL,
-  format = NULL, style = NULL, bubble.size = NULL, bubble.col = NULL,
-  ...)
+  format = NULL, style = NULL, basemaps = NA, overlays = NA,
+  bubble.size = NULL, bubble.col = NULL, ...)
 }
 \arguments{
 \item{shp}{shape object, which is one of
@@ -58,6 +58,10 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 \item{format}{Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.}
 
 \item{style}{Layout options (see \code{\link{tm_layout}}) that define the style. See \code{\link{tmap_style}} for details.}
+
+\item{basemaps}{name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps.}
+
+\item{overlays}{name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to \code{\link{tm_tiles}}.}
 
 \item{bubble.size}{deprecated. Please use symbols.size.}
 

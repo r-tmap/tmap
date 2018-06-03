@@ -17,10 +17,10 @@ tm_tiles(server, group = NA, alpha = 1)
 \item{alpha}{alpha}
 }
 \description{
-Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}. \code{tm_tiles} draws the tile layer as overlay layer where it follows the plotting order in which this layer is called. \code{tm_basemap} draws the tile layer as basemap (so as bottom layer). Note that basemaps are shown by default (see details).
+Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by \code{\link[tmaptools:read_osm]{read_osm}}. The function \code{tm_basemap} draws the tile layer as basemap (i.e. as bottom layer), whereas \code{tm_tiles} draws the tile layer as overlay layer (where the stacking order corresponds to the order in which this layer is called). Note that basemaps are shown by default (see details).
 }
 \details{
-When \code{tm_basemap} is not specified, the default basemaps, which can be configured by the \code{basemaps} arugument in \code{\link{tmap_options}}, are shown. By default (for style \code{"white"}) three basemaps are drawn: \code{c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)} to the plot, or set \code{tmap_options(basemaps = NULL)}. Similarly, when \code{tm_tiles} is not specified, the overlay maps specified by the \code{overlays} argument in in \code{\link{tmap_options}} are shown as front layer. By default, this argument is set to \code{NULL}, so no overlay maps are shown by default. See examples.
+When \code{tm_basemap} is not specified, the default basemaps are shown, which can be configured by the \code{basemaps} arugument in \code{\link{tmap_options}}. By default (for style \code{"white"}) three basemaps are drawn: \code{c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)} to the plot, or set \code{tmap_options(basemaps = NULL)}. Similarly, when \code{tm_tiles} is not specified, the overlay maps specified by the \code{overlays} argument in in \code{\link{tmap_options}} are shown as front layer. By default, this argument is set to \code{NULL}, so no overlay maps are shown by default. See examples.
 }
 \examples{
 current.mode <- tmap_mode("view")

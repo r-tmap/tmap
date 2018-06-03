@@ -50,6 +50,10 @@ process_tm <- function(x, gt, gm, interactive) {
 	glab <- c(if(is.na(gxlabid)) NULL else x[[gxlabid]],
 			  if(is.na(gylabid)) NULL else x[[gylabid]])
 			  
+	# get minimap element
+	gmmid <- which(names(x)=="tm_minimap")[1]
+	gmm <- x[[gmmid]]
+
 	## get facets element
 	shape.id.orig <- which(names(x)=="tm_shape")
 	facet.id.orig <- which(names(x)=="tm_facets")
@@ -247,7 +251,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	
 
 
-	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive)
+	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {

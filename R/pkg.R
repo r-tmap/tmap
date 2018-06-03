@@ -55,6 +55,7 @@
 #' \code{\link{tm_credits}}\tab Create a text for credits \cr
 #' \code{\link{tm_logo}}\tab Create a logo \cr
 #' \code{\link{tm_xlab} and \link{tm_ylab}}\tab Create axis labels \cr
+#' \code{\link{tm_minimap}}\tab Create a minimap (view mode only) \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
@@ -225,6 +226,7 @@ NULL
 #' \code{\link{tm_credits}}\tab Create a text for credits \cr
 #' \code{\link{tm_logo}}\tab Create a logo \cr
 #' \code{\link{tm_xlab} and \link{tm_ylab}}\tab Create axis labels \cr
+#' \code{\link{tm_minimap}}\tab Create a minimap (view mode only) \cr
 #' }
 #' 
 #' The element \code{\link{tm_facets}} specifies facets (small multiples). The element \code{\link{tm_layout}} is used to change the layout of the map.

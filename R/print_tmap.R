@@ -110,7 +110,7 @@ print_shortcut <- function(x, interactive, args, knit) {
 		
 		x[names(x) == "tm_shape"] <- NULL
 		
-		x <- x[!(names(x) %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_logo", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab"))]
+		x <- x[!(names(x) %in% c("tm_layout", "tm_view", "tm_style", "tm_grid", "tm_facets", "tm_credits", "tm_logo", "tm_compass", "tm_scale_bar", "tm_xlab", "tm_ylab", "tm_minimap"))]
 		
 		x$tm_layout <- gt
 		

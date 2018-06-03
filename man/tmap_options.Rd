@@ -17,7 +17,7 @@ tmap_options_reset()
 tmap_options_save(style)
 }
 \arguments{
-\item{...}{options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Note that the difference with using \code{\link{tm_layout}} or \code{\link{tm_view}} directly, is that options set with \code{tmap_options} remain for the entire session (unless changed with \code{tmap_options} or \code{\link{tmap_style}}). If can also be a single unnamed argument which is a named list (like \code{\link[base:options]{options}}).}
+\item{...}{options from \code{\link{tm_layout}} or \code{\link{tm_view}}. Note that the difference with using \code{\link{tm_layout}} or \code{\link{tm_view}} directly, is that options set with \code{tmap_options} remain for the entire session (unless changed with \code{tmap_options} or \code{\link{tmap_style}}). It can also be a single unnamed argument which is a named list of options (similar behaviour as \code{\link[base:options]{options}}).}
 
 \item{unit}{This is the default value for the \code{unit} argument of \code{\link{tm_shape}}. It specifies the unit of measurement, which is used in the scale bar and the calculation of density values. By default (when loading the package), it is \code{"metric"}. Other valid values are \code{"imperial"}, \code{"km"}, \code{"m"}, \code{"mi"}, and \code{"ft"}.}
 
@@ -25,7 +25,7 @@ tmap_options_save(style)
 
 \item{max.categories}{in case \code{col} is the name of a categorical variable in the layer functions (e.g. \code{\link{tm_polygons}}), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.}
 
-\item{basemaps}{default basemaps. Basemaps are normally configured with \code{\link{tm_basemap}}. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or \code{NULL} if basemaps should be omitted. See \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. If a named vector is provided, the names are used in the layer control legend (similar to the \code{group} argument of \code{\link{tm_basemap}}. See also \code{overlays}, which is the default option for overlay tiles.}
+\item{basemaps}{default basemaps. Basemaps are normally configured with \code{\link{tm_basemap}}. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or \code{NULL} if basemaps should be omitted. For options see the list \code{leaflet::providers}, which can be previewed at \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. If a named vector is provided, the names are used in the layer control legend (similar to the \code{group} argument of \code{\link{tm_basemap}}. See also \code{overlays}, which is the default option for overlay tiles.}
 
 \item{basemaps.alpha}{default transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.}
 
@@ -41,11 +41,11 @@ tmap_options_save(style)
 Get or set global options for tmap. The behaviour of \code{tmap_options} is similar to \code{\link[base:options]{options}}: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned as a list. The function \code{tmap_options_reset} is used to reset all options back to the default values (also the \code{style} is reset to \code{"white"}). Differences with the default values can be shown with \code{tmap_options_diff}. The function \code{tmap_options_save} can be used to save the current options as a new style. See details below on how to create a new style.
 }
 \details{
-The options can be divided into three parts: one part contains the arguments \code{\link{tm_layout}}, one part contains the arguments from \code{\link{tm_view}}, and one part contains options that can only be set with \code{tmap_options}. Observe that the options from \code{\link{tm_layout}} and \code{\link{tm_view}} can also be set with those functions. It is recommended to use \code{tmap_options} when setting specific options during global session. However, options that are only relevant for a specifc map can better be set with \code{\link{tm_layout}} or \code{\link{tm_view}}.
+The options can be divided into three parts: one part contains the arguments from \code{\link{tm_layout}}, one part contains the arguments from \code{\link{tm_view}}, and one part contains options that can only be set with \code{tmap_options}. Observe that the options from \code{\link{tm_layout}} and \code{\link{tm_view}} can also be set with those functions. It is recommended to use \code{tmap_options} when setting specific options during global session. However, options that are only relevant for a specifc map can better be set with \code{\link{tm_layout}} or \code{\link{tm_view}}.
 
 A new style can be created in two ways. The first approach is to use the function \code{tmap_options_save}, which takes a snapshot of the current tmap options. E.g., \code{tmap_options_save("my_style")} will save the current tmap options as a style called \code{"my_style"}. See the examples in which a style called \code{"red"} is created. The second way to create a style is to create a list with tmap options and with a attribute called style. This approach is illustrated in the last example, in which a style called \code{"black"} is created.
 
-The newly created style, say \code{"my_style"}, will be accessible globally via \code{tmap_style("my_style")} and \code{+ tm_style("my_style")} until the R session is restarted or \code{tmap} is reloaded. In order to save the style for future use or sharing, obtain the option list as follows: \code{my_style <- tmap_options()} and save the object \code{my_style} in the usual way. Next time, the style can be loaded simply by running \code{tmap_options(my_style)} (which corresponds to the second way which described the paragraph above).
+The newly created style, say \code{"my_style"}, will be accessible globally via \code{tmap_style("my_style")} and \code{+ tm_style("my_style")} until the R session is restarted or \code{tmap} is reloaded. In order to save the style for future use or sharing, obtain the option list as follows: \code{my_style <- tmap_options()} and save the object \code{my_style} in the usual way. Next time, the style can be loaded simply by running \code{tmap_options(my_style)}, which corresponds to the second way to create a style (see the paragraph above).
 }
 \examples{
 # load data
@@ -105,8 +105,10 @@ tmap_options_diff()
 black_style  <- structure(
     list(
 		bg.color = "black",
-		aes.color = c(fill = "grey40", borders = "grey40", symbols = "grey80", dots = "grey80", 
-		              lines = "white", text = "white", na = "grey30", null = "grey15"),
+		aes.color = c(fill = "grey40", borders = "grey40", 
+					  symbols = "grey80", dots = "grey80", 
+		              lines = "white", text = "white", 
+					  na = "grey30", null = "grey15"),
 		aes.palette = list(seq = "plasma", div = "PiYG", cat = "Dark2"),
 		attr.color = "white",
 		panel.label.color = "white",

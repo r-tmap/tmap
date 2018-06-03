@@ -17,7 +17,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	# in case x is search query
 	if (!is.null(args$x)) {
-		if (is.character(args$x)) {
+		if (inherits(args$x, c("Spatial", "Raster", "sf"))) {
+			args$projection <- gm$shape.master_crs
+			args$current.projection <- NULL
+		} else if (is.character(args$x)) {
 			args$projection <- gm$shape.master_crs
 			args$current.projection <- .crs_longlat
 		} else if (interactive) {

@@ -32,6 +32,8 @@
 #' @param projection Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.
 #' @param format Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.
 #' @param style Layout options (see \code{\link{tm_layout}}) that define the style. See \code{\link{tmap_style}} for details.
+#' @param basemaps name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps.
+#' @param overlays name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to \code{\link{tm_tiles}}.
 #' @param bubble.size deprecated. Please use symbols.size.
 #' @param bubble.col deprecated. Please use symbols.col.
 #' @param ... arguments passed on to the \code{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.
@@ -59,6 +61,8 @@ qtm <- function(shp,
 				projection=NULL,
 				format=NULL,
 				style=NULL,
+				basemaps = NA,
+				overlays = NA,
 				bubble.size=NULL,
 				bubble.col=NULL,
 				...) {
@@ -70,7 +74,7 @@ qtm <- function(shp,
 		# return minimal list required for leaflet basemap tile viewing
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		g <- c(tm_basemap(), do.call("tm_view", viewargs))
+		g <- c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
 		class(g) <- "tmap"
 		return(g)
 	} else if (is.character(shp)) {
@@ -78,7 +82,7 @@ qtm <- function(shp,
 		
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- c(args[intersect(names(args), names(formals(tm_view)))], list(bbox = shp))
-		g <- c(tm_basemap(), do.call("tm_view", viewargs)) 
+		g <- c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs)) 
 		#res <- geocode_OSM(shp)
 		#tm_shortcut=list(bbx=res$bbox, center=res$coords)	
 		
@@ -190,6 +194,8 @@ qtm <- function(shp,
 	g$tm_shape$shp_name <- shp_name
 	
 
+	g <- g + tm_basemap(basemaps)
+	
 	if (!is.null(borders)) {
 		if ("border.col" %in% names(args2$tm_polygons)) {
 			borders <- args2$tm_polygons$border.col
@@ -252,6 +258,9 @@ qtm <- function(shp,
 		if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
 		g <- g + tm_format(format)
 	}
+	
+	g <- g + tm_tiles(overlays)
+	
 	
 	glayout <- do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
 	#glayoutcall <- c(intersect(called, c("title", "scale")), names(args2[["tm_layout"]]))
