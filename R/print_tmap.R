@@ -91,8 +91,12 @@ print_shortcut <- function(x, interactive, args, knit) {
 			gg <- NULL
 		}		
 		gg <- process_meta_grid(gg, gt)
+
+		gmmid <- which(names(x)=="tm_minimap")[1]
+		gmm <- x[[gmmid]]
+		gmm <- process_meta_minimap(gmm, interactive = TRUE, gt)
 		
-		gt <- c(gt, gsb, gg)
+		gt <- c(gt, gsb, gg, gmm)
 		
 		
 		#gt$scale.show <- FALSE
