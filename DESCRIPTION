@@ -27,7 +27,6 @@ Imports:
     RColorBrewer,
     viridisLite,
     classInt,
-    spdep,
     htmltools,
     htmlwidgets,
     leaflet (>= 1.1.0),
@@ -35,10 +34,12 @@ Imports:
     stats
 Suggests:
 	lwgeom (>= 0.1-2),
+	rmapshaper,
     rmarkdown,
     knitr,
     png,
     cartogram,
+    osmdata,
     ggplot2,
     dplyr,
     tidyr,

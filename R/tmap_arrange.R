@@ -10,28 +10,64 @@
 #' @param sync logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{FALSE}.
 #' @param asp aspect ratio. If will overwrite the \code{asp} argument from \code{\link{tm_layout}}, unless set to \code{NULL}
 #' @param outer.margins outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the \code{outer.margins} argument from \code{\link{tm_layout}}, unless set to \code{NULL}.
+#' @param x a \code{tmap_arrange} object (returned from \code{tmap_arrange})
+#' @param knit should \code{\link[knitr:knit_print]{knit_print}} be enabled, or the normal \code{\link[base:print]{print}} function?
+#' @param options options passed on to knitprint
 #' @example ./examples/tmap_arrange.R
 #' @export
 tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins=.02) {
 	tms <- list(...)
+	opts <- list(ncol=ncol, nrow=nrow, sync=sync, asp=asp, outer.margins=outer.margins)
+	attr(tms, "opts") <- opts
+	class(tms) <- c("tmap_arrange", class(tms))
+	tms
+}
+
+#' @rdname tmap_arrange
+#' @export
+knit_print.tmap_arrange <- function(x, ..., options = NULL) {
+	print_tmap_arrange(x, knit=TRUE, ..., options = options)
+}
+
+#' @export
+#' @rdname tmap_arrange
+#' @method print tmap_arrange
+print.tmap_arrange <- function(x, knit = FALSE, ..., options = NULL) {
+	print_tmap_arrange(x, knit=knit, ..., options = options)
+}	
+
+
+
+
+print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE, ..., options = options) {
+	args <- list(...)
+
+	opts <- attr(tms, "opts")
+		
 	tms_len <- length(tms)
 	
 	nx <- limit_nx(tms_len)
 	if (nx != tms_len) tms <- tms[1:nx]
 	
-
-	if (is.na(ncol) && is.na(nrow)) {
+	if (is.na(opts$ncol) && is.na(opts$nrow)) {
 		devsize <- graphics::par("din")
 		dasp <- devsize[1] / devsize[2]
 		
 		## determine 'overall' aspect ratio by overlaying the maps		
-		tmp <- tempfile(fileext = ".png")
+		#tmp <- tempfile(fileext = ".png")
+		#png( tmp, width=700, height=700, res = 100)
+		
+		curdev <- dev.cur()
 		tasps <- vapply(tms, function(tm) {
-			png( tmp, width=700, height=700, res = 100)
-			asp <- print_tmap(tm, return.asp = TRUE, mode = "plot")
-			dev.off()
+			asp <- get_asp_ratio(tm, width = 700, height = 700, res = 100)	
+			#asp <- print_tmap(tm, return.asp = TRUE, mode = "plot")
+			# dev.off()
 			asp
 		}, numeric(1))
+		dev.set(curdev)
+		
+		#dev.off()
+		#dev.off()
 		hs <- vapply(tasps, function(tasp) ifelse(tasp>1, 1, 1/tasp), numeric(1))
 		ws <- vapply(tasps, function(tasp) ifelse(tasp>1, tasp, 1), numeric(1))
 		iasp <- max(ws) / max(hs)
@@ -44,27 +80,40 @@ tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins
 		
 		
 	} else {
-		if (is.na(ncol)) ncol <- ceiling(nx / nrow)
-		if (is.na(nrow)) nrow <- ceiling(nx / ncol)
+		ncol <- if (is.na(opts$ncol)) ceiling(nx / opts$nrow) else opts$ncol
+		nrow <- if (is.na(opts$nrow)) ceiling(nx / opts$ncol) else opts$nrow
 	}
 	m <- ncol * nrow
-	
+
 	interactive <- (getOption("tmap.mode")=="view")
 	
 	if (interactive) {
 		lfs <- lapply(tms, function(tm) {
 			tmap_leaflet(tm, add.titles = FALSE)
 		})
-		lfmv <- do.call(mapview::latticeView, c(lfs, list(ncol=ncol, sync=ifelse(sync, "all", "none"))))
-		class(lfmv) <- c("tmap_arrange", class(lfmv))
-		return(invisible(add_leaflet_titles(lfmv)))
+		lfmv <- do.call(mapview::latticeView, c(lfs, list(ncol=ncol, sync=ifelse(opts$sync, "all", "none"))))
+		#class(lfmv) <- c("tmap_arrange_view", class(lfmv))
+		#return(add_leaflet_titles(lfmv))
+		
+		if (add.titles) lfmv <- add_leaflet_titles(lfmv)
+		
+		if (show) {
+			if (knit) {
+				kp <- get("knit_print", asNamespace("knitr"))
+				return(do.call(kp, c(list(x=lfmv), args, list(options=options))))
+			} else {
+				return(print(lfmv))
+			}
+		} else lfmv
+		
+		
 	} else {
 		grid.newpage()
 		vp <- viewport(layout=grid.layout(nrow=nrow, ncol=ncol), name = "tmap_arrangement")
 		pushViewport(vp)
 		
-		if (!is.null(asp) || !is.null(outer.margins)) {
-			layout_args <- list(asp=asp, outer.margins=outer.margins)
+		if (!is.null(opts$asp) || !is.null(opts$outer.margins)) {
+			layout_args <- list(asp=opts$asp, outer.margins=opts$outer.margins)
 			layout_args <- layout_args[!vapply(layout_args, is.null, logical(1))]
 			tml <- do.call(tm_layout, layout_args)
 		} else {
@@ -84,7 +133,8 @@ tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins
 			}
 		}
 	}
-	class(tms) <- c("tmap_arrange", class(tms))
-	
-	invisible(tms)
+	#dev.off()
+	#invisible(tms)
 }
+
+

@@ -2,10 +2,16 @@
 % Please edit documentation in R/tmap_arrange.R
 \name{tmap_arrange}
 \alias{tmap_arrange}
+\alias{knit_print.tmap_arrange}
+\alias{print.tmap_arrange}
 \title{Arrange small multiples in grid layout}
 \usage{
 tmap_arrange(..., ncol = NA, nrow = NA, sync = FALSE, asp = 0,
   outer.margins = 0.02)
+
+knit_print.tmap_arrange(x, ..., options = NULL)
+
+\method{print}{tmap_arrange}(x, knit = FALSE, ..., options = NULL)
 }
 \arguments{
 \item{...}{\code{\link{tmap}} objects. The number of multiples that can be plot is limited (see details).}
@@ -19,6 +25,12 @@ tmap_arrange(..., ncol = NA, nrow = NA, sync = FALSE, asp = 0,
 \item{asp}{aspect ratio. If will overwrite the \code{asp} argument from \code{\link{tm_layout}}, unless set to \code{NULL}}
 
 \item{outer.margins}{outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the \code{outer.margins} argument from \code{\link{tm_layout}}, unless set to \code{NULL}.}
+
+\item{x}{a \code{tmap_arrange} object (returned from \code{tmap_arrange})}
+
+\item{options}{options passed on to knitprint}
+
+\item{knit}{should \code{\link[knitr:knit_print]{knit_print}} be enabled, or the normal \code{\link[base:print]{print}} function?}
 }
 \description{
 Arrange small multiples in a grid layout. Normally, small multiples are created by specifying multiple variables for one aesthetic or by specifying the by argument (see \code{\link{tm_facets}}). This function can be used to arrange custom small multiples in a grid layout.

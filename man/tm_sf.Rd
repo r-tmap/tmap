@@ -44,7 +44,6 @@ Creates a \code{\link{tmap-element}} that draws simple features. Basically, it i
 \examples{
 data(World)
 
-World <- as(World, "sf")
 World$geometry[World$continent == "Africa"] <- 
   sf::st_centroid(World$geometry[World$continent == "Africa"])
 World$geometry[World$continent == "South America"] <- 

@@ -13,6 +13,7 @@
 #' @param scale overrides the scale argument of \code{\link{tm_layout}} (unless set to \code{NA})
 #' @param insets_tm tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with \code{insets_vp}.
 #' @param insets_vp \code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.
+#' @param add.titles add titles to leaflet object
 #' @param verbose Deprecated. It is now controlled by the tmap option \code{show.messages} (see \code{\link{tmap_options}})
 #' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}
 #' @importFrom htmlwidgets saveWidget
@@ -20,12 +21,11 @@
 #' @example ./examples/tmap_save.R
 #' @export
 tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
-					  dpi=300, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, verbose = NULL, ...) {
+					  dpi=300, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, verbose = NULL, ...) {
 	if (!missing(verbose)) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
 	verbose <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
 	lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
-	
 	if (missing(tm)) {
 		tm <- suppressWarnings(last_map())
 		if (is.null(tm)) stop("A map has not been created yet")
@@ -79,9 +79,9 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	
 	if (interactive) {
 		if (is.arrange) {
-			lf <- tm
+			lf <- print_tmap_arrange(tm, show = FALSE, add.titles=add.titles)
 		} else {
-			lf <- tmap_leaflet(tm)
+			lf <- tmap_leaflet(tm, add.titles = add.titles)
 		}
 			
 		saveWidget(lf, file=filename, ...)
@@ -91,7 +91,6 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 		}
 		return(invisible())
 	}
-
 	## impute missing w or h
 	if (is.na(width) && is.na(height)) {
 		width <- par("din")[1]
@@ -147,8 +146,6 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	tiff <- function(..., width, height) grDevices::tiff(..., 
 														 width = width, height = height, res = dpi, units = units_target)
 
-
-	
 	if (units_target=="in") {
 	  width <- convert_to_inches(width, units)
 	  height <- convert_to_inches(height, units)
@@ -164,14 +161,19 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	}
 	
 	do.call(ext, args = c(list(file = filename, width = width, height = height), list(...)))
-	on.exit(capture.output(dev.off()), add = TRUE)
+#	curdev <- dev.cur()
+	
+	on.exit({
+		capture.output(dev.off())
+	}, add = TRUE)
 	
 	if (is.arrange) {
-		if (is.na(outer.margins[1])) {
-			do.call(tmap_arrange, tm)
-		} else {
-			do.call(tmap_arrange, c(tm, list(outer.margins = outer.margins)))
-		}
+		opts <- attr(tm, "opts")
+		if (!is.na(outer.margins[1])) opts$outer.margins <- outer.margins
+		if (!missing(asp)) opts$asp <- asp
+		
+		attr(tm, "opts") <- opts
+		print(tm)
 	} else {
 		args <- list()
 		if (!is.na(outer.margins[1])) args$outer.margins <- outer.margins
@@ -179,8 +181,7 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 		if (!is.na(scale)) args$scale <- scale
 		print(tm + do.call("tm_layout", args))
 	}
-	
-	
+
 	if (!is.arrange && !missing(insets_tm) && !missing(insets_vp)) {
 	  args_inset <- if (!is.na(scale)) list(scale = scale) else list()
 	  if (class(insets_tm)=="list" && class(insets_vp)=="list") {
@@ -217,7 +218,6 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 			message("Size: ", wi, " by ", hi, " inches") 
 		}
 	}
-	
 	options(tmap.mode=tmap.mode)
 	invisible()
 }

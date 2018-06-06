@@ -278,13 +278,16 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (shp.sim$fact != 1 && type %in% c("polygons", "lines")) {
 			## TODO convert fact to tolerance
 			
-			shp2 <- st_simplify(shp2, preserveTopology = TRUE, dTolerance = shp.sim$fact)
-			# shp2 <- do.call(tmaptools::simplify_shape, c(list(shp=shp2), shp.sim))
-			# data <- data[shp2$tmapID, , drop=FALSE]
-			# shp2$tmapID <- seq_len(length(shp2))
+			if (!requireNamespace("rmapshaper", quietly = TRUE)) {
+				warning("rmapshaper package is needed to simplify the shape. Alternatively, st_simplify from the sf package can be used. See the underlying function tmaptools::simplify_shape for details.", call. = FALSE)
+			} else {
+				#shp2 <- st_simplify(shp2, preserveTopology = TRUE, dTolerance = shp.sim$fact)
+				shp2 <- do.call(tmaptools::simplify_shape, c(list(shp=shp2), shp.sim))
+				data <- data[shp2$tmapID, , drop=FALSE]
+				shp2$tmapID <- seq_len(length(shp2))
+			}
 		}
-		
-		
+
 		# be consistent with rasters (originated from sp objects)
 		attr(shp2, "bbox") <- shp_bbx
 		attr(shp2, "proj4string") <- st_crs(shp2)

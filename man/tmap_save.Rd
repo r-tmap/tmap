@@ -6,7 +6,8 @@
 \usage{
 tmap_save(tm = NULL, filename = NULL, width = NA, height = NA,
   units = NA, dpi = 300, outer.margins = NA, asp = NULL, scale = NA,
-  insets_tm = NULL, insets_vp = NULL, verbose = NULL, ...)
+  insets_tm = NULL, insets_vp = NULL, add.titles = TRUE, verbose = NULL,
+  ...)
 }
 \arguments{
 \item{tm}{tmap object}
@@ -30,6 +31,8 @@ tmap_save(tm = NULL, filename = NULL, width = NA, height = NA,
 \item{insets_tm}{tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with \code{insets_vp}.}
 
 \item{insets_vp}{\code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.}
+
+\item{add.titles}{add titles to leaflet object}
 
 \item{verbose}{Deprecated. It is now controlled by the tmap option \code{show.messages} (see \code{\link{tmap_options}})}
 

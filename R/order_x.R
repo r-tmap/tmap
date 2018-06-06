@@ -99,6 +99,7 @@ order_x <- function(x, shps, datasets, types, gm) {
 			
 			xp <- c(xp_poly, xp_lines, xp_points)
 			shp <- list(shp_poly, shp_lines, shp_points)
+			shp <- shp[!vapply(shp, is.null, logical(1))]
 			k <- rep(k, sum(cnts>0))
 		} else {
 			
