@@ -144,7 +144,7 @@ process_col_vector <- function(x, sel, g, gt, reverse, raster.projected) {
 }
 
 
-process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALSE, areas=NULL, areas_unit=NULL, text = NULL, text_sel = NULL) {
+process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, areas_unit=NULL, text = NULL, text_sel = NULL) {
 	## dtcol = matrix if direct colors are given
 	## dtcol = list in case of disjoint small multiples
 	## dtcol = vector in case of small multiples processed once (i.e. they share the legend)
@@ -157,6 +157,7 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 	
 
 	raster.projected <- attr(dtcol, "raster.projected")
+	
 	
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
@@ -181,16 +182,22 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		
 		gsc <- split_g(g, n=nx)
 		
-		title_append <- rep("", nx)
-		if (check_dens) {
-			isNum <- vapply(dtcol, is.numeric, logical(1))
-			isDens <- vapply(gsc, "[[", logical(1), "convert2density")
-			
-			dtcol[isNum & isDens] <- lapply(dtcol[isNum & isDens], function(d) {
-				d / areas
-			})
-			title_append[isNum & isDens] <- paste("per", areas_unit, " ")
-		}
+		dtcol_title_append <- mapply(check_num_col, dtcol, gsc, SIMPLIFY = FALSE, MoreArgs = list(areas, areas_unit))
+		dtcol <- lapply(dtcol_title_append, "[[", "col")
+		title_append <- vapply(dtcol_title_append, "[[", character(1), "title_append")
+		# 
+		# if (check_dens) {
+		# 	isNum <- vapply(dtcol, is.numeric, logical(1))
+		# 	isDens <- vapply(gsc, function(g) {
+		# 		!is.null(g$convert2density) && g$convert2density
+		# 	}, logical(1))
+		# 	unis <- 
+		# 	
+		# 	dtcol[isNum & isDens] <- lapply(dtcol[isNum & isDens], function(d) {
+		# 		d / areas
+		# 	})
+		# 	title_append[isNum & isDens] <- paste("per", areas_unit, " ")
+		# }
 		
 		sel <- split(sel, f = rep(1L:nx, each = npol))
 		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse, raster.projected = raster.projected), SIMPLIFY=FALSE)
@@ -206,14 +213,11 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, check_dens=FALS
 		noData <- !sapply(sel, function(s) any(s))
 		legend.labels[noData] <- NA
 	} else {
-		if (check_dens) {
-			if (is.numeric(dtcol) && g$convert2density) {
-				dtcol <- dtcol / areas
-				title_append <- paste(" per", areas_unit, " ")
-			} else {
-				title_append <- ""
-			}
-		} else title_append <- ""
+
+		dtcol_title_append <- check_num_col(dtcol, g, areas, areas_unit)
+		dtcol <- dtcol_title_append$col
+		title_append <- dtcol_title_append$title_append
+
 		
 		#if (is.na(sel[1])) sel <- TRUE
 		

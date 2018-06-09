@@ -8,7 +8,7 @@ test_that("qtm without args", {
 	
 	tmap_mode("view")
 	expect_silent({
-		qtm()
+		print(qtm())
 	})
 })
 

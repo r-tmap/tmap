@@ -4,6 +4,10 @@ process_dtsize <- function(dtsize, g, gt, nx, npol, varysize, col.neutral) {
 		# multiple variables for size are defined
 		gss <- split_g(g, n=nx)
 		#if (!all(sapply(dtsize, is.numeric))) stop("size argument of tm_symbols/tm_dots contains a non-numeric variable", call. = FALSE)
+		
+		# only get title_append from columns
+		title_append <- vapply(mapply(check_num_col, dtsize, gss, SIMPLIFY = FALSE), "[[", character(1), "title_append")
+		
 		res <- mapply(process_symbols_size_vector, dtsize, gss, MoreArgs = list(rescale=varysize, gt=gt, reverse=g$legend.size.reverse), SIMPLIFY = FALSE)
 		symbol.size <- sapply(res, function(r)r$symbol.size)
 		symbol.size.legend.labels <- lapply(res, function(r)r$symbol.size.legend.labels)
@@ -15,6 +19,9 @@ process_dtsize <- function(dtsize, g, gt, nx, npol, varysize, col.neutral) {
 		# symbol.size.legend.show[emptySizeLegend] <- FALSE
 	} else {
 		if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
+		
+		title_append <- check_num_col(dtsize, g)$title_append
+
 		res <- process_symbols_size_vector(dtsize, g, rescale=varysize, gt=gt, reverse=g$legend.size.reverse)
 		symbol.size <- matrix(res$symbol.size, nrow=npol)
 		if (varysize) {
@@ -44,7 +51,7 @@ process_dtsize <- function(dtsize, g, gt, nx, npol, varysize, col.neutral) {
 		 legend.palette=col.neutral,
 		 legend.misc= list(symbol.border.lwd=g$border.lwd, symbol.normal.size=g$legend.max.symbol.size, symbol.max.size = symbol.max.size), # symbol.border.col added later, symbol.max.size needed for col and shape
 		 nonemptyFacets = nonemptyFacets,
-		 title_append = "")	
+		 title_append = title_append)	
 }
 
 

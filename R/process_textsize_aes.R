@@ -3,6 +3,10 @@ process_dttsize <- function(dtsize, text, g, gt, nx, npol, varysize, varycol) {
 	if (is.list(dtsize)) {
 		# multiple variables for size are defined
 		gss <- split_g(g, n=nx)
+		
+		# only get title_append from columns
+		title_append <- vapply(mapply(check_num_col, dtsize, gss, SIMPLIFY = FALSE), "[[", character(1), "title_append")
+		
 		res <- mapply(process_text_size_vector, dtsize, as.list(as.data.frame(text)), gss, MoreArgs = list(rescale=varysize, gt=gt, reverse=g$legend.size.reverse), SIMPLIFY = FALSE)
 		size <- sapply(res, function(r)r$size)
 		text_sel <- sapply(res, function(r)r$text_sel)
@@ -11,6 +15,9 @@ process_dttsize <- function(dtsize, text, g, gt, nx, npol, varysize, varycol) {
 		legend.sizes <- lapply(res, function(r)r$legend.sizes)
 		max.size <- lapply(res, function(r)r$max.size)
 	} else {
+		title_append <- check_num_col(dtsize, g)$title_append
+		
+		
 		res <- process_text_size_vector(dtsize, text, g, rescale=varysize, gt=gt, reverse=g$legend.size.reverse)
 		size <- matrix(res$size, nrow=npol)
 		text_sel <- matrix(res$text_sel, nrow=npol)
@@ -63,7 +70,8 @@ process_dttsize <- function(dtsize, text, g, gt, nx, npol, varysize, varycol) {
 		 legend.misc = list(),
 		 #xtsize = xtsize,
 		 #legend.title = size.legend.title,
-		 text_sel = text_sel)
+		 text_sel = text_sel,
+		 title_append = title_append)
 }
 
 process_text_size_vector <- function(x, text, g, rescale, gt, reverse) {

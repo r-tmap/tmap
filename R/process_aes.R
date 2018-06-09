@@ -25,6 +25,19 @@ check_g <- function(g, gt) {
 	g
 }
 
+
+## checks if columns have to be converted to density and determines title_append (when converted 2 density or when units column is used)
+check_num_col <- function(col, g, areas = NULL, areas_unit = NULL) {
+	if (is.numeric(col) && !is.null(g$convert2density) && g$convert2density) {
+		col <- col / areas
+		title_append <- paste(" per", areas_unit)
+	} else if (!is.null(attr(col, "units"))) {
+		title_append <- paste0(" per ", attr(col, "units"))
+	} else title_append <- ""
+	list(col = col, title_append = title_append)
+}
+
+
 process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interactive, fill = NA) {
 
 	## general variables
@@ -134,7 +147,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		g <- res$g
 		gby <- res$gby
 		data <- res$data
-		is.colors <- c(res$is.colors, FALSE)
+		is.colors <- c(FALSE, res$is.colors)
 
 		fill <- res$fill
 		collight <- res$collight
@@ -208,7 +221,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 				text_sel <- NULL
 			}
 			
-			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, check_dens = (xname == "fill"), areas=as.numeric(areas), areas_unit=attr(areas, "unit"), text = text, text_sel = text_sel)
+			dcr <- process_dtcol(xname, dt, sel, g, gt, nx, npol, areas=as.numeric(areas), areas_unit=attr(areas, "unit"), text = text, text_sel = text_sel)
 			#if (xname == "fill") assign("dcr_fill", dcr$col, pos = 1) # needed for tm_text
 			assign("col.neutral", dcr$col.neutral, envir = .TMAP_CACHE)
 		} else if (xname == "line.lwd") {

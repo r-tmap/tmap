@@ -66,22 +66,38 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	basename.specified <- FALSE
 	
 	# workaround for https://github.com/rstudio/leaflet/issues/427
-	pane <- "overlayPane"
-	paneUsed <- FALSE
+	# pane <- "overlayPane"
+	# paneUsed <- FALSE
+	# nextPane <- function(pane) {
+	# 	pane <- "markerPane"  # when pane=overlayPane tiles are still below shadowPane
+	# 	# pane <- switch(pane,
+	# 	# 	  shadowPane = "overlayPane",
+	# 	# 	  "markerPane")
+	# 	assign("pane", pane, envir = e)
+	# 	assign("paneUsed", FALSE, envir = e)
+	# 	pane
+	# }
+	# usePane <- function() {
+	# 	assign("paneUsed", TRUE, envir = e)
+	# }
+	
+	
+	pane <- "overlayPane00"
+	paneID <- function(pane) as.integer(substr(pane, 12,14))
+	
 	nextPane <- function(pane) {
-		pane <- "markerPane"  # when pane=overlayPane tiles are still below shadowPane
-		# pane <- switch(pane,
-		# 	  shadowPane = "overlayPane",
-		# 	  "markerPane")
+		pane <- paste0("overlayPane", sprintf("%02d", paneID(pane) + 1))
 		assign("pane", pane, envir = e)
-		assign("paneUsed", FALSE, envir = e)
 		pane
-	}
-	usePane <- function() {
-		assign("paneUsed", TRUE, envir = e)
-	}
+	} 
 	
 	
+	
+	addPane <- function(lf, pane) {
+		addMapPane(lf, pane, zIndex = paneID(pane) + 400)
+	}
+	
+
 	addBaseGroup <- function(group) {
 		for (g in group) {
 			if (is.na(bases[1])) {
@@ -155,7 +171,10 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			group_name <- if (is.na(gpl$fill.group)) shp_name else gpl$fill.group
 			addOverlayGroup(group_name)
 			
-			usePane()
+			pane <- nextPane(pane)
+			lf <- addPane(lf, pane)
+			
+			
 			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
 			
 			# if (!is.null(labels)) {
@@ -188,7 +207,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			group_name <- if (is.na(gpl$line.group)) shp_name else gpl$line.group
 			addOverlayGroup(group_name)
 			
-			usePane()
+			pane <- nextPane(pane)
+			lf <- addPane(lf, pane)
+			
 			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name, popupOptions = pOptions(charwidth)) 
 
 			# if (!is.null(labels)) {
@@ -287,7 +308,10 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			group_name <- if (is.na(gpl$symbol.group)) shp_name else gpl$symbol.group
 			addOverlayGroup(group_name)
 			
-			usePane()
+			pane <- nextPane(pane)
+			lf <- addPane(lf, pane)
+			
+			
 			if (are.icons) {
 				#symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
 				if (any(symbol.shape2<1000)) {
@@ -380,7 +404,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			
 			group_name <- if (is.na(gpl$text.group)) shp_name else gpl$text.group
 			addOverlayGroup(group_name)
-			usePane()
+			
+			pane <- nextPane(pane)
+			lf <- addPane(lf, pane)
+			
+			
 			if (length(cs_set)==1) {
 				lf <- lf %>% addLabelOnlyMarkers(lng = co[,1], lat = co[,2], label=text,
 												 group=group_name, 
@@ -491,14 +519,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				addOverlayGroup(group_names, are.tiles = TRUE)
 			}
 			
-			pane <- if(type == "base") {
-				"tilePane"
+			if(type == "base") {
+				pane <- "tilePane"
 			} else {
-				if (paneUsed) {
-					nextPane(pane)
-				} else {
-					pane
-				}
+				pane <- nextPane(pane)
+				lf <- addPane(lf, pane)
 			}
 				
 			if (!is.na(gt$set.zoom.limits[1])) {
@@ -667,7 +692,13 @@ format_popups <- function(id=NULL, titles, format, values) {
 	
 	titles_format <- vapply(titles, htmlEscape, character(1))
 	values_format <- mapply(function(v, f) {
-		htmlEscape(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=as.numeric(v), intervals=FALSE), f)) else v)
+		if (inherits(v, "units")) {
+			popup_append <- paste0(" ", as.character(attr(v, "units")))
+		} else {
+			popup_append <- ""
+		}
+		numbers <- htmlEscape(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=as.numeric(v), intervals=FALSE), f)) else v)
+		paste0(numbers, popup_append)
 	}, values, format, SIMPLIFY = FALSE)
 	
 	

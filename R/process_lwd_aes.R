@@ -5,6 +5,10 @@ process_dtlwd <- function(dtlwd, g, gt, nx, npol, varylwd, col.neutral) {
 		# multiple variables for lwd are defined
 		gsl <- split_g(g, n=nx)
 		#if (!all(sapply(dtlwd, is.numeric))) stop("lwd argument of tm_lines contains a non-numeric variable", call. = FALSE)
+		# only get title_append from columns
+		title_append <- vapply(mapply(check_num_col, dtlwd, gsl, SIMPLIFY = FALSE), "[[", character(1), "title_append")
+		
+		
 		res <- mapply(process_line_lwd_vector, dtlwd, gsl, MoreArgs = list(rescale=varylwd, reverse=reverse), SIMPLIFY = FALSE)
 		line.lwd <- sapply(res, function(r)r$line.lwd)
 		line.legend.lwds <- lapply(res, function(r)r$line.legend.lwds)
@@ -12,6 +16,10 @@ process_dtlwd <- function(dtlwd, g, gt, nx, npol, varylwd, col.neutral) {
 		line.lwd.legend.values <- lapply(res, function(r)r$line.lwd.legend.values)
 	} else {
 		if (!is.numeric(dtlwd)) stop("lwd argument of tm_lines is not a numeric variable", call. = FALSE)
+		
+		title_append <- check_num_col(dtlwd, g)$title_append
+		
+		
 		res <- process_line_lwd_vector(dtlwd, g, rescale=varylwd, reverse=reverse)
 		line.lwd <- matrix(res$line.lwd, nrow=npol)
 		if (varylwd) {
@@ -48,7 +56,7 @@ process_dtlwd <- function(dtlwd, g, gt, nx, npol, varylwd, col.neutral) {
 		 				 line.legend.lty=g$lty,
 		 				 line.legend.alpha=g$alpha),
 		 nonemptyFacets = lwd.nonemptyFacets,
-		 title_append = "")
+		 title_append = title_append)
 }
 
 

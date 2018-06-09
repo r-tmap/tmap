@@ -66,14 +66,17 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 			attr(m, "allNA") <- allNA
 			return(m)
 		}
-		
 		if (!free.scales) {
-			if (all(cls=="num")) {
+			if (all(cls %in% c("num", "uni"))) {
+				if (all(cls == "uni")) {
+					uni <- attr(data[[1]], "units")
+					data <- lapply(data, function(dvec) {
+						convert_to_num_with_unit_attr(dvec, uni)
+					})
+				}
+				
 				datavec <- unlist(data)
-				attr(datavec, "sel") <- sel
-				attr(datavec, "anyNA") <- anyNA
-				attr(datavec, "allNA") <- allNA
-				return(datavec)
+				if (all(cls == "uni")) attr(datavec, "units") <- as.character(uni)
 			} else {
 				xlvls_list <- mapply(function(d, cl){
 					if (cl=="fac") levels(d) else na.omit(unique(d))
@@ -81,21 +84,37 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 				
 				xlvls <- unique(unlist(xlvls_list))
 				datavec <- factor(unlist(lapply(data, as.character)), levels=xlvls)
-				attr(datavec, "sel") <- sel
-				attr(datavec, "anyNA") <- anyNA
-				attr(datavec, "allNA") <- allNA
-				return(datavec)
 			}
+
+			attr(datavec, "sel") <- sel
+			attr(datavec, "anyNA") <- anyNA
+			attr(datavec, "allNA") <- allNA
+			return(datavec)
+			
 		} else {
 			if (any(cls=="cha")) data[cls=="cha"] <- lapply(data[cls=="cha"], as.factor)
 			if (ncol(data)==1) {
 				datavec <- data[[1]]
+				if (all(cls == "uni")) {
+					datavec <- convert_to_num_with_unit_attr(datavec)
+				} else if (any(cls == "uni")) {
+					datavec <- as.numeric(datavec)
+				}
 				attr(datavec, "sel") <- sel
 				attr(datavec, "anyNA") <- anyNA
 				attr(datavec, "allNA") <- allNA
 				return(datavec)
 			} else {
 				datalist <- as.list(data)
+				
+				datalist <- mapply(function(datavec, cl) {
+					if (cl == "cha") {
+						as.factor(datavec)
+					} else if (cl == "uni") {
+						datavec <- convert_to_num_with_unit_attr(datavec)
+					} else datavec
+				}, datalist, cls, SIMPLIFY = FALSE)
+				
 				attr(datalist, "sel") <- sel #as.list(as.data.frame(sel))
 				attr(datalist, "anyNA") <- anyNA
 				attr(datalist, "allNA") <- allNA
@@ -105,13 +124,28 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 	}
 }
 
+convert_to_num_with_unit_attr <- function(x, uni = NULL) {
+	if (is.null(uni)) {
+		uni <- attr(x, "units")
+	} else {
+		x <- set_units(x, uni, mode = "standard")
+	}
+	
+	uni_char <- as.character(uni)
+	
+	x <- as.numeric(x)
+	attr(x, "units") <- uni_char
+	x
+}
 
 check_tm_classes <- function(x, is.colors) {
 	if (is.colors) {
 		rep("col", ncol(x))	
 	} else {
 		vapply(x, function(y) {
-			if (is.numeric(y)) { 
+			if (inherits(y, "units")) {
+				"uni"
+			} else if (is.numeric(y)) { 
 				"num"
 			} else if (is.factor(y)) {
 				"fac"
