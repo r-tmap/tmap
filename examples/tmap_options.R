@@ -19,6 +19,10 @@ tmap_options_diff()
 # plot the map again
 tm_shape(World) + tm_polygons("HPI")
 
+##############################
+# define red style
+##############################
+
 # change the background color
 tmap_options(bg.color = "red")
 
