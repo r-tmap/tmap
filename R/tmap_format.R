@@ -4,7 +4,7 @@
 #' 
 #' @param format name of the format. Run \code{tmap_format()} to see the choices.
 #' @return the function \code{tmap_format()} returns the names of the available formats. When \code{format} is defined, it returns the option list corresponding the that format.
-#' @seealso \code{\link{tm_layout}} for predefined styles, \code{\link{tmap_style_catalogue}} to create a style catelogue of all available styles, and \code{\link{tmap_options}} for tmap options.
+#' @seealso \code{\link{tm_layout}} for predefined styles, \code{\link{tmap_style_catalogue}} to create a style catalogue of all available styles, and \code{\link{tmap_options}} for tmap options.
 #' @example ./examples/tmap_format.R
 #' @seealso \code{\link{tmap_options}} for tmap options
 #' @rdname tmap_format
