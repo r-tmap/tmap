@@ -10,9 +10,8 @@
 #' 
 #' @param style name of the style. When omitted, \code{tmap_style} returns the current style and also shows all available styles. When the style is specified, \code{tmap_style} sets the style accordingly. Note that in that case, all tmap options (see \code{\link{tmap_options}}) will be reset according to the style definition. See \code{\link{tm_layout}} for predefined styles, and \code{\link{tmap_style_catalogue}} for creating a catelogue.
 #' @return the style before changing
-#' @seealso \code{\link{tmap_options}} for tmap options, \code{\link{tmap_style_catalogue}} to create a style catelogue of all available styles, and \code{\link{tmap_options}} for tmap options.
+#' @seealso \code{\link{tmap_options}} for tmap options, and \code{\link{tmap_style_catalogue}} to create a style catelogue of all available styles.
 #' @example ./examples/tmap_style.R
-#' @seealso \code{\link{tmap_options}} for tmap options
 #' @export
 #' @rdname tmap_style
 tmap_style <- function(style) {
