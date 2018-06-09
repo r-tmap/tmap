@@ -46,8 +46,8 @@ check_deprecated_layer_fun_args <- function(auto.palette.mapping, max.categories
 #' @param scale text size multiplier, useful in case \code{size} is variable or \code{"AREA"}.
 #' @param auto.placement logical (or numeric) that determines whether the labels are placed automatically. If \code{TRUE}, the labels are placed next to the coordinate points with as little overlap as possible using the simulated annealing algorithm. Therefore, it is recommended for labeling spatial dots or symbols. If a numeric value is provided, this value acts as a parameter that specifies the distance between the coordinate points and the text labels in terms of text line heights.
 #' @param remove.overlap logical that determines whether the overlapping labels are removed
-#' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicabel if a spatial lines shape is used.
-#' @param overwrite.lines logical that determines whether the part of the lines below the text labels is removed. Only applicabel if a spatial lines shape is used.
+#' @param along.lines logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.
+#' @param overwrite.lines logical that determines whether the part of the lines below the text labels is removed. Only applicable if a spatial lines shape is used.
 #' @param just justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.
 #' @param xmod horizontal position modification of the text (relatively): 0 means no modification, and 1 corresponds to the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with \code{ymod}, it determines position modification of the text labels. In most coordinate systems (projections), the origin is located at the bottom left, so negative \code{xmod} move the text to the left, and negative \code{ymod} values to the bottom.
 #' @param ymod vertical position modification. See xmod.
@@ -64,7 +64,7 @@ check_deprecated_layer_fun_args <- function(auto.palette.mapping, max.categories
 #' \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
 #' \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
 #' \item{text.or.more}{Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
-#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+#' \item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.portrait = TRUE}), and \code{"center"} otherwise.
 #' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
