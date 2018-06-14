@@ -232,7 +232,7 @@ qtm <- function(shp,
 
 	is.OSM <- attr(shp, "is.OSM")
 	is_raster <- !is.null(is.OSM) && is.OSM
-	is.RGB <- ifelse(is_raster, TRUE, NA)
+	is.RGB <- ifelse(is_raster, TRUE, FALSE)
 	
 	if (!("interpolate" %in% names(args2[["tm_raster"]]))) args2$tm_raster <- c(args2$tm_raster, list(interpolate=is.RGB)) 
 	if (!is.null(raster)) {

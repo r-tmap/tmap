@@ -14,100 +14,85 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
-		is.RGB <- attr(raster_facets_vars, "is.RGB")
-		to.Cat <- attr(raster_facets_vars, "to.Cat")
+		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used
+		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
+		do.interpolate <- attr(raster_facets_vars, "do.interpolate") # by default, true for tm_rgb, NA for tm_raster (should depend on type of data)
+		
 		if (interactive) gm$shape.master_crs <- .crs_merc
 		
-		if (inherits(shp, "Spatial")) {
+		if (inherits(shp, "Spatial")) shp <- brick(shp)
 			
-			# attribute get from read_osm
-			is.OSM <- attr(shp, "is.OSM")
-			leaflet.server <- attr(shp, "leaflet.provider")
-
 			
-			if (!("data" %in% slotNames(shp))) stop("No data found in raster shape. Please specify a SpatialGridDataFrame or Raster shape object.")
-			
-			if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% names(shp))) {
-				convert.RGB <- if (!identical(is.RGB, FALSE)) {
-					(ncol(shp)>=3 && ncol(shp)<=4 && all(vapply(shp@data, FUN = function(x) {
-						if (!is.numeric(x)) {
-							FALSE
-						} else {
-							!any(is.na(x)) && min(x)>=0 && max(x<=255)
-						}
-					}, FUN.VALUE = logical(1))))	
-				} else FALSE
-				
-				if (convert.RGB) shp@data <- data.frame(PIXEL__COLOR=raster_colors(shp@data))
-				raster_facets_vars <- names(shp)
-			} else {
-				raster_facets_vars <- intersect(raster_facets_vars, names(shp))
-			}
-			
-			## subset data, make factors of non-numeric variables
-			#raster_data <- preprocess_raster_data(shp@data, raster_facets_vars)
-			
-			lvls <- get_data_frame_levels(shp@data[, raster_facets_vars, drop=FALSE])
-			
-			## use bilinear interpolation for numeric data only
-			use_interp <- (all(vapply(lvls, is.null, logical(1)))) && !to.Cat
-			shp <- raster::subset(brick(shp), raster_facets_vars, drop=FALSE)
-		} else {
-			is.OSM <- FALSE
-			leaflet.server <- NA
-
-			# color values are encoded by a colortable (and not interpreted as factors)
-			if (length(colortable(shp))>0) {
-				ctable <- colortable(shp)
-				uctable <- unique(ctable)
-				mtch <- match(ctable, uctable)
-
-				if (nlayers(shp)>1) shp <- raster::subset(shp, 1)
-				shp <- setValues(shp, mtch[getValues(shp) + 1L])
-				names(shp) <- "PIXEL__COLOR"
-				use_interp <- FALSE
-				
-				lvls <- list(uctable)
-				
-			} else {
-				# in order to not loose factor levels, subset the data here
-				shpnames <- get_raster_names(shp)
-				if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% names(shp))) {
-					convert.RGB <- if (!identical(is.RGB, FALSE)) {
-						(nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255))	
-					} else FALSE
-
-					if (convert.RGB) {
-						pix <- raster_colors(get_raster_data(shp))
-						shp <- raster(shp, layer=0)
-						shp <- setValues(shp, as.integer(pix))
-						names(shp) <- "PIXEL__COLOR"
-						raster_facets_vars <- "PIXEL__COLOR"
-						lvls <- list(levels(pix))
-					} else raster_facets_vars <- shpnames
-				} else {
-					convert.RGB <- FALSE
-					raster_facets_vars <- intersect(raster_facets_vars, shpnames)
-				}
-				
-				if (!convert.RGB) {
-					layerIDs <- match(raster_facets_vars, shpnames)
-					lvls <- get_raster_levels(shp, layerIDs)
-					
-					#raster_data <- get_raster_data(shp)[, raster_facets_vars, drop=FALSE]
-					#lvls <- get_data_frame_levels(raster_data)
-					# subset raster to get rid of non-used variables (to make projectRaster faster)
-					if (nlayers(shp)>1) shp <- raster::subset(shp, raster_facets_vars)
-					
-					#lvls <- get_raster_levels(shp)
-					use_interp <- (all(vapply(lvls, is.null, logical(1)))) && !to.Cat
-
-				} else {
-					use_interp <- FALSE
-				}
-			}
-		}
+		# attribute get from read_osm
+		is.OSM <- attr(shp, "is.OSM")
+		if (is.null(is.OSM)) is.OSM <- FALSE
+		leaflet.server <- attr(shp, "leaflet.provider")
 		
+		# color values are encoded by a colortable (and not interpreted as factors)
+		if (length(colortable(shp))>0) {
+			ctable <- colortable(shp)
+			uctable <- unique(ctable)
+			mtch <- match(ctable, uctable)
+
+			if (nlayers(shp)>1) shp <- raster::subset(shp, 1)
+			shp <- setValues(shp, mtch[getValues(shp) + 1L])
+			names(shp) <- "PIXEL__COLOR"
+			use_interp <- FALSE
+			
+			lvls <- list(uctable)
+			
+			if (!is.RGB && is.na(do.interpolate)) {
+				if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+					message("For bitmap images, it is recommended to use tm_rgb instead of tm_raster (or to set interpolate to TRUE).")
+				}
+			}
+			
+			
+		} else {
+			# in order to not loose factor levels, subset the data here
+			rdata <- get_raster_data(shp)
+
+			shpnames <- names(rdata) #get_raster_names(shp)
+			
+			convert.RGB <- is.RGB && 
+				(is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) &&
+				nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
+			
+			
+			
+			# if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) {
+			# 	convert.RGB <- is.RGB && nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
+			# 
+			# 	if (convert.RGB) {
+			# 		pix <- raster_colors(rdata)
+			# 		shp <- raster(shp, layer=0)
+			# 		shp <- setValues(shp, as.integer(pix))
+			# 		names(shp) <- "PIXEL__COLOR"
+			# 		raster_facets_vars <- "PIXEL__COLOR"
+			# 		lvls <- list(levels(pix))
+			# 	} else raster_facets_vars <- shpnames
+			# } else {
+			# 	convert.RGB <- FALSE
+			# 	raster_facets_vars <- intersect(raster_facets_vars, shpnames)
+			# }
+			
+			if (!convert.RGB) {
+				layerIDs <- match(raster_facets_vars, shpnames)
+			} else {
+				layerIDs <- 1L:nlayers(shp)
+			}
+				#lvls <- get_raster_levels(shp, layerIDs)
+			lvls <- get_data_frame_levels(rdata[, layerIDs, drop = FALSE])
+				
+				#raster_data <- get_raster_data(shp)[, raster_facets_vars, drop=FALSE]
+				#lvls <- get_data_frame_levels(raster_data)
+				# subset raster to get rid of non-used variables (to make projectRaster faster)
+				#if (nlayers(shp)>1) shp <- raster::subset(shp, raster_facets_vars)
+				
+			}
+			use_interp <- ((all(vapply(lvls, is.null, logical(1)))) && !to.Cat)
+		}
+
 		# get current projection (assume longlat if unkown)
 		shp_crs <- get_projection(shp, output="crs")
 		if (is.na(shp_crs)) {
@@ -145,15 +130,15 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (raster.projected) {
 			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=gm$shape.master_crs$proj4string, method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
-			data <- get_raster_data(shpTmp)
+			data <- suppressWarnings(get_raster_data(shpTmp))
 		} else {
 			shp2 <- raster(shp)
-			data <- get_raster_data(shp)
+			data <- suppressWarnings(get_raster_data(shp))
 		}
 		
-		# restore factor levels
+		# restore factor levels and limits
 		data <- as.data.frame(mapply(function(d, l) {
-			if (!is.null(l) && !is.factor(d)) {
+			if (is.character(l) && !is.factor(d)) {
 				if (is.logical(d)) {
 					d2 <- as.integer(d)+1L
 				} else {
@@ -167,8 +152,15 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				levels(d2) <- l
 				class(d2) <- "factor"
 				d2
+			} else if (is.numeric(l)) {
+				pmin(pmax(l[1], d), l[2])
 			} else d
 		}, data, lvls, SIMPLIFY=FALSE))
+		
+		if (convert.RGB) {
+			data <- data.frame(PIXEL__COLOR = raster_colors(data))
+		}
+		
 
 		# set values in order to align data later on (with cropping)
 		shp2 <- setValues(shp2, values=1:ncell(shp2))
