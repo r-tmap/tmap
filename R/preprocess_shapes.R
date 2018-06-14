@@ -46,8 +46,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 					message("For bitmap images, it is recommended to use tm_rgb instead of tm_raster (or to set interpolate to TRUE).")
 				}
 			}
-			
-			
+			layerIDs <- 1
+			convert.RGB <- FALSE
 		} else {
 			# in order to not loose factor levels, subset the data here
 			rdata <- get_raster_data(shp)
@@ -59,6 +59,13 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
 			
 			
+			if (is.RGB && !convert.RGB) {
+				stop("Raster object does not have a color table, nor numeric data that can be converted to colors. Use tm_raster to visualize the data.", call. = FALSE)
+			}
+			
+			if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) {
+				raster_facets_vars <- shpnames
+			}
 			
 			# if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) {
 			# 	convert.RGB <- is.RGB && nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
@@ -89,7 +96,6 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				# subset raster to get rid of non-used variables (to make projectRaster faster)
 				#if (nlayers(shp)>1) shp <- raster::subset(shp, raster_facets_vars)
 				
-			}
 			use_interp <- ((all(vapply(lvls, is.null, logical(1)))) && !to.Cat)
 		}
 
@@ -130,10 +136,10 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (raster.projected) {
 			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=gm$shape.master_crs$proj4string, method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
-			data <- suppressWarnings(get_raster_data(shpTmp))
+			data <- suppressWarnings(get_raster_data(shpTmp)[,layerIDs, drop=FALSE])
 		} else {
 			shp2 <- raster(shp)
-			data <- suppressWarnings(get_raster_data(shp))
+			data <- suppressWarnings(get_raster_data(shp)[,layerIDs, drop=FALSE])
 		}
 		
 		# restore factor levels and limits
