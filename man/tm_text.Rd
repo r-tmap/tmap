@@ -94,9 +94,9 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
 
 \item{remove.overlap}{logical that determines whether the overlapping labels are removed}
 
-\item{along.lines}{logical that determines whether labels are rotated along the spatial lines. Only applicabel if a spatial lines shape is used.}
+\item{along.lines}{logical that determines whether labels are rotated along the spatial lines. Only applicable if a spatial lines shape is used.}
 
-\item{overwrite.lines}{logical that determines whether the part of the lines below the text labels is removed. Only applicabel if a spatial lines shape is used.}
+\item{overwrite.lines}{logical that determines whether the part of the lines below the text labels is removed. Only applicable if a spatial lines shape is used.}
 
 \item{just}{justification of the text relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left alignment and 1 right alignment.}
 
@@ -121,7 +121,7 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
 \item{text.separator}{Character string to use to separate numbers in the legend (default: "to").}
 \item{text.less.than}{Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
 \item{text.or.more}{Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when \code{text.to.columns = TRUE}}
-\item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.protrait = TRUE}), and \code{"center"} otherwise.
+\item{text.align}{Value that determines how the numbers are aligned, \code{"left"}, \code{"center"} or \code{"right"}}. By default \code{"left"} for legends in portrait format (\code{legend.is.portrait = TRUE}), and \code{"center"} otherwise.
 \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 }}

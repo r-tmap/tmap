@@ -231,8 +231,8 @@ qtm <- function(shp,
 	if (!missing(text)) g <- g + do.call("tm_text", c(list(text=text, size=text.size, col=text.col), args2[["tm_text"]]))
 
 	is.OSM <- attr(shp, "is.OSM")
-	is_raster <- !is.null(is.OSM) && is.OSM
-	is.RGB <- ifelse(is_raster, TRUE, FALSE)
+	is.OSM <- !is.null(is.OSM) && is.OSM
+	is.RGB <- ifelse(is.OSM, TRUE, NA)
 	
 	if (!("interpolate" %in% names(args2[["tm_raster"]]))) args2$tm_raster <- c(args2$tm_raster, list(interpolate=is.RGB)) 
 	if (!is.null(raster)) {

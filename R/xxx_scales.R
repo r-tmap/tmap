@@ -128,8 +128,24 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 		class(q) <- "classIntervals"
 	} else {
 		if (nobs==0) stop("Numerical variable only contains missing values.", call.=FALSE)
-		if (length(x)==1) stop("Numerical variable only contains one value. Please use a constant value instead, or specify breaks", call. = FALSE)
+
+		unique_value <- (length(na.omit(unique(x))) == 1)
+		
+		
+		if (unique_value && style!="pretty") warning("Single unique value found, so style set to \"pretty\"")
+
+		tempx <- length(x) <= n
+		
+		if (tempx) {
+			x_orig <- x
+			if (length(na.omit(unique(x))) == 1) x <- pretty(x)
+			x <- seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = n + 1)
+		}
+		
 		q <- suppressWarnings(classIntervals(x, n, style= style, intervalClosure=interval.closure))
+		
+		if (tempx) q$var <- x_orig
+
 	}
 
     if (approx && style != "fixed") {
