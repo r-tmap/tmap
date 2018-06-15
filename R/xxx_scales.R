@@ -129,12 +129,12 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 	} else {
 		if (nobs==0) stop("Numerical variable only contains missing values.", call.=FALSE)
 
-		unique_value <- (length(na.omit(unique(x))) == 1)
-		
-		
-		if (unique_value && style!="pretty") warning("Single unique value found, so style set to \"pretty\"")
+		nunique <- length(na.omit(unique(x)))
 
-		tempx <- length(x) <= n
+		
+		if (nunique == 1 && style!="pretty") warning("Single unique value found, so style set to \"pretty\"")
+
+		tempx <- nunique <= n
 		
 		if (tempx) {
 			x_orig <- x
