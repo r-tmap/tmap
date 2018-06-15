@@ -14,10 +14,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
-		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used
+		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
-		do.interpolate <- attr(raster_facets_vars, "do.interpolate") # by default, true for tm_rgb, NA for tm_raster (should depend on type of data)
-		
+
 		if (interactive) gm$shape.master_crs <- .crs_merc
 		
 		if (inherits(shp, "Spatial")) shp <- brick(shp)
@@ -27,6 +26,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		is.OSM <- attr(shp, "is.OSM")
 		if (is.null(is.OSM)) is.OSM <- FALSE
 		leaflet.server <- attr(shp, "leaflet.provider")
+		if (is.null(leaflet.server)) leaflet.server <- NA
 		
 		# color values are encoded by a colortable (and not interpreted as factors)
 		if (length(colortable(shp))>0) {
@@ -41,11 +41,11 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			lvls <- list(uctable)
 			
-			if (!is.RGB && is.na(do.interpolate)) {
-				if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
-					message("For bitmap images, it is recommended to use tm_rgb instead of tm_raster (or to set interpolate to TRUE).")
-				}
-			}
+			# if (!is.RGB && is.na(do.interpolate)) {
+			# 	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+			# 		message("For bitmap images, it is recommended to use tm_rgb instead of tm_raster (or to set interpolate to TRUE).")
+			# 	}
+			# }
 			layerIDs <- 1
 			convert.RGB <- FALSE
 		} else {
@@ -54,12 +54,17 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 
 			shpnames <- names(rdata) #get_raster_names(shp)
 			
-			convert.RGB <- is.RGB && 
+			convert.RGB <- !identical(is.RGB, FALSE) && 
 				(is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) &&
 				nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
 			
 			
-			if (is.RGB && !convert.RGB) {
+			if (is.na(is.RGB) && convert.RGB && get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+				message("Numeric values of ", y$shp_name, " interpreted as RGB(A) values. Run tm_shape(", y$shp_name, ") + tm_raster() to visualize the data.")
+			}
+			
+			
+			if (identical(is.RGB, TRUE) && !convert.RGB) {
 				stop("Raster object does not have a color table, nor numeric data that can be converted to colors. Use tm_raster to visualize the data.", call. = FALSE)
 			}
 			
@@ -164,7 +169,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}, data, lvls, SIMPLIFY=FALSE))
 		
 		if (convert.RGB) {
-			data <- data.frame(PIXEL__COLOR = raster_colors(data))
+			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data)))
 		}
 		
 

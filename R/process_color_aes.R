@@ -26,7 +26,7 @@ check_aes_args <- function(g) {
 	NULL
 }
 
-process_col_vector <- function(x, sel, g, gt, reverse, raster.projected) {
+process_col_vector <- function(x, sel, g, gt, reverse) {
 	
 	values <- x
 	#textNA <- ifelse(any(is.na(values[sel])), g$textNA, NA)
@@ -46,24 +46,16 @@ process_col_vector <- function(x, sel, g, gt, reverse, raster.projected) {
 			g$style <- "cat"
 		} else {
 			rng <- range(x, na.rm = TRUE)
-			if (abs(rng[2] - rng[1]) < 1e-9) {
+			if (abs(rng[2] - rng[1]) < 1e-9 && rng[1] != rng[2]) {
 				warning("The value range is less than 1e-9", call. = FALSE)
 				x[!is.na(x)] <- round(rng[1], 9)
 			}
-			if (!is.null(raster.projected) && raster.projected && gt$show.messages) {
-				if (rng[1] < 0 && rng[2] > 0 && -rng[1] < (rng[2] * 1e3)) {
-					message("Negative values may have been introduced by the projection of the raster. Consequently, the default palette type is now set to diverging, with midpoint = 0.")
-				} else if (rng[1] < 0 && rng[2] > 0 && rng[2] < (-rng[1] * 1e3)) {
-					message("Positive values may have been introduced by the projection of the raster. Consequently, the default palette type is now set to diverging, with midpoint = 0.")
-				}
-			}
-			
 		}
 	} else if (allNA) {
 		g$style <- "cat"
 	}
 	
-	if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
+	#if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
 	
 	if (is.factor(x) || g$style=="cat") {
 		
@@ -156,8 +148,7 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, are
 	sel[is.na(sel)] <- TRUE
 	
 
-	raster.projected <- attr(dtcol, "raster.projected")
-	
+
 	
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
@@ -200,7 +191,7 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, are
 		# }
 		
 		sel <- split(sel, f = rep(1L:nx, each = npol))
-		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse, raster.projected = raster.projected), SIMPLIFY=FALSE)
+		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse), SIMPLIFY=FALSE)
 		col <- sapply(res, function(r)r$cols)
 		legend.labels <- lapply(res, function(r)r$legend.labels)
 		legend.values <- lapply(res, function(r)r$legend.values)
@@ -222,7 +213,7 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, are
 		#if (is.na(sel[1])) sel <- TRUE
 		
 		
-		res <- process_col_vector(dtcol, sel, g, gt, reverse, raster.projected)
+		res <- process_col_vector(dtcol, sel, g, gt, reverse)
 		col <- matrix(res$cols, nrow=npol)
 		legend.labels <- res$legend.labels
 		legend.values <- res$legend.values
