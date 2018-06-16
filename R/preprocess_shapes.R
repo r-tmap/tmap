@@ -211,9 +211,14 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			stop("Object ", y$shp_name, " is neither from class sf, Spatial, nor Raster.", call. = FALSE)
 		}
 		
+		# remove empty units
+		empty_units <- st_is_empty(shp)
+		if (any(empty_units)) {
+			shp <- if (inherits(shp, "sf")) shp[!empty_units, ] else shp[!empty_units]
+		}
+		
+		
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
-		
-		
 		if (inherits(shp, "sfc")) {
 			data <- data.frame(tmapID = seq_len(length(shp)))
 			shp <- st_sf(data, geometry=shp)

@@ -22,6 +22,7 @@ cat2pal <- function(x,
 		su <- sort(unique(x))
 		if (is.numeric(su) && length(su) > max_levels) stop("Number of unique values is more than max.categories, so style = \"cat\" cannot be used. Please use numeric intervals instead, e.g. with style =  \"pretty\"")
 		x <- factor(x, levels=su)
+		if (is.numeric(su)) levels(x) <- do.call("fancy_breaks", c(list(vec=su, intervals=FALSE), legend.format)) 	
 	}
 	
 	
