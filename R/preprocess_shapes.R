@@ -1,6 +1,7 @@
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
+	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
 
 	if (is.null(shp)) return(list(shp=NULL, data=NULL, type="tiles"))
 
@@ -36,7 +37,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 
 			if (nlayers(shp)>1) shp <- raster::subset(shp, 1)
 			shp <- setValues(shp, mtch[getValues(shp) + 1L])
-			names(shp) <- "PIXEL__COLOR"
+			names(shp) <- shpnames <- "PIXEL__COLOR"
+			
+			
 			use_interp <- FALSE
 			
 			lvls <- list(uctable)
@@ -50,8 +53,10 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			convert.RGB <- FALSE
 		} else {
 			# in order to not loose factor levels, subset the data here
-			rdata <- get_raster_data(shp)
-
+			rdata <- get_raster_data(shp, show.warnings = FALSE)
+			mainID <- attr(rdata, "mainID")
+			
+			
 			shpnames <- names(rdata) #get_raster_names(shp)
 			
 			convert.RGB <- !identical(is.RGB, FALSE) && 
@@ -68,9 +73,6 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				stop("Raster object does not have a color table, nor numeric data that can be converted to colors. Use tm_raster to visualize the data.", call. = FALSE)
 			}
 			
-			if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) {
-				raster_facets_vars <- shpnames
-			}
 			
 			# if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) {
 			# 	convert.RGB <- is.RGB && nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
@@ -89,6 +91,28 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			# }
 			
 			if (!convert.RGB) {
+				if (is.na(raster_facets_vars[1])) {
+					if (length(mainID) != length(shpnames) && show.messages) {
+						if (attr(rdata, "cls") == "RasterLayer") {
+							message("Only the first variable is shown. The available variables are: \"", paste(shpnames, collapse = "\", \""), "\".")
+						} else {
+							message("For each raster layer, only the first variable is shown. The available variables are: \"", paste(shpnames, collapse = "\", \""), "\".")	
+						}
+					}
+					raster_facets_vars <- shpnames[mainID]
+				} else {
+					raster_facets_vars <- na.omit(raster_facets_vars)
+				}
+					
+				# 	
+				# 	
+				# 	if (!any(raster_facets_vars %in% shpnames)) {
+				# 	stop("Invalid raster variable specification. The available raster variables are: \"", paste(shpnames, collapse = "\", \""), "\".", call. = FALSE)
+				# } else if (any(is.na(raster_facets_vars))) {
+				# 	# when tm_facets is enabled with tm_raster(). In this case, take the first variable.
+				# 	
+				# }
+				# 
 				layerIDs <- match(raster_facets_vars, shpnames)
 			} else {
 				layerIDs <- 1L:nlayers(shp)
@@ -299,10 +323,15 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		# be consistent with rasters (originated from sp objects)
 		attr(shp2, "bbox") <- shp_bbx
 		attr(shp2, "proj4string") <- st_crs(shp2)
+		
+		shpnames <- names(data)
+		
 	}
 	
 	point.per <- if (is.na(y$point.per)) ifelse(type %in% c("points", "geometrycollection"), "segment", "feature") else y$point.per
 
+	attr(data, "shpnames") <- shpnames
+	
 	attr(shp2, "point.per") <- point.per
 	attr(shp2, "line.center") <- y$line.center
 	attr(shp2, "projected") <- tmaptools::is_projected(shp2)

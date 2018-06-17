@@ -136,6 +136,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		xs[["raster"]] <- res$x
 		data <- res$data
 		is.colors <- res$is.colors
+		xvary[["raster"]] <- !is.colors # xvary will chang when tm_raster() is called
 		nx <- res$nx
 		misc <- res$misc
 		split.by <- TRUE

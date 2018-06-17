@@ -53,23 +53,25 @@ if (file.exists("osm_nld.rdata")) {
 	save(osm, file = "osm_nld.rdata")
 }
 
-if (file.exists("raster_tifs.rdata")) {
+if (file.exists(c("raster_tifs.rdata", "TerraColor_SanFrancisco_US_15m.tif"))) {
 	load("raster_tifs.rdata")
+	SFbdisk <- brick("TerraColor_SanFrancisco_US_15m.tif")
+	SFsdisk <- stack("TerraColor_SanFrancisco_US_15m.tif")
 } else {
 	tmpfile <- tempfile(fileext = "zip")
 	tmpdir <- tempdir()
 	download.file("http://www.terracolor.net/download/tc_sanfrancisco_us_geotiff.zip", destfile = tmpfile)
-	unzip(tmpfile, exdir = tmpdir)
+	unzip(tmpfile, exdir = ".")
 	list.files(tmpdir)
 	
-	SFb <- brick(file.path(tmpdir, "TerraColor_SanFrancisco_US_15m.tif"))
-	SFs <- stack(file.path(tmpdir, "TerraColor_SanFrancisco_US_15m.tif"))
+	SFbdisk <- brick("TerraColor_SanFrancisco_US_15m.tif")
+	SFsdisk <- stack("TerraColor_SanFrancisco_US_15m.tif")
 	
 	##
-	SFb <- aggregate(SFb, fact = 8)
+	SFb <- aggregate(SFbdisk, fact = 8)
 	
 	##
-	SFs <- aggregate(SFs, fact = 8)
+	SFs <- aggregate(SFsdisk, fact = 8)
 	save(SFb, SFs, file = "raster_tifs.rdata")
 }
 
@@ -85,6 +87,8 @@ rlist <- list(
 	osm = osm,
 	SFb = SFb,
 	SFs = SFs
+	# SFbdisk = SFbdisk,
+	# SFsdisk = SFsdisk
 )
 ```
 
@@ -98,7 +102,7 @@ for (i in 1:length(rlist)) {
 	cat("------------------------------\n")
 	cat("--------------", nm, "----------------\n")
 	cat("------------------------------\n")
-	print(str(rl))
+	#print(str(rl))
 	cat("------------------------------\n")
 	str(get_raster_data(rl))
 }

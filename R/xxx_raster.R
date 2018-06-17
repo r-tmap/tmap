@@ -56,7 +56,7 @@ raster_colors <- function(x) {
 
 
 
-extract_raster__data <- function(nm, isf, d, a){
+extract_raster_data <- function(nm, isf, d, a){
 	if (isf) {
 		if (class(a)=="list") a <- a[[1]]
 		id <- a$ID
@@ -81,42 +81,54 @@ get_raster_layer_data <- function(rl) {
 	extract_raster__data(nm = rl@data@names, isf = rl@data@isfactor, d = rl@data@values, a = rl@data@attributes)
 }
 
-get_raster_data <- function(shp) {
+get_raster_data <- function(shp, show.warnings = TRUE) {
+	cls <- class(shp)
 	if (fromDisk(shp)) {
 		data <- raster::as.data.frame(shp)
+		layerID <- 1L:ncol(data)
 	} else if (inherits(shp, "RasterLayer")) {
 		data <- get_raster_layer_data(shp)
-	} else if (inherits(shp, "RasterStack")) {
-		datalayers <- lapply(shp@layers, get_raster_layer_data)
+		layerID <- rep(1L, ncol(data))
+	} else if (inherits(shp, c("RasterStack", "RasterBrick"))) {
+		
+		if (inherits(shp, "RasterStack")) {
+			datalayers <- lapply(shp@layers, get_raster_layer_data)
+		} else {
+			nms <- shp@data@names
+			if (nms[1]=="") nms <- colnames(shp@data@values)
+			
+			nl <- length(nms)
+			
+			isfactor <- shp@data@isfactor
+			
+			data <- as.list(as.data.frame(shp@data@values))
+			
+			atb <- shp@data@attributes
+			atb <- atb[vapply(atb, length, integer(1))!=0]
+			
+			stopifnot(sum(isfactor)==length(atb))
+			
+			atbList <- as.list(rep(NA, nl))
+			atbList[isfactor] <- atb
+			
+			datalayers <- mapply(extract_raster_data, nms, isfactor, data, atbList, SIMPLIFY=FALSE)
+		}
+
 		ks <- vapply(datalayers, ncol, integer(1))
 		data <- do.call(cbind, datalayers)
 		if (any(duplicated(names(data)))) {
 			names(data) <- paste(unname(unlist(mapply(function(x, y) {
 				rep(x, each = y)
 			}, names(shp), ks, SIMPLIFY=FALSE))), names(data), sep = ".")
-			warning("RasterStack contains duplicated variable names. Therefore, the variables have been internally renamed to ", paste(names(data), collapse = ", "))
+			if (show.warnings) warning("Raster object contains duplicated variable names. Therefore, the variables have been internally renamed to ", paste(names(data), collapse = ", "))
 		}
-	} else if (inherits(shp, "RasterBrick")) {
-		nms <- shp@data@names
-		if (nms[1]=="") nms <- colnames(shp@data@values)
-
-		nl <- length(nms)
-
-		isfactor <- shp@data@isfactor
-
-		data <- as.list(as.data.frame(shp@data@values))
-
-		atb <- shp@data@attributes
-		atb <- atb[vapply(atb, length, integer(1))!=0]
-
-		stopifnot(sum(isfactor)==length(atb))
-
-		atbList <- as.list(rep(NA, nl))
-		atbList[isfactor] <- atb
-
-		data <- do.call(cbind, mapply(extract_raster__data, nms, isfactor, data, atbList, SIMPLIFY=FALSE))
+		layerID <- unlist(mapply(rep, 1L:length(datalayers), ks, SIMPLIFY = FALSE))
 	}
-
+	attr(data, "cls") <- cls
+	attr(data, "layerID") <- layerID
+	
+	mainID <- vapply(1L:max(layerID), function(i) which(layerID==i)[1], FUN.VALUE = integer(1))
+	attr(data, "mainID") <- mainID
 	data
 }
 

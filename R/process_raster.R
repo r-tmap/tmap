@@ -28,7 +28,7 @@ check_raster_specials <- function(x, g, gt, shpcols, data, nx) {
 		} else {
 			# check for direct color input
 			is.colors <- all(valid_colors(x))
-			if (!is.colors) stop("Invalid colors", call. = FALSE)
+			if (!is.colors) stop("Invalid color specification. The available raster variables are: \"", paste(attr(data, "shpnames"), collapse = "\", \""), "\"." , call. = FALSE)
 			
 			x <- do.call("process_color", c(list(col=col2hex(x), alpha=g$alpha), gt$pc))
 			for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- x[i]
