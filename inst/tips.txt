@@ -95,15 +95,16 @@ Facets can be shown as layers in view mode (instead of small multiples).
 view
 data(World)
 tm_shape(World) +
-  tm_polygons(c("HPI", "well_being", "life_exp"), palette = list("RdYlGn", "Purples", "Greens")) +
-tm_facets(as.layers = TRUE)
+  tm_polygons("HPI", palette = "RdYlGn") +
+  tm_facets(by = "continent", as.layers = TRUE, free.coords = FALSE, drop.units = TRUE)
 
 2.0
 Basemaps can be disabled as follows, or by setting tmap_options(basemaps = NULL).
 view
 data(World)
 tm_basemap(NULL) +
-qtm(World, "HPI")
+tm_shape(World) +
+  tm_polygons("HPI")
 
 2.0
 The filter argument of tm_shape can be used to filter spatial units.

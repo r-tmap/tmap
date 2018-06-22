@@ -486,7 +486,9 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 				})
 				gTree(children=do.call(gList, grobs))				
 			} else {
-				pointsGrob(x=xs, y=1-my-hsmax/2+symbol_legend_y_correction(shapes), size=symbolR,
+				pointsGrob(x=xs, 
+						   y=1-.5*my-hsmax/2+symbol_legend_y_correction(shapes),
+						   size=symbolR,
 						   pch=shapes,
 						   gp=get_symbol_gpar(x=shapes,
 						   					fill=cols,
@@ -528,13 +530,18 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 			x2 <- xs - ws/2
 			just <- c("left", "top")
 		}
+		if (gt$design.mode) {
+			grobLegendTextBg <- rectGrob(x = .5, y = .5*(my+lineHeight*legend.text.size), height = my+lineHeight*legend.text.size, width = 1, gp = gpar(fill = "orange"))
+		} else {
+			grobLegendTextBg <- NULL
+		}
 		
 		grobLegendText <- textGrob(legend.labels, x=x2,
 								   y=my+lineHeight*legend.text.size, just=just, gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		
 		legWidth <- mx*2+xs[length(xs)]+max(xtraWidth, labelsws[nitems]*legend.text.size/2)
 		
-		list(gList(grobLegendItem, grobLegendText), legWidth=legWidth)
+		list(gList(grobLegendItem, grobLegendTextBg, grobLegendText), legWidth=legWidth)
 	})
 }
 

@@ -5,11 +5,11 @@
 \title{Small multiples}
 \usage{
 tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
-  nrow = NA, free.coords = TRUE, drop.units = free.coords,
-  drop.empty.facets = TRUE, drop.NA.facets = FALSE, sync = !free.coords,
-  showNA = NA, textNA = "Missing", free.scales = is.null(by) &&
-  is.null(along), free.scales.fill = free.scales,
-  free.scales.symbol.size = free.scales,
+  nrow = NA, free.coords = !as.layers, drop.units = free.coords ||
+  as.layers, drop.empty.facets = TRUE, drop.NA.facets = FALSE,
+  sync = !free.coords, showNA = NA, textNA = "Missing",
+  free.scales = is.null(by) && is.null(along),
+  free.scales.fill = free.scales, free.scales.symbol.size = free.scales,
   free.scales.symbol.col = free.scales,
   free.scales.symbol.shape = free.scales,
   free.scales.text.size = free.scales, free.scales.text.col = free.scales,
@@ -28,9 +28,9 @@ tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
 
 \item{nrow}{number of rows of the small multiples grid. Not applicable if \code{by} contains two variable names.}
 
-\item{free.coords}{logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?}
+\item{free.coords}{logical. If the \code{by} argument is specified, should each map has its own coordinate ranges? By default \code{TRUE}, unless facets are shown in as different layers (\code{as.layers = TRUE})}
 
-\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE} (default), they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes.}
+\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE}, they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes. By default \code{TRUE} when \code{as.layers} and/or \code{free.coords} is \code{TRUE}.}
 
 \item{drop.empty.facets}{logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and columns are dropped.}
 

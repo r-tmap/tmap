@@ -9,8 +9,8 @@
 #' @param as.layers logical that determines whether facets are shown as different layers in \code{"view"} mode. By default \code{FALSE}, i.e. facets are drawn as small multiples.
 #' @param ncol number of columns of the small multiples grid. Not applicable if \code{by} contains two variable names.
 #' @param nrow number of rows of the small multiples grid. Not applicable if \code{by} contains two variable names.
-#' @param free.coords logical. If the \code{by} argument is specified, should each map has its own coordinate ranges?
-#' @param drop.units logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE} (default), they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes.
+#' @param free.coords logical. If the \code{by} argument is specified, should each map has its own coordinate ranges? By default \code{TRUE}, unless facets are shown in as different layers (\code{as.layers = TRUE})
+#' @param drop.units logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE}, they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes. By default \code{TRUE} when \code{as.layers} and/or \code{free.coords} is \code{TRUE}.
 #' @param drop.empty.facets logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and columns are dropped.
 #' @param drop.NA.facets logical. If the \code{by} argument is specified, and all values of the defined aesthetic variables (e.g. \code{col} from \code{\link{tm_fill}}) for specific facets, should these facets be dropped? \code{FALSE} by default.
 #' @param sync logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE}, unless \code{free.coords} is set to \code{TRUE}.
@@ -38,8 +38,8 @@ tm_facets <- function(by=NULL,
 					  along=NULL,
 					  as.layers = FALSE,
 					  ncol=NA, nrow=NA, 
-					  free.coords=TRUE,
-					  drop.units=free.coords,
+					  free.coords=!as.layers,
+					  drop.units=free.coords || as.layers,
 					  drop.empty.facets=TRUE,
 					  drop.NA.facets=FALSE,
 					  sync=!free.coords,
