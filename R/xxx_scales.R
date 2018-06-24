@@ -116,7 +116,7 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
 }
 
 
-num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left") {
+num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left", var = NULL) {
 	nobs <- sum(!is.na(x))
 	# create intervals and assign colors
 	if (style=="fixed") {
@@ -127,12 +127,24 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 		attr(q, "intervalClosure") <- interval.closure
 		class(q) <- "classIntervals"
 	} else {
-		if (nobs==0) stop("Numerical variable only contains missing values.", call.=FALSE)
+		if (nobs==0) {
+			if (!is.null(var)) {
+				stop("Numerical variable \"", var, "\" only contains missing values.", call.=FALSE)
+			} else {
+				stop("Numerical variable only contains missing values.", call.=FALSE)
+			}
+		}
 
 		nunique <- length(na.omit(unique(x)))
 
 		
-		if (nunique == 1 && style!="pretty") warning("Single unique value found, so style set to \"pretty\"")
+		if (nunique == 1 && style!="pretty") {
+			if (!is.null(var)) {
+				warning("Single unique value found for the variable \"", var, "\", so style set to \"pretty\"", call. = FALSE)
+			} else {
+				warning("Single unique value found, so style set to \"pretty\"", call. = FALSE)
+			}
+		}
 
 		tempx <- nunique <= n
 		

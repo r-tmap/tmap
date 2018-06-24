@@ -61,6 +61,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 		
 		if (is.factor(x) || g$style=="cat") {
 			shapesLeg <- cat2shape(x,
+								   var = g$shape,
 								   shapes=g$shapes,
 								   legend.labels=g$labels,
 								   shapeNA = g$shapeNA,
@@ -74,9 +75,8 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 			shape.legend.shapes <- shapesLeg$shapes
 			shape.neutral <- shape.legend.shapes[1]
 		} else {
-			
-			
 			shapesLeg <- num2shape(x, 
+								   var = g$shape,
 								   n=g$shapes.n, 
 								   style=g$shapes.style, 
 								   breaks=g$shapes.breaks, 

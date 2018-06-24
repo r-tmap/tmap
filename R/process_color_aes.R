@@ -47,7 +47,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 		} else {
 			rng <- range(x, na.rm = TRUE)
 			if (abs(rng[2] - rng[1]) < 1e-9 && rng[1] != rng[2]) {
-				warning("The value range is less than 1e-9", call. = FALSE)
+				warning("The value range of the variable \"", g$col, "\" is less than 1e-9", call. = FALSE)
 				x[!is.na(x)] <- round(rng[1], 9)
 			}
 		}
@@ -70,6 +70,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 			palette.type <- palette_type(palette)
 		}
 		colsLeg <- cat2pal(x,
+						   var = g$col,
 						   palette = palette,
 						   stretch.palette = g$stretch.palette,
 						   contrast = g$contrast,
@@ -96,7 +97,10 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
 			gt$aes.palette[[g$palette[1]]]
 		} else g$palette
-		colsLeg <- num2pal(x, g$n, style=g$style, breaks=g$breaks, 
+		colsLeg <- num2pal(x, 
+						   var = g$col,
+						   call = g$call,
+						   g$n, style=g$style, breaks=g$breaks, 
 						   interval.closure=g$interval.closure,
 						   palette = palette,
 						   midpoint = g$midpoint, #auto.palette.mapping = g$auto.palette.mapping,

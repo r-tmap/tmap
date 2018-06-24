@@ -1,4 +1,5 @@
 cat2pal <- function(x, 
+					var,
 					palette = "Set3",
 					stretch.palette = TRUE,
 					#auto.palette.mapping = TRUE,
@@ -20,7 +21,7 @@ cat2pal <- function(x,
 	
 	if (!is.factor(x)) {
 		su <- sort(unique(x))
-		if (is.numeric(su) && length(su) > max_levels) stop("Number of unique values is more than max.categories, so style = \"cat\" cannot be used. Please use numeric intervals instead, e.g. with style =  \"pretty\"")
+		if (is.numeric(su) && length(su) > max_levels) stop("Number of unique values of the variable \"", var, "\" is ", length(su), ", which is more than max.categories (which is ", max_levels, "), so style = \"cat\" cannot be used. Please use numeric intervals instead, e.g. with style =  \"pretty\".")
 		x <- factor(x, levels=su)
 		if (is.numeric(su)) levels(x) <- do.call("fancy_breaks", c(list(vec=su, intervals=FALSE), legend.format)) 	
 	}
@@ -29,7 +30,7 @@ cat2pal <- function(x,
 	# quick&dirty
 	nCol <- nlevels(x)
 	if (nCol > max_levels) {
-		warning("Number of levels is larger than max.categories, so levels are combined. Set max.categories = ", nCol, " in the layer function to show all levels.", call. = FALSE)
+		warning("Number of levels of the variable \"", var ,"\" is ", nCol, ", which is larger than max.categories (which is ", max_levels, "), so levels are combined. Set tmap_options(max.categories = ", nCol, ") in the layer function to show all levels.", call. = FALSE)
 	
 		mapping <- as.numeric(cut(seq.int(nCol), breaks=max_levels))
 		to <- c(which(mapping[-nCol] - mapping[-1]!=0), nCol)

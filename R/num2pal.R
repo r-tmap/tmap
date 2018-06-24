@@ -1,17 +1,20 @@
-num2pal <- function(x, n = 5,
-					   style = "pretty",
-                       breaks = NULL,
-					   interval.closure="left",
-					   palette = NULL,
-					   midpoint = NA, #auto.palette.mapping = TRUE,
-					   contrast = 1,
-					   legend.labels = NULL,
-					   colorNA = "#FF1414",
-					   colorNULL = "#FFFFFF",
-					   legend.NA.text = "Missing",
-					   showNA=NA,
-					   process.colors=NULL,
-					   legend.format=list(scientific=FALSE),
+num2pal <- function(x, 
+					var,
+					call,
+					n = 5,
+					style = "pretty",
+					breaks = NULL,
+					interval.closure="left",
+					palette = NULL,
+					midpoint = NA, #auto.palette.mapping = TRUE,
+					contrast = 1,
+					legend.labels = NULL,
+					colorNA = "#FF1414",
+					colorNULL = "#FFFFFF",
+					legend.NA.text = "Missing",
+					showNA=NA,
+					process.colors=NULL,
+					legend.format=list(scientific=FALSE),
 					reverse=FALSE
 					) {
 	sel <- attr(x, "sel")
@@ -28,7 +31,13 @@ num2pal <- function(x, n = 5,
 	if (is.cont) {
 		style <- ifelse(style=="order", "quantile", "fixed")
 
+		
+		
 		if (style=="fixed") {
+			if ((!is.null(breaks) || !is.null(legend.labels)) && ("n" %in% call)) {
+				warning("n will not be used since breaks and/or labels are specified. Therefore, n will be set to the number of breaks/labels.", call. = FALSE)
+			}
+
 			custom_breaks <- breaks
 			
 			if (!is.null(custom_breaks)) {
@@ -37,21 +46,28 @@ num2pal <- function(x, n = 5,
 				breaks <- range(x, na.rm = TRUE)
 			}
 			breaks <- cont_breaks(breaks, n=101)
+		} else {
+			if ("breaks" %in% call) warning("breaks cannot be set for style = \"order\".", 
+											ifelse("labels" %in% call, "", " Breaks labels can be set with the argument labels."), ifelse(any(c("labels", "n") %in% call), "", " The number of breaks can be specified with the argument n."),  call. = FALSE)
+			custom_breaks <- breaks
 		}
 		
 		if (is.null(legend.labels)) {
 			ncont <- n
 		} else {
 			if (!is.null(custom_breaks) && length(legend.labels) != n+1) {
-				warning("legend.labels not the same length as breaks", call.=FALSE)
+				warning("The length of legend.labels is ", length(legend.labels), ", which differs from the length of the breaks (", (n+1), "). Therefore, legend.labels will be ignored", call.=FALSE)
 				legend.labels <- NULL
 			} else {
+				if (style == "quantile" && ("n" %in% call)) {
+					warning("n will not be used since labels are specified. Therefore, n will be set to the number of labels.", call. = FALSE)
+				}
 				ncont <- length(legend.labels)	
 			}
 		}
-		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE, interval.closure=interval.closure)
+		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE, interval.closure=interval.closure, var=var)
 	} else {
-		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure)
+		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var)
 	}
 	
 	
@@ -85,7 +101,7 @@ num2pal <- function(x, n = 5,
 	if ((is.null(midpoint) || is.na(midpoint)) && pal.div) {
 		rng <- range(x, na.rm = TRUE)
 		if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
-			if (show.messages) message("Variable contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show to full spectrum of the color palette.")
+			if (show.messages) message("Variable \"", var, "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.")
 			midpoint <- 0
 		} else {
 			if ((n %% 2) == 1) {

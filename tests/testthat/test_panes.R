@@ -6,13 +6,13 @@ test_that("map panes", {
 	
 	expect_silent({
 		print({
-		tm_basemap(providers$Stamen.Watercolor) +
+		tm_basemap(leaflet::providers$Stamen.Watercolor) +
 			tm_shape(World) +
 			tm_fill("HPI") +
-			tm_tiles(providers$Stamen.TonerLabels) +
+			tm_tiles(leaflet::providers$Stamen.TonerLabels) +
 			tm_shape(World) +
 			tm_bubbles(size = "gdp_cap_est", legend.size.show = FALSE) +
-			tm_tiles(providers$Stamen.TonerLines)
+			tm_tiles(leaflet::providers$Stamen.TonerLines)
 		})
 	})
 })
