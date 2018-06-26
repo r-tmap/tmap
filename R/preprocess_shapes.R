@@ -90,7 +90,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			# 	raster_facets_vars <- intersect(raster_facets_vars, shpnames)
 			# }
 			
-			if (!convert.RGB) {
+			if (convert.RGB) {
+				layerIDs <- 1L:nlayers(shp)
+			} else {
 				if (is.na(raster_facets_vars[1])) {
 					if (length(mainID) != length(shpnames) && show.messages) {
 						if (attr(rdata, "cls") == "RasterLayer") {
@@ -104,18 +106,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 					raster_facets_vars <- na.omit(raster_facets_vars)
 				}
 					
-				# 	
-				# 	
-				# 	if (!any(raster_facets_vars %in% shpnames)) {
-				# 	stop("Invalid raster variable specification. The available raster variables are: \"", paste(shpnames, collapse = "\", \""), "\".", call. = FALSE)
-				# } else if (any(is.na(raster_facets_vars))) {
-				# 	# when tm_facets is enabled with tm_raster(). In this case, take the first variable.
-				# 	
-				# }
-				# 
 				layerIDs <- match(raster_facets_vars, shpnames)
-			} else {
-				layerIDs <- 1L:nlayers(shp)
+				layerIDs <- na.omit(layerIDs)
+				if (length(layerIDs) == 0L) layerIDs <- 1
 			}
 				#lvls <- get_raster_levels(shp, layerIDs)
 			lvls <- get_data_frame_levels(rdata[, layerIDs, drop = FALSE])
@@ -316,7 +309,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				#shp2 <- st_simplify(shp2, preserveTopology = TRUE, dTolerance = shp.sim$fact)
 				shp2 <- do.call(tmaptools::simplify_shape, c(list(shp=shp2), shp.sim))
 				data <- data[shp2$tmapID, , drop=FALSE]
-				shp2$tmapID <- seq_len(length(shp2))
+				shp2$tmapID <- seq_len(nrow(shp2))
 			}
 		}
 

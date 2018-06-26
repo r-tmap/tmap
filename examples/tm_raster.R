@@ -17,7 +17,7 @@ pal20 <- c("#003200", "#3C9600", "#006E00", "#556E19", "#00C800", "#8CBE8C",
 		   "#E664E6", "#9B82E6", "#B4FEF0", "#646464", "#C8C8C8", "#FF0000",
 		   "#FFFFFF", "#5ADCDC")
 tm_shape(land) +
-	tm_raster("cover", max.categories = 20, palette = pal20, title = "Global Land Cover") + 
+	tm_raster("cover", palette = pal20, title = "Global Land Cover") + 
 	tm_layout(scale=.8, legend.position = c("left","bottom"))
 }
 
@@ -28,11 +28,10 @@ tm_shape(World) +
     tm_borders() +
 tm_layout(legend.position = c("left", "bottom"), bg.color = "lightblue")
 
-# TIP: check out these examples in view mode, enabled with tmap_mode("view")
-
 \dontrun{
-# doesn't work in view mode, since it does not support small multiples
 tm_shape(land) +
 	tm_raster("black") +
 	tm_facets(by="cover_cls")
 }
+
+# TIP: check out these examples in view mode, enabled with tmap_mode("view")

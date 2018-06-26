@@ -10,6 +10,11 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 	if (length(gts)) {
 		for (i in 1L:length(gts)) {
 			g <- gts[[i]]
+			
+			if (("legend.position" %in% names(g)) && interactive) {
+				if (gt$show.messages) message("legend.postion is used for plot more. Use view.legend.position in tm_view to set the legend position in view mode.")
+			}
+			
 			if (!is.na(g$style)) {
 				if (i !=1 && gt$show.messages) message("Note that tm_style(\"", g$style, "\") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.")
 				gt <- .defaultTmapOptions
