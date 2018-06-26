@@ -266,13 +266,13 @@ tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
 # get current style
 current.style <- tmap_style() 
 	
-qtm(World, fill="economy", format="World")
+qtm(World, fill = "economy", format = "World")
 
 tmap_style("col_blind")
-qtm(World, fill="economy", format="World")
+qtm(World, fill = "economy", format = "World")
 
 tmap_style("cobalt")
-qtm(World, fill="economy", format="World")
+qtm(World, fill = "economy", format = "World")
 
 # set to current style
 tmap_style(current.style)

@@ -24,7 +24,7 @@
 #' @param projection Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.
 #' @param style Layout options (see \code{\link{tm_layout}}) that define the style. See \code{\link{tmap_style}} for details.
 #' @param format Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.
-#' @param basemaps name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps.
+#' @param basemaps name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps. By default, set to the tmap option \code{basemaps}, unless \code{shp} is ommited. In the latter case, \code{"OpenStreetMap"} is used.
 #' @param overlays name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to \code{\link{tm_tiles}}.
 #' @param bubble.size deprecated. Please use symbols.size.
 #' @param bubble.col deprecated. Please use symbols.col.
@@ -61,25 +61,26 @@ qtm <- function(shp,
 	args <- list(...)
 	shp_name <- deparse(substitute(shp))[1]
 	called <- names(match.call(expand.dots = TRUE)[-1])
+
+	interactive <- (getOption("tmap.mode")=="view")
+	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
-	if (missing(shp)) {
+	if (missing(shp) || is.character(shp)) {
+		
+		if (!interactive) {
+			if (show.messages) message("Switching to view mode. Run tmap_mode(\"plot\") or simply ttm() to switch back to plot mode.")
+			options(tmap.mode="view")
+		}
+		
+		if (is.null(basemaps) || is.na(basemaps)) basemaps <- "OpenStreetMap"
+
 		# return minimal list required for leaflet basemap tile viewing
 		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
-		g <- c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
-		class(g) <- "tmap"
-		return(g)
-	} else if (is.character(shp)) {
-		# return minimal list required for leaflet basemap tile viewing
 		
-		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
-		viewargs <- c(args[intersect(names(args), names(formals(tm_view)))], list(bbox = shp))
-		g <- c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs)) 
-		#res <- geocode_OSM(shp)
-		#tm_shortcut=list(bbx=res$bbox, center=res$coords)	
+		if (!missing(shp)) viewargs$bbox <- shp
 		
-		
-		#list(tm_shortcut=list(basemaps=basemaps, bg.overlay.alpha=0, bbx=res$bbox, center=res$coords))
+		g <- c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs), tm_scale_bar())
 		class(g) <- "tmap"
 		return(g)
 	} else if (inherits(shp, "Spatial") && !(inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid")))) {
@@ -263,6 +264,10 @@ qtm <- function(shp,
 	#gview$tm_view["call"] <- list(call=if(length(gviewcall)==0) NULL else gviewcall)
 	
 	g <- g + glayout + gview
+	
+	
+	if (interactive) g <- g + tm_scale_bar()
+	
 	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
 	g
 }

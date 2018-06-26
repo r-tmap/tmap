@@ -30,3 +30,11 @@ qtm(metro, symbols.size = "pop2010",
 }
 
 # TIP: check out these examples in view mode, enabled with tmap_mode("view")
+
+\dontrun{
+# without arguments, a plain interactive map is shown (the mode is set to view)
+qtm()
+
+# search query for OpenStreetMap nominatim
+qtm("Amsterdam")
+}

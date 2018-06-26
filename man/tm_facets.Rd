@@ -150,23 +150,6 @@ tm_dots("red", size = .5) +
 tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)
 }
 
-# example: Meuse data
-\dontrun{
-require(sf)
-require(tmaptools)
-data(meuse)
-meuse <- st_as_sf(meuse, coords = c("x", "y"), crs = 28992, agr = "constant")
-meuse_osm <- read_osm(meuse, ext=1.1)
-
-qtm(meuse_osm) + 
-	tm_shape(meuse) +
-	tm_bubbles(size=c("cadmium", "copper", "lead", "zinc"),
-	    col=c("orange", "orange3", "grey40", "grey70"),
-	    border.col="black",
-        border.alpha = .75,
-        scale=.7)
-}
-
 # restore current mode
 tmap_mode(current.mode)
 }

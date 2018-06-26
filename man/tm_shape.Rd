@@ -9,7 +9,7 @@ tm_shape(shp, name = NULL, is.master = NA, projection = NULL,
   line.center = "midpoint", filter = NULL, ...)
 }
 \arguments{
-\item{shp}{shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, a \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.}
+\item{shp}{shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.}
 
 \item{name}{name of the shape object (character) as it appears in the legend in \code{"view"} mode. Default value is the name of \code{shp}.}
 
