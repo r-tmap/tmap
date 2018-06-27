@@ -2,10 +2,17 @@
 #' 
 #' Draw a thematic map quickly.
 #' 
-#' This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as \code{\link{tm_polygons}}, can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
+#' This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. Without arguments or with a search term, this functions draws an interactive map.
 #' 
-#' @param shp shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.
-#' In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly. Arguments of \code{\link{tm_view}}, such as \code{set.view} can be passed on directly.
+#' 
+#' The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as \code{\link{tm_polygons}}, can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
+#' 
+#' @param shp One of
+#' \itemize{
+#' \item shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.
+#' \item Not specified, i.e. \code{qtm()} is executed. In this case a plain interactive map is shown.
+#' \item A OSM search string, e.g. \code{qtm("Amsterdam")}. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)
+#' }
 #' @param fill either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} contains polygons.  Set \code{fill = NULL} to draw only polygon borders. See also argument \code{borders}.
 #' @param symbols.size either the size of the symbols or a name of the data variable in \code{shp} that specifies the sizes of the symbols.  See also the \code{size} argument of \code{\link{tm_symbols}}. Only applicable when \code{shp} contains spatial points, lines, or polygons.
 #' @param symbols.col either the color of the symbols or a name of the data variable in \code{shp} that specifies the colors of the symbols. See also the \code{col} arugment of \code{\link{tm_symbols}}. Only applicable when \code{shp} contains spatial points, lines, or polygons.
@@ -22,12 +29,10 @@
 #' @param scale numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. The parameters \code{symbols.size}, \code{text.size}, and \code{lines.lwd} can be scaled seperately with respectively \code{symbols.scale}, \code{text.scale}, and \code{lines.scale}. See also \code{...}.
 #' @param title main title. For legend titles, use \code{X.style}, where X is the layer name (see \code{...}).
 #' @param projection Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.
+#' @param basemaps name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps. By default, it is set to the tmap option \code{basemaps}.
+#' @param overlays name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to \code{\link{tm_tiles}}.
 #' @param style Layout options (see \code{\link{tm_layout}}) that define the style. See \code{\link{tmap_style}} for details.
 #' @param format Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.
-#' @param basemaps name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps. By default, set to the tmap option \code{basemaps}, unless \code{shp} is ommited. In the latter case, \code{"OpenStreetMap"} is used.
-#' @param overlays name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to \code{\link{tm_tiles}}.
-#' @param bubble.size deprecated. Please use symbols.size.
-#' @param bubble.col deprecated. Please use symbols.col.
 #' @param ... arguments passed on to the \code{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.
 #' @return \code{\link{tmap-element}}
 #' @example ./examples/qtm.R
@@ -51,48 +56,33 @@ qtm <- function(shp,
 				scale=NA,
 				title=NA,
 				projection=NULL,
-				style=NULL,
-				format=NULL,
 				basemaps = NA,
 				overlays = NA,
-				bubble.size=NULL,
-				bubble.col=NULL,
+				style=NULL,
+				format=NULL,
 				...) {
 	args <- list(...)
 	shp_name <- deparse(substitute(shp))[1]
 	called <- names(match.call(expand.dots = TRUE)[-1])
 
-	interactive <- (getOption("tmap.mode")=="view")
-	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
-	
 	if (missing(shp) || is.character(shp)) {
 		
-		if (!interactive) {
-			if (show.messages) message("Switching to view mode. Run tmap_mode(\"plot\") or simply ttm() to switch back to plot mode.")
-			options(tmap.mode="view")
-		}
-		
-		if (is.null(basemaps) || is.na(basemaps)) basemaps <- "OpenStreetMap"
-
-		# return minimal list required for leaflet basemap tile viewing
-		#basemaps <- if (is.na(basemaps)[1]) tm_style_white()$tm_layout$basemaps else basemaps
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
 		
 		if (!missing(shp)) viewargs$bbox <- shp
 		
-		g <- c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs), tm_scale_bar())
+		g <- c(tm_basemap(basemaps), tm_tiles(overlays), do.call("tm_view", viewargs))
+		attr(g, "qtm_shortcut") <- TRUE
 		class(g) <- "tmap"
 		return(g)
 	} else if (inherits(shp, "Spatial") && !(inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid")))) {
 		shp <- as(shp, "sf")
 	}
 	
-	if (!missing(bubble.size)) {
-		if (missing(symbols.size)) symbols.size <- bubble.size
+	if ("bubble.size" %in% names(args)) {
 		warning("bubble.size is deprecated. Please use symbols.size instead", call.=FALSE)
 	}
-	if (!missing(bubble.col)) {
-		if (missing(symbols.col)) symbols.col <- bubble.col
+	if ("bubble.col" %in% names(args)) {
 		warning("bubble.col is deprecated. Please use symbols.col instead", call.=FALSE)
 	}
 	
@@ -254,20 +244,11 @@ qtm <- function(shp,
 	
 	g <- g + tm_tiles(overlays)
 	
-	
 	glayout <- do.call("tm_layout", c(scaleLst, args2[["tm_layout"]]))
-	#glayoutcall <- c(intersect(called, c("title", "scale")), names(args2[["tm_layout"]]))
-	#glayout$tm_layout["call"] <- list(call=if(length(glayoutcall)==0) NULL else glayoutcall)
-	
 	gview <- do.call("tm_view", args2[["tm_view"]])
-	#gviewcall <- c(intersect(called, "basemaps"), names(args2[["tm_view"]]))
-	#gview$tm_view["call"] <- list(call=if(length(gviewcall)==0) NULL else gviewcall)
-	
 	g <- g + glayout + gview
 	
-	
-	if (interactive) g <- g + tm_scale_bar()
-	
 	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
+	attr(g, "qtm_shortcut") <- FALSE
 	g
 }

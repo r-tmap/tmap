@@ -588,9 +588,13 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	}
 
 	if (length(bases) == 1 && !basename.specified) {
-		lf <- lf %>% addLayersControl(overlayGroups = unname(overlays), options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
-	} else {
+		if (!is.na(overlays[1])) {
+			lf <- lf %>% addLayersControl(overlayGroups = unname(overlays), options = layersControlOptions(autoZIndex = TRUE), position=control.position)
+		}
+	} else if (!is.na(overlays[1])) {
 		lf <- lf %>% addLayersControl(baseGroups=unname(bases), overlayGroups = unname(overlays), options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
+	} else {
+		lf <- lf %>% addLayersControl(baseGroups=unname(bases), options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 	}
 	
 

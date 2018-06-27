@@ -8,12 +8,15 @@ qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
   symbols.shape = NULL, dots.col = NULL, text = NULL, text.size = 1,
   text.col = NA, lines.lwd = NULL, lines.col = NULL, raster = NA,
   borders = NA, by = NULL, scale = NA, title = NA, projection = NULL,
-  style = NULL, format = NULL, basemaps = NA, overlays = NA,
-  bubble.size = NULL, bubble.col = NULL, ...)
+  basemaps = NA, overlays = NA, style = NULL, format = NULL, ...)
 }
 \arguments{
-\item{shp}{shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.
-In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options. 1) If omitted, an interactive map without thematic layers is opened. 2) In addition, if a character is provided, this character is used as a search query for OpenStreetMap nominatim. This will position the interactive map accordingly. Arguments of \code{\link{tm_view}}, such as \code{set.view} can be passed on directly.}
+\item{shp}{One of
+\itemize{
+\item shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.
+\item Not specified, i.e. \code{qtm()} is executed. In this case a plain interactive map is shown.
+\item A OSM search string, e.g. \code{qtm("Amsterdam")}. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)
+}}
 
 \item{fill}{either a color to fill the polygons, or name of the data variable in \code{shp} to draw a choropleth. Only applicable when \code{shp} contains polygons.  Set \code{fill = NULL} to draw only polygon borders. See also argument \code{borders}.}
 
@@ -47,17 +50,13 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 
 \item{projection}{Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.}
 
-\item{style}{Layout options (see \code{\link{tm_layout}}) that define the style. See \code{\link{tmap_style}} for details.}
-
-\item{format}{Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.}
-
-\item{basemaps}{name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps. By default, set to the tmap option \code{basemaps}, unless \code{shp} is ommited. In the latter case, \code{"OpenStreetMap"} is used.}
+\item{basemaps}{name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps. By default, it is set to the tmap option \code{basemaps}.}
 
 \item{overlays}{name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to \code{\link{tm_tiles}}.}
 
-\item{bubble.size}{deprecated. Please use symbols.size.}
+\item{style}{Layout options (see \code{\link{tm_layout}}) that define the style. See \code{\link{tmap_style}} for details.}
 
-\item{bubble.col}{deprecated. Please use symbols.col.}
+\item{format}{Layout options (see \code{\link{tm_layout}}) that define the format. See \code{\link{tmap_format}} for details.}
 
 \item{...}{arguments passed on to the \code{tm_*} functions. The prefix of these arguments should be with the layer function name without \code{"tm_"} and a period. For instance, the palette for polygon fill color is called \code{fill.palette}. The following prefixes are supported: \code{shape.}, \code{fill.}, \code{borders.}, \code{polygons.}, \code{symbols.}, \code{dots.}, \code{lines.}, \code{raster.}, \code{text.}, \code{layout.}, \code{grid.}, \code{facets.}, and \code{view.}. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. \code{convert2density}, can also be called without prefix.}
 }
@@ -68,7 +67,9 @@ In \code{"view"} mode (see \code{\link{tmap_mode}}) there are two other options.
 Draw a thematic map quickly.
 }
 \details{
-This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as \code{\link{tm_polygons}}, can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
+This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. Without arguments or with a search term, this functions draws an interactive map.
+
+The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as \code{\link{tm_polygons}}, can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
 }
 \examples{
 data(World, rivers, metro)

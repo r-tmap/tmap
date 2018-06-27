@@ -100,6 +100,7 @@
 		basemaps.alpha = c(1, 1, 1),
 		overlays = NULL,
 		overlays.alpha = 1,
+		qtm.scalebar = TRUE,
 		alpha = NA,
 		colorNA = NA,
 		projection = 3857,
@@ -303,6 +304,7 @@
 #' @param basemaps.alpha default transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.
 #' @param overlays default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparent. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.
 #' @param overlays.alpha default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.
+#' @param qtm.scalebar should a scale bar be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_scale_bar()} be added automatically?
 #' @param show.messages should messages be shown?
 #' @param style style name
 #' @example ./examples/tmap_options.R
@@ -310,7 +312,7 @@
 #' @name tmap_options
 #' @export
 #' @seealso \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}
-tmap_options <- function(..., unit, limits, max.categories, basemaps, basemaps.alpha, overlays, overlays.alpha, show.messages) {
+tmap_options <- function(..., unit, limits, max.categories, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, show.messages) {
 
 	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
 	current.style <- getOption("tmap.style")

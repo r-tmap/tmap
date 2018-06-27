@@ -11,7 +11,14 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		for (i in 1L:length(gts)) {
 			g <- gts[[i]]
 			
-			if (("legend.position" %in% names(g)) && interactive) {
+			called <- if (is.null(attr(g, "format_args"))) {
+				names(g)
+			} else {
+				attr(g, "format_args")
+			}
+			
+			
+			if (("legend.position" %in% called) && interactive) {
 				if (gt$show.messages) message("legend.postion is used for plot more. Use view.legend.position in tm_view to set the legend position in view mode.")
 			}
 			

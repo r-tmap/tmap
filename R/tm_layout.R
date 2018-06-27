@@ -252,6 +252,11 @@ tm_format <- function(format, ...) {
 		formatArgs[names(args)] <- args	
 	}
 	formatArgs$style <- NA
+	
+	called <- names(args)
+	if (is.null(called)) called <- character(0)
+	
+	attr(formatArgs, "format_args") <- called
 	structure(list(tm_layout=formatArgs), class = "tm")
 }
 

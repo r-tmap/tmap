@@ -8,7 +8,7 @@
 \title{Options for tmap}
 \usage{
 tmap_options(..., unit, limits, max.categories, basemaps, basemaps.alpha,
-  overlays, overlays.alpha, show.messages)
+  overlays, overlays.alpha, qtm.scalebar, show.messages)
 
 tmap_options_diff()
 
@@ -32,6 +32,8 @@ tmap_options_save(style)
 \item{overlays}{default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparent. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.}
 
 \item{overlays.alpha}{default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.}
+
+\item{qtm.scalebar}{should a scale bar be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_scale_bar()} be added automatically?}
 
 \item{show.messages}{should messages be shown?}
 

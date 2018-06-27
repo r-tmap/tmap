@@ -295,6 +295,24 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	interactive <- (mode == "view")
 	
+	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	
+	qtm_shortcut <- attr(x, "qtm_shortcut")
+	
+	if (!is.null(qtm_shortcut)) {
+		if (qtm_shortcut) {
+			if (!interactive) {
+				if (show.messages) message("Switching to view mode. Run tmap_mode(\"plot\") or simply ttm() to switch back to plot mode.")
+				options(tmap.mode="view")
+				interactive <- TRUE
+			}
+			# basemapid <- which(names(x) == "tm_basemap")
+			# if (is.na(x[[basemapid]]$server)) x[[basemapid]]$server <- "OpenStreetMap"
+		}
+		if (interactive && !("tm_scale_bar" %in% names(x)) && get(".tmapOptions", envir = .TMAP_CACHE)$qtm.scalebar) x <- c(x, tm_scale_bar())
+	}
+	
+	
 	# reset symbol shape / shape just/anchor lists
 	assign(".shapeLib", list(), envir = .TMAP_CACHE)
 	assign(".justLib", list(), envir = .TMAP_CACHE)

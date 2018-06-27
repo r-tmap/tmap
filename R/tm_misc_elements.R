@@ -307,8 +307,20 @@ tm_minimap <- function(position=NA, ...) {
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @export
 "+.tmap" <- function(e1, e2) {
-	g <- c(e1,e2)
-	class(g) <- "tmap"
+	qtm_shortcut1 <- attr(e1, "qtm_shortcut")
+	qtm_shortcut2 <- attr(e2, "qtm_shortcut")
+
+	if (identical(qtm_shortcut1, TRUE)) {
+		warning("qtm called without shape objects cannot be stacked", call. = FALSE)
+		g <- e2
+	} else if (identical(qtm_shortcut2, TRUE)) {
+		warning("qtm called without shape objects cannot be stacked", call. = FALSE)
+		g <- e1
+	} else {
+		g <- c(e1,e2)
+		class(g) <- "tmap"
+	}
+	
 	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
 	g
 }
