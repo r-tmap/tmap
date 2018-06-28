@@ -213,7 +213,6 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 
 	res <- mapply(function(x, xname, dt, fsname) {
-		
 		if (xname %in% c("fill", "line.col", "symbol.col", "raster", "text.col")) {
 			if (xname == "text.col") {
 				text_sel <- get("text_sel", envir = .TMAP_CACHE)
@@ -239,8 +238,11 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		}
 
 		
-		if (dcr$is.constant) x <- rep(NA, nx)
-		legend.show <- if (dcr$is.constant) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
+		if (!xvary[[xname]]) x <- rep(NA, nx)
+		legend.show <- if (!xvary[[xname]]) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
+
+		# if (dcr$is.constant) x <- rep(NA, nx)
+		# legend.show <- if (dcr$is.constant) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
 		
 		#if (xname %in% c("symbol.size", "line.lwd") && is.list(dcr$legend.labels)) {
 		

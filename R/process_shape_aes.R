@@ -14,7 +14,7 @@ process_dtshape <- function(dtshape, g, gt, sel, nx, npol, varyshape, col.neutra
 		shape.legend.values <- lapply(res, function(r)r$shape.legend.values)
 		shape.legend.shapes <- lapply(res, function(r)r$shape.legend.shapes)
 		shape.neutral <- lapply(res, function(r)r$shape.neutral)
-		if (!varyshape) xshape <- rep(NA, nx)
+		#if (!varyshape) xshape <- rep(NA, nx)
 		values <- dtshape
 	} else {
 		#if (!is.numeric(dtsize)) stop("size argument of tm_symbols/tm_dots is not a numeric variable", call. = FALSE)
