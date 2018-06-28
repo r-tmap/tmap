@@ -238,11 +238,11 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		}
 
 		
-		if (!xvary[[xname]]) x <- rep(NA, nx)
-		legend.show <- if (!xvary[[xname]]) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
+		# if (!xvary[[xname]]) x <- rep(NA, nx)
+		# legend.show <- if (!xvary[[xname]]) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
 
-		# if (dcr$is.constant) x <- rep(NA, nx)
-		# legend.show <- if (dcr$is.constant) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
+		if (dcr$is.constant) x <- rep(NA, nx)
+		legend.show <- if (dcr$is.constant) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
 		
 		#if (xname %in% c("symbol.size", "line.lwd") && is.list(dcr$legend.labels)) {
 		

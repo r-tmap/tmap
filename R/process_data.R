@@ -59,7 +59,7 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 		anyNA <- !apply(sel, MARGIN = 2, all)
 		allNA <- !apply(sel, MARGIN = 2, any)
 		
-		if (all(cls=="col")) {
+		if (all(cls=="col") || !vary) {
 			m <- as.matrix(data)
 			attr(m, "sel") <- sel
 			attr(m, "anyNA") <- anyNA
