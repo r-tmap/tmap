@@ -71,8 +71,16 @@ process_symbols_size_vector <- function(x, g, rescale, gt, reverse) {
 		x[x>g$size.lim[2]] <- g$size.lim[2]
 	}
 	
+	mx <- max(x, na.rm=TRUE)
+	xmax <- ifelse(is.na(g$size.max), mx, g$size.max)
+	
+	if (mx > xmax) {
+		s <- sum(x > xmax, na.rm = TRUE)
+		message("Note that ", s, " values of the variable \"", g$size, "\" (the highest being ", mx, ") are larger than size.max, which is currently set to ", xmax, ". It is recommended to set size.max to at least ", mx, ". Another option is to set size.lim = c(0, ", xmax, "), which truncates the size of the ", s, " larger symbols. Use the scale argument to increase the size of all symbols.")
+	}
+	
 	if (is.null(g$sizes.legend)) {
-		x_legend <- pretty(x, 5)
+		x_legend <- pretty(c(0, xmax), 5)
 		x_legend <- x_legend[x_legend!=0]
 		nxl <- length(x_legend)
 		if (nxl>5) x_legend <- x_legend[-c(nxl-3, nxl-1)]
@@ -89,7 +97,7 @@ process_symbols_size_vector <- function(x, g, rescale, gt, reverse) {
 		attr(symbol.size.legend.labels, "align") <- g$legend.format$text.align
 	}
 	
-	maxX <- ifelse(rescale, ifelse(is.na(g$size.max), max(x, na.rm=TRUE), g$size.max), 1)
+	maxX <- ifelse(rescale, xmax, 1)
 	scaling <- ifelse(g$perceptual, 0.5716, 0.5)
 	symbol.size <- g$scale*(x/maxX)^scaling
 	symbol.max.size <- max(symbol.size, na.rm=TRUE)
