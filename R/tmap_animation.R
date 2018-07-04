@@ -19,7 +19,7 @@ tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, de
     	} else {
         	syscall <- shell
     	}
-	checkIM <- syscall("convert -version")
+	checkIM <- syscall("magick convert -version")
 	if (checkIM!=0) stop("Could not find ImageMagick. Make sure it is installed and included in the systems PATH")
 
 	# create plots
@@ -28,7 +28,7 @@ tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, de
 	tmap_save(tm, filename = paste(d, "plot%03d.png", sep="/"), width=width, height=height)
 
 	# convert pngs to one gif using ImageMagick
-	output <- syscall(paste("convert -delay ", delay, " ", d, "/*.png \"", filename, "\"", sep=""))
+	output <- syscall(paste("magick convert -delay ", delay, " ", d, "/*.png \"", filename, "\"", sep=""))
 	
 	# cleaning up plots and temporary variables
 	unlink(d, recursive = TRUE)
