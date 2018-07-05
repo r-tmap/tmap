@@ -1,6 +1,8 @@
 #' Create animation
 #' 
-#' Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
+#' Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required (see details).
+#' 
+#' When installing ImageMagick on Windows, one has to check a box "install legacy files (e.g., convert.exe)".
 #'
 #' @param tm tmap object. In order to create a series of tmap plots, which will be the frames of the animation, it is important to set nrow and ncol in \code{\link{tm_facets}}, for otherwise a small multiples plot is generated. Commonly, where one map is shown at a time, both nrow and ncol are set to 1.
 #' @param filename filename of the video (should be a .gif or .mpg file)

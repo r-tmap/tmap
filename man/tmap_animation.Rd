@@ -19,20 +19,25 @@ tmap_animation(tm, filename = "animation.gif", width = NA, height = NA,
 \item{delay}{delay time between images (in 1/100th of a second)}
 }
 \description{
-Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
+Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required (see details).
+}
+\details{
+When installing ImageMagick on Windows, one has to check a box "install legacy files (e.g., convert.exe)".
 }
 \note{
 Not only tmap plots are supported, but any series of R plots.
 }
 \examples{
 \dontrun{
-data(World, metro)
+data(NLD_prov)
 
 m1 <- tm_shape(NLD_prov) + 
 	      tm_polygons("yellow") +
 	  tm_facets(along = "name")
 
 tmap_animation(m1, filename="Dutch_provinces.gif", width=800, delay=40)
+
+data(World, metro)
 
 m2 <- tm_shape(World, simplify = 0.5) +
           tm_fill() +

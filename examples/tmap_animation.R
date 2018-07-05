@@ -1,11 +1,13 @@
 \dontrun{
-data(World, metro)
+data(NLD_prov)
 
 m1 <- tm_shape(NLD_prov) + 
 	      tm_polygons("yellow") +
 	  tm_facets(along = "name")
 
 tmap_animation(m1, filename="Dutch_provinces.gif", width=800, delay=40)
+
+data(World, metro)
 
 m2 <- tm_shape(World, simplify = 0.5) +
           tm_fill() +
