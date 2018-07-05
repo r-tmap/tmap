@@ -235,7 +235,10 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, are
 		legend.misc <- list(symbol.border.lwd=g$border.lwd, symbol.normal.size=g$legend.max.symbol.size) # symbol.border.col added later
 	} else if (xname == "raster") {
 		legend.misc <- list()
-		if (is.constant) legend.palette <- as.list(col.neutral)
+		if (is.constant) {
+			#legend.palette <- as.list(col.neutral)
+			legend.palette <- lapply(as.data.frame(dtcol, stringsAsFactors = FALSE), unique)
+		}
 	} else if (xname == "text.col") {
 		if (is.list(dtcol)) {
 			gsc <- split_g(g, n=nx)
