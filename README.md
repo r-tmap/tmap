@@ -61,7 +61,7 @@ install_github("mtennekes/tmaptools")
 install_github("mtennekes/tmap")
 ```
 
-See [NEWS](https://github.com/mtennekes/tmap/blob/master/pkg/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
+See [NEWS](https://github.com/mtennekes/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
 
 Do you want to help with the development of the package? Please let me know! Any feedback, requests, tips, or bug reports are welcome!
 
