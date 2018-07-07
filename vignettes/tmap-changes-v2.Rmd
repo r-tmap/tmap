@@ -12,34 +12,51 @@ vignette: >
 ---
 
 ```{r, echo = FALSE, message = FALSE}
-knitr::opts_chunk$set(collapse = T, fig.width=6, fig.height=3)
+knitr::opts_chunk$set(collapse = TRUE, fig.width=6, fig.height=3)
 #devtools::install_github(`mtennekes/tmaptools`)
 library(tmap)
 library(sf)
 ```
 
-This vignette summarizes the main changes in tmap 2.0 in comparison to tmap 1.11-2, which is described in detail in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06)
+This vignette summarizes the main changes in tmap 2.0 in comparison to tmap 1.11-2.
+tmap 1.11-2 is described in detail in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06)
 
 ### Function renaming: tm_ and tmap_
 
-As of version 2.0, all tmap functions have the prefix `tm_` or `tmap_`, with the exception of the function `qtm`. Just like in tmap version 1.x, the layer functions start with `tm_`. In tmap 1.x, the names of the other functions where inconsistent, e.g. `animation_tmap` and `tmap_arrange`. In tmap 2.0, these functions are prefixed with `tmap_`. For instance `animation_tmap` has been renamed to `tmap_animation`.
+As of version 2.0, all tmap functions have the prefix `tm_` or `tmap_`, with the exception of the function `qtm`.
+Just like in tmap version 1.x, the layer functions start with `tm_`.
+In tmap 1.x, the names of the other functions where inconsistent, e.g. `animation_tmap` and `tmap_arrange`.
+In tmap 2.0, these functions are prefixed with `tmap_`. 
+For instance `animation_tmap` has been renamed to `tmap_animation`.
 
 ### sf
 
-Recently, the `sf` package has replaced `sp` as the leading package for processing for vectorized geospatial data. Although tmap 1.x already supported `sf` objects, it was build upon `sp`.
+Recently, the `sf` package has replaced `sp` as the leading package for representing vector geospatial data. 
+Although tmap 1.x already supported `sf` objects, it was built upon `sp`.
 
-tmap version 2.0 is fully build on `sf`. For raster objects, it still uses `raster`.
+tmap version 2.0 is fully built on `sf`. 
+For raster objects, it still uses `raster`.
 
-An `sf` object (which stands for simple features) has a less complex structure than `sp` objects. An `sf` object is nothing more than a `data.frame` with a special geometry column, which contains the geometries for the corresponding rows. Such a geometry can be spatial point(s), line(s), polygon(s), or any combination. The layers functions, such as `tm_polygons`, will only draw what they are supposed to draw (in this case polygons). The newly added layer function `tm_sf` will draw all geometries.
+An `sf` (**s**imple **f**eatures) object has a less complex structure than `sp` objects. 
+An `sf` object is nothing more than a `data.frame` with a special geometry column that contains the geometries for the corresponding rows.
+Such a geometry can be a spatial point(s), line(s), polygon(s), or any combination.
+The layers functions, such as `tm_polygons`, will only draw what they are supposed to draw (in this case polygons).
+The newly added layer function `tm_sf` will draw all geometries.
 
-Finally, all data objects in `tmap` (except `land`) have been transformed to `sf` objects. The object `land` has been transformed to a `RasterBrick`.
-
+Finally, all data objects in `tmap` (except `land`) have been transformed into `sf` objects.
+The object `land` has been transformed into a `RasterBrick`.
 
 ### tm_tiles
 
-Layer functions have been added to facilitate tile layers. In version 1.x, it was already possible to add basemaps. In version 2.0, this is facilitated with the explicit layer functions `tm_basemap` and `tm_tiles`. The former creates a basemap tile and the latter an overlay tile. The difference is that `tm_basemap` layers are always drawn at the bottom, whereas the plotting order of (overlay) `tm_tiles` layers is derived from the plot call. Overlay layers should be semi-transparent to be useful.
+Layer functions have been added to facilitate tile layers.
+In version 1.x, it was already possible to add basemaps.
+In version 2.0, this is facilitated by the explicit layer functions `tm_basemap` and `tm_tiles`. 
+The former creates a basemap tile and the latter an overlay tile.
+The difference is that `tm_basemap` layers are always drawn at the bottom, whereas the plotting order of (overlay) `tm_tiles` layers is derived from the plot call.
+Overlay layers should be semi-transparent to be useful.
 
-Tip: all tilemaps from http://leaflet-extras.github.io/leaflet-providers/preview/ can be used. The names of these maps can also be found in the list object `leaflet::providers`. 
+Tip: all tilemaps from http://leaflet-extras.github.io/leaflet-providers/preview/ can be used. 
+The names of these maps can also be found in the list object `leaflet::providers`. 
 
 ```{r, eval = FALSE}
 data(World, metro)
@@ -47,21 +64,27 @@ tmap_mode("view")
 
 tm_basemap(leaflet::providers$CartoDB.PositronNoLabels, group = "CartoDB basemap") +
 tm_shape(World) +
-	tm_polygons("HPI", group = "Countries") +
+    tm_polygons("HPI", group = "Countries") +
 tm_tiles(leaflet::providers$CartoDB.PositronOnlyLabels, group = "CartoDB labels") +
 tm_shape(metro) +
-	tm_dots(col = "red", group = "Metropolitan areas")
+    tm_dots(col = "red", group = "Metropolitan areas")
 ```
 
 <img src="images/tmap_tiles_labels.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
 ### tmap options, styles, and formats
 
-There are many options in tmap. In version 1.x, the default values where stored in `tm_layout` and `tm_view`. Wrapper functions like `tm_style_gray` and `tm_format_World` where used to change these options.
+There are many options in tmap. 
+In version 1.x, the default values were stored in `tm_layout` and `tm_view`.
+Wrapper functions like `tm_style_gray` and `tm_format_World` where used to change these options.
 
-In version 2.0, the options are stored in a similar fashion as the global options. Which the function `tmap_options` a list can be retrieved with tmap options, or options can be set. Its bevahior is similar to the function `options`.
+In version 2.0, the options are stored in a similar fashion to the global options.
+A list tmap options can be retrieved or options can be set with the function `tmap_options`. 
+Its behavior is similar to the base function `options`.
 
-A style is a configuration of the options used to style the maps in a specific way. When set with `tmap_style`, the current options are overwritten according to the new style. The changes can be seen with `tmap_options_diff` and can be reset with `tmap_options_reset`.
+A style is a configuration of the options used to style a map in a specific way. 
+When set with `tmap_style`, the current options are overwritten according to the new style.
+The changes can be seen with `tmap_options_diff` and can be reset with `tmap_options_reset`.
 
 ```{r, fig.height=3}
 data(World)
@@ -76,9 +99,13 @@ tmap_options_diff()
 tmap_options_reset()
 ```
 
-Styles included in tmap are: `"white"`, `"gray"`, `"natural"`, `"cobalt"`, `"col_blind"`, `"albatross"`, `"beaver"`, `"bw"`, `"classic"`. New styles can saved and loaded with `tmap_style_save` and `tmap_style_load` respectively.  
+Styles included in tmap are: `"white"`, `"gray"`, `"natural"`, `"cobalt"`, `"col_blind"`, `"albatross"`, `"beaver"`, `"bw"`, `"classic"`. 
+New styles can saved and loaded with `tmap_style_save` and `tmap_style_load` respectively.  
 
-In version 1.x, `tmap` contained a couple of predefined format functions, such as `tm_format_World`. In verion 2.0, these have been replaced by the general function `tm_format`. With this function, the available formats can be retrieved, as well as the configuration of a specific format. With the function `tm_format_add` new formats can be created.
+In version 1.x, `tmap` contained a couple of predefined format functions, such as `tm_format_World`. 
+In version 2.0, these have been replaced by the general function `tm_format`.
+With this function, the available formats can be retrieved, as well as the configuration of a specific format. 
+With the function `tm_format_add` new formats can be created.
 
 ```{r}
 tmap_format()
@@ -88,42 +115,53 @@ tmap_format_add(panorama, name = "panorama")
 tmap_format()
 ```
 
-Unlike a style, a format cannot be set globally. Instead, it has to be specified in each plot:
-
+Unlike a style, a format cannot be set globally.
+Instead, it has to be specified in each plot:
 
 ```{r, fig.height = 1}
 tm_shape(World) + tm_polygons("HPI") + tm_format("panorama")
 # or: qtm(World, fill = "HPI", format = "panorama")
 ```
 
-
 ### color palettes
 
-Viridis palettes (from the `viridis`/`viridisLite` package) are supported natively. E.g. `qtm(World, "HPI", fill.palette = "-plasma")`. Notice that, like with color brewer palette names, a minus sign will reverse the palette. See `tmaptools::palette_explorer()` to explore the color brewer and viridis palettes interactively.
+Viridis palettes (from the `viridis`/`viridisLite` package) are supported natively.
+E.g. `qtm(World, "HPI", fill.palette = "-plasma")`.
+Notice that, like with the color brewer palette names, a minus sign will reverse the palette.
+See `tmaptools::palette_explorer()` to explore the color brewer and viridis palettes interactively.
 
-The arguments that define the color palette mapping has been made more intuitive. The newly added layer function arguments `midpoint` and `stretch.palette` replace `auto.palette.mapping`:
+The arguments that define the color palette mapping has been made more intuitive.
+The newly added layer function arguments `midpoint` and `stretch.palette` replace `auto.palette.mapping`:
 
-* Categorical palettes. The argument `stretch.palette` determines whether a palette is stretched out when there are more categories than available colors. If set to `FALSE`, the palette is repeated.
-* Diverging palettes. The argument `midpoint` determines which value should be mapped to the middle (neutral) color of the diverging color palette. By default, it is set to 0 if there are positive and negatie values. This could mean that only a part of the color palette is used, e.g. when the value range is [-5, 20] and the palette is `"RdBu"`, the colors will range from light red (-5) to white (0) to dark blue (20). If there are only positive or only negative values, the full palette is shown.
-* Sequential palettes. Nothing has changed for sequential palettes. When `midpoint` has been specified, the palette is regarded as a diverging palette, with the middle color interpreted as the neutral color. 
-
-
-
-
+* Categorical palettes. 
+The argument `stretch.palette` determines whether a palette is stretched out when there are more categories than available colors.
+If set to `FALSE`, the palette is repeated.
+* Diverging palettes.
+The argument `midpoint` determines which value should be mapped to the middle (neutral) color of the diverging color palette. 
+By default, it is set to 0 if there are positive and negative values. 
+This could mean that only a part of the color palette is used, e.g. when the value range is [-5, 20] and the palette is `"RdBu"`, the colors will range from light red (-5) to white (0) to dark blue (20). 
+If there are only positive or only negative values, the full palette is shown.
+* Sequential palettes.
+Nothing has changed for sequential palettes.
+When `midpoint` has been specified, the palette is regarded as a diverging palette, with the middle color interpreted as the neutral color. 
 
 ### filter, difference between NA and NULL
 
-The argument filter has been added to `tm_shape`. Features that are included will be visualized as usual. Excluded features will still be visualized but without mapped color. Instead they will be colored with `colorNULL`, and new argument of the layer functions. Note the difference with `colorNA`, which is used to color features with missing data.
+The argument filter has been added to `tm_shape`.
+Features that are included will be visualized as usual. 
+Excluded features will still be visualized but without color being mapped.
+Instead, they will be colored with `colorNULL`, a new argument of the layer functions.
+Note the difference with `colorNA`, which is used to color features with missing data.
 
 To show the potiential of this filter:
 
 ```{r, eval = FALSE}
-tm_shape(World, filter= World$continent=="Europe") + tm_polygons("HPI", id = "name")
+tm_shape(World, filter = World$continent=="Europe") + tm_polygons("HPI", id = "name")
 ```
 
 <img src="images/tmap_filter.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
-Countries outside Europe are colored with `colorNULL`, which is `grey95` by default and can be adjusted in the layer functions, such as `tm_polygons`, and in `tmap_options`.
+Countries outside Europe are colored with `colorNULL`, which is `grey95` by default.
+It can be adjusted in the layer functions, such as `tm_polygons`, and in `tmap_options`.
 
-That that there are also missing values in the data, Kosovo and Moldova, which are colored with the `colorNA`, which is by default `grey85`.
-
+There are also missing values in the data (Kosovo and Moldova) which are colored with the `colorNA` (by default `grey85`).
