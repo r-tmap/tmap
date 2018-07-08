@@ -1,40 +1,61 @@
 #' Create animation
 #' 
-#' Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required (see details).
+#' Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
 #' 
-#' When installing ImageMagick on Windows, one has to check a box "install legacy files (e.g., convert.exe)".
-#'
 #' @param tm tmap object. In order to create a series of tmap plots, which will be the frames of the animation, it is important to set nrow and ncol in \code{\link{tm_facets}}, for otherwise a small multiples plot is generated. Commonly, where one map is shown at a time, both nrow and ncol are set to 1.
 #' @param filename filename of the video (should be a .gif or .mpg file)
 #' @param width width of the animation file (in pixels)
 #' @param height height of the animation file (in pixels)
 #' @param delay delay time between images (in 1/100th of a second)
+#' @param loop logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.
+#' @param restart.delay delay time between the loops (in 1/100th of a second)
 #' @note Not only tmap plots are supported, but any series of R plots.
 #' @keywords animation
 #' @example ./examples/tmap_animation.R
 #' @import tmaptools
 #' @export
-tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40) {
-	# determine OS to pass on system vs. shell command
+tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40, loop = FALSE, restart.delay = 0) {
+	if (!is.numeric(delay) || !(length(delay) == 1L)) stop("delay must be a numeric value", call. = FALSE)
+	if ((!is.numeric(loop) && !is.logical(loop)) || !(length(loop) == 1L)) stop("loop must be a logical or numeric value", call. = FALSE)
+	if (!is.numeric(restart.delay) || !(length(restart.delay) == 1L)) stop("restart.delay must be a numeric value", call. = FALSE)
+
 	if (.Platform$OS.type == "unix") {         
+		# Linux and macOS
 		syscall <- system
-    	} else {
-        	syscall <- shell
-    	}
-	checkIM <- syscall("magick convert -version")
+		program <- "convert"
+	} else {
+		# Windows
+    	syscall <- shell
+    	program <- "magick convert"
+	}
+	checkIM <- syscall(paste(program, "-version"))
 	if (checkIM!=0) stop("Could not find ImageMagick. Make sure it is installed and included in the systems PATH")
 
 	# create plots
 	d <- paste(tempdir(), "/tmap_plots", sep="/")
 	dir.create(d, showWarnings = FALSE)
-	tmap_save(tm, filename = paste(d, "plot%03d.png", sep="/"), width=width, height=height)
+	suppressMessages(tmap_save(tm, filename = paste(d, "plot%03d.png", sep="/"), width=width, height=height))
 
-	# convert pngs to one gif using ImageMagick
-	output <- syscall(paste("magick convert -delay ", delay, " ", d, "/*.png \"", filename, "\"", sep=""))
+	files <- list.files(path = d, pattern = "^plot[0-9]{3}\\.png$")
+	k <- length(files)
 	
-	# cleaning up plots and temporary variables
+	# convert pngs to one gif using ImageMagick
+	if (is.logical(loop)) loop <- 1L - as.integer(loop)
+	
+	if ((loop == 1) || (restart.delay == 0)) {
+		output <- syscall(paste(program, " -loop ", loop, " -delay ", delay, " ", d, "/*.png \"", filename, "\"", sep=""))
+	} else {
+		part1 <- paste(paste("-delay ", delay, " ", d, "/", files[1L:(k-1)], sep = ""), collapse = " ")
+		part2 <- paste("-delay ", restart.delay, " ", d, "/", files[k], sep = "")
+		output <- syscall(paste(program, " -loop ", loop, " ", part1, " ", part2, " \"", filename, "\"", sep=""))
+	}
+	
+	# cleaning up plots
 	unlink(d, recursive = TRUE)
-	rm(syscall)
+
+	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+		message("Animation saved to ", suppressWarnings(normalizePath(filename)))
+	}
 	
 	invisible()	
 }
