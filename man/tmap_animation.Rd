@@ -5,7 +5,7 @@
 \title{Create animation}
 \usage{
 tmap_animation(tm, filename = "animation.gif", width = NA, height = NA,
-  delay = 40)
+  delay = 40, loop = FALSE, restart.delay = 0)
 }
 \arguments{
 \item{tm}{tmap object. In order to create a series of tmap plots, which will be the frames of the animation, it is important to set nrow and ncol in \code{\link{tm_facets}}, for otherwise a small multiples plot is generated. Commonly, where one map is shown at a time, both nrow and ncol are set to 1.}
@@ -17,12 +17,13 @@ tmap_animation(tm, filename = "animation.gif", width = NA, height = NA,
 \item{height}{height of the animation file (in pixels)}
 
 \item{delay}{delay time between images (in 1/100th of a second)}
+
+\item{loop}{logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.}
+
+\item{restart.delay}{delay time between the loops (in 1/100th of a second)}
 }
 \description{
-Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required (see details).
-}
-\details{
-When installing ImageMagick on Windows, one has to check a box "install legacy files (e.g., convert.exe)".
+Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
 }
 \note{
 Not only tmap plots are supported, but any series of R plots.
