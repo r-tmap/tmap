@@ -17,7 +17,7 @@ metro_aus <- crop_shape(metro, bb("Australia"))
 
 tm_shape(metro_aus) +
 	tm_dots() +
-	tm_text("name")
+	tm_text("name", just = "top")
 
 # alternative
 \dontrun{

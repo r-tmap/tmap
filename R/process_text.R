@@ -84,7 +84,7 @@ postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text
 		}
 	}
 	
-	text.just <- g$just
+	text.just <- process_text_just(g$just, interactive)
 	xmod <- if (is.character(g$xmod)) data[[g$xmod]] else rep(g$xmod, length.out=npol)
 	ymod <-  if (is.character(g$ymod)) data[[g$ymod]] else rep(g$ymod, length.out=npol)
 	

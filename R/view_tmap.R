@@ -392,10 +392,10 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			sizeChar <- paste(round(size * 12), "px", sep="")
 			colsize <- paste(col, sizeChar, sep="_^_")
 			
-			just <- switch(gpl$text.just[1],
-						   left="right", 
-						   right="left",
-						   "bottom")
+			direction <- ifelse(gpl$text.just == "left", "right",
+						 ifelse(gpl$text.just == "right", "left",
+						 ifelse(gpl$text.just == "top", "bottom",
+						 ifelse(gpl$text.just == "bottom", "top", "center"))))
 			
 				
 			cs_set <- unique(colsize)
@@ -412,7 +412,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			if (length(cs_set)==1) {
 				lf <- lf %>% addLabelOnlyMarkers(lng = co[,1], lat = co[,2], label=text,
 												 group=group_name, 
-												 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
+												 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = direction, 
 												 							opacity=opacity,
 												 							textsize=sizeChar[1],
 												 							style=list(color=col[1])),
@@ -422,7 +422,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				for (i in 1:length(text)) {
 					lf <- lf %>% addLabelOnlyMarkers(lng = co[i,1], lat = co[i,2], label=text[i],
 													 group=group_name, 
-													 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = just, 
+													 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = direction, 
 													 							opacity=opacity,
 													 							textsize=sizeChar[i],
 													 							style=list(color=col[i])),

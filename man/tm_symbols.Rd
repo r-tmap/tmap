@@ -42,7 +42,7 @@ tm_dots(col = NA, size = 0.02, shape = 16, title = NA,
   legend.show = TRUE, legend.is.portrait = TRUE, legend.z = NA, ...)
 
 tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
-  clustering = TRUE, text = NULL, text.just = c("center", "top"),
+  clustering = TRUE, text = NULL, text.just = "top",
   markers.on.top.of.text = TRUE, group = NA, ...)
 }
 \arguments{

@@ -19,7 +19,10 @@ library(sf)
 ```
 
 This vignette summarizes the main changes in tmap 2.0 in comparison to tmap 1.11-2.
-tmap 1.11-2 is described in detail in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06)
+
+tmap 1.11-2 is described in detail in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06). The code of this paper for version 2.0 can be found in [`vignette("tmap-JSS-code")`](../doc/tmap-JSS-code.html).
+
+For people who are new to tmap, see [`vignette("tmap-getstarted")`](../doc/tmap-getstarted.html).
 
 ### Function renaming: tm_ and tmap_
 

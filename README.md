@@ -91,9 +91,10 @@ Vignettes
 
 [tmap: get started!](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-getstarted.Rmd)
 
-[tmap modes: plot and interactive view](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-modes.Rmd)
-
 [tmap: what is changed in version 2.0?](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-changes-v2.Rmd)
+
+[reproduction code from JSS article 'tmap: Thematic Maps in R'](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-JSS-code.Rmd)
+
 
 Examples and tutorials
 -----

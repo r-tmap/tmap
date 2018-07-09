@@ -7,6 +7,7 @@ version 2.0 (in development)
 - [!] added filter argument to tm_shape and added colorNULL to layer functions
 - added remove.NA.facets to tm_facets
 - units data columns are supported
+- tmap_animation enhanced with loop options
 - added tmap_tips()
 - all changes are backwards compatible with 1.11-2
 

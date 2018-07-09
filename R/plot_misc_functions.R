@@ -567,10 +567,13 @@ plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "ce
 		
 		tGW <- npc_to_native(mapply(text[text_sel], text.size[text_sel], FUN=function(x,y){
 			convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"native", valueOnly=TRUE)}, USE.NAMES=FALSE), scale = bbx[c(1,3)])
-		tGX <- grobText$x + unit(ifelse(just[1]=="left", (tGW * .5), 
-										ifelse(just[1]=="right", -(tGW * .5), 0)), "native")
-		tGY <- grobText$y + unit(tGH * ifelse(just[2]=="top", -.5, 
-									   ifelse(just[2]=="bottom", .5, -.05)), "native")
+		
+
+		justx <- .5 - just[1]
+		justy <- .6 - just[2]
+		
+		tGX <- grobText$x + unit(tGW * justx, "native")
+		tGY <- grobText$y + unit(tGH * justy, "native")
 		
 		tGH <- unit(tGH + lineH * bg.margin, "native")
 		tGW <- unit(tGW + lineW * bg.margin, "native")

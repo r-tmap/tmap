@@ -23,7 +23,7 @@ The syntax for creating plots is similar to that of `ggplot2`, but tailored to m
 This vignette is for those who want to get started with tmap within a couple of minutes.
 A more detailed description of tmap can be found in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06).
 Note that this paper is written for tmap version 1.11-2.
-The changes in version 2.0 are described in [`vignette("tmap-changes")`](../doc/tmap-changes-v2.html)
+The changes in version 2.0 are described in [`vignette("tmap-changes-v2")`](../doc/tmap-changes-v2.html).
 
 ### Hello World!
 
