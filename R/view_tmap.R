@@ -137,7 +137,13 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 				upl <- units_per_line(bbx)
 				bpl <- bbx_per_line(bbx)
 				if (inherits(shp, "sf")) {
-					co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
+					res <- get_sf_coordinates(shp, gpl)
+					co <- res$co
+					if (attr(shp, "point.per")=="segment") {
+						gpl <- res$gpl
+						shp <- res$shp
+					}
+					#co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
 				}
 			}
 		}

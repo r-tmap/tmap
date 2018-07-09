@@ -1,4 +1,4 @@
-get_sf_coordinates <- function(shp, gpl, gt, bbx) {
+get_sf_coordinates <- function(shp, gpl) {
 
 	point.per <- attr(shp, "point.per")
 	line.center <- attr(shp, "line.center")
@@ -34,8 +34,7 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 		}
 	}
 	
-	
-	
+
 	if (st_geometry_type(shp)[1] %in% c("LINESTRING", "MULTILINESTRING")) {
 		if (line.center=="midpoint") {
 			coor <- st_coordinates(shp)
@@ -57,6 +56,7 @@ get_sf_coordinates <- function(shp, gpl, gt, bbx) {
 				a[id]
 			} else a
 		})
+		if ("data" %in% names(gpl)) gpl$data <- gpl$data[id, ]
 	}
 	
 	
