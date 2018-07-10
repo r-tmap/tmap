@@ -17,11 +17,15 @@ knitr::opts_chunk$set(collapse = T, fig.width=6, fig.height=3)
 
 ### Introduction
 
-The article *Tennekes, M. tmap: Thematic Maps in R (2018), Journal of Statistical Software 84(6), 1-39,* http://dx.doi.org/10.18637/jss.v084.i06 describes version 1.x of tmap and tmaptools. Since tmap and tmaptools version 2.0 are based on `sf` objects instead of `sp` objects, there are some changes in the code, especially regarding the necessary processing step. The code for the plotting methods is fully backwards compatible, although some messages or warnings may be given for deprecated functions or arguments. 
+The article *Tennekes, M. tmap: Thematic Maps in R (2018), Journal of Statistical Software 84(6), 1-39,* http://dx.doi.org/10.18637/jss.v084.i06 describes version 1.x of tmap and tmaptools.
+Since tmap and tmaptools version 2.0 are based on `sf` objects instead of `sp` objects, there are some changes in the code, especially regarding the necessary processing step. 
+The code for the plotting methods is fully backward compatible, although some messages or warnings may be given for deprecated functions or arguments. 
 
-This code replaces the script v84i06.R for tmap and tmaptools version 2.0. The produced figures are identical to those included in the article.
+This code replaces the script v84i06.R for tmap and tmaptools version 2.0.
+The produced figures are identical to those included in the article.
 
-See [`vignette("tmap-changes-v2")`](../doc/tmap-changes-v2.html) for changes in version 2.0, which is recommended for people who have read the JSS article. For people who are new to tmap, see [`vignette("tmap-getstarted")`](../doc/tmap-getstarted.html).
+See [`vignette("tmap-changes-v2")`](../doc/tmap-changes-v2.html) for changes in version 2.0, which is recommended for people who have read the JSS article.
+For people who are new to tmap, see [`vignette("tmap-getstarted")`](../doc/tmap-getstarted.html).
 
 
 ```{r, eval = FALSE}
