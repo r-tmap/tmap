@@ -284,11 +284,13 @@ tm_ylab <- function(text,
 #' 
 #' Creates a minimap in view mode. See \code{\link[leaflet:addMiniMap]{addMiniMap}}.
 #' 
-#' @param position position of the scale bar Vector of two values, specifying the x and y coordinates. The first is either "left" or "right", the second either "top" or "bottom". The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param server name of the provider or an URL (see \code{\link{tm_tiles}}). By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps. Note the latter does not happen when \code{server} is specified.
+#' @param position position of the scale bar Vector of two values, specifying the x and y coordinates. The first is either "left" or "right", the second either "top" or "bottom".
+#' @param toggle should the minimap have a button to minimise it? By default \code{TRUE}.
 #' @param ... arguments passed on to \code{\link[leaflet:addMiniMap]{addMiniMap}}.
 #' @seealso \code{\link[leaflet:addMiniMap]{addMiniMap}}
 #' @export
-tm_minimap <- function(position=NA, ...) {
+tm_minimap <- function(server = NA, position= c("left", "bottom"), toggle = TRUE, ...) {
 	g <- list(tm_minimap=c(as.list(environment()), list(...)))
 	names(g$tm_minimap) <- paste("minimap", names(g$tm_minimap), sep=".")
 	class(g) <- "tmap"

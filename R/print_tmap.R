@@ -295,7 +295,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	interactive <- (mode == "view")
 	
-	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
+	
+	show.messages <- tmapOptions$show.messages
 	
 	qtm_shortcut <- attr(x, "qtm_shortcut")
 	
@@ -306,10 +308,11 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				options(tmap.mode="view")
 				interactive <- TRUE
 			}
-			# basemapid <- which(names(x) == "tm_basemap")
-			# if (is.na(x[[basemapid]]$server)) x[[basemapid]]$server <- "OpenStreetMap"
+			
+			if (!("tm_minimap" %in% names(x)) && !identical(tmapOptions$qtm.minimap, FALSE)) x <- c(x, tm_minimap())
 		}
-		if (interactive && !("tm_scale_bar" %in% names(x)) && get(".tmapOptions", envir = .TMAP_CACHE)$qtm.scalebar) x <- c(x, tm_scale_bar())
+		if (interactive && !("tm_scale_bar" %in% names(x)) && tmapOptions$qtm.scalebar) x <- c(x, tm_scale_bar())
+		if (!qtm_shortcut && interactive && !("tm_minimap" %in% names(x)) && identical(tmapOptions$qtm.minimap, TRUE)) x <- c(x, tm_minimap())
 	}
 	
 	

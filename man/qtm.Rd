@@ -64,12 +64,12 @@ qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
 \code{\link{tmap-element}}
 }
 \description{
-Draw a thematic map quickly.
+Draw a thematic map quickly. This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. Without arguments or with a search term, this functions draws an interactive map.
 }
 \details{
-This function is a convenient wrapper of the main plotting method of stacking \code{\link{tmap-element}}s. Without arguments or with a search term, this functions draws an interactive map.
-
 The first argument is a shape object (normally specified by \code{\link{tm_shape}}). The next arguments, from \code{fill} to \code{raster}, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as \code{\link{tm_polygons}}, can be specified (see \code{...}). It is also possible to stack \code{\link{tmap-element}}s on a \code{qtm} plot. See examples.
+
+By default, a scale bar is shown. This option can be set with \code{\link{tmap_options}} (argument \code{qtm.scalebar}). A minimap is shown by default when \code{qtm} is called without arguments of with a search term. This option can be set with \code{\link{tmap_options}} (argument \code{qtm.minimap}).
 }
 \examples{
 data(World, rivers, metro)

@@ -5,7 +5,7 @@
 \title{Create animation}
 \usage{
 tmap_animation(tm, filename = "animation.gif", width = NA, height = NA,
-  delay = 40, loop = FALSE, restart.delay = 0)
+  delay = 40, loop = TRUE, restart.delay = 0)
 }
 \arguments{
 \item{tm}{tmap object. In order to create a series of tmap plots, which will be the frames of the animation, it is important to set nrow and ncol in \code{\link{tm_facets}}, for otherwise a small multiples plot is generated. Commonly, where one map is shown at a time, both nrow and ncol are set to 1.}

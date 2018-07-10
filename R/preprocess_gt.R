@@ -19,7 +19,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 			
 			
 			if (("legend.position" %in% called) && interactive) {
-				if (gt$show.messages) message("legend.postion is used for plot more. Use view.legend.position in tm_view to set the legend position in view mode.")
+				if (gt$show.messages) message("legend.postion is used for plot mode. Use view.legend.position in tm_view to set the legend position in view mode.")
 			}
 			
 			if (!is.na(g$style)) {

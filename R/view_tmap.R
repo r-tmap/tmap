@@ -613,9 +613,35 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 	if (gt$minimap.show) {
 		mmargs <- gt[substr(names(gt), 1, 4) == "mini"]
 		names(mmargs) <- substr(names(mmargs), 9, nchar(names(mmargs)))
+		names(mmargs)[names(mmargs) == "toggle"] <- "toggleDisplay"
+		names(mmargs)[names(mmargs) == "server"] <- "tiles"
 		mmargs$show <- NULL
 		
-		lf <- do.call(addMiniMap, c(list(map = lf), mmargs))
+		specified_tiles <- !is.na(mmargs$tiles)
+		
+		if (!specified_tiles) {
+			if (length(bases) == 0) {
+				mmargs$tiles <- NULL
+			} else {
+				mmargs$tiles <- bases[1]	
+			} 	
+		} 
+		
+		lf <- do.call(addMiniMap, c(list(map = lf), mmargs)) 
+		
+		if (!specified_tiles && (length(bases) > 0)) {
+			lf <- lf %>% 
+				htmlwidgets::onRender("
+			    function(el, x) {
+			      var myMap = this;
+			      myMap.on('baselayerchange',
+			        function (e) {
+			          myMap.minimap.changeLayer(L.tileLayer.provider(e.name));
+			        })
+			    }")
+		}
+		
+		
 	}
 	
 	# print(leaflet_id)

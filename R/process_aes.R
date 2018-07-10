@@ -86,7 +86,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 
 	if (type == "text") {
 		if ((xvary[["text.size"]] || identical(xs[["text.size"]], "AREA")) && interactive && !gt$text.size.variable) {
-			if (gt$show.messages) message("Text size will be constant in view mode. Set tm_view(text.size.variable = TRUE) to enable text size variables.")
+			if (gt$show.messages) message("Text size will be constant in view mode. Set tm_view(text.size.variable = TRUE) to enable variable text sizes.")
 			xvary[["text.size"]] <- FALSE
 			xlen["text.size"] <- 1
 			xs[["text.size"]] <- 1
