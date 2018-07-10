@@ -82,7 +82,7 @@ In version 1.x, the default values were stored in `tm_layout` and `tm_view`.
 Wrapper functions like `tm_style_gray` and `tm_format_World` where used to change these options.
 
 In version 2.0, the options are stored in a similar fashion to the global options.
-A list tmap options can be retrieved or options can be set with the function `tmap_options`. 
+A list of tmap options can be retrieved and options can be set with the function `tmap_options`. 
 Its behavior is similar to the base function `options`.
 
 A style is a configuration of the options used to style a map in a specific way. 
@@ -156,10 +156,11 @@ Excluded features will still be visualized but without color being mapped.
 Instead, they will be colored with `colorNULL`, a new argument of the layer functions.
 Note the difference with `colorNA`, which is used to color features with missing data.
 
-To show the potiential of this filter:
+To show the potiential of this filter the following code chunk creates a map in which only European countries are colored:
 
 ```{r, eval = FALSE}
-tm_shape(World, filter = World$continent=="Europe") + tm_polygons("HPI", id = "name")
+tm_shape(World, filter = World$continent=="Europe") +
+	tm_polygons("HPI", id = "name")
 ```
 
 <img src="images/tmap_filter.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
