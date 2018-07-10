@@ -22,6 +22,9 @@ This vignette is for those who want to get started with tmap within a couple of 
 A more detailed description of tmap can be found in an [article](https://www.jstatsoft.org/article/view/v084i06) published in the Journal of Statistical Software ([JSS](https://www.jstatsoft.org/index)), which describes tmap version 1.11-2.
 The changes in version 2.0 are described in [`vignette("tmap-changes-v2")`](../doc/tmap-changes-v2.html).
 
+For more context on R's geographic capabilities there are a number of online resources including the vignettes of the [`sf` package](https://cran.r-project.org/web/packages/sf/index.html), the website [rspatial.org](http://www.rspatial.org/) and the online version of the book [Geocomputation with R](http://geocompr.robinlovelace.net/).
+The [Making maps with R](http://geocompr.robinlovelace.net/adv-map.html) chapter of the book provides many more context and abundant code examples of map making with `tmap` and other packages.
+
 ### Hello World!
 
 A good place to start is to create a map of the world.
