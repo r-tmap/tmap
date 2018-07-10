@@ -14,22 +14,23 @@
 #' @example ./examples/tmap_animation.R
 #' @import tmaptools
 #' @export
-tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40, loop = FALSE, restart.delay = 0) {
+tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40, loop = TRUE, restart.delay = 0) {
 	if (!is.numeric(delay) || !(length(delay) == 1L)) stop("delay must be a numeric value", call. = FALSE)
 	if ((!is.numeric(loop) && !is.logical(loop)) || !(length(loop) == 1L)) stop("loop must be a logical or numeric value", call. = FALSE)
 	if (!is.numeric(restart.delay) || !(length(restart.delay) == 1L)) stop("restart.delay must be a numeric value", call. = FALSE)
 
-	if (.Platform$OS.type == "unix") {         
-		# Linux and macOS
-		syscall <- system
+	syscall <- if (.Platform$OS.type == "unix") system else shell ## macOS == unix
+
+	checkIM <- syscall("convert -version")
+	if (checkIM==0) {
 		program <- "convert"
 	} else {
-		# Windows
-    	syscall <- shell
-    	program <- "magick convert"
+		# For Windows, convert -version does not work if the box "install legacy files (e.g., convert.exe)" hasn't been checked.
+		checkIM2 <- syscall("magick convert -version")
+		if (checkIM2!=0) {
+			stop("Could not find ImageMagick. Make sure it is installed and included in the systems PATH")	
+		} else program <- "magick convert"
 	}
-	checkIM <- syscall(paste(program, "-version"))
-	if (checkIM!=0) stop("Could not find ImageMagick. Make sure it is installed and included in the systems PATH")
 
 	# create plots
 	d <- paste(tempdir(), "/tmap_plots", sep="/")
