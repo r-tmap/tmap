@@ -1,4 +1,4 @@
-view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
+view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 	
 	# determine view
 
@@ -577,6 +577,29 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE) {
 			message("OpenStreetMapData read with read_osm is static, so not usable in view mode. Please use tm_basemap or tm_tiles, with the provider name set to \"", warns["raster"], "\"")
 		}
 	}
+	
+	## add manual legends (tm_add_legend)
+	if (length(gal) > 0) {
+		for (gali in gal) {
+			if (gali$type != "fill") {
+				if (gt$show.messages) {
+					message("only legends of type \"fill\" supported in view mode")
+				}
+			} else {
+				RGBA <- col2rgb(gali$col, alpha = TRUE)
+				col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
+				opacity <- unname(RGBA[4,1]/255) * alpha
+				
+				lf <- lf %>% addLegend(position=gt$view.legend.position,
+									   colors = col,
+									   labels = gali$labels,
+									   title=gali$title, 
+									   opacity=opacity)
+			}
+		}
+	}
+	
+	
 	
 	#groups <- gt$shp_name[group_selection]
 	
