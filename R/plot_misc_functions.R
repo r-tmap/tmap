@@ -113,7 +113,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				
 				# project it to current projection
 				#lns_proj <- set_projection(lns, projection = proj)
-				lns_proj <- st_transform(lns, crs = proj)
+				lns_proj <- st_transform_proj(lns, crs = proj)
 				
 				
 				# extract and normalize coordinates

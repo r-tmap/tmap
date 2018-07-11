@@ -261,7 +261,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 		if (!is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
 			shp2 <- tryCatch({
-				st_transform(shp, gm$shape.master_crs)
+				lwgeom::st_transform_proj(shp, gm$shape.master_crs)
 			}, error=function(e) {
 				stop("Unable to project shape ", y$shp_name, " to the projection ", gm$shape.master_crs$proj4string, ".", call.=FALSE)
 			}, warning=function(w){
