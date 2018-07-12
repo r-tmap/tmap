@@ -297,6 +297,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 	with(x, {
 		is.cont <- (nchar(legend.palette[1])>20)
 		#grid.rect()
+		s <- 1.25 ## for text only
 		s2 <- 4/3
 		
 		if (lineHeight*legend.text.size * 3.25 > 1) {
@@ -343,7 +344,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		
 		
 		if (legend.type=="text.col" && !is.cont) {
-			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), text.max.size)
+			cex <- pmin(convertHeight(unit(hs/s, "npc"), "lines", valueOnly = TRUE), legend.sizes)
 			textws <- text_width_npc(legend.text, space=FALSE) * cex
 			labelsws <- pmax(labelsws, textws)
 		} else if  (legend.type=="text.size") {
@@ -399,10 +400,11 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		xs <- mx + cumsum(ws) - ws/2
 		
 		if (legend.type %in% c("symbol.col", "symbol.shape")) {
-			bmax <- convertHeight(unit(symbol.max.size, "inch"), "npc", valueOnly=TRUE) / s2
-			hs <- pmin(hs, bmax)
+			bmax <- convertHeight(unit(legend.sizes, "inch"), "npc", valueOnly=TRUE) / s2
+			hs <- pmin(hs/s*symbol.normal.size, bmax)
+
 		} else if (legend.type=="text.col") {
-			bmax <- convertHeight(unit(text.max.size, "lines"), "npc", valueOnly=TRUE)
+			bmax <- convertHeight(unit(legend.sizes, "lines"), "npc", valueOnly=TRUE)
 			hs <- pmin(hs, bmax)
 		}
 		

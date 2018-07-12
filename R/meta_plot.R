@@ -125,7 +125,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 				max(convertHeight(unit(p$legend.sizes, "inch"), "npc", valueOnly=TRUE)/s2, 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
 			} else if (port && type == "text.size") {
 				sum(pmax(convertHeight(unit(p$legend.sizes, "lines"), "npc", valueOnly=TRUE) * 1.25, lineHeight * gt$legend.text.size)) + 2*margin*lineHeight
-			} else if (!port && type == "text.size") {
+			} else if (!port && type %in% c("text.size", "text.col")) {
 				max(convertHeight(unit(p$legend.sizes, "lines"), "npc", valueOnly=TRUE), 1.5*lineHeight*gt$legend.text.size) + 2*margin*lineHeight*gt$legend.text.size + 1.25*lineHeight*gt$legend.text.size
 			} else if (!port && type %in% c("fill", "symbol.col", "symbol.shape", "line.col", "line.lwd", "raster")) {
 				2*margin*lineHeight*gt$legend.text.size + 2.75 * lineHeight*gt$legend.text.size
