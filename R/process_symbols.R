@@ -46,16 +46,17 @@ check_symbol_specials <- function(xcol, xsize, xshape, g, gt, gby, xvary, data, 
 		xshape <- paste("SHAPE", 1:nx, sep="_")
 	}
 	if (is.list(g$shapes)) {
-		if (inherits(g$shapes, "grob") || inherits(g$shapes[[1]], "grob") || (("iconUrl" %in% names(g$shapes)))) {
+		if (inherits(g$shapes, "grob") || any(vapply(g$shapes, inherits, FUN.VALUE = logical(1), "grob")) || (("iconUrl" %in% names(g$shapes)))) {
 			# one grob, list of grobs or icon(s)			
 			if ("iconUrl" %in% names(g$shapes)) g$shapes <- split_icon(g$shapes)
-			g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)			} else {
-				# list of list of grobs or icons
-				g$shapes <- lapply(g$shapes, function(gshape) {
-					if ("iconUrl" %in% names(gshape)) gshape <- split_icon(gshape)
-					submit_symbol_shapes(gshape, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
-				})
-			}
+			g$shapes <- submit_symbol_shapes(g$shapes, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)			
+		} else {
+			# list of list of grobs or icons
+			g$shapes <- lapply(g$shapes, function(gshape) {
+				if ("iconUrl" %in% names(gshape)) gshape <- split_icon(gshape)
+				submit_symbol_shapes(gshape, interactive=interactive, just=just, just.override=just.override, grob.dim=g$grob.dim)	
+			})
+		}
 	} 
 	
 	

@@ -29,7 +29,6 @@
 #' @importFrom rgdal getPROJ4VersionInfo SGDF2PCT CRSargs
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
-#' @importFrom lwgeom st_transform_proj
 #' @import leaflet
 #' @importFrom htmlwidgets appendContent onRender
 #' @importFrom htmltools tags HTML htmlEscape

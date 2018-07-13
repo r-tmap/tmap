@@ -108,7 +108,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 
 \item{shapes.labels}{Legend labels for the symbol shapes}
 
-\item{shapeNA}{the shape (a number or grob) for missing values. By default a cross (number 4).}
+\item{shapeNA}{the shape (a number or grob) for missing values. By default a cross (number 4). Set to \code{NA} to hide symbols for missing values.}
 
 \item{shape.textNA}{text used for missing values of the shape variable.}
 

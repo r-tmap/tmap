@@ -112,9 +112,8 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				#lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel], proj4string = get_proj4(grid.projection, output="CRS")), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
 				
 				# project it to current projection
-				#lns_proj <- set_projection(lns, projection = proj)
-				lns_proj <- st_transform_proj(lns, crs = proj)
-				
+				lns_proj <- set_projection(lns, projection = proj)
+
 				
 				# extract and normalize coordinates
 				
@@ -476,6 +475,7 @@ plot_symbols <- function(co.native, g, gt, lineInch, lineNatH, lineNatW, i, k) {
 			symbol.size <- symbol.size[sel]
 			symbol.col <- symbol.col[sel]
 			symbol.shape <- symbol.shape[sel]
+			npol <- sum(sel)
 		}
 		symbol.size <- symbol.size * lineInch
 		

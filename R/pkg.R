@@ -36,7 +36,7 @@
 #' \code{\link{tm_squares}}\tab Create a layer of squares \cr
 #' \code{\link{tm_dots}}\tab Create a layer of dots \cr
 #' \code{\link{tm_markers}}\tab Create a layer of markers \cr
-#' \code{\link{tm_iso}}\tab Create a iso/contour lines \cr
+#' \code{\link{tm_iso}}\tab Create a layer of iso/contour lines \cr
 #' \code{\link{tm_rgb}}\tab Create a raster layer of an image \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
@@ -64,6 +64,8 @@
 #' \code{\link{tm_layout}}\tab Adjust the layout (main function)\cr
 #' \code{\link{tm_legend}}\tab Adjust the legend \cr
 #' \code{\link{tm_view}}\tab Configure the interactive view mode \cr
+#' \code{\link{tm_style}}\tab Apply a predefined style \cr
+#' \code{\link{tm_format}}\tab Apply a predefined format \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
@@ -89,19 +91,19 @@
 #' \code{\link{tmap_last}}\tab Redraw the last map \cr
 #' \code{\link{tmap_leaflet}}\tab Obtain a leaflet widget object \cr
 #' \code{\link{tmap_animation}}\tab Create an animation \cr
-#' \code{\link{tmap_arrange}}\tab Create small multiple of separate maps \cr
-#' \code{\link{tmap_save}}\tab Save thematic maps (both in plot and view mode) \cr
+#' \code{\link{tmap_arrange}}\tab Create small multiples of separate maps \cr
+#' \code{\link{tmap_save}}\tab Save thematic maps (either as image or HTML file) \cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
 #' @section Spatial datasets: 
 #' \tabular{ll}{
-#' \code{\link{World}}\tab World country data (spatial polygons) \cr
-#' \code{\link{NLD_prov}}\tab Netherlands province data (spatial polygons) \cr
-#' \code{\link{NLD_muni}}\tab Netherlands municipal data (spatial polygons) \cr
-#' \code{\link{metro}}\tab Metropolitan areas (spatial points) \cr
-#' \code{\link{rivers}}\tab Rivers (spatial lines) \cr
-#' \code{\link{land}}\tab Global land cover (spatial grid)\cr
+#' \code{\link{World}}\tab World country data (\code{\link[sf:sf]{sf}} object of polygons) \cr
+#' \code{\link{NLD_prov}}\tab Netherlands province data (\code{\link[sf:sf]{sf}} object of  polygons) \cr
+#' \code{\link{NLD_muni}}\tab Netherlands municipal data (\code{\link[sf:sf]{sf}} object of  polygons) \cr
+#' \code{\link{metro}}\tab Metropolitan areas (\code{\link[sf:sf]{sf}} object of points) \cr
+#' \code{\link{rivers}}\tab Rivers (\code{\link[sf:sf]{sf}} object of lines) \cr
+#' \code{\link{land}}\tab Global land cover (\code{\link[raster:brick]{RasterBrick}} object)\cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
@@ -212,7 +214,7 @@ NULL
 #' \code{\link{tm_squares}}\tab Create a layer of squares \cr
 #' \code{\link{tm_dots}}\tab Create a layer of dots \cr
 #' \code{\link{tm_markers}}\tab Create a layer of markers \cr
-#' \code{\link{tm_iso}}\tab Create a iso/contour lines \cr
+#' \code{\link{tm_iso}}\tab Create a layer of iso/contour lines \cr
 #' \code{\link{tm_rgb}}\tab Create a raster layer of an image \cr
 #' }
 #' 
@@ -229,7 +231,15 @@ NULL
 #' \code{\link{tm_minimap}}\tab Create a minimap (view mode only) \cr
 #' }
 #' 
-#' The element \code{\link{tm_facets}} specifies facets (small multiples). The element \code{\link{tm_layout}} is used to change the layout of the map.
+#' Layout element:
+#' \tabular{ll}{
+#' \code{\link{tm_layout}}\tab Adjust the layout (main function)\cr
+#' \code{\link{tm_legend}}\tab Adjust the legend \cr
+#' \code{\link{tm_view}}\tab Configure the interactive view mode \cr
+#' \code{\link{tm_style}}\tab Apply a predefined style \cr
+#' \code{\link{tm_format}}\tab Apply a predefined format \cr
+#' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
+#' }
 #' 
 #' @name tmap-element
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}

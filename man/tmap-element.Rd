@@ -30,7 +30,7 @@ Derived layers:
 \code{\link{tm_squares}}\tab Create a layer of squares \cr
 \code{\link{tm_dots}}\tab Create a layer of dots \cr
 \code{\link{tm_markers}}\tab Create a layer of markers \cr
-\code{\link{tm_iso}}\tab Create a iso/contour lines \cr
+\code{\link{tm_iso}}\tab Create a layer of iso/contour lines \cr
 \code{\link{tm_rgb}}\tab Create a raster layer of an image \cr
 }
 
@@ -47,7 +47,15 @@ Attributes layers:
 \code{\link{tm_minimap}}\tab Create a minimap (view mode only) \cr
 }
 
-The element \code{\link{tm_facets}} specifies facets (small multiples). The element \code{\link{tm_layout}} is used to change the layout of the map.
+Layout element:
+\tabular{ll}{
+\code{\link{tm_layout}}\tab Adjust the layout (main function)\cr
+\code{\link{tm_legend}}\tab Adjust the legend \cr
+\code{\link{tm_view}}\tab Configure the interactive view mode \cr
+\code{\link{tm_style}}\tab Apply a predefined style \cr
+\code{\link{tm_format}}\tab Apply a predefined format \cr
+--------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
+}
 }
 \references{
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}

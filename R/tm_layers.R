@@ -555,7 +555,7 @@ tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
 #' @param shapes.legend symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.
 #' @param shapes.legend.fill Fill color of legend shapes (see \code{shapes.legend})
 #' @param shapes.labels Legend labels for the symbol shapes
-#' @param shapeNA the shape (a number or grob) for missing values. By default a cross (number 4).
+#' @param shapeNA the shape (a number or grob) for missing values. By default a cross (number 4). Set to \code{NA} to hide symbols for missing values.
 #' @param shape.textNA text used for missing values of the shape variable.
 #' @param shape.showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param shapes.n preferred number of shape classes. Only applicable when \code{shape} is a numeric variable name.
