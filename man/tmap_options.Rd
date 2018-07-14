@@ -35,7 +35,7 @@ tmap_options_save(style)
 
 \item{qtm.scalebar}{should a scale bar be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_scale_bar()} be added automatically? The value \code{NA} means that the scale bar is only added when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{TRUE}.}
 
-\item{qtm.minimap}{should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The value \code{NA} (the default) means that the minimap is only added in navigation mode (i.e. when \code{\link{qtm}} is called without arguments or with a search term.}
+\item{qtm.minimap}{should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The value \code{NA} means that the minimap is only added in navigation mode (i.e. when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{FALSE}.}
 
 \item{show.messages}{should messages be shown?}
 

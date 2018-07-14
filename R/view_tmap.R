@@ -650,11 +650,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			} 	
 		} 
 		
-		lf <- do.call(addMiniMap, c(list(map = lf), mmargs)) 
-		
-		if (!specified_tiles && (length(bases) > 0)) {
-			lf <- lf %>% 
-				htmlwidgets::onRender("
+		lf <- tryCatch({
+			lf <- do.call(addMiniMap, c(list(map = lf), mmargs)) 
+			if (!specified_tiles && (length(bases) > 0)) {
+				lf <- lf %>% 
+					htmlwidgets::onRender("
 			    function(el, x) {
 			      var myMap = this;
 			      myMap.on('baselayerchange',
@@ -662,9 +662,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			          myMap.minimap.changeLayer(L.tileLayer.provider(e.name));
 			        })
 			    }")
-		}
-		
-		
+			}
+			lf
+		}, error = function(e) {
+			if (gt$show.messages) message("tm_minimap requires the leaflet package. Please run library(leaflet)")
+			lf
+		})
 	}
 	
 	# print(leaflet_id)

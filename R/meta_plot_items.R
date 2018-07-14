@@ -148,6 +148,17 @@ legend_portr <- function(x, gt, lineHeight, m) {
 		wstext <- text_width_npc(legend.labels, space = TRUE)
 		newsize <- pmin(size, (1-wsmax-4*mx) / wstext)
 		
+		if (gt$show.messages) {
+			numstring <- format(floor(newsize * 100) / 100)
+			if (all((newsize / size) < .95)) {
+				message("Legend labels were too wide. The labels have been resized to ", paste(numstring, collapse = ", "), ". Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.")
+			} else if (any((newsize / size) < .95)) {
+				message("Some legend labels were too wide. These labels have been resized to ", paste(numstring[(newsize / size) < .95], collapse = ", "), ". Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.")
+			}
+		}
+		
+		
+		
 		
 		grobLegendItem <- if (is.cont) {
 			fill <- legend.palette
@@ -360,6 +371,10 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 			ratio <- (sum(ws)/rx)
 			ws <- ws / ratio
 			legend.text.size <- legend.text.size / ratio
+			
+			numstring <- format(floor(legend.text.size * 100) / 100)
+			
+			if (gt$show.messages) message("Legend labels were too wide. Therefore, legend.text.size has been set to ", numstring, ". Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.")
 		}
 		
 		wsmax <- rx/nitems
@@ -445,7 +460,8 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 			col <- ifelse(legend.type =="fill", border.col, NA)
 			if (legend.type=="raster") lwd <- NA
 			rectGrob(x=xs, 
-					 y=1-my-hs/2, 
+					 #y=1-my-hs/2, 
+					 y=1 * lineHeight*legend.text.size + 2*my + hs/2,
 					 width= ws, 
 					 height= hs,
 					 gp=gpar(fill=fill, col=col, lwd=lwd))
@@ -480,7 +496,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 																					 height=unit(symbolR[i], "inch")*(2/3)))
 					} else {
 						pointsGrob(x=xs[i], 
-								   y=1-my-hsmax/2+symbol_legend_y_correction(shapes[i]),
+								   y=1 * lineHeight*legend.text.size + 1.5*my + hsmax/2+symbol_legend_y_correction(shapes[i]),
 								   size=unit(symbolR[i], "inch"),
 								   pch=shapes[i],
 								   gp=gpars[[i]])
@@ -488,8 +504,9 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 				})
 				gTree(children=do.call(gList, grobs))				
 			} else {
-				pointsGrob(x=xs, 
-						   y=1-.5*my-hsmax/2+symbol_legend_y_correction(shapes),
+				#rectGrob(gp=gpar(fill="pink"))
+				pointsGrob(x=xs,
+						   y=1 * lineHeight*legend.text.size + 1.5*my + hsmax/2+symbol_legend_y_correction(shapes),
 						   size=symbolR,
 						   pch=shapes,
 						   gp=get_symbol_gpar(x=shapes,
