@@ -47,8 +47,7 @@ Save tmap to a file, such as png, jpg, or pdf.
 	m <- tm_shape(NLD_muni) +
 		     tm_fill(col="population", convert2density=TRUE, 
                  style="kmeans", 
-                 title=expression("Population (per " * km^2 * ")"), 
-                 legend.hist=FALSE) +
+                 title=expression("Population (per " * km^2 * ")")) +
 		     tm_borders("black", alpha=.5) + 
 		 tm_shape(NLD_prov) +
 		     tm_borders("grey25", lwd=2) +

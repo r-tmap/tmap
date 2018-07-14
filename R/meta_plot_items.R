@@ -556,7 +556,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		}
 		
 		grobLegendText <- textGrob(legend.labels, x=x2,
-								   y=my+lineHeight*legend.text.size, just=just, gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
+								   y=.5*my+lineHeight*legend.text.size, just=just, gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		
 		legWidth <- mx*2+xs[length(xs)]+max(xtraWidth, labelsws[nitems]*legend.text.size/2)
 		
