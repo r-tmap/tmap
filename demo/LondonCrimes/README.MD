@@ -1,17 +1,17 @@
 ### Crimes in Greater London
 
-(See [the full reproducible R script](https://github.com/mtennekes/tmap/blob/master/demo/LondonCrimes/crimes_in_Greater_London.R))
+(See [the full reproducible R script](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html))
+
 
 Data about crime in England, Wales, and Northern Ireland have been made publicly available by Police UK. In this example, we will explore the crimes that are registered by the City of London Police and the Metropolitan Police Service during October 2015. The crime data set, which has been downloaded manually from <https://data.police.uk/data>, is available as a supplementary file of this paper.
 
 The data set `crimes` is a `data.frame` that contains latitude, longitude, and crime type, among other variables. With the following code, a `SpatialPointsDataFrame` is created. In the second code line, records of crimes with unknown location are removed. Next, the `crimes` object is converted to a `SpatialPointsDataFrame` by assigning the coordinate variables. Finally, the map projection is set to the British National Grid, which corresponds to EPSG code 27700.
 
 ```{r}
-library("sp")
 crimes <- crimes[!is.na(crimes$Longitude) & !is.na(crimes$Latitude), ]
-coordinates(crimes) <- ~ Longitude + Latitude
-crimes <- set_projection(crimes, current.projection = "longlat",
-  projection = 27700)
+crimes <- st_as_sf(crimes, coords = c("Longitude", "Latitude"))
+
+crimes <- set_projection(crimes, current.projection = "longlat", projection = 27700)
 ```
 
 
@@ -96,7 +96,7 @@ tm_shape(london) + tm_borders() +
 tm_shape(thames) + tm_lines(col = "steelblue", lwd = 4) +
 tm_compass(position = c("left", "bottom")) +
 tm_scale_bar(position = c("left", "bottom")) + 
-tm_style_gray(title = "Crimes in Greater London\nOctober 2015")
+tm_style("gray", title = "Crimes in Greater London\nOctober 2015")
 ```
 
 ![Figure 4. Kernel density map of crimes in Greater London.](http://www.von-tijn.nl/tijn/research/tmap/crimes4.png) 

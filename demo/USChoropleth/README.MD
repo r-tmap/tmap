@@ -1,6 +1,6 @@
 ### Obesity in the United States
 
-(See [the full reproducible R script](https://github.com/mtennekes/tmap/blob/master/demo/USChoropleth/US_choropleth.R))
+(See [the full reproducible R script](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html))
 
 In this example, we will explore obesity in the United States. Percentages of adult obesity per county have been published in the Food Environment Atlas~\citep{FEA}. This data is assigned to the object \code{FEA}, which is a \code{data.frame}. The shape with county borders for 2010~\citep{TIGER} has been downloaded manually and assigned to the \code{SpatialPolygonsDataFrame} object \code{US}. The package \pkg{tigris}~\citep{tigris} provides a convenient interface for shapes published by the US Census Bureau that are more recent.
 
@@ -61,12 +61,16 @@ qtm(US, fill = "PCT_OBESE_ADULTS10")
 Static maps of the United States usually contain insets of Alaska and Hawaii. To accomplish this, the county polygons of Alaska and Hawaii need to be separated from the contiguous United States. In the following code chunk, we create three shapes. The shape `US_cont` consists of county polygons of the contiguous United States. The shapes `US_AK` and `US_HI` represent the counties of Alaska and Hawaii respectively. Furthermore, we simplify each shape in order to reduce the level of detail, which is locally very high, especially along the coastlines. The simplification factor of $0.2$ is chosen by trial and error. For these processing steps, we use the pipe operator `%>%`, which is imported from the `magrittr` package.
 
 ```{r}
-US_cont <- US %>%
-  subset(!STATE %in% c("02","15","72")) %>% 
+library("dplyr")
+
+US_cont <- US %>% 
+  subset(!STATE %in% c("02", "15", "72")) %>% 
   simplify_shape(0.2) 
+
 US_AK <- US %>% 
   subset(STATE == "02") %>% 
   simplify_shape(0.2) 
+
 US_HI <- US %>% 
   subset(STATE == "15") %>% 
   simplify_shape(0.2) 
@@ -76,7 +80,8 @@ Thick borders of aggregated regions, in this example the states, usually improve
 
 ```{r}
 US_states <- US_cont %>% 
-  aggregate_map(by = "STATE")
+	dplyr::select(geometry) %>% 
+	aggregate(by = list(US_cont$STATE), FUN = mean)
 ```
 
 The choropleth of the contiguous United States is created as follows. The result is shown in Figure 3.

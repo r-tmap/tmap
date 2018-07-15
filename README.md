@@ -31,7 +31,7 @@ tmap: thematic maps in R
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (the latest version is 1.11-2, published on 2018-04-10). Version 2.0 will be published soon (see below). Installation is straightforward:
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 2.0). Installation is straightforward:
 
 ```r
 install.packages("tmap")
@@ -43,10 +43,10 @@ However, for some operating systems require additional libraries. The installati
 No additional installation required.
 
 **Linux (Ubuntu)**
-See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/blob/master/ubuntu_16_installation.sh) and [17](https://github.com/mtennekes/tmap/blob/master/ubuntu_17_installation.sh). See also [issue thread](https://github.com/mtennekes/tmap/issues/150).
+See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/blob/master/ubuntu_16_installation.sh) and [17/18](https://github.com/mtennekes/tmap/blob/master/ubuntu_17_installation.sh). Please address intallation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/150).
 
 **macOS**
-See http://www.kyngchaos.com and [issue thread](https://github.com/mtennekes/tmap/issues/149).
+See http://www.kyngchaos.com. Please address intallation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/149).
 
 
 Development
@@ -77,37 +77,25 @@ Reference
 ----
 [Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
 
+This paper has been written for `tmap` 1.11-2. The content of this paper using `tmap` 2.0 is the following:
+
+* [full reproduction code using tmap 2.0](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html)
+* [Example from Section 4.1: Metropolitan Areas](https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap)
+* [Example from Section 4.2: Classic World Map](https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap)
+* [Example from Section 4.3: Two World Views](https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets)
+* [Example from Section 4.4: Obesity in the United States](https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth)
+* [Example from Section 4.5: Crimes in Greater London](https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes)
 
 Vignettes 
 -----
 
-*Version 1.x*
+[tmap: get started!](https://cran.r-project.org/package=tmap/vignettes/tmap-getstarted.html)
 
-[tmap in a nutshell][6] 
-
-[tmap modes: plot and interactive view][11]
-
-*Version 2.x*
-
-[tmap: get started!](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-getstarted.Rmd)
-
-[tmap: what is changed in version 2.0?](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-changes-v2.Rmd)
-
-[reproduction code from JSS article 'tmap: Thematic Maps in R'](https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-JSS-code.Rmd)
+[tmap: what is changed in version 2.0?](https://cran.r-project.org/package=tmap/vignettes/tmap-changes-v2.html)
 
 
-Examples and tutorials
+Tutorials
 -----
-
-[Example 1: Metropolitan Areas](https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap)
-
-[Example 2: Classic World Map](https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap)
-
-[Example 3: Two World Views](https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets)
-
-[Example 4: Obesity in the United States](https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth)
-
-[Example 5: Crimes in Greater London](https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes)
 
 [Demo: tmap in RMarkdown](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.R)
 

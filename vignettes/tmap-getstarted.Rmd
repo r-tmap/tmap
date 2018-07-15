@@ -22,7 +22,7 @@ This vignette is for those who want to get started with tmap within a couple of 
 A more detailed description of tmap can be found in an [article](https://www.jstatsoft.org/article/view/v084i06) published in the Journal of Statistical Software ([JSS](https://www.jstatsoft.org/index)), which describes tmap version 1.11-2.
 The changes in version 2.0 are described in [`vignette("tmap-changes-v2")`](../doc/tmap-changes-v2.html).
 
-For more context on R's geographic capabilities there are a number of online resources including the vignettes of the [`sf` package](https://cran.r-project.org/web/packages/sf/index.html), the website [rspatial.org](http://www.rspatial.org/) and the online version of the book [Geocomputation with R](http://geocompr.robinlovelace.net/).
+For more context on R's geographic capabilities there are a number of online resources including the vignettes of the [`sf` package](https://CRAN.R-project.org/package=sf/vignettes/sf1.html), the website [rspatial.org](http://www.rspatial.org/) and the online version of the book [Geocomputation with R](http://geocompr.robinlovelace.net/).
 The [Making maps with R](http://geocompr.robinlovelace.net/adv-map.html) chapter of the book provides many more context and abundant code examples of map making with `tmap` and other packages.
 
 ### Hello World!
@@ -38,7 +38,7 @@ tm_shape(World) +
     tm_polygons("HPI")
 ```
 
-The object `World` is a spatial object of class `sf` from the [sf package](https://github.com/r-spatial/sf); it is a `data.frame` with a special column that contains a geometry for each row, in this case polygons. 
+The object `World` is a spatial object of class `sf` from the [sf package](https://CRAN.R-project.org/package=sf); it is a `data.frame` with a special column that contains a geometry for each row, in this case polygons. 
 In order to plot it in tmap, you first need to specify it with `tm_shape`.
 Plotting layers can be added with the `+` operator, in this case `tm_polygons`.
 There are many layer functions in tmap, which can easily be found in the documentation by their `tm_` prefix.

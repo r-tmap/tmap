@@ -42,7 +42,7 @@ For raster objects, it still uses `raster`.
 
 `sf` (**s**imple **f**eatures) objects have a simpler structure than `sp` objects. 
 An `sf` object is nothing more than a `data.frame` with a special geometry column that contains the geometries for the corresponding rows.
-Such a geometry can be of type spatial point(s), line(s) or polygon(s) or any combination of these in a 'geometrycollection' (see [`vignette("sf1")`](https://cran.rstudio.com/web/packages/sf/vignettes/sf1.html)).
+Such a geometry can be of type spatial point(s), line(s) or polygon(s) or any combination of these in a 'geometrycollection' (see [`vignette("sf1")`](https://CRAN.R-project.org/package=sf/vignettes/sf1.html)).
 The layers functions, such as `tm_polygons`, will only draw what they are supposed to draw (in this case polygons).
 The newly added layer function `tm_sf` will draw all geometries.
 
