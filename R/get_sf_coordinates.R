@@ -58,7 +58,7 @@ get_sf_coordinates <- function(shp, gpl) {
 				a[id]
 			} else a
 		})
-		if ("data" %in% names(gpl)) gpl$data <- gpl$data[id, ]
+		if ("data" %in% names(gpl)) gpl$data <- gpl$data[id, , drop = FALSE]
 		shp$tmapID <- tmapID[id]
 		shp$split__id <- NULL
 	}

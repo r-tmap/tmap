@@ -1,19 +1,19 @@
 view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 	
-	# determine view
-
-	# take first small multiple
-	#gp <- gps[[1]]
 	gt <- gp$tm_layout
 	gp$tm_layout <- NULL
 	
 	lf <- leaflet(options = leaflet::leafletOptions(crs=gt$projection))
-	# basemaps <- gt$basemaps
-	# basemaps.alpha <- gt$basemaps.alpha
-	
+
 	pOptions <- function(cw) {
 		if (is.null(cw)) cw <- 20
-		leaflet::popupOptions(minWidth = 100, maxWidth = max(100, cw * 20))
+		
+		width <- max(500, cw * 4.5)
+		leaflet::popupOptions(minWidth = 100, maxWidth = width)
+		
+		# minWidth and maxWidth apply to every popup
+		# setting leaflet::popupOptions(minWidth = width, maxWidth = width) makes every popup wide
+		# horizontal scrollbars still occur
 	}
 		
 	
@@ -168,7 +168,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				labels <- NULL
 			}
 
-			if (!is.null(labels)) shp$tmapID <- labels
+			if (!is.null(labels)) shp$tmapID <- as.character(labels)
 			
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
@@ -772,7 +772,12 @@ format_popups <- function(id=NULL, titles, format, values) {
 	x <- paste("<div style=\"max-height:10em;overflow:auto;\"><table>
 			   <thead><tr><th colspan=\"2\">", labels, "</th></thead></tr>", labels3, "</table></div>", sep="")
 	
-	charwidth <- max(nchar(labels)) + max(nchar(labels3))
+	nc_labels <- nchar(labels)
+	nc_titles <- max(nchar(titles_format))
+	nc_values_format <- do.call(pmax, lapply(values_format, nchar)) + 2 # which space between title and value
+	
+	charwidth <- max(nc_labels + nc_titles + nc_values_format)
+	print(which.max(nc_labels + nc_titles + nc_values_format))
 	attr(x, "charwidth") <- charwidth
 	x
 }
