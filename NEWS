@@ -1,3 +1,6 @@
+version 2.0-1
+- bug fixed for geometry collection objects without data in view mode
+
 version 2.0
 - [!] tmap migrated from sp to sf. sp objects are still supported, but all internal functions are based on sf
 - [!] added tm_sf which draws sf objects
