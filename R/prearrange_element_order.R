@@ -70,7 +70,7 @@ prearrange_element_order <- function(x) {
 			}
 			
 			tid <- which(bci == "tm_tiles")
-			sid <- which(bci == "tm_shape")
+			sid <- max(which(bci %in% c("tm_shape", "tm_dummy")))
 			tid <- tid[tid>sid]
 			
 			if (length(tid) > 1) {

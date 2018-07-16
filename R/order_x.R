@@ -33,7 +33,7 @@ order_x <- function(x, shps, datasets, types, gm) {
 					attr(shp_poly, "line.center") <- attr(shp, "line.center")
 					
 					
-					data_poly <- dataset[sel_poly, ]
+					data_poly <- dataset[sel_poly, , drop = FALSE]
 					data_poly$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp_poly, target = paste(gm$shape.unit, gm$shape.unit, sep=" "))
 					if (gm$shape.apply_map_coloring) attr(data_poly, "NB") <- if (length(shp_poly)==1) list(0) else get_neighbours(shp_poly) #poly2nb(as(shp, "Spatial"))
 					
@@ -64,7 +64,7 @@ order_x <- function(x, shps, datasets, types, gm) {
 					attr(shp_lines, "point.per") <- attr(shp, "point.per")
 					attr(shp_lines, "line.center") <- attr(shp, "line.center")
 					xp_lines[[1]]$type <- "lines"
-					xp_lines[[1]]$data <- dataset[sel_lines, ]
+					xp_lines[[1]]$data <- dataset[sel_lines, , drop = FALSE]
 					xp_lines[[1]]$shp <- NULL
 				}
 			} else {
@@ -89,7 +89,7 @@ order_x <- function(x, shps, datasets, types, gm) {
 					attr(shp_points, "line.center") <- attr(shp, "line.center")
 					
 					xp_points[[1]]$type <- "points"
-					xp_points[[1]]$data <- dataset[sel_points, ]
+					xp_points[[1]]$data <- dataset[sel_points, , drop = FALSE]
 					xp_points[[1]]$shp <- NULL
 				}
 			} else {
