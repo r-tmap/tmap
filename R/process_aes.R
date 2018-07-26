@@ -45,8 +45,6 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	by <- data$GROUP_BY
 	shpcols <- names(data)[1:(ncol(data)-2)]
 	
-	
-	
 	xs <- mapply(function(x, nm) {
 		if (length(x)==1 && is.na(x)[1] && type != "text") gt$aes.colors[nm] else x
 	}, xs, colname, SIMPLIFY = FALSE)

@@ -1,3 +1,31 @@
+rasterCheckSize <- function(x, interactive) {
+	# if (maxpixels < raster::ncell(x)) {
+	# 	warning(paste("maximum number of pixels for Raster* viewing is",
+	# 				  maxpixels, "; \nthe supplied Raster* has", ncell(x), "\n",
+	# 				  "... decreasing Raster* resolution to", maxpixels, "pixels\n",
+	# 				  "to view full resolution set 'maxpixels = ", ncell(x), "'"))
+
+	tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
+	max.raster <- tmapOptions$max.raster
+	show.messages <- tmapOptions$show.messages
+	
+	nc <- raster::ncell(x)
+	mx <- max.raster[ifelse(interactive, "view", "plot")]
+	if (nc > mx) {
+		if (show.messages) message("Raster object has ", nc, " (", nrow(x), " by ", ncol(x), ") cells, which is larger than ",  mx, ", the maximum size determined by the option max.raster. Therefore, the raster will be shown at a decreased resolution of ", mx, " cells. Set tmap_options(max.raster = c(plot = ", nc, ", view = ", nc, ")) to show the whole raster.")
+		if (nlayers(x) > 1) {
+			x <- do.call(brick, lapply(1L:nlayers(x), function(i) {
+				raster::sampleRegular(raster(x, layer = i), mx, asRaster = TRUE, useGDAL = TRUE)
+			}))
+		} else {
+			x <- raster::sampleRegular(x, mx, asRaster = TRUE, useGDAL = TRUE)	
+		}
+	}
+		
+	
+	return(x)
+}
+
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
@@ -22,7 +50,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		if (inherits(shp, "Spatial")) shp <- brick(shp)
 			
-			
+		
+		
 		# attribute get from read_osm
 		is.OSM <- attr(shp, "is.OSM")
 		if (is.null(is.OSM)) is.OSM <- FALSE
@@ -73,23 +102,6 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				stop("Raster object does not have a color table, nor numeric data that can be converted to colors. Use tm_raster to visualize the data.", call. = FALSE)
 			}
 			
-			
-			# if (is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) {
-			# 	convert.RGB <- is.RGB && nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
-			# 
-			# 	if (convert.RGB) {
-			# 		pix <- raster_colors(rdata)
-			# 		shp <- raster(shp, layer=0)
-			# 		shp <- setValues(shp, as.integer(pix))
-			# 		names(shp) <- "PIXEL__COLOR"
-			# 		raster_facets_vars <- "PIXEL__COLOR"
-			# 		lvls <- list(levels(pix))
-			# 	} else raster_facets_vars <- shpnames
-			# } else {
-			# 	convert.RGB <- FALSE
-			# 	raster_facets_vars <- intersect(raster_facets_vars, shpnames)
-			# }
-			
 			if (convert.RGB) {
 				layerIDs <- 1L:nlayers(shp)
 			} else {
@@ -113,14 +125,20 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				#lvls <- get_raster_levels(shp, layerIDs)
 			lvls <- get_data_frame_levels(rdata[, layerIDs, drop = FALSE])
 				
-				#raster_data <- get_raster_data(shp)[, raster_facets_vars, drop=FALSE]
-				#lvls <- get_data_frame_levels(raster_data)
-				# subset raster to get rid of non-used variables (to make projectRaster faster)
-				#if (nlayers(shp)>1) shp <- raster::subset(shp, raster_facets_vars)
-				
 			use_interp <- ((all(vapply(lvls, is.null, logical(1)))) && !to.Cat)
 		}
 
+		#print(shp)
+		
+		shp <- rasterCheckSize(shp, interactive)	
+		
+		# print(use_interp)
+		# print(lvls)
+		# print(layerIDs)
+		# print(use_interp)
+		#shp <- rasterCheckSize(shp)	
+		
+		
 		# get current projection (assume longlat if unkown)
 		shp_crs <- get_projection(shp, output="crs")
 		if (is.na(shp_crs)) {
