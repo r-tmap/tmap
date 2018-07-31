@@ -183,7 +183,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	nx <- max(nx, nlevels(by))
 	
 	## as.layers tip
-	if (nx > 1 && xvary[["raster"]] && !gby$as.layers && gt$show.messages && interactive) {
+	if (nx > 1 && ("raster" %in% names(xvary)) && xvary[["raster"]] && !gby$as.layers && gt$show.messages && interactive) {
 		message("Tip: rasters can be shown as layers instead of facets by setting tm_facets(as.layers = TRUE).")
 	}
 	
