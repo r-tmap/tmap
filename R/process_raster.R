@@ -14,9 +14,12 @@ check_raster_specials <- function(x, g, gt, shpcols, data, nx) {
 		
 		# by default, use the all data variables
 		if (is.na(x[1])) {
-			x <- if (nlevels(data$GROUP_BY) > 1) {
-				gt$aes.colors["dots"]
-			} else setdiff(names(data), c("tmapfilter", "GROUP_BY", "ALONG"))
+			if (nlevels(data$GROUP_BY) > 1) {
+				x <- gt$aes.colors["dots"]
+			} else {
+				x <- setdiff(names(data), c("tmapfilter", "GROUP_BY", "ALONG"))
+				g$col <- x
+			}
 		}
 		
 		## general 'by' check: if by => |aes| = 1, and determine nx
@@ -51,7 +54,8 @@ check_raster_specials <- function(x, g, gt, shpcols, data, nx) {
 		leaflet.server <- NA
 	}
 	
-	list(x = x,
+	list(g = g,
+		 x = x,
 		 data = data,
 		 is.colors = is.colors,
 		 nx = nx,

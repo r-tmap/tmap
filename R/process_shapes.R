@@ -103,7 +103,14 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		if (!length(bbx_notnull)) stop("Nothing to plot", call. = FALSE)
 		
 		bbx <- bboxes[[bbx_notnull[1]]]
-
+		
+		
+		if (length(bbx_notnull) > 1) {
+			same_bbx <- (all(vapply(bboxes[bbx_notnull], function(b) all(b==bbx), FUN.VALUE = logical(1))))
+		} else {
+			same_bbx <- TRUE
+		}
+		
 		sasp <- get_asp_ratio(bbx, is.projected = !longlat)
 		inner.margins <- gm$inner.margins
 		
@@ -119,6 +126,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp, interactive=interactive)
 		bbx <- bbox_asp$bbox
 		if (drop_shapes) bboxes <- rep(list(bbx), nplots)
+		same_bbx <- TRUE
 		sasp <- bbox_asp$sasp
 		inner.margins <- bbox_asp$inner.margins
 		#shp_by_name <- ""
@@ -253,6 +261,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	attr(shps2, "info") <-
 		list(shape.sasp = ifelse(is.na(pasp), sasp, pasp),
 			 shape.bbx = bbx,
+			 shape.same_bbx = same_bbx,
 			 shape.legend_pos = legend_pos,
 			 shape.diff_shapes = diff_shapes,
 			 shape.inner.margins = inner.margins,

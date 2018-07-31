@@ -463,15 +463,30 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				gpl$raster.legend.values <- 1
 			}
 			
-			shp@data@values <- match(gpl$raster, gpl$raster.legend.palette)
 
-			
 			group_name <- if (is.na(gpl$raster.group)) shp_name else gpl$raster.group
 			addOverlayGroup(group_name)
 			
-			res_leg <- add_legend(map=NULL, gpl, gt, aes="raster", alpha = alpha, group = if (gt$free.scales.raster) group_name else NULL, list.only=TRUE)
+			#res_leg <- add_legend(map=NULL, gpl, gt, aes="raster", alpha = alpha, group = if (gt$free.scales.raster) group_name else NULL, list.only=TRUE)
+
+			pal <- na.omit(unique(gpl$raster))
+			pal <- pal[substr(pal, 8,10)!="00"] ## remove transparant colors
 			
-			lf <- lf %>% addRasterImage(x=shp, colors=res_leg$col, opacity = res_leg$opacity, group=group_name, project = FALSE)
+			shp@data@values <- match(gpl$raster, pal)
+			
+			res <- split_alpha_channel(pal, alpha)
+			pal_col <- res$col
+			pal_opacity <- max(res$opacity)
+			
+			mappal <- function(x) {
+				if (all(is.na(shp@data@values))) return(rep("#00000000", length(x)))
+				
+				y <- pal_col[x]
+				y[is.na(y)] <- "#00000000"
+				y
+			}
+			
+			lf <- lf %>% addRasterImage(x=shp, colors=mappal, opacity = pal_opacity, group=group_name, project = FALSE)
 			
 			if (!is.na(gpl$xraster[1])) {
 				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha, group = if (gt$free.scales.raster) group_name else NULL)
@@ -854,6 +869,13 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 		style <- attr(pal, "style")
 		is.cont <- TRUE
 		incl.na <- nchar(pal[length(pal)]) < 10
+		
+		orig <- unlist(lapply(pal, function(x) {
+			p <- strsplit(x, split = "-", fixed=TRUE)[[1]]
+			if (length(p) == 1) NULL else p[p!="NA"]
+		}))
+		
+		
 		pal <- vapply(pal, function(x) {
 			p <- strsplit(x, split = "-", fixed=TRUE)[[1]]
 			if (length(p)==1) p[1] else if (p[6]=="NA") p[5] else p[6]
@@ -877,6 +899,7 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 			colNA <- NA
 			textNA <- NA
 		}
+		orig <- pal
 	}
 
 	allNAs <- (length(pal) == 0)
@@ -896,8 +919,8 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 	}
 	
 	if (list.only) {
-		if (!is.na(colNA)) col <- c(col, colNA)
-		return(list(col=pal, opacity=opacity))
+		if (!is.na(colNA)) orig <- c(orig, colNA)
+		return(list(col=orig, opacity=opacity))
 	}
 	
 	title_name <- paste(aes, "legend.title", sep=".")

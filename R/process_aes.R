@@ -130,13 +130,14 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		split.by <- rep(TRUE, 3)
 	} else if (type == "raster") {
 		res <- check_raster_specials(xs[["raster"]], g, gt, shpcols, data, nx)
-		
+		g <- res$g
 		xs[["raster"]] <- res$x
 		data <- res$data
 		is.colors <- res$is.colors
 		xvary[["raster"]] <- !is.colors # xvary will chang when tm_raster() is called
 		nx <- res$nx
 		misc <- res$misc
+		
 		split.by <- TRUE
 	} else if (type == "text") {
 		res <- check_text_specials(fill, xs[["text.col"]], xs[["text.size"]], g, gt, gby, xvary, data, shpcols, nx, npol, interactive)
@@ -180,6 +181,11 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	## recalculate nx, now taking by into account
 	nx <- max(nx, nlevels(by))
+	
+	## as.layers tip
+	if (nx > 1 && xvary[["raster"]] && !gby$as.layers && gt$show.messages && interactive) {
+		message("Tip: rasters can be shown as layers instead of facets by setting tm_facets(as.layers = TRUE).")
+	}
 	
 	# update legend format from tm_layout
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)

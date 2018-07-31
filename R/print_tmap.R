@@ -442,9 +442,12 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	## plot
 	if (interactive) {
+		sync <- gm$sync
+		if (is.na(sync)) sync <- gm$shape.same_bbx
+		
 		lVargs <- list(ncol=gm$ncol,
-					   sync=ifelse(gm$sync, "all", "none"),
-					   sync.cursor=gm$sync,
+					   sync=ifelse(sync, "all", "none"),
+					   sync.cursor=sync,
 					   no.initial.sync = TRUE)
 		
 		multi_shapes <- is.list(shps[[1]]) && !inherits(shps[[1]], "sf")

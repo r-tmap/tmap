@@ -6,10 +6,10 @@
 \usage{
 tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
   nrow = NA, free.coords = !as.layers, drop.units = free.coords ||
-  as.layers, drop.empty.facets = TRUE, drop.NA.facets = FALSE,
-  sync = !free.coords, showNA = NA, textNA = "Missing",
-  free.scales = is.null(by) && is.null(along),
-  free.scales.fill = free.scales, free.scales.symbol.size = free.scales,
+  as.layers, drop.empty.facets = TRUE, drop.NA.facets = FALSE, sync = NA,
+  showNA = NA, textNA = "Missing", free.scales = is.null(by) &&
+  is.null(along), free.scales.fill = free.scales,
+  free.scales.symbol.size = free.scales,
   free.scales.symbol.col = free.scales,
   free.scales.symbol.shape = free.scales,
   free.scales.text.size = free.scales, free.scales.text.col = free.scales,
@@ -36,7 +36,7 @@ tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
 
 \item{drop.NA.facets}{logical. If the \code{by} argument is specified, and all values of the defined aesthetic variables (e.g. \code{col} from \code{\link{tm_fill}}) for specific facets, should these facets be dropped? \code{FALSE} by default.}
 
-\item{sync}{logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE}, unless \code{free.coords} is set to \code{TRUE}.}
+\item{sync}{logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE} if the facets have the same bounding box. This is generally the case when \code{\link[raster:raster-package]{raster}}s are plotted, or when free.coords is \code{FALSE}.}
 
 \item{showNA}{If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{table}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
 

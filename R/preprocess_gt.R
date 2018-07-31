@@ -139,7 +139,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 
 		if (!is.na(set.view[1])) {
 			if (!is.numeric(set.view)) stop("set.view is not numeric")
-			if (!length(set.view) %in% c(1,3)) stop("set.view does not have length 3")
+			if (!length(set.view) %in% c(1,3)) stop("set.view does not have length 1 or 3")
 		}
 		if (!is.na(set.zoom.limits[1])) {
 			if (!is.numeric(set.zoom.limits)) stop("set.zoom.limits is not numeric")
@@ -147,13 +147,13 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 			if (set.zoom.limits[1]<0 || set.zoom.limits[1] >= set.zoom.limits[2]) stop("incorrect set.zoom.limits")
 		}
 		if (!is.na(set.view[1]) && !is.na(set.zoom.limits[1])) {
-			if (set.view[3] < set.zoom.limits[1]) {
+			if (set.view[length(set.view)] < set.zoom.limits[1]) {
 				warning("default zoom smaller than minimum zoom, now it is set to the minimum zoom")
-				set.view[3] <- set.zoom.limits[1]
+				set.view[length(set.view)] <- set.zoom.limits[1]
 			}
-			if (set.view[3] > set.zoom.limits[2]) {
+			if (set.view[length(set.view)] > set.zoom.limits[2]) {
 				warning("default zoom larger than maximum zoom, now it is set to the maximum zoom")
-				set.view[3] <- set.zoom.limits[2]
+				set.view[length(set.view)] <- set.zoom.limits[2]
 			}
 		}
 		view.legend.position <- if (is.na(view.legend.position)[1]) {

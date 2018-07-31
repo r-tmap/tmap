@@ -72,7 +72,7 @@ extract_raster_data <- function(nm, isf, d, a){
 		as.data.frame(alist)
 	} else {
 		df <- data.frame(d)
-		names(df) <- nm
+		names(df) <- ifelse(nm == "", "value", nm)
 		df
 	}
 }
