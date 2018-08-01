@@ -335,6 +335,7 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 	if (length(lst) >= 1 && is.null(names(lst))) {
 		arg <- lst[[1]]
 		if (is.list(arg)) {
+			## case 1: option list is given
 			args <- arg
 			
 			style_attr <- attr(args, "style")
@@ -345,12 +346,15 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 			
 			if (length(lst) > 1) warning("The first argument is used, but the other arguments are ignored.")
 		} else {
+			## case 2: option name is given
 			args <- sapply(lst, "[", 1)
 			if (!all(args %in% optnames)) warning("the following options do not exist: ", paste(setdiff(args, optnames), collapse = ", "))
 			args <- intersect(args, optnames)
 			return(.tmapOptions[args])
 		}
 	} else {
+		## case 3: named options are set
+		## case 4: tmap_options is called without arguments
 		args <- lapply(as.list(match.call()[-1]), eval, envir = e1)	
 	}
 
@@ -363,10 +367,12 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 	
 	
 	if (!length(args)) {
+		# case 4
 		return(.tmapOptions)	
 	} else {
+		# case 1 and 3
 		backup <- .tmapOptions[names(args)]
-		.tmapOptions[names(args)] <- args
+		.tmapOptions[names(args)] <- check_named_items(args, backup)
 		
 		options(tmap.style=newstyle)
 		attr(.tmapOptions, "style") <- newstyle
@@ -381,6 +387,28 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 		
 		invisible(backup)
 	}
+}
+
+
+## function to check named items (such as max.raster and legend.format)
+check_named_items <- function(a, b) {
+	named_items <- which(vapply(b, FUN = function(i) !is.null(names(i)), FUN.VALUE = logical(1)))
+	
+	if (length(named_items) != 0L) {
+		a[named_items] <- mapply(function(an, bn, nm) {
+			res <- bn
+			cls <- ifelse(is.list(bn), "list", "vector")
+			if (is.null(names(an))) {
+				warning("tmap option ", nm, " requires a named ", cls, call. = FALSE)
+			} else if (!all(names(an) %in% names(bn))) {
+				invalid <- setdiff(names(an), names(bn))
+				warning("invalid ", cls, " names of tmap option ", nm, ": ", paste(invalid, collapse = ", "), call. = FALSE)
+			}
+			res[names(an)] <- an
+			res
+		},a[named_items], b[named_items], names(b[named_items]), SIMPLIFY = FALSE)
+	}
+	a
 }
 
 

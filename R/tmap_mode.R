@@ -51,18 +51,6 @@ check_mode <- function(mode) {
 	if (!mode %in% (c("plot", "view"))) stop("incorrect mode", call. = FALSE)
 }
 
-check_limits <- function(limits) {
-	if (!is.vector(limits)) stop("limits should be a vector", call. = FALSE)
-	if (!is.numeric(limits)) stop("limits should be a numeric vector", call. = FALSE)
-	if (!(length(limits)==2)) stop("limits should consist of two numbers", call. = FALSE)
-	if (is.null(names(limits))) {
-		names(limits) <- c("facets.plot", "facets.view")
-	} else {
-		if (!setequal(names(limits), c("facets.plot", "facets.view"))) stop("incorrect limits names: should be facets.view and facets.plot")
-		limits <- limits[c("facets.plot", "facets.view")]
-	}
-	limits
-}
 
 check_unit <- function(unit) {
 	if (!unit %in% c("metric", "imperial", "km", "m", "mi", "miles", "ft", "feet")) stop("incorrect unit", call. = FALSE)
