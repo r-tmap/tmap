@@ -792,7 +792,7 @@ format_popups <- function(id=NULL, titles, format, values) {
 	nc_values_format <- do.call(pmax, lapply(values_format, nchar)) + 2 # which space between title and value
 	
 	charwidth <- max(nc_labels + nc_titles + nc_values_format)
-	print(which.max(nc_labels + nc_titles + nc_values_format))
+	# print(which.max(nc_labels + nc_titles + nc_values_format))
 	attr(x, "charwidth") <- charwidth
 	x
 }

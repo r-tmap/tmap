@@ -4,7 +4,7 @@
 #' 
 #' The global option \code{tmap.limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(tmap.limits=c(facets.view=4, facets.plot=64))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
 #' 
-#' @param ... \code{\link{tmap}} objects. The number of multiples that can be plot is limited (see details).
+#' @param ... \code{\link{tmap}} objects or one list of \code{\link{tmap}} objects. The number of multiples that can be plot is limited (see details).
 #' @param ncol number of columns
 #' @param nrow number of rows
 #' @param sync logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{FALSE}.
@@ -17,6 +17,12 @@
 #' @export
 tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins=.02) {
 	tms <- list(...)
+	if (!inherits(tms[[1]], "tmap")) {
+		if (!is.list(tms[[1]])) stop("The first argument of tmap_arrange is neither a tmap object nor a list.")
+		tms <- tms[[1]]
+	}
+	istmap <- vapply(tms, FUN = inherits, FUN.VALUE = logical(1), what = "tmap")
+	if (!all(istmap)) stop("Not all arguments are tmap objects.")
 	opts <- list(ncol=ncol, nrow=nrow, sync=sync, asp=asp, outer.margins=outer.margins)
 	attr(tms, "opts") <- opts
 	class(tms) <- c("tmap_arrange", class(tms))

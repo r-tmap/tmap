@@ -154,6 +154,7 @@ tm_style("grey") +
 tm_format("World")
 
 \dontrun{
+data(NLD_prov, NLD_muni)	
 # Map coloring algorithm
 tm_shape(NLD_prov) +
     tm_fill("name", legend.show = FALSE) +

@@ -14,7 +14,7 @@ knit_print.tmap_arrange(x, ..., options = NULL)
 \method{print}{tmap_arrange}(x, knit = FALSE, ..., options = NULL)
 }
 \arguments{
-\item{...}{\code{\link{tmap}} objects. The number of multiples that can be plot is limited (see details).}
+\item{...}{\code{\link{tmap}} objects or one list of \code{\link{tmap}} objects. The number of multiples that can be plot is limited (see details).}
 
 \item{ncol}{number of columns}
 
@@ -22,7 +22,7 @@ knit_print.tmap_arrange(x, ..., options = NULL)
 
 \item{sync}{logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{FALSE}.}
 
-\item{asp}{aspect ratio. If will overwrite the \code{asp} argument from \code{\link{tm_layout}}, unless set to \code{NULL}}
+\item{asp}{aspect ratio. The aspect ratio of each map. Normally, this is controlled by the \code{asp} argument from \code{\link{tm_layout}} (also a tmap option). This argument will overwrite it, unless set to \code{NULL}. The default value for \code{asp} is 0, which means that the aspect ratio is adjusted to the size of the device divided by the number of columns and rows. When \code{asp} is set to \code{NA}, which is also the default value for \code{\link{tm_layout}}, the aspect ratio will be adjusted to the used shapes.}
 
 \item{outer.margins}{outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the \code{outer.margins} argument from \code{\link{tm_layout}}, unless set to \code{NULL}.}
 
