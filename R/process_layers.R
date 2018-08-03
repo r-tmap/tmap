@@ -142,7 +142,6 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	} else {
 		g$tm_fill$gborders <- gborders
 		gfill <- process_fill(data, g$tm_fill, gt, gf, z=z+which(plot.order=="tm_fill"), interactive=interactive)
-		gfill <<- gfill
 	}
 	# symbol info
 	if (is.null(g$tm_symbols)) {

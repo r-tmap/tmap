@@ -114,29 +114,36 @@ num2pal <- function(x,
 		}
 	}
 
+	## palette is created with a 101 colorramp, unless the defined palette is of the same length as n
 	if (is.brewer) {
 		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
 	} else if (is.viridis) {
 		colpal <- revPal(viridis(101, option = palette))
 	} else {
-		colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
+		snap <- length(palette) == n
+		if (!snap) colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
+	}
+	if (!snap) {
+		ids <- if (pal.div) {
+			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_div(n) else c(0, 1)
+			map2divscaleID(breaks - midpoint, n=101, contrast=contrast)
+		} else {
+			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_seq(n) else c(0, 1)
+			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified)
+		}
+		
+		legend.palette <- colpal[ids]
+		if (any(ids<51) && any(ids>51)) {
+			ids.neutral <- min(ids[ids>=51]-51) + 51
+			legend.neutral.col <- colpal[ids.neutral]
+		} else {
+			legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
+		}
+	} else {
+		legend.palette <- palette
+		legend.neutral.col <- palette[round((n+1)/2)]
 	}
 	
-	ids <- if (pal.div) {
-		if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_div(n) else c(0, 1)
-		map2divscaleID(breaks - midpoint, n=101, contrast=contrast)
-	} else {
-		if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_seq(n) else c(0, 1)
-		map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified)
-	}
-	
-	legend.palette <- colpal[ids]
-	if (any(ids<51) && any(ids>51)) {
-		ids.neutral <- min(ids[ids>=51]-51) + 51
-		legend.neutral.col <- colpal[ids.neutral]
-	} else {
-		legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
-	}
 		
 
 	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))

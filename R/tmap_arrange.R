@@ -8,7 +8,7 @@
 #' @param ncol number of columns
 #' @param nrow number of rows
 #' @param sync logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{FALSE}.
-#' @param asp aspect ratio. If will overwrite the \code{asp} argument from \code{\link{tm_layout}}, unless set to \code{NULL}
+#' @param asp aspect ratio. The aspect ratio of each map. Normally, this is controlled by the \code{asp} argument from \code{\link{tm_layout}} (also a tmap option). This argument will overwrite it, unless set to \code{NULL}. The default value for \code{asp} is 0, which means that the aspect ratio is adjusted to the size of the device divided by the number of columns and rows. When \code{asp} is set to \code{NA}, which is also the default value for \code{\link{tm_layout}}, the aspect ratio will be adjusted to the used shapes.
 #' @param outer.margins outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the \code{outer.margins} argument from \code{\link{tm_layout}}, unless set to \code{NULL}.
 #' @param x a \code{tmap_arrange} object (returned from \code{tmap_arrange})
 #' @param knit should \code{\link[knitr:knit_print]{knit_print}} be enabled, or the normal \code{\link[base:print]{print}} function?
