@@ -116,8 +116,10 @@ num2pal <- function(x,
 
 	## palette is created with a 101 colorramp, unless the defined palette is of the same length as n
 	if (is.brewer) {
+		snap <- FALSE
 		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
 	} else if (is.viridis) {
+		snap <- FALSE
 		colpal <- revPal(viridis(101, option = palette))
 	} else {
 		snap <- length(palette) == n
