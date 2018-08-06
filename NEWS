@@ -1,7 +1,7 @@
 version 2.1
 - added option max.raster (maximum raster size)
+- made rasters in view mode faster
 - bug fixed for geometry collection objects without data in view mode
-- made interactive rasters faster
 - improved handling of manual palettes
 - tmap_arrange can take a list of tmap objects
 

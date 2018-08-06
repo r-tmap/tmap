@@ -174,6 +174,7 @@ tm_shape(World) +
 
 tmap_mode("view")
 
+\dontrun{
 require(tmaptools)
 metro_aus <- crop_shape(metro, bb("Australia"))
 
@@ -182,7 +183,6 @@ tm_shape(metro_aus) +
 	tm_text("name", just = "top")
 
 # alternative
-\dontrun{
 tm_shape(metro_aus) +
 	tm_markers(text = "name")
 }
