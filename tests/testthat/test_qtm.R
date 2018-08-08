@@ -2,10 +2,9 @@ context("qtm")
 
 test_that("qtm without args", {
 	tmap_mode("plot")
-	expect_error({
+	expect_message({
 		print(qtm())
 	})
-	
 	tmap_mode("view")
 	expect_silent({
 		print(qtm())
