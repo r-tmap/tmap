@@ -22,11 +22,9 @@
 #' @import methods
 #' @importFrom graphics par
 #' @importFrom classInt classIntervals findCols
-#' @importFrom rgeos gIntersection gIntersects gBuffer gDifference gCentroid gUnaryUnion
 #' @importFrom grDevices col2rgb colorRampPalette dev.off dev.set dev.cur is.raster png rgb
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom grDevices xy.coords colors
-#' @importFrom rgdal getPROJ4VersionInfo SGDF2PCT CRSargs
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
 #' @importMethodsFrom raster as.vector
 #' @import leaflet

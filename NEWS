@@ -1,3 +1,6 @@
+version 2.1-1
+- fixed two small bugs
+
 version 2.1
 - added option max.raster (maximum raster size)
 - bug fixed for geometry collection objects without data in view mode

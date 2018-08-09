@@ -413,7 +413,6 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 	}
 	gint <- suppressMessages(st_intersects(lns, ax, sparse = FALSE, prepared = FALSE))[,1]
 	
-#	gint <- gIntersects(lns, ax, byid = TRUE)
 	ins <- vapply(lco, function(m) {
 		l <- m[1,]
 		if (!is.na(xax)) {
@@ -620,10 +619,6 @@ plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "ce
 		st_union(st_sfc(polys))
 	} # else return(NULL)
 
-	# ids <- 1:length(polys)
-	# gUnaryUnion(SpatialPolygons(mapply(function(p, i) {
-	# 	Polygons(list(p), ID=i)
-	# }, polys, ids, SIMPLIFY=FALSE)))
 }
 
 polylineGrob2sfLines <- function(gL) {
