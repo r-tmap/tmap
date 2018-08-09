@@ -116,4 +116,5 @@ tm_polygons("HPI")
 1.1
 Use size.max to set the value mapped to maximum symbol/bubble size. Use scale to increase (or decrease) all symbols/bubbles.
 plot
+data(metro)
 tm_shape(metro) + tm_bubbles("pop2020", size.max = 5e7, scale = 2) + tm_legend(outside = TRUE, outside.position = "bottom")

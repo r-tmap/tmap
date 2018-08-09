@@ -18,6 +18,7 @@ tmap_tip <- function(latest.version = FALSE) {
 	cat(paste(tip$code, collapse="\n"))
 	
 	print(eval(parse(text = tip$code)))
+	cat("\n")
 	
 	# restore options and mode
 	tmap_mode(mode)
