@@ -23,6 +23,7 @@ Creates a \code{\link{tmap-element}} that draws a tile layer. This feature is on
 When \code{tm_basemap} is not specified, the default basemaps are shown, which can be configured by the \code{basemaps} arugument in \code{\link{tmap_options}}. By default (for style \code{"white"}) three basemaps are drawn: \code{c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)} to the plot, or set \code{tmap_options(basemaps = NULL)}. Similarly, when \code{tm_tiles} is not specified, the overlay maps specified by the \code{overlays} argument in in \code{\link{tmap_options}} are shown as front layer. By default, this argument is set to \code{NULL}, so no overlay maps are shown by default. See examples.
 }
 \examples{
+\dontrun{
 current.mode <- tmap_mode("view")
 
 data(World, metro)
@@ -33,7 +34,6 @@ tm_tiles(paste0("http://services.arcgisonline.com/arcgis/rest/services/Canvas/",
     "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"), group = "Labels")
 
 
-\dontrun{
 # Use tmap optinos to set the basemap and overlay map permanently during the R session:
 opts <- tmap_options(basemaps = c(Canvas = "Esri.WorldGrayCanvas", Imagery = "Esri.WorldImagery"),
     overlays = c(Labels = paste0("http://services.arcgisonline.com/arcgis/rest/services/Canvas/",
@@ -41,10 +41,10 @@ opts <- tmap_options(basemaps = c(Canvas = "Esri.WorldGrayCanvas", Imagery = "Es
 	
 	qtm(World, fill = "HPI", fill.palette = "RdYlGn")
 
-	# restore options
-	tmap_options(opts)
-}
+# restore options
+tmap_options(opts)
 
 # restore current mode
 tmap_mode(current.mode)
+}
 }

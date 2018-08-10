@@ -31,7 +31,7 @@ tmap: thematic maps in R
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 2.0). Installation is straightforward:
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 2.1-1). Installation is straightforward:
 
 ```r
 install.packages("tmap")
@@ -77,9 +77,9 @@ Reference
 ----
 [Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
 
-This paper has been written for `tmap` 1.11-2. The content of this paper using `tmap` 2.0 is the following:
+This paper has been written for `tmap` 1.11-2. The content of this paper using `tmap` 2.x is the following:
 
-* [full reproduction code using tmap 2.0](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html)
+* [full reproduction code using tmap 2.x](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html)
 * [Example from Section 4.1: Metropolitan Areas](https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap)
 * [Example from Section 4.2: Classic World Map](https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap)
 * [Example from Section 4.3: Two World Views](https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets)
