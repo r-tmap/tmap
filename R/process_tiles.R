@@ -10,10 +10,10 @@ process_tiles <- function(g, gt) {
 		if (is.na(g$server[1])) {
 			if (g$grouptype == "base") {
 				server <- gt$basemaps 
-				alpha <- if (is.na(g$alpha)) gt$basemaps.alpha else g$alpha		
+				alpha <- rep(if (is.na(g$alpha)) gt$basemaps.alpha else g$alpha, length.out = length(server))	
 			} else {
 				server <- gt$overlays 
-				alpha <- if (is.na(g$alpha)) gt$overlays.alpha else g$alpha		
+				alpha <- rep(if (is.na(g$alpha)) gt$overlays.alpha else g$alpha, length.out = length(server))	
 			}
 		} else {
 			server <- g$server

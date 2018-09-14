@@ -558,15 +558,18 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				})
 			}
 			
+			allLettersOrDots <- function(x) grepl("^[A-Za-z\\.]*$", x)
+			
 			# add base layer(s)
 			if (length(basemaps)) {
 				for (i in 1:length(basemaps)) {
 					bm <- unname(basemaps[i])
 					bmname <- unname(group_names[i])
-					if (substr(bm, 1, 4) == "http") {
-						lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
-					} else {
+					if (allLettersOrDots(substr(bm, 1, 4))) {
+						# it is not possible to check provider options, since leaflet::providers is not exported
 						lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
+					} else {
+						lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
 					}
 				}
 			}
