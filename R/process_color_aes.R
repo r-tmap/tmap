@@ -178,22 +178,16 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, are
 		gsc <- split_g(g, n=nx)
 		
 		dtcol_title_append <- mapply(check_num_col, dtcol, gsc, SIMPLIFY = FALSE, MoreArgs = list(areas, areas_unit))
+		sel_attr <- as.list(as.data.frame(attr(dtcol, "sel")))
 		dtcol <- lapply(dtcol_title_append, "[[", "col")
-		title_append <- vapply(dtcol_title_append, "[[", character(1), "title_append")
-		# 
-		# if (check_dens) {
-		# 	isNum <- vapply(dtcol, is.numeric, logical(1))
-		# 	isDens <- vapply(gsc, function(g) {
-		# 		!is.null(g$convert2density) && g$convert2density
-		# 	}, logical(1))
-		# 	unis <- 
-		# 	
-		# 	dtcol[isNum & isDens] <- lapply(dtcol[isNum & isDens], function(d) {
-		# 		d / areas
-		# 	})
-		# 	title_append[isNum & isDens] <- paste("per", areas_unit, " ")
-		# }
 		
+		# add sel attribute to dtcol elements
+		dtcol <- mapply(function(d, s) {
+			attr(d, "sel") <- s
+			d
+		}, dtcol, sel_attr, SIMPLIFY = FALSE)
+		title_append <- vapply(dtcol_title_append, "[[", character(1), "title_append")
+
 		sel <- split(sel, f = rep(1L:nx, each = npol))
 		res <- mapply(process_col_vector, dtcol, sel, gsc, MoreArgs=list(gt=gt, reverse=reverse), SIMPLIFY=FALSE)
 		col <- sapply(res, function(r)r$cols)
