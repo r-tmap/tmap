@@ -256,12 +256,14 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
 		if (inherits(shp, "sfc")) {
 			data <- data.frame(tmapID = seq_len(length(shp)))
+			if (!is.null(names(shp))) names(shp) <- NULL
 			shp <- st_sf(data, geometry=shp)
 		} else {
 			data <- shp
 			st_geometry(data) <- NULL
-			shp <- shp[, attr(shp, "sf_column")]
-			shp$tmapID <- seq_len(nrow(shp))
+			shp <- st_geometry(shp)
+			if (!is.null(names(shp))) names(shp) <- NULL
+			shp <- st_sf(tmapID = seq_len(length(shp)), geometry = shp)
 		}
 		
 		data$tmapfilter <- if (is.null(y$filter)) rep(TRUE, nrow(shp)) else rep(y$filter, length.out = nrow(shp))
