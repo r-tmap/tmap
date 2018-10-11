@@ -181,7 +181,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			lf <- addPane(lf, pane)
 			
 			
-			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
+			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
 			
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
@@ -216,7 +216,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			pane <- nextPane(pane)
 			lf <- addPane(lf, pane)
 			
-			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name, popupOptions = pOptions(charwidth)) 
+			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name, popupOptions = pOptions(charwidth)) 
 
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
@@ -317,7 +317,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			pane <- nextPane(pane)
 			lf <- addPane(lf, pane)
 			
-			
 			if (are.icons) {
 				#symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
 				if (any(symbol.shape2<1000)) {
@@ -333,7 +332,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 						icons$iconAnchorY <- icons$iconAnchorY * symbol.size2
 					}
 				}
-				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, label = labels2, group=group_name, icon=icons, clusterOptions=clustering, options = markerOptions(clickable=!is.null(popups), pane=pane))
+				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, label = labels2, layerId = labels2, group=group_name, icon=icons, clusterOptions=clustering, options = markerOptions(clickable=!is.null(popups), pane=pane))
 			} else {
 				if (!all(symbol.shape2 %in% c(1, 16, 19, 20, 21))) {
 					warns["symbol"] <- TRUE
@@ -341,9 +340,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				}
 
 				if (fixed) {
-					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, layerId = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
 				} else {
-					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), options = pathOptions(clickable=!is.null(popups), pane=pane))
+					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, layerId = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), options = pathOptions(clickable=!is.null(popups), pane=pane))
 				}
 			}
 				
