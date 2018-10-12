@@ -1038,7 +1038,6 @@ submit_labels <- function(labels, cls, e) {
 
 	layerIds[[cls]] <- labels_all
 	assign("layerIds", layerIds, envir = e)
-	print(labels)
 	labels
 }
 
