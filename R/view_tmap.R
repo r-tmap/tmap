@@ -62,6 +62,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 	overlays <- NA
 	overlays_tiles <- character(0)
 	
+	## keep track of layerIds to prevent duplicates (duplicates are not shown in leaflet)
+	layerIds <- list(polygons = character(0),
+					 lines = character(0),
+					 points = character(0))
+	
 	# should the layer control include base layers? TRUE if |basemaps| > 1 || names/groups are specified
 	basename.specified <- FALSE
 	
@@ -167,8 +172,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				popups <- NULL
 				labels <- NULL
 			}
-
-			if (!is.null(labels)) shp$tmapID <- as.character(labels)
+			
+			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
+			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", e)
 			
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
@@ -181,7 +187,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			lf <- addPane(lf, pane)
 			
 			
-			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
+			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
 			
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
@@ -208,15 +214,15 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			
 			dashArray <- lty2dashArray(gpl$line.lty)
 			
-			if (!is.null(labels)) shp$tmapID <- labels
-			
+			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
+			shp$tmapID2 <- submit_labels(shp$tmapID, "lines", e)
+
 			group_name <- if (is.na(gpl$line.group)) shp_name else gpl$line.group
 			addOverlayGroup(group_name)
 			
 			pane <- nextPane(pane)
 			lf <- addPane(lf, pane)
-			
-			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name, popupOptions = pOptions(charwidth)) 
+			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name, popupOptions = pOptions(charwidth)) 
 
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
@@ -281,6 +287,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			
 			popups <- get_popups(gpl, type="symbol")
 			labels <- get_labels(gpl, type="symbol")
+			ids <- submit_labels(labels, "points", e)
+			
+			
 			charwidth <- attr(popups, "charwidth")
 			
 			popups <- popups[sel]
@@ -295,6 +304,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				fcol2 <- if (length(fcol)==1) fcol else fcol[decreasing]
 				popups2 <- popups[decreasing]
 				labels2 <- labels[decreasing]
+				ids2 <- ids[decreasing]
 			} else {
 				co2 <- co
 				symbol.size2 <- symbol.size
@@ -302,6 +312,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				fcol2 <- fcol
 				popups2 <- popups
 				labels2 <- labels
+				ids2 <- ids
 			}
 			
 			
@@ -332,7 +343,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 						icons$iconAnchorY <- icons$iconAnchorY * symbol.size2
 					}
 				}
-				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, label = labels2, layerId = labels2, group=group_name, icon=icons, clusterOptions=clustering, options = markerOptions(clickable=!is.null(popups), pane=pane))
+				lf <- lf %>% addMarkers(lng = co2[,1], lat=co2[,2], popup=popups2, label = labels2, layerId = ids2, group=group_name, icon=icons, clusterOptions=clustering, options = markerOptions(clickable=!is.null(popups), pane=pane))
 			} else {
 				if (!all(symbol.shape2 %in% c(1, 16, 19, 20, 21))) {
 					warns["symbol"] <- TRUE
@@ -340,9 +351,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				}
 
 				if (fixed) {
-					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, layerId = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
 				} else {
-					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, layerId = labels2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), options = pathOptions(clickable=!is.null(popups), pane=pane))
+					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), options = pathOptions(clickable=!is.null(popups), pane=pane))
 				}
 			}
 				
@@ -945,8 +956,13 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 		if (allNAs) {
 			addLegend(map, position=legend.position, group = group, colors=colNA, labels=textNA, title=title, opacity=opacity)
 		} else {
-			legvals <- if (!is.na(colNA)) factor(c(lab, NA), levels=lab) else factor(lab, levels=lab)
-			lab <- factor(lab, levels=lab)
+			if (anyDuplicated(lab)) {
+				legvals <- if (!is.na(colNA)) c(lab, NA) else lab
+			} else {
+				legvals <- if (!is.na(colNA)) factor(c(lab, NA), levels=lab) else factor(lab, levels=lab)
+				lab <- factor(lab, levels=lab)
+			}
+			
 			addLegend(map, position=legend.position, group = group,
 					  pal=colorFactor(col, domain=lab, na.color = colNA, ordered = TRUE, alpha = FALSE), values = legvals, na.label=textNA, title=title, opacity=opacity)
 		}
@@ -1007,3 +1023,23 @@ get_epsg_number <- function(proj) {
 	epsg <- as.numeric(sub(pat, "\\1", proj[grepl(pat, proj)]))
 	if (length(epsg)==0) NA else epsg
 }
+
+submit_labels <- function(labels, cls, e) {
+	
+	layerIds <- get("layerIds", envir = e)
+
+	labels_all <- layerIds[[cls]]
+	
+	pos <- length(labels_all)
+	
+	labels_all <- make.names(c(labels_all, labels), unique = TRUE)
+	
+	labels <- labels_all[(pos + 1): length(labels_all)]	
+
+	layerIds[[cls]] <- labels_all
+	assign("layerIds", layerIds, envir = e)
+	print(labels)
+	labels
+}
+
+
