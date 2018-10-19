@@ -286,7 +286,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 			}
 			
 			popups <- get_popups(gpl, type="symbol")
-			labels <- get_labels(gpl, type="symbol")
+			labels <- as.character(get_labels(gpl, type="symbol"))
 			ids <- submit_labels(labels, "points", e)
 			
 			
@@ -349,7 +349,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 					warns["symbol"] <- TRUE
 					assign("warns", warns, envir = e)
 				}
-
+				
 				if (fixed) {
 					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
 				} else {

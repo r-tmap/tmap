@@ -311,8 +311,8 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		nonemptyFacets <- unname(apply(mat, MARGIN = 1, all))	
 	}
 	
-	id <- if (is.null(g$id) || is.na(g$id)) names(data)[1] else g$id
-	
+	#id <- if (is.null(g$id) || is.na(g$id)) names(data)[1] else g$id
+	id <- if (is.null(g$id)) NA else if (is.na(g$id)) names(data)[1] else g$id
 	
 	
 	layerInfo <- list(nonemptyFacets = nonemptyFacets,

@@ -29,7 +29,12 @@ qtm(metro, symbols.size = "pop2010",
     format = "World")
 }
 
-# TIP: check out these examples in view mode, enabled with tmap_mode("view")
+# dot map
+\dontrun{
+current.mode <- tmap_mode("view")
+qtm(metro, bbox = "China")
+tmap_mode(current.mode) # restore mode
+}
 
 \dontrun{
 # without arguments, a plain interactive map is shown (the mode is set to view)
