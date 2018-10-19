@@ -36,40 +36,30 @@ addons:
       - postgresql-server-dev-9.6
 
 before_install:
-  # install postgis from source:
-  - wget http://download.osgeo.org/postgis/source/postgis-2.3.2.tar.gz
-  - (mv postgis* /tmp; cd /tmp; tar xzf postgis-2.3.2.tar.gz)
-  - (cd /tmp/postgis-2.3.2 ; ./configure; make; sudo make install)
-
-  # activate liblwgeom by:
-  - sudo ldconfig
+  # install postgis from source (required for lwgeom installation):
+  - wget http://download.osgeo.org/postgis/source/postgis-2.4.4.tar.gz
+  - (mv postgis* /tmp; cd /tmp; tar xzf postgis-2.4.4.tar.gz)
+  - (cd /tmp/postgis-2.4.4 ; ./configure; make; sudo make install)
   # create postgis databases:
   - sudo service postgresql restart
   - createdb postgis
   - psql -d postgis -c "CREATE EXTENSION postgis;"
   - psql -d postgis -c "GRANT CREATE ON DATABASE postgis TO travis"
-  - psql -d postgis -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO travis"
   - createdb empty
   - psql -d empty -c "CREATE EXTENSION postgis;"
-  - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages()'
-
-after_success:
-  - dropdb postgis
-  - createdb postgis
-  - psql -d postgis -c "CREATE EXTENSION postgis;"
-  - psql -d postgis -c "GRANT CREATE ON DATABASE postgis TO travis"
-  - R -q -e 'tic::after_success()'
-  - R -q -e 'covr::codecov(quiet = FALSE)'
-
+  - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages(); tic::before_install()'
 install: R -q -e 'tic::install()'
 script: R -q -e 'tic::script()'
+
 before_deploy: R -q -e 'tic::before_deploy()'
 deploy:
    provider: script
    script: R -q -e 'tic::deploy()'
    on:
-     branch: master
+     branch: develop
      condition:
        - $TRAVIS_PULL_REQUEST = false
        - $TRAVIS_EVENT_TYPE != cron
        - $TRAVIS_R_VERSION_STRING = release
+
+after_success: R -q -e 'tic::after_success()'
