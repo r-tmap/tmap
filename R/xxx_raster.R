@@ -1,4 +1,5 @@
-raster_colors <- function(x) {
+raster_colors <- function(x, use.colortable = FALSE) {
+	
 	n <- nrow(x)
 
 	# get alpha transparency
@@ -8,6 +9,16 @@ raster_colors <- function(x) {
 	} else {
 		a <- NULL
 	}
+
+	if (!use.colortable) {
+		if (is.null(a)) {
+			cols <- rgb(x[,1], x[,2], x[,3], maxColorValue = 255)
+		} else {
+			cols <- rgb(x[,1], x[,2], x[,3], x[,4], maxColorValue = 255)
+		}
+		return(factor(cols))
+	}
+	
 
 	storage.mode(x) <- "integer"
 	v <- x[, 1] * 1e6L + x[, 2] * 1e3L + x[, 3]

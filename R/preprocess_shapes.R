@@ -31,6 +31,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	
 	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
 
+	
 	if (is.null(shp)) return(list(shp=NULL, data=NULL, type="tiles"))
 
 	shp.unit <- gm$shape.unit
@@ -93,7 +94,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
 			
 			
-			if (is.na(is.RGB) && convert.RGB && get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+			if (is.na(is.RGB) && convert.RGB && show.messages) {
 				message("Numeric values of ", y$shp_name, " interpreted as RGB(A) values. Run tm_shape(", y$shp_name, ") + tm_raster() to visualize the data.")
 			}
 			
@@ -204,7 +205,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}, data, lvls, SIMPLIFY=FALSE))
 		
 		if (convert.RGB) {
-			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data)))
+			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data), use.colortable = FALSE))
 		}
 		
 
