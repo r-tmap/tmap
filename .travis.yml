@@ -10,27 +10,20 @@ cache:
   - ccache
 latex: false
 
-r_github_packages:
-  - r-dbi/DBI
-  - r-dbi/RPostgres
-
 addons:
   postgresql: "9.6"
   apt:
     sources:
       - sourceline: 'ppa:opencpu/jq'
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
-      - sourceline: 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main'
-        key_url: 'https://www.postgresql.org/media/keys/ACCC4CF8.asc'
     packages:
       - libprotobuf-dev
       - protobuf-compiler
-      - libv8-3.14-dev
+      - libv8-dev
       - libjq-dev
       - libudunits2-dev
       - libproj-dev
       - libgeos-dev
-      - libspatialite-dev
       - libgdal-dev
       - libjson-c-dev
       - postgresql-server-dev-9.6
@@ -56,10 +49,12 @@ deploy:
    provider: script
    script: R -q -e 'tic::deploy()'
    on:
-     branch: develop
+     branch: master
      condition:
        - $TRAVIS_PULL_REQUEST = false
        - $TRAVIS_EVENT_TYPE != cron
        - $TRAVIS_R_VERSION_STRING = release
 
-after_success: R -q -e 'tic::after_success()'
+after_success:
+  - R -q -e 'tic::after_success()'
+  - R -q -e 'covr::codecov(quiet = FALSE)'
