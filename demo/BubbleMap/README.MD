@@ -32,7 +32,7 @@ tm_shape(metro) +
 tm_format_World() + 
 tm_style_gray()
 ```
-First, two shapes that are included in the *tmap* package are loaded. The shape `World` is a `SpatialPolygonsDataFrame` of the countries of the world. The shape `metro` is a `SpatialPointsDataFrame` containing a population time series for metropolitan areas. In the second line of code, the annual growth rate percentage is calculated.
+First, two shapes that are included in the *tmap* package are loaded. The shape `World` is a simple features object of the countries of the world. The shape `metro` is a simple features object containing a population time series for metropolitan areas. In the second line of code, the annual growth rate percentage is calculated.
 
 The first group of the plot call defines the choropleth and adds the country codes using the `World` shape. A bubble map is drawn on top of that using the `metro` shape.
 
