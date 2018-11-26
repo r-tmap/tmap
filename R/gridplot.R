@@ -166,15 +166,15 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		}
 
 		if (gmeta$xlab.show) {
-			xlabPanel <- gList(cellplot(gmeta$xlaby, gmeta$xlabx, e=textGrob(gmeta$xlab.text, rot=gmeta$xlab.rotation, 
-																			 gp=gpar(cex=gmeta$xlab.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily)), name = "xlab"))
+			y <- unit(gmeta$xlab.nlines/2 + .2, "lines")
+			xlabPanel <- gList(cellplot(gmeta$xlaby, gmeta$xlabx, e=textGrob(gmeta$xlab.text, rot=gmeta$xlab.rotation, y = y, gp=gpar(cex=gmeta$xlab.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily)), name = "xlab"))
 		} else {
 			xlabPanel <- NULL
 		}
 		
 		if (gmeta$ylab.show) {
-			ylabPanel <- gList(cellplot(gmeta$ylaby, gmeta$ylabx, e=textGrob(gmeta$ylab.text, rot=gmeta$ylab.rotation, 
-																			 gp=gpar(cex=gmeta$ylab.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily)), name = "ylab"))
+			x <- unit(gmeta$ylab.nlines/2 + .2, "lines")
+			ylabPanel <- gList(cellplot(gmeta$ylaby, gmeta$ylabx, e=textGrob(gmeta$ylab.text, rot=gmeta$ylab.rotation, x = x, gp=gpar(cex=gmeta$ylab.size, fontface=gmeta$fontface, fontfamily=gmeta$fontfamily)), name = "ylab"))
 		} else {
 			ylabPanel <- NULL
 		}

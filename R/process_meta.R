@@ -319,12 +319,20 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 	if (!is.null(glab)) {
 		glab <- within(glab, {
 			if (exists("xlab.text")) {
+				xlab.nlines <- if (xlab.rotation %in% c(90, 270)) {
+					convertHeight(stringWidth(xlab.text), "lines", valueOnly = TRUE)	
+				} else number_text_lines(xlab.text)
+				if (is.na(xlab.space)) xlab.space <- ifelse(gg$grid.show && !gg$grid.labels.inside.frame, gg$grid.labels.size / xlab.size, 0)
 				xlab.size <- xlab.size * gt$scale
 				xlab.show <- TRUE
 			} else {
 				xlab.show <- FALSE
 			}
 			if (exists("ylab.text")) {
+				ylab.nlines <- if (ylab.rotation %in% c(0, 180)) {
+					convertWidth(stringWidth(ylab.text), "lines", valueOnly = TRUE)	
+				} else number_text_lines(ylab.text)
+				if (is.na(ylab.space)) ylab.space <- ifelse(gg$grid.show && !gg$grid.labels.inside.frame, gg$grid.labels.size / ylab.size, 0)
 				ylab.size <- ylab.size * gt$scale
 				ylab.show <- TRUE
 			} else {

@@ -5,9 +5,10 @@
 \title{Coordinate grid lines}
 \usage{
 tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
-  col = NA, lwd = 1, alpha = NA, labels.size = 0.6, labels.col = NA,
-  labels.rot = c(0, 0), labels.format = list(big.mark = ","),
-  labels.margin.x = 0, labels.margin.y = 0, labels.inside.frame = TRUE)
+  col = NA, lwd = 1, alpha = NA, labels.size = 0.6,
+  labels.col = NA, labels.rot = c(0, 0),
+  labels.format = list(big.mark = ","), labels.margin.x = 0,
+  labels.margin.y = 0, labels.inside.frame = TRUE)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}

@@ -9,12 +9,12 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
   interval.closure = "left", labels = NULL, midpoint = NULL,
   stretch.palette = TRUE, contrast = NA, saturation = 1,
-  interpolate = NA, colorNA = NULL, textNA = "Missing", showNA = NA,
-  colorNULL = NULL, title = NA, legend.show = TRUE,
+  interpolate = NA, colorNA = NULL, textNA = "Missing",
+  showNA = NA, colorNULL = NULL, title = NA, legend.show = TRUE,
   legend.format = list(), legend.is.portrait = TRUE,
-  legend.reverse = FALSE, legend.hist = FALSE, legend.hist.title = NA,
-  legend.z = NA, legend.hist.z = NA, group = NA,
-  auto.palette.mapping = NULL, max.categories = NULL)
+  legend.reverse = FALSE, legend.hist = FALSE,
+  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA,
+  group = NA, auto.palette.mapping = NULL, max.categories = NULL)
 
 tm_rgb(alpha = NA, saturation = 1, interpolate = TRUE, ...)
 }

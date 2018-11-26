@@ -5,9 +5,9 @@
 \title{Save tmap}
 \usage{
 tmap_save(tm = NULL, filename = NULL, width = NA, height = NA,
-  units = NA, dpi = 300, outer.margins = NA, asp = NULL, scale = NA,
-  insets_tm = NULL, insets_vp = NULL, add.titles = TRUE, verbose = NULL,
-  ...)
+  units = NA, dpi = 300, outer.margins = NA, asp = NULL,
+  scale = NA, insets_tm = NULL, insets_vp = NULL,
+  add.titles = TRUE, verbose = NULL, ...)
 }
 \arguments{
 \item{tm}{tmap object}

@@ -5,10 +5,11 @@
 \title{Quick thematic map plot}
 \usage{
 qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
-  symbols.shape = NULL, dots.col = NULL, text = NULL, text.size = 1,
-  text.col = NA, lines.lwd = NULL, lines.col = NULL, raster = NA,
-  borders = NA, by = NULL, scale = NA, title = NA, projection = NULL,
-  basemaps = NA, overlays = NA, style = NULL, format = NULL, ...)
+  symbols.shape = NULL, dots.col = NULL, text = NULL,
+  text.size = 1, text.col = NA, lines.lwd = NULL, lines.col = NULL,
+  raster = NA, borders = NA, by = NULL, scale = NA, title = NA,
+  projection = NULL, bbox = NULL, basemaps = NA, overlays = NA,
+  style = NULL, format = NULL, ...)
 }
 \arguments{
 \item{shp}{One of
@@ -49,6 +50,8 @@ qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
 \item{title}{main title. For legend titles, use \code{X.style}, where X is the layer name (see \code{...}).}
 
 \item{projection}{Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.}
+
+\item{bbox}{bounding box. Arugment passed on to \code{\link{tm_shape}}}
 
 \item{basemaps}{name(s) of the provider or an URL of a tiled basemap. It is a shortcut to \code{\link{tm_basemap}}. Set to \code{NULL} to disable basemaps. By default, it is set to the tmap option \code{basemaps}.}
 
@@ -103,7 +106,12 @@ qtm(metro, symbols.size = "pop2010",
     format = "World")
 }
 
-# TIP: check out these examples in view mode, enabled with tmap_mode("view")
+# dot map
+\dontrun{
+current.mode <- tmap_mode("view")
+qtm(metro, bbox = "China")
+tmap_mode(current.mode) # restore mode
+}
 
 \dontrun{
 # without arguments, a plain interactive map is shown (the mode is set to view)

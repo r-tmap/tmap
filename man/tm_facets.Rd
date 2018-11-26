@@ -6,16 +6,19 @@
 \usage{
 tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
   nrow = NA, free.coords = !as.layers, drop.units = free.coords ||
-  as.layers, drop.empty.facets = TRUE, drop.NA.facets = FALSE, sync = NA,
-  showNA = NA, textNA = "Missing", free.scales = is.null(by) &&
-  is.null(along), free.scales.fill = free.scales,
+  as.layers, drop.empty.facets = TRUE, drop.NA.facets = FALSE,
+  sync = NA, showNA = NA, textNA = "Missing",
+  free.scales = is.null(by) && is.null(along),
+  free.scales.fill = free.scales,
   free.scales.symbol.size = free.scales,
   free.scales.symbol.col = free.scales,
   free.scales.symbol.shape = free.scales,
-  free.scales.text.size = free.scales, free.scales.text.col = free.scales,
-  free.scales.line.col = free.scales, free.scales.line.lwd = free.scales,
-  free.scales.raster = free.scales, inside.original.bbox = FALSE,
-  scale.factor = 2, drop.shapes = drop.units)
+  free.scales.text.size = free.scales,
+  free.scales.text.col = free.scales,
+  free.scales.line.col = free.scales,
+  free.scales.line.lwd = free.scales, free.scales.raster = free.scales,
+  inside.original.bbox = FALSE, scale.factor = 2,
+  drop.shapes = drop.units)
 }
 \arguments{
 \item{by}{data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).}

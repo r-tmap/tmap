@@ -4,9 +4,9 @@
 \alias{tm_scale_bar}
 \title{Scale bar}
 \usage{
-tm_scale_bar(breaks = NULL, width = NA, size = 0.5, text.color = NA,
-  color.dark = "black", color.light = "white", lwd = 1, position = NA,
-  just = NA)
+tm_scale_bar(breaks = NULL, width = NA, size = 0.5,
+  text.color = NA, color.dark = "black", color.light = "white",
+  lwd = 1, position = NA, just = NA)
 }
 \arguments{
 \item{breaks}{breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar. Not available for view mode.}

@@ -5,9 +5,9 @@
 \alias{tm_ylab}
 \title{Axis labels}
 \usage{
-tm_xlab(text, size = 0.8, rotation = 0)
+tm_xlab(text, size = 0.8, rotation = 0, space = NA)
 
-tm_ylab(text, size = 0.8, rotation = 90)
+tm_ylab(text, size = 0.8, rotation = 90, space = NA)
 }
 \arguments{
 \item{text}{text for the axis}
@@ -15,6 +15,8 @@ tm_ylab(text, size = 0.8, rotation = 90)
 \item{size}{fontsize, by default 0.8}
 
 \item{rotation}{rotation angle in degrees. By default, 0 for the x axis label and 90 for the y axis label.}
+
+\item{space}{space between labels and the map in numbers of line heights. By default, it is 0, unless grid labels are plotted outside the frame (i.e., \code{\link{tm_grid}} is called with \code{labels.inside.frame = FALSE}). In that case, \code{space} corresponds to the height of one line, taking the grid label size into account.}
 }
 \description{
 Add axis labels

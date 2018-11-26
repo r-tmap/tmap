@@ -8,21 +8,23 @@
 \title{Layout of cartographic maps}
 \usage{
 tm_layout(title, scale, title.size, bg.color, aes.color, aes.palette,
-  attr.color, sepia.intensity, saturation, frame, frame.lwd, frame.double.line,
-  asp, outer.margins, inner.margins, between.margin, outer.bg.color, fontface,
-  fontfamily, compass.type, earth.boundary, earth.boundary.color,
-  earth.boundary.lwd, earth.datum, space.color, legend.show, legend.only,
-  legend.outside, legend.outside.position, legend.outside.size, legend.position,
-  legend.stack, legend.just, legend.width, legend.height, legend.hist.height,
-  legend.hist.width, legend.title.size, legend.text.size, legend.hist.size,
-  legend.format, legend.frame, legend.frame.lwd, legend.text.color,
-  legend.bg.color, legend.bg.alpha, legend.hist.bg.color, legend.hist.bg.alpha,
+  attr.color, sepia.intensity, saturation, frame, frame.lwd,
+  frame.double.line, asp, outer.margins, inner.margins, between.margin,
+  outer.bg.color, fontface, fontfamily, compass.type, earth.boundary,
+  earth.boundary.color, earth.boundary.lwd, earth.datum, space.color,
+  legend.show, legend.only, legend.outside, legend.outside.position,
+  legend.outside.size, legend.position, legend.stack, legend.just,
+  legend.width, legend.height, legend.hist.height, legend.hist.width,
+  legend.title.size, legend.text.size, legend.hist.size, legend.format,
+  legend.frame, legend.frame.lwd, legend.text.color, legend.bg.color,
+  legend.bg.alpha, legend.hist.bg.color, legend.hist.bg.alpha,
   title.snap.to.legend, title.position, title.color, title.bg.color,
-  title.bg.alpha, panel.show, panel.labels, panel.label.size, panel.label.color,
-  panel.label.bg.color, panel.label.height, panel.label.rot, main.title,
-  main.title.size, main.title.color, main.title.position, attr.outside,
-  attr.outside.position, attr.outside.size, attr.position, attr.just,
-  design.mode, basemaps, basemaps.alpha, bg.overlay, bg.overlay.alpha)
+  title.bg.alpha, panel.show, panel.labels, panel.label.size,
+  panel.label.color, panel.label.bg.color, panel.label.height,
+  panel.label.rot, main.title, main.title.size, main.title.color,
+  main.title.position, attr.outside, attr.outside.position,
+  attr.outside.size, attr.position, attr.just, design.mode, basemaps,
+  basemaps.alpha, bg.overlay, bg.overlay.alpha)
 
 tm_legend(...)
 

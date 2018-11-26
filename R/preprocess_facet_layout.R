@@ -24,14 +24,14 @@ preprocess_facet_layout <- function(gm, external_legend, dh, dw) {
 	legH <- convertHeight(unit(legmary, "npc"), "inch", valueOnly=TRUE)
 	
 	if (gm$xlab.show) {
-		nlines <- number_text_lines(gm$xlab.text)
+		nlines <- gm$xlab.nlines + gm$xlab.space
 		xlabHin <- convertHeight(unit(gm$xlab.size, "lines")*(nlines*1.25), "inch", valueOnly=TRUE)
 	} else {
 		xlabHin <- 0
 	}
 	
 	if (gm$ylab.show) {
-		nlines <- number_text_lines(gm$ylab.text)
+		nlines <- gm$ylab.nlines + gm$ylab.space
 		ylabWin <- convertHeight(unit(gm$ylab.size, "lines")*(nlines*1.25), "inch", valueOnly=TRUE)
 	} else {
 		ylabWin <- 0

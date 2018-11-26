@@ -253,13 +253,15 @@ tm_compass <- function(north=0,
 #' @param text text for the axis
 #' @param size fontsize, by default 0.8
 #' @param rotation rotation angle in degrees. By default, 0 for the x axis label and 90 for the y axis label.
+#' @param space space between labels and the map in numbers of line heights. By default, it is 0, unless grid labels are plotted outside the frame (i.e., \code{\link{tm_grid}} is called with \code{labels.inside.frame = FALSE}). In that case, \code{space} corresponds to the height of one line, taking the grid label size into account.
 #' @export
 #' @name tm_xlab
 #' @rdname axis_labels
 #' @example  ./examples/tm_lab.R
 tm_xlab <- function(text,
 					size=.8,
-					rotation=0) {
+					rotation=0,
+					space = NA) {
 	g <- list(tm_xlab=as.list(environment()))
 	names(g$tm_xlab) <- paste("xlab", names(g$tm_xlab), sep=".")
 	class(g) <- "tmap"
@@ -272,7 +274,8 @@ tm_xlab <- function(text,
 #' @export
 tm_ylab <- function(text,
 					size=.8,
-					rotation=90) {
+					rotation=90,
+					space = NA) {
 	g <- list(tm_ylab=as.list(environment()))
 	names(g$tm_ylab) <- paste("ylab", names(g$tm_ylab), sep=".")
 	class(g) <- "tmap"

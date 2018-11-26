@@ -6,21 +6,24 @@
 \alias{tm_polygons}
 \title{Draw polygons}
 \usage{
-tm_fill(col = NA, alpha = NA, palette = NULL, convert2density = FALSE,
-  area = NULL, n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
-  breaks = NULL, interval.closure = "left", labels = NULL,
-  midpoint = NULL, stretch.palette = TRUE, contrast = NA, colorNA = NA,
+tm_fill(col = NA, alpha = NA, palette = NULL,
+  convert2density = FALSE, area = NULL, n = 5,
+  style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
+  interval.closure = "left", labels = NULL, midpoint = NULL,
+  stretch.palette = TRUE, contrast = NA, colorNA = NA,
   textNA = "Missing", showNA = NA, colorNULL = NA, thres.poly = 0,
   title = NA, legend.show = TRUE, legend.format = list(),
-  legend.is.portrait = TRUE, legend.reverse = FALSE, legend.hist = FALSE,
-  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA, id = NA,
-  popup.vars = NA, popup.format = list(), group = NA,
-  auto.palette.mapping = NULL, max.categories = NULL, ...)
+  legend.is.portrait = TRUE, legend.reverse = FALSE,
+  legend.hist = FALSE, legend.hist.title = NA, legend.z = NA,
+  legend.hist.z = NA, id = NA, popup.vars = NA,
+  popup.format = list(), group = NA, auto.palette.mapping = NULL,
+  max.categories = NULL, ...)
 
-tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA, group = NA)
+tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA,
+  group = NA)
 
-tm_polygons(col = NA, alpha = NA, border.col = NA, border.alpha = NA,
-  group = NA, ...)
+tm_polygons(col = NA, alpha = NA, border.col = NA,
+  border.alpha = NA, group = NA, ...)
 }
 \arguments{
 \item{col}{For \code{tm_fill}, it is one of

@@ -20,7 +20,6 @@
 \alias{tm_format_World}
 \alias{tm_format_World_wide}
 \alias{tm_format_Europe}
-\alias{style_catalog}
 \alias{tm_format_Europe2}
 \alias{tm_format_Europe_wide}
 \alias{tm_format_NLD}
