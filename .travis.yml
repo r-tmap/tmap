@@ -2,6 +2,7 @@ language: r
 
 r:
   - release
+  - devel
 
 sudo: required
 dist: trusty
@@ -26,6 +27,7 @@ addons:
       - libgeos-dev
       - libgdal-dev
       - libjson-c-dev
+      - netcdf-bin # for stars netcdf dep
       - postgresql-server-dev-9.6
 
 before_install:
