@@ -107,6 +107,8 @@ get_raster_data <- function(shp, show.warnings = TRUE) {
 		} else {
 			nms <- shp@data@names
 			if (nms[1]=="") nms <- colnames(shp@data@values)
+			if (length(nms)!= nlayers(shp)) nms <- paste0("V", 1L:nlayers(shp))
+			
 			
 			nl <- length(nms)
 			
