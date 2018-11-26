@@ -27,6 +27,7 @@ addons:
       - libgeos-dev
       - libgdal-dev
       - libjson-c-dev
+      - libnetcdf-dev
       - netcdf-bin # for stars netcdf dep
       - postgresql-server-dev-9.6
 
