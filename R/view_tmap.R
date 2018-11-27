@@ -956,15 +956,18 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 		if (allNAs) {
 			addLegend(map, position=legend.position, group = group, colors=colNA, labels=textNA, title=title, opacity=opacity)
 		} else {
-			if (anyDuplicated(lab)) {
-				legvals <- if (!is.na(colNA)) c(lab, NA) else lab
+			if (!is.na(colNA)) {
+				legvals <- c(lab, textNA)
+				col <- c(col, colNA)
 			} else {
-				legvals <- if (!is.na(colNA)) factor(c(lab, NA), levels=lab) else factor(lab, levels=lab)
-				lab <- factor(lab, levels=lab)
+				legvals <- lab
 			}
+			addLegend(map, position=legend.position,
+					  colors = col,
+					  labels = legvals,
+					  title=title,
+					  opacity=opacity)
 			
-			addLegend(map, position=legend.position, group = group,
-					  pal=colorFactor(col, domain=lab, na.color = colNA, ordered = TRUE, alpha = FALSE), values = legvals, na.label=textNA, title=title, opacity=opacity)
 		}
 	}
 }
