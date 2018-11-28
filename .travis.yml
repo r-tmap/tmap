@@ -1,35 +1,30 @@
 language: r
-
-r:
-  - release
-  - devel
-
 sudo: required
 dist: trusty
-cache:
-  - packages
-  - ccache
-latex: false
+cache: packages
+latex: true
 
+# we cannot install lwgeom via apt as it requires v2.4.0 but only v2.1.2 is in the repos
 addons:
   postgresql: "9.6"
   apt:
     sources:
-      - sourceline: 'ppa:opencpu/jq'
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
     packages:
       - libprotobuf-dev
       - protobuf-compiler
       - libv8-dev
       - libjq-dev
-      - libudunits2-dev
       - libproj-dev
       - libgeos-dev
       - libgdal-dev
-      - libjson-c-dev
-      - libnetcdf-dev
+      - libudunits2-dev
       - netcdf-bin # for stars netcdf dep
-      - postgresql-server-dev-9.6
+      - postgresql-server-dev-9.6 # required for postgis installation
+
+r:
+  - release
+  - devel
 
 before_install:
   # install postgis from source (required for lwgeom installation):
@@ -52,12 +47,12 @@ deploy:
    provider: script
    script: R -q -e 'tic::deploy()'
    on:
-     branch: master
+     branch: develop
      condition:
        - $TRAVIS_PULL_REQUEST = false
        - $TRAVIS_EVENT_TYPE != cron
        - $TRAVIS_R_VERSION_STRING = release
 
-after_success:
+after_success: 
   - R -q -e 'tic::after_success()'
   - R -q -e 'covr::codecov(quiet = FALSE)'

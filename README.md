@@ -97,7 +97,7 @@ Vignettes
 Tutorials
 -----
 
-[Demo: tmap in RMarkdown](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.R)
+[Demo: tmap in RMarkdown](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd)
 
 [Demo: tmap in Shiny](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/shiny_tmap.R)
 
