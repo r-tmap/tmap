@@ -33,7 +33,6 @@ addons:
       - protobuf-compiler
       - libssl-dev
       - libcairo2-dev
-      - liblwgeom-dev
 
 before_install:
   - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages()'
