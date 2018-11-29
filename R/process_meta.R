@@ -1,6 +1,7 @@
 process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive) {
 	attr.color <- aes.colors <- aes.color <- pc <- NULL
 	xlab.rotation <- xlab.text <- ylab.rotation <- ylab.text <- NULL
+	fontface <- fontfamily <- NULL
 	
 	credit.show <- !is.null(gc)
 	logo.show <- !is.null(gl)
@@ -199,19 +200,19 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 		# set font face and family
 		
 		if (is.null(legend.title.fontface)) legend.title.fontface <- fontface
-		if (is.null(legend.title.fontfamily)) legend.title.fontfamily <- fontface
+		if (is.null(legend.title.fontfamily)) legend.title.fontfamily <- fontfamily
 
 		if (is.null(legend.text.fontface)) legend.text.fontface <- fontface
-		if (is.null(legend.text.fontfamily)) legend.text.fontfamily <- fontface
+		if (is.null(legend.text.fontfamily)) legend.text.fontfamily <- fontfamily
 		
 		if (is.null(title.fontface)) title.fontface <- fontface
-		if (is.null(title.fontfamily)) title.fontfamily <- fontface
+		if (is.null(title.fontfamily)) title.fontfamily <- fontfamily
 		
 		if (is.null(main.title.fontface)) main.title.fontface <- fontface
-		if (is.null(main.title.fontfamily)) main.title.fontfamily <- fontface
+		if (is.null(main.title.fontfamily)) main.title.fontfamily <- fontfamily
 		
 		if (is.null(panel.label.fontface)) panel.label.fontface <- fontface
-		if (is.null(panel.label.fontfamily)) panel.label.fontfamily <- fontface
+		if (is.null(panel.label.fontfamily)) panel.label.fontfamily <- fontfamily
 		
 		
 		## overrule margins if interactive

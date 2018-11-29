@@ -1,8 +1,8 @@
 add_package_checks(error_on = "warning")
 
 get_stage("install") %>%
-	add_step(step_install_cran("lwgeom", configure.args="--without-liblwgeom")) %>% 
-	add_step(step_install_github("mtennekes/tmaptools"))
+	add_step(step_install_cran("lwgeom", configure.args="--without-liblwgeom"))
+# %>% add_step(step_install_github("mtennekes/tmaptools"))
 
 ###
 # deploy pkgdowm site
