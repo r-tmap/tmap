@@ -76,7 +76,7 @@ legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	newsize <- min(size, 5/(lineHeight*nlines*6), (1-2*mx)/w)
 	
 	
-	list(textGrob(title, x=mx, y=6/12 , just=c("left", "center"), gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily)), legWidth=2*mx+w*newsize)
+	list(textGrob(title, x=mx, y=6/12 , just=c("left", "center"), gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$legend.title.fontface, fontfamily=gt$legend.title.fontfamily)), legWidth=2*mx+w*newsize)
 }
 
 
@@ -271,7 +271,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			}
 			
 			grobLegendText <- textGrob(legend.labels, x=x2,
-									   y=ys, just=just, gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+									   y=ys, just=just, gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$legend.text.fontface, fontfamily=gt$legend.text.fontfamily))
 		} else {
 			splits <- split_legend_labels(legend.labels, brks)
 			
@@ -293,7 +293,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			
 			y2 <- rep(ys, each=3)
 			grobLegendText <- textGrob(legend.labels2, x=x2,
-									   y=y2, just=just, gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+									   y=y2, just=just, gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$legend.text.fontface, fontfamily=gt$legend.text.fontfamily))
 		}
 		
 		legWidth <- mx*4+wsmax+max(wstext*newsize)
@@ -556,7 +556,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		}
 		
 		grobLegendText <- textGrob(legend.labels, x=x2,
-								   y=.5*my+lineHeight*legend.text.size, just=just, gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
+								   y=.5*my+lineHeight*legend.text.size, just=just, gp=gpar(col=gt$legend.text.color, cex=legend.text.size, fontface=gt$legend.text.fontface, fontfamily=gt$legend.text.fontfamily))
 		
 		legWidth <- mx*2+xs[length(xs)]+max(xtraWidth, labelsws[nitems]*legend.text.size/2)
 		

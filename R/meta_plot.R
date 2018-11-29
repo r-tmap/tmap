@@ -259,7 +259,6 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 		}
 	} else title.position <- gt$title.position
 	if (!snap && any(is.na(title.position))) stop("Wrong position argument for title", call. = FALSE)
-	
 	grobTitle <- if (snap || !nonempty_text(gt$title)) {
 		NULL
 	} else {
@@ -269,7 +268,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 			rectGrob(x = title.position[1]-.5*mx, y = title.position[2], width=titleWidth+mx, just=c("left", "center"), height=titleHeight, gp=gpar(col=NA, fill=gt$title.bg.col))
 		} else {
 			NULL
-		}, textGrob(label=gt$title, x = title.position[1], y = title.position[2], just=c("left", "center"), gp=gpar(col=gt$title.color, cex=title.size, fontface=gt$fontface, fontfamily=gt$fontfamily))))
+		}, textGrob(label=gt$title, x = title.position[1], y = title.position[2], just=c("left", "center"), gp=gpar(col=gt$title.color, cex=title.size, fontface=gt$title.fontface, fontfamily=gt$title.fontfamily))))
 		
 	}
 

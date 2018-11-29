@@ -31,6 +31,18 @@ tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
 tm_style("natural", earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
 
+# Example to illustrate the type of titles
+tm_shape(World) +
+	tm_polygons(c("income_grp", "economy"), title = c("Legend Title 1", "Legend Title 2")) +
+	tm_layout(main.title = "Main Title",
+		main.title.position = "center",
+		main.title.color = "blue",
+		title = c("Title 1", "Title 2"),
+		title.color = "red",
+		panel.labels = c("Panel Label 1", "Panel Label 2"),
+		panel.label.color = "purple",
+		legend.text.color = "brown")
+
 \dontrun{
 # global option tmap.style demo
 	

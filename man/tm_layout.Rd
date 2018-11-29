@@ -15,16 +15,20 @@ tm_layout(title, scale, title.size, bg.color, aes.color, aes.palette,
   legend.show, legend.only, legend.outside, legend.outside.position,
   legend.outside.size, legend.position, legend.stack, legend.just,
   legend.width, legend.height, legend.hist.height, legend.hist.width,
-  legend.title.size, legend.text.size, legend.hist.size, legend.format,
-  legend.frame, legend.frame.lwd, legend.text.color, legend.bg.color,
-  legend.bg.alpha, legend.hist.bg.color, legend.hist.bg.alpha,
-  title.snap.to.legend, title.position, title.color, title.bg.color,
-  title.bg.alpha, panel.show, panel.labels, panel.label.size,
-  panel.label.color, panel.label.bg.color, panel.label.height,
+  legend.title.size, legend.title.fontface, legend.title.fontfamily,
+  legend.text.size, legend.text.fontface, legend.text.fontfamily,
+  legend.hist.size, legend.format, legend.frame, legend.frame.lwd,
+  legend.text.color, legend.bg.color, legend.bg.alpha,
+  legend.hist.bg.color, legend.hist.bg.alpha, title.snap.to.legend,
+  title.position, title.color, title.fontface, title.fontfamily,
+  title.bg.color, title.bg.alpha, panel.show, panel.labels,
+  panel.label.size, panel.label.color, panel.label.fontface,
+  panel.label.fontfamily, panel.label.bg.color, panel.label.height,
   panel.label.rot, main.title, main.title.size, main.title.color,
-  main.title.position, attr.outside, attr.outside.position,
-  attr.outside.size, attr.position, attr.just, design.mode, basemaps,
-  basemaps.alpha, bg.overlay, bg.overlay.alpha)
+  main.title.fontface, main.title.fontfamily, main.title.position,
+  attr.outside, attr.outside.position, attr.outside.size, attr.position,
+  attr.just, design.mode, basemaps, basemaps.alpha, bg.overlay,
+  bg.overlay.alpha)
 
 tm_legend(...)
 
@@ -67,9 +71,9 @@ tm_format(format, ...)
 
 \item{outer.bg.color}{Background color outside the frame.}
 
-\item{fontface}{font face of all text in the map.}
+\item{fontface}{global font face for the text in the map. It can also be set locally per element (see e.g. \code{title.fontface}).}
 
-\item{fontfamily}{font family of the text labels.}
+\item{fontfamily}{global font family for the text in the map. It can also be set locally per  (see e.g. \code{title.fontfamily}).}
 
 \item{compass.type}{type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.}
 
@@ -109,7 +113,15 @@ tm_format(format, ...)
 
 \item{legend.title.size}{Relative font size for the legend title}
 
+\item{legend.title.fontface}{font face for the legend title. By default, set to the global parameter \code{fontface}.}
+
+\item{legend.title.fontfamily}{font family for the legend title. By default, set to the global parameter \code{fontfamily}.}
+
 \item{legend.text.size}{Relative font size for the legend text elements}
+
+\item{legend.text.fontface}{font face for the legend text labels. By default, set to the global parameter \code{fontface}.}
+
+\item{legend.text.fontfamily}{font family for the legend text labels. By default, set to the global parameter \code{fontfamily}.}
 
 \item{legend.hist.size}{Relative font size for the choropleth histogram}
 
@@ -150,6 +162,10 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{title.color}{color of the title}
 
+\item{title.fontface}{font face for the title. By default, set to the global parameter \code{fontface}.}
+
+\item{title.fontfamily}{font family for the title. By default, set to the global parameter \code{fontfamily}.}
+
 \item{title.bg.color}{background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}. By default, it is \code{TRUE} if \code{legend.frame} is \code{TRUE} or a color.}
 
 \item{title.bg.alpha}{Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{title.bg.color} is used (normally 1).}
@@ -162,6 +178,10 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{panel.label.color}{Font color of the panel labels}
 
+\item{panel.label.fontface}{font face for the panel labels. By default, set to the global parameter \code{fontface}.}
+
+\item{panel.label.fontfamily}{font family for the panel labels. By default, set to the global parameter \code{fontfamily}.}
+
 \item{panel.label.bg.color}{Background color of the panel labels}
 
 \item{panel.label.height}{Height of the labels in number of text line heights.}
@@ -173,6 +193,10 @@ By default the title is placed on top of the legend (determined by \code{legend.
 \item{main.title.size}{Size of the main title}
 
 \item{main.title.color}{Color of the main title}
+
+\item{main.title.fontface}{font face for the main title. By default, set to the global parameter \code{fontface}.}
+
+\item{main.title.fontfamily}{font family for the main title. By default, set to the global parameter \code{fontfamily}.}
 
 \item{main.title.position}{Position of the main title. Either a numeric value between 0 (left) and 1 (right), or a character value: \code{"left"}, \code{"center"}, or \code{"right"}.}
 
@@ -261,6 +285,18 @@ tm_shape(World, projection="robin") +
 tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
 tm_style("natural", earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
+
+# Example to illustrate the type of titles
+tm_shape(World) +
+	tm_polygons(c("income_grp", "economy"), title = c("Legend Title 1", "Legend Title 2")) +
+	tm_layout(main.title = "Main Title",
+		main.title.position = "center",
+		main.title.color = "blue",
+		title = c("Title 1", "Title 2"),
+		title.color = "red",
+		panel.labels = c("Panel Label 1", "Panel Label 2"),
+		panel.label.color = "purple",
+		legend.text.color = "brown")
 
 \dontrun{
 # global option tmap.style demo

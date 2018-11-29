@@ -43,8 +43,8 @@
 #' @param inner.margins Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.
 #' @param between.margin Margin between facets (small multiples) in number of text line heights. The height of a text line is automatically scaled down based on the number of facets. 
 #' @param outer.bg.color Background color outside the frame.
-#' @param fontface font face of all text in the map.
-#' @param fontfamily font family of the text labels.
+#' @param fontface global font face for the text in the map. It can also be set locally per element (see e.g. \code{title.fontface}).
+#' @param fontfamily global font family for the text in the map. It can also be set locally per  (see e.g. \code{title.fontfamily}).
 #' @param compass.type type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.
 #' @param earth.boundary Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).
 #' @param earth.boundary.color Color of the earth boundary.
@@ -64,7 +64,11 @@
 #' @param legend.hist.height height of the histogram. This height is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
 #' @param legend.hist.width width of the histogram. By default, it is equal to the \code{legend.width}.
 #' @param legend.title.size Relative font size for the legend title
+#' @param legend.title.fontface font face for the legend title. By default, set to the global parameter \code{fontface}.
+#' @param legend.title.fontfamily font family for the legend title. By default, set to the global parameter \code{fontfamily}.
 #' @param legend.text.size Relative font size for the legend text elements
+#' @param legend.text.fontface font face for the legend text labels. By default, set to the global parameter \code{fontface}.
+#' @param legend.text.fontfamily font family for the legend text labels. By default, set to the global parameter \code{fontfamily}.
 #' @param legend.hist.size Relative font size for the choropleth histogram
 #' @param legend.format list of formatting options for the legend numbers. Only applicable for layer functions (such as \code{\link{tm_fill}}) where \code{labels} is undefined. Parameters are:
 #' \describe{
@@ -90,6 +94,8 @@
 #' @param title.position Position of the title. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
 #' By default the title is placed on top of the legend (determined by \code{legend.position}).
 #' @param title.color color of the title
+#' @param title.fontface font face for the title. By default, set to the global parameter \code{fontface}.
+#' @param title.fontfamily font family for the title. By default, set to the global parameter \code{fontfamily}.
 #' @param legend.frame either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.
 #' @param legend.frame.lwd line width of the legend frame (applicable if \code{legend.frame} is \code{TRUE} or a color)
 #' @param title.bg.color background color of the title. Use \code{TRUE} to match with the overall background color \code{bg.color}. By default, it is \code{TRUE} if \code{legend.frame} is \code{TRUE} or a color.
@@ -97,12 +103,16 @@
 #' @param panel.show Logical that determines if the map(s) are shown as panels. If \code{TRUE}, the title will be placed in the panel header instead of inside the map. By default, it is \code{TRUE} when small multiples are created with the \code{by} variable. (See \code{\link{tm_facets}}) 
 #' @param panel.labels Panel labels. Only applicable when \code{panel.show} is \code{TRUE}. For cross tables facets, it should be a list containing the row names in the first, and column names in the second item.
 #' @param panel.label.size Relative font size of the panel labels
+#' @param panel.label.fontface font face for the panel labels. By default, set to the global parameter \code{fontface}.
+#' @param panel.label.fontfamily font family for the panel labels. By default, set to the global parameter \code{fontfamily}.
 #' @param panel.label.color Font color of the panel labels
 #' @param panel.label.bg.color Background color of the panel labels
 #' @param panel.label.height Height of the labels in number of text line heights.
 #' @param panel.label.rot Rotation angles of the panel labels. Vector of two values: the first is the rotation angle (in degrees) of the row panels, which are only used in cross-table facets (when \code{\link{tm_facets}}'s \code{by} is specified with two variables). The second is the rotation angle of the column panels.
 #' @param main.title Title that is printed above the map (or small multiples). When multiple pages are generated (see \code{along} argument of \code{\link{tm_facets}}), a vector can be provided. By default, the main title is only printed when this \code{along} argument is specified.
 #' @param main.title.size Size of the main title
+#' @param main.title.fontface font face for the main title. By default, set to the global parameter \code{fontface}.
+#' @param main.title.fontfamily font family for the main title. By default, set to the global parameter \code{fontfamily}.
 #' @param main.title.color Color of the main title
 #' @param main.title.position Position of the main title. Either a numeric value between 0 (left) and 1 (right), or a character value: \code{"left"}, \code{"center"}, or \code{"right"}.
 #' @param attr.outside Logical that determines whether the attributes are plot outside of the map/facets.
@@ -158,7 +168,11 @@ tm_layout <- function(title,
 					  legend.hist.height,
 					  legend.hist.width,
 					  legend.title.size,
+					  legend.title.fontface,
+					  legend.title.fontfamily,
 					  legend.text.size,
+					  legend.text.fontface,
+					  legend.text.fontfamily,
 					  legend.hist.size,
 					  legend.format,
 					  legend.frame,
@@ -171,18 +185,24 @@ tm_layout <- function(title,
 					  title.snap.to.legend,
 					  title.position,
 					  title.color,
+					  title.fontface,
+					  title.fontfamily,
 					  title.bg.color,
 					  title.bg.alpha,
 					  panel.show,
 					  panel.labels,
 					  panel.label.size,
 					  panel.label.color,
+					  panel.label.fontface,
+					  panel.label.fontfamily,
 					  panel.label.bg.color,
 					  panel.label.height,
 					  panel.label.rot,
 					  main.title,
 					  main.title.size,
 					  main.title.color,
+					  main.title.fontface,
+					  main.title.fontfamily,
 					  main.title.position,
 					  attr.outside,
 					  attr.outside.position,

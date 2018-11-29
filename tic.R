@@ -13,5 +13,5 @@ if (Sys.getenv("id_rsa") != "") {
 		add_step(step_setup_ssh())
 	
 	get_stage("deploy") %>%
-		add_step(step_build_pkgdown())
+		add_step(step_build_pkgdown(document = FALSE))
 }
