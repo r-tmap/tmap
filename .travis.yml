@@ -9,9 +9,7 @@ deploy.skip_cleanup: true
 
 sudo: required
 dist: trusty
-cache:
-  - packages
-  - ccache
+cache: false
 latex: false
 
 r_github_packages:
