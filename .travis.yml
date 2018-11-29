@@ -15,61 +15,30 @@ cache:
 latex: false
 
 r_github_packages:
-  - r-dbi/DBI
-  - r-dbi/RPostgres
   - r-lib/covr
-  - r-spatial/stars
 
 addons:
-  postgresql: "9.6"
   apt:
     sources:
       - sourceline: 'ppa:opencpu/jq'
       - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
-      - sourceline: 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main'
-        key_url: 'https://www.postgresql.org/media/keys/ACCC4CF8.asc'
     packages:
-      - libprotobuf-dev
+      - libgdal-dev 
+      - libgeos-dev 
+      - libproj-dev 
+      - libudunits2-dev 
+      - libv8-dev 
+      - libjq-dev 
+      - libprotobuf-dev 
       - protobuf-compiler
-      - libv8-3.14-dev
-      - libjq-dev
-      - libudunits2-dev
-      - libproj-dev
-      - libgeos-dev
-      - libspatialite-dev
-      - libgdal-dev
-      - libjson-c-dev
-      - libnetcdf-dev
-      - netcdf-bin
-      - postgresql-server-dev-9.6
+      - libssl-dev
+      - libcairo2-dev
+      - liblwgeom-dev
 
 before_install:
-  # install postgis from source:
-  - wget http://download.osgeo.org/postgis/source/postgis-2.3.2.tar.gz
-  - (mv postgis* /tmp; cd /tmp; tar xzf postgis-2.3.2.tar.gz)
-  - (cd /tmp/postgis-2.3.2 ; ./configure; make; sudo make install)
-
-  # activate liblwgeom by:
-  - sudo ldconfig
-  # create postgis databases:
-  - sudo service postgresql restart
-  - createdb postgis
-  - psql -d postgis -c "CREATE EXTENSION postgis;"
-  - psql -d postgis -c "GRANT CREATE ON DATABASE postgis TO travis"
-  - psql -d postgis -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO travis"
-  - createdb empty
-  - psql -d empty -c "CREATE EXTENSION postgis;"
   - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages()'
 
 after_success:
-  - dropdb postgis
-  - dropdb empty
-  - createdb postgis
-  - psql -d postgis -c "CREATE EXTENSION postgis;"
-  - psql -d postgis -c "GRANT CREATE ON DATABASE postgis TO travis"
-  - psql -d postgis -c "GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO travis"
-  - createdb empty
-  - psql -d empty -c "CREATE EXTENSION postgis;"
   - R -q -e 'covr::codecov(quiet = FALSE)'
 
 install: R -q -e 'tic::install()'
