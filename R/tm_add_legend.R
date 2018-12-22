@@ -16,7 +16,7 @@
 #' @param border.alpha legend border alpha (if \code{type} is \code{"fill"} or \code{"symbol"})
 #' @param title legend title
 #' @param is.portrait is legend portrait (\code{TRUE}) or landscape (\code{FALSE})?
-#' @param legend.format options to format the legend, see \code{\link{tm_layout}}
+#' @param legend.format options to format the legend, see \code{\link{tm_symbols}} (the description of the argument \code{legend.format}) for details. Note that many of these arguments are not applicable for \code{tm_add_legend} since \code{labels} should be a character vector. However, some options could still be handy, e.g. \code{list(text.align = "right")}.
 #' @param reverse are the legend items reversed (by default \code{FALSE})?
 #' @param z legend stack position
 #' @export

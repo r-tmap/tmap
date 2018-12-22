@@ -40,7 +40,7 @@ tm_add_legend(type = c("fill", "symbol", "text", "line"),
 
 \item{is.portrait}{is legend portrait (\code{TRUE}) or landscape (\code{FALSE})?}
 
-\item{legend.format}{options to format the legend, see \code{\link{tm_layout}}}
+\item{legend.format}{options to format the legend, see \code{\link{tm_symbols}} (the description of the argument \code{legend.format}) for details. Note that many of these arguments are not applicable for \code{tm_add_legend} since \code{labels} should be a character vector. However, some options could still be handy, e.g. \code{list(text.align = "right")}.}
 
 \item{reverse}{are the legend items reversed (by default \code{FALSE})?}
 

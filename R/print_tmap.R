@@ -39,7 +39,12 @@ print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 }
 
 #' @rdname print.tmap
-#' @export
+#' @rawNamespace
+#' if(getRversion() >= "3.6.0") {
+#'   S3method(knitr::knit_print, tmap)
+#' } else {
+#'   export(knit_print.tmap)
+#' }
 knit_print.tmap <- function(x, ..., options=NULL) {
 	# @importFrom knitr knit_print
 	print_tmap(x, knit=TRUE, options=options, ...)

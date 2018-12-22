@@ -301,16 +301,15 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		} else if (inherits(st_geometry(shp2), c("sfc_POINT", "sfc_MULTIPOINT"))){
 			type <- "points"
 		} else {
-			
-			types <- factor(rep(NA, nrow(shp2)), levels=c("polygons", "lines", "points"))
-			types[st_is(shp2, c("MULTIPOLYGON", "POLYGON"))] <- "polygons"
-			types[st_is(shp2, c("MULTILINESTRING", "LINESTRING"))] <- "lines"
-			types[st_is(shp2, c("MULTIPOINT", "POINT"))] <- "points"
-			
+			if (any(st_geometry_type(shp2) == "GEOMETRYCOLLECTION")) {
+				gnew <- split_geometry_collection(st_geometry(shp2))
+				ids <- attr(gnew, "ids")
+				data <- data[ids, , drop = FALSE]
+				shp2 <- st_sf(tmapID = 1L:nrow(data), geometry = gnew)
+			}
 			type <- "geometrycollection"
 			attr(data, "kernel_density") <- FALSE
-			attr(type, "types") <- types
-			
+			attr(type, "types") <- get_types(st_geometry(shp2))
 		}
 		
 		# simplify shape
@@ -344,4 +343,39 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	attr(shp2, "line.center") <- y$line.center
 	attr(shp2, "projected") <- tmaptools::is_projected(shp2)
 	list(shp=shp2, data=data, type=type)
+}
+
+get_types <- function(sfc) {
+	tp <- st_geometry_type(sfc)
+	types <- factor(rep(NA, length(sfc)), levels=c("polygons", "lines", "points", "collection"))
+	types[tp %in% c("MULTIPOLYGON", "POLYGON")] <- "polygons"
+	types[tp %in% c("MULTILINESTRING", "LINESTRING")] <- "lines"
+	types[tp %in% c("MULTIPOINT", "POINT")] <- "points"
+	types[tp == "GEOMETRYCOLLECTION"] <- "collection"
+	if (any(is.na(types))) stop("The following geometry types are not supported: ", paste(unique(tp[is.na(types)]), collapse = ", "), call. = FALSE)
+	types
+}
+
+split_geometry_collection <- function(sfc) {
+	types <- get_types(sfc)
+	res <- mapply(function(g, tp, id) {
+		if (tp == "collection") {
+			g2 <- suppressWarnings(list(st_collection_extract(g, "POLYGON"),
+										st_collection_extract(g, "POINT"),
+										st_collection_extract(g, "LINESTRING")))
+			# tp2 <- factor(c("polygons", "points", "lines"), levels=c("polygons", "lines", "points"))
+			sel <- !vapply(g2, st_is_empty, logical(1))
+			
+			g2 <- g2[sel]
+			# tp2 <- tp2[sel]
+			id2 <- rep(id, length(g2))
+			list(g2, id2)
+		} else {
+			list(list(g), id)
+		}
+	}, sfc, types, 1:length(sfc), SIMPLIFY = FALSE)			
+	gnew <- st_sfc(do.call(c, lapply(res, "[[", 1)), crs = st_crs(sfc))
+	ids <- do.call(c, lapply(res, "[[", 2))
+	attr(gnew, "ids") <- ids
+	gnew
 }

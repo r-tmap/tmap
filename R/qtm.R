@@ -95,12 +95,21 @@ qtm <- function(shp,
 		borders <- NULL
 		showPoints <- FALSE
 	} else {
+		
+		
+		if (any(st_geometry_type(shp) == "GEOMETRYCOLLECTION")) {
+			geom <- split_geometry_collection(st_geometry(shp))
+			shp <- shp[attr(geom, "ids"), ]
+			shp <- st_set_geometry(shp, geom)
+		}
+		
+		types <- get_types(st_geometry(shp))
+		
 		raster <- NULL
-		hasPolys <- inherits(st_geometry(shp), c("sfc_POLYGON", "sfc_MULTIPOLYGON")) || (inherits(st_geometry(shp), "sfc_GEOMETRY") && any(st_is(shp, c("MULTIPOLYGON", "POLYGON"))))
-		hasLines <- inherits(st_geometry(shp), c("sfc_LINESTRING", "sfc_MULTILINESTRING")) || (inherits(st_geometry(shp), "sfc_GEOMETRY") && any(st_is(shp, c("MULTILINESTRING", "LINESTRING"))))
-		hasPoints <- inherits(st_geometry(shp), c("sfc_POINT", "sfc_MULTIPOINT")) || (inherits(st_geometry(shp), "sfc_GEOMETRY") && any(st_is(shp, c("MULTIPOINT", "POINT"))))
-
-
+		hasPolys <- any(types == "polygons")
+		hasLines <- any(types == "lines")
+		hasPoints <- any(types == "points")
+		
 		showPoints <- (hasPoints || !missing(symbols.size) || !missing(symbols.shape) || !missing(symbols.col) || !missing(dots.col))
 
 
