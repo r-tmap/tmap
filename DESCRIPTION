@@ -16,22 +16,22 @@ Authors@R: c(
 	)
 Description: Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps.
 Version: 2.2
-Date: 2018-08-14
+Date: 2018-12-26
 Depends:
     R (>= 3.0),
     methods
 Imports:
-	tmaptools (>= 2.0),
-    sf (>= 0.6-0),
-    units (>= 0.5-1),
-    raster (>= 2.5-2),
+	tmaptools (>= 2.0-1),
+    sf (>= 0.7-1),
+    units (>= 0.6-1),
+    raster (>= 2.7-15),
     grid,
     RColorBrewer,
     viridisLite,
     classInt,
     htmltools,
     htmlwidgets,
-    leaflet (>= 2.0.1),
+    leaflet (>= 2.0.2),
     mapview,
     stats
 Suggests:

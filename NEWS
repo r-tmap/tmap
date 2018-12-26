@@ -1,8 +1,9 @@
-version 2.2 (in development)
-- fixed basemaps bug
+version 2.2
+- improved tm_rgb
+- improved breaks in interactive maps
 - added bbox argument to qtm
-- fixed but with isolines
 - improved projection shortcut codes (using EPSG database)
+- fixed several bugs (see github)
 
 version 2.1-1
 - fixed two small bugs
