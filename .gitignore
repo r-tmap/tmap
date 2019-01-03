@@ -34,3 +34,5 @@ vignettes/*.md
 /tests/testthat/output/
 # R Profile
 .Rprofile
+# Local files
+/local/

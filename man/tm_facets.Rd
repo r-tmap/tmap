@@ -5,11 +5,10 @@
 \title{Small multiples}
 \usage{
 tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
-  nrow = NA, free.coords = !as.layers, drop.units = free.coords ||
-  as.layers, drop.empty.facets = TRUE, drop.NA.facets = FALSE,
-  sync = NA, showNA = NA, textNA = "Missing",
-  free.scales = is.null(by) && is.null(along),
-  free.scales.fill = free.scales,
+  nrow = NA, free.coords = !as.layers, drop.units = TRUE,
+  drop.empty.facets = TRUE, drop.NA.facets = FALSE, sync = NA,
+  showNA = NA, textNA = "Missing", free.scales = is.null(by) &&
+  is.null(along), free.scales.fill = free.scales,
   free.scales.symbol.size = free.scales,
   free.scales.symbol.col = free.scales,
   free.scales.symbol.shape = free.scales,
@@ -33,7 +32,7 @@ tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
 
 \item{free.coords}{logical. If the \code{by} argument is specified, should each map has its own coordinate ranges? By default \code{TRUE}, unless facets are shown in as different layers (\code{as.layers = TRUE})}
 
-\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE}, they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes. By default \code{TRUE} when \code{as.layers} and/or \code{free.coords} is \code{TRUE}.}
+\item{drop.units}{logical. If the \code{by} argument is specified, should non-selected spatial units be dropped? If \code{FALSE}, they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes. By default \code{TRUE}.}
 
 \item{drop.empty.facets}{logical. If the \code{by} argument is specified, should empty facets be dropped? Empty facets occur when the \code{by}-variable contains unused levels. When \code{TRUE} and two \code{by}-variables are specified, empty rows and columns are dropped.}
 
@@ -75,7 +74,7 @@ tm_facets(by = NULL, along = NULL, as.layers = FALSE, ncol = NA,
 \code{\link{tmap-element}}
 }
 \description{
-Creates a \code{\link{tmap-element}} that specifies facets (small multiples). Small multiples can be created in two ways: 1) by specifying the \code{by} argument with one or two variable names, by which the data is grouped, 2) by specifying multiple variable names in any of the aesthetic argument of the layer functions (for instance, the argument \code{col} in \code{\link{tm_fill}}). This function further specifies the facets, for instance number of rows and columns, and whether the coordinate and scales are fixed or free (i.e. independent of each other).
+Creates a \code{\link{tmap-element}} that specifies facets (small multiples). Small multiples can be created in two ways: 1) by specifying the \code{by} argument with one or two variable names, by which the data is grouped, 2) by specifying multiple variable names in any of the aesthetic argument of the layer functions (for instance, the argument \code{col} in \code{\link{tm_fill}}). This function further specifies the facets, for instance number of rows and columns, and whether the coordinate and scales are fixed or free (i.e. independent of each other). An overview of the different approaches to create facets is provided in the examples.
 }
 \details{
 The global option \code{limits} controls the limit of the number of facets that are plotted. By default, \code{tmap_options(limits=c(facets.plot=64, facets.view=4))}. The maximum number of interactive facets is set to four since otherwise it may become very slow.
@@ -83,15 +82,15 @@ The global option \code{limits} controls the limit of the number of facets that 
 \examples{
 data(World, NLD_muni, NLD_prov, land, metro)
 
-current.mode <- tmap_mode("plot") # small multiples don't work in view mode
+current.mode <- tmap_mode("plot")
 
-# Facets defined by constant values
+# CASE 1: Facets defined by constant values
 tm_shape(World) +
     tm_fill(c("forestgreen", "goldenrod")) +
 tm_format("World", title=c("A green world", "A dry world"), bg.color="lightskyblue2", 
     title.position=c("left", "bottom"))
 
-# Facets defined by multiple variables
+# CASE 2: Facets defined by multiple variables
 tm_shape(World) +
     tm_polygons(c("well_being", "life_exp"),
     	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)),
@@ -112,7 +111,8 @@ tm_shape(NLD_prov) +
 tm_format("NLD", frame = TRUE, asp=0)
 }
 
-# Facets defined by groupings
+# CASE 3: Facets defined by a group-by variable
+# CASE 3a: The group-by variable divides the objects spatially
 tm_shape(NLD_prov) +
     tm_polygons("gold2") +
     tm_facets(by="name")
@@ -125,13 +125,25 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders(lwd=4) +
     tm_facets(by="name")
-
-tm_shape(land) +
-    tm_raster("black") +
-    tm_facets(by="cover_cls")
 }
+
+# CASE 3b: The group-by variable divides the objects by a non-spatial variable (e.g. date/time)
+if (require(dplyr) && require(tidyr)) {
+	metro_long <- metro \%>\% 
+		gather(year, population, -name, -name_long, -iso_a3, -geometry) \%>\% 
+		mutate(year = as.integer(substr(year, 4, 7)))
 	
-# Facets defined by groupings defined by two variables
+	tm_shape(metro_long) +
+		tm_bubbles("population") +
+		tm_facets(by = "year")
+}
+\dontrun{
+tm_shape(land) +
+	tm_raster("black") +
+	tm_facets(by="cover_cls")
+}
+
+# CASE 4: Facets defined by two group-by variables
 \dontrun{
 World$HPI3 <- cut(World$HPI, breaks = c(20, 35, 50, 65), 
     labels = c("HPI low", "HPI medium", "HPI high"))
@@ -142,12 +154,13 @@ tm_shape(World) +
 	tm_fill("HPI3", palette="Dark2", colorNA="grey90", legend.show = FALSE) + 
 	tm_facets(c("HPI3", "GDP3"), showNA=FALSE, free.coords = FALSE)
 
-metro$pop1950cat <- cut(metro$pop1950, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
-metro$pop2020cat <- cut(metro$pop2020, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
+metro_edited <- metro \%>\% 
+	mutate(pop1950cat = cut(pop1950, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6),
+		   pop2020cat = cut(pop2020, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6))
 
 tm_shape(World) +
 	tm_fill() +
-tm_shape(metro) +
+tm_shape(metro_edited) +
 tm_dots("red", size = .5) +
 	tm_facets(c("pop1950cat", "pop2020cat"), free.coords = FALSE) +
 tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)

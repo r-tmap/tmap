@@ -1,14 +1,14 @@
 data(World, NLD_muni, NLD_prov, land, metro)
 
-current.mode <- tmap_mode("plot") # small multiples don't work in view mode
+current.mode <- tmap_mode("plot")
 
-# Facets defined by constant values
+# CASE 1: Facets defined by constant values
 tm_shape(World) +
     tm_fill(c("forestgreen", "goldenrod")) +
 tm_format("World", title=c("A green world", "A dry world"), bg.color="lightskyblue2", 
     title.position=c("left", "bottom"))
 
-# Facets defined by multiple variables
+# CASE 2: Facets defined by multiple variables
 tm_shape(World) +
     tm_polygons(c("well_being", "life_exp"),
     	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)),
@@ -29,7 +29,8 @@ tm_shape(NLD_prov) +
 tm_format("NLD", frame = TRUE, asp=0)
 }
 
-# Facets defined by groupings
+# CASE 3: Facets defined by a group-by variable
+# CASE 3a: The group-by variable divides the objects spatially
 tm_shape(NLD_prov) +
     tm_polygons("gold2") +
     tm_facets(by="name")
@@ -42,13 +43,25 @@ tm_shape(NLD_muni) +
 tm_shape(NLD_prov) +
     tm_borders(lwd=4) +
     tm_facets(by="name")
-
-tm_shape(land) +
-    tm_raster("black") +
-    tm_facets(by="cover_cls")
 }
+
+# CASE 3b: The group-by variable divides the objects by a non-spatial variable (e.g. date/time)
+if (require(dplyr) && require(tidyr)) {
+	metro_long <- metro %>% 
+		gather(year, population, -name, -name_long, -iso_a3, -geometry) %>% 
+		mutate(year = as.integer(substr(year, 4, 7)))
 	
-# Facets defined by groupings defined by two variables
+	tm_shape(metro_long) +
+		tm_bubbles("population") +
+		tm_facets(by = "year")
+}
+\dontrun{
+tm_shape(land) +
+	tm_raster("black") +
+	tm_facets(by="cover_cls")
+}
+
+# CASE 4: Facets defined by two group-by variables
 \dontrun{
 World$HPI3 <- cut(World$HPI, breaks = c(20, 35, 50, 65), 
     labels = c("HPI low", "HPI medium", "HPI high"))
@@ -59,12 +72,13 @@ tm_shape(World) +
 	tm_fill("HPI3", palette="Dark2", colorNA="grey90", legend.show = FALSE) + 
 	tm_facets(c("HPI3", "GDP3"), showNA=FALSE, free.coords = FALSE)
 
-metro$pop1950cat <- cut(metro$pop1950, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
-metro$pop2020cat <- cut(metro$pop2020, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6)
+metro_edited <- metro %>% 
+	mutate(pop1950cat = cut(pop1950, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6),
+		   pop2020cat = cut(pop2020, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6))
 
 tm_shape(World) +
 	tm_fill() +
-tm_shape(metro) +
+tm_shape(metro_edited) +
 tm_dots("red", size = .5) +
 	tm_facets(c("pop1950cat", "pop2020cat"), free.coords = FALSE) +
 tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)

@@ -224,7 +224,8 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 	
 	## shapes have been subset (diff_shapes) and cropped. Therefore, the corresponding aesthetics have to be subset accordingly:
 	if (gm$shape.diff_shapes) {
-		matchIDs <- lapply(shps[1:nx], function(ss) lapply(ss, function(s) if (inherits(s, "Raster")) s[] else s$tmapID))
+		matchIDs_data <- lapply(shps[1:nx], function(ss) lapply(ss, function(s) if (inherits(s, "Raster")) s[] else s$tmapID))
+		matchIDs <- lapply(shps[1:nx], function(ss) lapply(ss, function(s) if (inherits(s, "Raster")) s[] else s$tmapID2))
 	} else {
 		matchIDs <- lapply(shps, function(s) if (inherits(s, "Raster")) s[] else s$tmapID)
 		matchIDs <- lapply(1:nx, function(i) matchIDs)
@@ -247,6 +248,10 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 	}, gps, matchIDs, SIMPLIFY=FALSE)
 	
 
+	if (gm$shape.diff_shapes) {
+		matchIDs <- matchIDs_data
+	}
+	
 	
 	list(gps=gps,
 		 shps = shps,

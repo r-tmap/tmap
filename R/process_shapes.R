@@ -56,13 +56,19 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 			if (inherits(s_by, "sf")) {
 				s_by2 <- split(s_by, f = d_by, drop=FALSE)	 # split_shape
 				lapply(s_by2, function(s2) {
-					if (nrow(s2)>0) s2$tmapID <- 1L:length(s2$tmapID)	
+					if (nrow(s2)>0) s2$tmapID2 <- 1L:length(s2$tmapID)
 					s2
 				})
 			}  else {
 				split_raster(s_by, f = d_by, drop=FALSE)
 			} 
 		}, shps_by, data_by, SIMPLIFY=FALSE)
+		
+		# needed when drop_shapes = FALSE
+		shps <- lapply(shps, function(s) {
+			if (inherits(s, "sf")) s$tmapID2 <- s$tmapID
+			s
+		})
 	}
 	
 	if (free_coords) {
