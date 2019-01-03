@@ -123,12 +123,14 @@ tmap_arrange(tm1, tm2)
 Tiled basemaps can be added with the layer function `tm_basemap`.
 Semi-transparent overlay maps (for example annotation labels) can be added with `tm_tiles`.
 
-```{r}
+```{r, eval = FALSE}
 tmap_mode("view")
 tm_basemap("Stamen.Watercolor") +
 tm_shape(metro) + tm_bubbles(size = "pop2020", col = "red") +
 tm_tiles("Stamen.TonerLabels")
 ```
+
+<img src="images/tmap_tiles.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
 See a [preview of the available tilemaps](http://leaflet-extras.github.io/leaflet-providers/preview/). 
 This list is also accessible in R: `leaflet::providers`.
