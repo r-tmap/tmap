@@ -29,8 +29,8 @@ tm_shape(NLD_prov) +
 tm_format("NLD", frame = TRUE, asp=0)
 }
 
-# CASE 3: Facets defined by a group-by variable
-# CASE 3a: The group-by variable divides the objects spatially
+# CASE 3: Facets defined by group-by variable(s)
+# A group-by variable that divides the objects spatially
 tm_shape(NLD_prov) +
     tm_polygons("gold2") +
     tm_facets(by="name")
@@ -45,7 +45,7 @@ tm_shape(NLD_prov) +
     tm_facets(by="name")
 }
 
-# CASE 3b: The group-by variable divides the objects by a non-spatial variable (e.g. date/time)
+# The objects are divided by a non-spatial variable (e.g. date/time)
 if (require(dplyr) && require(tidyr)) {
 	metro_long <- metro %>% 
 		gather(year, population, -name, -name_long, -iso_a3, -geometry) %>% 
@@ -61,7 +61,7 @@ tm_shape(land) +
 	tm_facets(by="cover_cls")
 }
 
-# CASE 4: Facets defined by two group-by variables
+# Facets defined by two group-by variables
 \dontrun{
 World$HPI3 <- cut(World$HPI, breaks = c(20, 35, 50, 65), 
     labels = c("HPI low", "HPI medium", "HPI high"))
