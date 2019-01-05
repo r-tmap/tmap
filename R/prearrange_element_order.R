@@ -53,8 +53,8 @@ prearrange_element_order <- function(x) {
 	res <- mapply(function(bci, bcidi) {
 		lid <- which(bci %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster", "tm_text"))
 		
-		if (bci == "tm_shape" && !length(lid)) stop("no layer elements defined after tm_shape", call. = FALSE)
-		if (bci == "tm_dummy" && length(lid)) stop("tm_shape element missing", call. = FALSE)
+		if (bci[1] == "tm_shape" && !length(lid)) stop("no layer elements defined after tm_shape", call. = FALSE)
+		if (bci[1] == "tm_dummy" && length(lid)) stop("tm_shape element missing", call. = FALSE)
 		
 		tid <- which(bci == "tm_tiles")
 		if (length(tid) > 1) {

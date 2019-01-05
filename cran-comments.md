@@ -5,6 +5,7 @@
 
 ## Submission note
 
+* 'length > 1 in coercion to logical' issue fixed
 * Registered S3 methods knit_print.tmap and knit_print.tmap_arrange
 
 ## R CMD check results
