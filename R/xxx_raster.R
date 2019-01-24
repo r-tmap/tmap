@@ -92,9 +92,21 @@ get_raster_layer_data <- function(rl) {
 	extract_raster_data(nm = rl@data@names, isf = rl@data@isfactor, d = rl@data@values, a = rl@data@attributes)
 }
 
+fromDisk2 <- function(x) {
+	if (inherits(x, "RasterStack")) {
+		y <- FALSE
+		for (i in 1L:nlayers(x)) {
+			if (fromDisk(x[[i]])) y <- TRUE
+		} # stackApply doens't work
+	} else {
+		y <- fromDisk(x)
+	}
+	y
+}
+
 get_raster_data <- function(shp, show.warnings = TRUE) {
 	cls <- class(shp)
-	if (fromDisk(shp)) {
+	if (fromDisk2(shp)) {
 		data <- raster::as.data.frame(shp)
 		layerID <- 1L:ncol(data)
 	} else if (inherits(shp, "RasterLayer")) {
