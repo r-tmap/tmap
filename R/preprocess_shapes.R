@@ -247,6 +247,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			stop("Object ", y$shp_name, " is neither from class sf, Spatial, nor Raster.", call. = FALSE)
 		}
 		
+		# drop z/m
+		shp <- sf::st_zm(shp)
+		
 		# remove empty units
 		empty_units <- st_is_empty(shp)
 		if (any(empty_units)) {
