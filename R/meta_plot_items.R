@@ -622,7 +622,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	gTree(children=gList(
 		grobBG,
 		rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=gt$scale.lwd)),
-		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(col=gt$attr.color, cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))), name="scale_bar")
+		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(col=gt$scale.text.color, cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))), name="scale_bar")
 	
 	
 }
@@ -874,7 +874,7 @@ plot_compass <- function(gt, just) {
 		
 		lx <- lr * sin(ld+drotate) + .5
 		ly <- lr * cos(ld+drotate) + .5
-		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(col=gt$attr.color, cex=gt$compass.fontsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(col=gt$compass.text.color, cex=gt$compass.fontsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	}
 	
 	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {
