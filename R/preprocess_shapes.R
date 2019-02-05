@@ -46,7 +46,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
-
+		max.value <- attr(raster_facets_vars, "max.value") # NULL is tm_raster is called, when tm_rgb is called: NA (default) when max color value is determined automatically.
+		
 		if (interactive) gm$shape.master_crs <- .crs_merc
 		
 		if (inherits(shp, "Spatial")) shp <- brick(shp)
@@ -89,9 +90,11 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			shpnames <- names(rdata) #get_raster_names(shp)
 			
+			mxdata <- max(maxValue(shp))
+			
 			convert.RGB <- !identical(is.RGB, FALSE) && 
 				(is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) &&
-				nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && all(maxValue(shp)<= 255)
+				nlayers(shp)>=3 && nlayers(shp)<=4 && all(minValue(shp)>=0) && mxdata <= max.value && mxdata > (max.value / 4) # the last condition is added to prevent that [0,1] is interpreted as [0, 255] color range
 			
 			
 			if (is.na(is.RGB) && convert.RGB && show.messages) {
@@ -205,7 +208,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}, data, lvls, SIMPLIFY=FALSE))
 		
 		if (convert.RGB) {
-			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data), use.colortable = FALSE))
+			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data), use.colortable = FALSE, max.value = max.value))
 		}
 		
 

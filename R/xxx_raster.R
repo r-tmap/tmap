@@ -1,4 +1,6 @@
-raster_colors <- function(x, use.colortable = FALSE) {
+raster_colors <- function(x, use.colortable = FALSE, max.value = 255) {
+	
+	x[is.na(x)] <- 0
 	
 	n <- nrow(x)
 
@@ -6,15 +8,16 @@ raster_colors <- function(x, use.colortable = FALSE) {
 	if (ncol(x)==4) {
 		a <- x[,4]
 		x <- x[,1:3]
+		x[x]
 	} else {
 		a <- NULL
 	}
 
 	if (!use.colortable) {
 		if (is.null(a)) {
-			cols <- rgb(x[,1], x[,2], x[,3], maxColorValue = 255)
+			cols <- rgb(x[,1], x[,2], x[,3], maxColorValue = max.value)
 		} else {
-			cols <- rgb(x[,1], x[,2], x[,3], x[,4], maxColorValue = 255)
+			cols <- rgb(x[,1], x[,2], x[,3], a, maxColorValue = max.value)
 		}
 		return(factor(cols))
 	}

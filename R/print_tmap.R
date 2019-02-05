@@ -181,9 +181,11 @@ gather_shape_info <- function(x, interactive) {
 		rid <- which(names(x)[from:to]=="tm_raster")
 		
 		if (length(rid)) {
+			max.value <- x[[from-1+rid[1]]]$max.value
 			is.RGB <- x[[from-1+rid[1]]]$is.RGB 
 			to.Cat <- x[[from-1+rid[1]]]$style == "cat"
 		} else {
+			max.value <- NA
 			is.RGB <- FALSE
 			to.Cat <- FALSE
 		}
@@ -191,6 +193,7 @@ gather_shape_info <- function(x, interactive) {
 		res <- c(if (length(fid)) x[[from-1+fid[1]]]$by else NULL,
 				 if (length(rid)) x[[from-1+rid[1]]]$col else NULL)
 		if (is.null(res)) res <- NA
+		attr(res, "max.value") <- max.value
 		attr(res, "is.RGB") <- is.RGB
 		attr(res, "to.Cat") <- to.Cat
 		res

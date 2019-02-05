@@ -452,6 +452,7 @@ tm_polygons <- function(col=NA,
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
+#' @param max.value for \code{tm_rgb}, what is the maximum value per layer? By default 255.
 #' @param ... arguments passed on from \code{tm_raster} to \code{tm_rgb}
 #' @name tm_raster
 #' @rdname tm_raster
@@ -488,7 +489,8 @@ tm_raster <- function(col=NA,
 					  legend.hist.z=NA,
 					  group = NA,
 					  auto.palette.mapping = NULL,
-					  max.categories = NULL) {
+					  max.categories = NULL,
+					  max.value = 255) {
 	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
 	g <- list(tm_raster=as.list(environment()))
 	g$tm_raster$is.RGB <- FALSE
@@ -499,8 +501,8 @@ tm_raster <- function(col=NA,
 #' @name tm_rgb
 #' @rdname tm_raster
 #' @export
-tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, ...) {
-	g <- do.call("tm_raster", c(list(alpha=alpha, saturation=saturation, interpolate=interpolate), list(...)))
+tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, max.value = 255, ...) {
+	g <- do.call("tm_raster", c(list(alpha=alpha, saturation=saturation, interpolate=interpolate, max.value=max.value), list(...)))
 	g$tm_raster$is.RGB <- TRUE
 	class(g) <- "tmap"
 	g
