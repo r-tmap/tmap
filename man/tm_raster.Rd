@@ -14,9 +14,11 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   legend.format = list(), legend.is.portrait = TRUE,
   legend.reverse = FALSE, legend.hist = FALSE,
   legend.hist.title = NA, legend.z = NA, legend.hist.z = NA,
-  group = NA, auto.palette.mapping = NULL, max.categories = NULL)
+  group = NA, auto.palette.mapping = NULL, max.categories = NULL,
+  max.value = 255)
 
-tm_rgb(alpha = NA, saturation = 1, interpolate = TRUE, ...)
+tm_rgb(alpha = NA, saturation = 1, interpolate = TRUE,
+  max.value = 255, ...)
 }
 \arguments{
 \item{col}{three options: a single color value, the name of a data variable that is contained in \code{shp}, or the name of a variable in \code{shp} that contain color values. In the second case the values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details). By default, it is a vector of the names of all data variables unless the \code{by} argument of \code{\link{tm_facets}} is defined (in that case, the default color of dots is taken from the tmap option \code{aes.color}). Note that the number of small multiples is limited by \code{tmap_options("limits")}).}
@@ -88,6 +90,8 @@ tm_rgb(alpha = NA, saturation = 1, interpolate = TRUE, ...)
 \item{auto.palette.mapping}{deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
 
 \item{max.categories}{deprecated. It has moved to \code{\link{tmap_options}}.}
+
+\item{max.value}{for \code{tm_rgb}, what is the maximum value per layer? By default 255.}
 
 \item{...}{arguments passed on from \code{tm_raster} to \code{tm_rgb}}
 }
