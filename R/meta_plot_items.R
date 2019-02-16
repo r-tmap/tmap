@@ -67,6 +67,11 @@ legend_subplot2 <- function(x, id, rel_height, gt, histWidth, titleRow) {
 
 legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	size <- ifelse(is.main.title, gt$title.size, gt$legend.title.size)
+	
+	fontface <- ifelse(is.main.title, gt$title.fontface, gt$legend.title.fontface)
+	fontfamily <- ifelse(is.main.title, gt$title.fontfamily, gt$legend.title.fontfamily)
+	color <- ifelse(is.main.title, gt$title.color, gt$legend.text.color)
+	
 	title <- x$title
 	nlines <- number_text_lines(x$title)
 	my <- lineHeight * size * m
@@ -75,8 +80,7 @@ legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	w <- text_width_npc(title)
 	newsize <- min(size, 5/(lineHeight*nlines*6), (1-2*mx)/w)
 	
-	
-	list(textGrob(title, x=mx, y=6/12 , just=c("left", "center"), gp=gpar(col=gt$legend.text.color, cex=newsize, fontface=gt$legend.title.fontface, fontfamily=gt$legend.title.fontfamily)), legWidth=2*mx+w*newsize)
+	list(textGrob(title, x=mx, y=6/12 , just=c("left", "center"), gp=gpar(col=color, cex=newsize, fontface=fontface, fontfamily=fontfamily)), legWidth=2*mx+w*newsize)
 }
 
 
