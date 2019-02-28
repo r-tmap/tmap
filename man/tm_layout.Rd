@@ -99,7 +99,7 @@ tm_format(format, ...)
 
 \item{legend.position}{Position of the legend. Vector of two values, specifying the x and y coordinates. Either this vector contains \code{"left"}, \code{"LEFT"}, \code{"center"}, \code{"right"}, or \code{"RIGHT"} for the first value and \code{"top"}, \code{"TOP"}, \code{"center"}, \code{"bottom"}, or \code{"BOTTOM"} for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object. If \code{legend.outside=TRUE}, this argument specifies the legend position within the outside panel.}
 
-\item{legend.stack}{Value that determines how the legend items are stacked: \code{"vertical"} or \code{"horizontal"}.}
+\item{legend.stack}{Value that determines how different legends are stacked: \code{"vertical"} or \code{"horizontal"}. To stack items within a same legend, look at \code{"legend.is.portrait"} in the specific layer calls.}
 
 \item{legend.just}{Justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{legend.position} is specified by numeric coordinates.}
 
