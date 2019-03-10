@@ -1,4 +1,5 @@
-version 2.2-1 (in devel)
+version 2.3 (in devel)
+- replaced mapview by leafsync
 - see github issue list
 
 version 2.2

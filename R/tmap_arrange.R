@@ -102,7 +102,7 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		lfs <- lapply(tms, function(tm) {
 			tmap_leaflet(tm, add.titles = FALSE)
 		})
-		lfmv <- do.call(mapview::latticeView, c(lfs, list(ncol=ncol, sync=ifelse(opts$sync, "all", "none"))))
+		lfmv <- do.call(leafsync::latticeView, c(lfs, list(ncol=ncol, sync=ifelse(opts$sync, "all", "none"))))
 		#class(lfmv) <- c("tmap_arrange_view", class(lfmv))
 		#return(add_leaflet_titles(lfmv))
 		

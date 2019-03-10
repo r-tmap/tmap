@@ -30,7 +30,7 @@
 #' @import leaflet
 #' @importFrom htmlwidgets appendContent onRender
 #' @importFrom htmltools tags HTML htmlEscape
-#' @importFrom mapview latticeView
+#' @import leafsync
 #' @importFrom utils packageVersion
 #' @export
 #' @method print tmap
@@ -464,7 +464,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		} else {
 			lfs <- mapply(view_tmap, gps2[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(shps=shps, gal = gal), SIMPLIFY = FALSE)
 		}
-		lf <- if (nx==1) lfs[[1]] else lfmv <- do.call(mapview::latticeView, c(lfs, lVargs))
+		lf <- if (nx==1) lfs[[1]] else lfmv <- do.call(leafsync::latticeView, c(lfs, lVargs))
 		
 		lf2 <- if (interactive_titles) add_leaflet_titles(lf) else lf
 		
