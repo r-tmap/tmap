@@ -68,7 +68,7 @@ tm_shape(metro) +
 tm_legend(outside = TRUE)
 
 2.0
-The bbox argument of tm_shape can be using in many ways. For instance, another shape can be used from which the bounding box is extracted.
+The bbox argument of tm_shape can be used in many ways. For instance, another shape can be used from which the bounding box is extracted.
 view
 data(rivers, NLD_prov)
 tm_shape(rivers, bbox = NLD_prov) +
