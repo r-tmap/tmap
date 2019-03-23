@@ -166,6 +166,12 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, are
 		}
 
 		col[is.na(col)] <- g$colorNULL
+		
+		# apply color processing
+		ucol <- unique(as.vector(col))
+		ucol2 <- do.call("process_color", c(list(col=ucol, alpha=g$alpha), gt$pc))
+		col[] <- ucol2[match(col, ucol)]
+		
 		legend.labels <- NA
 		legend.values <- NA
 		legend.palette <- NA
