@@ -167,11 +167,13 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, are
 
 		col[is.na(col)] <- g$colorNULL
 		
-		# apply color processing
-		ucol <- unique(as.vector(col))
-		ucol2 <- do.call("process_color", c(list(col=ucol, alpha=g$alpha), gt$pc))
-		col[] <- ucol2[match(col, ucol)]
-		
+		# apply color processing if needed
+		if ((!is.na(g$alpha) && (alpha < 1)) || (gt$pc$sepia.intensity != 0) || (gt$pc$saturation != 1)) {
+			ucol <- unique(as.vector(col))
+			ucol2 <- do.call("process_color", c(list(col=ucol, alpha=g$alpha), gt$pc))
+			col[] <- ucol2[match(col, ucol)]
+		}
+
 		legend.labels <- NA
 		legend.values <- NA
 		legend.palette <- NA
