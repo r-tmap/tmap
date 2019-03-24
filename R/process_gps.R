@@ -145,10 +145,10 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 							nms <- names(gpsii)
 							legend.show.items <- nms[substr(nms, nchar(nms)-10, nchar(nms)) == "legend.show"]
 
-							if (length(legend.show.items)) {
-								fs <- paste0("free.scales.", substr(legend.show.items, 1, nchar(legend.show.items)-12))
-								gpsii[legend.show.items] <- gm[fs] #as.list(rep(FALSE, length(legend.show.items)))
-							}
+							# if (length(legend.show.items)) {
+							# 	fs <- paste0("free.scales.", substr(legend.show.items, 1, nchar(legend.show.items)-12))
+							# 	gpsii[legend.show.items] <- mapply('==', gpsii[legend.show.items], gm[fs], SIMPLIFY = FALSE) # gm[fs] #as.list(rep(FALSE, length(legend.show.items)))
+							# }
 						}
 						gpsii
 					}, gps, c(TRUE, rep(FALSE, nx-1)), SIMPLIFY = FALSE)
@@ -173,12 +173,8 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 					if (is.null(gpsL$tm_layout$panel.names)) {
 						nms <- unname(vapply(gps, function(gpsi) {
 							gpsii <- gpsi[[i]]
-							if (gpsii$any.legend) {
-								nm <- names(which(vapply(gpsii$varnames, function(vn)!is.na(vn[1]), logical(1))))[1]
-								gpsii[[paste0(nm, ".legend.title")]]
-							} else {
-								as.character(NA)
-							}
+							nm <- names(which(vapply(gpsii$varnames, function(vn)!is.na(vn[1]), logical(1))))[1]
+							gpsii[[paste0(nm, ".legend.title")]]
 						}, character(1)))
 						if (any(is.na(nms))) nms <- gm$title
 						nms

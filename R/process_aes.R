@@ -273,7 +273,9 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		# 	legend.show[emptyLegend] <- FALSE
 		# }
 		
-		if (any(!legend.show)) legend.title[!legend.show] <- NA
+		
+		# see also process_layers L189
+		#if (any(!legend.show)) legend.title[!legend.show] <- NA 	#disabled when fixing #290
 
 		
 		## histogram

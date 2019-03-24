@@ -619,6 +619,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				opacity <- unname(RGBA[4,1]/255) * alpha
 				
 				lf <- lf %>% addLegend(position=gt$view.legend.position,
+									   group = group,
 									   colors = col,
 									   labels = gali$labels,
 									   title=gali$title, 
@@ -963,6 +964,7 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 				legvals <- lab
 			}
 			addLegend(map, position=legend.position,
+					  group = group,
 					  colors = col,
 					  labels = legvals,
 					  title=title,
