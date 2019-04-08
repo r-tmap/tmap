@@ -575,7 +575,8 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				for (i in 1:length(basemaps)) {
 					bm <- unname(basemaps[i])
 					bmname <- unname(group_names[i])
-					if (allLettersOrDots(substr(bm, 1, 4))) {
+					bm4 <- substr(bm, 1, 4)
+					if (allLettersOrDots(bm4) && bm4 != "http") {
 						# it is not possible to check provider options, since leaflet::providers is not exported
 						lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
 					} else {
