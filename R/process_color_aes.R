@@ -3,7 +3,7 @@ check_aes_args <- function(g) {
 	if ("style" %in% nms) {
 		if (length(g$style) != 1) stop("Only one value for style allowed per small multiple (unless free.scales=TRUE)", call.=FALSE)
 		if (!is.character(g$style)) stop("Style is not a character", call.=FALSE)
-		if (!g$style %in% c("cat", "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "cont", "order")) stop("Invalid style value(s)", call.=FALSE)
+		if (!g$style %in% c("cat", "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "cont", "order", "log10", "log10_pretty")) stop("Invalid style value(s)", call.=FALSE)
 	}
 	
 	if (!is.null(g$palette)) {
