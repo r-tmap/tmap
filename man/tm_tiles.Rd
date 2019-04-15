@@ -12,7 +12,7 @@ tm_tiles(server, group = NA, alpha = 1)
 \arguments{
 \item{server}{name of the provider or an URL. The list of available providers can be obtained with \code{leaflet::providers}. See \url{http://leaflet-extras.github.io/leaflet-providers/preview} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable the basemaps.}
 
-\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups.}
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups. Set \code{group = NULL} to hide the layer in the layer control item.}
 
 \item{alpha}{alpha}
 }

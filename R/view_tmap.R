@@ -529,7 +529,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 
 			
 			
-			group_names <- if (is.na(gpl$tile.group[1])) {
+			group_names <- if (is.null(gpl$tile.group)) {
+				NULL
+			} else if (is.na(gpl$tile.group[1])) {
 				vapply(basemaps, FUN = function(bm) {
 					if (substr(bm, 1, 4) == "http") {
 						x <- strsplit(bm, "/", fixed=TRUE)[[1]]
@@ -543,11 +545,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 				rep(gpl$tile.group, length.out = length(basemaps))
 			}
 			
-			
-			if (type == "base") {
-				addBaseGroup(group_names)	
-			} else {
-				addOverlayGroup(group_names, are.tiles = TRUE)
+			if (!is.null(group_names)) {
+				if (type == "base") {
+					addBaseGroup(group_names)	
+				} else {
+					addOverlayGroup(group_names, are.tiles = TRUE)
+				}
 			}
 			
 			if(type == "base") {
