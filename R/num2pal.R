@@ -25,10 +25,20 @@ num2pal <- function(x,
 	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
 	
+	
 	breaks.specified <- !is.null(breaks)
-	is.cont <- (style=="cont" || style=="order")
+	is.cont <- (style=="cont" || style=="order" || style=="log10")
+	is.log <- (style %in% c("log10", "log10_pretty"))
+	
+	if (is.log && !attr(legend.format, "big.num.abbr.set")) legend.format$big.num.abbr <- NA
+	
 	
 	if (is.cont) {
+		if (style == "log10") {
+			x <- log10(x)
+		}
+		
+		#l10 <- (style=="log10")
 		style <- ifelse(style=="order", "quantile", "fixed")
 
 		
@@ -67,6 +77,10 @@ num2pal <- function(x,
 		}
 		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE, interval.closure=interval.closure, var=var)
 	} else {
+		if (style == "log10_pretty") {
+			x <- log10(x)
+			style <- "pretty"
+		}
 		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var)
 	}
 	
@@ -167,6 +181,8 @@ num2pal <- function(x,
 	}
 	cols[!sel] <- colorNULL
 
+	
+	
 	if (is.cont) {
 		# recreate legend palette for continuous cases
 		if (style=="quantile") {
@@ -201,6 +217,13 @@ num2pal <- function(x,
 		# temporarily stack gradient colors
 		legend.palette <- sapply(legend.palette, paste, collapse="-")
 		
+		
+		# detransform log 
+		if (is.log) {
+			breaks <- 10^breaks
+			b <- 10^b
+		}
+		
 		# create legend values
 		legend.values <- b
 		
@@ -224,6 +247,10 @@ num2pal <- function(x,
 		}
 		attr(legend.palette, "style") <- style
 	} else {
+		# detransform log 
+		if (is.log) {
+			breaks <- 10^breaks
+		}
 		
 
 		# create legend values

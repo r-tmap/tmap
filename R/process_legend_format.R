@@ -15,11 +15,13 @@ process_legend_format <- function(glf, gtlf, nx) {
 			
 			if (is.function(lf)) {
 				lf
-			} else if (is.function(glf)) {
+			} else if (is.function(gtlf)) {
 				gtlf
 			} else {
 				to_be_assigned <- setdiff(names(gtlf), names(lf))
+				big.num.abbr.set <- "big.num.abbr" %in% names(lf)
 				lf[to_be_assigned] <- gtlf[to_be_assigned]
+				attr(lf, "big.num.abbr.set") <- big.num.abbr.set
 				lf
 			}
 		})
@@ -30,7 +32,9 @@ process_legend_format <- function(glf, gtlf, nx) {
 			gtlf
 		} else {
 			to_be_assigned <- setdiff(names(gtlf), names(glf))
+			big.num.abbr.set <- "big.num.abbr" %in% names(glf)
 			glf[to_be_assigned] <- gtlf[to_be_assigned]
+			attr(glf, "big.num.abbr.set") <- big.num.abbr.set
 			glf
 		}
 	}

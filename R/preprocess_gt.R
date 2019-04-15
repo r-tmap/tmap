@@ -81,13 +81,13 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		sepia.intensity <- NULL
 		saturation <- NULL
 		
-		if (!"scientific" %in% names(legend.format)) legend.format$scientific <- FALSE
-		if (!"digits" %in% names(legend.format)) legend.format$digits <- NA
-		if (!"text.separator" %in% names(legend.format)) legend.format$text.separator <- "to"
-		if (!"text.less.than" %in% names(legend.format)) legend.format$text.less.than <- c("Less", "than")
-		if (!"text.or.more" %in% names(legend.format)) legend.format$text.or.more <- c("or", "more")
-		if (!"text.align" %in% names(legend.format)) legend.format$text.align <- NA
-		if (!"text.to.columns" %in% names(legend.format)) legend.format$text.to.columns <- FALSE
+		# if (!"scientific" %in% names(legend.format)) legend.format$scientific <- FALSE
+		# if (!"digits" %in% names(legend.format)) legend.format$digits <- NA
+		# if (!"text.separator" %in% names(legend.format)) legend.format$text.separator <- "to"
+		# if (!"text.less.than" %in% names(legend.format)) legend.format$text.less.than <- c("Less", "than")
+		# if (!"text.or.more" %in% names(legend.format)) legend.format$text.or.more <- c("or", "more")
+		# if (!"text.align" %in% names(legend.format)) legend.format$text.align <- NA
+		# if (!"text.to.columns" %in% names(legend.format)) legend.format$text.to.columns <- FALSE
 		
 		# put aes colors in right order and name them
 		if (length(aes.color)==1 && is.null(names(aes.color))) names(aes.color) <- "base"
