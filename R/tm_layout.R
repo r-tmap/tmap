@@ -63,9 +63,11 @@
 #' @param legend.height height of the legend. If it is a negative number, it will be the exact legend height. If it is a positive number (by default), it will be the maximum legend height; the actual legend height will be decreased automatically based on the legend content and font sizes.
 #' @param legend.hist.height height of the histogram. This height is initial. If the total legend is downscaled to \code{legend.height}, the histogram is downscaled as well.
 #' @param legend.hist.width width of the histogram. By default, it is equal to the \code{legend.width}.
+#' @param legend.title.color color of the legend titles
 #' @param legend.title.size Relative font size for the legend title
 #' @param legend.title.fontface font face for the legend title. By default, set to the global parameter \code{fontface}.
 #' @param legend.title.fontfamily font family for the legend title. By default, set to the global parameter \code{fontfamily}.
+#' @param legend.text.color color of the legend text
 #' @param legend.text.size Relative font size for the legend text elements
 #' @param legend.text.fontface font face for the legend text labels. By default, set to the global parameter \code{fontface}.
 #' @param legend.text.fontfamily font family for the legend text labels. By default, set to the global parameter \code{fontfamily}.
@@ -86,7 +88,6 @@
 #' \item{text.to.columns}{Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default \code{FALSE}.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
-#' @param legend.text.color color of the legend text
 #' @param legend.bg.color Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.
 #' @param legend.bg.alpha Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{legend.bg.color} is used (normally 1).
 #' @param legend.hist.bg.color Background color of the histogram
@@ -168,9 +169,11 @@ tm_layout <- function(title,
 					  legend.height,
 					  legend.hist.height,
 					  legend.hist.width,
+					  legend.title.color,
 					  legend.title.size,
 					  legend.title.fontface,
 					  legend.title.fontfamily,
+					  legend.text.color,
 					  legend.text.size,
 					  legend.text.fontface,
 					  legend.text.fontfamily,
@@ -178,7 +181,6 @@ tm_layout <- function(title,
 					  legend.format,
 					  legend.frame,
 					  legend.frame.lwd,
-					  legend.text.color,
 					  legend.bg.color,
 					  legend.bg.alpha,
 					  legend.hist.bg.color,

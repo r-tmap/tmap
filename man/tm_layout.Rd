@@ -15,14 +15,14 @@ tm_layout(title, scale, title.size, bg.color, aes.color, aes.palette,
   legend.show, legend.only, legend.outside, legend.outside.position,
   legend.outside.size, legend.position, legend.stack, legend.just,
   legend.width, legend.height, legend.hist.height, legend.hist.width,
-  legend.title.size, legend.title.fontface, legend.title.fontfamily,
-  legend.text.size, legend.text.fontface, legend.text.fontfamily,
-  legend.hist.size, legend.format, legend.frame, legend.frame.lwd,
-  legend.text.color, legend.bg.color, legend.bg.alpha,
-  legend.hist.bg.color, legend.hist.bg.alpha, title.snap.to.legend,
-  title.position, title.color, title.fontface, title.fontfamily,
-  title.bg.color, title.bg.alpha, panel.show, panel.labels,
-  panel.label.size, panel.label.color, panel.label.fontface,
+  legend.title.color, legend.title.size, legend.title.fontface,
+  legend.title.fontfamily, legend.text.color, legend.text.size,
+  legend.text.fontface, legend.text.fontfamily, legend.hist.size,
+  legend.format, legend.frame, legend.frame.lwd, legend.bg.color,
+  legend.bg.alpha, legend.hist.bg.color, legend.hist.bg.alpha,
+  title.snap.to.legend, title.position, title.color, title.fontface,
+  title.fontfamily, title.bg.color, title.bg.alpha, panel.show,
+  panel.labels, panel.label.size, panel.label.color, panel.label.fontface,
   panel.label.fontfamily, panel.label.bg.color, panel.label.height,
   panel.label.rot, main.title, main.title.size, main.title.color,
   main.title.fontface, main.title.fontfamily, main.title.position,
@@ -111,11 +111,15 @@ tm_format(format, ...)
 
 \item{legend.hist.width}{width of the histogram. By default, it is equal to the \code{legend.width}.}
 
+\item{legend.title.color}{color of the legend titles}
+
 \item{legend.title.size}{Relative font size for the legend title}
 
 \item{legend.title.fontface}{font face for the legend title. By default, set to the global parameter \code{fontface}.}
 
 \item{legend.title.fontfamily}{font family for the legend title. By default, set to the global parameter \code{fontfamily}.}
+
+\item{legend.text.color}{color of the legend text}
 
 \item{legend.text.size}{Relative font size for the legend text elements}
 
@@ -145,8 +149,6 @@ tm_format(format, ...)
 \item{legend.frame}{either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.}
 
 \item{legend.frame.lwd}{line width of the legend frame (applicable if \code{legend.frame} is \code{TRUE} or a color)}
-
-\item{legend.text.color}{color of the legend text}
 
 \item{legend.bg.color}{Background color of the legend. Use \code{TRUE} to match with the overall background color \code{bg.color}.}
 

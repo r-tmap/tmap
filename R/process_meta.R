@@ -120,10 +120,11 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 		panel.label.size <- panel.label.size * scale
 				
 		#if (is.null(bg.color)) bg.color <- "white"
-		if (is.null(space.color)) space.color <- bg.color
-		if (is.null(earth.boundary.color)) earth.boundary.color <- attr.color
-		if (is.null(legend.text.color)) legend.text.color <- attr.color
-		if (is.null(title.color)) title.color <- attr.color
+		space.color <- ifelse(is.null(space.color), bg.color, space.color[1])
+		earth.boundary.color <- ifelse(is.null(earth.boundary.color), attr.color, earth.boundary.color[1])
+		legend.text.color <-  ifelse(is.null(legend.text.color), attr.color, legend.text.color[1])
+		legend.title.color <- ifelse(is.null(legend.title.color), attr.color, legend.title.color[1])
+		title.color <- ifelse(is.null(title.color), attr.color, title.color[1])
 
 		if (is.null(legend.hist.width)) legend.hist.width <- legend.width
 		
@@ -157,6 +158,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 		title.color <- do.call("process_color", c(list(col=title.color), pc))
 		main.title.color <- do.call("process_color", c(list(col=main.title.color), pc))
 		legend.text.color <- do.call("process_color", c(list(col=legend.text.color), pc))
+		legend.title.color <- do.call("process_color", c(list(col=legend.title.color), pc))
 		if (!is.na(frame)) frame <- do.call("process_color", c(list(col=frame), pc))
 		if (!is.na(legend.frame)) legend.frame <- do.call("process_color", c(list(col=legend.frame), pc))
 		

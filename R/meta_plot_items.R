@@ -70,7 +70,7 @@ legend_title <- function(x, gt, is.main.title, lineHeight, m) {
 	
 	fontface <- ifelse(is.main.title, gt$title.fontface, gt$legend.title.fontface)
 	fontfamily <- ifelse(is.main.title, gt$title.fontfamily, gt$legend.title.fontfamily)
-	color <- ifelse(is.main.title, gt$title.color, gt$legend.text.color)
+	color <- ifelse(is.main.title, gt$title.color, gt$legend.title.color)
 	
 	title <- x$title
 	nlines <- number_text_lines(x$title)
