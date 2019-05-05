@@ -182,11 +182,13 @@ gather_shape_info <- function(x, interactive) {
 		
 		if (length(rid)) {
 			max.value <- x[[from-1+rid[1]]]$max.value
-			is.RGB <- x[[from-1+rid[1]]]$is.RGB 
+			is.RGB <- x[[from-1+rid[1]]]$is.RGB
+			rgb.vars <- x[[from-1+rid[1]]]$rgb.vars
 			to.Cat <- x[[from-1+rid[1]]]$style == "cat"
 		} else {
 			max.value <- NA
 			is.RGB <- FALSE
+			rgb.vars <- NULL
 			to.Cat <- FALSE
 		}
 
@@ -195,6 +197,7 @@ gather_shape_info <- function(x, interactive) {
 		if (is.null(res)) res <- NA
 		attr(res, "max.value") <- max.value
 		attr(res, "is.RGB") <- is.RGB
+		attr(res, "rgb.vars") <- rgb.vars
 		attr(res, "to.Cat") <- to.Cat
 		res
 	})

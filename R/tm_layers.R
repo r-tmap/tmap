@@ -415,6 +415,10 @@ tm_polygons <- function(col=NA,
 #' Small multiples can be drawn in two ways: either by specifying the \code{by} argument in \code{\link{tm_facets}}, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of \code{tm_raster} is \code{col}. In the latter case, the arguments, except for the ones starting with \code{legend.}, can be specified for small multiples as follows. If the argument normally only takes a single value, such as \code{n}, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as \code{palette}, then a list of those vectors (or values) can be specified, one for each small multiple.
 #' 
 #' @param col three options: a single color value, the name of a data variable that is contained in \code{shp}, or the name of a variable in \code{shp} that contain color values. In the second case the values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details). By default, it is a vector of the names of all data variables unless the \code{by} argument of \code{\link{tm_facets}} is defined (in that case, the default color of dots is taken from the tmap option \code{aes.color}). Note that the number of small multiples is limited by \code{tmap_options("limits")}).
+#' @param r raster band for the red channel. It should be an integer between 1 and the number of raster layers.
+#' @param g raster band for the green channel. It should be an integer between 1 and the number of raster layers.
+#' @param b raster band for the blue channel. It should be an integer between 1 and the number of raster layers.
+#' @param a raster band for the alpha channel. It should be an integer between 1 and the number of raster layers.
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param palette a palette name or a vector of colors. See \code{tmaptools::palette_explorer()} for the named palettes. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}, which typically depends on the style. The type of palette from \code{aes.palette} is automatically determined, but can be overwritten: use \code{"seq"} for sequential, \code{"div"} for diverging, and \code{"cat"} for categorical.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
@@ -498,6 +502,7 @@ tm_raster <- function(col=NA,
 	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
 	g <- list(tm_raster=as.list(environment()))
 	g$tm_raster$is.RGB <- FALSE
+	g$tm_raster$rbg.vars <- NULL
 	class(g) <- "tmap"
 	g
 }
@@ -505,13 +510,24 @@ tm_raster <- function(col=NA,
 #' @name tm_rgb
 #' @rdname tm_raster
 #' @export
-tm_rgb <- function(alpha = NA, saturation = 1, interpolate=TRUE, max.value = 255, ...) {
-	g <- do.call("tm_raster", c(list(alpha=alpha, saturation=saturation, interpolate=interpolate, max.value=max.value), list(...)))
-	g$tm_raster$is.RGB <- TRUE
-	class(g) <- "tmap"
-	g
+tm_rgb <- function(r = 1, g = 2, b = 3, alpha = NA, saturation = 1, interpolate=TRUE, max.value = 255, ...) {
+	h <- do.call("tm_raster", c(list(alpha=alpha, saturation=saturation, interpolate=interpolate, max.value=max.value), list(...)))
+	h$tm_raster$is.RGB <- TRUE
+	h$tm_raster$rgb.vars <- c(r, g, b)
+	class(h) <- "tmap"
+	h
 }
 
+#' @name tm_rgba
+#' @rdname tm_raster
+#' @export
+tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, interpolate=TRUE, max.value = 255, ...) {
+	h <- do.call("tm_raster", c(list(alpha=alpha, saturation=saturation, interpolate=interpolate, max.value=max.value), list(...)))
+	h$tm_raster$is.RGB <- TRUE
+	h$tm_raster$rgb.vars <- c(r, g, b, a)
+	class(h) <- "tmap"
+	h
+}
 
 
 #' Draw symbols
