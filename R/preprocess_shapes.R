@@ -106,7 +106,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				} else {
 					is.RGB <- FALSE
 				}
-			} else {
+			} else if (is.RGB) {
 				if (!any(rgb.vars %in% 1:nlayers(shp))) stop("Specified rgb(a) bands are ", rgb.vars, " whereas the number of layers is ", nlayers(shp), call. = FALSE)
 				if  (!all(minValue(shp)>=0) || !all(mxdata <= max.value)) {
 					shp[][shp[] < 0] <- 0
