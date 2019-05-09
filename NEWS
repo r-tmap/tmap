@@ -1,6 +1,8 @@
-version 2.3 (in devel)
+version 2.3
+- improved tm_rgb (added r g b and max.value arguments)
+- in view mode, layers can be hidden from the legend with group = NULL
 - replaced mapview by leafsync
-- see github issue list
+- minor bugs fixed: see github issue list
 
 version 2.2
 - improved tm_rgb

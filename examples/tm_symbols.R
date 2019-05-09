@@ -40,7 +40,7 @@ ggplotGrob(ggplot(x, aes(x="", y=-perc, fill=origin)) +
 names(grobs) <- NLD_prov$name
 
 tm_shape(NLD_prov) +
-tm_polygons() +
+tm_polygons(group = "Provinces") +
 tm_symbols(size="population", shape="name", 
 	shapes=grobs, 
 	sizes.legend=c(.5, 1,3)*1e6, 
@@ -49,10 +49,12 @@ tm_symbols(size="population", shape="name",
 	legend.size.is.portrait = TRUE, 
 	shapes.legend = 22, 
 	title.size = "Population",
+	group = "Charts",
 	id = "name",
 	popup.vars = c("population", "origin_native",
 				   "origin_west", "origin_non_west")) +
 tm_add_legend(type="fill", 
+	group = "Charts",
 	col=origin_cols, 
 	labels=c("Native", "Western", "Non-western"), 
 	title="Origin") +

@@ -78,7 +78,7 @@ check_deprecated_layer_fun_args <- function(auto.palette.mapping, max.categories
 #' @param legend.size.z index value that determines the position of the legend element regarding the text sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.col.z index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
-#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @note The absolute fontsize (in points) is determined by the (ROOT) viewport, which may depend on the graphics device.
@@ -142,7 +142,7 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 #' @param remove.overlap see \code{\link{tm_text}}
 #' @param along.lines see \code{\link{tm_text}}
 #' @param overwrite.lines see \code{\link{tm_text}}
-#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param ... arguments passed on to \code{\link{tm_lines}} or \code{\link{tm_text}}
 #' @export
 #' @seealso \code{\link[tmaptools:smooth_map]{smooth_map}}
@@ -217,7 +217,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param id name of the data variable that specifies the indices of the lines. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
-#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @export
@@ -326,7 +326,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param id name of the data variable that specifies the indices of the polygons. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
-#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @param ... for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link[tmaptools:map_coloring]{map_coloring}}.
@@ -457,7 +457,7 @@ tm_polygons <- function(col=NA,
 #' @param legend.hist.title title for the histogram. By default, one title is used for both the histogram and the normal legend.
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
-#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @param max.value for \code{tm_rgb}, what is the maximum value per layer? By default 255.
@@ -630,7 +630,7 @@ tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, inte
 #' @param legend.show shortcut for \code{legend.col.show} for \code{tm_dots}
 #' @param legend.is.portrait shortcut for \code{legend.col.is.portrait} for \code{tm_dots}
 #' @param legend.z shortcut for \code{legend.col.z shortcut} for \code{tm_dots}
-#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @keywords symbol map
@@ -815,7 +815,7 @@ tm_markers <- function(shape=marker_icon(),
 #' @param border.lwd line width of the borders. See \code{border.lwd} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}.
 #' @param border.lty line type of the borders. See \code{border.lwd} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}.
 #' @param border.alpha transparency of the borders. See \code{border.alpha} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}.
-#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param ... other arguments passed on to \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_symbols}}
 #' @keywords simple features
 #' @export
@@ -860,7 +860,7 @@ tm_basemap <- function(server=NA, group = NA, alpha = NA) {
 #' When \code{tm_basemap} is not specified, the default basemaps are shown, which can be configured by the \code{basemaps} arugument in \code{\link{tmap_options}}. By default (for style \code{"white"}) three basemaps are drawn: \code{c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")}. To disable basemaps, add \code{tm_basemap(NULL)} to the plot, or set \code{tmap_options(basemaps = NULL)}. Similarly, when \code{tm_tiles} is not specified, the overlay maps specified by the \code{overlays} argument in in \code{\link{tmap_options}} are shown as front layer. By default, this argument is set to \code{NULL}, so no overlay maps are shown by default. See examples.
 #' 
 #' @param server name of the provider or an URL. The list of available providers can be obtained with \code{leaflet::providers}. See \url{http://leaflet-extras.github.io/leaflet-providers/preview} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable the basemaps.
-#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups. Set \code{group = NULL} to hide the layer in the layer control item.
+#' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups.
 #' @param alpha alpha
 #' @export
 #' @rdname tm_tiles
