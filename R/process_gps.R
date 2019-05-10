@@ -1,4 +1,4 @@
-process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
+process_gps <- function(gps, shps, x, gm, nx, nxl, interactive, return.asp) {
 	title.snap.to.legend <- NULL
 	scale.extra <- NULL
 
@@ -133,12 +133,14 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 		if (nx>=2 && gm$as.layers) {
 			nLayers <- length(gps[[1]]) - 1L
 			
-			layerids <- unlist(lapply(1:nLayers, function(i) {
-				rep(i, ifelse(i %in% gm$layer_vary, nx, 1))
-			}))
+
+			layerids <- unlist(mapply(function(i, n) {
+				rep(i, n)
+				#rep(i, ifelse(i %in% gm$layer_vary, nx, 1))
+			}, 1:nLayers, nxl, SIMPLIFY = FALSE))
 			
-			layers <- lapply(1:nLayers, function(i) {
-				if (i %in% gm$layer_vary) {
+			layers <- mapply(function(i, n) {
+				if (n > 1) {
 					mapply(function(gpsi, showLeg) {
 						gpsii <- gpsi[[i]]
 						if (!showLeg) {
@@ -151,7 +153,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 							# }
 						}
 						gpsii
-					}, gps, c(TRUE, rep(FALSE, nx-1)), SIMPLIFY = FALSE)
+					}, gps[1:n], c(TRUE, rep(FALSE, n-1)), SIMPLIFY = FALSE)
 					
 					# lapply(gps, function(gpsi) {
 					# 	gpsi[[i]]
@@ -159,7 +161,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 				} else {
 					gps[[1]][i]
 				}
-			})
+			}, 1:nLayers, nxl, SIMPLIFY = FALSE)
 			layers <- do.call(c, layers)
 			names(layers) <- paste0("tmLayer", 1L:length(layers))
 			
@@ -168,7 +170,7 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 			
 			
 			gpsL <- gps[[1]]["tm_layout"]
-			gpsL[[1]]$shp_name <- unlist(lapply(1:nLayers, function(i) {
+			gpsL[[1]]$shp_name <- unlist(mapply(function(i, n) {
 				if (i %in% gm$layer_vary) {
 					if (is.null(gpsL$tm_layout$panel.names)) {
 						nms <- unname(vapply(gps, function(gpsi) {
@@ -177,14 +179,14 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 							gpsii[[paste0(nm, ".legend.title")]]
 						}, character(1)))
 						if (any(is.na(nms))) nms <- gm$title
-						nms
+						nms[1:n]
 					} else {
-						gpsL$tm_layout$panel.names	
+						gpsL$tm_layout$panel.names[1:n]
 					}
 				} else {
 					gpsL[[1]]$shp_name[i]
 				}
-			})) # gpsL[[1]]$shp_name[layerids]
+			}, 1:nLayers, nxl, SIMPLIFY = FALSE)) # gpsL[[1]]$shp_name[layerids]
 			
 			gps <- list(plot1 = c(layers, gpsL))
 			
@@ -207,7 +209,11 @@ process_gps <- function(gps, shps, x, gm, nx, interactive, return.asp) {
 			
 			gm$shape.nshps <- length(shps)
 			gm$shape.diff_shapes <- FALSE
-			gm$shape.shps_lengths <- append(gm$shape.shps_lengths, rep(gm$shape.shps_lengths[gm$layer_vary], nx - 1), after = gm$layer_vary)
+			
+			gm$shape.shps_lengths <- unlist(mapply(rep, gm$shape.shps_lengths, nxl, SIMPLIFY = FALSE))
+				
+				
+			#	append(gm$shape.shps_lengths, rep(gm$shape.shps_lengths[gm$layer_vary], nx - 1), after = gm$layer_vary)
 			
 			nx <- 1
 		}

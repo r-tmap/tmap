@@ -222,8 +222,10 @@ process_tm <- function(x, gt, gm, interactive) {
 	}, integer(1)))
 	
 	nx <- max(nxl)
-	layer_vary <- unname(which(nxl==nx))
-
+	#layer_vary <- unname(which(nxl==nx))
+	layer_vary <- unname(which(nxl>1))
+	
+	
 	servers <- unname(vapply(gp, function(x) {
 		if ("raster.misc" %in% names(x)) {
 			as.character(x$raster.misc$leaflet.server)
@@ -363,5 +365,5 @@ process_tm <- function(x, gt, gm, interactive) {
 	#gmeta$panel.names <- panel.names
 	gmeta$panel.mode <- panel.mode
 
-	list(gmeta=gmeta, gps=gps, gal=gal, nx=nx, data_by=data_by)
+	list(gmeta=gmeta, gps=gps, gal=gal, nx=nx, nxl=nxl, data_by=data_by)
 }

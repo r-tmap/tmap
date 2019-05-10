@@ -416,6 +416,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	gps <- result$gps
 	gal <- result$gal
 	nx <- result$nx
+	nxl <- result$nxl
 	data_by <- result$data_by
 	
 	gm$shape.shps_lengths <- vapply(datasets, function(d) if (is.null(d)) 0L else nrow(d), integer(1))
@@ -434,7 +435,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	#gm$units <- s$shape.units
 	
 	## create external legend and attributes objects
-	g <- process_gps(gps, shps, x, gm, nx, interactive, return.asp)
+	g <- process_gps(gps, shps, x, gm, nx, nxl, interactive, return.asp)
 	## return in case g is a number, i.e. the aspect ratio
 	if (is.numeric(g)) return(g)
 	
