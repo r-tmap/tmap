@@ -431,8 +431,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	## further arranges the grid layout of the map/facets
 	if (!interactive) gm <- process_facet_layout(gm)
 
-	#browser()
-	#gm$units <- s$shape.units
+	## check whether small multiples are split to layers
+	as.layers <- (nx >= 2) && gm$as.layers && interactive
 	
 	## create external legend and attributes objects
 	g <- process_gps(gps, shps, x, gm, nx, nxl, interactive, return.asp)
@@ -444,7 +444,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 
 	## multiple datasets for each layer (when as.layers=TRUE in tm_facets)
-	if (interactive && gm$as.layers) {
+	if (as.layers) {
 		datasets <- datasets[g$layerids]
 		gm$shp_name <- gm$shp_name[g$layerids]
 	}
