@@ -807,13 +807,14 @@ format_popups <- function(id=NULL, titles, format, values) {
 	
 	nc_labels <- nchar(labels)
 	nc_titles <- max(nchar(titles_format))
-	nc_values_format <- do.call(pmax, lapply(values_format, nchar)) + 2 # which space between title and value
-	
+	nc_values_format <- do.call(pmax, c(lapply(values_format, nchar, allowNA = TRUE), list(na.rm = TRUE))) + 2 # which space between title and value
+
 	charwidth <- max(nc_labels + nc_titles + nc_values_format)
 	# print(which.max(nc_labels + nc_titles + nc_values_format))
 	attr(x, "charwidth") <- charwidth
 	x
 }
+
 
 split_alpha_channel <- function(x, alpha) {
 	if (is.null(x)) {
