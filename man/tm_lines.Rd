@@ -107,7 +107,7 @@ tm_lines(col = NA, lwd = 1, lty = "solid", alpha = NA, scale = 1,
 
 \item{popup.format}{list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.}
 
-\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).}
 
 \item{auto.palette.mapping}{deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
 

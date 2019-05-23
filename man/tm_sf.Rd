@@ -31,7 +31,7 @@ tm_sf(col = NA, size = 0.02, shape = 16, lwd = 1, lty = "solid",
 
 \item{border.alpha}{transparency of the borders. See \code{border.alpha} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}.}
 
-\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).}
 
 \item{...}{other arguments passed on to \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_symbols}}}
 }

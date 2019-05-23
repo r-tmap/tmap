@@ -1,0 +1,109 @@
+
+knitr::opts_chunk$set(echo = FALSE)
+
+```{r}
+
+library(tigris) #to download a USA map
+library(sf)
+library(dplyr)
+getwd()
+devtools::load_all("../")
+#library(tmap) #to build the map
+library(tmaptools) #for function append_data
+library(ggplot2) #to produce the grobs
+library(leaflet) # for setView function
+
+#download the usa map shapefile as an sf file
+us_geo <- states(class = "sf") 
+
+#keep only the 48 contiguous States of the US which will be the background of the map
+us48_geo <- subset(us_geo, !(NAME %in% c("Alaska", 
+										 "Hawaii",
+										 "Puerto Rico",
+										 "Commonwealth of the Northern Mariana Islands",
+										 "United States Virgin Islands" ,
+										 "Guam",
+										 "American Samoa"
+)) )
+
+#data I want to plot on the map for four states
+#the colour of the polygons of these States will depend on the value of Total_Number
+#the grob for each state will be a pie chart showing the breakdown of the total number in the three categories, the percentages of which are also provided
+dat_df <- data.frame( STATE = c("WA", "CA", "FL", "NJ"),
+					  Total_Number = c(800, 1200, 1700, 2100),
+					  Perc_Cat1 = c(30, 40, 50, 60),
+					  Perc_Cat2 = c(10, 20, 30, 10),
+					  Perc_Cat3 = c(60, 40, 20, 30))
+
+#create an sf object for the four states I have data for
+usStates_sf <- us48_geo %>% 
+	filter(STUSPS %in% c("WA", "CA", "FL", "NJ") ) %>%
+	append_data(dat_df, key.shp = "STUSPS", key.data = "STATE") 
+
+
+#to make grobs, data need to be in long format
+dat_df_long <-reshape(dat_df, 
+					  varying = list(3:5),
+					  timevar = "Category",
+					  v.names = "Perc",
+					  idvar = "STATE",
+					  direction="long")
+
+#Category needs to be defined as factor so that scale_fill_manual() in ggplot() works as intended
+dat_df_long$Category <- factor(dat_df_long$Category, levels = 1:3)
+
+#define the colours of the piechart
+cat_cols <-  get_brewer_pal("Set3", 3)
+
+#make the grobs
+grobs <- lapply( split(dat_df_long, 
+					   dat_df_long$STATE), function(x) {
+					   	ggplotGrob( ggplot(x, aes(x="", y=-Perc, fill= Category)) +
+					   					geom_bar(width=1, stat="identity") +
+					   					scale_y_continuous(expand=c(0,0)) +
+					   					scale_fill_manual( values = cat_cols) +
+					   					theme_ps(plot.axes = FALSE)  +
+					   					coord_polar("y", start=0) #to transform bar to pie
+					   				
+					   	)
+					   })
+
+#to produce a static map
+static_map <-
+	#background of the map:
+	tm_shape(us48_geo) + tm_polygons( col="white") + 
+	#polygons of the four states I have data for coloured depending on the value of Total_Number
+	tm_shape(usStates_sf) +
+	tm_polygons(col="Total_Number", 
+				palette = "YlOrBr", 
+				title ="Total Number", 
+				contrast = 0.7, 
+				id = "STUSPS", 
+				popup.vars = c("Total Number" = "Total_Number"))  +
+	#add the grobs (piecharts) for each State
+	tm_symbols(shape="STUSPS",  
+			   shapes=grobs, 
+			   scale=1.5, 
+			   legend.shape.show = FALSE, 
+			   legend.size.is.portrait = TRUE, 
+			   shapes.legend = 22, 
+			   id = "STUSPS",
+			   popup.vars = c("Category 1 (%)" ="Perc_Cat1",
+			   			   "Category 2 (%)" = "Perc_Cat2",
+			   			   "Category 3 (%)" = "Perc_Cat3") ) +
+	tm_add_legend(type="fill",
+				  col=cat_cols,
+				  labels= levels(dat_df_long$Category), 
+				  title="Category") +
+	tm_layout(legend.stack = "horizontal") +
+	tm_view(set.view = c(-96, 37.8, 4))
+
+#render the static map into a leaflet map
+#leafletmap <- tmap_leaflet(static_map) %>%  setView(-96, 37.8, zoom=4)
+
+tmap_mode("view")
+
+static_map
+```
+
+

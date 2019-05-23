@@ -20,7 +20,7 @@ tm_iso(col = NA, text = "level", size = 0.5, remove.overlap = TRUE,
 
 \item{overwrite.lines}{see \code{\link{tm_text}}}
 
-\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).}
 
 \item{...}{arguments passed on to \code{\link{tm_lines}} or \code{\link{tm_text}}}
 }

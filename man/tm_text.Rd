@@ -146,7 +146,7 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
 
-\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).}
 
 \item{auto.palette.mapping}{deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
 

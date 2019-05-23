@@ -9,7 +9,7 @@ tm_add_legend(type = c("fill", "symbol", "text", "line"),
   lwd = NULL, lty = NULL, text = NULL, alpha = NA,
   border.col = "black", border.lwd = 1, border.alpha = NA,
   title = "", is.portrait = TRUE, legend.format = list(),
-  reverse = FALSE, z = NA)
+  reverse = FALSE, z = NA, group = NULL)
 }
 \arguments{
 \item{type}{type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, or \code{"line"}}
@@ -45,6 +45,8 @@ tm_add_legend(type = c("fill", "symbol", "text", "line"),
 \item{reverse}{are the legend items reversed (by default \code{FALSE})?}
 
 \item{z}{legend stack position}
+
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. By default \code{NULL}, which means that the legend will not be shown in the layer control item.}
 }
 \description{
 Creates a \code{\link{tmap-element}} that adds a manual legend.

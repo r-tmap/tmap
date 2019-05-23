@@ -195,7 +195,7 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 
 \item{popup.format}{list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.}
 
-\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Groups can either be specified as base or overlay groups in \code{\link{tm_view}} (arguments \code{base.groups} and \code{overlay.groups}).}
+\item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).}
 
 \item{auto.palette.mapping}{deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.}
 
@@ -277,7 +277,7 @@ ggplotGrob(ggplot(x, aes(x="", y=-perc, fill=origin)) +
 names(grobs) <- NLD_prov$name
 
 tm_shape(NLD_prov) +
-tm_polygons() +
+tm_polygons(group = "Provinces") +
 tm_symbols(size="population", shape="name", 
 	shapes=grobs, 
 	sizes.legend=c(.5, 1,3)*1e6, 
@@ -286,10 +286,12 @@ tm_symbols(size="population", shape="name",
 	legend.size.is.portrait = TRUE, 
 	shapes.legend = 22, 
 	title.size = "Population",
+	group = "Charts",
 	id = "name",
 	popup.vars = c("population", "origin_native",
 				   "origin_west", "origin_non_west")) +
 tm_add_legend(type="fill", 
+	group = "Charts",
 	col=origin_cols, 
 	labels=c("Native", "Western", "Non-western"), 
 	title="Origin") +
