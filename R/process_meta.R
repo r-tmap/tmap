@@ -409,6 +409,7 @@ process_meta_scale_bar <- function(gsb, interactive, gt) {
 					scale.width <- .25
 				}
 			}
+			if (is.na(scale.text.color)) scale.text.color <- gt$attr.color
 			scale.size <- scale.size * gt$scale
 			scale.lwd <- scale.lwd * gt$scale
 			scale.show <- TRUE
