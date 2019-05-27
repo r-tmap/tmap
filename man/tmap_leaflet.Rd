@@ -4,7 +4,8 @@
 \alias{tmap_leaflet}
 \title{Create a leaflet widget from a tmap object}
 \usage{
-tmap_leaflet(x, mode = "view", show = FALSE, add.titles = TRUE, ...)
+tmap_leaflet(x, mode = "view", show = FALSE, add.titles = TRUE,
+  in.shiny = FALSE, ...)
 }
 \arguments{
 \item{x}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}
@@ -14,6 +15,8 @@ tmap_leaflet(x, mode = "view", show = FALSE, add.titles = TRUE, ...)
 \item{show}{should the leaflet map be shown? \code{FALSE} by default}
 
 \item{add.titles}{add titles to leaflet object}
+
+\item{in.shiny}{is the leaflet output going to be used in shiny? If so, two features are not supported and therefore disabled: facets and colored backgrounds.}
 
 \item{...}{arguments passed on to \code{\link{print.tmap}}}
 }
@@ -57,5 +60,5 @@ tm_shape(eiffelTower) +
 }
 }
 \seealso{
-\code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
+\code{\link{tmapOutput}} for tmap in Shiny, \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
 }

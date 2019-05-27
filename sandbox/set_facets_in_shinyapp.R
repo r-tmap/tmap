@@ -31,16 +31,13 @@ ui <- fluidPage(
 server <- function(input, output) {
 	# single panel map
 
-	output$twoPanels <- renderMapview({
-		leafsync::latticeview(mapview(World), mapview(World))
-		# 
-		# tmFacet <- 
-		# 	# render gdp per capita + pop density, synced
-		# 	tm_shape(World) +
-		# 	tm_polygons(c("gdp_cap_est", "pop_est_dens")) +
-		# 	tm_facets(ncol = 2)
-		# # default mode is "view"
-		# tmap_leaflet(tmFacet)
+	output$twoPanels <- renderTmap({
+
+		tm_shape(World) +
+		#tm_polygons("gdp_cap_est") +
+		tm_layout(title = "Test", bg.color = "black") +
+		tm_polygons(c("gdp_cap_est", "pop_est_dens")) +
+		tm_facets(ncol = 2, as.layers = TRUE)
 	})
 }
 

@@ -58,16 +58,17 @@ knit_print.tmap <- function(x, ..., options=NULL) {
 #' @param mode the mode of tmap, which is set to \code{"view"} in order to obtain the leaflet object. See \code{\link{tmap_mode}} for details.
 #' @param show should the leaflet map be shown? \code{FALSE} by default
 #' @param add.titles add titles to leaflet object
+#' @param in.shiny is the leaflet output going to be used in shiny? If so, two features are not supported and therefore disabled: facets and colored backgrounds.
 #' @param ... arguments passed on to \code{\link{print.tmap}}
 #' @return \code{\link[leaflet:leaflet]{leaflet}} object
 #' @example ./examples/tmap_leaflet.R
-#' @seealso \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
+#' @seealso \code{\link{tmapOutput}} for tmap in Shiny, \code{\link{tmap_mode}}, \code{\link{tm_view}}, \code{\link{print.tmap}}
 #' @export
-tmap_leaflet <- function(x, mode="view", show = FALSE, add.titles = TRUE, ...) {
-  print.tmap(x, mode=mode, show=show, interactive_titles = add.titles, ...)
+tmap_leaflet <- function(x, mode="view", show = FALSE, add.titles = TRUE, in.shiny = FALSE, ...) {
+  print.tmap(x, mode=mode, show=show, interactive_titles = add.titles, in.shiny = in.shiny, ...)
 }
 
-print_shortcut <- function(x, interactive, args, knit) {
+print_shortcut <- function(x, interactive, in.shiny, args, knit) {
 	if (getOption("tmap.mode")=="plot") {
 		stop("Either specify shp, or set mode to \"view\" with tmap_mode or ttm", call.=FALSE)	
 	} else {
@@ -120,7 +121,7 @@ print_shortcut <- function(x, interactive, args, knit) {
 		
 		x$tm_layout <- gt
 		
-		view_tmap(x, shps = list(dummy = NULL))
+		view_tmap(x, shps = list(dummy = NULL), in.shiny = in.shiny)
 	}
 }
 
@@ -299,7 +300,7 @@ determine_asp_ratios <- function(gm, interactive) {
 
 
 
-print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, interactive_titles = TRUE, ...) {
+print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, interactive_titles = TRUE, in.shiny = FALSE, ...) {
 	args <- list(...)
 	scale.extra <- NULL
 	title.snap.to.legend <- NULL
@@ -349,7 +350,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	x <- prearrange_element_order(x)
 	
 	if (!any(names(x) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster", "tm_text"))) {
-		lf <- print_shortcut(x, interactive, args, knit)
+		lf <- print_shortcut(x, interactive, in.shiny, args, knit)
 		if (knit) {
 			return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
 			#return(knit_print(lf, ..., options=options))
@@ -433,7 +434,12 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 
 	## check whether small multiples are split to layers
 	as.layers <- (nx >= 2) && gm$as.layers && interactive
-	
+
+	if (in.shiny && !as.layers && nx > 1) {
+		stop("Small multiples (facets) are not supported in Shiny. Workarounds: create multiple independent maps or specify as.layers = TRUE in tm_facets", call. = FALSE)
+	}
+		
+		
 	## create external legend and attributes objects
 	g <- process_gps(gps, shps, x, gm, nx, nxl, interactive, return.asp)
 	## return in case g is a number, i.e. the aspect ratio
@@ -466,9 +472,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		showWarns <- c(TRUE, rep(FALSE, length(gps)-1))
 
 		if (multi_shapes) {
-			lfs <- mapply(view_tmap, gps2[1:nx], shps[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(gal = gal), SIMPLIFY = FALSE)
+			lfs <- mapply(view_tmap, gps2[1:nx], shps[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(gal = gal, in.shiny = in.shiny), SIMPLIFY = FALSE)
 		} else {
-			lfs <- mapply(view_tmap, gps2[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(shps=shps, gal = gal), SIMPLIFY = FALSE)
+			lfs <- mapply(view_tmap, gps2[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(shps=shps, gal = gal, in.shiny = in.shiny), SIMPLIFY = FALSE)
 		}
 		lf <- if (nx==1) lfs[[1]] else lfmv <- do.call(leafsync::latticeView, c(lfs, lVargs))
 		

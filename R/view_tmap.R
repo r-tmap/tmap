@@ -1,4 +1,4 @@
-view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
+view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, in.shiny = FALSE) {
 	
 	gt <- gp$tm_layout
 	gp$tm_layout <- NULL
@@ -18,11 +18,13 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL) {
 		
 	
 	# add background overlay
-	lf <- appendContent(lf, {
-		tags$head(
-			tags$style(HTML(paste(".leaflet-container {background:", gt$bg.color, ";}", sep="")))
-		)	
-	})
+	if (!in.shiny) {
+		lf <- appendContent(lf, {
+			tags$head(
+				tags$style(HTML(paste(".leaflet-container {background:", gt$bg.color, ";}", sep="")))
+			)	
+		})
+	}
 	
 	# if (gt$bg.overlay.alpha!=0) {
 	# 	if (any(sapply(gp, function(gpl)!is.null(gpl$raster)))) {
