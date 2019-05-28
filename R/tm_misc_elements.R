@@ -312,6 +312,7 @@ tm_minimap <- function(server = NA, position= c("left", "bottom"), toggle = TRUE
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @export
 "+.tmap" <- function(e1, e2) {
+	print("+")
 	qtm_shortcut1 <- attr(e1, "qtm_shortcut")
 	qtm_shortcut2 <- attr(e2, "qtm_shortcut")
 
@@ -327,6 +328,7 @@ tm_minimap <- function(server = NA, position= c("left", "bottom"), toggle = TRUE
 	}
 	
 	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
+	print(names(g))
 	g
 }
 

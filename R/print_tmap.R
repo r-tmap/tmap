@@ -305,7 +305,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	scale.extra <- NULL
 	title.snap.to.legend <- NULL
 	
-	interactive <- (mode == "view")
+	proxy <- "tm_proxy" %in% names(x)
+	in.shiny <- in.shiny || proxy
+	
+	interactive <- (mode == "view") || proxy
 	
 	tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
 	
@@ -327,7 +330,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		if (!qtm_shortcut && interactive && !("tm_minimap" %in% names(x)) && identical(tmapOptions$qtm.minimap, TRUE)) x <- c(x, tm_minimap())
 	}
 	
-	
+	cat("proxy: ", proxy, "\n")
 	# reset symbol shape / shape just/anchor lists
 	assign(".shapeLib", list(), envir = .TMAP_CACHE)
 	assign(".justLib", list(), envir = .TMAP_CACHE)

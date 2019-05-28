@@ -27,3 +27,14 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE) {
 	htmlwidgets::shinyRenderWidget(expr, leafletOutput, env,
 								   quoted = TRUE)
 }
+
+tm_proxy <- function(mapId) {
+	# leaflet::leafletProxy(mapId)
+	print("proxy")
+	structure(list(tm_proxy = leaflet::leafletProxy(mapId)), class = "tmap")
+}
+
+tm_clear_polygons <- function() {
+	print("clear_poly")
+	structure(list(tm_clear = list(type = "polygons")), class = "tmap")
+}

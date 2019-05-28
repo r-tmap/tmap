@@ -721,6 +721,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 
 	lf <- set_bounds_view(lf, gt)
 	lf$title <- gt$title
+	lf$layerIds <- layerIds
 	lf
 }
 
