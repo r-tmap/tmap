@@ -32,7 +32,7 @@ tm_symbols(size = 1, col = NA, shape = 21, alpha = NA,
   legend.shape.reverse = FALSE, legend.hist = FALSE,
   legend.hist.title = NA, legend.size.z = NA, legend.col.z = NA,
   legend.shape.z = NA, legend.hist.z = NA, id = NA,
-  popup.vars = NA, popup.format = list(), group = NA,
+  popup.vars = NA, popup.format = list(), zindex = NA, group = NA,
   auto.palette.mapping = NULL, max.categories = NULL)
 
 tm_squares(size = 1, col = NA, shape = 22, scale = 4/3, ...)
@@ -194,6 +194,8 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 \item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.}
 
 \item{popup.format}{list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.}
+
+\item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).}
 

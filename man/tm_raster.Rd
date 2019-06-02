@@ -15,8 +15,8 @@ tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
   legend.format = list(), legend.is.portrait = TRUE,
   legend.reverse = FALSE, legend.hist = FALSE,
   legend.hist.title = NA, legend.z = NA, legend.hist.z = NA,
-  group = NA, auto.palette.mapping = NULL, max.categories = NULL,
-  max.value = 255)
+  zindex = NA, group = NA, auto.palette.mapping = NULL,
+  max.categories = NULL, max.value = 255)
 
 tm_rgb(r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
   interpolate = TRUE, max.value = 255, ...)
@@ -89,6 +89,8 @@ tm_rgba(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1,
 \item{legend.z}{index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.}
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element}
+
+\item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).}
 

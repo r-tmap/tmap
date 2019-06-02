@@ -24,5 +24,5 @@ process_tiles <- function(g, gt) {
 	group <- if (is.null(g$group)) {
 		NULL
 	} else rep(if (is.na(g$group) && !is.null(names(server))) names(server) else g$group, length.out = length(server))
-	list(tile.server = server, tile.alpha = alpha, tile.group = group, tile.grouptype = g$grouptype)
+	list(tile.server = server, tile.alpha = alpha, tile.group = group, tile.grouptype = g$grouptype, tile.zindex = g$zindex)
 }

@@ -56,10 +56,12 @@ server <- function(input, output) {
 		# tm_proxy("tmap") %>% 
 		# 	removeShape(as.character(World$iso_a3[101:177])) %>% 
 		# 	addPolygons(data = World[101:177,] %>% st_transform(4326), layerId = as.character(World$iso_a3)[101:177], fillColor = col)
-		# tm_proxy("tmap") +
-		# 	tm_clear_polygons() +
-		# 	tm_shape(World) +
-		# 	tm_polygons(col)
+
+		tm_proxy("tmap") +
+			tm_remove_features(layer_id = ) +
+			tm_remove_layer()
+			tm_shape(World) +
+			tm_polygons(col)
 		
 		
 		tm_proxy("tmap")$tm_proxy %>%

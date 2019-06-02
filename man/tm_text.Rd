@@ -21,7 +21,7 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
   legend.size.is.portrait = FALSE, legend.col.is.portrait = TRUE,
   legend.size.reverse = FALSE, legend.col.reverse = FALSE,
   legend.hist = FALSE, legend.hist.title = NA, legend.size.z = NA,
-  legend.col.z = NA, legend.hist.z = NA, group = NA,
+  legend.col.z = NA, legend.hist.z = NA, zindex = NA, group = NA,
   auto.palette.mapping = NULL, max.categories = NULL)
 }
 \arguments{
@@ -145,6 +145,8 @@ tm_text(text, size = 1, col = NA, root = 3, clustering = FALSE,
 \item{legend.col.z}{index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})}
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
+
+\item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).}
 

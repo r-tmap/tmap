@@ -65,9 +65,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	overlays_tiles <- character(0)
 	
 	## keep track of layerIds to prevent duplicates (duplicates are not shown in leaflet)
-	layerIds <- list(polygons = character(0),
-					 lines = character(0),
-					 points = character(0))
+	# layerIds <- list(polygons = character(0),
+	# 				 lines = character(0),
+	# 				 points = character(0))
+	
+	layerIds <- list()
+	
 	
 	# should the layer control include base layers? TRUE if |basemaps| > 1 || names/groups are specified
 	basename.specified <- FALSE
@@ -89,20 +92,20 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	# }
 	
 	
-	pane <- "overlayPane00"
-	paneID <- function(pane) as.integer(substr(pane, 12,14))
-	
-	nextPane <- function(pane) {
-		pane <- paste0("overlayPane", sprintf("%02d", paneID(pane) + 1))
-		assign("pane", pane, envir = e)
-		pane
-	} 
-	
-	
-	
-	addPane <- function(lf, pane) {
-		addMapPane(lf, pane, zIndex = paneID(pane) + 400)
-	}
+	# pane <- "overlayPane400"
+	# paneID <- function(pane) as.integer(substr(pane, 12,14))
+	# 
+	# nextPane <- function(pane) {
+	# 	pane <- paste0("overlayPane", sprintf("%02d", paneID(pane) + 1))
+	# 	assign("pane", pane, envir = e)
+	# 	pane
+	# } 
+	# 	
+	# 
+	# 
+	# addPane <- function(lf, pane) {
+	# 	addMapPane(lf, pane, zIndex = paneID(pane))
+	# }
 	
 
 	addBaseGroup <- function(group) {
@@ -135,7 +138,41 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 		if (are.tiles) assign("overlays_tiles", c(overlays_tiles, group), envir = e)
 	}
 	
-	group_selection <- mapply(function(shp, gpl, shp_name) {
+	### find z indeces and create tmapXXX panes
+	paneName <- function(x) {
+		paste0("tmap", sprintf("%03d", x))
+	}
+	
+	zids <- lapply(gp, function(gpl) {
+		po <- gpl$plot.order
+		
+		po2 <- substr(po, 4, nchar(po))
+		po2[po2 == "symbols"] <- "symbol"
+		po2[po2 == "tiles"] <- "tile"
+		po2[po2 == "lines"] <- "line"
+
+		zi <- sapply(po2, function(p) {
+			if (p == "grid") gt$grid.zindex else gpl[[paste0(p, ".zindex")]]
+		})
+
+		if (!is.null(gpl$tile.grouptype) && gpl$tile.grouptype == "base") {
+			zi[names(zi) == "tm_tiles"] <- 0
+		}
+		zi
+	})
+	
+	zids_vec <- unlist(zids)
+	zids_vec[is.na(zids_vec)] <- seq(401, length.out = length(zids_vec))[is.na(zids_vec)]
+	zids_len <- sapply(zids, length)
+	zindices <- split(zids_vec, unlist(mapply(rep, 1:length(zids), each = zids_len, SIMPLIFY = FALSE)))
+	tmap_zindices <- sort(unique(unname(setdiff(zids_vec, 0))))
+
+	for (z in tmap_zindices) {
+		lf <- addMapPane(lf, paneName(z), zIndex = z)
+	}
+	
+
+	group_selection <- mapply(function(shp, gpl, shp_name, zindex) {
 		if (!is.null(shp)) {
 			if (nrow(shp) == 0) {
 				shp <- NULL
@@ -156,7 +193,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 		}
 		
 		
-		plot_tm_fill <- function() {
+		plot_tm_fill <- function(zi) {
 			if (is.null(shp)) return(FALSE)
 			
 			bres <- split_alpha_channel(gpl$col, alpha=alpha)
@@ -175,8 +212,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				labels <- NULL
 			}
 			
-			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
-			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", e)
 			
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
@@ -185,9 +220,13 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			group_name <- if (is.na(gpl$fill.group)) shp_name else gpl$fill.group
 			addOverlayGroup(group_name)
 			
-			pane <- nextPane(pane)
-			lf <- addPane(lf, pane)
+			pane <- paneName(zi)
 			
+			# pane <- nextPane(pane)
+			# lf <- addPane(lf, pane)
+			
+			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
+			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", pane, e)
 			
 			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
 			
@@ -204,7 +243,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			TRUE
 		}
 		
-		plot_tm_lines <- function() {
+		plot_tm_lines <- function(zi) {
 			if (is.null(shp)) return(FALSE)
 			lres <- split_alpha_channel(gpl$line.col, alpha=alpha)
 			lcol <- lres$col
@@ -216,14 +255,18 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			
 			dashArray <- lty2dashArray(gpl$line.lty)
 			
-			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
-			shp$tmapID2 <- submit_labels(shp$tmapID, "lines", e)
 
 			group_name <- if (is.na(gpl$line.group)) shp_name else gpl$line.group
 			addOverlayGroup(group_name)
 			
-			pane <- nextPane(pane)
-			lf <- addPane(lf, pane)
+			pane <- paneName(zi)
+			# pane <- nextPane(pane)
+			# lf <- addPane(lf, pane)
+			
+			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
+			shp$tmapID2 <- submit_labels(shp$tmapID, "lines", pane, e)
+			
+			
 			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name, popupOptions = pOptions(charwidth)) 
 
 			# if (!is.null(labels)) {
@@ -249,7 +292,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# 									   lineend="butt"), i, k)
 		}
 		
-		plot_tm_symbols <- function() {
+		plot_tm_symbols <- function(zi) {
 			if (is.null(shp)) return(FALSE)
 			npol <- nrow(co)
 			
@@ -286,10 +329,15 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 					gpl$symbol.names <- "MARKER__TEXT"
 				}
 			}
+
+			pane <- paneName(zi)
+			# pane <- nextPane(pane)
+			# lf <- addPane(lf, pane)
 			
+						
 			popups <- get_popups(gpl, type="symbol")
 			labels <- as.character(get_labels(gpl, type="symbol"))
-			ids <- submit_labels(labels, "points", e)
+			ids <- submit_labels(labels, "symbols", pane, e)
 			
 			
 			charwidth <- attr(popups, "charwidth")
@@ -327,8 +375,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			group_name <- if (is.na(gpl$symbol.group)) shp_name else gpl$symbol.group
 			addOverlayGroup(group_name)
 			
-			pane <- nextPane(pane)
-			lf <- addPane(lf, pane)
 			
 			if (are.icons) {
 				#symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
@@ -379,7 +425,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			TRUE
 			
 		}
-		plot_tm_text <- function() {
+		plot_tm_text <- function(zi) {
 			if (is.null(shp)) return(FALSE)
 # 			if (is.null(gpl$symbol.misc) || !gpl$symbol.misc$symbol.are.markers) {
 # 				warns["text"] <- TRUE
@@ -423,8 +469,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			group_name <- if (is.na(gpl$text.group)) shp_name else gpl$text.group
 			addOverlayGroup(group_name)
 			
-			pane <- nextPane(pane)
-			lf <- addPane(lf, pane)
+			pane <- paneName(zi)
+			# pane <- nextPane(pane)
+			# lf <- addPane(lf, pane)
 			
 			
 			if (length(cs_set)==1) {
@@ -457,7 +504,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 
 			TRUE
 		}
-		plot_tm_raster <- function() {
+		plot_tm_raster <- function(zi) {
 			if (is.null(shp)) return(FALSE)
 			if (gpl$raster.misc$is.OSM) {
 				if (is.na(gpl$raster.misc$leaflet.server)) {
@@ -507,14 +554,14 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			assign("lf", lf, envir = e)
 			TRUE
 		}
-		plot_tm_grid <- function() {
-			lf <- lf %>% addGraticule()
+		plot_tm_grid <- function(zi) {
+			lf <- lf %>% addGraticule(options = pathOptions(pane = paneName(zi)))
 			
 			assign("lf", lf, envir = e)
 			TRUE
 		}
 		
-		plot_tm_tiles <- function() {
+		plot_tm_tiles <- function(zi) {
 			basemaps <- gpl$tile.server
 			basemaps.alpha <- gpl$tile.alpha
 			type <- gpl$tile.grouptype
@@ -558,8 +605,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			if(type == "base") {
 				pane <- "tilePane"
 			} else {
-				pane <- nextPane(pane)
-				lf <- addPane(lf, pane)
+				pane <- paneName(zi)
+				# pane <- nextPane(pane)
+				# lf <- addPane(lf, pane)
 			}
 				
 			if (!is.na(gt$set.zoom.limits[1])) {
@@ -597,9 +645,15 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 		e2 <- environment()
 		
 		fnames <- paste("plot", gpl$plot.order, sep="_")
-		layer_selection <- vapply(fnames, do.call, logical(1), args=list(), envir=e2)
+		print(fnames)
+		#layer_selection <- vapply(fnames, do.call, logical(1), args=list(), envir=e2)
+		
+		layer_selection <- unlist(mapply(function(fn, zi) {
+			do.call(fn, list(zi = zi), envir = e2)
+		}, fnames, zindex, SIMPLIFY = FALSE))
+			
 		any(layer_selection)
-	}, shps, gp, gt$shp_name, SIMPLIFY = TRUE)
+	}, shps, gp, gt$shp_name, zindices, SIMPLIFY = TRUE)
 	
 	if (gt$show.messages && showWarns) {
 		if (warns["symbol"]) message("Symbol shapes other than circles or icons are not supported in view mode.")
@@ -1037,21 +1091,47 @@ get_epsg_number <- function(proj) {
 	if (length(epsg)==0) NA else epsg
 }
 
-submit_labels <- function(labels, cls, e) {
+# submit_labels <- function(labels, cls, e) {
+# 	
+# 	layerIds <- get("layerIds", envir = e)
+# 
+# 	labels_all <- layerIds[[cls]]
+# 	
+# 	pos <- length(labels_all)
+# 	
+# 	labels_all <- make.names(c(labels_all, labels), unique = TRUE)
+# 	
+# 	labels <- labels_all[(pos + 1): length(labels_all)]	
+# 
+# 	layerIds[[cls]] <- labels_all
+# 	assign("layerIds", layerIds, envir = e)
+# 	labels
+# }
+
+submit_labels <- function(labels, cls, pane, e) {
 	
 	layerIds <- get("layerIds", envir = e)
-
-	labels_all <- layerIds[[cls]]
+	
+	
+	types <- attr(layerIds, "types")
+	
+	labels_all <- unlist(layerIds)
 	
 	pos <- length(labels_all)
 	
 	labels_all <- make.names(c(labels_all, labels), unique = TRUE)
 	
 	labels <- labels_all[(pos + 1): length(labels_all)]	
-
-	layerIds[[cls]] <- labels_all
+	
+	labelsList <- list(labels)
+	names(labelsList) <- pane
+	
+	layerIds <- c(layerIds, labelsList)
+	
+	#layerIds[[cls]] <- labels_all
+	
+	attr(layerIds, "types") <- c(types, cls)
+	
 	assign("layerIds", layerIds, envir = e)
 	labels
 }
-
-

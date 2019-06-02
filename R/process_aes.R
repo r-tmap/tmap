@@ -8,7 +8,7 @@ aname <- function(x, a) {
 		if (y == "title") {
 			paste("title", a, sep = ".")
 		} else {
-			paste("legend", a, y, sep = ".")
+			paste("legend", a, y, sep = ".") # e.g. legend.is.portrait => legend.fill.is.portrait
 		}
 		
 	}
@@ -321,7 +321,8 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 						   id = id,
 						   popup.vars = g$popup.vars,
 						   popup.format = g$popup.format,
-						   group = g$group)
+						   group = g$group,
+					  	   zindex = g$zindex)
 	
 	
 	

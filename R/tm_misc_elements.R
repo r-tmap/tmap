@@ -94,6 +94,7 @@ tm_facets <- function(by=NULL,
 #' @param labels.margin.x margin between tick labels of x axis and the frame
 #' @param labels.margin.y margin between tick labels of y axis and the frame
 #' @param labels.inside.frame Show labels inside the frame?
+#' @param zindex zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.
 #' @export
 tm_grid <- function(x=NA,
 					y=NA,
@@ -109,7 +110,8 @@ tm_grid <- function(x=NA,
 					labels.format = list(big.mark = ","),
 					labels.margin.x=0,
 					labels.margin.y=0,
-					labels.inside.frame=TRUE) {
+					labels.inside.frame=TRUE,
+					zindex = NA) {
 	g <- list(tm_grid=as.list(environment()))
 	names(g$tm_grid) <- paste("grid", names(g$tm_grid), sep=".")
 	class(g) <- "tmap"
