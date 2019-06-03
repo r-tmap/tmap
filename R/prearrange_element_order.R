@@ -1,4 +1,4 @@
-prearrange_element_order <- function(x) {
+prearrange_element_order <- function(x, add.basemap , add.overlay) {
 	a <- names(x)
 
 	aid <- 1L:length(a)
@@ -7,8 +7,12 @@ prearrange_element_order <- function(x) {
 	## add basemap if not already defined, place first if exist, and rename tm_basemap to tm_tiles
 	## tm_basemap() will get tmap_options basemaps
 	if (!any(a=="tm_basemap")) {
-		b <- c("tm_basemap", a)
-		bid <- c(0, bid) # 0 will be used to find which x element is imputed with tm_basemap()
+		if (add.basemap) {
+			b <- c("tm_basemap", a)
+			bid <- c(0, bid) # 0 will be used to find which x element is imputed with tm_basemap()
+		} else {
+			b <- a
+		}
 	} else {
 		bmid <- which(a=="tm_basemap")
 		b <- c(a[bmid], a[setdiff(aid, bmid)])
@@ -18,8 +22,10 @@ prearrange_element_order <- function(x) {
 	## add overlay if not already defined at the tail
 	## tm_tiles() will get tmap_options overlays
 	if (!any(a=="tm_tiles")) {
-		b <- c(b, "tm_tiles")
-		bid <- c(bid, -1) # -1 will be used to find which x element is imputed with tm_tiles()
+		if (add.overlay) {
+			b <- c(b, "tm_tiles")
+			bid <- c(bid, -1) # -1 will be used to find which x element is imputed with tm_tiles()
+		}
 	}
 	
 	a[a=="tm_basemap"] <- "tm_tiles"
@@ -105,7 +111,7 @@ prearrange_element_order <- function(x) {
 	xid <- which(!is.na(bcid2) & !(bcid2 %in% c(-1, 0)))
 	x2[xid] <- x[bcid2[xid]]
 	if (length(which(bcid2==0))) x2[which(bcid2==0)] <- rep(tm_basemap(), length(which(bcid2==0)))
-	if (length(which(bcid2==-1))) x2[which(bcid2==-1)] <- rep(list(tm_tiles = list(server = NA, group = NA, alpha = NA, grouptype = "overlay")), length(which(bcid2==-1)))
+	if (length(which(bcid2==-1))) x2[which(bcid2==-1)] <- rep(list(tm_tiles = list(server = NA, group = NA, alpha = NA, grouptype = "overlay", zindex = NA)), length(which(bcid2==-1)))
 	names(x2) <- bc2
 	
 	x2

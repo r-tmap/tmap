@@ -316,7 +316,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	qtm_shortcut <- attr(x, "qtm_shortcut")
 	
-	if (!is.null(qtm_shortcut)) {
+	if (!is.null(qtm_shortcut) && !proxy) {
 		if (qtm_shortcut) {
 			if (!interactive) {
 				if (show.messages) message("Switching to view mode. Run tmap_mode(\"plot\") or simply ttm() to switch back to plot mode.")
@@ -331,6 +331,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	}
 	
 	cat("proxy: ", proxy, "\n")
+	cat("in.shiny: ", in.shiny, "\n")
+	cat("interactive_titles: ", interactive_titles, "\n")
+	
 	# reset symbol shape / shape just/anchor lists
 	assign(".shapeLib", list(), envir = .TMAP_CACHE)
 	assign(".justLib", list(), envir = .TMAP_CACHE)
@@ -348,9 +351,50 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	# 		return(print(lf))
 	# 	}
 	# } else 
+
+	## process proxy
+	if (proxy) {
+
+		lf <- x$tm_proxy
+		
+			
+		layerIds <- if (".layerIdsNew" %in% ls(envir = .TMAP_CACHE)) {
+			get(".layerIdsNew", envir = .TMAP_CACHE)
+		} else {
+			get(".layerIds", envir = .TMAP_CACHE)
+		}
+		assign(".layerIds", layerIds, envir = .TMAP_CACHE)
+		
+		rem_lay_id <- which(names(x) == "tm_remove_layer")
+		if (length(rem_lay_id) > 0L) {
+			for (id in rem_lay_id) {
+				z <- x[[id]]$zindex
+				
+				name <- paneName(z)
+				#browser()
+				#print(layerIds[[name]])
+				
+				#y <- eval(substitute(layerIds[[name]][31]))
+				
+				#assign("y", y, envir = .GlobalEnv)
+				
+
+				lf <- lf %>% leaflet::removeShape(sort(unname(layerIds[[name]]))) #removeShape(levels(World$iso_a3)) #
+				layerIds[[name]] <- NULL
+				
+				#return(lf)
+				
+			}
+			assign(".layerIdsNew", layerIds, envir = .TMAP_CACHE)
+		}
+		x <- x[!(names(x) %in% c("tm_proxy", "tm_remove_layer"))]
+		if (length(x) == 0) return(lf) #leaflet::removeShape(layerIds[["tmap402"]]))
+		print("XXX", names(x))
+	}
 	
+		
 	
-	x <- prearrange_element_order(x)
+	x <- prearrange_element_order(x, add.basemap = !(is.null(tmapOptions$basemaps) || proxy), add.overlay = !(is.null(tmapOptions$overlays) || proxy))
 	
 	if (!any(names(x) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_symbols", "tm_raster", "tm_text"))) {
 		lf <- print_shortcut(x, interactive, in.shiny, args, knit)
@@ -365,6 +409,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		
 	## remove non-supported elements if interactive
 	if (interactive) x <- x[supported_elem_view_mode(names(x))]
+	
 	
 	## gather shape info
 	gm <- gather_shape_info(x, interactive)

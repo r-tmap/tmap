@@ -139,10 +139,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	}
 	
 	### find z indeces and create tmapXXX panes
-	paneName <- function(x) {
-		paste0("tmap", sprintf("%03d", x))
-	}
-	
 	zids <- lapply(gp, function(gpl) {
 		po <- gpl$plot.order
 		
@@ -156,7 +152,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 		})
 
 		if (!is.null(gpl$tile.grouptype) && gpl$tile.grouptype == "base") {
-			zi[names(zi) == "tm_tiles"] <- 0
+			zi[names(zi) == "tile"] <- 0
 		}
 		zi
 	})
@@ -775,7 +771,8 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 
 	lf <- set_bounds_view(lf, gt)
 	lf$title <- gt$title
-	lf$layerIds <- layerIds
+	
+	assign(".layerIds", layerIds, envir = .TMAP_CACHE)
 	lf
 }
 
@@ -1134,4 +1131,8 @@ submit_labels <- function(labels, cls, pane, e) {
 	
 	assign("layerIds", layerIds, envir = e)
 	labels
+}
+
+paneName <- function(x) {
+	paste0("tmap", sprintf("%03d", x))
 }

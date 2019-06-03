@@ -28,13 +28,17 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE) {
 								   quoted = TRUE)
 }
 
-tm_proxy <- function(mapId) {
+tm_proxy <- function(mapId, session) {
 	# leaflet::leafletProxy(mapId)
 	print("proxy")
-	structure(list(tm_proxy = leaflet::leafletProxy(mapId)), class = "tmap")
+	structure(list(tm_proxy = leaflet::leafletProxy(mapId, session)), class = "tmap")
 }
 
 tm_clear_polygons <- function() {
 	print("clear_poly")
 	structure(list(tm_clear = list(type = "polygons")), class = "tmap")
+}
+
+tm_remove_layer <- function(zindex) {
+	structure(list(tm_remove_layer = list(zindex = zindex)), class = "tmap")
 }
