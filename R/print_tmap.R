@@ -300,12 +300,12 @@ determine_asp_ratios <- function(gm, interactive) {
 
 
 
-print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, interactive_titles = TRUE, in.shiny = FALSE, ...) {
+print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, interactive_titles = TRUE, in.shiny = FALSE, lf = NULL, ...) {
 	args <- list(...)
 	scale.extra <- NULL
 	title.snap.to.legend <- NULL
 	
-	proxy <- "tm_proxy" %in% names(x)
+	proxy <- !is.null(lf)
 	in.shiny <- in.shiny || proxy
 	
 	interactive <- (mode == "view") || proxy
@@ -330,10 +330,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		if (!qtm_shortcut && interactive && !("tm_minimap" %in% names(x)) && identical(tmapOptions$qtm.minimap, TRUE)) x <- c(x, tm_minimap())
 	}
 	
-	cat("proxy: ", proxy, "\n")
-	cat("in.shiny: ", in.shiny, "\n")
-	cat("interactive_titles: ", interactive_titles, "\n")
-	
 	# reset symbol shape / shape just/anchor lists
 	assign(".shapeLib", list(), envir = .TMAP_CACHE)
 	assign(".justLib", list(), envir = .TMAP_CACHE)
@@ -354,10 +350,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 
 	## process proxy
 	if (proxy) {
-
-		lf <- x$tm_proxy
-		
-			
 		layerIds <- if (".layerIdsNew" %in% ls(envir = .TMAP_CACHE)) {
 			get(".layerIdsNew", envir = .TMAP_CACHE)
 		} else {
@@ -371,25 +363,19 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				z <- x[[id]]$zindex
 				
 				name <- paneName(z)
-				#browser()
-				#print(layerIds[[name]])
-				
-				#y <- eval(substitute(layerIds[[name]][31]))
-				
-				#assign("y", y, envir = .GlobalEnv)
-				
-
-				lf <- lf %>% leaflet::removeShape(sort(unname(layerIds[[name]]))) #removeShape(levels(World$iso_a3)) #
+				legend <- legendName(z)
+				cat("clearLegend\n")
+				lf <- lf %>% leaflet::removeShape(sort(unname(layerIds[[name]]))) %>% 
+					leaflet::removeControl(legend)
 				layerIds[[name]] <- NULL
-				
-				#return(lf)
 				
 			}
 			assign(".layerIdsNew", layerIds, envir = .TMAP_CACHE)
 		}
-		x <- x[!(names(x) %in% c("tm_proxy", "tm_remove_layer"))]
-		if (length(x) == 0) return(lf) #leaflet::removeShape(layerIds[["tmap402"]]))
-		print("XXX", names(x))
+		x <- x[!(names(x) %in% c("tm_remove_layer"))]
+		if (length(x) == 0) {
+			lf
+		}
 	}
 	
 		
@@ -520,9 +506,9 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		showWarns <- c(TRUE, rep(FALSE, length(gps)-1))
 
 		if (multi_shapes) {
-			lfs <- mapply(view_tmap, gps2[1:nx], shps[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(gal = gal, in.shiny = in.shiny), SIMPLIFY = FALSE)
+			lfs <- mapply(view_tmap, gps2[1:nx], shps[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(gal = gal, in.shiny = in.shiny, lf = lf), SIMPLIFY = FALSE)
 		} else {
-			lfs <- mapply(view_tmap, gps2[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(shps=shps, gal = gal, in.shiny = in.shiny), SIMPLIFY = FALSE)
+			lfs <- mapply(view_tmap, gps2[1:nx], leaflet_id=1:nx, showWarns=showWarns, MoreArgs = list(shps=shps, gal = gal, in.shiny = in.shiny, lf = lf), SIMPLIFY = FALSE)
 		}
 		lf <- if (nx==1) lfs[[1]] else lfmv <- do.call(leafsync::latticeView, c(lfs, lVargs))
 		

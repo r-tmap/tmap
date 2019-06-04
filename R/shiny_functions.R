@@ -28,11 +28,23 @@ renderTmap <- function(expr, env = parent.frame(), quoted = FALSE) {
 								   quoted = TRUE)
 }
 
-tm_proxy <- function(mapId, session) {
-	# leaflet::leafletProxy(mapId)
-	print("proxy")
-	structure(list(tm_proxy = leaflet::leafletProxy(mapId, session)), class = "tmap")
+
+tmapProxy <- function(mapId, session, x) {
+	print.tmap(x, mode="view", show=FALSE, interactive_titles = TRUE, in.shiny = TRUE, lf = leaflet::leafletProxy(mapId, session))
 }
+
+# tm_proxy <- function(mapId, session) {
+# 	#leaflet::leafletProxy(mapId, session)
+# 	print("tm_proxy")
+# 	structure(list(tm_proxy = leaflet::leafletProxy(mapId, session)), class = "tmap")
+# }
+
+
+# tmapProxy <- function(mapId, session = shiny::getDefaultReactiveDomain(), 
+# 					  deferUntilFlush = TRUE) {
+# 	print_tmap()
+# }
+
 
 tm_clear_polygons <- function() {
 	print("clear_poly")

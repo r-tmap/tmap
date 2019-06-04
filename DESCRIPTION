@@ -45,6 +45,7 @@ Suggests:
     ggplot2,
     dplyr,
     tidyr,
+    shiny,
     testthat,
     covr
 URL: https://github.com/mtennekes/tmap

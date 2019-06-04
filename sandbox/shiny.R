@@ -31,7 +31,7 @@ ui <- fluidPage(
 		# Show two maps
 		mainPanel(
 			h2("tmap"),
-			tmapOutput("tmap")
+			tmapOutput("tmap", height = "1000px")
 		)
 	)
 )
@@ -44,9 +44,9 @@ server <- function(input, output, session) {
 	
 	output$tmap <- renderTmap({
 		tm_shape(World) +
-			tm_polygons(world_vars[1], zindex = 402) +
+			tm_polygons(world_vars[1]) + #, zindex = 402
 		tm_shape(metro) +
-			tm_symbols(col = "gold", zindex = 403, size = years[1])
+			tm_symbols(col = "gold", size = years[1]) #, zindex = 403
 	})
 
 	observe({
@@ -54,12 +54,14 @@ server <- function(input, output, session) {
 		
 		# leafletProxy("tmap", session) %>% 
 		# 	removeShape(levels(World$iso_a3))
-		
-		print(tm_proxy("tmap", session) +
-			tm_remove_layer(402) 
-			# +tm_shape(World) +
-			# tm_polygons(var, zindex = 402)
-		)
+
+		# tm_proxy("tmap", session) + tm_remove_layer(402)
+				
+		tmapProxy("tmap", session, {
+			tm_remove_layer(402) +
+			tm_shape(World) +
+				tm_polygons(var, zindex = 402)
+		})
 	})
 	
 	

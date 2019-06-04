@@ -1,9 +1,11 @@
-view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, in.shiny = FALSE) {
+view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, in.shiny = FALSE, lf = NULL) {
 	
 	gt <- gp$tm_layout
 	gp$tm_layout <- NULL
 	
-	lf <- leaflet(options = leaflet::leafletOptions(crs=gt$projection))
+	proxy <- !is.null(lf)
+	
+	if (!proxy) lf <- leaflet(options = leaflet::leafletOptions(crs=gt$projection))
 
 	pOptions <- function(cw) {
 		if (is.null(cw)) cw <- 20
@@ -69,43 +71,19 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	# 				 lines = character(0),
 	# 				 points = character(0))
 	
-	layerIds <- list()
 	
+	if (proxy) {
+		layerIds <- get(".layerIdsNew", envir = .TMAP_CACHE)
+		start_pane_id <- min(as.integer(substr(names(layerIds), 5, 7)))
+	} else {
+		layerIds <- list()
+		start_pane_id <- 401
+	}
 	
+
+
 	# should the layer control include base layers? TRUE if |basemaps| > 1 || names/groups are specified
 	basename.specified <- FALSE
-	
-	# workaround for https://github.com/rstudio/leaflet/issues/427
-	# pane <- "overlayPane"
-	# paneUsed <- FALSE
-	# nextPane <- function(pane) {
-	# 	pane <- "markerPane"  # when pane=overlayPane tiles are still below shadowPane
-	# 	# pane <- switch(pane,
-	# 	# 	  shadowPane = "overlayPane",
-	# 	# 	  "markerPane")
-	# 	assign("pane", pane, envir = e)
-	# 	assign("paneUsed", FALSE, envir = e)
-	# 	pane
-	# }
-	# usePane <- function() {
-	# 	assign("paneUsed", TRUE, envir = e)
-	# }
-	
-	
-	# pane <- "overlayPane400"
-	# paneID <- function(pane) as.integer(substr(pane, 12,14))
-	# 
-	# nextPane <- function(pane) {
-	# 	pane <- paste0("overlayPane", sprintf("%02d", paneID(pane) + 1))
-	# 	assign("pane", pane, envir = e)
-	# 	pane
-	# } 
-	# 	
-	# 
-	# 
-	# addPane <- function(lf, pane) {
-	# 	addMapPane(lf, pane, zIndex = paneID(pane))
-	# }
 	
 
 	addBaseGroup <- function(group) {
@@ -158,12 +136,22 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	})
 	
 	zids_vec <- unlist(zids)
-	zids_vec[is.na(zids_vec)] <- seq(401, length.out = length(zids_vec))[is.na(zids_vec)]
+	zids_vec[is.na(zids_vec)] <- seq(start_pane_id, length.out = length(zids_vec))[is.na(zids_vec)]
 	zids_len <- sapply(zids, length)
 	zindices <- split(zids_vec, unlist(mapply(rep, 1:length(zids), each = zids_len, SIMPLIFY = FALSE)))
 	tmap_zindices <- sort(unique(unname(setdiff(zids_vec, 0))))
 
-	for (z in tmap_zindices) {
+	## get/set existing panes
+	if (!proxy) {
+		assign("pane_ids", tmap_zindices, envir = .TMAP_CACHE)
+		z_panes <- integer()
+	} else {
+		z_panes <- get("pane_ids", envir = .TMAP_CACHE)
+		assign("pane_ids", union(tmap_zindices, z_panes), envir = .TMAP_CACHE)
+	}
+	
+	# add new panes
+	for (z in setdiff(tmap_zindices, z_panes)) {
 		lf <- addMapPane(lf, paneName(z), zIndex = z)
 	}
 	
@@ -232,7 +220,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# }
 
 			if (!is.na(gpl$xfill[1])) {
-				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="fill", alpha=alpha, group = if (gt$free.scales.fill) group_name else NULL)
+				if (gpl$fill.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="fill", alpha=alpha, group = if (gt$free.scales.fill) group_name else NULL, zindex = zi)
 			}
 
 			assign("lf", lf, envir = e)
@@ -271,7 +259,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# }
 			
 			if (!is.na(gpl$xline[1])) {
-				if (gpl$line.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="line.col", alpha=alpha, group = if (gt$free.scales.line.lwd) group_name else NULL)
+				if (gpl$line.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="line.col", alpha=alpha, group = if (gt$free.scales.line.lwd) group_name else NULL, zindex = zi)
 			}
 			
 			if (!is.na(gpl$xlinelwd[1]) && gpl$line.lwd.legend.show) {
@@ -407,7 +395,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# }
 			
 			if (!is.na(gpl$xcol[1])) {
-				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha, group = if (gt$free.scales.symbol.col) group_name else NULL)
+				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha, group = if (gt$free.scales.symbol.col) group_name else NULL, zindex = zi)
 			}
 			
 			if (!is.na(gpl$xsize[1]) && gpl$symbol.size.legend.show) {
@@ -493,7 +481,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			}
 			
 			if (!is.na(gpl$xtcol[1])) {
-				if (gpl$text.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="text.col", alpha=alpha, group = if (gt$free.scales.text.col) group_name else NULL)
+				if (gpl$text.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="text.col", alpha=alpha, group = if (gt$free.scales.text.col) group_name else NULL, zindex = zi)
 			}
 			
 			assign("lf", lf, envir = e)
@@ -544,7 +532,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			lf <- lf %>% addRasterImage(x=shp, colors=mappal, opacity = pal_opacity, group=group_name, project = FALSE)
 			
 			if (!is.na(gpl$xraster[1])) {
-				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha, group = if (gt$free.scales.raster) group_name else NULL)
+				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha, group = if (gt$free.scales.raster) group_name else NULL, zindex = zi)
 			}
 
 			assign("lf", lf, envir = e)
@@ -769,11 +757,13 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	
 	
 
-	lf <- set_bounds_view(lf, gt)
+	if (!proxy) lf <- set_bounds_view(lf, gt)
 	lf$title <- gt$title
 	
 	assign(".layerIds", layerIds, envir = .TMAP_CACHE)
-	lf
+	
+	lf	
+	
 }
 
 set_bounds_view <- function(lf, gt) {
@@ -928,7 +918,7 @@ get_popups <- function(gpl, type) {
 	popups
 }
 
-add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
+add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE, zindex = NULL) {
 	pal_name <- paste(aes, "legend.palette", sep=".")
 	val_name <- paste(aes, "legend.values", sep=".")
 	lab_name <- paste(aes, "legend.labels", sep=".")
@@ -936,6 +926,14 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 	pal <- gpl[[pal_name]]
 	val <- gpl[[val_name]]
 	lab <- gpl[[lab_name]]
+	
+	if (!is.null(zindex)) {
+		layerId <- legendName(zindex)
+	} else {
+		layerId <- NULL
+	}
+	
+	cat("layerId", layerId, "\n")
 	
 	if (nchar(pal[1])>10) {
 		# check whether style is continuous
@@ -1002,19 +1000,21 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 
 	legend.position <-gt$view.legend.position
 
+	
+
 	if (is.cont) {
 		legvals <- if (!is.na(colNA)) c(val, NA) else val
 
 		if (style=="quantile") {
 			addLegend(map, position=legend.position, group = group,
-					  pal=colorQuantile(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity)
+					  pal=colorQuantile(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity, layerId = layerId)
 		} else {
 			addLegend(map, position=legend.position, group = group,
-					  pal=colorNumeric(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity)
+					  pal=colorNumeric(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity, layerId = layerId)
 		}
 	} else {
 		if (allNAs) {
-			addLegend(map, position=legend.position, group = group, colors=colNA, labels=textNA, title=title, opacity=opacity)
+			addLegend(map, position=legend.position, group = group, colors=colNA, labels=textNA, title=title, opacity=opacity, layerId = layerId)
 		} else {
 			if (!is.na(colNA)) {
 				legvals <- c(lab, textNA)
@@ -1027,7 +1027,8 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE) {
 					  colors = col,
 					  labels = legvals,
 					  title=title,
-					  opacity=opacity)
+					  opacity=opacity,
+					  layerId = layerId)
 			
 		}
 	}
@@ -1135,4 +1136,8 @@ submit_labels <- function(labels, cls, pane, e) {
 
 paneName <- function(x) {
 	paste0("tmap", sprintf("%03d", x))
+}
+
+legendName <- function(x) {
+	paste0("legend", sprintf("%03d", x))
 }
