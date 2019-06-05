@@ -334,19 +334,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	assign(".shapeLib", list(), envir = .TMAP_CACHE)
 	assign(".justLib", list(), envir = .TMAP_CACHE)
 
-	## first checks
-
-
-	# shortcut mode: enabled with qtm() or qtm("My Street 1234, Home Town")
-	# (names(x)=="tm_shortcut") {
-	# 	lf <- print_shortcut(x, interactive, args, knit)
-	# 	if (knit) {
-	# 		return(do.call("knit_print", c(list(x=lf), args, list(options=options))))
-	# 		#return(knit_print(lf, ..., options=options))
-	# 	} else {
-	# 		return(print(lf))
-	# 	}
-	# } else 
 
 	## process proxy
 	if (proxy) {
@@ -357,24 +344,26 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 		assign(".layerIds", layerIds, envir = .TMAP_CACHE)
 		
+		typesList <- as.list(attr(layerIds, "types"))
+		names(typesList) <- names(layerIds)
+		
 		rem_lay_id <- which(names(x) == "tm_remove_layer")
 		if (length(rem_lay_id) > 0L) {
 			for (id in rem_lay_id) {
 				z <- x[[id]]$zindex
-				
 				name <- paneName(z)
 				legend <- legendName(z)
-				cat("clearLegend\n")
 				lf <- lf %>% leaflet::removeShape(sort(unname(layerIds[[name]]))) %>% 
 					leaflet::removeControl(legend)
 				layerIds[[name]] <- NULL
-				
+				typesList[[name]] <- NULL
 			}
+			attr(layerIds, "types") <- unlist(typesList)
 			assign(".layerIdsNew", layerIds, envir = .TMAP_CACHE)
 		}
 		x <- x[!(names(x) %in% c("tm_remove_layer"))]
 		if (length(x) == 0) {
-			lf
+			return(lf)
 		}
 	}
 	

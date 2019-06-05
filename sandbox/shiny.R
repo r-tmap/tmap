@@ -7,6 +7,8 @@ devtools::load_all()
 # import data
 data(World)
 data(metro)
+data(rivers)
+data(land)
 
 
 library(leafsync)
@@ -22,11 +24,11 @@ ui <- fluidPage(
 	# Sidebar with a slider input for year of interest
 	sidebarLayout(
 		sidebarPanel(
-			selectInput("variable", "Variable", world_vars),
-			sliderInput("year", "Year", min = 1950, max = 2030, step = 10, value = 1950),
-			sliderInput("range", "Population range", min = 0, max = 40e6, step = 1e6, value = c(0, 40e6)),
-			selectInput("letter", "Remove countries starting with the letter", letters),
-			shiny::actionButton("button", "Remove them")
+			selectInput("rastervar", "Raster variable", names(land)),
+			selectInput("polyvar", "Polygons variable", world_vars),
+			sliderInput("alpha", "Polygon alpha", min = 0, max = 1, value = .5),
+			sliderInput("width", "River width", min = 1, max = 10, value = 3),
+			sliderInput("year", "Population year", min = 1950, max = 2030, step = 10, value = 1950)
 		),
 		# Show two maps
 		mainPanel(
@@ -43,27 +45,55 @@ server <- function(input, output, session) {
 	
 	
 	output$tmap <- renderTmap({
+		tm_shape(land) +
+			tm_raster(names(land)[1], zindex = 401) +
 		tm_shape(World) +
-			tm_polygons(world_vars[1]) + #, zindex = 402
+			tm_polygons(world_vars[1], zindex = 402) + #, zindex = 402
+		tm_shape(rivers) +
+			tm_lines(lwd = "strokelwd", scale = 3, zindex = 403) +
 		tm_shape(metro) +
-			tm_symbols(col = "gold", size = years[1]) #, zindex = 403
+			tm_symbols(col = "gold", size = years[1], zindex = 404) #, zindex = 403
 	})
 
-	observe({
-		var <- input$variable
-		
-		# leafletProxy("tmap", session) %>% 
-		# 	removeShape(levels(World$iso_a3))
 
-		# tm_proxy("tmap", session) + tm_remove_layer(402)
-				
+	
+	observe({
+		var <- input$rastervar
 		tmapProxy("tmap", session, {
-			tm_remove_layer(402) +
-			tm_shape(World) +
-				tm_polygons(var, zindex = 402)
+			tm_remove_layer(401) +
+			tm_shape(land) +
+				tm_raster(var, zindex = 401)
 		})
 	})
 	
+	observe({
+		var <- input$polyvar
+		alpha <- input$alpha
+		tmapProxy("tmap", session, {
+			tm_remove_layer(402) +
+				tm_shape(World) +
+				tm_polygons(var, alpha = alpha, zindex = 402)
+		})
+	})
+	
+	observe({
+		width <- input$width
+		tmapProxy("tmap", session, {
+			tm_remove_layer(403) +
+			tm_shape(rivers) +
+				tm_lines(lwd = "strokelwd", scale = width, zindex = 403)
+		})
+	})
+	
+	observe({
+		year <- paste0("pop", input$year)
+		
+		tmapProxy("tmap", session, {
+			tm_remove_layer(404) +
+				tm_shape(metro) +
+				tm_symbols(col = "gold", size = year, zindex = 404)
+		})
+	})
 	
 
 	# observe({

@@ -27,8 +27,7 @@ tm_layout(title, scale, title.size, bg.color, aes.color, aes.palette,
   panel.label.rot, main.title, main.title.size, main.title.color,
   main.title.fontface, main.title.fontfamily, main.title.position,
   attr.outside, attr.outside.position, attr.outside.size, attr.position,
-  attr.just, design.mode, basemaps, basemaps.alpha, bg.overlay,
-  bg.overlay.alpha)
+  attr.just, design.mode)
 
 tm_legend(...)
 
@@ -214,14 +213,6 @@ By default the title is placed on top of the legend (determined by \code{legend.
 \item{attr.just}{Justification of the attributes relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{attr.position} is specified by numeric coordinates. It can also be specified per attribute function.}
 
 \item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.}
-
-\item{basemaps}{Migrated to \code{\link{tm_view}}. vector of one or more names of baselayer maps used in the interactive view mode. See \code{\link{tm_view}}.}
-
-\item{basemaps.alpha}{Migrated to \code{\link{tm_view}}. alpha transparency (opacity) of the basemaps. See \code{\link{tm_view}}.}
-
-\item{bg.overlay}{Not used anymore. See \code{\link{tm_view}}.}
-
-\item{bg.overlay.alpha}{Not used anymore. See \code{\link{tm_view}}.}
 
 \item{...}{other arguments from \code{tm_layout}}
 

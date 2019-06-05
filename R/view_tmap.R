@@ -74,7 +74,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	
 	if (proxy) {
 		layerIds <- get(".layerIdsNew", envir = .TMAP_CACHE)
-		start_pane_id <- min(as.integer(substr(names(layerIds), 5, 7)))
+		if (length(layerIds) == 0) {
+			start_pane_id <- 401
+		} else {
+			start_pane_id <- min(as.integer(substr(names(layerIds), 5, 7)))	
+		}
 	} else {
 		layerIds <- list()
 		start_pane_id <- 401
@@ -136,7 +140,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	})
 	
 	zids_vec <- unlist(zids)
-	zids_vec[is.na(zids_vec)] <- seq(start_pane_id, length.out = length(zids_vec))[is.na(zids_vec)]
+	zids_vec[is.na(zids_vec)] <- seq(start_pane_id, length.out = sum(is.na(zids_vec)))
 	zids_len <- sapply(zids, length)
 	zindices <- split(zids_vec, unlist(mapply(rep, 1:length(zids), each = zids_len, SIMPLIFY = FALSE)))
 	tmap_zindices <- sort(unique(unname(setdiff(zids_vec, 0))))
@@ -629,9 +633,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 		e2 <- environment()
 		
 		fnames <- paste("plot", gpl$plot.order, sep="_")
-		print(fnames)
-		#layer_selection <- vapply(fnames, do.call, logical(1), args=list(), envir=e2)
-		
+
 		layer_selection <- unlist(mapply(function(fn, zi) {
 			do.call(fn, list(zi = zi), envir = e2)
 		}, fnames, zindex, SIMPLIFY = FALSE))
@@ -932,8 +934,6 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE, zindex 
 	} else {
 		layerId <- NULL
 	}
-	
-	cat("layerId", layerId, "\n")
 	
 	if (nchar(pal[1])>10) {
 		# check whether style is continuous
