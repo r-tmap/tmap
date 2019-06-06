@@ -239,7 +239,7 @@ process_gps <- function(gps, shps, x, gm, nx, nxl, interactive, return.asp) {
 			npol_old <- gpl$npol
 			gpl$npol <- length(indices)
 			lapply(gpl, function(gplx) {
-				if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==npol_old) {
+				if ((is.vector(gplx) || is.factor(gplx)) && length(gplx)==npol_old && (!gm$as.layers)) {
 					gplx[indices]	
 				} else {
 					gplx

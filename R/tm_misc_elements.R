@@ -304,6 +304,7 @@ tm_minimap <- function(server = NA, position= c("left", "bottom"), toggle = TRUE
 }
 
 
+
 #' Stacking of tmap elements
 #' 
 #' The plus operator allows you to stack \code{\link{tmap-element}s}, and groups of \code{\link{tmap-element}s}.
