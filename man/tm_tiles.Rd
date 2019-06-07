@@ -5,9 +5,9 @@
 \alias{tm_tiles}
 \title{Draw a tile layer}
 \usage{
-tm_basemap(server = NA, group = NA, alpha = NA)
+tm_basemap(server = NA, group = NA, alpha = NA, tms = FALSE)
 
-tm_tiles(server, group = NA, alpha = 1, zindex = NA)
+tm_tiles(server, group = NA, alpha = 1, zindex = NA, tms = FALSE)
 }
 \arguments{
 \item{server}{name of the provider or an URL. The list of available providers can be obtained with \code{leaflet::providers}. See \url{http://leaflet-extras.github.io/leaflet-providers/preview} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable the basemaps.}
@@ -15,6 +15,8 @@ tm_tiles(server, group = NA, alpha = 1, zindex = NA)
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups.}
 
 \item{alpha}{alpha}
+
+\item{tms}{is the provided tile server defined according to the TMS protocol? By default \code{FALSE}.}
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 }

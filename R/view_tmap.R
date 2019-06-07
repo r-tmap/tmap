@@ -111,10 +111,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	}
 	
 	addOverlayGroup <- function(group, are.tiles = FALSE) {
-		if (is.na(overlays[1])) {
-			overlays <- group
-		} else if (!(group %in% overlays)) {
-			overlays <- c(overlays, group)
+		for (g in group) {
+			if (is.na(overlays[1])) {
+				overlays <- g
+			} else if (!(g %in% overlays)) {
+				overlays <- c(overlays, g)
+			}
 		}
 		assign("overlays", overlays, envir = e)
 		if (are.tiles) assign("overlays_tiles", c(overlays_tiles, group), envir = e)
@@ -553,6 +555,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			basemaps <- gpl$tile.server
 			basemaps.alpha <- gpl$tile.alpha
 			type <- gpl$tile.grouptype
+			tms <- gpl$tile.tms
 			
 			if (is.null(basemaps)) {
 				return(FALSE)
@@ -599,14 +602,14 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			}
 				
 			if (!is.na(gt$set.zoom.limits[1])) {
-				tileOptions <- lapply(basemaps.alpha, function(a) {
-					tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a, pane=pane)
-				})
+				tileOptions <- mapply(function(a, tmsi) {
+					tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a, pane=pane, tms = tmsi)
+				}, basemaps.alpha, tms, SIMPLIFY = FALSE)
 				
 			} else {
-				tileOptions <- lapply(basemaps.alpha, function(a) {
-					tileOptions(opacity=a, pane=pane)
-				})
+				tileOptions <- mapply(function(a, tmsi) {
+					tileOptions(opacity=a, pane=pane, tms = tmsi)
+				}, basemaps.alpha, tms, SIMPLIFY = FALSE)
 			}
 			
 			allLettersOrDots <- function(x) grepl("^[A-Za-z\\.]*$", x)

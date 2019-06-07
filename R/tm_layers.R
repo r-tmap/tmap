@@ -857,7 +857,7 @@ tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, 
 
 #' @rdname tm_tiles
 #' @export
-tm_basemap <- function(server=NA, group = NA, alpha = NA) {
+tm_basemap <- function(server=NA, group = NA, alpha = NA, tms = FALSE) {
 	g <- list(tm_basemap=c(as.list(environment()), list(grouptype = "base", zindex = NA)))
 	class(g) <- "tmap"
 	g
@@ -873,11 +873,12 @@ tm_basemap <- function(server=NA, group = NA, alpha = NA) {
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups.
 #' @param alpha alpha
 #' @param zindex zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.
+#' @param tms is the provided tile server defined according to the TMS protocol? By default \code{FALSE}.
 #' @export
 #' @rdname tm_tiles
 #' @name tm_tiles
 #' @example ./examples/tm_tiles.R
-tm_tiles <- function(server, group = NA, alpha = 1, zindex = NA) {
+tm_tiles <- function(server, group = NA, alpha = 1, zindex = NA, tms = FALSE) {
 	if (missing(server)) stop("Please specify server (name or url)")
 	g <- list(tm_tiles=c(as.list(environment()), list(grouptype = "overlay")))
 	class(g) <- "tmap"
