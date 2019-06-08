@@ -111,7 +111,7 @@ tm_grid <- function(x=NA,
 					labels.format = list(big.mark = ","),
 					labels.margin.x=0,
 					labels.margin.y=0,
-					labels.inside.frame=FALSE,
+					labels.inside.frame=TRUE,
 					zindex = NA) {
 	g <- list(tm_grid=as.list(environment()))
 	names(g$tm_grid) <- paste("grid", names(g$tm_grid), sep=".")
@@ -120,17 +120,18 @@ tm_grid <- function(x=NA,
 	g
 }
 
-#' @name tm_graticule
+#' @name tm_graticules
 #' @rdname tm_grid
 #' @export
-tm_graticule <- function(x=NA,
+tm_graticules <- function(x=NA,
 						 y=NA,
 						 n.x=NA,
 						 n.y=NA,
 						 projection = "longlat",
 						 labels.format = list(suffix = intToUtf8(176)),
+						 labels.inside.frame=TRUE,
 						 ...) {
-	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format), list(...)))
+	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format, labels.inside.frame = labels.inside.frame), list(...)))
 }
 
 

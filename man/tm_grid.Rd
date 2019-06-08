@@ -2,18 +2,18 @@
 % Please edit documentation in R/tm_misc_elements.R
 \name{tm_grid}
 \alias{tm_grid}
-\alias{tm_graticule}
+\alias{tm_graticules}
 \title{Coordinate grid / graticule lines}
 \usage{
 tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
   col = NA, lwd = 1, alpha = NA, labels.size = 0.6,
   labels.col = NA, labels.rot = c(0, 0),
   labels.format = list(big.mark = ","), labels.margin.x = 0,
-  labels.margin.y = 0, labels.inside.frame = FALSE, zindex = NA)
+  labels.margin.y = 0, labels.inside.frame = TRUE, zindex = NA)
 
-tm_graticule(x = NA, y = NA, n.x = NA, n.y = NA,
+tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
   projection = "longlat", labels.format = list(suffix =
-  intToUtf8(176)), ...)
+  intToUtf8(176)), labels.inside.frame = TRUE, ...)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}
