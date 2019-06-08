@@ -13,7 +13,7 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
 
 tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
   projection = "longlat", labels.format = list(suffix =
-  intToUtf8(176)), labels.inside.frame = TRUE, ...)
+  intToUtf8(176)), labels.inside.frame = FALSE, ...)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}
@@ -58,5 +58,5 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 \item{...}{arguments passed on to \code{tm_grid}}
 }
 \description{
-Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticule}.
+Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticules}.
 }

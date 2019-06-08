@@ -70,7 +70,7 @@ tm_facets <- function(by=NULL,
 
 #' Coordinate grid / graticule lines
 #' 
-#' Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticule}.
+#' Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticules}.
 #' 
 #' @param x x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.
 #' @param y y coordinates for horizontal grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.y}.
@@ -129,7 +129,7 @@ tm_graticules <- function(x=NA,
 						 n.y=NA,
 						 projection = "longlat",
 						 labels.format = list(suffix = intToUtf8(176)),
-						 labels.inside.frame=TRUE,
+						 labels.inside.frame=FALSE,
 						 ...) {
 	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format, labels.inside.frame = labels.inside.frame), list(...)))
 }
