@@ -1,9 +1,10 @@
 process_grid <- function(gt, bbx, proj, sasp) {
 	grid.n.x <- grid.n.y <- grid.projection <- grid.is.projected <- NULL
+	
 	within(gt, { 
 		if (!is.na(grid.projection)) {
 			bbx_orig <- bbx
-			bbx <- bb(bbx, current.projection = proj, projection = grid.projection)
+			bbx <- suppressWarnings(bb(bbx, current.projection = proj, projection = grid.projection))
 		}
 		
 		## automatically determine number of grid lines
@@ -112,7 +113,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				#lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel], proj4string = get_proj4(grid.projection, output="CRS")), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
 				
 				# project it to current projection
-				lns_proj <- set_projection(lns, projection = proj)
+				lns_proj <- tmaptools::set_projection(lns, projection = proj)
 
 				
 				# extract and normalize coordinates

@@ -68,9 +68,9 @@ tm_facets <- function(by=NULL,
 	g
 }
 
-#' Coordinate grid lines
+#' Coordinate grid / graticule lines
 #' 
-#' Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default the coordinate system of the (master) shape object is used, which results in horizontal and vertical lines. Alternatively, grid lines can be reprojected, for instance to latitude longitude coordinates, and hence be curved.
+#' Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticule}.
 #' 
 #' @param x x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.
 #' @param y y coordinates for horizontal grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.y}.
@@ -95,6 +95,7 @@ tm_facets <- function(by=NULL,
 #' @param labels.margin.y margin between tick labels of y axis and the frame
 #' @param labels.inside.frame Show labels inside the frame?
 #' @param zindex zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.
+#' @param ... arguments passed on to \code{tm_grid}
 #' @export
 tm_grid <- function(x=NA,
 					y=NA,
@@ -110,7 +111,7 @@ tm_grid <- function(x=NA,
 					labels.format = list(big.mark = ","),
 					labels.margin.x=0,
 					labels.margin.y=0,
-					labels.inside.frame=TRUE,
+					labels.inside.frame=FALSE,
 					zindex = NA) {
 	g <- list(tm_grid=as.list(environment()))
 	names(g$tm_grid) <- paste("grid", names(g$tm_grid), sep=".")
@@ -118,6 +119,20 @@ tm_grid <- function(x=NA,
 	attr(g, "call") <- names(match.call(expand.dots = TRUE)[-1])
 	g
 }
+
+#' @name tm_graticule
+#' @rdname tm_grid
+#' @export
+tm_graticule <- function(x=NA,
+						 y=NA,
+						 n.x=NA,
+						 n.y=NA,
+						 projection = "longlat",
+						 labels.format = list(suffix = intToUtf8(176)),
+						 ...) {
+	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format), list(...)))
+}
+
 
 #' Credits text
 #' 

@@ -66,6 +66,8 @@
 			scientific = FALSE,
 			digits = NA,
 			big.num.abbr = c(mln = 6, bln = 9),
+			prefix = "",
+			suffix = "",
 			text.separator = "to",
 			text.less.than = c("Less", "than"),
 			text.or.more = c("or", "more"),

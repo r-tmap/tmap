@@ -26,7 +26,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 
 	## thematic map layers
 	treeElements <- mapply(function(gpl, shp, k) {
-		if (length(shp) == 0 || nrow(shp) == 0) return(NULL)
+		if ((length(shp) == 0 || nrow(shp) == 0) && (!"tm_grid" %in% gpl$plot.order)) return(NULL)
 		
 		bbx <- attr(shp, "bbox")
 		

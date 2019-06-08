@@ -2,13 +2,18 @@
 % Please edit documentation in R/tm_misc_elements.R
 \name{tm_grid}
 \alias{tm_grid}
-\title{Coordinate grid lines}
+\alias{tm_graticule}
+\title{Coordinate grid / graticule lines}
 \usage{
 tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
   col = NA, lwd = 1, alpha = NA, labels.size = 0.6,
   labels.col = NA, labels.rot = c(0, 0),
   labels.format = list(big.mark = ","), labels.margin.x = 0,
-  labels.margin.y = 0, labels.inside.frame = TRUE, zindex = NA)
+  labels.margin.y = 0, labels.inside.frame = FALSE, zindex = NA)
+
+tm_graticule(x = NA, y = NA, n.x = NA, n.y = NA,
+  projection = "longlat", labels.format = list(suffix =
+  intToUtf8(176)), ...)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}
@@ -49,7 +54,9 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
 \item{labels.inside.frame}{Show labels inside the frame?}
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
+
+\item{...}{arguments passed on to \code{tm_grid}}
 }
 \description{
-Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default the coordinate system of the (master) shape object is used, which results in horizontal and vertical lines. Alternatively, grid lines can be reprojected, for instance to latitude longitude coordinates, and hence be curved.
+Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticule}.
 }
