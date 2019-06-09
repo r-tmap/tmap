@@ -9,7 +9,8 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
   col = NA, lwd = 1, alpha = NA, labels.size = 0.6,
   labels.col = NA, labels.rot = c(0, 0),
   labels.format = list(big.mark = ","), labels.margin.x = 0,
-  labels.margin.y = 0, labels.inside.frame = TRUE, zindex = NA)
+  labels.margin.y = 0, labels.inside.frame = TRUE, ticks = TRUE,
+  lines = TRUE, zindex = NA)
 
 tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
   projection = "longlat", labels.format = list(suffix =
@@ -52,6 +53,10 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 \item{labels.margin.y}{margin between tick labels of y axis and the frame}
 
 \item{labels.inside.frame}{Show labels inside the frame?}
+
+\item{ticks}{If \code{labels.inside.frame = FALSE}, should ticks can be drawn between the labels and the frame?}
+
+\item{lines}{If \code{labels.inside.frame = FALSE}, should grid lines can be drawn?}
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 

@@ -330,7 +330,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 	
 	if (!is.null(glab)) {
 		glab <- within(glab, {
-			if (exists("xlab.text")) {
+			if (!is.null(xlab.text)) {
 				xlab.nlines <- if (xlab.rotation %in% c(90, 270)) {
 					convertHeight(stringWidth(xlab.text), "lines", valueOnly = TRUE)	
 				} else number_text_lines(xlab.text)
@@ -340,7 +340,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 			} else {
 				xlab.show <- FALSE
 			}
-			if (exists("ylab.text")) {
+			if (!is.null(ylab.text)) {
 				ylab.nlines <- if (ylab.rotation %in% c(0, 180)) {
 					convertWidth(stringWidth(ylab.text), "lines", valueOnly = TRUE)	
 				} else number_text_lines(ylab.text)

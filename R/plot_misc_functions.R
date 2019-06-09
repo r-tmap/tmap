@@ -185,11 +185,19 @@ plot_grid_labels_x <- function(gt, scale) {
 	cex <- gt$grid.labels.size*scale
 	
 	spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-	marginX <- convertWidth(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+	marginX <- convertHeight(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 
 	just <- ifelse(gt$grid.labels.rot[1] == 90, "right", ifelse(gt$grid.labels.rot[1] == 270, "left", ifelse(gt$grid.labels.rot[1] == 180, "bottom", "top")))
 	
-	textGrob(labelsx, y=1-spacerX-marginX, x=cogridx, just=just, rot=gt$grid.labels.rot[1], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	if (gt$grid.ticks) {
+		ticks <- polylineGrob(x=rep(cogridx, each = 2), y = rep(c(1-spacerX*.5-marginX,1), length(cogridx)), id = rep(1:length(cogridx), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))	
+	} else {
+		ticks <- NULL
+	}
+	
+	labels <- textGrob(labelsx, y=1-spacerX-marginX, x=cogridx, just=just, rot=gt$grid.labels.rot[1], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	
+	gTree(children = gList(ticks, labels), name = "gridTicksLabelsX")
 	
 }
 
@@ -209,7 +217,13 @@ plot_grid_labels_y <- function(gt, scale) {
 	
 	just <- ifelse(gt$grid.labels.rot[2] == 90, "bottom", ifelse(gt$grid.labels.rot[2] == 270, "top", ifelse(gt$grid.labels.rot[2] == 180, "left", "right")))
 	
-	textGrob(labelsy, y=cogridy, x=1-spacerY-marginY, just=just, rot=gt$grid.labels.rot[2], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	if (gt$grid.ticks) {
+		ticks <- polylineGrob(x = rep(c(1-spacerY*.5-marginY, 1), length(cogridy)), y = rep(cogridy, each = 2), id = rep(1:length(cogridy), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
+	} else {
+		ticks <- NULL
+	}
+	labels <- textGrob(labelsy, y=cogridy, x=1-spacerY-marginY, just=just, rot=gt$grid.labels.rot[2], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	gTree(children = gList(ticks, labels), name = "gridTicksLabelsY")
 }
 
 
@@ -343,7 +357,9 @@ plot_grid <- function(gt, scale, add.labels) {
 		cogridx3 <- cogridx[selx2]
 		labelsx <- labelsx[selx2]
 		
-		if (is.na(gt$grid.projection)) {
+		if (!gt$grid.lines) {
+			grobGridX <- NULL
+		} else if (is.na(gt$grid.projection)) {
 			grobGridX <- polylineGrob(x=rep(cogridx2, each=2), y=rep(c(labelsXw+spacerX+marginX,1), length(cogridx2)), 
 									  id=rep(1:length(cogridx2), each=2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		} else {
@@ -367,7 +383,9 @@ plot_grid <- function(gt, scale, add.labels) {
 		cogridy3 <- cogridy[sely2]
 		labelsy <- labelsy[sely2]
 		
-		if (is.na(gt$grid.projection)) {
+		if (!gt$grid.lines) {
+			grobGridY <- NULL
+		} else if (is.na(gt$grid.projection)) {
 			grobGridY <- polylineGrob(y=rep(cogridy2, each=2), x=rep(c(labelsYw+spacerY+marginY,1), length(cogridy2)), 
 									  id=rep(1:length(cogridy2), each=2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 		} else {
