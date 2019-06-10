@@ -13,7 +13,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		} else if (!is.na(grid.n.x) && is.na(grid.n.y)) {
 			grid.n.y <- grid.n.x / sasp
 		} else if (is.na(grid.n.x) && is.na(grid.n.y)) {
-			grid.n.lines <- 20 / gt$scale
+			grid.n.lines <- 15 / gt$scale
 			grid.n.x <- round(sasp * (grid.n.lines/(1+sasp)))
 			grid.n.y <- round(grid.n.lines / (1+sasp))
 		}
@@ -40,7 +40,9 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				grid.x2 <- grid.x.orig
 			} else {
 				gnx2 <- floor(length(grid.x))
-				if (gnx2>0) {
+				if (gnx2==1) {
+					grid.x2 <- grid.x
+				} else if (gnx2>1) {
 					grid.x2 <- c(rev(seq(grid.x[1], by=-diff(grid.x[1:2]), length.out = gnx2)),
 								 grid.x[-c(1, length(grid.x))],
 								 seq(grid.x[length(grid.x)], by=diff(grid.x[1:2]), length.out = gnx2))
@@ -50,7 +52,9 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				grid.y2 <- grid.y.orig
 			} else {
 				gny2 <- floor(length(grid.y))
-				if (gny2>0) {
+				if (gny2==1) {
+					grid.y2 <- grid.y
+				} else if (gny2>1) {
 					grid.y2 <- c(rev(seq(grid.y[1], by=-diff(grid.y[1:2]), length.out = gny2)),
 								 grid.y[-c(1, length(grid.y))],
 								 seq(grid.y[length(grid.y)], by=diff(grid.y[1:2]), length.out = gny2))
