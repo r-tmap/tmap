@@ -9,12 +9,13 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
   col = NA, lwd = 1, alpha = NA, labels.size = 0.6,
   labels.col = NA, labels.rot = c(0, 0),
   labels.format = list(big.mark = ","), labels.margin.x = 0,
-  labels.margin.y = 0, labels.inside.frame = TRUE, ticks = TRUE,
+  labels.margin.y = 0, labels.space.x = NA, labels.space.y = NA,
+  labels.inside.frame = FALSE, ticks = !labels.inside.frame,
   lines = TRUE, zindex = NA)
 
 tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
   projection = "longlat", labels.format = list(suffix =
-  intToUtf8(176)), labels.inside.frame = FALSE, ...)
+  intToUtf8(176)), ...)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}
@@ -48,11 +49,15 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 }}
 
-\item{labels.margin.x}{margin between tick labels of x axis and the frame}
+\item{labels.margin.x}{margin between tick labels of x axis and the frame. Note that when \code{labels.inside.frame == FALSE} and \code{ticks == TRUE}, the ticks will be adjusted accordingly.}
 
-\item{labels.margin.y}{margin between tick labels of y axis and the frame}
+\item{labels.margin.y}{margin between tick labels of y axis and the frame. Note that when \code{labels.inside.frame == FALSE} and \code{ticks == TRUE}, the ticks will be adjusted accordingly.}
 
-\item{labels.inside.frame}{Show labels inside the frame?}
+\item{labels.space.x}{space that is used for the labels and ticks for the x-axis when \code{labels.inside.frame == FALSE}. By default, it is determined automatically using the widths and heights of the tick labels. The unit of this parameter is text line height.}
+
+\item{labels.space.y}{space that is used for the labels and ticks for the y-axis when \code{labels.inside.frame == FALSE}. By default, it is determined automatically using the widths and heights of the tick labels. The unit of this parameter is text line height.}
+
+\item{labels.inside.frame}{Show labels inside the frame? By default \code{FALSE}}
 
 \item{ticks}{If \code{labels.inside.frame = FALSE}, should ticks can be drawn between the labels and the frame?}
 
@@ -64,4 +69,17 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 }
 \description{
 Creates a \code{\link{tmap-element}} that draws coordinate grid lines. It serves as a layer that can be drawn anywhere between other layers. By default, \code{tm_grid} draws horizontal and vertical lines acording to the coordinate system of the (master) shape object. Latitude and longitude graticules are drawn with \code{tm_graticules}.
+}
+\examples{
+current.mode <- tmap_mode("plot")
+
+data(NLD_muni, World)
+
+qtm(NLD_muni, borders = NULL) + tm_grid()
+
+qtm(World, shape.projection = "robin", style = "natural") +
+	tm_graticules(ticks = FALSE) +
+	tm_layout(frame=FALSE)
+
+tmap_mode(current.mode)
 }

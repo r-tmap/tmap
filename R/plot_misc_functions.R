@@ -13,7 +13,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		} else if (!is.na(grid.n.x) && is.na(grid.n.y)) {
 			grid.n.y <- grid.n.x / sasp
 		} else if (is.na(grid.n.x) && is.na(grid.n.y)) {
-			grid.n.lines <- 15 / gt$scale
+			grid.n.lines <- 15 / (gt$scale / gt$scale.extra)
 			grid.n.x <- round(sasp * (grid.n.lines/(1+sasp)))
 			grid.n.y <- round(grid.n.lines / (1+sasp))
 		}

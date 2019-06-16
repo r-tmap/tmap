@@ -870,7 +870,7 @@ tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, 
 #' @rdname tm_tiles
 #' @export
 tm_basemap <- function(server=NA, group = NA, alpha = NA, tms = FALSE) {
-	g <- list(tm_basemap=c(as.list(environment()), list(grouptype = "base", zindex = NA)))
+	g <- list(tm_basemap=c(as.list(environment()), list(gtype = "base", zindex = NA)))
 	class(g) <- "tmap"
 	g
 }
@@ -892,7 +892,7 @@ tm_basemap <- function(server=NA, group = NA, alpha = NA, tms = FALSE) {
 #' @example ./examples/tm_tiles.R
 tm_tiles <- function(server, group = NA, alpha = 1, zindex = NA, tms = FALSE) {
 	if (missing(server)) stop("Please specify server (name or url)")
-	g <- list(tm_tiles=c(as.list(environment()), list(grouptype = "overlay")))
+	g <- list(tm_tiles=c(as.list(environment()), list(gtype = "overlay")))
 	class(g) <- "tmap"
 	g
 }

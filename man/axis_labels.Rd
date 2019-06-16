@@ -5,9 +5,9 @@
 \alias{tm_ylab}
 \title{Axis labels}
 \usage{
-tm_xlab(text, size = 0.8, rotation = 0, space = NA)
+tm_xlab(text, size = 0.8, rotation = 0, space = 0)
 
-tm_ylab(text, size = 0.8, rotation = 90, space = NA)
+tm_ylab(text, size = 0.8, rotation = 90, space = 0)
 }
 \arguments{
 \item{text}{text for the axis}

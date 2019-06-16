@@ -37,6 +37,23 @@ preprocess_facet_layout <- function(gm, external_legend, dh, dw) {
 		ylabWin <- 0
 	}
 	
+	if (gm$grid.show && !gm$grid.labels.inside.frame) {
+		
+		xbbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gm$shape.bbx_cropped[c(1,3)], intervals=FALSE), gm$grid.labels.format))), "inch", valueOnly = TRUE)) * gm$grid.labels.size
+		ybbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gm$shape.bbx_cropped[c(2,4)], intervals=FALSE), gm$grid.labels.format))), "inch", valueOnly = TRUE)) * gm$grid.labels.size
+		
+		lineH <- convertHeight(unit(gm$grid.labels.size, "lines"), "inch", valueOnly=TRUE)
+		
+		xgridHin <- ifelse(!is.na(gm$grid.labels.space.x), gm$grid.labels.space.x * lineH, ifelse(gm$grid.labels.rot[1] %in% c(0, 180), 1.25 * lineH, xbbstringWin + lineH * .5) + gm$grid.labels.margin.x * lineH)
+		ygridWin <- ifelse(!is.na(gm$grid.labels.space.y), gm$grid.labels.space.y * lineH, ifelse(gm$grid.labels.rot[2] %in% c(0, 180), ybbstringWin + lineH * .5, 1.25 * lineH) + gm$grid.labels.margin.y * lineH)
+	} else {
+		xgridHin <- 0
+		ygridWin <- 0
+	}
+	
+	
+	
+	
 	if (gm$attr.outside) {
 		anpc <- gm$attr.outside.size
 		ext_attr_pos <- tolower(gm$attr.outside.position)
@@ -76,8 +93,8 @@ preprocess_facet_layout <- function(gm, external_legend, dh, dw) {
 	
 	# calculate facet device size
 	if (gm$panel.mode=="none") {
-		dsw <- (dw - between.margin.in * (gm$ncol-1) - legW) / gm$ncol
-		dsh <- (dh - between.margin.in * (gm$nrow-1) - legH - attrH - mainH) / gm$nrow
+		dsw <- (dw - between.margin.in * (gm$ncol-1) - ygridWin * gm$ncol - legW) / gm$ncol
+		dsh <- (dh - between.margin.in * (gm$nrow-1) - xgridHin * gm$nrow - legH - attrH - mainH) / gm$nrow
 	} else if (gm$panel.mode=="one") {
 		dsw <- (dw - between.margin.in * (gm$ncol-1) - legW) / gm$ncol
 		dsh <- ((dh - between.margin.in * (gm$nrow-1) - legH - attrH - mainH) / gm$nrow) - pSH
@@ -88,5 +105,5 @@ preprocess_facet_layout <- function(gm, external_legend, dh, dw) {
 	
 	
 	
-	return(list(legH=legH, legW=legW, attrH=attrH, mainH=mainH, pSH=pSH, pSW=pSW, legmar=legmar, legmarx=legmarx, legmary=legmary, attrmar=attrmar, attrmary=attrmary, mainmary=mainmary, xlabHin=xlabHin, ylabWin=ylabWin, between.margin.in=between.margin.in, dsh=dsh, dsw=dsw))
+	return(list(legH=legH, legW=legW, attrH=attrH, mainH=mainH, pSH=pSH, pSW=pSW, legmar=legmar, legmarx=legmarx, legmary=legmary, attrmar=attrmar, attrmary=attrmary, mainmary=mainmary, xlabHin=xlabHin, ylabWin=ylabWin, xgridHin=xgridHin, ygridWin=ygridWin, between.margin.in=between.margin.in, dsh=dsh, dsw=dsw))
 }

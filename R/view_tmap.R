@@ -135,7 +135,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			if (p == "grid") gt$grid.zindex else gpl[[paste0(p, ".zindex")]]
 		})
 
-		if (!is.null(gpl$tile.grouptype) && gpl$tile.grouptype == "base") {
+		if (!is.null(gpl$tile.gtype) && gpl$tile.gtype == "base") {
 			zi[names(zi) == "tile"] <- 0
 		}
 		zi
@@ -554,7 +554,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 		plot_tm_tiles <- function(zi) {
 			basemaps <- gpl$tile.server
 			basemaps.alpha <- gpl$tile.alpha
-			type <- gpl$tile.grouptype
+			type <- gpl$tile.gtype
 			tms <- gpl$tile.tms
 			
 			if (is.null(basemaps)) {

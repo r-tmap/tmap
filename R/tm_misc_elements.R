@@ -91,14 +91,17 @@ tm_facets <- function(by=NULL,
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
-#' @param labels.margin.x margin between tick labels of x axis and the frame
-#' @param labels.margin.y margin between tick labels of y axis and the frame
-#' @param labels.inside.frame Show labels inside the frame?
+#' @param labels.margin.x margin between tick labels of x axis and the frame. Note that when \code{labels.inside.frame == FALSE} and \code{ticks == TRUE}, the ticks will be adjusted accordingly.
+#' @param labels.margin.y margin between tick labels of y axis and the frame. Note that when \code{labels.inside.frame == FALSE} and \code{ticks == TRUE}, the ticks will be adjusted accordingly.
+#' @param labels.space.x space that is used for the labels and ticks for the x-axis when \code{labels.inside.frame == FALSE}. By default, it is determined automatically using the widths and heights of the tick labels. The unit of this parameter is text line height.
+#' @param labels.space.y space that is used for the labels and ticks for the y-axis when \code{labels.inside.frame == FALSE}. By default, it is determined automatically using the widths and heights of the tick labels. The unit of this parameter is text line height.
+#' @param labels.inside.frame Show labels inside the frame? By default \code{FALSE}
 #' @param ticks If \code{labels.inside.frame = FALSE}, should ticks can be drawn between the labels and the frame?
 #' @param lines If \code{labels.inside.frame = FALSE}, should grid lines can be drawn?
 #' @param zindex zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.
 #' @param ... arguments passed on to \code{tm_grid}
 #' @export
+#' @example ./examples/tm_grid.R
 tm_grid <- function(x=NA,
 					y=NA,
 					n.x=NA,
@@ -113,7 +116,9 @@ tm_grid <- function(x=NA,
 					labels.format = list(big.mark = ","),
 					labels.margin.x=0,
 					labels.margin.y=0,
-					labels.inside.frame=TRUE,
+					labels.space.x=NA,
+					labels.space.y=NA,
+					labels.inside.frame=FALSE,
 					ticks = !labels.inside.frame,
 					lines = TRUE,
 					zindex = NA) {
@@ -133,9 +138,8 @@ tm_graticules <- function(x=NA,
 						 n.y=NA,
 						 projection = "longlat",
 						 labels.format = list(suffix = intToUtf8(176)),
-						 labels.inside.frame=FALSE,
 						 ...) {
-	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format, labels.inside.frame = labels.inside.frame), list(...)))
+	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format), list(...)))
 }
 
 
@@ -283,7 +287,7 @@ tm_compass <- function(north=0,
 tm_xlab <- function(text,
 					size=.8,
 					rotation=0,
-					space = NA) {
+					space = 0) {
 	g <- list(tm_xlab=as.list(environment()))
 	names(g$tm_xlab) <- paste("xlab", names(g$tm_xlab), sep=".")
 	class(g) <- "tmap"
@@ -297,7 +301,7 @@ tm_xlab <- function(text,
 tm_ylab <- function(text,
 					size=.8,
 					rotation=90,
-					space = NA) {
+					space = 0) {
 	g <- list(tm_ylab=as.list(environment()))
 	names(g$tm_ylab) <- paste("ylab", names(g$tm_ylab), sep=".")
 	class(g) <- "tmap"
