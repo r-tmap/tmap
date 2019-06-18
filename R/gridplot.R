@@ -122,8 +122,8 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 				gTree(children=gList(
 					#cellplot((rw+1),cl, e=rectGrob(gp=gpar(fill="purple")), name="gridLabelsX"),
 					#cellplot(rw,(cl-1), e=rectGrob(gp=gpar(fill="grey")), name="gridLabelsY")), name=paste("gridLabels", i, sep="_"))
-					cellplot((rw+1),cl, e=plot_grid_labels_x(gt, scale=gt$scale), name="gridLabelsX"),
-					cellplot(rw,(cl-1), e=plot_grid_labels_y(gt, scale=gt$scale), name="gridLabelsY")), name=paste("gridLabels", i, sep="_"))
+					cellplot((rw+1),cl, clip = FALSE, e=plot_grid_labels_x(gt, scale=gt$scale), name="gridLabelsX"),
+					cellplot(rw,(cl-1), clip = FALSE, e=plot_grid_labels_y(gt, scale=gt$scale), name="gridLabelsY")), name=paste("gridLabels", i, sep="_"))
 			}, istart:iend, 
 			rep(gmeta$rowrange, each=mfcol, length.out=ni), 
 			rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)
