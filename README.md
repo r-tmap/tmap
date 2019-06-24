@@ -43,10 +43,10 @@ However, for some operating systems require additional libraries. The installati
 No additional installation required.
 
 **Linux (Ubuntu)**
-See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/blob/master/ubuntu_16_installation.sh) and [17/18](https://github.com/mtennekes/tmap/blob/master/ubuntu_17_installation.sh). Please address intallation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/150).
+See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/blob/master/ubuntu_16_installation.sh) and [17/18](https://github.com/mtennekes/tmap/blob/master/ubuntu_17_installation.sh). Please address installation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/150).
 
 **macOS**
-See http://www.kyngchaos.com. Please address intallation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/149).
+See http://www.kyngchaos.com. Please address installation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/149).
 
 
 Development

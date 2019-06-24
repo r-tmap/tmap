@@ -1,5 +1,5 @@
-cellplot <- function(x, y, name=NULL, vp=NULL, e) {
-	pushViewport(viewport(layout.pos.row=x, layout.pos.col=y, name=name, clip=TRUE))
+cellplot <- function(x, y, name=NULL, vp=NULL, clip = TRUE, e) {
+	pushViewport(viewport(layout.pos.row=x, layout.pos.col=y, name=name, clip=clip))
 	n <- 1
 	if (!is.null(vp)){ 
 		pushViewport(vp)

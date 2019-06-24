@@ -22,9 +22,9 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 
 \item{y}{y coordinates for horizontal grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.y}.}
 
-\item{n.x}{preferred number of grid lines for the x axis.}
+\item{n.x}{preferred number of grid lines for the x axis. For the labels, a \code{\link{pretty}} sequence is used, so the number of actual labels may be different than \code{n.x}.}
 
-\item{n.y}{preferred number of grid lines for the y axis.}
+\item{n.y}{preferred number of grid lines for the y axis. For the labels, a \code{\link{pretty}} sequence is used, so the number of actual labels may be different than \code{n.y}.}
 
 \item{projection}{projection character. If specified, the grid lines are projected accordingly. See \code{\link[tmaptools:set_projection]{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.}
 
