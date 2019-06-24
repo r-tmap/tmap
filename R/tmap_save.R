@@ -93,8 +93,8 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	}
 	## impute missing w or h
 	if (is.na(width) && is.na(height)) {
-		width <- par("din")[1]
-		height <- par("din")[2]
+		width <- dev.size()[1]
+		height <- dev.size()[2]
 		if (is.na(units)) units <- "in"
 	} else if (is.na(width) || is.na(height)) {
 		if (!is.na(width)) {

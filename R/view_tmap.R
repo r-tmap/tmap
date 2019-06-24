@@ -1048,12 +1048,12 @@ working_internet <- function(url = "http://www.google.com") {
 }
 
 bbx_per_line <- function(bbx) {
-	max_lines <- 60 #par("din")[2]*10 #disabled because window height doesn't influence scaling
+	max_lines <- 60
 	(bbx[4] - bbx[2]) / max_lines
 }
 
 units_per_line <- function(bbx) {
-	max_lines <- 60 #par("din")[2]*10 #disabled because window height doesn't influence scaling
+	max_lines <- 60
 
 	# calculate top-center to bottom-center
 	vdist <- tmaptools::approx_distances(bbx, projection = "longlat", target = "m")$vdist

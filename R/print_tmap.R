@@ -239,7 +239,7 @@ gather_shape_info <- function(x, interactive) {
 prepare_vp <- function(vp, gm, interactive, gt) {
 	
 	if (interactive) {
-		devsize <- par("din")
+		devsize <- dev.size()
 		dasp <- devsize[1] / devsize[2]
 		iasp <- gm$shape.masp
 		asp_ratio <- iasp / dasp

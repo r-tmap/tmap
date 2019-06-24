@@ -61,7 +61,7 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 	if (nx != tms_len) tms <- tms[1:nx]
 	
 	if (is.na(opts$ncol) && is.na(opts$nrow)) {
-		devsize <- graphics::par("din")
+		devsize <- dev.size()
 		dasp <- devsize[1] / devsize[2]
 		
 		## determine 'overall' aspect ratio by overlaying the maps		

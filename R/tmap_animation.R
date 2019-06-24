@@ -14,7 +14,7 @@
 #' @example ./examples/tmap_animation.R
 #' @import tmaptools
 #' @export
-tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, delay=40, loop = TRUE, restart.delay = 0) {
+tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, dpi=300, delay=40, loop = TRUE, restart.delay = 0) {
 	if (!is.numeric(delay) || !(length(delay) == 1L)) stop("delay must be a numeric value", call. = FALSE)
 	if ((!is.numeric(loop) && !is.logical(loop)) || !(length(loop) == 1L)) stop("loop must be a logical or numeric value", call. = FALSE)
 	if (!is.numeric(restart.delay) || !(length(restart.delay) == 1L)) stop("restart.delay must be a numeric value", call. = FALSE)
@@ -35,7 +35,7 @@ tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, de
 	# create plots
 	d <- paste(tempdir(), "/tmap_plots", sep="/")
 	dir.create(d, showWarnings = FALSE)
-	suppressMessages(tmap_save(tm, filename = paste(d, "plot%03d.png", sep="/"), width=width, height=height))
+	suppressMessages(tmap_save(tm, filename = paste(d, "plot%03d.png", sep="/"), width=width, height=height, dpi=dpi))
 
 	files <- list.files(path = d, pattern = "^plot[0-9]{3}\\.png$")
 	k <- length(files)
