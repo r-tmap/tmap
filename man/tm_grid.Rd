@@ -8,14 +8,14 @@
 tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
   col = NA, lwd = 1, alpha = NA, labels.size = 0.6,
   labels.col = NA, labels.rot = c(0, 0),
-  labels.format = list(big.mark = ","), labels.margin.x = 0,
-  labels.margin.y = 0, labels.space.x = NA, labels.space.y = NA,
-  labels.inside.frame = FALSE, ticks = !labels.inside.frame,
-  lines = TRUE, zindex = NA)
+  labels.format = list(big.mark = ","), labels.cardinal = FALSE,
+  labels.margin.x = 0, labels.margin.y = 0, labels.space.x = NA,
+  labels.space.y = NA, labels.inside.frame = FALSE,
+  ticks = !labels.inside.frame, lines = TRUE, zindex = NA)
 
 tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
   projection = "longlat", labels.format = list(suffix =
-  intToUtf8(176)), ...)
+  intToUtf8(176)), labels.cardinal = TRUE, ...)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}
@@ -49,6 +49,8 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 }}
 
+\item{labels.cardinal}{add the four cardinal directions (N, E, S, W) to the labels, instead of using negative coordiantes for west and south (so it assumes that the coordinates are positive in the north-east direction).}
+
 \item{labels.margin.x}{margin between tick labels of x axis and the frame. Note that when \code{labels.inside.frame == FALSE} and \code{ticks == TRUE}, the ticks will be adjusted accordingly.}
 
 \item{labels.margin.y}{margin between tick labels of y axis and the frame. Note that when \code{labels.inside.frame == FALSE} and \code{ticks == TRUE}, the ticks will be adjusted accordingly.}
@@ -75,7 +77,10 @@ current.mode <- tmap_mode("plot")
 
 data(NLD_muni, World)
 
-qtm(NLD_muni, borders = NULL) + tm_grid()
+tmap_arrange(
+	qtm(NLD_muni, borders = NULL) + tm_grid(),
+	qtm(NLD_muni, borders = NULL) + tm_graticules()
+)
 
 qtm(World, shape.projection = "robin", style = "natural") +
 	tm_graticules(ticks = FALSE) +

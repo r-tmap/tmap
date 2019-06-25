@@ -2,7 +2,10 @@ current.mode <- tmap_mode("plot")
 
 data(NLD_muni, World)
 
-qtm(NLD_muni, borders = NULL) + tm_grid()
+tmap_arrange(
+	qtm(NLD_muni, borders = NULL) + tm_grid(),
+	qtm(NLD_muni, borders = NULL) + tm_graticules()
+)
 
 qtm(World, shape.projection = "robin", style = "natural") +
 	tm_graticules(ticks = FALSE) +

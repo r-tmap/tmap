@@ -91,6 +91,7 @@ tm_facets <- function(by=NULL,
 #' \item{digits}{Number of digits after the decimal point if \code{format="f"}, and the number of significant digits otherwise.}
 #' \item{...}{Other arguments passed on to \code{\link[base:formatC]{formatC}}}
 #' }
+#' @param labels.cardinal add the four cardinal directions (N, E, S, W) to the labels, instead of using negative coordiantes for west and south (so it assumes that the coordinates are positive in the north-east direction).
 #' @param labels.margin.x margin between tick labels of x axis and the frame. Note that when \code{labels.inside.frame == FALSE} and \code{ticks == TRUE}, the ticks will be adjusted accordingly.
 #' @param labels.margin.y margin between tick labels of y axis and the frame. Note that when \code{labels.inside.frame == FALSE} and \code{ticks == TRUE}, the ticks will be adjusted accordingly.
 #' @param labels.space.x space that is used for the labels and ticks for the x-axis when \code{labels.inside.frame == FALSE}. By default, it is determined automatically using the widths and heights of the tick labels. The unit of this parameter is text line height.
@@ -114,6 +115,7 @@ tm_grid <- function(x=NA,
 					labels.col=NA,
 					labels.rot = c(0, 0),
 					labels.format = list(big.mark = ","),
+					labels.cardinal = FALSE,
 					labels.margin.x=0,
 					labels.margin.y=0,
 					labels.space.x=NA,
@@ -138,8 +140,9 @@ tm_graticules <- function(x=NA,
 						 n.y=NA,
 						 projection = "longlat",
 						 labels.format = list(suffix = intToUtf8(176)),
+						 labels.cardinal = TRUE,
 						 ...) {
-	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format), list(...)))
+	do.call(tm_grid, c(list(x = x, y = y, n.x = n.x, n.y = n.y, projection = projection, labels.format = labels.format, labels.cardinal = labels.cardinal), list(...)))
 }
 
 

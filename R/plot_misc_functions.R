@@ -171,8 +171,38 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		}
 		
 		## format grid labels
-		grid.labels.x <- do.call("fancy_breaks", c(list(vec=grid.x, intervals=FALSE), gt$grid.labels.format)) #format(grid.x, big.mark = ",")
-		grid.labels.y <- do.call("fancy_breaks", c(list(vec=grid.y, intervals=FALSE), gt$grid.labels.format)) #format(grid.y, big.mark = ",")
+		
+		
+		grid.labels.x <- local({
+			if (gt$grid.labels.cardinal) {
+				xneg <- grid.x < 0
+				xpos <- grid.x > 0
+				
+				xlab <- do.call("fancy_breaks", c(list(vec=abs(grid.x), intervals=FALSE), gt$grid.labels.format)) #format(grid.x, big.mark = ",")	
+				
+				xlab[xpos] <- paste0(xlab[xpos], "E")
+				xlab[xneg] <- paste0(xlab[xneg], "W")
+				xlab
+			} else {
+				do.call("fancy_breaks", c(list(vec=grid.x, intervals=FALSE), gt$grid.labels.format)) #format(grid.x, big.mark = ",")	
+			}
+		})
+		
+		
+		grid.labels.y <- local({
+			if (gt$grid.labels.cardinal) {
+				yneg <- grid.y < 0
+				ypos <- grid.y > 0
+				
+				ylab <- do.call("fancy_breaks", c(list(vec=abs(grid.y), intervals=FALSE), gt$grid.labels.format))
+				
+				ylab[ypos] <- paste0(ylab[ypos], "N")
+				ylab[yneg] <- paste0(ylab[yneg], "S")
+				ylab
+			} else {
+				do.call("fancy_breaks", c(list(vec=grid.y, intervals=FALSE), gt$grid.labels.format))
+			}
+		})
 		
 	})
 }

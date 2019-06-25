@@ -6,6 +6,7 @@
 #' @param filename filename of the video (should be a .gif or .mpg file)
 #' @param width width of the animation file (in pixels)
 #' @param height height of the animation file (in pixels)
+#' @param dpi dots per inch. Only applicable for raster graphics.
 #' @param delay delay time between images (in 1/100th of a second)
 #' @param loop logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.
 #' @param restart.delay delay time between the loops (in 1/100th of a second)
