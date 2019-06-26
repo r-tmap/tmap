@@ -1,13 +1,12 @@
 #' Save tmap
 #' 
-#' Save tmap to a file, such as png, jpg, or pdf.
+#' Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
 #'
 #' @param tm tmap object
-#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, or tiff are supported. If the extension is missing, the file will be saved as png image
-#' @param width width. Units are set with the argument \code{units}. If set to \code{NA} and \code{height} is specified, it will be \code{height} * aspect ratio. If both \code{width} and \code{height} are not specified, then the width of the current plotting window will be taken.
-#' @param height height. Units are set with the argument \code{units}. If set to \code{NA} and \code{width} is specified, it will be \code{width} / aspect ratio. If both \code{width} and \code{height} are not specified, then the height of the current plotting window will be taken.
+#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in \code{"plot"} mode and as an interactive map (html) in \code{"view"} mode. The default format for static plots is png, but this can be changed using the option \code{"output.format"} in \code{\link{tmap_options}}.
+#' @param height,width The width and height of the plot (not applicable for html files). Units are set with the argument \code{units}. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option \code{"output.size"} in \code{\link{tmap_options}}. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.
 #' @param units units for width and height (\code{"in"}, \code{"cm"}, or \code{"mm"}). By default, pixels (\code{"px"}) are used if either width or height is set to a value greater than 50. Else, the units are inches (\code{"in"})
-#' @param dpi dots per inch. Only applicable for raster graphics.
+#' @param dpi dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option \code{"output.dpi"} in \code{\link{tmap_options}}.
 #' @param outer.margins overrides the outer.margins argument of \code{\link{tm_layout}} (unless set to \code{NA})
 #' @param asp if specified, it overrides the asp argument of \code{\link{tm_layout}}. Tip: set to \code{0} if map frame should be placed on the edges of the image.
 #' @param scale overrides the scale argument of \code{\link{tm_layout}} (unless set to \code{NA})
@@ -20,10 +19,12 @@
 #' @import tmaptools
 #' @example ./examples/tmap_save.R
 #' @export
-tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
-					  dpi=300, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, verbose = NULL, ...) {
+tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
+					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, verbose = NULL, ...) {
 	if (!missing(verbose)) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
-	verbose <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	
+	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
+	verbose <- .tmapOptions$show.messages
 	
 	lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
 	if (missing(tm)) {
@@ -39,19 +40,22 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 	}
 	
 	tmap.mode <- getOption("tmap.mode")
-	default_ext <- ifelse(tmap.mode == "plot", "png", "html")
+	default_ext <- ifelse(tmap.mode == "plot", .tmapOptions$output.format, "html")
+
 	
-	if (!is.arrange) {
-		shp_name <- function(tm) {
-			paste0(tm[[1]]$shp_name, ".", default_ext)
+	if (is.na(filename)) {
+		filename_default <- paste("tmap", default_ext, sep = ".")
+		if (!file.exists(filename_default)) {
+			filename <- filename_default
+		} else {
+			files <- list.files(pattern = paste0("^tmap[0-9]{2}\\.", default_ext, "$"))
+			fid <- ifelse(length(files), 1, max(as.integer(substr(files, 5, 6))) + 1)
+			filename <- paste0("tmap", sprintf("%02d", fid), ".",  default_ext)
 		}
-		if (missing(filename)) {
-			filename <- shp_name(tm)
-		}
-	} else if (missing(filename)) {
-		filename <- paste0("map.", default_ext)
 	}
 	
+	if (is.na(dpi)) dpi <- .tmapOptions$output.dpi
+		
 	on.exit({
 		assign(".last_map", lastcall, envir = .TMAP_CACHE)
 	})
@@ -92,18 +96,23 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 		return(invisible())
 	}
 	## impute missing w or h
-	if (is.na(width) && is.na(height)) {
-		width <- dev.size()[1]
-		height <- dev.size()[2]
-		if (is.na(units)) units <- "in"
-	} else if (is.na(width) || is.na(height)) {
+	# if (is.na(width) && is.na(height)) {
+	# 	
+	# 	
+	# 	
+	# 	width <- dev.size()[1]
+	# 	height <- dev.size()[2]
+	# 	if (is.na(units)) units <- "in"
+	if (is.na(width) || is.na(height)) {
 		if (!is.na(width)) {
 			if (is.na(units)) units <- ifelse(width>50, "px", "in")
-			
 			temp_size <- convert_to_pixels(width, units)
-		} else {
+		} else if (!is.na(width)) {
 			if (is.na(units)) units <- ifelse(height>50, "px", "in")
 			temp_size <- convert_to_pixels(height, units)
+		} else {
+			units <- "in"
+			temp_size <- 7
 		}
 		
 		if (is.arrange) {
@@ -113,11 +122,16 @@ tmap_save <- function(tm=NULL, filename=NULL, width=NA, height=NA, units = NA,
 			on.exit(tmap_options(show.messages))
 			sasp <- get_asp_ratio(tm, width = temp_size, height = temp_size, res = dpi)	
 			tmap_options(show.messages)
-		} 
-		if (is.na(width)) {
+		}
+		
+		if (is.na(width) && !is.na(height)) {
 			width <- height * sasp
-		} else if (is.na(height)) {
+		} else if (is.na(height)  && !is.na(width)) {
 			height <- width / sasp
+		} else {
+			units <- "in"
+			height <- sqrt(.tmapOptions$output.size / sasp)
+			width <- height * sasp
 		}
 	} else {
 		if (is.na(units)) units <- ifelse(width > 50 || height > 50, "px", "in")

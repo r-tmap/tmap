@@ -4,23 +4,21 @@
 \alias{tmap_save}
 \title{Save tmap}
 \usage{
-tmap_save(tm = NULL, filename = NULL, width = NA, height = NA,
-  units = NA, dpi = 300, outer.margins = NA, asp = NULL,
+tmap_save(tm = NULL, filename = NA, width = NA, height = NA,
+  units = NA, dpi = NA, outer.margins = NA, asp = NULL,
   scale = NA, insets_tm = NULL, insets_vp = NULL,
   add.titles = TRUE, verbose = NULL, ...)
 }
 \arguments{
 \item{tm}{tmap object}
 
-\item{filename}{filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, or tiff are supported. If the extension is missing, the file will be saved as png image}
+\item{filename}{filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in \code{"plot"} mode and as an interactive map (html) in \code{"view"} mode. The default format for static plots is png, but this can be changed using the option \code{"output.format"} in \code{\link{tmap_options}}.}
 
-\item{width}{width. Units are set with the argument \code{units}. If set to \code{NA} and \code{height} is specified, it will be \code{height} * aspect ratio. If both \code{width} and \code{height} are not specified, then the width of the current plotting window will be taken.}
-
-\item{height}{height. Units are set with the argument \code{units}. If set to \code{NA} and \code{width} is specified, it will be \code{width} / aspect ratio. If both \code{width} and \code{height} are not specified, then the height of the current plotting window will be taken.}
+\item{height, width}{The width and height of the plot (not applicable for html files). Units are set with the argument \code{units}. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option \code{"output.size"} in \code{\link{tmap_options}}. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.}
 
 \item{units}{units for width and height (\code{"in"}, \code{"cm"}, or \code{"mm"}). By default, pixels (\code{"px"}) are used if either width or height is set to a value greater than 50. Else, the units are inches (\code{"in"})}
 
-\item{dpi}{dots per inch. Only applicable for raster graphics.}
+\item{dpi}{dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option \code{"output.dpi"} in \code{\link{tmap_options}}.}
 
 \item{outer.margins}{overrides the outer.margins argument of \code{\link{tm_layout}} (unless set to \code{NA})}
 
@@ -39,7 +37,7 @@ tmap_save(tm = NULL, filename = NULL, width = NA, height = NA,
 \item{...}{arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}}
 }
 \description{
-Save tmap to a file, such as png, jpg, or pdf.
+Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
 }
 \examples{
 \dontrun{

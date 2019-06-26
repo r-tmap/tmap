@@ -126,7 +126,10 @@
 		set.zoom.limits = NA,
 		view.legend.position = c("right", "top"),
 		control.position = c("left", "top"),
-		popup.all.data = NULL
+		popup.all.data = NULL,
+		output.format = "png",
+		output.size = 49,
+		output.dpi = 300
 	),
 	style = "white"
 )

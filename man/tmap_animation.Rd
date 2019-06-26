@@ -5,7 +5,7 @@
 \title{Create animation}
 \usage{
 tmap_animation(tm, filename = "animation.gif", width = NA,
-  height = NA, dpi = 300, delay = 40, loop = TRUE,
+  height = NA, dpi = NA, delay = 40, loop = TRUE,
   restart.delay = 0)
 }
 \arguments{
@@ -17,7 +17,7 @@ tmap_animation(tm, filename = "animation.gif", width = NA,
 
 \item{height}{height of the animation file (in pixels)}
 
-\item{dpi}{dots per inch. Only applicable for raster graphics.}
+\item{dpi}{dots per inch. Only applicable for raster graphics. By default 300, but this can be set with the option \code{output.dpi} in \code{\link{tmap_options}}.}
 
 \item{delay}{delay time between images (in 1/100th of a second)}
 

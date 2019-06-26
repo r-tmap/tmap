@@ -1,6 +1,8 @@
 version 2.3
 - [!] shiny integration: added tmapOutput, renderTmap, tmapProxy, and, tm_remove_layer
+- improved tmap_save (regarding default values)
 - improved tm_rgb (added r g b and max.value arguments)
+- added tm_graticules
 - supported TMS servers
 - in view mode, layers can be hidden from the legend with group = NULL
 - replaced mapview by leafsync

@@ -6,7 +6,7 @@
 #' @param filename filename of the video (should be a .gif or .mpg file)
 #' @param width width of the animation file (in pixels)
 #' @param height height of the animation file (in pixels)
-#' @param dpi dots per inch. Only applicable for raster graphics.
+#' @param dpi dots per inch. Only applicable for raster graphics. By default 300, but this can be set with the option \code{output.dpi} in \code{\link{tmap_options}}.
 #' @param delay delay time between images (in 1/100th of a second)
 #' @param loop logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.
 #' @param restart.delay delay time between the loops (in 1/100th of a second)
@@ -15,7 +15,9 @@
 #' @example ./examples/tmap_animation.R
 #' @import tmaptools
 #' @export
-tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, dpi=300, delay=40, loop = TRUE, restart.delay = 0) {
+tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, dpi=NA, delay=40, loop = TRUE, restart.delay = 0) {
+	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
+	
 	if (!is.numeric(delay) || !(length(delay) == 1L)) stop("delay must be a numeric value", call. = FALSE)
 	if ((!is.numeric(loop) && !is.logical(loop)) || !(length(loop) == 1L)) stop("loop must be a logical or numeric value", call. = FALSE)
 	if (!is.numeric(restart.delay) || !(length(restart.delay) == 1L)) stop("restart.delay must be a numeric value", call. = FALSE)
@@ -33,6 +35,8 @@ tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, dp
 		} else program <- "magick convert"
 	}
 
+	if (is.na(dpi)) dpi <- .tmapOptions$output.dpi
+	
 	# create plots
 	d <- paste(tempdir(), "/tmap_plots", sep="/")
 	dir.create(d, showWarnings = FALSE)
@@ -55,7 +59,7 @@ tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, dp
 	# cleaning up plots
 	unlink(d, recursive = TRUE)
 
-	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+	if (.tmapOptions$show.messages) {
 		message("Animation saved to ", suppressWarnings(normalizePath(filename)))
 	}
 	
