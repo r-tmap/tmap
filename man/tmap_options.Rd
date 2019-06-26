@@ -9,7 +9,7 @@
 \usage{
 tmap_options(..., unit, limits, max.categories, max.raster, basemaps,
   basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap,
-  show.messages)
+  show.messages, output.format, output.size, output.dpi)
 
 tmap_options_diff()
 
@@ -41,6 +41,12 @@ tmap_options_save(style)
 \item{qtm.minimap}{should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The value \code{NA} means that the minimap is only added in navigation mode (i.e. when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{FALSE}.}
 
 \item{show.messages}{should messages be shown?}
+
+\item{output.format}{The format of the static maps saved with \code{\link{tmap_save}} without specification of the filename. The default is \code{"png"}.}
+
+\item{output.size}{The size of the static maps saved with \code{\link{tmap_save}} without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.}
+
+\item{output.dpi}{The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.}
 
 \item{style}{style name}
 }

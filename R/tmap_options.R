@@ -5,6 +5,9 @@
 		max.categories = 30,
 		max.raster = c(plot = 1e7, view = 1e6),
 		show.messages = TRUE,
+		output.format = "png",
+		output.size = 49,
+		output.dpi = 300,
 		title = NA,
 		scale = 1,
 		title.size = 1.3,
@@ -126,10 +129,7 @@
 		set.zoom.limits = NA,
 		view.legend.position = c("right", "top"),
 		control.position = c("left", "top"),
-		popup.all.data = NULL,
-		output.format = "png",
-		output.size = 49,
-		output.dpi = 300
+		popup.all.data = NULL
 	),
 	style = "white"
 )
@@ -332,13 +332,16 @@
 #' @param qtm.scalebar should a scale bar be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_scale_bar()} be added automatically? The value \code{NA} means that the scale bar is only added when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{TRUE}.
 #' @param qtm.minimap should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The value \code{NA} means that the minimap is only added in navigation mode (i.e. when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{FALSE}.
 #' @param show.messages should messages be shown?
+#' @param output.format The format of the static maps saved with \code{\link{tmap_save}} without specification of the filename. The default is \code{"png"}.
+#' @param output.size The size of the static maps saved with \code{\link{tmap_save}} without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.
+#' @param output.dpi The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.
 #' @param style style name
 #' @example ./examples/tmap_options.R
 #' @rdname tmap_options
 #' @name tmap_options
 #' @export
 #' @seealso \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}
-tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, show.messages) {
+tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, show.messages, output.format, output.size, output.dpi) {
 
 	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
 	current.style <- getOption("tmap.style")
