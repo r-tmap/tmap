@@ -10,21 +10,24 @@ tmap: thematic maps in R
 
 [`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps, written by [Martijn Tennekes][3]. The API is based on [*A Layered Grammar of Graphics*][4] by Hadley Wickham and resembles the syntax of `ggplot2`, a popular R-library for drawing charts.
 
+
+https://mtennekes.github.io/downloads/images/view_metro4.jpg
+
 <span>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/classic.jpg" alt="Classic World Map" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/bubble.jpg" alt="Bubble Map" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/view_metro2.jpg" alt="Bubble Map" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/world_facets2.jpg" alt="World facets" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/USchoro.jpg" alt="US Choropleth" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="http://www.von-tijn.nl/tijn/research/tmap/icons/US_PR.jpg" alt="US Choropleth" height="125px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap"><img src="https://mtennekes.github.io/downloads/images/classic.png" alt="Classic World Map" height="125px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="https://mtennekes.github.io/downloads/images/bubble.png" alt="Bubble Map" height="125px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="https://mtennekes.github.io/downloads/images/view_metro4.jpg" alt="Bubble Map" height="125px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets"><img src="https://mtennekes.github.io/downloads/images/world_facets2.png" alt="World facets" height="125px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="https://mtennekes.github.io/downloads/images/USchoro.png" alt="US Choropleth" height="125px"/></a>
+<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="https://mtennekes.github.io/downloads/images/US_PR.jpg" alt="US Choropleth" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes3.jpg" alt="London Crimes" height="125px"/></a>
+<img src="https://mtennekes.github.io/downloads/images/crimes3b.png" alt="London Crimes" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes4.jpg" alt="London Crimes" height="125px"/></a>
+<img src="https://mtennekes.github.io/downloads/images/crimes4.png" alt="London Crimes" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/crimes5.jpg" alt="London Crimes" height="125px"/></a>
+<img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="http://www.von-tijn.nl/tijn/research/tmap/icons/view_crimes2.jpg" alt="London Crimes" height="125px"/></a>
+<img src="https://mtennekes.github.io/downloads/images/view_crimes2.jpg" alt="London Crimes" height="125px"/></a>
 </span>
 
 
