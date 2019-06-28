@@ -25,7 +25,7 @@ tmap: thematic maps in R
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
 <img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"/></a>
 <a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="https://mtennekes.github.io/downloads/images/view_crimes2.jpg" alt="London Crimes" height="125px"/></a>
+<img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"/></a>
 </span>
 
 
