@@ -147,8 +147,8 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 	if (style=="fixed") {
 		q <- list(var=x,
 				  brks=breaks)
-		if (any(x < min(breaks))) warning("Values have found that are less than the lowest break", call. = FALSE)
-		if (any(x > max(breaks))) warning("Values have found that are higher than the highest break", call. = FALSE)
+		if (any(na.omit(x) < min(breaks))) warning("Values have found that are less than the lowest break", call. = FALSE)
+		if (any(na.omit(x) > max(breaks))) warning("Values have found that are higher than the highest break", call. = FALSE)
 		attr(q, "style") <- "fixed"
 		attr(q, "nobs") <- nobs
 		attr(q, "intervalClosure") <- interval.closure
