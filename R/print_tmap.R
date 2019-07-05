@@ -22,7 +22,7 @@
 #' @import methods
 #' @importFrom graphics par
 #' @importFrom classInt classIntervals findCols
-#' @importFrom grDevices col2rgb colorRampPalette dev.off dev.set dev.cur is.raster png rgb
+#' @importFrom grDevices col2rgb colorRampPalette dev.off dev.set dev.cur is.raster png rgb dev.size
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom grDevices xy.coords colors
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar

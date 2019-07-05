@@ -5,5 +5,5 @@ w3 <- qtm(World, projection = "gall", title="Gall stereographic")
 w4 <- qtm(World, projection = "robin", title="Robinsin")
 
 current.mode <- tmap_mode("plot")
-tmap_arrange(w1, w2, w3, w4)
+tmap_arrange(w1, w2, w3, w4, widths = c(.25, .75))
 tmap_mode(current.mode)

@@ -7,6 +7,8 @@
 #' @param ... \code{\link{tmap}} objects or one list of \code{\link{tmap}} objects. The number of multiples that can be plot is limited (see details).
 #' @param ncol number of columns
 #' @param nrow number of rows
+#' @param widths vector of column widths. It should add up to 1 and the length should be equal to \code{ncol}
+#' @param heights vector of row heights. It should add up to 1 and the length should be equal to \code{nrow}
 #' @param sync logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{FALSE}.
 #' @param asp aspect ratio. The aspect ratio of each map. Normally, this is controlled by the \code{asp} argument from \code{\link{tm_layout}} (also a tmap option). This argument will overwrite it, unless set to \code{NULL}. The default value for \code{asp} is 0, which means that the aspect ratio is adjusted to the size of the device divided by the number of columns and rows. When \code{asp} is set to \code{NA}, which is also the default value for \code{\link{tm_layout}}, the aspect ratio will be adjusted to the used shapes.
 #' @param outer.margins outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the \code{outer.margins} argument from \code{\link{tm_layout}}, unless set to \code{NULL}.
@@ -15,7 +17,7 @@
 #' @param options options passed on to knitprint
 #' @example ./examples/tmap_arrange.R
 #' @export
-tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins=.02) {
+tmap_arrange <- function(..., ncol=NA, nrow=NA, widths=NA, heights = NA, sync=FALSE, asp=0, outer.margins=.02) {
 	tms <- list(...)
 	if (!inherits(tms[[1]], "tmap")) {
 		if (!is.list(tms[[1]])) stop("The first argument of tmap_arrange is neither a tmap object nor a list.")
@@ -23,7 +25,7 @@ tmap_arrange <- function(..., ncol=NA, nrow=NA, sync=FALSE, asp=0, outer.margins
 	}
 	istmap <- vapply(tms, FUN = inherits, FUN.VALUE = logical(1), what = "tmap")
 	if (!all(istmap)) stop("Not all arguments are tmap objects.")
-	opts <- list(ncol=ncol, nrow=nrow, sync=sync, asp=asp, outer.margins=outer.margins)
+	opts <- list(ncol=ncol, nrow=nrow, widths=widths, heights=heights, sync=sync, asp=asp, outer.margins=outer.margins)
 	attr(tms, "opts") <- opts
 	class(tms) <- c("tmap_arrange", class(tms))
 	tms
@@ -94,6 +96,12 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		ncol <- if (is.na(opts$ncol)) ceiling(nx / opts$nrow) else opts$ncol
 		nrow <- if (is.na(opts$nrow)) ceiling(nx / opts$ncol) else opts$nrow
 	}
+	
+	widths <- opts$widths
+	heights = opts$heights
+	if (is.na(widths[1])) widths <- rep(1/ncol, ncol)
+	if (is.na(heights[1])) heights <- rep(1/nrow, nrow)
+	
 	m <- ncol * nrow
 
 	interactive <- (getOption("tmap.mode")=="view")
@@ -120,7 +128,7 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		
 	} else {
 		grid.newpage()
-		vp <- viewport(layout=grid.layout(nrow=nrow, ncol=ncol), name = "tmap_arrangement")
+		vp <- viewport(layout=grid.layout(nrow=nrow, ncol=ncol, widths = widths, heights=heights), name = "tmap_arrangement")
 		pushViewport(vp)
 		
 		if (!is.null(opts$asp) || !is.null(opts$outer.margins)) {
