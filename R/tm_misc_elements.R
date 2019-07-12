@@ -213,24 +213,31 @@ tm_logo <- function(file,
 #' 
 #' @param breaks breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar. Not available for view mode.
 #' @param width (preferred) width of the scale bar. Only applicable when \code{breaks=NULL}. In plot mode, it corresponds the relative width; the default is 0.25 so one fourth of the map width. In view mode, it corresponds to the width in pixels; the default is 100.
-#' @param size relative text size (which is upperbound by the available label width)
+#' @param text.size relative text size (which is upperbound by the available label width)
 #' @param text.color color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.
 #' @param color.dark color of the dark parts of the scale bar, typically (and by default) black.
 #' @param color.light color of the light parts of the scale bar, typically (and by default) white.
 #' @param lwd line width of the scale bar
 #' @param position position of the scale bar Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
+#' @param size deprecated: renamed to text.size
 #' @export
 #' @example ./examples/tm_scale_bar.R
 tm_scale_bar <- function(breaks=NULL,
 						 width=NA, 
-						 size=.5,
+						 text.size = .5,
 						 text.color=NA,
 						 color.dark="black", 
 						 color.light="white",
 						 lwd=1,
 						 position=NA,
-						 just=NA) {
+						 just=NA,
+						 size = NULL) {
+	if (!missing(size)) {
+		warning("The argument size of tm_scale_bar is deprecated. It has been renamed to text.size", call. = FALSE)
+		text.size <- size
+		size <- NULL
+	}
 	g <- list(tm_scale_bar=as.list(environment()))
 	names(g$tm_scale_bar) <- paste("scale", names(g$tm_scale_bar), sep=".")
 	class(g) <- "tmap"
@@ -244,7 +251,7 @@ tm_scale_bar <- function(breaks=NULL,
 #' 
 #' @param north north direction in degrees: 0 means up, 90 right, etc.
 #' @param type compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_layout}} (which uses \code{"arrow"} for the default style)
-#' @param fontsize relative font size
+#' @param text.size relative font size
 #' @param size size of the compass in number of text lines. The default values depend on the \code{type}: for \code{"arrow"} it is 2, for \code{"4star"} and \code{"8star"} it is 4, and for \code{"radar"} and \code{"rose"} it is 6.
 #' @param show.labels number that specifies which labels are shown: 0 means no labels, 1 (default) means only north, 2 means all four cardinal directions, and 3 means the four cardinal directions and the four intercardinal directions (e.g. north-east).
 #' @param cardinal.directions labels that are used for the cardinal directions north, east, south, and west.
@@ -254,11 +261,12 @@ tm_scale_bar <- function(breaks=NULL,
 #' @param lwd line width of the compass
 #' @param position position of the compass. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
+#' @param fontsize deprecated: renamed to text.size
 #' @export
 #' @example ./examples/tm_compass.R
 tm_compass <- function(north=0, 
 					   type=NA, 
-					   fontsize=.8, 
+					   text.size=.8,
 					   size=NA,
 					   show.labels=1, 
 					   cardinal.directions=c("N", "E", "S", "W"), 
@@ -267,7 +275,13 @@ tm_compass <- function(north=0,
 					   color.light=NA,
 					   lwd=1,
 					   position=NA,
-					   just=NA) {
+					   just=NA,
+					   fontsize = NULL) {
+	if (!missing(fontsize)) {
+		warning("The argument fontsize of tm_compass is deprecated. It has been renamed to text.size", call. = FALSE)
+		text.size <- fontsize
+		fontsize <- NULL
+	}
 	g <- list(tm_compass=as.list(environment()))
 	names(g$tm_compass) <- paste("compass", names(g$tm_compass), sep=".")
 	class(g) <- "tmap"

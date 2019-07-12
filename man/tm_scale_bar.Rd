@@ -4,16 +4,16 @@
 \alias{tm_scale_bar}
 \title{Scale bar}
 \usage{
-tm_scale_bar(breaks = NULL, width = NA, size = 0.5,
+tm_scale_bar(breaks = NULL, width = NA, text.size = 0.5,
   text.color = NA, color.dark = "black", color.light = "white",
-  lwd = 1, position = NA, just = NA)
+  lwd = 1, position = NA, just = NA, size = NULL)
 }
 \arguments{
 \item{breaks}{breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered \code{width} of the scale bar. Not available for view mode.}
 
 \item{width}{(preferred) width of the scale bar. Only applicable when \code{breaks=NULL}. In plot mode, it corresponds the relative width; the default is 0.25 so one fourth of the map width. In view mode, it corresponds to the width in pixels; the default is 100.}
 
-\item{size}{relative text size (which is upperbound by the available label width)}
+\item{text.size}{relative text size (which is upperbound by the available label width)}
 
 \item{text.color}{color of the text. By default equal to the argument \code{attr.color} of \code{\link{tm_layout}}.}
 
@@ -26,6 +26,8 @@ tm_scale_bar(breaks = NULL, width = NA, size = 0.5,
 \item{position}{position of the scale bar Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.}
 
 \item{just}{Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.}
+
+\item{size}{deprecated: renamed to text.size}
 }
 \description{
 Creates a scale bar. By default, the coordinate units are assumed to be meters, and the map units in kilometers. This can be changed in \code{\link{tm_shape}}.

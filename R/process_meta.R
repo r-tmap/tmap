@@ -316,7 +316,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 			compass.color.dark <- do.call("process_color", c(list(col=compass.color.dark), gt$pc))
 			compass.color.light <- do.call("process_color", c(list(col=compass.color.light), gt$pc))
 			
-			compass.fontsize <- compass.fontsize * gt$scale
+			compass.fontsize <- compass.text.size * gt$scale
 			compass.lwd <- compass.lwd * gt$scale
 			
 			compass.show <- TRUE
@@ -410,7 +410,7 @@ process_meta_scale_bar <- function(gsb, interactive, gt) {
 				}
 			}
 			if (is.na(scale.text.color)) scale.text.color <- gt$attr.color
-			scale.size <- scale.size * gt$scale
+			scale.text.size <- scale.text.size * gt$scale
 			scale.lwd <- scale.lwd * gt$scale
 			scale.show <- TRUE
 		})

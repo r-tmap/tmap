@@ -4,17 +4,17 @@
 \alias{tm_compass}
 \title{Map compass}
 \usage{
-tm_compass(north = 0, type = NA, fontsize = 0.8, size = NA,
+tm_compass(north = 0, type = NA, text.size = 0.8, size = NA,
   show.labels = 1, cardinal.directions = c("N", "E", "S", "W"),
   text.color = NA, color.dark = NA, color.light = NA, lwd = 1,
-  position = NA, just = NA)
+  position = NA, just = NA, fontsize = NULL)
 }
 \arguments{
 \item{north}{north direction in degrees: 0 means up, 90 right, etc.}
 
 \item{type}{compass type, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. The default is controlled by \code{\link{tm_layout}} (which uses \code{"arrow"} for the default style)}
 
-\item{fontsize}{relative font size}
+\item{text.size}{relative font size}
 
 \item{size}{size of the compass in number of text lines. The default values depend on the \code{type}: for \code{"arrow"} it is 2, for \code{"4star"} and \code{"8star"} it is 4, and for \code{"radar"} and \code{"rose"} it is 6.}
 
@@ -33,6 +33,8 @@ tm_compass(north = 0, type = NA, fontsize = 0.8, size = NA,
 \item{position}{position of the compass. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.}
 
 \item{just}{Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.}
+
+\item{fontsize}{deprecated: renamed to text.size}
 }
 \description{
 Creates a map compass.

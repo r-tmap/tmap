@@ -598,7 +598,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	ticks3 <- ticks2*unit.size / xrange
 	
 	widths <- ticks3[2] - ticks3[1]
-	size <- min(gt$scale.size, widths/max(ticksWidths))
+	size <- min(gt$scale.text.size, widths/max(ticksWidths))
 	x <- ticks3[1:(n-1)] + .5*ticksWidths[1]*size
 	
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
@@ -878,7 +878,7 @@ plot_compass <- function(gt, just) {
 		
 		lx <- lr * sin(ld+drotate) + .5
 		ly <- lr * cos(ld+drotate) + .5
-		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(col=gt$compass.text.color, cex=gt$compass.fontsize, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(col=gt$compass.text.color, cex=gt$compass.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	}
 	
 	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {
