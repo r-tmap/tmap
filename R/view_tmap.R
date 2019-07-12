@@ -202,7 +202,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				labels <- NULL
 			}
 			
-			
+			dashArray <- lty2dashArray(gpl$lty)
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
 			charwidth <- attr(popups, "charwidth")
@@ -218,7 +218,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
 			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", pane, e)
 			
-			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
+			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, dashArray = dashArray, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
 			
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
