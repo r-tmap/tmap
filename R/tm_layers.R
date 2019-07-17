@@ -343,7 +343,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @param ... for \code{tm_polygons}, these arguments passed to either \code{tm_fill} or \code{tm_borders}. For \code{tm_fill}, these arguments are passed on to \code{\link[tmaptools:map_coloring]{map_coloring}}.
-#' @keywords choropleth
+#' @concept choropleth
 #' @export
 #' @example ./examples/tm_fill.R
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
@@ -655,7 +655,7 @@ tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, inte
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
-#' @keywords symbol map
+#' @concept symbol map
 #' @export
 #' @example ./examples/tm_symbols.R
 #' @references Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8(2), 96-109.
@@ -840,7 +840,7 @@ tm_markers <- function(shape=marker_icon(),
 #' @param border.alpha transparency of the borders. See \code{border.alpha} argument of \code{\link{tm_polygons}} and \code{\link{tm_symbols}}.
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param ... other arguments passed on to \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_symbols}}
-#' @keywords simple features
+#' @concept simple features
 #' @export
 #' @example ./examples/tm_sf.R
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}

@@ -346,5 +346,4 @@ Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Softwar
 \seealso{
 \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }
-\keyword{map}
-\keyword{symbol}
+\concept{symbol map}

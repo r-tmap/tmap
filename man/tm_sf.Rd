@@ -56,5 +56,4 @@ tm_shape(World) +
 \seealso{
 \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }
-\keyword{features}
-\keyword{simple}
+\concept{simple features}

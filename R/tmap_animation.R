@@ -11,7 +11,7 @@
 #' @param loop logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.
 #' @param restart.delay delay time between the loops (in 1/100th of a second)
 #' @note Not only tmap plots are supported, but any series of R plots.
-#' @keywords animation
+#' @concept animation
 #' @example ./examples/tmap_animation.R
 #' @import tmaptools
 #' @export

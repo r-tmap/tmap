@@ -56,4 +56,4 @@ m2 <- tm_shape(World, simplify = 0.5) +
 tmap_animation(m2, filename="World population.gif", width=1200, delay=100)
 }
 }
-\keyword{animation}
+\concept{animation}

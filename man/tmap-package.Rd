@@ -130,10 +130,8 @@ Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Softwar
 \author{
 Martijn Tennekes \email{mtennekes@gmail.com}
 }
-\keyword{GIS,}
-\keyword{bubble}
-\keyword{choropleth,}
-\keyword{map}
-\keyword{maps,}
-\keyword{statistical}
-\keyword{thematic}
+\concept{GIS}
+\concept{bubble map}
+\concept{choropleth}
+\concept{statistical maps}
+\concept{thematic maps}
