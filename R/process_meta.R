@@ -2,6 +2,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 	attr.color <- aes.colors <- aes.color <- pc <- NULL
 	xlab.rotation <- xlab.text <- ylab.rotation <- ylab.text <- NULL
 	fontface <- fontfamily <- NULL
+	compass.text.size <- NULL
 	
 	credit.show <- !is.null(gc)
 	logo.show <- !is.null(gl)
