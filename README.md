@@ -32,13 +32,14 @@ tmap: thematic maps in R
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 2.1-1). Installation is straightforward:
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 2.3). Installation is straightforward:
 
 ```r
 install.packages("tmap")
 ```
 
-However, for some operating systems require additional libraries. The installation procedure is as follows:
+However, some operating systems require additional libraries. 
+The installation procedure is as follows:
 
 **Windows**
 No additional installation required.
@@ -54,7 +55,8 @@ Development
 ------------
 
 
-The latest development version can be installed using `devtools`. In order to use the development version of `tmap`, it is recommended to use the development version of `tmaptools` as well (see [tmaptools](http://github.com/mtennekes/tmaptools)):
+The latest development version can be installed using `devtools`. 
+In order to use the development version of `tmap`, it is recommended to use the development version of `tmaptools` as well (see [tmaptools](http://github.com/mtennekes/tmaptools)):
 
 ```r
 library(devtools)
@@ -64,8 +66,9 @@ install_github("mtennekes/tmap")
 
 See [NEWS](https://github.com/mtennekes/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
 
-Do you want to help with the development of the package? Please let me know! Any feedback, requests, tips, or bug reports are welcome!
-
+Do you want to help with the development of the package?
+Please let me know! 
+Any feedback, requests, tips, or bug reports are welcome!
 
 Usage
 -----
@@ -80,7 +83,7 @@ Reference
 
 This paper has been written for `tmap` 1.11-2. The content of this paper using `tmap` 2.x is the following:
 
-* [full reproduction code using tmap 2.x](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html)
+* [Full reproduction code using tmap 2.x](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html)
 * [Example from Section 4.1: Metropolitan Areas](https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap)
 * [Example from Section 4.2: Classic World Map](https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap)
 * [Example from Section 4.3: Two World Views](https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets)
@@ -106,7 +109,7 @@ Tutorials
 Presentations
 -----
 
-* [Plotting spatial data with R] (eRum 2018) https://github.com/mtennekes/tmap-workshop
+* [Plotting spatial data with R](https://github.com/mtennekes/tmap-workshop) (eRum 2018) 
 * Exploring and presenting maps with tmap (useR!2017) [(Abstract)][20] [(Presentation)][21]
 * [tmap: creating thematic maps in a flexible way (useR!2015)][10]
 
@@ -132,7 +135,9 @@ Getting help
 
 There are two main places to get help with `tmap`:
 
-1.  [stackoverflow](http://stackoverflow.com/tags/tmap) is a great source of answers to common tmap questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Please tag your questions with *tmap*.
+1.  [stackoverflow](http://stackoverflow.com/tags/tmap) is a great source of answers to common tmap questions. 
+It is also a great place to get help, once you have created a reproducible example that illustrates your problem. 
+Please tag your questions with *tmap*.
 2.  If you have a request or if think your problem is caused by a bug, please open an [issue](https://github.com/mtennekes/tmap/issues), preferably with a reproducible example.
 
 
