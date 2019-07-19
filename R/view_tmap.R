@@ -1063,6 +1063,7 @@ units_per_line <- function(bbx) {
 lty2dashArray <- function(lty) {
 	numlty <- switch(lty,
 					 solid=0,
+					 blank=0,
 					 # These numbers taken from ?par
 					 dashed=c(4, 4),
 					 dotted=c(1, 3),
