@@ -239,7 +239,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 		
 	})	
 
-	gg <- process_meta_grid(gg, gt)
+	gg <- process_meta_grid(gg, gt, interactive)
 
 	if (credit.show) {
 		gc <- within(gc, {
@@ -420,7 +420,7 @@ process_meta_scale_bar <- function(gsb, interactive, gt) {
 	}
 }
 
-process_meta_grid <- function(gg, gt) {
+process_meta_grid <- function(gg, gt, interactive) {
 	grid.alpha <- grid.labels.inside.frame <- grid.labels.rot <- NULL
 	if (!is.null(gg)) {
 		gg <- within(gg, {
@@ -435,7 +435,7 @@ process_meta_grid <- function(gg, gt) {
 			
 			grid.projection <- get_proj4(grid.projection, output = "crs")
 			
-			if (!grid.labels.inside.frame && any(gt$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using tmap_save, notice that outer.margins are set to 0 by default, unless set to NA.")
+			if (!interactive && !grid.labels.inside.frame && any(gt$outer.margins[1:2]==0)) stop("When grid labels are plotted outside the frame, outer.margins (the bottom and the left) should be greater than 0. When using tmap_save, notice that outer.margins are set to 0 by default, unless set to NA.")
 			if (!"scientific" %in% names(grid.labels.format)) grid.labels.format$scientific <- FALSE
 			if (!"digits" %in% names(grid.labels.format)) grid.labels.format$digits <- NA
 			
