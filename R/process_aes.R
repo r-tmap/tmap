@@ -241,14 +241,21 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 			stop("xname unknown")
 		}
 
-		
-		# if (!xvary[[xname]]) x <- rep(NA, nx)
-		# legend.show <- if (!xvary[[xname]]) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
-
 		if (dcr$is.constant) x <- rep(NA, nx)
 		legend.show <- if (dcr$is.constant) rep(FALSE, nx) else rep(g[[aname("legend.show", xname)]], length.out = nx)
 		
-		#if (xname %in% c("symbol.size", "line.lwd") && is.list(dcr$legend.labels)) {
+		if (xname %in% c("fill", "line.col", "symbol.col", "raster", "text.col")) {
+			if (is.list(dcr$legend.palette)) {
+				legend.empty <- vapply(dcr$legend.palette, FUN = function(x) length(x) == 0L, logical(1))
+			} else {
+				legend.empty <- length(dcr$legend.palette) == 0L
+			}
+			legend.show <- legend.show & !legend.empty
+		}
+
+		
+		# overrule legend.show in case the legend is empty (all NA, colorNA = "#00000000)
+		
 		
 		if (is.list(dcr$legend.labels)) {
 			emptySizeLegend <- vapply(dcr$legend.labels, function(ssll) is.na(ssll[1]), logical(1))
