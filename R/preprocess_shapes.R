@@ -5,7 +5,7 @@ rasterCheckSize <- function(x, interactive) {
 	# 				  "... decreasing Raster* resolution to", maxpixels, "pixels\n",
 	# 				  "to view full resolution set 'maxpixels = ", ncell(x), "'"))
 
-	tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
+	tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
 	max.raster <- tmapOptions$max.raster
 	show.messages <- tmapOptions$show.messages
 	
@@ -29,7 +29,7 @@ rasterCheckSize <- function(x, interactive) {
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
-	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
 
 	
 	if (is.null(shp)) return(list(shp=NULL, data=NULL, type="tiles"))
@@ -77,7 +77,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			lvls <- list(uctable)
 			
 			# if (!is.RGB && is.na(do.interpolate)) {
-			# 	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+			# 	if (get("tmapOptions", envir = .TMAP_CACHE)$show.messages) {
 			# 		message("For bitmap images, it is recommended to use tm_rgb instead of tm_raster (or to set interpolate to TRUE).")
 			# 	}
 			# }

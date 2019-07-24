@@ -491,8 +491,8 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 plot_symbols <- function(co.native, g, gt, lineInch, lineNatH, lineNatW, i, k) {
 	symbolH <- lineNatH * gt$scale
 	symbolW <- lineNatW * gt$scale
-	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
-	justLib <- get(".justLib", envir = .TMAP_CACHE)
+	shapeLib <- get("shapeLib", envir = .TMAP_CACHE)
+	justLib <- get("justLib", envir = .TMAP_CACHE)
 
 	with(g, {
 		npol <- nrow(co.native)

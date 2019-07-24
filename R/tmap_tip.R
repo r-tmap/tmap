@@ -66,11 +66,11 @@ get_new_tip_id <- function(ids, id) {
 
 get_tip <- function(latest.version) {
 	cks <- read_tmap_tips()
-	ids <- get(".tmapTipsIds", envir = .TMAP_CACHE)
-	id <- get(".tmapTipsId", envir = .TMAP_CACHE)
+	ids <- get("tmapTipsIds", envir = .TMAP_CACHE)
+	id <- get("tmapTipsId", envir = .TMAP_CACHE)
 	
 	if (latest.version) id <- get_new_tip_id(ids, id)
 	
-	assign(".tmapTipsId", ifelse(id == length(ids), 1, id + 1), envir = .TMAP_CACHE)
+	assign("tmapTipsId", ifelse(id == length(ids), 1, id + 1), envir = .TMAP_CACHE)
 	cks[[ids[id]]]
 }

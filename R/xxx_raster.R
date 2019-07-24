@@ -166,7 +166,7 @@ get_data_frame_levels <- function(data) {
 		if (is.factor(x)) {
 			levels(x)
 		} else if (is.numeric(x)) {
-			range(x, na.rm = TRUE)
+			suppressWarnings(range(x, na.rm = TRUE))
 		} else if (is.logical(x)) {
 			c(FALSE, TRUE)
 		} else {

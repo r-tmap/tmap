@@ -16,7 +16,7 @@
 #' @import tmaptools
 #' @export
 tmap_animation <- function(tm, filename="animation.gif", width=NA, height=NA, dpi=NA, delay=40, loop = TRUE, restart.delay = 0) {
-	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
+	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
 	
 	if (!is.numeric(delay) || !(length(delay) == 1L)) stop("delay must be a numeric value", call. = FALSE)
 	if ((!is.numeric(loop) && !is.logical(loop)) || !(length(loop) == 1L)) stop("loop must be a logical or numeric value", call. = FALSE)

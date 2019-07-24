@@ -22,7 +22,7 @@ num2pal <- function(x,
 	
 	x[!sel] <- NA
 	
-	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
 	
 	

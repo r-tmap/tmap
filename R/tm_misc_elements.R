@@ -370,7 +370,7 @@ tm_minimap <- function(server = NA, position= c("left", "bottom"), toggle = TRUE
 		class(g) <- "tmap"
 	}
 	
-	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
+	assign("last_map_new", match.call(), envir = .TMAP_CACHE)
 	g
 }
 
@@ -383,17 +383,17 @@ tm_minimap <- function(server = NA, position= c("left", "bottom"), toggle = TRUE
 #' @export
 #' @seealso \code{\link{tmap_save}}
 tmap_last <- function() {
-	x <- get(".last_map", envir = .TMAP_CACHE)
+	x <- get("last_map", envir = .TMAP_CACHE)
 	if (is.null(x)) warning("A map has not been created yet")
 	eval(x)
 }
 
 save_last_map <- function() {
-	lt <- get(".last_map", envir = .TMAP_CACHE)
-	ltnew <- get(".last_map_new", envir = .TMAP_CACHE)
+	lt <- get("last_map", envir = .TMAP_CACHE)
+	ltnew <- get("last_map_new", envir = .TMAP_CACHE)
 	if (!is.null(ltnew)) lt <- replace_last_tmap_by_correct_call(ltnew, lt)
-	assign(".last_map", lt, envir = .TMAP_CACHE)
-	assign(".last_map_new", NULL, envir = .TMAP_CACHE)
+	assign("last_map", lt, envir = .TMAP_CACHE)
+	assign("last_map_new", NULL, envir = .TMAP_CACHE)
 }
 
 

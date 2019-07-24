@@ -1,5 +1,5 @@
 process_text_just <- function(just, interactive) {
-	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
 	n <- length(just)
 	isnum <- is_num_string(just)

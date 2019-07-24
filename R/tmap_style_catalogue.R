@@ -101,7 +101,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 	}
 	
 	mapply(print_style, styles, 1:ns)
-	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) message("\nCatalogue created in ", normalizePath(path))
+	if (get("tmapOptions", envir = .TMAP_CACHE)$show.messages) message("\nCatalogue created in ", normalizePath(path))
 	invisible()
 }
 

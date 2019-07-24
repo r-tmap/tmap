@@ -4,7 +4,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- colorNA <- NULL
 	
 	
-	gt <- get(".tmapOptions", envir = .TMAP_CACHE)
+	gt <- get("tmapOptions", envir = .TMAP_CACHE)
 	
 	gts <- x[names(x) == "tm_layout"]
 	if (length(gts)) {
@@ -26,7 +26,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 				if (i !=1 && gt$show.messages) message("Note that tm_style(\"", g$style, "\") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.")
 				gt <- .defaultTmapOptions
 				if (g$style != "white") {
-					styleOptions <- get(".tmapStyles", envir = .TMAP_CACHE)[[g$style]]
+					styleOptions <- get("tmapStyles", envir = .TMAP_CACHE)[[g$style]]
 					gt[names(styleOptions)] <- styleOptions
 				}
 			} 
@@ -97,7 +97,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		
 		######################### tm_view
 		
-		# if (!get(".internet", envir = .TMAP_CACHE) || identical(basemaps, FALSE)) {
+		# if (!get("internet", envir = .TMAP_CACHE) || identical(basemaps, FALSE)) {
 		# 	basemaps <- character(0)
 		# } else {
 		# 	# with basemap tiles

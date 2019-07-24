@@ -76,7 +76,7 @@ print_shortcut <- function(x, interactive, in.shiny, args, knit) {
 		
 		gt <- preprocess_gt(x, interactive=interactive)
 		gt$shp_name <- rep("dummy", length(xtiles))
-		gt$shape.units <- list(unit = get(".tmapOptions", envir = .TMAP_CACHE)$unit)
+		gt$shape.units <- list(unit = get("tmapOptions", envir = .TMAP_CACHE)$unit)
 		if (is.null(gt$bbox)) gt$bbox <- c(-190, -90, 180, 90)
 		
 		if (any(names(x) == "tm_scale_bar")) {
@@ -126,7 +126,7 @@ print_shortcut <- function(x, interactive, in.shiny, args, knit) {
 }
 
 supported_elem_view_mode <- function(nms) {
-	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) {
+	if (get("tmapOptions", envir = .TMAP_CACHE)$show.messages) {
 		if (any(nms=="tm_credits")) message("Credits not supported in view mode.")
 		if (any(nms=="tm_logo")) message("Logo not supported in view mode.")
 		if (any(nms=="tm_compass")) message("Compass not supported in view mode.")
@@ -205,7 +205,7 @@ gather_shape_info <- function(x, interactive) {
 	
 	## get arguments related to units (approx_areas)
 	unit <- x[[shape.id[masterID]]]$unit
-	if (is.null(unit)) unit <- get(".tmapOptions", envir = .TMAP_CACHE)$unit
+	if (is.null(unit)) unit <- get("tmapOptions", envir = .TMAP_CACHE)$unit
 	if (unit == "metric") unit <- "km"
 	if (unit == "imperial") unit <- "mi"
 	
@@ -310,7 +310,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	
 	interactive <- (mode == "view") || proxy
 	
-	tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
+	tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
 	
 	show.messages <- tmapOptions$show.messages
 	
@@ -331,18 +331,18 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	}
 	
 	# reset symbol shape / shape just/anchor lists
-	assign(".shapeLib", list(), envir = .TMAP_CACHE)
-	assign(".justLib", list(), envir = .TMAP_CACHE)
+	assign("shapeLib", list(), envir = .TMAP_CACHE)
+	assign("justLib", list(), envir = .TMAP_CACHE)
 
 
 	## process proxy
 	if (proxy) {
 		layerIds <- if (".layerIdsNew" %in% ls(envir = .TMAP_CACHE)) {
-			get(".layerIdsNew", envir = .TMAP_CACHE)
+			get("layerIdsNew", envir = .TMAP_CACHE)
 		} else {
-			get(".layerIds", envir = .TMAP_CACHE)
+			get("layerIds", envir = .TMAP_CACHE)
 		}
-		assign(".layerIds", layerIds, envir = .TMAP_CACHE)
+		assign("layerIds", layerIds, envir = .TMAP_CACHE)
 		
 		typesList <- as.list(attr(layerIds, "types"))
 		names(typesList) <- names(layerIds)
@@ -359,7 +359,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				typesList[[name]] <- NULL
 			}
 			attr(layerIds, "types") <- unlist(typesList)
-			assign(".layerIdsNew", layerIds, envir = .TMAP_CACHE)
+			assign("layerIdsNew", layerIds, envir = .TMAP_CACHE)
 		}
 		x <- x[!(names(x) %in% c("tm_remove_layer"))]
 		if (length(x) == 0) {

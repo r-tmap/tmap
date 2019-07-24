@@ -388,7 +388,7 @@ find_leaflet_position <- function(position) {
 
 
 process_meta_scale_bar <- function(gsb, interactive, gt) {
-	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
 	if (!is.null(gsb)) {
 		gsb <- within(gsb, {

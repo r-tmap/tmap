@@ -167,8 +167,8 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 
 
 submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) {
-	shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
-	justLib <- get(".justLib", envir = .TMAP_CACHE)
+	shapeLib <- get("shapeLib", envir = .TMAP_CACHE)
+	justLib <- get("justLib", envir = .TMAP_CACHE)
 	n <- length(x)
 	id <- 999 + length(shapeLib)
 	if (interactive) {
@@ -222,8 +222,8 @@ submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) 
 	
 	shapeLib <- c(shapeLib, items[!numbers])
 	justLib <- c(justLib, just_items[!numbers])
-	assign(".shapeLib", shapeLib, envir = .TMAP_CACHE)
-	assign(".justLib", justLib, envir = .TMAP_CACHE)
+	assign("shapeLib", shapeLib, envir = .TMAP_CACHE)
+	assign("justLib", justLib, envir = .TMAP_CACHE)
 	names(x2) <- names(x)
 	x2
 }

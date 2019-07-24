@@ -23,10 +23,10 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, verbose = NULL, ...) {
 	if (!missing(verbose)) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
 	
-	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)
+	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
 	verbose <- .tmapOptions$show.messages
 	
-	lastcall <- x <- get(".last_map", envir = .TMAP_CACHE)
+	lastcall <- x <- get("last_map", envir = .TMAP_CACHE)
 	if (missing(tm)) {
 		tm <- suppressWarnings(last_map())
 		if (is.null(tm)) stop("A map has not been created yet")
@@ -57,7 +57,7 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 	if (is.na(dpi)) dpi <- .tmapOptions$output.dpi
 		
 	on.exit({
-		assign(".last_map", lastcall, envir = .TMAP_CACHE)
+		assign("last_map", lastcall, envir = .TMAP_CACHE)
 	})
 	
 	

@@ -241,13 +241,13 @@ qtm <- function(shp,
 	scaleLst <- if (!is.na(scale) && !is.na(title[1])) list(title=title, scale=scale) else if (!is.na(scale)) list(scale=scale) else if (!is.na(title[1])) list(title=title) else list()
 	
 	if (!missing(style)) {
-		.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+		.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 		check_style(style)
 		g <- g + tm_style(style)
 	}
 	
 	if (!missing(format)) {
-		.tmapFormats <- get(".tmapFormats", envir = .TMAP_CACHE)
+		.tmapFormats <- get("tmapFormats", envir = .TMAP_CACHE)
 		if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
 		g <- g + tm_format(format)
 	}
@@ -258,7 +258,7 @@ qtm <- function(shp,
 	gview <- do.call("tm_view", args2[["tm_view"]])
 	g <- g + glayout + gview
 	
-	assign(".last_map_new", match.call(), envir = .TMAP_CACHE)
+	assign("last_map_new", match.call(), envir = .TMAP_CACHE)
 	attr(g, "qtm_shortcut") <- FALSE
 	g
 }

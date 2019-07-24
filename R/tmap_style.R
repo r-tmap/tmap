@@ -16,7 +16,7 @@
 #' @rdname tmap_style
 tmap_style <- function(style) {
 	current.style <- getOption("tmap.style")
-	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
 	if (missing(style) && show.messages) {
 		message("current tmap style is \"", current.style, "\"")
@@ -28,12 +28,12 @@ tmap_style <- function(style) {
 		if (style == "white") {
 			.tmapOptions <- .defaultTmapOptions
 		} else {
-			styleOptions <- get(".tmapStyles", envir = .TMAP_CACHE)[[style]]
+			styleOptions <- get("tmapStyles", envir = .TMAP_CACHE)[[style]]
 			.tmapOptions[names(styleOptions)] <- styleOptions
 			attr(.tmapOptions, "style") <- style
 		}
 		
-		assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)	
+		assign("tmapOptions", .tmapOptions, envir = .TMAP_CACHE)	
 		
 		if (show.messages) {
 			message("tmap style set to \"", style, "\"")
@@ -49,7 +49,7 @@ print_text_vector <- function(x) {
 
 
 get_style_names <- function(except_style = NULL, remove_grey = TRUE) {
-	styles <- c("white", names(get(".tmapStyles", envir = .TMAP_CACHE)))
+	styles <- c("white", names(get("tmapStyles", envir = .TMAP_CACHE)))
 	if (!is.null(except_style)) {
 		styles <- setdiff(styles, except_style)
 	}

@@ -240,7 +240,7 @@ tm_legend <- function(...) {
 tm_style <- function(style, ...) {
 	args <- list(...)
 	
-	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 	check_style(style)
 	
 	args$style <- style
@@ -253,7 +253,7 @@ tm_style <- function(style, ...) {
 tm_format <- function(format, ...) {
 	args <- list(...)
 	
-	.tmapFormats <- get(".tmapFormats", envir = .TMAP_CACHE)
+	.tmapFormats <- get("tmapFormats", envir = .TMAP_CACHE)
 	
 	if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
 	

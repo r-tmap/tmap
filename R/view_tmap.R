@@ -62,9 +62,13 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	
 	if (inherits(shps, "sf")) shps <- list(shps)
 
-	bases <- NA
-	overlays <- NA
-	overlays_tiles <- character(0)
+	bases <- if ("bases" %in% ls(envir = .TMAP_CACHE)) get("bases", envir = .TMAP_CACHE) else NA
+	overlays <- if ("overlays" %in% ls(envir = .TMAP_CACHE)) get("overlays", envir = .TMAP_CACHE) else NA
+	overlays_tiles <- if ("overlays_tiles" %in% ls(envir = .TMAP_CACHE)) get("overlays_tiles", envir = .TMAP_CACHE) else character(0)
+	
+	# bases <- NA
+	# overlays <- NA
+	# overlays_tiles <- character(0)
 	
 	## keep track of layerIds to prevent duplicates (duplicates are not shown in leaflet)
 	# layerIds <- list(polygons = character(0),
@@ -73,7 +77,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	
 	
 	if (proxy) {
-		layerIds <- get(".layerIdsNew", envir = .TMAP_CACHE)
+		layerIds <- get("layerIdsNew", envir = .TMAP_CACHE)
 		if (length(layerIds) == 0) {
 			start_pane_id <- 401
 		} else {
@@ -371,7 +375,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				if (any(symbol.shape2<1000)) {
 					icons <- NULL
 				} else {
-					iconLib <- get(".shapeLib", envir = .TMAP_CACHE)[symbol.shape2-999]
+					iconLib <- get("shapeLib", envir = .TMAP_CACHE)[symbol.shape2-999]
 					icons <- merge_icons(iconLib)
 					#print(summary(symbol.size2))
 					icons$iconWidth <- icons$iconWidth * symbol.size2
@@ -525,7 +529,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			
 			res <- split_alpha_channel(pal, alpha)
 			pal_col <- res$col
-			pal_opacity <- max(res$opacity)
+			pal_opacity <- if (length(res$opacity) == 0L) 0 else max(res$opacity)
 			
 			mappal <- function(x) {
 				if (all(is.na(shp@data@values))) return(rep("#00000000", length(x)))
@@ -694,6 +698,8 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 		stop("Invalid control.position", call.=FALSE)
 	}
 
+	
+
 	if (length(bases) == 1 && !basename.specified) {
 		if (!is.na(overlays[1])) {
 			lf <- lf %>% addLayersControl(overlayGroups = unname(overlays), options = layersControlOptions(autoZIndex = TRUE), position=control.position)
@@ -703,7 +709,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	} else {
 		lf <- lf %>% addLayersControl(baseGroups=unname(bases), options = layersControlOptions(autoZIndex = TRUE), position=control.position)  
 	}
-	
+
 
 	if (gt$scale.show) {
 		u <- gt$shape.units$unit
@@ -765,7 +771,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	if (!proxy) lf <- set_bounds_view(lf, gt)
 	lf$title <- gt$title
 	
-	assign(".layerIds", layerIds, envir = .TMAP_CACHE)
+	assign("layerIds", layerIds, envir = .TMAP_CACHE)
+	assign("bases", bases, envir = .TMAP_CACHE)
+	assign("overlays", overlays, envir = .TMAP_CACHE)
+	assign("overlays_tiles", overlays_tiles, envir = .TMAP_CACHE)
+	
 	
 	lf	
 	

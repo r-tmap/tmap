@@ -205,7 +205,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			shapes <- legend.shapes
 			shapes <- rep(shapes, length.out=nitems)
 			if (any(!is.na(shapes) & shapes>999)) {
-				shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
+				shapeLib <- get("shapeLib", envir = .TMAP_CACHE)
 				
 				gpars <- get_symbol_gpar(x=shapes,
 										 fill=cols,
@@ -479,7 +479,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 			xtraWidth <- convertWidth(max(symbolR), "npc", valueOnly=TRUE)/2/s2
 			
 			if (any(!is.na(shapes) & shapes>999)) {
-				shapeLib <- get(".shapeLib", envir = .TMAP_CACHE)
+				shapeLib <- get("shapeLib", envir = .TMAP_CACHE)
 				
 				gpars <- get_symbol_gpar(x=shapes,
 										 fill=cols,

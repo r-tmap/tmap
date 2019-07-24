@@ -10,12 +10,12 @@
 #' @rdname tmap_format
 #' @export
 tmap_format <- function(format) {
-	.tmapFormats <- get(".tmapFormats", envir = .TMAP_CACHE)
+	.tmapFormats <- get("tmapFormats", envir = .TMAP_CACHE)
 	
 	formats <- names(.tmapFormats)
 	
 	if (missing(format)) {
-		if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) message("available formats are: \"", paste(formats, collapse = "\", \""), "\" ")
+		if (get("tmapOptions", envir = .TMAP_CACHE)$show.messages) message("available formats are: \"", paste(formats, collapse = "\", \""), "\" ")
 		return(invisible(formats))
 	} else if (format %in% formats) {
 		return(.tmapFormats[[format]])
@@ -33,12 +33,12 @@ tmap_format_add <- function(..., name) {
 	args <- list(...)
 	if (length(args)==1 && is.list(args[[1]])) args <- args[[1]]
 
-	.tmapFormats <- get(".tmapFormats", envir = .TMAP_CACHE)
+	.tmapFormats <- get("tmapFormats", envir = .TMAP_CACHE)
 
 	.tmapFormats[[name]] <- args
-	assign(".tmapFormats", .tmapFormats, envir = .TMAP_CACHE)
+	assign("tmapFormats", .tmapFormats, envir = .TMAP_CACHE)
 	
-	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) message("format ", name, " succesfully added. Use this format with tm_format(\"", name, "\")")
+	if (get("tmapOptions", envir = .TMAP_CACHE)$show.messages) message("format ", name, " succesfully added. Use this format with tm_format(\"", name, "\")")
 	invisible(NULL)
 }
 

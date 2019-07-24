@@ -343,7 +343,7 @@
 #' @seealso \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}
 tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, show.messages, output.format, output.size, output.dpi) {
 
-	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 	current.style <- getOption("tmap.style")
 	newstyle <- if (substr(current.style, nchar(current.style) - 9, nchar(current.style)) == "(modified)") {
 		current.style
@@ -401,13 +401,13 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 		
 		options(tmap.style=newstyle)
 		attr(.tmapOptions, "style") <- newstyle
-		assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)
+		assign("tmapOptions", .tmapOptions, envir = .TMAP_CACHE)
 		
 		if (set_new_style) {
 			if (.tmapOptions$show.messages) message("tmap options successfully loaded as style \"", newstyle, "\"")
-			styles <- get(".tmapStyles", envir = .TMAP_CACHE)
+			styles <- get("tmapStyles", envir = .TMAP_CACHE)
 			styles[[newstyle]] <- suppressMessages(tmap_options_diff())
-			assign(".tmapStyles", styles, envir = .TMAP_CACHE)
+			assign("tmapStyles", styles, envir = .TMAP_CACHE)
 		} 
 		
 		invisible(backup)
@@ -447,7 +447,7 @@ check_named_items <- function(a, b) {
 #' @rdname tmap_options
 #' @export
 tmap_options_diff <- function() {
-	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 	iden <- mapply(identical, .tmapOptions, .defaultTmapOptions)
 	
 	if (all(iden)) {
@@ -461,7 +461,7 @@ tmap_options_diff <- function() {
 #' @rdname tmap_options
 #' @export
 tmap_options_reset <- function() {
-	assign(".tmapOptions", .defaultTmapOptions, envir = .TMAP_CACHE)
+	assign("tmapOptions", .defaultTmapOptions, envir = .TMAP_CACHE)
 	options(tmap.style="white")
 	message("tmap options successfully reset")
 	invisible(NULL)
@@ -470,11 +470,11 @@ tmap_options_reset <- function() {
 #' @export
 #' @rdname tmap_options
 tmap_options_save <- function(style) {
-	show.messages <- get(".tmapOptions", envir = .TMAP_CACHE)$show.messages
+	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
 	stylediff <- suppressMessages(tmap_options_diff())
 	
-	.tmapOptions <- get(".tmapOptions", envir = .TMAP_CACHE)	
+	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 	
 	if (is.null(stylediff)) {
 		if (show.messages) message("current style is the same as the default style, so nothing to save")
@@ -483,11 +483,11 @@ tmap_options_save <- function(style) {
 	
 	options(tmap.style=style)
 	attr(.tmapOptions, "style") <- style
-	assign(".tmapOptions", .tmapOptions, envir = .TMAP_CACHE)
+	assign("tmapOptions", .tmapOptions, envir = .TMAP_CACHE)
 	
-	styles <- get(".tmapStyles", envir = .TMAP_CACHE)
+	styles <- get("tmapStyles", envir = .TMAP_CACHE)
 	styles[[style]] <- suppressMessages(tmap_options_diff())
-	assign(".tmapStyles", styles, envir = .TMAP_CACHE)
+	assign("tmapStyles", styles, envir = .TMAP_CACHE)
 	
 	if (show.messages) message("current tmap options saved as style \"", style, "\"")
 	invisible(.tmapOptions)
@@ -499,9 +499,9 @@ tmap_options_save <- function(style) {
 #' tmap_style_load <- function(x) {
 #' 	style <- attr(x, "style")
 #' 	attr(x, "style") <- NULL
-#' 	styles <- get(".tmapStyles", envir = .TMAP_CACHE)
+#' 	styles <- get("tmapStyles", envir = .TMAP_CACHE)
 #' 	styles[[style]] <- x
-#' 	assign(".tmapStyles", styles, envir = .TMAP_CACHE)
-#' 	if (get(".tmapOptions", envir = .TMAP_CACHE)$show.messages) message("style \"", style, "\" loaded successfully")
+#' 	assign("tmapStyles", styles, envir = .TMAP_CACHE)
+#' 	if (get("tmapOptions", envir = .TMAP_CACHE)$show.messages) message("style \"", style, "\" loaded successfully")
 #' 	invisible(NULL)
 #' }
