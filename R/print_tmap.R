@@ -353,8 +353,15 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				z <- x[[id]]$zindex
 				name <- paneName(z)
 				legend <- legendName(z)
-				lf <- lf %>% leaflet::removeShape(sort(unname(layerIds[[name]]))) %>% 
-					leaflet::removeControl(legend)
+				
+				if (typesList[[name]] == "raster") {
+					lf <- lf %>% leaflet::removeImage(sort(unname(layerIds[[name]]))) %>%
+						leaflet::removeControl(legend)
+				} else {
+					lf <- lf %>% leaflet::removeShape(sort(unname(layerIds[[name]]))) %>%
+						leaflet::removeControl(legend)
+				}
+				
 				layerIds[[name]] <- NULL
 				typesList[[name]] <- NULL
 			}
