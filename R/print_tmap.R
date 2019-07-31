@@ -372,6 +372,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		if (length(x) == 0) {
 			return(lf)
 		}
+	} else {
+		suppressWarnings(rm(list = c("bases", "overlays", "overlays_tiles"), envir = .TMAP_CACHE))
 	}
 	
 		

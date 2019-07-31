@@ -91,8 +91,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			shpnames <- names(rdata) #get_raster_names(shp)
 			
-			mxdata <- max(maxValue(shp))
-			
+			mxdata <- suppressWarnings(max(maxValue(shp)))
+			if (is.na(mxdata)) mxdata <- 0
+
 			if (is.na(is.RGB)) {
 				if ((nlayers(shp) == 3) && all(minValue(shp)>=0) && mxdata <= max.value) {
 					if (mxdata <= 1) {

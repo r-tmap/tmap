@@ -92,7 +92,9 @@ extract_raster_data <- function(nm, isf, d, a){
 }
 
 get_raster_layer_data <- function(rl) {
-	extract_raster_data(nm = rl@data@names, isf = rl@data@isfactor, d = rl@data@values, a = rl@data@attributes)
+	values <- rl@data@values
+	if (length(values) == 0L) values <- rep_len(NA, length(rl))
+	extract_raster_data(nm = rl@data@names, isf = rl@data@isfactor, d = values, a = rl@data@attributes)
 }
 
 fromDisk2 <- function(x) {
