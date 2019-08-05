@@ -315,8 +315,17 @@ plot_grid <- function(gt, scale, add.labels) {
 	}	
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
-		cogridx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX) else numeric(0)
-		cogridy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY+marginY) else numeric(0)
+		glabelsx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX) else numeric(0)
+		glabelsy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY+marginY) else numeric(0)
+
+		cogridx <- glabelsx$cogridx
+		cogridy <- glabelsy$cogridy 
+		
+		idsx <- glabelsx$ids
+		idsy <- glabelsy$ids
+		
+		
+		
 	}
 	
 	# select grid labels to print
@@ -333,33 +342,14 @@ plot_grid <- function(gt, scale, add.labels) {
 			if (any(selx)) st_multilinestring(gt$grid.co.x.lns) else NULL,
 			if (any(sely)) st_multilinestring(gt$grid.co.y.lns) else NULL
 		)
-		
-		# lnsList <- list(
-		# 	if (any(selx)) Lines(lapply(gt$grid.co.x.lns, function(m) {
-		# 		Line(m)
-		# 	}), ID="x") else NULL,
-		# 	if (any(sely)) Lines(lapply(gt$grid.co.y.lns, function(m) {
-		# 		Line(m)
-		# 	}), ID="y") else NULL
-		# )
 		lnsSel <- !vapply(lnsList, is.null, logical(1))
 		if (!any(lnsSel)) {
 			grid.co.x.lns <- numeric(0)
 			grid.co.y.lns <- numeric(0)
 		} else {
-			
 			lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = 4326)) # trick for 0-1 coordinates
-			
-			
-			#lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel]), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
-			
 			sf_bbox <- tmaptools::bb_poly(bb(c(labelsYw + spacerY + marginY, labelsXw + spacerX + marginX, 1, 1)), projection = 4326)
-			
 			lns_crop <- suppressWarnings(suppressMessages(st_intersection(lns, sf_bbox)))
-			#lns_crop <- raster::crop(lns, bb(c(labelsYw + spacerY + marginY, 1, labelsXw + spacerX + marginX, 1)))
-			
-			
-			
 			if (any(selx)) {
 				cogridxlns <- as.data.frame(st_coordinates(st_geometry(lns_crop)[1])[,1:3])
 				names(cogridxlns) <- c("x", "y", "ID")
@@ -373,18 +363,6 @@ plot_grid <- function(gt, scale, add.labels) {
 			} else {
 				cogridylns <- numeric(0)
 			}
-			# cogridxlns <- if (any(selx)) do.call("rbind", mapply(function(l, i) {
-			# 	co <- as.data.frame(attr(l, "coords"))
-			# 	co$ID <- i
-			# 	co
-			# }, lns_crop@lines[[1]]@Lines, 1:length(lns_crop@lines[[1]]@Lines), SIMPLIFY=FALSE)) else numeric(0)
-			# 
-			# cogridylns <- if (any(sely)) do.call("rbind", mapply(function(l, i) {
-			# 	co <- as.data.frame(attr(l, "coords"))
-			# 	co$ID <- i
-			# 	co
-			# }, lns_crop@lines[[sum(lnsSel)]]@Lines, 1:length(lns_crop@lines[[sum(lnsSel)]]@Lines), SIMPLIFY=FALSE)) else numeric(0)
-			
 		}
 		
 	}
@@ -480,11 +458,35 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 		if (res) l[d] else -1
 	}, numeric(1))
 	cogrid <- ifelse(gint, 0, ins)
+	ids <- 1:length(cogrid) # number of grid labels per grid line (could be 2 for warped grid lines)
 	if (any(gint)) {
+		cogrid <- as.list(cogrid)
+		ids <- as.list(ids)
+		
+		wgint <- which(gint)
 		gints <- suppressMessages(st_intersection(lns[gint, ], ax))
-		cogrid[gint] <- st_coordinates(gints)[,d]
+
+		# count number of intersections per coordinate
+		gnrs <- vapply(st_geometry(gints), function(g) {
+			nr <- nrow(g)
+			if (is.null(nr)) 1L else nr
+		}, integer(1))
+		gints <- suppressWarnings(st_cast(x = st_cast(gints, "MULTIPOINT"), to = "POINT"))
+
+		coor <- st_coordinates(gints)[,d]
+
+		ids2 <- unlist(mapply(rep, 1:length(wgint), gnrs, SIMPLIFY = FALSE))
+		j <- 1L
+		for (i in which(gint)) {
+			cogrid[[i]] <- unname(coor[ids2 == j])
+			ids[[i]] <- rep(ids[[i]], gnrs[j])
+			j <- j + 1L
+		}
+		
+		cogrid <- unlist(cogrid)
+		ids <- unlist(ids)
 	}
-	cogrid
+	list(cogrid = cogrid, ids = ids)
 }
 
 
