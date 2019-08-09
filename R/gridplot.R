@@ -106,7 +106,7 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)
 		
 		## draw outside grid labels
-		treeGridLabels <- if (external_grid_labels && gmeta$grid.show) {
+		treeGridLabels <- if (external_grid_labels && gmeta$grid.show && gmeta$grid.labels.show) {
 			mapply(function(i, rw, cl) {
 				if (multi_shapes) {
 					proj <- bbxproj[[i]]$proj

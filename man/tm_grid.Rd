@@ -6,12 +6,13 @@
 \title{Coordinate grid / graticule lines}
 \usage{
 tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
-  col = NA, lwd = 1, alpha = NA, labels.size = 0.6,
-  labels.col = NA, labels.rot = c(0, 0),
+  col = NA, lwd = 1, alpha = NA, labels.show = TRUE,
+  labels.size = 0.6, labels.col = NA, labels.rot = c(0, 0),
   labels.format = list(big.mark = ","), labels.cardinal = FALSE,
   labels.margin.x = 0, labels.margin.y = 0, labels.space.x = NA,
   labels.space.y = NA, labels.inside.frame = FALSE,
-  ticks = !labels.inside.frame, lines = TRUE, zindex = NA)
+  ticks = labels.show && !labels.inside.frame, lines = TRUE,
+  ndiscr = 100, zindex = NA)
 
 tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
   projection = "longlat", labels.format = list(suffix =
@@ -33,6 +34,8 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 \item{lwd}{line width of the grid lines}
 
 \item{alpha}{alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken.}
+
+\item{labels.show}{show tick labels}
 
 \item{labels.size}{font size of the tick labels}
 
@@ -64,6 +67,8 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 \item{ticks}{If \code{labels.inside.frame = FALSE}, should ticks can be drawn between the labels and the frame?}
 
 \item{lines}{If \code{labels.inside.frame = FALSE}, should grid lines can be drawn?}
+
+\item{ndiscr}{number of points to discretize a parallel or meridian (only applicable for curved grid lines)}
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 

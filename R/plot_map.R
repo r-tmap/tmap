@@ -11,7 +11,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 	## grid lines
 	## metaX and Y are X and Y margins for the meta plot (legend etc)
 	if (gt$grid.show) {
-		gridRes <- plot_grid(gt, scale=gt$scale, add.labels = gt$grid.labels.inside.frame)
+		gridRes <- plot_grid(gt, scale=gt$scale, add.labels = gt$grid.labels.inside.frame && gt$grid.labels.show)
 		treeGridLines <- gridRes$treeGridLines
 		treeGridLabels <- gridRes$treeGridLabels
 		metaX <- gridRes$metaX
