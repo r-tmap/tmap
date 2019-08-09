@@ -535,9 +535,6 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 		if (stackV) {
 			grobListRes <- mapply("legend_subplot", x, id=1:k, MoreArgs = list(gt=gt, histWidth=histWidth), SIMPLIFY = FALSE)
 		} else {
-			#x_null <- sapply(x, is.null)
-			#grobListRes <- mapply("legend_subplot2", x[!x_null], id=(1:k)[!x_null], rel_height=rel_heights[!x_null], MoreArgs = list(gt=gt, histWidth=histWidth), SIMPLIFY = FALSE)
-			
 			grobListRes <- mapply("legend_subplot2", x, id=(1:k), rel_height=rel_heights, MoreArgs = list(gt=gt, histWidth=histWidth, titleRow=as.numeric(!is.null(xtitle))), SIMPLIFY = FALSE)
 			if (!is.null(xtitle)) {
 				grobListRes <- c(grobListRes, list(legend_subplot2(xtitle, id=-nx, rel_height=1, gt=gt, histWidth=histWidth, titleRow=0)))

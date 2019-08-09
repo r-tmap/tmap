@@ -108,7 +108,6 @@ process_text_size_vector <- function(x, text, g, rescale, gt, reverse) {
 	} else {
 		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of texts in the legend", call. = FALSE)
 		size.legend.labels <- g$sizes.legend.labels
-		attr(size.legend.labels, "align") <- g$legend.format$text.align
 	}
 	
 	root <- ifelse(rescale, g$root, 1)
@@ -139,6 +138,7 @@ process_text_size_vector <- function(x, text, g, rescale, gt, reverse) {
 		size.legend.values <- rev(size.legend.values)
 		legend.sizes <- legend.sizes
 	}
+	attr(size.legend.labels, "align") <- g$legend.format$text.align
 	
 	list(size=size,
 		 text_sel=text_sel,

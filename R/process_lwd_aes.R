@@ -95,7 +95,6 @@ process_line_lwd_vector <- function(x, g, rescale, reverse) {
 	} else {
 		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of lines in the legend", call. = FALSE)
 		line.lwd.legend.labels <- g$line.lwd.legend.labels
-		attr(line.lwd.legend.labels, "align") <- g$legend.format$text.align
 	}
 	
 	line.lwd <- g$scale * (x/maxW)
@@ -103,6 +102,7 @@ process_line_lwd_vector <- function(x, g, rescale, reverse) {
 		line.legend.lwds <- rev(line.legend.lwds)
 		line.lwd.legend.labels <- rev(line.lwd.legend.labels)
 	}
+	attr(line.lwd.legend.labels, "align") <- g$legend.format$text.align
 	
 	list(line.lwd=line.lwd,
 		 line.legend.lwds=line.legend.lwds,

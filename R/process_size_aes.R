@@ -94,7 +94,6 @@ process_symbols_size_vector <- function(x, g, rescale, gt, reverse) {
 	} else {
 		if (length(g$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of symbols in the legend", call. = FALSE)
 		symbol.size.legend.labels <- g$sizes.legend.labels
-		attr(symbol.size.legend.labels, "align") <- g$legend.format$text.align
 	}
 	
 	maxX <- ifelse(rescale, xmax, 1)
@@ -107,6 +106,7 @@ process_symbols_size_vector <- function(x, g, rescale, gt, reverse) {
 		symbol.legend.sizes <- rev(symbol.legend.sizes)
 		symbol.size.legend.labels <- rev(symbol.size.legend.labels)
 	}
+	attr(symbol.size.legend.labels, "align") <- g$legend.format$text.align
 	
 	list(symbol.size=symbol.size,
 		 symbol.size.legend.labels=symbol.size.legend.labels,
