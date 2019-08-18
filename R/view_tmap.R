@@ -7,18 +7,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	
 	if (!proxy) lf <- leaflet(options = leaflet::leafletOptions(crs=gt$projection))
 
-	pOptions <- function(cw) {
-		if (is.null(cw)) cw <- 20
-		
-		width <- max(500, cw * 4.5)
-		leaflet::popupOptions(minWidth = 100, maxWidth = width)
-		
-		# minWidth and maxWidth apply to every popup
-		# setting leaflet::popupOptions(minWidth = width, maxWidth = width) makes every popup wide
-		# horizontal scrollbars still occur
-	}
-		
-	
 	# add background overlay
 	if (!in.shiny) {
 		lf <- appendContent(lf, {
@@ -209,8 +197,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			dashArray <- lty2dashArray(gpl$lty)
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
-			charwidth <- attr(popups, "charwidth")
-
 			group_name <- if (is.na(gpl$fill.group)) shp_name else gpl$fill.group
 			addOverlayGroup(group_name)
 			
@@ -222,7 +208,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
 			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", pane, e)
 			
-			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, dashArray = dashArray, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name, popupOptions = pOptions(charwidth))
+			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, dashArray = dashArray, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name)
 			
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
@@ -245,8 +231,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 
 			popups <- get_popups(gpl, type="line")
 			labels <- get_labels(gpl, type="line")
-			charwidth <- attr(popups, "charwidth")
-			
+
 			dashArray <- lty2dashArray(gpl$line.lty)
 			
 
@@ -261,7 +246,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			shp$tmapID2 <- submit_labels(shp$tmapID, "lines", pane, e)
 			
 			
-			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name, popupOptions = pOptions(charwidth)) 
+			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name) 
 
 			# if (!is.null(labels)) {
 			# 	lf <- lf %>% 
@@ -334,8 +319,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			ids <- submit_labels(labels, "symbols", pane, e)
 			
 			
-			charwidth <- attr(popups, "charwidth")
-			
+
 			popups <- popups[sel]
 			
 			# sort symbols
@@ -393,9 +377,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				}
 				
 				if (fixed) {
-					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
+					lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
 				} else {
-					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=group_name, popupOptions = pOptions(charwidth), options = pathOptions(clickable=!is.null(popups), pane=pane))
+					lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=group_name, options = pathOptions(clickable=!is.null(popups), pane=pane))
 				}
 			}
 				
@@ -861,20 +845,16 @@ format_popups <- function(id=NULL, titles, format, values) {
 	
 	
 	labels2 <- mapply(function(l, v) {
-		paste0("<tr><td style=\"color: #888888;\">", l, "</td><td>", v, "</td>")
+		paste0("<tr><td style=\"color: #888888;\">", l, "</td><td align=\"right\"><nobr>", v, "</nobr></td>")
 	}, titles_format, values_format, SIMPLIFY=FALSE)
 	
 	labels3 <- paste0(do.call("paste", c(labels2, list(sep="</tr>"))), "</tr>")
-	x <- paste("<div style=\"max-height:10em;overflow:auto;\"><table>
-			   <thead><tr><th colspan=\"2\">", labels, "</th></thead></tr>", labels3, "</table></div>", sep="")
 	
-	nc_labels <- nchar(labels)
-	nc_titles <- max(nchar(titles_format))
-	nc_values_format <- do.call(pmax, c(lapply(values_format, nchar, allowNA = TRUE), list(na.rm = TRUE))) + 2 # which space between title and value
+	padding_right <- ifelse(length(titles_format) > 13, 15, 0) # add padding for horizontal scroll bar. These will appear on most browsers when there are over 13 normal lines (tested: RStudio, FF, Chrome)
 
-	charwidth <- max(nc_labels + nc_titles + nc_values_format)
-	# print(which.max(nc_labels + nc_titles + nc_values_format))
-	attr(x, "charwidth") <- charwidth
+	x <- paste0("<style> div.leaflet-popup-content {width:auto !important;overflow-y:auto; overflow-x:hidden;}</style><div style=\"max-height:25em;padding-right:", padding_right, "px;\"><table>
+			   <thead><tr><th colspan=\"2\">", labels, "</th></thead></tr>", labels3, "</table></div>")
+	
 	x
 }
 

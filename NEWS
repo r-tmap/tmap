@@ -1,4 +1,5 @@
 version 2.3-1 (in development)
+- improved popups in view mode
 - fixed bug with tm_fill in view mode (#329)
 
 version 2.3
