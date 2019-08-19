@@ -32,24 +32,13 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		
 		## obtain coordinates (to draw bubbles and text)
 		if (inherits(shp, "sf")) {
-			#co.native <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp)))) #st_coordinates(shp)
 			res <- get_sf_coordinates(shp, gpl)
 			co.native <- res$co
 			if (attr(shp, "point.per")=="segment") {
 				gpl <- res$gpl
 				shp <- res$shp
 			}
-			
-			# co.native <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp)))) #st_coordinates(shp)
-			
-			# co.npc[,1] <- if (bbx[1, 2]-bbx[1,1]==0) .5 else {
-			# 	(co.npc[,1]-bbx[1,1]) / (bbx[1, 2]-bbx[1,1])	
-			# }
-			# co.npc[,2] <- if (bbx[2, 2]-bbx[2,1]==0) .5 else {
-			# 	(co.npc[,2]-bbx[2,1]) / (bbx[2, 2]-bbx[2,1])
-			# }
 		} else {
-			# co.npc <- NA
 			co.native <- NA
 		}
 

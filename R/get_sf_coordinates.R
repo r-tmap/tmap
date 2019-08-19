@@ -43,10 +43,10 @@ get_sf_coordinates <- function(shp, gpl) {
 			coors <- split.data.frame(coor[,1:2], f = coor[,ncol(coor)], drop=FALSE)
 			co <- do.call(rbind, lapply(coors, get_midpoint))
 		} else {
-			co <- suppressWarnings(st_coordinates(st_centroid(shp)))
+			co <- get_centroids(shp)
 		}
 	} else if (st_geometry_type(shp)[1] %in% c("POLYGON", "MULTIPOLYGON"))  {
-		co <- suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = (point.per == "largest"))))
+		co <- get_centroids(shp, of_largest_polygon = (point.per == "largest"))
 	} else {
 		co <- suppressWarnings(st_coordinates(shp))
 	}

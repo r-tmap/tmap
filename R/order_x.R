@@ -54,7 +54,7 @@ order_x <- function(x, shps, datasets, types, gm) {
 				xp_lines <- xp[!(names(xp) %in% c("tm_fill", "tm_borders", "tm_raster", "tm_tiles"))]
 				if (from_sf) xp_lines <- xp_lines[names(xp_lines) != "tm_symbols"]
 				
-				if (length(xp_lines) == 1) {
+				if (length(xp_lines) == 1 || (!any("tm_lines" %in% names(xp_lines)))) {
 					xp_lines <- NULL
 					shp_lines <- NULL
 					cnts[2] <- 0
@@ -83,7 +83,7 @@ order_x <- function(x, shps, datasets, types, gm) {
 			
 			if (cnts[3]>0) {
 				xp_points <- xp[!(names(xp) %in% c("tm_fill", "tm_borders", "tm_lines", "tm_iso", "tm_raster", "tm_tiles"))]
-				if (length(xp_points) == 1) {
+				if (length(xp_points) == 1 || (!any("tm_symbols" %in% names(xp_lines)))) {
 					xp_points <- NULL
 					shp_points <- NULL
 					cnts[3] <- 0

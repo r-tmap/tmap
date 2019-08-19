@@ -284,12 +284,17 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		# drop z/m
 		shp <- sf::st_zm(shp)
 		
+		# check if shp is valid (if not, fix it with a warning)
+		if (!all(st_is_valid(shp))) {
+			warning("The shape ", y$shp_name, " is invalid. See sf::st_is_valid", call. = FALSE)
+			shp <- lwgeom::st_make_valid(shp)
+		}
+
 		# remove empty units
 		empty_units <- st_is_empty(shp)
 		if (any(empty_units)) {
 			shp <- if (inherits(shp, "sf")) shp[!empty_units, ] else shp[!empty_units]
 		}
-		
 		
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
 		if (inherits(shp, "sfc")) {
@@ -401,9 +406,15 @@ split_geometry_collection <- function(sfc) {
 										st_collection_extract(g, "POINT"),
 										st_collection_extract(g, "LINESTRING")))
 			# tp2 <- factor(c("polygons", "points", "lines"), levels=c("polygons", "lines", "points"))
-			sel <- !vapply(g2, st_is_empty, logical(1))
-			
-			g2 <- g2[sel]
+			g2 <- tryCatch({
+				sel <- !vapply(g2, st_is_empty, logical(1))
+				g2[sel]
+			}, error = function(e) {
+				g2 <- lapply(g2, lwgeom::st_make_valid)
+				sel <- !vapply(g2, st_is_empty, logical(1))
+				g2[sel]
+			})
+
 			# tp2 <- tp2[sel]
 			id2 <- rep(id, length(g2))
 			list(g2, id2)

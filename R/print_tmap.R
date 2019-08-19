@@ -30,6 +30,7 @@
 #' @import leaflet
 #' @importFrom htmlwidgets appendContent onRender
 #' @importFrom htmltools tags HTML htmlEscape
+#' @importFrom lwgeom st_make_valid
 #' @import leafsync
 #' @importFrom utils packageVersion
 #' @export

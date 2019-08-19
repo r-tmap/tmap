@@ -23,6 +23,7 @@ Depends:
 Imports:
 	tmaptools (>= 2.0-1),
     sf (>= 0.7-1),
+	lwgeom (>= 0.1-4),
     units (>= 0.6-1),
     raster (>= 2.7-15),
     grid,
@@ -35,7 +36,6 @@ Imports:
     leafsync,
     stats
 Suggests:
-	lwgeom (>= 0.1-4),
 	rmapshaper,
     rmarkdown,
     knitr,

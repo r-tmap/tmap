@@ -223,7 +223,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	if (inherits(shp, "sf")) {
 		## determine automatic legend position based on polygon centers
-		co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
+		
+		co <- get_centroids(shp)
 		
 		xn <- (co[,1]-bbx[1])/(bbx[3]-bbx[1])
 		yn <- (co[,2]-bbx[2])/(bbx[4]-bbx[2])
@@ -275,7 +276,14 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	shps2
 }
 
-
+get_centroids <- function(shp, of_largest_polygon = FALSE) {
+	co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))), silent = TRUE)
+	if (inherits(co, "try-error")) {
+		shp <- lwgeom::st_make_valid(shp)
+		co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))))
+	}
+	co
+}
 
 get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	

@@ -169,7 +169,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 						gpl <- res$gpl
 						shp <- res$shp
 					}
-					#co <- suppressWarnings(st_coordinates(st_geometry(st_centroid(shp))))
 				}
 			}
 		}
