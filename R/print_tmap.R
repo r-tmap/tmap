@@ -151,13 +151,14 @@ gather_shape_info <- function(x, interactive) {
 	
 	## find master shape
 	is_raster <- vapply(x[shape.id], function(xs) {
-		!is.null(xs$shp) && inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid"))	
+		!is.null(xs$shp) && inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid"))
 	}, logical(1))
 	is_master <- vapply(x[shape.id], "[[", logical(1), "is.master")
-	any_raster <- any(is_raster)
+#	any_raster <- any(is_raster)
 	masterID <- if (!length(which(is_master))) {
-		if (any_raster) which(is_raster)[1] else which(is.na(is_master))[1]
+		which(is.na(is_master))[1]
 	} else which(is_master)[1]
+	is_raster_master <- is_raster[masterID]
 	
 	## find master projection (and set to longlat when in view mode)
 	master_crs <- get_proj4(x[[shape.id[masterID]]]$projection, output = "crs")
@@ -225,7 +226,7 @@ gather_shape_info <- function(x, interactive) {
 	list(shape.id=shape.id,
 		 shape.nshps=nshps,
 		 shape.apply_map_coloring=apply_map_coloring,
-		 shape.any_raster=any_raster,
+		 shape.is_raster_master=is_raster_master,
 		 shape.masterID=masterID,
 		 shape.master_crs=master_crs,
 		 shape.orig_crs=orig_crs,
@@ -254,7 +255,7 @@ prepare_vp <- function(vp, gm, interactive, gt) {
 		## calculate device aspect ratio (needed for small multiples' nrow and ncol)
 		inner.margins <- gt$inner.margins
 		inner.margins <- if (is.na(inner.margins[1])) {
-			if (gm$shape.any_raster) rep(0, 4) else rep(0.02, 4)
+			if (gm$shape.is_raster_master) rep(0, 4) else rep(0.02, 4)
 		} else rep(inner.margins, length.out=4)
 		xmarg <- sum(inner.margins[c(2,4)])
 		ymarg <- sum(inner.margins[c(1,3)])

@@ -150,7 +150,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 # 		}
 		
 		inner.margins <- if (is.na(inner.margins[1])) {
-			if (gm$shape.any_raster) rep(0, 4) else rep(0.02, 4)
+			if (gm$shape.is_raster_master) rep(0, 4) else rep(0.02, 4)
 		} else rep(inner.margins, length.out=4)
 		
  		attr.color.light <- is_light(attr.color)
