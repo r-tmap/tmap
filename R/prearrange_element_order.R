@@ -111,7 +111,7 @@ prearrange_element_order <- function(x, add.basemap , add.overlay) {
 	xid <- which(!is.na(bcid2) & !(bcid2 %in% c(-1, 0)))
 	x2[xid] <- x[bcid2[xid]]
 	if (length(which(bcid2==0))) x2[which(bcid2==0)] <- rep(tm_basemap(), length(which(bcid2==0)))
-	if (length(which(bcid2==-1))) x2[which(bcid2==-1)] <- rep(list(tm_tiles = list(server = NA, group = NA, alpha = NA, gtype = "overlay", zindex = NA)), length(which(bcid2==-1)))
+	if (length(which(bcid2==-1))) x2[which(bcid2==-1)] <- rep(list(tm_tiles = list(server = NA, group = NA, alpha = NA, gtype = "overlay", zindex = NA, tms = FALSE)), length(which(bcid2==-1)))
 	names(x2) <- bc2
 	
 	x2
