@@ -95,7 +95,9 @@ qtm <- function(shp,
 		borders <- NULL
 		showPoints <- FALSE
 	} else {
-		
+		if (inherits(shp, "sfc")) {
+			shp <- st_sf(shp)
+		}
 		
 		if (any(st_geometry_type(shp) == "GEOMETRYCOLLECTION")) {
 			geom <- split_geometry_collection(st_geometry(shp))

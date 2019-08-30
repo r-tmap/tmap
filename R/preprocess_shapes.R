@@ -275,6 +275,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
 		isolines <- ("isolines" %in% names(attributes(shp)))
 		
+
 		if (inherits(shp, "Spatial")) {
 			shp <- as(shp, "sf")
 		} else if (!inherits(shp, c("sf", "sfc"))) {
@@ -407,22 +408,22 @@ split_geometry_collection <- function(sfc) {
 										st_collection_extract(g, "LINESTRING")))
 			# tp2 <- factor(c("polygons", "points", "lines"), levels=c("polygons", "lines", "points"))
 			g2 <- tryCatch({
-				sel <- !vapply(g2, st_is_empty, logical(1))
+				sel <- !vapply(g2, function(x)all(st_is_empty(x)), logical(1))
 				g2[sel]
 			}, error = function(e) {
 				g2 <- lapply(g2, lwgeom::st_make_valid)
-				sel <- !vapply(g2, st_is_empty, logical(1))
+				sel <- !vapply(g2, function(x)all(st_is_empty(x)), logical(1))
 				g2[sel]
 			})
 
 			# tp2 <- tp2[sel]
-			id2 <- rep(id, length(g2))
+			id2 <- rep(id, length(g2[[1]]))
 			list(g2, id2)
 		} else {
 			list(list(g), id)
 		}
 	}, sfc, types, 1:length(sfc), SIMPLIFY = FALSE)			
-	gnew <- st_sfc(do.call(c, lapply(res, "[[", 1)), crs = st_crs(sfc))
+	gnew <- st_sfc(do.call(c, lapply(lapply(res, "[[", 1), "[[", 1)), crs = st_crs(sfc))
 	ids <- do.call(c, lapply(res, "[[", 2))
 	attr(gnew, "ids") <- ids
 	gnew
