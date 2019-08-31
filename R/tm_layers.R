@@ -593,8 +593,8 @@ tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, inte
 #' @param showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param colorNULL colour for polygons that are shown on the map that are out of scope 
 #' @param shapes palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.
-#' @param shapes.legend symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.
-#' @param shapes.legend.fill Fill color of legend shapes (see \code{shapes.legend})
+#' @param shapes.legend symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. These shapes will be used in the legends regarding the \code{size} and \code{col} of the symbols. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.
+#' @param shapes.legend.fill Fill color of legend shapes. These colors will be used in the legends regarding the \code{size} and \code{shape} of the symbols. See also \code{shapes.legend}.
 #' @param shapes.labels Legend labels for the symbol shapes
 #' @param shapeNA the shape (a number or grob) for missing values. By default a cross (number 4). Set to \code{NA} to hide symbols for missing values.
 #' @param shape.textNA text used for missing values of the shape variable.

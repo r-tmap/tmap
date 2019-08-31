@@ -81,6 +81,9 @@ postprocess_symbols <- function(res, g, gt, data, npol, nx, just, interactive) {
 	if (!is.null(g$shapes.legend)) {
 		shape.neutral <- g$shapes.legend
 		col.neutral <- if (is.na(g$shapes.legend.fill)[1]) gt$aes.colors["symbols"] else  g$shapes.legend.fill
+	} else {
+		shape.neutral <- NULL
+		col.neutral <- NA
 	}
 	
 	# if (!g$legend.size.show) symbol.size.legend.title <- NA
@@ -132,14 +135,14 @@ postprocess_symbols <- function(res, g, gt, data, npol, nx, just, interactive) {
 	
 	
 	res$symbol.col.legend.sizes <- res$symbol.size.legend.misc$symbol.max.size
-	res$symbol.col.legend.shapes <- res$symbol.shape.legend.misc$shape.neutral
-
-	#res$symbol.size.legend.sizes=symbol.legend.sizes,
-	res$symbol.size.legend.shapes <- res$symbol.shape.legend.misc$shape.neutral
+	res$symbol.col.legend.shapes <- if (is.null(shape.neutral)) res$symbol.shape.legend.misc$shape.neutral else shape.neutral
+	
+	res$symbol.size.legend.shapes <- if (is.null(shape.neutral)) res$symbol.shape.legend.misc$shape.neutral else shape.neutral
+	if (!is.na(col.neutral)) res$symbol.size.legend.palette <- col.neutral
 
 	res$symbol.shape.legend.sizes <- res$symbol.size.legend.misc$symbol.max.size
-	#res$symbol.shape.legend.shapes=shape.legend.shapes,
-	
+	if (!is.na(col.neutral)) res$symbol.shape.legend.palette <- col.neutral
+
 	
 	
 	
