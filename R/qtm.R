@@ -76,8 +76,6 @@ qtm <- function(shp,
 		attr(g, "qtm_shortcut") <- TRUE
 		class(g) <- "tmap"
 		return(g)
-	} else if (inherits(shp, "Spatial") && !(inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid")))) {
-		shp <- as(shp, "sf")
 	}
 	
 	if ("bubble.size" %in% names(args)) {
@@ -95,10 +93,10 @@ qtm <- function(shp,
 		borders <- NULL
 		showPoints <- FALSE
 	} else {
-		if (inherits(shp, "sfc")) {
-			shp <- st_sf(shp)
-		}
-		
+		shp <- check_shape(shp, shp_name)
+
+		if (inherits(shp, "sfc")) shp <- st_sf(shp)
+
 		if (any(st_geometry_type(shp) == "GEOMETRYCOLLECTION")) {
 			geom <- split_geometry_collection(st_geometry(shp))
 			shp <- shp[attr(geom, "ids"), ]
@@ -187,7 +185,7 @@ qtm <- function(shp,
 
 	g <- do.call("tm_shape", c(list(shp=shp, projection=projection, bbox = bbox), args2[["tm_shape"]]))
 	g$tm_shape$shp_name <- shp_name
-	
+	g$tm_shape$check_shape <- FALSE
 
 	g <- g + tm_basemap(basemaps)
 	

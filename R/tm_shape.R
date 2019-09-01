@@ -35,7 +35,7 @@ tm_shape <- function(shp,
 					 filter = NULL,
 					 ...) {
 	shp_name <- ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name)
-	g <- list(tm_shape=c(as.list(environment()), list(...)))
+	g <- list(tm_shape=c(as.list(environment()), list(...), check_shape = TRUE))
 	class(g) <- "tmap"
 	g
 }

@@ -275,28 +275,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
 		isolines <- ("isolines" %in% names(attributes(shp)))
 		
+		if (y$check_shape) shp <- check_shape(shp, y$shp_name)
 
-		if (inherits(shp, "Spatial")) {
-			shp <- as(shp, "sf")
-		} else if (!inherits(shp, c("sf", "sfc"))) {
-			stop("Object ", y$shp_name, " is neither from class sf, Spatial, nor Raster.", call. = FALSE)
-		}
-		
-		# drop z/m
-		shp <- sf::st_zm(shp)
-		
-		# check if shp is valid (if not, fix it with a warning)
-		if (!all(st_is_valid(shp))) {
-			warning("The shape ", y$shp_name, " is invalid. See sf::st_is_valid", call. = FALSE)
-			shp <- lwgeom::st_make_valid(shp)
-		}
-
-		# remove empty units
-		empty_units <- st_is_empty(shp)
-		if (any(empty_units)) {
-			shp <- if (inherits(shp, "sf")) shp[!empty_units, ] else shp[!empty_units]
-		}
-		
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
 		if (inherits(shp, "sfc")) {
 			data <- data.frame(tmapID = seq_len(length(shp)))
