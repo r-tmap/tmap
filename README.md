@@ -109,6 +109,7 @@ Tutorials
 Presentations
 -----
 
+* [Creating thematic maps in R](https://mtennekes.github.io/downloads/presentations/tmap_opengeo_muenster.pdf). (OpenGeoHUB Summer School, Muenster)
 * [Plotting spatial data with R](https://github.com/mtennekes/tmap-workshop) (eRum 2018) 
 * Exploring and presenting maps with tmap (useR!2017) [(Abstract)][20] [(Presentation)][21]
 * [tmap: creating thematic maps in a flexible way (useR!2015)][10]
