@@ -597,14 +597,14 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	n <- length(ticks2)
 	ticks3 <- ticks2*unit.size / xrange
 	
-	widths <- ticks3[2] - ticks3[1]
+	widths <- ticks3[2:n] - ticks3[1:(n-1)]
 	size <- min(gt$scale.text.size, widths/max(ticksWidths))
 	x <- ticks3[1:(n-1)] + .5*ticksWidths[1]*size
 	
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
 
 	unitWidth <- text_width_npc(unit) * size
-	width <- widths * (n-1) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
+	width <- sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
 	
 	xtext <- x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
 	

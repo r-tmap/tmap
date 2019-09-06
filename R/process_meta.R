@@ -408,6 +408,12 @@ process_meta_scale_bar <- function(gsb, interactive, gt) {
 				if (all(c("breaks", "width") %in% scale.call)) {
 					warning("For tm_scale_bar, breaks and width cannot be used together. The width is being ignored.", call. = FALSE)	
 				}
+				if ("breaks" %in% scale.call) {
+					if (scale.breaks[1] != 0) {
+						warning("First scale_bar breaks value should be 0.", call. = FALSE)
+						scale.breaks <- c(0, scale.breaks)
+					}
+				}
 				
 				if (is.na(scale.width))
 					scale.width <- .25
