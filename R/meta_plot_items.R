@@ -602,9 +602,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	x <- ticks3[1:(n-1)] + .5*ticksWidths[1]*size
 	
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
-	#my <- lineHeight / 2
-	#mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
-	
+
 	unitWidth <- text_width_npc(unit) * size
 	width <- widths * (n-1) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
 	
@@ -612,14 +610,6 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	
 	x <- just-just*width+x
 	xtext <- just-just*width+xtext
-	
-	# if (just=="right") {
-	# 	x <- 1-width+x
-	# 	xtext <- 1-width+xtext
-	# } else if (just=="center") {
-	# 	x <- .5-.5*width+x
-	# 	xtext <- .5-.5*width+xtext
-	# }
 	
 	grobBG <- if (gt$design.mode) rectGrob(gp=gpar(fill="orange")) else NULL
 	

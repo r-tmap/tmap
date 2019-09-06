@@ -393,6 +393,8 @@ process_meta_scale_bar <- function(gsb, interactive, gt) {
 	if (!is.null(gsb)) {
 		gsb <- within(gsb, {
 			if (interactive) {
+				if ("breaks" %in% scale.call) warnings("In view mode, scale bar breaks are ignored.", call. = FALSE)
+				
 				if (is.na(scale.width))
 					scale.width <- 100
 				else if (scale.width < 1) {
@@ -403,6 +405,10 @@ process_meta_scale_bar <- function(gsb, interactive, gt) {
 				if (is.na(scale.position[1])) scale.position <- gt$attr.position
 				scale.position <- find_leaflet_position(scale.position)
 			} else {
+				if (all(c("breaks", "width") %in% scale.call)) {
+					warning("For tm_scale_bar, breaks and width cannot be used together. The width is being ignored.", call. = FALSE)	
+				}
+				
 				if (is.na(scale.width))
 					scale.width <- .25
 				else if (scale.width > 1) {
