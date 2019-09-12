@@ -108,7 +108,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 					is.RGB <- FALSE
 				}
 			} else if (is.RGB) {
-				if (!any(rgb.vars %in% 1:nlayers(shp))) stop("Specified rgb(a) bands are ", rgb.vars, " whereas the number of layers is ", nlayers(shp), call. = FALSE)
+				if (!all(rgb.vars %in% 1:nlayers(shp))) stop("Specified rgb(a) bands are ", paste(rgb.vars, collapse = ", "), " whereas the number of layers is ", nlayers(shp), call. = FALSE)
+				
 				if  (!all(minValue(shp)>=0) || !all(mxdata <= max.value)) {
 					shp[][shp[] < 0] <- 0
 					shp[][shp[] > max.value] <- max.value
@@ -116,6 +117,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 					rdata[rdata > max.value] <- max.value
 					warning("Raster values found that are outside the range [0, ", max.value, "]", call. = FALSE)
 				}
+				
 				if (mxdata <= 1 && max.value == 255) message("No values higher than 1 found. Probably, max.value should be set to 1.")
 			}
 			

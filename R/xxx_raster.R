@@ -1,16 +1,21 @@
 raster_colors <- function(x, use.colortable = FALSE, max.value = 255) {
 	
-	x[is.na(x)] <- 0
+	anyna <- apply(x, MARGIN = 1, function(i) any(is.na(i)))
+	
+	x[anyna, ] <- max.value
 	
 	n <- nrow(x)
 
 	# get alpha transparency
 	if (ncol(x)==4) {
-		a <- x[,4]
+		a <- ifelse(anyna, 0, x[,4])
 		x <- x[,1:3]
-		x[x]
 	} else {
-		a <- NULL
+		if (any(anyna)) {
+			a <- ifelse(anyna, 0, max.value)
+		} else {
+			a <- NULL
+		}
 	}
 
 	if (!use.colortable) {
@@ -27,7 +32,7 @@ raster_colors <- function(x, use.colortable = FALSE, max.value = 255) {
 	v <- x[, 1] * 1e6L + x[, 2] * 1e3L + x[, 3]
 
 	isna <- is.na(v)
-	if (!is.null(a)) isna <- isna & (a==255)
+	if (!is.null(a)) isna <- isna & (a!=max.value)
 
 	v <- v[!isna]
 	u <- unique(v)
