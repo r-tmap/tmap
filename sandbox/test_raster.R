@@ -145,3 +145,31 @@ land1 <- raster(land, layer="cover_cls")
 
 x <- smooth_map(land1, cover.type="smooth")
 
+
+
+##############
+library(raster)
+
+x <- brick("local/TC_NG_SFBay_US_Geo.tif")
+
+x[[1]][1:1e7] <- NA
+
+tm_shape(x) +
+	tm_rgb()
+
+
+tmap_options(max.raster = c(plot = 5e5, view = 5e5)) 
+
+ttm()
+
+
+Rprof(tmp <- tempfile())
+
+tm_shape(x) +
+	tm_rgb()
+Rprof()
+summaryRprof(tmp)
+unlink(tmp)
+
+
+

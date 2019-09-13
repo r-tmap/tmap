@@ -214,6 +214,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=gm$shape.master_crs$proj4string, method = ifelse(use_interp, "bilinear", "ngb")))
 			shp2 <- raster(shpTmp)
 			data <- suppressWarnings(get_raster_data(shpTmp)[,layerIDs, drop=FALSE])
+			names(data) <- names(lvls)
 		} else {
 			shp2 <- raster(shp)
 			data <- suppressWarnings(get_raster_data(shp)[,layerIDs, drop=FALSE])

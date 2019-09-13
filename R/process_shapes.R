@@ -244,10 +244,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	if (longlat) {
 		latitude <- mean(bbx[c(2,4)])
 		bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
-		ad <- approx_distances(bbxll, projection=gm$shape.master_crs)
+		ad <- suppressWarnings({approx_distances(bbxll, projection=gm$shape.master_crs)})
 		to <- as.numeric(units::set_units(ad$hdist, as_units(shape.unit), mode = "standard"))
 	} else {
-		ad <- approx_distances(bbx, projection=gm$shape.master_crs)
+		ad <- suppressWarnings({approx_distances(bbx, projection=gm$shape.master_crs)})
 		
 		if (is.na(gm$shape.master_crs)) {
 			to <- ad$hdist
