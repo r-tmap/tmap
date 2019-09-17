@@ -104,9 +104,9 @@ tm_markers(shape = marker_icon(), col = NA, border.col = NULL,
 
 \item{shapes}{palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.}
 
-\item{shapes.legend}{symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.}
+\item{shapes.legend}{symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. These shapes will be used in the legends regarding the \code{size} and \code{col} of the symbols. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.}
 
-\item{shapes.legend.fill}{Fill color of legend shapes (see \code{shapes.legend})}
+\item{shapes.legend.fill}{Fill color of legend shapes. These colors will be used in the legends regarding the \code{size} and \code{shape} of the symbols. See also \code{shapes.legend}.}
 
 \item{shapes.labels}{Legend labels for the symbol shapes}
 

@@ -1,7 +1,6 @@
-version 2.3-1 (in development)
+version 2.3-1
 - improved popups in view mode
 - added validity checks for sf objects
-- fixed bug with tm_fill in view mode (#329)
 - minor bugs fixed: see github issue list
 
 version 2.3

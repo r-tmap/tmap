@@ -392,6 +392,7 @@ process_meta_scale_bar <- function(gsb, interactive, gt) {
 	
 	if (!is.null(gsb)) {
 		gsb <- within(gsb, {
+			if (!exists("scale.call")) scale.call <- ""
 			if (interactive) {
 				if ("breaks" %in% scale.call) warnings("In view mode, scale bar breaks are ignored.", call. = FALSE)
 				
