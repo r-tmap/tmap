@@ -12,21 +12,19 @@ tmap: thematic maps in R
 
 
 <span>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap"><img src="https://mtennekes.github.io/downloads/images/classic.png" alt="Classic World Map" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="https://mtennekes.github.io/downloads/images/bubble.png" alt="Bubble Map" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap"><img src="https://mtennekes.github.io/downloads/images/view_metro4.jpg" alt="Bubble Map" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets"><img src="https://mtennekes.github.io/downloads/images/world_facets2.png" alt="World facets" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="https://mtennekes.github.io/downloads/images/USchoro.png" alt="US Choropleth" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth"><img src="https://mtennekes.github.io/downloads/images/US_PR.jpg" alt="US Choropleth" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="https://mtennekes.github.io/downloads/images/crimes3b.png" alt="London Crimes" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="https://mtennekes.github.io/downloads/images/crimes4.png" alt="London Crimes" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"/></a>
-<a href = "https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes">
-<img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"/></a>
+<img src="https://mtennekes.github.io/downloads/images/classic.png" alt="Classic World Map" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/bubble.png" alt="Bubble Map" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/view_metro4.jpg" alt="Bubble Map" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/world_facets2.png" alt="World facets" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/USchoro.png" alt="US Choropleth" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/US_PR.jpg" alt="US Choropleth" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/crimes3b.png" alt="London Crimes" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/crimes4.png" alt="London Crimes" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"/>
+<img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"/>
 </span>
+
+See [below](https://github.com/mtennekes/tmap/#reference) the source code for these images.
 
 
 Installation
@@ -81,14 +79,7 @@ Reference
 ----
 [Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
 
-This paper has been written for `tmap` 1.11-2. The content of this paper using `tmap` 2.x is the following:
-
-* [Full reproduction code using tmap 2.x](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html)
-* [Example from Section 4.1: Metropolitan Areas](https://github.com/mtennekes/tmap/tree/master/demo/BubbleMap)
-* [Example from Section 4.2: Classic World Map](https://github.com/mtennekes/tmap/tree/master/demo/ClassicMap)
-* [Example from Section 4.3: Two World Views](https://github.com/mtennekes/tmap/tree/master/demo/WorldFacets)
-* [Example from Section 4.4: Obesity in the United States](https://github.com/mtennekes/tmap/tree/master/demo/USChoropleth)
-* [Example from Section 4.5: Crimes in Greater London](https://github.com/mtennekes/tmap/tree/master/demo/LondonCrimes)
+This paper has been written for `tmap` 1.11-2. See the [reproducible code](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html) using `tmap` 2.x.
 
 Vignettes 
 -----
@@ -101,24 +92,23 @@ Vignettes
 Tutorials
 -----
 
-[Demo: tmap in RMarkdown](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd)
-
-[Demo: tmap in Shiny](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/shiny_tmap.R)
+[tmap in RMarkdown](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd)
 
 
 Presentations
 -----
 
-* [Creating thematic maps in R](https://mtennekes.github.io/downloads/presentations/tmap_opengeo_muenster.pdf). (OpenGeoHUB Summer School, Muenster)
+* [Creating thematic maps in R][23] (OpenGeoHUB Summer School 2019)
 * [Plotting spatial data with R](https://github.com/mtennekes/tmap-workshop) (eRum 2018) 
-* Exploring and presenting maps with tmap (useR!2017) [(Abstract)][20] [(Presentation)][21]
-* [tmap: creating thematic maps in a flexible way (useR!2015)][10]
+* [Exploring and presenting maps with tmap][21] (useR!2017)
+* [tmap: creating thematic maps in a flexible way][10] (useR!2015)]
 
 
 Other resources
 -----
 
-* [Geocomputation with R; Making maps with R, Robin Lovelace, Jakub Nowosad, Jannes Muenchow][23]
+* [Geocomputation with R; Making maps with R, Robin Lovelace, Jakub Nowosad, Jannes Muenchow][20]
+* [R tip: Create maps in R][24]
 * [Working with Spatial Data and using tmap, Samantha A. Alger][22]
 * [Computer World: Mapping in R just got a whole lot easier][18]
 * [National Socio-Environmental Synthesis Center: Maps in R][19]
@@ -151,7 +141,7 @@ Please tag your questions with *tmap*.
   [7]: http://spatcontrol.net/SpatialControl/2015/11/06/tmap-r-package/
   [8]: http://www.twiav.nl/en/blog0002en.php
   [9]: https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf
-  [10]: http://von-tijn.nl/tijn/research/presentations/tmap_user2015.pdf
+  [10]: https://mtennekes.github.io/downloads/presentations/tmap_user2015.pdf
   [11]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-modes.html
   [12]: http://cwrld.us/Rmaps10
   [13]: https://github.com/mtennekes/tmap/blob/master/demo/US_choropleth.R
@@ -161,8 +151,9 @@ Please tag your questions with *tmap*.
   [17]: http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html
   [18]:	http://www.computerworld.com/article/3175623/data-analytics/mapping-in-r-just-got-a-whole-lot-easier.html
   [19]: https://sesync-ci.github.io/maps-in-R-lesson/
-  [20]: http://von-tijn.nl/tijn/research/publications/abstract_tmap.pdf
-  [21]: http://von-tijn.nl/tijn/research/presentations/tmap_user2017.pdf
+  [20]: http://geocompr.robinlovelace.net/adv-map.html
+  [21]: https://mtennekes.github.io/downloads/presentations/tmap_user2017.pdf
   [22]: https://gotellilab.github.io/Bio381/StudentPresentations/SpatialDataTutorial.html
-  [23]: http://geocompr.robinlovelace.net/adv-map.html
+  [23]: https://mtennekes.github.io/downloads/presentations/tmap_opengeo_muenster.pdf
+  [24]: https://www.youtube.com/watch?v=wgFVmzSbaQc#t=3m20s
   
