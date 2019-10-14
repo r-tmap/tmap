@@ -406,7 +406,7 @@ split_geometry_collection <- function(sfc) {
 			list(list(g), id)
 		}
 	}, sfc, types, 1:length(sfc), SIMPLIFY = FALSE)			
-	gnew <- st_sfc(do.call(c, lapply(lapply(res, "[[", 1), "[[", 1)), crs = st_crs(sfc))
+	gnew <- st_sfc(do.call(st_sfc, lapply(lapply(res, "[[", 1), "[[", 1)), crs = st_crs(sfc))
 	ids <- do.call(c, lapply(res, "[[", 2))
 	attr(gnew, "ids") <- ids
 	gnew
