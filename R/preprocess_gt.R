@@ -56,6 +56,10 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 
 	## preprocess gt
 	gt <- within(gt, {
+		pc <- list(sepia.intensity=sepia.intensity, saturation=saturation)
+		sepia.intensity <- NULL
+		saturation <- NULL
+		
 		# put aes colors in right order and name them
 		if (length(aes.color)==1 && is.null(names(aes.color))) names(aes.color) <- "base"
 		
