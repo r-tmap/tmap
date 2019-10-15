@@ -231,7 +231,7 @@ qtm <- function(shp,
 	if (!is.null(raster)) {
 		g <- g + do.call("tm_raster", c(list(col=raster), args2[["tm_raster"]]))
 		g$tm_raster$is.RGB <- is.RGB
-		g$tm_raster$rgb.vars <- if (is.RGB) c(1,2,3) else NULL
+		g$tm_raster$rgb.vars <- if (identical(is.RGB, TRUE)) c(1,2,3) else NULL
 	}
 
 	
