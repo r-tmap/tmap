@@ -826,7 +826,7 @@ plot_compass <- function(gt, just) {
 	#y <- (y-.5)*(gt$compass.size/(gt$compass.nlines)) + .5
 	
 	if (gt$compass.north!=0) {
-		drotate <- gt$compass.north/180*pi
+		drotate <- gt$compass.north/180*pi - .5*pi
 		
 		xy <- mapply(function(a,b){
 			d <- atan2(b-.5, a-.5)
@@ -835,15 +835,15 @@ plot_compass <- function(gt, just) {
 			list(x=r * sin(d+drotate) + .5,
 				 y=r * cos(d+drotate) + .5)
 		}, x, y, SIMPLIFY=FALSE)
-		x <- lapply(xy, "[", 1)
-		y <- lapply(xy, "[", 2)
-	} else drotate <- 0
+		x <- lapply(xy, "[[", 1)
+		y <- lapply(xy, "[[", 2)
+	} else drotate <- -.5*pi
 	
 	
-	# shift
+	# shift compass to south direction
 	if (gt$compass.show.labels==1) {
-		x <- lapply(x, function(a) a - (u/2) * sin(drotate))
-		y <- lapply(y, function(b) b - (u/2) * cos(drotate))
+		x <- lapply(x, function(a) a - (u/2) * sin(drotate + .5*pi))
+		y <- lapply(y, function(b) b - (u/2) * cos(drotate + .5*pi))
 	}
 	
 	
@@ -866,9 +866,9 @@ plot_compass <- function(gt, just) {
 		lr <- (1-u)/2
 		ld <- (seq(0, 1.75, by=.25) * pi)[selection]
 		
-		lx <- lr * sin(ld+drotate) + .5
-		ly <- lr * cos(ld+drotate) + .5
-		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=-drotate/pi*180, gp=gpar(col=gt$compass.text.color, cex=gt$compass.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily))
+		lx <- lr * sin(ld+drotate + .5*pi) + .5
+		ly <- lr * cos(ld+drotate + .5*pi) + .5
+		textGrob(labels, x=lx, y=ly, just=c("center", "center"), rot=0, gp=gpar(col=gt$compass.text.color, cex=gt$compass.text.size, fontface=gt$fontface, fontfamily=gt$fontfamily)) # -drotate/pi*180 - 90
 	}
 	
 	grobComp <- if (gt$compass.type %in% c("arrow", "4star", "8star")) {
