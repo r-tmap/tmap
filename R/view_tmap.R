@@ -132,9 +132,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 		}
 		zi
 	})
-	
 	zids_vec <- unlist(zids)
-	zids_vec[is.na(zids_vec)] <- seq(start_pane_id, length.out = sum(is.na(zids_vec)))
+	
+	# For tmapProxy: only use pane with a higher z number than existing ones
+	# Only use free panes: every layer must be in a different pane
+	z_free <- setdiff(start_pane_id:(start_pane_id+length(zids_vec)*2-1), na.omit(zids_vec))
+	zids_vec[is.na(zids_vec)] <- rep(z_free, length.out = sum(is.na(zids_vec)))
 	zids_len <- sapply(zids, length)
 	zindices <- split(zids_vec, unlist(mapply(rep, 1:length(zids), each = zids_len, SIMPLIFY = FALSE)))
 	tmap_zindices <- sort(unique(unname(setdiff(zids_vec, 0))))

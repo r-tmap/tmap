@@ -339,6 +339,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 
 	## process proxy
 	if (proxy) {
+		browser()
+		
 		layerIds <- if (".layerIdsNew" %in% ls(envir = .TMAP_CACHE)) {
 			get("layerIdsNew", envir = .TMAP_CACHE)
 		} else {
