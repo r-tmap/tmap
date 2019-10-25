@@ -339,7 +339,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 
 	## process proxy
 	if (proxy) {
-
 		layerIds <- if (".layerIdsNew" %in% ls(envir = .TMAP_CACHE)) {
 			get("layerIdsNew", envir = .TMAP_CACHE)
 		} else {
@@ -347,8 +346,17 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 		assign("layerIds", layerIds, envir = .TMAP_CACHE)
 		
+
+		overlays <- get("overlays", envir = .TMAP_CACHE)
+		overlays_tiles <- get("overlays_tiles", envir = .TMAP_CACHE)
+		
+		#browser()
+		
 		typesList <- as.list(attr(layerIds, "types"))
 		names(typesList) <- names(layerIds)
+		
+		groupsList <- as.list(attr(layerIds, "groups"))
+		names(groupsList) <- names(layerIds)
 		
 		rem_lay_id <- which(names(x) == "tm_remove_layer")
 		if (length(rem_lay_id) > 0L) {
@@ -367,9 +375,16 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				
 				layerIds[[name]] <- NULL
 				typesList[[name]] <- NULL
+				groupsList[[name]] <- NULL
 			}
 			attr(layerIds, "types") <- unlist(typesList)
+			attr(layerIds, "groups") <- unlist(groupsList)
 			assign("layerIdsNew", layerIds, envir = .TMAP_CACHE)
+			
+			overlays <- if (length(groupsList) == 0) character(0) else intersect(overlays, unlist(groupsList))
+			overlays_tiles <- if (length(groupsList) == 0) character(0) else intersect(overlays_tiles, unlist(groupsList))
+			assign("overlays", overlays, envir = .TMAP_CACHE)
+			assign("overlays_tiles", overlays_tiles, envir = .TMAP_CACHE)
 		}
 		x <- x[!(names(x) %in% c("tm_remove_layer"))]
 		if (length(x) == 0) {

@@ -208,7 +208,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# lf <- addPane(lf, pane)
 			
 			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
-			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", pane, e)
+			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", pane, group_name, e)
 			
 			lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, dashArray = dashArray, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name)
 			
@@ -245,7 +245,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# lf <- addPane(lf, pane)
 			
 			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
-			shp$tmapID2 <- submit_labels(shp$tmapID, "lines", pane, e)
+			shp$tmapID2 <- submit_labels(shp$tmapID, "lines", pane, group_name, e)
 			
 			
 			lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name) 
@@ -315,10 +315,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# pane <- nextPane(pane)
 			# lf <- addPane(lf, pane)
 			
-						
+			group_name <- if (is.na(gpl$symbol.group)) shp_name else gpl$symbol.group
+			addOverlayGroup(group_name)
+			
 			popups <- get_popups(gpl, type="symbol")
 			labels <- as.character(get_labels(gpl, type="symbol"))
-			ids <- submit_labels(labels, "symbols", pane, e)
+			ids <- submit_labels(labels, "symbols", pane, group_name, e)
 			
 			
 
@@ -352,8 +354,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			are.icons <- gpl$symbol.misc$symbol.are.icons
 			clustering <- gpl$symbol.misc$clustering
 			
-			group_name <- if (is.na(gpl$symbol.group)) shp_name else gpl$symbol.group
-			addOverlayGroup(group_name)
 			
 			
 			if (are.icons) {
@@ -527,7 +527,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			
 			pane <- paneName(zi)
 			
-			layerId <- submit_labels(pane, "raster", pane, e)
+			layerId <- submit_labels(pane, "raster", pane, group_name, e)
 
 			lf <- lf %>% addRasterImage(x=shp, colors=mappal, opacity = pal_opacity, group=group_name, project = FALSE, layerId = layerId)
 			
@@ -687,9 +687,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	} else {
 		stop("Invalid control.position", call.=FALSE)
 	}
-
 	
-
 	if (length(bases) == 1 && !basename.specified) {
 		if (!is.na(overlays[1])) {
 			lf <- lf %>% addLayersControl(overlayGroups = unname(overlays), options = layersControlOptions(autoZIndex = TRUE), position=control.position)
@@ -999,8 +997,6 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE, zindex 
 
 	legend.position <-gt$view.legend.position
 
-	
-
 	if (is.cont) {
 		legvals <- if (!is.na(colNA)) c(val, NA) else val
 
@@ -1106,12 +1102,13 @@ get_epsg_number <- function(proj) {
 # 	labels
 # }
 
-submit_labels <- function(labels, cls, pane, e) {
+submit_labels <- function(labels, cls, pane, group_name, e) {
 	
 	layerIds <- get("layerIds", envir = e)
 	
 	
 	types <- attr(layerIds, "types")
+	groups <- attr(layerIds, "groups")
 	
 	labels_all <- unlist(layerIds)
 	
@@ -1129,6 +1126,7 @@ submit_labels <- function(labels, cls, pane, e) {
 	#layerIds[[cls]] <- labels_all
 	
 	attr(layerIds, "types") <- c(types, cls)
+	attr(layerIds, "groups") <- c(types, group_name)
 	
 	assign("layerIds", layerIds, envir = e)
 	labels
