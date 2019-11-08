@@ -73,13 +73,13 @@ check_text_specials <- function(fill, xtcol, xtsize, g, gt, gby, xvary, data, sh
 
 postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text, collight, coldark, xtext) {
 	if (g$shadow) {
-		g$shadowcol <- if (is.matrix(res$col)) {
-			apply(res$col, MARGIN=2, function(f) {
+		g$shadowcol <- if (is.matrix(res$text.col)) {
+			apply(res$text.col, MARGIN=2, function(f) {
 				light <- is_light(f)
 				rep(ifelse(light, coldark, collight), length.out=npol)
 			})
 		} else {
-			light <- is_light(res$col)
+			light <- is_light(res$text.col)
 			rep(ifelse(light, coldark, collight), length.out=npol)
 		}
 	}
