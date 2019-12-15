@@ -347,6 +347,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				ids2 <- ids
 			}
 			
+			if (length(labels2) == 0) labels2 <- NULL
 			
 			rad <- unname(symbol.size2 * upl)
 			
