@@ -91,6 +91,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			shpnames <- names(rdata) #get_raster_names(shp)
 			
+			if (is.na(maxValue(shp)[1])) shp <- setMinMax(shp)
+
 			mxdata <- suppressWarnings(max(maxValue(shp)))
 			if (is.na(mxdata)) mxdata <- 0
 
