@@ -88,7 +88,12 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 			lf <- tmap_leaflet(tm, add.titles = add.titles)
 		}
 			
-		saveWidget(lf, file=filename, ...)
+		tryCatch({
+			saveWidget(lf, file=filename, ...)
+		}, error = function(e) {
+			stop("Unable to save the interactive map. Note that saving interactive small multiples is not supported yet.", call. = FALSE)
+		})
+		
 		options(tmap.mode=tmap.mode)
 		if (verbose) {
 			message("Interactive map saved to ", suppressWarnings(normalizePath(filename)))
