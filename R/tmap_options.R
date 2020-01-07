@@ -431,8 +431,14 @@ check_named_items <- function(a, b) {
 				if (is.null(names(an))) {
 					warning("tmap option ", nm, " requires a named ", cls, call. = FALSE)
 				} else if (!all(names(an) %in% names(bn))) {
-					invalid <- setdiff(names(an), names(bn))
-					warning("invalid ", cls, " names of tmap option ", nm, ": ", paste(invalid, collapse = ", "), call. = FALSE)
+					formatC_names <- setdiff(names(formals(formatC)), "x")
+					if (nm == "legend.format") {
+						invalid <- setdiff(names(an), c(names(bn), formatC_names))
+					} else {
+						invalid <- setdiff(names(an), names(bn))
+					}
+					if (length(invalid) > 0) warning("invalid ", cls, " names of tmap option ", nm, ": ", paste(invalid, collapse = ", "), call. = FALSE)
+					
 				}
 				res[names(an)] <- an
 				res

@@ -45,9 +45,24 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 			}
 			if (("legend.format" %in% names(g))) {
 				lf <- g$legend.format
-				if (!all(names(lf) %in% names(gt$legend.format))) stop("Names in legend.format unknown: ", paste(setdiff(names(lf), names(gt$legend.format)), collapse = ", "), call. = FALSE)
+				
+				extraArgs <- setdiff(names(lf), names(gt$legend.format))
+				
+				if (length(extraArgs) > 1) {
+					lf_base <- lf[intersect(names(lf), names(gt$legend.format))]
+					lf_extra <- lf[extraArgs]
+				} else {
+					lf_base <- lf
+					lf_extra <- list()
+				}
+				
+				#if (!all(names(lf) %in% names(gt$legend.format))) stop("Names in legend.format unknown: ", paste(setdiff(names(lf), names(gt$legend.format)), collapse = ", "), call. = FALSE)
 				g$legend.format <- gt$legend.format
-				g$legend.format[names(lf)] <- lf
+				g$legend.format[names(lf_base)] <- lf_base
+				
+				if (length(extraArgs) > 1) {
+					g$legend.format <- c(g$legend.format, lf_extra) 
+				}
 			}
 			
 			if (length(g)) gt[names(g)] <- g
