@@ -38,7 +38,7 @@ tm_tiles(paste0("http://services.arcgisonline.com/arcgis/rest/services/Canvas/",
     "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"), group = "Labels")
 
 
-# Use tmap optinos to set the basemap and overlay map permanently during the R session:
+# Use tmap options to set the basemap and overlay map permanently during the R session:
 opts <- tmap_options(basemaps = c(Canvas = "Esri.WorldGrayCanvas", Imagery = "Esri.WorldImagery"),
     overlays = c(Labels = paste0("http://services.arcgisonline.com/arcgis/rest/services/Canvas/",
                                  "World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}")))
