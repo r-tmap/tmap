@@ -13,6 +13,12 @@ grob_mod <- function(grb, x.a=0, x.b=1, y.a=0, y.b=1) {
 }
 
 unit_mod <- function(unt, a=0, b=1) {
-	cls <- attr(unt, "unit")
-	unit(as.numeric(unt)*b + a, cls)
+    if (getRversion() >= "4.0.0") {
+        unitType <- get("unitType", envir=asNamespace("grid"))
+        units <- unitType(unt)
+        unit(as.numeric(unt)*b + a, units)
+    } else {
+        cls <- attr(unt, "unit")
+        unit(as.numeric(unt)*b + a, cls)
+    }
 }
