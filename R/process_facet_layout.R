@@ -99,7 +99,7 @@ process_facet_layout <- function(gm) {
 			rowrange <- (1:nrow)*3 + 5
 			
 			colpanelrow <- 6
-			rowpanelcol <- 6 #5
+			rowpanelcol <- 5
 			
 			facetw <- ((1-spc-outerx)-xs-fpi$legmarx-ylabWnpc-between.margin.x*ncol-panelw)/ncol-ygridWnpc
 			faceth <- ((1-spc-outery)-ys-fpi$legmary-fpi$attrmary-fpi$mainmary-xlabHnpc-between.margin.y*nrow-panelh)/nrow-xgridHnpc

@@ -152,7 +152,7 @@ World$GDP3 <- cut(World$gdp_cap_est, breaks = c(0, 5000, 20000, Inf),
 
 tm_shape(World) + 
 	tm_fill("HPI3", palette="Dark2", colorNA="grey90", legend.show = FALSE) + 
-	tm_facets(c("HPI3", "GDP3"), showNA=FALSE, free.coords = FALSE)
+	tm_facets(c("HPI3", "GDP3"), showNA=FALSE, free.coords = FALSE, drop.units = FALSE)
 
 metro_edited <- metro \%>\% 
 	mutate(pop1950cat = cut(pop1950, breaks=c(0.5, 1, 1.5, 2, 3, 5, 10, 40)*1e6),
