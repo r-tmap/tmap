@@ -151,7 +151,7 @@ gather_shape_info <- function(x, interactive) {
 	
 	## find master shape
 	is_raster <- vapply(x[shape.id], function(xs) {
-		!is.null(xs$shp) && inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid"))
+		!is.null(xs$shp) && inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid", "stars"))
 	}, logical(1))
 	is_master <- vapply(x[shape.id], "[[", logical(1), "is.master")
 #	any_raster <- any(is_raster)

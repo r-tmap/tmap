@@ -86,7 +86,7 @@ qtm <- function(shp,
 	}
 	
 	
-	isRaster <- (inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster")))
+	isRaster <- (inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster", "stars")))
 	
 	if (isRaster) {
 		fill <- NULL

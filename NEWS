@@ -1,3 +1,7 @@
+version 2.3-2 (devel)
+- many small improvements and bug fixes (see github)
+- first stars supported
+
 version 2.3-1
 - improved popups in view mode
 - added validity checks for sf objects

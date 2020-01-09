@@ -43,7 +43,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	names(shp.sim)[names(shp.sim)=="simplify"] <- "fact"
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
-	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid"))) {
+	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid", "stars"))) {
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		rgb.vars <- attr(raster_facets_vars, "rgb.vars")
 		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
@@ -52,7 +52,10 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (interactive) gm$shape.master_crs <- .crs_merc
 		
 		if (inherits(shp, "Spatial")) shp <- brick(shp)
-			
+		if (inherits(shp, "stars")) {
+			if (attr(attr(shp, "dimensions"), "raster")$curvilinear) stop("Curvilinear grid are not supperted in tmap... yet.")
+			shp <- as(shp, "Raster")
+		}
 		
 		
 		# attribute get from read_osm
