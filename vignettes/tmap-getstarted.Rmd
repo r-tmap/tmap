@@ -207,8 +207,6 @@ output$my_tmap = renderLeaflet({
 })
 ```
 
-See full [tmap - shiny example](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/shiny_tmap.R).
-
 ### Quick thematic map
 
 Maps can also be made with one function call.
