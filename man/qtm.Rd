@@ -4,12 +4,31 @@
 \alias{qtm}
 \title{Quick thematic map plot}
 \usage{
-qtm(shp, fill = NA, symbols.size = NULL, symbols.col = NULL,
-  symbols.shape = NULL, dots.col = NULL, text = NULL,
-  text.size = 1, text.col = NA, lines.lwd = NULL, lines.col = NULL,
-  raster = NA, borders = NA, by = NULL, scale = NA, title = NA,
-  projection = NULL, bbox = NULL, basemaps = NA, overlays = NA,
-  style = NULL, format = NULL, ...)
+qtm(
+  shp,
+  fill = NA,
+  symbols.size = NULL,
+  symbols.col = NULL,
+  symbols.shape = NULL,
+  dots.col = NULL,
+  text = NULL,
+  text.size = 1,
+  text.col = NA,
+  lines.lwd = NULL,
+  lines.col = NULL,
+  raster = NA,
+  borders = NA,
+  by = NULL,
+  scale = NA,
+  title = NA,
+  projection = NULL,
+  bbox = NULL,
+  basemaps = NA,
+  overlays = NA,
+  style = NULL,
+  format = NULL,
+  ...
+)
 }
 \arguments{
 \item{shp}{One of

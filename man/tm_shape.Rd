@@ -4,9 +4,19 @@
 \alias{tm_shape}
 \title{Specify the shape object}
 \usage{
-tm_shape(shp, name = NULL, is.master = NA, projection = NULL,
-  bbox = NULL, unit = NULL, simplify = 1, point.per = NA,
-  line.center = "midpoint", filter = NULL, ...)
+tm_shape(
+  shp,
+  name = NULL,
+  is.master = NA,
+  projection = NULL,
+  bbox = NULL,
+  unit = NULL,
+  simplify = 1,
+  point.per = NA,
+  line.center = "midpoint",
+  filter = NULL,
+  ...
+)
 }
 \arguments{
 \item{shp}{shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.}

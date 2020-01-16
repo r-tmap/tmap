@@ -4,10 +4,22 @@
 \alias{tmap_save}
 \title{Save tmap}
 \usage{
-tmap_save(tm = NULL, filename = NA, width = NA, height = NA,
-  units = NA, dpi = NA, outer.margins = NA, asp = NULL,
-  scale = NA, insets_tm = NULL, insets_vp = NULL,
-  add.titles = TRUE, verbose = NULL, ...)
+tmap_save(
+  tm = NULL,
+  filename = NA,
+  width = NA,
+  height = NA,
+  units = NA,
+  dpi = NA,
+  outer.margins = NA,
+  asp = NULL,
+  scale = NA,
+  insets_tm = NULL,
+  insets_vp = NULL,
+  add.titles = TRUE,
+  verbose = NULL,
+  ...
+)
 }
 \arguments{
 \item{tm}{tmap object}

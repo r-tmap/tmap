@@ -4,10 +4,24 @@
 \alias{tm_view}
 \title{Options for the interactive tmap viewer}
 \usage{
-tm_view(alpha, colorNA, projection, symbol.size.fixed, dot.size.fixed,
-  text.size.variable, bbox, set.bounds, set.view, set.zoom.limits,
-  view.legend.position, control.position, popup.all.data, legend.position,
-  basemaps = NULL, basemaps.alpha = NULL)
+tm_view(
+  alpha,
+  colorNA,
+  projection,
+  symbol.size.fixed,
+  dot.size.fixed,
+  text.size.variable,
+  bbox,
+  set.bounds,
+  set.view,
+  set.zoom.limits,
+  view.legend.position,
+  control.position,
+  popup.all.data,
+  legend.position,
+  basemaps = NULL,
+  basemaps.alpha = NULL
+)
 }
 \arguments{
 \item{alpha}{transparency (opacity) parameter applied to whole map. By default, it is set to \code{0.7} if basemaps are used, and \code{1} otherwise.}

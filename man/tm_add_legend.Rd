@@ -4,12 +4,26 @@
 \alias{tm_add_legend}
 \title{Add manual legend}
 \usage{
-tm_add_legend(type = c("fill", "symbol", "text", "line"),
-  labels = NULL, col = NULL, size = NULL, shape = NULL,
-  lwd = NULL, lty = NULL, text = NULL, alpha = NA,
-  border.col = "black", border.lwd = 1, border.alpha = NA,
-  title = "", is.portrait = TRUE, legend.format = list(),
-  reverse = FALSE, z = NA, group = NULL)
+tm_add_legend(
+  type = c("fill", "symbol", "text", "line"),
+  labels = NULL,
+  col = NULL,
+  size = NULL,
+  shape = NULL,
+  lwd = NULL,
+  lty = NULL,
+  text = NULL,
+  alpha = NA,
+  border.col = "black",
+  border.lwd = 1,
+  border.alpha = NA,
+  title = "",
+  is.portrait = TRUE,
+  legend.format = list(),
+  reverse = FALSE,
+  z = NA,
+  group = NULL
+)
 }
 \arguments{
 \item{type}{type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, or \code{"line"}}

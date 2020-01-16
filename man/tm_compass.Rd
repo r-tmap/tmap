@@ -4,10 +4,21 @@
 \alias{tm_compass}
 \title{Map compass}
 \usage{
-tm_compass(north = 0, type = NA, text.size = 0.8, size = NA,
-  show.labels = 1, cardinal.directions = c("N", "E", "S", "W"),
-  text.color = NA, color.dark = NA, color.light = NA, lwd = 1,
-  position = NA, just = NA, fontsize = NULL)
+tm_compass(
+  north = 0,
+  type = NA,
+  text.size = 0.8,
+  size = NA,
+  show.labels = 1,
+  cardinal.directions = c("N", "E", "S", "W"),
+  text.color = NA,
+  color.dark = NA,
+  color.light = NA,
+  lwd = 1,
+  position = NA,
+  just = NA,
+  fontsize = NULL
+)
 }
 \arguments{
 \item{north}{north direction in degrees: 0 means up, 90 right, etc.}

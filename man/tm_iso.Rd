@@ -4,8 +4,16 @@
 \alias{tm_iso}
 \title{Draw iso (contour) lines with labels}
 \usage{
-tm_iso(col = NA, text = "level", size = 0.5, remove.overlap = TRUE,
-  along.lines = TRUE, overwrite.lines = TRUE, group = NA, ...)
+tm_iso(
+  col = NA,
+  text = "level",
+  size = 0.5,
+  remove.overlap = TRUE,
+  along.lines = TRUE,
+  overwrite.lines = TRUE,
+  group = NA,
+  ...
+)
 }
 \arguments{
 \item{col}{line color. See \code{\link{tm_lines}}.}

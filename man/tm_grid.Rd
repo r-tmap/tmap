@@ -5,18 +5,42 @@
 \alias{tm_graticules}
 \title{Coordinate grid / graticule lines}
 \usage{
-tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
-  col = NA, lwd = 1, alpha = NA, labels.show = TRUE,
-  labels.size = 0.6, labels.col = NA, labels.rot = c(0, 0),
-  labels.format = list(big.mark = ","), labels.cardinal = FALSE,
-  labels.margin.x = 0, labels.margin.y = 0, labels.space.x = NA,
-  labels.space.y = NA, labels.inside.frame = FALSE,
-  ticks = labels.show && !labels.inside.frame, lines = TRUE,
-  ndiscr = 100, zindex = NA)
+tm_grid(
+  x = NA,
+  y = NA,
+  n.x = NA,
+  n.y = NA,
+  projection = NA,
+  col = NA,
+  lwd = 1,
+  alpha = NA,
+  labels.show = TRUE,
+  labels.size = 0.6,
+  labels.col = NA,
+  labels.rot = c(0, 0),
+  labels.format = list(big.mark = ","),
+  labels.cardinal = FALSE,
+  labels.margin.x = 0,
+  labels.margin.y = 0,
+  labels.space.x = NA,
+  labels.space.y = NA,
+  labels.inside.frame = FALSE,
+  ticks = labels.show && !labels.inside.frame,
+  lines = TRUE,
+  ndiscr = 100,
+  zindex = NA
+)
 
-tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
-  projection = 4326, labels.format = list(suffix = intToUtf8(176)),
-  labels.cardinal = TRUE, ...)
+tm_graticules(
+  x = NA,
+  y = NA,
+  n.x = NA,
+  n.y = NA,
+  projection = 4326,
+  labels.format = list(suffix = intToUtf8(176)),
+  labels.cardinal = TRUE,
+  ...
+)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}

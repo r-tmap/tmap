@@ -4,9 +4,19 @@
 \alias{tm_credits}
 \title{Credits text}
 \usage{
-tm_credits(text, size = 0.7, col = NA, alpha = NA, align = "left",
-  bg.color = NA, bg.alpha = NA, fontface = NA, fontfamily = NA,
-  position = NA, just = NA)
+tm_credits(
+  text,
+  size = 0.7,
+  col = NA,
+  alpha = NA,
+  align = "left",
+  bg.color = NA,
+  bg.alpha = NA,
+  fontface = NA,
+  fontfamily = NA,
+  position = NA,
+  just = NA
+)
 }
 \arguments{
 \item{text}{text. Multiple lines can be created with the line break symbol \code{"\\n"}. Facets can have different texts: in that case a vector of characters is required. Use \code{""} to omit the credits for specific facets.}
@@ -46,7 +56,7 @@ tm_shape(NLD_muni) +
     tm_shape(NLD_prov) +
     tm_borders("grey40", lwd=2) +
 tm_format("NLD", bg.color="white", frame = TRUE) +
-tm_credits("(c) Statistics Netherlands (CBS) and\\nKadaster Nederland", position=c("left", "bottom"))
+tm_credits("(c) Statistics Netherlands (CBS) and\nKadaster Nederland", position=c("left", "bottom"))
 
 # restore current mode
 tmap_mode(current.mode)

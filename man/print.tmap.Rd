@@ -5,9 +5,16 @@
 \alias{knit_print.tmap}
 \title{Draw thematic map}
 \usage{
-\method{print}{tmap}(x, vp = NULL, return.asp = FALSE,
-  mode = getOption("tmap.mode"), show = TRUE, knit = FALSE,
-  options = NULL, ...)
+\method{print}{tmap}(
+  x,
+  vp = NULL,
+  return.asp = FALSE,
+  mode = getOption("tmap.mode"),
+  show = TRUE,
+  knit = FALSE,
+  options = NULL,
+  ...
+)
 
 knit_print.tmap(x, ..., options = NULL)
 }

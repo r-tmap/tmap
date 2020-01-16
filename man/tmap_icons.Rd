@@ -5,8 +5,15 @@
 \alias{marker_icon}
 \title{Specify icons}
 \usage{
-tmap_icons(file, width = 48, height = 48, keep.asp = TRUE,
-  just = c("center", "center"), as.local = TRUE, ...)
+tmap_icons(
+  file,
+  width = 48,
+  height = 48,
+  keep.asp = TRUE,
+  just = c("center", "center"),
+  as.local = TRUE,
+  ...
+)
 
 marker_icon()
 }

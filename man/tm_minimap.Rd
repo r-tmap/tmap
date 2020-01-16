@@ -4,8 +4,7 @@
 \alias{tm_minimap}
 \title{Minimap}
 \usage{
-tm_minimap(server = NA, position = c("left", "bottom"),
-  toggle = TRUE, ...)
+tm_minimap(server = NA, position = c("left", "bottom"), toggle = TRUE, ...)
 }
 \arguments{
 \item{server}{name of the provider or an URL (see \code{\link{tm_tiles}}). By default, it shows the same map as the basemap, and moreover, it will automatically change when the user switches basemaps. Note the latter does not happen when \code{server} is specified.}

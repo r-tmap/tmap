@@ -4,8 +4,14 @@
 \alias{tm_logo}
 \title{Logo}
 \usage{
-tm_logo(file, height = 3, halign = "center", margin = 0.2,
-  position = NA, just = NA)
+tm_logo(
+  file,
+  height = 3,
+  halign = "center",
+  margin = 0.2,
+  position = NA,
+  just = NA
+)
 }
 \arguments{
 \item{file}{either a filename or url of a png image. If multiple files/urls are provided with a character vector, the logos are placed near each other. To specify logos for small multiples use a list of character values/vectors. In order to stack logos vertically, multiple \code{tm_logo} elements can be stacked.}

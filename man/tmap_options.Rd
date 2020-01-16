@@ -7,9 +7,23 @@
 \alias{tmap_options_save}
 \title{Options for tmap}
 \usage{
-tmap_options(..., unit, limits, max.categories, max.raster, basemaps,
-  basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap,
-  show.messages, output.format, output.size, output.dpi)
+tmap_options(
+  ...,
+  unit,
+  limits,
+  max.categories,
+  max.raster,
+  basemaps,
+  basemaps.alpha,
+  overlays,
+  overlays.alpha,
+  qtm.scalebar,
+  qtm.minimap,
+  show.messages,
+  output.format,
+  output.size,
+  output.dpi
+)
 
 tmap_options_diff()
 

@@ -4,8 +4,12 @@
 \alias{theme_ps}
 \title{ggplot2 theme for proportional symbols}
 \usage{
-theme_ps(base_size = 12, base_family = "", plot.axes = FALSE,
-  plot.legend = FALSE)
+theme_ps(
+  base_size = 12,
+  base_family = "",
+  plot.axes = FALSE,
+  plot.legend = FALSE
+)
 }
 \arguments{
 \item{base_size}{base size}

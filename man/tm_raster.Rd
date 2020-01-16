@@ -6,23 +6,62 @@
 \alias{tm_rgba}
 \title{Draw a raster}
 \usage{
-tm_raster(col = NA, alpha = NA, palette = NULL, n = 5,
-  style = ifelse(is.null(breaks), "pretty", "fixed"), breaks = NULL,
-  interval.closure = "left", labels = NULL, midpoint = NULL,
-  stretch.palette = TRUE, contrast = NA, saturation = 1,
-  interpolate = NA, colorNA = NULL, textNA = "Missing",
-  showNA = NA, colorNULL = NULL, title = NA, legend.show = TRUE,
-  legend.format = list(), legend.is.portrait = TRUE,
-  legend.reverse = FALSE, legend.hist = FALSE,
-  legend.hist.title = NA, legend.z = NA, legend.hist.z = NA,
-  zindex = NA, group = NA, auto.palette.mapping = NULL,
-  max.categories = NULL, max.value = 255)
+tm_raster(
+  col = NA,
+  alpha = NA,
+  palette = NULL,
+  n = 5,
+  style = ifelse(is.null(breaks), "pretty", "fixed"),
+  breaks = NULL,
+  interval.closure = "left",
+  labels = NULL,
+  midpoint = NULL,
+  stretch.palette = TRUE,
+  contrast = NA,
+  saturation = 1,
+  interpolate = NA,
+  colorNA = NULL,
+  textNA = "Missing",
+  showNA = NA,
+  colorNULL = NULL,
+  title = NA,
+  legend.show = TRUE,
+  legend.format = list(),
+  legend.is.portrait = TRUE,
+  legend.reverse = FALSE,
+  legend.hist = FALSE,
+  legend.hist.title = NA,
+  legend.z = NA,
+  legend.hist.z = NA,
+  zindex = NA,
+  group = NA,
+  auto.palette.mapping = NULL,
+  max.categories = NULL,
+  max.value = 255
+)
 
-tm_rgb(r = 1, g = 2, b = 3, alpha = NA, saturation = 1,
-  interpolate = TRUE, max.value = 255, ...)
+tm_rgb(
+  r = 1,
+  g = 2,
+  b = 3,
+  alpha = NA,
+  saturation = 1,
+  interpolate = TRUE,
+  max.value = 255,
+  ...
+)
 
-tm_rgba(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1,
-  interpolate = TRUE, max.value = 255, ...)
+tm_rgba(
+  r = 1,
+  g = 2,
+  b = 3,
+  a = 4,
+  alpha = NA,
+  saturation = 1,
+  interpolate = TRUE,
+  max.value = 255,
+  ...
+)
 }
 \arguments{
 \item{col}{three options: a single color value, the name of a data variable that is contained in \code{shp}, or the name of a variable in \code{shp} that contain color values. In the second case the values (numeric or categorical) that will be depicted by a color palette (see \code{palette}. If multiple values are specified, small multiples are drawn (see details). By default, it is a vector of the names of all data variables unless the \code{by} argument of \code{\link{tm_facets}} is defined (in that case, the default color of dots is taken from the tmap option \code{aes.color}). Note that the number of small multiples is limited by \code{tmap_options("limits")}).}

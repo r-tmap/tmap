@@ -4,9 +4,21 @@
 \alias{tm_sf}
 \title{Draw simple features}
 \usage{
-tm_sf(col = NA, size = 0.02, shape = 16, lwd = 1, lty = "solid",
-  alpha = NA, palette = NULL, border.col = NA, border.lwd = 1,
-  border.lty = "solid", border.alpha = NA, group = NA, ...)
+tm_sf(
+  col = NA,
+  size = 0.02,
+  shape = 16,
+  lwd = 1,
+  lty = "solid",
+  alpha = NA,
+  palette = NULL,
+  border.col = NA,
+  border.lwd = 1,
+  border.lty = "solid",
+  border.alpha = NA,
+  group = NA,
+  ...
+)
 }
 \arguments{
 \item{col}{color of the simple features. See the \code{col} argument of \code{\link{tm_polygons}}, \code{\link{tm_lines}} and \code{\link{tm_symbols}}.}

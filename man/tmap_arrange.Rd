@@ -6,8 +6,16 @@
 \alias{print.tmap_arrange}
 \title{Arrange small multiples in grid layout}
 \usage{
-tmap_arrange(..., ncol = NA, nrow = NA, widths = NA, heights = NA,
-  sync = FALSE, asp = 0, outer.margins = 0.02)
+tmap_arrange(
+  ...,
+  ncol = NA,
+  nrow = NA,
+  widths = NA,
+  heights = NA,
+  sync = FALSE,
+  asp = 0,
+  outer.margins = 0.02
+)
 
 knit_print.tmap_arrange(x, ..., options = NULL)
 

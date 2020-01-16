@@ -4,8 +4,14 @@
 \alias{tmap_leaflet}
 \title{Create a leaflet widget from a tmap object}
 \usage{
-tmap_leaflet(x, mode = "view", show = FALSE, add.titles = TRUE,
-  in.shiny = FALSE, ...)
+tmap_leaflet(
+  x,
+  mode = "view",
+  show = FALSE,
+  add.titles = TRUE,
+  in.shiny = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{tmap object. A tmap object is created with \code{\link{qtm}} or by stacking \code{\link{tmap-element}}s.}
