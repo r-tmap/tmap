@@ -161,12 +161,12 @@ gather_shape_info <- function(x, interactive) {
 	is_raster_master <- is_raster[masterID]
 	
 	## find master projection (and set to longlat when in view mode)
-	master_crs <- get_proj4(x[[shape.id[masterID]]]$projection, output = "crs")
+	master_crs <- sf::st_crs(x[[shape.id[masterID]]]$projection)
 	mshp_raw <- x[[shape.id[masterID]]]$shp
-	if (is.null(master_crs)) master_crs <- get_projection(mshp_raw, output = "crs")
+	if (is.null(master_crs)) master_crs <- sf::st_crs(mshp_raw)
 	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
 	if (interactive) {
-		if (is.na(get_projection(mshp_raw, output = "crs")) && tmaptools::is_projected(mshp_raw)) {
+		if (is.na(sf::st_crs(mshp_raw)) && !sf::st_is_longlat(mshp_raw)) {
 			
 			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
 		}

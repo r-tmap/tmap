@@ -12,7 +12,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 	#if (emptyShp && gt$legend.only) return(NULL)
 	if (!emptyShp) {
 		bbx <- attr(shps[[gt$shape.masterID]], "bbox")
-		proj <- get_projection(shps[[gt$shape.masterID]])
+		proj <- sf::st_crs(shps[[gt$shape.masterID]])
 		
 		if (gt$grid.show) {
 			gt <- process_grid(gt, bbx, proj, sasp)

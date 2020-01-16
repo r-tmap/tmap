@@ -114,10 +114,8 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				
 				lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = grid.projection))
 				
-				#lns <- SpatialLinesDataFrame(SpatialLines(lnsList[lnsSel], proj4string = get_proj4(grid.projection, output="CRS")), data.frame(ID=c("x", "y")[lnsSel]), match.ID=FALSE)
-				
 				# project it to current projection
-				lns_proj <- tmaptools::set_projection(lns, projection = proj)
+				lns_proj <- sf::st_transform(lns, crs = proj)
 
 				
 				# extract and normalize coordinates

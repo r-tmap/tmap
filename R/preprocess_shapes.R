@@ -182,12 +182,12 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		
 		# get current projection (assume longlat if unkown)
-		shp_crs <- get_projection(shp, output="crs")
+		shp_crs <- sf::st_crs(shp)
 		if (is.na(shp_crs)) {
-			if (!tmaptools::is_projected(shp)) {
+			if (sf::st_is_longlat(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
-				shp <- set_projection(shp, current.projection = shp_crs)
+				shp <- sf::st_set_crs(shp, crs = shp_crs)
 			} else {
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
@@ -301,18 +301,18 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		data$tmapfilter <- if (is.null(y$filter)) rep(TRUE, nrow(shp)) else rep(y$filter, length.out = nrow(shp))
 		
 		# reproject if nessesary
-		shp_crs <- get_projection(shp, output="crs")
+		shp_crs <- sf::st_crs(shp)
 		if (is.na(shp_crs)) {
-			if (!tmaptools::is_projected(shp)) {
+			if (sf::st_is_longlat(shp)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
-				shp <- set_projection(shp, current.projection = shp_crs)
+				shp <- sf::st_set_crs(shp, crs = shp_crs)
 			} else {
 				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
 		if (!is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
-			shp2 <- set_projection(shp, gm$shape.master_crs)
+			shp2 <- sf::st_transform(shp, crs = gm$shape.master_crs)
 
 			# override bounding box (since it now is projected)
 			shp_bbx <- bb(shp2)
@@ -372,7 +372,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	
 	attr(shp2, "point.per") <- point.per
 	attr(shp2, "line.center") <- y$line.center
-	attr(shp2, "projected") <- tmaptools::is_projected(shp2)
+	attr(shp2, "projected") <- !sf::st_is_longlat(shp2)
 	list(shp=shp2, data=data, type=type)
 }
 

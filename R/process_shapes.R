@@ -33,7 +33,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	}
 
 	# define bounding box
-	longlat <- !tmaptools::is_projected(shp)
+	longlat <- sf::st_is_longlat(shp)
 	
 	group_by <- any(gm$shp_nr != 0)
 	

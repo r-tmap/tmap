@@ -162,7 +162,7 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 			} else {
 				projection <- leaflet::leafletCRS(crsClass = "L.Proj.CRS", 
 												  code= paste("EPSG", projection, sep=":"),
-												  proj4def=get_proj4(projection),
+												  proj4def=sf::st_crs(projection)$proj4string,
 												  resolutions = c(65536, 32768, 16384, 8192, 4096, 2048,1024, 512, 256, 128))	
 			}
 			

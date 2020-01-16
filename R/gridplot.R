@@ -23,10 +23,10 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 	if (multi_shapes) {
 		bbxproj <- lapply(shps, function(s) {
 			s2 <- s[[masterID]]
-			if (is.null(s2)) NULL else list(bbx = bb(s2), proj = get_projection(s2))
+			if (is.null(s2)) NULL else list(bbx = bb(s2), proj = sf::st_crs(s2))
 		})
 	} else {
-		bbxproj <- list(bbx = attr(shps[[masterID]], "bbox"), proj = get_projection(shps[[masterID]]))
+		bbxproj <- list(bbx = attr(shps[[masterID]], "bbox"), proj = sf::st_crs(shps[[masterID]]))
 	}
 	
 	external_grid_labels <- gmeta$grid.show && !gmeta$grid.labels.inside.frame

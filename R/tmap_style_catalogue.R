@@ -21,7 +21,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 	data(World, metro, rivers, land, envir = environment())
 	metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
 
-	rivers <- set_projection(rivers, st_crs(World))
+	rivers <- sf::st_transform(rivers, st_crs(World))
 	
 	pb <- txtProgressBar()
 	
