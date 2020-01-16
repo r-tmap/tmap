@@ -49,7 +49,7 @@
 #' @param earth.boundary Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).
 #' @param earth.boundary.color Color of the earth boundary.
 #' @param earth.boundary.lwd Line width of the earth boundary.
-#' @param earth.datum Geodetic datum to determine the earth boundary. By default \code{"WGS84"}, other frequently used datums are \code{"NAD83"} and \code{"NAD27"}. Any other \code{PROJ.4} character string can be used.
+#' @param earth.datum Geodetic datum to determine the earth boundary. By default epsg \code{4326} (long/lat).
 #' @param space.color Color of the space, i.e. the region inside the frame, and outside the earth boundary.
 #' @param legend.show Logical that determines whether the legend is shown.
 #' @param legend.only logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.

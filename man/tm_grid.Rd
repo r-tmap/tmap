@@ -15,8 +15,8 @@ tm_grid(x = NA, y = NA, n.x = NA, n.y = NA, projection = NA,
   ndiscr = 100, zindex = NA)
 
 tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
-  projection = "longlat", labels.format = list(suffix =
-  intToUtf8(176)), labels.cardinal = TRUE, ...)
+  projection = 4326, labels.format = list(suffix = intToUtf8(176)),
+  labels.cardinal = TRUE, ...)
 }
 \arguments{
 \item{x}{x coordinates for vertical grid lines. If \code{NA}, it is specified with a pretty scale and \code{n.x}.}
@@ -27,7 +27,7 @@ tm_graticules(x = NA, y = NA, n.x = NA, n.y = NA,
 
 \item{n.y}{preferred number of grid lines for the y axis. For the labels, a \code{\link{pretty}} sequence is used, so the number of actual labels may be different than \code{n.y}.}
 
-\item{projection}{projection character. If specified, the grid lines are projected accordingly. See \code{\link[tmaptools:set_projection]{set_projection}} for projection details. Many world maps are projected, but still have latitude longitude (\code{"longlat"}) grid lines.}
+\item{projection}{projection character. If specified, the grid lines are projected accordingly. Many world maps are projected, but still have latitude longitude (epsg 4326) grid lines.}
 
 \item{col}{color of the grid lines.}
 
@@ -87,7 +87,7 @@ tmap_arrange(
 	qtm(NLD_muni, borders = NULL) + tm_graticules()
 )
 
-qtm(World, shape.projection = "robin", style = "natural") +
+qtm(World, shape.projection = "+proj=robin", style = "natural") +
 	tm_graticules(ticks = FALSE) +
 	tm_layout(frame=FALSE)
 

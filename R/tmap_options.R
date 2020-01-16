@@ -40,7 +40,7 @@
 		earth.boundary = FALSE,
 		earth.boundary.color = NULL,
 		earth.boundary.lwd = 1,
-		earth.datum = "WGS84",
+		earth.datum = 4326,
 		space.color = NULL,
 		legend.show = TRUE,
 		legend.only = FALSE,

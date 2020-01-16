@@ -5,7 +5,7 @@
 #' @param shp shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.
 #' @param name name of the shape object (character) as it appears in the legend in \code{"view"} mode. Default value is the name of \code{shp}.
 #' @param is.master logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.
-#' @param projection Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.
+#' @param projection Either a \code{\link[sf:st_crs]{crs}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.
 #' @param bbox bounding box. One of the following:
 #' \itemize{
 #' \item A bounding box (an \code{\link[sf:sf]{sf}} bbox object, see \code{\link[sf:st_bbox]{st_bbox}}, a 2 by 2 matrix (used by the \code{sp} package), or an \code{\link[raster:Extent]{Extent}} object used by the \code{raster} package). 
@@ -19,7 +19,7 @@
 #' @param filter logical vector which indicated per feature whether it should be included. Features for which filter is \code{FALSE} will be colored light gray (see the \code{colorNULL} argument in the layer functions)
 #' @param ... Arguments passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrinke a bounding box), and \code{\link[tmaptools:simplify_shape]{simplify_shape}} (the arguments \code{keep.units} and \code{keep.subunits})
 #' @export
-#' @seealso \code{\link[tmaptools:read_shape]{read_shape}} to read ESRI shape files, \code{\link[tmaptools:set_projection]{set_projection}}, \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} 
+#' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} 
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @example ./examples/tm_shape.R
 #' @return \code{\link{tmap-element}}

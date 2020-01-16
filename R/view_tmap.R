@@ -1049,7 +1049,7 @@ units_per_line <- function(bbx) {
 	max_lines <- 60
 
 	# calculate top-center to bottom-center
-	vdist <- suppressWarnings({tmaptools::approx_distances(bbx, projection = "longlat", target = "m")$vdist})
+	vdist <- suppressWarnings({tmaptools::approx_distances(bbx, projection = 4326, target = "m")$vdist})
 	vdist/max_lines
 }
 

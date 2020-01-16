@@ -1,6 +1,7 @@
 version 2.3-2 (devel)
+- probably last version before release of tmap 3.0
 - many small improvements and bug fixes (see github)
-- first stars supported
+- first stars supported (full support expected in tmap 3.0)
 
 version 2.3-1
 - improved popups in view mode

@@ -444,7 +444,7 @@ process_meta_grid <- function(gg, gt, interactive) {
 			grid.col <- do.call("process_color", c(list(col=grid.col, alpha=grid.alpha), gt$pc))
 			grid.labels.col <- do.call("process_color", c(list(col=grid.labels.col), gt$pc))
 			grid.lwd <- grid.lwd * gt$scale
-			grid.is.projected <- !grid.projection=="longlat"
+			grid.is.projected <- !(grid.projection=="longlat" || tryCatch(sf::st_is_longlat(grid.projection), error = function(e) TRUE))
 			
 			grid.projection <- get_proj4(grid.projection, output = "crs")
 			

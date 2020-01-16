@@ -140,10 +140,10 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 	
 #' Draw iso (contour) lines with labels
 #' 
-#' This function is a wrapper of \code{\link{tm_lines}} and \code{\link{tm_text}} aimed to draw isopleths, which can be created with \code{\link[tmaptools:smooth_map]{smooth_map}}. 
+#' This function is a wrapper of \code{\link{tm_lines}} and \code{\link{tm_text}} aimed to draw isopleths. 
 #' 
 #' @param col line color. See \code{\link{tm_lines}}.
-#' @param text text to display. By default, it is the variable named \code{"level"} of the shape that is created with \code{\link[tmaptools:smooth_map]{smooth_map}}
+#' @param text text to display.
 #' @param size text size (see \code{\link{tm_text}})
 #' @param remove.overlap see \code{\link{tm_text}}
 #' @param along.lines see \code{\link{tm_text}}
@@ -151,7 +151,6 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param ... arguments passed on to \code{\link{tm_lines}} or \code{\link{tm_text}}
 #' @export
-#' @seealso \code{\link[tmaptools:smooth_map]{smooth_map}}
 tm_iso <- function(col=NA, text="level", size=.5, 
 				   remove.overlap=TRUE, along.lines=TRUE, overwrite.lines=TRUE,
 				   group = NA, ...) {

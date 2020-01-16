@@ -15,7 +15,7 @@ tm_shape(shp, name = NULL, is.master = NA, projection = NULL,
 
 \item{is.master}{logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.}
 
-\item{projection}{Either a \code{\link[sf:st_crs]{crs}} object or a character value. If it is a character, it can either be a \code{PROJ.4} character string or a shortcut. See \code{\link[tmaptools:get_proj4]{get_proj4}} for a list of shortcut values. By default, the projection is used that is defined in the \code{shp} object itself, which can be obtained with \code{\link[tmaptools:get_projection]{get_projection}}.}
+\item{projection}{Either a \code{\link[sf:st_crs]{crs}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.}
 
 \item{bbox}{bounding box. One of the following:
 \itemize{
@@ -47,18 +47,18 @@ current.mode <- tmap_mode("plot")
 
 data(World, metro, rivers)
 
-tm_shape(World, projection="longlat") + 
+tm_shape(World, projection=4326) + 
     tm_polygons() + 
 tm_layout("Long lat coordinates (WGS84)", inner.margins=c(0,0,.1,0), title.size=.8)
 
 World$highlighted <- ifelse(World$iso_a3 \%in\% c("GRL", "AUS"), "gold", "gray75")
-tm_shape(World, projection="merc", ylim=c(.1, 1), relative = TRUE) + 
+tm_shape(World, projection=3857, ylim=c(.1, 1), relative = TRUE) + 
     tm_polygons("highlighted") + 
 tm_layout("Web Mercator projection. Although widely used, it is discouraged for
 statistical purposes. In reality, Australia is 3 times larger than Greenland!",
     inner.margins=c(0,0,.1,0), title.size=.6)
 
-tm_shape(World, projection="robin") + 
+tm_shape(World, projection="+proj=robin") + 
     tm_polygons() +
 tm_layout(
 "Winkel-Tripel projection, adapted as default by the National Geographic Society for world maps.",
@@ -99,5 +99,5 @@ tmap_mode(current.mode)
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 }
 \seealso{
-\code{\link[tmaptools:read_shape]{read_shape}} to read ESRI shape files, \code{\link[tmaptools:set_projection]{set_projection}}, \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
+\href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 }

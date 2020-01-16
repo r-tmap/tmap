@@ -69,7 +69,7 @@ tmap_style_catalogue <- function(path="./tmap_style_previews", styles=NA) {
 			  	tm_polygons() + 
 			  	tm_shape(metro) +
 			  	tm_dots() + 
-			  	tm_grid(projection = "longlat") +
+			  	tm_grid(projection = 4326) +
 			  	tm_style(style) + tm_format("World", title="Dot map"),
 			  vp = viewport(layout.pos.row = 2, layout.pos.col = 2))
 		setTxtProgressBar(pb, pbii(5))

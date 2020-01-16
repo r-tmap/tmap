@@ -82,7 +82,7 @@ tm_format(format, ...)
 
 \item{earth.boundary.lwd}{Line width of the earth boundary.}
 
-\item{earth.datum}{Geodetic datum to determine the earth boundary. By default \code{"WGS84"}, other frequently used datums are \code{"NAD83"} and \code{"NAD27"}. Any other \code{PROJ.4} character string can be used.}
+\item{earth.datum}{Geodetic datum to determine the earth boundary. By default epsg \code{4326} (long/lat).}
 
 \item{space.color}{Color of the space, i.e. the region inside the frame, and outside the earth boundary.}
 
@@ -273,10 +273,10 @@ tm_legend(position = c("left", "bottom"),
 	bg.color="lightblue")
 }
 	
-tm_shape(World, projection="robin") +
+tm_shape(World, projection="+proj=robin") +
 	tm_polygons("HPI", palette="div", n=7, 
 			title = "Happy Planet Index") +
-tm_credits("Winkel Tripel projection", position = c("right", "BOTTOM")) +
+tm_credits("Robinson projection", position = c("right", "BOTTOM")) +
 tm_style("natural", earth.boundary = c(-180, -87, 180, 87), inner.margins = .05) +
 tm_legend(position=c("left", "bottom"), bg.color="grey95", frame=TRUE)
 
