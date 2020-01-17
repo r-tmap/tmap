@@ -148,14 +148,15 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		
 		if (!inherits(projection, "leaflet_crs")) {
 			
-			if (projection==0) {
-				epsg <- get_epsg_number(orig_crs)
-				if (is.na(epsg)) {
-					projection <- 3857
-				} else {
-					projection <- epsg
-				}
-			}
+			projection <- 3857
+			# if (projection==0) {
+			# 	#epsg <- get_epsg_number(orig_crs)
+			# 	if (is.na(epsg)) {
+			# 		projection <- 3857
+			# 	} else {
+			# 		projection <- epsg
+			# 	}
+			# }
 			
 			if (projection %in% c(3857, 4326, 3395)) {
 				projection <- leaflet::leafletCRS(crsClass = paste("L.CRS.EPSG", projection, sep=""))	

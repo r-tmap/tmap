@@ -63,3 +63,11 @@ library(raster)
 land <- brick(land)
 save(land, file="./data/land.rda", compress="xz")
 
+
+# convert to stars
+data(land)
+library(stars)
+
+land <- st_as_stars(land)
+save(land, file="./data/land.rda", compress="xz")
+

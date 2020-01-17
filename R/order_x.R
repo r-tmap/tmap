@@ -27,7 +27,6 @@ order_x <- function(x, shps, datasets, types, gm) {
 					shp_poly <- shp[sel_poly, ]
 					shp_poly$tmapID <- seq_len(cnts[1])
 					attr(shp_poly, "bbox") <- attr(shp, "bbox")
-					attr(shp_poly, "proj4string") <- attr(shp, "proj4string")
 					attr(shp_poly, "projected") <- attr(shp, "projected")
 					attr(shp_poly, "point.per") <- attr(shp, "point.per")
 					attr(shp_poly, "line.center") <- attr(shp, "line.center")
@@ -63,7 +62,6 @@ order_x <- function(x, shps, datasets, types, gm) {
 					shp_lines <- shp[sel_lines, ]
 					shp_lines$tmapID <- seq_len(cnts[2])
 					attr(shp_lines, "bbox") <- attr(shp, "bbox")
-					attr(shp_lines, "proj4string") <- attr(shp, "proj4string")
 					attr(shp_lines, "projected") <- attr(shp, "projected")
 					attr(shp_lines, "point.per") <- attr(shp, "point.per")
 					attr(shp_lines, "line.center") <- attr(shp, "line.center")
@@ -92,7 +90,6 @@ order_x <- function(x, shps, datasets, types, gm) {
 					shp_points <- shp[sel_points, ]
 					shp_points$tmapID <- seq_len(cnts[3])
 					attr(shp_points, "bbox") <- attr(shp, "bbox")
-					attr(shp_points, "proj4string") <- attr(shp, "proj4string")
 					attr(shp_points, "projected") <- attr(shp, "projected")
 					attr(shp_points, "point.per") <- attr(shp, "point.per")
 					attr(shp_points, "line.center") <- attr(shp, "line.center")

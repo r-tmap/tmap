@@ -151,7 +151,7 @@ gather_shape_info <- function(x, interactive) {
 	
 	## find master shape
 	is_raster <- vapply(x[shape.id], function(xs) {
-		!is.null(xs$shp) && inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid", "stars"))
+		!is.null(xs$shp) && inherits(xs$shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))
 	}, logical(1))
 	is_master <- vapply(x[shape.id], "[[", logical(1), "is.master")
 #	any_raster <- any(is_raster)
@@ -163,7 +163,7 @@ gather_shape_info <- function(x, interactive) {
 	## find master projection (and set to longlat when in view mode)
 	master_crs <- sf::st_crs(x[[shape.id[masterID]]]$projection)
 	mshp_raw <- x[[shape.id[masterID]]]$shp
-	if (is.null(master_crs)) master_crs <- sf::st_crs(mshp_raw)
+	if (is.na(master_crs)) master_crs <- sf::st_crs(mshp_raw)
 	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
 	if (interactive) {
 		if (is.na(sf::st_crs(mshp_raw)) && !sf::st_is_longlat(mshp_raw)) {

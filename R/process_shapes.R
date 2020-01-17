@@ -17,7 +17,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	# in case x is search query
 	if (!is.null(args$x)) {
-		if (inherits(args$x, c("Spatial", "Raster", "sf"))) {
+		if (inherits(args$x, c("stars", "sf"))) {
 			args$projection <- gm$shape.master_crs
 			args$current.projection <- NULL
 		} else if (is.character(args$x)) {
@@ -156,7 +156,6 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 					attr(shp2, "line.center") <- lc
 					return(shp2)
 				}
-				prj <- attr(shp2, "proj4string")
 				y <- tryCatch({
 					crop(shp2, bb(bb2, ext=-1.01))
 				}, error = function(e) {
@@ -165,7 +164,6 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 				})
 				if (is.null(y)) y <- shp2
 				attr(y, "bbox") <- bb2
-				attr(y, "proj4string") <- prj
 				attr(y, "point.per") <- pp
 				attr(y, "line.center") <- lc
 				y
@@ -185,11 +183,9 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 						attr(x, "bbox") <- bb2
 						return(x)
 					}
-					prj <- attr(x, "proj4string")
-					y <- crop(x, bb(bb2, ext=-1.01))
+					y <- sf::st_crop(x, bb(bb2, ext=-1.01))
 					if (is.null(y)) y <- x
 					attr(y, "bbox") <- bb2
-					attr(y, "proj4string") <- prj
 					attr(y, "point.per") <- pp
 					attr(y, "line.center") <- lc
 					y
@@ -199,15 +195,18 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 					attr(x, "bbox") <- bbx
 					return(x)
 				}
-				prj <- attr(x, "proj4string")
-				y <- tryCatch({
-					y <- crop_shape(x, bb(bbx, ext=-1.01))
-					if (is.null(y)) x else y
-				}, error=function(e) {
-					x	
-				})
-				attr(y, "bbox") <- bbx
-				attr(y, "proj4string") <- prj
+				
+			 	y <- sf::st_crop(x, bb(bbx, ext=-1.01))
+				#y <- x
+				
+				
+				# y <- tryCatch({
+				# 	y <- sf::st_crop(x, bb(bbx, ext=-1.01))
+				# 	if (is.null(y)) x else y
+				# }, error=function(e) {
+				# 	x	
+				# })
+			 	attr(y, "bbox") <- bbx
 				attr(y, "point.per") <- pp
 				attr(y, "line.center") <- lc
 				y	
@@ -324,33 +323,3 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	list(bbox=bbx, sasp=sasp, inner.margins=inner.margins.new)
 }
 
-split_raster <- function(r, f, drop=TRUE) {
-	if (!is.factor(f)) {
-		warning("f is not a factor", call. = FALSE)
-		f <- as.factor(f)
-	}
-	bbx <- attr(r, "bbox")
-	lev <- if (drop) {
-		intersect(levels(f), f)	
-	} else levels(f)
-	lapply(lev, function(l){
-		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=r@ncols, nrow=r@nrows, byrow = TRUE)
-		cls <- colSums(m)
-		rws <- rev(rowSums(m))
-		
-		xrng <- range(which(cls!=0))
-		yrng <- range(which(rws!=0))
-		
-		xrng[1] <- xrng[1] - 1
-		yrng[1] <- yrng[1] - 1
-		
-		xlim <- xrng / r@ncols
-		ylim <- yrng / r@nrows
-		
-		attr(r, "bbox") <- matrix(c(bbx[1] + (bbx[3] - bbx[1]) * xlim[1],
-				 bbx[1] + (bbx[3] - bbx[1]) * xlim[2],
-				 bbx[2] + (bbx[4] - bbx[2]) * ylim[1],
-				 bbx[2] + (bbx[4] - bbx[2]) * ylim[2]), ncol=2, dimnames=dimnames(bbx), byrow = TRUE)
-		r
-	})
-}
