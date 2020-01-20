@@ -126,7 +126,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 	} else {
 		# save_bbox (sp objects allow for custom bboxes, sf objects don't)
-		shp_bbx <- sf::st_crs(shp)
+		shp_bbx <- sf::st_bbox(shp)
 		
 		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
 		isolines <- ("isolines" %in% names(attributes(shp)))
@@ -163,7 +163,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			shp2 <- sf::st_transform(shp, crs = gm$shape.master_crs)
 
 			# override bounding box (since it now is projected)
-			shp_bbx <- sf::st_crs(shp2)
+			shp_bbx <- sf::st_bbox(shp2)
 		} else {
 			shp2 <- shp
 		}
