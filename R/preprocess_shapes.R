@@ -256,14 +256,19 @@ split_geometry_collection <- function(sfc) {
 			})
 
 			# tp2 <- tp2[sel]
-			id2 <- rep(id, length(g2[[1]]))
+			#id2 <- rep(id, length(g2[[1]]))
+			id2 <- rep(id, length(g2))
 			list(g2, id2)
 		} else {
 			list(list(g), id)
 		}
 	}, sfc, types, 1:length(sfc), SIMPLIFY = FALSE)			
-	gnew <- st_sfc(do.call(st_sfc, lapply(lapply(res, "[[", 1), "[[", 1)), crs = st_crs(sfc))
+	#gnew <- st_sfc(do.call(st_sfc, lapply(lapply(res, "[[", 1), "[[", 1)), crs = st_crs(sfc))
+	gnew <- st_sfc(do.call(st_sfc, do.call(c, lapply(res, "[[", 1))), crs = st_crs(sfc))
 	ids <- do.call(c, lapply(res, "[[", 2))
 	attr(gnew, "ids") <- ids
 	gnew
 }
+
+
+
