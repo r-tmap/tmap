@@ -30,7 +30,7 @@ See [below](https://github.com/mtennekes/tmap/#reference) the source code for th
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 2.3-1). Installation is straightforward:
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 2.3-2). Installation is straightforward:
 
 ```r
 install.packages("tmap")

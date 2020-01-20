@@ -1,4 +1,7 @@
-version 2.3-2 (devel)
+version 2.3-3
+- fixed bug with geometry collection
+
+version 2.3-2
 - probably last version before release of tmap 3.0
 - many small improvements and bug fixes (see github)
 - first stars supported (full support expected in tmap 3.0)
