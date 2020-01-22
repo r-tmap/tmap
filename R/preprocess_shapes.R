@@ -49,10 +49,12 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
 		max.value <- attr(raster_facets_vars, "max.value") # NULL is tm_raster is called, when tm_rgb is called: NA (default) when max color value is determined automatically.
 		
-		if (interactive) gm$shape.master_crs <- .crs_longlat #.crs_merc
+		if (interactive) gm$shape.master_crs <- .crs_merc
 		
 		if (!inherits(shp, "stars")) shp <- stars::st_as_stars(shp)
 
+		if (!has_raster(shp)) stop("object ", y$shp_name, " does not have a spatial raster", call. = FALSE)
+		
 		# attribute get from read_osm
 		is.OSM <- attr(shp, "is.OSM")
 		if (is.null(is.OSM)) is.OSM <- FALSE
@@ -65,21 +67,28 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		# get current projection (assume longlat if unkown)
 		shp_crs <- sf::st_crs(shp)
 		if (is.na(shp_crs)) {
-			if (sf::st_is_longlat(shp)) {
-				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
+			if (maybe_longlat(sf::st_bbox(shp))) {
+				warning("Currect projection of shape ", y$shp_name, " unknown. Long lat (epsg 4326) coordinates assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
-				shp <- sf::st_set_crs(shp, crs = shp_crs)
+				
+				shp <- sf::st_set_crs(shp, shp_crs)
+				shp <- stars::st_warp(shp, crs = shp_crs)	
 			} else {
-				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				stop("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
 
 		# should raster shape be reprojected?
-		if ((!is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) || (interactive && !sf::st_is_longlat(shp))) {
+		if ((!interactive && !is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) || (interactive && !sf::st_is_longlat(shp) && !st_is_merc(shp))) {
 			if (is.na(gm$shape.master_crs)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
 			shp <- sf::st_transform(shp, crs = gm$shape.master_crs)
+			shp_bbox <- sf::st_bbox(shp)
 			raster.projected <- TRUE
 		} else {
+			shp_bbox <- sf::st_bbox(shp)
+			if (interactive && !st_is_merc(shp)) {
+				shp <- stars::st_warp(cut_world_edges(shp), crs = .crs_merc)	
+			}
 			raster.projected <- FALSE
 		}
 
@@ -95,7 +104,12 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		# 	# shp2@crs <- raster::crs(.crs_longlat$proj4string)
 		# }
 		
+		
+
+		
 		shpnames <- stars::st_get_dimension_values(shp, "band")
+		if (is.null(shpnames)) shpnames <- names(shp)
+		
 		data <- as.data.frame(matrix(shp[[1]], ncol = length(shpnames)))
 		names(data) <- shpnames
 		
@@ -110,7 +124,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		#attr(shp2, "bbox") <- bb(shp2)
 		#attr(shp2, "proj4string") <-  #attr(shp2@crs, "projargs")
 
-		attr(shp2, "bbox") <- sf::st_bbox(shp2)
+		attr(shp2, "bbox") <- shp_bbox #sf::st_bbox(shp2)
 		
 		#data <- shp#
 		
@@ -151,12 +165,12 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		# reproject if nessesary
 		shp_crs <- sf::st_crs(shp)
 		if (is.na(shp_crs)) {
-			if (sf::st_is_longlat(shp)) {
+			if (maybe_longlat(shp_bbx)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
-				shp <- sf::st_set_crs(shp, crs = shp_crs)
+				shp <- sf::st_set_crs(shp, shp_crs)
 			} else {
-				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				stop("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
 		if (!is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {

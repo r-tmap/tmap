@@ -545,7 +545,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			
 			layerId <- submit_labels(pane, "raster", pane, group_name, e)
 
-			lf <- lf %>% mapview::addStarsImage(shp, band = 1, colors = pal_col, opacity = pal_opacity)
+			
+			
+			lf <- lf %>% leafem::addStarsImage(shp, band = 1, colors = pal_col, opacity = pal_opacity, group = group_name, project = FALSE, layerId = layerId)
 			
 			
 			# lf <- lf %>% addRasterImage(x=as(shp, "Raster"), colors=mappal, opacity = pal_opacity, group=group_name, project = FALSE, layerId = layerId)

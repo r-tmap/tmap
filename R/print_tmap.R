@@ -13,8 +13,8 @@
 #' @return If \code{mode=="plot"}, then a list is returned with the processed shapes and the metadata. If \code{mode=="view"}, a \code{\link[leaflet:leaflet]{leaflet}} object is returned (see also \code{\link{tmap_leaflet}})
 #' @import tmaptools
 #' @import sf
+#' @import stars
 #' @importFrom units set_units as_units
-#' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue getValues
 #' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @importFrom viridisLite viridis
@@ -26,7 +26,7 @@
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom grDevices xy.coords colors
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
-#' @importMethodsFrom raster as.vector
+#' @importFrom leafem addStarsImage addStarsRGB
 #' @import leaflet
 #' @importFrom htmlwidgets appendContent onRender
 #' @importFrom htmltools tags HTML htmlEscape
@@ -165,16 +165,25 @@ gather_shape_info <- function(x, interactive) {
 	mshp_raw <- x[[shape.id[masterID]]]$shp
 	if (is.na(master_crs)) master_crs <- sf::st_crs(mshp_raw)
 	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
-	if (interactive) {
-		if (is.na(sf::st_crs(mshp_raw)) && !sf::st_is_longlat(mshp_raw)) {
-			
-			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
-		}
-		master_crs <- .crs_longlat
-	}
 	
 	## find master bounding box (unprocessed)
 	bbx_raw <- bb(mshp_raw)
+
+	if (interactive) {
+		if (is.na(sf::st_crs(mshp_raw)) && !maybe_longlat(bbx_raw)) {
+			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
+		}
+
+		# if (is.na(sf::st_crs(mshp_raw))) {
+		# 	if (maybe_longlat(bbx_raw)) {
+		# 		warning("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known. Long lat (epsg 4326) coordinates assumed.", call.=FALSE)
+		# 	} else {
+		# 		stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
+		# 	}	
+		# }
+		master_crs <- .crs_longlat
+	}
+	
 	
 	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
 	raster_facets_vars <- lapply(1:nshps, function(i) {
