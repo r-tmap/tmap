@@ -110,11 +110,14 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		shpnames <- stars::st_get_dimension_values(shp, "band")
 		if (is.null(shpnames)) shpnames <- names(shp)
 		
-		data <- as.data.frame(matrix(shp[[1]], ncol = length(shpnames)))
-		names(data) <- shpnames
-		
-		
-		shp2 <- shp
+		if (length(shp) == 1) {
+			data <- as.data.frame(matrix(shp[[1]], ncol = length(shpnames)))
+			names(data) <- shpnames
+		} else {
+			data <- as.data.frame(shp)[shpnames]
+		}
+
+		shp2 <- shp[1]
 		shp2[[1]] <- matrix(1L:(nrow(shp)*ncol(shp)), ncol = ncol(shp), nrow = nrow(shp))
 		#shp2[[1]] <- t(matrix(1L:(nrow(shp)*ncol(shp)), ncol = nrow(shp), nrow = ncol(shp)))
 		attr(shp2, "dimensions")$band <- NULL
