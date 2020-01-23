@@ -72,7 +72,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				shp_crs <- .crs_longlat
 				
 				shp <- sf::st_set_crs(shp, shp_crs)
-				shp <- stars::st_warp(shp, crs = shp_crs)	
+				#shp <- stars::st_warp(shp, crs = shp_crs)	
 			} else {
 				stop("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}

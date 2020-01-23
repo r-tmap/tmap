@@ -81,7 +81,14 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				x <- (cent[1] - bb_target[1]) / (bb_target[3] - bb_target[1])
 				y <- (cent[2] - bb_target[2]) / (bb_target[4] - bb_target[2])
 				
-				rasterGrob(matrix(rast, ncol=nrow(shp), nrow=ncol(shp), byrow = TRUE), x=x, y=y, width=width, height=height, interpolate = gpl$raster.misc$interpolate)
+				m <- matrix(rast, ncol=nrow(shp), nrow=ncol(shp), byrow = TRUE)
+				
+				y_is_neg <- all(diff(st_get_dimension_values(shp, "y")) < 0)
+				if (!y_is_neg) {
+					m <- m[ncol(m):1L, ]
+				}
+
+				rasterGrob(m, x=x, y=y, width=width, height=height, interpolate = gpl$raster.misc$interpolate)
 			} else {
 				s <- sf::st_as_sf(shp)
 				grid.shape(s, gp=gpar(fill=rast, col=NA), bg.col=NA, i, k)
