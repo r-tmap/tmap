@@ -85,7 +85,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				
 				y_is_neg <- all(diff(st_get_dimension_values(shp, "y")) < 0)
 				if (!y_is_neg) {
-					m <- m[ncol(m):1L, ]
+					m <- m[nrow(m):1L, ]
 				}
 
 				rasterGrob(m, x=x, y=y, width=width, height=height, interpolate = gpl$raster.misc$interpolate)
