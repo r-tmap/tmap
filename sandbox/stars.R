@@ -16,6 +16,10 @@ tm_shape(land) + tm_raster("elevation") +
 	tm_shape(World) +
 	tm_borders()
 
+# Facets by
+qtm(land) + tm_facets(by = "cover") # still very slow
+
+
 # Cropped raster (view mode: just a different starting view)
 tm_shape(land, bbox = "Germany") + 
 	tm_raster("elevation")
@@ -70,3 +74,26 @@ tm_shape(r) +
 	tm_raster(style = "cat", palette = "cat") +
 tm_shape(rsf) +
 	tm_borders()
+
+
+# tif rgb
+tif = system.file("tif/L7_ETMs.tif", package = "stars")
+rasterio = list(nXOff = 6, nYOff = 6, nXSize = 100, nYSize = 100, bands = c(1, 2, 3))
+(x = read_stars(tif, RasterIO = rasterio))
+dim(x)
+
+tm_shape(x) +
+	tm_rgb()
+
+
+# stars proxy
+granule = system.file("sentinel/S2A_MSIL1C_20180220T105051_N0206_R051_T32ULE_20180221T134037.zip", package = "starsdata")
+s2 = paste0("SENTINEL2_L1C:/vsizip/", granule, "/S2A_MSIL1C_20180220T105051_N0206_R051_T32ULE_20180221T134037.SAFE/MTD_MSIL1C.xml:10m:EPSG_32632")
+(p = read_stars(s2, proxy = TRUE))
+
+qtm(p)
+
+
+
+
+

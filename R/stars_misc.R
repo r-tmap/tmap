@@ -60,12 +60,19 @@ regular_intervals <- function (x, epsilon = 1e-10) {
 	}
 }
 
+get_downsample = function(dims, px = dev.size("px")) { 
+	floor(sqrt(prod(dims) / prod(px)))
+}
+
+############# other functions
+
+
 st_is_merc <- function(x) {
 	crs = st_crs(x)
 	if (is.na(crs)) { 
 		NA
 	} else {
-		isTRUE(crs$proj == "merc") || crs$epsg == 3857
+		isTRUE(crs$proj == "merc") || isTRUE(crs$epsg == 3857)
 	}
 }
 

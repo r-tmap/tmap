@@ -323,3 +323,35 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	list(bbox=bbx, sasp=sasp, inner.margins=inner.margins.new)
 }
 
+
+split_raster <- function(r, f, drop=TRUE) {
+	if (!is.factor(f)) {
+		warning("f is not a factor", call. = FALSE)
+		f <- as.factor(f)
+	}
+	bbx <- attr(r, "bbox")
+	lev <- if (drop) {
+		intersect(levels(f), f)	
+	} else levels(f)
+	x <- lapply(lev, function(l){
+		
+		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=nrow(r), nrow=ncol(r), byrow = TRUE)
+		cls <- colSums(m)
+		rws <- rev(rowSums(m))
+		
+		xrng <- range(which(cls!=0))
+		yrng <- range(which(rws!=0))
+		
+		xrng[1] <- xrng[1] - 1
+		yrng[1] <- yrng[1] - 1
+		
+		xlim <- xrng / nrow(r)
+		ylim <- yrng / ncol(r)
+		
+		attr(r, "bbox") <- st_bbox(c(xmin = unname(bbx[1] + (bbx[3] - bbx[1]) * xlim[1]), 
+									 ymin = unname(bbx[2] + (bbx[4] - bbx[2]) * ylim[1]), 
+									 xmax = unname(bbx[1] + (bbx[3] - bbx[1]) * xlim[2]), 
+									 ymax = unname(bbx[2] + (bbx[4] - bbx[2]) * ylim[2])), crs = st_crs(r))
+		r
+	})
+}

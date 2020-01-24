@@ -163,28 +163,23 @@ gather_shape_info <- function(x, interactive) {
 	## find master projection (and set to longlat when in view mode)
 	master_crs <- sf::st_crs(x[[shape.id[masterID]]]$projection)
 	mshp_raw <- x[[shape.id[masterID]]]$shp
-	if (is.na(master_crs)) master_crs <- sf::st_crs(mshp_raw)
-	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
-	
-	## find master bounding box (unprocessed)
+	mshp_crs <- sf::st_crs(mshp_raw)
 	bbx_raw <- bb(mshp_raw)
-
-	if (interactive) {
-		if (is.na(sf::st_crs(mshp_raw)) && !maybe_longlat(bbx_raw)) {
+	
+	# Checks whether master shape has no crs and has coordinates outside -180-180, -90-90. The crss is futher checked in preprocess_shapes 
+	if (is.na(mshp_crs)) {
+		if (maybe_longlat(bbx_raw)) {
+			mshp_crs <- .crs_longlat
+		} else {
 			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
 		}
-
-		# if (is.na(sf::st_crs(mshp_raw))) {
-		# 	if (maybe_longlat(bbx_raw)) {
-		# 		warning("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known. Long lat (epsg 4326) coordinates assumed.", call.=FALSE)
-		# 	} else {
-		# 		stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
-		# 	}	
-		# }
-		master_crs <- .crs_longlat
 	}
 	
-	
+	if (is.na(master_crs)) master_crs <- mshp_crs
+	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
+
+	if (interactive) master_crs <- .crs_longlat
+
 	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
 	raster_facets_vars <- lapply(1:nshps, function(i) {
 		from <- shape.id[i] + 1
