@@ -15,7 +15,6 @@
 #' @import sf
 #' @import stars
 #' @importFrom units set_units as_units
-#' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @importFrom viridisLite viridis
 #' @import grid

@@ -1,31 +1,3 @@
-rasterCheckSize <- function(x, interactive) {
-	# if (maxpixels < raster::ncell(x)) {
-	# 	warning(paste("maximum number of pixels for Raster* viewing is",
-	# 				  maxpixels, "; \nthe supplied Raster* has", ncell(x), "\n",
-	# 				  "... decreasing Raster* resolution to", maxpixels, "pixels\n",
-	# 				  "to view full resolution set 'maxpixels = ", ncell(x), "'"))
-
-	tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
-	max.raster <- tmapOptions$max.raster
-	show.messages <- tmapOptions$show.messages
-	
-	nc <- raster::ncell(x)
-	mx <- max.raster[ifelse(interactive, "view", "plot")]
-	if (nc > mx) {
-		if (show.messages) message("Raster object has ", nc, " (", nrow(x), " by ", ncol(x), ") cells, which is larger than ",  mx, ", the maximum size determined by the option max.raster. Therefore, the raster will be shown at a decreased resolution of ", mx, " cells. Set tmap_options(max.raster = c(plot = ", nc, ", view = ", nc, ")) to show the whole raster.")
-		if (nlayers(x) > 1) {
-			x <- do.call(brick, lapply(1L:nlayers(x), function(i) {
-				raster::sampleRegular(raster(x, layer = i), mx, asRaster = TRUE, useGDAL = TRUE)
-			}))
-		} else {
-			x <- raster::sampleRegular(x, mx, asRaster = TRUE, useGDAL = TRUE)	
-		}
-	}
-		
-	
-	return(x)
-}
-
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
@@ -88,7 +60,13 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (interactive) {
 			if (sf::st_is_longlat(shp_crs)) {
 				shp_bbox <- sf::st_bbox(shp)
-				shp <- stars::st_warp(cut_world_edges(shp), crs = .crs_merc)	
+				
+				shp <- tryCatch({
+					stars::st_warp(cut_world_edges(shp), crs = .crs_merc)
+				}, error = function(e) {
+					sf::st_transform(cut_world_edges(shp), crs = .crs_merc)	
+				})
+				
 			} else  if (st_is_merc(shp_crs)) {
 				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
 			} else {

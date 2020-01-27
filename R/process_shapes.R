@@ -156,12 +156,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 					attr(shp2, "line.center") <- lc
 					return(shp2)
 				}
-				y <- tryCatch({
-					crop(shp2, bb(bb2, ext=-1.01))
-				}, error = function(e) {
-					#cat("error\n")
-					shp2
-				})
+				y <- sf::st_crop(shp2, bb(bb2, ext=-1.01))
+				
 				if (is.null(y)) y <- shp2
 				attr(y, "bbox") <- bb2
 				attr(y, "point.per") <- pp
