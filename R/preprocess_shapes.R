@@ -151,6 +151,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		if (is.RGB) {
 			#layerIDs <- rgb.vars
+			#data <-data[,rgb.vars]
+			
 			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data[,rgb.vars]), use.colortable = FALSE, max.value = max.value))
 		} else {
 			if (is.na(raster_facets_vars[1])) {
