@@ -81,8 +81,10 @@ cut_world_edges <- function(x) {
 	if (!sf::st_is_longlat(x)) {
 		x
 	} else {
-		xvalues <- round(st_get_dimension_values(x, "x"))
-		yvalues <- round(st_get_dimension_values(x, "y"))
+		dims <- attr(st_dimensions(x), "raster")$dimensions
+
+		xvalues <- round(st_get_dimension_values(x, dims[1]))
+		yvalues <- round(st_get_dimension_values(x, dims[2]))
 		
 		xminid <- which(xvalues > -180)[1]
 		xmaxid <- tail(which(xvalues < 180), 1)
