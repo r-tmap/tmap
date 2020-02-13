@@ -120,7 +120,7 @@ process_facet_layout <- function(gm) {
 			legx <- length(colws)-2
 			legy <- 5:(length(rowhs)-5)
 		} else if (legend.outside.position[1] == "top") {
-			legy <- 4- attr.between.legend.and.map
+			legy <- 5- attr.between.legend.and.map
 			legx <- 5:(length(colws)-3)
 		} else if (legend.outside.position[1] == "bottom") {
 			legy <- length(rowhs)-3 + attr.between.legend.and.map
