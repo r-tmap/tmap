@@ -46,10 +46,10 @@ attr(s, "dimensions")[[2]]$delta = -1
 attr(attr(s, "dimensions"), "raster")$affine = c(0.1, 0.1)
 
 tmap_mode("plot")
-qtm(s) # good
+qtm(s)
 
 tmap_mode("view")
-qtm(s) # Error: cannot allocate vector of size 1103.7 Gb 
+qtm(s)
 
 
 # Rectilinear grids
@@ -93,6 +93,13 @@ s2 = paste0("SENTINEL2_L1C:/vsizip/", granule, "/S2A_MSIL1C_20180220T105051_N020
 
 qtm(p)
 
+# stars time dimension
+prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
+(prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
+
+tm_shape(prec) + tm_raster() # works but 1) very slow 2) free scales should be off
+
+tm_shape(prec) + tm_raster() + tm_facets(free.scales = FALSE) # even slower
 
 
 

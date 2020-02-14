@@ -171,9 +171,9 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		if (nlevels(by)>1) if (is.na(g$shape.showNA) && !gby[[fsnames[[3]]]]) g$shape.showNA <- any(attr(dts[[3]], "anyNA") & !(gby$drop.NA.facets & attr(dts[[3]], "allNA")))
 	}
 	
-	if (type == "raster") {
-		attr(dts[[1]], "raster.projected") <- attr(data, "raster.projected")
-	}
+	# if (type == "raster") {
+	# 	attr(dts[[1]], "raster.projected") <- attr(data, "raster.projected")
+	# }
 	
 	
 	## output: matrix=colors, list=free.scales, vector=!freescales

@@ -32,6 +32,10 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 
 		if (!has_raster(shp)) stop("object ", y$shp_name, " does not have a spatial raster", call. = FALSE)
 		
+		
+		dxy <- attr(st_dimensions(shp), "raster")$dimensions
+		dvars <- setdiff(names(dim(shp)), dxy)
+		
 		# attribute get from read_osm
 		is.OSM <- attr(shp, "is.OSM")
 		if (is.null(is.OSM)) is.OSM <- FALSE
@@ -56,7 +60,6 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 
 		# # should raster shape be reprojected?
-		raster.projected <- FALSE
 		if (interactive) {
 			if (sf::st_is_longlat(shp_crs)) {
 				shp_bbox <- sf::st_bbox(shp)
@@ -72,32 +75,15 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			} else {
 				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
 				shp <- sf::st_transform(shp, crs = gm$shape.master_crs) #transform to 4326
-				raster.projected <- TRUE
 			}
 		} else {
 			if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
 				shp <- sf::st_transform(shp, crs = gm$shape.master_crs)
-				raster.projected <- TRUE
 			}
 			shp_bbox <- sf::st_bbox(shp)
 		}
 		
-		# 
-		# 
-		# if ((!interactive && !is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) || (interactive && !sf::st_is_longlat(shp) && !st_is_merc(shp))) {
-		# 	if (is.na(gm$shape.master_crs)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
-		# 	shp <- sf::st_transform(shp, crs = gm$shape.master_crs)
-		# 	shp_bbox <- sf::st_bbox(shp)
-		# 	raster.projected <- TRUE
-		# } else {
-		# 	shp_bbox <- sf::st_bbox(shp)
-		# 	if (interactive && !st_is_merc(shp)) {
-		# 		shp <- stars::st_warp(cut_world_edges(shp), crs = .crs_merc)	
-		# 	}
-		# 	raster.projected <- FALSE
-		# }
-
-		shpnames <- stars::st_get_dimension_values(shp, "band")
+		shpnames <- stars::st_get_dimension_values(shp, dvars[1]) # select values for 3rd dimension
 		if (is.null(shpnames)) shpnames <- names(shp)
 		
 		if (length(shp) == 1) {
@@ -167,11 +153,11 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 		
 
+		# flatten
+		
 		shp2 <- shp[1]
 		shp2[[1]] <- matrix(1L:(nrow(shp)*ncol(shp)), ncol = ncol(shp), nrow = nrow(shp))
-		#shp2[[1]] <- t(matrix(1L:(nrow(shp)*ncol(shp)), ncol = nrow(shp), nrow = ncol(shp)))
-		attr(shp2, "dimensions")$band <- NULL
-		
+		attr(shp2, "dimensions") <- attr(shp2, "dimensions")[dxy]
 		
 		## to be consistent with Spatial objects:
 		#attr(shp2, "bbox") <- bb(shp2)
@@ -185,7 +171,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		attr(data, "is.OSM") <- is.OSM
 		attr(data, "leaflet.server") <- leaflet.server
-		attr(data, "raster.projected") <- raster.projected
+		#attr(data, "raster.projected") <- raster.projected
 		
 		attr(data, "is.RGB") <- is.RGB
 		
