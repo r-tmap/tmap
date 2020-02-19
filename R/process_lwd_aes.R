@@ -90,11 +90,11 @@ process_line_lwd_vector <- function(x, g, rescale, reverse) {
 	line.lwd.legend.values <- w_legend
 	line.lwd.legend.labels <- format(w_legend, trim=TRUE)
 	
-	if (is.null(g$line.lwd.legend.labels)) {
+	if (is.null(g$lwd.legend.labels)) {
 		line.lwd.legend.labels <- do.call("fancy_breaks", c(list(vec=w_legend, intervals=FALSE), g$legend.format))
 	} else {
-		if (length(g$line.lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of lines in the legend", call. = FALSE)
-		line.lwd.legend.labels <- g$line.lwd.legend.labels
+		if (length(g$lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of lines in the legend", call. = FALSE)
+		line.lwd.legend.labels <- g$lwd.legend.labels
 	}
 	
 	line.lwd <- g$scale * (x/maxW)
