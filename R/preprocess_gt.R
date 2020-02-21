@@ -17,9 +17,12 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 				attr(g, "format_args")
 			}
 			
-			
+			# specific checks
 			if (("legend.position" %in% called) && interactive) {
 				if (gt$show.messages) message("legend.postion is used for plot mode. Use view.legend.position in tm_view to set the legend position in view mode.")
+			}
+			if (all(c("legend.width", "legend.outside") %in% called) && g$legend.outside) {
+				warning("legend.width controls the width of the legend within a map. Please use legend.outside.size to control the width of the outside legend")
 			}
 			
 			if (!is.na(g$style)) {

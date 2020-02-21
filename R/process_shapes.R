@@ -274,7 +274,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 get_centroids <- function(shp, of_largest_polygon = FALSE) {
 	co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))), silent = TRUE)
 	if (inherits(co, "try-error")) {
-		shp <- lwgeom::st_make_valid(shp)
+		shp <- sf::st_make_valid(shp)
 		co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))))
 	}
 	co

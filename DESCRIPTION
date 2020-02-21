@@ -22,9 +22,8 @@ Depends:
     methods
 Imports:
 	tmaptools (>= 3.0),
-    sf (>= 0.7-1),
+    sf (>= 0.8-2),
     stars,
-	lwgeom (>= 0.1-4),
     units (>= 0.6-1),
     grid,
     RColorBrewer,

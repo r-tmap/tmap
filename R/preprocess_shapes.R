@@ -305,7 +305,7 @@ split_geometry_collection <- function(sfc) {
 				sel <- !vapply(g2, function(x)all(st_is_empty(x)), logical(1))
 				g2[sel]
 			}, error = function(e) {
-				g2 <- lapply(g2, lwgeom::st_make_valid)
+				g2 <- lapply(g2, sf::st_make_valid)
 				sel <- !vapply(g2, function(x)all(st_is_empty(x)), logical(1))
 				g2[sel]
 			})

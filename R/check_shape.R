@@ -10,7 +10,7 @@ check_shape <- function(shp, name) {
 	# check if shp is valid (if not, fix it with a warning)
 	if (!all(st_is_valid(shp))) {
 		warning("The shape ", name, " is invalid. See sf::st_is_valid", call. = FALSE)
-		shp <- lwgeom::st_make_valid(shp)
+		shp <- sf::st_make_valid(shp)
 	}
 	
 	# remove empty units
