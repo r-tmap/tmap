@@ -99,6 +99,8 @@ prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
 
 tm_shape(prec) + tm_raster() # works but 1) very slow 2) free scales should be off
 
+
+
 tm_shape(prec) + tm_raster() + tm_facets(free.scales = FALSE) # even slower
 
 
