@@ -1,5 +1,5 @@
 process_tm <- function(x, gt, gm, interactive) {
-	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL
+	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL; raster <- NULL
 	## fill meta info
 	
 	#gt <- preprocess_gt(x, interactive=interactive, orig_crs = gm$shape.orig_crs)

@@ -1,4 +1,5 @@
-version 2.3-3
+version 3.0
+- rasters now implemented using the stars package (instead of the raster package)
 - fixed bug with geometry collection
 
 version 2.3-2

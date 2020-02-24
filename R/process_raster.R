@@ -1,5 +1,10 @@
 check_raster_specials <- function(x, g, gt, shpcols, data, nx) {
 	## check raster shortcuts
+	# if (isTRUE(attr(data, "is.RGB"))) {
+	# 	is.colors <- TRUE
+	# 	nx <- 1
+	# 	x <- setdiff(names(data), c("tmapfilter", "GROUP_BY", "ALONG"))
+	# } else 
 	if ("PIXEL__COLOR" %in% names(data)) {
 		x <- "PIXEL__COLOR"
 		data$PIXEL__COLOR <- do.call("process_color", c(list(col=data$PIXEL__COLOR, alpha=g$alpha), gt$pc))

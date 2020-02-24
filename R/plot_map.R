@@ -67,21 +67,32 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 			bb_target <- attr(shp, "bbox")
 			bb_real <- bb(shp)
 			
-			if (all(abs(bb_real-bb_target)< 1e-3)) {
-				width <- 1
-				height <- 1
-				cent <- c(mean(c(bb_target[1], bb_target[3])), mean(c(bb_target[2], bb_target[4])))
-			} else {
-				width <- (bb_real[3] - bb_real[1]) / (bb_target[3] - bb_target[1])
-				height <- (bb_real[4] - bb_real[2]) / (bb_target[4] - bb_target[2])
-				cent <- c(mean(c(bb_real[1], bb_real[3])), mean(c(bb_real[2], bb_real[4])))
-			}
-			
-			x <- (cent[1] - bb_target[1]) / (bb_target[3] - bb_target[1])
-			y <- (cent[2] - bb_target[2]) / (bb_target[4] - bb_target[2])
-			#if (inherits(shp, "Spatial")) shp <- as(shp, "RasterLayer")
+			if (is_regular_grid(shp)) {
+				if (all(abs(bb_real-bb_target)< 1e-3)) {
+					width <- 1
+					height <- 1
+					cent <- c(mean(c(bb_target[1], bb_target[3])), mean(c(bb_target[2], bb_target[4])))
+				} else {
+					width <- (bb_real[3] - bb_real[1]) / (bb_target[3] - bb_target[1])
+					height <- (bb_real[4] - bb_real[2]) / (bb_target[4] - bb_target[2])
+					cent <- c(mean(c(bb_real[1], bb_real[3])), mean(c(bb_real[2], bb_real[4])))
+				}
+				
+				x <- (cent[1] - bb_target[1]) / (bb_target[3] - bb_target[1])
+				y <- (cent[2] - bb_target[2]) / (bb_target[4] - bb_target[2])
+				
+				m <- matrix(rast, ncol=nrow(shp), nrow=ncol(shp), byrow = TRUE)
+				
+				y_is_neg <- all(diff(st_get_dimension_values(shp, "y")) < 0)
+				if (!y_is_neg) {
+					m <- m[nrow(m):1L, ]
+				}
 
-			rasterGrob(matrix(rast, ncol=shp@ncols, nrow=shp@nrows, byrow = TRUE), x=x, y=y, width=width, height=height, interpolate = gpl$raster.misc$interpolate)
+				rasterGrob(m, x=x, y=y, width=width, height=height, interpolate = gpl$raster.misc$interpolate)
+			} else {
+				s <- sf::st_as_sf(shp)
+				grid.shape(s, gp=gpar(fill=rast, col=NA), bg.col=NA, i, k)
+			}
 		} 
 		
 		e <- environment()

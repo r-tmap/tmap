@@ -1,31 +1,3 @@
-rasterCheckSize <- function(x, interactive) {
-	# if (maxpixels < raster::ncell(x)) {
-	# 	warning(paste("maximum number of pixels for Raster* viewing is",
-	# 				  maxpixels, "; \nthe supplied Raster* has", ncell(x), "\n",
-	# 				  "... decreasing Raster* resolution to", maxpixels, "pixels\n",
-	# 				  "to view full resolution set 'maxpixels = ", ncell(x), "'"))
-
-	tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
-	max.raster <- tmapOptions$max.raster
-	show.messages <- tmapOptions$show.messages
-	
-	nc <- raster::ncell(x)
-	mx <- max.raster[ifelse(interactive, "view", "plot")]
-	if (nc > mx) {
-		if (show.messages) message("Raster object has ", nc, " (", nrow(x), " by ", ncol(x), ") cells, which is larger than ",  mx, ", the maximum size determined by the option max.raster. Therefore, the raster will be shown at a decreased resolution of ", mx, " cells. Set tmap_options(max.raster = c(plot = ", nc, ", view = ", nc, ")) to show the whole raster.")
-		if (nlayers(x) > 1) {
-			x <- do.call(brick, lapply(1L:nlayers(x), function(i) {
-				raster::sampleRegular(raster(x, layer = i), mx, asRaster = TRUE, useGDAL = TRUE)
-			}))
-		} else {
-			x <- raster::sampleRegular(x, mx, asRaster = TRUE, useGDAL = TRUE)	
-		}
-	}
-		
-	
-	return(x)
-}
-
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
@@ -43,20 +15,26 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	names(shp.sim)[names(shp.sim)=="simplify"] <- "fact"
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
-	if (inherits(shp, c("Raster", "SpatialPixels", "SpatialGrid", "stars"))) {
+	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))) {
+		
+		if (inherits(shp, "stars_proxy")) {
+			shp <- st_as_stars(shp, downsample = get_downsample(dim(shp)))
+		}
+
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		rgb.vars <- attr(raster_facets_vars, "rgb.vars")
 		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
 		max.value <- attr(raster_facets_vars, "max.value") # NULL is tm_raster is called, when tm_rgb is called: NA (default) when max color value is determined automatically.
 		
-		if (interactive) gm$shape.master_crs <- .crs_merc
+		if (interactive) gm$shape.master_crs <- .crs_merc # leaflet excepts rasters in epsg 3857
 		
-		if (inherits(shp, "Spatial")) shp <- brick(shp)
-		if (inherits(shp, "stars")) {
-			if (attr(attr(shp, "dimensions"), "raster")$curvilinear) stop("Curvilinear grid are not supperted in tmap... yet.")
-			shp <- as(shp, "Raster")
-		}
+		if (!inherits(shp, "stars")) shp <- stars::st_as_stars(shp)
+
+		if (!has_raster(shp)) stop("object ", y$shp_name, " does not have a spatial raster", call. = FALSE)
 		
+		
+		dxy <- attr(st_dimensions(shp), "raster")$dimensions
+		dvars <- setdiff(names(dim(shp)), dxy)
 		
 		# attribute get from read_osm
 		is.OSM <- attr(shp, "is.OSM")
@@ -64,43 +42,69 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		leaflet.server <- attr(shp, "leaflet.provider")
 		if (is.null(leaflet.server)) leaflet.server <- NA
 		
-		# color values are encoded by a colortable (and not interpreted as factors)
-		if (length(colortable(shp))>0) {
-			ctable <- colortable(shp)
-			uctable <- unique(ctable)
-			mtch <- match(ctable, uctable)
+		
+		if (is.na(is.RGB)) is.RGB <- FALSE # need for automatic check or change default?
+		
+		# get current projection (assume longlat if unkown)
+		shp_crs <- sf::st_crs(shp)
+		if (is.na(shp_crs)) {
+			if (maybe_longlat(sf::st_bbox(shp))) {
+				warning("Currect projection of shape ", y$shp_name, " unknown. Long lat (epsg 4326) coordinates assumed.", call. = FALSE)
+				shp_crs <- .crs_longlat
+				
+				shp <- sf::st_set_crs(shp, shp_crs)
+				#shp <- stars::st_warp(shp, crs = shp_crs)	
+			} else {
+				stop("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+			}
+		}
 
-			if (nlayers(shp)>1) shp <- raster::subset(shp, 1)
-			shp <- setValues(shp, mtch[getValues(shp) + 1L])
-			names(shp) <- shpnames <- "PIXEL__COLOR"
-			
-			
-			use_interp <- FALSE
-			
-			lvls <- list(uctable)
-			
-			# if (!is.RGB && is.na(do.interpolate)) {
-			# 	if (get("tmapOptions", envir = .TMAP_CACHE)$show.messages) {
-			# 		message("For bitmap images, it is recommended to use tm_rgb instead of tm_raster (or to set interpolate to TRUE).")
-			# 	}
-			# }
-			layerIDs <- 1
-			convert.RGB <- FALSE
+		# # should raster shape be reprojected?
+		if (interactive) {
+			if (sf::st_is_longlat(shp_crs)) {
+				shp_bbox <- sf::st_bbox(shp)
+				
+				shp <- tryCatch({
+					stars::st_warp(cut_world_edges(shp), crs = .crs_merc)
+				}, error = function(e) {
+					sf::st_transform(cut_world_edges(shp), crs = .crs_merc)	
+				})
+				
+			} else  if (st_is_merc(shp_crs)) {
+				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
+			} else {
+				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
+				shp <- sf::st_transform(shp, crs = gm$shape.master_crs) #transform to 4326
+			}
 		} else {
-			# in order to not loose factor levels, subset the data here
-			rdata <- get_raster_data(shp, show.warnings = FALSE)
-			mainID <- attr(rdata, "mainID")
-			
-			
-			shpnames <- names(rdata) #get_raster_names(shp)
-			
-			if (is.na(maxValue(shp)[1])) shp <- raster::setMinMax(shp)
-
-			mxdata <- suppressWarnings(max(maxValue(shp)))
-			if (is.na(mxdata)) mxdata <- 0
-
-			if (is.na(is.RGB)) {
-				if ((nlayers(shp) == 3) && all(minValue(shp)>=0) && mxdata <= max.value) {
+			if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
+				shp <- sf::st_transform(shp, crs = gm$shape.master_crs)
+			}
+			shp_bbox <- sf::st_bbox(shp)
+		}
+		
+		shpnames <- stars::st_get_dimension_values(shp, dvars[1]) # select values for 3rd dimension
+		if (is.null(shpnames)) shpnames <- names(shp)
+		
+		if (length(shp) == 1) {
+			data <- as.data.frame(matrix(shp[[1]], ncol = length(shpnames)))
+			names(data) <- shpnames
+		} else {
+			data <- as.data.frame(shp)[shpnames]
+		}
+		
+		isnum <- sapply(data, is.numeric)
+		
+		if (is.na(is.RGB)) {
+			# check for qtm (where is.RGB = NA)
+			if (!all(isnum) || ncol(m) != 3L) {
+				is.RGB <- FALSE
+			} else {
+				m <- as.matrix(data)
+				mxdata <- max(m, na.rm = TRUE)
+				mndata <- min(m, na.rm = TRUE)
+				
+				if (mndata > 0 && mxdata < max.value) {
 					if (mxdata <= 1) {
 						max.value <- 1
 						message("Numeric values of ", y$shp_name, " interpreted as RGB values with max.value = 1. Run tm_shape(", y$shp_name, ") + tm_raster() to visualize the data.")
@@ -112,173 +116,70 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				} else {
 					is.RGB <- FALSE
 				}
-			} else if (is.RGB) {
-				if (!all(rgb.vars %in% 1:nlayers(shp))) stop("Specified rgb(a) bands are ", paste(rgb.vars, collapse = ", "), " whereas the number of layers is ", nlayers(shp), call. = FALSE)
-				
-				if  (!all(minValue(shp)>=0) || !all(mxdata <= max.value)) {
-					shp[][shp[] < 0] <- 0
-					shp[][shp[] > max.value] <- max.value
-					rdata[rdata < 0] <- 0
-					rdata[rdata > max.value] <- max.value
-					warning("Raster values found that are outside the range [0, ", max.value, "]", call. = FALSE)
-				}
-				
-				if (mxdata <= 1 && max.value == 255) message("No values higher than 1 found. Probably, max.value should be set to 1.")
 			}
+		} else if (is.RGB) {
+			if (!all(isnum)) stop("Raster data is not numeric", call. = FALSE)
+
+			m <- as.matrix(data)
+			mxdata <- max(m, na.rm = TRUE)
+			mndata <- min(m, na.rm = TRUE)
 			
-			convert.RGB <- is.RGB
+			if (!all(rgb.vars %in% 1:ncol(data))) stop("Specified rgb(a) bands are ", paste(rgb.vars, collapse = ", "), " whereas the number of layers is ", ncol(data), call. = FALSE)
 			
-			
-			# 
-			# 
-			# convert.RGB <- !identical(is.RGB, FALSE) && 
-			# 	(is.na(raster_facets_vars[1]) || !any(raster_facets_vars %in% shpnames)) &&
-			# 	all(minValue(shp)>=0) && mxdata <= max.value
-			# 
-			# if (is.na(is.RGB) && convert.RGB && show.messages) {
-			# 	message("Numeric values of ", y$shp_name, " interpreted as RGB(A) values. Run tm_shape(", y$shp_name, ") + tm_raster() to visualize the data.")
-			# }
-			# 
-			# 
-			# if (identical(is.RGB, TRUE) && !convert.RGB) {
-			# 	stop("Raster object does not have a color table, nor numeric data that can be converted to colors. Use tm_raster to visualize the data.", call. = FALSE)
-			# }
-			
-			if (convert.RGB) {
-				layerIDs <- rgb.vars #1L:nlayers(shp)
-			} else {
-				if (is.na(raster_facets_vars[1])) {
-					if (length(mainID) != length(shpnames) && show.messages) {
-						if (attr(rdata, "cls") == "RasterLayer") {
-							message("Only the first variable is shown. The available variables are: \"", paste(shpnames, collapse = "\", \""), "\".")
-						} else {
-							message("For each raster layer, only the first variable is shown. The available variables are: \"", paste(shpnames, collapse = "\", \""), "\".")	
-						}
-					}
-					raster_facets_vars <- shpnames[mainID]
-				} else {
-					raster_facets_vars <- na.omit(raster_facets_vars)
-				}
-					
-				layerIDs <- match(raster_facets_vars, shpnames)
-				layerIDs <- na.omit(layerIDs)
-				if (length(layerIDs) == 0L) layerIDs <- 1
+			if  (!mndata>=0 || mxdata <= max.value) {
+				m[m < 0] <- 0
+				m[m > max.value] <- max.value
+				warning("Raster values found that are outside the range [0, ", max.value, "]", call. = FALSE)
+				data <- as.data.frame(m)
 			}
-				#lvls <- get_raster_levels(shp, layerIDs)
-			lvls <- get_data_frame_levels(rdata[, layerIDs, drop = FALSE])
-				
-			use_interp <- ((all(vapply(lvls, is.null, logical(1)))) && !to.Cat)
+			if (mxdata <= 1 && max.value == 255) message("No values higher than 1 found. Probably, max.value should be set to 1.")
 		}
-
-		#print(shp)
 		
-		shp <- rasterCheckSize(shp, interactive)	
-		
-		# print(use_interp)
-		# print(lvls)
-		# print(layerIDs)
-		# print(use_interp)
-		#shp <- rasterCheckSize(shp)	
-		
-		
-		# get current projection (assume longlat if unkown)
-		shp_crs <- get_projection(shp, output="crs")
-		if (is.na(shp_crs)) {
-			if (!tmaptools::is_projected(shp)) {
-				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
-				shp_crs <- .crs_longlat
-				shp <- set_projection(shp, current.projection = shp_crs)
-			} else {
-				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
-			}
-		}
-
-		# should raster shape be reprojected?
-		if ((!is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) || interactive) {
-			if (is.na(gm$shape.master_crs)) stop("Master projection unknown, but needed to reproject raster shape.", call.=FALSE)
-			new_ext <- tryCatch({
-			  	suppressWarnings(projectExtent(shp, crs = gm$shape.master_crs$proj4string))
-			}, error=function(e){
-		  		NULL
-		  	})
+		if (is.RGB) {
+			#layerIDs <- rgb.vars
+			#data <-data[,rgb.vars]
 			
-			if (is.null(new_ext)) {
-				shp <- crop_shape(shp, bb(gm$shape.bbx_raw, projection = shp_crs, current.projection = gm$shape.master_crs))	
-				new_ext <- tryCatch({
-					suppressWarnings(projectExtent(shp, crs = gm$shape.master_crs$proj4string))
-				}, error=function(e){
-					stop("Unable to reproject raster shape \"", y$shp_name, "\", probably due to non-finite points.", call. = FALSE)
-				})
-			}
-		} else new_ext <- NULL
-
-		
-		raster.projected <- !is.null(new_ext)
-		
-		if (raster.projected) {
-			shpTmp <- suppressWarnings(projectRaster(shp, to=new_ext, crs=gm$shape.master_crs$proj4string, method = ifelse(use_interp, "bilinear", "ngb")))
-			shp2 <- raster(shpTmp)
-			data <- suppressWarnings(get_raster_data(shpTmp)[,layerIDs, drop=FALSE])
-			names(data) <- names(lvls)
+			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data[,rgb.vars]), use.colortable = FALSE, max.value = max.value))
 		} else {
-			shp2 <- raster(shp)
-			data <- suppressWarnings(get_raster_data(shp)[,layerIDs, drop=FALSE])
-		}
-		
-		# restore factor levels and limits
-		data <- as.data.frame(mapply(function(d, l) {
-			if (is.character(l) && !is.factor(d)) {
-				if (is.logical(d)) {
-					d2 <- as.integer(d)+1L
-				} else {
-					plusone <- min(d, na.rm=TRUE)==0
-					if (!is.integer(d)) {
-						d2 <- as.integer(d) + plusone
-					} else {
-						d2 <- d+plusone
-					}
-				}
-				levels(d2) <- l
-				class(d2) <- "factor"
-				d2
-			} else if (is.numeric(l)) {
-				pmin(pmax(l[1], d), l[2])
-			} else d
-		}, data, lvls, SIMPLIFY=FALSE))
-		
-		if (convert.RGB) {
-			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data), use.colortable = FALSE, max.value = max.value))
+			if (is.na(raster_facets_vars[1])) {
+				raster_facets_vars <- shpnames
+			} else {
+				raster_facets_vars <- na.omit(raster_facets_vars)
+			}
+			layerIDs <- match(raster_facets_vars, shpnames)
+			layerIDs <- na.omit(layerIDs)
+			if (length(layerIDs) == 0L) layerIDs <- 1
+			data <- data[, layerIDs, drop = FALSE]
 		}
 		
 
-		# set values in order to align data later on (with cropping)
-		shp2 <- setValues(shp2, values=1:ncell(shp2))
-
-		# interactive raster require merc projection with longlat extent		
-		if (interactive) {
-			new_ext_ll <- extent(projectExtent(new_ext, crs = .crs_longlat$proj4string))
-			shp2@extent <- new_ext_ll
-			shp2@crs <- raster::crs(.crs_longlat$proj4string)
-		}
+		# flatten
+		
+		shp2 <- shp[1]
+		shp2[[1]] <- matrix(1L:(nrow(shp)*ncol(shp)), ncol = ncol(shp), nrow = nrow(shp))
+		attr(shp2, "dimensions") <- attr(shp2, "dimensions")[dxy]
 		
 		## to be consistent with Spatial objects:
-		attr(shp2, "bbox") <- bb(shp2)
-		attr(shp2, "proj4string") <- attr(shp2@crs, "projargs")
+		#attr(shp2, "bbox") <- bb(shp2)
+		#attr(shp2, "proj4string") <-  #attr(shp2@crs, "projargs")
 
+		attr(shp2, "bbox") <- shp_bbox #sf::st_bbox(shp2)
+		
+		#data <- shp#
 		
 		data$tmapfilter <- TRUE
 		
 		attr(data, "is.OSM") <- is.OSM
 		attr(data, "leaflet.server") <- leaflet.server
-		attr(data, "raster.projected") <- raster.projected
+		#attr(data, "raster.projected") <- raster.projected
 		
-		#attr(data, "is.RGB") <- is.RGB
+		attr(data, "is.RGB") <- is.RGB
 		
 		type <- "raster"
 		
 	} else {
 		# save_bbox (sp objects allow for custom bboxes, sf objects don't)
-		shp_bbx <- bb(shp)
+		shp_bbx <- sf::st_bbox(shp)
 		
 		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
 		isolines <- ("isolines" %in% names(attributes(shp)))
@@ -300,22 +201,24 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		data$tmapfilter <- if (is.null(y$filter)) rep(TRUE, nrow(shp)) else rep(y$filter, length.out = nrow(shp))
 		
-		# reproject if nessesary
-		shp_crs <- get_projection(shp, output="crs")
+		# check crs of shp (master shape crs is already checked in print_tmap)
+		shp_crs <- sf::st_crs(shp)
 		if (is.na(shp_crs)) {
-			if (!tmaptools::is_projected(shp)) {
+			if (maybe_longlat(shp_bbx)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
-				shp <- set_projection(shp, current.projection = shp_crs)
+				shp <- sf::st_set_crs(shp, shp_crs)
 			} else {
-				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				stop("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 			}
 		}
-		if (!is.na(shp_crs) && !is.na(gm$shape.master_crs) && !identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
-			shp2 <- set_projection(shp, gm$shape.master_crs)
+
+		# reproject if nessesary
+		if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
+			shp2 <- sf::st_transform(shp, crs = gm$shape.master_crs)
 
 			# override bounding box (since it now is projected)
-			shp_bbx <- bb(shp2)
+			shp_bbx <- sf::st_bbox(shp2)
 		} else {
 			shp2 <- shp
 		}
@@ -359,8 +262,11 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 
 		# be consistent with rasters (originated from sp objects)
+		
 		attr(shp2, "bbox") <- shp_bbx
-		attr(shp2, "proj4string") <- st_crs(shp2)
+		
+		#attr(shp2, "bbox") <- shp_bbx
+		#attr(shp2, "proj4string") <- st_crs(shp2)
 		
 		shpnames <- names(data)
 		
@@ -372,7 +278,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	
 	attr(shp2, "point.per") <- point.per
 	attr(shp2, "line.center") <- y$line.center
-	attr(shp2, "projected") <- tmaptools::is_projected(shp2)
+	attr(shp2, "projected") <- !sf::st_is_longlat(shp2)
 	list(shp=shp2, data=data, type=type)
 }
 
@@ -399,7 +305,7 @@ split_geometry_collection <- function(sfc) {
 				sel <- !vapply(g2, function(x)all(st_is_empty(x)), logical(1))
 				g2[sel]
 			}, error = function(e) {
-				g2 <- lapply(g2, lwgeom::st_make_valid)
+				g2 <- lapply(g2, sf::st_make_valid)
 				sel <- !vapply(g2, function(x)all(st_is_empty(x)), logical(1))
 				g2[sel]
 			})

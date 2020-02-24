@@ -13,9 +13,8 @@
 #' @return If \code{mode=="plot"}, then a list is returned with the processed shapes and the metadata. If \code{mode=="view"}, a \code{\link[leaflet:leaflet]{leaflet}} object is returned (see also \code{\link{tmap_leaflet}})
 #' @import tmaptools
 #' @import sf
+#' @import stars
 #' @importFrom units set_units as_units
-#' @importFrom raster raster brick extent setValues ncell couldBeLonLat fromDisk crop projectRaster projectExtent colortable nlayers minValue maxValue getValues
-#' @importMethodsFrom raster as.vector
 #' @import RColorBrewer
 #' @importFrom viridisLite viridis
 #' @import grid
@@ -26,11 +25,10 @@
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom grDevices xy.coords colors
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
-#' @importMethodsFrom raster as.vector
+#' @importFrom leafem addStarsImage addStarsRGB
 #' @import leaflet
 #' @importFrom htmlwidgets appendContent onRender
 #' @importFrom htmltools tags HTML htmlEscape
-#' @importFrom lwgeom st_make_valid
 #' @import leafsync
 #' @importFrom utils packageVersion
 #' @export
@@ -151,7 +149,7 @@ gather_shape_info <- function(x, interactive) {
 	
 	## find master shape
 	is_raster <- vapply(x[shape.id], function(xs) {
-		!is.null(xs$shp) && inherits(xs$shp, c("Raster", "SpatialPixels", "SpatialGrid", "stars"))
+		!is.null(xs$shp) && inherits(xs$shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))
 	}, logical(1))
 	is_master <- vapply(x[shape.id], "[[", logical(1), "is.master")
 #	any_raster <- any(is_raster)
@@ -161,21 +159,25 @@ gather_shape_info <- function(x, interactive) {
 	is_raster_master <- is_raster[masterID]
 	
 	## find master projection (and set to longlat when in view mode)
-	master_crs <- get_proj4(x[[shape.id[masterID]]]$projection, output = "crs")
+	master_crs <- sf::st_crs(x[[shape.id[masterID]]]$projection)
 	mshp_raw <- x[[shape.id[masterID]]]$shp
-	if (is.null(master_crs)) master_crs <- get_projection(mshp_raw, output = "crs")
-	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
-	if (interactive) {
-		if (is.na(get_projection(mshp_raw, output = "crs")) && tmaptools::is_projected(mshp_raw)) {
-			
-			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
-		}
-		master_crs <- .crs_longlat
-	}
-	
-	## find master bounding box (unprocessed)
+	mshp_crs <- sf::st_crs(mshp_raw)
 	bbx_raw <- bb(mshp_raw)
 	
+	# Checks whether master shape has no crs and has coordinates outside -180-180, -90-90. The crss is futher checked in preprocess_shapes 
+	if (is.na(mshp_crs)) {
+		if (maybe_longlat(bbx_raw)) {
+			mshp_crs <- .crs_longlat
+		} else {
+			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
+		}
+	}
+	
+	if (is.na(master_crs)) master_crs <- mshp_crs
+	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
+
+	if (interactive) master_crs <- .crs_longlat
+
 	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
 	raster_facets_vars <- lapply(1:nshps, function(i) {
 		from <- shape.id[i] + 1

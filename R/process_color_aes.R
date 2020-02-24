@@ -151,9 +151,6 @@ process_dtcol <- function(xname, dtcol, sel=NA, g, gt, nx, npol, areas=NULL, are
 	if (is.na(sel[1])) sel <- rep(TRUE, npol * nx)
 	sel[is.na(sel)] <- TRUE
 	
-
-
-	
 	is.constant <- is.matrix(dtcol)
 	if (is.constant) {
 		col <- dtcol

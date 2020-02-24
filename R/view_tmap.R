@@ -512,25 +512,40 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			pal <- na.omit(unique(gpl$raster))
 			pal <- pal[substr(pal, 8,10)!="00"] ## remove transparant colors
 			
-			shp@data@values <- match(gpl$raster, pal)
-			
-			res <- split_alpha_channel(pal, alpha)
-			pal_col <- res$col
-			pal_opacity <- if (length(res$opacity) == 0L) 0 else max(res$opacity)
-			
-			mappal <- function(x) {
-				if (all(is.na(shp@data@values))) return(rep("#00000000", length(x)))
-				
-				y <- pal_col[x]
-				y[is.na(y)] <- "#00000000"
-				y
-			}
-			
+
 			pane <- paneName(zi)
 			
 			layerId <- submit_labels(pane, "raster", pane, group_name, e)
+			
+			
+			col_ids <- match(gpl$raster, pal)
 
-			lf <- lf %>% addRasterImage(x=shp, colors=mappal, opacity = pal_opacity, group=group_name, project = FALSE, layerId = layerId)
+			if (!is_regular_grid(shp) || has_rotate_or_shear(shp)) {
+				shp <- sf::st_transform(sf::st_as_sf(shp), crs = 4326)
+				
+				res <- split_alpha_channel(pal, alpha)
+				pal_col <- res$col
+				pal_opacity <- if (length(res$opacity) == 0L) 0 else max(res$opacity)
+				
+				pal_col2 <- pal_col[col_ids]
+				
+				# TO DO: add layerId = layerId, was 1 ("tmap401"), but should be number of polygons
+				lf <- lf %>% addPolygons(data=shp, stroke=FALSE, weight=0, color=NULL, fillColor = pal_col2, opacity=0, fillOpacity = pal_opacity, popup = NULL, options = pathOptions(clickable=FALSE, pane=pane), group=group_name)
+				
+			} else {
+				shp[[1]] <- matrix(col_ids, ncol = ncol(shp))
+				
+				res <- split_alpha_channel(pal, alpha)
+				pal_col <- res$col
+				pal_opacity <- if (length(res$opacity) == 0L) 0 else max(res$opacity)
+				
+				
+				lf <- lf %>% leafem::addStarsImage(shp, band = 1, colors = pal_col, opacity = pal_opacity, group = group_name, project = FALSE, layerId = layerId)
+			}
+			
+			
+			
+			# lf <- lf %>% addRasterImage(x=as(shp, "Raster"), colors=mappal, opacity = pal_opacity, group=group_name, project = FALSE, layerId = layerId)
 			
 			if (!is.na(gpl$xraster[1])) {
 				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha, group = if (gt$free.scales.raster) group_name else NULL, zindex = zi)

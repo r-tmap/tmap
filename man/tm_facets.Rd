@@ -106,7 +106,7 @@ tm_format("World", title=c("A green world", "A dry world"), bg.color="lightskybl
 # CASE 2: Facets defined by multiple variables
 tm_shape(World) +
     tm_polygons(c("well_being", "life_exp"),
-    	style=c("pretty", "fixed"), breaks=list(NULL, c(65,70,75,80,85)),
+    	style=c("pretty", "fixed"), breaks=list(NULL, seq(45, 85, by = 5)),
     	palette=list("Oranges", "Purples"),
     	border.col = "black",
         title=c("Well-Being Index", "Life Expectancy")) +

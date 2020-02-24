@@ -17,7 +17,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	# in case x is search query
 	if (!is.null(args$x)) {
-		if (inherits(args$x, c("Spatial", "Raster", "sf"))) {
+		if (inherits(args$x, c("stars", "sf"))) {
 			args$projection <- gm$shape.master_crs
 			args$current.projection <- NULL
 		} else if (is.character(args$x)) {
@@ -33,7 +33,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	}
 
 	# define bounding box
-	longlat <- !tmaptools::is_projected(shp)
+	longlat <- sf::st_is_longlat(shp)
 	
 	group_by <- any(gm$shp_nr != 0)
 	
@@ -156,16 +156,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 					attr(shp2, "line.center") <- lc
 					return(shp2)
 				}
-				prj <- attr(shp2, "proj4string")
-				y <- tryCatch({
-					crop(shp2, bb(bb2, ext=-1.01))
-				}, error = function(e) {
-					#cat("error\n")
-					shp2
-				})
+				y <- sf::st_crop(shp2, bb(bb2, ext=-1.01))
+				
 				if (is.null(y)) y <- shp2
 				attr(y, "bbox") <- bb2
-				attr(y, "proj4string") <- prj
 				attr(y, "point.per") <- pp
 				attr(y, "line.center") <- lc
 				y
@@ -185,11 +179,9 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 						attr(x, "bbox") <- bb2
 						return(x)
 					}
-					prj <- attr(x, "proj4string")
-					y <- crop(x, bb(bb2, ext=-1.01))
+					y <- sf::st_crop(x, bb(bb2, ext=-1.01))
 					if (is.null(y)) y <- x
 					attr(y, "bbox") <- bb2
-					attr(y, "proj4string") <- prj
 					attr(y, "point.per") <- pp
 					attr(y, "line.center") <- lc
 					y
@@ -199,15 +191,18 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 					attr(x, "bbox") <- bbx
 					return(x)
 				}
-				prj <- attr(x, "proj4string")
-				y <- tryCatch({
-					y <- crop_shape(x, bb(bbx, ext=-1.01))
-					if (is.null(y)) x else y
-				}, error=function(e) {
-					x	
-				})
-				attr(y, "bbox") <- bbx
-				attr(y, "proj4string") <- prj
+				
+			 	y <- sf::st_crop(x, bb(bbx, ext=-1.01))
+				#y <- x
+				
+				
+				# y <- tryCatch({
+				# 	y <- sf::st_crop(x, bb(bbx, ext=-1.01))
+				# 	if (is.null(y)) x else y
+				# }, error=function(e) {
+				# 	x	
+				# })
+			 	attr(y, "bbox") <- bbx
 				attr(y, "point.per") <- pp
 				attr(y, "line.center") <- lc
 				y	
@@ -279,7 +274,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 get_centroids <- function(shp, of_largest_polygon = FALSE) {
 	co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))), silent = TRUE)
 	if (inherits(co, "try-error")) {
-		shp <- lwgeom::st_make_valid(shp)
+		shp <- sf::st_make_valid(shp)
 		co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))))
 	}
 	co
@@ -324,6 +319,7 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	list(bbox=bbx, sasp=sasp, inner.margins=inner.margins.new)
 }
 
+
 split_raster <- function(r, f, drop=TRUE) {
 	if (!is.factor(f)) {
 		warning("f is not a factor", call. = FALSE)
@@ -333,8 +329,9 @@ split_raster <- function(r, f, drop=TRUE) {
 	lev <- if (drop) {
 		intersect(levels(f), f)	
 	} else levels(f)
-	lapply(lev, function(l){
-		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=r@ncols, nrow=r@nrows, byrow = TRUE)
+	x <- lapply(lev, function(l){
+		
+		m <- matrix(as.numeric(!is.na(f) & f==l), ncol=nrow(r), nrow=ncol(r), byrow = TRUE)
 		cls <- colSums(m)
 		rws <- rev(rowSums(m))
 		
@@ -344,13 +341,13 @@ split_raster <- function(r, f, drop=TRUE) {
 		xrng[1] <- xrng[1] - 1
 		yrng[1] <- yrng[1] - 1
 		
-		xlim <- xrng / r@ncols
-		ylim <- yrng / r@nrows
+		xlim <- xrng / nrow(r)
+		ylim <- yrng / ncol(r)
 		
-		attr(r, "bbox") <- matrix(c(bbx[1] + (bbx[3] - bbx[1]) * xlim[1],
-				 bbx[1] + (bbx[3] - bbx[1]) * xlim[2],
-				 bbx[2] + (bbx[4] - bbx[2]) * ylim[1],
-				 bbx[2] + (bbx[4] - bbx[2]) * ylim[2]), ncol=2, dimnames=dimnames(bbx), byrow = TRUE)
+		attr(r, "bbox") <- st_bbox(c(xmin = unname(bbx[1] + (bbx[3] - bbx[1]) * xlim[1]), 
+									 ymin = unname(bbx[2] + (bbx[4] - bbx[2]) * ylim[1]), 
+									 xmax = unname(bbx[1] + (bbx[3] - bbx[1]) * xlim[2]), 
+									 ymax = unname(bbx[2] + (bbx[4] - bbx[2]) * ylim[2])), crs = st_crs(r))
 		r
 	})
 }

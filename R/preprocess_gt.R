@@ -17,9 +17,12 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 				attr(g, "format_args")
 			}
 			
-			
+			# specific checks
 			if (("legend.position" %in% called) && interactive) {
 				if (gt$show.messages) message("legend.postion is used for plot mode. Use view.legend.position in tm_view to set the legend position in view mode.")
+			}
+			if (all(c("legend.width", "legend.outside") %in% called) && g$legend.outside) {
+				warning("legend.width controls the width of the legend within a map. Please use legend.outside.size to control the width of the outside legend")
 			}
 			
 			if (!is.na(g$style)) {
@@ -148,21 +151,22 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 		
 		if (!inherits(projection, "leaflet_crs")) {
 			
-			if (projection==0) {
-				epsg <- get_epsg_number(orig_crs)
-				if (is.na(epsg)) {
-					projection <- 3857
-				} else {
-					projection <- epsg
-				}
-			}
+			projection <- 3857
+			# if (projection==0) {
+			# 	#epsg <- get_epsg_number(orig_crs)
+			# 	if (is.na(epsg)) {
+			# 		projection <- 3857
+			# 	} else {
+			# 		projection <- epsg
+			# 	}
+			# }
 			
 			if (projection %in% c(3857, 4326, 3395)) {
 				projection <- leaflet::leafletCRS(crsClass = paste("L.CRS.EPSG", projection, sep=""))	
 			} else {
 				projection <- leaflet::leafletCRS(crsClass = "L.Proj.CRS", 
 												  code= paste("EPSG", projection, sep=":"),
-												  proj4def=get_proj4(projection),
+												  proj4def=sf::st_crs(projection)$proj4string,
 												  resolutions = c(65536, 32768, 16384, 8192, 4096, 2048,1024, 512, 256, 128))	
 			}
 			

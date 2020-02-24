@@ -57,9 +57,57 @@ save(land, file="./data/land.rda", compress="xz")
 
 
 # convert to raster
+#land <- st_as_stars(land)
+#save(land, file="./data/land.rda", compress="xz")
+
+
 data(land)
 library(raster)
 
 land <- brick(land)
+save(land, file="./data/land.rda", compress="xz")
+
+
+# convert to stars
+library(stars)
+library(sf)
+library(raster)
+data(land, package = "tmap")
+
+lvls <- levels(land)
+m <- land[]
+ms <- list()
+for (i in 1:4) {
+	if (i %in% 1:2) {
+		mi <- factor(m[,i], levels = lvls[[i]]$ID, labels = lvls[[i]]$cover)
+	} else {
+		mi <- m[,i]
+	}
+	dim(mi) <- dim(land)[2:1]
+	#if (i %in% 1:2) class(mi) <- c("factor", "matrix")
+	names(dim(mi)) <- c("x", "y")
+	ms[[i]] <- mi
+}
+names(ms) <- names(land)
+
+ncols <- ncol(land)
+nrows <- nrow(land)
+bbx <- st_bbox(land)
+crs <- st_crs(land)
+
+dimensions <- structure(list(
+	x = structure(list(from = 1, to = ncols, offset = bbx["xmin"],
+				  delta = (bbx["xmax"] - bbx["xmin"]) / ncols, refsys = crs$proj4string, point = NULL, values = NULL),
+				  class = "dimension"),
+	y = structure(list(from = 1, to = nrows, offset = bbx["ymax"],
+					   delta = (bbx["ymin"] - bbx["ymax"]) / nrows, refsys = crs$proj4string, point = NULL, values = NULL),
+				  class = "dimension")),
+	raster = stars:::get_raster(), class = "dimensions")
+	
+s1 <- stars::st_as_stars(ms)
+attr(s1, "dimensions") <- dimensions
+
+land <- s1
+
 save(land, file="./data/land.rda", compress="xz")
 
