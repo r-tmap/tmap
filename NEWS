@@ -1,4 +1,7 @@
-version 2.3-2 (devel)
+version 3.0
+- rasters now implemented using the stars package (instead of the raster package)
+
+version 2.3-2
 - probably last version before release of tmap 3.0
 - many small improvements and bug fixes (see github)
 - first stars supported (full support expected in tmap 3.0)

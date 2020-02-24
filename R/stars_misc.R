@@ -78,7 +78,7 @@ st_is_merc <- function(x) {
 
 # temp solution to https://github.com/r-spatial/mapview/issues/256
 cut_world_edges <- function(x) {
-	if (!sf::st_is_longlat(x)) {
+	if (!sf::st_is_longlat(x) || is_curvilinear(x)) {
 		x
 	} else {
 		dims <- attr(st_dimensions(x), "raster")$dimensions

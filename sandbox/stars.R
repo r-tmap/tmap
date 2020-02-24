@@ -17,7 +17,7 @@ tm_shape(land) + tm_raster("elevation") +
 	tm_borders()
 
 # Facets by
-qtm(land) + tm_facets(by = "cover") # still very slow
+qtm(land) + tm_facets(by = "cover_cls") # still very slow
 
 
 # Cropped raster (view mode: just a different starting view)
