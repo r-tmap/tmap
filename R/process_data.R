@@ -33,8 +33,8 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 		
 		names(X) <- levels(by)
 		if (cls[1]=="col" || !vary) {
-			M <- matrix(unlist(X), ncol=nby)
-			sel  <- matrix(unlist(Xsel), ncol=nby)
+			M <- do.call(cbind, X) #matrix(unlist(X), ncol=nby)
+			sel  <- do.call(cbind, Xsel) #matrix(unlist(Xsel), ncol=nby)
 			
 			attr(M, "sel") <- sel
 			attr(M, "anyNA") <- apply(is.na(M) & sel, MARGIN = 2, any)

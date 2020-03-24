@@ -183,8 +183,7 @@ qtm <- function(shp,
 		arg
 	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)
 
-	g <- do.call("tm_shape", c(list(shp=shp, projection=projection, bbox = bbox), args2[["tm_shape"]]))
-	g$tm_shape$shp_name <- shp_name
+	g <- do.call("tm_shape", c(list(shp=shp, name = shp_name, projection=projection, bbox = bbox), args2[["tm_shape"]]))
 	g$tm_shape$check_shape <- FALSE
 
 	g <- g + tm_basemap(basemaps)
