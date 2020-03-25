@@ -32,4 +32,14 @@ autoplot(microbenchmark(times = 5,
 ))
 
 
+autoplot(microbenchmark(times = 5,
+						print(qtm(World, fill = "HPI")),
+						print(mapview(World, zcol = "HPI"))
+))
+
+
+autoplot(microbenchmark(times = 1000,
+						"A" %in% LETTERS,
+						any("A" == LETTERS)))
+
 
