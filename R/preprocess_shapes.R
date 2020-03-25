@@ -84,7 +84,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 		
 		shpnames <- stars::st_get_dimension_values(shp, dvars[1]) # select values for 3rd dimension
-		if (is.null(shpnames)) shpnames <- names(shp)
+		
+		treat_as_by <- !is.null(shpnames)
+		if (!treat_as_by) shpnames <- names(shp)
 		
 		if (length(shp) == 1) {
 			data <- as.data.frame(matrix(shp[[1]], ncol = length(shpnames)))
@@ -174,6 +176,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		#attr(data, "raster.projected") <- raster.projected
 		
 		attr(data, "is.RGB") <- is.RGB
+		attr(data, "treat_as_by") <- treat_as_by
+		
 		
 		type <- "raster"
 		

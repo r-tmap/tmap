@@ -1,4 +1,6 @@
 library(devtools)
+dev_mode()
+
 library(microbenchmark)
 library(ggplot2)
 
@@ -41,5 +43,18 @@ autoplot(microbenchmark(times = 5,
 autoplot(microbenchmark(times = 1000,
 						"A" %in% LETTERS,
 						any("A" == LETTERS)))
+
+
+library(spDataLarge)
+prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
+(prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
+
+prec1 = dplyr::slice(prec, time, 1)
+
+autoplot(microbenchmark(times = 5,
+						print(tm_shape(prec1) + tm_raster()),
+						plot(prec1)))
+
+
 
 

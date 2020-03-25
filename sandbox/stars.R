@@ -97,7 +97,10 @@ qtm(p)
 prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
 (prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
 
-tm_shape(prec) + tm_raster() # works but 1) very slow 2) free scales should be off
+
+prec1_10 = dplyr::slice(prec, time, 1:10)
+
+tm_shape(prec1_10) + tm_raster() # works but 1) very slow 2) free scales should be off
 
 
 
