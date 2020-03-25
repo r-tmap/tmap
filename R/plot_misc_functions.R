@@ -491,7 +491,7 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 
 		coor <- st_coordinates(gints)[,d]
 
-		ids2 <- unlist(mapply(rep, 1:length(wgint), gnrs, SIMPLIFY = FALSE))
+		ids2 <- unlist(mapply(rep, 1:length(wgint), gnrs, SIMPLIFY = FALSE), use.names = FALSE)
 		j <- 1L
 		for (i in which(gint)) {
 			cogrid[[i]] <- unname(coor[ids2 == j])
@@ -499,8 +499,8 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 			j <- j + 1L
 		}
 		
-		cogrid <- unlist(cogrid)
-		ids <- unlist(ids)
+		cogrid <- unlist(cogrid, use.names = FALSE)
+		ids <- unlist(ids, use.names = FALSE)
 	}
 	list(cogrid = cogrid, ids = ids)
 }
@@ -703,7 +703,7 @@ polylineGrob2sfLines <- function(gL) {
 		coords <- cbind(gLi$x, gLi$y)
 		
 		if (length(gLi$id.lengths) > 1) {
-			ids <- unlist(mapply(rep, 1:length(gLi$id.lengths), gLi$id.lengths))
+			ids <- unlist(mapply(rep, 1:length(gLi$id.lengths), gLi$id.lengths), use.names = FALSE)
 			coords <- mapply(cbind, split(as.numeric(gLi$x), ids), split(as.numeric(gLi$y), ids))
 			st_multilinestring(coords)
 		} else {

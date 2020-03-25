@@ -292,10 +292,10 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 				 stringsAsFactors = FALSE) else NULL,
 			if (gt$logo.show) data.frame(type="logo",
 				height=mapply(function(lh, m) {
-					(max(unlist(lh)) + m*2) * lineHeight
+					(max(unlist(lh, use.names = FALSE)) + m*2) * lineHeight
 				}, gt$logo.height, gt$logo.margin, SIMPLIFY = TRUE, USE.NAMES = FALSE),#  sapply(gt$logo.height, function(lh) (lh+1) * lineHeight),
 				width=mapply(function(lw, m) {
-					(sum(unlist(lw) + m) + m) * lineWidth
+					(sum(unlist(lw, use.names = FALSE) + m) + m) * lineWidth
 				}, gt$logo.width, gt$logo.margin, SIMPLIFY = TRUE, USE.NAMES = FALSE),#  sapply(gt$logo.height, function(lh) (lh+1) * lineHeight),
 				#width=sapply(gt$logo.width, function(lw) (lw+1) * lineWidth),
 				position1=sapply(gt$logo.position, "[", 1, USE.NAMES=FALSE),
@@ -480,7 +480,7 @@ meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 				grt
 			}), snap=rep(elemSnapToRight, nrow(el)))
 		})
-		elemSnapToRight <- unlist(lapply(elemGrobs, attr, "snap"))
+		elemSnapToRight <- unlist(lapply(elemGrobs, attr, "snap"), use.names = FALSE)
 		elemGrobs <- do.call("c", elemGrobs)
 		
 		

@@ -42,11 +42,11 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 
 			return(M)
 		} else if (!free.scales) {
-			Y <- unlist(X)
-			attr(Y, "sel") <- unlist(Xsel)
+			Y <- unlist(X, use.names = FALSE)
+			attr(Y, "sel") <- unlist(Xsel, use.names = FALSE)
 		} else {
 			Y <- X
-			attr(Y, "sel") <- matrix(unlist(Xsel), ncol=nby)
+			attr(Y, "sel") <- do.call(cbind, Xsel) #matrix(unlist(Xsel), ncol=nby)
 		}
 		
 		attr(Y, "anyNA") <- vapply(X, function(i) any(is.na(i) & attr(i, "sel")), logical(1))
@@ -75,15 +75,15 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 					})
 				}
 				
-				datavec <- unlist(data)
+				datavec <- unlist(data, use.names = FALSE)
 				if (all(cls == "uni")) attr(datavec, "units") <- as.character(uni)
 			} else {
 				xlvls_list <- mapply(function(d, cl){
 					if (cl=="fac") levels(d) else na.omit(unique(d))
 				}, data, cls, SIMPLIFY=FALSE)
 				
-				xlvls <- unique(unlist(xlvls_list))
-				datavec <- factor(unlist(lapply(data, as.character)), levels=xlvls)
+				xlvls <- unique(unlist(xlvls_list, use.names = FALSE))
+				datavec <- factor(unlist(lapply(data, as.character), use.names = FALSE), levels=xlvls)
 			}
 
 			attr(datavec, "sel") <- sel

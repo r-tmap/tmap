@@ -379,12 +379,12 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				typesList[[name]] <- NULL
 				groupsList[[name]] <- NULL
 			}
-			attr(layerIds, "types") <- unlist(typesList)
-			attr(layerIds, "groups") <- unlist(groupsList)
+			attr(layerIds, "types") <- unlist(typesList, use.names = FALSE)
+			attr(layerIds, "groups") <- unlist(groupsList, use.names = FALSE)
 			assign("layerIdsNew", layerIds, envir = .TMAP_CACHE)
 			
-			overlays <- if (length(groupsList) == 0) character(0) else intersect(overlays, unlist(groupsList))
-			overlays_tiles <- if (length(groupsList) == 0) character(0) else intersect(overlays_tiles, unlist(groupsList))
+			overlays <- if (length(groupsList) == 0) character(0) else intersect(overlays, unlist(groupsList, use.names = FALSE))
+			overlays_tiles <- if (length(groupsList) == 0) character(0) else intersect(overlays_tiles, unlist(groupsList, use.names = FALSE))
 			assign("overlays", overlays, envir = .TMAP_CACHE)
 			assign("overlays_tiles", overlays_tiles, envir = .TMAP_CACHE)
 		}

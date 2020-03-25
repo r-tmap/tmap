@@ -137,7 +137,7 @@ process_gps <- function(gps, shps, x, gm, nx, nxl, interactive, return.asp) {
 			layerids <- unlist(mapply(function(i, n) {
 				rep(i, n)
 				#rep(i, ifelse(i %in% gm$layer_vary, nx, 1))
-			}, 1:nLayers, nxl, SIMPLIFY = FALSE))
+			}, 1:nLayers, nxl, SIMPLIFY = FALSE), use.names = FALSE)
 			
 			layers <- mapply(function(i, n) {
 				if (n > 1) {
@@ -186,7 +186,7 @@ process_gps <- function(gps, shps, x, gm, nx, nxl, interactive, return.asp) {
 				} else {
 					gpsL[[1]]$shp_name[i]
 				}
-			}, 1:nLayers, nxl, SIMPLIFY = FALSE)) # gpsL[[1]]$shp_name[layerids]
+			}, 1:nLayers, nxl, SIMPLIFY = FALSE), use.names = FALSE) # gpsL[[1]]$shp_name[layerids]
 			
 			gps <- list(plot1 = c(layers, gpsL))
 			
@@ -210,7 +210,7 @@ process_gps <- function(gps, shps, x, gm, nx, nxl, interactive, return.asp) {
 			gm$shape.nshps <- length(shps)
 			gm$shape.diff_shapes <- FALSE
 			
-			gm$shape.shps_lengths <- unlist(mapply(rep, gm$shape.shps_lengths, nxl, SIMPLIFY = FALSE))
+			gm$shape.shps_lengths <- unlist(mapply(rep, gm$shape.shps_lengths, nxl, SIMPLIFY = FALSE), use.names = FALSE)
 				
 				
 			#	append(gm$shape.shps_lengths, rep(gm$shape.shps_lengths[gm$layer_vary], nx - 1), after = gm$layer_vary)

@@ -123,7 +123,7 @@ add_zero_borders_to_3d_array <- function(x, perc=NA, n=NULL, height.inch=NULL, t
 	res <- lapply(1:dims[3], function(i) {
 		rbind(cbind(x[,,i], matrix(0, nrow=nrow(x), ncol=borders[2])), matrix(0, nrow=borders[1], ncol=ncol(x)+borders[2]))
 	})
-	array(unlist(res), dim = c(dim(x)[1]+borders[1], dim(x)[2]+borders[2], dim(x)[3]))
+	array(unlist(res, use.names = FALSE), dim = c(dim(x)[1]+borders[1], dim(x)[2]+borders[2], dim(x)[3]))
 }
 
 
@@ -173,7 +173,7 @@ split_icon <- function(icon) {
 }
 
 merge_icons <- function(icons, icon_names = NULL) {
-	list_names <- unique(unlist(lapply(icons, names)))
+	list_names <- unique(unlist(lapply(icons, names), use.names = FALSE))
 	names(list_names) <- list_names
 	
 	res <- lapply(list_names, function(ln) {

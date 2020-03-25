@@ -215,12 +215,12 @@ submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) 
 	
 	numbers <- is.na(items)
 	
-	if (all(numbers)) return(unlist(x))
+	if (all(numbers)) return(unlist(x, use.names = FALSE))
 	
 	new_id <- id + 1:sum(!numbers)
 	
 	x2 <- integer(n)
-	x2[numbers] <- unlist(x[numbers])
+	x2[numbers] <- unlist(x[numbers], use.names = FALSE)
 	x2[!numbers] <- new_id
 	
 	shapeLib <- c(shapeLib, items[!numbers])

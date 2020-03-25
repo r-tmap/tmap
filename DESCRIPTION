@@ -16,13 +16,13 @@ Authors@R: c(
 	)
 Description: Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps.
 Version: 3.0
-Date: 2020-02-24
+Date: 2020-03-25
 Depends:
     R (>= 3.0),
     methods
 Imports:
 	tmaptools (>= 3.0),
-    sf (>= 0.8-2),
+    sf (>= 0.9),
     stars,
     units (>= 0.6-1),
     grid,
@@ -51,4 +51,4 @@ Suggests:
 URL: https://github.com/mtennekes/tmap
 BugReports: https://github.com/mtennekes/tmap/issues
 VignetteBuilder: knitr
-RoxygenNote: 7.0.2
+RoxygenNote: 7.1.0

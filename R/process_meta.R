@@ -229,7 +229,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 						lapply(panel.names[[2]], function(n2) {
 							paste(n1, n2, sep = " / ")
 						})
-					}))
+					}), use.names = FALSE)
 				} else {
 					title <- panel.names
 				}

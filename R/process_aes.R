@@ -199,16 +199,16 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		areas <- NULL
 		
 		if (type == "line") {
-			sel <- !is.na(unname(unlist(dts[["line.lwd"]])))
+			sel <- !is.na(unname(unlist(dts[["line.lwd"]], use.names = FALSE)))
 		} else if (type == "symbol") {
-			sel <- !is.na(unname(unlist(dts[["symbol.size"]])))
+			sel <- !is.na(unname(unlist(dts[["symbol.size"]], use.names = FALSE)))
 		} else {
 			sel <- NA	
 		}
 	}
 	
 	if (type == "text") {
-		text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character)), nrow=npol, ncol=nx) else as.character(data[[xtext]])
+		text <- if (nx > 1) matrix(unlist(lapply(data[, xtext], as.character), use.names = FALSE), nrow=npol, ncol=nx) else as.character(data[[xtext]])
 		if (!is.na(g$case)) text <- if(g$case=="upper") toupper(text) else tolower(text)
 	} else {
 		text <- NULL

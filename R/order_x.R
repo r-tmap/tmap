@@ -135,9 +135,9 @@ order_x <- function(x, shps, datasets, types, gm) {
 	xs2 <- lapply(xs_shp, "[[", 1)
 	shps2 <- do.call(c, lapply(xs_shp, "[[", 2))
 	
-	k <- unname(unlist(lapply(xs2, attr, "k")))
+	k <- unname(unlist(lapply(xs2, attr, "k"), use.names = FALSE))
 	
-	nms <- unname(unlist(lapply(xs2, attr, "names")))
+	nms <- unname(unlist(lapply(xs2, attr, "names"), use.names = FALSE))
 	
 	gm$shape.id <- unname(which(nms == "tm_shape"))
 	gm$shape.nshps <- length(gm$shape.id)

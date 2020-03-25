@@ -175,16 +175,16 @@ legend_portr <- function(x, gt, lineHeight, m) {
 				i
 			})
 			fill_len <- vapply(fill_list, length, integer(1))
-			fill2 <- unlist(fill_list)
+			fill2 <- unlist(fill_list, use.names = FALSE)
 			
 			# process x,y,w,h
-			xs2 <- unlist(mapply(rep, xs, fill_len, SIMPLIFY = FALSE))
-			ws2 <- unlist(mapply(rep, ws, fill_len, SIMPLIFY = FALSE))
+			xs2 <- unlist(mapply(rep, xs, fill_len, SIMPLIFY = FALSE), use.names = FALSE)
+			ws2 <- unlist(mapply(rep, ws, fill_len, SIMPLIFY = FALSE), use.names = FALSE)
 			
 			ys2 <- unlist(mapply(function(y, h, k) {
 				seq(y+h/2, y-h/2, length.out=k*2+1)[seq(2, k*2, by=2)]
-			}, ys, hs, fill_len, SIMPLIFY = FALSE))
-			hs2 <- unlist(mapply(function(h, k) rep(h/k, k), hs, fill_len, SIMPLIFY = FALSE))
+			}, ys, hs, fill_len, SIMPLIFY = FALSE), use.names = FALSE)
+			hs2 <- unlist(mapply(function(h, k) rep(h/k, k), hs, fill_len, SIMPLIFY = FALSE), use.names = FALSE)
 			
 			rectGrob(x=xs2, 
 					 y=ys2, 
@@ -282,7 +282,7 @@ legend_portr <- function(x, gt, lineHeight, m) {
 			xsplits <- apply(attr(wstext, "cw") * newsize, 2, max)
 			xsplitscs <- cumsum(xsplits)
 			
-			legend.labels2 <- unlist(splits)
+			legend.labels2 <- unlist(splits, use.names = FALSE)
 			
 			if (is.na(align) || align=="left") {
 				x2 <- mx*2+wsmax + rep(c(0, xsplitscs[-3]), times=length(legend.labels))
@@ -442,16 +442,16 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 				i
 			})
 			fill_len <- vapply(fill_list, length, integer(1))
-			fill2 <- unlist(fill_list)
+			fill2 <- unlist(fill_list, use.names = FALSE)
 			
 			# process x,y,w,h
-			ys2 <- unlist(mapply(rep, ys, fill_len, SIMPLIFY = FALSE))
-			hs2 <- unlist(mapply(rep, hs, fill_len, SIMPLIFY = FALSE))
+			ys2 <- unlist(mapply(rep, ys, fill_len, SIMPLIFY = FALSE), use.names = FALSE)
+			hs2 <- unlist(mapply(rep, hs, fill_len, SIMPLIFY = FALSE), use.names = FALSE)
 			
 			xs2 <- unlist(mapply(function(x, w, k) {
 				seq(x-w/2, x+w/2, length.out=k*2+1)[seq(2, k*2, by=2)]
-			}, xs, ws, fill_len, SIMPLIFY = FALSE))
-			ws2 <- unlist(mapply(function(w, k) rep(w/k, k), ws, fill_len, SIMPLIFY = FALSE))
+			}, xs, ws, fill_len, SIMPLIFY = FALSE), use.names = FALSE)
+			ws2 <- unlist(mapply(function(w, k) rep(w/k, k), ws, fill_len, SIMPLIFY = FALSE), use.names = FALSE)
 			
 			rectGrob(x=xs2, 
 					 y=ys2, 
@@ -774,16 +774,16 @@ plot_compass <- function(gt, just) {
 		cd3 <- seq(0, 1.75, by=.25) * pi
 		
 		x <- list(.5,
-				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5)),
+				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5), use.names = FALSE),
 				  .5 + c(0, cr[1]-.005, 0, -cr[1]+.005, 0, 0, 0, 0),
-				  unlist(lapply(.5 + sin(cd2) * cr[1], c, .5)),
-				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE)))
+				  unlist(lapply(.5 + sin(cd2) * cr[1], c, .5), use.names = FALSE),
+				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE))
 		
 		y <- list(.5,
-				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5)),
+				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5), use.names = FALSE),
 				  .5 + c(0, 0, 0, 0, 0, cr[1]-.005, 0, -cr[1]+.005),
-				  unlist(lapply(.5 + cos(cd2) * cr[1], c, .5)),
-				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE)))
+				  unlist(lapply(.5 + cos(cd2) * cr[1], c, .5), use.names = FALSE),
+				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE))
 		
 	} else if (gt$compass.type=="rose") {
 		cr <- c(.45, .42, .2, .17, .1)
@@ -802,13 +802,13 @@ plot_compass <- function(gt, just) {
 		
 		
 		x <- list(.5,
-				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5)),
-				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE)),
+				  unlist(lapply(.5 + sin(cd) * cr[1], c, .5), use.names = FALSE),
+				  .5 + unlist(mapply(c, sin(cd3) * cr[4], sin(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE),
 				  c(rep.int(s, 2), rep.int(s2, 2)))
 		
 		y <- list(.5,
-				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5)),
-				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE)),
+				  unlist(lapply(.5 + cos(cd) * cr[1], c, .5), use.names = FALSE),
+				  .5 + unlist(mapply(c, cos(cd3) * cr[4], cos(cd3) * cr[5], SIMPLIFY=FALSE), use.names = FALSE),
 				  c(s[c(10:12, 10:12, 1:3, 1:3, 7:9, 7:9, 4:6, 4:6)], s2[c(4:6, 1:3, 10:12, 7:9, 10:12, 7:9, 4:6, 1:3)]))
 		
 	}

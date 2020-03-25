@@ -25,5 +25,10 @@ profile(print(tm_shape(prec1) + tm_raster()))
 
 
 
+
+
 tm_shape(prec) + tm_raster() + tm_facets(free.scales = FALSE) # even slower
 
+
+
+profile(print(tm_shape(World) + tm_polygons("HPI")))

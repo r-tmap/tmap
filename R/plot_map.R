@@ -71,11 +71,11 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				if (all(abs(bb_real-bb_target)< 1e-3)) {
 					width <- 1
 					height <- 1
-					cent <- c(mean(c(bb_target[1], bb_target[3])), mean(c(bb_target[2], bb_target[4])))
+					cent <- c(mean.default(c(bb_target[1], bb_target[3])), mean.default(c(bb_target[2], bb_target[4])))
 				} else {
 					width <- (bb_real[3] - bb_real[1]) / (bb_target[3] - bb_target[1])
 					height <- (bb_real[4] - bb_real[2]) / (bb_target[4] - bb_target[2])
-					cent <- c(mean(c(bb_real[1], bb_real[3])), mean(c(bb_real[2], bb_real[4])))
+					cent <- c(mean.default(c(bb_real[1], bb_real[3])), mean.default(c(bb_real[2], bb_real[4])))
 				}
 				
 				x <- (cent[1] - bb_target[1]) / (bb_target[3] - bb_target[1])

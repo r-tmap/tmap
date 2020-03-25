@@ -56,7 +56,7 @@ regular_intervals <- function (x, epsilon = 1e-10) {
 				x$end - x$start
 			else return(FALSE)
 		}
-		abs(diff(range(ud))/mean(ud)) < epsilon
+		abs(diff(range(ud))/mean.default(ud)) < epsilon
 	}
 }
 

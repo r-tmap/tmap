@@ -237,7 +237,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	shape.unit <- ifelse(gm$shape.unit=="metric", "km", ifelse(gm$shape.unit=="imperial", "mi", gm$shape.unit))
 	
 	if (longlat) {
-		latitude <- mean(bbx[c(2,4)])
+		latitude <- mean.default(bbx[c(2,4)])
 		bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
 		ad <- suppressWarnings({approx_distances(bbxll, projection=gm$shape.master_crs)})
 		to <- as.numeric(units::set_units(ad$hdist, as_units(shape.unit), mode = "standard"))
@@ -302,13 +302,13 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 	if (!is.na(pasp)) {
 		if (pasp > sasp) {
 			## landscape map
-			xdiff <- if (longlat) diff(ylim) * pasp / cos((mean(ylim) * pi)/180) else diff(ylim) * (pasp)
-			bbx[c(1,3)] <- mean(xlim) + (xdiff * c(-.5, .5))
+			xdiff <- if (longlat) diff(ylim) * pasp / cos((mean.default(ylim) * pi)/180) else diff(ylim) * (pasp)
+			bbx[c(1,3)] <- mean.default(xlim) + (xdiff * c(-.5, .5))
 			
 		} else {
 			## portrait map
-			ydiff <- if (longlat) (diff(xlim) * cos((mean(ylim) * pi)/180)) / pasp else diff(xlim) / (pasp)
-			bbx[c(2,4)] <- mean(ylim) + (ydiff * c(-.5, .5))
+			ydiff <- if (longlat) (diff(xlim) * cos((mean.default(ylim) * pi)/180)) / pasp else diff(xlim) / (pasp)
+			bbx[c(2,4)] <- mean.default(ylim) + (ydiff * c(-.5, .5))
 		}
 	}
 	

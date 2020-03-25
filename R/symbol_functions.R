@@ -8,7 +8,7 @@ symbol_legend_y_correction <- function(x) {
 		} else 0
 	})	
 	if (is_num) {
-		unlist(res)
+		unlist(res, use.names = FALSE)
 	} else {
 		res
 	}

@@ -121,7 +121,7 @@ num2pal <- function(x,
 		} else {
 			if ((n %% 2) == 1) {
 				# number of classes is odd, so take middle class (average of those breaks)
-				midpoint <- mean(breaks[c((n+1) / 2, (n+3) / 2)])
+				midpoint <- mean.default(breaks[c((n+1) / 2, (n+3) / 2)])
 			} else {
 				midpoint <- breaks[(n+2) / 2]
 			}
@@ -301,6 +301,6 @@ cont_breaks <- function(breaks, n=101) {
 	unlist(lapply(1L:(length(breaks)-1L), function(i) {
 		y <- seq(breaks[i], breaks[i+1], length.out=x[i+1]-x[i]+1)	
 		if (i!=1) y[-1] else y
-	}))
+	}), use.names = FALSE)
 }
 
