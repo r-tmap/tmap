@@ -16,7 +16,7 @@
 #' @param sync logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE} if the facets have the same bounding box. This is generally the case when \code{\link[raster:raster-package]{raster}}s are plotted, or when free.coords is \code{FALSE}.
 #' @param showNA If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{table}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.
 #' @param textNA text used for facets of missing values.
-#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_symbols}} and line color from \code{\link{tm_lines}}.
+#' @param free.scales logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Specific scales can be set with \code{free.scales.x}, where \code{x} is the name of the aesthetic, e.g. \code{"symbol.col"}. By default, \code{free.scales} is \code{TRUE}, unless the \code{by} argument is used, the \code{along} argument is used, or a \code{stars} object with a third dimension is shown.
 #' @param free.scales.fill logical. Should the color scale for the choropleth be free?
 #' @param free.scales.symbol.size logical. Should the symbol size scale for the symbol map be free?
 #' @param free.scales.symbol.col logical. Should the color scale for the symbol map be free?
@@ -45,16 +45,16 @@ tm_facets <- function(by=NULL,
 					  sync=NA,
 					  showNA=NA,
 					  textNA="Missing",
-					  free.scales=is.null(by) && is.null(along),
-					  free.scales.fill=free.scales,
-					  free.scales.symbol.size=free.scales,
-					  free.scales.symbol.col=free.scales,
-					  free.scales.symbol.shape=free.scales,
-					  free.scales.text.size=free.scales,
-					  free.scales.text.col=free.scales,
-					  free.scales.line.col=free.scales,
-					  free.scales.line.lwd=free.scales,
-					  free.scales.raster=free.scales,
+					  free.scales=NULL, #is.null(by) && is.null(along),
+					  free.scales.fill=NULL, #free.scales,
+					  free.scales.symbol.size=NULL, #free.scales,
+					  free.scales.symbol.col=NULL, #free.scales,
+					  free.scales.symbol.shape=NULL, #free.scales,
+					  free.scales.text.size=NULL, #free.scales,
+					  free.scales.text.col=NULL, #free.scales,
+					  free.scales.line.col=NULL, #free.scales,
+					  free.scales.line.lwd=NULL, #free.scales,
+					  free.scales.raster=NULL, #free.scales,
 					  inside.original.bbox=FALSE,
 					  scale.factor=2,
 					  drop.shapes=drop.units) {

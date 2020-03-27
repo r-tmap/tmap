@@ -34,12 +34,20 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	scale <- gt$scale
 	
-	if (g$tm_shape$by[1]=="") {
+	if (!is.null(data) && attr(data, "treat_as_by")) {
+		data$GROUP_BY <- factor("_NA_")
+		by <- NA
+		ncol <- NA
+		nrow <- NA
+		panel.names <- setdiff(names(data), c("tmapfilter", "GROUP_BY"))
+		treat_by_count <- length(panel.names)
+	} else if (g$tm_shape$by[1]=="") {
 		data$GROUP_BY <- factor("_NA_")
 		by <- NA
 		ncol <- NA
 		nrow <- NA
 		panel.names <- NA
+		treat_by_count <- 1
 	} else {
 		if (!all(g$tm_shape$by %in% names(data))) stop("Variable(s) \"", paste(setdiff(g$tm_shape$by, names(data)), collapse=", "), "\" not found in ", g$tm_shape$shp_name, call.=FALSE)
 		
@@ -72,6 +80,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 			nrow <- nlevels(d2[[1]])
 			panel.names <- list(levels(d2[[1]]), levels(d2[[2]]))
 		}
+		treat_by_count <- 1
 	}
 	
 	a <- g$tm_shape$along
@@ -336,8 +345,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 		}
 	}
 
-	
-	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, gtiles, list(add_legends=add_legends))
+	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), treat_by_count = treat_by_count, data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, gtiles, list(add_legends=add_legends))
 }
 
 ###############################

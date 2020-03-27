@@ -66,6 +66,15 @@ process_tm <- function(x, gt, gm, interactive) {
 		gf <- if (facet.ids[i]==0) tm_facets()$tm_facets else x[[facet.ids[i]]]
 		gf$shp_name <- x[[shape.id.orig[i]]]$shp_name
 		gf$shp_nr <- ifelse(!is.null(gf$by) || !is.null(gf$along), i, 0)
+		
+		if (is.null(gf$free.scales)) {
+			gf$treat_as_by <- !is.null(x[[shape.id.orig[i]]]$data) && attr(x[[shape.id.orig[i]]]$data, "treat_as_by")
+			if (gf$treat_as_by) gf$call <- c(gf$call, "free.scales")
+			gf$free.scales <- is.null(gf$along) && !gf$treat_as_by
+		} 
+		free_scales_id <- which(substr(names(gf), 1, 12) == "free.scales.")
+		for (f in free_scales_id) if (is.null(gf[[f]])) gf[[f]] <- gf$free.scales
+		
 		gf$by <- if (is.null(gf$by)) "" else gf$by
 		gf$along <- if (is.null(gf$along)) "" else gf$along
 		gf
@@ -176,7 +185,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	
 	## get by vector
 	data_by <- lapply(gp, function(i)i$data_by)
-	
+
 	## for raster: ignore drop.units
 	is_raster <- lapply(gp, function(i)!is.null(i$raster))
 	
@@ -190,8 +199,14 @@ process_tm <- function(x, gt, gm, interactive) {
 	}, data_by, is_raster, SIMPLIFY=FALSE)
 	
 	
+	
+	## get treat_by_counts vector
+	treat_by_counts <- lapply(gp, function(i)i$treat_by_count)
+
 	## check if by is consistent among groups
 	by_counts <- vapply(data_by, nlevels, integer(1))
+	if (any(treat_by_counts > 1)) by_counts[treat_by_counts>1] <- treat_by_counts[treat_by_counts>1]
+	
 	if (sum(by_counts>1)>1) {
 		by_counts_pos <- by_counts[by_counts>1]
 		if (any(by_counts_pos[-1]!=by_counts_pos[1])) stop("Number of facets defined by the 'by' argument of tm_facets are different for the groups.", call. = FALSE)
@@ -271,8 +286,7 @@ process_tm <- function(x, gt, gm, interactive) {
 		if (!is.null(x$border.lwd)) x$border.lwd <- x$border.lwd * scale
 		x
 	})
-	
-	
+
 	gps <- mapply(function(x, i){
 		x <- lapply(x, function(xx) {
 			within(xx, {
@@ -327,38 +341,6 @@ process_tm <- function(x, gt, gm, interactive) {
 			})
 		})
 
-		# # process credits text per facet
-		# gmeta$credits.show <- sapply(gmeta$credits.show, "[[", i)
-		# if (!is.null(gmeta$credits.text)) gmeta$credits.text <- get_text_i(gmeta$credits.text, i)
-		# #if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
-		# gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
-		# 		"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
-		# 		"credits.position", "credits.just", "credits.id")] <- lapply(
-		# 			gmeta[c("credits.text", "credits.size", "credits.col", "credits.alpha", "credits.align",
-		# 					"credits.bg.color", "credits.bg.alpha", "credits.fontface", "credits.fontfamily",
-		# 					"credits.position", "credits.just", "credits.id")],
-		# 			function(gm) {
-		# 				gm[gmeta$credits.show]	
-		# 			})
-		# gmeta$credits.show <- any(gmeta$credits.show)
-		# 
-		# # process logos per facet
-		# gmeta$logo.show <- sapply(gmeta$logo.show, "[[", i)
-		# if (!is.null(gmeta$logo.file)) {
-		# 	gmeta$logo.file <- lapply(gmeta$logo.file, function(lf)lf[[i]])
-		# 	gmeta$logo.height <- lapply(gmeta$logo.height, function(lh)lh[[i]])
-		# 	gmeta$logo.width <- lapply(gmeta$logo.width, function(lw)lw[[i]])
-		# }
-		# #if (!is.null(gmeta$credits.text)) gmeta$credits.text <- sapply(gmeta$credits.text, "[[", i)
-		# gmeta[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")] <- lapply(
-		# 			gmeta[c("logo.file", "logo.position", "logo.just", "logo.height", "logo.width", "logo.halign", "logo.margin", "logo.id")],
-		# 			function(gm) {
-		# 				gm[gmeta$logo.show]	
-		# 			})
-		# gmeta$logo.show <- any(gmeta$logo.show)
-		# 
-		# x$tm_layout <- gmeta
-		# x$tm_layout$title <- x$tm_layout$title[i]
 		x
 	}, gps, 1:nx, SIMPLIFY=FALSE)
 

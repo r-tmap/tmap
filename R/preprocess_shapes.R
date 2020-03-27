@@ -16,7 +16,6 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
 	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))) {
-		
 		if (inherits(shp, "stars_proxy")) {
 			shp <- st_as_stars(shp, downsample = get_downsample(dim(shp)))
 		}
@@ -86,7 +85,13 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		shpnames <- stars::st_get_dimension_values(shp, dvars[1]) # select values for 3rd dimension
 		
 		treat_as_by <- !is.null(shpnames)
-		if (!treat_as_by) shpnames <- names(shp)
+		
+		if (treat_as_by) {
+			by_var <- dvars[1]
+		} else {
+			shpnames <- names(shp)
+			by_var <- NULL
+		}
 		
 		if (length(shp) == 1) {
 			data <- as.data.frame(matrix(shp[[1]], ncol = length(shpnames)))
@@ -177,6 +182,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		attr(data, "is.RGB") <- is.RGB
 		attr(data, "treat_as_by") <- treat_as_by
+		attr(data, "by_var") <- by_var
 		
 		
 		type <- "raster"
@@ -273,12 +279,13 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		#attr(shp2, "proj4string") <- st_crs(shp2)
 		
 		shpnames <- names(data)
-		
+		treat_as_by <- FALSE
 	}
 	
 	point.per <- if (is.na(y$point.per)) ifelse(type %in% c("points", "geometrycollection"), "segment", "feature") else y$point.per
 
 	attr(data, "shpnames") <- shpnames
+	attr(data, "treat_as_by") <- treat_as_by
 	
 	attr(shp2, "point.per") <- point.per
 	attr(shp2, "line.center") <- y$line.center

@@ -17,16 +17,16 @@ tm_facets(
   sync = NA,
   showNA = NA,
   textNA = "Missing",
-  free.scales = is.null(by) && is.null(along),
-  free.scales.fill = free.scales,
-  free.scales.symbol.size = free.scales,
-  free.scales.symbol.col = free.scales,
-  free.scales.symbol.shape = free.scales,
-  free.scales.text.size = free.scales,
-  free.scales.text.col = free.scales,
-  free.scales.line.col = free.scales,
-  free.scales.line.lwd = free.scales,
-  free.scales.raster = free.scales,
+  free.scales = NULL,
+  free.scales.fill = NULL,
+  free.scales.symbol.size = NULL,
+  free.scales.symbol.col = NULL,
+  free.scales.symbol.shape = NULL,
+  free.scales.text.size = NULL,
+  free.scales.text.col = NULL,
+  free.scales.line.col = NULL,
+  free.scales.line.lwd = NULL,
+  free.scales.raster = NULL,
   inside.original.bbox = FALSE,
   scale.factor = 2,
   drop.shapes = drop.units
@@ -57,7 +57,7 @@ tm_facets(
 
 \item{textNA}{text used for facets of missing values.}
 
-\item{free.scales}{logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Possible data variables are color from \code{\link{tm_fill}}, color and size from \code{\link{tm_symbols}} and line color from \code{\link{tm_lines}}.}
+\item{free.scales}{logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Specific scales can be set with \code{free.scales.x}, where \code{x} is the name of the aesthetic, e.g. \code{"symbol.col"}. By default, \code{free.scales} is \code{TRUE}, unless the \code{by} argument is used, the \code{along} argument is used, or a \code{stars} object with a third dimension is shown.}
 
 \item{free.scales.fill}{logical. Should the color scale for the choropleth be free?}
 

@@ -272,7 +272,16 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		# 	dcr$legend.text <- dcr$legend.misc$legend.text
 		# }
 		
-		legend.title <- rep(if (is.ena(g[[aname("title", xname)]])[1]) paste0(x, dcr$title_append) else g[[aname("title", xname)]], length.out = nx)
+		
+		legend.title <- rep(
+			if (attr(data, "treat_as_by")) {
+				attr(data, "by_var")
+			} else if (is.ena(g[[aname("title", xname)]])[1]) {
+				paste0(x, dcr$title_append)
+			} else {
+				g[[aname("title", xname)]]
+			}, 
+			length.out = nx)
 		legend.z <- if (is.na(g[[aname("legend.z", xname)]])) z else g[[aname("legend.z", xname)]]
 
 		# if (nx > 1 && gby[[fsname]]) {
