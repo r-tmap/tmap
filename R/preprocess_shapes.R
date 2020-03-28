@@ -87,7 +87,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		treat_as_by <- !is.null(shpnames)
 		
 		if (treat_as_by) {
-			by_var <- dvars[1]
+			by_var <- names(shp)[1]
 		} else {
 			shpnames <- names(shp)
 			by_var <- NULL
@@ -148,7 +148,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			data <- data.frame(PIXEL__COLOR = raster_colors(as.matrix(data[,rgb.vars]), use.colortable = FALSE, max.value = max.value))
 		} else {
-			if (is.na(raster_facets_vars[1])) {
+			if (is.na(raster_facets_vars[1]) || treat_as_by) {
 				raster_facets_vars <- shpnames
 			} else {
 				raster_facets_vars <- na.omit(raster_facets_vars)

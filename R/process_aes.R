@@ -69,8 +69,6 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	nx_fill <- if (is.na(fill[1])) 1 else if (is.matrix(fill)) ncol(fill) else 1 # backgrond for tm_text
 	
-	
-	
 	nx <- max(xlen, nx_fill)
 	
 	## make aesthetics same length and check whether they specified with variable names (e.g. vary...)

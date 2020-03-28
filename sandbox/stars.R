@@ -97,6 +97,8 @@ qtm(p)
 prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
 (prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
 
+prec1 = dplyr::slice(prec, time, 1)
+
 
 prec1_4 = dplyr::slice(prec, time, 1:4)
 
