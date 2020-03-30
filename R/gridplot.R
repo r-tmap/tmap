@@ -26,7 +26,7 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 			if (is.null(s2)) NULL else list(bbx = bb(s2), proj = sf::st_crs(s2))
 		})
 	} else {
-		bbxproj <- list(bbx = sf::st_bbox(shps[[masterID]]), proj = sf::st_crs(shps[[masterID]]))
+		bbxproj <- list(bbx = attr(shps[[masterID]], "bbox"), proj = sf::st_crs(shps[[masterID]]))
 	}
 	
 	external_grid_labels <- gmeta$grid.show && !gmeta$grid.labels.inside.frame
@@ -106,7 +106,7 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 		rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)
 		
 		## draw outside grid labels
-		treeGridLabels <- if (external_grid_labels && gmeta$grid.show && gmeta$grid.labels.show) {
+		treeGridLabels <- if (external_grid_labels && gmeta$grid.show && any(gmeta$grid.labels.show)) {
 			mapply(function(i, rw, cl) {
 				if (multi_shapes) {
 					proj <- bbxproj[[i]]$proj
@@ -122,8 +122,8 @@ gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.n
 				gTree(children=gList(
 					#cellplot((rw+1),cl, e=rectGrob(gp=gpar(fill="purple")), name="gridLabelsX"),
 					#cellplot(rw,(cl-1), e=rectGrob(gp=gpar(fill="grey")), name="gridLabelsY")), name=paste("gridLabels", i, sep="_"))
-					cellplot((rw+1),cl, clip = FALSE, e=plot_grid_labels_x(gt, scale=gt$scale), name="gridLabelsX"),
-					cellplot(rw,(cl-1), clip = FALSE, e=plot_grid_labels_y(gt, scale=gt$scale), name="gridLabelsY")), name=paste("gridLabels", i, sep="_"))
+					if (gmeta$grid.labels.show[1]) cellplot((rw+1),cl, clip = FALSE, e=plot_grid_labels_x(gt, scale=gt$scale), name="gridLabelsX") else NULL,
+					if (gmeta$grid.labels.show[2]) cellplot(rw,(cl-1), clip = FALSE, e=plot_grid_labels_y(gt, scale=gt$scale), name="gridLabelsY") else NULL), name=paste("gridLabels", i, sep="_"))
 			}, istart:iend, 
 			rep(gmeta$rowrange, each=mfcol, length.out=ni), 
 			rep(gmeta$colrange, times=mfrow, length.out=ni), SIMPLIFY=FALSE)

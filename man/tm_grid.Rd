@@ -25,7 +25,7 @@ tm_grid(
   labels.space.x = NA,
   labels.space.y = NA,
   labels.inside.frame = FALSE,
-  ticks = labels.show && !labels.inside.frame,
+  ticks = labels.show & !labels.inside.frame,
   lines = TRUE,
   ndiscr = 100,
   zindex = NA
@@ -59,7 +59,7 @@ tm_graticules(
 
 \item{alpha}{alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of \code{col} is taken.}
 
-\item{labels.show}{show tick labels}
+\item{labels.show}{show tick labels. Either one value for both \code{x} and \code{y} axis, or a vector two: the first for \code{x} and latter for \code{y}.}
 
 \item{labels.size}{font size of the tick labels}
 
@@ -88,7 +88,7 @@ tm_graticules(
 
 \item{labels.inside.frame}{Show labels inside the frame? By default \code{FALSE}}
 
-\item{ticks}{If \code{labels.inside.frame = FALSE}, should ticks can be drawn between the labels and the frame?}
+\item{ticks}{If \code{labels.inside.frame = FALSE}, should ticks can be drawn between the labels and the frame? Either one value for both \code{x} and \code{y} axis, or a vector two: the first for \code{x} and latter for \code{y}.}
 
 \item{lines}{If \code{labels.inside.frame = FALSE}, should grid lines can be drawn?}
 

@@ -452,6 +452,9 @@ process_meta_grid <- function(gg, gt, interactive) {
 			if (!"scientific" %in% names(grid.labels.format)) grid.labels.format$scientific <- FALSE
 			if (!"digits" %in% names(grid.labels.format)) grid.labels.format$digits <- NA
 			
+			grid.labels.show <- rep(grid.labels.show, length.out = 2)
+			grid.ticks <- rep(grid.ticks, length.out = 2)
+			
 		})
 	} else {
 		gg <- list(grid.show=FALSE)

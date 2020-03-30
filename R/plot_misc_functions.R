@@ -165,7 +165,6 @@ process_grid <- function(gt, bbx, proj, sasp) {
 			# normalize coordinates
 			grid.co.x <- (grid.x-bbx[1]) / (bbx[3] - bbx[1])
 			grid.co.y <- (grid.y-bbx[2]) / (bbx[4] - bbx[2])
-			
 		}
 		
 		## format grid labels
@@ -226,7 +225,7 @@ plot_grid_labels_x <- function(gt, scale) {
 
 	just <- ifelse(gt$grid.labels.rot[1] == 90, "right", ifelse(gt$grid.labels.rot[1] == 270, "left", ifelse(gt$grid.labels.rot[1] == 180, "bottom", "top")))
 	
-	if (gt$grid.ticks) {
+	if (gt$grid.ticks[1]) {
 		ticks <- polylineGrob(x=rep(cogridx, each = 2), y = rep(c(1-spacerX*.5-marginX,1), length(cogridx)), id = rep(1:length(cogridx), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))	
 	} else {
 		ticks <- NULL
@@ -258,7 +257,7 @@ plot_grid_labels_y <- function(gt, scale) {
 	
 	just <- ifelse(gt$grid.labels.rot[2] == 90, "bottom", ifelse(gt$grid.labels.rot[2] == 270, "top", ifelse(gt$grid.labels.rot[2] == 180, "left", "right")))
 	
-	if (gt$grid.ticks) {
+	if (gt$grid.ticks[2]) {
 		ticks <- polylineGrob(x = rep(c(1-spacerY*.5-marginY, 1), length(cogridy)), y = rep(cogridy, each = 2), id = rep(1:length(cogridy), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 	} else {
 		ticks <- NULL
@@ -272,7 +271,7 @@ plot_grid_labels_y <- function(gt, scale) {
 plot_grid <- function(gt, scale, add.labels) {
 	
 	
-	if (gt$grid.labels.inside.frame && gt$grid.ticks) warning("Grid ticks are not supported when labels.inside.frame = TRUE", call. = FALSE)
+	if (gt$grid.labels.inside.frame && any(gt$grid.ticks)) warning("Grid ticks are not supported when labels.inside.frame = TRUE", call. = FALSE)
 
 	
 	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
@@ -288,39 +287,45 @@ plot_grid <- function(gt, scale, add.labels) {
 	sely <- (length(cogridy) > 0)
 	
 	# find margins due to grid labels
-	if (add.labels) {
-		if (!is.na(gt$frame)) {
-			if (gt$frame.double.line) {
-				fw <- 6 * convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
-				fh <- 6 * convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
-			} else {
-				fw <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
-				fh <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
-			}
+	if (!is.na(gt$frame)) {
+		if (gt$frame.double.line) {
+			fw <- 6 * convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
+			fh <- 6 * convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
 		} else {
-			fw <- 0
-			fh <- 0
+			fw <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
+			fh <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * gt$frame.lwd
 		}
-		
+	} else {
+		fw <- 0
+		fh <- 0
+	}
+	
+	
+	if (add.labels[1]) {
 		if (gt$grid.labels.rot[1] %in% c(0, 180)) {
 			labelsXw <- if (selx) max(text_height_npc(labelsx))  * cex + fh else 0
 		} else {
 			labelsXw <- if (selx) max(text_width_npc(labelsx, space=FALSE, to_height = TRUE))  * cex + fh else 0
 		}
+		spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+		marginX <- convertWidth(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+	} else {
+		labelsXw <- spacerX <- marginX <- 0
+	}
 		
+		
+	if (add.labels[2]) {
 		if (gt$grid.labels.rot[2] %in% c(0, 180)) {
 			labelsYw <- if (sely) max(text_width_npc(labelsy, space=FALSE))  * cex + fw else 0
 		} else {
 			labelsYw <- if (sely) max(text_height_npc(labelsy, to_width = TRUE))  * cex + fw else 0
 		}
-		
 		spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-		spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 		marginY <- convertWidth(unit(gt$grid.labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-		marginX <- convertWidth(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	} else {
-		labelsXw <- labelsYw <- spacerX <- spacerY <- marginY <- marginX <- 0
+		labelsYw <- spacerY <- marginY <- 0
 	}	
+	
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
 		glabelsx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX) else numeric(0)

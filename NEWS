@@ -1,5 +1,6 @@
 version 3.0
 - rasters now implemented using the stars package (instead of the raster package)
+- grid labels specification per axis
 - fixed bug with geometry collection
 
 version 2.3-2
