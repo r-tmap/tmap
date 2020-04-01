@@ -673,7 +673,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 					message("only legends of type \"fill\" supported in view mode")
 				}
 			} else {
-				RGBA <- col2rgb(gali$col, alpha = TRUE)
+				nitems <- length(gali$labels)
+				palette_colors <- revfun(if (is.null(gali$col)) rep("grey50", nitems) else rep(gali$col, length.out=nitems))
+				legend.palette <- do.call("process_color", c(list(col=palette_colors, alpha = gali$alpha), gt$pc))
+				
+				
+				RGBA <- col2rgb(legend.palette, alpha = TRUE)
 				col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
 				opacity <- unname(RGBA[4,1]/255) * alpha
 				
