@@ -118,11 +118,11 @@ order_x <- function(x, shps, datasets, types, gm) {
 			# subset elements when tm_sf is called
 			if (("tm_fill" %in% names(xp)) && from_sf) {
 				if (type == "polygons") {
-					xp <- xp[c("tm_shape", "tm_fill", "tm_borders", "tm_tiles")]
+					xp <- xp[names(xp) %in% c("tm_shape", "tm_fill", "tm_borders", "tm_tiles")]
 				} else if (type == "lines") {
-					xp <- xp[c("tm_shape", "tm_lines", "tm_tiles")]
+					xp <- xp[names(xp) %in% c("tm_shape", "tm_lines", "tm_tiles")]
 				} else if (type == "points") {
-					xp <- xp[c("tm_shape", "tm_symbols", "tm_tiles")]
+					xp <- xp[names(xp) %in% c("tm_shape", "tm_symbols", "tm_tiles")]
 				}
 			}
 			xp[[1]]$type <- type
