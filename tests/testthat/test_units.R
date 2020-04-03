@@ -8,7 +8,7 @@ NLD_prov_lines <- NLD_prov
 NLD_prov_lines$geometry <- sf::st_cast(NLD_prov_lines$geometry, "MULTILINESTRING", group_or_split = FALSE)
 	
 NLD_prov_lines$length_m <- sf::st_length(NLD_prov_lines)
-NLD_prov_lines$length_km <- set_units(sf::st_length(NLD_prov_lines), km)
+NLD_prov_lines$length_km <- units::set_units(sf::st_length(NLD_prov_lines), km)
 
 test_that("fill with units (single)", {
 	tmap_mode("plot")

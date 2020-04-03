@@ -116,7 +116,7 @@ num2pal <- function(x,
 		rng <- range(x, na.rm = TRUE)
 		if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
 			
-			if (show.messages) message("Variable \"", var, "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.")
+			if (show.messages) message("Variable(s) \"", paste(var, collapse = "\", \""), "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.")
 			midpoint <- 0
 		} else {
 			if ((n %% 2) == 1) {

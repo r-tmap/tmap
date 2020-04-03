@@ -64,9 +64,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				shp_bbox <- sf::st_bbox(shp)
 				
 				shp <- tryCatch({
-					stars::st_warp(cut_world_edges(shp), crs = .crs_merc)
+					stars::st_warp(shp, crs = .crs_merc)
 				}, error = function(e) {
-					sf::st_transform(cut_world_edges(shp), crs = .crs_merc)	
+					sf::st_transform(shp, crs = .crs_merc)	
 				})
 				
 			} else  if (st_is_merc(shp_crs)) {

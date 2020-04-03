@@ -1,4 +1,5 @@
 library(testthat)
 library(tmap)
 
-test_check("tmap")
+test_dir("tests/testthat/")
+
