@@ -63,6 +63,7 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 			shapesLeg <- cat2shape(x,
 								   var = g$shape,
 								   shapes=g$shapes,
+								   drop.levels = g$shapes.drop.levels,
 								   legend.labels=g$labels,
 								   shapeNA = g$shapeNA,
 								   legend.NA.text = g$shape.textNA,

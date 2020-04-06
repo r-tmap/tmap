@@ -135,7 +135,7 @@ fancy_breaks <- function(vec, intervals=FALSE, interval.closure="left", fun=NULL
 }
 
 
-num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left", var = NULL) {
+num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left", var = NULL, as.integer = FALSE) {
 	
 	# if (style %in% c("log10", "log10_pretty")) {
 	# 	x <- log10(x)

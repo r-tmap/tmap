@@ -18,16 +18,16 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))) {
 		if (inherits(shp, "stars_proxy")) {
 			shp <- st_as_stars(shp, downsample = get_downsample(dim(shp)))
-			lvls_init <- levels(shp[[1]])
-			if (!is.null(lvls_init) && anyDuplicated(lvls_init)) {
-				shp <- droplevels(shp)
-			}
-		} else {
-			lvls_init <- levels(shp[[1]])
-			if (!is.null(lvls_init) && anyDuplicated(lvls_init)) {
-				shp <- droplevels(shp)
-			}
-		}
+			# lvls_init <- levels(shp[[1]])
+			# if (!is.null(lvls_init) && anyDuplicated(lvls_init)) {
+			# 	shp <- droplevels(shp)
+			# }
+		} #else {
+			# lvls_init <- levels(shp[[1]])
+			# if (!is.null(lvls_init) && anyDuplicated(lvls_init)) {
+			# 	shp <- droplevels(shp)
+			# }
+		#}
 
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		rgb.vars <- attr(raster_facets_vars, "rgb.vars")

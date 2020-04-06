@@ -1,6 +1,7 @@
 cat2shape <- function(x, 
 					  var,
 					  shapes,
+					  drop.levels = FALSE,
 					  legend.labels = NULL,
 					  shapeNA = NA,
 					  legend.NA.text = "Missing",
@@ -17,7 +18,20 @@ cat2shape <- function(x,
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
 	
-	# quick&dirty
+	# drop levels
+	if (drop.levels) {
+		y <- droplevels(x)
+		matching <- match(levels(y), levels(x))
+		if (length(shapes) == nlevels(x)) {
+			shapes <- shapes[matching]
+		}
+		if (!is.null(legend.labels) && (length(legend.labels) == nlevels(x))) {
+			legend.labels <- legend.labels[matching]
+		}
+		x <- y
+	}	
+	
+	
 	nCol <- nlevels(x)
 	max_levels <- length(shapes)
 	

@@ -1,6 +1,7 @@
 cat2pal <- function(x, 
 					var,
 					palette = "Set3",
+					drop.levels = FALSE,
 					stretch.palette = TRUE,
 					#auto.palette.mapping = TRUE,
 					contrast = 1, 
@@ -28,6 +29,39 @@ cat2pal <- function(x,
 		if (is.numeric(su)) levels(x) <- do.call("fancy_breaks", c(list(vec=su, intervals=FALSE), legend.format)) 	
 	}
 	
+	
+	# drop levels
+	if (drop.levels) {
+		y <- droplevels(x)
+		matching <- match(levels(y), levels(x))
+		if (length(palette) == nlevels(x)) {
+			palette <- palette[matching]
+		}
+		if (!is.null(legend.labels) && (length(legend.labels) == nlevels(x))) {
+			legend.labels <- legend.labels[matching]
+		}
+		x <- y
+	}
+	
+	# remove duplicates
+	lvls <- levels(x)
+	lvls_dup <- duplicated(lvls)
+	if (any(lvls_dup)) {
+		warning("Duplicated levels found. They have been omitted", call. = FALSE)
+		lvls_unique <- !lvls_dup
+		if (length(palette) == length(lvls)) {
+			palette <- palette[lvls_unique]
+		}
+		if (!is.null(legend.labels) && (length(legend.labels) == length(lvls))) {
+			legend.labels <- legend.labels[lvls_unique]
+		}
+		lvls_new <- lvls[lvls_unique]
+		
+		mapping <- match(lvls, lvls_new)
+		
+		x <- factor(mapping[as.integer(x)], levels=1:length(lvls_new), labels=lvls_new)
+	}
+	
 	if (!is.null(color_names)) {
 		if (length(setdiff(levels(x), color_names)) > 0L) {
 			warning("palette colors names missing for ", paste(setdiff(levels(x), color_names), collapse = ", "), ". Therefore, palette color names will be ignored", call. = FALSE)
@@ -39,7 +73,7 @@ cat2pal <- function(x,
 	
 	
 	
-	# quick&dirty
+	# combine levels
 	nCol <- nlevels(x)
 	if (nCol > max_levels) {
 		warning("Number of levels of the variable \"", var ,"\" is ", nCol, ", which is larger than max.categories (which is ", max_levels, "), so levels are combined. Set tmap_options(max.categories = ", nCol, ") in the layer function to show all levels.", call. = FALSE)
@@ -48,7 +82,6 @@ cat2pal <- function(x,
 		to <- c(which(mapping[-nCol] - mapping[-1]!=0), nCol)
 		from <- c(0, to[-max_levels]) + 1
 	
-		lvls <- levels(x)
 		new_lvls <- paste0(lvls[from], "...", lvls[to])
 		
 		x <- factor(mapping[as.integer(x)], levels=1:max_levels, labels=new_lvls)

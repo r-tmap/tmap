@@ -3,6 +3,7 @@ num2pal <- function(x,
 					call,
 					n = 5,
 					style = "pretty",
+					as.integer = NA,
 					breaks = NULL,
 					interval.closure="left",
 					palette = NULL,
@@ -24,6 +25,8 @@ num2pal <- function(x,
 	
 	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
 	
+	
+	if (is.na(as.integer)) as.integer <- is.integer(x)
 	
 	
 	breaks.specified <- !is.null(breaks)
@@ -81,7 +84,7 @@ num2pal <- function(x,
 			x <- log10(x)
 			style <- "pretty"
 		}
-		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var)
+		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var, as.integer = as.integer && !is.log)
 	}
 	
 	
