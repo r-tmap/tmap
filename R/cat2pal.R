@@ -16,15 +16,27 @@ cat2pal <- function(x,
 	
 	sel <- attr(x, "sel")
 	if (is.null(sel)) sel <- rep(TRUE, length(x))
+
+	color_names <- names(palette)
 	
 	x[!sel] <- NA
-	
+		
 	if (!is.factor(x)) {
 		su <- sort(unique(x))
 		if (is.numeric(su) && length(su) > max_levels) stop("Number of unique values of the variable \"", var, "\" is ", length(su), ", which is more than max.categories (which is ", max_levels, "), so style = \"cat\" cannot be used. Please use numeric intervals instead, e.g. with style =  \"pretty\".")
 		x <- factor(x, levels=su)
 		if (is.numeric(su)) levels(x) <- do.call("fancy_breaks", c(list(vec=su, intervals=FALSE), legend.format)) 	
 	}
+	
+	if (!is.null(color_names)) {
+		if (length(setdiff(levels(x), color_names)) > 0L) {
+			warning("palette colors names missing for ", paste(setdiff(levels(x), color_names), collapse = ", "), ". Therefore, palette color names will be ignored", call. = FALSE)
+		} else {
+			palette <- palette[match(levels(x), color_names)]
+		}
+		stretch.palette <- FALSE
+	}
+	
 	
 	
 	# quick&dirty

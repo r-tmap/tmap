@@ -60,8 +60,14 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 	if (is.factor(x) || g$style=="cat") {
 		
 		if (is.null(g$palette)) {
-			palette.type <- ifelse(is.ordered(x) || (isNUM), "seq", "cat")
-			palette <- gt$aes.palette[[palette.type]] 
+			clrs <- attr(x, "clrs") # stars color table
+			if (!is.null(clrs)) {
+				palette <- clrs
+				palette.type <- "cat"
+			} else {
+				palette.type <- ifelse(is.ordered(x) || (isNUM), "seq", "cat")
+				palette <- gt$aes.palette[[palette.type]] 
+			}
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
 			palette.type <- g$palette[1]
 			palette <- gt$aes.palette[[palette.type]]

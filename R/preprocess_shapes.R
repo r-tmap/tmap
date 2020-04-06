@@ -18,6 +18,15 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))) {
 		if (inherits(shp, "stars_proxy")) {
 			shp <- st_as_stars(shp, downsample = get_downsample(dim(shp)))
+			lvls_init <- levels(shp[[1]])
+			if (!is.null(lvls_init) && anyDuplicated(lvls_init)) {
+				shp <- droplevels(shp)
+			}
+		} else {
+			lvls_init <- levels(shp[[1]])
+			if (!is.null(lvls_init) && anyDuplicated(lvls_init)) {
+				shp <- droplevels(shp)
+			}
 		}
 
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
@@ -82,21 +91,40 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			shp_bbox <- sf::st_bbox(shp)
 		}
 		
-		shpnames <- stars::st_get_dimension_values(shp, dvars[1]) # select values for 3rd dimension
 		
-		treat_as_by <- !is.null(shpnames)
+		
+		
+		bandnames <- stars::st_get_dimension_values(shp, dvars[1])
+		treat_as_by <- !is.null(bandnames)
 		
 		if (treat_as_by) {
 			by_var <- names(shp)[1]
+			shpnames <- bandnames
 		} else {
 			shpnames <- names(shp)
 			by_var <- NULL
 		}
 		
 		if (length(shp) == 1) {
-			data <- as.data.frame(matrix(shp[[1]], ncol = length(shpnames)))
+			# one attribute (may contain multiple bands/times)
+			isF <- is.factor(shp[[1]])
+			if (isF) {
+				lvls <- levels(shp[[1]])
+				clrs <- attr(shp[[1]], "colors")
+				m <- matrix(as.integer(shp[[1]]), ncol = length(shpnames))	
+			} else {
+				m <- matrix(shp[[1]], ncol = length(shpnames))
+			}
+			data <- as.data.frame(m)
+			if (isF) {
+				data <- lapply(data, structure, class = "factor", levels = lvls, clrs = clrs)
+				class(data) <- "data.frame"
+				attr(data, "row.names") <- .set_row_names(length(data[[1]]))
+				#attr(data, "clrs") <- clrs
+			}
 			names(data) <- shpnames
 		} else {
+			# multiple attributes (assumed: one band)
 			data <- as.data.frame(shp)[shpnames]
 		}
 		
