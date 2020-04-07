@@ -25,10 +25,12 @@ tm_symbols(
   sizes.legend.labels = NULL,
   n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"),
+  as.count = NA,
   breaks = NULL,
   interval.closure = "left",
   palette = NULL,
   labels = NULL,
+  drop.levels = FALSE,
   midpoint = NULL,
   stretch.palette = TRUE,
   contrast = NA,
@@ -40,11 +42,13 @@ tm_symbols(
   shapes.legend = NULL,
   shapes.legend.fill = NA,
   shapes.labels = NULL,
+  shapes.drop.levels = FALSE,
   shapeNA = 4,
   shape.textNA = "Missing",
   shape.showNA = NA,
   shapes.n = 5,
   shapes.style = ifelse(is.null(shapes.breaks), "pretty", "fixed"),
+  shapes.as.count = NA,
   shapes.breaks = NULL,
   shapes.interval.closure = "left",
   legend.max.symbol.size = 0.8,
@@ -147,15 +151,19 @@ tm_markers(
 
 \item{n}{preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.}
 
-\item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation.}
+\item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.}
+
+\item{as.count}{when \code{col} is a numeric variable, should it be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer.}
 
 \item{breaks}{in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or diverging color palette.}
 
-\item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable.}
+\item{interval.closure}{value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.}
 
 \item{palette}{a palette name or a vector of colors. See \code{tmaptools::palette_explorer()} for the named palettes. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}, which typically depends on the style. The type of palette from \code{aes.palette} is automatically determined, but can be overwritten: use \code{"seq"} for sequential, \code{"div"} for diverging, and \code{"cat"} for categorical.}
 
 \item{labels}{labels of the classes}
+
+\item{drop.levels}{should unused classes be omitted? \code{FALSE} by default.}
 
 \item{midpoint}{The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. Only applies when \code{col} is a numeric variable. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.}
 
@@ -179,6 +187,8 @@ tm_markers(
 
 \item{shapes.labels}{Legend labels for the symbol shapes}
 
+\item{shapes.drop.levels}{should unused symbol classes be omitted? \code{FALSE} by default.}
+
 \item{shapeNA}{the shape (a number or grob) for missing values. By default a cross (number 4). Set to \code{NA} to hide symbols for missing values.}
 
 \item{shape.textNA}{text used for missing values of the shape variable.}
@@ -187,7 +197,9 @@ tm_markers(
 
 \item{shapes.n}{preferred number of shape classes. Only applicable when \code{shape} is a numeric variable name.}
 
-\item{shapes.style}{method to process the shape scale when \code{shape} is a numeric variable. See \code{style} argument for options}
+\item{shapes.style}{method to process the shape scale when \code{shape} is a numeric variable. See \code{style} argument for options.}
+
+\item{shapes.as.count}{when \code{shape} is a numeric variable, should it be processed as a count variable? See \code{as.count} argument for options.}
 
 \item{shapes.breaks}{in case \code{shapes.style=="fixed"}, breaks should be specified}
 

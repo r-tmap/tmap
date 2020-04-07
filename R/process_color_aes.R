@@ -108,7 +108,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 						   var = g$col,
 						   call = g$call,
 						   g$n, style=g$style, 
-						   as.integer = g$as.integer,
+						   as.count = g$as.count,
 						   breaks=g$breaks, 
 						   interval.closure=g$interval.closure,
 						   palette = palette,

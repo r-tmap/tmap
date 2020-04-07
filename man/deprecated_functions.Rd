@@ -2,79 +2,9 @@
 % Please edit documentation in R/deprecated.R
 \name{deprecated_functions}
 \alias{deprecated_functions}
-\alias{animation_tmap}
-\alias{save_tmap}
-\alias{style_catalogue}
-\alias{style_catalog}
-\alias{last_map}
-\alias{tm_style_white}
-\alias{tm_style_gray}
-\alias{tm_style_natural}
-\alias{tm_style_grey}
-\alias{tm_style_cobalt}
-\alias{tm_style_col_blind}
-\alias{tm_style_albatross}
-\alias{tm_style_beaver}
-\alias{tm_style_bw}
-\alias{tm_style_classic}
-\alias{tm_format_World}
-\alias{tm_format_World_wide}
-\alias{tm_format_Europe}
-\alias{tm_format_Europe2}
-\alias{tm_format_Europe_wide}
-\alias{tm_format_NLD}
-\alias{tm_format_NLD_wide}
 \title{Deprecated tmap functions}
-\usage{
-animation_tmap(...)
-
-save_tmap(...)
-
-style_catalogue(...)
-
-style_catalog(...)
-
-last_map()
-
-tm_style_white(...)
-
-tm_style_gray(...)
-
-tm_style_natural(...)
-
-tm_style_grey(...)
-
-tm_style_cobalt(...)
-
-tm_style_col_blind(...)
-
-tm_style_albatross(...)
-
-tm_style_beaver(...)
-
-tm_style_bw(...)
-
-tm_style_classic(...)
-
-tm_format_World(...)
-
-tm_format_World_wide(...)
-
-tm_format_Europe(...)
-
-tm_format_Europe2(...)
-
-tm_format_Europe_wide(...)
-
-tm_format_NLD(...)
-
-tm_format_NLD_wide(...)
-}
-\arguments{
-\item{...}{passed on to replacing functions}
-}
 \description{
-For consistency, tmap function names will be prefixed with a tm_ or tmap_. Therefore, function names such as \code{animation_tmap} have been renamed to \code{tmap_animation}.
+Since version 2.0, tmap function names are prefixed with a tm_ or tmap_. Therefore, function names used by tmap 1.x such as \code{animation_tmap} have been renamed to \code{tmap_animation}.
 }
 \details{
 \itemize{
@@ -102,4 +32,3 @@ For consistency, tmap function names will be prefixed with a tm_ or tmap_. There
  \item \code{tm_format_Europe_wide}: not used anymore, since the dataset Europe is no longer maintained
 }
 }
-\keyword{internal}

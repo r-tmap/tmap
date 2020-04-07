@@ -1,9 +1,54 @@
+prettyCount <- function(x, n, ...) {
+	if (!length(x)) return(x)
+	
+	if (!is.integer(x)) x <- as.integer(x)
+	
+	
+	mn <- min(x)
+	mx <- max(x)
+	
+	any0 <- any(x==0)
+	
+	#browser()
+	
+	if (mn < 0) {
+		n <- floor(n / 2)
+		pneg <- -rev(prettyCount(-x[x<0], n = n, ...)) + 1L
+		pneg <- pneg[pneg != 0L]
+		x <- x[x>0]
+		any0 <- TRUE
+	} else {
+		pneg <- integer()
+	}
+	
+	if (any0) x <- x[x!=0L]
+	
+	p <- pretty(x - 1L, n = n, ...) + 1L
+	
+	p <- p[(p %% 1) == 0]
+	p <- p[p!=0L]
+	
+	if (length(x) < 2) {
+		if (any0) return(c(0L, p)) else return(p)
+	}
+	
+	
+	step <- p[2] - p[1]
+	if (p[length(p)] == mx) p <- c(p, mx+step)
+	
+	if (any0) {
+		c(pneg, 0L, p)
+	} else {
+		c(pneg, p)
+	}
+}
+
 num2pal <- function(x, 
 					var,
 					call,
 					n = 5,
 					style = "pretty",
-					as.integer = NA,
+					as.count = NA,
 					breaks = NULL,
 					interval.closure="left",
 					palette = NULL,
@@ -24,9 +69,18 @@ num2pal <- function(x,
 	x[!sel] <- NA
 	
 	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
+
+	if (!any(style == c("pretty", "log10_pretty", "fixed"))) {
+		if (identical(as.count, TRUE)) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)
+		as.count <- FALSE
+	}
+	if (is.na(as.count)) as.count <- is.integer(x)
+
 	
-	
-	if (is.na(as.integer)) as.integer <- is.integer(x)
+	if (as.count) {
+		if (interval.closure != "left") warning("For as.count = TRUE, interval.closure will be set to \"left\"", call. = FALSE)
+		interval.closure <- "left"
+	}
 	
 	
 	breaks.specified <- !is.null(breaks)
@@ -83,8 +137,15 @@ num2pal <- function(x,
 		if (style == "log10_pretty") {
 			x <- log10(x)
 			style <- "pretty"
-		}
-		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var, as.integer = as.integer && !is.log)
+		} else if (as.count && style == "pretty") {
+			breaks <- prettyCount(x, n=n)
+			style <- "fixed"
+		} else if (as.count && style == "fixed") {
+			breaks[length(breaks)] <- breaks[length(breaks)] + 1L
+		}	
+
+		
+		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var, as.count = as.count && !is.log)
 	}
 	
 	
@@ -252,6 +313,7 @@ num2pal <- function(x,
 	} else {
 		# detransform log 
 		if (is.log) {
+			if (any((breaks %% 1) != 0)) warning("non-rounded breaks occur, because style = \"log10_pretty\" is designed for large values", call. = FALSE)
 			breaks <- 10^breaks
 		}
 		
@@ -259,9 +321,8 @@ num2pal <- function(x,
 		# create legend values
 		legend.values <- breaks[-nbrks]
 		
-		# create legend labels for discrete cases
 		if (is.null(legend.labels)) {
-			legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE, interval.closure=int.closure), legend.format)) 
+			legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), legend.format)) 
 		} else {
 			if (length(legend.labels)!=nbrks-1) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 			legend.labels <- rep(legend.labels, length.out=nbrks-1)

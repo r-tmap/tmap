@@ -60,7 +60,7 @@ tm_shape(World) +
 
 ### Multiple shapes and layers
 
-A shape is a spatial object (with a class from `sf`, `sp` or `raster`).
+A shape is a spatial object (with a class from `sf`, `sp` `stars`, or `raster`).
 Multiple shapes and also multiple layers per shape can be plotted:
 
 ```{r}

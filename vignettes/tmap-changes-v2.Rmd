@@ -1,5 +1,5 @@
 ---
-title: "tmap: changes in version 2.0"
+title: "tmap: version changes"
 output: 
   rmarkdown::html_vignette:
     keep_md: true 
@@ -18,9 +18,7 @@ library(tmap)
 library(sf)
 ```
 
-This vignette summarizes the main changes in tmap 2.0 in comparison to tmap 1.11-2.
-
-tmap 1.11-2 is described in detail in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06). The code of this paper for version 2.0 can be found in [`vignette("tmap-JSS-code")`](../doc/tmap-JSS-code.html).
+This vignette summarizes the main changes in tmap 2.x/3.x in comparison to tmap 1.11-2, which is described in detail in the [JSS paper](https://www.jstatsoft.org/article/view/v084i06). The code of this paper for version 2.x/3.x can be found in [`vignette("tmap-JSS-code")`](../doc/tmap-JSS-code.html).
 
 For people who are new to tmap, see [`vignette("tmap-getstarted")`](../doc/tmap-getstarted.html).
 
@@ -29,16 +27,14 @@ For people who are new to tmap, see [`vignette("tmap-getstarted")`](../doc/tmap-
 As of version 2.0, all tmap functions have the prefix `tm_` or `tmap_`, with the exception of the function `qtm`.
 Just like in tmap version 1.x, the layer functions start with `tm_`.
 In tmap 1.x, the names of the other functions where inconsistent, e.g. `animation_tmap` and `tmap_arrange`.
-In tmap 2.0, these functions are prefixed with `tmap_`. 
+In tmap 2.x/3.x, these functions are prefixed with `tmap_`. 
 For instance `animation_tmap` has been renamed to `tmap_animation`.
 
-### sf
+### Spatial data classes
 
-Recently, the `sf` package has replaced `sp` as the leading package for representing vector geospatial data. 
-Although tmap 1.x already supported `sf` objects, it was built upon `sp`.
-
-tmap version 2.0 is fully built on `sf`. 
-For raster objects, it still uses `raster`.
+tmap 1.x uses `sp` for representing vector data, and `raster` for raster data.
+tmap 2.x uses `sf` for representing vector data, and `raster` for raster data.
+tmap 3.x uses `sf` for representing vector data, and `stars` for raster data.
 
 `sf` (**s**imple **f**eatures) objects have a simpler structure than `sp` objects. 
 An `sf` object is nothing more than a `data.frame` with a special geometry column that contains the geometries for the corresponding rows.
@@ -47,7 +43,7 @@ The layers functions, such as `tm_polygons`, will only draw what they are suppos
 The newly added layer function `tm_sf` will draw all geometries.
 
 Finally, all data objects in `tmap` (except `land`) have been transformed into `sf` objects.
-The object `land` has been transformed into a `RasterBrick`.
+The object `land` has been transformed into a `stars` object.
 
 ### tm_tiles
 

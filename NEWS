@@ -1,5 +1,7 @@
 version 3.0
 - rasters now implemented using the stars package (instead of the raster package)
+- as.count argument added to layer functions; numeric variables can be treated as count variables (integers)
+- drop.levels argument added to layer functions which allows to drop unused levels
 - grid labels specification per axis
 - fixed bug with geometry collection
 
