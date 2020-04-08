@@ -18,7 +18,7 @@ Description: Thematic maps are geographical maps in which spatial data distribut
 Version: 3.0
 Date: 2020-04-08
 Depends:
-    R (>= 3.0),
+    R (>= 3.5.0),
     methods
 Imports:
 	tmaptools (>= 3.0),

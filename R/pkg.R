@@ -174,7 +174,7 @@ NULL
 #' @name metro
 #' @docType data
 #' @references United Nations, Department of Economic and Social Affairs, Population Division (2014). World Urbanization Prospects: The 2014 Revision, CD-ROM Edition.
-#' @source \url{https://esa.un.org/unpd/wup/}
+#' @source \url{https://population.un.org/wup/}
 NULL
 
 #' Spatial data of global land cover
