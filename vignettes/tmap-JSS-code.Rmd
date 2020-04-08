@@ -24,7 +24,7 @@ The code for the plotting methods is fully backward compatible, although some me
 This code replaces the script v84i06.R for tmap and tmaptools version 2.0.
 The produced figures are identical to those included in the article.
 
-See [`vignette("tmap-changes-v2")`](../doc/tmap-changes-v2.html) for changes in version 2.0, which is recommended for people who have read the JSS article.
+See [`vignette("tmap-changes")`](../doc/tmap-changes.html) for changes in version 2.x/3.x, which is recommended for people who have read the JSS article.
 For people who are new to tmap, see [`vignette("tmap-getstarted")`](../doc/tmap-getstarted.html).
 
 

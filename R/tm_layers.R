@@ -21,7 +21,8 @@ check_deprecated_layer_fun_args <- function(auto.palette.mapping, max.categories
 #' @param sizes.legend.labels vector of labels for that correspond to \code{sizes.legend}.
 #' @param sizes.legend.text vector of example text to show in the legend next to sizes.legend.labels. By default "Abc". When \code{NA}, examples from the data variable whose sizes are close to the sizes.legend are taken and \code{"NA"} for classes where no match is found.
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
-#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete gradient options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}} (extra arguments can be passed on via \code{style.args}). Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style.args arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).
 #' @param as.count when \code{col} is a numeric variable, should it be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer. 
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or diverging color palette.
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.
@@ -101,6 +102,7 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 					 sizes.legend.labels = NULL,
 					 sizes.legend.text = "Abc",
 					 n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
+					 style.args = list(),
 					 as.count = NA,
 					 breaks = NULL,
 					 interval.closure = "left",
@@ -184,7 +186,8 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param lwd.legend vector of line widths that are shown in the legend. By default, this is determined automatically.
 #' @param lwd.legend.labels vector of labels for that correspond to \code{lwd.legend}.
 #' @param n preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.
-#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete gradient options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}} (extra arguments can be passed on via \code{style.args}). Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style.args arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).
 #' @param as.count when \code{col} is a numeric variable, should it be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or diverging color palette.
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.
@@ -234,6 +237,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
+#' @param ... these arguments are passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).
 #' @export
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
@@ -244,6 +248,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 lwd.legend = NULL,
 					 lwd.legend.labels = NULL,
 					 n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
+					 style.args = list(),
 					 as.count = NA,
 					 breaks = NULL,
 					 interval.closure = "left",
@@ -277,7 +282,8 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 zindex=NA,
 					 group = NA,
 					 auto.palette.mapping = NULL,
-					 max.categories = NULL) {
+					 max.categories = NULL,
+					 ...) {
 	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
 	g <- list(tm_lines=c(as.list(environment()), list(call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
@@ -306,7 +312,8 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param convert2density boolean that determines whether \code{col} is converted to a density variable. Should be \code{TRUE} when \code{col} consists of absolute numbers. The area size is either approximated from the shape object, or given by the argument \code{area}.
 #' @param area Name of the data variable that contains the area sizes in squared kilometer.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable).
-#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete gradient options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}} (extra arguments can be passed on via \code{style.args}). Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style.args arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).
 #' @param as.count when \code{col} is a numeric variable, should it be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or diverging color palette.
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.
@@ -365,6 +372,7 @@ tm_fill <- function(col=NA,
 			 		area = NULL,
 				    n = 5,
 				    style = ifelse(is.null(breaks), "pretty", "fixed"),
+					style.args = list(),
 					as.count = NA,
 					breaks = NULL,
 					interval.closure = "left",
@@ -396,7 +404,7 @@ tm_fill <- function(col=NA,
 					max.categories = NULL,
 					...) {
 	midpoint <- check_deprecated_layer_fun_args(auto.palette.mapping, max.categories, midpoint)
-	g <- list(tm_fill=c(as.list(environment()), list(map_coloring=list(...), call=names(match.call(expand.dots = TRUE)[-1]))))
+	g <- list(tm_fill=c(as.list(environment()), list(extra_args=list(...), call=names(match.call(expand.dots = TRUE)[-1]))))
 	class(g) <- "tmap"
 	g
 }	
@@ -447,7 +455,8 @@ tm_polygons <- function(col=NA,
 #' @param alpha transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{col} is used (normally 1).
 #' @param palette a palette name or a vector of colors. See \code{tmaptools::palette_explorer()} for the named palettes. Use a \code{"-"} as prefix to reverse the palette. The default palette is taken from \code{\link{tm_layout}}'s argument \code{aes.palette}, which typically depends on the style. The type of palette from \code{aes.palette} is automatically determined, but can be overwritten: use \code{"seq"} for sequential, \code{"div"} for diverging, and \code{"cat"} for categorical.
 #' @param n preferred number of classes (in case \code{col} is a numeric variable)
-#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete gradient options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}} (extra arguments can be passed on via \code{style.args}). Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style.args arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).
 #' @param as.count when \code{col} is a numeric variable, should it be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or diverging color palette.
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.
@@ -491,7 +500,7 @@ tm_polygons <- function(col=NA,
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
 #' @param max.value for \code{tm_rgb}, what is the maximum value per layer? By default 255.
-#' @param ... arguments passed on from \code{tm_raster} to \code{tm_rgb}
+#' @param ... arguments passed on from \code{tm_rgb} and \code{tm_rgba} to \code{tm_raster}.
 #' @name tm_raster
 #' @rdname tm_raster
 #' @export
@@ -504,6 +513,7 @@ tm_raster <- function(col=NA,
 					  palette = NULL,
 					  n = 5,
 					  style = ifelse(is.null(breaks), "pretty", "fixed"),
+					  style.args = list(),
 					  as.count = NA,
 					  breaks = NULL,
 					  interval.closure = "left",
@@ -595,7 +605,8 @@ tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, inte
 #' @param sizes.legend vector of symbol sizes that are shown in the legend. By default, this is determined automatically.
 #' @param sizes.legend.labels vector of labels for that correspond to \code{sizes.legend}.
 #' @param n preferred number of color scale classes. Only applicable when \code{col} is a numeric variable name.
-#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style method to process the color scale when \code{col} is a numeric variable. Discrete gradient options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}} (extra arguments can be passed on via \code{style.args}). Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
+#' @param style.args arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).
 #' @param as.count when \code{col} is a numeric variable, should it be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer.
 #' @param breaks in case \code{style=="fixed"}, breaks should be specified. The \code{breaks} argument can also be used when \code{style="cont"}. In that case, the breaks are mapped evenly to the sequential or diverging color palette.
 #' @param interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{col} is a numeric variable. If \code{as.count = TRUE}, \code{inverval.closure} is always set to \code{"left"}.
@@ -619,6 +630,7 @@ tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, inte
 #' @param shape.showNA logical that determines whether missing values are named in the legend. By default (\code{NA}), this depends on the presence of missing values.
 #' @param shapes.n preferred number of shape classes. Only applicable when \code{shape} is a numeric variable name.
 #' @param shapes.style method to process the shape scale when \code{shape} is a numeric variable. See \code{style} argument for options.
+#' @param shapes.style.args arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}} (see also \code{shapes.tyle}).
 #' @param shapes.as.count when \code{shape} is a numeric variable, should it be processed as a count variable? See \code{as.count} argument for options.
 #' @param shapes.breaks in case \code{shapes.style=="fixed"}, breaks should be specified
 #' @param shapes.interval.closure value that determines whether where the intervals are closed: \code{"left"} or \code{"right"}. Only applicable if \code{shape} is a numeric variable.
@@ -674,6 +686,7 @@ tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, inte
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param auto.palette.mapping deprecated. It has been replaced by \code{midpoint} for numeric variables and \code{stretch.palette} for categorical variables.
 #' @param max.categories deprecated. It has moved to \code{\link{tmap_options}}.
+#' @param ... arguments passed on to \code{tm_symbols}. For \code{tm_markers}, arguments can also be passed on to \code{tm_text}. In that case, they have to be prefixed with \code{text.}, e.g. the \code{col} argument should be names \code{text.col}.
 #' @concept symbol map
 #' @export
 #' @example ./examples/tm_symbols.R
@@ -695,6 +708,7 @@ tm_symbols <- function(size=1, col=NA,
 						sizes.legend = NULL,
 						sizes.legend.labels = NULL,
 						n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
+						style.args = list(),
 						as.count = NA,
 						breaks = NULL,
 						interval.closure = "left",
@@ -717,6 +731,7 @@ tm_symbols <- function(size=1, col=NA,
 						shape.textNA = "Missing",
 						shape.showNA = NA,
 						shapes.n = 5, shapes.style = ifelse(is.null(shapes.breaks), "pretty", "fixed"),
+						shapes.style.args = list(),
 						shapes.as.count = NA,
 						shapes.breaks = NULL,
 						shapes.interval.closure = "left",
@@ -808,7 +823,6 @@ tm_dots <- function(col=NA,
 #' @param text text of the markers. Shown in plot mode, and as popup text in view mode.
 #' @param text.just justification of marker text (see \code{just} argument of \code{\link{tm_text}}). Only applicable in plot mode.
 #' @param markers.on.top.of.text For \code{tm_markers}, should the markers be drawn on top of the text labels? 
-#' @param ... arguments passed on to \code{tm_symbols}. For \code{tm_markers}, arguments can also be passed on to \code{tm_text}. In that case, they have to be prefixed with \code{text.}, e.g. the \code{col} argument should be names \code{text.col}
 #' @export
 tm_markers <- function(shape=marker_icon(),
 					   col=NA,

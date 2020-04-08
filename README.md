@@ -86,7 +86,7 @@ Vignettes
 
 [tmap: get started!](https://cran.r-project.org/package=tmap/vignettes/tmap-getstarted.html)
 
-[tmap: what is changed in version 2.0?](https://cran.r-project.org/package=tmap/vignettes/tmap-changes-v2.html)
+[tmap: what is changed in recent versions?](https://cran.r-project.org/package=tmap/vignettes/tmap-changes.html)
 
 
 Tutorials

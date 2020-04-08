@@ -17,7 +17,8 @@ check_fill_specials <- function(x, g, gt, shpcols, data, nx) {
 			} else if (g$palette[1] %in% c("seq", "div", "cat")) {
 				gt$aes.palette[[g$palette[1]]] 
 			} else g$palette
-			mapcols <- do.call("map_coloring", args = c(list(x=attr(data, "NB"), palette=palette, contrast = g$contrast), g$map_coloring))
+			map_coloring_args <- g$extra_args[names(g$extra_args) %in% names(formals("map_coloring"))]
+			mapcols <- do.call("map_coloring", args = c(list(x=attr(data, "NB"), palette=palette, contrast = g$contrast), map_coloring_args))
 			mapcols <- do.call("process_color", c(list(col=mapcols, alpha=g$alpha), gt$pc))
 			
 			for (i in 1:nx) data[[paste("COLOR", i, sep="_")]] <- mapcols

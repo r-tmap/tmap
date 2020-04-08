@@ -14,6 +14,7 @@ tm_fill(
   area = NULL,
   n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"),
+  style.args = list(),
   as.count = NA,
   breaks = NULL,
   interval.closure = "left",
@@ -75,7 +76,9 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 
 \item{n}{preferred number of classes (in case \code{col} is a numeric variable).}
 
-\item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}}. Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.}
+\item{style}{method to process the color scale when \code{col} is a numeric variable. Discrete gradient options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}} (extra arguments can be passed on via \code{style.args}). Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.}
+
+\item{style.args}{arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).}
 
 \item{as.count}{when \code{col} is a numeric variable, should it be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer.}
 

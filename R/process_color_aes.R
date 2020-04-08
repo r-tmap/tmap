@@ -3,7 +3,11 @@ check_aes_args <- function(g) {
 	if ("style" %in% nms) {
 		if (length(g$style) != 1) stop("Only one value for style allowed per small multiple (unless free.scales=TRUE)", call.=FALSE)
 		if (!is.character(g$style)) stop("Style is not a character", call.=FALSE)
-		if (!g$style %in% c("cat", "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "cont", "order", "log10", "log10_pretty")) stop("Invalid style value(s)", call.=FALSE)
+		if (!g$style %in% c("cat", "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "cont", "order", "log10", "log10_pretty")) stop("Invalid style value(s)", call.=FALSE)
+	}
+	
+	if ("shapes.style" %in% nms) {
+		if (!g$shapes.style %in% c("cat", "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "cont", "order", "log10", "log10_pretty")) stop("Invalid style value(s)", call.=FALSE)
 	}
 	
 	if (!is.null(g$palette)) {
@@ -108,6 +112,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 						   var = g$col,
 						   call = g$call,
 						   g$n, style=g$style, 
+						   style.args=g$style.args,
 						   as.count = g$as.count,
 						   breaks=g$breaks, 
 						   interval.closure=g$interval.closure,

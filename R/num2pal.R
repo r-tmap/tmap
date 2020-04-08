@@ -1,15 +1,14 @@
 prettyCount <- function(x, n, ...) {
+	x <- na.omit(x)
 	if (!length(x)) return(x)
 	
 	if (!is.integer(x)) x <- as.integer(x)
-	
+
 	
 	mn <- min(x)
 	mx <- max(x)
 	
 	any0 <- any(x==0)
-	
-	#browser()
 	
 	if (mn < 0) {
 		n <- floor(n / 2)
@@ -48,6 +47,7 @@ num2pal <- function(x,
 					call,
 					n = 5,
 					style = "pretty",
+					style.args = list(),
 					as.count = NA,
 					breaks = NULL,
 					interval.closure="left",
@@ -74,7 +74,10 @@ num2pal <- function(x,
 		if (identical(as.count, TRUE)) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)
 		as.count <- FALSE
 	}
-	if (is.na(as.count)) as.count <- is.integer(x)
+	if (is.na(as.count)) {
+		as.count <- is.integer(x) && !length(which(x < 0))
+	}
+	
 
 	
 	if (as.count) {
@@ -132,7 +135,7 @@ num2pal <- function(x,
 				ncont <- length(legend.labels)	
 			}
 		}
-		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE, interval.closure=interval.closure, var=var)
+		q <- num2breaks(x=x, n=101, style=style, breaks=breaks, approx=TRUE, interval.closure=interval.closure, var=var, args = style.args)
 	} else {
 		if (style == "log10_pretty") {
 			x <- log10(x)
@@ -145,7 +148,7 @@ num2pal <- function(x,
 		}	
 
 		
-		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var, as.count = as.count && !is.log)
+		q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var, as.count = as.count && !is.log, args = style.args)
 	}
 	
 	

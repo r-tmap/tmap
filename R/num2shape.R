@@ -2,6 +2,7 @@ num2shape <- function(x,
 					  var,
 					  n = 5,
 					  style = "pretty",
+					  style.args = list(),
 					  breaks = NULL,
 					interval.closure="left",
 					shapes = NULL,
@@ -12,7 +13,7 @@ num2shape <- function(x,
 					legend.format=list(scientific=FALSE),
 					reverse=FALSE) {
 	breaks.specified <- !is.null(breaks)
-	q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var)
+	q <- num2breaks(x=x, n=n, style=style, breaks=breaks, interval.closure=interval.closure, var=var, args = style.args)
 
 	breaks <- q$brks
 	nbrks <- length(breaks)

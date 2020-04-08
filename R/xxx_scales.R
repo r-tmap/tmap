@@ -155,7 +155,7 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 }
 
 
-num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left", var = NULL, as.count = FALSE) {
+num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left", var = NULL, as.count = FALSE, args = list()) {
 	
 	# if (style %in% c("log10", "log10_pretty")) {
 	# 	x <- log10(x)
@@ -201,7 +201,7 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 			x <- seq(min(x, na.rm = TRUE), max(x, na.rm = TRUE), length.out = n + 1)
 		}
 		
-		q <- suppressWarnings(classIntervals(x, n, style= style, intervalClosure=interval.closure))
+		q <- suppressWarnings(do.call(classInt::classIntervals, c(list(x, n, style= style, intervalClosure=interval.closure), args)))
 		
 		if (tempx) q$var <- x_orig
 
@@ -217,9 +217,9 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
             brks <- q$brks
 
             # to prevent ugly rounded breaks such as -.5, .5, ..., 100.5 for n=101
-            qm1 <- suppressWarnings(classIntervals(x, n-1, style= style, intervalClosure=interval.closure))
+            qm1 <- suppressWarnings(do.call(classInt::classIntervals, c(list(x, n-1, style= style, intervalClosure=interval.closure), args)))
             brksm1 <- qm1$brks
-            qp1 <- suppressWarnings(classIntervals(x, n+1, style= style, intervalClosure=interval.closure))
+            qp1 <- suppressWarnings(do.call(classInt::classIntervals, c(list(x, n+1, style= style, intervalClosure=interval.closure), args)))
             brksp1 <- qp1$brks
             if (min(brksm1) > min(brks) && max(brksm1) < max(brks)) {
                 q <- qm1
