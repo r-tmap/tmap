@@ -5,7 +5,7 @@
 \alias{metro}
 \title{Spatial data of metropolitan areas}
 \source{
-\url{https://esa.un.org/unpd/wup/}
+\url{https://population.un.org/wup/}
 }
 \usage{
 data(metro)
