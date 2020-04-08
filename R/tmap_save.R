@@ -28,7 +28,7 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 	
 	lastcall <- x <- get("last_map", envir = .TMAP_CACHE)
 	if (missing(tm)) {
-		tm <- suppressWarnings(last_map())
+		tm <- suppressWarnings(tmap_last())
 		if (is.null(tm)) stop("A map has not been created yet")
 		is.arrange <- FALSE
 	} else if (inherits(tm, "tmap")) {

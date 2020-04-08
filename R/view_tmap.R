@@ -674,6 +674,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				}
 			} else {
 				nitems <- length(gali$labels)
+				revfun <- if (gali$reverse) rev else function(x)x
 				palette_colors <- revfun(if (is.null(gali$col)) rep("grey50", nitems) else rep(gali$col, length.out=nitems))
 				legend.palette <- do.call("process_color", c(list(col=palette_colors, alpha = gali$alpha), gt$pc))
 				

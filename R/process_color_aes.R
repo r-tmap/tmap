@@ -6,7 +6,7 @@ check_aes_args <- function(g) {
 		if (!g$style %in% c("cat", "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "cont", "order", "log10", "log10_pretty")) stop("Invalid style value(s)", call.=FALSE)
 	}
 	
-	if ("shapes.style" %in% nms) {
+	if (!is.null(g$shapes.style)) {
 		if (!g$shapes.style %in% c("cat", "fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails", "cont", "order", "log10", "log10_pretty")) stop("Invalid style value(s)", call.=FALSE)
 	}
 	

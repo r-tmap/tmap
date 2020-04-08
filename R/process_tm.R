@@ -70,7 +70,7 @@ process_tm <- function(x, gt, gm, interactive) {
 		if (is.null(gf$free.scales)) {
 			gf$treat_as_by <- !is.null(x[[shape.id.orig[i]]]$data) && attr(x[[shape.id.orig[i]]]$data, "treat_as_by")
 			if (gf$treat_as_by) gf$call <- c(gf$call, "free.scales")
-			gf$free.scales <- is.null(gf$along) && !gf$treat_as_by
+			gf$free.scales <- is.null(gf$along) && is.null(gf$by) && !gf$treat_as_by
 		} 
 		free_scales_id <- which(substr(names(gf), 1, 12) == "free.scales.")
 		for (f in free_scales_id) if (is.null(gf[[f]])) gf[[f]] <- gf$free.scales
