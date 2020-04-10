@@ -3,17 +3,13 @@ language: r
 r:
   - release
   - devel
-  #- oldrel # breaks on lacking isFALSE in some dependent package (vignette 5)
 
 deploy.skip_cleanup: true
 
 sudo: required
-dist: trusty
+dist: xenial
 cache: false
 latex: false
-
-r_github_packages:
-  - r-lib/covr
 
 addons:
   apt:
@@ -37,9 +33,6 @@ addons:
 before_install:
   - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages()'
 
-after_success:
-  - R -q -e 'covr::codecov(quiet = FALSE)'
-
 install: R -q -e 'tic::install()'
 script: R -q -e 'tic::script()'
 before_deploy: R -q -e 'tic::before_deploy()'
@@ -52,3 +45,6 @@ deploy:
        - $TRAVIS_PULL_REQUEST = false
        - $TRAVIS_EVENT_TYPE != cron
        - $TRAVIS_R_VERSION_STRING = release
+       
+after_success: R -q -e 'tic::after_success()'
+

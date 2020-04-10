@@ -30,7 +30,7 @@ See [below](https://github.com/mtennekes/tmap/#reference) the source code for th
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 2.3-2). Installation is straightforward:
+`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 3.0). Installation is straightforward:
 
 ```r
 install.packages("tmap")
@@ -43,7 +43,7 @@ The installation procedure is as follows:
 No additional installation required.
 
 **Linux (Ubuntu)**
-See installation script for [Ubuntu 16](https://github.com/mtennekes/tmap/blob/master/ubuntu_16_installation.sh) and [17/18](https://github.com/mtennekes/tmap/blob/master/ubuntu_17_installation.sh). Please address installation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/150).
+See https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/.
 
 **macOS**
 See http://www.kyngchaos.com. Please address installation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/149).
@@ -57,7 +57,7 @@ The latest development version can be installed using `devtools`.
 In order to use the development version of `tmap`, it is recommended to use the development version of `tmaptools` as well (see [tmaptools](http://github.com/mtennekes/tmaptools)):
 
 ```r
-library(devtools)
+library(remotes)
 install_github("mtennekes/tmaptools")
 install_github("mtennekes/tmap")
 ```
