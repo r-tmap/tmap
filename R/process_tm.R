@@ -208,7 +208,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	if (any(treat_by_counts > 1)) by_counts[treat_by_counts>1] <- treat_by_counts[treat_by_counts>1]
 	
 	if (sum(by_counts>1)>1) {
-		by_counts_pos <- by_counts[by_counts>1]
+		by_counts_pos <- unlist(by_counts[by_counts>1])
 		if (any(by_counts_pos[-1]!=by_counts_pos[1])) stop("Number of facets defined by the 'by' argument of tm_facets are different for the groups.", call. = FALSE)
 		
 	}
