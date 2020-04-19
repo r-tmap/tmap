@@ -47,7 +47,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 		ncol <- NA
 		nrow <- NA
 		panel.names <- NA
-		treat_by_count <- 1
+		treat_by_count <- 1L
 	} else {
 		if (!all(g$tm_shape$by %in% names(data))) stop("Variable(s) \"", paste(setdiff(g$tm_shape$by, names(data)), collapse=", "), "\" not found in ", g$tm_shape$shp_name, call.=FALSE)
 		
@@ -80,7 +80,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 			nrow <- nlevels(d2[[1]])
 			panel.names <- list(levels(d2[[1]]), levels(d2[[2]]))
 		}
-		treat_by_count <- 1
+		treat_by_count <- 1L
 	}
 	
 	a <- g$tm_shape$along

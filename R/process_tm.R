@@ -201,7 +201,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	
 	
 	## get treat_by_counts vector
-	treat_by_counts <- lapply(gp, function(i)i$treat_by_count)
+	treat_by_counts <- vapply(gp, function(i)i$treat_by_count, integer(1))
 
 	## check if by is consistent among groups
 	by_counts <- vapply(data_by, nlevels, integer(1))
