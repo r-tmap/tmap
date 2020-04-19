@@ -21,8 +21,8 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		xy_dim <- get_xy_dim(shp)
 		asp <- xy_dim[1] / xy_dim[2]
 		
-		x_new <- sqrt(max.raster / asp)
-		y_new <- x_new / asp
+		y_new <- sqrt(max.raster / asp)
+		x_new <- y_new * asp
 		
 		downsample <- xy_dim[1] / x_new
 		

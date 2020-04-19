@@ -121,6 +121,12 @@ p2_1 = dplyr::slice(p2, band, 1)
 
 qtm(p2_1)
 
+# one band, aspect ratio 2
+p2_1b = p2_1[,1:5490]
+
+qtm(p2_1b)
+
+
 # warp to different crs
 tm_shape(p2_1, projection = 4326) + tm_raster()
 
