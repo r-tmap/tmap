@@ -64,6 +64,33 @@ get_downsample = function(dims, px = dev.size("px")) {
 	floor(sqrt(prod(dims) / prod(px)))
 }
 
+st_downsample = function (x, n, fill_out = TRUE) 
+{
+	stopifnot(all(n >= 0))
+	d = dim(x)
+	n = rep(n, length.out = length(d))
+	dims = st_dimensions(x)
+	regular = is_regular_grid(x)
+	if (!all(n <= 1)) {
+		args = rep(list(rlang::missing_arg()), length(d) + 1)
+		for (i in seq_along(d)) if (n[i] > 1) 
+			args[[i + 1]] = seq(1, d[i], n[i])
+		x = eval(rlang::expr(x[!!!args]))
+		if (fill_out && regular) {
+			d_new = st_dimensions(x)
+			for (i in seq_along(d)) {
+				dims[[i]]$delta = dims[[i]]$delta * n[i]
+				dims[[i]]$from = d_new[[i]]$from
+				dims[[i]]$to = d_new[[i]]$to
+			}
+			x = structure(x, dimensions = dims)
+		}
+	}
+	x
+}
+
+
+
 ############# other functions
 
 
@@ -75,6 +102,13 @@ st_is_merc <- function(x) {
 		isTRUE(crs$proj == "merc") || isTRUE(crs$epsg == 3857)
 	}
 }
+
+get_xy_dim <- function(x) {
+	d = st_dimensions(x)
+	dxy = attr(d, "raster")$dimensions
+	dim(x)[dxy]
+}
+
 
 # temp solution to https://github.com/r-spatial/mapview/issues/256
 # cut_world_edges <- function(x) {

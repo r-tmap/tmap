@@ -1,6 +1,3 @@
-# Needs the stars branch of tmaptools:
-# install_github("mtennekes/tmaptools", ref = "stars")
-
 library(stars)
 library(sf)
 
@@ -10,6 +7,10 @@ data(NLD_prov)
 
 # Regular raster, multiple bands (4 bands, first two categorical)
 tm_shape(land) + tm_raster()
+
+# Warp to differnt projection
+tm_shape(land, projection = "+proj = eck4") + tm_raster()
+
 
 # Regular raster, one band polygons overlay
 tm_shape(land) + tm_raster("elevation") +
@@ -98,16 +99,37 @@ prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
 (prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
 
 prec1 = dplyr::slice(prec, time, 1)
+tm_shape(prec1) + tm_raster()
 
 
 prec1_4 = dplyr::slice(prec, time, 1:4)
 
-tm_shape(prec1_4) + tm_raster() # works but 1) very slow 2) free scales should be off
-
-
+tm_shape(prec1_4) + tm_raster() # works but slow
 
 tm_shape(prec) + tm_raster() + tm_facets(free.scales = FALSE) # even slower
 
 tm_shape(World) + tm_fill("HPI") + tm_facets(by = "continent")
+
+# large stars object (10980 x 10980)
+(p2 = read_stars(s2))
+
+qtm(p2)
+
+
+# one band
+p2_1 = dplyr::slice(p2, band, 1)
+
+qtm(p2_1)
+
+# warp to different crs
+tm_shape(p2_1, projection = 4326) + tm_raster()
+
+
+tmap_mode("view")
+qtm(p2_1)
+
+
+
+
 
 

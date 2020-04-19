@@ -3,7 +3,7 @@
 		unit = "metric",
 		limits = c(facets.plot = 64, facets.view = 4),
 		max.categories = 30,
-		max.raster = c(plot = 1e7, view = 1e6),
+		max.raster = c(plot = 1e6, view = 1e6),
 		show.messages = TRUE,
 		output.format = "png",
 		output.size = 49,

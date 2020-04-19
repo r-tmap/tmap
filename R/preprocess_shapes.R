@@ -16,18 +16,23 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
 	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))) {
+		max.raster <- get("tmapOptions", envir = .TMAP_CACHE)$max.raster[if(interactive) "view" else "plot"]
+
+		xy_dim <- get_xy_dim(shp)
+		asp <- xy_dim[1] / xy_dim[2]
+		
+		x_new <- sqrt(max.raster / asp)
+		y_new <- x_new / asp
+		
+		downsample <- xy_dim[1] / x_new
+		
 		if (inherits(shp, "stars_proxy")) {
-			shp <- st_as_stars(shp, downsample = get_downsample(dim(shp)))
-			# lvls_init <- levels(shp[[1]])
-			# if (!is.null(lvls_init) && anyDuplicated(lvls_init)) {
-			# 	shp <- droplevels(shp)
-			# }
-		} #else {
-			# lvls_init <- levels(shp[[1]])
-			# if (!is.null(lvls_init) && anyDuplicated(lvls_init)) {
-			# 	shp <- droplevels(shp)
-			# }
-		#}
+			shp <- st_as_stars(shp, downsample = downsample - 1) # downsample is number of pixels to skip, instead of multiplier
+		} else {
+			if (prod(xy_dim) > max.raster) {
+				shp <- st_downsample(shp, downsample)
+			}
+		}
 
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		rgb.vars <- attr(raster_facets_vars, "rgb.vars")
@@ -82,11 +87,13 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
 			} else {
 				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
-				shp <- sf::st_transform(shp, crs = gm$shape.master_crs) #transform to 4326
+				#shp <- sf::st_transform(shp, crs = gm$shape.master_crs) #transform to 4326
+				shp <- stars::st_warp(shp, crs = gm$shape.master_crs) #transform to 4326
 			}
 		} else {
 			if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
-				shp <- sf::st_transform(shp, crs = gm$shape.master_crs)
+				#shp <- sf::st_transform(shp, crs = gm$shape.master_crs)
+				shp <- stars::st_warp(shp, crs = gm$shape.master_crs)
 			}
 			shp_bbox <- sf::st_bbox(shp)
 		}
