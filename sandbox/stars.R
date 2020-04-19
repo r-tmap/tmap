@@ -9,7 +9,7 @@ data(NLD_prov)
 tm_shape(land) + tm_raster()
 
 # Warp to differnt projection
-tm_shape(land, projection = "+proj = eck4") + tm_raster()
+tm_shape(land, projection = "+proj=eck4") + tm_raster()
 
 
 # Regular raster, one band polygons overlay
