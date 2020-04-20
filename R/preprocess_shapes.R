@@ -154,7 +154,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			
 			if (!all(rgb.vars %in% 1:ncol(data))) stop("Specified rgb(a) bands are ", paste(rgb.vars, collapse = ", "), " whereas the number of layers is ", ncol(data), call. = FALSE)
 			
-			if  (!mndata>=0 || mxdata <= max.value) {
+			if  (!(mndata>=0 || mxdata <= max.value)) {
 				m[m < 0] <- 0
 				m[m > max.value] <- max.value
 				warning("Raster values found that are outside the range [0, ", max.value, "]", call. = FALSE)
