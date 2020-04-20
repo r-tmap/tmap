@@ -16,24 +16,6 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
 	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))) {
-		max.raster <- get("tmapOptions", envir = .TMAP_CACHE)$max.raster[if(interactive) "view" else "plot"]
-
-		xy_dim <- get_xy_dim(shp)
-		asp <- xy_dim[1] / xy_dim[2]
-		
-		y_new <- sqrt(max.raster / asp)
-		x_new <- y_new * asp
-		
-		downsample <- xy_dim[1] / x_new
-		
-		if (inherits(shp, "stars_proxy")) {
-			shp <- st_as_stars(shp, downsample = downsample - 1) # downsample is number of pixels to skip, instead of multiplier
-		} else {
-			if (prod(xy_dim) > max.raster) {
-				shp <- st_downsample(shp, downsample)
-			}
-		}
-
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		rgb.vars <- attr(raster_facets_vars, "rgb.vars")
 		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
@@ -45,6 +27,9 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 
 		if (!has_raster(shp)) stop("object ", y$shp_name, " does not have a spatial raster", call. = FALSE)
 		
+		max.raster <- get("tmapOptions", envir = .TMAP_CACHE)$max.raster[if(interactive) "view" else "plot"]
+		
+		shp <- downsample_stars(shp, max.raster)
 		
 		dxy <- attr(st_dimensions(shp), "raster")$dimensions
 		dvars <- setdiff(names(dim(shp)), dxy)

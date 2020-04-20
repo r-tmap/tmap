@@ -109,6 +109,24 @@ get_xy_dim <- function(x) {
 	dim(x)[dxy]
 }
 
+downsample_stars <- function(x, max.raster) {
+	xy_dim <- get_xy_dim(x)
+	asp <- xy_dim[1] / xy_dim[2]
+	
+	y_new <- sqrt(max.raster / asp)
+	x_new <- y_new * asp
+	
+	downsample <- xy_dim[1] / x_new
+	
+	if (inherits(x, "stars_proxy")) {
+		st_as_stars(x, downsample = downsample - 1) # downsample is number of pixels to skip, instead of multiplier
+	} else if (prod(xy_dim) > max.raster) {
+		st_downsample(x, downsample)
+	} else {
+		x
+	}
+}
+
 
 # temp solution to https://github.com/r-spatial/mapview/issues/256
 # cut_world_edges <- function(x) {
