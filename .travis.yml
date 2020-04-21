@@ -7,7 +7,7 @@ r:
 deploy.skip_cleanup: true
 
 sudo: required
-dist: xenial
+dist: trusty
 cache: false
 latex: false
 
