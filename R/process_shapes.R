@@ -123,12 +123,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	} else {
 		shp.bbox <- attr(shp, "bbox")
 		if (!("x" %in% names(args))) args$x <- shp.bbox
-		
+		if (!("asp.limit" %in% names(args))) args$asp.limit <- 10
+
 		bbox <- do.call("bb", args)  #bbox <- get_bbox_lim(shp.bbox, relative, bbox, xlim, ylim, ext)
-		
-		if (any((bbox[3:4] - bbox[1:2]) < 1e-8)) bbox <- bb(cx = bbox[1], cy = bbox[2], width = 1, height = 1)
-		
-		
+
 		bbox_asp <- get_bbox_asp(bbox, gm$inner.margins, longlat, pasp, interactive=interactive)
 		bbx <- bbox_asp$bbox
 		if (drop_shapes) bboxes <- rep(list(bbx), nplots)

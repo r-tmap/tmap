@@ -24,7 +24,7 @@ gather_shape_info <- function(x, interactive) {
 	master_crs <- sf::st_crs(x[[shape.id[masterID]]]$projection)
 	mshp_raw <- x[[shape.id[masterID]]]$shp
 	mshp_crs <- sf::st_crs(mshp_raw)
-	bbx_raw <- bb(mshp_raw)
+	bbx_raw <- sf::st_bbox(mshp_raw)
 	
 	# Checks whether master shape has no crs and has coordinates outside -180-180, -90-90. The crss is futher checked in preprocess_shapes 
 	if (is.na(mshp_crs)) {
@@ -80,7 +80,7 @@ gather_shape_info <- function(x, interactive) {
 	# units_args <- units_args[!sapply(units_args, is.null)]
 	
 	## get arguments related to bb
-	bb_args <- x[[shape.id[masterID]]][intersect(names(x[[shape.id[masterID]]]), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative"))]
+	bb_args <- x[[shape.id[masterID]]][intersect(names(x[[shape.id[masterID]]]), c("ext", "cx", "cy", "width", "height", "xlim", "ylim", "relative", "asp.limit"))]
 	bb_args$x <- x[[shape.id[masterID]]]$bbox
 	
 	## add other shape arguments

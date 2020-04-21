@@ -65,7 +65,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 		plot_tm_raster <- function() {
 			rast <- if (is.null(gpl$raster)) NA else gpl$raster
 			bb_target <- attr(shp, "bbox")
-			bb_real <- bb(shp)
+			bb_real <- sf::st_bbox(shp)
 			
 			if (is_regular_grid(shp)) {
 				if (all(abs(bb_real-bb_target)< 1e-3)) {
