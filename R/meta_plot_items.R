@@ -711,10 +711,10 @@ plot_cred <- function(gt, just, id) {
 		
 	
 	if (gt$credits.align[id]=="center") {
-		x <- x + width/2
+		x <- x + width/2 + mx*.5*size
 		tx <- tx + width/2
 	} else if (gt$credits.align[id]=="right") {
-		x <- x + width
+		x <- x + width + mx*1*size
 		tx <- tx + width
 	}
 	
@@ -726,7 +726,7 @@ plot_cred <- function(gt, just, id) {
 	gTree(children=gList(grobBG,
 						 if (!is.na(gt$credits.bg.color[id])) {
 						 	bg.col <- do.call("process_color", c(list(gt$credits.bg.color[id], alpha=gt$credits.bg.alpha[id]), gt$pc))
-						 	rectGrob(x=x, width=width, just="left", gp=gpar(col=NA, fill=bg.col))
+						 	rectGrob(x=x, width=width, just=c(gt$credits.align[id], "center"), gp=gpar(col=NA, fill=bg.col))
 						 } else {
 						 	NULL
 						 }, textGrob(label=txt, x = tx, y =.5, just=c(gt$credits.align[id], "center"), gp=gpar(cex=size, col=col, fontface=gt$credits.fontface[id], fontfamily=gt$credits.fontfamily[id]))), name="credits")
