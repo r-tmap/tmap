@@ -102,7 +102,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			isF <- is.factor(shp[[1]])
 			if (isF) {
 				lvls <- levels(shp[[1]])
-				clrs <- attr(shp[[1]], "colors")
+				clrs <- rep(attr(shp[[1]], "colors"), length.out = length(lvls))
 				m <- matrix(as.integer(shp[[1]]), ncol = length(shpnames))	
 				if (!length(lvls)) isF <- FALSE
 			} else {
