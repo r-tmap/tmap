@@ -140,7 +140,7 @@ icon2grob <- function(icon) {
 
 grob2icon <- function(grob, grob.dim, just) {
 	tmp <- tempfile(fileext=".png")
-	png(filename=tmp, width=grob.dim[3], height=grob.dim[4])
+	png(filename=tmp, width=grob.dim[3], height=grob.dim[4], bg = "transparent")
 	grid.draw(grob)
 	dev.off()
 	w <- grob.dim[1]
