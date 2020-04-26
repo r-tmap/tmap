@@ -73,7 +73,11 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			} else {
 				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
 				#shp <- sf::st_transform(shp, crs = gm$shape.master_crs) #transform to 4326
+				
+				shpcolors <- attr(shp[[1]], "colors")
+				
 				shp <- stars::st_warp(shp, crs = gm$shape.master_crs) #transform to 4326
+				if (!is.null(shpcolors)) attr(shp[[1]], "colors") <- shpcolors
 			}
 		} else {
 			if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
