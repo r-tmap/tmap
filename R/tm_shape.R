@@ -2,10 +2,10 @@
 #' 
 #' Creates a \code{\link{tmap-element}} that specifies a spatial data object, which we refer to as shape. Also the projection and covered area (bounding box) can be set. It is possible to use multiple shape objects within one plot (see \code{\link{tmap-element}}).
 #'  
-#' @param shp shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.
+#' @param shp shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}} or \code{\link[stars:st_as_stars]{stars}} package. Objects from the packages \code{sp} and \code{raster} are also supported, but discouraged.
 #' @param name name of the shape object (character) as it appears in the legend in \code{"view"} mode. Default value is the name of \code{shp}.
 #' @param is.master logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.
-#' @param projection Either a \code{\link[sf:st_crs]{crs}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.
+#' @param projection Map projection (CRS). Either a \code{\link[sf:st_crs]{crs}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.
 #' @param bbox bounding box. One of the following:
 #' \itemize{
 #' \item A bounding box (an \code{\link[sf:sf]{sf}} bbox object, see \code{\link[sf:st_bbox]{st_bbox}}, a 2 by 2 matrix (used by the \code{sp} package), or an \code{\link[raster:Extent]{Extent}} object used by the \code{raster} package). 
@@ -17,6 +17,8 @@
 #' @param point.per specification of how points or text labels are plotted when the geometry is a multi line or a multi polygon. One of \code{"feature"}, \code{"segment"} or \code{"largest"}. The first generates a point/label for every feature, the second for every segment (i.e. subfeature), the third only for the largest segment (subfeature). Note that the last two options can be significant slower. By default, it is set to \code{"segment"} if the geometry of shp is a (multi)points geometry or a geometrycollection, and \code{"feature"} otherwise.
 #' @param line.center specification of where points are placed for (multi)line geometries. Either \code{"midpoint"} or \code{"centroid"}. The former places a point at the middle of the line, the latter at the controid.
 #' @param filter logical vector which indicated per feature whether it should be included. Features for which filter is \code{FALSE} will be colored light gray (see the \code{colorNULL} argument in the layer functions)
+#' @param raster.downsample Should a raster shape (i.e. \code{stars} object) be downsampled when it is loo large? What is too large is determined by the tmap option \code{max.raster}.
+#' @param raster.warp Should a raster shape (i.e. \code{stars} object) be warped when the map is shown in different map projection (CRS)? If \code{TRUE} (default) the raster is warped to a regular grid in the new projection. Otherwise, the raster shape is transformed where the original raster cells are kept intact. Warping a raster is much faster than transforming. Note that any raster shape with a projection other than 4326 will have to be warped or transformed in view mode.
 #' @param ... Arguments passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrinke a bounding box), and \code{\link[tmaptools:simplify_shape]{simplify_shape}} (the arguments \code{keep.units} and \code{keep.subunits})
 #' @export
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} 
@@ -33,6 +35,8 @@ tm_shape <- function(shp,
 					 point.per = NA,
 					 line.center = "midpoint",
 					 filter = NULL,
+					 raster.downsample = TRUE,
+					 raster.warp = TRUE,
 					 ...) {
 	shp_name <- ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name)
 	g <- list(tm_shape=c(as.list(environment()), list(...), check_shape = TRUE))

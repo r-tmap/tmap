@@ -1,3 +1,14 @@
+transwarp <- function(x, crs, raster.warp) {
+	shpcolors <- attr(x[[1]], "colors")
+	if (raster.warp) {
+		y <- stars::st_warp(x, crs = crs)
+	} else {
+		y <- sf::st_transform(x, crs = crs)
+	}
+	if (!is.null(shpcolors)) attr(y[[1]], "colors") <- shpcolors
+	y
+}
+
 preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
@@ -29,7 +40,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		max.raster <- get("tmapOptions", envir = .TMAP_CACHE)$max.raster[if(interactive) "view" else "plot"]
 		
-		shp <- downsample_stars(shp, max.raster)
+		if ((inherits(shp, "stars_proxy")) || y$raster.downsample) shp <- downsample_stars(shp, max.raster)
 		
 		dxy <- attr(st_dimensions(shp), "raster")$dimensions
 		dvars <- setdiff(names(dim(shp)), dxy)
@@ -61,34 +72,19 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (interactive) {
 			if (sf::st_is_longlat(shp_crs)) {
 				shp_bbox <- sf::st_bbox(shp)
-				
-				shp <- tryCatch({
-					stars::st_warp(shp, crs = .crs_merc)
-				}, error = function(e) {
-					sf::st_transform(shp, crs = .crs_merc)	
-				})
-				
+				shp <- transwarp(shp, crs = .crs_merc, y$raster.warp)
 			} else  if (st_is_merc(shp_crs)) {
 				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
 			} else {
 				shp_bbox <- sf::st_bbox(sf::st_transform(sf::st_as_sfc(sf::st_bbox(shp)), crs = .crs_longlat))
-				#shp <- sf::st_transform(shp, crs = gm$shape.master_crs) #transform to 4326
-				
-				shpcolors <- attr(shp[[1]], "colors")
-				
-				shp <- stars::st_warp(shp, crs = gm$shape.master_crs) #transform to 4326
-				if (!is.null(shpcolors)) attr(shp[[1]], "colors") <- shpcolors
+				shp <- transwarp(shp, crs = gm$shape.master_crs, y$raster.warp)
 			}
 		} else {
 			if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
-				#shp <- sf::st_transform(shp, crs = gm$shape.master_crs)
-				shp <- stars::st_warp(shp, crs = gm$shape.master_crs)
+				shp <- transwarp(shp, crs = gm$shape.master_crs, y$raster.warp)
 			}
 			shp_bbox <- sf::st_bbox(shp)
 		}
-		
-		
-		
 		
 		bandnames <- stars::st_get_dimension_values(shp, dvars[1])
 		treat_as_by <- !is.null(bandnames)
