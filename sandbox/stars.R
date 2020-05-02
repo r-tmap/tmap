@@ -61,20 +61,50 @@ x = c(0, 0.5, 1, 2, 4, 5)  # 6 numbers: boundaries!
 y = c(0.3, 0.5, 1, 2, 2.2) # 5 numbers: boundaries!
 (r = st_as_stars(list(m = m), dimensions = st_dimensions(x = x, y = y)))
 
+# Test warp and transform for small stars like this
+r = st_set_crs(r, 4326)
+r_sf <- st_as_sf(r)
+
+rmerc = st_transform(r, 3857)
+rmerc_sf = st_as_sf(rmerc)
+
 tmap_mode("plot")
-qtm(r)
-
-tmap_mode("view")
-qtm(r) # different scale due to warp to 3857 (some matrix values got lost)
-
-rsf <- st_as_sf(r)
-tm_shape(rsf) +
-	tm_polygons("m", style = "cat", palette = "cat")
 
 tm_shape(r) +
-	tm_raster(style = "cat", palette = "cat") +
-tm_shape(rsf) +
-	tm_borders()
+	tm_raster("m", style = "cat", palette = "cat") +
+tm_shape(r_sf) +
+	tm_borders(lwd = 3)
+
+tm_shape(rmerc) +
+	tm_raster("m", style = "cat", palette = "cat") +
+tm_shape(rmerc_sf) +
+	tm_borders(lwd = 3)
+
+# 4326 to 3857 warp
+tm_shape(r, raster.warp = TRUE) +
+	tm_raster("m", style = "cat", palette = "cat") +
+	tm_shape(rmerc_sf, is.master = TRUE) +
+	tm_borders(lwd = 3)
+
+# 4326 to 3857 transform
+tm_shape(r, raster.warp = FALSE) +
+	tm_raster("m", style = "cat", palette = "cat") +
+	tm_shape(rmerc_sf, is.master = TRUE) +
+	tm_borders(lwd = 3)
+
+# view mode: 4326 to 3857 transform
+tmap_mode("view")
+tm_shape(r, raster.warp = FALSE) +
+	tm_raster("m", style = "cat", palette = "cat") +
+tm_shape(rmerc_sf) +
+	tm_borders(lwd = 3)
+
+# view mode: 4326 to 3857 warp
+tm_shape(r, raster.warp = TRUE) +
+	tm_raster("m", style = "cat", palette = "cat") +
+tm_shape(rmerc_sf) +
+	tm_borders(lwd = 3)
+
 
 
 # tif rgb
@@ -110,9 +140,14 @@ tm_shape(prec) + tm_raster() + tm_facets(free.scales = FALSE) # even slower
 
 tm_shape(World) + tm_fill("HPI") + tm_facets(by = "continent")
 
+
 # large stars object (10980 x 10980)
 (p2 = read_stars(s2))
 
+qtm(p2)
+
+# smaller resolution
+tmap_options(max.raster = c(plot = 1e3, view = 1e3))
 qtm(p2)
 
 
@@ -120,6 +155,7 @@ qtm(p2)
 p2_1 = dplyr::slice(p2, band, 1)
 
 qtm(p2_1)
+
 
 # one band, aspect ratio 2
 p2_1b = p2_1[,1:5490]
@@ -129,7 +165,6 @@ qtm(p2_1b)
 
 # warp to different crs
 tm_shape(p2_1, projection = 4326) + tm_raster()
-
 
 tmap_mode("view")
 qtm(p2_1)

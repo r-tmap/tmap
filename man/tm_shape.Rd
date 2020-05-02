@@ -15,17 +15,19 @@ tm_shape(
   point.per = NA,
   line.center = "midpoint",
   filter = NULL,
+  raster.downsample = TRUE,
+  raster.warp = TRUE,
   ...
 )
 }
 \arguments{
-\item{shp}{shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.}
+\item{shp}{shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}} or \code{\link[stars:st_as_stars]{stars}} package. Objects from the packages \code{sp} and \code{raster} are also supported, but discouraged.}
 
 \item{name}{name of the shape object (character) as it appears in the legend in \code{"view"} mode. Default value is the name of \code{shp}.}
 
 \item{is.master}{logical that determines whether this \code{tm_shape} is the master shape element. The bounding box, projection settings, and the unit specifications of the resulting thematic map are taken from the \code{tm_shape} element of the master shape object. By default, the first master shape element with a raster shape is the master, and if there are no raster shapes used, then the first \code{tm_shape} is the master shape element.}
 
-\item{projection}{Either a \code{\link[sf:st_crs]{crs}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.}
+\item{projection}{Map projection (CRS). Either a \code{\link[sf:st_crs]{crs}} object or a character value (\code{PROJ.4} character string). By default, the projection is used that is defined in the \code{shp} object itself.}
 
 \item{bbox}{bounding box. One of the following:
 \itemize{
@@ -43,6 +45,10 @@ If unspecified, the current bounding box of \code{shp} is taken. The bounding bo
 \item{line.center}{specification of where points are placed for (multi)line geometries. Either \code{"midpoint"} or \code{"centroid"}. The former places a point at the middle of the line, the latter at the controid.}
 
 \item{filter}{logical vector which indicated per feature whether it should be included. Features for which filter is \code{FALSE} will be colored light gray (see the \code{colorNULL} argument in the layer functions)}
+
+\item{raster.downsample}{Should a raster shape (i.e. \code{stars} object) be downsampled when it is loo large? What is too large is determined by the tmap option \code{max.raster}.}
+
+\item{raster.warp}{Should a raster shape (i.e. \code{stars} object) be warped when the map is shown in different map projection (CRS)? If \code{TRUE} (default) the raster is warped to a regular grid in the new projection. Otherwise, the raster shape is transformed where the original raster cells are kept intact. Warping a raster is much faster than transforming. Note that any raster shape with a projection other than 4326 will have to be warped or transformed in view mode.}
 
 \item{...}{Arguments passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrinke a bounding box), and \code{\link[tmaptools:simplify_shape]{simplify_shape}} (the arguments \code{keep.units} and \code{keep.subunits})}
 }

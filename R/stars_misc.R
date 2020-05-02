@@ -118,13 +118,19 @@ downsample_stars <- function(x, max.raster) {
 	
 	downsample <- xy_dim[1] / x_new
 	
+	
 	if (inherits(x, "stars_proxy")) {
-		st_as_stars(x, downsample = downsample - 1) # downsample is number of pixels to skip, instead of multiplier
+		y <- st_as_stars(x, downsample = downsample - 1) # downsample is number of pixels to skip, instead of multiplier
+		message("stars_proxy object shown at ", paste(get_xy_dim(y), collapse = " by "), " cells.")
 	} else if (prod(xy_dim) > max.raster) {
-		st_downsample(x, downsample)
+		n <- dim(x) * 0 + 1
+		n[names(xy_dim)] <- downsample
+		y <- st_downsample(x, n)
+		message("stars object downsampled to ", paste(get_xy_dim(y), collapse = " by "), " cells.")
 	} else {
-		x
+		y <- x
 	}
+	y
 }
 
 
