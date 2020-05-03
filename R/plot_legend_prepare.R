@@ -1,4 +1,4 @@
-legend_prepare <- function(gp, gal, gt, scaleFactor) {
+plot_legend_prepare <- function(gp, gal, gt, scaleFactor) {
 
 	varnames <- c("fill", "symbol.size", "symbol.col", "symbol.shape", "line.col", "line.lwd", "raster", "text.size", "text.col")
 	varnames_hist <- c("fill", "symbol.col", "line.col", "raster")

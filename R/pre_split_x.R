@@ -1,4 +1,4 @@
-order_x <- function(x, shps, datasets, types, gm) {
+pre_split_x <- function(x, shps, datasets, types, gm) {
 	n <- length(x)
 	y <- rep(0, n); y[gm$shape.id] <- 1
 	

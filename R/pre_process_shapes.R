@@ -1,15 +1,4 @@
-transwarp <- function(x, crs, raster.warp) {
-	shpcolors <- attr(x[[1]], "colors")
-	if (raster.warp) {
-		y <- stars::st_warp(x, crs = crs)
-	} else {
-		y <- sf::st_transform(x, crs = crs)
-	}
-	if (!is.null(shpcolors)) attr(y[[1]], "colors") <- shpcolors
-	y
-}
-
-preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
+pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	
 	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
@@ -215,7 +204,7 @@ preprocess_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
 		isolines <- ("isolines" %in% names(attributes(shp)))
 		
-		if (y$check_shape) shp <- check_shape(shp, y$shp_name)
+		if (y$check_shape) shp <- pre_check_shape(shp, y$shp_name)
 
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
 		if (inherits(shp, "sfc")) {

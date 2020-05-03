@@ -1,4 +1,4 @@
-plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos, use_facets) {
+plot_1 <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos, use_facets) {
 	
 	gt <- gp$tm_layout
 	
@@ -89,7 +89,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 	}
 
 	## prepare legend items
-	leg <- legend_prepare(gp, gal, gt, lineInch)
+	leg <- plot_legend_prepare(gp, gal, gt, lineInch)
 
 		
 
@@ -109,7 +109,7 @@ plot_all <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos
 			frameX <- 0
 			frameY <- 0
 		}
-		treeMeta <- meta_plot(gt, leg, legend_pos, bbx, metaX, metaY, frameX, frameY, use_facets)
+		treeMeta <- plot_meta(gt, leg, legend_pos, bbx, metaX, metaY, frameX, frameY, use_facets)
 		treeMetaX <- gTree(children=gList(treeMeta), name="meta_with_bg") #, vp = treeMetaVP) # previously with grobLegendBG
 		if (!gt$legend.only) {
 			treeMapX <- addGrob(treeMapX, child=treeMetaX) #, gPath=gPath("outer_map"))#, "aspvp"))

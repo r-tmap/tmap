@@ -1,5 +1,5 @@
 # grid version of pointLabel
-pointLabelGrid <- function (x, y, width, height,  
+plot_text_pointLabelGrid <- function (x, y, width, height,  
 							method = c("SANN", "GA"), 
 							allowSmallOverlap = FALSE, trace = FALSE, xyAspect=1, ...) 
 {

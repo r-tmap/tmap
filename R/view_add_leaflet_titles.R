@@ -1,4 +1,4 @@
-add_leaflet_titles <- function(lf) {
+view_add_leaflet_titles <- function(lf) {
 	if (inherits(lf, "shiny.tag.list")) {
 		ncld <- length(lf[[1]])
 		lf[[1]] <- mapply(function(l, i) {

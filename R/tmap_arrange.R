@@ -59,7 +59,7 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		
 	tms_len <- length(tms)
 	
-	nx <- limit_nx(tms_len)
+	nx <- process_limit_nx(tms_len)
 	if (nx != tms_len) tms <- tms[1:nx]
 	
 	if (is.na(opts$ncol) && is.na(opts$nrow)) {
@@ -87,7 +87,7 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 		
 		asp_ratio <- iasp / dasp
 		
-		nrowcol <- get_arrangement(nx = nx, asp_ratio = asp_ratio)
+		nrowcol <- process_get_arrangement(nx = nx, asp_ratio = asp_ratio)
 		nrow <- nrowcol[1]
 		ncol <- nrowcol[2]
 		
@@ -111,10 +111,8 @@ print_tmap_arrange <- function(tms, knit = FALSE, show = TRUE, add.titles = TRUE
 			tmap_leaflet(tm, add.titles = FALSE)
 		})
 		lfmv <- do.call(leafsync::latticeView, c(lfs, list(ncol=ncol, sync=ifelse(opts$sync, "all", "none"))))
-		#class(lfmv) <- c("tmap_arrange_view", class(lfmv))
-		#return(add_leaflet_titles(lfmv))
-		
-		if (add.titles) lfmv <- add_leaflet_titles(lfmv)
+
+		if (add.titles) lfmv <- view_add_leaflet_titles(lfmv)
 		
 		if (show) {
 			if (knit) {

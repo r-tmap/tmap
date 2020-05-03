@@ -93,7 +93,7 @@ qtm <- function(shp,
 		borders <- NULL
 		showPoints <- FALSE
 	} else {
-		shp <- check_shape(shp, shp_name)
+		shp <- pre_check_shape(shp, shp_name)
 
 		if (inherits(shp, "sfc")) shp <- st_sf(shp)
 

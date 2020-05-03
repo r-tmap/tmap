@@ -1,4 +1,4 @@
-legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.color, legend.hist.bg.color) {
+plot_legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.color, legend.hist.bg.color) {
 	with(x, {
 		if (is.factor(values)) {
 			numbers <- table(values)

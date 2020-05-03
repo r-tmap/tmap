@@ -1,4 +1,4 @@
-check_shape <- function(shp, name) {
+pre_check_shape <- function(shp, name) {
 	if (inherits(shp, "Spatial")) {
 		shp <- as(shp, "sf")
 	} else if (!inherits(shp, c("sf", "sfc"))) {

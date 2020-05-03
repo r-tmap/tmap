@@ -2,12 +2,11 @@ language: r
 
 r:
   - release
-  - devel
 
 deploy.skip_cleanup: true
 
 sudo: required
-dist: trusty
+dist: xenial
 cache: false
 latex: false
 

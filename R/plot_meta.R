@@ -1,4 +1,4 @@
-meta_plot <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_facets) {
+plot_meta <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_facets) {
 	# are there any legend elements? if not, title.only=TRUE
 	#title.only <- all(sapply(x, is.null))
 	has.legend <- !is.null(x)

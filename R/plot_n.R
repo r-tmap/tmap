@@ -1,4 +1,4 @@
-gridplot <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr) {
+plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr) {
 	mfrow <- gmeta$nrow
 	mfcol <- gmeta$ncol
 

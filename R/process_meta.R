@@ -12,7 +12,7 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, pan
 	gf <- within(gf, {
 		by <- NULL
 		if (is.na(ncol) && is.na(nrow)) {
-			nrowcol <- get_arrangement(nx = nxa, asp_ratio = gm$shape.asp_ratio)
+			nrowcol <- process_get_arrangement(nx = nxa, asp_ratio = gm$shape.asp_ratio)
 			nrow <- nrowcol[1]
 			ncol <- nrowcol[2]
 		} else {

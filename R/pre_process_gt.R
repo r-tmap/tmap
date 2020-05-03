@@ -1,6 +1,4 @@
-maybe_longlat <- function (bb) (bb[1] >= -180.1 && bb[3] <= 180.1 && bb[2] >= -90.1 && bb[4] <= 90.1)
-
-preprocess_gt <- function(x, interactive, orig_crs) {
+pre_process_gt <- function(x, interactive, orig_crs) {
 	set.bounds <- bg.color <- set.zoom.limits <- legend.position <- colorNA <- NULL
 	
 	
@@ -175,12 +173,6 @@ preprocess_gt <- function(x, interactive, orig_crs) {
 
 				
 	})
-	
-
-	# append view to layout
-	# gt[c("basemaps", "basemaps.alpha")] <- NULL
-	# gv[c("colorNA", "call", "legend.position")] <- NULL
-	# gt <- c(gt, gv)
 	
 	gtnull <- names(which(vapply(gt, is.null, logical(1))))
 	gt[gtnull] <- list(NULL)

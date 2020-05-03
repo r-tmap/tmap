@@ -24,7 +24,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		
 		if (!grid.custom.x) grid.x <- pretty(bbx[c(1,3)], n=grid.n.x)
 		if (!grid.custom.y) grid.y <- pretty(bbx[c(2,4)], n=grid.n.y)
-
+		
 		## copy grid.x and y
 		grid.x.orig <- grid.x
 		grid.y.orig <- grid.y
@@ -84,7 +84,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 			# create SLDF with straight grid lines in grid lines projection
 			#bbx2 <- bb(bbx, ext=3)
 			
-
+			
 			lnsList <- list(
 				if (is.na(grid.x2[1])) NULL else st_multilinestring(lapply(grid.x2, function(x) {
 					m <- matrix(c(rep(x,grid.ndiscr), seq(grid.y2.min, grid.y2.max, length.out=grid.ndiscr)), ncol=2)
@@ -116,7 +116,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				
 				# project it to current projection
 				lns_proj <- sf::st_transform(lns, crs = proj)
-
+				
 				
 				# extract and normalize coordinates
 				
@@ -132,7 +132,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				} else {
 					grid.co.x.lns <- numeric(0)
 				}
-
+				
 				if (lnsSel[2]) {
 					yco <- st_coordinates(st_geometry(lns_proj)[sum(lnsSel)])
 					grid.co.y.lns <- lapply(1L:length(st_geometry(lns_proj)[sum(lnsSel)][[1]]), function(i) {
@@ -222,7 +222,7 @@ plot_grid_labels_x <- function(gt, scale) {
 	
 	spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	marginX <- convertHeight(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-
+	
 	just <- ifelse(gt$grid.labels.rot[1] == 90, "right", ifelse(gt$grid.labels.rot[1] == 270, "left", ifelse(gt$grid.labels.rot[1] == 180, "bottom", "top")))
 	
 	if (gt$grid.ticks[1]) {
@@ -239,7 +239,7 @@ plot_grid_labels_x <- function(gt, scale) {
 
 plot_grid_labels_y <- function(gt, scale) {
 	labelsy <- gt$grid.labels.y
-
+	
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
 		glabelsy <- get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = 0)
@@ -251,7 +251,7 @@ plot_grid_labels_y <- function(gt, scale) {
 	}
 	
 	cex <- gt$grid.labels.size*scale
-
+	
 	spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	marginY <- convertWidth(unit(gt$grid.labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	
@@ -272,7 +272,7 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 	
 	if (gt$grid.labels.inside.frame && any(gt$grid.ticks)) warning("Grid ticks are not supported when labels.inside.frame = TRUE", call. = FALSE)
-
+	
 	
 	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
 	cogridx <- gt$grid.co.x
@@ -280,7 +280,7 @@ plot_grid <- function(gt, scale, add.labels) {
 	labelsx <- gt$grid.labels.x
 	labelsy <- gt$grid.labels.y
 	
-
+	
 	cex <- gt$grid.labels.size*scale
 	
 	selx <- (length(cogridx) > 0)
@@ -312,8 +312,8 @@ plot_grid <- function(gt, scale, add.labels) {
 	} else {
 		labelsXw <- spacerX <- marginX <- 0
 	}
-		
-		
+	
+	
 	if (add.labels[2]) {
 		if (gt$grid.labels.rot[2] %in% c(0, 180)) {
 			labelsYw <- if (sely) max(text_width_npc(labelsy, space=FALSE))  * cex + fw else 0
@@ -330,7 +330,7 @@ plot_grid <- function(gt, scale, add.labels) {
 	if (!is.na(gt$grid.projection)) {
 		glabelsx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX) else numeric(0)
 		glabelsy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY+marginY) else numeric(0)
-
+		
 		cogridx <- glabelsx$cogrid
 		cogridy <- glabelsy$cogrid
 		
@@ -405,7 +405,7 @@ plot_grid <- function(gt, scale, add.labels) {
 		
 		grobGridTextX <- if (add.labels[1] && any(selx2)) {
 			just <- ifelse(gt$grid.labels.rot[1] == 90, "right", ifelse(gt$grid.labels.rot[1] == 270, "left", ifelse(gt$grid.labels.rot[1] == 180, "bottom", "top")))
-
+			
 			textGrob(labelsx, y=labelsXw+spacerX*.5+marginX, x=cogridx3, just=just, rot=gt$grid.labels.rot[1], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
@@ -431,7 +431,7 @@ plot_grid <- function(gt, scale, add.labels) {
 		
 		grobGridTextY <- if (add.labels[2] && any(sely2)) {
 			just <- ifelse(gt$grid.labels.rot[2] == 90, "bottom", ifelse(gt$grid.labels.rot[2] == 270, "top", ifelse(gt$grid.labels.rot[2] == 180, "left", "right")))
-
+			
 			textGrob(labelsy, x=labelsYw+spacerY*.5+marginY, y=cogridy3, just=just, rot=gt$grid.labels.rot[2], gp=gpar(col=gt$grid.labels.col, cex=gt$grid.labels.size*scale, fontface=gt$fontface, fontfamily=gt$fontfamily))
 		} else NULL
 	} else {
@@ -453,7 +453,7 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 	lns <- st_sf(geometry=st_sfc(lapply(lco, function(l) {
 		st_linestring(l)
 	})), crs = 4326) # trick for 0-1 coordinates
-
+	
 	# lns <- SpatialLines(mapply(function(m, id){
 	# 	Lines(list(Line(m)), ID=id)
 	# }, lco, 1:k, SIMPLIFY=FALSE))
@@ -486,16 +486,16 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 		
 		wgint <- which(gint)
 		gints <- suppressMessages(st_intersection(lns[gint, ], ax))
-
+		
 		# count number of intersections per coordinate
 		gnrs <- vapply(st_geometry(gints), function(g) {
 			nr <- nrow(g)
 			if (is.null(nr)) 1L else nr
 		}, integer(1))
 		gints <- suppressWarnings(st_cast(x = st_cast(gints, "MULTIPOINT"), to = "POINT"))
-
+		
 		coor <- st_coordinates(gints)[,d]
-
+		
 		ids2 <- unlist(mapply(rep, 1:length(wgint), gnrs, SIMPLIFY = FALSE), use.names = FALSE)
 		j <- 1L
 		for (i in which(gint)) {
@@ -508,295 +508,4 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 		ids <- unlist(ids, use.names = FALSE)
 	}
 	list(cogrid = cogrid, ids = ids)
-}
-
-
-plot_symbols <- function(co.native, g, gt, lineInch, lineNatH, lineNatW, i, k) {
-	symbolH <- lineNatH * gt$scale
-	symbolW <- lineNatW * gt$scale
-	shapeLib <- get("shapeLib", envir = .TMAP_CACHE)
-	justLib <- get("justLib", envir = .TMAP_CACHE)
-
-	with(g, {
-		npol <- nrow(co.native)
-		if (length(symbol.size)!=npol) {
-			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
-			symbol.size <- rep(symbol.size, length.out=npol)
-		}
-
-		size.native.w <- convertWidth(unit(symbol.size, "inch"), "native", valueOnly = TRUE)
-		size.native.h <- convertHeight(unit(symbol.size, "inch"), "native", valueOnly = TRUE)
-
-		# determine justification per symbol
-		just <- g$symbol.misc$just
-		justs <- lapply(symbol.shape, function(ss) {
-			if (!is.na(ss) && ss>999) {
-				js <- justLib[[ss-999]]
-				if (is.na(js[1])) just else js
-			} else just
-		})
-		justs.x <- vapply(justs, "[[", numeric(1), 1)
-		justs.y <- vapply(justs, "[[", numeric(1), 2)
-		justx <- size.native.w * (justs.x-.5)
-		justy <- size.native.h * (justs.y-.5)
-		
-		# adjust the coordinates
-		co.native[, 1] <- co.native[, 1] + symbol.xmod * symbolW + justx * lineNatW * 2 / 3
-		co.native[, 2] <- co.native[, 2] + symbol.ymod * symbolH + justy * lineNatH * 2 / 3
-		
-		sel <- !is.na(symbol.size) & !is.na(symbol.col) & !is.na(symbol.shape)
-		
-		# return NULL is no symbols are selected (see tm_facets example)
-		if (!any(sel)) return(NULL)
-		
-		if (!all(sel)) {
-			co.native <- co.native[sel, , drop=FALSE]
-			symbol.size <- symbol.size[sel]
-			symbol.col <- symbol.col[sel]
-			symbol.shape <- symbol.shape[sel]
-			npol <- sum(sel)
-		}
-		symbol.size <- symbol.size * lineInch
-		
-		if (length(symbol.size)!=1) {
-			decreasing <- order(-symbol.size)
-			co.native2 <- co.native[decreasing,,drop=FALSE]
-			symbol.size2 <- symbol.size[decreasing]
-			symbol.shape2 <- symbol.shape[decreasing]
-			symbol.col2 <- symbol.col[decreasing]
-		} else {
-			co.native2 <- co.native
-			symbol.size2 <- symbol.size
-			symbol.shape2 <- symbol.shape
-			symbol.col2 <- symbol.col
-		}
-
-		bordercol <- symbol.border.col
-		idName <- paste("tm_symbols", i, k, sep="_")
-		
-		if (any(!is.na(symbol.shape2) & symbol.shape2>999)) {
-			gpars <- get_symbol_gpar(x=symbol.shape2,
-									 fill=symbol.col2,
-									 col=bordercol,
-									 lwd=symbol.border.lwd,
-									 separate=TRUE)
-			grobs <- lapply(1:npol, function(i) {
-				if (!is.na(symbol.shape2[i]) && symbol.shape2[i]>999) {
-					grbs <- if (is.na(bordercol)) {
-						gList(shapeLib[[symbol.shape2[i]-999]])	
-					} else {
-						gList(shapeLib[[symbol.shape2[i]-999]], rectGrob(gp=gpar(fill=NA, col=bordercol, lwd=symbol.border.lwd)))	
-					}
-					gTree(children=grbs, vp=viewport(x=unit(co.native2[i,1], "native"), 
-														  y=unit(co.native2[i,2], "native"),
-														  width=unit(symbol.size2[i]*2/3, "inch"),
-														  height=unit(symbol.size2[i]*2/3, "inch")))
-				} else {
-					pointsGrob(x=unit(co.native2[i,1], "native"), y=unit(co.native2[i,2], "native"),
-							   size=unit(symbol.size2[i], "inch"),
-							   pch=symbol.shape2[i],
-							   gp=gpars[[i]])
-				}
-			})
-			x <- gTree(children=do.call(gList, grobs), name=idName)
-		} else {
-			pointsGrob(x=unit(co.native2[,1], "native"), y=unit(co.native2[,2], "native"),
-					   size=unit(symbol.size2, "inch"),
-					   pch=symbol.shape2,
-					   gp=get_symbol_gpar(x=symbol.shape2,
-					   				   fill=symbol.col2,
-					   				   col=bordercol,
-					   				   lwd=symbol.border.lwd), 
-					   name=idName)
-		}
-		
-	})
-}
-
-plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "center"), bbx = bbx, bg.margin=.10) {
-	lineHnative <- lineNatH * gt$scale
-	lineWnative <- lineNatW * gt$scale
-	
-	npol <- nrow(co.native)
-	with(g, {
-		if (!any(text_sel)) {
-			#warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.", call. = FALSE)
-			return(NULL)
-		}
-		
-		co.native[, 1] <- co.native[, 1] + text.xmod * lineWnative
-		co.native[, 2] <- co.native[, 2] + text.ymod * lineHnative
-
-		
-		#grobText <- textGrob(text[text_sel], x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"), just=just, gp=gpar(col=text.color[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
-
-		# grobText <- pointsGrob(x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"))
-		
-		grobText <- textGrob(text[text_sel], x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"), just=just, gp=gpar(col=text.color[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
-		nlines <- rep(1, length(text))
-		
-		
-		lineH <- npc_to_native(convertHeight(unit(text.size[text_sel], "lines"), "native", valueOnly=TRUE), scale = bbx[c(2,4)])
-		lineW <- npc_to_native(convertWidth(unit(text.size[text_sel], "lines"), "native", valueOnly=TRUE), scale = bbx[c(1,3)])
-		
-		#		if (!is.na(text.bg.color)) {
-		
-		tGH <- npc_to_native(mapply(text[text_sel], text.size[text_sel], nlines[text_sel], FUN=function(x,y,z){
-			convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"native", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE), scale = bbx[c(2,4)])
-		
-		tGW <- npc_to_native(mapply(text[text_sel], text.size[text_sel], FUN=function(x,y){
-			convertWidth(grobWidth(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"native", valueOnly=TRUE)}, USE.NAMES=FALSE), scale = bbx[c(1,3)])
-		
-
-		justx <- .5 - just[1]
-		justy <- .6 - just[2]
-		
-		tGX <- grobText$x + unit(tGW * justx, "native")
-		tGY <- grobText$y + unit(tGH * justy, "native")
-		
-		tGH <- unit(tGH + lineH * bg.margin, "native")
-		tGW <- unit(tGW + lineW * bg.margin, "native")
-		grobTextBG <- rectGrob(x=tGX, y=tGY, width=tGW, height=tGH, gp=gpar(fill=text.bg.color, col=NA))
-		# 		} else {
-		# 			grobTextBG <- NULL
-		# 		}
-		
-		if (text.shadow) {
-			grobTextSh <- textGrob(text[text_sel], x=unit(co.native[text_sel,1]+lineW * .05, "native"), y=unit(co.native[text_sel,2]- lineH * .05, "native"), just=just, gp=gpar(col=text.shadowcol[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
-		} else {
-			grobTextSh <- NULL
-		}
-		
-		gList(grobTextBG, grobTextSh, grobText)
-	})
-}
-
-################!!!!! Functions below needed for Advanced text options !!!!####################
-
-.grob2Poly <- function(g) {
-	x <- convertX(g$x, unitTo = "native", valueOnly = TRUE)
-	y <- convertY(g$y, unitTo = "native", valueOnly = TRUE)
-	if (inherits(g, "rect")) {
-		w <- convertWidth(g$width, unitTo = "native", valueOnly = TRUE)
-		h <- convertHeight(g$height, unitTo = "native", valueOnly = TRUE)
-		x1 <- x - .5*w
-		x2 <- x + .5*w
-		y1 <- y - .5*h
-		y2 <- y + .5*h
-		polys <- mapply(function(X1, X2, Y1, Y2) {
-			st_polygon(list(cbind(c(X1, X2, X2, X1, X1),
-						  c(Y2, Y2, Y1, Y1, Y2))))
-		}, x1, x2, y1, y2, SIMPLIFY=FALSE)
-		st_union(st_sfc(polys))
-	} else if (inherits(g, "polygon")) {
-		xs <- split(x, g$id)
-		ys <- split(y, g$id)
-		
-		polys <- mapply(function(xi, yi) {
-			co <- cbind(xi, yi)
-			st_polygon(list(rbind(co, co[1,])))
-		}, xs, ys, SIMPLIFY = FALSE)
-		st_union(st_sfc(polys))
-	} # else return(NULL)
-
-}
-
-polylineGrob2sfLines <- function(gL) {
-	k <- length(gL)
-
-	multiLines <- lapply(gL, function(gLi) {
-		coords <- cbind(gLi$x, gLi$y)
-		
-		if (length(gLi$id.lengths) > 1) {
-			ids <- unlist(mapply(rep, 1:length(gLi$id.lengths), gLi$id.lengths), use.names = FALSE)
-			coords <- mapply(cbind, split(as.numeric(gLi$x), ids), split(as.numeric(gLi$y), ids))
-			st_multilinestring(coords)
-		} else {
-			st_linestring(coords)
-		}
-	})
-	st_sf(geometry = st_sfc(multiLines))
-}
-
-npc_to_native <- function(x, scale) {
-	x * (scale[2] - scale[1])# + scale[1]
-}
-
-native_to_npc_to_native <- function(x, scale) {
-	#(x - scale[1]) / (scale[2] - scale[1])
-	(x) / (scale[2] - scale[1])
-}
-
-.rectGrob2pathGrob <- function(rg, angles) {
-	x <- convertX(rg$x, "inch", valueOnly=TRUE)
-	y <- convertY(rg$y, "inch", valueOnly=TRUE)
-	w <- convertWidth(rg$width, "inch", valueOnly=TRUE)
-	h <- convertHeight(rg$height, "inch", valueOnly=TRUE)
-
-	a <- atan2(h, w)
-	as <- as.vector(vapply(a, function(a)c(a,pi-a, pi+a,-a), numeric(4)))
-
-	as2 <- as + rep(angles * pi / 180, each=4)
-
-	dst <- rep(sqrt((w/2)^2+(h/2)^2), each=4)
-
-	xs <- rep(x, each=4) + cos(as2) * dst
-	ys <- rep(y, each=4) + sin(as2) * dst
-
-	xs2 <- convertX(unit(xs, "inch"), "npc")
-	ys2 <- convertY(unit(ys, "inch"), "npc")
-
-	id <- rep(1:length(x), each=4)
-
-	w2 <- w + (h-w) * abs(sin(angles*pi/180))
-	h2 <- h + (w-h) * abs(sin(angles*pi/180))
-
-	w3 <- convertWidth(unit(w2, "inch"), "npc")
-	h3 <- convertHeight(unit(h2, "inch"), "npc")
-
-	list(poly=polygonGrob(xs2, ys2, id=id, gp=rg$gp),
-		 rect=rectGrob(rg$x, rg$y, width = w3, height=h3))
-}
-
-.get_direction_angle <- function(co) {
-	p1 <- co[1,]
-	p2 <- co[nrow(co),]
-
-	a <- atan2(p2[2] - p1[2], p2[1] - p1[1]) * 180 / pi
-	if (a < 0) a <- a + 360
-	a
-}
-
-
-.editGrob <- function(tg, sel, shiftX, shiftY, angles) {
-	nt <- length(sel)
-	angles <- rep(angles, length.out=nt)
-	if (any(angles!=0)) {
-		if (inherits(tg, "rect")) {
-			tg <- .rectGrob2pathGrob(tg, angles)$poly
-		}
-	}
-	tgx <- convertX(tg$x, "native", valueOnly = TRUE)
-	tgy <- convertY(tg$y, "native", valueOnly = TRUE)
-
-	if (inherits(tg, "polygon")) {
-		sel4 <- rep(sel, each=4)
-		tg$x <- unit(tgx + rep(shiftX, each=4), "native")[sel4]
-		tg$y <- unit(tgy + rep(shiftY, each=4), "native")[sel4]
-		tg$id <- rep(1:sum(sel), each=4)
-	} else {
-		tg$x <- unit(tgx + shiftX, "native")[sel]
-		tg$y <- unit(tgy + shiftY, "native")[sel]
-		if (inherits(tg, "rect")) {
-			tg$height <- tg$height[sel]
-			tg$width <- tg$width[sel]
-		} else if (inherits(tg, "text")) {
-			tg$label <- tg$label[sel]
-			tg$rot <- angles[sel]
-		}
-	}
-	tg$gp <- do.call("gpar", lapply(unclass(tg$gp)[names(tg$gp)!="font"], function(g) {
-		if (length(g)==nt) g[sel] else g
-	}))
-	tg
 }

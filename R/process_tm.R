@@ -2,8 +2,6 @@ process_tm <- function(x, gt, gm, interactive) {
 	fill <- NULL; xfill <- NULL; xraster <- NULL; text <- NULL; raster <- NULL
 	## fill meta info
 	
-	#gt <- preprocess_gt(x, interactive=interactive, orig_crs = gm$shape.orig_crs)
-	
 	## get grid element
 	gridid <- which(names(x)=="tm_grid")[1]
 	if (length(gridid)>1) gridid <- gridid[length(gridid)]
@@ -262,7 +260,7 @@ process_tm <- function(x, gt, gm, interactive) {
 		nxa <- nx
 	} else {
 		nxa <- nx / length(along.names)
-		nxa <- limit_nx(nxa)
+		nxa <- process_limit_nx(nxa)
 		nx <- nxa * length(along.names)
 	}
 	

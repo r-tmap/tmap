@@ -1,4 +1,4 @@
-gather_shape_info <- function(x, interactive) {
+pre_gather_shape_info <- function(x, interactive) {
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)

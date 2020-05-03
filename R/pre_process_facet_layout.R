@@ -1,4 +1,4 @@
-preprocess_facet_layout <- function(gm, external_legend, dh, dw) {
+pre_process_facet_layout <- function(gm, external_legend, dh, dw) {
 	between.margin.in <- convertHeight(unit(gm$between.margin, "lines"), "inch", valueOnly=TRUE) * gm$scale
 	
 	if (external_legend) {

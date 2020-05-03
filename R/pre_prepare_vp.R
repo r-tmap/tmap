@@ -1,4 +1,4 @@
-prepare_vp <- function(vp, gm, interactive, gt) {
+pre_prepare_vp <- function(vp, gm, interactive, gt) {
 	
 	if (interactive) {
 		devsize <- dev.size()

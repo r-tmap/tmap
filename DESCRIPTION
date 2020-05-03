@@ -34,7 +34,8 @@ Imports:
     leaflet (>= 2.0.2),
     leafsync,
     leafem (>= 0.1),
-    stats
+    stats,
+    rlang
 Suggests:
 	rmapshaper,
     rmarkdown,

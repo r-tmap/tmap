@@ -161,7 +161,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					textSizes <- gpl$text.size[gpl$text_sel]
 					elX <- convertWidth(unit(textSizes, "lines"), "native", valueOnly = TRUE) * el
 					elY <- convertHeight(unit(textSizes, "lines"), "native", valueOnly = TRUE) * el
-					xy <- pointLabelGrid(rGX-elX*.5, rGY-elY*.5, rGWidth+elX, rGHeight+elY, xyAspect = sasp)
+					xy <- plot_text_pointLabelGrid(rGX-elX*.5, rGY-elY*.5, rGWidth+elX, rGHeight+elY, xyAspect = sasp)
 					dir <- atan2(xy$y - rGY, xy$x - rGX)
 					shiftX <- (xy$x - rGX) + elX * cos(dir)
 					shiftY <- (xy$y - rGY) + elY * sin(dir)
@@ -206,7 +206,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 				if (gpl$text.auto.placement && (!all(sel))) {
 					shiftX <- rep(0, nt)
 					shiftY <- rep(0, nt)
-					xy <- pointLabelGrid(rGX2[sel], rGY2[sel], rGWidth[sel], rGHeight[sel], xyAspect = sasp)
+					xy <- plot_text_pointLabelGrid(rGX2[sel], rGY2[sel], rGWidth[sel], rGHeight[sel], xyAspect = sasp)
 					shiftX[sel] <- xy$x - rGX2[sel]
 					shiftY[sel] <- xy$y - rGY2[sel]
 					rGX2 <- rGX2 + shiftX

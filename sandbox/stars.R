@@ -171,6 +171,17 @@ qtm(p2_1)
 
 
 
+# slightly too large stars object (1100 x 1110)
+tmap_options_reset()
+(p3 = read_stars(s2, RasterIO = list(nXSize = 1100, nYSize = 1100)))
+
+tm_shape(p3) +
+	tm_raster()
+
+tm_shape(p3, raster.downsample = FALSE) +
+	tm_raster()
+
+
 
 
 

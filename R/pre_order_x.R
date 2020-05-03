@@ -1,4 +1,4 @@
-prearrange_element_order <- function(x, add.basemap , add.overlay) {
+pre_order_x <- function(x, add.basemap , add.overlay) {
 	a <- names(x)
 
 	aid <- 1L:length(a)

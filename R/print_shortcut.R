@@ -4,7 +4,7 @@ print_shortcut <- function(x, interactive, in.shiny, args, knit) {
 	} else {
 		xtiles <- which(names(x) == "tm_tiles")
 		
-		gt <- preprocess_gt(x, interactive=interactive)
+		gt <- pre_process_gt(x, interactive=interactive)
 		gt$shp_name <- rep("dummy", length(xtiles))
 		
 		gt$shape.units <- list(unit = get("tmapOptions", envir = .TMAP_CACHE)$unit)

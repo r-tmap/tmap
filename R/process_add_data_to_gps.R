@@ -1,4 +1,4 @@
-add_data_to_gps <- function(gps, gm, datasets, matchIDs, interactive) {
+process_add_data_to_gps <- function(gps, gm, datasets, matchIDs, interactive) {
 	# append data to gps
 	mapply(function(gp, masterID) {
 		gp[-length(gp)] <- mapply(function(gpl, indices, dt) {

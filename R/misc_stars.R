@@ -133,24 +133,13 @@ downsample_stars <- function(x, max.raster) {
 	y
 }
 
-
-# temp solution to https://github.com/r-spatial/mapview/issues/256
-# cut_world_edges <- function(x) {
-# 	if (!sf::st_is_longlat(x) || is_curvilinear(x)) {
-# 		x
-# 	} else {
-# 		dims <- attr(st_dimensions(x), "raster")$dimensions
-# 
-# 		xvalues <- round(st_get_dimension_values(x, dims[1]))
-# 		yvalues <- round(st_get_dimension_values(x, dims[2]))
-# 		
-# 		xminid <- which(xvalues > -180)[1]
-# 		xmaxid <- tail(which(xvalues < 180), 1)
-# 		
-# 		yminid <- which(yvalues < 90)[1]
-# 		ymaxid <- tail(which(yvalues > -90), 1)
-# 		x[,xminid:xmaxid, yminid:ymaxid]
-# 	}
-# }
-
-
+transwarp <- function(x, crs, raster.warp) {
+	shpcolors <- attr(x[[1]], "colors")
+	if (raster.warp) {
+		y <- stars::st_warp(x, crs = crs)
+	} else {
+		y <- sf::st_transform(x, crs = crs)
+	}
+	if (!is.null(shpcolors)) attr(y[[1]], "colors") <- shpcolors
+	y
+}

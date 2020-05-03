@@ -101,19 +101,6 @@ elapply <- function(X, FUN, ...) {
 		do.call(FUN, c(list(x), list(...)))	
 	}), list(...)))
 }
-# e2 <- expression(paste("Gsd ", sqrt(3)), paste("Gdf ", pi))
-# lapply(letters[1:4], function(x)x)
-# lapply(e2, function(x)x)
-# 
-# elapply(letters[1:4], function(x)x)
-# elapply(e2, function(x)x)
-# 
-# lapply(list(c(1,6,3, NA, 3), c(5,43)), mean)
-# lapply(list(c(1,6,3, NA, 3), c(5,43)), mean, na.rm=TRUE)
-# 
-# elapply(list(c(1,6,3, NA, 3), c(5,43)), mean)
-# elapply(list(c(1,6,3, NA, 3), c(5,43)), mean, na.rm=TRUE)
-
 
 
 # same as mapply, but expression are subsetted by [ rather than [[
@@ -129,17 +116,8 @@ emapply <- function(FUN, ..., MoreArgs=NULL, SIMPLIFY=TRUE, USE.NAMES=TRUE) {
 		do.call(FUN, c(args, MoreArgs))	
 	}), args, list(MoreArgs=MoreArgs, SIMPLIFY=SIMPLIFY, USE.NAMES=USE.NAMES)))
 }
-# e2 <- expression(paste("Gsd ", sqrt(3)), paste("Gdf ", pi))
-# e3 <- expression(paste("Fhdgas ", 3+10), paste("Gags ", cos(pi)))
-# mapply(pmax, 1:5, 5:1)
-# emapply(pmax, 1:5, 5:1)
-# 
-# mapply(paste, letters[1:5], letters[6:10])
-# mapply(paste, letters[1:5], letters[6:10], MoreArgs = list(sep="_^_"))
-# 
-# emapply(paste, letters[1:5], letters[6:10])
-# emapply(paste, letters[1:5], letters[6:10], MoreArgs = list(sep="_^_"))
-# 
-# mapply(paste, e2, e3, MoreArgs = list(sep="_^_"), SIMPLIFY = FALSE)
-# 
-# emapply(paste, e2, e3, MoreArgs = list(sep="_^_"), SIMPLIFY = FALSE)
+
+is_num_string <- function(x) {
+	suppressWarnings(!is.na(as.numeric(x)))
+}
+
