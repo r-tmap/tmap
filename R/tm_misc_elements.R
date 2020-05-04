@@ -223,6 +223,8 @@ tm_logo <- function(file,
 #' @param color.light color of the light parts of the scale bar, typically (and by default) white.
 #' @param lwd line width of the scale bar
 #' @param position position of the scale bar Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param bg.color Background color
+#' @param bg.alpha Transparency of the background color. Number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @param size deprecated: renamed to text.size
 #' @export
@@ -235,6 +237,8 @@ tm_scale_bar <- function(breaks=NULL,
 						 color.light="white",
 						 lwd=1,
 						 position=NA,
+						 bg.color=NA,
+						 bg.alpha=NA,
 						 just=NA,
 						 size = NULL) {
 	if (!missing(size)) {
@@ -266,6 +270,8 @@ tm_scale_bar <- function(breaks=NULL,
 #' @param color.light color of the light parts of the compass, typically (and by default) white.
 #' @param lwd line width of the compass
 #' @param position position of the compass. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument \code{"attr.position"} of \code{\link{tm_layout}}.
+#' @param bg.color Background color
+#' @param bg.alpha Transparency of the background color. Number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the \code{bg.color} is used (normally 1).
 #' @param just Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{position} is specified by numeric coordinates. The default value is controlled by the argument \code{"attr.just"} of \code{\link{tm_layout}}.
 #' @param fontsize deprecated: renamed to text.size
 #' @export
@@ -281,6 +287,8 @@ tm_compass <- function(north=0,
 					   color.light=NA,
 					   lwd=1,
 					   position=NA,
+					   bg.color=NA,
+					   bg.alpha=NA,
 					   just=NA,
 					   fontsize = NULL) {
 	if (!missing(fontsize)) {

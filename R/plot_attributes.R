@@ -44,7 +44,12 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	
 	gTree(children=gList(
 		grobBG,
-		rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=gt$scale.lwd)),
+		if (!is.na(gt$scale.bg.color)) {
+			bg.col <- do.call("process_color", c(list(gt$scale.bg.color, alpha=gt$scale.bg.alpha), gt$pc))
+			rectGrob(x=x[1]-unitWidth, width=xtext[n]-xtext[1]+2.5*unitWidth, just=c("left", "center"), gp=gpar(col=NA, fill=bg.col))
+		} else {
+			NULL
+		}, rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=gt$scale.lwd)),
 		textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(col=gt$scale.text.color, cex=size, fontface=gt$fontface, fontfamily=gt$fontfamily))), name="scale_bar")
 	
 	
@@ -307,6 +312,15 @@ plot_compass <- function(gt, just) {
 	}
 	
 	
-	gTree(children=gList(grobBG, grobComp, grobLabels), name="compass")
+	gTree(children=gList(grobBG, 
+						 if (!is.na(gt$compass.bg.color)) {
+						 	bg.col <- do.call("process_color", c(list(gt$compass.bg.color, alpha=gt$compass.bg.alpha), gt$pc))
+						 	rectGrob(gp=gpar(col=NA, fill=bg.col))
+						 } else {
+						 	NULL
+						 },
+						 grobComp, 
+						 grobLabels), 
+		  name="compass")
 }
 

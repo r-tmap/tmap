@@ -46,7 +46,7 @@ If unspecified, the current bounding box of \code{shp} is taken. The bounding bo
 
 \item{filter}{logical vector which indicated per feature whether it should be included. Features for which filter is \code{FALSE} will be colored light gray (see the \code{colorNULL} argument in the layer functions)}
 
-\item{raster.downsample}{Should a raster shape (i.e. \code{stars} object) be downsampled when it is loo large? What is too large is determined by the tmap option \code{max.raster}.}
+\item{raster.downsample}{Should a raster shape (i.e. \code{stars} object) be downsampled when it is loo large? What is too large is determined by the tmap option \code{max.raster} (see \code{\link{tmap_options}}). If it is downsampled, it will be downsampled to approximately \code{max.raster} cells. A message will be shown with the exact size.}
 
 \item{raster.warp}{Should a raster shape (i.e. \code{stars} object) be warped when the map is shown in different map projection (CRS)? If \code{TRUE} (default) the raster is warped to a regular grid in the new projection. Otherwise, the raster shape is transformed where the original raster cells are kept intact. Warping a raster is much faster than transforming. Note that any raster shape with a projection other than 4326 will have to be warped or transformed in view mode.}
 
