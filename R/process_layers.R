@@ -35,14 +35,14 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	scale <- gt$scale
 	
 	if (!is.null(data) && attr(data, "treat_as_by")) {
-		data$GROUP_BY <- factor("_NA_")
+		data$GROUP_BY <- factor("___NA___")
 		by <- NA
 		ncol <- NA
 		nrow <- NA
 		panel.names <- setdiff(names(data), c("tmapfilter", "GROUP_BY"))
 		treat_by_count <- length(panel.names)
 	} else if (g$tm_shape$by[1]=="") {
-		data$GROUP_BY <- factor("_NA_")
+		data$GROUP_BY <- factor("___NA___")
 		by <- NA
 		ncol <- NA
 		nrow <- NA
@@ -87,7 +87,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	if (a=="" || interactive) {
 		if (a!="") warning("along not supported in view mode", call. = FALSE)
 		alev <- NA
-		data$ALONG <- factor("_NA_")
+		data$ALONG <- factor("___NA___")
 		along.names <- NA
 	} else {
 		if (!(a %in% names(data))) stop("Variable \"", a, "\" not found in ", g$tm_shape$shp_name, call.=FALSE)
