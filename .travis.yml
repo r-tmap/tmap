@@ -6,8 +6,11 @@ r:
 deploy.skip_cleanup: true
 
 sudo: required
-dist: xenial
-cache: false
+dist: trusty
+cache:
+  - packages
+  - ccache
+
 latex: false
 
 addons:
@@ -30,6 +33,7 @@ addons:
       - netcdf-bin
 
 before_install:
+  - R -e 'install.packages("rgdal", repos="http://R-Forge.R-project.org")'
   - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages()'
 
 install: R -q -e 'tic::install()'
@@ -46,4 +50,3 @@ deploy:
        - $TRAVIS_R_VERSION_STRING = release
        
 after_success: R -q -e 'tic::after_success()'
-
