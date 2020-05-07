@@ -116,8 +116,8 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 			if (is.na(units)) units <- ifelse(height>50, "px", "in")
 			temp_size <- convert_to_pixels(height, units)
 		} else {
-			units <- "in"
-			temp_size <- 7
+			units <- "px"
+			temp_size <- 700
 		}
 		
 		if (is.arrange) {
