@@ -23,7 +23,7 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 				digits <- max(min(ndec, 4-mag), 0)
 				
 				# add sign to frm
-				frm_sign <- paste0(ifelse(vec_fin<0, "-", "+"), frm)
+				frm_sign <- unique(paste0(ifelse(vec_fin<0, "-", "+"), frm))
 				
 				# test if number of digits is sufficient for unique labels
 				if (!scientific) {
