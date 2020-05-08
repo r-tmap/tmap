@@ -185,7 +185,7 @@ tm_markers(
 
 \item{shapes}{palette of symbol shapes. Only applicable if \code{shape} is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.}
 
-\item{shapes.legend}{symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}. These shapes will be used in the legends regarding the \code{size} and \code{col} of the symbols. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes (see also \code{shapes.legend.fill}.}
+\item{shapes.legend}{symbol shapes that are used in the legend (instead of the symbols specified with \code{shape}). These shapes will be used in the legends regarding the \code{size} and \code{col} of the symbols. Especially useful when \code{shapes} consist of grobs that have to be represented by neutrally colored shapes. See also \code{shapes.legend.fill}.}
 
 \item{shapes.legend.fill}{Fill color of legend shapes. These colors will be used in the legends regarding the \code{size} and \code{shape} of the symbols. See also \code{shapes.legend}.}
 
@@ -397,7 +397,7 @@ tm_format("NLD")
 \dontrun{
 if (require(rnaturalearth)) {
 
-airports <- ne_download(scale=10, type="airports")
+airports <- ne_download(scale=10, type="airports", returnclass = "sf")
 airplane <- tmap_icons(system.file("img/airplane.png", package = "tmap"))
 
 current.mode <- tmap_mode("view")

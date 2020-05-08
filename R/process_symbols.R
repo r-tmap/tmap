@@ -80,12 +80,15 @@ postprocess_symbols <- function(res, g, gt, data, npol, nx, just, interactive) {
 	
 	if (!is.null(g$shapes.legend)) {
 		shape.neutral <- g$shapes.legend
-		col.neutral <- if (is.na(g$shapes.legend.fill)[1]) gt$aes.colors["symbols"] else  g$shapes.legend.fill
+	#	col.neutral <- if (is.na(g$shapes.legend.fill)[1]) gt$aes.colors["symbols"] else  g$shapes.legend.fill
 	} else {
 		shape.neutral <- NULL
-		col.neutral <- NA
+	#	col.neutral <- NA
 	}
+
+	col.neutral <- if (is.na(g$shapes.legend.fill)[1]) NA else  g$shapes.legend.fill
 	
+		
 	# if (!g$legend.size.show) symbol.size.legend.title <- NA
 	# if (!g$legend.col.show) symbol.col.legend.title <- NA
 	# if (!g$legend.shape.show) symbol.shape.legend.title <- NA

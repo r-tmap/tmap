@@ -68,7 +68,7 @@ tm_format("NLD")
 \dontrun{
 if (require(rnaturalearth)) {
 
-airports <- ne_download(scale=10, type="airports")
+airports <- ne_download(scale=10, type="airports", returnclass = "sf")
 airplane <- tmap_icons(system.file("img/airplane.png", package = "tmap"))
 
 current.mode <- tmap_mode("view")

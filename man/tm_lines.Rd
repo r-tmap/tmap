@@ -12,6 +12,7 @@ tm_lines(
   scale = 1,
   lwd.legend = NULL,
   lwd.legend.labels = NULL,
+  lwd.legeld.col = NA,
   n = 5,
   style = ifelse(is.null(breaks), "pretty", "fixed"),
   style.args = list(),
@@ -66,6 +67,8 @@ tm_lines(
 \item{lwd.legend}{vector of line widths that are shown in the legend. By default, this is determined automatically.}
 
 \item{lwd.legend.labels}{vector of labels for that correspond to \code{lwd.legend}.}
+
+\item{lwd.legeld.col}{color of lines that are shown in the legend for the lwd aesthetic. By default, the middle color of the \code{palette} is taken.}
 
 \item{n}{preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.}
 
