@@ -30,7 +30,7 @@ view_set_bounds <- function(lf, gt) {
 		if (!is.null(bbx)) lf <- lf %>% fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) #setView(view[1], view[2], view[3])
 	}
 	
-	if (!is.null(gt$center)) lf <- lf %>% addMarkers(gt$center[1], gt$center[2])
+	if (!is.null(gt$center)) lf <- lf %>% addMarkers(gt$center$lon, gt$center$lat, label = gt$center$query)
 	
 	lf
 }

@@ -96,10 +96,17 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 		
 		if (!is.null(bbox)) {
 			if (is.character(bbox)) {
-				res <- geocode_OSM(bbox)
-				bbox <- res$bbox
-				center <- res$coords
-				res <- NULL
+				res <- suppressMessages(geocode_OSM(bbox, as.data.frame = TRUE))
+				if (is.null(res)) {
+					message("tmaptools::geocode_OSM didn't found any results for: \"", paste(bbox, collapse = "\" ,\""), "\".")
+					bbox <- NULL
+					center <- NULL
+				} else {
+					bbox <- sf::st_bbox(c(xmin = min(res$lon_min), ymin = min(res$lat_min), xmax = max(res$lon_max), ymax = max(res$lat_max)), crs = st_crs(4326))
+					center <- res[, c("query", "lat", "lon")]
+					res <- NULL
+				}
+				
 			} else {
 				bbox <- bb(bbox)
 				if (is.na(attr(bbox, "crs"))) {
