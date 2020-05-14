@@ -46,9 +46,11 @@ cat2shape <- function(x,
 			c1 <- setdiff(xs, nms)
 			c2 <- setdiff(nms, xs)
 			txt <- paste0("Names of shapes argument do not match with the values of the variable \"", var, "\".")
-			if (length(c1)>0) txt <- paste0(txt, " Values not specified in shapes argument: \"", paste(c1, collapse="\", \""), "\".")
-			if (length(c2)>0) txt <- paste0(txt, " Names in shapes argument for which no values exist: \"", paste(c2, collapse="\", \""), "\".")
-			stop(txt, call. = FALSE)
+			if (length(c1)>0) {
+				stop(paste0(txt, " Values not specified in shapes argument: \"", paste(c1, collapse="\", \""), "\".")	, call. = FALSE)
+			} else {
+				message(paste0(txt, " Names in shapes argument for which no values exist: \"", paste(c2, collapse="\", \""), "\"."))
+			}
 		}
 		shapes <- shapes[match(xs, nms)]
 	} else {

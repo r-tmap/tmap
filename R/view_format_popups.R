@@ -31,7 +31,7 @@ view_format_popups <- function(id=NULL, titles, format, values) {
 	
 	
 	labels2 <- mapply(function(l, v) {
-		paste0("<tr><td style=\"color: #888888;\">", l, "</td><td align=\"right\"><nobr>", v, "</nobr></td>")
+		paste0("<tr><td style=\"color: #888888;\"><nobr>", l, "</nobr></td><td align=\"right\"><nobr>", v, "</nobr></td>")
 	}, titles_format, values_format, SIMPLIFY=FALSE)
 	
 	labels3 <- paste0(do.call("paste", c(labels2, list(sep="</tr>"))), "</tr>")
