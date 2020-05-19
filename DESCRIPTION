@@ -31,6 +31,7 @@ Imports:
     classInt (>= 0.4-3),
     htmltools,
     htmlwidgets,
+    widgetframe,
     leaflet (>= 2.0.2),
     leafsync,
     leafem (>= 0.1),

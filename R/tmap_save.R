@@ -3,7 +3,7 @@
 #' Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
 #'
 #' @param tm tmap object
-#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in \code{"plot"} mode and as an interactive map (html) in \code{"view"} mode. The default format for static plots is png, but this can be changed using the option \code{"output.format"} in \code{\link{tmap_options}}.
+#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in \code{"plot"} mode and as an interactive map (html) in \code{"view"} mode (see details). The default format for static plots is png, but this can be changed using the option \code{"output.format"} in \code{\link{tmap_options}}.
 #' @param height,width The width and height of the plot (not applicable for html files). Units are set with the argument \code{units}. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option \code{"output.size"} in \code{\link{tmap_options}}. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.
 #' @param units units for width and height (\code{"in"}, \code{"cm"}, or \code{"mm"}). By default, pixels (\code{"px"}) are used if either width or height is set to a value greater than 50. Else, the units are inches (\code{"in"})
 #' @param dpi dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option \code{"output.dpi"} in \code{\link{tmap_options}}.
@@ -13,14 +13,16 @@
 #' @param insets_tm tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with \code{insets_vp}.
 #' @param insets_vp \code{\link[grid:viewport]{viewport}} of an inset map, or a list of \code{\link[grid:viewport]{viewport}}s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with \code{insets_tm}.
 #' @param add.titles add titles to leaflet object
+#' @param in.iframe should an interactive map be saved as an iframe? If so, two HTML files will be saved; one small parent HTML file with the iframe container, and one large child HTML file with the actual widget. See \code{\link[widgetframe:saveWidgetframe]{saveWidgetframe}} for details. By default \code{FALSE} which means that one large HTML file is saved (see \code{\link[widgetframe:saveWidget]{saveWidget}}).
+#' @param selfcontained when an interactive map is saved, should the resources (e.g. Javascript libraries) be contained in the HTML file? If \code{FALSE}, they are placed in an adjacent directory (see also \code{\link[htmlwidgets:saveWidget]{saveWidget}}). Note that the HTML file will often still be large when \code{selfcontained = FALSE}, since the map data (polygons and popups), which are also contained in the HTML file, usually take more space then the map resources.
 #' @param verbose Deprecated. It is now controlled by the tmap option \code{show.messages} (see \code{\link{tmap_options}})
-#' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}}
+#' @param ... arguments passed on to device functions or to \code{\link[htmlwidgets:saveWidget]{saveWidget}} or \code{\link[widgetframe:saveWidgetframe]{saveWidgetframe}}
 #' @importFrom htmlwidgets saveWidget
 #' @import tmaptools
 #' @example ./examples/tmap_save.R
 #' @export
 tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
-					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, verbose = NULL, ...) {
+					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, in.iframe = FALSE, selfcontained = !in.iframe, verbose = NULL, ...) {
 	if (!missing(verbose)) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
 	
 	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
@@ -89,9 +91,18 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 		}
 			
 		tryCatch({
-			saveWidget(lf, file=filename, ...)
+			wd <- getwd()
+			on.exit(setwd(wd), add = TRUE)
+			wd_new <- dirname(filename)
+			base_filename <- basename(filename)
+			setwd(wd_new)
+			if (in.iframe) {
+				widgetframe::saveWidgetframe(lf, file=base_filename, selfcontained = selfcontained, ...)
+			} else {
+				htmlwidgets::saveWidget(lf, file=base_filename, selfcontained = selfcontained, ...)
+			}
 		}, error = function(e) {
-			stop("Unable to save the interactive map. Note that saving interactive small multiples is not supported yet.", call. = FALSE)
+			stop("Unable to save the interactive map. Note that saving interactive small multiples is not supported yet. The error message from htmlwidgets::saveWidget is ", call. = FALSE)
 		})
 		
 		options(tmap.mode=tmap.mode)
