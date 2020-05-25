@@ -168,8 +168,16 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			dashArray <- lty2dashArray(gpl$lty)
 			stroke <- gpl$lwd>0 && !is.na(bcol) && bopacity!=0
 			
-			group_name <- if (is.na(gpl$fill.group)) shp_name else gpl$fill.group
-			addOverlayGroup(group_name)
+			if (is.null(gpl$fill.group)) {
+				group_name <- NULL
+			} else {
+				group_name <- if (is.na(gpl$fill.group)) {
+					shp_name 
+				} else {
+					gpl$fill.group
+				}
+				addOverlayGroup(group_name)
+			}
 			
 			pane <- paneName(zi)
 			
@@ -206,9 +214,17 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			dashArray <- lty2dashArray(gpl$line.lty)
 			
 
-			group_name <- if (is.na(gpl$line.group)) shp_name else gpl$line.group
-			addOverlayGroup(group_name)
-			
+			if (is.null(gpl$line.group)) {
+				group_name <- NULL
+			} else {
+				group_name <- if (is.na(gpl$line.group)) {
+					shp_name 
+				} else {
+					gpl$line.group
+				}
+				addOverlayGroup(group_name)
+			}
+
 			pane <- paneName(zi)
 			# pane <- nextPane(pane)
 			# lf <- addPane(lf, pane)
@@ -281,9 +297,17 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# pane <- nextPane(pane)
 			# lf <- addPane(lf, pane)
 			
-			group_name <- if (is.na(gpl$symbol.group)) shp_name else gpl$symbol.group
-			addOverlayGroup(group_name)
-			
+			if (is.null(gpl$symbol.group)) {
+				group_name <- NULL
+			} else {
+				group_name <- if (is.na(gpl$symbol.group)) {
+					shp_name 
+				} else {
+					gpl$symbol.group
+				}
+				addOverlayGroup(group_name)
+			}
+
 			popups <- get_popups(gpl, type="symbol")
 			labels <- as.character(get_labels(gpl, type="symbol"))
 			ids <- submit_labels(labels, "symbols", pane, group_name, e)
@@ -404,8 +428,16 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			
 			clustering <- gpl$text.misc$clustering
 			
-			group_name <- if (is.na(gpl$text.group)) shp_name else gpl$text.group
-			addOverlayGroup(group_name)
+			if (is.null(gpl$text.group)) {
+				group_name <- NULL
+			} else {
+				group_name <- if (is.na(gpl$text.group)) {
+					shp_name 
+				} else {
+					gpl$text.group
+				}
+				addOverlayGroup(group_name)
+			}
 			
 			pane <- paneName(zi)
 
@@ -457,16 +489,20 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				gpl$raster.legend.values <- 1
 			}
 			
-
-			group_name <- if (is.na(gpl$raster.group)) shp_name else gpl$raster.group
-			addOverlayGroup(group_name)
+			if (is.null(gpl$raster.group)) {
+				group_name <- NULL
+			} else {
+				group_name <- if (is.na(gpl$raster.group)) {
+					shp_name 
+				} else {
+					gpl$raster.group
+				}
+				addOverlayGroup(group_name)
+			}
 			
-			#res_leg <- add_legend(map=NULL, gpl, gt, aes="raster", alpha = alpha, group = if (gt$free.scales.raster) group_name else NULL, list.only=TRUE)
-
 			pal <- na.omit(unique(gpl$raster))
 			pal <- pal[substr(pal, 8,10)!="00"] ## remove transparant colors
 			
-
 			pane <- paneName(zi)
 			
 			layerId <- submit_labels(pane, "raster", pane, group_name, e)
