@@ -123,7 +123,7 @@ tm_markers(
 )
 }
 \arguments{
-\item{size}{a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable is provided, the symbol sizes are scaled proportionally (or perceptually, see \code{perceptual}) where by default the symbol with the largest data value will get \code{size=1} (see also \code{size.max}). If multiple values are specified, small multiples are drawn (see details).}
+\item{size}{a single value or a \code{shp} data variable that determines the symbol sizes. The reference value \code{size=1} corresponds to the area of symbols that have the same height as one line of text. If a data variable (which should be numeric) is provided, the symbol area sizes are scaled proportionally (or perceptually, see \code{perceptual}) where by default the symbol with the largest data value will get \code{size=1} (see also \code{size.max}). If multiple values are specified, small multiples are drawn (see details).}
 
 \item{col}{color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).}
 
@@ -139,7 +139,7 @@ tm_markers(
 
 \item{scale}{symbol size multiplier number.}
 
-\item{perceptual}{logical that determines whether symbols are scales with a perceptually (\code{TRUE}) or mathematically (\code{FALSE}, default value). The perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument.}
+\item{perceptual}{by default (with \code{perceptual = FALSE}), the symbol area sizes are scaled proportionally to the data variables. This is done by taking the square root of the (normalized) data variable, since the plotting system (\code{grid} package) expects size in radius rather than area. However, the perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument; if \code{perceptual = TRUE}, not the suqare root (power exponent 0.5) is taken, but power exponent 0.5716.}
 
 \item{clustering}{value that determines whether the symbols are clustered in \code{"view"} mode. It does not work proportional bubbles (i.e. \code{tm_bubbles}). One of: \code{TRUE}, \code{FALSE}, or the output of \code{\link[leaflet:markerClusterOptions]{markerClusterOptions}}.}
 

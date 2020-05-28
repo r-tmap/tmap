@@ -5,7 +5,7 @@
 #' @param type type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, or \code{"line"}
 #' @param labels legend labels
 #' @param col legend colors
-#' @param size legend symbol sizes (if \code{type=="symbol"})
+#' @param size legend symbol sizes (if \code{type=="symbol"}). See example how to replicate the sizes of symbols created with \code{\link{tm_symbols}}
 #' @param shape legend symbol shapes (if \code{type=="symbol"})
 #' @param lwd legend line widths (if \code{type=="line"})
 #' @param lty legend line types (if \code{type=="line"})
@@ -21,7 +21,8 @@
 #' @param z legend stack position
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. By default \code{NULL}, which means that the legend will not be shown in the layer control item.
 #' @export
-#' @seealso \code{\link{tm_symbols}} for an example
+#' @example ./examples/tm_add_legend.R
+#' @seealso \code{\link{tm_symbols}} for another example
 tm_add_legend <- function(type = c("fill", "symbol", "text", "line"), 
 						  labels=NULL, 
 						  col=NULL, 

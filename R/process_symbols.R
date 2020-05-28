@@ -173,6 +173,7 @@ process_symbols <- function(data, g, gt, gby, z, interactive) {
 
 
 submit_symbol_shapes <- function(x, interactive, just, just.override, grob.dim) {
+	if (any(vapply(x, is.null, logical(1)))) stop("one of more shapes are NULL")
 	shapeLib <- get("shapeLib", envir = .TMAP_CACHE)
 	justLib <- get("justLib", envir = .TMAP_CACHE)
 	n <- length(x)
