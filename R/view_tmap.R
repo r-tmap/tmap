@@ -5,8 +5,11 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	
 	proxy <- !is.null(lf)
 	
+	leaflet_opts <- leaflet::leafletOptions(crs=gt$projection)
+	if (!is.na(gt$set.zoom.limits[1])) leaflet_opts$minZoom <- gt$set.zoom.limits[1]
+	if (!is.na(gt$set.zoom.limits[2])) leaflet_opts$maxZoom <- gt$set.zoom.limits[2]
 	
-	if (!proxy) lf <- leaflet(options = leaflet::leafletOptions(crs=gt$projection, minZoom = gt$set.zoom.limits[1], maxZoom = gt$set.zoom.limits[2]))
+	if (!proxy) lf <- leaflet(options = leaflet_opts)
 
 	# add background overlay
 	if (!in.shiny) {
