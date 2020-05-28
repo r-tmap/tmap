@@ -7,7 +7,7 @@ view_set_bounds <- function(lf, gt) {
 	if (!(identical(gt$set.bounds, FALSE))) {
 		lf <- lf %>% setMaxBounds(lims[1], lims[2], lims[3],lims[4])
 	}
-	if (!is.na(gt$set.zoom.limits[1])) {
+	if (!is.na(gt$set.zoom.limits[2])) { # 2nd is checked to bypass (-1000, NA) used for simple CRS
 		if (is.na(gt$set.view[1])) {
 			gt$set.view <- c(mean.default(lims[c(1,3)]), mean.default(lims[c(2,4)]), gt$set.zoom.limits[1])
 		}

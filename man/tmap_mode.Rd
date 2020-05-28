@@ -3,11 +3,14 @@
 \name{tmap_mode}
 \alias{tmap_mode}
 \alias{ttm}
+\alias{ttmp}
 \title{Set tmap mode to static plotting or interactive viewing}
 \usage{
 tmap_mode(mode = c("plot", "view"))
 
 ttm()
+
+ttmp()
 }
 \arguments{
 \item{mode}{one of
@@ -27,7 +30,7 @@ ttm()
 the mode before changing
 }
 \description{
-Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also \code{\link{tmap_options}}. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm} is a toggle switch between the two modes. Tip 1: use \code{tmap_mode} in scripts and \code{ttm} in the console. Tip 2: use \code{ttm} in combination with \code{\link{tmap_last}} to redraw the last map in the other mode.
+Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also \code{\link{tmap_options}}. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm}, which stands for toggle thematic map, is a toggle switch between the two modes. The function \code{ttmp} stands for toggle thematic map and print last map: it does the same as \code{ttm} followed by \code{tmap_last}; in order words, it shows the last map in the other mode. It is recommended to use \code{tmap_mode} in scripts and \code{ttm}/\code{ttmp} in the console.
 }
 \examples{
 # world choropleth/bubble map of the world

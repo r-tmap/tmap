@@ -90,6 +90,9 @@ map1
 # view map with changed view options
 map1 + tm_view(alpha = 1, basemaps = "Stamen.Watercolor")
 
+# interactive world map in original CRS
+tm_shape(World) +tm_polygons("HPI") + tm_view(projection = 0) + tm_basemap(NULL)
+
 # restore current mode
 tmap_mode(current.mode)
 }

@@ -2,6 +2,7 @@ version 3.1
 - see github issues
 - made backgrond symbol grob shapes transparent
 - added in.iframe and selfcontained to tmap_save
+- interactive maps in origin CRS working
 
 version 3.0
 - [!] spatial rasters/arrays now implemented using the stars package (instead of the raster package)

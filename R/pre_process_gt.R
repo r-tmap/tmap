@@ -127,6 +127,8 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 			if (!is.numeric(set.zoom.limits)) stop("set.zoom.limits is not numeric")
 			if (!length(set.zoom.limits)==2) stop("set.zoom.limits does not have length 2")
 			if (set.zoom.limits[1]<0 || set.zoom.limits[1] >= set.zoom.limits[2]) stop("incorrect set.zoom.limits")
+		} else {
+			set.zoom.limits <- c(NA, NA)
 		}
 		if (!is.na(set.view[1]) && !is.na(set.zoom.limits[1])) {
 			if (set.view[length(set.view)] < set.zoom.limits[1]) {
@@ -138,6 +140,7 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 				set.view[length(set.view)] <- set.zoom.limits[2]
 			}
 		}
+			
 		view.legend.position <- if (is.na(view.legend.position)[1]) {
 			if (is.null(legend.position)) {
 				"topright"
@@ -155,25 +158,33 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 		}
 		
 		if (!inherits(projection, "leaflet_crs")) {
+			if (!is.numeric(projection)) stop("projection in tm_view must be either a leaflet_crs object (recommended) or an EPSG number", call. = FALSE)
 			
-			projection <- 3857
+			if (projection==0) {
+				projection <- leaflet::leafletCRS(crsClass = "L.CRS.Simple")
+				if (is.na(set.zoom.limits)[1]) set.zoom.limits[1] <- -1000
+			} else if (projection %in% c(3857, 4326, 3395)) {
+				projection <- leaflet::leafletCRS(crsClass = paste("L.CRS.EPSG", projection, sep=""))	
+			} else {
+				warning("Scaling levels may be incorrect for this projection. Please specify a leaflet projection with leafletCRS for more control")
+				projection <- leaflet::leafletCRS(crsClass = "L.Proj.CRS", 
+												  code= paste("EPSG", projection, sep=":"),
+												  proj4def=sf::st_crs(projection)$proj4string,
+												  resolutions = 2^(17:0))
+			}
+				
 			# if (projection==0) {
-			# 	#epsg <- get_epsg_number(orig_crs)
+			# 	epsg <- get_epsg_number(orig_crs)
 			# 	if (is.na(epsg)) {
+			# 		if (interactive) warning("No EPSG code found. Map will be shown in standard Web-Mercator projection.")
 			# 		projection <- 3857
 			# 	} else {
 			# 		projection <- epsg
 			# 	}
 			# }
 			
-			if (projection %in% c(3857, 4326, 3395)) {
-				projection <- leaflet::leafletCRS(crsClass = paste("L.CRS.EPSG", projection, sep=""))	
-			} else {
-				projection <- leaflet::leafletCRS(crsClass = "L.Proj.CRS", 
-												  code= paste("EPSG", projection, sep=":"),
-												  proj4def=sf::st_crs(projection)$proj4string,
-												  resolutions = c(65536, 32768, 16384, 8192, 4096, 2048,1024, 512, 256, 128))	
-			}
+			
+			
 			
 			
 		}

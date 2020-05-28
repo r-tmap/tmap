@@ -38,7 +38,25 @@ pre_gather_shape_info <- function(x, interactive) {
 	if (is.na(master_crs)) master_crs <- mshp_crs
 	orig_crs <- master_crs # needed for adjusting bbox in process_shapes
 	
-	if (interactive) master_crs <- .crs_longlat
+	
+	if (interactive) {
+		# Set master projection to 4326 if projection != 0 (L.CRS.Simple)
+		# Find out whether projection == 0:
+		crsSimple <- (get("tmapOptions", envir = .TMAP_CACHE)$projection) == 0
+		if (any(names(x)=="tm_layout")) {
+			crsSimples <- vapply(x[which(names(x)=="tm_layout")], function(xi) {
+				if (any(names(xi) == "projection")) {
+					xi$projection == 0
+				} else {
+					as.logical(NA)
+				}
+			}, FUN.VALUE = logical(1))
+			if (!all(is.na(crsSimples))) {
+				crsSimple <- tail(na.omit(crsSimples), 1)
+			}
+		}
+		if (!crsSimple) master_crs <- .crs_longlat
+	}
 	
 	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
 	raster_facets_vars <- lapply(1:nshps, function(i) {

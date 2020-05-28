@@ -234,7 +234,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 
 		# reproject if nessesary
-		if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
+		if (shp_crs != gm$shape.master_crs) {
 			shp2 <- sf::st_transform(shp, crs = gm$shape.master_crs)
 
 			# override bounding box (since it now is projected)
