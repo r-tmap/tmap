@@ -94,18 +94,6 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				}))
 			)
 			
-			
-			# lnsList <- list(
-			# 	if (is.na(grid.x2[1])) NULL else Lines(lapply(grid.x2, function(x) {
-			# 		m <- matrix(c(rep(x,100), seq(grid.y2.min, grid.y2.max, length.out=100)), ncol=2)
-			# 		Line(m)
-			# 	}), ID="x"),
-			# 	if (is.na(grid.y2[1])) NULL else Lines(lapply(grid.y2, function(y) {
-			# 		m <- matrix(c(seq(grid.x2.min, grid.x2.max, length.out=100), rep(y,100)), ncol=2)
-			# 		Line(m)
-			# 	}), ID="y")
-			# )
-			
 			lnsSel <- !vapply(lnsList, is.null, logical(1))
 			if (!any(lnsSel)) {
 				grid.co.x.lns <- numeric(0)
@@ -145,19 +133,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				} else {
 					grid.co.x.lns <- numeric(0)
 				}
-				
-				# grid.co.x.lns <- if (lnsSel[1]) lapply(lns_proj@lines[[1]]@Lines, function(l) {
-				# 	lco <- attr(l, "coords")
-				# 	lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
-				# 	lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
-				# 	lco
-				# }) else numeric(0)
-				# grid.co.y.lns <- if (lnsSel[2]) lapply(lns_proj@lines[[sum(lnsSel)]]@Lines, function(l) {
-				# 	lco <- attr(l, "coords")
-				# 	lco[, 1] <- (lco[, 1]-bbx_orig[1,1]) / (bbx_orig[1,2] - bbx_orig[1,1])
-				# 	lco[, 2] <- (lco[, 2]-bbx_orig[2,1]) / (bbx_orig[2,2] - bbx_orig[2,1])
-				# 	lco
-				# }) else numeric(0)
+
 			}
 			lns <- NULL
 			lns_proj <- NULL
@@ -256,7 +232,7 @@ plot_grid_labels_y <- function(gt, scale) {
 	marginY <- convertWidth(unit(gt$grid.labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	
 	just <- ifelse(gt$grid.labels.rot[2] == 90, "bottom", ifelse(gt$grid.labels.rot[2] == 270, "top", ifelse(gt$grid.labels.rot[2] == 180, "left", "right")))
-	
+
 	if (gt$grid.ticks[2]) {
 		ticks <- polylineGrob(x = rep(c(1-spacerY*.5-marginY, 1), length(cogridy)), y = rep(cogridy, each = 2), id = rep(1:length(cogridy), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 	} else {
@@ -269,8 +245,6 @@ plot_grid_labels_y <- function(gt, scale) {
 
 
 plot_grid <- function(gt, scale, add.labels) {
-	
-	
 	if (gt$grid.labels.inside.frame && any(gt$grid.ticks)) warning("Grid ticks are not supported when labels.inside.frame = TRUE", call. = FALSE)
 	
 	

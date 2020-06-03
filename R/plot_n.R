@@ -23,7 +23,7 @@ plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new
 	if (multi_shapes) {
 		bbxproj <- lapply(shps, function(s) {
 			s2 <- s[[masterID]]
-			if (is.null(s2)) NULL else list(bbx = sf::st_bbox(s2), proj = sf::st_crs(s2))
+			if (is.null(s2)) NULL else list(bbx = attr(s2, "bbox"), proj = sf::st_crs(s2))
 		})
 	} else {
 		bbxproj <- list(bbx = attr(shps[[masterID]], "bbox"), proj = sf::st_crs(shps[[masterID]]))
@@ -121,7 +121,7 @@ plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new
 				}
 				gTree(children=gList(
 					#cellplot((rw+1),cl, e=rectGrob(gp=gpar(fill="purple")), name="gridLabelsX"),
-					#cellplot(rw,(cl-1), e=rectGrob(gp=gpar(fill="grey")), name="gridLabelsY")), name=paste("gridLabels", i, sep="_"))
+					#cellplot(rw,(cl-1), e=rectGrob(gp=gpar(fill="pink")), name="gridLabelsY"),
 					if (gmeta$grid.labels.show[1]) cellplot((rw+1),cl, clip = FALSE, e=plot_grid_labels_x(gt, scale=gt$scale), name="gridLabelsX") else NULL,
 					if (gmeta$grid.labels.show[2]) cellplot(rw,(cl-1), clip = FALSE, e=plot_grid_labels_y(gt, scale=gt$scale), name="gridLabelsY") else NULL), name=paste("gridLabels", i, sep="_"))
 			}, istart:iend, 
