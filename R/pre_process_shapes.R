@@ -199,13 +199,15 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 	} else {
 		# save_bbox (sp objects allow for custom bboxes, sf objects don't)
-		shp_bbx <- sf::st_bbox(shp)
+		
 		
 		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
 		isolines <- ("isolines" %in% names(attributes(shp)))
 		
 		if (y$check_shape) shp <- pre_check_shape(shp, y$shp_name)
 
+		shp_bbx <- sf::st_bbox(shp)
+		
 		## get data.frame from shapes, and store ID numbers in shape objects (needed for cropping)
 		if (inherits(shp, "sfc")) {
 			data <- data.frame(tmapID = seq_len(length(shp)))
@@ -245,6 +247,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		if (inherits(st_geometry(shp2), c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
 			data$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" "))
+			if (all(as.numeric(data$SHAPE_AREAS) == 0)) stop("The shape ", y$shp_name, " contains only empty or invalid polygons. Either fix the shape object or set tmap(check.and.fix = TRUE) and rerun the plot.", call. = FALSE)
 			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else get_neighbours(shp) #poly2nb(as(shp, "Spatial"))
 			attr(data, "kernel_density") <- kernel_density
 			type <- "polygons"

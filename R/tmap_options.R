@@ -8,6 +8,8 @@
 		output.format = "png",
 		output.size = 49,
 		output.dpi = 300,
+		design.mode = FALSE,
+		check.and.fix = FALSE,
 		title = NA,
 		scale = 1,
 		title.size = 1.3,
@@ -110,7 +112,6 @@
 		attr.outside.size = NA,
 		attr.position = c("right", "bottom"),
 		attr.just = c("left", "bottom"),
-		design.mode = FALSE,
 		basemaps = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 		basemaps.alpha = c(1, 1, 1),
 		overlays = NULL,
@@ -335,14 +336,19 @@
 #' @param output.format The format of the static maps saved with \code{\link{tmap_save}} without specification of the filename. The default is \code{"png"}.
 #' @param output.size The size of the static maps saved with \code{\link{tmap_save}} without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.
 #' @param output.dpi The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.
+#' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.
+#' @param check.and.fix Logical that determines whether shapes (\code{sf} objects) are checked for validity and fixed if needed. Two checks are performed: \code{\link[sf:st_is_valid]{st_is_valid}} and \code{\link[sf:st_is_empty]{st_is_empty}}. Invalid shapes are fixed with \code{\link[sf:st_make_valid]{st_make_valid}} and empty units are removed.
 #' @param style style name
 #' @example ./examples/tmap_options.R
 #' @rdname tmap_options
 #' @name tmap_options
 #' @export
 #' @seealso \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}
-tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, show.messages, output.format, output.size, output.dpi) {
+tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, show.messages, output.format, output.size, output.dpi, design.mode, check.and.fix) {
 
+	
+	if (!identical( parent.frame(n = 1) , globalenv() )) warning("test4322t6")
+	
 	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 	current.style <- getOption("tmap.style")
 	newstyle <- if (substr(current.style, nchar(current.style) - 9, nchar(current.style)) == "(modified)") {

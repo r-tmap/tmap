@@ -222,10 +222,10 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		xn <- (co[,1]-bbx[1])/(bbx[3]-bbx[1])
 		yn <- (co[,2]-bbx[2])/(bbx[4]-bbx[2])
 		legend_pos <- which.max(c(
-			min(sqrt((xn^2) + (yn^2))),
-			min(sqrt((xn^2) + ((1-yn)^2))),
-			min(sqrt(((1-xn)^2) + ((1-yn)^2))),
-			min(sqrt(((xn-1)^2) + (yn^2)))))
+			min(sqrt((xn^2) + (yn^2)), na.rm = TRUE),
+			min(sqrt((xn^2) + ((1-yn)^2)), na.rm = TRUE),
+			min(sqrt(((1-xn)^2) + ((1-yn)^2)), na.rm = TRUE),
+			min(sqrt(((xn-1)^2) + (yn^2)), na.rm = TRUE)))
 	} else {
 		legend_pos <- 2
 	}

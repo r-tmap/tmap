@@ -274,7 +274,7 @@ By default the title is placed on top of the legend (determined by \code{legend.
 
 \item{attr.just}{Justification of the attributes relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{attr.position} is specified by numeric coordinates. It can also be specified per attribute function.}
 
-\item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.}
+\item{design.mode}{Not used anymore, since it is now only a tmap option: see \code{\link{tmap_options}}.}
 
 \item{...}{other arguments from \code{tm_layout}}
 

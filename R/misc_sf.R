@@ -30,8 +30,12 @@ sf_expand <- function(shp) {
 get_centroids <- function(shp, of_largest_polygon = FALSE) {
 	co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))), silent = TRUE)
 	if (inherits(co, "try-error")) {
-		shp <- sf::st_make_valid(shp)
-		co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))))
+		if (get("tmapOptions", envir = .TMAP_CACHE)$check.and.fix) {
+			shp <- sf::st_make_valid(shp)
+			co <- try(suppressWarnings(st_coordinates(st_centroid(shp, of_largest_polygon = of_largest_polygon))))
+		} else {
+			stop("Shape contains invalid polygons. Please fix it or set tmap_options(check.and.fix = TRUE) and rerun the plot", call. = FALSE)	
+		}
 	}
 	co
 }

@@ -122,7 +122,7 @@
 #' @param attr.outside.size Numeric value that determines the relative height of the attribute viewport, when \code{attr.outside=TRUE}.
 #' @param attr.position Position of the map attributes, which are \code{\link{tm_credits}}, \code{\link{tm_scale_bar}}, \code{\link{tm_compass}}, and \code{\link{tm_minimap}}. Vector of two values, specifying the x and y coordinates. The first value is \code{"left"}, \code{"LEFT"}, \code{"center"}, \code{"right"}, or \code{"RIGHT"}, and the second value \code{"top"}, \code{"TOP"}, \code{"center"}, \code{"bottom"}, or \code{"BOTTOM"}. The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute functions. If \code{attr.outside=TRUE}, this argument specifies the position of the attributes within the outside panel.
 #' @param attr.just Justification of the attributes relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: \code{"left"} , \code{"right"}, \code{"center"}, \code{"bottom"}, and \code{"top"}. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if \code{attr.position} is specified by numeric coordinates. It can also be specified per attribute function.
-#' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.
+#' @param design.mode Not used anymore, since it is now only a tmap option: see \code{\link{tmap_options}}.
 #' @param ... other arguments from \code{tm_layout}
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
@@ -213,6 +213,7 @@ tm_layout <- function(title,
 	e1 <- parent.frame()
 	args <- lapply(as.list(match.call()[-1]), eval, envir = e1)
 	args$style <- NA
+	args$design.mode <- NULL
 	
 	g <- list(tm_layout=args)
 	class(g) <- "tm"
