@@ -137,9 +137,17 @@ transwarp <- function(x, crs, raster.warp) {
 	# NOTE: dropped colors after st_warp fixed in stars 0.4-2
 	shpcolors <- attr(x[[1]], "colors")
 	if (raster.warp) {
-		y <- stars::st_warp(x, crs = crs)
+		y <- tryCatch({
+			stars::st_warp(x, crs = crs)
+		}, error = function(e) {
+			stop("Unable to warp stars. You could try with raster.warp = FALSE (argument of tm_shape)", call. = FALSE)	
+		})
 	} else {
-		y <- sf::st_transform(x, crs = crs)
+		y <- tryCatch({
+			sf::st_transform(x, crs = crs)
+		}, error = function(e) {
+			stop("Unable to transform stars", call. = FALSE)	
+		})
 	}
 	if (!is.null(shpcolors)) attr(y[[1]], "colors") <- shpcolors
 	y

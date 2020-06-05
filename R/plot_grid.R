@@ -61,18 +61,13 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				} else grid.y2 <- NA
 			}
 			if (!grid.is.projected) {
-				grid.x2[abs(grid.x2-180)<1e-9] <- 180
-				grid.x2[abs(grid.x2- -180)<1e-9] <- -180
-				grid.y2[abs(grid.y2-90)<1e-9] <- 90
-				grid.y2[abs(grid.y2- -90)<1e-9] <- -90
+				# grid.x2[abs(grid.x2-180)<1e-9] <- 180
+				# grid.x2[abs(grid.x2- -180)<1e-9] <- -180
+				# grid.y2[abs(grid.y2-90)<1e-9] <- 90
+				# grid.y2[abs(grid.y2- -90)<1e-9] <- -90
 				grid.x2 <- grid.x2[grid.x2>=-180 & grid.x2<=180]	
 				grid.y2 <- grid.y2[grid.y2>=-90 & grid.y2<=90]	
 			}
-			
-			## select which grid lines have labels
-			grid.sel.x <- which(grid.x2 %in% grid.x)
-			grid.sel.y <- which(grid.y2 %in% grid.y)
-			
 			gnx2 <- gny2 <- NULL
 			
 			## determine limits
@@ -81,83 +76,60 @@ process_grid <- function(gt, bbx, proj, sasp) {
 			grid.y2.min <- min(min(grid.y2), bbx[2], na.rm=TRUE)
 			grid.y2.max <- max(max(grid.y2), bbx[4], na.rm=TRUE)
 			
-			# create SLDF with straight grid lines in grid lines projection
-			#bbx2 <- bb(bbx, ext=3)
+			lnsSel <- c(length(grid.x2) && !is.na(grid.x2[1]),
+						length(grid.y2) && !is.na(grid.y2[1]))
 			
-			
-			lnsList <- list(
-				if (is.na(grid.x2[1])) NULL else st_multilinestring(lapply(grid.x2, function(x) {
-					m <- matrix(c(rep(x,grid.ndiscr), seq(grid.y2.min, grid.y2.max, length.out=grid.ndiscr)), ncol=2)
-				})),
-				if (is.na(grid.y2[1])) NULL else st_multilinestring(lapply(grid.y2, function(y) {
-					m <- matrix(c(seq(grid.x2.min, grid.x2.max, length.out=grid.ndiscr), rep(y,grid.ndiscr)), ncol=2)
-				}))
-			)
-			
-			lnsSel <- !vapply(lnsList, is.null, logical(1)) & vapply(list(grid.sel.x, grid.sel.y), function(i)length(i)>0, logical(1))
-			if (!any(lnsSel)) {
-				grid.co.x.lns <- numeric(0)
-				grid.co.y.lns <- numeric(0)
+			if (lnsSel[1]) {
+				lnsX = sf::st_sfc(lapply(grid.x2, function(x) {
+					sf::st_linestring(matrix(c(rep(x,grid.ndiscr), seq(grid.y2.min, grid.y2.max, length.out=grid.ndiscr)), ncol=2))
+				}), crs = grid.projection)
+				lnsX_proj <- sf::st_transform(lnsX, crs = proj)
+				lnsX_emp <- sf::st_is_empty(lnsX_proj)
+				
+				grid.x2 <- grid.x2[!lnsX_emp]
+				lnsX_proj <- lnsX_proj[!lnsX_emp]
+				xco <- st_coordinates(lnsX_proj)
+				grid.co.x.lns <- lapply(unique(xco[,3]), function(i) {
+					lco <- xco[xco[,3]==i, 1:2]
+					lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
+					lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
+					lco
+				})
+				lnsX <- NULL
+				lnsX_proj <- NULL
+				lnsX_emp <- NULL
+				
+				grid.sel.x <- which(grid.x2 %in% grid.x)
 			} else {
-				
-				lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = grid.projection))
-				
-				lns2 <- st_cast(lns, "LINESTRING")
-				
-				# grid.bb <- trim_bb(margin = 0.01)
-				# lns <- st_crop(lns, xmin = grid.bb[1], ymin = grid.bb[2], xmax = grid.bb[3], ymax = grid.bb[4])
-				
-				#browser()
-				
-				# project it to current projection
-				lns_proj <- sf::st_transform(lns2, crs = proj)
-				lns_empty <- sf::st_is_empty(lns_proj)
-				
-				lns_proj <- lns_proj[!lns_empty, ]
-				
-				
-				
-				# if (any(lns_empty)) {
-				# 	warning("Unable to transform (a part of) the grid lines / graticules", call. = FALSE)
-				# 	if (lnsSel[1] && lns_empty[1]) lnsSel[1] <- FALSE 
-				# 	if (lnsSel[2] && lns_empty[length(lns_empty)]) lnsSel[2] <- FALSE
-				# 	lns_proj <- lns_proj[!lns_empty, ]
-				# }
-				
-				# extract and normalize coordinates
-				
-				if (lnsSel[1] && any(lns_proj$ID == "x")) {
-					xco <- st_coordinates(lns_proj[lns_proj$ID == "x", ])
-					grid.co.x.lns <- lapply(unique(xco[,3]), function(i) {
-						lco <- xco[xco[,3]==i, 1:2]
-						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
-						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
-						lco
-					})
-					xco <- NULL
-				} else {
-					lnsSel[1] <- FALSE
-					grid.co.x.lns <- numeric(0)
-				}
-				
-				if (lnsSel[2] && any(lns_proj$ID == "y")) {
-					yco <- st_coordinates(lns_proj[lns_proj$ID == "y", ])
-					grid.co.y.lns <- lapply(unique(yco[,3]), function(i) {
-						lco <- yco[yco[,3]==i, 1:2]
-						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
-						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
-						lco
-					})
-					yco <- NULL
-				} else {
-					lnsSel[2] <- FALSE
-					grid.co.y.lns <- numeric(0)
-				}
-
+				grid.co.x.lns <- numeric(0)
 			}
-			lns <- NULL
-			lns_proj <- NULL
 			
+			if (lnsSel[2]) {
+				lnsY = sf::st_sfc(lapply(grid.y2, function(y) {
+					st_linestring(matrix(c(seq(grid.x2.min, grid.x2.max, length.out=grid.ndiscr), rep(y,grid.ndiscr)), ncol=2))
+				}), crs = grid.projection)
+				lnsY_proj <- sf::st_transform(lnsY, crs = proj)
+				lnsY_emp <- sf::st_is_empty(lnsY_proj)
+				
+				grid.y2 <- grid.y2[!lnsY_emp]
+				lnsY_proj <- lnsY_proj[!lnsY_emp]
+				yco <- st_coordinates(lnsY_proj)
+				grid.co.y.lns <- lapply(unique(yco[,3]), function(i) {
+					lco <- yco[yco[,3]==i, 1:2]
+					lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
+					lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
+					lco
+				})
+				lnsY <- NULL
+				lnsY_proj <- NULL
+				lnsY_emp <- NULL
+				
+				grid.sel.y <- which(grid.y2 %in% grid.y)
+			}	else {
+				grid.co.y.lns <- numeric(0)
+			}
+
+
 			grid.labels.show <- grid.labels.show & lnsSel # update needed for plot_n
 		} else {
 			# normalize coordinates
