@@ -337,7 +337,7 @@
 #' @param output.size The size of the static maps saved with \code{\link{tmap_save}} without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.
 #' @param output.dpi The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.
 #' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.
-#' @param check.and.fix Logical that determines whether shapes (\code{sf} objects) are checked for validity and fixed if needed. Two checks are performed: \code{\link[sf:st_is_valid]{st_is_valid}} and \code{\link[sf:st_is_empty]{st_is_empty}}. Invalid shapes are fixed with \code{\link[sf:st_make_valid]{st_make_valid}} and empty units are removed.
+#' @param check.and.fix Logical that determines whether shapes (\code{sf} objects) are checked for validity with \code{\link[sf:st_is_valid]{st_is_valid}} and fixed with \code{\link[sf:st_make_valid]{st_make_valid}} if needed.
 #' @param style style name
 #' @example ./examples/tmap_options.R
 #' @rdname tmap_options

@@ -23,6 +23,15 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		} else if (is.character(args$x)) {
 			args$projection <- gm$shape.master_crs
 			args$current.projection <- .crs_longlat
+		} else if (inherits(args$x, c("bbox", "sf", "sfc", "stars", "sp", "Raster"))) {
+			crs <- sf::st_crs(args$x)
+			if (!is.na(crs)) {
+				args$projection <- if (interactive) gm$shape.master_crs else gm$shape.orig_crs
+				args$current.projection <- crs
+			} else {
+				args$projection <- NULL
+				args$current.projection <- NULL	
+			}
 		} else if (interactive) {
 			args$projection <- gm$shape.master_crs
 			args$current.projection <- gm$shape.orig_crs

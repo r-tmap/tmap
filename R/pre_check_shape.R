@@ -19,18 +19,15 @@ pre_check_shape <- function(shp, name) {
 				stop("Unable to make ", name, " valid with sf::st_make_valid", call. = FALSE)
 			})
 		}
+	}
 
-		# remove empty units
-		empty_units <- st_is_empty(shp)
-		if (all(empty_units)) {
-			stop("The shape ", name, " only contains empty units.", call. = FALSE)
-		} else if (any(empty_units)) {
-			warning("The shape ", name, " contains empty units.", call. = FALSE)
-			shp <- if (inherits(shp, "sf")) shp[!empty_units, ] else shp[!empty_units]
-		}
-	} else {
-		bbx <- sf::st_bbox(shp)
-		if (any(is.na(as.vector(bbx)))) stop("The shape ", name, " has an unknown bounding box. Probably, it contains only empty units. Either fix the shape object or set tmap(check.and.fix = TRUE) and rerun the plot.", call. = FALSE)
+	# remove empty units
+	empty_units <- st_is_empty(shp)
+	if (all(empty_units)) {
+		stop("The shape ", name, " only contains empty units.", call. = FALSE)
+	} else if (any(empty_units)) {
+		warning("The shape ", name, " contains empty units.", call. = FALSE)
+		shp <- if (inherits(shp, "sf")) shp[!empty_units, ] else shp[!empty_units]
 	}
 
 	shp

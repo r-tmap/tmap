@@ -94,7 +94,7 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				}))
 			)
 			
-			lnsSel <- !vapply(lnsList, is.null, logical(1))
+			lnsSel <- !vapply(lnsList, is.null, logical(1)) & vapply(list(grid.sel.x, grid.sel.y), function(i)length(i)>0, logical(1))
 			if (!any(lnsSel)) {
 				grid.co.x.lns <- numeric(0)
 				grid.co.y.lns <- numeric(0)
@@ -102,15 +102,33 @@ process_grid <- function(gt, bbx, proj, sasp) {
 				
 				lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = grid.projection))
 				
-				# project it to current projection
-				lns_proj <- sf::st_transform(lns, crs = proj)
+				lns2 <- st_cast(lns, "LINESTRING")
 				
+				# grid.bb <- trim_bb(margin = 0.01)
+				# lns <- st_crop(lns, xmin = grid.bb[1], ymin = grid.bb[2], xmax = grid.bb[3], ymax = grid.bb[4])
+				
+				#browser()
+				
+				# project it to current projection
+				lns_proj <- sf::st_transform(lns2, crs = proj)
+				lns_empty <- sf::st_is_empty(lns_proj)
+				
+				lns_proj <- lns_proj[!lns_empty, ]
+				
+				
+				
+				# if (any(lns_empty)) {
+				# 	warning("Unable to transform (a part of) the grid lines / graticules", call. = FALSE)
+				# 	if (lnsSel[1] && lns_empty[1]) lnsSel[1] <- FALSE 
+				# 	if (lnsSel[2] && lns_empty[length(lns_empty)]) lnsSel[2] <- FALSE
+				# 	lns_proj <- lns_proj[!lns_empty, ]
+				# }
 				
 				# extract and normalize coordinates
 				
-				if (lnsSel[1]) {
-					xco <- st_coordinates(st_geometry(lns_proj)[1])
-					grid.co.x.lns <- lapply(1L:length(st_geometry(lns_proj)[1][[1]]), function(i) {
+				if (lnsSel[1] && any(lns_proj$ID == "x")) {
+					xco <- st_coordinates(lns_proj[lns_proj$ID == "x", ])
+					grid.co.x.lns <- lapply(unique(xco[,3]), function(i) {
 						lco <- xco[xco[,3]==i, 1:2]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
@@ -118,12 +136,13 @@ process_grid <- function(gt, bbx, proj, sasp) {
 					})
 					xco <- NULL
 				} else {
+					lnsSel[1] <- FALSE
 					grid.co.x.lns <- numeric(0)
 				}
 				
-				if (lnsSel[2]) {
-					yco <- st_coordinates(st_geometry(lns_proj)[sum(lnsSel)])
-					grid.co.y.lns <- lapply(1L:length(st_geometry(lns_proj)[sum(lnsSel)][[1]]), function(i) {
+				if (lnsSel[2] && any(lns_proj$ID == "y")) {
+					yco <- st_coordinates(lns_proj[lns_proj$ID == "y", ])
+					grid.co.y.lns <- lapply(unique(yco[,3]), function(i) {
 						lco <- yco[yco[,3]==i, 1:2]
 						lco[, 1] <- (lco[, 1]-bbx_orig[1]) / (bbx_orig[3] - bbx_orig[1])
 						lco[, 2] <- (lco[, 2]-bbx_orig[2]) / (bbx_orig[4] - bbx_orig[2])
@@ -131,12 +150,15 @@ process_grid <- function(gt, bbx, proj, sasp) {
 					})
 					yco <- NULL
 				} else {
-					grid.co.x.lns <- numeric(0)
+					lnsSel[2] <- FALSE
+					grid.co.y.lns <- numeric(0)
 				}
 
 			}
 			lns <- NULL
 			lns_proj <- NULL
+			
+			grid.labels.show <- grid.labels.show & lnsSel # update needed for plot_n
 		} else {
 			# normalize coordinates
 			grid.co.x <- (grid.x-bbx[1]) / (bbx[3] - bbx[1])
@@ -302,21 +324,40 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 	# find coordinates for projected grid labels
 	if (!is.na(gt$grid.projection)) {
-		glabelsx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX) else numeric(0)
-		glabelsy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY+marginY) else numeric(0)
+		if (selx) {
+			glabelsx <- get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX)
+			cogridx <- glabelsx$cogrid
+			idsx <- glabelsx$ids
+			labelsx <- labelsx[idsx]
+			cogridx_frst <- cogridx[sapply(1:max(idsx), function(i) which(i==idsx)[1])]
+		}
+		# } else {
+		# 	glabelsx <- numeric(0)
+		# }
 		
-		cogridx <- glabelsx$cogrid
-		cogridy <- glabelsy$cogrid
+		if (sely) {
+			glabelsy <- get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY+marginY)
+			cogridy <- glabelsy$cogrid
+			idsy <- glabelsy$ids
+			labelsy <- labelsy[idsy]
+			cogridy_frst <- cogridy[sapply(1:max(idsy), function(i) which(i==idsy)[1])]
+		}
 		
-		
-		idsx <- glabelsx$ids
-		idsy <- glabelsy$ids
-		
-		labelsx <- labelsx[idsx]
-		labelsy <- labelsy[idsy]
-		
-		cogridx_frst <- cogridx[sapply(1:max(idsx), function(i) which(i==idsx)[1])]
-		cogridy_frst <- cogridy[sapply(1:max(idsy), function(i) which(i==idsy)[1])]
+		# glabelsx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX) else numeric(0)
+		# glabelsy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY+marginY) else numeric(0)
+		# 
+		# cogridx <- glabelsx$cogrid
+		# cogridy <- glabelsy$cogrid
+		# 
+		# 
+		# idsx <- glabelsx$ids
+		# idsy <- glabelsy$ids
+		# 
+		# labelsx <- labelsx[idsx]
+		# labelsy <- labelsy[idsy]
+		# 
+		# cogridx_frst <- cogridx[sapply(1:max(idsx), function(i) which(i==idsx)[1])]
+		# cogridy_frst <- cogridy[sapply(1:max(idsy), function(i) which(i==idsy)[1])]
 		
 	} else {
 		cogridx_frst <- cogridx
@@ -428,12 +469,7 @@ get_gridline_labels <- function(lco, xax=NA, yax=NA) {
 		st_linestring(l)
 	})), crs = 4326) # trick for 0-1 coordinates
 	
-	# lns <- SpatialLines(mapply(function(m, id){
-	# 	Lines(list(Line(m)), ID=id)
-	# }, lco, 1:k, SIMPLIFY=FALSE))
-	
-	
-	
+
 	if (!is.na(xax)) {
 		ax <- st_sf(geometry=st_sfc(st_linestring(matrix(c(0, 1, xax, xax), nrow=2))), crs = 4326)
 		#ax <- SpatialLines(list(Lines(Line(matrix(c(0, 1, xax, xax), nrow=2)), ID="base")))
