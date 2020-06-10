@@ -15,12 +15,12 @@ check_raster_specials <- function(x, g, gt, shpcols, data, nx) {
 		is.colors <- FALSE
 		nx <- 1
 	} else {
-		x <- g$col
+		#x <- g$col
 		
-		if (attr(data, "treat_as_by")) {
-			if (!is.na(x)) warning("col specification in tm_raster is ignored, since stars object contains a 3rd dimension, where its values are used to create facets", call. = FALSE)
-			x <- NA
-		}
+		# if (attr(data, "treat_as_by")) {
+		# 	if (!is.na(x)) warning("col specification in tm_raster is ignored, since stars object contains a 3rd dimension, where its values are used to create facets", call. = FALSE)
+		# 	x <- NA
+		# }
 		
 		# by default, use the all data variables
 		if (is.na(x[1])) {
@@ -28,7 +28,7 @@ check_raster_specials <- function(x, g, gt, shpcols, data, nx) {
 				x <- gt$aes.colors["dots"]
 			} else {
 				x <- setdiff(names(data), c("tmapfilter", "GROUP_BY", "ALONG"))
-				g$col <- x
+				#g$col <- x
 			}
 		}
 		

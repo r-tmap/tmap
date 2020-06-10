@@ -1,7 +1,13 @@
 
 
 check_fill_specials <- function(x, g, gt, shpcols, data, nx) {
-	if (attr(data, "kernel_density") && !("col" %in% g$call) && "level" %in% shpcols) {
+	
+	if (attr(data, "treat_as_by")) {
+		# if (!is.na(x) && (!identical(x, attr(data, "by_var")))) warning("col specification in tm_fill/tm_polygons is ignored, since stars object contains another dimension, where its values are used to create facets", call. = FALSE)
+		is.colors = FALSE
+		# x = setdiff(names(data), c("tmapfilter", "GROUP_BY", "ALONG", "SHAPE_AREAS"))
+		nx = length(x)
+	} else if (attr(data, "kernel_density") && !("col" %in% g$call) && "level" %in% shpcols) {
 		is.colors <- FALSE
 		x <- "level"
 	} else if (!all(x %in% shpcols)) {
@@ -31,6 +37,7 @@ check_fill_specials <- function(x, g, gt, shpcols, data, nx) {
 	}
 	
 	list(x = x,
+		 nx = nx,
 		 data = data,
 		 is.colors = is.colors)
 }

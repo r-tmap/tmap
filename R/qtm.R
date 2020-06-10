@@ -88,22 +88,39 @@ qtm <- function(shp,
 	
 	isRaster <- (inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster", "stars")))
 	
+	
+	if ((inherits(shp, "stars") && !has_raster(shp))) {
+		d = dim(shp)
+		v = lapply(1L:length(d), function(i) stars::st_get_dimension_values(shp, which = i))
+		
+		sfc = v[[which(vapply(v, inherits, logical(1), "sfc"))[1]]]
+		isRaster <- FALSE
+		sfcarray <- TRUE
+	} else {
+		sfcarray <- FALSE
+	}
+	
+	
 	if (isRaster) {
 		fill <- NULL
 		borders <- NULL
 		showPoints <- FALSE
 	} else {
-		shp <- pre_check_shape(shp, shp_name)
-
-		if (inherits(shp, "sfc")) shp <- st_sf(shp)
-
-		if (any(st_geometry_type(shp) == "GEOMETRYCOLLECTION")) {
-			geom <- split_geometry_collection(st_geometry(shp))
-			shp <- shp[attr(geom, "ids"), ]
-			shp <- st_set_geometry(shp, geom)
+		if (sfcarray) {
+			types <- get_types(sfc)
+		} else {
+			shp <- pre_check_shape(shp, shp_name)
+			
+			if (inherits(shp, "sfc")) shp <- st_sf(shp)
+			
+			if (any(st_geometry_type(shp) == "GEOMETRYCOLLECTION")) {
+				geom <- split_geometry_collection(st_geometry(shp))
+				shp <- shp[attr(geom, "ids"), ]
+				shp <- st_set_geometry(shp, geom)
+			}
+			
+			types <- get_types(st_geometry(shp))
 		}
-		
-		types <- get_types(st_geometry(shp))
 		
 		raster <- NULL
 		hasPolys <- any(types == "polygons")

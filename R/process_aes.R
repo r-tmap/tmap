@@ -43,10 +43,26 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	## general variables
 	npol <- nrow(data)
 	by <- data$GROUP_BY
-	shpcols <- names(data)[1:(ncol(data)-2)]
+	shpcols <- setdiff(names(data), c("tmapfilter", "GROUP_BY", "ALONG"))
+	
+	treat_as_by = attr(data, "treat_as_by")
 	
 	xs <- mapply(function(x, nm) {
-		if (length(x)==1 && is.na(x)[1] && type != "text") gt$aes.colors[nm] else x
+		#if (length(x)==1 && is.na(x)[1] && !any(type == c("raster", "text")) && !treat_as_by) gt$aes.colors[nm] else x
+		if (treat_as_by) {
+			if (!is.na(x[1])) {
+				if (type == "raster") {
+					warning("col specification in tm_raster is ignored, since stars object contains a 3rd dimension, where its values are used to create facets", call. = FALSE)		
+				} else {
+					warning("col specification in tm_fill/tm_polygons is ignored, since stars object contains another dimension, where its values are used to create facets", call. = FALSE)
+				}
+			} 
+			attr(data, "shpnames")
+		} else if (length(x)==1 && is.na(x[1]) && !any(type == c("raster", "text"))) {
+			gt$aes.colors[nm]
+		} else {
+			x
+		}
 	}, xs, colname, SIMPLIFY = FALSE)
 	
 	## put symbol shapes in list
@@ -102,6 +118,8 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	if (type == "fill") {
 		res <- check_fill_specials(xs[["fill"]], g, gt, shpcols, data, nx)
 		xs[["fill"]] <- res$x
+		nx <- res$nx
+		
 		data <- res$data
 		is.colors <- res$is.colors
 		split.by <- TRUE

@@ -15,6 +15,31 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	names(shp.sim)[names(shp.sim)=="simplify"] <- "fact"
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
+	
+	# process spatiotemporal array
+	if (inherits(shp, c("sf", "Spatial"))) {
+		by_var = NULL
+		treat_as_by = FALSE
+	} else if (inherits(shp, "stars") && !has_raster(shp)) {
+		# d = dim(shp)
+		# v = lapply(1L:length(d), function(i) stars::st_get_dimension_values(shp, which = i))
+		# is_sfc = vapply(v, inherits, logical(1), "sfc")
+		# if (!any(is_sfc)) stop(y$shp_name, " is a stars object without raster nor geometry dimension", call. = FALSE)
+		# vars = v[[which(!is_sfc)[1]]]
+		# 
+
+		by_var = names(shp)[1]
+		
+		if (length(shp) > 1L) {
+			warning("Only the first attribute \"", by_var, "\" of ", y$shp_name, " will be plotted", call. = FALSE)
+		}
+		treat_as_by = TRUE
+		
+		shp = sf::st_as_sf(shp[by_var])
+		shpnames = setdiff(names(shp), "geom")
+	}
+	
+	
 	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))) {
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		rgb.vars <- attr(raster_facets_vars, "rgb.vars")
@@ -80,7 +105,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		if (treat_as_by) {
 			by_var <- names(shp)[1]
-			shpnames <- bandnames
+			shpnames <- as.character(bandnames)
 		} else {
 			shpnames <- names(shp)
 			by_var <- NULL
@@ -109,7 +134,6 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			# multiple attributes (assumed: one band)
 			data <- as.data.frame(shp)[shpnames]
 		}
-		
 		isnum <- sapply(data, is.numeric)
 		
 		if (is.na(is.RGB)) {
@@ -191,8 +215,8 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		#attr(data, "raster.projected") <- raster.projected
 		
 		attr(data, "is.RGB") <- is.RGB
-		attr(data, "treat_as_by") <- treat_as_by
-		attr(data, "by_var") <- by_var
+		#attr(data, "treat_as_by") <- treat_as_by
+		#attr(data, "by_var") <- by_var
 		
 		
 		type <- "raster"
@@ -289,15 +313,15 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		#attr(shp2, "bbox") <- shp_bbx
 		#attr(shp2, "proj4string") <- st_crs(shp2)
-		
-		shpnames <- names(data)
-		treat_as_by <- FALSE
+
+		if (!treat_as_by) shpnames <- names(data)
 	}
 	
 	point.per <- if (is.na(y$point.per)) ifelse(type %in% c("points", "geometrycollection"), "segment", "feature") else y$point.per
 
 	attr(data, "shpnames") <- shpnames
 	attr(data, "treat_as_by") <- treat_as_by
+	attr(data, "by_var") <- by_var
 	
 	attr(shp2, "point.per") <- point.per
 	attr(shp2, "line.center") <- y$line.center

@@ -131,14 +131,16 @@ prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
 prec1 = dplyr::slice(prec, time, 1)
 tm_shape(prec1) + tm_raster()
 
+grd = st_as_stars(st_bbox(prec1), n = prod(dim(prec1)))
+
+prec2 = st_warp(prec1, grd)
+
 
 prec1_4 = dplyr::slice(prec, time, 1:4)
 
 tm_shape(prec1_4) + tm_raster() # works but slow
 
 tm_shape(prec) + tm_raster() + tm_facets(free.scales = FALSE) # even slower
-
-tm_shape(World) + tm_fill("HPI") + tm_facets(by = "continent")
 
 
 # large stars object (10980 x 10980)
@@ -181,7 +183,19 @@ tm_shape(p3) +
 tm_shape(p3, raster.downsample = FALSE) +
 	tm_raster()
 
+### spatialtemporal array
+prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
+(prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
+sf::read_sf(system.file("gpkg/nc.gpkg", package = "sf"), "nc.gpkg") %>%
+	st_transform(st_crs(prec)) -> nc # transform from NAD27 to WGS84
+nc_outline = st_union(st_geometry(nc))
+plot_hook = function() plot(nc_outline, border = 'red', add = TRUE)
 
+a = aggregate(prec, by = nc, FUN = max)
+qtm(prec)
+
+tm_shape(prec, raster.downsample = TRUE) + tm_raster(style = "kmean") # todo: raster.downsample depends on facets
+qtm(a)
 
 
 
