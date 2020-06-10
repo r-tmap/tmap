@@ -40,7 +40,7 @@ process_gps <- function(gps, shps, x, gm, nx, nxl, interactive, return.asp) {
 		# print(gm$shape.sasp)
 		# 
 		
-		gm = process_grid(gm, bbx, gm$shape.units$projection$input, gm$shape.sasp)
+		if (gm$grid.show) gm = process_grid(gm, bbx, gm$shape.units$projection$input, gm$shape.sasp)
 		
 		
 		gp$tm_layout <- gm
