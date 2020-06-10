@@ -116,9 +116,13 @@ plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new
 					bbx <- bbxproj$bbx
 				}
 				gt <- gps[[i]]$tm_layout
-				if (gt$grid.show) {
-					gt <- process_grid(gt, bbx, proj, sasp)
-				}
+				# if (gt$grid.show) {
+				# 	print("---plot_n---")
+				# 	print(bbx)
+				# 	print(proj$input)
+				# 	print(sasp)
+				# 	gt <- process_grid(gt, bbx, proj, sasp)
+				# }
 				gTree(children=gList(
 					#cellplot((rw+1),cl, e=rectGrob(gp=gpar(fill="purple")), name="gridLabelsX"),
 					#cellplot(rw,(cl-1), e=rectGrob(gp=gpar(fill="pink")), name="gridLabelsY"),

@@ -1,3 +1,22 @@
+grid_nonoverlap <- function(x) {
+	!vapply(1L:length(x), function(i) {any(abs(x[i]-x[-i]) < .1)}, FUN.VALUE = logical(1))
+}
+
+pretty30 = function(x, n, longlat) {
+	p = pretty(x, n)
+	if (!longlat) return(p)
+	step = p[2] - p[1]
+	if (step > 50) {
+		x = p %/% 60 * 60
+		seq(min(x), max(x), by = 60)
+	} else if (step > 10) {
+		x = p %/% 30 * 30
+		seq(min(x), max(x), by = 30)
+	} else {
+		p
+	}
+}
+
 process_grid <- function(gt, bbx, proj, sasp) {
 	grid.n.x <- grid.n.y <- grid.projection <- grid.is.projected <- grid.ndiscr <- NULL
 	
@@ -22,8 +41,8 @@ process_grid <- function(gt, bbx, proj, sasp) {
 		grid.custom.x <- !is.na(grid.x[1])
 		grid.custom.y <- !is.na(grid.y[1])
 		
-		if (!grid.custom.x) grid.x <- pretty(bbx[c(1,3)], n=grid.n.x)
-		if (!grid.custom.y) grid.y <- pretty(bbx[c(2,4)], n=grid.n.y)
+		if (!grid.custom.x) grid.x <- pretty30(bbx[c(1,3)], n=grid.n.x, longlat = !is.na(grid.projection) || sf::st_is_longlat(proj))
+		if (!grid.custom.y) grid.y <- pretty30(bbx[c(2,4)], n=grid.n.y, longlat = !is.na(grid.projection) || sf::st_is_longlat(proj))
 		
 		## copy grid.x and y
 		grid.x.orig <- grid.x
@@ -188,6 +207,12 @@ plot_grid_labels_x <- function(gt, scale) {
 		cogridx <- gt$grid.co.x	
 	}
 	
+	# remove overlapping grid labels
+	selx2 = grid_nonoverlap(cogridx)
+	if (!any(selx2)) return(NULL)
+	labelsx2 = labelsx[selx2]
+	cogridx2 = cogridx[selx2]
+	
 	cex <- gt$grid.labels.size*scale
 	
 	spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
@@ -196,12 +221,12 @@ plot_grid_labels_x <- function(gt, scale) {
 	just <- ifelse(gt$grid.labels.rot[1] == 90, "right", ifelse(gt$grid.labels.rot[1] == 270, "left", ifelse(gt$grid.labels.rot[1] == 180, "bottom", "top")))
 	
 	if (gt$grid.ticks[1]) {
-		ticks <- polylineGrob(x=rep(cogridx, each = 2), y = rep(c(1-spacerX*.5-marginX,1), length(cogridx)), id = rep(1:length(cogridx), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))	
+		ticks <- polylineGrob(x=rep(cogridx2, each = 2), y = rep(c(1-spacerX*.5-marginX,1), length(cogridx2)), id = rep(1:length(cogridx2), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))	
 	} else {
 		ticks <- NULL
 	}
 	
-	labels <- textGrob(labelsx, y=1-spacerX-marginX, x=cogridx, just=just, rot=gt$grid.labels.rot[1], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	labels <- textGrob(labelsx2, y=1-spacerX-marginX, x=cogridx2, just=just, rot=gt$grid.labels.rot[1], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	
 	gTree(children = gList(ticks, labels), name = "gridTicksLabelsX")
 	
@@ -219,6 +244,12 @@ plot_grid_labels_y <- function(gt, scale) {
 	} else {
 		cogridy <- gt$grid.co.y
 	}
+
+	# remove overlapping grid labels
+	sely2 = grid_nonoverlap(cogridy)
+	if (!any(sely2)) return(NULL)
+	labelsy2 = labelsy[sely2]
+	cogridy2 = cogridy[sely2]
 	
 	cex <- gt$grid.labels.size*scale
 	
@@ -228,11 +259,11 @@ plot_grid_labels_y <- function(gt, scale) {
 	just <- ifelse(gt$grid.labels.rot[2] == 90, "bottom", ifelse(gt$grid.labels.rot[2] == 270, "top", ifelse(gt$grid.labels.rot[2] == 180, "left", "right")))
 
 	if (gt$grid.ticks[2]) {
-		ticks <- polylineGrob(x = rep(c(1-spacerY*.5-marginY, 1), length(cogridy)), y = rep(cogridy, each = 2), id = rep(1:length(cogridy), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
+		ticks <- polylineGrob(x = rep(c(1-spacerY*.5-marginY, 1), length(cogridy2)), y = rep(cogridy2, each = 2), id = rep(1:length(cogridy2), each = 2), gp=gpar(col=gt$grid.col, lwd=gt$grid.lwd))
 	} else {
 		ticks <- NULL
 	}
-	labels <- textGrob(labelsy, y=cogridy, x=1-spacerY-marginY, just=just, rot=gt$grid.labels.rot[2], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	labels <- textGrob(labelsy2, y=cogridy2, x=1-spacerY-marginY, just=just, rot=gt$grid.labels.rot[2], gp=gpar(col=gt$grid.labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
 	gTree(children = gList(ticks, labels), name = "gridTicksLabelsY")
 }
 
@@ -339,6 +370,15 @@ plot_grid <- function(gt, scale, add.labels) {
 	# select grid labels to print
 	selx2 <- if (selx) (cogridx >= labelsYw + spacerY + marginY & cogridx <= 1 - spacerY) else selx
 	sely2 <- if (sely) (cogridy >= labelsXw + spacerX + marginX & cogridy <= 1 - spacerX) else sely
+	
+	
+	# remove overlapping grid labels
+	selx2 = selx2 & grid_nonoverlap(cogridx)
+	sely2 = sely2 & grid_nonoverlap(cogridy)
+	
+	
+	
+	
 	
 	# select grid lines to draw
 	selx <- if (selx) (cogridx_frst >= labelsYw + spacerY + marginY & cogridx_frst <= 1) else selx

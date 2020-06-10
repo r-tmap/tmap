@@ -142,6 +142,8 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 		same_bbx <- TRUE
 		sasp <- bbox_asp$sasp
 		inner.margins <- bbox_asp$inner.margins
+		
+		bboxes <- list(bbx)
 		#shp_by_name <- ""
 	}
 
@@ -270,6 +272,7 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	attr(shps2, "info") <-
 		list(shape.sasp = ifelse(is.na(pasp), sasp, pasp),
 			 shape.bbx = bbx,
+			 shape.bboxes = bboxes,
 			 shape.same_bbx = same_bbx,
 			 shape.legend_pos = legend_pos,
 			 shape.diff_shapes = diff_shapes,

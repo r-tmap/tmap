@@ -34,6 +34,15 @@ process_gps <- function(gps, shps, x, gm, nx, nxl, interactive, return.asp) {
 			})
 		gm$logo.show <- any(gm$logo.show)
 		
+		# print("---process_gps---")
+		bbx = if (gm$shape.same_bbx) gm$shape.bboxes[[1]] else gm$shape.bboxes[[i]]
+		# print(gm$shape.units$projection$input)
+		# print(gm$shape.sasp)
+		# 
+		
+		gm = process_grid(gm, bbx, gm$shape.units$projection$input, gm$shape.sasp)
+		
+		
 		gp$tm_layout <- gm
 		gp$tm_layout$title <- gp$tm_layout$title[i]
 		gp

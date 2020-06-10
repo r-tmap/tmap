@@ -13,9 +13,13 @@ plot_1 <- function(i, gp, gal, shps, dasp, sasp, inner.margins.new, legend_pos, 
 	if (!emptyShp) {
 		bbx <- attr(shps[[gt$shape.masterID]], "bbox")
 		proj <- sf::st_crs(shps[[gt$shape.masterID]])
-		if (gt$grid.show) {
-			gt <- process_grid(gt, bbx, proj, sasp)
-		}
+		# if (gt$grid.show) {
+		# 	print("---plot_1---")
+		# 	print(bbx)
+		# 	print(proj$input)
+		# 	print(sasp)
+		# 	gt <- process_grid(gt, bbx, proj, sasp)
+		# }
 	}
 
 	gp[c("tm_layout")] <- NULL
