@@ -192,7 +192,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", pane, group_name, e)
 			
 			suppressWarnings({
-				lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, dashArray = dashArray, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name)
+				if (is.null(labels)) {
+					lf <- lf %>% addPolygons(data=shp, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, dashArray = dashArray, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name)	
+				} else {
+					lf <- lf %>% addPolygons(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=stroke, weight=gpl$lwd, color=bcol, fillColor = fcol, opacity=bopacity, fillOpacity = fopacity, dashArray = dashArray, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), group=group_name)	
+				}
+				
 			})
 			
 			# if (!is.null(labels)) {
@@ -239,7 +244,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			shp$tmapID2 <- submit_labels(shp$tmapID, "lines", pane, group_name, e)
 			
 			suppressWarnings({
-				lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name) 
+				if (is.null(labels)) {
+					lf <- lf %>% addPolylines(data=shp, layerId = shp$tmapID2, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name) 
+				} else {
+					lf <- lf %>% addPolylines(data=shp, label = ~tmapID, layerId = shp$tmapID2, stroke=TRUE, weight=gpl$line.lwd, color=lcol, opacity = lopacity, popup = popups, options = pathOptions(clickable=!is.null(popups), pane=pane), dashArray=dashArray, group=group_name) 	
+				}
+				
 			})
 
 			# if (!is.null(labels)) {
