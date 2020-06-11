@@ -17,7 +17,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	
 	
 	# process spatiotemporal array
-	if (inherits(shp, c("sf", "Spatial"))) {
+	if (inherits(shp, c("sf", "sfc", "Spatial"))) {
 		by_var = NULL
 		treat_as_by = FALSE
 	} else if (inherits(shp, "stars") && !has_raster(shp)) {
