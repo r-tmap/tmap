@@ -5,7 +5,7 @@
 \title{Add manual legend}
 \usage{
 tm_add_legend(
-  type = c("fill", "symbol", "text", "line"),
+  type = c("fill", "symbol", "text", "line", "title"),
   labels = NULL,
   col = NULL,
   size = NULL,
@@ -26,7 +26,7 @@ tm_add_legend(
 )
 }
 \arguments{
-\item{type}{type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, or \code{"line"}}
+\item{type}{type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, \code{"line"}, or \code{"title"}. The last option only displays a title.}
 
 \item{labels}{legend labels}
 

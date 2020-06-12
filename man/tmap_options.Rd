@@ -66,7 +66,7 @@ tmap_options_save(style)
 
 \item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.}
 
-\item{check.and.fix}{Logical that determines whether shapes (\code{sf} objects) are checked for validity and fixed if needed. Two checks are performed: \code{\link[sf:st_is_valid]{st_is_valid}} and \code{\link[sf:st_is_empty]{st_is_empty}}. Invalid shapes are fixed with \code{\link[sf:st_make_valid]{st_make_valid}} and empty units are removed.}
+\item{check.and.fix}{Logical that determines whether shapes (\code{sf} objects) are checked for validity with \code{\link[sf:st_is_valid]{st_is_valid}} and fixed with \code{\link[sf:st_make_valid]{st_make_valid}} if needed.}
 
 \item{style}{style name}
 }

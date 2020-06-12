@@ -69,14 +69,14 @@ plot_meta <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 				name <- y$legend.type
 				list_spacer <- list(legend.type="spacer", legend.is.portrait=FALSE)
 				list_title <- if(!nonempty_text(y$legend.title)) NULL else list(legend.type="title", title=y$legend.title, legend.is.portrait=FALSE)
-				list(list_spacer, list_title, y)
+				list(list_spacer, list_title, {if (y$legend.type != "title") y else NULL})
 			})
 			x <- do.call("c", x)[-1]
 		} else {
 			x <- lapply(x, function(y) {
 				name <- y$legend.type
 				list_title <- if(!nonempty_text(y$legend.title)) NULL else list(legend.type="title", title=y$legend.title, legend.is.portrait=FALSE)
-				list(list_title, y)
+				list(list_title, {if (y$legend.type != "title") y else NULL})
 			})
 			x <- do.call("c", x)
 		}

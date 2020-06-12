@@ -519,7 +519,7 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
 			cols <- legend.palette
-			xtraWidth <- convertWidth(unit(lwds[nitems], "points"), "npc", valueOnly=TRUE)/2
+			xtraWidth <- convertWidth(unit(lwds[min(length(lwds), nitems)], "points"), "npc", valueOnly=TRUE)/2
 			polylineGrob(x=rep(xs, each=2), 
 						 y=1-my-c(0,1)*rep(hs, each=2),
 						 id=rep(1:nitems, each=2),

@@ -2,7 +2,7 @@
 #' 
 #' Creates a \code{\link{tmap-element}} that adds a manual legend.
 #' 
-#' @param type type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, or \code{"line"}
+#' @param type type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, \code{"line"}, or \code{"title"}. The last option only displays a title.
 #' @param labels legend labels
 #' @param col legend colors
 #' @param size legend symbol sizes (if \code{type=="symbol"}). See example how to replicate the sizes of symbols created with \code{\link{tm_symbols}}
@@ -23,7 +23,7 @@
 #' @export
 #' @example ./examples/tm_add_legend.R
 #' @seealso \code{\link{tm_symbols}} for another example
-tm_add_legend <- function(type = c("fill", "symbol", "text", "line"), 
+tm_add_legend <- function(type = c("fill", "symbol", "text", "line", "title"), 
 						  labels=NULL, 
 						  col=NULL, 
 						  size=NULL, 
