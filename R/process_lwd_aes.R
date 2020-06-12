@@ -78,7 +78,8 @@ process_line_lwd_vector <- function(x, g, rescale, reverse) {
 	if (is.null(g$lwd.legend)) {
 		w_legend <- pretty(x, 7)
 		w_legend <- w_legend[w_legend!=0]
-		w_legend <- w_legend[-c(length(w_legend)-3,length(w_legend)-1)]
+		nwl <- length(w_legend)
+		if (nwl>5) w_legend <- w_legend[-c(length(w_legend)-3,length(w_legend)-1)]
 	} else {
 		w_legend <- g$lwd.legend
 	}

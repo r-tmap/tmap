@@ -13,6 +13,8 @@ pre_process_facet_layout <- function(gm, external_legend, dh, dw) {
 			legmar <- c(0, 0, lnpc, 0)
 		} else if (ext_leg_pos == "bottom") {
 			legmar <- c(lnpc, 0, 0, 0)
+		} else {
+			stop("Invalid legend.outside.position value. Should be one of \"left\", \"right\", \"top\", \"bottom\"", call. = FALSE)
 		}
 		
 	} else {

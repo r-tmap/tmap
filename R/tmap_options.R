@@ -347,7 +347,7 @@
 tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, show.messages, output.format, output.size, output.dpi, design.mode, check.and.fix) {
 
 	
-	if (!identical( parent.frame(n = 1) , globalenv() )) warning("test4322t6")
+	#if (!identical( parent.frame(n = 1) , globalenv() )) warning("test4322t6")
 	
 	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 	current.style <- getOption("tmap.style")
