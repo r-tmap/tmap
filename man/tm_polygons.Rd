@@ -47,13 +47,21 @@ tm_fill(
   ...
 )
 
-tm_borders(col = NA, lwd = 1, lty = "solid", alpha = NA, group = NA)
+tm_borders(
+  col = NA,
+  lwd = 1,
+  lty = "solid",
+  alpha = NA,
+  zindex = NA,
+  group = NA
+)
 
 tm_polygons(
   col = NA,
   alpha = NA,
   border.col = NA,
   border.alpha = NA,
+  zindex = NA,
   group = NA,
   ...
 )

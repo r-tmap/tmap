@@ -417,7 +417,7 @@ tm_fill <- function(col=NA,
 #' @param lwd border line width (see \code{\link[graphics:par]{par}})
 #' @param lty border line type (see \code{\link[graphics:par]{par}})
 #' @export
-tm_borders <- function(col=NA, lwd=1, lty="solid", alpha=NA, group = NA) {
+tm_borders <- function(col=NA, lwd=1, lty="solid", alpha=NA, zindex = NA, group = NA) {
 	g <- list(tm_borders=as.list(environment()))
 	class(g) <- "tmap"
 	g
@@ -432,6 +432,7 @@ tm_polygons <- function(col=NA,
 						alpha=NA,
 						border.col=NA,
 						border.alpha=NA,
+						zindex = NA,
 						group = NA,
 						...) {
 	args <- list(...)

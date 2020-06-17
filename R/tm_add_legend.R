@@ -19,6 +19,7 @@
 #' @param legend.format options to format the legend, see \code{\link{tm_symbols}} (the description of the argument \code{legend.format}) for details. Note that many of these arguments are not applicable for \code{tm_add_legend} since \code{labels} should be a character vector. However, some options could still be handy, e.g. \code{list(text.align = "right")}.
 #' @param reverse are the legend items reversed (by default \code{FALSE})?
 #' @param z legend stack position
+#' @param zindex zindex of the pane in view mode to which the legend belongs (if any). 
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. By default \code{NULL}, which means that the legend will not be shown in the layer control item.
 #' @export
 #' @example ./examples/tm_add_legend.R
@@ -40,6 +41,7 @@ tm_add_legend <- function(type = c("fill", "symbol", "text", "line", "title"),
 						  legend.format=list(),
 						  reverse=FALSE,
 						  z=NA,
+						  zindex = NA,
 						  group=NULL) {
 	type <- match.arg(type)
 	g <- list(tm_add_legend=c(as.list(environment()), list(are.dots=FALSE, call=names(match.call(expand.dots = TRUE)[-1]))))

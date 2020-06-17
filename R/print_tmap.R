@@ -39,7 +39,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	###################################################################################################################
 	
 	if (proxy) {
-		layerIds <- if (".layerIdsNew" %in% ls(envir = .TMAP_CACHE)) {
+		layerIds <- if ("layerIdsNew" %in% ls(envir = .TMAP_CACHE)) {
 			get("layerIdsNew", envir = .TMAP_CACHE)
 		} else {
 			get("layerIds", envir = .TMAP_CACHE)
@@ -54,7 +54,6 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		
 		groupsList <- as.list(attr(layerIds, "groups"))
 		names(groupsList) <- names(layerIds)
-		
 		rem_lay_id <- which(names(x) == "tm_remove_layer")
 		if (length(rem_lay_id) > 0L) {
 			for (id in rem_lay_id) {

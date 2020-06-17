@@ -148,6 +148,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	# fill info
 	if (is.null(g$tm_fill)) {
 		fill.group <- if (is.null(g$tm_borders)) NA else g$tm_borders$group
+		fill.zindex <- if (is.null(g$tm_borders)) NA else g$tm_borders$zindex
 		gfill <- list(fill=NULL, xfill=NA, fill.legend.title=NA, fill.id=NA, fill.group = fill.group, fill.zindex = NA) 
 	} else {
 		g$tm_fill$gborders <- gborders

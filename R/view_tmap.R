@@ -37,7 +37,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	overlays <- if ("overlays" %in% ls(envir = .TMAP_CACHE)) get("overlays", envir = .TMAP_CACHE) else NA
 	overlays_tiles <- if ("overlays_tiles" %in% ls(envir = .TMAP_CACHE)) get("overlays_tiles", envir = .TMAP_CACHE) else character(0)
 	
-	if (proxy) {
+	if (proxy && ("layerIdsNew" %in% ls(envir = .TMAP_CACHE))) {
 		layerIds <- get("layerIdsNew", envir = .TMAP_CACHE)
 		if (length(layerIds) == 0) {
 			start_pane_id <- 401
@@ -697,12 +697,19 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				col <- rgb(RGBA[1,], RGBA[2,], RGBA[3,], maxColorValue = 255)
 				opacity <- unname(RGBA[4,1]/255) * alpha
 				
+				if (!is.null(gali$zindex)) {
+					layerId <- legendName(gali$zindex)
+				} else {
+					layerId <- NULL
+				}
+				
 				lf <- lf %>% addLegend(position=gt$view.legend.position,
 									   group = gali$group,
 									   colors = col,
 									   labels = gali$labels,
 									   title=gali$title, 
-									   opacity=opacity)
+									   opacity=opacity,
+									   layerId = layerId)
 			}
 		}
 	}

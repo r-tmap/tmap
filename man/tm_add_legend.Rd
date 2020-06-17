@@ -22,6 +22,7 @@ tm_add_legend(
   legend.format = list(),
   reverse = FALSE,
   z = NA,
+  zindex = NA,
   group = NULL
 )
 }
@@ -59,6 +60,8 @@ tm_add_legend(
 \item{reverse}{are the legend items reversed (by default \code{FALSE})?}
 
 \item{z}{legend stack position}
+
+\item{zindex}{zindex of the pane in view mode to which the legend belongs (if any).}
 
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. By default \code{NULL}, which means that the legend will not be shown in the layer control item.}
 }
