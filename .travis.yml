@@ -35,6 +35,8 @@ addons:
 before_install:
   - R -e 'install.packages("rgdal", repos="http://R-Forge.R-project.org")'
   - R -q -e 'install.packages("remotes"); remotes::install_github("ropenscilabs/tic"); tic::prepare_all_stages()'
+  - R -q -e 'remotes::install_cran("pkgdown")'
+
 
 install: R -q -e 'tic::install()'
 script: R -q -e 'tic::script()'
@@ -48,5 +50,9 @@ deploy:
        - $TRAVIS_PULL_REQUEST = false
        - $TRAVIS_EVENT_TYPE != cron
        - $TRAVIS_R_VERSION_STRING = release
+deploy:
+  provider: script
+  script: Rscript -e 'pkgdown::deploy_site_github()'
+  skip_cleanup: true
        
 after_success: R -q -e 'tic::after_success()'
