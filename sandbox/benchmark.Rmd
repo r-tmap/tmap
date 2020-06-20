@@ -19,9 +19,7 @@ library(microbenchmark)
 
 ## Large choroplth
 
-```{r preprocess-poly,cache=TRUE,include = FALSE}
-
-
+```{r cache=TRUE,include = FALSE}
 # function to obtain Food Environment Atlas data (2014)
 get_food_envir_data <- function() {
 	dir <- tempdir()
@@ -33,6 +31,7 @@ get_food_envir_data <- function() {
 	}, error = function(e) {
 		stop("The excel file cannot be read. Please open it, and remove all sheets except HEALTH. The location of the file is: ", normalizePath(file.path(dir, "DataDownload.xls")))
 	})
+	res[!duplicated(res$FIPS), ]
 }
 
 # function to obtain US county shape
@@ -51,12 +50,10 @@ FEA <- get_food_envir_data()
 # obtain US county shape
 US <- get_US_county_2010_shape()
 
-
 US$FIPS <- paste0(US$STATE, US$COUNTY)
 
-# append data to shape
-#US <- append_data(US, FEA, key.shp = "FIPS", key.data = "FIPS", ignore.duplicates = TRUE)
-US <- left_join(US, FEA, by = c("FIPS", "FIPS"))
+# US <- left_join(US, FEA, by = c("FIPS", "FIPS")) # bug, lazy solution';
+US$PCT_OBESE_ADULTS10 = FEA$PCT_OBESE_ADULTS10[match(US$FIPS, FEA$FIPS)]
 
 US_cont <- US %>% 
 	subset(!STATE %in% c("02", "15", "72"))
@@ -65,32 +62,29 @@ US_cont <- US %>%
 
 
 ```{r}
-poly_tmap = function() {
-	print(tm_shape(US_cont) + tm_polygons("PCT_OBESE_ADULTS10"))	
-}
 poly_sf = function() {
 	plot(US_cont[, "PCT_OBESE_ADULTS10"])
 }
 poly_ggplot2 = function() {
 	print(ggplot(data = US_cont, aes(fill = PCT_OBESE_ADULTS10)) + geom_sf())
 }
+poly_tmap = function() {
+	print(tm_shape(US_cont) + tm_polygons("PCT_OBESE_ADULTS10"))	
+}
 ```
 
 
-```{r fig.cap="tmap choropleth"}
-poly_tmap()
-```
-
-**sf** 
-
-```{r fig.cap="sf choropleth"}
+```{r}
 poly_sf()
 ```
 
-**ggplot2** 
 
-```{r fig.cap="ggplot2 choropleth"}
+```{r}
 poly_ggplot2()
+```
+
+```{r}
+poly_tmap()
 ```
 
 
@@ -103,15 +97,15 @@ write2png = function(e) {
 }
 
 autoplot(microbenchmark(list = alist(
-tmap = write2png(poly_tmap()),
 sf = write2png(poly_sf()),
-ggplot2 = write2png(poly_ggplot2())), 
+ggplot2 = write2png(poly_ggplot2()), 
+tmap = write2png(poly_tmap())),
 times = 3))
 ```
 
 # Large dot map
 
-```{r preprocess-poly,cache=TRUE,include = FALSE}
+```{r cache=TRUE,include = FALSE}
 denuncia_v = read.csv("https://github.com/hbermeo/datos_espaciales/raw/master/denuncia_vial.csv", encoding = "UTF-8")
 
 denuncias = st_as_sf(denuncia_v, coords = c("long", "lat"), crs = 4326)
@@ -121,15 +115,36 @@ denuncias = st_as_sf(denuncia_v, coords = c("long", "lat"), crs = 4326)
 
 
 ```{r}
-dot_tmap = function() {
-	print(tm_shape(denuncias) + tm_dots("genero", size = .1))
-}
-
-dot_ggplot2 = function() {
-	ggplot(data= denuncias, aes(color = genero)) + geom_sf()	
-}
-
 dot_sf = function() {
 	plot(denuncias[, "genero"])
 }
+dot_ggplot2 = function() {
+	print(ggplot(data= denuncias, aes(color = genero)) + geom_sf())
+}
+dot_tmap = function() {
+	print(tm_shape(denuncias) + tm_dots("genero", size = .1))
+}
 ```
+
+
+
+```{r}
+dot_sf()
+```
+
+```{r}
+dot_ggplot2()
+```
+
+```{r}
+dot_tmap()
+```
+
+```{r}
+autoplot(microbenchmark(list = alist(
+sf = write2png(dot_sf()),
+ggplot2 = write2png(dot_ggplot2()), 
+tmap = write2png(dot_tmap())),
+times = 3))
+```
+
