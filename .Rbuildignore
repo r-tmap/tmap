@@ -21,3 +21,7 @@ ubuntu_16_installation.sh
 ubuntu_17_installation.sh
 ^cran-comments\.md$
 ^codecov\.yml$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$

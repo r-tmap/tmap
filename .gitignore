@@ -36,3 +36,4 @@ vignettes/*.md
 .Rprofile
 # Local files
 /local/
+docs
