@@ -29,6 +29,13 @@ jobs:
           path: ${{ env.R_LIBS_USER }}
           key: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-${{ hashFiles('.github/depends.Rds') }}
           restore-keys: ${{ runner.os }}-${{ hashFiles('.github/R-version') }}-1-
+          
+      - name: Brew
+        run: |
+          brew install pkg-config
+          brew install udunits
+          brew install gdal
+          brew install sqlite3
 
       - name: Install dependencies
         run: |
