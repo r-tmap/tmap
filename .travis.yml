@@ -6,7 +6,7 @@ r:
 deploy.skip_cleanup: true
 
 sudo: required
-dist: trusty
+dist: xenial
 cache:
   - packages
   - ccache

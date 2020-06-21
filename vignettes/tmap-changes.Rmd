@@ -6,7 +6,7 @@ output:
     toc: true
 self_contained: no
 vignette: >
-  %\VignetteIndexEntry{tmap: changes in version 2.0}
+  %\VignetteIndexEntry{tmap: version changes}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

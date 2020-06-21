@@ -1,12 +1,12 @@
 ---
-title: "reproduction code from JSS article 'tmap: Thematic Maps in R'"
+title: "tmap: JSS article reproduction code"
 output: 
   rmarkdown::html_vignette:
     keep_md: true 
     toc: true
 self_contained: no
 vignette: >
-  %\VignetteIndexEntry{tmap: JSS reproduction code}
+  %\VignetteIndexEntry{tmap: JSS article reproduction code}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
