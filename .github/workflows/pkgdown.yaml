@@ -36,6 +36,7 @@ jobs:
           brew install udunits
           brew install gdal
           brew install sqlite3
+          brew install v8
 
       - name: Install dependencies
         run: |
