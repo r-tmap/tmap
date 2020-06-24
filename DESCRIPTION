@@ -5,18 +5,18 @@ Type: Package
 LazyLoad: yes
 Authors@R: c(
 	person("Martijn", "Tennekes", email = "mtennekes@gmail.com", role = c("aut", "cre")),
+	person("Jakub", "Nowosad", email = "nowosad.jakub@gmail.com", role = "ctb"),
 	person("Joel", "Gombin", email = "joel.gombin@gmail.com", role = "ctb"),
 	person("Sebastian", "Jeworutzki", email = "Sebastian.Jeworutzki@rub.de", role = "ctb"),
 	person("Kent", "Russell", email = "kent.russell@timelyportfolio.com", role = "ctb"),
 	person("Richard", "Zijdeman", email = "richard.zijdeman@iisg.nl", role = "ctb"),
 	person("John", "Clouse", email = "johnaclouse@gmail.com", role = "ctb"),
 	person("Robin", "Lovelace", email = "rob00x@gmail.com", role = "ctb"),
-	person("Jakub", "Nowosad", email = "nowosad.jakub@gmail.com", role = "ctb"),
 	person("Jannes", "Muenchow", email = "jannes.muenchow@uni-jena.de", role = "ctb")
 	)
 Description: Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps.
 Version: 3.1
-Date: 2020-05-13
+Date: 2020-06-24
 Depends:
     R (>= 3.5.0),
     methods

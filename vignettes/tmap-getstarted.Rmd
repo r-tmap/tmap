@@ -19,11 +19,12 @@ knitr::opts_chunk$set(collapse = T, fig.width=6, fig.height=3)
 With the tmap package, thematic maps can be generated with great flexibility.
 The syntax for creating plots is similar to that of `ggplot2`, but tailored to maps.
 This vignette is for those who want to get started with tmap within a couple of minutes.
-A more detailed description of tmap can be found in an [article](https://www.jstatsoft.org/article/view/v084i06) published in the Journal of Statistical Software ([JSS](https://www.jstatsoft.org/index)), which describes tmap version 1.11-2.
-The changes in version 2.0 are described in [`vignette("tmap-changes")`](../doc/tmap-changes.html).
+A more detailed description of tmap can be found in an [article](https://www.jstatsoft.org/article/view/v084i06) published in the Journal of Statistical Software ([JSS](https://www.jstatsoft.org/index)).
+However, that article describes tmap version 1.11-2, which is out-of-date.
+Some major changes have been made since then, which are described in [`vignette("tmap-changes")`](../doc/tmap-changes.html).
 
-For more context on R's geographic capabilities there are a number of online resources including the vignettes of the [`sf` package](https://CRAN.R-project.org/package=sf/vignettes/sf1.html), the website [rspatial.org](http://www.rspatial.org/) and the online version of the book [Geocomputation with R](http://geocompr.robinlovelace.net/).
-The [Making maps with R](http://geocompr.robinlovelace.net/adv-map.html) chapter of the book provides many more context and abundant code examples of map making with `tmap` and other packages.
+For more context on R's geographic capabilities we recommend the online version of the book [Geocomputation with R](http://geocompr.robinlovelace.net/). The [Making maps with R](http://geocompr.robinlovelace.net/adv-map.html) chapter of the book provides many more context and abundant code examples of map making with `tmap` and other packages. Other good resources are the vignettes of the [`sf` package](https://CRAN.R-project.org/package=sf/vignettes/sf1.html), and the website [rspatial.org](http://www.rspatial.org/) .
+
 
 ### Hello World!
 
@@ -40,14 +41,14 @@ tm_shape(World) +
 
 The object `World` is a spatial object of class `sf` from the [sf package](https://CRAN.R-project.org/package=sf); it is a `data.frame` with a special column that contains a geometry for each row, in this case polygons. 
 In order to plot it in tmap, you first need to specify it with `tm_shape`.
-Plotting layers can be added with the `+` operator, in this case `tm_polygons`.
+Layers can be added with the `+` operator, in this case `tm_polygons`.
 There are many layer functions in tmap, which can easily be found in the documentation by their `tm_` prefix.
 See also `?'tmap-element'`.
 
 ### Interactive maps
 
 Each map can be plotted as a static image or viewed interactively using `"plot"` and `"view"` modes, respectively.
-The mode can be set with the function `tmap_mode`, and toggling between the modes can be done with the 'switch' `ttm()`.
+The mode can be set with the function `tmap_mode`, and toggling between the modes can be done with the 'switch' `ttm()` (which stands for toggle thematic map.
 
 ```{r, eval = FALSE}
 tmap_mode("view")
@@ -56,11 +57,11 @@ tm_shape(World) +
     tm_polygons("HPI")
 ```
 
-<img src="images/tmap_view.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
+<img src="images/tmap_view.jpg" alt="" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
 ### Multiple shapes and layers
 
-A shape is a spatial object (with a class from `sf`, `sp` `stars`, or `raster`).
+A shape is a spatial object (with a class from `sf`, `sp`, `stars`, or `raster`).
 Multiple shapes and also multiple layers per shape can be plotted:
 
 ```{r}
@@ -81,7 +82,7 @@ tm_legend(show = FALSE)
 
 Facets can be created in three ways:
 
-1. By assigning multiple variable names to one aesthetic:
+1. By assigning multiple variable names to one aesthetic (in this example the first argument of `tm_polygons`:
 
 ```{r, eval = FALSE}
 tmap_mode("view")
@@ -90,7 +91,7 @@ tm_shape(World) +
     tm_facets(sync = TRUE, ncol = 2)
 ```
 
-<img src="images/tmap_facets.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
+<img src="images/tmap_facets.jpg" alt="" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
 2. By splitting the spatial data with the `by` argument of `tm_facets`: 
 
@@ -190,22 +191,21 @@ tmap_save(tm, filename = "world_map.png")
 tmap_save(tm, filename = "world_map.html")
 ```
 
-### leaflet and shiny integration
+### Shiny integration
 
-Maps made with tmap can be exported to leaflet with the function `tmap_leaflet`. 
-Hence, it is possible to make use of leaflet own functionalities.
-This function is also needed when using tmap in shiny:
+It is possible to use tmap in shiny:
 
 ```{r, eval = FALSE}
 # in UI part:
-leafletOutput("my_tmap")
+tmapOutput("my_tmap")
 
 # in server part
-output$my_tmap = renderLeaflet({
-    tm <- tm_shape(World) + tm_polygons("HPI", legend.title = "Happy Planet Index")
-    tmap_leaflet(tm)
+output$my_tmap = renderTmap({
+    tm_shape(World) + tm_polygons("HPI", legend.title = "Happy Planet Index")
 })
 ```
+
+See `?renderTmap` for a working example.
 
 ### Quick thematic map
 
