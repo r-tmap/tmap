@@ -95,8 +95,8 @@
 
     
     
-<p>With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of <code>ggplot2</code>, but tailored to maps. This vignette is for those who want to get started with tmap within a couple of minutes. A more detailed description of tmap can be found in an <a href="https://www.jstatsoft.org/article/view/v084i06">article</a> published in the Journal of Statistical Software (<a href="https://www.jstatsoft.org/index">JSS</a>), which describes tmap version 1.11-2. The changes in version 2.0 are described in <a href="../doc/tmap-changes.html"><code>vignette("tmap-changes")</code></a>.</p>
-<p>For more context on R’s geographic capabilities there are a number of online resources including the vignettes of the <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html"><code>sf</code> package</a>, the website <a href="http://www.rspatial.org/">rspatial.org</a> and the online version of the book <a href="http://geocompr.robinlovelace.net/">Geocomputation with R</a>. The <a href="http://geocompr.robinlovelace.net/adv-map.html">Making maps with R</a> chapter of the book provides many more context and abundant code examples of map making with <code>tmap</code> and other packages.</p>
+<p>With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of <code>ggplot2</code>, but tailored to maps. This vignette is for those who want to get started with tmap within a couple of minutes. A more detailed description of tmap can be found in an <a href="https://www.jstatsoft.org/article/view/v084i06">article</a> published in the Journal of Statistical Software (<a href="https://www.jstatsoft.org/index">JSS</a>). However, that article describes tmap version 1.11-2, which is out-of-date. Some major changes have been made since then, which are described in <a href="../doc/tmap-changes.html"><code>vignette("tmap-changes")</code></a>.</p>
+<p>For more context on R’s geographic capabilities we recommend the online version of the book <a href="http://geocompr.robinlovelace.net/">Geocomputation with R</a>. The <a href="http://geocompr.robinlovelace.net/adv-map.html">Making maps with R</a> chapter of the book provides many more context and abundant code examples of map making with <code>tmap</code> and other packages. Other good resources are the vignettes of the <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html"><code>sf</code> package</a>, and the website <a href="http://www.rspatial.org/">rspatial.org</a> .</p>
 <div id="hello-world" class="section level3">
 <h3 class="hasAnchor">
 <a href="#hello-world" class="anchor"></a>Hello World!</h3>
@@ -109,24 +109,24 @@
     <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span>(<span class="st">"HPI"</span>)
 </pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
-<p>The object <code>World</code> is a spatial object of class <code>sf</code> from the <a href="https://CRAN.R-project.org/package=sf">sf package</a>; it is a <code>data.frame</code> with a special column that contains a geometry for each row, in this case polygons. In order to plot it in tmap, you first need to specify it with <code>tm_shape</code>. Plotting layers can be added with the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> operator, in this case <code>tm_polygons</code>. There are many layer functions in tmap, which can easily be found in the documentation by their <code>tm_</code> prefix. See also <code><a href="../reference/tmap-element.html">?'tmap-element'</a></code>.</p>
+<p>The object <code>World</code> is a spatial object of class <code>sf</code> from the <a href="https://CRAN.R-project.org/package=sf">sf package</a>; it is a <code>data.frame</code> with a special column that contains a geometry for each row, in this case polygons. In order to plot it in tmap, you first need to specify it with <code>tm_shape</code>. Layers can be added with the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> operator, in this case <code>tm_polygons</code>. There are many layer functions in tmap, which can easily be found in the documentation by their <code>tm_</code> prefix. See also <code><a href="../reference/tmap-element.html">?'tmap-element'</a></code>.</p>
 </div>
 <div id="interactive-maps" class="section level3">
 <h3 class="hasAnchor">
 <a href="#interactive-maps" class="anchor"></a>Interactive maps</h3>
-<p>Each map can be plotted as a static image or viewed interactively using <code>"plot"</code> and <code>"view"</code> modes, respectively. The mode can be set with the function <code>tmap_mode</code>, and toggling between the modes can be done with the ‘switch’ <code><a href="../reference/tmap_mode.html">ttm()</a></code>.</p>
+<p>Each map can be plotted as a static image or viewed interactively using <code>"plot"</code> and <code>"view"</code> modes, respectively. The mode can be set with the function <code>tmap_mode</code>, and toggling between the modes can be done with the ‘switch’ <code><a href="../reference/tmap_mode.html">ttm()</a></code> (which stands for toggle thematic map.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span>(<span class="st">"view"</span>)
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span>(<span class="kw">World</span>) <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span>(<span class="st">"HPI"</span>)
 </pre></div>
-<p><img src="images/tmap_view.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
+<p><img src="images/tmap_view.jpg" alt="" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 </div>
 <div id="multiple-shapes-and-layers" class="section level3">
 <h3 class="hasAnchor">
 <a href="#multiple-shapes-and-layers" class="anchor"></a>Multiple shapes and layers</h3>
-<p>A shape is a spatial object (with a class from <code>sf</code>, <code>sp</code> <code>stars</code>, or <code>raster</code>). Multiple shapes and also multiple layers per shape can be plotted:</p>
+<p>A shape is a spatial object (with a class from <code>sf</code>, <code>sp</code>, <code>stars</code>, or <code>raster</code>). Multiple shapes and also multiple layers per shape can be plotted:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">World</span>, <span class="kw">metro</span>, <span class="kw">rivers</span>, <span class="kw">land</span>)
 
@@ -149,7 +149,7 @@
 <a href="#facets" class="anchor"></a>Facets</h3>
 <p>Facets can be created in three ways:</p>
 <ol style="list-style-type: decimal">
-<li>By assigning multiple variable names to one aesthetic:</li>
+<li>By assigning multiple variable names to one aesthetic (in this example the first argument of <code>tm_polygons</code>:</li>
 </ol>
 <div class="sourceCode" id="cb4"><pre class="downlit">
 <span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span>(<span class="st">"view"</span>)
@@ -157,7 +157,7 @@
     <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"HPI"</span>, <span class="st">"economy"</span>)) <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span>(sync = <span class="fl">TRUE</span>, ncol = <span class="fl">2</span>)
 </pre></div>
-<p><img src="images/tmap_facets.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
+<p><img src="images/tmap_facets.jpg" alt="" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 <ol start="2" style="list-style-type: decimal">
 <li>By splitting the spatial data with the <code>by</code> argument of <code>tm_facets</code>:</li>
 </ol>
@@ -277,20 +277,20 @@
 <span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span>(<span class="kw">tm</span>, filename = <span class="st">"world_map.html"</span>)
 </pre></div>
 </div>
-<div id="leaflet-and-shiny-integration" class="section level3">
+<div id="shiny-integration" class="section level3">
 <h3 class="hasAnchor">
-<a href="#leaflet-and-shiny-integration" class="anchor"></a>leaflet and shiny integration</h3>
-<p>Maps made with tmap can be exported to leaflet with the function <code>tmap_leaflet</code>. Hence, it is possible to make use of leaflet own functionalities. This function is also needed when using tmap in shiny:</p>
+<a href="#shiny-integration" class="anchor"></a>Shiny integration</h3>
+<p>It is possible to use tmap in shiny:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="co"># in UI part:</span>
-<span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-shiny.html">leafletOutput</a></span>(<span class="st">"my_tmap"</span>)
+<span class="fu"><a href="../reference/renderTmap.html">tmapOutput</a></span>(<span class="st">"my_tmap"</span>)
 
 <span class="co"># in server part</span>
-<span class="kw">output</span><span class="op">$</span><span class="kw">my_tmap</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/pkg/leaflet/man/map-shiny.html">renderLeaflet</a></span>({
-    <span class="kw">tm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span>(<span class="kw">World</span>) <span class="op">+</span> <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span>(<span class="st">"HPI"</span>, legend.title = <span class="st">"Happy Planet Index"</span>)
-    <span class="fu"><a href="../reference/tmap_leaflet.html">tmap_leaflet</a></span>(<span class="kw">tm</span>)
+<span class="kw">output</span><span class="op">$</span><span class="kw">my_tmap</span> <span class="op">=</span> <span class="fu"><a href="../reference/renderTmap.html">renderTmap</a></span>({
+    <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span>(<span class="kw">World</span>) <span class="op">+</span> <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span>(<span class="st">"HPI"</span>, legend.title = <span class="st">"Happy Planet Index"</span>)
 })
 </pre></div>
+<p>See <code><a href="../reference/renderTmap.html">?renderTmap</a></code> for a working example.</p>
 </div>
 <div id="quick-thematic-map" class="section level3">
 <h3 class="hasAnchor">
