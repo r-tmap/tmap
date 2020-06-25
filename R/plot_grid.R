@@ -213,15 +213,16 @@ plot_grid_labels_x <- function(gt, scale) {
 	} else {
 		cogridx <- gt$grid.co.x	
 	}
+
+	cex <- gt$grid.labels.size*scale
 	
 	# remove overlapping grid labels
-	widths = text_width_npc(labelsx)
+	widths = text_width_npc(labelsx) * cex
 	selx2 = grid_nonoverlap(cogridx, widths)
 	if (!any(selx2)) return(NULL)
 	labelsx2 = labelsx[selx2]
 	cogridx2 = cogridx[selx2]
 	
-	cex <- gt$grid.labels.size*scale
 	
 	spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	marginX <- convertHeight(unit(gt$grid.labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
@@ -253,14 +254,15 @@ plot_grid_labels_y <- function(gt, scale) {
 		cogridy <- gt$grid.co.y
 	}
 
+	cex <- gt$grid.labels.size*scale
+	
 	# remove overlapping grid labels
-	heights = text_height_npc(labelsy)
+	heights = text_height_npc(labelsy) * cex
 	sely2 = grid_nonoverlap(cogridy, heights)
 	if (!any(sely2)) return(NULL)
 	labelsy2 = labelsy[sely2]
 	cogridy2 = cogridy[sely2]
 	
-	cex <- gt$grid.labels.size*scale
 	
 	spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
 	marginY <- convertWidth(unit(gt$grid.labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
@@ -355,22 +357,6 @@ plot_grid <- function(gt, scale, add.labels) {
 			cogridy_frst <- cogridy[sapply(1:max(idsy), function(i) which(i==idsy)[1])]
 		}
 		
-		# glabelsx <- if (selx) get_gridline_labels(lco=gt$grid.co.x.lns[gt$grid.sel.x], xax = labelsXw + spacerX+marginX) else numeric(0)
-		# glabelsy <- if (sely) get_gridline_labels(lco=gt$grid.co.y.lns[gt$grid.sel.y], yax = labelsYw + spacerY+marginY) else numeric(0)
-		# 
-		# cogridx <- glabelsx$cogrid
-		# cogridy <- glabelsy$cogrid
-		# 
-		# 
-		# idsx <- glabelsx$ids
-		# idsy <- glabelsy$ids
-		# 
-		# labelsx <- labelsx[idsx]
-		# labelsy <- labelsy[idsy]
-		# 
-		# cogridx_frst <- cogridx[sapply(1:max(idsx), function(i) which(i==idsx)[1])]
-		# cogridy_frst <- cogridy[sapply(1:max(idsy), function(i) which(i==idsy)[1])]
-		
 	} else {
 		cogridx_frst <- cogridx
 		cogridy_frst <- cogridy
@@ -382,17 +368,14 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 	
 	# remove overlapping grid labels
-	widths = text_width_npc(labelsx)
-	heights = text_height_npc(labelsy)
+	widths = text_width_npc(labelsx) * cex
+	heights = text_height_npc(labelsy) * cex
 	
 	
 	selx2 = selx2 & grid_nonoverlap(cogridx, widths)
 	sely2 = sely2 & grid_nonoverlap(cogridy, heights)
 	
-	
-	
-	
-	
+
 	# select grid lines to draw
 	selx <- if (selx) (cogridx_frst >= labelsYw + spacerY + marginY & cogridx_frst <= 1) else selx
 	sely <- if (sely) (cogridy_frst >= labelsXw + spacerX + marginX & cogridy_frst <= 1) else sely
