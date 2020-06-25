@@ -148,11 +148,12 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>() </div><div class='output co'>#&gt; The bbox argument of tm_shape can be used in many ways. For instance, another shape can be used from which the bounding box is extracted. 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>() </div><div class='output co'>#&gt; Facets can be shown as layers in view mode (instead of small multiples). 
 #&gt; 
-#&gt; data(rivers, NLD_prov)
-#&gt; tm_shape(rivers, bbox = NLD_prov) +
-#&gt;   tm_lines()</div></pre>
+#&gt; data(World)
+#&gt; tm_shape(World) +
+#&gt;   tm_polygons("HPI", palette = "RdYlGn") +
+#&gt;   tm_facets(by = "continent", as.layers = TRUE, free.coords = FALSE, drop.units = TRUE)</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
