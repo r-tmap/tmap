@@ -1,5 +1,12 @@
-grid_nonoverlap <- function(x) {
-	!vapply(1L:length(x), function(i) {any(abs(x[i]-x[-i]) < .1)}, FUN.VALUE = logical(1))
+grid_nonoverlap <- function(x, s) {
+	n = length(x)
+	x = c(-x[1], x, 1 + (1 - x[n]))
+	
+	m_left = x[2:(n+1)] - x[1:n]
+	m_right = x[3:(n+2)] - x[2:(n+1)]
+	m = pmin(m_left, m_right)
+	
+	m > s
 }
 
 pretty30 = function(x, n, longlat) {
@@ -208,7 +215,8 @@ plot_grid_labels_x <- function(gt, scale) {
 	}
 	
 	# remove overlapping grid labels
-	selx2 = grid_nonoverlap(cogridx)
+	widths = text_width_npc(labelsx)
+	selx2 = grid_nonoverlap(cogridx, widths)
 	if (!any(selx2)) return(NULL)
 	labelsx2 = labelsx[selx2]
 	cogridx2 = cogridx[selx2]
@@ -246,7 +254,8 @@ plot_grid_labels_y <- function(gt, scale) {
 	}
 
 	# remove overlapping grid labels
-	sely2 = grid_nonoverlap(cogridy)
+	heights = text_height_npc(labelsy)
+	sely2 = grid_nonoverlap(cogridy, heights)
 	if (!any(sely2)) return(NULL)
 	labelsy2 = labelsy[sely2]
 	cogridy2 = cogridy[sely2]
@@ -373,8 +382,12 @@ plot_grid <- function(gt, scale, add.labels) {
 	
 	
 	# remove overlapping grid labels
-	selx2 = selx2 & grid_nonoverlap(cogridx)
-	sely2 = sely2 & grid_nonoverlap(cogridy)
+	widths = text_width_npc(labelsx)
+	heights = text_height_npc(labelsy)
+	
+	
+	selx2 = selx2 & grid_nonoverlap(cogridx, widths)
+	sely2 = sely2 & grid_nonoverlap(cogridy, heights)
 	
 	
 	
