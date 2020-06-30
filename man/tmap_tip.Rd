@@ -4,14 +4,15 @@
 \alias{tmap_tip}
 \title{Get a tip about tmap}
 \usage{
-tmap_tip(latest.version = FALSE)
+tmap_tip(from.version = NULL)
 }
 \arguments{
-\item{latest.version}{should only tips be generated from the latest version of tmap? False by default.}
+\item{from.version}{version number. Only tips regarding features from this version are shown.}
 }
 \description{
 Generates a tip with an example. The tip and example code are printed, and the example itself is executed.
 }
 \examples{
-tmap_tip() 
+tmap_tip()
+tmap_tip(from.version = "3.0")
 }

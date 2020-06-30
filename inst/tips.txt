@@ -118,3 +118,43 @@ Use size.max to set the value mapped to maximum symbol/bubble size. Use scale to
 plot
 data(metro)
 tm_shape(metro) + tm_bubbles("pop2020", size.max = 5e7, scale = 2) + tm_legend(outside = TRUE, outside.position = "bottom")
+
+2.3
+Add graticules (latitude longitude lines) with tm_graticules.
+plot
+data(World)
+tm_shape(World) +
+  tm_polygons() +
+  tm_graticules()
+
+3.0
+Use as.count for count/discrete variables.
+plot
+data(World)
+tm_shape(World) + tm_polygons("life_exp", as.count = TRUE)
+
+3.1
+View shapes interactively in another projection than the Web Mercator.
+view
+data(World)
+tmap_options(projection = 0, basemaps = NULL)
+qtm(World)
+
+3.0
+There are many algorithms to create intervals, two of them have been introduced in tmap 3.0 ("dpih" and "headtails"). See ?classInt::classIntervals for details.
+plot
+tm_shape(World) + 
+  tm_polygons(rep("inequality",4), style = c("pretty", "jenks", "fisher", "dpih")) + 
+  tm_layout(panel.labels = c("pretty", "jenks", "fisher", "dpih"))
+
+3.1
+Search for multiple locations directly with qtm. It uses tmaptools::geocode_OSM.
+view
+qtm(c("Paris", "Amsterdam", "Berlin", "London"))
+
+3.1
+With tm_add_legend, it is also possible to add an extra legend title line.
+plot
+tm_shape(World) + 
+  tm_polygons("HPI") + 
+  tm_add_legend(type = "title", title = "Extra title")

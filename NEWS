@@ -2,6 +2,8 @@ version 3.1
 - interactive maps in origin CRS working: tmap_options(projection = 0, basemaps = NULL)
 - made backgrond symbol grob shapes transparent
 - added in.iframe and selfcontained to tmap_save
+- improved tm_add_legend: added type = "title" for title only legend elements
+- added ttmp() which shows the last map in the other mode. 
 - fixed many small bugs (see github issue list)
 
 version 3.0

@@ -391,9 +391,9 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				
 				suppressWarnings({
 					if (fixed) {
-						lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = 1, popup=popups2, group=group_name, clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
+						lf <- lf %>% addCircleMarkers(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius = 20*symbol.size2, weight = gpl$symbol.border.lwd, popup=popups2, group=group_name, clusterOptions=clustering, options = pathOptions(clickable=!is.null(popups), pane=pane))
 					} else {
-						lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =1, popup=popups2, group=group_name, options = pathOptions(clickable=!is.null(popups), pane=pane))
+						lf <- lf %>% addCircles(lng=co2[,1], lat=co2[,2], label = labels2, layerId = ids2, fill = any(!is.na(fcol2)), fillColor = fcol2, fillOpacity=fopacity, color = bcol, stroke = !is.na(bcol) && bopacity!=0, radius=rad, weight =gpl$symbol.border.lwd, popup=popups2, group=group_name, options = pathOptions(clickable=!is.null(popups), pane=pane))
 					}
 				})
 			}
