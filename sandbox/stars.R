@@ -194,7 +194,7 @@ plot_hook = function() plot(nc_outline, border = 'red', add = TRUE)
 a = aggregate(prec, by = nc, FUN = max)
 qtm(prec)
 
-tm_shape(prec, raster.downsample = TRUE) + tm_raster(style = "kmean") # todo: raster.downsample depends on facets
+tm_shape(prec, raster.downsample = TRUE) + tm_raster(style = "kmeans") # todo: raster.downsample depends on facets
 qtm(a)
 
 

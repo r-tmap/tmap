@@ -53,11 +53,28 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (!has_raster(shp)) stop("object ", y$shp_name, " does not have a spatial raster", call. = FALSE)
 		
 		max.raster <- get("tmapOptions", envir = .TMAP_CACHE)$max.raster[if(interactive) "view" else "plot"]
-		
-		if ((inherits(shp, "stars_proxy")) || y$raster.downsample) shp <- downsample_stars(shp, max.raster)
+
 		
 		dxy <- attr(st_dimensions(shp), "raster")$dimensions
 		dvars <- setdiff(names(dim(shp)), dxy)
+		
+		bandnames <- stars::st_get_dimension_values(shp, dvars[1])
+		treat_as_by <- !is.null(bandnames)
+		
+		if (treat_as_by) {
+			by_var <- names(shp)[1]
+			shpnames <- as.character(bandnames)
+		} else {
+			shpnames <- names(shp)
+			by_var <- NULL
+		}
+		
+
+		# estimate number of facets (for max.raster)
+		# nfacets = if (identical(is.RGB, TRUE)) 1 else if (treat_as_by || is.na(raster_facets_vars[1])) length(shpnames) else length(na.omit(raster_facets_vars))
+		# Not used yet, since it is hard to determine facets created with tm_facets(group = ...)
+		if ((inherits(shp, "stars_proxy")) || y$raster.downsample) shp <- downsample_stars(shp, max.raster)
+		
 		
 		# attribute get from read_osm
 		is.OSM <- attr(shp, "is.OSM")
@@ -100,16 +117,6 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			shp_bbox <- sf::st_bbox(shp)
 		}
 		
-		bandnames <- stars::st_get_dimension_values(shp, dvars[1])
-		treat_as_by <- !is.null(bandnames)
-		
-		if (treat_as_by) {
-			by_var <- names(shp)[1]
-			shpnames <- as.character(bandnames)
-		} else {
-			shpnames <- names(shp)
-			by_var <- NULL
-		}
 		
 		if (length(shp) == 1) {
 			# one attribute (may contain multiple bands/times)

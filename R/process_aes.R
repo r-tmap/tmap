@@ -21,7 +21,7 @@ check_g <- function(g, gt) {
 	if (is.null(g$colorNULL)) g$colorNULL <- "#00000000"
 	if (is.na(g$colorNULL)[1]) g$colorNULL <- gt$aes.colors["null"]
 	if (g$colorNA=="#00000000") g$showNA <- FALSE
-	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_polygons/tm_fill is not a numeric", call. = FALSE)
+	if (!is.na(g$alpha) && !is.numeric(g$alpha)) stop("alpha argument in tm_XXX is not a numeric", call. = FALSE)
 	g
 }
 
