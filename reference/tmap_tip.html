@@ -135,29 +135,34 @@
     <p>Generates a tip with an example. The tip and example code are printed, and the example itself is executed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(latest.version = <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>latest.version</th>
-      <td><p>should only tips be generated from the latest version of tmap? False by default.</p></td>
+      <th>from.version</th>
+      <td><p>version number. Only tips regarding features from this version are shown.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>() </div><div class='output co'>#&gt; An manual legend can be created with tm_add_legend. 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; The design.mode can be used to design a static map, especially regarding margins and legend box sizes. 
+#&gt; New since tmap 1.11.2 
 #&gt; 
+#&gt; data(World)
 #&gt; data(metro)
-#&gt; tm_shape(metro) + 
-#&gt;   tm_symbols(col = "pop2020", size = "pop2020", legend.col.show = FALSE, legend.size.show = FALSE) + 
-#&gt;   tm_add_legend(type = "symbol", border.col = "grey40",
-#&gt;                 col = tmaptools::get_brewer_pal("YlOrRd", 4, plot = FALSE), 
-#&gt;                 size = sqrt(seq(1:4) / 4),
-#&gt;                 labels = c("0 to 10 mln", "10 to 20 mln", "20 to 30 mln", "30 to 40 mln"),
-#&gt;                 title = "Population in 2020")</div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
+#&gt; tm_shape(World) + 
+#&gt;   tm_polygons("HPI") +
+#&gt; tm_shape(metro) +
+#&gt;   tm_bubbles(size = "pop2020") +
+#&gt; tm_layout(design.mode = TRUE) </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; There are many algorithms to create intervals, two of them have been introduced in tmap 3.0 ("dpih" and "headtails"). See ?classInt::classIntervals for details. 
+#&gt; New since tmap 3.0 
+#&gt; 
+#&gt; tm_shape(World) + 
+#&gt;   tm_polygons(rep("inequality",4), style = c("pretty", "jenks", "fisher", "dpih")) + 
+#&gt;   tm_layout(panel.labels = c("pretty", "jenks", "fisher", "dpih")) </div><div class='img'><img src='tmap_tip-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
