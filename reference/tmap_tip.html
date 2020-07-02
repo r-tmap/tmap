@@ -148,22 +148,18 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; An manual legend can be created with tm_add_legend. 
-#&gt; New since tmap 1.11.2 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; The filter argument of tm_shape can be used to filter spatial units. 
+#&gt; New since tmap 2.0 
 #&gt; 
-#&gt; data(metro)
-#&gt; tm_shape(metro) + 
-#&gt;   tm_symbols(col = "pop2020", size = "pop2020", legend.col.show = FALSE, legend.size.show = FALSE) + 
-#&gt;   tm_add_legend(type = "symbol", border.col = "grey40",
-#&gt;                 col = tmaptools::get_brewer_pal("YlOrRd", 4, plot = FALSE), 
-#&gt;                 size = sqrt(seq(1:4) / 4),
-#&gt;                 labels = c("0 to 10 mln", "10 to 20 mln", "20 to 30 mln", "30 to 40 mln"),
-#&gt;                 title = "Population in 2020") </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; There are many algorithms to create intervals, two of them have been introduced in tmap 3.0 ("dpih" and "headtails"). See ?classInt::classIntervals for details. 
-#&gt; New since tmap 3.0 
+#&gt; data(World)
+#&gt; tm_shape(World, filter = World$continent == "Africa") +
+#&gt; tm_polygons("HPI") </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; View shapes interactively in another projection than the Web Mercator. 
+#&gt; New since tmap 3.1 
 #&gt; 
-#&gt; tm_shape(World) + 
-#&gt;   tm_polygons(rep("inequality",4), style = c("pretty", "jenks", "fisher", "dpih")) + 
-#&gt;   tm_layout(panel.labels = c("pretty", "jenks", "fisher", "dpih")) </div><div class='img'><img src='tmap_tip-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
+#&gt; data(World)
+#&gt; tmap_options(projection = 0, basemaps = NULL)
+#&gt; qtm(World) 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
