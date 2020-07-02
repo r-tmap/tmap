@@ -69,6 +69,8 @@ process_symbols_size_vector <- function(x, g, rescale, gt, reverse) {
 	if (!is.na(g$size.lim[1])) {
 		x[x<g$size.lim[1]] <- NA
 		x[x>g$size.lim[2]] <- g$size.lim[2]
+	} else {
+		x[x==0] <- NA
 	}
 	
 	mx <- max(x, na.rm=TRUE)
