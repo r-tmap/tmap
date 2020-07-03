@@ -128,7 +128,7 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 		if (!is.na(set.zoom.limits[1])) {
 			if (!is.numeric(set.zoom.limits)) stop("set.zoom.limits is not numeric")
 			if (!length(set.zoom.limits)==2) stop("set.zoom.limits does not have length 2")
-			if (set.zoom.limits[1]<0 || set.zoom.limits[1] >= set.zoom.limits[2]) stop("incorrect set.zoom.limits")
+			if (set.zoom.limits[1] >= set.zoom.limits[2]) stop("incorrect set.zoom.limits")
 		} else {
 			set.zoom.limits <- c(NA, NA)
 		}

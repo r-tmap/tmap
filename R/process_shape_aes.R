@@ -57,9 +57,9 @@ process_symbols_shape_vector <- function(x, sel, g, map_shapes, gt, reverse) {
 	
 	if (map_shapes) {
 		x[!sel] <- NA
-		if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
+		if (length(na.omit(unique(x)))==1 && g$shapes.style!="fixed") g$shapes.style <- "cat"
 		
-		if (is.factor(x) || g$style=="cat") {
+		if (is.factor(x) || g$shapes.style=="cat") {
 			shapesLeg <- cat2shape(x,
 								   var = g$shape,
 								   shapes=g$shapes,

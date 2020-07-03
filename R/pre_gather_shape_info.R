@@ -44,7 +44,8 @@ pre_gather_shape_info <- function(x, interactive) {
 	if (interactive) {
 		# Set master projection to 4326 if projection != 0 (L.CRS.Simple)
 		# Find out whether projection == 0:
-		crsSimple <- (get("tmapOptions", envir = .TMAP_CACHE)$projection) == 0
+		option_prj = get("tmapOptions", envir = .TMAP_CACHE)$projection
+		crsSimple <- inherits(option_prj, "leaflet_crs") || option_prj == 0
 		if (any(names(x)=="tm_layout")) {
 			crsSimples <- vapply(x[which(names(x)=="tm_layout")], function(xi) {
 				if (any(names(xi) == "projection")) {
