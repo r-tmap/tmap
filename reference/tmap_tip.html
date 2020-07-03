@@ -148,16 +148,17 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; There are many algorithms to create intervals, two of them have been introduced in tmap 3.0 ("dpih" and "headtails"). See ?classInt::classIntervals for details. 
-#&gt; New since tmap 3.0 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; The orientation of a legend block can be changed in the layer functions with legend.is.portrait or legend.[aes].is.portrait with aes the name of the aesthetic (used when there are multiple aesthetics). 
+#&gt; New since tmap 1.11.2 
+#&gt; 
+#&gt; data(metro)
+#&gt; tm_shape(metro) + 
+#&gt;   tm_bubbles(size = "pop2020", legend.size.is.portrait = TRUE) </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; With tm_add_legend, it is also possible to add an extra legend title line. 
+#&gt; New since tmap 3.1 
 #&gt; 
 #&gt; tm_shape(World) + 
-#&gt;   tm_polygons(rep("inequality",4), style = c("pretty", "jenks", "fisher", "dpih")) + 
-#&gt;   tm_layout(panel.labels = c("pretty", "jenks", "fisher", "dpih")) </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; Use as.count for count/discrete variables. 
-#&gt; New since tmap 3.0 
-#&gt; 
-#&gt; data(World)
-#&gt; tm_shape(World) + tm_polygons("life_exp", as.count = TRUE) </div><div class='img'><img src='tmap_tip-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
+#&gt;   tm_polygons("HPI") + 
+#&gt;   tm_add_legend(type = "title", title = "Extra title") </div><div class='img'><img src='tmap_tip-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
