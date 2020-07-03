@@ -436,7 +436,7 @@ tm_polygons <- function(col=NA,
 						group = NA,
 						...) {
 	args <- list(...)
-	argsFill <- c(list(col=col, alpha=alpha, group=group), args[setdiff(names(args), c("lwd", "lty"))])
+	argsFill <- c(list(col=col, alpha=alpha, zindex = zindex, group=group), args[setdiff(names(args), c("lwd", "lty"))])
 	argsBorders <- c(list(col=border.col, alpha=border.alpha), args[intersect(names(args), names(formals("tm_borders")))])
 	g <- do.call("tm_fill", argsFill) + do.call("tm_borders", argsBorders)
 	g$tm_fill$call <- names(match.call(expand.dots = TRUE)[-1])
