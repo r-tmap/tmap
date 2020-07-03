@@ -148,18 +148,16 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; The filter argument of tm_shape can be used to filter spatial units. 
-#&gt; New since tmap 2.0 
-#&gt; 
-#&gt; data(World)
-#&gt; tm_shape(World, filter = World$continent == "Africa") +
-#&gt; tm_polygons("HPI") </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; View shapes interactively in another projection than the Web Mercator. 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; Search for multiple locations directly with qtm. It uses tmaptools::geocode_OSM. 
 #&gt; New since tmap 3.1 
 #&gt; 
-#&gt; data(World)
-#&gt; tmap_options(projection = 0, basemaps = NULL)
-#&gt; qtm(World) 
-#&gt; </div></pre>
+#&gt; qtm(c("Paris", "Amsterdam", "Berlin", "London")) 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; There are many algorithms to create intervals, two of them have been introduced in tmap 3.0 ("dpih" and "headtails"). See ?classInt::classIntervals for details. 
+#&gt; New since tmap 3.0 
+#&gt; 
+#&gt; tm_shape(World) + 
+#&gt;   tm_polygons(rep("inequality",4), style = c("pretty", "jenks", "fisher", "dpih")) + 
+#&gt;   tm_layout(panel.labels = c("pretty", "jenks", "fisher", "dpih")) </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
