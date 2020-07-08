@@ -5,7 +5,7 @@
 #' @param type type of legend. One of \code{"fill"}, \code{"symbol"}, \code{"text"}, \code{"line"}, or \code{"title"}. The last option only displays a title.
 #' @param labels legend labels
 #' @param col legend colors
-#' @param size legend symbol sizes (if \code{type=="symbol"}). See example how to replicate the sizes of symbols created with \code{\link{tm_symbols}}
+#' @param size legend symbol sizes (if \code{type=="symbol"}). See example how to replicate the sizes of symbols created with \code{\link{tm_symbols}}. If not specified, the symbols will have the same size as when calling \code{\link{tm_symbols}} without specifying the \code{size} argument.
 #' @param shape legend symbol shapes (if \code{type=="symbol"})
 #' @param lwd legend line widths (if \code{type=="line"})
 #' @param lty legend line types (if \code{type=="line"})

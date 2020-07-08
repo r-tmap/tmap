@@ -33,7 +33,7 @@ tm_add_legend(
 
 \item{col}{legend colors}
 
-\item{size}{legend symbol sizes (if \code{type=="symbol"}). See example how to replicate the sizes of symbols created with \code{\link{tm_symbols}}}
+\item{size}{legend symbol sizes (if \code{type=="symbol"}). See example how to replicate the sizes of symbols created with \code{\link{tm_symbols}}. If not specified, the symbols will have the same size as when calling \code{\link{tm_symbols}} without specifying the \code{size} argument.}
 
 \item{shape}{legend symbol shapes (if \code{type=="symbol"})}
 
