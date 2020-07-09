@@ -46,7 +46,7 @@
 #' @param fontface global font face for the text in the map. It can also be set locally per element (see e.g. \code{title.fontface}).
 #' @param fontfamily global font family for the text in the map. It can also be set locally per  (see e.g. \code{title.fontfamily}).
 #' @param compass.type type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.
-#' @param earth.boundary Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).
+#' @param earth.boundary Logical that determines whether the boundaries of the earth are shown or a bounding box that specifies the boundaries (an \code{\link[sf:sf]{sf}} bbox object, see \code{\link[sf:st_bbox]{st_bbox}}, or any object that can be read by \code{\link[tmaptools:bb]{bb}}). By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).
 #' @param earth.boundary.color Color of the earth boundary.
 #' @param earth.boundary.lwd Line width of the earth boundary.
 #' @param earth.datum Geodetic datum to determine the earth boundary. By default epsg \code{4326} (long/lat).

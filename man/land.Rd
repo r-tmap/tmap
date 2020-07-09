@@ -11,7 +11,7 @@
 data(land)
 }
 \description{
-Spatial data of global land cover, of class \code{\link[raster:brick]{RasterBrick}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
+Spatial data of global land cover, of class \code{\link[stars:st_as_stars]{stars}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 }
 \details{
 \strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown. See \url{http://www.iscgm.org/gm/glcnmo.html#use}.

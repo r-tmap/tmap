@@ -143,6 +143,7 @@ qtm(World)
 3.0
 There are many algorithms to create intervals, two of them have been introduced in tmap 3.0 ("dpih" and "headtails"). See ?classInt::classIntervals for details.
 plot
+data(World)
 tm_shape(World) + 
   tm_polygons(rep("inequality",4), style = c("pretty", "jenks", "fisher", "dpih")) + 
   tm_layout(panel.labels = c("pretty", "jenks", "fisher", "dpih"))
@@ -155,6 +156,7 @@ qtm(c("Paris", "Amsterdam", "Berlin", "London"))
 3.1
 With tm_add_legend, it is also possible to add an extra legend title line.
 plot
+data(World)
 tm_shape(World) + 
   tm_polygons("HPI") + 
   tm_add_legend(type = "title", title = "Extra title")

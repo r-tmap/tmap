@@ -51,7 +51,7 @@ tm_facets(
 
 \item{drop.NA.facets}{logical. If the \code{by} argument is specified, and all values of the defined aesthetic variables (e.g. \code{col} from \code{\link{tm_fill}}) for specific facets, should these facets be dropped? \code{FALSE} by default.}
 
-\item{sync}{logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE} if the facets have the same bounding box. This is generally the case when \code{\link[raster:raster-package]{raster}}s are plotted, or when free.coords is \code{FALSE}.}
+\item{sync}{logical. Should the navigation in view mode (zooming and panning) be synchronized? By default \code{TRUE} if the facets have the same bounding box. This is generally the case when rasters are plotted, or when free.coords is \code{FALSE}.}
 
 \item{showNA}{If the \code{by} argument is specified, should missing values of the \code{by}-variable be shown in a facet? If two \code{by}-variables are specified, should missing values be shown in an additional row and column? If \code{NA}, missing values only are shown if they exist. Similar to the \code{useNA} argument of \code{\link[base:table]{table}}, where \code{TRUE}, \code{FALSE}, and \code{NA} correspond to \code{"always"}, \code{"no"}, and \code{"ifany"} respectively.}
 

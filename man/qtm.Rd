@@ -33,7 +33,7 @@ qtm(
 \arguments{
 \item{shp}{One of
 \itemize{
-\item shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}}, \code{\link[sp:sp]{sp}}, or \code{\link[raster:raster-package]{raster}} package. For instance, an \code{\link[sf:sf]{sf}} object, an \code{\link[sp:SpatialPolygonsDataFrame]{SpatialPolygons(DataFrame)}}, or a \code{\link[raster:Raster-class]{RasterBrick}}.
+\item shape object, which is an object from a class defined by the \code{\link[sf:sf]{sf}} or \code{\link[stars:st_as_stars]{stars}} package. Objects from the packages \code{sp} and \code{raster} are also supported, but discouraged.
 \item Not specified, i.e. \code{qtm()} is executed. In this case a plain interactive map is shown.
 \item A OSM search string, e.g. \code{qtm("Amsterdam")}. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)
 }}

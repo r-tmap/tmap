@@ -78,7 +78,7 @@ get_tip <- function(from.version = NULL) {
 		message("No tips found from version ", as.character(vth))
 		return(NULL)
 	} 
-	if (id > tail(sel, 1)) {
+	if (id >= tail(sel, 1)) {
 		id = sel[1]
 	} else {
 		id = sel[which(sel - id > 0)[1]]

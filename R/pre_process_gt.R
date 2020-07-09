@@ -72,8 +72,6 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 
 	## preprocess gt
 	gt <- within(gt, {
-		if (design.mode && interactive) message("Design mode only works in plot mode")
-		
 		pc <- list(sepia.intensity=sepia.intensity, saturation=saturation)
 		sepia.intensity <- NULL
 		saturation <- NULL

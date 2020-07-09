@@ -138,7 +138,7 @@ tm_format(format, ...)
 
 \item{compass.type}{type of compass, one of: \code{"arrow"}, \code{"4star"}, \code{"8star"}, \code{"radar"}, \code{"rose"}. Of course, only applicable if a compass is shown. The compass type can also be set within \code{\link{tm_compass}}.}
 
-\item{earth.boundary}{Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an \code{\link[raster:extent]{extent}} object. By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).}
+\item{earth.boundary}{Logical that determines whether the boundaries of the earth are shown or a bounding box that specifies the boundaries (an \code{\link[sf:sf]{sf}} bbox object, see \code{\link[sf:st_bbox]{st_bbox}}, or any object that can be read by \code{\link[tmaptools:bb]{bb}}). By default, the boundaries are \code{c(-180, -90, 180, 90)}. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with \code{c(-180, -88, 180, 88)}).}
 
 \item{earth.boundary.color}{Color of the earth boundary.}
 

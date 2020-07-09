@@ -103,7 +103,7 @@
 #' \code{\link{NLD_muni}}\tab Netherlands municipal data (\code{\link[sf:sf]{sf}} object of  polygons) \cr
 #' \code{\link{metro}}\tab Metropolitan areas (\code{\link[sf:sf]{sf}} object of points) \cr
 #' \code{\link{rivers}}\tab Rivers (\code{\link[sf:sf]{sf}} object of lines) \cr
-#' \code{\link{land}}\tab Global land cover (\code{\link[raster:brick]{RasterBrick}} object)\cr
+#' \code{\link{land}}\tab Global land cover (\code{\link[stars:st_as_stars]{stars}} object)\cr
 #' --------------------------- \tab --------------------------------------------------------------------------------------------------- \cr
 #' }
 #' 
@@ -179,7 +179,7 @@ NULL
 
 #' Spatial data of global land cover
 #' 
-#' Spatial data of global land cover, of class \code{\link[raster:brick]{RasterBrick}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
+#' Spatial data of global land cover, of class \code{\link[stars:st_as_stars]{stars}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 #' 
 #' \strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown. See \url{http://www.iscgm.org/gm/glcnmo.html#use}.
 #' 

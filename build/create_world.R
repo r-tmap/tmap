@@ -121,4 +121,3 @@ World <- st_make_valid(World)
 all(st_is_valid(World))
 
 save(World, file="data/World.rda", compress="xz")
-
