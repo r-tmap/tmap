@@ -1,5 +1,7 @@
 version 3.1
 - interactive maps in origin CRS working: tmap_options(projection = 0, basemaps = NULL)
+- added tm_mouse_coordinates() to show mouse coordinates in view mode
+- added tmap_design_mode() to toggle the desgin mode.
 - made backgrond symbol grob shapes transparent
 - added in.iframe and selfcontained to tmap_save
 - improved tm_add_legend: added type = "title" for title only legend elements

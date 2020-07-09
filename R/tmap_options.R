@@ -118,6 +118,7 @@
 		overlays.alpha = 1,
 		qtm.scalebar = TRUE,
 		qtm.minimap = FALSE,
+		qtm.mouse.coordinates = TRUE,
 		alpha = NA,
 		colorNA = NA,
 		projection = 3857,
@@ -331,12 +332,13 @@
 #' @param overlays default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparent. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.
 #' @param overlays.alpha default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.
 #' @param qtm.scalebar should a scale bar be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_scale_bar()} be added automatically? The value \code{NA} means that the scale bar is only added when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{TRUE}.
-#' @param qtm.minimap should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The value \code{NA} means that the minimap is only added in navigation mode (i.e. when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{FALSE}.
+#' @param qtm.minimap should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The default value is \code{FALSE}.
+#' @param qtm.mouse.coordinates should mouse coordinates (and zoom level) be shown in view mode with \code{\link{qtm}}? In other words, should \code{tm_mouse_coordinates()} be added automatically? \code{TRUE} by default.
 #' @param show.messages should messages be shown?
 #' @param output.format The format of the static maps saved with \code{\link{tmap_save}} without specification of the filename. The default is \code{"png"}.
 #' @param output.size The size of the static maps saved with \code{\link{tmap_save}} without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.
 #' @param output.dpi The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.
-#' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.
+#' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, information about aspect ratios is printed in the console.
 #' @param check.and.fix Logical that determines whether shapes (\code{sf} objects) are checked for validity with \code{\link[sf:st_is_valid]{st_is_valid}} and fixed with \code{\link[sf:st_make_valid]{st_make_valid}} if needed.
 #' @param style style name
 #' @example ./examples/tmap_options.R
@@ -344,7 +346,7 @@
 #' @name tmap_options
 #' @export
 #' @seealso \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}
-tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, show.messages, output.format, output.size, output.dpi, design.mode, check.and.fix) {
+tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, qtm.mouse.coordinates, show.messages, output.format, output.size, output.dpi, design.mode, check.and.fix) {
 
 	
 	#if (!identical( parent.frame(n = 1) , globalenv() )) warning("test4322t6")

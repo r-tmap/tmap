@@ -786,6 +786,8 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	}
 	
 	if (!proxy) lf <- view_set_bounds(lf, gt)
+	if (gt$mouse.show) lf = lf %>% leafem::addMouseCoordinates()
+	
 	lf$title <- gt$title
 	
 	assign("layerIds", layerIds, envir = .TMAP_CACHE)

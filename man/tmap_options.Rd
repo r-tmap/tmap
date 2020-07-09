@@ -19,6 +19,7 @@ tmap_options(
   overlays.alpha,
   qtm.scalebar,
   qtm.minimap,
+  qtm.mouse.coordinates,
   show.messages,
   output.format,
   output.size,
@@ -54,7 +55,9 @@ tmap_options_save(style)
 
 \item{qtm.scalebar}{should a scale bar be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_scale_bar()} be added automatically? The value \code{NA} means that the scale bar is only added when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{TRUE}.}
 
-\item{qtm.minimap}{should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The value \code{NA} means that the minimap is only added in navigation mode (i.e. when \code{\link{qtm}} is called without arguments or with a search term. The default value is \code{FALSE}.}
+\item{qtm.minimap}{should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The default value is \code{FALSE}.}
+
+\item{qtm.mouse.coordinates}{should mouse coordinates (and zoom level) be shown in view mode with \code{\link{qtm}}? In other words, should \code{tm_mouse_coordinates()} be added automatically? \code{TRUE} by default.}
 
 \item{show.messages}{should messages be shown?}
 
@@ -64,7 +67,7 @@ tmap_options_save(style)
 
 \item{output.dpi}{The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.}
 
-\item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.}
+\item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, information about aspect ratios is printed in the console.}
 
 \item{check.and.fix}{Logical that determines whether shapes (\code{sf} objects) are checked for validity with \code{\link[sf:st_is_valid]{st_is_valid}} and fixed with \code{\link[sf:st_make_valid]{st_make_valid}} if needed.}
 

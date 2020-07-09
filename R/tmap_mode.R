@@ -39,6 +39,19 @@ tmap_mode <- function(mode=c("plot", "view")) {
 	invisible(current.mode)
 }	
 
+#' Toggle design mode
+#' 
+#' When the so-called "design mode" is enabled, inner and outer margins, legend position, and aspect ratio are shown explicitly in plot mode. Also, information about aspect ratios is printed in the console. This function toggles the tmap option `design.mode`.
+#' 
+#' @seealso \code{\link{tmap_options}}
+#' @export
+tmap_design_mode = function() {
+	dm = get("tmapOptions", envir = .TMAP_CACHE)$design.mode
+	tmap_options(design.mode = !dm)
+	message("design.mode: ", if (dm) "OFF" else "ON", if ((!dm) && getOption("tmap.mode") == "view") " (only effective in plot mode)" else "")
+}
+
+
 #' @rdname tmap_mode
 #' @export
 ttm <- function() {

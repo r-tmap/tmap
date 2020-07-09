@@ -19,7 +19,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	########################################## qtm shortcut ###########################################################
 	###################################################################################################################
 	
-	qtm_shortcut <- attr(x, "qtm_shortcut")
+	qtm_shortcut <- attr(x, "qtm_shortcut") # TRUE when qtm(), FALSE when qtm(...), NULL when tm_shape(...) + ...
 	if (!is.null(qtm_shortcut) && !proxy) {
 		if (qtm_shortcut) {
 			if (!interactive) {
@@ -27,11 +27,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				options(tmap.mode="view")
 				interactive <- TRUE
 			}
-			
-			if (!("tm_minimap" %in% names(x)) && !identical(tmapOptions$qtm.minimap, FALSE)) x <- c(x, tm_minimap())
 		}
 		if (interactive && !("tm_scale_bar" %in% names(x)) && tmapOptions$qtm.scalebar) x <- c(x, tm_scale_bar())
-		if (!qtm_shortcut && interactive && !("tm_minimap" %in% names(x)) && identical(tmapOptions$qtm.minimap, TRUE)) x <- c(x, tm_minimap())
+		if (interactive && !("tm_minimap" %in% names(x)) && tmapOptions$qtm.minimap) x <- c(x, tm_minimap())
+		if (interactive && !("tm_mouse" %in% names(x)) && tmapOptions$qtm.mouse.coordinates) x <- c(x, tm_mouse_coordinates())
 	}
 	
 	###################################################################################################################

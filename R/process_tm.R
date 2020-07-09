@@ -51,6 +51,11 @@ process_tm <- function(x, gt, gm, interactive) {
 	# get minimap element
 	gmmid <- which(names(x)=="tm_minimap")[1]
 	gmm <- x[[gmmid]]
+	
+	# get mouse coordinates element
+	gmmcid <- which(names(x)=="tm_mouse")[1]
+	gmmc <- x[[gmmcid]]
+	
 
 	## get facets element
 	shape.id.orig <- which(names(x)=="tm_shape")
@@ -266,7 +271,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	
 
 
-	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive)
+	gmeta <- process_meta(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, gmmc, nx, nxa, panel.names, along.names, layer_vary, gm, any.legend, interactive)
 	panel.mode <- if (!gmeta$panel.show) {
 		"none"
 	} else if (is.list(panel.names)) {

@@ -359,6 +359,19 @@ tm_minimap <- function(server = NA, position= c("left", "bottom"), toggle = TRUE
 }
 
 
+#' Mouse coordinates
+#' 
+#' Adds mouse coordinates in view mode. See \code{\link[leafem:addMouseCoordinates]{addMouseCoordinates}}.
+#' 
+#' @seealso \code{\link[leafem:addMouseCoordinates]{addMouseCoordinates}}
+#' @export
+tm_mouse_coordinates <- function() {
+	g <- list(tm_mouse=list(mouse.show = TRUE))
+	class(g) = "tmap"
+	g	
+}
+
+
 
 #' Stacking of tmap elements
 #' 
@@ -397,9 +410,9 @@ tm_minimap <- function(server = NA, position= c("left", "bottom"), toggle = TRUE
 #' @export
 #' @seealso \code{\link{tmap_save}}
 tmap_last <- function() {
-	x <- get("last_map", envir = .TMAP_CACHE)
-	if (is.null(x)) warning("A map has not been created yet")
-	eval(x)
+	.x <- get("last_map", envir = .TMAP_CACHE)
+	if (is.null(.x)) warning("A map has not been created yet")
+	eval(.x)
 }
 
 save_last_map <- function() {

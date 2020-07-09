@@ -25,7 +25,7 @@
 #' @importFrom stats na.omit dnorm fft quantile rnorm runif 
 #' @importFrom grDevices xy.coords colors
 #' @importFrom utils capture.output data download.file head setTxtProgressBar tail txtProgressBar
-#' @importFrom leafem addStarsImage addStarsRGB
+#' @importFrom leafem addStarsImage addStarsRGB addMouseCoordinates
 #' @import leaflet
 #' @importFrom htmlwidgets appendContent onRender
 #' @importFrom htmltools tags HTML htmlEscape
