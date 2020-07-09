@@ -148,15 +148,13 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; Semi-transparent tile layers can be added with tm_tiles. 
-#&gt; New since tmap 2.0 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; With tm_add_legend, it is also possible to add an extra legend title line. 
+#&gt; New since tmap 3.1 
 #&gt; 
 #&gt; data(World)
-#&gt; tm_shape(World) +
-#&gt;   tm_polygons("life_exp") +
-#&gt; tm_tiles("Stamen.TonerLines") +
-#&gt; tm_view(set.view = c(lon = 15, lat = 48, zoom = 4)) 
-#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; View shapes interactively in another projection than the Web Mercator. 
+#&gt; tm_shape(World) + 
+#&gt;   tm_polygons("HPI") + 
+#&gt;   tm_add_legend(type = "title", title = "Extra title") </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; View shapes interactively in another projection than the Web Mercator. 
 #&gt; New since tmap 3.1 
 #&gt; 
 #&gt; data(World)

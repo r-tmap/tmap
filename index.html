@@ -88,32 +88,32 @@
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#tmap-thematic-maps-in-r" class="anchor"></a>tmap: thematic maps in R</h1></div>
 
-<p><a href="http://cran.r-project.org/web/packages/tmap/index.html"><code>tmap</code></a> is an actively maintained open-source <a href="http://stackoverflow.com/tags/r/info">R</a>-library for drawing thematic maps, written by <a href="http://stackoverflow.com/users/1393348/martijn-tennekes">Martijn Tennekes</a>. The API is based on <a href="http://vita.had.co.nz/papers/layered-grammar.pdf"><em>A Layered Grammar of Graphics</em></a> by Hadley Wickham and resembles the syntax of <code>ggplot2</code>, a popular R-library for drawing charts.</p>
+<p><a href="http://cran.r-project.org/package=tmap"><code>tmap</code></a> is an actively maintained open-source <a href="http://stackoverflow.com/tags/r/info">R</a>-library for drawing thematic maps. The API is based on <a href="http://vita.had.co.nz/papers/layered-grammar.pdf"><em>A Layered Grammar of Graphics</em></a> and resembles the syntax of <a href="http://cran.r-project.org/package=ggplot2"><code>ggplot2</code></a>, a popular R-library for drawing charts.</p>
 <p><span> <img src="https://mtennekes.github.io/downloads/images/classic.png" alt="Classic World Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/bubble.png" alt="Bubble Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/view_metro4.jpg" alt="Bubble Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/world_facets2.png" alt="World facets" height="125px"><img src="https://mtennekes.github.io/downloads/images/USchoro.png" alt="US Choropleth" height="125px"><img src="https://mtennekes.github.io/downloads/images/US_PR.jpg" alt="US Choropleth" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes3b.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes4.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"></span></p>
 <p>See <a href="https://github.com/mtennekes/tmap/#reference">below</a> the source code for these images.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p><code>tmap</code> is available on <a href="http://cran.r-project.org/package=tmap">CRAN</a> (version 3.0). Installation is straightforward:</p>
+<p><code>tmap</code> is available on <a href="https://cran.r-project.org/package=tmap"><img src="http://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>. Installation is straightforward:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"tmap"</span>)
 </pre></div>
-<p>However, some operating systems require additional libraries. The installation procedure is as follows:</p>
+<p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
 <p><strong>Windows</strong> No additional installation required.</p>
-<p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/" class="uri">https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/</a>.</p>
-<p><strong>macOS</strong> See <a href="http://www.kyngchaos.com" class="uri">http://www.kyngchaos.com</a>. Please address installation issues in the <a href="https://github.com/mtennekes/tmap/issues/149">issue thread</a>.</p>
+<p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/" class="uri">https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/</a>. Please address installation issues in this <a href="https://github.com/mtennekes/tmap/issues/150">issue</a>.</p>
+<p><strong>macOS</strong> See <a href="http://www.kyngchaos.com" class="uri">http://www.kyngchaos.com</a>. Please address installation issues in this <a href="https://github.com/mtennekes/tmap/issues/149">issue</a>.</p>
 </div>
 <div id="development" class="section level2">
 <h2 class="hasAnchor">
 <a href="#development" class="anchor"></a>Development</h2>
-<p>The latest development version can be installed using <code>devtools</code>. In order to use the development version of <code>tmap</code>, it is recommended to use the development version of <code>tmaptools</code> as well (see <a href="http://github.com/mtennekes/tmaptools">tmaptools</a>):</p>
+<p>The latest development version can be installed using <code>devtools</code>. In order to use the development version of <code>tmap</code>, it is recommended to use the development version of <a href="http://github.com/mtennekes/tmaptools">tmaptools</a> as well:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit">
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://remotes.r-lib.org">remotes</a></span>)
 <span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"mtennekes/tmaptools"</span>)
 <span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"mtennekes/tmap"</span>)
 </pre></div>
 <p>See <a href="https://github.com/mtennekes/tmap/blob/master/NEWS">NEWS</a> for the latest features and improvements and the <a href="https://github.com/mtennekes/tmap/issues">issue list</a> for discussions of enhancements and bugs.</p>
-<p>Do you want to help with the development of the package? Please let me know! Any feedback, requests, tips, or bug reports are welcome!</p>
+<p>Do you want to help with the development of the package? Please let us know! Any feedback, requests, tips, or bug reports are welcome!</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
