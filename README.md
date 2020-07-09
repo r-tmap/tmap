@@ -8,7 +8,7 @@ tmap: thematic maps in R
 [![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap) 
 [![Downloads](http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen)](http://www.r-pkg.org/pkg/tmap)
 
-[`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps, written by [Martijn Tennekes][3]. The API is based on [*A Layered Grammar of Graphics*][4] by Hadley Wickham and resembles the syntax of `ggplot2`, a popular R-library for drawing charts.
+[`tmap`][1] is an actively maintained open-source [R][2]-library for drawing thematic maps. The API is based on [*A Layered Grammar of Graphics*][4] and resembles the syntax of [`ggplot2`][3], a popular R-library for drawing charts.
 
 
 <span>
@@ -30,23 +30,22 @@ See [below](https://github.com/mtennekes/tmap/#reference) the source code for th
 Installation
 ------------
 
-`tmap` is available on [CRAN](http://cran.r-project.org/package=tmap) (version 3.0). Installation is straightforward:
+`tmap` is available on [![CRAN](http://www.r-pkg.org/badges/version/tmap)](https://cran.r-project.org/package=tmap). Installation is straightforward:
 
 ```r
 install.packages("tmap")
 ```
 
-However, some operating systems require additional libraries. 
-The installation procedure is as follows:
+For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).
 
 **Windows**
 No additional installation required.
 
 **Linux (Ubuntu)**
-See https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/.
+See https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/. Please address installation issues in this [issue](https://github.com/mtennekes/tmap/issues/150).
 
 **macOS**
-See http://www.kyngchaos.com. Please address installation issues in the [issue thread](https://github.com/mtennekes/tmap/issues/149).
+See http://www.kyngchaos.com. Please address installation issues in this [issue](https://github.com/mtennekes/tmap/issues/149).
 
 
 Development
@@ -54,7 +53,7 @@ Development
 
 
 The latest development version can be installed using `devtools`. 
-In order to use the development version of `tmap`, it is recommended to use the development version of `tmaptools` as well (see [tmaptools](http://github.com/mtennekes/tmaptools)):
+In order to use the development version of `tmap`, it is recommended to use the development version of [tmaptools](http://github.com/mtennekes/tmaptools) as well:
 
 ```r
 library(remotes)
@@ -65,7 +64,7 @@ install_github("mtennekes/tmap")
 See [NEWS](https://github.com/mtennekes/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
 
 Do you want to help with the development of the package?
-Please let me know! 
+Please let us know! 
 Any feedback, requests, tips, or bug reports are welcome!
 
 Usage
@@ -132,9 +131,9 @@ Please tag your questions with *tmap*.
 2.  If you have a request or if think your problem is caused by a bug, please open an [issue](https://github.com/mtennekes/tmap/issues), preferably with a reproducible example.
 
 
-  [1]: http://cran.r-project.org/web/packages/tmap/index.html
+  [1]: http://cran.r-project.org/package=tmap
   [2]: http://stackoverflow.com/tags/r/info
-  [3]: http://stackoverflow.com/users/1393348/martijn-tennekes
+  [3]: http://cran.r-project.org/package=ggplot2
   [4]: http://vita.had.co.nz/papers/layered-grammar.pdf
   [5]: https://github.com/mtennekes/tmap
   [6]: https://cran.r-project.org/web/packages/tmap/vignettes/tmap-nutshell.html
