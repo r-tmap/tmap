@@ -148,16 +148,20 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; Each element function has a scalar argument called scale. The overall scaling and font sizes can be set by the scale argument in tm_layout (or globally, in tmap_options). 
-#&gt; New since tmap 1.11.2 
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; Semi-transparent tile layers can be added with tm_tiles. 
+#&gt; New since tmap 2.0 
 #&gt; 
-#&gt; data(metro)
-#&gt; tm_shape(metro) +
-#&gt;  tm_bubbles(col = "gold", size = "pop2020", scale = 3, title.size = "Population in 2020") +
-#&gt; tm_legend(outside = TRUE) </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; Search for multiple locations directly with qtm. It uses tmaptools::geocode_OSM. 
+#&gt; data(World)
+#&gt; tm_shape(World) +
+#&gt;   tm_polygons("life_exp") +
+#&gt; tm_tiles("Stamen.TonerLines") +
+#&gt; tm_view(set.view = c(lon = 15, lat = 48, zoom = 4)) 
+#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; View shapes interactively in another projection than the Web Mercator. 
 #&gt; New since tmap 3.1 
 #&gt; 
-#&gt; qtm(c("Paris", "Amsterdam", "Berlin", "London")) 
+#&gt; data(World)
+#&gt; tmap_options(projection = 0, basemaps = NULL)
+#&gt; qtm(World) 
 #&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

@@ -310,7 +310,7 @@
     </tr>
     <tr>
       <th>earth.boundary</th>
-      <td><p>Logical that determines whether the boundaries of the earth are shown or an object that specifies the boundaries. This object can be a vector of size four, a 2 by 2 matrix (bounding box), or an <code><a href='https://rdrr.io/pkg/raster/man/extent.html'>extent</a></code> object. By default, the boundaries are <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -90, 180, 90)</a></code>. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -88, 180, 88)</a></code>).</p></td>
+      <td><p>Logical that determines whether the boundaries of the earth are shown or a bounding box that specifies the boundaries (an <code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf</a></code> bbox object, see <code><a href='https://rdrr.io/pkg/sf/man/st_bbox.html'>st_bbox</a></code>, or any object that can be read by <code><a href='https://rdrr.io/pkg/tmaptools/man/bb.html'>bb</a></code>). By default, the boundaries are <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -90, 180, 90)</a></code>. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -88, 180, 88)</a></code>).</p></td>
     </tr>
     <tr>
       <th>earth.boundary.color</th>
