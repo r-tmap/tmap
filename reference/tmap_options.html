@@ -147,6 +147,7 @@
   <span class='kw'>overlays.alpha</span>,
   <span class='kw'>qtm.scalebar</span>,
   <span class='kw'>qtm.minimap</span>,
+  <span class='kw'>qtm.mouse.coordinates</span>,
   <span class='kw'>show.messages</span>,
   <span class='kw'>output.format</span>,
   <span class='kw'>output.size</span>,
@@ -206,7 +207,11 @@
     </tr>
     <tr>
       <th>qtm.minimap</th>
-      <td><p>should a minimap be added to interactive maps created with <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code>. In other words, should <code><a href='https://rdrr.io/pkg/tmap/man/tm_minimap.html'>tm_minimap()</a></code> be added automatically? The value <code>NA</code> means that the minimap is only added in navigation mode (i.e. when <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code> is called without arguments or with a search term. The default value is <code>FALSE</code>.</p></td>
+      <td><p>should a minimap be added to interactive maps created with <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code>. In other words, should <code><a href='https://rdrr.io/pkg/tmap/man/tm_minimap.html'>tm_minimap()</a></code> be added automatically? The default value is <code>FALSE</code>.</p></td>
+    </tr>
+    <tr>
+      <th>qtm.mouse.coordinates</th>
+      <td><p>should mouse coordinates (and zoom level) be shown in view mode with <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code>? In other words, should <code>tm_mouse_coordinates()</code> be added automatically? <code>TRUE</code> by default.</p></td>
     </tr>
     <tr>
       <th>show.messages</th>
@@ -226,7 +231,7 @@
     </tr>
     <tr>
       <th>design.mode</th>
-      <td><p>Logical that enables the design mode. If <code>TRUE</code>, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, feedback text in the console is given.</p></td>
+      <td><p>Logical that enables the design mode. If <code>TRUE</code>, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, information about aspect ratios is printed in the console.</p></td>
     </tr>
     <tr>
       <th>check.and.fix</th>
@@ -252,7 +257,7 @@
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>)
 
 <span class='co'># get current options</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></span>())</div><div class='output co'>#&gt; List of 109
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></span>())</div><div class='output co'>#&gt; List of 110
 #&gt;  $ unit                   : chr "metric"
 #&gt;  $ limits                 : Named num [1:2] 64 4
 #&gt;   ..- attr(*, "names")= chr [1:2] "facets.plot" "facets.view"
@@ -367,9 +372,9 @@
 #&gt;  $ overlays.alpha         : num 1
 #&gt;  $ qtm.scalebar           : logi TRUE
 #&gt;  $ qtm.minimap            : logi FALSE
+#&gt;  $ qtm.mouse.coordinates  : logi TRUE
 #&gt;  $ alpha                  : logi NA
 #&gt;  $ colorNA                : logi NA
-#&gt;  $ projection             : num 3857
 #&gt;   [list output truncated]
 #&gt;  - attr(*, "style")= chr "white"</div><div class='input'>
 <span class='co'># get current style</span>
