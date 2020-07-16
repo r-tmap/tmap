@@ -17,9 +17,9 @@
 #' @example ./examples/tmapOutput.R 
 #' @export
 renderTmap <- function(expr, env = parent.frame(), quoted = FALSE) {
-	expr <- tmap_leaflet(expr, in.shiny = TRUE)
 	if (!quoted)
 		expr = substitute(expr)
+	expr = substitute(tmap_leaflet(expr, in.shiny = TRUE))
 	htmlwidgets::shinyRenderWidget(expr, leafletOutput, env,
 								   quoted = TRUE)
 }
