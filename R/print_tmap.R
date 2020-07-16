@@ -38,12 +38,7 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	###################################################################################################################
 	
 	if (proxy) {
-		layerIds <- if ("layerIdsNew" %in% ls(envir = .TMAP_CACHE)) {
-			get("layerIdsNew", envir = .TMAP_CACHE)
-		} else {
-			get("layerIds", envir = .TMAP_CACHE)
-		}
-		assign("layerIds", layerIds, envir = .TMAP_CACHE)
+		layerIds = get("layerIds", envir = .TMAP_CACHE)
 
 		overlays <- get("overlays", envir = .TMAP_CACHE)
 		overlays_tiles <- get("overlays_tiles", envir = .TMAP_CACHE)
