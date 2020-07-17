@@ -141,7 +141,7 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					iShps <- mapply(function(x,y) st_cast(st_intersection(x,y), "MULTIPOINT"), lShp, pbShp)
 
 					angles <- vapply(iShps, function(x) {
-						if (length(x) == 0) 0 else .get_direction_angle(st_coordinates(x)[,1:2])
+						if (length(x) == 0) 0 else .get_direction_angle(st_coordinates(x)[,1:2, drop = FALSE])
 					}, numeric(1))
 				} else angles <- rep(0, nt)
 

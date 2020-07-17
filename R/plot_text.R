@@ -87,20 +87,14 @@ plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "ce
 }
 
 polylineGrob2sfLines <- function(gL) {
-	k <- length(gL)
-
-	multiLines <- lapply(gL, function(gLi) {
-		coords <- cbind(gLi$x, gLi$y)
-		
-		if (length(gLi$id.lengths) > 1) {
-			ids <- unlist(mapply(rep, 1:length(gLi$id.lengths), gLi$id.lengths), use.names = FALSE)
-			coords <- mapply(cbind, split(as.numeric(gLi$x), ids), split(as.numeric(gLi$y), ids))
-			st_multilinestring(coords)
-		} else {
-			st_linestring(coords)
-		}
-	})
-	st_sf(geometry = st_sfc(multiLines))
+	if (is.null(gL$id)) {
+		ids = unlist(mapply(rep, 1L:length(gL$id.lengths), gL$id.lengths, SIMPLIFY = FALSE, USE.NAMES = FALSE))
+	} else {
+		ids = gL$id
+	}
+	coords <- mapply(cbind, split(as.numeric(gL$x), ids), split(as.numeric(gL$y), ids), SIMPLIFY = FALSE)
+	
+	st_sf(geometry = st_sfc(st_multilinestring(coords)))
 }
 
 npc_to_native <- function(x, scale) {
