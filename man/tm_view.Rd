@@ -17,10 +17,8 @@ tm_view(
   set.zoom.limits,
   view.legend.position,
   control.position,
-  popup.all.data,
   legend.position,
-  basemaps = NULL,
-  basemaps.alpha = NULL
+  leaflet.options
 )
 }
 \arguments{
@@ -52,13 +50,9 @@ If set, it overrides \code{set.view} and all bbox arguments of \code{\link{tm_sh
 
 \item{control.position}{Character vector of two values, specifying the position of the layer control UI. Use "left" or "right" for the first value and "top" or "bottom" for the second value.}
 
-\item{popup.all.data}{not used anymore. As of version 1.6, the popups are specified by the argument \code{popup.vars} in the layer functions \code{\link{tm_fill}}, \code{\link{tm_symbols}}, and \code{\link{tm_lines}}.}
-
 \item{legend.position}{not used anymore, renamed to view.legend.position}
 
-\item{basemaps}{Deprecated. Use \code{\link{tm_basemap}} instead, or set the default basemaps in \code{\link{tmap_options}}}
-
-\item{basemaps.alpha}{Deprecated. See \code{basemaps}}
+\item{leaflet.options}{other options passed on via \code{\link[leaflet:leaflet]{leafletOptions}} to leaflet.js map creation (see \href{https://leafletjs.com/}{leaflet}, follow Docs, Map, Creation). Named list, where the names correspond to the variable names. Tip: use \code{zoomSnap} and \code{zoomDelta} for fractional zooming.}
 }
 \description{
 Set the options for the interactive tmap viewer. Some of these options can also be set with \code{\link{tm_layout}}, since they are style dependent (e.g., the choice of basemaps). The function \code{tm_view} overrides these options when specified.

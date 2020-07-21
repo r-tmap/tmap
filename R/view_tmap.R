@@ -5,7 +5,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 	
 	proxy <- !is.null(lf)
 	
-	leaflet_opts <- leaflet::leafletOptions(crs=gt$projection)
+	leaflet_opts <- do.call(leaflet::leafletOptions, c(list(crs=gt$projection), gt$leaflet.options))
 	if (!is.na(gt$set.zoom.limits[1])) leaflet_opts$minZoom <- gt$set.zoom.limits[1]
 	if (!is.na(gt$set.zoom.limits[2])) leaflet_opts$maxZoom <- gt$set.zoom.limits[2]
 	

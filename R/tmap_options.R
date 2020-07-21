@@ -131,7 +131,7 @@
 		set.zoom.limits = NA,
 		view.legend.position = c("right", "top"),
 		control.position = c("left", "top"),
-		popup.all.data = NULL
+		leaflet.options = list()
 	),
 	style = "white"
 )
