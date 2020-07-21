@@ -63,8 +63,13 @@ check_poly_sizes <- function(g, data, nx, islist, show.messages) {
 	}
 	areas_prop <- as.numeric(areas/sum(areas, na.rm=TRUE))
 	
-	tiny <- areas_prop < g$thres.poly
-	if (all(tiny) && show.messages) warning("all relative area sizes are below thres.poly", call. = FALSE)
+	if (any(is.nan(areas_prop))) {
+		warning("something went wrong with calculation of polygon sizes", call. = FALSE)
+		tiny = rep(TRUE, length(areas_prop))	
+	} else {
+		tiny <- areas_prop < g$thres.poly
+		if (all(tiny) && show.messages) warning("all relative area sizes are below thres.poly", call. = FALSE)
+	}
 	
 	sel <- !tiny #if (islist) rep(list(!tiny), nx) else !tiny
 	list(areas = areas, sel = sel)

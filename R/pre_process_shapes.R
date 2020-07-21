@@ -278,6 +278,21 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		if (inherits(st_geometry(shp2), c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
 			data$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" "))
+			
+			zeros = as.numeric(data$SHAPE_AREAS)==0
+			
+			if (all(zeros)) {
+				stop("All polygons of ", y$shp_name, " have an area of 0, possibly caused by transformation.", call. = FALSE)
+			} else if (any(zeros)) {
+				sel = as.numeric(data$SHAPE_AREAS)!=0
+				data = data[sel, , drop = FALSE]
+				shp2 = shp2[sel, ]
+				
+				data$tmapID = 1L:nrow(data)
+				shp2$tmapID = 1L:nrow(data)
+			}
+			
+			
 			if (gm$shape.apply_map_coloring) attr(data, "NB") <- if (length(shp)==1) list(0) else get_neighbours(shp) #poly2nb(as(shp, "Spatial"))
 			attr(data, "kernel_density") <- kernel_density
 			type <- "polygons"
