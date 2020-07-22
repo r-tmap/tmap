@@ -58,7 +58,6 @@ text_height_npc <- function(txt, to_width = FALSE) {
 
 text_width_npc <- function(txt, space=TRUE, to_height = FALSE) {
 	brks <- attr(txt, "brks")
-	
 	if (is.null(brks)) {
 		if (space) txt <- paste(txt, " ", sep = "")
 		

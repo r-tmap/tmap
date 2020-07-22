@@ -8,7 +8,6 @@
 		output.format = "png",
 		output.size = 49,
 		output.dpi = 300,
-		design.mode = FALSE,
 		check.and.fix = FALSE,
 		title = NA,
 		scale = 1,
@@ -338,7 +337,7 @@
 #' @param output.format The format of the static maps saved with \code{\link{tmap_save}} without specification of the filename. The default is \code{"png"}.
 #' @param output.size The size of the static maps saved with \code{\link{tmap_save}} without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.
 #' @param output.dpi The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.
-#' @param design.mode Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, information about aspect ratios is printed in the console.
+#' @param design.mode Not used anymore; the design mode can now be set with \code{\link{tmap_design_mode}}
 #' @param check.and.fix Logical that determines whether shapes (\code{sf} objects) are checked for validity with \code{\link[sf:st_is_valid]{st_is_valid}} and fixed with \code{\link[sf:st_make_valid]{st_make_valid}} if needed.
 #' @param style style name
 #' @example ./examples/tmap_options.R
@@ -346,11 +345,10 @@
 #' @name tmap_options
 #' @export
 #' @seealso \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}
-tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, qtm.mouse.coordinates, show.messages, output.format, output.size, output.dpi, design.mode, check.and.fix) {
+tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, qtm.mouse.coordinates, show.messages, output.format, output.size, output.dpi, design.mode = NULL, check.and.fix) {
 
 	
-	#if (!identical( parent.frame(n = 1) , globalenv() )) warning("test4322t6")
-	
+
 	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 	current.style <- getOption("tmap.style")
 	newstyle <- if (substr(current.style, nchar(current.style) - 9, nchar(current.style)) == "(modified)") {
@@ -390,6 +388,13 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 		## case 4: tmap_options is called without arguments
 		args <- lapply(as.list(match.call()[-1]), eval, envir = e1)	
 	}
+	
+	design_mode_specified = ("design.mode" %in% names(args))
+	if (design_mode_specified) {
+		warning("design.mode is not a tmap option anymore. As of version > 3.1, it can be set with tmap_design_mode", call. = FALSE)	
+		args$design.mode = NULL
+	} 
+	
 
 	unknown_args <- setdiff(names(args), names(.defaultTmapOptions))
 	if (length(unknown_args) == 1) {
@@ -398,8 +403,7 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 		stop("the following options do not exist: ", paste(unknown_args, collapse = ", "))
 	}
 	
-	
-	if (!length(args)) {
+	if (!length(args) && !design_mode_specified) {
 		# case 4
 		return(.tmapOptions)	
 	} else {

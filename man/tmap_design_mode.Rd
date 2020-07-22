@@ -2,12 +2,15 @@
 % Please edit documentation in R/tmap_mode.R
 \name{tmap_design_mode}
 \alias{tmap_design_mode}
-\title{Toggle design mode}
+\title{Set the design mode}
 \usage{
-tmap_design_mode()
+tmap_design_mode(design.mode)
+}
+\arguments{
+\item{design.mode}{logical value that determines the design mode. If omitted then the design mode is toggled.}
 }
 \description{
-When the so-called "design mode" is enabled, inner and outer margins, legend position, and aspect ratio are shown explicitly in plot mode. Also, information about aspect ratios is printed in the console. This function toggles the tmap option `design.mode`.
+When the so-called "design mode" is enabled, inner and outer margins, legend position, and aspect ratio are shown explicitly in plot mode. Also, information about aspect ratios is printed in the console. This function sets the global option `tmap.design.mode`. It can be used as toggle function without arguments.
 }
 \seealso{
 \code{\link{tmap_options}}

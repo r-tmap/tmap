@@ -72,7 +72,8 @@ Save tmap to a file. This can be either a static plot (e.g. png) or an interacti
 	    tm_scale_bar(position = c("left", "bottom")) +
 	    tm_compass(position=c("right", "bottom"))
 	
-	tmap_save(m, "choropleth.png", height=7)
+	tmap_save(m, "choropleth.png", height = 7) # height interpreted in inches
+	tmap_save(m, "choropleth_icon.png", height = 100, scale = .1) # height interpreted in pixels
 	
 	data(World)
 	m2 <- tm_shape(World) +

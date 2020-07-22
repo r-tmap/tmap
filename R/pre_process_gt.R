@@ -194,5 +194,6 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 	
 	gtnull <- names(which(vapply(gt, is.null, logical(1))))
 	gt[gtnull] <- list(NULL)
+	gt$design.mode = getOption("tmap.design.mode")
 	gt
 }

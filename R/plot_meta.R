@@ -41,9 +41,11 @@ plot_meta <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 	# constant needed for margins etc
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	lineWidth <- convertWidth(unit(1, "lines"), "npc", valueOnly=TRUE)
-	my <- lineHeight / 2
+	my <- lineHeight / 2 * gt$scale
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
+	#if (my > .25 || mx > .25) stop("Margins are too large. Probably, the device is too small, or the scale too large.", call. = FALSE)
+
 	# title properties
 	nlines <- number_text_lines(gt$title)
 	

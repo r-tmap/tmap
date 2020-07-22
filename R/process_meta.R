@@ -317,12 +317,13 @@ process_meta <- function(gt, gf, gg, gc, gl, gsb, gcomp, glab, gmm, gmmc, nx, nx
 			compass.color.dark <- do.call("process_color", c(list(col=compass.color.dark), gt$pc))
 			compass.color.light <- do.call("process_color", c(list(col=compass.color.light), gt$pc))
 			
-			compass.fontsize <- compass.text.size * gt$scale
+			compass.text.size <- compass.text.size * gt$scale
 			compass.lwd <- compass.lwd * gt$scale
 			
 			compass.show <- TRUE
 			if (is.na(compass.type)) compass.type <- gt$compass.type
 			if (is.na(compass.size)) compass.size <- switch(compass.type, arrow=2, radar=6, rose=6, 4)
+			#compass.size = compass.size * gt$scale
 			compass.nlines <- compass.size + ifelse(compass.show.labels==0, 0, ifelse(compass.show.labels==1, 1, 2))
 		})
 	} else {

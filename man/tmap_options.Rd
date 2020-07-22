@@ -24,7 +24,7 @@ tmap_options(
   output.format,
   output.size,
   output.dpi,
-  design.mode,
+  design.mode = NULL,
   check.and.fix
 )
 
@@ -67,7 +67,7 @@ tmap_options_save(style)
 
 \item{output.dpi}{The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.}
 
-\item{design.mode}{Logical that enables the design mode. If \code{TRUE}, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, information about aspect ratios is printed in the console.}
+\item{design.mode}{Not used anymore; the design mode can now be set with \code{\link{tmap_design_mode}}}
 
 \item{check.and.fix}{Logical that determines whether shapes (\code{sf} objects) are checked for validity with \code{\link[sf:st_is_valid]{st_is_valid}} and fixed with \code{\link[sf:st_make_valid]{st_make_valid}} if needed.}
 

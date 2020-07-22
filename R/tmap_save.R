@@ -121,10 +121,10 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 	# 	if (is.na(units)) units <- "in"
 	if (is.na(width) || is.na(height)) {
 		if (!is.na(width)) {
-			if (is.na(units)) units <- ifelse(width>50, "px", "in")
+			if (is.na(units)) units = choose_unit(width)
 			temp_size <- convert_to_pixels(width, units)
-		} else if (!is.na(width)) {
-			if (is.na(units)) units <- ifelse(height>50, "px", "in")
+		} else if (!is.na(height)) {
+			if (is.na(units)) units = choose_unit(height)
 			temp_size <- convert_to_pixels(height, units)
 		} else {
 			units <- "px"
@@ -150,7 +150,7 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 			width <- height * sasp
 		}
 	} else {
-		if (is.na(units)) units <- ifelse(width > 50 || height > 50, "px", "in")
+		if (is.na(units)) units = choose_unit(max(width, height))
 	}
 	units_target <- ifelse(units=="px" && ext %in% c("png", "jpg", "jpeg", "bmp", "tiff"), "px", "in")
 	
@@ -250,4 +250,10 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 	}
 	options(tmap.mode=tmap.mode)
 	invisible()
+}
+
+choose_unit = function(x) {
+	units = ifelse(x > 50, "px", "in")
+	if (x > 15 && x < 100) message("The argument 'units' has been set to \"", units, "\" since the specified width or height is ", ifelse(units == "px", "greater than ", "less than or equal to "), 50, ". Specify units = \"", ifelse(units == "px", "in", "px"),"\" to change this.")
+	units
 }
