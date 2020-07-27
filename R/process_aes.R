@@ -350,11 +350,11 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	
 	layerInfo <- list(nonemptyFacets = nonemptyFacets,
-						   id = id,
-						   popup.vars = g$popup.vars,
-						   popup.format = g$popup.format,
-						   group = g$group,
-					  	   zindex = g$zindex)
+					  id = id,popup.vars = g$popup.vars,
+					  interactive = g$interactive,
+					  popup.format = g$popup.format,
+					  group = g$group,
+					  zindex = g$zindex)
 	
 	
 	

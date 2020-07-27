@@ -232,6 +232,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param legend.lwd.z index value that determines the position of the legend element regarding the line widths. (See \code{legend.col.z})
 #' @param legend.hist.z index value that determines the position of the legend element regarding the histogram. (See \code{legend.col.z})
 #' @param id name of the data variable that specifies the indices of the lines. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
+#' @param interactive logical that determines whether this layer is interactive in view mode (e.g. hover text, popup, and click event in shiny apps)
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
 #' @param zindex zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.
@@ -279,6 +280,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 legend.lwd.z=NA,
 					 legend.hist.z=NA,
 					 id=NA,
+					 interactive=TRUE,
 					 popup.vars=NA,
 					 popup.format=list(),
 					 zindex=NA,
@@ -354,6 +356,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @param legend.z index value that determines the position of the legend element with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.
 #' @param legend.hist.z index value that determines the position of the histogram legend element 
 #' @param id name of the data variable that specifies the indices of the polygons. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
+#' @param interactive logical that determines whether this layer is interactive in view mode (e.g. hover text, popup, and click event in shiny apps)
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
 #' @param zindex zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.
@@ -398,6 +401,7 @@ tm_fill <- function(col=NA,
 					legend.z=NA,
 					legend.hist.z=NA,
 					id=NA,
+					interactive = TRUE,
 					popup.vars=NA,
 					popup.format=list(),
 					zindex=NA,
@@ -679,6 +683,7 @@ tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, inte
 #' @param legend.shape.z index value that determines the position of the legend element regarding the symbol shapes. (See \code{legend.size.z})
 #' @param legend.hist.z index value that determines the position of the histogram legend element. (See \code{legend.size.z})
 #' @param id name of the data variable that specifies the indices of the symbols. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).
+#' @param interactive logical that determines whether this layer is interactive in view mode (e.g. hover text, popup, and click event in shiny apps)
 #' @param popup.vars names of data variables that are shown in the popups in \code{"view"} mode. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.
 #' @param popup.format list of formatting options for the popup values. See the argument \code{legend.format} for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of \code{popup.vars}. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.
 #' @param title shortcut for \code{title.col} for \code{tm_dots}
@@ -765,6 +770,7 @@ tm_symbols <- function(size=1, col=NA,
 						legend.shape.z=NA,
 						legend.hist.z=NA,
 						id=NA,
+						interactive=TRUE,
 						popup.vars=NA,
 						popup.format=list(),
 						zindex=NA,

@@ -38,6 +38,7 @@ tm_fill(
   legend.z = NA,
   legend.hist.z = NA,
   id = NA,
+  interactive = TRUE,
   popup.vars = NA,
   popup.format = list(),
   zindex = NA,
@@ -148,6 +149,8 @@ For \code{tm_borders}, it is a single color value that specifies the border line
 \item{legend.hist.z}{index value that determines the position of the histogram legend element}
 
 \item{id}{name of the data variable that specifies the indices of the polygons. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
+
+\item{interactive}{logical that determines whether this layer is interactive in view mode (e.g. hover text, popup, and click event in shiny apps)}
 
 \item{popup.vars}{names of data variables that are shown in the popups in \code{"view"} mode. If \code{convert2density=TRUE}, the derived density variable name is suffixed with \code{_density}. If \code{NA} (default), only aesthetic variables (i.e. specified by \code{col} and \code{lwd}) are shown). If they are not specified, all variables are shown. Set popup.vars to \code{FALSE} to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.}
 
