@@ -111,7 +111,7 @@ plot_logo <- function(gt, just, id) {
 	
 }
 
-plot_cred <- function(gt, just, id) {
+plot_cred <- function(gt, just, id, maxWidth) {
 	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE)
 	
 	my <- lineHeight / 2
@@ -123,7 +123,7 @@ plot_cred <- function(gt, just, id) {
 	
 	size <- min((1-2*mx) / text_width_npc(txt, space=FALSE), gt$credits.size[id])
 	
-	width <- (text_width_npc(txt, space=FALSE)+1*mx) * size
+	width <- ifelse(maxWidth, 1, (text_width_npc(txt, space=FALSE)+1*mx) * size)
 	#height <- lineHeight * (nlines) * size
 	
 	x <- just - just*width

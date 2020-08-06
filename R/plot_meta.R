@@ -289,6 +289,7 @@ plot_meta <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 				 just1=sapply(gt$credits.just, "[", 1, USE.NAMES=FALSE),
 				 just2=sapply(gt$credits.just, "[", 2, USE.NAMES=FALSE),
 				 sortid=gt$credits.id,
+				 maxWidth=gt$credits.maxWidth,
 				 stringsAsFactors = FALSE) else NULL,
 			if (gt$logo.show) data.frame(type="logo",
 				height=mapply(function(lh, m) {
@@ -466,7 +467,7 @@ plot_meta <- function(gt, x, legend_pos, bb, metaX, metaY, frameX, frameY, use_f
 				pushViewport(vpi)
 				
 				if (e$type=="credits") {
-					grb <- plot_cred(gt, just=elem.just[1], id=e$cred.id)
+					grb <- plot_cred(gt, just=elem.just[1], id=e$cred.id, maxWidth=e$maxWidth)
 				} else if (e$type=="logo") {
 					grb <- plot_logo(gt, just=elem.just[1], id=e$logo.id)
 				} else if (e$type=="scale_bar") {
