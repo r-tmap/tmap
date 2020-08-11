@@ -38,6 +38,10 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 	###################################################################################################################
 	
 	if (proxy) {
+		print("proxy")
+		
+		#return(lf %>% leaflet::removeShape(World$iso_a3))
+		
 		layerIds = get("layerIds", envir = .TMAP_CACHE)
 
 		overlays <- get("overlays", envir = .TMAP_CACHE)
@@ -55,12 +59,14 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				name <- paneName(z)
 				legend <- legendName(z)
 				
+				print(layerIds[[name]])
+				
 				if (typesList[[name]] == "raster") {
 					lf <- lf %>% leaflet::removeImage(sort(unname(layerIds[[name]]))) %>%
 						leaflet::removeControl(legend)
 				} else {
-					lf <- lf %>% leaflet::removeShape(sort(unname(layerIds[[name]]))) %>%
-						leaflet::removeControl(legend)
+					lf <- lf %>% leaflet::removeShape(sort(unname(layerIds[[name]]))) #%>%
+						#leaflet::removeControl(legend)
 				}
 				
 				layerIds[[name]] <- NULL
@@ -236,7 +242,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 		lf <- if (nx==1) lfs[[1]] else lfmv <- do.call(leafsync::latticeView, c(lfs, lVargs))
 		
-		lf2 <- if (interactive_titles) view_add_leaflet_titles(lf) else lf
+		#lf2 <- if (interactive_titles) view_add_leaflet_titles(lf) else lf
+		lf2 = lf
 		
 		if (show) {
 			save_last_map()

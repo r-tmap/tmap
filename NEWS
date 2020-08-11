@@ -1,4 +1,4 @@
-version 3.1-1 or 3.2 (in development)
+version 3.2 (in development)
 - improved tmapOutput; it now works with reactive shiny objects
 - improved internally used margins; also small exported maps look good (see example tmap_save)
 - improved tmap_design_mode; tmap.design.mode is now a global option (and not a tmap option anymore)

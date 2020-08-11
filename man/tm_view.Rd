@@ -82,7 +82,7 @@ tmap_mode("view")
 map1
 
 # view map with changed view options
-map1 + tm_view(alpha = 1, basemaps = "Stamen.Watercolor")
+map1 + tm_view(set.view = c(7, 51, 4)) # longitude 7, latitude 51, zoom 4
 
 # interactive world map in original CRS
 tm_shape(World) +tm_polygons("HPI") + tm_view(projection = 0) + tm_basemap(NULL)

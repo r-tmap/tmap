@@ -580,19 +580,19 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			basemaps.alpha <- gpl$tile.alpha
 			type <- gpl$tile.gtype
 			tms <- gpl$tile.tms
-			
+
 			if (is.null(basemaps)) {
 				return(FALSE)
 			}
-			
+
 			if (is.na(basemaps[1])) {
 				if (type == "base") eraseBaseGroup() else eraseOverlayTiles()
-				return(FALSE) 
+				return(FALSE)
 			}
-			
 
-			
-			
+
+
+
 			group_names <- if (is.null(gpl$tile.group)) {
 				NULL
 			} else if (is.na(gpl$tile.group[1])) {
@@ -608,15 +608,15 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				if (type == "base") assign("basename.specified", TRUE, envir = e)
 				rep(gpl$tile.group, length.out = length(basemaps))
 			}
-			
+
 			if (!is.null(group_names)) {
 				if (type == "base") {
-					addBaseGroup(group_names)	
+					addBaseGroup(group_names)
 				} else {
 					addOverlayGroup(group_names, are.tiles = TRUE)
 				}
 			}
-			
+
 			if(type == "base") {
 				pane <- "tilePane"
 			} else {
@@ -624,34 +624,36 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				# pane <- nextPane(pane)
 				# lf <- addPane(lf, pane)
 			}
-				
-			if (!is.na(gt$set.zoom.limits[1])) {
-				tileOptions <- mapply(function(a, tmsi) {
-					tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a, pane=pane, tms = tmsi)
-				}, basemaps.alpha, tms, SIMPLIFY = FALSE)
-				
-			} else {
-				tileOptions <- mapply(function(a, tmsi) {
-					tileOptions(opacity=a, pane=pane, tms = tmsi)
-				}, basemaps.alpha, tms, SIMPLIFY = FALSE)
-			}
+
+			# if (!is.na(gt$set.zoom.limits[1])) {
+			# 	tileOptions <- mapply(function(a, tmsi) {
+			# 		tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a, pane=pane, tms = tmsi)
+			# 	}, basemaps.alpha, tms, SIMPLIFY = FALSE)
+			# 	
+			# } else {
+			# 	tileOptions <- mapply(function(a, tmsi) {
+			# 		tileOptions(opacity=a, pane=pane, tms = tmsi)
+			# 	}, basemaps.alpha, tms, SIMPLIFY = FALSE)
+			# }
+			# 
+			# allLettersOrDots <- function(x) grepl("^[A-Za-z\\.]*$", x)
+			# 
+			# # add base layer(s)
+			# if (length(basemaps)) {
+			# 	for (i in 1:length(basemaps)) {
+			# 		bm <- unname(basemaps[i])
+			# 		bmname <- unname(group_names[i])
+			# 		bm4 <- substr(bm, 1, 4)
+			# 		if (allLettersOrDots(bm4) && bm4 != "http") {
+			# 			# it is not possible to check provider options, since leaflet::providers is not exported
+			# 			lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
+			# 		} else {
+			# 			lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
+			# 		}
+			# 	}
+			# }
 			
-			allLettersOrDots <- function(x) grepl("^[A-Za-z\\.]*$", x)
-			
-			# add base layer(s)
-			if (length(basemaps)) {
-				for (i in 1:length(basemaps)) {
-					bm <- unname(basemaps[i])
-					bmname <- unname(group_names[i])
-					bm4 <- substr(bm, 1, 4)
-					if (allLettersOrDots(bm4) && bm4 != "http") {
-						# it is not possible to check provider options, since leaflet::providers is not exported
-						lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
-					} else {
-						lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
-					}
-				}
-			}
+			lf = lf %>% addTiles()
 			assign("lf", lf, envir = e)
 
 			TRUE
