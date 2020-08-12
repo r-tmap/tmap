@@ -2,6 +2,7 @@ version 3.2 (in development)
 - improved tmapOutput; it now works with reactive shiny objects
 - improved internally used margins; also small exported maps look good (see example tmap_save)
 - improved tmap_design_mode; tmap.design.mode is now a global option (and not a tmap option anymore)
+- added width argument to tm_credits
 
 version 3.1
 - interactive maps in origin CRS working: tmap_options(projection = 0, basemaps = NULL)

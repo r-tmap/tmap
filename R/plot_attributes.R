@@ -123,9 +123,8 @@ plot_cred <- function(gt, just, id) {
 	
 	size <- min((1-2*mx) / text_width_npc(txt, space=FALSE), gt$credits.size[id])
 	
-	width <- (text_width_npc(txt, space=FALSE)+1*mx) * size
-	#height <- lineHeight * (nlines) * size
-	
+	width =	if (is.na(gt$credits.width[id])) (text_width_npc(txt, space=FALSE)+1*mx) * size else gt$credits.width[id] 
+
 	x <- just - just*width
 	tx <- mx*.5*size + just - just*width
 	
