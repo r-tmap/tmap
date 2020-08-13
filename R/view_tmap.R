@@ -295,12 +295,18 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# return NULL is no symbols are selected (see tm_facets example)
 			if (!any(sel)) return(FALSE)
 			
+			popups <- get_popups(gpl, type="symbol")
+			labels <- as.character(get_labels(gpl, type="symbol"))
+			
+			
 			if (!all(sel)) {
 				co <- co[sel, , drop=FALSE]
 				fcol <- fcol[sel]
 				fopacity <- fopacity[sel]
 				symbol.size <- symbol.size[sel]
 				symbol.shape <- symbol.shape[sel]
+				popups = popups[sel]
+				labels = labels[sel]
 			}
 			
 			if (gpl$symbol.misc$symbol.are.markers) {
@@ -325,14 +331,10 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				addOverlayGroup(group_name)
 			}
 
-			popups <- get_popups(gpl, type="symbol")
-			labels <- as.character(get_labels(gpl, type="symbol"))
 			ids <- submit_labels(labels, "symbols", pane, group_name, e)
 			
-			
 
-			popups <- popups[sel]
-			
+
 			# sort symbols
 			if (length(symbol.size)!=1) {
 				decreasing <- order(-symbol.size)
@@ -430,12 +432,18 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			# return NULL is no symbols are selected (see tm_facets example)
 			if (!any(gpl$text_sel)) return(FALSE)
 			
+			labels = get_labels(gpl, type="text")
+
+			
 			if (!all(gpl$text_sel)) {
 				co <- co[gpl$text_sel, , drop=FALSE]
 				text <- text[gpl$text_sel]
 				col <- col[gpl$text_sel]
 				size <- size[gpl$text_sel]
+				labels = labels[gpl$text_sel]
 			}
+			
+			
 			
 			sizeChar <- paste(round(size * 12), "px", sep="")
 			colsize <- paste(col, sizeChar, sep="_^_")
@@ -463,10 +471,14 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			
 			pane <- paneName(zi)
 
+			ids <- submit_labels(labels, "text", pane, group_name, e)
+			
+			
 			suppressWarnings({
 				if (length(cs_set)==1) {
 					lf <- lf %>% addLabelOnlyMarkers(lng = co[,1], lat = co[,2], label=text,
 													 group=group_name, 
+													 layerId = ids, 
 													 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = direction, 
 													 							opacity=opacity,
 													 							textsize=sizeChar[1],
@@ -477,6 +489,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 					for (i in 1:length(text)) {
 						lf <- lf %>% addLabelOnlyMarkers(lng = co[i,1], lat = co[i,2], label=text[i],
 														 group=group_name, 
+														 layerId = ids[i], 
 														 labelOptions = labelOptions(noHide = TRUE, textOnly = TRUE, direction = direction, 
 														 							opacity=opacity,
 														 							textsize=sizeChar[i],

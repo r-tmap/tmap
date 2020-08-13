@@ -52,6 +52,7 @@ process_add_data_to_gps <- function(gps, gm, datasets, matchIDs, interactive) {
 				gpl$fill.names <- gpl$idnames$fill
 				gpl$line.names <- gpl$idnames$line
 				gpl$symbol.names <- gpl$idnames$symbol
+				gpl$text.names <- gpl$idnames$text
 			}
 			
 			gpl$data <- dt[indices, , drop=FALSE]

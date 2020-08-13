@@ -178,7 +178,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	# text info
 	if (is.null(g$tm_text)) {
-		gtext <- list(text=NULL, xtext=NA, xtsize=NA, xtcol=NA, text.size.legend.title=NA, text.col.legend.title=NA, text.group = NA)
+		gtext <- list(text=NULL, xtext=NA, xtsize=NA, xtcol=NA, text.size.legend.title=NA, text.col.legend.title=NA, text.id=NA, text.group = NA)
 	}  else {
 		gtext <- process_text(data, g$tm_text, if (is.null(gfill$fill)) NA else gfill$fill, gt, gf, z=z+which(plot.order=="tm_text"), interactive=interactive)
 	}
@@ -346,7 +346,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 		}
 	}
 
-	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id), treat_by_count = treat_by_count, data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, gtiles, list(add_legends=add_legends))
+	c(list(npol=nrow(data), varnames=list(by=by, fill=gfill$xfill, symbol.size=gsymbol$xsize, symbol.col=gsymbol$xcol, symbol.shape=gsymbol$xshape, line.col=glines$xline, line.lwd=glines$xlinelwd, raster=graster$xraster, text.size=gtext$xtsize, text.col=gtext$xtcol), idnames=list(fill=gfill$fill.id, symbol=gsymbol$symbol.id, line=glines$line.id, text=gtext$text.id), treat_by_count = treat_by_count, data_by=data$GROUP_BY, nrow=nrow, ncol=ncol, panel.names=panel.names, along.names=along.names, plot.order=plot.order, any.legend=any.legend), gborders, gfill, glines, gsymbol, gtext, graster, gtiles, list(add_legends=add_legends))
 }
 
 ###############################

@@ -62,6 +62,7 @@ tm_text(
   legend.size.z = NA,
   legend.col.z = NA,
   legend.hist.z = NA,
+  id = NA,
   zindex = NA,
   group = NA,
   auto.palette.mapping = NULL,
@@ -199,6 +200,8 @@ tm_text(
 \item{legend.col.z}{index value that determines the position of the legend element regarding the text colors. (See \code{legend.size.z})}
 
 \item{legend.hist.z}{index value that determines the position of the histogram legend element. (See \code{legend.size.z})}
+
+\item{id}{name of the data variable that specifies the indices of the text labels. Only used for \code{"view"} mode (see \code{\link{tmap_mode}}).}
 
 \item{zindex}{zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes \code{"tmap401"}, \code{"tmap402"}, etc., except for the base tile layers, which are placed in the standard \code{"tile"}. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if \code{zindex} is set to 500, the pane will be named \code{"tmap500"}.}
 
