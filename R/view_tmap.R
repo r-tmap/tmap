@@ -184,10 +184,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			}
 			
 			pane <- paneName(zi)
-			
-			# pane <- nextPane(pane)
-			# lf <- addPane(lf, pane)
-			
+
 			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
 			shp$tmapID2 <- submit_labels(shp$tmapID, "polygons", pane, group_name, e)
 			
@@ -237,9 +234,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			}
 
 			pane <- paneName(zi)
-			# pane <- nextPane(pane)
-			# lf <- addPane(lf, pane)
-			
+
 			shp$tmapID <- if (!is.null(labels)) as.character(labels) else shp$tmapID
 			shp$tmapID2 <- submit_labels(shp$tmapID, "lines", pane, group_name, e)
 			
@@ -317,8 +312,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			}
 
 			pane <- paneName(zi)
-			# pane <- nextPane(pane)
-			# lf <- addPane(lf, pane)
 			
 			if (is.null(gpl$symbol.group)) {
 				group_name <- NULL
@@ -367,7 +360,6 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			
 			
 			if (are.icons) {
-				#symbol.size2 <- symbol.size2 / 3 # Correct for the fact that markers are larger than circle markers. This is good, but for static plots the icon size was already increased by icon.size=3, so this is to revert it for view mode
 				if (any(symbol.shape2<1000)) {
 					icons <- NULL
 				} else {
@@ -570,10 +562,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				lf <- lf %>% leafem::addStarsImage(shp, band = 1, colors = pal_col, opacity = pal_opacity, group = group_name, project = FALSE, layerId = layerId)
 			}
 			
-			
-			
-			# lf <- lf %>% addRasterImage(x=as(shp, "Raster"), colors=mappal, opacity = pal_opacity, group=group_name, project = FALSE, layerId = layerId)
-			
+
 			if (!is.na(gpl$xraster[1])) {
 				if (gpl$raster.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="raster", alpha=alpha, group = if (gt$free.scales.raster) group_name else NULL, zindex = zi)
 			}
@@ -638,35 +627,35 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				# lf <- addPane(lf, pane)
 			}
 
-			# if (!is.na(gt$set.zoom.limits[1])) {
-			# 	tileOptions <- mapply(function(a, tmsi) {
-			# 		tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a, pane=pane, tms = tmsi)
-			# 	}, basemaps.alpha, tms, SIMPLIFY = FALSE)
-			# 	
-			# } else {
-			# 	tileOptions <- mapply(function(a, tmsi) {
-			# 		tileOptions(opacity=a, pane=pane, tms = tmsi)
-			# 	}, basemaps.alpha, tms, SIMPLIFY = FALSE)
-			# }
-			# 
-			# allLettersOrDots <- function(x) grepl("^[A-Za-z\\.]*$", x)
-			# 
-			# # add base layer(s)
-			# if (length(basemaps)) {
-			# 	for (i in 1:length(basemaps)) {
-			# 		bm <- unname(basemaps[i])
-			# 		bmname <- unname(group_names[i])
-			# 		bm4 <- substr(bm, 1, 4)
-			# 		if (allLettersOrDots(bm4) && bm4 != "http") {
-			# 			# it is not possible to check provider options, since leaflet::providers is not exported
-			# 			lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
-			# 		} else {
-			# 			lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
-			# 		}
-			# 	}
-			# }
+			if (!is.na(gt$set.zoom.limits[1])) {
+				tileOptions <- mapply(function(a, tmsi) {
+					tileOptions(minZoom=gt$set.zoom.limits[1], maxZoom=gt$set.zoom.limits[2], opacity=a, pane=pane, tms = tmsi)
+				}, basemaps.alpha, tms, SIMPLIFY = FALSE)
+
+			} else {
+				tileOptions <- mapply(function(a, tmsi) {
+					tileOptions(opacity=a, pane=pane, tms = tmsi)
+				}, basemaps.alpha, tms, SIMPLIFY = FALSE)
+			}
+
+			allLettersOrDots <- function(x) grepl("^[A-Za-z\\.]*$", x)
+
+			# add base layer(s)
+			if (length(basemaps)) {
+				for (i in 1:length(basemaps)) {
+					bm <- unname(basemaps[i])
+					bmname <- unname(group_names[i])
+					bm4 <- substr(bm, 1, 4)
+					if (allLettersOrDots(bm4) && bm4 != "http") {
+						# it is not possible to check provider options, since leaflet::providers is not exported
+						lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
+					} else {
+						lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
+					}
+				}
+			}
 			
-			lf = lf %>% addTiles()
+			#lf = lf %>% addTiles()
 			assign("lf", lf, envir = e)
 
 			TRUE
