@@ -198,7 +198,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 			})
 			
 			# if (!is.null(labels)) {
-			# 	lf <- lf %>% 
+			# 	lf <- lf %>%
 			# 		addSearchFeatures(targetGroups  = shp_name, options = searchFeaturesOptions(zoom = 7, openPopup=FALSE))
 			# }
 
@@ -391,6 +391,12 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 					}
 				})
 			}
+			
+			# if (!is.null(labels)) {
+			# 	lf <- lf %>% 
+			# 		addSearchFeatures(targetGroups  = shp_name, options = searchFeaturesOptions(zoom = 7, openPopup=FALSE))
+			# }
+			
 				
 			if (!is.na(gpl$xcol[1])) {
 				if (gpl$symbol.col.legend.show) lf <- lf %>% add_legend(gpl, gt, aes="symbol.col", alpha=alpha, group = if (gt$free.scales.symbol.col) group_name else NULL, zindex = zi)
@@ -638,18 +644,17 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 				}, basemaps.alpha, tms, SIMPLIFY = FALSE)
 			}
 
-			allLettersOrDots <- function(x) grepl("^[A-Za-z\\.]*$", x)
 
 			# add base layer(s)
 			if (length(basemaps)) {
 				for (i in 1:length(basemaps)) {
 					bm <- unname(basemaps[i])
 					bmname <- unname(group_names[i])
-					bm4 <- substr(bm, 1, 4)
-					if (allLettersOrDots(bm4) && bm4 != "http") {
-						# it is not possible to check provider options, since leaflet::providers is not exported
+					
+					if (bm %in% names(providers)) {
 						lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
 					} else {
+						if (substr(bm, 1, 4) != "http") warning("basemap ", bm, "does not exist in the providers list nor does it seem a valid url", call. = FALSE)
 						lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
 					}
 				}

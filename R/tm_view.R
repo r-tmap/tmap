@@ -1,3 +1,7 @@
+#' @import leaflet
+#' @export
+leaflet::providers
+
 #' Options for the interactive tmap viewer
 #' 
 #' Set the options for the interactive tmap viewer. Some of these options can also be set with \code{\link{tm_layout}}, since they are style dependent (e.g., the choice of basemaps). The function \code{tm_view} overrides these options when specified.
