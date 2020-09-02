@@ -36,6 +36,7 @@ cat2pal <- function(x,
 		matching <- match(levels(y), levels(x))
 		if (length(palette) == nlevels(x)) {
 			palette <- palette[matching]
+			color_names <- color_names[matching]
 		}
 		if (!is.null(legend.labels) && (length(legend.labels) == nlevels(x))) {
 			legend.labels <- legend.labels[matching]
