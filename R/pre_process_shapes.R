@@ -1,7 +1,8 @@
 pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
+	tmapOptions = get("tmapOptions", envir = .TMAP_CACHE)
 	
-	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
+	show.messages <- tmapOptions$show.messages
 
 	
 	if (is.null(shp)) return(list(shp=NULL, data=NULL, type="tiles"))
@@ -46,13 +47,13 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
 		max.value <- attr(raster_facets_vars, "max.value") # NULL is tm_raster is called, when tm_rgb is called: NA (default) when max color value is determined automatically.
 		
-		if (interactive) gm$shape.master_crs <- .crs_merc # leaflet excepts rasters in epsg 3857
+		if (interactive && is.numeric(tmapOptions$projection) && !identical(tmapOptions$projection, 0)) gm$shape.master_crs <- .crs_merc # leaflet excepts rasters in epsg 3857
 		
 		if (!inherits(shp, "stars")) shp <- stars::st_as_stars(shp)
 
 		if (!has_raster(shp)) stop("object ", y$shp_name, " does not have a spatial raster", call. = FALSE)
 		
-		max.raster <- get("tmapOptions", envir = .TMAP_CACHE)$max.raster[if(interactive) "view" else "plot"]
+		max.raster <- tmapOptions$max.raster[if(interactive) "view" else "plot"]
 
 		
 		dxy <- attr(st_dimensions(shp), "raster")$dimensions

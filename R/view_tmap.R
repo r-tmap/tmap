@@ -31,7 +31,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 
 	warns <- c(symbol=FALSE, text=FALSE, raster=FALSE, symbol_legend=FALSE, linelwd_legend=FALSE) # to prevent a warning for each shape
 	
-	if (inherits(shps, "sf")) shps <- list(shps)
+	if (inherits(shps, c("sf", "stars"))) shps <- list(shps)
 
 	bases <- if ("bases" %in% ls(envir = .TMAP_CACHE)) get("bases", envir = .TMAP_CACHE) else NA
 	overlays <- if ("overlays" %in% ls(envir = .TMAP_CACHE)) get("overlays", envir = .TMAP_CACHE) else NA
