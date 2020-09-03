@@ -64,8 +64,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 				
 				if (!is.null(typesList[[name]])) {
 					if (typesList[[name]] == "raster") {
-						lf <- lf %>% leaflet::removeImage(sort(unname(layerIds[[name]]))) #%>%
-						#leaflet::removeControl(legend)
+						lf <- lf %>% leaflet::removeImage(sort(unname(layerIds[[name]]))) %>%
+							leaflet::removeControl(legend)
 					} else if (typesList[[name]] %in% c("text", "symbols")) {
 						lf <- lf %>% leaflet::removeMarker(sort(unname(layerIds[[name]])))
 					} else {
