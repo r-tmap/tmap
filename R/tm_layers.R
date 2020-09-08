@@ -815,7 +815,7 @@ tm_bubbles <- function(size=1,
 #' @export
 tm_dots <- function(col=NA, 
 					size=.02, 
-					shape=16,
+					shape=19,
 					title = NA, 
 					legend.show=TRUE, 
 					legend.is.portrait=TRUE, 
@@ -893,7 +893,7 @@ tm_markers <- function(shape=marker_icon(),
 #' @example ./examples/tm_sf.R
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @return \code{\link{tmap-element}}
-tm_sf <- function(col=NA, size=.02, shape = 16, lwd=1, lty = "solid", alpha=NA, palette=NULL, border.col=NA, border.lwd=1, border.lty = "solid", border.alpha=NA, group = NA, ...) {
+tm_sf <- function(col=NA, size=.02, shape = 19, lwd=1, lty = "solid", alpha=NA, palette=NULL, border.col=NA, border.lwd=1, border.lty = "solid", border.alpha=NA, group = NA, ...) {
 	args <- list(...)
 	
 	argsFill <- c(list(col = col, alpha = alpha, palette = palette), args[intersect(names(args), names(formals("tm_fill")))])

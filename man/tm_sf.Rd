@@ -7,7 +7,7 @@
 tm_sf(
   col = NA,
   size = 0.02,
-  shape = 16,
+  shape = 19,
   lwd = 1,
   lty = "solid",
   alpha = NA,

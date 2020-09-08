@@ -101,7 +101,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 
 		# # should raster shape be reprojected?
-		if (interactive) {
+		if (interactive && !gm$shape.crsSimple) {
 			if (sf::st_is_longlat(shp_crs)) {
 				shp_bbox <- sf::st_bbox(shp)
 				shp <- transwarp(shp, crs = .crs_merc, y$raster.warp)
@@ -112,6 +112,8 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				shp <- transwarp(shp, crs = gm$shape.master_crs, y$raster.warp)
 			}
 		} else {
+			if (interactive) warning("It is not possible yet to visualize raster objects (in this case ", y$shp_name, ") interactively in an unprojected crs (projection = 0)", call. = FALSE)
+			
 			if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
 				shp <- transwarp(shp, crs = gm$shape.master_crs, y$raster.warp)
 			}
@@ -124,7 +126,10 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			isF <- is.factor(shp[[1]])
 			if (isF) {
 				lvls <- levels(shp[[1]])
-				clrs <- rep(attr(shp[[1]], "colors"), length.out = length(lvls))
+				
+				clrs = attr(shp[[1]], "colors")
+				if (!is.null(clrs)) clrs = rep(clrs, length.out = length(lvls))
+				
 				m <- matrix(as.integer(shp[[1]]), ncol = length(shpnames))	
 				if (!length(lvls)) isF <- FALSE
 			} else {

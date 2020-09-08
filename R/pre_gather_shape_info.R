@@ -59,6 +59,8 @@ pre_gather_shape_info <- function(x, interactive) {
 			}
 		}
 		if (!crsSimple) master_crs <- .crs_longlat
+	} else {
+		crsSimple = TRUE
 	}
 	
 	## get raster and group by variable name (needed for eventual reprojection of raster shapes)
@@ -114,6 +116,7 @@ pre_gather_shape_info <- function(x, interactive) {
 		 shape.is_raster_master=is_raster_master,
 		 shape.masterID=masterID,
 		 shape.master_crs=master_crs,
+		 shape.crsSimple = crsSimple,
 		 shape.orig_crs=orig_crs,
 		 shape.bbx_raw=bbx_raw,
 		 shape.unit=unit,

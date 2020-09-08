@@ -134,7 +134,7 @@ qtm <- function(shp,
 			dots_instead_of_symbols <- missing(symbols.size) && missing(symbols.shape) && missing(symbols.col)
 			if (dots_instead_of_symbols) {
 				symbols.size <- if ("dots.size" %in% names(args)) args$dots.size else .02
-				symbols.shape <- if ("dots.shape" %in% names(args)) args$dots.shape else 16
+				symbols.shape <- if ("dots.shape" %in% names(args)) args$dots.shape else 19
 			}
 			if (missing(symbols.col) && missing(dots.col)) {
 				symbols.col <- NA

@@ -103,7 +103,7 @@ tm_bubbles(
 tm_dots(
   col = NA,
   size = 0.02,
-  shape = 16,
+  shape = 19,
   title = NA,
   legend.show = TRUE,
   legend.is.portrait = TRUE,
