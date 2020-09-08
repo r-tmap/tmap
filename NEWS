@@ -1,4 +1,5 @@
 version 3.2 (in development)
+- tmap_animation tmap_arrange
 - improved tmapOutput; it now works with reactive shiny objects
 - improved internally used margins; also small exported maps look good (see example tmap_save)
 - improved tmap_design_mode; tmap.design.mode is now a global option (and not a tmap option anymore)

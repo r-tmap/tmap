@@ -93,11 +93,12 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long lat (epsg 4326) coordinates assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
 				
-				shp <- sf::st_set_crs(shp, shp_crs)
 				#shp <- stars::st_warp(shp, crs = shp_crs)	
 			} else {
-				stop("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				shp_crs <- st_crs("+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0")
 			}
+			shp <- sf::st_set_crs(shp, shp_crs)
 		}
 
 		# # should raster shape be reprojected?
@@ -266,10 +267,13 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			if (maybe_longlat(shp_bbx)) {
 				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
-				shp <- sf::st_set_crs(shp, shp_crs)
+				
 			} else {
-				stop("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				shp_crs <- st_crs("+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0")
 			}
+			shp <- sf::st_set_crs(shp, shp_crs)
+			
 		}
 
 		# reproject if nessesary

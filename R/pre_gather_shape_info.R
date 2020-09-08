@@ -33,7 +33,8 @@ pre_gather_shape_info <- function(x, interactive) {
 		if (maybe_longlat(bbx_raw)) {
 			mshp_crs <- .crs_longlat
 		} else {
-			stop("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
+			warning("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
+			mshp_crs <- st_crs("+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0")
 		}
 	}
 	

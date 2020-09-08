@@ -12,11 +12,12 @@ tmap_animation(
   dpi = NA,
   delay = 40,
   loop = TRUE,
-  restart.delay = 0
+  restart.delay = 0,
+  ffmpeg = TRUE
 )
 }
 \arguments{
-\item{tm}{tmap object. In order to create a series of tmap plots, which will be the frames of the animation, it is important to set nrow and ncol in \code{\link{tm_facets}}, for otherwise a small multiples plot is generated. Commonly, where one map is shown at a time, both nrow and ncol are set to 1.}
+\item{tm}{tmap or \code{\link{tmap_arrange}} object. If \code{tm} is a tmap object, facets should be created, where nrow and ncol in \code{\link{tm_facets}} have to be set to 1 in order to create one map per frame.}
 
 \item{filename}{filename of the video (should be a .gif or .mpg file)}
 
@@ -31,6 +32,8 @@ tmap_animation(
 \item{loop}{logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.}
 
 \item{restart.delay}{delay time between the loops (in 1/100th of a second)}
+
+\item{ffmpeg}{use ffmpeg via the package av}
 }
 \description{
 Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.
