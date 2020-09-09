@@ -50,7 +50,8 @@ Suggests:
     shiny,
     testthat,
     covr,
-    av
+    av,
+    gifski
 URL: https://github.com/mtennekes/tmap
 BugReports: https://github.com/mtennekes/tmap/issues
 VignetteBuilder: knitr

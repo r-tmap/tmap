@@ -24,6 +24,7 @@ tmap_options(
   output.format,
   output.size,
   output.dpi,
+  output.dpi.animation,
   design.mode = NULL,
   check.and.fix
 )
@@ -65,7 +66,9 @@ tmap_options_save(style)
 
 \item{output.size}{The size of the static maps saved with \code{\link{tmap_save}} without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.}
 
-\item{output.dpi}{The default number of dots per inch for \code{\link{tmap_save}} and \code{\link{tmap_animation}}.}
+\item{output.dpi}{The default number of dots per inch for \code{\link{tmap_save}}.}
+
+\item{output.dpi.animation}{The default number of dots per inch for \code{\link{tmap_animation}}.}
 
 \item{design.mode}{Not used anymore; the design mode can now be set with \code{\link{tmap_design_mode}}}
 

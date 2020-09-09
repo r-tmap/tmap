@@ -31,9 +31,15 @@ plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new
 	
 	external_grid_labels <- gmeta$grid.show && !gmeta$grid.labels.inside.frame
 	
-	
+	progress = (np > 1) && gmeta$show.messages
+	if (progress) pb = txtProgressBar()
+
 	## create a large grid tree per page, and draw it
 	treeMlts <- lapply(1:np, function(k) {
+		if (progress) {
+			setTxtProgressBar(pb, k/np)
+		}
+		
 		if (k!=1) {
 			grid.newpage()
 		}

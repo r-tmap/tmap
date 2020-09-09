@@ -19,5 +19,27 @@ m2 <- tm_shape(World, simplify = 0.5) +
       tm_facets(free.scales.symbol.size = FALSE, nrow=1,ncol=1) + 
       tm_format("World", scale=.5)
 
-tmap_animation(m2, filename="World population.gif", width=1200, delay=100)
+tmap_animation(m2, filename="World_population.gif", width=1200, delay=100)
+
+tmList <- lapply(seq(50, 85, by = 5), function(age) {
+	World$at_most <- World$life_exp <= age
+	World_sel <- World[which((World$life_exp <= age) & (World$life_exp > (age - 5))), ]
+	tm_shape(World) +
+		tm_polygons("at_most", palette = c("gray95", "gold"), legend.show = FALSE) +
+		tm_shape(World_sel) +
+		tm_text("name", size = "AREA", root = 5, remove.overlap = TRUE) +
+		tm_layout(main.title = paste0("Life expectency at most ", age), frame = FALSE)
+})
+
+tmap_animation(tmList, filename="Life_expectancy.gif", width = 1200, height = 600, delay = 100)
+
+m3 <- tm_shape(World) +
+	tm_polygons() +
+tm_shape(metro) +
+	tm_bubbles(col = "red") +
+	tm_text("name", ymod = -1) +
+tm_facets(by = "name", free.coords = F, nrow = 1, ncol = 1) +
+	tm_layout(panel.show = FALSE)
+
+tmap_animation(m3, filename="World_cities.mp4", width=1200, height = 600, fps = 2)
 }

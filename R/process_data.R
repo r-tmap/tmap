@@ -11,6 +11,11 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 			dat <- as.factor(dat)
 			cls[1] <- "fac"
 		}
+		if (cls[1]=="log") {
+			dat <- factor(dat, levels = c("FALSE", "TRUE"))
+			cls[1] <- "fac"
+		}
+		
 		if (cls[1]=="fac") xlvls <- levels(dat)
 		X <- lapply(levels(by), function(l) {
 			sel <- by==l
@@ -79,7 +84,11 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 				if (all(cls == "uni")) attr(datavec, "units") <- as.character(uni)
 			} else {
 				xlvls_list <- mapply(function(d, cl){
-					if (cl=="fac") levels(d) else na.omit(unique(d))
+					if (cl=="fac") {
+						levels(d)
+					} else if (cls=="log") {
+						c("FALSE", "TRUE")
+					} else na.omit(unique(d))
 				}, data, cls, SIMPLIFY=FALSE)
 				
 				xlvls <- unique(unlist(xlvls_list, use.names = FALSE))
@@ -93,6 +102,8 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 			
 		} else {
 			if (any(cls=="cha")) data[cls=="cha"] <- lapply(data[cls=="cha"], as.factor)
+			if (any(cls=="log")) data[cls=="log"] <- lapply(data[cls=="log"], factor, levels = c("FALSE", "TRUE"))
+			
 			if (ncol(data)==1) {
 				datavec <- data[[1]]
 				if (all(cls == "uni")) {
@@ -150,7 +161,7 @@ check_tm_classes <- function(x, is.colors) {
 			} else if (is.factor(y)) {
 				"fac"
 			} else if (is.logical(y)) {
-				"cha"
+				"log"
 			} else if (all(valid_colors(y))) {
 				"col"
 			} else "cha"
