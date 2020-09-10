@@ -21,6 +21,7 @@ tmap_options(
   qtm.minimap,
   qtm.mouse.coordinates,
   show.messages,
+  show.warnings,
   output.format,
   output.size,
   output.dpi,
@@ -61,6 +62,8 @@ tmap_options_save(style)
 \item{qtm.mouse.coordinates}{should mouse coordinates (and zoom level) be shown in view mode with \code{\link{qtm}}? In other words, should \code{tm_mouse_coordinates()} be added automatically? \code{TRUE} by default.}
 
 \item{show.messages}{should messages be shown?}
+
+\item{show.warnings}{should warnings be shown?}
 
 \item{output.format}{The format of the static maps saved with \code{\link{tmap_save}} without specification of the filename. The default is \code{"png"}.}
 

@@ -1,6 +1,6 @@
 process_layers <- function(g, z, gt, gf, interactive) {
 	if (dupl <- anyDuplicated(names(g))) {
-		warning("One tm layer group has duplicated layer types, which are omitted. To draw multiple layers of the same type, use multiple layer groups (i.e. specify tm_shape prior to each of them).", call. = FALSE)
+		if (gt$show.warnings) warning("One tm layer group has duplicated layer types, which are omitted. To draw multiple layers of the same type, use multiple layer groups (i.e. specify tm_shape prior to each of them).", call. = FALSE)
 		g <- g[-dupl]	
 	} 
 	
@@ -85,7 +85,7 @@ process_layers <- function(g, z, gt, gf, interactive) {
 	
 	a <- g$tm_shape$along
 	if (a=="" || interactive) {
-		if (a!="") warning("along not supported in view mode", call. = FALSE)
+		if (a!="" && gt$show.warnings) warning("along not supported in view mode", call. = FALSE)
 		alev <- NA
 		data$ALONG <- factor("___NA___")
 		along.names <- NA

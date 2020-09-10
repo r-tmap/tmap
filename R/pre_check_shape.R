@@ -1,4 +1,4 @@
-pre_check_shape <- function(shp, name) {
+pre_check_shape <- function(shp, name, show.warnings) {
 	if (inherits(shp, "Spatial")) {
 		shp <- as(shp, "sf")
 	} else if (!inherits(shp, c("sf", "sfc"))) {
@@ -14,7 +14,7 @@ pre_check_shape <- function(shp, name) {
 		if (!all(st_is_valid(shp))) {
 			tryCatch({
 				shp <- sf::st_make_valid(shp)
-				warning("The shape ", name, " is invalid. See sf::st_is_valid", call. = FALSE)
+				if (show.warnings) warning("The shape ", name, " is invalid. See sf::st_is_valid", call. = FALSE)
 			}, error = function(e) {
 				stop("Unable to make ", name, " valid with sf::st_make_valid", call. = FALSE)
 			})
@@ -26,7 +26,7 @@ pre_check_shape <- function(shp, name) {
 	if (all(empty_units)) {
 		stop("The shape ", name, " only contains empty units.", call. = FALSE)
 	} else if (any(empty_units)) {
-		warning("The shape ", name, " contains empty units.", call. = FALSE)
+		if (show.warnings) warning("The shape ", name, " contains empty units.", call. = FALSE)
 		shp <- if (inherits(shp, "sf")) shp[!empty_units, ] else shp[!empty_units]
 	}
 

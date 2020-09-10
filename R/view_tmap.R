@@ -654,7 +654,7 @@ view_tmap <- function(gp, shps=NULL, leaflet_id=1, showWarns=TRUE, gal = NULL, i
 					if (bm %in% names(providers)) {
 						lf <- lf %>% addProviderTiles(bm, group=bmname, options = tileOptions[[i]])
 					} else {
-						if (substr(bm, 1, 4) != "http") warning("basemap ", bm, "does not exist in the providers list nor does it seem a valid url", call. = FALSE)
+						if (substr(bm, 1, 4) != "http" && gt$show.warnings) warning("basemap ", bm, "does not exist in the providers list nor does it seem a valid url", call. = FALSE)
 						lf <- lf %>% addTiles(bm, group=bmname, options=tileOptions[[i]])
 					}
 				}

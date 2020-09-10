@@ -18,7 +18,10 @@ num2shape <- function(x,
 	breaks <- q$brks
 	nbrks <- length(breaks)
 	
-	if (length(shapes) < (nbrks-1)) {
+
+	show.warnings = get("tmapOptions", envir = .TMAP_CACHE)$show.warnings
+	
+	if (length(shapes) < (nbrks-1) && show.warnings) {
 		warning("Not enough symbol shapes available. Shapes will be re-used.", call.=FALSE)
 	}
 	shapes <- rep(shapes, length.out=nbrks-1)
@@ -46,7 +49,7 @@ num2shape <- function(x,
 	if (is.null(legend.labels)) {
 		legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, intervals=TRUE, interval.closure=int.closure), legend.format)) 
 	} else {
-		if (length(legend.labels)!=nbrks-1) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
+		if (length(legend.labels)!=nbrks-1 && show.warnings) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 		legend.labels <- rep(legend.labels, length.out=nbrks-1)
 		attr(legend.labels, "align") < legend.format$align
 	}

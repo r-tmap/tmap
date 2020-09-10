@@ -40,7 +40,7 @@ process_legend_format <- function(glf, gtlf, nx) {
 	}
 }
 
-process_popup_format <- function(gpf, gtlf, vars) {
+process_popup_format <- function(gpf, gtlf, vars, show.warnings) {
 	# check if g$legend.format is list of lists or functions
 	islist <- is.list(gpf) && length(gpf)>0 && is.list(gpf[[1]])
 	
@@ -49,7 +49,7 @@ process_popup_format <- function(gpf, gtlf, vars) {
 	} else {
 		nms <- names(gpf)
 		if (is.na(vars[1])) {
-			warning("popup.vars not specified whereas popup.format is a list", call. = FALSE)
+			if (show.warnings) warning("popup.vars not specified whereas popup.format is a list", call. = FALSE)
 			return(process_legend_format(gpf[[1]], gtlf, nx=1))
 		}
 		if (!all(nms %in% vars)) stop("popup.format names do not correspond to popup.vars", call. = FALSE)

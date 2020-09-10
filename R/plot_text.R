@@ -5,7 +5,6 @@ plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "ce
 	npol <- nrow(co.native)
 	with(g, {
 		if (!any(text_sel)) {
-			#warning("No text to display. Check if all size values are smaller than lowerbound.size, or if all positions fall outside the plotting area.", call. = FALSE)
 			return(NULL)
 		}
 		
@@ -13,18 +12,12 @@ plot_text <- function(co.native, g, gt, lineNatH, lineNatW, just=c("center", "ce
 		co.native[, 2] <- co.native[, 2] + text.ymod * lineHnative
 
 		
-		#grobText <- textGrob(text[text_sel], x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"), just=just, gp=gpar(col=text.color[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
-
-		# grobText <- pointsGrob(x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"))
-		
 		grobText <- textGrob(text[text_sel], x=unit(co.native[text_sel,1], "native"), y=unit(co.native[text_sel,2], "native"), just=just, gp=gpar(col=text.color[text_sel], cex=text.size[text_sel], fontface=text.fontface, fontfamily=text.fontfamily))
 		nlines <- rep(1, length(text))
 		
 		
 		lineH <- npc_to_native(convertHeight(unit(text.size[text_sel], "lines"), "native", valueOnly=TRUE), scale = bbx[c(2,4)])
 		lineW <- npc_to_native(convertWidth(unit(text.size[text_sel], "lines"), "native", valueOnly=TRUE), scale = bbx[c(1,3)])
-		
-		#		if (!is.na(text.bg.color)) {
 		
 		tGH <- npc_to_native(mapply(text[text_sel], text.size[text_sel], nlines[text_sel], FUN=function(x,y,z){
 			convertHeight(grobHeight(textGrob(x, gp=gpar(cex=y, fontface=text.fontface, fontfamily=text.fontfamily))),"native", valueOnly=TRUE) * z/(z-0.25)}, USE.NAMES=FALSE), scale = bbx[c(2,4)])

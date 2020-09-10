@@ -325,7 +325,7 @@ get_bbox_asp <- function(bbox, inner.margins, longlat, pasp, interactive) {
 
 split_raster <- function(r, f, drop=TRUE) {
 	if (!is.factor(f)) {
-		warning("f is not a factor", call. = FALSE)
+		if (get("tmapOptions", envir = .TMAP_CACHE)$show.warnings) warning("f is not a factor", call. = FALSE)
 		f <- as.factor(f)
 	}
 	bbx <- attr(r, "bbox")

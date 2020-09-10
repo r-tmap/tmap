@@ -149,18 +149,16 @@ fancy_breaks <- function(vec, as.count = FALSE, intervals=FALSE, interval.closur
 
 num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left", var = NULL, as.count = FALSE, args = list()) {
 	
-	# if (style %in% c("log10", "log10_pretty")) {
-	# 	x <- log10(x)
-	# 	style <- ifelse(style == "log10", "fixed", "pretty")
-	# }
+	tmapOptions = get("tmapOptions", envir = .TMAP_CACHE)
+	show.warnings <- tmapOptions$show.warnings
 	
 	nobs <- sum(!is.na(x))
 	# create intervals and assign colors
 	if (style=="fixed") {
 		q <- list(var=x,
 				  brks=breaks)
-		if (any(na.omit(x) < min(breaks))) warning("Values have found that are less than the lowest break", call. = FALSE)
-		if (any(na.omit(x) > max(breaks))) warning("Values have found that are higher than the highest break", call. = FALSE)
+		if (any(na.omit(x) < min(breaks)) && show.warnings) warning("Values have found that are less than the lowest break", call. = FALSE)
+		if (any(na.omit(x) > max(breaks)) && show.warnings) warning("Values have found that are higher than the highest break", call. = FALSE)
 		attr(q, "style") <- "fixed"
 		attr(q, "nobs") <- nobs
 		attr(q, "intervalClosure") <- interval.closure
@@ -177,7 +175,7 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 		nunique <- length(na.omit(unique(x)))
 		
 		
-		if (nunique == 1 && style!="pretty") {
+		if (nunique == 1 && style!="pretty" && show.warnings) {
 			if (!is.null(var)) {
 				warning("Single unique value found for the variable \"", var, "\", so style set to \"pretty\"", call. = FALSE)
 			} else {

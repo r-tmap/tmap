@@ -68,10 +68,12 @@ num2pal <- function(x,
 	
 	x[!sel] <- NA
 	
-	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
-
+	tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
+	show.messages <- tmapOptions$show.messages
+	show.warnings <- tmapOptions$show.warnings
+	
 	if (!any(style == c("pretty", "log10_pretty", "fixed"))) {
-		if (identical(as.count, TRUE)) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)
+		if (identical(as.count, TRUE) && show.warnings) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)
 		as.count <- FALSE
 	}
 	if (is.na(as.count)) {
@@ -81,7 +83,7 @@ num2pal <- function(x,
 
 	
 	if (as.count) {
-		if (interval.closure != "left") warning("For as.count = TRUE, interval.closure will be set to \"left\"", call. = FALSE)
+		if (interval.closure != "left" && show.warnings) warning("For as.count = TRUE, interval.closure will be set to \"left\"", call. = FALSE)
 		interval.closure <- "left"
 	}
 	
@@ -104,7 +106,7 @@ num2pal <- function(x,
 		
 		
 		if (style=="fixed") {
-			if ((!is.null(breaks) || !is.null(legend.labels)) && ("n" %in% call)) {
+			if ((!is.null(breaks) || !is.null(legend.labels)) && ("n" %in% call) && show.warnings) {
 				warning("n will not be used since breaks and/or labels are specified. Therefore, n will be set to the number of breaks/labels.", call. = FALSE)
 			}
 
@@ -117,7 +119,7 @@ num2pal <- function(x,
 			}
 			breaks <- cont_breaks(breaks, n=101)
 		} else {
-			if ("breaks" %in% call) warning("breaks cannot be set for style = \"order\".", 
+			if ("breaks" %in% call && show.warnings) warning("breaks cannot be set for style = \"order\".", 
 											ifelse("labels" %in% call, "", " Breaks labels can be set with the argument labels."), ifelse(any(c("labels", "n") %in% call), "", " The number of breaks can be specified with the argument n."),  call. = FALSE)
 			custom_breaks <- breaks
 		}
@@ -126,10 +128,10 @@ num2pal <- function(x,
 			ncont <- n
 		} else {
 			if (!is.null(custom_breaks) && length(legend.labels) != n+1) {
-				warning("The length of legend.labels is ", length(legend.labels), ", which differs from the length of the breaks (", (n+1), "). Therefore, legend.labels will be ignored", call.=FALSE)
+				if (show.warnings) warning("The length of legend.labels is ", length(legend.labels), ", which differs from the length of the breaks (", (n+1), "). Therefore, legend.labels will be ignored", call.=FALSE)
 				legend.labels <- NULL
 			} else {
-				if (style == "quantile" && ("n" %in% call)) {
+				if (style == "quantile" && ("n" %in% call) && show.warnings) {
 					warning("n will not be used since labels are specified. Therefore, n will be set to the number of labels.", call. = FALSE)
 				}
 				ncont <- length(legend.labels)	
@@ -212,7 +214,7 @@ num2pal <- function(x,
 			map2divscaleID(breaks - midpoint, n=101, contrast=contrast)
 		} else {
 			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_seq(n) else c(0, 1)
-			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified)
+			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified, show.warnings = show.warnings)
 		}
 		
 		legend.palette <- colpal[ids]
@@ -327,7 +329,7 @@ num2pal <- function(x,
 		if (is.null(legend.labels)) {
 			legend.labels <- do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), legend.format)) 
 		} else {
-			if (length(legend.labels)!=nbrks-1) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
+			if (length(legend.labels)!=nbrks-1 && show.warnings) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 			legend.labels <- rep(legend.labels, length.out=nbrks-1)
 			attr(legend.labels, "align") <- legend.format$text.align
 		}

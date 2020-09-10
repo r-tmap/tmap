@@ -66,6 +66,9 @@ qtm <- function(shp,
 	shp_name <- deparse(substitute(shp))[1]
 	called <- names(match.call(expand.dots = TRUE)[-1])
 
+	tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
+	show.warnings = tmapOptions$show.warnings
+	
 	if (missing(shp) || is.character(shp)) {
 		
 		viewargs <- args[intersect(names(args), names(formals(tm_view)))]
@@ -78,10 +81,10 @@ qtm <- function(shp,
 		return(g)
 	}
 	
-	if ("bubble.size" %in% names(args)) {
+	if ("bubble.size" %in% names(args) && show.warnings) {
 		warning("bubble.size is deprecated. Please use symbols.size instead", call.=FALSE)
 	}
-	if ("bubble.col" %in% names(args)) {
+	if ("bubble.col" %in% names(args) && show.warnings) {
 		warning("bubble.col is deprecated. Please use symbols.col instead", call.=FALSE)
 	}
 	
@@ -109,7 +112,7 @@ qtm <- function(shp,
 		if (sfcarray) {
 			types <- get_types(sfc)
 		} else {
-			shp <- pre_check_shape(shp, shp_name)
+			shp <- pre_check_shape(shp, shp_name, show.warnings)
 			
 			if (inherits(shp, "sfc")) shp <- st_sf(shp)
 			
@@ -258,7 +261,6 @@ qtm <- function(shp,
 	scaleLst <- if (!is.na(scale) && !is.na(title[1])) list(title=title, scale=scale) else if (!is.na(scale)) list(scale=scale) else if (!is.na(title[1])) list(title=title) else list()
 	
 	if (!missing(style)) {
-		.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
 		check_style(style)
 		g <- g + tm_style(style)
 	}

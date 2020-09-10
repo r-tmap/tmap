@@ -6,7 +6,7 @@ plot_scale <- function(gt, just, xrange, crop_factor) {
 	unit.size <- 1/gt$shape.units$to
 	
 	if (is.na(unit.size)) {
-		warning("Unable to determine shape coordinate units. Please check if the \"+units\" part of the projection is present. Otherwise, specify coords.unit or unit.size")
+		if (gt$show.warnings) warning("Unable to determine shape coordinate units. Please check if the \"+units\" part of the projection is present. Otherwise, specify coords.unit or unit.size")
 	} else if (!gt$shape.units$projected && ((gt$shape.bbx[4]-gt$shape.bbx[2]) > 30)) {
 		if (gt$show.messages) message("Scale bar set for latitude ", gsub("long@lat(.+)$", "\\1", unit), " and will be different at the top and bottom of the map.")
 	}

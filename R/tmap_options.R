@@ -5,6 +5,7 @@
 		max.categories = 30,
 		max.raster = c(plot = 1e6, view = 1e6),
 		show.messages = TRUE,
+		show.warnings = TRUE,
 		output.format = "png",
 		output.size = 49,
 		output.dpi = 300,
@@ -335,6 +336,7 @@
 #' @param qtm.minimap should a minimap be added to interactive maps created with \code{\link{qtm}}. In other words, should \code{tm_minimap()} be added automatically? The default value is \code{FALSE}.
 #' @param qtm.mouse.coordinates should mouse coordinates (and zoom level) be shown in view mode with \code{\link{qtm}}? In other words, should \code{tm_mouse_coordinates()} be added automatically? \code{TRUE} by default.
 #' @param show.messages should messages be shown?
+#' @param show.warnings should warnings be shown?
 #' @param output.format The format of the static maps saved with \code{\link{tmap_save}} without specification of the filename. The default is \code{"png"}.
 #' @param output.size The size of the static maps saved with \code{\link{tmap_save}} without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.
 #' @param output.dpi The default number of dots per inch for \code{\link{tmap_save}}.
@@ -347,11 +349,13 @@
 #' @name tmap_options
 #' @export
 #' @seealso \code{\link{tm_layout}}, \code{\link{tm_view}}, and \code{\link{tmap_style}}
-tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, qtm.mouse.coordinates, show.messages, output.format, output.size, output.dpi, output.dpi.animation, design.mode = NULL, check.and.fix) {
+tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps, basemaps.alpha, overlays, overlays.alpha, qtm.scalebar, qtm.minimap, qtm.mouse.coordinates, show.messages, show.warnings, output.format, output.size, output.dpi, output.dpi.animation, design.mode = NULL, check.and.fix) {
 
 	
 
 	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)	
+	show.warnings = .tmapOptions$show.warnings
+	
 	current.style <- getOption("tmap.style")
 	newstyle <- if (substr(current.style, nchar(current.style) - 9, nchar(current.style)) == "(modified)") {
 		current.style
@@ -377,11 +381,11 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 				set_new_style <- TRUE
 			}
 			
-			if (length(lst) > 1) warning("The first argument is used, but the other arguments are ignored.")
+			if (length(lst) > 1 && show.warnings) warning("The first argument is used, but the other arguments are ignored.")
 		} else {
 			## case 2: option name is given
 			args <- sapply(lst, "[", 1)
-			if (!all(args %in% optnames)) warning("the following options do not exist: ", paste(setdiff(args, optnames), collapse = ", "))
+			if (!all(args %in% optnames) && show.warnings) warning("the following options do not exist: ", paste(setdiff(args, optnames), collapse = ", "))
 			args <- intersect(args, optnames)
 			return(.tmapOptions[args])
 		}
@@ -393,7 +397,7 @@ tmap_options <- function(..., unit, limits, max.categories, max.raster, basemaps
 	
 	design_mode_specified = ("design.mode" %in% names(args))
 	if (design_mode_specified) {
-		warning("design.mode is not a tmap option anymore. As of version > 3.1, it can be set with tmap_design_mode", call. = FALSE)	
+		if (show.warnings) warning("design.mode is not a tmap option anymore. As of version > 3.1, it can be set with tmap_design_mode", call. = FALSE)	
 		args$design.mode = NULL
 	} 
 	
@@ -443,7 +447,7 @@ check_named_items <- function(a, b) {
 				res <- bn
 				cls <- ifelse(is.list(bn), "list", "vector")
 				if (is.null(names(an))) {
-					warning("tmap option ", nm, " requires a named ", cls, call. = FALSE)
+					if (show.warnings) warning("tmap option ", nm, " requires a named ", cls, call. = FALSE)
 				} else if (!all(names(an) %in% names(bn))) {
 					formatC_names <- setdiff(names(formals(formatC)), "x")
 					if (nm == "legend.format") {
@@ -451,7 +455,8 @@ check_named_items <- function(a, b) {
 					} else {
 						invalid <- setdiff(names(an), names(bn))
 					}
-					if (length(invalid) > 0) warning("invalid ", cls, " names of tmap option ", nm, ": ", paste(invalid, collapse = ", "), call. = FALSE)
+					
+					if (length(invalid) > 0 && get("tmapOptions", envir = .TMAP_CACHE)$show.warnings) warning("invalid ", cls, " names of tmap option ", nm, ": ", paste(invalid, collapse = ", "), call. = FALSE)
 					
 				}
 				res[names(an)] <- an

@@ -1,4 +1,7 @@
 pre_gather_shape_info <- function(x, interactive) {
+	tmapOptions = get("tmapOptions", envir = .TMAP_CACHE)
+	show.warnings <- tmapOptions$show.warnings
+	
 	## identify shape blocks
 	shape.id <- which(names(x)=="tm_shape")
 	nshps <- length(shape.id)
@@ -33,7 +36,7 @@ pre_gather_shape_info <- function(x, interactive) {
 		if (maybe_longlat(bbx_raw)) {
 			mshp_crs <- .crs_longlat
 		} else {
-			warning("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
+			if (show.warnings) warning("The projection of the shape object ", x[[shape.id[masterID]]]$shp_name, " is not known, while it seems to be projected.", call.=FALSE)
 			mshp_crs <- st_crs("+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0")
 		}
 	}

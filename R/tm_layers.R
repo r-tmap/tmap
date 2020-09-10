@@ -1,9 +1,13 @@
 check_deprecated_layer_fun_args <- function(auto.palette.mapping, max.categories, midpoint) {
-	if (!is.null(auto.palette.mapping)) {
+	tmapOptions = get("tmapOptions", envir = .TMAP_CACHE)
+	show.warnings <- tmapOptions$show.warnings
+	
+	
+	if (!is.null(auto.palette.mapping) && show.warnings) {
 		warning("The argument auto.palette.mapping is deprecated. Please use midpoint for numeric data and stretch.palette for categorical data to control the palette mapping.", call. = FALSE)
 		if (auto.palette.mapping && is.null(midpoint)) midpoint <- 0 # for backwards compatability
 	}
-	if (!is.null(max.categories)) warning("The argument max.categories is deprecated. It can be specified with tmap_options.", call. = FALSE)
+	if (!is.null(max.categories) && show.warnings) warning("The argument max.categories is deprecated. It can be specified with tmap_options.", call. = FALSE)
 	midpoint
 }
 

@@ -3,7 +3,8 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	tmapOptions = get("tmapOptions", envir = .TMAP_CACHE)
 	
 	show.messages <- tmapOptions$show.messages
-
+	show.warnings <- tmapOptions$show.warnings
+	
 	
 	if (is.null(shp)) return(list(shp=NULL, data=NULL, type="tiles"))
 
@@ -31,7 +32,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 
 		by_var = names(shp)[1]
 		
-		if (length(shp) > 1L) {
+		if (length(shp) > 1L && show.warnings) {
 			warning("Only the first attribute \"", by_var, "\" of ", y$shp_name, " will be plotted", call. = FALSE)
 		}
 		treat_as_by = TRUE
@@ -90,12 +91,12 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		shp_crs <- sf::st_crs(shp)
 		if (is.na(shp_crs)) {
 			if (maybe_longlat(sf::st_bbox(shp))) {
-				warning("Currect projection of shape ", y$shp_name, " unknown. Long lat (epsg 4326) coordinates assumed.", call. = FALSE)
+				if (show.warnings) warning("Currect projection of shape ", y$shp_name, " unknown. Long lat (epsg 4326) coordinates assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
 				
 				#shp <- stars::st_warp(shp, crs = shp_crs)	
 			} else {
-				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				if (show.warnings) warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 				shp_crs <- st_crs("+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0")
 			}
 			shp <- sf::st_set_crs(shp, shp_crs)
@@ -113,7 +114,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 				shp <- transwarp(shp, crs = gm$shape.master_crs, y$raster.warp)
 			}
 		} else {
-			if (interactive) warning("It is not possible yet to visualize raster objects (in this case ", y$shp_name, ") interactively in an unprojected crs (projection = 0)", call. = FALSE)
+			if (interactive && show.warnings) warning("It is not possible yet to visualize raster objects (in this case ", y$shp_name, ") interactively in an unprojected crs (projection = 0)", call. = FALSE)
 			
 			if (!identical(shp_crs$proj4string, gm$shape.master_crs$proj4string)) {
 				shp <- transwarp(shp, crs = gm$shape.master_crs, y$raster.warp)
@@ -184,7 +185,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			if  (!(mndata>=0 || mxdata <= max.value)) {
 				m[m < 0] <- 0
 				m[m > max.value] <- max.value
-				warning("Raster values found that are outside the range [0, ", max.value, "]", call. = FALSE)
+				if (show.warnings) warning("Raster values found that are outside the range [0, ", max.value, "]", call. = FALSE)
 				data <- as.data.frame(m)
 			}
 			if (mxdata <= 1 && max.value == 255) message("No values higher than 1 found. Probably, max.value should be set to 1.")
@@ -242,7 +243,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
 		isolines <- ("isolines" %in% names(attributes(shp)))
 		
-		if (y$check_shape) shp <- pre_check_shape(shp, y$shp_name)
+		if (y$check_shape) shp <- pre_check_shape(shp, y$shp_name, show.warnings)
 
 		shp_bbx <- sf::st_bbox(shp)
 		
@@ -265,11 +266,11 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		shp_crs <- sf::st_crs(shp)
 		if (is.na(shp_crs)) {
 			if (maybe_longlat(shp_bbx)) {
-				warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
+				if (show.warnings) warning("Currect projection of shape ", y$shp_name, " unknown. Long-lat (WGS84) is assumed.", call. = FALSE)
 				shp_crs <- .crs_longlat
 				
 			} else {
-				warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
+				if (show.warnings) warning("Current projection of shape ", y$shp_name, " unknown and cannot be determined.", call. = FALSE)
 				shp_crs <- st_crs("+proj=aeqd +lat_0=0 +lon_0=0 +x_0=0 +y_0=0")
 			}
 			shp <- sf::st_set_crs(shp, shp_crs)
@@ -330,7 +331,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 			## TODO convert fact to tolerance
 			
 			if (!requireNamespace("rmapshaper", quietly = TRUE)) {
-				warning("rmapshaper package is needed to simplify the shape. Alternatively, st_simplify from the sf package can be used. See the underlying function tmaptools::simplify_shape for details.", call. = FALSE)
+				if (show.warnings) warning("rmapshaper package is needed to simplify the shape. Alternatively, st_simplify from the sf package can be used. See the underlying function tmaptools::simplify_shape for details.", call. = FALSE)
 			} else {
 				#shp2 <- st_simplify(shp2, preserveTopology = TRUE, dTolerance = shp.sim$fact)
 				shp2 <- do.call(tmaptools::simplify_shape, c(list(shp=shp2), shp.sim))

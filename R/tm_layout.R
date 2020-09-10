@@ -210,7 +210,7 @@ tm_layout <- function(title,
 					  attr.just,
 					  design.mode) {
 	
-	if (!missing(design.mode)) warning("argument design.mode not used anymore. Please use the stand-alone function tmap_design_mode() to set the design mode globally.", call. = FALSE)
+	if (!missing(design.mode) && get("tmapOptions", envir = .TMAP_CACHE)$show.warnings) warning("argument design.mode not used anymore. Please use the stand-alone function tmap_design_mode() to set the design mode globally.", call. = FALSE)
 	e1 <- parent.frame()
 	args <- lapply(as.list(match.call()[-1]), eval, envir = e1)
 	args$style <- NA

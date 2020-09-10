@@ -3,6 +3,9 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 	
 	
 	gt <- get("tmapOptions", envir = .TMAP_CACHE)
+	show.messages <- gt$show.messages
+	show.warnings <- gt$show.warnings
+	
 	
 	gts <- x[names(x) == "tm_layout"]
 	if (length(gts)) {
@@ -16,15 +19,15 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 			}
 			
 			# specific checks
-			if (("legend.position" %in% called) && interactive) {
-				if (gt$show.messages) message("legend.postion is used for plot mode. Use view.legend.position in tm_view to set the legend position in view mode.")
+			if (("legend.position" %in% called) && interactive && show.messages) {
+				message("legend.postion is used for plot mode. Use view.legend.position in tm_view to set the legend position in view mode.")
 			}
-			if (all(c("legend.width", "legend.outside") %in% called) && g$legend.outside) {
+			if (all(c("legend.width", "legend.outside") %in% called) && g$legend.outside && show.warnings) {
 				warning("legend.width controls the width of the legend within a map. Please use legend.outside.size to control the width of the outside legend")
 			}
 			
 			if (!is.na(g$style)) {
-				if (i !=1 && gt$show.messages) message("Note that tm_style(\"", g$style, "\") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.")
+				if (i !=1 && show.messages) message("Note that tm_style(\"", g$style, "\") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.")
 				gt <- .defaultTmapOptions
 				if (g$style != "white") {
 					styleOptions <- get("tmapStyles", envir = .TMAP_CACHE)[[g$style]]
@@ -132,11 +135,11 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 		}
 		if (!is.na(set.view[1]) && !is.na(set.zoom.limits[1])) {
 			if (set.view[length(set.view)] < set.zoom.limits[1]) {
-				warning("default zoom smaller than minimum zoom, now it is set to the minimum zoom")
+				if (show.warnings) warning("default zoom smaller than minimum zoom, now it is set to the minimum zoom")
 				set.view[length(set.view)] <- set.zoom.limits[1]
 			}
 			if (set.view[length(set.view)] > set.zoom.limits[2]) {
-				warning("default zoom larger than maximum zoom, now it is set to the maximum zoom")
+				if (show.warnings) warning("default zoom larger than maximum zoom, now it is set to the maximum zoom")
 				set.view[length(set.view)] <- set.zoom.limits[2]
 			}
 		}
@@ -166,7 +169,7 @@ pre_process_gt <- function(x, interactive, orig_crs) {
 			} else if (projection %in% c(3857, 4326, 3395)) {
 				projection <- leaflet::leafletCRS(crsClass = paste("L.CRS.EPSG", projection, sep=""))	
 			} else {
-				warning("Scaling levels may be incorrect for this projection. Please specify a leaflet projection with leafletCRS for more control")
+				if (show.warnings) warning("Scaling levels may be incorrect for this projection. Please specify a leaflet projection with leafletCRS for more control")
 				projection <- leaflet::leafletCRS(crsClass = "L.Proj.CRS", 
 												  code= paste("EPSG", projection, sep=":"),
 												  proj4def=sf::st_crs(projection)$proj4string,

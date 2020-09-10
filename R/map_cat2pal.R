@@ -15,6 +15,8 @@ cat2pal <- function(x,
 					legend.format=list(align="left"),
 					reverse=FALSE) {
 	
+	show.warnings <- get("tmapOptions", envir = .TMAP_CACHE)$show.warnings
+	
 	sel <- attr(x, "sel")
 	if (is.null(sel)) sel <- rep(TRUE, length(x))
 
@@ -48,7 +50,7 @@ cat2pal <- function(x,
 	lvls <- levels(x)
 	lvls_dup <- duplicated(lvls)
 	if (any(lvls_dup)) {
-		warning("Duplicated levels found. They have been omitted", call. = FALSE)
+		if (show.warnings) warning("Duplicated levels found. They have been omitted", call. = FALSE)
 		lvls_unique <- !lvls_dup
 		if (length(palette) == length(lvls)) {
 			palette <- palette[lvls_unique]
@@ -65,7 +67,7 @@ cat2pal <- function(x,
 	
 	if (!is.null(color_names)) {
 		if (length(setdiff(levels(x), color_names)) > 0L) {
-			warning("palette colors names missing for ", paste(setdiff(levels(x), color_names), collapse = ", "), ". Therefore, palette color names will be ignored", call. = FALSE)
+			if (show.warnings) warning("palette colors names missing for ", paste(setdiff(levels(x), color_names), collapse = ", "), ". Therefore, palette color names will be ignored", call. = FALSE)
 		} else {
 			palette <- palette[match(levels(x), color_names)]
 		}
@@ -77,7 +79,7 @@ cat2pal <- function(x,
 	# combine levels
 	nCol <- nlevels(x)
 	if (nCol > max_levels) {
-		warning("Number of levels of the variable \"", var ,"\" is ", nCol, ", which is larger than max.categories (which is ", max_levels, "), so levels are combined. Set tmap_options(max.categories = ", nCol, ") in the layer function to show all levels.", call. = FALSE)
+		if (show.warnings) warning("Number of levels of the variable \"", var ,"\" is ", nCol, ", which is larger than max.categories (which is ", max_levels, "), so levels are combined. Set tmap_options(max.categories = ", nCol, ") in the layer function to show all levels.", call. = FALSE)
 	
 		mapping <- as.numeric(cut(seq.int(nCol), breaks=max_levels))
 		to <- c(which(mapping[-nCol] - mapping[-1]!=0), nCol)

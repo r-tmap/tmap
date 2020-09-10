@@ -260,7 +260,7 @@ process_tm <- function(x, gt, gm, interactive) {
 	along.names <- gp[[along_layer]]$along.names
 
 	if (interactive && gf$as.layers) {
-		if (!is.na(along.names)) warning("along argument not used when as.layers = TRUE", call. = FALSE)
+		if (!is.na(along.names) && gt$show.warnings) warning("along argument not used when as.layers = TRUE", call. = FALSE)
 		along.names <- NA
 		nxa <- nx
 	} else {

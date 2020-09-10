@@ -51,10 +51,12 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		#if (length(x)==1 && is.na(x)[1] && !any(type == c("raster", "text")) && !treat_as_by) gt$aes.colors[nm] else x
 		if (treat_as_by) {
 			if (!is.na(x[1])) {
-				if (type == "raster") {
-					warning("col specification in tm_raster is ignored, since stars object contains a 3rd dimension, where its values are used to create facets", call. = FALSE)		
-				} else {
-					warning("col specification in tm_fill/tm_polygons is ignored, since stars object contains another dimension, where its values are used to create facets", call. = FALSE)
+				if (gt$show.warnings) {
+					if (type == "raster") {
+						warning("col specification in tm_raster is ignored, since stars object contains a 3rd dimension, where its values are used to create facets", call. = FALSE)		
+					} else {
+						warning("col specification in tm_fill/tm_polygons is ignored, since stars object contains another dimension, where its values are used to create facets", call. = FALSE)
+					}
 				}
 			} 
 			attr(data, "shpnames")
@@ -77,7 +79,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	# find length, and readjust it to 1 if by is specified
 	xlen <- vapply(xs, length, integer(1))
 	if (nlevels(by)>1 && any(xlen > 1)) {
-		warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
+		if (gt$show.warnings) warning("When by is specified (tm_facets), only one value can be assigned to each aesthetic.", call. = FALSE)
 		xs <- lapply(xs, "[[", 1)
 	}
 	
@@ -205,10 +207,10 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	# update legend format from tm_layout
 	g$legend.format <- process_legend_format(g$legend.format, gt$legend.format, nx)
-	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars)
+	g$popup.format <- process_popup_format(g$popup.format, gt$legend.format, g$popup.vars, show.warnings = gt$show.warnings)
 
 	if (type == "fill") {
-		res <- check_poly_sizes(g, data, nx, islist = is.list(dts[[1]]), show.messages = gt$show.messages)
+		res <- check_poly_sizes(g, data, nx, islist = is.list(dts[[1]]), show.warnings = gt$show.warnings)
 		areas <- res$areas
 		sel <- rep(res$sel, nx)
 	} else {

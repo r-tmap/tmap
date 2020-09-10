@@ -3,9 +3,7 @@
 check_fill_specials <- function(x, g, gt, shpcols, data, nx) {
 	
 	if (attr(data, "treat_as_by")) {
-		# if (!is.na(x) && (!identical(x, attr(data, "by_var")))) warning("col specification in tm_fill/tm_polygons is ignored, since stars object contains another dimension, where its values are used to create facets", call. = FALSE)
 		is.colors = FALSE
-		# x = setdiff(names(data), c("tmapfilter", "GROUP_BY", "ALONG", "SHAPE_AREAS"))
 		nx = length(x)
 	} else if (attr(data, "kernel_density") && !("col" %in% g$call) && "level" %in% shpcols) {
 		is.colors <- FALSE
@@ -43,7 +41,7 @@ check_fill_specials <- function(x, g, gt, shpcols, data, nx) {
 }
 
 
-check_poly_sizes <- function(g, data, nx, islist, show.messages) {
+check_poly_sizes <- function(g, data, nx, islist, show.warnings) {
 	# process areas
 	if (is.null(g$area)) {
 		area_var <- "SHAPE_AREAS"
@@ -54,7 +52,7 @@ check_poly_sizes <- function(g, data, nx, islist, show.messages) {
 	areas <- data[[area_var]]
 	
 	if (any(is.na(areas)) || any(is.infinite(areas))) {
-		if (g$convert2density) {
+		if (g$convert2density && show.warnings) {
 			warning("Some polygon areas cannot be determined. Therefore, convert2density is set to FALSE.", call. = FALSE)
 		}
 		areas_na_inf <- is.na(areas) | is.infinite(areas)
@@ -64,11 +62,11 @@ check_poly_sizes <- function(g, data, nx, islist, show.messages) {
 	areas_prop <- as.numeric(areas/sum(areas, na.rm=TRUE))
 	
 	if (any(is.nan(areas_prop))) {
-		warning("something went wrong with calculation of polygon sizes", call. = FALSE)
+		if (show.warnings) warning("something went wrong with calculation of polygon sizes", call. = FALSE)
 		tiny = rep(TRUE, length(areas_prop))	
 	} else {
 		tiny <- areas_prop < g$thres.poly
-		if (all(tiny) && show.messages) warning("all relative area sizes are below thres.poly", call. = FALSE)
+		if (all(tiny) && show.warnings) warning("all relative area sizes are below thres.poly", call. = FALSE)
 	}
 	
 	sel <- !tiny #if (islist) rep(list(!tiny), nx) else !tiny

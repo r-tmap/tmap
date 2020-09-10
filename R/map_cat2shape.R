@@ -14,6 +14,10 @@ cat2shape <- function(x,
 	
 	x[!sel] <- NA
 	
+	gt <- get("tmapOptions", envir = .TMAP_CACHE)
+	show.messages <- gt$show.messages
+	show.warnings <- gt$show.warnings
+	
 	
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	
@@ -48,14 +52,14 @@ cat2shape <- function(x,
 			txt <- paste0("Names of shapes argument do not match with the values of the variable \"", var, "\".")
 			if (length(c1)>0) {
 				stop(paste0(txt, " Values not specified in shapes argument: \"", paste(c1, collapse="\", \""), "\".")	, call. = FALSE)
-			} else {
+			} else if (show.messages) {
 				message(paste0(txt, " Names in shapes argument for which no values exist: \"", paste(c2, collapse="\", \""), "\"."))
 			}
 		}
 		shapes <- shapes[match(xs, nms)]
 	} else {
 		if (nCol > max_levels) {
-			warning("Number of levels (unique values) is ", nCol, ", which is larger than number of symbol shapes (", max_levels, ").", call. = FALSE)
+			if (show.warnings) warning("Number of levels (unique values) is ", nCol, ", which is larger than number of symbol shapes (", max_levels, ").", call. = FALSE)
 			mapping <- if (max_levels==1) {
 				rep(1, nCol)
 			} else as.numeric(cut(seq.int(nCol), breaks=max_levels))

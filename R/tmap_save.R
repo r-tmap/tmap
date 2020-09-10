@@ -23,10 +23,11 @@
 #' @export
 tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, in.iframe = FALSE, selfcontained = !in.iframe, verbose = NULL, ...) {
-	if (!missing(verbose)) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
-	
 	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
 	verbose <- .tmapOptions$show.messages
+	show.warnings <-.tmapOptions$show.warnings
+	if (!missing(verbose) && show.warnings) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
+	
 	
 	lastcall <- x <- get("last_map", envir = .TMAP_CACHE)
 	if (missing(tm)) {

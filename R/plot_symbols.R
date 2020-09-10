@@ -7,7 +7,7 @@ plot_symbols <- function(co.native, g, gt, lineInch, lineNatH, lineNatW, i, k) {
 	with(g, {
 		npol <- nrow(co.native)
 		if (length(symbol.size)!=npol) {
-			if (length(symbol.size)!=1) warning("less symbol size values than objects", call. = FALSE)
+			if (length(symbol.size)!=1 && gt$show.warnings) warning("less symbol size values than objects", call. = FALSE)
 			symbol.size <- rep(symbol.size, length.out=npol)
 		}
 		

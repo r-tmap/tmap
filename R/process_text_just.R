@@ -1,10 +1,11 @@
 process_text_just <- function(just, interactive) {
 	show.messages <- get("tmapOptions", envir = .TMAP_CACHE)$show.messages
+	show.warnings <- get("tmapOptions", envir = .TMAP_CACHE)$show.warnings
 	
 	n <- length(just)
 	isnum <- is_num_string(just)
 	
-	if (!all(isnum | (just %in% c("left", "right", "top", "bottom", "center", "centre")))) {
+	if (!all(isnum | (just %in% c("left", "right", "top", "bottom", "center", "centre"))) && show.warnings) {
 		warning("wrong specification of argument just", call. = FALSE)
 	}
 	
@@ -21,7 +22,7 @@ process_text_just <- function(just, interactive) {
 			if (show.messages) message("In interactive mode, just cannot be a numeric value. Therefore, ", justnum, " has been cenverted to \"", just, "\".")
 		}
 	} else {
-		if (n > 2) warning("The just argument should be a single value or a vector of 2 values.", call. = FALSE)
+		if (n > 2 && show.warnings) warning("The just argument should be a single value or a vector of 2 values.", call. = FALSE)
 		if (n == 1) {
 			if (just %in% c("top", "bottom")) {
 				just <- c("center", just)
@@ -37,7 +38,7 @@ process_text_just <- function(just, interactive) {
 			 ifelse(just[1] == "right", 1,
 			 ifelse(just[1] == "center", .5, NA))))
 		if (is.na(x)) {
-			warning("wrong specification of argument just", call. = FALSE)
+			if (show.warnings) warning("wrong specification of argument just", call. = FALSE)
 			x <- .5
 		}
 		
@@ -46,7 +47,7 @@ process_text_just <- function(just, interactive) {
 			 ifelse(just[2] == "top", 1,
 			 ifelse(just[2] == "center", .5, NA))))
 		if (is.na(y)) {
-			warning("wrong specification of argument just", call. = FALSE)
+			if (show.warnings) warning("wrong specification of argument just", call. = FALSE)
 			y <- .5
 		}
 		just <- c(x, y)

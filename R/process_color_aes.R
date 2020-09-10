@@ -51,7 +51,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 		} else {
 			rng <- range(x, na.rm = TRUE)
 			if (abs(rng[2] - rng[1]) < 1e-9 && rng[1] != rng[2]) {
-				warning("The value range of the variable \"", g$col, "\" is less than 1e-9", call. = FALSE)
+				if (gt$show.warnings) warning("The value range of the variable \"", g$col, "\" is less than 1e-9", call. = FALSE)
 				x[!is.na(x)] <- round(rng[1], 9)
 			}
 		}

@@ -4,6 +4,7 @@ version 3.2 (in development)
 - improved internally used margins; also small exported maps look good (see example tmap_save)
 - improved tmap_design_mode; tmap.design.mode is now a global option (and not a tmap option anymore)
 - reexported providers from leafet
+- added show.warnings to tmap_options
 - added "width" argument to tm_credits
 - tm_text improved: added "id" argument, and tm_remove_layer can be applied to it
 
