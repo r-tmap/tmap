@@ -54,7 +54,7 @@ The former creates a basemap tile and the latter an overlay tile.
 The difference is that `tm_basemap` layers are always drawn at the bottom, whereas the plotting order of (overlay) `tm_tiles` layers is derived from the plot call.
 Overlay layers should be semi-transparent to be useful.
 
-Tip: all tilemaps from http://leaflet-extras.github.io/leaflet-providers/preview/ can be used. 
+Tip: all tilemaps from https://leaflet-extras.github.io/leaflet-providers/preview/ can be used. 
 The names of these maps can also be found in the list object `leaflet::providers`. 
 
 ```{r, eval = FALSE}

@@ -4,9 +4,6 @@
 \name{land}
 \alias{land}
 \title{Spatial data of global land cover}
-\source{
-\url{http://www.iscgm.org/gm/glcnmo.html}
-}
 \usage{
 data(land)
 }
@@ -14,7 +11,7 @@ data(land)
 Spatial data of global land cover, of class \code{\link[stars:st_as_stars]{stars}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 }
 \details{
-\strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown. See \url{http://www.iscgm.org/gm/glcnmo.html#use}.
+\strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown.
 }
 \references{
 Production of Global Land Cover Data - GLCNMO2008, Tateishi, R., Thanh Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014), Journal of Geography and Geology, 6 (3).

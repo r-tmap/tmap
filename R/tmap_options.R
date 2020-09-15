@@ -328,7 +328,7 @@
 #' @param limits this option determines how many facets (small multiples) are allowed for per mode. It should be a vector of two numeric values named \code{facets.view} and \code{facets.plot}. By default (i.e. when loading the package), it is set to \code{c(facets.view = 4, facets.plot = 64)}
 #' @param max.categories in case \code{col} is the name of a categorical variable in the layer functions (e.g. \code{\link{tm_polygons}}), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than \code{max.categories}, then levels are combined.
 #' @param max.raster the maximum size of rasters, in terms of number of raster cells. It should be a vector of two numeric values named \code{plot} and \code{view}, which determines the size in plotting and viewing mode. The default values are \code{c(plot = 1e7, view = 1e6)}. Rasters that are larger will be shown at a decreased resolution.
-#' @param basemaps default basemaps. Basemaps are normally configured with \code{\link{tm_basemap}}. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or \code{NULL} if basemaps should be omitted. For options see the list \code{leaflet::providers}, which can be previewed at \url{http://leaflet-extras.github.io/leaflet-providers/preview}. Also supports URL's for tile servers, such as \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. If a named vector is provided, the names are used in the layer control legend (similar to the \code{group} argument of \code{\link{tm_basemap}}. See also \code{overlays}, which is the default option for overlay tiles.
+#' @param basemaps default basemaps. Basemaps are normally configured with \code{\link{tm_basemap}}. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or \code{NULL} if basemaps should be omitted. For options see the list \code{leaflet::providers}, which can be previewed at \url{https://leaflet-extras.github.io/leaflet-providers/preview/}. Also supports URL's for tile servers, such as \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. If a named vector is provided, the names are used in the layer control legend (similar to the \code{group} argument of \code{\link{tm_basemap}}. See also \code{overlays}, which is the default option for overlay tiles.
 #' @param basemaps.alpha default transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.
 #' @param overlays default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparent. Like basemaps, a vector of tilemaps is expected, or \code{NULL} is overlays should be omitted.
 #' @param overlays.alpha default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.
@@ -439,6 +439,8 @@ check_named_items <- function(a, b) {
 	
 	dynamic_vec_names <- c("basemaps", "overlays")
 	
+	show.warnings = get("tmapOptions", envir = .TMAP_CACHE)$show.warnings
+	
 	if (length(named_items) != 0L) {
 		a[named_items] <- mapply(function(an, bn, nm) {
 			if (nm %in% dynamic_vec_names) {
@@ -456,7 +458,7 @@ check_named_items <- function(a, b) {
 						invalid <- setdiff(names(an), names(bn))
 					}
 					
-					if (length(invalid) > 0 && get("tmapOptions", envir = .TMAP_CACHE)$show.warnings) warning("invalid ", cls, " names of tmap option ", nm, ": ", paste(invalid, collapse = ", "), call. = FALSE)
+					if (length(invalid) > 0 && show.warnings) warning("invalid ", cls, " names of tmap option ", nm, ": ", paste(invalid, collapse = ", "), call. = FALSE)
 					
 				}
 				res[names(an)] <- an

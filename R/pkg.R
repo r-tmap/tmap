@@ -134,11 +134,11 @@ NULL
 #' @name World
 #' @rdname Shapes
 #' @docType data
-#' @source \url{http://www.naturalearthdata.com} for \code{World}
-#' @source \url{http://www.happyplanetindex.org} for \code{World}
-#' @source \url{http://www.cbs.nl} for \code{NLD_prov} and \code{NLD_muni}. 
-#' @references Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{http://www.cbs.nl}.
-#' @references Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{http://www.kadaster.nl}.
+#' @source \url{https://www.naturalearthdata.com/} for \code{World}
+#' @source \url{https://happyplanetindex.org/} for \code{World}
+#' @source \url{https://www.cbs.nl/} for \code{NLD_prov} and \code{NLD_muni}. 
+#' @references Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{https://www.cbs.nl/}.
+#' @references Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{https://www.kadaster.nl/}.
 NULL
 
 
@@ -163,7 +163,7 @@ NULL
 #' @usage data(rivers)
 #' @name rivers
 #' @docType data
-#' @source \url{http://www.naturalearthdata.com}
+#' @source \url{https://www.naturalearthdata.com}
 NULL
 
 #' Spatial data of metropolitan areas
@@ -181,13 +181,12 @@ NULL
 #' 
 #' Spatial data of global land cover, of class \code{\link[stars:st_as_stars]{stars}}. The data includes a population times series from 1950 to (forecasted) 2030. All metro areas with over 1 million inhabitants in 2010 are included.
 #' 
-#' \strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown. See \url{http://www.iscgm.org/gm/glcnmo.html#use}.
+#' \strong{Important:} publication of these maps is only allowed when cited to Tateishi et al. (2014), and when "Geospatial Information Authority of Japan, Chiba University and collaborating organizations." is shown.
 #' 
 #' @usage data(land)
 #' @name land
 #' @docType data
 #' @references Production of Global Land Cover Data - GLCNMO2008, Tateishi, R., Thanh Hoan, N., Kobayashi, T., Alsaaideh, B., Tana, G., Xuan Phong, D. (2014), Journal of Geography and Geology, 6 (3).
-#' @source \url{http://www.iscgm.org/gm/glcnmo.html}
 NULL
 
 

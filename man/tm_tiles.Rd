@@ -10,7 +10,7 @@ tm_basemap(server = NA, group = NA, alpha = NA, tms = FALSE)
 tm_tiles(server, group = NA, alpha = 1, zindex = NA, tms = FALSE)
 }
 \arguments{
-\item{server}{name of the provider or an URL. The list of available providers can be obtained with \code{providers} (tip: in RStudio, type \code{providers$} to see the options). See \url{http://leaflet-extras.github.io/leaflet-providers/preview} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable the basemaps.}
+\item{server}{name of the provider or an URL. The list of available providers can be obtained with \code{providers} (tip: in RStudio, type \code{providers$} to see the options). See \url{https://leaflet-extras.github.io/leaflet-providers/preview/} for a preview of those. When a URL is provided, it should be in template format, e.g. \code{"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"}. Use \code{NULL} in \code{tm_basemap} to disable the basemaps.}
 
 \item{group}{name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}). Tile layers generated with \code{tm_basemap} will be base groups whereas tile layers generated with \code{tm_tiles} will be overlay groups.}
 

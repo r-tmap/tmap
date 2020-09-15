@@ -57,7 +57,7 @@ get_popups <- function(gpl, type) {
 }
 
 
-working_internet <- function(url = "http://www.google.com") {
+working_internet <- function(url = "https://www.google.com") {
 	# test the http capabilities of the current R build
 	if (!capabilities(what = "http/ftp")) return(FALSE)
 	

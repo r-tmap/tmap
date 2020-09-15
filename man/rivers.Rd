@@ -5,7 +5,7 @@
 \alias{rivers}
 \title{Spatial data of rivers}
 \source{
-\url{http://www.naturalearthdata.com}
+\url{https://www.naturalearthdata.com}
 }
 \usage{
 data(rivers)

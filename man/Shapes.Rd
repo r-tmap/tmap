@@ -7,11 +7,11 @@
 \alias{NLD_muni}
 \title{World and Netherlands map}
 \source{
-\url{http://www.naturalearthdata.com} for \code{World}
+\url{https://www.naturalearthdata.com/} for \code{World}
 
-\url{http://www.happyplanetindex.org} for \code{World}
+\url{https://happyplanetindex.org/} for \code{World}
 
-\url{http://www.cbs.nl} for \code{NLD_prov} and \code{NLD_muni}.
+\url{https://www.cbs.nl/} for \code{NLD_prov} and \code{NLD_muni}.
 }
 \usage{
 data(World)
@@ -31,7 +31,7 @@ The default projections for these maps are Eckhart IV (World) and Rijksdriehoeks
 \code{NLD_prov} and \code{NLD_muni}, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection. \strong{Important:} publication of these maps is only allowed when cited to Statistics Netherlands (CBS) and Kadaster Nederland as source.
 }
 \references{
-Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{http://www.cbs.nl}.
+Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, \url{https://www.cbs.nl/}.
 
-Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{http://www.kadaster.nl}.
+Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, \url{https://www.kadaster.nl/}.
 }

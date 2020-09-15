@@ -23,7 +23,7 @@ A more detailed description of tmap can be found in an [article](https://www.jst
 However, that article describes tmap version 1.11-2, which is out-of-date.
 Some major changes have been made since then, which are described in [`vignette("tmap-changes")`](../doc/tmap-changes.html).
 
-For more context on R's geographic capabilities we recommend the online version of the book [Geocomputation with R](http://geocompr.robinlovelace.net/). The [Making maps with R](http://geocompr.robinlovelace.net/adv-map.html) chapter of the book provides many more context and abundant code examples of map making with `tmap` and other packages. Other good resources are the vignettes of the [`sf` package](https://CRAN.R-project.org/package=sf/vignettes/sf1.html), and the website [rspatial.org](http://www.rspatial.org/) .
+For more context on R's geographic capabilities we recommend the online version of the book [Geocomputation with R](https://geocompr.robinlovelace.net/). The [Making maps with R](https://geocompr.robinlovelace.net/adv-map.html) chapter of the book provides many more context and abundant code examples of map making with `tmap` and other packages. Other good resources are the vignettes of the [`sf` package](https://CRAN.R-project.org/package=sf/vignettes/sf1.html), and the website [rspatial.org](https://www.rspatial.org/) .
 
 
 ### Hello World!
@@ -133,7 +133,7 @@ tm_tiles("Stamen.TonerLabels")
 
 <img src="images/tmap_tiles.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()">
 
-See a [preview of the available tilemaps](http://leaflet-extras.github.io/leaflet-providers/preview/). 
+See a [preview of the available tilemaps](https://leaflet-extras.github.io/leaflet-providers/preview/). 
 This list is also accessible in R: `leaflet::providers`.
 
 ### Options and styles

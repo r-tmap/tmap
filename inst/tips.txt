@@ -160,3 +160,8 @@ data(World)
 tm_shape(World) + 
   tm_polygons("HPI") + 
   tm_add_legend(type = "title", title = "Extra title")
+
+3.2
+The object providers is a list of basemap options.
+view
+tm_basemap(providers$OpenTopoMap)

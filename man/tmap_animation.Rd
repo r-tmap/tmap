@@ -6,13 +6,16 @@
 \usage{
 tmap_animation(
   tm,
-  filename = "animation.gif",
+  filename = NULL,
   width = NA,
   height = NA,
   dpi = NA,
   delay = 40,
   fps = NA,
   loop = TRUE,
+  outer.margins = NA,
+  asp = NULL,
+  scale = NA,
   restart.delay = NULL,
   ...
 )
@@ -20,7 +23,7 @@ tmap_animation(
 \arguments{
 \item{tm}{tmap or a list of tmap objects. If \code{tm} is a tmap object, facets should be created, where nrow and ncol in \code{\link{tm_facets}} have to be set to 1 in order to create one map per frame.}
 
-\item{filename}{filename of the video, typically a gif or mp4 file. The package \code{gifski} is required to create a gif animation. The package \code{av} (which uses the \code{FFmpeg} library) is required for animation file formats. The mp4 format is recommended but many other file formats are supported, such as wmv, avi, and mkv.}
+\item{filename}{filename. If omitted (default), the animation will be shown in the viewer or browser. If specified, it should be a gif file or a video file (i.e. mp4). The package \code{gifski} is required to create a gif animation. The package \code{av} (which uses the \code{FFmpeg} library) is required for video formats. The mp4 format is recommended but many other video formats are supported, such as wmv, avi, and mkv.}
 
 \item{width, height}{width and height of the animation file (in pixels). Required when \code{tm} is a list, and recommended to specify in advance when \code{tm} is a \code{tmap} object. If not specified in the latter case, it will be determined by the aspect ratio of the map.}
 
@@ -32,12 +35,18 @@ tmap_animation(
 
 \item{loop}{logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.}
 
+\item{outer.margins}{(passed on to \code{\link{tmap_save}}) overrides the outer.margins argument of \code{\link{tm_layout}} (unless set to \code{NA})}
+
+\item{asp}{(passed on to \code{\link{tmap_save}}) if specified, it overrides the asp argument of \code{\link{tm_layout}}. Tip: set to \code{0} if map frame should be placed on the edges of the image.}
+
+\item{scale}{(passed on to \code{\link{tmap_save}}) overrides the scale argument of \code{\link{tm_layout}} (unless set to \code{NA})}
+
 \item{restart.delay}{not used anymore}
 
 \item{...}{arguments passed on to \code{\link[av:av_encode_video]{av_encode_video}}}
 }
 \description{
-Create a gif or mpeg animation from a tmap plot.
+Create a gif animation or video from a tmap plot.
 }
 \note{
 Not only tmap plots are supported, but any series of R plots.
@@ -50,7 +59,7 @@ m1 <- tm_shape(NLD_prov) +
 	      tm_polygons("yellow") +
 	  tm_facets(along = "name")
 
-tmap_animation(m1, filename="Dutch_provinces.gif", width=800, delay=40)
+tmap_animation(m1, delay=40)
 
 data(World, metro)
 
@@ -62,11 +71,11 @@ m2 <- tm_shape(World, simplify = 0.5) +
           		   border.col = "black", border.alpha = .5,
           		   scale = 2) +
       tm_facets(free.scales.symbol.size = FALSE, nrow=1,ncol=1) + 
-      tm_format("World", scale=.5)
+      tm_format("World")
 
-tmap_animation(m2, filename="World_population.gif", width=1200, delay=100)
+tmap_animation(m2, delay=100, outer.margins = 0)
 
-tmList <- lapply(seq(50, 85, by = 5), function(age) {
+m3 <- lapply(seq(50, 85, by = 5), function(age) {
 	World$at_most <- World$life_exp <= age
 	World_sel <- World[which((World$life_exp <= age) & (World$life_exp > (age - 5))), ]
 	tm_shape(World) +
@@ -76,17 +85,18 @@ tmList <- lapply(seq(50, 85, by = 5), function(age) {
 		tm_layout(main.title = paste0("Life expectency at most ", age), frame = FALSE)
 })
 
-tmap_animation(tmList, filename="Life_expectancy.gif", width = 1200, height = 600, delay = 100)
+tmap_animation(m3, width = 1200, height = 600, delay = 100)
 
-m3 <- tm_shape(World) +
+m4 <- tm_shape(World) +
 	tm_polygons() +
 tm_shape(metro) +
 	tm_bubbles(col = "red") +
 	tm_text("name", ymod = -1) +
 tm_facets(by = "name", free.coords = F, nrow = 1, ncol = 1) +
-	tm_layout(panel.show = FALSE)
+	tm_layout(panel.show = FALSE, frame = FALSE)
 
-tmap_animation(m3, filename="World_cities.mp4", width=1200, height = 600, fps = 2)
+tmap_animation(m4, filename = "World_cities.mp4", 
+    width=1200, height = 600, fps = 2, outer.margins = 0)
 }
 }
 \concept{animation}
