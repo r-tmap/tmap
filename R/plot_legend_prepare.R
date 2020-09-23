@@ -46,6 +46,9 @@ plot_legend_prepare <- function(gp, gal, gt, scaleFactor) {
 				palette_colors <- revfun(if (is.null(g$col)) rep("grey50", nitems) else rep(g$col, length.out=nitems))
 				legend.palette <- do.call("process_color", c(list(col=palette_colors, alpha = g$alpha), gt$pc))
 				
+				border.col = do.call("process_color", c(list(col=g$border.col, alpha = g$border.alpha), gt$pc))
+
+				
 				legend.text = revfun(if (is.null(g$text)) NULL else rep(g$text, length.out=nitems))
 				legend.sizes = revfun(if (is.null(g$size)) size_ext else rep(g$size, length.out=nitems) * size_ext)
 				legend.shapes = revfun(if (is.null(g$shape)) rep(21, nitems) else rep(g$shape, length.out=nitems))
@@ -68,12 +71,12 @@ plot_legend_prepare <- function(gp, gal, gt, scaleFactor) {
 				 legend.palette=legend.palette,
 				 legend.sizes=legend.sizes,
 				 legend.shapes=legend.shapes,
-				 border.col=g$border.col,
+				 border.col=border.col,
 				 lwd=g$border.lwd,
 				 line.legend.lwd=line.legend.lwd,
 				 line.legend.lty=line.legend.lty,
 				 symbol.border.lwd=g$border.lwd,
-				 symbol.border.col=g$border.col,
+				 symbol.border.col=border.col,
 				 symbol.normal.size=formals(tm_symbols)$legend.max.symbol.size,
 				 symbol.max.size=if (is.null(g$size)) NULL else max(g$size)) # * scaleFactor
 		})
