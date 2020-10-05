@@ -23,8 +23,12 @@ check_text_specials <- function(fill, xtcol, xtsize, g, gt, gby, xvary, data, sh
 		}
 		if (any(xtsize=="AREA") && !("SHAPE_AREAS" %in% shpcols)) stop("size=\"AREA\" only valid for spatial polygons.", call.=FALSE)
 		for (i in 1:nx) data[[paste("SIZE", i, sep="_")]] <- if (is.numeric(xtsize[i])) xtsize[i] else {
-			tmp <- as.numeric(data$SHAPE_AREAS)
-			(tmp / max(tmp, na.rm=TRUE)) ^ (1/g$root)
+			tmp <- data$SHAPE_AREAS
+			mx <- max(tmp, na.rm=TRUE)
+			tmp2 <- (tmp / mx) ^ (1/g$root)
+			isnan <- is.nan(tmp2)
+			if (any(isnan)) tmp2[isnan] <- mx
+			tmp2
 		}
 		xtsize <- paste("SIZE", 1:nx, sep="_")
 		gby$free.scales.size <- FALSE

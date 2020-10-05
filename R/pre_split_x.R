@@ -38,7 +38,7 @@ pre_split_x <- function(x, shps, datasets, types, gm) {
 					attr(data_poly, "shpnames") <- attr(dataset, "shpnames")
 					attr(data_poly, "treat_as_by") <- attr(dataset, "treat_as_by")
 					
-					data_poly$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp_poly, target = paste(gm$shape.unit, gm$shape.unit, sep=" "))
+					data_poly$SHAPE_AREAS <- as.numeric(tmaptools::approx_areas(shp=shp_poly, target = paste(gm$shape.unit, gm$shape.unit, sep=" ")))
 					if (gm$shape.apply_map_coloring) attr(data_poly, "NB") <- if (length(shp_poly)==1) list(0) else get_neighbours(shp_poly) #poly2nb(as(shp, "Spatial"))
 					
 					xp_poly[[1]]$type <- "polygons"

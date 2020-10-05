@@ -53,24 +53,24 @@ check_poly_sizes <- function(g, data, nx, islist, show.warnings) {
 	
 	if (any(is.na(areas)) || any(is.infinite(areas))) {
 		if (g$convert2density && show.warnings) {
-			warning("Some polygon areas cannot be determined. Therefore, convert2density is set to FALSE.", call. = FALSE)
+			warning("Some polygon areas cannot be determined. Therefore, density values cannot be calculated for these polygons.", call. = FALSE)
 		}
-		areas_na_inf <- is.na(areas) | is.infinite(areas)
-		areas[areas_na_inf] <- mean.default(areas[!areas_na_inf])
+		#areas_na_inf <- is.na(areas) | is.infinite(areas)
+		#areas[areas_na_inf] <- mean.default(areas[!areas_na_inf])
 		
 	}
 	areas_prop <- as.numeric(areas/sum(areas, na.rm=TRUE))
 	
-	if (any(is.nan(areas_prop))) {
-		if (show.warnings) warning("something went wrong with calculation of polygon sizes", call. = FALSE)
-		tiny = rep(TRUE, length(areas_prop))	
-	} else {
-		tiny <- areas_prop < g$thres.poly
-		if (all(tiny) && show.warnings) warning("all relative area sizes are below thres.poly", call. = FALSE)
-	}
+	isnan = is.nan(areas_prop)
 	
-	sel <- !tiny #if (islist) rep(list(!tiny), nx) else !tiny
-	list(areas = areas, sel = sel)
+	if (all(isnan)) {
+		list(areas = areas, sel = rep(TRUE, length(areas)))
+	} else {
+		if (any(isnan)) areas_prop[isnan] = g$thres.poly
+		sel = areas_prop >= g$thres.poly
+		if (all(!sel) && show.warnings) warning("all relative area sizes are below thres.poly", call. = FALSE)
+		list(areas = areas, sel = sel)
+	}
 }
 
 

@@ -288,14 +288,14 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 		
 		if (inherits(st_geometry(shp2), c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
-			data$SHAPE_AREAS <- tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" "))
+			data$SHAPE_AREAS <- as.numeric(tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" ")))
 			
-			zeros = as.numeric(data$SHAPE_AREAS)==0
+			zeros = (data$SHAPE_AREAS==0) #| is.nan(data$SHAPE_AREAS)
 			
-			if (all(zeros)) {
-				stop("All polygons of ", y$shp_name, " have an area of 0, possibly caused by transformation.", call. = FALSE)
-			} else if (any(zeros)) {
-				sel = as.numeric(data$SHAPE_AREAS)!=0
+			if (all(zeros & !is.na(zeros))) {
+				stop("All polygons of ", y$shp_name, " have an area of 0 or NaN, possibly caused by transformation.", call. = FALSE)
+			} else if (any(zeros & !is.na(zeros))) {
+				sel = data$SHAPE_AREAS!=0 & !is.nan(data$SHAPE_AREAS)
 				data = data[sel, , drop = FALSE]
 				shp2 = shp2[sel, ]
 				
