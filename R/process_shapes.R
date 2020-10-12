@@ -50,9 +50,11 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	drop_shapes <- group_by && gm$drop.units
 	diff_shapes <- free_coords || drop_shapes
 	
+	diff_asp <- free_coords && (gm$shp_nr[gm$shape.masterID] != 0)
+	
 	inside_bbox <- group_by && gm$inside.original.bbox
 	if (diff_shapes) {
-		if (is.na(pasp)) pasp <- gm$shape.lasp
+		if (is.na(pasp) && diff_asp) pasp <- gm$shape.lasp
 		
 		#shp_by_names <- gm$shp_name[gm$shp_nr != 0]
 		data_by <- data_by[gm$shp_nr != 0]
@@ -268,7 +270,6 @@ process_shapes <- function(shps, g, gm, data_by, allow.crop, interactive) {
 	
 	
 	#units <- tmaptools::get_shape_units(projection=gm$shape.master_CRS, latitude=mean(bbx[c(2,4)]), target.unit = gm$shape.units_args$unit)
-	
 	attr(shps2, "info") <-
 		list(shape.sasp = ifelse(is.na(pasp), sasp, pasp),
 			 shape.bbx = bbx,
