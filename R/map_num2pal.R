@@ -116,6 +116,8 @@ num2pal <- function(x,
 				n <- length(breaks) - 1
 			} else {
 				breaks <- range(x, na.rm = TRUE)
+				# make sure at least one log10 falls in the range
+				if (is.log && ceiling(breaks[1]) > floor(breaks[2])) breaks = c(floor(breaks[1]), ceiling(breaks[2]))
 			}
 			breaks <- cont_breaks(breaks, n=101)
 		} else {
@@ -141,7 +143,8 @@ num2pal <- function(x,
 	} else {
 		if (style == "log10_pretty") {
 			x <- log10(x)
-			style <- "pretty"
+			style <- "fixed"
+			breaks = seq(floor(min(x, na.rm = TRUE)), ceiling(max(x, na.rm=TRUE)))
 		} else if (as.count && style == "pretty") {
 			breaks <- prettyCount(x, n=n)
 			style <- "fixed"
@@ -262,7 +265,11 @@ num2pal <- function(x,
 			if (!is.null(custom_breaks)) {
 				b <- custom_breaks
 			} else {
-				b <- pretty(breaks, n=ncont)
+				if (is.log) {
+					b <- seq(floor(min(breaks)), ceiling(max(breaks)))
+				} else {
+					b <- pretty(breaks, n=ncont)
+				}
 				b <- b[b>=breaks[1] & b<=breaks[length(breaks)]]
 			}
 			nbrks_cont <- length(b)
