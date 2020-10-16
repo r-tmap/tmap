@@ -28,6 +28,7 @@ plot_legend_prepare <- function(gp, gal, gt, scaleFactor) {
 				type = "title"
 				legend.labels = NULL
 				legend.palette = NULL
+				border.col = NULL
 				legend.text = NULL
 				legend.sizes = NULL
 				legend.shapes = NULL
