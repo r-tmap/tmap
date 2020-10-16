@@ -106,7 +106,8 @@ map2seqscaleID <- function(breaks, n=101, contrast=1, breaks.specified=TRUE, imp
 
 
 # function to determine whether a diverging of sequential palette is used given the values and the breaks
-use_diverging_palette <- function(v, brks) {
+use_diverging_palette <- function(v, brks, midpoint = NULL) {
+	if (!is.null(midpoint) && !is.na(midpoint)) return(TRUE)
 	x <- na.omit(v)
 	divx <- any(x<0) && any(x>0)
 

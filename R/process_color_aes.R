@@ -102,7 +102,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 		col.neutral <- colsLeg$legend.palette[1]
 		
 	} else {
-		is.diverging <- use_diverging_palette(x, g$breaks)
+		is.diverging <- use_diverging_palette(x, g$breaks, g$midpoint)
 		palette <- if (is.null(g$palette)) {
 			gt$aes.palette[[ifelse(is.diverging, "div", "seq")]] 
 		} else if (g$palette[1] %in% c("seq", "div", "cat")) {
