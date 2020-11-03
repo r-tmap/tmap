@@ -38,7 +38,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		treat_as_by = TRUE
 		
 		shp = sf::st_as_sf(shp[by_var])
-		shpnames = setdiff(names(shp), "geom")
+		shpnames = setdiff(names(shp), attr(shp, "sf_column"))
 	}
 	
 	
