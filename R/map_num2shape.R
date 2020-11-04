@@ -61,7 +61,8 @@ num2shape <- function(x,
 		shapes <- c(shapes, shapeNA)
 	}
 	
-
+	attr(legend.labels, "align") <- legend.format$text.align
+	
 	list(shps=shps, legend.labels=legend.labels, legend.values=legend.values, shapes=shapes)
 }
 
