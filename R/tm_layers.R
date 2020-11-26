@@ -63,7 +63,14 @@ t_setup_alpha = function(...) {
 }
 
 # to be implemented
-t_setup_lwd = function(...) {
+t_setup_size = function(scale=1,
+						lwd.legend = NULL,
+						lwd.legend.labels = NULL,
+						lwd.legeld.col = NA,
+	
+	
+	
+	...) {
 	do.call("t_setup", as.list(environment()))
 }
 
@@ -80,9 +87,9 @@ tm_polygons = function(col = NA,
 					   border.alpha = NA,
 					   border.lwd = NA,
 					   border.lty = NA,
+					   
 					   col.setup = t_setup_col(), 
 					   alpha.setup = t_setup_alpha(),
-					   
 					   border.col.setup = t_setup_col(),
 					   border.alpha.setup = t_setup_alpha(),
 					   border.lwd.setup = t_setup_lwd(),
@@ -91,31 +98,50 @@ tm_polygons = function(col = NA,
 	
 	
 	do.call("tm_layer", c(as.list(environment()), list(
-		col.def = t_aes_def(c("POLYGON", "MULTIPOLYGON"), "area", "color"),
-		alpha.def = t_aes_def(c("POLYGON", "MULTIPOLYGON"), "area", "alpha"),
-		border.col.def = t_aes_def(c("POLYGON", "MULTIPOLYGON"), "line", "color"),
-		border.alpha.def = t_aes_def(c("POLYGON", "MULTIPOLYGON"), "line", "alpha"),
-		border.lwd.def = t_aes_def(c("POLYGON", "MULTIPOLYGON"), "line", "lwd"),
-		border.lty.def = t_aes_def(c("POLYGON", "MULTIPOLYGON"), "line", "lty")
+		col.def = t_aes_def("polygon", "area", "color"),
+		alpha.def = t_aes_def("polygon", "area", "alpha"),
+		border.col.def = t_aes_def("polygon", "line", "color"),
+		border.alpha.def = t_aes_def("polygon", "line", "alpha"),
+		border.lwd.def = t_aes_def("polygon", "line", "lwd"),
+		border.lty.def = t_aes_def("polygon", "line", "lty")
 	), list(...)))
 }
+
+tm_symbols = function(size = NA,
+					  col = NA,
+					  shape = NA,
+					  alpha = NA,
+					  
+					  border.col = NA,
+					  border.alpha = NA,
+					  border.lwd = NA,
+
+					  size.setup = t_setup_size(), 
+					  
+					  alpha.setup = t_setup_alpha(),
+					  border.col.setup = t_setup_col(),
+					  border.alpha.setup = t_setup_alpha(),
+					  border.lwd.setup = t_setup_lwd(),
+					  border.lty.setup = t_setup_lty(),
+					  )
 
 tm_lines = function(col = NA,
 					alpha = NA,
 					lwd = NA,
 					lty = NA,
+					
 					col.setup = t_setup_col(),
 					alpha.setup = t_setup_alpha(),
-					lwd.setup = t_setup_lwd(),
+					lwd.setup = t_setup_size(),
 					lty.setup = t_setup_lty(),
 					...) {
 	
 	
 	do.call("tm_layer", c(as.list(environment()), list(
-		col.def = t_aes_def(c("LINESTRING", "MULTILINESTRING"), "line", "color"),
-		alpha.def = t_aes_def(c("LINESTRING", "MULTILINESTRING"), "line", "alpha"),
-		lwd.def = t_aes_def(c("LINESTRING", "MULTILINESTRING"), "line", "lwd"),
-		lty.def = t_aes_def(c("LINESTRING", "MULTILINESTRING"), "line", "lty")
+		col.def = t_aes_def("line", "line", "color"),
+		alpha.def = t_aes_def("line", "line", "alpha"),
+		lwd.def = t_aes_def("line", "line", "lwd"),
+		lty.def = t_aes_def("line", "line", "lty")
 	), list(...)))
 }
 
