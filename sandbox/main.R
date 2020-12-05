@@ -1,19 +1,10 @@
-data(World)
-data(land)
-data(metro)
-data(rivers)
-
-
-suppressPackageStartupMessages(library(dplyr))
 library(stars)
+library(sf)
+library(data.table)
+library(pryr)
 
-prec_file = system.file("nc/test_stageiv_xyt.nc", package = "stars")
-(prec = read_ncdf(prec_file, curvilinear = c("lon", "lat"), ignore_bounds = TRUE))
-sf::read_sf(system.file("gpkg/nc.gpkg", package = "sf"), "nc.gpkg") %>%
-	st_transform(st_crs(prec)) -> nc # transform from NAD27 to WGS84
-nc_outline = st_union(st_geometry(nc))
-a = aggregate(prec, by = nc, FUN = max)
-a
+source("sandbox/test_data.R")
+
 
 
 ############ create tml
@@ -21,13 +12,37 @@ a
 tml = tm_shape(land) +
 tm_shape(World, name = "The World", is.main = TRUE) +
 tm_polygons("economy") +
-tm_shape(metro)
+tm_shape(metro) +
+tm_shape(a)
 
 
 
 ############# process shapes
 
 tmls = tm_element_list_sel(tml, "tm_shape")
+
+
+
+get_main_crs = function(tmls) {
+	is_main = vapply(tmls, function(tme) {
+		identical(tme$is.main, TRUE)
+	}, FUN.VALUE = logical(1))
+	
+	main_id = if (any(is_main)) which(is_main)[1L] else 1L
+	
+	tms_main = tmls[[main_id]]
+	
+	crs_main = tms_main$crs
+	if (is.null(crs_main)) crs_main = sf::st_crs(tms_main$shp)
+	crs_main
+}
+
+crs = get_main_crs(tmls)
+
+tmls = lapply(tmls, function(tms, crs) {
+	tms$crs = crs
+	tms
+}, crs = crs)
 
 
 x = tmls[[1]]
@@ -40,11 +55,10 @@ unit = x[[5]]
 shp_name = x[[6]]
 
 
+x$a=1
+
 do.call(.tmapShape, tmls[[1]])
 
-library(stars)
-library(sf)
-library(data.table)
 
 as.data.table(shp)
 shp = sf::st_as_sf(shp)
@@ -57,7 +71,11 @@ attr(x, "raster")
 get_raster(x)
 
 
+
+
 get_empty_raster = function(shp, shp_name) {
+	
+	
 	if (!has_raster(shp)) {
 		dimnms = dimnames(shp)
 		
@@ -77,15 +95,30 @@ get_empty_raster = function(shp, shp_name) {
 		}
 		
 		data = as.data.table(shp)
-		shp = geoms	
+		shp = geoms
+		
 	} else {
+		shp <- downsample_stars(shp, max.raster = 1e5)
+		if (sf::st_crs(shp) != crs) {
+			shp <- transwarp(shp, crs = crs, raster.warp = TRUE)
+		}
+		
+		
 		dims = st_dimensions(shp)
 		rst = attr(dims, "raster")
 		dimsxy = dims[names(dims) %in% rst$dimensions]
-		str(shp[[1]])
+
+		shp2 = st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
+		shp3 = st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
 		
+		data = as.data.table(shp3, center = FALSE)
+		data[, tmapID__ := (y-1) * nrow(shp) + x]
+		data[, x]
 		
-		(r = st_as_stars(list(m = m), dimensions = dimsxy))
+		m = matrix(1L:(nrow(shp) * ncol(shp)), nrow = nrow(shp), ncol = ncol(shp))
+		
+		data = 
+		shp = st_as_stars(list(m = m), dimensions = dimsxy)
 	}
 	
 	
