@@ -1,127 +1,77 @@
-#' #' Generic tmap layer function
-#' #' 
-#' #' @param ... the aesthetic arguments and how they are used. For each aesthetic, three arguments are needed: 1) the aesthetic itself, 2) the definition, and 3) the setup. The aesthetic itself (1) should have a self-chosen name should reflect what it does (e.g.  \code{col} and \code{lwd} for \code{tm_lines}). The value is either the direct value for the aesthetic (e.g. \code{"blue"} for \code{col}) or a data variable whose values are mapped to these direct values. The definition (2) describes what is visualized. The name should correspond to the name of (1) plus the postfix \code{.def}. For instance, \code{col.def} and \code{lwd.def} define the aesthetics line color and width for \code{tm_lines}. The setup (3) defines how data values are mapped to the direct values of each aesthetic. The name should correspond with the name of (1) plus the postfix \code{.setup}.
-#' #' @param id id
-#' #' @param zindex zindex
-#' #' @param group group
-#' tm_layer = function(...,
-#' 					geom,
-#' 					id = NA,
-#' 					zindex = NA,
-#' 					group = NA) {
-#' 	structure(c(as.list(environment()), list(...)), class = "tm_layer")
-#' }
-#' 
-#' 
-#' 
-#' 
-#' 
-#' tm_polygons = function(col = NA,
-#' 					   alpha = NA,
-#' 					   border.col = NA,
-#' 					   border.alpha = NA,
-#' 					   border.lwd = NA,
-#' 					   border.lty = NA,
-#' 					   
-#' 					   
-#' 					   
-#' 					   col.setup = t_setup_col(), 
-#' 					   alpha.setup = t_setup_alpha(),
-#' 					   border.col.setup = t_setup_col(),
-#' 					   border.alpha.setup = t_setup_alpha(),
-#' 					   border.lwd.setup = t_setup_lwd(),
-#' 					   border.lty.setup = t_setup_lty(),
-#' 					   ...) {
-#' 	
-#' 	
-#' 	do.call("tm_layer", c(as.list(environment()), list(
-#' 		col.def = t_aes_def("polygon", "area", "color"),
-#' 		alpha.def = t_aes_def("polygon", "area", "alpha"),
-#' 		border.col.def = t_aes_def("polygon", "line", "color"),
-#' 		border.alpha.def = t_aes_def("polygon", "line", "alpha"),
-#' 		border.lwd.def = t_aes_def("polygon", "line", "lwd"),
-#' 		border.lty.def = t_aes_def("polygon", "line", "lty")
-#' 	), list(...)))
-#' }
-#' 
-#' tm_symbols = function(size = NA,
-#' 					  col = NA,
-#' 					  shape = NA,
-#' 					  alpha = NA,
-#' 					  
-#' 					  border.col = NA,
-#' 					  border.alpha = NA,
-#' 					  border.lwd = NA,
-#' 					  
-#' 					  size.setup = t_setup_size(), 
-#' 					  
-#' 					  alpha.setup = t_setup_alpha(),
-#' 					  border.col.setup = t_setup_col(),
-#' 					  border.alpha.setup = t_setup_alpha(),
-#' 					  border.lwd.setup = t_setup_lwd(),
-#' 					  border.lty.setup = t_setup_lty(),
-#' )
-#' 
-#' tm_lines = function(col = NA,
-#' 					alpha = NA,
-#' 					lwd = NA,
-#' 					lty = NA,
-#' 					
-#' 					col.setup = t_setup_col(),
-#' 					alpha.setup = t_setup_alpha(),
-#' 					lwd.setup = t_setup_size(),
-#' 					lty.setup = t_setup_lty(),
-#' 					...) {
-#' 	
-#' 	
-#' 	do.call("tm_layer", c(as.list(environment()), list(
-#' 		col.def = t_aes_def("line", "line", "color"),
-#' 		alpha.def = t_aes_def("line", "line", "alpha"),
-#' 		lwd.def = t_aes_def("line", "line", "lwd"),
-#' 		lty.def = t_aes_def("line", "line", "lty")
-#' 	), list(...)))
-#' }
-#' 
-#' 
-#' 
-#' 
-#' t_aes_def = function(class,
-#' 					 part,
-#' 					 property) {
-#' 	structure(list(class = class, part = part, property = property), class = "t_aes_def")
-#' }
-#' 
-#' 
-#' 
-#' t_setup = function(...,
-#' 				   title = NA,
-#' 				   legend.show = TRUE,
-#' 				   legend.format = list(),
-#' 				   legend.is.portrait = TRUE,
-#' 				   legend.reverse = FALSE) {
-#' 	structure(c(list(title = title, legend.show = legend.show, legend.format = legend.format, legend.is.portrait = legend.is.portrait, legend.reverse = legend.reverse), list(...)), class = "t_setup")
-#' }
-#' 
-#' 
-#' t_setup_col = function(n = 5,
-#' 					   style = "pretty",
-#' 					   ...) {
-#' 	do.call("t_setup", as.list(environment()))
-#' }
-#' t_setup_alpha = function(...) {
-#' 	do.call("t_setup", as.list(environment()))
-#' }
-#' t_setup_size = function(scale=1,
-#' 						lwd.legend = NULL,
-#' 						lwd.legend.labels = NULL,
-#' 						lwd.legeld.col = NA,
-#' 						...) {
-#' 	do.call("t_setup", as.list(environment()))
-#' }
-#' t_setup_lty = function(...) {
-#' 	do.call("t_setup", as.list(environment()))
-#' }
-#' 
-#' 
-#' 
-#' 
+tm_polygons = function(fill = "blue", 
+					   fill.setup = tm_aes_color_discrete(), 
+					   geom = tm_geom_polygons) {
+	tm_element_list(tm_element(as.list(environment()), subclass = "tm_polygons"))
+}
+
+tm_raster = function(color = "blue", 
+					 color.setup = tm_aes_color_discrete(), 
+					 geom = tm_geom_raster) {
+	tm_element_list(tm_element(as.list(environment()), subclass = "tm_raster"))
+}
+
+tm_symbols = function(color = "blue", 
+					  size = 1, 
+					  shape = 19, 
+					  color.setup = tm_aes_color_discrete(), 
+					  size.setup = tm_aes_2d_size(),
+					  shape.setup = tm_aes_shape(),
+					  geom = tm_geom_centroid) {
+	tm_element_list(tm_element(as.list(environment()), subclass = "tm_symbols"))
+}
+
+tm_geom_centroid = function(shp) {
+	if (inherits(shp, "stars")) {
+		### stars
+		shp = st_as_sf(shp, as_points = TRUE)
+	} else {
+		
+	}
+}
+
+
+tm_geom_polygons = function(shp) {
+	if (inherits(shp, "stars")) {
+		### stars
+		shp = st_as_sf(shp, as_points = FALSE)
+	} else {
+		### sf
+		geom_types = sf::st_geometry_type(shp)
+		crs = sf::st_crs(shp)
+		
+		if (!all(geom_types %in% c("POLYGON", "MULTIPOLYGON"))) {
+			if (all(geom_types %in% c("LINESTRING", "MULTILINESTRING"))) {
+				### sf lines
+				tryCatch({
+					shp = sf::st_cast(sf::st_cast(shp, "MULTILINESTRING"), "MULTIPOLYGON")	
+				}, error = function(e) {
+					stop("Unable to cast to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)	
+				})
+			} else if (all(geom_types %in% c("POINT", "MULTIPOINT"))) {
+				### sf points
+				dist = if (sf::st_is_longlat(crs)) 0.01 else 100
+				shp = sf::st_buffer(shp, dist = dist)
+			} else {
+				### sf geometry collection
+				stop("Other geometry types, or a collection of geometry types not implemented yet", call. = FALSE)	
+			}
+		}
+	}
+	shp
+}
+
+
+tm_aes_color_discrete = function(n = 5,
+								 style = "pretty",
+								 palette = "Purples") {
+	structure(as.list(environment()), class = c("tm_aes_color_discrete", "tm_aes"))
+}
+
+tm_aes_2d_size = function(max = NA,
+						  perceptual = FALSE) {
+	structure(as.list(environment()), class = c("tm_aes_2d_size", "tm_aes"))
+}
+
+tm_aes_shape = function(shapes = c(16:21)) {
+	structure(as.list(environment()), class = c("tm_aes_shape", "tm_aes"))
+}

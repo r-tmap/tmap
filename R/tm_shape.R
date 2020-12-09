@@ -13,9 +13,6 @@ tm_shape = function(shp,
 	tm_element_list(tm_element(lst, subclass = "tm_shape"))
 }
 
-tm_polygons = function(col = "blue") {
-	tm_element_list(tm_element(as.list(environment()), subclass = "tm_polygons"))
-}
 
 
 
@@ -55,7 +52,7 @@ tm_polygons = function(col = "blue") {
 
 		shpclass = "sfc"
 	} else {
-		shp = downsample_stars(shp, max.raster = 1e5)
+		shp = downsample_stars(shp, max.raster = 2.5e7)
 		if (sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs = crs, raster.warp = TRUE)
 		}

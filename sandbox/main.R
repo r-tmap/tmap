@@ -10,8 +10,9 @@ source("sandbox/test_data.R")
 ############ create tml
 
 tml = tm_shape(land) +
+	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
-tm_polygons("economy") +
+	tm_polygons("economy") +
 tm_shape(metro) +
 tm_shape(gran)
 
@@ -39,6 +40,10 @@ tmls = lapply(tmls, function(ti) do.call(.tmapShape, ti))
 
 
 s = assign_values(tmls[[1]]$shp, dt = tmls[[1]]$dt, column = "cover")
+
+
+s = assign_values(tmls[[4]]$shp, dt = tmls[[4]]$dt, column = "cover")
+
 
 
 x = do.call(.tmapShape, tmls[[1]])
