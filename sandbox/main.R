@@ -13,7 +13,7 @@ tml = tm_shape(land) +
 tm_shape(World, name = "The World", is.main = TRUE) +
 tm_polygons("economy") +
 tm_shape(metro) +
-tm_shape(a)
+tm_shape(gran)
 
 
 
@@ -22,27 +22,28 @@ tm_shape(a)
 tmls = tm_element_list_sel(tml, "tm_shape")
 
 
-
-get_main_crs = function(tmls) {
-	is_main = vapply(tmls, function(tme) {
-		identical(tme$is.main, TRUE)
-	}, FUN.VALUE = logical(1))
-	
-	main_id = if (any(is_main)) which(is_main)[1L] else 1L
-	
-	tms_main = tmls[[main_id]]
-	
-	crs_main = tms_main$crs
-	if (is.null(crs_main)) crs_main = sf::st_crs(tms_main$shp)
-	crs_main
-}
-
 crs = get_main_crs(tmls)
+
 
 tmls = lapply(tmls, function(tms, crs) {
 	tms$crs = crs
 	tms
 }, crs = crs)
+
+
+
+
+tmls = lapply(tmls, function(ti) do.call(.tmapShape, ti))
+
+
+
+
+s = assign_values(tmls[[1]]$shp, dt = tmls[[1]]$dt, column = "cover")
+
+
+x = do.call(.tmapShape, tmls[[1]])
+
+
 
 
 x = tmls[[1]]
@@ -76,51 +77,26 @@ get_raster(x)
 get_empty_raster = function(shp, shp_name) {
 	
 	
-	if (!has_raster(shp)) {
-		dimnms = dimnames(shp)
-		
-		dimvals = lapply(1:length(dimnms), function(i) st_get_dimension_values(shp, i))
-		dimsfc = vapply(dimvals, inherits, what = "sfc", FUN.VALUE = logical(1))
-		
-		if (!any(dimsfc)) {
-			stop("stars object ", shp_name, " is a stars object without raster and doens't have a geometry dimension")
-		} else {
-			dimid = which(dimsfc)
-			geoms = dimvals[[dimid]]
-			dimnms_new = dimnms
-			dimnms_new[dimid] = "tmapID__"
-			shpnames = names(shp)
-			shp = st_set_dimensions(shp, dimnms[dimid], values = 1:length(geoms))
-			shp = st_set_dimensions(shp, names = dimnms_new)
-		}
-		
-		data = as.data.table(shp)
-		shp = geoms
-		
-	} else {
-		shp <- downsample_stars(shp, max.raster = 1e5)
-		if (sf::st_crs(shp) != crs) {
-			shp <- transwarp(shp, crs = crs, raster.warp = TRUE)
-		}
-		
-		
-		dims = st_dimensions(shp)
-		rst = attr(dims, "raster")
-		dimsxy = dims[names(dims) %in% rst$dimensions]
-
-		shp2 = st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
-		shp3 = st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
-		
-		data = as.data.table(shp3, center = FALSE)
-		data[, tmapID__ := (y-1) * nrow(shp) + x]
-		data[, x]
-		
-		m = matrix(1L:(nrow(shp) * ncol(shp)), nrow = nrow(shp), ncol = ncol(shp))
-		
-		data = 
-		shp = st_as_stars(list(m = m), dimensions = dimsxy)
-	}
 	
+	shp2 = shp
+	
+	
+	
+	shp2[[1]]
 	
 	
 }
+
+
+
+
+m = matrix(1:12, nrow = 3)
+data = data.frame(x = c(35, 27, 44), TMAP__ = c(1, 3, 8))
+
+m2 = matrix(NA, nrow = nrow(m), ncol = ncol(m))
+
+m[data$TMAP__] = data$x
+
+
+
+

@@ -28,6 +28,7 @@ gran = read_stars(s2, proxy = FALSE)
 grap_p = read_stars(s2, proxy = TRUE)
 
 rm(granule, s2)
+gc()
 
 show_data = function() {
 	lst = ls(envir = .GlobalEnv)
@@ -36,9 +37,9 @@ show_data = function() {
 	features = sapply(lst, function(o) {
 		o = get(o, envir = .GlobalEnv)
 		if (inherits(o, "sf")) {
-			as.character(length(o))
+			paste0(ncol(o)-1, " cols x ",  nrow(o), " geoms")
 		} else if (inherits(o, "stars")) {
-			paste0(length(o), " x (", paste(dim(o), collapse = " x "), ")")
+			paste0(length(o), " attrs x (", paste(dim(o), collapse = " x "), ") dims")
 		} else {
 			""
 		}
@@ -50,10 +51,10 @@ show_data = function() {
 		arrange(class, desc(size)) %>% 
 		print()
 	
+	cat("Memory used: ")
 	print(mem_used())
 }
 
 show_data()
-gc()
 
 
