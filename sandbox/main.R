@@ -1,3 +1,6 @@
+library(devtools)
+check_man()
+load_all()
 library(stars)
 library(sf)
 library(data.table)
@@ -9,12 +12,15 @@ source("sandbox/test_data.R")
 
 ############ create tml
 
-tml = tm_shape(land) +
+tma = tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_polygons("economy") +
 tm_shape(metro) +
-tm_shape(gran)
+	tm_symbols() +
+tm_compass()
+tm_shape(gran_p) +
+	tm_raster()
 
 
 
@@ -22,8 +28,20 @@ tm_shape(gran)
 
 tmls = tm_element_list_sel(tml, "tm_shape")
 
+is_tms = sapply(tma, inherits, "tm_shape")
+is_tml = sapply(tma, inherits, "tm_layer")
+
+ids = cumsum(is_tms)
+ids[!is_tml & !is_tms] = 0
+
+
+tmb = split(tma, f = ids)
+
+tml
 
 crs = get_main_crs(tmls)
+
+
 
 
 tmls = lapply(tmls, function(tms, crs) {
@@ -33,8 +51,7 @@ tmls = lapply(tmls, function(tms, crs) {
 
 
 
-
-tmls = lapply(tmls, function(ti) do.call(.tmapShape, ti))
+tmapShps = lapply(tmls, function(ti) do.call(.tmapShape, ti))
 
 
 
@@ -101,6 +118,10 @@ data = data.frame(x = c(35, 27, 44), TMAP__ = c(1, 3, 8))
 m2 = matrix(NA, nrow = nrow(m), ncol = ncol(m))
 
 m[data$TMAP__] = data$x
+
+
+
+w = st_as_stars(World)
 
 
 

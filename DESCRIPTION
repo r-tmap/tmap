@@ -42,6 +42,7 @@ Imports:
     utils
 Suggests:
 	rmapshaper,
+	cartogram,
     rmarkdown,
     knitr,
     png,
