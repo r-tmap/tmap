@@ -1,7 +1,23 @@
 tm_polygons = function(fill = "blue", 
-					   fill.setup = tm_aes_color_discrete()) {
+					   fill.setup = tm_aes_color_discrete(),
+					   color = "gray30",
+					   color.setup = tm_aes_color_discrete()) {
 	aes.trans = character()
-	aes.mapping = "fill"
+	aes.mapping = c("fill", "color")
+	aes.trans.fun = tmapTransPolygon
+	aes.trans.isglobal = FALSE
+	aes.mapping.fun = tmapMapPolygon
+	tm_element_list(tm_element(as.list(environment()), 
+							   subclass = c("tm_layer", "tm_polygons")))
+}
+
+
+tm_borders = function(color = "gray30",
+					  color.setup = tm_aes_color_discrete()) {
+	fill = NULL
+	fill.setup = list()
+	aes.trans = character()
+	aes.mapping = c("fill", "color")
 	aes.trans.fun = tmapTransPolygon
 	aes.trans.isglobal = FALSE
 	aes.mapping.fun = tmapMapPolygon
@@ -48,8 +64,4 @@ tm_symbols = function(color = "blue",
 							   subclass = c("tm_layer", "tm_symbols")))
 }
 
-tm_compass = function( x = 1) {
-	tm_element_list(tm_element(as.list(environment()), 
-							   subclass = c("tm_layer", "tm_compass")))
-}
 

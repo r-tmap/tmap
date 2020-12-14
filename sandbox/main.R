@@ -10,18 +10,16 @@ source("sandbox/test_data.R")
 
 
 
-############ create tml
+############ examples
 
-tma = tm_shape(land) +
+## 1
+
+tmel = tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
-	tm_polygons("economy") +
+	tm_borders() +
 tm_shape(metro) +
-	tm_symbols() +
-tm_compass()
-tm_shape(gran_p) +
-	tm_raster()
-
+	tm_symbols(size = "pop2020")
 
 
 ############# process shapes
@@ -38,6 +36,28 @@ ids[!is_tml & !is_tms] = 0
 tmb = split(tma, f = ids)
 
 tml
+
+
+#' @param tmel tm_element_list
+tmapObject = function(tmel) {
+	is_tms = sapply(tmel, inherits, "tm_shape")
+	is_tml = sapply(tmel, inherits, "tm_layer")
+	ids = cumsum(is_tms)
+	ids[!is_tml & !is_tms] = 0
+	tmel_spl = split(tmel, f = ids)
+	tmo = lapply(tmel_spl, function(tmg) {
+		is_tms = sapply(tmg, inherits, "tm_shape")
+		is_tml = sapply(tmg, inherits, "tm_layer")
+		structure(list(tms = tmg[[1]], tmls = tmg[is_tml]), class = "tmapGroup")
+	})
+	class(tmo) = "tmapObject"
+	
+}
+
+
+tmapGroup
+
+
 
 crs = get_main_crs(tmls)
 
