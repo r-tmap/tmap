@@ -219,12 +219,12 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					lGrob <- grobs[[which(fnames=="plot_tm_lines")]]
 
 					tShp <- .grob2Poly(tGrob[[1]])
-					lShp <- polylineGrob2sfLines(lGrob)
+					lShp <- sf::st_cast(polylineGrob2sfLines(lGrob), "LINESTRING")
 
 					lShp$tempID <- 1:nrow(lShp)
 					#ids <- as.character(shp$tempID)
 					
-					dShp <- suppressWarnings(st_difference(lShp, tShp))
+					dShp <- sf::st_cast(suppressWarnings(st_difference(lShp, tShp)), "MULTILINESTRING")
 					
 					
 					nonmatched <- setdiff(1:nrow(lShp), dShp$tempID)
@@ -236,13 +236,20 @@ plot_map <- function(i, gp, gt, shps, bbx, proj, sasp) {
 					
 					lco <- st_coordinates(st_cast(lShp, do_split = TRUE))
 
-					lGrob_new <- do.call("gList", mapply(function(lG, i) {
-						coor <- lco[lco[,4] == i,]
-						lG$x <- unit(coor[,1], "native")
-						lG$y <- unit(coor[,2], "native")
-						lG$id <- coor[,3]
-						lG
-					}, lGrob, 1:nrow(lShp), SIMPLIFY=FALSE))
+					# # still doesn't work...
+					# lGrob_new <- do.call("gList", mapply(function(i) {
+					# 	coor <- lco[lco[,4] == i,]
+					# 	lG = lGrob
+					# 	lG$x <- unit(coor[,1], "native")
+					# 	lG$y <- unit(coor[,2], "native")
+					# 	lG$id <- coor[,3]
+					# 	lG$id.lengths = NULL
+					# 	lG$gp = structure(lapply(lG$gp, function(gp) {
+					# 		gp = if (length(gp) == nrow(lShp)) gp[1:nrow(coor)] else gp
+					# 	}), class = "gpar")
+					# 	lG
+					# }, 1:nrow(lShp), SIMPLIFY=FALSE))
+					lGrob_new = lGrob
 
 					tGrob <- do.call("gList", lapply(tGrob, .editGrob, sel=sel2, shiftX=0, shiftY=0, angles=angles[sel]))
 					grobs[[which(fnames=="plot_tm_lines")]] <- lGrob_new

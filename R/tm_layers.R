@@ -160,11 +160,13 @@ tm_text <-  function(text, size=1, col=NA, root=3,
 #' @param remove.overlap see \code{\link{tm_text}}
 #' @param along.lines see \code{\link{tm_text}}
 #' @param overwrite.lines see \code{\link{tm_text}}
+#' @param bg.color background color of the labels. Note: in tmap <= 3.2, the iso lines were cut to make space for labels. In tmap >= 3.3, this is changed: the iso lines remain unchanged, but the labels are printed with a background color by default.
 #' @param group name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set \code{group = NULL} to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in \code{\link{tm_shape}}).
 #' @param ... arguments passed on to \code{\link{tm_lines}} or \code{\link{tm_text}}
 #' @export
 tm_iso <- function(col=NA, text="level", size=.5, 
 				   remove.overlap=TRUE, along.lines=TRUE, overwrite.lines=TRUE,
+				   bg.color = tmap_options()$bg.color,
 				   group = NA, ...) {
 	args <- list(...)
 	argsL <- args[intersect(names(formals("tm_lines")), names(args))]
@@ -174,7 +176,8 @@ tm_iso <- function(col=NA, text="level", size=.5,
 		do.call("tm_text", c(list(text=text, size=size,
 								  remove.overlap=remove.overlap,
 								  along.lines=along.lines,
-								  overwrite.lines = overwrite.lines),
+								  overwrite.lines = overwrite.lines,
+								  bg.color = bg.color),
 							 argsT))
 }
 
