@@ -5,6 +5,8 @@ library(stars)
 library(sf)
 library(data.table)
 library(pryr)
+library(profvis)
+
 
 source("sandbox/test_data.R")
 
@@ -24,50 +26,21 @@ tm_shape(metro) +
 
 ############# process shapes
 
-tmls = tm_element_list_sel(tml, "tm_shape")
-
-is_tms = sapply(tma, inherits, "tm_shape")
-is_tml = sapply(tma, inherits, "tm_layer")
-
-ids = cumsum(is_tms)
-ids[!is_tml & !is_tms] = 0
+profvis::profvis({
+	tmo = tmapObject(tmel)
+})
 
 
-tmb = split(tma, f = ids)
+tml = tmel[[2]]
 
-tml
-
-
-#' @param tmel tm_element_list
-tmapObject = function(tmel) {
-	is_tms = sapply(tmel, inherits, "tm_shape")
-	is_tml = sapply(tmel, inherits, "tm_layer")
-	ids = cumsum(is_tms)
-	ids[!is_tml & !is_tms] = 0
-	tmel_spl = split(tmel, f = ids)
-	tmo = lapply(tmel_spl, function(tmg) {
-		is_tms = sapply(tmg, inherits, "tm_shape")
-		is_tml = sapply(tmg, inherits, "tm_layer")
-		structure(list(tms = tmg[[1]], tmls = tmg[is_tml]), class = "tmapGroup")
-	})
-	class(tmo) = "tmapObject"
+tmapLayer = function(tml) {
 	
 }
 
 
-tmapGroup
 
 
 
-crs = get_main_crs(tmls)
-
-
-
-
-tmls = lapply(tmls, function(tms, crs) {
-	tms$crs = crs
-	tms
-}, crs = crs)
 
 
 
@@ -83,7 +56,7 @@ s = assign_values(tmls[[4]]$shp, dt = tmls[[4]]$dt, column = "cover")
 
 
 
-x = do.call(.tmapShape, tmls[[1]])
+x = do.call(tmapShape, tmls[[1]])
 
 
 

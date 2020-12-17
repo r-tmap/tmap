@@ -65,7 +65,9 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 	
 	bbox = st_bbox(shp)
 	
-	structure(list(shp = shp, dt = dt, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+	dtcols = setdiff(names(dt), "tmapID__")
+	
+	structure(list(shp = shp, dt = dt, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }
 
 
@@ -77,9 +79,13 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
 	}
 	
 	sfc = sf::st_geometry(shp)
-	dt = sf::st_drop_geometry(shp)
+	dt = as.data.table(sf::st_drop_geometry(shp))
+	
+	dtcols = names(dt)
 	
 	bbox = st_bbox(sfc)
 	
-	structure(list(shp = sfc, dt = dt, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+	dt[, tmapID__ := 1:nrow(dt)]
+	
+	structure(list(shp = sfc, dt = dt, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }

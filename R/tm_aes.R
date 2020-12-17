@@ -12,3 +12,4 @@ tm_aes_2d_size = function(max = NA,
 tm_aes_shape = function(shapes = c(16:21)) {
 	structure(as.list(environment()), class = c("tm_aes_shape", "tm_aes"))
 }
+

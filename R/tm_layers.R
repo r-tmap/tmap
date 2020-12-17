@@ -8,7 +8,7 @@ tm_polygons = function(fill = "blue",
 	aes.trans.isglobal = FALSE
 	aes.mapping.fun = tmapMapPolygon
 	tm_element_list(tm_element(as.list(environment()), 
-							   subclass = c("tm_layer", "tm_polygons")))
+							   subclass = c("tm_polygons", "tm_layer")))
 }
 
 
@@ -22,7 +22,7 @@ tm_borders = function(color = "gray30",
 	aes.trans.isglobal = FALSE
 	aes.mapping.fun = tmapMapPolygon
 	tm_element_list(tm_element(as.list(environment()), 
-							   subclass = c("tm_layer", "tm_polygons")))
+							   subclass = c("tm_polygons", "tm_layer")))
 }
 
 tm_cartogram = function(fill = "blue", 
@@ -35,7 +35,7 @@ tm_cartogram = function(fill = "blue",
 	aes.trans.isglobal = TRUE
 	aes.mapping.fun = tmapMapPolygon
 	tm_element_list(tm_element(as.list(environment()), 
-							   subclass = c("tm_layer", "tm_polygons")))
+							   subclass = c("tm_polygons", "tm_layer")))
 }
 
 tm_raster = function(color = "blue", 
@@ -46,7 +46,12 @@ tm_raster = function(color = "blue",
 	aes.trans.isglobal = TRUE
 	aes.mapping.fun = tmapMapRaster
 	tm_element_list(tm_element(as.list(environment()), 
-							   subclass = c("tm_layer", "tm_raster")))
+							   subclass = c("tm_raster", "tm_layer")))
+}
+
+tm_rgb = function(color = 1:3,
+				  color.setup = tm_aes_color_rgb()) {
+	
 }
 
 tm_symbols = function(color = "blue", 
@@ -61,7 +66,12 @@ tm_symbols = function(color = "blue",
 	aes.trans.isglobal = FALSE
 	aes.mapping.fun = tmapMapPoint
 	tm_element_list(tm_element(as.list(environment()), 
-							   subclass = c("tm_layer", "tm_symbols")))
+							   subclass = c("tm_symbols", "tm_layer")))
 }
+
+
+
+
+
 
 

@@ -1,5 +1,5 @@
 tm_element = function(x, subclass = NULL) {
-	structure(x, class = c("tm_element", subclass))
+	structure(x, class = c(subclass, "tm_element", "list"))
 }
 
 tm_element_list = function(...) {
