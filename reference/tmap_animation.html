@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Create animation — tmap_animation" />
-<meta property="og:description" content="Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required." />
+<meta property="og:description" content="Create a gif animation or video from a tmap plot." />
 
 
 
@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,54 +126,75 @@
     </div>
 
     <div class="ref-description">
-    <p>Create a gif or mpeg animation from a tmap plot. The free tool ImageMagick is required.</p>
+    <p>Create a gif animation or video from a tmap plot.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_animation.html'>tmap_animation</a></span>(
-  <span class='kw'>tm</span>,
-  filename = <span class='st'>"animation.gif"</span>,
-  width = <span class='fl'>NA</span>,
-  height = <span class='fl'>NA</span>,
-  dpi = <span class='fl'>NA</span>,
-  delay = <span class='fl'>40</span>,
-  loop = <span class='fl'>TRUE</span>,
-  restart.delay = <span class='fl'>0</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tmap_animation</span><span class='op'>(</span>
+  <span class='va'>tm</span>,
+  filename <span class='op'>=</span> <span class='cn'>NULL</span>,
+  width <span class='op'>=</span> <span class='cn'>NA</span>,
+  height <span class='op'>=</span> <span class='cn'>NA</span>,
+  dpi <span class='op'>=</span> <span class='cn'>NA</span>,
+  delay <span class='op'>=</span> <span class='fl'>40</span>,
+  fps <span class='op'>=</span> <span class='cn'>NA</span>,
+  loop <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  outer.margins <span class='op'>=</span> <span class='cn'>NA</span>,
+  asp <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale <span class='op'>=</span> <span class='cn'>NA</span>,
+  restart.delay <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>tm</th>
-      <td><p>tmap object. In order to create a series of tmap plots, which will be the frames of the animation, it is important to set nrow and ncol in <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code>, for otherwise a small multiples plot is generated. Commonly, where one map is shown at a time, both nrow and ncol are set to 1.</p></td>
+      <td><p>tmap or a list of tmap objects. If <code>tm</code> is a tmap object, facets should be created, where nrow and ncol in <code><a href='tm_facets.html'>tm_facets</a></code> have to be set to 1 in order to create one map per frame.</p></td>
     </tr>
     <tr>
       <th>filename</th>
-      <td><p>filename of the video (should be a .gif or .mpg file)</p></td>
+      <td><p>filename. If omitted (default), the animation will be shown in the viewer or browser. If specified, it should be a gif file or a video file (i.e. mp4). The package <code>gifski</code> is required to create a gif animation. The package <code>av</code> (which uses the <code>FFmpeg</code> library) is required for video formats. The mp4 format is recommended but many other video formats are supported, such as wmv, avi, and mkv.</p></td>
     </tr>
     <tr>
-      <th>width</th>
-      <td><p>width of the animation file (in pixels)</p></td>
-    </tr>
-    <tr>
-      <th>height</th>
-      <td><p>height of the animation file (in pixels)</p></td>
+      <th>width, height</th>
+      <td><p>width and height of the animation file (in pixels). Required when <code>tm</code> is a list, and recommended to specify in advance when <code>tm</code> is a <code>tmap</code> object. If not specified in the latter case, it will be determined by the aspect ratio of the map.</p></td>
     </tr>
     <tr>
       <th>dpi</th>
-      <td><p>dots per inch. Only applicable for raster graphics. By default 300, but this can be set with the option <code>output.dpi</code> in <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>.</p></td>
+      <td><p>dots per inch. By default 100, but this can be set with the option <code>output.dpi.animation</code> in <code><a href='tmap_options.html'>tmap_options</a></code>.</p></td>
     </tr>
     <tr>
       <th>delay</th>
-      <td><p>delay time between images (in 1/100th of a second)</p></td>
+      <td><p>delay time between images (in 1/100th of a second). See also <code>fps</code></p></td>
+    </tr>
+    <tr>
+      <th>fps</th>
+      <td><p>frames per second, calculated as <code>100 / delay</code>. If <code>fps</code> is specified, the <code>delay</code> will be set to <code>100/fps</code>.</p></td>
     </tr>
     <tr>
       <th>loop</th>
       <td><p>logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.</p></td>
     </tr>
     <tr>
+      <th>outer.margins</th>
+      <td><p>(passed on to <code><a href='tmap_save.html'>tmap_save</a></code>) overrides the outer.margins argument of <code><a href='tm_layout.html'>tm_layout</a></code> (unless set to <code>NA</code>)</p></td>
+    </tr>
+    <tr>
+      <th>asp</th>
+      <td><p>(passed on to <code><a href='tmap_save.html'>tmap_save</a></code>) if specified, it overrides the asp argument of <code><a href='tm_layout.html'>tm_layout</a></code>. Tip: set to <code>0</code> if map frame should be placed on the edges of the image.</p></td>
+    </tr>
+    <tr>
+      <th>scale</th>
+      <td><p>(passed on to <code><a href='tmap_save.html'>tmap_save</a></code>) overrides the scale argument of <code><a href='tm_layout.html'>tm_layout</a></code> (unless set to <code>NA</code>)</p></td>
+    </tr>
+    <tr>
       <th>restart.delay</th>
-      <td><p>delay time between the loops (in 1/100th of a second)</p></td>
+      <td><p>not used anymore</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>arguments passed on to <code><a href='https://docs.ropensci.org/av/reference/encoding.html'>av_encode_video</a></code></p></td>
     </tr>
     </table>
 
@@ -188,29 +203,53 @@
     <p>Not only tmap plots are supported, but any series of R plots.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>NLD_prov</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span>
 
-<span class='kw'>m1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>NLD_prov</span>) <span class='op'>+</span> 
-	      tm_poly<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>w<span class='st'>"yellow"</span><span class='op'>+</span>
-	  tm_face<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></span>= "name")<span class='st'>"name"</span>
+<span class='va'>m1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span> 
+        <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"yellow"</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_facets.html'>tm_facets</a></span><span class='op'>(</span>along <span class='op'>=</span> <span class='st'>"name"</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_animation.html'>tmap_animation</a></span>(<span class='kw'>m1</span>, filename=<span class='st'>"Dutch_provinces.gif"</span>, width=<span class='fl'>800</span>, delay=<span class='fl'>40</span>)
+<span class='fu'>tmap_animation</span><span class='op'>(</span><span class='va'>m1</span>, delay<span class='op'>=</span><span class='fl'>40</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>, <span class='kw'>metro</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>metro</span><span class='op'>)</span>
 
-<span class='kw'>m2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>, simplify = <span class='fl'>0.5</span>) <span class='op'>+</span>
-          <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_fill</a></span>() <span class='op'>+</span>
-      <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>metro</span>) <span class='op'>+</span> 
-          <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_bubbles</a></span>(size = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"pop"</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>1970</span>, <span class='fl'>2030</span>, by=<span class='fl'>10</span>)),
-          		   col = "purple",<span class='st'>"purple"</span>
-          		   border.col = "black", bor<span class='st'>"black"</span>ha = .5,<span class='fl'>.5</span>
-          		   scale = 2) +<span class='fl'>2</span><span class='op'>+</span>
-      <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></span>(free.scales.symbol.size = <span class='fl'>FALSE</span>, nrow=<span class='fl'>1</span>,ncol=<span class='fl'>1</span>) <span class='op'>+</span> 
-      <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_format</a></span>(<span class='st'>"World"</span>, scale=<span class='fl'>.5</span>)
+<span class='va'>m2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, simplify <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span> <span class='op'>+</span>
+          <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+      <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span> 
+          <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span>size <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"pop"</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>1970</span>, <span class='fl'>2030</span>, by<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span><span class='op'>)</span>,
+                 col <span class='op'>=</span> <span class='st'>"purple"</span>,
+                 border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>,
+                 scale <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+      <span class='fu'><a href='tm_facets.html'>tm_facets</a></span><span class='op'>(</span>free.scales.symbol.size <span class='op'>=</span> <span class='cn'>FALSE</span>, nrow<span class='op'>=</span><span class='fl'>1</span>,ncol<span class='op'>=</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span> 
+      <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_animation.html'>tmap_animation</a></span>(<span class='kw'>m2</span>, filename=<span class='st'>"World population.gif"</span>, width=<span class='fl'>1200</span>, delay=<span class='fl'>100</span>)
-}</div></pre>
+<span class='fu'>tmap_animation</span><span class='op'>(</span><span class='va'>m2</span>, delay<span class='op'>=</span><span class='fl'>100</span>, outer.margins <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+
+<span class='va'>m3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>50</span>, <span class='fl'>85</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>age</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='va'>World</span><span class='op'>$</span><span class='va'>at_most</span> <span class='op'>&lt;-</span> <span class='va'>World</span><span class='op'>$</span><span class='va'>life_exp</span> <span class='op'>&lt;=</span> <span class='va'>age</span>
+  <span class='va'>World_sel</span> <span class='op'>&lt;-</span> <span class='va'>World</span><span class='op'>[</span><span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='op'>(</span><span class='va'>World</span><span class='op'>$</span><span class='va'>life_exp</span> <span class='op'>&lt;=</span> <span class='va'>age</span><span class='op'>)</span> <span class='op'>&amp;</span> <span class='op'>(</span><span class='va'>World</span><span class='op'>$</span><span class='va'>life_exp</span> <span class='op'>&gt;</span> <span class='op'>(</span><span class='va'>age</span> <span class='op'>-</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>, <span class='op'>]</span>
+  <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"at_most"</span>, palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"gray95"</span>, <span class='st'>"gold"</span><span class='op'>)</span>, legend.show <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World_sel</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"name"</span>, size <span class='op'>=</span> <span class='st'>"AREA"</span>, root <span class='op'>=</span> <span class='fl'>5</span>, remove.overlap <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>main.title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"Life expectency at most "</span>, <span class='va'>age</span><span class='op'>)</span>, frame <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+<span class='op'>}</span><span class='op'>)</span>
+
+<span class='fu'>tmap_animation</span><span class='op'>(</span><span class='va'>m3</span>, width <span class='op'>=</span> <span class='fl'>1200</span>, height <span class='op'>=</span> <span class='fl'>600</span>, delay <span class='op'>=</span> <span class='fl'>100</span><span class='op'>)</span>
+
+<span class='va'>m4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span>col <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"name"</span>, ymod <span class='op'>=</span> <span class='op'>-</span><span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_facets.html'>tm_facets</a></span><span class='op'>(</span>by <span class='op'>=</span> <span class='st'>"name"</span>, free.coords <span class='op'>=</span> <span class='cn'>F</span>, nrow <span class='op'>=</span> <span class='fl'>1</span>, ncol <span class='op'>=</span> <span class='fl'>1</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>panel.show <span class='op'>=</span> <span class='cn'>FALSE</span>, frame <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+
+<span class='fu'>tmap_animation</span><span class='op'>(</span><span class='va'>m4</span>, filename <span class='op'>=</span> <span class='st'>"World_cities.mp4"</span>, 
+    width<span class='op'>=</span><span class='fl'>1200</span>, height <span class='op'>=</span> <span class='fl'>600</span>, fps <span class='op'>=</span> <span class='fl'>2</span>, outer.margins <span class='op'>=</span> <span class='fl'>0</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -226,7 +265,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,17 +129,17 @@
     <p>Specifies icons from a png images, which can be used as markers in thematic maps. The function <code>marker_icon</code> is the specification of the default marker.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_icons.html'>tmap_icons</a></span>(
-  <span class='kw'>file</span>,
-  width = <span class='fl'>48</span>,
-  height = <span class='fl'>48</span>,
-  keep.asp = <span class='fl'>TRUE</span>,
-  just = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"center"</span>, <span class='st'>"center"</span>),
-  as.local = <span class='fl'>TRUE</span>,
-  <span class='kw'>...</span>
-)
+    <pre class="usage"><span class='fu'>tmap_icons</span><span class='op'>(</span>
+  <span class='va'>file</span>,
+  width <span class='op'>=</span> <span class='fl'>48</span>,
+  height <span class='op'>=</span> <span class='fl'>48</span>,
+  keep.asp <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  just <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"center"</span>, <span class='st'>"center"</span><span class='op'>)</span>,
+  as.local <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_icons.html'>marker_icon</a></span>()</pre>
+<span class='fu'>marker_icon</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -185,7 +179,7 @@
     <p>icon data (see <code><a href='https://rdrr.io/pkg/leaflet/man/icons.html'>icons</a></code>)</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></code></p></div>
+    <div class='dont-index'><p><code><a href='tm_symbols.html'>tm_symbols</a></code></p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -202,7 +196,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,75 +126,75 @@
     </div>
 
     <div class="ref-description">
-    <p>Creates a <code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a></code> that draws a raster. For coloring, there are three options: 1) a fixed color is used, 2) a color palette is mapped to a data variable, 3) RGB values are used. The function <code>tm_raster</code> is designed for options 1 and 2, while <code>tm_rgb</code> is used for option 3.</p>
+    <p>Creates a <code><a href='tmap-element.html'>tmap-element</a></code> that draws a raster. For coloring, there are three options: 1) a fixed color is used, 2) a color palette is mapped to a data variable, 3) RGB values are used. The function <code>tm_raster</code> is designed for options 1 and 2, while <code>tm_rgb</code> is used for option 3.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_raster.html'>tm_raster</a></span>(
-  col = <span class='fl'>NA</span>,
-  alpha = <span class='fl'>NA</span>,
-  palette = <span class='kw'>NULL</span>,
-  n = <span class='fl'>5</span>,
-  style = <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span>(<span class='kw'>breaks</span>), <span class='st'>"pretty"</span>, <span class='st'>"fixed"</span>),
-  style.args = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  as.count = <span class='fl'>NA</span>,
-  breaks = <span class='kw'>NULL</span>,
-  interval.closure = <span class='st'>"left"</span>,
-  labels = <span class='kw'>NULL</span>,
-  drop.levels = <span class='fl'>FALSE</span>,
-  midpoint = <span class='kw'>NULL</span>,
-  stretch.palette = <span class='fl'>TRUE</span>,
-  contrast = <span class='fl'>NA</span>,
-  saturation = <span class='fl'>1</span>,
-  interpolate = <span class='fl'>NA</span>,
-  colorNA = <span class='kw'>NULL</span>,
-  textNA = <span class='st'>"Missing"</span>,
-  showNA = <span class='fl'>NA</span>,
-  colorNULL = <span class='kw'>NULL</span>,
-  title = <span class='fl'>NA</span>,
-  legend.show = <span class='fl'>TRUE</span>,
-  legend.format = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  legend.is.portrait = <span class='fl'>TRUE</span>,
-  legend.reverse = <span class='fl'>FALSE</span>,
-  legend.hist = <span class='fl'>FALSE</span>,
-  legend.hist.title = <span class='fl'>NA</span>,
-  legend.z = <span class='fl'>NA</span>,
-  legend.hist.z = <span class='fl'>NA</span>,
-  zindex = <span class='fl'>NA</span>,
-  group = <span class='fl'>NA</span>,
-  auto.palette.mapping = <span class='kw'>NULL</span>,
-  max.categories = <span class='kw'>NULL</span>,
-  max.value = <span class='fl'>255</span>
-)
+    <pre class="usage"><span class='fu'>tm_raster</span><span class='op'>(</span>
+  col <span class='op'>=</span> <span class='cn'>NA</span>,
+  alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+  palette <span class='op'>=</span> <span class='cn'>NULL</span>,
+  n <span class='op'>=</span> <span class='fl'>5</span>,
+  style <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/NULL.html'>is.null</a></span><span class='op'>(</span><span class='va'>breaks</span><span class='op'>)</span>, <span class='st'>"pretty"</span>, <span class='st'>"fixed"</span><span class='op'>)</span>,
+  style.args <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  as.count <span class='op'>=</span> <span class='cn'>NA</span>,
+  breaks <span class='op'>=</span> <span class='cn'>NULL</span>,
+  interval.closure <span class='op'>=</span> <span class='st'>"left"</span>,
+  labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  drop.levels <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  midpoint <span class='op'>=</span> <span class='cn'>NULL</span>,
+  stretch.palette <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  contrast <span class='op'>=</span> <span class='cn'>NA</span>,
+  saturation <span class='op'>=</span> <span class='fl'>1</span>,
+  interpolate <span class='op'>=</span> <span class='cn'>NA</span>,
+  colorNA <span class='op'>=</span> <span class='cn'>NULL</span>,
+  textNA <span class='op'>=</span> <span class='st'>"Missing"</span>,
+  showNA <span class='op'>=</span> <span class='cn'>NA</span>,
+  colorNULL <span class='op'>=</span> <span class='cn'>NULL</span>,
+  title <span class='op'>=</span> <span class='cn'>NA</span>,
+  legend.show <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  legend.format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  legend.is.portrait <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  legend.reverse <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  legend.hist <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  legend.hist.title <span class='op'>=</span> <span class='cn'>NA</span>,
+  legend.z <span class='op'>=</span> <span class='cn'>NA</span>,
+  legend.hist.z <span class='op'>=</span> <span class='cn'>NA</span>,
+  zindex <span class='op'>=</span> <span class='cn'>NA</span>,
+  group <span class='op'>=</span> <span class='cn'>NA</span>,
+  auto.palette.mapping <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max.categories <span class='op'>=</span> <span class='cn'>NULL</span>,
+  max.value <span class='op'>=</span> <span class='fl'>255</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_raster.html'>tm_rgb</a></span>(
-  r = <span class='fl'>1</span>,
-  g = <span class='fl'>2</span>,
-  b = <span class='fl'>3</span>,
-  alpha = <span class='fl'>NA</span>,
-  saturation = <span class='fl'>1</span>,
-  interpolate = <span class='fl'>TRUE</span>,
-  max.value = <span class='fl'>255</span>,
-  <span class='kw'>...</span>
-)
+<span class='fu'>tm_rgb</span><span class='op'>(</span>
+  r <span class='op'>=</span> <span class='fl'>1</span>,
+  g <span class='op'>=</span> <span class='fl'>2</span>,
+  b <span class='op'>=</span> <span class='fl'>3</span>,
+  alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+  saturation <span class='op'>=</span> <span class='fl'>1</span>,
+  interpolate <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  max.value <span class='op'>=</span> <span class='fl'>255</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_raster.html'>tm_rgba</a></span>(
-  r = <span class='fl'>1</span>,
-  g = <span class='fl'>2</span>,
-  b = <span class='fl'>3</span>,
-  a = <span class='fl'>4</span>,
-  alpha = <span class='fl'>NA</span>,
-  saturation = <span class='fl'>1</span>,
-  interpolate = <span class='fl'>TRUE</span>,
-  max.value = <span class='fl'>255</span>,
-  <span class='kw'>...</span>
-)</pre>
+<span class='fu'>tm_rgba</span><span class='op'>(</span>
+  r <span class='op'>=</span> <span class='fl'>1</span>,
+  g <span class='op'>=</span> <span class='fl'>2</span>,
+  b <span class='op'>=</span> <span class='fl'>3</span>,
+  a <span class='op'>=</span> <span class='fl'>4</span>,
+  alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+  saturation <span class='op'>=</span> <span class='fl'>1</span>,
+  interpolate <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  max.value <span class='op'>=</span> <span class='fl'>255</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>col</th>
-      <td><p>three options: the name of a data variable that is contained in <code>shp</code>, the name of a variable in <code>shp</code> that contain color values, a single color value. In the first case the values (numeric or categorical) that will be depicted by a color palette (see <code>palette</code>. If multiple values are specified, small multiples are drawn (see details). By default, it is a vector of the names of all data variables unless the <code>by</code> argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code> is defined (in that case, the default color of dots is taken from the tmap option <code>aes.color</code>). If the shape (stars object) contains a third dimension, small multiples are created per 3rd dimension value). Note that the number of small multiples is limited by <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options("limits")</a></code>).</p></td>
+      <td><p>three options: the name of a data variable that is contained in <code>shp</code>, the name of a variable in <code>shp</code> that contain color values, a single color value. In the first case the values (numeric or categorical) that will be depicted by a color palette (see <code>palette</code>. If multiple values are specified, small multiples are drawn (see details). By default, it is a vector of the names of all data variables unless the <code>by</code> argument of <code><a href='tm_facets.html'>tm_facets</a></code> is defined (in that case, the default color of dots is taken from the tmap option <code>aes.color</code>). If the shape (stars object) contains a third dimension, small multiples are created per 3rd dimension value). Note that the number of small multiples is limited by <code><a href='tmap_options.html'>tmap_options("limits")</a></code>).</p></td>
     </tr>
     <tr>
       <th>alpha</th>
@@ -208,7 +202,7 @@
     </tr>
     <tr>
       <th>palette</th>
-      <td><p>a palette name or a vector of colors. See <code><a href='https://rdrr.io/pkg/tmaptools/man/palette_explorer.html'>tmaptools::palette_explorer()</a></code> for the named palettes. Use a <code>"-"</code> as prefix to reverse the palette. The default palette is taken from <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>'s argument <code>aes.palette</code>, which typically depends on the style. The type of palette from <code>aes.palette</code> is automatically determined, but can be overwritten: use <code>"seq"</code> for sequential, <code>"div"</code> for diverging, and <code>"cat"</code> for categorical.</p></td>
+      <td><p>a palette name or a vector of colors. See <code><a href='https://rdrr.io/pkg/tmaptools/man/palette_explorer.html'>tmaptools::palette_explorer()</a></code> for the named palettes. Use a <code>"-"</code> as prefix to reverse the palette. The default palette is taken from <code><a href='tm_layout.html'>tm_layout</a></code>'s argument <code>aes.palette</code>, which typically depends on the style. The type of palette from <code>aes.palette</code> is automatically determined, but can be overwritten: use <code>"seq"</code> for sequential, <code>"div"</code> for diverging, and <code>"cat"</code> for categorical.</p></td>
     </tr>
     <tr>
       <th>n</th>
@@ -216,11 +210,11 @@
     </tr>
     <tr>
       <th>style</th>
-      <td><p>method to process the color scale when <code>col</code> is a numeric variable. Discrete gradient options are <code>"cat"</code>, <code>"fixed"</code>, <code>"sd"</code>, <code>"equal"</code>, <code>"pretty"</code>, <code>"quantile"</code>, <code>"kmeans"</code>, <code>"hclust"</code>, <code>"bclust"</code>, <code>"fisher"</code>, <code>"jenks"</code>, <code>"dpih"</code>, <code>"headtails"</code>, and <code>"log10_pretty"</code>. A numeric variable is processed as a categorical variable when using <code>"cat"</code>, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except <code>"log10_pretty"</code>), see the details in <code><a href='https://rdrr.io/pkg/classInt/man/classIntervals.html'>classIntervals</a></code> (extra arguments can be passed on via <code>style.args</code>). Continuous gradient options are <code>"cont"</code>, <code>"order"</code>, and <code>"log10"</code>. The first maps the values of <code>col</code> to a smooth gradient, the second maps the order of values of <code>col</code> to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See <code>as.count</code>.</p></td>
+      <td><p>method to process the color scale when <code>col</code> is a numeric variable. Discrete gradient options are <code>"cat"</code>, <code>"fixed"</code>, <code>"sd"</code>, <code>"equal"</code>, <code>"pretty"</code>, <code>"quantile"</code>, <code>"kmeans"</code>, <code>"hclust"</code>, <code>"bclust"</code>, <code>"fisher"</code>, <code>"jenks"</code>, <code>"dpih"</code>, <code>"headtails"</code>, and <code>"log10_pretty"</code>. A numeric variable is processed as a categorical variable when using <code>"cat"</code>, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except <code>"log10_pretty"</code>), see the details in <code><a href='https://r-spatial.github.io/classInt/reference/classIntervals.html'>classIntervals</a></code> (extra arguments can be passed on via <code>style.args</code>). Continuous gradient options are <code>"cont"</code>, <code>"order"</code>, and <code>"log10"</code>. The first maps the values of <code>col</code> to a smooth gradient, the second maps the order of values of <code>col</code> to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See <code>as.count</code>.</p></td>
     </tr>
     <tr>
       <th>style.args</th>
-      <td><p>arguments passed on to <code><a href='https://rdrr.io/pkg/classInt/man/classIntervals.html'>classIntervals</a></code>, the function that determine color classes (see also <code>style</code>).</p></td>
+      <td><p>arguments passed on to <code><a href='https://r-spatial.github.io/classInt/reference/classIntervals.html'>classIntervals</a></code>, the function that determine color classes (see also <code>style</code>).</p></td>
     </tr>
     <tr>
       <th>as.count</th>
@@ -256,7 +250,7 @@
     </tr>
     <tr>
       <th>saturation</th>
-      <td><p>Number that determines how much saturation (also known as chroma) is used: <code>saturation=0</code> is greyscale and <code>saturation=1</code> is normal. This saturation value is multiplied by the overall saturation of the map (see <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>).</p></td>
+      <td><p>Number that determines how much saturation (also known as chroma) is used: <code>saturation=0</code> is greyscale and <code>saturation=1</code> is normal. This saturation value is multiplied by the overall saturation of the map (see <code><a href='tm_layout.html'>tm_layout</a></code>).</p></td>
     </tr>
     <tr>
       <th>interpolate</th>
@@ -335,7 +329,7 @@
     </tr>
     <tr>
       <th>group</th>
-      <td><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></code>).</p></td>
+      <td><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href='tm_shape.html'>tm_shape</a></code>).</p></td>
     </tr>
     <tr>
       <th>auto.palette.mapping</th>
@@ -343,7 +337,7 @@
     </tr>
     <tr>
       <th>max.categories</th>
-      <td><p>deprecated. It has moved to <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>.</p></td>
+      <td><p>deprecated. It has moved to <code><a href='tmap_options.html'>tmap_options</a></code>.</p></td>
     </tr>
     <tr>
       <th>max.value</th>
@@ -373,53 +367,56 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a></code></p>
+    <p><code><a href='tmap-element.html'>tmap-element</a></code></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>Small multiples can be drawn in two ways: either by specifying the <code>by</code> argument in <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code>, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of <code>tm_raster</code> is <code>col</code>. In the latter case, the arguments, except for the ones starting with <code>legend.</code>, can be specified for small multiples as follows. If the argument normally only takes a single value, such as <code>n</code>, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as <code>palette</code>, then a list of those vectors (or values) can be specified, one for each small multiple.</p>
+    <p>Small multiples can be drawn in two ways: either by specifying the <code>by</code> argument in <code><a href='tm_facets.html'>tm_facets</a></code>, or by defining multiple variables in the aesthetic arguments. The aesthetic argument of <code>tm_raster</code> is <code>col</code>. In the latter case, the arguments, except for the ones starting with <code>legend.</code>, can be specified for small multiples as follows. If the argument normally only takes a single value, such as <code>n</code>, then a vector of those values can be specified, one for each small multiple. If the argument normally can take a vector, such as <code>palette</code>, then a list of those vectors (or values) can be specified, one for each small multiple.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, <a href='https://doi.org/10.18637/jss.v084.i06'>DOI</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code>vignette("tmap-getstarted")</code></a></p></div>
+    <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>, <span class='kw'>land</span>, <span class='kw'>metro</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>land</span>, <span class='va'>metro</span><span class='op'>)</span>
 
-<span class='kw'>pal8</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#33A02C"</span>, <span class='st'>"#B2DF8A"</span>, <span class='st'>"#FDBF6F"</span>, <span class='st'>"#1F78B4"</span>, <span class='st'>"#999999"</span>, <span class='st'>"#E31A1C"</span>, <span class='st'>"#E6E6E6"</span>, <span class='st'>"#A6CEE3"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>land</span>, ylim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>88</span>,<span class='fl'>88</span>)) <span class='op'>+</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_raster.html'>tm_raster</a></span>(<span class='st'>"cover_cls"</span>, palette = <span class='kw'>pal8</span>, title = <span class='st'>"Global Land Cover"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>metro</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_dots</a></span>(col = <span class='st'>"#E31A1C"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>(col = <span class='st'>"black"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>(scale = <span class='fl'>.8</span>, 
-	legend.position = c("left<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>,<span class='st'>"left"</span>m<span class='st'>"bottom"</span>
-    legend.bg.color = <span class='st'>"white"</span>, legend.bg.alpha = <span class='fl'>.2</span>, 
-    legend.frame = <span class='st'>"gray50"</span>)</div><div class='img'><img src='tm_raster-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>pal20</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"#003200"</span>, <span class='st'>"#3C9600"</span>, <span class='st'>"#006E00"</span>, <span class='st'>"#556E19"</span>, <span class='st'>"#00C800"</span>, <span class='st'>"#8CBE8C"</span>,
-		   "#467864", "#B<span class='st'>"#467864"</span>#9<span class='st'>"#B4E664"</span>#E<span class='st'>"#9BC832"</span>#F<span class='st'>"#EBFF64"</span>#9<span class='st'>"#F06432"</span><span class='st'>"#9132E6"</span>
-		   "#E664E6", "#9<span class='st'>"#E664E6"</span>#B<span class='st'>"#9B82E6"</span>#6<span class='st'>"#B4FEF0"</span>#C<span class='st'>"#646464"</span>#F<span class='st'>"#C8C8C8"</span><span class='st'>"#FF0000"</span>
-		   "#FFFFFF", "#5<span class='st'>"#FFFFFF"</span><span class='st'>"#5ADCDC"</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>land</span>) <span class='op'>+</span>
-	tm_rast<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_raster.html'>tm_raster</a></span>"<span class='st'>"cover"</span>te = pal20, <span class='kw'>pal20</span> = "Global<span class='st'>"Global Land Cover"</span><span class='op'>+</span>
-	tm_layo<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>.8, leg<span class='fl'>.8</span>d.position = c("left<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>,<span class='st'>"left"</span>m<span class='st'>"bottom"</span>
-}
+<span class='va'>pal8</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#33A02C"</span>, <span class='st'>"#B2DF8A"</span>, <span class='st'>"#FDBF6F"</span>, <span class='st'>"#1F78B4"</span>, <span class='st'>"#999999"</span>, <span class='st'>"#E31A1C"</span>, <span class='st'>"#E6E6E6"</span>, <span class='st'>"#A6CEE3"</span><span class='op'>)</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>88</span>,<span class='fl'>88</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'>tm_raster</span><span class='op'>(</span><span class='st'>"cover_cls"</span>, palette <span class='op'>=</span> <span class='va'>pal8</span>, title <span class='op'>=</span> <span class='st'>"Global Land Cover"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_symbols.html'>tm_dots</a></span><span class='op'>(</span>col <span class='op'>=</span> <span class='st'>"#E31A1C"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span>col <span class='op'>=</span> <span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>scale <span class='op'>=</span> <span class='fl'>.8</span>, 
+  legend.position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>,<span class='st'>"bottom"</span><span class='op'>)</span>,
+    legend.bg.color <span class='op'>=</span> <span class='st'>"white"</span>, legend.bg.alpha <span class='op'>=</span> <span class='fl'>.2</span>, 
+    legend.frame <span class='op'>=</span> <span class='st'>"gray50"</span><span class='op'>)</span>
+</div><div class='img'><img src='tm_raster-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>pal20</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"#003200"</span>, <span class='st'>"#3C9600"</span>, <span class='st'>"#006E00"</span>, <span class='st'>"#556E19"</span>, <span class='st'>"#00C800"</span>, <span class='st'>"#8CBE8C"</span>,
+       <span class='st'>"#467864"</span>, <span class='st'>"#B4E664"</span>, <span class='st'>"#9BC832"</span>, <span class='st'>"#EBFF64"</span>, <span class='st'>"#F06432"</span>, <span class='st'>"#9132E6"</span>,
+       <span class='st'>"#E664E6"</span>, <span class='st'>"#9B82E6"</span>, <span class='st'>"#B4FEF0"</span>, <span class='st'>"#646464"</span>, <span class='st'>"#C8C8C8"</span>, <span class='st'>"#FF0000"</span>,
+       <span class='st'>"#FFFFFF"</span>, <span class='st'>"#5ADCDC"</span><span class='op'>)</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>tm_raster</span><span class='op'>(</span><span class='st'>"cover"</span>, palette <span class='op'>=</span> <span class='va'>pal20</span>, title <span class='op'>=</span> <span class='st'>"Global Land Cover"</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>scale<span class='op'>=</span><span class='fl'>.8</span>, legend.position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>,<span class='st'>"bottom"</span><span class='op'>)</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>land</span>, ylim = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>88</span>,<span class='fl'>88</span>)) <span class='op'>+</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_raster.html'>tm_raster</a></span>(<span class='st'>"trees"</span>, palette = <span class='st'>"Greens"</span>, title = <span class='st'>"Percent Tree Cover"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>() <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>(legend.position = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"bottom"</span>), bg.color = <span class='st'>"lightblue"</span>)</div><div class='img'><img src='tm_raster-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>land</span>) <span class='op'>+</span>
-	tm_rast<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_raster.html'>tm_raster</a></span>"<span class='st'>"black"</span><span class='op'>+</span>
-	tm_face<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></span>ver_<span class='st'>"cover_cls"</span>
-}
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span>, ylim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>88</span>,<span class='fl'>88</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'>tm_raster</span><span class='op'>(</span><span class='st'>"trees"</span>, palette <span class='op'>=</span> <span class='st'>"Greens"</span>, title <span class='op'>=</span> <span class='st'>"Percent Tree Cover"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>legend.position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span>, bg.color <span class='op'>=</span> <span class='st'>"lightblue"</span><span class='op'>)</span>
+</div><div class='img'><img src='tm_raster-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>tm_raster</span><span class='op'>(</span><span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_facets.html'>tm_facets</a></span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"cover_cls"</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span></div></pre>
+<span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -435,7 +432,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

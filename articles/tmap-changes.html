@@ -31,18 +31,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
@@ -68,7 +62,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -113,18 +107,17 @@
 <h3 class="hasAnchor">
 <a href="#tm_tiles" class="anchor"></a>tm_tiles</h3>
 <p>Layer functions have been added to facilitate tile layers. In version 1.x, it was already possible to add basemaps. In version 2.0, this is facilitated by the explicit layer functions <code>tm_basemap</code> and <code>tm_tiles</code>. The former creates a basemap tile and the latter an overlay tile. The difference is that <code>tm_basemap</code> layers are always drawn at the bottom, whereas the plotting order of (overlay) <code>tm_tiles</code> layers is derived from the plot call. Overlay layers should be semi-transparent to be useful.</p>
-<p>Tip: all tilemaps from <a href="http://leaflet-extras.github.io/leaflet-providers/preview/" class="uri">http://leaflet-extras.github.io/leaflet-providers/preview/</a> can be used. The names of these maps can also be found in the list object <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html">leaflet::providers</a></code>.</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">World</span>, <span class="kw">metro</span>)
-<span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span>(<span class="st">"view"</span>)
+<p>Tip: all tilemaps from <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="uri">https://leaflet-extras.github.io/leaflet-providers/preview/</a> can be used. The names of these maps can also be found in the list object <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html">leaflet::providers</a></code>.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span>
+<span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span>(<span class="kw">leaflet</span>::<span class="kw"><a href="https://rdrr.io/pkg/leaflet/man/providers.html">providers</a></span><span class="op">$</span><span class="kw">CartoDB.PositronNoLabels</span>, group = <span class="st">"CartoDB basemap"</span>) <span class="op">+</span>
-<span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span>(<span class="kw">World</span>) <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span>(<span class="st">"HPI"</span>, group = <span class="st">"Countries"</span>) <span class="op">+</span>
-<span class="fu"><a href="../reference/tm_basemap.html">tm_tiles</a></span>(<span class="kw">leaflet</span>::<span class="kw"><a href="https://rdrr.io/pkg/leaflet/man/providers.html">providers</a></span><span class="op">$</span><span class="kw">CartoDB.PositronOnlyLabels</span>, group = <span class="st">"CartoDB labels"</span>) <span class="op">+</span>
-<span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span>(<span class="kw">metro</span>) <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_symbols.html">tm_dots</a></span>(col = <span class="st">"red"</span>, group = <span class="st">"Metropolitan areas"</span>)
-</pre></div>
+<span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="fu">leaflet</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/leaflet/man/providers.html">providers</a></span><span class="op">$</span><span class="va">CartoDB.PositronNoLabels</span>, group <span class="op">=</span> <span class="st">"CartoDB basemap"</span><span class="op">)</span> <span class="op">+</span>
+<span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, group <span class="op">=</span> <span class="st">"Countries"</span><span class="op">)</span> <span class="op">+</span>
+<span class="fu"><a href="../reference/tm_basemap.html">tm_tiles</a></span><span class="op">(</span><span class="fu">leaflet</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/leaflet/man/providers.html">providers</a></span><span class="op">$</span><span class="va">CartoDB.PositronOnlyLabels</span>, group <span class="op">=</span> <span class="st">"CartoDB labels"</span><span class="op">)</span> <span class="op">+</span>
+<span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_symbols.html">tm_dots</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span>, group <span class="op">=</span> <span class="st">"Metropolitan areas"</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_tiles_labels.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 </div>
 <div id="tmap-options-styles-and-formats" class="section level3">
@@ -133,23 +126,21 @@
 <p>There are many options in tmap. In version 1.x, the default values were stored in <code>tm_layout</code> and <code>tm_view</code>. Wrapper functions like <code>tm_style_gray</code> and <code>tm_format_World</code> where used to change these options.</p>
 <p>In version 2.0, the options are stored in a similar fashion to the global options. A list of tmap options can be retrieved and options can be set with the function <code>tmap_options</code>. Its behavior is similar to the base function <code>options</code>.</p>
 <p>A style is a configuration of the options used to style a map in a specific way. When set with <code>tmap_style</code>, the current options are overwritten according to the new style. The changes can be seen with <code>tmap_options_diff</code> and can be reset with <code>tmap_options_reset</code>.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span>(<span class="kw">World</span>)
-<span class="fu"><a href="../reference/qtm.html">qtm</a></span>(<span class="kw">World</span>, fill = <span class="st">"life_exp"</span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span>
+<span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"life_exp"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-changes_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-
-<span class="fu"><a href="../reference/tmap_style.html">tmap_style</a></span>(<span class="st">"classic"</span>)
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="../reference/tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span>
 <span class="co">## tmap style set to "classic"</span>
 <span class="co">## other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor"</span>
 
-<span class="fu"><a href="../reference/qtm.html">qtm</a></span>(<span class="kw">World</span>, fill = <span class="st">"life_exp"</span>)
-</pre></div>
+<span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"life_exp"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-changes_files/figure-html/unnamed-chunk-3-2.png" width="576"></p>
-<div class="sourceCode" id="cb4"><pre class="downlit">
-
-<span class="fu"><a href="../reference/tmap_options.html">tmap_options_diff</a></span>()
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R">
+<span class="fu"><a href="../reference/tmap_options.html">tmap_options_diff</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">## current tmap options (style "classic") that are different from default tmap options (style "white"):</span>
 <span class="co">## $sepia.intensity</span>
 <span class="co">## [1] 0.7</span>
@@ -169,29 +160,25 @@
 <span class="co">## $basemaps.alpha</span>
 <span class="co">## [1] 0.5</span>
 
-<span class="fu"><a href="../reference/tmap_options.html">tmap_options_reset</a></span>()
-<span class="co">## tmap options successfully reset</span>
-</pre></div>
+<span class="fu"><a href="../reference/tmap_options.html">tmap_options_reset</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">## tmap options successfully reset</span></code></pre></div>
 <p>Styles included in tmap are: <code>"white"</code>, <code>"gray"</code>, <code>"natural"</code>, <code>"cobalt"</code>, <code>"col_blind"</code>, <code>"albatross"</code>, <code>"beaver"</code>, <code>"bw"</code>, <code>"classic"</code>. New styles can saved and loaded with <code>tmap_style_save</code> and <code>tmap_style_load</code> respectively.</p>
 <p>In version 1.x, <code>tmap</code> contained a couple of predefined format functions, such as <code>tm_format_World</code>. In version 2.0, these have been replaced by the general function <code>tm_format</code>. With this function, the available formats can be retrieved, as well as the configuration of a specific format. With the function <code>tm_format_add</code> new formats can be created.</p>
-<div class="sourceCode" id="cb5"><pre class="downlit">
-<span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span>()
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">## available formats are: "World", "World_wide", "NLD", "NLD_wide"</span>
-<span class="kw">panorama</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span>(<span class="st">"World"</span>)
-<span class="kw">panorama</span><span class="op">$</span><span class="kw">asp</span> <span class="op">&lt;-</span> <span class="fl">6</span>
-<span class="fu"><a href="../reference/tmap_format.html">tmap_format_add</a></span>(<span class="kw">panorama</span>, name = <span class="st">"panorama"</span>)
+<span class="va">panorama</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span>
+<span class="va">panorama</span><span class="op">$</span><span class="va">asp</span> <span class="op">&lt;-</span> <span class="fl">6</span>
+<span class="fu"><a href="../reference/tmap_format.html">tmap_format_add</a></span><span class="op">(</span><span class="va">panorama</span>, name <span class="op">=</span> <span class="st">"panorama"</span><span class="op">)</span>
 <span class="co">## format panorama succesfully added. Use this format with tm_format("panorama")</span>
-<span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span>()
-<span class="co">## available formats are: "World", "World_wide", "NLD", "NLD_wide", "panorama"</span>
-</pre></div>
+<span class="fu"><a href="../reference/tmap_format.html">tmap_format</a></span><span class="op">(</span><span class="op">)</span>
+<span class="co">## available formats are: "World", "World_wide", "NLD", "NLD_wide", "panorama"</span></code></pre></div>
 <p>Unlike a style, a format cannot be set globally. Instead, it has to be specified in each plot:</p>
-<div class="sourceCode" id="cb6"><pre class="downlit">
-<span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span>(<span class="kw">World</span>) <span class="op">+</span> <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span>(<span class="st">"HPI"</span>) <span class="op">+</span> <span class="fu"><a href="../reference/tm_layout.html">tm_format</a></span>(<span class="st">"panorama"</span>)
-</pre></div>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"panorama"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-changes_files/figure-html/unnamed-chunk-5-1.png" width="576"></p>
-<div class="sourceCode" id="cb7"><pre class="downlit">
-<span class="co"># or: qtm(World, fill = "HPI", format = "panorama")</span>
-</pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># or: qtm(World, fill = "HPI", format = "panorama")</span></code></pre></div>
 </div>
 <div id="color-palettes" class="section level3">
 <h3 class="hasAnchor">
@@ -209,10 +196,9 @@
 <a href="#filter-difference-between-na-and-null" class="anchor"></a>filter, difference between NA and NULL</h3>
 <p>The argument filter has been added to <code>tm_shape</code>. Features that are included will be visualized as usual. Excluded features will still be visualized but without color being mapped. Instead, they will be colored with <code>colorNULL</code>, a new argument of the layer functions. Note the difference with <code>colorNA</code>, which is used to color features with missing data.</p>
 <p>To show the potiential of this filter the following code chunk creates a map in which only European countries are colored:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit">
-<span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span>(<span class="kw">World</span>, filter = <span class="kw">World</span><span class="op">$</span><span class="kw">continent</span><span class="op">==</span><span class="st">"Europe"</span>) <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span>(<span class="st">"HPI"</span>, id = <span class="st">"name"</span>)
-</pre></div>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, filter <span class="op">=</span> <span class="va">World</span><span class="op">$</span><span class="va">continent</span><span class="op">==</span><span class="st">"Europe"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, id <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_filter.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 <p>Countries outside Europe are colored with <code>colorNULL</code>, which is <code>grey95</code> by default. It can be adjusted in the layer functions, such as <code>tm_polygons</code>, and in <code>tmap_options</code>.</p>
 <p>There are also missing values in the data (Kosovo and Moldova) which are colored with the <code>colorNA</code> (by default <code>grey85</code>).</p>
@@ -232,7 +218,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

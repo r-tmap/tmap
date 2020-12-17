@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,28 +126,28 @@
     </div>
 
     <div class="ref-description">
-    <p>Create a leaflet widget from a tmap object. An interactive map (see <code><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></code>) is an automatically generated leaflet widget. With this function, this leaflet widget is obtained, which can then be changed or extended by using leaflet's own methods.</p>
+    <p>Create a leaflet widget from a tmap object. An interactive map (see <code><a href='tmap_mode.html'>tmap_mode</a></code>) is an automatically generated leaflet widget. With this function, this leaflet widget is obtained, which can then be changed or extended by using leaflet's own methods.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_leaflet.html'>tmap_leaflet</a></span>(
-  <span class='kw'>x</span>,
-  mode = <span class='st'>"view"</span>,
-  show = <span class='fl'>FALSE</span>,
-  add.titles = <span class='fl'>TRUE</span>,
-  in.shiny = <span class='fl'>FALSE</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tmap_leaflet</span><span class='op'>(</span>
+  <span class='va'>x</span>,
+  mode <span class='op'>=</span> <span class='st'>"view"</span>,
+  show <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  add.titles <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  in.shiny <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>tmap object. A tmap object is created with <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code> or by stacking <code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a></code>s.</p></td>
+      <td><p>tmap object. A tmap object is created with <code><a href='qtm.html'>qtm</a></code> or by stacking <code><a href='tmap-element.html'>tmap-element</a></code>s.</p></td>
     </tr>
     <tr>
       <th>mode</th>
-      <td><p>the mode of tmap, which is set to <code>"view"</code> in order to obtain the leaflet object. See <code><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></code> for details.</p></td>
+      <td><p>the mode of tmap, which is set to <code>"view"</code> in order to obtain the leaflet object. See <code><a href='tmap_mode.html'>tmap_mode</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>show</th>
@@ -169,7 +163,7 @@
     </tr>
     <tr>
       <th>...</th>
-      <td><p>arguments passed on to <code><a href='https://rdrr.io/pkg/tmap/man/print.tmap.html'>print.tmap</a></code></p></td>
+      <td><p>arguments passed on to <code><a href='print.tmap.html'>print.tmap</a></code></p></td>
     </tr>
     </table>
 
@@ -178,38 +172,41 @@
     <p><code><a href='https://rdrr.io/pkg/leaflet/man/leaflet.html'>leaflet</a></code> object</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/tmap/man/renderTmap.html'>tmapOutput</a></code> for tmap in Shiny, <code><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></code>, <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code>, <code><a href='https://rdrr.io/pkg/tmap/man/print.tmap.html'>print.tmap</a></code></p></div>
+    <div class='dont-index'><p><code><a href='renderTmap.html'>tmapOutput</a></code> for tmap in Shiny, <code><a href='tmap_mode.html'>tmap_mode</a></code>, <code><a href='tm_view.html'>tm_view</a></code>, <code><a href='print.tmap.html'>print.tmap</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># world choropleth/bubble map of the world</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>, <span class='kw'>metro</span>)
-<span class='kw'>metro</span><span class='op'>$</span><span class='kw'>growth</span> <span class='op'>&lt;-</span> (<span class='kw'>metro</span><span class='op'>$</span><span class='kw'>pop2020</span> <span class='op'>-</span> <span class='kw'>metro</span><span class='op'>$</span><span class='kw'>pop2010</span>) <span class='op'>/</span> (<span class='kw'>metro</span><span class='op'>$</span><span class='kw'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span>) <span class='op'>*</span> <span class='fl'>100</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>metro</span><span class='op'>)</span>
+<span class='va'>metro</span><span class='op'>$</span><span class='va'>growth</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2020</span> <span class='op'>-</span> <span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
 
-<span class='kw'>map1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>metro</span>) <span class='op'>+</span>
-	tm_bubb<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_bubbles</a></span>1<span class='st'>"pop2010"</span> "growth<span class='st'>"growth"</span>
-			   border.col = "black", border.alpha<span class='st'>"black"</span><span class='fl'>.5</span>
-			   style="fixed", breaks=c(-In<span class='st'>"fixed"</span>0, 6, by=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>)<span class='op'>-</span><span class='fl'>Inf</span>f)<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='fl'>0</span><span class='fl'>6</span><span class='fl'>2</span><span class='fl'>Inf</span>
-			   palette="-RdYlBu", contrast=1<span class='st'>"-RdYlBu"</span><span class='fl'>1</span>
-			   title.size="Metro population", <span class='st'>"Metro population"</span>
-			   title.col="Growth rate (%)", id<span class='st'>"Growth rate (%)"</span><span class='st'>"name"</span><span class='op'>+</span>
-	tm_layo<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>.bg.color = "grey90<span class='st'>"grey90"</span>d.bg.alpha=.5, leg<span class='fl'>.5</span>d.frame=TRUE)<span class='fl'>TRUE</span>
+<span class='va'>map1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span><span class='st'>"pop2010"</span>, col <span class='op'>=</span> <span class='st'>"growth"</span>, 
+         border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>, 
+         style<span class='op'>=</span><span class='st'>"fixed"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, by<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>, <span class='cn'>Inf</span><span class='op'>)</span>,
+         palette<span class='op'>=</span><span class='st'>"-RdYlBu"</span>, contrast<span class='op'>=</span><span class='fl'>1</span>, 
+         title.size<span class='op'>=</span><span class='st'>"Metro population"</span>, 
+         title.col<span class='op'>=</span><span class='st'>"Growth rate (%)"</span>, id<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>legend.bg.color <span class='op'>=</span> <span class='st'>"grey90"</span>, legend.bg.alpha<span class='op'>=</span><span class='fl'>.5</span>, legend.frame<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 
 
-<span class='kw'>lf</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_leaflet.html'>tmap_leaflet</a></span>(<span class='kw'>map1</span>)</div><div class='output co'>#&gt; <span class='message'>Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span></div><div class='output co'>#&gt; <span class='message'>Legend for symbol sizes not available in view mode.</span></div><div class='input'>
+<span class='va'>lf</span> <span class='op'>&lt;-</span> <span class='fu'>tmap_leaflet</span><span class='op'>(</span><span class='va'>map1</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span></div><div class='output co'>#&gt; <span class='message'>Legend for symbol sizes not available in view mode.</span></div><div class='input'>
 <span class='co'># show leaflet widget</span>
-<span class='kw'>lf</span>
+<span class='va'>lf</span>
 
 <span class='co'># add marker</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='http://rstudio.github.io/leaflet'>leaflet</a></span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: leaflet</span></div><div class='input'><span class='kw'>lf</span> <span class='op'>%&gt;%</span> <span class='kw'>leaflet</span>::<span class='fu'><a href='https://rdrr.io/pkg/leaflet/man/map-layers.html'>addMarkers</a></span>(<span class='fl'>2.2945</span>, <span class='fl'>48.8582</span>, popup = <span class='st'>"Eiffel tower"</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='http://rstudio.github.io/leaflet/'>leaflet</a></span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Loading required package: leaflet</span></div><div class='input'><span class='va'>lf</span> <span class='op'>%&gt;%</span> <span class='fu'>leaflet</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/leaflet/man/map-layers.html'>addMarkers</a></span><span class='op'>(</span><span class='fl'>2.2945</span>, <span class='fl'>48.8582</span>, popup <span class='op'>=</span> <span class='st'>"Eiffel tower"</span><span class='op'>)</span>
 
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># alternative</span>
-<span class='kw'>eiffelTower</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/geocode_OSM.html'>geocode_OSM</a></span>(<span class='st'>"Eiffel Tower, Paris"</span>, as.SPDF = <span class='fl'>TRUE</span>)
+<span class='va'>eiffelTower</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/geocode_OSM.html'>geocode_OSM</a></span><span class='op'>(</span><span class='st'>"Eiffel Tower, Paris"</span>, as.SPDF <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
 
-<span class='kw'>map1</span> <span class='op'>+</span> 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>eiffelTower</span>) <span class='op'>+</span>
-	tm_mark<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_markers</a></span>
-}</div></pre>
+<span class='va'>map1</span> <span class='op'>+</span> 
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>eiffelTower</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_symbols.html'>tm_markers</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -225,7 +222,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

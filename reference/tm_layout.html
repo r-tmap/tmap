@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,106 +129,106 @@
     <p>This element specifies the map layout. The main function <code>tm_layout</code> controls title, margins, aspect ratio, colors, frame, legend, among many other things. The function <code>tm_legend</code> is a shortcut to access all <code>legend.</code> arguments without this prefix. The other functions are wrappers for two purposes: <code>tm_format</code> specifies position related layout settings such as margins, and <code>tm_style</code> specifies general styling related layout settings such as colors and font. Typically, the former functions are shape dependent, and the latter functions are shape independent. See details for predefined styles and formats. With <code>tmap.style</code>, a default style can be specified. Multiple <code>tm_layout</code> elements (or wrapper functions) can be stacked: called arguments will be overwritten.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>(
-  <span class='kw'>title</span>,
-  <span class='kw'>scale</span>,
-  <span class='kw'>title.size</span>,
-  <span class='kw'>bg.color</span>,
-  <span class='kw'>aes.color</span>,
-  <span class='kw'>aes.palette</span>,
-  <span class='kw'>attr.color</span>,
-  <span class='kw'>sepia.intensity</span>,
-  <span class='kw'>saturation</span>,
-  <span class='kw'>frame</span>,
-  <span class='kw'>frame.lwd</span>,
-  <span class='kw'>frame.double.line</span>,
-  <span class='kw'>asp</span>,
-  <span class='kw'>outer.margins</span>,
-  <span class='kw'>inner.margins</span>,
-  <span class='kw'>between.margin</span>,
-  <span class='kw'>outer.bg.color</span>,
-  <span class='kw'>fontface</span>,
-  <span class='kw'>fontfamily</span>,
-  <span class='kw'>compass.type</span>,
-  <span class='kw'>earth.boundary</span>,
-  <span class='kw'>earth.boundary.color</span>,
-  <span class='kw'>earth.boundary.lwd</span>,
-  <span class='kw'>earth.datum</span>,
-  <span class='kw'>space.color</span>,
-  <span class='kw'>legend.show</span>,
-  <span class='kw'>legend.only</span>,
-  <span class='kw'>legend.outside</span>,
-  <span class='kw'>legend.outside.position</span>,
-  <span class='kw'>legend.outside.size</span>,
-  <span class='kw'>legend.position</span>,
-  <span class='kw'>legend.stack</span>,
-  <span class='kw'>legend.just</span>,
-  <span class='kw'>legend.width</span>,
-  <span class='kw'>legend.height</span>,
-  <span class='kw'>legend.hist.height</span>,
-  <span class='kw'>legend.hist.width</span>,
-  <span class='kw'>legend.title.color</span>,
-  <span class='kw'>legend.title.size</span>,
-  <span class='kw'>legend.title.fontface</span>,
-  <span class='kw'>legend.title.fontfamily</span>,
-  <span class='kw'>legend.text.color</span>,
-  <span class='kw'>legend.text.size</span>,
-  <span class='kw'>legend.text.fontface</span>,
-  <span class='kw'>legend.text.fontfamily</span>,
-  <span class='kw'>legend.hist.size</span>,
-  <span class='kw'>legend.format</span>,
-  <span class='kw'>legend.frame</span>,
-  <span class='kw'>legend.frame.lwd</span>,
-  <span class='kw'>legend.bg.color</span>,
-  <span class='kw'>legend.bg.alpha</span>,
-  <span class='kw'>legend.hist.bg.color</span>,
-  <span class='kw'>legend.hist.bg.alpha</span>,
-  <span class='kw'>title.snap.to.legend</span>,
-  <span class='kw'>title.position</span>,
-  <span class='kw'>title.color</span>,
-  <span class='kw'>title.fontface</span>,
-  <span class='kw'>title.fontfamily</span>,
-  <span class='kw'>title.bg.color</span>,
-  <span class='kw'>title.bg.alpha</span>,
-  <span class='kw'>panel.show</span>,
-  <span class='kw'>panel.labels</span>,
-  <span class='kw'>panel.label.size</span>,
-  <span class='kw'>panel.label.color</span>,
-  <span class='kw'>panel.label.fontface</span>,
-  <span class='kw'>panel.label.fontfamily</span>,
-  <span class='kw'>panel.label.bg.color</span>,
-  <span class='kw'>panel.label.height</span>,
-  <span class='kw'>panel.label.rot</span>,
-  <span class='kw'>main.title</span>,
-  <span class='kw'>main.title.size</span>,
-  <span class='kw'>main.title.color</span>,
-  <span class='kw'>main.title.fontface</span>,
-  <span class='kw'>main.title.fontfamily</span>,
-  <span class='kw'>main.title.position</span>,
-  <span class='kw'>attr.outside</span>,
-  <span class='kw'>attr.outside.position</span>,
-  <span class='kw'>attr.outside.size</span>,
-  <span class='kw'>attr.position</span>,
-  <span class='kw'>attr.just</span>,
-  <span class='kw'>design.mode</span>
-)
+    <pre class="usage"><span class='fu'>tm_layout</span><span class='op'>(</span>
+  <span class='va'>title</span>,
+  <span class='va'>scale</span>,
+  <span class='va'>title.size</span>,
+  <span class='va'>bg.color</span>,
+  <span class='va'>aes.color</span>,
+  <span class='va'>aes.palette</span>,
+  <span class='va'>attr.color</span>,
+  <span class='va'>sepia.intensity</span>,
+  <span class='va'>saturation</span>,
+  <span class='va'>frame</span>,
+  <span class='va'>frame.lwd</span>,
+  <span class='va'>frame.double.line</span>,
+  <span class='va'>asp</span>,
+  <span class='va'>outer.margins</span>,
+  <span class='va'>inner.margins</span>,
+  <span class='va'>between.margin</span>,
+  <span class='va'>outer.bg.color</span>,
+  <span class='va'>fontface</span>,
+  <span class='va'>fontfamily</span>,
+  <span class='va'>compass.type</span>,
+  <span class='va'>earth.boundary</span>,
+  <span class='va'>earth.boundary.color</span>,
+  <span class='va'>earth.boundary.lwd</span>,
+  <span class='va'>earth.datum</span>,
+  <span class='va'>space.color</span>,
+  <span class='va'>legend.show</span>,
+  <span class='va'>legend.only</span>,
+  <span class='va'>legend.outside</span>,
+  <span class='va'>legend.outside.position</span>,
+  <span class='va'>legend.outside.size</span>,
+  <span class='va'>legend.position</span>,
+  <span class='va'>legend.stack</span>,
+  <span class='va'>legend.just</span>,
+  <span class='va'>legend.width</span>,
+  <span class='va'>legend.height</span>,
+  <span class='va'>legend.hist.height</span>,
+  <span class='va'>legend.hist.width</span>,
+  <span class='va'>legend.title.color</span>,
+  <span class='va'>legend.title.size</span>,
+  <span class='va'>legend.title.fontface</span>,
+  <span class='va'>legend.title.fontfamily</span>,
+  <span class='va'>legend.text.color</span>,
+  <span class='va'>legend.text.size</span>,
+  <span class='va'>legend.text.fontface</span>,
+  <span class='va'>legend.text.fontfamily</span>,
+  <span class='va'>legend.hist.size</span>,
+  <span class='va'>legend.format</span>,
+  <span class='va'>legend.frame</span>,
+  <span class='va'>legend.frame.lwd</span>,
+  <span class='va'>legend.bg.color</span>,
+  <span class='va'>legend.bg.alpha</span>,
+  <span class='va'>legend.hist.bg.color</span>,
+  <span class='va'>legend.hist.bg.alpha</span>,
+  <span class='va'>title.snap.to.legend</span>,
+  <span class='va'>title.position</span>,
+  <span class='va'>title.color</span>,
+  <span class='va'>title.fontface</span>,
+  <span class='va'>title.fontfamily</span>,
+  <span class='va'>title.bg.color</span>,
+  <span class='va'>title.bg.alpha</span>,
+  <span class='va'>panel.show</span>,
+  <span class='va'>panel.labels</span>,
+  <span class='va'>panel.label.size</span>,
+  <span class='va'>panel.label.color</span>,
+  <span class='va'>panel.label.fontface</span>,
+  <span class='va'>panel.label.fontfamily</span>,
+  <span class='va'>panel.label.bg.color</span>,
+  <span class='va'>panel.label.height</span>,
+  <span class='va'>panel.label.rot</span>,
+  <span class='va'>main.title</span>,
+  <span class='va'>main.title.size</span>,
+  <span class='va'>main.title.color</span>,
+  <span class='va'>main.title.fontface</span>,
+  <span class='va'>main.title.fontfamily</span>,
+  <span class='va'>main.title.position</span>,
+  <span class='va'>attr.outside</span>,
+  <span class='va'>attr.outside.position</span>,
+  <span class='va'>attr.outside.size</span>,
+  <span class='va'>attr.position</span>,
+  <span class='va'>attr.just</span>,
+  <span class='va'>design.mode</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_legend</a></span>(<span class='kw'>...</span>)
+<span class='fu'>tm_legend</span><span class='op'>(</span><span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_style</a></span>(<span class='kw'>style</span>, <span class='kw'>...</span>)
+<span class='fu'>tm_style</span><span class='op'>(</span><span class='va'>style</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_format</a></span>(<span class='kw'>format</span>, <span class='kw'>...</span>)</pre>
+<span class='fu'>tm_format</span><span class='op'>(</span><span class='va'>format</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>title</th>
-      <td><p>Global title of the map. For small multiples, multiple titles can be specified. The title is drawn inside the map. Alternatively, use <code>panel.labels</code> to print the map as a panel, with the title inside the panel header (especially useful for small multiples). Another alternative is the <code>main.title</code> which prints a title above the map. Titles for the legend items are specified at the layer functions (e.g. <code><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_fill</a></code>).</p></td>
+      <td><p>Global title of the map. For small multiples, multiple titles can be specified. The title is drawn inside the map. Alternatively, use <code>panel.labels</code> to print the map as a panel, with the title inside the panel header (especially useful for small multiples). Another alternative is the <code>main.title</code> which prints a title above the map. Titles for the legend items are specified at the layer functions (e.g. <code><a href='tm_fill.html'>tm_fill</a></code>).</p></td>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. Each of these elements can be scaled independently with the <code>scale</code>, <code>lwd</code>, or <code>size</code> arguments provided by the <code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a>s</code>.</p></td>
+      <td><p>numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. Each of these elements can be scaled independently with the <code>scale</code>, <code>lwd</code>, or <code>size</code> arguments provided by the <code><a href='tmap-element.html'>tmap-element</a>s</code>.</p></td>
     </tr>
     <tr>
       <th>title.size</th>
@@ -278,7 +272,7 @@
     </tr>
     <tr>
       <th>asp</th>
-      <td><p>Aspect ratio. The aspect ratio of the map (width/height). If <code>NA</code>, it is determined by the bounding box (see argument <code>bbox</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></code>), the <code>outer.margins</code>, and the <code>inner.margins</code>. If <code>0</code>, then the aspect ratio is adjusted to the aspect ratio of the device.</p></td>
+      <td><p>Aspect ratio. The aspect ratio of the map (width/height). If <code>NA</code>, it is determined by the bounding box (see argument <code>bbox</code> of <code><a href='tm_shape.html'>tm_shape</a></code>), the <code>outer.margins</code>, and the <code>inner.margins</code>. If <code>0</code>, then the aspect ratio is adjusted to the aspect ratio of the device.</p></td>
     </tr>
     <tr>
       <th>outer.margins</th>
@@ -306,11 +300,11 @@
     </tr>
     <tr>
       <th>compass.type</th>
-      <td><p>type of compass, one of: <code>"arrow"</code>, <code>"4star"</code>, <code>"8star"</code>, <code>"radar"</code>, <code>"rose"</code>. Of course, only applicable if a compass is shown. The compass type can also be set within <code><a href='https://rdrr.io/pkg/tmap/man/tm_compass.html'>tm_compass</a></code>.</p></td>
+      <td><p>type of compass, one of: <code>"arrow"</code>, <code>"4star"</code>, <code>"8star"</code>, <code>"radar"</code>, <code>"rose"</code>. Of course, only applicable if a compass is shown. The compass type can also be set within <code><a href='tm_compass.html'>tm_compass</a></code>.</p></td>
     </tr>
     <tr>
       <th>earth.boundary</th>
-      <td><p>Logical that determines whether the boundaries of the earth are shown or a bounding box that specifies the boundaries (an <code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf</a></code> bbox object, see <code><a href='https://rdrr.io/pkg/sf/man/st_bbox.html'>st_bbox</a></code>, or any object that can be read by <code><a href='https://rdrr.io/pkg/tmaptools/man/bb.html'>bb</a></code>). By default, the boundaries are <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -90, 180, 90)</a></code>. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -88, 180, 88)</a></code>).</p></td>
+      <td><p>Logical that determines whether the boundaries of the earth are shown or a bounding box that specifies the boundaries (an <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf</a></code> bbox object, see <code><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></code>, or any object that can be read by <code><a href='https://rdrr.io/pkg/tmaptools/man/bb.html'>bb</a></code>). By default, the boundaries are <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -90, 180, 90)</a></code>. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -88, 180, 88)</a></code>).</p></td>
     </tr>
     <tr>
       <th>earth.boundary.color</th>
@@ -414,7 +408,7 @@
     </tr>
     <tr>
       <th>legend.format</th>
-      <td><p>list of formatting options for the legend numbers. Only applicable for layer functions (such as <code><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_fill</a></code>) where <code>labels</code> is undefined. Parameters are:</p><dl>
+      <td><p>list of formatting options for the legend numbers. Only applicable for layer functions (such as <code><a href='tm_fill.html'>tm_fill</a></code>) where <code>labels</code> is undefined. Parameters are:</p><dl>
 <dt>fun</dt><dd><p>Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items <code>scientific</code>, <code>format</code>, and <code>digits</code> (see below) are not used.</p></dd>
 <dt>scientific</dt><dd><p>Should the labels be formatted scientifically? If so, square brackets are used, and the <code>format</code> of the numbers is <code>"g"</code>. Otherwise, <code>format="f"</code>, and <code>text.separator</code>, <code>text.less.than</code>, <code>text.or.more</code>, and <code>big.num.abbr</code> are used. Also, the numbers are automatically  rounded to millions or billions if applicable.</p></dd>
 <dt>format</dt><dd><p>By default, <code>"f"</code>, i.e. the standard notation <code>xxx.xxx</code>, is used. If <code>scientific=TRUE</code> then <code>"g"</code>, which means that numbers are formatted scientifically, i.e. <code>n.dddE+nn</code> if needed to save space.</p></dd>
@@ -486,7 +480,7 @@ By default the title is placed on top of the legend (determined by <code>legend.
     </tr>
     <tr>
       <th>panel.show</th>
-      <td><p>Logical that determines if the map(s) are shown as panels. If <code>TRUE</code>, the title will be placed in the panel header instead of inside the map. By default, it is <code>TRUE</code> when small multiples are created with the <code>by</code> variable. (See <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code>)</p></td>
+      <td><p>Logical that determines if the map(s) are shown as panels. If <code>TRUE</code>, the title will be placed in the panel header instead of inside the map. By default, it is <code>TRUE</code> when small multiples are created with the <code>by</code> variable. (See <code><a href='tm_facets.html'>tm_facets</a></code>)</p></td>
     </tr>
     <tr>
       <th>panel.labels</th>
@@ -518,11 +512,11 @@ By default the title is placed on top of the legend (determined by <code>legend.
     </tr>
     <tr>
       <th>panel.label.rot</th>
-      <td><p>Rotation angles of the panel labels. Vector of two values: the first is the rotation angle (in degrees) of the row panels, which are only used in cross-table facets (when <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code>'s <code>by</code> is specified with two variables). The second is the rotation angle of the column panels.</p></td>
+      <td><p>Rotation angles of the panel labels. Vector of two values: the first is the rotation angle (in degrees) of the row panels, which are only used in cross-table facets (when <code><a href='tm_facets.html'>tm_facets</a></code>'s <code>by</code> is specified with two variables). The second is the rotation angle of the column panels.</p></td>
     </tr>
     <tr>
       <th>main.title</th>
-      <td><p>Title that is printed above the map (or small multiples). When multiple pages are generated (see <code>along</code> argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code>), a vector can be provided. By default, the main title is only printed when this <code>along</code> argument is specified.</p></td>
+      <td><p>Title that is printed above the map (or small multiples). When multiple pages are generated (see <code>along</code> argument of <code><a href='tm_facets.html'>tm_facets</a></code>), a vector can be provided. By default, the main title is only printed when this <code>along</code> argument is specified.</p></td>
     </tr>
     <tr>
       <th>main.title.size</th>
@@ -558,7 +552,7 @@ By default the title is placed on top of the legend (determined by <code>legend.
     </tr>
     <tr>
       <th>attr.position</th>
-      <td><p>Position of the map attributes, which are <code><a href='https://rdrr.io/pkg/tmap/man/tm_credits.html'>tm_credits</a></code>, <code><a href='https://rdrr.io/pkg/tmap/man/tm_scale_bar.html'>tm_scale_bar</a></code>, <code><a href='https://rdrr.io/pkg/tmap/man/tm_compass.html'>tm_compass</a></code>, and <code><a href='https://rdrr.io/pkg/tmap/man/tm_minimap.html'>tm_minimap</a></code>. Vector of two values, specifying the x and y coordinates. The first value is <code>"left"</code>, <code>"LEFT"</code>, <code>"center"</code>, <code>"right"</code>, or <code>"RIGHT"</code>, and the second value <code>"top"</code>, <code>"TOP"</code>, <code>"center"</code>, <code>"bottom"</code>, or <code>"BOTTOM"</code>. The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute functions. If <code>attr.outside=TRUE</code>, this argument specifies the position of the attributes within the outside panel.</p></td>
+      <td><p>Position of the map attributes, which are <code><a href='tm_credits.html'>tm_credits</a></code>, <code><a href='tm_scale_bar.html'>tm_scale_bar</a></code>, <code><a href='tm_compass.html'>tm_compass</a></code>, and <code><a href='tm_minimap.html'>tm_minimap</a></code>. Vector of two values, specifying the x and y coordinates. The first value is <code>"left"</code>, <code>"LEFT"</code>, <code>"center"</code>, <code>"right"</code>, or <code>"RIGHT"</code>, and the second value <code>"top"</code>, <code>"TOP"</code>, <code>"center"</code>, <code>"bottom"</code>, or <code>"BOTTOM"</code>. The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute functions. If <code>attr.outside=TRUE</code>, this argument specifies the position of the attributes within the outside panel.</p></td>
     </tr>
     <tr>
       <th>attr.just</th>
@@ -566,7 +560,7 @@ By default the title is placed on top of the legend (determined by <code>legend.
     </tr>
     <tr>
       <th>design.mode</th>
-      <td><p>Not used anymore, since it is now only a tmap option: see <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>.</p></td>
+      <td><p>Not used anymore, since it is now only a tmap option: see <code><a href='tmap_options.html'>tmap_options</a></code>.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -611,70 +605,74 @@ By default the title is placed on top of the legend (determined by <code>legend.
     <p>Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, <a href='https://doi.org/10.18637/jss.v084.i06'>DOI</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code>vignette("tmap-getstarted")</code></a></p></div>
+    <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>, <span class='kw'>land</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>land</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span> 
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_fill</a></span>(<span class='st'>"pop_est_dens"</span>, style=<span class='st'>"kmeans"</span>, title=<span class='st'>"Population density"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_style</a></span>(<span class='st'>"albatross"</span>, frame.lwd=<span class='fl'>10</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_format</a></span>(<span class='st'>"World"</span>, title=<span class='st'>"The World"</span>)</div><div class='img'><img src='tm_layout-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>land</span>) <span class='op'>+</span>
-	tm_rast<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_raster.html'>tm_raster</a></span>t<span class='st'>"elevation"</span>s=c(-Inf,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>2<span class='op'>-</span><span class='fl'>Inf</span>50<span class='fl'>250</span>10<span class='fl'>500</span> 1<span class='fl'>1000</span> 2<span class='fl'>1500</span> 2<span class='fl'>2000</span> 3<span class='fl'>2500</span> 4<span class='fl'>3000</span> I<span class='fl'>4000</span>  <span class='fl'>Inf</span>
-		palette = terrain.colors<span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>terrain.colors</a></span>e<span class='fl'>9</span>ation", m<span class='st'>"Elevation"</span>A) +<span class='fl'>NA</span><span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>, is.master=<span class='fl'>TRUE</span>) <span class='op'>+</span>
-	tm_bord<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>0<span class='st'>"grey20"</span><span class='op'>+</span>
-	tm_grid<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_grid.html'>tm_grid</a></span>tion="longla<span class='st'>"longlat"</span>s.size = .5) +<span class='fl'>.5</span><span class='op'>+</span>
-	tm_text<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_text.html'>tm_text</a></span>,<span class='st'>"name"</span>"AREA")<span class='st'>"AREA"</span><span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_compass.html'>tm_compass</a></span>(position = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.65</span>, <span class='fl'>.15</span>), color.light = <span class='st'>"grey90"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_credits.html'>tm_credits</a></span>(<span class='st'>"Eckert IV projection"</span>, position = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"right"</span>, <span class='st'>"BOTTOM"</span>)) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_style</a></span>(<span class='st'>"classic"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>(bg.color=<span class='st'>"lightblue"</span>,
-	inner.margins=c(.04,.<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>3<span class='fl'>.04</span>0<span class='fl'>.03</span>.0<span class='fl'>.02</span> <span class='fl'>.01</span>
-	earth.boundary = TRUE, <span class='fl'>TRUE</span>
-	space.color="grey90<span class='st'>"grey90"</span><span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_legend</a></span>(position = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"bottom"</span>), 
-	frame = TRUE,<span class='fl'>TRUE</span>
-	bg.color="lightb<span class='st'>"lightblue"</span>
-}
-	
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>, projection=<span class='st'>"+proj=robin"</span>) <span class='op'>+</span>
-	tm_poly<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span> <span class='st'>"HPI"</span>te="div", <span class='st'>"div"</span><span class='fl'>7</span>
-			title = "Happy Planet Index")<span class='st'>"Happy Planet Index"</span><span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_credits.html'>tm_credits</a></span>(<span class='st'>"Robinson projection"</span>, position = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"right"</span>, <span class='st'>"BOTTOM"</span>)) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_style</a></span>(<span class='st'>"natural"</span>, earth.boundary = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='op'>-</span><span class='fl'>180</span>, <span class='op'>-</span><span class='fl'>87</span>, <span class='fl'>180</span>, <span class='fl'>87</span>), inner.margins = <span class='fl'>.05</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_legend</a></span>(position=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"bottom"</span>), bg.color=<span class='st'>"grey95"</span>, frame=<span class='fl'>TRUE</span>)</div><div class='img'><img src='tm_layout-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> 
+    <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"pop_est_dens"</span>, style<span class='op'>=</span><span class='st'>"kmeans"</span>, title<span class='op'>=</span><span class='st'>"Population density"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"albatross"</span>, frame.lwd<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>tm_format</span><span class='op'>(</span><span class='st'>"World"</span>, title<span class='op'>=</span><span class='st'>"The World"</span><span class='op'>)</span>
+</div><div class='img'><img src='tm_layout-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_raster.html'>tm_raster</a></span><span class='op'>(</span><span class='st'>"elevation"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fl'>250</span>, <span class='fl'>500</span>, <span class='fl'>1000</span>, <span class='fl'>1500</span>, <span class='fl'>2000</span>, <span class='fl'>2500</span>, <span class='fl'>3000</span>, <span class='fl'>4000</span>, <span class='cn'>Inf</span><span class='op'>)</span>,  
+    palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>terrain.colors</a></span><span class='op'>(</span><span class='fl'>9</span><span class='op'>)</span>, title<span class='op'>=</span><span class='st'>"Elevation"</span>, midpoint <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, is.master<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey20"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_grid.html'>tm_grid</a></span><span class='op'>(</span>projection<span class='op'>=</span><span class='st'>"longlat"</span>, labels.size <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"name"</span>, size<span class='op'>=</span><span class='st'>"AREA"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_compass.html'>tm_compass</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.65</span>, <span class='fl'>.15</span><span class='op'>)</span>, color.light <span class='op'>=</span> <span class='st'>"grey90"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_credits.html'>tm_credits</a></span><span class='op'>(</span><span class='st'>"Eckert IV projection"</span>, position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"right"</span>, <span class='st'>"BOTTOM"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_layout</span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"lightblue"</span>,
+  inner.margins<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.04</span>,<span class='fl'>.03</span>, <span class='fl'>.02</span>, <span class='fl'>.01</span><span class='op'>)</span>, 
+  earth.boundary <span class='op'>=</span> <span class='cn'>TRUE</span>, 
+  space.color<span class='op'>=</span><span class='st'>"grey90"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_legend</span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span>, 
+  frame <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  bg.color<span class='op'>=</span><span class='st'>"lightblue"</span><span class='op'>)</span>
+<span class='op'>}</span>
+  
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, projection<span class='op'>=</span><span class='st'>"+proj=robin"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span>, palette<span class='op'>=</span><span class='st'>"div"</span>, n<span class='op'>=</span><span class='fl'>7</span>, 
+      title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_credits.html'>tm_credits</a></span><span class='op'>(</span><span class='st'>"Robinson projection"</span>, position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"right"</span>, <span class='st'>"BOTTOM"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"natural"</span>, earth.boundary <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>180</span>, <span class='op'>-</span><span class='fl'>87</span>, <span class='fl'>180</span>, <span class='fl'>87</span><span class='op'>)</span>, inner.margins <span class='op'>=</span> <span class='fl'>.05</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_legend</span><span class='op'>(</span>position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span>, bg.color<span class='op'>=</span><span class='st'>"grey95"</span>, frame<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
+</div><div class='img'><img src='tm_layout-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># Example to illustrate the type of titles</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span>
-	tm_poly<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>o<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>e<span class='st'>"income_grp"</span>om<span class='st'>"economy"</span>e = c("Lege<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>d<span class='st'>"Legend Title 1"</span>nd<span class='st'>"Legend Title 2"</span><span class='op'>+</span>
-	tm_layo<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>itle = "Main T<span class='st'>"Main Title"</span>
-		main.title.position = "center",<span class='st'>"center"</span>
-		main.title.color = "blue",<span class='st'>"blue"</span>
-		title = c("Title 1", "<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>i<span class='st'>"Title 1"</span><span class='st'>"Title 2"</span>
-		title.color = "red",<span class='st'>"red"</span>
-		panel.labels = c("Panel Label<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>1<span class='st'>"Panel Label 1"</span> 2<span class='st'>"Panel Label 2"</span>
-		panel.label.color = "purple",<span class='st'>"purple"</span>
-		legend.text.color = "brown")<span class='st'>"brown"</span></div><div class='img'><img src='tm_layout-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"income_grp"</span>, <span class='st'>"economy"</span><span class='op'>)</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Legend Title 1"</span>, <span class='st'>"Legend Title 2"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>tm_layout</span><span class='op'>(</span>main.title <span class='op'>=</span> <span class='st'>"Main Title"</span>,
+    main.title.position <span class='op'>=</span> <span class='st'>"center"</span>,
+    main.title.color <span class='op'>=</span> <span class='st'>"blue"</span>,
+    title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Title 1"</span>, <span class='st'>"Title 2"</span><span class='op'>)</span>,
+    title.color <span class='op'>=</span> <span class='st'>"red"</span>,
+    panel.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Panel Label 1"</span>, <span class='st'>"Panel Label 2"</span><span class='op'>)</span>,
+    panel.label.color <span class='op'>=</span> <span class='st'>"purple"</span>,
+    legend.text.color <span class='op'>=</span> <span class='st'>"brown"</span><span class='op'>)</span>
+</div><div class='img'><img src='tm_layout-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># global option tmap.style demo</span>
-	
+  
 <span class='co'># get current style</span>
-<span class='kw'>current.style</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>() 
-	
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, fill = <span class='st'>"economy"</span>, format = <span class='st'>"World"</span>)
+<span class='va'>current.style</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span> 
+  
+<span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>(<span class='st'>"col_blind"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, fill = <span class='st'>"economy"</span>, format = <span class='st'>"World"</span>)
+<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"col_blind"</span><span class='op'>)</span>
+<span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>(<span class='st'>"cobalt"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, fill = <span class='st'>"economy"</span>, format = <span class='st'>"World"</span>)
+<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span>
+<span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
 
 <span class='co'># set to current style</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>(<span class='kw'>current.style</span>)
-}
+<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='va'>current.style</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span></div></pre>
+<span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -690,7 +688,7 @@ By default the title is placed on top of the legend (determined by <code>legend.
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

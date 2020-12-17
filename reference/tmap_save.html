@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,24 +129,24 @@
     <p>Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></span>(
-  tm = <span class='kw'>NULL</span>,
-  filename = <span class='fl'>NA</span>,
-  width = <span class='fl'>NA</span>,
-  height = <span class='fl'>NA</span>,
-  units = <span class='fl'>NA</span>,
-  dpi = <span class='fl'>NA</span>,
-  outer.margins = <span class='fl'>NA</span>,
-  asp = <span class='kw'>NULL</span>,
-  scale = <span class='fl'>NA</span>,
-  insets_tm = <span class='kw'>NULL</span>,
-  insets_vp = <span class='kw'>NULL</span>,
-  add.titles = <span class='fl'>TRUE</span>,
-  in.iframe = <span class='fl'>FALSE</span>,
-  selfcontained = <span class='op'>!</span><span class='kw'>in.iframe</span>,
-  verbose = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tmap_save</span><span class='op'>(</span>
+  tm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  filename <span class='op'>=</span> <span class='cn'>NA</span>,
+  width <span class='op'>=</span> <span class='cn'>NA</span>,
+  height <span class='op'>=</span> <span class='cn'>NA</span>,
+  units <span class='op'>=</span> <span class='cn'>NA</span>,
+  dpi <span class='op'>=</span> <span class='cn'>NA</span>,
+  outer.margins <span class='op'>=</span> <span class='cn'>NA</span>,
+  asp <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale <span class='op'>=</span> <span class='cn'>NA</span>,
+  insets_tm <span class='op'>=</span> <span class='cn'>NULL</span>,
+  insets_vp <span class='op'>=</span> <span class='cn'>NULL</span>,
+  add.titles <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  in.iframe <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  selfcontained <span class='op'>=</span> <span class='op'>!</span><span class='va'>in.iframe</span>,
+  verbose <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,11 +157,11 @@
     </tr>
     <tr>
       <th>filename</th>
-      <td><p>filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in <code>"plot"</code> mode and as an interactive map (html) in <code>"view"</code> mode (see details). The default format for static plots is png, but this can be changed using the option <code>"output.format"</code> in <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>.</p></td>
+      <td><p>filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in <code>"plot"</code> mode and as an interactive map (html) in <code>"view"</code> mode (see details). The default format for static plots is png, but this can be changed using the option <code>"output.format"</code> in <code><a href='tmap_options.html'>tmap_options</a></code>.</p></td>
     </tr>
     <tr>
       <th>height, width</th>
-      <td><p>The width and height of the plot (not applicable for html files). Units are set with the argument <code>units</code>. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option <code>"output.size"</code> in <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.</p></td>
+      <td><p>The width and height of the plot (not applicable for html files). Units are set with the argument <code>units</code>. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option <code>"output.size"</code> in <code><a href='tmap_options.html'>tmap_options</a></code>. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.</p></td>
     </tr>
     <tr>
       <th>units</th>
@@ -175,19 +169,19 @@
     </tr>
     <tr>
       <th>dpi</th>
-      <td><p>dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option <code>"output.dpi"</code> in <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>.</p></td>
+      <td><p>dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option <code>"output.dpi"</code> in <code><a href='tmap_options.html'>tmap_options</a></code>.</p></td>
     </tr>
     <tr>
       <th>outer.margins</th>
-      <td><p>overrides the outer.margins argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> (unless set to <code>NA</code>)</p></td>
+      <td><p>overrides the outer.margins argument of <code><a href='tm_layout.html'>tm_layout</a></code> (unless set to <code>NA</code>)</p></td>
     </tr>
     <tr>
       <th>asp</th>
-      <td><p>if specified, it overrides the asp argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>. Tip: set to <code>0</code> if map frame should be placed on the edges of the image.</p></td>
+      <td><p>if specified, it overrides the asp argument of <code><a href='tm_layout.html'>tm_layout</a></code>. Tip: set to <code>0</code> if map frame should be placed on the edges of the image.</p></td>
     </tr>
     <tr>
       <th>scale</th>
-      <td><p>overrides the scale argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> (unless set to <code>NA</code>)</p></td>
+      <td><p>overrides the scale argument of <code><a href='tm_layout.html'>tm_layout</a></code> (unless set to <code>NA</code>)</p></td>
     </tr>
     <tr>
       <th>insets_tm</th>
@@ -211,7 +205,7 @@
     </tr>
     <tr>
       <th>verbose</th>
-      <td><p>Deprecated. It is now controlled by the tmap option <code>show.messages</code> (see <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>)</p></td>
+      <td><p>Deprecated. It is now controlled by the tmap option <code>show.messages</code> (see <code><a href='tmap_options.html'>tmap_options</a></code>)</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -221,37 +215,39 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-	data(NL<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>n<span class='kw'>NLD_muni</span>ro<span class='kw'>NLD_prov</span>
-	m <- tm<span class='kw'>m</span>s<span class='op'>&lt;-</span>p<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>n<span class='kw'>NLD_muni</span><span class='op'>+</span>
-		     tm_fill(col="p<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_fill</a></span>on", <span class='st'>"population"</span>ity=TRUE, <span class='fl'>TRUE</span>
-                 style=<span class='st'>"kmeans"</span>, 
-                 title=<span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='st'>"Population (per "</span> <span class='op'>*</span> <span class='kw'>km</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>*</span> <span class='st'>")"</span>)) <span class='op'>+</span>
-		     tm_borders("bl<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>a<span class='st'>"black"</span><span class='fl'>.5</span><span class='op'>+</span>
-		 tm_shape(NLD_p<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span><span class='kw'>NLD_prov</span><span class='op'>+</span>
-		     tm_borders("gr<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>=<span class='st'>"grey25"</span><span class='fl'>2</span><span class='op'>+</span>
-		tm_style("clas<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_style</a></span><span class='st'>"classic"</span><span class='op'>+</span>
-		tm_format("NLD<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_format</a></span>m<span class='st'>"NLD"</span>s = c(.02, .15, .0<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>,<span class='fl'>.02</span>5)<span class='fl'>.15</span> <span class='fl'>.06</span><span class='fl'>.15</span><span class='op'>+</span>
-	    tm_scal<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_scale_bar.html'>tm_scale_bar</a></span>on = c("left<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>,<span class='st'>"left"</span>om<span class='st'>"bottom"</span><span class='op'>+</span>
-	    tm_comp<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_compass.html'>tm_compass</a></span>on=c("righ<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>"<span class='st'>"right"</span>om<span class='st'>"bottom"</span>
-	
-	tmap_sa<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></span>o<span class='kw'>m</span>op<span class='st'>"choropleth.png"</span>t=7)<span class='fl'>7</span>
-	
-	data(Wo<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='kw'>World</span>
-	m2 <- t<span class='kw'>m2</span>s<span class='op'>&lt;-</span>p<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span> <span class='kw'>World</span><span class='op'>+</span>
-		tm_fill("well_<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_fill</a></span> <span class='st'>"well_being"</span>itle=<span class='st'>"name"</span>being") <span class='st'>"Well-being"</span><span class='op'>+</span>
-		tm_format("Wor<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_format</a></span><span class='st'>"World"</span>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, <span class='va'>NLD_prov</span><span class='op'>)</span>
+  <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
+         <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>"population"</span>, convert2density<span class='op'>=</span><span class='cn'>TRUE</span>, 
+                 style<span class='op'>=</span><span class='st'>"kmeans"</span>, 
+                 title<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='st'>"Population (per "</span> <span class='op'>*</span> <span class='va'>km</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>*</span> <span class='st'>")"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+         <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"black"</span>, alpha<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span> 
+     <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
+         <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey25"</span>, lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span>, inner.margins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.02</span>, <span class='fl'>.15</span>, <span class='fl'>.06</span>, <span class='fl'>.15</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+      <span class='fu'><a href='tm_scale_bar.html'>tm_scale_bar</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+      <span class='fu'><a href='tm_compass.html'>tm_compass</a></span><span class='op'>(</span>position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"right"</span>, <span class='st'>"bottom"</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='fu'>tmap_save</span><span class='op'>(</span><span class='va'>m</span>, <span class='st'>"choropleth.png"</span>, height <span class='op'>=</span> <span class='fl'>7</span><span class='op'>)</span> <span class='co'># height interpreted in inches</span>
+  <span class='fu'>tmap_save</span><span class='op'>(</span><span class='va'>m</span>, <span class='st'>"choropleth_icon.png"</span>, height <span class='op'>=</span> <span class='fl'>100</span>, scale <span class='op'>=</span> <span class='fl'>.1</span><span class='op'>)</span> <span class='co'># height interpreted in pixels</span>
+  
+  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
+  <span class='va'>m2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"well_being"</span>, id<span class='op'>=</span><span class='st'>"name"</span>, title<span class='op'>=</span><span class='st'>"Well-being"</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
 
-	# save <span class='co'># save image</span>
-	tmap_sa<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></span>o<span class='kw'>m2</span>d_<span class='st'>"World_map.png"</span>=1920, h<span class='fl'>1920</span>t=1080, a<span class='fl'>1080</span>)<span class='fl'>0</span>
+  <span class='co'># save image</span>
+  <span class='fu'>tmap_save</span><span class='op'>(</span><span class='va'>m2</span>, <span class='st'>"World_map.png"</span>, width<span class='op'>=</span><span class='fl'>1920</span>, height<span class='op'>=</span><span class='fl'>1080</span>, asp<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
 
-	# cut l<span class='co'># cut left inner margin to make sure Antarctica is snapped to frame</span>
-	tmap_sa<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></span>m<span class='kw'>m2</span>a<span class='op'>+</span>o<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>margins = c(0, -.<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>,<span class='fl'>0</span>0.<span class='op'>-</span><span class='fl'>.1</span> 0<span class='fl'>0.05</span>),<span class='fl'>0.01</span>
-        <span class='st'>"World_map2.png"</span>, width=<span class='fl'>1920</span>, height=<span class='fl'>1080</span>, asp=<span class='fl'>0</span>)
-	
-	# save <span class='co'># save interactive plot</span>
-	tmap_sa<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></span>o<span class='kw'>m2</span>d_<span class='st'>"World_map.html"</span>
-}</div></pre>
+  <span class='co'># cut left inner margin to make sure Antarctica is snapped to frame</span>
+  <span class='fu'>tmap_save</span><span class='op'>(</span><span class='va'>m2</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>inner.margins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='op'>-</span><span class='fl'>.1</span>, <span class='fl'>0.05</span>, <span class='fl'>0.01</span><span class='op'>)</span><span class='op'>)</span>, 
+        <span class='st'>"World_map2.png"</span>, width<span class='op'>=</span><span class='fl'>1920</span>, height<span class='op'>=</span><span class='fl'>1080</span>, asp<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
+  
+  <span class='co'># save interactive plot</span>
+  <span class='fu'>tmap_save</span><span class='op'>(</span><span class='va'>m2</span>, <span class='st'>"World_map.html"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -267,7 +263,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

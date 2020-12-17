@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,23 +129,23 @@
     <p>Creates a map compass.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_compass.html'>tm_compass</a></span>(
-  north = <span class='fl'>0</span>,
-  type = <span class='fl'>NA</span>,
-  text.size = <span class='fl'>0.8</span>,
-  size = <span class='fl'>NA</span>,
-  show.labels = <span class='fl'>1</span>,
-  cardinal.directions = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"N"</span>, <span class='st'>"E"</span>, <span class='st'>"S"</span>, <span class='st'>"W"</span>),
-  text.color = <span class='fl'>NA</span>,
-  color.dark = <span class='fl'>NA</span>,
-  color.light = <span class='fl'>NA</span>,
-  lwd = <span class='fl'>1</span>,
-  position = <span class='fl'>NA</span>,
-  bg.color = <span class='fl'>NA</span>,
-  bg.alpha = <span class='fl'>NA</span>,
-  just = <span class='fl'>NA</span>,
-  fontsize = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tm_compass</span><span class='op'>(</span>
+  north <span class='op'>=</span> <span class='fl'>0</span>,
+  type <span class='op'>=</span> <span class='cn'>NA</span>,
+  text.size <span class='op'>=</span> <span class='fl'>0.8</span>,
+  size <span class='op'>=</span> <span class='cn'>NA</span>,
+  show.labels <span class='op'>=</span> <span class='fl'>1</span>,
+  cardinal.directions <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"N"</span>, <span class='st'>"E"</span>, <span class='st'>"S"</span>, <span class='st'>"W"</span><span class='op'>)</span>,
+  text.color <span class='op'>=</span> <span class='cn'>NA</span>,
+  color.dark <span class='op'>=</span> <span class='cn'>NA</span>,
+  color.light <span class='op'>=</span> <span class='cn'>NA</span>,
+  lwd <span class='op'>=</span> <span class='fl'>1</span>,
+  position <span class='op'>=</span> <span class='cn'>NA</span>,
+  bg.color <span class='op'>=</span> <span class='cn'>NA</span>,
+  bg.alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+  just <span class='op'>=</span> <span class='cn'>NA</span>,
+  fontsize <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,7 +156,7 @@
     </tr>
     <tr>
       <th>type</th>
-      <td><p>compass type, one of: <code>"arrow"</code>, <code>"4star"</code>, <code>"8star"</code>, <code>"radar"</code>, <code>"rose"</code>. The default is controlled by <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> (which uses <code>"arrow"</code> for the default style)</p></td>
+      <td><p>compass type, one of: <code>"arrow"</code>, <code>"4star"</code>, <code>"8star"</code>, <code>"radar"</code>, <code>"rose"</code>. The default is controlled by <code><a href='tm_layout.html'>tm_layout</a></code> (which uses <code>"arrow"</code> for the default style)</p></td>
     </tr>
     <tr>
       <th>text.size</th>
@@ -182,7 +176,7 @@
     </tr>
     <tr>
       <th>text.color</th>
-      <td><p>color of the text. By default equal to the argument <code>attr.color</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>color of the text. By default equal to the argument <code>attr.color</code> of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     <tr>
       <th>color.dark</th>
@@ -198,7 +192,7 @@
     </tr>
     <tr>
       <th>position</th>
-      <td><p>position of the compass. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument <code>"attr.position"</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>position of the compass. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the compass. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument <code>"attr.position"</code> of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     <tr>
       <th>bg.color</th>
@@ -210,7 +204,7 @@
     </tr>
     <tr>
       <th>just</th>
-      <td><p>Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>position</code> is specified by numeric coordinates. The default value is controlled by the argument <code>"attr.just"</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>position</code> is specified by numeric coordinates. The default value is controlled by the argument <code>"attr.just"</code> of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     <tr>
       <th>fontsize</th>
@@ -220,12 +214,16 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='st'>"plot"</span>)</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>NLD_muni</span>)
+    <pre class="examples"><div class='input'><span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"plot"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>NLD_muni</span>, theme = <span class='st'>"NLD"</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_compass.html'>tm_compass</a></span>()</div><div class='img'><img src='tm_compass-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>NLD_muni</span>, theme = <span class='st'>"NLD"</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_compass.html'>tm_compass</a></span>(type=<span class='st'>"radar"</span>, position=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"top"</span>), show.labels = <span class='fl'>3</span>)</div><div class='img'><img src='tm_compass-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, theme <span class='op'>=</span> <span class='st'>"NLD"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>tm_compass</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='img'><img src='tm_compass-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, theme <span class='op'>=</span> <span class='st'>"NLD"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>tm_compass</span><span class='op'>(</span>type<span class='op'>=</span><span class='st'>"radar"</span>, position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span>, show.labels <span class='op'>=</span> <span class='fl'>3</span><span class='op'>)</span>
+</div><div class='img'><img src='tm_compass-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># restore current mode</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='kw'>current.mode</span>)</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
+<span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -241,7 +239,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

@@ -31,18 +31,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="reference/index.html">Reference</a>
 </li>
@@ -68,7 +62,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -87,6 +81,8 @@
 <div id="tmap-thematic-maps-in-r" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#tmap-thematic-maps-in-r" class="anchor"></a>tmap: thematic maps in R</h1></div>
+<!--[![Build Status](https://travis-ci.org/mtennekes/tmap.png?branch=master)](https://travis-ci.org/mtennekes/tmap)-->
+<!--[![Coverage Status](https://img.shields.io/codecov/c/github/mtennekes/tmap/master.svg)](https://codecov.io/github/mtennekes/tmap?branch=master)-->
 
 <p><a href="http://cran.r-project.org/package=tmap"><code>tmap</code></a> is an actively maintained open-source <a href="http://stackoverflow.com/tags/r/info">R</a>-library for drawing thematic maps. The API is based on <a href="http://vita.had.co.nz/papers/layered-grammar.pdf"><em>A Layered Grammar of Graphics</em></a> and resembles the syntax of <a href="http://cran.r-project.org/package=ggplot2"><code>ggplot2</code></a>, a popular R-library for drawing charts.</p>
 <p><span> <img src="https://mtennekes.github.io/downloads/images/classic.png" alt="Classic World Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/bubble.png" alt="Bubble Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/view_metro4.jpg" alt="Bubble Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/world_facets2.png" alt="World facets" height="125px"><img src="https://mtennekes.github.io/downloads/images/USchoro.png" alt="US Choropleth" height="125px"><img src="https://mtennekes.github.io/downloads/images/US_PR.jpg" alt="US Choropleth" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes3b.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes4.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"></span></p>
@@ -95,9 +91,8 @@
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
 <p><code>tmap</code> is available on <a href="https://cran.r-project.org/package=tmap"><img src="http://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>. Installation is straightforward:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span>(<span class="st">"tmap"</span>)
-</pre></div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span><span class="op">)</span></code></pre></div>
 <p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
 <p><strong>Windows</strong> No additional installation required.</p>
 <p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/" class="uri">https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/</a>. Please address installation issues in this <a href="https://github.com/mtennekes/tmap/issues/150">issue</a>.</p>
@@ -107,20 +102,18 @@
 <h2 class="hasAnchor">
 <a href="#development" class="anchor"></a>Development</h2>
 <p>The latest development version can be installed using <code>devtools</code>. In order to use the development version of <code>tmap</code>, it is recommended to use the development version of <a href="http://github.com/mtennekes/tmaptools">tmaptools</a> as well:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://remotes.r-lib.org">remotes</a></span>)
-<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"mtennekes/tmaptools"</span>)
-<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span>(<span class="st">"mtennekes/tmap"</span>)
-</pre></div>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span>
+<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mtennekes/tmaptools"</span><span class="op">)</span>
+<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mtennekes/tmap"</span><span class="op">)</span></code></pre></div>
 <p>See <a href="https://github.com/mtennekes/tmap/blob/master/NEWS">NEWS</a> for the latest features and improvements and the <a href="https://github.com/mtennekes/tmap/issues">issue list</a> for discussions of enhancements and bugs.</p>
 <p>Do you want to help with the development of the package? Please let us know! Any feedback, requests, tips, or bug reports are welcome!</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
-<div class="sourceCode" id="cb3"><pre class="downlit">
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="kw"><a href="https://github.com/mtennekes/tmap">tmap</a></span>)
-</pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="reference" class="section level2">
 <h2 class="hasAnchor">
@@ -219,11 +212,10 @@
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://travis-ci.org/mtennekes/tmap"><img src="https://travis-ci.org/mtennekes/tmap.png?branch=master" alt="Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/mtennekes/tmap"><img src="https://ci.appveyor.com/api/projects/status/github/mtennekes/tmap?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
-<li><a href="https://codecov.io/github/mtennekes/tmap?branch=master"><img src="https://img.shields.io/codecov/c/github/mtennekes/tmap/master.svg" alt="Coverage Status"></a></li>
 <li><a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat" alt="License"></a></li>
 <li><a href="https://cran.r-project.org/package=tmap"><img src="http://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a></li>
+<li><a href="https://cran.r-project.org/web/checks/check_results_tmap.html"><img src="https://cranchecks.info/badges/worst/tmap" alt="cran checks"></a></li>
 <li><a href="http://www.r-pkg.org/pkg/tmap"><img src="http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen" alt="Downloads"></a></li>
 </ul>
 </div>
@@ -236,7 +228,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

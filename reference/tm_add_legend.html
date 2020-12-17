@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,30 +126,30 @@
     </div>
 
     <div class="ref-description">
-    <p>Creates a <code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a></code> that adds a manual legend.</p>
+    <p>Creates a <code><a href='tmap-element.html'>tmap-element</a></code> that adds a manual legend.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_add_legend.html'>tm_add_legend</a></span>(
-  type = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"fill"</span>, <span class='st'>"symbol"</span>, <span class='st'>"text"</span>, <span class='st'>"line"</span>, <span class='st'>"title"</span>),
-  labels = <span class='kw'>NULL</span>,
-  col = <span class='kw'>NULL</span>,
-  size = <span class='kw'>NULL</span>,
-  shape = <span class='kw'>NULL</span>,
-  lwd = <span class='kw'>NULL</span>,
-  lty = <span class='kw'>NULL</span>,
-  text = <span class='kw'>NULL</span>,
-  alpha = <span class='fl'>NA</span>,
-  border.col = <span class='st'>"black"</span>,
-  border.lwd = <span class='fl'>1</span>,
-  border.alpha = <span class='fl'>NA</span>,
-  title = <span class='st'>""</span>,
-  is.portrait = <span class='fl'>TRUE</span>,
-  legend.format = <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(),
-  reverse = <span class='fl'>FALSE</span>,
-  z = <span class='fl'>NA</span>,
-  zindex = <span class='fl'>NA</span>,
-  group = <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tm_add_legend</span><span class='op'>(</span>
+  type <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"fill"</span>, <span class='st'>"symbol"</span>, <span class='st'>"text"</span>, <span class='st'>"line"</span>, <span class='st'>"title"</span><span class='op'>)</span>,
+  labels <span class='op'>=</span> <span class='cn'>NULL</span>,
+  col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  shape <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lwd <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lty <span class='op'>=</span> <span class='cn'>NULL</span>,
+  text <span class='op'>=</span> <span class='cn'>NULL</span>,
+  alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+  border.col <span class='op'>=</span> <span class='st'>"black"</span>,
+  border.lwd <span class='op'>=</span> <span class='fl'>1</span>,
+  border.alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+  title <span class='op'>=</span> <span class='st'>""</span>,
+  is.portrait <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  legend.format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>,
+  reverse <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  z <span class='op'>=</span> <span class='cn'>NA</span>,
+  zindex <span class='op'>=</span> <span class='cn'>NA</span>,
+  group <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,7 +168,7 @@
     </tr>
     <tr>
       <th>size</th>
-      <td><p>legend symbol sizes (if <code>type=="symbol"</code>). See example how to replicate the sizes of symbols created with <code><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></code>. If not specified, the symbols will have the same size as when calling <code><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></code> without specifying the <code>size</code> argument.</p></td>
+      <td><p>legend symbol sizes (if <code>type=="symbol"</code>). See example how to replicate the sizes of symbols created with <code><a href='tm_symbols.html'>tm_symbols</a></code>. If not specified, the symbols will have the same size as when calling <code><a href='tm_symbols.html'>tm_symbols</a></code> without specifying the <code>size</code> argument.</p></td>
     </tr>
     <tr>
       <th>shape</th>
@@ -218,7 +212,7 @@
     </tr>
     <tr>
       <th>legend.format</th>
-      <td><p>options to format the legend, see <code><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></code> (the description of the argument <code>legend.format</code>) for details. Note that many of these arguments are not applicable for <code>tm_add_legend</code> since <code>labels</code> should be a character vector. However, some options could still be handy, e.g. <code><a href='https://rdrr.io/r/base/list.html'>list(text.align = "right")</a></code>.</p></td>
+      <td><p>options to format the legend, see <code><a href='tm_symbols.html'>tm_symbols</a></code> (the description of the argument <code>legend.format</code>) for details. Note that many of these arguments are not applicable for <code>tm_add_legend</code> since <code>labels</code> should be a character vector. However, some options could still be handy, e.g. <code><a href='https://rdrr.io/r/base/list.html'>list(text.align = "right")</a></code>.</p></td>
     </tr>
     <tr>
       <th>reverse</th>
@@ -240,43 +234,44 @@
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></code> for another example</p></div>
+    <div class='dont-index'><p><code><a href='tm_symbols.html'>tm_symbols</a></code> for another example</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># This example adds a manual legend that combines the tm_symbols color and size legend.</span>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>metro</span>)
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span>
 
 <span class='co'># legend bubble size (10, 20, 30, 40 million) are</span>
 <span class='co'># - are normlized by upper limit (40e6),</span>
 <span class='co'># - square rooted (see argument perceptual of tm_symbols), and </span>
 <span class='co'># - scaled by 2:</span>
-<span class='kw'>bubble_sizes</span> <span class='op'>&lt;-</span> ((<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>40</span>) <span class='op'>*</span> <span class='fl'>1e6</span>) <span class='op'>/</span> <span class='fl'>40e6</span>) <span class='op'>^</span> <span class='fl'>0.5</span> <span class='op'>*</span> <span class='fl'>2</span> 
+<span class='va'>bubble_sizes</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>40</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>1e6</span><span class='op'>)</span> <span class='op'>/</span> <span class='fl'>40e6</span><span class='op'>)</span> <span class='op'>^</span> <span class='fl'>0.5</span> <span class='op'>*</span> <span class='fl'>2</span> 
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span> 
-	tm_poly<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span><span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>metro</span>) <span class='op'>+</span>
-	tm_symb<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></span>op202<span class='st'>'pop2020'</span>
-		breaks = c(0, 15, 25, 3<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>,<span class='fl'>0</span>40<span class='fl'>15</span>* <span class='fl'>25</span>6,<span class='fl'>35</span><span class='fl'>40</span><span class='op'>*</span><span class='fl'>1e6</span>
-		n=4,<span class='fl'>4</span>
-		palette = 'YlOrRd',<span class='st'>'YlOrRd'</span>
-		size='pop2020',<span class='st'>'pop2020'</span>
-		sizes.legend = c(10, 20, 30, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>0<span class='fl'>10</span>* <span class='fl'>20</span>6,<span class='fl'>30</span><span class='fl'>40</span><span class='op'>*</span><span class='fl'>1e6</span>
-		size.lim = c(0, 40e6),<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='fl'>0</span><span class='fl'>40e6</span>
-		scale = 2,<span class='fl'>2</span>
-		legend.size.show = FALSE,    # co<span class='fl'>FALSE</span> this<span class='co'># comment this line to see the original size legend</span>
-		legend.col.show = FALSE,     # c<span class='fl'>FALSE</span>t this<span class='co'># comment this line to see the original color legend</span>
-		legend.size.is.portrait = TRUE) + <span class='fl'>TRUE</span><span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_add_legend.html'>tm_add_legend</a></span>(<span class='st'>'symbol'</span>, 
-	col = RColorB<span class='kw'>RColorBrewer</span>r.<span class='fu'><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>brewer.pal</a></span>O<span class='fl'>4</span>Rd<span class='st'>"YlOrRd"</span>
-	border.col = "grey40<span class='st'>"grey40"</span>
-	size = bubble_<span class='kw'>bubble_sizes</span>
-	labels = c('0-15<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>m<span class='st'>'0-15 mln'</span> <span class='st'>'15-25 mln'</span> <span class='st'>'25-35 mln'</span> <span class='st'>'35-40 mln'</span>
-	title="Popula<span class='st'>"Population Estimate"</span>
-}
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span> 
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_symbols.html'>tm_symbols</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>'pop2020'</span>, 
+    breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>15</span>, <span class='fl'>25</span>, <span class='fl'>35</span>, <span class='fl'>40</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>1e6</span>,
+    n<span class='op'>=</span><span class='fl'>4</span>,
+    palette <span class='op'>=</span> <span class='st'>'YlOrRd'</span>,
+    size<span class='op'>=</span><span class='st'>'pop2020'</span>,
+    sizes.legend <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>10</span>, <span class='fl'>20</span>, <span class='fl'>30</span>, <span class='fl'>40</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>1e6</span>,
+    size.lim <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>40e6</span><span class='op'>)</span>,
+    scale <span class='op'>=</span> <span class='fl'>2</span>,
+    legend.size.show <span class='op'>=</span> <span class='cn'>FALSE</span>,    <span class='co'># comment this line to see the original size legend</span>
+    legend.col.show <span class='op'>=</span> <span class='cn'>FALSE</span>,     <span class='co'># comment this line to see the original color legend</span>
+    legend.size.is.portrait <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span> 
+<span class='fu'>tm_add_legend</span><span class='op'>(</span><span class='st'>'symbol'</span>, 
+  col <span class='op'>=</span> <span class='fu'>RColorBrewer</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/RColorBrewer/man/ColorBrewer.html'>brewer.pal</a></span><span class='op'>(</span><span class='fl'>4</span>, <span class='st'>"YlOrRd"</span><span class='op'>)</span>,
+  border.col <span class='op'>=</span> <span class='st'>"grey40"</span>,
+  size <span class='op'>=</span> <span class='va'>bubble_sizes</span>,
+  labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>'0-15 mln'</span>,<span class='st'>'15-25 mln'</span>,<span class='st'>'25-35 mln'</span>,<span class='st'>'35-40 mln'</span><span class='op'>)</span>,
+  title<span class='op'>=</span><span class='st'>"Population Estimate"</span><span class='op'>)</span>
+<span class='op'>}</span>
 
-<span class='co'># See also the documentation of tm_symbols for another example</span></div></pre>
+<span class='co'># See also the documentation of tm_symbols for another example</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -292,7 +287,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

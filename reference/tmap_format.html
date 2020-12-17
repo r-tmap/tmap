@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,23 +126,23 @@
     </div>
 
     <div class="ref-description">
-    <p>Format options are tmap options that are shape dependent. With <code><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format()</a></code> the predefined formats can be retrieved. The values for a specific format can be retrieved with <code><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format(format)</a></code>, where format is the name of the format. The function <code>tmap_format_add</code> is used to add a format.</p>
+    <p>Format options are tmap options that are shape dependent. With <code>tmap_format()</code> the predefined formats can be retrieved. The values for a specific format can be retrieved with <code>tmap_format(format)</code>, where format is the name of the format. The function <code>tmap_format_add</code> is used to add a format.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format</a></span>(<span class='kw'>format</span>)
+    <pre class="usage"><span class='fu'>tmap_format</span><span class='op'>(</span><span class='va'>format</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format_add</a></span>(<span class='kw'>...</span>, <span class='kw'>name</span>)</pre>
+<span class='fu'>tmap_format_add</span><span class='op'>(</span><span class='va'>...</span>, <span class='va'>name</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>format</th>
-      <td><p>name of the format. Run <code><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format()</a></code> to see the choices.</p></td>
+      <td><p>name of the format. Run <code>tmap_format()</code> to see the choices.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>options from <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> or <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code>. Can also be a list of those options.</p></td>
+      <td><p>options from <code><a href='tm_layout.html'>tm_layout</a></code> or <code><a href='tm_view.html'>tm_view</a></code>. Can also be a list of those options.</p></td>
     </tr>
     <tr>
       <th>name</th>
@@ -158,26 +152,30 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>the function <code><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format()</a></code> returns the names of the available formats. When <code>format</code> is defined, it returns the option list corresponding the that format.</p>
+    <p>the function <code>tmap_format()</code> returns the names of the available formats. When <code>format</code> is defined, it returns the option list corresponding the that format.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> for predefined styles, <code><a href='https://rdrr.io/pkg/tmap/man/tmap_style_catalogue.html'>tmap_style_catalogue</a></code> to create a style catalogue of all available styles, and <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code> for tmap options.</p>
-<p><code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code> for tmap options</p></div>
+    <div class='dont-index'><p><code><a href='tm_layout.html'>tm_layout</a></code> for predefined styles, <code><a href='tmap_style_catalogue.html'>tmap_style_catalogue</a></code> to create a style catalogue of all available styles, and <code><a href='tmap_options.html'>tmap_options</a></code> for tmap options.</p>
+<p><code><a href='tmap_options.html'>tmap_options</a></code> for tmap options</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># available formats</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format</a></span>()</div><div class='output co'>#&gt; <span class='message'>available formats are: "World", "World_wide", "NLD", "NLD_wide" </span></div><div class='input'>
+<span class='fu'>tmap_format</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>available formats are: "World", "World_wide", "NLD", "NLD_wide" </span></div><div class='input'>
 <span class='co'># create option list to be used as a new format</span>
-<span class='kw'>World_small</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format</a></span>(<span class='st'>"World"</span>)
-<span class='kw'>World_small</span><span class='op'>$</span><span class='kw'>scale</span> <span class='op'>&lt;-</span> <span class='fl'>2</span>
+<span class='va'>World_small</span> <span class='op'>&lt;-</span> <span class='fu'>tmap_format</span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
+<span class='va'>World_small</span><span class='op'>$</span><span class='va'>scale</span> <span class='op'>&lt;-</span> <span class='fl'>2</span>
 
 <span class='co'># add format</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format_add</a></span>(<span class='kw'>World_small</span>, name = <span class='st'>"World_small"</span>)</div><div class='output co'>#&gt; <span class='message'>format World_small succesfully added. Use this format with tm_format("World_small")</span></div><div class='input'>
+<span class='fu'>tmap_format_add</span><span class='op'>(</span><span class='va'>World_small</span>, name <span class='op'>=</span> <span class='st'>"World_small"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>format World_small succesfully added. Use this format with tm_format("World_small")</span></div><div class='input'>
 <span class='co'># observe that World_small is successfully added:</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format</a></span>()</div><div class='output co'>#&gt; <span class='message'>available formats are: "World", "World_wide", "NLD", "NLD_wide", "World_small" </span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>)
+<span class='fu'>tmap_format</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>available formats are: "World", "World_wide", "NLD", "NLD_wide", "World_small" </span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, fill=<span class='st'>"HPI"</span>, format=<span class='st'>"World_small"</span>)</div><div class='img'><img src='tmap_format-1.png' alt='' width='700' height='433' /></div></pre>
+<span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill<span class='op'>=</span><span class='st'>"HPI"</span>, format<span class='op'>=</span><span class='st'>"World_small"</span><span class='op'>)</span>
+</div><div class='img'><img src='tmap_format-1.png' alt='' width='700' height='433' /></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -193,7 +191,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

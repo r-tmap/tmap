@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,19 +129,20 @@
     <p>Creates a text annotation that could be used for credits or acknowledgements.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_credits.html'>tm_credits</a></span>(
-  <span class='kw'>text</span>,
-  size = <span class='fl'>0.7</span>,
-  col = <span class='fl'>NA</span>,
-  alpha = <span class='fl'>NA</span>,
-  align = <span class='st'>"left"</span>,
-  bg.color = <span class='fl'>NA</span>,
-  bg.alpha = <span class='fl'>NA</span>,
-  fontface = <span class='fl'>NA</span>,
-  fontfamily = <span class='fl'>NA</span>,
-  position = <span class='fl'>NA</span>,
-  just = <span class='fl'>NA</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tm_credits</span><span class='op'>(</span>
+  <span class='va'>text</span>,
+  size <span class='op'>=</span> <span class='fl'>0.7</span>,
+  col <span class='op'>=</span> <span class='cn'>NA</span>,
+  alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+  align <span class='op'>=</span> <span class='st'>"left"</span>,
+  bg.color <span class='op'>=</span> <span class='cn'>NA</span>,
+  bg.alpha <span class='op'>=</span> <span class='cn'>NA</span>,
+  fontface <span class='op'>=</span> <span class='cn'>NA</span>,
+  fontfamily <span class='op'>=</span> <span class='cn'>NA</span>,
+  position <span class='op'>=</span> <span class='cn'>NA</span>,
+  width <span class='op'>=</span> <span class='cn'>NA</span>,
+  just <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -162,7 +157,7 @@
     </tr>
     <tr>
       <th>col</th>
-      <td><p>color of the text. By default equal to the argument <code>attr.color</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>color of the text. By default equal to the argument <code>attr.color</code> of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     <tr>
       <th>alpha</th>
@@ -182,40 +177,47 @@
     </tr>
     <tr>
       <th>fontface</th>
-      <td><p>font face of the text. By default, determined by the fontface argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>font face of the text. By default, determined by the fontface argument of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     <tr>
       <th>fontfamily</th>
-      <td><p>font family of the text. By default, determined by the fontfamily argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>font family of the text. By default, determined by the fontfamily argument of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     <tr>
       <th>position</th>
-      <td><p>position of the text. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument <code>"attr.position"</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>position of the text. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument <code>"attr.position"</code> of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>width</th>
+      <td><p>the width of the credits text box, a numeric value that is relative to the map area (so 1 means the whole map width). By default (<code>NA</code>), it is determined by the width of the text. Tip: set <code>bg.color</code> to see the result.</p></td>
     </tr>
     <tr>
       <th>just</th>
-      <td><p>Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>position</code> is specified by numeric coordinates. The default value is controlled by the argument <code>"attr.just"</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>position</code> is specified by numeric coordinates. The default value is controlled by the argument <code>"attr.just"</code> of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/tmap/man/axis_labels.html'>tm_xlab</a></code></p></div>
+    <div class='dont-index'><p><code><a href='tm_xlab.html'>tm_xlab</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='st'>"plot"</span>)</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>NLD_muni</span>, <span class='kw'>NLD_prov</span>)
+    <pre class="examples"><div class='input'><span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"plot"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, <span class='va'>NLD_prov</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>NLD_muni</span>) <span class='op'>+</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_fill</a></span>(col=<span class='st'>"population"</span>, convert2density=<span class='fl'>TRUE</span>, 
-        style=<span class='st'>"kmeans"</span>, title = <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span>(<span class='st'>"Population (per "</span> <span class='op'>*</span> <span class='kw'>km</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>*</span> <span class='st'>")"</span>)) <span class='op'>+</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>(<span class='st'>"grey25"</span>, alpha=<span class='fl'>.5</span>) <span class='op'>+</span> 
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>NLD_prov</span>) <span class='op'>+</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>(<span class='st'>"grey40"</span>, lwd=<span class='fl'>2</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_format</a></span>(<span class='st'>"NLD"</span>, bg.color=<span class='st'>"white"</span>, frame = <span class='fl'>TRUE</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_credits.html'>tm_credits</a></span>(<span class='st'>"(c) Statistics Netherlands (CBS) and\nKadaster Nederland"</span>, position=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"bottom"</span>))</div><div class='img'><img src='tm_credits-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>"population"</span>, convert2density<span class='op'>=</span><span class='cn'>TRUE</span>, 
+        style<span class='op'>=</span><span class='st'>"kmeans"</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='st'>"Population (per "</span> <span class='op'>*</span> <span class='va'>km</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>*</span> <span class='st'>")"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey25"</span>, alpha<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span> 
+    <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey40"</span>, lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span>, bg.color<span class='op'>=</span><span class='st'>"white"</span>, frame <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_credits</span><span class='op'>(</span><span class='st'>"(c) Statistics Netherlands (CBS) and\nKadaster Nederland"</span>, position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='tm_credits-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># restore current mode</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='kw'>current.mode</span>)</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
+<span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -231,7 +233,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

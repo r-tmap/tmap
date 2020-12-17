@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,14 +129,14 @@
     <p>Creates a map logo. Multiple logos can be specified which are shown next to each other. Logos placed on top of each other can be specified with stacking <code>tm_logo</code> elements.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_logo.html'>tm_logo</a></span>(
-  <span class='kw'>file</span>,
-  height = <span class='fl'>3</span>,
-  halign = <span class='st'>"center"</span>,
-  margin = <span class='fl'>0.2</span>,
-  position = <span class='fl'>NA</span>,
-  just = <span class='fl'>NA</span>
-)</pre>
+    <pre class="usage"><span class='fu'>tm_logo</span><span class='op'>(</span>
+  <span class='va'>file</span>,
+  height <span class='op'>=</span> <span class='fl'>3</span>,
+  halign <span class='op'>=</span> <span class='st'>"center"</span>,
+  margin <span class='op'>=</span> <span class='fl'>0.2</span>,
+  position <span class='op'>=</span> <span class='cn'>NA</span>,
+  just <span class='op'>=</span> <span class='cn'>NA</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -165,35 +159,36 @@
     </tr>
     <tr>
       <th>position</th>
-      <td><p>position of the logo. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument <code>"attr.position"</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>position of the logo. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the center of the text. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument <code>"attr.position"</code> of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     <tr>
       <th>just</th>
-      <td><p>Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>position</code> is specified by numeric coordinates. The default value is controlled by the argument <code>"attr.just"</code> of <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>.</p></td>
+      <td><p>Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>position</code> is specified by numeric coordinates. The default value is controlled by the argument <code>"attr.just"</code> of <code><a href='tm_layout.html'>tm_layout</a></code>.</p></td>
     </tr>
     </table>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>NLD_muni</span>, <span class='kw'>NLD_prov</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, <span class='va'>NLD_prov</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>NLD_muni</span>) <span class='op'>+</span>
-	tm_poly<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>n<span class='st'>"origin_native"</span>r.alpha=0.5, st<span class='fl'>0.5</span>="cont",<span class='st'>"cont"</span>="Native<span class='st'>"Native Dutch (%)"</span><span class='op'>+</span>
-	tm_logo<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_logo.html'>tm_logo</a></span>/<span class='st'>"http://statline.cbs.nl/Statweb/Images/cbs_logo.png"</span>
-        position=<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"bottom"</span>), height = <span class='fl'>2</span>) <span class='op'>+</span>
-	tm_layo<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>or="gray98<span class='st'>"gray98"</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"origin_native"</span>, border.alpha<span class='op'>=</span><span class='fl'>0.5</span>, style<span class='op'>=</span><span class='st'>"cont"</span>, title<span class='op'>=</span><span class='st'>"Native Dutch (%)"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>tm_logo</span><span class='op'>(</span><span class='st'>"http://statline.cbs.nl/Statweb/Images/cbs_logo.png"</span>, 
+        position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span>, height <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"gray98"</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span>
-	tm_poly<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span> <span class='st'>"HPI"</span>te="RdYlGn<span class='st'>"RdYlGn"</span><span class='op'>+</span>
-	tm_logo<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_logo.html'>tm_logo</a></span>p<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>:<span class='st'>"https://www.r-project.org/logo/Rlogo.png"</span>
-        <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"img/tmap.png"</span>, package=<span class='st'>"tmap"</span>))) <span class='op'>+</span>
-	tm_logo<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_logo.html'>tm_logo</a></span>/<span class='st'>"http://blog.kulikulifoods.com/wp-content/uploads/2014/10/logo.png"</span>
-        height=<span class='fl'>5</span>, position = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"left"</span>, <span class='st'>"top"</span>)) <span class='op'>+</span>
-	tm_form<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_format</a></span>"<span class='st'>"World"</span>
-}</div></pre>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span>, palette<span class='op'>=</span><span class='st'>"RdYlGn"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>tm_logo</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"https://www.r-project.org/logo/Rlogo.png"</span>, 
+        <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"img/tmap.png"</span>, package<span class='op'>=</span><span class='st'>"tmap"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'>tm_logo</span><span class='op'>(</span><span class='st'>"http://blog.kulikulifoods.com/wp-content/uploads/2014/10/logo.png"</span>, 
+        height<span class='op'>=</span><span class='fl'>5</span>, position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"top"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -209,7 +204,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

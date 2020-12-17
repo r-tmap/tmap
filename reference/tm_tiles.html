@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,23 +126,23 @@
     </div>
 
     <div class="ref-description">
-    <p>Creates a <code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a></code> that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by <code><a href='https://rdrr.io/pkg/tmaptools/man/read_osm.html'>read_osm</a></code>. The function <code>tm_basemap</code> draws the tile layer as basemap (i.e. as bottom layer), whereas <code>tm_tiles</code> draws the tile layer as overlay layer (where the stacking order corresponds to the order in which this layer is called). Note that basemaps are shown by default (see details).</p>
+    <p>Creates a <code><a href='tmap-element.html'>tmap-element</a></code> that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by <code><a href='https://rdrr.io/pkg/tmaptools/man/read_osm.html'>read_osm</a></code>. The function <code>tm_basemap</code> draws the tile layer as basemap (i.e. as bottom layer), whereas <code>tm_tiles</code> draws the tile layer as overlay layer (where the stacking order corresponds to the order in which this layer is called). Note that basemaps are shown by default (see details).</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_basemap</a></span>(server = <span class='fl'>NA</span>, group = <span class='fl'>NA</span>, alpha = <span class='fl'>NA</span>, tms = <span class='fl'>FALSE</span>)
+    <pre class="usage"><span class='fu'>tm_basemap</span><span class='op'>(</span>server <span class='op'>=</span> <span class='cn'>NA</span>, group <span class='op'>=</span> <span class='cn'>NA</span>, alpha <span class='op'>=</span> <span class='cn'>NA</span>, tms <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_tiles</a></span>(<span class='kw'>server</span>, group = <span class='fl'>NA</span>, alpha = <span class='fl'>1</span>, zindex = <span class='fl'>NA</span>, tms = <span class='fl'>FALSE</span>)</pre>
+<span class='fu'>tm_tiles</span><span class='op'>(</span><span class='va'>server</span>, group <span class='op'>=</span> <span class='cn'>NA</span>, alpha <span class='op'>=</span> <span class='fl'>1</span>, zindex <span class='op'>=</span> <span class='cn'>NA</span>, tms <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>server</th>
-      <td><p>name of the provider or an URL. The list of available providers can be obtained with <code><a href='https://rdrr.io/pkg/leaflet/man/providers.html'>leaflet::providers</a></code>. See <a href='http://leaflet-extras.github.io/leaflet-providers/preview'>http://leaflet-extras.github.io/leaflet-providers/preview</a> for a preview of those. When a URL is provided, it should be in template format, e.g. <code>"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. Use <code>NULL</code> in <code>tm_basemap</code> to disable the basemaps.</p></td>
+      <td><p>name of the provider or an URL. The list of available providers can be obtained with <code>providers</code> (tip: in RStudio, type <code>providers$</code> to see the options). See <a href='https://leaflet-extras.github.io/leaflet-providers/preview/'>https://leaflet-extras.github.io/leaflet-providers/preview/</a> for a preview of those. When a URL is provided, it should be in template format, e.g. <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. Use <code>NULL</code> in <code>tm_basemap</code> to disable the basemaps.</p></td>
     </tr>
     <tr>
       <th>group</th>
-      <td><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></code>). Tile layers generated with <code>tm_basemap</code> will be base groups whereas tile layers generated with <code>tm_tiles</code> will be overlay groups.</p></td>
+      <td><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href='tm_shape.html'>tm_shape</a></code>). Tile layers generated with <code>tm_basemap</code> will be base groups whereas tile layers generated with <code>tm_tiles</code> will be overlay groups.</p></td>
     </tr>
     <tr>
       <th>alpha</th>
@@ -166,33 +160,34 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When <code>tm_basemap</code> is not specified, the default basemaps are shown, which can be configured by the <code>basemaps</code> arugument in <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>. By default (for style <code>"white"</code>) three basemaps are drawn: <code><a href='https://rdrr.io/r/base/c.html'>c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")</a></code>. To disable basemaps, add <code><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_basemap(NULL)</a></code> to the plot, or set <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options(basemaps = NULL)</a></code>. Similarly, when <code>tm_tiles</code> is not specified, the overlay maps specified by the <code>overlays</code> argument in in <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code> are shown as front layer. By default, this argument is set to <code>NULL</code>, so no overlay maps are shown by default. See examples.</p>
+    <p>When <code>tm_basemap</code> is not specified, the default basemaps are shown, which can be configured by the <code>basemaps</code> arugument in <code><a href='tmap_options.html'>tmap_options</a></code>. By default (for style <code>"white"</code>) three basemaps are drawn: <code><a href='https://rdrr.io/r/base/c.html'>c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")</a></code>. To disable basemaps, add <code>tm_basemap(NULL)</code> to the plot, or set <code><a href='tmap_options.html'>tmap_options(basemaps = NULL)</a></code>. Similarly, when <code>tm_tiles</code> is not specified, the overlay maps specified by the <code>overlays</code> argument in in <code><a href='tmap_options.html'>tmap_options</a></code> are shown as front layer. By default, this argument is set to <code>NULL</code>, so no overlay maps are shown by default. See examples.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='st'>"view"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"view"</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>, <span class='kw'>metro</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>metro</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_basemap</a></span>(<span class='kw'>leaflet</span>::<span class='kw'><a href='https://rdrr.io/pkg/leaflet/man/providers.html'>providers</a></span><span class='op'>$</span><span class='kw'>Stamen.Watercolor</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>metro</span>, bbox = <span class='st'>"India"</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_dots</a></span>(col = <span class='st'>"red"</span>, group = <span class='st'>"Metropolitan areas"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_tiles</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"http://services.arcgisonline.com/arcgis/rest/services/Canvas/"</span>,
-    <span class='st'>"World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"</span>), group = <span class='st'>"Labels"</span>)
+<span class='fu'>tm_basemap</span><span class='op'>(</span><span class='fu'>leaflet</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/leaflet/man/providers.html'>providers</a></span><span class='op'>$</span><span class='va'>Stamen.Watercolor</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span>, bbox <span class='op'>=</span> <span class='st'>"India"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_symbols.html'>tm_dots</a></span><span class='op'>(</span>col <span class='op'>=</span> <span class='st'>"red"</span>, group <span class='op'>=</span> <span class='st'>"Metropolitan areas"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'>tm_tiles</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"http://services.arcgisonline.com/arcgis/rest/services/Canvas/"</span>,
+    <span class='st'>"World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"</span><span class='op'>)</span>, group <span class='op'>=</span> <span class='st'>"Labels"</span><span class='op'>)</span>
 
 
 <span class='co'># Use tmap options to set the basemap and overlay map permanently during the R session:</span>
-<span class='kw'>opts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></span>(basemaps = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(Canvas = <span class='st'>"Esri.WorldGrayCanvas"</span>, Imagery = <span class='st'>"Esri.WorldImagery"</span>),
-    overlays = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(Labels = <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span>(<span class='st'>"http://services.arcgisonline.com/arcgis/rest/services/Canvas/"</span>,
-                                 <span class='st'>"World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"</span>)))
-	
-	qtm(Wor<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span> <span class='kw'>World</span>= "HPI", <span class='st'>"HPI"</span>palette = "RdYlGn<span class='st'>"RdYlGn"</span>
+<span class='va'>opts</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_options.html'>tmap_options</a></span><span class='op'>(</span>basemaps <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>Canvas <span class='op'>=</span> <span class='st'>"Esri.WorldGrayCanvas"</span>, Imagery <span class='op'>=</span> <span class='st'>"Esri.WorldImagery"</span><span class='op'>)</span>,
+    overlays <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>Labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/paste.html'>paste0</a></span><span class='op'>(</span><span class='st'>"http://services.arcgisonline.com/arcgis/rest/services/Canvas/"</span>,
+                                 <span class='st'>"World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
+  
+  <span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"HPI"</span>, fill.palette <span class='op'>=</span> <span class='st'>"RdYlGn"</span><span class='op'>)</span>
 
 <span class='co'># restore options</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></span>(<span class='kw'>opts</span>)
+<span class='fu'><a href='tmap_options.html'>tmap_options</a></span><span class='op'>(</span><span class='va'>opts</span><span class='op'>)</span>
 
 <span class='co'># restore current mode</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='kw'>current.mode</span>)
-}</div></pre>
+<span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -208,7 +203,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

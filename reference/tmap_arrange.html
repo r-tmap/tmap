@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,31 +126,31 @@
     </div>
 
     <div class="ref-description">
-    <p>Arrange small multiples in a grid layout. Normally, small multiples are created by specifying multiple variables for one aesthetic or by specifying the by argument (see <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code>). This function can be used to arrange custom small multiples in a grid layout.</p>
+    <p>Arrange small multiples in a grid layout. Normally, small multiples are created by specifying multiple variables for one aesthetic or by specifying the by argument (see <code><a href='tm_facets.html'>tm_facets</a></code>). This function can be used to arrange custom small multiples in a grid layout.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_arrange.html'>tmap_arrange</a></span>(
-  <span class='kw'>...</span>,
-  ncol = <span class='fl'>NA</span>,
-  nrow = <span class='fl'>NA</span>,
-  widths = <span class='fl'>NA</span>,
-  heights = <span class='fl'>NA</span>,
-  sync = <span class='fl'>FALSE</span>,
-  asp = <span class='fl'>0</span>,
-  outer.margins = <span class='fl'>0.02</span>
-)
+    <pre class="usage"><span class='fu'>tmap_arrange</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  ncol <span class='op'>=</span> <span class='cn'>NA</span>,
+  nrow <span class='op'>=</span> <span class='cn'>NA</span>,
+  widths <span class='op'>=</span> <span class='cn'>NA</span>,
+  heights <span class='op'>=</span> <span class='cn'>NA</span>,
+  sync <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  asp <span class='op'>=</span> <span class='fl'>0</span>,
+  outer.margins <span class='op'>=</span> <span class='fl'>0.02</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_arrange.html'>knit_print.tmap_arrange</a></span>(<span class='kw'>x</span>, <span class='kw'>...</span>, options = <span class='kw'>NULL</span>)
+<span class='fu'>knit_print.tmap_arrange</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span>, options <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
 <span class='co'># S3 method for tmap_arrange</span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='kw'>x</span>, knit = <span class='fl'>FALSE</span>, <span class='kw'>...</span>, options = <span class='kw'>NULL</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span><span class='op'>(</span><span class='va'>x</span>, knit <span class='op'>=</span> <span class='cn'>FALSE</span>, <span class='va'>...</span>, options <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p><code><a href='https://rdrr.io/pkg/tmap/man/tmap-package.html'>tmap</a></code> objects or one list of <code><a href='https://rdrr.io/pkg/tmap/man/tmap-package.html'>tmap</a></code> objects. The number of multiples that can be plot is limited (see details).</p></td>
+      <td><p><code><a href='tmap-package.html'>tmap</a></code> objects or one list of <code><a href='tmap-package.html'>tmap</a></code> objects. The number of multiples that can be plot is limited (see details).</p></td>
     </tr>
     <tr>
       <th>ncol</th>
@@ -180,11 +174,11 @@
     </tr>
     <tr>
       <th>asp</th>
-      <td><p>aspect ratio. The aspect ratio of each map. Normally, this is controlled by the <code>asp</code> argument from <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> (also a tmap option). This argument will overwrite it, unless set to <code>NULL</code>. The default value for <code>asp</code> is 0, which means that the aspect ratio is adjusted to the size of the device divided by the number of columns and rows. When <code>asp</code> is set to <code>NA</code>, which is also the default value for <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>, the aspect ratio will be adjusted to the used shapes.</p></td>
+      <td><p>aspect ratio. The aspect ratio of each map. Normally, this is controlled by the <code>asp</code> argument from <code><a href='tm_layout.html'>tm_layout</a></code> (also a tmap option). This argument will overwrite it, unless set to <code>NULL</code>. The default value for <code>asp</code> is 0, which means that the aspect ratio is adjusted to the size of the device divided by the number of columns and rows. When <code>asp</code> is set to <code>NA</code>, which is also the default value for <code><a href='tm_layout.html'>tm_layout</a></code>, the aspect ratio will be adjusted to the used shapes.</p></td>
     </tr>
     <tr>
       <th>outer.margins</th>
-      <td><p>outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the <code>outer.margins</code> argument from <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>, unless set to <code>NULL</code>.</p></td>
+      <td><p>outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the <code>outer.margins</code> argument from <code><a href='tm_layout.html'>tm_layout</a></code>, unless set to <code>NULL</code>.</p></td>
     </tr>
     <tr>
       <th>x</th>
@@ -202,16 +196,19 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The global option <code>tmap.limits</code> controls the limit of the number of facets that are plotted. By default, <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options(tmap.limits=c(facets.view=4, facets.plot=64))</a></code>. The maximum number of interactive facets is set to four since otherwise it may become very slow.</p>
+    <p>The global option <code>tmap.limits</code> controls the limit of the number of facets that are plotted. By default, <code><a href='tmap_options.html'>tmap_options(tmap.limits=c(facets.view=4, facets.plot=64))</a></code>. The maximum number of interactive facets is set to four since otherwise it may become very slow.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>)
-<span class='kw'>w1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, projection = <span class='st'>"+proj=eck4"</span>, title=<span class='st'>"Eckert IV"</span>)
-<span class='kw'>w2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, projection = <span class='fl'>3857</span>, title=<span class='st'>"Mercator"</span>)
-<span class='kw'>w3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, projection = <span class='st'>"+proj=gall"</span>, title=<span class='st'>"Gall stereographic"</span>)
-<span class='kw'>w4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, projection = <span class='st'>"+proj=robin"</span>, title=<span class='st'>"Robinsin"</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
+<span class='va'>w1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, projection <span class='op'>=</span> <span class='st'>"+proj=eck4"</span>, title<span class='op'>=</span><span class='st'>"Eckert IV"</span><span class='op'>)</span>
+<span class='va'>w2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, projection <span class='op'>=</span> <span class='fl'>3857</span>, title<span class='op'>=</span><span class='st'>"Mercator"</span><span class='op'>)</span>
+<span class='va'>w3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, projection <span class='op'>=</span> <span class='st'>"+proj=gall"</span>, title<span class='op'>=</span><span class='st'>"Gall stereographic"</span><span class='op'>)</span>
+<span class='va'>w4</span> <span class='op'>&lt;-</span> <span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, projection <span class='op'>=</span> <span class='st'>"+proj=robin"</span>, title<span class='op'>=</span><span class='st'>"Robinsin"</span><span class='op'>)</span>
 
-<span class='kw'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='st'>"plot"</span>)</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_arrange.html'>tmap_arrange</a></span>(<span class='kw'>w1</span>, <span class='kw'>w2</span>, <span class='kw'>w3</span>, <span class='kw'>w4</span>, widths = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>.25</span>, <span class='fl'>.75</span>))</div><div class='img'><img src='tmap_arrange-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='kw'>current.mode</span>)</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
+<span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"plot"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'><span class='fu'>tmap_arrange</span><span class='op'>(</span><span class='va'>w1</span>, <span class='va'>w2</span>, <span class='va'>w3</span>, <span class='va'>w4</span>, widths <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.25</span>, <span class='fl'>.75</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='img'><img src='tmap_arrange-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -227,7 +224,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

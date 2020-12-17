@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,14 +126,14 @@
     </div>
 
     <div class="ref-description">
-    <p>Set tmap mode to static plotting or interactive viewing. The global option <code>tmap.mode</code> determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code>. The function <code>tmap_mode</code> is a wrapper to set this global option. The convenient function <code>ttm</code>, which stands for toggle thematic map, is a toggle switch between the two modes. The function <code>ttmp</code> stands for toggle thematic map and print last map: it does the same as <code>ttm</code> followed by <code>tmap_last</code>; in order words, it shows the last map in the other mode. It is recommended to use <code>tmap_mode</code> in scripts and <code>ttm</code>/<code>ttmp</code> in the console.</p>
+    <p>Set tmap mode to static plotting or interactive viewing. The global option <code>tmap.mode</code> determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also <code><a href='tmap_options.html'>tmap_options</a></code>. The function <code>tmap_mode</code> is a wrapper to set this global option. The convenient function <code>ttm</code>, which stands for toggle thematic map, is a toggle switch between the two modes. The function <code>ttmp</code> stands for toggle thematic map and print last map: it does the same as <code>ttm</code> followed by <code>tmap_last</code>; in order words, it shows the last map in the other mode. It is recommended to use <code>tmap_mode</code> in scripts and <code>ttm</code>/<code>ttmp</code> in the console.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(mode = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"plot"</span>, <span class='st'>"view"</span>))
+    <pre class="usage"><span class='fu'>tmap_mode</span><span class='op'>(</span>mode <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"plot"</span>, <span class='st'>"view"</span><span class='op'>)</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>ttm</a></span>()
+<span class='fu'>ttm</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>ttmp</a></span>()</pre>
+<span class='fu'>ttmp</span><span class='op'>(</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -147,15 +141,15 @@
     <tr>
       <th>mode</th>
       <td><p>one of</p><dl>
-       <dt><code>"plot"</code></dt><dd><p>Thematic maps are shown in the graphics device. This is the default mode, and supports all tmap's features, such as small multiples (see <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code>) and extensive layout settings (see <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>). It is recommended for saving static maps (see <code><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></code>).</p></dd> 
-       <dt><code>"view"</code></dt><dd><p>Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see <code><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_tiles</a></code>). See also <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code> for options related to the <code>"view"</code> mode. This mode generates a <code><a href='https://rdrr.io/pkg/leaflet/man/leaflet.html'>leaflet</a></code> widget, which can also be directly obtained with <code><a href='https://rdrr.io/pkg/tmap/man/tmap_leaflet.html'>tmap_leaflet</a></code>. With RMarkdown, it is possible to publish it to an HTML page. 
+       <dt><code>"plot"</code></dt><dd><p>Thematic maps are shown in the graphics device. This is the default mode, and supports all tmap's features, such as small multiples (see <code><a href='tm_facets.html'>tm_facets</a></code>) and extensive layout settings (see <code><a href='tm_layout.html'>tm_layout</a></code>). It is recommended for saving static maps (see <code><a href='tmap_save.html'>tmap_save</a></code>).</p></dd> 
+       <dt><code>"view"</code></dt><dd><p>Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see <code><a href='tm_basemap.html'>tm_tiles</a></code>). See also <code><a href='tm_view.html'>tm_view</a></code> for options related to the <code>"view"</code> mode. This mode generates a <code><a href='https://rdrr.io/pkg/leaflet/man/leaflet.html'>leaflet</a></code> widget, which can also be directly obtained with <code><a href='tmap_leaflet.html'>tmap_leaflet</a></code>. With RMarkdown, it is possible to publish it to an HTML page. 
        There are a couple of constraints in comparison to <code>"plot"</code>:
        <ul>
-<li><p>The map is always projected according to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from <code><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></code>).</p></li>
+<li><p>The map is always projected according to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from <code><a href='tm_shape.html'>tm_shape</a></code>).</p></li>
 <li><p>Small multiples are not supported</p></li>
 <li><p>The legend cannot be made for aesthetics regarding size, which are symbol size and line width.</p></li>
 <li><p>Text labels are not supported (yet)</p></li>
-<li><p>The layout options set with <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>) regarding map format are not used. However, the styling options still apply.</p></li>
+<li><p>The layout options set with <code><a href='tm_layout.html'>tm_layout</a></code>) regarding map format are not used. However, the styling options still apply.</p></li>
 </ul></p></dd>
 </dl></td>
     </tr>
@@ -169,50 +163,55 @@
     <p>Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, <a href='https://doi.org/10.18637/jss.v084.i06'>DOI</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code>vignette("tmap-getstarted")</code></a>, <code><a href='https://rdrr.io/pkg/tmap/man/tmap_last.html'>tmap_last</a></code> to show the last map, <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code> for viewing options, and <code><a href='https://rdrr.io/pkg/tmap/man/tmap_leaflet.html'>tmap_leaflet</a></code> for obtaining a leaflet widget, and <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code> for tmap options.</p></div>
+    <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a>, <code><a href='tmap_last.html'>tmap_last</a></code> to show the last map, <code><a href='tm_view.html'>tm_view</a></code> for viewing options, and <code><a href='tmap_leaflet.html'>tmap_leaflet</a></code> for obtaining a leaflet widget, and <code><a href='tmap_options.html'>tmap_options</a></code> for tmap options.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># world choropleth/bubble map of the world</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>, <span class='kw'>metro</span>)
-<span class='kw'>metro</span><span class='op'>$</span><span class='kw'>growth</span> <span class='op'>&lt;-</span> (<span class='kw'>metro</span><span class='op'>$</span><span class='kw'>pop2020</span> <span class='op'>-</span> <span class='kw'>metro</span><span class='op'>$</span><span class='kw'>pop2010</span>) <span class='op'>/</span> (<span class='kw'>metro</span><span class='op'>$</span><span class='kw'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span>) <span class='op'>*</span> <span class='fl'>100</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>metro</span><span class='op'>)</span>
+<span class='va'>metro</span><span class='op'>$</span><span class='va'>growth</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2020</span> <span class='op'>-</span> <span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
 
-<span class='kw'>map1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span>
-	tm_poly<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>e<span class='st'>"income_grp"</span>te="-Blues<span class='st'>"-Blues"</span>ast=.7, id=<span class='fl'>.7</span>ame",<span class='st'>"name"</span>="Income<span class='st'>"Income group"</span><span class='op'>+</span>
-	tm_shap<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span> <span class='kw'>metro</span><span class='op'>+</span>
-	tm_bubb<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_bubbles</a></span>1<span class='st'>"pop2010"</span> "growth<span class='st'>"growth"</span>
-		border.col = "black", borde<span class='st'>"black"</span> = .5, <span class='fl'>.5</span>
-		style="fixed", break<span class='st'>"fixed"</span>f, seq(0,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>6<span class='op'>-</span><span class='fl'>Inf</span>=2<span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>I<span class='fl'>0</span>f)<span class='fl'>6</span><span class='fl'>2</span><span class='fl'>Inf</span>
-		palette="-RdYlBu", con<span class='st'>"-RdYlBu"</span><span class='fl'>1</span>
-		title.size="Metro populat<span class='st'>"Metro population"</span>
-		title.col="Growth rate (<span class='st'>"Growth rate (%)"</span><span class='st'>"name"</span>
-		popup.vars = c("pop2010", "<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>o<span class='st'>"pop2010"</span>gr<span class='st'>"pop2020"</span> <span class='st'>"growth"</span><span class='op'>+</span>
-	tm_layo<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>.bg.color = "grey90<span class='st'>"grey90"</span>d.bg.alpha=.5, leg<span class='fl'>.5</span>d.frame=TRUE)<span class='fl'>TRUE</span>
+<span class='va'>map1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"income_grp"</span>, palette<span class='op'>=</span><span class='st'>"-Blues"</span>, contrast<span class='op'>=</span><span class='fl'>.7</span>, id<span class='op'>=</span><span class='st'>"name"</span>, title<span class='op'>=</span><span class='st'>"Income group"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span><span class='st'>"pop2010"</span>, col <span class='op'>=</span> <span class='st'>"growth"</span>, 
+    border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>, 
+    style<span class='op'>=</span><span class='st'>"fixed"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, by<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>, <span class='cn'>Inf</span><span class='op'>)</span>,
+    palette<span class='op'>=</span><span class='st'>"-RdYlBu"</span>, contrast<span class='op'>=</span><span class='fl'>1</span>, 
+    title.size<span class='op'>=</span><span class='st'>"Metro population"</span>, 
+    title.col<span class='op'>=</span><span class='st'>"Growth rate (%)"</span>, id<span class='op'>=</span><span class='st'>"name"</span>,
+    popup.vars <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pop2010"</span>, <span class='st'>"pop2020"</span>, <span class='st'>"growth"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>legend.bg.color <span class='op'>=</span> <span class='st'>"grey90"</span>, legend.bg.alpha<span class='op'>=</span><span class='fl'>.5</span>, legend.frame<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
 
 <span class='co'># initial mode: "plot"</span>
-<span class='kw'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='st'>"plot"</span>)</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'>
+<span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'>tmap_mode</span><span class='op'>(</span><span class='st'>"plot"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'>
 <span class='co'># plot map</span>
-<span class='kw'>map1</span></div><div class='output co'>#&gt; <span class='message'>Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span></div><div class='img'><img src='tmap_mode-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='va'>map1</span>
+</div><div class='output co'>#&gt; <span class='message'>Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span></div><div class='img'><img src='tmap_mode-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># switch to other mode: "view"</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>ttm</a></span>()</div><div class='output co'>#&gt; <span class='message'>tmap mode set to interactive viewing</span></div><div class='input'>
+<span class='fu'>ttm</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to interactive viewing</span></div><div class='input'>
 <span class='co'># view map</span>
-<span class='kw'>map1</span></div><div class='output co'>#&gt; <span class='message'>Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span></div><div class='output co'>#&gt; <span class='message'>Legend for symbol sizes not available in view mode.</span></div><div class='input'>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='va'>map1</span>
+</div><div class='output co'>#&gt; <span class='message'>Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span></div><div class='output co'>#&gt; <span class='message'>Legend for symbol sizes not available in view mode.</span></div><div class='input'>
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># choropleth of the Dutch population in interactive mode:</span>
-<span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='kw'><a href='https://github.com/mtennekes/tmaptools'>tmaptools</a></span>)
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>NLD_muni</span>, <span class='kw'>NLD_prov</span>)
-<span class='kw'>NLD_muni</span><span class='op'>$</span><span class='kw'>pop_dens</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/calc_densities.html'>calc_densities</a></span>(<span class='kw'>NLD_muni</span>, var = <span class='st'>"population"</span>)
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/mtennekes/tmaptools'>tmaptools</a></span><span class='op'>)</span>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, <span class='va'>NLD_prov</span><span class='op'>)</span>
+<span class='va'>NLD_muni</span><span class='op'>$</span><span class='va'>pop_dens</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/calc_densities.html'>calc_densities</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, var <span class='op'>=</span> <span class='st'>"population"</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>NLD_muni</span>) <span class='op'>+</span>
-	tm_fill<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_fill</a></span>op_de<span class='st'>"pop_dens"</span>
-		style="kmeans", <span class='st'>"kmeans"</span>
-		title = "Population (p<span class='st'>"Population (per km^2)"</span> +<span class='st'>"name"</span><span class='op'>+</span>
-	tm_bord<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>5<span class='st'>"grey25"</span>=.5) + <span class='fl'>.5</span><span class='op'>+</span>
-	tm_shap<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>o<span class='kw'>NLD_prov</span><span class='op'>+</span>
-	tm_bord<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_borders</a></span>0<span class='st'>"grey40"</span>)<span class='fl'>2</span>
-}
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>"pop_dens"</span>, 
+    style<span class='op'>=</span><span class='st'>"kmeans"</span>, 
+    title <span class='op'>=</span> <span class='st'>"Population (per km^2)"</span>, id <span class='op'>=</span> <span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey25"</span>, alpha<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey40"</span>, lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># restore current mode</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='kw'>current.mode</span>)</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
+<span class='fu'>tmap_mode</span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -228,7 +227,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

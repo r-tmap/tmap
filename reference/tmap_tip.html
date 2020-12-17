@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,7 +129,7 @@
     <p>Generates a tip with an example. The tip and example code are printed, and the example itself is executed.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>tmap_tip</span><span class='op'>(</span>from.version <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -148,19 +142,18 @@
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>()</div><div class='output co'>#&gt; With tm_add_legend, it is also possible to add an extra legend title line. 
-#&gt; New since tmap 3.1 
+    <pre class="examples"><div class='input'><span class='fu'>tmap_tip</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Color palettes can be reversed by prefixing the palette name with a "-" sign. 
+#&gt; New since tmap 1.11.2 
 #&gt; 
 #&gt; data(World)
-#&gt; tm_shape(World) + 
-#&gt;   tm_polygons("HPI") + 
-#&gt;   tm_add_legend(type = "title", title = "Extra title") </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_tip.html'>tmap_tip</a></span>(from.version = <span class='st'>"3.0"</span>)</div><div class='output co'>#&gt; View shapes interactively in another projection than the Web Mercator. 
-#&gt; New since tmap 3.1 
+#&gt; tm_shape(World) +
+#&gt;   tm_polygons("well_being", palette = "-Reds") </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div><div class='input'><span class='fu'>tmap_tip</span><span class='op'>(</span>from.version <span class='op'>=</span> <span class='st'>"3.0"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Use as.count for count/discrete variables. 
+#&gt; New since tmap 3.0 
 #&gt; 
 #&gt; data(World)
-#&gt; tmap_options(projection = 0, basemaps = NULL)
-#&gt; qtm(World) 
-#&gt; </div></pre>
+#&gt; tm_shape(World) + tm_polygons("life_exp", as.count = TRUE) </div><div class='img'><img src='tmap_tip-2.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -176,7 +169,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

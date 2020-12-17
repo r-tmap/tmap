@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,30 +126,30 @@
     </div>
 
     <div class="ref-description">
-    <p>Maps of the world and the Netherlands (province and municipality level), class <code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf</a></code></p>
+    <p>Maps of the world and the Netherlands (province and municipality level), class <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>)
+    <pre class="usage"><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>NLD_prov</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>NLD_muni</span>)</pre>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span></pre>
 
 
     <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
 
-    <p><a href='http://www.naturalearthdata.com'>http://www.naturalearthdata.com</a> for <code>World</code></p>
-<p><a href='http://www.happyplanetindex.org'>http://www.happyplanetindex.org</a> for <code>World</code></p>
-<p><a href='http://www.cbs.nl'>http://www.cbs.nl</a> for <code>NLD_prov</code> and <code>NLD_muni</code>.</p>
+    <p><a href='https://www.naturalearthdata.com/'>https://www.naturalearthdata.com/</a> for <code>World</code></p>
+<p><a href='https://happyplanetindex.org/'>https://happyplanetindex.org/</a> for <code>World</code></p>
+<p><a href='https://www.cbs.nl/'>https://www.cbs.nl/</a> for <code>NLD_prov</code> and <code>NLD_muni</code>.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The default projections for these maps are Eckhart IV (World) and Rijksdriehoekstelsel (Netherlands). See below. The projection can be changed temporarily for plotting purposes by using the projection argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></code> (or <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code>).</p>
+    <p>The default projections for these maps are Eckhart IV (World) and Rijksdriehoekstelsel (Netherlands). See below. The projection can be changed temporarily for plotting purposes by using the projection argument of <code><a href='tm_shape.html'>tm_shape</a></code> (or <code><a href='qtm.html'>qtm</a></code>).</p>
 <p><code>World</code> World map. The default projection for this world map is Eckhart IV since area sizes are preserved, which is a very important property for choropleths.</p>
 <p><code>NLD_prov</code> and <code>NLD_muni</code>, maps of the Netherlands at province and municipality level of 2013. The used projection is the Rijksdriehoekstelsel projection. <strong>Important:</strong> publication of these maps is only allowed when cited to Statistics Netherlands (CBS) and Kadaster Nederland as source.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, <a href='http://www.cbs.nl'>http://www.cbs.nl</a>.</p>
-<p>Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, <a href='http://www.kadaster.nl'>http://www.kadaster.nl</a>.</p>
+    <p>Statistics Netherlands (2014), The Hague/Heerlen, Netherlands, <a href='https://www.cbs.nl/'>https://www.cbs.nl/</a>.</p>
+<p>Kadaster, the Netherlands' Cadastre, Land Registry, and Mapping Agency (2014), Apeldoorn, Netherlands, <a href='https://www.kadaster.nl/'>https://www.kadaster.nl/</a>.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -172,7 +166,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

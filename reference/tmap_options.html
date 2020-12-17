@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -135,43 +129,45 @@
     <p>Get or set global options for tmap. The behaviour of <code>tmap_options</code> is similar to <code><a href='https://rdrr.io/r/base/options.html'>options</a></code>: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned as a list. The function <code>tmap_options_reset</code> is used to reset all options back to the default values (also the <code>style</code> is reset to <code>"white"</code>). Differences with the default values can be shown with <code>tmap_options_diff</code>. The function <code>tmap_options_save</code> can be used to save the current options as a new style. See details below on how to create a new style.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></span>(
-  <span class='kw'>...</span>,
-  <span class='kw'>unit</span>,
-  <span class='kw'>limits</span>,
-  <span class='kw'>max.categories</span>,
-  <span class='kw'>max.raster</span>,
-  <span class='kw'>basemaps</span>,
-  <span class='kw'>basemaps.alpha</span>,
-  <span class='kw'>overlays</span>,
-  <span class='kw'>overlays.alpha</span>,
-  <span class='kw'>qtm.scalebar</span>,
-  <span class='kw'>qtm.minimap</span>,
-  <span class='kw'>qtm.mouse.coordinates</span>,
-  <span class='kw'>show.messages</span>,
-  <span class='kw'>output.format</span>,
-  <span class='kw'>output.size</span>,
-  <span class='kw'>output.dpi</span>,
-  <span class='kw'>design.mode</span>,
-  <span class='kw'>check.and.fix</span>
-)
+    <pre class="usage"><span class='fu'>tmap_options</span><span class='op'>(</span>
+  <span class='va'>...</span>,
+  <span class='va'>unit</span>,
+  <span class='va'>limits</span>,
+  <span class='va'>max.categories</span>,
+  <span class='va'>max.raster</span>,
+  <span class='va'>basemaps</span>,
+  <span class='va'>basemaps.alpha</span>,
+  <span class='va'>overlays</span>,
+  <span class='va'>overlays.alpha</span>,
+  <span class='va'>qtm.scalebar</span>,
+  <span class='va'>qtm.minimap</span>,
+  <span class='va'>qtm.mouse.coordinates</span>,
+  <span class='va'>show.messages</span>,
+  <span class='va'>show.warnings</span>,
+  <span class='va'>output.format</span>,
+  <span class='va'>output.size</span>,
+  <span class='va'>output.dpi</span>,
+  <span class='va'>output.dpi.animation</span>,
+  design.mode <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>check.and.fix</span>
+<span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_diff</a></span>()
+<span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_reset</a></span>()
+<span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_save</a></span>(<span class='kw'>style</span>)</pre>
+<span class='fu'>tmap_options_save</span><span class='op'>(</span><span class='va'>style</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>options from <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> or <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code>. Note that the difference with using <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> or <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code> directly, is that options set with <code>tmap_options</code> remain for the entire session (unless changed with <code>tmap_options</code> or <code><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></code>). It can also be a single unnamed argument which is a named list of options (similar behaviour as <code><a href='https://rdrr.io/r/base/options.html'>options</a></code>).</p></td>
+      <td><p>options from <code><a href='tm_layout.html'>tm_layout</a></code> or <code><a href='tm_view.html'>tm_view</a></code>. Note that the difference with using <code><a href='tm_layout.html'>tm_layout</a></code> or <code><a href='tm_view.html'>tm_view</a></code> directly, is that options set with <code>tmap_options</code> remain for the entire session (unless changed with <code>tmap_options</code> or <code><a href='tmap_style.html'>tmap_style</a></code>). It can also be a single unnamed argument which is a named list of options (similar behaviour as <code><a href='https://rdrr.io/r/base/options.html'>options</a></code>).</p></td>
     </tr>
     <tr>
       <th>unit</th>
-      <td><p>this is the default value for the <code>unit</code> argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></code>. It specifies the unit of measurement, which is used in the scale bar and the calculation of density values. By default (when loading the package), it is <code>"metric"</code>. Other valid values are <code>"imperial"</code>, <code>"km"</code>, <code>"m"</code>, <code>"mi"</code>, and <code>"ft"</code>.</p></td>
+      <td><p>this is the default value for the <code>unit</code> argument of <code><a href='tm_shape.html'>tm_shape</a></code>. It specifies the unit of measurement, which is used in the scale bar and the calculation of density values. By default (when loading the package), it is <code>"metric"</code>. Other valid values are <code>"imperial"</code>, <code>"km"</code>, <code>"m"</code>, <code>"mi"</code>, and <code>"ft"</code>.</p></td>
     </tr>
     <tr>
       <th>limits</th>
@@ -179,7 +175,7 @@
     </tr>
     <tr>
       <th>max.categories</th>
-      <td><p>in case <code>col</code> is the name of a categorical variable in the layer functions (e.g. <code><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></code>), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than <code>max.categories</code>, then levels are combined.</p></td>
+      <td><p>in case <code>col</code> is the name of a categorical variable in the layer functions (e.g. <code><a href='tm_fill.html'>tm_polygons</a></code>), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than <code>max.categories</code>, then levels are combined.</p></td>
     </tr>
     <tr>
       <th>max.raster</th>
@@ -187,7 +183,7 @@
     </tr>
     <tr>
       <th>basemaps</th>
-      <td><p>default basemaps. Basemaps are normally configured with <code><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_basemap</a></code>. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or <code>NULL</code> if basemaps should be omitted. For options see the list <code><a href='https://rdrr.io/pkg/leaflet/man/providers.html'>leaflet::providers</a></code>, which can be previewed at <a href='http://leaflet-extras.github.io/leaflet-providers/preview'>http://leaflet-extras.github.io/leaflet-providers/preview</a>. Also supports URL's for tile servers, such as <code>"http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. If a named vector is provided, the names are used in the layer control legend (similar to the <code>group</code> argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_basemap</a></code>. See also <code>overlays</code>, which is the default option for overlay tiles.</p></td>
+      <td><p>default basemaps. Basemaps are normally configured with <code><a href='tm_basemap.html'>tm_basemap</a></code>. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or <code>NULL</code> if basemaps should be omitted. For options see the list <code><a href='https://rdrr.io/pkg/leaflet/man/providers.html'>leaflet::providers</a></code>, which can be previewed at <a href='https://leaflet-extras.github.io/leaflet-providers/preview/'>https://leaflet-extras.github.io/leaflet-providers/preview/</a>. Also supports URL's for tile servers, such as <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. If a named vector is provided, the names are used in the layer control legend (similar to the <code>group</code> argument of <code><a href='tm_basemap.html'>tm_basemap</a></code>. See also <code>overlays</code>, which is the default option for overlay tiles.</p></td>
     </tr>
     <tr>
       <th>basemaps.alpha</th>
@@ -203,39 +199,47 @@
     </tr>
     <tr>
       <th>qtm.scalebar</th>
-      <td><p>should a scale bar be added to interactive maps created with <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code>. In other words, should <code><a href='https://rdrr.io/pkg/tmap/man/tm_scale_bar.html'>tm_scale_bar()</a></code> be added automatically? The value <code>NA</code> means that the scale bar is only added when <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code> is called without arguments or with a search term. The default value is <code>TRUE</code>.</p></td>
+      <td><p>should a scale bar be added to interactive maps created with <code><a href='qtm.html'>qtm</a></code>. In other words, should <code><a href='tm_scale_bar.html'>tm_scale_bar()</a></code> be added automatically? The value <code>NA</code> means that the scale bar is only added when <code><a href='qtm.html'>qtm</a></code> is called without arguments or with a search term. The default value is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>qtm.minimap</th>
-      <td><p>should a minimap be added to interactive maps created with <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code>. In other words, should <code><a href='https://rdrr.io/pkg/tmap/man/tm_minimap.html'>tm_minimap()</a></code> be added automatically? The default value is <code>FALSE</code>.</p></td>
+      <td><p>should a minimap be added to interactive maps created with <code><a href='qtm.html'>qtm</a></code>. In other words, should <code><a href='tm_minimap.html'>tm_minimap()</a></code> be added automatically? The default value is <code>FALSE</code>.</p></td>
     </tr>
     <tr>
       <th>qtm.mouse.coordinates</th>
-      <td><p>should mouse coordinates (and zoom level) be shown in view mode with <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></code>? In other words, should <code><a href='https://rdrr.io/pkg/tmap/man/tm_mouse_coordinates.html'>tm_mouse_coordinates()</a></code> be added automatically? <code>TRUE</code> by default.</p></td>
+      <td><p>should mouse coordinates (and zoom level) be shown in view mode with <code><a href='qtm.html'>qtm</a></code>? In other words, should <code><a href='tm_mouse_coordinates.html'>tm_mouse_coordinates()</a></code> be added automatically? <code>TRUE</code> by default.</p></td>
     </tr>
     <tr>
       <th>show.messages</th>
       <td><p>should messages be shown?</p></td>
     </tr>
     <tr>
+      <th>show.warnings</th>
+      <td><p>should warnings be shown?</p></td>
+    </tr>
+    <tr>
       <th>output.format</th>
-      <td><p>The format of the static maps saved with <code><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></code> without specification of the filename. The default is <code>"png"</code>.</p></td>
+      <td><p>The format of the static maps saved with <code><a href='tmap_save.html'>tmap_save</a></code> without specification of the filename. The default is <code>"png"</code>.</p></td>
     </tr>
     <tr>
       <th>output.size</th>
-      <td><p>The size of the static maps saved with <code><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></code> without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.</p></td>
+      <td><p>The size of the static maps saved with <code><a href='tmap_save.html'>tmap_save</a></code> without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.</p></td>
     </tr>
     <tr>
       <th>output.dpi</th>
-      <td><p>The default number of dots per inch for <code><a href='https://rdrr.io/pkg/tmap/man/tmap_save.html'>tmap_save</a></code> and <code><a href='https://rdrr.io/pkg/tmap/man/tmap_animation.html'>tmap_animation</a></code>.</p></td>
+      <td><p>The default number of dots per inch for <code><a href='tmap_save.html'>tmap_save</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>output.dpi.animation</th>
+      <td><p>The default number of dots per inch for <code><a href='tmap_animation.html'>tmap_animation</a></code>.</p></td>
     </tr>
     <tr>
       <th>design.mode</th>
-      <td><p>Logical that enables the design mode. If <code>TRUE</code>, inner and outer margins, legend position, aspect ratio are explicitly shown. Also, information about aspect ratios is printed in the console.</p></td>
+      <td><p>Not used anymore; the design mode can now be set with <code><a href='tmap_design_mode.html'>tmap_design_mode</a></code></p></td>
     </tr>
     <tr>
       <th>check.and.fix</th>
-      <td><p>Logical that determines whether shapes (<code>sf</code> objects) are checked for validity with <code><a href='https://rdrr.io/pkg/sf/man/valid.html'>st_is_valid</a></code> and fixed with <code><a href='https://rdrr.io/pkg/sf/man/valid.html'>st_make_valid</a></code> if needed.</p></td>
+      <td><p>Logical that determines whether shapes (<code>sf</code> objects) are checked for validity with <code><a href='https://r-spatial.github.io/sf/reference/valid.html'>st_is_valid</a></code> and fixed with <code><a href='https://r-spatial.github.io/sf/reference/valid.html'>st_make_valid</a></code> if needed.</p></td>
     </tr>
     <tr>
       <th>style</th>
@@ -245,19 +249,20 @@
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The options can be divided into three parts: one part contains the arguments from <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>, one part contains the arguments from <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code>, and one part contains options that can only be set with <code>tmap_options</code>. Observe that the options from <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> and <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code> can also be set with those functions. It is recommended to use <code>tmap_options</code> when setting specific options during global session. However, options that are only relevant for a specific map can better be set with <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code> or <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code>.</p>
-<p>A new style can be created in two ways. The first approach is to use the function <code>tmap_options_save</code>, which takes a snapshot of the current tmap options. E.g., <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_save("my_style")</a></code> will save the current tmap options as a style called <code>"my_style"</code>. See the examples in which a style called <code>"red"</code> is created. The second way to create a style is to create a list with tmap options and with a attribute called style. This approach is illustrated in the last example, in which a style called <code>"black"</code> is created.</p>
-<p>The newly created style, say <code>"my_style"</code>, will be accessible globally via <code><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style("my_style")</a></code> and <code>+ tm_style("my_style")</code> until the R session is restarted or <code>tmap</code> is reloaded. In order to save the style for future use or sharing, obtain the option list as follows: <code>my_style &lt;- tmap_options()</code> and save the object <code>my_style</code> in the usual way. Next time, the style can be loaded simply by running <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options(my_style)</a></code>, which corresponds to the second way to create a style (see the paragraph above).</p>
+    <p>The options can be divided into three parts: one part contains the arguments from <code><a href='tm_layout.html'>tm_layout</a></code>, one part contains the arguments from <code><a href='tm_view.html'>tm_view</a></code>, and one part contains options that can only be set with <code>tmap_options</code>. Observe that the options from <code><a href='tm_layout.html'>tm_layout</a></code> and <code><a href='tm_view.html'>tm_view</a></code> can also be set with those functions. It is recommended to use <code>tmap_options</code> when setting specific options during global session. However, options that are only relevant for a specific map can better be set with <code><a href='tm_layout.html'>tm_layout</a></code> or <code><a href='tm_view.html'>tm_view</a></code>.</p>
+<p>A new style can be created in two ways. The first approach is to use the function <code>tmap_options_save</code>, which takes a snapshot of the current tmap options. E.g., <code>tmap_options_save("my_style")</code> will save the current tmap options as a style called <code>"my_style"</code>. See the examples in which a style called <code>"red"</code> is created. The second way to create a style is to create a list with tmap options and with a attribute called style. This approach is illustrated in the last example, in which a style called <code>"black"</code> is created.</p>
+<p>The newly created style, say <code>"my_style"</code>, will be accessible globally via <code><a href='tmap_style.html'>tmap_style("my_style")</a></code> and <code>+ tm_style("my_style")</code> until the R session is restarted or <code>tmap</code> is reloaded. In order to save the style for future use or sharing, obtain the option list as follows: <code>my_style &lt;- tmap_options()</code> and save the object <code>my_style</code> in the usual way. Next time, the style can be loaded simply by running <code>tmap_options(my_style)</code>, which corresponds to the second way to create a style (see the paragraph above).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>, <code><a href='https://rdrr.io/pkg/tmap/man/tm_view.html'>tm_view</a></code>, and <code><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></code></p></div>
+    <div class='dont-index'><p><code><a href='tm_layout.html'>tm_layout</a></code>, <code><a href='tm_view.html'>tm_view</a></code>, and <code><a href='tmap_style.html'>tmap_style</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># load data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>)
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
 
 <span class='co'># get current options</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span>(<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></span>())</div><div class='output co'>#&gt; List of 110
+<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='fu'>tmap_options</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; List of 111
 #&gt;  $ unit                   : chr "metric"
 #&gt;  $ limits                 : Named num [1:2] 64 4
 #&gt;   ..- attr(*, "names")= chr [1:2] "facets.plot" "facets.view"
@@ -265,10 +270,11 @@
 #&gt;  $ max.raster             : Named num [1:2] 1e+06 1e+06
 #&gt;   ..- attr(*, "names")= chr [1:2] "plot" "view"
 #&gt;  $ show.messages          : logi TRUE
+#&gt;  $ show.warnings          : logi TRUE
 #&gt;  $ output.format          : chr "png"
 #&gt;  $ output.size            : num 49
 #&gt;  $ output.dpi             : num 300
-#&gt;  $ design.mode            : logi FALSE
+#&gt;  $ output.dpi.animation   : num 100
 #&gt;  $ check.and.fix          : logi FALSE
 #&gt;  $ title                  : logi NA
 #&gt;  $ scale                  : num 1
@@ -374,17 +380,20 @@
 #&gt;  $ qtm.minimap            : logi FALSE
 #&gt;  $ qtm.mouse.coordinates  : logi TRUE
 #&gt;  $ alpha                  : logi NA
-#&gt;  $ colorNA                : logi NA
 #&gt;   [list output truncated]
 #&gt;  - attr(*, "style")= chr "white"</div><div class='input'>
 <span class='co'># get current style</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>()</div><div class='output co'>#&gt; <span class='message'>current tmap style is "white"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
+<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>current tmap style is "white"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
 <span class='co'># plot map (with default options)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>(<span class='st'>"HPI"</span>)</div><div class='img'><img src='tmap_options-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
+</div><div class='img'><img src='tmap_options-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change style to cobalt</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>(<span class='st'>"cobalt"</span>)</div><div class='output co'>#&gt; <span class='message'>tmap style set to "cobalt"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
+<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap style set to "cobalt"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
 <span class='co'># observe the changed options</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_diff</a></span>()</div><div class='output co'>#&gt; <span class='message'>current tmap options (style "cobalt") that are different from default tmap options (style "white"):</span></div><div class='output co'>#&gt; $bg.color
+<span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>current tmap options (style "cobalt") that are different from default tmap options (style "white"):</span></div><div class='output co'>#&gt; $bg.color
 #&gt; [1] "#002240"
 #&gt; 
 #&gt; $aes.color
@@ -412,18 +421,21 @@
 #&gt; [1] 0.5
 #&gt; </div><div class='input'>
 <span class='co'># plot the map again</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>(<span class='st'>"HPI"</span>)</div><div class='img'><img src='tmap_options-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
+</div><div class='img'><img src='tmap_options-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>##############################</span>
 <span class='co'># define red style</span>
 <span class='co'>##############################</span>
 
 <span class='co'># change the background color</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></span>(bg.color = <span class='st'>"red"</span>)
+<span class='fu'>tmap_options</span><span class='op'>(</span>bg.color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
 
 <span class='co'># note that the current style is modified</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>()</div><div class='output co'>#&gt; <span class='message'>current tmap style is "cobalt (modified)"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
+<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>current tmap style is "cobalt (modified)"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
 <span class='co'># observe the changed options</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_diff</a></span>()</div><div class='output co'>#&gt; <span class='message'>current tmap options (style "cobalt (modified)") that are different from default tmap options (style "white"):</span></div><div class='output co'>#&gt; $bg.color
+<span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>current tmap options (style "cobalt (modified)") that are different from default tmap options (style "white"):</span></div><div class='output co'>#&gt; $bg.color
 #&gt; [1] "red"
 #&gt; 
 #&gt; $aes.color
@@ -451,47 +463,58 @@
 #&gt; [1] 0.5
 #&gt; </div><div class='input'>
 <span class='co'># save the current options as style "red"</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_save</a></span>(<span class='st'>"red"</span>)</div><div class='output co'>#&gt; <span class='message'>current tmap options saved as style "red"</span></div><div class='input'>
+<span class='fu'>tmap_options_save</span><span class='op'>(</span><span class='st'>"red"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>current tmap options saved as style "red"</span></div><div class='input'>
 <span class='co'># plot the map again</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>(<span class='st'>"HPI"</span>)</div><div class='img'><img src='tmap_options-3.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
+</div><div class='img'><img src='tmap_options-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># the specified arguments of tm_layout and tm_view will override the options temporarily:</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>(<span class='st'>"HPI"</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>(bg.color=<span class='st'>"purple"</span>)</div><div class='img'><img src='tmap_options-4.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span>
+</div><div class='img'><img src='tmap_options-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># when tm_style_ is called, it will override all options temporarily:</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>(<span class='st'>"HPI"</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></span>(bg.color=<span class='st'>"purple"</span>) <span class='op'>+</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_style</a></span>(<span class='st'>"classic"</span>)</div><div class='output co'>#&gt; <span class='message'>Note that tm_style("classic") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.</span></div><div class='img'><img src='tmap_options-5.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>Note that tm_style("classic") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.</span></div><div class='img'><img src='tmap_options-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># reset all options</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_reset</a></span>()</div><div class='output co'>#&gt; <span class='message'>tmap options successfully reset</span></div><div class='input'>
+<span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap options successfully reset</span></div><div class='input'>
 <span class='co'># check style and options</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>()</div><div class='output co'>#&gt; <span class='message'>current tmap style is "white"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span></div><div class='input'><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_diff</a></span>()</div><div class='output co'>#&gt; <span class='message'>current tmap options are similar to the default tmap options (style "white")</span></div><div class='input'>
+<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>current tmap style is "white"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span></div><div class='input'><span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>current tmap options are similar to the default tmap options (style "white")</span></div><div class='input'>
 <span class='co'>##############################</span>
 <span class='co'># define black style</span>
 <span class='co'>##############################</span>
 
 <span class='co'># create style list with style attribute</span>
-<span class='kw'>black_style</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-		bg.color = "black",<span class='st'>"black"</span>
-		aes.color = c(fill = "grey<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>0", bord<span class='st'>"grey40"</span>rey40", <span class='st'>"grey40"</span>
-					  symbols = "grey80", dots = "grey80", <span class='st'>"grey80"</span><span class='st'>"grey80"</span>
-		              lines = "white", text <span class='st'>"white"</span>e", <span class='st'>"white"</span>
-					  na = "grey30", null = "grey15"),<span class='st'>"grey30"</span><span class='st'>"grey15"</span>
-		aes.palette = list(seq = "pl<span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>", div <span class='st'>"plasma"</span>, cat = <span class='st'>"PiYG"</span>"),<span class='st'>"Dark2"</span>
-		attr.color = "white",<span class='st'>"white"</span>
-		panel.label.color = "white",<span class='st'>"white"</span>
-		panel.label.bg.color = "grey40",<span class='st'>"grey40"</span>
-		main.title.color = "white"<span class='st'>"white"</span>
-	),
-	style = "black"<span class='st'>"black"</span>
-)
+<span class='va'>black_style</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span>
+    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
+    bg.color <span class='op'>=</span> <span class='st'>"black"</span>,
+    aes.color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"grey40"</span>, borders <span class='op'>=</span> <span class='st'>"grey40"</span>, 
+            symbols <span class='op'>=</span> <span class='st'>"grey80"</span>, dots <span class='op'>=</span> <span class='st'>"grey80"</span>, 
+                  lines <span class='op'>=</span> <span class='st'>"white"</span>, text <span class='op'>=</span> <span class='st'>"white"</span>, 
+            na <span class='op'>=</span> <span class='st'>"grey30"</span>, null <span class='op'>=</span> <span class='st'>"grey15"</span><span class='op'>)</span>,
+    aes.palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>seq <span class='op'>=</span> <span class='st'>"plasma"</span>, div <span class='op'>=</span> <span class='st'>"PiYG"</span>, cat <span class='op'>=</span> <span class='st'>"Dark2"</span><span class='op'>)</span>,
+    attr.color <span class='op'>=</span> <span class='st'>"white"</span>,
+    panel.label.color <span class='op'>=</span> <span class='st'>"white"</span>,
+    panel.label.bg.color <span class='op'>=</span> <span class='st'>"grey40"</span>,
+    main.title.color <span class='op'>=</span> <span class='st'>"white"</span>
+  <span class='op'>)</span>,
+  style <span class='op'>=</span> <span class='st'>"black"</span>
+<span class='op'>)</span>
 
 <span class='co'># assign the style</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></span>(<span class='kw'>black_style</span>)</div><div class='output co'>#&gt; <span class='message'>tmap options successfully loaded as style "black"</span></div><div class='input'>
+<span class='fu'>tmap_options</span><span class='op'>(</span><span class='va'>black_style</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap options successfully loaded as style "black"</span></div><div class='input'>
 <span class='co'># observe that "black" is a new style</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></span>()</div><div class='output co'>#&gt; <span class='message'>current tmap style is "black"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span></div><div class='input'>
+<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>current tmap style is "black"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span></div><div class='input'>
 <span class='co'># plot the world map again, this time with the newly created black style</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span>
-	tm_poly<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span><span class='st'>"HPI"</span></div><div class='img'><img src='tmap_options-6.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
+</div><div class='img'><img src='tmap_options-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># reset all options</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options_reset</a></span>()</div><div class='output co'>#&gt; <span class='message'>tmap options successfully reset</span></div></pre>
+<span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='message'>tmap options successfully reset</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -507,7 +530,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>

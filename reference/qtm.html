@@ -72,19 +72,13 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
-  <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
-<li>
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
@@ -109,7 +103,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/mtennekes/tmap/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -132,34 +126,34 @@
     </div>
 
     <div class="ref-description">
-    <p>Draw a thematic map quickly. This function is a convenient wrapper of the main plotting method of stacking <code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a></code>s. Without arguments or with a search term, this functions draws an interactive map.</p>
+    <p>Draw a thematic map quickly. This function is a convenient wrapper of the main plotting method of stacking <code><a href='tmap-element.html'>tmap-element</a></code>s. Without arguments or with a search term, this functions draws an interactive map.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(
-  <span class='kw'>shp</span>,
-  fill = <span class='fl'>NA</span>,
-  symbols.size = <span class='kw'>NULL</span>,
-  symbols.col = <span class='kw'>NULL</span>,
-  symbols.shape = <span class='kw'>NULL</span>,
-  dots.col = <span class='kw'>NULL</span>,
-  text = <span class='kw'>NULL</span>,
-  text.size = <span class='fl'>1</span>,
-  text.col = <span class='fl'>NA</span>,
-  lines.lwd = <span class='kw'>NULL</span>,
-  lines.col = <span class='kw'>NULL</span>,
-  raster = <span class='fl'>NA</span>,
-  borders = <span class='fl'>NA</span>,
-  by = <span class='kw'>NULL</span>,
-  scale = <span class='fl'>NA</span>,
-  title = <span class='fl'>NA</span>,
-  projection = <span class='kw'>NULL</span>,
-  bbox = <span class='kw'>NULL</span>,
-  basemaps = <span class='fl'>NA</span>,
-  overlays = <span class='fl'>NA</span>,
-  style = <span class='kw'>NULL</span>,
-  format = <span class='kw'>NULL</span>,
-  <span class='kw'>...</span>
-)</pre>
+    <pre class="usage"><span class='fu'>qtm</span><span class='op'>(</span>
+  <span class='va'>shp</span>,
+  fill <span class='op'>=</span> <span class='cn'>NA</span>,
+  symbols.size <span class='op'>=</span> <span class='cn'>NULL</span>,
+  symbols.col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  symbols.shape <span class='op'>=</span> <span class='cn'>NULL</span>,
+  dots.col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  text <span class='op'>=</span> <span class='cn'>NULL</span>,
+  text.size <span class='op'>=</span> <span class='fl'>1</span>,
+  text.col <span class='op'>=</span> <span class='cn'>NA</span>,
+  lines.lwd <span class='op'>=</span> <span class='cn'>NULL</span>,
+  lines.col <span class='op'>=</span> <span class='cn'>NULL</span>,
+  raster <span class='op'>=</span> <span class='cn'>NA</span>,
+  borders <span class='op'>=</span> <span class='cn'>NA</span>,
+  by <span class='op'>=</span> <span class='cn'>NULL</span>,
+  scale <span class='op'>=</span> <span class='cn'>NA</span>,
+  title <span class='op'>=</span> <span class='cn'>NA</span>,
+  projection <span class='op'>=</span> <span class='cn'>NULL</span>,
+  bbox <span class='op'>=</span> <span class='cn'>NULL</span>,
+  basemaps <span class='op'>=</span> <span class='cn'>NA</span>,
+  overlays <span class='op'>=</span> <span class='cn'>NA</span>,
+  style <span class='op'>=</span> <span class='cn'>NULL</span>,
+  format <span class='op'>=</span> <span class='cn'>NULL</span>,
+  <span class='va'>...</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -167,9 +161,9 @@
     <tr>
       <th>shp</th>
       <td><p>One of</p><ul>
-<li><p>shape object, which is an object from a class defined by the <code><a href='https://rdrr.io/pkg/sf/man/sf.html'>sf</a></code> or <code><a href='https://rdrr.io/pkg/stars/man/st_as_stars.html'>stars</a></code> package. Objects from the packages <code>sp</code> and <code>raster</code> are also supported, but discouraged.</p></li>
-<li><p>Not specified, i.e. <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm()</a></code> is executed. In this case a plain interactive map is shown.</p></li>
-<li><p>A OSM search string, e.g. <code><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm("Amsterdam")</a></code>. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)</p></li>
+<li><p>shape object, which is an object from a class defined by the <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf</a></code> or <code><a href='https://r-spatial.github.io/stars/reference/st_as_stars.html'>stars</a></code> package. Objects from the packages <code>sp</code> and <code>raster</code> are also supported, but discouraged.</p></li>
+<li><p>Not specified, i.e. <code>qtm()</code> is executed. In this case a plain interactive map is shown.</p></li>
+<li><p>A OSM search string, e.g. <code>qtm("Amsterdam")</code>. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)</p></li>
 </ul></td>
     </tr>
     <tr>
@@ -178,15 +172,15 @@
     </tr>
     <tr>
       <th>symbols.size</th>
-      <td><p>either the size of the symbols or a name of the data variable in <code>shp</code> that specifies the sizes of the symbols.  See also the <code>size</code> argument of <code><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></td>
+      <td><p>either the size of the symbols or a name of the data variable in <code>shp</code> that specifies the sizes of the symbols.  See also the <code>size</code> argument of <code><a href='tm_symbols.html'>tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></td>
     </tr>
     <tr>
       <th>symbols.col</th>
-      <td><p>either the color of the symbols or a name of the data variable in <code>shp</code> that specifies the colors of the symbols. See also the <code>col</code> arugment of <code><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></td>
+      <td><p>either the color of the symbols or a name of the data variable in <code>shp</code> that specifies the colors of the symbols. See also the <code>col</code> arugment of <code><a href='tm_symbols.html'>tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></td>
     </tr>
     <tr>
       <th>symbols.shape</th>
-      <td><p>either the shape of the symbols or a name of the data variable in <code>shp</code> that specifies the shapes of the symbols. See also the <code>shape</code> arugment of <code><a href='https://rdrr.io/pkg/tmap/man/tm_symbols.html'>tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></td>
+      <td><p>either the shape of the symbols or a name of the data variable in <code>shp</code> that specifies the shapes of the symbols. See also the <code>shape</code> arugment of <code><a href='tm_symbols.html'>tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></td>
     </tr>
     <tr>
       <th>dots.col</th>
@@ -222,7 +216,7 @@
     </tr>
     <tr>
       <th>by</th>
-      <td><p>data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns). See also <code><a href='https://rdrr.io/pkg/tmap/man/tm_facets.html'>tm_facets</a></code></p></td>
+      <td><p>data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns). See also <code><a href='tm_facets.html'>tm_facets</a></code></p></td>
     </tr>
     <tr>
       <th>scale</th>
@@ -234,27 +228,27 @@
     </tr>
     <tr>
       <th>projection</th>
-      <td><p>Either a <code><a href='https://rdrr.io/pkg/sf/man/st_crs.html'>crs</a></code> object or a character value (<code>PROJ.4</code> character string). By default, the projection is used that is defined in the <code>shp</code> object itself.</p></td>
+      <td><p>Either a <code><a href='https://r-spatial.github.io/sf/reference/st_crs.html'>crs</a></code> object or a character value (<code>PROJ.4</code> character string). By default, the projection is used that is defined in the <code>shp</code> object itself.</p></td>
     </tr>
     <tr>
       <th>bbox</th>
-      <td><p>bounding box. Arugment passed on to <code><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></code></p></td>
+      <td><p>bounding box. Arugment passed on to <code><a href='tm_shape.html'>tm_shape</a></code></p></td>
     </tr>
     <tr>
       <th>basemaps</th>
-      <td><p>name(s) of the provider or an URL of a tiled basemap. It is a shortcut to <code><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_basemap</a></code>. Set to <code>NULL</code> to disable basemaps. By default, it is set to the tmap option <code>basemaps</code>.</p></td>
+      <td><p>name(s) of the provider or an URL of a tiled basemap. It is a shortcut to <code><a href='tm_basemap.html'>tm_basemap</a></code>. Set to <code>NULL</code> to disable basemaps. By default, it is set to the tmap option <code>basemaps</code>.</p></td>
     </tr>
     <tr>
       <th>overlays</th>
-      <td><p>name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to <code><a href='https://rdrr.io/pkg/tmap/man/tm_tiles.html'>tm_tiles</a></code>.</p></td>
+      <td><p>name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to <code><a href='tm_basemap.html'>tm_tiles</a></code>.</p></td>
     </tr>
     <tr>
       <th>style</th>
-      <td><p>Layout options (see <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>) that define the style. See <code><a href='https://rdrr.io/pkg/tmap/man/tmap_style.html'>tmap_style</a></code> for details.</p></td>
+      <td><p>Layout options (see <code><a href='tm_layout.html'>tm_layout</a></code>) that define the style. See <code><a href='tmap_style.html'>tmap_style</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>format</th>
-      <td><p>Layout options (see <code><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_layout</a></code>) that define the format. See <code><a href='https://rdrr.io/pkg/tmap/man/tmap_format.html'>tmap_format</a></code> for details.</p></td>
+      <td><p>Layout options (see <code><a href='tm_layout.html'>tm_layout</a></code>) that define the format. See <code><a href='tmap_format.html'>tmap_format</a></code> for details.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -264,61 +258,65 @@
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a></code></p>
+    <p><code><a href='tmap-element.html'>tmap-element</a></code></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The first argument is a shape object (normally specified by <code><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></code>). The next arguments, from <code>fill</code> to <code>raster</code>, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as <code><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></code>, can be specified (see <code>...</code>). It is also possible to stack <code><a href='https://rdrr.io/pkg/tmap/man/tmap-element.html'>tmap-element</a></code>s on a <code>qtm</code> plot. See examples.</p>
-<p>By default, a scale bar is shown. This option can be set with <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code> (argument <code>qtm.scalebar</code>). A minimap is shown by default when <code>qtm</code> is called without arguments of with a search term. This option can be set with <code><a href='https://rdrr.io/pkg/tmap/man/tmap_options.html'>tmap_options</a></code> (argument <code>qtm.minimap</code>).</p>
+    <p>The first argument is a shape object (normally specified by <code><a href='tm_shape.html'>tm_shape</a></code>). The next arguments, from <code>fill</code> to <code>raster</code>, are the aesthetics from the main layers. The remaining arguments are related to the map layout. Any argument from any main layer function, such as <code><a href='tm_fill.html'>tm_polygons</a></code>, can be specified (see <code>...</code>). It is also possible to stack <code><a href='tmap-element.html'>tmap-element</a></code>s on a <code>qtm</code> plot. See examples.</p>
+<p>By default, a scale bar is shown. This option can be set with <code><a href='tmap_options.html'>tmap_options</a></code> (argument <code>qtm.scalebar</code>). A minimap is shown by default when <code>qtm</code> is called without arguments of with a search term. This option can be set with <code><a href='tmap_options.html'>tmap_options</a></code> (argument <code>qtm.minimap</code>).</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, <a href='https://doi.org/10.18637/jss.v084.i06'>DOI</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code>vignette("tmap-getstarted")</code></a></p></div>
+    <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span>(<span class='kw'>World</span>, <span class='kw'>rivers</span>, <span class='kw'>metro</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>rivers</span>, <span class='va'>metro</span><span class='op'>)</span>
 
 <span class='co'># just the map</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>)</div><div class='img'><img src='qtm-1.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
+</div><div class='img'><img src='qtm-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># choropleth</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, fill = <span class='st'>"economy"</span>, format = <span class='st'>"World"</span>, style = <span class='st'>"col_blind"</span>)</div><div class='img'><img src='qtm-2.png' alt='' width='700' height='433' /></div><div class='input'>
+<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span>, style <span class='op'>=</span> <span class='st'>"col_blind"</span><span class='op'>)</span>
+</div><div class='img'><img src='qtm-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># choropleth with more specifications</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, fill=<span class='st'>"HPI"</span>, fill.n = <span class='fl'>9</span>, fill.palette = <span class='st'>"div"</span>,
-    fill.title = <span class='st'>"Happy Planet Index"</span>, fill.id = <span class='st'>"name"</span>, 
-    style = <span class='st'>"gray"</span>, format = <span class='st'>"World"</span>)</div><div class='img'><img src='qtm-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># this map can also be created with the main plotting method,</span>
+<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, fill<span class='op'>=</span><span class='st'>"HPI"</span>, fill.n <span class='op'>=</span> <span class='fl'>9</span>, fill.palette <span class='op'>=</span> <span class='st'>"div"</span>,
+    fill.title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span>, fill.id <span class='op'>=</span> <span class='st'>"name"</span>, 
+    style <span class='op'>=</span> <span class='st'>"gray"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
+</div><div class='img'><img src='qtm-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># this map can also be created with the main plotting method,</span>
 <span class='co'># which is recommended in this case.</span>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_shape.html'>tm_shape</a></span>(<span class='kw'>World</span>) <span class='op'>+</span>
-    <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_polygons.html'>tm_polygons</a></span>(<span class='st'>"HPI"</span>, n = <span class='fl'>9</span>, palette = <span class='st'>"div"</span>,
-        title = <span class='st'>"Happy Planet Index"</span>, id = <span class='st'>"name"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_style</a></span>(<span class='st'>"gray"</span>) <span class='op'>+</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tm_layout.html'>tm_format</a></span>(<span class='st'>"World"</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span>, n <span class='op'>=</span> <span class='fl'>9</span>, palette <span class='op'>=</span> <span class='st'>"div"</span>,
+        title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span>, id <span class='op'>=</span> <span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"gray"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># bubble map</span>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>World</span>, borders = <span class='kw'>NULL</span>) <span class='op'>+</span> 
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>metro</span>, symbols.size = <span class='st'>"pop2010"</span>, 
-    symbols.title.size= <span class='st'>"Metropolitan Areas"</span>, 
-    symbols.id= <span class='st'>"name"</span>,
-    format = <span class='st'>"World"</span>)
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, borders <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'>+</span> 
+<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>metro</span>, symbols.size <span class='op'>=</span> <span class='st'>"pop2010"</span>, 
+    symbols.title.size<span class='op'>=</span> <span class='st'>"Metropolitan Areas"</span>, 
+    symbols.id<span class='op'>=</span> <span class='st'>"name"</span>,
+    format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
+<span class='op'>}</span>
 
 <span class='co'># dot map</span>
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='kw'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='st'>"view"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='kw'>metro</span>, bbox = <span class='st'>"China"</span>)
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/tmap_mode.html'>tmap_mode</a></span>(<span class='kw'>current.mode</span>) <span class='co'># restore mode</span>
-}
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
+<span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"view"</span><span class='op'>)</span>
+<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>metro</span>, bbox <span class='op'>=</span> <span class='st'>"China"</span><span class='op'>)</span>
+<span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span> <span class='co'># restore mode</span>
+<span class='op'>}</span>
 
-<span class='co'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='co'># without arguments, a plain interactive map is shown (the mode is set to view)</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>()
+<span class='fu'>qtm</span><span class='op'>(</span><span class='op'>)</span>
 
 <span class='co'># search query for OpenStreetMap nominatim</span>
-<span class='fu'><a href='https://rdrr.io/pkg/tmap/man/qtm.html'>qtm</a></span>(<span class='st'>"Amsterdam"</span>)
-}</div></pre>
+<span class='fu'>qtm</span><span class='op'>(</span><span class='st'>"Amsterdam"</span><span class='op'>)</span>
+<span class='op'>}</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -334,7 +332,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.9000.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
