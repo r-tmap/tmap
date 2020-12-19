@@ -11,7 +11,7 @@ tmapObject = function(tmel) {
 	tmo = lapply(tmel_spl, function(tmg) {
 		is_tms = sapply(tmg, inherits, "tm_shape")
 		is_tml = sapply(tmg, inherits, "tm_layer")
-		structure(list(tms = tmg[[1]], tmls = tmg[is_tml]), class = "tmapGroup")
+		structure(list(tms = tmg[[1]], tmls = tmg[is_tml]), class = c("tmapGroup", "list"))
 	})
 	
 	# get the crs of the main shape
@@ -21,43 +21,10 @@ tmapObject = function(tmel) {
 	tmo = structure(lapply(tmo, function(tmg) {
 		tmg$tms$crs = crs
 		tmg$tms = do.call(tmapShape, tmg$tms)
-		
 		dtcols = tmg$tms$dtcols
-		
-		tmapLayer()
-		
-		tml = tmg$tmls[[1]]
-		
-		within(tml, {
-			aes.mapping = if (!length(aes.mapping)) {
-				list()
-			} else {
-				lapply(aes.mapping, function(a) {
-					name = get(a)
-					# dim: 0 if constant is used for an aesthetic, 1 if a data variable is mapped, and k if k data variables are mapped to one aesthetic
-					dim = if (name %in% dtcols) length(name) else 0L
-					setup = get(paste(a, "setup", sep = "."))
-				})
-			}
-			aes.trans = if (!length(aes.trans)) {
-				list()
-			} else {
-				lapply(aes.trans, function(a) {
-					name = get(a)
-					# dim: 0 if constant is used for an aesthetic, 1 if a data variable is mapped, and k if k data variables are mapped to one aesthetic
-					dim = if (name %in% dtcols) length(name) else 0L
-					setup = get(paste(a, "setup", sep = "."))
-				})
-			}
-			rm(list = ls()[substr(ls(), 1, 4) != "aes."])
-		})
-		
-		
-		
-		
-		aes.mapping
-		
-	}), class = "tmapObject")
+		tmg$tmls = lapply(tmg$tmls, tmapLayer, dtcols)
+		tmg
+	}), class = c("tmapObject", "list"))
 	
 	# create tmapLayer objects
 }
