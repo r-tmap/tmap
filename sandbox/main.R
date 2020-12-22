@@ -43,9 +43,31 @@ tml = tmg$tmls[[1]]
 
 dt2 = copy(dt)
 
+
+
 lapply(tml$aes.mapping, tml$aes.mapping.fun)
 
+#################################################################
+#### other end of the bridge:
+#################################################################
+
+World = st_transform(World, crs = 4326)
+
+x = st_geometry(World)
 
 
 
+fill = pals::brewer.blues(7)[as.integer(World$economy)]
+color = "black"
 
+bbx = st_bbox(World[23,])
+
+# grid
+tmapGridInit(bbx)
+tmapGridPolygons(x, fill = fill, color = color)
+tmapGridRun()
+
+# leaflet
+tmapLeafletInit(bbx)
+tmapLeafletPolygons(x, fill = fill, color = color)
+tmapLeafletRun()
