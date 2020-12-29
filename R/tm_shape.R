@@ -4,11 +4,11 @@ tm_shape = function(shp,
 					crs = NULL,
 					bbox = NULL,
 					unit = NULL) {
-	lst = list(shp = shp,
-			   is.main = is.main,
-			   crs = crs,
-			   bbox = bbox,
-			   unit = unit,
-			   shp_name = ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name))
-	tm_element_list(tm_element(lst, subclass = "tm_shape"))
+	tm_element_list(tm_element(shp = shp,
+							   is.main = is.main,
+							   crs = crs,
+							   bbox = bbox,
+							   unit = unit,
+							   shp_name = ifelse(is.null(name) == TRUE, deparse(substitute(shp))[1], name), 
+							   subclass = "tm_shape"))
 }
