@@ -3,15 +3,23 @@ tmapObject = function(tmel) {
 	# find shapes and layers
 	is_tms = sapply(tmel, inherits, "tm_shape")
 	is_tml = sapply(tmel, inherits, "tm_layer")
+	is_tmf = sapply(tmel, inherits, "tm_facets")
 	ids = cumsum(is_tms)
-	ids[!is_tml & !is_tms] = 0
+	ids[!is_tml & !is_tms & !is_tmf] = 0
 	
-	# create groups, for each group: tms (tmap shape) and tmls (tmap layers)
+	# create groups, for each group: tms (tmap shape), tmls (tmap layers), tmf (tmap facets)
 	tmel_spl = split(tmel, f = ids)
 	tmo = lapply(tmel_spl, function(tmg) {
 		is_tms = sapply(tmg, inherits, "tm_shape")
 		is_tml = sapply(tmg, inherits, "tm_layer")
-		structure(list(tms = tmg[[1]], tmls = tmg[is_tml]), class = c("tmapGroup", "list"))
+		is_tmf = sapply(tmg, inherits, "tm_facets")
+		if (!any(is_tmf)) {
+			tmf = tm_facets()[[1]]
+		} else {
+			tmf = tmg[[which(is_tmf)[1]]]
+		}
+		
+		structure(list(tms = tmg[[1]], tmls = tmg[is_tml], tmf = tmf), class = c("tmapGroup", "list"))
 	})
 	
 	# get the crs of the main shape
@@ -21,8 +29,8 @@ tmapObject = function(tmel) {
 	tmo = structure(lapply(tmo, function(tmg) {
 		tmg$tms$crs = crs
 		tmg$tms = do.call(tmapShape, tmg$tms)
-		dtcols = tmg$tms$dtcols
-		tmg$tmls = lapply(tmg$tmls, tmapLayer, dtcols)
+		dt = tmg$tms$dt
+		#tmg$tmls = lapply(tmg$tmls, tmapLayer, dt)
 		tmg
 	}), class = c("tmapObject", "list"))
 	

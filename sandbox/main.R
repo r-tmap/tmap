@@ -20,8 +20,10 @@ tmel = tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_borders() +
+tm_facets(by = "continent") +
 tm_shape(metro) +
 	tm_symbols(size = "pop2020")
+
 
 
 ############# process shapes
