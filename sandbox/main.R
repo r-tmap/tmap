@@ -9,20 +9,31 @@ library(profvis)
 
 
 source("sandbox/test_data.R")
-
+World$gdp_est_mln = World$gdp_cap_est * World$pop_est / 1e6
 
 
 ############ examples
 
 ## 1
 
+# tmel = tm_shape(land) +
+# 	tm_raster("trees") +
+# tm_shape(World, name = "The World", is.main = TRUE) +
+# 	tm_borders() +
+# tm_facets(by = "continent") +
+# tm_shape(metro) +
+# 	tm_symbols(size = "pop2020")
+
+
+
+
 tmel = tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
-	tm_borders() +
-tm_facets(by = "continent") +
-tm_shape(metro) +
-	tm_symbols(size = "pop2020")
+	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
+	tm_symbols(color = c("blue", "red"), size = "pop2020") +
+	tm_facets(by = "continent")
+	
 
 
 ############# pipeline
