@@ -25,16 +25,26 @@ tm_shape(metro) +
 	tm_symbols(size = "pop2020")
 
 
+############# pipeline
 
-############# process shapes
+# restructure to tmapObject
+tmo = tmapObject(tmel)
 
-profvis::profvis({
-	tmo = tmapObject(tmel)
+# determine facets
+
+
+tmo = lapply(tmo, function(tmg) {
+	tmg$tmls = lapply(tmg$tmls, tmapLayer)
+	tmg
 })
 
-mem_change({
-	tmo = tmapObject(tmel)
-})
+
+tmapVars
+
+is.vector(1:3)
+
+
+c("a", MV(1:3))
 
 
 

@@ -1,7 +1,13 @@
 tmapAes = function(fun, value, setup) {
-	structure(list(fun = fun, value = value, setup = setup), class = "tmapAes")
+	structure(list(fun = fun, value = tmapVars(value), setup = setup), class = "tmapAes")
 }
 
 MV = function(...) {
-	structure(list(c(...)), class = "tmapVars")
+	list(c(...))
+}
+
+tmapVars = function(x) {
+	isL = is.list(x)
+	if (!isL) x = as.list(x)
+	structure(x, class = "tmapVars")
 }

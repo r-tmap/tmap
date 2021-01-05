@@ -29,12 +29,12 @@ tmapObject = function(tmel) {
 	tmo = structure(lapply(tmo, function(tmg) {
 		tmg$tms$crs = crs
 		tmg$tms = do.call(tmapShape, tmg$tms)
-		dt = tmg$tms$dt
+		#dt = tmg$tms$dt
 		#tmg$tmls = lapply(tmg$tmls, tmapLayer, dt)
 		tmg
 	}), class = c("tmapObject", "list"))
 	
-	# create tmapLayer objects
+	tmo
 }
 
 
