@@ -210,10 +210,13 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 
 		# flatten
+		shp2 = shp
 		
-		shp2 <- shp[1]
-		shp2[[1]] <- matrix(1L:(nrow(shp)*ncol(shp)), ncol = ncol(shp), nrow = nrow(shp))
-		attr(shp2, "dimensions") <- attr(shp2, "dimensions")[dxy]
+		while(length(dim(shp2)) > 2) {
+			shp2 = abind::adrop(shp2[,,,1])
+		}
+		
+		shp2[[1]] = seq_len(prod(dim(shp2))) 
 		
 		## to be consistent with Spatial objects:
 		#attr(shp2, "bbox") <- bb(shp2)
