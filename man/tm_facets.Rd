@@ -153,7 +153,7 @@ if (require(dplyr) && require(tidyr)) {
 \dontrun{
 tm_shape(land) +
 	tm_raster("black") +
-	tm_facets(by="cover_cls")
+	tm_facets(by="cover_cls", free.coords = FALSE)
 }
 
 # Facets defined by two group-by variables

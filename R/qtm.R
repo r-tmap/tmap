@@ -89,7 +89,7 @@ qtm <- function(shp,
 	}
 	
 	
-	isRaster <- (inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster", "stars")))
+	isRaster <- (inherits(shp, c("SpatialGrid", "SpatialPixels", "Raster", "stars", "SpatRaster")))
 	
 	
 	if ((inherits(shp, "stars") && !has_raster(shp))) {

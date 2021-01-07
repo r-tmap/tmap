@@ -42,7 +42,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	}
 	
 	
-	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid"))) {
+	if (inherits(shp, c("stars", "Raster", "SpatialPixels", "SpatialGrid", "SpatRaster"))) {
 		is.RGB <- attr(raster_facets_vars, "is.RGB") # true if tm_rgb is used (NA if qtm is used)
 		rgb.vars <- attr(raster_facets_vars, "rgb.vars")
 		to.Cat <- attr(raster_facets_vars, "to.Cat") # true if tm_raster(..., style = "cat) is specified
@@ -50,7 +50,10 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 		if (interactive && is.numeric(tmapOptions$projection) && !identical(tmapOptions$projection, 0)) gm$shape.master_crs <- .crs_merc # leaflet excepts rasters in epsg 3857
 		
-		if (!inherits(shp, "stars")) shp <- stars::st_as_stars(shp)
+		if (!inherits(shp, "stars")) {
+			if (inherits(shp, "SpatRaster")) shp = as(shp, "Raster")
+			shp = stars::st_as_stars(shp)	
+		} 
 
 		if (!has_raster(shp)) stop("object ", y$shp_name, " does not have a spatial raster", call. = FALSE)
 		
@@ -212,7 +215,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		
 
 		# flatten
-		shp2 = shp
+		shp2 = shp[1,] # select first attribute
 		
 		while(length(dim(shp2)) > 2) {
 			shp2 = abind::adrop(shp2[,,,1])

@@ -32,6 +32,7 @@
 #' @import leafsync
 #' @importFrom utils packageVersion
 #' @importFrom rlang missing_arg expr
+#' @importFrom abind adrop
 #' @export
 #' @method print tmap
 print.tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode"), show=TRUE, knit=FALSE, options=NULL, ...) {

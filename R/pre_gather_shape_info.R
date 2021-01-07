@@ -26,7 +26,9 @@ pre_gather_shape_info <- function(x, interactive) {
 	## find master projection (and set to longlat when in view mode)
 	master_crs <- sf::st_crs(x[[shape.id[masterID]]]$projection)
 	mshp_raw <- x[[shape.id[masterID]]]$shp
-	if (!inherits(mshp_raw, c("stars", "Raster", "sf", "sfc", "Spatial"))) stop("Object ", x[[shape.id[masterID]]]$shp_name, " is neither from class sf, stars, Spatial, nor Raster.", call. = FALSE) # shapes are later checked in pre_check_shape
+	if (!inherits(mshp_raw, c("stars", "Raster", "sf", "sfc", "Spatial", "SpatRaster"))) stop("Object ", x[[shape.id[masterID]]]$shp_name, " is neither from class sf, stars, Spatial, Raster, nor SpatRaster.", call. = FALSE) # shapes are later checked in pre_check_shape
+	
+	if (inherits(mshp_raw, "SpatRaster")) mshp_raw = stars::st_as_stars(as(mshp_raw, "Raster")) ## INEFFICIENT, but st_crs and st_bbox are not implemented yet for SpatRaster
 	
 	mshp_crs <- sf::st_crs(mshp_raw)
 	bbx_raw <- sf::st_bbox(mshp_raw)
