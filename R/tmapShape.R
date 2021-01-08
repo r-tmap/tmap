@@ -81,7 +81,7 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
 	sfc = sf::st_geometry(shp)
 	dt = as.data.table(sf::st_drop_geometry(shp))
 	
-	dtcols = names(dt)
+	dtcols = copy(names(dt))
 	
 	bbox = st_bbox(sfc)
 	

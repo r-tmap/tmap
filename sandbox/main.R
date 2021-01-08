@@ -31,7 +31,7 @@ tmel = tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
-	tm_symbols(color = c("blue", "red"), size = "pop2020") +
+	tm_symbols(color = c("blue", "red"), size = "pop_est") +
 	tm_facets(by = "continent")
 	
 
@@ -41,34 +41,14 @@ tm_shape(World, name = "The World", is.main = TRUE) +
 # restructure to tmapObject
 tmo = tmapObject(tmel)
 
-# determine facets
+# prepare data for transformation and mapping
+
+updateData(tmo)
+
+tmo[[1]]$tms$dt
+tmo[[2]]$tms$dt
 
 
-tmo = lapply(tmo, function(tmg) {
-	tmg$tmls = lapply(tmg$tmls, tmapLayer)
-	tmg
-})
-
-
-tmapVars
-
-is.vector(1:3)
-
-
-c("a", MV(1:3))
-
-
-
-tmg = tmo[[1]]
-dt = tmg$tms$dt
-
-tml = tmg$tmls[[1]]
-
-dt2 = copy(dt)
-
-
-
-lapply(tml$aes.mapping, tml$aes.mapping.fun)
 
 
 
