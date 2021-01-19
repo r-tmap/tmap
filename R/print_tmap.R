@@ -260,21 +260,22 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 			}
 		} else lf2
 	} else {
+		if (nx > 1) sasp <- gm$shape.dasp
+		#  plot_n:     - makes small multiples grid
+		#              - calls plot_all for grob trees
+		#              - plot the grob trees
+		#  plot_1:     - calls plot_map to create grob tree of map itself
+		#              - calls legend_prepare and plot_legend to create grob tree of legend
+		#              - creates grob tree for whole plot
+		grb = plot_n(gm, "plot_1", nx, g$gps, gal, shps, gm$shape.dasp, gm$shape.sasp, gm$shape.inner.margins, gm$shape.legend_pos, g$gp_leg, g$gp_attr, show)
+		## if vp is specified, go 1 viewport up, else go to root viewport
+		upViewport(n=as.integer(!is.null(vp)))
+		save_last_map()
+		
 		if (show) {
-			if (nx > 1) sasp <- gm$shape.dasp
-			#  plot_n:     - makes small multiples grid
-			#              - calls plot_all for grob trees
-			#              - plot the grob trees
-			#  plot_1:     - calls plot_map to create grob tree of map itself
-			#              - calls legend_prepare and plot_legend to create grob tree of legend
-			#              - creates grob tree for whole plot
-			plot_n(gm, "plot_1", nx, g$gps, gal, shps, gm$shape.dasp, gm$shape.sasp, gm$shape.inner.margins, gm$shape.legend_pos, g$gp_leg, g$gp_attr)
-			## if vp is specified, go 1 viewport up, else go to root viewport
-			upViewport(n=as.integer(!is.null(vp)))
-			save_last_map()
-			invisible(list(shps=shps, gps=gps2))
+			invisible(list(shps=shps, gps=gps2, grb=grb))
 		} else {
-			list(shps=shps, gps=gps2)
+			list(shps=shps, gps=gps2, grb=grb)
 		}
 	}
 }

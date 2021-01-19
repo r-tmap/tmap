@@ -1,4 +1,5 @@
-version 3.2-1
+version 3.3
+- tmap_grob added, which exports tmap plots to grob objects (grid package)
 - SpatRaster objects (terra package) supported
 - fixed many small bugs (see github issue list)
 

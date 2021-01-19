@@ -51,7 +51,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (interactive && is.numeric(tmapOptions$projection) && !identical(tmapOptions$projection, 0)) gm$shape.master_crs <- .crs_merc # leaflet excepts rasters in epsg 3857
 		
 		if (!inherits(shp, "stars")) {
-			if (inherits(shp, "SpatRaster")) shp = as(shp, "Raster")
+			#if (inherits(shp, "SpatRaster")) shp = as(shp, "Raster")
 			shp = stars::st_as_stars(shp)	
 		} 
 

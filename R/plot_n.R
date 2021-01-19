@@ -1,4 +1,4 @@
-plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr) {
+plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new, legend_pos, gp_leg, gp_attr, show) {
 	mfrow <- gmeta$nrow
 	mfcol <- gmeta$ncol
 
@@ -41,10 +41,9 @@ plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new
 		}
 		
 		if (k!=1) {
-			grid.newpage()
+			if (show) grid.newpage()
 		}
 		
-
 		## in order to keep aspect ratio while resizing
 		if (dasp > 1) {
 			cw <- dasp
@@ -192,9 +191,10 @@ plot_n <- function(gmeta, fun, nx, gps, gal, shps, dasp, sasp, inner.margins.new
 		}
 		
 		
-		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG, grobMainBG, grobMain), treeGridLabels, treeMults, rowPanels, colPanels, legPanel, attrPanel, xlabPanel, ylabPanel)), vp=vpGrid)
-		grid.draw(tree)
+		tree <- gTree(children=do.call("gList", c(list(grobBG, grobBG2, grobFacetBG, grobMainBG, grobMain), treeGridLabels, treeMults, rowPanels, colPanels, legPanel, attrPanel, xlabPanel, ylabPanel)), vp=vpStack(vpContainer, vpGrid))
+		if (show) grid.draw(tree)
+		return(tree)
 	})
 	upViewport(2)
-	invisible()
+	invisible(treeMlts)
 }
