@@ -45,6 +45,8 @@
 
 
 
+
+
 <!-- mathjax -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script>
@@ -72,7 +74,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3</span>
       </span>
     </div>
 
@@ -270,7 +272,7 @@
     <p>The global option <code>limits</code> controls the limit of the number of facets that are plotted. By default, <code><a href='tmap_options.html'>tmap_options(limits=c(facets.plot=64, facets.view=4))</a></code>. The maximum number of interactive facets is set to four since otherwise it may become very slow.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, <a href='https://doi.org/10.18637/jss.v084.i06'>DOI</a></p>
+    <p>Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, doi: <a href='https://doi.org/10.18637/jss.v084.i06'>10.18637/jss.v084.i06</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
@@ -341,7 +343,7 @@
 #&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: tidyr</span></div><div class='img'><img src='tm_facets-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
 <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='tm_raster.html'>tm_raster</a></span><span class='op'>(</span><span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"cover_cls"</span><span class='op'>)</span>
+  <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"cover_cls"</span>, free.coords <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 <span class='co'># Facets defined by two group-by variables</span>
