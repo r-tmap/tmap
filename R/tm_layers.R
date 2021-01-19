@@ -98,7 +98,7 @@ check_deprecated_layer_fun_args <- function(auto.palette.mapping, max.categories
 #' @export
 #' @example ./examples/tm_text.R
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @return \code{\link{tmap-element}}
 tm_text <-  function(text, size=1, col=NA, root=3, 
 					 clustering=FALSE,
@@ -251,7 +251,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param ... these arguments are passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).
 #' @export
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @example ./examples/tm_lines.R
 #' @return \code{\link{tmap-element}}
 tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
@@ -377,7 +377,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 #' @export
 #' @example ./examples/tm_fill.R
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @return \code{\link{tmap-element}}	
 tm_fill <- function(col=NA, 
 					alpha=NA,
@@ -522,7 +522,7 @@ tm_polygons <- function(col=NA,
 #' @export
 #' @example ./examples/tm_raster.R
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @return \code{\link{tmap-element}}	
 tm_raster <- function(col=NA,
 					  alpha = NA,
@@ -708,7 +708,7 @@ tm_rgba <- function(r = 1, g = 2, b = 3, a = 4, alpha = NA, saturation = 1, inte
 #' @export
 #' @example ./examples/tm_symbols.R
 #' @references Flannery J (1971). The Relative Effectiveness of Some Common Graduated Point Symbols in the Presentation of Quantitative Data. Canadian Cartographer, 8(2), 96-109.
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @return \code{\link{tmap-element}}
 tm_symbols <- function(size=1, col=NA,

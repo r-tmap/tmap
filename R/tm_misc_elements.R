@@ -32,7 +32,7 @@
 #' @export
 #' @example ./examples/tm_facets.R
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @return \code{\link{tmap-element}}
 tm_facets <- function(by=NULL, 
 					  along=NULL,
@@ -383,7 +383,7 @@ tm_mouse_coordinates <- function() {
 #' @param e1 first \code{\link{tmap-element}}
 #' @param e2 second \code{\link{tmap-element}}
 #' @seealso \code{\link{tmap-element}} and \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @export
 "+.tmap" <- function(e1, e2) {
 	qtm_shortcut1 <- attr(e1, "qtm_shortcut")

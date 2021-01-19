@@ -22,7 +22,7 @@
 #' @param ... Arguments passed on to \code{\link[tmaptools:bb]{bb}} (e.g. \code{ext} can be used to enlarge or shrinke a bounding box), and \code{\link[tmaptools:simplify_shape]{simplify_shape}} (the arguments \code{keep.units} and \code{keep.subunits})
 #' @export
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}} 
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @example ./examples/tm_shape.R
 #' @return \code{\link{tmap-element}}
 tm_shape <- function(shp, 

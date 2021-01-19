@@ -183,7 +183,7 @@ tm_layout(panel.label.rot = c(0, 90), panel.label.size = 2)
 tmap_mode(current.mode)
 }
 \references{
-Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
 \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}

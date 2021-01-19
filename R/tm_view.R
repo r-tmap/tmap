@@ -26,7 +26,7 @@ leaflet::providers
 #' @param leaflet.options other options passed on via \code{\link[leaflet:leaflet]{leafletOptions}} to leaflet.js map creation (see \href{https://leafletjs.com/}{leaflet}, follow Docs, Map, Creation). Named list, where the names correspond to the variable names. Tip: use \code{zoomSnap} and \code{zoomDelta} for fractional zooming.
 #' @example ./examples/tm_view.R
 #' @seealso \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 #' @export
 tm_view <- function(alpha,
 					colorNA,

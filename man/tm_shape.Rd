@@ -112,7 +112,7 @@ tm_layout(bg.color="lightcyan1", inner.margins=c(0,0,.02,0), legend.show = FALSE
 tmap_mode(current.mode)
 }
 \references{
-Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }
 \seealso{
 \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
