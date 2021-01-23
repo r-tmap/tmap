@@ -41,9 +41,29 @@ tm_shape(World, name = "The World", is.main = TRUE) +
 # restructure to tmapObject
 tmo = tmapObject(tmel)
 
+str(tmo,3)
+
+
 # prepare data for transformation and mapping
 
 updateData(tmo)
+
+tmg = tmo[[2]]
+
+tml = tmg$tmls[[1]]
+
+dt = tmg$tms$dt
+
+dt[, x := sum(l1__data__size__1__1), by = .(by1__, by2__, along__)]
+
+
+
+tmapAesColorDiscrete
+
+
+dt[, .(x = sum(dv__l1__color__1__1)), by = list(tmapID__, by1__, by2__, along__)]
+
+
 
 tmo[[1]]$tms$dt
 tmo[[2]]$tms$dt

@@ -1,5 +1,5 @@
-tmapAes = function(fun, value, setup) {
-	structure(list(fun = fun, value = tmapVars(value), setup = setup), class = "tmapAes")
+tmapAes = function(fun, value, setup, free) {
+	structure(list(fun = fun, value = tmapVars(value), setup = setup, free = free), class = "tmapAes")
 }
 
 MV = function(...) {
