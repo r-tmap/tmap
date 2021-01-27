@@ -14,9 +14,12 @@ tmapObject = function(tmel) {
 		is_tml = sapply(tmg, inherits, "tm_layer")
 		is_tmf = sapply(tmg, inherits, "tm_facets")
 		if (!any(is_tmf)) {
-			tmf = tm_facets()[[1]]
+			tmf = tm_facets_wrap()[[1]]
 		} else {
-			tmf = tmg[[which(is_tmf)[1]]]
+			# get last tm_facets element
+			k = sum(is_tmf)
+			if (k < 1) warning("Multiple tm_facets defined per layer group. Only the last one is processed", call. = FALSE)
+			tmf = tmg[[which(is_tmf)[k]]]
 		}
 		
 		structure(list(tms = tmg[[1]], tmls = tmg[is_tml], tmf = tmf), class = c("tmapGroup", "list"))

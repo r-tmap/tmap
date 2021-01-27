@@ -1,9 +1,9 @@
 tm_polygons = function(fill = "blue", 
 					   fill.setup = tm_aes_color_discrete(),
-					   fill.free = TRUE,
+					   fill.free = NA,
 					   color = "gray30",
 					   color.setup = tm_aes_color_discrete(),
-					   color.free = TRUE) {
+					   color.free = NA) {
 
 	tm_element_list(tm_element(
 		trans.fun = tmapTransPolygon,
@@ -24,7 +24,7 @@ tm_polygons = function(fill = "blue",
 
 tm_borders = function(color = "gray30",
 					  color.setup = tm_aes_color_discrete(),
-					  color.free = TRUE) {
+					  color.free = NA) {
 	
 	tm_element_list(tm_element(
 		trans.fun = tmapTransPolygon,
@@ -42,7 +42,7 @@ tm_borders = function(color = "gray30",
 tm_cartogram = function(...,
 						size = 1,
 						size.setup = tm_aes_2d_size,
-						size.free = TRUE) {
+						size.free = NA) {
 	
 	tmp = do.call(tm_polygons, list(...))
 	tmp[[1]] = within(tmp[[1]], {
@@ -58,7 +58,7 @@ tm_cartogram = function(...,
 
 tm_raster = function(color = "blue", 
 					 color.setup = tm_aes_color_discrete(),
-					 color.free = TRUE) {
+					 color.free = NA) {
 	
 	tm_element_list(tm_element(
 		trans.fun = tmapTransRaster,
@@ -74,7 +74,7 @@ tm_raster = function(color = "blue",
 
 tm_rgb = function(color = MV(1:3),
 				  color.setup = tm_aes_color_rgb(),
-				  color.free = TRUE) {
+				  color.free = NA) {
 	do.call(tm_raster, color = color, color.setup = color.setup, color.free = color.free)
 }
 
@@ -84,9 +84,9 @@ tm_symbols = function(color = "blue",
 					  color.setup = tm_aes_color_discrete(), 
 					  size.setup = tm_aes_2d_size(),
 					  shape.setup = tm_aes_shape(),
-					  color.free = TRUE,
-					  size.free = TRUE,
-					  shape.free = TRUE) {
+					  color.free = NA,
+					  size.free = NA,
+					  shape.free = NA) {
 	
 	tm_element_list(tm_element(
 		trans.fun = tmapTransCentroid,
