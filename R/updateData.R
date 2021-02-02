@@ -73,12 +73,10 @@ updateData = function(tmo) {
 		tml = tmg$tmls[[1]]
 		aes = tml$mapping.aes[[1]]
 		nm = names(tml$mapping.aes)[1]
-		v = aes$value
+		val = aes$value
 		nvars = length(aes$value) #m
-		nvari = vapply(v, length, integer(1))
+		nvari = vapply(val, length, integer(1))
 		
-		if (!all(nvari == nvari[1])) stop("number of variables per aesthetic should be consistent", call. = FALSE)
-		nvari = nvari[1]
 		
 		
 		relevant_vars = c("tmapID__", unlist(aes$value), bys)
@@ -92,34 +90,68 @@ updateData = function(tmo) {
 			if (length(which_by_vars)) fr[which_by_vars] = TRUE
 		}
 		
+		if (fr[which_by_vars] && !all(nvari == nvari[1])) stop("number of variables per aesthetic should be consistent when free = FALSE", call. = FALSE)
+		#nvari = nvari[1]
+
 		# multiple variables
 		if (nvars > 1) {
 			if (limitvars) {
 				# not allowed: take first one
 				warning(limitvars_warn, call. = FALSE)
-				v = v[1]
+				val = val[1]
 			} else {
 				if (!fr[which_by_vars]) {
 					nms = aes$value[[1]]
 					
-					dtlks = lapply(1L:nvari, function(k) {
-						vk = vapply(v, "[", character(1), k)
+					dtlks = lapply(1L:nvari[1], function(k) {
+						vk = vapply(val, "[", character(1), k)
 						melt(dtl, id.vars = c("tmapID__", byv), measure.vars = vk, variable.name = paste0("by", which_by_vars, "__"), value.name = nms[k])	
 					})
 					dtl = dtlks[[1]]
-					if (nvari > 1) {
-						for (i in 2L:nvari) {
+					if (nvari[1] > 1) {
+						for (i in 2L:nvari[1]) {
 							dtl[, (nms[i]) := dtlks[[i]][[nms[i]]]]
 						}
 					}
-					
+					val = val[[1]]
 				}
 			}
 		}
 		
 		grp = bys[fr]
 		
-		v
+		if (fr[which_by_vars]) {
+			if (!inherits(aes$setup, "tm_aes")) {
+				setup = rep(aes$setup, length.out = nvars)
+			} else {
+				setup = rep(list(aes$setup), length.out = nvars)
+			}
+			
+			varnames = paste(nm, 1L:nvars, sep = "_")
+			mapply(function(s, v, varname) {
+				f = s$FUN
+				s$FUN = NULL
+				dtl[, (varname) := do.call(f, c(unname(.SD), list(setup = s))), grp, .SDcols = v]
+				NULL
+			}, setup, val, varnames)
+			
+			byvarname = paste0("by", which_by_vars, "__")
+			dtl[, (byvarname) := NULL]
+			
+			dtl = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = varnames, variable.name = byvarname, value.name = nm)
+			levels(dtl[[byvarname]]) = vapply(val, "[", character(1), 1)
+		} else {
+			if (inherits(aes$setup, "tm_aes")) {
+				s = aes$setup
+			} else {
+				s = aes$setup[[1]]
+			}
+			f = s$FUN
+			s$FUN = NULL
+			dtl[, (nm) := do.call(f, c(unname(.SD), list(setup = s))), grp, .SDcols = val]
+		}
+		
+		fr
 		
 		
 				

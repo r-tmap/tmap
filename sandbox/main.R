@@ -50,8 +50,28 @@ tmel = tm_shape(World) +
 	tm_polygons(fill = c("well_being", "well_being2")) +
 	tm_facets_grid(rows = "continent")
 
+
 tmel = tm_shape(World) +
-	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2"))) +
+	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
+				fill.setup = tm_aes_color_rgb()) +
+	tm_facets_grid(rows = "continent")
+
+tmel = tm_shape(World) +
+	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
+				fill.setup = tm_aes_color_rgb(),
+				fill.free = c(TRUE, TRUE, TRUE)) +
+	tm_facets_grid(rows = "continent")
+
+tmel = tm_shape(World) +
+	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
+				fill.setup = tm_aes_color_rgb(),
+				fill.free = c(TRUE, FALSE, TRUE)) +
+	tm_facets_grid(rows = "continent")
+
+tmel = tm_shape(World) +
+	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
+				fill.setup = tm_aes_color_rgb(),
+				fill.free = c(FALSE, FALSE, TRUE)) +
 	tm_facets_grid(rows = "continent")
 
 
