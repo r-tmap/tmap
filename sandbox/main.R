@@ -85,7 +85,7 @@ str(tmo,3)
 
 # prepare data for transformation and mapping
 
-updateData(tmo)
+x = updateData(tmo)
 
 tmg = tmo[[1]]
 

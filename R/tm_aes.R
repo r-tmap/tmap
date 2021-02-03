@@ -18,8 +18,14 @@ tm_aes_shape = function(shapes = c(16:21)) {
 }
 
 tmapAesColorDiscrete = function(x1, setup) {
-	ci = classInt::classIntervals(x1, n = setup$n, style = setup$style)
-	pals::brewer.blues(setup$n)[classInt::findCols(ci)]
+	if (!is.numeric(x1) && !is.factor(x1)) x1 = factor(x1)
+	
+	if (is.factor(x1)) {
+		pals::brewer.blues(nlevels(x1))[as.integer(x1)]
+	} else {
+		ci = classInt::classIntervals(x1, n = setup$n, style = setup$style)
+		pals::brewer.blues(setup$n)[classInt::findCols(ci)]
+	}
 }
 
 tmapAesColorRGB = function(x1, x2, x3, setup) {
