@@ -79,41 +79,7 @@ tmel = tm_shape(World) +
 
 # restructure to tmapObject
 tmo = tmapObject(tmel)
-
-str(tmo,3)
-
-
-# prepare data for transformation and mapping
-
 x = updateData(tmo)
-
-tmg = tmo[[1]]
-
-tml = tmg$tmls[[1]]
-
-dt = tmg$tms$dt
-
-byvar = ""
-
-
-a = "continent"
-x = "d"
-dt[, (x) := get(a)]
-
-dt[, x := sum(l1__data__size__1__1), by = .(by1__, by2__, along__)]
-
-
-
-tmapAesColorDiscrete
-
-
-dt[, .(x = sum(dv__l1__color__1__1)), by = list(tmapID__, by1__, by2__, along__)]
-
-
-
-tmo[[1]]$tms$dt
-tmo[[2]]$tms$dt
-
 
 
 

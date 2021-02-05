@@ -1,33 +1,27 @@
 updateData = function(tmo) {
 	groupnames = paste0("group", seq_along(tmo))
 	grps = lapply(tmo, function(tmg) {
-		# determine number of multiples
-		tmg$tmls = lapply(tmg$tmls, tmapLayer)
-		#browser()
-		
-		# add by variables to the data
 		dt = tmg$tms$dt
-		dtcols = tmg$tms$dtcols
 
-		wrp = tmg$tmf$is.wrap
-		
+
+		### Specify 'by' variables
 		if (tmg$tmf$is.wrap) {
+			# facet wrap: only use by1
 			by1 = tmg$tmf$wrap
 			by2 = NULL
 			by3 = NULL
 			
-			# if wrap by is a variable, limit number of vars to 1 (in case multiple variables have been defined in the layer function)
+			# By default, facets are created over the aes variables ("VARS__"). If wrap is specified in tm_facets, limit number of variables to 1.
 			limitvars = (by1 != "VARS__")
 			limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
 		} else {
+			# facet grid
 			by1 = tmg$tmf$rows
 			by2 = tmg$tmf$columns
 			by3 = tmg$tmf$pages
 			
+			## Try to assign VARS__ to one dimension. If not possible, limit number of variables to 1.
 			limitvars = FALSE
-			limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
-			
-			## try to assign VARS__ to one dimension. If not possible, limit number of vars to 1 (in case multiple variables have been defined in the layer function)
 			if (!identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
 				if (is.null(by1)) {
 					by1 = "VARS__"
@@ -39,28 +33,27 @@ updateData = function(tmo) {
 					limitvars = TRUE
 				}
 			}
+			limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
 		}
 		
 		
-		# which dimensions are used?
-		which_by_vars = which(c(by1, by2, by3) == "VARS__")
-		which_by_def = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), which_by_vars)
-
-		# total number of dimensions
-		ndims = length(which_by_vars) + length(which_by_def)
+		### which dimensions are used?
+		which_by_vars = which(c(by1, by2, by3) == "VARS__") # the dimension for aes variables (length is 0 or 1)
+		which_by_spec = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), which_by_vars) # specified 'by' dimensions (up to 3)
+		ndims = length(which_by_vars) + length(which_by_spec) # total number of dimensions
 		
-		# make new by columns by1__ etc with factors
-		if (any(which_by_def)) {
-			for (w in which_by_def) {
+		# create byx__ columns for which_by_spec
+		if (any(which_by_spec)) {
+			for (w in which_by_spec) {
 				byvar = get(paste0("by", w))
 				byname = paste0("by", w, "__")
 				dt[, (byname) := factor(get(..byvar))]
 			}
 		}
-		
-		# create dummy by__ variables
+
+		# create dummy byx__ columns for !which_by_spec
 		if (ndims < 3) {
-			for (w in setdiff(1L:3L, which_by_def)) {
+			for (w in setdiff(1L:3L, which_by_spec)) {
 				byname = paste0("by", w, "__")
 				dt[, (byname) := factor(1L, levels = 1L)]
 			}
@@ -78,7 +71,7 @@ updateData = function(tmo) {
 				aesnames = character(0)	
 			}
 			aesnames = c(aesnames, paste0("mapping_", names(tml$mapping.aes)))
-			mapply(function(aes, nm) {
+			aess = mapply(function(aes, nm) {
 				print(paste("aes", nm))
 				
 				#if (nm == "mapping_fill") browser()
@@ -89,7 +82,7 @@ updateData = function(tmo) {
 				
 				vars = unlist(aes$value)
 
-				
+				#browser()
 				if (!all(vars %in% names(dt))) {
 					# constant values (take first value (of possible MV) per facet)
 					if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with MV", call. = FALSE)
@@ -108,6 +101,7 @@ updateData = function(tmo) {
 						dtl[, (vname) := val1[i]]
 					}
 					dtl = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = vnames, variable.name = paste0("by", which_by_vars, "__"), value.name = nm)
+					dtl[, legend := vector("list", length = nrow(dtl))]
 				} else {
 					relevant_vars = c("tmapID__", vars, bys)
 					
@@ -154,7 +148,7 @@ updateData = function(tmo) {
 					
 					grp = bys[fr]
 					
-					if (length(which_by_vars) && fr[which_by_vars]) {
+					if (length(which_by_vars) && fr[which_by_vars] && nvars > 1) {
 						if (!inherits(aes$setup, "tm_aes")) {
 							setup = rep(aes$setup, length.out = nvars)
 						} else {
@@ -162,18 +156,22 @@ updateData = function(tmo) {
 						}
 						
 						varnames = paste(nm, 1L:nvars, sep = "_")
-						mapply(function(s, v, varname) {
+						legnames = paste("legend", 1L:nvars, sep = "_")
+						mapply(function(s, v, varname, legname) {
 							f = s$FUN
 							s$FUN = NULL
-							dtl[, (varname) := do.call(f, c(unname(.SD), list(setup = s))), grp, .SDcols = v]
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s))), grp, .SDcols = v]
 							NULL
-						}, setup, val, varnames)
+						}, setup, val, varnames, legnames)
 						
 						byvarname = paste0("by", which_by_vars, "__")
 						dtl[, (byvarname) := NULL]
 						
+						dtl_leg = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = legnames, variable.name = byvarname, value.name = "legend")
 						dtl = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = varnames, variable.name = byvarname, value.name = nm)
 						levels(dtl[[byvarname]]) = vapply(val, "[", character(1), 1)
+						levels(dtl_leg[[byvarname]]) = vapply(val, "[", character(1), 1)
+						dtl$legend = dtl_leg$legend
 					} else {
 						if (inherits(aes$setup, "tm_aes")) {
 							s = aes$setup
@@ -182,11 +180,13 @@ updateData = function(tmo) {
 						}
 						f = s$FUN
 						s$FUN = NULL
-						dtl[, (nm) := do.call(f, c(unname(.SD), list(setup = s))), grp, .SDcols = val]
+						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s))), grp, .SDcols = val]
 					}
 				}
-				dtl[, c("tmapID__", bys, nm), with = FALSE]
+				dtl[, c("tmapID__", bys, nm, "legend"), with = FALSE]
 			}, c(tml$trans.aes, tml$mapping.aes), aesnames, SIMPLIFY = FALSE)
+			names(aess) = aesnames
+			aess
 		})
 		names(lrs) = layernames
 		lrs
