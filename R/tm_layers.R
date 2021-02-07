@@ -15,7 +15,7 @@ tm_polygons = function(fill = "blue",
 						   color = tmapAes(value = color,
 						   				setup = color.setup,
 						   				free = color.free)),
-		plotting.fun = "Polygon",
+		mapping.fun = "Polygon",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -31,7 +31,7 @@ tm_borders = function(color = "gray30",
 						   color = tmapAes(value = color,
 						   				setup = color.setup,
 						   				free = color.free)),
-		plotting.fun = "Polygon",
+		mapping.fun = "Polygon",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -62,7 +62,7 @@ tm_raster = function(color = "blue",
 		mapping.aes = list(color = tmapAes(value = color,
 						   				setup = color.setup,
 										free = color.free)),
-		plotting.fun = "Raster",
+		mapping.fun = "Raster",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -96,6 +96,6 @@ tm_symbols = function(color = "blue",
 						   				setup = shape.setup,
 						   				free = shape.free)),
 		
-		plotting.fun = "Symbol",
+		mapping.fun = "Symbol",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

@@ -55,23 +55,18 @@ updateData = function(tmo) {
 		if (ndims < 3) {
 			for (w in setdiff(1L:3L, which_by_spec)) {
 				byname = paste0("by", w, "__")
-				dt[, (byname) := factor(1L, levels = 1L)]
+				dt[, (byname) := 1L] #factor(1L, levels = 1L)
 			}
 		}
 		
 		bys = paste0("by", 1L:3L, "__")
 		byv = bys[setdiff(1L:3L, which_by_vars)]
+		byvarname = paste0("by", which_by_vars, "__")
+		
 		
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {
-			print("layer")
-			if (length(tml$trans.aes)) {
-				aesnames = paste0("trans_", names(tml$trans.aes))
-			} else {
-				aesnames = character(0)	
-			}
-			aesnames = c(aesnames, paste0("mapping_", names(tml$mapping.aes)))
-			aess = mapply(function(aes, nm) {
+			getdts = function(aes, nm) {
 				print(paste("aes", nm))
 				
 				#if (nm == "mapping_fill") browser()
@@ -82,6 +77,8 @@ updateData = function(tmo) {
 				
 				vars = unlist(aes$value)
 
+				
+				
 				#browser()
 				if (!all(vars %in% names(dt))) {
 					# constant values (take first value (of possible MV) per facet)
@@ -100,7 +97,8 @@ updateData = function(tmo) {
 						vname = vnames[i]
 						dtl[, (vname) := val1[i]]
 					}
-					dtl = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = vnames, variable.name = paste0("by", which_by_vars, "__"), value.name = nm)
+					dtl = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = vnames, variable.name = byvarname, value.name = nm)
+					dtl[, (byvarname) := as.integer(get(..byvarname))]
 					dtl[, legend := vector("list", length = nrow(dtl))]
 				} else {
 					relevant_vars = c("tmapID__", vars, bys)
@@ -164,7 +162,6 @@ updateData = function(tmo) {
 							NULL
 						}, setup, val, varnames, legnames)
 						
-						byvarname = paste0("by", which_by_vars, "__")
 						dtl[, (byvarname) := NULL]
 						
 						dtl_leg = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = legnames, variable.name = byvarname, value.name = "legend")
@@ -184,9 +181,31 @@ updateData = function(tmo) {
 					}
 				}
 				dtl[, c("tmapID__", bys, nm, "legend"), with = FALSE]
-			}, c(tml$trans.aes, tml$mapping.aes), aesnames, SIMPLIFY = FALSE)
-			names(aess) = aesnames
-			aess
+			}
+			
+			dts_trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE)
+			dts_mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE)
+			
+			if (length(dts_trans) > 0) {
+				dts_trans[[1]]
+			}
+			
+			get_legend = function(dt) {
+				sel = !vapply(dt$legend, is.null, logical(1))
+				if (!any(sel)) NULL else dt[sel, c("by1__", "by2__", "by3__", "legend"), with = FALSE]	
+			} 
+			
+			if (length(dts_trans) > 0) {
+				trans_legend = lapply(dts_trans, get_legend)
+				for (dt in dts_trans) dt[, legend:= NULL]
+			} else {
+				trans_legend = NULL
+				dts_trans = NULL
+			}
+			mapping_legend = lapply(dts_mapping, get_legend)
+			for (dt in dts_mapping) dt[, legend:= NULL]
+			
+			list(trans = dts_trans, trans_legend = trans_legend, mapping = dts_mapping, mapping_legend = mapping_legend)
 		})
 		names(lrs) = layernames
 		lrs
