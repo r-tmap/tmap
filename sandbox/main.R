@@ -39,7 +39,7 @@ tmel = tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
-	tm_symbols(color = c("blue", "red"), size = "pop_est") +
+	tm_symbols(color = c("blue", "red"), size = "life_exp") +
 tm_facets_wrap(by = "continent")
 
 # size variables mapped to columns
@@ -47,10 +47,9 @@ tmel = tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
-	tm_symbols(color = c("blue", "red"), size = "pop_est") +
+	tm_symbols(color = c("blue", "red"), size = "life_exp") +
 tm_facets_grid(rows = "continent")
 
-	
 
 # wrap mvars
 tmel = tm_shape(World) +
@@ -98,7 +97,7 @@ get_fact_lev = function() {
 	fl = list(1L, 1L, 1L)
 	for (g in x) {
 		for (l in g) {
-			for (dt in l) {
+			for (dt in c(l$trans, l$mapping)) {
 				for (bi in 1L:3L) {
 					by_var = paste0("by", bi, "__")
 					by_col = dt[[by_var]]
@@ -122,6 +121,39 @@ get_fact_lev = function() {
 }
 fl = get_fact_lev()
 
+names(fl) = paste0("by", 1:3, "__")
+
+dt = x$group1$layer1$mapping$color
+
+
+dt
+
+for (i in 1:3) {
+	byname = paste0("by", i, "__")
+	dt[, (byname) := as.integer(get(..byname))]
+	if (max(dt[[byname]]) == 1L && length(fl[[i]]) > 1L) {
+		dt = rbindlist(lapply(1L:length(fl[[i]]), function(j) {
+			copy(dt)[, (byname) := j]
+		}))
+		
+	}
+}
+
+
+completeDT <- function(DT, cols, defs = NULL){
+	mDT = do.call(CJ, c(DT[, ..cols], list(unique=TRUE)))
+	res = DT[mDT, on=names(mDT)]
+	if (length(defs)) 
+		res[, names(defs) := Map(replace, .SD, lapply(.SD, is.na), defs), .SDcols=names(defs)]
+	res[]
+} 
+
+
+
+
+
+
+res = dt[J(as.data.table(fl)), on = names(fl)]
 
 
 
