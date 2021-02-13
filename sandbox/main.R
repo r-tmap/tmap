@@ -50,6 +50,15 @@ tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_symbols(color = c("blue", "red"), size = "life_exp") +
 tm_facets_grid(rows = "continent")
 
+# size variables mapped to columns (free scales)
+tmel = tm_shape(land) +
+	tm_raster("trees") +
+	tm_shape(World, name = "The World", is.main = TRUE) +
+	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +
+	tm_symbols(color = c("blue", "red"), size = "life_exp", size.free = TRUE) +
+	tm_facets_grid(rows = "continent")
+
+
 
 # wrap mvars
 tmel = tm_shape(World) +
@@ -92,134 +101,45 @@ tmo = tmapObject(tmel)
 x = updateData(tmo)
 
 
-# determine levels for facets
-get_fact_lev = function() {
-	fl = list(1L, 1L, 1L)
-	for (g in x) {
-		for (l in g) {
-			for (dt in c(l$trans, l$mapping)) {
-				for (bi in 1L:3L) {
-					by_var = paste0("by", bi, "__")
-					by_col = dt[[by_var]]
-					by_isn = is.integer(by_col)
-					by_nlv = if (by_isn) max(by_col) else nlevels(by_col)
-					
-					fi = fl[[bi]]
-					fi_isn = is.integer(fi) 
-					fi_nlv = if (fi_isn) fi else length(fi)
-					
-					if (by_nlv > 1L && fi_nlv > 1L && by_nlv != fi_nlv) {
-						stop("number of facets in plotting dimension", bi, "is not consistent", call. = FALSE)
-					} else if (by_nlv > 1L && fi_isn) {
-						fl[[bi]] = if (by_isn) by_nlv else levels(by_col)
-					}
-				}
-			}
-		}
-	}
-	fl
-}
-fl = get_fact_lev()
 
-names(fl) = paste0("by", 1:3, "__")
+#####################
+str(tmo[[1]],2)
 
-dt = x$group1$layer1$mapping$color
+str(x[[2]],1)
 
 
-dt
+shp = tmo[[2]]$tms$shp
+dt = x$group2$layer1$trans$size
 
-for (i in 1:3) {
-	byname = paste0("by", i, "__")
-	dt[, (byname) := as.integer(get(..byname))]
-	if (max(dt[[byname]]) == 1L && length(fl[[i]]) > 1L) {
-		dt = rbindlist(lapply(1L:length(fl[[i]]), function(j) {
-			copy(dt)[, (byname) := j]
-		}))
-		
-	}
+
+tmaptransCartogram = function(shp, size) {
+	x = st_sf(geometry = shp, weight = size)
+	require(cartogram)
+	#list(shp = cartogram::cartogram_cont(x, weight = "weight", itermax = 5))
+	print(length(size))
+	list(list(a=1))
 }
 
+shp2 = tmaptransCartogram(shp, size = World$HPI)
 
-completeDT <- function(DT, cols, defs = NULL){
-	mDT = do.call(CJ, c(DT[, ..cols], list(unique=TRUE)))
-	res = DT[mDT, on=names(mDT)]
-	if (length(defs)) 
-		res[, names(defs) := Map(replace, .SD, lapply(.SD, is.na), defs), .SDcols=names(defs)]
-	res[]
-} 
+do_trans = function(tmapID__, ...) {
+	do.call(tmaptransCartogram, c(list(shp = shp[tmapID__]), list(...)))
+}
 
-
-
-
-
-
-res = dt[J(as.data.table(fl)), on = names(fl)]
-
-
-
-# harmonize data
-x2 = lapply(x, function(g) {
-	lapply(g, function(l) {
-		lapply(l, function(dt) {
-			dt
-			
-			
-			
-			if (nlevels(dt$by1__) < length(flev[[1]])
-			
-			if (nlevels(dt$by1__) < length(flev[[1]])) {
-				
-			}
-			
-		})
-	})
-})
-
-
-dt
-
-
-
-
-
-
-
-nf_per_aes = do.call(rbind, lapply(x, function(g) {
-	do.call(rbind, lapply(g, function(l) {
-		do.call(rbind, lapply(l, function(dt) {
-			c(nlevels(dt$by1__), nlevels(dt$by2__), nlevels(dt$by2__))
-		}))
-	}))
-}))
-
-nf = apply(nf_per_aes, MARGIN = 2, max)
-
-apply(nf_per_aes, MARGIN = 1, FUN = function(nfi) {
-	if (any(nfi > 1) )
-})
-
-
-
-
-
-
-lapply(x, function(g) {
-	lapply(g, function(l) {
-		lapply(l, function(dt) {
-			nfi = c(nlevels(dt$by1__), nlevels(dt$by2__), nlevels(dt$by2__))
-			
-		})
-	})
-})
+dt[, shape:= NULL]
+dt[, shape := do.call(do_trans, as.list(.SD)), by = c("by1__", "by2__"), .SDcols = c("tmapID__", "size")]
 
 
 #################################################################
 #### other end of the bridge:
 #################################################################
+library(grid)
 
+World = st_transform(World, crs = "+proj=eck4")
 World = st_transform(World, crs = 4326)
 
 x = st_geometry(World)
+
 
 
 fill = pals::brewer.blues(7)[as.integer(World$economy)]

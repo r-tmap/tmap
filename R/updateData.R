@@ -3,7 +3,7 @@ updateData = function(tmo) {
 	fl = list(1L, 1L, 1L)
 	e = environment()
 	
-	
+	# function to update the levels fl per facet dimension
 	update_fl = function(k, lev = NULL, m = NULL) {
 		fl = get("fl", envir = e)
 		fk = fl[[k]]
@@ -33,7 +33,6 @@ updateData = function(tmo) {
 	
 	grps = lapply(tmo, function(tmg) {
 		dt = tmg$tms$dt
-
 
 		### Specify 'by' variables
 		if (tmg$tmf$is.wrap) {
@@ -68,40 +67,31 @@ updateData = function(tmo) {
 		}
 		
 		
-		### which dimensions are used?
-		which_by_vars = which(c(by1, by2, by3) == "VARS__") # the dimension for aes variables (length is 0 or 1)
-		which_by_spec = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), which_by_vars) # specified 'by' dimensions (up to 3)
-		ndims = length(which_by_vars) + length(which_by_spec) # total number of dimensions
+		# v is variable by-dimension, b are the group-by by-dimensions
+		v = which(c(by1, by2, by3) == "VARS__")
+		b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
 		
-		bys2 = paste0("by", 1L:3L)
-		bys = paste0("by", 1L:3L, "__")
-		byv = bys[setdiff(1L:3L, which_by_vars)]
-		byvarname = bys[which_by_vars]
+		n = length(v) + length(b)
+
+		by123 = paste0("by", 1L:3L) 
+		by123__ = paste0("by", 1L:3L, "__")
 		
+		byvarname = by123__[v]
+
+		grp_b = by123__[b]
 		
+
 		# create byx__ columns for which_by_spec
-		if (any(which_by_spec)) {
-			for (w in which_by_spec) {
-				byvar = bys2[w]
-				byname = bys[w]
+		if (length(b)) {
+			for (w in b) {
+				byvar = by123[w]
+				byname = by123__[w]
 				dt[, (byname) := factor(get(get(..byvar)))]
-				
 				update_fl(k = w, lev = levels(dt[[byname]]))
-				
 				dt[, (byname) := as.integer(get(..byname))]
 			}
 		}
 
-		# create dummy byx__ columns for !which_by_spec
-		if (ndims < 3) {
-			for (w in setdiff(1L:3L, which_by_spec)) {
-				byname = paste0("by", w, "__")
-				dt[, (byname) := 1L]
-			}
-		}
-		
-		
-		
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {
 			getdts = function(aes, nm) {
@@ -111,12 +101,18 @@ updateData = function(tmo) {
 				nvari = vapply(val, length, integer(1))
 				
 				vars = unlist(aes$value)
+				
+				# active grouping variables (to keep)
+				grp_bv = by123__[sort(c({if (nvars > 1) v else integer(0)}, b))]
+				
+				
+				print(vars)
 
 				if (!all(vars %in% names(dt))) {
 					# constant values (take first value (of possible MV) per facet)
 					if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with MV", call. = FALSE)
 					val1 = sapply(val, "[[", 1, USE.NAMES = FALSE)
-					dtl = copy(dt[, c("tmapID__", bys), with = FALSE])
+					dtl = copy(dt[, c("tmapID__", by123__[b]), with = FALSE])
 					
 					if (nvars > 1 && limitvars) {
 						# not allowed: take first one
@@ -130,15 +126,18 @@ updateData = function(tmo) {
 						dtl[, (vname) := val1[i]]
 					}
 					
-					update_fl(k = which_by_vars, m = nvars)
+					if (length(v)) update_fl(k = v, m = nvars)
 					
-					
-					dtl = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = vnames, variable.name = byvarname, value.name = nm)
-					dtl[, (byvarname) := as.integer(get(..byvarname))]
+					if (nvars > 1) {
+						dtl = melt(dtl, id.vars = c("tmapID__", by123__[b]), measure.vars = vnames, variable.name = byvarname, value.name = nm)
+						dtl[, (byvarname) := as.integer(get(..byvarname))]
+					} else {
+						setnames(dtl, vnames[1], nm)
+					}
 					#dtl[, legend := vector("list", length = nrow(dtl))]
 					dtl_leg = NULL
 				} else {
-					relevant_vars = c("tmapID__", vars, bys)
+					relevant_vars = c("tmapID__", vars, by123__[b])
 					
 					dtl = copy(dt[, relevant_vars, with = FALSE])
 					
@@ -147,12 +146,15 @@ updateData = function(tmo) {
 					fr = rep(aes$free, length.out = 3)
 					if (any(is.na(fr))) {
 						fr = rep(FALSE, 3)
-						if (length(which_by_vars)) fr[which_by_vars] = TRUE
+						if (length(v)) fr[v] = TRUE
 					}
 					
-					if (fr[which_by_vars] && !all(nvari == nvari[1])) stop("number of variables per aesthetic should be consistent when free = FALSE", call. = FALSE)
-					#nvari = nvari[1]
-					
+					# group by variables with free scales
+					grp_b_fr = by123__[intersect(which(fr), b)]
+					grp_bv_fr = by123__[sort(c({if (nvars > 1) v else integer(0)}, intersect(which(fr), b)))]
+
+					if (length(v) && fr[v] && !all(nvari == nvari[1])) stop("number of variables per aesthetic should be consistent when free = FALSE", call. = FALSE)
+
 					# multiple variables
 					if (nvars > 1) {
 						if (limitvars) {
@@ -160,13 +162,13 @@ updateData = function(tmo) {
 							warning(limitvars_warn, call. = FALSE)
 							val = val[[1]]
 						} else {
-							if (!fr[which_by_vars]) {
-								# pivot
+							if (!fr[v]) {
+								# multiple variables, !free scale => stack all variable columns in long format
 								nms = aes$value[[1]]
 								
 								dtlks = lapply(1L:nvari[1], function(k) {
 									vk = vapply(val, "[", character(1), k)
-									melt(dtl, id.vars = c("tmapID__", byv), measure.vars = vk, variable.name = paste0("by", which_by_vars, "__"), value.name = nms[k])	
+									melt(dtl, id.vars = c("tmapID__", by123__[b]), measure.vars = vk, variable.name = by123__[v], value.name = nms[k])	
 								})
 								dtl = dtlks[[1]]
 								if (nvari[1] > 1) {
@@ -181,12 +183,10 @@ updateData = function(tmo) {
 						val = val[[1]]
 					}
 					
-					update_fl(k = which_by_vars, lev = vars)
+					if (length(v)) update_fl(k = v, lev = vars)
 					
-					
-					grp = bys[fr]
-					
-					if (length(which_by_vars) && fr[which_by_vars] && nvars > 1) {
+					if (length(v) && fr[v] && nvars > 1) {
+						# apply aes function for each var column
 						if (!inherits(aes$setup, "tm_aes")) {
 							setup = rep(aes$setup, length.out = nvars)
 						} else {
@@ -198,25 +198,20 @@ updateData = function(tmo) {
 						mapply(function(s, v, varname, legname) {
 							f = s$FUN
 							s$FUN = NULL
-							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s))), grp, .SDcols = v]
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s))), grp_b_fr, .SDcols = v]
 							NULL
 						}, setup, val, varnames, legnames)
 						
-						dtl[, (byvarname) := NULL]
-						
-						dtl_leg = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = legnames, variable.name = byvarname, value.name = "legend")
-						dtl = melt(dtl, id.vars = c("tmapID__", byv), measure.vars = varnames, variable.name = byvarname, value.name = nm)
+						dtl_leg = melt(dtl, id.vars = c("tmapID__", grp_b), measure.vars = legnames, variable.name = byvarname, value.name = "legend")
+						dtl = melt(dtl, id.vars = c("tmapID__", grp_b), measure.vars = varnames, variable.name = byvarname, value.name = nm)
 						
 						dtl[, (byvarname) := as.integer(get(..byvarname))]
 						dtl_leg[, (byvarname) := as.integer(get(..byvarname))]
 						
-						#levels(dtl[[byvarname]]) = vapply(val, "[", character(1), 1)
-						#levels(dtl_leg[[byvarname]]) = vapply(val, "[", character(1), 1)
-						
-						dtl$legend
 						sel = !vapply(dtl_leg$legend, is.null, logical(1))
-						dtl_leg = dtl_leg[sel, c(grp, "legend"), with = FALSE]
+						dtl_leg = dtl_leg[sel, c(grp_bv_fr, "legend"), with = FALSE]
 					} else {
+						# apply aes function to the (only) var column
 						if (inherits(aes$setup, "tm_aes")) {
 							s = aes$setup
 						} else {
@@ -224,14 +219,13 @@ updateData = function(tmo) {
 						}
 						f = s$FUN
 						s$FUN = NULL
-						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s))), grp, .SDcols = val]
+						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
-						dtl_leg = dtl[sel, c(grp, "legend"), with = FALSE]
-						
+						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]
 					}
 				}
-				list(dt = dtl[, c("tmapID__", bys, nm), with = FALSE],
+				list(dt = dtl[, c("tmapID__", grp_bv, nm), with = FALSE],
 					 leg = dtl_leg)
 			}
 			
@@ -244,26 +238,6 @@ updateData = function(tmo) {
 			dts_mapping = lapply(mapping, function(x) x$dt)
 			mapping_legend = lapply(mapping, function(x) x$leg)
 			
-			# 
-			# if (length(dts_trans) > 0) {
-			# 	dts_trans[[1]]
-			# }
-			# 
-			# get_legend = function(dt) {
-			# 	sel = !vapply(dt$legend, is.null, logical(1))
-			# 	if (!any(sel)) NULL else dt[sel, c("by1__", "by2__", "by3__", "legend"), with = FALSE]	
-			# } 
-			# 
-			# if (length(dts_trans) > 0) {
-			# 	trans_legend = lapply(dts_trans, get_legend)
-			# 	for (dt in dts_trans) dt[, legend:= NULL]
-			# } else {
-			# 	trans_legend = NULL
-			# 	dts_trans = NULL
-			# }
-			# mapping_legend = lapply(dts_mapping, get_legend)
-			# for (dt in dts_mapping) dt[, legend:= NULL]
-			# 
 			list(trans = dts_trans, trans_legend = trans_legend, mapping = dts_mapping, mapping_legend = mapping_legend)
 		})
 		names(lrs) = layernames
