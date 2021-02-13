@@ -115,9 +115,7 @@ dt = x$group2$layer1$trans$size
 tmaptransCartogram = function(shp, size) {
 	x = st_sf(geometry = shp, weight = size)
 	require(cartogram)
-	#list(shp = cartogram::cartogram_cont(x, weight = "weight", itermax = 5))
-	print(length(size))
-	list(list(a=1))
+	list(shp = cartogram::cartogram_cont(x, weight = "weight", itermax = 5))
 }
 
 shp2 = tmaptransCartogram(shp, size = World$HPI)
@@ -127,7 +125,7 @@ do_trans = function(tmapID__, ...) {
 }
 
 dt[, shape:= NULL]
-dt[, shape := do.call(do_trans, as.list(.SD)), by = c("by1__", "by2__"), .SDcols = c("tmapID__", "size")]
+dt[, .(shape = do.call(do_trans, as.list(.SD))), by = c("by1__", "by2__"), .SDcols = c("tmapID__", "size")]
 
 
 #################################################################
