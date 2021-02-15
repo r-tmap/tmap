@@ -20,7 +20,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 			dimnms_new = dimnms
 			dimnms_new[dimid] = "tmapID__"
 			shpnames = names(shp)
-			shp = st_set_dimensions(shp, dimnms[dimid], values = 1:length(geoms))
+			shp = st_set_dimensions(shp, dimnms[dimid], values = 1L:length(geoms))
 			shp = st_set_dimensions(shp, names = dimnms_new)
 		}
 		
@@ -53,7 +53,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 		setnames(dt, names(dim_xy)[1], "X__")
 		setnames(dt, names(dim_xy)[2], "Y__")
 		
-		dt[, tmapID__ := (Y__-1) * nrow(shp) + X__]
+		dt[, tmapID__ := as.integer((Y__-1) * nrow(shp) + X__)]
 		dt[, X__:= NULL]
 		dt[, Y__:= NULL]
 		
@@ -85,7 +85,7 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
 	
 	bbox = st_bbox(sfc)
 	
-	dt[, tmapID__ := 1:nrow(dt)]
+	dt[, tmapID__ := 1L:nrow(dt)]
 	
 	structure(list(shp = sfc, dt = dt, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }

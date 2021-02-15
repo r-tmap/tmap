@@ -47,6 +47,12 @@ tmapTransPolygon = function(tms, ...) {
 	})
 }
 
+tmaptransCartogram = function(shp, size) {
+	x = st_sf(geometry = shp, weight = size)
+	require(cartogram)
+	list(shp = cartogram::cartogram_cont(x, weight = "weight", itermax = 5))
+}
+
 tmapTransCartogram = function(tms, size, size.setup, ...) {
 	if (!requireNamespace("cartogram")) {
 		stop("cartogram package required", call. = FALSE)

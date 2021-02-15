@@ -25,7 +25,6 @@ updateData = function(tmo) {
 				fk = m
 			}
 		}
-		
 		fl[[k]] = fk
 		assign("fl", fl, envir = e)
 	}
@@ -232,18 +231,41 @@ updateData = function(tmo) {
 			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE)
 			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE)
 			
-			dts_trans = lapply(trans, function(x) x$dt)
+			dts_trans = cbind_dts(lapply(trans, function(x) x$dt))
 			trans_legend = lapply(trans, function(x) x$leg)
 			
-			dts_mapping = lapply(mapping, function(x) x$dt)
+			dts_mapping = cbind_dts(lapply(mapping, function(x) x$dt))
 			mapping_legend = lapply(mapping, function(x) x$leg)
 			
-			list(trans = dts_trans, trans_legend = trans_legend, mapping = dts_mapping, mapping_legend = mapping_legend)
+			list(trans_dt = dts_trans, 
+				 trans_legend = trans_legend, 
+				 trans_fun = tml$trans.fun,
+				 trans_isglobal = tml$trans.isglobal,
+				 mapping_dt = dts_mapping, 
+				 mapping_legend = mapping_legend,
+				 mapping_fun = tml$mapping.fun)
 		})
 		names(lrs) = layernames
-		lrs
+		
+		shpDT = data.table(shp = list(tmg$tms$shp), tmapID = list(dt$tmapID__))
+		list(layers = lrs, shapeDT = shpDT)
 	})
 	names(grps) = groupnames
 	attr(grps, "fl") = fl
 	grps
+}
+
+cbind_dts = function(dts) {
+	if (!length(dts)) return(list())
+	id = which.max(vapply(dts, ncol, FUN.VALUE = integer(1)))
+	
+	dt = dts[[id]]
+	
+	if (length(dts) > 1L) {
+		for (i in setdiff(seq_along(dts), id)) {
+			dti = dts[[i]]
+			dt = dt[dti, on = names(dti)[1L:(ncol(dti)-1)]]
+		}
+	}
+	dt
 }

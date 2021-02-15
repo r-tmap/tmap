@@ -19,7 +19,8 @@ World$r2 = round(pmin(pmax(World$r1 + rnorm(nrow(World), mean = 0, sd = 20), 0),
 World$g2 = round(pmin(pmax(World$g1 + rnorm(nrow(World), mean = 0, sd = 20), 0), 255))
 World$b2 = round(pmin(pmax(World$b1 + rnorm(nrow(World), mean = 0, sd = 20), 0), 255))
 
-
+World$alpha_class = factor(floor(seq(1, 5, length.out = nrow(World) + 1)[1:nrow(World)]), labels = LETTERS[1:4])
+						   
 
 ############ examples
 
@@ -57,6 +58,13 @@ tmel = tm_shape(land) +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +
 	tm_symbols(color = c("blue", "red"), size = "life_exp", size.free = TRUE) +
 	tm_facets_grid(rows = "continent")
+
+
+
+# color and size aes have different free dimensions
+tmel = tm_shape(World, name = "The World", is.main = TRUE) +
+	tm_symbols(color = "HPI", size = "life_exp", size.free = c(TRUE, FALSE, FALSE), color.free = c(FALSE, TRUE, FALSE)) +
+	tm_facets_grid(rows = "continent", columns = "alpha_class")
 
 
 
@@ -98,7 +106,46 @@ tmel = tm_shape(World) +
 
 # restructure to tmapObject
 tmo = tmapObject(tmel)
-x = updateData(tmo)
+ad = updateData(tmo)
+
+
+
+
+
+################ 
+
+# loop over ad's
+adi = ad[[2]]
+
+
+shpDT = adi$shapeDT
+
+al = adi$layers[[1]]
+
+for (al in adi$layers) {
+	if (al$trans_isglobal) {
+		transDT = al$trans_dt
+	
+		bycols = names(transDT)[substr(names(transDT), 1, 2) == "by"]
+		sdcols = names(transDT)#[c(1L, ncol(transDT))]
+		
+		transDT[, .(shp = do.call(do_trans, list(tdt = .SD, FUN = al$trans_fun))), by = bycols, .SDcols = sdcols]	
+		#transDT[, .(shp = do.call(do_trans, c(as.list(.SD), list(FUN = al$trans_fun)))), by = bycols, .SDcols = sdcols]	
+		#transDT[, .(shp = do.call(do_trans, as.list(.SD))), by = bycols, .SDcols = sdcols]	
+	}
+}
+
+#do_trans = function(tmapID__, ..., FUN) {
+do_trans = function(tdt, FUN) {
+	browser()
+	
+	shpDT
+	
+	res = do.call(FUN, c(list(shp = shp[tmapID__]), list(...)))
+	res$tmapID = tmapID__
+	list(res)
+}
+
 
 
 
@@ -121,11 +168,17 @@ tmaptransCartogram = function(shp, size) {
 shp2 = tmaptransCartogram(shp, size = World$HPI)
 
 do_trans = function(tmapID__, ...) {
-	do.call(tmaptransCartogram, c(list(shp = shp[tmapID__]), list(...)))
+	res = do.call(tmaptransCartogram, c(list(shp = shp[tmapID__]), list(...)))
+	res$tmapID = tmapID__
+	list(res)
 }
 
 dt[, shape:= NULL]
-dt[, .(shape = do.call(do_trans, as.list(.SD))), by = c("by1__", "by2__"), .SDcols = c("tmapID__", "size")]
+da = dt[, .(shape = do.call(do_trans, as.list(.SD))), by = c("by1__", "by2__"), .SDcols = c("tmapID__", "size")]
+
+
+
+
 
 
 #################################################################
