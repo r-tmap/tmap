@@ -107,45 +107,28 @@ tmel = tm_shape(World) +
 # restructure to tmapObject
 tmo = tmapObject(tmel)
 ad = updateData(tmo)
+bd = transData(ad)
 
 
 
 
+
+str(bd,3)
 
 ################ 
 
-# loop over ad's
-adi = ad[[2]]
 
 
-shpDT = adi$shapeDT
 
-al = adi$layers[[1]]
 
-for (al in adi$layers) {
-	if (al$trans_isglobal) {
-		transDT = al$trans_dt
-	
-		bycols = names(transDT)[substr(names(transDT), 1, 2) == "by"]
-		sdcols = names(transDT)#[c(1L, ncol(transDT))]
-		
-		transDT[, .(shp = do.call(do_trans, list(tdt = .SD, FUN = al$trans_fun))), by = bycols, .SDcols = sdcols]	
-		#transDT[, .(shp = do.call(do_trans, c(as.list(.SD), list(FUN = al$trans_fun)))), by = bycols, .SDcols = sdcols]	
-		#transDT[, .(shp = do.call(do_trans, as.list(.SD))), by = bycols, .SDcols = sdcols]	
-	}
-}
 
-#do_trans = function(tmapID__, ..., FUN) {
-do_trans = function(tdt, FUN) {
-	browser()
-	
-	shpDT
-	
-	res = do.call(FUN, c(list(shp = shp[tmapID__]), list(...)))
-	res$tmapID = tmapID__
-	list(res)
-}
 
+## shp tmapID b1__ by2__
+## or 
+## shpDT by1__ by2__
+
+
+#adi$layers[c("trans_dt", "trans_fun")] = list()
 
 
 
@@ -159,11 +142,8 @@ shp = tmo[[2]]$tms$shp
 dt = x$group2$layer1$trans$size
 
 
-tmaptransCartogram = function(shp, size) {
-	x = st_sf(geometry = shp, weight = size)
-	require(cartogram)
-	list(shp = cartogram::cartogram_cont(x, weight = "weight", itermax = 5))
-}
+
+
 
 shp2 = tmaptransCartogram(shp, size = World$HPI)
 

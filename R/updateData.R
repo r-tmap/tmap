@@ -247,8 +247,8 @@ updateData = function(tmo) {
 		})
 		names(lrs) = layernames
 		
-		shpDT = data.table(shp = list(tmg$tms$shp), tmapID = list(dt$tmapID__))
-		list(layers = lrs, shapeDT = shpDT)
+		shpDT = data.table(shpTM = list(list(shp = tmg$tms$shp, tmapID = dt$tmapID__)))
+		list(layers = lrs, shpDT = shpDT)
 	})
 	names(grps) = groupnames
 	attr(grps, "fl") = fl

@@ -1,5 +1,37 @@
-tmapTransCentroid = function(tms, ...) {
-	within(tms, {
+do_trans = function(tdt, FUN, shpDT) {
+	#browser()
+	
+	shpDT = copy(shpDT)
+	
+	# copy by columns from tdt that do not yet exist in shpDT
+	t_by = names(tdt)[substr(names(tdt), 1, 2) == "by"]
+	s_by = names(shpDT)[substr(names(shpDT), 1, 2) == "by"]
+	n_by = setdiff(t_by, s_by)
+	if (length(n_by)) {
+		shpDT[, (n_by) := tdt[1, n_by, with = FALSE]]
+	}
+	
+	aesvars = setdiff(names(tdt), c("tmapID__", paste0("by", 1:3, "__")))
+	
+	apply_trans = function(shpTM) {
+		#shpTM = shpDT$shpTM[[1]]
+		#browser()
+		ids = intersect(shpTM$tmapID, tdt$tmapID__)
+		shp = shpTM$shp[match(ids, shpTM$tmapID)]
+		
+		shpX = list(shp = shp, tmapID = ids)
+		
+		x = as.list(tdt[match(tmapID__, ids), aesvars, with = FALSE])
+		
+		res = do.call(FUN, c(list(shpTM = shpX), x))
+	}
+	shpDT$shpTM = lapply(shpDT$shpTM, apply_trans)
+	list(shpDT)
+}
+
+
+tmapTransCentroid = function(shpTM) {
+	within(shpTM, {
 		if (inherits(shp, "stars")) {
 			### stars
 			shp = sf::st_as_sf(shp, as_points = TRUE)
@@ -10,13 +42,13 @@ tmapTransCentroid = function(tms, ...) {
 }
 
 
-tmapTransRaster = function(tms, ...) {
-	if (!inherits(tms$shp, "stars")) stop("Stars object expected for tm_geom_raster", call. = FALSE)
-	tms
+tmapTransRaster = function(shpTM) {
+	if (!inherits(shpTM$shp, "stars")) stop("Stars object expected for tm_geom_raster", call. = FALSE)
+	shpTM
 }
 
-tmapTransPolygon = function(tms, ...) {
-	within(tms, {
+tmapTransPolygon = function(shpTM) {
+	within(shpTM, {
 		if (inherits(shp, "stars")) {
 			### stars
 			shp = st_as_sf(shp, as_points = FALSE)
@@ -47,20 +79,10 @@ tmapTransPolygon = function(tms, ...) {
 	})
 }
 
-tmaptransCartogram = function(shp, size) {
-	x = st_sf(geometry = shp, weight = size)
+tmapTransCartogram = function(shpTM, size) {
+	x = st_sf(geometry = shpTM$shp, weight = size, tmapID__ = shpTM$tmapID)
 	require(cartogram)
-	list(shp = cartogram::cartogram_cont(x, weight = "weight", itermax = 5))
-}
-
-tmapTransCartogram = function(tms, size, size.setup, ...) {
-	if (!requireNamespace("cartogram")) {
-		stop("cartogram package required", call. = FALSE)
-	}
-	tms = tmapTransPolygon(tms)
-	within(tms, {
-		sizes = dt[[size]]
-		shp = cartogram::cartogram_cont(shp, weight = sizes, itermax = 5)
-		rm(sizes)
-	})
+	shp = cartogram::cartogram_cont(x, weight = "weight", itermax = 5)
+	
+	list(shp = sf::st_geometry(shp), tmapID = shp$tmapID__)
 }

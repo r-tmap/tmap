@@ -42,7 +42,7 @@ tm_cartogram = function(...,
 	
 	tmp = do.call(tm_polygons, list(...))
 	tmp[[1]] = within(tmp[[1]], {
-		trans.fun = tmaptransCartogram
+		trans.fun = tmapTransCartogram
 		trans.aes = list(size = tmapAes(value = size,
 										setup = size.setup,
 										free = size.free))
