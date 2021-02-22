@@ -247,8 +247,8 @@ print_tmap <- function(x, vp=NULL, return.asp=FALSE, mode=getOption("tmap.mode")
 		}
 		lf <- if (nx==1) lfs[[1]] else lfmv <- do.call(leafsync::latticeView, c(lfs, lVargs))
 		
-		#lf2 <- if (interactive_titles) view_add_leaflet_titles(lf) else lf
-		lf2 = lf
+		lf2 <- if (interactive_titles) view_add_leaflet_titles(lf) else lf
+		#lf2 = lf
 		
 		if (show) {
 			save_last_map()

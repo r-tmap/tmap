@@ -78,19 +78,24 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE, zindex 
 	
 	legend.position <-gt$view.legend.position
 	
+	leg_className = paste("info legend", gsub(" ", "", group, fixed = TRUE))
+	
 	if (is.cont) {
 		legvals <- if (!is.na(colNA)) c(val, NA) else val
 		
 		if (style=="quantile") {
 			addLegend(map, position=legend.position, group = group,
-					  pal=colorQuantile(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity, layerId = layerId)
+					  pal=colorQuantile(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity, layerId = layerId,
+					  className = leg_className)
 		} else {
 			addLegend(map, position=legend.position, group = group,
-					  pal=colorNumeric(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity, layerId = layerId)
+					  pal=colorNumeric(col, val, na.color=colNA, alpha = FALSE), values=legvals, na.label = textNA, title=title, opacity=opacity, layerId = layerId,
+					  className = leg_className)
 		}
 	} else {
 		if (allNAs) {
-			addLegend(map, position=legend.position, group = group, colors=colNA, labels=textNA, title=title, opacity=opacity, layerId = layerId)
+			addLegend(map, position=legend.position, group = group, colors=colNA, labels=textNA, title=title, opacity=opacity, layerId = layerId,
+					  className = leg_className)
 		} else {
 			if (!is.na(colNA)) {
 				legvals <- c(lab, textNA)
@@ -104,7 +109,8 @@ add_legend <- function(map, gpl, gt, aes, alpha, group, list.only=FALSE, zindex 
 					  labels = legvals,
 					  title=title,
 					  opacity=opacity,
-					  layerId = layerId)
+					  layerId = layerId,
+					  className = leg_className)
 			
 		}
 	}
