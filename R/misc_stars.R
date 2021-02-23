@@ -6,6 +6,19 @@ select_band <- function(x, band) {
 	r
 }
 
+trim_stars = function(x) {
+	dim1 = apply(x[[1]], 1, function(x) !all(is.na(x)))
+	dim1 = which(dim1)
+	dim1 = dim1[1]:dim1[length(dim1)]
+	dim2 = apply(x[[1]], 2, function(x) !all(is.na(x)))
+	dim2 = which(dim2)
+	dim2 = dim2[1]:dim2[length(dim2)]
+	x = x[, dim1, dim2]
+	x = st_normalize(x)
+	return(x)
+}
+
+
 # from stars package
 is_regular_grid <- function (x) {
 	has_raster(x) && !(has_rotate_or_shear(x) || is_rectilinear(x) || 

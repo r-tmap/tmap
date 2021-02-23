@@ -6,7 +6,7 @@ tm_polygons = function(fill = "blue",
 					   color.free = NA) {
 
 	tm_element_list(tm_element(
-		trans.fun = tmapTransPolygon,
+		trans.fun = tmapTransPolygons,
 		trans.aes = list(),
 		trans.isglobal = FALSE,
 		mapping.aes = list(fill = tmapAes(value = fill,
@@ -15,7 +15,7 @@ tm_polygons = function(fill = "blue",
 						   color = tmapAes(value = color,
 						   				setup = color.setup,
 						   				free = color.free)),
-		mapping.fun = "Polygon",
+		mapping.fun = "Polygons",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -24,14 +24,14 @@ tm_borders = function(color = "gray30",
 					  color.free = NA) {
 	
 	tm_element_list(tm_element(
-		trans.fun = tmapTransPolygon,
+		trans.fun = tmapTransPolygons,
 		trans.aes = list(),
 		trans.isglobal = FALSE,
 		mapping.aes = list(fill = NULL,
 						   color = tmapAes(value = color,
 						   				setup = color.setup,
 						   				free = color.free)),
-		mapping.fun = "Polygon",
+		mapping.fun = "Polygons",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 

@@ -22,6 +22,70 @@ World$b2 = round(pmin(pmax(World$b1 + rnorm(nrow(World), mean = 0, sd = 20), 0),
 World$alpha_class = factor(floor(seq(1, 5, length.out = nrow(World) + 1)[1:nrow(World)]), labels = LETTERS[1:4])
 						   
 
+
+
+
+show_data()
+# 
+# library(starsExtra)
+# 
+# 
+# s1 = tmapShape(land, is.main = TRUE, crs = st_crs(land), bbox = NULL, unit = NULL, shp_name = "land")
+# 
+# ids = which(as.integer(land$cover) == 1)
+# 
+# s1$shp$values[ids] = ids
+# 
+# 
+# shp = s1$shp
+# 
+# shp[[1]]
+# 
+# 
+# starsExtra::trim2(s1$shp)
+# 
+# x = s1$shp
+# 
+# 
+# 
+# 
+# 
+# shp = land[1]
+# 
+# 
+# 
+# shp = land[3]
+# shp$trees[] = NA
+# shp$trees[ids] = ids
+# 
+# 
+# 
+# trim2(shp)
+# 
+# shpTM = do.call(shapeTM, bd$group1$layers$layer1$shpDT$shpTM[[1]])
+# shpTM$tmapID = which(as.integer(land$cover) == 1L)
+# 
+# stm_bbox(shpTM)
+# stm_bbox_all(shpTM)
+# 
+# shpTM = do.call(shapeTM, bd$group2$layers$layer1$shpDT$shpTM[[1]])
+# 
+# shpTM = shapeTM(World, tmapID = 1:177)
+# 
+# stm_bbox(shpTM)
+# 
+# 
+
+
+
+
+
+
+
+
+
+
+
 ############ examples
 
 ## 1
@@ -110,7 +174,12 @@ ad = updateData(tmo)
 bd = transData(ad)
 
 
+##### plotting
 
+
+for (k in 1:nby[3]) {
+	
+}
 
 
 str(bd,3)
@@ -132,34 +201,6 @@ str(bd,3)
 
 
 
-#####################
-str(tmo[[1]],2)
-
-str(x[[2]],1)
-
-
-shp = tmo[[2]]$tms$shp
-dt = x$group2$layer1$trans$size
-
-
-
-
-
-shp2 = tmaptransCartogram(shp, size = World$HPI)
-
-do_trans = function(tmapID__, ...) {
-	res = do.call(tmaptransCartogram, c(list(shp = shp[tmapID__]), list(...)))
-	res$tmapID = tmapID__
-	list(res)
-}
-
-dt[, shape:= NULL]
-da = dt[, .(shape = do.call(do_trans, as.list(.SD))), by = c("by1__", "by2__"), .SDcols = c("tmapID__", "size")]
-
-
-
-
-
 
 #################################################################
 #### other end of the bridge:
@@ -172,18 +213,98 @@ World = st_transform(World, crs = 4326)
 x = st_geometry(World)
 
 
+##
+by1 = 3
+by2 = 1
+by3 = 1
+
+x = bd$group2$layers$layer1$shpDT[by1__ == by1 & by2__ == by2, ]$shpTM[[1]]$shp
+fill = bd$group2$layers$layer1$mapping_dt[by1__ == by1, ]$fill
+color = bd$group2$layers$layer1$mapping_dt[by1__ == by1, ]$color
+
+x = st_transform(x, crs = 4326)
+
+
+x = bd$group1$layers$layer1$shpDT$shpTM[[1]]$shp
+color = bd$group1$layers$layer1$mapping_dt$color
+
+##
+
 
 fill = pals::brewer.blues(7)[as.integer(World$economy)]
 color = "black"
 
 bbx = st_bbox(World[23,])
 
+bbx = st_bbox(World)
+
+
+fl = attr(bd, "fl")
+nby = vapply(fl, length, integer(1))
+
+
 # grid
-tmapGridInit(bbx)
+tmapGridInit(nrow = nby[1], ncol = nby[2])
+#tmapGridShape(bbx = bbx, facet_row = 2, facet_col = 2)
+
+ng = length(bd)
+
+get_shpTM = function(shpDT, by1, by2, by3) {
+	b = c(by1, by2, by3)
+	bynames = intersect(names(shpDT), paste0("by", 1:3, "__"))
+	byids = as.integer(substr(bynames, 3, 3))
+	
+	sel = rep(TRUE, nrow(shpDT))
+	if (length(bynames)) {
+		for (i in 1:length(bynames)) {
+			sel = sel & shpDT[[bynames[i]]] == b[byids[i]]			
+		}
+	}
+	if (sum(sel) != 1L) stop("multiple shpTMs")
+	shpDT$shpTM[[which(sel)]]
+}
+
+for (ip in 1L:nby[3]) {
+	for (ic in 1L:nby[2]) {
+		for (ir in 1L:nby[1]) {
+			for (ig in 1L:ng) {
+				bdi = bd[[ig]]
+				nl = length(bdi$layers)
+				for (il in 1L:nl) {
+					
+					tmapGridShape(bbx = bbx, facet_row = ir, facet_col = ic)
+					
+					bl = bdi$layers[[il]]
+					shpTM = get_shpTM(bl$shpDT, ir, ic, ip)
+					mdt = bl$mapping_dt
+					
+					FUN = paste0("tmapGrid", bl$mapping_fun)
+
+					do.call(FUN, list(shpTM = shpTM, dt = mdt, facet_col = ic, facet_row = ir))
+				}
+				
+			}
+		}
+	}
+}
+
+
+
+tmapGridRaster(x, color = color, )
 tmapGridPolygons(x, fill = fill, color = color)
+
+tmapGridPolygons(shpTM, )
+
+
 tmapGridRun()
 
 # leaflet
 tmapLeafletInit(bbx)
 tmapLeafletPolygons(x, fill = fill, color = color)
 tmapLeafletRun()
+
+
+
+
+
+

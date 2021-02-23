@@ -35,7 +35,7 @@ tmapObject = function(tmel) {
 		#dt = tmg$tms$dt
 		#tmg$tmls = lapply(tmg$tmls, tmapLayer, dt)
 		tmg
-	}), class = c("tmapObject", "list"))
+	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
 	
 	tmo
 }

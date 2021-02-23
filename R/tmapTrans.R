@@ -47,7 +47,7 @@ tmapTransRaster = function(shpTM) {
 	shpTM
 }
 
-tmapTransPolygon = function(shpTM) {
+tmapTransPolygons = function(shpTM) {
 	within(shpTM, {
 		if (inherits(shp, "stars")) {
 			### stars
