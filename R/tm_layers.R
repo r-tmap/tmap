@@ -96,6 +96,6 @@ tm_symbols = function(color = "blue",
 						   				setup = shape.setup,
 						   				free = shape.free)),
 		
-		mapping.fun = "Symbol",
+		mapping.fun = "Symbols",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

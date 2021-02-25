@@ -57,8 +57,8 @@ tmapGridShape = function(bbx, facet_row, facet_col) {
 	rc_text = frc(facet_row, facet_col)
 	
 	gtmap = grid::grobTree(grid::rectGrob(gp=gpar(col="blue", lwd = 4, fill = NA), name = paste0("blue_rect_", rc_text)),
-						   vp = grid::vpTree(grid::viewport(layout.pos.col = facet_col, layout.pos.row = facet_row, name = paste0("vp_facet_", rc_text)),
-						   				  vpList(grid::viewport(width = width, height = height, xscale = bbx[c(1,3)], yscale = bbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE))), name = paste0("gt_facet_", rc_text))
+						   vp = grid::vpStack(grid::viewport(layout.pos.col = facet_col, layout.pos.row = facet_row, name = paste0("vp_facet_", rc_text)),
+						   				   grid::viewport(width = width, height = height, xscale = bbx[c(1,3)], yscale = bbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
 	
 	gt = grid::addGrob(gt, gtmap, gPath = grid::gPath("gt_facets"))
 	
@@ -76,24 +76,71 @@ tmapGridPolygons = function(shpTM, dt, facet_row, facet_col) {
 	shp = shpTM$shp
 	tmapID = shpTM$tmapID
 	
-	shpSel = shp[match(dt$tmapID__, tmapID)]
+	tmapIDdt = dt$tmapID__
+	
+	tid = intersect(tmapID, tmapIDdt)
+	
+	shpSel = st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
+	
+	
+	dt = dt[match(tid, tmapIDdt), ]
 	
 	fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
 	color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
 	
 	
 	gp = grid::gpar(fill = fill, col = color) # lwd=border.lwd, lty=border.lty)
+	#grb = gTree(sf::st_as_grob(shpSel, gp = gp), name = "polygons")
+	
 	grb = sf::st_as_grob(shpSel, gp = gp, name = "polygons")
-	
-	
 	gt = get("gt", .TMAP_GRID)
 	
-	gt = grid::addGrob(gt, grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
-
+	gt_name = paste0("gt_facet_", rc_text)
+	gt$children$gt_facets$children[[gt_name]]$children = appendGlist(gt$children$gt_facets$children[[gt_name]]$children, grb)
+	gt$children$gt_facets$children[[gt_name]]$childrenOrder = names(gt$children$gt_facets$children[[gt_name]]$children)
+	
 	assign("gt", gt, envir = .TMAP_GRID)
 	NULL	
 }
 
+appendGlist = function(glist, x) {
+	glist = grid::gList(glist, x)
+	names(glist)[length(glist)] = x$name
+	glist
+}
+
+
+tmapGridSymbols = function(shpTM, dt, facet_row, facet_col) {
+	rc_text = frc(facet_row, facet_col)
+	
+	shp = shpTM$shp
+	tmapID = shpTM$tmapID
+	
+	shpSel = shp[match(dt$tmapID__, tmapID)]
+	
+	size = if ("size" %in% names(dt)) dt$size else rep(NA, nrow(dt))
+	shape = if ("shape" %in% names(dt)) dt$shape else rep(NA, nrow(dt))
+	color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
+	
+	
+	coords = sf::st_coordinates(shp)
+	
+	gp = grid::gpar(fill = color) # lwd=border.lwd, lty=border.lty)
+	grb = grid::pointsGrob(x = unit(coords[,1], "native"), y = unit(coords[,2], "native"), pch = shape, size = unit(size, "native"), gp = gp, name = "symbols")
+	
+	gt = get("gt", .TMAP_GRID)
+	
+	gt_name = paste0("gt_facet_", rc_text)
+	gt$children$gt_facets$children[[gt_name]]$children = appendGlist(gt$children$gt_facets$children[[gt_name]]$children, grb)
+	gt$children$gt_facets$children[[gt_name]]$childrenOrder = names(gt$children$gt_facets$children[[gt_name]]$children)
+	
+	
+	#gt = grid::addGrob(gt, grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
+	
+	assign("gt", gt, envir = .TMAP_GRID)
+	NULL	
+	
+}
 
 
 tmapGridRaster <- function(shpTM, dt, facet_row, facet_col) {

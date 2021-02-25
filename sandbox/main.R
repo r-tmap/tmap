@@ -124,6 +124,15 @@ tmel = tm_shape(land) +
 	tm_facets_grid(rows = "continent")
 
 
+# size variables mapped to columns (free scales)
+tmel = tm_shape(land) +
+	tm_raster("trees") +
+	tm_shape(World, name = "The World", is.main = TRUE) +
+	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +
+	tm_symbols(color = c("blue", "red"), size = "life_exp", size.free = TRUE)
+#	tm_facets_grid(rows = "continent")
+
+
 
 # color and size aes have different free dimensions
 tmel = tm_shape(World, name = "The World", is.main = TRUE) +
@@ -205,7 +214,6 @@ str(bd,3)
 #################################################################
 #### other end of the bridge:
 #################################################################
-library(grid)
 
 World = st_transform(World, crs = "+proj=eck4")
 World = st_transform(World, crs = 4326)
@@ -236,17 +244,13 @@ color = "black"
 
 bbx = st_bbox(World[23,])
 
-bbx = st_bbox(World)
 
-
+library(grid)
 fl = attr(bd, "fl")
 nby = vapply(fl, length, integer(1))
-
-
-# grid
+bbx = st_bbox(World)
 tmapGridInit(nrow = nby[1], ncol = nby[2])
 #tmapGridShape(bbx = bbx, facet_row = 2, facet_col = 2)
-
 ng = length(bd)
 
 get_shpTM = function(shpDT, by1, by2, by3) {
@@ -267,12 +271,12 @@ get_shpTM = function(shpDT, by1, by2, by3) {
 for (ip in 1L:nby[3]) {
 	for (ic in 1L:nby[2]) {
 		for (ir in 1L:nby[1]) {
+			tmapGridShape(bbx = bbx, facet_row = ir, facet_col = ic)
 			for (ig in 1L:ng) {
 				bdi = bd[[ig]]
 				nl = length(bdi$layers)
 				for (il in 1L:nl) {
 					
-					tmapGridShape(bbx = bbx, facet_row = ir, facet_col = ic)
 					
 					bl = bdi$layers[[il]]
 					shpTM = get_shpTM(bl$shpDT, ir, ic, ip)
@@ -280,6 +284,7 @@ for (ip in 1L:nby[3]) {
 					
 					FUN = paste0("tmapGrid", bl$mapping_fun)
 
+					#if (FUN == "tmapGridRaster") browser()
 					do.call(FUN, list(shpTM = shpTM, dt = mdt, facet_col = ic, facet_row = ir))
 				}
 				
@@ -288,7 +293,9 @@ for (ip in 1L:nby[3]) {
 	}
 }
 
-
+gt = get("gt", .TMAP_GRID)
+grid.newpage()
+grid.draw(gt)
 
 tmapGridRaster(x, color = color, )
 tmapGridPolygons(x, fill = fill, color = color)
