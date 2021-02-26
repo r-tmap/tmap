@@ -22,7 +22,7 @@ tmapGridInit = function(ncol, nrow) {
 	#gt = grobTree(rectGrob(gp=gpar(fill="red")), vp = vp_tree)
 	
 	gt = grid::grobTree(grid::grobTree(name = "gt_facets"), 
-						grid::rectGrob(gp=gpar(col="red", lwd = 4, fill = NA), name = "red_frame"),
+						grid::rectGrob(gp=grid::gpar(col="red", lwd = 4, fill = NA), name = "red_frame"),
 						vp = vp_tree, name = "tmap_grob_tree")
 	
 	# gt = grid::grobTree(grid::grobTree(name = "gt_map"), 
@@ -56,7 +56,7 @@ tmapGridShape = function(bbx, facet_row, facet_col) {
 	}
 	rc_text = frc(facet_row, facet_col)
 	
-	gtmap = grid::grobTree(grid::rectGrob(gp=gpar(col="blue", lwd = 4, fill = NA), name = paste0("blue_rect_", rc_text)),
+	gtmap = grid::grobTree(grid::rectGrob(gp=grid::gpar(col="blue", lwd = 4, fill = NA), name = paste0("blue_rect_", rc_text)),
 						   vp = grid::vpStack(grid::viewport(layout.pos.col = facet_col, layout.pos.row = facet_row, name = paste0("vp_facet_", rc_text)),
 						   				   grid::viewport(width = width, height = height, xscale = bbx[c(1,3)], yscale = bbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
 	
@@ -126,7 +126,7 @@ tmapGridSymbols = function(shpTM, dt, facet_row, facet_col) {
 	coords = sf::st_coordinates(shp)
 	
 	gp = grid::gpar(fill = color) # lwd=border.lwd, lty=border.lty)
-	grb = grid::pointsGrob(x = unit(coords[,1], "native"), y = unit(coords[,2], "native"), pch = shape, size = unit(size, "native"), gp = gp, name = "symbols")
+	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = shape, size = grid::unit(size, "native"), gp = gp, name = "symbols")
 	
 	gt = get("gt", .TMAP_GRID)
 	
@@ -196,6 +196,6 @@ tmapGridRaster <- function(shpTM, dt, facet_row, facet_col) {
 
 tmapGridRun = function() {
 	gt = get("gt", .TMAP_GRID)
-	grid.newpage()
+	grid::grid.newpage()
 	grid::grid.draw(gt)
 }

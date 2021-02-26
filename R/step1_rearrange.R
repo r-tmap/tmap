@@ -1,5 +1,5 @@
 #' @param tmel tm_element_list
-tmapObject = function(tmel) {
+step1_rearrange = function(tmel) {
 	# find shapes and layers
 	is_tms = sapply(tmel, inherits, "tm_shape")
 	is_tml = sapply(tmel, inherits, "tm_layer")
@@ -26,7 +26,10 @@ tmapObject = function(tmel) {
 	})
 	
 	# get the crs of the main shape
-	crs = get_main_crs(tmo)
+	res = get_main_crs(tmo)
+	
+	crs = res$crs
+	main = res$main
 	
 	# reproject other shapes if needed
 	tmo = structure(lapply(tmo, function(tmg) {
@@ -37,6 +40,8 @@ tmapObject = function(tmel) {
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
 	
+	attr(tmo, "main") = main
+		
 	tmo
 }
 
@@ -55,5 +60,5 @@ get_main_crs = function(tmo) {
 	
 	crs_main = tms_main$crs
 	if (is.null(crs_main)) crs_main = sf::st_crs(tms_main$shp)
-	crs_main
+	list(crs = crs_main, main = main_id)
 }

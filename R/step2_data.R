@@ -1,4 +1,4 @@
-updateData = function(tmo) {
+step2_data = function(tmo) {
 	groupnames = paste0("group", seq_along(tmo))
 	fl = list(1L, 1L, 1L)
 	e = environment()
@@ -105,7 +105,7 @@ updateData = function(tmo) {
 				grp_bv = by123__[sort(c({if (nvars > 1) v else integer(0)}, b))]
 				
 				
-				print(vars)
+				#print(vars)
 
 				if (!all(vars %in% names(dt))) {
 					# constant values (take first value (of possible MV) per facet)
@@ -252,6 +252,7 @@ updateData = function(tmo) {
 	})
 	names(grps) = groupnames
 	attr(grps, "fl") = fl
+	attr(grps, "main") = attr(tmo, "main")
 	grps
 }
 

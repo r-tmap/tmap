@@ -1,4 +1,4 @@
-transData = function(ad) {
+step3_trans = function(ad) {
 	bd = lapply(ad, function(adi) {
 		#adi = ad[[2]]
 		shpDT = adi$shpDT
@@ -39,5 +39,7 @@ transData = function(ad) {
 		adi	
 	})	
 	attributes(bd) = attributes(ad)
+	attr(bd, "bbox") = stm_bbox(ad[[attr(bd, "main")]]$shpDT$shpTM[[1]])
 	bd
 }
+

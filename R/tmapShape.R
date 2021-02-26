@@ -67,7 +67,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
-	structure(list(shp = shp, dt = dt, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+	structure(list(shp = shp, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }
 
 
@@ -87,5 +87,5 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
 	
 	dt[, tmapID__ := 1L:nrow(dt)]
 	
-	structure(list(shp = sfc, dt = dt, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+	structure(list(shp = sfc, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }
