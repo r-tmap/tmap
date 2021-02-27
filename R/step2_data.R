@@ -253,6 +253,7 @@ step2_data = function(tmo) {
 	names(grps) = groupnames
 	attr(grps, "fl") = fl
 	attr(grps, "main") = attr(tmo, "main")
+	attr(grps, "crs") = attr(tmo, "crs")
 	grps
 }
 

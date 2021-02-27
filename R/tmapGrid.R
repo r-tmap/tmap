@@ -66,13 +66,11 @@ tmapGridShape = function(bbx, facet_row, facet_col) {
 	#assign("dasp", dasp, envir = .TMAP_GRID)
 	assign("gt", gt, envir = .TMAP_GRID)
 	assign("bbx", bbx, envir = .TMAP_GRID)
+	NULL
 }
 
 
-tmapGridPolygons = function(shpTM, dt, facet_row, facet_col) {
-	
-	rc_text = frc(facet_row, facet_col)
-	
+select_sf = function(shpTM, dt) {
 	shp = shpTM$shp
 	tmapID = shpTM$tmapID
 	
@@ -80,10 +78,20 @@ tmapGridPolygons = function(shpTM, dt, facet_row, facet_col) {
 	
 	tid = intersect(tmapID, tmapIDdt)
 	
-	shpSel = st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
+	shpSel = shp[match(tid, tmapID)] #st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
 	
 	
 	dt = dt[match(tid, tmapIDdt), ]
+	list(shp = shpSel, dt = dt)
+}
+
+tmapGridPolygons = function(shpTM, dt, facet_row, facet_col) {
+	
+	rc_text = frc(facet_row, facet_col)
+	
+	res = select_sf(shpTM, dt)
+	shp = res$shp
+	dt = res$dt
 	
 	fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
 	color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
@@ -92,7 +100,7 @@ tmapGridPolygons = function(shpTM, dt, facet_row, facet_col) {
 	gp = grid::gpar(fill = fill, col = color) # lwd=border.lwd, lty=border.lty)
 	#grb = gTree(sf::st_as_grob(shpSel, gp = gp), name = "polygons")
 	
-	grb = sf::st_as_grob(shpSel, gp = gp, name = "polygons")
+	grb = sf::st_as_grob(shp, gp = gp, name = "polygons")
 	gt = get("gt", .TMAP_GRID)
 	
 	gt_name = paste0("gt_facet_", rc_text)
@@ -113,10 +121,9 @@ appendGlist = function(glist, x) {
 tmapGridSymbols = function(shpTM, dt, facet_row, facet_col) {
 	rc_text = frc(facet_row, facet_col)
 	
-	shp = shpTM$shp
-	tmapID = shpTM$tmapID
-	
-	shpSel = shp[match(dt$tmapID__, tmapID)]
+	res = select_sf(shpTM, dt)
+	shp = res$shp
+	dt = res$dt
 	
 	size = if ("size" %in% names(dt)) dt$size else rep(NA, nrow(dt))
 	shape = if ("shape" %in% names(dt)) dt$shape else rep(NA, nrow(dt))
@@ -184,8 +191,9 @@ tmapGridRaster <- function(shpTM, dt, facet_row, facet_col) {
 		gt = grid::addGrob(gt, grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
 		assign("gt", gt, envir = .TMAP_GRID)
 	} else {
-		shpTM <- shapeTM(sf::st_as_sf(shp), tmapID)
-		tmapGridPolygons(shpTM, dt)
+		shp[[1]][tmapID] = tmapID
+		shpTM <- shapeTM(sf::st_geometry(sf::st_as_sf(shp)), tmapID)
+		tmapGridPolygons(shpTM, dt, facet_row, facet_col)
 		#grid.shape(s, gp=gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL

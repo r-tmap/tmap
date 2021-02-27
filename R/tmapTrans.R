@@ -83,6 +83,7 @@ tmapTransCartogram = function(shpTM, size) {
 	x = st_sf(geometry = shpTM$shp, weight = size, tmapID__ = shpTM$tmapID)
 	require(cartogram)
 	shp = cartogram::cartogram_cont(x, weight = "weight", itermax = 5)
+	shp2 = sf::st_cast(sf::st_geometry(shp), "MULTIPOLYGON")
 	
-	list(shp = sf::st_geometry(shp), tmapID = shp$tmapID__)
+	list(shp = shp2, tmapID = shp$tmapID__)
 }

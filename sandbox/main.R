@@ -124,9 +124,18 @@ tmx =  tm_shape(World) +
 
 # restructure to tmapObject
 
+tmx =  tm_shape(land) +
+	tm_raster("trees") +
+	tm_shape(World, name = "The World", is.main = TRUE) +
+	#tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +
+	tm_polygons(fill = "economy") +
+	tm_symbols(color = c("blue", "red"), size = "life_exp", size.free = TRUE)
+#	tm_facets_grid(rows = "continent")
+
+ttm()
+
 tmx1 = step1_rearrange(tmx)
 tmx2 = step2_data(tmx1)
 tmx3 = step3_trans(tmx2)
-step4_plot(tmx3, "Grid")
-
+step4_plot(tmx3)
 

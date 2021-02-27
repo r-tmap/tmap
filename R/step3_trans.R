@@ -25,6 +25,16 @@ step3_trans = function(ad) {
 			if (al$trans_isglobal) shpDT = trans_shp(al, shpDT)
 		}
 		
+		crs = attr(ad, "crs")
+		
+		shpDT$shpTM = lapply(shpDT$shpTM, function(s) {
+			if (sf::st_crs(s$shp) != crs) {
+				s$shp = st_transform(s$shp, crs = crs)
+			}
+			s
+		})
+		
+		
 		adi$layers = lapply(adi$layers, function(al) {
 			if (al$trans_isglobal) {
 				al$shpDT = shpDT

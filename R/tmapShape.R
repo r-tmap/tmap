@@ -26,7 +26,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 		
 		dt = as.data.table(shp)
 		
-		if (sf::st_crs(geoms) != crs) {
+		if (!is.null(crs) && sf::st_crs(geoms) != crs) {
 			shp = st_transform(shp, crs = crs)
 		} else {
 			shp = geoms
@@ -35,7 +35,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 		shpclass = "sfc"
 	} else {
 		shp = downsample_stars(shp, max.raster = 1e6)
-		if (sf::st_crs(shp) != crs) {
+		if (!is.null(crs) && sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs = crs, raster.warp = TRUE)
 		}
 		
@@ -74,7 +74,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 #' @method tmapShape sf
 #' @export
 tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
-	if (sf::st_crs(shp) != crs) {
+	if (!is.null(crs) && sf::st_crs(shp) != crs) {
 		shp = st_transform(shp, crs = crs)
 	}
 	

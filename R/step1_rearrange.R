@@ -26,39 +26,34 @@ step1_rearrange = function(tmel) {
 	})
 	
 	# get the crs of the main shape
-	res = get_main_crs(tmo)
 	
-	crs = res$crs
-	main = res$main
+	ids = get_main_ids(tmo)
 	
+	crs_option = tmap_graphics()$crs
+	crs = if (is.na(crs_option)) get_crs(tmo[[ids[1]]]$tms) else crs_option
+
 	# reproject other shapes if needed
 	tmo = structure(lapply(tmo, function(tmg) {
-		tmg$tms$crs = crs
+		#tmg$tms$crs = crs
 		tmg$tms = do.call(tmapShape, tmg$tms)
 		#dt = tmg$tms$dt
 		#tmg$tmls = lapply(tmg$tmls, tmapLayer, dt)
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
 	
-	attr(tmo, "main") = main
-		
+	attr(tmo, "main") = ids
+	attr(tmo, "crs") = crs
+	
 	tmo
 }
 
-
-# helper function to find the main crs: 
-# - it checks which tm_shape is "main" (the first that is set to is.main, and if none, the first)
-# - for the main tm_shape, it gets the crs attribute, and if not specified, it extracts the crs from the shape object
-get_main_crs = function(tmo) {
+get_main_ids = function(tmo) {
 	is_main = vapply(tmo, function(tmg) {
 		identical(tmg$tms$is.main, TRUE)
-	}, FUN.VALUE = logical(1))
+	}, FUN.VALUE = logical(1), USE.NAMES = FALSE)
 	
-	main_id = if (any(is_main)) which(is_main)[1L] else 1L
-	
-	tms_main = tmo[[main_id]]$tms
-	
-	crs_main = tms_main$crs
-	if (is.null(crs_main)) crs_main = sf::st_crs(tms_main$shp)
-	list(crs = crs_main, main = main_id)
+	if (any(is_main)) which(is_main) else 1L
+}
+get_crs = function(tms) {
+	if (is.null(tms$crs)) sf::st_crs(tms$shp) else tms$crs
 }
