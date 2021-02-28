@@ -3,6 +3,8 @@
 S3method("+",tm_element_list)
 S3method(print,tm_element)
 S3method(print,tm_shape)
+S3method(tmapReproject,sfc)
+S3method(tmapReproject,stars)
 S3method(tmapShape,sf)
 S3method(tmapShape,stars)
 export(tmap_design_mode)

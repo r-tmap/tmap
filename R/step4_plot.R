@@ -1,9 +1,15 @@
+get_nby = function(fl) {
+	vapply(fl, function(f) {
+		if (is.integer(f)) f else length(f)	
+	}, integer(1))
+}
+
 step4_plot = function(tmx) {
 	
 	gs = tmap_graphics_name()
 	
 	fl = attr(tmx, "fl")
-	nby = vapply(fl, length, integer(1))
+	nby = get_nby(fl)
 	
 	bbx = attr(tmx, "bbox")
 	
@@ -29,6 +35,22 @@ step4_plot = function(tmx) {
 		shpDT$shpTM[[which(sel)]]
 	}
 	
+	
+	get_dt = function(dt, by1, by2, by3) {
+		b = c(by1, by2, by3)
+		bynames = intersect(names(dt), paste0("by", 1:3, "__"))
+		byids = as.integer(substr(bynames, 3, 3))
+		
+		sel = rep(TRUE, nrow(dt))
+		if (length(bynames)) {
+			for (i in 1:length(bynames)) {
+				sel = sel & dt[[bynames[i]]] == b[byids[i]]			
+			}
+		}
+		if (!any(sel)) stop("empty dt")
+		dt[which(sel),]
+	}
+	
 	for (ip in 1L:nby[3]) {
 		for (ic in 1L:nby[2]) {
 			for (ir in 1L:nby[1]) {
@@ -39,10 +61,11 @@ step4_plot = function(tmx) {
 					nl = length(tmxi$layers)
 					for (il in 1L:nl) {
 						
+						#if (ir == 2 && ig == 2 && il == 2) browser()
 						
 						bl = tmxi$layers[[il]]
 						shpTM = get_shpTM(bl$shpDT, ir, ic, ip)
-						mdt = bl$mapping_dt
+						mdt = get_dt(bl$mapping_dt, ir, ic, ip)
 						
 						FUN = paste0("tmap", gs, bl$mapping_fun)
 						

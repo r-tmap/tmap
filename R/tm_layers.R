@@ -74,7 +74,7 @@ tm_rgb = function(color = MV(1:3),
 
 tm_symbols = function(color = "blue", 
 					  size = 1, 
-					  shape = 19, 
+					  shape = 21, 
 					  color.setup = tm_aes_color_discrete(), 
 					  size.setup = tm_aes_2d_size(),
 					  shape.setup = tm_aes_shape(),

@@ -28,7 +28,7 @@ get_lf = function(facet_row, facet_col) {
 	lfs[[lfid]]
 }
 
-assign_lf = function(lf) {
+assign_lf = function(lf, facet_row, facet_col) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
 	nrow = get("nrow", envir = .TMAP_LEAFLET)
 	ncol = get("ncol", envir = .TMAP_LEAFLET)
@@ -42,9 +42,10 @@ assign_lf = function(lf) {
 
 
 tmapLeafletShape = function(bbx, facet_row, facet_col) {
+	bbx = unname(bbx)
 	get_lf(facet_row, facet_col) %>% 
 		leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) %>% 
-		assign_lf()
+		assign_lf(facet_row, facet_col)
 	NULL
 }
 
@@ -64,7 +65,7 @@ tmapLeafletPolygons = function(shpTM, dt, facet_row, facet_col) {
 	
 	lf %>% 
 		leaflet::addPolygons(data = shp, color = color, fillColor = fill) %>% 
-		assign_lf()
+		assign_lf(facet_row, facet_col)
 	NULL	
 }
 
@@ -87,8 +88,8 @@ tmapLeafletSymbols = function(shpTM, dt, facet_row, facet_col) {
 
 		
 	lf %>% 
-		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = color, radius = size) %>% 
-		assign_lf()
+		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = color, radius = size*4, fillOpacity = 1, color = "black", opacity = 1, weight = 1) %>% 
+		assign_lf(facet_row, facet_col)
 	NULL	
 }
 
@@ -108,8 +109,8 @@ tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col) {
 	rc_text = frc(facet_row, facet_col)
 	
 	
-	bb_target <- bbx #attr(shp, "bbox")
-	bb_real <- bbx #sf::st_bbox(shp)
+	#bb_target <- bbx #attr(shp, "bbox")
+	#bb_real <- bbx #sf::st_bbox(shp)
 	
 	shp = shpTM$shp
 	tmapID = shpTM$tmapID
@@ -132,7 +133,7 @@ tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col) {
 		lf = get_lf(facet_row, facet_col)
 		lf %>% 
 			leafem::addStarsImage(shp, band = 1, colors = pal) %>% 
-			assign_lf()
+			assign_lf(facet_row, facet_col)
 	} else {
 		shpTM <- shapeTM(sf::st_as_sf(shp), tmapID)
 		tmapLeafletPolygons(shpTM, dt)
@@ -150,6 +151,6 @@ tmapLeafletRun = function() {
 	if (nrow == 1 && ncol == 1) {
 		print(lfs[[1]])
 	} else {
-		print(do.call(leafsync::sync(c(lfs, list(ncol = ncol)))))
+		print(do.call(leafsync::sync, c(lfs, list(ncol = ncol))))
 	}
 }

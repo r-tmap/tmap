@@ -132,6 +132,23 @@ tmx =  tm_shape(land) +
 	tm_symbols(color = c("blue", "red"), size = "life_exp", size.free = TRUE)
 #	tm_facets_grid(rows = "continent")
 
+
+land$trees[] = c(90, 100)
+
+tmx =  tm_shape(land) +
+	tm_raster("trees") +
+	tm_shape(World, name = "The World", is.main = TRUE) +
+	tm_polygons(fill = NA) +
+	tm_symbols(color = c("blue", "red"), size = "life_exp", size.free = TRUE)
+
+
+trees = land[3]
+trees[[1]] = 1:(nrow(trees)* ncol(trees))
+
+trees2 = transwarp(trees, st_crs(World), raster.warp = TRUE)
+plot(trees2)
+
+
 ttm()
 
 tmx1 = step1_rearrange(tmx)

@@ -1,3 +1,29 @@
+tmapReproject = function(...) {
+	UseMethod("tmapReproject")
+}
+
+#' @method tmapReproject stars
+#' @export
+tmapReproject.stars = function(shp, tmapID, crs) {
+	
+	shp[[1]] = tmapID
+	
+	shp2 = transwarp(shp, crs, raster.warp = TRUE)
+	tmapID2 = shp2[[1]]
+	shp2[[1]] = NA
+	shapeTM(shp2, tmapID2)
+}
+
+#' @method tmapReproject sfc
+#' @export
+tmapReproject.sfc = function(shp, tmapID, crs) {
+	shp2 = sf::st_transform(shp, crs)
+	shapeTM(shp2, tmapID)
+}
+
+
+
+
 #' @import data.table
 tmapShape = function(...) {
 	UseMethod("tmapShape")
@@ -27,7 +53,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 		dt = as.data.table(shp)
 		
 		if (!is.null(crs) && sf::st_crs(geoms) != crs) {
-			shp = st_transform(shp, crs = crs)
+			shp = sf::st_transform(shp, crs)
 		} else {
 			shp = geoms
 		}
@@ -36,7 +62,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 	} else {
 		shp = downsample_stars(shp, max.raster = 1e6)
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
-			shp = transwarp(shp, crs = crs, raster.warp = TRUE)
+			shp = transwarp(shp, crs, raster.warp = TRUE)
 		}
 		
 		dims = st_dimensions(shp)
@@ -75,7 +101,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 #' @export
 tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
 	if (!is.null(crs) && sf::st_crs(shp) != crs) {
-		shp = st_transform(shp, crs = crs)
+		shp = sf::st_transform(shp, crs = crs)
 	}
 	
 	sfc = sf::st_geometry(shp)

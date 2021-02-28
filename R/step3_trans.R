@@ -29,7 +29,7 @@ step3_trans = function(ad) {
 		
 		shpDT$shpTM = lapply(shpDT$shpTM, function(s) {
 			if (sf::st_crs(s$shp) != crs) {
-				s$shp = st_transform(s$shp, crs = crs)
+				s = do.call(tmapReproject, c(s, list(crs = crs)))
 			}
 			s
 		})

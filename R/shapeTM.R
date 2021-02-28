@@ -1,5 +1,5 @@
 shapeTM = function(shp, tmapID = NULL) {
-	x = structure(list(shp = shp, tmapID = tmapID), class = "shapeTM")
+	x = structure(list(shp = shp, tmapID = tmapID), class = c("shapeTM", "list"))
 }
 
 stm_bbox = function(shpTM) {

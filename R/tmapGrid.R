@@ -132,8 +132,8 @@ tmapGridSymbols = function(shpTM, dt, facet_row, facet_col) {
 	
 	coords = sf::st_coordinates(shp)
 	
-	gp = grid::gpar(fill = color) # lwd=border.lwd, lty=border.lty)
-	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = shape, size = grid::unit(size, "native"), gp = gp, name = "symbols")
+	gp = grid::gpar(fill = color, col = "green")
+	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = shape, size = grid::unit(size, "lines"), gp = gp, name = "symbols")
 	
 	gt = get("gt", .TMAP_GRID)
 	
@@ -158,14 +158,21 @@ tmapGridRaster <- function(shpTM, dt, facet_row, facet_col) {
 	
 	
 	bb_target <- bbx #attr(shp, "bbox")
-	bb_real <- bbx #sf::st_bbox(shp)
+	bb_real <-  stm_bbox_all(shpTM)
 	
 	shp = shpTM$shp
 	tmapID = shpTM$tmapID
 	
 	if (is_regular_grid(shp)) {
-		color = rep("#FFFFFF", length(tmapID))
-		color[match(dt$tmapID__, tmapID)] = dt$color
+		
+		tid = intersect(tmapID, dt$tmapID__)
+		
+		color = rep(NA, length(tmapID)) #"#FFFFFF"
+		
+		sel = which(tmapID %in% tid)
+		tid2 = tmapID[sel]
+		
+		color[sel] = dt$color[match(tid2, dt$tmapID__)]
 		
 		if (all(abs(bb_real-bb_target)< 1e-3)) {
 			width <- 1
@@ -186,7 +193,7 @@ tmapGridRaster <- function(shpTM, dt, facet_row, facet_col) {
 		if (!y_is_neg) {
 			m <- m[nrow(m):1L, ]
 		}
-		
+		m[is.na(m)] = "#0000FF"
 		grb = grid::rasterGrob(m, x=cx, y=cy, width=width, height=height, interpolate = FALSE) #gpl$raster.misc$interpolate
 		gt = grid::addGrob(gt, grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
 		assign("gt", gt, envir = .TMAP_GRID)
