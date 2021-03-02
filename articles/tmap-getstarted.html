@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -61,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/mtennekes/tmap/">
+  <a href="https://github.com/mtennekes/tmap/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -82,27 +84,27 @@
       <h1 data-toc-skip>tmap: get started!</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-getstarted.Rmd"><code>vignettes/tmap-getstarted.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-getstarted.Rmd" class="external-link"><code>vignettes/tmap-getstarted.Rmd</code></a></small>
       <div class="hidden name"><code>tmap-getstarted.Rmd</code></div>
 
     </div>
 
     
     
-<p>With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of <code>ggplot2</code>, but tailored to maps. This vignette is for those who want to get started with tmap within a couple of minutes. A more detailed description of tmap can be found in an <a href="https://www.jstatsoft.org/article/view/v084i06">article</a> published in the Journal of Statistical Software (<a href="https://www.jstatsoft.org/index">JSS</a>). However, that article describes tmap version 1.11-2, which is out-of-date. Some major changes have been made since then, which are described in <a href="../doc/tmap-changes.html"><code>vignette("tmap-changes")</code></a>.</p>
-<p>For more context on R’s geographic capabilities we recommend the online version of the book <a href="https://geocompr.robinlovelace.net/">Geocomputation with R</a>. The <a href="https://geocompr.robinlovelace.net/adv-map.html">Making maps with R</a> chapter of the book provides many more context and abundant code examples of map making with <code>tmap</code> and other packages. Other good resources are the vignettes of the <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html"><code>sf</code> package</a>, and the website <a href="https://www.rspatial.org/">rspatial.org</a> .</p>
+<p>With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of <code>ggplot2</code>, but tailored to maps. This vignette is for those who want to get started with tmap within a couple of minutes. A more detailed description of tmap can be found in an <a href="https://www.jstatsoft.org/article/view/v084i06" class="external-link">article</a> published in the Journal of Statistical Software (<a href="https://www.jstatsoft.org/index" class="external-link">JSS</a>). However, that article describes tmap version 1.11-2, which is out-of-date. Some major changes have been made since then, which are described in <a href="../doc/tmap-changes.html"><code>vignette("tmap-changes")</code></a>.</p>
+<p>For more context on R’s geographic capabilities we recommend the online version of the book <a href="https://geocompr.robinlovelace.net/" class="external-link">Geocomputation with R</a>. The <a href="https://geocompr.robinlovelace.net/adv-map.html" class="external-link">Making maps with R</a> chapter of the book provides many more context and abundant code examples of map making with <code>tmap</code> and other packages. Other good resources are the vignettes of the <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html" class="external-link"><code>sf</code> package</a>, and the website <a href="https://www.rspatial.org/" class="external-link">rspatial.org</a> .</p>
 <div id="hello-world" class="section level3">
 <h3 class="hasAnchor">
 <a href="#hello-world" class="anchor"></a>Hello World!</h3>
-<p>A good place to start is to create a map of the world. After <a href="https://github.com/mtennekes/tmap#installation">installing</a> tmap, the following lines of code should create the map shown below:</p>
+<p>A good place to start is to create a map of the world. After <a href="https://github.com/mtennekes/tmap#installation" class="external-link">installing</a> tmap, the following lines of code should create the map shown below:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap" class="external-link">tmap</a></span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
-<p>The object <code>World</code> is a spatial object of class <code>sf</code> from the <a href="https://CRAN.R-project.org/package=sf">sf package</a>; it is a <code>data.frame</code> with a special column that contains a geometry for each row, in this case polygons. In order to plot it in tmap, you first need to specify it with <code>tm_shape</code>. Layers can be added with the <code><a href="https://rdrr.io/r/base/Arithmetic.html">+</a></code> operator, in this case <code>tm_polygons</code>. There are many layer functions in tmap, which can easily be found in the documentation by their <code>tm_</code> prefix. See also <code><a href="../reference/tmap-element.html">?'tmap-element'</a></code>.</p>
+<p>The object <code>World</code> is a spatial object of class <code>sf</code> from the <a href="https://CRAN.R-project.org/package=sf" class="external-link">sf package</a>; it is a <code>data.frame</code> with a special column that contains a geometry for each row, in this case polygons. In order to plot it in tmap, you first need to specify it with <code>tm_shape</code>. Layers can be added with the <code><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">+</a></code> operator, in this case <code>tm_polygons</code>. There are many layer functions in tmap, which can easily be found in the documentation by their <code>tm_</code> prefix. See also <code><a href="../reference/tmap-element.html">?'tmap-element'</a></code>.</p>
 </div>
 <div id="interactive-maps" class="section level3">
 <h3 class="hasAnchor">
@@ -120,12 +122,12 @@
 <a href="#multiple-shapes-and-layers" class="anchor"></a>Multiple shapes and layers</h3>
 <p>A shape is a spatial object (with a class from <code>sf</code>, <code>sp</code>, <code>stars</code>, or <code>raster</code>). Multiple shapes and also multiple layers per shape can be plotted:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span>, <span class="va">rivers</span>, <span class="va">land</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span>, <span class="va">rivers</span>, <span class="va">land</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span>
 <span class="co">## tmap mode set to plotting</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">land</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="st">"elevation"</span>, palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">terrain.colors</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="st">"elevation"</span>, palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_fill.html">tm_borders</a></span><span class="op">(</span><span class="st">"white"</span>, lwd <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"iso_a3"</span>, size <span class="op">=</span> <span class="st">"AREA"</span><span class="op">)</span> <span class="op">+</span>
@@ -145,7 +147,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"HPI"</span>, <span class="st">"economy"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HPI"</span>, <span class="st">"economy"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span>sync <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_facets.jpg" alt="" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 <ol start="2" style="list-style-type: decimal">
@@ -155,7 +157,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span>
 <span class="co">## tmap mode set to plotting</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span>
 
 <span class="va">NLD_muni</span><span class="op">$</span><span class="va">perc_men</span> <span class="op">&lt;-</span> <span class="va">NLD_muni</span><span class="op">$</span><span class="va">pop_men</span> <span class="op">/</span> <span class="va">NLD_muni</span><span class="op">$</span><span class="va">population</span> <span class="op">*</span> <span class="fl">100</span>
 
@@ -170,7 +172,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span>
 <span class="co">## tmap mode set to plotting</span>
 
-<span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span>
 <span class="va">tm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"population"</span>, convert2density <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">tm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"population"</span><span class="op">)</span>
 
@@ -189,7 +191,7 @@
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop2020"</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_basemap.html">tm_tiles</a></span><span class="op">(</span><span class="st">"Stamen.TonerLabels"</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_tiles.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
-<p>See a <a href="https://leaflet-extras.github.io/leaflet-providers/preview/">preview of the available tilemaps</a>. This list is also accessible in R: <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html">leaflet::providers</a></code>.</p>
+<p>See a <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link">preview of the available tilemaps</a>. This list is also accessible in R: <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">leaflet::providers</a></code>.</p>
 </div>
 <div id="options-and-styles" class="section level3">
 <h3 class="hasAnchor">
@@ -201,7 +203,7 @@
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span>
-<span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>bg.color <span class="op">=</span> <span class="st">"skyblue"</span>, inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.02</span>, <span class="fl">.02</span>, <span class="fl">.02</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>bg.color <span class="op">=</span> <span class="st">"skyblue"</span>, inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.02</span>, <span class="fl">.02</span>, <span class="fl">.02</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
 <p>These options, as well as a couple of others, can also be set within with <code>tmap_options</code>, which works in the same way as the base R function <code>options</code>. The main advantage is that these options are set globally, so they do not have to be specified in each map, for the duration of the session.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
@@ -299,11 +301,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Martijn Tennekes.</p>
+  <p></p>
+<p>Developed by Martijn Tennekes.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -311,6 +315,8 @@
 
   
 
+
+  
 
   </body>
 </html>

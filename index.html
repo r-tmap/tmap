@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-home">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -84,94 +86,94 @@
 <!--[![Build Status](https://travis-ci.org/mtennekes/tmap.png?branch=master)](https://travis-ci.org/mtennekes/tmap)-->
 <!--[![Coverage Status](https://img.shields.io/codecov/c/github/mtennekes/tmap/master.svg)](https://codecov.io/github/mtennekes/tmap?branch=master)-->
 
-<p><a href="http://cran.r-project.org/package=tmap"><code>tmap</code></a> is an actively maintained open-source <a href="http://stackoverflow.com/tags/r/info">R</a>-library for drawing thematic maps. The API is based on <a href="http://vita.had.co.nz/papers/layered-grammar.pdf"><em>A Layered Grammar of Graphics</em></a> and resembles the syntax of <a href="http://cran.r-project.org/package=ggplot2"><code>ggplot2</code></a>, a popular R-library for drawing charts.</p>
+<p><a href="http://cran.r-project.org/package=tmap" class="external-link"><code>tmap</code></a> is an actively maintained open-source <a href="http://stackoverflow.com/tags/r/info" class="external-link">R</a>-library for drawing thematic maps. The API is based on <a href="http://vita.had.co.nz/papers/layered-grammar.pdf" class="external-link"><em>A Layered Grammar of Graphics</em></a> and resembles the syntax of <a href="http://cran.r-project.org/package=ggplot2" class="external-link"><code>ggplot2</code></a>, a popular R-library for drawing charts.</p>
 <p><span> <img src="https://mtennekes.github.io/downloads/images/classic.png" alt="Classic World Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/bubble.png" alt="Bubble Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/view_metro4.jpg" alt="Bubble Map" height="125px"><img src="https://mtennekes.github.io/downloads/images/world_facets2.png" alt="World facets" height="125px"><img src="https://mtennekes.github.io/downloads/images/USchoro.png" alt="US Choropleth" height="125px"><img src="https://mtennekes.github.io/downloads/images/US_PR.jpg" alt="US Choropleth" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes3b.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes4.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/crimes5.png" alt="London Crimes" height="125px"><img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"></span></p>
-<p>See <a href="https://github.com/mtennekes/tmap/#reference">below</a> the source code for these images.</p>
+<p>See <a href="https://github.com/mtennekes/tmap/#reference" class="external-link">below</a> the source code for these images.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p><code>tmap</code> is available on <a href="https://cran.r-project.org/package=tmap"><img src="http://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>. Installation is straightforward:</p>
+<p><code>tmap</code> is available on <a href="https://cran.r-project.org/package=tmap" class="external-link"><img src="http://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a>. Installation is straightforward:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"tmap"</span><span class="op">)</span></code></pre></div>
 <p>For Linux and macOS users who are new to working with spatial data in R, this may fail since additional (non-R) libraries are required (which are automatically installed for Windows users).</p>
 <p><strong>Windows</strong> No additional installation required.</p>
-<p><strong>Linux (Ubuntu)</strong> See <a href="https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/" class="uri">https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/</a>. Please address installation issues in this <a href="https://github.com/mtennekes/tmap/issues/150">issue</a>.</p>
-<p><strong>macOS</strong> See <a href="http://www.kyngchaos.com" class="uri">http://www.kyngchaos.com</a>. Please address installation issues in this <a href="https://github.com/mtennekes/tmap/issues/149">issue</a>.</p>
+<p><strong>Linux (Ubuntu)</strong> See https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/. Please address installation issues in this <a href="https://github.com/mtennekes/tmap/issues/150" class="external-link">issue</a>.</p>
+<p><strong>macOS</strong> See http://www.kyngchaos.com. Please address installation issues in this <a href="https://github.com/mtennekes/tmap/issues/149" class="external-link">issue</a>.</p>
 </div>
 <div id="development" class="section level2">
 <h2 class="hasAnchor">
 <a href="#development" class="anchor"></a>Development</h2>
-<p>The latest development version can be installed using <code>devtools</code>. In order to use the development version of <code>tmap</code>, it is recommended to use the development version of <a href="http://github.com/mtennekes/tmaptools">tmaptools</a> as well:</p>
+<p>The latest development version can be installed using <code>devtools</code>. In order to use the development version of <code>tmap</code>, it is recommended to use the development version of <a href="http://github.com/mtennekes/tmaptools" class="external-link">tmaptools</a> as well:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org">remotes</a></span><span class="op">)</span>
-<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mtennekes/tmaptools"</span><span class="op">)</span>
-<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"mtennekes/tmap"</span><span class="op">)</span></code></pre></div>
-<p>See <a href="https://github.com/mtennekes/tmap/blob/master/NEWS">NEWS</a> for the latest features and improvements and the <a href="https://github.com/mtennekes/tmap/issues">issue list</a> for discussions of enhancements and bugs.</p>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://remotes.r-lib.org" class="external-link">remotes</a></span><span class="op">)</span>
+<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mtennekes/tmaptools"</span><span class="op">)</span>
+<span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"mtennekes/tmap"</span><span class="op">)</span></code></pre></div>
+<p>See <a href="https://github.com/mtennekes/tmap/blob/master/NEWS" class="external-link">NEWS</a> for the latest features and improvements and the <a href="https://github.com/mtennekes/tmap/issues" class="external-link">issue list</a> for discussions of enhancements and bugs.</p>
 <p>Do you want to help with the development of the package? Please let us know! Any feedback, requests, tips, or bug reports are welcome!</p>
 </div>
 <div id="usage" class="section level2">
 <h2 class="hasAnchor">
 <a href="#usage" class="anchor"></a>Usage</h2>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap">tmap</a></span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmap" class="external-link">tmap</a></span><span class="op">)</span></code></pre></div>
 </div>
 <div id="reference" class="section level2">
 <h2 class="hasAnchor">
 <a href="#reference" class="anchor"></a>Reference</h2>
-<p><a href="https://doi.org/10.18637/jss.v084.i06">Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39</a></p>
-<p>This paper has been written for <code>tmap</code> 1.11-2. See the <a href="https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html">reproducible code</a> using <code>tmap</code> 2.x.</p>
+<p><a href="https://doi.org/10.18637/jss.v084.i06" class="external-link">Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39</a></p>
+<p>This paper has been written for <code>tmap</code> 1.11-2. See the <a href="https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html" class="external-link">reproducible code</a> using <code>tmap</code> 2.x.</p>
 </div>
 <div id="vignettes" class="section level2">
 <h2 class="hasAnchor">
 <a href="#vignettes" class="anchor"></a>Vignettes</h2>
-<p><a href="https://cran.r-project.org/package=tmap/vignettes/tmap-getstarted.html">tmap: get started!</a></p>
-<p><a href="https://cran.r-project.org/package=tmap/vignettes/tmap-changes.html">tmap: what is changed in recent versions?</a></p>
+<p><a href="https://cran.r-project.org/package=tmap/vignettes/tmap-getstarted.html" class="external-link">tmap: get started!</a></p>
+<p><a href="https://cran.r-project.org/package=tmap/vignettes/tmap-changes.html" class="external-link">tmap: what is changed in recent versions?</a></p>
 </div>
 <div id="tutorials" class="section level2">
 <h2 class="hasAnchor">
 <a href="#tutorials" class="anchor"></a>Tutorials</h2>
-<p><a href="https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd">tmap in RMarkdown</a></p>
+<p><a href="https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd" class="external-link">tmap in RMarkdown</a></p>
 </div>
 <div id="presentations" class="section level2">
 <h2 class="hasAnchor">
 <a href="#presentations" class="anchor"></a>Presentations</h2>
 <ul>
 <li>
-<a href="https://mtennekes.github.io/downloads/presentations/tmap_opengeo_muenster.pdf">Creating thematic maps in R</a> (OpenGeoHUB Summer School 2019)</li>
+<a href="https://mtennekes.github.io/downloads/presentations/tmap_opengeo_muenster.pdf" class="external-link">Creating thematic maps in R</a> (OpenGeoHUB Summer School 2019)</li>
 <li>
-<a href="https://github.com/mtennekes/tmap-workshop">Plotting spatial data with R</a> (eRum 2018)</li>
+<a href="https://github.com/mtennekes/tmap-workshop" class="external-link">Plotting spatial data with R</a> (eRum 2018)</li>
 <li>
-<a href="https://mtennekes.github.io/downloads/presentations/tmap_user2017.pdf">Exploring and presenting maps with tmap</a> (useR!2017)</li>
+<a href="https://mtennekes.github.io/downloads/presentations/tmap_user2017.pdf" class="external-link">Exploring and presenting maps with tmap</a> (useR!2017)</li>
 <li>
-<a href="https://mtennekes.github.io/downloads/presentations/tmap_user2015.pdf">tmap: creating thematic maps in a flexible way</a> (useR!2015)]</li>
+<a href="https://mtennekes.github.io/downloads/presentations/tmap_user2015.pdf" class="external-link">tmap: creating thematic maps in a flexible way</a> (useR!2015)]</li>
 </ul>
 </div>
 <div id="other-resources" class="section level2">
 <h2 class="hasAnchor">
 <a href="#other-resources" class="anchor"></a>Other resources</h2>
 <ul>
-<li><a href="http://geocompr.robinlovelace.net/adv-map.html">Geocomputation with R; Making maps with R, Robin Lovelace, Jakub Nowosad, Jannes Muenchow</a></li>
-<li><a href="https://www.youtube.com/watch?v=wgFVmzSbaQc#t=3m20s">R tip: Create maps in R</a></li>
-<li><a href="https://gotellilab.github.io/Bio381/StudentPresentations/SpatialDataTutorial.html">Working with Spatial Data and using tmap, Samantha A. Alger</a></li>
-<li><a href="http://www.computerworld.com/article/3175623/data-analytics/mapping-in-r-just-got-a-whole-lot-easier.html">Computer World: Mapping in R just got a whole lot easier</a></li>
-<li><a href="https://sesync-ci.github.io/maps-in-R-lesson/">National Socio-Environmental Synthesis Center: Maps in R</a></li>
-<li><a href="https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf">Introduction to visualising spatial data in R</a></li>
-<li><a href="http://spatcontrol.net/SpatialControl/2015/11/06/tmap-r-package/">Blog post StatialControl</a></li>
-<li><a href="http://www.twiav.nl/en/blog0002en.php">Blog post TWIAV</a></li>
-<li><a href="http://cwrld.us/Rmaps10">Computer World: Create maps in R in 10 (fairly) easy steps</a></li>
-<li><a href="http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html">Computer World: Great R packages for data import, wrangling and visualization</a></li>
-<li><a href="https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd">Tutorial Visualising spatial data: from base to shiny - workshop</a></li>
-<li><a href="http://stackoverflow.com/questions/tagged/tmap">Stack Overflow questions (#tmap)</a></li>
+<li><a href="http://geocompr.robinlovelace.net/adv-map.html" class="external-link">Geocomputation with R; Making maps with R, Robin Lovelace, Jakub Nowosad, Jannes Muenchow</a></li>
+<li><a href="https://www.youtube.com/watch?v=wgFVmzSbaQc#t=3m20s" class="external-link">R tip: Create maps in R</a></li>
+<li><a href="https://gotellilab.github.io/Bio381/StudentPresentations/SpatialDataTutorial.html" class="external-link">Working with Spatial Data and using tmap, Samantha A. Alger</a></li>
+<li><a href="http://www.computerworld.com/article/3175623/data-analytics/mapping-in-r-just-got-a-whole-lot-easier.html" class="external-link">Computer World: Mapping in R just got a whole lot easier</a></li>
+<li><a href="https://sesync-ci.github.io/maps-in-R-lesson/" class="external-link">National Socio-Environmental Synthesis Center: Maps in R</a></li>
+<li><a href="https://cran.r-project.org/doc/contrib/intro-spatial-rl.pdf" class="external-link">Introduction to visualising spatial data in R</a></li>
+<li><a href="http://spatcontrol.net/SpatialControl/2015/11/06/tmap-r-package/" class="external-link">Blog post StatialControl</a></li>
+<li><a href="http://www.twiav.nl/en/blog0002en.php" class="external-link">Blog post TWIAV</a></li>
+<li><a href="http://cwrld.us/Rmaps10" class="external-link">Computer World: Create maps in R in 10 (fairly) easy steps</a></li>
+<li><a href="http://www.computerworld.com/article/2921176/business-intelligence/great-r-packages-for-data-import-wrangling-visualization.html" class="external-link">Computer World: Great R packages for data import, wrangling and visualization</a></li>
+<li><a href="https://github.com/Robinlovelace/Creating-maps-in-R/blob/master/vignettes/vspd-base-shiny.Rmd" class="external-link">Tutorial Visualising spatial data: from base to shiny - workshop</a></li>
+<li><a href="http://stackoverflow.com/questions/tagged/tmap" class="external-link">Stack Overflow questions (#tmap)</a></li>
 </ul>
 </div>
 <div id="getting-help" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getting-help" class="anchor"></a>Getting help</h2>
 <p>There are two main places to get help with <code>tmap</code>:</p>
-<ol>
+<ol style="list-style-type: decimal">
 <li>
-<a href="http://stackoverflow.com/tags/tmap">stackoverflow</a> is a great source of answers to common tmap questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Please tag your questions with <em>tmap</em>.</li>
-<li>If you have a request or if think your problem is caused by a bug, please open an <a href="https://github.com/mtennekes/tmap/issues">issue</a>, preferably with a reproducible example.</li>
+<a href="http://stackoverflow.com/tags/tmap" class="external-link">stackoverflow</a> is a great source of answers to common tmap questions. It is also a great place to get help, once you have created a reproducible example that illustrates your problem. Please tag your questions with <em>tmap</em>.</li>
+<li>If you have a request or if think your problem is caused by a bug, please open an <a href="https://github.com/mtennekes/tmap/issues" class="external-link">issue</a>, preferably with a reproducible example.</li>
 </ol>
 </div>
 </div>
@@ -179,7 +181,7 @@
 
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <div class="links">
-<h2>Links</h2>
+<h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=tmap">https://​cloud.r-project.org/​package=tmap</a>
 </li>
@@ -189,46 +191,53 @@
 </li>
 </ul>
 </div>
+
 <div class="license">
-<h2>License</h2>
+<h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="https://www.r-project.org/Licenses/GPL-3">GPL-3</a></li>
 </ul>
 </div>
+
+
 <div class="citation">
-<h2>Citation</h2>
+<h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
 <li><a href="authors.html">Citing tmap</a></li>
 </ul>
 </div>
+
 <div class="developers">
-<h2>Developers</h2>
+<h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Martijn Tennekes <br><small class="roles"> Author, maintainer </small>  </li>
-<li><a href="authors.html">All authors...</a></li>
+<li><a href="authors.html">More on authors...</a></li>
 </ul>
 </div>
 
-  <div class="dev-status">
-<h2>Dev status</h2>
+<div class="dev-status">
+<h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://ci.appveyor.com/project/mtennekes/tmap"><img src="https://ci.appveyor.com/api/projects/status/github/mtennekes/tmap?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
-<li><a href="http://www.gnu.org/licenses/gpl-3.0.html"><img src="https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat" alt="License"></a></li>
-<li><a href="https://cran.r-project.org/package=tmap"><img src="http://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a></li>
-<li><a href="https://cran.r-project.org/web/checks/check_results_tmap.html"><img src="https://cranchecks.info/badges/worst/tmap" alt="cran checks"></a></li>
-<li><a href="http://www.r-pkg.org/pkg/tmap"><img src="http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen" alt="Downloads"></a></li>
+<li><a href="https://ci.appveyor.com/project/mtennekes/tmap" class="external-link"><img src="https://ci.appveyor.com/api/projects/status/github/mtennekes/tmap?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
+<li><a href="http://www.gnu.org/licenses/gpl-3.0.html" class="external-link"><img src="https://img.shields.io/badge/License-GPL%20v3-brightgreen.svg?style=flat" alt="License"></a></li>
+<li><a href="https://cran.r-project.org/package=tmap" class="external-link"><img src="http://www.r-pkg.org/badges/version/tmap" alt="CRAN"></a></li>
+<li><a href="https://cran.r-project.org/web/checks/check_results_tmap.html" class="external-link"><img src="https://cranchecks.info/badges/worst/tmap" alt="cran checks"></a></li>
+<li><a href="http://www.r-pkg.org/pkg/tmap" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/tmap?color=brightgreen" alt="Downloads"></a></li>
 </ul>
 </div>
-</div>
+
+  </div>
 </div>
 
 
       <footer><div class="copyright">
-  <p>Developed by Martijn Tennekes.</p>
+  <p></p>
+<p>Developed by Martijn Tennekes.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -236,6 +245,8 @@
 
   
 
+
+  
 
   </body>
 </html>

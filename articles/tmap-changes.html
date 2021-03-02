@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -61,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/mtennekes/tmap/">
+  <a href="https://github.com/mtennekes/tmap/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -82,14 +84,14 @@
       <h1 data-toc-skip>tmap: version changes</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-changes.Rmd"><code>vignettes/tmap-changes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-changes.Rmd" class="external-link"><code>vignettes/tmap-changes.Rmd</code></a></small>
       <div class="hidden name"><code>tmap-changes.Rmd</code></div>
 
     </div>
 
     
     
-<p>This vignette summarizes the main changes in tmap 2.x/3.x in comparison to tmap 1.11-2, which is described in detail in the <a href="https://www.jstatsoft.org/article/view/v084i06">JSS paper</a>. The code of this paper for version 2.x/3.x can be found in <a href="../doc/tmap-JSS-code.html"><code>vignette("tmap-JSS-code")</code></a>.</p>
+<p>This vignette summarizes the main changes in tmap 2.x/3.x in comparison to tmap 1.11-2, which is described in detail in the <a href="https://www.jstatsoft.org/article/view/v084i06" class="external-link">JSS paper</a>. The code of this paper for version 2.x/3.x can be found in <a href="../doc/tmap-JSS-code.html"><code>vignette("tmap-JSS-code")</code></a>.</p>
 <p>For people who are new to tmap, see <a href="../doc/tmap-getstarted.html"><code>vignette("tmap-getstarted")</code></a>.</p>
 <div id="function-renaming-tm_-and-tmap_" class="section level3">
 <h3 class="hasAnchor">
@@ -100,22 +102,22 @@
 <h3 class="hasAnchor">
 <a href="#spatial-data-classes" class="anchor"></a>Spatial data classes</h3>
 <p>tmap 1.x uses <code>sp</code> for representing vector data, and <code>raster</code> for raster data. tmap 2.x uses <code>sf</code> for representing vector data, and <code>raster</code> for raster data. tmap 3.x uses <code>sf</code> for representing vector data, and <code>stars</code> for raster data.</p>
-<p><code>sf</code> (<strong>s</strong>imple <strong>f</strong>eatures) objects have a simpler structure than <code>sp</code> objects. An <code>sf</code> object is nothing more than a <code>data.frame</code> with a special geometry column that contains the geometries for the corresponding rows. Such a geometry can be of type spatial point(s), line(s) or polygon(s) or any combination of these in a ‘geometrycollection’ (see <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html"><code>vignette("sf1")</code></a>). The layers functions, such as <code>tm_polygons</code>, will only draw what they are supposed to draw (in this case polygons). The newly added layer function <code>tm_sf</code> will draw all geometries.</p>
+<p><code>sf</code> (<strong>s</strong>imple <strong>f</strong>eatures) objects have a simpler structure than <code>sp</code> objects. An <code>sf</code> object is nothing more than a <code>data.frame</code> with a special geometry column that contains the geometries for the corresponding rows. Such a geometry can be of type spatial point(s), line(s) or polygon(s) or any combination of these in a ‘geometrycollection’ (see <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html" class="external-link"><code>vignette("sf1")</code></a>). The layers functions, such as <code>tm_polygons</code>, will only draw what they are supposed to draw (in this case polygons). The newly added layer function <code>tm_sf</code> will draw all geometries.</p>
 <p>Finally, all data objects in <code>tmap</code> (except <code>land</code>) have been transformed into <code>sf</code> objects. The object <code>land</code> has been transformed into a <code>stars</code> object.</p>
 </div>
 <div id="tm_tiles" class="section level3">
 <h3 class="hasAnchor">
 <a href="#tm_tiles" class="anchor"></a>tm_tiles</h3>
 <p>Layer functions have been added to facilitate tile layers. In version 1.x, it was already possible to add basemaps. In version 2.0, this is facilitated by the explicit layer functions <code>tm_basemap</code> and <code>tm_tiles</code>. The former creates a basemap tile and the latter an overlay tile. The difference is that <code>tm_basemap</code> layers are always drawn at the bottom, whereas the plotting order of (overlay) <code>tm_tiles</code> layers is derived from the plot call. Overlay layers should be semi-transparent to be useful.</p>
-<p>Tip: all tilemaps from <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="uri">https://leaflet-extras.github.io/leaflet-providers/preview/</a> can be used. The names of these maps can also be found in the list object <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html">leaflet::providers</a></code>.</p>
+<p>Tip: all tilemaps from <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link uri">https://leaflet-extras.github.io/leaflet-providers/preview/</a> can be used. The names of these maps can also be found in the list object <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">leaflet::providers</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span>
 <span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span>
 
-<span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="fu">leaflet</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/leaflet/man/providers.html">providers</a></span><span class="op">$</span><span class="va">CartoDB.PositronNoLabels</span>, group <span class="op">=</span> <span class="st">"CartoDB basemap"</span><span class="op">)</span> <span class="op">+</span>
+<span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="fu">leaflet</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">providers</a></span><span class="op">$</span><span class="va">CartoDB.PositronNoLabels</span>, group <span class="op">=</span> <span class="st">"CartoDB basemap"</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, group <span class="op">=</span> <span class="st">"Countries"</span><span class="op">)</span> <span class="op">+</span>
-<span class="fu"><a href="../reference/tm_basemap.html">tm_tiles</a></span><span class="op">(</span><span class="fu">leaflet</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/leaflet/man/providers.html">providers</a></span><span class="op">$</span><span class="va">CartoDB.PositronOnlyLabels</span>, group <span class="op">=</span> <span class="st">"CartoDB labels"</span><span class="op">)</span> <span class="op">+</span>
+<span class="fu"><a href="../reference/tm_basemap.html">tm_tiles</a></span><span class="op">(</span><span class="fu">leaflet</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">providers</a></span><span class="op">$</span><span class="va">CartoDB.PositronOnlyLabels</span>, group <span class="op">=</span> <span class="st">"CartoDB labels"</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_symbols.html">tm_dots</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span>, group <span class="op">=</span> <span class="st">"Metropolitan areas"</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_tiles_labels.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
@@ -127,7 +129,7 @@
 <p>In version 2.0, the options are stored in a similar fashion to the global options. A list of tmap options can be retrieved and options can be set with the function <code>tmap_options</code>. Its behavior is similar to the base function <code>options</code>.</p>
 <p>A style is a configuration of the options used to style a map in a specific way. When set with <code>tmap_style</code>, the current options are overwritten according to the new style. The changes can be seen with <code>tmap_options_diff</code> and can be reset with <code>tmap_options_reset</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span>
 <span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"life_exp"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-changes_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -183,7 +185,7 @@
 <div id="color-palettes" class="section level3">
 <h3 class="hasAnchor">
 <a href="#color-palettes" class="anchor"></a>color palettes</h3>
-<p>Viridis palettes (from the <code>viridis</code>/<code>viridisLite</code> package) are supported natively. E.g. <code><a href="../reference/qtm.html">qtm(World, "HPI", fill.palette = "-plasma")</a></code>. Notice that, like with the color brewer palette names, a minus sign will reverse the palette. See <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html">tmaptools::palette_explorer()</a></code> to explore the color brewer and viridis palettes interactively.</p>
+<p>Viridis palettes (from the <code>viridis</code>/<code>viridisLite</code> package) are supported natively. E.g. <code><a href="../reference/qtm.html">qtm(World, "HPI", fill.palette = "-plasma")</a></code>. Notice that, like with the color brewer palette names, a minus sign will reverse the palette. See <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code> to explore the color brewer and viridis palettes interactively.</p>
 <p>The arguments that define the color palette mapping has been made more intuitive. The newly added layer function arguments <code>midpoint</code> and <code>stretch.palette</code> replace <code>auto.palette.mapping</code>:</p>
 <ul>
 <li>Categorical palettes. The argument <code>stretch.palette</code> determines whether a palette is stretched out when there are more categories than available colors. If set to <code>FALSE</code>, the palette is repeated.</li>
@@ -214,11 +216,13 @@
 
 
       <footer><div class="copyright">
-  <p>Developed by Martijn Tennekes.</p>
+  <p></p>
+<p>Developed by Martijn Tennekes.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.9000.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.6.1.9000.</p>
 </div>
 
       </footer>
@@ -226,6 +230,8 @@
 
   
 
+
+  
 
   </body>
 </html>
