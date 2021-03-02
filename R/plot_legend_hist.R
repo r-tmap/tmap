@@ -8,6 +8,9 @@ plot_legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.col
 			#if (any(nchar(ptx)>5)) ptx <- substr(ptx, 1, 3)
 			
 			colors <- legend.palette
+			
+			if (reverse) colors[1:length(ptx)] = rev(colors[1:length(ptx)])
+			
 		} else {
 			values <- na.omit(values)
 			breaks2 <- pretty(values, n=30)
@@ -27,8 +30,15 @@ plot_legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.col
 			breaks[1] <- -Inf
 			breaks[length(breaks)] <- Inf
 			
-			colors <- legend.palette[vapply(bins.mean, function(x) which(x<breaks)[1]-1L, integer(1))]
+			pal = legend.palette[1:(length(breaks)-1L)]
+			print(pal)
+			if (reverse) pal = rev(pal)
 			
+			colors <- pal[vapply(bins.mean, function(x) which(x<breaks)[1]-1L, integer(1))]
+			
+			
+			
+						
 			ptx <- pretty(breaks2, n=5)
 			ptx <- ptx[ptx>breaks2[1] & ptx<tail(breaks2,1)]
 			rng <- range(breaks2)

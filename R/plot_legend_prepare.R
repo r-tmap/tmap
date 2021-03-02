@@ -127,6 +127,11 @@ plot_legend_prepare <- function(gp, gal, gt, scaleFactor) {
 						legend.hist.z <- paste(v, "legend.hist.z", sep=".")
 						legend.hist.misc <- paste(v, "legend.hist.misc", sep=".")
 						list_hist_misc <- gpl[[legend.hist.misc]]
+						
+						legend.rev <- paste(v, "legend.reverse", sep=".")
+						
+						list_hist_misc$reverse = gpl[[legend.rev]]
+						
 						c(list(legend.type="hist",
 							   legend.title=gpl[[legend.title]],
 							   legend.is.portrait=TRUE,
