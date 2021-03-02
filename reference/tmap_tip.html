@@ -151,22 +151,18 @@
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>tmap_tip</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; Semi-transparent tile layers can be added with tm_tiles. 
-#&gt; New since tmap 2.0 
-#&gt; 
-#&gt; data(World)
-#&gt; tm_shape(World) +
-#&gt;   tm_polygons("life_exp") +
-#&gt; tm_tiles("Stamen.TonerLines") +
-#&gt; tm_view(set.view = c(lon = 15, lat = 48, zoom = 4)) 
-#&gt; </div><div class='input'><span class='fu'>tmap_tip</span><span class='op'>(</span>from.version <span class='op'>=</span> <span class='st'>"3.0"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; With tm_add_legend, it is also possible to add an extra legend title line. 
+</div><div class='output co'>#&gt; View shapes interactively in another projection than the Web Mercator. 
 #&gt; New since tmap 3.1 
 #&gt; 
 #&gt; data(World)
-#&gt; tm_shape(World) + 
-#&gt;   tm_polygons("HPI") + 
-#&gt;   tm_add_legend(type = "title", title = "Extra title") </div><div class='img'><img src='tmap_tip-1.png' alt='' width='700' height='433' /></div><div class='output co'>#&gt; </div></pre>
+#&gt; tmap_options(projection = 0, basemaps = NULL)
+#&gt; qtm(World) 
+#&gt; </div><div class='input'><span class='fu'>tmap_tip</span><span class='op'>(</span>from.version <span class='op'>=</span> <span class='st'>"3.0"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; Search for multiple locations directly with qtm. It uses tmaptools::geocode_OSM. 
+#&gt; New since tmap 3.1 
+#&gt; 
+#&gt; qtm(c("Paris", "Amsterdam", "Berlin", "London")) 
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
