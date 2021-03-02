@@ -1,3 +1,4 @@
+untibble = function(x) structure(x, class = setdiff(class(x), c("tbl_df", "tbl")))
 pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp <- y$shp
 	tmapOptions = get("tmapOptions", envir = .TMAP_CACHE)
@@ -18,6 +19,9 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 	shp.sim <- shp.sim[!vapply(shp.sim, is.null, logical(1))]
 	
 	
+	
+	if (inherits(shp, "tbl_df")) shp = untibble(shp) 
+
 	# process spatiotemporal array
 	if (inherits(shp, c("sf", "sfc", "Spatial"))) {
 		by_var = NULL
