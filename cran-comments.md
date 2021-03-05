@@ -5,7 +5,7 @@
 
 ## Submission note
 
-Fixed invalid URLs from pretest results
+Fixed doi URLs from pretest results
 
 ## R CMD check results
 

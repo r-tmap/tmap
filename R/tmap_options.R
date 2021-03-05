@@ -78,7 +78,8 @@
 			text.less.than = c("Less", "than"),
 			text.or.more = c("or", "more"),
 			text.align = NA,
-			text.to.columns = FALSE
+			text.to.columns = FALSE,
+			html.escape = TRUE
 		),
 		legend.frame = FALSE,
 		legend.frame.lwd = 1,

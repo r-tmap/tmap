@@ -1,3 +1,8 @@
+version 3.3-1
+- fixed view titles
+- added html.escape to popup.format to control whether html code is escaped in view popups
+- fixed many small bugs (see github issue list)
+
 version 3.3
 - tmap_grob added, which exports tmap plots to grob objects (grid package)
 - SpatRaster objects (terra package) supported

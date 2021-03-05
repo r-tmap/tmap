@@ -2,8 +2,12 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 	
 	nby <- nlevels(by)
 	cls <- check_tm_classes(data, is.colors)
-	data[!filter, ] <- NA
-	by[!filter] <- NA
+	
+	if (any(!filter)) {
+		data[!filter, ] <- NA
+		by[!filter] <- NA
+	}
+	
 	if (nby > 1) {
 		nx <- nby
 		dat <- data[[1]]
