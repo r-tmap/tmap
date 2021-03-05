@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
       </span>
     </div>
 
@@ -490,7 +490,7 @@
 <dt>scientific</dt><dd><p>Should the labels be formatted scientifically? If so, square brackets are used, and the <code>format</code> of the numbers is <code>"g"</code>. Otherwise, <code>format="f"</code>, and <code>text.separator</code>, <code>text.less.than</code>, and <code>text.or.more</code> are used. Also, the numbers are automatically  rounded to millions or billions if applicable.</p></dd>
 <dt>format</dt><dd><p>By default, <code>"f"</code>, i.e. the standard notation <code>xxx.xxx</code>, is used. If <code>scientific=TRUE</code> then <code>"g"</code>, which means that numbers are formatted scientifically, i.e. <code>n.dddE+nn</code> if needed to save space.</p></dd>
 <dt>digits</dt><dd><p>Number of digits after the decimal point if <code>format="f"</code>, and the number of significant digits otherwise.</p></dd>
-<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbrevation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code><a href='https://rdrr.io/r/base/c.html'>c("mln" = 6, "bln" = 9)</a></code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
+<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbreviation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code><a href='https://rdrr.io/r/base/c.html'>c("mln" = 6, "bln" = 9)</a></code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
 <dt>prefix</dt><dd><p>Prefix of each number</p></dd>
 <dt>suffix</dt><dd><p>Suffix of each number</p></dd>
 <dt>text.separator</dt><dd><p>Character string to use to separate numbers in the legend (default: "to").</p></dd>
@@ -498,6 +498,7 @@
 <dt>text.or.more</dt><dd><p>Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
 <dt>text.align</dt><dd><p>Value that determines how the numbers are aligned, <code>"left"</code>, <code>"center"</code> or <code>"right"</code>. By default <code>"left"</code> for legends in portrait format (<code>legend.is.protrait = TRUE</code>), and <code>"center"</code> otherwise.</p></dd>
 <dt>text.to.columns</dt><dd><p>Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default <code>FALSE</code>.</p></dd>
+<dt>html.escape</dt><dd><p>Logical that determins whther HTML code is escaped in the popups in view mode. By default <code>TRUE</code>. If set to <code>FALSE</code> HTML code can be added, e.g. to added white space via <code>&amp;nbsp;</code>.</p></dd>
 <dt>...</dt><dd><p>Other arguments passed on to <code><a href='https://rdrr.io/r/base/formatc.html'>formatC</a></code></p></dd>
 
 </dl></td>
