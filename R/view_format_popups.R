@@ -1,10 +1,6 @@
 view_format_popups <- function(id=NULL, titles, format, values) {
 	
-	htmlEsc = if (format$html.escape) {
-		htmltools::htmlEscape
-	} else {
-		function(x) x
-	}
+	
 	
 	isnull <- vapply(values, is.null, logical(1))
 	
@@ -18,23 +14,32 @@ view_format_popups <- function(id=NULL, titles, format, values) {
 		format <- lapply(1:length(titles), function(i) format)
 	}
 	
+	h = lapply(format, function(f) {
+		if (f$html.escape) {
+			htmltools::htmlEscape
+		} else {
+			function(x) x
+		}	
+	})
 	
 	if (!is.null(id)) {
-		labels <- paste("<b>", htmlEsc(id), "</b>", sep="")
+		labels <- paste("<b>", h[[1]](id), "</b>", sep="")
 	} else {
 		labels <- ""
 	}
 	
-	titles_format <- vapply(titles, htmlEsc, character(1))
-	values_format <- mapply(function(v, f) {
+	titles_format <- mapply(function(ti, hi) {
+		hi(ti)
+	}, titles, h, SIMPLIFY = FALSE)
+	values_format <- mapply(function(v, f, hi) {
 		if (inherits(v, "units")) {
 			popup_append <- paste0(" ", as.character(attr(v, "units")))
 		} else {
 			popup_append <- ""
 		}
-		numbers <- htmlEsc(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=as.numeric(v), intervals=FALSE), f)) else v)
+		numbers <- hi(if (is.numeric(v)) do.call("fancy_breaks", c(list(vec=as.numeric(v), intervals=FALSE), f)) else v)
 		paste0(numbers, popup_append)
-	}, values, format, SIMPLIFY = FALSE)
+	}, values, format, h, SIMPLIFY = FALSE)
 	
 	
 	labels2 <- mapply(function(l, v) {
