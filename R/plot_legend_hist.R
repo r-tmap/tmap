@@ -31,7 +31,7 @@ plot_legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.col
 			breaks[length(breaks)] <- Inf
 			
 			pal = legend.palette[1:(length(breaks)-1L)]
-			print(pal)
+			# print(pal)
 			if (reverse) pal = rev(pal)
 			
 			colors <- pal[vapply(bins.mean, function(x) which(x<breaks)[1]-1L, integer(1))]
