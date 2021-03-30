@@ -3,7 +3,7 @@
 #' Save tmap to a file. This can be either a static plot (e.g. png) or an interactive map (html).
 #'
 #' @param tm tmap object
-#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in \code{"plot"} mode and as an interactive map (html) in \code{"view"} mode (see details). The default format for static plots is png, but this can be changed using the option \code{"output.format"} in \code{\link{tmap_options}}.
+#' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in \code{"plot"} mode and as an interactive map (html) in \code{"view"} mode (see details). The default format for static plots is png, but this can be changed using the option \code{"output.format"} in \code{\link{tmap_options}}. If \code{NA} (the default), the file is saved as "tmap01" in the default format, and the number incremented if the file already exists.
 #' @param height,width The width and height of the plot (not applicable for html files). Units are set with the argument \code{units}. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option \code{"output.size"} in \code{\link{tmap_options}}. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.
 #' @param units units for width and height (\code{"in"}, \code{"cm"}, or \code{"mm"}). By default, pixels (\code{"px"}) are used if either width or height is set to a value greater than 50. Else, the units are inches (\code{"in"})
 #' @param dpi dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option \code{"output.dpi"} in \code{\link{tmap_options}}.
@@ -48,12 +48,12 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 
 	
 	if (is.na(filename)) {
-		filename_default <- paste("tmap", default_ext, sep = ".")
+		filename_default <- paste("tmap01", default_ext, sep = ".")
 		if (!file.exists(filename_default)) {
 			filename <- filename_default
 		} else {
 			files <- list.files(pattern = paste0("^tmap[0-9]{2}\\.", default_ext, "$"))
-			fid <- ifelse(length(files), 1, max(as.integer(substr(files, 5, 6))) + 1)
+			fid <- max(as.integer(substr(files, 5, 6))) + 1L
 			filename <- paste0("tmap", sprintf("%02d", fid), ".",  default_ext)
 		}
 	}
