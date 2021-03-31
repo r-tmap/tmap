@@ -168,7 +168,7 @@
     </tr>
     <tr>
       <th>filename</th>
-      <td><p>filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in <code>"plot"</code> mode and as an interactive map (html) in <code>"view"</code> mode (see details). The default format for static plots is png, but this can be changed using the option <code>"output.format"</code> in <code><a href='tmap_options.html'>tmap_options</a></code>.</p></td>
+      <td><p>filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in <code>"plot"</code> mode and as an interactive map (html) in <code>"view"</code> mode (see details). The default format for static plots is png, but this can be changed using the option <code>"output.format"</code> in <code><a href='tmap_options.html'>tmap_options</a></code>. If <code>NA</code> (the default), the file is saved as "tmap01" in the default format, and the number incremented if the file already exists.</p></td>
     </tr>
     <tr>
       <th>height, width</th>
@@ -229,12 +229,12 @@
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
   <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, <span class='va'>NLD_prov</span><span class='op'>)</span>
   <span class='va'>m</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
-         <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>"population"</span>, convert2density<span class='op'>=</span><span class='cn'>TRUE</span>, 
+         <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>"population"</span>, convert2density<span class='op'>=</span><span class='cn'>TRUE</span>, 
                  style<span class='op'>=</span><span class='st'>"kmeans"</span>, 
                  title<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/expression.html'>expression</a></span><span class='op'>(</span><span class='st'>"Population (per "</span> <span class='op'>*</span> <span class='va'>km</span><span class='op'>^</span><span class='fl'>2</span> <span class='op'>*</span> <span class='st'>")"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-         <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"black"</span>, alpha<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span> 
+         <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"black"</span>, alpha<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span> 
      <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-         <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey25"</span>, lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
+         <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey25"</span>, lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
     <span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span> <span class='op'>+</span>
     <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span>, inner.margins <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.02</span>, <span class='fl'>.15</span>, <span class='fl'>.06</span>, <span class='fl'>.15</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span> 
       <span class='fu'><a href='tm_scale_bar.html'>tm_scale_bar</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
@@ -245,7 +245,7 @@
   
   <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
   <span class='va'>m2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"well_being"</span>, id<span class='op'>=</span><span class='st'>"name"</span>, title<span class='op'>=</span><span class='st'>"Well-being"</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"well_being"</span>, id<span class='op'>=</span><span class='st'>"name"</span>, title<span class='op'>=</span><span class='st'>"Well-being"</span><span class='op'>)</span> <span class='op'>+</span>
     <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
 
   <span class='co'># save image</span>

@@ -645,7 +645,7 @@
 <span class='va'>metro</span><span class='op'>$</span><span class='va'>growth</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2020</span> <span class='op'>-</span> <span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
 
 <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"grey70"</span><span class='op'>)</span> <span class='op'>+</span>
+    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"grey70"</span><span class='op'>)</span> <span class='op'>+</span>
 <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
     <span class='fu'>tm_bubbles</span><span class='op'>(</span><span class='st'>"pop2010"</span>, col <span class='op'>=</span> <span class='st'>"growth"</span>, 
         border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>, 
@@ -683,7 +683,7 @@
 <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>grobs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>NLD_prov</span><span class='op'>$</span><span class='va'>name</span>
 
 <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span>group <span class='op'>=</span> <span class='st'>"Provinces"</span><span class='op'>)</span> <span class='op'>+</span>
+<span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span>group <span class='op'>=</span> <span class='st'>"Provinces"</span><span class='op'>)</span> <span class='op'>+</span>
 <span class='fu'>tm_symbols</span><span class='op'>(</span>size<span class='op'>=</span><span class='st'>"population"</span>, shape<span class='op'>=</span><span class='st'>"name"</span>, 
   shapes<span class='op'>=</span><span class='va'>grobs</span>, 
   sizes.legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>1</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>1e6</span>, 

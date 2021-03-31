@@ -1,9 +1,9 @@
 pandoc: 2.7.3
 pkgdown: 1.6.1.9001
-pkgdown_sha: 9a5a8f5cd29bb06616c1452d1b9b5cab7cebf7c2
+pkgdown_sha: 38f0d8a2db6e26027bc4da8ded7d035e4ddaf987
 articles:
   tmap-JSS-code: tmap-JSS-code.html
   tmap-changes: tmap-changes.html
   tmap-getstarted: tmap-getstarted.html
-last_built: 2021-03-26T07:34Z
+last_built: 2021-03-31T07:46Z
 

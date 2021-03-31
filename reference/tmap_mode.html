@@ -153,7 +153,7 @@
       <th>mode</th>
       <td><p>one of</p><dl>
        <dt><code>"plot"</code></dt><dd><p>Thematic maps are shown in the graphics device. This is the default mode, and supports all tmap's features, such as small multiples (see <code><a href='tm_facets.html'>tm_facets</a></code>) and extensive layout settings (see <code><a href='tm_layout.html'>tm_layout</a></code>). It is recommended for saving static maps (see <code><a href='tmap_save.html'>tmap_save</a></code>).</p></dd> 
-       <dt><code>"view"</code></dt><dd><p>Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see <code><a href='tm_basemap.html'>tm_tiles</a></code>). See also <code><a href='tm_view.html'>tm_view</a></code> for options related to the <code>"view"</code> mode. This mode generates a <code><a href='https://rdrr.io/pkg/leaflet/man/leaflet.html'>leaflet</a></code> widget, which can also be directly obtained with <code><a href='tmap_leaflet.html'>tmap_leaflet</a></code>. With RMarkdown, it is possible to publish it to an HTML page. 
+       <dt><code>"view"</code></dt><dd><p>Thematic maps are viewed interactively in the web browser or RStudio's Viewer pane. Maps are fully interactive with tiles from OpenStreetMap or other map providers (see <code><a href='tm_tiles.html'>tm_tiles</a></code>). See also <code><a href='tm_view.html'>tm_view</a></code> for options related to the <code>"view"</code> mode. This mode generates a <code><a href='https://rdrr.io/pkg/leaflet/man/leaflet.html'>leaflet</a></code> widget, which can also be directly obtained with <code><a href='tmap_leaflet.html'>tmap_leaflet</a></code>. With RMarkdown, it is possible to publish it to an HTML page. 
        There are a couple of constraints in comparison to <code>"plot"</code>:
        <ul>
 <li><p>The map is always projected according to the Web Mercator projection. Although this projection is the de facto standard for interactive web-based mapping, it lacks the equal-area property, which is important for many thematic maps, especially choropleths (see examples from <code><a href='tm_shape.html'>tm_shape</a></code>).</p></li>
@@ -182,7 +182,7 @@
 <span class='va'>metro</span><span class='op'>$</span><span class='va'>growth</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2020</span> <span class='op'>-</span> <span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
 
 <span class='va'>map1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"income_grp"</span>, palette<span class='op'>=</span><span class='st'>"-Blues"</span>, contrast<span class='op'>=</span><span class='fl'>.7</span>, id<span class='op'>=</span><span class='st'>"name"</span>, title<span class='op'>=</span><span class='st'>"Income group"</span><span class='op'>)</span> <span class='op'>+</span>
+  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"income_grp"</span>, palette<span class='op'>=</span><span class='st'>"-Blues"</span>, contrast<span class='op'>=</span><span class='fl'>.7</span>, id<span class='op'>=</span><span class='st'>"name"</span>, title<span class='op'>=</span><span class='st'>"Income group"</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
   <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span><span class='st'>"pop2010"</span>, col <span class='op'>=</span> <span class='st'>"growth"</span>, 
     border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>, 
@@ -212,12 +212,12 @@
 <span class='va'>NLD_muni</span><span class='op'>$</span><span class='va'>pop_dens</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/calc_densities.html'>calc_densities</a></span><span class='op'>(</span><span class='va'>NLD_muni</span>, var <span class='op'>=</span> <span class='st'>"population"</span><span class='op'>)</span>
 
 <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_fill.html'>tm_fill</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>"pop_dens"</span>, 
+  <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span>col<span class='op'>=</span><span class='st'>"pop_dens"</span>, 
     style<span class='op'>=</span><span class='st'>"kmeans"</span>, 
     title <span class='op'>=</span> <span class='st'>"Population (per km^2)"</span>, id <span class='op'>=</span> <span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey25"</span>, alpha<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span> 
+  <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey25"</span>, alpha<span class='op'>=</span><span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span> 
   <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_fill.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey40"</span>, lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
+  <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey40"</span>, lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>
 <span class='op'>}</span>
 
 <span class='co'># restore current mode</span>

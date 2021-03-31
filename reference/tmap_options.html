@@ -186,7 +186,7 @@
     </tr>
     <tr>
       <th>max.categories</th>
-      <td><p>in case <code>col</code> is the name of a categorical variable in the layer functions (e.g. <code><a href='tm_fill.html'>tm_polygons</a></code>), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than <code>max.categories</code>, then levels are combined.</p></td>
+      <td><p>in case <code>col</code> is the name of a categorical variable in the layer functions (e.g. <code><a href='tm_polygons.html'>tm_polygons</a></code>), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than <code>max.categories</code>, then levels are combined.</p></td>
     </tr>
     <tr>
       <th>max.raster</th>
@@ -194,7 +194,7 @@
     </tr>
     <tr>
       <th>basemaps</th>
-      <td><p>default basemaps. Basemaps are normally configured with <code><a href='tm_basemap.html'>tm_basemap</a></code>. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or <code>NULL</code> if basemaps should be omitted. For options see the list <code><a href='https://rdrr.io/pkg/leaflet/man/providers.html'>leaflet::providers</a></code>, which can be previewed at <a href='https://leaflet-extras.github.io/leaflet-providers/preview/'>https://leaflet-extras.github.io/leaflet-providers/preview/</a>. Also supports URL's for tile servers, such as <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. If a named vector is provided, the names are used in the layer control legend (similar to the <code>group</code> argument of <code><a href='tm_basemap.html'>tm_basemap</a></code>. See also <code>overlays</code>, which is the default option for overlay tiles.</p></td>
+      <td><p>default basemaps. Basemaps are normally configured with <code><a href='tm_tiles.html'>tm_basemap</a></code>. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or <code>NULL</code> if basemaps should be omitted. For options see the list <code><a href='https://rdrr.io/pkg/leaflet/man/providers.html'>leaflet::providers</a></code>, which can be previewed at <a href='https://leaflet-extras.github.io/leaflet-providers/preview/'>https://leaflet-extras.github.io/leaflet-providers/preview/</a>. Also supports URL's for tile servers, such as <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. If a named vector is provided, the names are used in the layer control legend (similar to the <code>group</code> argument of <code><a href='tm_tiles.html'>tm_basemap</a></code>. See also <code>overlays</code>, which is the default option for overlay tiles.</p></td>
     </tr>
     <tr>
       <th>basemaps.alpha</th>
@@ -398,7 +398,7 @@
 <span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>current tmap style is "white"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
 <span class='co'># plot map (with default options)</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
 </div><div class='img'><img src='tmap_options-1.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># change style to cobalt</span>
 <span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span>
@@ -433,7 +433,7 @@
 #&gt; [1] 0.5
 #&gt; </div><div class='input'>
 <span class='co'># plot the map again</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
 </div><div class='img'><img src='tmap_options-2.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'>##############################</span>
 <span class='co'># define red style</span>
@@ -478,13 +478,13 @@
 <span class='fu'>tmap_options_save</span><span class='op'>(</span><span class='st'>"red"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>current tmap options saved as style "red"</span></div><div class='input'>
 <span class='co'># plot the map again</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
 </div><div class='img'><img src='tmap_options-3.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># the specified arguments of tm_layout and tm_view will override the options temporarily:</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span>
 </div><div class='img'><img src='tmap_options-4.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># when tm_style_ is called, it will override all options temporarily:</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span>
+<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; <span class='message'>Note that tm_style("classic") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.</span></div><div class='img'><img src='tmap_options-5.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># reset all options</span>
 <span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span>
@@ -522,7 +522,7 @@
 </div><div class='output co'>#&gt; <span class='message'>current tmap style is "black"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span></div><div class='input'>
 <span class='co'># plot the world map again, this time with the newly created black style</span>
 <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
+  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
 </div><div class='img'><img src='tmap_options-6.png' alt='' width='700' height='433' /></div><div class='input'>
 <span class='co'># reset all options</span>
 <span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span>

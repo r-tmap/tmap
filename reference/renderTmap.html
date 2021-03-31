@@ -209,7 +209,7 @@
   <span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span>, <span class='va'>session</span><span class='op'>)</span> <span class='op'>{</span>
     <span class='va'>output</span><span class='op'>$</span><span class='va'>map</span> <span class='op'>&lt;-</span> <span class='fu'>renderTmap</span><span class='op'>(</span><span class='op'>{</span>
       <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-        <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='va'>world_vars</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, zindex <span class='op'>=</span> <span class='fl'>401</span><span class='op'>)</span>
+        <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='va'>world_vars</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, zindex <span class='op'>=</span> <span class='fl'>401</span><span class='op'>)</span>
     <span class='op'>}</span><span class='op'>)</span>
     
     <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observe.html'>observe</a></span><span class='op'>(</span><span class='op'>{</span>
@@ -217,7 +217,7 @@
       <span class='fu'>tmapProxy</span><span class='op'>(</span><span class='st'>"map"</span>, <span class='va'>session</span>, <span class='op'>{</span>
         <span class='fu'>tm_remove_layer</span><span class='op'>(</span><span class='fl'>401</span><span class='op'>)</span> <span class='op'>+</span>
         <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-          <span class='fu'><a href='tm_fill.html'>tm_polygons</a></span><span class='op'>(</span><span class='va'>var</span>, zindex <span class='op'>=</span> <span class='fl'>401</span><span class='op'>)</span>
+          <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='va'>var</span>, zindex <span class='op'>=</span> <span class='fl'>401</span><span class='op'>)</span>
       <span class='op'>}</span><span class='op'>)</span>
     <span class='op'>}</span><span class='op'>)</span>
   <span class='op'>}</span>  

@@ -102,7 +102,7 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
 <p>The object <code>World</code> is a spatial object of class <code>sf</code> from the <a href="https://CRAN.R-project.org/package=sf" class="external-link">sf package</a>; it is a <code>data.frame</code> with a special column that contains a geometry for each row, in this case polygons. In order to plot it in tmap, you first need to specify it with <code>tm_shape</code>. Layers can be added with the <code><a href="https://rdrr.io/r/base/Arithmetic.html" class="external-link">+</a></code> operator, in this case <code>tm_polygons</code>. There are many layer functions in tmap, which can easily be found in the documentation by their <code>tm_</code> prefix. See also <code><a href="../reference/tmap-element.html">?'tmap-element'</a></code>.</p>
 </div>
@@ -114,7 +114,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_view.jpg" alt="" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 </div>
 <div id="multiple-shapes-and-layers" class="section level3">
@@ -129,7 +129,7 @@
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">land</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="st">"elevation"</span>, palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_borders</a></span><span class="op">(</span><span class="st">"white"</span>, lwd <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="st">"white"</span>, lwd <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"iso_a3"</span>, size <span class="op">=</span> <span class="st">"AREA"</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="st">"pop2020"</span>, scale <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
@@ -147,7 +147,7 @@
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HPI"</span>, <span class="st">"economy"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"HPI"</span>, <span class="st">"economy"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span>sync <span class="op">=</span> <span class="cn">TRUE</span>, ncol <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_facets.jpg" alt="" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 <ol start="2" style="list-style-type: decimal">
@@ -162,7 +162,7 @@
 <span class="va">NLD_muni</span><span class="op">$</span><span class="va">perc_men</span> <span class="op">&lt;-</span> <span class="va">NLD_muni</span><span class="op">$</span><span class="va">pop_men</span> <span class="op">/</span> <span class="va">NLD_muni</span><span class="op">$</span><span class="va">population</span> <span class="op">*</span> <span class="fl">100</span>
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"perc_men"</span>, palette <span class="op">=</span> <span class="st">"RdYlBu"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"perc_men"</span>, palette <span class="op">=</span> <span class="st">"RdYlBu"</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"province"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <ol start="3" style="list-style-type: decimal">
@@ -173,7 +173,7 @@
 <span class="co">## tmap mode set to plotting</span>
 
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span>
-<span class="va">tm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"population"</span>, convert2density <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="va">tm1</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"population"</span>, convert2density <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="va">tm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"population"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tm1</span>, <span class="va">tm2</span><span class="op">)</span>
@@ -187,9 +187,9 @@
 <p>Tiled basemaps can be added with the layer function <code>tm_basemap</code>. Semi-transparent overlay maps (for example annotation labels) can be added with <code>tm_tiles</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span>
-<span class="fu"><a href="../reference/tm_basemap.html">tm_basemap</a></span><span class="op">(</span><span class="st">"Stamen.Watercolor"</span><span class="op">)</span> <span class="op">+</span>
+<span class="fu"><a href="../reference/tm_tiles.html">tm_basemap</a></span><span class="op">(</span><span class="st">"Stamen.Watercolor"</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop2020"</span>, col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span>
-<span class="fu"><a href="../reference/tm_basemap.html">tm_tiles</a></span><span class="op">(</span><span class="st">"Stamen.TonerLabels"</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/tm_tiles.html">tm_tiles</a></span><span class="op">(</span><span class="st">"Stamen.TonerLabels"</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_tiles.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 <p>See a <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link">preview of the available tilemaps</a>. This list is also accessible in R: <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">leaflet::providers</a></code>.</p>
 </div>
@@ -202,7 +202,7 @@
 <span class="co">## tmap mode set to plotting</span>
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_layout.html">tm_layout</a></span><span class="op">(</span>bg.color <span class="op">=</span> <span class="st">"skyblue"</span>, inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">.02</span>, <span class="fl">.02</span>, <span class="fl">.02</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-9-1.png" width="576"></p>
 <p>These options, as well as a couple of others, can also be set within with <code>tmap_options</code>, which works in the same way as the base R function <code>options</code>. The main advantage is that these options are set globally, so they do not have to be specified in each map, for the duration of the session.</p>
@@ -210,7 +210,7 @@
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_options.html">tmap_options</a></span><span class="op">(</span>bg.color <span class="op">=</span> <span class="st">"black"</span>, legend.text.color <span class="op">=</span> <span class="st">"white"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-10-1.png" width="576"></p>
 <p>A style is a certain configuration of the tmap options.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
@@ -219,7 +219,7 @@
 <span class="co">## other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor"</span>
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-11-1.png" width="576"></p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># see what options have been changed</span>
@@ -253,7 +253,7 @@
 <a href="#exporting-maps" class="anchor"></a>Exporting maps</h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span>
+    <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span>
 
 <span class="co">## save an image ("plot" mode)</span>
 <span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world_map.png"</span><span class="op">)</span>
@@ -271,7 +271,7 @@
 
 <span class="co"># in server part</span>
 <span class="va">output</span><span class="op">$</span><span class="va">my_tmap</span> <span class="op">=</span> <span class="fu"><a href="../reference/renderTmap.html">renderTmap</a></span><span class="op">(</span><span class="op">{</span>
-    <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_fill.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span>
+    <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span>
 <span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>See <code><a href="../reference/renderTmap.html">?renderTmap</a></code> for a working example.</p>
 </div>
