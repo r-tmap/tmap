@@ -36,7 +36,7 @@ step2_data = function(tmo) {
 		### Specify 'by' variables
 		if (tmg$tmf$is.wrap) {
 			# facet wrap: only use by1
-			by1 = tmg$tmf$wrap
+			by1 = tmg$tmf$by
 			by2 = NULL
 			by3 = NULL
 			
@@ -254,6 +254,9 @@ step2_data = function(tmo) {
 	attr(grps, "fl") = fl
 	attr(grps, "main") = attr(tmo, "main")
 	attr(grps, "crs") = attr(tmo, "crs")
+	attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
+	attr(grps, "nrows") = tmo[[1]]$tmf$nrows
+	attr(grps, "ncols") = tmo[[1]]$tmf$ncols
 	grps
 }
 

@@ -1,11 +1,13 @@
-tmapLeafletInit = function(nrow, ncol) {
+tmapLeafletInit = function(nrow, ncol, npage) {
 	if (!requireNamespace("leaflet")) stop("grid package required but not installed yet.")
 	#bbx = unname(bbx)
 	
 	n = nrow * ncol
 	
-	lfs = lapply(1L:n, function(i) {
-		leaflet::leaflet() %>% leaflet::addTiles()# %>% leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4])
+	lfs = lapply(1L:npage, function(p) {
+		lapply(1L:n, function(i) {
+			leaflet::leaflet() %>% leaflet::addTiles()# %>% leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4])
+		})
 	})
 	
 	assign("lfs", lfs, envir = .TMAP_LEAFLET)
@@ -18,41 +20,43 @@ get_facet_id = function(row, col, nrow, ncol) {
 	col + (row - 1L) * ncol
 }
 
-get_lf = function(facet_row, facet_col) {
+get_lf = function(facet_row, facet_col, facet_page) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
 	nrow = get("nrow", envir = .TMAP_LEAFLET)
 	ncol = get("ncol", envir = .TMAP_LEAFLET)
 	
+	lfsi = lfs[[facet_page]]
+	
 	lfid = get_facet_id(facet_row, facet_col, nrow, ncol)
 	
-	lfs[[lfid]]
+	lfsi[[lfid]]
 }
 
-assign_lf = function(lf, facet_row, facet_col) {
+assign_lf = function(lf, facet_row, facet_col, facet_page) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
 	nrow = get("nrow", envir = .TMAP_LEAFLET)
 	ncol = get("ncol", envir = .TMAP_LEAFLET)
-	
+
 	lfid = get_facet_id(facet_row, facet_col, nrow, ncol)
 	
-	lfs[[lfid]] = lf
+	lfs[[facet_page]][[lfid]] = lf
 	assign("lfs", lfs, envir = .TMAP_LEAFLET)
 	NULL
 }
 
 
-tmapLeafletShape = function(bbx, facet_row, facet_col) {
+tmapLeafletShape = function(bbx, facet_row, facet_col, facet_page) {
 	bbx = unname(bbx)
-	get_lf(facet_row, facet_col) %>% 
+	get_lf(facet_row, facet_col, facet_page) %>% 
 		leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) %>% 
-		assign_lf(facet_row, facet_col)
+		assign_lf(facet_row, facet_col, facet_page)
 	NULL
 }
 
 
 
-tmapLeafletPolygons = function(shpTM, dt, facet_row, facet_col) {
-	lf = get_lf(facet_row, facet_col)
+tmapLeafletPolygons = function(shpTM, dt, facet_row, facet_col, facet_page) {
+	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -64,14 +68,14 @@ tmapLeafletPolygons = function(shpTM, dt, facet_row, facet_col) {
 	color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
 	
 	lf %>% 
-		leaflet::addPolygons(data = shp, color = color, fillColor = fill) %>% 
-		assign_lf(facet_row, facet_col)
+		leaflet::addPolygons(data = shp, color = color, opacity = 1, fillColor = fill, fillOpacity = 1) %>% 
+		assign_lf(facet_row, facet_col, facet_page)
 	NULL	
 }
 
 
-tmapLeafletSymbols = function(shpTM, dt, facet_row, facet_col) {
-	lf = get_lf(facet_row, facet_col)
+tmapLeafletSymbols = function(shpTM, dt, facet_row, facet_col, facet_page) {
+	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -89,7 +93,7 @@ tmapLeafletSymbols = function(shpTM, dt, facet_row, facet_col) {
 		
 	lf %>% 
 		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = color, radius = size*4, fillOpacity = 1, color = "black", opacity = 1, weight = 1) %>% 
-		assign_lf(facet_row, facet_col)
+		assign_lf(facet_row, facet_col, facet_page)
 	NULL	
 }
 
@@ -104,7 +108,7 @@ split_alpha_channel <- function(x, alpha) {
 	}
 }
 
-tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col) {
+tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col, facet_page) {
 
 	rc_text = frc(facet_row, facet_col)
 	
@@ -130,13 +134,13 @@ tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col) {
 		
 		shp[[1]] <- matrix(col_ids, ncol = ncol(shp))
 		
-		lf = get_lf(facet_row, facet_col)
+		lf = get_lf(facet_row, facet_col, facet_page)
 		lf %>% 
 			leafem::addStarsImage(shp, band = 1, colors = pal) %>% 
-			assign_lf(facet_row, facet_col)
+			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		shpTM <- shapeTM(sf::st_as_sf(shp), tmapID)
-		tmapLeafletPolygons(shpTM, dt)
+		tmapLeafletPolygons(shpTM, dt, facet_row, facet_col, facet_page)
 		#grid.shape(s, gp=gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL
@@ -148,9 +152,11 @@ tmapLeafletRun = function() {
 	nrow = get("nrow", envir = .TMAP_LEAFLET)
 	ncol = get("ncol", envir = .TMAP_LEAFLET)
 	
-	if (nrow == 1 && ncol == 1) {
-		print(lfs[[1]])
-	} else {
-		print(do.call(leafsync::sync, c(lfs, list(ncol = ncol))))
-	}
+	lapply(lfs, function(lfsi) {
+		if (nrow == 1 && ncol == 1) {
+			print(lfsi[[1]])
+		} else {
+			print(do.call(leafsync::sync, c(lfsi, list(ncol = ncol))))
+		}
+	})
 }

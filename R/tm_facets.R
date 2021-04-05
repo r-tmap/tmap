@@ -1,29 +1,58 @@
-tm_facets_grid = function(rows = NULL,
-						  columns = NULL,
-						  pages = NULL) {
+tm_facets = function(by = "VARS__",
+					 rows = NULL,
+					 columns = NULL,
+					 pages = NULL,
+					 nrows = NA,
+					 ncols = NA,
+					 free.coords = TRUE,
+					 drop.units = TRUE,
+					 drop.empty.facets = TRUE,
+					 drop.NA.facets = FALSE,
+					 sync = TRUE,
+					 showNA = NA) {
+	
+	calls <- names(match.call(expand.dots = TRUE)[-1])
+	is.wrap = is.null(rows) && is.null(columns) && is.null(pages)
 	
 	tm_element_list(tm_element(
-		is.wrap = FALSE,
-		wrap = NULL,
+		is.wrap = is.wrap,
+		by = by,
 		rows = rows,
 		columns = columns,
 		pages = pages,
-		nrows = NA,
-		ncols = NA,
+		nrows = nrows,
+		ncols = ncols,
+		free.coords = free.coords,
+		drop.units = drop.units,
+		drop.empty.facets = drop.empty.facets,
+		drop.NA.facets = drop.NA.facets,
+		sync = sync,
+		showNA = showNA,
+		calls = calls,
 		subclass = "tm_facets"))
+	
+	
+	
+}
+
+tm_facets_grid = function(rows = NULL,
+						  columns = NULL,
+						  pages = NULL,
+						  ...) {
+	args = list(...)
+	calls = names(match.call(expand.dots = TRUE)[-1])
+	tm = do.call("tm_facets", c(list(by = NULL, rows = rows, columns = columns, pages = pages), args[setdiff(names(args), "by")]))
+	tm[[1]]$calls = calls
+	tm
 }
 
 tm_facets_wrap = function(by = "VARS__",
 						  nrows = NA,
-						  ncols = NA) {
-	
-	tm_element_list(tm_element(
-		is.wrap = TRUE,
-		wrap = by,
-		rows = NULL,
-		columns = NULL,
-		pages = NULL,
-		nrows = nrows,
-		ncols = ncols,
-		subclass = "tm_facets"))
+						  ncols = NA,
+						  ...) {
+	args = list(...)
+	calls = names(match.call(expand.dots = TRUE)[-1])
+	tm = do.call("tm_facets", c(list(by = by, rows = NULL, columns = NULL, pages = NULL, nrows = nrows, ncols = ncols), args[setdiff(names(args), c("rows", "columns", "pages"))]))
+	tm[[1]]$calls = calls
+	tm
 }

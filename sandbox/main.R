@@ -148,11 +148,16 @@ trees[[1]] = 1:(nrow(trees)* ncol(trees))
 trees2 = transwarp(trees, st_crs(World), raster.warp = TRUE)
 plot(trees2)
 
+tmx
 
-ttm()
 
-tmx1 = step1_rearrange(tmx)
-tmx2 = step2_data(tmx1)
-tmx3 = step3_trans(tmx2)
-step4_plot(tmx3)
+###### test cases v4
+tm1 = tm_shape(World) + tm_polygons("HPI")
+tm1
+
+tm1 + tm_facets_wrap(by = "continent", ncols = 3)
+tm1 + tm_facets(by = "continent", drop.units = FALSE)
+tm1 + tm_facets(by = "continent", drop.units = FALSE, free.coords = FALSE)
+
+
 

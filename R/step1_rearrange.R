@@ -1,4 +1,4 @@
-#' @param tmel tm_element_list
+#' @param tmel tmap object
 step1_rearrange = function(tmel) {
 	# find shapes and layers
 	is_tms = sapply(tmel, inherits, "tm_shape")
@@ -40,6 +40,8 @@ step1_rearrange = function(tmel) {
 		#tmg$tmls = lapply(tmg$tmls, tmapLayer, dt)
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
+	
+	tmfs = lapply(tmo, "[[", "tmf")
 	
 	attr(tmo, "main") = ids
 	attr(tmo, "crs") = crs

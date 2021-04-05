@@ -3,7 +3,7 @@ tm_element = function(..., subclass = NULL) {
 }
 
 tm_element_list = function(...) {
-	structure(list(...), class = "tm_element_list")
+	structure(list(...), class = "tmap")
 }
 
 tm_element_list_subclass = function(tml) {
@@ -29,8 +29,8 @@ tm_element_list_sel = function(tml, subclass) {
 #' @seealso \code{\link{tmap-element}} and \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
 #' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
 #' @export
-"+.tm_element_list" = function(e1, e2) {
-	structure(c(e1, e2), class = "tm_element_list")
+"+.tmap" = function(e1, e2) {
+	structure(c(e1, e2), class = "tmap")
 }
 
 
