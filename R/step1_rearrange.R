@@ -30,7 +30,7 @@ step1_rearrange = function(tmel) {
 	ids = get_main_ids(tmo)
 	
 	crs_option = tmap_graphics()$crs
-	crs = if (is.na(crs_option)) get_crs(tmo[[ids[1]]]$tms) else crs_option
+	crs = if (is.na(crs_option[1])) get_crs(tmo[[ids[1]]]$tms) else crs_option
 
 	# reproject other shapes if needed
 	tmo = structure(lapply(tmo, function(tmg) {

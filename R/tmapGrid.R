@@ -199,9 +199,9 @@ tmapGridRaster <- function(shpTM, dt, facet_row, facet_col, facet_page) {
 		if (!y_is_neg) {
 			m <- m[nrow(m):1L, ]
 		}
-		m[is.na(m)] = "#0000FF"
+		m[is.na(m)] = NA #"#0000FF"
 		grb = grid::rasterGrob(m, x=cx, y=cy, width=width, height=height, interpolate = FALSE) #gpl$raster.misc$interpolate
-		gt = grid::addGrob(gt, grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
+		gt = grid::addGrob(gts[[facet_page]], grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
 		gts[[facet_page]] = gt
 		assign("gts", gts, envir = .TMAP_GRID)
 	} else {

@@ -45,7 +45,7 @@ show_data()
 
 
 # size variables reduced to first one
-tmx =  tm_shape(land) +
+tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
@@ -53,7 +53,7 @@ tm_shape(World, name = "The World", is.main = TRUE) +
 tm_facets_wrap(by = "continent")
 
 # size variables mapped to columns
-tmx =  tm_shape(land) +
+tm_shape(land) +
 	tm_raster("trees") +
 tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
@@ -61,7 +61,7 @@ tm_shape(World, name = "The World", is.main = TRUE) +
 tm_facets_grid(rows = "continent")
 
 # size variables mapped to columns (free scales)
-tmx =  tm_shape(land) +
+tm_shape(land) +
 	tm_raster("trees") +
 	tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +

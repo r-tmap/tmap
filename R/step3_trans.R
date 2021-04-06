@@ -27,7 +27,19 @@ step3_trans = function(ad) {
 		
 		crs = attr(ad, "crs")
 		
+		
+		
+		
 		shpDT$shpTM = lapply(shpDT$shpTM, function(s) {
+			# crs can be a list per class (due to leaflet EPSG:3857 requirement for raster images)
+			if (!inherits(crs, "crs")) {
+				crsnms = names(crs)
+				crsi = which(vapply(crsnms, function(crsnm) {
+					if (crsnm == "") TRUE else inherits(s$shp, crsnm)
+				}, logical(1)))[1]
+				crs = crs[[crsi]]
+			}
+
 			if (sf::st_crs(s$shp) != crs) {
 				s = do.call(tmapReproject, c(s, list(crs = crs)))
 			}

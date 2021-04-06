@@ -120,8 +120,20 @@ tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col, facet_page) {
 	tmapID = shpTM$tmapID
 	
 	if (is_regular_grid(shp)) {
-		color = rep("#FFFFFF", length(tmapID))
-		color[match(dt$tmapID__, tmapID)] = dt$color
+		
+		tid = intersect(tmapID, dt$tmapID__)
+		
+		color = rep(NA, length(tmapID)) #"#FFFFFF"
+		
+		sel = which(tmapID %in% tid)
+		tid2 = tmapID[sel]
+		
+		color[sel] = dt$color[match(tid2, dt$tmapID__)]
+		
+		
+		
+		#color = rep("#FFFFFF", length(tmapID))
+		#color[match(dt$tmapID__, tmapID)] = dt$color
 		
 		pal <- na.omit(unique(color))
 		pal <- pal[substr(pal, 8,10)!="00"] ## remove transparant colors
@@ -135,6 +147,9 @@ tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col, facet_page) {
 		shp[[1]] <- matrix(col_ids, ncol = ncol(shp))
 		
 		lf = get_lf(facet_row, facet_col, facet_page)
+		
+		#shp2 = transwarp(shp, crs = st_crs(3857), raster.warp = TRUE)
+		
 		lf %>% 
 			leafem::addStarsImage(shp, band = 1, colors = pal) %>% 
 			assign_lf(facet_row, facet_col, facet_page)

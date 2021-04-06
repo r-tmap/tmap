@@ -1,7 +1,7 @@
 .defaultTmapOptions <- structure(
 	list(
 		graphics = list(plot = list(name = "Grid", crs = NA, facets = 64),
-						view = list(name = "Leaflet", crs = sf::st_crs(4326), facets = 16)),
+						view = list(name = "Leaflet", crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), facets = 16)),
 		unit = "metric",
 		limits = c(facets.plot = 64, facets.view = 4),
 		max.categories = 30,
