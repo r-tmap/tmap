@@ -251,13 +251,43 @@ step2_data = function(tmo) {
 		list(layers = lrs, shpDT = shpDT)
 	})
 	names(grps) = groupnames
-	attr(grps, "fl") = fl
+	#attr(grps, "fl") = fl
 	attr(grps, "main") = attr(tmo, "main")
 	attr(grps, "crs") = attr(tmo, "crs")
-	attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
-	attr(grps, "nrows") = tmo[[1]]$tmf$nrows
-	attr(grps, "ncols") = tmo[[1]]$tmf$ncols
+	
+	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
+	
+	tmf = tmo[[1]]$tmf
+	tmf$fl = fl
+	attr(grps, "tmf") = tmf
+	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
+	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows
+	# attr(grps, "ncols") = tmo[[1]]$tmf$ncols
 	grps
+}
+
+
+get_tmf = function(tmfs) {
+	# Get tmf object: start with the one that is called, and add 'calls'
+	
+	nf = length(tmfs)
+	
+	# find first tmf that has been called
+	fid = which(vapply(tmfs, function(tmf){
+		"calls" %in% names(tmf)
+	}, FUN.VALUE = logical(1)))[1]
+	
+	if (is.na(fid)) fid = 1L
+	
+	tmf = tmfs[[fid]]
+	
+	if (fid < nf) {
+		for (i in (fid+1):nf) {
+			args = tmfs[[i]]$calls
+			tmf[args] = tmfs[[i]][args]
+		}
+	}
+	tmf
 }
 
 cbind_dts = function(dts) {

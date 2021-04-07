@@ -45,6 +45,8 @@ tmapAesColorDiscrete = function(x1, setup) {
 		brks = ci$brks
 	}
 	
+	values[is.na(values)] = "#BFBFBF"
+	
 	legend = list(brks = brks, pals = pals, levs = levs)
 	
 	format_aes_results(values, legend)

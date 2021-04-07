@@ -61,7 +61,7 @@ step3_trans = function(ad) {
 		adi	
 	})	
 	attributes(bd) = attributes(ad)
-	attr(bd, "bbox") = stm_bbox(ad[[attr(bd, "main")]]$shpDT$shpTM[[1]])
+	#attr(bd, "bbox") = stm_bbox(ad[[attr(bd, "main")]]$shpDT$shpTM[[1]])
 	bd
 }
 

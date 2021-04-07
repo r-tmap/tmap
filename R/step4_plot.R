@@ -25,11 +25,13 @@ step4_plot = function(tmx) {
 	
 	gs = tmap_graphics_name()
 	
-	fl = attr(tmx, "fl")
+	tmf = attr(tmx, "tmf")
+	
+	fl = tmf$fl
 	nby = get_nby(fl)
-	is.wrap = attr(tmx, "is.wrap")
-	nrows = attr(tmx, "nrows")
-	ncols = attr(tmx, "ncols")
+	is.wrap = tmf$is.wrap
+	nrows = tmf$nrows
+	ncols = tmf$ncols
 	
 	if (!is.wrap) {
 		nrows = nby[1]
@@ -90,6 +92,19 @@ step4_plot = function(tmx) {
 		dt[which(sel),]
 	}
 	
+	mainid = attr(tmx, "main")
+	tmain = tmx[[mainid]][[1]]
+	
+	if (!tmf$free.coords) {
+		bbxs = lapply(tmain, function(tmi) {
+			shpTMs = tmi$shpDT$shpTM
+			stm_merge_bbox(lapply(shpTMs, stm_bbox_all))
+		})
+		bbx = stm_merge_bbox(bbxs)
+	}
+	
+	opts = list(tmf = tmf)
+	
 	for (ip in 1L:nby[3]) {
 		for (ic in 1L:nby[2]) {
 			for (ir in 1L:nby[1]) {
@@ -99,10 +114,20 @@ step4_plot = function(tmx) {
 				jr = get_row(i, ncols, nrows)
 				jc = get_col(i, ncols)
 				jp = get_page(i, ncols, nrows)
-								
+							
+				if (tmf$free.coords) {
+					bbxs = lapply(tmain, function(tmi) {
+						shpTM = get_shpTM(tmi$shpDT, ir, ic, ip)
+						mdt = get_dt(tmi$mapping_dt, ir, ic, ip)
+						
+						tmap:::stm_bbox(shpTM, mdt$tmapID__)
+					})
+					bbx = stm_merge_bbox(bbxs)
+				}
+				
+				
 				do.call(FUNshape, list(bbx = bbx, facet_row = jr, facet_col = jc, facet_page = jp))
 				for (ig in 1L:ng) {
-					
 					
 					
 					tmxi = tmx[[ig]]
@@ -125,5 +150,5 @@ step4_plot = function(tmx) {
 			}
 		}
 	}
-	do.call(FUNrun, list())
+	do.call(FUNrun, list(opts = opts))
 }

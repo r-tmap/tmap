@@ -216,7 +216,7 @@ tmapGridRaster <- function(shpTM, dt, facet_row, facet_col, facet_page) {
 
 
 
-tmapGridRun = function() {
+tmapGridRun = function(opts) {
 	gts = get("gts", .TMAP_GRID)
 	lapply(gts, function(gt) {
 		grid::grid.newpage()

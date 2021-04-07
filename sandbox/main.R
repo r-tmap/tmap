@@ -70,7 +70,7 @@ tm_shape(land) +
 
 
 # size variables mapped to columns (free scales)
-tmx =  tm_shape(land) +
+tm_shape(land) +
 	tm_raster("trees") +
 	tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +
@@ -80,40 +80,40 @@ tmx =  tm_shape(land) +
 
 
 # color and size aes have different free dimensions
-tmx =  tm_shape(World, name = "The World", is.main = TRUE) +
+tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_symbols(color = "HPI", size = "life_exp", size.free = c(TRUE, FALSE, FALSE), color.free = c(FALSE, TRUE, FALSE)) +
 	tm_facets_grid(rows = "continent", columns = "alpha_class")
 
 
 
 # wrap mvars
-tmx =  tm_shape(World) +
+tm_shape(World) +
 	tm_polygons(fill = c("well_being", "well_being2"))
 
-tmx =  tm_shape(World) +
+tm_shape(World) +
 	tm_polygons(fill = c("well_being", "well_being2")) +
 	tm_symbols(color = c("red", "purple")) +
 	tm_facets_grid(rows = "continent")
 
 
-tmx =  tm_shape(World) +
+tm_shape(World) +
 	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
 				fill.setup = tm_aes_color_rgb()) +
 	tm_facets_grid(rows = "continent")
 
-tmx =  tm_shape(World) +
+tm_shape(World) +
 	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
 				fill.setup = tm_aes_color_rgb(),
 				fill.free = c(TRUE, TRUE, TRUE)) +
 	tm_facets_grid(rows = "continent")
 
-tmx =  tm_shape(World) +
+tm_shape(World) +
 	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
 				fill.setup = tm_aes_color_rgb(),
 				fill.free = c(TRUE, FALSE, TRUE)) +
 	tm_facets_grid(rows = "continent")
 
-tmx =  tm_shape(World) +
+tm_shape(World) +
 	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
 				fill.setup = tm_aes_color_rgb(),
 				fill.free = c(FALSE, FALSE, TRUE)) +
@@ -124,7 +124,7 @@ tmx =  tm_shape(World) +
 
 # restructure to tmapObject
 
-tmx =  tm_shape(land) +
+tm_shape(land) +
 	tm_raster("trees") +
 	tm_shape(World, name = "The World", is.main = TRUE) +
 	#tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +
@@ -135,7 +135,7 @@ tmx =  tm_shape(land) +
 
 land$trees[] = c(90, 100)
 
-tmx =  tm_shape(land) +
+tm_shape(land) +
 	tm_raster("trees") +
 	tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_polygons(fill = NA) +
@@ -159,5 +159,6 @@ tm1 + tm_facets_wrap(by = "continent", ncols = 3)
 tm1 + tm_facets(by = "continent", drop.units = FALSE)
 tm1 + tm_facets(by = "continent", drop.units = FALSE, free.coords = FALSE)
 
+tm1 + tm_facets(by = "continent", drop.units = TRUE, free.coords = FALSE)
 
 

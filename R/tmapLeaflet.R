@@ -123,7 +123,7 @@ tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col, facet_page) {
 		
 		tid = intersect(tmapID, dt$tmapID__)
 		
-		color = rep(NA, length(tmapID)) #"#FFFFFF"
+		color = rep(NA, length(tmapID)) # NA
 		
 		sel = which(tmapID %in% tid)
 		tid2 = tmapID[sel]
@@ -162,7 +162,7 @@ tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col, facet_page) {
 } 
 
 
-tmapLeafletRun = function() {
+tmapLeafletRun = function(opts) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
 	nrow = get("nrow", envir = .TMAP_LEAFLET)
 	ncol = get("ncol", envir = .TMAP_LEAFLET)
@@ -171,7 +171,7 @@ tmapLeafletRun = function() {
 		if (nrow == 1 && ncol == 1) {
 			print(lfsi[[1]])
 		} else {
-			print(do.call(leafsync::sync, c(lfsi, list(ncol = ncol))))
+			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = ncol, sync = ifelse(opts$tmf$free.coords, "none", "all"), sync.cursor = !opts$tmf$free.coords))))
 		}
 	})
 }
