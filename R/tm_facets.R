@@ -4,7 +4,7 @@ tm_facets = function(by = "VARS__",
 					 pages = NULL,
 					 nrows = NA,
 					 ncols = NA,
-					 free.coords = TRUE,
+					 free.coords = NA,
 					 drop.units = TRUE,
 					 drop.empty.facets = TRUE,
 					 drop.NA.facets = FALSE,
@@ -13,6 +13,16 @@ tm_facets = function(by = "VARS__",
 	
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	is.wrap = is.null(rows) && is.null(columns) && is.null(pages)
+	
+	if (is.na(free.coords)) {
+		if (is.wrap) {
+			free.coords = rep((by != "VARS__"), 2)
+		} else {
+			free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"))
+		}	
+	} else {
+		free.coords = rep(free.coords, length.out = 2)
+	}
 	
 	tm_element_list(tm_element(
 		is.wrap = is.wrap,

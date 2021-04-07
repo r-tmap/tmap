@@ -4,15 +4,15 @@ get_nby = function(fl) {
 	}, integer(1))
 }
 
-get_row = function(i, ncols, nrows) {
-	as.integer((((i - 1) %/% ncols + 1) - 1) %% nrows + 1)
+get_row = function(i, nrows) {
+	as.integer((i - 1) %% nrows + 1)
 }
 
-get_col = function(i, ncols) {
-	as.integer((i - 1) %% ncols + 1)
+get_col = function(i, nrows, ncols) {
+	as.integer((((i - 1) %/% nrows + 1) - 1) %% ncols + 1)
 }
 
-get_page = function(i, ncols, nrows) {
+get_page = function(i, nrows, ncols) {
 	as.integer(i - 1) %/% (nrows * ncols) + 1
 }
 
@@ -42,8 +42,8 @@ step4_plot = function(tmx) {
 		} else if (!is.na(nrows) && is.na(ncols)) {
 			ncols = ceiling((nby[1] / nrows))
 		} else if (is.na(nrows) && is.na(ncols)) {
-				nrows = round(sqrt(nby[1]))
-				ncols = ceiling((nby[1] / nrows))
+			nrows = round(sqrt(nby[1]))
+			ncols = ceiling((nby[1] / nrows))
 		}
 	}  
 	
@@ -105,16 +105,20 @@ step4_plot = function(tmx) {
 	
 	opts = list(tmf = tmf)
 	
+	print(tmf$free.coords)
+	
 	for (ip in 1L:nby[3]) {
 		for (ic in 1L:nby[2]) {
 			for (ir in 1L:nby[1]) {
 				# ix = data dimensions
 				# jx = plot dimensions (not the same with wrap)
 				i = get_i(ir, ic, ip, nby)
-				jr = get_row(i, ncols, nrows)
-				jc = get_col(i, ncols)
-				jp = get_page(i, ncols, nrows)
-							
+				jr = get_row(i, nrows)
+				jc = get_col(i, nrows, ncols)
+				jp = get_page(i, nrows, ncols)
+					
+				#cat("ir", ir, "ic", ic, "ip", ip, "jr", jr, "jc", jc, "jp", jp, "\n")
+						
 				if (tmf$free.coords) {
 					bbxs = lapply(tmain, function(tmi) {
 						shpTM = get_shpTM(tmi$shpDT, ir, ic, ip)

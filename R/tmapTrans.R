@@ -36,7 +36,9 @@ tmapTransCentroid = function(shpTM) {
 			### stars
 			shp = sf::st_as_sf(shp, as_points = TRUE)
 		} else {
-			shp = sf::st_centroid(shp)
+			shp = suppressWarnings({
+				sf::st_centroid(shp)
+			})
 		}
 	})
 }

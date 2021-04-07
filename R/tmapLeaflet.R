@@ -171,7 +171,17 @@ tmapLeafletRun = function(opts) {
 		if (nrow == 1 && ncol == 1) {
 			print(lfsi[[1]])
 		} else {
-			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = ncol, sync = ifelse(opts$tmf$free.coords, "none", "all"), sync.cursor = !opts$tmf$free.coords))))
+			fc = opts$tmf$free.coords
+			sync = if (all(fc)) {
+				"none"
+			} else if (all(!fc)) {
+				"all"
+			} else if (fc[1]) {
+				asplit(matrix(1:(nrow*ncol), ncol = ncol, byrow = TRUE), 1)
+			} else {
+				asplit(matrix(1:(nrow*ncol), ncol = ncol, byrow = TRUE), 2)
+			}
+			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = ncol, sync = sync, sync.cursor = all(!fc)))))
 		}
 	})
 }

@@ -60,6 +60,12 @@ tm_shape(World, name = "The World", is.main = TRUE) +
 	tm_symbols(color = c("blue", "red"), size = "life_exp") +
 tm_facets_grid(rows = "continent")
 
+tm_shape(World, name = "The World", is.main = TRUE) +
+	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
+	tm_facets_grid(rows = "continent")
+
+
+
 # size variables mapped to columns (free scales)
 tm_shape(land) +
 	tm_raster("trees") +

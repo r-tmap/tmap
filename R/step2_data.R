@@ -257,7 +257,6 @@ step2_data = function(tmo) {
 	
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
-	tmf = tmo[[1]]$tmf
 	tmf$fl = fl
 	attr(grps, "tmf") = tmf
 	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
