@@ -6,6 +6,8 @@ step2_data = function(tmo) {
 	# function to update the levels fl per facet dimension
 	update_fl = function(k, lev = NULL, m = NULL) {
 		fl = get("fl", envir = e)
+		# print("test")
+		# print(fl)
 		fk = fl[[k]]
 		n =  if (is.character(fk)) length(fk) else fk
 		
@@ -182,6 +184,9 @@ step2_data = function(tmo) {
 								
 								vars = vapply(val, "[[", character(1), 1)
 								val = val[[1]]
+							} else {
+								vars = vapply(val, "[[", character(1), 1)
+								
 							}
 						}
 					} else {
