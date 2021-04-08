@@ -16,12 +16,12 @@ tm_facets = function(by = "VARS__",
 	
 	if (is.na(free.coords)) {
 		if (is.wrap) {
-			free.coords = rep((by != "VARS__"), 2)
+			free.coords = rep((by != "VARS__"), 3)
 		} else {
-			free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"))
+			free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))
 		}	
 	} else {
-		free.coords = rep(free.coords, length.out = 2)
+		free.coords = rep(free.coords, length.out = 3)
 	}
 	
 	tm_element_list(tm_element(

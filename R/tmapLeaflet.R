@@ -1,18 +1,23 @@
-tmapLeafletInit = function(nrow, ncol, npage) {
+tmapLeafletInit = function(o) {
 	if (!requireNamespace("leaflet")) stop("grid package required but not installed yet.")
 	#bbx = unname(bbx)
 	
-	n = nrow * ncol
+	per_page = rep(o$ncols * o$nrows, o$npages)
+	k = o$ncols * o$nrows * o$npages
+	if (o$n < k) {
+		per_page[o$npages] = per_page[o$npages] - (k - o$n)
+	}
 	
-	lfs = lapply(1L:npage, function(p) {
-		lapply(1L:n, function(i) {
+
+	lfs = lapply(per_page, function(p) {
+		lapply(seq_len(p), function(i) {
 			leaflet::leaflet() %>% leaflet::addTiles()# %>% leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4])
 		})
 	})
 	
 	assign("lfs", lfs, envir = .TMAP_LEAFLET)
-	assign("nrow", nrow, envir = .TMAP_LEAFLET)
-	assign("ncol", ncol, envir = .TMAP_LEAFLET)
+	assign("nrow", o$nrows, envir = .TMAP_LEAFLET)
+	assign("ncol", o$ncols, envir = .TMAP_LEAFLET)
 	NULL
 }
 
@@ -162,26 +167,24 @@ tmapLeafletRaster = function(shpTM, dt, facet_row, facet_col, facet_page) {
 } 
 
 
-tmapLeafletRun = function(opts) {
+tmapLeafletRun = function(o) {
 	lfs = get("lfs", envir = .TMAP_LEAFLET)
-	nrow = get("nrow", envir = .TMAP_LEAFLET)
-	ncol = get("ncol", envir = .TMAP_LEAFLET)
-	
+
 	lapply(lfs, function(lfsi) {
-		if (nrow == 1 && ncol == 1) {
+		if (o$nrows == 1 && o$ncols == 1) {
 			print(lfsi[[1]])
 		} else {
-			fc = opts$tmf$free.coords
+			fc = o$free.coords
 			sync = if (all(fc)) {
 				"none"
 			} else if (all(!fc)) {
 				"all"
 			} else if (fc[1]) {
-				asplit(matrix(1:(nrow*ncol), ncol = ncol, byrow = TRUE), 1)
+				asplit(matrix(1:(o$nrows*o$ncols), ncol = o$ncols, byrow = TRUE), 1)
 			} else {
-				asplit(matrix(1:(nrow*ncol), ncol = ncol, byrow = TRUE), 2)
+				asplit(matrix(1:(o$nrows*0$ncols), ncol = 0$ncols, byrow = TRUE), 2)
 			}
-			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = ncol, sync = sync, sync.cursor = all(!fc)))))
+			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc)))))
 		}
 	})
 }

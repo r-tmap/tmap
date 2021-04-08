@@ -175,6 +175,12 @@ step2_data = function(tmo) {
 										dtl[, (nms[i]) := dtlks[[i]][[nms[i]]]]
 									}
 								}
+								
+								for (col in by123__[v]) {
+									dtl[, (col) := as.integer(get(..col))]
+								}
+								
+								vars = vapply(val, "[[", character(1), 1)
 								val = val[[1]]
 							}
 						}

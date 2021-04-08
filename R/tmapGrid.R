@@ -1,4 +1,4 @@
-tmapGridInit = function(ncol, nrow, npage) {
+tmapGridInit = function(o) {
 	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
 	#grid.newpage()
 	
@@ -6,7 +6,7 @@ tmapGridInit = function(ncol, nrow, npage) {
 	dasp = devsize[1] / devsize[2]
 	
 	
-	fasp = dasp * nrow / ncol
+	fasp = dasp * o$nrows / o$ncols
 	
 	if (dasp > 1) {
 		cw <- dasp
@@ -16,9 +16,9 @@ tmapGridInit = function(ncol, nrow, npage) {
 		cw <- 1
 	}
 	
-	gts = lapply(1L:npage, function(ip) {
+	gts = lapply(1L:o$npages, function(ip) {
 		vp_tree = grid::vpStack(grid::viewport(width = grid::unit(cw, "snpc"), height = grid::unit(ch, "snpc"), name = "vp_container"),
-								grid::viewport(layout = grid::grid.layout(nrow = nrow, ncol = ncol), name = "vp_facets"))
+								grid::viewport(layout = grid::grid.layout(nrow = o$nrows, ncol = o$ncols), name = "vp_facets"))
 		
 		#gt = grobTree(rectGrob(gp=gpar(fill="red")), vp = vp_tree)
 		
@@ -216,7 +216,7 @@ tmapGridRaster <- function(shpTM, dt, facet_row, facet_col, facet_page) {
 
 
 
-tmapGridRun = function(opts) {
+tmapGridRun = function(o) {
 	gts = get("gts", .TMAP_GRID)
 	lapply(gts, function(gt) {
 		grid::grid.newpage()
