@@ -39,7 +39,7 @@ tmapAesColorDiscrete = function(x1, setup) {
 		levs = levels(x1)
 		brks = NA
 	} else {
-		ci = classInt::classIntervals(x1, n = setup$n, style = setup$style)
+		ci = suppressWarnings({classInt::classIntervals(x1, n = setup$n, style = setup$style)})
 		values = pals[classInt::findCols(ci)]
 		levs = NA
 		brks = ci$brks

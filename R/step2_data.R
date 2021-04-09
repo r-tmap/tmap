@@ -1,101 +1,119 @@
-step2_data = function(tmo) {
-	groupnames = paste0("group", seq_along(tmo))
-	fl = list(1L, 1L, 1L)
-	e = environment()
+# function to update the levels fl per facet dimension
+update_fl = function(k, lev = NULL, m = NULL) {
+	fl = get("fl", envir = .TMAP)
+	# print("test")
+	# print(fl)
+	fk = fl[[k]]
+	n =  if (is.character(fk)) length(fk) else fk
 	
-	# function to update the levels fl per facet dimension
-	update_fl = function(k, lev = NULL, m = NULL) {
-		fl = get("fl", envir = e)
-		# print("test")
-		# print(fl)
-		fk = fl[[k]]
-		n =  if (is.character(fk)) length(fk) else fk
+	if (!missing(lev)) {
+		m = length(lev)
+		if (m == 1L && n == 1L) {
+			fk = lev
+		} else if (m > 1L && n > 1L && m != n) {
+			stop("Inconsistent number of facets in the ", k, " dimension.", call. = FALSE)
+		} else if (m > n) {
+			fk = lev
+		}
+	} else if (!missing(m)) {
+		if (m > 1L && n > 1L && m != n) {
+			stop("Inconsistent number of facets in the ", k, " dimension.", call. = FALSE)
+		} else if (m > n) {
+			fk = m
+		}
+	}
+	fl[[k]] = fk
+	assign("fl", fl, envir = .TMAP)
+}
+
+
+step2_data_grp_prepare = function(tmf, dt) {
+	### Specify 'by' variables
+	if (tmf$is.wrap) {
+		# facet wrap: only use by1
+		by1 = tmf$by
+		by2 = NULL
+		by3 = NULL
 		
-		if (!missing(lev)) {
-			m = length(lev)
-			if (m == 1L && n == 1L) {
-				fk = lev
-			} else if (m > 1L && n > 1L && m != n) {
-				stop("Inconsistent number of facets in the ", k, " dimension.", call. = FALSE)
-			} else if (m > n) {
-				fk = lev
-			}
-		} else if (!missing(m)) {
-			if (m > 1L && n > 1L && m != n) {
-				stop("Inconsistent number of facets in the ", k, " dimension.", call. = FALSE)
-			} else if (m > n) {
-				fk = m
+		# By default, facets are created over the aes variables ("VARS__"). If wrap is specified in tm_facets, limit number of variables to 1.
+		limitvars = (by1 != "VARS__")
+		limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
+	} else {
+		# facet grid
+		by1 = tmf$rows
+		by2 = tmf$columns
+		by3 = tmf$pages
+		
+		## Try to assign VARS__ to one dimension. If not possible, limit number of variables to 1.
+		limitvars = FALSE
+		if (!identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
+			if (is.null(by1)) {
+				by1 = "VARS__"
+			} else if (is.null(by2)) {
+				by2 = "VARS__"
+			} else if (is.null(by3)) {
+				by3 = "VARS__"
+			} else {
+				limitvars = TRUE
 			}
 		}
-		fl[[k]] = fk
-		assign("fl", fl, envir = e)
+		limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
 	}
 	
 	
+	# v is variable by-dimension, b are the group-by by-dimensions
+	v = which(c(by1, by2, by3) == "VARS__")
+	b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
+	
+	#n = length(v) + length(b)
+	
+	by123 = paste0("by", 1L:3L) 
+	by123__ = paste0("by", 1L:3L, "__")
+	
+	var__ = by123__[v]
+	by__ = by123__[b]
+	
+	# create byx__ columns for which_by_spec
+	if (length(b)) {
+		for (w in b) {
+			byvar = by123[w]
+			byname = by123__[w]
+			dt[, (byname) := factor(get(get(..byvar)))]
+			update_fl(k = w, lev = levels(dt[[byname]]))
+			dt[, (byname) := as.integer(get(..byname))]
+		}
+	}
+	
+	
+	list(v = v, b = b, by123__ = by123__, var__ = var__, by__ = by__, limitvars = limitvars, limitvars_warn = limitvars_warn)
+	
+}
+
+
+step2_data = function(tmo) {
+	groupnames = paste0("group", seq_along(tmo))
+	fl = list(1L, 1L, 1L)
+	assign("fl", fl, envir = .TMAP)
+
 	grps = lapply(tmo, function(tmg) {
+		cat("step2_grp==================================\n")
 		dt = tmg$tms$dt
-
-		### Specify 'by' variables
-		if (tmg$tmf$is.wrap) {
-			# facet wrap: only use by1
-			by1 = tmg$tmf$by
-			by2 = NULL
-			by3 = NULL
-			
-			# By default, facets are created over the aes variables ("VARS__"). If wrap is specified in tm_facets, limit number of variables to 1.
-			limitvars = (by1 != "VARS__")
-			limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
-		} else {
-			# facet grid
-			by1 = tmg$tmf$rows
-			by2 = tmg$tmf$columns
-			by3 = tmg$tmf$pages
-			
-			## Try to assign VARS__ to one dimension. If not possible, limit number of variables to 1.
-			limitvars = FALSE
-			if (!identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
-				if (is.null(by1)) {
-					by1 = "VARS__"
-				} else if (is.null(by2)) {
-					by2 = "VARS__"
-				} else if (is.null(by3)) {
-					by3 = "VARS__"
-				} else {
-					limitvars = TRUE
-				}
-			}
-			limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
-		}
 		
-		
-		# v is variable by-dimension, b are the group-by by-dimensions
-		v = which(c(by1, by2, by3) == "VARS__")
-		b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
-		
-		n = length(v) + length(b)
-
-		by123 = paste0("by", 1L:3L) 
-		by123__ = paste0("by", 1L:3L, "__")
-		
-		byvarname = by123__[v]
-
-		grp_b = by123__[b]
-		
-
-		# create byx__ columns for which_by_spec
-		if (length(b)) {
-			for (w in b) {
-				byvar = by123[w]
-				byname = by123__[w]
-				dt[, (byname) := factor(get(get(..byvar)))]
-				update_fl(k = w, lev = levels(dt[[byname]]))
-				dt[, (byname) := as.integer(get(..byname))]
-			}
-		}
+		# step2_data_grp_prepare
+		tmf_meta = step2_data_grp_prepare(tmg$tmf, dt)
+		v = tmf_meta$v
+		b = tmf_meta$b
+		by123__ = tmf_meta$by123__
+		var__ = tmf_meta$var__
+		by__ = tmf_meta$by__
+		limitvars = tmf_meta$limitvars
+		limitvars_warn = tmf_meta$limitvars_warn
 
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {
+			cat("step2_grp_lyr======================\n")
 			getdts = function(aes, nm) {
+				cat("step2_grp_lyr_aes_", nm, "---------\n")
 				
 				val = aes$value
 				nvars = length(aes$value) #m
@@ -110,6 +128,7 @@ step2_data = function(tmo) {
 				#print(vars)
 
 				if (!all(vars %in% names(dt))) {
+					cat("step2_grp_lyr_aes_const\n")
 					# constant values (take first value (of possible MV) per facet)
 					if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with MV", call. = FALSE)
 					val1 = sapply(val, "[[", 1, USE.NAMES = FALSE)
@@ -130,14 +149,16 @@ step2_data = function(tmo) {
 					if (length(v)) update_fl(k = v, m = nvars)
 					
 					if (nvars > 1) {
-						dtl = melt(dtl, id.vars = c("tmapID__", by123__[b]), measure.vars = vnames, variable.name = byvarname, value.name = nm)
-						dtl[, (byvarname) := as.integer(get(..byvarname))]
+						dtl = melt(dtl, id.vars = c("tmapID__", by123__[b]), measure.vars = vnames, variable.name = var__, value.name = nm)
+						dtl[, (var__) := as.integer(get(..var__))]
 					} else {
 						setnames(dtl, vnames[1], nm)
 					}
 					#dtl[, legend := vector("list", length = nrow(dtl))]
 					dtl_leg = NULL
 				} else {
+					cat("step2_grp_lyr_aes_var\n")
+					
 					relevant_vars = c("tmapID__", vars, by123__[b])
 					
 					dtl = copy(dt[, relevant_vars, with = FALSE])
@@ -159,11 +180,14 @@ step2_data = function(tmo) {
 					# multiple variables
 					if (nvars > 1) {
 						if (limitvars) {
+							cat("step2_grp_lyr_aes_var_limiter\n")
 							# not allowed: take first one
 							warning(limitvars_warn, call. = FALSE)
 							val = val[[1]]
 						} else {
 							if (!fr[v]) {
+								cat("step2_grp_lyr_aes_var_multi_vars_!free_scale\n")
+								
 								# multiple variables, !free scale => stack all variable columns in long format
 								nms = aes$value[[1]]
 								
@@ -185,17 +209,20 @@ step2_data = function(tmo) {
 								vars = vapply(val, "[[", character(1), 1)
 								val = val[[1]]
 							} else {
+								cat("step2_grp_lyr_aes_var_multi_vars_free_scale\n")
 								vars = vapply(val, "[[", character(1), 1)
 								
 							}
 						}
 					} else {
+						cat("step2_grp_lyr_aes_var_one_var\n")
 						val = val[[1]]
 					}
 					
 					if (length(v)) update_fl(k = v, lev = vars)
 					
 					if (length(v) && fr[v] && nvars > 1) {
+						cat("step2_grp_lyr_aes_var_multi_aes_columns\n")
 						# apply aes function for each var column
 						if (!inherits(aes$setup, "tm_aes")) {
 							setup = rep(aes$setup, length.out = nvars)
@@ -212,15 +239,17 @@ step2_data = function(tmo) {
 							NULL
 						}, setup, val, varnames, legnames)
 						
-						dtl_leg = melt(dtl, id.vars = c("tmapID__", grp_b), measure.vars = legnames, variable.name = byvarname, value.name = "legend")
-						dtl = melt(dtl, id.vars = c("tmapID__", grp_b), measure.vars = varnames, variable.name = byvarname, value.name = nm)
+						dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legend")
+						dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
 						
-						dtl[, (byvarname) := as.integer(get(..byvarname))]
-						dtl_leg[, (byvarname) := as.integer(get(..byvarname))]
+						dtl[, (var__) := as.integer(get(..var__))]
+						dtl_leg[, (var__) := as.integer(get(..var__))]
 						
 						sel = !vapply(dtl_leg$legend, is.null, logical(1))
 						dtl_leg = dtl_leg[sel, c(grp_bv_fr, "legend"), with = FALSE]
 					} else {
+						cat("step2_grp_lyr_aes_var_one_aes_column\n")
+						
 						# apply aes function to the (only) var column
 						if (inherits(aes$setup, "tm_aes")) {
 							s = aes$setup
@@ -239,7 +268,12 @@ step2_data = function(tmo) {
 					 leg = dtl_leg)
 			}
 			
+			cat("step2_grp_lyr_trans_______________\n")
+			
 			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE)
+			
+			cat("step2_grp_lyr_mapping_____________\n")
+			
 			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE)
 			
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt))
@@ -268,7 +302,7 @@ step2_data = function(tmo) {
 	
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
-	tmf$fl = fl
+	tmf$fl = get("fl", envir = .TMAP)
 	attr(grps, "tmf") = tmf
 	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
 	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows

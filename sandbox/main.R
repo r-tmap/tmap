@@ -168,3 +168,8 @@ tm1 + tm_facets(by = "continent", drop.units = FALSE, free.coords = FALSE)
 tm1 + tm_facets(by = "continent", drop.units = TRUE, free.coords = FALSE)
 
 
+
+
+
+
+
