@@ -77,24 +77,24 @@
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:'Soho Pro';-inkscape-font-specification:'Soho Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="-29.772924"
-       y="14.094915"
+       x="-30.596703"
+       y="18.3412"
        id="text857"><tspan
          sodipodi:role="line"
          id="tspan855"
-         x="-29.772924"
-         y="14.094915"
+         x="-30.596703"
+         y="18.3412"
          style="font-size:4.23333px;stroke-width:0.264583">outer.margins</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:4.23333px;line-height:1.25;font-family:'Soho Pro';-inkscape-font-specification:'Soho Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
-       x="-67.544098"
-       y="20.181206"
+       x="-69.591652"
+       y="24.326107"
        id="text857-9"><tspan
          sodipodi:role="line"
          id="tspan855-1"
-         x="-67.544098"
-         y="20.181206"
+         x="-69.591652"
+         y="24.326107"
          style="font-size:4.23333px;stroke-width:0.264583">meta.margins (legend, compass, etc)</tspan></text>
     <rect
        style="fill:none;stroke:#00a3d0;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
@@ -403,5 +403,25 @@
        y="42.030952"
        rx="1.2691163"
        ry="1.2691163" />
+    <rect
+       style="fill:none;stroke:#00a3d0;stroke-width:1;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect833-2-9-7"
+       width="171.46898"
+       height="109.64475"
+       x="16.133446"
+       y="20.156105"
+       rx="1.2691163"
+       ry="1.2691163" />
+    <text
+       xml:space="preserve"
+       style="font-size:4.23333px;line-height:1.25;font-family:'Soho Pro';-inkscape-font-specification:'Soho Pro';letter-spacing:0px;word-spacing:0px;stroke-width:0.264583"
+       x="77.20961"
+       y="23.839188"
+       id="text857-97-061-9-2"><tspan
+         sodipodi:role="line"
+         x="77.20961"
+         y="23.839188"
+         style="font-size:4.23333px;fill:#00a3d0;fill-opacity:1;stroke-width:0.264583"
+         id="tspan890-5-0-3">vp_plot</tspan></text>
   </g>
 </svg>
