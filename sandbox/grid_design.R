@@ -1,5 +1,52 @@
 library(grid)
 
+sasp = 2
+
+# no panel
+o = list(nrows = 1,
+		 ncols = 1,
+		 outer.margins = c(0.02, 0.02, 0.02, 0.02),
+		 inner.margins = NA,
+		 meta.margins = c(0, 0, 0, 0.2),
+		 between.margins = 0.5,
+		 panel.label.height = 1.25,
+		 grid.mark.height = 2,
+		 xylab.height = 1.25,
+		 coords.height = 1.25,
+		 xlab.show = FALSE,
+		 ylab.show = FALSE,
+		 xlab.pos = "bottom",
+		 ylab.pos = "right",
+		 grid.show = FALSE,
+		 grid.label.pos = c("right", "bottom"),
+		 panel.type = "none", # "wrap" or "xtab",
+		 panel.wrap.pos = "top", # or "left", "right", "bottom"
+		 panel.xtab.pos = c("left", "top")
+)
+
+# one
+o = list(nrows = 1,
+		 ncols = 1,
+		 outer.margins = c(0.02, 0.02, 0.02, 0.02),
+		 inner.margins = NA,
+		 meta.margins = c(0, 0, 0, 0.2),
+		 between.margins = 0.5,
+		 panel.label.height = 1.25,
+		 grid.mark.height = 2,
+		 xylab.height = 1.25,
+		 coords.height = 1.25,
+		 xlab.show = FALSE,
+		 ylab.show = FALSE,
+		 xlab.pos = "bottom",
+		 ylab.pos = "right",
+		 grid.show = FALSE,
+		 grid.label.pos = c("right", "bottom"),
+		 panel.type = "wrap", # or "wrap" or "xtab",
+		 panel.wrap.pos = "top", # or "left", "right", "bottom"
+		 panel.xtab.pos = c("left", "top")
+		 )
+		 
+# wrap	
 o = list(nrows = 3,
 		 ncols = 3,
 		 outer.margins = c(0.02, 0.02, 0.02, 0.02),
@@ -10,18 +57,39 @@ o = list(nrows = 3,
 		 grid.mark.height = 2,
 		 xylab.height = 1.25,
 		 coords.height = 1.25,
-		 xlab.show = TRUE,
-		 ylab.show = TRUE,
+		 xlab.show = FALSE,
+		 ylab.show = FALSE,
 		 xlab.pos = "bottom",
 		 ylab.pos = "right",
-		 grid.show = TRUE,
+		 grid.show = FALSE,
 		 grid.label.pos = c("right", "bottom"),
-		 panel.type = "none", # or "wrap" or "xtab",
+		 panel.type = "wrap", # or "wrap" or "xtab",
 		 panel.wrap.pos = "top", # or "left", "right", "bottom"
 		 panel.xtab.pos = c("left", "top")
-		 )
-		 
-		 
+)
+
+# xtab
+# o = list(nrows = 3,
+# 		 ncols = 3,
+# 		 outer.margins = c(0.02, 0.02, 0.02, 0.02),
+# 		 inner.margins = NA,
+# 		 meta.margins = c(0, 0, 0, 0.2),
+# 		 between.margins = 0.5,
+# 		 panel.label.height = 1.25,
+# 		 grid.mark.height = 2,
+# 		 xylab.height = 1.25,
+# 		 coords.height = 1.25,
+# 		 xlab.show = FALSE,
+# 		 ylab.show = FALSE,
+# 		 xlab.pos = "bottom",
+# 		 ylab.pos = "right",
+# 		 grid.show = FALSE,
+# 		 grid.label.pos = c("right", "bottom"),
+# 		 panel.type = "xtab", # or "wrap" or "xtab",
+# 		 panel.wrap.pos = "top", # or "left", "right", "bottom"
+# 		 panel.xtab.pos = c("left", "top")
+# )
+
 
 if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
 #grid.newpage()
@@ -54,17 +122,17 @@ panel.buffers = if (o$panel.type == "wrap") {
 
 
 panel.xtab.size = if (o$panel.type == "xtab") {
-	c(ifelse("bottom" %in% o$panel.xtab.pos, panel.label.height * lineH, 0),
-	  ifelse("left" %in% o$panel.xtab.pos, panel.label.height * lineH, 0),
-	  ifelse("top" %in% o$panel.xtab.pos, panel.label.height * lineH, 0),
-	  ifelse("right" %in% o$panel.xtab.pos, panel.label.height * lineH, 0))
+	c(ifelse("bottom" %in% o$panel.xtab.pos, o$panel.label.height * lineH, 0),
+	  ifelse("left" %in% o$panel.xtab.pos, o$panel.label.height * lineH, 0),
+	  ifelse("top" %in% o$panel.xtab.pos, o$panel.label.height * lineH, 0),
+	  ifelse("right" %in% o$panel.xtab.pos, o$panel.label.height * lineH, 0))
 } else c(0, 0, 0, 0)
 
 panel.wrap.size = if (o$panel.type == "wrap") {
-	c(ifelse(o$panel.wrap.pos == "bottom", panel.label.height * lineH, 0),
-	  ifelse(o$panel.wrap.pos == "left", panel.label.height * lineH, 0),
-	  ifelse(o$panel.wrap.pos == "top", panel.label.height * lineH, 0),
-	  ifelse(o$panel.wrap.pos == "right", panel.label.height * lineH, 0))
+	c(ifelse(o$panel.wrap.pos == "bottom", o$panel.label.height * lineH, 0),
+	  ifelse(o$panel.wrap.pos == "left", o$panel.label.height * lineH, 0),
+	  ifelse(o$panel.wrap.pos == "top", o$panel.label.height * lineH, 0),
+	  ifelse(o$panel.wrap.pos == "right", o$panel.label.height * lineH, 0))
 } else c(0, 0, 0, 0)
 
 xylab.margins = rep(0, 4)
@@ -98,8 +166,8 @@ rows = with(o, {
 		  grid.buffers.top = grid.buffers[3],
 		  grid.margins.top = grid.margins[3],
 
-		  {if (o$nrows > 1) rep(c(panel.wrap.size[3], 1, panel.wrap.size[3], between.margin), o$nrows -1) else NULL},
-		  panel.wrap.size[3], 1, panel.wrap.size[3],
+		  {if (o$nrows > 1) rep(c(panel.wrap.size[3], 1, panel.wrap.size[1], between.margin), o$nrows -1) else NULL},
+		  panel.wrap.size[3], 1, panel.wrap.size[1],
 
 		  grid.margins.top = grid.margins[1],
 		  grid.buffers.top = grid.buffers[1],
@@ -121,6 +189,7 @@ rows = with(o, {
 			"inch", "inch", "npc", "inch", "npc")
 	
 	u = unit(x, types)
+	print(u)
 	
 	u2 = convertHeight(u, "npc")
 	
@@ -146,8 +215,8 @@ cols = with(o, {
 		  grid.buffers.left = grid.buffers[2],
 		  grid.margins.left = grid.margins[2],
 		  
-		  {if (o$nrows > 1) rep(c(panel.wrap.size[2], 1, panel.wrap.size[2], between.margin), o$nrows -1) else NULL},
-		  panel.wrap.size[2], 1, panel.wrap.size[2],
+		  {if (o$ncols > 1) rep(c(panel.wrap.size[2], 1, panel.wrap.size[4], between.margin), o$ncols -1) else NULL},
+		  panel.wrap.size[2], 1, panel.wrap.size[4],
 		  
 		  grid.margins.left = grid.margins[4],
 		  grid.buffers.left = grid.buffers[4],
@@ -162,16 +231,20 @@ cols = with(o, {
 	types = c("npc", "inch", "npc", "inch", "inch", 
 			  "inch", "inch", "inch", "inch",
 			  
-			  {if (o$nrows > 1) rep(c("inch", "null", "inch", "inch"), o$nrows - 1) else NULL},
+			  {if (o$ncols > 1) rep(c("inch", "null", "inch", "inch"), o$ncols - 1) else NULL},
 			  "inch", "null", "inch",
 			  
 			  "inch", "inch", "inch", "inch",
 			  "inch", "inch", "npc", "inch", "npc")
 	
 	u = unit(x, types)
+	print(u)
 	
 	u2 = convertWidth(u, "npc")
+	print(u2)
 	
+	u3 = convertWidth(u2, "inch")
+	print(u3)
 	
 	isplot = which(types == "null")
 	
@@ -182,6 +255,11 @@ cols = with(o, {
 })
 
 
+#cols = convertWidth(cols, "inch")
+#rows = convertHeight(rows, "inch")
+
+sum(cols)
+sum(rows)
 
 names(rows)
 
@@ -215,23 +293,44 @@ rows
 cols
 names(rows)
 
-add_to_gt(rectGrob(gp=gpar(fill = "blue")), row = 1:29, col = 1:29)
-add_to_gt(rectGrob(gp=gpar(fill = "yellow")), row = 2:28, col = 2:28)
-add_to_gt(rectGrob(gp=gpar(fill = "red")), row = 3:27, col = 3:27)
-add_to_gt(rectGrob(gp=gpar(fill = "yellow")), row = 4:26, col = 4:26)
+p = pals::kovesi.rainbow(11)
 
 
-add_to_gt(rectGrob(gp=gpar(fill = "blue")), row = 1, col = 1:29)
-add_to_gt(rectGrob(gp=gpar(fill = "blue")), row = 29, col = 1:29)
 
-add_to_gt(rectGrob(gp=gpar(fill = "blue")), row = 1:29, col = 1)
-add_to_gt(rectGrob(gp=gpar(fill = "blue")), row = 1:29, col = 29)
+add_to_gt(rectGrob(gp=gpar(fill = p[1])), row = 1:29, col = 1:29) # outer
+add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 2:28, col = 2:28) # meta buffer out
+add_to_gt(rectGrob(gp=gpar(fill = p[3])), row = 3:27, col = 3:27) # meta margins
+add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 4:26, col = 4:26) # meta buffer in
 
-add_to_gt(rectGrob(gp=gpar(fill = "red")), row = 3, col = 3:27)
-add_to_gt(rectGrob(gp=gpar(fill = "red")), row = 27, col = 3:27)
+add_to_gt(rectGrob(gp=gpar(fill = p[4])), row = 5:25, col = 5:25) # xyab
+if (o$panel.type == "xtab") {
+	add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:24, col = 6:24) # panel buffer
+	add_to_gt(rectGrob(gp=gpar(fill = p[6])), row = 7:23, col = 7:23) # panel
+}
 
-add_to_gt(rectGrob(gp=gpar(fill = "red")), row = 3:27, col = 3)
-add_to_gt(rectGrob(gp=gpar(fill = "red")), row = 3:27, col = 27)
+add_to_gt(rectGrob(gp=gpar(fill = p[7])), row = 8:22, col = 8:22) # grid buffer
+add_to_gt(rectGrob(gp=gpar(fill = p[8])), row = 9:21, col = 9:21) # grid
+
+add_to_gt(rectGrob(gp=gpar(fill = p[8])), row = 9:21, col = 9:21) # grid
+
+for (i in 1:o$nrows) {
+	for (j in 1:o$ncols) {
+		add_to_gt(rectGrob(gp=gpar(fill = p[11])), row = i * 4 + 7, col = j * 4 + 7)
+		if (o$panel.type == "wrap") {
+			if (o$panel.wrap.pos == "top") {
+				add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 6, col = j * 4 + 6:8)		
+			} else if (o$panel.wrap.pos == "bottom") {
+				add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 8, col = j * 4 + 6:8)
+			}  else if (o$panel.wrap.pos == "left") {
+				add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 6:8, col = j * 4 + 6)
+			}  else {
+				add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 6:8, col = j * 4 + 8)
+			} 
+		}
+		
+	}
+}
+
 
 grid.newpage()
 grid.draw(gt)
