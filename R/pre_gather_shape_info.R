@@ -33,7 +33,7 @@ pre_gather_shape_info <- function(x, interactive) {
 	mshp_crs <- sf::st_crs(mshp_raw)
 	bbx_raw <- sf::st_bbox(mshp_raw)
 	
-	# Checks whether master shape has no crs and has coordinates outside -180-180, -90-90. The crss is futher checked in preprocess_shapes 
+	# Checks whether master shape has no crs and has coordinates outside -180-180, -90-90. The crs is futher checked in preprocess_shapes 
 	if (is.na(mshp_crs)) {
 		if (maybe_longlat(bbx_raw)) {
 			mshp_crs <- .crs_longlat

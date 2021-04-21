@@ -142,6 +142,7 @@ process_facet_layout <- function(gm) {
 		ylabx <- 4
 		
 	})
+	
 	gm$gasp <- unname(gasp)
 	gm
 }

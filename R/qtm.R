@@ -112,7 +112,7 @@ qtm <- function(shp,
 		if (sfcarray) {
 			types <- get_types(sfc)
 		} else {
-			shp <- pre_check_shape(shp, shp_name, show.warnings)
+			shp <- pre_check_shape(shp, shp_name, show.warnings, check.class = TRUE, drop.zm = FALSE, check.valid = FALSE, remove.empty = FALSE)
 			
 			if (inherits(shp, "sfc")) shp <- st_sf(shp)
 			
@@ -204,7 +204,7 @@ qtm <- function(shp,
 	}, fns, fns_prefix, skips, MoreArgs = list(args=args, dupl=dupl), SIMPLIFY=FALSE)
 
 	g <- do.call("tm_shape", c(list(shp=shp, name = shp_name, projection=projection, bbox = bbox), args2[["tm_shape"]]))
-	g$tm_shape$check_shape <- FALSE
+	#g$tm_shape$check_shape <- FALSE
 
 	g <- g + tm_basemap(basemaps)
 	

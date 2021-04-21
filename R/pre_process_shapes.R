@@ -251,7 +251,7 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		kernel_density <- ("kernel_density" %in% names(attributes(shp)))
 		isolines <- ("isolines" %in% names(attributes(shp)))
 		
-		if (y$check_shape) shp <- pre_check_shape(shp, y$shp_name, show.warnings)
+		if (y$check_shape) shp <- pre_check_shape(shp, y$shp_name, show.warnings, check.class = TRUE, drop.zm = FALSE, check.valid = FALSE, remove.empty = FALSE)
 
 		shp_bbx <- sf::st_bbox(shp)
 		
@@ -286,7 +286,9 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		}
 
 		# reproject if nessesary
-		if (shp_crs != gm$shape.master_crs) {
+		reproject = shp_crs != gm$shape.master_crs
+		
+		if (reproject) {
 			shp2 <- sf::st_transform(shp, crs = gm$shape.master_crs)
 
 			# override bounding box (since it now is projected)
@@ -294,6 +296,9 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		} else {
 			shp2 <- shp
 		}
+		
+		if (y$check_shape) shp2 <- pre_check_shape(shp2, y$shp_name, show.warnings, check.class = FALSE, drop.zm = TRUE, check.valid = TRUE, remove.empty = TRUE, reprojected = reproject)
+		
 		
 		if (inherits(st_geometry(shp2), c("sfc_POLYGON", "sfc_MULTIPOLYGON"))) {
 			data$SHAPE_AREAS <- as.numeric(tmaptools::approx_areas(shp=shp2, target = paste(shp.unit, shp.unit, sep=" ")))
