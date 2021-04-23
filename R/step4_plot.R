@@ -91,7 +91,7 @@ step4_plot = function(tmx) {
 				sel = sel & dt[[bynames[i]]] %in% b[[byids[i]]]			
 			}
 		}
-		if (!any(sel)) browser() #stop("empty dt")
+		if (!any(sel)) warning("empty dt: ", by1, " ", by2, " ", by3)#browser() #stop("empty dt")
 		dt[which(sel),]
 	}
 	
@@ -118,8 +118,8 @@ step4_plot = function(tmx) {
 			mdt = get_dt(tmi$mapping_dt, by1, by2, by3)
 			
 			bbxs2 = lapply(shpTM, tmap::stm_bbox, tmapID = mdt$tmapID__)
-			stm_merge_bbox(bbxs2)
-			
+			bbx = stm_merge_bbox(bbxs2)
+			if (is.na(bbx)) bbx else tmaptools::bb(bbx, asp.limit = 10)
 		})
 		list(list(stm_merge_bbox(bbxs)))
 	}
@@ -138,8 +138,8 @@ step4_plot = function(tmx) {
 	
 	
 	for (i in seq_len(nrow(d))) {
-
-		bbx = d$bbox[[i]]
+ 		bbx = d$bbox[[i]]
+		if (is.na(bbx)) next
 		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i]))
 		for (ig in 1L:o$ng) {
 			

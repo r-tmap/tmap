@@ -38,8 +38,6 @@ stm_merge_bbox = function(blist) {
 }
 
 
-
-
 stm_bbox_all = function(shpTM) {
 	sf::st_bbox(shpTM$shp)
 }
