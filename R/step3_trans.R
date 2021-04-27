@@ -1,4 +1,7 @@
-step3_trans = function(ad) {
+step3_trans = function(tm) {
+	ad = tm$tmo
+	meta = tm$meta
+	
 	bd = lapply(ad, function(adi) {
 		#adi = ad[[2]]
 		shpDT = adi$shpDT
@@ -25,7 +28,7 @@ step3_trans = function(ad) {
 			if (al$trans_isglobal) shpDT = trans_shp(al, shpDT)
 		}
 		
-		crs = attr(ad, "crs")
+		crs = meta$xtra$crs #attr(ad, "crs")
 		
 		
 		
@@ -60,8 +63,8 @@ step3_trans = function(ad) {
 		
 		adi	
 	})	
-	attributes(bd) = attributes(ad)
+	#attributes(bd) = attributes(ad)
 	#attr(bd, "bbox") = stm_bbox(ad[[attr(bd, "main")]]$shpDT$shpTM[[1]])
-	bd
+	list(tmo = bd, meta = meta)
 }
 

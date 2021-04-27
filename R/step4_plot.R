@@ -21,12 +21,17 @@ get_i = function(ir, ic, ip, nby) {
 }
 
 
-step4_plot = function(tmx) {
+step4_plot = function(tm) {
+	tmx = tm$tmo
+	meta = tm$meta
 	
 	gs = tmap_graphics_name()
 	
-	o = attr(tmx, "tmf")
-	o$mainid = attr(tmx, "main")
+	o = meta$tmf
+	o$mainid = meta$xtra$main
+	
+	
+	
 	
 	
 	#opts = list(tmf = tmf)
@@ -58,12 +63,6 @@ step4_plot = function(tmx) {
 	
 	o$ng = length(tmx)
 	
-	FUNinit = paste0("tmap", gs, "Init")
-	FUNrun = paste0("tmap", gs, "Run")
-	FUNshape = paste0("tmap", gs, "Shape")
-	
-	do.call(FUNinit, list(o = o))
-
 	get_shpTM = function(shpDT, by1, by2, by3) {
 		b = list(by1, by2, by3)
 		bynames = intersect(names(shpDT), paste0("by", 1:3, "__"))
@@ -126,6 +125,21 @@ step4_plot = function(tmx) {
 	
 	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 	
+	get_asp = function(bbxl) {
+		vapply(bbxl, function(bbx) {
+			unname((bbx[3] - bbx[1]) / (bbx[4] - bbx[2]))
+		}, FUN.VALUE = numeric(1))
+	}
+	
+	d[, asp:=get_asp(bbox)]
+	
+	#o$asp
+	
+	FUNinit = paste0("tmap", gs, "Init")
+	FUNrun = paste0("tmap", gs, "Run")
+	FUNshape = paste0("tmap", gs, "Shape")
+	
+	do.call(FUNinit, list(o = o))
 	
 	
 	# if (!tmf$free.coords) {

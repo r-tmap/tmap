@@ -4,11 +4,20 @@ step1_rearrange = function(tmel) {
 	is_tms = sapply(tmel, inherits, "tm_shape")
 	is_tml = sapply(tmel, inherits, "tm_layer")
 	is_tmf = sapply(tmel, inherits, "tm_facets")
+	is_other = !is_tml & !is_tms & !is_tmf
 	ids = cumsum(is_tms)
-	ids[!is_tml & !is_tms & !is_tmf] = 0
+	ids[is_other] = 0
 	
 	# create groups, for each group: tms (tmap shape), tmls (tmap layers), tmf (tmap facets)
 	tmel_spl = split(tmel, f = ids)
+	
+	if (any(is_other)) {
+		oth = tmel_spl[[1]]
+		tmel_spl = tmel_spl[-1]
+	} else {
+		oth = list()		
+	}
+	
 	tmo = lapply(tmel_spl, function(tmg) {
 		is_tms = sapply(tmg, inherits, "tm_shape")
 		is_tml = sapply(tmg, inherits, "tm_layer")
@@ -41,12 +50,20 @@ step1_rearrange = function(tmel) {
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
 	
-	tmfs = lapply(tmo, "[[", "tmf")
+	#tmfs = lapply(tmo, "[[", "tmf")
 	
-	attr(tmo, "main") = ids
-	attr(tmo, "crs") = crs
 	
-	tmo
+	opt = tmap_options()
+	is_opt = sapply(oth, inherits, "tm_options")
+	for (id in which(is_opt)) {
+		nms = intersect(names(opt), names(oth[[id]]))
+		if (length(nms)) opt[nms] = oth[[id]][nms]
+	}
+	
+	meta = list(opt = opt,
+				xtra = list(main = ids,
+							crs = crs))
+	list(tmo = tmo, meta = meta)
 }
 
 get_main_ids = function(tmo) {

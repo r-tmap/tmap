@@ -90,7 +90,11 @@ step2_data_grp_prepare = function(tmf, dt) {
 }
 
 
-step2_data = function(tmo) {
+step2_data = function(tm) {
+	
+	tmo = tm$tmo
+	meta = tm$meta
+	
 	groupnames = paste0("group", seq_along(tmo))
 	fl = list(1L, 1L, 1L)
 	assign("fl", fl, envir = .TMAP)
@@ -297,17 +301,20 @@ step2_data = function(tmo) {
 	})
 	names(grps) = groupnames
 	#attr(grps, "fl") = fl
-	attr(grps, "main") = attr(tmo, "main")
-	attr(grps, "crs") = attr(tmo, "crs")
+	#attr(grps, "main") = attr(tmo, "main")
+	#attr(grps, "crs") = attr(tmo, "crs")
 	
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
 	tmf$fl = get("fl", envir = .TMAP)
+	
+	meta$tmf = tmf
+	
 	attr(grps, "tmf") = tmf
 	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
 	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows
 	# attr(grps, "ncols") = tmo[[1]]$tmf$ncols
-	grps
+	list(tmo = grps, meta = meta)
 }
 
 
