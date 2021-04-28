@@ -55,7 +55,7 @@ step1_rearrange = function(tmel) {
 	
 	opt = tmap_options()
 	is_opt = sapply(oth, inherits, "tm_options")
-	for (id in which(is_opt)) {
+	if (any(is_opt)) for (id in which(is_opt)) {
 		nms = intersect(names(opt), names(oth[[id]]))
 		if (length(nms)) opt[nms] = oth[[id]][nms]
 	}
