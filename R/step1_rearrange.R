@@ -60,9 +60,7 @@ step1_rearrange = function(tmel) {
 		if (length(nms)) opt[nms] = oth[[id]][nms]
 	}
 	
-	meta = list(opt = opt,
-				xtra = list(main = ids,
-							crs = crs))
+	meta = c(opt, list(main = ids, crs = crs))
 	list(tmo = tmo, meta = meta)
 }
 

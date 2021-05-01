@@ -28,7 +28,7 @@ step3_trans = function(tm) {
 			if (al$trans_isglobal) shpDT = trans_shp(al, shpDT)
 		}
 		
-		crs = meta$xtra$crs #attr(ad, "crs")
+		crs = meta$crs #attr(ad, "crs")
 		
 		
 		

@@ -308,9 +308,8 @@ step2_data = function(tm) {
 	
 	tmf$fl = get("fl", envir = .TMAP)
 	
-	meta$tmf = tmf
+	meta = c(meta, tmf)
 	
-	attr(grps, "tmf") = tmf
 	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
 	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows
 	# attr(grps, "ncols") = tmo[[1]]$tmf$ncols

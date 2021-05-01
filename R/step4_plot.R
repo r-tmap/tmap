@@ -23,17 +23,11 @@ get_i = function(ir, ic, ip, nby) {
 
 step4_plot = function(tm) {
 	tmx = tm$tmo
-	meta = tm$meta
+	o = tm$meta
 	
 	gs = tmap_graphics_name()
 	
-	o = meta$tmf
-	o$mainid = meta$xtra$main
-	
-	
-	
-	
-	
+
 	#opts = list(tmf = tmf)
 	
 	
@@ -94,7 +88,7 @@ step4_plot = function(tm) {
 		dt[which(sel),]
 	}
 	
-	tmain = tmx[[o$mainid]][[1]]
+	tmain = tmx[[o$main]][[1]]
 	
 	
 	d = data.table::data.table(do.call(expand.grid, lapply(structure(o$nby, names = c("by1", "by2", "by3")), seq_len)))
@@ -134,6 +128,12 @@ step4_plot = function(tm) {
 	d[, asp:=get_asp(bbox)]
 	
 	#o$asp
+	
+	diff_asp = any(d$asp != d$asp[1])
+	
+	if (is.na(o$asp)) {
+		o$asp = ifelse(diff_asp, NA, d$asp[1])
+	}
 	
 	FUNinit = paste0("tmap", gs, "Init")
 	FUNrun = paste0("tmap", gs, "Run")
