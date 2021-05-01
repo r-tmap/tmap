@@ -176,7 +176,7 @@ tmapGridInit2 = function(o) {
 	prows = as.numeric(rows)
 	pcols = as.numeric(cols)
 	
-	fasp = ((1-sum(pcols)) / (1-sum(prows))) / o$ncols * o$nrows
+	fasp = ((1-sum(pcols)) / (1-sum(prows))) * dasp / o$ncols * o$nrows
 	gasp = ((1-sum(pcols)) / (1-sum(prows))) * dasp
 	
 	
