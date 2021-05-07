@@ -100,6 +100,7 @@ o = list(nrows = 3,
 
 o$nrows = 2
 o$asp = 1.57
+o$asp = 0
 tmapGridInit2(o)
 
 
