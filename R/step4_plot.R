@@ -20,6 +20,111 @@ get_i = function(ir, ic, ip, nby) {
 	ir + (ic - 1) * nby[1] + (ip - 1) * prod(nby[1:2])
 }
 
+process_margins = function(o) {
+	within(o, {
+			
+		devsize = dev.size()
+		dasp = devsize[1] / devsize[2]
+		
+		
+		# needed for spnc viewport (to retain aspect ratio)
+		if (dasp > 1) {
+			cw = dasp
+			ch = 1
+		} else {
+			ch = 1/dasp
+			cw = 1
+		}
+		
+		lineH = grid::convertHeight(grid::unit(1, "lines"), unitTo = "npc", valueOnly = TRUE)
+		lineW = grid::convertWidth(grid::unit(1, "lines"), unitTo = "npc", valueOnly = TRUE)
+		
+		bufferH = lineH / 2
+		bufferW = lineW / 2
+		
+		# calculate space for margins, panels, etc
+		
+		meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
+		
+		panel.xtab.size = if (panel.type == "xtab") {
+			c(ifelse("bottom" %in% panel.xtab.pos, panel.label.height * lineH, 0),
+			  ifelse("left" %in% panel.xtab.pos, panel.label.height * lineW, 0),
+			  ifelse("top" %in% panel.xtab.pos, panel.label.height * lineH, 0),
+			  ifelse("right" %in% panel.xtab.pos, panel.label.height * lineW, 0))
+		} else c(0, 0, 0, 0)
+		
+		panel.wrap.size = if (panel.type == "wrap") {
+			c(ifelse(panel.wrap.pos == "bottom", panel.label.height * lineH, 0),
+			  ifelse(panel.wrap.pos == "left", panel.label.height * lineW, 0),
+			  ifelse(panel.wrap.pos == "top", panel.label.height * lineH, 0),
+			  ifelse(panel.wrap.pos == "right", panel.label.height * lineW, 0))
+		} else c(0, 0, 0, 0)
+		
+		xylab.margins = rep(0, 4)
+		if (xlab.show) xylab.margins[ifelse(xlab.pos == "bottom", 1, 3)] = xylab.height * lineH
+		if (ylab.show) xylab.margins[ifelse(xlab.pos == "left", 2, 4)] = xylab.height * lineW
+		
+		
+		grid.buffers = if (grid.show) {
+			as.integer(grid.label.pos == c("bottom", "left", "top", "right")) * c(bufferH, bufferW, bufferH, bufferW)
+		} else {
+			rep(0, 4)
+		}
+		
+		grid.margins = if (grid.show) {
+			as.integer(grid.label.pos == c("bottom", "left", "top", "right")) * grid.mark.height * c(lineH, lineW, lineH, lineW)
+		} else {
+			rep(0, 4)
+		}
+		between.marginH = between.margins * lineH
+		between.marginW = between.margins * lineW
+		
+		fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
+		
+	})
+	
+}
+
+how_many_rows = function(o) {
+	within(o, {
+		if (!is.wrap) {
+			nrows = nby[1]
+			ncols = nby[2]
+		} else {
+			
+			if (is.na(nrows) && !is.na(ncols)) {
+				nrows = ceiling((nby[1] / ncols))
+			} else if (!is.na(nrows) && is.na(ncols)) {
+				ncols = ceiling((nby[1] / nrows))
+			} else if (is.na(nrows) && is.na(ncols)) {
+				
+				pasp = ifelse(is.na(asp), 1, asp)
+				
+				# loop through col row combinations to find best nrow/ncol
+				# b needed to compare landscape vs portrait. E.g if prefered asp is 2, 1 is equally good as 4
+				ncols = which.min(vapply(1L:n, function(nc) {
+					nr = ceiling(n / nc)
+					# print("--")
+					# print(nc)
+					# print(nr)
+					width = ((1 - sum(fixedMargins[c(2, 4)])) - (nc * sum(panel.wrap.size[c(2,4)])) - (nc - 1) * between.marginW) / nc
+					height = ((1 - sum(fixedMargins[c(1, 3)])) - (nr * sum(panel.wrap.size[c(1,3)])) - (nr - 1) * between.marginH) / nr
+					
+					a = (width / height) * dasp
+					b = ifelse(a<pasp, pasp/a, a/pasp)
+					# print(a)
+					# print(b)
+					b
+				}, FUN.VALUE = numeric(1)))
+				
+				nrows = ceiling(n / ncols)
+			}
+		} 
+	})
+	
+	
+}
+
 
 step4_plot = function(tm) {
 	tmx = tm$tmo
@@ -39,23 +144,10 @@ step4_plot = function(tm) {
 	o$nby = get_nby(o$fl)
 	o$n = prod(o$nby)
 	
-	if (!o$is.wrap) {
-		o$nrows = o$nby[1]
-		o$ncols = o$nby[2]
-	} else {
-		if (is.na(o$nrows) && !is.na(o$ncols)) {
-			o$nrows = ceiling((o$nby[1] / o$ncols))
-		} else if (!is.na(o$nrows) && is.na(o$ncols)) {
-			o$ncols = ceiling((o$nby[1] / o$nrows))
-		} else if (is.na(o$nrows) && is.na(o$ncols)) {
-			o$nrows = round(sqrt(o$nby[1]))
-			o$ncols = ceiling((o$nby[1] / o$nrows))
-		}
-	}  
+	# calculate margins (using grid system)
+	o = process_margins(o)
 	
-	o$npages = ceiling(o$n / (o$nrows * o$ncols))
 	
-	o$ng = length(tmx)
 	
 	get_shpTM = function(shpDT, by1, by2, by3) {
 		b = list(by1, by2, by3)
@@ -94,10 +186,6 @@ step4_plot = function(tm) {
 	d = data.table::data.table(do.call(expand.grid, lapply(structure(o$nby, names = c("by1", "by2", "by3")), seq_len)))
 	d[, i := seq_len(nrow(d))]
 	
-	d[, row := as.integer((i - 1) %% o$nrows + 1)]
-	d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
-	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
-	
 
 	grps = c("by1", "by2", "by3")[o$free.coords]
 	
@@ -130,10 +218,22 @@ step4_plot = function(tm) {
 	#o$asp
 	
 	diff_asp = any(d$asp != d$asp[1])
-	
 	if (is.na(o$asp)) {
 		o$asp = ifelse(diff_asp, NA, d$asp[1])
 	}
+	
+	o = how_many_rows(o)
+	
+	o$npages = ceiling(o$n / (o$nrows * o$ncols))
+	
+	o$ng = length(tmx)
+	
+	
+	
+	d[, row := as.integer((i - 1) %% o$nrows + 1)]
+	d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
+	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
+	
 	
 	FUNinit = paste0("tmap", gs, "Init")
 	FUNrun = paste0("tmap", gs, "Run")

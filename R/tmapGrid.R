@@ -1,68 +1,21 @@
+
+
+
 tmapGridInit2 = function(o) {
 	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
-	#grid.newpage()
+
 	
-	devsize = dev.size()
-	dasp = devsize[1] / devsize[2]
-	
-	
-	fasp = dasp * o$nrows / o$ncols
-	
-	if (dasp > 1) {
-		cw <- dasp
-		ch <- 1
-	} else {
-		ch <- 1/dasp
-		cw <- 1
-	}
-	
-	
-	lineH = convertHeight(unit(1, "lines"), unitTo = "inch")
-	
-	buffer = lineH / 2
-	
-	meta.buffers = sign(o$meta.margins) * buffer # outside and inside
-	# panel.buffers = if (o$panel.type == "wrap") {
-	# 	as.integer(o$panel.wrap.pos == c("bottom", "left", "top", "right")) * buffer
-	# } else if (o$panel.type == "xtab") {
-	# 	as.integer(c("bottom", "left", "top", "right") %in% o$panel.xtab.pos) * buffer
-	# } else rep(0, 4) # outside only
-	
-	
-	panel.xtab.size = if (o$panel.type == "xtab") {
-		c(ifelse("bottom" %in% o$panel.xtab.pos, o$panel.label.height * lineH, 0),
-		  ifelse("left" %in% o$panel.xtab.pos, o$panel.label.height * lineH, 0),
-		  ifelse("top" %in% o$panel.xtab.pos, o$panel.label.height * lineH, 0),
-		  ifelse("right" %in% o$panel.xtab.pos, o$panel.label.height * lineH, 0))
-	} else c(0, 0, 0, 0)
-	
-	panel.wrap.size = if (o$panel.type == "wrap") {
-		c(ifelse(o$panel.wrap.pos == "bottom", o$panel.label.height * lineH, 0),
-		  ifelse(o$panel.wrap.pos == "left", o$panel.label.height * lineH, 0),
-		  ifelse(o$panel.wrap.pos == "top", o$panel.label.height * lineH, 0),
-		  ifelse(o$panel.wrap.pos == "right", o$panel.label.height * lineH, 0))
-	} else c(0, 0, 0, 0)
-	
-	xylab.margins = rep(0, 4)
-	if (o$xlab.show) xylab.margins[ifelse(o$xlab.pos == "bottom", 1, 3)] = o$xylab.height * lineH
-	if (o$ylab.show) xylab.margins[ifelse(o$xlab.pos == "left", 2, 4)] = o$xylab.height * lineH
-	
-	
-	grid.buffers = if (o$grid.show) {
-		as.integer(o$grid.label.pos == c("bottom", "left", "top", "right")) * buffer
-	} else {
-		rep(0, 4)
-	}
-	
-	grid.margins = if (o$grid.show) {
-		as.integer(o$grid.label.pos == c("bottom", "left", "top", "right")) * o$grid.mark.height * lineH
-	} else {
-		rep(0, 4)
-	}
-	between.margin = o$between.margins * lineH
-	
-	
-	
+	# 
+	# nr2=o$nrows
+	# nc2=o$ncols
+	# width = ((1 - sum(fixedMargins[c(2, 4)])) - (nc2 * sum(panel.wrap.size[c(2,4)])) - (nc2 - 1) * between.marginW) / nc2
+	# height = ((1 - sum(fixedMargins[c(1, 3)])) - (nr2 * sum(panel.wrap.size[c(1,3)])) - (nr2 - 1) * between.marginH) / nr2
+	# 
+	# nasp = (width / height) * dasp
+	# 
+	# print("nasp")
+	# print(nasp)
+	# 
 	
 	rows = with(o, {
 		x = c(outer.margins.top = outer.margins[3],
@@ -71,47 +24,27 @@ tmapGridInit2 = function(o) {
 			  meta.buffers.top.in = meta.buffers[3],
 			  xylab.margins.top = xylab.margins[3],
 			  
-			  #panel.buffers.top = panel.buffers[3],
 			  panel.xtab.top = panel.xtab.size[3],
 			  grid.buffers.top = grid.buffers[3],
 			  grid.margins.top = grid.margins[3],
 			  
-			  {if (o$nrows > 1) rep(c(panel.wrap.size[3], 1, panel.wrap.size[1], between.margin), o$nrows -1) else NULL},
-			  panel.wrap.size[3], 1, panel.wrap.size[1],
+			  {if (o$nrows > 1) rep(c(panel.wrap.size[3], 0, panel.wrap.size[1], between.marginH), o$nrows -1) else NULL},
+			  panel.wrap.size[3], 0, panel.wrap.size[1],
 			  
 			  grid.margins.top = grid.margins[1],
 			  grid.buffers.top = grid.buffers[1],
 			  panel.xtab.bottom = panel.xtab.size[1],
-			  #panel.buffers.bottom = panel.buffers[1],
-			  
+
 			  xylab.margins.bottom = xylab.margins[1],
 			  meta.buffers.bottom.in = meta.buffers[1],
 			  meta.margins.bottom = meta.margins[1],
 			  meta.buffers.bottom.out = meta.buffers[1],
 			  outer.margins.bottom = outer.margins[1])
-		types = c("npc", "inch", "npc", "inch", "inch", 
-				  "inch", "inch", "inch",
-				  
-				  {if (o$nrows > 1) rep(c("inch", "null", "inch", "inch"), o$nrows - 1) else NULL},
-				  "inch", "null", "inch",
-				  
-				  "inch", "inch", "inch",
-				  "inch", "inch", "npc", "inch", "npc")
-		
-		u = unit(x, types)
-		print(u)
-		
-		u2 = convertHeight(u, "npc")
-		
-		
-		#isplot = which(types == "null")
-		
-		#u2[isplot] = (unit(1,"npc") - sum(u2)) / length(isplot)
-		
-		names(u2) = names(x)
-		u2
+
+		u = unit(x, "npc")
+		names(u) = names(x)
+		u
 	})
-	
 	
 	cols = with(o, {
 		x = c(outer.margins.left = outer.margins[2],
@@ -120,48 +53,45 @@ tmapGridInit2 = function(o) {
 			  meta.buffers.left.in = meta.buffers[2],
 			  xylab.margins.left = xylab.margins[2],
 			  
-			  #panel.buffers.left = panel.buffers[2],
 			  panel.xtab.left = panel.xtab.size[2],
 			  grid.buffers.left = grid.buffers[2],
 			  grid.margins.left = grid.margins[2],
 			  
-			  {if (o$ncols > 1) rep(c(panel.wrap.size[2], 1, panel.wrap.size[4], between.margin), o$ncols -1) else NULL},
-			  panel.wrap.size[2], 1, panel.wrap.size[4],
+			  {if (o$ncols > 1) rep(c(panel.wrap.size[2], 0, panel.wrap.size[4], between.marginW), o$ncols -1) else NULL},
+			  panel.wrap.size[2], 0, panel.wrap.size[4],
 			  
 			  grid.margins.left = grid.margins[4],
 			  grid.buffers.left = grid.buffers[4],
 			  panel.xtab.right = panel.xtab.size[4],
-			  #panel.buffers.right = panel.buffers[4],
-			  
+
 			  xylab.margins.right = xylab.margins[4],
 			  meta.buffers.right.in = meta.buffers[4],
 			  meta.margins.right = meta.margins[4],
 			  meta.buffers.right.out = meta.buffers[4],
 			  outer.margins.right = outer.margins[4])
-		types = c("npc", "inch", "npc", "inch", "inch", 
-				  "inch", "inch", "inch",
-				  
-				  {if (o$ncols > 1) rep(c("inch", "null", "inch", "inch"), o$ncols - 1) else NULL},
-				  "inch", "null", "inch",
-				  
-				  "inch", "inch", "inch",
-				  "inch", "inch", "npc", "inch", "npc")
-		
-		u = unit(x, types)
-		
-		u2 = convertWidth(u, "npc")
-		
-		#isplot = which(types == "null")
-		
-		#u2[isplot] = (unit(1,"npc") - sum(u2)) / length(isplot)
-		
-		names(u2) = names(x)
-		u2
+
+		u = unit(x, "npc")
+		names(u) = names(x)
+		u
 	})
 	
-	cols_facet_ids = 1:o$ncols * 4 + 6
-	rows_facet_ids = 1:o$ncols * 4 + 6
+	nr = length(rows)
+	nc = length(cols)
 	
+	cols_facet_ids = 1:o$ncols * 4 + 6
+	rows_facet_ids = 1:o$nrows * 4 + 6
+	
+	if (o$panel.type == "xtab") {
+		cols_panel_col_ids = cols_facet_ids
+		cols_panel_row_id = ifelse(o$panel.xtab.pos[2] == "top", 6, nc - 5)
+		
+		rows_panel_row_ids = rows_facet_ids
+		rows_panel_col_id = ifelse(o$panel.xtab.pos[1] == "left", 6, nc - 5)
+	} else if (o$panel.type == "wrap") {
+		cols_panel_ids = cols_facet_ids + ifelse(o$panel.wrap.pos  == "left", -1, ifelse(o$panel.wrap.pos  == "right", 1, 0))
+		rows_panel_ids = rows_facet_ids + ifelse(o$panel.wrap.pos  == "top", -1, ifelse(o$panel.wrap.pos  == "bottom", 1, 0))
+		
+	}
 	
 	sum(rows[rows_facet_ids])
 	
@@ -176,7 +106,7 @@ tmapGridInit2 = function(o) {
 	prows = as.numeric(rows)
 	pcols = as.numeric(cols)
 	
-	fasp = ((1-sum(pcols)) / (1-sum(prows))) / o$ncols * o$nrows
+	fasp = ((1-sum(pcols)) / (1-sum(prows))) * dasp / o$ncols * o$nrows
 	gasp = ((1-sum(pcols)) / (1-sum(prows))) * dasp
 	
 	
@@ -250,15 +180,13 @@ tmapGridInit2 = function(o) {
 	#scales::show_col(pals::brewer.paired(12))
 	p = rep(pals::brewer.paired(12), 3)
 	
-	nr = length(rows)
-	nc = length(cols)
 	
 	add_to_gt(rectGrob(gp=gpar(fill = p[1])), row = 1:(nr), col = 1:(nc)) # outer
 	add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 2:(nr-1), col = 2:(nc-1)) # meta buffer out
 	add_to_gt(rectGrob(gp=gpar(fill = p[3])), row = 3:(nr-2), col = 3:(nc-2)) # meta margins
 	add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 4:(nr-3), col = 4:(nc-3)) # meta buffer in
 	
-	add_to_gt(rectGrob(gp=gpar(fill = p[4])), row = 5:(nr-4), col = 5:(nc-4)) # xyab
+	add_to_gt(rectGrob(gp=gpar(fill = p[4])), row = 5:(nr-4), col = 5:(nc-4)) # xylab
 	if (o$panel.type == "xtab") {
 		#add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel buffer
 		add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel
@@ -273,20 +201,35 @@ tmapGridInit2 = function(o) {
 			add_to_gt(rectGrob(gp=gpar(fill = p[11])), row = i * 4 + 6, col = j * 4 + 6)
 			if (o$panel.type == "wrap") {
 				if (o$panel.wrap.pos == "top") {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 5, col = j * 4 + 5:7)
+					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 5, col = j * 4 + 6)
 				} else if (o$panel.wrap.pos == "bottom") {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 7, col = j * 4 + 5:7)
+					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 7, col = j * 4 + 6)
 				}  else if (o$panel.wrap.pos == "left") {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 5:7, col = j * 4 + 5)
+					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 6, col = j * 4 + 5)
 				}  else {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 5:7, col = j * 4 + 7)
+					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 6, col = j * 4 + 7)
 				}
 			}
 			
 		}
 	}
 	
+	if (o$panel.type == "xtab") {
+		for (i in 1:o$nrows) {
+			add_to_gt(textGrob(label = paste("Row", i), rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)), row = rows_facet_ids[i], col = rows_panel_col_id)
+		}
+		for (i in 1:o$ncols) {
+			add_to_gt(textGrob(label = paste("Col", i)), row = cols_panel_row_id, col = cols_panel_col_ids[i])
+		}
+	} else if (o$panel.type == "wrap") {
+		for (i in 1:o$nrows) {
+			for (j in 1:o$ncols) {
+				add_to_gt(textGrob(label = paste("Wrap", i, j)), row = rows_panel_ids[i], col = cols_panel_ids[j])
+			}
+		}
+	}
 	
+
 	grid.newpage()
 	grid.draw(gt)
 	

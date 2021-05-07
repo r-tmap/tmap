@@ -43,6 +43,9 @@ show_data()
 # tm_shape(metro) +
 # 	tm_symbols(size = "pop2020")
 
+tm_shape(World) +
+	tm_polygons(fill = c("blue", "red"))
+
 
 # size variables reduced to first one
 tm_shape(land) +

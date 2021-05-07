@@ -2,6 +2,8 @@
 	list(
 		graphics = list(plot = list(name = "Grid", crs = NA, facets = 64),
 						view = list(name = "Leaflet", crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), facets = 16)),
+		asp = NA,
+		show.messages = TRUE,
 		outer.margins = c(0.02, 0.02, 0.02, 0.02),
 		inner.margins = NA,
 		meta.margins = c(0, 0, 0, 0.2),

@@ -98,7 +98,8 @@ o = list(nrows = 3,
 #o$meta.margins = c(0.2,0.1,0,0)
 #o$panel.type = "wrap"
 
-o$asp = 1
+o$nrows = 2
+o$asp = 1.57
 tmapGridInit2(o)
 
 
