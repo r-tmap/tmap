@@ -81,17 +81,17 @@ tmapGridInit2 = function(o) {
 	cols_facet_ids = 1:o$ncols * 4 + 6
 	rows_facet_ids = 1:o$nrows * 4 + 6
 	
-	if (o$panel.type == "xtab") {
+	#if (o$panel.type == "xtab") {
 		cols_panel_col_ids = cols_facet_ids
 		cols_panel_row_id = ifelse(o$panel.xtab.pos[2] == "top", 6, nc - 5)
 		
 		rows_panel_row_ids = rows_facet_ids
 		rows_panel_col_id = ifelse(o$panel.xtab.pos[1] == "left", 6, nc - 5)
-	} else if (o$panel.type == "wrap") {
+	#} else if (o$panel.type == "wrap") {
 		cols_panel_ids = cols_facet_ids + ifelse(o$panel.wrap.pos  == "left", -1, ifelse(o$panel.wrap.pos  == "right", 1, 0))
 		rows_panel_ids = rows_facet_ids + ifelse(o$panel.wrap.pos  == "top", -1, ifelse(o$panel.wrap.pos  == "bottom", 1, 0))
 		
-	}
+	#}
 	
 	sum(rows[rows_facet_ids])
 	
@@ -106,17 +106,20 @@ tmapGridInit2 = function(o) {
 	prows = as.numeric(rows)
 	pcols = as.numeric(cols)
 	
-	fasp = ((1-sum(pcols)) / (1-sum(prows))) * dasp / o$ncols * o$nrows
-	gasp = ((1-sum(pcols)) / (1-sum(prows))) * dasp
+	fasp = ((1-sum(pcols)) / (1-sum(prows))) * o$dasp / o$ncols * o$nrows # asp per facet (with original outer margins)
+	gasp = ((1-sum(pcols)) / (1-sum(prows))) * o$dasp # asp total facets (with original outer margins)
 	
 	
-	if (o$asp == 0) {
+	if (!is.na(o$asp) && o$asp != 0) {
 		# follow device
-		o$asp = fasp
+		fasp = o$asp
+	} else if (is.na(o$asp) && !is.na(o$sasp)) {
+		fasp = o$sasp
 	}
-	print("fasp", fasp)
+	print("fasp")
+	print(fasp)
 	
-	gasp2 = o$asp * o$ncols / o$nrows
+	gasp2 = fasp * o$ncols / o$nrows # target gasp
 
 	
 	print("gasp")
@@ -127,10 +130,10 @@ tmapGridInit2 = function(o) {
 
 
 	if (gasp2 > gasp) {
-		extra.height =   (1 - ((1 - sum(pcols))/(gasp2/dasp))) - sum(prows)
+		extra.height =   (1 - ((1 - sum(pcols))/(gasp2/o$dasp))) - sum(prows)
 		rows[c(1, length(rows))] = rows[c(1, length(rows))] + unit(extra.height / 2, "npc")
 	} else if (gasp2 < gasp) {
-		extra.width =   (1 - ((1 - sum(prows)) * (gasp2/dasp))) - sum(pcols)
+		extra.width =   (1 - ((1 - sum(prows)) * (gasp2/o$dasp))) - sum(pcols)
 		cols[c(1, length(cols))] = cols[c(1, length(cols))] + unit(extra.width / 2, "npc")
 	}
 	cols[cols_facet_ids] = (unit(1, "npc") - sum(cols)) / o$ncols
@@ -141,100 +144,125 @@ tmapGridInit2 = function(o) {
 	
 	
 	
-	vp_tree = grid::vpStack(grid::viewport(width = grid::unit(cw, "snpc"), height = grid::unit(ch, "snpc"), name = "vp_asp"),
+	vp_tree = grid::vpStack(grid::viewport(width = grid::unit(o$cw, "snpc"), height = grid::unit(o$ch, "snpc"), name = "vp_asp"),
 							#grid::viewport(layout = grid::grid.layout(nrow = length(rows), ncol = length(cols)), name = "vp_main")
 							grid::viewport(layout = grid::grid.layout(nrow = length(rows), ncol = length(cols), widths = cols, heights = rows), name = "vp_main")
 	)
 	
 	#gt = grobTree(rectGrob(gp=gpar(fill="red")), vp = vp_tree)
 	
-	gt = grid::grobTree(grid::grobTree(name = "gt_main"), 
-						grid::rectGrob(gp=grid::gpar(col="red", lwd = 1, fill = NA), name = "red_frame"),
-						vp = vp_tree, name = "tmap_grob_tree")
+	gts = lapply(1L:o$npages, function(ip) {
+		grid::grobTree(grid::grobTree(name = "gt_main"), 
+							grid::rectGrob(gp=grid::gpar(col="red", lwd = 1, fill = NA), name = "red_frame"),
+							vp = vp_tree, name = "tmap_grob_tree")
+	})
 	
-	e = environment()
 	
-	add_to_gt = function(grb, row, col) {
-		vp = viewport(layout.pos.col = col, layout.pos.row = row)
-		gtr = grobTree(grb, vp = vp)
+	g = list(
+		rows_facet_ids = rows_facet_ids,
+		cols_facet_ids = cols_facet_ids,
 		
-		gt = grid::addGrob(gt, gtr, gPath = grid::gPath("gt_main"))
-		assign("gt", gt, envir = e)
+		rows_panel_ids = rows_panel_ids,
+		cols_panel_ids = cols_panel_ids,
 		
-	}
-	
-	length(rows)
-	length(cols)
-	
-	prows = as.numeric(rows)
-	pcols = as.numeric(cols)
-	
-	names(prows) = names(rows)
-	names(pcols) = names(cols)
-	
-	cat("rows:\n")
-	print(prows)
-	cat("cols:\n")
-	print(pcols)
-	
-	#scales::show_col(pals::brewer.paired(12))
-	p = rep(pals::brewer.paired(12), 3)
+		rows_panel_row_ids = rows_panel_row_ids,
+		rows_panel_col_id = rows_panel_col_id,
+		cols_panel_row_id = cols_panel_row_id,
+		cols_panel_col_ids = cols_panel_col_ids,
+		
+		fasp = fasp
+	)
 	
 	
-	add_to_gt(rectGrob(gp=gpar(fill = p[1])), row = 1:(nr), col = 1:(nc)) # outer
-	add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 2:(nr-1), col = 2:(nc-1)) # meta buffer out
-	add_to_gt(rectGrob(gp=gpar(fill = p[3])), row = 3:(nr-2), col = 3:(nc-2)) # meta margins
-	add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 4:(nr-3), col = 4:(nc-3)) # meta buffer in
-	
-	add_to_gt(rectGrob(gp=gpar(fill = p[4])), row = 5:(nr-4), col = 5:(nc-4)) # xylab
-	if (o$panel.type == "xtab") {
-		#add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel buffer
-		add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel
-	}
-	
-	add_to_gt(rectGrob(gp=gpar(fill = p[6])), row = 7:(nr-6), col = 7:(nc-6)) # grid buffer
-	add_to_gt(rectGrob(gp=gpar(fill = p[7])), row = 8:(nr-7), col = 8:(nc-7)) # grid
+	assign("gts", gts, envir = .TMAP_GRID)
+	assign("g", g, envir = .TMAP_GRID)
 	
 	
-	for (i in 1:o$nrows) {
-		for (j in 1:o$ncols) {
-			add_to_gt(rectGrob(gp=gpar(fill = p[11])), row = i * 4 + 6, col = j * 4 + 6)
-			if (o$panel.type == "wrap") {
-				if (o$panel.wrap.pos == "top") {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 5, col = j * 4 + 6)
-				} else if (o$panel.wrap.pos == "bottom") {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 7, col = j * 4 + 6)
-				}  else if (o$panel.wrap.pos == "left") {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 6, col = j * 4 + 5)
-				}  else {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = i * 4 + 6, col = j * 4 + 7)
-				}
-			}
+	
+	if (TRUE) {
+		gt = gts[[1]]
+		e = environment()
+		add_to_gt = function(grb, row, col) {
+			vp = viewport(layout.pos.col = col, layout.pos.row = row)
+			gtr = grobTree(grb, vp = vp)
+			
+			gt = grid::addGrob(gt, gtr, gPath = grid::gPath("gt_main"))
+			assign("gt", gt, envir = e)
 			
 		}
-	}
-	
-	if (o$panel.type == "xtab") {
-		for (i in 1:o$nrows) {
-			add_to_gt(textGrob(label = paste("Row", i), rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)), row = rows_facet_ids[i], col = rows_panel_col_id)
+		
+		# length(rows)
+		# length(cols)
+		# 
+		# prows = as.numeric(rows)
+		# pcols = as.numeric(cols)
+		# 
+		# names(prows) = names(rows)
+		# names(pcols) = names(cols)
+		# 
+		# cat("rows:\n")
+		# print(prows)
+		# cat("cols:\n")
+		# print(pcols)
+		
+		#scales::show_col(pals::brewer.paired(12))
+		p = rep(pals::brewer.paired(12), 3)
+		
+		
+		add_to_gt(rectGrob(gp=gpar(fill = p[1])), row = 1:(nr), col = 1:(nc)) # outer
+		add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 2:(nr-1), col = 2:(nc-1)) # meta buffer out
+		add_to_gt(rectGrob(gp=gpar(fill = p[3])), row = 3:(nr-2), col = 3:(nc-2)) # meta margins
+		add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 4:(nr-3), col = 4:(nc-3)) # meta buffer in
+		
+		add_to_gt(rectGrob(gp=gpar(fill = p[4])), row = 5:(nr-4), col = 5:(nc-4)) # xylab
+		if (o$panel.type == "xtab") {
+			#add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel buffer
+			add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel
 		}
-		for (i in 1:o$ncols) {
-			add_to_gt(textGrob(label = paste("Col", i)), row = cols_panel_row_id, col = cols_panel_col_ids[i])
-		}
-	} else if (o$panel.type == "wrap") {
+		
+		add_to_gt(rectGrob(gp=gpar(fill = p[6])), row = 7:(nr-6), col = 7:(nc-6)) # grid buffer
+		add_to_gt(rectGrob(gp=gpar(fill = p[7])), row = 8:(nr-7), col = 8:(nc-7)) # grid
+		
+		
 		for (i in 1:o$nrows) {
 			for (j in 1:o$ncols) {
-				add_to_gt(textGrob(label = paste("Wrap", i, j)), row = rows_panel_ids[i], col = cols_panel_ids[j])
+				add_to_gt(rectGrob(gp=gpar(fill = p[11])), row = g$rows_facet_ids[i], col = g$cols_facet_ids[j])
+				if (o$panel.type == "wrap") {
+					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = g$rows_panel_ids[i], col = g$cols_panel_ids[j])
+				}
+				
 			}
 		}
+		
+		if (o$panel.type == "xtab") {
+			for (i in 1:o$nrows) {
+				add_to_gt(textGrob(label = paste("Row", i), rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)), row = g$rows_panel_row_ids[i], col = g$rows_panel_col_id)
+			}
+			for (i in 1:o$ncols) {
+				add_to_gt(textGrob(label = paste("Col", i)), row = g$cols_panel_row_id, col = g$cols_panel_col_ids[i])
+			}
+		} else if (o$panel.type == "wrap") {
+			for (i in 1:o$nrows) {
+				for (j in 1:o$ncols) {
+					add_to_gt(textGrob(label = paste("Wrap", i, j)), row = g$rows_panel_ids[i], col = g$cols_panel_ids[j])
+				}
+			}
+		}
+		
+		
+		grid.newpage()
+		grid.draw(gt)
 	}
 	
-
-	grid.newpage()
-	grid.draw(gt)
+	
 	
 }
 
+
+# tmapGridShape2 = function(bbx, facet_row, facet_col) {
+# 	
+# }
+# 
 
 
 

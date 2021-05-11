@@ -87,6 +87,26 @@ process_margins = function(o) {
 
 how_many_rows = function(o) {
 	within(o, {
+		#if (is.na(asp) && !is.na(sasp)) asp = sasp
+		
+		# prefered aspect ratio (just for this function): if asp is defined (not 0 or NA), use that, otherwise use sasp (shape asp) if available (if not; 1)
+		pasp = if (is.na(sasp)) {
+			if (!is.na(asp) && asp > 0) {
+				asp
+			} else {
+				1
+			}
+		} else {
+			if (!is.na(asp) && asp > 0) {
+				asp
+			} else {
+				sasp
+			}
+		}
+		
+
+		
+		
 		if (!is.wrap) {
 			nrows = nby[1]
 			ncols = nby[2]
@@ -98,7 +118,6 @@ how_many_rows = function(o) {
 				ncols = ceiling((nby[1] / nrows))
 			} else if (is.na(nrows) && is.na(ncols)) {
 				
-				pasp = ifelse(is.na(asp), 1, asp)
 				
 				# loop through col row combinations to find best nrow/ncol
 				# b needed to compare landscape vs portrait. E.g if prefered asp is 2, 1 is equally good as 4
@@ -217,11 +236,11 @@ step4_plot = function(tm) {
 	
 	#o$asp
 	
-	diff_asp = any(d$asp != d$asp[1])
-	if (is.na(o$asp)) {
-		o$asp = ifelse(diff_asp, NA, d$asp[1])
-	}
 	
+	
+	diff_asp = any(d$asp != d$asp[1])
+	o$sasp = ifelse(diff_asp, NA, d$asp[1])
+
 	o = how_many_rows(o)
 	
 	o$npages = ceiling(o$n / (o$nrows * o$ncols))
