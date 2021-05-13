@@ -34,32 +34,34 @@ g$fasp
 
 
 
+
+
+
 tmapGridShape = function(bbx, facet_row, facet_col, facet_page) {
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
 
 
-	sasp = (bbx[3] - bbx[1]) / (bbx[4] - bbx[2])
+	basp = (bbx[3] - bbx[1]) / (bbx[4] - bbx[2])
 	
-	if (sasp > g$fasp) {
-		width = 1
-		height = fasp / sasp
-	} else {
-		height = 1
-		width = sasp / fasp
-	}
+	fbbx = bb_asp(bbx, g$fasp)
+	
 	rc_text = frc(facet_row, facet_col)
 	
+	rowid = g$rows_facet_ids[facet_row]
+	colid = g$cols_facet_ids[facet_col]
+	
+	
 	gtmap = grid::grobTree(grid::rectGrob(gp=grid::gpar(col="blue", lwd = 4, fill = NA), name = paste0("blue_rect_", rc_text)),
-						   vp = grid::vpStack(grid::viewport(layout.pos.col = facet_col, layout.pos.row = facet_row, name = paste0("vp_facet_", rc_text)),
-						   				   grid::viewport(width = width, height = height, xscale = bbx[c(1,3)], yscale = bbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
+						   vp = grid::vpStack(grid::viewport(layout.pos.col = colid, layout.pos.row = rowid, name = paste0("vp_facet_", rc_text)),
+						   				   grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
 	
 	gts[[facet_page]] = grid::addGrob(gts[[facet_page]], gtmap, gPath = grid::gPath("gt_facets"))
 	
 	#assign("devsize", devsize, envir = .TMAP_GRID)
 	#assign("dasp", dasp, envir = .TMAP_GRID)
 	assign("gts", gts, envir = .TMAP_GRID)
-	assign("bbx", bbx, envir = .TMAP_GRID)
+	#assign("bbx", bbx, envir = .TMAP_GRID)
 	
 		
 }

@@ -39,7 +39,8 @@ Imports:
     leafem (>= 0.1),
     stats,
     rlang,
-    utils
+    utils,
+    magrittr
 Suggests:
 	rmapshaper,
 	cartogram,

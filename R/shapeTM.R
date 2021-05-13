@@ -41,3 +41,34 @@ stm_merge_bbox = function(blist) {
 stm_bbox_all = function(shpTM) {
 	sf::st_bbox(shpTM$shp)
 }
+
+bb_ext = function(bbx, ext = c(0, 0, 0, 0)) {
+	dx = bbx[3] - bbx[1]
+	dy = bbx[4] - bbx[2]
+	
+	bbx[2] = bbx[2] - ext[1] * dy 
+	bbx[1] = bbx[1] - ext[2] * dx
+	bbx[4] = bbx[4] + ext[3] * dy 
+	bbx[3] = bbx[3] + ext[4] * dx
+	bbx
+}
+
+bb_asp = function(bbx, asp) {
+	dx = bbx[3] - bbx[1]
+	dy = bbx[4] - bbx[2]
+	
+	cx = mean(bbx[c(1,3)])
+	cy = mean(bbx[c(2,4)])
+	
+	basp = dx/dy
+	if (basp > asp) {
+		dy2 = dx / asp
+		bbx[2] = cy - (dy2 / 2)
+		bbx[4] = cy + (dy2 / 2)
+	} else {
+		dx2 = dy * asp
+		bbx[1] = cx - (dx2 / 2)
+		bbx[3] = cx + (dx2 / 2)
+	}	
+	bbx
+}

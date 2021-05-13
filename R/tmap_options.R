@@ -5,7 +5,7 @@
 		asp = NA,
 		show.messages = TRUE,
 		outer.margins = c(0.02, 0.02, 0.02, 0.02),
-		inner.margins = NA,
+		inner.margins = c(0.02, 0.02, 0.02, 0.02),
 		meta.margins = c(0, 0, 0, 0.2),
 		between.margins = 0.5,
 		panel.label.height = 1.25,
@@ -18,7 +18,7 @@
 		ylab.pos = "right",
 		grid.show = FALSE,
 		grid.label.pos = c("right", "bottom"),
-		panel.type = "none", # "wrap" or "xtab",
+		panel.type = NA, # "wrap" or "xtab",
 		panel.wrap.pos = "top", # or "left", "right", "bottom"
 		panel.xtab.pos = c("left", "top")
 		# 

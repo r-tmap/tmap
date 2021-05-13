@@ -100,7 +100,7 @@ step2_data = function(tm) {
 	assign("fl", fl, envir = .TMAP)
 
 	grps = lapply(tmo, function(tmg) {
-		cat("step2_grp==================================\n")
+		#cat("step2_grp==================================\n")
 		dt = tmg$tms$dt
 		
 		# step2_data_grp_prepare
@@ -115,9 +115,9 @@ step2_data = function(tm) {
 
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {
-			cat("step2_grp_lyr======================\n")
+			#cat("step2_grp_lyr======================\n")
 			getdts = function(aes, nm) {
-				cat("step2_grp_lyr_aes_", nm, "---------\n")
+				#cat("step2_grp_lyr_aes_", nm, "---------\n")
 				
 				val = aes$value
 				nvars = length(aes$value) #m
@@ -132,7 +132,7 @@ step2_data = function(tm) {
 				#print(vars)
 
 				if (!all(vars %in% names(dt))) {
-					cat("step2_grp_lyr_aes_const\n")
+					#cat("step2_grp_lyr_aes_const\n")
 					# constant values (take first value (of possible MV) per facet)
 					if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with MV", call. = FALSE)
 					val1 = sapply(val, "[[", 1, USE.NAMES = FALSE)
@@ -161,7 +161,7 @@ step2_data = function(tm) {
 					#dtl[, legend := vector("list", length = nrow(dtl))]
 					dtl_leg = NULL
 				} else {
-					cat("step2_grp_lyr_aes_var\n")
+					#cat("step2_grp_lyr_aes_var\n")
 					
 					relevant_vars = c("tmapID__", vars, by123__[b])
 					
@@ -184,13 +184,13 @@ step2_data = function(tm) {
 					# multiple variables
 					if (nvars > 1) {
 						if (limitvars) {
-							cat("step2_grp_lyr_aes_var_limiter\n")
+							#cat("step2_grp_lyr_aes_var_limiter\n")
 							# not allowed: take first one
 							warning(limitvars_warn, call. = FALSE)
 							val = val[[1]]
 						} else {
 							if (!fr[v]) {
-								cat("step2_grp_lyr_aes_var_multi_vars_!free_scale\n")
+								#cat("step2_grp_lyr_aes_var_multi_vars_!free_scale\n")
 								
 								# multiple variables, !free scale => stack all variable columns in long format
 								nms = aes$value[[1]]
@@ -213,20 +213,20 @@ step2_data = function(tm) {
 								vars = vapply(val, "[[", character(1), 1)
 								val = val[[1]]
 							} else {
-								cat("step2_grp_lyr_aes_var_multi_vars_free_scale\n")
+								#cat("step2_grp_lyr_aes_var_multi_vars_free_scale\n")
 								vars = vapply(val, "[[", character(1), 1)
 								
 							}
 						}
 					} else {
-						cat("step2_grp_lyr_aes_var_one_var\n")
+						#cat("step2_grp_lyr_aes_var_one_var\n")
 						val = val[[1]]
 					}
 					
 					if (length(v)) update_fl(k = v, lev = vars)
 					
 					if (length(v) && fr[v] && nvars > 1) {
-						cat("step2_grp_lyr_aes_var_multi_aes_columns\n")
+						#cat("step2_grp_lyr_aes_var_multi_aes_columns\n")
 						# apply aes function for each var column
 						if (!inherits(aes$setup, "tm_aes")) {
 							setup = rep(aes$setup, length.out = nvars)
@@ -252,7 +252,7 @@ step2_data = function(tm) {
 						sel = !vapply(dtl_leg$legend, is.null, logical(1))
 						dtl_leg = dtl_leg[sel, c(grp_bv_fr, "legend"), with = FALSE]
 					} else {
-						cat("step2_grp_lyr_aes_var_one_aes_column\n")
+						#cat("step2_grp_lyr_aes_var_one_aes_column\n")
 						
 						# apply aes function to the (only) var column
 						if (inherits(aes$setup, "tm_aes")) {
@@ -272,11 +272,11 @@ step2_data = function(tm) {
 					 leg = dtl_leg)
 			}
 			
-			cat("step2_grp_lyr_trans_______________\n")
+			#cat("step2_grp_lyr_trans_______________\n")
 			
 			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE)
 			
-			cat("step2_grp_lyr_mapping_____________\n")
+			#cat("step2_grp_lyr_mapping_____________\n")
 			
 			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE)
 			

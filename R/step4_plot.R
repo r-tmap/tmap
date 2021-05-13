@@ -164,6 +164,10 @@ step4_plot = function(tm) {
 	o$n = prod(o$nby)
 	
 	# calculate margins (using grid system)
+	
+	
+	if (is.na(o$panel.type)) o$panel.type = ifelse(o$n == 1 || (o$is.wrap && !is.character(o$fl[[1]])) || (!o$is.wrap && !is.character(o$fl[[1]]) && !is.character(o$fl[[2]])), "none", ifelse(o$is.wrap, "wrap", "xtab"))
+	
 	o = process_margins(o)
 	
 	
@@ -221,10 +225,11 @@ step4_plot = function(tm) {
 			bbx = stm_merge_bbox(bbxs2)
 			if (is.na(bbx)) bbx else tmaptools::bb(bbx, asp.limit = 10)
 		})
-		list(list(stm_merge_bbox(bbxs)))
+		list(list(bb_ext(stm_merge_bbox(bbxs), o$inner.margins)))
 	}
 	
 	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
+
 	
 	get_asp = function(bbxl) {
 		vapply(bbxl, function(bbx) {
@@ -257,6 +262,8 @@ step4_plot = function(tm) {
 	FUNinit = paste0("tmap", gs, "Init")
 	FUNrun = paste0("tmap", gs, "Run")
 	FUNshape = paste0("tmap", gs, "Shape")
+	FUNwrap = paste0("tmap", gs, "Wrap")
+	FUNxtab = paste0("tmap", gs, "Xtab")
 	
 	do.call(FUNinit, list(o = o))
 	
@@ -268,14 +275,18 @@ step4_plot = function(tm) {
 	# 	})
 	# 	bbx = stm_merge_bbox(bbxs)
 	# }
+	print("o$fl")
+	print(o$fl)
+	print("o$is.wrap")
+	print(o$is.wrap)
 	
 	
 	for (i in seq_len(nrow(d))) {
  		bbx = d$bbox[[i]]
 		if (is.na(bbx)) next
-		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i]))
+ 		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$fl[[1]][i], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i])) 
+ 		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i]))
 		for (ig in 1L:o$ng) {
-			
 			tmxi = tmx[[ig]]
 			nl = length(tmxi$layers)
 			for (il in 1L:nl) {
@@ -289,7 +300,7 @@ step4_plot = function(tm) {
 				FUN = paste0("tmap", gs, bl$mapping_fun)
 				
 				#if (FUN == "tmapGridRaster") browser()
-				do.call(FUN, list(shpTM = shpTM, dt = mdt, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i]))
+				do.call(FUN, list(shpTM = shpTM, dt = mdt, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i]))
 			}
 			
 		}

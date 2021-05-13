@@ -1,7 +1,13 @@
+add_to_gt = function(gt, grb, row, col) {
+	vp = grid::viewport(layout.pos.col = col, layout.pos.row = row)
+	gtr = grid::grobTree(grb, vp = vp)
+	
+	grid::addGrob(gt, gtr, gPath = grid::gPath("gt_main"))
+}
 
 
 
-tmapGridInit2 = function(o) {
+tmapGridInit = function(o) {
 	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
 
 	
@@ -41,7 +47,7 @@ tmapGridInit2 = function(o) {
 			  meta.buffers.bottom.out = meta.buffers[1],
 			  outer.margins.bottom = outer.margins[1])
 
-		u = unit(x, "npc")
+		u = grid::unit(x, "npc")
 		names(u) = names(x)
 		u
 	})
@@ -70,7 +76,7 @@ tmapGridInit2 = function(o) {
 			  meta.buffers.right.out = meta.buffers[4],
 			  outer.margins.right = outer.margins[4])
 
-		u = unit(x, "npc")
+		u = grid::unit(x, "npc")
 		names(u) = names(x)
 		u
 	})
@@ -91,6 +97,10 @@ tmapGridInit2 = function(o) {
 		cols_panel_ids = cols_facet_ids + ifelse(o$panel.wrap.pos  == "left", -1, ifelse(o$panel.wrap.pos  == "right", 1, 0))
 		rows_panel_ids = rows_facet_ids + ifelse(o$panel.wrap.pos  == "top", -1, ifelse(o$panel.wrap.pos  == "bottom", 1, 0))
 		
+		panel_col_rot = 0
+		panel_row_rot = ifelse(o$panel.xtab.pos[1] == "lef", 90, 270)
+		panel_rot = ifelse(o$panel.wrap.pos  == "left", 90, ifelse(o$panel.wrap.pos  == "right", 270, 0))
+
 	#}
 	
 	sum(rows[rows_facet_ids])
@@ -116,28 +126,28 @@ tmapGridInit2 = function(o) {
 	} else if (is.na(o$asp) && !is.na(o$sasp)) {
 		fasp = o$sasp
 	}
-	print("fasp")
-	print(fasp)
+	# print("fasp")
+	# print(fasp)
 	
 	gasp2 = fasp * o$ncols / o$nrows # target gasp
 
 	
-	print("gasp")
-	print(gasp)
-	print("gasp2")
-	print(gasp2)
+	# print("gasp")
+	# print(gasp)
+	# print("gasp2")
+	# print(gasp2)
 	
 
 
 	if (gasp2 > gasp) {
 		extra.height =   (1 - ((1 - sum(pcols))/(gasp2/o$dasp))) - sum(prows)
-		rows[c(1, length(rows))] = rows[c(1, length(rows))] + unit(extra.height / 2, "npc")
+		rows[c(1, length(rows))] = rows[c(1, length(rows))] + grid::unit(extra.height / 2, "npc")
 	} else if (gasp2 < gasp) {
 		extra.width =   (1 - ((1 - sum(prows)) * (gasp2/o$dasp))) - sum(pcols)
-		cols[c(1, length(cols))] = cols[c(1, length(cols))] + unit(extra.width / 2, "npc")
+		cols[c(1, length(cols))] = cols[c(1, length(cols))] + grid::unit(extra.width / 2, "npc")
 	}
-	cols[cols_facet_ids] = (unit(1, "npc") - sum(cols)) / o$ncols
-	rows[rows_facet_ids] = (unit(1, "npc") - sum(rows)) / o$nrows
+	cols[cols_facet_ids] = (grid::unit(1, "npc") - sum(cols)) / o$ncols
+	rows[rows_facet_ids] = (grid::unit(1, "npc") - sum(rows)) / o$nrows
 	
 	
 	#rows[rows_facet_ids] = unit()
@@ -149,7 +159,7 @@ tmapGridInit2 = function(o) {
 							grid::viewport(layout = grid::grid.layout(nrow = length(rows), ncol = length(cols), widths = cols, heights = rows), name = "vp_main")
 	)
 	
-	#gt = grobTree(rectGrob(gp=gpar(fill="red")), vp = vp_tree)
+	#gt = grobTree(grid::rectGrob(gp=grid::gpar(fill="red")), vp = vp_tree)
 	
 	gts = lapply(1L:o$npages, function(ip) {
 		grid::grobTree(grid::grobTree(name = "gt_main"), 
@@ -170,174 +180,208 @@ tmapGridInit2 = function(o) {
 		cols_panel_row_id = cols_panel_row_id,
 		cols_panel_col_ids = cols_panel_col_ids,
 		
+		panel_col_rot = panel_col_rot,
+		panel_row_rot = panel_row_rot,
+		panel_rot = panel_rot,
+		
 		fasp = fasp
 	)
 	
 	
-	assign("gts", gts, envir = .TMAP_GRID)
-	assign("g", g, envir = .TMAP_GRID)
-	
-	
-	
-	if (TRUE) {
-		gt = gts[[1]]
-		e = environment()
-		add_to_gt = function(grb, row, col) {
-			vp = viewport(layout.pos.col = col, layout.pos.row = row)
-			gtr = grobTree(grb, vp = vp)
+	if (getOption("tmap.design.mode")) {
+		gts = lapply(gts, function(gt) {
 			
-			gt = grid::addGrob(gt, gtr, gPath = grid::gPath("gt_main"))
-			assign("gt", gt, envir = e)
+			# length(rows)
+			# length(cols)
+			# 
+			# prows = as.numeric(rows)
+			# pcols = as.numeric(cols)
+			# 
+			# names(prows) = names(rows)
+			# names(pcols) = names(cols)
+			# 
+			# cat("rows:\n")
+			# print(prows)
+			# cat("cols:\n")
+			# print(pcols)
 			
-		}
-		
-		# length(rows)
-		# length(cols)
-		# 
-		# prows = as.numeric(rows)
-		# pcols = as.numeric(cols)
-		# 
-		# names(prows) = names(rows)
-		# names(pcols) = names(cols)
-		# 
-		# cat("rows:\n")
-		# print(prows)
-		# cat("cols:\n")
-		# print(pcols)
-		
-		#scales::show_col(pals::brewer.paired(12))
-		p = rep(pals::brewer.paired(12), 3)
-		
-		
-		add_to_gt(rectGrob(gp=gpar(fill = p[1])), row = 1:(nr), col = 1:(nc)) # outer
-		add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 2:(nr-1), col = 2:(nc-1)) # meta buffer out
-		add_to_gt(rectGrob(gp=gpar(fill = p[3])), row = 3:(nr-2), col = 3:(nc-2)) # meta margins
-		add_to_gt(rectGrob(gp=gpar(fill = p[2])), row = 4:(nr-3), col = 4:(nc-3)) # meta buffer in
-		
-		add_to_gt(rectGrob(gp=gpar(fill = p[4])), row = 5:(nr-4), col = 5:(nc-4)) # xylab
-		if (o$panel.type == "xtab") {
-			#add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel buffer
-			add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel
-		}
-		
-		add_to_gt(rectGrob(gp=gpar(fill = p[6])), row = 7:(nr-6), col = 7:(nc-6)) # grid buffer
-		add_to_gt(rectGrob(gp=gpar(fill = p[7])), row = 8:(nr-7), col = 8:(nc-7)) # grid
-		
-		
-		for (i in 1:o$nrows) {
-			for (j in 1:o$ncols) {
-				add_to_gt(rectGrob(gp=gpar(fill = p[11])), row = g$rows_facet_ids[i], col = g$cols_facet_ids[j])
-				if (o$panel.type == "wrap") {
-					add_to_gt(rectGrob(gp=gpar(fill = p[5])), row = g$rows_panel_ids[i], col = g$cols_panel_ids[j])
-				}
-				
+			#scales::show_col(pals::brewer.paired(12))
+			p = rep(pals::brewer.paired(12), 3)
+			
+			gt = gt %>% 
+				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[1])), row = 1:(nr), col = 1:(nc)) %>%  # outer
+				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[2])), row = 2:(nr-1), col = 2:(nc-1)) %>%   # meta buffer out
+				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[3])), row = 3:(nr-2), col = 3:(nc-2)) %>%   # meta margins
+				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[2])), row = 4:(nr-3), col = 4:(nc-3)) %>%   # meta buffer in
+				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[4])), row = 5:(nr-4), col = 5:(nc-4))  # xylab
+			if (o$panel.type == "xtab") {
+				#add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel buffer
+				gt = add_to_gt(gt, grid::rectGrob(gp=grid::gpar(fill = p[5])), row = 6:(nr-5), col = 6:(nc-5)) # panel
 			}
-		}
-		
-		if (o$panel.type == "xtab") {
-			for (i in 1:o$nrows) {
-				add_to_gt(textGrob(label = paste("Row", i), rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)), row = g$rows_panel_row_ids[i], col = g$rows_panel_col_id)
-			}
-			for (i in 1:o$ncols) {
-				add_to_gt(textGrob(label = paste("Col", i)), row = g$cols_panel_row_id, col = g$cols_panel_col_ids[i])
-			}
-		} else if (o$panel.type == "wrap") {
+			
+			gt = gt %>% 
+				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[6])), row = 7:(nr-6), col = 7:(nc-6)) %>%  # grid buffer
+				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[7])), row = 8:(nr-7), col = 8:(nc-7))  # grid
+			
+			
 			for (i in 1:o$nrows) {
 				for (j in 1:o$ncols) {
-					add_to_gt(textGrob(label = paste("Wrap", i, j)), row = g$rows_panel_ids[i], col = g$cols_panel_ids[j])
+					gt = add_to_gt(gt, grid::rectGrob(gp=grid::gpar(fill = p[11])), row = g$rows_facet_ids[i], col = g$cols_facet_ids[j])
+					if (o$panel.type == "wrap") {
+						gt = add_to_gt(gt, grid::rectGrob(gp=grid::gpar(fill = p[5])), row = g$rows_panel_ids[i], col = g$cols_panel_ids[j])
+					}
+					
 				}
 			}
-		}
+			
+			# if (o$panel.type == "xtab") {
+			# 	for (i in 1:o$nrows) {
+			# 		gt = add_to_gt(gt, grid::textGrob(label = paste("Row", i), rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)), row = g$rows_panel_row_ids[i], col = g$rows_panel_col_id)
+			# 	}
+			# 	for (i in 1:o$ncols) {
+			# 		gt = add_to_gt(gt, grid::textGrob(label = paste("Col", i)), row = g$cols_panel_row_id, col = g$cols_panel_col_ids[i])
+			# 	}
+			# } else if (o$panel.type == "wrap") {
+			# 	for (i in 1:o$nrows) {
+			# 		for (j in 1:o$ncols) {
+			# 			gt = add_to_gt(gt, grid::textGrob(label = paste("Wrap", i, j)), row = g$rows_panel_ids[i], col = g$cols_panel_ids[j])
+			# 		}
+			# 	}
+			# }
+			gt
+		})
 		
 		
-		grid.newpage()
-		grid.draw(gt)
 	}
 	
 	
 	
-}
-
-
-# tmapGridShape2 = function(bbx, facet_row, facet_col) {
-# 	
-# }
-# 
-
-
-
-tmapGridInit = function(o) {
-	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
-	#grid.newpage()
-	
-	devsize = dev.size()
-	dasp = devsize[1] / devsize[2]
-	
-	
-	fasp = dasp * o$nrows / o$ncols
-	
-	if (dasp > 1) {
-		cw <- dasp
-		ch <- 1
-	} else {
-		ch <- 1/dasp
-		cw <- 1
-	}
-	
-	gts = lapply(1L:o$npages, function(ip) {
-		vp_tree = grid::vpStack(grid::viewport(width = grid::unit(cw, "snpc"), height = grid::unit(ch, "snpc"), name = "vp_container"),
-								grid::viewport(layout = grid::grid.layout(nrow = o$nrows, ncol = o$ncols), name = "vp_facets"))
-		
-		#gt = grobTree(rectGrob(gp=gpar(fill="red")), vp = vp_tree)
-		
-		grid::grobTree(grid::grobTree(name = "gt_facets"), 
-							grid::rectGrob(gp=grid::gpar(col="red", lwd = 4, fill = NA), name = "red_frame"),
-							vp = vp_tree, name = "tmap_grob_tree")
-	})
-	
-	# gt = grid::grobTree(grid::grobTree(name = "gt_map"), 
-	# 					grid::rectGrob(gp=gpar(col="red", lwd = 4, fill = NA), name = "red_frame"),
-	# 					vp = vp_tree, name = "tmap_grob_tree")
-	
-	assign("devsize", devsize, envir = .TMAP_GRID)
-	assign("dasp", dasp, envir = .TMAP_GRID)
-	assign("fasp", fasp, envir = .TMAP_GRID)
 	assign("gts", gts, envir = .TMAP_GRID)
-	#assign("bbx", bbx, envir = .TMAP_GRID)
+	assign("g", g, envir = .TMAP_GRID)
 
-	NULL
 }
-
-frc = function(row, col) paste0(sprintf("%02d", row), "_", sprintf("%02d", col))
-
 
 tmapGridShape = function(bbx, facet_row, facet_col, facet_page) {
-	gts = get("gts", .TMAP_GRID)
-	fasp = get("fasp", .TMAP_GRID)
+	gts = get("gts", envir = .TMAP_GRID)
+	g = get("g", envir = .TMAP_GRID)
 	
-	sasp = (bbx[3] - bbx[1]) / (bbx[4] - bbx[2])
-
-	if (sasp > fasp) {
-		width = 1
-		height = fasp / sasp
-	} else {
-		height = 1
-		width = sasp / fasp
-	}
+	
+	basp = (bbx[3] - bbx[1]) / (bbx[4] - bbx[2])
+	
+	fbbx = bb_asp(bbx, g$fasp)
+	
 	rc_text = frc(facet_row, facet_col)
 	
-	gtmap = grid::grobTree(grid::rectGrob(gp=grid::gpar(col="blue", lwd = 4, fill = NA), name = paste0("blue_rect_", rc_text)),
-						   vp = grid::vpStack(grid::viewport(layout.pos.col = facet_col, layout.pos.row = facet_row, name = paste0("vp_facet_", rc_text)),
-						   				   grid::viewport(width = width, height = height, xscale = bbx[c(1,3)], yscale = bbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
+	rowid = g$rows_facet_ids[facet_row]
+	colid = g$cols_facet_ids[facet_col]
 	
-	gts[[facet_page]] = grid::addGrob(gts[[facet_page]], gtmap, gPath = grid::gPath("gt_facets"))
+	
+	gtmap = grid::grobTree(grid::rectGrob(gp=grid::gpar(col="blue", lwd = 4, fill = NA), name = paste0("blue_rect_", rc_text)),
+						   vp = grid::vpStack(grid::viewport(layout.pos.col = colid, layout.pos.row = rowid, name = paste0("vp_facet_", rc_text)),
+						   				   grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
+	
+	gts[[facet_page]] = grid::addGrob(gts[[facet_page]], gtmap, gPath = grid::gPath("gt_main"))
 	
 	#assign("devsize", devsize, envir = .TMAP_GRID)
 	#assign("dasp", dasp, envir = .TMAP_GRID)
 	assign("gts", gts, envir = .TMAP_GRID)
-	assign("bbx", bbx, envir = .TMAP_GRID)
-	NULL
+	#assign("bbx", bbx, envir = .TMAP_GRID)
 }
+
+tmapGridWrap = function(label, facet_row, facet_col, facet_page) {
+	gts = get("gts", envir = .TMAP_GRID)
+	g = get("g", envir = .TMAP_GRID)
+	
+	gt = gts[[facet_page]]
+	
+	rot = g$panel_rot
+	
+	gt = add_to_gt(gt, grid::textGrob(label = label, rot = rot), row = g$rows_panel_ids[facet_row], col = g$cols_panel_ids[facet_col])
+
+	gts[[facet_page]] = gt
+	
+	assign("gts", gts, envir = .TMAP_GRID)
+	
+	
+}
+
+
+
+
+
+# 
+# tmapGridInit = function(o) {
+# 	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
+# 	#grid.newpage()
+# 	
+# 	devsize = dev.size()
+# 	dasp = devsize[1] / devsize[2]
+# 	
+# 	
+# 	fasp = dasp * o$nrows / o$ncols
+# 	
+# 	if (dasp > 1) {
+# 		cw <- dasp
+# 		ch <- 1
+# 	} else {
+# 		ch <- 1/dasp
+# 		cw <- 1
+# 	}
+# 	
+# 	gts = lapply(1L:o$npages, function(ip) {
+# 		vp_tree = grid::vpStack(grid::viewport(width = grid::unit(cw, "snpc"), height = grid::unit(ch, "snpc"), name = "vp_container"),
+# 								grid::viewport(layout = grid::grid.layout(nrow = o$nrows, ncol = o$ncols), name = "vp_facets"))
+# 		
+# 		#gt = grobTree(grid::rectGrob(gp=grid::gpar(fill="red")), vp = vp_tree)
+# 		
+# 		grid::grobTree(grid::grobTree(name = "gt_facets"), 
+# 							grid::rectGrob(gp=grid::gpar(col="red", lwd = 4, fill = NA), name = "red_frame"),
+# 							vp = vp_tree, name = "tmap_grob_tree")
+# 	})
+# 	
+# 	# gt = grid::grobTree(grid::grobTree(name = "gt_map"), 
+# 	# 					grid::rectGrob(gp=grid::gpar(col="red", lwd = 4, fill = NA), name = "red_frame"),
+# 	# 					vp = vp_tree, name = "tmap_grob_tree")
+# 	
+# 	assign("devsize", devsize, envir = .TMAP_GRID)
+# 	assign("dasp", dasp, envir = .TMAP_GRID)
+# 	assign("fasp", fasp, envir = .TMAP_GRID)
+# 	assign("gts", gts, envir = .TMAP_GRID)
+# 	#assign("bbx", bbx, envir = .TMAP_GRID)
+# 
+# 	NULL
+# }
+
+frc = function(row, col) paste0(sprintf("%02d", row), "_", sprintf("%02d", col))
+
+
+# tmapGridShape = function(bbx, facet_row, facet_col, facet_page) {
+# 	gts = get("gts", .TMAP_GRID)
+# 	fasp = get("fasp", .TMAP_GRID)
+# 	
+# 	sasp = (bbx[3] - bbx[1]) / (bbx[4] - bbx[2])
+# 
+# 	if (sasp > fasp) {
+# 		width = 1
+# 		height = fasp / sasp
+# 	} else {
+# 		height = 1
+# 		width = sasp / fasp
+# 	}
+# 	rc_text = frc(facet_row, facet_col)
+# 	
+# 	gtmap = grid::grobTree(grid::rectGrob(gp=grid::gpar(col="blue", lwd = 4, fill = NA), name = paste0("blue_rect_", rc_text)),
+# 						   vp = grid::vpStack(grid::viewport(layout.pos.col = facet_col, layout.pos.row = facet_row, name = paste0("vp_facet_", rc_text)),
+# 						   				   grid::viewport(width = width, height = height, xscale = bbx[c(1,3)], yscale = bbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
+# 	
+# 	gts[[facet_page]] = grid::addGrob(gts[[facet_page]], gtmap, gPath = grid::gPath("gt_facets"))
+# 	
+# 	#assign("devsize", devsize, envir = .TMAP_GRID)
+# 	#assign("dasp", dasp, envir = .TMAP_GRID)
+# 	assign("gts", gts, envir = .TMAP_GRID)
+# 	assign("bbx", bbx, envir = .TMAP_GRID)
+# 	NULL
+# }
 
 
 select_sf = function(shpTM, dt) {
@@ -355,7 +399,7 @@ select_sf = function(shpTM, dt) {
 	list(shp = shpSel, dt = dt)
 }
 
-tmapGridPolygons = function(shpTM, dt, facet_row, facet_col, facet_page) {
+tmapGridPolygons = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -375,8 +419,11 @@ tmapGridPolygons = function(shpTM, dt, facet_row, facet_col, facet_page) {
 	gt = gts[[facet_page]]
 	
 	gt_name = paste0("gt_facet_", rc_text)
-	gt$children$gt_facets$children[[gt_name]]$children = appendGlist(gt$children$gt_facets$children[[gt_name]]$children, grb)
-	gt$children$gt_facets$children[[gt_name]]$childrenOrder = names(gt$children$gt_facets$children[[gt_name]]$children)
+	
+	gt = grid::addGrob(gt, grb, gPath = grid::gPath(gt_name))
+	
+	#gt$children$gt_main$children[[gt_name]]$children = appendGlist(gt$children$gt_main$children[[gt_name]]$children, grb)
+	#gt$children$gt_main$children[[gt_name]]$childrenOrder = names(gt$children$gt_main$children[[gt_name]]$children)
 
 	gts[[facet_page]] = gt
 		
@@ -391,7 +438,7 @@ appendGlist = function(glist, x) {
 }
 
 
-tmapGridSymbols = function(shpTM, dt, facet_row, facet_col, facet_page) {
+tmapGridSymbols = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
 	rc_text = frc(facet_row, facet_col)
 	
 	res = select_sf(shpTM, dt)
@@ -412,8 +459,11 @@ tmapGridSymbols = function(shpTM, dt, facet_row, facet_col, facet_page) {
 	gt = gts[[facet_page]]
 	
 	gt_name = paste0("gt_facet_", rc_text)
-	gt$children$gt_facets$children[[gt_name]]$children = appendGlist(gt$children$gt_facets$children[[gt_name]]$children, grb)
-	gt$children$gt_facets$children[[gt_name]]$childrenOrder = names(gt$children$gt_facets$children[[gt_name]]$children)
+	
+	gt = grid::addGrob(gt, grb, gPath = grid::gPath(gt_name))
+
+	# gt$children$gt_main$children[[gt_name]]$children = appendGlist(gt$children$gt_main$children[[gt_name]]$children, grb)
+	# gt$children$gt_main$children[[gt_name]]$childrenOrder = names(gt$children$gt_main$children[[gt_name]]$children)
 	
 	
 	#gt = grid::addGrob(gt, grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
@@ -424,14 +474,19 @@ tmapGridSymbols = function(shpTM, dt, facet_row, facet_col, facet_page) {
 }
 
 
-tmapGridRaster <- function(shpTM, dt, facet_row, facet_col, facet_page) {
+tmapGridRaster <- function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
 	gts = get("gts", .TMAP_GRID)
-	bbx = get("bbx", .TMAP_GRID)
+	#bbx = get("bbx", .TMAP_GRID)
+	
+	g = get("g", .TMAP_GRID)
+	
+	g$fasp
 
+	
 	rc_text = frc(facet_row, facet_col)
 	
 	
-	bb_target <- bbx #attr(shp, "bbox")
+	bb_target <- bb_asp(bbx, g$fasp)
 	bb_real <-  stm_bbox_all(shpTM)
 	
 	shp = shpTM$shp
@@ -476,7 +531,7 @@ tmapGridRaster <- function(shpTM, dt, facet_row, facet_col, facet_page) {
 		shp[[1]][tmapID] = tmapID
 		shpTM <- shapeTM(sf::st_geometry(sf::st_as_sf(shp)), tmapID)
 		tmapGridPolygons(shpTM, dt, facet_row, facet_col, facet_page)
-		#grid.shape(s, gp=gpar(fill=color, col=NA), bg.col=NA, i, k)
+		#grid.shape(s, gp=grid::gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL
 } 

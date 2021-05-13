@@ -6,6 +6,7 @@
 #' @param ... not used
 #' @export
 #' @method print tmap
+#' @importFrom magrittr %>%
 print.tmap = function(x, ...) {
 	x2 = step1_rearrange(x)
 	x3 = step2_data(x2)
