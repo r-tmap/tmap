@@ -280,6 +280,16 @@ step4_plot = function(tm) {
 	print("o$is.wrap")
 	print(o$is.wrap)
 	
+	if (o$panel.type == "xtab") {
+		for (k in 1:o$npages) {
+			labrows = o$fl[[1]]
+			labcols = o$fl[[2]]
+			if (length(labrows) == o$nrows) for (i in 1:o$nrows) do.call(FUNxtab, list(label = labrows[i], facet_row = i, facet_page = k)) 
+			if (length(labcols) == o$ncols) for (j in 1:o$ncols) do.call(FUNxtab, list(label = labcols[j], facet_col = j, facet_page = k)) 
+
+		}
+	}
+	
 	
 	for (i in seq_len(nrow(d))) {
  		bbx = d$bbox[[i]]

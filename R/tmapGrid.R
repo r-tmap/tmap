@@ -98,7 +98,7 @@ tmapGridInit = function(o) {
 		rows_panel_ids = rows_facet_ids + ifelse(o$panel.wrap.pos  == "top", -1, ifelse(o$panel.wrap.pos  == "bottom", 1, 0))
 		
 		panel_col_rot = 0
-		panel_row_rot = ifelse(o$panel.xtab.pos[1] == "lef", 90, 270)
+		panel_row_rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)
 		panel_rot = ifelse(o$panel.wrap.pos  == "left", 90, ifelse(o$panel.wrap.pos  == "right", 270, 0))
 
 	#}
@@ -294,6 +294,8 @@ tmapGridWrap = function(label, facet_row, facet_col, facet_page) {
 	
 	gt = gts[[facet_page]]
 	
+	
+	
 	rot = g$panel_rot
 	
 	gt = add_to_gt(gt, grid::textGrob(label = label, rot = rot), row = g$rows_panel_ids[facet_row], col = g$cols_panel_ids[facet_col])
@@ -305,6 +307,38 @@ tmapGridWrap = function(label, facet_row, facet_col, facet_page) {
 	
 }
 
+tmapGridXtab = function(label, facet_row = NULL, facet_col = NULL, facet_page) {
+	gts = get("gts", envir = .TMAP_GRID)
+	g = get("g", envir = .TMAP_GRID)
+	
+	gt = gts[[facet_page]]
+	
+	if (is.null(facet_row)) {
+		rot = g$panel_col_rot
+		row = g$cols_panel_row_id
+		col = g$cols_panel_col_ids[facet_col]
+	} else {
+		rot = g$panel_row_rot
+		row = g$rows_panel_row_ids[facet_row]
+		col = g$rows_panel_col_id
+	}
+	print(rot)
+	
+		# 		gt = add_to_gt(gt, grid::textGrob(label = paste("Row", i), rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)), row = g$rows_panel_row_ids[i], col = g$rows_panel_col_id)
+		# 	}
+		# 	for (i in 1:o$ncols) {
+		# 		gt = add_to_gt(gt, grid::textGrob(label = paste("Col", i)), row = g$cols_panel_row_id, col = g$cols_panel_col_ids[i])
+		# 	}
+	
+
+	gt = add_to_gt(gt, grid::textGrob(label = label, rot = rot), row = row, col = col)
+	
+	gts[[facet_page]] = gt
+	
+	assign("gts", gts, envir = .TMAP_GRID)
+	
+	
+}
 
 
 
