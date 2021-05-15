@@ -76,10 +76,12 @@ process_margins = function(o) {
 		} else {
 			rep(0, 4)
 		}
-		between.marginH = between.margins * lineH
-		between.marginW = between.margins * lineW
+		between.marginH = between.margin * lineH
+		between.marginW = between.margin * lineW
 		
 		fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
+		
+		inner.margins = get_option_class(inner.margins, class = main_class)
 		
 	})
 	
@@ -295,7 +297,7 @@ step4_plot = function(tm) {
  		bbx = d$bbox[[i]]
 		if (is.na(bbx)) next
  		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$fl[[1]][i], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i])) 
- 		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i]))
+ 		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 		for (ig in 1L:o$ng) {
 			tmxi = tmx[[ig]]
 			nl = length(tmxi$layers)

@@ -161,9 +161,12 @@ tmapGridInit = function(o) {
 	
 	#gt = grobTree(grid::rectGrob(gp=grid::gpar(fill="red")), vp = vp_tree)
 	
+	outerRect = if (!is.null(o$outer.bg.color)) grid::rectGrob(gp=grid::gpar(col=NA, lwd = 0, fill = o$outer.bg.color), name = "outer_rect") else NULL
+	
 	gts = lapply(1L:o$npages, function(ip) {
-		grid::grobTree(grid::grobTree(name = "gt_main"), 
-							grid::rectGrob(gp=grid::gpar(col="red", lwd = 1, fill = NA), name = "red_frame"),
+		grid::grobTree(
+							outerRect,
+							grid::grobTree(name = "gt_main"), 
 							vp = vp_tree, name = "tmap_grob_tree")
 	})
 	
@@ -261,7 +264,7 @@ tmapGridInit = function(o) {
 
 }
 
-tmapGridShape = function(bbx, facet_row, facet_col, facet_page) {
+tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
 	
@@ -275,8 +278,16 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page) {
 	rowid = g$rows_facet_ids[facet_row]
 	colid = g$cols_facet_ids[facet_col]
 	
+	bgcol = if (!is.na(o$bg.color)) o$bg.color else NA
+	frame.lwd = if (identical(o$frame, FALSE)) 0 else o$frame.lwd
+	frame.col = if (identical(o$frame, FALSE)) NA else if (identical(o$frame, TRUE)) "gray30" else o$frame.col
 	
-	gtmap = grid::grobTree(grid::rectGrob(gp=grid::gpar(col="blue", lwd = 4, fill = NA), name = paste0("blue_rect_", rc_text)),
+	
+	innerRect = if (is.na(bgcol) && frame.lwd == 0) {
+		NULL
+	} else grid::rectGrob(gp=grid::gpar(col=frame.col, lwd = frame.lwd, fill = o$bg.color), name = "outer_frame")
+	
+	gtmap = grid::grobTree(innerRect,
 						   vp = grid::vpStack(grid::viewport(layout.pos.col = colid, layout.pos.row = rowid, name = paste0("vp_facet_", rc_text)),
 						   				   grid::viewport(xscale = fbbx[c(1,3)], yscale = fbbx[c(2,4)], name = paste0("vp_map_", rc_text), clip = TRUE)), name = paste0("gt_facet_", rc_text))
 	

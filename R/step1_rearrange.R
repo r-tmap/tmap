@@ -38,8 +38,9 @@ step1_rearrange = function(tmel) {
 	
 	ids = get_main_ids(tmo)
 	
-	crs_option = tmap_graphics()$crs
+	crs_option = tmap_options()$crs
 	crs = if (is.na(crs_option[1])) get_crs(tmo[[ids[1]]]$tms) else crs_option
+	main_class = get_class(tmo[[ids[1]]]$tms)
 
 	# reproject other shapes if needed
 	tmo = structure(lapply(tmo, function(tmg) {
@@ -60,8 +61,11 @@ step1_rearrange = function(tmel) {
 		if (length(nms)) opt[nms] = oth[[id]][nms]
 	}
 	
-	meta = c(opt, list(main = ids, crs = crs))
-	list(tmo = tmo, meta = meta)
+	opt$main = ids
+	opt$main_class = main_class
+	opt$crs = crs
+	
+	list(tmo = tmo, meta = opt)
 }
 
 get_main_ids = function(tmo) {
@@ -74,3 +78,9 @@ get_main_ids = function(tmo) {
 get_crs = function(tms) {
 	if (is.null(tms$crs)) sf::st_crs(tms$shp) else tms$crs
 }
+
+get_class = function(tms) {
+	class(tms$shp)
+}
+
+

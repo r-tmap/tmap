@@ -37,18 +37,19 @@ tmap_mode <- function(mode=NULL) {
 	invisible(current.mode)
 }	
 
-tmap_graphics = function(mode = NULL) {
-	if (is.null(mode)) mode = getOption("tmap.mode")
-	get("tmapOptions", envir = .TMAP)$graphics[[mode]]
-}
+# tmap_graphics = function(mode = NULL) {
+# 	if (is.null(mode)) mode = getOption("tmap.mode")
+# 	get("tmapOptions", envir = .TMAP)$graphics[[mode]]
+# }
+# 
+# tmap_graphics_name = function(mode = NULL) {
+# 	tmap_graphics(mode = mode)$name
+# }
 
-tmap_graphics_name = function(mode = NULL) {
-	tmap_graphics(mode = mode)$name
-}
 
 
 get_modes = function() {
-	names(get("tmapOptions", envir = .TMAP)$graphics)
+	names(get("tmapOptions", envir = .TMAP)$modes)
 }
 
 
