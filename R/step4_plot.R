@@ -20,9 +20,21 @@ get_i = function(ir, ic, ip, nby) {
 	ir + (ic - 1) * nby[1] + (ip - 1) * prod(nby[1:2])
 }
 
-process_margins = function(o) {
+preprocess_meta = function(o) {
 	within(o, {
-			
+		nby = get_nby(fl)
+		n = prod(nby)
+		if (is.na(panel.type)) panel.type = ifelse(n == 1 || (is.wrap && !is.character(fl[[1]])) || (!is.wrap && !is.character(fl[[1]]) && !is.character(fl[[2]])), "none", ifelse(is.wrap, "wrap", "xtab"))
+		
+		inner.margins = get_option_class(inner.margins, class = main_class)
+		
+	})
+	
+}
+
+process_meta = function(o) {
+	within(o, {
+		
 		devsize = dev.size()
 		dasp = devsize[1] / devsize[2]
 		
@@ -43,6 +55,10 @@ process_margins = function(o) {
 		bufferW = lineW / 2
 		
 		# calculate space for margins, panels, etc
+		
+		meta.automatic = is.na(meta.margins)
+		
+		if (meta.automatic) meta.margins = c(0, 0, 0, 0)
 		
 		meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
 		
@@ -81,16 +97,8 @@ process_margins = function(o) {
 		
 		fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
 		
-		inner.margins = get_option_class(inner.margins, class = main_class)
-		
-	})
-	
-}
 
-how_many_rows = function(o) {
-	within(o, {
-		#if (is.na(asp) && !is.na(sasp)) asp = sasp
-		
+	
 		# prefered aspect ratio (just for this function): if asp is defined (not 0 or NA), use that, otherwise use sasp (shape asp) if available (if not; 1)
 		pasp = if (is.na(sasp)) {
 			if (!is.na(asp) && asp > 0) {
@@ -106,9 +114,43 @@ how_many_rows = function(o) {
 			}
 		}
 		
-
+		masp = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
+		
+		if (meta.automatic) {
+			if (!any(legend.present)) {
+				# no central legends
+				meta.margins = c(0, 0, 0, 0)
+			} else if (legend.present[1] & !legend.present[2] & !legend.present[3]) {
+				# only 'all facets' legends (either bottom or right)
+				if ((n == 1 && pasp > masp) || (n > 1 && masp < 1)) {
+					legend.position = c("center", "bottom")
+					meta.margins = c(0.2, 0, 0, 0)
+				} else {
+					legend.position = c("right", "center")
+					meta.margins = c(0, 0, 0, 0.2)
+				}
+			} else {
+				# central goes bottom right
+				legend.position = c("right", "bottom")
+				meta.margins = c(0.2, 0, 0, 0.2)
+			}
+			
+			# redo calculations
+			meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
+			fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
+			
+		} else {
+			if (legend.present[1] & !legend.present[2] & !legend.present[3]) {
+				legend.position = c("right", "center")
+			} else {
+				legend.position = c("right", "bottom")
+			}
+			
+			# todo: check if meta.margins are non-0 for required space
+		}
 		
 		
+		# determine number of rows and cols
 		if (!is.wrap) {
 			nrows = nby[1]
 			ncols = nby[2]
@@ -140,37 +182,45 @@ how_many_rows = function(o) {
 				
 				nrows = ceiling(n / ncols)
 			}
-		} 
+		}
+		
+		npages = ceiling(n / (nrows * ncols))	
+		
 	})
-	
-	
+
 }
+
+
 
 
 step4_plot = function(tm) {
 	tmx = tm$tmo
 	o = tm$meta
 	
+	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
 	
 
-	#opts = list(tmf = tmf)
+	
+	# collect legends
+	dt_template = data.table::data.table(by1__ = integer(0), by2__ =  integer(0), by3__ =  integer(0), legend = list())
+	legs = data.table::rbindlist(c(list(dt_template), lapply(tmx, function(tmxi) {
+		data.table::rbindlist(lapply(tmxi$layers, function(tml) {
+			data.table::rbindlist(c(tml$trans_legend, tml$mapping_legend), fill = TRUE)
+		}), fill = TRUE)
+	})), fill = TRUE)
 	
 	
-	# fl = tmf$fl
-	# nby = get_nby(fl)
-	# is.wrap = tmf$is.wrap
-	# nrows = tmf$nrows
-	# ncols = tmf$ncols
-	o$nby = get_nby(o$fl)
-	o$n = prod(o$nby)
+	# find out whether there are legends for all facets, per row, per col
+	# use them to automatically determine meta.margins (in preprocess_meta)
+	o$legend.present = c(all = any(is.na(legs$by1__) & is.na(legs$by2__)), per_row = any(!is.na(legs$by1__) & is.na(legs$by2__)), per_col = any(is.na(legs$by1__) & !is.na(legs$by2__)))
+	
+	o = preprocess_meta(o)
 	
 	# calculate margins (using grid system)
 	
 	
-	if (is.na(o$panel.type)) o$panel.type = ifelse(o$n == 1 || (o$is.wrap && !is.character(o$fl[[1]])) || (!o$is.wrap && !is.character(o$fl[[1]]) && !is.character(o$fl[[2]])), "none", ifelse(o$is.wrap, "wrap", "xtab"))
 	
-	o = process_margins(o)
 	
 	
 	
@@ -229,16 +279,14 @@ step4_plot = function(tm) {
 		})
 		list(list(bb_ext(stm_merge_bbox(bbxs), o$inner.margins)))
 	}
-	
-	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
-
-	
 	get_asp = function(bbxl) {
 		vapply(bbxl, function(bbx) {
 			unname((bbx[3] - bbx[1]) / (bbx[4] - bbx[2]))
 		}, FUN.VALUE = numeric(1))
 	}
-	
+
+		
+	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 	d[, asp:=get_asp(bbox)]
 	
 	#o$asp
@@ -248,10 +296,8 @@ step4_plot = function(tm) {
 	diff_asp = any(d$asp != d$asp[1])
 	o$sasp = ifelse(diff_asp, NA, d$asp[1])
 
-	o = how_many_rows(o)
-	
-	o$npages = ceiling(o$n / (o$nrows * o$ncols))
-	
+	o = process_meta(o)
+
 	o$ng = length(tmx)
 	
 	
@@ -292,6 +338,11 @@ step4_plot = function(tm) {
 		}
 	}
 	
+
+
+	
+	
+	
 	
 	for (i in seq_len(nrow(d))) {
  		bbx = d$bbox[[i]]
@@ -317,5 +368,42 @@ step4_plot = function(tm) {
 			
 		}
 	}
+	
+	# print legends
+	for (k in seq_len(o$npages)) {
+		# whole page legend
+		wlegs = legs[by3__ == k | is.na(by3__) & is.na(by1__) & is.na(by2__), ]$legend
+		if (length(wlegs)>0) {
+			facet_row = if (o$legend.position[2] == "center") 1:o$nrows else if (o$legend.position[2] == "top") -Inf else Inf
+			facet_col = if (o$legend.position[1] == "center") 1:o$nrows else if (o$legend.position[2] == "left") -Inf else Inf
+				
+			tmapGridLegend(wlegs, o, facet_row = facet_row, facet_col = facet_col, facet_page = k)
+		} 
+		
+		# per row legend
+		ldf = legs[by3__ == k | is.na(by3__) & !is.na(by1__) & is.na(by2__), ]
+		if (nrow(ldf)>0) for (i in seq_len(o$nrows)) {
+			wlegs = ldf[by1__ == i, ]$legend
+			tmapGridLegend(wlegs, o, facet_row = i, facet_col = NULL, facet_page = k)
+		}
+		
+		# per col legend
+		ldf = legs[by3__ == k | is.na(by3__) & is.na(by1__) & !is.na(by2__), ]
+		if (nrow(ldf)>0) for (j in seq_len(o$ncols)) {
+			wlegs = ldf[by2__ == j, ]$legend
+			tmapGridLegend(wlegs, o, facet_row = NULL, facet_col = j, facet_page = k)
+		}
+		
+		# per facet legend
+		ldf = legs[by3__ == k | is.na(by3__) & !is.na(by1__) & !is.na(by2__), ]
+		if (nrow(ldf)>0) for (i in seq_len(o$ncols)) {
+			for (j in seq_len(o$ncols)) {
+				wlegs = ldf[by1__ == i & by2__ == j, ]$legend
+				tmapGridLegend(wlegs, o, facet_row = i, facet_col = j, facet_page = k)
+			}
+		}
+	}
+	
+	
 	do.call(FUNrun, list(o = o))
 }

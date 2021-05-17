@@ -187,6 +187,9 @@ tmapGridInit = function(o) {
 		panel_row_rot = panel_row_rot,
 		panel_rot = panel_rot,
 		
+		meta_rows = c(3, (nr-2)),
+		meta_cols = c(3, (nc-2)),
+		
 		fasp = fasp
 	)
 	
@@ -298,6 +301,46 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	assign("gts", gts, envir = .TMAP_GRID)
 	#assign("bbx", bbx, envir = .TMAP_GRID)
 }
+
+tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_page) {
+	gts = get("gts", envir = .TMAP_GRID)
+	g = get("g", envir = .TMAP_GRID)
+	
+	gt = gts[[facet_page]]
+	
+	legs = list(list(brks = NA, pals = rainbow(5), levs = letters[1:5]))
+	
+	rows = if (facet_row == -Inf) g$meta_rows[1] else if (facet_row == Inf) g$meta_rows[2] else g$rows_facet_ids[facet_row]
+	cols = if (facet_col == -Inf) g$meta_cols[1] else if (facet_col == Inf) g$meta_cols[2] else g$cols_facet_ids[facet_col]
+	
+	legH = vapply(legs, function(leg) {
+		length(leg$levs) + 3
+	}, FUN.VALUE = numeric(1))
+	
+	legHcs = cumsum(c(0, head(legH, -1)))
+	
+	#grbs = do.call(grid::gList, mapply(function(leg, startH) {
+	#	grid::grid.text(c(leg$title, leg$levs), x = grid::unit(1, "lines"), y = grid::unit(c(0.5, seq(2,by=1, length.out = length(leg$levs))) + startH, "lines"), just = "left")
+	#}, legs, legHcs, SIMPLIFY = FALSE))
+	
+	print("----")
+	print(facet_row)
+	print(facet_col)
+	print("-")
+	print(rows)
+	print(cols)
+	print("----")
+	grbs = grid::rectGrob(gp=grid::gpar(fill="gold"))
+	
+	gt = add_to_gt(gt, grbs, row = rows, col = cols)
+	
+	gts[[facet_page]] = gt
+	
+	assign("gts", gts, envir = .TMAP_GRID)
+	
+	
+}
+
 
 tmapGridWrap = function(label, facet_row, facet_col, facet_page) {
 	gts = get("gts", envir = .TMAP_GRID)

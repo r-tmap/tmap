@@ -239,7 +239,7 @@ step2_data = function(tm) {
 						mapply(function(s, v, varname, legname) {
 							f = s$FUN
 							s$FUN = NULL
-							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s))), grp_b_fr, .SDcols = v]
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s, opt = meta))), grp_b_fr, .SDcols = v]
 							NULL
 						}, setup, val, varnames, legnames)
 						
@@ -262,7 +262,7 @@ step2_data = function(tm) {
 						}
 						f = s$FUN
 						s$FUN = NULL
-						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s))), grp_b_fr, .SDcols = val]
+						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s, opt = meta))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]

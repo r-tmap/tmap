@@ -1,6 +1,7 @@
-tm_aes_color_discrete = function(n = 5,
+tm_aes_color_discrete = function(palette = NULL,
 								 style = "pretty",
-								 palette = "Purples") {
+								 n = 5,
+								 labels = NULL) {
 	structure(c(list(FUN = "tmapAesColorDiscrete"), as.list(environment())), class = c("tm_aes_color_discrete", "tm_aes"))
 }
 
@@ -25,41 +26,21 @@ format_aes_results = function(values, legend) {
 }
 
 
-tmapAesColorDiscrete = function(x1, setup) {
-	if (!is.numeric(x1) && !is.factor(x1)) x1 = factor(x1)
-	
-	pals = if (is.factor(x1)) {
-		pals::brewer.set2(nlevels(x1))
-	} else {
-		pals::brewer.blues(setup$n)
-	}
 
-	if (is.factor(x1)) {
-		values = pals[as.integer(x1)]
-		levs = levels(x1)
-		brks = NA
-	} else {
-		ci = suppressWarnings({classInt::classIntervals(x1, n = setup$n, style = setup$style)})
-		values = pals[classInt::findCols(ci)]
-		levs = NA
-		brks = ci$brks
-	}
-	
-	values[is.na(values)] = "#BFBFBF"
-	
-	legend = list(brks = brks, pals = pals, levs = levs)
-	
-	format_aes_results(values, legend)
-	
-}
 
-tmapAesColorRGB = function(x1, x2, x3, setup) {
+
+
+
+
+
+
+tmapAesColorRGB = function(x1, x2, x3, setup, opt) {
 	values = grDevices::rgb(x1, x2, x3, maxColorValue = setup$maxValue)
 
 	format_aes_results(values, list())
 }
 
-tmapAes2dSize = function(x1, setup) {
+tmapAes2dSize = function(x1, setup, opt) {
 	max = if (is.na(setup$max)) max(x1, na.rm = TRUE) else setup$max
 	values = x1 / max
 	legend = list(max = max)

@@ -6,7 +6,7 @@
 		crs = NA,
 		max.facets = 64,
 		
-		meta.margins = c(0, 0, 0, 0),
+		meta.margins = NA,
 		grid.mark.height = 2,
 		xylab.height = 1.25,
 		coords.height = 1.25,
@@ -69,7 +69,7 @@
 		legend.only = FALSE,
 		legend.outside = NA,
 		legend.outside.position = "right",
-		legend.outside.size = 0.3,
+		#legend.outside.size = 0.3,
 		legend.position = NULL,
 		legend.stack = "vertical",
 		legend.just = c("left", "bottom"),

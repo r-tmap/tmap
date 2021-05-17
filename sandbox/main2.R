@@ -34,5 +34,26 @@ show_data()
 		tm_polygons("economy") +
 		tm_facets("continent"))
 
+(tm  = tm_shape(World) +
+		tm_polygons("economy") +
+		tm_facets_grid("income_grp", "alpha_class"))
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
+		tm_symbols("economy", color.free = c(FALSE, TRUE, TRUE)) +
+		tm_facets_grid("income_grp", "alpha_class"))
+
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy", fill.free = FALSE) +
+		#tm_symbols("economy", color.free = c(FALSE, TRUE, TRUE)) +
+		tm_facets_grid("income_grp", "alpha_class"))
+
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy", fill.free = TRUE))
+# todo: calc meta margin height
+# step 4#127
+
 
 tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
