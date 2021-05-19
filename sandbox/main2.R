@@ -57,3 +57,20 @@ show_data()
 
 
 tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
+
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy") +
+		tm_facets_wrap("continent") + tm_options(asp = 1))
+
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy") +
+		tm_facets_wrap("continent") + tm_options(asp = 0))
+
+
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
+		tm_symbols("economy", color.free = c(FALSE, TRUE, TRUE)) +
+		tm_facets_grid("income_grp", "alpha_class")) + tm_options(asp=0)

@@ -124,10 +124,19 @@ process_meta = function(o) {
 				# only 'all facets' legends (either bottom or right)
 				if ((n == 1 && pasp > masp) || (n > 1 && masp < 1)) {
 					legend.position = c("center", "bottom")
-					meta.margins = c(0.2, 0, 0, 0)
+					if (n == 1) {
+						meta.margins = c(1- masp/pasp - 2*bufferH, 0, 0, 0)
+					} else {
+						meta.margins = c(0.2, 0, 0, 0)
+					}
+					
 				} else {
 					legend.position = c("right", "center")
-					meta.margins = c(0, 0, 0, 0.2)
+					if (n == 1) {
+						meta.margins = c(0, 0, 0, 1 - pasp/masp - 2*bufferW)
+					} else {
+						meta.margins = c(0, 0, 0, 0.2)
+					}
 				}
 			} else {
 				# central goes bottom right
@@ -182,6 +191,21 @@ process_meta = function(o) {
 				
 				nrows = ceiling(n / ncols)
 			}
+		}
+		
+		if (n>1 && meta.automatic && !identical(asp, 0)) {
+			# redo meta margins calculations
+			width = ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between.marginW) / ncols
+			height = ((1 - sum(fixedMargins[c(1, 3)])) - (nrows * sum(panel.wrap.size[c(1,3)])) - (nrows - 1) * between.marginH) / nrows
+			a = (width / height) * dasp
+			print("xxx")
+			print(a)
+			print(pasp)
+
+			if (a>pasp) {
+				meta.margins[4] = meta.margins[4] + (1 - (sum(fixedMargins[c(2, 4)]) + ((pasp * height) / dasp) * ncols + (ncols * sum(panel.wrap.size[c(2,4)])) + (ncols - 1) * between.marginW))
+			}
+
 		}
 		
 		npages = ceiling(n / (nrows * ncols))	
@@ -375,7 +399,7 @@ step4_plot = function(tm) {
 		wlegs = legs[by3__ == k | is.na(by3__) & is.na(by1__) & is.na(by2__), ]$legend
 		if (length(wlegs)>0) {
 			facet_row = if (o$legend.position[2] == "center") 1:o$nrows else if (o$legend.position[2] == "top") -Inf else Inf
-			facet_col = if (o$legend.position[1] == "center") 1:o$nrows else if (o$legend.position[2] == "left") -Inf else Inf
+			facet_col = if (o$legend.position[1] == "center") 1:o$ncols else if (o$legend.position[2] == "left") -Inf else Inf
 				
 			tmapGridLegend(wlegs, o, facet_row = facet_row, facet_col = facet_col, facet_page = k)
 		} 
@@ -384,14 +408,16 @@ step4_plot = function(tm) {
 		ldf = legs[by3__ == k | is.na(by3__) & !is.na(by1__) & is.na(by2__), ]
 		if (nrow(ldf)>0) for (i in seq_len(o$nrows)) {
 			wlegs = ldf[by1__ == i, ]$legend
-			tmapGridLegend(wlegs, o, facet_row = i, facet_col = NULL, facet_page = k)
+			facet_col = if (o$legend.position[2] == "left") -Inf else Inf
+			tmapGridLegend(wlegs, o, facet_row = i, facet_col = facet_col, facet_page = k)
 		}
 		
 		# per col legend
 		ldf = legs[by3__ == k | is.na(by3__) & is.na(by1__) & !is.na(by2__), ]
 		if (nrow(ldf)>0) for (j in seq_len(o$ncols)) {
 			wlegs = ldf[by2__ == j, ]$legend
-			tmapGridLegend(wlegs, o, facet_row = NULL, facet_col = j, facet_page = k)
+			facet_row = if (o$legend.position[2] == "top") -Inf else Inf
+			tmapGridLegend(wlegs, o, facet_row = facet_row, facet_col = j, facet_page = k)
 		}
 		
 		# per facet legend
