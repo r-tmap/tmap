@@ -36,7 +36,7 @@ show_data()
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy") +
-		tm_facets_grid("income_grp", "alpha_class"))
+		tm_facets_grid("income_grp", "alpha_class") + tm_options(asp = NA)) 
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +

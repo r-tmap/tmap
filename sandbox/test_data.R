@@ -22,6 +22,8 @@ weather = read_ncdf(system.file('nc/bcsd_obs_1999.nc', package = 'stars'))
 weather1 = st_set_dimensions(merge(weather), names = c('longitude','latitude','time','attributes'))
 weather2 = split(weather1, 'time')
 
+#install.packages("starsdata", repos = "http://pebesma.staff.ifgi.de", type = "source")
+#install.packages("~/Downloads/starsdata_0.0-1.tar.gz", repos = NULL, type = "source")
 granule = system.file("sentinel/S2A_MSIL1C_20180220T105051_N0206_R051_T32ULE_20180221T134037.zip", package = "starsdata")
 s2 = paste0("SENTINEL2_L1C:/vsizip/", granule, "/S2A_MSIL1C_20180220T105051_N0206_R051_T32ULE_20180221T134037.SAFE/MTD_MSIL1C.xml:10m:EPSG_32632")
 #gran = read_stars(s2, proxy = FALSE)

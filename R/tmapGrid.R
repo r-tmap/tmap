@@ -308,7 +308,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	gt = gts[[facet_page]]
 	
-	legs = list(list(brks = NA, pals = rainbow(5), levs = letters[1:5]))
+	#legs = list(list(brks = NA, pals = rainbow(5), levs = letters[1:5]))
 	
 	rows = if (facet_row[1] == -Inf) g$meta_rows[1] else if (facet_row[1] == Inf) g$meta_rows[2] else g$rows_facet_ids[facet_row]
 	cols = if (facet_col[1] == -Inf) g$meta_cols[1] else if (facet_col[1] == Inf) g$meta_cols[2] else g$cols_facet_ids[facet_col]
@@ -319,18 +319,24 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	legHcs = cumsum(c(0, head(legH, -1)))
 	
-	#grbs = do.call(grid::gList, mapply(function(leg, startH) {
-	#	grid::grid.text(c(leg$title, leg$levs), x = grid::unit(1, "lines"), y = grid::unit(c(0.5, seq(2,by=1, length.out = length(leg$levs))) + startH, "lines"), just = "left")
-	#}, legs, legHcs, SIMPLIFY = FALSE))
 	
-	print("----")
-	print(facet_row)
-	print(facet_col)
-	print("-")
-	print(rows)
-	print(cols)
-	print("----")
-	grbs = grid::rectGrob(gp=grid::gpar(fill="gold"))
+	
+	grbs = do.call(grid::gList, do.call(c, mapply(function(leg, startH) {
+		ys = c(0.5, seq(2,by=1, length.out = length(leg$levs)))
+		xs = c(0, rep(1.25, length(leg$levs)))
+		list(grid::grid.rect(gp=grid::gpar(fill="grey90")),
+			grid::grid.rect(x = grid::unit(.5, "lines"), y = grid::unit(1, "npc") - grid::unit(startH + ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
+			 grid::grid.text(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(1, "npc") - grid::unit(startH + ys, "lines"), just = "left"))
+	}, legs, legHcs, SIMPLIFY = FALSE)))
+	
+	# print("----")
+	# print(facet_row)
+	# print(facet_col)
+	# print("-")
+	# print(rows)
+	# print(cols)
+	# print("----")
+	#grbs = grid::rectGrob(gp=grid::gpar(fill="gold"))
 	
 	gt = add_to_gt(gt, grbs, row = rows, col = cols)
 	
