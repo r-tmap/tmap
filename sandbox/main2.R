@@ -29,6 +29,11 @@ show_data()
 (tm = tm_shape(World) +
 		tm_polygons("economy"))
 
+(tm  = tm_shape(World) +
+		tm_polygons("economy") +
+		tm_symbols("economy"))
+		
+
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy") +

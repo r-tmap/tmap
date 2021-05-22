@@ -313,21 +313,70 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	rows = if (facet_row[1] == -Inf) g$meta_rows[1] else if (facet_row[1] == Inf) g$meta_rows[2] else g$rows_facet_ids[facet_row]
 	cols = if (facet_col[1] == -Inf) g$meta_cols[1] else if (facet_col[1] == Inf) g$meta_cols[2] else g$cols_facet_ids[facet_col]
 	
-	legH = vapply(legs, function(leg) {
-		length(leg$levs) + 3
-	}, FUN.VALUE = numeric(1))
+	# legH = vapply(legs, function(leg) {
+	# 	length(leg$levs) + 3
+	# }, FUN.VALUE = numeric(1))
+	# 
+	# legHcs = cumsum(c(0, head(legH, -1)))
 	
-	legHcs = cumsum(c(0, head(legH, -1)))
-	
-	
-	
-	grbs = do.call(grid::gList, do.call(c, mapply(function(leg, startH) {
-		ys = c(0.5, seq(2,by=1, length.out = length(leg$levs)))
+	drawLeg = function(leg) {
+		nlev = length(leg$levs)
+		nlns = nlev + 1.5
+		
+		ys = c(nlns - 0.5, seq(nlns - 2, 0.5, by = -1))
 		xs = c(0, rep(1.25, length(leg$levs)))
-		list(grid::grid.rect(gp=grid::gpar(fill="grey90")),
-			grid::grid.rect(x = grid::unit(.5, "lines"), y = grid::unit(1, "npc") - grid::unit(startH + ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
-			 grid::grid.text(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(1, "npc") - grid::unit(startH + ys, "lines"), just = "left"))
-	}, legs, legHcs, SIMPLIFY = FALSE)))
+		g = list(grid::grid.rect(gp=grid::gpar(fill="grey90")),
+				  grid::grid.rect(x = grid::unit(.5, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
+				  grid::grid.text(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left"))
+		totalH = grid::unit(nlns, "lines")
+		totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$levs), unitTo = "lines", valueOnly = TRUE)), "lines")
+		list(g=g, totalH=totalH, totalW=totalW)
+	}
+	
+	legGrobs = lapply(legs, drawLeg)
+	
+
+	legH = lapply(legGrobs, function(leg) {
+		leg$totalH
+	})
+	
+	
+	if (length(legs) == 1) {
+		legY = list(grid::unit(1, "npc"))
+	} else {
+		legY = c(list(grid::unit(1, "npc")), lapply(1:(length(legs)-1), function(i) {
+			u = grid::unit(1, "npc")
+			for (j in 1:i) {
+				u = u - legH[[j]]
+			}
+			u
+		}))
+	}
+	
+	
+	
+	# 
+	# 
+	# legY = 
+	# 
+	# print(legH)
+	
+
+	
+	grbs = do.call(grid::gList, mapply(function(lG, lH) {
+		grbs = do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lG$totalW/2, width = lG$totalW, y = lH - lG$totalH/2, height = lG$totalH))))
+	}, legGrobs, legY, SIMPLIFY = FALSE))
+	
+	
+
+	
+	# grbs = do.call(grid::gList, do.call(c, mapply(function(leg, startH) {
+	# 	ys = c(0.5, seq(2,by=1, length.out = length(leg$levs)))
+	# 	xs = c(0, rep(1.25, length(leg$levs)))
+	# 	list(grid::grid.rect(gp=grid::gpar(fill="grey90")),
+	# 		grid::grid.rect(x = grid::unit(.5, "lines"), y = grid::unit(1, "npc") - grid::unit(startH + ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
+	# 		 grid::grid.text(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(1, "npc") - grid::unit(startH + ys, "lines"), just = "left"))
+	# }, legs, legHcs, SIMPLIFY = FALSE)))
 	
 	# print("----")
 	# print(facet_row)
