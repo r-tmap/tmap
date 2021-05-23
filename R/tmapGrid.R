@@ -302,7 +302,7 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	#assign("bbx", bbx, envir = .TMAP_GRID)
 }
 
-tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_page) {
+tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_page, legend.stack = "vertical") {
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
 	
@@ -321,15 +321,15 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	drawLeg = function(leg) {
 		nlev = length(leg$levs)
-		nlns = nlev + 1.5
+		nlns = nlev + 2
 		
-		ys = c(nlns - 0.5, seq(nlns - 2, 0.5, by = -1))
-		xs = c(0, rep(1.25, length(leg$levs)))
+		ys = c(nlns - 0.75, seq(nlns - 2.25, 0.75, by = -1))
+		xs = c(0.25, rep(1.5, length(leg$levs)))
 		g = list(grid::grid.rect(gp=grid::gpar(fill="grey90")),
-				  grid::grid.rect(x = grid::unit(.5, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
+				  grid::grid.rect(x = grid::unit(.75, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
 				  grid::grid.text(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left"))
 		totalH = grid::unit(nlns, "lines")
-		totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$levs), unitTo = "lines", valueOnly = TRUE)), "lines")
+		totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$levs), unitTo = "lines", valueOnly = TRUE)) + 1.75, "lines")
 		list(g=g, totalH=totalH, totalW=totalW)
 	}
 	
@@ -339,10 +339,14 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	legH = lapply(legGrobs, function(leg) {
 		leg$totalH
 	})
+	legW = lapply(legGrobs, function(leg) {
+		leg$totalW
+	})
 	
 	
 	if (length(legs) == 1) {
 		legY = list(grid::unit(1, "npc"))
+		legX = list(grid::unit(0, "npc"))
 	} else {
 		legY = c(list(grid::unit(1, "npc")), lapply(1:(length(legs)-1), function(i) {
 			u = grid::unit(1, "npc")
@@ -351,8 +355,17 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			}
 			u
 		}))
+		legX = c(list(grid::unit(0, "npc")), lapply(1:(length(legs)-1), function(i) {
+			u = legW[[i]]
+			if (i>1) for (j in 2:i) {
+				u = u + legW[[j]]
+			}
+			u
+		}))
+		
 	}
 	
+
 	
 	
 	# 
@@ -363,10 +376,19 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 
 	
-	grbs = do.call(grid::gList, mapply(function(lG, lH) {
-		grbs = do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lG$totalW/2, width = lG$totalW, y = lH - lG$totalH/2, height = lG$totalH))))
-	}, legGrobs, legY, SIMPLIFY = FALSE))
+	# grbs = do.call(grid::gList, mapply(function(lG, lH) {
+	# 	grbs = do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lG$totalW/2, width = lG$totalW, y = lH - lG$totalH/2, height = lG$totalH))))
+	# }, legGrobs, legY, SIMPLIFY = FALSE))
 	
+	grbs = do.call(grid::gList, mapply(function(lG, lX, lY) {
+		if (legend.stack == "vertical") {
+			do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lG$totalW/2, width = lG$totalW, y = lY - lG$totalH/2, height = lG$totalH))))
+		} else {
+			do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lX + lG$totalW/2, width = lG$totalW, y = legY[[1]] - lG$totalH/2, height = lG$totalH))))
+		}
+			
+			
+	}, legGrobs, legX, legY, SIMPLIFY = FALSE))
 	
 
 	
