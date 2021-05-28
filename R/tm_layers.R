@@ -3,7 +3,9 @@ tm_polygons = function(fill = "blue",
 					   fill.free = NA,
 					   color = "gray30",
 					   color.setup = tm_aes_color_discrete(),
-					   color.free = NA) {
+					   color.free = NA,
+					   zindex = NA,
+					   group = NA) {
 
 	tm_element_list(tm_element(
 		trans.fun = tmapTransPolygons,

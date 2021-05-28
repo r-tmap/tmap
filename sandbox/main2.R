@@ -79,3 +79,13 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
 		tm_symbols("economy", color.free = c(FALSE, TRUE, TRUE)) +
 		tm_facets_grid("income_grp", "alpha_class")) + tm_options(asp=0)
+
+
+(tm  = tm_shape(World) +
+		tm_polygons(c("economy", "gdp_cap_est")))
+# do to: legend.present
+
+
+# to do: dev asp 1: make sure legend is bottom
+(tm  = tm_shape(World) +
+		tm_polygons(c("economy", "gdp_cap_est")) + tm_facets_wrap(nrow=1))

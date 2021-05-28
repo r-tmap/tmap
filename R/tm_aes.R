@@ -1,7 +1,20 @@
 tm_aes_color_discrete = function(palette = NULL,
-								 style = "pretty",
 								 n = 5,
-								 labels = NULL) {
+								 style = ifelse(is.null(breaks), "pretty", "fixed"),
+								 style.args = list(),
+								 as.count = NA,
+								 breaks = NULL,
+								 interval.closure = "left",
+								 labels = NULL,
+								 drop.levels = FALSE,
+								 midpoint = NULL,
+								 stretch.palette = TRUE,
+								 contrast = NA,
+								 colorNA = NULL,
+								 textNA = "Missing",
+								 showNA = NA,
+								 colorNULL = NULL,
+								 legend = tm_legend()) {
 	structure(c(list(FUN = "tmapAesColorDiscrete"), as.list(environment())), class = c("tm_aes_color_discrete", "tm_aes"))
 }
 
@@ -27,9 +40,14 @@ format_aes_results = function(values, legend) {
 
 
 
-
-
-
+tm_legend = function(title  = NA,
+					 show = TRUE,
+					 format = list(),
+					 is.portrait = TRUE,
+					 reverse = FALSE,
+					 z = NA) {
+	structure(c(list(FUN = "tmapLegend"), as.list(environment())), class = "tm_legend")
+}
 
 
 

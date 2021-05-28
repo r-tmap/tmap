@@ -239,6 +239,7 @@ step2_data = function(tm) {
 						mapply(function(s, v, varname, legname) {
 							f = s$FUN
 							s$FUN = NULL
+							if (is.na(s$legend$title)) s$legend$title = v
 							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s, opt = meta))), grp_b_fr, .SDcols = v]
 							NULL
 						}, setup, val, varnames, legnames)
@@ -262,6 +263,7 @@ step2_data = function(tm) {
 						}
 						f = s$FUN
 						s$FUN = NULL
+						if (is.na(s$legend$title)) s$legend$title = val
 						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s, opt = meta))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))

@@ -239,7 +239,12 @@ step4_plot = function(tm) {
 	
 	# find out whether there are legends for all facets, per row, per col
 	# use them to automatically determine meta.margins (in preprocess_meta)
-	o$legend.present = c(all = any(is.na(legs$by1__) & is.na(legs$by2__)), per_row = any(!is.na(legs$by1__) & is.na(legs$by2__)), per_col = any(is.na(legs$by1__) & !is.na(legs$by2__)))
+	if (o$is.wrap) {
+		o$legend.present = c(all = TRUE, per_row = FALSE, per_col = FALSE)
+		
+	} else {
+		o$legend.present = c(all = any(is.na(legs$by1__) & is.na(legs$by2__)), per_row = any(!is.na(legs$by1__) & is.na(legs$by2__)), per_col = any(is.na(legs$by1__) & !is.na(legs$by2__)))
+	}
 	
 	o = preprocess_meta(o)
 	
@@ -396,6 +401,21 @@ step4_plot = function(tm) {
 	}
 
 	#print legends
+	
+	if (o$is.wrap) {
+		print("legend.position")
+		print(o$legend.position)
+		if (o$ncols > 1 && o$nrows == 1 && o$legend.position[1] == "center") {
+			# multi col, 1 row wrap: align legends
+			legs[, by2__ := by1__]
+			legs[, by1__ := NA]
+		} else if (!(o$ncols == 1 && o$nrows > 1 && o$legend.position[2] == "center")) {
+			# (neg is default setting:  multi row, 1 col wrap: align legends)
+			# multi row&col wrap or misalignment meta margins: don't align legends
+			legs[, by1__ := NA]
+		}
+	}
+	
 	for (k in seq_len(o$npages)) {
 		# whole page legend
 		wlegs = legs[by3__ == k | is.na(by3__) & is.na(by1__) & is.na(by2__), ]$legend
