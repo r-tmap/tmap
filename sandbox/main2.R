@@ -86,6 +86,11 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 # do to: legend.present
 
 
-# to do: dev asp 1: make sure legend is bottom
-(tm  = tm_shape(World) +
-		tm_polygons(c("economy", "gdp_cap_est")) + tm_facets_wrap(nrow=1))
+# to do: difference asp NA 0
+tmap_design_mode()
+(tm = tm_shape(World) +
+		tm_polygons("economy") + tm_options(asp=NA))
+
+(tm = tm_shape(World) +
+		tm_polygons("economy") + tm_options(asp=0))
+

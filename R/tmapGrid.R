@@ -453,7 +453,7 @@ tmapGridXtab = function(label, facet_row = NULL, facet_col = NULL, facet_page) {
 		row = g$rows_panel_row_ids[facet_row]
 		col = g$rows_panel_col_id
 	}
-	print(rot)
+	#print(rot)
 	
 		# 		gt = add_to_gt(gt, grid::textGrob(label = paste("Row", i), rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)), row = g$rows_panel_row_ids[i], col = g$rows_panel_col_id)
 		# 	}
