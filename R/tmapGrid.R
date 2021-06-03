@@ -192,7 +192,7 @@ tmapGridInit = function(o) {
 		
 		fasp = fasp
 	)
-	
+
 	
 	if (getOption("tmap.design.mode")) {
 		gts = lapply(gts, function(gt) {
@@ -325,9 +325,9 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		
 		ys = c(nlns - 0.75, seq(nlns - 2.25, 0.75, by = -1))
 		xs = c(0.25, rep(1.5, length(leg$levs)))
-		g = list(grid::grid.rect(gp=grid::gpar(fill="grey90")),
-				  grid::grid.rect(x = grid::unit(.75, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
-				  grid::grid.text(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left"))
+		g = list(grid::rectGrob(gp=grid::gpar(fill="grey90")),
+				  grid::rectGrob(x = grid::unit(.75, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
+				  grid::textGrob(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left"))
 		totalH = grid::unit(nlns, "lines")
 		totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$levs), unitTo = "lines", valueOnly = TRUE)) + 1.75, "lines")
 		list(g=g, totalH=totalH, totalW=totalW)

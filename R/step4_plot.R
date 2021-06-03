@@ -56,14 +56,14 @@ process_meta = function(o) {
 		
 		# calculate space for margins, panels, etc
 		
-		meta.automatic = is.na(meta.margins)
+		#meta.automatic = is.na(meta.margins)
 		
 		#one.row = (!is.na(o$nrows) && o$nrows == 1)
 		#one.col = (!is.na(o$ncols) && o$ncols == 1)
 		
-		
+		meta.margins.orig = meta.margins
 		if (meta.automatic) meta.margins = c(0, 0, 0, 0)
-		
+
 		meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
 		
 		panel.xtab.size = if (panel.type == "xtab") {
@@ -120,6 +120,9 @@ process_meta = function(o) {
 		
 		masp = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
 		
+		meta.margins.ids = c(ifelse(legend.outside.position[1] == "left", 2, 4),  ifelse(legend.outside.position[2] == "bottom", 1, 3))
+		
+		
 		if (meta.automatic) {
 			if (!any(legend.present)) {
 				# no central legends
@@ -127,25 +130,40 @@ process_meta = function(o) {
 			} else if (legend.present[1] & !legend.present[2] & !legend.present[3]) {
 				# only 'all facets' legends (either bottom or right)
 				if ((n == 1 && pasp > masp) || (n > 1 && masp < 1)) { # || one.row
-					legend.position = c("center", "bottom")
-					if (n == 1) {
-						meta.margins = c(max(0.2, 1- masp/pasp - 2*bufferH), 0, 0, 0)
+					legend.position = c("center", legend.outside.position[2])
+					if (n == 1 && (is.na(asp) || asp != 0)) {
+						meta.margins = c(0, 0, 0, 0)
+						meta.margins[meta.margins.ids[2]] = max(meta.margins.orig[meta.margins.ids[2]], 1- masp/pasp - 2*bufferH) 
+						#meta.margins = c(max(0.2, 1- masp/pasp - 2*bufferH), 0, 0, 0)
 					} else {
 						meta.margins = c(0.2, 0, 0, 0)
 					}
 					
 				} else {
-					legend.position = c("right", "center")
-					if (n == 1) {
-						meta.margins = c(0, 0, 0, max(0.2, 1 - pasp/masp - 2*bufferW))
+					legend.position = c(legend.outside.position[1], "center")
+					if (n == 1 && (is.na(asp) || asp != 0)) {
+						meta.margins = c(0, 0, 0, 0)
+						meta.margins[meta.margins.ids[1]] = max(meta.margins.orig[meta.margins.ids[1]], 1 - pasp/masp - 2*bufferW) 
+						#meta.margins = c(0, 0, 0, max(0.2, 1 - pasp/masp - 2*bufferW))
 					} else {
 						meta.margins = c(0, 0, 0, 0.2)
 					}
 				}
+			} else if (legend.present[1] & legend.present[2] & !legend.present[3]) {
+				# central goes center bottom 
+				legend.position = c("center", legend.outside.position[2])
+				meta.margins = c(0, 0, 0, 0)
+				meta.margins[meta.margins.ids] = meta.margins.orig[meta.margins.ids]
+			} else if (legend.present[1] & !legend.present[2] & legend.present[3]) {
+				# central goes center bottom 
+				legend.position = c(legend.outside.position[1], "center")
+				meta.margins = c(0, 0, 0, 0)
+				meta.margins[meta.margins.ids] = meta.margins.orig[meta.margins.ids]
 			} else {
-				# central goes bottom right
-				legend.position = c("right", "bottom")
-				meta.margins = c(0.2, 0, 0, 0.2)
+				# central goes into corner
+				legend.position = legend.outside.position
+				meta.margins = c(0, 0, 0, 0)
+				meta.margins[meta.margins.ids] = meta.margins.orig[meta.margins.ids]
 			}
 			
 			# redo calculations
