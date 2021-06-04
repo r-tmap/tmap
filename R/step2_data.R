@@ -230,19 +230,22 @@ step2_data = function(tm) {
 						# apply aes function for each var column
 						if (!inherits(aes$setup, "tm_aes")) {
 							setup = rep(aes$setup, length.out = nvars)
+							legend = rep(aes$legend, length.out = nvars)
 						} else {
 							setup = rep(list(aes$setup), length.out = nvars)
+							legend = rep(list(aes$legend), length.out = nvars)
 						}
 						
 						varnames = paste(nm, 1L:nvars, sep = "_")
 						legnames = paste("legend", 1L:nvars, sep = "_")
-						mapply(function(s, v, varname, legname) {
+						mapply(function(s, l, v, varname, legname) {
 							f = s$FUN
 							s$FUN = NULL
-							if (is.na(s$legend$title)) s$legend$title = v
-							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s, opt = meta))), grp_b_fr, .SDcols = v]
+							#if (is.na(s$legend$title)) s$legend$title = v
+							if (is.na(l$title)) l$title = v
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s, legend = l, opt = meta))), grp_b_fr, .SDcols = v]
 							NULL
-						}, setup, val, varnames, legnames)
+						}, setup, legend, val, varnames, legnames)
 						
 						dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legend")
 						dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
@@ -258,13 +261,15 @@ step2_data = function(tm) {
 						# apply aes function to the (only) var column
 						if (inherits(aes$setup, "tm_aes")) {
 							s = aes$setup
+							l = aes$legend
 						} else {
 							s = aes$setup[[1]]
+							l = aes$legend[[1]]
 						}
 						f = s$FUN
 						s$FUN = NULL
-						if (is.na(s$legend$title)) s$legend$title = val
-						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s, opt = meta))), grp_b_fr, .SDcols = val]
+						if (is.na(l$title)) l$title = val
+						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s, legend = l, opt = meta))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]

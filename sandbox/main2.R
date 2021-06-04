@@ -61,6 +61,10 @@ show_data()
 # step 4#127
 
 
+
+tm + tm_options(asp = 0)
+
+
 tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 
 

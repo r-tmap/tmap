@@ -13,8 +13,7 @@ tm_aes_color_discrete = function(palette = NULL,
 								 colorNA = NULL,
 								 textNA = "Missing",
 								 showNA = NA,
-								 colorNULL = NULL,
-								 legend = tm_legend()) {
+								 colorNULL = NULL) {
 	structure(c(list(FUN = "tmapAesColorDiscrete"), as.list(environment())), class = c("tm_aes_color_discrete", "tm_aes"))
 }
 
@@ -40,39 +39,7 @@ format_aes_results = function(values, legend) {
 
 
 
-tm_legend = function(title  = NA,
-					 show = TRUE,
-					 format = list(),
-					 is.portrait = TRUE,
-					 reverse = FALSE,
-					 z = NA) {
-	structure(c(list(FUN = "tmapLegend"), as.list(environment())), class = "tm_legend")
-}
 
 
 
 
-tmapAesColorRGB = function(x1, x2, x3, setup, opt) {
-	values = grDevices::rgb(x1, x2, x3, maxColorValue = setup$maxValue)
-
-	format_aes_results(values, list())
-}
-
-tmapAes2dSize = function(x1, setup, opt) {
-	max = if (is.na(setup$max)) max(x1, na.rm = TRUE) else setup$max
-	values = x1 / max
-	legend = list(max = max)
-	
-	format_aes_results(values, legend)
-}
-
-tmapAesShape = function(x1, setup) {
-	if (is.numeric(x1)) x1 = as.integer(x1)
-	if (is.character(x1)) x1 = as.factor(x1)
-	if (is.factor(x1)) x1 = as.integer(x1)
-	#n = length(shapes)
-	values = setup$shapes[x1]
-	legend = list(shapes = setup$shapes)
-	
-	format_aes_results(values, legend)
-}
