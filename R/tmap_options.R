@@ -44,7 +44,7 @@
 			na = "grey75",
 			null = "grey95"
 		),
-		aes.palette = list(seq = "YlOrBr", div = "RdYlGn", cat = "Set3"),
+		aes.palette = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3"),
 		attr.color = "black",
 		sepia.intensity = 0,
 		saturation = 1,
@@ -73,6 +73,7 @@
 		#legend.outside.size = 0.3,
 		legend.position = NULL,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical"),
+		legend.justified = TRUE,
 		legend.just = c("left", "bottom"),
 		legend.width = 0.4,
 		legend.height = 0.9,

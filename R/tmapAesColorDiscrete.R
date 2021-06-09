@@ -1,31 +1,70 @@
-tmapAesColorDiscrete = function(x1, setup, legend, opt) {
+tmapAesColor = function(x1, setup, legend, opt) {
 	if (!is.numeric(x1) && !is.factor(x1)) x1 = factor(x1)
-
-	pals = if (is.factor(x1)) {
-		pals::brewer.set3(nlevels(x1))
-	} else {
-		pals::brewer.blues(setup$n)
+	
+	isNA = all(is.na(x1)) 
+	isNUM = is.numeric(x1)
+	
+	if (isNUM) {
+		if (isNA) {
+			setup$style = "cat"
+		} else {
+			rng = range(x1, na.rm = TRUE)
+			if (abs(rng[2] - rng[1]) < 1e-9 && rng[1] != rng[2]) {
+				if (opt$show.warnings) warning("The value range of the variable \"", "\" is less than 1e-9", call. = FALSE)
+				x1[!is.na(x1)] <- round(rng[1], 9)
+			}
+		}
+	} else if (isNA) {
+		setup$style = "cat"
 	}
 	
-	if (is.factor(x1)) {
-		x1 = droplevels(x1)
-		values = pals[as.integer(x1)]
-		levs = levels(x1)
-		brks = NA
-	} else {
-		ci = suppressWarnings({classInt::classIntervals(x1, n = setup$n, style = setup$style)})
-		values = pals[classInt::findCols(ci)]
-		levs = NA
-		brks = ci$brks
+	if (length(na.omit(unique(x1)))==1 && setup$style!="fixed") setup$style = "cat"
+	
+	if (is.factor(x1) || setup$style=="cat") {
+		if (is.list(setup$palette)) {
+			palette.type <- ifelse(is.ordered(x1) || (isNUM), "seq", "cat")
+			palette <- setup$palette[[palette.type]] 
+		} else if (setup$palette[1] %in% c("seq", "div", "cat")) {
+			palette.type <- setup$palette[1]
+			palette <- opt$aes.palette[[palette.type]]
+		} else {
+			palette <- setup$palette
+			palette.type <- palette_type(palette)
+		}
+		colsLeg <- cat2pal(x1,
+						   var = "g$col",
+						   palette = palette,
+						   drop.levels = setup$drop.levels,
+						   stretch.palette = setup$stretch.palette,
+						   contrast = setup$contrast,
+						   colorNA = setup$colorNA,
+						   colorNULL=setup$colorNULL,
+						   legend.labels=setup$labels,
+						   max_levels=opt$max.categories,
+						   legend.NA.text = setup$textNA,
+						   showNA = setup$showNA,
+						   process.colors=c(list(alpha=opt$alpha), opt$pc),
+						   legend.format=legend$format,
+						   reverse=legend$reverse)
+		breaks <- NA
+		
+		
+		
+		neutralID <- if (palette.type=="div") round(((length(colsLeg$legend.palette)-1)/2)+1) else 1
+		col.neutral <- colsLeg$legend.palette[1]
 	}
 	
-	values[is.na(values)] = "#BFBFBF"
 	
-	legend = list(title = legend$title, brks = brks, pals = pals, levs = levs)
+	cols <- colsLeg$cols
+	legend.labels <- colsLeg$legend.labels
+	legend.values <- colsLeg$legend.values
+	legend.palette <- colsLeg$legend.palette
 	
-	format_aes_results(values, legend)
+	legend = list(title = legend$title, labels = legend.labels, values = legend.values, palette = legend.palette, col.neutral=col.neutral, breaks=breaks)
 	
+	format_aes_results(cols, legend)
 }
+
 
 
 tmapAesColorRGB = function(x1, x2, x3, setup, legend, opt) {

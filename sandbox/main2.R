@@ -29,6 +29,13 @@ show_data()
 (tm = tm_shape(World) +
 		tm_polygons("economy"))
 
+
+(tm = tm_shape(World) +
+		tm_polygons("economy", fill.setup = tm_aes_color(palette = pals::brewer.greens(10))))
+
+
+
+
 (tm  = tm_shape(World) +
 		tm_polygons("economy") +
 		tm_symbols("economy"))

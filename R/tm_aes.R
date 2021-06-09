@@ -1,4 +1,4 @@
-tm_aes_color_discrete = function(palette = NULL,
+tm_aes_color = function(palette = tmap_option("aes.palette"),
 								 n = 5,
 								 style = ifelse(is.null(breaks), "pretty", "fixed"),
 								 style.args = list(),
@@ -10,11 +10,11 @@ tm_aes_color_discrete = function(palette = NULL,
 								 midpoint = NULL,
 								 stretch.palette = TRUE,
 								 contrast = NA,
-								 colorNA = NULL,
+								 colorNA = tmap_option("aes.color")["na"],
 								 textNA = "Missing",
 								 showNA = NA,
-								 colorNULL = NULL) {
-	structure(c(list(FUN = "tmapAesColorDiscrete"), as.list(environment())), class = c("tm_aes_color_discrete", "tm_aes"))
+								 colorNULL = tmap_option("aes.color")["null"]) {
+	structure(c(list(FUN = "tmapAesColor"), as.list(environment())), class = c("tm_aes_color", "tm_aes"))
 }
 
 tm_aes_color_rgb = function(maxValue = 255) {

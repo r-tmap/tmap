@@ -319,31 +319,58 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	# 
 	# legHcs = cumsum(c(0, head(legH, -1)))
 	
-	drawLeg = function(leg) {
-		nlev = length(leg$levs)
+	
+	
+	legHeight = function(leg) {
+		inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
+		
+		tH = ifelse(!is.na(leg$title), inch * o$legend.title.size * 1.5, 0)
+		iH = inch * length(leg$labels) * o$legend.text.size
+		tH + iH
+	}
+	
+	legWidth = function(leg) {
+		inch = grid::convertHeight(grid::unit(1, "lines", "inches"))
+		
+		tW = ifelse(!is.na(leg$title), inch * o$legend.title.size * grid::convertWidth(grid::stringWidth(leg$title), unitTo = "lines", valueOnly = TRUE), 0)
+		
+		
+		iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + 1.75, "lines")
+		max(c(tW, iW))
+	}
+	
+	drawLeg = function(leg, W, H) {
+		nlev = length(leg$labels)
+		lH = grid::convertHeight(grid::unit(1, "lines", "inches"))
+		
+		
+		
+		vp = grid::viewport(layout = grid::grid.layout(ncol = 3, nrow = nlev + 2, widths = grid::unit(c(lH * o$legend.text.size, lH * o$legend.text.size * 0.5, 1), units = c("inches", "inches", "null"))))
+		
+		
+		
+		
+		nlev = length(leg$labels)
 		nlns = nlev + 2
 		
 		ys = c(nlns - 0.75, seq(nlns - 2.25, 0.75, by = -1))
-		xs = c(0.25, rep(1.5, length(leg$levs)))
+		xs = c(0.25, rep(1.5, length(leg$labels)))
 		g = list(grid::rectGrob(gp=grid::gpar(fill="grey90")),
-				  grid::rectGrob(x = grid::unit(.75, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
-				  grid::textGrob(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left"))
+				  grid::rectGrob(x = grid::unit(.75, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$palette)),
+				  grid::textGrob(c(leg$title, leg$labels), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left", gp=grid::gpar(cex = 0.7)))
 		totalH = grid::unit(nlns, "lines")
-		totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$levs), unitTo = "lines", valueOnly = TRUE)) + 1.75, "lines")
+		totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE)) + 1.75, "lines")
 		list(g=g, totalH=totalH, totalW=totalW)
 	}
 	
+
+	legH = vapply(legGrobs, legHeight, FUN.VALUE = numeric(1))
+	legW = vapply(legGrobs, legWidth, FUN.VALUE = numeric(1))
+	
 	legGrobs = lapply(legs, drawLeg)
 	
-
-	legH = lapply(legGrobs, function(leg) {
-		leg$totalH
-	})
-	legW = lapply(legGrobs, function(leg) {
-		leg$totalW
-	})
 	
-	
+		
 	if (length(legs) == 1) {
 		legY = list(grid::unit(1, "npc"))
 		legX = list(grid::unit(0, "npc"))

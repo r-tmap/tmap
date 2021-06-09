@@ -1,9 +1,9 @@
 tm_polygons = function(fill = "blue", 
-					   fill.setup = tm_aes_color_discrete(),
+					   fill.setup = tm_aes_color(),
 					   fill.legend = tm_legend_portrait(),
 					   fill.free = NA,
 					   color = "gray30",
-					   color.setup = tm_aes_color_discrete(),
+					   color.setup = tm_aes_color(),
 					   color.legend = tm_legend_portrait(),
 					   color.free = NA,
 					   zindex = NA,
@@ -26,7 +26,7 @@ tm_polygons = function(fill = "blue",
 }
 
 tm_borders = function(color = "gray30",
-					  color.setup = tm_aes_color_discrete(),
+					  color.setup = tm_aes_color(),
 					  color.legend = tm_legend_portrait(),
 					  color.free = NA) {
 	
@@ -62,7 +62,7 @@ tm_cartogram = function(...,
 }
 
 tm_raster = function(color = "blue", 
-					 color.setup = tm_aes_color_discrete(),
+					 color.setup = tm_aes_color(),
 					 color.legend = tm_legend_portrait(),
 					 color.free = NA) {
 	
@@ -88,7 +88,7 @@ tm_rgb = function(color = MV(1:3),
 tm_symbols = function(color = "blue", 
 					  size = 1, 
 					  shape = 21, 
-					  color.setup = tm_aes_color_discrete(), 
+					  color.setup = tm_aes_color(), 
 					  size.setup = tm_aes_2d_size(),
 					  shape.setup = tm_aes_shape(),
 					  color.legend = tm_legend_portrait(),

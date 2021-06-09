@@ -249,7 +249,9 @@ process_meta = function(o) {
 
 		
 		npages = ceiling(n / (nrows * ncols))	
-		
+	
+		pc = list(sepia.intensity = sepia.intensity, saturation = saturation)
+			
 	})
 
 }
