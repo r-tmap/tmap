@@ -143,7 +143,7 @@ plot_legend_hist <- function(x, legend.hist.size, lineHeight, scale, m, attr.col
 				line_height <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
 				if (draw_x_axis) {
 					
-					gTree(children = gList(linesGrob(x=c(0,1), y=c(1, 1), gp=gpar(lwd=scale)),
+					gTree(children = gList(linesGrob(x=c(0,1), y=c(1, 1), gp=gpar(col=attr.color, lwd=scale)),
 										   polylineGrob(x=rep(xticks, each=2), y=rep(c(1, 1-axisTicks.npc), n), 
 								  id=rep(1:n, each=2), gp=gpar(col=attr.color, lwd=scale)))) 
 				} else linesGrob(x=c(0,1), y=c(1, 1), gp=gpar(col=attr.color, lwd=scale))
