@@ -63,7 +63,7 @@ tmap_animation(m1, delay=40)
 
 data(World, metro)
 
-m2 <- tm_shape(World, simplify = 0.5) +
+m2 <- tm_shape(World, projection = "+proj=eck4", simplify = 0.5) +
           tm_fill() +
       tm_shape(metro) + 
           tm_bubbles(size = paste0("pop", seq(1970, 2030, by=10)),

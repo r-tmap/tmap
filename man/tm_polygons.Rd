@@ -199,13 +199,13 @@ tm_shape(World) +
     tm_fill("isNLD") +
 tm_layout("Find the Netherlands!")
 
-tm_shape(World) +
+tm_shape(World, projection = "+proj=eck4") +
 	tm_polygons("economy", title="Economy", id="name") +
 	tm_text("iso_a3", size="AREA", scale=1.5) +
 	tm_format("World")
 
 # Numeric data variable
-tm_shape(World) +
+tm_shape(World, projection = "+proj=eck4") +
 	tm_polygons("HPI", palette="RdYlGn", style="cont", n=8,
 		title="Happy Planet Index", id="name") +
 	tm_text("iso_a3", size="AREA", scale=1.5) +

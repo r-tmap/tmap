@@ -1,3 +1,6 @@
+version 3.3-2
+- World has been fixed (it is now 's2' proof, see github issue #564)
+
 version 3.3-1
 - fixed view titles
 - added html.escape to popup.format to control whether html code is escaped in view popups
