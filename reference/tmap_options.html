@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,7 +137,7 @@
     <p>Get or set global options for tmap. The behaviour of <code>tmap_options</code> is similar to <code><a href='https://rdrr.io/r/base/options.html'>options</a></code>: all tmap options are retrieved when this function is called without arguments. When arguments are specified, the corresponding options are set, and the old values are silently returned as a list. The function <code>tmap_options_reset</code> is used to reset all options back to the default values (also the <code>style</code> is reset to <code>"white"</code>). Differences with the default values can be shown with <code>tmap_options_diff</code>. The function <code>tmap_options_save</code> can be used to save the current options as a new style. See details below on how to create a new style.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tmap_options</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tmap_options</span><span class='op'>(</span>
   <span class='va'>...</span>,
   <span class='va'>unit</span>,
   <span class='va'>limits</span>,
@@ -167,7 +164,7 @@
 
 <span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span>
 
-<span class='fu'>tmap_options_save</span><span class='op'>(</span><span class='va'>style</span><span class='op'>)</span></pre>
+<span class='fu'>tmap_options_save</span><span class='op'>(</span><span class='va'>style</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -182,7 +179,7 @@
     </tr>
     <tr>
       <th>limits</th>
-      <td><p>this option determines how many facets (small multiples) are allowed for per mode. It should be a vector of two numeric values named <code>facets.view</code> and <code>facets.plot</code>. By default (i.e. when loading the package), it is set to <code><a href='https://rdrr.io/r/base/c.html'>c(facets.view = 4, facets.plot = 64)</a></code></p></td>
+      <td><p>this option determines how many facets (small multiples) are allowed for per mode. It should be a vector of two numeric values named <code>facets.view</code> and <code>facets.plot</code>. By default (i.e. when loading the package), it is set to <code>c(facets.view = 4, facets.plot = 64)</code></p></td>
     </tr>
     <tr>
       <th>max.categories</th>
@@ -190,7 +187,7 @@
     </tr>
     <tr>
       <th>max.raster</th>
-      <td><p>the maximum size of rasters, in terms of number of raster cells. It should be a vector of two numeric values named <code>plot</code> and <code>view</code>, which determines the size in plotting and viewing mode. The default values are <code><a href='https://rdrr.io/r/base/c.html'>c(plot = 1e7, view = 1e6)</a></code>. Rasters that are larger will be shown at a decreased resolution.</p></td>
+      <td><p>the maximum size of rasters, in terms of number of raster cells. It should be a vector of two numeric values named <code>plot</code> and <code>view</code>, which determines the size in plotting and viewing mode. The default values are <code>c(plot = 1e7, view = 1e6)</code>. Rasters that are larger will be shown at a decreased resolution.</p></td>
     </tr>
     <tr>
       <th>basemaps</th>
@@ -262,271 +259,298 @@
 
     <p>The options can be divided into three parts: one part contains the arguments from <code><a href='tm_layout.html'>tm_layout</a></code>, one part contains the arguments from <code><a href='tm_view.html'>tm_view</a></code>, and one part contains options that can only be set with <code>tmap_options</code>. Observe that the options from <code><a href='tm_layout.html'>tm_layout</a></code> and <code><a href='tm_view.html'>tm_view</a></code> can also be set with those functions. It is recommended to use <code>tmap_options</code> when setting specific options during global session. However, options that are only relevant for a specific map can better be set with <code><a href='tm_layout.html'>tm_layout</a></code> or <code><a href='tm_view.html'>tm_view</a></code>.</p>
 <p>A new style can be created in two ways. The first approach is to use the function <code>tmap_options_save</code>, which takes a snapshot of the current tmap options. E.g., <code>tmap_options_save("my_style")</code> will save the current tmap options as a style called <code>"my_style"</code>. See the examples in which a style called <code>"red"</code> is created. The second way to create a style is to create a list with tmap options and with a attribute called style. This approach is illustrated in the last example, in which a style called <code>"black"</code> is created.</p>
-<p>The newly created style, say <code>"my_style"</code>, will be accessible globally via <code><a href='tmap_style.html'>tmap_style("my_style")</a></code> and <code>+ tm_style("my_style")</code> until the R session is restarted or <code>tmap</code> is reloaded. In order to save the style for future use or sharing, obtain the option list as follows: <code>my_style &lt;- tmap_options()</code> and save the object <code>my_style</code> in the usual way. Next time, the style can be loaded simply by running <code>tmap_options(my_style)</code>, which corresponds to the second way to create a style (see the paragraph above).</p>
+<p>The newly created style, say <code>"my_style"</code>, will be accessible globally via <code>tmap_style("my_style")</code> and <code>+ tm_style("my_style")</code> until the R session is restarted or <code>tmap</code> is reloaded. In order to save the style for future use or sharing, obtain the option list as follows: <code>my_style &lt;- tmap_options()</code> and save the object <code>my_style</code> in the usual way. Next time, the style can be loaded simply by running <code>tmap_options(my_style)</code>, which corresponds to the second way to create a style (see the paragraph above).</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='tm_layout.html'>tm_layout</a></code>, <code><a href='tm_view.html'>tm_view</a></code>, and <code><a href='tmap_style.html'>tmap_style</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># load data</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
-
-<span class='co'># get current options</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='fu'>tmap_options</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; List of 111
-#&gt;  $ unit                   : chr "metric"
-#&gt;  $ limits                 : Named num [1:2] 64 4
-#&gt;   ..- attr(*, "names")= chr [1:2] "facets.plot" "facets.view"
-#&gt;  $ max.categories         : num 30
-#&gt;  $ max.raster             : Named num [1:2] 1e+06 1e+06
-#&gt;   ..- attr(*, "names")= chr [1:2] "plot" "view"
-#&gt;  $ show.messages          : logi TRUE
-#&gt;  $ show.warnings          : logi TRUE
-#&gt;  $ output.format          : chr "png"
-#&gt;  $ output.size            : num 49
-#&gt;  $ output.dpi             : num 300
-#&gt;  $ output.dpi.animation   : num 100
-#&gt;  $ check.and.fix          : logi FALSE
-#&gt;  $ title                  : logi NA
-#&gt;  $ scale                  : num 1
-#&gt;  $ title.size             : num 1.3
-#&gt;  $ bg.color               : chr "white"
-#&gt;  $ aes.color              : Named chr [1:8] "grey85" "grey40" "grey60" "black" ...
-#&gt;   ..- attr(*, "names")= chr [1:8] "fill" "borders" "symbols" "dots" ...
-#&gt;  $ aes.palette            :List of 3
-#&gt;   ..$ seq: chr "YlOrBr"
-#&gt;   ..$ div: chr "RdYlGn"
-#&gt;   ..$ cat: chr "Set3"
-#&gt;  $ attr.color             : chr "black"
-#&gt;  $ sepia.intensity        : num 0
-#&gt;  $ saturation             : num 1
-#&gt;  $ frame                  : logi TRUE
-#&gt;  $ frame.lwd              : num 1
-#&gt;  $ frame.double.line      : logi FALSE
-#&gt;  $ asp                    : logi NA
-#&gt;  $ outer.margins          : num [1:4] 0.02 0.02 0.02 0.02
-#&gt;  $ inner.margins          : logi NA
-#&gt;  $ between.margin         : num 0.5
-#&gt;  $ outer.bg.color         : NULL
-#&gt;  $ fontface               : chr "plain"
-#&gt;  $ fontfamily             : chr ""
-#&gt;  $ compass.type           : chr "arrow"
-#&gt;  $ earth.boundary         : logi FALSE
-#&gt;  $ earth.boundary.color   : NULL
-#&gt;  $ earth.boundary.lwd     : num 1
-#&gt;  $ earth.datum            : num 4326
-#&gt;  $ space.color            : NULL
-#&gt;  $ legend.show            : logi TRUE
-#&gt;  $ legend.only            : logi FALSE
-#&gt;  $ legend.outside         : logi NA
-#&gt;  $ legend.outside.position: chr "right"
-#&gt;  $ legend.outside.size    : num 0.3
-#&gt;  $ legend.position        : NULL
-#&gt;  $ legend.stack           : chr "vertical"
-#&gt;  $ legend.just            : chr [1:2] "left" "bottom"
-#&gt;  $ legend.width           : num 0.4
-#&gt;  $ legend.height          : num 0.9
-#&gt;  $ legend.hist.height     : num 0.3
-#&gt;  $ legend.hist.width      : num 0.4
-#&gt;  $ legend.title.color     : NULL
-#&gt;  $ legend.title.size      : num 1.1
-#&gt;  $ legend.title.fontface  : NULL
-#&gt;  $ legend.title.fontfamily: NULL
-#&gt;  $ legend.text.color      : NULL
-#&gt;  $ legend.text.size       : num 0.7
-#&gt;  $ legend.text.fontface   : NULL
-#&gt;  $ legend.text.fontfamily : NULL
-#&gt;  $ legend.hist.size       : num 0.7
-#&gt;  $ legend.format          :List of 12
-#&gt;   ..$ fun            : NULL
-#&gt;   ..$ scientific     : logi FALSE
-#&gt;   ..$ digits         : logi NA
-#&gt;   ..$ big.num.abbr   : Named num [1:2] 6 9
-#&gt;   .. ..- attr(*, "names")= chr [1:2] "mln" "bln"
-#&gt;   ..$ prefix         : chr ""
-#&gt;   ..$ suffix         : chr ""
-#&gt;   ..$ text.separator : chr "to"
-#&gt;   ..$ text.less.than : chr [1:2] "Less" "than"
-#&gt;   ..$ text.or.more   : chr [1:2] "or" "more"
-#&gt;   ..$ text.align     : logi NA
-#&gt;   ..$ text.to.columns: logi FALSE
-#&gt;   ..$ html.escape    : logi TRUE
-#&gt;  $ legend.frame           : logi FALSE
-#&gt;  $ legend.frame.lwd       : num 1
-#&gt;  $ legend.bg.color        : logi NA
-#&gt;  $ legend.bg.alpha        : num 1
-#&gt;  $ legend.hist.bg.color   : logi NA
-#&gt;  $ legend.hist.bg.alpha   : num 1
-#&gt;  $ title.snap.to.legend   : logi NA
-#&gt;  $ title.position         : chr [1:2] "left" "top"
-#&gt;  $ title.color            : NULL
-#&gt;  $ title.fontface         : NULL
-#&gt;  $ title.fontfamily       : NULL
-#&gt;  $ title.bg.color         : logi NA
-#&gt;  $ title.bg.alpha         : num 1
-#&gt;  $ panel.show             : logi NA
-#&gt;  $ panel.labels           : logi NA
-#&gt;  $ panel.label.size       : num 1
-#&gt;  $ panel.label.color      : chr "black"
-#&gt;  $ panel.label.fontface   : NULL
-#&gt;  $ panel.label.fontfamily : NULL
-#&gt;  $ panel.label.bg.color   : chr "grey80"
-#&gt;  $ panel.label.height     : num 1.25
-#&gt;  $ panel.label.rot        : num [1:2] 90 0
-#&gt;  $ main.title             : logi NA
-#&gt;  $ main.title.size        : num 1.5
-#&gt;  $ main.title.color       : chr "black"
-#&gt;  $ main.title.fontface    : NULL
-#&gt;  $ main.title.fontfamily  : NULL
-#&gt;  $ main.title.position    : chr "left"
-#&gt;  $ attr.outside           : logi FALSE
-#&gt;  $ attr.outside.position  : chr "bottom"
-#&gt;  $ attr.outside.size      : logi NA
-#&gt;  $ attr.position          : chr [1:2] "right" "bottom"
-#&gt;  $ attr.just              : chr [1:2] "left" "bottom"
-#&gt;  $ basemaps               : chr [1:3] "Esri.WorldGrayCanvas" "OpenStreetMap" "Esri.WorldTopoMap"
-#&gt;  $ basemaps.alpha         : num [1:3] 1 1 1
-#&gt;  $ overlays               : NULL
-#&gt;  $ overlays.alpha         : num 1
-#&gt;  $ qtm.scalebar           : logi TRUE
-#&gt;  $ qtm.minimap            : logi FALSE
-#&gt;  $ qtm.mouse.coordinates  : logi TRUE
-#&gt;  $ alpha                  : logi NA
-#&gt;   [list output truncated]
-#&gt;  - attr(*, "style")= chr "white"</div><div class='input'>
-<span class='co'># get current style</span>
-<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>current tmap style is "white"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
-<span class='co'># plot map (with default options)</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
-</div><div class='img'><img src='tmap_options-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># change style to cobalt</span>
-<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap style set to "cobalt"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
-<span class='co'># observe the changed options</span>
-<span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>current tmap options (style "cobalt") that are different from default tmap options (style "white"):</span></div><div class='output co'>#&gt; $bg.color
-#&gt; [1] "#002240"
-#&gt; 
-#&gt; $aes.color
-#&gt;      fill   borders   symbols      dots     lines      text        na      null 
-#&gt; "#0088FF" "#002240" "#FF9D00" "#FF9D00" "#FFEE80"   "white"  "grey60"  "grey40" 
-#&gt; 
-#&gt; $aes.palette
-#&gt; $aes.palette$seq
-#&gt; [1] "YlGn"
-#&gt; 
-#&gt; $aes.palette$div
-#&gt; [1] "RdYlGn"
-#&gt; 
-#&gt; $aes.palette$cat
-#&gt; [1] "Set3"
-#&gt; 
-#&gt; 
-#&gt; $attr.color
-#&gt; [1] "white"
-#&gt; 
-#&gt; $basemaps
-#&gt; [1] "CartoDB.DarkMatter"
-#&gt; 
-#&gt; $basemaps.alpha
-#&gt; [1] 0.5
-#&gt; </div><div class='input'>
-<span class='co'># plot the map again</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
-</div><div class='img'><img src='tmap_options-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>##############################</span>
-<span class='co'># define red style</span>
-<span class='co'>##############################</span>
-
-<span class='co'># change the background color</span>
-<span class='fu'>tmap_options</span><span class='op'>(</span>bg.color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span>
-
-<span class='co'># note that the current style is modified</span>
-<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>current tmap style is "cobalt (modified)"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span></div><div class='input'>
-<span class='co'># observe the changed options</span>
-<span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>current tmap options (style "cobalt (modified)") that are different from default tmap options (style "white"):</span></div><div class='output co'>#&gt; $bg.color
-#&gt; [1] "red"
-#&gt; 
-#&gt; $aes.color
-#&gt;      fill   borders   symbols      dots     lines      text        na      null 
-#&gt; "#0088FF" "#002240" "#FF9D00" "#FF9D00" "#FFEE80"   "white"  "grey60"  "grey40" 
-#&gt; 
-#&gt; $aes.palette
-#&gt; $aes.palette$seq
-#&gt; [1] "YlGn"
-#&gt; 
-#&gt; $aes.palette$div
-#&gt; [1] "RdYlGn"
-#&gt; 
-#&gt; $aes.palette$cat
-#&gt; [1] "Set3"
-#&gt; 
-#&gt; 
-#&gt; $attr.color
-#&gt; [1] "white"
-#&gt; 
-#&gt; $basemaps
-#&gt; [1] "CartoDB.DarkMatter"
-#&gt; 
-#&gt; $basemaps.alpha
-#&gt; [1] 0.5
-#&gt; </div><div class='input'>
-<span class='co'># save the current options as style "red"</span>
-<span class='fu'>tmap_options_save</span><span class='op'>(</span><span class='st'>"red"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>current tmap options saved as style "red"</span></div><div class='input'>
-<span class='co'># plot the map again</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
-</div><div class='img'><img src='tmap_options-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># the specified arguments of tm_layout and tm_view will override the options temporarily:</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span>
-</div><div class='img'><img src='tmap_options-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># when tm_style_ is called, it will override all options temporarily:</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Note that tm_style("classic") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.</span></div><div class='img'><img src='tmap_options-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># reset all options</span>
-<span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap options successfully reset</span></div><div class='input'>
-<span class='co'># check style and options</span>
-<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>current tmap style is "white"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span></div><div class='input'><span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>current tmap options are similar to the default tmap options (style "white")</span></div><div class='input'>
-<span class='co'>##############################</span>
-<span class='co'># define black style</span>
-<span class='co'>##############################</span>
-
-<span class='co'># create style list with style attribute</span>
-<span class='va'>black_style</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span>
-    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>
-    bg.color <span class='op'>=</span> <span class='st'>"black"</span>,
-    aes.color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"grey40"</span>, borders <span class='op'>=</span> <span class='st'>"grey40"</span>, 
-            symbols <span class='op'>=</span> <span class='st'>"grey80"</span>, dots <span class='op'>=</span> <span class='st'>"grey80"</span>, 
-                  lines <span class='op'>=</span> <span class='st'>"white"</span>, text <span class='op'>=</span> <span class='st'>"white"</span>, 
-            na <span class='op'>=</span> <span class='st'>"grey30"</span>, null <span class='op'>=</span> <span class='st'>"grey15"</span><span class='op'>)</span>,
-    aes.palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>seq <span class='op'>=</span> <span class='st'>"plasma"</span>, div <span class='op'>=</span> <span class='st'>"PiYG"</span>, cat <span class='op'>=</span> <span class='st'>"Dark2"</span><span class='op'>)</span>,
-    attr.color <span class='op'>=</span> <span class='st'>"white"</span>,
-    panel.label.color <span class='op'>=</span> <span class='st'>"white"</span>,
-    panel.label.bg.color <span class='op'>=</span> <span class='st'>"grey40"</span>,
-    main.title.color <span class='op'>=</span> <span class='st'>"white"</span>
-  <span class='op'>)</span>,
-  style <span class='op'>=</span> <span class='st'>"black"</span>
-<span class='op'>)</span>
-
-<span class='co'># assign the style</span>
-<span class='fu'>tmap_options</span><span class='op'>(</span><span class='va'>black_style</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap options successfully loaded as style "black"</span></div><div class='input'>
-<span class='co'># observe that "black" is a new style</span>
-<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>current tmap style is "black"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span></div><div class='input'>
-<span class='co'># plot the world map again, this time with the newly created black style</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span>
-</div><div class='img'><img src='tmap_options-6.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># reset all options</span>
-<span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap options successfully reset</span></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># load data</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># get current options</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/str.html'>str</a></span><span class='op'>(</span><span class='fu'>tmap_options</span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> List of 111</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ unit                   : chr "metric"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ limits                 : Named num [1:2] 64 4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "names")= chr [1:2] "facets.plot" "facets.view"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ max.categories         : num 30</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ max.raster             : Named num [1:2] 1e+06 1e+06</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "names")= chr [1:2] "plot" "view"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ show.messages          : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ show.warnings          : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ output.format          : chr "png"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ output.size            : num 49</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ output.dpi             : num 300</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ output.dpi.animation   : num 100</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ check.and.fix          : logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title                  : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ scale                  : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title.size             : num 1.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ bg.color               : chr "white"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ aes.color              : Named chr [1:8] "grey85" "grey40" "grey60" "black" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..- attr(*, "names")= chr [1:8] "fill" "borders" "symbols" "dots" ...</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ aes.palette            :List of 3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ seq: chr "YlOrBr"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ div: chr "RdYlGn"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ cat: chr "Set3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ attr.color             : chr "black"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ sepia.intensity        : num 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ saturation             : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ frame                  : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ frame.lwd              : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ frame.double.line      : logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ asp                    : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ outer.margins          : num [1:4] 0.02 0.02 0.02 0.02</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ inner.margins          : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ between.margin         : num 0.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ outer.bg.color         : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ fontface               : chr "plain"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ fontfamily             : chr ""</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ compass.type           : chr "arrow"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ earth.boundary         : logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ earth.boundary.color   : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ earth.boundary.lwd     : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ earth.datum            : num 4326</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ space.color            : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.show            : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.only            : logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.outside         : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.outside.position: chr "right"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.outside.size    : num 0.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.position        : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.stack           : chr "vertical"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.just            : chr [1:2] "left" "bottom"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.width           : num 0.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.height          : num 0.9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.hist.height     : num 0.3</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.hist.width      : num 0.4</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.title.color     : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.title.size      : num 1.1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.title.fontface  : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.title.fontfamily: NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.text.color      : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.text.size       : num 0.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.text.fontface   : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.text.fontfamily : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.hist.size       : num 0.7</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.format          :List of 12</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ fun            : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ scientific     : logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ digits         : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ big.num.abbr   : Named num [1:2] 6 9</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   .. ..- attr(*, "names")= chr [1:2] "mln" "bln"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ prefix         : chr ""</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ suffix         : chr ""</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ text.separator : chr "to"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ text.less.than : chr [1:2] "Less" "than"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ text.or.more   : chr [1:2] "or" "more"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ text.align     : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ text.to.columns: logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   ..$ html.escape    : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.frame           : logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.frame.lwd       : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.bg.color        : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.bg.alpha        : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.hist.bg.color   : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ legend.hist.bg.alpha   : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title.snap.to.legend   : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title.position         : chr [1:2] "left" "top"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title.color            : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title.fontface         : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title.fontfamily       : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title.bg.color         : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ title.bg.alpha         : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.show             : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.labels           : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.label.size       : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.label.color      : chr "black"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.label.fontface   : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.label.fontfamily : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.label.bg.color   : chr "grey80"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.label.height     : num 1.25</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ panel.label.rot        : num [1:2] 90 0</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ main.title             : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ main.title.size        : num 1.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ main.title.color       : chr "black"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ main.title.fontface    : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ main.title.fontfamily  : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ main.title.position    : chr "left"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ attr.outside           : logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ attr.outside.position  : chr "bottom"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ attr.outside.size      : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ attr.position          : chr [1:2] "right" "bottom"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ attr.just              : chr [1:2] "left" "bottom"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ basemaps               : chr [1:3] "Esri.WorldGrayCanvas" "OpenStreetMap" "Esri.WorldTopoMap"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ basemaps.alpha         : num [1:3] 1 1 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ overlays               : NULL</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ overlays.alpha         : num 1</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ qtm.scalebar           : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ qtm.minimap            : logi FALSE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ qtm.mouse.coordinates  : logi TRUE</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  $ alpha                  : logi NA</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>   [list output truncated]</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>  - attr(*, "style")= chr "white"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># get current style</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> current tmap style is "white"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># plot map (with default options)</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tmap_options-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># change style to cobalt</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap style set to "cobalt"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> other available styles are: "white", "gray", "natural", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># observe the changed options</span></span>
+<span class='r-in'><span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> current tmap options (style "cobalt") that are different from default tmap options (style "white"):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bg.color</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "#002240"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.color</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      fill   borders   symbols      dots     lines      text        na      null </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> "#0088FF" "#002240" "#FF9D00" "#FF9D00" "#FFEE80"   "white"  "grey60"  "grey40" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.palette</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.palette$seq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "YlGn"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.palette$div</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "RdYlGn"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.palette$cat</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Set3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $attr.color</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "white"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $basemaps</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "CartoDB.DarkMatter"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $basemaps.alpha</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># plot the map again</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tmap_options-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>##############################</span></span>
+<span class='r-in'><span class='co'># define red style</span></span>
+<span class='r-in'><span class='co'>##############################</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># change the background color</span></span>
+<span class='r-in'><span class='fu'>tmap_options</span><span class='op'>(</span>bg.color <span class='op'>=</span> <span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># note that the current style is modified</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> current tmap style is "cobalt (modified)"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># observe the changed options</span></span>
+<span class='r-in'><span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> current tmap options (style "cobalt (modified)") that are different from default tmap options (style "white"):</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $bg.color</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "red"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.color</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>      fill   borders   symbols      dots     lines      text        na      null </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> "#0088FF" "#002240" "#FF9D00" "#FF9D00" "#FFEE80"   "white"  "grey60"  "grey40" </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.palette</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.palette$seq</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "YlGn"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.palette$div</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "RdYlGn"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $aes.palette$cat</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "Set3"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $attr.color</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "white"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $basemaps</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] "CartoDB.DarkMatter"</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> $basemaps.alpha</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> [1] 0.5</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># save the current options as style "red"</span></span>
+<span class='r-in'><span class='fu'>tmap_options_save</span><span class='op'>(</span><span class='st'>"red"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> current tmap options saved as style "red"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># plot the map again</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tmap_options-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># the specified arguments of tm_layout and tm_view will override the options temporarily:</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tmap_options-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># when tm_style_ is called, it will override all options temporarily:</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"purple"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Note that tm_style("classic") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.</span>
+<span class='r-plt'><img src='tmap_options-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># reset all options</span></span>
+<span class='r-in'><span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap options successfully reset</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># check style and options</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> current tmap style is "white"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span>
+<span class='r-in'><span class='fu'>tmap_options_diff</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> current tmap options are similar to the default tmap options (style "white")</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>##############################</span></span>
+<span class='r-in'><span class='co'># define black style</span></span>
+<span class='r-in'><span class='co'>##############################</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># create style list with style attribute</span></span>
+<span class='r-in'><span class='va'>black_style</span>  <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/structure.html'>structure</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span></span>
+<span class='r-in'>    bg.color <span class='op'>=</span> <span class='st'>"black"</span>,</span>
+<span class='r-in'>    aes.color <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>fill <span class='op'>=</span> <span class='st'>"grey40"</span>, borders <span class='op'>=</span> <span class='st'>"grey40"</span>, </span>
+<span class='r-in'>            symbols <span class='op'>=</span> <span class='st'>"grey80"</span>, dots <span class='op'>=</span> <span class='st'>"grey80"</span>, </span>
+<span class='r-in'>                  lines <span class='op'>=</span> <span class='st'>"white"</span>, text <span class='op'>=</span> <span class='st'>"white"</span>, </span>
+<span class='r-in'>            na <span class='op'>=</span> <span class='st'>"grey30"</span>, null <span class='op'>=</span> <span class='st'>"grey15"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    aes.palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>seq <span class='op'>=</span> <span class='st'>"plasma"</span>, div <span class='op'>=</span> <span class='st'>"PiYG"</span>, cat <span class='op'>=</span> <span class='st'>"Dark2"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    attr.color <span class='op'>=</span> <span class='st'>"white"</span>,</span>
+<span class='r-in'>    panel.label.color <span class='op'>=</span> <span class='st'>"white"</span>,</span>
+<span class='r-in'>    panel.label.bg.color <span class='op'>=</span> <span class='st'>"grey40"</span>,</span>
+<span class='r-in'>    main.title.color <span class='op'>=</span> <span class='st'>"white"</span></span>
+<span class='r-in'>  <span class='op'>)</span>,</span>
+<span class='r-in'>  style <span class='op'>=</span> <span class='st'>"black"</span></span>
+<span class='r-in'><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># assign the style</span></span>
+<span class='r-in'><span class='fu'>tmap_options</span><span class='op'>(</span><span class='va'>black_style</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap options successfully loaded as style "black"</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># observe that "black" is a new style</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> current tmap style is "black"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># plot the world map again, this time with the newly created black style</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tmap_options-6.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># reset all options</span></span>
+<span class='r-in'><span class='fu'>tmap_options_reset</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap options successfully reset</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

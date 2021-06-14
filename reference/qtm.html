@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,7 +137,7 @@
     <p>Draw a thematic map quickly. This function is a convenient wrapper of the main plotting method of stacking <code><a href='tmap-element.html'>tmap-element</a></code>s. Without arguments or with a search term, this functions draws an interactive map.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>qtm</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>qtm</span><span class='op'>(</span>
   <span class='va'>shp</span>,
   fill <span class='op'>=</span> <span class='cn'>NA</span>,
   symbols.size <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -164,7 +161,7 @@
   style <span class='op'>=</span> <span class='cn'>NULL</span>,
   format <span class='op'>=</span> <span class='cn'>NULL</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -282,52 +279,55 @@
     <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>rivers</span>, <span class='va'>metro</span><span class='op'>)</span>
-
-<span class='co'># just the map</span>
-<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
-</div><div class='img'><img src='qtm-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># choropleth</span>
-<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span>, style <span class='op'>=</span> <span class='st'>"col_blind"</span><span class='op'>)</span>
-</div><div class='img'><img src='qtm-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># choropleth with more specifications</span>
-<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, fill<span class='op'>=</span><span class='st'>"HPI"</span>, fill.n <span class='op'>=</span> <span class='fl'>9</span>, fill.palette <span class='op'>=</span> <span class='st'>"div"</span>,
-    fill.title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span>, fill.id <span class='op'>=</span> <span class='st'>"name"</span>, 
-    style <span class='op'>=</span> <span class='st'>"gray"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
-</div><div class='img'><img src='qtm-3.png' alt='' width='700' height='433' /></div><div class='input'><span class='co'># this map can also be created with the main plotting method,</span>
-<span class='co'># which is recommended in this case.</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span>, n <span class='op'>=</span> <span class='fl'>9</span>, palette <span class='op'>=</span> <span class='st'>"div"</span>,
-        title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span>, id <span class='op'>=</span> <span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"gray"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># bubble map</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, borders <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'>+</span> 
-<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>metro</span>, symbols.size <span class='op'>=</span> <span class='st'>"pop2010"</span>, 
-    symbols.title.size<span class='op'>=</span> <span class='st'>"Metropolitan Areas"</span>, 
-    symbols.id<span class='op'>=</span> <span class='st'>"name"</span>,
-    format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># dot map</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"view"</span><span class='op'>)</span>
-<span class='fu'>qtm</span><span class='op'>(</span><span class='va'>metro</span>, bbox <span class='op'>=</span> <span class='st'>"China"</span><span class='op'>)</span>
-<span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span> <span class='co'># restore mode</span>
-<span class='op'>}</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># without arguments, a plain interactive map is shown (the mode is set to view)</span>
-<span class='fu'>qtm</span><span class='op'>(</span><span class='op'>)</span>
-
-<span class='co'># search query for OpenStreetMap nominatim</span>
-<span class='fu'>qtm</span><span class='op'>(</span><span class='st'>"Amsterdam"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>rivers</span>, <span class='va'>metro</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># just the map</span></span>
+<span class='r-in'><span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='qtm-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># choropleth</span></span>
+<span class='r-in'><span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span>, style <span class='op'>=</span> <span class='st'>"col_blind"</span>, projection <span class='op'>=</span> <span class='st'>"+proj=eck4"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='qtm-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># choropleth with more specifications</span></span>
+<span class='r-in'><span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, fill<span class='op'>=</span><span class='st'>"HPI"</span>, fill.n <span class='op'>=</span> <span class='fl'>9</span>, fill.palette <span class='op'>=</span> <span class='st'>"div"</span>,</span>
+<span class='r-in'>    fill.title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span>, fill.id <span class='op'>=</span> <span class='st'>"name"</span>, </span>
+<span class='r-in'>    style <span class='op'>=</span> <span class='st'>"gray"</span>, format <span class='op'>=</span> <span class='st'>"World"</span>, projection <span class='op'>=</span> <span class='st'>"+proj=eck4"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='qtm-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='co'># this map can also be created with the main plotting method,</span></span>
+<span class='r-in'><span class='co'># which is recommended in this case.</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, projection <span class='op'>=</span> <span class='st'>"+proj=eck4"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span>, n <span class='op'>=</span> <span class='fl'>9</span>, palette <span class='op'>=</span> <span class='st'>"div"</span>,</span>
+<span class='r-in'>        title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span>, id <span class='op'>=</span> <span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"gray"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># bubble map</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'>qtm</span><span class='op'>(</span><span class='va'>World</span>, borders <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span class='r-in'><span class='fu'>qtm</span><span class='op'>(</span><span class='va'>metro</span>, symbols.size <span class='op'>=</span> <span class='st'>"pop2010"</span>, </span>
+<span class='r-in'>    symbols.title.size<span class='op'>=</span> <span class='st'>"Metropolitan Areas"</span>, </span>
+<span class='r-in'>    symbols.id<span class='op'>=</span> <span class='st'>"name"</span>,</span>
+<span class='r-in'>    format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># dot map</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"view"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>qtm</span><span class='op'>(</span><span class='va'>metro</span>, bbox <span class='op'>=</span> <span class='st'>"China"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span> <span class='co'># restore mode</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># without arguments, a plain interactive map is shown (the mode is set to view)</span></span>
+<span class='r-in'><span class='fu'>qtm</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># search query for OpenStreetMap nominatim</span></span>
+<span class='r-in'><span class='fu'>qtm</span><span class='op'>(</span><span class='st'>"Amsterdam"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

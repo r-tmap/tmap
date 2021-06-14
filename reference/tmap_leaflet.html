@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,14 +137,14 @@
     <p>Create a leaflet widget from a tmap object. An interactive map (see <code><a href='tmap_mode.html'>tmap_mode</a></code>) is an automatically generated leaflet widget. With this function, this leaflet widget is obtained, which can then be changed or extended by using leaflet's own methods.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tmap_leaflet</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tmap_leaflet</span><span class='op'>(</span>
   <span class='va'>x</span>,
   mode <span class='op'>=</span> <span class='st'>"view"</span>,
   show <span class='op'>=</span> <span class='cn'>FALSE</span>,
   add.titles <span class='op'>=</span> <span class='cn'>TRUE</span>,
   in.shiny <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,38 +183,41 @@
     <div class='dont-index'><p><code><a href='renderTmap.html'>tmapOutput</a></code> for tmap in Shiny, <code><a href='tmap_mode.html'>tmap_mode</a></code>, <code><a href='tm_view.html'>tm_view</a></code>, <code><a href='print.tmap.html'>print.tmap</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># world choropleth/bubble map of the world</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>metro</span><span class='op'>)</span>
-<span class='va'>metro</span><span class='op'>$</span><span class='va'>growth</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2020</span> <span class='op'>-</span> <span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
-
-<span class='va'>map1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span><span class='st'>"pop2010"</span>, col <span class='op'>=</span> <span class='st'>"growth"</span>, 
-         border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>, 
-         style<span class='op'>=</span><span class='st'>"fixed"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, by<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>, <span class='cn'>Inf</span><span class='op'>)</span>,
-         palette<span class='op'>=</span><span class='st'>"-RdYlBu"</span>, contrast<span class='op'>=</span><span class='fl'>1</span>, 
-         title.size<span class='op'>=</span><span class='st'>"Metro population"</span>, 
-         title.col<span class='op'>=</span><span class='st'>"Growth rate (%)"</span>, id<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span> 
-  <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>legend.bg.color <span class='op'>=</span> <span class='st'>"grey90"</span>, legend.bg.alpha<span class='op'>=</span><span class='fl'>.5</span>, legend.frame<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-
-
-<span class='va'>lf</span> <span class='op'>&lt;-</span> <span class='fu'>tmap_leaflet</span><span class='op'>(</span><span class='va'>map1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span></div><div class='output co'>#&gt; <span class='message'>Legend for symbol sizes not available in view mode.</span></div><div class='input'>
-<span class='co'># show leaflet widget</span>
-<span class='va'>lf</span>
-
-<span class='co'># add marker</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://rstudio.github.io/leaflet/'>leaflet</a></span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: leaflet</span></div><div class='input'><span class='va'>lf</span> <span class='op'>%&gt;%</span> <span class='fu'>leaflet</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/leaflet/man/map-layers.html'>addMarkers</a></span><span class='op'>(</span><span class='fl'>2.2945</span>, <span class='fl'>48.8582</span>, popup <span class='op'>=</span> <span class='st'>"Eiffel tower"</span><span class='op'>)</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># alternative</span>
-<span class='va'>eiffelTower</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/geocode_OSM.html'>geocode_OSM</a></span><span class='op'>(</span><span class='st'>"Eiffel Tower, Paris"</span>, as.SPDF <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='va'>map1</span> <span class='op'>+</span> 
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>eiffelTower</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_symbols.html'>tm_markers</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='co'># world choropleth/bubble map of the world</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>metro</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>metro</span><span class='op'>$</span><span class='va'>growth</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2020</span> <span class='op'>-</span> <span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>map1</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span><span class='st'>"pop2010"</span>, col <span class='op'>=</span> <span class='st'>"growth"</span>, </span>
+<span class='r-in'>         border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>, </span>
+<span class='r-in'>         style<span class='op'>=</span><span class='st'>"fixed"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, by<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>, <span class='cn'>Inf</span><span class='op'>)</span>,</span>
+<span class='r-in'>         palette<span class='op'>=</span><span class='st'>"-RdYlBu"</span>, contrast<span class='op'>=</span><span class='fl'>1</span>, </span>
+<span class='r-in'>         title.size<span class='op'>=</span><span class='st'>"Metro population"</span>, </span>
+<span class='r-in'>         title.col<span class='op'>=</span><span class='st'>"Growth rate (%)"</span>, id<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span class='r-in'>  <span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>legend.bg.color <span class='op'>=</span> <span class='st'>"grey90"</span>, legend.bg.alpha<span class='op'>=</span><span class='fl'>.5</span>, legend.frame<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>lf</span> <span class='op'>&lt;-</span> <span class='fu'>tmap_leaflet</span><span class='op'>(</span><span class='va'>map1</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Legend for symbol sizes not available in view mode.</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># show leaflet widget</span></span>
+<span class='r-in'><span class='va'>lf</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># add marker</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://rstudio.github.io/leaflet/'>leaflet</a></span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: leaflet</span>
+<span class='r-in'><span class='va'>lf</span> <span class='op'><a href='https://rdrr.io/pkg/leaflet/man/leaflet-imports.html'>%&gt;%</a></span> <span class='fu'>leaflet</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/leaflet/man/map-layers.html'>addMarkers</a></span><span class='op'>(</span><span class='fl'>2.2945</span>, <span class='fl'>48.8582</span>, popup <span class='op'>=</span> <span class='st'>"Eiffel tower"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># alternative</span></span>
+<span class='r-in'><span class='va'>eiffelTower</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/geocode_OSM.html'>geocode_OSM</a></span><span class='op'>(</span><span class='st'>"Eiffel Tower, Paris"</span>, as.SPDF <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>map1</span> <span class='op'>+</span> </span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>eiffelTower</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_symbols.html'>tm_markers</a></span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

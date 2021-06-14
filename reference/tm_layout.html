@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,7 +137,7 @@
     <p>This element specifies the map layout. The main function <code>tm_layout</code> controls title, margins, aspect ratio, colors, frame, legend, among many other things. The function <code>tm_legend</code> is a shortcut to access all <code>legend.</code> arguments without this prefix. The other functions are wrappers for two purposes: <code>tm_format</code> specifies position related layout settings such as margins, and <code>tm_style</code> specifies general styling related layout settings such as colors and font. Typically, the former functions are shape dependent, and the latter functions are shape independent. See details for predefined styles and formats. With <code>tmap.style</code>, a default style can be specified. Multiple <code>tm_layout</code> elements (or wrapper functions) can be stacked: called arguments will be overwritten.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tm_layout</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tm_layout</span><span class='op'>(</span>
   <span class='va'>title</span>,
   <span class='va'>scale</span>,
   <span class='va'>title.size</span>,
@@ -228,7 +225,7 @@
 
 <span class='fu'>tm_style</span><span class='op'>(</span><span class='va'>style</span>, <span class='va'>...</span><span class='op'>)</span>
 
-<span class='fu'>tm_format</span><span class='op'>(</span><span class='va'>format</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+<span class='fu'>tm_format</span><span class='op'>(</span><span class='va'>format</span>, <span class='va'>...</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -315,7 +312,7 @@
     </tr>
     <tr>
       <th>earth.boundary</th>
-      <td><p>Logical that determines whether the boundaries of the earth are shown or a bounding box that specifies the boundaries (an <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf</a></code> bbox object, see <code><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></code>, or any object that can be read by <code><a href='https://rdrr.io/pkg/tmaptools/man/bb.html'>bb</a></code>). By default, the boundaries are <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -90, 180, 90)</a></code>. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with <code><a href='https://rdrr.io/r/base/c.html'>c(-180, -88, 180, 88)</a></code>).</p></td>
+      <td><p>Logical that determines whether the boundaries of the earth are shown or a bounding box that specifies the boundaries (an <code><a href='https://r-spatial.github.io/sf/reference/sf.html'>sf</a></code> bbox object, see <code><a href='https://r-spatial.github.io/sf/reference/st_bbox.html'>st_bbox</a></code>, or any object that can be read by <code><a href='https://rdrr.io/pkg/tmaptools/man/bb.html'>bb</a></code>). By default, the boundaries are <code>c(-180, -90, 180, 90)</code>. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with <code>c(-180, -88, 180, 88)</code>).</p></td>
     </tr>
     <tr>
       <th>earth.boundary.color</th>
@@ -424,7 +421,7 @@
 <dt>scientific</dt><dd><p>Should the labels be formatted scientifically? If so, square brackets are used, and the <code>format</code> of the numbers is <code>"g"</code>. Otherwise, <code>format="f"</code>, and <code>text.separator</code>, <code>text.less.than</code>, <code>text.or.more</code>, and <code>big.num.abbr</code> are used. Also, the numbers are automatically  rounded to millions or billions if applicable.</p></dd>
 <dt>format</dt><dd><p>By default, <code>"f"</code>, i.e. the standard notation <code>xxx.xxx</code>, is used. If <code>scientific=TRUE</code> then <code>"g"</code>, which means that numbers are formatted scientifically, i.e. <code>n.dddE+nn</code> if needed to save space.</p></dd>
 <dt>digits</dt><dd><p>Number of digits after the decimal point if <code>format="f"</code>, and the number of significant digits otherwise.</p></dd>
-<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbrevation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code><a href='https://rdrr.io/r/base/c.html'>c("mln" = 6, "bln" = 9)</a></code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
+<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbrevation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code>c("mln" = 6, "bln" = 9)</code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
 <dt>text.separator</dt><dd><p>Character string to use to separate numbers in the legend (default: "to").</p></dd>
 <dt>text.less.than</dt><dd><p>Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
 <dt>text.or.more</dt><dd><p>Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
@@ -620,71 +617,74 @@ By default the title is placed on top of the legend (determined by <code>legend.
     <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>land</span><span class='op'>)</span>
-
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> 
-    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"pop_est_dens"</span>, style<span class='op'>=</span><span class='st'>"kmeans"</span>, title<span class='op'>=</span><span class='st'>"Population density"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"albatross"</span>, frame.lwd<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>tm_format</span><span class='op'>(</span><span class='st'>"World"</span>, title<span class='op'>=</span><span class='st'>"The World"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_layout-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_raster.html'>tm_raster</a></span><span class='op'>(</span><span class='st'>"elevation"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fl'>250</span>, <span class='fl'>500</span>, <span class='fl'>1000</span>, <span class='fl'>1500</span>, <span class='fl'>2000</span>, <span class='fl'>2500</span>, <span class='fl'>3000</span>, <span class='fl'>4000</span>, <span class='cn'>Inf</span><span class='op'>)</span>,  
-    palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>terrain.colors</a></span><span class='op'>(</span><span class='fl'>9</span><span class='op'>)</span>, title<span class='op'>=</span><span class='st'>"Elevation"</span>, midpoint <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, is.master<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey20"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_grid.html'>tm_grid</a></span><span class='op'>(</span>projection<span class='op'>=</span><span class='st'>"longlat"</span>, labels.size <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"name"</span>, size<span class='op'>=</span><span class='st'>"AREA"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_compass.html'>tm_compass</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.65</span>, <span class='fl'>.15</span><span class='op'>)</span>, color.light <span class='op'>=</span> <span class='st'>"grey90"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_credits.html'>tm_credits</a></span><span class='op'>(</span><span class='st'>"Eckert IV projection"</span>, position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"right"</span>, <span class='st'>"BOTTOM"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'>tm_layout</span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"lightblue"</span>,
-  inner.margins<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.04</span>,<span class='fl'>.03</span>, <span class='fl'>.02</span>, <span class='fl'>.01</span><span class='op'>)</span>, 
-  earth.boundary <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-  space.color<span class='op'>=</span><span class='st'>"grey90"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'>tm_legend</span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span>, 
-  frame <span class='op'>=</span> <span class='cn'>TRUE</span>,
-  bg.color<span class='op'>=</span><span class='st'>"lightblue"</span><span class='op'>)</span>
-<span class='op'>}</span>
-  
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, projection<span class='op'>=</span><span class='st'>"+proj=robin"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span>, palette<span class='op'>=</span><span class='st'>"div"</span>, n<span class='op'>=</span><span class='fl'>7</span>, 
-      title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_credits.html'>tm_credits</a></span><span class='op'>(</span><span class='st'>"Robinson projection"</span>, position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"right"</span>, <span class='st'>"BOTTOM"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"natural"</span>, earth.boundary <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>180</span>, <span class='op'>-</span><span class='fl'>87</span>, <span class='fl'>180</span>, <span class='fl'>87</span><span class='op'>)</span>, inner.margins <span class='op'>=</span> <span class='fl'>.05</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'>tm_legend</span><span class='op'>(</span>position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span>, bg.color<span class='op'>=</span><span class='st'>"grey95"</span>, frame<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_layout-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Example to illustrate the type of titles</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"income_grp"</span>, <span class='st'>"economy"</span><span class='op'>)</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Legend Title 1"</span>, <span class='st'>"Legend Title 2"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>tm_layout</span><span class='op'>(</span>main.title <span class='op'>=</span> <span class='st'>"Main Title"</span>,
-    main.title.position <span class='op'>=</span> <span class='st'>"center"</span>,
-    main.title.color <span class='op'>=</span> <span class='st'>"blue"</span>,
-    title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Title 1"</span>, <span class='st'>"Title 2"</span><span class='op'>)</span>,
-    title.color <span class='op'>=</span> <span class='st'>"red"</span>,
-    panel.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Panel Label 1"</span>, <span class='st'>"Panel Label 2"</span><span class='op'>)</span>,
-    panel.label.color <span class='op'>=</span> <span class='st'>"purple"</span>,
-    legend.text.color <span class='op'>=</span> <span class='st'>"brown"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_layout-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># global option tmap.style demo</span>
-  
-<span class='co'># get current style</span>
-<span class='va'>current.style</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span> 
-  
-<span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
-
-<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"col_blind"</span><span class='op'>)</span>
-<span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
-
-<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span>
-<span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span>
-
-<span class='co'># set to current style</span>
-<span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='va'>current.style</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>land</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"pop_est_dens"</span>, style<span class='op'>=</span><span class='st'>"kmeans"</span>, title<span class='op'>=</span><span class='st'>"Population density"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"albatross"</span>, frame.lwd<span class='op'>=</span><span class='fl'>10</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>tm_format</span><span class='op'>(</span><span class='st'>"World"</span>, title<span class='op'>=</span><span class='st'>"The World"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_layout-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_raster.html'>tm_raster</a></span><span class='op'>(</span><span class='st'>"elevation"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fl'>250</span>, <span class='fl'>500</span>, <span class='fl'>1000</span>, <span class='fl'>1500</span>, <span class='fl'>2000</span>, <span class='fl'>2500</span>, <span class='fl'>3000</span>, <span class='fl'>4000</span>, <span class='cn'>Inf</span><span class='op'>)</span>,  </span>
+<span class='r-in'>    palette <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>terrain.colors</a></span><span class='op'>(</span><span class='fl'>9</span><span class='op'>)</span>, title<span class='op'>=</span><span class='st'>"Elevation"</span>, midpoint <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, is.master<span class='op'>=</span><span class='cn'>TRUE</span>, projection <span class='op'>=</span> <span class='st'>"+proj=eck4"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='st'>"grey20"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_grid.html'>tm_graticules</a></span><span class='op'>(</span>labels.size <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"name"</span>, size<span class='op'>=</span><span class='st'>"AREA"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_compass.html'>tm_compass</a></span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.65</span>, <span class='fl'>.15</span><span class='op'>)</span>, color.light <span class='op'>=</span> <span class='st'>"grey90"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_credits.html'>tm_credits</a></span><span class='op'>(</span><span class='st'>"Eckert IV projection"</span>, position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"right"</span>, <span class='st'>"BOTTOM"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'>tm_layout</span><span class='op'>(</span>bg.color<span class='op'>=</span><span class='st'>"lightblue"</span>,</span>
+<span class='r-in'>  inner.margins<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.04</span>,<span class='fl'>.03</span>, <span class='fl'>.02</span>, <span class='fl'>.01</span><span class='op'>)</span>, </span>
+<span class='r-in'>  earth.boundary <span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
+<span class='r-in'>  space.color<span class='op'>=</span><span class='st'>"grey90"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'>tm_legend</span><span class='op'>(</span>position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span>, </span>
+<span class='r-in'>  frame <span class='op'>=</span> <span class='cn'>TRUE</span>,</span>
+<span class='r-in'>  bg.color<span class='op'>=</span><span class='st'>"lightblue"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, projection<span class='op'>=</span><span class='st'>"+proj=robin"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span>, palette<span class='op'>=</span><span class='st'>"div"</span>, n<span class='op'>=</span><span class='fl'>7</span>, </span>
+<span class='r-in'>      title <span class='op'>=</span> <span class='st'>"Happy Planet Index"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_credits.html'>tm_credits</a></span><span class='op'>(</span><span class='st'>"Robinson projection"</span>, position <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"right"</span>, <span class='st'>"BOTTOM"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'>tm_style</span><span class='op'>(</span><span class='st'>"natural"</span>, earth.boundary <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>180</span>, <span class='op'>-</span><span class='fl'>87</span>, <span class='fl'>180</span>, <span class='fl'>87</span><span class='op'>)</span>, inner.margins <span class='op'>=</span> <span class='fl'>.05</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'>tm_legend</span><span class='op'>(</span>position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span>, bg.color<span class='op'>=</span><span class='st'>"grey95"</span>, frame<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_layout-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Example to illustrate the type of titles</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"income_grp"</span>, <span class='st'>"economy"</span><span class='op'>)</span>, title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Legend Title 1"</span>, <span class='st'>"Legend Title 2"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'>tm_layout</span><span class='op'>(</span>main.title <span class='op'>=</span> <span class='st'>"Main Title"</span>,</span>
+<span class='r-in'>    main.title.position <span class='op'>=</span> <span class='st'>"center"</span>,</span>
+<span class='r-in'>    main.title.color <span class='op'>=</span> <span class='st'>"blue"</span>,</span>
+<span class='r-in'>    title <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Title 1"</span>, <span class='st'>"Title 2"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    title.color <span class='op'>=</span> <span class='st'>"red"</span>,</span>
+<span class='r-in'>    panel.labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Panel Label 1"</span>, <span class='st'>"Panel Label 2"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    panel.label.color <span class='op'>=</span> <span class='st'>"purple"</span>,</span>
+<span class='r-in'>    legend.text.color <span class='op'>=</span> <span class='st'>"brown"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_layout-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># global option tmap.style demo</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='co'># get current style</span></span>
+<span class='r-in'><span class='va'>current.style</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='op'>)</span> </span>
+<span class='r-in'>  </span>
+<span class='r-in'><span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"col_blind"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill <span class='op'>=</span> <span class='st'>"economy"</span>, format <span class='op'>=</span> <span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># set to current style</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_style.html'>tmap_style</a></span><span class='op'>(</span><span class='va'>current.style</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,7 +137,7 @@
     <p>Creates a <code><a href='tmap-element.html'>tmap-element</a></code> that draws symbols, including symbols and dots. The color, size, and shape of the symbols can be mapped to data variables.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tm_symbols</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tm_symbols</span><span class='op'>(</span>
   size <span class='op'>=</span> <span class='fl'>1</span>,
   col <span class='op'>=</span> <span class='cn'>NA</span>,
   shape <span class='op'>=</span> <span class='fl'>21</span>,
@@ -253,7 +250,7 @@
   markers.on.top.of.text <span class='op'>=</span> <span class='cn'>TRUE</span>,
   group <span class='op'>=</span> <span class='cn'>NA</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -440,7 +437,7 @@
     </tr>
     <tr>
       <th>just</th>
-      <td><p>justification of the symbols relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left alignment and 1 right alignment. The default value is <code><a href='https://rdrr.io/r/base/c.html'>c("center", "center")</a></code>. For icons, this value may already be speficied (see <code><a href='tmap_icons.html'>tmap_icons</a></code>). The <code>just</code>, if specified, will overrides this.</p></td>
+      <td><p>justification of the symbols relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left alignment and 1 right alignment. The default value is <code>c("center", "center")</code>. For icons, this value may already be speficied (see <code><a href='tmap_icons.html'>tmap_icons</a></code>). The <code>just</code>, if specified, will overrides this.</p></td>
     </tr>
     <tr>
       <th>jitter</th>
@@ -493,7 +490,7 @@
 <dt>scientific</dt><dd><p>Should the labels be formatted scientifically? If so, square brackets are used, and the <code>format</code> of the numbers is <code>"g"</code>. Otherwise, <code>format="f"</code>, and <code>text.separator</code>, <code>text.less.than</code>, and <code>text.or.more</code> are used. Also, the numbers are automatically  rounded to millions or billions if applicable.</p></dd>
 <dt>format</dt><dd><p>By default, <code>"f"</code>, i.e. the standard notation <code>xxx.xxx</code>, is used. If <code>scientific=TRUE</code> then <code>"g"</code>, which means that numbers are formatted scientifically, i.e. <code>n.dddE+nn</code> if needed to save space.</p></dd>
 <dt>digits</dt><dd><p>Number of digits after the decimal point if <code>format="f"</code>, and the number of significant digits otherwise.</p></dd>
-<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbreviation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code><a href='https://rdrr.io/r/base/c.html'>c("mln" = 6, "bln" = 9)</a></code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
+<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbreviation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code>c("mln" = 6, "bln" = 9)</code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
 <dt>prefix</dt><dd><p>Prefix of each number</p></dd>
 <dt>suffix</dt><dd><p>Suffix of each number</p></dd>
 <dt>text.separator</dt><dd><p>Character string to use to separate numbers in the legend (default: "to").</p></dd>
@@ -641,104 +638,113 @@
     <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>metro</span><span class='op'>)</span>
-<span class='va'>metro</span><span class='op'>$</span><span class='va'>growth</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2020</span> <span class='op'>-</span> <span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span>
-
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"grey70"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>tm_bubbles</span><span class='op'>(</span><span class='st'>"pop2010"</span>, col <span class='op'>=</span> <span class='st'>"growth"</span>, 
-        border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>, 
-        style<span class='op'>=</span><span class='st'>"fixed"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, by<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>, <span class='cn'>Inf</span><span class='op'>)</span>,
-        palette<span class='op'>=</span><span class='st'>"-RdYlBu"</span>, contrast<span class='op'>=</span><span class='fl'>1</span>, 
-        title.size<span class='op'>=</span><span class='st'>"Metro population"</span>, 
-        title.col<span class='op'>=</span><span class='st'>"Growth rate (%)"</span><span class='op'>)</span> <span class='op'>+</span> 
-<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span></div><div class='img'><img src='tm_symbols-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>tm_symbols</span><span class='op'>(</span>size <span class='op'>=</span> <span class='st'>"pop2010"</span>, col<span class='op'>=</span><span class='st'>"pop2010"</span>, shape<span class='op'>=</span><span class='st'>"pop2010"</span>,
-    legend.format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>text.align<span class='op'>=</span><span class='st'>"right"</span>, text.to.columns <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_legend</a></span><span class='op'>(</span>outside <span class='op'>=</span> <span class='cn'>TRUE</span>, outside.position <span class='op'>=</span> <span class='st'>"bottom"</span>, stack <span class='op'>=</span> <span class='st'>"horizontal"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_symbols-2.png' alt='' width='700' height='433' /></div><div class='input'>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/mtennekes/tmaptools'>tmaptools</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span>
-
-<span class='va'>origin_data</span> <span class='op'>&lt;-</span> <span class='va'>NLD_prov</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry.html'>st_set_geometry</a></span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>FID<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-<span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>FID</span>, <span class='va'>origin_native</span>, <span class='va'>origin_west</span>, <span class='va'>origin_non_west</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-<span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span>key<span class='op'>=</span><span class='va'>origin</span>, value<span class='op'>=</span><span class='va'>perc</span>, <span class='va'>origin_native</span>, <span class='va'>origin_west</span>, <span class='va'>origin_non_west</span>, factor_key<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span>
-
-<span class='va'>origin_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/get_brewer_pal.html'>get_brewer_pal</a></span><span class='op'>(</span><span class='st'>"Dark2"</span>, <span class='fl'>3</span><span class='op'>)</span>
-
-<span class='va'>grobs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>origin_data</span>, <span class='va'>origin_data</span><span class='op'>$</span><span class='va'>FID</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplotGrob.html'>ggplotGrob</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='st'>""</span>, y<span class='op'>=</span><span class='op'>-</span><span class='va'>perc</span>, fill<span class='op'>=</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>width<span class='op'>=</span><span class='fl'>1</span>, stat<span class='op'>=</span><span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>expand<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>values<span class='op'>=</span><span class='va'>origin_cols</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='theme_ps.html'>theme_ps</a></span><span class='op'>(</span>plot.axes <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span><span class='op'>)</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>grobs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>NLD_prov</span><span class='op'>$</span><span class='va'>name</span>
-
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span>group <span class='op'>=</span> <span class='st'>"Provinces"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'>tm_symbols</span><span class='op'>(</span>size<span class='op'>=</span><span class='st'>"population"</span>, shape<span class='op'>=</span><span class='st'>"name"</span>, 
-  shapes<span class='op'>=</span><span class='va'>grobs</span>, 
-  sizes.legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>1</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>1e6</span>, 
-  scale<span class='op'>=</span><span class='fl'>1</span>, 
-  legend.shape.show <span class='op'>=</span> <span class='cn'>FALSE</span>, 
-  legend.size.is.portrait <span class='op'>=</span> <span class='cn'>TRUE</span>, 
-  shapes.legend <span class='op'>=</span> <span class='fl'>22</span>, 
-  title.size <span class='op'>=</span> <span class='st'>"Population"</span>,
-  group <span class='op'>=</span> <span class='st'>"Charts"</span>,
-  id <span class='op'>=</span> <span class='st'>"name"</span>,
-  popup.vars <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"population"</span>, <span class='st'>"origin_native"</span>,
-           <span class='st'>"origin_west"</span>, <span class='st'>"origin_non_west"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_add_legend.html'>tm_add_legend</a></span><span class='op'>(</span>type<span class='op'>=</span><span class='st'>"fill"</span>, 
-  group <span class='op'>=</span> <span class='st'>"Charts"</span>,
-  col<span class='op'>=</span><span class='va'>origin_cols</span>, 
-  labels<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Native"</span>, <span class='st'>"Western"</span>, <span class='st'>"Non-western"</span><span class='op'>)</span>, 
-  title<span class='op'>=</span><span class='st'>"Origin"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: tmaptools</span></div><div class='img'><img src='tm_symbols-3.png' alt='' width='700' height='433' /></div><div class='img'><img src='tm_symbols-4.png' alt='' width='700' height='433' /></div><div class='input'>
-
-
-<span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>rnaturalearth</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-
-<span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='fu'>ne_download</span><span class='op'>(</span>scale<span class='op'>=</span><span class='fl'>10</span>, type<span class='op'>=</span><span class='st'>"airports"</span>, returnclass <span class='op'>=</span> <span class='st'>"sf"</span><span class='op'>)</span>
-<span class='va'>airplane</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_icons.html'>tmap_icons</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"img/airplane.png"</span>, package <span class='op'>=</span> <span class='st'>"tmap"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"view"</span><span class='op'>)</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>airports</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>tm_symbols</span><span class='op'>(</span>shape<span class='op'>=</span><span class='va'>airplane</span>, size<span class='op'>=</span><span class='st'>"natlscale"</span>,
-        legend.size.show <span class='op'>=</span> <span class='cn'>FALSE</span>, scale<span class='op'>=</span><span class='fl'>1</span>, border.col <span class='op'>=</span> <span class='cn'>NULL</span>, id<span class='op'>=</span><span class='st'>"name"</span>, popup.vars <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_view.html'>tm_view</a></span><span class='op'>(</span>set.view <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lon <span class='op'>=</span> <span class='fl'>15</span>, lat <span class='op'>=</span> <span class='fl'>48</span>, zoom <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='op'>}</span>
-
-<span class='co'>#####################################################################################</span>
-
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='co'># plot all available symbol shapes:</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>p<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>25</span>,<span class='fl'>32</span><span class='op'>:</span><span class='fl'>127</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>p</span><span class='op'>%%</span><span class='fl'>16</span>, y<span class='op'>=</span><span class='op'>-</span><span class='op'>(</span><span class='va'>p</span><span class='op'>%/%</span><span class='fl'>16</span><span class='op'>)</span>, shape<span class='op'>=</span><span class='va'>p</span><span class='op'>)</span>, size<span class='op'>=</span><span class='fl'>5</span>, fill<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span><span class='op'>(</span>mapping<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>p</span><span class='op'>%%</span><span class='fl'>16</span>, y<span class='op'>=</span><span class='op'>-</span><span class='op'>(</span><span class='va'>p</span><span class='op'>%/%</span><span class='fl'>16</span><span class='op'>+</span><span class='fl'>0.25</span><span class='op'>)</span>, label<span class='op'>=</span><span class='va'>p</span><span class='op'>)</span>, size<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_identity.html'>scale_shape_identity</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.title<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>,
-      axis.text<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>,
-      axis.ticks<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>,
-      panel.background<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>metro</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>metro</span><span class='op'>$</span><span class='va'>growth</span> <span class='op'>&lt;-</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2020</span> <span class='op'>-</span> <span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span><span class='op'>)</span> <span class='op'>/</span> <span class='op'>(</span><span class='va'>metro</span><span class='op'>$</span><span class='va'>pop2010</span> <span class='op'>*</span> <span class='fl'>10</span><span class='op'>)</span> <span class='op'>*</span> <span class='fl'>100</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"grey70"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_bubbles</span><span class='op'>(</span><span class='st'>"pop2010"</span>, col <span class='op'>=</span> <span class='st'>"growth"</span>, </span>
+<span class='r-in'>        border.col <span class='op'>=</span> <span class='st'>"black"</span>, border.alpha <span class='op'>=</span> <span class='fl'>.5</span>, </span>
+<span class='r-in'>        style<span class='op'>=</span><span class='st'>"fixed"</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='op'>-</span><span class='cn'>Inf</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>6</span>, by<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span>, <span class='cn'>Inf</span><span class='op'>)</span>,</span>
+<span class='r-in'>        palette<span class='op'>=</span><span class='st'>"-RdYlBu"</span>, contrast<span class='op'>=</span><span class='fl'>1</span>, </span>
+<span class='r-in'>        title.size<span class='op'>=</span><span class='st'>"Metro population"</span>, </span>
+<span class='r-in'>        title.col<span class='op'>=</span><span class='st'>"Growth rate (%)"</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span>
+<span class='r-plt'><img src='tm_symbols-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'>tm_symbols</span><span class='op'>(</span>size <span class='op'>=</span> <span class='st'>"pop2010"</span>, col<span class='op'>=</span><span class='st'>"pop2010"</span>, shape<span class='op'>=</span><span class='st'>"pop2010"</span>,</span>
+<span class='r-in'>    legend.format <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span>text.align<span class='op'>=</span><span class='st'>"right"</span>, text.to.columns <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_legend</a></span><span class='op'>(</span>outside <span class='op'>=</span> <span class='cn'>TRUE</span>, outside.position <span class='op'>=</span> <span class='st'>"bottom"</span>, stack <span class='op'>=</span> <span class='st'>"horizontal"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_symbols-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/mtennekes/tmaptools'>tmaptools</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://r-spatial.github.io/sf/'>sf</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>origin_data</span> <span class='op'>&lt;-</span> <span class='va'>NLD_prov</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'>  <span class='fu'><a href='https://r-spatial.github.io/sf/reference/st_geometry.html'>st_set_geometry</a></span><span class='op'>(</span><span class='cn'>NULL</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>FID<span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/factor.html'>factor</a></span><span class='op'>(</span><span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/context.html'>n</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'><span class='fu'><a href='https://dplyr.tidyverse.org/reference/select.html'>select</a></span><span class='op'>(</span><span class='va'>FID</span>, <span class='va'>origin_native</span>, <span class='va'>origin_west</span>, <span class='va'>origin_non_west</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'><span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span>key<span class='op'>=</span><span class='va'>origin</span>, value<span class='op'>=</span><span class='va'>perc</span>, <span class='va'>origin_native</span>, <span class='va'>origin_west</span>, <span class='va'>origin_non_west</span>, factor_key<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>origin_cols</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/tmaptools/man/get_brewer_pal.html'>get_brewer_pal</a></span><span class='op'>(</span><span class='st'>"Dark2"</span>, <span class='fl'>3</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>grobs</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/split.html'>split</a></span><span class='op'>(</span><span class='va'>origin_data</span>, <span class='va'>origin_data</span><span class='op'>$</span><span class='va'>FID</span><span class='op'>)</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplotGrob.html'>ggplotGrob</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='st'>""</span>, y<span class='op'>=</span><span class='op'>-</span><span class='va'>perc</span>, fill<span class='op'>=</span><span class='va'>origin</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_bar.html'>geom_bar</a></span><span class='op'>(</span>width<span class='op'>=</span><span class='fl'>1</span>, stat<span class='op'>=</span><span class='st'>"identity"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_continuous.html'>scale_y_continuous</a></span><span class='op'>(</span>expand<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>,<span class='fl'>0</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_manual.html'>scale_fill_manual</a></span><span class='op'>(</span>values<span class='op'>=</span><span class='va'>origin_cols</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='theme_ps.html'>theme_ps</a></span><span class='op'>(</span>plot.axes <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>grobs</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='va'>NLD_prov</span><span class='op'>$</span><span class='va'>name</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span>group <span class='op'>=</span> <span class='st'>"Provinces"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'>tm_symbols</span><span class='op'>(</span>size<span class='op'>=</span><span class='st'>"population"</span>, shape<span class='op'>=</span><span class='st'>"name"</span>, </span>
+<span class='r-in'>  shapes<span class='op'>=</span><span class='va'>grobs</span>, </span>
+<span class='r-in'>  sizes.legend<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>.5</span>, <span class='fl'>1</span>,<span class='fl'>3</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>1e6</span>, </span>
+<span class='r-in'>  scale<span class='op'>=</span><span class='fl'>1</span>, </span>
+<span class='r-in'>  legend.shape.show <span class='op'>=</span> <span class='cn'>FALSE</span>, </span>
+<span class='r-in'>  legend.size.is.portrait <span class='op'>=</span> <span class='cn'>TRUE</span>, </span>
+<span class='r-in'>  shapes.legend <span class='op'>=</span> <span class='fl'>22</span>, </span>
+<span class='r-in'>  title.size <span class='op'>=</span> <span class='st'>"Population"</span>,</span>
+<span class='r-in'>  group <span class='op'>=</span> <span class='st'>"Charts"</span>,</span>
+<span class='r-in'>  id <span class='op'>=</span> <span class='st'>"name"</span>,</span>
+<span class='r-in'>  popup.vars <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"population"</span>, <span class='st'>"origin_native"</span>,</span>
+<span class='r-in'>           <span class='st'>"origin_west"</span>, <span class='st'>"origin_non_west"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_add_legend.html'>tm_add_legend</a></span><span class='op'>(</span>type<span class='op'>=</span><span class='st'>"fill"</span>, </span>
+<span class='r-in'>  group <span class='op'>=</span> <span class='st'>"Charts"</span>,</span>
+<span class='r-in'>  col<span class='op'>=</span><span class='va'>origin_cols</span>, </span>
+<span class='r-in'>  labels<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Native"</span>, <span class='st'>"Western"</span>, <span class='st'>"Non-western"</span><span class='op'>)</span>, </span>
+<span class='r-in'>  title<span class='op'>=</span><span class='st'>"Origin"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: ggplot2</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: tmaptools</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: sf</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Linking to GEOS 3.8.1, GDAL 3.2.1, PROJ 7.2.1</span>
+<span class='r-plt'><img src='tm_symbols-3.png' alt='' width='700' height='433' /></span>
+<span class='r-plt'><img src='tm_symbols-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'>rnaturalearth</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>airports</span> <span class='op'>&lt;-</span> <span class='fu'>ne_download</span><span class='op'>(</span>scale<span class='op'>=</span><span class='fl'>10</span>, type<span class='op'>=</span><span class='st'>"airports"</span>, returnclass <span class='op'>=</span> <span class='st'>"sf"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>airplane</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_icons.html'>tmap_icons</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"img/airplane.png"</span>, package <span class='op'>=</span> <span class='st'>"tmap"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"view"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>airports</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'>tm_symbols</span><span class='op'>(</span>shape<span class='op'>=</span><span class='va'>airplane</span>, size<span class='op'>=</span><span class='st'>"natlscale"</span>,</span>
+<span class='r-in'>        legend.size.show <span class='op'>=</span> <span class='cn'>FALSE</span>, scale<span class='op'>=</span><span class='fl'>1</span>, border.col <span class='op'>=</span> <span class='cn'>NULL</span>, id<span class='op'>=</span><span class='st'>"name"</span>, popup.vars <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_view.html'>tm_view</a></span><span class='op'>(</span>set.view <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span>lon <span class='op'>=</span> <span class='fl'>15</span>, lat <span class='op'>=</span> <span class='fl'>48</span>, zoom <span class='op'>=</span> <span class='fl'>4</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>#####################################################################################</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='co'># plot all available symbol shapes:</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://ggplot2.tidyverse.org'>ggplot2</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/ggplot.html'>ggplot</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>p<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span><span class='op'>:</span><span class='fl'>25</span>,<span class='fl'>32</span><span class='op'>:</span><span class='fl'>127</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_point.html'>geom_point</a></span><span class='op'>(</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>p</span><span class='op'><a href='https://rdrr.io/r/base/Arithmetic.html'>%%</a></span><span class='fl'>16</span>, y<span class='op'>=</span><span class='op'>-</span><span class='op'>(</span><span class='va'>p</span><span class='op'><a href='https://rdrr.io/r/base/Arithmetic.html'>%/%</a></span><span class='fl'>16</span><span class='op'>)</span>, shape<span class='op'>=</span><span class='va'>p</span><span class='op'>)</span>, size<span class='op'>=</span><span class='fl'>5</span>, fill<span class='op'>=</span><span class='st'>"red"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/geom_text.html'>geom_text</a></span><span class='op'>(</span>mapping<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/aes.html'>aes</a></span><span class='op'>(</span>x<span class='op'>=</span><span class='va'>p</span><span class='op'><a href='https://rdrr.io/r/base/Arithmetic.html'>%%</a></span><span class='fl'>16</span>, y<span class='op'>=</span><span class='op'>-</span><span class='op'>(</span><span class='va'>p</span><span class='op'><a href='https://rdrr.io/r/base/Arithmetic.html'>%/%</a></span><span class='fl'>16</span><span class='op'>+</span><span class='fl'>0.25</span><span class='op'>)</span>, label<span class='op'>=</span><span class='va'>p</span><span class='op'>)</span>, size<span class='op'>=</span><span class='fl'>3</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/scale_identity.html'>scale_shape_identity</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='https://ggplot2.tidyverse.org/reference/theme.html'>theme</a></span><span class='op'>(</span>axis.title<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>      axis.text<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>      axis.ticks<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span>,</span>
+<span class='r-in'>      panel.background<span class='op'>=</span><span class='fu'><a href='https://ggplot2.tidyverse.org/reference/element.html'>element_blank</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

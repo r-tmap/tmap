@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,13 +137,13 @@
     <p>Use <code>tmapOutput</code> to create a UI element, and <code>renderTmap</code> to render the tmap map. To update the map (more specifically, to add and remove layers) use <code>tmapProxy</code>. Adding layers is as usual, removing layers can be done with the function <code>tm_remove_layer</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>renderTmap</span><span class='op'>(</span><span class='va'>expr</span>, env <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>, quoted <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>renderTmap</span><span class='op'>(</span><span class='va'>expr</span>, env <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/sys.parent.html'>parent.frame</a></span><span class='op'>(</span><span class='op'>)</span>, quoted <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
 
 <span class='fu'>tmapOutput</span><span class='op'>(</span><span class='va'>outputId</span>, width <span class='op'>=</span> <span class='st'>"100%"</span>, height <span class='op'>=</span> <span class='fl'>400</span><span class='op'>)</span>
 
 <span class='fu'>tmapProxy</span><span class='op'>(</span><span class='va'>mapId</span>, session <span class='op'>=</span> <span class='fu'>shiny</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/shiny/man/domains.html'>getDefaultReactiveDomain</a></span><span class='op'>(</span><span class='op'>)</span>, <span class='va'>x</span><span class='op'>)</span>
 
-<span class='fu'>tm_remove_layer</span><span class='op'>(</span><span class='va'>zindex</span><span class='op'>)</span></pre>
+<span class='fu'>tm_remove_layer</span><span class='op'>(</span><span class='va'>zindex</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -194,39 +191,40 @@
     <p>Two features from tmap are not (yet) supported in Shiny: small multiples (facets) and colored backgrounds (argument bg.color of <code><a href='tm_layout.html'>tm_layout</a></code>). Workarounds for small multiples: create multiple independent maps or specify as.layers = TRUE in <code><a href='tm_facets.html'>tm_facets</a></code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://shiny.rstudio.com/'>"shiny"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  
-  
-  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
-  <span class='va'>world_vars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"iso_a3"</span>, <span class='st'>"name"</span>, <span class='st'>"sovereignt"</span>, <span class='st'>"geometry"</span><span class='op'>)</span><span class='op'>)</span>
-  
-  
-  <span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span><span class='op'>(</span>
-    <span class='fu'>tmapOutput</span><span class='op'>(</span><span class='st'>"map"</span><span class='op'>)</span>,
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/selectInput.html'>selectInput</a></span><span class='op'>(</span><span class='st'>"var"</span>, <span class='st'>"Variable"</span>, <span class='va'>world_vars</span><span class='op'>)</span>
-  <span class='op'>)</span>
-  
-  <span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span>, <span class='va'>session</span><span class='op'>)</span> <span class='op'>{</span>
-    <span class='va'>output</span><span class='op'>$</span><span class='va'>map</span> <span class='op'>&lt;-</span> <span class='fu'>renderTmap</span><span class='op'>(</span><span class='op'>{</span>
-      <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-        <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='va'>world_vars</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, zindex <span class='op'>=</span> <span class='fl'>401</span><span class='op'>)</span>
-    <span class='op'>}</span><span class='op'>)</span>
-    
-    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observe.html'>observe</a></span><span class='op'>(</span><span class='op'>{</span>
-      <span class='va'>var</span> <span class='op'>&lt;-</span> <span class='va'>input</span><span class='op'>$</span><span class='va'>var</span>
-      <span class='fu'>tmapProxy</span><span class='op'>(</span><span class='st'>"map"</span>, <span class='va'>session</span>, <span class='op'>{</span>
-        <span class='fu'>tm_remove_layer</span><span class='op'>(</span><span class='fl'>401</span><span class='op'>)</span> <span class='op'>+</span>
-        <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-          <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='va'>var</span>, zindex <span class='op'>=</span> <span class='fl'>401</span><span class='op'>)</span>
-      <span class='op'>}</span><span class='op'>)</span>
-    <span class='op'>}</span><span class='op'>)</span>
-  <span class='op'>}</span>  
-  
-  
-  <span class='va'>app</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='va'>server</span><span class='op'>)</span>
-  <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='va'>app</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: shiny</span></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='st'><a href='https://shiny.rstudio.com/'>"shiny"</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'>  </span>
+<span class='r-in'>  <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>world_vars</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sets.html'>setdiff</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"iso_a3"</span>, <span class='st'>"name"</span>, <span class='st'>"sovereignt"</span>, <span class='st'>"geometry"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'>  </span>
+<span class='r-in'>  <span class='va'>ui</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/fluidPage.html'>fluidPage</a></span><span class='op'>(</span></span>
+<span class='r-in'>    <span class='fu'>tmapOutput</span><span class='op'>(</span><span class='st'>"map"</span><span class='op'>)</span>,</span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/selectInput.html'>selectInput</a></span><span class='op'>(</span><span class='st'>"var"</span>, <span class='st'>"Variable"</span>, <span class='va'>world_vars</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'>  <span class='va'>server</span> <span class='op'>&lt;-</span> <span class='kw'>function</span><span class='op'>(</span><span class='va'>input</span>, <span class='va'>output</span>, <span class='va'>session</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>    <span class='va'>output</span><span class='op'>$</span><span class='va'>map</span> <span class='op'>&lt;-</span> <span class='fu'>renderTmap</span><span class='op'>(</span><span class='op'>{</span></span>
+<span class='r-in'>      <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>        <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='va'>world_vars</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>, zindex <span class='op'>=</span> <span class='fl'>401</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'>    </span>
+<span class='r-in'>    <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/observe.html'>observe</a></span><span class='op'>(</span><span class='op'>{</span></span>
+<span class='r-in'>      <span class='va'>var</span> <span class='op'>&lt;-</span> <span class='va'>input</span><span class='op'>$</span><span class='va'>var</span></span>
+<span class='r-in'>      <span class='fu'>tmapProxy</span><span class='op'>(</span><span class='st'>"map"</span>, <span class='va'>session</span>, <span class='op'>{</span></span>
+<span class='r-in'>        <span class='fu'>tm_remove_layer</span><span class='op'>(</span><span class='fl'>401</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>        <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>          <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='va'>var</span>, zindex <span class='op'>=</span> <span class='fl'>401</span><span class='op'>)</span></span>
+<span class='r-in'>      <span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'>    <span class='op'>}</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='op'>}</span>  </span>
+<span class='r-in'>  </span>
+<span class='r-in'>  </span>
+<span class='r-in'>  <span class='va'>app</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/shiny/man/shinyApp.html'>shinyApp</a></span><span class='op'>(</span><span class='va'>ui</span>, <span class='va'>server</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='kw'>if</span> <span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/interactive.html'>interactive</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>)</span> <span class='va'>app</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: shiny</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

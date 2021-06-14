@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,7 +137,7 @@
     <p>Creates a <code><a href='tmap-element.html'>tmap-element</a></code> that draws the polygons. <code>tm_fill</code> fills the polygons. Either a fixed color is used, or a color palette is mapped to a data variable. <code>tm_borders</code> draws the borders of the polygons. <code>tm_polygons</code> fills the polygons and draws the polygon borders.</p>
     </div>
 
-    <pre class="usage"><span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tm_fill</span><span class='op'>(</span>
   col <span class='op'>=</span> <span class='cn'>NA</span>,
   alpha <span class='op'>=</span> <span class='cn'>NA</span>,
   palette <span class='op'>=</span> <span class='cn'>NULL</span>,
@@ -182,7 +179,7 @@
   <span class='va'>...</span>
 <span class='op'>)</span>
 
-<span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span>
+<span class='fu'>tm_borders</span><span class='op'>(</span>
   col <span class='op'>=</span> <span class='cn'>NA</span>,
   lwd <span class='op'>=</span> <span class='fl'>1</span>,
   lty <span class='op'>=</span> <span class='st'>"solid"</span>,
@@ -191,7 +188,7 @@
   group <span class='op'>=</span> <span class='cn'>NA</span>
 <span class='op'>)</span>
 
-<span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span>
+<span class='fu'>tm_polygons</span><span class='op'>(</span>
   col <span class='op'>=</span> <span class='cn'>NA</span>,
   alpha <span class='op'>=</span> <span class='cn'>NA</span>,
   border.col <span class='op'>=</span> <span class='cn'>NA</span>,
@@ -199,7 +196,7 @@
   zindex <span class='op'>=</span> <span class='cn'>NA</span>,
   group <span class='op'>=</span> <span class='cn'>NA</span>,
   <span class='va'>...</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -307,7 +304,7 @@
 <dt>scientific</dt><dd><p>Should the labels be formatted scientifically? If so, square brackets are used, and the <code>format</code> of the numbers is <code>"g"</code>. Otherwise, <code>format="f"</code>, and <code>text.separator</code>, <code>text.less.than</code>, and <code>text.or.more</code> are used. Also, the numbers are automatically  rounded to millions or billions if applicable.</p></dd>
 <dt>format</dt><dd><p>By default, <code>"f"</code>, i.e. the standard notation <code>xxx.xxx</code>, is used. If <code>scientific=TRUE</code> then <code>"g"</code>, which means that numbers are formatted scientifically, i.e. <code>n.dddE+nn</code> if needed to save space.</p></dd>
 <dt>digits</dt><dd><p>Number of digits after the decimal point if <code>format="f"</code>, and the number of significant digits otherwise.</p></dd>
-<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbrevation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code><a href='https://rdrr.io/r/base/c.html'>c("mln" = 6, "bln" = 9)</a></code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
+<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbrevation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code>c("mln" = 6, "bln" = 9)</code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
 <dt>prefix</dt><dd><p>Prefix of each number</p></dd>
 <dt>suffix</dt><dd><p>Suffix of each number</p></dd>
 <dt>text.separator</dt><dd><p>Character string to use to separate numbers in the legend (default: "to").</p></dd>
@@ -412,55 +409,60 @@
     <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
-
-<span class='co'># Constant fill</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"darkolivegreen3"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span>, title<span class='op'>=</span><span class='st'>"A green World"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_polygons-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Borders only</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_polygons-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Data variable containing colours values</span>
-<span class='va'>World</span><span class='op'>$</span><span class='va'>isNLD</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>$</span><span class='va'>name</span><span class='op'>==</span><span class='st'>"Netherlands"</span>, <span class='st'>"darkorange"</span>, <span class='st'>"darkolivegreen3"</span><span class='op'>)</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"isNLD"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span><span class='st'>"Find the Netherlands!"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_polygons-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"economy"</span>, title<span class='op'>=</span><span class='st'>"Economy"</span>, id<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"iso_a3"</span>, size<span class='op'>=</span><span class='st'>"AREA"</span>, scale<span class='op'>=</span><span class='fl'>1.5</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_polygons-4.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># Numeric data variable</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"HPI"</span>, palette<span class='op'>=</span><span class='st'>"RdYlGn"</span>, style<span class='op'>=</span><span class='st'>"cont"</span>, n<span class='op'>=</span><span class='fl'>8</span>,
-    title<span class='op'>=</span><span class='st'>"Happy Planet Index"</span>, id<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"iso_a3"</span>, size<span class='op'>=</span><span class='st'>"AREA"</span>, scale<span class='op'>=</span><span class='fl'>1.5</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"grey"</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_polygons-5.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_prov</span>, <span class='va'>NLD_muni</span><span class='op'>)</span>  
-<span class='co'># Map coloring algorithm</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"name"</span>, legend.show <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"MAP_COLORS"</span>, palette<span class='op'>=</span><span class='st'>"Greys"</span>, alpha <span class='op'>=</span> <span class='fl'>.25</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span>lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"name"</span>, shadow<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span>, title<span class='op'>=</span><span class='st'>"Dutch provinces and\nmunicipalities"</span>, bg.color<span class='op'>=</span><span class='st'>"white"</span><span class='op'>)</span>
-
-<span class='co'># Cartogram</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/sjewo/cartogram'>cartogram</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>NLD_prov_pop</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/cartogram/man/cartogram.html'>cartogram</a></span><span class='op'>(</span><span class='va'>NLD_prov</span>, <span class='st'>"population"</span><span class='op'>)</span>
-  <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov_pop</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"origin_non_west"</span>, title <span class='op'>=</span> <span class='st'>"Non-western origin (%)"</span><span class='op'>)</span>
-<span class='op'>}</span>
-<span class='op'>}</span>
-
-<span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span>
-</div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Constant fill</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>tm_fill</span><span class='op'>(</span><span class='st'>"darkolivegreen3"</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span>, title<span class='op'>=</span><span class='st'>"A green World"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_polygons-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Borders only</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> <span class='fu'>tm_borders</span><span class='op'>(</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_polygons-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Data variable containing colours values</span></span>
+<span class='r-in'><span class='va'>World</span><span class='op'>$</span><span class='va'>isNLD</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/ifelse.html'>ifelse</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>$</span><span class='va'>name</span><span class='op'>==</span><span class='st'>"Netherlands"</span>, <span class='st'>"darkorange"</span>, <span class='st'>"darkolivegreen3"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_fill</span><span class='op'>(</span><span class='st'>"isNLD"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span><span class='st'>"Find the Netherlands!"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_polygons-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, projection <span class='op'>=</span> <span class='st'>"+proj=eck4"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'>tm_polygons</span><span class='op'>(</span><span class='st'>"economy"</span>, title<span class='op'>=</span><span class='st'>"Economy"</span>, id<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"iso_a3"</span>, size<span class='op'>=</span><span class='st'>"AREA"</span>, scale<span class='op'>=</span><span class='fl'>1.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_polygons-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Numeric data variable</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span>, projection <span class='op'>=</span> <span class='st'>"+proj=eck4"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'>tm_polygons</span><span class='op'>(</span><span class='st'>"HPI"</span>, palette<span class='op'>=</span><span class='st'>"RdYlGn"</span>, style<span class='op'>=</span><span class='st'>"cont"</span>, n<span class='op'>=</span><span class='fl'>8</span>,</span>
+<span class='r-in'>    title<span class='op'>=</span><span class='st'>"Happy Planet Index"</span>, id<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"iso_a3"</span>, size<span class='op'>=</span><span class='st'>"AREA"</span>, scale<span class='op'>=</span><span class='fl'>1.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_style</a></span><span class='op'>(</span><span class='st'>"grey"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_polygons-5.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>NLD_prov</span>, <span class='va'>NLD_muni</span><span class='op'>)</span>  </span>
+<span class='r-in'><span class='co'># Map coloring algorithm</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_fill</span><span class='op'>(</span><span class='st'>"name"</span>, legend.show <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_polygons</span><span class='op'>(</span><span class='st'>"MAP_COLORS"</span>, palette<span class='op'>=</span><span class='st'>"Greys"</span>, alpha <span class='op'>=</span> <span class='fl'>.25</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_borders</span><span class='op'>(</span>lwd<span class='op'>=</span><span class='fl'>2</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_text.html'>tm_text</a></span><span class='op'>(</span><span class='st'>"name"</span>, shadow<span class='op'>=</span><span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span>, title<span class='op'>=</span><span class='st'>"Dutch provinces and\nmunicipalities"</span>, bg.color<span class='op'>=</span><span class='st'>"white"</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Cartogram</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/sjewo/cartogram'>cartogram</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='va'>NLD_prov_pop</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/cartogram/man/cartogram.html'>cartogram</a></span><span class='op'>(</span><span class='va'>NLD_prov</span>, <span class='st'>"population"</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov_pop</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_polygons</span><span class='op'>(</span><span class='st'>"origin_non_west"</span>, title <span class='op'>=</span> <span class='st'>"Non-western origin (%)"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span></span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

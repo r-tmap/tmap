@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,7 +137,7 @@
     <p>Set or get the default tmap style. Without arguments, the current style is returned. Also the available styles are displayed. When a style is set, the corresponding tmap options  (see <code><a href='tmap_options.html'>tmap_options</a></code>) will be set accordingly. The default style (i.e. when loading the package) is <code>"white"</code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tmap_style</span><span class='op'>(</span><span class='va'>style</span><span class='op'>)</span></pre>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tmap_style</span><span class='op'>(</span><span class='va'>style</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,17 +161,25 @@
     <div class='dont-index'><p><code><a href='tmap_options.html'>tmap_options</a></code> for tmap options, and <code><a href='tmap_style_catalogue.html'>tmap_style_catalogue</a></code> to create a style catalogue of all available styles.</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span>
-
-<span class='va'>current.style</span> <span class='op'>&lt;-</span> <span class='fu'>tmap_style</span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap style set to "classic"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor", "red", "black" </span></div><div class='input'><span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill<span class='op'>=</span><span class='st'>"life_exp"</span>, fill.title<span class='op'>=</span><span class='st'>"Life expectancy"</span><span class='op'>)</span>
-</div><div class='img'><img src='tmap_style-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='fu'>tmap_style</span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap style set to "cobalt"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "white", "gray", "natural", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red", "black" </span></div><div class='input'><span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill<span class='op'>=</span><span class='st'>"life_exp"</span>, fill.title<span class='op'>=</span><span class='st'>"Life expectancy"</span><span class='op'>)</span>
-</div><div class='img'><img src='tmap_style-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># restore current style</span>
-<span class='fu'>tmap_style</span><span class='op'>(</span><span class='va'>current.style</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap style set to "white"</span></div><div class='output co'>#&gt; <span class='message'>other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red", "black" </span></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>current.style</span> <span class='op'>&lt;-</span> <span class='fu'>tmap_style</span><span class='op'>(</span><span class='st'>"classic"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap style set to "classic"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor", "red", "black" </span>
+<span class='r-in'><span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill<span class='op'>=</span><span class='st'>"life_exp"</span>, fill.title<span class='op'>=</span><span class='st'>"Life expectancy"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tmap_style-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>tmap_style</span><span class='op'>(</span><span class='st'>"cobalt"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap style set to "cobalt"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> other available styles are: "white", "gray", "natural", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red", "black" </span>
+<span class='r-in'><span class='fu'><a href='qtm.html'>qtm</a></span><span class='op'>(</span><span class='va'>World</span>, fill<span class='op'>=</span><span class='st'>"life_exp"</span>, fill.title<span class='op'>=</span><span class='st'>"Life expectancy"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tmap_style-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># restore current style</span></span>
+<span class='r-in'><span class='fu'>tmap_style</span><span class='op'>(</span><span class='va'>current.style</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap style set to "white"</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red", "black" </span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

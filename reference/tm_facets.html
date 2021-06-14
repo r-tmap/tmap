@@ -58,9 +58,6 @@
 
 
 
-<!-- dependencies from examples -->
-
-
   
 
   
@@ -83,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">tmap</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">3.3-2</span>
       </span>
     </div>
 
@@ -140,7 +137,7 @@
     <p>Creates a <code><a href='tmap-element.html'>tmap-element</a></code> that specifies facets (small multiples). Small multiples can be created in two ways: 1) by specifying the <code>by</code> argument with one or two variable names, by which the data is grouped, 2) by specifying multiple variable names in any of the aesthetic argument of the layer functions (for instance, the argument <code>col</code> in <code><a href='tm_polygons.html'>tm_fill</a></code>). This function further specifies the facets, for instance number of rows and columns, and whether the coordinate and scales are fixed or free (i.e. independent of each other). An overview of the different approaches to create facets is provided in the examples.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>tm_facets</span><span class='op'>(</span>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>tm_facets</span><span class='op'>(</span>
   by <span class='op'>=</span> <span class='cn'>NULL</span>,
   along <span class='op'>=</span> <span class='cn'>NULL</span>,
   as.layers <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -166,7 +163,7 @@
   inside.original.bbox <span class='op'>=</span> <span class='cn'>FALSE</span>,
   scale.factor <span class='op'>=</span> <span class='fl'>2</span>,
   drop.shapes <span class='op'>=</span> <span class='va'>drop.units</span>
-<span class='op'>)</span></pre>
+<span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -278,7 +275,7 @@
     <p><code><a href='tmap-element.html'>tmap-element</a></code></p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The global option <code>limits</code> controls the limit of the number of facets that are plotted. By default, <code><a href='tmap_options.html'>tmap_options(limits=c(facets.plot=64, facets.view=4))</a></code>. The maximum number of interactive facets is set to four since otherwise it may become very slow.</p>
+    <p>The global option <code>limits</code> controls the limit of the number of facets that are plotted. By default, <code>tmap_options(limits=c(facets.plot=64, facets.view=4))</code>. The maximum number of interactive facets is set to four since otherwise it may become very slow.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39, doi: <a href='https://doi.org/10.18637/jss.v084.i06'>10.18637/jss.v084.i06</a></p>
@@ -287,100 +284,111 @@
     <div class='dont-index'><p><a href='../doc/tmap-getstarted.html'><code><a href='../articles/tmap-getstarted.html'>vignette("tmap-getstarted")</a></code></a></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>NLD_muni</span>, <span class='va'>NLD_prov</span>, <span class='va'>land</span>, <span class='va'>metro</span><span class='op'>)</span>
-
-<span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"plot"</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div><div class='input'>
-<span class='co'># CASE 1: Facets defined by constant values</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"forestgreen"</span>, <span class='st'>"goldenrod"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span>, title<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A green world"</span>, <span class='st'>"A dry world"</span><span class='op'>)</span>, bg.color<span class='op'>=</span><span class='st'>"lightskyblue2"</span>, 
-    title.position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_facets-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'># CASE 2: Facets defined by multiple variables</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"well_being"</span>, <span class='st'>"life_exp"</span><span class='op'>)</span>,
-      style<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pretty"</span>, <span class='st'>"fixed"</span><span class='op'>)</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>45</span>, <span class='fl'>85</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,
-      palette<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Oranges"</span>, <span class='st'>"Purples"</span><span class='op'>)</span>,
-      border.col <span class='op'>=</span> <span class='st'>"black"</span>,
-        title<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Well-Being Index"</span>, <span class='st'>"Life Expectancy"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_facets-2.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pop_0_14"</span>, <span class='st'>"pop_15_24"</span>, <span class='st'>"pop_25_44"</span>, <span class='st'>"pop_45_64"</span>, <span class='st'>"pop_65plus"</span><span class='op'>)</span>,
-        style<span class='op'>=</span><span class='st'>"kmeans"</span>, 
-        palette<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Oranges"</span>, <span class='st'>"Greens"</span>, <span class='st'>"Blues"</span>, <span class='st'>"Purples"</span>, <span class='st'>"Greys"</span><span class='op'>)</span>,
-        title<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Population 0 to 14"</span>, <span class='st'>"Population 15 to 24"</span>, <span class='st'>"Population 25 to 44"</span>,
-            <span class='st'>"Population 45 to 64"</span>, <span class='st'>"Population 65 and older"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span>, frame <span class='op'>=</span> <span class='cn'>TRUE</span>, asp<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># CASE 3: Facets defined by group-by variable(s)</span>
-<span class='co'># A group-by variable that divides the objects spatially</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"gold2"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span>
-</div><div class='img'><img src='tm_facets-3.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"province"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"population"</span>, style<span class='op'>=</span><span class='st'>"kmeans"</span>, convert2density <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span>lwd<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># The objects are divided by a non-spatial variable (e.g. date/time)</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span>
-  <span class='va'>metro_long</span> <span class='op'>&lt;-</span> <span class='va'>metro</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>population</span>, <span class='op'>-</span><span class='va'>name</span>, <span class='op'>-</span><span class='va'>name_long</span>, <span class='op'>-</span><span class='va'>iso_a3</span>, <span class='op'>-</span><span class='va'>geometry</span><span class='op'>)</span> <span class='op'>%&gt;%</span> 
-    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='fl'>4</span>, <span class='fl'>7</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-  
-  <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro_long</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span><span class='st'>"population"</span><span class='op'>)</span> <span class='op'>+</span>
-    <span class='fu'>tm_facets</span><span class='op'>(</span>by <span class='op'>=</span> <span class='st'>"year"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: dplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Attaching package: ‘dplyr’</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:stats’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from ‘package:base’:</span>
-#&gt; <span class='message'></span>
-#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: tidyr</span></div><div class='img'><img src='tm_facets-4.png' alt='' width='700' height='433' /></div><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_raster.html'>tm_raster</a></span><span class='op'>(</span><span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"cover_cls"</span>, free.coords <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># Facets defined by two group-by variables</span>
-<span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>World</span><span class='op'>$</span><span class='va'>HPI3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>$</span><span class='va'>HPI</span>, breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>35</span>, <span class='fl'>50</span>, <span class='fl'>65</span><span class='op'>)</span>, 
-    labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HPI low"</span>, <span class='st'>"HPI medium"</span>, <span class='st'>"HPI high"</span><span class='op'>)</span><span class='op'>)</span>
-<span class='va'>World</span><span class='op'>$</span><span class='va'>GDP3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>$</span><span class='va'>gdp_cap_est</span>, breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5000</span>, <span class='fl'>20000</span>, <span class='cn'>Inf</span><span class='op'>)</span>, 
-    labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GDP low"</span>, <span class='st'>"GDP medium"</span>, <span class='st'>"GDP high"</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> 
-  <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"HPI3"</span>, palette<span class='op'>=</span><span class='st'>"Dark2"</span>, colorNA<span class='op'>=</span><span class='st'>"grey90"</span>, legend.show <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span> 
-  <span class='fu'>tm_facets</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HPI3"</span>, <span class='st'>"GDP3"</span><span class='op'>)</span>, showNA<span class='op'>=</span><span class='cn'>FALSE</span>, free.coords <span class='op'>=</span> <span class='cn'>FALSE</span>, drop.units <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
-
-<span class='va'>metro_edited</span> <span class='op'>&lt;-</span> <span class='va'>metro</span> <span class='op'>%&gt;%</span> 
-  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>pop1950cat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>pop1950</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>1e6</span><span class='op'>)</span>,
-       pop2020cat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>pop2020</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>1e6</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro_edited</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_symbols.html'>tm_dots</a></span><span class='op'>(</span><span class='st'>"red"</span>, size <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span>
-  <span class='fu'>tm_facets</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pop1950cat"</span>, <span class='st'>"pop2020cat"</span><span class='op'>)</span>, free.coords <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span>
-<span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>panel.label.rot <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>90</span><span class='op'>)</span>, panel.label.size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span>
-<span class='op'>}</span>
-
-<span class='co'># restore current mode</span>
-<span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; <span class='message'>tmap mode set to plotting</span></div></pre>
+    <div class="ref-examples sourceCode"><pre class='sourceCode r'><code><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='va'>World</span>, <span class='va'>NLD_muni</span>, <span class='va'>NLD_prov</span>, <span class='va'>land</span>, <span class='va'>metro</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>current.mode</span> <span class='op'>&lt;-</span> <span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='st'>"plot"</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap mode set to plotting</span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># CASE 1: Facets defined by constant values</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"forestgreen"</span>, <span class='st'>"goldenrod"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span>, title<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"A green world"</span>, <span class='st'>"A dry world"</span><span class='op'>)</span>, bg.color<span class='op'>=</span><span class='st'>"lightskyblue2"</span>, </span>
+<span class='r-in'>    title.position<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"left"</span>, <span class='st'>"bottom"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_facets-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># CASE 2: Facets defined by multiple variables</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"well_being"</span>, <span class='st'>"life_exp"</span><span class='op'>)</span>,</span>
+<span class='r-in'>      style<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pretty"</span>, <span class='st'>"fixed"</span><span class='op'>)</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='cn'>NULL</span>, <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>45</span>, <span class='fl'>85</span>, by <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span>,</span>
+<span class='r-in'>      palette<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Oranges"</span>, <span class='st'>"Purples"</span><span class='op'>)</span>,</span>
+<span class='r-in'>      border.col <span class='op'>=</span> <span class='st'>"black"</span>,</span>
+<span class='r-in'>        title<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Well-Being Index"</span>, <span class='st'>"Life Expectancy"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"World"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_facets-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pop_0_14"</span>, <span class='st'>"pop_15_24"</span>, <span class='st'>"pop_25_44"</span>, <span class='st'>"pop_45_64"</span>, <span class='st'>"pop_65plus"</span><span class='op'>)</span>,</span>
+<span class='r-in'>        style<span class='op'>=</span><span class='st'>"kmeans"</span>, </span>
+<span class='r-in'>        palette<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='st'>"Oranges"</span>, <span class='st'>"Greens"</span>, <span class='st'>"Blues"</span>, <span class='st'>"Purples"</span>, <span class='st'>"Greys"</span><span class='op'>)</span>,</span>
+<span class='r-in'>        title<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"Population 0 to 14"</span>, <span class='st'>"Population 15 to 24"</span>, <span class='st'>"Population 25 to 44"</span>,</span>
+<span class='r-in'>            <span class='st'>"Population 45 to 64"</span>, <span class='st'>"Population 65 and older"</span><span class='op'>)</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_format</a></span><span class='op'>(</span><span class='st'>"NLD"</span>, frame <span class='op'>=</span> <span class='cn'>TRUE</span>, asp<span class='op'>=</span><span class='fl'>0</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># CASE 3: Facets defined by group-by variable(s)</span></span>
+<span class='r-in'><span class='co'># A group-by variable that divides the objects spatially</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_polygons</a></span><span class='op'>(</span><span class='st'>"gold2"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span></span>
+<span class='r-plt'><img src='tm_facets-3.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_muni</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"province"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"population"</span>, style<span class='op'>=</span><span class='st'>"kmeans"</span>, convert2density <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>NLD_prov</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_polygons.html'>tm_borders</a></span><span class='op'>(</span>lwd<span class='op'>=</span><span class='fl'>4</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"name"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># The objects are divided by a non-spatial variable (e.g. date/time)</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://dplyr.tidyverse.org'>dplyr</a></span><span class='op'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'><a href='https://rdrr.io/r/base/library.html'>require</a></span><span class='op'>(</span><span class='va'><a href='https://tidyr.tidyverse.org'>tidyr</a></span><span class='op'>)</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'>  <span class='va'>metro_long</span> <span class='op'>&lt;-</span> <span class='va'>metro</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'>    <span class='fu'><a href='https://tidyr.tidyverse.org/reference/gather.html'>gather</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='va'>population</span>, <span class='op'>-</span><span class='va'>name</span>, <span class='op'>-</span><span class='va'>name_long</span>, <span class='op'>-</span><span class='va'>iso_a3</span>, <span class='op'>-</span><span class='va'>geometry</span><span class='op'>)</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'>    <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>year <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/integer.html'>as.integer</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/substr.html'>substr</a></span><span class='op'>(</span><span class='va'>year</span>, <span class='fl'>4</span>, <span class='fl'>7</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'>  </span>
+<span class='r-in'>  <span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro_long</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'><a href='tm_symbols.html'>tm_bubbles</a></span><span class='op'>(</span><span class='st'>"population"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>    <span class='fu'>tm_facets</span><span class='op'>(</span>by <span class='op'>=</span> <span class='st'>"year"</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: dplyr</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Attaching package: ‘dplyr’</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following objects are masked from ‘package:stats’:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     filter, lag</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> The following objects are masked from ‘package:base’:</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span>     intersect, setdiff, setequal, union</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: tidyr</span>
+<span class='r-plt'><img src='tm_facets-4.png' alt='' width='700' height='433' /></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>land</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_raster.html'>tm_raster</a></span><span class='op'>(</span><span class='st'>"black"</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'>tm_facets</span><span class='op'>(</span>by<span class='op'>=</span><span class='st'>"cover_cls"</span>, free.coords <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># Facets defined by two group-by variables</span></span>
+<span class='r-in'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span></span>
+<span class='r-in'><span class='va'>World</span><span class='op'>$</span><span class='va'>HPI3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>$</span><span class='va'>HPI</span>, breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>35</span>, <span class='fl'>50</span>, <span class='fl'>65</span><span class='op'>)</span>, </span>
+<span class='r-in'>    labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HPI low"</span>, <span class='st'>"HPI medium"</span>, <span class='st'>"HPI high"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>World</span><span class='op'>$</span><span class='va'>GDP3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>$</span><span class='va'>gdp_cap_est</span>, breaks <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>5000</span>, <span class='fl'>20000</span>, <span class='cn'>Inf</span><span class='op'>)</span>, </span>
+<span class='r-in'>    labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"GDP low"</span>, <span class='st'>"GDP medium"</span>, <span class='st'>"GDP high"</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span class='r-in'>  <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='st'>"HPI3"</span>, palette<span class='op'>=</span><span class='st'>"Dark2"</span>, colorNA<span class='op'>=</span><span class='st'>"grey90"</span>, legend.show <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span> </span>
+<span class='r-in'>  <span class='fu'>tm_facets</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"HPI3"</span>, <span class='st'>"GDP3"</span><span class='op'>)</span>, showNA<span class='op'>=</span><span class='cn'>FALSE</span>, free.coords <span class='op'>=</span> <span class='cn'>FALSE</span>, drop.units <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>metro_edited</span> <span class='op'>&lt;-</span> <span class='va'>metro</span> <span class='op'><a href='https://magrittr.tidyverse.org/reference/pipe.html'>%&gt;%</a></span> </span>
+<span class='r-in'>  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span><span class='op'>(</span>pop1950cat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>pop1950</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>1e6</span><span class='op'>)</span>,</span>
+<span class='r-in'>       pop2020cat <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/cut.html'>cut</a></span><span class='op'>(</span><span class='va'>pop2020</span>, breaks<span class='op'>=</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0.5</span>, <span class='fl'>1</span>, <span class='fl'>1.5</span>, <span class='fl'>2</span>, <span class='fl'>3</span>, <span class='fl'>5</span>, <span class='fl'>10</span>, <span class='fl'>40</span><span class='op'>)</span><span class='op'>*</span><span class='fl'>1e6</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>World</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'><a href='tm_polygons.html'>tm_fill</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_shape.html'>tm_shape</a></span><span class='op'>(</span><span class='va'>metro_edited</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_symbols.html'>tm_dots</a></span><span class='op'>(</span><span class='st'>"red"</span>, size <span class='op'>=</span> <span class='fl'>.5</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'>  <span class='fu'>tm_facets</span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"pop1950cat"</span>, <span class='st'>"pop2020cat"</span><span class='op'>)</span>, free.coords <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>+</span></span>
+<span class='r-in'><span class='fu'><a href='tm_layout.html'>tm_layout</a></span><span class='op'>(</span>panel.label.rot <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>90</span><span class='op'>)</span>, panel.label.size <span class='op'>=</span> <span class='fl'>2</span><span class='op'>)</span></span>
+<span class='r-in'><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># restore current mode</span></span>
+<span class='r-in'><span class='fu'><a href='tmap_mode.html'>tmap_mode</a></span><span class='op'>(</span><span class='va'>current.mode</span><span class='op'>)</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> tmap mode set to plotting</span>
+</code></pre></div>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
