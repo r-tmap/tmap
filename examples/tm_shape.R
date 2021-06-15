@@ -27,10 +27,14 @@ tm_layout("Eckhart IV projection. Recommended in statistical maps for its equal-
 
 # different levels of simplification
 \dontrun{
-tm1 <- tm_shape(World, projection="+proj=eck4", simplify = 0.05) + tm_polygons() + tm_layout("Simplification: 0.05")
-tm2 <- tm_shape(World, projection="+proj=eck4", simplify = 0.1) + tm_polygons() + tm_layout("Simplification: 0.1")
-tm3 <- tm_shape(World, projection="+proj=eck4", simplify = 0.25) + tm_polygons() + tm_layout("Simplification: 0.25")
-tm4 <- tm_shape(World, projection="+proj=eck4", simplify = 0.5) + tm_polygons() + tm_layout("Simplification: 0.5")
+tm1 <- tm_shape(World, projection="+proj=eck4", simplify = 0.05) + tm_polygons() + 
+    tm_layout("Simplification: 0.05")
+tm2 <- tm_shape(World, projection="+proj=eck4", simplify = 0.1) + tm_polygons() + 
+    tm_layout("Simplification: 0.1")
+tm3 <- tm_shape(World, projection="+proj=eck4", simplify = 0.25) + tm_polygons() + 
+    tm_layout("Simplification: 0.25")
+tm4 <- tm_shape(World, projection="+proj=eck4", simplify = 0.5) + tm_polygons() + 
+    tm_layout("Simplification: 0.5")
 
 require(tmaptools)
 tmap_arrange(tm1, tm2, tm3, tm4)
