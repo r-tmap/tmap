@@ -20,7 +20,7 @@ World$g2 = round(pmin(pmax(World$g1 + rnorm(nrow(World), mean = 0, sd = 50), 0),
 World$b2 = round(pmin(pmax(World$b1 + rnorm(nrow(World), mean = 0, sd = 50), 0), 255))
 
 World$alpha_class = factor(floor(seq(1, 5, length.out = nrow(World) + 1)[1:nrow(World)]), labels = LETTERS[1:4])
-						   
+World$pop_class = cut(World$pop_est, breaks = c(0, 10, 100, 1000, Inf), labels = c("Small", "Medium", "Large", "Extra Large"))					   
 
 show_data()
 
@@ -52,7 +52,18 @@ show_data()
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
-		tm_symbols("economy", color.free = c(FALSE, TRUE, TRUE)) +
+		tm_symbols("pop_class", color.free = c(FALSE, TRUE, TRUE)) +
+		tm_facets_grid("income_grp", "alpha_class"))
+
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
+		tm_symbols("pop_class", color.free = c(TRUE, FALSE, TRUE)) +
+		tm_facets_grid("income_grp", "alpha_class"))
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy", fill.free = c(FALSE, TRUE, TRUE)) +
+		tm_symbols("pop_class", color.free = c(FALSE, TRUE, TRUE)) +
 		tm_facets_grid("income_grp", "alpha_class"))
 
 
@@ -88,7 +99,7 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
-		tm_symbols("economy", color.free = c(FALSE, TRUE, TRUE)) +
+		tm_symbols("pop_class", color.free = c(FALSE, TRUE, TRUE)) +
 		tm_facets_grid("income_grp", "alpha_class")) + tm_options(asp=0)
 
 

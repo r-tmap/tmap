@@ -3,8 +3,15 @@ legs = list(list(title = "economy", labels = levels(World$economy), palette = hc
 			list(title = "", labels = letters[1:5], palette = hcl.colors(5)))
 
 o = tmap_options()
-o$legend.title.size = 3
+o$legend.title.size = 4
 o$legend.text.size = 2
+
+
+maxW = 4
+maxH = 4
+
+legend.stack = "vertical"
+legend.stack = "horizontal"
 
 gridCell = function(rows, cols, e) {
 	vp = grid::viewport(layout.pos.row = rows, layout.pos.col = cols)
@@ -14,8 +21,6 @@ gridCell = function(rows, cols, e) {
 }
 
 
-legend.stack = "vertical"
-legend.stack = "horizontal"
 
 
 leg_standard = list(
@@ -35,7 +40,11 @@ leg_standard = list(
 		iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + 1.65, "lines")
 		max(c(tW, iW)) + (inch * o$legend.text.size * 0.75)
 	},
-	fun_plot = function(leg, W, H) {
+	fun_plot = function(leg) {
+		o$legend.title.size = o$legend.title.size * leg$scale
+		o$legend.text.size = o$legend.text.size * leg$scale
+		
+		
 		nlev = length(leg$labels)
 		lH = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
 		
@@ -74,16 +83,36 @@ leg_standard = list(
 
 legWin = vapply(legs, leg_standard$fun_width, FUN.VALUE = numeric(1))
 legHin = vapply(legs, leg_standard$fun_height, FUN.VALUE = numeric(1))
+
+clipW = pmax(1, legWin / maxW) 
+clipH = pmax(1, legHin / maxH) 
+if (o$legend.resize.as.group) {
+	clipT = rep(max(clipW, clipH), length(legs))
+} else {
+	clipT = pmax(clipW, clipH)
+}
+
+
+legWin = legWin / clipT
+legHin = legHin / clipT
+
 if (o$legend.justified) {
 	if (legend.stack == "vertical") {
 		legWin = rep(max(legWin), length(legs))		
 	} else {
-		#legHin = rep(max(legHin), length(legs))
+		legHin = rep(max(legHin), length(legs))
 	}
 } 
 
+
 legW = grid::unit(legWin, "inches")
 legH = grid::unit(legHin, "inches")
+
+legs = mapply(function(leg, scale) {
+	leg$scale = scale
+	leg
+}, legs, 1/clipT, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+
 
 legGrobs = lapply(legs, leg_standard$fun_plot)
 

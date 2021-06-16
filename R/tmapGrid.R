@@ -103,16 +103,7 @@ tmapGridInit = function(o) {
 
 	#}
 	
-	sum(rows[rows_facet_ids])
-	
-	#cols = convertWidth(cols, "inch")
-	#rows = convertHeight(rows, "inch")
-	
-	sum(cols)
-	sum(rows)
-	
-	names(rows)
-	
+
 	prows = as.numeric(rows)
 	pcols = as.numeric(cols)
 	
@@ -152,6 +143,10 @@ tmapGridInit = function(o) {
 	
 	#rows[rows_facet_ids] = unit()
 	
+	colsIn = as.numeric(cols) * o$devsize[1]
+	rowsIn = as.numeric(rows) * o$devsize[2]
+	
+	sum(grid::convertWidth(cols, "inches", valueOnly = TRUE))
 	
 	
 	vp_tree = grid::vpStack(grid::viewport(width = grid::unit(o$cw, "snpc"), height = grid::unit(o$ch, "snpc"), name = "vp_asp"),
@@ -190,7 +185,10 @@ tmapGridInit = function(o) {
 		meta_rows = c(3, (nr-2)),
 		meta_cols = c(3, (nc-2)),
 		
-		fasp = fasp
+		fasp = fasp,
+		
+		colsIn = colsIn,
+		rowsIn = rowsIn
 	)
 
 	
@@ -313,64 +311,121 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	rows = if (facet_row[1] == -Inf) g$meta_rows[1] else if (facet_row[1] == Inf) g$meta_rows[2] else g$rows_facet_ids[facet_row]
 	cols = if (facet_col[1] == -Inf) g$meta_cols[1] else if (facet_col[1] == Inf) g$meta_cols[2] else g$cols_facet_ids[facet_col]
 	
+	maxH = sum(g$rowsIn[rows])
+	maxW = sum(g$colsIn[cols])
+	
+	
 	# legH = vapply(legs, function(leg) {
 	# 	length(leg$levs) + 3
 	# }, FUN.VALUE = numeric(1))
 	# 
 	# legHcs = cumsum(c(0, head(legH, -1)))
 	
-	
-	
-	legHeight = function(leg) {
-		inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
-		
-		tH = ifelse(!is.na(leg$title), inch * o$legend.title.size * 1.5, 0)
-		iH = inch * length(leg$labels) * o$legend.text.size
-		tH + iH
+	gridCell = function(rows, cols, e) {
+		vp = grid::viewport(layout.pos.row = rows, layout.pos.col = cols)
+		#grid::gTree(children=grid::gList(e), vp=vp)
+		#browser()
+		grid::grobTree(e, vp = vp)
 	}
 	
-	legWidth = function(leg) {
-		inch = grid::convertHeight(grid::unit(1, "lines", "inches"))
-		
-		tW = ifelse(!is.na(leg$title), inch * o$legend.title.size * grid::convertWidth(grid::stringWidth(leg$title), unitTo = "lines", valueOnly = TRUE), 0)
-		
-		
-		iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + 1.75, "lines")
-		max(c(tW, iW))
+	
+	
+	
+	leg_standard = list(
+		fun_height = function(leg) {
+			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
+			
+			tH = ifelse(leg$title == "", 0, inch * o$legend.title.size * 1.375)
+			iH = inch * (length(leg$labels) + 0.8) * o$legend.text.size
+			tH + iH
+		},
+		fun_width = function(leg) {
+			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
+			
+			tW = ifelse(leg$title == "", 0, inch * o$legend.title.size * grid::convertWidth(grid::stringWidth(leg$title), unitTo = "lines", valueOnly = TRUE))
+			
+			
+			iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + 1.65, "lines")
+			max(c(tW, iW)) + (inch * o$legend.text.size * 0.75)
+		},
+		fun_plot = function(leg) {
+			o$legend.title.size = o$legend.title.size * leg$scale
+			o$legend.text.size = o$legend.text.size * leg$scale
+			
+			
+			nlev = length(leg$labels)
+			lH = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
+			
+			if (leg$title == "") o$legend.title.size = 0
+			
+			vp = grid::viewport(layout = grid::grid.layout(ncol = 4, nrow = nlev + 4, 
+														   widths = grid::unit(c(lH * o$legend.text.size * 0.4, lH * o$legend.text.size, lH * o$legend.text.size * 0.25, 1), units = c("inches", "inches", "inches", "null")),
+														   heights = grid::unit(
+														   	c(lH * o$legend.title.size * c(0.25, 1),
+														   	  lH * o$legend.title.size * .125 + lH * o$legend.text.size * .4,
+														   	  rep(lH * o$legend.text.size, nlev), 1), units = c(rep("inches", nlev + 3), "null"))))
+			
+			grTitle = gridCell(1:3, 2, grid::textGrob(leg$title, x = 0, just = "left", gp = grid::gpar(cex = o$legend.title.size)))
+			grText = lapply(1:nlev, function(i) gridCell(i+3, 4, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = o$legend.text.size))))
+			grItems = lapply(1:nlev, function(i) gridCell(i+3, 2, grid::rectGrob(gp = grid::gpar(fill = leg$palette[i]))))
+			
+			g = do.call(grid::grobTree, c(list(grTitle), grText, grItems, list(vp = vp)))
+			
+			#g = grid::grobTree(grid::rectGrob(gp=grid::gpar(fill="red")))
+			
+			g
+			
+			# nlev = length(leg$labels)
+			# nlns = nlev + 2
+			# 
+			# ys = c(nlns - 0.75, seq(nlns - 2.25, 0.75, by = -1))
+			# xs = c(0.25, rep(1.5, length(leg$labels)))
+			# g = list(grid::rectGrob(gp=grid::gpar(fill="grey90")),
+			# 		 grid::rectGrob(x = grid::unit(.75, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$palette)),
+			# 		 grid::textGrob(c(leg$title, leg$labels), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left", gp=grid::gpar(cex = 0.7)))
+			# totalH = grid::unit(nlns, "lines")
+			# totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE)) + 1.75, "lines")
+			# list(g=g, totalH=totalH, totalW=totalW)
+		}
+	)
+	
+	legWin = vapply(legs, leg_standard$fun_width, FUN.VALUE = numeric(1))
+	legHin = vapply(legs, leg_standard$fun_height, FUN.VALUE = numeric(1))
+	
+	clipW = pmax(1, legWin / maxW) 
+	clipH = pmax(1, legHin / maxH) 
+	if (o$legend.resize.as.group) {
+		clipT = rep(max(clipW, clipH), length(legs))
+	} else {
+		clipT = pmax(clipW, clipH)
 	}
 	
-	drawLeg = function(leg, W, H) {
-		nlev = length(leg$labels)
-		lH = grid::convertHeight(grid::unit(1, "lines", "inches"))
-		
-		
-		
-		vp = grid::viewport(layout = grid::grid.layout(ncol = 3, nrow = nlev + 2, widths = grid::unit(c(lH * o$legend.text.size, lH * o$legend.text.size * 0.5, 1), units = c("inches", "inches", "null"))))
-		
-		
-		
-		
-		nlev = length(leg$labels)
-		nlns = nlev + 2
-		
-		ys = c(nlns - 0.75, seq(nlns - 2.25, 0.75, by = -1))
-		xs = c(0.25, rep(1.5, length(leg$labels)))
-		g = list(grid::rectGrob(gp=grid::gpar(fill="grey90")),
-				  grid::rectGrob(x = grid::unit(.75, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$palette)),
-				  grid::textGrob(c(leg$title, leg$labels), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left", gp=grid::gpar(cex = 0.7)))
-		totalH = grid::unit(nlns, "lines")
-		totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE)) + 1.75, "lines")
-		list(g=g, totalH=totalH, totalW=totalW)
-	}
 	
-
-	legH = vapply(legGrobs, legHeight, FUN.VALUE = numeric(1))
-	legW = vapply(legGrobs, legWidth, FUN.VALUE = numeric(1))
+	legWin = legWin / clipT
+	legHin = legHin / clipT
 	
-	legGrobs = lapply(legs, drawLeg)
+	if (o$legend.justified) {
+		if (legend.stack == "vertical") {
+			legWin = rep(max(legWin), length(legs))		
+		} else {
+			legHin = rep(max(legHin), length(legs))
+		}
+	} 
 	
 	
-		
+	legW = grid::unit(legWin, "inches")
+	legH = grid::unit(legHin, "inches")
+	
+	legs = mapply(function(leg, scale) {
+		leg$scale = scale
+		leg
+	}, legs, 1/clipT, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+	
+	
+	legGrobs = lapply(legs, leg_standard$fun_plot)
+	
+	
+	
 	if (length(legs) == 1) {
 		legY = list(grid::unit(1, "npc"))
 		legX = list(grid::unit(0, "npc"))
@@ -383,16 +438,15 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			u
 		}))
 		legX = c(list(grid::unit(0, "npc")), lapply(1:(length(legs)-1), function(i) {
-			u = legW[[i]]
+			u = legW[[1]]
 			if (i>1) for (j in 2:i) {
 				u = u + legW[[j]]
 			}
 			u
 		}))
-		
 	}
 	
-
+	
 	
 	
 	# 
@@ -401,21 +455,32 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	# 
 	# print(legH)
 	
-
+	#legW = 
+	
 	
 	# grbs = do.call(grid::gList, mapply(function(lG, lH) {
 	# 	grbs = do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lG$totalW/2, width = lG$totalW, y = lH - lG$totalH/2, height = lG$totalH))))
 	# }, legGrobs, legY, SIMPLIFY = FALSE))
 	
-	grbs = do.call(grid::gList, mapply(function(lG, lX, lY) {
+	grbs = do.call(grid::gList, mapply(function(lG, lX, lY, lH, lW) {
+		frame = grid::rectGrob(gp=grid::gpar(fill = o$legend.bg.color, col = "black"))
 		if (legend.stack == "vertical") {
-			do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lG$totalW/2, width = lG$totalW, y = lY - lG$totalH/2, height = lG$totalH))))
+			grid::grobTree(frame, lG, vp = grid::viewport(x = lW/2, width = lW, y = lY - lH/2, height = lH))
 		} else {
-			do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lX + lG$totalW/2, width = lG$totalW, y = legY[[1]] - lG$totalH/2, height = lG$totalH))))
+			grid::grobTree(frame, lG, vp = grid::viewport(x = lX + lW/2, width = lW, y = legY[[1]] - lH/2, height = lH))
 		}
-			
-			
-	}, legGrobs, legX, legY, SIMPLIFY = FALSE))
+		
+		
+	}, legGrobs, legX, legY, legH, legW, SIMPLIFY = FALSE))
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 
 	

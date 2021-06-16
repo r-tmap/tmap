@@ -74,6 +74,7 @@
 		legend.position = NULL,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical"),
 		legend.justified = TRUE,
+		legend.resize.as.group = TRUE,
 		legend.just = c("left", "bottom"),
 		legend.width = 0.4,
 		legend.height = 0.9,

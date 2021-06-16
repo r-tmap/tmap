@@ -16,6 +16,12 @@ tmap_pals = local({
 })	
 
 
+tmap_pal_meta = local({
+	# take base_hcl palettes
+	
+	
+})
+
 
 tmap_is_palette = function(x) {
 	tmap_pal_names = do.call(c, c(lapply(tmap_pals, names), list(use.names = FALSE)))

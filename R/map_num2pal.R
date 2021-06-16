@@ -68,7 +68,7 @@ num2pal <- function(x,
 	
 	x[!sel] <- NA
 	
-	tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
+	tmapOptions <- tmap_options()
 	show.messages <- tmapOptions$show.messages
 	show.warnings <- tmapOptions$show.warnings
 	
@@ -171,13 +171,19 @@ num2pal <- function(x,
 	
 	
 	# map palette
-	is.palette.name <- palette[1] %in% rownames(tmap.pal.info)
 	
-	is.brewer <- is.palette.name && tmap.pal.info[palette[1], "origin"] == "brewer"
-	is.viridis <- is.palette.name &&  tmap.pal.info[palette[1], "origin"] == "viridis"
+	is.palette.name = tmap_is_palette(palette[1])
+	
+	
+	#is.palette.name <- palette[1] %in% rownames(tmap.pal.info)
+	
+	#is.brewer <- is.palette.name && tmap.pal.info[palette[1], "origin"] == "brewer"
+	#is.viridis <- is.palette.name &&  tmap.pal.info[palette[1], "origin"] == "viridis"
 	
 	if (is.palette.name) {
-		mc <- tmap.pal.info[palette, "maxcolors"]
+		#mc <- tmap.pal.info[palette, "maxcolors"]
+		
+		
 		pal.div <- (!is.null(midpoint)) || (tmap.pal.info[palette, "category"]=="div")
 	} else {
 		palette.type <- if (!is.null(midpoint)) "div" else palette_type(palette)

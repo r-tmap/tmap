@@ -52,6 +52,40 @@ tmapAesColor = function(x1, setup, legend, opt) {
 		
 		neutralID <- if (palette.type=="div") round(((length(colsLeg$legend.palette)-1)/2)+1) else 1
 		col.neutral <- colsLeg$legend.palette[1]
+	} else {
+		is.diverging <- use_diverging_palette(x1, setup$breaks, setup$midpoint)
+		palette <- if (is.null(setup$palette)) {
+			palette.type = ifelse(is.diverging, "div", "seq")
+			palette <- setup$palette[[palette.type]] 
+		} else if (setup$palette[1] %in% c("seq", "div", "cat")) {
+			palette.type <- setup$palette[1]
+			palette <- opt$aes.palette[[palette.type]]
+		} else {
+			palette <- setup$palette
+			#palette.type <- palette_type(palette)
+		}
+		colsLeg <- num2pal(x1, 
+						   var = "g$col",
+						   call = NULL,
+						   n = setup$n, 
+						   style=setup$style, 
+						   style.args=setup$style.args,
+						   as.count = setup$as.count,
+						   breaks=setup$breaks, 
+						   interval.closure=setup$interval.closure,
+						   palette = palette,
+						   midpoint = setup$midpoint, #auto.palette.mapping = setup$auto.palette.mapping,
+						   contrast = setup$contrast, legend.labels=setup$labels,
+						   colorNA=setup$colorNA, 
+						   colorNULL=setup$colorNULL,
+						   legend.NA.text = setup$textNA,
+						   showNA = setup$showNA,
+						   process.colors=c(list(alpha=opt$alpha), opt$pc),
+						   legend.format=legend$format,
+						   reverse=legend$reverse)
+		breaks <- colsLeg$breaks
+		#breakspal <- colsLeg$breaks.palette
+		col.neutral <- colsLeg$legend.neutral.col
 	}
 	
 	
