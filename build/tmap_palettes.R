@@ -1,118 +1,4 @@
-library(pals)
-library(rcartocolor)
-library(grid)
-
-tmap_pal_name_compress = function(x) tolower(gsub("[-, \\,, (, ), \\ ]",  "", x))
-
-
-hcl = lapply(c("qualitative", "sequential", "diverging", "divergingx"), hcl.pals)
-# merge diverging and divergingx
-hcl[[3]] = c(hcl[[3]], hcl[[4]])
-hcl[[4]] = NULL
-
-hcl_labels = unlist(hcl)
-hcl_names = tmap_pal_name_compress(hcl_labels)
-hcl_n = rep(Inf, length(hcl_labels))
-hcl_type = unlist(mapply(rep, c("cat", "seq", "div"), sapply(hcl, length), USE.NAMES = FALSE, SIMPLIFY = TRUE))
-hcl_series = rep("hcl", length(hcl_labels))
-hcl_package = rep("grDevices", length(hcl_labels))
-hcl_fun = rep("hcl.colors", length(hcl_labels))
-hcl_fun_type_arg = rep("palette", length(hcl_labels))
-
-palette_hex = grDevices:::.palette_colors_hex
-palette_labels = names(palette_hex)
-palette_names = tmap_pal_name_compress(palette_labels)
-palette_n = unname(sapply(palette_hex, length, USE.NAMES = FALSE))
-palette_type = rep("cat", length(palette_hex))
-palette_series = rep("palette", length(palette_hex))
-palette_package = rep("grDevices", length(palette_hex))
-palette_fun = rep("palette.colors", length(palette_hex))
-palette_fun_type_arg = rep("palette", length(palette_hex))
-
-pals_syspals = pals:::syspals
-pals_syspals = pals_syspals[names(pals_syspals) %in% ls(asNamespace("pals"))]
-
-pals_functions = ls(asNamespace("pals")) 
-
-pals_names = names(pals_syspals)
-pals_labels = pals_names
-pals_n = unname(sapply(pals_names, function(b) {
-	length(pals_syspals[[b]])
-}))
-pals_series = ifelse(substr(pals_names, 1, 6) == "brewer", "brewer",
-			  ifelse(substr(pals_names, 1, 5) == "ocean", "ocean",
-			  ifelse(substr(pals_names, 1, 6) == "kovesi", "kovesi",
-			  ifelse(pals_names %in% c("magma", "inferno", "plasma", "viridis"), "viridis", "misc"))))
-pals_type = ifelse(pals_names %in% c("alphabet", "alphabet2", "cols25", "glasbey", "kelly", "polychrome", "stepped", "stepped2", "stepped3", "okabe", "tableau20", "tol", "tol.groundcover", "watlington", 
-									 "brewer.set1", "brewer.set2", "brewer.set3", "brewer.pastel1",
-									 "brewer.pastel2", "brewer.dark2", "brewer.paired"), "cat",
-				   ifelse(pals_names %in% c("coolwarm", "cubehelix", "brewer.brbg", "brewer.piyg", "brewer.prgn", "brewer.puor", "brewer.rdbu", "brewer.rdgy", "brewer.rdylbu", "brewer.rdylgn", "brewer.spectral", "ocean.balance", "ocean.delta", "ocean.curl", pals_names[substr(pals_names, 1, 16) == "kovesi.diverging"]), "div", ifelse(pals_names[substr(pals_names, 1, 13) == "kovesi.cyclic"], "cyc", "seq")))
-
-pals_package = rep("pals", length(pals_names))
-pals_fun = pals_names
-pals_fun_type_arg = rep("", length(pals_names))
-
-biv_names = c(
-	"arc.bluepink",
-	"brewer.qualbin",
-	"brewer.divbin",
-	"brewer.divseq",
-	"brewer.qualseq",
-	"brewer.divdiv",
-	"brewer.seqseq1",
-	"brewer.seqseq2",
-	"census.blueyellow",
-	"tolochko.redblue",
-	"stevens.pinkgreen",
-	"stevens.bluered",
-	"stevens.pinkblue",
-	"stevens.greenblue",
-	"stevens.purplegold",
-	"vsup.viridis",
-	"vsup.redblue")
-biv_n = c(9, 6, 6, rep(9, 12), 32, 32)
-biv_labes = biv_names
-biv_series = rep("bivariate", length(biv_names))
-biv_package  = rep("pals", length(biv_names))
-biv_fun = biv_names
-biv_fun_type_arg = rep("", length(biv_names))
-biv_type = rep("biv", lngth(biv_names))
-
-
-carto_names = metacartocolors$Name
-carto_labels = carto_names
-carto_n = metacartocolors$Max_n
-carto_series = rep("carto", length(carto_names))
-carto_package = rep("rcartocolor", length(carto_names))
-carto_fun = rep("carto_pal", length(carto_names))
-carto_fun_type_arg = rep("name", length(carto_names))
-carto_type = ifelse(metacartocolors$Type == "diverging", "div", ifelse(metacartocolors$Type == "qualitative", "cat", "seq"))
-
-
-
-
-gn = function(x, name) get(paste(x, name, sep = "_"))
-
-.tmap_pals = do.call(rbind, lapply(c("hcl", "palette", "pals", "carto"), function(x) {
-	data.frame(name = gn(x, "names"),
-			   label = gn(x, "labels"),
-			   package = gn(x, "package"),
-			   type = gn(x, "type"),
-			   series = gn(x, "series"),
-			   maxn = gn(x, "n"),
-			   fun = gn(x, "fun"),
-			   fun_type_args = gn(x, "fun_type_arg"))
-}))
-
-
-.tmap_pals$fullname = paste(.tmap_pals$series, .tmap_pals$name, sep = "__")
-
-
-View(.tmap_pals)
-
-
-
-tmap_get_palette = function(fullname, n) {
+tmap_get_palette = function(fullname, n = NA) {
 	id = match(fullname, .tmap_pals$fullname)
 	if (is.na(id)) stop("cannot find palette ", fullname)
 	
@@ -125,6 +11,8 @@ tmap_get_palette = function(fullname, n) {
 		args = list()
 	)
 	
+	if (is.na(n)) n = x$maxn
+	
 	if (n > x$maxn) {
 		n2 = x$maxn
 	} else{
@@ -134,7 +22,11 @@ tmap_get_palette = function(fullname, n) {
 	args$n = n2
 	
 	pal = do.call(fun, args)
-	if (n != n2) pal = colorRampPalette(pal)(n)
+	if (n != n2) {
+		if (x$type == "cat") {
+			pal = rep(pal, length.out = n)
+		} else pal = colorRampPalette(pal)(n)	
+	} 
 	pal
 }
 
@@ -178,6 +70,140 @@ plot_tmap_pals_height_in = function(n, cex_line) {
 	lines_per_inch = 0.2
 	lines_per_inch * (1 + n * 1.33) * cex_line
 }
+
+tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
+							  series = c("palette", "hcl", "brewer", "viridis", "kovesi", "ocean", "carto", "bivariate", "misc"),
+							  
+							  n = 9) {
+	pals = .tmap_pals[.tmap_pals$type %in% type & .tmap_pals$series %in% series, ]
+	
+	
+	pals$typename = c("Categorical", "Sequential", "Diverging", "Cyclic", "Bivariate")[match(pals$type, c("cat", "seq", "div", "cyc", "biv"))]
+	
+	inch_per_line = 0.2
+	inch_per_word = 0.85
+	
+	dz = dev.size()
+	
+	table(pals$type, pals$series)
+	
+	types = intersect(type, pals$type)
+	
+	pals$lines_per_pal = ifelse(is.infinite(pals$maxn), 1, 
+					ifelse(pals$type == "biv", floor(sqrt(pals$maxn)), ceiling(pals$maxn / n)))
+	
+	
+	
+	ppt = lapply(types, function(tp) {
+		pals[pals$type == tp, ]	
+	})
+	
+	
+	hs = lapply(ppt, function(p) {
+		list(rowin  = c(0.5, 1.5, 0.5, 1, unlist(lapply(p$lines_per_pal, function(l) c(l, 0.2))), 0.5),
+			 rowids = seq(5, by = 2, length.out = nrow(p)),
+			 row_idnum = 4,
+			 row_type = 2)
+		# space, type name, space, indices, {pal, space}, space
+	})
+	
+	rowid_start = c(0, head(cumsum(sapply(hs, function(h) {
+		length(h$rowin)
+	})), -1))
+
+	rowid_idnum = mapply(function(h, s) {
+		h$row_idnum + s
+	}, hs, rowid_start, SIMPLIFY = TRUE)
+	
+	rowid_type = mapply(function(h, s) {
+		h$row_type + s
+	}, hs, rowid_start, SIMPLIFY = TRUE)
+		
+	rowids = mapply(function(h, s) {
+		h$rowids + s
+	}, hs, rowid_start, SIMPLIFY = FALSE)
+	
+	
+	
+	
+	
+	rowin = unlist(lapply(hs, function(h) h$rowin)) * inch_per_line
+	nrows = length(rowin)
+	
+	colin = c(.5* inch_per_word, inch_per_word, inch_per_word, rep(dz[2] - 3 * inch_per_word, n),.5 * inch_per_word)
+	ncols = length(colin)
+	
+	pfile = tempfile(fileext = ".png")
+	dpi = 72
+	dz = dev.size()
+	
+	png(pfile, height = sum(rowin) * dpi, width = dz[1] * dpi, res = dpi)
+	grid.newpage()
+	
+	vp = viewport(layout = grid.layout(nrow = nrows, ncol = ncols))
+										#widths = unit(colin, "in"),
+										#heights = unit(rowin, "in")))
+	pushViewport(vp)
+	
+	mapply(function(p, ids, idnum, idtype) {
+		 # p = ppt[[2]]
+		 # ids = rowids[[2]]
+		 # idnum = rowid_idnum[2]
+		 # idtype = rowid_type[2]
+
+		pushViewport(viewport(layout.pos.row = idtype, layout.pos.col = 3:(n + 2)))
+		#grid.rect(gp=gpar(fill="yellow"))
+		grid.text(p$typename[1], gp=gpar(cex = 1.5, col = "grey30"))
+		upViewport()
+		for (i in 1:n) {
+			pushViewport(viewport(layout.pos.row = idnum, layout.pos.col = i + 2))
+			grid.text(i, gp=gpar(cex = 0.75, col = "grey50"))
+			upViewport()
+		}
+		for (k in 1:nrow(p)) {
+			cols = tmap_get_palette(p$fullname[k], n = ifelse(is.infinite(p$maxn[k]), n, p$maxn[k]))
+			
+			if (p$type[k] == "biv") {
+				nk = p$maxn[k] / p$lines_per_pal[k]
+			} else {
+				if (length(cols) %% n != 0) cols = c(cols, rep(NA, (n - (length(cols) %% n))))
+				nk = 9
+			}
+			
+			cm = matrix(cols, ncol = nk, byrow = TRUE)
+			
+			for (i in 1:nk) {
+				pushViewport(viewport(layout.pos.row = ids[k], layout.pos.col = i + 2))
+				#vp2 = viewport(layout = grid.layout(nrow = nrow(cm), ncol = 1))
+				#pushViewport(vp2)
+				
+				h = 1 / nrow(cm)
+				y = seq(0, 1, length.out = nrow(cm) * 2 + 1)[seq(2, by = 2, length.out = nrow(cm))]
+				
+				coli = ifelse(is.na(cm[, i]), NA, "grey70")
+				
+				grid.rect(y = y, height = h, gp = gpar(col = coli, fill = cm[, i]))
+				upViewport()
+			}
+			
+		}
+		
+	}, ppt, rowids, rowid_idnum, rowid_type, SIMPLIFY = FALSE)
+	
+	
+	dev.off()
+	
+	temp <- tempfile(fileext = ".html")
+	writeLines(as.character(htmltools::img(src=knitr::image_uri(pfile))), temp)
+	getOption("viewer")(temp)
+	
+}
+
+
+
+
+
+
 
 plot_tmap_pals <- function(m, contrast=NULL, stretch=NULL, cex =.9, cex_line = .8, print.hex = FALSE, col.blind="normal") {
 	#m=8 
@@ -264,8 +290,8 @@ pfile = tempfile(fileext = ".png")
 dpi = 72
 dz = dev.size()
 
-png(pfile, height = plot_tmap_pals_height_in(n, cex_line = 0.8) * dpi, width = dz[1] * dpi, res = dpi)
-plot_tmap_pals(m = 15)
+png(pfile, height = plot_tmap_pals_height_in(n, cex_line = 2) * dpi, width = dz[1] * dpi, res = dpi)
+plot_tmap_pals(m = 15, cex_line = 2)
 dev.off()
 
 temp <- tempfile(fileext = ".html")
