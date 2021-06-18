@@ -130,7 +130,7 @@ tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 	rowin = unlist(lapply(hs, function(h) h$rowin)) * inch_per_line
 	nrows = length(rowin)
 	
-	colin = c(.5* inch_per_word, inch_per_word, inch_per_word, rep(dz[2] - 3 * inch_per_word, n),.5 * inch_per_word)
+	colin = c(.5* inch_per_word, inch_per_word, inch_per_word, rep((dz[1] - 3 * inch_per_word) / n, n),.5 * inch_per_word)
 	ncols = length(colin)
 	
 	pfile = tempfile(fileext = ".png")
@@ -140,9 +140,9 @@ tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 	png(pfile, height = sum(rowin) * dpi, width = dz[1] * dpi, res = dpi)
 	grid.newpage()
 	
-	vp = viewport(layout = grid.layout(nrow = nrows, ncol = ncols))
-										#widths = unit(colin, "in"),
-										#heights = unit(rowin, "in")))
+	vp = viewport(layout = grid.layout(nrow = nrows, ncol = ncols,
+										widths = unit(colin, "in"),
+										heights = unit(rowin, "in")))
 	pushViewport(vp)
 	
 	mapply(function(p, ids, idnum, idtype) {
