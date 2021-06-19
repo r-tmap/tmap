@@ -48,6 +48,13 @@ pals_type = ifelse(pals_names %in% c("alphabet", "alphabet2", "cols25", "glasbey
 									 "brewer.pastel2", "brewer.dark2", "brewer.paired"), "cat",
 				   ifelse(pals_names %in% c("coolwarm", "cubehelix", "brewer.brbg", "brewer.piyg", "brewer.prgn", "brewer.puor", "brewer.rdbu", "brewer.rdgy", "brewer.rdylbu", "brewer.rdylgn", "brewer.spectral", "ocean.balance", "ocean.delta", "ocean.curl", pals_names[substr(pals_names, 1, 16) == "kovesi.diverging"]), "div", ifelse(substr(pals_names, 1, 13) == "kovesi.cyclic", "cyc", "seq")))
 
+pals_labels[pals_series == "brewer"] = substr(pals_labels[pals_series == "brewer"], 8, nchar(pals_labels[pals_series == "brewer"]))
+pals_labels[pals_series == "ocean"] = substr(pals_labels[pals_series == "ocean"], 7, nchar(pals_labels[pals_series == "ocean"]))
+pals_labels[pals_series == "kovesi" & pals_type == "cyc"] = substr(pals_labels[pals_series == "kovesi" & pals_type == "cyc"], 15, nchar(pals_labels[pals_series == "kovesi" & pals_type == "cyc"]))
+pals_labels[pals_series == "kovesi" & pals_type == "div"] = substr(pals_labels[pals_series == "kovesi" & pals_type == "div"], 18, nchar(pals_labels[pals_series == "kovesi" & pals_type == "div"]))
+pals_labels[pals_series == "kovesi" & pals_type == "seq"] = substr(pals_labels[pals_series == "kovesi" & pals_type == "seq"], 8, nchar(pals_labels[pals_series == "kovesi" & pals_type == "seq"]))
+
+
 pals_n[pals_type != "cat"] = Inf
 
 
