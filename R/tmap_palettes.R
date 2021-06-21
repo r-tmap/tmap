@@ -73,10 +73,12 @@ plot_tmap_pals_height_in = function(n, cex_line) {
 
 tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 							  series = c("palette", "hcl", "brewer", "viridis", "kovesi", "ocean", "carto", "bivariate", "misc"),
-							  
-							  n = 9) {
+							  n = 9,
+							  color_vision_deficiency = c("none", "deutan", "protan", "tritan")) {
 	pals = .tmap_pals[.tmap_pals$type %in% type & .tmap_pals$series %in% series, ]
 	
+	
+	color_vision_deficiency = match.arg(color_vision_deficiency)
 	
 	pals$typename = c("Categorical", "Sequential", "Diverging", "Cyclic", "Bivariate")[match(pals$type, c("cat", "seq", "div", "cyc", "biv"))]
 	
@@ -98,6 +100,16 @@ tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 		pals[pals$type == tp, ]	
 	})
 	
+	
+	sim_colors = if (color_vision_deficiency == "deutan") {
+		colorspace::deutan
+	} else if (color_vision_deficiency == "protan") {
+		colorspace::protan
+	} else if (color_vision_deficiency == "tritan") {
+		colorspace::tritan
+	} else {
+		function(x) x
+	}
 	
 	hs = lapply(ppt, function(p) {
 		list(rowin  = c(0.5, 1.5, 0.5, 1, unlist(lapply(p$lines_per_pal, function(l) c(l, 0.5))), 0.5),
@@ -161,7 +173,7 @@ tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 			grid::upViewport()
 		}
 		for (k in 1:nrow(p)) {
-			cols = tmap_get_palette(p$fullname[k], n = ifelse(is.infinite(p$maxn[k]), n, p$maxn[k]))
+			cols = sim_colors(tmap_get_palette(p$fullname[k], n = ifelse(is.infinite(p$maxn[k]), n, p$maxn[k])))
 			
 			if (p$type[k] == "biv") {
 				nk = p$maxn[k] / p$lines_per_pal[k]
