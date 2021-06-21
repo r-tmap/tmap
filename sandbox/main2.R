@@ -31,7 +31,7 @@ show_data()
 
 
 (tm = tm_shape(World) +
-		tm_polygons("economy", fill.setup = tm_aes_color(palette = pals::brewer.greens(10))))
+		tm_polygons("economy", fill.setup = tm_aes_color(palette = tmap_pals$rcartocolor.carto$ArmyRose)))
 
 
 

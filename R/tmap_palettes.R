@@ -31,7 +31,11 @@ tmap_get_palette = function(fullname, n = NA) {
 }
 
 
-
+tmap_is_palette = function(name) {
+	isrev = (substr(name, 1, 1) == "-")
+	if (isrev) name = substr(name, 2, nchar(name))
+	name %in% c(.tmap_pals$name, .tmap_pals$fullname)
+}
 
 
 
@@ -65,11 +69,35 @@ get_default_contrast <- function(type, m) {
 	}
 }
 
+tmap_pal_name_compress = function(x) tolower(gsub("[-, \\,, (, ), \\ ]",  "", x))
 
-plot_tmap_pals_height_in = function(n, cex_line) {
-	lines_per_inch = 0.2
-	lines_per_inch * (1 + n * 1.33) * cex_line
+tmap_pals = local({
+	fnm = split(.tmap_pals$label, list(.tmap_pals$package, .tmap_pals$series)) 
+	nm = split(.tmap_pals$name, list(.tmap_pals$package, .tmap_pals$series)) 
+	
+	fnm = fnm[vapply(fnm, FUN = function(x) length(x) > 0, FUN.VALUE = logical(1))]
+	nm = nm[vapply(nm, FUN = function(x) length(x) > 0, FUN.VALUE = logical(1))]
+	
+	mapply(function(fnmi, nmi) {
+		names(fnmi) = nmi
+		as.list(fnmi)
+	}, fnm, nm)
+	
+})
+tmapGetPalette = function(name, n) {
+	isrev = (substr(name, 1, 1) == "-")
+	if (isrev) name = substr(name, 2, nchar(name))
+	
+	id = match(name, .tmap_pals$fullname)
+	if (is.na(id)) {
+		id = match(tmap_pal_name_compress(name), .tmap_pals$name)
+	}
+	if (is.na(id)) stop("Palette \"", name, "\" could not be found")
+	pal = tmap_get_palette(.tmap_pals$fullname[id], n)
+	if (isrev) pal = rev(pal)
+	pal
 }
+
 
 tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 							  series = c("palette", "hcl", "brewer", "viridis", "kovesi", "ocean", "carto", "bivariate", "misc"),
