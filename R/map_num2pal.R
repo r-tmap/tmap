@@ -164,32 +164,23 @@ num2pal <- function(x,
 	int.closure <- attr(q, "intervalClosure")
 	
 	# reverse palette
-	if (length(palette)==1 && substr(palette[1], 1, 1)=="-") {
-		revPal <- function(p)rev(p)
-		palette <- substr(palette, 2, nchar(palette))
-	} else revPal <- function(p)p
+	# if (length(palette)==1 && substr(palette[1], 1, 1)=="-") {
+	# 	revPal <- function(p)rev(p)
+	# 	palette <- substr(palette, 2, nchar(palette))
+	# } else revPal <- function(p)p
 	
 	
 	# map palette
 	
-	is.palette.name = tmap_is_palette(palette[1])
-	
-	
-	#is.palette.name <- palette[1] %in% rownames(tmap.pal.info)
-	
-	#is.brewer <- is.palette.name && tmap.pal.info[palette[1], "origin"] == "brewer"
-	#is.viridis <- is.palette.name &&  tmap.pal.info[palette[1], "origin"] == "viridis"
-	
-	if (is.palette.name) {
-		#mc <- tmap.pal.info[palette, "maxcolors"]
-		
-		
-		pal.div <- (!is.null(midpoint)) || (tmap.pal.info[palette, "category"]=="div")
+	palid = tmapPalId(palette[1])
+
+	if (!is.na(palid)) {
+		pal.div = .tmap_pals$type[palid] == "div"
 	} else {
-		palette.type <- if (!is.null(midpoint)) "div" else palette_type(palette)
-		pal.div <- palette.type=="div"
+		pal.div = (!is.null(midpoint)) || (palette_type(palette) == "div")
 	}
 	
+
 	if ((is.null(midpoint) || is.na(midpoint)) && pal.div) {
 		rng <- range(x, na.rm = TRUE)
 		if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
@@ -205,24 +196,37 @@ num2pal <- function(x,
 			}
 		}
 	}
-
-	## palette is created with a 101 colorramp, unless the defined palette is of the same length as n
-	if (is.brewer) {
-		snap <- FALSE
-		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
-	} else if (is.viridis) {
-		snap <- FALSE
-		colpal <- revPal(viridis(101, option = palette))
+	
+	if (!is.na(palid) && pal.div) {
+		colpal = tmap_get_palette(palette, n = 101)
+		snap = FALSE
+	} else if (!is.na(palid) && !pal.div) {
+		colpal = tmap_get_palette(palette, n = n)
+		snap = TRUE
+	} else if (length(palette) != n) {
+		colpal = grDevices::colorRampPalette(palette, n = 101)
+		snap = FALSE
 	} else {
-		snap <- length(palette) == n
-		if (!snap) colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
+		colpal = palette
+		snap = TRUE
 	}
+	
+# 
+# 	## palette is created with a 101 colorramp, unless the defined palette is of the same length as n
+# 	if (is.brewer) {
+# 		snap <- FALSE
+# 		colpal <- colorRampPalette(revPal(brewer.pal(mc, palette)), space="rgb")(101)
+# 	} else if (is.viridis) {
+# 		snap <- FALSE
+# 		colpal <- revPal(viridis(101, option = palette))
+# 	} else {
+# 		snap <- length(palette) == n
+# 		if (!snap) colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
+# 	}
 	if (!snap) {
-		ids <- if (pal.div) {
-			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_div(n) else c(0, 1)
+		ids = if (pal.div) {
 			map2divscaleID(breaks - midpoint, n=101, contrast=contrast)
 		} else {
-			if (is.na(contrast[1])) contrast <- if (is.brewer) default_contrast_seq(n) else c(0, 1)
 			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=breaks.specified, show.warnings = show.warnings)
 		}
 		
@@ -234,8 +238,8 @@ num2pal <- function(x,
 			legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
 		}
 	} else {
-		legend.palette <- palette
-		legend.neutral.col <- palette[round((n+1)/2)]
+		legend.palette <- colpal
+		legend.neutral.col <- colpal[round((n+1)/2)]
 	}
 	
 		
@@ -247,7 +251,7 @@ num2pal <- function(x,
 
 	
 	
-	ids <- findCols(q)
+	ids <- classInt::findCols(q)
 	cols <- legend.palette[ids]
 	anyNA <- any(is.na(cols) & sel)
 	breaks.palette <- legend.palette

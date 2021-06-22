@@ -44,7 +44,7 @@
 			na = "grey75",
 			null = "grey95"
 		),
-		aes.palette = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3"),
+		aes.palette = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 		attr.color = "black",
 		sepia.intensity = 0,
 		saturation = 1,

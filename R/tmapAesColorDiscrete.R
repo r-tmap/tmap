@@ -54,12 +54,12 @@ tmapAesColor = function(x1, setup, legend, opt) {
 		col.neutral <- colsLeg$legend.palette[1]
 	} else {
 		is.diverging <- use_diverging_palette(x1, setup$breaks, setup$midpoint)
-		palette <- if (is.null(setup$palette)) {
+		palette = if (is.list(setup$palette)) {
 			palette.type = ifelse(is.diverging, "div", "seq")
-			palette <- setup$palette[[palette.type]] 
+			palette = setup$palette[[palette.type]] 
 		} else if (setup$palette[1] %in% c("seq", "div", "cat")) {
-			palette.type <- setup$palette[1]
-			palette <- opt$aes.palette[[palette.type]]
+			palette.type = setup$palette[1]
+			palette = opt$aes.palette[[palette.type]]
 		} else {
 			palette <- setup$palette
 			#palette.type <- palette_type(palette)

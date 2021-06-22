@@ -1,6 +1,28 @@
-tmap_get_palette = function(fullname, n = NA) {
-	id = match(fullname, .tmap_pals$fullname)
-	if (is.na(id)) stop("cannot find palette ", fullname)
+tmapPalId = function(name, check_rev = TRUE) {
+	if (check_rev) {
+		isrev = (substr(name, 1, 1) == "-")
+		if (isrev) name = substr(name, 2, nchar(name))
+	}
+	
+	id = match(name, .tmap_pals$fullname)
+	if (is.na(id)) {
+		id = match(tmap_pal_name_compress(name), .tmap_pals$name)
+	}
+	#if (is.na(id)) stop("Palette \"", name, "\" could not be found")
+	id
+}
+
+tmap_get_palette = function(name, n = NA) {
+	if (name %in% unique(.tmap_pals$type)) {
+		name = tmap_options()$aes.palette[[name]]
+	} 
+	
+	
+	
+	isrev = (substr(name, 1, 1) == "-")
+	if (isrev) name = substr(name, 2, nchar(name))
+	
+	id =  tmapPalId(name, check_rev = FALSE)
 	
 	x = as.list(.tmap_pals[id, ])
 	fun = getExportedValue(x$package, x$fun)
@@ -11,7 +33,9 @@ tmap_get_palette = function(fullname, n = NA) {
 		args = list()
 	)
 	
-	if (is.na(n)) n = x$maxn
+	if (is.na(n)) {
+		n = if (is.infinite(x$maxn)) 9 else x$maxn
+	}
 	
 	if (n > x$maxn) {
 		n2 = x$maxn
@@ -27,16 +51,11 @@ tmap_get_palette = function(fullname, n = NA) {
 			pal = rep(pal, length.out = n)
 		} else pal = colorRampPalette(pal)(n)	
 	} 
+	
+	if (isrev) pal = rev(pal)
+
 	pal
 }
-
-
-tmap_is_palette = function(name) {
-	isrev = (substr(name, 1, 1) == "-")
-	if (isrev) name = substr(name, 2, nchar(name))
-	name %in% c(.tmap_pals$name, .tmap_pals$fullname)
-}
-
 
 
 
@@ -84,6 +103,9 @@ tmap_pals = local({
 	}, fnm, nm)
 	
 })
+
+
+
 tmapGetPalette = function(name, n) {
 	isrev = (substr(name, 1, 1) == "-")
 	if (isrev) name = substr(name, 2, nchar(name))

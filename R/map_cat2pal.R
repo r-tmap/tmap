@@ -91,26 +91,16 @@ cat2pal <- function(x,
 	}
 	nCol <- nlevels(x)
 	
-	# reverse palette
-	if (length(palette)==1 && substr(palette[1], 1, 1)=="-") {
-		revPal <- function(p)rev(p)
-		palette <- substr(palette, 2, nchar(palette))
-	} else revPal <- function(p)p
-	
-	
-	legend.palette <- if (tmap_is_palette(palette[1])) {
-		revPal(tmapGetPalette(palette[1], nCol))
+	# get palette
+	legend.palette = if (length(palette) == 1 && !is.na(tmapPalId(palette))) {
+		tmap_get_palette(palette, nCol)
+	} else if (stretch.palette && (length(palette) < nCol)) {
+		grDevices::colorRampPalette(palette)(nCol)	
 	} else {
-		if (stretch.palette && (length(palette) < nCol)) {
-			colorRampPalette(palette)(nCol)	
-		} else rep(palette, length.out=nCol)
+		rep(palette, length.out=nCol)
 	}
 	
-	# 	if (!is.null(process.colors)) {
-	# 		legend.palette <- process.colors(legend.palette)
-	# 		colorNA <- process.colors(colorNA)
-	# 	}
-	
+
 	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
 	colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
 	

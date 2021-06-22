@@ -105,6 +105,13 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 
 (tm  = tm_shape(World) +
 		tm_polygons(c("economy", "gdp_cap_est")))
+
+(tm  = tm_shape(World) +
+		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = tm_aes_color(palette = "rdylbu")))
+
+(tm  = tm_shape(World) +
+		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = list(tm_aes_color(palette = "rdylbu"), tm_aes_color(palette = "set3"))))
+
 # do to: legend.present
 
 

@@ -230,9 +230,13 @@ step2_data = function(tm) {
 						# apply aes function for each var column
 						if (!inherits(aes$setup, "tm_aes")) {
 							setup = rep(aes$setup, length.out = nvars)
-							legend = rep(aes$legend, length.out = nvars)
 						} else {
 							setup = rep(list(aes$setup), length.out = nvars)
+						}
+						
+						if (!inherits(aes$legend, "tm_legend")) {
+							legend = rep(aes$legend, length.out = nvars)
+						} else {
 							legend = rep(list(aes$legend), length.out = nvars)
 						}
 						

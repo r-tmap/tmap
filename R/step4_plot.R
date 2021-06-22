@@ -163,7 +163,8 @@ process_meta = function(o) {
 				# central goes into corner
 				legend.position = legend.outside.position
 				meta.margins = c(0, 0, 0, 0)
-				meta.margins[meta.margins.ids] = meta.margins.orig[meta.margins.ids]
+				if (legend.present[2]) meta.margins[meta.margins.ids[1]] = meta.margins.orig[meta.margins.ids[1]]
+				if (legend.present[3]) meta.margins[meta.margins.ids[2]] = meta.margins.orig[meta.margins.ids[2]]
 			}
 			
 			# redo calculations
