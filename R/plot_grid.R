@@ -394,6 +394,15 @@ plot_grid <- function(gt, scale, add.labels) {
 			lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = 4326)) # trick for 0-1 coordinates
 			sf_bbox <- tmaptools::bb_poly(bb(c(labelsYw + spacerY + marginY, labelsXw + spacerX + marginX, 1, 1)), projection = 4326)
 			lns_crop <- suppressWarnings(suppressMessages(st_intersection(lns, sf_bbox)))
+			
+			# quick fix for #564
+			if (!all(sf::st_geometry_type(lns_crop) == "MULTILINESTRING")) {
+				lns_crop_split_geo = split_geometry_collection(lns_crop$geometry)
+				lns_crop_split_geo = lns_crop_split_geo[sf::st_geometry_type(lns_crop_split_geo) == "MULTILINESTRING"]
+				stopifnot(nrow(lns_crop) == length(lns_crop_split_geo))
+				lns_crop$geometry = lns_crop_split_geo
+			}
+			
 			if (any(selx)) {
 				cogridxlns <- as.data.frame(st_coordinates(st_geometry(lns_crop)[1])[,1:3])
 				names(cogridxlns) <- c("x", "y", "ID")
