@@ -248,7 +248,9 @@ legend_portr <- function(x, gt, lineHeight, m) {
 					 x=mx, 
 					 y=ys,
 					 just=c("left", "center"),
-					 gp=gpar(cex=cex, col=cols))
+					 gp=gpar(cex=cex, col=cols,
+					 		fontface = fontface,
+					 		fontfamily = fontfamily))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
 			cols <- legend.palette
@@ -515,7 +517,9 @@ legend_landsc <- function(x, gt, lineHeight, m) {
 			textGrob(legend.text,
 					 x=xs, y=1-my-hsmax/2,
 					 just=c("center", "center"),
-					 gp=gpar(cex=cex, col=cols))
+					 gp=gpar(cex=cex, col=cols,
+					 		fontface = fontface,
+					 		fontfamily = fontfamily))
 		} else if (legend.type %in% c("line.col", "line.lwd")) {
 			lwds <- if (legend.type == "line.col") line.legend.lwd else legend.lwds
 			cols <- legend.palette

@@ -109,7 +109,9 @@ postprocess_text <- function(res, g, gt, data, npol, nx, just, interactive, text
 	}
 	
 	res$text.col.legend.text <- res$text.col.legend.misc$legend.text
-	res$text.col.legend.misc <- list()
+	res$text.col.legend.misc <- list(fontfamily = g$fontfamily, fontface = g$fontface)
+	
+	res$text.size.legend.misc <- list(fontfamily = g$fontfamily, fontface = g$fontface)
 	
 	names(res)[names(res)== "text.size.max.size"] <- "text.col.legend.sizes"
 	names(res)[names(res)== "text.size.text_sel"] <- "text_sel"
