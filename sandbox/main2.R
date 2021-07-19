@@ -22,6 +22,10 @@ World$b2 = round(pmin(pmax(World$b1 + rnorm(nrow(World), mean = 0, sd = 50), 0),
 World$alpha_class = factor(floor(seq(1, 5, length.out = nrow(World) + 1)[1:nrow(World)]), labels = LETTERS[1:4])
 World$pop_class = cut(World$pop_est, breaks = c(0, 10, 100, 1000, Inf), labels = c("Small", "Medium", "Large", "Extra Large"))					   
 
+metro$alpha_class = factor(floor(seq(1, 5, length.out = nrow(metro) + 1)[1:nrow(metro)]), labels = LETTERS[1:4])
+
+
+
 show_data()
 
 
@@ -110,16 +114,30 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = tm_aes_color(palette = "rdylbu")))
 
 (tm  = tm_shape(World) +
-		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = list(tm_aes_color(palette = "rdylbu"), tm_aes_color(palette = "set3"))))
+		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = list(tm_aes_color(palette = "set3"), tm_aes_color(palette = "Hawaii", n = 9, style = "cont"))))
 
-# do to: legend.present
+(tm  = tm_shape(World) +
+		tm_polygons("gdp_cap_est", fill.setup = list(tm_aes_color(palette = "set3"), tm_aes_color(palette = "Hawaii", n = 9, style = "cont"))))
 
+(tm  = tm_shape(World) +
+		tm_polygons("gdp_cap_est", fill.setup = list(tm_aes_color(palette = "brewer.blues", n = 9, style = "cont"))))
 
-# to do: difference asp NA 0
 tmap_design_mode()
 (tm = tm_shape(World) +
 		tm_polygons("economy") + tm_options(asp=NA))
 
 (tm = tm_shape(World) +
 		tm_polygons("economy") + tm_options(asp=0))
+
+
+
+(tm = tm_shape(World) +
+		tm_polygons("economy") + tm_options(asp=0))
+
+
+(tm = tm_shape(metro) +
+		tm_symbols(col = "pop2020", size = "pop2020", size.free = TRUE, col.free = FALSE) +
+		tm_facets("alpha_class")
+		)
+
 

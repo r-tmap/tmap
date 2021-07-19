@@ -273,7 +273,54 @@ step4_plot = function(tm) {
 	dt_template = data.table::data.table(by1__ = integer(0), by2__ =  integer(0), by3__ =  integer(0), legend = list())
 	legs = data.table::rbindlist(c(list(dt_template), lapply(tmx, function(tmxi) {
 		data.table::rbindlist(lapply(tmxi$layers, function(tml) {
-			data.table::rbindlist(c(tml$trans_legend, tml$mapping_legend), fill = TRUE)
+			
+			#tmxi = tmx[[1]]
+			#tml = tmxi$layers[[1]]
+			
+			#gp = tml$gpar
+			legs = c(tml$trans_legend, tml$mapping_legend)
+			
+			legs2 = lapply(legs, function(legs_aes) {
+				legs_aes$neutral = 	unlist(lapply(legs_aes$legend, function(l) l$neutral))
+				legs_aes
+			})
+			
+			copy_neutral = (length(legs) > 1)
+			if (copy_neutral) {
+				legs3 = mapply(function(legs_aes, i) {
+					#legs_aes = legs2[[2]]
+					bvars = names(legs_aes)[substr(names(legs_aes), 1, 2) == "by"]
+					
+					if (!is.null(legs_aes)) {
+						for (k in 1:nrow(legs_aes)) {
+							bval = legs_aes[k, bvars, with = FALSE]
+							
+							
+							nvalues = mapply(function(lclone, lname) {
+								bvars2 = names(lclone)[substr(names(lclone), 1, 2) == "by"]
+								
+								bvars_int = intersect(bvars, bvars2)
+								if (!length(bvars_int)) {
+									lclone$neutral[1]
+								} else  {
+									lclone[bval, on = bvars_int]$neutral
+								}
+							}, legs2[-i], names(legs2[-i]), SIMPLIFY = FALSE)
+							
+							gp = tml$gpar
+							gpid = match(paste0("__", names(nvalues)), unlist(gp))
+							gp[gpid] = nvalues
+							
+							legs_aes$legend[[k]]$gp = gp
+						}
+					}
+					legs_aes
+				}, legs2, 1:length(legs2), SIMPLIFY = FALSE)
+			} else {
+				legs3 = legs2
+			}
+
+			data.table::rbindlist(legs3, fill = TRUE)
 		}), fill = TRUE)
 	})), fill = TRUE)
 	

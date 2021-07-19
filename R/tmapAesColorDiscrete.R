@@ -94,10 +94,14 @@ tmapAesColor = function(x1, setup, legend, opt) {
 	legend.values <- colsLeg$legend.values
 	legend.palette <- colsLeg$legend.palette
 	
-	legend = list(title = legend$title, labels = legend.labels, values = legend.values, palette = legend.palette, col.neutral=col.neutral, breaks=breaks)
+	type = ifelse(nchar(legend.palette[1]) > 50, "color_cont", "color_cls")
+	
+	legend = list(title = legend$title, labels = legend.labels, values = legend.values, x = legend.palette, neutral=col.neutral, breaks=breaks, type = type)
 	
 	format_aes_results(cols, legend)
 }
+
+
 
 
 
@@ -108,10 +112,68 @@ tmapAesColorRGB = function(x1, x2, x3, setup, legend, opt) {
 }
 
 tmapAes2dSize = function(x1, setup, legend, opt) {
-	max = if (is.na(setup$max)) max(x1, na.rm = TRUE) else setup$max
-	values = x1 / max
-	legend = list(max = max)
+	if (all(is.na(x1))) {
+		size = rep(NA, length(x1))
+		legend = list(title = NA, labels = NA, values = NA, sizes = NA)
+	}
 	
+	
+	if (!is.na(setup$lim[1])) {
+		x1[x1<setup$lim[1]] <- NA
+		x1[x1>setup$lim[2]] <- setup$lim[2]
+	} else {
+		x1[x1==0] <- NA
+	}
+	
+	mx <- max(x1, na.rm=TRUE)
+	xmax <- ifelse(is.na(setup$max), mx, setup$max)
+	
+	if (mx > xmax) {
+		s <- sum(x1 > xmax, na.rm = TRUE)
+		message("Note that ", s, " values of the variable \"", "VAR", "\" (the highest being ", mx, ") are larger than size.max, which is currently set to ", xmax, ". It is recommended to set size.max to at least ", mx, ". Another option is to set size.lim = c(0, ", xmax, "), which truncates the size of the ", s, " larger symbols. Use the scale argument to increase the size of all symbols.")
+	}
+	
+	if (is.null(setup$sizes.legend)) {
+		x_legend <- pretty(c(0, xmax), 5)
+		x_legend <- x_legend[x_legend!=0]
+		nxl <- length(x_legend)
+		if (nxl>5) x_legend <- x_legend[-c(nxl-3, nxl-1)]
+	} else {
+		x_legend <- setup$sizes.legend
+	}
+#	symbol.size.legend.values <- x_legend
+	
+	if (is.null(setup$sizes.legend.labels)) {
+		sizes.legend.labels <- do.call("fancy_breaks", c(list(vec=x_legend, intervals=FALSE), legend$format))
+	} else {
+		if (length(setup$sizes.legend.labels) != length(x_legend)) stop("length of sizes.legend.labels is not equal to the number of symbols in the legend", call. = FALSE)
+		sizes.legend.labels <- g$sizes.legend.labels
+	}
+	
+	rescale = TRUE # TODO: what does it do?
+	maxX <- ifelse(rescale, xmax, 1)
+	scaling <- ifelse(setup$perceptual, 0.5716, 0.5)
+	symbol.size <- setup$scale*(x1/maxX)^scaling
+	symbol.max.size <- max(symbol.size, na.rm=TRUE)
+	symbol.legend.sizes <- setup$scale*(x_legend/maxX)^scaling
+	
+	if (legend$reverse) {
+		symbol.legend.sizes <- rev(symbol.legend.sizes)
+		symbol.size.legend.labels <- rev(sizes.legend.labels)
+	}
+	attr(sizes.legend.labels, "align") <- legend$format$text.align
+	print(range(symbol.size))
+	
+	legend = list(title = legend$title,
+				  labels=sizes.legend.labels,
+				  #palette=rep("pink", length(sizes.legend.labels)), #dummy
+				  values = x_legend,
+				  x=symbol.legend.sizes,
+				  max.size=symbol.max.size, 
+				  neutral = symbol.max.size)
+	
+	values = symbol.size
+
 	format_aes_results(values, legend)
 }
 

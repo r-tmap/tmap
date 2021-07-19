@@ -228,16 +228,20 @@ step2_data = function(tm) {
 					if (length(v) && fr[v] && nvars > 1) {
 						#cat("step2_grp_lyr_aes_var_multi_aes_columns\n")
 						# apply aes function for each var column
-						if (!inherits(aes$setup, "tm_aes")) {
+						if (inherits(aes$setup, "tm_aes")) {
+							setup = rep(list(aes$setup), length.out = nvars)
+						} else if (islistof(aes$setup, "tm_aes")) {
 							setup = rep(aes$setup, length.out = nvars)
 						} else {
-							setup = rep(list(aes$setup), length.out = nvars)
+							stop("incorrect setup specification")
 						}
 						
-						if (!inherits(aes$legend, "tm_legend")) {
+						if (inherits(aes$legend, "tm_legend")) {
+							legend = rep(list(aes$legend), length.out = nvars)
+						} else if (islistof(aes$setup, "tm_legend")) {
 							legend = rep(aes$legend, length.out = nvars)
 						} else {
-							legend = rep(list(aes$legend), length.out = nvars)
+							stop("incorrect legend specification")
 						}
 						
 						varnames = paste(nm, 1L:nvars, sep = "_")
@@ -265,11 +269,20 @@ step2_data = function(tm) {
 						# apply aes function to the (only) var column
 						if (inherits(aes$setup, "tm_aes")) {
 							s = aes$setup
-							l = aes$legend
-						} else {
+						} else if (islistof(aes$setup, "tm_aes")) {
 							s = aes$setup[[1]]
-							l = aes$legend[[1]]
+						} else {
+							stop("incorrect setup specification")
 						}
+
+						if (inherits(aes$legend, "tm_legend")) {
+							l = aes$legend
+						} else if (islistof(aes$legend, "tm_legend")) {
+							l = aes$legend[[1]]
+						} else {
+							stop("incorrect setup specification")
+						}
+						
 						f = s$FUN
 						s$FUN = NULL
 						if (is.na(l$title)) l$title = val
@@ -303,7 +316,8 @@ step2_data = function(tm) {
 				 trans_isglobal = tml$trans.isglobal,
 				 mapping_dt = dts_mapping, 
 				 mapping_legend = mapping_legend,
-				 mapping_fun = tml$mapping.fun)
+				 mapping_fun = tml$mapping.fun,
+				 gpar = tml$gpar)
 		})
 		names(lrs) = layernames
 		

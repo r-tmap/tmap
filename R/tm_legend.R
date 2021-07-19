@@ -7,6 +7,11 @@ tm_legend = function(title  = NA,
 	structure(c(list(FUN = "tmapLegend"), as.list(environment())), class = "tm_legend")
 }
 
+
+tm_legend_hide = function() {
+	tm_legend(show = FALSE)
+}
+
 tm_legend_portrait = function(...) {
 	tm_legend(...)
 }

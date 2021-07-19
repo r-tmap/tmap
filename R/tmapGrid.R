@@ -300,6 +300,14 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	#assign("bbx", bbx, envir = .TMAP_GRID)
 }
 
+leg_standard_p_lines = function(leg) {
+	if (leg$type == "fill") {
+		rep(1, length(leg$labels))
+	} else if (leg$type == "symbols") {
+		pmax(1, leg$sizes + 0.3)
+	}
+}
+
 tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_page, legend.stack = "vertical") {
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
@@ -336,7 +344,10 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
 			
 			tH = ifelse(leg$title == "", 0, inch * o$legend.title.size * 1.375)
-			iH = inch * (length(leg$labels) + 0.8) * o$legend.text.size
+			
+			nlines = sum(leg_standard_p_lines(leg))
+			
+			iH = inch * (nlines + 0.8) * o$legend.text.size
 			tH + iH
 		},
 		fun_width = function(leg) {
@@ -358,16 +369,37 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			if (leg$title == "") o$legend.title.size = 0
 			
+			nlines = leg_standard_p_lines(leg) * o$legend.text.size
+
+			
 			vp = grid::viewport(layout = grid::grid.layout(ncol = 4, nrow = nlev + 4, 
 														   widths = grid::unit(c(lH * o$legend.text.size * 0.4, lH * o$legend.text.size, lH * o$legend.text.size * 0.25, 1), units = c("inches", "inches", "inches", "null")),
 														   heights = grid::unit(
 														   	c(lH * o$legend.title.size * c(0.25, 1),
 														   	  lH * o$legend.title.size * .125 + lH * o$legend.text.size * .4,
-														   	  rep(lH * o$legend.text.size, nlev), 1), units = c(rep("inches", nlev + 3), "null"))))
+														   	  lH * nlines, 1), units = c(rep("inches", nlev + 3), "null"))))
 			
 			grTitle = gridCell(1:3, 2, grid::textGrob(leg$title, x = 0, just = "left", gp = grid::gpar(cex = o$legend.title.size)))
 			grText = lapply(1:nlev, function(i) gridCell(i+3, 4, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = o$legend.text.size))))
-			grItems = lapply(1:nlev, function(i) gridCell(i+3, 2, grid::rectGrob(gp = grid::gpar(fill = leg$palette[i]))))
+			
+			
+			if (leg$type == "color_cont") {
+				fill_list = strsplit(leg$palette, split = "-", fixed=TRUE)
+				fill_list = lapply(fill_list, function(i) {
+					i[i=="NA"] <- NA
+					i
+				})
+				grItems = mapply(function(i, f) {
+					h = 1 / length(f)
+					ys = seq(1-.5*h, by = -h, length.out = length(f))
+					gridCell(i+3, 2, grid::rectGrob(y = ys, height = h, gp = grid::gpar(fill = f, col = NA)))
+				}, 1:nlev, fill_list, SIMPLIFY = FALSE)
+			} else if (leg$type == "fill") {
+				grItems = lapply(1:nlev, function(i) gridCell(i+3, 2, grid::rectGrob(gp = grid::gpar(fill = leg$palette[i]))))
+			} else if (leg$type == "symbols") {
+				grItems = lapply(1:nlev, function(i) gridCell(i+3, 2, grid::pointsGrob(x=0.5, y=0.5, pch = 21, size = grid::unit(leg$sizes[i], "lines"), gp = grid::gpar(fill = leg$palette[i], col = "gray30"))))
+			}
+			
 			
 			g = do.call(grid::grobTree, c(list(grTitle), grText, grItems, list(vp = vp)))
 			
@@ -375,17 +407,6 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			g
 			
-			# nlev = length(leg$labels)
-			# nlns = nlev + 2
-			# 
-			# ys = c(nlns - 0.75, seq(nlns - 2.25, 0.75, by = -1))
-			# xs = c(0.25, rep(1.5, length(leg$labels)))
-			# g = list(grid::rectGrob(gp=grid::gpar(fill="grey90")),
-			# 		 grid::rectGrob(x = grid::unit(.75, "lines"), y = grid::unit(ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$palette)),
-			# 		 grid::textGrob(c(leg$title, leg$labels), x = grid::unit(xs, "lines"), y = grid::unit(ys, "lines"), just = "left", gp=grid::gpar(cex = 0.7)))
-			# totalH = grid::unit(nlns, "lines")
-			# totalW = grid::unit(max(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE)) + 1.75, "lines")
-			# list(g=g, totalH=totalH, totalW=totalW)
 		}
 	)
 	
@@ -446,22 +467,6 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		}))
 	}
 	
-	
-	
-	
-	# 
-	# 
-	# legY = 
-	# 
-	# print(legH)
-	
-	#legW = 
-	
-	
-	# grbs = do.call(grid::gList, mapply(function(lG, lH) {
-	# 	grbs = do.call(grid::grobTree, c(lG$g, list(vp = grid::viewport(x = lG$totalW/2, width = lG$totalW, y = lH - lG$totalH/2, height = lG$totalH))))
-	# }, legGrobs, legY, SIMPLIFY = FALSE))
-	
 	grbs = do.call(grid::gList, mapply(function(lG, lX, lY, lH, lW) {
 		frame = grid::rectGrob(gp=grid::gpar(fill = o$legend.bg.color, col = "black"))
 		if (legend.stack == "vertical") {
@@ -473,34 +478,8 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		
 	}, legGrobs, legX, legY, legH, legW, SIMPLIFY = FALSE))
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 
-	
-	# grbs = do.call(grid::gList, do.call(c, mapply(function(leg, startH) {
-	# 	ys = c(0.5, seq(2,by=1, length.out = length(leg$levs)))
-	# 	xs = c(0, rep(1.25, length(leg$levs)))
-	# 	list(grid::grid.rect(gp=grid::gpar(fill="grey90")),
-	# 		grid::grid.rect(x = grid::unit(.5, "lines"), y = grid::unit(1, "npc") - grid::unit(startH + ys[-1], "lines"), width = grid::unit(1, "lines"), height = grid::unit(1, "lines"), gp=grid::gpar(fill = leg$pal)),
-	# 		 grid::grid.text(c(leg$title, leg$levs), x = grid::unit(xs, "lines"), y = grid::unit(1, "npc") - grid::unit(startH + ys, "lines"), just = "left"))
-	# }, legs, legHcs, SIMPLIFY = FALSE)))
-	
-	# print("----")
-	# print(facet_row)
-	# print(facet_col)
-	# print("-")
-	# print(rows)
-	# print(cols)
-	# print("----")
-	#grbs = grid::rectGrob(gp=grid::gpar(fill="gold"))
-	
+
 	gt = add_to_gt(gt, grbs, row = rows, col = cols)
 	
 	gts[[facet_page]] = gt
@@ -709,7 +688,7 @@ tmapGridSymbols = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
 	
 	coords = sf::st_coordinates(shp)
 	
-	gp = grid::gpar(fill = color, col = "green")
+	gp = grid::gpar(fill = color, col = "gray30")
 	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = shape, size = grid::unit(size, "lines"), gp = gp, name = "symbols")
 	
 	gts = get("gts", .TMAP_GRID)

@@ -22,12 +22,16 @@ tm_aes_color_rgb = function(maxValue = 255) {
 }
 
 tm_aes_2d_size = function(max = NA,
-						  perceptual = FALSE) {
+						  lim=NA,
+						  sizes.legend = NULL,
+						  sizes.legend.labels = NULL,
+						  perceptual = FALSE,
+						  scale = 1) {
 	structure(c(list(FUN = "tmapAes2dSize"), as.list(environment())), class = c("tm_aes_2d_size", "tm_aes"))
 }
 
 tm_aes_shape = function(shapes = c(16:21)) {
-	structure(c(list(FUN = "tmapAes2dSize"), as.list(environment())), class = c("tm_aes_shape", "tm_aes"))
+	structure(c(list(FUN = "tmapAes2dShape"), as.list(environment())), class = c("tm_aes_shape", "tm_aes"))
 }
 
 format_aes_results = function(values, legend) {
