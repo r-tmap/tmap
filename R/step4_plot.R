@@ -281,7 +281,7 @@ step4_plot = function(tm) {
 			legs = c(tml$trans_legend, tml$mapping_legend)
 			
 			legs2 = lapply(legs, function(legs_aes) {
-				legs_aes$neutral = 	unlist(lapply(legs_aes$legend, function(l) l$neutral))
+				legs_aes$vneutral = 	unlist(lapply(legs_aes$legend, function(l) l$vneutral))
 				legs_aes
 			})
 			
@@ -301,9 +301,9 @@ step4_plot = function(tm) {
 								
 								bvars_int = intersect(bvars, bvars2)
 								if (!length(bvars_int)) {
-									lclone$neutral[1]
+									lclone$vneutral[1]
 								} else  {
-									lclone[bval, on = bvars_int]$neutral
+									lclone[bval, on = bvars_int]$vneutral
 								}
 							}, legs2[-i], names(legs2[-i]), SIMPLIFY = FALSE)
 							

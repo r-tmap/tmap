@@ -30,7 +30,19 @@ tm_aes_2d_size = function(max = NA,
 	structure(c(list(FUN = "tmapAes2dSize"), as.list(environment())), class = c("tm_aes_2d_size", "tm_aes"))
 }
 
-tm_aes_shape = function(shapes = c(16:21)) {
+tm_aes_shape = function(shapes = 21:25,
+						shapes.legend = NULL,
+						shapes.legend.fill = NA,
+						shapes.labels = NULL,
+						shapes.drop.levels = FALSE,
+						shapeNA = 4,
+						shape.textNA = "Missing",
+						shape.showNA = NA,
+						shapes.n = 5, shapes.style = ifelse(is.null(shapes.breaks), "pretty", "fixed"),
+						shapes.style.args = list(),
+						shapes.as.count = NA,
+						shapes.breaks = NULL,
+						shapes.interval.closure = "left") {
 	structure(c(list(FUN = "tmapAes2dShape"), as.list(environment())), class = c("tm_aes_shape", "tm_aes"))
 }
 

@@ -98,6 +98,15 @@ tmapAesColor = function(x1, setup, legend, opt) {
 	
 	legend = list(title = legend$title, labels = legend.labels, values = legend.values, x = legend.palette, neutral=col.neutral, breaks=breaks, type = type)
 	
+	legend = list(title = legend$title, 
+				  nitems = length(legend.labels),
+				  labels = legend.labels, 
+				  dvalues = legend.values, 
+				  vvalues = legend.palette,
+				  vneutral = col.neutral,
+				  breaks=breaks, type = type)
+	
+	
 	format_aes_results(cols, legend)
 }
 
@@ -167,24 +176,72 @@ tmapAes2dSize = function(x1, setup, legend, opt) {
 	legend = list(title = legend$title,
 				  labels=sizes.legend.labels,
 				  #palette=rep("pink", length(sizes.legend.labels)), #dummy
-				  values = x_legend,
-				  x=symbol.legend.sizes,
-				  max.size=symbol.max.size, 
-				  neutral = symbol.max.size)
+				  dvalues = x_legend,
+				  vvalues = symbol.legend.sizes,
+				  vneutral = symbol.max.size,
+				  max.size=symbol.max.size)
 	
 	values = symbol.size
 
 	format_aes_results(values, legend)
 }
 
-tmapAesShape = function(x1, legend, setup) {
-	if (is.numeric(x1)) x1 = as.integer(x1)
-	if (is.character(x1)) x1 = as.factor(x1)
-	if (is.factor(x1)) x1 = as.integer(x1)
+tmapAesShape = function(x1, legend, setup, opt) {
+	
+	if (length(na.omit(unique(x1)))==1 && setup$style != "fixed") setup$style = "cat"
+	
+	if (is.factor(x1) || setup$style == "cat") {
+		shapesLeg <- cat2shape(x,
+							   var = "g$shape",
+							   shapes=setup$shapes,
+							   drop.levels = setup$shapes.drop.levels,
+							   legend.labels=setup$shapes.labels,
+							   shapeNA = setup$shapeNA,
+							   legend.NA.text = setup$shape.textNA,
+							   showNA = setup$shape.showNA,
+							   legend.format=setup$legend.format,
+							   reverse=reverse)
+		symbol.shape <- shapesLeg$shps
+		shape.legend.labels <- shapesLeg$legend.labels
+		shape.legend.values <- shapesLeg$legend.values
+		shape.legend.shapes <- shapesLeg$shapes
+		shape.neutral <- shape.legend.shapes[1]
+	} else {
+		shapesLeg <- num2shape(x, 
+							   var = "g$shape",
+							   n=setup$shapes.n, 
+							   style=setup$shapes.style,
+							   style.args=setup$shapes.style.args, 
+							   breaks=setup$shapes.breaks, 
+							   interval.closure=setup$shapes.interval.closure,
+							   shapes=setup$shapes,
+							   legend.labels = setup$shapes.labels,
+							   legend.NA.text = setup$shape.textNA,
+							   shapeNA=setup$shapeNA, 
+							   showNA = setup$shape.showNA,
+							   legend.format=setup$legend.format,
+							   reverse=reverse)
+		symbol.shape <- shapesLeg$shps
+		shape.legend.labels <- shapesLeg$legend.labels
+		shape.legend.values <- shapesLeg$legend.values
+		shape.legend.shapes <- shapesLeg$shapes
+		shape.neutral <- shape.legend.shapes[1]
+	}
+	
+
+	
+	# if (is.numeric(x1)) x1 = as.integer(x1)
+	# if (is.character(x1)) x1 = as.factor(x1)
+	# if (is.factor(x1)) x1 = as.integer(x1)
 	#n = length(shapes)
 	values = setup$shapes[x1]
-	legend = list(shapes = setup$shapes)
-	
+	legend = list(title = legend$title,
+				  labels = shape.legend.labels,
+				  dvalues = shape.legend.values,
+				  vvalues = shape.legend.shapes,
+				  vneutral = shape.neutral)
+				  
+
 	format_aes_results(values, legend)
 }
 
