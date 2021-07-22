@@ -158,8 +158,12 @@ step2_data = function(tm) {
 					} else {
 						setnames(dtl, vnames[1], nm)
 					}
-					#dtl[, legend := vector("list", length = nrow(dtl))]
-					dtl_leg = NULL
+					dtl[, legend := vector("list", length = nrow(dtl))]
+					#dtl_leg = NULL
+					#sel = !vapply(dtl$legend, is.null, logical(1))
+					dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legend := list(lapply(get(..nm), function(s) list(vneutral = s)))][, (nm) := NULL]
+
+					#dtl_leg = NULL
 				} else {
 					#cat("step2_grp_lyr_aes_var\n")
 					

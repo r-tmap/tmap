@@ -130,14 +130,24 @@ tmap_design_mode()
 		tm_polygons("economy") + tm_options(asp=0))
 
 
-
+## step2 164
 (tm = tm_shape(World) +
 		tm_polygons("economy") + tm_options(asp=0))
+
+(tm = tm_shape(World) +
+		tm_polygons("economy", col = "continent") + tm_options(asp=0))
 
 
 (tm = tm_shape(metro) +
 		tm_symbols(col = "pop2020", size = "pop2020", size.free = TRUE, col.free = FALSE) +
 		tm_facets("alpha_class")
 		)
+
+# step2 162
+(tm = tm_shape(metro) +
+		tm_symbols(col = "pop2020", size = "pop2020", shape = c(21, 22), size.free = TRUE, col.free = FALSE)
+)
+
+# to do: pass gp to plot functions
 
 

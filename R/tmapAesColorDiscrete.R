@@ -174,6 +174,7 @@ tmapAes2dSize = function(x1, setup, legend, opt) {
 	print(range(symbol.size))
 	
 	legend = list(title = legend$title,
+				  nitems = length(sizes.legend.labels),
 				  labels=sizes.legend.labels,
 				  #palette=rep("pink", length(sizes.legend.labels)), #dummy
 				  dvalues = x_legend,
@@ -187,7 +188,7 @@ tmapAes2dSize = function(x1, setup, legend, opt) {
 }
 
 tmapAesShape = function(x1, legend, setup, opt) {
-	
+
 	if (length(na.omit(unique(x1)))==1 && setup$style != "fixed") setup$style = "cat"
 	
 	if (is.factor(x1) || setup$style == "cat") {
@@ -236,6 +237,7 @@ tmapAesShape = function(x1, legend, setup, opt) {
 	#n = length(shapes)
 	values = setup$shapes[x1]
 	legend = list(title = legend$title,
+				  nitems = length(shape.legend.labels),
 				  labels = shape.legend.labels,
 				  dvalues = shape.legend.values,
 				  vvalues = shape.legend.shapes,

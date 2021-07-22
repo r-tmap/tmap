@@ -281,21 +281,25 @@ step4_plot = function(tm) {
 			legs = c(tml$trans_legend, tml$mapping_legend)
 			
 			legs2 = lapply(legs, function(legs_aes) {
-				legs_aes$vneutral = 	unlist(lapply(legs_aes$legend, function(l) l$vneutral))
+				legs_aes$vneutral = unlist(lapply(legs_aes$legend, function(l) l$vneutral))
 				legs_aes
 			})
 			
 			copy_neutral = (length(legs) > 1)
-			if (copy_neutral) {
-				legs3 = mapply(function(legs_aes, i) {
-					#legs_aes = legs2[[2]]
-					bvars = names(legs_aes)[substr(names(legs_aes), 1, 2) == "by"]
-					
-					if (!is.null(legs_aes)) {
-						for (k in 1:nrow(legs_aes)) {
-							bval = legs_aes[k, bvars, with = FALSE]
-							
-							
+			
+			legs3 = mapply(function(legs_aes, legnm, i) {
+				#legs_aes = legs2[[2]]
+				bvars = names(legs_aes)[substr(names(legs_aes), 1, 2) == "by"]
+				
+				if (!is.null(legs_aes)) {
+					for (k in 1:nrow(legs_aes)) {
+						bval = legs_aes[k, bvars, with = FALSE]
+						gp = tml$gpar
+						
+						gpaid = match(paste0("__", legnm), unlist(gp))
+						gp[[gpaid]] = legs_aes$legend[[k]]$vvalues
+						
+						if (copy_neutral) {
 							nvalues = mapply(function(lclone, lname) {
 								bvars2 = names(lclone)[substr(names(lclone), 1, 2) == "by"]
 								
@@ -306,24 +310,29 @@ step4_plot = function(tm) {
 									lclone[bval, on = bvars_int]$vneutral
 								}
 							}, legs2[-i], names(legs2[-i]), SIMPLIFY = FALSE)
-							
-							gp = tml$gpar
-							gpid = match(paste0("__", names(nvalues)), unlist(gp))
+							gpid = match(paste0("__", names(nvalues)), sapply(gp, "[[", 1))
 							gp[gpid] = nvalues
-							
-							legs_aes$legend[[k]]$gp = gp
 						}
+						
+						
+						leleg = legs_aes$legend[[k]]
+						
+						leleg$gp = gp
+						leleg$vneutral = NULL
+						leleg$vvalues = NULL
+						
+						legs_aes$legend[[k]] = list(leleg)
 					}
-					legs_aes
-				}, legs2, 1:length(legs2), SIMPLIFY = FALSE)
-			} else {
-				legs3 = legs2
-			}
+				}
+				legs_aes
+			}, legs2, names(legs2), 1:length(legs2), SIMPLIFY = FALSE)
 
 			data.table::rbindlist(legs3, fill = TRUE)
 		}), fill = TRUE)
 	})), fill = TRUE)
 	
+	# remove empty legends
+	legs = legs[vapply(legs$legend, length, FUN.VALUE = integer(1)) > 1, ][, vneutral := NULL]
 	
 	# find out whether there are legends for all facets, per row, per col
 	# use them to automatically determine meta.margins (in preprocess_meta)
