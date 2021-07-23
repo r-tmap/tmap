@@ -43,7 +43,7 @@ tm_aes_shape = function(shapes = 21:25,
 						shapes.as.count = NA,
 						shapes.breaks = NULL,
 						shapes.interval.closure = "left") {
-	structure(c(list(FUN = "tmapAes2dShape"), as.list(environment())), class = c("tm_aes_shape", "tm_aes"))
+	structure(c(list(FUN = "tmapAesShape"), as.list(environment())), class = c("tm_aes_shape", "tm_aes"))
 }
 
 format_aes_results = function(values, legend) {

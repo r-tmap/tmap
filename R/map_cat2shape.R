@@ -14,10 +14,14 @@ cat2shape <- function(x,
 	
 	x[!sel] <- NA
 	
-	gt <- get("tmapOptions", envir = .TMAP_CACHE)
-	show.messages <- gt$show.messages
-	show.warnings <- gt$show.warnings
-	
+	tmapOptions <- tmap_options()
+	show.messages <- tmapOptions$show.messages
+	show.warnings <- tmapOptions$show.warnings
+	# 
+	# gt <- get("tmapOptions", envir = .TMAP_CACHE)
+	# show.messages <- gt$show.messages
+	# show.warnings <- gt$show.warnings
+	# 
 	
 	if (!is.factor(x)) x <- factor(x, levels=sort(unique(x)))
 	

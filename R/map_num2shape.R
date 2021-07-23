@@ -18,8 +18,10 @@ num2shape <- function(x,
 	breaks <- q$brks
 	nbrks <- length(breaks)
 	
-
-	show.warnings = get("tmapOptions", envir = .TMAP_CACHE)$show.warnings
+	tmapOptions <- tmap_options()
+	show.messages <- tmapOptions$show.messages
+	show.warnings <- tmapOptions$show.warnings
+	#show.warnings = get("tmapOptions", envir = .TMAP_CACHE)$show.warnings
 	
 	if (length(shapes) < (nbrks-1) && show.warnings) {
 		warning("Not enough symbol shapes available. Shapes will be re-used.", call.=FALSE)

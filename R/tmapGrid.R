@@ -304,7 +304,7 @@ leg_standard_p_lines = function(leg) {
 	if (identical(leg$gp$shape[1], FALSE)) {
 		rep(1, leg$nitems)
 	} else {
-		pmax(1, leg$gp$size + 0.3)
+		rep(pmax(1, leg$gp$size + 0.3), length.out = leg$nitems)
 	}
 	
 	# if (leg$type == "fill") {
@@ -675,7 +675,7 @@ select_sf = function(shpTM, dt) {
 	list(shp = shpSel, dt = dt)
 }
 
-tmapGridPolygons = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
+tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -683,11 +683,20 @@ tmapGridPolygons = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
 	shp = res$shp
 	dt = res$dt
 	
-	fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
-	color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
 	
 	
-	gp = grid::gpar(fill = fill, col = color) # lwd=border.lwd, lty=border.lty)
+	#fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
+	#color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
+	
+	
+	cols = paste0("__", setdiff(names(dt), "tmapID__"))
+	gpids = match(cols, sapply(gp, "[[", 1))
+	gp[gpids] = as.list(dt[, setdiff(names(dt), "tmapID__"), with = FALSE])
+	
+	
+	gp = gp_to_gpar(gp)
+	
+	#gp = grid::gpar(fill = fill, col = color) # lwd=border.lwd, lty=border.lty)
 	#grb = gTree(sf::st_as_grob(shpSel, gp = gp), name = "polygons")
 	
 	grb = sf::st_as_grob(shp, gp = gp, name = "polygons")
@@ -714,7 +723,7 @@ appendGlist = function(glist, x) {
 }
 
 
-tmapGridSymbols = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
+tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page) {
 	rc_text = frc(facet_row, facet_col)
 	
 	res = select_sf(shpTM, dt)
@@ -723,12 +732,24 @@ tmapGridSymbols = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
 	
 	size = if ("size" %in% names(dt)) dt$size else rep(NA, nrow(dt))
 	shape = if ("shape" %in% names(dt)) dt$shape else rep(NA, nrow(dt))
-	color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
+	#color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
+	
+	
+	gpf = sapply(gp, "[[", 1)
+	gpw = which(substr(gpf, 1, 2) == "__")
+	cols = names(gpw)
+	
+	
+	cols__ = paste0("__", cols)
+	gp[gpw] = as.list(dt[, cols, with = FALSE])
+	
+	
+	gp = gp_to_gpar(gp)
 	
 	
 	coords = sf::st_coordinates(shp)
 	
-	gp = grid::gpar(fill = color, col = "gray30")
+	#gp = grid::gpar(fill = color, col = "gray30")
 	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = shape, size = grid::unit(size, "lines"), gp = gp, name = "symbols")
 	
 	gts = get("gts", .TMAP_GRID)

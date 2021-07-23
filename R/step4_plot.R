@@ -486,11 +486,12 @@ step4_plot = function(tm) {
 				bl = tmxi$layers[[il]]
 				shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
 				mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
+				gp = bl$gpar
 				
 				FUN = paste0("tmap", gs, bl$mapping_fun)
 				
 				#if (FUN == "tmapGridRaster") browser()
-				do.call(FUN, list(shpTM = shpTM, dt = mdt, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i]))
+				do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i]))
 			}
 			
 		}

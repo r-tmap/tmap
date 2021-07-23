@@ -192,7 +192,7 @@ tmapAesShape = function(x1, legend, setup, opt) {
 	if (length(na.omit(unique(x1)))==1 && setup$style != "fixed") setup$style = "cat"
 	
 	if (is.factor(x1) || setup$style == "cat") {
-		shapesLeg <- cat2shape(x,
+		shapesLeg <- cat2shape(x1,
 							   var = "g$shape",
 							   shapes=setup$shapes,
 							   drop.levels = setup$shapes.drop.levels,
@@ -201,14 +201,14 @@ tmapAesShape = function(x1, legend, setup, opt) {
 							   legend.NA.text = setup$shape.textNA,
 							   showNA = setup$shape.showNA,
 							   legend.format=setup$legend.format,
-							   reverse=reverse)
+							   reverse=legend$reverse)
 		symbol.shape <- shapesLeg$shps
 		shape.legend.labels <- shapesLeg$legend.labels
 		shape.legend.values <- shapesLeg$legend.values
 		shape.legend.shapes <- shapesLeg$shapes
 		shape.neutral <- shape.legend.shapes[1]
 	} else {
-		shapesLeg <- num2shape(x, 
+		shapesLeg <- num2shape(x1, 
 							   var = "g$shape",
 							   n=setup$shapes.n, 
 							   style=setup$shapes.style,
@@ -221,7 +221,7 @@ tmapAesShape = function(x1, legend, setup, opt) {
 							   shapeNA=setup$shapeNA, 
 							   showNA = setup$shape.showNA,
 							   legend.format=setup$legend.format,
-							   reverse=reverse)
+							   reverse=legend$reverse)
 		symbol.shape <- shapesLeg$shps
 		shape.legend.labels <- shapesLeg$legend.labels
 		shape.legend.values <- shapesLeg$legend.values
