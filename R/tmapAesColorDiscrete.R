@@ -18,7 +18,13 @@ tmapAesColor = function(x1, setup, legend, opt) {
 		setup$style = "cat"
 	}
 	
-	if (length(na.omit(unique(x1)))==1 && setup$style!="fixed") setup$style = "cat"
+	#if (length(na.omit(unique(x1)))==1 && setup$style!="fixed") setup$style = "cat"
+	
+	if (is.na(setup$palette[1])) setup$palette = getTmapOption(tmapOption("aes.var", setup$aes), opt)
+	if (is.na(setup$colorNA)) setup$colorNA = getTmapOption(tmapOption("aes.na", setup$aes), opt)
+	if (is.na(setup$colorNULL)) setup$colorNULL = getTmapOption(tmapOption("aes.null", setup$aes), opt)
+	
+
 	
 	if (is.factor(x1) || setup$style=="cat") {
 		if (is.list(setup$palette)) {
@@ -96,8 +102,6 @@ tmapAesColor = function(x1, setup, legend, opt) {
 	
 	type = ifelse(nchar(legend.palette[1]) > 50, "color_cont", "color_cls")
 	
-	legend = list(title = legend$title, labels = legend.labels, values = legend.values, x = legend.palette, neutral=col.neutral, breaks=breaks, type = type)
-	
 	legend = list(title = legend$title, 
 				  nitems = length(legend.labels),
 				  labels = legend.labels, 
@@ -123,7 +127,7 @@ tmapAesColorRGB = function(x1, x2, x3, setup, legend, opt) {
 tmapAes2dSize = function(x1, setup, legend, opt) {
 	if (all(is.na(x1))) {
 		size = rep(NA, length(x1))
-		legend = list(title = NA, labels = NA, values = NA, sizes = NA)
+		legend = list(title = NA, nitems = 0)
 	}
 	
 	
@@ -171,8 +175,7 @@ tmapAes2dSize = function(x1, setup, legend, opt) {
 		symbol.size.legend.labels <- rev(sizes.legend.labels)
 	}
 	attr(sizes.legend.labels, "align") <- legend$format$text.align
-	print(range(symbol.size))
-	
+
 	legend = list(title = legend$title,
 				  nitems = length(sizes.legend.labels),
 				  labels=sizes.legend.labels,
@@ -247,3 +250,58 @@ tmapAesShape = function(x1, legend, setup, opt) {
 	format_aes_results(values, legend)
 }
 
+
+tmapAesLwd = function(x1, legend, setup, opt) {
+	if (all(is.na(x1))) {
+		size = rep(NA, length(x1))
+		legend = list(title = NA, nitems = 0)
+	}
+
+	if (!is.numeric(x1)) stop("lwd argument contains a non-numeric variable", call. = FALSE)
+	
+	if (is.null(setup$lwd.legend)) {
+		w_legend <- pretty(x1, 7)
+		w_legend <- w_legend[w_legend!=0]
+		nwl <- length(w_legend)
+		if (nwl>5) w_legend <- w_legend[-c(length(w_legend)-3,length(w_legend)-1)]
+	} else {
+		w_legend <- setup$lwd.legend
+	}
+	
+	
+	
+	maxW <- ifelse(rescale, max(x1, na.rm=TRUE), 1)
+	line.legend.lwds <-  setup$scale * (w_legend/maxW)
+	line.lwd.legend.values <- w_legend
+	line.lwd.legend.labels <- format(w_legend, trim=TRUE)
+	
+	if (is.null(setup$lwd.legend.labels)) {
+		line.lwd.legend.labels <- do.call("fancy_breaks", c(list(vec=w_legend, intervals=FALSE), legend$format))
+	} else {
+		if (length(setup$lwd.legend.labels) != length(w_legend)) stop("length of sizes.legend.labels is not equal to the number of lines in the legend", call. = FALSE)
+		line.lwd.legend.labels <- setup$lwd.legend.labels
+	}
+	
+	line.lwd <- setup$scale * (x1/maxW)
+	if (reverse) {
+		line.legend.lwds <- rev(line.legend.lwds)
+		line.lwd.legend.labels <- rev(line.lwd.legend.labels)
+	}
+	attr(line.lwd.legend.labels, "align") <- legend$format$text.align
+
+	
+	legend = list(title = legend$title,
+				  nitems = length(line.lwd.legend.labels),
+				  labels=line.lwd.legend.labels,
+				  #palette=rep("pink", length(sizes.legend.labels)), #dummy
+				  dvalues = w_legend,
+				  vvalues = line.legend.lwds,
+				  vneutral = max(line.legend.lwds),
+				  max.size=max(line.legend.lwds))
+	
+	values = line.lwd
+	
+	format_aes_results(values, legend)
+	
+}
+	

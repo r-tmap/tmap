@@ -120,10 +120,14 @@ step2_data = function(tm) {
 				#cat("step2_grp_lyr_aes_", nm, "---------\n")
 				
 				val = aes$value
-				nvars = length(aes$value) #m
+
+				if (inherits(val, "tmapOption")) val = tmapVars(getTmapOption(val, meta))
+				
+				
+				nvars = length(val) #m
 				nvari = vapply(val, length, integer(1))
 				
-				vars = unlist(aes$value)
+				vars = unlist(val)
 				
 				# active grouping variables (to keep)
 				grp_bv = by123__[sort(c({if (nvars > 1) v else integer(0)}, b))]
@@ -197,7 +201,7 @@ step2_data = function(tm) {
 								#cat("step2_grp_lyr_aes_var_multi_vars_!free_scale\n")
 								
 								# multiple variables, !free scale => stack all variable columns in long format
-								nms = aes$value[[1]]
+								nms = val[[1]]
 								
 								dtlks = lapply(1L:nvari[1], function(k) {
 									vk = vapply(val, "[", character(1), k)
@@ -342,6 +346,7 @@ step2_data = function(tm) {
 	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
 	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows
 	# attr(grps, "ncols") = tmo[[1]]$tmf$ncols
+	
 	list(tmo = grps, meta = meta)
 }
 

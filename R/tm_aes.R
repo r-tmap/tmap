@@ -1,19 +1,24 @@
-tm_aes_color = function(palette = tmap_option("aes.palette"),
-								 n = 5,
-								 style = ifelse(is.null(breaks), "pretty", "fixed"),
-								 style.args = list(),
-								 as.count = NA,
-								 breaks = NULL,
-								 interval.closure = "left",
-								 labels = NULL,
-								 drop.levels = FALSE,
-								 midpoint = NULL,
-								 stretch.palette = TRUE,
-								 contrast = 1,
-								 colorNA = tmap_option("aes.color")["na"],
-								 textNA = "Missing",
-								 showNA = NA,
-								 colorNULL = tmap_option("aes.color")["null"]) {
+tm_const = function(name) {
+	tmapOption("aes.const", name)
+}
+
+tm_aes_color = function(aes,
+						palette = NA,
+						n = 5,
+						style = ifelse(is.null(breaks), "pretty", "fixed"),
+						style.args = list(),
+						as.count = NA,
+						breaks = NULL,
+						interval.closure = "left",
+						labels = NULL,
+						drop.levels = FALSE,
+						midpoint = NULL,
+						stretch.palette = TRUE,
+						contrast = 1,
+						colorNA = NA,
+						textNA = "Missing",
+						showNA = NA,
+						colorNULL = NA) {
 	structure(c(list(FUN = "tmapAesColor"), as.list(environment())), class = c("tm_aes_color", "tm_aes"))
 }
 
@@ -30,6 +35,10 @@ tm_aes_2d_size = function(max = NA,
 	structure(c(list(FUN = "tmapAes2dSize"), as.list(environment())), class = c("tm_aes_2d_size", "tm_aes"))
 }
 
+tm_aes_not_implemented = function() {
+	structure(list(), class = "tm_aes")
+}
+
 tm_aes_shape = function(shapes = 21:25,
 						shapes.legend = NULL,
 						shapes.legend.fill = NA,
@@ -44,6 +53,14 @@ tm_aes_shape = function(shapes = 21:25,
 						shapes.breaks = NULL,
 						shapes.interval.closure = "left") {
 	structure(c(list(FUN = "tmapAesShape"), as.list(environment())), class = c("tm_aes_shape", "tm_aes"))
+}
+
+
+tm_aes_lwd = function(lwd.legend = NULL,
+					  lwd.legend.labels = NULL,
+					  lwd.legeld.col = NA,
+					  scale = 1) {
+	structure(c(list(FUN = "tmapAesLwd"), as.list(environment())), class = c("tm_aes_lwd", "tm_aes"))
 }
 
 format_aes_results = function(values, legend) {

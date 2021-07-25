@@ -37,23 +37,37 @@
 
 		aes.const = list(fill.polygons = "grey85",
 						 fill.symbols = "grey60",
-						 fill.na = "grey75",
-						 fill.null = "grey95",
 						 col.polygons = "grey40",
 						 col.symbols = "grey60",
 						 col.dots = "black",
 						 col.lines = "black",
 						 col.text = "black",
-						 col.na = "grey75",
-						 col.null = "grey95",
 						 lwd.lines = 1,
 						 lwd.polygons = 1,
 						 lwd.symbols = 1,
 						 lty.lines = "solid",
+						 lty.polygons = 1,
+						 lty.symbols = 1,
 						 shape.symbols = 21,
 						 shape.dots = 19,
 						 size.symbols = 1,
-						 size.dots = .02),
+						 size.dots = .02,
+						 fill_alpha.polygons = 1,
+						 fill_alpha.symbols = 1,
+						 col_alpha.polygons = 1,
+						 col_alpha.symbols = 1,
+						 col_alpha.dots = 1,
+						 col_alpha.lines = 1,
+						 col_alpha.text = 1
+		),
+		aes.na = list(
+			fill = "grey75",
+			col = "grey75"
+		),
+		aes.null = list(
+			fill = "grey95",
+			col = "grey95"
+		),
 		aes.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 					   col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 					   shape = 21:25),
@@ -228,6 +242,27 @@ tmap_graphics_name = function() {
 	mode = getOption("tmap.mode")
 	
 	get("tmapOptions", envir = .TMAP)$modes[[mode]]$name
+}
+
+
+tmapOption = function(...) {
+	structure(list(...), class = "tmapOption")
+}
+
+getTmapOption = function(x, opt) {
+	x = unlist(x)
+	y = opt
+	for (i in 1:length(x)) {
+		if (x[i] %in% names(y)) {
+			y = y[[x[i]]]	
+		} else {
+			# string match (e.g. "fill.polygons" will be mapped to "fill")
+			w = which(names(y) == vapply(nchar(names(y)), FUN = function(j) substr(x[i], 1, j), FUN.VALUE = character(1)))
+			if (length(w) == 0) return(NULL)
+			y = y[[w]]
+		}
+	}
+	y
 }
 
 

@@ -7,6 +7,7 @@ MV = function(...) {
 }
 
 tmapVars = function(x) {
+	if (inherits(x, "tmapOption")) return(x)
 	isL = is.list(x)
 	if (!isL) x = as.list(x)
 	structure(x, class = "tmapVars")
