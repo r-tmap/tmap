@@ -70,6 +70,8 @@
 		),
 		aes.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 					   col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
+					   fill_alpha = c(0.25, 1),
+					   col_alpha = c(0.25, 1),
 					   shape = 21:25),
 		
 		attr.color = "black",

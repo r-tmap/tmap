@@ -2,6 +2,7 @@ tm_const = function(name) {
 	tmapOption("aes.const", name)
 }
 
+
 tm_aes_color = function(aes,
 						palette = NA,
 						n = 5,
@@ -22,11 +23,31 @@ tm_aes_color = function(aes,
 	structure(c(list(FUN = "tmapAesColor"), as.list(environment())), class = c("tm_aes_color", "tm_aes"))
 }
 
-tm_aes_color_rgb = function(maxValue = 255) {
+tm_aes_color_rgb = function(aes,
+							maxValue = 255) {
 	structure(c(list(FUN = "tmapAesColorRGB"), as.list(environment())), class = c("tm_aes_color_rgb", "tm_aes"))
 }
 
-tm_aes_2d_size = function(max = NA,
+tm_aes_alpha = function(aes,
+						range = NA,
+						n = 5,
+						style = ifelse(is.null(breaks), "pretty", "fixed"),
+						style.args = list(),
+						as.count = NA,
+						breaks = NULL,
+						interval.closure = "left",
+						labels = NULL,
+						drop.levels = FALSE,
+						alphaNA = NA,
+						textNA = "Missing",
+						showNA = NA,
+						alphaNULL = NA) {
+	structure(c(list(FUN = "tmapAesAlpha"), as.list(environment())), class = c("tm_aes_alpha", "tm_aes"))
+}
+
+
+tm_aes_2d_size = function(aes,
+						  max = NA,
 						  lim=NA,
 						  sizes.legend = NULL,
 						  sizes.legend.labels = NULL,
@@ -35,11 +56,14 @@ tm_aes_2d_size = function(max = NA,
 	structure(c(list(FUN = "tmapAes2dSize"), as.list(environment())), class = c("tm_aes_2d_size", "tm_aes"))
 }
 
+
+
 tm_aes_not_implemented = function() {
 	structure(list(), class = "tm_aes")
 }
 
-tm_aes_shape = function(shapes = 21:25,
+tm_aes_shape = function(aes,
+						shapes = 21:25,
 						shapes.legend = NULL,
 						shapes.legend.fill = NA,
 						shapes.labels = NULL,
@@ -56,7 +80,8 @@ tm_aes_shape = function(shapes = 21:25,
 }
 
 
-tm_aes_lwd = function(lwd.legend = NULL,
+tm_aes_lwd = function(aes,
+					  lwd.legend = NULL,
 					  lwd.legend.labels = NULL,
 					  lwd.legeld.col = NA,
 					  scale = 1) {
