@@ -135,7 +135,7 @@ tmap_design_mode()
 		tm_polygons("economy") + tm_options(asp=0))
 
 (tm = tm_shape(World) +
-		tm_polygons("economy", col = "continent") + tm_options(asp=0))
+		tm_polygons("economy", col = "continent", fill_alpha = "HPI") + tm_options(asp=0))
 
 
 (tm = tm_shape(metro) +

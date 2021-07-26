@@ -255,6 +255,7 @@ step2_data = function(tm) {
 						varnames = paste(nm, 1L:nvars, sep = "_")
 						legnames = paste("legend", 1L:nvars, sep = "_")
 						mapply(function(s, l, v, varname, legname) {
+							if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 							f = s$FUN
 							s$FUN = NULL
 							#if (is.na(s$legend$title)) s$legend$title = v
@@ -282,6 +283,8 @@ step2_data = function(tm) {
 						} else {
 							stop("incorrect setup specification")
 						}
+
+						if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 
 						if (inherits(aes$legend, "tm_legend")) {
 							l = aes$legend
