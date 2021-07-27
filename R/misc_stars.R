@@ -109,7 +109,7 @@ get_xy_dim <- function(x) {
 	dim(x)[dxy]
 }
 
-downsample_stars <- function(x, max.raster) {
+downsample_stars <- function(x, max.raster, max.facets) {
 	xy_dim <- get_xy_dim(x)
 	asp <- xy_dim[1] / xy_dim[2]
 	
@@ -118,6 +118,9 @@ downsample_stars <- function(x, max.raster) {
 	
 	downsample <- xy_dim[1] / x_new
 	
+	all_dim = dim(x)
+	
+	other_dim = dim(x)[setdiff(dimnames(x), names(xy_dim))]
 	
 	if (inherits(x, "stars_proxy")) {
 		y <- st_as_stars(x, downsample = downsample - 1) # downsample is number of pixels to skip, instead of multiplier
@@ -127,7 +130,13 @@ downsample_stars <- function(x, max.raster) {
 		n[names(xy_dim)] <- downsample
 		y <- st_downsample(x, n)
 		message("stars object downsampled to ", paste(get_xy_dim(y), collapse = " by "), " cells. See tm_shape manual (argument raster.downsample)")
-	} else {
+	} else if (any(other_dim > max.facets)) {
+		indices = rep(list(rlang::missing_arg()), length(all_dim) + 1L)
+		indices[[which(names(other_dim) == names(all_dim)) + 1]] = 1:max.facets
+		
+		y = eval(rlang::expr(x[!!!indices]))
+		#message("stars object downsampled to ", paste(get_xy_dim(y), collapse = " by "), " cells. See tm_shape manual (argument raster.downsample)")
+	} else {		
 		y <- x
 	}
 	y

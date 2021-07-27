@@ -58,12 +58,12 @@ pre_process_shapes <- function(y, raster_facets_vars, gm, interactive) {
 		if (!has_raster(shp)) stop("object ", y$shp_name, " does not have a spatial raster", call. = FALSE)
 		
 		max.raster <- tmapOptions$max.raster[if(interactive) "view" else "plot"]
-		
+		max.facets = tmapOptions$limits[paste0("facets.", ifelse(interactive, "view", "plot"))]
 		
 		# estimate number of facets (for max.raster)
 		# nfacets = if (identical(is.RGB, TRUE)) 1 else if (treat_as_by || is.na(raster_facets_vars[1])) length(shpnames) else length(na.omit(raster_facets_vars))
 		# Not used yet, since it is hard to determine facets created with tm_facets(group = ...)
-		if ((inherits(shp, "stars_proxy")) || y$raster.downsample) shp <- downsample_stars(shp, max.raster)
+		if ((inherits(shp, "stars_proxy")) || y$raster.downsample) shp <- downsample_stars(shp, max.raster, max.facets)
 		
 		
 		dxy <- attr(st_dimensions(shp), "raster")$dimensions
