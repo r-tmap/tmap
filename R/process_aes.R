@@ -48,6 +48,10 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	treat_as_by = attr(data, "treat_as_by")
 	
 	xs <- mapply(function(x, nm) {
+		if (inherits(x, c("sf", "stars", "raster"))) {
+			stop("Spatial objects should be specified with tm_shape.", call. = FALSE)
+		}
+		
 		#if (length(x)==1 && is.na(x)[1] && !any(type == c("raster", "text")) && !treat_as_by) gt$aes.colors[nm] else x
 		if (treat_as_by) {
 			if (!is.na(x[1])) {
