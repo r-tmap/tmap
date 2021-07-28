@@ -281,7 +281,7 @@ step4_plot = function(tm) {
 			legs = c(tml$trans_legend, tml$mapping_legend)
 			
 			legs2 = lapply(legs, function(legs_aes) {
-				legs_aes$vneutral = unlist(lapply(legs_aes$legend, function(l) l$vneutral))
+				legs_aes$vneutral = unlist(lapply(legs_aes$legend, function(l) l$vneutral), use.names = FALSE)
 				legs_aes
 			})
 			

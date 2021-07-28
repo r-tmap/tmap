@@ -236,17 +236,17 @@ step2_data = function(tm) {
 					if (length(v) && fr[v] && nvars > 1) {
 						#cat("step2_grp_lyr_aes_var_multi_aes_columns\n")
 						# apply aes function for each var column
-						if (inherits(aes$setup, "tm_aes")) {
-							setup = rep(list(aes$setup), length.out = nvars)
-						} else if (islistof(aes$setup, "tm_aes")) {
-							setup = rep(aes$setup, length.out = nvars)
+						if (inherits(aes$scale, "tm_scale")) {
+							scale = rep(list(aes$scale), length.out = nvars)
+						} else if (islistof(aes$scale, "tm_scale")) {
+							scale = rep(aes$scale, length.out = nvars)
 						} else {
-							stop("incorrect setup specification")
+							stop("incorrect scale specification")
 						}
 						
 						if (inherits(aes$legend, "tm_legend")) {
 							legend = rep(list(aes$legend), length.out = nvars)
-						} else if (islistof(aes$setup, "tm_legend")) {
+						} else if (islistof(aes$scale, "tm_legend")) {
 							legend = rep(aes$legend, length.out = nvars)
 						} else {
 							stop("incorrect legend specification")
@@ -260,9 +260,9 @@ step2_data = function(tm) {
 							s$FUN = NULL
 							#if (is.na(s$legend$title)) s$legend$title = v
 							if (is.na(l$title)) l$title = v
-							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(setup = s, legend = l, opt = meta))), grp_b_fr, .SDcols = v]
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta))), grp_b_fr, .SDcols = v]
 							NULL
-						}, setup, legend, val, varnames, legnames)
+						}, scale, legend, val, varnames, legnames)
 						
 						dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legend")
 						dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
@@ -276,12 +276,12 @@ step2_data = function(tm) {
 						#cat("step2_grp_lyr_aes_var_one_aes_column\n")
 						
 						# apply aes function to the (only) var column
-						if (inherits(aes$setup, "tm_aes")) {
-							s = aes$setup
-						} else if (islistof(aes$setup, "tm_aes")) {
-							s = aes$setup[[1]]
+						if (inherits(aes$scale, "tm_scale")) {
+							s = aes$scale
+						} else if (islistof(aes$scale, "tm_scale")) {
+							s = aes$scale[[1]]
 						} else {
-							stop("incorrect setup specification")
+							stop("incorrect scale specification")
 						}
 
 						if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
@@ -291,13 +291,13 @@ step2_data = function(tm) {
 						} else if (islistof(aes$legend, "tm_legend")) {
 							l = aes$legend[[1]]
 						} else {
-							stop("incorrect setup specification")
+							stop("incorrect scale specification")
 						}
 						
 						f = s$FUN
 						s$FUN = NULL
 						if (is.na(l$title)) l$title = val
-						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(setup = s, legend = l, opt = meta))), grp_b_fr, .SDcols = val]
+						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]

@@ -1,6 +1,4 @@
-tm_const = function(name) {
-	tmapOption("aes.const", name)
-}
+
 
 
 tm_aes_color = function(aes,

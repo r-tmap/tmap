@@ -35,7 +35,7 @@
 		title.size = 1.3,
 		bg.color = "white",
 
-		aes.const = list(fill.polygons = "grey85",
+		value.const = list(fill.polygons = "grey85",
 						 fill.symbols = "grey60",
 						 col.polygons = "grey40",
 						 col.symbols = "grey60",
@@ -60,20 +60,32 @@
 						 col_alpha.lines = 1,
 						 col_alpha.text = 1
 		),
-		aes.na = list(
+		value.na = list(
 			fill = "grey75",
 			col = "grey75"
 		),
-		aes.null = list(
+		value.null = list(
 			fill = "grey95",
 			col = "grey95"
 		),
-		aes.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
-					   col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", cat = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
-					   fill_alpha = c(0.25, 1),
-					   col_alpha = c(0.25, 1),
-					   shape = 21:25),
+		scales.var = list(fill = list(factor = "categorical", order = "categorical", num = "class_int"),
+						  col = list(factor = "categorical", order = "categorical", num = "class_int"),
+						  lwd = list(factor = "categorical", order = "categorical", num = "continuous"),
+						  lty = list(factor = "categorical", order = "categorical", num = "categorical"),
+						  shape = list(factor = "categorical", order = "categorical", num = "categorical"),
+						  size = list(factor = "categorical", order = "categorical", num = "continuous"),
+						  fill_alpha = list(factor = "categorical", order = "categorical", num = "continuous"),
+						  col_alpha = list(factor = "categorical", order = "categorical", num = "continuous")),
+						  
 		
+		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", factor = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
+						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", factor = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
+						  size = c(0, 1),
+						  lwd = c(0, 3),
+						  lty = c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash"),
+						  fill_alpha = c(0.25, 1),
+						  col_alpha = c(0.25, 1),
+						  shape = 21:25),
 		attr.color = "black",
 		sepia.intensity = 0,
 		saturation = 1,
