@@ -6,7 +6,7 @@ data_type = function(x) {
 	} else if (is.logical(x) || is.character(x) || is.factor(x)) {
 		"factor"
 	} else if (is.numeric(x)) {
-		if (any(x < 0) && any(x > 0)) {
+		if (any(x < 0 & !is.na(x)) && any(x > 0 & !is.na(x))) {
 			"div"
 		} else {
 			"seq"
@@ -45,6 +45,7 @@ tmapScaleAuto = function(x1, scale, legend, opt) {
 	
 	scale_new = do.call(tm_scalefun, args = list(aes = aes))
 	
+	
 	FUN = scale_new$FUN
 	scale_new$FUN = NULL
 	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, opt = opt))
@@ -53,47 +54,16 @@ tmapScaleAuto = function(x1, scale, legend, opt) {
 
 tmapScaleCategorical = function(x1, scale, legend, opt) {
 	
-	# 
-	# if (!is.numeric(x1) && !is.factor(x1)) x1 = factor(x1)
-	# 
-	# isNA = all(is.na(x1)) 
-	# isNUM = is.numeric(x1)
-	# 
-	# if (isNUM) {
-	# 	if (isNA) {
-	# 		scale$style = "cat"
-	# 	} else {
-	# 		rng = range(x1, na.rm = TRUE)
-	# 		if (abs(rng[2] - rng[1]) < 1e-9 && rng[1] != rng[2]) {
-	# 			if (opt$show.warnings) warning("The value range of the variable \"", "\" is less than 1e-9", call. = FALSE)
-	# 			x1[!is.na(x1)] <- round(rng[1], 9)
-	# 		}
-	# 	}
-	# } else if (isNA) {
-	# 	scale$style = "cat"
-	# }
-	
-	#if (length(na.omit(unique(x1)))==1 && scale$style!="fixed") scale$style = "cat"
-	
 	type = data_type(x1)
 	type_grp = data_type_grp(type)
 	
-	if (is.na(scale$values[1])) scale$values = getTmapOption(tmapOption("values.var", scale$aes), opt)[[type_grp]]
+	if (is.na(scale$values[1])) {
+		scale$values = getTmapOption(tmapOption("values.var", scale$aes), opt)
+		if (is.list(scale$values)) scale$values = scale$values[[type]]
+	}
 	if (is.na(scale$valueNA)) scale$valueNA = getTmapOption(tmapOption("value.na", scale$aes), opt)
 	if (is.na(scale$valueNULL)) scale$valueNULL = getTmapOption(tmapOption("value.null", scale$aes), opt)
 	
-	
-	
-	# if (is.list(scale$values)) {
-	# 	palette.type <- ifelse(is.ordered(x1) || (isNUM), "seq", "cat")
-	# 	palette <- scale$palette[[palette.type]] 
-	# } else if (scale$palette[1] %in% c("seq", "div", "cat")) {
-	# 	palette.type <- scale$palette[1]
-	# 	palette <- opt$aes.palette[[palette.type]]
-	# } else {
-	# 	palette <- scale$palette
-	# 	palette.type <- palette_type(palette)
-	# }
 	colsLeg <- cat2pal(x1,
 					   var = "g$col",
 					   palette = scale$values,
@@ -110,8 +80,6 @@ tmapScaleCategorical = function(x1, scale, legend, opt) {
 					   legend.format=legend$format,
 					   reverse=legend$reverse)
 	breaks <- NA
-	
-	
 	
 	neutralID <- 1 # if (palette.type=="div") round(((length(colsLeg$legend.palette)-1)/2)+1) else 1
 	col.neutral <- colsLeg$legend.palette[1]
@@ -130,6 +98,76 @@ tmapScaleCategorical = function(x1, scale, legend, opt) {
 				  vvalues = legend.palette,
 				  vneutral = col.neutral,
 				  breaks=breaks, type = ptype)
+	
+	
+	format_aes_results(cols, legend)
+}
+
+tmapScaleClassInt = function(x1, scale, legend, opt) {
+	type = data_type(x1)
+	type_grp = data_type_grp(type)
+	
+	if (type == "na") stop("data contain only NAs, so tm_scale_class_int cannot be applied", call. = FALSE)
+	if (type_grp != "num") stop("tm_scale_class_int can only be used for numeric data", call. = FALSE)
+	
+	if (is.na(scale$values[1])) {
+		scale$values = getTmapOption(tmapOption("values.var", scale$aes), opt)
+		if (is.list(scale$values)) scale$values = scale$values[[type]]
+	}
+	if (is.na(scale$valueNA)) scale$valueNA = getTmapOption(tmapOption("value.na", scale$aes), opt)
+	if (is.na(scale$valueNULL)) scale$valueNULL = getTmapOption(tmapOption("value.null", scale$aes), opt)
+	
+	udiv = use_div(scale$breaks, scale$midpoint)
+	if (identical(udiv, TRUE)) type = "div"
+	
+	colsLeg <- num2pal(x1, 
+					   var = "g$col",
+					   call = NULL,
+					   n = scale$n, 
+					   style=scale$style, 
+					   style.args=scale$style.args,
+					   as.count = scale$as.count,
+					   breaks=scale$breaks, 
+					   interval.closure=scale$interval.closure,
+					   palette = scale$values,
+					   midpoint = scale$midpoint, #auto.palette.mapping = scale$auto.palette.mapping,
+					   contrast = scale$contrast.values, legend.labels=scale$labels,
+					   colorNA=scale$valueNA, 
+					   colorNULL=scale$valueNULL,
+					   legend.NA.text = scale$textNA,
+					   showNA = scale$showNA,
+					   process.colors=c(list(alpha=opt$alpha), opt$pc),
+					   legend.format=legend$format,
+					   reverse=legend$reverse)
+	breaks <- colsLeg$breaks
+	#breakspal <- colsLeg$breaks.palette
+	col.neutral <- colsLeg$legend.neutral.col
+
+
+
+	cols <- colsLeg$cols
+	legend.labels <- colsLeg$legend.labels
+	legend.values <- colsLeg$legend.values
+	legend.palette <- colsLeg$legend.palette
+	
+	# temp solution to include NA, to do update num2pal
+	if (length(legend.labels) < length(legend.palette)) {
+		la = attributes(legend.labels)
+		legend.labels = c(legend.labels, scale$labelNA)
+		attributes(legend.labels) = la
+		legend.values = c(legend.values, NA)
+	}
+	
+	
+	type = ifelse(nchar(legend.palette[1]) > 50, "color_cont", "color_cls")
+	
+	legend = list(title = legend$title, 
+				  nitems = length(legend.labels),
+				  labels = legend.labels, 
+				  dvalues = legend.values, 
+				  vvalues = legend.palette,
+				  vneutral = col.neutral,
+				  breaks=breaks, type = type)
 	
 	
 	format_aes_results(cols, legend)

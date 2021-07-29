@@ -151,6 +151,5 @@ tmap_design_mode()
 (tm = tm_shape(World) +
 		tm_polygons("economy", fill_alpha = "HPI"))
 
-(tm = tm_shape(World) +
-		tm_polygons("economy", fill_alpha = "HPI"))
+
 

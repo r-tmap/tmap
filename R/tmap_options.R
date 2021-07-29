@@ -62,11 +62,20 @@
 		),
 		value.na = list(
 			fill = "grey75",
-			col = "grey75"
+			col = "grey75",
+			lty = "solid",
+			lwd = NA,
+			fill_alpha = 1,
+			col_alpha = 1
+			
 		),
 		value.null = list(
 			fill = "grey95",
-			col = "grey95"
+			col = "grey95",
+			lty = "solid",
+			lwd = NA,
+			fill_alpha = 1,
+			col_alpha = 1
 		),
 		scales.var = list(fill = list(factor = "categorical", order = "categorical", num = "class_int"),
 						  col = list(factor = "categorical", order = "categorical", num = "class_int"),
@@ -74,15 +83,15 @@
 						  lty = list(factor = "categorical", order = "categorical", num = "categorical"),
 						  shape = list(factor = "categorical", order = "categorical", num = "categorical"),
 						  size = list(factor = "categorical", order = "categorical", num = "continuous"),
-						  fill_alpha = list(factor = "categorical", order = "categorical", num = "continuous"),
-						  col_alpha = list(factor = "categorical", order = "categorical", num = "continuous")),
+						  fill_alpha = list(factor = "categorical", order = "categorical", num = "class_int"),
+						  col_alpha = list(factor = "categorical", order = "categorical", num = "class_int")),
 						  
 		
 		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", factor = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", factor = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  size = c(0, 1),
 						  lwd = c(0, 3),
-						  lty = c("solid", "dashed", "dotted", "dotdash", "longdash", "twodash"),
+						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),
 						  fill_alpha = c(0.25, 1),
 						  col_alpha = c(0.25, 1),
 						  shape = 21:25),
@@ -266,14 +275,16 @@ tmapOption = function(...) {
 getTmapOption = function(x, opt) {
 	x = unlist(x)
 	y = opt
+	print(x)
 	for (i in 1:length(x)) {
 		if (x[i] %in% names(y)) {
 			y = y[[x[i]]]	
 		} else {
 			# string match (e.g. "fill.polygons" will be mapped to "fill")
-			w = which(names(y) == vapply(nchar(names(y)), FUN = function(j) substr(x[i], 1, j), FUN.VALUE = character(1)))
+			namesy_equal_nchar = vapply(nchar(names(y)), FUN = function(j) substr(x[i], 1, j), FUN.VALUE = character(1))
+			w = which(names(y) == namesy_equal_nchar)
 			if (length(w) == 0) return(NULL)
-			y = y[[w]]
+			y = y[[w[which.max(nchar(namesy_equal_nchar[w]))]]]
 		}
 	}
 	y

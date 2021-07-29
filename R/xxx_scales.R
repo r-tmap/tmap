@@ -15,7 +15,7 @@ are_breaks_diverging <- function(brks) {
 # @param n number of classes, i.e. the length of a diverging colour palette. This should preferable be an odd number, since it contains a neutral middle color.
 # @param contrast value between 0 and 1 that determines how much of the \code{(1, n)} range is used. Value \code{contrast=1} means that the most extreme break value, i.e. \code{max(abs(breaks))} is maped to either 1 or n (depending on whether it is a minimum or maximum). There is no contrast at all for \code{contrast=0}, i.e. all index numbers will correspond to the middle class (which has index number \code{((n-1)/2)+1}.
 # @return vector of index numbers
-map2divscaleID <- function(breaks, n=101, contrast=1) {
+map2divscaleID <- function(breaks, n=101, contrast=1, rounding = TRUE) {
     nbrks <- length(breaks)
 
     if (length(contrast)==1) {
@@ -57,7 +57,7 @@ map2divscaleID <- function(breaks, n=101, contrast=1) {
     if (nneg>0) ids[1:nneg] <- seq(nid-((nid-1)/mx*-lw*contrast[2]), nid-((nid-1)/mx*-lw*contrast[1]),
                                    length.out=nneg)
     if (is.div && cat0) ids[nneg] <- h
-    round(ids)
+    if (rounding) round(ids) else ids
 }
 
 
@@ -106,17 +106,28 @@ map2seqscaleID <- function(breaks, n=101, contrast=1, breaks.specified=TRUE, imp
 
 
 # function to determine whether a diverging of sequential palette is used given the values and the breaks
-use_diverging_palette <- function(v, brks, midpoint = NULL) {
+# use_diverging_palette <- function(v, brks, midpoint = NULL) {
+# 	if (!is.null(midpoint) && !is.na(midpoint)) return(TRUE)
+# 	x <- na.omit(v)
+# 	divx <- any(x<0) && any(x>0)
+# 
+# 	if (divx || is.null(brks)) {
+# 		return(divx)
+# 	} else {
+# 		are_breaks_diverging(brks)
+# 	}
+# }
+# 
+use_div <- function(brks, midpoint = NULL) {
 	if (!is.null(midpoint) && !is.na(midpoint)) return(TRUE)
-	x <- na.omit(v)
-	divx <- any(x<0) && any(x>0)
 
-	if (divx || is.null(brks)) {
-		return(divx)
+	if (is.null(brks)) {
+		return(NA)
 	} else {
 		are_breaks_diverging(brks)
 	}
 }
+
 
 default_contrast_seq <- function(k) {
     c1 <- max((9-k) * (.15/6), 0)

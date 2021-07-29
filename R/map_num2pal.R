@@ -174,10 +174,23 @@ num2pal <- function(x,
 	
 	palid = tmapPalId(palette[1])
 
-	if (!is.na(palid)) {
-		pal.div = .tmap_pals$type[palid] == "div"
+	arecolors = if (is.na(palid)) {
+		valid_colors(palette[1])
+	} else TRUE
+	
+	arenumbers = !arecolors && is.numeric(palette)
+	
+	
+	if (arecolors) {
+		if (!is.na(palid)) {
+			pal.div = .tmap_pals$type[palid] == "div"
+		} else {
+			pal.div = (!is.null(midpoint)) || (palette_type(palette) == "div")
+		}
+	} else if (arenumbers) {
+		pal.div = any(palette < 0) && any(palette > 0)
 	} else {
-		pal.div = (!is.null(midpoint)) || (palette_type(palette) == "div")
+		pal.div = FALSE
 	}
 	
 
@@ -197,19 +210,32 @@ num2pal <- function(x,
 		}
 	}
 	
-	if (!is.na(palid) && pal.div) {
-		colpal = tmap_get_palette(palette, n = 101)
-		snap = FALSE
-	} else if (!is.na(palid) && !pal.div) {
-		colpal = tmap_get_palette(palette, n = n)
-		snap = TRUE
-	} else if (length(palette) != n) {
-		colpal = grDevices::colorRampPalette(palette, n = 101)
-		snap = FALSE
+	if (arecolors) {
+		if (!is.na(palid) && pal.div) {
+			colpal = tmap_get_palette(palette, n = 101)
+			snap = FALSE
+		} else if (!is.na(palid) && !pal.div) {
+			colpal = tmap_get_palette(palette, n = n)
+			snap = TRUE
+		} else if (length(palette) != n) {
+			colpal = grDevices::colorRampPalette(palette, n = 101)
+			snap = FALSE
+		} else {
+			colpal = palette
+			snap = TRUE
+		}
+	} else if (arenumbers) {
+		if (pal.div) {
+			colpal =  seq(palette[1], palette[2], length.out = 1001)[map2divscaleID(breaks - midpoint, n=1001, contrast=contrast)]
+			snap = TRUE
+		} else {
+			colpal =  seq(palette[1], palette[2], length.out = n) #seq(palette[1], palette[2], length.out = 1001)[map2seqscaleID(breaks, n=1001, contrast=contrast, breaks.specified=breaks.specified, show.warnings = show.warnings)]
+			snap = TRUE
+		}
 	} else {
-		colpal = palette
-		snap = TRUE
+		stop("values are not colors nor numbers")
 	}
+	
 	
 # 
 # 	## palette is created with a 101 colorramp, unless the defined palette is of the same length as n
@@ -244,9 +270,9 @@ num2pal <- function(x,
 	
 		
 
-	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
-	legend.neutral.col <- do.call("process_color", c(list(col=legend.neutral.col), process.colors))
-	colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
+	#legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
+	#legend.neutral.col <- do.call("process_color", c(list(col=legend.neutral.col), process.colors))
+	#colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
 	
 
 	

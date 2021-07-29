@@ -302,7 +302,8 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 
 leg_standard_p_lines = function(leg) {
 	if (identical(leg$gp$shape[1], FALSE)) {
-		rep(1, leg$nitems)
+		rep(1 + leg$gp$lwd / 5, length.out = leg$nitems)
+		#rep(1, length.out = leg$nitems)
 	} else {
 		rep(pmax(1, leg$gp$size + 0.3), length.out = leg$nitems)
 	}
@@ -412,9 +413,30 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 				}, 1:nlev, fill_list, SIMPLIFY = FALSE)
 			} else if (legtype == "color_cls") {
 				gps = split_gp(gp, n = nlev)
-				gpars = lapply(gps, gp_to_gpar)
 				
-				grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+				diffAlpha = !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
+				
+				
+				if (diffAlpha) {
+					gpars1 = lapply(gps, gp_to_gpar_fill)
+					gpars2 = lapply(gps, gp_to_gpar_borders)
+
+					#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+					grItems = mapply(function(i, gpar1i, gpar2i) gridCell(i+3, 2, {
+						grid::grobTree(
+							grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpar1i),
+							grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpar2i))
+					}), 1:nlev, gpars1, gpars2, SIMPLIFY = FALSE)
+					
+				} else {
+					gpars = lapply(gps, gp_to_gpar)
+					#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+					grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+				}
+				
+					
+				
+				
 			} else if (legtype == "symbols") {
 				gps = split_gp(gp, n = nlev)
 				gpars = lapply(gps, gp_to_gpar)
@@ -525,6 +547,27 @@ gp_to_gpar = function(gp) {
 			   alpha = gp$fill_alpha,
 			   lty = gp$lty,
 			   lwd = gp$lwd,
+			   lineend = gp$lineend,
+			   linejoin = gp$linejoin)
+}
+
+
+gp_to_gpar_borders = function(gp) {
+	grid::gpar(fill = NA,
+			   col = gp$col,
+			   alpha = gp$col_alpha,
+			   lty = gp$lty,
+			   lwd = gp$lwd,
+			   lineend = gp$lineend,
+			   linejoin = gp$linejoin)
+}
+
+gp_to_gpar_fill = function(gp) {
+	grid::gpar(fill = gp$fill,
+			   col = NA,
+			   alpha = gp$fill_alpha,
+			   lty = "blank",
+			   lwd = 0,
 			   lineend = gp$lineend,
 			   linejoin = gp$linejoin)
 }
@@ -694,12 +737,21 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	gp[gpids] = as.list(dt[, setdiff(names(dt), "tmapID__"), with = FALSE])
 	
 	
-	gp = gp_to_gpar(gp)
+	diffAlpha = !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 	
-	#gp = grid::gpar(fill = fill, col = color) # lwd=border.lwd, lty=border.lty)
-	#grb = gTree(sf::st_as_grob(shpSel, gp = gp), name = "polygons")
 	
-	grb = sf::st_as_grob(shp, gp = gp, name = "polygons")
+	if (diffAlpha) {
+		gp1 = gp_to_gpar_fill(gp)
+		gp2 = gp_to_gpar_borders(gp)
+		grb1 = sf::st_as_grob(shp, gp = gp1, name = "polygons")
+		grb2 = sf::st_as_grob(shp, gp = gp2, name = "polygon_borders")
+		grb = grid::grobTree(grb1, grb2)
+	} else {
+		gp = gp_to_gpar(gp)
+		grb = sf::st_as_grob(shp, gp = gp, name = "polygons")
+	}
+	
+	
 	gts = get("gts", .TMAP_GRID)
 	gt = gts[[facet_page]]
 	
