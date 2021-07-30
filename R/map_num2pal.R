@@ -52,6 +52,7 @@ num2pal <- function(x,
 					breaks = NULL,
 					interval.closure="left",
 					palette = NULL,
+					neutral = NA,
 					midpoint = NA, #auto.palette.mapping = TRUE,
 					contrast = 1,
 					legend.labels = NULL,
@@ -233,7 +234,9 @@ num2pal <- function(x,
 			snap = TRUE
 		}
 	} else {
-		stop("values are not colors nor numbers")
+		colpal = rep(palette, length.out = n)
+		snap = TRUE
+		#stop("values are not colors nor numbers")
 	}
 	
 	
@@ -249,6 +252,8 @@ num2pal <- function(x,
 # 		snap <- length(palette) == n
 # 		if (!snap) colpal <- colorRampPalette(revPal(palette), space="rgb")(101)
 # 	}
+	legend.neutral.col = neutral
+	
 	if (!snap) {
 		ids = if (pal.div) {
 			map2divscaleID(breaks - midpoint, n=101, contrast=contrast)
@@ -257,15 +262,17 @@ num2pal <- function(x,
 		}
 		
 		legend.palette <- colpal[ids]
-		if (any(ids<51) && any(ids>51)) {
-			ids.neutral <- min(ids[ids>=51]-51) + 51
-			legend.neutral.col <- colpal[ids.neutral]
-		} else {
-			legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
+		if (is.na(legend.neutral.col)) {
+			if (any(ids<51) && any(ids>51)) {
+				ids.neutral <- min(ids[ids>=51]-51) + 51
+				legend.neutral.col <- colpal[ids.neutral]
+			} else {
+				legend.neutral.col <- colpal[ids[round(((length(ids)-1)/2)+1)]]
+			}
 		}
 	} else {
 		legend.palette <- colpal
-		legend.neutral.col <- colpal[round((n+1)/2)]
+		if (is.na(legend.neutral.col)) legend.neutral.col <- colpal[round((n+1)/2)]
 	}
 	
 		

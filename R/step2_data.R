@@ -121,7 +121,7 @@ step2_data = function(tm) {
 				
 				val = aes$value
 
-				if (inherits(val, "tmapOption")) val = tmapVars(getTmapOption(val, meta))
+				if (inherits(val, "tmapOption")) val = getAesOption(val[[1]], meta, aes = aes$aes, layer = tml$layer)
 				
 				
 				nvars = length(val) #m
@@ -297,7 +297,7 @@ step2_data = function(tm) {
 						f = s$FUN
 						s$FUN = NULL
 						if (is.na(l$title)) l$title = val
-						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta))), grp_b_fr, .SDcols = val]
+						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]

@@ -92,17 +92,32 @@ cat2pal <- function(x,
 	nCol <- nlevels(x)
 	
 	# get palette
-	legend.palette = if (length(palette) == 1 && !is.na(tmapPalId(palette))) {
-		tmap_get_palette(palette, nCol)
-	} else if (stretch.palette && (length(palette) < nCol)) {
-		grDevices::colorRampPalette(palette)(nCol)	
+	palid = tmapPalId(palette[1])
+	
+	arecolors = if (is.na(palid)) {
+		valid_colors(palette[1])
+	} else TRUE
+	
+	arenumbers = !arecolors && is.numeric(palette)
+	
+	if (arecolors) {
+		legend.palette = if (!is.na(palid)) {
+			tmap_get_palette(palette, nCol)
+		} else if (stretch.palette && (length(palette) < nCol)) {
+			grDevices::colorRampPalette(palette)(nCol)	
+		} else {
+			rep(palette, length.out=nCol)
+		}
+	} else if (arenumbers) {
+		legend.palette = if (length(palette) == 2) seq(palette[1], palette[2], length.out = nCol) else rep(palette, length.out = nCol)
 	} else {
-		rep(palette, length.out=nCol)
+		legend.palette = rep(palette, length.out = nCol)
 	}
 	
-
-	legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
-	colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
+	
+	
+	# legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
+	# colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
 	
 	cols <- legend.palette[as.integer(x)]
 	colsNA <- is.na(cols)

@@ -86,7 +86,6 @@
 						  fill_alpha = list(factor = "categorical", order = "categorical", num = "class_int"),
 						  col_alpha = list(factor = "categorical", order = "categorical", num = "class_int")),
 						  
-		
 		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", factor = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", factor = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  size = c(0, 1),
@@ -95,6 +94,10 @@
 						  fill_alpha = c(0.25, 1),
 						  col_alpha = c(0.25, 1),
 						  shape = 21:25),
+		value.neutral = list(size = 1,
+							 lwd = 2,
+							 fill_alpha = 1,
+							 col_alpha = 1),
 		attr.color = "black",
 		sepia.intensity = 0,
 		saturation = 1,
@@ -229,6 +232,9 @@ tmap_options = function() {
 	opt
 }
 
+
+
+
 tmap_option = function(name, class = NULL) {
 	get_option_class(tmap_options()[[name]], class = class)
 }
@@ -288,6 +294,32 @@ getTmapOption = function(x, opt) {
 		}
 	}
 	y
+}
+
+
+getAesOption = function(x, opt, aes, layer, dtype = NULL) {
+	y = opt[[x]]
+	al = paste(aes, layer, sep = ".")
+	
+
+	
+	if (al %in% names(y)) {
+		z = y[[al]]
+	} else if (aes %in% names(y)) {
+		z = y[[aes]]
+	} else {
+		return(NA)
+	}
+	
+	if (!is.null(dtype) && is.list(z)) {
+		dtype_grp = ifelse(dtype %in% c("seq", "div", "cyc"), "num", dtype)
+		if (dtype %in% names(z)) {
+			z = z[[dtype]]
+		} else if (dtype_grp %in% names(z)) {
+			z = z[[dtype_grp]]
+		}
+	}
+	z
 }
 
 

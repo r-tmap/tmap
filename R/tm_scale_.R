@@ -1,8 +1,8 @@
-tm_const = function(name) {
-	tmapOption("value.const", name)
+tm_const = function() {
+	tmapOption("value.const")
 }
 
-tm_scale_auto = function(aes) {
+tm_scale_auto = function() {
 	structure(c(list(FUN = "tmapScaleAuto"), as.list(environment())), class = c("tm_scale_auto", "tm_scale"))
 }
 
@@ -10,8 +10,7 @@ tm_scale_not_implemented = function() {
 	structure(list(), class = "tm_scale")
 }
 
-tm_scale_categorical = function(aes,
-								values = NA,
+tm_scale_categorical = function(values = NA,
 								valueNA = NA,
 								valueNULL = NA,
 								showNA = NA,
@@ -20,14 +19,14 @@ tm_scale_categorical = function(aes,
 								drop.levels = FALSE,
 								stretch.values = FALSE,
 								contrast.values = 1,
+								neutral.value = NA,
 								labels = NULL,
 								labelNA = "Missing",
 								labelNULL = "Undefined") {
 	structure(c(list(FUN = "tmapScaleCategorical"), as.list(environment())), class = c("tm_scale_categorical", "tm_scale"))
 }
 
-tm_scale_class_int = function(aes,
-							  values = NA,
+tm_scale_class_int = function(values = NA,
 							  valueNA = NA,
 							  valueNULL = NA,
 							  showNA = NA,
@@ -41,14 +40,14 @@ tm_scale_class_int = function(aes,
 							  midpoint = NULL,
 							  stretch.values = FALSE,
 							  contrast.values = 1,
+							  neutral.value = NA,
 							  labels = NULL,
 							  labelNA = "Missing",
 							  labelNULL = "Undefined") {
 	structure(c(list(FUN = "tmapScaleClassInt"), as.list(environment())), class = c("tm_scale_class_int", "tm_scale"))
 }
 
-tm_scale_continuous = function(aes,
-							   value.range = NA,
+tm_scale_continuous = function(value.range = NA,
 							   valueNA = NA,
 							   valueNULL = NA,
 							   showNA = NA,
@@ -58,6 +57,7 @@ tm_scale_continuous = function(aes,
 							   outliers = c("show", "hide", "trunc"),
 							   type = c("length", "area", "volume"),
 							   perceptual = FALSE,
+							   neutral.value = NA,
 							   labels = NULL,
 							   labelNA = "Missing",
 							   labelNULL = "Undefined") {
