@@ -29,17 +29,9 @@ tmapScale = function(aes, value, scale, legend, free) {
 }
 
 tmapScaleAuto = function(x1, scale, legend, opt, aes, layer) {
-	type = data_type(x1)
+	cls = data_class(x1)
 	
-	#aes = scale$aes
-	#aes_base = sub('\\..*', '', aes)
-	#aes_layer = sub('.*\\.', '', aes)
-	
-	
-	type_grp =  data_type_grp(type)
-	
-	
-	sc = opt$scales.var[[aes]][[type_grp]]
+	sc = getAesOption("scales.var", opt, aes, layer, cls = cls)
 	
 	tm_scalefun = paste0("tm_scale_", sc)
 	
@@ -52,64 +44,64 @@ tmapScaleAuto = function(x1, scale, legend, opt, aes, layer) {
 	
 }
 
-tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
-	
-	type = data_type(x1)
-	type_grp = data_type_grp(type)
-	
-	if (is.na(scale$values[1])) {
-		scale$values = getAesOption("values.var", opt, aes, layer, dtype = type) 
-	}
-	if (is.na(scale$valueNA)) scale$valueNA = getAesOption("value.na", opt, aes, layer, dtype = type)
-	if (is.na(scale$valueNULL)) scale$valueNULL = getAesOption("value.null", opt, aes, layer, dtype = type)
-	
-	colsLeg <- cat2pal(x1,
-					   var = "g$col",
-					   palette = scale$values,
-					   drop.levels = scale$drop.levels,
-					   stretch.palette = scale$stretch.values,
-					   contrast = scale$contrast.values,
-					   colorNA = scale$valueNA,
-					   colorNULL=scale$valueNULL,
-					   legend.labels=scale$labels,
-					   max_levels=opt$max.categories,
-					   legend.NA.text = scale$labelNA,
-					   showNA = scale$showNA,
-					   process.colors=c(list(alpha=opt$alpha), opt$pc),
-					   legend.format=legend$format,
-					   reverse=legend$reverse)
-	breaks <- NA
-	
-	
-	
-	if (is.na(scale$neutral.value)) scale$neutral.value = getAesOption("value.neutral", opt, aes, layer, dtype = type)
-	if (is.na(scale$neutral.value)) {
-		neutralID <- 1 # if (palette.type=="div") round(((length(colsLeg$legend.palette)-1)/2)+1) else 1
-		col.neutral <- colsLeg$legend.palette[1]
-	} else {
-		col.neutral = scale$neutral.value
-	}
-	
-	
-
-	cols <- colsLeg$cols
-	legend.labels <- colsLeg$legend.labels
-	legend.values <- colsLeg$legend.values
-	legend.palette <- colsLeg$legend.palette
-	
-	ptype = ifelse(nchar(legend.palette[1]) > 50, "color_cont", "color_cls")
-	
-	legend = list(title = legend$title, 
-				  nitems = length(legend.labels),
-				  labels = legend.labels, 
-				  dvalues = legend.values, 
-				  vvalues = legend.palette,
-				  vneutral = col.neutral,
-				  breaks=breaks, type = ptype)
-	
-	
-	format_aes_results(cols, legend)
-}
+# tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
+# 	
+# 	type = data_type(x1)
+# 	type_grp = data_type_grp(type)
+# 	
+# 	if (is.na(scale$values[1])) {
+# 		scale$values = getAesOption("values.var", opt, aes, layer, dtype = type) 
+# 	}
+# 	if (is.na(scale$valueNA)) scale$valueNA = getAesOption("value.na", opt, aes, layer, dtype = type)
+# 	if (is.na(scale$valueNULL)) scale$valueNULL = getAesOption("value.null", opt, aes, layer, dtype = type)
+# 	
+# 	colsLeg <- cat2pal(x1,
+# 					   var = "g$col",
+# 					   palette = scale$values,
+# 					   drop.levels = scale$drop.levels,
+# 					   stretch.palette = scale$stretch.values,
+# 					   contrast = scale$contrast.values,
+# 					   colorNA = scale$valueNA,
+# 					   colorNULL=scale$valueNULL,
+# 					   legend.labels=scale$labels,
+# 					   max_levels=opt$max.categories,
+# 					   legend.NA.text = scale$labelNA,
+# 					   showNA = scale$showNA,
+# 					   process.colors=c(list(alpha=opt$alpha), opt$pc),
+# 					   legend.format=legend$format,
+# 					   reverse=legend$reverse)
+# 	breaks <- NA
+# 	
+# 	
+# 	
+# 	if (is.na(scale$neutral.value)) scale$neutral.value = getAesOption("value.neutral", opt, aes, layer, dtype = type)
+# 	if (is.na(scale$neutral.value)) {
+# 		neutralID <- 1 # if (palette.type=="div") round(((length(colsLeg$legend.palette)-1)/2)+1) else 1
+# 		col.neutral <- colsLeg$legend.palette[1]
+# 	} else {
+# 		col.neutral = scale$neutral.value
+# 	}
+# 	
+# 	
+# 
+# 	cols <- colsLeg$cols
+# 	legend.labels <- colsLeg$legend.labels
+# 	legend.values <- colsLeg$legend.values
+# 	legend.palette <- colsLeg$legend.palette
+# 	
+# 	ptype = ifelse(nchar(legend.palette[1]) > 50, "color_cont", "color_cls")
+# 	
+# 	legend = list(title = legend$title, 
+# 				  nitems = length(legend.labels),
+# 				  labels = legend.labels, 
+# 				  dvalues = legend.values, 
+# 				  vvalues = legend.palette,
+# 				  vneutral = col.neutral,
+# 				  breaks=breaks, type = ptype)
+# 	
+# 	
+# 	format_aes_results(cols, legend)
+# }
 
 tmapScaleClassInt = function(x1, scale, legend, opt, aes, layer) {
 	type = data_type(x1)
@@ -124,9 +116,9 @@ tmapScaleClassInt = function(x1, scale, legend, opt, aes, layer) {
 	if (is.na(scale$values[1])) {
 		scale$values = getAesOption("values.var", opt, aes, layer, dtype = type) 
 	}
-	if (is.na(scale$valueNA)) scale$valueNA = getAesOption("value.na", opt, aes, layer, dtype = type)
-	if (is.na(scale$valueNULL)) scale$valueNULL = getAesOption("value.null", opt, aes, layer, dtype = type)
-	if (is.na(scale$neutral.value)) scale$neutral.value = getAesOption("value.neutral", opt, aes, layer, dtype = type)
+	if (is.na(scale$value.na)) scale$value.na = getAesOption("value.na", opt, aes, layer, dtype = type)
+	if (is.na(scale$value.null)) scale$value.null = getAesOption("value.null", opt, aes, layer, dtype = type)
+	if (is.na(scale$value.neutral)) scale$value.neutral = getAesOption("value.neutral", opt, aes, layer, dtype = type)
 	
 	udiv = use_div(scale$breaks, scale$midpoint)
 	if (identical(udiv, TRUE)) type = "div"

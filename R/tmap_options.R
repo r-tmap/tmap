@@ -77,17 +77,17 @@
 			fill_alpha = 1,
 			col_alpha = 1
 		),
-		scales.var = list(fill = list(factor = "categorical", order = "categorical", num = "class_int"),
-						  col = list(factor = "categorical", order = "categorical", num = "class_int"),
-						  lwd = list(factor = "categorical", order = "categorical", num = "continuous"),
-						  lty = list(factor = "categorical", order = "categorical", num = "categorical"),
-						  shape = list(factor = "categorical", order = "categorical", num = "categorical"),
-						  size = list(factor = "categorical", order = "categorical", num = "continuous"),
-						  fill_alpha = list(factor = "categorical", order = "categorical", num = "class_int"),
-						  col_alpha = list(factor = "categorical", order = "categorical", num = "class_int")),
+		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
+						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
+						  lwd = list(fact = "categorical", num = "intervals", int = "discrete"),
+						  lty = list(fact = "categorical", num = "categorical"),
+						  shape = list(fact = "categorical", num = "categorical"),
+						  size = list(fact = "categorical", num = "continuous"),
+						  fill_alpha = list(fact = "categorical", num = "class_int"),
+						  col_alpha = list(fact = "categorical", num = "class_int")),
 						  
-		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", factor = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
-						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", factor = "brewer.set3", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
+		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
+						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  size = c(0, 1),
 						  lwd = c(0, 3),
 						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),
@@ -297,7 +297,7 @@ getTmapOption = function(x, opt) {
 }
 
 
-getAesOption = function(x, opt, aes, layer, dtype = NULL) {
+getAesOption = function(x, opt, aes, layer, cls = NULL) {
 	y = opt[[x]]
 	al = paste(aes, layer, sep = ".")
 	
@@ -311,12 +311,10 @@ getAesOption = function(x, opt, aes, layer, dtype = NULL) {
 		return(NA)
 	}
 	
-	if (!is.null(dtype) && is.list(z)) {
-		dtype_grp = ifelse(dtype %in% c("seq", "div", "cyc"), "num", dtype)
-		if (dtype %in% names(z)) {
-			z = z[[dtype]]
-		} else if (dtype_grp %in% names(z)) {
-			z = z[[dtype_grp]]
+	if (!is.null(cls) && is.list(z)) {
+		mid = vapply(names(z), FUN = "%in%", FUN.VALUE = logical(1), cls)
+		if (any(mid)) {
+			z = z[[which(mid)[1]]]
 		}
 	}
 	z
