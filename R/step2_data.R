@@ -89,11 +89,114 @@ step2_data_grp_prepare = function(tmf, dt) {
 	
 }
 
+preprocess_meta_step2 = function(meta) {
+	within(meta, {
+		
+		pc = list(sepia.intensity=sepia.intensity, saturation=saturation)
+		sepia.intensity = NULL
+		saturation = NULL
+		
+		title.size = title.size * scale
+		legend.title.size = legend.title.size * scale
+		legend.text.size = legend.text.size * scale
+
+		panel.label.size = panel.label.size * scale
+		
+		space.color = ifelse(is.null(space.color), bg.color, space.color[1])
+		earth.boundary.color = ifelse(is.null(earth.boundary.color), attr.color, earth.boundary.color[1])
+		legend.text.color =  ifelse(is.null(legend.text.color), attr.color, legend.text.color[1])
+		legend.title.color = ifelse(is.null(legend.title.color), attr.color, legend.title.color[1])
+		title.color = ifelse(is.null(title.color), attr.color, title.color[1])
+		
+		legend.inside.box = if (!is.logical(legend.frame)) TRUE else legend.frame
+		if (identical(title.bg.color, TRUE)) title.bg.color = bg.color
+		
+		if (identical(frame, TRUE)) frame = attr.color else if (identical(frame, FALSE)) frame = NA 
+		
+		if (is.logical(legend.frame)) if (identical(legend.frame, TRUE)) legend.frame = attr.color else legend.frame = NA 
+		# 		
+		# 		between.margin.in <- convertHeight(unit(between.margin, "lines") * scale, "inch", valueOnly=TRUE)
+		# 		
+		# 		between.margin.y <-convertHeight(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) * gf$nrow
+		# 		between.margin.x <-convertWidth(unit(between.margin.in, "inch"), "npc", valueOnly=TRUE) * gf$ncol
+		# 		
+		
+		outer.margins <- rep(outer.margins, length.out = 4)
+
+		if (is.list(inner.margins)) {
+			inner.margins = lapply(inner.margins, rep, length.out = 4)
+		}
+		
+		attr.color.light = is_light(attr.color)
+
+		title.color = do.call("process_color", c(list(col=title.color), pc))
+		main.title.color = do.call("process_color", c(list(col=main.title.color), pc))
+		legend.text.color = do.call("process_color", c(list(col=legend.text.color), pc))
+		legend.title.color = do.call("process_color", c(list(col=legend.title.color), pc))
+		if (!is.na(frame)) frame = do.call("process_color", c(list(col=frame), pc))
+		if (!is.na(legend.frame)) legend.frame = do.call("process_color", c(list(col=legend.frame), pc))
+		
+		panel.label.color = do.call("process_color", c(list(col=panel.label.color), pc))
+		panel.label.bg.color = do.call("process_color", c(list(col=panel.label.bg.color), pc))
+		
+		earth.boundary.color = do.call("process_color", c(list(col=earth.boundary.color), pc))
+		
+		bg.color = do.call("process_color", c(list(col=bg.color), pc))
+		
+		if (!is.null(outer.bg.color)) outer.bg.color = do.call("process_color", c(list(col=outer.bg.color), pc))
+		
+		if (is.na(legend.bg.color)) legend.bg.color = !is.na(legend.frame)
+		if (!is.na(legend.bg.color)) {
+			legend.bg.color = if (identical(legend.bg.color, FALSE)) {
+				NA
+			} else if (identical(legend.bg.color, TRUE)) {
+				bg.color
+			} else {
+				do.call("process_color", c(list(col=legend.bg.color, alpha=legend.bg.alpha), pc))				}
+		} 
+		if (!is.na(title.bg.color)) title.bg.color = do.call("process_color", c(list(col=title.bg.color, alpha=title.bg.alpha), pc))
+		if (!is.na(earth.boundary.color)) earth.boundary.color = do.call("process_color", c(list(col=earth.boundary.color), pc))
+		space.color = do.call("process_color", c(list(col=space.color), pc))
+		
+		earth.bounds = if (is.logical(earth.boundary)) {
+			c(-180, -90, 180, 90)
+		} else {
+			as.vector(bb(earth.boundary))
+		}
+		earth.boundary = !identical(earth.boundary, FALSE)
+		
+		earth.boundary.lwd = earth.boundary.lwd * scale
+		frame.lwd = frame.lwd * scale
+		
+		# set font face and family
+		
+		if (is.null(legend.title.fontface)) legend.title.fontface = fontface
+		if (is.null(legend.title.fontfamily)) legend.title.fontfamily = fontfamily
+		
+		if (is.null(legend.text.fontface)) legend.text.fontface = fontface
+		if (is.null(legend.text.fontfamily)) legend.text.fontfamily = fontfamily
+		
+		if (is.null(title.fontface)) title.fontface = fontface
+		if (is.null(title.fontfamily)) title.fontfamily = fontfamily
+		
+		if (is.null(main.title.fontface)) main.title.fontface = fontface
+		if (is.null(main.title.fontfamily)) main.title.fontfamily = fontfamily
+		
+		if (is.null(panel.label.fontface)) panel.label.fontface = fontface
+		if (is.null(panel.label.fontfamily)) panel.label.fontfamily = fontfamily
+		
+
+	})
+}
+
 
 step2_data = function(tm) {
 	
 	tmo = tm$tmo
 	meta = tm$meta
+	
+	
+	meta = preprocess_meta_step2(meta)
 	
 	groupnames = paste0("group", seq_along(tmo))
 	fl = list(1L, 1L, 1L)
@@ -233,6 +336,8 @@ step2_data = function(tm) {
 					
 					if (length(v)) update_fl(k = v, lev = vars)
 					
+					
+					
 					if (length(v) && fr[v] && nvars > 1) {
 						#cat("step2_grp_lyr_aes_var_multi_aes_columns\n")
 						# apply aes function for each var column
@@ -255,12 +360,19 @@ step2_data = function(tm) {
 						varnames = paste(nm, 1L:nvars, sep = "_")
 						legnames = paste("legend", 1L:nvars, sep = "_")
 						mapply(function(s, l, v, varname, legname) {
+							# update legend defaults from options
+							tmp = names(meta)[substr(names(meta), 1, 6) == "legend"]
+							opt_leg = intersect(substr(tmp, 8, nchar(tmp)), names(l))
+							l[opt_leg] = mapply(function(o, nm) {
+								if (is.na(o[1])) meta[[paste0("legend.", nm)]] else o
+							}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
+							
 							if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 							f = s$FUN
 							s$FUN = NULL
 							#if (is.na(s$legend$title)) s$legend$title = v
 							if (is.na(l$title)) l$title = v
-							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta))), grp_b_fr, .SDcols = v]
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer))), grp_b_fr, .SDcols = v]
 							NULL
 						}, scale, legend, val, varnames, legnames)
 						
@@ -293,6 +405,15 @@ step2_data = function(tm) {
 						} else {
 							stop("incorrect scale specification")
 						}
+						
+						
+						# update legend defaults from options
+						tmp = names(meta)[substr(names(meta), 1, 6) == "legend"]
+						opt_leg = intersect(substr(tmp, 8, nchar(tmp)), names(l))
+						l[opt_leg] = mapply(function(o, nm) {
+							if (is.na(o[1])) meta[[paste0("legend.", nm)]] else o
+						}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
+						
 						
 						f = s$FUN
 						s$FUN = NULL

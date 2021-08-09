@@ -512,7 +512,12 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	}
 	
 	grbs = do.call(grid::gList, mapply(function(lG, lX, lY, lH, lW) {
-		frame = grid::rectGrob(gp=grid::gpar(fill = o$legend.bg.color, col = "black"))
+		if (!is.na(o$legend.frame)) {
+			frame = grid::rectGrob(gp=grid::gpar(fill = o$legend.bg.color, col = o$legend.frame, lwd = o$legend.frame.lwd))
+		} else {
+			frame = NULL
+		}
+		
 		if (legend.stack == "vertical") {
 			grid::grobTree(frame, lG, vp = grid::viewport(x = lW/2, width = lW, y = lY - lH/2, height = lH))
 		} else {
@@ -731,10 +736,11 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	#fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
 	#color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
 	
+	dtn = setdiff(names(dt), c("tmapID__", paste0("by", 1L:3L, "__")))
 	
-	cols = paste0("__", setdiff(names(dt), "tmapID__"))
+	cols = paste0("__", dtn)
 	gpids = match(cols, sapply(gp, "[[", 1))
-	gp[gpids] = as.list(dt[, setdiff(names(dt), "tmapID__"), with = FALSE])
+	gp[gpids] = as.list(dt[, dtn, with = FALSE])
 	
 	
 	diffAlpha = !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))

@@ -12,7 +12,7 @@ tmapPalId = function(name, check_rev = TRUE) {
 	id
 }
 
-tmap_get_palette = function(name, n = NA) {
+tmap_get_palette = function(name, n = NA, rep = TRUE) {
 	if (name %in% unique(.tmap_pals$type)) {
 		name = tmap_options()$aes.palette[[name]]
 	} 
@@ -47,7 +47,7 @@ tmap_get_palette = function(name, n = NA) {
 	
 	pal = do.call(fun, args)
 	if (n != n2) {
-		if (x$type == "cat") {
+		if (x$type == "cat" && rep) {
 			pal = rep(pal, length.out = n)
 		} else pal = colorRampPalette(pal)(n)	
 	} 

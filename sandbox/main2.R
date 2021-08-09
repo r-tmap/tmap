@@ -108,7 +108,7 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 
 
 (tm  = tm_shape(World) +
-		tm_polygons(c("economy", "gdp_cap_est")))
+		tm_polygons(c("economy", "income_grp")))
 
 (tm  = tm_shape(World) +
 		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = tm_aes_color(palette = "rdylbu")))
@@ -128,6 +128,13 @@ tmap_design_mode()
 
 (tm = tm_shape(World) +
 		tm_polygons("economy") + tm_options(asp=0))
+
+(tm = tm_shape(World) +
+		tm_polygons("economy", fill.scale = tm_scale_categorical(n.max = 4)))
+
+(tm = tm_shape(World) +
+		tm_polygons("economy", fill.scale = tm_scale_categorical(n.max = 4)))
+
 
 
 ## step2 164
@@ -152,6 +159,33 @@ tmap_design_mode()
 		tm_polygons("economy", fill_alpha = "HPI"))
 
 (tm = tm_shape(World) +
-		tm_polygons("economy", fill_alpha = "alpha_class"))
+		tm_polygons("economy", fill_alpha = "alpha_class", fill_alpha.legend = tm_legend(position = tm_lp_out("left", "center"))))
 
 
+(tm = tm_shape(World) +
+		tm_polygons("economy", 
+					fill_alpha = "continent", 
+					fill_alpha.legend = tm_legend(position = tm_lp_out("left", "center")),
+					fill.free = c(TRUE, FALSE, FALSE),
+					fill_alpha.free = c(FALSE, TRUE, FALSE),
+					col = "income_grp",
+					col.legend = tm_legend(position = tm_lp_inset("left", "center"))) +
+		tm_facets_grid(rows = "alpha_class", columns = "pop_class"))
+
+
+(tm = tm_shape(World) +
+		tm_polygons("economy", col = "income_grp", col.legend = tm_legend(position = c("left", "top"))) + tm_options(legend.frame = "red"))
+
+
+
+# step4 browser at 144
+(tm  = tm_shape(World) +
+		tm_polygons(c("economy", "income_grp")))
+
+
+# legend.position
+# 131  in order to determine margins.used
+# 524  in order to position each legend in legs
+
+
+# to do: update auto legend.position from updated opt (process_meta)
