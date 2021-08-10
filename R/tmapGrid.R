@@ -323,8 +323,8 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	#legs = list(list(brks = NA, pals = rainbow(5), levs = letters[1:5]))
 	
-	rows = if (facet_row[1] == -Inf) g$meta_rows[1] else if (facet_row[1] == Inf) g$meta_rows[2] else g$rows_facet_ids[facet_row]
-	cols = if (facet_col[1] == -Inf) g$meta_cols[1] else if (facet_col[1] == Inf) g$meta_cols[2] else g$cols_facet_ids[facet_col]
+	rows = if (facet_row[1] == -2) g$meta_rows[1] else if (facet_row[1] == -1) g$meta_rows[2] else g$rows_facet_ids[facet_row]
+	cols = if (facet_col[1] == -2) g$meta_cols[1] else if (facet_col[1] == -1) g$meta_cols[2] else g$cols_facet_ids[facet_col]
 	
 	maxH = sum(g$rowsIn[rows])
 	maxW = sum(g$colsIn[cols])

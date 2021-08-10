@@ -155,7 +155,7 @@ process_meta = function(o) {
 		margins.used.sides = c(legend.position.sides$v == "bottom",
 							   legend.position.sides$h == "left",
 							   legend.position.sides$v == "top",
-							   legend.position.sides$h == "right") * legend.present.auto[c(2,1,2,1)]
+							   legend.position.sides$h == "right") * legend.present.auto[c(3,2,3,2)]
 		
 		
 		margins.used =  margins.used.all | margins.used.sides | legend.present.fix
@@ -213,19 +213,20 @@ process_meta = function(o) {
 			}
 		}
 		
-		if (n>1 && meta.automatic && !identical(asp, 0)) {
-			# redo meta margins calculations
-			width = ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between.marginW) / ncols
-			height = ((1 - sum(fixedMargins[c(1, 3)])) - (nrows * sum(panel.wrap.size[c(1,3)])) - (nrows - 1) * between.marginH) / nrows
-			a = (width / height) * dasp
-
-			if (a>pasp) {
-				meta.margins[c(2, 4)] = meta.margins[c(2, 4)] + (1 - (sum(fixedMargins[c(2, 4)]) + ((pasp * height) / dasp) * ncols + (ncols * sum(panel.wrap.size[c(2,4)])) + (ncols - 1) * between.marginW)) / max(1, sum(margins.used[c(2,4)]))
-			} else {
-				meta.margins[c(1, 3)] = meta.margins[c(1, 3)] + (1 - (sum(fixedMargins[c(1, 3)]) + ((width / pasp) * dasp) * nrows + (nrows * sum(panel.wrap.size[c(1,3)])) + (nrows - 1) * between.marginH)) / max(1, sum(margins.used[c(2,4)]))
-			}
-
-		}
+		
+		# if (n>1 && meta.automatic && !identical(asp, 0)) {
+		# 	# redo meta margins calculations
+		# 	width = ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between.marginW) / ncols
+		# 	height = ((1 - sum(fixedMargins[c(1, 3)])) - (nrows * sum(panel.wrap.size[c(1,3)])) - (nrows - 1) * between.marginH) / nrows
+		# 	a = (width / height) * dasp
+		# 
+		# 	if (a>pasp) {
+		# 		meta.margins[c(2, 4)] = meta.margins[c(2, 4)] + (1 - (sum(fixedMargins[c(2, 4)]) + ((pasp * height) / dasp) * ncols + (ncols * sum(panel.wrap.size[c(2,4)])) + (ncols - 1) * between.marginW)) / max(1, sum(margins.used[c(2,4)]))
+		# 	} else {
+		# 		meta.margins[c(1, 3)] = meta.margins[c(1, 3)] + (1 - (sum(fixedMargins[c(1, 3)]) + ((width / pasp) * dasp) * nrows + (nrows * sum(panel.wrap.size[c(1,3)])) + (nrows - 1) * between.marginH)) / max(1, sum(margins.used[c(1,3)]))
+		# 	}
+		# 
+		# }
 
 		
 		npages = ceiling(n / (nrows * ncols))	
@@ -535,26 +536,40 @@ step4_plot = function(tm) {
 	
 	#legs[class == "inset", ':='(h2 = h, v2 = v)]
 	
-	legs[, ':='(facet_row = list(list()), facet_col = list(list()), facet_page = list(list()))]
+	toC = function(x) {
+		paste(x, collapse = "_")
+	}
+	toI = function(x) {
+		as.integer(strsplit(x, split = "_")[[1]])
+	}
+	
+	
+	legs[, ':='(facet_row = character(), facet_col = character(), stack = "vertical")]
 	
 	
 	# update auto position (for 'all', 'rows', 'columns' legends)
-	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.all$h, v = o$legend.position.all$v)]
-	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.sides$h, v = "by")]
-	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(h = "by", v = o$legend.position.sides$v)]
+	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.all$h, v = o$legend.position.all$v, stack = ifelse(h == "center", "horizontal", "vertical"))]
+	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.sides$h, v = "by", stack = "horizontal")]
+	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(h = "by", v = o$legend.position.sides$v, stack = "vertical")]
 	legs[class == "auto", class := "out"]
 	
-	# manual outside legends
-	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(v == "center", list(1:o$nrows), ifelse(v == "by", list(by1__), ifelse(v == "top", list(-Inf), list(Inf)))),
-										   facet_col = ifelse(h == "center", list(1:o$ncols), ifelse(h == "by", list(by2__), ifelse(h == "left", list(-Inf), list(Inf)))))]
+	# manual outside legends -2 is top or left, -1 is bottom or right
+	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(v == "center", toC(1:o$nrows), ifelse(v == "by", as.character(by1__), ifelse(v == "top", as.character(-2), as.character(-1)))),
+										   facet_col = ifelse(h == "center", toC(1:o$ncols), ifelse(h == "by", as.character(by2__), ifelse(h == "left", as.character(-2), as.character(-1)))))]
 	
 	# manual inset legends
-	legs[class == "inset", ':='(facet_row = as.list(by1__),
-								facet_col = as.list(by2__))]
+	legs[class == "inset", ':='(facet_row = toC(by1__),
+								facet_col = toC(by2__))]
 	
-	legs[, facet_page := ifelse(is.na(by3__), list(1:o$npages), list(by3__))]
+
+	legfun = paste0("tmap", gs, "Legend")
 	
 	
+	for (k in seq_len(o$npages)) {
+		klegs = legs[is.na(by3__) | (by3__ == k), ]
+
+		klegs[, do.call(legfun, args = list(legs = .SD$legend, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, legend.stack = .SD$stack[1])), by = list(facet_row, facet_col), .SDcols = c("legend", "facet_row", "facet_col", "stack")]
+	}
 	
 	
 	# for (k in seq_len(o$npages)) {
