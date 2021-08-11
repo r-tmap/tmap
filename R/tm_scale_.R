@@ -26,6 +26,7 @@ tm_scale_ordinal = function(n.max = 20,
 }
 
 
+
 tm_scale_categorical = function(n.max = 20,
 								values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 								values.repeat = TRUE,
@@ -41,25 +42,23 @@ tm_scale_categorical = function(n.max = 20,
 	structure(c(list(FUN = "tmapScaleCategorical"), as.list(environment())), class = c("tm_scale_categorical", "tm_scale"))
 }
 
-tm_scale_class_int = function(values = NA,
-							  valueNA = NA,
-							  valueNULL = NA,
-							  showNA = NA,
-							  showNULL = NA,
-							  n = 5,
+tm_scale_intervals = function(n = 5, 
+							  values = NA,
+							  values.repeat = TRUE,
+							  values.contrast  = 1,
+							  value.na = NA,
+							  value.null = NA,
+							  value.neutral = NA,
 							  style = ifelse(is.null(breaks), "pretty", "fixed"),
 							  style.args = list(),
-							  as.count = NA,
+							  #as.count = NA,
 							  breaks = NULL,
 							  interval.closure = "left",
 							  midpoint = NULL,
-							  stretch.values = FALSE,
-							  contrast.values = 1,
-							  neutral.value = NA,
 							  labels = NULL,
-							  labelNA = "Missing",
-							  labelNULL = "Undefined") {
-	structure(c(list(FUN = "tmapScaleClassInt"), as.list(environment())), class = c("tm_scale_class_int", "tm_scale"))
+							  label.na = "Missing",
+							  label.null = "Undefined") {
+	structure(c(list(FUN = "tmapScaleIntervals"), as.list(environment())), class = c("tm_scale_intervals", "tm_scale"))
 }
 
 tm_scale_continuous = function(value.range = NA,

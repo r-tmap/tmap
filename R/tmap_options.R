@@ -83,8 +83,8 @@
 						  lty = list(fact = "categorical", num = "categorical"),
 						  shape = list(fact = "categorical", num = "categorical"),
 						  size = list(fact = "categorical", num = "continuous"),
-						  fill_alpha = list(fact = "categorical", num = "class_int"),
-						  col_alpha = list(fact = "categorical", num = "class_int")),
+						  fill_alpha = list(fact = "categorical", num = "intervals"),
+						  col_alpha = list(fact = "categorical", num = "intervals")),
 						  
 		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),

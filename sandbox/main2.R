@@ -66,8 +66,8 @@ show_data()
 		tm_facets_grid("income_grp", "alpha_class"))
 
 (tm  = tm_shape(World) +
-		tm_polygons("economy", fill.free = c(FALSE, TRUE, TRUE)) +
-		tm_symbols("pop_class", color.free = c(FALSE, TRUE, TRUE)) +
+		tm_polygons("economy", fill.free = c(T, FALSE, TRUE)) +
+		#tm_symbols("pop_class", col.free = c(FALSE, TRUE, TRUE)) +
 		tm_facets_grid("income_grp", "alpha_class"))
 
 
@@ -75,6 +75,13 @@ show_data()
 		tm_polygons("economy", fill.free = FALSE) +
 		#tm_symbols("economy", color.free = c(FALSE, TRUE, TRUE)) +
 		tm_facets_grid("income_grp", "alpha_class"))
+
+
+(tm  = tm_shape(World) +
+		tm_polygons("economy", fill.free = c(F, T, T), col = "pop_class", col.free = c(T, F, F)) +
+		#tm_symbols("economy", color.free = c(FALSE, TRUE, TRUE)) +
+		tm_facets_grid("income_grp", "alpha_class"))
+
 
 
 (tm  = tm_shape(World) +
@@ -184,7 +191,7 @@ tmap_design_mode()
 
 # step4 browser at 144
 (tm  = tm_shape(World) +
-		tm_polygons(c("economy", "income_grp")))
+		tm_polygons(c("economy", "gdp_cap_est")))
 
 
 (tm = tm_shape(World) +
