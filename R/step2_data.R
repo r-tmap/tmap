@@ -351,7 +351,7 @@ step2_data = function(tm) {
 						
 						if (inherits(aes$legend, "tm_legend")) {
 							legend = rep(list(aes$legend), length.out = nvars)
-						} else if (islistof(aes$scale, "tm_legend")) {
+						} else if (islistof(aes$legend, "tm_legend")) {
 							legend = rep(aes$legend, length.out = nvars)
 						} else {
 							stop("incorrect legend specification")

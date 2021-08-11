@@ -567,8 +567,8 @@ step4_plot = function(tm) {
 			legs[, by2__ := by1__]
 			legs[, by1__ := NA]
 		} else if (o$nrows > 1 && o$ncols > 1) {
-			legs[, by1__ := NA]
-			legs[, by2__ := NA]
+			legs[class != "inset", by1__ := NA]
+			legs[class != "inset", by2__ := NA]
 		}
 	}
 			
@@ -593,17 +593,29 @@ step4_plot = function(tm) {
 	
 	# find all facets
 	
-	legs[class == "inset", ':='(facet_row = toC(by1__),
-								facet_col = toC(by2__))]
+	
+	
+	is_inset = legs$class == "inset"
+	if (any(is_inset)) {
+		legs_inset = lapply(which(is_inset), function(i) {
+			d2 = data.table::copy(d)
+			legsi = legs[i, ]
+			if (is.na(legsi$by1__)) d2[, by1:= NA]
+			if (is.na(legsi$by2__)) d2[, by2:= NA]
+			if (is.na(legsi$by3__)) d2[, by3:= NA]
+			legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
+			legsi[, ':='(facet_row = as.character(row), facet_col = as.character(col), row = NULL, col = NULL)]
+			legsi
+		})
+		legs = data.table::rbindlist(c(list(legs[!is_inset]), legs_inset))
+	}
 	
 
-	
-	
-	
 	legfun = paste0("tmap", gs, "Legend")
 	
 	
-	for (k in seq_len(o$npages)) {
+	
+	if (nrow(legs) > 0L) for (k in seq_len(o$npages)) {
 		klegs = legs[is.na(by3__) | (by3__ == k), ]
 
 		klegs[, do.call(legfun, args = list(legs = .SD$legend, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, legend.stack = .SD$stack[1])), by = list(facet_row, facet_col), .SDcols = c("legend", "facet_row", "facet_col", "stack")]

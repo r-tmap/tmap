@@ -35,7 +35,7 @@ show_data()
 
 
 (tm = tm_shape(World) +
-		tm_polygons("economy", fill.setup = tm_aes_color(palette = tmap_pals$rcartocolor.carto$ArmyRose)))
+		tm_polygons("economy", fill.scale = tm_scale_categorical(values = tmap_pals$rcartocolor.carto$ArmyRose)))
 
 
 
@@ -110,7 +110,7 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
-		tm_symbols("pop_class", color.free = c(FALSE, TRUE, TRUE)) +
+		#tm_symbols("pop_class", color.free = c(FALSE, TRUE, TRUE)) +
 		tm_facets_grid("income_grp", "alpha_class")) + tm_options(asp=0)
 
 
@@ -118,16 +118,16 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 		tm_polygons(c("economy", "income_grp")))
 
 (tm  = tm_shape(World) +
-		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = tm_aes_color(palette = "rdylbu")))
+		tm_polygons(c("economy", "gdp_cap_est"), fill.scale = list(tm_scale_categorical(values = "rdylbu"), tm_scale_intervals(n = 9, style = "kmeans"))))
 
-(tm  = tm_shape(World) +
-		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = list(tm_aes_color(palette = "set3"), tm_aes_color(palette = "Hawaii", n = 9, style = "cont"))))
+# (tm  = tm_shape(World) +
+# 		tm_polygons(c("economy", "gdp_cap_est"), fill.setup = list(tm_aes_color(palette = "set3"), tm_aes_color(palette = "Hawaii", n = 9, style = "cont"))))
 
-(tm  = tm_shape(World) +
-		tm_polygons("gdp_cap_est", fill.setup = list(tm_aes_color(palette = "set3"), tm_aes_color(palette = "Hawaii", n = 9, style = "cont"))))
+# (tm  = tm_shape(World) +
+# 		tm_polygons("gdp_cap_est", fill.setup = list(tm_aes_color(palette = "set3"), tm_aes_color(palette = "Hawaii", n = 9, style = "cont"))))
 
-(tm  = tm_shape(World) +
-		tm_polygons("gdp_cap_est", fill.setup = list(tm_aes_color(palette = "brewer.blues", n = 9, style = "cont"))))
+# (tm  = tm_shape(World) +
+# 		tm_polygons("gdp_cap_est", fill.setup = list(tm_aes_color(palette = "brewer.blues", n = 9, style = "cont"))))
 
 tmap_design_mode()
 (tm = tm_shape(World) +
@@ -185,11 +185,13 @@ tmap_design_mode()
 
 
 (tm = tm_shape(World) +
-		tm_polygons("economy", col = "income_grp", col.legend = tm_legend(position = c("left", "top"))) + tm_options(legend.frame = "red"))
+		tm_polygons("economy", col = "income_grp", col.legend = tm_legend(position = tm_lp_inset("left", "top"))) + tm_options(legend.frame = "red"))
+
+(tm = tm_shape(World) +
+		tm_polygons("economy", col = "income_grp", col.legend = tm_legend(position = tm_lp_inset("left", "top"))) + tm_options(legend.frame = "red"))
 
 
 
-# step4 browser at 144
 (tm  = tm_shape(World) +
 		tm_polygons(c("economy", "gdp_cap_est")))
 
@@ -204,9 +206,25 @@ tmap_design_mode()
 	tm_facets(by = "pop_class", ncol = 2))
 
 
-# legend.position
-# 131  in order to determine margins.used
-# 524  in order to position each legend in legs
+(tm = tm_shape(World) +
+		tm_polygons("economy", 
+					fill.free = TRUE, 
+					fill.scale = tm_scale_categorical(levels.drop = TRUE), 
+					fill.legend = tm_legend(position = tm_lp_inset("left", "top"))) +
+		tm_facets(by = "pop_class", ncol = 2))
+
+# to do's
+
+# improve error message
+(tm  = tm_shape(World) +
+	tm_polygons(c("economy", "ffggfds")))
+
+# tm_scale_discrete
+# tm_scale_continuous
 
 
-# to do: update auto legend.position from updated opt (process_meta)
+# symbols, lines, raster
+
+
+
+
