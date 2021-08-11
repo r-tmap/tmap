@@ -133,7 +133,10 @@
     <span class="fu"><a href="../reference/tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"iso_a3"</span>, size <span class="op">=</span> <span class="st">"AREA"</span><span class="op">)</span> <span class="op">+</span>
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_symbols.html">tm_symbols</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span>, size <span class="op">=</span> <span class="st">"pop2020"</span>, scale <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span>
-<span class="fu"><a href="../reference/tm_layout.html">tm_legend</a></span><span class="op">(</span>show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/tm_layout.html">tm_legend</a></span><span class="op">(</span>show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-4-1.png" width="576"></p>
 </div>
 <div id="facets" class="section level3">
@@ -162,7 +165,12 @@
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"perc_men"</span>, palette <span class="op">=</span> <span class="st">"RdYlBu"</span><span class="op">)</span> <span class="op">+</span>
-    <span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"province"</span><span class="op">)</span></code></pre></div>
+    <span class="fu"><a href="../reference/tm_facets.html">tm_facets</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"province"</span><span class="op">)</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-6-1.png" width="576"></p>
 <ol start="3" style="list-style-type: decimal">
 <li>By using the <code>tmap_arrange</code> function:</li>
@@ -176,6 +184,26 @@
 <span class="va">tm2</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="../reference/tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="st">"population"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span><span class="va">tm1</span>, <span class="va">tm2</span><span class="op">)</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="co">## Legend labels were too wide. Therefore, legend.text.size has been set to 0.27. Increase legend.width (argument of tm_layout) to make the legend wider and therefore the labels larger.</span>
 <span class="co">## The legend is too narrow to place all symbol sizes.</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
