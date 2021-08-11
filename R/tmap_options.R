@@ -122,7 +122,7 @@
 		legend.show = TRUE,
 		legend.only = FALSE,
 		legend.position = tm_lp_auto("right", "bottom"),
-		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical"),
+		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
 		legend.justified = TRUE,
 		legend.resize.as.group = TRUE,
 		legend.just = c("left", "bottom"),

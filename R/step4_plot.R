@@ -129,10 +129,11 @@ process_meta = function(o) {
 		legend.position.all = legend.position
 			
 		## find position for all-facet legend
+		
 		if (legend.present.auto[1]) {
 			if (!legend.present.auto[2] & !legend.present.auto[3]) {
 				# only 'all facets' legends (either bottom or right)
-				if ((n == 1 && pasp > masp) || (n > 1 && masp < 1)) { # || one.row
+				if ((n == 1 && pasp > masp) || (n > 1 && masp < 1) || (identical(nrows, 1) || (!is.na(ncols) && ncols >= n))) { # || one.row
 					legend.position.all = list(h = "center", v = legend.position$v)
 				} else {
 					legend.position.all = list(h = legend.position$h, v = "center")
@@ -333,7 +334,8 @@ step4_plot = function(tm) {
 		o$legend.present.fix = rep(FALSE, 4)
 	} else {
 		if (o$is.wrap) {
-			o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & legs$class == "auto"), per_col = FALSE)
+			#o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & legs$class == "auto"), per_col = FALSE)
+			o$legend.present.auto = c(all = any(legs$class == "auto"), per_row = FALSE, per_col = FALSE)
 		} else {
 			o$legend.present.auto = c(all = any(is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"))
 		}
@@ -468,13 +470,13 @@ step4_plot = function(tm) {
 	
 
 
-	
+	d = d[!is.na(asp), ]
 	
 	
 	
 	for (i in seq_len(nrow(d))) {
  		bbx = d$bbox[[i]]
-		if (is.na(bbx)) next
+		#if (is.na(bbx)) next
  		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$fl[[1]][i], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i])) 
  		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 		for (ig in 1L:o$ng) {
@@ -514,12 +516,12 @@ step4_plot = function(tm) {
 	# 	}
 	# }
 	# 
-	if (o$is.wrap && o$legend.present.auto[2]) {
-		if (o$nrows == 1) {
-			legs[, by2__ := by1__]
-			legs[, by1__ := NA]
-		}
-	}
+	# if (o$is.wrap && o$legend.present.auto[2]) {
+	# 	if (o$nrows == 1) {
+	# 		legs[, by2__ := by1__]
+	# 		legs[, by1__ := NA]
+	# 	}
+	# }
 	
 	#legs$position = lapply(legs$legend, FUN = function(l) l$setup$position)
 	
@@ -544,13 +546,43 @@ step4_plot = function(tm) {
 	}
 	
 	
-	legs[, ':='(facet_row = character(), facet_col = character(), stack = "vertical")]
+
+
 	
+	legs[, ':='(facet_row = character(), facet_col = character())]
+	legs$stack_auto = vapply(legs$legend, function(l) {
+		s = l$setup$stack
+		length(s) > 1
+	}, FUN.VALUE = logical(1))
+	legs$stack = vapply(legs$legend, function(l) {
+		s = l$setup$stack
+		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
+	}, FUN.VALUE = character(1))
+	
+	
+	stacks = o$legend.stack
+	
+	if (o$is.wrap && o$n > 1) {
+		if (o$nrows == 1) {
+			legs[, by2__ := by1__]
+			legs[, by1__ := NA]
+		} else if (o$nrows > 1 && o$ncols > 1) {
+			legs[, by1__ := NA]
+			legs[, by2__ := NA]
+		}
+	}
+			
 	
 	# update auto position (for 'all', 'rows', 'columns' legends)
-	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.all$h, v = o$legend.position.all$v, stack = ifelse(h == "center", "horizontal", "vertical"))]
-	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.sides$h, v = "by", stack = "horizontal")]
-	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(h = "by", v = o$legend.position.sides$v, stack = "vertical")]
+	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.all$h, v = o$legend.position.all$v)]
+	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.sides$h, v = "by")]
+	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(h = "by", v = o$legend.position.sides$v)]
+
+	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, ifelse(h == "center", stacks["per_row"], ifelse(v == "center", stacks["per_col"], stacks["all"])), stack))]
+	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
+	
+	
 	legs[class == "auto", class := "out"]
 	
 	# manual outside legends -2 is top or left, -1 is bottom or right
@@ -558,10 +590,16 @@ step4_plot = function(tm) {
 										   facet_col = ifelse(h == "center", toC(1:o$ncols), ifelse(h == "by", as.character(by2__), ifelse(h == "left", as.character(-2), as.character(-1)))))]
 	
 	# manual inset legends
+	
+	# find all facets
+	
 	legs[class == "inset", ':='(facet_row = toC(by1__),
 								facet_col = toC(by2__))]
 	
 
+	
+	
+	
 	legfun = paste0("tmap", gs, "Legend")
 	
 	

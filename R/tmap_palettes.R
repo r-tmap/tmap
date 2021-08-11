@@ -43,9 +43,13 @@ tmap_get_palette = function(name, n = NA, rep = TRUE) {
 		n2 = n
 	}
 	
-	args$n = n2
 	
-	pal = do.call(fun, args)
+	# some functions give errors otherwise, e.g. pals:::get.brewer.pal(pals:::syspals$brewer.blues, 1)
+	n3 = max(3L, n2)
+
+	args$n = n3
+
+	pal = do.call(fun, args)[1L:n2]
 	if (n != n2) {
 		if (x$type == "cat" && rep) {
 			pal = rep(pal, length.out = n)
