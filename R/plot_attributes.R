@@ -118,7 +118,7 @@ plot_cred <- function(gt, just, id, width_scale) {
 	mx <- convertWidth(convertHeight(unit(my, "npc"), "inch"), "npc", TRUE)
 	
 	# number of lines
-	txt <- gt$credits.text[id]
+	txt <- gt$credits.text[[id]]
 	nlines <- number_text_lines(txt)
 	
 	size <- min((1-2*mx) / text_width_npc(txt, space=FALSE), gt$credits.size[id])
