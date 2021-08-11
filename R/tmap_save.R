@@ -4,6 +4,7 @@
 #'
 #' @param tm tmap object
 #' @param filename filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in \code{"plot"} mode and as an interactive map (html) in \code{"view"} mode (see details). The default format for static plots is png, but this can be changed using the option \code{"output.format"} in \code{\link{tmap_options}}. If \code{NA} (the default), the file is saved as "tmap01" in the default format, and the number incremented if the file already exists.
+#' @param device toDo
 #' @param height,width The width and height of the plot (not applicable for html files). Units are set with the argument \code{units}. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option \code{"output.size"} in \code{\link{tmap_options}}. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.
 #' @param units units for width and height (\code{"in"}, \code{"cm"}, or \code{"mm"}). By default, pixels (\code{"px"}) are used if either width or height is set to a value greater than 50. Else, the units are inches (\code{"in"})
 #' @param dpi dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option \code{"output.dpi"} in \code{\link{tmap_options}}.
@@ -21,11 +22,13 @@
 #' @import tmaptools
 #' @example ./examples/tmap_save.R
 #' @export
-tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
+tmap_save <- function(tm=NULL, filename=NA, device=NULL, width=NA, height=NA, units = NA,
 					  dpi=NA, outer.margins=NA, asp=NULL, scale=NA, insets_tm=NULL, insets_vp=NULL, add.titles = TRUE, in.iframe = FALSE, selfcontained = !in.iframe, verbose = NULL, ...) {
 	.tmapOptions <- get("tmapOptions", envir = .TMAP_CACHE)
 	show.warnings <-.tmapOptions$show.warnings
 	if (!missing(verbose) && show.warnings) warning("The argument verbose is deprecated. Please use the option show.messages of tmap_options instead.")
+	
+	
 	
 	verbose <- .tmapOptions$show.messages
 	
@@ -156,28 +159,6 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 	}
 	units_target <- ifelse(units=="px" && ext %in% c("png", "jpg", "jpeg", "bmp", "tiff"), "px", "in")
 	
-		
-	eps <- ps <- function(..., width, height) grDevices::postscript(..., 
-																	width = width, height = height, onefile = FALSE, horizontal = FALSE, 
-																	paper = "special")
-	tex <- function(..., width, height) grDevices::pictex(..., 
-														  width = width, height = height)
-	pdf <- function(..., version = "1.4") grDevices::pdf(..., 
-														 version = version)
-	svg <- function(...) grDevices::svg(...)
-	wmf <- function(..., width, height) grDevices::win.metafile(..., 
-																width = width, height = height)
-	emf <- function(..., width, height) grDevices::win.metafile(..., 
-																width = width, height = height)
-	png <- function(..., width, height) grDevices::png(..., width = width, 
-													   height = height, res = dpi, units = units_target)
-	jpg <- jpeg <- function(..., width, height) grDevices::jpeg(..., 
-																width = width, height = height, res = dpi, units = units_target)
-	bmp <- function(..., width, height) grDevices::bmp(..., width = width, 
-													   height = height, res = dpi, units = units_target)
-	tiff <- function(..., width, height) grDevices::tiff(..., 
-														 width = width, height = height, res = dpi, units = units_target)
-
 	if (units_target=="in") {
 	  width <- convert_to_inches(width, units)
 	  height <- convert_to_inches(height, units)
@@ -191,13 +172,16 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 		width <- convert_to_pixels(width, units)
 		height <- convert_to_pixels(height, units)
 	}
+	old_dev <- grDevices::dev.cur()
+	dev <- plot_device(device = device, ext = ext, filename = filename, 
+					   dpi = dpi, units_target = units_target)
 	
-	do.call(ext, args = c(list(file = filename, width = width, height = height), list(...)))
-#	curdev <- dev.cur()
-	
-	on.exit({
-		capture.output(dev.off())
-	}, add = TRUE)
+	dev(filename = filename, width = width, height = height, ...)
+
+	on.exit(capture.output({
+			dev.off()
+			if (old_dev > 1) grDevices::dev.set(old_dev) # restore old device unless null device
+			}), add = TRUE)
 	
 	if (is.arrange) {
 		opts <- attr(tm, "opts")
@@ -252,6 +236,89 @@ tmap_save <- function(tm=NULL, filename=NA, width=NA, height=NA, units = NA,
 	}
 	options(tmap.mode=tmap.mode)
 	invisible()
+}
+
+plot_device = function(device, ext, filename, dpi, units_target){
+	
+	force(filename)
+	force(dpi)
+	force(units_target)
+	
+	if (is.function(device)) {
+		args <- formals(device)
+		call_args <- list()
+		if ("file" %in% names(args)) {
+			call_args$file <- filename
+		}
+		if ("res" %in% names(args)) {
+			call_args$res <- dpi
+		}
+		if ("units" %in% names(args)) {
+			call_args$units <- units_target
+		}
+		dev <- function(...) do.call(device, modifyList(list(...), call_args))
+		return(dev)
+	}
+	ps = function(..., width, height)
+		grDevices::postscript(
+			...,
+			width = width,
+			height = height,
+			onefile = FALSE,
+			horizontal = FALSE,
+			paper = "special"
+		)
+	devices <- list(
+		ps = ps,	
+		eps = ps,
+		tex = function(..., filename, width, height) 
+			grDevices::pictex(..., file = filename, width = width, height = height),
+		pdf = function(..., filename, version = "1.4")
+			grDevices::pdf(..., file = filename, version = version),
+		svg = function(..., filename)
+			grDevices::svg(..., file = filename),
+		wmf = function(..., width, height)
+			grDevices::win.metafile(..., width = width, height = height),
+		emf = function(..., width, height)
+			grDevices::win.metafile(..., width = width, height = height),
+		png = function(..., width, height)
+				grDevices::png(
+					...,
+					width = width,
+					height = height,
+					res = dpi,
+					units = units_target
+				),
+		jpg = jpeg <- function(..., width, height)
+			grDevices::jpeg(
+				...,
+				width = width,
+				height = height,
+				res = dpi,
+				units = units_target
+			),
+		bmp =
+			function(..., width, height)
+				grDevices::bmp(
+					...,
+					width = width,
+					height = height,
+					res = dpi,
+					units = units_target
+				),
+		tiff = function(..., width, height)
+			grDevices::tiff(
+				...,
+				width = width,
+				height = height,
+				res = dpi,
+				units = units_target
+			)
+	)
+	if (is.null(device)) {
+		dev <- devices[[ext]]
+		return(dev)
+	}
 }
 
 choose_unit = function(x) {
