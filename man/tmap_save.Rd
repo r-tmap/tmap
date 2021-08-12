@@ -7,6 +7,7 @@
 tmap_save(
   tm = NULL,
   filename = NA,
+  device = NULL,
   width = NA,
   height = NA,
   units = NA,
@@ -27,6 +28,8 @@ tmap_save(
 \item{tm}{tmap object}
 
 \item{filename}{filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in \code{"plot"} mode and as an interactive map (html) in \code{"view"} mode (see details). The default format for static plots is png, but this can be changed using the option \code{"output.format"} in \code{\link{tmap_options}}. If \code{NA} (the default), the file is saved as "tmap01" in the default format, and the number incremented if the file already exists.}
+
+\item{device}{graphic device to use. Either a device function (e.g., \code{\link[grDevices:png]{png}} or \code{\link[grDevices:cairo_pdf]{cairo_pdf}}) or a text indicating selected graphic device: "pdf", "eps", "svg", "wmf" (Windows only), "png", "jpg", "bmp", "tiff". If NULL, the graphic device is guessed based on the \code{filename} argument.}
 
 \item{height, width}{The width and height of the plot (not applicable for html files). Units are set with the argument \code{units}. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option \code{"output.size"} in \code{\link{tmap_options}}. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.}
 
