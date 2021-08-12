@@ -174,10 +174,10 @@ tm_raster = function(col = tm_const(),
 		trans.aes = list(),
 		trans.isglobal = FALSE,
 		mapping.aes = list(col = tmapScale(aes = "col",
-						   				value = col,
-						   				scale = col.scale,
-						   				legend = col.legend,
-						   				free = col.free)),
+										   value = col,
+										   scale = col.scale,
+										   legend = col.legend,
+										   free = col.free)),
 		
 		gpar = tmapGpar(fill = "__col",
 						col = NA,
@@ -190,39 +190,11 @@ tm_raster = function(col = tm_const(),
 						lwd = NA,
 						linejoin = NA,
 						lineend = NA),
-		mapping.fun = "Polygons",
-		subclass = c("tm_aes_layer", "tm_layer")))
-}
-
-
-
-tm_raster = function(col = "blue", 
-					 col.scale = tm_aes_color(),
-					 col.legend = tm_legend_portrait(),
-					 col.free = NA) {
-	
-	tm_element_list(tm_element(
-		trans.fun = tmapTransRaster,
-		trans.aes = list(),
-		trans.isglobal = FALSE,
-		mapping.aes = list(color = tmapAes(value = col,
-										   scale = col.scale,
-										   legend = col.legend,
-										   free = col.free)),
-		gpar = tmapGpar(fill = "__col",
-						col = "__col",
-						shape = FALSE,
-						size = NA,
-						fill_alpha = 1,
-						col_alpha = 1,
-						pattern = "fill",
-						lty = "blank",
-						lwd = 0,
-						linejoin = "round",
-						lineend = "round"),
 		mapping.fun = "Raster",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
+
+
 
 tm_rgb = function(color = MV(1:3),
 				  color.scale = tm_aes_color_rgb(),

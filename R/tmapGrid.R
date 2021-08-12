@@ -302,7 +302,9 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 
 leg_standard_p_lines = function(leg) {
 	if (is.na(leg$gp$shape[1])) {
-		rep(1 + leg$gp$lwd / 5, length.out = leg$nitems)
+		lwd = leg$gp$lwd
+		if (is.na(lwd)) lwd = 1
+		rep(1 + lwd / 5, length.out = leg$nitems)
 		#rep(1, length.out = leg$nitems)
 	} else {
 		rep(pmax(1, leg$gp$size + 0.3), length.out = leg$nitems)
@@ -550,10 +552,10 @@ gp_to_gpar = function(gp) {
 	grid::gpar(fill = gp$fill,
 			   col = gp$col,
 			   alpha = if (!is.na(gp$fill_alpha)) gp$fill_alpha else 1,
-			   lty = gp$lty,
-			   lwd = gp$lwd,
-			   lineend = gp$lineend,
-			   linejoin = gp$linejoin)
+			   lty = if (!is.na(gp$lty)) gp$lty else "solid",
+			   lwd = if (!is.na(gp$lwd)) gp$lwd else 0,
+			   lineend = if (!is.na(gp$lineend)) gp$lineend else "round",
+			   linejoin = if (!is.na(gp$linejoin)) gp$linejoin else "round")
 }
 
 
@@ -829,7 +831,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page)
 }
 
 
-tmapGridRaster <- function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
+tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page) {
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
 	
@@ -849,14 +851,21 @@ tmapGridRaster <- function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
 	
 	if (is_regular_grid(shp)) {
 		
-		tid = intersect(tmapID, dt$tmapID__)
+		if (nrow(dt) == length(tmapID)) {
+			# shortcut for else case
+			color = dt$col
+		} else {
+			# to be improved
+			tid = intersect(tmapID, dt$tmapID__)
+			
+			color = rep(NA, length(tmapID)) #"#FFFFFF"
+			
+			sel = which(tmapID %in% tid)
+			tid2 = tmapID[sel]
+			
+			color[sel] = dt$col[match(tid2, dt$tmapID__)]
+		}
 		
-		color = rep(NA, length(tmapID)) #"#FFFFFF"
-		
-		sel = which(tmapID %in% tid)
-		tid2 = tmapID[sel]
-		
-		color[sel] = dt$color[match(tid2, dt$tmapID__)]
 		
 		if (all(abs(bb_real-bb_target)< 1e-3)) {
 			width <- 1

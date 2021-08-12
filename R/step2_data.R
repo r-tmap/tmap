@@ -403,7 +403,7 @@ step2_data = function(tm) {
 						} else if (islistof(aes$legend, "tm_legend")) {
 							l = aes$legend[[1]]
 						} else {
-							stop("incorrect scale specification")
+							stop("incorrect legend specification")
 						}
 						
 						

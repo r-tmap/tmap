@@ -61,7 +61,7 @@ process_meta = function(o) {
 		#one.row = (!is.na(o$nrows) && o$nrows == 1)
 		#one.col = (!is.na(o$ncols) && o$ncols == 1)
 		
-		if (meta.automatic) meta.margins = c(0, 0, 0, 0)
+		if (meta.automatic) meta.margins = c(0, 0, 0, 0) else meta.margins = rep(meta.margins, length.out = 4)
 
 		meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
 		
@@ -161,7 +161,8 @@ process_meta = function(o) {
 		
 		margins.used =  margins.used.all | margins.used.sides | legend.present.fix
 		
-		if (any(margins.used)) {
+		if (meta.automatic && any(margins.used)) {
+			meta.auto.margins = rep(meta.auto.margins, length.out = 4)
 			if (all(!margins.used[c(1,3)]) && n == 1) {
 				# auto adjust left/right
 				meta.margins[margins.used] =  pmax(meta.auto.margins[margins.used], (1 - pasp/masp - 2*bufferW) / sum(margins.used)) 

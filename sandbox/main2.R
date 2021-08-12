@@ -224,6 +224,7 @@ tm_shape(World) +
 (tm  = tm_shape(World) +
 	tm_polygons(c("economy", "ffggfds")))
 
+
 # tm_scale_discrete
 # tm_scale_continuous
 
@@ -231,5 +232,34 @@ tm_shape(World) +
 # symbols, lines, raster
 
 
+tm_shape(land) +
+	tm_raster("cover", col.legend = tm_legend(position = tm_lp_out("right", "center"))) +
+	tm_options(meta.margins = c(0,0,0,0.1))
 
+tm_shape(land) +
+	tm_raster("cover")
+
+
+# timings
+
+system.time({
+	tm  = tm_shape(World) +
+	 	tm_polygons(c("economy", "income_grp"))
+	print(tm)
+})
+
+
+system.time({
+	(tm_shape(land) +
+	 	tm_raster("cover")) |> print()
+})
+
+
+
+library(profvis)
+
+profvis({
+	(tm_shape(land) +
+	 	tm_raster("cover")) |> print()
+})
 
