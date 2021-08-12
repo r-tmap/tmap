@@ -301,7 +301,7 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 }
 
 leg_standard_p_lines = function(leg) {
-	if (identical(leg$gp$shape[1], FALSE)) {
+	if (is.na(leg$gp$shape[1])) {
 		rep(1 + leg$gp$lwd / 5, length.out = leg$nitems)
 		#rep(1, length.out = leg$nitems)
 	} else {
@@ -391,9 +391,9 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			gp = leg$gp
 			
-			legtype = if (nchar(gp$fill[1]) > 50) {
+			legtype = if (!is.na(gp$fill[1]) && nchar(gp$fill[1]) > 50) {
 				"color_cont"
-			} else if (identical(gp$shape, FALSE)) {
+			} else if (is.na(gp$shape)) {
 				"color_cls"
 			} else {
 				"symbols"
@@ -414,7 +414,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			} else if (legtype == "color_cls") {
 				gps = split_gp(gp, n = nlev)
 				
-				diffAlpha = !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
+				diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 				
 				
 				if (diffAlpha) {
@@ -549,7 +549,7 @@ split_gp = function(gp, n) {
 gp_to_gpar = function(gp) {
 	grid::gpar(fill = gp$fill,
 			   col = gp$col,
-			   alpha = gp$fill_alpha,
+			   alpha = if (!is.na(gp$fill_alpha)) gp$fill_alpha else 1,
 			   lty = gp$lty,
 			   lwd = gp$lwd,
 			   lineend = gp$lineend,
@@ -743,7 +743,7 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	gp[gpids] = as.list(dt[, dtn, with = FALSE])
 	
 	
-	diffAlpha = !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
+	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 	
 	
 	if (diffAlpha) {

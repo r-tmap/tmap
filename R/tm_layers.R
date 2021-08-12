@@ -65,7 +65,7 @@ tm_polygons = function(fill = tm_const(),
 		
 		gpar = tmapGpar(fill = "__fill",
 						col = "__col",
-						shape = FALSE,
+						shape = NA,
 						size = NA,
 						fill_alpha = "__fill_alpha",
 						col_alpha = "__col_alpha",
@@ -78,20 +78,66 @@ tm_polygons = function(fill = tm_const(),
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
-tm_borders = function(col = "gray30",
-					  col.scale = tm_aes_color(),
+
+
+tm_borders = function(col = tm_const(),
+					  col.scale = tm_scale_auto(),
 					  col.legend = tm_legend_portrait(),
-					  col.free = NA) {
+					  col.free = NA,
+					  lwd = tm_const(),
+					  lwd.scale = tm_scale_auto(),
+					  lwd.legend = tm_legend_portrait(),
+					  lwd.free = NA,
+					  lty = tm_const(),
+					  lty.scale = tm_scale_auto(),
+					  lty.legend = tm_legend_portrait(),
+					  lty.free = NA,
+					  col_alpha = tm_const(),
+					  col_alpha.scale = tm_scale_auto(),
+					  col_alpha.legend = tm_legend_portrait(),
+					  col_alpha.free = NA,
+					  linejoin = "round",
+					  lineend = "round",
+					  zindex = NA,
+					  group = NA) {
 	
 	tm_element_list(tm_element(
+		layer = "polygons",
 		trans.fun = tmapTransPolygons,
 		trans.aes = list(),
 		trans.isglobal = FALSE,
-		mapping.aes = list(fill = NULL,
-						   color = tmapAes(value = col,
+		mapping.aes = list(col = tmapScale(aes = "col",
+						   				value = col,
 						   				scale = col.scale,
 						   				legend = col.legend,
-						   				free = col.free)),
+						   				free = col.free),
+						   lwd = tmapScale(aes = "lwd",
+						   				value = lwd,
+						   				scale = lwd.scale,
+						   				legend = lwd.legend,
+						   				free = lwd.free),
+						   lty = tmapScale(aes = "lty",
+						   				value = lty,
+						   				scale = lty.scale,
+						   				legend = lty.legend,
+						   				free = lty.free),
+						   col_alpha = tmapScale(aes = "col_alpha",
+						   					  value = col_alpha,
+						   					  scale = col_alpha.scale,
+						   					  legend = col_alpha.legend,
+						   					  free = col_alpha.free)),
+		
+		gpar = tmapGpar(fill = NA,
+						col = "__col",
+						shape = NA,
+						size = NA,
+						fill_alpha = NA,
+						col_alpha = "__col_alpha",
+						pattern = NA,
+						lty = "__lty",
+						lwd = "__lwd",
+						linejoin = linejoin,
+						lineend = lineend),
 		mapping.fun = "Polygons",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
@@ -113,6 +159,42 @@ tm_cartogram = function(...,
 	})
 	tmp
 }
+
+
+tm_raster = function(col = tm_const(),
+					 col.scale = tm_scale_auto(),
+					 col.legend = tm_legend_portrait(),
+					 col.free = NA,
+					 zindex = NA,
+					 group = NA) {
+	
+	tm_element_list(tm_element(
+		layer = "raster",
+		trans.fun = tmapTransRaster,
+		trans.aes = list(),
+		trans.isglobal = FALSE,
+		mapping.aes = list(col = tmapScale(aes = "col",
+						   				value = col,
+						   				scale = col.scale,
+						   				legend = col.legend,
+						   				free = col.free)),
+		
+		gpar = tmapGpar(fill = "__col",
+						col = NA,
+						shape = NA,
+						size = NA,
+						fill_alpha = NA,
+						col_alpha = NA,
+						pattern = "fill",
+						lty = NA,
+						lwd = NA,
+						linejoin = NA,
+						lineend = NA),
+		mapping.fun = "Polygons",
+		subclass = c("tm_aes_layer", "tm_layer")))
+}
+
+
 
 tm_raster = function(col = "blue", 
 					 col.scale = tm_aes_color(),

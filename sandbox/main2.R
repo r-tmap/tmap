@@ -213,6 +213,11 @@ tmap_design_mode()
 					fill.legend = tm_legend(position = tm_lp_inset("left", "top"))) +
 		tm_facets(by = "pop_class", ncol = 2))
 
+
+tm_shape(World) +
+	tm_borders()
+
+
 # to do's
 
 # improve error message
