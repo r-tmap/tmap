@@ -318,8 +318,14 @@ plot_device = function(device, ext, filename, dpi, units_target){
 				units = units_target
 			)
 	)
+	if (!device %in% names(devices)) {
+		stop('"', device, '"', " graphic device does not exist", call. = FALSE)
+	}
 	if (is.null(device)) {
 		dev <- devices[[ext]]
+		if (is.null(dev)) {
+			stop("'", dev, "'", " graphic device does not exist", call. = FALSE)
+		}
 		return(dev)
 	}
 }
