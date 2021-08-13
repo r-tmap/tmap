@@ -416,7 +416,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			} else if (legtype == "color_cls") {
 				gps = split_gp(gp, n = nlev)
 				
-				diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
+				diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 				
 				
 				if (diffAlpha) {
@@ -551,11 +551,11 @@ split_gp = function(gp, n) {
 gp_to_gpar = function(gp) {
 	grid::gpar(fill = gp$fill,
 			   col = gp$col,
-			   alpha = if (!is.na(gp$fill_alpha)) gp$fill_alpha else 1,
-			   lty = if (!is.na(gp$lty)) gp$lty else "solid",
-			   lwd = if (!is.na(gp$lwd)) gp$lwd else 0,
-			   lineend = if (!is.na(gp$lineend)) gp$lineend else "round",
-			   linejoin = if (!is.na(gp$linejoin)) gp$linejoin else "round")
+			   alpha = if (!is.na(gp$fill_alpha[1])) gp$fill_alpha else 1,
+			   lty = if (!is.na(gp$lty[1])) gp$lty else "solid",
+			   lwd = if (!is.na(gp$lwd[1])) gp$lwd else 0,
+			   lineend = if (!is.na(gp$lineend[1])) gp$lineend else "round",
+			   linejoin = if (!is.na(gp$linejoin[1])) gp$linejoin else "round")
 }
 
 

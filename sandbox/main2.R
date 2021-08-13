@@ -263,3 +263,14 @@ profvis({
 	 	tm_raster("cover")) |> print()
 })
 
+
+# tmapGrid 417
+# n levels 6 or 8?
+tm_shape(World) + tm_polygons("HPI")
+
+tm_shape(metro) +
+	tm_symbols(fill = "pop2020", col = "red")
+
+
+tm_shape(metro) +
+	tm_symbols(fill = "pop2020", lty = "pop2020", lty.scale = tm_scale_intervals(), fill.scale = tm_scale_intervals(value.neutral = "blue"))

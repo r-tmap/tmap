@@ -1,21 +1,3 @@
-data_class = function(x) {
-	if (all(is.na(x))) {
-		"na"
-	} else if (is.numeric(x)) {
-		subclass1 = if (is.integer(x)) "int" else "real"
-		subclass2 = if (any(x < 0 & !is.na(x)) && any(x > 0 & !is.na(x))) {
-			"div"
-		} else {
-			"seq"
-		}
-		c("num", subclass1, subclass2)
-	} else {
-		subclass = if (is.ordered(x)) "ord" else "unord"
-		c("fact", subclass)
-	}
-}
-
-
 tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
@@ -30,7 +12,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 	}
 	if (is.na(scale$value.na)) scale$value.na = getAesOption("value.na", opt, aes, layer, cls = cls)
 	if (is.na(scale$value.null)) scale$value.null = getAesOption("value.null", opt, aes, layer, cls = cls)
-
+	
 	
 	nms = names(scale$values) #color_names
 	
@@ -46,7 +28,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 	if (!is.null(scale$levels)) {
 		x1 = factor(x1, levels = scale$levels)
 	}
-
+	
 	# drop levels
 	if (scale$levels.drop) {
 		y = droplevels(x1)
@@ -61,7 +43,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 		x1 = y
 	}
 	
-
+	
 	
 	
 	# combine levels
@@ -129,7 +111,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 	if (any(isNA)) {
 		v1[isNA] = scale$value.na
 	}
-
+	
 	if (legend$reverse) {
 		labs = rev(labs)
 		values = rev(values)
@@ -147,8 +129,8 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 		neutralID = 1 # if (palette.type=="div") round(((length(colsLeg$legend.palette)-1)/2)+1) else 1
 		scale$value.neutral = values[1]
 	}
-
-
+	
+	
 	legend = list(title = legend$title, 
 				  nitems = length(labs),
 				  labels = labs, 
@@ -161,9 +143,3 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 	format_aes_results(v1, legend)
 	
 }
-
-# map2interval
-# 
-# map2discrete
-# 
-# map2continuous
