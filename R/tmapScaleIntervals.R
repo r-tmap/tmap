@@ -1,4 +1,9 @@
-tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer) {
+# tmapCheckValues_fill = function(x) {
+# 	
+# }
+
+
+tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	cls = data_class(x1)
 	
 	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_class_int cannot be applied", call. = FALSE)
@@ -128,11 +133,13 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer) {
 			snap = TRUE
 		}
 	} else if (arenumbers) {
+		break_mids = breaks[-(n+1)] + (breaks[-1] - breaks[-(n+1)]) / 2
 		if (pal.div) {
 			colpal =  seq(values[1], values[2], length.out = 1001)[map2divscaleID(breaks - midpoint, n=1001, contrast=scale$values.contrast)]
 			snap = TRUE
 		} else {
-			colpal =  seq(values[1], values[2], length.out = n) #seq(palette[1], palette[2], length.out = 1001)[map2seqscaleID(breaks, n=1001, contrast=contrast, breaks.specified=breaks.specified, show.warnings = show.warnings)]
+			#colpal =  seq(values[1], values[2], length.out = n) #seq(palette[1], palette[2], length.out = 1001)[map2seqscaleID(breaks, n=1001, contrast=contrast, breaks.specified=breaks.specified, show.warnings = show.warnings)]
+			colpal = seq(values[1], values[2], length.out = 1001)[map2seqscaleID(breaks, n = 1001, contrast = scale$values.contrast)]
 			snap = TRUE
 		}
 	} else {
@@ -163,7 +170,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer) {
 		if (is.na(value.neutral)) value.neutral = colpal[round((n+1)/2)]
 	}
 	
-	showNA = (label.na != "")
+	showNA = (label.na != "") && (!is.na(value.na))
 	
 	
 	ids <- classInt::findCols(q)

@@ -30,7 +30,7 @@ tm_scale_ordinal = function(n.max = 20,
 tm_scale_categorical = function(n.max = 20,
 								values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 								values.repeat = TRUE,
-								values.contrast  = 1,
+								values.contrast  = NA,
 								value.na = NA, # value for NA
 								value.null = NA, # value for NULL (needed?)
 								value.neutral = NA, # value for neutral (used in other legends)
@@ -45,7 +45,7 @@ tm_scale_categorical = function(n.max = 20,
 tm_scale_intervals = function(n = 5, 
 							  values = NA,
 							  values.repeat = TRUE,
-							  values.contrast  = 1,
+							  values.contrast  = NA,
 							  value.na = NA,
 							  value.null = NA,
 							  value.neutral = NA,

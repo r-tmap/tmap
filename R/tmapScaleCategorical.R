@@ -1,4 +1,4 @@
-tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
+tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, gp) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	show.warnings = opt$show.warnings
@@ -12,6 +12,8 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 	}
 	if (is.na(scale$value.na)) scale$value.na = getAesOption("value.na", opt, aes, layer, cls = cls)
 	if (is.na(scale$value.null)) scale$value.null = getAesOption("value.null", opt, aes, layer, cls = cls)
+	
+	values.contrast = if (is.na(scale$values.contrast)) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
 	
 	
 	nms = names(scale$values) #color_names
@@ -77,7 +79,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer) {
 	
 	if (arecolors) {
 		values = if (!is.na(palid)) {
-			tmap_get_palette(scale$values, nCol, rep = scale$values.repeat)
+			tmap_get_palette(scale$values, nCol, rep = scale$values.repeat, contrast = values.contrast)
 		} else if (!scale$values.repeat && (length(scale$values) < nCol)) {
 			grDevices::colorRampPalette(scale$values)(nCol)	
 		} else {

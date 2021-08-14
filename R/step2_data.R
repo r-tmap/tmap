@@ -372,7 +372,7 @@ step2_data = function(tm) {
 							s$FUN = NULL
 							#if (is.na(s$legend$title)) s$legend$title = v
 							if (is.na(l$title)) l$title = v
-							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer))), grp_b_fr, .SDcols = v]
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, gp = names(gp)[match(paste0("__", aes$aes), gp)]))), grp_b_fr, .SDcols = v]
 							NULL
 						}, scale, legend, val, varnames, legnames)
 						
@@ -418,7 +418,7 @@ step2_data = function(tm) {
 						f = s$FUN
 						s$FUN = NULL
 						if (is.na(l$title)) l$title = val
-						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer))), grp_b_fr, .SDcols = val]
+						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, gp = names(gp)[match(paste0("__", aes$aes), gp)]))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]
@@ -427,6 +427,10 @@ step2_data = function(tm) {
 				list(dt = dtl[, c("tmapID__", grp_bv, nm), with = FALSE],
 					 leg = dtl_leg)
 			}
+			
+			gp = tml$gpar
+			
+			
 			
 			#cat("step2_grp_lyr_trans_______________\n")
 			
