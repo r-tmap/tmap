@@ -99,6 +99,7 @@
 							 lwd = 2,
 							 fill_alpha = 1,
 							 col_alpha = 1),
+		label.na = "Missing",
 		attr.color = "black",
 		sepia.intensity = 0,
 		saturation = 1,
@@ -305,8 +306,10 @@ getAesOption = function(x, opt, aes, layer, cls = NULL) {
 		z = y[[al]]
 	} else if (aes %in% names(y)) {
 		z = y[[aes]]
-	} else {
+	} else if (is.list(y)) {
 		return(NA)
+	} else {
+		return(y)
 	}
 	
 	if (!is.null(cls) && is.list(z)) {

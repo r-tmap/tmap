@@ -13,7 +13,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, gp) {
 	if (is.na(scale$value.na)) scale$value.na = getAesOption("value.na", opt, aes, layer, cls = cls)
 	if (is.na(scale$value.null)) scale$value.null = getAesOption("value.null", opt, aes, layer, cls = cls)
 	
-	values.contrast = if (is.na(scale$values.contrast)) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
+	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
 	
 	
 	nms = names(scale$values) #color_names

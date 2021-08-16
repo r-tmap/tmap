@@ -56,8 +56,8 @@ tm_scale_intervals = function(n = 5,
 							  interval.closure = "left",
 							  midpoint = NULL,
 							  labels = NULL,
-							  label.na = "Missing",
-							  label.null = "Undefined") {
+							  label.na = NA,
+							  label.null = NA) {
 	structure(c(list(FUN = "tmapScaleIntervals"), as.list(environment())), class = c("tm_scale_intervals", "tm_scale"))
 }
 
