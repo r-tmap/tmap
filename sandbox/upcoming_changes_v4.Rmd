@@ -21,16 +21,16 @@ knitr::opts_chunk$set(echo = TRUE)
 
 The upcoming tmap version 4.0 has been build almost from scratch. Why?
 
-* _Extendibility_: we got a lot of questions via Stack Overflow and GitHub such as: "Is it possible to map a data variable to line type?" and "Is it possible to create a bivariate choropleth?". Many of those feature request where hard to implement because the layer functions and its arguments were hard-coded into the core of tmap. As of v4, the layer function definitions as not part of the core of tmap anymore, which makes improving layer functions and creating new ones easy.
+* _Extendibility_: we got a lot of questions via StackOverflow and GitHub such as: "Is it possible to map a data variable to line type?" and "Is it possible to create a bivariate choropleth?". Many of those feature request where hard to implement because the layer functions and its arguments were partly hard-coded in tmap. As of v4, the layer function definitions as not part of the core of tmap anymore, which makes it easy to improve and add layer functions. The main layer functions such as `tm_polygons` and `tm_symbols` will still be part of the `tmap` package, but potential new layer functions, such as `tm_cartogram`, `tm_doughnuts`, and `tm_flows`, will probably be part of add-on packages.
 
-* _Organization and consistency of layer arguments_ Each layer function can have one or more aesthetics. For instance, `col` for `tm_raster` and `col`, `size` and `shape` for `tm_symbols`. As a result, the number of arguments is huge, especially for `tm_symbols` were is became hard to see the trees through the forest. That also means that we were reluctant to add any more arguments. But as of v4, this will be much better. As I will explain below, each aesthetic will only have 4 arguments:
+* _Too many arguments_: Some layer functions, especially `tm_symbols`, have so many arguments that it is hard to see the trees through the forest. As of v4, the layer function arguments will be neatly organized. Each aesthetic will only have 4 arguments:
 
-1. a 'main' argument (e.g. `"col"`) that determines which value or data variable to use, 
-2. a 'scale' argument (e.g. `"col.scale"`) which determines _how_ the data variables are mapped to (in this case) a color palette,
-3. a 'legend' arugment (e.g. `"col.legend"`) which determines what type of legend will be shown and where, and 
-4. a 'free' arugment (e.g. `"col.free"`) which determines whether scalel are shared across facets.
+    1. a 'main' argument (e.g. `"col"`) that determines which value or data variable to use. This is similar to the current tmap version.
+    2. a 'scale' argument (e.g. `"col.scale"`) which determines _how_ the data variables are mapped to (in this case) a color palette. For each type of scale there will be a function (`tm_scale_categorical`, `tm_scale_oridnal` `tm_scale_discrete`, `tm_scale_intervals`, and `tm_scale_continuous` will be the main ones) that contains the arguments that setup the scale.
+    3. a 'legend' arugment (e.g. `"col.legend"`) which determines what type of legend will be shown and where. The position of the legends has been changed as well and is much more flexible, especially regarding outside positioning.
+    4. a 'free' arugment (e.g. `"col.free"`) which determines whether scale are shared across facets. It will also be possible to set this per facet dimension (row, column, and page).
 
-* _Even more options_ Duo to the improved organization of the layer arguments, tmap will become even more flexible.
+
 
 
 
