@@ -88,7 +88,7 @@
 						  
 		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
-						  size = c(0, 1),
+						  size = tmap_seq(0, 1, curve = "sqrt"),
 						  lwd = c(0, 3),
 						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),
 						  fill_alpha = c(0.25, 1),

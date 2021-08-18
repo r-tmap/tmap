@@ -9,7 +9,7 @@ tmapValuesCheck_col = function(x) {
 
 
 tmapValuesCheck_size = function(x) {
-	is.numeric(x) && (all(x>=0) || all(x<=0))
+	inherits(x, "tmapSeq") || (is.numeric(x) && (all(x>=0) || all(x<=0)))
 }
 
 tmapValuesCheck_lwd = function(x) {
@@ -33,7 +33,7 @@ tmapValuesIsDiv_col = function(x) {
 }
 
 tmapValuesIsDiv_size = function(x) {
-	any(x < 0) && any(x> 0)
+	inherits(x, "tmapSeq") && (x$from < 0) && (x$to > 1) || (is.numeric(x) && (any(x < 0) && any(x> 0)))
 }
 
 tmapValuesIsDiv_lwd = function(x) {
@@ -90,19 +90,42 @@ tmapValuesVV_col = function(...) {
 
 
 tmapValuesVV_size = function(x, isdiv, n, breaks, midpoint, contrast) {
-	break_mids = breaks[-(n+1)] + (breaks[-1] - breaks[-(n+1)]) / 2
+	#break_mids = breaks[-(n+1)] + (breaks[-1] - breaks[-(n+1)]) / 2
 	
 	
 	#vvalues = seq(x[1], x[2])
-	
-	if (isdiv) {
-		colpal =  seq(x[1], x[2], length.out = 1001)[map2divscaleID(breaks - midpoint, n=1001, contrast=contrast)]
+	vvalues = if (is.numeric(x) && length(x) == n) {
+		x
 	} else {
-		#colpal =  seq(values[1], values[2], length.out = n) #seq(palette[1], palette[2], length.out = 1001)[map2seqscaleID(breaks, n=1001, contrast=contrast, breaks.specified=breaks.specified, show.warnings = show.warnings)]
-		colpal = seq(x[1], x[2], length.out = 1001)[map2seqscaleID(breaks, n = 1001, contrast = contrast)]
+		if (is.numeric(x)) {
+			x = tmap_seq(x[1], x[length(x)], curve = "lin")
+		}
+
+		if (contrast[1] !=0 || contrast[2] != 1) {
+			contrast_curved = tmapSeq(tmap_seq(from = contrast[1], to = contrast[2], curve = x$curve), n = 2, rescale = FALSE)
+			x$from = x$from + contrast_curved[1] * (x$to - x$from)
+			x$to = x$from + contrast_curved[2] * (x$to - x$from)
+		}
+		tmapSeq(x, n)
+		
 	}
-	vvalues = colpal
-	value.neutral = colpal[round((n+1)/2)]
+	
+	# (inherits(x, "tmapSeq")) {
+	# 	tmapSeq(x, n)
+	# } else if (length(x) == n) {
+	# 	x 
+	# } else {
+	# 	seq(x[1], x[n], length.out = n)
+	# }
+	# 
+	# if (isdiv) {
+	# 	colpal =  seq(x[1], x[2], length.out = 1001)[map2divscaleID(breaks - midpoint, n=1001, contrast=contrast)]
+	# } else {
+	# 	#colpal =  seq(values[1], values[2], length.out = n) #seq(palette[1], palette[2], length.out = 1001)[map2seqscaleID(breaks, n=1001, contrast=contrast, breaks.specified=breaks.specified, show.warnings = show.warnings)]
+	# 	colpal = seq(x[1], x[2], length.out = 1001)[map2seqscaleID(breaks, n = 1001, contrast = contrast)]
+	# }
+	# vvalues = colpal
+	value.neutral = vvalues[round((n+1)/2)]
 	
 	
 	list(vvalues = vvalues, value.neutral = value.neutral)
@@ -121,6 +144,22 @@ tmapValuesVV_shape = function(x, isdiv, n, breaks, contrast) {
 }
 
 
+tmap_seq = function(from = 0, to = 1, curve = c("lin", "sqrt", "sqrt_perceptual", "quadratic")) {
+	curve = match.arg(curve)
+	structure(as.list(environment()), class = "tmapSeq")
+}
+
+tmapSeq = function(s, n, rescale = TRUE) {
+	with(s, {
+		power = switch(curve, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, squadratic = 2)
+		r = seq(from = from, to = to, length.out = n) ^ power
+		if (rescale) {
+			(r - (r[1])) / (r[n] - r[1]) * (to - from) + from	
+		} else {
+			r
+		}
+	})
+}
 
 
 
@@ -136,6 +175,10 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, aes, layer, cls = cls) else scale$value.na
 	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, aes, layer, cls = cls) else scale$value.null
 	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, aes, layer, cls = cls) else scale$value.neutral
+	
+	# if (inherits(values, "tmapSeq")) {
+	# 	values = tmapSeq(values, n = scale$n)
+	# }
 	
 	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
 	
@@ -205,6 +248,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	if (is.na(values.contrast[1])) {
 		values.contrast = c(.5/n, 1 - .5/n)
 	}
+	if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
 	
 	
 	# reverse palette

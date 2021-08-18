@@ -278,3 +278,9 @@ tm_shape(metro) +
 
 tm_shape(metro) +
 	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(values.contrast = c(0.3,0.9)))
+
+
+tm_shape(metro) +
+	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(values.contrast = c(0.3,0.4,0.8,0.9)))
+
+
