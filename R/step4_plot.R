@@ -255,10 +255,6 @@ step4_plot = function(tm) {
 	legs = data.table::rbindlist(c(list(dt_template), lapply(tmx, function(tmxi) {
 		data.table::rbindlist(lapply(tmxi$layers, function(tml) {
 			
-			#tmxi = tmx[[1]]
-			#tml = tmxi$layers[[1]]
-			
-			#gp = tml$gpar
 			legs = c(tml$trans_legend, tml$mapping_legend)
 			
 			legs2 = lapply(legs, function(legs_aes) {
@@ -266,20 +262,59 @@ step4_plot = function(tm) {
 				legs_aes
 			})
 			
+			# find shared legends
+			
+			clones = vapply(legs2, function(l) {
+				a = l$legend[[1]]$setup$aes
+				if (!is.null(a)) a else ""
+			}, FUN.VALUE = character(1))
+
+
+			legs2b = mapply(function(l, lnm) {
+				w = which(clones == lnm)
+				if (length(w) > 0L) {
+					legsclone = lapply(legs2[w], function(li) {
+						li$legend
+					})
+					num_legends = vapply(legsclone, length, numeric(1))
+					if (any(num_legends != length(l$legend))) warning("legends could not be shared; the aesthetics need the same .free specification", call. = FALSE)
+					
+					
+					l$legend = do.call(mapply, args = c(list(FUN = function(l, ...) {
+						clns = list(...)
+						k = length(l$vvalues)
+						l$clones = lapply(clns, function(cl) {
+							vv = cl$vvalues
+							if (k != length(vv)) stop("legends could not be shared; the number of legend items is different", call. = FALSE)
+							vv
+						})
+						names(l$clones) = names(clones[w])
+						l
+					}, SIMPLIFY = FALSE), c(list(l$legend), legsclone)))
+				}
+				l
+			}, legs2, names(legs2), SIMPLIFY = FALSE)
+			
+			
 			copy_neutral = (length(legs) > 1)
 			
 			legs3 = mapply(function(legs_aes, legnm, i) {
-				#legs_aes = legs2[[2]]
 				bvars = names(legs_aes)[substr(names(legs_aes), 1, 2) == "by"]
-				
+
 				if (!is.null(legs_aes)) {
 					for (k in 1:nrow(legs_aes)) {
+						if (length(legs_aes$legend[[k]]) == 1 || !legs_aes$legend[[k]]$setup$show) {
+							legs_aes$legend[[k]] = list(NULL)
+							next
+						}
+						
 						bval = legs_aes[k, bvars, with = FALSE]
 						gp = tml$gpar
 						
 						gpaid = match(paste0("__", legnm), unlist(gp))
 						gp[[gpaid]] = legs_aes$legend[[k]]$vvalues
 						
+						# will gp with neutral values for other graphical variables
 						if (copy_neutral) {
 							nvalues = mapply(function(lclone, lname) {
 								bvars2 = names(lclone)[substr(names(lclone), 1, 2) == "by"]
@@ -298,6 +333,15 @@ step4_plot = function(tm) {
 						
 						leleg = legs_aes$legend[[k]]
 						
+						# get gp values from shared legends (slave)
+						if ("clones" %in% names(leleg)) {
+							clist = leleg$clones
+							for (j in 1L:length(clist)) {
+								cnm = names(clist)[j]
+								gp[[cnm]] = clist[[j]]
+							}
+						}
+
 						leleg$gp = gp
 						leleg$vneutral = NULL
 						leleg$vvalues = NULL
@@ -310,7 +354,7 @@ step4_plot = function(tm) {
 					}
 				}
 				legs_aes
-			}, legs2, names(legs2), 1:length(legs2), SIMPLIFY = FALSE)
+			}, legs2b, names(legs2b), 1:length(legs2b), SIMPLIFY = FALSE)
 
 			data.table::rbindlist(legs3, fill = TRUE)
 		}), fill = TRUE)
@@ -318,7 +362,6 @@ step4_plot = function(tm) {
 	
 	# remove empty legends
 	legs = legs[vapply(legs$legend, length, FUN.VALUE = integer(1)) > 1, ][, vneutral := NULL]
-	
 	
 	legs$class = lapply(legs$legend, function(l) l$setup$position$type)
 	

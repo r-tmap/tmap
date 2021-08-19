@@ -277,10 +277,41 @@ tm_shape(metro) +
 
 
 tm_shape(metro) +
+	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals())
+
+
+
+tm_shape(metro) +
 	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(values.contrast = c(0.3,0.9)))
 
 
 tm_shape(metro) +
-	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(values.contrast = c(0.3,0.4,0.8,0.9)))
+	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(values = c(0.3,0.4,0.8,0.9)))
+
+
+# to do: per layer, identify slaves, copy x.free value, and after applying getdts for mapping and trans, merge legends
+#getdts
+
+tm_shape(metro) +
+	tm_symbols(fill = "pop2020", size = "pop2020", size.scale = tm_scale_intervals(), size.legend = tm_legend_share("fill"))
+
+
+tm_shape(metro) +
+	tm_symbols(fill = "pop2020", size = "pop2020", size.scale = tm_scale_intervals(), size.legend = tm_legend_share("fill"), fill.free = TRUE, size.free = TRUE) +
+	tm_facets_wrap(by = "alpha_class")
+
+tm_shape(metro) +
+	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(), fill.free = F, size.free = T) +
+	tm_facets_wrap(by = "alpha_class")
+
+
+tm_shape(metro) +
+	tm_symbols(size = "pop2010", size.free = T, size.scale = tm_scale_intervals()) +
+	tm_facets_wrap(by = "alpha_class")
+
+
+tm_shape(metro) +
+	tm_symbols(fill = "pop2010", fill.free = T, fill.scale = tm_scale_intervals()) +
+	tm_facets_wrap(by = "alpha_class")
 
 

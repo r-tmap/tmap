@@ -286,6 +286,7 @@ step2_data = function(tm) {
 						if (length(v)) fr[v] = TRUE
 					}
 					
+
 					# group by variables with free scales
 					grp_b_fr = by123__[intersect(which(fr), b)]
 					grp_bv_fr = by123__[sort(c({if (nvars > 1) v else integer(0)}, intersect(which(fr), b)))]

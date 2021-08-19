@@ -26,6 +26,10 @@ tm_legend_hide = function() {
 	tm_legend(show = FALSE)
 }
 
+tm_legend_share = function(aes) {
+	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = "tm_legend")
+}
+
 tm_legend_portrait = function(...) {
 	tm_legend(...)
 }
@@ -50,3 +54,4 @@ tm_lp_out = function(h = NA, v = NA) {
 tm_lp_auto = function(h = NA, v = NA) {
 	structure(list(h = h, v = v, type = "auto"), class = "tm_lp")
 }
+

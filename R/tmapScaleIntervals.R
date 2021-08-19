@@ -95,6 +95,9 @@ tmapValuesVV_size = function(x, isdiv, n, breaks, midpoint, contrast) {
 	
 	#vvalues = seq(x[1], x[2])
 	vvalues = if (is.numeric(x) && length(x) == n) {
+		if (contrast[1] !=0 || contrast[2] != 1) {
+			warning("values.contrast not used because the individual values have been specified (instead of a sequence)", call. = FALSE)
+		}
 		x
 	} else {
 		if (is.numeric(x)) {
@@ -184,29 +187,6 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	
 	udiv = use_div(scale$breaks, scale$midpoint)
 	if (identical(udiv, TRUE)) type = "div"
-	
-	# colsLeg <- num2pal(x1, 
-	# 				   var = "g$col",
-	# 				   call = NULL,
-	# 				   n = scale$n, 
-	# 				   style=scale$style, 
-	# 				   style.args=scale$style.args,
-	# 				   as.count = FALSE, #scale$as.count,
-	# 				   breaks=scale$breaks, 
-	# 				   interval.closure=scale$interval.closure,
-	# 				   palette = scale$values,
-	# 				   neutral = scale$value.neutral,
-	# 				   midpoint = scale$midpoint, #auto.palette.mapping = scale$auto.palette.mapping,
-	# 				   contrast = scale$values.contrast, legend.labels=scale$labels,
-	# 				   colorNA=scale$value.na, 
-	# 				   colorNULL=scale$value.null,
-	# 				   legend.NA.text = scale$label.na,
-	# 				   showNA = !is.na(scale$label.na),
-	# 				   process.colors=c(list(alpha=opt$alpha), opt$pc),
-	# 				   legend.format=legend$format,
-	# 				   reverse=legend$reverse)
-	
-	
 	
 	show.messages <- opt$show.messages
 	show.warnings <- opt$show.warnings
