@@ -40,8 +40,28 @@ tmapValuesIsDiv_lwd = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+tmapValuesContrast_fill = function(x, n, isdiv) {
+	palid = tmapPalId(x[1])
+	if (!is.na(palid) && isdiv) {
+		default_contrast_div(n)
+	} else if (!is.na(palid) && !isdiv) {
+		default_contrast_seq(n)
+	} else c(0, 1)
+}
 
-tmapValuesVV_fill = function(x, isdiv, n, breaks, midpoint, contrast) {
+tmapValuesContrast_col = function(x, n, isdiv) {
+	tmapValuesContrast_fill(x, n, isdiv)
+}
+
+tmapValuesContrast_size = function(x, n, isdiv) {
+	c(.5/n, 1 - .5/n)
+}
+
+tmapValuesContrast_lwd = function(x, n, isdiv) {
+	tmapValuesContrast_size(x, n, isdiv)
+}
+
+tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast) {
 	palid = tmapPalId(x[1])
 	
 	if (!is.na(palid) && isdiv) {
@@ -60,9 +80,9 @@ tmapValuesVV_fill = function(x, isdiv, n, breaks, midpoint, contrast) {
 	
 	if (!snap) {
 		ids = if (isdiv) {
-			map2divscaleID(breaks - midpoint, n=101, contrast=contrast)
+			map2divscaleID(dvalues - midpoint, n=101, contrast=contrast, are_breaks=are_breaks)
 		} else {
-			map2seqscaleID(breaks, n=101, contrast=contrast, breaks.specified=FALSE, show.warnings = show.warnings)
+			map2seqscaleID(dvalues, n=101, contrast=contrast, breaks.specified=FALSE, show.warnings = show.warnings, are_breaks=are_breaks)
 		}
 		
 		vvalues = colpal[ids]
@@ -89,7 +109,7 @@ tmapValuesVV_col = function(...) {
 }
 
 
-tmapValuesVV_size = function(x, isdiv, n, breaks, midpoint, contrast) {
+tmapValuesVV_size = function(x, isdiv, n, dvalues, are_breaks , midpoint, contrast) {
 	#break_mids = breaks[-(n+1)] + (breaks[-1] - breaks[-(n+1)]) / 2
 	
 	
@@ -140,7 +160,7 @@ tmapValuesVV_lwd = function(...) {
 
 
 
-tmapValuesVV_shape = function(x, isdiv, n, breaks, contrast) {
+tmapValuesVV_shape = function(x, isdiv, n, dvalues, are_breaks, contrast) {
 	colpal = rep(x, length.out = n)
 	snap = TRUE
 	
@@ -171,7 +191,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	
 	print(gp)
 	
-	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_class_int cannot be applied", call. = FALSE)
+	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_intervals cannot be applied", call. = FALSE)
 	if (cls[1] != "num") stop("tm_scale_intervals can only be used for numeric data", call. = FALSE)
 	
 	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, aes, layer, cls = cls) else scale$values
@@ -183,10 +203,17 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	# 	values = tmapSeq(values, n = scale$n)
 	# }
 	
+
+	
+	
+	
 	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
 	
-	udiv = use_div(scale$breaks, scale$midpoint)
-	if (identical(udiv, TRUE)) type = "div"
+	udiv = identical(use_div(scale$breaks, scale$midpoint), TRUE)
+	#if (identical(udiv, TRUE)) type = "div"
+	
+	
+	
 	
 	show.messages <- opt$show.messages
 	show.warnings <- opt$show.warnings
@@ -199,11 +226,27 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	label.na = scale$label.na
 	na.show = identical(label.na, TRUE) || (!is.na(label.na) && label.na != "")
 	if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
-	
-	
 
 	if (is.logical(label.na)) label.na = getAesOption("label.na", opt, aes, layer, cls = cls)
 
+	
+	as.count = scale$as.count
+	interval.closure = scale$interval.closure
+	if (!any(style == c("pretty", "log10_pretty", "fixed"))) {
+		if (identical(as.count, TRUE) && show.warnings) warning("as.count not implemented for styles other than \"pretty\", \"log10_pretty\" and \"fixed\"", call. = FALSE)
+		as.count = FALSE
+	}
+	if (is.na(as.count)) {
+		as.count = is.integer(x1) && !any(x1 < 0)
+	}
+
+	if (as.count) {
+		if (interval.closure != "left" && show.warnings) warning("For as.count = TRUE, interval.closure will be set to \"left\"", call. = FALSE)
+		interval.closure = "left"
+	}
+	
+	
+	
 	#breaks.specified <- !is.null(breaks)
 	is.log = (style == "log10_pretty")
 	
@@ -213,9 +256,16 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 		x1 = log10(x1)
 		style = "fixed"
 		breaks = seq(floor(min(x1, na.rm = TRUE)), ceiling(max(x1, na.rm=TRUE)))
+	} else if (as.count && style == "pretty") {
+		breaks = prettyCount(x1, n=scale$n)
+		style <- "fixed"
+	} else if (as.count && style == "fixed") {
+		breaks[length(breaks)] = breaks[length(breaks)] + 1L
 	}	
 	
-	q <- num2breaks(x=x1, n=scale$n, style=style, breaks=breaks, interval.closure=scale$interval.closure, var=paste(layer, aes, sep = "-"), as.count = FALSE, args = scale$style.args)
+	
+	
+	q <- num2breaks(x=x1, n=scale$n, style=style, breaks=breaks, interval.closure=interval.closure, var=paste(layer, aes, sep = "-"), as.count = as.count, args = scale$style.args)
 	
 	
 	breaks = q$brks
@@ -226,7 +276,12 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	
 	# update contrast if NA (automatic)
 	if (is.na(values.contrast[1])) {
-		values.contrast = c(.5/n, 1 - .5/n)
+		
+		fun_contrast = paste0("tmapValuesContrast_", gp)
+		
+		
+		values.contrast = do.call(fun_contrast, args = list(x = values, n = n, isdiv = udiv))
+			
 	}
 	if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
 	
@@ -291,7 +346,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	}
 	
 	fun_getVV = paste0("tmapValuesVV_", gp)
-	VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, breaks = breaks, midpoint = midpoint, contrast = values.contrast))
+	VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, are_breaks = TRUE))
 	
 	vvalues = VV$vvalues
 	if (is.na(value.neutral)) value.neutral = VV$value.neutral
@@ -305,8 +360,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	if (is.na(na.show)) na.show = anyNA
 	if (anyNA) vals[is.na(vals)] = value.na
 
-	if (is.na(value.na))
-	
+
 	# detransform log 
 	if (is.log) {
 		if (any((breaks %% 1) != 0)) warning("non-rounded breaks occur, because style = \"log10_pretty\" is designed for large values", call. = FALSE)
@@ -318,7 +372,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	values = breaks[-nbrks]
 	
 	if (is.null(labels)) {
-		labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = FALSE, intervals=TRUE, interval.closure=int.closure), legend$format)) 
+		labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), legend$format)) 
 	} else {
 		if (length(labels)!=nbrks-1 && show.warnings) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 		labels = rep(labels, length.out=nbrks-1)

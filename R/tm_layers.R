@@ -144,17 +144,18 @@ tm_borders = function(col = tm_const(),
 
 tm_cartogram = function(...,
 						size = 1,
-						size.scale = tm_aes_2d_size(),
+						size.scale = tm_scale_auto(),
 						size.legend = tm_legend_hide(),
 						size.free = NA) {
 	
 	tmp = do.call(tm_polygons, list(...))
 	tmp[[1]] = within(tmp[[1]], {
 		trans.fun = tmapTransCartogram
-		trans.aes = list(size = tmapAes(value = size,
-										scale = size.scale,
-										legend = size.legend,
-										free = size.free))
+		trans.aes = list(size = tmapScale(aes = "size",
+										  value = size,
+										  scale = size.scale,
+										  legend = size.legend,
+										  free = size.free))
 		trans.isglobal = TRUE
 	})
 	tmp

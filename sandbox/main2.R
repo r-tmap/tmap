@@ -315,3 +315,44 @@ tm_shape(metro) +
 	tm_facets_wrap(by = "alpha_class")
 
 
+tm_shape(metro) +
+	tm_symbols(fill = "pop2010", fill.free = T, fill.scale = tm_scale_intervals(as.count = TRUE)) +
+	tm_facets_wrap(by = "alpha_class")
+
+
+World$income_grp_int = as.integer(World$income_grp)
+World$HPI = World$HPI / 2
+
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_intervals(as.count = T, n = 15))
+
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_intervals(as.count = T, n = 15))
+
+World$HPI2 = round(World$HPI)
+tm_shape(World) +
+	tm_polygons("HPI2", fill.scale = tm_scale_discrete(ticks = 12:50, values = "RdYlBu"))
+
+
+tm_shape(World) +
+	tm_polygons("HPI2", fill.scale = tm_scale_intervals(n=14, midpoint = 30, values = "RdYlBu", as.count = T))
+
+tm_shape(World) +
+	tm_polygons("HPI2", fill.scale = tm_scale_intervals(n=14, midpoint = 30, values = "RdYlBu", as.count = T), fill.legend = tm_legend(position = tm_lp_out("right", "center"))) +
+	tm_options(meta.auto.margins = 0.1)
+
+
+
+
+# to do: undo difference between:
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,50)))
+
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)))
+
+# to do: gp for trans (step2 422)
+tm_shape(World) +
+	tm_cartogram(size = "HPI", fill = "HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)), size.scale = tm_scale_intervals(n=10))
+
+

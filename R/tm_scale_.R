@@ -55,10 +55,26 @@ tm_scale_intervals = function(n = 5,
 							  breaks = NULL,
 							  interval.closure = "left",
 							  midpoint = NULL,
+							  as.count = NA,
 							  labels = NULL,
 							  label.na = NA,
 							  label.null = NA) {
 	structure(c(list(FUN = "tmapScaleIntervals"), as.list(environment())), class = c("tm_scale_intervals", "tm_scale"))
+}
+
+tm_scale_discrete = function(ticks = NA,
+							 step = NA,
+							 midpoint = NULL,
+							 values = NA,
+							 values.repeat = TRUE,
+							 values.contrast  = NA,
+							 value.na = NA,
+							 value.null = NA,
+							 value.neutral = NA,
+							 labels = NULL,
+							 label.na = NA,
+							 label.null = NA) {
+	structure(c(list(FUN = "tmapScaleDiscrete"), as.list(environment())), class = c("tm_scale_discrete", "tm_scale"))
 }
 
 tm_scale_continuous = function(value.range = NA,
