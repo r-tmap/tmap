@@ -1,3 +1,7 @@
+version 3.3-3
+- added device to tmap_save
+- fixed many small bugs (see github issue list)
+
 version 3.3-2
 - World has been fixed (it is now 's2' proof, see github issue #564)
 

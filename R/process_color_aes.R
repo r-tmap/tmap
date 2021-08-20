@@ -59,7 +59,7 @@ process_col_vector <- function(x, sel, g, gt, reverse) {
 		g$style <- "cat"
 	}
 	
-	if (length(na.omit(unique(x)))==1 && g$style!="fixed") g$style <- "cat"
+	if (length(na.omit(unique(x)))==1 && g$style!="fixed" && is.null(g$breaks)) g$style <- "cat"
 	
 	if (is.factor(x) || g$style=="cat") {
 		
