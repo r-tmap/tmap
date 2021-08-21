@@ -61,45 +61,85 @@ tmapValuesContrast_lwd = function(x, n, isdiv) {
 	tmapValuesContrast_size(x, n, isdiv)
 }
 
+
 tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast) {
 	palid = tmapPalId(x[1])
-	
-	if (!is.na(palid) && isdiv) {
-		colpal = tmap_get_palette(x, n = 101)
-		snap = FALSE
-	} else if (!is.na(palid) && !isdiv) {
-		colpal = tmap_get_palette(x, n = n)
-		snap = TRUE
-	} else if (length(x) != n) {
-		colpal = grDevices::colorRampPalette(x, n = 101)
-		snap = FALSE
+
+	if (isdiv) {
+		cat0 = (are_breaks != any(dvalues==midpoint))
+		
+		nneg = sum(dvalues < midpoint) - cat0
+		npos = sum(dvalues > midpoint) - cat0
+		
+		nmax = max(nneg, npos)
+		
+		ntot = 2L * nmax + cat0
+		
+		ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
 	} else {
-		colpal = x
-		snap = TRUE
+		ids = 1L:n
 	}
 	
-	if (!snap) {
-		ids = if (isdiv) {
-			map2divscaleID(dvalues - midpoint, n=101, contrast=contrast, are_breaks=are_breaks)
+	scale_ids = function(ids, n) {
+		1 + ((ids - 1) / (n - 1)) * 100	
+	} 
+	
+	map_ids = function(i, s, n) {
+		di = i[2] - i[1]
+		seq(i[1] + di * s[1], i[1] + di * s[2], length.out = n)
+	}
+	
+	if (contrast[1] != 0 || contrast[2] != 1) {
+		# expand palette tot 101 colors
+		if (!is.na(palid)) {
+			vvalues = tmap_get_palette(x, n = 101)
 		} else {
-			map2seqscaleID(dvalues, n=101, contrast=contrast, breaks.specified=FALSE, show.warnings = show.warnings, are_breaks=are_breaks)
+			vvalues = grDevices::colorRampPalette(x)(101)
 		}
 		
-		vvalues = colpal[ids]
-		#if (is.na(value.neutral)) {
-		if (any(ids<51) && any(ids>51)) {
-			ids.neutral <- min(ids[ids>=51]-51) + 51
-			value.neutral = colpal[ids.neutral]
+		# expand ids and apply contrast
+		if (isdiv) {
+			ids_scaled = scale_ids(ids, ntot)
+			
+			ids_after_contrast = c(head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 1-rev(contrast), n = nneg + cat0), nneg),
+								   {if (cat0) ids_scaled[1L + nneg] else NULL},
+								   tail(map_ids(ids_scaled[c(nneg+1, ntot)], contrast, n = npos + cat0), npos))
+			print(ids_scaled)
+			print(ids_after_contrast)
+
 		} else {
-			value.neutral = colpal[ids[round(((length(ids)-1)/2)+1)]]
+			ids_scaled = scale_ids(ids, n)
+			ids_after_contrast = map_ids(ids_scaled[c(1L, n)], contrast, n)
 		}
-		#}
 		
 	} else {
-		vvalues = colpal
-		#if (is.na(value.neutral)) value.neutral = colpal[round((n+1)/2)]
-		value.neutral = colpal[round((n+1)/2)]
+		if (!is.na(palid) && isdiv) {
+			vvalues = tmap_get_palette(x, n = ntot)
+		} else if (!is.na(palid) && !isdiv) {
+			vvalues = tmap_get_palette(x, n = n)
+		} else if (length(x) != n && isdiv) {
+			vvalues = grDevices::colorRampPalette(x)(ntot)
+		} else if (length(x) != n && !isdiv) {
+			vvalues = grDevices::colorRampPalette(x)(n)
+		} else {
+			vvalues = x
+		}		
+		ids_after_contrast = ids
 	}
+	
+	
+	vvalues = vvalues[ids_after_contrast]
+	
+	if (isdiv) {
+		if (cat0) {
+			value.neutral = vvalues[1L + nneg]
+		} else {
+			value.neutral = grDevices::colorRampPalette(vvalues[c(nneg, nneg + 1L)])(1)
+		}
+	} else {
+		value.neutral = vvalues[n/2]
+	}
+	
 	list(vvalues = vvalues, value.neutral = value.neutral)
 	
 }
