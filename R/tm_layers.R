@@ -74,6 +74,7 @@ tm_polygons = function(fill = tm_const(),
 						lwd = "__lwd",
 						linejoin = linejoin,
 						lineend = lineend),
+		tpar = tmapTpar(),
 		mapping.fun = "Polygons",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
@@ -138,6 +139,7 @@ tm_borders = function(col = tm_const(),
 						lwd = "__lwd",
 						linejoin = linejoin,
 						lineend = lineend),
+		tpar = tmapTpar(),
 		mapping.fun = "Polygons",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
@@ -151,11 +153,12 @@ tm_cartogram = function(...,
 	tmp = do.call(tm_polygons, list(...))
 	tmp[[1]] = within(tmp[[1]], {
 		trans.fun = tmapTransCartogram
-		trans.aes = list(size = tmapScale(aes = "size",
+		trans.aes = list(size = tmapScale(aes = "area",
 										  value = size,
 										  scale = size.scale,
 										  legend = size.legend,
 										  free = size.free))
+		tpar = tmapTpar(area = "__area")
 		trans.isglobal = TRUE
 	})
 	tmp
@@ -191,6 +194,7 @@ tm_raster = function(col = tm_const(),
 						lwd = NA,
 						linejoin = NA,
 						lineend = NA),
+		tpar = tmapTpar(),
 		mapping.fun = "Raster",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
@@ -306,6 +310,7 @@ tm_symbols = function(fill = tm_const(),
 						lwd = "__lwd",
 						linejoin = NA,
 						lineend = NA),
+		tpar = tmapTpar(),
 		mapping.fun = "Symbols",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

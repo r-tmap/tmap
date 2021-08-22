@@ -46,7 +46,7 @@ tmapScale = function(aes, value, scale, legend, free) {
 	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, free = free), class = "tmapScale")
 }
 
-tmapScaleAuto = function(x1, scale, legend, opt, aes, layer, gp) {
+tmapScaleAuto = function(x1, scale, legend, opt, aes, layer, p) {
 	cls = data_class(x1)
 	
 	sc = getAesOption("scales.var", opt, aes, layer, cls = cls)
@@ -58,7 +58,7 @@ tmapScaleAuto = function(x1, scale, legend, opt, aes, layer, gp) {
 	
 	FUN = scale_new$FUN
 	scale_new$FUN = NULL
-	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, opt = opt, aes = aes, layer = layer, gp))
+	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, opt = opt, aes = aes, layer = layer, p))
 	
 }
 

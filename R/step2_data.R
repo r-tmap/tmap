@@ -219,8 +219,8 @@ step2_data = function(tm) {
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {
 			#cat("step2_grp_lyr======================\n")
-			getdts = function(aes, nm) {
-				#cat("step2_grp_lyr_aes_", nm, "---------\n")
+			getdts = function(aes, nm, p) {
+				cat("step2_grp_lyr_aes_", nm, "---------\n")
 				
 				val = aes$value
 
@@ -373,7 +373,7 @@ step2_data = function(tm) {
 							s$FUN = NULL
 							#if (is.na(s$legend$title)) s$legend$title = v
 							if (is.na(l$title)) l$title = v
-							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, gp = names(gp)[match(paste0("__", aes$aes), gp)]))), grp_b_fr, .SDcols = v]
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
 							NULL
 						}, scale, legend, val, varnames, legnames)
 						
@@ -419,7 +419,7 @@ step2_data = function(tm) {
 						f = s$FUN
 						s$FUN = NULL
 						if (is.na(l$title)) l$title = val
-						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, gp = names(gp)[match(paste0("__", aes$aes), gp)]))), grp_b_fr, .SDcols = val]
+						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]
@@ -430,16 +430,16 @@ step2_data = function(tm) {
 			}
 			
 			gp = tml$gpar
-			
+			tp = tml$tpar
 			
 			
 			#cat("step2_grp_lyr_trans_______________\n")
 			
-			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE)
+			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp))
 			
 			#cat("step2_grp_lyr_mapping_____________\n")
 			
-			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE)
+			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp))
 			
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt))
 			trans_legend = lapply(trans, function(x) x$leg)
@@ -454,7 +454,8 @@ step2_data = function(tm) {
 				 mapping_dt = dts_mapping, 
 				 mapping_legend = mapping_legend,
 				 mapping_fun = tml$mapping.fun,
-				 gpar = tml$gpar)
+				 gp = gp,
+				 tp = tp)
 		})
 		names(lrs) = layernames
 		

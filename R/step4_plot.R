@@ -309,7 +309,7 @@ step4_plot = function(tm) {
 						}
 						
 						bval = legs_aes[k, bvars, with = FALSE]
-						gp = tml$gpar
+						gp = tml$gp
 						
 						gpaid = match(paste0("__", legnm), unlist(gp))
 						gp[[gpaid]] = legs_aes$legend[[k]]$vvalues
@@ -533,7 +533,7 @@ step4_plot = function(tm) {
 				bl = tmxi$layers[[il]]
 				shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
 				mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
-				gp = bl$gpar
+				gp = bl$gp
 				
 				FUN = paste0("tmap", gs, bl$mapping_fun)
 				

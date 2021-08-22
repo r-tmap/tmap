@@ -352,7 +352,7 @@ tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)))
 
 # to do: gp for trans (step2 422)
-tm_shape(World) +
+tm_shape(World %>% st_transform(crs = "+proj=eck4")) +
 	tm_cartogram(size = "HPI", fill = "HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)), size.scale = tm_scale_intervals(n=10))
 
-
+tm_scale_cartogram

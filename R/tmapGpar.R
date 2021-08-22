@@ -13,3 +13,8 @@ tmapGpar = function(fill = NULL,
 	args = c(as.list(environment()), list(...))
 	structure(args, class = "tmapGpar")
 }
+
+tmapTpar = function(...) {
+	args = c(as.list(environment()), list(...))
+	structure(args, class = "tmapTpar")
+}

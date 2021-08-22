@@ -16,6 +16,9 @@ tmapValuesCheck_lwd = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+tmapValuesCheck_area = function(x) {
+	tmapValuesCheck_size(x)
+}
 
 
 
@@ -40,6 +43,10 @@ tmapValuesIsDiv_lwd = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+tmapValuesIsDiv_area = function(x) {
+	tmapValuesIsDiv_size(x)
+}
+
 tmapValuesContrast_fill = function(x, n, isdiv) {
 	palid = tmapPalId(x[1])
 	if (!is.na(palid) && isdiv) {
@@ -61,6 +68,9 @@ tmapValuesContrast_lwd = function(x, n, isdiv) {
 	tmapValuesContrast_size(x, n, isdiv)
 }
 
+tmapValuesContrast_area = function(x, n, isdiv) {
+	tmapValuesContrast_size(x, n, isdiv)
+}
 
 tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast) {
 	palid = tmapPalId(x[1])
@@ -198,6 +208,9 @@ tmapValuesVV_lwd = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 
+tmapValuesVV_area = function(...) {
+	do.call(tmapValuesVV_size, args = list(...))
+}
 
 
 tmapValuesVV_shape = function(x, isdiv, n, dvalues, are_breaks, contrast) {
@@ -226,15 +239,14 @@ tmapSeq = function(s, n, rescale = TRUE) {
 
 
 
-tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
+tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	cls = data_class(x1)
 	
-	print(gp)
-	
+
 	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_intervals cannot be applied", call. = FALSE)
 	if (cls[1] != "num") stop("tm_scale_intervals can only be used for numeric data", call. = FALSE)
 	
-	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, aes, layer, cls = cls) else scale$values
+	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, p, layer, cls = cls) else scale$values
 	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, aes, layer, cls = cls) else scale$value.na
 	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, aes, layer, cls = cls) else scale$value.null
 	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, aes, layer, cls = cls) else scale$value.neutral
@@ -317,7 +329,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	# update contrast if NA (automatic)
 	if (is.na(values.contrast[1])) {
 		
-		fun_contrast = paste0("tmapValuesContrast_", gp)
+		fun_contrast = paste0("tmapValuesContrast_", p)
 		
 		
 		values.contrast = do.call(fun_contrast, args = list(x = values, n = n, isdiv = udiv))
@@ -335,10 +347,10 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	
 	# map palette
 	
-	fun_check = paste0("tmapValuesCheck_", gp)
+	fun_check = paste0("tmapValuesCheck_", p)
 	
 	are_valid = do.call(fun_check, args = list(x = values))
-	if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform gp ", gp, call. = FALSE)
+	if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform p ", p, call. = FALSE)
 	
 	# palid = tmapPalId(values[1])
 	# 
@@ -349,7 +361,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	# arenumbers = !arecolors && is.numeric(values)
 	
 
-	fun_isdiv = paste0("tmapValuesIsDiv_", gp)
+	fun_isdiv = paste0("tmapValuesIsDiv_", p)
 	
 	isdiv = do.call(fun_isdiv, args = list(x = values))
 	
@@ -385,7 +397,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 		}
 	}
 	
-	fun_getVV = paste0("tmapValuesVV_", gp)
+	fun_getVV = paste0("tmapValuesVV_", p)
 	VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, are_breaks = TRUE))
 	
 	vvalues = VV$vvalues
@@ -455,7 +467,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 	# }
 	# 
 	
-	type = ifelse(nchar(vvalues[1]) > 50, "color_cont", "color_cls")
+	#type = ifelse(nchar(vvalues[1]) > 50, "color_cont", "color_cls")
 	
 	legend = list(title = legend$title, 
 				  nitems = length(labels),
@@ -463,8 +475,8 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, gp) {
 				  dvalues = values, 
 				  vvalues = vvalues,
 				  vneutral = value.neutral,
-				  setup = legend,
-				  breaks=scale$breaks, type = type)
+				  setup = legend)
+				  #breaks=scale$breaks, type = type)
 	
 	
 	format_aes_results(vals, legend)

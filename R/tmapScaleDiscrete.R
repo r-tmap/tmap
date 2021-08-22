@@ -1,4 +1,4 @@
-tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, gp) {
+tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	cls = data_class(x1)
 	
 	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_discrete cannot be applied", call. = FALSE)
@@ -90,10 +90,10 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, gp) {
 	
 	# map palette
 	
-	fun_check = paste0("tmapValuesCheck_", gp)
+	fun_check = paste0("tmapValuesCheck_", p)
 	
 	are_valid = do.call(fun_check, args = list(x = values))
-	if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform gp ", gp, call. = FALSE)
+	if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform p ", p, call. = FALSE)
 	
 	# palid = tmapPalId(values[1])
 	# 
@@ -104,7 +104,7 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, gp) {
 	# arenumbers = !arecolors && is.numeric(values)
 	
 	
-	fun_isdiv = paste0("tmapValuesIsDiv_", gp)
+	fun_isdiv = paste0("tmapValuesIsDiv_", p)
 	
 	isdiv = do.call(fun_isdiv, args = list(x = values))
 	
@@ -139,7 +139,7 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, gp) {
 		}
 	}
 	
-	fun_getVV = paste0("tmapValuesVV_", gp)
+	fun_getVV = paste0("tmapValuesVV_", p)
 	VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, contrast = values.contrast))
 	
 	vvalues = VV$vvalues
