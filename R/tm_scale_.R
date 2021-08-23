@@ -43,19 +43,18 @@ tm_scale_categorical = function(n.max = 20,
 }
 
 tm_scale_intervals = function(n = 5, 
+							  style = ifelse(is.null(breaks), "pretty", "fixed"),
+							  style.args = list(),
+							  breaks = NULL,
+							  interval.closure = "left",
+							  midpoint = NULL,
+							  as.count = NA,
 							  values = NA,
 							  values.repeat = TRUE,
 							  values.contrast  = NA,
 							  value.na = NA,
 							  value.null = NA,
 							  value.neutral = NA,
-							  style = ifelse(is.null(breaks), "pretty", "fixed"),
-							  style.args = list(),
-							  #as.count = NA,
-							  breaks = NULL,
-							  interval.closure = "left",
-							  midpoint = NULL,
-							  as.count = NA,
 							  labels = NULL,
 							  label.na = NA,
 							  label.null = NA) {
@@ -77,18 +76,30 @@ tm_scale_discrete = function(ticks = NA,
 	structure(c(list(FUN = "tmapScaleDiscrete"), as.list(environment())), class = c("tm_scale_discrete", "tm_scale"))
 }
 
-tm_scale_continuous = function(value.range = NA,
-							   valueNA = NA,
-							   valueNULL = NA,
-							   showNA = NA,
-							   showNULL = NA,
-							   data.range = NA,
-							   type = c("length", "area", "volume"),
-							   perceptual = FALSE,
-							   neutral.value = NA,
+tm_scale_rank = function(...) {
+	tmc = tm_scale_continuous(...)
+	class(tmc) = c("tm_scale_rank", "tm_scale")
+	tmc
+}
+
+tm_scale_log10 = function(...) {
+	tmc = tm_scale_continuous(...)
+	class(tmc) = c("tm_scale_log10", "tm_scale")
+	tmc
+}
+
+
+tm_scale_continuous = function(n = 5,
+							   ticks = NULL,
+							   values = NA,
+							   values.repeat = TRUE,
+							   values.contrast  = NA,
+							   value.na = NA,
+							   value.null = NA,
+							   value.neutral = NA,
 							   labels = NULL,
-							   labelNA = "Missing",
-							   labelNULL = "Undefined") {
+							   label.na = NA,
+							   label.null = NA) {
 	
 	structure(c(list(FUN = "tmapScaleContinuous"), as.list(environment())), class = c("tm_scale_continuous", "tm_scale"))
 }

@@ -247,9 +247,9 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	if (cls[1] != "num") stop("tm_scale_intervals can only be used for numeric data", call. = FALSE)
 	
 	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, p, layer, cls = cls) else scale$values
-	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, aes, layer, cls = cls) else scale$value.na
-	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, aes, layer, cls = cls) else scale$value.null
-	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, aes, layer, cls = cls) else scale$value.neutral
+	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, p, layer, cls = cls) else scale$value.na
+	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, p, layer, cls = cls) else scale$value.null
+	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, p, layer, cls = cls) else scale$value.neutral
 	
 	# if (inherits(values, "tmapSeq")) {
 	# 	values = tmapSeq(values, n = scale$n)
@@ -259,7 +259,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	
 	
 	
-	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
+	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, p, layer, cls = cls) else scale$values.contrast
 	
 	udiv = identical(use_div(scale$breaks, scale$midpoint), TRUE)
 	#if (identical(udiv, TRUE)) type = "div"
@@ -279,7 +279,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	na.show = identical(label.na, TRUE) || (!is.na(label.na) && label.na != "")
 	if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
 
-	if (is.logical(label.na)) label.na = getAesOption("label.na", opt, aes, layer, cls = cls)
+	if (is.logical(label.na)) label.na = getAesOption("label.na", opt, p, layer, cls = cls)
 
 	
 	as.count = scale$as.count
@@ -475,6 +475,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 				  dvalues = values, 
 				  vvalues = vvalues,
 				  vneutral = value.neutral,
+				  na.show = na.show,
 				  setup = legend)
 				  #breaks=scale$breaks, type = type)
 	

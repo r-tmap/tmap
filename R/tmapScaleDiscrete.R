@@ -4,16 +4,16 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_discrete cannot be applied", call. = FALSE)
 	if (cls[1] != "num") stop("tm_scale_discrete can only be used for numeric data", call. = FALSE)
 	
-	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, aes, layer, cls = cls) else scale$values
-	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, aes, layer, cls = cls) else scale$value.na
-	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, aes, layer, cls = cls) else scale$value.null
-	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, aes, layer, cls = cls) else scale$value.neutral
+	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, p, layer, cls = cls) else scale$values
+	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, p, layer, cls = cls) else scale$value.na
+	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, p, layer, cls = cls) else scale$value.null
+	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, p, layer, cls = cls) else scale$value.neutral
 	
 	# if (inherits(values, "tmapSeq")) {
 	# 	values = tmapSeq(values, n = scale$n)
 	# }
 	
-	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
+	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, p, layer, cls = cls) else scale$values.contrast
 	
 	
 	
@@ -213,6 +213,7 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 				  dvalues = ticks, 
 				  vvalues = vvalues,
 				  vneutral = value.neutral,
+				  na.show = na.show,
 				  setup = legend)
 				  #breaks=scale$breaks)
 	

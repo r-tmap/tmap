@@ -1,4 +1,4 @@
-tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, gp) {
+tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	show.warnings = opt$show.warnings
@@ -8,12 +8,12 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, gp) {
 	
 	# 	
 	if (is.na(scale$values[1])) {
-		scale$values = getAesOption("values.var", opt, aes, layer, cls = cls) 
+		scale$values = getAesOption("values.var", opt, p, layer, cls = cls) 
 	}
-	if (is.na(scale$value.na)) scale$value.na = getAesOption("value.na", opt, aes, layer, cls = cls)
-	if (is.na(scale$value.null)) scale$value.null = getAesOption("value.null", opt, aes, layer, cls = cls)
+	if (is.na(scale$value.na)) scale$value.na = getAesOption("value.na", opt, p, layer, cls = cls)
+	if (is.na(scale$value.null)) scale$value.null = getAesOption("value.null", opt, p, layer, cls = cls)
 	
-	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
+	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, p, layer, cls = cls) else scale$values.contrast
 	
 	
 	nms = names(scale$values) #color_names
@@ -126,7 +126,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, gp) {
 	attr(labs, "align") = legend$format$text.align
 	
 	
-	if (is.na(scale$value.neutral)) scale$value.neutral = getAesOption("value.neutral", opt, aes, layer, cls = cls)
+	if (is.na(scale$value.neutral)) scale$value.neutral = getAesOption("value.neutral", opt, p, layer, cls = cls)
 	if (is.na(scale$value.neutral)) {
 		neutralID = 1 # if (palette.type=="div") round(((length(colsLeg$legend.palette)-1)/2)+1) else 1
 		scale$value.neutral = values[1]
@@ -139,6 +139,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, gp) {
 				  dvalues = v1, 
 				  vvalues = values,
 				  vneutral = scale$value.neutral,
+				  na.show = na.show,
 				  setup = legend)
 	
 	

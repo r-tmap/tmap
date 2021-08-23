@@ -220,7 +220,7 @@ step2_data = function(tm) {
 		lrs = lapply(tmg$tmls, function(tml) {
 			#cat("step2_grp_lyr======================\n")
 			getdts = function(aes, nm, p) {
-				cat("step2_grp_lyr_aes_", nm, "---------\n")
+				#cat("step2_grp_lyr_aes_", nm, "---------\n")
 				
 				val = aes$value
 
@@ -338,6 +338,27 @@ step2_data = function(tm) {
 					if (length(v)) update_fl(k = v, lev = vars)
 					
 					
+					apply_scale = function(s, l, v, varname, legname) {
+						# update legend defaults from options
+						tmp = names(meta)[substr(names(meta), 1, 6) == "legend"]
+						
+						# update legend format
+						l$format = process_legend_format(l$format, meta$legend.format)
+						
+						# update other legend options
+						opt_leg = setdiff(intersect(substr(tmp, 8, nchar(tmp)), names(l)), "format")
+						l[opt_leg] = mapply(function(o, nm) {
+							if (is.na(o[1])) meta[[paste0("legend.", nm)]] else o
+						}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
+						
+						if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
+						f = s$FUN
+						s$FUN = NULL
+						#if (is.na(s$legend$title)) s$legend$title = v
+						if (is.na(l$title)) l$title = v
+						dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
+						NULL
+					}
 					
 					if (length(v) && fr[v] && nvars > 1) {
 						#cat("step2_grp_lyr_aes_var_multi_aes_columns\n")
@@ -360,22 +381,7 @@ step2_data = function(tm) {
 						
 						varnames = paste(nm, 1L:nvars, sep = "_")
 						legnames = paste("legend", 1L:nvars, sep = "_")
-						mapply(function(s, l, v, varname, legname) {
-							# update legend defaults from options
-							tmp = names(meta)[substr(names(meta), 1, 6) == "legend"]
-							opt_leg = intersect(substr(tmp, 8, nchar(tmp)), names(l))
-							l[opt_leg] = mapply(function(o, nm) {
-								if (is.na(o[1])) meta[[paste0("legend.", nm)]] else o
-							}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
-							
-							if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
-							f = s$FUN
-							s$FUN = NULL
-							#if (is.na(s$legend$title)) s$legend$title = v
-							if (is.na(l$title)) l$title = v
-							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
-							NULL
-						}, scale, legend, val, varnames, legnames)
+						mapply(apply_scale, scale, legend, val, varnames, legnames)
 						
 						dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legend")
 						dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
@@ -402,24 +408,30 @@ step2_data = function(tm) {
 						if (inherits(aes$legend, "tm_legend")) {
 							l = aes$legend
 						} else if (islistof(aes$legend, "tm_legend")) {
+							warning("multiple legends are specified, while only one is required; the first will be used")
 							l = aes$legend[[1]]
 						} else {
 							stop("incorrect legend specification")
 						}
 						
+						apply_scale(s, l, val, nm, "legend")
 						
-						# update legend defaults from options
-						tmp = names(meta)[substr(names(meta), 1, 6) == "legend"]
-						opt_leg = intersect(substr(tmp, 8, nchar(tmp)), names(l))
-						l[opt_leg] = mapply(function(o, nm) {
-							if (is.na(o[1])) meta[[paste0("legend.", nm)]] else o
-						}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
-						
-						
-						f = s$FUN
-						s$FUN = NULL
-						if (is.na(l$title)) l$title = val
-						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = val]
+# 						# update legend defaults from options
+# 						tmp = names(meta)[substr(names(meta), 1, 6) == "legend"]
+# 						opt_leg = intersect(substr(tmp, 8, nchar(tmp)), names(l))
+# 						
+# 						# update legend format
+# 						l$format = process_legend_format(l$format, meta$legend.format)
+# 						
+# 						l[opt_leg] = mapply(function(o, nm) {
+# 							if (is.na(o[1])) meta[[paste0("legend.", nm)]] else o
+# 						}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
+# #						l$format
+# 						
+# 						f = s$FUN
+# 						s$FUN = NULL
+# 						if (is.na(l$title)) l$title = val
+# 						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]

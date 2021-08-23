@@ -302,12 +302,29 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 
 leg_standard_p_lines = function(leg) {
 	if (is.na(leg$gp$shape[1])) {
-		lwd = leg$gp$lwd
-		if (is.na(lwd)) lwd = 1
-		rep(1 + lwd / 5, length.out = leg$nitems)
+		# lwd = leg$gp$lwd
+		# if (is.na(lwd)) lwd = 1
+		
+		if (!is.na(leg$setup$height)) {
+			space = (leg$setup$height - leg$nitems) / leg$nitems
+			space.na = space
+		} else {
+			space = leg$setup$space
+			space.na = leg$setup$space.na
+		}
+			
+		c(rep(1 + space, length.out = leg$nitems - leg$na.show), {if (leg$na.show) (1 + space.na) else NULL})
 		#rep(1, length.out = leg$nitems)
 	} else {
-		rep(pmax(1, leg$gp$size + 0.3), length.out = leg$nitems)
+		if (!is.na(leg$setup$height)) {
+			space = (leg$setup$height - sum(rep(pmax(1, leg$gp$size), length.out = leg$nitems))) / leg$nitems
+			space.na = space
+		} else {
+			space = leg$setup$space
+			space.na = leg$setup$space.na
+		}
+		size = rep(leg$gp$size, length.out = leg$nitems)
+		rep(pmax(1, c(size[1:(leg$nitems - leg$na.show)] + space, {if (leg$na.show) (size[leg$nitems] + space.na) else NULL})), length.out = leg$nitems)
 	}
 	
 	# if (leg$type == "fill") {
@@ -403,16 +420,39 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			
 			if (legtype == "color_cont") {
-				fill_list = strsplit(fill, split = "-", fixed=TRUE)
+				gpars1 = gp_to_gpar_fill(gp)
+				gpars2 = gp_to_gpar_borders(gp)
+				gpars = gp_to_gpar(gp) # just for NA
+				
+				fill_list = strsplit(gp$fill, split = "-", fixed=TRUE)
 				fill_list = lapply(fill_list, function(i) {
 					i[i=="NA"] <- NA
 					i
 				})
-				grItems = mapply(function(i, f) {
+				
+				# fill
+				lvs = (1:(nlev-leg$na.show))
+				grItems1 = mapply(function(i, f) {
 					h = 1 / length(f)
 					ys = seq(1-.5*h, by = -h, length.out = length(f))
-					gridCell(i+3, 2, grid::rectGrob(y = ys, height = h, gp = grid::gpar(fill = f, col = NA)))
-				}, 1:nlev, fill_list, SIMPLIFY = FALSE)
+					gpi = gpars1
+					gpi$fill = f
+					gridCell(i+3, 2, grid::rectGrob(y = ys, height = h, gp = gpi))
+				}, lvs, fill_list[lvs], SIMPLIFY = FALSE)
+				
+				# border (for fill part)
+				grItems2 = list(gridCell(lvs+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* sum(nlines[lvs]), "inches"), gp = gpars2)))
+				
+				if (leg$na.show) {
+					gpars$fill = gpars$fill[nlev]
+					# fill and border for NA
+					grItems1 = c(grItems1, list(gridCell(nlev+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpars))))
+				}
+				
+				# borders
+				grItems = c(grItems1, grItems2)
+				
+				
 			} else if (legtype == "color_cls") {
 				gps = split_gp(gp, n = nlev)
 				

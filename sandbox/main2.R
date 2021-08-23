@@ -344,9 +344,18 @@ tm_shape(World) +
 
 
 
-# to do: undo difference between:
+# done: undo difference between:
 tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,50)))
+
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,50)), fill.legend = tm_legend(space = 0.3, space.na = 0.3))
+
+
+
+tm_shape(World) +
+	tm_polygons(c("HPI", "economy"), fill.legend = list(tm_legend("test"), tm_legend("test2")))
+
 
 tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)))
@@ -356,3 +365,20 @@ tm_shape(World %>% st_transform(crs = "+proj=eck4")) +
 	tm_cartogram(size = "HPI", fill = "HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)), size.scale = tm_scale_intervals(n=10))
 
 tm_scale_cartogram
+
+
+
+## continuous
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_continuous())
+
+
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_continuous(n = 3), fill.legend = tm_legend(height =10))
+
+
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale_log10(n = 10))
+
+
+# todo legend.space depend on type: fill 0.2, symbol 0.3
