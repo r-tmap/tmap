@@ -392,4 +392,9 @@ tm_shape(metro) +
 	tm_symbols(size = "pop2020", size.scale = tm_scale_intervals())
 
 
+tm_shape(World) +
+	tm_polygons(fill = "pop_est_dens", fill.scale = tm_scale_intervals(values = "Reds")) +
+#tm_shape(World) +
+	tm_polygons(fill = "economy", fill_alpha = 0.5, fill.scale = tm_scale_categorical(values = "Blues"), lwd = "well_being", lwd.scale = tm_scale_intervals())
+
 

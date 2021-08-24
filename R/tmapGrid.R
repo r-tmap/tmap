@@ -493,10 +493,11 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 				
 				
 			} else if (leg$type == "symbols") {
-				gps = split_gp(gp, n = nlev)
-				gpars = lapply(gps, gp_to_gpar)
+				#gps = split_gp(gp, n = nlev)
+				#gpars = lapply(gp, gp_to_gpar, split_to_n = nlev)
+				gpars = gp_to_gpar(gp, split_to_n = nlev)
 				
-				grItems = mapply(function(i, gpi, gpari) gridCell(i+3, 2, grid::pointsGrob(x=0.5, y=0.5, pch = gpi$shape, size = grid::unit(gpi$size, "lines"), gp = gpari)), 1:nlev, gps, gpars, SIMPLIFY = FALSE)
+				grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			}
 			
 			
@@ -599,13 +600,6 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 }
 
-split_gp = function(gp, n) {
-	lapply(1L:n, function(i) {
-		lapply(gp, function(gpi) {
-			if (length(gpi) == n) gpi[i] else gpi[1]
-		})
-	})
-}
 
 gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle = TRUE) {
 
@@ -617,13 +611,15 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 	}
 	
 	# create a list of gp elements
-	lst = list(fill = {if (sel == "col") NA else gp$fill},
+	lst = c(list(fill = {if (sel == "col") NA else gp$fill},
 			   col = {if (sel == "fill") NA else gp$col},
 			   alpha = alpha,
 			   lty = if (sel == "fill") "blank" else if (!is.na(gp$lty[1])) gp$lty else "solid",
 			   lwd = {if (!is.na(gp$lwd[1])) gp$lwd else 0},
 			   lineend = {if (!is.na(gp$lineend[1])) gp$lineend else "round"},
-			   linejoin = {if (!is.na(gp$linejoin[1])) gp$linejoin else "round"})
+			   linejoin = {if (!is.na(gp$linejoin[1])) gp$linejoin else "round"},
+			   size = {if (!is.na(gp$size[1])) gp$size else 1},
+			   shape = {if (!is.na(gp$shape[1])) gp$shape else 21}))
 	
 	# 
 	if (!is.null(id)) {
@@ -639,9 +635,9 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 				i[i=="NA"] <- NA
 				i
 			})
-			if (isnum) x = as.numeric(x)
+			if (isnum) x = lapply(x, as.numeric)
 			if (pick_middle) {
-				x = lapply(i, function(i) {
+				x = lapply(x, function(i) {
 					i[5]
 				})
 			}
@@ -650,7 +646,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 		} else {
 			return(lsti)
 		}
-	}, lst, c(FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE), SIMPLIFY = FALSE)
+	}, lst, c(FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE), SIMPLIFY = FALSE)
 	
 	if (!is.null(split_to_n)) {
 		lst = lapply(1L:split_to_n, function(i) {
