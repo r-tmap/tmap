@@ -399,6 +399,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			nlines = leg_standard_p_lines(leg) * o$legend.text.size
 
+			#print(nlines)
 			
 			vp = grid::viewport(layout = grid::grid.layout(ncol = 4, nrow = nlev + 4, 
 														   widths = grid::unit(c(lH * o$legend.text.size * 0.4, lH * o$legend.text.size, lH * o$legend.text.size * 0.25, 1), units = c("inches", "inches", "inches", "null")),
@@ -416,31 +417,47 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			
 			if (leg$type == "gradient") {
-				gpars1 = gp_to_gpar_fill(gp)
-				gpars2 = gp_to_gpar_borders(gp)
-				gpars = gp_to_gpar(gp) # just for NA
+				# for borders
+				gpars = gp_to_gpar(gp, id = 1L, sel = "col")
 				
-				fill_list = strsplit(gp$fill, split = "-", fixed=TRUE)
+				# for gradient fill
+				nlev2 = (nlev-leg$na.show) # nlev without na
+				lvs = 1:nlev2
+
+				fill_list = strsplit(gp$fill[lvs], split = "-", fixed=TRUE)
 				fill_list = lapply(fill_list, function(i) {
 					i[i=="NA"] <- NA
 					i
 				})
+				fill_alpha = gp$fill_alpha[1]
 				
+
 				# fill
-				lvs = (1:(nlev-leg$na.show))
 				grItems1 = mapply(function(i, f) {
 					h = 1 / length(f)
 					ys = seq(1-.5*h, by = -h, length.out = length(f))
-					gpi = gpars1
-					gpi$fill = f
+					#f[!is.na(f)] = "red"
+					gpi = grid::gpar(fill = f, alpha = fill_alpha, col = NA)
 					gridCell(i+3, 2, grid::rectGrob(y = ys, height = h, gp = gpi))
-				}, lvs, fill_list[lvs], SIMPLIFY = FALSE)
+				}, lvs, fill_list, SIMPLIFY = FALSE)
 				
 				# border (for fill part)
-				grItems2 = list(gridCell(lvs+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* sum(nlines[lvs]), "inches"), gp = gpars2)))
+				nlines_filled = nlines[lvs]
+				# nlines_filled[1] = (sum(is.na(fill_list[[1]])) * .1)
+				# nlines_filled[nlev2] = (sum(is.na(fill_list[[nlev2]])) * .1)
+				
+				y1 = (sum(is.na(fill_list[[1]])) * .1) / nlev2
+				y2 = (sum(is.na(fill_list[[nlev2]])) * .1) / nlev2
+				
+				#h = (1 - y1 - y2) * sum(nlines_filled) * lH
+				h = (1L - y1 - y2) * sum(nlines_filled) * lH
+				ym = (y2 + (1L - y1 - y2)/2) * sum(nlines_filled) * lH
+				
+				#grItems2 = list(gridCell(lvs+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* sum(nlines[lvs]), "inches"), gp = gpars2)))
+				grItems2 = list(gridCell(lvs+3, 2, grid::rectGrob(y = grid::unit(ym, "inches"), width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(h, "inches"), gp = gpars)))
 				
 				if (leg$na.show) {
-					gpars$fill = gpars$fill[nlev]
+					gpars$fill = gp$fill[nlev]
 					# fill and border for NA
 					grItems1 = c(grItems1, list(gridCell(nlev+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpars))))
 				}
@@ -450,14 +467,14 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 				
 				
 			} else if (leg$type == "rect") {
-				gps = split_gp(gp, n = nlev)
+				#gps = split_gp(gp, n = nlev)
 				
 				diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 				
 				
 				if (diffAlpha) {
-					gpars1 = lapply(gps, gp_to_gpar_fill)
-					gpars2 = lapply(gps, gp_to_gpar_borders)
+					gpars1 = gp_to_gpar(gp, sel = "fill", split_to_n = nlev) #lapply(gps, gp_to_gpar_fill)
+					gpars2 = gp_to_gpar(gp, sel = "col", split_to_n = nlev) #lapply(gps, gp_to_gpar_borders)
 
 					#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 					grItems = mapply(function(i, gpar1i, gpar2i) gridCell(i+3, 2, {
@@ -467,7 +484,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 					}), 1:nlev, gpars1, gpars2, SIMPLIFY = FALSE)
 					
 				} else {
-					gpars = lapply(gps, gp_to_gpar)
+					gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
 					#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 					grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 				}
@@ -496,8 +513,13 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	legWin = vapply(legs, leg_standard$fun_width, FUN.VALUE = numeric(1))
 	legHin = vapply(legs, leg_standard$fun_height, FUN.VALUE = numeric(1))
 	
-	clipW = pmax(1, legWin / maxW) 
-	clipH = pmax(1, legHin / maxH) 
+	scaleW = legWin / maxW
+	scaleH = legHin / maxH
+	
+	if (any(scaleW > 1) || any(scaleH > 1)) warning("Some legend items do not fit with the specified font size, and are therfore rescaled.", call. = FALSE)
+	
+	clipW = pmax(1, scaleW) 
+	clipH = pmax(1, scaleH) 
 	if (o$legend.resize.as.group) {
 		clipT = rep(max(clipW, clipH), length(legs))
 	} else {
@@ -585,36 +607,95 @@ split_gp = function(gp, n) {
 	})
 }
 
-gp_to_gpar = function(gp) {
-	grid::gpar(fill = gp$fill,
-			   col = gp$col,
-			   alpha = if (!is.na(gp$fill_alpha[1])) gp$fill_alpha else 1,
-			   lty = if (!is.na(gp$lty[1])) gp$lty else "solid",
-			   lwd = if (!is.na(gp$lwd[1])) gp$lwd else 0,
-			   lineend = if (!is.na(gp$lineend[1])) gp$lineend else "round",
-			   linejoin = if (!is.na(gp$linejoin[1])) gp$linejoin else "round")
+gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle = TRUE) {
+
+	# get alpha value (sel: "all" means fill and col, "fill" and "col" mean fill and col only respectively)
+	alpha = if (sel == "fill") {
+		if (!is.na(gp$fill_alpha[1])) gp$fill_alpha else 1
+	} else {
+		if (!is.na(gp$col_alpha[1])) gp$col_alpha else 1
+	}
+	
+	# create a list of gp elements
+	lst = list(fill = {if (sel == "col") NA else gp$fill},
+			   col = {if (sel == "fill") NA else gp$col},
+			   alpha = alpha,
+			   lty = if (sel == "fill") "blank" else if (!is.na(gp$lty[1])) gp$lty else "solid",
+			   lwd = {if (!is.na(gp$lwd[1])) gp$lwd else 0},
+			   lineend = {if (!is.na(gp$lineend[1])) gp$lineend else "round"},
+			   linejoin = {if (!is.na(gp$linejoin[1])) gp$linejoin else "round"})
+	
+	# 
+	if (!is.null(id)) {
+		lst = lapply(lst, "[", id)
+	}
+	
+	lst = mapply(function(lsti, isnum) {
+		if (!is.character(lsti)) return(lsti)
+		
+		if (nchar(lsti[1]) > 50) {
+			x = strsplit(lsti, split = "-", fixed=TRUE)
+			x = lapply(x, function(i) {
+				i[i=="NA"] <- NA
+				i
+			})
+			if (isnum) x = as.numeric(x)
+			if (pick_middle) {
+				x = lapply(i, function(i) {
+					i[5]
+				})
+			}
+			return(x)
+			
+		} else {
+			return(lsti)
+		}
+	}, lst, c(FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE), SIMPLIFY = FALSE)
+	
+	if (!is.null(split_to_n)) {
+		lst = lapply(1L:split_to_n, function(i) {
+			lapply(lst, function(lsti) {
+				if (length(lsti) == split_to_n) lsti[i] else lsti[1]
+			})
+		})
+		lapply(lst, function(lsti) {
+			do.call(grid::gpar, lsti)
+		})
+	} else {
+		do.call(grid::gpar, lst)
+	}
 }
 
-
-gp_to_gpar_borders = function(gp) {
-	grid::gpar(fill = NA,
-			   col = gp$col,
-			   alpha = gp$col_alpha,
-			   lty = gp$lty,
-			   lwd = gp$lwd,
-			   lineend = gp$lineend,
-			   linejoin = gp$linejoin)
-}
-
-gp_to_gpar_fill = function(gp) {
-	grid::gpar(fill = gp$fill,
-			   col = NA,
-			   alpha = gp$fill_alpha,
-			   lty = "blank",
-			   lwd = 0,
-			   lineend = gp$lineend,
-			   linejoin = gp$linejoin)
-}
+# 
+# gp_to_gpar_borders = function(gp, id = NULL) {
+# 	if (is.null(id)) {
+# 		grid::gpar(fill = NA,
+# 				   col = gp$col,
+# 				   alpha = gp$col_alpha,
+# 				   lty = gp$lty,
+# 				   lwd = gp$lwd,
+# 				   lineend = gp$lineend,
+# 				   linejoin = gp$linejoin)
+# 	} else {
+# 		grid::gpar(fill = NA,
+# 				   col = gp$col[id],
+# 				   alpha = gp$col_alpha[id],
+# 				   lty = gp$lty[id],
+# 				   lwd = gp$lwd[id],
+# 				   lineend = gp$lineend[id],
+# 				   linejoin = gp$linejoin[id])
+# 	}
+# }
+# 
+# gp_to_gpar_fill = function(gp) {
+# 	grid::gpar(fill = gp$fill,
+# 			   col = NA,
+# 			   alpha = gp$fill_alpha,
+# 			   lty = "blank",
+# 			   lwd = 0,
+# 			   lineend = gp$lineend,
+# 			   linejoin = gp$linejoin)
+# }
 
 
 tmapGridWrap = function(label, facet_row, facet_col, facet_page) {
@@ -781,18 +862,18 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	gpids = match(cols, sapply(gp, "[[", 1))
 	gp[gpids] = as.list(dt[, dtn, with = FALSE])
 	
-	
-	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) != length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
+	# none should contain NA's && (length or content should be different)
+	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 	
 	
 	if (diffAlpha) {
-		gp1 = gp_to_gpar_fill(gp)
-		gp2 = gp_to_gpar_borders(gp)
+		gp1 = gp_to_gpar(gp, sel = "fill")
+		gp2 = gp_to_gpar(gp, sel = "col")
 		grb1 = sf::st_as_grob(shp, gp = gp1, name = "polygons")
 		grb2 = sf::st_as_grob(shp, gp = gp2, name = "polygon_borders")
 		grb = grid::grobTree(grb1, grb2)
 	} else {
-		gp = gp_to_gpar(gp)
+		gp = gp_to_gpar(gp, sel = "all")
 		grb = sf::st_as_grob(shp, gp = gp, name = "polygons")
 	}
 	
@@ -841,7 +922,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page)
 	gp[gpw] = as.list(dt[, cols, with = FALSE])
 	
 	
-	gp = gp_to_gpar(gp)
+	gp = gp_to_gpar(gp, sel = "all")
 	
 	
 	coords = sf::st_coordinates(shp)

@@ -22,6 +22,10 @@ World$b2 = round(pmin(pmax(World$b1 + rnorm(nrow(World), mean = 0, sd = 50), 0),
 World$alpha_class = factor(floor(seq(1, 5, length.out = nrow(World) + 1)[1:nrow(World)]), labels = LETTERS[1:4])
 World$pop_class = cut(World$pop_est, breaks = c(0, 10, 100, 1000, Inf) * 1e6, labels = c("Small", "Medium", "Large", "Extra Large"))					   
 
+World$income_grp_int = as.integer(World$income_grp)
+World$HPI2 = World$HPI / 2
+World$HPI3 = round(World$HPI)
+
 metro$alpha_class = factor(floor(seq(1, 5, length.out = nrow(metro) + 1)[1:nrow(metro)]), labels = LETTERS[1:4])
 
 
@@ -273,7 +277,7 @@ tm_shape(metro) +
 
 
 tm_shape(metro) +
-	tm_symbols(fill = "pop2020", lty = "pop2020", lty.scale = tm_scale_intervals(), fill.scale = tm_scale_intervals(value.neutral = "blue"))
+	tm_symbols(fill = "pop2020", lty = "alpha_class", lty.scale = tm_scale_categorical(), fill.scale = tm_scale_intervals(value.neutral = "#FFFFFFFF"))
 
 
 tm_shape(metro) +
@@ -320,18 +324,15 @@ tm_shape(metro) +
 	tm_facets_wrap(by = "alpha_class")
 
 
-World$income_grp_int = as.integer(World$income_grp)
-World$HPI = World$HPI / 2
 
 tm_shape(World) +
-	tm_polygons("HPI", fill.scale = tm_scale_intervals(as.count = T, n = 15))
+	tm_polygons("HPI2", fill.scale = tm_scale_intervals(as.count = T, n = 15))
 
 tm_shape(World) +
-	tm_polygons("HPI", fill.scale = tm_scale_intervals(as.count = T, n = 15))
+	tm_polygons("HPI2", fill.scale = tm_scale_intervals(as.count = T, n = 15))
 
-World$HPI2 = round(World$HPI)
 tm_shape(World) +
-	tm_polygons("HPI2", fill.scale = tm_scale_discrete(ticks = 12:50, values = "RdYlBu"))
+	tm_polygons("HPI3", fill.scale = tm_scale_discrete(ticks = 12:50, values = "RdYlBu"))
 
 
 tm_shape(World) +
@@ -360,12 +361,6 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)))
 
-# to do: gp for trans (step2 422)
-tm_shape(World %>% st_transform(crs = "+proj=eck4")) +
-	tm_cartogram(size = "HPI", fill = "HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)), size.scale = tm_scale_intervals(n=10))
-
-tm_scale_cartogram
-
 
 
 ## continuous
@@ -377,7 +372,24 @@ tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_continuous(n = 3), fill.legend = tm_legend(height =10))
 
 
-# to do: fix
 tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_log10(n = 10))
+
+# to do: gp for trans (step2 422)
+tm_shape(World %>% st_transform(crs = "+proj=eck4")) +
+	tm_cartogram(size = "HPI", fill = "HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)), size.scale = tm_scale_continuous())
+
+
+# todos:
+tm_shape(World) +
+	tm_symbols(size = "pop_est")
+
+# aes vs p: ideally p, but there may arise conflicts
+
+tm_shape(World) +
+	tm_symbols(size = "pop_est") +
+tm_shape(metro) +
+	tm_symbols(size = "pop2020", size.scale = tm_scale_intervals())
+
+
 

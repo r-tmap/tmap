@@ -139,9 +139,6 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 			ids_after_contrast = c(head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 1-rev(contrast), n = nneg + cat0), nneg),
 								   {if (cat0) ids_scaled[1L + nneg] else NULL},
 								   tail(map_ids(ids_scaled[c(nneg+1, ntot)], contrast, n = npos + cat0), npos))
-			print(ids_scaled)
-			print(ids_after_contrast)
-
 		} else {
 			ids_scaled = scale_ids(ids, n)
 			ids_after_contrast = map_ids(ids_scaled[c(1L, n)], contrast, n)
@@ -278,6 +275,8 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 
 	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_intervals cannot be applied", call. = FALSE)
 	if (cls[1] != "num") stop("tm_scale_intervals can only be used for numeric data", call. = FALSE)
+	
+	if (p %in% c("lty", "shape", "pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
 	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, p, layer, cls = cls) else scale$values
 	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, p, layer, cls = cls) else scale$value.na

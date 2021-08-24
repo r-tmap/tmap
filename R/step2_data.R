@@ -356,6 +356,7 @@ step2_data = function(tm) {
 						s$FUN = NULL
 						#if (is.na(s$legend$title)) s$legend$title = v
 						if (is.na(l$title)) l$title = v
+						#aesname = aes$aes
 						dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
 						NULL
 					}

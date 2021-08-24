@@ -4,6 +4,8 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_discrete cannot be applied", call. = FALSE)
 	if (cls[1] != "num") stop("tm_scale_discrete can only be used for numeric data", call. = FALSE)
 	
+	if (p %in% c("lty", "shape", "pattern")) stop("tm_scale_discrete cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
+	
 	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, p, layer, cls = cls) else scale$values
 	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, p, layer, cls = cls) else scale$value.na
 	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, p, layer, cls = cls) else scale$value.null
