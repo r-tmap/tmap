@@ -300,38 +300,28 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	#assign("bbx", bbx, envir = .TMAP_GRID)
 }
 
+get_legend_option = function(x, type) {
+	if (length(x) == 1 || (!type %in% names(x))) x else x[type]
+}
+
 leg_standard_p_lines = function(leg) {
-	if (is.na(leg$gp$shape[1])) {
-		# lwd = leg$gp$lwd
-		# if (is.na(lwd)) lwd = 1
-		
-		if (!is.na(leg$setup$height)) {
-			space = (leg$setup$height - leg$nitems) / leg$nitems
-			space.na = space
-		} else {
-			space = leg$setup$space
-			space.na = leg$setup$space.na
-		}
-			
-		c(rep(1 + space, length.out = leg$nitems - leg$na.show), {if (leg$na.show) (1 + space.na) else NULL})
-		#rep(1, length.out = leg$nitems)
-	} else {
+	space = get_legend_option(leg$setup$space, leg$type)
+	space.na = get_legend_option(leg$setup$space.na, leg$type)
+	if (leg$type == "symbol") {
 		if (!is.na(leg$setup$height)) {
 			space = (leg$setup$height - sum(rep(pmax(1, leg$gp$size), length.out = leg$nitems))) / leg$nitems
 			space.na = space
-		} else {
-			space = leg$setup$space
-			space.na = leg$setup$space.na
 		}
 		size = rep(leg$gp$size, length.out = leg$nitems)
 		rep(pmax(1, c(size[1:(leg$nitems - leg$na.show)] + space, {if (leg$na.show) (size[leg$nitems] + space.na) else NULL})), length.out = leg$nitems)
+	} else {
+		if (!is.na(leg$setup$height)) {
+			space = (leg$setup$height - leg$nitems) / leg$nitems
+			space.na = space
+		}
+		c(rep(1 + space, length.out = leg$nitems - leg$na.show), {if (leg$na.show) (1 + space.na) else NULL})
+		#rep(1, length.out = leg$nitems)
 	}
-	
-	# if (leg$type == "fill") {
-	# 	rep(1, length(leg$labels))
-	# } else if (leg$type == "symbols") {
-	# 	pmax(1, leg$sizes + 0.3)
-	# }
 }
 
 tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_page, legend.stack = "vertical") {
@@ -366,6 +356,18 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	
 	leg_standard = list(
+		fun_add_leg_type = function(leg) {
+			gp = leg$gp
+			
+			leg$type = if (!is.na(gp$fill[1]) && nchar(gp$fill[1]) > 50) {
+				"gradient"
+			} else if (is.na(gp$shape)) {
+				"rect"
+			} else {
+				"symbols"
+			}
+			leg
+		},
 		fun_height = function(leg) {
 			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
 			
@@ -410,16 +412,10 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			gp = leg$gp
 			
-			legtype = if (!is.na(gp$fill[1]) && nchar(gp$fill[1]) > 50) {
-				"color_cont"
-			} else if (is.na(gp$shape)) {
-				"color_cls"
-			} else {
-				"symbols"
-			}
+
 			
 			
-			if (legtype == "color_cont") {
+			if (leg$type == "gradient") {
 				gpars1 = gp_to_gpar_fill(gp)
 				gpars2 = gp_to_gpar_borders(gp)
 				gpars = gp_to_gpar(gp) # just for NA
@@ -453,7 +449,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 				grItems = c(grItems1, grItems2)
 				
 				
-			} else if (legtype == "color_cls") {
+			} else if (leg$type == "rect") {
 				gps = split_gp(gp, n = nlev)
 				
 				diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
@@ -479,7 +475,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 					
 				
 				
-			} else if (legtype == "symbols") {
+			} else if (leg$type == "symbols") {
 				gps = split_gp(gp, n = nlev)
 				gpars = lapply(gps, gp_to_gpar)
 				
@@ -495,6 +491,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 		}
 	)
+	legs = lapply(legs, leg_standard$fun_add_leg_type)
 	
 	legWin = vapply(legs, leg_standard$fun_width, FUN.VALUE = numeric(1))
 	legHin = vapply(legs, leg_standard$fun_height, FUN.VALUE = numeric(1))

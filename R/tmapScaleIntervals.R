@@ -16,6 +16,14 @@ tmapValuesCheck_lwd = function(x) {
 	tmapValuesCheck_size(x)
 }
 
+tmapValuesCheck_col_alpha= function(x) {
+	tmapValuesCheck_size(x)
+}
+
+tmapValuesCheck_fill_alpha = function(x) {
+	tmapValuesCheck_size(x)
+}
+
 tmapValuesCheck_area = function(x) {
 	tmapValuesCheck_size(x)
 }
@@ -43,6 +51,14 @@ tmapValuesIsDiv_lwd = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+tmapValuesIsDiv_col_alpha = function(x) {
+	tmapValuesIsDiv_size(x)
+}
+
+tmapValuesIsDiv_fill_alpha = function(x) {
+	tmapValuesIsDiv_size(x)
+}
+
 tmapValuesIsDiv_area = function(x) {
 	tmapValuesIsDiv_size(x)
 }
@@ -67,6 +83,15 @@ tmapValuesContrast_size = function(x, n, isdiv) {
 tmapValuesContrast_lwd = function(x, n, isdiv) {
 	tmapValuesContrast_size(x, n, isdiv)
 }
+
+tmapValuesContrast_col_alpha = function(x, n, isdiv) {
+	tmapValuesContrast_size(x, n, isdiv)
+}
+
+tmapValuesContrast_fill_alpha = function(x, n, isdiv) {
+	tmapValuesContrast_size(x, n, isdiv)
+}
+
 
 tmapValuesContrast_area = function(x, n, isdiv) {
 	tmapValuesContrast_size(x, n, isdiv)
@@ -205,6 +230,14 @@ tmapValuesVV_size = function(x, isdiv, n, dvalues, are_breaks , midpoint, contra
 }
 
 tmapValuesVV_lwd = function(...) {
+	do.call(tmapValuesVV_size, args = list(...))
+}
+
+tmapValuesVV_col_alpha = function(...) {
+	do.call(tmapValuesVV_size, args = list(...))
+}
+
+tmapValuesVV_fill_alpha = function(...) {
 	do.call(tmapValuesVV_size, args = list(...))
 }
 

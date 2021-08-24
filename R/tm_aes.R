@@ -86,12 +86,6 @@ tm_aes_lwd = function(aes,
 	structure(c(list(FUN = "tmapAesLwd"), as.list(environment())), class = c("tm_aes_lwd", "tm_aes"))
 }
 
-format_aes_results = function(values, legend) {
-	lst = vector(mode = "list", length = length(values))
-	lst[[1]] = legend
-	list(values = values,
-		 legend = lst)
-}
 
 
 

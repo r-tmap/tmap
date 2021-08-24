@@ -108,7 +108,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p) {
 	if (is.na(scale$label.na)) {
 		scale$label.na = if (any(isNA)) "Missing" else ""	
 	}
-	showNA = (scale$label.na != "")
+	na.show = (scale$label.na != "")
 	
 	if (any(isNA)) {
 		v1[isNA] = scale$value.na
@@ -119,7 +119,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p) {
 		values = rev(values)
 	}
 	
-	if (showNA) {
+	if (na.show) {
 		labs = c(labs, scale$label.na)
 		values = c(values, scale$value.na)
 	}

@@ -370,15 +370,14 @@ tm_scale_cartogram
 
 ## continuous
 tm_shape(World) +
-	tm_polygons("HPI", fill.scale = tm_scale_continuous())
+	tm_polygons("HPI", fill.scale = tm_scale_continuous(), fill.legend = tm_legend(space = 1, space.na = .5))
 
 
 tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_continuous(n = 3), fill.legend = tm_legend(height =10))
 
 
+# to do: fix
 tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_log10(n = 10))
 
-
-# todo legend.space depend on type: fill 0.2, symbol 0.3

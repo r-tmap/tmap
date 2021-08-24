@@ -1,3 +1,21 @@
+MV = function(...) {
+	list(c(...))
+}
+
+tmapVars = function(x) {
+	if (inherits(x, "tmapOption")) return(x)
+	isL = is.list(x)
+	if (!isL) x = as.list(x)
+	structure(x, class = "tmapVars")
+}
+format_aes_results = function(values, legend) {
+	lst = vector(mode = "list", length = length(values))
+	lst[[1]] = legend
+	list(values = values,
+		 legend = lst)
+}
+
+
 data_type = function(x) {
 	if (all(is.na(x))) {
 		"na"
