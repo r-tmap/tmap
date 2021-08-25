@@ -104,6 +104,10 @@ tm_scale_continuous = function(n = 5,
 	structure(c(list(FUN = "tmapScaleContinuous"), as.list(environment())), class = c("tm_scale_continuous", "tm_scale"))
 }
 
+tm_scale_rgb = function(maxValue = 255) {
+	structure(c(list(FUN = "tmapScaleRGB"), as.list(environment())), class = c("tm_scale_rgb", "tm_scale"))
+}
+
 
 # tm_scale_order = function(aes,
 # 						  valueNA = NA,

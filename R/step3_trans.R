@@ -3,16 +3,14 @@ step3_trans = function(tm) {
 	meta = tm$meta
 	
 	bd = lapply(ad, function(adi) {
-		#adi = ad[[2]]
 		shpDT = adi$shpDT
 		
-		#al = adi$layers[[1]]
-		
+
 		trans_shp = function(al, shpDT) {
 			transDT = al$trans_dt
 			
 			bycols = names(transDT)[substr(names(transDT), 1, 2) == "by"]
-			sdcols = names(transDT)#[c(1L, ncol(transDT))]
+			sdcols = names(transDT)
 			
 			if (length(transDT)) {
 				y = transDT[, .(shp = do.call(do_trans, list(tdt = .SD, FUN = al$trans_fun, shpDT = shpDT))), by = bycols, .SDcols = sdcols]	
@@ -23,12 +21,14 @@ step3_trans = function(tm) {
 			shpDT
 		}
 		
-		
+		# first apply all global transformation functions
 		for (al in adi$layers) {
 			if (al$trans_isglobal) shpDT = trans_shp(al, shpDT)
 		}
 		
-		crs = meta$crs #attr(ad, "crs")
+		crs = if (is.na(meta$crs[1])) get_crs(shpDT$shpTM[[1]]) else meta$crs
+		
+		#crs = meta$crs
 		
 		
 		

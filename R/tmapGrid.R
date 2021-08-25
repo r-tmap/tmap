@@ -539,6 +539,20 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		}
 	} 
 	
+	# rescale due to stacking
+	if (legend.stack == "vertical") {
+		scaleS = sum(legHin) / maxH
+	} else {
+		scaleS = sum(legWin) / maxW
+	}
+	
+	if (scaleS > 1) {
+		warning("(Set of) legends is too ", ifelse(legend.stack == "vertical", "high", "wide"), " and are therefore rescaled.", call. = FALSE)
+		legWin = legWin / scaleS
+		legHin = legHin / scaleS
+		clipT = clipT * scaleS
+	}
+	
 	
 	legW = grid::unit(legWin, "inches")
 	legH = grid::unit(legHin, "inches")

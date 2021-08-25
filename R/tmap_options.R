@@ -338,4 +338,22 @@ tm_options <- function(...) {
 	tm_element_list(do.call(tm_element, c(args, list(calls = calls, subclass= "tm_options"))))
 	
 }	
+
+tm_place_legends_right = function(width) {
+	tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_lp_out("right", "center"))
+}
+
+
+tm_place_legends_left = function(width) {
+	tm_options(meta.margins = c(0, width, 0, 0), legend.position = tm_lp_out("left", "center"))
+}
+
+tm_place_legends_bottom = function(height) {
+	tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "bottom"))
+}
+
+tm_place_legends_top = function(height) {
+	tm_options(meta.margins = c(0, 0, height, 0), legend.position = tm_lp_out("center", "top"))
+}
+
 				 

@@ -321,7 +321,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 		as.count = FALSE
 	}
 	if (is.na(as.count)) {
-		as.count = is.integer(x1) && !any(x1 < 0)
+		as.count = is.integer(x1) && !any(!is.na(x1) & x1 < 0)
 	}
 
 	if (as.count) {
