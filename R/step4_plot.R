@@ -311,6 +311,7 @@ step4_plot = function(tm) {
 						bval = legs_aes[k, bvars, with = FALSE]
 						gp = tml$gp
 						
+						# fill gp values with (scaled) aes data
 						gpaid = which(paste0("__", legnm) == unlist(gp, use.names = FALSE))
 						for (j in gpaid) gp[[j]] = legs_aes$legend[[k]]$vvalues
 						
@@ -326,8 +327,15 @@ step4_plot = function(tm) {
 									lclone[bval, on = bvars_int]$vneutral
 								}
 							}, legs2[-i], names(legs2[-i]), SIMPLIFY = FALSE)
-							gpid = match(paste0("__", names(nvalues)), sapply(gp, "[[", 1))
-							gp[gpid] = nvalues
+							
+							
+							for (j in 1L:length(nvalues)) {
+								gpid = which(paste0("__", names(nvalues)[j]) == sapply(gp, "[[", 1))
+								for (jj in gpid) gp[[jj]] = nvalues[[j]]	
+							}
+							
+							#gpid = match(paste0("__", names(nvalues)), sapply(gp, "[[", 1))
+							#gp[gpid] = nvalues
 						}
 						
 						

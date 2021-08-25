@@ -81,10 +81,17 @@ tmapTransPolygons = function(shpTM) {
 	})
 }
 
-tmapTransCartogram = function(shpTM, size) {
-	x = st_sf(geometry = shpTM$shp, weight = size, tmapID__ = shpTM$tmapID)
+tmapTransCartogram = function(shpTM, area) {
+	s = shpTM$shp
+	
+	if (sf::st_is_longlat(s)) {
+		warning("tm_cartogram requires projected coordinates, not longlat degrees; shape has temporarily been projected to Eckert IV", call. = FALSE)
+		s = st_transform(s, crs = "+proj=eck4")
+	}
+	
+	x = st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
 	require(cartogram)
-	shp = suppressMessages({cartogram::cartogram_cont(x, weight = "weight", itermax = 5)})
+	shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = 5)}))
 	shp2 = sf::st_cast(sf::st_geometry(shp), "MULTIPOLYGON")
 	
 	list(shp = shp2, tmapID = shp$tmapID__)

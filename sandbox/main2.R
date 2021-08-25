@@ -373,10 +373,6 @@ tm_shape(World) +
 
 
 
-# to do: gp for trans (step2 422)
-tm_shape(World %>% st_transform(crs = "+proj=eck4")) +
-	tm_cartogram(size = "HPI", fill = "HPI", fill.scale = tm_scale_intervals(values = "RdYlBu", breaks = c(-20,-10,10,1000)), size.scale = tm_scale_continuous())
-
 
 # todos:
 tm_shape(World) +
@@ -404,9 +400,26 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_log10())
 
-# TO DO
 
 tm_shape(World) +
 	#	tm_polygons(fill = "pop_est_dens", fill.scale = tm_scale_intervals(values = "Reds")) +
 	#tm_shape(World) +
 	tm_polygons(fill = "economy", fill_alpha = 0.5, fill.scale = tm_scale_categorical(values = "Blues"), lwd = "well_being", lwd.scale = tm_scale_intervals())
+
+tm_shape(World) +
+	tm_cartogram(size = "HPI", fill = "HPI", fill.scale = tm_scale_intervals())
+
+tm_shape(World) +
+	tm_cartogram(size = "HPI", fill = "HPI")
+
+
+###################################################################################
+# TO DO list
+###################################################################################
+
+
+
+tm_shape(World) +
+	tm_balloons(size = "pop_est", col = "economy")
+
+
