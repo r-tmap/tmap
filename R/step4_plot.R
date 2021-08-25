@@ -311,8 +311,8 @@ step4_plot = function(tm) {
 						bval = legs_aes[k, bvars, with = FALSE]
 						gp = tml$gp
 						
-						gpaid = match(paste0("__", legnm), unlist(gp))
-						gp[[gpaid]] = legs_aes$legend[[k]]$vvalues
+						gpaid = which(paste0("__", legnm) == unlist(gp, use.names = FALSE))
+						for (j in gpaid) gp[[j]] = legs_aes$legend[[k]]$vvalues
 						
 						# will gp with neutral values for other graphical variables
 						if (copy_neutral) {

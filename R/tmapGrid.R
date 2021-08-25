@@ -361,7 +361,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			leg$type = if (!is.na(gp$fill[1]) && nchar(gp$fill[1]) > 50) {
 				"gradient"
-			} else if (is.na(gp$shape)) {
+			} else if (is.na(gp$shape[1])) {
 				"rect"
 			} else {
 				"symbols"
@@ -637,8 +637,11 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 			})
 			if (isnum) x = lapply(x, as.numeric)
 			if (pick_middle) {
-				x = lapply(x, function(i) {
-					i[5]
+				x = sapply(x, function(i) {
+					if (all(is.na(i))) NA else {
+						sq = c(5,6,4,7,3,8,2,9,1,10) # priority for middle values
+						i[sq[which(!is.na(i)[sq])[1]]]
+					}
 				})
 			}
 			return(x)
@@ -839,6 +842,19 @@ select_sf = function(shpTM, dt) {
 	list(shp = shpSel, dt = dt)
 }
 
+impute_gp = function(gp, dt) {
+	dtn = setdiff(names(dt), c("tmapID__", paste0("by", 1L:3L, "__")))
+	
+	cols = paste0("__", dtn)
+	gp1 = sapply(gp, "[[", 1)
+	gpids = which(gp1 %in% cols)
+	#gp[gpids] = as.list(dt[, dtn, with = FALSE])
+	
+	for (i in gpids) gp[i] = as.list(dt[, dtn[match(gp1[i], cols)], with = FALSE])
+	gp
+}
+
+
 tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page) {
 	
 	rc_text = frc(facet_row, facet_col)
@@ -851,12 +867,10 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	
 	#fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
 	#color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
+	gp = impute_gp(gp, dt)
 	
-	dtn = setdiff(names(dt), c("tmapID__", paste0("by", 1L:3L, "__")))
 	
-	cols = paste0("__", dtn)
-	gpids = match(cols, sapply(gp, "[[", 1))
-	gp[gpids] = as.list(dt[, dtn, with = FALSE])
+
 	
 	# none should contain NA's && (length or content should be different)
 	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
@@ -904,18 +918,18 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page)
 	shp = res$shp
 	dt = res$dt
 	
-	size = if ("size" %in% names(dt)) dt$size else rep(NA, nrow(dt))
-	shape = if ("shape" %in% names(dt)) dt$shape else rep(NA, nrow(dt))
-	#color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
+	gp = impute_gp(gp, dt)
 	
-	
-	gpf = sapply(gp, "[[", 1)
-	gpw = which(substr(gpf, 1, 2) == "__")
-	cols = names(gpw)
-	
-	
-	cols__ = paste0("__", cols)
-	gp[gpw] = as.list(dt[, cols, with = FALSE])
+	# size = if ("size" %in% names(dt)) dt$size else rep(NA, nrow(dt))
+	# shape = if ("shape" %in% names(dt)) dt$shape else rep(NA, nrow(dt))
+	# 
+	# gpf = sapply(gp, "[[", 1)
+	# gpw = which(substr(gpf, 1, 2) == "__")
+	# cols = names(gpw)
+	# 
+	# 
+	# cols__ = paste0("__", cols)
+	# gp[gpw] = as.list(dt[, cols, with = FALSE])
 	
 	
 	gp = gp_to_gpar(gp, sel = "all")
@@ -924,7 +938,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page)
 	coords = sf::st_coordinates(shp)
 	
 	#gp = grid::gpar(fill = color, col = "gray30")
-	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = shape, size = grid::unit(size, "lines"), gp = gp, name = "symbols")
+	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp, name = "symbols")
 	
 	gts = get("gts", .TMAP_GRID)
 	gt = gts[[facet_page]]

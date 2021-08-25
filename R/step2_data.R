@@ -221,6 +221,10 @@ step2_data = function(tm) {
 			#cat("step2_grp_lyr======================\n")
 			getdts = function(aes, nm, p) {
 				#cat("step2_grp_lyr_aes_", nm, "---------\n")
+				print(paste0("name ", nm))
+				print(paste0("aes ", aes$aes))
+				
+				nm = aes$aes
 				
 				val = aes$value
 
