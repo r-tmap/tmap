@@ -30,7 +30,7 @@ tm_legend_hide = function() {
 	tm_legend(show = FALSE)
 }
 
-tm_legend_share = function(aes) {
+tm_legend_combine = function(aes) {
 	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = "tm_legend")
 }
 

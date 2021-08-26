@@ -35,7 +35,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 	if (!has_raster(shp)) {
 		dimnms = dimnames(shp)
 		
-		dimvals = lapply(1:length(dimnms), function(i) st_get_dimension_values(shp, i))
+		dimvals = lapply(1:length(dimnms), function(i) stars::st_get_dimension_values(shp, i))
 		dimsfc = vapply(dimvals, inherits, what = "sfc", FUN.VALUE = logical(1))
 		
 		if (!any(dimsfc)) {
@@ -46,8 +46,8 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 			dimnms_new = dimnms
 			dimnms_new[dimid] = "tmapID__"
 			shpnames = names(shp)
-			shp = st_set_dimensions(shp, dimnms[dimid], values = 1L:length(geoms))
-			shp = st_set_dimensions(shp, names = dimnms_new)
+			shp = stars::st_set_dimensions(shp, dimnms[dimid], values = 1L:length(geoms))
+			shp = stars::st_set_dimensions(shp, names = dimnms_new)
 		}
 		
 		dt = as.data.table(shp)
@@ -65,14 +65,14 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 			shp = transwarp(shp, crs, raster.warp = TRUE)
 		}
 		
-		dims = st_dimensions(shp)
+		dims = stars::st_dimensions(shp)
 		rst = attr(dims, "raster")
 		
 		dim_xy = get_xy_dim(shp)
 		dimsxy = dims[names(dim_xy)]
 		
-		shp2 = st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
-		shp3 = st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
+		shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
+		shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
 		
 		dt = as.data.table(shp3, center = FALSE)
 		
@@ -85,11 +85,11 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 		
 		m = matrix(NA, nrow = nrow(shp), ncol = ncol(shp))
 		
-		shp = st_as_stars(list(values = m), dimensions = dimsxy)
+		shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
 		shpclass = "stars"
 	}
 	
-	bbox = st_bbox(shp)
+	bbox = sf::st_bbox(shp)
 	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
@@ -109,7 +109,7 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
 	
 	dtcols = copy(names(dt))
 	
-	bbox = st_bbox(sfc)
+	bbox = sf::st_bbox(sfc)
 	
 	dt[, tmapID__ := 1L:nrow(dt)]
 	

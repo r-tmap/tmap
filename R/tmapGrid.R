@@ -1024,7 +1024,7 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page)
 		
 		m <- matrix(color, ncol=nrow(shp), nrow=ncol(shp), byrow = TRUE)
 		
-		y_is_neg <- all(diff(st_get_dimension_values(shp, "y")) < 0)
+		y_is_neg <- all(diff(stars::st_get_dimension_values(shp, "y")) < 0)
 		if (!y_is_neg) {
 			m <- m[nrow(m):1L, ]
 		}

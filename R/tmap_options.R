@@ -79,7 +79,7 @@
 		),
 		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
 						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
-						  lwd = list(fact = "categorical", num = "intervals", int = "discrete"),
+						  lwd = list(fact = "categorical", num = "continuous", int = "discrete"),
 						  lty = list(fact = "categorical", num = "categorical"),
 						  shape = list(fact = "categorical", num = "categorical"),
 						  size = list(fact = "categorical", num = "continuous"),

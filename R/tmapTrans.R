@@ -86,10 +86,10 @@ tmapTransCartogram = function(shpTM, area) {
 	
 	if (sf::st_is_longlat(s)) {
 		warning("tm_cartogram requires projected coordinates, not longlat degrees; shape has temporarily been projected to Eckert IV", call. = FALSE)
-		s = st_transform(s, crs = "+proj=eck4")
+		s = sf::st_transform(s, crs = "+proj=eck4")
 	}
 	
-	x = st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
+	x = sf::st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
 	require(cartogram)
 	shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = 5)}))
 	shp2 = sf::st_cast(sf::st_geometry(shp), "MULTIPOLYGON")

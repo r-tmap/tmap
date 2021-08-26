@@ -1,5 +1,5 @@
 ---
-title: "tmap v4: upcoming changes"
+title: "tmap v4: a sneak peek"
 author: "Martijn Tennekes"
 date: "`r Sys.Date()`"
 output: 
@@ -17,9 +17,35 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 
-## Total renovation: why?
+## tmap v4: almost completely new
 
-The upcoming tmap version 4.0 has been build almost from scratch. Why?
+```r
+data(World)
+tm_shape(World) +
+tm_polygons("HPI", fill.scale = tm_scale_intervals)
+
+```
+
+The next major update of tmap will be a massive one. Although tmap is a well-known and greatly appreciated package in the r-spatial world, there are a couple of bottlenecks which make it difficult to maintain and extend. The upcoming tmap v4 will overcome these shortcomings. It is still in development, but now is a good time for a sneak peek.
+
+
+
+
+
+
+
+
+
+
+## Why?
+
+Although tmap 
+
+
+The upcoming tmap version 4.0 will be totally different
+
+There are two major bottlenecks in tmap v3: it is hard to extend and the layer functions (especially `tm_symbols`) contain too many arguments to see the trees through the forest.
+
 
 * _Extendibility_: we got a lot of questions via StackOverflow and GitHub such as: "Is it possible to map a data variable to line type?" and "Is it possible to create a bivariate choropleth?". Many of those feature request where hard to implement because the layer functions and its arguments were partly hard-coded in tmap. As of v4, the layer function definitions as not part of the core of tmap anymore, which makes it easy to improve and add layer functions. The main layer functions such as `tm_polygons` and `tm_symbols` will still be part of the `tmap` package, but potential new layer functions, such as `tm_cartogram`, `tm_doughnuts`, and `tm_flows`, will probably be part of add-on packages.
 

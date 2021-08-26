@@ -220,11 +220,11 @@ tm_shape(metro) +
 	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(values = c(0.3,0.4,0.8,0.9)))
 
 tm_shape(metro) +
-	tm_symbols(fill = "pop2020", size = "pop2020", size.scale = tm_scale_intervals(), size.legend = tm_legend_share("fill"))
+	tm_symbols(fill = "pop2020", size = "pop2020", size.scale = tm_scale_intervals(), size.legend = tm_legend_combine("fill"))
 
 
 tm_shape(metro) +
-	tm_symbols(fill = "pop2020", size = "pop2020", size.scale = tm_scale_intervals(), size.legend = tm_legend_share("fill"), fill.free = TRUE, size.free = TRUE) +
+	tm_symbols(fill = "pop2020", size = "pop2020", size.scale = tm_scale_intervals(), size.legend = tm_legend_combine("fill"), fill.free = TRUE, size.free = TRUE) +
 	tm_facets_wrap(by = "alpha_class")
 
 tm_shape(metro) +

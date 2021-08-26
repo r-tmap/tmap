@@ -14,7 +14,7 @@ trim_stars = function(x) {
 	dim2 = which(dim2)
 	dim2 = dim2[1]:dim2[length(dim2)]
 	x = x[, dim1, dim2]
-	x = st_normalize(x)
+	x = stars::st_normalize(x)
 	return(x)
 }
 
@@ -27,13 +27,13 @@ is_regular_grid <- function (x) {
 
 has_raster <- function (x) {
 	if (inherits(x, "stars")) 
-		x = st_dimensions(x)
+		x = stars::st_dimensions(x)
 	!is.null(r <- attr(x, "raster")) && all(r$dimensions %in% 
 												names(x))
 }
 
 has_rotate_or_shear <- function (x) {
-	dimensions = st_dimensions(x)
+	dimensions = stars::st_dimensions(x)
 	if (has_raster(x)) {
 		r = attr(dimensions, "raster")
 		!any(is.na(r$affine)) && any(r$affine != 0)
@@ -42,12 +42,12 @@ has_rotate_or_shear <- function (x) {
 }
 
 is_curvilinear <- function (x) {
-	d = st_dimensions(x)
+	d = stars::st_dimensions(x)
 	has_raster(x) && isTRUE(attr(d, "raster")$curvilinear)
 }
 
 is_rectilinear <- function (x) {
-	d = st_dimensions(x)
+	d = stars::st_dimensions(x)
 	if (has_raster(x) && !is_curvilinear(x)) {
 		xy = attr(d, "raster")$dimensions
 		dimx = d[[xy[1]]]
@@ -82,7 +82,7 @@ st_downsample = function (x, n, fill_out = TRUE)
 	stopifnot(all(n >= 0))
 	d = dim(x)
 	n = rep(n, length.out = length(d))
-	dims = st_dimensions(x)
+	dims = stars::st_dimensions(x)
 	regular = is_regular_grid(x)
 	if (!all(n <= 1)) {
 		args = rep(list(rlang::missing_arg()), length(d) + 1)
@@ -90,7 +90,7 @@ st_downsample = function (x, n, fill_out = TRUE)
 			args[[i + 1]] = seq(1, d[i], n[i])
 		x = eval(rlang::expr(x[!!!args]))
 		if (fill_out && regular) {
-			d_new = st_dimensions(x)
+			d_new = stars::st_dimensions(x)
 			for (i in seq_along(d)) {
 				dims[[i]]$delta = dims[[i]]$delta * n[i]
 				dims[[i]]$from = d_new[[i]]$from

@@ -34,7 +34,7 @@ stm_bbox = function(shpTM, tmapID) {
 
 stm_merge_bbox = function(blist) {
 	m = do.call(rbind, blist)
-	st_bbox(c(apply(m[, 1:2, drop = FALSE], 2, min), apply(m[, 3:4, drop = FALSE], 2, max)))
+	sf::st_bbox(c(apply(m[, 1:2, drop = FALSE], 2, min), apply(m[, 3:4, drop = FALSE], 2, max)))
 }
 
 
