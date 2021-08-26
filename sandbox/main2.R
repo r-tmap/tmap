@@ -311,6 +311,11 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_balloons(size = "pop_est", col = "economy")
 
+tm_shape(prec_nc) +
+	tm_polygons("Total_precipitation_surface_1_Hour_Accumulation", fill.legend = tm_legend("Hourly precipitation")) +
+	tm_facets(by = "time")
+
+
 ###################################################################################
 # TO DO list
 ###################################################################################

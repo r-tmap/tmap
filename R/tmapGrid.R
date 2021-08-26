@@ -107,6 +107,9 @@ tmapGridInit = function(o) {
 	prows = as.numeric(rows)
 	pcols = as.numeric(cols)
 	
+	if (sum(prows) >= 1 || sum(pcols) >= 1) stop("Margins are too large, or too many facets.", call. = FALSE)
+	
+	
 	fasp = ((1-sum(pcols)) / (1-sum(prows))) * o$dasp / o$ncols * o$nrows # asp per facet (with original outer margins)
 	gasp = ((1-sum(pcols)) / (1-sum(prows))) * o$dasp # asp total facets (with original outer margins)
 	
@@ -282,7 +285,6 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	bgcol = if (!is.na(o$bg.color)) o$bg.color else NA
 	frame.lwd = if (identical(o$frame, FALSE)) 0 else o$frame.lwd
 	frame.col = if (identical(o$frame, FALSE)) NA else if (identical(o$frame, TRUE)) "gray30" else o$frame.col
-	
 	
 	innerRect = if (is.na(bgcol) && frame.lwd == 0) {
 		NULL
@@ -616,7 +618,6 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 
 
 gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle = TRUE) {
-
 	# get alpha value (sel: "all" means fill and col, "fill" and "col" mean fill and col only respectively)
 	alpha = if (sel == "fill") {
 		if (!is.na(gp$fill_alpha[1])) gp$fill_alpha else 1
@@ -869,7 +870,8 @@ impute_gp = function(gp, dt) {
 }
 
 
-tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page) {
+
+tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -884,8 +886,6 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	gp = impute_gp(gp, dt)
 	
 	
-
-	
 	# none should contain NA's && (length or content should be different)
 	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 	
@@ -893,12 +893,12 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	if (diffAlpha) {
 		gp1 = gp_to_gpar(gp, sel = "fill")
 		gp2 = gp_to_gpar(gp, sel = "col")
-		grb1 = sf::st_as_grob(shp, gp = gp1, name = "polygons")
-		grb2 = sf::st_as_grob(shp, gp = gp2, name = "polygon_borders")
+		grb1 = sf::st_as_grob(shp, gp = gp1, name = paste0("polygons_", id))
+		grb2 = sf::st_as_grob(shp, gp = gp2, name = paste0("polygon_borders_", id))
 		grb = grid::grobTree(grb1, grb2)
 	} else {
 		gp = gp_to_gpar(gp, sel = "all")
-		grb = sf::st_as_grob(shp, gp = gp, name = "polygons")
+		grb = sf::st_as_grob(shp, gp = gp, name = paste0("polygons_", id))
 	}
 	
 	
@@ -925,7 +925,7 @@ appendGlist = function(glist, x) {
 }
 
 
-tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page) {
+tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id) {
 	rc_text = frc(facet_row, facet_col)
 	
 	res = select_sf(shpTM, dt)
@@ -952,7 +952,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page)
 	coords = sf::st_coordinates(shp)
 	
 	#gp = grid::gpar(fill = color, col = "gray30")
-	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp, name = "symbols")
+	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp, name = paste0("symbols_", id))
 	
 	gts = get("gts", .TMAP_GRID)
 	gt = gts[[facet_page]]
@@ -973,7 +973,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page)
 }
 
 
-tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page) {
+tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id) {
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
 	
@@ -1029,7 +1029,7 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page)
 			m <- m[nrow(m):1L, ]
 		}
 		m[is.na(m)] = NA #"#0000FF"
-		grb = grid::rasterGrob(m, x=cx, y=cy, width=width, height=height, interpolate = FALSE) #gpl$raster.misc$interpolate
+		grb = grid::rasterGrob(m, x=cx, y=cy, width=width, height=height, interpolate = FALSE, name = paste0("raster_", id)) #gpl$raster.misc$interpolate
 		gt = grid::addGrob(gts[[facet_page]], grb, gPath = grid::gPath(paste0("gt_facet_", rc_text)))
 		gts[[facet_page]] = gt
 		assign("gts", gts, envir = .TMAP_GRID)

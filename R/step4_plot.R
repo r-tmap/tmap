@@ -197,16 +197,13 @@ process_meta = function(o) {
 				# b needed to compare landscape vs portrait. E.g if prefered asp is 2, 1 is equally good as 4
 				ncols = which.min(vapply(1L:n, function(nc) {
 					nr = ceiling(n / nc)
-					# print("--")
-					# print(nc)
-					# print(nr)
-					width = ((1 - sum(fixedMargins[c(2, 4)])) - (nc * sum(panel.wrap.size[c(2,4)])) - (nc - 1) * between.marginW) / nc
-					height = ((1 - sum(fixedMargins[c(1, 3)])) - (nr * sum(panel.wrap.size[c(1,3)])) - (nr - 1) * between.marginH) / nr
+					
+					# calculate available width and height. They can be negative, at this stage this is avoided my taking at least a small number
+					width = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (nc * sum(panel.wrap.size[c(2,4)])) - (nc - 1) * between.marginW) / nc)
+					height = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (nr * sum(panel.wrap.size[c(1,3)])) - (nr - 1) * between.marginH) / nr)
 					
 					a = (width / height) * dasp
 					b = ifelse(a<pasp, pasp/a, a/pasp)
-					# print(a)
-					# print(b)
 					b
 				}, FUN.VALUE = numeric(1)))
 
@@ -437,7 +434,7 @@ step4_plot = function(tm) {
 				sel = sel & dt[[bynames[i]]] %in% b[[byids[i]]]			
 			}
 		}
-		if (!any(sel)) warning("empty dt: ", by1, " ", by2, " ", by3)#browser() #stop("empty dt")
+		#if (!any(sel)) warning("empty dt: ", by1, " ", by2, " ", by3)#browser() #stop("empty dt")
 		dt[which(sel),]
 	}
 	
@@ -535,18 +532,21 @@ step4_plot = function(tm) {
 			tmxi = tmx[[ig]]
 			nl = length(tmxi$layers)
 			for (il in 1L:nl) {
-				
-				#if (ir == 2 && ig == 2 && il == 2) browser()
-				
+
 				bl = tmxi$layers[[il]]
 				shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
 				mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
-				gp = bl$gp
 				
-				FUN = paste0("tmap", gs, bl$mapping_fun)
+				id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", ig), "l", sprintf("%02d", il))
 				
-				#if (FUN == "tmapGridRaster") browser()
-				do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i]))
+				if (nrow(mdt) != 0) {
+					gp = bl$gp
+					
+					FUN = paste0("tmap", gs, bl$mapping_fun)
+					
+					#if (FUN == "tmapGridRaster") browser()
+					do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id))
+				}
 			}
 			
 		}
