@@ -711,18 +711,37 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 # 			   linejoin = gp$linejoin)
 # }
 
+determine_scale = function(label, rot, row, col, g) {
+	
+	w = sum(g$colsIn[col])
+	h = sum(g$rowsIn[row])
+	
+	labwidth = grid::convertWidth(grid::stringWidth(label), unitTo = "inches", valueOnly = TRUE)
+	labheight = grid::convertWidth(grid::stringHeight(label), unitTo = "inches", valueOnly = TRUE)
+	
+	
+	scale = min(1, {if (rot %in% c(0, 180)) {
+		min(w / labwidth, h / labheight)
+	} else {
+		min(h / labwidth, w / labheight)
+	}})
+}
+
+
 
 tmapGridWrap = function(label, facet_row, facet_col, facet_page) {
 	gts = get("gts", envir = .TMAP_GRID)
 	g = get("g", envir = .TMAP_GRID)
 	
 	gt = gts[[facet_page]]
-	
-	
-	
+
 	rot = g$panel_rot
+	row = g$rows_panel_ids[facet_row]
+	col = g$cols_panel_ids[facet_col]
 	
-	gt = add_to_gt(gt, grid::textGrob(label = label, rot = rot), row = g$rows_panel_ids[facet_row], col = g$cols_panel_ids[facet_col])
+	scale = determine_scale(label = label, rot = rot, row = row, col = col, g = g)
+	
+	gt = add_to_gt(gt, grid::textGrob(label = label, rot = rot, gp = grid::gpar(cex = scale)), row = row, col = col)
 
 	gts[[facet_page]] = gt
 	
@@ -746,6 +765,10 @@ tmapGridXtab = function(label, facet_row = NULL, facet_col = NULL, facet_page) {
 		row = g$rows_panel_row_ids[facet_row]
 		col = g$rows_panel_col_id
 	}
+	
+	scale = determine_scale(label = label, rot = rot, row = row, col = col, g = g)
+	
+	
 	#print(rot)
 	
 		# 		gt = add_to_gt(gt, grid::textGrob(label = paste("Row", i), rot = ifelse(o$panel.xtab.pos[1] == "left", 90, 270)), row = g$rows_panel_row_ids[i], col = g$rows_panel_col_id)
@@ -755,7 +778,7 @@ tmapGridXtab = function(label, facet_row = NULL, facet_col = NULL, facet_page) {
 		# 	}
 	
 
-	gt = add_to_gt(gt, grid::textGrob(label = label, rot = rot), row = row, col = col)
+	gt = add_to_gt(gt, grid::textGrob(label = label, rot = rot, gp = grid::gpar(cex = scale)), row = row, col = col)
 	
 	gts[[facet_page]] = gt
 	
@@ -884,8 +907,7 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	#fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
 	#color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
 	gp = impute_gp(gp, dt)
-	
-	
+
 	# none should contain NA's && (length or content should be different)
 	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 	

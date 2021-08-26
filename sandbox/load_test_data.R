@@ -23,4 +23,9 @@ World$income_grp_int = as.integer(World$income_grp)
 World$HPI2 = World$HPI / 2
 World$HPI3 = round(World$HPI)
 
+World$HPI_class = cut(World$HPI, breaks = seq(10, 50, by = 10))
+World$well_being_class = cut(World$well_being, breaks = seq(2, 8, by = 2))
+World$footprint_class = cut(World$footprint, breaks = seq(0, 16, by = 4))
+
+
 metro$alpha_class = factor(floor(seq(1, 5, length.out = nrow(metro) + 1)[1:nrow(metro)]), labels = LETTERS[1:4])

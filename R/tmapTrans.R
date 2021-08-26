@@ -85,7 +85,7 @@ tmapTransCartogram = function(shpTM, area) {
 	s = shpTM$shp
 	
 	if (sf::st_is_longlat(s)) {
-		warning("tm_cartogram requires projected coordinates, not longlat degrees; shape has temporarily been projected to Eckert IV", call. = FALSE)
+		stop("tm_cartogram requires projected coordinates, not longlat degrees. A projected CRS can be specified in tm_shape (argument crs)", call. = FALSE)
 		s = sf::st_transform(s, crs = "+proj=eck4")
 	}
 	

@@ -39,7 +39,7 @@ step1_rearrange = function(tmel) {
 	ids = get_main_ids(tmo)
 	
 	crs_option = tmap_options()$crs
-	crs = crs_option#if (is.na(crs_option[1])) get_crs(tmo[[ids[1]]]$tms) else crs_option
+	crs = if (is.na(crs_option[1])) get_crs(tmo[[ids[1]]]$tms) else crs_option
 	main_class = get_class(tmo[[ids[1]]]$tms)
 
 	# reproject other shapes if needed

@@ -302,18 +302,24 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_polygons("HPI", fill.scale = tm_scale_log10())
 
-tm_shape(World) +
+tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "HPI", fill = "HPI", fill.scale = tm_scale_intervals())
 
-tm_shape(World) +
+tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "HPI", fill = "HPI")
 
-tm_shape(World) +
+tm_shape(World, crs = "+proj=eck4") +
 	tm_balloons(size = "pop_est", col = "economy")
 
 tm_shape(prec_nc) +
 	tm_polygons("Total_precipitation_surface_1_Hour_Accumulation", fill.legend = tm_legend("Hourly precipitation")) +
 	tm_facets(by = "time")
+
+tm_shape(World) +
+	tm_polygons(fill = "life_exp") +
+	tm_facets_grid("well_being_class", "footprint_class") +
+	tm_shape(World, is.main = TRUE) +
+	tm_borders()
 
 
 ###################################################################################
