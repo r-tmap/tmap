@@ -104,19 +104,6 @@ get_default_contrast <- function(type, m) {
 
 tmap_pal_name_compress = function(x) tolower(gsub("[-, \\,, (, ), \\ ]",  "", x))
 
-tmap_pals = local({
-	fnm = split(.tmap_pals$label, list(.tmap_pals$package, .tmap_pals$series)) 
-	nm = split(.tmap_pals$name, list(.tmap_pals$package, .tmap_pals$series)) 
-	
-	fnm = fnm[vapply(fnm, FUN = function(x) length(x) > 0, FUN.VALUE = logical(1))]
-	nm = nm[vapply(nm, FUN = function(x) length(x) > 0, FUN.VALUE = logical(1))]
-	
-	mapply(function(fnmi, nmi) {
-		names(fnmi) = nmi
-		as.list(fnmi)
-	}, fnm, nm)
-	
-})
 
 
 
@@ -134,7 +121,7 @@ tmapGetPalette = function(name, n) {
 	pal
 }
 
-
+#' @export
 tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 							  series = c("palette", "hcl", "brewer", "viridis", "kovesi", "ocean", "carto", "bivariate", "misc"),
 							  n = 9,

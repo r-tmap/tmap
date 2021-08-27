@@ -339,19 +339,22 @@ tm_options <- function(...) {
 	
 }	
 
+#' @export
 tm_place_legends_right = function(width) {
 	tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_lp_out("right", "center"))
 }
 
-
+#' @export
 tm_place_legends_left = function(width) {
 	tm_options(meta.margins = c(0, width, 0, 0), legend.position = tm_lp_out("left", "center"))
 }
 
+#' @export
 tm_place_legends_bottom = function(height) {
 	tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "bottom"))
 }
 
+#' @export
 tm_place_legends_top = function(height) {
 	tm_options(meta.margins = c(0, 0, height, 0), legend.position = tm_lp_out("center", "top"))
 }

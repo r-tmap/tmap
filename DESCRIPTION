@@ -2,7 +2,7 @@ Package: tmap
 License: GPL-3
 Title: Thematic Maps
 Type: Package
-LazyLoad: yes
+LazyData: true
 Authors@R: c(
 	person("Martijn", "Tennekes", email = "mtennekes@gmail.com", role = c("aut", "cre")),
 	person("Jakub", "Nowosad", email = "nowosad.jakub@gmail.com", role = "ctb"),
@@ -15,8 +15,8 @@ Authors@R: c(
 	person("Jannes", "Muenchow", email = "jannes.muenchow@uni-jena.de", role = "ctb")
 	)
 Description: Thematic maps are geographical maps in which spatial data distributions are visualized. This package offers a flexible, layer-based, and easy to use approach to create thematic maps, such as choropleths and bubble maps.
-Version: 3.2
-Date: 2020-09-15
+Version: 4.0
+Date: 2021-08-28
 Encoding: UTF-8
 Depends:
     R (>= 3.5.0),
@@ -39,8 +39,7 @@ Imports:
     leafem (>= 0.1),
     stats,
     rlang,
-    utils,
-    magrittr
+    utils
 Suggests:
 	rmapshaper,
 	cartogram,

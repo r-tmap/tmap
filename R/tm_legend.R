@@ -1,3 +1,4 @@
+#' @export
 tm_legend = function(title  = NA,
 					 show = TRUE,
 					 is.portrait = TRUE,
@@ -25,36 +26,43 @@ tm_legend = function(title  = NA,
 	structure(c(list(FUN = "tmapLegend"), as.list(environment())), class = "tm_legend")
 }
 
-
+#' @export
 tm_legend_hide = function() {
 	tm_legend(show = FALSE)
 }
 
+#' @export
 tm_legend_combine = function(aes) {
 	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = "tm_legend")
 }
 
+#' @export
 tm_legend_portrait = function(...) {
 	tm_legend(...)
 }
 
+#' @export
 tm_legend_landscape = function(is.portrait = FALSE, ...) {
 	args = c(list(...), list(is.portrait = is.portrait))
 	do.call(tm_legend, args)
 }
 
+#' @export
 tm_lp_inset = function(h = NA, v = NA) {
 	structure(list(h = h, v = v, type = "inset"), class = "tm_lp")
 }
 
+#' @export
 tm_lp_cell = function(h = NA, v = NA) {
 	structure(list(h = h, v = v, type = "cell"), class = "tm_lp")
 }
 
+#' @export
 tm_lp_out = function(h = NA, v = NA) {
 	structure(list(h = h, v = v, type = "out"), class = "tm_lp")
 }
 
+#' @export
 tm_lp_auto = function(h = NA, v = NA) {
 	structure(list(h = h, v = v, type = "auto"), class = "tm_lp")
 }

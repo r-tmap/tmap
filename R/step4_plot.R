@@ -456,7 +456,7 @@ step4_plot = function(tm) {
 			shpTM = get_shpTM(tmi$shpDT, by1, by2, by3)
 			mdt = get_dt(tmi$mapping_dt, by1, by2, by3)
 			
-			bbxs2 = lapply(shpTM, tmap::stm_bbox, tmapID = mdt$tmapID__)
+			bbxs2 = lapply(shpTM, stm_bbox, tmapID = mdt$tmapID__)
 			bbx = stm_merge_bbox(bbxs2)
 			if (is.na(bbx)) bbx else tmaptools::bb(bbx, asp.limit = 10)
 		})

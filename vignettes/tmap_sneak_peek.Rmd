@@ -10,6 +10,10 @@ output:
       smooth_scroll: false
     toc_depth: 2
 link-citations: yes
+vignette: >
+  %\VignetteIndexEntry{tmap v4: a sneak peek}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
 ---
 
 ```{r setup, include=FALSE}
@@ -17,8 +21,7 @@ knitr::opts_chunk$set(echo = TRUE, fig.width = 9, warning = FALSE)
 ```
 
 ```{r, echo = FALSE, message = FALSE}
-library(devtools)
-load_all("../")
+library(tmap)
 data(World, metro)
 #tmap_design_mode()
 ```

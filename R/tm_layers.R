@@ -1,50 +1,4 @@
-tm_balloons = function(col = tm_const(),
-					   col.scale = tm_scale_auto(),
-					   col.legend = tm_legend_portrait(),
-					   col.free = NA,
-					   size = 1,
-					   size.scale = tm_scale_auto(),
-					   size.legend = tm_legend_hide(),
-					   size.free = NA,
-					   alpha = 0.5,
-					   lwd = 2,
-					   zindex = NA,
-					   group = NA) {
-	
-	tm_element_list(tm_element(
-		layer = "balloons",
-		trans.fun = tmapTransCartogram,
-		trans.aes = list(size = tmapScale(aes = "area",
-										  value = size,
-										  scale = size.scale,
-										  legend = size.legend,
-										  free = size.free)),
-		trans.isglobal = TRUE,
-		mapping.aes = list(col = tmapScale(aes = "col",
-						   				value = col,
-						   				scale = col.scale,
-						   				legend = col.legend,
-						   				free = col.free)),
-		
-		gpar = tmapGpar(fill = "__col",
-						col = "__col",
-						shape = NA,
-						size = NA,
-						fill_alpha = alpha,
-						col_alpha = 1,
-						pattern = "fill",
-						lty = NA,
-						lwd = lwd,
-						linejoin = NA,
-						lineend = NA),
-		tpar = tmapTpar(area = "__area"),
-		mapping.fun = "Polygons",
-		subclass = c("tm_aes_layer", "tm_layer")))
-}
-
-						
-	
-
+#' @export
 tm_polygons = function(fill = tm_const(), 
 					   fill.scale = tm_scale_auto(),
 					   fill.legend = tm_legend_portrait(),
@@ -73,7 +27,7 @@ tm_polygons = function(fill = tm_const(),
 					   lineend = "round",
 					   zindex = NA,
 					   group = NA) {
-
+	
 	tm_element_list(tm_element(
 		layer = "polygons",
 		trans.fun = tmapTransPolygons,
@@ -91,24 +45,24 @@ tm_polygons = function(fill = tm_const(),
 						   				free = col.free),
 						   lwd = tmapScale(aes = "lwd",
 						   				value = lwd,
-						   			  scale = lwd.scale,
-						   			  legend = lwd.legend,
-						   			  free = lwd.free),
+						   				scale = lwd.scale,
+						   				legend = lwd.legend,
+						   				free = lwd.free),
 						   lty = tmapScale(aes = "lty",
 						   				value = lty,
-						   			  scale = lty.scale,
-						   			  legend = lty.legend,
-						   			  free = lty.free),
+						   				scale = lty.scale,
+						   				legend = lty.legend,
+						   				free = lty.free),
 						   fill_alpha = tmapScale(aes = "fill_alpha",
 						   					   value = fill_alpha,
-						   					 scale = fill_alpha.scale,
-						   					 legend = fill_alpha.legend,
-						   					 free = fill_alpha.free),
+						   					   scale = fill_alpha.scale,
+						   					   legend = fill_alpha.legend,
+						   					   free = fill_alpha.free),
 						   col_alpha = tmapScale(aes = "col_alpha",
 						   					  value = col_alpha,
-						   					 scale = col_alpha.scale,
-						   					 legend = col_alpha.legend,
-						   					 free = col_alpha.free)),
+						   					  scale = col_alpha.scale,
+						   					  legend = col_alpha.legend,
+						   					  free = col_alpha.free)),
 		
 		gpar = tmapGpar(fill = "__fill",
 						col = "__col",
@@ -126,8 +80,7 @@ tm_polygons = function(fill = tm_const(),
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
-
-
+#' @export
 tm_borders = function(col = tm_const(),
 					  col.scale = tm_scale_auto(),
 					  col.legend = tm_legend_portrait(),
@@ -155,10 +108,10 @@ tm_borders = function(col = tm_const(),
 		trans.aes = list(),
 		trans.isglobal = FALSE,
 		mapping.aes = list(col = tmapScale(aes = "col",
-						   				value = col,
-						   				scale = col.scale,
-						   				legend = col.legend,
-						   				free = col.free),
+										   value = col,
+										   scale = col.scale,
+										   legend = col.legend,
+										   free = col.free),
 						   lwd = tmapScale(aes = "lwd",
 						   				value = lwd,
 						   				scale = lwd.scale,
@@ -191,6 +144,13 @@ tm_borders = function(col = tm_const(),
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
+
+
+
+
+
+
+#' @export
 tm_cartogram = function(...,
 						size = 1,
 						size.scale = tm_scale_auto(),
@@ -212,6 +172,53 @@ tm_cartogram = function(...,
 }
 
 
+#' @export
+tm_balloons = function(col = tm_const(),
+					   col.scale = tm_scale_auto(),
+					   col.legend = tm_legend_portrait(),
+					   col.free = NA,
+					   size = 1,
+					   size.scale = tm_scale_auto(),
+					   size.legend = tm_legend_hide(),
+					   size.free = NA,
+					   alpha = 0.5,
+					   lwd = 2,
+					   zindex = NA,
+					   group = NA) {
+	
+	tm_element_list(tm_element(
+		layer = "balloons",
+		trans.fun = tmapTransCartogram,
+		trans.aes = list(size = tmapScale(aes = "area",
+										  value = size,
+										  scale = size.scale,
+										  legend = size.legend,
+										  free = size.free)),
+		trans.isglobal = TRUE,
+		mapping.aes = list(col = tmapScale(aes = "col",
+										   value = col,
+										   scale = col.scale,
+										   legend = col.legend,
+										   free = col.free)),
+		
+		gpar = tmapGpar(fill = "__col",
+						col = "__col",
+						shape = NA,
+						size = NA,
+						fill_alpha = alpha,
+						col_alpha = 1,
+						pattern = "fill",
+						lty = NA,
+						lwd = lwd,
+						linejoin = NA,
+						lineend = NA),
+		tpar = tmapTpar(area = "__area"),
+		mapping.fun = "Polygons",
+		subclass = c("tm_aes_layer", "tm_layer")))
+}
+
+
+#' @export
 tm_raster = function(col = tm_const(),
 					 col.scale = tm_scale_auto(),
 					 col.legend = tm_legend_portrait(),
@@ -248,8 +255,9 @@ tm_raster = function(col = tm_const(),
 
 
 
+#' @export
 tm_rgb = function(color = MV(1:3),
-				  color.scale = tm_aes_color_rgb(),
+				  color.scale = tm_scale_rgb(),
 				  color.legend = tm_legend_portrait(),
 				  color.free = NA) {
 	do.call(tm_raster, color = color, color.scale = color.scale, color.legend = color.legend, color.free = color.free)
@@ -260,11 +268,7 @@ tm_rgb = function(color = MV(1:3),
 
 
 
-
-
-
-
-
+#' @export
 tm_symbols = function(fill = tm_const(),
 					  fill.scale = tm_scale_auto(),
 					  fill.legend = tm_legend_portrait(),
@@ -361,62 +365,3 @@ tm_symbols = function(fill = tm_const(),
 		mapping.fun = "Symbols",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
-
-
-
-
-
-
-# 
-# 
-# tm_symbols = function(col = tm_const("col.symbols"), 
-# 					  size = tm_const("size.symbols"), 
-# 					  shape = tm_const("shappe.symbols"),
-# 					  fill = tm_const("fill.symbols"),
-# 					  col.scale = tm_aes_color("col.symbols"), 
-# 					  size.scale = tm_aes_2d_size("size.symbols"),
-# 					  shape.scale = tm_aes_shape("shape.symbols"),
-# 					  fill.scale = tm_aes_color("fill.symbols"), 
-# 					  col.legend = tm_legend_portrait(),
-# 					  size.legend = tm_legend_portrait(),
-# 					  shape.legend = tm_legend_portrait(),
-# 					  fill.legend = tm_legend_portrait(),
-# 					  col.free = NA,
-# 					  size.free = NA,
-# 					  shape.free = NA,
-# 					  fill.free = NA) {
-# 	
-# 	tm_element_list(tm_element(
-# 		trans.fun = tmapTransCentroid,
-# 		trans.aes = list(),
-# 		trans.isglobal = FALSE,
-# 		mapping.aes = list(col = tmapAes(value = col,
-# 										   scale = col.scale,
-# 										   legend = col.legend,
-# 										   free = col.free),
-# 						   size = tmapAes(value = size,
-# 						   			   scale = size.scale,
-# 						   			   legend = size.legend,
-# 						   			   free = size.free),
-# 						   shape = tmapAes(value = shape,
-# 						   				scale = shape.scale,
-# 						   				legend = shape.legend,
-# 						   				free = shape.free),
-# 						   fill = tmapAes(value = fill,
-# 						   			  scale = fill.scale,
-# 						   			  legend = fill.legend,
-# 						   			  free = fill.free)),
-# 		gpar = tmapGpar(fill = "__fill",
-# 						col = "__col",
-# 						shape = "__shape",
-# 						size = "__size",
-# 						fill_alpha = 1,
-# 						col_alpha = 1,
-# 						pattern = "fill",
-# 						lty = "solid",
-# 						lwd = 1,
-# 						linejoin = "round",
-# 						lineend = "round"),
-# 		mapping.fun = "Symbols",
-# 		subclass = c("tm_aes_layer", "tm_layer")))
-# }

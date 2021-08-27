@@ -1,3 +1,22 @@
+#' @import tmaptools
+#' @import sf
+#' @import stars
+#' @import units
+#' @import grid
+#' @import RColorBrewer
+#' @import viridisLite
+#' @import classInt
+#' @import htmltools
+#' @import htmlwidgets
+#' @import widgetframe
+#' @import leaflet
+#' @import leafsync
+#' @import leafem
+#' @import stats
+#' @importFrom rlang missing_arg expr
+#' @importFrom grDevices col2rgb colorRampPalette colors dev.off dev.size png rgb
+#' @import utils
+#' @export
 tm_shape = function(shp, 
 					name = NULL,
 					is.main = NA,

@@ -2,14 +2,17 @@ tm_const = function() {
 	tmapOption("value.const")
 }
 
+#' @export
 tm_scale_auto = function(...) {
 	structure(c(list(FUN = "tmapScaleAuto"), list(...)), class = c("tm_scale_auto", "tm_scale"))
 }
 
+#' @export
 tm_scale_not_implemented = function() {
 	structure(list(), class = "tm_scale")
 }
 
+#' @export
 tm_scale_ordinal = function(n.max = 20,
 							values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 							values.repeat = TRUE,
@@ -27,6 +30,7 @@ tm_scale_ordinal = function(n.max = 20,
 
 
 
+#' @export
 tm_scale_categorical = function(n.max = 20,
 								values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 								values.repeat = TRUE,
@@ -42,6 +46,7 @@ tm_scale_categorical = function(n.max = 20,
 	structure(c(list(FUN = "tmapScaleCategorical"), as.list(environment())), class = c("tm_scale_categorical", "tm_scale"))
 }
 
+#' @export
 tm_scale_intervals = function(n = 5, 
 							  style = ifelse(is.null(breaks), "pretty", "fixed"),
 							  style.args = list(),
@@ -61,6 +66,7 @@ tm_scale_intervals = function(n = 5,
 	structure(c(list(FUN = "tmapScaleIntervals"), as.list(environment())), class = c("tm_scale_intervals", "tm_scale"))
 }
 
+#' @export
 tm_scale_discrete = function(ticks = NA,
 							 step = NA,
 							 midpoint = NULL,
@@ -76,12 +82,14 @@ tm_scale_discrete = function(ticks = NA,
 	structure(c(list(FUN = "tmapScaleDiscrete"), as.list(environment())), class = c("tm_scale_discrete", "tm_scale"))
 }
 
+#' @export
 tm_scale_rank = function(...) {
 	tmc = tm_scale_continuous(...)
 	class(tmc) = c("tm_scale_rank", "tm_scale")
 	tmc
 }
 
+#' @export
 tm_scale_log10 = function(...) {
 	tmc = tm_scale_continuous(...)
 	class(tmc) = c("tm_scale_log10", "tm_scale")
@@ -89,6 +97,7 @@ tm_scale_log10 = function(...) {
 }
 
 
+#' @export
 tm_scale_continuous = function(n = 5,
 							   ticks = NULL,
 							   values = NA,
@@ -104,46 +113,8 @@ tm_scale_continuous = function(n = 5,
 	structure(c(list(FUN = "tmapScaleContinuous"), as.list(environment())), class = c("tm_scale_continuous", "tm_scale"))
 }
 
+
+#' @export
 tm_scale_rgb = function(maxValue = 255) {
 	structure(c(list(FUN = "tmapScaleRGB"), as.list(environment())), class = c("tm_scale_rgb", "tm_scale"))
 }
-
-
-# tm_scale_order = function(aes,
-# 						  valueNA = NA,
-# 						  valueNULL = NA,
-# 						  labels = NULL,
-# 						  labelNA = "Missing",
-# 						  labelNULL = "Undefined") {
-# 	
-# }
-# 
-# tm_scale_log10 = function(aes,
-# 						  valuerange = NA,
-# 						  valueNA = NA,
-# 						  valueNULL = NA,
-# 						  labels = NULL,
-# 						  labelNA = "Missing",
-# 						  labelNULL = "Undefined") {
-# 	
-# }
-# 		
-# tm_scale_continuous_area = function(aes,
-# 									valuerange = NA,
-# 									valueNA = NA,
-# 									valueNULL = NA,
-# 									labels = NULL,
-# 									labelNA = "Missing",
-# 									labelNULL = "Undefined") {
-# 	
-# }
-# tm_scale_log10_area = function(aes,
-# 							   valuerange = NA,
-# 							   valueNA = NA,
-# 							   valueNULL = NA,
-# 							   labels = NULL,
-# 							   labelNA = "Missing",
-# 							   labelNULL = "Undefined") {
-# 	
-# }
-

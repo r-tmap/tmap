@@ -37,3 +37,5 @@ vignettes/*.md
 # Local files
 /local/
 docs
+/doc/
+/Meta/

@@ -1,3 +1,4 @@
+#' @export
 tm_facets = function(by = "VARS__",
 					 rows = NULL,
 					 columns = NULL,
@@ -45,6 +46,7 @@ tm_facets = function(by = "VARS__",
 	
 }
 
+#' @export
 tm_facets_grid = function(rows = NULL,
 						  columns = NULL,
 						  pages = NULL,
@@ -56,6 +58,8 @@ tm_facets_grid = function(rows = NULL,
 	tm
 }
 
+
+#' @export
 tm_facets_wrap = function(by = "VARS__",
 						  nrows = NA,
 						  ncols = NA,

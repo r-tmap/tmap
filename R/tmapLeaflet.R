@@ -11,7 +11,7 @@ tmapLeafletInit = function(o) {
 
 	lfs = lapply(per_page, function(p) {
 		lapply(seq_len(p), function(i) {
-			leaflet::leaflet() %>% leaflet::addTiles()# %>% leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4])
+			leaflet::leaflet() |> leaflet::addTiles()# |> leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4])
 		})
 	})
 	
@@ -52,8 +52,8 @@ assign_lf = function(lf, facet_row, facet_col, facet_page) {
 
 tmapLeafletShape = function(bbx, facet_row, facet_col, facet_page) {
 	bbx = unname(bbx)
-	get_lf(facet_row, facet_col, facet_page) %>% 
-		leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) %>% 
+	get_lf(facet_row, facet_col, facet_page) |> 
+		leaflet::fitBounds(bbx[1], bbx[2], bbx[3], bbx[4]) |> 
 		assign_lf(facet_row, facet_col, facet_page)
 	NULL
 }
@@ -72,8 +72,8 @@ tmapLeafletPolygons = function(shpTM, dt, bbx, facet_row, facet_col, facet_page)
 	fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
 	color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
 	
-	lf %>% 
-		leaflet::addPolygons(data = shp, color = color, opacity = 1, fillColor = fill, fillOpacity = 1) %>% 
+	lf |> 
+		leaflet::addPolygons(data = shp, color = color, opacity = 1, fillColor = fill, fillOpacity = 1) |> 
 		assign_lf(facet_row, facet_col, facet_page)
 	NULL	
 }
@@ -96,8 +96,8 @@ tmapLeafletSymbols = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) 
 	coords = sf::st_coordinates(shp)
 
 		
-	lf %>% 
-		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = color, radius = size*4, fillOpacity = 1, color = "black", opacity = 1, weight = 1) %>% 
+	lf |> 
+		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = color, radius = size*4, fillOpacity = 1, color = "black", opacity = 1, weight = 1) |> 
 		assign_lf(facet_row, facet_col, facet_page)
 	NULL	
 }
@@ -155,8 +155,8 @@ tmapLeafletRaster = function(shpTM, dt, bbx, facet_row, facet_col, facet_page) {
 		
 		#shp2 = transwarp(shp, crs = st_crs(3857), raster.warp = TRUE)
 		
-		lf %>% 
-			leafem::addStarsImage(shp, band = 1, colors = pal) %>% 
+		lf |> 
+			leafem::addStarsImage(shp, band = 1, colors = pal) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		shpTM <- shapeTM(sf::st_as_sf(shp), tmapID)

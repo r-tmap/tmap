@@ -1,4 +1,3 @@
-#' @param tmel tmap object
 step1_rearrange = function(tmel) {
 	# find shapes and layers
 	is_tms = sapply(tmel, inherits, "tm_shape")

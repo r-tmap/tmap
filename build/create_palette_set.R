@@ -114,7 +114,24 @@ gn = function(x, name) get(paste(x, name, sep = "_"))
 .tmap_pals$fullname = paste(.tmap_pals$series, .tmap_pals$name, sep = "__")
 
 
-save(.tmap_pals, file = "R/sysdata.rda")
+usethis::use_data(.tmap_pals, internal = TRUE, overwrite = TRUE)
 
+
+
+tmap_pals = local({
+	fnm = split(.tmap_pals$label, list(.tmap_pals$package, .tmap_pals$series)) 
+	nm = split(.tmap_pals$name, list(.tmap_pals$package, .tmap_pals$series)) 
+	
+	fnm = fnm[vapply(fnm, FUN = function(x) length(x) > 0, FUN.VALUE = logical(1))]
+	nm = nm[vapply(nm, FUN = function(x) length(x) > 0, FUN.VALUE = logical(1))]
+	
+	mapply(function(fnmi, nmi) {
+		names(fnmi) = nmi
+		as.list(fnmi)
+	}, fnm, nm)
+	
+})
+
+usethis::use_data(tmap_pals, internal = FALSE)
 
 
