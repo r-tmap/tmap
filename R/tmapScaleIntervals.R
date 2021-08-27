@@ -8,6 +8,12 @@ tmapValuesCheck_col = function(x) {
 }
 
 
+tmapValuesCheck_shape = function(x) {
+	# to do
+	TRUE
+}
+
+
 tmapValuesCheck_size = function(x) {
 	inherits(x, "tmapSeq") || (is.numeric(x) && (all(x>=0) || all(x<=0)))
 }
@@ -63,6 +69,10 @@ tmapValuesIsDiv_area = function(x) {
 	tmapValuesIsDiv_size(x)
 }
 
+tmapValuesIsDiv_shape = function(x) {
+	FALSE
+}
+
 tmapValuesContrast_fill = function(x, n, isdiv) {
 	palid = tmapPalId(x[1])
 	if (!is.na(palid) && isdiv) {
@@ -74,6 +84,10 @@ tmapValuesContrast_fill = function(x, n, isdiv) {
 
 tmapValuesContrast_col = function(x, n, isdiv) {
 	tmapValuesContrast_fill(x, n, isdiv)
+}
+
+tmapValuesContrast_shape = function(x, n, isdiv) {
+	c(0, 1)
 }
 
 tmapValuesContrast_size = function(x, n, isdiv) {
@@ -180,6 +194,10 @@ tmapValuesVV_col = function(...) {
 	do.call(tmapValuesVV_fill, args = list(...))
 }
 
+tmapValuesVV_shape = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast) {
+	list(vvalues = rep(x, length.out = n), value.neutral = x[1])
+}
+
 
 tmapValuesVV_size = function(x, isdiv, n, dvalues, are_breaks , midpoint, contrast) {
 	#break_mids = breaks[-(n+1)] + (breaks[-1] - breaks[-(n+1)]) / 2
@@ -243,11 +261,7 @@ tmapValuesVV_area = function(...) {
 }
 
 
-tmapValuesVV_shape = function(x, isdiv, n, dvalues, are_breaks, contrast) {
-	colpal = rep(x, length.out = n)
-	snap = TRUE
-	
-}
+
 
 
 tmap_seq = function(from = 0, to = 1, curve = c("lin", "sqrt", "sqrt_perceptual", "quadratic")) {
@@ -276,7 +290,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_intervals cannot be applied", call. = FALSE)
 	if (cls[1] != "num") stop("tm_scale_intervals can only be used for numeric data", call. = FALSE)
 	
-	if (p %in% c("lty", "shape", "pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
+	if (p %in% c("pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
 	values = if (is.na(scale$values[1])) getAesOption("values.var", opt, p, layer, cls = cls) else scale$values
 	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, p, layer, cls = cls) else scale$value.na

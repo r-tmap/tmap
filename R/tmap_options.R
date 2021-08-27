@@ -96,7 +96,7 @@
 						  col_alpha = c(0.25, 1),
 						  shape = 21:25,
 						  area = c(0, 1)),
-		values.contrast = list(fill = NA, col = NA, size = NA, lwd = NA, lty = NULL, fill_alpha = NA, col_alpha = NA, shape = NULL), # NA = automatic, NULL is not applicable
+		values.contrast = list(fill = NA, col = NA, size = NA, lwd = NA, lty = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 1,
 							 lwd = 2,
 							 fill_alpha = 1,

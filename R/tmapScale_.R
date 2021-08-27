@@ -71,7 +71,7 @@ tmapScaleAuto = function(x1, scale, legend, opt, aes, layer, p) {
 	
 	tm_scalefun = paste0("tm_scale_", sc)
 	
-	scale_new = do.call(tm_scalefun, args = list())
+	scale_new = do.call(tm_scalefun, args = scale)
 	
 	
 	FUN = scale_new$FUN

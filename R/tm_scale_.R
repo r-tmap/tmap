@@ -2,8 +2,8 @@ tm_const = function() {
 	tmapOption("value.const")
 }
 
-tm_scale_auto = function() {
-	structure(c(list(FUN = "tmapScaleAuto"), as.list(environment())), class = c("tm_scale_auto", "tm_scale"))
+tm_scale_auto = function(...) {
+	structure(c(list(FUN = "tmapScaleAuto"), list(...)), class = c("tm_scale_auto", "tm_scale"))
 }
 
 tm_scale_not_implemented = function() {
