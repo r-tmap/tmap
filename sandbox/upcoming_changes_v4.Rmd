@@ -13,85 +13,214 @@ link-citations: yes
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.width = 9, warning = FALSE)
 ```
 
+The next major update of tmap will be a massive one. Although tmap is a well-known and widely used in the r-spatial world, there are a couple of bottlenecks which make it difficult to maintain and extend. The upcoming tmap v4 will overcome these shortcomings. It is still in development, but now is a good time for a sneak peek.
 
-## tmap v4: almost completely new
 
-```r
-data(World)
+## Aesthetics
+
+```{r, echo = FALSE, message = FALSE}
+library(devtools)
+load_all("../")
+data(World, metro)
+#tmap_design_mode()
+```
+
+The arguments that specify aesthetics themselves will remain the same. E.g. the main (and in tmap 3.x only) aesthetic in `tm_polygons` is `fill` which defines the fill color of the polygons.
+
+However, the other arguments of the layer functions are organized differently. Each aesthetic will only have four arguments: the aesthetic ifself (`fill`), the scale (`fill.scale`), the legend (`fill.legend`), and an argument that decides whether scales are free (`fill.free`) across facets.
+
+An example:
+
+```{r, eval = FALSE, class.source='bg-warning'}
+# tmap 3
 tm_shape(World) +
-tm_polygons("HPI", fill.scale = tm_scale_intervals)
-
+  tm_polygons(fill, palette = "RdYlGn", title = "Happy Planet Index")
 ```
 
-The next major update of tmap will be a massive one. Although tmap is a well-known and greatly appreciated package in the r-spatial world, there are a couple of bottlenecks which make it difficult to maintain and extend. The upcoming tmap v4 will overcome these shortcomings. It is still in development, but now is a good time for a sneak peek.
+```{r, class.source='bg-success'}
+# tmap 4.x
+tm_shape(World) +
+	tm_polygons(fill = "HPI", 
+				fill.scale = tm_scale_intervals(values = "RdYlGn"), 
+				fill.legend = tm_legend(title = "Happy Planet Index"))
+```
+
+Yes, this code is a bit longer, but due to the large number of layer function arguments in tmap 3, it is hard to see the trees through the forest (especially for `tm_symbols`). Moreover, for both users and developers it will become much easier to create and implement new map types.
+To illustrate this `tm_polygons` will have the aesthetics `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty` and eventually also `pattern`. A data variable can be mapped to each of them, using different (generic) scales:
+
+```{r, eval = FALSE, class.source='bg-warning'}
+# tmap 3
+# ... not possible :(
+```
+
+```{r fig.height = 6, fig.width=9, class.source='bg-success'}
+# tmap 4
+World$life_exp_class = cut(World$life_exp, breaks = seq(40, 85, by = 15))
+
+tm_shape(World, crs = "+proj=eck4") +
+	tm_polygons(fill = "HPI", 
+				fill.scale = tm_scale_continuous(values = "RdYlGn"), 
+				fill.legend = tm_legend(title = "Happy Planet Index"),
+				lwd = "well_being",
+				lwd.scale = tm_scale_continuous(value.neutral = 1, 
+				                                values = c(0, 5),
+				                                label.na = ""),
+				lwd.legend = tm_legend(title = "Well Being",
+				                       space = 0.5),
+				lty = "life_exp_class",
+				lty.scale = tm_scale_ordinal(values = c("dotted", "dashed", "solid"), 
+				                             value.na = "blank", 
+				                             value.neutral = "solid",
+				                             label.na = ""),
+				lty.legend = tm_legend(title = "Life Expectancy", 
+				                       space = 0.5)
+	)
+```
+
+Besides these **visual aesthetics**, which map data variables to visual variables, there is also another group of aesthetics, namely **transformation aesthetics** which are used to transform spatial objects. An example is the cartogram where a data variable determines the size of the polygons.
 
 
 
 
+```{r, eval=FALSE, class.source='bg-warning'}
+# tmap 3
+library(cartogram)
+World_carto = World |>
+  sf::st_transform(World, crs = "+proj=eck4") |>
+  cartogram(weight = "pop_est")
+
+tm_shape(World_carto, crs = "+proj=eck4") +
+  tm_polygons(fill, 
+              palette = "RdYlGn", 
+              title = "Happy Planet Index")
+```
+
+
+In tmap 4, there will be a direct function `tm_cartogram`, which uses the transformation aesthetic `size` and inherits all visual aesthetics from `tm_polygons`:
+
+
+```{r, class.source='bg-success',message=FALSE}
+# tmap 4
+tm_shape(World, crs = "+proj=eck4") +
+	tm_cartogram(size = "pop_est",
+				 fill = "HPI", 
+				 fill.scale = tm_scale_intervals(values = "RdYlGn"),
+				 fill.legend = tm_legend(title = "Happy Planet Index")) +
+	tm_place_legends_right(width = 0.2)
+```
+
+(We haven't decided whether to include this in the **tmap** package or in an extension package)
+
+## Legends
+
+As you may have noticed in the previous examples, the legends look a bit differently by default.
+
+### Positioning
+
+Legends are placed outside the map by default. Why? Simply because there is often more space than inside the map.
+
+Furthermore, it is possible to place legends on different locations across the map:
+
+```{r, eval = FALSE, class.source='bg-warning'}
+# tmap 3
+# ... not possible :(
+```
+
+```{r fig.height = 6, fig.width=9, class.source='bg-success'}
+# tmap 4
+tm_shape(World) +
+  tm_symbols(fill = "HPI",
+             size = "pop_est",
+             shape = "income_grp",
+             fill.legend = tm_legend(position = tm_lp_inset("left", "top")),
+             size.legend = tm_legend(position = tm_lp_out("left", "center")),
+             shape.legend = tm_legend(position = tm_lp_out("center", "bottom")))
+```
+
+
+```{r, eval = FALSE, class.source='bg-warning'}
+# tmap 3
+# ... not possible :(
+```
+
+```{r fig.height = 6, fig.width=9, class.source='bg-success'}
+# tmap 4
+tm_shape(World) +
+  tm_symbols(fill = "HPI",
+             size = "pop_est",
+             shape = "income_grp") +
+tm_place_legends_left(0.3)
+```
+
+
+
+* A (small) spacing is added between legend items.
+* Legends for continuous color scales have been improved
+
+### Combined legends
+
+Another new feature is to combine legends directly, which was quite a hassle in tmap 3
+
+```{r, eval=FALSE, class.source='bg-warning'}
+# tmap 3
+tm_shape(metro) +
+    tm_symbols(col = 'pop2020', 
+		   n=4,
+		   size='pop2020',
+		   legend.size.show = FALSE,
+		   legend.col.show = FALSE) + 
+tm_add_legend('symbol', 
+			  col = RColorBrewer::brewer.pal(4, "YlOrRd"),
+			  border.col = "grey40",
+			  size = ((c(10, 20, 30, 40) * 1e6) / 40e6) ^ 0.5 * 2,
+			  labels = c('0 mln to 10 mln', '10 mln to 20 mln', '20 mln to 30 mln', '30 mln to 40 mln'),
+			  title="Population in 2020") +
+	tm_layout(legend.outside = TRUE, legend.outside.position = "bottom")
+```
+
+
+```{r, class.source='bg-success'}
+# tmap 4
+tm_shape(metro) +
+	tm_symbols(fill = "pop2020",
+	           fill.legend = tm_legend("Population in 2020"),
+			   size = "pop2020",
+			   size.scale = tm_scale_intervals(),
+			   size.legend = tm_legend_combine("fill"))
+```
+
+
+
+## Facets
+
+A few feature regarding the facets (which were already there) is the `free` argument, which determines whether scales are free across facets or shared. In tmap 4, it is possible to set this not only per aesthetic, but also per dimension (row, column):
+
+```{r, eval = FALSE, class.source='bg-warning'}
+# tmap 3
+# ... not possible :(
+```
+
+```{r, class.source='bg-success'}
+# tmap 4
+tm_shape(World, crs = "+proj=robin") +
+	tm_borders() +
+	tm_shape(World) +
+	tm_polygons(fill = "life_exp", 
+	            fill.scale = tm_scale_intervals(values = tmap_pals$pals.brewer$brewer.greens),
+	            fill.free = c(FALSE, TRUE)) +
+	tm_symbols(size = "gdp_cap_est", 
+	           size.free = c(TRUE, FALSE), 
+	           fill = "red") +
+	tm_facets_grid("income_grp", "economy") +
+	tm_options(meta.margins = c(.2, 0, 0,.1))
+```
 
 
 
 
+## Extentions
 
 
-## Why?
-
-Although tmap 
-
-
-The upcoming tmap version 4.0 will be totally different
-
-There are two major bottlenecks in tmap v3: it is hard to extend and the layer functions (especially `tm_symbols`) contain too many arguments to see the trees through the forest.
-
-
-* _Extendibility_: we got a lot of questions via StackOverflow and GitHub such as: "Is it possible to map a data variable to line type?" and "Is it possible to create a bivariate choropleth?". Many of those feature request where hard to implement because the layer functions and its arguments were partly hard-coded in tmap. As of v4, the layer function definitions as not part of the core of tmap anymore, which makes it easy to improve and add layer functions. The main layer functions such as `tm_polygons` and `tm_symbols` will still be part of the `tmap` package, but potential new layer functions, such as `tm_cartogram`, `tm_doughnuts`, and `tm_flows`, will probably be part of add-on packages.
-
-* _Too many arguments_: Some layer functions, especially `tm_symbols`, have so many arguments that it is hard to see the trees through the forest. As of v4, the layer function arguments will be neatly organized. Each aesthetic will only have 4 arguments:
-
-    1. a 'main' argument (e.g. `"col"`) that determines which value or data variable to use. This is similar to the current tmap version.
-    2. a 'scale' argument (e.g. `"col.scale"`) which determines _how_ the data variables are mapped to (in this case) a color palette. For each type of scale there will be a function (`tm_scale_categorical`, `tm_scale_oridnal` `tm_scale_discrete`, `tm_scale_intervals`, and `tm_scale_continuous` will be the main ones) that contains the arguments that setup the scale.
-    3. a 'legend' arugment (e.g. `"col.legend"`) which determines what type of legend will be shown and where. The position of the legends has been changed as well and is much more flexible, especially regarding outside positioning.
-    4. a 'free' arugment (e.g. `"col.free"`) which determines whether scale are shared across facets. It will also be possible to set this per facet dimension (row, column, and page).
-
-
-
-
-
-
-
-
-
-## Layer functions
-
-
-
-
-### More and more aethetics
-
-### Its arguments: scale, and free, legend
-
-### _transformation_ and _mapping_ aesthetics
-
-### Extendable
-
-
-
-## Scales
-
-
-
-
-## Graphics
-
-### Legend placement
-
-### Extendable
-
-## Spatial classes
-
-### Native support for sf, stars and terra
-
-### Extendable

@@ -86,9 +86,10 @@ tmapTransCartogram = function(shpTM, area) {
 	
 	if (sf::st_is_longlat(s)) {
 		stop("tm_cartogram requires projected coordinates, not longlat degrees. A projected CRS can be specified in tm_shape (argument crs)", call. = FALSE)
-		s = sf::st_transform(s, crs = "+proj=eck4")
 	}
-	
+
+	message("Cartogram in progress...")
+		
 	x = sf::st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
 	require(cartogram)
 	shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = 5)}))
