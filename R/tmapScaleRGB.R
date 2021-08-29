@@ -15,3 +15,17 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, opt, aes, layer, p) {
 	format_aes_results(values, legend)
 	
 }
+
+tmapScaleNA = function(x1, scale, legend, opt, aes, layer, p) {
+	legend = list(title = NA, 
+				  nitems = 0,
+				  labels = NA, 
+				  dvalues = NA, 
+				  vvalues = NA,
+				  vneutral = "grey50",
+				  na.show = NA,
+				  setup = list(show = FALSE))
+	
+	format_aes_results(values, legend)
+	
+}

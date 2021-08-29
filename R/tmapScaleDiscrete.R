@@ -18,10 +18,10 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, p, layer, cls = cls) else scale$values.contrast
 	
 	
+	anyNA = any(is.na(x1))
 	
 	u = sort(unique(x1))
-	anyNA = any(is.na(u))
-	u = na.omit(u)
+	#u = na.omit(u)
 	rng = range(u)
 
 	ticks = scale$ticks
@@ -142,7 +142,7 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	}
 	
 	fun_getVV = paste0("tmapValuesVV_", p)
-	VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, contrast = values.contrast))
+	VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, contrast = values.contrast, rep = scale$values.repeat))
 	
 	vvalues = VV$vvalues
 	if (is.na(value.neutral)) value.neutral = VV$value.neutral

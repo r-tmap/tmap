@@ -903,7 +903,6 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	dt = res$dt
 	
 	
-	
 	#fill = if ("fill" %in% names(dt)) dt$fill else rep(NA, nrow(dt))
 	#color = if ("color" %in% names(dt)) dt$color else rep(NA, nrow(dt))
 	gp = impute_gp(gp, dt)

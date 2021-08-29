@@ -212,6 +212,20 @@ process_meta = function(o) {
 			}
 		}
 		
+		# update panel labels
+		
+		if (is.na(panel.labels[1])) {
+			panel.labels = fl[1:2]
+		} else {
+			if (!is.list(panel.labels)) panel.labels = list(panel.labels, "")
+			panel.labels = mapply(FUN = function(p, f) {
+				if (length(p) != length(f)) warning("the number of supplied panel labels does not correspond to the number of panels", call. = FALSE)
+				rep_len(p, length(f))
+			}, panel.labels, fl[1:2], SIMPLIFY = FALSE)
+		}
+			
+		
+		
 		
 		# if (n>1 && meta.automatic && !identical(asp, 0)) {
 		# 	# redo meta margins calculations
@@ -509,24 +523,20 @@ step4_plot = function(tm) {
 	
 	if (o$panel.type == "xtab") {
 		for (k in 1:o$npages) {
-			labrows = o$fl[[1]]
-			labcols = o$fl[[2]]
+			labrows = o$panel.labels[[1]]
+			labcols = o$panel.labels[[2]]
 			if (length(labrows) == o$nrows) for (i in 1:o$nrows) do.call(FUNxtab, list(label = labrows[i], facet_row = i, facet_page = k)) 
 			if (length(labcols) == o$ncols) for (j in 1:o$ncols) do.call(FUNxtab, list(label = labcols[j], facet_col = j, facet_page = k)) 
 
 		}
 	}
 	
-
-
 	d = d[!is.na(asp), ]
-	
-	
-	
+
 	for (i in seq_len(nrow(d))) {
  		bbx = d$bbox[[i]]
 		#if (is.na(bbx)) next
- 		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$fl[[1]][i], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i])) 
+ 		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][i], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i])) 
  		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 		for (ig in 1L:o$ng) {
 			tmxi = tmx[[ig]]
@@ -588,7 +598,7 @@ step4_plot = function(tm) {
 	
 	# how to deal with grid row/col indices? make global?
 	
-	#legs[class == "inset", ':='(h2 = h, v2 = v)]
+	#legs[class == "in", ':='(h2 = h, v2 = v)]
 	
 	toC = function(x) {
 		paste(x, collapse = "_")
@@ -619,8 +629,8 @@ step4_plot = function(tm) {
 			legs[, by2__ := by1__]
 			legs[, by1__ := NA]
 		} else if (o$nrows > 1 && o$ncols > 1) {
-			legs[class != "inset", by1__ := NA]
-			legs[class != "inset", by2__ := NA]
+			legs[class != "in", by1__ := NA]
+			legs[class != "in", by2__ := NA]
 		}
 	}
 			
@@ -641,15 +651,15 @@ step4_plot = function(tm) {
 	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(v == "center", toC(1:o$nrows), ifelse(v == "by", as.character(by1__), ifelse(v == "top", as.character(-2), as.character(-1)))),
 										   facet_col = ifelse(h == "center", toC(1:o$ncols), ifelse(h == "by", as.character(by2__), ifelse(h == "left", as.character(-2), as.character(-1)))))]
 	
-	# manual inset legends
+	# manual in legends
 	
 	# find all facets
 	
 	
 	
-	is_inset = legs$class == "inset"
-	if (any(is_inset)) {
-		legs_inset = lapply(which(is_inset), function(i) {
+	is_in = legs$class == "in"
+	if (any(is_in)) {
+		legs_in = lapply(which(is_in), function(i) {
 			d2 = data.table::copy(d)
 			legsi = legs[i, ]
 			if (is.na(legsi$by1__)) d2[, by1:= NA]
@@ -659,7 +669,7 @@ step4_plot = function(tm) {
 			legsi[, ':='(facet_row = as.character(row), facet_col = as.character(col), row = NULL, col = NULL)]
 			legsi
 		})
-		legs = data.table::rbindlist(c(list(legs[!is_inset]), legs_inset))
+		legs = data.table::rbindlist(c(list(legs[!is_in]), legs_in))
 	}
 	
 

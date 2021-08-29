@@ -104,7 +104,7 @@ Besides these **visual aesthetics**, which map data variables to visual variable
 They are used to transform spatial objects.
 An example of **transformation aesthetics** is the cartogram, where polygons are distorted such that the size will be (approximately) proportional to a data variable.
 
-Cartograms could already be made with tmap v3, but it explicitly required transforming the data using the **cartogram** package before mapping.
+Cartograms could already be made with **tmap v3**, but it explicitly required transforming the data using the **cartogram** package before mapping.
 
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap 3
@@ -164,6 +164,92 @@ Let us know your opinion at https://github.com/mtennekes/tmap/issues/565)
 
 ## Scales
 
+Scales are used to map data variables to visual variables. 
+Scales are not new in **map v4**, but they are used more explicitly.
+
+The following table shows the scales that are currently available:
+
+| Scale							| Main Data Type 						| Example  				|
+|---							|---									|---					|
+| `tm_scale_categorical`  		| categorical (`factor`)  				| Fruit type 			|
+| `tm_scale_ordinal`  			| categorical (`ordered`)  				| Education level  		|
+| `tm_scale_intervals`			| numerical (`integer` or `numeric`)  	| Age group  			|
+| `tm_scale_continuous`   		| numerical (`numeric`)  				| Height   				|
+| `tm_scale_log10`   			| numerical (`numeric`)   				| Income   				|
+| `tm_scale_discrete`   		| numerical (`integer`)  				| Number of children  	|
+
+The main data type (second column) is the data type for which the scale is supposed to be applied.
+Any scale can be applied to any data type (even though it might not make sense), with one exception: continuous (and log10) scales cannot be applied to visual variables that can only take a finite set of values.
+Examples are symbol shape and line type.
+By default, `tm_scale_categorical`, `tm_scale_ordinal`, and `tm_scale_intervals` are used for data of class `factor`, `ordered` and `numeric` respectively.
+Scales for date/time variables will be included as well.
+
+The main argument of each scale function is `values`, which are the values for the visual variables. 
+The following table shows which type of values are required for which visual variable
+
+
+| Visual variable				| Type of values 				|
+|---							|---							|
+| `fill` and `col`  			| Color palette  				| 
+| `size` and `lwd`  			| (Exponential) value range 	|
+| `lty`   						| Line types, e.g. `"dashed"`	|
+| `shape`						| Shapes (probably similar as in **tmap v3**)	|
+| `fill_alpha` and `col_alpha`	| Value range					|
+
+The default values depend not only on the visual variable, but also on the scale and on whether data values are diverging.
+For instance, if `tm_scale_intervals` is applied to a numeric variable with both negative and positive values where the visual variable is `fill`, then a diverging color palette is used.
+
+
+The following map illustrates what happens when the six scale functions are applied to the same data variable.
+We use the variable *life expectancy* (which we round in order to make sure the number of unique values is limited):
+
+```{r, message=FALSE}
+data(World)
+Africa = World[World$continent == "Africa", ]
+Africa$life_exp = round(Africa$life_exp)
+```
+
+Scales existed in **tmap v3**, but they were applied implicitly via several arguments:
+
+```{r, class.source='bg-warning',message=FALSE}
+# tmap v3
+tm_shape(Africa) +
+	tm_polygons(rep("life_exp", 5), style = c("cat", "cat", "pretty", "cont", "log10"),
+				palette = list("Set2", "YlOrBr", "YlOrBr", "YlOrBr", "YlOrBr"),
+				title = "") +
+	tm_layout(panel.labels = c("categorical scale", "ordinal scale", "intervals scale", "continuous scale", "log10 scale"),
+			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
+			  legend.text.size = 0.5)
+
+tm_shape(Africa) +
+	tm_polygons("life_exp", style = "fixed",
+				palette = "YlOrBr",
+				breaks = 49:76,
+				as.count = TRUE,
+				title = "") +
+	tm_layout(panel.labels = "discrete scale", 
+			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
+			  legend.text.size = 0.5)
+```
+
+```{r, class.source='bg-success',message=FALSE,fig.height=7}
+# tmap v4
+tm_shape(Africa) +
+	tm_polygons(rep("life_exp", 6), fill.scale = list(tm_scale_categorical(),
+													  tm_scale_ordinal(),
+													  tm_scale_intervals(),
+													  tm_scale_continuous(),
+													  tm_scale_log10(),
+													  tm_scale_discrete()),
+				fill.legend = tm_legend(title = "", position = tm_lp_in("left", "top"))) +
+	tm_layout(panel.labels = c("tm_scale_categorical", "tm_scale_ordinal", "tm_scale_intervals", "tm_scale_continuous", "tm_scale_log10", "tm_scale_discrete"), 
+			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
+			  legend.text.size = 0.5)
+```
+
+
+
+
 ## Legends
 
 As you may have noticed in the previous examples, the legends look a bit differently by default.
@@ -187,7 +273,7 @@ tm_shape(World) +
              size = "pop_est",
              shape = "income_grp",
   		     size.scale = tm_scale_auto(value.neutral = 0.5),
-             fill.legend = tm_legend("Happy Planet Index", position = tm_lp_inset("left", "top")),
+             fill.legend = tm_legend("Happy Planet Index", position = tm_lp_in("left", "top")),
              size.legend = tm_legend("Population", position = tm_lp_out("left", "center")),
              shape.legend = tm_legend("Income Group", position = tm_lp_out("center", "bottom"), space = 0.5))
 ```
@@ -195,7 +281,7 @@ tm_shape(World) +
 **tmap v3** contains many (often complicated) options for rather simple things.
 These options are set globally via `tmap_options` or within a single plot with `tm_layout`.
 
-In **tmap v**4, the complicated options are still there, and available via `tmap_options` and `tm_options`.
+In **tmap v**4, the directly related to the layout are accessible via `tm_layout`.
 However, to ease its use, there will be a bunch of handy shortcut functions, such as `tm_place_legends_left`:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
@@ -257,7 +343,33 @@ This is also useful to make continuous legends better.
 
 ## Facets
 
-<!-- A few feature regarding the facets (which were already there) is the `free` argument, which determines whether scales are free across facets or shared. In tmap 4, it is possible to set this not only per aesthetic, but also per dimension (row, column): --> 
+In **tmap v4**, there will be convenient wrappers `tm_facet_wrap` and `tm_facet_grid`, where the former wraps the facets, and the latter places the facets in a grid layout.
+
+Furthermore, each visual variable will have a `free` argument, which determines whether scales are free (`TRUE`) or shared (`FALSE`) across facets.
+
+```{r}
+tm_shape(World, crs = "+proj=robin") +
+	tm_borders() +
+tm_shape(World) +
+	tm_polygons("life_exp", fill.free = FALSE) +
+tm_facets_wrap("continent")
+```
+
+
+```{r}
+tm_shape(World, crs = "+proj=robin") +
+	tm_borders() +
+tm_shape(World) +
+	tm_polygons("life_exp", fill.free = TRUE) +
+tm_facets_wrap("continent", nrow = 1)
+```
+
+
+
+A few feature regarding the facets (which were already there) is the `free` argument, which determines whether scales are free across facets or shared. 
+
+
+In tmap 4, it is possible to set this not only per aesthetic, but also per dimension (row, column): --> 
 
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap 3

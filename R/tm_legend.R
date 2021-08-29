@@ -48,8 +48,8 @@ tm_legend_landscape = function(is.portrait = FALSE, ...) {
 }
 
 #' @export
-tm_lp_inset = function(h = NA, v = NA) {
-	structure(list(h = h, v = v, type = "inset"), class = "tm_lp")
+tm_lp_in = function(h = NA, v = NA) {
+	structure(list(h = h, v = v, type = "in"), class = "tm_lp")
 }
 
 #' @export

@@ -32,53 +32,6 @@ the mode before changing
 \description{
 Set tmap mode to static plotting or interactive viewing. The global option \code{tmap.mode} determines the whether thematic maps are plot in the graphics device, or shown as an interactive leaflet map (see also \code{\link{tmap_options}}. The function \code{tmap_mode} is a wrapper to set this global option. The convenient function \code{ttm}, which stands for toggle thematic map, is a toggle switch between the two modes. The function \code{ttmp} stands for toggle thematic map and print last map: it does the same as \code{ttm} followed by \code{tmap_last}; in order words, it shows the last map in the other mode. It is recommended to use \code{tmap_mode} in scripts and \code{ttm}/\code{ttmp} in the console.
 }
-\examples{
-# world choropleth/bubble map of the world
-data(World, metro)
-metro$growth <- (metro$pop2020 - metro$pop2010) / (metro$pop2010 * 10) * 100
-
-map1 <- tm_shape(World) +
-	tm_polygons("income_grp", palette="-Blues", contrast=.7, id="name", title="Income group") +
-	tm_shape(metro) +
-	tm_bubbles("pop2010", col = "growth", 
-		border.col = "black", border.alpha = .5, 
-		style="fixed", breaks=c(-Inf, seq(0, 6, by=2), Inf),
-		palette="-RdYlBu", contrast=1, 
-		title.size="Metro population", 
-		title.col="Growth rate (\%)", id="name",
-		popup.vars = c("pop2010", "pop2020", "growth")) + 
-	tm_layout(legend.bg.color = "grey90", legend.bg.alpha=.5, legend.frame=TRUE)
-
-# initial mode: "plot"
-current.mode <- tmap_mode("plot")
-
-# plot map
-map1
-
-# switch to other mode: "view"
-ttm()
-
-# view map
-map1
-
-\dontrun{
-# choropleth of the Dutch population in interactive mode:
-require(tmaptools)
-data(NLD_muni, NLD_prov)
-NLD_muni$pop_dens <- calc_densities(NLD_muni, var = "population")
-
-tm_shape(NLD_muni) +
-	tm_fill(col="pop_dens", 
-		style="kmeans", 
-		title = "Population (per km^2)", id = "name") +
-	tm_borders("grey25", alpha=.5) + 
-	tm_shape(NLD_prov) +
-	tm_borders("grey40", lwd=2)
-}
-
-# restore current mode
-tmap_mode(current.mode)
-}
 \references{
 Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \doi{10.18637/jss.v084.i06}
 }

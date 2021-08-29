@@ -43,9 +43,11 @@ data_type_grp = function(x) {
 }
 
 data_class = function(x) {
-	if (all(is.na(x))) {
-		"na"
-	} else if (is.numeric(x)) {
+	
+	# if (all(is.na(x))) {
+	# 	"na"
+	# } else
+	 if (is.numeric(x)) {
 		subclass1 = if (is.integer(x)) "int" else "real"
 		subclass2 = if (any(x < 0 & !is.na(x)) && any(x > 0 & !is.na(x))) {
 			"div"
@@ -66,6 +68,8 @@ tmapScale = function(aes, value, scale, legend, free) {
 
 tmapScaleAuto = function(x1, scale, legend, opt, aes, layer, p) {
 	cls = data_class(x1)
+	
+	#if (cls[1] == "na")
 	
 	sc = getAesOption("scales.var", opt, aes, layer, cls = cls)
 	

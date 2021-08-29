@@ -15,7 +15,7 @@ tm_scale_not_implemented = function() {
 #' @export
 tm_scale_ordinal = function(n.max = 20,
 							values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
-							values.repeat = TRUE,
+							values.repeat = FALSE,
 							values.contrast  = 1,
 							value.na = NA, # value for NA
 							value.null = NA, # value for NULL (needed?)
@@ -55,7 +55,7 @@ tm_scale_intervals = function(n = 5,
 							  midpoint = NULL,
 							  as.count = NA,
 							  values = NA,
-							  values.repeat = TRUE,
+							  values.repeat = FALSE,
 							  values.contrast  = NA,
 							  value.na = NA,
 							  value.null = NA,
@@ -71,7 +71,7 @@ tm_scale_discrete = function(ticks = NA,
 							 step = NA,
 							 midpoint = NULL,
 							 values = NA,
-							 values.repeat = TRUE,
+							 values.repeat = FALSE,
 							 values.contrast  = NA,
 							 value.na = NA,
 							 value.null = NA,
@@ -101,7 +101,7 @@ tm_scale_log10 = function(...) {
 tm_scale_continuous = function(n = 5,
 							   ticks = NULL,
 							   values = NA,
-							   values.repeat = TRUE,
+							   values.repeat = FALSE,
 							   values.contrast  = NA,
 							   value.na = NA,
 							   value.null = NA,
@@ -118,3 +118,8 @@ tm_scale_continuous = function(n = 5,
 tm_scale_rgb = function(maxValue = 255) {
 	structure(c(list(FUN = "tmapScaleRGB"), as.list(environment())), class = c("tm_scale_rgb", "tm_scale"))
 }
+
+tm_scale_na = function() {
+	structure(c(list(FUN = "tmapScaleNA"), as.list(environment())), class = c("tm_scale_na", "tm_scale"))
+}
+

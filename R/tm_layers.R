@@ -256,11 +256,11 @@ tm_raster = function(col = tm_const(),
 
 
 #' @export
-tm_rgb = function(color = MV(1:3),
-				  color.scale = tm_scale_rgb(),
-				  color.legend = tm_legend_portrait(),
-				  color.free = NA) {
-	do.call(tm_raster, color = color, color.scale = color.scale, color.legend = color.legend, color.free = color.free)
+tm_rgb = function(col = MV(1:3),
+				  col.scale = tm_scale_rgb(),
+				  col.legend = tm_legend_portrait(),
+				  col.free = NA) {
+	do.call(tm_raster, col = col, col.scale = col.scale, col.legend = col.legend, col.free = col.free)
 }
 
 

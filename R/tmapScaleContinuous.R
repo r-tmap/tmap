@@ -8,10 +8,15 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 	}
 	
 	cls = data_class(x1)
+	maincls = class(scale)[1]
 	
-	
-	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_intervals cannot be applied", call. = FALSE)
-	if (cls[1] != "num") stop("tm_scale_intervals can only be used for numeric data", call. = FALSE)
+	if (cls[1] == "na") stop("data contain only NAs, so ", maincls, " cannot be applied", call. = FALSE)
+
+	if (cls[1] != "num") {
+		if (!is.factor(x1)) x1 = as.factor(x1)
+		x1 = as.integer(x1)
+		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
+	}
 	
 	if (p %in% c("lty", "shape", "pattern")) stop("tm_scale_continuous cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
@@ -172,7 +177,7 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 	}
 	
 	fun_getVV = paste0("tmapValuesVV_", p)
-	VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, are_breaks = TRUE))
+	VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, are_breaks = TRUE, rep = scale$values.repeat))
 	
 	vvalues = VV$vvalues
 	if (is.na(value.neutral)) value.neutral = VV$value.neutral
