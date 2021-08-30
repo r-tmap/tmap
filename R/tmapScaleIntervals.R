@@ -19,16 +19,6 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, p, layer, cls = cls) else scale$value.na
 	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, p, layer, cls = cls) else scale$value.null
 	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, p, layer, cls = cls) else scale$value.neutral
-	
-	# if (inherits(values, "tmapSeq")) {
-	# 	values = tmapSeq(values, n = scale$n)
-	# }
-	
-
-	
-	
-	
-	
 	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, p, layer, cls = cls) else scale$values.contrast
 	
 	udiv = identical(use_div(scale$breaks, scale$midpoint), TRUE)
@@ -51,29 +41,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	
 	if (is.logical(label.na)) label.na = getAesOption("label.na", opt, p, layer, cls = cls)
 	
-	
-	if (all(is.na(x1))) {
-		if (identical(na.show, FALSE)) {
-			legend = list(title = NA, 
-						  nitems = 0,
-						  labels = NA, 
-						  dvalues = NA, 
-						  vvalues = NA,
-						  vneutral = value.na,
-						  na.show = NA,
-						  setup = list(show = FALSE))
-		} else {
-			legend = list(title = legend$title, 
-						  nitems = 1,
-						  labels = label.na, 
-						  dvalues = NA, 
-						  vvalues = value.na,
-						  vneutral = value.na,
-						  na.show = TRUE,
-						  setup = legend)
-		}
-		return(format_aes_results(rep(value.na, length(x1)), legend))
-	}
+	if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, na.show = na.show))
 	
 	
 	

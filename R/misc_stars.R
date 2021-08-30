@@ -14,7 +14,7 @@ trim_stars = function(x) {
 	dim2 = which(dim2)
 	dim2 = dim2[1]:dim2[length(dim2)]
 	x = x[, dim1, dim2]
-	x = stars::st_normalize(x)
+	x = sf::st_normalize(x)
 	return(x)
 }
 

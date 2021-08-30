@@ -339,3 +339,12 @@ tm_shape(land) + tm_raster("trees")
 # add code documentation comments
 # ...
 # ...
+
+
+
+library(stars)
+landsat = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
+
+tm_shape(landsat) +
+	tm_rgb(MV("3", "2", "1"), col.scale = tm_scale_rgb(maxValue = 31961))
+

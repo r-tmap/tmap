@@ -10,7 +10,7 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
-	if (cls[1] == "na") stop("data contain only NAs, so ", maincls, " cannot be applied", call. = FALSE)
+	#if (cls[1] == "na") stop("data contain only NAs, so ", maincls, " cannot be applied", call. = FALSE)
 
 	if (cls[1] != "num") {
 		if (!is.factor(x1)) x1 = as.factor(x1)
@@ -25,12 +25,6 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 	value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, aes, layer, cls = cls) else scale$value.na
 	value.null = if (is.na(scale$value.null)) getAesOption("value.null", opt, aes, layer, cls = cls) else scale$value.null
 	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, aes, layer, cls = cls) else scale$value.neutral
-	
-	# if (inherits(values, "tmapSeq")) {
-	# 	values = tmapSeq(values, n = scale$n)
-	# }
-	
-
 	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else scale$values.contrast
 	
 	udiv = identical(use_div(scale$breaks, scale$midpoint), TRUE)
@@ -53,6 +47,8 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 	if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
 	
 	if (is.logical(label.na)) label.na = getAesOption("label.na", opt, aes, layer, cls = cls)
+	if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, na.show = na.show))
+	
 	
 	ticks.specified <- !is.null(ticks)
 	

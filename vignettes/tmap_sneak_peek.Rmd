@@ -54,13 +54,13 @@ The scales and legends are discussed in the next sections.
 Below you can see a basic comparison of the **tmap** version 3 and 4 syntax:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
-# tmap 3
+# tmap v3
 tm_shape(World) +
   tm_polygons(fill, palette = "RdYlGn", title = "Happy Planet Index")
 ```
 
 ```{r, class.source='bg-success'}
-# tmap 4
+# tmap v4
 tm_shape(World) +
 	tm_polygons(fill = "HPI", 
 				fill.scale = tm_scale_intervals(values = "RdYlGn"), 
@@ -72,12 +72,12 @@ A data variable can be mapped to each of them, using different scales (see next 
 The next example uses `fill`, `lwd` (line width), and `lty` (line type) as aesthetics:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
-# tmap 3
+# tmap v3
 # ... not possible :(
 ```
 
 ```{r fig.height = 6, fig.width=9, class.source='bg-success'}
-# tmap 4
+# tmap v4
 World$life_exp_class = cut(World$life_exp, breaks = seq(40, 85, by = 15))
 
 tm_shape(World, crs = "+proj=eck4") +
@@ -100,6 +100,9 @@ tm_shape(World, crs = "+proj=eck4") +
 	)
 ```
 
+## Transformation Aesthetics
+
+
 Besides these **visual aesthetics**, which map data variables to visual variables, there is also another group of aesthetics, namely **transformation aesthetics**.
 They are used to transform spatial objects.
 An example of **transformation aesthetics** is the cartogram, where polygons are distorted such that the size will be (approximately) proportional to a data variable.
@@ -107,7 +110,7 @@ An example of **transformation aesthetics** is the cartogram, where polygons are
 Cartograms could already be made with **tmap v3**, but it explicitly required transforming the data using the **cartogram** package before mapping.
 
 ```{r, eval=FALSE, class.source='bg-warning'}
-# tmap 3
+# tmap v3
 library(cartogram)
 World_carto = World |>
   sf::st_transform(World, crs = "+proj=eck4") |>
@@ -122,7 +125,7 @@ tm_shape(World_carto, crs = "+proj=eck4") +
 In **tmap v4**, there will be a direct function `tm_cartogram` (using the **cartogram** package under the hood), which uses the transformation aesthetic `size` and inherits all visual aesthetics from `tm_polygons`:
 
 ```{r, class.source='bg-success',message=FALSE}
-# tmap 4
+# tmap v4
 tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
 				 fill = "HPI", 
@@ -135,7 +138,7 @@ A nice benefit of having cartograms directly in **tmap** is that it makes possib
 For example, suppose we want to apply a log 10 scale in order to make the cartogram a bit more balanced:
 
 ```{r, eval=FALSE, class.source='bg-warning'}
-# tmap 3
+# tmap v3
 library(cartogram)
 World_carto = World |>
   sf::st_transform(World, crs = "+proj=eck4") |>
@@ -161,6 +164,7 @@ tm_shape(World, crs = "+proj=eck4") +
 
 (We haven't decided whether to include `tm_cartogram` in the **tmap** package or in an extension package, e.g., **tmapCartogram** or **tmapExtra**.
 Let us know your opinion at https://github.com/mtennekes/tmap/issues/565)
+
 
 ## Scales
 
@@ -211,7 +215,7 @@ Africa$life_exp = round(Africa$life_exp)
 
 Scales existed in **tmap v3**, but they were applied implicitly via several arguments:
 
-```{r, class.source='bg-warning',message=FALSE}
+```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
 tm_shape(Africa) +
 	tm_polygons(rep("life_exp", 5), style = c("cat", "cat", "pretty", "cont", "log10"),
@@ -221,6 +225,7 @@ tm_shape(Africa) +
 			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
 			  legend.text.size = 0.5)
 
+# discrete skill is not possible directly, but only  via interval breaks:
 tm_shape(Africa) +
 	tm_polygons("life_exp", style = "fixed",
 				palette = "YlOrBr",
@@ -248,6 +253,76 @@ tm_shape(Africa) +
 ```
 
 
+## Multivarite Scales
+
+It will be possible to assign multiple variables for one aesthetic.
+This can be done with the function `MV` (which stands for multivariate).
+An example is the bivaraite choropleth, which is not yet implemented, but will definitly be.
+
+
+```{r, eval = FALSE, class.source='bg-success'}
+# tmap v4 (not implemented yet)
+tm_shape(World) +
+  tm_symbols(fill = MV("well_being", "footprint"), 
+  		   fill.scale = tm_scale_bivariate(rows = tm_scale_intervals(breaks = c(2, 5, 6, 8)),
+  		   								columns = tm_scale_intervals(breaks = c(0, 3, 6, 20))
+  		   								values = "brewer.qualseq"))
+```
+
+
+```{r, echo=FALSE}
+World$fp3 = cut(World$footprint, breaks = c(0, 3, 6, 20), labels = letters[1:3])
+World$wb3 = cut(World$well_being, breaks = c(2, 5, 6, 8), labels = LETTERS[1:3])
+
+World$fp3wb3 = paste0(World$fp3, World$wb3)
+World$fp3wb3[World$fp3wb3 == "NANA"] = NA
+
+World$fp3wb3 = factor(World$fp3wb3, levels = do.call(mapply, args = c(as.list(as.data.frame(expand.grid(letters[1:3], LETTERS[1:3]))), list(FUN = paste0))))
+
+cols = pals::brewer.qualseq()
+#plot(1:9, col = cols, pch = 16, cex = 10)
+
+
+#tm_shape(World, crs = "+proj=robin") +
+#	tm_polygons("footprint", fill.scale = tm_scale_intervals(breaks = c(0, 3, 6, 20), values = c("green", "blue", "red")))
+
+#tm_shape(World, crs = "+proj=robin") +
+#	tm_polygons("well_being", fill.scale = tm_scale_intervals(breaks = c(2, 5, 6, 8), values = "brewer.greys"))
+
+
+tm_shape(World, crs = "+proj=robin") +
+	tm_polygons("fp3wb3", fill.scale = tm_scale_categorical(values = cols), fill.legend = tm_legend_hide())
+```
+
+<img src="https://user-images.githubusercontent.com/2444081/131315258-737481f9-0978-45b5-8e9e-07b43828adfc.png"
+     alt="Bivarite choropleth legend"
+     style="width:40%; " />
+
+Another example of multivariate aesthetics are glpys, which are small charts used as symbols.
+
+The following example is the donut map.
+The current implementation is 'one-trick-pony' (see https://github.com/mtennekes/donutmaps)
+
+In **tmap v4** it will be much easier:
+
+```{r, eval = FALSE, class.source='bg-success'}
+# tmap v4 (not implemented yet)
+library(tmap)
+library(tmapGlyps)   # which include tm_donuts
+library(sfnetworks)  # for origin-destination data methods
+
+tm_mode("view")
+
+tm_shape(edges) +
+    tm_halflines(lwd = "flow", col = "dest", start = 0.5, end = 1.0) +
+tm_shape(nodes) +
+    tm_donuts(size = "emplyoees", 
+    		  parts = MV("Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Other_municipality", "Home_municipality"))
+```
+
+<img src="https://user-images.githubusercontent.com/2444081/113439621-37575500-93eb-11eb-8d77-09016751b3c4.png"
+     alt="Donut maps"
+     style="width:80%; " />
 
 
 ## Legends
@@ -262,12 +337,12 @@ Why? Simply because there is often more space than inside the map.
 Furthermore, it is possible to place legends on different locations across the map:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
-# tmap 3
+# tmap v3
 # ... not possible :(
 ```
 
 ```{r fig.height = 6, fig.width=9, class.source='bg-success'}
-# tmap 4
+# tmap v4
 tm_shape(World) +
   tm_symbols(fill = "HPI",
              size = "pop_est",
@@ -285,7 +360,7 @@ In **tmap v**4, the directly related to the layout are accessible via `tm_layout
 However, to ease its use, there will be a bunch of handy shortcut functions, such as `tm_place_legends_left`:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
-# tmap 3
+# tmap v3
 tm_shape(World) +
   tm_symbols(fill = "HPI",
              size = "pop_est",
@@ -294,7 +369,7 @@ tm_layout(legend.outside.position = "left", legend.outside.size = 0.2)
 ```
 
 ```{r fig.height = 6, fig.width=9, class.source='bg-success'}
-# tmap 4
+# tmap v4
 tm_shape(World) +
   tm_symbols(fill = "HPI",
              size = "pop_est",
@@ -308,7 +383,7 @@ tm_place_legends_left(0.2)
 Another new feature is possibility to combine legends directly, which was quite a hassle in **tmap v3**.
 
 ```{r, eval=FALSE, class.source='bg-warning'}
-# tmap 3
+# tmap v3
 tm_shape(metro) +
     tm_symbols(col = "pop2020", 
 		   n = 4,
@@ -325,7 +400,7 @@ tm_add_legend("symbol",
 ```
 
 ```{r, class.source='bg-success'}
-# tmap 4
+# tmap v4
 tm_shape(metro) +
 	tm_symbols(fill = "pop2020",
 	           fill.legend = tm_legend("Population in 2020"),
@@ -347,16 +422,38 @@ In **tmap v4**, there will be convenient wrappers `tm_facet_wrap` and `tm_facet_
 
 Furthermore, each visual variable will have a `free` argument, which determines whether scales are free (`TRUE`) or shared (`FALSE`) across facets.
 
-```{r}
+In **tmap v3** this `free` argument could be set via `tm_facets`, whereas in **tmap v4** this argument has been moved to the layer functions:
+
+
+```{r, eval=FALSE, class.source='bg-warning'}
+# tmap v3
+tm_shape(World) +
+    tm_borders() +
+tm_shape(World) +
+    tm_polygons("life_exp") +
+tm_facets("continent", nrow = 1, free.scales.fill = FALSE, free.coords = FALSE)
+```
+
+```{r, class.source='bg-success', fig.height=3}
+# tmap v4
 tm_shape(World, crs = "+proj=robin") +
 	tm_borders() +
 tm_shape(World) +
 	tm_polygons("life_exp", fill.free = FALSE) +
-tm_facets_wrap("continent")
+tm_facets_wrap("continent", nrow = 1)
 ```
 
 
-```{r}
+```{r, eval=FALSE, class.source='bg-warning'}
+# tmap v3
+tm_shape(World) +
+    tm_borders() +
+tm_shape(World) +
+    tm_polygons("life_exp") +
+tm_facets("continent", nrow = 1, free.scales.fill = TRUE, free.coords = FALSE)
+```
+
+```{r, class.source='bg-success', fig.height=3}
 tm_shape(World, crs = "+proj=robin") +
 	tm_borders() +
 tm_shape(World) +
@@ -365,30 +462,74 @@ tm_facets_wrap("continent", nrow = 1)
 ```
 
 
-
-A few feature regarding the facets (which were already there) is the `free` argument, which determines whether scales are free across facets or shared. 
-
-
-In tmap 4, it is possible to set this not only per aesthetic, but also per dimension (row, column): --> 
+New in **tmap v4** is that for facet grid, the `free` argument can be specified differently for rows and columns, as we will show in the next complex (sorry for that) example:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
-# tmap 3
+# tmap v3
 # ... not possible :(
 ```
 
 ```{r, class.source='bg-success'}
-# tmap 4
+# tmap v4
 tm_shape(World, crs = "+proj=robin") +
 	tm_borders() +
-	tm_shape(World) +
+tm_shape(World) +
 	tm_polygons(fill = "life_exp", 
-	            fill.scale = tm_scale_intervals(values = tmap_pals$pals.brewer$brewer.greens),
-	            fill.free = c(FALSE, TRUE)) +
+	            fill.scale = tm_scale_intervals(values = "brewer.greens"),
+	            fill.free = c(rows = FALSE, columns = TRUE)) +
 	tm_symbols(size = "gdp_cap_est", 
-	           size.free = c(TRUE, FALSE), 
+	           size.free = c(rows = TRUE, columns = FALSE), 
 	           fill = "red") +
-	tm_facets_grid("income_grp", "economy") +
-	tm_options(meta.margins = c(.2, 0, 0,.1))
+tm_facets_grid("income_grp", "economy") +
+tm_layout(meta.margins = c(.2, 0, 0,.1))
 ```
 
-## Extentions
+What you see in the map is that life expectancy is shown as polygon fill in green, and GDP per capita as red bubbles.
+The maps are grouped by income group (rows) and economy (columns). 
+The scale for life expectancy is set to free for the columns.
+This means that the scale will be applied for each column separately, with a legend per colomn.
+The scale for GDP per capita is applied separately for each row.
+
+
+
+
+## Graphic Engines (modes)
+
+
+Just like **tmap v3**, there will be a `"plot"` and a `"view"` mode.
+However, the framework used in **tmapp v4** also facilitates developers to write plotting methods for other modes.
+
+For instance, **CesiumJS** is a great Javascript library for 3d globe visualizations.
+It would be awesome to include this in **R**.
+When there is a low-level interface between **CesiumJS** and **R** (similar to the R package **leaflet** being an interface between the JS library **leaflet** and **R**), it will be relatively easy for developers to add a new mode for these 3d visualizations in **tmap v4**.
+
+
+## Backward compatibility
+
+In this early development stage, **tmap v3** code will not work with **tmap v4**.
+However, when **tmap v4** will be stable, it will be backwards compatible.
+Layer function arguments that are no longer used, such as `breaks` and `palette` will be deprecated, and internally redirected to the new scale functions.
+
+Furthermore, some of the options will have other options in **tmap v4**.
+For instance, legends will be placed outside of the maps by default, and there will be a small space between legend items as shown above.
+
+In order to keep the layout as close as possible to **tmap v3**, there will be a style which will set the options back to the settings used by default in **tmap v3**.
+This can be set with just one command: `tmap_style("tmap_v3")`
+
+## Color palettes
+
+There will be a huge number of directly available color palettes. 
+We have not settled on the exact details, e.g. which palettes to include, and how they can be obtained.
+Ideas are welcome (https://github.com/mtennekes/tmap/issues/566).
+
+In the current development version, there is a function similar to `tmaptools::palette_explorer`, which renders a long png in the viewer panel of RStudio or the browser:
+
+```{r, eval = FALSE, class.source='bg-success'}
+# tmap v4
+tmap_show_palettes()
+```
+
+[![](https://user-images.githubusercontent.com/2444081/122732106-3ad8da80-d27c-11eb-98fd-1aafd6d7a52b.png)](https://user-images.githubusercontent.com/2444081/122725374-352bc680-d275-11eb-9a1c-0a88e4a97848.png)
+
+(click on the image to see the full png)
+

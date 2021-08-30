@@ -260,7 +260,7 @@ tm_rgb = function(col = MV(1:3),
 				  col.scale = tm_scale_rgb(),
 				  col.legend = tm_legend_portrait(),
 				  col.free = NA) {
-	do.call(tm_raster, col = col, col.scale = col.scale, col.legend = col.legend, col.free = col.free)
+	do.call(tm_raster, args = list(col = col, col.scale = col.scale, col.legend = col.legend, col.free = col.free))
 }
 
 

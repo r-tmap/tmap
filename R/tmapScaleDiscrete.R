@@ -1,8 +1,17 @@
 tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	cls = data_class(x1)
+	maincls = class(scale)[1]
 	
-	if (cls[1] == "na") stop("data contain only NAs, so tm_scale_discrete cannot be applied", call. = FALSE)
-	if (cls[1] != "num") stop("tm_scale_discrete can only be used for numeric data", call. = FALSE)
+	
+	#if (cls[1] == "na") stop("data contain only NAs, so tm_scale_discrete cannot be applied", call. = FALSE)
+	#if (cls[1] != "num") stop("tm_scale_discrete can only be used for numeric data", call. = FALSE)
+	
+	if (cls[1] != "num") {
+		if (!is.factor(x1)) x1 = as.factor(x1)
+		x1 = as.integer(x1)
+		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
+	}
+	
 	
 	if (p %in% c("lty", "shape", "pattern")) stop("tm_scale_discrete cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
@@ -17,8 +26,22 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	
 	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, p, layer, cls = cls) else scale$values.contrast
 	
+	labels = scale$labels
+	
+	label.na = scale$label.na
+	na.show = identical(label.na, TRUE) || (!is.na(label.na) && label.na != "")
+	if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
+	
+	if (is.logical(label.na)) label.na = getAesOption("label.na", opt, aes, layer, cls = cls)
+	
+	if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, na.show = na.show))
+	
+	
 	
 	anyNA = any(is.na(x1))
+	
+	
+	
 	
 	u = sort(unique(x1))
 	#u = na.omit(u)
@@ -57,15 +80,7 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	# breaks = scale$breaks
 	# style = scale$style
 	
-	labels = scale$labels
 	
-	label.na = scale$label.na
-	na.show = identical(label.na, TRUE) || (!is.na(label.na) && label.na != "")
-	if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
-	
-	
-	
-	if (is.logical(label.na)) label.na = getAesOption("label.na", opt, aes, layer, cls = cls)
 	
 	#breaks.specified <- !is.null(breaks)
 	# is.log = (style == "log10_pretty")
