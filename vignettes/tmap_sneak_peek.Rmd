@@ -222,7 +222,7 @@ tm_shape(Africa) +
 			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
 			  legend.text.size = 0.5)
 
-# discrete skill is not possible directly, but only  via interval breaks:
+# discrete scale is not possible directly, but only  via interval breaks:
 tm_shape(Africa) +
 	tm_polygons("life_exp", style = "fixed",
 				palette = "YlOrBr",
