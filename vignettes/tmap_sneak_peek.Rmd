@@ -102,7 +102,6 @@ tm_shape(World, crs = "+proj=eck4") +
 
 ## Transformation Aesthetics
 
-
 Besides these **visual aesthetics**, which map data variables to visual variables, there is also another group of aesthetics, namely **transformation aesthetics**.
 They are used to transform spatial objects.
 An example of **transformation aesthetics** is the cartogram, where polygons are distorted such that the size will be (approximately) proportional to a data variable.
@@ -165,7 +164,6 @@ tm_shape(World, crs = "+proj=eck4") +
 (We haven't decided whether to include `tm_cartogram` in the **tmap** package or in an extension package, e.g., **tmapCartogram** or **tmapExtra**.
 Let us know your opinion at https://github.com/mtennekes/tmap/issues/565)
 
-
 ## Scales
 
 Scales are used to map data variables to visual variables. 
@@ -189,7 +187,7 @@ By default, `tm_scale_categorical`, `tm_scale_ordinal`, and `tm_scale_intervals`
 Scales for date/time variables will be included as well.
 
 The main argument of each scale function is `values`, which are the values for the visual variables. 
-The following table shows which type of values are required for which visual variable
+The following table shows which type of values are required for which visual variable:
 
 
 | Visual variable				| Type of values 				|
@@ -202,7 +200,6 @@ The following table shows which type of values are required for which visual var
 
 The default values depend not only on the visual variable, but also on the scale and on whether data values are diverging.
 For instance, if `tm_scale_intervals` is applied to a numeric variable with both negative and positive values where the visual variable is `fill`, then a diverging color palette is used.
-
 
 The following map illustrates what happens when the six scale functions are applied to the same data variable.
 We use the variable *life expectancy* (which we round in order to make sure the number of unique values is limited):
@@ -257,8 +254,7 @@ tm_shape(Africa) +
 
 It will be possible to assign multiple variables for one aesthetic.
 This can be done with the function `MV` (which stands for multivariate).
-An example is the bivaraite choropleth, which is not yet implemented, but will definitly be.
-
+An example is the bivariate choropleth, which is not yet implemented, but will definitely be.
 
 ```{r, eval = FALSE, class.source='bg-success'}
 # tmap v4 (not implemented yet)
@@ -268,7 +264,6 @@ tm_shape(World) +
   		   								columns = tm_scale_intervals(breaks = c(0, 3, 6, 20))
   		   								values = "brewer.qualseq"))
 ```
-
 
 ```{r, echo=FALSE}
 World$fp3 = cut(World$footprint, breaks = c(0, 3, 6, 20), labels = letters[1:3])
@@ -347,7 +342,7 @@ tm_shape(World) +
   tm_symbols(fill = "HPI",
              size = "pop_est",
              shape = "income_grp",
-  		     size.scale = tm_scale_auto(value.neutral = 0.5),
+  		     size.scale = tm_scale(value.neutral = 0.5),
              fill.legend = tm_legend("Happy Planet Index", position = tm_lp_in("left", "top")),
              size.legend = tm_legend("Population", position = tm_lp_out("left", "center")),
              shape.legend = tm_legend("Income Group", position = tm_lp_out("center", "bottom"), space = 0.5))
@@ -356,7 +351,7 @@ tm_shape(World) +
 **tmap v3** contains many (often complicated) options for rather simple things.
 These options are set globally via `tmap_options` or within a single plot with `tm_layout`.
 
-In **tmap v**4, the directly related to the layout are accessible via `tm_layout`.
+In **tmap v4**, the directly related to the layout are accessible via `tm_layout`.
 However, to ease its use, there will be a bunch of handy shortcut functions, such as `tm_place_legends_left`:
 
 ```{r, eval = FALSE, class.source='bg-warning'}
@@ -374,7 +369,7 @@ tm_shape(World) +
   tm_symbols(fill = "HPI",
              size = "pop_est",
              shape = "income_grp",
-  		     size.scale = tm_scale_auto(value.neutral = 0.5)) +
+  		     size.scale = tm_scale(value.neutral = 0.5)) +
 tm_place_legends_left(0.2)
 ```
 
@@ -497,7 +492,7 @@ The scale for GDP per capita is applied separately for each row.
 
 
 Just like **tmap v3**, there will be a `"plot"` and a `"view"` mode.
-However, the framework used in **tmapp v4** also facilitates developers to write plotting methods for other modes.
+However, the framework used in **tmap v4** also facilitates developers to write plotting methods for other modes.
 
 For instance, **CesiumJS** is a great Javascript library for 3d globe visualizations.
 It would be awesome to include this in **R**.
