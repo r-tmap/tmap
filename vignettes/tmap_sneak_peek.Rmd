@@ -225,7 +225,7 @@ tm_shape(Africa) +
 			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
 			  legend.text.size = 0.5)
 
-# discrete skill is not possible directly, but only  via interval breaks:
+# discrete scale is not possible directly, but only  via interval breaks:
 tm_shape(Africa) +
 	tm_polygons("life_exp", style = "fixed",
 				palette = "YlOrBr",
@@ -347,7 +347,7 @@ tm_shape(World) +
   tm_symbols(fill = "HPI",
              size = "pop_est",
              shape = "income_grp",
-  		     size.scale = tm_scale_auto(value.neutral = 0.5),
+  		     size.scale = tm_scale(value.neutral = 0.5),
              fill.legend = tm_legend("Happy Planet Index", position = tm_lp_in("left", "top")),
              size.legend = tm_legend("Population", position = tm_lp_out("left", "center")),
              shape.legend = tm_legend("Income Group", position = tm_lp_out("center", "bottom"), space = 0.5))
@@ -374,7 +374,7 @@ tm_shape(World) +
   tm_symbols(fill = "HPI",
              size = "pop_est",
              shape = "income_grp",
-  		     size.scale = tm_scale_auto(value.neutral = 0.5)) +
+  		     size.scale = tm_scale(value.neutral = 0.5)) +
 tm_place_legends_left(0.2)
 ```
 
