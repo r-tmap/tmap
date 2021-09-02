@@ -356,3 +356,8 @@ tm_shape(World) +
 )
 
 
+# check midpoint
+tm_shape(World) +
+	tm_polygons(fill = "HPI", 
+				fill.scale = tm_scale_intervals(values = "Earth", midpoint = 28), 
+				fill.legend = tm_legend(title = "Happy Planet Index"))
