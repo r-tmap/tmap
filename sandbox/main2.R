@@ -342,10 +342,6 @@ tm_shape(landsat) +
 	tm_rgb(MV("3", "2", "1"), col.scale = tm_scale_rgb(maxValue = 31961))
 
 
-# midpoint not working
-tm_shape(World) +
-	tm_polygons("HPI", fill.scale = tm_scale(values = "RdYlBu", midpoint = 32))
-
 
 # get max.raster from options (tmapShape.stars)
 
@@ -356,8 +352,22 @@ tm_shape(World) +
 )
 
 
-# check midpoint
-tm_shape(World) +
-	tm_polygons(fill = "HPI", 
-				fill.scale = tm_scale_intervals(values = "Earth", midpoint = 28), 
-				fill.legend = tm_legend(title = "Happy Planet Index"))
+
+# terra
+library(terra)
+landsat = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
+tm_shape(landsat) +
+	tm_raster("landsat.tif") +
+	tm_facets_wrap("band")
+
+f <- system.file("ex/lux.shp", package="terra")
+v <- vect(f)
+tm_shape(v) +
+	tm_polygons("POP")
+
+
+# bug in sf??
+st_crs(v)
+st_crs(st_as_sf(v))
+
+

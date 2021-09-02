@@ -33,9 +33,22 @@ Although **tmap** is well-known and widely used in the R spatial community, ther
 The upcoming **tmap** version 4 (**tmap v4**) aims to overcome these shortcomings.
 It is still fully in the development, but now is a good time for a sneak peek.
 
+## Extendability
+
+First and foremost, **tmap v4** will be fully extendable. More precisely, the following aspects can be extended:
+
+* Map layers: we are not limited anymore by the fixed set of `tm_polygons`, `tm_lines`, `tm_symbols`, and `tm_raster` (and their derivatives), but any layer of interested can be developed as extension. As an example, we will illustrate `tm_cartogram`. Other layers that would be worthwhile are `tm_network`, `tm_donuts`, `tm_hillshade`, etc.
+
+* Aesthetics: any visual variable can be included in a map layer. We will illustrate this in the next section, where we already implemented 5 new aesthetics for `tm_polygons`.
+
+* Graphics Engine: **tmap v3** contains two modes: `plot` and `view` (which are based on `grid` graphics and `leaflet` respectively) but the framework makes it possible to add other modes as well.
+
+* Spatial data classes: **tmap v3** is build upon `sf` and `stars`. This will also be the case for **tmap v4**, but for developers, it will be easier to incorporate other classes as well, like `SpatRaster` and `SpatVector` from `terra`.
+
+
 ## Aesthetics
 
-First and foremost, the number of aesthetics (by which we mean visual variables) will be much greater, as will be illustrated below. 
+The number of aesthetics (by which we mean visual variables) will be much greater, as will be illustrated below. 
 Moreover, it will make it much easier for developers to add new aesthetics.
 
 The arguments that specify aesthetics themselves will remain the same.
@@ -56,14 +69,14 @@ Below you can see a basic comparison of the **tmap** version 3 and 4 syntax:
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
 tm_shape(World) +
-  tm_polygons(fill, palette = "RdYlGn", title = "Happy Planet Index")
+  tm_polygons(fill, palette = "Earth", title = "Happy Planet Index")
 ```
 
 ```{r, class.source='bg-success'}
 # tmap v4
 tm_shape(World) +
 	tm_polygons(fill = "HPI", 
-				fill.scale = tm_scale_intervals(values = "RdYlGn"), 
+				fill.scale = tm_scale_intervals(values = "Earth"), 
 				fill.legend = tm_legend(title = "Happy Planet Index"))
 ```
 
@@ -82,7 +95,7 @@ World$life_exp_class = cut(World$life_exp, breaks = seq(40, 85, by = 15))
 
 tm_shape(World, crs = "+proj=eck4") +
 	tm_polygons(fill = "HPI", 
-				fill.scale = tm_scale_continuous(values = "RdYlGn"), 
+				fill.scale = tm_scale_continuous(values = "Earth"), 
 				fill.legend = tm_legend(title = "Happy Planet Index"),
 				lwd = "well_being",
 				lwd.scale = tm_scale_continuous(value.neutral = 1, 
@@ -100,11 +113,13 @@ tm_shape(World, crs = "+proj=eck4") +
 	)
 ```
 
-## Transformation Aesthetics
-
 Besides these **visual aesthetics**, which map data variables to visual variables, there is also another group of aesthetics, namely **transformation aesthetics**.
 They are used to transform spatial objects.
 An example of **transformation aesthetics** is the cartogram, where polygons are distorted such that the size will be (approximately) proportional to a data variable.
+
+## New map layers: cartogram example
+
+It will be easy for developers to add new map layers as extension. This will be illustrated by a new map layer, `tm_cartogram`.
 
 Cartograms could already be made with **tmap v3**, but it explicitly required transforming the data using the **cartogram** package before mapping.
 
@@ -117,7 +132,7 @@ World_carto = World |>
 
 tm_shape(World_carto, crs = "+proj=eck4") +
   tm_polygons(fill, 
-              palette = "RdYlGn", 
+              palette = "Earth", 
               title = "Happy Planet Index")
 ```
 
@@ -128,7 +143,7 @@ In **tmap v4**, there will be a direct function `tm_cartogram` (using the **cart
 tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
 				 fill = "HPI", 
-				 fill.scale = tm_scale_intervals(values = "RdYlGn"),
+				 fill.scale = tm_scale_intervals(values = "Earth"),
 				 fill.legend = tm_legend(title = "Happy Planet Index")) +
 	tm_place_legends_right(width = 0.2)
 ```
@@ -146,7 +161,7 @@ World_carto = World |>
 
 tm_shape(World_carto) +
   tm_polygons(fill, 
-              palette = "RdYlGn", 
+              palette = "Earth", 
               title = "Happy Planet Index")
 ```
 
@@ -156,7 +171,7 @@ tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
 				 size.scale = tm_scale_log10(),
 				 fill = "HPI", 
-				 fill.scale = tm_scale_intervals(values = "RdYlGn"),
+				 fill.scale = tm_scale_intervals(values = "Earth"),
 				 fill.legend = tm_legend(title = "Happy Planet Index")) +
 	tm_place_legends_right(width = 0.2)
 ```
@@ -326,7 +341,7 @@ As you may have noticed in the previous examples, the legends look a bit differe
 
 ### Positioning
 
-Legends are placed outside the map by default in **tmap v4**.
+Legends are currently placed outside the map by default in **tmap v4**.
 Why? Simply because there is often more space than inside the map.
 
 Furthermore, it is possible to place legends on different locations across the map:
@@ -527,4 +542,10 @@ tmap_show_palettes()
 [![](https://user-images.githubusercontent.com/2444081/122732106-3ad8da80-d27c-11eb-98fd-1aafd6d7a52b.png)](https://user-images.githubusercontent.com/2444081/122725374-352bc680-d275-11eb-9a1c-0a88e4a97848.png)
 
 (click on the image to see the full png)
+
+It is also possible to render this for color blindness simulation, e.g.: `tmap_show_palettes(color_vision_deficiency = "deutan")`.
+
+## Suggestions
+
+Do you have any suggestions? Please let us know! Via https://github.com/mtennekes/tmap/issues, and please use the **tmap_v4** tag.
 

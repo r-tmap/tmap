@@ -122,8 +122,8 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 	if (isdiv) {
 		cat0 = (are_breaks != any(dvalues==midpoint))
 		
-		nneg = sum(dvalues < midpoint) - cat0
-		npos = sum(dvalues > midpoint) - cat0
+		nneg = max(0L, sum(dvalues < midpoint) - cat0) # max 0L needed when midpoint is outside range (and cat0 is true)
+		npos = max(0L, sum(dvalues > midpoint) - cat0)
 		
 		nmax = max(nneg, npos)
 		
@@ -146,7 +146,7 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 	if (contrast[1] != 0 || contrast[2] != 1) {
 		# expand palette tot 101 colors
 		if (!is.na(palid)) {
-			vvalues = tmap_get_palette(x, n = 101, contrast = contrast)
+			vvalues = tmap_get_palette(x, n = 101)
 		} else {
 			vvalues = grDevices::colorRampPalette(x)(101)
 		}
@@ -155,15 +155,16 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 		if (isdiv) {
 			ids_scaled = scale_ids(ids, ntot)
 			
-			ids_after_contrast = c(head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 
+			
+			ids_after_contrast = c({if (nneg > 0) head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 
 												1-rev(contrast), 
 												n = nneg + cat0), 
-										nneg),
+										nneg) else NULL},
 								   {if (cat0) ids_scaled[1L + nneg] else NULL},
-								   tail(map_ids(ids_scaled[c(nneg+1, n)], 
+								   if (npos > 0) tail(map_ids(ids_scaled[c(nneg+1, n)], 
 								   			 contrast, 
 								   			 n = npos + cat0), 
-								   	 npos))
+								   	 npos) else NULL)
 		} else {
 			ids_scaled = scale_ids(ids, n)
 			ids_after_contrast = map_ids(ids_scaled[c(1L, n)], contrast, n)

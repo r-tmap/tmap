@@ -29,6 +29,21 @@ tmapShape = function(...) {
 	UseMethod("tmapShape")
 }
 
+
+
+#' @method tmapShape SpatRaster
+#' @export
+tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, shp_name) {
+	tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, shp_name)
+}
+
+#' @method tmapShape SpatRaster
+#' @export
+tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, shp_name) {
+	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, shp_name)
+}
+
+
 #' @method tmapShape stars
 #' @export
 tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
@@ -60,7 +75,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 		
 		shpclass = "sfc"
 	} else {
-		shp = downsample_stars(shp, max.raster = 1e6)
+		shp = downsample_stars(shp, max.raster = tmap_options()[["max.raster"]])
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs, raster.warp = TRUE)
 		}

@@ -139,7 +139,7 @@ downsample_stars <- function(x, max.raster) {
 		n <- dim(x) * 0 + 1
 		n[names(xy_dim)] <- downsample
 		y <- st_downsample(x, n)
-		message("stars object downsampled to ", paste(get_xy_dim(y), collapse = " by "), " cells. See tm_shape manual (argument raster.downsample)")
+		message("stars object downsampled to ", paste(get_xy_dim(y), collapse = " by "), " cells.")
 	} else {
 		y <- x
 	}
