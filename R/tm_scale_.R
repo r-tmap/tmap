@@ -3,7 +3,7 @@ tm_const = function() {
 }
 
 #' @export
-tm_scale_auto = function(...) {
+tm_scale = function(...) {
 	structure(c(list(FUN = "tmapScaleAuto"), list(...)), class = c("tm_scale_auto", "tm_scale"))
 }
 

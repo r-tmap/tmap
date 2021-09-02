@@ -11,7 +11,7 @@ tm_shape(World) +
 # size variables reduced to first one
 tm_shape(land) +
 	tm_raster("trees") +
-tm_shape(World, name = "The World", is.main = TRUE) +
+tm_shape(World, name = "The World", is.main = TRUE, crs = "+proj=robin") +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
 	tm_symbols(fill = c("blue", "red"), size = "life_exp") +
 tm_facets_wrap(by = "continent")
@@ -19,12 +19,12 @@ tm_facets_wrap(by = "continent")
 # size variables mapped to columns
 tm_shape(land) +
 	tm_raster("trees") +
-tm_shape(World, name = "The World", is.main = TRUE) +
+tm_shape(World, name = "The World", is.main = TRUE, crs = "+proj=robin") +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
 	tm_symbols(color = c("blue", "red"), size = "life_exp") +
 tm_facets_grid(rows = "continent")
 
-tm_shape(World, name = "The World", is.main = TRUE) +
+tm_shape(World, name = "The World", is.main = TRUE, crs = "+proj=robin") +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln")) +
 	tm_facets_grid(rows = "continent")
 
@@ -33,7 +33,7 @@ tm_shape(World, name = "The World", is.main = TRUE) +
 # size variables mapped to columns (free scales)
 tm_shape(land) +
 	tm_raster("trees") +
-	tm_shape(World, name = "The World", is.main = TRUE) +
+	tm_shape(World, name = "The World", is.main = TRUE, crs = "+proj=robin") +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +
 	tm_symbols(color = c("blue", "red"), size = "life_exp", size.free = TRUE) +
 	tm_facets_grid(rows = "continent")
@@ -42,7 +42,7 @@ tm_shape(land) +
 # size variables mapped to columns (free scales)
 tm_shape(land) +
 	tm_raster("trees") +
-	tm_shape(World, name = "The World", is.main = TRUE) +
+	tm_shape(World, name = "The World", is.main = TRUE, crs = "+proj=robin") +
 	tm_cartogram(fill = "economy", size = c("pop_est", "gdp_est_mln"), size.free = TRUE) +
 	tm_symbols(color = c("blue", "red"), size = "life_exp", size.free = TRUE)
 #	tm_facets_grid(rows = "continent")
@@ -51,7 +51,7 @@ tm_shape(land) +
 
 # color and size aes have different free dimensions
 tm_shape(World, name = "The World", is.main = TRUE) +
-	tm_symbols(color = "HPI", size = "life_exp", size.free = c(TRUE, FALSE, FALSE), color.free = c(FALSE, TRUE, FALSE)) +
+	tm_symbols(col = "HPI", size = "life_exp", size.free = c(TRUE, FALSE, FALSE), col.free = c(FALSE, TRUE, FALSE)) +
 	tm_facets_grid(rows = "continent", columns = "alpha_class")
 
 

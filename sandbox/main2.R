@@ -327,24 +327,32 @@ tm_shape(World) +
 ###################################################################################
 
 # improve speed (especially rasters); probably caused by format_aes_results
-tm_shape(land) + tm_raster("trees")
-
-# improve error message
-(tm  = tm_shape(World) +
-		tm_polygons(c("economy", "ffggfds")))
-
-# add tm_lines
-# add type = "line" legend
-# add landscape legend
-# add code documentation comments
-# ...
-# ...
-
-
-
+library(profvis)
 library(stars)
 landsat = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
+profvis::profvis({
+	print(tm_shape(landsat) +
+		  	tm_raster("landsat.tif") +
+		  	tm_facets_wrap("band"))
+})
 
+
+# how to deal with band values as variables?
 tm_shape(landsat) +
 	tm_rgb(MV("3", "2", "1"), col.scale = tm_scale_rgb(maxValue = 31961))
+
+
+# midpoint not working
+tm_shape(World) +
+	tm_polygons("HPI", fill.scale = tm_scale(values = "RdYlBu", midpoint = 32))
+
+
+# get max.raster from options (tmapShape.stars)
+
+# transpose wrap order:
+(tm = tm_shape(metro) +
+		tm_symbols(col = "pop2020", size = "pop2020", size.free = TRUE, col.free = FALSE) +
+		tm_facets("alpha_class")
+)
+
 

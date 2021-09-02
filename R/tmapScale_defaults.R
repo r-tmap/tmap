@@ -202,7 +202,8 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 }
 
 tmapValuesVV_col = function(...) {
-	do.call(tmapValuesVV_fill, args = list(...))
+	tmapValuesVV_fill(...)
+	#do.call(tmapValuesVV_fill, args = list(...))
 }
 
 tmapValuesVV_shape = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast, rep) {
@@ -214,7 +215,7 @@ tmapValuesVV_lty = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast
 }
 
 
-tmapValuesVV_size = function(x, isdiv, n, dvalues, are_breaks , midpoint, contrast, rep) {
+tmapValuesVV_size = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast, rep) {
 	#break_mids = breaks[-(n+1)] + (breaks[-1] - breaks[-(n+1)]) / 2
 	
 	
@@ -330,7 +331,7 @@ tmapValuesCVV_fill = function(x, n, contrast, rep) {
 }
 
 tmapValuesCVV_col = function(x, n, contrast, rep) {
-	tmapValuesVV_col(x, n, contrast, rep)
+	tmapValuesCVV_fill(x, n, contrast, rep)
 }
 
 tmapValuesCVV_size = function(x, n, contrast, rep) {
