@@ -68,7 +68,7 @@ Below you can see a basic comparison of the **tmap** version 3 and 4 syntax:
 ```{r, eval = FALSE, class.source='bg-warning'}
 # tmap v3
 tm_shape(World) +
-  tm_polygons(fill, palette = "Earth", title = "Happy Planet Index")
+  tm_polygons(fill = "HPI", palette = "Earth", title = "Happy Planet Index")
 ```
 
 ```{r, class.source='bg-success'}
