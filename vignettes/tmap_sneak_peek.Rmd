@@ -37,19 +37,18 @@ It is still fully in the development, but now is a good time for a sneak peek.
 
 First and foremost, **tmap v4** will be fully extendable. More precisely, the following aspects can be extended:
 
-* Map layers: we are not limited anymore by the fixed set of `tm_polygons`, `tm_lines`, `tm_symbols`, and `tm_raster` (and their derivatives), but any layer of interested can be developed as extension. As an example, we will illustrate `tm_cartogram`. Other layers that would be worthwhile are `tm_network`, `tm_donuts`, `tm_hillshade`, etc.
+* Map layers: we are not limited anymore by the fixed set of `tm_polygons`, `tm_lines`, `tm_symbols`, and `tm_raster` (and their derivatives such as `tm_borders` and `tm_dots`), but any layer of interest can be developed as an extension of **tmap**. We will illustrate this below with `tm_cartogram`. Other layers that are worthwhile to implement are `tm_donuts`, `tm_hexagons`, `tm_network`, `tm_hillshade`, etc.
 
-* Aesthetics: any visual variable can be included in a map layer. We will illustrate this in the next section, where we already implemented 5 new aesthetics for `tm_polygons`.
+* Aesthetics: there will be many more visual variables available. We will illustrate this in the next section, where we already implemented 5 new aesthetics for `tm_polygons`. Moreover, it will be much easier for developers to add new visual variables to map layer functions. 
 
 * Graphics Engine: **tmap v3** contains two modes: `plot` and `view` (which are based on `grid` graphics and `leaflet` respectively) but the framework makes it possible to add other modes as well.
 
-* Spatial data classes: **tmap v3** is build upon `sf` and `stars`. This will also be the case for **tmap v4**, but for developers, it will be easier to incorporate other classes as well, like `SpatRaster` and `SpatVector` from `terra`.
+* Spatial data classes: **tmap v3** is build on `sf` and `stars`. This will also be the case for **tmap v4**, but for developers, it will be easier to incorporate other classes as well, like `SpatRaster` and `SpatVector` from `terra`.
 
 
 ## Aesthetics
 
-The number of aesthetics (by which we mean visual variables) will be much greater, as will be illustrated below. 
-Moreover, it will make it much easier for developers to add new aesthetics.
+As mentioned before, we have added more aesthetics (visual variables), and it will be easier for developers to add new aesthetics. We have reordered the arguments that specify and configure the aesthetics which will be illustrated below.
 
 The arguments that specify aesthetics themselves will remain the same.
 E.g., the main aesthetic in `tm_polygons` is `fill`, which defines the fill color of the polygons.
@@ -80,7 +79,7 @@ tm_shape(World) +
 				fill.legend = tm_legend(title = "Happy Planet Index"))
 ```
 
-To illustrate the large number of aesthetics: in **tmap v4**, `tm_polygons` will have the aesthetics `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty`, and eventually also `pattern`. 
+In **tmap v4**, `tm_polygons` will have the aesthetics `fill`, `col`, `fill_alpha`, `col_alpha`, `lwd`, `lty`, and eventually also `pattern`. The other standard map layers will also have additional aesthetics.
 A data variable can be mapped to each of them, using different scales (see next section for an overview).
 The next example uses `fill`, `lwd` (line width), and `lty` (line type) as aesthetics:
 
@@ -113,13 +112,15 @@ tm_shape(World, crs = "+proj=eck4") +
 	)
 ```
 
-Besides these **visual aesthetics**, which map data variables to visual variables, there is also another group of aesthetics, namely **transformation aesthetics**.
+Besides these **visual mapping aesthetics**, which map data variables to visual variables, there is also another group of aesthetics, namely **(data-driven) transformation aesthetics**.
 They are used to transform spatial objects.
-An example of **transformation aesthetics** is the cartogram, where polygons are distorted such that the size will be (approximately) proportional to a data variable.
+We call it data-driven, because content data are used as input for this spatial transformation. 
+An example is the cartogram, which will be shown in the next section. 
+The polygons are distorted such that the size will be (approximately) proportional to a data variable.
 
-## New map layers: cartogram example
+## Map layers (e.g. cartogram)
 
-It will be easy for developers to add new map layers as extension. This will be illustrated by a new map layer, `tm_cartogram`.
+It will be easy for developers to add new map layers as extension. We illustrate this by a new map layer, `tm_cartogram`.
 
 Cartograms could already be made with **tmap v3**, but it explicitly required transforming the data using the **cartogram** package before mapping.
 
@@ -148,8 +149,9 @@ tm_shape(World, crs = "+proj=eck4") +
 	tm_place_legends_right(width = 0.2)
 ```
 
+
 A nice benefit of having cartograms directly in **tmap** is that it makes possible to use the available scaling functions. 
-For example, suppose we want to apply a log 10 scale in order to make the cartogram a bit more balanced:
+For example, suppose we want to apply a log 10 scale in order to make the cartogram a bit more "balanced":
 
 ```{r, eval=FALSE, class.source='bg-warning'}
 # tmap v3
@@ -252,12 +254,13 @@ tm_shape(Africa) +
 ```{r, class.source='bg-success',message=FALSE,fig.height=7}
 # tmap v4
 tm_shape(Africa) +
-	tm_polygons(rep("life_exp", 6), fill.scale = list(tm_scale_categorical(),
-													  tm_scale_ordinal(),
-													  tm_scale_intervals(),
-													  tm_scale_continuous(),
-													  tm_scale_log10(),
-													  tm_scale_discrete()),
+	tm_polygons(rep("life_exp", 6), 
+				fill.scale = list(tm_scale_categorical(),
+								  tm_scale_ordinal(),
+								  tm_scale_intervals(),
+								  tm_scale_continuous(),
+								  tm_scale_log10(),
+								  tm_scale_discrete()),
 				fill.legend = tm_legend(title = "", position = tm_lp_in("left", "top"))) +
 	tm_layout(panel.labels = c("tm_scale_categorical", "tm_scale_ordinal", "tm_scale_intervals", "tm_scale_continuous", "tm_scale_log10", "tm_scale_discrete"), 
 			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
@@ -544,6 +547,9 @@ tmap_show_palettes()
 (click on the image to see the full png)
 
 It is also possible to render this for color blindness simulation, e.g.: `tmap_show_palettes(color_vision_deficiency = "deutan")`.
+
+All default palettes that we use will be usable for color blind people.
+
 
 ## Suggestions
 
