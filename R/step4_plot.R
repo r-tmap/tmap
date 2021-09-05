@@ -499,8 +499,10 @@ step4_plot = function(tm) {
 	
 	
 	
-	d[, row := as.integer((i - 1) %% o$nrows + 1)]
-	d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
+	d[, col := as.integer((i - 1) %% o$ncols + 1)]
+	d[, row := as.integer((((i - 1) %/% o$ncols + 1) - 1) %% o$nrows + 1)]
+	# d[, row := as.integer((i - 1) %% o$nrows + 1)]
+	# d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
 	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 	
 	
