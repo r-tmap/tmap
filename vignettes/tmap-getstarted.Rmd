@@ -29,7 +29,7 @@ For more context on R's geographic capabilities we recommend the online version 
 ### Hello World!
 
 A good place to start is to create a map of the world.
-After [installing](https://github.com/mtennekes/tmap#installation) tmap, the following lines of code should create the map shown below:
+After [installing](https://github.com/r-tmap/tmap#installation) tmap, the following lines of code should create the map shown below:
 
 ```{r}
 library(tmap)
