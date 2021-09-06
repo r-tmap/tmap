@@ -1,0 +1,5 @@
+to do list:
+
+* reverse palettes with "-"
+* filter + colorNULL
+* panel headers

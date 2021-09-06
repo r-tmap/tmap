@@ -63,6 +63,7 @@
 		value.na = list(
 			fill = "grey75",
 			col = "grey75",
+			col.raster = "#00000000",
 			lty = "solid",
 			lwd = NA,
 			fill_alpha = 1,
@@ -76,6 +77,14 @@
 			lwd = NA,
 			fill_alpha = 1,
 			col_alpha = 1
+		),
+		value.blank = list(
+			fill = "#00000000",
+			col = "#00000000",
+			lty = "blank",
+			lwd = 0,
+			fill_alpha = 0,
+			col_alpha = 0
 		),
 		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
 						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
