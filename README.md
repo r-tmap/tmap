@@ -75,6 +75,10 @@ Usage
 library(tmap)
 ```
 
+Book 
+-----
+Tennekes, M., Nowosad, J., Elegant and informative maps with tmap, https://r-tmap.github.io/
+
 Reference
 ----
 [Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
