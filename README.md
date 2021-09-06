@@ -77,19 +77,13 @@ library(tmap)
 
 Book 
 -----
-Tennekes, M., Nowosad, J., Elegant and informative maps with tmap, https://r-tmap.github.io/
+Tennekes, M., Nowosad, J., Elegant and informative maps with tmap. Draft version, https://r-tmap.github.io/
 
 Reference
 ----
 [Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
 
 This paper has been written for `tmap` 1.11-2. See the [reproducible code](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html) using `tmap` 2.x and 3.x.
-
-Book (draft)
------
-
-This [book](https://r-tmap.github.io/tmap-book/) is work-in-progress and will be pushlished when `tmap` v4 is stable.
-
 
 Vignettes 
 -----
