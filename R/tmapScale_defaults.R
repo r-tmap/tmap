@@ -75,10 +75,15 @@ tmapValuesIsDiv_shape = function(x) {
 
 tmapValuesContrast_fill = function(x, n, isdiv) {
 	palid = tmapPalId(x[1])
-	if (!is.na(palid) && isdiv) {
-		default_contrast_div(n)
-	} else if (!is.na(palid) && !isdiv) {
-		default_contrast_seq(n)
+	
+	if (!is.na(palid)) {
+		if (.tmap_pals$type[palid] %in% c("cat", "cyc", "biv")) {
+			c(0, 1)
+		} else if (isdiv) {
+			default_contrast_div(n)	
+		} else {
+			default_contrast_seq(n)	
+		}
 	} else c(0, 1)
 }
 
@@ -308,9 +313,7 @@ tmapValuesCVV_fill = function(x, n, contrast, rep) {
 	# process values
 	palid = tmapPalId(x[1])
 	
-	arecolors = if (is.na(palid)) {
-		valid_colors(x[1])
-	} else TRUE
+	arecolors = !is.na(palid) || (is.na(palid) && valid_colors(x[1]))
 	
 	# if (arecolors) {
 	values = if (!is.na(palid)) {

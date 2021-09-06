@@ -10,7 +10,9 @@ tm_facets = function(by = "VARS__",
 					 drop.empty.facets = TRUE,
 					 drop.NA.facets = FALSE,
 					 sync = TRUE,
-					 showNA = NA) {
+					 showNA = NA,
+					 textNA = "Mssing",
+					 scale.factor=2) {
 	
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	is.wrap = is.null(rows) && is.null(columns) && is.null(pages)
@@ -39,6 +41,8 @@ tm_facets = function(by = "VARS__",
 		drop.NA.facets = drop.NA.facets,
 		sync = sync,
 		showNA = showNA,
+		textNA = textNA,
+		scale.factor = scale.factor,
 		calls = calls,
 		subclass = "tm_facets"))
 	
