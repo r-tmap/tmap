@@ -33,20 +33,20 @@ tmapShape = function(...) {
 
 #' @method tmapShape SpatRaster
 #' @export
-tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, shp_name) {
-	tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, shp_name)
+tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
+	tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
 }
 
 #' @method tmapShape SpatRaster
 #' @export
-tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, shp_name) {
-	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, shp_name)
+tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
+	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name)
 }
 
 
 #' @method tmapShape stars
 #' @export
-tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
+tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 	if (!has_raster(shp)) {
 		dimnms = dimnames(shp)
 		
@@ -114,7 +114,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, shp_name) {
 
 #' @method tmapShape sf
 #' @export
-tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
+tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 	if (!is.null(crs) && sf::st_crs(shp) != crs) {
 		shp = sf::st_transform(shp, crs = crs)
 	}
@@ -126,7 +126,8 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, shp_name) {
 	
 	bbox = sf::st_bbox(sfc)
 	
-	dt[, tmapID__ := 1L:nrow(dt)]
+	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
+	dt[, ':='(tmapID__ = 1L:nrow(dt), sel__ = filter)]
 	
 	structure(list(shp = sfc, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }

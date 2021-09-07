@@ -247,7 +247,7 @@ step2_data = function(tm) {
 					# constant values (take first value (of possible MV) per facet)
 					if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with MV", call. = FALSE)
 					val1 = sapply(val, "[[", 1, USE.NAMES = FALSE)
-					dtl = copy(dt[, c("tmapID__", by123__[b]), with = FALSE])
+					dtl = copy(dt[, c("tmapID__", "sel__", by123__[b]), with = FALSE])
 					
 					if (nvars > 1 && limitvars) {
 						# not allowed: take first one
@@ -264,11 +264,21 @@ step2_data = function(tm) {
 					if (length(v)) update_fl(k = v, m = nvars)
 					
 					if (nvars > 1) {
-						dtl = melt(dtl, id.vars = c("tmapID__", by123__[b]), measure.vars = vnames, variable.name = var__, value.name = nm)
+						dtl = melt(dtl, id.vars = c("tmapID__", "sel__", by123__[b]), measure.vars = vnames, variable.name = var__, value.name = nm)
 						dtl[, (var__) := as.integer(get(..var__))]
 					} else {
 						setnames(dtl, vnames[1], nm)
 					}
+
+					# impute null (filter argument of tm_shape) with value.null					
+					if (any(!dtl$sel__)) {
+						cls = data_class(dtl[[nm]])
+						value.null = getAesOption("value.null", meta, aes$aes, tml$layer, cls = cls)
+						dtl[sel__==FALSE, (nm) := value.null]
+					}
+					#dtl[, sel__:= NULL]
+					
+
 					dtl[, legend := vector("list", length = nrow(dtl))]
 					#dtl_leg = NULL
 					#sel = !vapply(dtl$legend, is.null, logical(1))
@@ -278,7 +288,7 @@ step2_data = function(tm) {
 				} else {
 					#cat("step2_grp_lyr_aes_var\n")
 					
-					relevant_vars = c("tmapID__", vars, by123__[b])
+					relevant_vars = c("tmapID__", "sel__" , vars, by123__[b])
 					
 					dtl = copy(dt[, relevant_vars, with = FALSE])
 					
@@ -361,7 +371,12 @@ step2_data = function(tm) {
 						#if (is.na(s$legend$title)) s$legend$title = v
 						if (is.na(l$title)) l$title = v
 						#aesname = aes$aes
-						dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
+						value.null = if ("value.null" %in% names(s)) s$value.null else {
+							cls = data_class(dtl[[v]])
+							getAesOption("value.null", meta, aes$aes, tml$layer, cls = cls)
+						}
+						dtl[, c(varname, legname) := list(value.null, list(NULL))]
+						dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
 						NULL
 					}
 					
@@ -420,23 +435,6 @@ step2_data = function(tm) {
 						}
 						
 						apply_scale(s, l, val, nm, "legend")
-						
-# 						# update legend defaults from options
-# 						tmp = names(meta)[substr(names(meta), 1, 6) == "legend"]
-# 						opt_leg = intersect(substr(tmp, 8, nchar(tmp)), names(l))
-# 						
-# 						# update legend format
-# 						l$format = process_legend_format(l$format, meta$legend.format)
-# 						
-# 						l[opt_leg] = mapply(function(o, nm) {
-# 							if (is.na(o[1])) meta[[paste0("legend.", nm)]] else o
-# 						}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
-# #						l$format
-# 						
-# 						f = s$FUN
-# 						s$FUN = NULL
-# 						if (is.na(l$title)) l$title = val
-# 						dtl[, c(nm, "legend") := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = val]
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]

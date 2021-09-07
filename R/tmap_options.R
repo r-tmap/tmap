@@ -46,8 +46,8 @@
 						 lwd.polygons = 1,
 						 lwd.symbols = 1,
 						 lty.lines = "solid",
-						 lty.polygons = 1,
-						 lty.symbols = 1,
+						 lty.polygons = "solid",
+						 lty.symbols = "solid",
 						 shape.symbols = 21,
 						 shape.dots = 19,
 						 size.symbols = 1,
@@ -73,8 +73,9 @@
 		value.null = list(
 			fill = "grey95",
 			col = "grey95",
+			col.polygons = "grey40",
 			lty = "solid",
-			lwd = NA,
+			lwd = 1,
 			fill_alpha = 1,
 			col_alpha = 1
 		),

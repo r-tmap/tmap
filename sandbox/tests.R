@@ -22,6 +22,8 @@ tm_shape(World) +
 	tm_polygons("HPI") +
 	tm_facets(by = "continent", free.coords = FALSE)
 
+#
+
 
 # SCALING
 tm = tm_shape(World) +
