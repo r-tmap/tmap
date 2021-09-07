@@ -7,7 +7,7 @@ get_scale_defaults = function(scale, opt, aes, layer, cls) {
 		values.contrast = if (is.na(values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else values.contrast
 		
 		value.blank = getAesOption("value.blank", opt, aes, layer, cls = cls)
-		if (value.na == value.blank) label.na = ""
+		if (is.na(value.na) || value.na == value.blank) label.na = ""
 		
 		# label.na TRUE: always show NA's, but use option
 		# label.na FALSE or "": never show NA's

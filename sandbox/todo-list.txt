@@ -2,4 +2,4 @@ to do list:
 
 * reverse palettes with "-"
 * filter + colorNULL
-* panel headers
+* scale_down marginal legends 

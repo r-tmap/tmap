@@ -2,7 +2,7 @@ preprocess_meta = function(o) {
 	within(o, {
 		nby = get_nby(fl)
 		n = prod(nby)
-		if (is.na(panel.type)) panel.type = ifelse(n == 1 || (is.wrap && !is.character(fl[[1]])) || (!is.wrap && !is.character(fl[[1]]) && !is.character(fl[[2]])), "none", ifelse(is.wrap, "wrap", "xtab"))
+		if (is.na(panel.type)) panel.type = ifelse((n == 1 && is.na(panel.labels[[1]])) || (is.wrap && !is.character(fl[[1]])) || (!is.wrap && !is.character(fl[[1]]) && !is.character(fl[[2]])), "none", ifelse(is.wrap || (n == 1), "wrap", "xtab"))
 		
 		inner.margins = get_option_class(inner.margins, class = main_class)
 		
@@ -199,13 +199,6 @@ process_meta = function(o) {
 		
 		scale_down = (1 / sqrt((width_for1 * height_for1) / (width_forn * height_forn))) ^ (1 / scale.factor)
 		
-		print(scale_down)
-		
-		
-		#scale.extra = 
-			
-		#scale = scale * scale_down
-		
 		title.size = title.size * scale
 		legend.title.size = legend.title.size * scale
 		legend.text.size = legend.text.size * scale
@@ -214,7 +207,6 @@ process_meta = function(o) {
 		
 		
 		# update panel labels
-		
 		if (is.na(panel.labels[1])) {
 			panel.labels = fl[1:2]
 		} else {

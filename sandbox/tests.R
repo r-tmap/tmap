@@ -23,6 +23,21 @@ tm_shape(World) +
 	tm_facets(by = "continent", free.coords = FALSE)
 
 
+# SCALING
+tm = tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_symbols(size = "pop_est")
+
+# one panel
+tm + tm_layout(panel.labels = "Test")
+
+tm + tm_facets(by = "continent")
+tm + tm_facets(by = "income_grp")
+
+tm + tm_facets_grid(rows = "income_grp", columns = "economy")
+tm + tm_facets(by = c("income_grp", "economy"))
+
+
 
 
 

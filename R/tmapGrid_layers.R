@@ -1,4 +1,11 @@
-tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id) {
+rescale_gp = function(gp, scale, skip = character()) {
+	if ("lwd" %in% names(gp) && (!"lwd" %in% skip)) gp$lwd = gp$lwd * scale
+	if ("size" %in% names(gp) && (!"size" %in% skip)) gp$size = gp$size * sqrt(scale)
+	if ("cex" %in% names(gp) && (!"cex" %in% skip)) gp$cex = gp$cex * sqrt(scale)
+	gp
+}
+
+tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -7,6 +14,8 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	dt = res$dt
 	
 	gp = impute_gp(gp, dt)
+	
+	gp = rescale_gp(gp, o$scale_down)
 	
 	# none should contain NA's && (length or content should be different)
 	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
@@ -44,7 +53,7 @@ appendGlist = function(glist, x) {
 }
 
 
-tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id) {
+tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
 	rc_text = frc(facet_row, facet_col)
 	
 	res = select_sf(shpTM, dt)
@@ -54,6 +63,8 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	gp = impute_gp(gp, dt)
 	
 	gp = gp_to_gpar(gp, sel = "all")
+	
+	gp = rescale_gp(gp, o$scale_down)
 	
 	
 	coords = sf::st_coordinates(shp)
@@ -74,7 +85,7 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 }
 
 
-tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id) {
+tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
 	

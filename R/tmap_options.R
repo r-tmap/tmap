@@ -300,7 +300,6 @@ tmapOption = function(...) {
 getTmapOption = function(x, opt) {
 	x = unlist(x)
 	y = opt
-	print(x)
 	for (i in 1:length(x)) {
 		if (x[i] %in% names(y)) {
 			y = y[[x[i]]]	

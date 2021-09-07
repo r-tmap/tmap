@@ -157,6 +157,9 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			} else if (leg$type == "symbols") {
 				gpars = gp_to_gpar(gp, split_to_n = nlev)
 				
+				# scale down (due to facet use)
+				gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
+				
 				grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			}
 			
