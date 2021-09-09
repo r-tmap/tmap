@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, fig.width = 9)
 ```
 
 # Instructions
@@ -19,10 +19,30 @@ library(devtools)
 load_all()
 data(World,metro,land)
 tmapV = substr(packageVersion("tmap"), 1, 1)
-grid::grid.text(paste("Loaded tmap version", tmapV), gp = gpar(cex = 3))
+txt = function(x) print(grid::grid.text(x, gp = gpar(cex = 3)))
+v3 = function(e) {
+	if (tmapV == "3") {
+		print(e)
+	} else {
+		txt("Only for tmap 3")
+	}
+	invisible(NULL)
+}
+v4 = function(e) {
+	if (tmapV == "4") {
+		print(e)
+	} else {
+		txt("Only for tmap 4")
+	}
+	invisible(NULL)
+}
+txt(paste("Loaded tmap version", tmapV))
 ```
 
 # Facetting shapes
+
+These tests focus on dealing with shapes when facets are created.
+Legends, scales will be studied in other tests.
 
 ## Polygons
 
@@ -60,14 +80,7 @@ tm_shape(World) +
 	tm_facets(by = "continent", free.coords = FALSE)
 ```
 
-### Multiple facets, specified by a 'facet wrap', with fixed coordinates, and keep units (set to color null)
 
-```{r}
-# split polygon shape (by), with fixed coords
-tm_shape(World) +
-	tm_polygons("HPI") +
-	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
-```
 
 
 ### Filter
@@ -75,21 +88,55 @@ tm_shape(World) +
 
 
 ```{r}
-# split polygon shape (by), with fixed coords
+# filter polygons (filtered out will get value.null)
 tm_shape(World, filter = World$pop_est > 100e6) +
 	tm_polygons(c("blue", "red"))
 ```
 
 
 ```{r}
-# split polygon shape (by), with fixed coords
 tm_shape(World, filter = World$pop_est > 100e6) +
 	tm_polygons("HPI")
 ```
 
-
 ```{r}
-# split polygon shape (by), with fixed coords
 tm_shape(World, filter = World$pop_est > 100e6) +
 	tm_polygons(c("HPI", "economy"))
 ```
+
+
+### Drop units
+
+
+```{r}
+# fixed aes, wrap
+tm_shape(World) +
+	tm_polygons("blue") +
+	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
+```
+
+```{r}
+# one aesthetics, different frees
+tm_shape(World) +
+	tm_polygons("HPI") +
+	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
+```
+
+
+```{r}
+# multiple aesthetics, different frees
+v4({
+tm_shape(World) +
+	tm_polygons("HPI", lty = "economy", fill.free = FALSE, lty.free = TRUE) +
+	tm_facets(by = "continent", free.coords = FALSE, drop.units = FALSE)
+})
+```
+
+
+```{r}
+# nothing to drop
+tm_shape(World) +
+	tm_polygons(c("HPI", "economy")) +
+	tm_facets(free.coords = FALSE, drop.units = TRUE)
+```
+

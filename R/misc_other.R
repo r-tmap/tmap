@@ -38,3 +38,20 @@ get_page = function(i, nrows, ncols) {
 get_i = function(ir, ic, ip, nby) {
 	ir + (ic - 1) * nby[1] + (ip - 1) * prod(nby[1:2])
 }
+
+completeDT <- function(DT, cols, defs = NULL){
+	mDT = do.call(CJ, c(DT[, ..cols], list(unique=TRUE)))
+	res = DT[mDT, on=names(mDT)]
+	if (length(defs)) 
+		res[, names(defs) := Map(replace, .SD, lapply(.SD, is.na), defs), .SDcols=names(defs)]
+	res[]
+} 
+
+
+completeDT2 <- function(DT, cols, defs = NULL){
+	mDT = do.call(CJ, c(DT[, ..cols], list(unique=TRUE)))
+	res = DT[mDT, on=names(mDT)]
+	if (length(defs)) 
+		res[, names(defs) := Map(replace, .SD, lapply(.SD, is.na), defs), .SDcols=names(defs)]
+	res[]
+} 

@@ -120,9 +120,3 @@ tm_shape(World) +
 	tm_polygons("HPI") +
 	tm_
 
-
-panel.label.size = 1,
-panel.label.color = "black",
-panel.label.fontface = NULL,
-panel.label.fontfamily = NULL,
-panel.label.bg.color = "grey80",

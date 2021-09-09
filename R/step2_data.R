@@ -271,10 +271,18 @@ step2_data = function(tm) {
 					}
 
 					# impute null (filter argument of tm_shape) with value.null					
-					if (any(!dtl$sel__)) {
+					if (any(!dtl$sel__) || !tmg$tmf$drop.units) {
+						# also needed for drop.units later on
 						cls = data_class(dtl[[nm]])
 						value.null = getAesOption("value.null", meta, aes$aes, tml$layer, cls = cls)
+						
 						dtl[sel__==FALSE, (nm) := value.null]
+						
+						if (!tmg$tmf$drop.units) {
+							imp = structure(value.null, names = nm)
+							dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
+						}
+						
 					}
 					#dtl[, sel__:= NULL]
 					
@@ -375,9 +383,17 @@ step2_data = function(tm) {
 							cls = data_class(dtl[[v]])
 							getAesOption("value.null", meta, aes$aes, tml$layer, cls = cls)
 						}
+						
 						dtl[, c(varname, legname) := list(value.null, list(NULL))]
 						dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
-						NULL
+						
+						if (!tmg$tmf$drop.units) {
+							imp = structure(list(value.null, list()), names = c(nm, "legend"))
+							dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
+						}
+						
+						
+						dtl
 					}
 					
 					if (length(v) && fr[v] && nvars > 1) {
@@ -401,7 +417,14 @@ step2_data = function(tm) {
 						
 						varnames = paste(nm, 1L:nvars, sep = "_")
 						legnames = paste("legend", 1L:nvars, sep = "_")
-						mapply(apply_scale, scale, legend, val, varnames, legnames)
+						#mapply(apply_scale, scale, legend, val, varnames, legnames)
+						
+						for (i in 1L:nvars) {
+							#mapply(apply_scale, scale, legend, val, varnames, legnames) does not work because of completeDT
+							dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], legnames[[i]])
+						}
+						
+						
 						
 						dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legend")
 						dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
@@ -434,12 +457,20 @@ step2_data = function(tm) {
 							stop("incorrect legend specification")
 						}
 						
-						apply_scale(s, l, val, nm, "legend")
+						dtl = apply_scale(s, l, val, nm, "legend")
 						
 						sel = !vapply(dtl$legend, is.null, logical(1))
 						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]
 					}
 				}
+				
+				
+				# if (!tmg$tmf$drop.units) {
+				# 	imp = structure(list(value.null, list()), names = c(nm, "legend"))
+				# 	completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
+				# }
+				
+
 				list(dt = dtl[, c("tmapID__", grp_bv, nm), with = FALSE],
 					 leg = dtl_leg)
 			}
