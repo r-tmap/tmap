@@ -48,10 +48,60 @@ completeDT <- function(DT, cols, defs = NULL){
 } 
 
 
-completeDT2 <- function(DT, cols, defs = NULL){
-	mDT = do.call(CJ, c(DT[, ..cols], list(unique=TRUE)))
-	res = DT[mDT, on=names(mDT)]
-	if (length(defs)) 
-		res[, names(defs) := Map(replace, .SD, lapply(.SD, is.na), defs), .SDcols=names(defs)]
-	res[]
-} 
+cont_breaks <- function(breaks, n=101) {
+	x <- round(seq(1, 101, length.out=length(breaks)))
+	
+	
+	unlist(lapply(1L:(length(breaks)-1L), function(i) {
+		y <- seq(breaks[i], breaks[i+1], length.out=x[i+1]-x[i]+1)	
+		if (i!=1) y[-1] else y
+	}), use.names = FALSE)
+}
+
+
+
+prettyCount <- function(x, n, ...) {
+	x <- na.omit(x)
+	if (!length(x)) return(x)
+	
+	if (!is.integer(x)) x <- as.integer(x)
+	
+	
+	mn <- min(x)
+	mx <- max(x)
+	
+	any0 <- any(x==0)
+	
+	if (mn < 0) {
+		n <- floor(n / 2)
+		pneg <- -rev(prettyCount(-x[x<0], n = n, ...)) + 1L
+		pneg <- pneg[pneg != 0L]
+		x <- x[x>0]
+		any0 <- TRUE
+	} else {
+		pneg <- integer()
+	}
+	
+	if (any0) x <- x[x!=0L]
+	
+	p <- pretty(x - 1L, n = n, ...) + 1L
+	
+	p <- p[(p %% 1) == 0]
+	p <- p[p!=0L]
+	
+	if (length(x) < 2) {
+		if (any0) return(c(0L, p)) else return(p)
+	}
+	
+	
+	step <- p[2] - p[1]
+	if (p[length(p)] == mx) p <- c(p, mx+step)
+	
+	if (any0) {
+		c(pneg, 0L, p)
+	} else {
+		c(pneg, p)
+	}
+}
+
+

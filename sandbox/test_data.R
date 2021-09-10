@@ -32,7 +32,13 @@ gran_p = read_stars(s2, proxy = TRUE)
 rm(granule, s2)
 gc()
 
+landsat = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
+lux <- vect(system.file("ex/lux.shp", package="terra"))
+
+
+
 show_data = function() {
+	require(dplyr)
 	lst = ls(envir = .GlobalEnv)
 	cls = sapply(lst, function(o) class(get(o, envir = .GlobalEnv))[1])
 	size = sapply(lst, function(o) object_size(get(o, envir = .GlobalEnv)))
@@ -42,14 +48,19 @@ show_data = function() {
 			paste0(ncol(o)-1, " cols x ",  nrow(o), " geoms")
 		} else if (inherits(o, "stars")) {
 			paste0(length(o), " attrs x (", paste(dim(o), collapse = " x "), ") dims")
-		} else {
-			""
-		}
+		} else if (inherits(o, "SpatVector")) {
+			paste0(dim(v)[2], " cols x ",  dim(v)[1], " geoms")
+		} else if (inherits(o, "SpatRaster")) {
+			paste0("(", paste(dim(o), collapse = " x "), ") dims")
+		} else ""
 	})
 	hasr = sapply(lst, function(o) stars:::has_raster(get(o, envir = .GlobalEnv)))
 	
-	data.frame(name = names(size), size = format(unname(size), big.mark = ","),  class = cls, features = features, has_raster = hasr, row.names = NULL) %>% 
-		filter(class %in% c("sf", "stars")) %>% 
+	df = data.frame(name = names(size), size = format(unname(size), big.mark = ","),  class = cls, features = features, has_raster = hasr, row.names = NULL)
+	df = df[df$class %in% c("sf", "stars", "SpatVector", "SpatRaster"),]
+	
+	df %>% 
+	#	filter(class %in% c("sf", "stars")) %>% 
 		arrange(class, desc(size)) %>% 
 		print()
 	

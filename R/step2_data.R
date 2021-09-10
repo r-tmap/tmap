@@ -384,8 +384,13 @@ step2_data = function(tm) {
 							getAesOption("value.null", meta, aes$aes, tml$layer, cls = cls)
 						}
 						
-						dtl[, c(varname, legname) := list(value.null, list(NULL))]
-						dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
+						if (!all(dtl$sel__)) {
+							dtl[, c(varname, legname) := list(value.null, list(NULL))]
+							if (is.na(value.null)) stop("value.null not specified for aesthetic ", nm, call. = FALSE)
+							dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
+						} else {
+							dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
+						}
 						
 						if (!tmg$tmf$drop.units) {
 							imp = structure(list(value.null, list()), names = c(nm, "legend"))

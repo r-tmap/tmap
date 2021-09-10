@@ -140,3 +140,10 @@ tm_shape(World) +
 	tm_facets(free.coords = FALSE, drop.units = TRUE)
 ```
 
+## Rasters
+
+```{r}
+# nothing to drop
+tm_shape(land) +
+	tm_raster("cover_cls")
+```

@@ -75,9 +75,10 @@
 			col = "grey95",
 			col.polygons = "grey40",
 			lty = "solid",
-			lwd = 1,
+			lwd = 0.2,
 			fill_alpha = 1,
-			col_alpha = 1
+			col_alpha = 1,
+			size = 0.2
 		),
 		value.blank = list(
 			fill = "#00000000",
