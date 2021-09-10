@@ -122,7 +122,10 @@ tmapGridInit = function(o) {
 							grid::viewport(layout = grid::grid.layout(nrow = length(rows), ncol = length(cols), widths = cols, heights = rows), name = "vp_main")
 	)
 	
-	outerRect = if (!is.null(o$outer.bg.color)) grid::rectGrob(gp=grid::gpar(col=NA, lwd = 0, fill = o$outer.bg.color), name = "outer_rect") else NULL
+	bgcol = if (is.na(o$frame)) o$bg.color else o$outer.bg.color
+	
+	
+	outerRect = if (!is.na(bgcol)) grid::rectGrob(gp=grid::gpar(col=NA, lwd = 0, fill = bgcol), name = "outer_rect") else NULL
 	
 	gts = lapply(1L:o$npages, function(ip) {
 		grid::grobTree(

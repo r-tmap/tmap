@@ -1,15 +1,14 @@
 step1_rearrange = function(tmel) {
-	# find shapes and layers
-	is_tms = sapply(tmel, inherits, "tm_shape")
-	is_tml = sapply(tmel, inherits, "tm_layer")
-	is_tmf = sapply(tmel, inherits, "tm_facets")
+	# find shape, (aesthetic) layer, facet, and other elements
+	is_tms = vapply(tmel, inherits, "tm_shape", FUN.VALUE = logical(1))
+	is_tml = vapply(tmel, inherits, "tm_layer", FUN.VALUE = logical(1))
+	is_tmf = vapply(tmel, inherits, "tm_facets", FUN.VALUE = logical(1))
 	is_other = !is_tml & !is_tms & !is_tmf
-	ids = cumsum(is_tms)
-	ids[is_other] = 0
 	
 	# create groups, for each group: tms (tmap shape), tmls (tmap layers), tmf (tmap facets)
+	ids = cumsum(is_tms)
+	ids[is_other] = 0
 	tmel_spl = split(tmel, f = ids)
-	
 	if (any(is_other)) {
 		oth = tmel_spl[[1]]
 		tmel_spl = tmel_spl[-1]
@@ -17,10 +16,13 @@ step1_rearrange = function(tmel) {
 		oth = list()		
 	}
 	
+	# organize groups, 1 tm_shape, at least 1 tm_layers, 1 tm_facets
 	tmo = lapply(tmel_spl, function(tmg) {
-		is_tms = sapply(tmg, inherits, "tm_shape")
-		is_tml = sapply(tmg, inherits, "tm_layer")
-		is_tmf = sapply(tmg, inherits, "tm_facets")
+		is_tms = vapply(tmg, inherits, "tm_shape", FUN.VALUE = logical(1))
+		is_tml = vapply(tmg, inherits, "tm_layer", FUN.VALUE = logical(1))
+		is_tmf = vapply(tmg, inherits, "tm_facets", FUN.VALUE = logical(1))
+		
+		# make sure there is exactly one tm_facets per group (if there are none, add one, if there are mutple, take last)
 		if (!any(is_tmf)) {
 			tmf = tm_facets_wrap()[[1]]
 		} else {
@@ -33,40 +35,41 @@ step1_rearrange = function(tmel) {
 		structure(list(tms = tmg[[1]], tmls = tmg[is_tml], tmf = tmf), class = c("tmapGroup", "list"))
 	})
 	
-	# get the crs of the main shape
-	
+	# find the 'main' group: this is the group for which tm_shape is used for CRS and bbox. By default, take the first, unless is.main is set to TRUE.
+	# is.main can be set multiple times: the CRS will be taken from the first, but the bbox from all
 	ids = get_main_ids(tmo)
 	
-	crs_option = tmap_options()$crs
-	crs = if (is.na(crs_option[1])) get_crs(tmo[[ids[1]]]$tms) else crs_option
-	main_class = get_class(tmo[[ids[1]]]$tms)
+	# get options (mode specific)
+	opt = tmap_options_mode()
+	
+	# get main crs (option or extracted from first main shape)
+	crs_option = opt$crs
+	shp = tmo[[ids[1]]]$tms
+	crs = if (is.na(crs_option[1])) get_crs(shp) else crs_option
+	main_class = get_class(shp)
 
-	# reproject other shapes if needed
+	# process shapes: put non-spatial data in data.table, keep spatial data separately 
 	tmo = structure(lapply(tmo, function(tmg) {
-		#tmg$tms$crs = crs
 		tmg$tms = do.call(tmapShape, tmg$tms)
-		#dt = tmg$tms$dt
-		#tmg$tmls = lapply(tmg$tmls, tmapLayer, dt)
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
 	
-	#tmfs = lapply(tmo, "[[", "tmf")
-	
-	
-	opt = tmap_options()
+	# update options with tm_option elements
 	is_opt = sapply(oth, inherits, "tm_options")
 	if (any(is_opt)) for (id in which(is_opt)) {
 		nms = intersect(names(opt), names(oth[[id]]))
 		if (length(nms)) opt[nms] = oth[[id]][nms]
 	}
 	
-	opt$main = ids
-	opt$main_class = main_class
-	opt$crs = crs
+	# to be used later
+	opt$main = ids # to determine total bounding box in step 4
+	opt$main_class = main_class # inner.margins are class specific (preprecess_meta)
+	opt$crs = crs # in step 3, when other shapes are transformed to this crs
 	
 	list(tmo = tmo, meta = opt)
 }
 
+# see above
 get_main_ids = function(tmo) {
 	is_main = vapply(tmo, function(tmg) {
 		identical(tmg$tms$is.main, TRUE)
@@ -74,6 +77,8 @@ get_main_ids = function(tmo) {
 	
 	if (any(is_main)) which(is_main) else 1L
 }
+
+
 get_crs = function(tms) {
 	if (is.null(tms$crs)) sf::st_crs(tms$shp) else tms$crs
 }

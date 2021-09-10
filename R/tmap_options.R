@@ -33,7 +33,7 @@
 		title = NA,
 		scale = 1,
 		title.size = 1.3,
-		bg.color = "white",
+		bg.color = NA,
 
 		value.const = list(fill.polygons = "grey85",
 						 fill.symbols = "grey60",
@@ -124,7 +124,7 @@
 		meta.margins = NA,
 		meta.auto.margins = c(0.3, 0.3, 0.3, 0.3),
 		between.margin = .5,
-		outer.bg.color = NULL,
+		outer.bg.color = NA,
 		fontface = "plain",
 		fontfamily = "",
 		compass.type = "arrow",
@@ -239,9 +239,80 @@ tm_layout = function(...) {
 #' @name tmap_options 
 #' @rdname tmap_options
 #' @export
-tmap_options = function() {
+tmap_options = function(...) {
+	opt <- get("tmapOptions", envir = .TMAP)	
+	nms = names(opt)
+	show.warnings = opt$show.warnings
+	
+	# get current style name (default: white), and set new style name (with "(modified)")
+	sty_cur = getOption("tmap.style")
+	sty_new <- if (substr(sty_cur, nchar(sty_cur) - 9, nchar(sty_cur)) == "(modified)") sty_cur else paste(sty_cur, "(modified)")
+	
+	e1 = parent.frame()
+	set_new_style = FALSE
+	
+	lst <- list(...)
+	if (length(lst) >= 1 && is.null(names(lst))) {
+		arg = lst[[1]]
+		if (is.list(arg)) {
+			## case 1: option list is given
+			args = arg
+			
+			style_attr = attr(args, "style")
+			if (!is.null(style_attr)) {
+				sty_new = style_attr
+				set_new_style = TRUE
+			}
+			
+			if (length(lst) > 1 && show.warnings) warning("Only the first argument is used; the other arguments are ignored.")
+		} else {
+			## case 2: option name is given
+			args = sapply(lst, "[", 1)
+			if (!all(args %in% nms) && show.warnings) warning("the following options do not exist: ", paste(setdiff(args, nms), collapse = ", "))
+			args = intersect(args, nms)
+			return(opt[args])
+		}
+	} else {
+		## case 3: named options are set
+		## case 4: tmap_options is called without arguments
+		args = lapply(as.list(match.call()[-1]), eval, envir = e1)	
+	}
+	
+	unknown_args = setdiff(names(args), names(.defaultTmapOptions))
+	if (length(unknown_args) == 1) {
+		stop("the following option does not exist: ", unknown_args)
+	} else if (length(unknown_args) > 1) {
+		stop("the following options do not exist: ", paste(unknown_args, collapse = ", "))
+	}
+	
+	if (!length(args)) {
+		# case 4
+		return(opt)	
+	} else {
+		# case 1 and 3
+		backup = opt[names(args)]
+		opt[names(args)] = args # check_named_items(args, backup)
+		
+		options(tmap.style=sty_new)
+		attr(opt, "style") = sty_new
+		assign("tmapOptions", opt, envir = .TMAP)
+		
+		if (set_new_style) {
+			if (opt$show.messages) message("tmap options successfully loaded as style \"", sty_new, "\"")
+			styles = get("tmapStyles", envir = .TMAP)
+			styles[[sty_new]] = suppressMessages(tmap_options_diff())
+			assign("tmapStyles", styles, envir = .TMAP)
+		} 
+		invisible(backup)
+	}	
+}
+
+#' @name tmap_options_mode
+#' @rdname tmap_options
+#' @export
+tmap_options_mode = function(mode = NA) {
 	opt = get("tmapOptions", envir = .TMAP)	
-	mode = getOption("tmap.mode")
+	if (is.na(mode)) mode = getOption("tmap.mode")
 	opt2 = opt$modes[[mode]]
 	
 	int_opt = intersect(names(opt), names(opt2))

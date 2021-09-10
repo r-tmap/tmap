@@ -14,7 +14,7 @@ tmapPalId = function(name, check_rev = TRUE) {
 
 tmap_get_palette = function(name, n = NA, rep = TRUE, contrast = NA) {
 	if (name %in% unique(.tmap_pals$type)) {
-		name = tmap_options()$aes.palette[[name]]
+		name = tmap_options_mode()$aes.palette[[name]]
 	} 
 	
 	

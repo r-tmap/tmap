@@ -75,7 +75,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 		
 		shpclass = "sfc"
 	} else {
-		shp = downsample_stars(shp, max.raster = tmap_options()[["max.raster"]])
+		shp = downsample_stars(shp, max.raster = tmap_options_mode()[["max.raster"]])
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs, raster.warp = TRUE)
 		}
