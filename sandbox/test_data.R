@@ -2,6 +2,7 @@ suppressPackageStartupMessages(library(pryr))
 suppressPackageStartupMessages(library(dplyr))
 suppressPackageStartupMessages(library(stars))
 suppressPackageStartupMessages(library(sf))
+suppressPackageStartupMessages(library(terra))
 
 
 data(World, package = "tmap")

@@ -108,8 +108,10 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
-	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
-	dt[, ':='(tmapID__ = 1L:nrow(dt), sel__ = filter)]
+	filter = if (is.null(filter)) {
+		rep(TRUE, nrow(dt))
+	} else filter[dt$tmapID__]
+	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
 	
 	structure(list(shp = shp, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
