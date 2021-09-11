@@ -121,7 +121,7 @@
 		frame.double.line = FALSE,
 		asp = NA,
 		outer.margins = rep(0.02, 4),
-		inner.margins = list(stars = rep(0, 4), rep(0.02, 4)),
+		inner.margins = list(stars = rep(0, 4), SpatRaster = rep(0, 4), rep(0.02, 4)),
 		meta.margins = NA,
 		meta.auto.margins = c(0.3, 0.3, 0.3, 0.3),
 		between.margin = .5,

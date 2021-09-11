@@ -243,6 +243,7 @@ step4_plot = function(tm) {
 	FUNinit = paste0("tmap", gs, "Init")
 	FUNrun = paste0("tmap", gs, "Run")
 	FUNshape = paste0("tmap", gs, "Shape")
+	FUNoverlay = paste0("tmap", gs, "Overlay")
 	FUNwrap = paste0("tmap", gs, "Wrap")
 	FUNxtab = paste0("tmap", gs, "Xtab")
 	
@@ -286,6 +287,7 @@ step4_plot = function(tm) {
 			}
 			
 		}
+ 		do.call(FUNoverlay, list(facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 	}
 
 	toC = function(x) {

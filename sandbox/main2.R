@@ -331,20 +331,21 @@ tm_shape(World) +
 
 # improve speed (especially rasters); probably caused by format_aes_results
 library(profvis)
-# profvis::profvis({
-# 	print(tm_shape(landsat) +
-# 		  	tm_raster("landsat.tif") +
-# 		  	tm_facets_wrap("band"))
-# })
 
 
-tm_shape(landsat) +
+landsat_stars = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
+landsat_terra = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
+
+tm_shape(landsat_terra) +
+	tm_raster(c("lan_1", "lan_2", "lan_3", "lan_4"), col.free = FALSE)
+
+tm_shape(landsat_stars) +
+	tm_raster("landsat.tif") +
+	tm_facets("band")
+
+tm_shape(landsat_terra) +
 	tm_rgb(MV("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
-
-# working but slow...
-tm_shape(landsat_stars) +
-	tm_raster("landsat.tif") + tm_facets("band")
 
 
 ################

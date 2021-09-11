@@ -2,10 +2,13 @@
 % Please edit documentation in R/tmap_options.R
 \name{tmap_options}
 \alias{tmap_options}
+\alias{tmap_options_mode}
 \alias{tm_options}
 \title{tmap options}
 \usage{
-tmap_options()
+tmap_options(...)
+
+tmap_options_mode(mode = NA)
 
 tm_options(...)
 }

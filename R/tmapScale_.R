@@ -1,3 +1,4 @@
+#' @export
 MV = function(...) {
 	list(c(...))
 }
