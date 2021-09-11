@@ -338,17 +338,13 @@ library(profvis)
 # })
 
 
-# how to deal with band values as variables?
-# gives error:
-landsat_stars = st_as_stars(landsat)
 tm_shape(landsat) +
-	tm_rgb(MV("3", "2", "1"), col.scale = tm_scale_rgb(maxValue = 31961))
+	tm_rgb(MV("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
 
-
-# get max.raster from options (tmapShape.stars)
-
-
+# working but slow...
+tm_shape(landsat_stars) +
+	tm_raster("landsat.tif") + tm_facets("band")
 
 
 ################

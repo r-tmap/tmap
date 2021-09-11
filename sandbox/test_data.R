@@ -33,6 +33,7 @@ gran_p = read_stars(s2, proxy = TRUE)
 rm(granule, s2)
 gc()
 
+landsat_stars = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
 landsat = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
 lux <- vect(system.file("ex/lux.shp", package="terra"))
 
@@ -50,7 +51,7 @@ show_data = function() {
 		} else if (inherits(o, "stars")) {
 			paste0(length(o), " attrs x (", paste(dim(o), collapse = " x "), ") dims")
 		} else if (inherits(o, "SpatVector")) {
-			paste0(dim(v)[2], " cols x ",  dim(v)[1], " geoms")
+			paste0(dim(o)[2], " cols x ",  dim(o)[1], " geoms")
 		} else if (inherits(o, "SpatRaster")) {
 			paste0("(", paste(dim(o), collapse = " x "), ") dims")
 		} else ""

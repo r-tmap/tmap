@@ -355,6 +355,7 @@ step2_data = function(tm) {
 					} else {
 						#cat("step2_grp_lyr_aes_var_one_var\n")
 						val = val[[1]]
+						vars = vars[1] # only needed for update_fl?
 					}
 					
 					if (length(v)) update_fl(k = v, lev = vars)
@@ -380,10 +381,9 @@ step2_data = function(tm) {
 						if (is.na(l$title)) l$title = v
 						#aesname = aes$aes
 						value.null = if ("value.null" %in% names(s)) s$value.null else {
-							cls = data_class(dtl[[v]])
+							cls = data_class(dtl[[v[1]]])
 							getAesOption("value.null", meta, aes$aes, tml$layer, cls = cls)
 						}
-						
 						if (!all(dtl$sel__)) {
 							dtl[, c(varname, legname) := list(value.null, list(NULL))]
 							if (is.na(value.null)) stop("value.null not specified for aesthetic ", nm, call. = FALSE)

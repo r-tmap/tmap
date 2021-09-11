@@ -34,13 +34,60 @@ tmapShape = function(...) {
 #' @method tmapShape SpatRaster
 #' @export
 tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
-	tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
+	#tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
+	if (!requireNamespace("terra")) stop("terra package needed", call. = FALSE)
+	
+	shp = downsample_SpatRaster(shp, max.raster = tmap_options_mode()[["max.raster"]])
+	
+	dt = data.table::setDT(terra::as.data.frame(shp))
+	dt[, tmapID__:=1L:nrow(dt)]
+	#dt = data.table::melt(dt, id.vars = "tmapID__", variable.name = "layer", value.name = "value")
+	
+	xy_dim = dim(shp)[1:2]
+	b = terra::bbox(shp)
+	
+	crs = st_crs(shp)
+	
+	
+	dimsxy = structure(list(x = structure(list(from = 1, to = xy_dim[2], offset = b[1,1], delta = (b[1,2] - b[1,1]) / xy_dim[2], refsys = crs, point = FALSE, values = NULL), class = "dimension"),
+			 y = structure(list(from = 1, to = xy_dim[1], offset = b[2,1], delta = (b[2,1] - b[2,2]) / xy_dim[1], refsys = crs, point = FALSE, values = NULL), class = "dimension")), class = "dimensions")
+	attr(dimsxy, "raster") = structure(list(affine = c(0, 0), dimensions = c("x", "y"), curvilinear = FALSE), class = "stars_raster")
+			 
+	
+	m = matrix(NA, nrow = xy_dim[2], ncol = xy_dim[1])
+	
+	shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
+	shpclass = "stars"
+	
+	bbox = sf::st_bbox(shp)
+	
+	dtcols = setdiff(names(dt), "tmapID__")
+	
+	
+	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
+	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
+	
+	structure(list(shp = shp, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+	
 }
+
+downsample_SpatRaster = function(shp, max.raster) {
+	xy_dim = dim(shp)[1:2]
+	
+	if (prod(xy_dim) > max.raster) {
+		f = max(2, round(sqrt(prod(xy_dim) / max.raster))) # at least fact 2 for each x/y dimension
+		shp = terra::aggregate(shp, fact= f)
+	} else shp
+	
+	
+}
+
 
 #' @method tmapShape SpatRaster
 #' @export
 tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name)
+	
 }
 
 
