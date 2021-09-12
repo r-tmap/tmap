@@ -45,7 +45,7 @@ tmapTransCentroid = function(shpTM) {
 
 
 tmapTransRaster = function(shpTM) {
-	if (!inherits(shpTM$shp, "stars")) stop("Stars object expected for tm_geom_raster", call. = FALSE)
+	if (!inherits(shpTM$shp, "dimensions")) stop("Stars object expected for tm_raster", call. = FALSE)
 	shpTM
 }
 

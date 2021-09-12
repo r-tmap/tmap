@@ -1,5 +1,5 @@
 #' @export
-MV = function(...) {
+tm_mv = function(...) {
 	list(c(...))
 }
 

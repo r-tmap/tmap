@@ -74,24 +74,24 @@ tm_shape(World) +
 
 
 tm_shape(World) +
-	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
+	tm_polygons(fill = c(tm_mv("r1", "g1", "b1"), tm_mv("r2", "g2", "b2")),
 				fill.scale = tm_scale_rgb()) +
 	tm_facets_grid(rows = "continent")
 
 tm_shape(World) +
-	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
+	tm_polygons(fill = c(tm_mv("r1", "g1", "b1"), tm_mv("r2", "g2", "b2")),
 				fill.scale = tm_scale_rgb(),
 				fill.free = c(TRUE, TRUE, TRUE)) +
 	tm_facets_grid(rows = "continent")
 
 tm_shape(World) +
-	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
+	tm_polygons(fill = c(tm_mv("r1", "g1", "b1"), tm_mv("r2", "g2", "b2")),
 				fill.scale = tm_scale_rgb(),
 				fill.free = c(TRUE, FALSE, TRUE)) +
 	tm_facets_grid(rows = "continent")
 
 tm_shape(World) +
-	tm_polygons(fill = c(MV("r1", "g1", "b1"), MV("r2", "g2", "b2")),
+	tm_polygons(fill = c(tm_mv("r1", "g1", "b1"), tm_mv("r2", "g2", "b2")),
 				fill.scale = tm_scale_rgb(),
 				fill.free = c(FALSE, FALSE, TRUE)) +
 	tm_facets_grid(rows = "continent")

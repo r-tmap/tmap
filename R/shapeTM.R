@@ -19,16 +19,26 @@ stm_bbox = function(shpTM, tmapID) {
 	shp = shpTM$shp
 	shpID = shpTM$tmapID
 	
-	ids = match(tmapID, shpID)
-	
-	if (inherits(shp, "stars")) {
-		shp$values[ids] = TRUE
-		sf::st_bbox(trim_stars(shp))
-	} else if (inherits(shp, c("sf", "sfc"))) {
-		sf::st_bbox(shp[ids])
-	} else {
-		stop("unknown shape class")
+	# filter the shape?
+	do_filter = (length(tmapID) != length(shpID)) || (!all(tmapID == shpID))
+
+	if (do_filter) {
+		ids = match(tmapID, shpID)
+		
+		if (inherits(shp, "dimensions")) {
+			m = matrix(NA, nrow = nrow(shp), ncol = ncol(shp))
+			m[ids] = TRUE
+			
+			s = stars::st_as_stars(list(values = m), dimensions = shp)
+			shp = trim_stars(s)
+		} else if (inherits(shp, c("sf", "sfc"))) {
+			shp = shp[ids]
+		} else {
+			stop("unknown shape class")
+		}
 	}
+	sf::st_bbox(shp)
+
 }
 
 

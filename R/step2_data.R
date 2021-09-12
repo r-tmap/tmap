@@ -244,8 +244,8 @@ step2_data = function(tm) {
 
 				if (!all(vars %in% names(dt))) {
 					#cat("step2_grp_lyr_aes_const\n")
-					# constant values (take first value (of possible MV) per facet)
-					if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with MV", call. = FALSE)
+					# constant values (take first value (of possible tm_mv per facet)
+					if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
 					val1 = sapply(val, "[[", 1, USE.NAMES = FALSE)
 					dtl = copy(dt[, c("tmapID__", "sel__", by123__[b]), with = FALSE])
 					

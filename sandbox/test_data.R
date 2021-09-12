@@ -34,7 +34,8 @@ rm(granule, s2)
 gc()
 
 landsat_stars = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
-landsat = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
+landsat_terra = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
+
 lux <- vect(system.file("ex/lux.shp", package="terra"))
 
 

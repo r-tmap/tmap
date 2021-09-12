@@ -49,14 +49,14 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name)
 	crs = st_crs(shp)
 	
 	
-	dimsxy = structure(list(x = structure(list(from = 1, to = xy_dim[2], offset = b[1,1], delta = (b[1,2] - b[1,1]) / xy_dim[2], refsys = crs, point = FALSE, values = NULL), class = "dimension"),
+	shp = structure(list(x = structure(list(from = 1, to = xy_dim[2], offset = b[1,1], delta = (b[1,2] - b[1,1]) / xy_dim[2], refsys = crs, point = FALSE, values = NULL), class = "dimension"),
 			 y = structure(list(from = 1, to = xy_dim[1], offset = b[2,1], delta = (b[2,1] - b[2,2]) / xy_dim[1], refsys = crs, point = FALSE, values = NULL), class = "dimension")), class = "dimensions")
-	attr(dimsxy, "raster") = structure(list(affine = c(0, 0), dimensions = c("x", "y"), curvilinear = FALSE), class = "stars_raster")
+	attr(shp, "raster") = structure(list(affine = c(0, 0), dimensions = c("x", "y"), curvilinear = FALSE), class = "stars_raster")
 			 
 	
-	m = matrix(NA, nrow = xy_dim[2], ncol = xy_dim[1])
+	#m = matrix(NA, nrow = xy_dim[2], ncol = xy_dim[1])
 	
-	shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
+	#shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
 	shpclass = "stars"
 	
 	bbox = sf::st_bbox(shp)
@@ -147,7 +147,9 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 		
 		m = matrix(NA, nrow = nrow(shp), ncol = ncol(shp))
 		
-		shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
+		#shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
+		
+		shp = dimsxy
 		shpclass = "stars"
 	}
 	

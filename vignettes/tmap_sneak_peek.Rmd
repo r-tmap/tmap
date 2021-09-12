@@ -271,13 +271,13 @@ tm_shape(Africa) +
 ## Multivarite Scales
 
 It will be possible to assign multiple variables for one aesthetic.
-This can be done with the function `MV` (which stands for multivariate).
+This can be done with the function `tm_mv` (which stands for multivariate).
 An example is the bivariate choropleth, which is not yet implemented, but will definitely be.
 
 ```{r, eval = FALSE, class.source='bg-success'}
 # tmap v4 (not implemented yet)
 tm_shape(World) +
-  tm_symbols(fill = MV("well_being", "footprint"), 
+  tm_symbols(fill = tm_mv("well_being", "footprint"), 
   		   fill.scale = tm_scale_bivariate(rows = tm_scale_intervals(breaks = c(2, 5, 6, 8)),
   		   								columns = tm_scale_intervals(breaks = c(0, 3, 6, 20))
   		   								values = "brewer.qualseq"))
@@ -330,7 +330,7 @@ tm_shape(edges) +
     tm_halflines(lwd = "flow", col = "dest", start = 0.5, end = 1.0) +
 tm_shape(nodes) +
     tm_donuts(size = "emplyoees", 
-    		  parts = MV("Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Other_municipality", "Home_municipality"))
+    		  parts = tm_mv("Amsterdam", "Rotterdam", "The Hague", "Utrecht", "Other_municipality", "Home_municipality"))
 ```
 
 <img src="https://user-images.githubusercontent.com/2444081/113439621-37575500-93eb-11eb-8d77-09016751b3c4.png"
