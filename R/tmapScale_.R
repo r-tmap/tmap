@@ -48,9 +48,11 @@ data_class = function(x) {
 	# if (all(is.na(x))) {
 	# 	"na"
 	# } else
-	 if (is.numeric(x)) {
+	 cls = if (is.numeric(x)) {
+	 	y = if (inherits(x, "units")) units::drop_units(x) else x
+	 	
 		subclass1 = if (is.integer(x)) "int" else "real"
-		subclass2 = if (any(x < 0 & !is.na(x)) && any(x > 0 & !is.na(x))) {
+		subclass2 = if (any(y < 0 & !is.na(y)) && any(y > 0 & !is.na(y))) {
 			"div"
 		} else {
 			"seq"
@@ -60,6 +62,11 @@ data_class = function(x) {
 		subclass = if (is.ordered(x)) "ord" else "unord"
 		c("fact", subclass)
 	}
+	 
+	attr(cls, "units") = if (inherits(x, "units")) {
+		paste0(" [", units(x), "]")
+	} else ""
+	cls
 }
 
 

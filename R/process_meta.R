@@ -190,7 +190,7 @@ process_meta = function(o) {
 			}
 		}
 		
-		#scale = scale * 
+		#overall scale down factor for facets
 		width_forn = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (ncols * sum(panel.wrap.size[c(2,4)])) - (ncols - 1) * between.marginW) / ncols)
 		width_for1 = max(1e-9, ((1 - sum(fixedMargins[c(2, 4)])) - (sum(panel.wrap.size[c(2,4)]))))
 

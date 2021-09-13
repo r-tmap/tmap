@@ -44,9 +44,9 @@ step1_rearrange = function(tmel) {
 	
 	# get main crs (option or extracted from first main shape)
 	crs_option = opt$crs
-	shp = tmo[[ids[1]]]$tms
-	crs = if (is.na(crs_option[1])) get_crs(shp) else crs_option
-	main_class = get_class(shp)
+	tms = tmo[[ids[1]]]$tms
+	crs = if (is.na(crs_option[1])) get_crs(tms) else crs_option
+	main_class = get_class(tms)
 
 	# process shapes: put non-spatial data in data.table, keep spatial data separately 
 	tmo = structure(lapply(tmo, function(tmg) {

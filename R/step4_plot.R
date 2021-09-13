@@ -313,15 +313,18 @@ step4_plot = function(tm) {
 	
 	
 	stacks = o$legend.stack
-	
+
+	# when facets are wrapped:
 	if (o$is.wrap && o$n > 1) {
-		if (o$nrows == 1) {
-			legs[, by2__ := by1__]
-			legs[, by1__ := NA]
-		} else if (o$nrows > 1 && o$ncols > 1) {
+		if ((o$nrows > 1 && o$ncols > 1) || (o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
+			# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
 			legs[class != "in", by1__ := NA]
 			legs[class != "in", by2__ := NA]
-		}
+		} else if (o$nrows == 1) {
+			# -use by2 and not by1 when they form a row
+			legs[, by2__ := by1__]
+			legs[, by1__ := NA]
+		} 
 	}
 			
 	
@@ -369,7 +372,6 @@ step4_plot = function(tm) {
 	
 	if (nrow(legs) > 0L) for (k in seq_len(o$npages)) {
 		klegs = legs[is.na(by3__) | (by3__ == k), ]
-
 		klegs[, do.call(legfun, args = list(legs = .SD$legend, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, legend.stack = .SD$stack[1])), by = list(facet_row, facet_col), .SDcols = c("legend", "facet_row", "facet_col", "stack")]
 	}
 	

@@ -7,6 +7,9 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 		x1 = as.integer(x1)
 		warning(maincls, " is supposed to be applied to numerical data", call. = FALSE)
 	}
+	
+	
+	if (inherits(x1, "units")) x1 = units::drop_units(x1)
 
 	if (p %in% c("pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	

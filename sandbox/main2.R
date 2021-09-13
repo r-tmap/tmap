@@ -364,9 +364,29 @@ st_crs(v)
 st_crs(st_as_sf(v))
 # https://github.com/r-spatial/sf/issues/1791
 
-tm_shape(v) +
+tm_shape(World) +
+	tm_polygons(c("HPI", "income_grp"))
+
+
+tm_shape(luxsf) +
+	tm_polygons(c("POP", "AREA"))
+
+
+tm_shape(lux) +
 	tm_polygons("POP")
 
+weather2
+
+tm_shape(weather) + 
+	tm_raster("pr") +
+	tm_facets("time")
+
+tm_shape(weather) + 
+	tm_raster("tas") +
+	tm_facets("time")
 
 
+tm_shape(weather1) + 
+	tm_raster("X", col.free = c(FALSE, TRUE)) +
+	tm_facets_grid("time", "attributes")
 

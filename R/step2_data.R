@@ -287,7 +287,7 @@ step2_data = function(tm) {
 					#dtl[, sel__:= NULL]
 					
 
-					dtl[, legend := vector("list", length = nrow(dtl))]
+					dtl[, legend := list(vector("list", length = nrow(dtl)))]
 					#dtl_leg = NULL
 					#sel = !vapply(dtl$legend, is.null, logical(1))
 					dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legend := list(lapply(get(..nm), function(s) list(vneutral = s)))][, (nm) := NULL]
@@ -377,11 +377,11 @@ step2_data = function(tm) {
 						if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 						f = s$FUN
 						s$FUN = NULL
+						cls = data_class(dtl[[v[1]]])
 						#if (is.na(s$legend$title)) s$legend$title = v
-						if (is.na(l$title)) l$title = v
+						if (is.na(l$title)) l$title = paste0(v, attr(cls, "units"))
 						#aesname = aes$aes
 						value.null = if ("value.null" %in% names(s)) s$value.null else {
-							cls = data_class(dtl[[v[1]]])
 							getAesOption("value.null", meta, aes$aes, tml$layer, cls = cls)
 						}
 						if (!all(dtl$sel__)) {
@@ -510,7 +510,7 @@ step2_data = function(tm) {
 		})
 		names(lrs) = layernames
 		
-		shpDT = data.table(shpTM = list(list(shp = tmg$tms$shp, tmapID = dt$tmapID__)))
+		shpDT = data.table(shpTM = list(tmg$tms$shpTM))
 		list(layers = lrs, shpDT = shpDT)
 	})
 	names(grps) = groupnames

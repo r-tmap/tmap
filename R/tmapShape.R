@@ -67,7 +67,9 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name)
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
-	structure(list(shp = shp, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+	shpTM = list(shp = shp, tmapID = 1L:(terra::ncel(shp)))
+	
+	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 	
 }
 
@@ -133,9 +135,13 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 		dim_xy = get_xy_dim(shp)
 		dimsxy = dims[names(dim_xy)]
 		
-		shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
-		shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
+		shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = {if (dimsxy[[1]]$delta > 0)  1L:nrow(shp) else nrow(shp):1L})
+		shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = {if (dimsxy[[2]]$delta < 0)  1L:ncol(shp) else ncol(shp):1L})
+
+		#shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
+		#shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
 		
+				
 		dt = as.data.table(shp3, center = FALSE)
 		
 		setnames(dt, names(dim_xy)[1], "X__")
@@ -145,7 +151,8 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 		dt[, X__:= NULL]
 		dt[, Y__:= NULL]
 		
-		m = matrix(NA, nrow = nrow(shp), ncol = ncol(shp))
+		data.table::setorder(dt, cols = "tmapID__")
+		#m = matrix(NA, nrow = nrow(shp), ncol = ncol(shp))
 		
 		#shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
 		
@@ -162,8 +169,9 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 	} else filter[dt$tmapID__]
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
+	shpTM = list(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)))
 	
-	structure(list(shp = shp, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }
 
 
@@ -183,6 +191,8 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 	
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(tmapID__ = 1L:nrow(dt), sel__ = filter)]
-	
-	structure(list(shp = sfc, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+
+	shpTM = list(shp = sfc, tmapID = 1L:(length(sfc)))
+
+	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }
