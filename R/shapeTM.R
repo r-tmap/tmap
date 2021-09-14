@@ -43,8 +43,9 @@ stm_bbox = function(shpTM, tmapID) {
 
 
 stm_merge_bbox = function(blist) {
+	crs = sf::st_crs(blist[[1]])
 	m = do.call(rbind, blist)
-	sf::st_bbox(c(apply(m[, 1:2, drop = FALSE], 2, min), apply(m[, 3:4, drop = FALSE], 2, max)))
+	sf::st_bbox(c(apply(m[, 1:2, drop = FALSE], 2, min), apply(m[, 3:4, drop = FALSE], 2, max)), crs = crs)
 }
 
 
@@ -64,21 +65,22 @@ bb_ext = function(bbx, ext = c(0, 0, 0, 0)) {
 }
 
 bb_asp = function(bbx, asp) {
-	dx = bbx[3] - bbx[1]
-	dy = bbx[4] - bbx[2]
+	sasp = get_asp_ratio(bbx)
 	
-	cx = mean(bbx[c(1,3)])
-	cy = mean(bbx[c(2,4)])
+	fact = sasp / asp
 	
-	basp = dx/dy
-	if (basp > asp) {
-		dy2 = dx / asp
+	if (fact > 1) {
+		cy = mean(bbx[c(2,4)])
+		dy = bbx[4] - bbx[2]
+		dy2 = dy * fact
 		bbx[2] = cy - (dy2 / 2)
 		bbx[4] = cy + (dy2 / 2)
-	} else {
-		dx2 = dy * asp
+	} else if (fact < 1) {
+		cx = mean(bbx[c(1,3)])
+		dx = bbx[3] - bbx[1]
+		dx2 = dx / fact
 		bbx[1] = cx - (dx2 / 2)
 		bbx[3] = cx + (dx2 / 2)
-	}	
+	}
 	bbx
 }

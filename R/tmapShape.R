@@ -196,3 +196,19 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 
 	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }
+
+
+get_asp_ratio = function (x)  {
+	bbx = sf::st_bbox(x)
+	crs = sf::st_crs(x)
+	
+	ll = sf::st_is_longlat(crs)
+	
+	xlim = bbx[c(1, 3)]
+	ylim = bbx[c(2, 4)]
+	asp = if (diff(xlim) == 0 || diff(ylim) == 0) {
+		1
+	}
+	else unname((diff(xlim)/diff(ylim)) * ifelse(ll,cos((mean(ylim) * pi)/180), 1))
+	asp
+}

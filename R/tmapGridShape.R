@@ -3,8 +3,7 @@ tmapGridShape = function(bbx, facet_row, facet_col, facet_page, o) {
 	g = get("g", envir = .TMAP_GRID)
 	
 	
-	basp = (bbx[3] - bbx[1]) / (bbx[4] - bbx[2])
-	
+
 	fbbx = bb_asp(bbx, g$fasp)
 	
 	rc_text = frc(facet_row, facet_col)

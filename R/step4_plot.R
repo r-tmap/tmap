@@ -208,9 +208,7 @@ step4_plot = function(tm) {
 		list(list(bb_ext(stm_merge_bbox(bbxs), o$inner.margins)))
 	}
 	get_asp = function(bbxl) {
-		vapply(bbxl, function(bbx) {
-			unname((bbx[3] - bbx[1]) / (bbx[4] - bbx[2]))
-		}, FUN.VALUE = numeric(1))
+		vapply(bbxl, get_asp_ratio, FUN.VALUE = numeric(1))
 	}
 
 		

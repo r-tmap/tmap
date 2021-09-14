@@ -97,8 +97,11 @@ process_meta = function(o) {
 		
 		masp = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
 		
-		
-		
+		# Aspect ratios:
+		# sasp: shape
+		# asp: user specified
+		# pasp: prefered (asp or if not specified, sasp)
+		# masp: multiples (facets) area
 		
 		# determine where to place automatic legends (i.e. legends with local legend.position = NA and with legend.position = tm_lp_auto() enabled)
 		# this is also neede to find out which margins are taken from meta.auto.margins
@@ -111,7 +114,7 @@ process_meta = function(o) {
 		if (legend.present.auto[1]) {
 			if (!legend.present.auto[2] & !legend.present.auto[3]) {
 				# only 'all facets' legends (either bottom or right)
-				if ((n == 1 && pasp > masp) || (n > 1 && masp < 1) || (identical(nrows, 1) || (!is.na(ncols) && ncols >= n))) { # || one.row
+				if ((n == 1 && pasp > masp) || (n > 1 && masp > pasp) || (identical(nrows, 1) || (!is.na(ncols) && ncols >= n))) { # || one.row
 					legend.position.all = list(h = "center", v = legend.position$v)
 				} else {
 					legend.position.all = list(h = legend.position$h, v = "center")
@@ -131,10 +134,10 @@ process_meta = function(o) {
 							 legend.position.all$v == "top",
 							 legend.position.all$h == "right") * legend.present.auto[1]
 		
-		margins.used.sides = c(legend.position.sides$v == "bottom",
-							   legend.position.sides$h == "left",
-							   legend.position.sides$v == "top",
-							   legend.position.sides$h == "right") * legend.present.auto[c(3,2,3,2)]
+		margins.used.sides = c(bottom = legend.position.sides$v == "bottom",
+							   left = legend.position.sides$h == "left",
+							   top = legend.position.sides$v == "top",
+							   right = legend.position.sides$h == "right") * legend.present.auto[c(3,2,3,2)]
 		
 		
 		margins.used =  margins.used.all | margins.used.sides | legend.present.fix
