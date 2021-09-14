@@ -352,11 +352,11 @@ tm_shape(landsat_terra) +
 
 
 
-################
+##stars / terra ##############
 
 
 # terra
-tm_shape(landsat) +
+tm_shape(landsat_stars) +
 	tm_raster("landsat.tif") +
 	tm_facets_wrap("band")
 
@@ -375,7 +375,6 @@ tm_shape(luxsf) +
 tm_shape(lux) +
 	tm_polygons("POP")
 
-weather2
 
 tm_shape(weather) + 
 	tm_raster("pr") +
@@ -389,4 +388,27 @@ tm_shape(weather) +
 tm_shape(weather1) + 
 	tm_raster("X", col.free = c(FALSE, TRUE)) +
 	tm_facets_grid("time", "attributes")
+
+
+
+## units
+tm_shape(weather) + 
+	tm_raster("pr", col.scale = tm_scale_continuous()) +
+	tm_facets("time")
+
+
+## raster alpha
+tm_shape(weather) + 
+	tm_raster("pr", col.scale = tm_scale_continuous(), col_alpha = "tas", col_alpha.scale = tm_scale_intervals()) +
+	tm_facets("time")
+
+## raster alpha
+tm_shape(weather) + 
+	tm_raster("pr", col.scale = tm_scale_continuous(), col_alpha = "tas", col_alpha.scale = tm_scale_continuous()) +
+	tm_facets("time")
+
+## legends
+
+
+	
 

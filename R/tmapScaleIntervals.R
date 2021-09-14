@@ -14,12 +14,13 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	if (p %in% c("pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
 	scale = get_scale_defaults(scale, opt, aes, layer, cls)
-
+	
+	show.messages <- opt$show.messages
+	show.warnings <- opt$show.warnings
+	
 	with(scale, {
 		udiv = identical(use_div(breaks, midpoint), TRUE)
 
-		show.messages <- opt$show.messages
-		show.warnings <- opt$show.warnings
 		
 		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, na.show = na.show))
 

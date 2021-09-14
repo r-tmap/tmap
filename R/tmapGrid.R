@@ -33,6 +33,12 @@ leg_standard_p_lines = function(leg) {
 }
 
 gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle = TRUE) {
+	if (sel == "all") {
+		if (is.na(gp$fill_alpha) && !is.na(gp$col_alpha)) sel = "col"
+		if (!is.na(gp$fill_alpha) && is.na(gp$col_alpha)) sel = "fill"
+	}
+	
+	
 	# get alpha value (sel: "all" means fill and col, "fill" and "col" mean fill and col only respectively)
 	alpha = if (sel == "fill") {
 		if (!is.na(gp$fill_alpha[1])) gp$fill_alpha else 1

@@ -24,7 +24,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		fun_add_leg_type = function(leg) {
 			gp = leg$gp
 			
-			leg$type = if (!is.na(gp$fill[1]) && nchar(gp$fill[1]) > 50) {
+			leg$type = if (!is.na(gp$fill[1]) && nchar(gp$fill[1]) > 50 || !is.na(gp$fill_alpha[1]) && nchar(gp$fill_alpha[1]) > 50) {
 				"gradient"
 			} else if (is.na(gp$shape[1])) {
 				"rect"
@@ -89,28 +89,59 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 				nlev2 = (nlev-leg$na.show) # nlev without na
 				lvs = 1:nlev2
 				
-				fill_list = strsplit(gp$fill[lvs], split = "-", fixed=TRUE)
-				fill_list = lapply(fill_list, function(i) {
-					i[i=="NA"] <- NA
-					i
-				})
-				fill_alpha = gp$fill_alpha[1]
+				vary_fill = (length(gp$fill) > 1)
+				vary_alpha = (length(gp$fill_alpha) > 1)
+				
+				
+				# vary fill color
+				if (vary_fill) {
+					fill_list = strsplit(gp$fill[lvs], split = "-", fixed=TRUE)
+					fill_list = lapply(fill_list, function(i) {
+						i[i=="NA"] <- NA
+						i
+					})
+				} else {
+					fill_list = rep(gp$fill[1], nlev2)
+				}
+				
+				
+				# vary fill alpha
+				if (vary_alpha) {
+					alpha_list = strsplit(gp$fill_alpha[lvs], split = "-", fixed=TRUE)
+					alpha_list = lapply(alpha_list, function(i) {
+						i[i=="NA"] <- 0
+						as.numeric(i)
+					})
+					
+					if (!vary_fill) {
+						fill_list = mapply(rep.int, fill_list, vapply(alpha_list, length, FUN.VALUE = integer(1)), SIMPLIFY = FALSE, USE.NAMES = FALSE)
+					}
+					
+				} else {
+					alpha_list = rep(gp$fill_alpha[1], nlev2)
+				}
 				
 				
 				# fill
-				grItems1 = mapply(function(i, f) {
+				grItems1 = mapply(function(i, f, a) {
 					h = 1 / length(f)
 					ys = seq(1-.5*h, by = -h, length.out = length(f))
 					#f[!is.na(f)] = "red"
-					gpi = grid::gpar(fill = f, alpha = fill_alpha, col = NA)
+					gpi = grid::gpar(fill = f, alpha = a, col = NA)
 					gridCell(i+3, 2, grid::rectGrob(y = ys, height = h, gp = gpi))
-				}, lvs, fill_list, SIMPLIFY = FALSE)
+				}, lvs, fill_list, alpha_list, SIMPLIFY = FALSE)
 				
 				# border (for fill part)
 				nlines_filled = nlines[lvs]
 				
-				y1 = (sum(is.na(fill_list[[1]])) * .1) / nlev2
-				y2 = (sum(is.na(fill_list[[nlev2]])) * .1) / nlev2
+				if (vary_fill) {
+					y1 = (sum(is.na(fill_list[[1]])) * .1) / nlev2
+					y2 = (sum(is.na(fill_list[[nlev2]])) * .1) / nlev2
+				} else {
+					y1 = (sum(is.na(alpha_list[[1]])) * .1) / nlev2
+					y2 = (sum(is.na(alpha_list[[nlev2]])) * .1) / nlev2
+				}
+				
 				
 				#h = (1 - y1 - y2) * sum(nlines_filled) * lH
 				h = (1L - y1 - y2) * sum(nlines_filled) * lH
@@ -119,7 +150,8 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 				grItems2 = list(gridCell(lvs+3, 2, grid::rectGrob(y = grid::unit(ym, "inches"), width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(h, "inches"), gp = gpars)))
 				
 				if (leg$na.show) {
-					gpars$fill = gp$fill[nlev]
+					gpars$fill = gp$fill[ifelse(length(gp$fill), nlev, 1)]
+					gpars$fill_alpha = gp$fill[ifelse(length(gp$fill_alpha), nlev, 1)]
 					# fill and border for NA
 					grItems1 = c(grItems1, list(gridCell(nlev+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpars))))
 				}

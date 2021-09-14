@@ -52,14 +52,8 @@
 						 shape.dots = 19,
 						 size.symbols = 1,
 						 size.dots = .02,
-						 fill_alpha.polygons = 1,
-						 fill_alpha.symbols = 1,
-						 col_alpha.polygons = 1,
-						 col_alpha.symbols = 1,
-						 col_alpha.dots = 1,
-						 col_alpha.lines = 1,
-						 col_alpha.text = 1
-		),
+						 fill_alpha = 1,
+						 col_alpha = 1),
 		value.na = list(
 			fill = "grey75",
 			col = "grey75",

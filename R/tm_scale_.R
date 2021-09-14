@@ -100,6 +100,7 @@ tm_scale_log10 = function(...) {
 #' @export
 tm_scale_continuous = function(n = 5,
 							   ticks = NULL,
+							   midpoint = NULL,
 							   values = NA,
 							   values.repeat = FALSE,
 							   values.contrast  = NA,
