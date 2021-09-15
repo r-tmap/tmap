@@ -17,7 +17,7 @@ step4_plot = function(tm) {
 			legs = c(tml$trans_legend, tml$mapping_legend)
 			
 			legs = lapply(legs, function(l) {
-				l[, legend:=legs_cached[l$legnr]]
+				l[, legend:=list(legs_cached[l$legnr])]
 				l
 			})
 			

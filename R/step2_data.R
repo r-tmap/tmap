@@ -290,10 +290,13 @@ step2_data = function(tm) {
 					#dtl[, sel__:= NULL]
 					
 
-					dtl[, legend := list(vector("list", length = nrow(dtl)))]
+					dtl[, legnr := vector("integer", length = nrow(dtl))]
 					#dtl_leg = NULL
 					#sel = !vapply(dtl$legend, is.null, logical(1))
-					dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legend := list(lapply(get(..nm), function(s) list(vneutral = s)))][, (nm) := NULL]
+					
+					
+					dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..nm), function(s) legend_save(list(vneutral = s)), FUN.VALUE = integer(1)))][, (nm) := NULL]
+					#dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legend := list(lapply(get(..nm), function(s) list(vneutral = s)))][, (nm) := NULL]
 
 					#dtl_leg = NULL
 				} else {

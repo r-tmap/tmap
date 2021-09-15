@@ -17,6 +17,9 @@ format_aes_results = function(values, legend) {
 }
 
 
+
+
+
 # set_legend_number = function(nr) {
 # 	assign("legnr", nr, envir = .TMAP)
 # }

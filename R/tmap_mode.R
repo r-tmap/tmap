@@ -73,6 +73,25 @@ tmap_design_mode = function(design.mode) {
 }
 
 
+#' Set the development mode
+#' 
+#' When the so-called "development mode" is enabled, helpful messages and timings are printed in the console
+#' 
+#' @param devel.mode logical value that determines the development mode. If omitted then the development mode is toggled.
+#' @export
+tmap_devel_mode = function(devel.mode) {
+	dm = if (missing(devel.mode)) {
+		!getOption("tmap.devel.mode")
+	} else {
+		if (!is.logical(devel.mode)) stop("devel.mode is not a logical")
+		devel.mode[1]
+	}
+	
+	options(tmap.devel.mode = dm)
+	message("devel.mode: ", if (!dm) "OFF" else "ON")
+}
+
+
 #' @rdname tmap_mode
 #' @export
 ttm <- function() {

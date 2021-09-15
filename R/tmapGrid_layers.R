@@ -86,14 +86,17 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 
 
 zero_one_to_hex = function(x) {
-	x255 = round(x * 255)
+	u = unique(x)
 	
-	hc = c(0:9, LETTERS[1:6])
+	x255 = round(u * 255)
 	
-	a = hc[(x255 %/% 16) + 1]
-	b = hc[(x255 %% 16) + 1]
+	nc = c(0:9, LETTERS[1:6])
 	
-	paste0(a, b)
+	y1 = (x255 %/% 16) + 1
+	y2 = (x255 - (y1 - 1) * 16) + 1
+	
+	r = paste0(nc[y1], nc[y2])
+	r[match(x, u)]
 }
 
 
