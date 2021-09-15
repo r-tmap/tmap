@@ -185,7 +185,8 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 		} else if (length(x) != n && !isdiv) {
 			vvalues = grDevices::colorRampPalette(x)(n)
 		} else {
-			vvalues = x
+			if (!all(valid_colors(x))) stop("invalid colors", call. = FALSE)
+			vvalues = col2hex(x)
 		}		
 		ids_after_contrast = ids
 	}

@@ -67,7 +67,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name)
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
-	shpTM = list(shp = shp, tmapID = 1L:(terra::ncel(shp)))
+	shpTM = list(shp = shp, tmapID = 1L:(terra::ncell(shp)))
 	
 	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 	
@@ -77,11 +77,8 @@ downsample_SpatRaster = function(shp, max.raster) {
 	xy_dim = dim(shp)[1:2]
 	
 	if (prod(xy_dim) > max.raster) {
-		f = max(2, round(sqrt(prod(xy_dim) / max.raster))) # at least fact 2 for each x/y dimension
-		shp = terra::aggregate(shp, fact= f)
+		spatSample(shp, max.raster, method="regular", as.raster=TRUE)
 	} else shp
-	
-	
 }
 
 

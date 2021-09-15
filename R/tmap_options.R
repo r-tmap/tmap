@@ -39,15 +39,10 @@
 						 fill.symbols = "grey60",
 						 col.polygons = "grey40",
 						 col.symbols = "grey60",
-						 col.dots = "black",
-						 col.lines = "black",
-						 col.text = "black",
-						 lwd.lines = 1,
-						 lwd.polygons = 1,
-						 lwd.symbols = 1,
-						 lty.lines = "solid",
-						 lty.polygons = "solid",
-						 lty.symbols = "solid",
+						 col.raster = "grey40",
+						 col = "black",
+						 lwd = 1,
+						 lty = "solid",
 						 shape.symbols = 21,
 						 shape.dots = 19,
 						 size.symbols = 1,
@@ -61,8 +56,8 @@
 			lty = "solid",
 			lwd = NA,
 			fill_alpha = 1,
-			col_alpha = 1
-			
+			col_alpha = 1,
+			col_alpha.raster = 0
 		),
 		value.null = list(
 			fill = "grey95",

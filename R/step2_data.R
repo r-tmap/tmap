@@ -202,6 +202,9 @@ step2_data = function(tm) {
 	fl = list(1L, 1L, 1L)
 	assign("fl", fl, envir = .TMAP)
 
+	# to reset the legends (which are  temporarily stored in .TMAP environment)
+	legends_init()
+	
 	grps = lapply(tmo, function(tmg) {
 		#cat("step2_grp==================================\n")
 		dt = tmg$tms$dt
@@ -393,7 +396,7 @@ step2_data = function(tm) {
 						}
 						
 						if (!tmg$tmf$drop.units) {
-							imp = structure(list(value.null, list()), names = c(nm, "legend"))
+							imp = structure(list(value.null, 0L), names = c(nm, legname))
 							dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
 						}
 						
@@ -421,7 +424,7 @@ step2_data = function(tm) {
 						}
 						
 						varnames = paste(nm, 1L:nvars, sep = "_")
-						legnames = paste("legend", 1L:nvars, sep = "_")
+						legnames = paste("legnr", 1L:nvars, sep = "_")
 						#mapply(apply_scale, scale, legend, val, varnames, legnames)
 						
 						for (i in 1L:nvars) {
@@ -431,14 +434,14 @@ step2_data = function(tm) {
 						
 						
 						
-						dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legend")
+						dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legnr")
 						dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
 						
 						dtl[, (var__) := as.integer(get(..var__))]
 						dtl_leg[, (var__) := as.integer(get(..var__))]
 						
-						sel = !vapply(dtl_leg$legend, is.null, logical(1))
-						dtl_leg = dtl_leg[sel, c(grp_bv_fr, "legend"), with = FALSE]
+						#sel = !vapply(dtl_leg$legend, is.null, logical(1))
+						dtl_leg = dtl_leg[legnr != 0, c(grp_bv_fr, "legnr"), with = FALSE]
 					} else {
 						#cat("step2_grp_lyr_aes_var_one_aes_column\n")
 						
@@ -462,10 +465,9 @@ step2_data = function(tm) {
 							stop("incorrect legend specification")
 						}
 						
-						dtl = apply_scale(s, l, val, nm, "legend")
-						
-						sel = !vapply(dtl$legend, is.null, logical(1))
-						dtl_leg = dtl[sel, c(grp_bv_fr, "legend"), with = FALSE]
+						dtl = apply_scale(s, l, val, nm, "legnr")
+						#sel = !vapply(dtl$legend, is.null, logical(1))
+						dtl_leg = dtl[legnr != 0L, c(grp_bv_fr, "legnr"), with = FALSE]
 					}
 				}
 				

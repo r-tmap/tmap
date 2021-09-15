@@ -148,7 +148,6 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 				ym = (y2 + (1L - y1 - y2)/2) * sum(nlines_filled) * lH
 				
 				grItems2 = list(gridCell(lvs+3, 2, grid::rectGrob(y = grid::unit(ym, "inches"), width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(h, "inches"), gp = gpars)))
-				
 				if (leg$na.show) {
 					gpars$fill = gp$fill[ifelse(length(gp$fill), nlev, 1)]
 					gpars$fill_alpha = gp$fill[ifelse(length(gp$fill_alpha), nlev, 1)]

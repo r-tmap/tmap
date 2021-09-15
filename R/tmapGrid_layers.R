@@ -85,6 +85,18 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 }
 
 
+zero_one_to_hex = function(x) {
+	x255 = round(x * 255)
+	
+	hc = c(0:9, LETTERS[1:6])
+	
+	a = hc[(x255 %/% 16) + 1]
+	b = hc[(x255 %% 16) + 1]
+	
+	paste0(a, b)
+}
+
+
 tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
@@ -107,7 +119,12 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		
 		if (nrow(dt) == length(tmapID)) {
 			# shortcut for else case
-			color = dt$col
+			alpha = zero_one_to_hex(dt$col_alpha)
+			
+			color = paste0(dt$col, alpha)
+			#color = rgb(col[,1], col[,2], col[,3], alpha = alpha, maxColorValue = 255)
+			
+			
 		} else {
 			# to be improved
 			tid = intersect(tmapID, dt$tmapID__)
@@ -149,7 +166,7 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	} else {
 		shp[[1]][tmapID] = tmapID
 		shpTM <- shapeTM(sf::st_geometry(sf::st_as_sf(shp)), tmapID)
-		tmapGridPolygons(shpTM, dt, facet_row, facet_col, facet_page)
+		tmapGridPolygons(shpTM, dt, facet_row, facet_col, facet_page, id, o)
 		#grid.shape(s, gp=grid::gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL

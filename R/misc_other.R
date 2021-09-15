@@ -105,3 +105,14 @@ prettyCount <- function(x, n, ...) {
 }
 
 
+valid_colors <- function(x) {
+	is.na(x) | (x %in% colors()) |	(vapply(gregexpr("^#(([[:xdigit:]]){6}|([[:xdigit:]]){8})$", x), "[[", integer(1), 1) == 1L)
+}
+
+col2hex <- function(x) {
+	y <- apply(col2rgb(x), MARGIN=2, FUN=function(y)do.call(rgb, c(as.list(y), list(maxColorValue=255))))
+	y[is.na(x)] <- NA
+	y
+}
+
+

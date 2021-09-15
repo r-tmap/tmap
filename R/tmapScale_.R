@@ -10,11 +10,27 @@ tmapVars = function(x) {
 	structure(x, class = "tmapVars")
 }
 format_aes_results = function(values, legend) {
-	lst = vector(mode = "list", length = length(values))
-	lst[[1]] = legend
+	legnr = vector(mode = "integer", length = length(values))
+	legnr[1] = legend_save(legend)
 	list(values = values,
-		 legend = lst)
+		 legnr = legnr)
 }
+
+
+# set_legend_number = function(nr) {
+# 	assign("legnr", nr, envir = .TMAP)
+# }
+legends_init = function() {
+	assign("legs", list(), envir = .TMAP)
+}
+
+legend_save = function(legend) {
+	legs = get("legs", envir = .TMAP)
+	legs = c(legs, (list(legend)))
+	assign("legs", legs, envir = .TMAP)
+	length(legs)
+}
+
 
 
 data_type = function(x) {

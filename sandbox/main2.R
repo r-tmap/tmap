@@ -402,13 +402,39 @@ tm_shape(weather) +
 	tm_raster("pr", col.scale = tm_scale_continuous(), col_alpha = "tas", col_alpha.scale = tm_scale_intervals()) +
 	tm_facets("time")
 
+tm_shape(weather) + 
+	tm_raster(col = "tas", col_alpha = "pr") +
+	tm_facets("time")
+
+
+
 ## raster alpha
 tm_shape(weather) + 
 	tm_raster("pr", col.scale = tm_scale_continuous(), col_alpha = "tas", col_alpha.scale = tm_scale_continuous()) +
 	tm_facets("time")
 
+
+library(profvis)
+profvis({print(
+	tm_shape(landsat_terra) +
+		tm_raster(col = "lan_1", col_alpha = "lan_2")
+	
+)})
+
+profvis({print(
+	tm_shape(landsat_terra) +
+		tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
+)})
+
+
+
 ## legends
 
+landsat_stars2 = split(landsat_stars)
 
-	
+profvis({print(	
+tm_shape(landsat_stars2) +
+	tm_raster(col = "X1", col_alpha = "X2")
+)})
+
 

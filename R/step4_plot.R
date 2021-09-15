@@ -12,7 +12,14 @@ step4_plot = function(tm) {
 	legs = data.table::rbindlist(c(list(dt_template), lapply(tmx, function(tmxi) {
 		data.table::rbindlist(lapply(tmxi$layers, function(tml) {
 			
+			legs_cached = get("legs", .TMAP)
+			
 			legs = c(tml$trans_legend, tml$mapping_legend)
+			
+			legs = lapply(legs, function(l) {
+				l[, legend:=legs_cached[l$legnr]]
+				l
+			})
 			
 			legs2 = lapply(legs, function(legs_aes) {
 				legs_aes$vneutral = unlist(lapply(legs_aes$legend, function(l) l$vneutral), use.names = FALSE)

@@ -196,7 +196,6 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 		}
 		#attr(vvalues, "style") = style
 		
-		
 		legend = list(title = legend$title, 
 					  nitems = length(labels),
 					  labels = labels, 
