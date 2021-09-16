@@ -63,7 +63,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/mtennekes/tmap/" class="external-link">
+  <a href="https://github.com/r-tmap/tmap/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -84,7 +84,7 @@
       <h1 data-toc-skip>tmap: version changes</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/mtennekes/tmap/blob/master/vignettes/tmap-changes.Rmd" class="external-link"><code>vignettes/tmap-changes.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/vignettes/tmap-changes.Rmd" class="external-link"><code>vignettes/tmap-changes.Rmd</code></a></small>
       <div class="hidden name"><code>tmap-changes.Rmd</code></div>
 
     </div>
@@ -133,16 +133,13 @@
 <span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"life_exp"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-changes_files/figure-html/unnamed-chunk-3-1.png" width="576"></p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span>
 <span class="co">## tmap style set to "classic"</span>
 <span class="co">## other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor"</span>
-
 <span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"life_exp"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-changes_files/figure-html/unnamed-chunk-3-2.png" width="576"></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R">
-<span class="fu"><a href="../reference/tmap_options.html">tmap_options_diff</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="../reference/tmap_options.html">tmap_options_diff</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">## current tmap options (style "classic") that are different from default tmap options (style "white"):</span>
 <span class="co">## $sepia.intensity</span>
 <span class="co">## [1] 0.7</span>
@@ -161,7 +158,6 @@
 <span class="co">## </span>
 <span class="co">## $basemaps.alpha</span>
 <span class="co">## [1] 0.5</span>
-
 <span class="fu"><a href="../reference/tmap_options.html">tmap_options_reset</a></span><span class="op">(</span><span class="op">)</span>
 <span class="co">## tmap options successfully reset</span></code></pre></div>
 <p>Styles included in tmap are: <code>"white"</code>, <code>"gray"</code>, <code>"natural"</code>, <code>"cobalt"</code>, <code>"col_blind"</code>, <code>"albatross"</code>, <code>"beaver"</code>, <code>"bw"</code>, <code>"classic"</code>. New styles can saved and loaded with <code>tmap_style_save</code> and <code>tmap_style_load</code> respectively.</p>
