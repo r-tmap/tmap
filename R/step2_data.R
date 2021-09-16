@@ -391,7 +391,7 @@ step2_data = function(tm) {
 							getAesOption("value.null", meta, aes$aes, tml$layer, cls = cls)
 						}
 						if (!all(dtl$sel__)) {
-							dtl[, c(varname, legname) := list(value.null, list(NULL))]
+							dtl[, c(varname, legname) := list(value.null, 0L)]
 							if (is.na(value.null)) stop("value.null not specified for aesthetic ", nm, call. = FALSE)
 							dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = meta, aes = aes$aes, layer = tml$layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
 						} else {
@@ -402,7 +402,7 @@ step2_data = function(tm) {
 							imp = structure(list(value.null, 0L), names = c(nm, legname))
 							dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
 						}
-						
+						browser()
 						
 						dtl
 					}
