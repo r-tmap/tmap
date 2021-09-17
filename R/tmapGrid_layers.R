@@ -85,19 +85,61 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 }
 
 
-zero_one_to_hex = function(x) {
-	u = unique(x)
-	
-	x255 = round(u * 255)
-	
+# zero_one_to_hex = function(x) {
+# 	# using indexing
+# 	u = unique(x)
+# 	
+# 	x255 = round(u * 255)
+# 	
+# 	nc = c(0:9, LETTERS[1:6])
+# 	
+# 	y1 = (x255 %/% 16) + 1
+# 	y2 = (x255 - (y1 - 1) * 16) + 1
+# 	
+# 	r = paste0(nc[y1], nc[y2])
+# 	r[match(x, u)]
+# }
+
+# 255 to 2digit hex number
+num_to_hex = function(x) {
+
 	nc = c(0:9, LETTERS[1:6])
 	
-	y1 = (x255 %/% 16) + 1
-	y2 = (x255 - (y1 - 1) * 16) + 1
+	y1 = (x %/% 16) + 1
+	y2 = (x - (y1 - 1) * 16) + 1
 	
-	r = paste0(nc[y1], nc[y2])
-	r[match(x, u)]
+	paste0(nc[y1], nc[y2])
 }
+
+hex_to_num = function(h) {
+	nc = c(0:9, LETTERS[1:6])
+	y1 = match(substr(h, 1, 1), nc)
+	y2 = match(substr(h, 2, 2), nc)
+	(y1 - 1) * 16 + (y2 - 1)
+}
+
+merge_alpha = function(dt, name) {
+	name_a = paste0(name, "_alpha")
+	f = function(d) {
+		
+		d1 = d[1,]
+		col = d1[[name]]
+		alpha = d1[[name_a]]
+		
+		if (nchar(col) == 9) {
+			a = hex_to_num(substr(col, 8, 9)) * alpha
+			cl = substr(col, 8, 9)
+		} else {
+			a = alpha
+			cl = col
+		}
+		ac = paste0(cl, num_to_hex(round(a*255)))
+		rep(ac, nrow(d))
+	}
+		
+	dt[, ca:=f(.SD), by = c(name, name_a), .SDcols = c(name, name_a)]
+}
+
 
 
 tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
@@ -122,11 +164,10 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		
 		if (nrow(dt) == length(tmapID)) {
 			# shortcut for else case
-			alpha = zero_one_to_hex(dt$col_alpha)
 			
-			color = paste0(dt$col, alpha)
-			#color = rgb(col[,1], col[,2], col[,3], alpha = alpha, maxColorValue = 255)
-			
+			dt = merge_alpha(dt, name = "col")
+			color = dt$ca
+
 			
 		} else {
 			# to be improved

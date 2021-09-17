@@ -439,11 +439,18 @@ tm_shape(landsat_stars2) +
 
 ## raster package
 
-library(raster)
-library(tmap)
 
 set.seed(5)
 r<- raster(matrix(data=runif(1000, min = -2, max=5), nrow=100, ncol=100), crs = "EPSG:4326")
+
+library(sf)
+library(raster)
+library(terra)
+library(stars)
+r<- raster(matrix(data=runif(1000, min = -2, max=5), nrow=100, ncol=100))
+st_crs(r)
+st_crs(rast(r))
+
 
 
 tm_shape(r)+
@@ -458,3 +465,17 @@ tm_shape(r)+
 
 tm_shape(r)+
 	tm_raster("layer", col.scale = tm_scale_continuous())
+
+
+data("NLD_prov")
+
+LB = NLD_prov[NLD_prov$name == "Limburg", ]
+
+library(maptiles)
+x = maptiles::get_tiles(LB |> st_transform(crs = "EPSG:4326"), "OpenStreetMap", zoom = 9) #CartoDB.PositronOnlyLabels
+x
+
+tm_shape(x) +
+	tm_rgb(tm_mv("red", "green", "blue"))
+
+plot(x)
