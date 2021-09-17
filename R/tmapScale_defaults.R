@@ -124,6 +124,12 @@ tmapValuesContrast_area = function(x, n, isdiv) {
 tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast, rep) {
 	palid = tmapPalId(x[1])
 	
+	# dvalues = seq(-2, 4, length.out = 101)
+	# dvalues = seq(-10, -4, length.out = 101)
+	# dvalues = seq(2, 4, length.out = 101)
+	# n = 101
+	# are_breaks = TRUE
+	# midpoint = 0
 	if (isdiv) {
 		cat0 = (are_breaks != any(dvalues==midpoint))
 		
@@ -148,7 +154,7 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 		seq(i[1] + di * s[1], i[1] + di * s[2], length.out = n)
 	}
 	
-	if (contrast[1] != 0 || contrast[2] != 1) {
+	if (contrast[1] != 0 || contrast[2] != 1 || isdiv) {
 		# expand palette tot 101 colors
 		if (!is.na(palid)) {
 			vvalues = tmap_get_palette(x, n = 101)
@@ -176,18 +182,16 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 		}
 		
 	} else {
-		if (!is.na(palid) && isdiv) {
+		if (!is.na(palid)) {
 			vvalues = tmap_get_palette(x, n = n, rep = rep)
-		} else if (!is.na(palid) && !isdiv) {
-			vvalues = tmap_get_palette(x, n = n, rep = rep)
-		} else if (length(x) != n && isdiv) {
-			vvalues = grDevices::colorRampPalette(x)(n)
-		} else if (length(x) != n && !isdiv) {
-			vvalues = grDevices::colorRampPalette(x)(n)
 		} else {
 			if (!all(valid_colors(x))) stop("invalid colors", call. = FALSE)
-			vvalues = col2hex(x)
-		}		
+			if (length(x) != n) {
+				vvalues = grDevices::colorRampPalette(x)(n)
+			} else {
+				vvalues = col2hex(x)
+			}	
+		}
 		ids_after_contrast = ids
 	}
 	

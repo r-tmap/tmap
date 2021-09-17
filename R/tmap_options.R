@@ -52,7 +52,7 @@
 		value.na = list(
 			fill = "grey75",
 			col = "grey75",
-			col.raster = "#00000000",
+			col.raster = "#000000",
 			lty = "solid",
 			lwd = NA,
 			fill_alpha = 1,
@@ -70,8 +70,8 @@
 			size = 0.2
 		),
 		value.blank = list(
-			fill = "#00000000",
-			col = "#00000000",
+			fill = "#000000",
+			col = "#000000",
 			lty = "blank",
 			lwd = 0,
 			fill_alpha = 0,

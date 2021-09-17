@@ -24,7 +24,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		fun_add_leg_type = function(leg) {
 			gp = leg$gp
 			
-			leg$type = if (!is.na(gp$fill[1]) && nchar(gp$fill[1]) > 50 || !is.na(gp$fill_alpha[1]) && nchar(gp$fill_alpha[1]) > 50) {
+			leg$type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
 				"gradient"
 			} else if (is.na(gp$shape[1])) {
 				"rect"
@@ -77,7 +77,6 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			grText = lapply(1:nlev, function(i) gridCell(i+3, 4, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = o$legend.text.size))))
 			
 			gp = leg$gp
-			
 			
 			
 			

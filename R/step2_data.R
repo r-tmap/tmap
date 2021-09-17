@@ -402,8 +402,7 @@ step2_data = function(tm) {
 							imp = structure(list(value.null, 0L), names = c(nm, legname))
 							dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
 						}
-						browser()
-						
+
 						dtl
 					}
 					

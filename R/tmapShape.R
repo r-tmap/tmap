@@ -30,6 +30,10 @@ tmapShape = function(...) {
 }
 
 
+tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
+	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name)
+}
+
 
 #' @method tmapShape SpatRaster
 #' @export

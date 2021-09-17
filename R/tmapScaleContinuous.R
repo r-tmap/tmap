@@ -95,7 +95,7 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 		
 		fun_isdiv = paste0("tmapValuesIsDiv_", p)
 		
-		isdiv = do.call(fun_isdiv, args = list(x = values))
+		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
 
 		# determine midpoint
 		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {

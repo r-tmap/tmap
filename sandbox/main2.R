@@ -437,4 +437,24 @@ tm_shape(landsat_stars2) +
 	tm_raster(col = "X1", col_alpha = "X2")
 )})
 
+## raster package
 
+library(raster)
+library(tmap)
+
+set.seed(5)
+r<- raster(matrix(data=runif(1000, min = -2, max=5), nrow=100, ncol=100), crs = "EPSG:4326")
+
+
+tm_shape(r)+
+	tm_raster(style = "cont", legend.reverse = TRUE, midpoint = 0, breaks = c(-2,-1,0,1,2,3,4,5))+
+	tm_layout(legend.outside = TRUE, aes.palette = "div", main.title= "Default Pal, Diverge 0")
+
+tm_shape(r)+
+	tm_raster("layer", col.scale = tm_scale_continuous(midpoint = 0, ticks = c(-2,-1,0,1,2,3,4,5)), col.legend = tm_legend(reverse = TRUE))
+	
+tm_shape(r)+
+	tm_raster("layer", col.scale = tm_scale_continuous(ticks = c(-2,-1,0,1,2,3,4,5)), col.legend = tm_legend(reverse = TRUE))
+
+tm_shape(r)+
+	tm_raster("layer", col.scale = tm_scale_continuous())
