@@ -346,6 +346,8 @@ print(
 		tm_facets("band")
 )})
 
+st_downsample(landsat_stars, n = c(2, 2, 0))
+
 
 tm_shape(landsat_terra) +
 	tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
