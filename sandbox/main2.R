@@ -329,22 +329,14 @@ tm_shape(World) +
 # TO DO list
 ###################################################################################
 
-# improve speed (especially rasters); probably caused by format_aes_results
-library(profvis)
 
-
-system.time({
-print(
 tm_shape(landsat_terra) +
-	tm_raster(c("lan_1", "lan_2", "lan_3", "lan_4"), col.free = FALSE)
-)})
-	
-system.time({
-print(
-	tm_shape(landsat_stars) +
-		tm_raster("landsat.tif") +
-		tm_facets("band")
-)})
+	tm_raster(c("lan_1", "lan_2", "lan_3", "lan_4"), col.free = FALSE) + tm_options(max.raster = 10000)
+
+tm_shape(landsat_stars) +
+	tm_raster("landsat.tif") +
+	tm_facets("band") + tm_options(max.raster = 10000)
+
 
 st_downsample(landsat_stars, n = c(2, 2, 0))
 
@@ -353,6 +345,13 @@ tm_shape(landsat_terra) +
 	tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
 
+land_terra = rast(as(land, "Raster"))
+
+tm_shape(land) +
+	tm_raster("trees")
+
+tm_shape(land_terra) +
+	tm_raster("trees")
 
 ##stars / terra ##############
 
@@ -481,3 +480,57 @@ tm_shape(x) +
 	tm_rgb(tm_mv("red", "green", "blue"))
 
 plot(x)
+
+
+
+land_terra = rast(as(land, "Raster"))
+
+
+ls_stars =  landsat_stars[,,,1,drop=TRUE]
+ls_terra = rast(as(ls_stars, "Raster"))
+names(ls_stars) = "layer"
+
+
+tm_shape(ls_stars) +
+	tm_raster("layer")
+tm_shape(ls_terra) +
+	tm_raster("layer")
+
+
+la_stars = land[3]
+# la_stars = la_stars %>% 
+# 	mutate(trees = ifelse(is.na(trees), 0, trees))
+la_terra = rast(as(la_stars, 'Raster'))
+names(la_terra) = "trees"
+tm_shape(la_stars) +
+	tm_raster("trees")
+tm_shape(la_terra) +
+	tm_raster("trees")
+
+
+tm_shape(land) +
+	tm_raster("trees")
+
+
+tm_shape(land_terra) +
+	tm_raster("trees")
+
+
+tm_shape(land_terra) +
+	tm_raster("trees")
+
+tm_shape(land) +
+	tm_raster("cover_cls")
+
+tm_shape(land_terra) +
+	tm_raster("cover_cls")
+
+
+
+
+
+
+
+
+
+

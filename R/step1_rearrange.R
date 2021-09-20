@@ -48,23 +48,24 @@ step1_rearrange = function(tmel) {
 	crs = if (is.na(crs_option[1])) get_crs(tms) else crs_option
 	main_class = get_class(tms)
 
-	# process shapes: put non-spatial data in data.table, keep spatial data separately 
-	tmo = structure(lapply(tmo, function(tmg) {
-		tmg$tms = do.call(tmapShape, tmg$tms)
-		tmg
-	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
-	
 	# update options with tm_option elements
 	is_opt = sapply(oth, inherits, "tm_options")
 	if (any(is_opt)) for (id in which(is_opt)) {
 		nms = intersect(names(opt), names(oth[[id]]))
 		if (length(nms)) opt[nms] = oth[[id]][nms]
 	}
-	
+
 	# to be used later
 	opt$main = ids # to determine total bounding box in step 4
 	opt$main_class = main_class # inner.margins are class specific (preprecess_meta)
 	opt$crs = crs # in step 3, when other shapes are transformed to this crs
+	
+	# process shapes: put non-spatial data in data.table, keep spatial data separately 
+	tmo = structure(lapply(tmo, function(tmg) {
+		tmg$tms = do.call(tmapShape, c(tmg$tms, list(o = opt)))
+		tmg
+	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
+	
 	
 	list(tmo = tmo, meta = opt)
 }

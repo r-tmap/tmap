@@ -30,20 +30,22 @@ tmapShape = function(...) {
 }
 
 
-tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
+tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name)
 }
 
 
 #' @method tmapShape SpatRaster
 #' @export
-tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
+tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 	#tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
 	if (!requireNamespace("terra")) stop("terra package needed", call. = FALSE)
 	
-	shp = downsample_SpatRaster(shp, max.raster = tmap_options_mode()[["max.raster"]])
 	
-	dt = data.table::setDT(terra::as.data.frame(shp))
+	
+	shp = downsample_SpatRaster(shp, max.raster = o$max.raster)
+	
+	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
 	dt[, tmapID__:=1L:nrow(dt)]
 	#dt = data.table::melt(dt, id.vars = "tmapID__", variable.name = "layer", value.name = "value")
 	
@@ -54,7 +56,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name)
 	
 	
 	shp = structure(list(x = structure(list(from = 1, to = xy_dim[2], offset = b[1,1], delta = (b[1,2] - b[1,1]) / xy_dim[2], refsys = crs, point = FALSE, values = NULL), class = "dimension"),
-			 y = structure(list(from = 1, to = xy_dim[1], offset = b[2,1], delta = (b[2,1] - b[2,2]) / xy_dim[1], refsys = crs, point = FALSE, values = NULL), class = "dimension")), class = "dimensions")
+			 y = structure(list(from = 1, to = xy_dim[1], offset = b[2,2], delta = (b[2,1] - b[2,2]) / xy_dim[1], refsys = crs, point = FALSE, values = NULL), class = "dimension")), class = "dimensions")
 	attr(shp, "raster") = structure(list(affine = c(0, 0), dimensions = c("x", "y"), curvilinear = FALSE), class = "stars_raster")
 			 
 	
@@ -63,7 +65,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name)
 	#shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
 	shpclass = "stars"
 	
-	bbox = sf::st_bbox(shp)
+	bbox = st_bbox(shp)
 	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
@@ -71,24 +73,17 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name)
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
-	shpTM = list(shp = shp, tmapID = 1L:(terra::ncell(shp)))
+	shpTM = list(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)))
 	
 	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 	
 }
 
-downsample_SpatRaster = function(shp, max.raster) {
-	xy_dim = dim(shp)[1:2]
-	
-	if (prod(xy_dim) > max.raster) {
-		spatSample(shp, max.raster, method="regular", as.raster=TRUE)
-	} else shp
-}
 
 
 #' @method tmapShape SpatRaster
 #' @export
-tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
+tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name)
 	
 }
@@ -96,7 +91,7 @@ tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name)
 
 #' @method tmapShape stars
 #' @export
-tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
+tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 	if (!has_raster(shp)) {
 		dimnms = dimnames(shp)
 		
@@ -125,7 +120,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 		
 		shpclass = "sfc"
 	} else {
-		shp = downsample_stars(shp, max.raster = tmap_options_mode()[["max.raster"]])
+		shp = downsample_stars(shp, max.raster = o$max.raster)
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs, raster.warp = TRUE)
 		}
@@ -178,7 +173,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
 
 #' @method tmapShape sf
 #' @export
-tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name) {
+tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 	if (!is.null(crs) && sf::st_crs(shp) != crs) {
 		shp = sf::st_transform(shp, crs = crs)
 	}

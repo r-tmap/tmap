@@ -128,29 +128,6 @@ get_xy_dim <- function(x) {
 	dim(x)[dxy]
 }
 
-downsample_stars <- function(x, max.raster) {
-	xy_dim <- get_xy_dim(x)
-	asp <- xy_dim[1] / xy_dim[2]
-	
-	y_new <- sqrt(max.raster / asp)
-	x_new <- y_new * asp
-	
-	downsample <- xy_dim[1] / x_new
-	
-	
-	if (inherits(x, "stars_proxy")) {
-		y <- st_as_stars(x, downsample = downsample - 1) # downsample is number of pixels to skip, instead of multiplier
-		message("stars_proxy object shown at ", paste(get_xy_dim(y), collapse = " by "), " cells.")
-	} else if (prod(xy_dim) > max.raster) {
-		n <- rep(0L, length(dim(x)))
-		n[names(xy_dim)] <- downsample
-		y <- st_downsample(x, n)
-		message("stars object downsampled to ", paste(get_xy_dim(y), collapse = " by "), " cells.")
-	} else {
-		y <- x
-	}
-	y
-}
 
 transwarp <- function(x, crs, raster.warp) {
 	# NOTE: dropped colors after st_warp fixed in stars 0.4-2

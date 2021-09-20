@@ -168,12 +168,14 @@ getdts = function(aes, nm, p, q, o, dt, layer) {
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
 					getAesOption("value.null", o, aes$aes, layer, cls = cls)
 				}
+				arglist = list(scale = s, legend = l, opt = o, aes = aes$aes, layer = layer, p = names(p)[match(paste0("__", aes$aes), p)])
+				
 				if (!all(dtl$sel__)) {
 					dtl[, c(varname, legname) := list(value.null, 0L)]
 					if (is.na(value.null)) stop("value.null not specified for aesthetic ", nm, call. = FALSE)
-					dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = o, aes = aes$aes, layer = layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
+					dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 				} else {
-					dtl[, c(varname, legname) := do.call(f, c(unname(.SD), list(scale = s, legend = l, opt = o, aes = aes$aes, layer = layer, p = names(p)[match(paste0("__", aes$aes), p)]))), grp_b_fr, .SDcols = v]
+					dtl[, c(varname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 				}
 				
 				if (!q$drop.units) {
