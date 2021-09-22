@@ -35,6 +35,16 @@ step1_rearrange = function(tmel) {
 		structure(list(tms = tmg[[1]], tmls = tmg[is_tml], tmf = tmf), class = c("tmapGroup", "list"))
 	})
 	
+	
+	# ## estimate number of facets
+	# lapply(tmo, function(tmg) {
+	# 	tmg = tmo[[1]]
+	# 	
+	# 	
+	# 	
+	# })
+	# 
+	
 	# find the 'main' group: this is the group for which tm_shape is used for CRS and bbox. By default, take the first, unless is.main is set to TRUE.
 	# is.main can be set multiple times: the CRS will be taken from the first, but the bbox from all
 	ids = get_main_ids(tmo)

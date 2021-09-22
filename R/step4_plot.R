@@ -204,10 +204,8 @@ step4_plot = function(tm) {
 
 	get_bbox = function(by1, by2, by3) {
 		bbxs = lapply(tmain, function(tmi) {
-			#if (by1[1] == 3) browser()
 			shpTM = get_shpTM(tmi$shpDT, by1, by2, by3)
 			mdt = get_dt(tmi$mapping_dt, by1, by2, by3)
-			
 			bbxs2 = lapply(shpTM, stm_bbox, tmapID = mdt$tmapID__)
 			bbx = stm_merge_bbox(bbxs2)
 			if (is.na(bbx)) bbx else tmaptools::bb(bbx, asp.limit = 10)
@@ -215,7 +213,9 @@ step4_plot = function(tm) {
 		list(list(bb_ext(stm_merge_bbox(bbxs), o$inner.margins)))
 	}
 	get_asp = function(bbxl) {
-		vapply(bbxl, get_asp_ratio, FUN.VALUE = numeric(1))
+		vapply(bbxl, function(bbxi) {
+			if (is.na(bbxi)) as.numeric(NA) else get_asp_ratio(bbxi)
+		}, FUN.VALUE = numeric(1))
 	}
 
 		

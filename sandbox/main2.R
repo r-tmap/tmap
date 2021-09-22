@@ -152,7 +152,7 @@ tmap_design_mode()
 					fill.free = c(TRUE, FALSE, FALSE),
 					fill_alpha.free = c(FALSE, TRUE, FALSE),
 					col = "income_grp",
-					col.legend = tm_legend(position = tm_lp_inset("left", "center"))) +
+					col.legend = tm_legend(position = tm_lp_in("left", "center"))) +
 		tm_facets_grid(rows = "alpha_class", columns = "pop_class"))
 
 
@@ -338,9 +338,6 @@ tm_shape(landsat_stars) +
 	tm_facets("band") + tm_options(max.raster = 10000)
 
 
-st_downsample(landsat_stars, n = c(2, 2, 0))
-
-
 tm_shape(landsat_terra) +
 	tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
@@ -353,23 +350,15 @@ tm_shape(land) +
 tm_shape(land_terra) +
 	tm_raster("trees")
 
-##stars / terra ##############
-
-
-# terra
 tm_shape(landsat_stars) +
 	tm_raster("landsat.tif") +
 	tm_facets_wrap("band")
-
-st_crs(v)
-st_crs(st_as_sf(v))
-# https://github.com/r-spatial/sf/issues/1791
 
 tm_shape(World) +
 	tm_polygons(c("HPI", "income_grp"))
 
 
-tm_shape(luxsf) +
+tm_shape(lux) +
 	tm_polygons(c("POP", "AREA"))
 
 
@@ -415,31 +404,17 @@ tm_shape(weather) +
 	tm_facets("time")
 
 
-library(profvis)
-profvis({print(
-	tm_shape(landsat_terra) +
-		tm_raster(col = "lan_1", col_alpha = "lan_2")
-	
-)})
+tm_shape(landsat_terra) +
+	tm_raster(col = "lan_1", col_alpha = "lan_2")
 
-profvis({print(
-	tm_shape(landsat_terra) +
-		tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
-)})
+tm_shape(landsat_terra) +
+	tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
 
 
-## legends
 
-landsat_stars2 = split(landsat_stars)
-
-profvis({print(	
 tm_shape(landsat_stars2) +
 	tm_raster(col = "X1", col_alpha = "X2")
-)})
-
-## raster package
-
 
 set.seed(5)
 r<- raster(matrix(data=runif(1000, min = -2, max=5), nrow=100, ncol=100), crs = "EPSG:4326")
@@ -483,12 +458,6 @@ plot(x)
 
 
 
-land_terra = rast(as(land, "Raster"))
-
-
-ls_stars =  landsat_stars[,,,1,drop=TRUE]
-ls_terra = rast(as(ls_stars, "Raster"))
-names(ls_stars) = "layer"
 
 
 tm_shape(ls_stars) +
@@ -497,11 +466,6 @@ tm_shape(ls_terra) +
 	tm_raster("layer")
 
 
-la_stars = land[3]
-# la_stars = la_stars %>% 
-# 	mutate(trees = ifelse(is.na(trees), 0, trees))
-la_terra = rast(as(la_stars, 'Raster'))
-names(la_terra) = "trees"
 tm_shape(la_stars) +
 	tm_raster("trees")
 tm_shape(la_terra) +
@@ -528,6 +492,46 @@ tm_shape(land_terra) +
 
 
 
+shp = land
+shp = landsat_stars
+shp = landsat_stars2
+
+
+
+dims = dim(shp)
+dims = dims[setdiff(names(dims), names(get_xy_dim(shp)))]
+atts = length(shp)
+levels(shp[[1]])
+sapply(shp, nlevels)
+
+
+
+
+data(land)
+
+tm_shape(land) +
+	tm_raster("trees") +
+	tm_facets("cover_cls")
+
+
+## attributes as variables (stars with no bands)
+tm_shape(land) +
+	tm_raster(c("cover", "cover_cls", "trees", "elevation"))
+
+tm_shape(land) +
+	tm_raster("ATTRIBUTES")
+
+
+## band values as variables (stars with 1 attr)
+tm_shape(landsat_stars) +
+	tm_raster("band")
+
+tm_shape(landsat_stars) +
+	tm_raster("band_1", "band_2", "band_3")
+
+## 
+
+weather
 
 
 

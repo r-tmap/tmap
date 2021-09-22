@@ -18,6 +18,7 @@ Set Knit Directory (via drop-down menu of the Knit button in RStudio) to Project
 library(devtools)
 load_all()
 data(World,metro,land)
+Africa = World[World$continent == "Africa", ]
 tmapV = substr(packageVersion("tmap"), 1, 1)
 txt = function(x) print(grid::grid.text(x, gp = gpar(cex = 3)))
 v3 = function(e) {
@@ -139,6 +140,23 @@ tm_shape(World) +
 	tm_polygons(c("HPI", "economy")) +
 	tm_facets(free.coords = FALSE, drop.units = TRUE)
 ```
+
+
+### Drop empty facets
+```{r}
+# default drop empty (wrap) facets
+tm_shape(Africa) +
+	tm_polygons("blue") +
+	tm_facets(by = "income_grp")
+```
+
+```{r}
+# keep empty (wrap) facets
+tm_shape(Africa) +
+	tm_polygons("blue") +
+	tm_facets(by = "income_grp", drop.empty.facets = FALSE)
+```
+
 
 ## Rasters
 

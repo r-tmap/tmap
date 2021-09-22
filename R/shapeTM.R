@@ -19,6 +19,7 @@ stm_bbox = function(shpTM, tmapID) {
 	shp = shpTM$shp
 	shpID = shpTM$tmapID
 	
+	if (length(tmapID) ==0 ) return(sf::st_bbox(as.numeric(NA)))
 	# filter the shape?
 	do_filter = (length(tmapID) != length(shpID)) || (!all(tmapID == shpID))
 

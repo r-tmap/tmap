@@ -78,7 +78,15 @@ step2_data_grp_prepare = function(tmf, dt) {
 		for (w in b) {
 			byvar = by123[w]
 			byname = by123__[w]
-			dt[, (byname) := factor(get(get(..byvar)))]
+			if (is.factor(dt[[get(byvar)]])) {
+				if (tmf$drop.empty.facets) {
+					dt[, (byname) := droplevels(get(get(..byvar)))] 
+				} else {
+					dt[, (byname) := get(get(..byvar))] 	
+				}
+			} else {
+				dt[, (byname) := factor(get(get(..byvar)))]
+			}
 			update_fl(k = w, lev = levels(dt[[byname]]))
 			dt[, (byname) := as.integer(get(..byname))]
 		}
