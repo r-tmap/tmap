@@ -11,7 +11,13 @@ getdts = function(aes, nm, p, q, o, dt, layer) {
 	with(q, {
 		if (inherits(val, "tmapOption")) val = getAesOption(val[[1]], o, aes = aes$aes, layer = layer)
 		
+		get_num_facets = function(bys) {
+			k = as.integer(substr(bys, 3, 3))
+			fl = get("fl", envir = .TMAP)
+			sapply(fl, length)[k]
+		}
 		
+				
 		nvars = length(val) #m
 		nvari = vapply(val, length, integer(1))
 		
@@ -60,8 +66,16 @@ getdts = function(aes, nm, p, q, o, dt, layer) {
 				dtl[sel__==FALSE, (nm) := value.null]
 				
 				if (!q$drop.units) {
-					imp = structure(value.null, names = nm)
-					dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
+					#imp = structure(value.null, names = nm)
+					# 
+					imp = structure(list(value.null, FALSE), names = c(nm, "sel__"))
+					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)
+					names(levs) = grp_bv
+					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
+					# 
+					
+					
+					#dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
 				}
 				
 			}
@@ -179,8 +193,10 @@ getdts = function(aes, nm, p, q, o, dt, layer) {
 				}
 				
 				if (!q$drop.units) {
-					imp = structure(list(value.null, 0L), names = c(nm, legname))
-					dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
+					imp = structure(list(value.null, 0L, TRUE), names = c(nm, legname, "sel__"))
+					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)
+					names(levs) = grp_bv
+					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
 				}
 				
 				dtl

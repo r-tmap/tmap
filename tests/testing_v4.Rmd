@@ -148,6 +148,10 @@ tm_shape(World) +
 tm_shape(Africa) +
 	tm_polygons("blue") +
 	tm_facets(by = "income_grp")
+
+tm_shape(Africa) +
+	tm_polygons("HPI") +
+	tm_facets(by = "income_grp")
 ```
 
 ```{r}
@@ -155,7 +159,77 @@ tm_shape(Africa) +
 tm_shape(Africa) +
 	tm_polygons("blue") +
 	tm_facets(by = "income_grp", drop.empty.facets = FALSE)
+
+tm_shape(Africa) +
+	tm_polygons("HPI") +
+	tm_facets(by = "income_grp", drop.empty.facets = FALSE)
 ```
+
+```{r}
+# default drop empty (xtab) facet: only if whole row or column is empty
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets_grid("income_grp", "well_being_class", drop.units = FALSE)
+```
+
+```{r}
+# keep empty (xtab) facets
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets_grid("income_grp", "well_being_class", drop.units = FALSE, drop.empty.facets = FALSE)
+```
+
+
+### Drop NA facets
+
+```{r}
+# default keep NA facets (where by variable is NA)
+tm_shape(Africa) +
+	tm_polygons("blue") +
+	tm_facets(by = "footprint_class")
+```
+
+
+```{r}
+# drop NA facets 
+tm_shape(Africa) +
+	tm_polygons("blue") +
+	tm_facets(by = "footprint_class", drop.NA.facets = TRUE)
+```
+
+```{r}
+# default keep NA facets (where by variable is NA)
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets(by = "footprint_class")
+```
+
+
+```{r}
+# drop NA facets 
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets(by = "footprint_class", drop.NA.facets = TRUE)
+```
+
+
+```{r}
+# default keep NA facets (where by variable is NA)
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets_grid("footprint_class", "HPI_class")
+```
+
+
+```{r}
+# drop NA facets 
+tm_shape(Africa) +
+	tm_polygons("pop_est_dens") +
+	tm_facets_grid("footprint_class", "HPI_class", drop.NA.facets = TRUE)
+```
+
+
+
 
 
 ## Rasters

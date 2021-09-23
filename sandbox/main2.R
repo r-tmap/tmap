@@ -28,35 +28,35 @@ show_data()
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy") +
-		tm_facets_grid("income_grp", "alpha_class") + tm_options(asp = NA)) 
+		tm_facets_grid("income_grp", "pop_class") + tm_options(asp = NA)) 
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
 		tm_symbols("pop_class", fill.free = c(FALSE, TRUE, TRUE)) +
-		tm_facets_grid("income_grp", "alpha_class"))
+		tm_facets_grid("income_grp", "pop_class"))
 
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
 		tm_symbols("pop_class", fill.free = c(TRUE, FALSE, TRUE)) +
-		tm_facets_grid("income_grp", "alpha_class"))
+		tm_facets_grid("income_grp", "pop_class"))
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(T, FALSE, TRUE)) +
 		tm_symbols("pop_class", col.free = c(FALSE, TRUE, TRUE)) +
-		tm_facets_grid("income_grp", "alpha_class"))
+		tm_facets_grid("income_grp", "pop_class"))
 
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = FALSE) +
 		tm_symbols("economy", col.free = c(FALSE, TRUE, TRUE)) +
-		tm_facets_grid("income_grp", "alpha_class"))
+		tm_facets_grid("income_grp", "pop_class"))
 
 
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(F, T, T), col = "pop_class", col.free = c(T, F, F)) +
 		tm_symbols("economy", col.free = c(FALSE, TRUE, TRUE)) +
-		tm_facets_grid("income_grp", "alpha_class"))
+		tm_facets_grid("income_grp", "pop_class"))
 
 
 
@@ -87,7 +87,7 @@ tm + tm_options(bg.color = "pink", outer.bg.color = "gold")
 (tm  = tm_shape(World) +
 		tm_polygons("economy", fill.free = c(TRUE, FALSE, TRUE)) +
 		tm_symbols("pop_class", col.free = c(FALSE, TRUE, TRUE)) +
-		tm_facets_grid("income_grp", "alpha_class")) + tm_options(asp=0)
+		tm_facets_grid("income_grp", "pop_class")) + tm_options(asp=0)
 
 
 (tm  = tm_shape(World) +
@@ -124,11 +124,11 @@ tmap_design_mode()
 
 (tm = tm_shape(metro) +
 		tm_symbols(col = "pop2020", size = "pop2020", size.free = TRUE, col.free = FALSE) +
-		tm_facets("alpha_class")
+		tm_facets("pop2020_class")
 		)
 
 (tm = tm_shape(metro) +
-		tm_symbols(fill = "pop2020", size = "pop2020", shape = "alpha_class", size.free = TRUE, col.free = FALSE)
+		tm_symbols(fill = "pop2020", size = "pop2020", shape = "pop2020_class", size.free = TRUE, col.free = FALSE)
 )
 
 
@@ -136,13 +136,13 @@ tmap_design_mode()
 		tm_polygons("economy", fill_alpha = "HPI"))
 
 (tm = tm_shape(World) +
-		tm_polygons("economy", fill_alpha = "alpha_class", fill_alpha.legend = tm_legend(position = tm_lp_out("left", "center"))))
+		tm_polygons("economy", fill_alpha = "pop_class", fill_alpha.legend = tm_legend(position = tm_lp_out("left", "center"))))
 
 (tm = tm_shape(World) +
-		tm_polygons("economy", fill_alpha = "alpha_class", fill_alpha.legend = tm_legend(position = tm_lp_out("right", "center"))))
+		tm_polygons("economy", fill_alpha = "pop_class", fill_alpha.legend = tm_legend(position = tm_lp_out("right", "center"))))
 
 (tm = tm_shape(World) +
-		tm_polygons("economy", fill_alpha = "alpha_class") +
+		tm_polygons("economy", fill_alpha = "pop_class") +
 		tm_place_legends_left(0.2))
 
 (tm = tm_shape(World) +
@@ -153,7 +153,7 @@ tmap_design_mode()
 					fill_alpha.free = c(FALSE, TRUE, FALSE),
 					col = "income_grp",
 					col.legend = tm_legend(position = tm_lp_in("left", "center"))) +
-		tm_facets_grid(rows = "alpha_class", columns = "pop_class"))
+		tm_facets_grid(rows = "pop_class", columns = "pop_class"))
 
 
 (tm = tm_shape(World) +
@@ -204,7 +204,7 @@ tm_shape(metro) +
 
 
 tm_shape(metro) +
-	tm_symbols(fill = "pop2020", lty = "alpha_class", lty.scale = tm_scale_categorical(), fill.scale = tm_scale_intervals(value.neutral = "#FFFFFFFF"))
+	tm_symbols(fill = "pop2020", lty = "pop2020_class", lty.scale = tm_scale_categorical(), fill.scale = tm_scale_intervals(value.neutral = "#FFFFFFFF"))
 
 
 tm_shape(metro) +
@@ -225,26 +225,26 @@ tm_shape(metro) +
 
 tm_shape(metro) +
 	tm_symbols(fill = "pop2020", size = "pop2020", size.scale = tm_scale_intervals(), size.legend = tm_legend_combine("fill"), fill.free = TRUE, size.free = TRUE) +
-	tm_facets_wrap(by = "alpha_class")
+	tm_facets_wrap(by = "pop2020_class")
 
 tm_shape(metro) +
 	tm_symbols(fill = "pop2020", size = "pop2010", size.scale = tm_scale_intervals(), fill.free = F, size.free = T) +
-	tm_facets_wrap(by = "alpha_class")
+	tm_facets_wrap(by = "pop2020_class")
 
 
 tm_shape(metro) +
 	tm_symbols(size = "pop2010", size.free = T, size.scale = tm_scale_intervals()) +
-	tm_facets_wrap(by = "alpha_class")
+	tm_facets_wrap(by = "pop2020_class")
 
 
 tm_shape(metro) +
 	tm_symbols(fill = "pop2010", fill.free = T, fill.scale = tm_scale_intervals()) +
-	tm_facets_wrap(by = "alpha_class")
+	tm_facets_wrap(by = "pop2020_class")
 
 
 tm_shape(metro) +
 	tm_symbols(fill = "pop2010", fill.free = T, fill.scale = tm_scale_intervals(as.count = TRUE)) +
-	tm_facets_wrap(by = "alpha_class")
+	tm_facets_wrap(by = "pop2020_class")
 
 
 
@@ -323,7 +323,7 @@ tm_shape(World) +
 
 (tm = tm_shape(metro) +
 		tm_symbols(col = "pop2020", size = "pop2020", size.free = TRUE, col.free = FALSE) +
-		tm_facets("alpha_class"))
+		tm_facets("pop2020_class"))
 
 ###################################################################################
 # TO DO list

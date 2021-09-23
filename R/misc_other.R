@@ -47,6 +47,13 @@ completeDT <- function(DT, cols, defs = NULL){
 	res[]
 } 
 
+completeDT2 <- function(DT, cols, defs = NULL){
+	mDT = do.call(CJ, cols)
+	res = DT[mDT, on=names(mDT)]
+	if (length(defs)) 
+		res[, names(defs) := Map(replace, .SD, lapply(.SD, is.na), defs), .SDcols=names(defs)]
+	res[]
+} 
 
 cont_breaks <- function(breaks, n=101) {
 	x <- round(seq(1, 101, length.out=length(breaks)))

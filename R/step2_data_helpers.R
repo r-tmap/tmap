@@ -87,6 +87,16 @@ step2_data_grp_prepare = function(tmf, dt) {
 			} else {
 				dt[, (byname) := factor(get(get(..byvar)))]
 			}
+			if (!tmf$drop.NA.facets && any(is.na(dt[[byname]]))) {
+				dt[, (byname) := addNA(get(..byname))]
+				
+				lvls = levels(dt[[byname]])
+				lvls[length(lvls)] = "Missing"
+				setattr(dt[[byname]],"levels", lvls)
+				
+			}
+			
+			
 			update_fl(k = w, lev = levels(dt[[byname]]))
 			dt[, (byname) := as.integer(get(..byname))]
 		}

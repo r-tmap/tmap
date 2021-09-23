@@ -1,8 +1,10 @@
 preprocess_meta = function(o) {
 	within(o, {
 		nby = get_nby(fl)
+		isdef = sapply(fl, is.character)
 		n = prod(nby)
-		if (is.na(panel.type)) panel.type = ifelse((n == 1 && is.na(panel.labels[[1]])) || (is.wrap && !is.character(fl[[1]])) || (!is.wrap && !is.character(fl[[1]]) && !is.character(fl[[2]])), "none", ifelse(is.wrap || (n == 1), "wrap", "xtab"))
+		if (is.na(panel.type)) panel.type = ifelse((n == 1 && is.na(panel.labels[[1]]) && !isdef[1]) || (is.wrap && !isdef[1]) || (!is.wrap && !isdef[1] && !isdef[2]), "none", 
+										    ifelse(is.wrap || (n == 1), "wrap", "xtab"))
 		
 		inner.margins = get_option_class(inner.margins, class = main_class)
 		

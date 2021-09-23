@@ -60,7 +60,7 @@ World$r2 = round(pmin(pmax(World$r1 + rnorm(nrow(World), mean = 0, sd = 50), 0),
 World$g2 = round(pmin(pmax(World$g1 + rnorm(nrow(World), mean = 0, sd = 50), 0), 255))
 World$b2 = round(pmin(pmax(World$b1 + rnorm(nrow(World), mean = 0, sd = 50), 0), 255))
 
-World$alpha_class = factor(floor(seq(1, 5, length.out = nrow(World) + 1)[1:nrow(World)]), labels = LETTERS[1:4])
+#World$alpha_class = factor(floor(seq(1, 5, length.out = nrow(World) + 1)[1:nrow(World)]), labels = LETTERS[1:4])
 World$pop_class = cut(World$pop_est, breaks = c(0, 10, 100, 1000, Inf) * 1e6, labels = c("Small", "Medium", "Large", "Extra Large"))					   
 
 World$income_grp_int = as.integer(World$income_grp)
@@ -72,8 +72,10 @@ World$well_being_class = cut(World$well_being, breaks = seq(2, 8, by = 2))
 World$footprint_class = cut(World$footprint, breaks = seq(0, 16, by = 4))
 
 
-metro$alpha_class = factor(floor(seq(1, 5, length.out = nrow(metro) + 1)[1:nrow(metro)]), labels = LETTERS[1:4])
+#metro$alpha_class = factor(floor(seq(1, 5, length.out = nrow(metro) + 1)[1:nrow(metro)]), labels = LETTERS[1:4])
 
+
+metro$pop2020_class = cut(metro$pop2020, breaks = c(.5, 1.5, 2.5, 5, 15, 40) * 1e6)
 
 Africa = World[World$continent == "Africa", ]
 

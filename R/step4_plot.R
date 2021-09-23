@@ -265,33 +265,35 @@ step4_plot = function(tm) {
 		}
 	}
 	
-	d = d[!is.na(asp), ]
+	#d = d[!is.na(asp), ]
 
 	for (i in seq_len(nrow(d))) {
  		bbx = d$bbox[[i]]
- 		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][i], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o)) 
- 		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
-		for (ig in 1L:o$ng) {
-			tmxi = tmx[[ig]]
-			nl = length(tmxi$layers)
-			for (il in 1L:nl) {
-
-				bl = tmxi$layers[[il]]
-				shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
-				mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
-				
-				id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", ig), "l", sprintf("%02d", il))
-				
-				if (nrow(mdt) != 0) {
-					gp = bl$gp
+ 		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o)) 
+ 		if (!is.na(d$asp[i])) {
+ 			do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			for (ig in 1L:o$ng) {
+				tmxi = tmx[[ig]]
+				nl = length(tmxi$layers)
+				for (il in 1L:nl) {
+	
+					bl = tmxi$layers[[il]]
+					shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
+					mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
 					
-					FUN = paste0("tmap", gs, bl$mapping_fun)
+					id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", ig), "l", sprintf("%02d", il))
 					
-					do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
+					if (nrow(mdt) != 0) {
+						gp = bl$gp
+						
+						FUN = paste0("tmap", gs, bl$mapping_fun)
+						
+						do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
+					}
 				}
+				
 			}
-			
-		}
+ 		}
  		do.call(FUNoverlay, list(facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 	}
 
