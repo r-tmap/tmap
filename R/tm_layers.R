@@ -1,3 +1,8 @@
+#' export
+tm_plot_order = function(aes, descending = TRUE) {
+	structure(list(aes, descending), class = "tm_plot_order")
+}
+
 #' @export
 tm_polygons = function(fill = tm_const(), 
 					   fill.scale = tm_scale(),
@@ -25,6 +30,7 @@ tm_polygons = function(fill = tm_const(),
 					   col_alpha.free = NA,
 					   linejoin = "round",
 					   lineend = "round",
+					   plot.order = tm_plot_order("area", descending = TRUE),
 					   zindex = NA,
 					   group = NA) {
 	
@@ -75,7 +81,8 @@ tm_polygons = function(fill = tm_const(),
 						lwd = "__lwd",
 						linejoin = linejoin,
 						lineend = lineend),
-		tpar = tmapTpar(),
+		tpar = tmapTpar(area = "FEATURE"),
+		plot.order = plot.order,
 		mapping.fun = "Polygons",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

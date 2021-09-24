@@ -535,6 +535,8 @@ weather
 
 
 
+tm_shape(Africa) +
+	tm_polygons("HPI", col = "HPI", fill.scale = tm_scale(values = "Blues"), lwd = 4)
 
 
 

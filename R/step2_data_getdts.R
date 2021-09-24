@@ -1,4 +1,4 @@
-getdts = function(aes, nm, p, q, o, dt, layer) {
+getdts = function(aes, nm, p, q, o, dt, layer, plot.order) {
 	dev = getOption("tmap.devel.mode")
 	
 	if (dev) timing_add(s4 = paste0("aes ", aes$aes))

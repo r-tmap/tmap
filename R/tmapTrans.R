@@ -78,6 +78,8 @@ tmapTransPolygons = function(shpTM) {
 			}
 			rm(geom_types)
 		}
+		o = order(units::drop_units(st_area(shp)))
+		shp = shp[o]
 	})
 }
 

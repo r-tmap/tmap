@@ -18,6 +18,16 @@ Set Knit Directory (via drop-down menu of the Knit button in RStudio) to Project
 library(devtools)
 load_all()
 data(World,metro,land)
+
+World$pop_class = cut(World$pop_est, breaks = c(0, 10, 100, 1000, Inf) * 1e6, labels = c("Small", "Medium", "Large", "Extra Large"))					   
+World$HPI_class = cut(World$HPI, breaks = seq(10, 50, by = 10))
+World$well_being_class = cut(World$well_being, breaks = seq(2, 8, by = 2))
+World$footprint_class = cut(World$footprint, breaks = seq(0, 16, by = 4))
+
+metro$pop2020_class = cut(metro$pop2020, breaks = c(.5, 1.5, 2.5, 5, 15, 40) * 1e6)
+
+
+
 Africa = World[World$continent == "Africa", ]
 tmapV = substr(packageVersion("tmap"), 1, 1)
 txt = function(x) print(grid::grid.text(x, gp = gpar(cex = 3)))
