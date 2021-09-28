@@ -1,4 +1,4 @@
-tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
+tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -103,10 +103,21 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 	
 		ids = classInt::findCols(q)
 		vals = vvalues[ids]
-		anyNA = any(is.na(vals))
+		isna = is.na(vals)
+		anyNA = any(isna)
 		
 		if (is.na(na.show)) na.show = anyNA
-		if (anyNA) vals[is.na(vals)] = value.na
+		
+		if (is.na(sortDesc)) {
+			ids[] = 1L
+		} else if (!sortDesc) {
+			ids = (as.integer(n) + 1L) - ids
+		}
+		
+		if (anyNA) {
+			vals[isna] = value.na
+			ids[isna] = 0L
+		}
 	
 		# detransform log 
 		if (is.log) {
@@ -161,6 +172,6 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, p) {
 					  na.show = na.show,
 					  setup = legend)
 
-		format_aes_results(vals, legend)
+		format_aes_results(vals, ids, legend)
 	})
 }

@@ -1,10 +1,22 @@
-getdts = function(aes, nm, p, q, o, dt, layer, plot.order) {
+getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 	dev = getOption("tmap.devel.mode")
 	
 	if (dev) timing_add(s4 = paste0("aes ", aes$aes))
-	
-	
+
 	nm = aes$aes
+	ae = nm
+	#ae = names(p)[match(paste0("__", nm), p)] # true aesthetic name (may be different than nm)
+	nm__ord = paste0(nm, "__ord")
+	
+	
+	# should the results of the data (needed for the plotting function)?
+	# sorting order will be plotting order
+	# -1 for NULL features (filtered out, or dropped units)
+	# 0 for NA features
+	# 1-n for features based on scale values (n for latest=plotted on top)
+	# 1 for features with non-NA value for not-selected aes
+	sortDesc = if (plot.order$aes == unm) plot.order$descending else NA
+	
 	
 	val = aes$value
 	
@@ -58,17 +70,21 @@ getdts = function(aes, nm, p, q, o, dt, layer, plot.order) {
 			}
 			
 			# impute null (filter argument of tm_shape) with value.null					
+			dtl[, (nm__ord) := 1L]
+			
 			if (any(!dtl$sel__) || !q$drop.units) {
 				# also needed for drop.units later on
 				cls = data_class(dtl[[nm]])
 				value.null = getAesOption("value.null", o, aes$aes, layer, cls = cls)
 				
+				# todo: combine these:
 				dtl[sel__==FALSE, (nm) := value.null]
+				dtl[sel__==FALSE, (nm__ord) := -1L]
 				
 				if (!q$drop.units) {
 					#imp = structure(value.null, names = nm)
 					# 
-					imp = structure(list(value.null, FALSE), names = c(nm, "sel__"))
+					imp = structure(list(value.null, -1L, FALSE), names = c(nm, nm__ord, "sel__"))
 					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)
 					names(levs) = grp_bv
 					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
@@ -159,7 +175,7 @@ getdts = function(aes, nm, p, q, o, dt, layer, plot.order) {
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			
-			apply_scale = function(s, l, v, varname, legname) {
+			apply_scale = function(s, l, v, varname, ordname, legname, sortDesc) {
 				# update legend defaults from options
 				tmp = names(o)[substr(names(o), 1, 6) == "legend"]
 				
@@ -182,14 +198,14 @@ getdts = function(aes, nm, p, q, o, dt, layer, plot.order) {
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
 					getAesOption("value.null", o, aes$aes, layer, cls = cls)
 				}
-				arglist = list(scale = s, legend = l, opt = o, aes = aes$aes, layer = layer, p = names(p)[match(paste0("__", aes$aes), p)])
-				
+				arglist = list(scale = s, legend = l, opt = o, aes = aes$aes, layer = layer, p = ae, sortDesc = sortDesc)
+				#browser()
 				if (!all(dtl$sel__)) {
-					dtl[, c(varname, legname) := list(value.null, 0L)]
+					dtl[, c(varname, ordname, legname) := list(value.null, -1L, 0L)]
 					if (is.na(value.null)) stop("value.null not specified for aesthetic ", nm, call. = FALSE)
-					dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+					dtl[sel__ == TRUE, c(varname, ordname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 				} else {
-					dtl[, c(varname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+					dtl[, c(varname, ordname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 				}
 				
 				if (!q$drop.units) {
@@ -223,11 +239,9 @@ getdts = function(aes, nm, p, q, o, dt, layer, plot.order) {
 				
 				varnames = paste(nm, 1L:nvars, sep = "_")
 				legnames = paste("legnr", 1L:nvars, sep = "_")
-				#mapply(apply_scale, scale, legend, val, varnames, legnames)
-				
+
 				for (i in 1L:nvars) {
-					#mapply(apply_scale, scale, legend, val, varnames, legnames) does not work because of completeDT
-					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], legnames[[i]])
+					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], legnames[[i]], sortDesc = sortDesc)
 				}
 				
 				
@@ -263,13 +277,13 @@ getdts = function(aes, nm, p, q, o, dt, layer, plot.order) {
 					stop("incorrect legend specification")
 				}
 				
-				dtl = apply_scale(s, l, val, nm, "legnr")
+				dtl = apply_scale(s, l, val, nm, nm__ord, "legnr", sortDesc)
 				#sel = !vapply(dtl$legend, is.null, logical(1))
 				dtl_leg = dtl[legnr != 0L, c(grp_bv_fr, "legnr"), with = FALSE]
 			}
 		}
 		
-		list(dt = dtl[, c("tmapID__", grp_bv, nm), with = FALSE],
+		list(dt = dtl[, c("tmapID__", grp_bv, nm, nm__ord), with = FALSE],
 			 leg = dtl_leg)
 	})
 }

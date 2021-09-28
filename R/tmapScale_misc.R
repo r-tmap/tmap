@@ -40,5 +40,4 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, na.show) {
 					  na.show = TRUE,
 					  setup = legend)
 	}
-	return(format_aes_results(rep(value.na, n), legend))
-}
+	return(format_aes_results(rep(value.na, n), rep(0L, n), legend))}

@@ -1,6 +1,6 @@
 #' export
 tm_plot_order = function(aes, descending = TRUE) {
-	structure(list(aes, descending), class = "tm_plot_order")
+	structure(list(aes = aes, descending = descending), class = "tm_plot_order")
 }
 
 #' @export
@@ -30,7 +30,7 @@ tm_polygons = function(fill = tm_const(),
 					   col_alpha.free = NA,
 					   linejoin = "round",
 					   lineend = "round",
-					   plot.order = tm_plot_order("area", descending = TRUE),
+					   plot.order = tm_plot_order("AREA", descending = TRUE),
 					   zindex = NA,
 					   group = NA) {
 	
@@ -81,7 +81,7 @@ tm_polygons = function(fill = tm_const(),
 						lwd = "__lwd",
 						linejoin = linejoin,
 						lineend = lineend),
-		tpar = tmapTpar(area = "FEATURE"),
+		tpar = tmapTpar(area = "AREA"),
 		plot.order = plot.order,
 		mapping.fun = "Polygons",
 		subclass = c("tm_aes_layer", "tm_layer")))
@@ -162,8 +162,9 @@ tm_cartogram = function(...,
 						size = 1,
 						size.scale = tm_scale(),
 						size.legend = tm_legend_hide(),
-						size.free = NA) {
-	
+						size.free = NA,
+						plot.order = tm_plot_order("size", descending = TRUE)) {
+	po = plot.order
 	tmp = do.call(tm_polygons, list(...))
 	tmp[[1]] = within(tmp[[1]], {
 		trans.fun = tmapTransCartogram
@@ -174,6 +175,7 @@ tm_cartogram = function(...,
 										  free = size.free))
 		tpar = tmapTpar(area = "__area")
 		trans.isglobal = TRUE
+		plot.order = po
 	})
 	tmp
 }

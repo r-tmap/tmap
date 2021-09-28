@@ -233,15 +233,45 @@ get_tmf = function(tmfs) {
 
 cbind_dts = function(dts) {
 	if (!length(dts)) return(list())
-	id = which.max(vapply(dts, ncol, FUN.VALUE = integer(1)))
 	
-	dt = dts[[id]]
+	
+	#id = which.max(vapply(dts, ncol, FUN.VALUE = integer(1)))
+	
+	#dt = dts[[id]]
+	
+	dt = dts[[1]]
+	
+	id_cols = ncol(dt) - 2L #minus one aes and one ord
+	id_nams = names(dt)[seq.int(id_cols)]
 	
 	if (length(dts) > 1L) {
-		for (i in setdiff(seq_along(dts), id)) {
+		for (i in 2L:length(dts)) { #setdiff(seq_along(dts), id)) {
 			dti = dts[[i]]
-			dt = dt[dti, on = names(dti)[1L:(ncol(dti)-1)]]
+			#dt = dt[dti, on = names(dti)[1L:(ncol(dti)-2L)]]
+			dt = dt[dti, on = id_nams]
 		}
 	}
+	
+	
+	ord_cols = which(subStr(names(dt), -5) == "__ord")
+	m = as.matrix(dt[, ord_cols, with = FALSE])
+	
+	dt[, (ord_cols) := NULL]
+	
+	dt$ord__ = apply(m, MARGIN = 1, FUN = function(x) {
+		if (any(x <= 0L)) min(x) else max(x)
+	})
+	
 	dt
 }
+
+
+subStr = function(x, k) {
+	if (k > 0L) {
+		substr(x, 1L, k)	
+	} else {
+		n = nchar(x)
+		substr(x, n + k + 1L, n)	
+	}
+}
+

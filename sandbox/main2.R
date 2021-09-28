@@ -539,4 +539,19 @@ tm_shape(Africa) +
 	tm_polygons("HPI", col = "HPI", fill.scale = tm_scale(values = "Blues"), lwd = 4)
 
 
+tm_shape(Africa) +
+	tm_polygons("HPI", col = "HPI", fill.scale = tm_scale(values = "Blues"), lwd = 4) +
+	tm_facets_wrap(by = "HPI_class")
 
+
+tm_shape(Africa) +
+	tm_polygons("HPI", col = "HPI", fill.scale = tm_scale(values = "Blues"), lwd = 4, fill.free = c(FALSE, TRUE), col.free = c(TRUE, FALSE)) +
+	tm_facets_grid("HPI_class", "pop_class")
+
+
+tm_shape(Africa, crs = "+proj=eck4") +
+	tm_cartogram(size = "pop_est", fill = "HPI", col = "gdp_cap_est", fill.scale = tm_scale(values = "Blues"), lwd = 4)
+
+
+tm_shape(Africa, crs = "+proj=eck4") +
+	tm_cartogram(size = "pop_est", col = "pop_est", lwd = 4, col.scale = tm_scale_intervals(style = "kmeans", n = 15))

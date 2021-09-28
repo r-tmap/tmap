@@ -1,4 +1,4 @@
-tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
+tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 	style = if (inherits(scale, "tm_scale_continuous")) {
 		"cont"
 	} else if (inherits(scale, "tm_scale_log10")) {
@@ -121,14 +121,23 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral
 		
 		
-		
 		ids = classInt::findCols(q)
 		vals = vvalues[ids]
-		anyNA = any(is.na(vals))
+		isna = is.na(vals)
+		anyNA = any(isna)
 		
 		if (is.na(na.show)) na.show = anyNA
-		if (anyNA) vals[is.na(vals)] = value.na
 		
+		if (is.na(sortDesc)) {
+			ids[] = 1L
+		} else if (!sortDesc) {
+			ids = (as.integer(n) + 1L) - ids
+		}
+		
+		if (anyNA) {
+			vals[isna] = value.na
+			ids[isna] = 0L
+		}
 		
 		if (style=="quantile") {
 			id = seq(1, n+1, length.out=ncont)
@@ -205,7 +214,7 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p) {
 					  na.show = na.show,
 					  setup = legend)
 
-		format_aes_results(vals, legend)
+		format_aes_results(vals, ids, legend)
 		
 	})
 }

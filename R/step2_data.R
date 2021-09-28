@@ -30,14 +30,15 @@ step2_data = function(tm) {
 			gp = tml$gpar
 			tp = tml$tpar
 			
+			plot.order = tml$plot.order
 			
 			#cat("step2_grp_lyr_trans_______________\n")
 			
-			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf_meta, o = meta, dt = dt, layer = tml$layer, plot.order = tml$plot.order))
+			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf_meta, o = meta, dt = dt, layer = tml$layer, plot.order = plot.order))
 			
 			#cat("step2_grp_lyr_mapping_____________\n")
 			
-			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf_meta, o = meta, dt = dt, layer = tml$layer, plot.order = tml$plot.order))
+			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf_meta, o = meta, dt = dt, layer = tml$layer, plot.order = plot.order))
 			
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt))
 			trans_legend = lapply(trans, function(x) x$leg)
@@ -52,6 +53,7 @@ step2_data = function(tm) {
 				 mapping_dt = dts_mapping, 
 				 mapping_legend = mapping_legend,
 				 mapping_fun = tml$mapping.fun,
+				 plot.order = plot.order, # passed on for step 3 non-data driven transformation
 				 gp = gp,
 				 tp = tp)
 		})

@@ -1,4 +1,4 @@
-do_trans = function(tdt, FUN, shpDT) {
+do_trans = function(tdt, FUN, shpDT, plot.order) {
 	#browser()
 	
 	shpDT = copy(shpDT)
@@ -14,23 +14,23 @@ do_trans = function(tdt, FUN, shpDT) {
 	aesvars = setdiff(names(tdt), c("tmapID__", paste0("by", 1:3, "__")))
 	
 	apply_trans = function(shpTM) {
-		#shpTM = shpDT$shpTM[[1]]
-		#browser()
+		# todo: stars
 		ids = intersect(shpTM$tmapID, tdt$tmapID__)
+		
 		shp = shpTM$shp[match(ids, shpTM$tmapID)]
 		
 		shpX = list(shp = shp, tmapID = ids)
 		
 		x = as.list(tdt[match(tmapID__, ids), aesvars, with = FALSE])
 		
-		res = do.call(FUN, c(list(shpTM = shpX), x))
+		res = do.call(FUN, c(list(shpTM = shpX), x, list(plot.order = plot.order)))
 	}
 	shpDT$shpTM = lapply(shpDT$shpTM, apply_trans)
 	list(shpDT)
 }
 
 
-tmapTransCentroid = function(shpTM) {
+tmapTransCentroid = function(shpTM, ord__, plot.order) {
 	within(shpTM, {
 		if (inherits(shp, "stars")) {
 			### stars
@@ -44,12 +44,12 @@ tmapTransCentroid = function(shpTM) {
 }
 
 
-tmapTransRaster = function(shpTM) {
-	if (!inherits(shpTM$shp, "dimensions")) stop("Stars object expected for tm_raster", call. = FALSE)
+tmapTransRaster = function(shpTM, ord__, plot.order) {
+	if (!inherits(shpTM$shp, "dimensions")) stop("Stars object (of class dimensions) expected for tm_raster", call. = FALSE)
 	shpTM
 }
 
-tmapTransPolygons = function(shpTM) {
+tmapTransPolygons = function(shpTM, ord__, plot.order) {
 	within(shpTM, {
 		if (inherits(shp, "stars")) {
 			### stars
@@ -83,7 +83,7 @@ tmapTransPolygons = function(shpTM) {
 	})
 }
 
-tmapTransCartogram = function(shpTM, area) {
+tmapTransCartogram = function(shpTM, area, ord__, plot.order) {
 	s = shpTM$shp
 	
 	if (sf::st_is_longlat(s)) {
@@ -97,5 +97,9 @@ tmapTransCartogram = function(shpTM, area) {
 	shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = 5)}))
 	shp2 = sf::st_cast(sf::st_geometry(shp), "MULTIPOLYGON")
 	
-	list(shp = shp2, tmapID = shp$tmapID__)
+	ord2 = ord__[match(shpTM$tmapID, shp$tmapID__)]
+	
+	o = order(ord2, decreasing = FALSE)
+	
+	list(shp = shp2[o], tmapID = shp$tmapID__[o])
 }
