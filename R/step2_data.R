@@ -49,6 +49,7 @@ step2_data = function(tm) {
 			list(trans_dt = dts_trans, 
 				 trans_legend = trans_legend, 
 				 trans_fun = tml$trans.fun,
+				 trans_args = tml$trans.args,
 				 trans_isglobal = tml$trans.isglobal,
 				 mapping_dt = dts_mapping, 
 				 mapping_legend = mapping_legend,

@@ -238,16 +238,19 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 				}
 				
 				varnames = paste(nm, 1L:nvars, sep = "_")
+				ordnames = paste(nm__ord, 1L:nvars, sep = "_")
 				legnames = paste("legnr", 1L:nvars, sep = "_")
 
 				for (i in 1L:nvars) {
-					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], legnames[[i]], sortDesc = sortDesc)
+					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], ordnames[[i]], legnames[[i]], sortDesc = sortDesc)
 				}
 				
 				
 				
 				dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legnr")
+				dtl_ord = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = ordnames, variable.name = var__, value.name = nm__ord)
 				dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
+				dtl[, (nm__ord) := dtl_ord[[nm__ord]]]
 				
 				dtl[, (var__) := as.integer(get(..var__))]
 				dtl_leg[, (var__) := as.integer(get(..var__))]

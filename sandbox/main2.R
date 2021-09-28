@@ -555,3 +555,26 @@ tm_shape(Africa, crs = "+proj=eck4") +
 
 tm_shape(Africa, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est", col = "pop_est", lwd = 4, col.scale = tm_scale_intervals(style = "kmeans", n = 15))
+
+tm_shape(Africa, crs = "+proj=eck4") +
+	tm_cartogram(size = "pop_est", fill = "HPI", col = "HPI", lwd = 4, col.scale = tm_scale_intervals(style = "kmeans", n = 5))
+
+tm_shape(Africa, crs = "+proj=eck4") +
+	tm_polygons(col = "HPI", lwd = 4, col.scale = tm_scale_intervals(style = "kmeans", n = 5))
+
+
+tm_shape(Africa, crs = "+proj=eck4") +
+	tm_cartogram(size = "pop_est", fill = "HPI", lwd = 1, col = "black", fill.scale = tm_scale_intervals(style = "kmeans", n = 15))
+
+tm_shape(Africa, crs = "+proj=eck4") +
+	tm_cartogram(size = "pop_est", fill = "HPI", lwd = 1, col = "black", fill.scale = tm_scale_intervals(style = "kmeans", n = 15), type = "dorling")
+
+tm_shape(Africa) +
+	tm_symbols(size = "pop_est", col = "black", fill = "HPI", size.scale = tm_scale(values = tmap_seq(0, 10, power = "sqrt")))
+
+# todo:
+tm_shape(Africa) +
+	tm_symbols(size = "pop_est", col = "black", fill = "HPI", size.scale = tm_scale(values = tmap_seq(0, 2, power = "sqrt"), n = 10))
+# - easy bubble scaling
+# - legend line heights
+# - bubble order

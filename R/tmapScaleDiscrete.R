@@ -1,4 +1,4 @@
-tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
+tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -168,14 +168,27 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 	# ids = classInt::findCols(q)
 	# vals = vvalues[ids]
 	# anyNA = any(is.na(vals))
+
 	
-	vals = vvalues[match(x1, ticks)]
+	ids = match(x1, ticks)
+	vals = vvalues[ids]
 	
+	isna = is.na(vals)
+	anyNA = any(isna)
 	
 	if (is.na(na.show)) na.show = anyNA
-	if (anyNA) vals[is.na(vals)] = value.na
 	
-
+	if (is.na(sortDesc)) {
+		ids[] = 1L
+	} else if (!sortDesc) {
+		ids = (as.integer(n) + 1L) - ids
+	}
+	
+	if (anyNA) {
+		vals[isna] = value.na
+		ids[isna] = 0L
+	}
+	
 	# create legend values
 	#values = breaks[-nbrks]
 	
@@ -236,5 +249,5 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p) {
 				  #breaks=scale$breaks)
 	
 	
-	format_aes_results(vals, legend)
+	format_aes_results(vals, ids, legend)
 }

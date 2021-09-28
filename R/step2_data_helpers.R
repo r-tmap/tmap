@@ -235,18 +235,18 @@ cbind_dts = function(dts) {
 	if (!length(dts)) return(list())
 	
 	
-	#id = which.max(vapply(dts, ncol, FUN.VALUE = integer(1)))
+	id = which.max(vapply(dts, ncol, FUN.VALUE = integer(1))) # data.table with the most group-by columns (others are joined)
 	
-	#dt = dts[[id]]
+	dt = dts[[id]]
 	
-	dt = dts[[1]]
-	
-	id_cols = ncol(dt) - 2L #minus one aes and one ord
-	id_nams = names(dt)[seq.int(id_cols)]
 	
 	if (length(dts) > 1L) {
-		for (i in 2L:length(dts)) { #setdiff(seq_along(dts), id)) {
+		for (i in setdiff(seq_along(dts), id)) {
 			dti = dts[[i]]
+			
+			id_cols = ncol(dti) - 2L #minus one aes and one ord
+			id_nams = names(dti)[seq.int(id_cols)]
+			
 			#dt = dt[dti, on = names(dti)[1L:(ncol(dti)-2L)]]
 			dt = dt[dti, on = id_nams]
 		}

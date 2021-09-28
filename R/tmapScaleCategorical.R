@@ -1,4 +1,4 @@
-tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p) {
+tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	show.warnings = opt$show.warnings
@@ -9,6 +9,16 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p) {
 	value.neutral = if (is.na(scale$value.neutral)) getAesOption("value.neutral", opt, aes, layer, cls = cls) else scale$value.neutral
 	values.contrast = if (is.na(scale$values.contrast[1])) getAesOption("values.contrast", opt, p, layer, cls = cls) else scale$values.contrast
 	
+	
+	labels = scale$labels
+	
+	label.na = scale$label.na
+	na.show = identical(label.na, TRUE) || (!is.na(label.na) && label.na != "")
+	if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
+	
+	if (is.logical(label.na)) label.na = getAesOption("label.na", opt, aes, layer, cls = cls)
+	
+
 	
 	
 	nms = names(values) #color_names
@@ -31,11 +41,11 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p) {
 		y = droplevels(x1)
 		matching = match(levels(y), levels(x1))
 		if (length(values) == nlevels(x1)) {
-			scale$values = values[matching]
+			values = values[matching]
 			if (!is.null(nms)) nms = nms[matching]
 		}
-		if (!is.null(scale$labels) && (length(scale$labels) == nlevels(x1))) {
-			scale$labels = scale$labels[matching]
+		if (!is.null(labels) && (length(labels) == nlevels(x1))) {
+			labels = labels[matching]
 		}
 		x1 = y
 	}
@@ -77,31 +87,38 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p) {
 	# legend.palette <- do.call("process_color", c(list(col=legend.palette), process.colors))
 	# colorNA <- do.call("process_color", c(list(col=colorNA), process.colors))
 	
-	v1 = values[as.integer(x1)]
-	isNA = is.na(v1)
+	ids = as.integer(x1)
+	vals = values[ids]
+	isna = is.na(vals)
+	anyNA = any(isna)
 	
-	if (is.null(scale$labels)) {
+	if (is.na(na.show)) na.show = anyNA
+	
+	if (is.na(sortDesc)) {
+		ids[] = 1L
+	} else if (!sortDesc) {
+		ids = (as.integer(n) + 1L) - ids
+	}
+	
+	if (anyNA) {
+		vals[isna] = value.na
+		ids[isna] = 0L
+	}
+	
+	
+	if (is.null(labels)) {
 		labs = levels(x1)	
 	} else {
-		labs <- rep(scale$labels, length.out = n)
+		labs <- rep(labels, length.out = n)
 	}
-	
-	if (is.na(scale$label.na)) {
-		scale$label.na = if (any(isNA)) "Missing" else ""	
-	}
-	na.show = (scale$label.na != "")
-	
-	if (any(isNA)) {
-		v1[isNA] = value.na
-	}
-	
+
 	if (legend$reverse) {
 		labs = rev(labs)
 		values = rev(values)
 	}
 	
 	if (na.show) {
-		labs = c(labs, scale$label.na)
+		labs = c(labs, label.na)
 		values = c(values, value.na)
 	}
 	attr(labs, "align") = legend$format$text.align
@@ -110,13 +127,13 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, p) {
 	legend = list(title = legend$title, 
 				  nitems = length(labs),
 				  labels = labs, 
-				  dvalues = v1, 
+				  dvalues = vals, 
 				  vvalues = values,
 				  vneutral = value.neutral,
 				  na.show = na.show,
 				  setup = legend)
 	
 	
-	format_aes_results(v1, legend)
+	format_aes_results(vals, ids, legend)
 	
 }

@@ -112,6 +112,7 @@ tm_borders = function(col = tm_const(),
 	tm_element_list(tm_element(
 		layer = "polygons",
 		trans.fun = tmapTransPolygons,
+		trans.args = list(),
 		trans.aes = list(),
 		trans.isglobal = FALSE,
 		mapping.aes = list(col = tmapScale(aes = "col",
@@ -158,16 +159,19 @@ tm_borders = function(col = tm_const(),
 
 
 #' @export
-tm_cartogram = function(...,
-						size = 1,
+tm_cartogram = function(size = 1,
 						size.scale = tm_scale(),
 						size.legend = tm_legend_hide(),
 						size.free = NA,
-						plot.order = tm_plot_order("size", descending = TRUE)) {
+						plot.order = tm_plot_order("size", descending = TRUE),
+						type = c("cont", "ncont", "dorling"),
+						itermax = 15,
+						...) {
 	po = plot.order
 	tmp = do.call(tm_polygons, list(...))
 	tmp[[1]] = within(tmp[[1]], {
 		trans.fun = tmapTransCartogram
+		trans.args = list(type = type, itermax = itermax)
 		trans.aes = list(size = tmapScale(aes = "area",
 										  value = size,
 										  scale = size.scale,
@@ -198,6 +202,7 @@ tm_balloons = function(col = tm_const(),
 	tm_element_list(tm_element(
 		layer = "balloons",
 		trans.fun = tmapTransCartogram,
+		trans.args = list(type = "cont", itermax = 15),
 		trans.aes = list(size = tmapScale(aes = "area",
 										  value = size,
 										  scale = size.scale,
@@ -242,6 +247,7 @@ tm_raster = function(col = tm_const(),
 	tm_element_list(tm_element(
 		layer = "raster",
 		trans.fun = tmapTransRaster,
+		trans.args = list(),
 		trans.aes = list(),
 		trans.isglobal = FALSE,
 		mapping.aes = list(col = tmapScale(aes = "col",
@@ -267,6 +273,7 @@ tm_raster = function(col = tm_const(),
 						linejoin = NA,
 						lineend = NA),
 		tpar = tmapTpar(),
+		plot.order = tm_plot_order("NULL"),
 		mapping.fun = "Raster",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
@@ -319,12 +326,14 @@ tm_symbols = function(fill = tm_const(),
 					  col_alpha.scale = tm_scale(),
 					  col_alpha.legend = tm_legend_portrait(),
 					  col_alpha.free = NA,
+					  plot.order = tm_plot_order("size", descending = TRUE),
 					  zindex = NA,
 					  group = NA) {
 	
 	tm_element_list(tm_element(
 		layer = "symbols",
 		trans.fun = tmapTransCentroid,
+		trans.args = list(),
 		trans.aes = list(),
 		trans.isglobal = FALSE,
 		mapping.aes = list(col = tmapScale(aes = "col",
@@ -380,6 +389,7 @@ tm_symbols = function(fill = tm_const(),
 						linejoin = NA,
 						lineend = NA),
 		tpar = tmapTpar(),
+		plot.order = plot.order,
 		mapping.fun = "Symbols",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

@@ -1,4 +1,4 @@
-tmapScaleRGB = function(x1, x2, x3, scale, legend, opt, aes, layer, p) {
+tmapScaleRGB = function(x1, x2, x3, scale, legend, opt, aes, layer, p, sortDesc) {
 	values = grDevices::rgb(x1, x2, x3, maxColorValue = scale$maxValue)
 	
 	if (!(p %in% c("col", "fill"))) stop("tm_scale_rgb cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)

@@ -1,4 +1,4 @@
-do_trans = function(tdt, FUN, shpDT, plot.order) {
+do_trans = function(tdt, FUN, shpDT, plot.order, args) {
 	#browser()
 	
 	shpDT = copy(shpDT)
@@ -23,14 +23,14 @@ do_trans = function(tdt, FUN, shpDT, plot.order) {
 		
 		x = as.list(tdt[match(tmapID__, ids), aesvars, with = FALSE])
 		
-		res = do.call(FUN, c(list(shpTM = shpX), x, list(plot.order = plot.order)))
+		res = do.call(FUN, c(list(shpTM = shpX), x, list(plot.order = plot.order, args = args)))
 	}
 	shpDT$shpTM = lapply(shpDT$shpTM, apply_trans)
 	list(shpDT)
 }
 
 
-tmapTransCentroid = function(shpTM, ord__, plot.order) {
+tmapTransCentroid = function(shpTM, ord__, plot.order, args) {
 	within(shpTM, {
 		if (inherits(shp, "stars")) {
 			### stars
@@ -44,12 +44,12 @@ tmapTransCentroid = function(shpTM, ord__, plot.order) {
 }
 
 
-tmapTransRaster = function(shpTM, ord__, plot.order) {
+tmapTransRaster = function(shpTM, ord__, plot.order, args) {
 	if (!inherits(shpTM$shp, "dimensions")) stop("Stars object (of class dimensions) expected for tm_raster", call. = FALSE)
 	shpTM
 }
 
-tmapTransPolygons = function(shpTM, ord__, plot.order) {
+tmapTransPolygons = function(shpTM, ord__, plot.order, args) {
 	within(shpTM, {
 		if (inherits(shp, "stars")) {
 			### stars
@@ -78,12 +78,16 @@ tmapTransPolygons = function(shpTM, ord__, plot.order) {
 			}
 			rm(geom_types)
 		}
-		o = order(units::drop_units(st_area(shp)))
-		shp = shp[o]
+		
+		if (plot.order$aes == "AREA") {
+			o = order(units::drop_units(st_area(shp)), decreasing = !plot.order$descending)
+			shp = shp[o]
+			tmapID = tmapID[o]
+		}
 	})
 }
 
-tmapTransCartogram = function(shpTM, area, ord__, plot.order) {
+tmapTransCartogram = function(shpTM, area, ord__, plot.order, args) {
 	s = shpTM$shp
 	
 	if (sf::st_is_longlat(s)) {
@@ -94,7 +98,20 @@ tmapTransCartogram = function(shpTM, area, ord__, plot.order) {
 		
 	x = sf::st_sf(geometry = s, weight = area, tmapID__ = shpTM$tmapID)
 	require(cartogram)
-	shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = 5)}))
+	
+	if (!requireNamespace("cartogram")) stop("cartogram pacakge needed", call. = FALSE)
+	
+	if (args$type == "cont") {
+		shp = suppressMessages(suppressWarnings({cartogram::cartogram_cont(x, weight = "weight", itermax = args$itermax)}))
+	} else if (args$type == "ncont") {
+		shp = suppressMessages(suppressWarnings({cartogram::cartogram_ncont(x, weight = "weight")}))
+	} else if (args$type == "dorling") {
+		shp = suppressMessages(suppressWarnings({cartogram::cartogram_dorling(x, weight = "weight")}))
+	} else {
+		stop("unknown cartogram type", call. = FALSE)
+	}
+	
+	
 	shp2 = sf::st_cast(sf::st_geometry(shp), "MULTIPOLYGON")
 	
 	ord2 = ord__[match(shpTM$tmapID, shp$tmapID__)]
