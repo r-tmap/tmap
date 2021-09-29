@@ -1,6 +1,17 @@
-#' export
-tm_plot_order = function(aes, descending = TRUE) {
-	structure(list(aes = aes, descending = descending), class = "tm_plot_order")
+#' Determine plotting order of features
+#' 
+#' Determine plotting order of features.
+#' 
+#' @param aes aesthetic variable for which the visual values determine the plotting order. Example: bubble map where the \code{"size"} aesthetic is used. A data variable (say population) is mapped via a continuous scale (\code{tm_scale_continuous}) to bubble sizes. The bubbles are plotted in order of size. How is determined by the other arguments. A special value for \code{"aes"} is \code{"AREA"} which is preserved for polygons: rather than a data variable the polygon area determines the plotting order.
+#' @param reverse logical that determines whether the visual values are plotted in reversed order. The visual values (specified with tmap option \code{"values.var"}) are by default reversed, so plotted starting from the last value. In the bubble map example, this means that large bubbles are plotted first, hence at the bottom.
+#' @param na.order where should features be plotted that have an \code{NA} value for (at least) one other aesthetic variable? In the (order) \code{"mix"}, at the \code{"bottom"}, or on \code{"top"}? In the bubble map example: if fill color is missing for some bubble, where should those bubbles be plotted?
+#' @param null.order where should non-selected (aka null) features be plotted?
+#' @param null.below.na should null features be plotted below na features?
+#' @export
+tm_plot_order = function(aes, reverse = TRUE, na.order = c("mix", "bottom", "top"), null.order = c("bottom", "mix", "top"), null.below.na = TRUE) {
+	na.order = match.arg(na.order)
+	null.order = match.arg(null.order)
+	structure(list(aes = aes, reverse = reverse, na.order = na.order, null.order = null.order, null.below.na = null.below.na), class = "tm_plot_order")
 }
 
 #' @export
@@ -30,7 +41,7 @@ tm_polygons = function(fill = tm_const(),
 					   col_alpha.free = NA,
 					   linejoin = "round",
 					   lineend = "round",
-					   plot.order = tm_plot_order("AREA", descending = TRUE),
+					   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
 					   zindex = NA,
 					   group = NA) {
 	
@@ -106,7 +117,7 @@ tm_borders = function(col = tm_const(),
 					  col_alpha.free = NA,
 					  linejoin = "round",
 					  lineend = "round",
-					  plot.order = tm_plot_order("AREA", descending = TRUE),
+					  plot.order = tm_plot_order("AREA", reverse = FALSE),
 					  zindex = NA,
 					  group = NA) {
 	
@@ -165,7 +176,7 @@ tm_cartogram = function(size = 1,
 						size.scale = tm_scale(),
 						size.legend = tm_legend_hide(),
 						size.free = NA,
-						plot.order = tm_plot_order("size", descending = TRUE),
+						plot.order = tm_plot_order("size", reverse = FALSE),
 						type = c("cont", "ncont", "dorling"),
 						itermax = 15,
 						...) {
@@ -329,7 +340,7 @@ tm_symbols = function(fill = tm_const(),
 					  col_alpha.scale = tm_scale(),
 					  col_alpha.legend = tm_legend_portrait(),
 					  col_alpha.free = NA,
-					  plot.order = tm_plot_order("size", descending = FALSE),
+					  plot.order = tm_plot_order("size"),
 					  zindex = NA,
 					  group = NA) {
 	

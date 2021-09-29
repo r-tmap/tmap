@@ -22,17 +22,56 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	leg_standard = list(
 		fun_add_leg_type = function(leg) {
-			gp = leg$gp
-			
-			leg$type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
-				"gradient"
-			} else if (is.na(gp$shape[1])) {
-				"rect"
-			} else {
-				"symbols"
-			}
-			leg$lines = leg_standard_p_lines(leg)
-			leg
+			within(leg, {
+				type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
+					"gradient"
+				} else if (is.na(gp$shape[1])) {
+					"rect"
+				} else {
+					"symbols"
+				}
+				
+				gpar = gp_to_gpar(gp)
+				
+				
+				space = get_legend_option(setup$space, type)
+				space.na = get_legend_option(setup$space.na, type)
+				
+				lines_excl = if (type == "symbols") {
+					rep(gpar$size, length.out = nitems)
+				} else {
+					rep(1, nitems)
+				}
+				
+				
+				lines = if (type == "symbols") {
+					if (!is.na(setup$height)) {
+						# specified height in lines: recalculate space (and set space.na the same)
+						space = (setup$height - sum(rep(pmax(1, gpar$size), length.out = nitems))) / nitems
+						space.na = space
+					} else {
+						# add little margin needed for large symbols
+						space = space + gpar$size / 10
+						space.na = space.na + gpar$size / 10
+					}
+					size = rep(gpar$size, length.out = nitems)
+					rep(pmax(1, c(size[1:(nitems - na.show)] + space, {if (na.show) (size[nitems] + space.na) else NULL})), length.out = nitems)
+				} else {
+					if (!is.na(setup$height)) {
+						space = (setup$height - nitems) / nitems
+						space.na = space
+					}
+					c(rep(1 + space, length.out = nitems - na.show), {if (na.show) (1 + space.na) else NULL})
+				}
+				
+				# final rescale to meet specified height
+				if (!is.na(setup$height)) {
+					if (sum(lines) != setup$height) {
+						lines = lines / sum(lines) * setup$height
+					}	
+				}
+				lines
+			})
 		},
 		fun_height = function(leg) {
 			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
@@ -50,7 +89,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			tW = ifelse(leg$title == "", 0, inch * o$legend.title.size * grid::convertWidth(grid::stringWidth(leg$title), unitTo = "lines", valueOnly = TRUE))
 			
 			
-			iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + leg$lines + 0.65, "lines") # 0.65 = 0.4 margin left and 0.25 margin between item and text
+			iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + leg$lines_excl + 0.65, "lines") # 0.65 = 0.4 margin left and 0.25 margin between item and text
 			max(c(tW, iW)) + (inch * o$legend.text.size * 0.75)
 		},
 		fun_plot = function(leg) {
@@ -64,8 +103,10 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			if (leg$title == "") o$legend.title.size = 0
 			
 			nlines = leg$lines * o$legend.text.size
+			nlines_excl = leg$lines_excl * o$legend.text.size
 			
-			iwidth = max(nlines) * lH
+			
+			iwidth = max(nlines_excl) * lH
 			
 			
 			vp = grid::viewport(layout = grid::grid.layout(ncol = 4, nrow = nlev + 4, 

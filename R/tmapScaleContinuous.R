@@ -1,4 +1,4 @@
-tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
+tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, sortRev) {
 	style = if (inherits(scale, "tm_scale_continuous")) {
 		"cont"
 	} else if (inherits(scale, "tm_scale_log10")) {
@@ -20,7 +20,7 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p, sortDesc) 
 	
 	if (inherits(x1, "units")) x1 = units::drop_units(x1)
 	
-	if (p %in% c("lty", "shape", "pattern")) stop("tm_scale_continuous cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
+	if (aes %in% c("lty", "shape", "pattern")) stop("tm_scale_continuous cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
 	
 	scale = get_scale_defaults(scale, opt, aes, layer, cls)
@@ -82,18 +82,18 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p, sortDesc) 
 		
 		# update contrast if NA (automatic)
 		if (is.na(values.contrast[1])) {
-			fun_contrast = paste0("tmapValuesContrast_", p)
+			fun_contrast = paste0("tmapValuesContrast_", aes)
 			values.contrast = do.call(fun_contrast, args = list(x = values, n = n, isdiv = udiv))
 		}
 		if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
 		
 		
-		fun_check = paste0("tmapValuesCheck_", p)
+		fun_check = paste0("tmapValuesCheck_", aes)
 		
 		are_valid = do.call(fun_check, args = list(x = values))
-		if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform p ", p, call. = FALSE)
+		if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform aes ", aes, call. = FALSE)
 		
-		fun_isdiv = paste0("tmapValuesIsDiv_", p)
+		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
 		
 		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
 
@@ -114,7 +114,7 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p, sortDesc) 
 			}
 		}
 		
-		fun_getVV = paste0("tmapValuesVV_", p)
+		fun_getVV = paste0("tmapValuesVV_", aes)
 		VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, are_breaks = TRUE, rep = values.repeat))
 		
 		vvalues = VV$vvalues
@@ -128,9 +128,9 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, p, sortDesc) 
 		
 		if (is.na(na.show)) na.show = anyNA
 		
-		if (is.na(sortDesc)) {
+		if (is.na(sortRev)) {
 			ids[] = 1L
-		} else if (!sortDesc) {
+		} else if (sortRev) {
 			ids = (as.integer(n) + 1L) - ids
 		}
 		

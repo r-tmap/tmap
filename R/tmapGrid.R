@@ -13,37 +13,6 @@ get_legend_option = function(x, type) {
 	if (length(x) == 1 || (!type %in% names(x))) x else x[type]
 }
 
-leg_standard_p_lines = function(leg) {
-	space = get_legend_option(leg$setup$space, leg$type)
-	space.na = get_legend_option(leg$setup$space.na, leg$type)
-	hs = if (leg$type == "symbols") {
-		gp = gp_to_gpar(leg$gp)
-		if (!is.na(leg$setup$height)) {
-			# specified height in lines: recalculate space (and set space.na the same)
-			space = (leg$setup$height - sum(rep(pmax(1, gp$size), length.out = leg$nitems))) / leg$nitems
-			space.na = space
-		} else {
-			# add little margin needed for large symbols
-			space = space + gp$size / 10
-			space.na = space.na + gp$size / 10
-		}
-		size = rep(gp$size, length.out = leg$nitems)
-		rep(pmax(1, c(size[1:(leg$nitems - leg$na.show)] + space, {if (leg$na.show) (size[leg$nitems] + space.na) else NULL})), length.out = leg$nitems)
-	} else {
-		if (!is.na(leg$setup$height)) {
-			space = (leg$setup$height - leg$nitems) / leg$nitems
-			space.na = space
-		}
-		c(rep(1 + space, length.out = leg$nitems - leg$na.show), {if (leg$na.show) (1 + space.na) else NULL})
-	}
-	# final rescale to meet specified height
-	if (!is.na(leg$setup$height)) {
-		if (sum(hs) != leg$setup$height) {
-			hs = hs / sum(hs) * leg$setup$height
-		}	
-	}
-	hs
-}
 
 gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle = TRUE) {
 	if (sel == "all") {
@@ -64,11 +33,11 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 			   col = {if (sel == "fill") NA else gp$col},
 			   alpha = alpha,
 			   lty = if (sel == "fill") "blank" else if (!is.na(gp$lty[1])) gp$lty else "solid",
-			   lwd = {if (!is.na(gp$lwd[1])) gp$lwd else 0},
-			   lineend = {if (!is.na(gp$lineend[1])) gp$lineend else "round"},
-			   linejoin = {if (!is.na(gp$linejoin[1])) gp$linejoin else "round"},
-			   size = {if (!is.na(gp$size[1])) gp$size else 1},
-			   shape = {if (!is.na(gp$shape[1])) gp$shape else 21}))
+			   lwd = {if (!all(is.na(gp$lwd))) gp$lwd else 0},
+			   lineend = {if (!all(is.na(gp$lineend))) gp$lineend else "round"},
+			   linejoin = {if (!all(is.na(gp$linejoin))) gp$linejoin else "round"},
+			   size = {if (!all(is.na(gp$size))) gp$size else 1},
+			   shape = {if (!all(is.na(gp$shape))) gp$shape else 21}))
 	
 	# 
 	if (!is.null(id)) {

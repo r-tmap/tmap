@@ -120,7 +120,7 @@ tm_scale_rgb = function(maxValue = 255) {
 	structure(c(list(FUN = "tmapScaleRGB"), as.list(environment())), class = c("tm_scale_rgb", "tm_scale", "list"))
 }
 
-tm_scale_na = function() {
-	structure(c(list(FUN = "tmapScaleNA"), as.list(environment())), class = c("tm_scale_na", "tm_scale", "list"))
-}
+# tm_scale_na = function() {
+# 	structure(c(list(FUN = "tmapScaleNA"), as.list(environment())), class = c("tm_scale_na", "tm_scale", "list"))
+# }
 

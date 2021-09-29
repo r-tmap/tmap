@@ -231,7 +231,7 @@ get_tmf = function(tmfs) {
 	tmf
 }
 
-cbind_dts = function(dts) {
+cbind_dts = function(dts, plot.order) {
 	if (!length(dts)) return(list())
 	
 	
@@ -255,6 +255,17 @@ cbind_dts = function(dts) {
 	
 	ord_cols = which(subStr(names(dt), -5) == "__ord")
 	m = as.matrix(dt[, ord_cols, with = FALSE])
+
+	if (plot.order$na.order == "mix") m[m==0L] = 1L
+	if (plot.order$null.order == "mix") m[m==-1L] = 1L
+	
+	if (!plot.order$null.below.na) {
+		if (plot.order$na.order == "top") m[m==0L] = 2147483646L else m[m==0L] = -2L
+		if (plot.order$null.order == "top") m[m==-1L] = 2147483647L
+	} else {
+		if (plot.order$na.order == "top") m[m==0L] = 2147483647L
+		if (plot.order$null.order == "top") m[m==-1L] = 2147483646L
+	}
 	
 	dt[, (ord_cols) := NULL]
 	

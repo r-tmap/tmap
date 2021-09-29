@@ -80,7 +80,7 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args) {
 		}
 		
 		if (plot.order$aes == "AREA") {
-			o = order(units::drop_units(st_area(shp)), decreasing = !plot.order$descending)
+			o = order(units::drop_units(st_area(shp)), decreasing = !plot.order$reverse)
 			shp = shp[o]
 			tmapID = tmapID[o]
 		}

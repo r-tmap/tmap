@@ -4,8 +4,6 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 	if (dev) timing_add(s4 = paste0("aes ", aes$aes))
 
 	nm = aes$aes
-	ae = nm
-	#ae = names(p)[match(paste0("__", nm), p)] # true aesthetic name (may be different than nm)
 	nm__ord = paste0(nm, "__ord")
 	
 	
@@ -15,7 +13,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 	# 0 for NA features
 	# 1-n for features based on scale values (n for latest=plotted on top)
 	# 1 for features with non-NA value for not-selected aes
-	sortDesc = if (plot.order$aes == unm) plot.order$descending else NA
+	sortRev = if (plot.order$aes == unm) plot.order$reverse else NA
 	
 	
 	val = aes$value
@@ -175,7 +173,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			
-			apply_scale = function(s, l, v, varname, ordname, legname, sortDesc) {
+			apply_scale = function(s, l, v, varname, ordname, legname, sortRev) {
 				# update legend defaults from options
 				tmp = names(o)[substr(names(o), 1, 6) == "legend"]
 				
@@ -198,7 +196,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
 					getAesOption("value.null", o, aes$aes, layer, cls = cls)
 				}
-				arglist = list(scale = s, legend = l, opt = o, aes = aes$aes, layer = layer, p = ae, sortDesc = sortDesc)
+				arglist = list(scale = s, legend = l, opt = o, aes = aes$aes, layer = layer, sortRev = sortRev)
 				#browser()
 				if (!all(dtl$sel__)) {
 					dtl[, c(varname, ordname, legname) := list(value.null, -1L, 0L)]
@@ -242,7 +240,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 				legnames = paste("legnr", 1L:nvars, sep = "_")
 
 				for (i in 1L:nvars) {
-					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], ordnames[[i]], legnames[[i]], sortDesc = sortDesc)
+					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], ordnames[[i]], legnames[[i]], sortRev = sortRev)
 				}
 				
 				
@@ -280,7 +278,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 					stop("incorrect legend specification")
 				}
 				
-				dtl = apply_scale(s, l, val, nm, nm__ord, "legnr", sortDesc)
+				dtl = apply_scale(s, l, val, nm, nm__ord, "legnr", sortRev)
 				#sel = !vapply(dtl$legend, is.null, logical(1))
 				dtl_leg = dtl[legnr != 0L, c(grp_bv_fr, "legnr"), with = FALSE]
 			}

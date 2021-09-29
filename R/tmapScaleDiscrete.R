@@ -1,4 +1,4 @@
-tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
+tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, sortRev) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -14,12 +14,13 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 	
 	if (inherits(x1, "units")) x1 = units::drop_units(x1)
 	
-	if (p %in% c("lty", "shape", "pattern")) stop("tm_scale_discrete cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
+	if (aes %in% c("lty", "shape", "pattern")) stop("tm_scale_discrete cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
 	scale = get_scale_defaults(scale, opt, aes, layer, cls)
 	
 	show.messages <- opt$show.messages
 	show.warnings <- opt$show.warnings
+	
 	if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, na.show = na.show))
 	
 	with(scale, {
@@ -51,41 +52,15 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 	
 		d_isdiv = rng[1] < 0 && rng[2] > 0	
 		
-		if (is.na(values.contrast[1])) values.contrast = c(0, 1)
-		if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
-		
-		
-		fun_check = paste0("tmapValuesCheck_", p)
+		fun_check = paste0("tmapValuesCheck_", aes)
 		
 		are_valid = do.call(fun_check, args = list(x = values))
-		if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform p ", p, call. = FALSE)
+		if (!are_valid) stop("Incorrect values for layer ", layer, ", aesthetic ", aes, "; values should conform aes ", aes, call. = FALSE)
 		
-		# palid = tmapPalId(values[1])
-		# 
-		# arecolors = if (is.na(palid)) {
-		# 	valid_colors(values[1])
-		# } else TRUE
-		# 
-		# arenumbers = !arecolors && is.numeric(values)
-		
-		
-		fun_isdiv = paste0("tmapValuesIsDiv_", p)
+		fun_isdiv = paste0("tmapValuesIsDiv_", aes)
 		
 		isdiv = !is.null(midpoint) || do.call(fun_isdiv, args = list(x = values))
 		
-		
-
-		# if (arecolors) {
-		# 	if (!is.na(palid)) {
-		# 		pal.div = .tmap_pals$type[palid] == "div"
-		# 	} else {
-		# 		pal.div = (!is.null(midpoint)) || (palette_type(values) == "div")
-		# 	}
-		# } else if (arenumbers) {
-		# 	pal.div = any(values < 0) && any(values > 0)
-		# } else {
-		# 	pal.div = FALSE
-		# }
 		
 		# determine midpoint
 		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
@@ -103,18 +78,20 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 			}
 		}
 		
-		fun_getVV = paste0("tmapValuesVV_", p)
+		# update contrast if NA (automatic)
+		if (is.na(values.contrast[1])) {
+			fun_contrast = paste0("tmapValuesContrast_", aes)
+			values.contrast = do.call(fun_contrast, args = list(x = values, n = n, isdiv = isdiv))
+		}
+		if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
+		
+		
+		fun_getVV = paste0("tmapValuesVV_", aes)
 		VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, contrast = values.contrast, rep = values.repeat))
 		
 		vvalues = VV$vvalues
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral
 		
-		
-		# 
-		# ids = classInt::findCols(q)
-		# vals = vvalues[ids]
-		# anyNA = any(is.na(vals))
-	
 		
 		ids = match(x1, ticks)
 		vals = vvalues[ids]
@@ -124,9 +101,9 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 		
 		if (is.na(na.show)) na.show = anyNA
 		
-		if (is.na(sortDesc)) {
+		if (is.na(sortRev)) {
 			ids[] = 1L
-		} else if (!sortDesc) {
+		} else if (sortRev) {
 			ids = (as.integer(n) + 1L) - ids
 		}
 		
@@ -135,9 +112,7 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, p, sortDesc) {
 			ids[isna] = 0L
 		}
 		
-		# create legend values
-		#values = breaks[-nbrks]
-		
+
 		if (is.null(labels)) {
 			labels = do.call("fancy_breaks", c(list(vec=ticks, as.count = FALSE, intervals=FALSE), legend$format)) 
 		} else {

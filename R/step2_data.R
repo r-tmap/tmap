@@ -40,10 +40,10 @@ step2_data = function(tm) {
 			
 			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf_meta, o = meta, dt = dt, layer = tml$layer, plot.order = plot.order))
 			
-			dts_trans = cbind_dts(lapply(trans, function(x) x$dt))
+			dts_trans = cbind_dts(lapply(trans, function(x) x$dt), plot.order)
 			trans_legend = lapply(trans, function(x) x$leg)
 			
-			dts_mapping = cbind_dts(lapply(mapping, function(x) x$dt))
+			dts_mapping = cbind_dts(lapply(mapping, function(x) x$dt), plot.order)
 			mapping_legend = lapply(mapping, function(x) x$leg)
 			
 			list(trans_dt = dts_trans, 
