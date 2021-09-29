@@ -4,16 +4,20 @@ islistof = function(x, class) {
 
 select_sf = function(shpTM, dt) {
 	shp = shpTM$shp
-	tmapID = shpTM$tmapID
+	stid = shpTM$tmapID
 	
-	tmapIDdt = dt$tmapID__
+	dtid = dt$tmapID__
 	
-	tid = intersect(tmapID, tmapIDdt)
+	tid = intersect(stid, dtid)
+
+	d = data.table(sord = seq_along(tid), ord = dt$ord__[match(tid, dtid)], tid = tid)
+	setkeyv(d, cols = c("ord", "sord"))
 	
-	shpSel = shp[match(tid, tmapID)] #st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
+	
+	shpSel = shp[match(d$tid, stid)] #st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
 	
 	
-	dt = dt[match(tid, tmapIDdt), ]
+	dt = dt[match(d$tid, dtid), ]
 	list(shp = shpSel, dt = dt)
 }
 

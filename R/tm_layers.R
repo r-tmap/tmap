@@ -168,6 +168,7 @@ tm_cartogram = function(size = 1,
 						itermax = 15,
 						...) {
 	po = plot.order
+	type = match.arg(type)
 	tmp = do.call(tm_polygons, list(...))
 	tmp[[1]] = within(tmp[[1]], {
 		trans.fun = tmapTransCartogram
@@ -326,7 +327,7 @@ tm_symbols = function(fill = tm_const(),
 					  col_alpha.scale = tm_scale(),
 					  col_alpha.legend = tm_legend_portrait(),
 					  col_alpha.free = NA,
-					  plot.order = tm_plot_order("size", descending = TRUE),
+					  plot.order = tm_plot_order("size", descending = FALSE),
 					  zindex = NA,
 					  group = NA) {
 	
