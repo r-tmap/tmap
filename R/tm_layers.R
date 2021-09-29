@@ -106,6 +106,7 @@ tm_borders = function(col = tm_const(),
 					  col_alpha.free = NA,
 					  linejoin = "round",
 					  lineend = "round",
+					  plot.order = tm_plot_order("AREA", descending = TRUE),
 					  zindex = NA,
 					  group = NA) {
 	
@@ -148,6 +149,7 @@ tm_borders = function(col = tm_const(),
 						linejoin = linejoin,
 						lineend = lineend),
 		tpar = tmapTpar(),
+		plot.order = plot.order,
 		mapping.fun = "Polygons",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

@@ -31,6 +31,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			} else {
 				"symbols"
 			}
+			leg$lines = leg_standard_p_lines(leg)
 			leg
 		},
 		fun_height = function(leg) {
@@ -38,7 +39,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			tH = ifelse(leg$title == "", 0, inch * o$legend.title.size * 1.375)
 			
-			nlines = sum(leg_standard_p_lines(leg))
+			nlines = sum(leg$lines)
 			
 			iH = inch * (nlines + 0.8) * o$legend.text.size
 			tH + iH
@@ -49,7 +50,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			tW = ifelse(leg$title == "", 0, inch * o$legend.title.size * grid::convertWidth(grid::stringWidth(leg$title), unitTo = "lines", valueOnly = TRUE))
 			
 			
-			iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + 1.65, "lines")
+			iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + leg$lines + 0.65, "lines") # 0.65 = 0.4 margin left and 0.25 margin between item and text
 			max(c(tW, iW)) + (inch * o$legend.text.size * 0.75)
 		},
 		fun_plot = function(leg) {
@@ -62,12 +63,13 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 			
 			if (leg$title == "") o$legend.title.size = 0
 			
-			nlines = leg_standard_p_lines(leg) * o$legend.text.size
+			nlines = leg$lines * o$legend.text.size
 			
-			#print(nlines)
+			iwidth = max(nlines) * lH
+			
 			
 			vp = grid::viewport(layout = grid::grid.layout(ncol = 4, nrow = nlev + 4, 
-														   widths = grid::unit(c(lH * o$legend.text.size * 0.4, lH * o$legend.text.size, lH * o$legend.text.size * 0.25, 1), units = c("inches", "inches", "inches", "null")),
+														   widths = grid::unit(c(lH * o$legend.text.size * 0.4, iwidth, lH * o$legend.text.size * 0.25, 1), units = c("inches", "inches", "inches", "null")),
 														   heights = grid::unit(
 														   	c(lH * o$legend.title.size * c(0.25, 1),
 														   	  lH * o$legend.title.size * .125 + lH * o$legend.text.size * .4,
