@@ -1,6 +1,7 @@
 step3_trans = function(tm) {
 	ad = tm$tmo
 	meta = tm$meta
+	aux = tm$aux
 	
 	bd = lapply(ad, function(adi) {
 		shpDT = adi$shpDT
@@ -68,6 +69,6 @@ step3_trans = function(tm) {
 	})	
 	#attributes(bd) = attributes(ad)
 	#attr(bd, "bbox") = stm_bbox(ad[[attr(bd, "main")]]$shpDT$shpTM[[1]])
-	list(tmo = bd, meta = meta)
+	list(tmo = bd, aux = aux, meta = meta)
 }
 

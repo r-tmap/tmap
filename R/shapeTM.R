@@ -85,3 +85,11 @@ bb_asp = function(bbx, asp) {
 	}
 	bbx
 }
+
+bb_ll_valid = function(bbx) {
+	bbx[2] = max(bbx[2], -90)
+	bbx[4] = min(bbx[4], 90)
+	bbx
+}
+
+

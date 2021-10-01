@@ -4,20 +4,30 @@ step1_rearrange = function(tmel) {
 	is_tml = vapply(tmel, inherits, "tm_layer", FUN.VALUE = logical(1))
 	is_tmf = vapply(tmel, inherits, "tm_facets", FUN.VALUE = logical(1))
 	is_other = !is_tml & !is_tms & !is_tmf
+
+	is_aux = vapply(tmel, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
+	
+	# find layer id numbers (needed to plot layers in correct order, which is not trivial due to the two layer types)
+	lay_id = cumsum(is_tml | is_aux)
+	lay_id[!is_tml & !is_aux] = 0L
 	
 	# create groups, for each group: tms (tmap shape), tmls (tmap layers), tmf (tmap facets)
 	ids = cumsum(is_tms)
-	ids[is_other] = 0
+	ids[is_other] = 0L
 	tmel_spl = split(tmel, f = ids)
+	lay_id_spl = split(lay_id, f = ids)
 	if (any(is_other)) {
 		oth = tmel_spl[[1]]
+		oth_lay_id = lay_id_spl[[1]]
 		tmel_spl = tmel_spl[-1]
+		lay_id_spl = lay_id_spl[-1]
 	} else {
-		oth = list()		
+		oth = list()
+		oth_lay_id = list()
 	}
 	
 	# organize groups, 1 tm_shape, at least 1 tm_layers, 1 tm_facets
-	tmo = lapply(tmel_spl, function(tmg) {
+	tmo = mapply(function(tmg, lid) {
 		is_tms = vapply(tmg, inherits, "tm_shape", FUN.VALUE = logical(1))
 		is_tml = vapply(tmg, inherits, "tm_layer", FUN.VALUE = logical(1))
 		is_tmf = vapply(tmg, inherits, "tm_facets", FUN.VALUE = logical(1))
@@ -32,9 +42,21 @@ step1_rearrange = function(tmel) {
 			tmf = tmg[[which(is_tmf)[k]]]
 		}
 		
-		structure(list(tms = tmg[[1]], tmls = tmg[is_tml], tmf = tmf), class = c("tmapGroup", "list"))
-	})
+		# extract layers and add layer id number
+		tmls = mapply(function(l, i) {
+			l$lid = i
+			l
+		}, tmg[is_tml], lid[is_tml], SIMPLIFY = FALSE)
+		
+		structure(list(tms = tmg[[1]], tmls = tmls, tmf = tmf), class = c("tmapGroup", "list"))
+	}, tmel_spl, lay_id_spl, SIMPLIFY = FALSE)
 	
+	is_aux = sapply(oth, inherits, "tm_aux_layer")
+	
+	aux = mapply(function(l, i) {
+		l$lid = i
+		l
+	}, oth[is_aux], oth_lay_id[is_aux], SIMPLIFY = FALSE)
 	
 	# ## estimate number of facets
 	# lapply(tmo, function(tmg) {
@@ -76,8 +98,9 @@ step1_rearrange = function(tmel) {
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
 	
+	print(str(tmo,1))
 	
-	list(tmo = tmo, meta = opt)
+	list(tmo = tmo, aux = aux, meta = opt)
 }
 
 # see above

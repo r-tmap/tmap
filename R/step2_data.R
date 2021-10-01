@@ -3,7 +3,7 @@ step2_data = function(tm) {
 	
 	tmo = tm$tmo
 	meta = tm$meta
-	
+	aux = tm$aux
 	
 	meta = preprocess_meta_step2(meta)
 	
@@ -54,6 +54,7 @@ step2_data = function(tm) {
 				 mapping_dt = dts_mapping, 
 				 mapping_legend = mapping_legend,
 				 mapping_fun = tml$mapping.fun,
+				 lid = tml$lid,
 				 plot.order = plot.order, # passed on for step 3 non-data driven transformation
 				 gp = gp,
 				 tp = tp)
@@ -78,5 +79,5 @@ step2_data = function(tm) {
 	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows
 	# attr(grps, "ncols") = tmo[[1]]$tmf$ncols
 	
-	list(tmo = grps, meta = meta)
+	list(tmo = grps, aux = aux, meta = meta)
 }

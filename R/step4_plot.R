@@ -1,6 +1,7 @@
 step4_plot = function(tm) {
 	tmx = tm$tmo
 	o = tm$meta
+	aux = tm$aux
 	
 	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
@@ -265,8 +266,20 @@ step4_plot = function(tm) {
 		}
 	}
 	
-	#d = d[!is.na(asp), ]
+	## prepare aux layers
+	# find unique bboxes
+	db = data.table(bbox = unique(d$bbox))
+	db[, i:=1L:nrow(db)]
+	d[, bi:=match(db$bbox,d$bbox)]
+	for (a in aux) {
+		FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
+		do.call(FUNaux_prep, list(a = a$args, b = db$bbox, o = o))
+	}
+	
+	ll = 0L # last layer that is plotted: needed to mix data- and aux-layers
 
+	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = integer(1))
+	
 	for (i in seq_len(nrow(d))) {
  		bbx = d$bbox[[i]]
  		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o)) 
@@ -278,6 +291,26 @@ step4_plot = function(tm) {
 				for (il in 1L:nl) {
 	
 					bl = tmxi$layers[[il]]
+					
+					
+					# before proceeding with bl, plot aux layers (if there are eny)
+					if (bl$lid > (ll + 1L)) {
+						for (j in (ll + 1L):(bl$lid - 1L)) {
+							aj = which(aux_lid == j)
+							print(j)
+							print(aj)
+							print("--")
+							stopifnot(length(aj) > 0L)
+
+							a = aux[[aj]]							
+							FUNaux_plot = paste0("tmap", gs, a$mapping.fun)
+							id = paste0("aux", sprintf("%03d", j))
+							do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
+						}	
+						ll = j
+					}
+					
+					
 					shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
 					mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
 					
@@ -290,6 +323,7 @@ step4_plot = function(tm) {
 						
 						do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
 					}
+					ll = bl$lid
 				}
 				
 			}
