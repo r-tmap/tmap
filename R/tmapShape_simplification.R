@@ -20,10 +20,14 @@ downsample_stars <- function(x, max.raster) {
 downsample_SpatRaster = function(x, max.raster) {
 	xy_dim = dim(x)[1:2]
 	
-	y = if (prod(xy_dim) > max.raster) {
+	downsample = prod(xy_dim) > max.raster
+	
+	y = if (downsample) {
 		spatSample(x, max.raster, method="regular", as.raster=TRUE)
 	} else x
 	
-	message("SpatRaster object downsampled to ", paste(dim(y)[1:2], collapse = " by "), " cells.")
+	
+	if (downsample) message("SpatRaster object downsampled to ", paste(dim(y)[1:2], collapse = " by "), " cells.")
+	
 	y
 }

@@ -276,12 +276,12 @@ step4_plot = function(tm) {
 		do.call(FUNaux_prep, list(a = a$args, b = db$bbox, o = o))
 	}
 	
-	ll = 0L # last layer that is plotted: needed to mix data- and aux-layers
 
 	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = integer(1))
 	
 	for (i in seq_len(nrow(d))) {
- 		bbx = d$bbox[[i]]
+		ll = 0L # last layer that is plotted: needed to mix data- and aux-layers
+		bbx = d$bbox[[i]]
  		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o)) 
  		if (!is.na(d$asp[i])) {
  			do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
@@ -297,9 +297,6 @@ step4_plot = function(tm) {
 					if (bl$lid > (ll + 1L)) {
 						for (j in (ll + 1L):(bl$lid - 1L)) {
 							aj = which(aux_lid == j)
-							print(j)
-							print(aj)
-							print("--")
 							stopifnot(length(aj) > 0L)
 
 							a = aux[[aj]]							
@@ -328,9 +325,22 @@ step4_plot = function(tm) {
 				
 			}
  		}
+		if (any(aux_lid > ll)) {
+			for (j in aux_lid[aux_lid > ll]) {
+				aj = which(aux_lid == j)
+				a = aux[[aj]]							
+				FUNaux_plot = paste0("tmap", gs, a$mapping.fun)
+				id = paste0("aux", sprintf("%03d", aj))
+				do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
+			}	
+			ll = j
+		}
+		
  		do.call(FUNoverlay, list(facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 	}
 
+	
+	
 	toC = function(x) {
 		paste(x, collapse = "_")
 	}

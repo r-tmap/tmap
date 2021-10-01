@@ -98,8 +98,6 @@ step1_rearrange = function(tmel) {
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
 	
-	print(str(tmo,1))
-	
 	list(tmo = tmo, aux = aux, meta = opt)
 }
 
