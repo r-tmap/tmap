@@ -2,8 +2,8 @@
 % Please edit documentation in R/shiny.R
 \name{renderTmap}
 \alias{renderTmap}
-\alias{tmapProxy}
 \alias{tmapOutput}
+\alias{tmapProxy}
 \alias{tm_remove_layer}
 \title{Wrapper functions for using tmap in shiny}
 \usage{
