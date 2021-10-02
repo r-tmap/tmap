@@ -51,12 +51,18 @@ step1_rearrange = function(tmel) {
 		structure(list(tms = tmg[[1]], tmls = tmls, tmf = tmf), class = c("tmapGroup", "list"))
 	}, tmel_spl, lay_id_spl, SIMPLIFY = FALSE)
 	
-	is_aux = sapply(oth, inherits, "tm_aux_layer")
 	
-	aux = mapply(function(l, i) {
-		l$lid = i
-		l
-	}, oth[is_aux], oth_lay_id[is_aux], SIMPLIFY = FALSE)
+	is_aux = vapply(oth, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
+	
+	if (any(is_aux)) {
+		aux = mapply(function(l, i) {
+			l$lid = i
+			l
+		}, oth[is_aux], oth_lay_id[is_aux], SIMPLIFY = FALSE)
+	} else {
+		aux = list()
+	}
+	
 	
 	# ## estimate number of facets
 	# lapply(tmo, function(tmg) {
