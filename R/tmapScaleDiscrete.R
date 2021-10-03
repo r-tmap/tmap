@@ -87,7 +87,7 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, contrast = values.contrast, rep = values.repeat))
+		VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, contrast = values.contrast, scale = values.scale, rep = values.repeat))
 		
 		vvalues = VV$vvalues
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral

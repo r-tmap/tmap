@@ -16,7 +16,11 @@ tmapGridBasemapPrep = function(a, bs, o) {
 	
 	
 	crs = sf::st_crs(bs[[1]])
-	if (sf::st_is_longlat(crs)) {
+	
+	isproj = !sf::st_is_longlat(crs)
+	
+	if (isproj) {
+		bs_orig = bs
 		bs = lapply(bs, function(b) {
 			sf::st_bbox(sf::st_transform(sf::st_as_sfc(b), crs = "EPSG:4326"))
 		})
@@ -42,17 +46,31 @@ tmapGridBasemapPrep = function(a, bs, o) {
 		})
 	}, bs, zs, SIMPLIFY = FALSE)
 
+	if (isproj) xs = mapply(function(x,b) {
+		ex = terra::ext(as.vector(b[c(1,3,2,4)]))
+		asp = (ex[2] - ex[1]) / (ex[4] - ex[3])
+		
+		tot = terra::ncell(x) * 2
+		
+		nc = round(sqrt(tot * asp))
+		nr = round(tot / nc)
+
+		r = terra::rast(ex, nrows = nr, ncols = nc, crs = crs$wkt)
+		terra::project(x, r, method = "near")
+	}, xs, bs_orig, SIMPLIFY = FALSE)
+	
+	
 	ss = lapply(xs, function(x) {
 		if (is.null(x)) NULL else do.call(tmapShape, list(shp = x, is.main = FALSE, crs = crs, bbox = NULL, unit=NULL, filter=NULL, shp_name = "x", o = o))
 	})
 	
-	srgb = tm_scale_rgb(maxValue = 255)
+	srgb = tm_scale_rgb(maxValue = 255, value.na = "#FFFFFF")
 	
 	
 	ds = lapply(ss, function(s) {
 		if (is.null(s)) return(NULL)
 		d = s$dt
-		d[, c("col", "ord", "legnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), opt = o, aes = "fill", layer = "raster", sortRev = NA))]
+		d[, c("col", "ord", "legnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), opt = o, aes = "col", layer = "raster", sortRev = NA))]
 		d[, col_alpha:=1L]
 		d
 	})

@@ -1,7 +1,13 @@
 .defaultTmapOptions <- structure(
 	list(
 		modes = list(plot = list(name = "Grid"),
-					 view = list(name = "Leaflet", crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), max.facets = 16, view.legend.position = c("right", "top"), control.position = c("left", "top"), leaflet.options = list())),
+					 view = list(name = "Leaflet", 
+					 			crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), 
+					 			max.facets = 16, 
+					 			view.legend.position = c("right", "top"), 
+					 			control.position = c("left", "top"), 
+					 			basemaps = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
+					 			leaflet.options = list())),
 		
 		crs = NA,
 		max.facets = 64,
@@ -192,8 +198,8 @@
 		attr.outside.size = NA,
 		attr.position = c("right", "bottom"),
 		attr.just = c("left", "bottom"),
-		basemaps = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
-		basemaps.alpha = c(1, 1, 1),
+		basemaps = FALSE,
+		basemaps.alpha = 1,
 		overlays = NULL,
 		overlays.alpha = 1,
 		qtm.scalebar = TRUE,

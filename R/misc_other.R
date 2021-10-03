@@ -127,3 +127,26 @@ col2hex <- function(x) {
 }
 
 
+
+# get aspect ratio of a shape
+get_asp_ratio = function (x)  {
+	bbx = sf::st_bbox(x)
+	crs = sf::st_crs(x)
+	
+	ll = sf::st_is_longlat(crs)
+	
+	xlim = bbx[c(1, 3)]
+	ylim = bbx[c(2, 4)]
+	asp = if (diff(xlim) == 0 || diff(ylim) == 0) {
+		1
+	}
+	else unname((diff(xlim)/diff(ylim)) * ifelse(ll,cos((mean(ylim) * pi)/180), 1))
+	asp
+}
+
+# get aspect ratios of a list of bounding boxes
+get_asp = function(bbxl) {
+	vapply(bbxl, function(bbxi) {
+		if (is.na(bbxi)) as.numeric(NA) else get_asp_ratio(bbxi)
+	}, FUN.VALUE = numeric(1))
+}

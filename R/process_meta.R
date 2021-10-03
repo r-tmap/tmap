@@ -1,4 +1,4 @@
-preprocess_meta = function(o) {
+preprocess_meta = function(o, legs) {
 	within(o, {
 		nby = get_nby(fl)
 		isdef = sapply(fl, is.character)
@@ -7,17 +7,39 @@ preprocess_meta = function(o) {
 										    ifelse(is.wrap || (n == 1), "wrap", "xtab"))
 		
 		inner.margins = get_option_class(inner.margins, class = main_class)
-		
+
+		# legend.present.auto:
+		#   find out whether there are legends for all facets, per row, per col
+		#   use them to automatically determine meta.margins (in preprocess_meta)
+		# # legend.present.fix
+		#	find legend boxes that are assigned to outer margins
+		if (nrow(legs) == 0) {
+			legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE)
+			legend.present.fix = rep(FALSE, 4)
+		} else {
+			if (is.wrap) {
+				#o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & legs$class == "auto"), per_col = FALSE)
+				legend.present.auto = c(all = any(legs$class == "auto"), per_row = FALSE, per_col = FALSE)
+			} else {
+				legend.present.auto = c(all = any(is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"))
+			}
+			legend.present.fix = c(any(legs$class == "out" & legs$v == "bottom"), 
+								   any(legs$class == "out" & legs$h == "left"),
+								   any(legs$class == "out" & legs$v == "top"),
+								   any(legs$class == "out" & legs$h == "right"))
+		}
 	})
-	
 }
 
-process_meta = function(o) {
+process_meta = function(o, d) {
 	within(o, {
+		# sasp shape aspect ratio (NA if free coordinates)
+		diff_asp = any(d$asp != d$asp[1])
+		sasp = ifelse(diff_asp, NA, d$asp[1])
 		
+		# dasp device aspect ratio
 		devsize = dev.size()
 		dasp = devsize[1] / devsize[2]
-		
 		
 		# needed for spnc viewport (to retain aspect ratio)
 		if (dasp > 1) {
@@ -82,7 +104,7 @@ process_meta = function(o) {
 		
 		
 		
-		# prefered aspect ratio (just for this function): if asp is defined (not 0 or NA), use that, otherwise use sasp (shape asp) if available (if not; 1)
+		# preferred aspect ratio (just for this function): if asp is defined (not 0 or NA), use that, otherwise use sasp (shape asp) if available (if not; 1)
 		pasp = if (is.na(sasp)) {
 			if (!is.na(asp) && asp > 0) {
 				asp

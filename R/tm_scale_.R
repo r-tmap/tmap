@@ -17,6 +17,7 @@ tm_scale_ordinal = function(n.max = 20,
 							values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 							values.repeat = FALSE,
 							values.contrast  = 1,
+							values.scale = 1,
 							value.na = NA, # value for NA
 							value.null = NA, # value for NULL (needed?)
 							value.neutral = NA, # value for neutral (used in other legends)
@@ -35,6 +36,7 @@ tm_scale_categorical = function(n.max = 20,
 								values = NA, # e.g. palette, shape numbers, set of sizes (if two values are specified they are interpret as range)
 								values.repeat = TRUE,
 								values.contrast  = NA,
+								values.scale = 1,
 								value.na = NA, # value for NA
 								value.null = NA, # value for NULL (needed?)
 								value.neutral = NA, # value for neutral (used in other legends)
@@ -57,6 +59,7 @@ tm_scale_intervals = function(n = 5,
 							  values = NA,
 							  values.repeat = FALSE,
 							  values.contrast  = NA,
+							  values.scale = 1,
 							  value.na = NA,
 							  value.null = NA,
 							  value.neutral = NA,
@@ -73,6 +76,7 @@ tm_scale_discrete = function(ticks = NA,
 							 values = NA,
 							 values.repeat = FALSE,
 							 values.contrast  = NA,
+							 values.scale = 1,
 							 value.na = NA,
 							 value.null = NA,
 							 value.neutral = NA,
@@ -104,6 +108,7 @@ tm_scale_continuous = function(n = 5,
 							   values = NA,
 							   values.repeat = FALSE,
 							   values.contrast  = NA,
+							   values.scale = 1,
 							   value.na = NA,
 							   value.null = NA,
 							   value.neutral = NA,
@@ -116,7 +121,8 @@ tm_scale_continuous = function(n = 5,
 
 
 #' @export
-tm_scale_rgb = function(maxValue = 255) {
+tm_scale_rgb = function(value.na = NA,
+						maxValue = 255) {
 	structure(c(list(FUN = "tmapScaleRGB"), as.list(environment())), class = c("tm_scale_rgb", "tm_scale", "list"))
 }
 

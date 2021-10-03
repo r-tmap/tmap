@@ -1,5 +1,3 @@
-
-
 step4_plot = function(tm) {
 	tmx = tm$tmo
 	o = tm$meta
@@ -8,34 +6,13 @@ step4_plot = function(tm) {
 	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
 	
-
+	# get legends from layer data
 	legs = step4_plot_collect_legends(tmx)
 	
-	# legend.present.auto:
-	#   find out whether there are legends for all facets, per row, per col
-	#   use them to automatically determine meta.margins (in preprocess_meta)
-	# # legend.present.fix
-	#	find legend boxes that are assigned to outer margins
-	if (nrow(legs) == 0) {
-		o$legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE)
-		o$legend.present.fix = rep(FALSE, 4)
-	} else {
-		if (o$is.wrap) {
-			#o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & legs$class == "auto"), per_col = FALSE)
-			o$legend.present.auto = c(all = any(legs$class == "auto"), per_row = FALSE, per_col = FALSE)
-		} else {
-			o$legend.present.auto = c(all = any(is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"))
-		}
-		o$legend.present.fix = c(any(legs$class == "out" & legs$v == "bottom"), 
-								 any(legs$class == "out" & legs$h == "left"),
-								 any(legs$class == "out" & legs$v == "top"),
-								 any(legs$class == "out" & legs$h == "right"))
-	}
+	# determine panel type, inner margins, and automatic legend placement
+	o = preprocess_meta(o, legs)
 	
-	
-	
-	o = preprocess_meta(o)
-	
+	# function to get shape object
 	get_shpTM = function(shpDT, by1, by2, by3) {
 		b = list(by1, by2, by3)
 		bynames = intersect(names(shpDT), paste0("by", 1:3, "__"))
@@ -50,7 +27,7 @@ step4_plot = function(tm) {
 		shpDT$shpTM[which(sel)]
 	}
 	
-	
+	# function to subset data
 	get_dt = function(dt, by1, by2, by3) {
 		b = list(by1, by2, by3)
 		bynames = intersect(names(dt), paste0("by", 1:3, "__"))
@@ -65,16 +42,7 @@ step4_plot = function(tm) {
 		dt[which(sel),]
 	}
 	
-	tmain = tmx[[o$main]][[1]]
-	
-	
-	d = data.table::data.table(do.call(expand.grid, lapply(structure(o$nby, names = c("by1", "by2", "by3")), seq_len)))
-	d[, i := seq_len(nrow(d))]
-	
-
-	grps = c("by1", "by2", "by3")[o$free.coords]
-	
-
+	# function to get bbox per facet
 	get_bbox = function(by1, by2, by3) {
 		bbxs = lapply(tmain, function(tmi) {
 			shpTM = get_shpTM(tmi$shpDT, by1, by2, by3)
@@ -85,27 +53,22 @@ step4_plot = function(tm) {
 		})
 		list(list(bb_ext(stm_merge_bbox(bbxs), o$inner.margins)))
 	}
-	get_asp = function(bbxl) {
-		vapply(bbxl, function(bbxi) {
-			if (is.na(bbxi)) as.numeric(NA) else get_asp_ratio(bbxi)
-		}, FUN.VALUE = numeric(1))
-	}
-
-		
+	
+	# main group (that determines bounding box)
+	tmain = tmx[[o$main]][[1]]
+	
+	# create table with meta data for the facets (row, col id, bbox, asp)
+	d = data.table::data.table(do.call(expand.grid, lapply(structure(o$nby, names = c("by1", "by2", "by3")), seq_len)))
+	d[, i := seq_len(nrow(d))]
+	grps = c("by1", "by2", "by3")[o$free.coords]
 	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 	d[, asp:=get_asp(bbox)]
 	
-	#o$asp
-	
-	
-	
-	diff_asp = any(d$asp != d$asp[1])
-	o$sasp = ifelse(diff_asp, NA, d$asp[1])
-
-	o = process_meta(o)
-
+	# calculate margins, number of rows and colums, etc.
+	o = process_meta(o, d)
 	o$ng = length(tmx)
 
+	# determine row and col ids	
 	if (o$panel.type == "xtab") {
 		d[, row := as.integer((i - 1) %% o$nrows + 1)]
 		d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
@@ -117,7 +80,7 @@ step4_plot = function(tm) {
 	}
 	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 	
-	
+	# prepare function names
 	FUNinit = paste0("tmap", gs, "Init")
 	FUNrun = paste0("tmap", gs, "Run")
 	FUNshape = paste0("tmap", gs, "Shape")
@@ -125,9 +88,10 @@ step4_plot = function(tm) {
 	FUNwrap = paste0("tmap", gs, "Wrap")
 	FUNxtab = paste0("tmap", gs, "Xtab")
 	
+	# init
 	do.call(FUNinit, list(o = o))
 	
-
+	# plot xtab headers
 	if (o$panel.type == "xtab") {
 		for (k in 1:o$npages) {
 			labrows = o$panel.labels[[1]]
@@ -139,7 +103,7 @@ step4_plot = function(tm) {
 	}
 	
 	## prepare aux layers
-	# find unique bboxes
+	# create table with bounding boxes (the only important property, apart from settings)
 	db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
 	db[, i:=1L:nrow(db)]
 	d[, bi:=db$i[match(d$bbox, db$bbox)]]
@@ -148,7 +112,7 @@ step4_plot = function(tm) {
 		do.call(FUNaux_prep, list(a = a$args, b = db$bbox, o = o))
 	}
 	
-
+	# find lid (layer plot id values) for aux layers
 	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = integer(1))
 	
 	for (i in seq_len(nrow(d))) {

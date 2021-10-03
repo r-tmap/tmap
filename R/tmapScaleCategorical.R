@@ -66,7 +66,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
 		
 		fun_getCVV = paste0("tmapValuesCVV_", aes)
-		VV = do.call(fun_getCVV, list(x = values, n = n, contrast = values.contrast, rep = values.repeat))
+		VV = do.call(fun_getCVV, list(x = values, n = n, contrast = values.contrast, scale = values.scale, rep = values.repeat))
 	
 		values = VV$vvalues
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral

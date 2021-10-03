@@ -19,7 +19,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 	val = aes$value
 	
 	with(q, {
-		if (inherits(val, "tmapOption")) val = getAesOption(val[[1]], o, aes = aes$aes, layer = layer)
+		if (inherits(val, "tmapOption")) val = getAesOption(val[[1]], o, aes = nm, layer = layer)
 		
 		get_num_facets = function(bys) {
 			k = as.integer(substr(bys, 3, 3))
@@ -73,7 +73,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 			if (any(!dtl$sel__) || !q$drop.units) {
 				# also needed for drop.units later on
 				cls = data_class(dtl[[nm]])
-				value.null = getAesOption("value.null", o, aes$aes, layer, cls = cls)
+				value.null = getAesOption("value.null", o, unm, layer, cls = cls)
 				
 				# todo: combine these:
 				dtl[sel__==FALSE, (nm) := value.null]
@@ -194,9 +194,9 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 				if (is.na(l$title)) l$title = paste0(v, attr(cls, "units"))
 				#aesname = aes$aes
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
-					getAesOption("value.null", o, aes$aes, layer, cls = cls)
+					getAesOption("value.null", o, unm, layer, cls = cls)
 				}
-				arglist = list(scale = s, legend = l, opt = o, aes = aes$aes, layer = layer, sortRev = sortRev)
+				arglist = list(scale = s, legend = l, opt = o, aes = unm, layer = layer, sortRev = sortRev)
 				#browser()
 				if (!all(dtl$sel__)) {
 					dtl[, c(varname, ordname, legname) := list(value.null, -1L, 0L)]
