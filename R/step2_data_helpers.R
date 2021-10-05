@@ -234,17 +234,20 @@ get_tmf = function(tmfs) {
 cbind_dts = function(dts, plot.order) {
 	if (!length(dts)) return(list())
 	
+	bypass_ord = plot.order$aes == "NULL"
+	
 	
 	id = which.max(vapply(dts, ncol, FUN.VALUE = integer(1))) # data.table with the most group-by columns (others are joined)
 	
 	dt = dts[[id]]
 	
-	
+	dev = getOption("tmap.devel.mode")
+
 	if (length(dts) > 1L) {
 		for (i in setdiff(seq_along(dts), id)) {
 			dti = dts[[i]]
 			
-			id_cols = ncol(dti) - 2L #minus one aes and one ord
+			id_cols = ncol(dti) - 1L - as.integer(!bypass_ord) #minus one aes and one ord
 			id_nams = names(dti)[seq.int(id_cols)]
 			
 			#dt = dt[dti, on = names(dti)[1L:(ncol(dti)-2L)]]
@@ -252,26 +255,36 @@ cbind_dts = function(dts, plot.order) {
 		}
 	}
 	
+
 	
 	ord_cols = which(subStr(names(dt), -5) == "__ord")
-	m = as.matrix(dt[, ord_cols, with = FALSE])
+	#m = as.matrix(dt[, ord_cols, with = FALSE])
+	
+	
+	#dt[, ord_cols, with = FALSE][, ]
+	
+	if (!bypass_ord) {
+		dt_rep = function(old, new) {
+			dt[, (ord_cols) := replace(.SD, .SD == old, new), .SDcols = ord_cols]
+		}
+		
 
-	if (plot.order$na.order == "mix") m[m==0L] = 1L
-	if (plot.order$null.order == "mix") m[m==-1L] = 1L
-	
-	if (!plot.order$null.below.na) {
-		if (plot.order$na.order == "top") m[m==0L] = 2147483646L else m[m==0L] = -2L
-		if (plot.order$null.order == "top") m[m==-1L] = 2147483647L
-	} else {
-		if (plot.order$na.order == "top") m[m==0L] = 2147483647L
-		if (plot.order$null.order == "top") m[m==-1L] = 2147483646L
+		if (plot.order$na.order == "mix") dt_rep(0L, 1L)
+		if (plot.order$null.order == "mix") dt_rep(-1L, 1L)
+		
+		if (!plot.order$null.below.na) {
+			if (plot.order$na.order == "top") dt_rep(0L, 2147483646L) else dt_rep(0L, -2L)
+			if (plot.order$null.order == "top") dt_rep(-1L, 2147483647L)
+		} else {
+			if (plot.order$na.order == "top") dt_rep(0L, 2147483647L)
+			if (plot.order$null.order == "top") dt_rep(-1L, 2147483646L)
+		}
+
+		dt[, ord__ := do.call(pmin, .SD), .SDcols = ord_cols]
+		dt[ord__ > 0L, ord__ := do.call(pmax, .SD), .SDcols = ord_cols]
+		dt[, (ord_cols) := NULL]
 	}
-	
-	dt[, (ord_cols) := NULL]
-	
-	dt$ord__ = apply(m, MARGIN = 1, FUN = function(x) {
-		if (any(x <= 0L)) min(x) else max(x)
-	})
+
 	
 	dt
 }

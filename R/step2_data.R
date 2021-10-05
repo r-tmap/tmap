@@ -15,9 +15,9 @@ step2_data = function(tm) {
 	legends_init()
 	
 	grps = lapply(tmo, function(tmg) {
-		if (dev) timing_add(s2 = "group")
 		
 		dt = tmg$tms$dt
+		shpvars = tmg$tms$attrcols
 		
 		# step2_data_grp_prepare
 		tmf_meta = step2_data_grp_prepare(tmg$tmf, dt)
@@ -25,7 +25,6 @@ step2_data = function(tm) {
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {
 			#cat("step2_grp_lyr======================\n")
-			if (dev) timing_add(s3 = paste0("layer ", tml$layer))
 			
 			gp = tml$gpar
 			tp = tml$tpar
@@ -34,17 +33,19 @@ step2_data = function(tm) {
 			
 			#cat("step2_grp_lyr_trans_______________\n")
 			
-			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf_meta, o = meta, dt = dt, layer = tml$layer, plot.order = plot.order))
+			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf_meta, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
 			
 			#cat("step2_grp_lyr_mapping_____________\n")
 			
-			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf_meta, o = meta, dt = dt, layer = tml$layer, plot.order = plot.order))
-			
+			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf_meta, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
+
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt), plot.order)
 			trans_legend = lapply(trans, function(x) x$leg)
 			
 			dts_mapping = cbind_dts(lapply(mapping, function(x) x$dt), plot.order)
 			mapping_legend = lapply(mapping, function(x) x$leg)
+			if (dev) timing_add(s4 = "combine")
+			if (dev) timing_add(s3 = paste0("layer ", tml$layer))
 			
 			list(trans_dt = dts_trans, 
 				 trans_legend = trans_legend, 
@@ -62,6 +63,8 @@ step2_data = function(tm) {
 		names(lrs) = layernames
 		
 		shpDT = data.table(shpTM = list(tmg$tms$shpTM))
+		if (dev) timing_add(s2 = "group")
+		
 		list(layers = lrs, shpDT = shpDT)
 	})
 	names(grps) = groupnames

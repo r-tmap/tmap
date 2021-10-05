@@ -1,5 +1,11 @@
+#' @export
 tm_const = function() {
 	tmapOption("value.const")
+}
+
+#' @export
+tm_shape_vars = function() {
+	structure(list(), class = c("tm_shape_vars", "list"))
 }
 
 #' @export

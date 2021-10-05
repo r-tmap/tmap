@@ -246,8 +246,10 @@ tm_balloons = function(col = tm_const(),
 }
 
 
+
+
 #' @export
-tm_raster = function(col = tm_const(),
+tm_raster = function(col = tm_shape_vars(),
 					 col.scale = tm_scale(),
 					 col.legend = tm_legend_portrait(),
 					 col.free = NA,

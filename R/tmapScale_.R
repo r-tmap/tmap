@@ -5,6 +5,7 @@ tm_mv = function(...) {
 
 tmapVars = function(x) {
 	if (inherits(x, "tmapOption")) return(x)
+	if (inherits(x, "tm_shape_vars")) return(structure(list(), class = "tmapShpVars"))
 	isL = is.list(x)
 	if (!isL) x = as.list(x)
 	structure(x, class = "tmapVars")
@@ -12,9 +13,14 @@ tmapVars = function(x) {
 format_aes_results = function(values, ord, legend) {
 	legnr = vector(mode = "integer", length = length(values))
 	legnr[1] = legend_save(legend)
-	list(values = values,
-		 ord = ord,
-		 legnr = legnr)
+	if (is.null(ord)) {
+		list(values = values,
+			 legnr = legnr)	
+	} else {
+		list(values = values,
+			 ord = ord,
+			 legnr = legnr)
+	}
 }
 
 

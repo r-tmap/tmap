@@ -92,6 +92,11 @@ tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 #' @method tmapShape stars
 #' @export
 tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
+	dev = getOption("tmap.devel.mode")
+	
+	if (dev) cat("-- stars object:", shp_name, "--\n")
+		
+	
 	if (!has_raster(shp)) {
 		dimnms = dimnames(shp)
 		
@@ -105,19 +110,20 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 			geoms = dimvals[[dimid]]
 			dimnms_new = dimnms
 			dimnms_new[dimid] = "tmapID__"
+			dimcols = dimnms_new[-dimid] # columns names, used for default facetting
 			shpnames = names(shp)
 			shp = stars::st_set_dimensions(shp, dimnms[dimid], values = 1L:length(geoms))
 			shp = stars::st_set_dimensions(shp, names = dimnms_new)
 		}
 		
 		dt = as.data.table(shp)
+		attrcols = setdiff(names(dt), c("tmapID__", dimcols))
 		
 		if (!is.null(crs) && sf::st_crs(geoms) != crs) {
 			shp = sf::st_transform(shp, crs)
 		} else {
 			shp = geoms
 		}
-		
 		shpclass = "sfc"
 	} else {
 		shp = downsample_stars(shp, max.raster = o$max.raster)
@@ -131,21 +137,34 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 		dim_xy = get_xy_dim(shp)
 		dimsxy = dims[names(dim_xy)]
 		
-		shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = {if (dimsxy[[1]]$delta > 0)  1L:nrow(shp) else nrow(shp):1L})
-		shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = {if (dimsxy[[2]]$delta < 0)  1L:ncol(shp) else ncol(shp):1L})
+		if (rst$curvilinear) {
+			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
+			shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
+			attr(attr(shp3, "dimensions"), "raster")$curvilinear = FALSE
+		} else {
+			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = {if (dimsxy[[1]]$delta > 0)  1L:nrow(shp) else nrow(shp):1L})
+			shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = {if (dimsxy[[2]]$delta < 0)  1L:ncol(shp) else ncol(shp):1L})
+		}
+		
 
 		#shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
 		#shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
 		
-				
-		dt = as.data.table(shp3, center = FALSE)
+		dimcols = setdiff(names(dim(shp3)), names(dim_xy))
+		dimvls = lapply(dimcols, function(d) stars::st_get_dimension_values(shp3, d))		
 		
+		
+		dt = as.data.table(shp3, center = FALSE)
+
 		setnames(dt, names(dim_xy)[1], "X__")
 		setnames(dt, names(dim_xy)[2], "Y__")
 		
 		dt[, tmapID__ := as.integer((Y__-1) * nrow(shp) + X__)]
 		dt[, X__:= NULL]
 		dt[, Y__:= NULL]
+		
+		attrcols = setdiff(names(dt), c("tmapID__", dimcols))
+		attrvls = lapply(attrcols, function(a) {if (is.factor(dt[[a]])) levels(dt[[a]]) else NA})
 		
 		data.table::setorder(dt, cols = "tmapID__")
 		#m = matrix(NA, nrow = nrow(shp), ncol = ncol(shp))
@@ -156,6 +175,18 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 		shpclass = "stars"
 	}
 	
+	if (dev) {
+		cat("dimensions:", dimcols, "\n")
+		if (length(dimcols)) {
+			mapply(function(dc, dv) cat("values dim,", dc, ":", dv, "\n"), dimcols, dimvls, SIMPLIFY = FALSE)
+		}
+		cat("attributes:", attrcols, "\n")
+		if (length(attrcols)) {
+			lapply(attrvls, function(av) cat("attribute values:", av, "\n"))
+		}
+	}
+	
+
 	bbox = sf::st_bbox(shp)
 	
 	dtcols = setdiff(names(dt), "tmapID__")
@@ -167,7 +198,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 	
 	shpTM = list(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)))
 	
-	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
+	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, dimcols = dimcols, dimvls = dimvls, attrcols = attrcols, attrvls = attrvls, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }
 
 

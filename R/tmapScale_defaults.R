@@ -340,7 +340,7 @@ tmapValuesCVV_fill = function(x, n, contrast, scale, rep) {
 }
 
 tmapValuesCVV_col = function(x, n, contrast, scale, rep) {
-	tmapValuesCVV_fill(x, n, contrast, rep)
+	tmapValuesCVV_fill(x, n, contrast, scale, rep)
 }
 
 tmapValuesCVV_size = function(x, n, contrast, scale, rep) {

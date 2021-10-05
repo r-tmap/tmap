@@ -82,7 +82,9 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		if (is.na(na.show)) na.show = anyNA
 		
-		if (is.na(sortRev)) {
+		if (is.null(sortRev)) {
+			ids = NULL
+		} else if (is.na(sortRev)) {
 			ids[] = 1L
 		} else if (sortRev) {
 			ids = (as.integer(n) + 1L) - ids
@@ -90,7 +92,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		if (anyNA) {
 			vals[isna] = value.na
-			ids[isna] = 0L
+			if (!is.null(sortRev)) ids[isna] = 0L
 		}
 		
 		

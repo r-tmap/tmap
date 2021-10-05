@@ -1,7 +1,6 @@
-getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
+getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 	dev = getOption("tmap.devel.mode")
 	
-	if (dev) timing_add(s4 = paste0("aes ", aes$aes))
 
 	nm = aes$aes
 	nm__ord = paste0(nm, "__ord")
@@ -13,13 +12,16 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 	# 0 for NA features
 	# 1-n for features based on scale values (n for latest=plotted on top)
 	# 1 for features with non-NA value for not-selected aes
-	sortRev = if (plot.order$aes == unm) plot.order$reverse else NA
+	sortRev = if (plot.order$aes == "NULL") NULL else if (plot.order$aes == unm) plot.order$reverse else NA
 	
+	
+	bypass_ord = plot.order$aes == "NULL"
 	
 	val = aes$value
 	
 	with(q, {
 		if (inherits(val, "tmapOption")) val = getAesOption(val[[1]], o, aes = nm, layer = layer)
+		if (inherits(val, "tmapShpVars")) val = as.list(shpvars)
 		
 		get_num_facets = function(bys) {
 			k = as.integer(substr(bys, 3, 3))
@@ -38,7 +40,6 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 		
 		
 		#print(vars)
-		
 		if (!all(vars %in% names(dt))) {
 			#cat("step2_grp_lyr_aes_const\n")
 			# constant values (take first value (of possible tm_mv per facet)
@@ -68,7 +69,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 			}
 			
 			# impute null (filter argument of tm_shape) with value.null					
-			dtl[, (nm__ord) := 1L]
+			if (!bypass_ord) dtl[, (nm__ord) := 1L]
 			
 			if (any(!dtl$sel__) || !q$drop.units) {
 				# also needed for drop.units later on
@@ -77,34 +78,22 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 				
 				# todo: combine these:
 				dtl[sel__==FALSE, (nm) := value.null]
-				dtl[sel__==FALSE, (nm__ord) := -1L]
+				if (!bypass_ord) dtl[sel__==FALSE, (nm__ord) := -1L]
 				
 				if (!q$drop.units) {
-					#imp = structure(value.null, names = nm)
-					# 
-					imp = structure(list(value.null, -1L, FALSE), names = c(nm, nm__ord, "sel__"))
+
+					imp = structure(list(value.null, -1L, FALSE), names = c(nm, {if (bypass_ord) NULL else nm__ord}, "sel__"))
 					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)
 					names(levs) = grp_bv
 					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
-					# 
-					
-					
-					#dtl = completeDT(dtl, cols = c("tmapID__", grp_bv), defs = imp)
 				}
 				
 			}
-			#dtl[, sel__:= NULL]
-			
-			
+
 			dtl[, legnr := vector("integer", length = nrow(dtl))]
-			#dtl_leg = NULL
-			#sel = !vapply(dtl$legend, is.null, logical(1))
-			
+
 			
 			dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..nm), function(s) legend_save(list(vneutral = s)), FUN.VALUE = integer(1)))][, (nm) := NULL]
-			#dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legend := list(lapply(get(..nm), function(s) list(vneutral = s)))][, (nm) := NULL]
-			
-			#dtl_leg = NULL
 		} else {
 			#cat("step2_grp_lyr_aes_var\n")
 			
@@ -173,7 +162,8 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			
-			apply_scale = function(s, l, v, varname, ordname, legname, sortRev) {
+			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
+
 				# update legend defaults from options
 				tmp = names(o)[substr(names(o), 1, 6) == "legend"]
 				
@@ -199,11 +189,24 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 				arglist = list(scale = s, legend = l, opt = o, aes = unm, layer = layer, sortRev = sortRev)
 				#browser()
 				if (!all(dtl$sel__)) {
-					dtl[, c(varname, ordname, legname) := list(value.null, -1L, 0L)]
+					if (bypass_ord) {
+						dtl[, c(varname, legname) := list(value.null, 0L)]
+					} else {
+						dtl[, c(varname, ordname, legname) := list(value.null, -1L, 0L)]	
+					}
+					
 					if (is.na(value.null)) stop("value.null not specified for aesthetic ", nm, call. = FALSE)
-					dtl[sel__ == TRUE, c(varname, ordname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+					if (bypass_ord) {
+						dtl[sel__ == TRUE, c(varname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+					} else {
+						dtl[sel__ == TRUE, c(varname, ordname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+					}
 				} else {
-					dtl[, c(varname, ordname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+					if (bypass_ord) {
+						dtl[, c(varname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+					} else {
+						dtl[, c(varname, ordname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
+					}
 				}
 				
 				if (!q$drop.units) {
@@ -212,7 +215,7 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 					names(levs) = grp_bv
 					dtl = completeDT2(dtl, cols = c(list("tmapID__" = unique(dtl$tmapID__)), levs), defs = imp)
 				}
-				
+
 				dtl
 			}
 			
@@ -240,15 +243,15 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 				legnames = paste("legnr", 1L:nvars, sep = "_")
 
 				for (i in 1L:nvars) {
-					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], ordnames[[i]], legnames[[i]], sortRev = sortRev)
+					dtl = apply_scale(scale[[i]], legend[[i]], val[[i]], varnames[[i]], ordnames[[i]], legnames[[i]], sortRev = sortRev, bypass_ord = bypass_ord)
 				}
 				
 				
 				
 				dtl_leg = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = legnames, variable.name = var__, value.name = "legnr")
-				dtl_ord = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = ordnames, variable.name = var__, value.name = nm__ord)
+				if (!bypass_ord) dtl_ord = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = ordnames, variable.name = var__, value.name = nm__ord)
 				dtl = melt(dtl, id.vars = c("tmapID__", by__), measure.vars = varnames, variable.name = var__, value.name = nm)
-				dtl[, (nm__ord) := dtl_ord[[nm__ord]]]
+				if (!bypass_ord) dtl[, (nm__ord) := dtl_ord[[nm__ord]]]
 				
 				dtl[, (var__) := as.integer(get(..var__))]
 				dtl_leg[, (var__) := as.integer(get(..var__))]
@@ -278,13 +281,19 @@ getdts = function(aes, unm, p, q, o, dt, layer, plot.order) {
 					stop("incorrect legend specification")
 				}
 				
-				dtl = apply_scale(s, l, val, nm, nm__ord, "legnr", sortRev)
+				dtl = apply_scale(s, l, val, nm, nm__ord, "legnr", sortRev, bypass_ord)
 				#sel = !vapply(dtl$legend, is.null, logical(1))
 				dtl_leg = dtl[legnr != 0L, c(grp_bv_fr, "legnr"), with = FALSE]
 			}
 		}
+		if (dev) timing_add(s4 = paste0("aes ", aes$aes))
 		
-		list(dt = dtl[, c("tmapID__", grp_bv, nm, nm__ord), with = FALSE],
-			 leg = dtl_leg)
+		if (bypass_ord) {
+			list(dt = dtl[, c("tmapID__", grp_bv, nm), with = FALSE],
+				 leg = dtl_leg)
+		} else {
+			list(dt = dtl[, c("tmapID__", grp_bv, nm, nm__ord), with = FALSE],
+				 leg = dtl_leg)
+		}
 	})
 }

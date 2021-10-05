@@ -35,10 +35,40 @@ timing_add  = function(s1 = "", s2 = "", s3 = "", s4 = "") {
 timing_eval = function() {
 	ts = get("timings", envir = .TMAP)
 	
-	secs = round(as.numeric(difftime(ts$t, ts$t[1], units = "secs")), 3)
-	secs2 = c(0, secs[-1] - head(secs, -1))
 	
-	ts[, ':='(time = secs2, total = secs, t = NULL)]
 	
-	print(ts)
+	ts[, total := round(as.numeric(difftime(ts$t, ts$t[1], units = "secs")), 3)]
+	
+	
+	i1 = ts$s1 != ""
+	i2 = ts$s2 != "" | i1
+	i3 = ts$s3 != "" | i2
+	i4 = ts$s4 != "" | i3
+	
+	ts[, ':='(t1=0,t2=0,t3=0,t4=0)]
+	ts[i1, t1:= c(0, ts$total[i1][-1] - head(ts$total[i1], -1))]
+	ts[i2, t2:= c(0, ts$total[i2][-1] - head(ts$total[i2], -1))]
+	ts[i3, t3:= c(0, ts$total[i3][-1] - head(ts$total[i3], -1))]
+	ts[i4, t4:= c(0, ts$total[i4][-1] - head(ts$total[i4], -1))]
+	
+	ts[s2 == "", t2 := 0]
+	ts[s3 == "", t3 := 0]
+	ts[s4 == "", t4 := 0]
+	
+	
+	form = function(l, x) {
+		zero = (x==0)
+		y = sprintf("%.3f", x)
+		z = paste0(l, " (", y, ")")
+		z[zero] = ""
+		z
+	}
+	
+	ts[, ':='(s1=form(s1, t1),
+			  s2=form(s2, t2),
+			  s3=form(s3, t3),
+			  s4=form(s4, t4))]
+	
+	
+	print(ts[, c("s1", "s2", "s3", "s4", "total")])
 }
