@@ -93,21 +93,21 @@
     
 <p>This vignette summarizes the main changes in tmap 2.x/3.x in comparison to tmap 1.11-2, which is described in detail in the <a href="https://www.jstatsoft.org/article/view/v084i06" class="external-link">JSS paper</a>. The code of this paper for version 2.x/3.x can be found in <a href="../doc/tmap-JSS-code.html"><code>vignette("tmap-JSS-code")</code></a>.</p>
 <p>For people who are new to tmap, see <a href="../doc/tmap-getstarted.html"><code>vignette("tmap-getstarted")</code></a>.</p>
-<div id="function-renaming-tm_-and-tmap_" class="section level3">
-<h3 class="hasAnchor">
-<a href="#function-renaming-tm_-and-tmap_" class="anchor" aria-hidden="true"></a>Function renaming: tm_ and tmap_</h3>
+<div class="section level3">
+<h3 id="function-renaming-tm_-and-tmap_">Function renaming: tm_ and tmap_<a class="anchor" aria-label="anchor" href="#function-renaming-tm_-and-tmap_"></a>
+</h3>
 <p>As of version 2.0, all tmap functions have the prefix <code>tm_</code> or <code>tmap_</code>, with the exception of the function <code>qtm</code>. Just like in tmap version 1.x, the layer functions start with <code>tm_</code>. In tmap 1.x, the names of the other functions where inconsistent, e.g. <code>animation_tmap</code> and <code>tmap_arrange</code>. In tmap 2.x/3.x, these functions are prefixed with <code>tmap_</code>. For instance <code>animation_tmap</code> has been renamed to <code>tmap_animation</code>.</p>
 </div>
-<div id="spatial-data-classes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#spatial-data-classes" class="anchor" aria-hidden="true"></a>Spatial data classes</h3>
+<div class="section level3">
+<h3 id="spatial-data-classes">Spatial data classes<a class="anchor" aria-label="anchor" href="#spatial-data-classes"></a>
+</h3>
 <p>tmap 1.x uses <code>sp</code> for representing vector data, and <code>raster</code> for raster data. tmap 2.x uses <code>sf</code> for representing vector data, and <code>raster</code> for raster data. tmap 3.x uses <code>sf</code> for representing vector data, and <code>stars</code> for raster data.</p>
 <p><code>sf</code> (<strong>s</strong>imple <strong>f</strong>eatures) objects have a simpler structure than <code>sp</code> objects. An <code>sf</code> object is nothing more than a <code>data.frame</code> with a special geometry column that contains the geometries for the corresponding rows. Such a geometry can be of type spatial point(s), line(s) or polygon(s) or any combination of these in a ‘geometrycollection’ (see <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html" class="external-link"><code>vignette("sf1")</code></a>). The layers functions, such as <code>tm_polygons</code>, will only draw what they are supposed to draw (in this case polygons). The newly added layer function <code>tm_sf</code> will draw all geometries.</p>
 <p>Finally, all data objects in <code>tmap</code> (except <code>land</code>) have been transformed into <code>sf</code> objects. The object <code>land</code> has been transformed into a <code>stars</code> object.</p>
 </div>
-<div id="tm_tiles" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tm_tiles" class="anchor" aria-hidden="true"></a>tm_tiles</h3>
+<div class="section level3">
+<h3 id="tm_tiles">tm_tiles<a class="anchor" aria-label="anchor" href="#tm_tiles"></a>
+</h3>
 <p>Layer functions have been added to facilitate tile layers. In version 1.x, it was already possible to add basemaps. In version 2.0, this is facilitated by the explicit layer functions <code>tm_basemap</code> and <code>tm_tiles</code>. The former creates a basemap tile and the latter an overlay tile. The difference is that <code>tm_basemap</code> layers are always drawn at the bottom, whereas the plotting order of (overlay) <code>tm_tiles</code> layers is derived from the plot call. Overlay layers should be semi-transparent to be useful.</p>
 <p>Tip: all tilemaps from <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link uri">https://leaflet-extras.github.io/leaflet-providers/preview/</a> can be used. The names of these maps can also be found in the list object <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">leaflet::providers</a></code>.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -122,9 +122,9 @@
     <span class="fu"><a href="../reference/tm_symbols.html">tm_dots</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span>, group <span class="op">=</span> <span class="st">"Metropolitan areas"</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_tiles_labels.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 </div>
-<div id="tmap-options-styles-and-formats" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tmap-options-styles-and-formats" class="anchor" aria-hidden="true"></a>tmap options, styles, and formats</h3>
+<div class="section level3">
+<h3 id="tmap-options-styles-and-formats">tmap options, styles, and formats<a class="anchor" aria-label="anchor" href="#tmap-options-styles-and-formats"></a>
+</h3>
 <p>There are many options in tmap. In version 1.x, the default values were stored in <code>tm_layout</code> and <code>tm_view</code>. Wrapper functions like <code>tm_style_gray</code> and <code>tm_format_World</code> where used to change these options.</p>
 <p>In version 2.0, the options are stored in a similar fashion to the global options. A list of tmap options can be retrieved and options can be set with the function <code>tmap_options</code>. Its behavior is similar to the base function <code>options</code>.</p>
 <p>A style is a configuration of the options used to style a map in a specific way. When set with <code>tmap_style</code>, the current options are overwritten according to the new style. The changes can be seen with <code>tmap_options_diff</code> and can be reset with <code>tmap_options_reset</code>.</p>
@@ -182,9 +182,9 @@
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># or: qtm(World, fill = "HPI", format = "panorama")</span></code></pre></div>
 </div>
-<div id="color-palettes" class="section level3">
-<h3 class="hasAnchor">
-<a href="#color-palettes" class="anchor" aria-hidden="true"></a>color palettes</h3>
+<div class="section level3">
+<h3 id="color-palettes">color palettes<a class="anchor" aria-label="anchor" href="#color-palettes"></a>
+</h3>
 <p>Viridis palettes (from the <code>viridis</code>/<code>viridisLite</code> package) are supported natively. E.g. <code>qtm(World, "HPI", fill.palette = "-plasma")</code>. Notice that, like with the color brewer palette names, a minus sign will reverse the palette. See <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code> to explore the color brewer and viridis palettes interactively.</p>
 <p>The arguments that define the color palette mapping has been made more intuitive. The newly added layer function arguments <code>midpoint</code> and <code>stretch.palette</code> replace <code>auto.palette.mapping</code>:</p>
 <ul>
@@ -193,9 +193,9 @@
 <li>Sequential palettes. Nothing has changed for sequential palettes. When <code>midpoint</code> has been specified, the palette is regarded as a diverging palette, with the middle color interpreted as the neutral color.</li>
 </ul>
 </div>
-<div id="filter-difference-between-na-and-null" class="section level3">
-<h3 class="hasAnchor">
-<a href="#filter-difference-between-na-and-null" class="anchor" aria-hidden="true"></a>filter, difference between NA and NULL</h3>
+<div class="section level3">
+<h3 id="filter-difference-between-na-and-null">filter, difference between NA and NULL<a class="anchor" aria-label="anchor" href="#filter-difference-between-na-and-null"></a>
+</h3>
 <p>The argument filter has been added to <code>tm_shape</code>. Features that are included will be visualized as usual. Excluded features will still be visualized but without color being mapped. Instead, they will be colored with <code>colorNULL</code>, a new argument of the layer functions. Note the difference with <code>colorNA</code>, which is used to color features with missing data.</p>
 <p>To show the potiential of this filter the following code chunk creates a map in which only European countries are colored:</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
@@ -222,7 +222,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>

@@ -93,12 +93,16 @@
     
 <p>With the tmap package, thematic maps can be generated with great flexibility. The syntax for creating plots is similar to that of <code>ggplot2</code>, but tailored to maps. This vignette is for those who want to get started with tmap within a couple of minutes. A more detailed description of tmap can be found in an <a href="https://www.jstatsoft.org/article/view/v084i06" class="external-link">article</a> published in the Journal of Statistical Software (<a href="https://www.jstatsoft.org/index" class="external-link">JSS</a>). However, that article describes tmap version 1.11-2, which is out-of-date. Some major changes have been made since then, which are described in <a href="../doc/tmap-changes.html"><code>vignette("tmap-changes")</code></a>.</p>
 <p>For more context on R’s geographic capabilities we recommend the online version of the book <a href="https://geocompr.robinlovelace.net/" class="external-link">Geocomputation with R</a>. The <a href="https://geocompr.robinlovelace.net/adv-map.html" class="external-link">Making maps with R</a> chapter of the book provides many more context and abundant code examples of map making with <code>tmap</code> and other packages. Other good resources are the vignettes of the <a href="https://CRAN.R-project.org/package=sf/vignettes/sf1.html" class="external-link"><code>sf</code> package</a>, and the website <a href="https://www.rspatial.org/" class="external-link">rspatial.org</a> .</p>
-<div id="hello-world" class="section level3">
-<h3 class="hasAnchor">
-<a href="#hello-world" class="anchor" aria-hidden="true"></a>Hello World!</h3>
+<div class="section level3">
+<h3 id="hello-world">Hello World!<a class="anchor" aria-label="anchor" href="#hello-world"></a>
+</h3>
 <p>A good place to start is to create a map of the world. After <a href="https://github.com/r-tmap/tmap#installation" class="external-link">installing</a> tmap, the following lines of code should create the map shown below:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/r-tmap/tmap" class="external-link">tmap</a></span><span class="op">)</span>
+<span class="co">## Registered S3 methods overwritten by 'stars':</span>
+<span class="co">##   method             from</span>
+<span class="co">##   st_bbox.SpatRaster sf  </span>
+<span class="co">##   st_crs.SpatRaster  sf</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span>
 
 <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
@@ -106,9 +110,9 @@
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-2-1.png" width="576"></p>
 <p>The object <code>World</code> is a spatial object of class <code>sf</code> from the <a href="https://CRAN.R-project.org/package=sf" class="external-link">sf package</a>; it is a <code>data.frame</code> with a special column that contains a geometry for each row, in this case polygons. In order to plot it in tmap, you first need to specify it with <code>tm_shape</code>. Layers can be added with the <code>+</code> operator, in this case <code>tm_polygons</code>. There are many layer functions in tmap, which can easily be found in the documentation by their <code>tm_</code> prefix. See also <code><a href="../reference/tmap-element.html">?'tmap-element'</a></code>.</p>
 </div>
-<div id="interactive-maps" class="section level3">
-<h3 class="hasAnchor">
-<a href="#interactive-maps" class="anchor" aria-hidden="true"></a>Interactive maps</h3>
+<div class="section level3">
+<h3 id="interactive-maps">Interactive maps<a class="anchor" aria-label="anchor" href="#interactive-maps"></a>
+</h3>
 <p>Each map can be plotted as a static image or viewed interactively using <code>"plot"</code> and <code>"view"</code> modes, respectively. The mode can be set with the function <code>tmap_mode</code>, and toggling between the modes can be done with the ‘switch’ <code><a href="../reference/tmap_mode.html">ttm()</a></code> (which stands for toggle thematic map.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span>
@@ -117,9 +121,9 @@
     <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></code></pre></div>
 <p><img src="images/tmap_view.jpg" alt="" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 </div>
-<div id="multiple-shapes-and-layers" class="section level3">
-<h3 class="hasAnchor">
-<a href="#multiple-shapes-and-layers" class="anchor" aria-hidden="true"></a>Multiple shapes and layers</h3>
+<div class="section level3">
+<h3 id="multiple-shapes-and-layers">Multiple shapes and layers<a class="anchor" aria-label="anchor" href="#multiple-shapes-and-layers"></a>
+</h3>
 <p>A shape is a spatial object (with a class from <code>sf</code>, <code>sp</code>, <code>stars</code>, or <code>raster</code>). Multiple shapes and also multiple layers per shape can be plotted:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span>, <span class="va">rivers</span>, <span class="va">land</span><span class="op">)</span>
@@ -139,9 +143,9 @@
 <span class="co">## old-style crs object detected; please recreate object with a recent sf::st_crs()</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-4-1.png" width="576"></p>
 </div>
-<div id="facets" class="section level3">
-<h3 class="hasAnchor">
-<a href="#facets" class="anchor" aria-hidden="true"></a>Facets</h3>
+<div class="section level3">
+<h3 id="facets">Facets<a class="anchor" aria-label="anchor" href="#facets"></a>
+</h3>
 <p>Facets can be created in three ways:</p>
 <ol style="list-style-type: decimal">
 <li>By assigning multiple variable names to one aesthetic (in this example the first argument of <code>tm_polygons</code>:</li>
@@ -208,9 +212,9 @@
 <span class="co">## The legend is too narrow to place all symbol sizes.</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-7-1.png" width="576"></p>
 </div>
-<div id="basemaps-and-overlay-tile-maps" class="section level3">
-<h3 class="hasAnchor">
-<a href="#basemaps-and-overlay-tile-maps" class="anchor" aria-hidden="true"></a>Basemaps and overlay tile maps</h3>
+<div class="section level3">
+<h3 id="basemaps-and-overlay-tile-maps">Basemaps and overlay tile maps<a class="anchor" aria-label="anchor" href="#basemaps-and-overlay-tile-maps"></a>
+</h3>
 <p>Tiled basemaps can be added with the layer function <code>tm_basemap</code>. Semi-transparent overlay maps (for example annotation labels) can be added with <code>tm_tiles</code>.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span>
@@ -220,9 +224,9 @@
 <p><img src="images/tmap_tiles.jpg" alt="sigma" data-toggle="tooltip" data-placement="right" title="" data-original-title="Note this is just a screenshot of the visualization so it's not interactive. You can play with the interactive version by running the code above." onload="$(this).tooltip()"></p>
 <p>See a <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link">preview of the available tilemaps</a>. This list is also accessible in R: <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">leaflet::providers</a></code>.</p>
 </div>
-<div id="options-and-styles" class="section level3">
-<h3 class="hasAnchor">
-<a href="#options-and-styles" class="anchor" aria-hidden="true"></a>Options and styles</h3>
+<div class="section level3">
+<h3 id="options-and-styles">Options and styles<a class="anchor" aria-label="anchor" href="#options-and-styles"></a>
+</h3>
 <p>The functions <code>tm_layout</code> and <code>tm_view</code> are used to specify the map layout and the interactive aspects respectively. These functions can be used in the same way as the layer functions, e.g.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span>
@@ -275,9 +279,9 @@
 <span class="co">## tmap options successfully reset</span></code></pre></div>
 <p>New styles can be created; see <code><a href="../reference/tmap_options.html">?tmap_options</a></code>.</p>
 </div>
-<div id="exporting-maps" class="section level3">
-<h3 class="hasAnchor">
-<a href="#exporting-maps" class="anchor" aria-hidden="true"></a>Exporting maps</h3>
+<div class="section level3">
+<h3 id="exporting-maps">Exporting maps<a class="anchor" aria-label="anchor" href="#exporting-maps"></a>
+</h3>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">tm</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span>
     <span class="fu"><a href="../reference/tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, legend.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span>
@@ -288,9 +292,9 @@
 <span class="co">## save as stand-alone HTML file ("view" mode)</span>
 <span class="fu"><a href="../reference/tmap_save.html">tmap_save</a></span><span class="op">(</span><span class="va">tm</span>, filename <span class="op">=</span> <span class="st">"world_map.html"</span><span class="op">)</span></code></pre></div>
 </div>
-<div id="shiny-integration" class="section level3">
-<h3 class="hasAnchor">
-<a href="#shiny-integration" class="anchor" aria-hidden="true"></a>Shiny integration</h3>
+<div class="section level3">
+<h3 id="shiny-integration">Shiny integration<a class="anchor" aria-label="anchor" href="#shiny-integration"></a>
+</h3>
 <p>It is possible to use tmap in shiny:</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># in UI part:</span>
@@ -302,17 +306,17 @@
 <span class="op">}</span><span class="op">)</span></code></pre></div>
 <p>See <code><a href="../reference/renderTmap.html">?renderTmap</a></code> for a working example.</p>
 </div>
-<div id="quick-thematic-map" class="section level3">
-<h3 class="hasAnchor">
-<a href="#quick-thematic-map" class="anchor" aria-hidden="true"></a>Quick thematic map</h3>
+<div class="section level3">
+<h3 id="quick-thematic-map">Quick thematic map<a class="anchor" aria-label="anchor" href="#quick-thematic-map"></a>
+</h3>
 <p>Maps can also be made with one function call. This function is <code>qtm</code>:</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"HPI"</span>, fill.pallete <span class="op">=</span> <span class="st">"RdYlGn"</span><span class="op">)</span></code></pre></div>
 <p><img src="tmap-getstarted_files/figure-html/unnamed-chunk-15-1.png" width="576"></p>
 </div>
-<div id="tips-n-tricks" class="section level3">
-<h3 class="hasAnchor">
-<a href="#tips-n-tricks" class="anchor" aria-hidden="true"></a>Tips ’n Tricks</h3>
+<div class="section level3">
+<h3 id="tips-n-tricks">Tips ’n Tricks<a class="anchor" aria-label="anchor" href="#tips-n-tricks"></a>
+</h3>
 <p>Run:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/tmap_tip.html">tmap_tip</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
@@ -334,7 +338,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link external-link">pkgdown</a> 1.9000.9000.9000.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
 </div>
 
       </footer>
