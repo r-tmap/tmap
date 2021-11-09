@@ -30,6 +30,11 @@ tmapShape = function(...) {
 }
 
 
+tmapGetShapeMeta = function(...) {
+	UseMethod("tmapGetShapeMeta")
+}
+
+
 tmapShape.Raster = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 	tmapShape.SpatRaster(terra::rast(shp), is.main, crs, bbox, unit, filter, shp_name)
 }
@@ -87,6 +92,73 @@ tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name)
 	
 }
+
+
+get_fact_levels_na = function(x) {
+	if (is.factor(x)) {
+		levs = levels(x)
+		if (!any(is.na(levs))) {
+			if (any(is.na(x))) {
+				levs = c(levs, NA)
+			}
+		}
+	} else {
+		levs = NULL
+	}
+	levs
+}
+
+
+#' @method tmapGetShapeMeta stars
+#' @export
+tmapGetShapeMeta.stars = function(shp) {
+	d = stars::st_dimensions(shp)
+
+	if (!has_raster(shp)) {
+		d_non_xy = local({
+			dimvals = lapply(seq_along(d), function(i) stars::st_get_dimension_values(shp, i))
+			dimsfc = vapply(dimvals, inherits, what = "sfc", FUN.VALUE = logical(1))	
+			d[!dimsfc]
+		})
+	} else {
+		d_non_xy = local({
+			dxy = attr(d, "raster")$dimensions	
+			d[setdiff(names(d), dxy)]
+		})
+	}
+	
+	dims = names(d_non_xy)
+	dims_vals = lapply(dims, function(d) stars::st_get_dimension_values(shp, d))		
+	names(dims_vals) = dims
+	
+	vars = names(shp)
+	vars_levs = lapply(seq_along(vars), function(i) {
+		get_fact_levels_na(shp[[i]])
+	})
+	names(vars_levs) = vars
+	
+	list(vars = vars,
+		 vars_levs = vars_levs,
+		 dims = dims, 
+		 dims_vals = dims_vals)
+}
+
+#' @method tmapGetShapeMeta sf
+#' @export
+tmapGetShapeMeta.sf = function(shp) {
+	vars = setdiff(names(shp), attr(shp, "sf_column"))
+	vars_levs = lapply(vars, function(v) {get_fact_levels_na(shp[[v]])})
+	dims = character(0)
+	dims_vals = list()
+	
+	list(vars = vars,
+		 vars_levs = vars_levs,
+		 dims = dims, 
+		 dims_vals = dims_vals)
+}
+
+
+
 
 
 #' @method tmapShape stars

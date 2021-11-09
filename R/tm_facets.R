@@ -1,5 +1,5 @@
 #' @export
-tm_facets = function(by = "VARS__",
+tm_facets = function(by = NULL,
 					 rows = NULL,
 					 columns = NULL,
 					 pages = NULL,
@@ -12,21 +12,21 @@ tm_facets = function(by = "VARS__",
 					 sync = TRUE,
 					 showNA = NA,
 					 textNA = "Mssing",
-					 scale.factor=2) {
+					 scale.factor=2,
+					 is.wrap = NA) {
 	
 	calls <- names(match.call(expand.dots = TRUE)[-1])
-	is.wrap = is.null(rows) && is.null(columns) && is.null(pages)
-	
-	if (is.na(free.coords)) {
-		if (is.wrap) {
-			free.coords = rep((by != "VARS__"), 3)
-		} else {
-			free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))
-		}	
-	} else {
-		free.coords = rep(free.coords, length.out = 3)
+	if (!is.null(by)) {
+		is.wrap = TRUE
+		rows = NULL
+		columns = NULL
+		pages = NULL
 	}
-	
+	if (!is.null(rows) || !is.null(columns) || !is.null(pages)) {
+		is.wrap = FALSE
+		by = NULL
+	}
+
 	tm_element_list(tm_element(
 		is.wrap = is.wrap,
 		by = by,
@@ -57,7 +57,7 @@ tm_facets_grid = function(rows = NULL,
 						  ...) {
 	args = list(...)
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	tm = do.call("tm_facets", c(list(by = NULL, rows = rows, columns = columns, pages = pages), args[setdiff(names(args), "by")]))
+	tm = do.call("tm_facets", c(list(by = NULL, rows = rows, columns = columns, pages = pages, is.wrap = FALSE), args[setdiff(names(args), "is.wrap")]))
 	tm[[1]]$calls = calls
 	tm
 }
@@ -70,7 +70,7 @@ tm_facets_wrap = function(by = "VARS__",
 						  ...) {
 	args = list(...)
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	tm = do.call("tm_facets", c(list(by = by, rows = NULL, columns = NULL, pages = NULL, nrows = nrows, ncols = ncols), args[setdiff(names(args), c("rows", "columns", "pages"))]))
+	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, is.wrap = TRUE), args[setdiff(names(args), "is.wrap")]))
 	tm[[1]]$calls = calls
 	tm
 }

@@ -27,36 +27,46 @@ update_fl = function(k, lev = NULL, m = NULL) {
 }
 
 
-step2_data_grp_prepare = function(tmf, dt) {
+step2_data_grp_prepare = function(tmf, grpvars, dt) {
 	### Specify 'by' variables
+	print(grpvars)
+	
+
+	by1 = tmf$by1
+	by2 = tmf$by2
+	by3 = tmf$by3
+	
+	limitvars = tmf$limitvars
+	
 	if (tmf$is.wrap) {
 		# facet wrap: only use by1
-		by1 = tmf$by
-		by2 = NULL
-		by3 = NULL
+
+		# by1 = tmf$by
+		# by2 = NULL
+		# by3 = NULL
 		
 		# By default, facets are created over the aes variables ("VARS__"). If wrap is specified in tm_facets, limit number of variables to 1.
-		limitvars = (by1 != "VARS__")
+		# limitvars = (by1 != "VARS__")
 		limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
 	} else {
 		# facet grid
-		by1 = tmf$rows
-		by2 = tmf$columns
-		by3 = tmf$pages
+		# by1 = tmf$rows
+		# by2 = tmf$columns
+		# by3 = tmf$pages
 		
 		## Try to assign VARS__ to one dimension. If not possible, limit number of variables to 1.
-		limitvars = FALSE
-		if (!identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
-			if (is.null(by1)) {
-				by1 = "VARS__"
-			} else if (is.null(by2)) {
-				by2 = "VARS__"
-			} else if (is.null(by3)) {
-				by3 = "VARS__"
-			} else {
-				limitvars = TRUE
-			}
-		}
+		# limitvars = FALSE
+		# if (!identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
+		# 	if (is.null(by1)) {
+		# 		by1 = "VARS__"
+		# 	} else if (is.null(by2)) {
+		# 		by2 = "VARS__"
+		# 	} else if (is.null(by3)) {
+		# 		by3 = "VARS__"
+		# 	} else {
+		# 		limitvars = TRUE
+		# 	}
+		# }
 		limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
 	}
 	

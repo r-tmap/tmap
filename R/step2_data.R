@@ -18,9 +18,10 @@ step2_data = function(tm) {
 		
 		dt = tmg$tms$dt
 		shpvars = tmg$tms$attrcols
+		grpvars = tmg$tms$dimcols
 		
 		# step2_data_grp_prepare
-		tmf_meta = step2_data_grp_prepare(tmg$tmf, dt)
+		tmf_meta = step2_data_grp_prepare(tmg$tmf, grpvars, dt)
 		
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {

@@ -34,7 +34,7 @@ step1_rearrange = function(tmel) {
 		
 		# make sure there is exactly one tm_facets per group (if there are none, add one, if there are mutple, take last)
 		if (!any(is_tmf)) {
-			tmf = tm_facets_wrap()[[1]]
+			tmf = tm_facets()[[1]]
 		} else {
 			# get last tm_facets element
 			k = sum(is_tmf)
@@ -63,15 +63,124 @@ step1_rearrange = function(tmel) {
 		aux = list()
 	}
 	
+	# get the final tm_faets object (ignoring group specific args: is.wrap, by, rows, columns, pages)
+	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
+	
 	
 	# ## estimate number of facets
-	# lapply(tmo, function(tmg) {
-	# 	tmg = tmo[[1]]
-	# 	
-	# 	
-	# 	
-	# })
-	# 
+	tmo = lapply(tmo, function(tmg) {
+		
+		shp = tmg$tms$shp
+		smeta = tmapGetShapeMeta(shp)
+		
+		# determine number of variables per aesthetic
+		nvars = local({
+			nvarsmax = length(smeta$vars)
+			max(vapply(tmg$tmls, function(tml) {
+				max(vapply(c(tml$trans.aes, tml$mapping.aes), function(a) {
+					aes = a$aes
+					if (inherits(aes, "tm_shape_vars")) nvarsmax else length(aes)
+				}, FUN.VALUE = integer(1), USE.NAMES = FALSE))
+			}, FUN.VALUE = integer(1)))
+		})
+		
+		nrsd = length(smeta$dims) # number of required shape dimensions
+		nrvd = as.integer(nvars > 1L) # number of required variable dimensions (0 or 1)
+		nrd = nrsd + nrvd
+				
+
+		tmg$tmf = within(tmg$tmf, {
+			if (is.na(is.wrap)) is.wrap = (nrd <= 1L)
+			
+			if (is.wrap) {
+				if (nrd > 1L) {
+					if (nrsd > 1L) stop("Cannot use tm_facets_wrap, because there are several dimensions. Pleae use tm_facets_grid instead", call. = FALSE)
+					nrvd = 0L
+					nrd = 1L
+					limitvars = TRUE
+				} else {
+					limitvars = FALSE
+				}
+				by1 = if (is.null(by)) {
+					if (nrsd == 1L) {
+						smeta$dims[1]
+					} else {
+						"VARS__"
+					}
+				}
+				by2 = NULL
+				by3 = NULL
+			} else {
+				if (nrd > 3L) {
+					if (nrsd > 3L) stop("The shape object has more than 3 dimensions, so even tm_facets_grid cannot be used.", call. = FALSE)
+					nrvd = 0L
+					nrd = 3L
+					limitvars = TRUE
+				} else {
+					limitvars = FALSE
+					if (nrvd == 1L && !identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
+						if (is.null(by1)) {
+							by1 = "VARS__"
+						} else if (is.null(by2)) {
+							by2 = "VARS__"
+						} else if (is.null(by3)) {
+							by3 = "VARS__"
+						}
+					}
+				}
+			}
+			
+			if (is.na(free.coords)) {
+				if (is.wrap) {
+					free.coords = rep((by != "VARS__"), 3)
+				} else {
+					free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))
+				}
+			} else {
+				free.coords = rep(free.coords, length.out = 3)
+			}
+			
+		})
+		
+		# if (tmf$is.wrap) {
+		# 	# facet wrap: only use by1
+		# 	by1 = tmf$by
+		# 	by2 = NULL
+		# 	by3 = NULL
+		# 	
+		# 	# By default, facets are created over the aes variables ("VARS__"). If wrap is specified in tm_facets, limit number of variables to 1.
+		# 	limitvars = (by1 != "VARS__")
+		# 	limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
+		# } else {
+		# 	# facet grid
+		# 	by1 = tmf$rows
+		# 	by2 = tmf$columns
+		# 	by3 = tmf$pages
+		# 	
+		# 	## Try to assign VARS__ to one dimension. If not possible, limit number of variables to 1.
+		# 	limitvars = FALSE
+		# 	if (!identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
+		# 		if (is.null(by1)) {
+		# 			by1 = "VARS__"
+		# 		} else if (is.null(by2)) {
+		# 			by2 = "VARS__"
+		# 		} else if (is.null(by3)) {
+		# 			by3 = "VARS__"
+		# 		} else {
+		# 			limitvars = TRUE
+		# 		}
+		# 	}
+		# 	limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
+		# }
+
+		tmg
+	})
+# 
+# 	fl  = list(1L, 1L, 1L)
+# 	for (tmg in tmo) {
+# 		
+# 	}
+	 
 	
 	# find the 'main' group: this is the group for which tm_shape is used for CRS and bbox. By default, take the first, unless is.main is set to TRUE.
 	# is.main can be set multiple times: the CRS will be taken from the first, but the bbox from all
