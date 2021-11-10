@@ -97,7 +97,7 @@ data_class = function(x) {
 
 
 tmapScale = function(aes, value, scale, legend, free) {
-	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, free = free), class = "tmapScale")
+	structure(list(aes = aes, value = tmapVars(value), scale = scale, legend = legend, free = free), class = c("tmapScale", "list"))
 }
 
 tmapScaleAuto = function(x1, scale, legend, opt, aes, layer, sortRev) {

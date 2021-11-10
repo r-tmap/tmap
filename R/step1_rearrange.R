@@ -67,50 +67,146 @@ step1_rearrange = function(tmel) {
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
 	
+	# get options (mode specific)
+	opt = tmap_options_mode()
+	
+	
 	# ## estimate number of facets
 	tmo = lapply(tmo, function(tmg) {
 		
 		shp = tmg$tms$shp
 		smeta = tmapGetShapeMeta(shp)
 		
-		# determine number of variables per aesthetic
-		nvars = local({
-			nvarsmax = length(smeta$vars)
-			max(vapply(tmg$tmls, function(tml) {
-				max(vapply(c(tml$trans.aes, tml$mapping.aes), function(a) {
-					aes = a$aes
-					if (inherits(aes, "tm_shape_vars")) nvarsmax else length(aes)
-				}, FUN.VALUE = integer(1), USE.NAMES = FALSE))
-			}, FUN.VALUE = integer(1)))
+		
+		
+		precheck_aes = function(a, layer, shpvars) {
+			within(a, {
+				if (inherits(value, "tmapOption")) value = getAesOption(value[[1]], opt, aes = aes, layer = layer)
+				if (inherits(value, "tmapShpVars")) value = as.list(shpvars)
+				
+				nvars = length(value) #m
+				nvari = vapply(value, length, integer(1))
+				
+				vars = unlist(value)
+				
+				data_vars = (all(vars %in% shpvars))
+				
+				nfl = nvars
+				if (data_vars) {
+					fl = vapply(value, "[[", 1, FUN.VALUE = character(1))
+				} else {
+					fl = NULL
+				}
+			})
+		}
+		
+		
+		
+		
+		# preprocess layers: check aes values
+		tmg$tmls = lapply(tmg$tmls, function(tml) {
+			within(tml, {
+				if (length(trans.aes)) trans.aes = lapply(trans.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars)
+				if (length(mapping.aes)) mapping.aes = lapply(mapping.aes, precheck_aes, layer = tml$layer, shpvars = smeta$vars)
+				
+				fl = NULL
+				nfl = 1L
+				
+				for (a in c(trans.aes, mapping.aes)) {
+					if (a$nfl > nfl) {
+						fl = a$fl
+						nfl = a$nfl
+					} else if (a$nfl == nfl && is.null(fl) && !is.null(a$fl)) {
+						fl = a$fl
+					}
+				}
+				rm(a)
+				
+			})
 		})
 		
+		fl = NULL
+		nfl = 1L
+		
+		for (tml in tmg$tmls) {
+			if (tml$nfl > nfl) {
+				fl = tml$fl
+				nfl = tml$nfl
+			} else if (tml$nfl == nfl && is.null(fl) && !is.null(tml$fl)) {
+				fl = tml$fl
+			}
+		}
+		
+		if (is.null(fl)) fl = as.character(seq_len(nfl))
+		
+
+		
+		# determine number of variables per aesthetic
+
+		
 		nrsd = length(smeta$dims) # number of required shape dimensions
-		nrvd = as.integer(nvars > 1L) # number of required variable dimensions (0 or 1)
+		nrvd = as.integer(nfl > 1L) # number of required variable dimensions (0 or 1)
 		nrd = nrsd + nrvd
 				
 
+			
+			# number of specified by dimensions
+			
+		
 		tmg$tmf = within(tmg$tmf, {
+			fl = fl
+			nfl = nfl
 			if (is.na(is.wrap)) is.wrap = (nrd <= 1L)
 			
 			if (is.wrap) {
+				by1 = by
+				by2 = NULL
+				by3 = NULL
+				
+				
+				nsbd = as.integer(!is.null(by1) && !by1 == "VARS__" && !(by1 %in% smeta$dims))
+					
+				
 				if (nrd > 1L) {
 					if (nrsd > 1L) stop("Cannot use tm_facets_wrap, because there are several dimensions. Pleae use tm_facets_grid instead", call. = FALSE)
+					warning("")
 					nrvd = 0L
 					nrd = 1L
+					if (nsbd == 1L) {
+						warning("by variable specified while there are shape dimensions which cannot be ignored", call. = FALSE)
+						by1 = NULL
+					}
 					limitvars = TRUE
-				} else {
-					limitvars = FALSE
-				}
-				by1 = if (is.null(by)) {
+				} else if (nrd == 1L) {
 					if (nrsd == 1L) {
+						if (nsbd == 1L) {
+							warning("by variable specified while there are shape dimensions which cannot be ignored", call. = FALSE)
+							by1 = NULL
+						}	
+						limitvars = FALSE
+					} else {
+						if (nsbd == 1L) {
+							warning("by variable specified while there are shape dimensions which cannot be ignored", call. = FALSE)
+							nrvd = 0L
+							limitvars = TRUE
+						} else {
+							limitvars = FALSE
+						}
+					}
+				}
+				if (is.null(by1)) {
+					by1 = if (nrsd == 1L) {
 						smeta$dims[1]
 					} else {
 						"VARS__"
 					}
 				}
-				by2 = NULL
-				by3 = NULL
+				
 			} else {
+				by1 = rows
+				by2 = columns
+				by3 = pages
+				
 				if (nrd > 3L) {
 					if (nrsd > 3L) stop("The shape object has more than 3 dimensions, so even tm_facets_grid cannot be used.", call. = FALSE)
 					nrvd = 0L
@@ -128,7 +224,28 @@ step1_rearrange = function(tmel) {
 						}
 					}
 				}
+				unsigned = setdiff(smeta$dims, c(by1, by2, by3))
+				
+				if (length(unsigned)) {
+					if (is.null(by1)) by1 = unsigned[1] else if (is.null(by2)) by2 = unsigned[1] else by3 = unsigned[1] 
+					if (length(unsigned) > 1) {
+						if (is.null(by2)) by2 = unsigned[2] else by3 = unsigned[2] 	
+					}
+					if (length(unsigned) == 3) {
+						by3 = unsigned[3]
+					}
+				}
+				
 			}
+			
+			cat("by1 ", by1, "\n")
+			cat("by2 ", by2, "\n")
+			cat("by3 ", by3, "\n")
+			
+			cat("fl ", fl, "\n")
+			cat("nfl ", nfl, "\n")
+			
+			cat("limitvars ", limitvars, "\n")
 			
 			if (is.na(free.coords)) {
 				if (is.wrap) {
@@ -139,6 +256,9 @@ step1_rearrange = function(tmel) {
 			} else {
 				free.coords = rep(free.coords, length.out = 3)
 			}
+			
+			#fl1 = 
+			
 			
 		})
 		
@@ -175,6 +295,8 @@ step1_rearrange = function(tmel) {
 
 		tmg
 	})
+	
+	
 # 
 # 	fl  = list(1L, 1L, 1L)
 # 	for (tmg in tmo) {
@@ -186,8 +308,6 @@ step1_rearrange = function(tmel) {
 	# is.main can be set multiple times: the CRS will be taken from the first, but the bbox from all
 	ids = get_main_ids(tmo)
 	
-	# get options (mode specific)
-	opt = tmap_options_mode()
 	
 	# get main crs (option or extracted from first main shape)
 	crs_option = opt$crs
