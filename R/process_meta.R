@@ -152,7 +152,6 @@ process_meta = function(o, d) {
 			}
 		}
 		
-		
 		margins.used.all = c(legend.position.all$v == "bottom",
 							 legend.position.all$h == "left",
 							 legend.position.all$v == "top",

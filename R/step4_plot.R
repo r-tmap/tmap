@@ -227,9 +227,12 @@ step4_plot = function(tm) {
 	
 	legs[class == "auto", class := "out"]
 	
+	vby = any(legs$v == "by")
+	hby = any(legs$h == "by")
+	
 	# manual outside legends -2 is top or left, -1 is bottom or right
-	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(v == "center", toC(1:o$nrows), ifelse(v == "by", as.character(by1__), ifelse(v == "top", as.character(-2), as.character(-1)))),
-										   facet_col = ifelse(h == "center", toC(1:o$ncols), ifelse(h == "by", as.character(by2__), ifelse(h == "left", as.character(-2), as.character(-1)))))]
+	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(v == "by", as.character(by1__), ifelse(v == "top", as.character(-2), as.character(-1)))),
+										   facet_col = ifelse(h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(h == "by", as.character(by2__), ifelse(h == "left", as.character(-2), as.character(-1)))))]
 	
 	# manual in legends
 	

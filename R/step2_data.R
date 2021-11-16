@@ -77,6 +77,11 @@ step2_data = function(tm) {
 	
 	tmf$fl = get("fl", envir = .TMAP)
 	
+	
+	cat("fl old:\n")
+	print(tmf$fl)
+	
+	
 	meta = c(meta, tmf)
 	
 	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap

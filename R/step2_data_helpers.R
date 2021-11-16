@@ -223,6 +223,21 @@ get_tmf = function(tmfs) {
 	
 	nf = length(tmfs)
 	
+	gns = vapply(tmfs, "[[", FUN.VALUE = integer(3), "gn", USE.NAMES = FALSE)
+	
+	grpid = apply(gns, which.max, MARGIN = 1)
+	
+	gn = apply(gns, max, MARGIN = 1)
+	
+	for (i in seq_len(3L)) if (any(gns[i, ] > 1L & gns[i, ] != gn[i])) stop("Number of facets inconsistent over groups", call. = FALSE)
+	
+	gls = lapply(tmfs, "[[", "gl")
+	
+	gl = lapply(seq_len(3L), function(i) gls[[grpid[i]]][[i]])
+	
+	
+	#gnl = lapply(tmfs, "[[", FUN.VALUE = integer(3), "gn", USE.NAMES = FALSE)
+	
 	# find first tmf that has been called
 	fid = which(vapply(tmfs, function(tmf){
 		"calls" %in% names(tmf)
@@ -238,6 +253,9 @@ get_tmf = function(tmfs) {
 			tmf[args] = tmfs[[i]][args]
 		}
 	}
+	tmf$gl = gl
+	tmf$gn = gn
+	
 	tmf
 }
 

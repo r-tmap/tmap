@@ -17,6 +17,9 @@ Set Knit Directory (via drop-down menu of the Knit button in RStudio) to Project
 ```{r echo=FALSE,message=FALSE,fig.height = 2}
 library(devtools)
 load_all()
+library(stars)
+library(terra)
+
 data(World,metro,land)
 
 World$pop_class = cut(World$pop_est, breaks = c(0, 10, 100, 1000, Inf) * 1e6, labels = c("Small", "Medium", "Large", "Extra Large"))					   
@@ -29,6 +32,27 @@ metro$pop2020_class = cut(metro$pop2020, breaks = c(.5, 1.5, 2.5, 5, 15, 40) * 1
 
 
 Africa = World[World$continent == "Africa", ]
+
+data(land)
+
+landsat_stars = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
+landsat_terra = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
+
+tif_stars = system.file("tif/L7_ETMs.tif", package = "stars") %>% read_stars()
+tif_terra = system.file("tif/L7_ETMs.tif", package = "stars") %>% rast()
+
+prec = read_ncdf(system.file("nc/test_stageiv_xyt.nc", package = "stars"), curvilinear = c("lon", "lat"), ignore_bounds = TRUE)
+nc = sf::read_sf(system.file("gpkg/nc.gpkg", package = "sf"), "nc.gpkg") %>%
+	st_transform(st_crs(prec))
+prec_nc = aggregate(prec, by = nc, FUN = max)
+
+weather = read_ncdf(system.file('nc/bcsd_obs_1999.nc', package = 'stars'))
+weather1 = st_set_dimensions(merge(weather), names = c('longitude','latitude','time','attributes'))
+weather2 = split(weather1, 'time')
+
+
+
+
 tmapV = substr(packageVersion("tmap"), 1, 1)
 txt = function(x) print(grid::grid.text(x, gp = gpar(cex = 3)))
 v3 = function(e) {
@@ -91,4 +115,32 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_polygons(c("HPI", "income_grp")) +
 	tm_facets_grid(columns = "continent")
+```
+
+```{r}
+# conflict: should take first variable
+tm_shape(World) +
+	tm_polygons(c("HPI", "income_grp")) +
+	tm_facets_grid(rows = "continent")
+```
+
+```{r}
+tm_shape(World) +
+	tm_polygons(c("HPI")) +
+	tm_facets_grid(columns = "well_being_class", rows = "continent")
+```
+
+```{r}
+tm_shape(weather) +
+	tm_raster()
+```
+
+
+```{r}
+# merging facets OK
+tm_shape(World) +
+	tm_polygons(c("area", "pop_est", "pop_est_dens", "economy")) +
+tm_shape(World) +
+	tm_symbols(size = "pop_est") +
+	tm_facets(by = "pop_class")
 ```
