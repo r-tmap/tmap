@@ -73,16 +73,16 @@ step2_data = function(tm) {
 	#attr(grps, "main") = attr(tmo, "main")
 	#attr(grps, "crs") = attr(tmo, "crs")
 	
-	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
+	#tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
-	tmf$fl = get("fl", envir = .TMAP)
+	meta$fl_old = get("fl", envir = .TMAP)
 	
 	
 	cat("fl old:\n")
-	print(tmf$fl)
+	print(meta$fl_old)
 	
 	
-	meta = c(meta, tmf)
+	#meta = c(meta, tmf)
 	
 	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
 	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows

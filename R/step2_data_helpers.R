@@ -253,8 +253,8 @@ get_tmf = function(tmfs) {
 			tmf[args] = tmfs[[i]][args]
 		}
 	}
-	tmf$gl = gl
-	tmf$gn = gn
+	tmf$fl = gl
+	tmf$fn = gn
 	
 	tmf
 }

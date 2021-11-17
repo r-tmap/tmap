@@ -36,8 +36,8 @@ step1_rearrange_facets = function(tmo) {
 	#fl = list(1L, 1L, 1L)
 	#assign("fl", fl, envir = .TMAP)
 	
-	assign("fl", list(NULL, NULL, NULL), envir = .TMAP)
-	assign("fn", c(1L, 1L, 1L), envir = .TMAP)
+	#assign("fl", list(NULL, NULL, NULL), envir = .TMAP)
+	#assign("fn", c(1L, 1L, 1L), envir = .TMAP)
 
 	tmo = lapply(tmo, function(tmg) {
 		
