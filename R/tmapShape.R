@@ -131,7 +131,7 @@ tmapGetShapeMeta.stars = function(shp) {
 	dims_vals = lapply(dims, function(d) stars::st_get_dimension_values(shp, d))		
 	names(dims_vals) = dims
 	
-	vars = names(shp)
+	vars = make.names(names(shp))
 	vars_levs = lapply(seq_along(vars), function(i) {
 		get_fact_levels_na(shp[[i]])
 	})

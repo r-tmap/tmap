@@ -86,8 +86,10 @@ step1_rearrange_facets = function(tmo) {
 		
 		nrsd = length(smeta$dims) # number of required shape dimensions
 		nrvd = as.integer(vn > 1L) # number of required variable dimensions (0 or 1)
-		nrd = nrsd + nrvd
+		nrd = nrsd + nrvd # number of required by-dimensions
 
+		
+		po(nrsd, nrvd, nrd)
 		
 		tmg$tmf = within(tmg$tmf, {
 			#fl = flvar
@@ -99,25 +101,26 @@ step1_rearrange_facets = function(tmo) {
 				by2 = NULL
 				by3 = NULL
 
-				nsbd = as.integer(!is.null(by1) && !by1 == "VARS__" && !(by1 %in% smeta$dims))
+				nsbd = as.integer(!is.null(by1) && !by1 == "VARS__" && !(by1 %in% smeta$dims)) # number of required by="varX" dimensions (0 or 1)
+				
 				
 				
 				if (nrd > 1L) {
 					if (nrsd > 1L) stop("Cannot use tm_facets_wrap, because there are several dimensions. Pleae use tm_facets_grid instead", call. = FALSE)
-					warning("")
+					# so there is exactly 1 shape dim
 					nrvd = 0L
 					nrd = 1L
 					if (nsbd == 1L) {
 						warning("by variable specified while there are shape dimensions which cannot be ignored", call. = FALSE)
-						by1 = NULL
 					}
+					by1 = NULL
 					limitvars = TRUE
 				} else if (nrd == 1L) {
 					if (nrsd == 1L) {
 						if (nsbd == 1L) {
 							warning("by variable specified while there are shape dimensions which cannot be ignored", call. = FALSE)
-							by1 = NULL
 						}	
+						by1 = NULL
 						limitvars = FALSE
 					} else {
 						if (nsbd == 1L) {
@@ -192,7 +195,7 @@ step1_rearrange_facets = function(tmo) {
 				byi = get(paste0("by", i))
 				if (!is.null(byi)) {
 					if (byi == "VARS__") {
-						gl[[i]] = vl
+						if (!is.null(vl)) gl[[i]] = vl
 						gn[i] = vn
 					} else if (byi %in% smeta$vars) {
 						gl[[i]] = smeta$vars_levs[[match(byi, smeta$vars)]]
@@ -225,6 +228,8 @@ step1_rearrange_facets = function(tmo) {
 	})
 
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
+	
+	po(tmf$fl)
 	
 	tmo[[1]]$tmf = tmf
 	tmo

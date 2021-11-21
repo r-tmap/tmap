@@ -13,6 +13,7 @@ preprocess_meta = function(o, legs) {
 		#   use them to automatically determine meta.margins (in preprocess_meta)
 		# # legend.present.fix
 		#	find legend boxes that are assigned to outer margins
+		
 		if (nrow(legs) == 0) {
 			legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE)
 			legend.present.fix = rep(FALSE, 4)

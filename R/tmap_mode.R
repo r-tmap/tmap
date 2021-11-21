@@ -91,6 +91,40 @@ tmap_devel_mode = function(devel.mode) {
 	message("devel.mode: ", if (!dm) "OFF" else "ON")
 }
 
+po = function(...) {
+	e = substitute(list(...))
+	nms = sapply(e, deparse)[-1]  
+	
+	x = list(...)
+	
+	for (i in seq_along(x)) {
+		cat("<==================== ", nms[i], "===============>\n")
+		print(x[[i]])
+		if (i == length(x)) {
+			cat("</============================================>\n")
+		}
+	}
+	
+	invisible()
+}
+
+so = function(...) {
+	e = substitute(list(...))
+	nms = sapply(e, deparse)[-1]  
+	
+	x = list(...)
+	
+	for (i in seq_along(x)) {
+		cat("<==================== ", nms[i], "===============>\n")
+		str(x[[i]])
+		if (i == length(x)) {
+			cat("</============================================>\n")
+		}
+	}
+	
+	invisible()
+}
+
 
 #' @rdname tmap_mode
 #' @export

@@ -75,11 +75,11 @@ step2_data = function(tm) {
 	
 	#tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
-	meta$fl_old = get("fl", envir = .TMAP)
+	#meta$fl_old = get("fl", envir = .TMAP)
 	
 	
-	cat("fl old:\n")
-	print(meta$fl_old)
+	#cat("fl old:\n")
+	#print(meta$fl_old)
 	
 	
 	#meta = c(meta, tmf)

@@ -131,8 +131,101 @@ tm_shape(World) +
 ```
 
 ```{r}
+# stars 2 attributes and 3th dimensions
 tm_shape(weather) +
 	tm_raster()
+```
+
+```{r}
+# idem
+tm_shape(weather) +
+	tm_raster(c("tas", "pr"))
+```
+
+
+```{r}
+# inverse grid
+tm_shape(weather) +
+	tm_raster() +
+	tm_facets_grid(rows = "time")
+```
+
+```{r}
+# idem
+tm_shape(weather) +
+	tm_raster(c("tas", "pr")) +
+	tm_facets_grid(rows = "time")
+```
+
+```{r}
+# idem
+tm_shape(weather) +
+	tm_raster(c("tas", "pr")) +
+	tm_facets_grid(columns = "VARS__")
+```
+
+
+```{r}
+# wrap with warning (only first variable used)
+tm_shape(weather) +
+	tm_raster() +
+	tm_facets_wrap()
+```
+
+```{r}
+# select other variable, wrap (default to shape dim)
+tm_shape(weather) +
+	tm_raster("tas") +
+	tm_facets_wrap()
+```
+
+
+```{r}
+# idem
+tm_shape(weather) +
+	tm_raster("tas")
+```
+
+
+
+
+
+```{r}
+# idem
+tm_shape(weather) +
+	tm_raster(c("tas", "pr")) +
+	tm_facets_grid(rows = "time")
+```
+
+
+```{r}
+tm_shape(weather2) +
+	tm_raster()
+```
+
+```{r}
+#  to do
+tm_shape(weather2) +
+	tm_raster(col.free = c(F, T))
+
+weather22 = weather2[1:2]
+
+# working
+tm_shape(weather22) +
+	tm_raster(col.free = c(T, F))
+
+tm_shape(weather22) +
+	tm_raster(col.free = c(F, F))
+
+
+# not working
+tm_shape(weather22) +
+	tm_raster(col.free = c(T, T))
+
+tm_shape(weather22) +
+	tm_raster(col.free = c(F, T))
+
+
 ```
 
 
@@ -143,4 +236,9 @@ tm_shape(World) +
 tm_shape(World) +
 	tm_symbols(size = "pop_est") +
 	tm_facets(by = "pop_class")
+```
+
+
+```{r}
+tm_shape(World) + tm_polygons("HPI") + tm_facets(by = "economy")
 ```
