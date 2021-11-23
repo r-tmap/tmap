@@ -1,5 +1,5 @@
 ---
-	title: "Testing - Facetting"
+title: "Testing - Facetting"
 author: "Martijn Tennekes"
 date: "`r Sys.Date()`"
 output: html_document

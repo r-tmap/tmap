@@ -208,9 +208,16 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		gts[[facet_page]] = gt
 		assign("gts", gts, envir = .TMAP_GRID)
 	} else {
-		shp[[1]][tmapID] = tmapID
-		shpTM <- shapeTM(sf::st_geometry(sf::st_as_sf(shp)), tmapID)
-		tmapGridPolygons(shpTM, dt, facet_row, facet_col, facet_page, id, o)
+		m = matrix(tmapID, nrow = nrow(shp), ncol = ncol(shp))
+		shp2 = structure(list(tmapID = m), class = "stars", dimensions = shp)
+		shpTM = shapeTM(sf::st_geometry(sf::st_as_sf(shp2)), tmapID)
+
+		#dt[, ":="(ord__ = 1, fill = col, fill_alpha = col_alpha, lty = "solid")]
+		#dt[, ":="(col_alpha = 0)]
+		
+		dt[, ":="(ord__ = 1, lty = "solid")]
+		
+		tmapGridPolygons(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o)
 		#grid.shape(s, gp=grid::gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL
