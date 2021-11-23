@@ -29,8 +29,6 @@ update_fl = function(k, lev = NULL, m = NULL) {
 
 step2_data_grp_prepare = function(tmf, grpvars, dt) {
 	### Specify 'by' variables
-	print(grpvars)
-	
 
 	by1 = tmf$by1
 	by2 = tmf$by2

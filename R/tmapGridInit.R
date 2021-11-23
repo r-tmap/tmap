@@ -160,9 +160,7 @@ tmapGridInit = function(o) {
 		rowsIn = rowsIn
 	)
 	
-	po(g)
-	
-	
+
 	if (getOption("tmap.design.mode")) {
 		gts = lapply(gts, function(gt) {
 			

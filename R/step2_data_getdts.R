@@ -112,7 +112,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 			
 			# group by variables with free scales
 			grp_b_fr = by123__[intersect(which(fr), b)]
-			grp_bv_fr = by123__[sort(c({if (nvars > 1) v else integer(0)}, intersect(which(fr), b)))]
+			grp_bv_fr = by123__[sort(c({if (nvars > 1 && fr[v]) v else integer(0)}, intersect(which(fr), b)))]
+			#grp_bv_fr = by123__[intersect(which(fr), b)]
 			
 			if (length(v) && fr[v] && !all(nvari == nvari[1])) stop("number of variables per aesthetic should be consistent when free = FALSE", call. = FALSE)
 			

@@ -89,8 +89,6 @@ step1_rearrange_facets = function(tmo) {
 		nrd = nrsd + nrvd # number of required by-dimensions
 
 		
-		po(nrsd, nrvd, nrd)
-		
 		tmg$tmf = within(tmg$tmf, {
 			#fl = flvar
 			#nfl = nflvar
@@ -154,6 +152,7 @@ step1_rearrange_facets = function(tmo) {
 					limitvars = TRUE
 				} else {
 					limitvars = FALSE
+					#todo
 					if (nrvd == 1L && !identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
 						if (is.null(by1)) {
 							by1 = "VARS__"
@@ -177,10 +176,6 @@ step1_rearrange_facets = function(tmo) {
 				}
 				
 			}
-			
-			# cat("by1 ", by1, "\n")
-			# cat("by2 ", by2, "\n")
-			# cat("by3 ", by3, "\n")
 			
 			
 			
@@ -229,8 +224,7 @@ step1_rearrange_facets = function(tmo) {
 
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
-	po(tmf$fl)
-	
+
 	tmo[[1]]$tmf = tmf
 	tmo
 	

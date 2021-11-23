@@ -204,21 +204,14 @@ tm_shape(weather2) +
 ```
 
 ```{r}
-#  to do
-tm_shape(weather2) +
-	tm_raster(col.free = c(F, T))
-
 weather22 = weather2[1:2]
 
-# working
 tm_shape(weather22) +
 	tm_raster(col.free = c(T, F))
 
 tm_shape(weather22) +
 	tm_raster(col.free = c(F, F))
 
-
-# not working
 tm_shape(weather22) +
 	tm_raster(col.free = c(T, T))
 
@@ -226,6 +219,13 @@ tm_shape(weather22) +
 	tm_raster(col.free = c(F, T))
 
 
+```
+
+
+```{r}
+tm_shape(World) + tm_polygons("pop_est", fill.free = F) + tm_facets("continent")
+tm_shape(World) + tm_polygons("pop_est", fill.free = T) + tm_facets("continent")
+tm_shape(World) + tm_polygons("pop_est", fill.free = T) + tm_facets("continent", nrows = 1)
 ```
 
 

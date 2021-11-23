@@ -203,7 +203,8 @@ step4_plot = function(tm) {
 
 	# when facets are wrapped:
 	if (o$is.wrap && o$n > 1) {
-		if ((o$nrows > 1 && o$ncols > 1) || (o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
+		# (o$nrows > 1 && o$ncols > 1) || 
+		if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
 			# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
 			legs[class != "in", by1__ := NA]
 			legs[class != "in", by2__ := NA]
@@ -212,6 +213,17 @@ step4_plot = function(tm) {
 			legs[, by2__ := by1__]
 			legs[, by1__ := NA]
 		} 
+	}
+	
+	# place legends inside if needed
+	if (o$ncols > 1 && o$nrows > 1) {
+		if (o$is.wrap) {
+			# all free legends inside
+			legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]	
+		} else {
+			# all free-per-facet legends inside
+			legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]	
+		}
 	}
 			
 	

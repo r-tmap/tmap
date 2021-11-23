@@ -15,14 +15,19 @@ preprocess_meta = function(o, legs) {
 		#	find legend boxes that are assigned to outer margins
 		
 		if (nrow(legs) == 0) {
-			legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE)
+			legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE, per_facet = FALSE)
 			legend.present.fix = rep(FALSE, 4)
 		} else {
 			if (is.wrap) {
 				#o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & legs$class == "auto"), per_col = FALSE)
-				legend.present.auto = c(all = any(legs$class == "auto"), per_row = FALSE, per_col = FALSE)
+				legend.present.auto = c(all = any(legs$class == "auto" & is.na(legs$by1__)), 
+										per_row = FALSE, per_col = FALSE, 
+										per_facet = any(legs$class == "auto" & !is.na(legs$by1__)))
 			} else {
-				legend.present.auto = c(all = any(is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"))
+				legend.present.auto = c(all = any(is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), 
+										per_row = any(!is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), 
+										per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"),
+										per_facet = any(!is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"))
 			}
 			legend.present.fix = c(any(legs$class == "out" & legs$v == "bottom"), 
 								   any(legs$class == "out" & legs$h == "left"),
@@ -134,12 +139,19 @@ process_meta = function(o, d) {
 		legend.position.sides = legend.position
 		legend.position.all = legend.position
 		
-		## find position for all-facet legend
 		
+		# in case there are per-facet legends but no no marginal legends, and nrows or ncols equals 1, place them outside (to do this, set them to all-facet here, change legend.position.all below accordingly, and finally determine legend position in step4_plot)
+		if (legend.present.auto[4] && (!any(legend.present.auto[2:3])) && (identical(nrows, 1) || identical(ncols, 1))) {
+			legend.present.auto[1] = TRUE
+			legend.present.auto[4] = FALSE
+		}
+		
+		## find position for all-facet legend
 		if (legend.present.auto[1]) {
 			if (!legend.present.auto[2] & !legend.present.auto[3]) {
-				# only 'all facets' legends (either bottom or right)
-				if ((n == 1 && pasp > masp) || (n > 1 && masp > pasp) || (identical(nrows, 1) || (!is.na(ncols) && ncols >= n))) { # || one.row
+				# only 'all facets' outside legends (either bottom or right)
+				# was: n > 1 && masp > pasp
+				if ((n == 1 && pasp > masp) || (n > 1 && pasp > masp) || (identical(nrows, 1) || (!is.na(ncols) && ncols >= n))) { # || one.row
 					legend.position.all = list(h = "center", v = legend.position$v)
 				} else {
 					legend.position.all = list(h = legend.position$h, v = "center")
