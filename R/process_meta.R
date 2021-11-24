@@ -142,8 +142,11 @@ process_meta = function(o, d) {
 		
 		# in case there are per-facet legends but no no marginal legends, and nrows or ncols equals 1, place them outside (to do this, set them to all-facet here, change legend.position.all below accordingly, and finally determine legend position in step4_plot)
 		if (legend.present.auto[4] && (!any(legend.present.auto[2:3])) && (identical(nrows, 1) || identical(ncols, 1))) {
+			per_facet_wrap_outside = TRUE
 			legend.present.auto[1] = TRUE
 			legend.present.auto[4] = FALSE
+		} else {
+			per_facet_wrap_outside = FALSE
 		}
 		
 		## find position for all-facet legend

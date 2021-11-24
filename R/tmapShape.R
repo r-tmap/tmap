@@ -183,6 +183,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 			dimnms_new = dimnms
 			dimnms_new[dimid] = "tmapID__"
 			dimcols = dimnms_new[-dimid] # columns names, used for default facetting
+			dimvls = lapply(dimcols, function(d) stars::st_get_dimension_values(shp, d))		
 			shpnames = names(shp)
 			shp = stars::st_set_dimensions(shp, dimnms[dimid], values = 1L:length(geoms))
 			shp = stars::st_set_dimensions(shp, names = dimnms_new)
@@ -190,12 +191,17 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 		
 		dt = as.data.table(shp)
 		attrcols = setdiff(names(dt), c("tmapID__", dimcols))
+		attrvls = lapply(attrcols, function(a) {if (is.factor(dt[[a]])) levels(dt[[a]]) else NA})
+		
 		
 		if (!is.null(crs) && sf::st_crs(geoms) != crs) {
 			shp = sf::st_transform(shp, crs)
 		} else {
 			shp = geoms
 		}
+		shpTM = list(shp = shp, tmapID = 1L:length(shp))
+		
+		
 		shpclass = "sfc"
 	} else {
 		shp = downsample_stars(shp, max.raster = o$max.raster)
@@ -210,8 +216,9 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 		dimsxy = dims[names(dim_xy)]
 		
 		if (rst$curvilinear) {
-			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = 1L:nrow(shp))
-			shp3 = stars::st_set_dimensions(shp2, rst$dimensions[2], values = 1L:ncol(shp))
+			shp3 = shp
+			attr(shp3, "dimensions")[[rst$dimensions[1]]]$values = 1L:nrow(shp)
+			attr(shp3, "dimensions")[[rst$dimensions[2]]]$values = 1L:ncol(shp)
 			attr(attr(shp3, "dimensions"), "raster")$curvilinear = FALSE
 		} else {
 			shp2 = stars::st_set_dimensions(shp, rst$dimensions[1], values = {if (dimsxy[[1]]$delta > 0)  1L:nrow(shp) else nrow(shp):1L})
@@ -245,6 +252,8 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 		
 		shp = dimsxy
 		shpclass = "stars"
+		shpTM = list(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)))
+		
 	}
 	
 	if (dev) {
@@ -268,7 +277,6 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
 	} else filter[dt$tmapID__]
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
-	shpTM = list(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)))
 	
 	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, dimcols = dimcols, dimvls = dimvls, attrcols = attrcols, attrvls = attrvls, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name), class = "tmapShape")
 }

@@ -216,15 +216,15 @@ step4_plot = function(tm) {
 	}
 	
 	# place legends inside if needed
-	if (o$ncols > 1 && o$nrows > 1) {
-		if (o$is.wrap) {
+	#if (o$ncols > 1 && o$nrows > 1) {
+		if (o$is.wrap && !o$per_facet_wrap_outside) {
 			# all free legends inside
 			legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]	
 		} else {
 			# all free-per-facet legends inside
 			legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]	
 		}
-	}
+	#}
 			
 	
 	# update auto position (for 'all', 'rows', 'columns' legends)
