@@ -28,9 +28,17 @@ update_grp_vars = function(lev = NULL, m = NULL) {
 	assign("vn", vn, envir = .TMAP)
 }
 
+add_used_vars = function(v) {
+	used_vars = get("used_vars", envir = .TMAP)
+	used_vars = unique(c(used_vars, v))
+	assign("used_vars", used_vars, envir = .TMAP)
+}
+
 # ## estimate number of facets
 step1_rearrange_facets = function(tmo) {
 	opt = tmap_options_mode()
+	
+	
 	# get the final tm_faets object (ignoring group specific args: is.wrap, by, rows, columns, pages)
 	
 	#fl = list(1L, 1L, 1L)
@@ -42,29 +50,40 @@ step1_rearrange_facets = function(tmo) {
 	tmo = lapply(tmo, function(tmg) {
 		
 		shp = tmg$tms$shp
-		smeta = tmapGetShapeMeta(shp)
+		smeta = tmapGetShapeMeta1(shp, c(opt, tmg$tmf))
 
-		
+		so(smeta)
 
 		assign("vl", NULL, envir = .TMAP)
 		assign("vn", 1L, envir = .TMAP)
 		
+		assign("used_vars", character(0), envir = .TMAP)
+		
 		precheck_aes = function(a, layer, shpvars) {
 			within(a, {
-				if (inherits(value, "tmapOption")) value = getAesOption(value[[1]], opt, aes = aes, layer = layer)
-				if (inherits(value, "tmapShpVars")) value = as.list(shpvars)
+				if (inherits(value, "tmapOption")) {
+					value = getAesOption(value[[1]], opt, aes = aes, layer = layer)
+					names(value) = "CONST__"
+				} else if (inherits(value, "tmapShpVars")) {
+					value = as.list(shpvars)
+				} else {
+					value_orig = sapply(value, "[", 1)
+					value = lapply(value, make.names)
+					names(value) = value_orig
+				}
 				
 				nvars = length(value) #m
 				nvari = vapply(value, length, integer(1))
 				
 				vars = unlist(value)
 				
-				data_vars = (all(vars %in% shpvars))
+				data_vars = all(make.names(vars) %in% shpvars)
 				
 				nflvar = nvars
 				if (data_vars) {
-					flvar = vapply(value, "[[", 1, FUN.VALUE = character(1))
+					flvar = names(value)#vapply(value, "[[", 1, FUN.VALUE = character(1))
 					update_grp_vars(lev = flvar)
+					add_used_vars(vars)
 				} else {
 					update_grp_vars(m = nflvar)
 				}
@@ -109,20 +128,20 @@ step1_rearrange_facets = function(tmo) {
 					nrvd = 0L
 					nrd = 1L
 					if (nsbd == 1L) {
-						warning("by variable specified while there are shape dimensions which cannot be ignored", call. = FALSE)
+						warning("by variable specified and multiple variables while there is a shape dimensions which cannot be ignored. The by variable will therefore be ignored. Also, only the first variable is shown. Use tm_facet_grid to show multiple variables", call. = FALSE)
 					}
 					by1 = NULL
 					limitvars = TRUE
 				} else if (nrd == 1L) {
 					if (nrsd == 1L) {
 						if (nsbd == 1L) {
-							warning("by variable specified while there are shape dimensions which cannot be ignored", call. = FALSE)
+							warning("by variable specified while there is a shape dimension which cannot be ignored. The by variable will therefore be ignored", call. = FALSE)
 						}	
 						by1 = NULL
 						limitvars = FALSE
 					} else {
 						if (nsbd == 1L) {
-							warning("by variable specified while there are shape dimensions which cannot be ignored", call. = FALSE)
+							warning("by variable specified while there are multiple variables. Therefore, only the first variable is taken. Please use tm_facet_grid to combine multiple variables with a by variable", call. = FALSE)
 							nrvd = 0L
 							limitvars = TRUE
 						} else {
@@ -177,6 +196,23 @@ step1_rearrange_facets = function(tmo) {
 				
 			}
 			
+			bys = c(by1, by2, by3)
+			if (length(bys)) {
+				byvars = intersect(smeta$vars, bys)
+				if (length(byvars)) add_used_vars(byvars)
+			}
+		})
+
+		smeta$vars = get("used_vars", envir = .TMAP)
+		
+		shp = tmapSubsetShp(shp, smeta$vars)
+		
+		smeta = tmapGetShapeMeta2(shp, smeta, c(opt, tmg$tmf))
+		
+		
+		
+		tmg$tmf = within(tmg$tmf, {
+			
 			
 			
 			gl = list(NULL, NULL, NULL)
@@ -193,7 +229,7 @@ step1_rearrange_facets = function(tmo) {
 						if (!is.null(vl)) gl[[i]] = vl
 						gn[i] = vn
 					} else if (byi %in% smeta$vars) {
-						gl[[i]] = smeta$vars_levs[[match(byi, smeta$vars)]]
+						gl[[i]] = smeta$vars_levs[[byi]]
 						gn[i] = length(gl[[i]])
 					} else if (byi %in% smeta$dims) {
 						gl[[i]] = smeta$dims_val[[match(byi, smeta$dims)]]	
@@ -213,18 +249,32 @@ step1_rearrange_facets = function(tmo) {
 				free.coords = rep(free.coords, length.out = 3)
 			}
 			
+			
+			v = which(c(by1, by2, by3) == "VARS__")
+			b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
+			
+			#n = length(v) + length(b)
+			
+			by123 = paste0("by", 1L:3L) 
+			by123__ = paste0("by", 1L:3L, "__")
+			
+			var__ = by123__[v]
+			by__ = by123__[b]
+			
+			
 			#fl1 = 
 			
 			
 		})
-		
+		tmg$tms$shp = shp
+		tmg$tms$smeta = smeta
 
 		tmg
 	})
 
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
-
+	
 	tmo[[1]]$tmf = tmf
 	tmo
 	

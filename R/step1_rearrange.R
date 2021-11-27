@@ -1,4 +1,6 @@
 step1_rearrange = function(tmel) {
+	dev = getOption("tmap.devel.mode")
+	
 	# find shape, (aesthetic) layer, facet, and other elements
 	is_tms = vapply(tmel, inherits, "tm_shape", FUN.VALUE = logical(1))
 	is_tml = vapply(tmel, inherits, "tm_layer", FUN.VALUE = logical(1))
@@ -71,6 +73,9 @@ step1_rearrange = function(tmel) {
 	
 	tmo = step1_rearrange_facets(tmo) # save smeta's and keep track of group id (to obtain smeta)
 	
+	if (dev) timing_add(s2 = "facet meta")
+	
+	
 	tmf = tmo[[1]]$tmf # first tmf contains global settings
 	
 
@@ -105,13 +110,15 @@ step1_rearrange = function(tmel) {
 	opt$main_class = main_class # inner.margins are class specific (preprecess_meta)
 	opt$crs = crs # in step 3, when other shapes are transformed to this crs
 	
+	opt = c(opt, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately 
 	tmo = structure(lapply(tmo, function(tmg) {
-		tmg$tms = do.call(tmapShape, c(tmg$tms, list(o = opt)))
+		tmg$tms = do.call(tmapShape, c(tmg$tms, list(o = opt, tmf = tmg$tmf)))
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
+	if (dev) timing_add(s2 = "prep shape")
 	
-	list(tmo = tmo, aux = aux, meta = c(opt, tmf))
+	list(tmo = tmo, aux = aux, meta = opt)
 }
 
 # see above

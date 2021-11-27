@@ -17,11 +17,10 @@ step2_data = function(tm) {
 	grps = lapply(tmo, function(tmg) {
 		
 		dt = tmg$tms$dt
-		shpvars = tmg$tms$attrcols
-		grpvars = tmg$tms$dimcols
-		
+		shpvars = tmg$tms$smeta$vars
+
 		# step2_data_grp_prepare
-		tmf_meta = step2_data_grp_prepare(tmg$tmf, grpvars, dt)
+		#tmf_meta = step2_data_grp_prepare(tmg$tmf, grpvars, dt)
 		
 		layernames = paste0("layer", seq_along(tmg$tmls))
 		lrs = lapply(tmg$tmls, function(tml) {
@@ -34,11 +33,11 @@ step2_data = function(tm) {
 			
 			#cat("step2_grp_lyr_trans_______________\n")
 			
-			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf_meta, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
+			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmg$tmf, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
 			
 			#cat("step2_grp_lyr_mapping_____________\n")
 			
-			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf_meta, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
+			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmg$tmf, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
 
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt), plot.order)
 			trans_legend = lapply(trans, function(x) x$leg)
@@ -75,7 +74,23 @@ step2_data = function(tm) {
 	
 	#tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
 	
-	#meta$fl_old = get("fl", envir = .TMAP)
+	
+	
+	# facet labels "_old' were obtained in step2, and still determine data levels
+	# currently, facet labels are determined in step1, but they need to be the same as the data labels
+	# meta$fl_old = get("fl", envir = .TMAP)
+	# meta$fn_old = sapply(meta$fl_old, function(f) { 
+	# 	if (is.character(f)) length(f) else f
+	# })
+	# meta$fl_old = lapply(meta$fl_old, function(f) {
+	# 	if (is.character(f)) f else NULL
+	# })
+	# 
+	# if (!identical(meta$fn, meta$fn_old) || !identical(meta$fl, meta$fl_old)) {
+	# 	po(meta$fn_old, meta$fl_old, meta$fn, meta$fl)
+	# 	stop("fl not identical")
+	# }
+	
 	
 	
 	#cat("fl old:\n")

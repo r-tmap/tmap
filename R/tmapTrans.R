@@ -51,9 +51,11 @@ tmapTransRaster = function(shpTM, ord__, plot.order, args) {
 
 tmapTransPolygons = function(shpTM, ord__, plot.order, args) {
 	within(shpTM, {
-		if (inherits(shp, "stars")) {
+		is_stars = inherits(shp, "dimensions")
+		if (is_stars) {
 			### stars
-			shp = st_as_sf(shp, as_points = FALSE)
+			s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
+			shp = sf::st_geometry(st_as_sf(s, as_points = FALSE))
 		} else {
 			### sf
 			geom_types = sf::st_geometry_type(shp)
@@ -79,7 +81,7 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args) {
 			rm(geom_types)
 		}
 		
-		if (plot.order$aes == "AREA") {
+		if (plot.order$aes == "AREA" && !is_stars) {
 			o = order(units::drop_units(st_area(shp)), decreasing = !plot.order$reverse)
 			shp = shp[o]
 			tmapID = tmapID[o]

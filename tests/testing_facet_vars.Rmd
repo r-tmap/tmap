@@ -238,7 +238,40 @@ tm_shape(World) +
 	tm_facets(by = "pop_class")
 ```
 
+```{r}
+# merging facets OK
+tm_shape(World) +
+	tm_polygons(c("area", "pop_est", "pop_est_dens", "economy")) +
+tm_shape(World) +
+	tm_symbols(size = "pop_est") +
+	tm_facets(by = "pop_class", nrows = 1)
+```
+
+
 
 ```{r}
 tm_shape(World) + tm_polygons("HPI") + tm_facets(by = "economy")
 ```
+
+```{r}
+W2 = World
+W2$economy = as.integer(W2$economy)
+W2$economy[1:100] = NA
+
+tm_shape(W2) + tm_polygons("HPI") + tm_facets(by = "economy")
+```
+
+```{r}
+tm_shape(W2) + tm_polygons("HPI") + tm_facets(by = "economy", drop.NA.facets = TRUE)
+```
+
+
+```{r}
+land2 = land
+land2$cover = as.integer(land2$cover)
+land2$cover[1:1000] = NA
+tm_shape(land2) + tm_raster("trees") + tm_facets(by = "cover")
+```
+
+
+

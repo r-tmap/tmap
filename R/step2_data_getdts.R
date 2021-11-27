@@ -1,6 +1,7 @@
 getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 	dev = getOption("tmap.devel.mode")
 	
+	
 
 	nm = aes$aes
 	nm__ord = paste0(nm, "__ord")
@@ -18,18 +19,14 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 	bypass_ord = plot.order$aes == "NULL"
 	
 	val = aes$value
-	
+	if (q$limitvars) val = val[1]
+
 	with(q, {
-		if (inherits(val, "tmapOption")) val = getAesOption(val[[1]], o, aes = nm, layer = layer)
-		if (inherits(val, "tmapShpVars")) val = as.list(shpvars)
-		
 		get_num_facets = function(bys) {
 			k = as.integer(substr(bys, 3, 3))
-			fl = get("fl", envir = .TMAP)
-			sapply(fl, length)[k]
+			fn[k]
 		}
-		
-				
+
 		nvars = length(val) #m
 		nvari = vapply(val, length, integer(1))
 		
@@ -38,13 +35,14 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 		# active grouping variables (to keep)
 		grp_bv = by123__[sort(c({if (nvars > 1) v else integer(0)}, b))]
 		
+
 		
 		#print(vars)
-		if (!all(vars %in% names(dt))) {
+		if (!aes$data_vars) {
 			#cat("step2_grp_lyr_aes_const\n")
 			# constant values (take first value (of possible tm_mv per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
-			val1 = sapply(val, "[[", 1, USE.NAMES = FALSE)
+			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 			dtl = copy(dt[, c("tmapID__", "sel__", by123__[b]), with = FALSE])
 			
 			if (nvars > 1 && limitvars) {
@@ -95,12 +93,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 			
 			dtl_leg = dtl[, .SD[1], by = c(grp_bv)][, tmapID__ := NULL][, legnr := (vapply(get(..nm), function(s) legend_save(list(vneutral = s)), FUN.VALUE = integer(1)))][, (nm) := NULL]
 		} else {
-			#cat("step2_grp_lyr_aes_var\n")
-			
 			relevant_vars = c("tmapID__", "sel__" , vars, by123__[b])
-			
 			dtl = copy(dt[, relevant_vars, with = FALSE])
-			
 			
 			# edit free argument. If NA, it is set to FALSE, and for the vars dimension to TRUE.
 			fr = rep(aes$free, length.out = 3)
@@ -108,7 +102,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 				fr = rep(FALSE, 3)
 				if (length(v)) fr[v] = TRUE
 			}
-			
 			
 			# group by variables with free scales
 			grp_b_fr = by123__[intersect(which(fr), b)]
@@ -124,6 +117,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 					# not allowed: take first one
 					warning(limitvars_warn, call. = FALSE)
 					val = val[[1]]
+					val_orig = val_orig[[1]]
 				} else {
 					if (!fr[v]) {
 						#cat("step2_grp_lyr_aes_var_multi_vars_!free_scale\n")
@@ -182,7 +176,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 				s$FUN = NULL
 				cls = data_class(dtl[[v[1]]])
 				#if (is.na(s$legend$title)) s$legend$title = v
-				if (is.na(l$title)) l$title = paste0(v, attr(cls, "units"))
+				if (is.na(l$title)) l$title = paste0(names(v), attr(cls, "units"))
 				#aesname = aes$aes
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
 					getAesOption("value.null", o, unm, layer, cls = cls)

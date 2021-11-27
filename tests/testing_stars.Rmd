@@ -73,6 +73,7 @@ tm_shape(landsat_stars) +
 ```
 
 
+
 ```{r}
 tm_shape(tif_stars) +
 	tm_raster()
@@ -80,7 +81,12 @@ tm_shape(tif_stars) +
 
 
 ```{r}
-# https://github.com/r-spatial/stars/issues/460
+tm_shape(prec) +
+	tm_raster()
+```
+
+```{r}
+tmap_options(max.raster = 50000)
 tm_shape(prec) +
 	tm_raster()
 ```
@@ -117,4 +123,42 @@ tm_shape(weather2) +
 	tm_raster()
 ```
 
+```{r}
+#todo s1_rearrage_faetgs # 83 86
+tm_shape(weather2) +
+	tm_raster() +
+	tm_facets_grid(rows = "attributes")
+```
+
+
+```{r}
+# testing non-made names
+tm_shape(weather2) +
+	tm_raster(c("1999-02-28", "1999-03-31", "1999-04-30"))
+```
+
+```{r}
+# testing made names
+tm_shape(weather2) +
+	tm_raster(c("X1999.02.28", "X1999.03.31", "X1999.04.30"))
+```
+
+
+
+```{r}
+tm_shape(landsat_stars) +
+	tm_raster()
+```
+
+```{r}
+tmap_options(max.raster = 40)
+tm_shape(landsat_stars) +
+	tm_raster()
+```
+
+
+```{r}
+tm_shape(landsat_terra) +
+	tm_raster()
+```
 

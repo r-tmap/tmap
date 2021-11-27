@@ -27,93 +27,6 @@ update_fl = function(k, lev = NULL, m = NULL) {
 }
 
 
-step2_data_grp_prepare = function(tmf, grpvars, dt) {
-	### Specify 'by' variables
-
-	by1 = tmf$by1
-	by2 = tmf$by2
-	by3 = tmf$by3
-	
-	limitvars = tmf$limitvars
-	
-	if (tmf$is.wrap) {
-		# facet wrap: only use by1
-
-		# by1 = tmf$by
-		# by2 = NULL
-		# by3 = NULL
-		
-		# By default, facets are created over the aes variables ("VARS__"). If wrap is specified in tm_facets, limit number of variables to 1.
-		# limitvars = (by1 != "VARS__")
-		limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
-	} else {
-		# facet grid
-		# by1 = tmf$rows
-		# by2 = tmf$columns
-		# by3 = tmf$pages
-		
-		## Try to assign VARS__ to one dimension. If not possible, limit number of variables to 1.
-		# limitvars = FALSE
-		# if (!identical(by1, "VARS__") && !identical(by2, "VARS__") && !identical(by3, "VARS__")) {
-		# 	if (is.null(by1)) {
-		# 		by1 = "VARS__"
-		# 	} else if (is.null(by2)) {
-		# 		by2 = "VARS__"
-		# 	} else if (is.null(by3)) {
-		# 		by3 = "VARS__"
-		# 	} else {
-		# 		limitvars = TRUE
-		# 	}
-		# }
-		limitvars_warn = "Multiple variables have been specified in a layer function. However, since the 'by' argument of tm_facets_wrap has been specified, only the first variable is used"
-	}
-	
-	
-	# v is variable by-dimension, b are the group-by by-dimensions
-	v = which(c(by1, by2, by3) == "VARS__")
-	b = setdiff(which(!vapply(list(by1, by2, by3), is.null, FUN.VALUE = logical(1))), v)
-	
-	#n = length(v) + length(b)
-	
-	by123 = paste0("by", 1L:3L) 
-	by123__ = paste0("by", 1L:3L, "__")
-	
-	var__ = by123__[v]
-	by__ = by123__[b]
-	
-	# create byx__ columns for which_by_spec
-	if (length(b)) {
-		for (w in b) {
-			byvar = by123[w]
-			byname = by123__[w]
-			if (is.factor(dt[[get(byvar)]])) {
-				if (tmf$drop.empty.facets) {
-					dt[, (byname) := droplevels(get(get(..byvar)))] 
-				} else {
-					dt[, (byname) := get(get(..byvar))] 	
-				}
-			} else {
-				dt[, (byname) := factor(get(get(..byvar)))]
-			}
-			if (!tmf$drop.NA.facets && any(is.na(dt[[byname]]))) {
-				dt[, (byname) := addNA(get(..byname))]
-				
-				lvls = levels(dt[[byname]])
-				lvls[length(lvls)] = "Missing"
-				setattr(dt[[byname]],"levels", lvls)
-				
-			}
-			
-			
-			update_fl(k = w, lev = levels(dt[[byname]]))
-			dt[, (byname) := as.integer(get(..byname))]
-		}
-	}
-	
-	
-	list(v = v, b = b, by123__ = by123__, var__ = var__, by__ = by__, limitvars = limitvars, limitvars_warn = limitvars_warn, drop.units = tmf$drop.units)
-	
-}
 
 preprocess_meta_step2 = function(meta) {
 	within(meta, {
@@ -253,6 +166,7 @@ get_tmf = function(tmfs) {
 	}
 	tmf$fl = gl
 	tmf$fn = gn
+	tmf$n = prod(gn)
 	
 	tmf
 }
