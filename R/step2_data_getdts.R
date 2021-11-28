@@ -150,7 +150,9 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 				}
 			} else {
 				#cat("step2_grp_lyr_aes_var_one_var\n")
+				val_name = names(val)[1]
 				val = val[[1]]
+				names(val) = val_name
 				vars = vars[1] # only needed for update_fl?
 			}
 			
@@ -203,7 +205,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 						dtl[, c(varname, ordname, legname) := do.call(f, c(unname(.SD), arglist)), grp_b_fr, .SDcols = v]
 					}
 				}
-				
 				if (!q$drop.units) {
 					imp = structure(list(value.null, 0L, TRUE), names = c(nm, legname, "sel__"))
 					levs = lapply(get_num_facets(grp_bv), seq.int, from = 1)

@@ -62,13 +62,14 @@ step1_rearrange_facets = function(tmo) {
 		precheck_aes = function(a, layer, shpvars) {
 			within(a, {
 				if (inherits(value, "tmapOption")) {
-					value = getAesOption(value[[1]], opt, aes = aes, layer = layer)
-					names(value) = "CONST__"
+					value_orig = getAesOption(value[[1]], opt, aes = aes, layer = layer)
+					if (!is.list(value_orig)) value = list(value_orig)
+					names(value) = sapply(value, "[", 1)
 				} else if (inherits(value, "tmapShpVars")) {
 					value = as.list(shpvars)
 				} else {
-					value_orig = sapply(value, "[", 1)
-					value = lapply(value, make.names)
+					value_orig = value
+					value = lapply(value_orig, make.names)
 					names(value) = value_orig
 				}
 				
@@ -85,6 +86,7 @@ step1_rearrange_facets = function(tmo) {
 					update_grp_vars(lev = flvar)
 					add_used_vars(vars)
 				} else {
+					value = value_orig
 					update_grp_vars(m = nflvar)
 				}
 			})
@@ -201,6 +203,7 @@ step1_rearrange_facets = function(tmo) {
 				byvars = intersect(smeta$vars, bys)
 				if (length(byvars)) add_used_vars(byvars)
 			}
+			if (!all(bys %in% c("VARS__", smeta$vars, smeta$dims))) stop("unknown facet variables", call. = FALSE)
 		})
 
 		smeta$vars = get("used_vars", envir = .TMAP)

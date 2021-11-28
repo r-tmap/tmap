@@ -21,5 +21,9 @@ tmapSubsetShp.SpatRaster = function(shp, vars) {
 #' @method tmapSubsetShp stars
 #' @export
 tmapSubsetShp.sf = function(shp, vars) {
+	if (!length(vars)) {
+		vars = "dummy__"
+		shp$dummy__ = TRUE
+	}
 	shp[, vars]
 }

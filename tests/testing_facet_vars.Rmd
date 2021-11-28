@@ -28,12 +28,20 @@ World$well_being_class = cut(World$well_being, breaks = seq(2, 8, by = 2))
 World$footprint_class = cut(World$footprint, breaks = seq(0, 16, by = 4))
 
 metro$pop2020_class = cut(metro$pop2020, breaks = c(.5, 1.5, 2.5, 5, 15, 40) * 1e6)
+metro$pop2020_class8 = cut(metro$pop2020, breaks = c(.5, 1, 1.5, 2.5, 5, 10, 15, 20, 40) * 1e6)
 
 
 
 Africa = World[World$continent == "Africa", ]
 
 data(land)
+
+land$cover_int = as.integer(land$cover)
+land$cover_int[1:1000] = NA
+
+World$economy_int = as.integer(World$economy)
+World$economy_int[1:100] = NA
+
 
 landsat_stars = read_stars(system.file("raster/landsat.tif", package = "spDataLarge"))
 landsat_terra = rast(system.file("raster/landsat.tif", package = "spDataLarge"))
@@ -254,24 +262,27 @@ tm_shape(World) + tm_polygons("HPI") + tm_facets(by = "economy")
 ```
 
 ```{r}
-W2 = World
-W2$economy = as.integer(W2$economy)
-W2$economy[1:100] = NA
-
-tm_shape(W2) + tm_polygons("HPI") + tm_facets(by = "economy")
+tm_shape(World) + tm_polygons("HPI") + tm_facets(by = "economy_int")
 ```
 
 ```{r}
-tm_shape(W2) + tm_polygons("HPI") + tm_facets(by = "economy", drop.NA.facets = TRUE)
+tm_shape(World) + tm_polygons("HPI") + tm_facets(by = "economy", drop.NA.facets = TRUE)
 ```
 
 
 ```{r}
-land2 = land
-land2$cover = as.integer(land2$cover)
-land2$cover[1:1000] = NA
-tm_shape(land2) + tm_raster("trees") + tm_facets(by = "cover")
+tm_shape(land) + tm_raster("trees") + tm_facets(by = "cover_int")
 ```
 
 
+```{r}
+tm_shape(land) + 
+	tm_raster("trees") +
+	tm_facets_wrap("cover_cls") +
+tm_shape(World) +
+	tm_polygons(col = rainbow(8), lwd = 3, fill = NA) +
+tm_shape(metro) +
+	tm_symbols(fill = "pop2020_class8", size = .5)
 
+
+```

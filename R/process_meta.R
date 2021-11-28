@@ -181,15 +181,26 @@ process_meta = function(o, d) {
 		
 		margins.used =  margins.used.all | margins.used.sides | legend.present.fix
 		
+		
 		if (meta.automatic && any(margins.used)) {
 			meta.auto.margins = rep(meta.auto.margins, length.out = 4)
 			if (all(!margins.used[c(1,3)]) && n == 1) {
 				# auto adjust left/right
-				meta.margins[margins.used] =  pmax(meta.auto.margins[margins.used], (1 - pasp/masp - 2*bufferW)) / sum(margins.used)
+				meta.margins[c(2,4)] =  local({
+					xtra = max(0, (1 - pasp/masp - 2*bufferW) - sum(meta.auto.margins[margins.used]))
+					tmp = rep(0, 4)
+					tmp[margins.used] = meta.auto.margins[margins.used]
+					tmp[c(2,4)] + (xtra / 2)
+				})
 			} else if (all(!margins.used[c(2,4)]) && n == 1) {
 				# auto adjust top/right
-				meta.margins[margins.used] =  pmax(meta.auto.margins[margins.used], (1 - masp/pasp - 2*bufferH)) / sum(margins.used) } 
-			else {
+				meta.margins[c(1,3)] =  local({
+					xtra = max(0, (1 - masp/pasp - 2*bufferH) - sum(meta.auto.margins[margins.used]))
+					tmp = rep(0, 4)
+					tmp[margins.used] = meta.auto.margins[margins.used]
+					tmp[c(1,3)] + (xtra / 2)
+				})
+			} else {
 				meta.margins[margins.used] = meta.auto.margins[margins.used]
 			}
 			
