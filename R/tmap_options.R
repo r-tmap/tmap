@@ -11,7 +11,7 @@
 		
 		crs = NA,
 		max.facets = 64,
-		
+		facet.flip = FALSE,
 		grid.mark.height = 2,
 		xylab.height = 1.25,
 		coords.height = 1.25,
@@ -117,8 +117,9 @@
 		asp = NA,
 		outer.margins = rep(0.02, 4),
 		inner.margins = list(stars = rep(0, 4), SpatRaster = rep(0, 4), rep(0.02, 4)),
+		inner.margins.extra = c(0, 0, 0, 0),
 		meta.margins = NA,
-		meta.auto.margins = c(0.3, 0.3, 0.3, 0.3),
+		meta.auto.margins = c(0.1, 0.1, 0.1, 0.1),
 		between.margin = .5,
 		outer.bg.color = NA,
 		fontface = "plain",
@@ -434,12 +435,20 @@ tm_place_legends_left = function(width) {
 
 #' @export
 tm_place_legends_bottom = function(height) {
-	tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "bottom"))
+	tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "bottom"), legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "horizontal"))
 }
 
 #' @export
 tm_place_legends_top = function(height) {
-	tm_options(meta.margins = c(0, 0, height, 0), legend.position = tm_lp_out("center", "top"))
+	tm_options(meta.margins = c(0, 0, height, 0), legend.position = tm_lp_out("center", "top"), legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "horizontal"))
 }
+
+#' @export
+tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
+	tm_options(inner.margins.extra = c(bottom, left, top, right))
+}
+
+
+
 
 				 

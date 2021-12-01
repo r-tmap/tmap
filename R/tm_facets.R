@@ -5,6 +5,7 @@ tm_facets = function(by = NULL,
 					 pages = NULL,
 					 nrows = NA,
 					 ncols = NA,
+					 byrow = TRUE,
 					 free.coords = NA,
 					 drop.units = TRUE,
 					 drop.empty.facets = TRUE,
@@ -67,10 +68,16 @@ tm_facets_grid = function(rows = NULL,
 tm_facets_wrap = function(by = "VARS__",
 						  nrows = NA,
 						  ncols = NA,
+						  byrow = TRUE,
 						  ...) {
 	args = list(...)
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, is.wrap = TRUE), args[setdiff(names(args), "is.wrap")]))
+	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, is.wrap = TRUE), args[setdiff(names(args), "is.wrap")]))
 	tm[[1]]$calls = calls
 	tm
+}
+
+
+tm_facet_flip = function() {
+	tm_options(facet.flip = TRUE)
 }

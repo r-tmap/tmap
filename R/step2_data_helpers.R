@@ -61,10 +61,17 @@ preprocess_meta_step2 = function(meta) {
 		# 		
 		
 		outer.margins <- rep(outer.margins, length.out = 4)
+
+		inner.margins.extra = rep(inner.margins.extra, length.out = 4)
 		
 		if (is.list(inner.margins)) {
-			inner.margins = lapply(inner.margins, rep, length.out = 4)
+			inner.margins = lapply(inner.margins, function(im) {
+				rep(im, length.out = 4) + inner.margins.extra
+			})
+		} else {
+			rep(inner.margins, length.out = 4) + inner.margins.extra
 		}
+		inner.margins.extra = NULL
 		
 		attr.color.light = is_light(attr.color)
 		

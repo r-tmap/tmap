@@ -74,8 +74,13 @@ step4_plot = function(tm) {
 		d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
 	} else {
 		# wrap
-		d[, col := as.integer((i - 1) %% o$ncols + 1)]
-		d[, row := as.integer((((i - 1) %/% o$ncols + 1) - 1) %% o$nrows + 1)]
+		if (o$facet.flip) {
+			d[, row := as.integer((i - 1) %% o$nrows + 1)]
+			d[, col := as.integer((((i - 1) %/% o$nrows + 1) - 1) %% o$ncols + 1)]
+		} else {
+			d[, col := as.integer((i - 1) %% o$ncols + 1)]
+			d[, row := as.integer((((i - 1) %/% o$ncols + 1) - 1) %% o$nrows + 1)]
+		}
 		
 	}
 	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
@@ -257,6 +262,12 @@ step4_plot = function(tm) {
 		legs_in = lapply(which(is_in), function(i) {
 			d2 = data.table::copy(d)
 			legsi = legs[i, ]
+			if (o$is.wrap && o$nrows == 1) {
+				# reverse above
+				d2[, by2 := by1]
+				d2[, by1 := 1]
+			}
+			
 			if (is.na(legsi$by1__)) d2[, by1:= NA]
 			if (is.na(legsi$by2__)) d2[, by2:= NA]
 			if (is.na(legsi$by3__)) d2[, by3:= NA]

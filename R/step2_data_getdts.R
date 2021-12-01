@@ -170,7 +170,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 				# update other legend options
 				opt_leg = setdiff(intersect(substr(tmp, 8, nchar(tmp)), names(l)), "format")
 				l[opt_leg] = mapply(function(x, nm) {
-					if (is.na(x[1])) o[[paste0("legend.", nm)]] else x
+					if (all(is.na(x))) o[[paste0("legend.", nm)]] else x
 				}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
 				
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)

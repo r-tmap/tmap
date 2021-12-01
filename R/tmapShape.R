@@ -57,7 +57,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	
 	shp = structure(list(x = structure(list(from = 1, to = xy_dim[2], offset = b[1], delta = (b[3] - b[1]) / xy_dim[2], refsys = crs, point = FALSE, values = NULL), class = "dimension"),
-			 y = structure(list(from = 1, to = xy_dim[1], offset = b[2], delta = (b[2] - b[4]) / xy_dim[1], refsys = crs, point = FALSE, values = NULL), class = "dimension")), class = "dimensions")
+			 y = structure(list(from = 1, to = xy_dim[1], offset = b[4], delta = (b[2] - b[4]) / xy_dim[1], refsys = crs, point = FALSE, values = NULL), class = "dimension")), class = "dimensions")
 	attr(shp, "raster") = structure(list(affine = c(0, 0), dimensions = c("x", "y"), curvilinear = FALSE), class = "stars_raster")
 			 
 	

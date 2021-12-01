@@ -266,8 +266,6 @@ step1_rearrange_facets = function(tmo) {
 			
 			
 			#fl1 = 
-			
-			
 		})
 		tmg$tms$shp = shp
 		tmg$tms$smeta = smeta

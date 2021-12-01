@@ -15,8 +15,34 @@ step2_data = function(tm) {
 	legends_init()
 	
 	grps = lapply(tmo, function(tmg) {
-		
+		tmf = tmg$tmf
 		dt = tmg$tms$dt
+		
+		if (meta$facet.flip && !meta$is.wrap) {
+			if ("by2__" %in% names(dt)) {
+				dt[, by2b__:= by2__]
+				dt[, by2__ := NULL]
+			}
+			if ("by1__" %in% names(dt)) {
+				dt[, by2__:= by1__]
+			}
+			if ("by2b__" %in% names(dt)) {
+				dt[, by1__ := by2b__]
+				dt[, by2b__ := NULL]
+			}
+			
+			tmf = within(tmf, {
+				b = ifelse(b == 1L, 2L, ifelse(b == 2L, 1L, b))
+				v = ifelse(v == 1L, 2L, ifelse(v == 2L, 1L, v))
+				by__ = ifelse(by__ == "by1__", "by2__", ifelse(by__ == "by2__", "by1__", by__))
+				var__ = ifelse(var__ == "by1__", "by2__", ifelse(var__ == "by2__", "by1__", var__))
+				gn = gn[c(2,1,3)]
+				gl = gl[c(2,1,3)]
+				fl = fl[c(2,1,3)]
+				fn = fn[c(2,1,3)]
+			})
+		}
+		
 		shpvars = tmg$tms$smeta$vars
 
 		# step2_data_grp_prepare
@@ -33,11 +59,11 @@ step2_data = function(tm) {
 			
 			#cat("step2_grp_lyr_trans_______________\n")
 			
-			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmg$tmf, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
+			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
 			
 			#cat("step2_grp_lyr_mapping_____________\n")
 			
-			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmg$tmf, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
+			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
 
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt), plot.order)
 			trans_legend = lapply(trans, function(x) x$leg)

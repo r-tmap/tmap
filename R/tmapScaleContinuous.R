@@ -1,3 +1,5 @@
+log10p =
+
 tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, sortRev) {
 	style = if (inherits(scale, "tm_scale_continuous")) {
 		"cont"
@@ -39,7 +41,13 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		if (is.log && !attr(legend$format, "big.num.abbr.set")) legend$format$big.num.abbr = NA
 		
-		if (style == "log10") x1 = log10(x1)
+		if (style == "log10") {
+			x1 = log10(x1)
+			if (any(x1 < 0)) {
+				x1[x1 < 0] = 0
+				warning("data values lower than 1 have been rounded to 1 in order to prevent (large) negative values for tm_scale_log10", call. = FALSE)
+			}
+		}
 		style = ifelse(style=="rank", "quantile", "fixed")
 		
 		if (style=="fixed") {
@@ -128,12 +136,14 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		if (is.na(na.show)) na.show = anyNA
 		
-		if (is.na(sortRev)) {
+		if (is.null(sortRev)) {
+			ids = NULL
+		} else if (is.na(sortRev)) {
 			ids[] = 1L
 		} else if (sortRev) {
 			ids = (as.integer(n) + 1L) - ids
 		}
-		
+
 		if (anyNA) {
 			vals[isna] = value.na
 			ids[isna] = 0L
