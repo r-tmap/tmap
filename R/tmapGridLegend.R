@@ -57,36 +57,36 @@ leg_standard = list(
 		})
 	},
 	fun_height = function(leg, o) {
-		if (leg$setup$is.portrait) {
-			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
-			tH = ifelse(leg$title == "", 0, inch * o$legend.title.size * 1.375)
+		h = if (leg$setup$is.portrait) {
+			tH = ifelse(leg$title == "", 0, o$lin * o$legend.title.size * 1.375)
 			nlines = sum(leg$lines)
-			iH = inch * (nlines + 0.8) * o$legend.text.size
+			iH = o$lin * (nlines + 0.8) * o$legend.text.size
 			tH + iH
 		} else {
-			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
-			tH = ifelse(leg$title == "", 0, inch * o$legend.title.size * 1.375)
-			tH + inch * (2 + 0.8) * o$legend.text.size
+			tH = ifelse(leg$title == "", 0, o$lin * o$legend.title.size * 1.375)
+			tH + o$lin * (2 + 0.8) * o$legend.text.size
 		}
+		leg$Hin = h
+		leg
 	},
 	fun_width = function(leg, o) {
-		if (leg$setup$is.portrait) {
-			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
-		
-			tW = ifelse(leg$title == "", 0, inch * o$legend.title.size * grid::convertWidth(grid::stringWidth(leg$title), unitTo = "lines", valueOnly = TRUE))
+		w = if (leg$setup$is.portrait) {
 			
+			tW = ifelse(leg$title == "", 0, o$legend.title.size * strwidth(leg$title, units = "inch"))
 			
-			iW = inch * o$legend.text.size * grid::unit(grid::convertWidth(grid::stringWidth(leg$labels), unitTo = "lines", valueOnly = TRUE) + leg$lines_excl + 0.65, "lines") # 0.65 = 0.4 margin left and 0.25 margin between item and text
-			max(c(tW, iW)) + (inch * o$legend.text.size * 0.75)
+			iW = o$legend.text.size * (strwidth(leg$labels, units = "inch") + (leg$lines_excl + 0.65) * o$lin) # 0.65 = 0.4 margin left and 0.25 margin between item and text
+			
+			max(c(tW, iW)) + (o$lin * o$legend.text.size * 0.75)
 		} else {
-			inch = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
-			
+
 			nlines = sum(leg$lines)
-			tW = ifelse(leg$title == "", 0, inch * o$legend.title.size * grid::convertWidth(grid::stringWidth(leg$title), unitTo = "lines", valueOnly = TRUE))
-			iW = inch * (nlines + 0.8) * o$legend.text.size * 6
+			tW = ifelse(leg$title == "", 0, o$lin * o$legend.title.size * strwidth(leg$title, units = "inch"))
+			iW = o$lin * (nlines + 0.8) * o$legend.text.size * 6
 			
-			max(c(tW, iW)) + (inch * o$legend.text.size * 0.75)
+			max(c(tW, iW)) + (o$lin * o$legend.text.size * 0.75)
 		}
+		leg$Win = w
+		leg
 	},
 	fun_plot = function(leg, o) {
 		o$legend.title.size = o$legend.title.size * leg$scale
@@ -399,10 +399,10 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	
 
-	legs = lapply(legs, leg_standard$fun_add_leg_type)
+	#legs = lapply(legs, leg_standard$fun_add_leg_type)
 	
-	legWin = vapply(legs, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
-	legHin = vapply(legs, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
+	legWin = vapply(legs, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(legs, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
+	legHin = vapply(legs, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(legs, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
 	
 	scaleW = legWin / maxW
 	scaleH = legHin / maxH

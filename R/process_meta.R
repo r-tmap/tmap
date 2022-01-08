@@ -1,3 +1,29 @@
+prepreprocess_meta = function(o) {
+	within(o, {
+		# dasp device aspect ratio
+		devsize = dev.size()
+		dasp = devsize[1] / devsize[2]
+		
+		# needed for spnc viewport (to retain aspect ratio)
+		if (dasp > 1) {
+			cw = dasp
+			ch = 1
+		} else {
+			ch = 1/dasp
+			cw = 1
+		}
+		
+		
+		lin = par("cin")[2] * scale
+		
+		lineH = lin / devsize[2] 
+		lineW = lin / devsize[1]
+		
+		nlinesH = 1/lineH
+		nlinesW = 1/lineW
+		
+	})
+}
 preprocess_meta = function(o, legs) {
 	within(o, {
 		nby = fn #get_nby(fl)
@@ -43,21 +69,6 @@ process_meta = function(o, d) {
 		diff_asp = any(d$asp != d$asp[1])
 		sasp = ifelse(diff_asp, NA, d$asp[1])
 		
-		# dasp device aspect ratio
-		devsize = dev.size()
-		dasp = devsize[1] / devsize[2]
-		
-		# needed for spnc viewport (to retain aspect ratio)
-		if (dasp > 1) {
-			cw = dasp
-			ch = 1
-		} else {
-			ch = 1/dasp
-			cw = 1
-		}
-		
-		lineH = grid::convertHeight(grid::unit(1, "lines"), unitTo = "npc", valueOnly = TRUE) * scale
-		lineW = grid::convertWidth(grid::unit(1, "lines"), unitTo = "npc", valueOnly = TRUE) * scale
 		
 		bufferH = lineH / 2
 		bufferW = lineW / 2

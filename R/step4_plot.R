@@ -1,3 +1,12 @@
+process_legends = function(legs, o) {
+	legs$legend = lapply(legs$legend, leg_standard$fun_add_leg_type)
+	
+	
+	legs$legend = lapply(legs$legend, leg_standard$fun_width, o = o)
+	legs$legend = lapply(legs$legend, leg_standard$fun_height, o = o)
+    legs
+}
+
 step4_plot = function(tm) {
 	tmx = tm$tmo
 	o = tm$meta
@@ -6,8 +15,14 @@ step4_plot = function(tm) {
 	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
 	
+	o = prepreprocess_meta(o)
+	
 	# get legends from layer data
 	legs = step4_plot_collect_legends(tmx)
+	
+	legs = process_legends(legs, o)
+	
+	
 	
 	# determine panel type, inner margins, and automatic legend placement
 	o = preprocess_meta(o, legs)

@@ -120,7 +120,7 @@
 		inner.margins.extra = c(0, 0, 0, 0),
 		meta.margins = NA,
 		legend.size.portrait = c(),
-		meta.auto.margins = c(0.5, 0.5, 0.5, 0.5),
+		meta.auto.margins = c(0.2, 0.2, 0.2, 0.2),
 		between.margin = .5,
 		outer.bg.color = NA,
 		fontface = "plain",
