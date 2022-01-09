@@ -1,7 +1,7 @@
 #' @export
 tm_legend = function(title  = NA,
 					 show = TRUE,
-					 is.portrait = T,
+					 is.portrait = F,
 					 reverse = FALSE,
 					 position = NA,
 					 width = NA,

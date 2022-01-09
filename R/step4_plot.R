@@ -4,7 +4,75 @@ process_legends = function(legs, o) {
 	
 	legs$legend = lapply(legs$legend, leg_standard$fun_width, o = o)
 	legs$legend = lapply(legs$legend, leg_standard$fun_height, o = o)
-    legs
+	
+	legs[, ':='(facet_row = character(), facet_col = character())]
+	legs$stack_auto = vapply(legs$legend, function(l) {
+		s = l$setup$stack
+		length(s) > 1
+	}, FUN.VALUE = logical(1))
+	legs$stack = vapply(legs$legend, function(l) {
+		s = l$setup$stack
+		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
+	}, FUN.VALUE = character(1))
+	
+	# when facets are wrapped:
+	if (o$is.wrap && o$n > 1) {
+		# (o$nrows > 1 && o$ncols > 1) || 
+		if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
+			# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
+			legs[class != "in", by1__ := NA]
+			legs[class != "in", by2__ := NA]
+		} else if (o$nrows == 1) {
+			# -use by2 and not by1 when they form a row
+			legs[, by2__ := by1__]
+			legs[, by1__ := NA]
+		} 
+	}
+	
+	legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]
+	
+	getLW = function(x) sapply(x, function(y) y$Win)
+	getLH = function(x) sapply(x, function(y) y$Hin)
+	# attempt to determine margins
+	legs[, legW := getLW(legend)]
+	legs[, legH := getLH(legend)]
+	
+	legs
+}
+
+process_legends2 = function(legs, o) {
+	
+	stacks = o$legend.stack
+	
+	
+	# update auto position (for 'all', 'rows', 'columns' legends)
+	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.all$h, v = o$legend.position.all$v)]
+	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.sides$h, v = "by")]
+	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(h = "by", v = o$legend.position.sides$v)]
+	
+	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, ifelse(h == "center", stacks["per_row"], ifelse(v == "center", stacks["per_col"], stacks["all"])), stack))]
+	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
+	
+	
+	legs[class == "auto", class := "out"]
+	
+	
+	
+	# # place legends inside if needed
+	# #if (o$ncols > 1 && o$nrows > 1) {
+	# if (o$is.wrap && !o$per_facet_wrap_outside) {
+	# 	# all free legends inside
+	# 	legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]
+	# } else {
+	# 	# all free-per-facet legends inside
+	# 	legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]
+	# }
+	#}
+	
+	
+	
+	legs
 }
 
 step4_plot = function(tm) {
@@ -26,6 +94,7 @@ step4_plot = function(tm) {
 	
 	# determine panel type, inner margins, and automatic legend placement
 	o = preprocess_meta(o, legs)
+	
 	
 	# function to get shape object
 	get_shpTM = function(shpDT, by1, by2, by3) {
@@ -80,7 +149,9 @@ step4_plot = function(tm) {
 	d[, asp:=get_asp(bbox)]
 	
 	# calculate margins, number of rows and colums, etc.
-	o = process_meta(o, d)
+	o = process_meta(o, d, legs)
+	legs = process_legends2(legs, o)
+	
 	o$ng = length(tmx)
 
 	# determine row and col ids	
@@ -208,57 +279,6 @@ step4_plot = function(tm) {
 
 
 	
-	legs[, ':='(facet_row = character(), facet_col = character())]
-	legs$stack_auto = vapply(legs$legend, function(l) {
-		s = l$setup$stack
-		length(s) > 1
-	}, FUN.VALUE = logical(1))
-	legs$stack = vapply(legs$legend, function(l) {
-		s = l$setup$stack
-		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
-	}, FUN.VALUE = character(1))
-	
-	
-	stacks = o$legend.stack
-
-	# when facets are wrapped:
-	if (o$is.wrap && o$n > 1) {
-		# (o$nrows > 1 && o$ncols > 1) || 
-		if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
-			# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
-			legs[class != "in", by1__ := NA]
-			legs[class != "in", by2__ := NA]
-		} else if (o$nrows == 1) {
-			# -use by2 and not by1 when they form a row
-			legs[, by2__ := by1__]
-			legs[, by1__ := NA]
-		} 
-	}
-	
-	# place legends inside if needed
-	#if (o$ncols > 1 && o$nrows > 1) {
-		if (o$is.wrap && !o$per_facet_wrap_outside) {
-			# all free legends inside
-			legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]	
-		} else {
-			# all free-per-facet legends inside
-			legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]	
-		}
-	#}
-			
-	
-	# update auto position (for 'all', 'rows', 'columns' legends)
-	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.all$h, v = o$legend.position.all$v)]
-	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.sides$h, v = "by")]
-	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(h = "by", v = o$legend.position.sides$v)]
-
-	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, ifelse(h == "center", stacks["per_row"], ifelse(v == "center", stacks["per_col"], stacks["all"])), stack))]
-	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
-	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
-	
-	
-	legs[class == "auto", class := "out"]
-	
 	vby = any(legs$v == "by")
 	hby = any(legs$h == "by")
 	
@@ -266,9 +286,6 @@ step4_plot = function(tm) {
 	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(v == "by", as.character(by1__), ifelse(v == "top", as.character(-2), as.character(-1)))),
 										   facet_col = ifelse(h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(h == "by", as.character(by2__), ifelse(h == "left", as.character(-2), as.character(-1)))))]
 	
-	# manual in legends
-	
-	# find all facets
 	
 	
 	

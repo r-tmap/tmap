@@ -60,10 +60,22 @@ preprocess_meta = function(o, legs) {
 								   any(legs$class == "out" & legs$v == "top"),
 								   any(legs$class == "out" & legs$h == "right"))
 		}
+		
+		
+		# in case there are per-facet legends but no no marginal legends, and nrows or ncols equals 1, place them outside (to do this, set them to all-facet here, change legend.position.all below accordingly, and finally determine legend position in step4_plot)
+		if (legend.present.auto[4] && (!any(legend.present.auto[2:3])) && (identical(nrows, 1) || identical(ncols, 1))) {
+			per_facet_wrap_outside = TRUE
+			legend.present.auto[1] = TRUE
+			legend.present.auto[4] = FALSE
+		} else {
+			per_facet_wrap_outside = FALSE
+		}
+		
+		
 	})
 }
 
-process_meta = function(o, d) {
+process_meta = function(o, d, legs) {
 	within(o, {
 		# sasp shape aspect ratio (NA if free coordinates)
 		diff_asp = any(d$asp != d$asp[1])
@@ -151,15 +163,7 @@ process_meta = function(o, d) {
 		legend.position.all = legend.position
 		
 		
-		# in case there are per-facet legends but no no marginal legends, and nrows or ncols equals 1, place them outside (to do this, set them to all-facet here, change legend.position.all below accordingly, and finally determine legend position in step4_plot)
-		if (legend.present.auto[4] && (!any(legend.present.auto[2:3])) && (identical(nrows, 1) || identical(ncols, 1))) {
-			per_facet_wrap_outside = TRUE
-			legend.present.auto[1] = TRUE
-			legend.present.auto[4] = FALSE
-		} else {
-			per_facet_wrap_outside = FALSE
-		}
-		
+
 		## find position for all-facet legend
 		if (legend.present.auto[1]) {
 			if (!legend.present.auto[2] & !legend.present.auto[3]) {
@@ -191,6 +195,14 @@ process_meta = function(o, d) {
 		
 		
 		margins.used =  margins.used.all | margins.used.sides | legend.present.fix
+		
+		# tm_shape(World) + tm_polygons(fill = "HPI", lwd = "life_exp")
+		
+		meta.auto.margins = pmin(0.8, c(max(legs$legH[legs$v == "bottom" & legs$class == "auto"], 0) / o$devsize[2],
+										max(legs$legW[legs$h == "left" & legs$class == "auto"], 0) / o$devsize[1],
+										max(legs$legH[legs$v == "top" & legs$class == "auto"], 0) / o$devsize[2],
+										max(legs$legW[legs$h == "right" & legs$class == "auto"], 0) / o$devsize[1]))
+		
 		
 		
 		if (meta.automatic && any(margins.used)) {
