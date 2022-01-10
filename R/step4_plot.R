@@ -15,21 +15,7 @@ process_legends = function(legs, o) {
 		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
 	}, FUN.VALUE = character(1))
 	
-	# when facets are wrapped:
-	if (o$is.wrap && o$n > 1) {
-		# (o$nrows > 1 && o$ncols > 1) || 
-		if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
-			# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
-			legs[class != "in", by1__ := NA]
-			legs[class != "in", by2__ := NA]
-		} else if (o$nrows == 1) {
-			# -use by2 and not by1 when they form a row
-			legs[, by2__ := by1__]
-			legs[, by1__ := NA]
-		} 
-	}
 	
-	legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]
 	
 	getLW = function(x) sapply(x, function(y) y$Win)
 	getLH = function(x) sapply(x, function(y) y$Hin)
@@ -41,9 +27,41 @@ process_legends = function(legs, o) {
 }
 
 process_legends2 = function(legs, o) {
+	# when facets are wrapped:
+	
+	
+	
+	
+	if (o$type != "grid" && o$n > 1) {
+		# # (o$nrows > 1 && o$ncols > 1) || 
+		# if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
+		# 	# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
+		# 	legs[class != "in", by1__ := NA]
+		# 	legs[class != "in", by2__ := NA]
+		# } else 
+		if (o$nrows == 1) {
+			# -use by2 and not by1 when they form a row
+			legs[, by2__ := by1__]
+			legs[, by1__ := NA]
+		} 
+	}
 	
 	stacks = o$legend.stack
 	
+	
+	# place legends inside if needed
+	#if (o$ncols > 1 && o$nrows > 1) {
+	if (o$type != "stack") {
+	# 	if (!o$per_facet_wrap_outside) {
+	# 		legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]	
+	# 	}
+	# } else {
+	# 	# all free-per-facet legends inside
+		legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]
+	}
+
+
+
 	
 	# update auto position (for 'all', 'rows', 'columns' legends)
 	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.all$h, v = o$legend.position.all$v)]
@@ -58,17 +76,6 @@ process_legends2 = function(legs, o) {
 	legs[class == "auto", class := "out"]
 	
 	
-	
-	# # place legends inside if needed
-	# #if (o$ncols > 1 && o$nrows > 1) {
-	# if (o$is.wrap && !o$per_facet_wrap_outside) {
-	# 	# all free legends inside
-	# 	legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]
-	# } else {
-	# 	# all free-per-facet legends inside
-	# 	legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]
-	# }
-	#}
 	
 	
 	

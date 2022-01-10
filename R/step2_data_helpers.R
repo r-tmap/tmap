@@ -175,6 +175,10 @@ get_tmf = function(tmfs) {
 	tmf$fn = gn
 	tmf$n = prod(gn)
 	
+	if (tmf$type == "wrapstack") {
+		tmf$type = if (tmf$n > 3) "wrap" else "stack"
+	}
+	
 	tmf
 }
 

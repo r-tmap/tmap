@@ -29,8 +29,8 @@ preprocess_meta = function(o, legs) {
 		nby = fn #get_nby(fl)
 		isdef = !sapply(fl, is.null)
 		n = prod(nby)
-		if (is.na(panel.type)) panel.type = ifelse((n == 1 && is.na(panel.labels[[1]]) && !isdef[1]) || (is.wrap && !isdef[1]) || (!is.wrap && !isdef[1] && !isdef[2]), "none", 
-										    ifelse(is.wrap || (n == 1), "wrap", "xtab"))
+		if (is.na(panel.type)) panel.type = ifelse((n == 1 && is.na(panel.labels[[1]]) && !isdef[1]) || ((type %in% c("wrap", "stack")) && !isdef[1]) || (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]), "none", 
+										    ifelse((type %in% c("wrap", "stack")) || (n == 1), "wrap", "xtab"))
 		
 		inner.margins = get_option_class(inner.margins, class = main_class)
 
@@ -44,7 +44,7 @@ preprocess_meta = function(o, legs) {
 			legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE, per_facet = FALSE)
 			legend.present.fix = rep(FALSE, 4)
 		} else {
-			if (is.wrap) {
+			if (type %in% c("wrap", "stack")) {
 				#o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & legs$class == "auto"), per_col = FALSE)
 				legend.present.auto = c(all = any(legs$class == "auto" & is.na(legs$by1__)), 
 										per_row = FALSE, per_col = FALSE, 
@@ -63,7 +63,7 @@ preprocess_meta = function(o, legs) {
 		
 		
 		# in case there are per-facet legends but no no marginal legends, and nrows or ncols equals 1, place them outside (to do this, set them to all-facet here, change legend.position.all below accordingly, and finally determine legend position in step4_plot)
-		if (legend.present.auto[4] && (!any(legend.present.auto[2:3])) && (identical(nrows, 1) || identical(ncols, 1))) {
+		if (legend.present.auto[4] && (!any(legend.present.auto[2:3])) && (type == "stack")) {
 			per_facet_wrap_outside = TRUE
 			legend.present.auto[1] = TRUE
 			legend.present.auto[4] = FALSE
@@ -162,6 +162,15 @@ process_meta = function(o, d, legs) {
 		legend.position.sides = legend.position
 		legend.position.all = legend.position
 		
+		if (type == "stack") {
+			if (is.na(orientation)) {
+				orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) {
+					"horizontal"
+				} else {
+					"vertical"
+				}
+			}
+		}
 		
 
 		## find position for all-facet legend
@@ -169,7 +178,7 @@ process_meta = function(o, d, legs) {
 			if (!legend.present.auto[2] & !legend.present.auto[3]) {
 				# only 'all facets' outside legends (either bottom or right)
 				# was: n > 1 && masp > pasp
-				if ((n == 1 && pasp > masp) || (n > 1 && pasp > masp) || (identical(nrows, 1) || (!is.na(ncols) && ncols >= n))) { # || one.row
+				if ((n == 1 && pasp > masp) || (type != "stack" && masp < 1) || (type == "stack" && orientation == "horizontal")) {
 					legend.position.all = list(h = "center", v = legend.position$v)
 				} else {
 					legend.position.all = list(h = legend.position$h, v = "center")
@@ -236,11 +245,18 @@ process_meta = function(o, d, legs) {
 		
 		
 		# determine number of rows and cols
-		if (!is.wrap) {
+		if (type == "grid") {
 			nrows = nby[1]
-			ncols = nby[2]
+			ncols = nby[2] 
+		} else if (type == "stack") {
+			if (orientation == "horizontal") {
+				nrows = 1
+				ncols = n
+			} else {
+				nrows = n
+				ncols = 1
+			}
 		} else {
-			
 			if (is.na(nrows) && !is.na(ncols)) {
 				nrows = ceiling((nby[1] / ncols))
 			} else if (!is.na(nrows) && is.na(ncols)) {

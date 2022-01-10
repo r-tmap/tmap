@@ -6,6 +6,7 @@ tm_facets = function(by = NULL,
 					 nrows = NA,
 					 ncols = NA,
 					 byrow = TRUE,
+					 orientation = NA,
 					 free.coords = NA,
 					 drop.units = TRUE,
 					 drop.empty.facets = TRUE,
@@ -14,28 +15,30 @@ tm_facets = function(by = NULL,
 					 showNA = NA,
 					 textNA = "Mssing",
 					 scale.factor=2,
-					 is.wrap = NA) {
+					 type = NA # grid, wrap or stack
+					 ) {
 	
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	if (!is.null(by)) {
-		is.wrap = TRUE
+		type = "wrapstack"
 		rows = NULL
 		columns = NULL
 		pages = NULL
 	}
 	if (!is.null(rows) || !is.null(columns) || !is.null(pages)) {
-		is.wrap = FALSE
+		type = "grid"
 		by = NULL
 	}
 
 	tm_element_list(tm_element(
-		is.wrap = is.wrap,
+		type = type,
 		by = by,
 		rows = rows,
 		columns = columns,
 		pages = pages,
 		nrows = nrows,
 		ncols = ncols,
+		orientation = orientation,
 		free.coords = free.coords,
 		drop.units = drop.units,
 		drop.empty.facets = drop.empty.facets,
@@ -46,9 +49,6 @@ tm_facets = function(by = NULL,
 		scale.factor = scale.factor,
 		calls = calls,
 		subclass = "tm_facets"))
-	
-	
-	
 }
 
 #' @export
@@ -58,7 +58,7 @@ tm_facets_grid = function(rows = NULL,
 						  ...) {
 	args = list(...)
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	tm = do.call("tm_facets", c(list(by = NULL, rows = rows, columns = columns, pages = pages, is.wrap = FALSE), args[setdiff(names(args), "is.wrap")]))
+	tm = do.call("tm_facets", c(list(by = NULL, rows = rows, columns = columns, pages = pages, type = "grid"), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = calls
 	tm
 }
@@ -72,11 +72,35 @@ tm_facets_wrap = function(by = "VARS__",
 						  ...) {
 	args = list(...)
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, is.wrap = TRUE), args[setdiff(names(args), "is.wrap")]))
+	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, type = "wrap"), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = calls
 	tm
 }
 
+
+
+#' @export
+tm_facets_stack = function(by = "VARS__",
+						   orientation = NA,
+						  ...) {
+	args = list(...)
+	calls = names(match.call(expand.dots = TRUE)[-1])
+	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, type = "stack"), args[setdiff(names(args), "type")]))
+	tm[[1]]$calls = calls
+	tm
+}
+
+#' @export
+tm_facets_hstack = function(by = "VARS__",
+						   ...) {
+	do.call("tm_facets_stack", c(list(by = by, orientation = "horizontal"), list(...)))
+}
+
+#' @export
+tm_facets_vstack = function(by = "VARS__",
+							...) {
+	do.call("tm_facets_stack", c(list(by = by, orientation = "vertical"), list(...)))
+}
 
 tm_facet_flip = function() {
 	tm_options(facet.flip = TRUE)

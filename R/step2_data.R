@@ -18,7 +18,7 @@ step2_data = function(tm) {
 		tmf = tmg$tmf
 		dt = tmg$tms$dt
 		
-		if (meta$facet.flip && !meta$is.wrap) {
+		if (meta$facet.flip && !meta$type %in% c("wrapstack", "wrap", "stack")) {
 			if ("by2__" %in% names(dt)) {
 				dt[, by2b__:= by2__]
 				dt[, by2__ := NULL]

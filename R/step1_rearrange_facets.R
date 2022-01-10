@@ -113,9 +113,9 @@ step1_rearrange_facets = function(tmo) {
 		tmg$tmf = within(tmg$tmf, {
 			#fl = flvar
 			#nfl = nflvar
-			if (is.na(is.wrap)) is.wrap = (nrd <= 1L)
+			if (is.na(type)) type = if (nrd <= 1L) "wrapstack" else "grid"
 			
-			if (is.wrap) {
+			if (type %in% c("wrapstack", "wrap", "stack")) {
 				by1 = by
 				by2 = NULL
 				by3 = NULL
@@ -125,7 +125,7 @@ step1_rearrange_facets = function(tmo) {
 				
 				
 				if (nrd > 1L) {
-					if (nrsd > 1L) stop("Cannot use tm_facets_wrap, because there are several dimensions. Pleae use tm_facets_grid instead", call. = FALSE)
+					if (nrsd > 1L) stop("Cannot use tm_facets_wrap/tm_facets_stack, because there are several dimensions. Pleae use tm_facets_grid instead", call. = FALSE)
 					# so there is exactly 1 shape dim
 					nrvd = 0L
 					nrd = 1L
@@ -243,7 +243,7 @@ step1_rearrange_facets = function(tmo) {
 			
 
 			if (is.na(free.coords)) {
-				if (is.wrap) {
+				if (type %in% c("wrapstack", "wrap", "stack")) {
 					free.coords = rep((by != "VARS__"), 3)
 				} else {
 					free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))
