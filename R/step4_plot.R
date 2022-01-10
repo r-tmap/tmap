@@ -18,7 +18,7 @@ process_legends = function(legs, o) {
 	
 	
 	getLW = function(x) sapply(x, function(y) y$Win)
-	getLH = function(x) sapply(x, function(y) y$Hin)
+	getLH = function(x) sapply(x, function(y) y$Hin) 
 	# attempt to determine margins
 	legs[, legW := getLW(legend)]
 	legs[, legH := getLH(legend)]
@@ -51,16 +51,14 @@ process_legends2 = function(legs, o) {
 	
 	# place legends inside if needed
 	#if (o$ncols > 1 && o$nrows > 1) {
-	if (o$type != "stack") {
-	# 	if (!o$per_facet_wrap_outside) {
-	# 		legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]	
-	# 	}
-	# } else {
-	# 	# all free-per-facet legends inside
-		legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]
+	if (o$type == "wrap") {
+		# all free legends inside
+		legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]	
+	} else if (o$type == "grid") {
+		# all free-per-facet legends inside
+		legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]	
 	}
-
-
+	
 
 	
 	# update auto position (for 'all', 'rows', 'columns' legends)
@@ -301,7 +299,7 @@ step4_plot = function(tm) {
 		legs_in = lapply(which(is_in), function(i) {
 			d2 = data.table::copy(d)
 			legsi = legs[i, ]
-			if (o$is.wrap && o$nrows == 1) {
+			if (o$type != "grid" && o$nrows == 1) {
 				# reverse above
 				d2[, by2 := by1]
 				d2[, by1 := 1]

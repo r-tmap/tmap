@@ -207,12 +207,15 @@ process_meta = function(o, d, legs) {
 		
 		# tm_shape(World) + tm_polygons(fill = "HPI", lwd = "life_exp")
 		
-		meta.auto.margins = pmin(0.8, c(max(legs$legH[legs$v == "bottom" & legs$class == "auto"], 0) / o$devsize[2],
-										max(legs$legW[legs$h == "left" & legs$class == "auto"], 0) / o$devsize[1],
-										max(legs$legH[legs$v == "top" & legs$class == "auto"], 0) / o$devsize[2],
-										max(legs$legW[legs$h == "right" & legs$class == "auto"], 0) / o$devsize[1]))
 		
-		
+		if (nrow(legs)) {
+			meta.auto.margins = pmin(meta.auto.margins, 
+									 c(max(legs$legH[legs$v == "bottom" & legs$class == "auto"], 0) / o$devsize[2],
+									   max(legs$legW[legs$h == "left" & legs$class == "auto"], 0) / o$devsize[1],
+									   max(legs$legH[legs$v == "top" & legs$class == "auto"], 0) / o$devsize[2],
+									   max(legs$legW[legs$h == "right" & legs$class == "auto"], 0) / o$devsize[1]))
+		}
+
 		
 		if (meta.automatic && any(margins.used)) {
 			meta.auto.margins = rep(meta.auto.margins, length.out = 4)

@@ -20,7 +20,7 @@ tm_facets = function(by = NULL,
 	
 	calls <- names(match.call(expand.dots = TRUE)[-1])
 	if (!is.null(by)) {
-		type = "wrapstack"
+		if (is.na(type)) type = "wrapstack"
 		rows = NULL
 		columns = NULL
 		pages = NULL
@@ -85,7 +85,7 @@ tm_facets_stack = function(by = "VARS__",
 						  ...) {
 	args = list(...)
 	calls = names(match.call(expand.dots = TRUE)[-1])
-	tm = do.call("tm_facets", c(list(by = by, nrows = nrows, ncols = ncols, byrow = byrow, type = "stack"), args[setdiff(names(args), "type")]))
+	tm = do.call("tm_facets", c(list(by = by, orientation = orientation, type = "stack"), args[setdiff(names(args), "type")]))
 	tm[[1]]$calls = calls
 	tm
 }
