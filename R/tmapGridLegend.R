@@ -60,11 +60,11 @@ leg_standard = list(
 		h = if (leg$setup$is.portrait) {
 			tH = ifelse(leg$title == "", 0, o$lin * o$legend.title.size * 1.375)
 			nlines = sum(leg$lines)
-			iH = o$lin * (nlines + 0.8) * o$legend.text.size
+			iH = o$lin * (nlines + 0.8) * o$legend.text.size # 0.8 ???
 			tH + iH
 		} else {
 			tH = ifelse(leg$title == "", 0, o$lin * o$legend.title.size * 1.375)
-			tH + o$lin * (2 + 0.8) * o$legend.text.size
+			tH + o$lin * (1.65 + 0.8) * o$legend.text.size # 0.8 ???
 		}
 		leg$Hin = h
 		leg
@@ -78,12 +78,12 @@ leg_standard = list(
 			
 			max(c(tW, iW)) + (o$lin * o$legend.text.size * 0.75)
 		} else {
-			if (leg$setup$landscape.setup$rect.width == -1 || leg$setup$landscape.setup$space == -1) {
+			if (leg$setup$landscape.setup$item.width == -1 || leg$setup$landscape.setup$space == -1) {
 				Inf
 			} else {
 				nlines = sum(leg$lines)
 				tW = ifelse(leg$title == "", 0, o$lin * o$legend.title.size * strwidth(leg$title, units = "inch"))
-				iW = o$lin * (nlines + 0.8) * o$legend.text.size * (leg$setup$landscape.setup$rect.width + leg$setup$landscape.setup$space)
+				iW = o$lin * (nlines + 0.8) * o$legend.text.size * (leg$setup$landscape.setup$item.width + leg$setup$landscape.setup$space)
 				
 				max(c(tW, iW)) + (o$lin * o$legend.text.size * leg$setup$landscape.setup$margin * 2)
 			}
@@ -252,7 +252,7 @@ leg_standard = list(
 														   	c(lH * o$legend.title.size * c(0.25, 1),
 														   	  lH * o$legend.title.size * .125 + lH * o$legend.text.size * .4,
 														   	  iwidth, 
-														   	  lH * o$legend.title.size * c(0.25, 1), 
+														   	  lH * o$legend.text.size * c(0.25, 1), 
 														   	  1), units = c(rep("inches", 6), "null"))))
 			
 			grTitle = gridCell(1:3, 2, grid::textGrob(leg$title, x = 0, just = "left", gp = grid::gpar(cex = o$legend.title.size)))
@@ -361,10 +361,10 @@ leg_standard = list(
 					gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
 					#grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 					#grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(1, "npc"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-					if (leg$setup$landscape.setup$rect.width == -1) {
+					if (leg$setup$landscape.setup$item.width == -1) {
 						grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(1,"npc") - grid::unit(lH * o$legend.text.size * (leg$setup$landscape.setup$space), "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 					} else {
-						grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(lH * o$legend.text.size * leg$setup$landscape.setup$rect.width, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+						grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(lH * o$legend.text.size * leg$setup$landscape.setup$item.width, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 					}
 					
 				}
