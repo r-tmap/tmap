@@ -6,6 +6,7 @@ tm_legend = function(title  = NA,
 					 position = NA,
 					 width = NA,
 					 height = NA,
+					 landscape.setup = tmap_option("legend.landscale.setup"),
 					 space = NA,
 					 space.na = NA,
 					 stack = NA,
@@ -22,7 +23,8 @@ tm_legend = function(title  = NA,
 					 frame = NA,
 					 frame.lwd = NA,
 					 bg.color = NA,
-					 bg.alpha = NA) {
+					 bg.alpha = NA,
+					 ...) {
 	structure(c(list(FUN = "tmapLegend"), as.list(environment())), class = "tm_legend")
 }
 

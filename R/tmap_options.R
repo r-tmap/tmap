@@ -136,6 +136,7 @@
 		legend.position = tm_lp_auto("right", "bottom"),
 		legend.space = c(rect = 0.2, symbols = 0.3, gradient = 0.8),
 		legend.space.na = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
+		legend.landscape.setup = list(rect.width = 0, space = 0, margin = 1),
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
 		legend.justified = TRUE,
 		legend.resize.as.group = TRUE,

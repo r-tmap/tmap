@@ -78,12 +78,16 @@ leg_standard = list(
 			
 			max(c(tW, iW)) + (o$lin * o$legend.text.size * 0.75)
 		} else {
-
-			nlines = sum(leg$lines)
-			tW = ifelse(leg$title == "", 0, o$lin * o$legend.title.size * strwidth(leg$title, units = "inch"))
-			iW = o$lin * (nlines + 0.8) * o$legend.text.size * 6
+			if (leg$setup$landscape.setup$rect.width == -1 || leg$setup$landscape.setup$space == -1) {
+				Inf
+			} else {
+				nlines = sum(leg$lines)
+				tW = ifelse(leg$title == "", 0, o$lin * o$legend.title.size * strwidth(leg$title, units = "inch"))
+				iW = o$lin * (nlines + 0.8) * o$legend.text.size * (leg$setup$landscape.setup$rect.width + leg$setup$landscape.setup$space)
+				
+				max(c(tW, iW)) + (o$lin * o$legend.text.size * leg$setup$landscape.setup$margin * 2)
+			}
 			
-			max(c(tW, iW)) + (o$lin * o$legend.text.size * 0.75)
 		}
 		leg$Win = w
 		leg
@@ -221,9 +225,7 @@ leg_standard = list(
 					grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 				}
 				
-				
-				
-				
+
 			} else if (leg$type == "symbols") {
 				gpars = gp_to_gpar(gp, split_to_n = nlev)
 				
@@ -241,12 +243,11 @@ leg_standard = list(
 			
 			iwidth = max(nlines_excl) * lH
 			
-			
 			vp = grid::viewport(layout = grid::grid.layout(ncol = nlev + 2, nrow = 7, 
 														   widths = grid::unit(
-														   	c(lH * o$legend.text.size * 0.4,
+														   	c(lH * o$legend.text.size * leg$setup$landscape.setup$margin,
 														   	  rep(1/nlev, nlev),
-														   	  lH * o$legend.text.size * 0.4, 1), units = c("inches", rep("null", nlev), "inches")),
+														   	  lH * o$legend.text.size * leg$setup$landscape.setup$margin, 1), units = c("inches", rep("null", nlev), "inches")),
 														   heights = grid::unit(
 														   	c(lH * o$legend.title.size * c(0.25, 1),
 														   	  lH * o$legend.title.size * .125 + lH * o$legend.text.size * .4,
@@ -358,12 +359,15 @@ leg_standard = list(
 					
 				} else {
 					gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
-					#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-					grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+					#grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(lH * o$legend.text.size, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+					#grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(1, "npc"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+					if (leg$setup$landscape.setup$rect.width == -1) {
+						grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(1,"npc") - grid::unit(lH * o$legend.text.size * (leg$setup$landscape.setup$space), "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+					} else {
+						grItems = mapply(function(i, gpari) gridCell(4, i+1, grid::rectGrob(width = grid::unit(lH * o$legend.text.size * leg$setup$landscape.setup$rect.width, "inches"), height = grid::unit(lH* o$legend.text.size, "inches"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+					}
+					
 				}
-				
-				
-				
 				
 			} else if (leg$type == "symbols") {
 				gpars = gp_to_gpar(gp, split_to_n = nlev)
@@ -403,6 +407,10 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	legWin = vapply(legs, "[[", FUN.VALUE = numeric(1), "Win")   #  vapply(legs, leg_standard$fun_width, FUN.VALUE = numeric(1), o = o)
 	legHin = vapply(legs, "[[", FUN.VALUE = numeric(1), "Hin")#vapply(legs, leg_standard$fun_height, FUN.VALUE = numeric(1), o = o)
+	
+	
+	if (is.infinite(legWin)) legWin = maxW
+	if (is.infinite(legHin)) legHin = maxH
 	
 	scaleW = legWin / maxW
 	scaleH = legHin / maxH

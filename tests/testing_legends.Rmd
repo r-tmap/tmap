@@ -71,6 +71,29 @@ tm_shape(World) +
 ```
 
 
+```{r}
+tmap_options(legend.is.portrait = FALSE)
+tmap_options(legend.landscape.setup = list(full.width = FALSE, rect.width = 1, space = 3, margin = 1))
+tm_shape(World) +
+	tm_polygons("HPI")
+tmap_options(legend.landscape.setup = list(full.width = FALSE, rect.width = 3, space = 1, margin = 1))
+tm_shape(World) +
+	tm_polygons("HPI")
+tmap_options(legend.landscape.setup = list(full.width = TRUE, rect.width = -1, space = 0, margin = 1))
+tm_shape(World) +
+	tm_polygons("HPI")
+tmap_options(legend.landscape.setup = list(full.width = TRUE, rect.width = -1, space = 0, margin = 0))
+tm_shape(World) +
+	tm_polygons("HPI")
+tmap_options(legend.landscape.setup = list(full.width = TRUE, rect.width = -1, space = 1, margin = 0))
+tm_shape(World) +
+	tm_polygons("HPI")
+
+
+```
+
+
+
 
 ### Multiple facets, specified with multiple variables
 
