@@ -61,7 +61,7 @@ leg_portrait = list(
 		
 		item_paddings = c(rep(padding, leg$nitems - leg$na.show), {if (leg$na.show) paddingNA else NULL}) # * textS * o$lin
 		item_totals = item_heights + item_paddings
-
+#browser()
 		if (leg$setup$stretch == "none") {
 			hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_totals * textS * o$lin, marH[2])
 			
@@ -70,7 +70,7 @@ leg_portrait = list(
 			hs = grid::unit(hsinch, units = rep("inch", length(hsinch)))
 			Hin = sum(hsinch)
 		} else {
-			Hin = leg$setup$height
+			Hin = leg$setup$height * textS * o$lin
 			
 			hsunits = c(titleP[1], titleH, titleP[2], marH[1], rep(1/nlev, nlev), marH[2])
 			hs = grid::unit(hsunits, units = c(rep("inch", 4), rep("null", nlev), "inch"))
@@ -83,7 +83,7 @@ leg_portrait = list(
 				itemHsIn = grid::unit(1, "npc") - grid::unit(item_paddings * textS * o$lin, units = rep("inch", nlev))
 			}
 		}
-
+		
 		leg$itemHsIn = itemHsIn
 		leg$Hin = Hin
 		leg$hs = hs
@@ -107,7 +107,7 @@ leg_portrait = list(
 		
 		
 		tW = ifelse(leg$title == "", 0, titleS * (strwidth(leg$title, units = "inch") + sum(s$title.padding[c(2,4)]) * o$lin))
-		iW = textS * (strwidth(leg$labels, units = "inch") + (item_widths_max + s$margin.item.text) * textS * o$lin)
+		iW = textS * strwidth(leg$labels, units = "inch") + (item_widths_max + s$margin.item.text) * textS * o$lin
 		
 		
 		colW = max(tW, iW)
@@ -141,7 +141,6 @@ leg_portrait = list(
 		
 			
 		#iwidth = max(nlines_excl) * lH
-		
 		vp = grid::viewport(layout = grid::grid.layout(ncol = length(leg$ws),
 													   nrow = length(leg$hs), 
 													   widths = leg$ws * leg$scale,
@@ -262,7 +261,7 @@ leg_portrait = list(
 			} else {
 				gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
 				#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-				grItems = mapply(function(i, gpari) gridCell(i+4, 2, grid::rectGrob(width = leg$itemWsIn, height = leg$itemHsIn, gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+				grItems = mapply(function(i, gpari) gridCell(i+4, 2, grid::rectGrob(width = leg$itemWsIn, height = leg$itemHsIn[i], gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			}
 			
 
