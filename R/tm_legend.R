@@ -1,11 +1,13 @@
 #' @export
 tm_legend = function(title  = NA,
 					 show = TRUE,
-					 is.portrait = tmap_option("legend.is.portrait"),
+					 design = "portrait",
+					 #is.portrait = tmap_option("legend.is.portrait"),
 					 reverse = FALSE,
 					 position = NA,
 					 width = NA,
 					 height = NA,
+					 settings = tmap_option("legend.settings", design),
 					 landscape.setup = tmap_option("legend.landscale.setup"),
 					 space = NA,
 					 space.na = NA,
@@ -39,14 +41,17 @@ tm_legend_combine = function(aes) {
 }
 
 #' @export
-tm_legend_portrait = function(...) {
+tm_legend_portrait = function(..., design = "portrait") {
+	args = c(list(...), list(design = design))
+	do.call(tm_legend, args)
 	tm_legend(...)
 }
 
 #' @export
-tm_legend_landscape = function(is.portrait = FALSE, ...) {
-	args = c(list(...), list(is.portrait = is.portrait))
+tm_legend_landscape = function(..., design = "landscape") {
+	args = c(list(...), list(design = design))
 	do.call(tm_legend, args)
+	tm_legend(...)
 }
 
 #' @export

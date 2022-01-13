@@ -132,13 +132,28 @@
 		space.color = NULL,
 		legend.show = TRUE,
 		legend.only = FALSE,
-		legend.is.portrait = TRUE,
+		legend.design = "",
 		legend.position = tm_lp_auto("right", "bottom"),
+		
+		legend.settings = list(portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 1.8),
+											   item.width = c(rect = 1, symbols = 1, gradient = 1),
+											   margin.item.text = 0.25,
+											   item.padding = c(rect = 0.2, symbols = 0.3, gradient = 0),
+											   item.na.padding = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
+											   title.padding  = c(0.125, 0, 0.25, 0),
+											   margins = c(0.4, 0.4, 0.75, 0.4)),
+							   landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.8),
+							   				 item.width = c(rect = 1, symbols = 1, gradient = 1),
+							   				 margin.item.text = 0.25,
+							   				 item.padding = c(rect = 0.2, symbols = 0.3, gradient = 0),
+							   				 item.na.padding = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
+							   				 title.padding  = c(0.125, 0, 0.25, 0),
+							   				 margins = c(0.4, 0.4, 0.4, 0.4))),
 		legend.space = c(rect = 0.2, symbols = 0.3, gradient = 0.8),
 		legend.space.na = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
 		legend.landscape.setup = list(rect.width = -1, space = 1, margin = 0),
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
-		legend.justified = TRUE,
+		legend.justified = FALSE,
 		legend.resize.as.group = TRUE,
 		legend.just = c("left", "bottom"),
 		legend.width = NA,
@@ -323,15 +338,14 @@ tmap_options_mode = function(mode = NA) {
 }
 
 
-
-
-tmap_option = function(name, class = NULL) {
-	get_option_class(tmap_options()[[name]], class = class)
+tmap_option = function(name, type = NULL) {
+	get_option_class(tmap_options()[[name]], class = type, spatial_class = FALSE)
 }
 
 
-get_option_class = function(opt, class = NULL) {
-	if (!is.null(class) && is.list(opt) && any(names(opt) %in% c("stars", "sf", "sfc", "raster", "terra", "sp"))) {
+get_option_class = function(opt, class = NULL, spatial_class = TRUE) {
+	is_spatial = !spatial_class || (any(names(opt) %in% c("stars", "sf", "sfc", "raster", "terra", "sp")))
+	if (!is.null(class) && is.list(opt) && is_spatial) {
 		mtch = which(names(opt) %in% class)
 		if (!length(mtch)) mtch = which(names(opt) == "")[1]
 		opt = opt[[mtch]]

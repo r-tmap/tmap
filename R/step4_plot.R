@@ -1,9 +1,11 @@
 process_legends = function(legs, o) {
-	legs$legend = lapply(legs$legend, leg_standard$fun_add_leg_type)
 	
 	
-	legs$legend = lapply(legs$legend, leg_standard$fun_width, o = o)
-	legs$legend = lapply(legs$legend, leg_standard$fun_height, o = o)
+	legs$legend = legapply(legs$legend, "fun_add_leg_type")
+	
+	
+	legs$legend = legapply(legs$legend, "fun_width", o = o)
+	legs$legend = legapply(legs$legend, "fun_height", o = o)
 	
 	legs[, ':='(facet_row = character(), facet_col = character())]
 	legs$stack_auto = vapply(legs$legend, function(l) {
