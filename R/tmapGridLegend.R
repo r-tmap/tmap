@@ -37,7 +37,7 @@ leg_portrait = list(
 		paddingNA = get_legend_option(s$item.na.padding, leg$type)
 		heights = get_legend_option(s$item.height, leg$type)
 		
-		item_heights = if (leg$type == "symbols") rep(gpar$size / textS, length.out = nlev) else rep(heights, nlev)
+		item_heights = if (leg$type == "symbols") rep(leg$gpar$size / textS, length.out = nlev) else rep(heights, nlev)
 		
 
 		if (is.na(leg$setup$height) && (padding == -1 || any(item_heights == -1))) leg$setup$height = Inf
@@ -54,14 +54,14 @@ leg_portrait = list(
 			leg$setup$stretch = if (padding == -1) "padding" else "items"
 		}
 
-		titleP = s$title.padding[c(1,3)] * titleS * o$lin
+		titleP = s$title.padding[c(3,1)] * titleS * o$lin
 		titleH = titleS * o$lin
 		
-		marH = s$margins[c(1,3)] * textS * o$lin
+		marH = s$margins[c(3,1)] * textS * o$lin
 		
-		item_paddings = c(rep(padding, leg$nitems - leg$na.show), {if (leg$na.show) paddingNA else NULL}) # * textS * o$lin
+		item_paddings = c(rep(padding, leg$nitems - leg$na.show), {if (leg$na.show) paddingNA else NULL}) 
 		item_totals = item_heights + item_paddings
-#browser()
+		
 		if (leg$setup$stretch == "none") {
 			hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_totals * textS * o$lin, marH[2])
 			
@@ -101,8 +101,7 @@ leg_portrait = list(
 		
 		marW = s$margins[c(2,4)] * textS * o$lin
 		
-		
-		item_widths = if (leg$type == "symbols") rep(gpar$size / textS, length.out = leg$nitems) else rep(s$item.width[leg$type], leg$nitems)
+		item_widths = if (leg$type == "symbols") rep(leg$gpar$size / textS, length.out = leg$nitems) else rep(s$item.width[leg$type], leg$nitems)
 		item_widths_max = max(item_widths)
 		
 		
@@ -128,25 +127,19 @@ leg_portrait = list(
 		leg
 	},
 	fun_plot = function(leg, o) {
+		s = leg$setup$settings
 		
 		textS = leg$setup$text.size * leg$scale
 		titleS = if (leg$title == "") 0 else leg$setup$title.size * leg$scale
 		
 		nlev = leg$nitems
-		# lH = grid::convertHeight(grid::unit(1, "lines"), "inches", valueOnly = TRUE)
 		
-
-		#nlines = leg$lines * o$legend.text.size
-		#nlines_excl = leg$lines_excl * o$legend.text.size
-		
-			
-		#iwidth = max(nlines_excl) * lH
 		vp = grid::viewport(layout = grid::grid.layout(ncol = length(leg$ws),
 													   nrow = length(leg$hs), 
 													   widths = leg$ws * leg$scale,
 													   heights = leg$hs * leg$scale))
 		
-		grTitle = gridCell(2, 2:(length(leg$ws)-1), grid::textGrob(leg$title, x = 0, just = "left", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(2, 2:(length(leg$ws)-1), grid::textGrob(leg$title, x = grid::unit(s$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
 		grText = lapply(1:nlev, function(i) gridCell(i+4, 4, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = textS))))
 		
 		
@@ -261,7 +254,7 @@ leg_portrait = list(
 			} else {
 				gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
 				#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-				grItems = mapply(function(i, gpari) gridCell(i+4, 2, grid::rectGrob(width = leg$itemWsIn, height = leg$itemHsIn[i], gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+				grItems = mapply(function(i, gpari) gridCell(i+4, 2, grid::rectGrob(width = leg$itemWsIn * leg$scale, height = leg$itemHsIn[i] * leg$scale, gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			}
 			
 
@@ -271,7 +264,7 @@ leg_portrait = list(
 			# scale down (due to facet use)
 			gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 			
-			grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+			grItems = mapply(function(i, gpari) gridCell(i+4, 2, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 		}
 		
 		

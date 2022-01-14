@@ -72,10 +72,8 @@ tm_shape(World) +
 
 
 ```{r}
-tmap_options(legend.design = "portrait")
+tmap_options(legend.design = "portrait", legend.frame=TRUE)
 tmap_design_mode()
-tm_shape(World) +
-	tm_polygons("HPI", col = "economy")
 
 tmap_options(legend.frame=TRUE,
 			 legend.height = Inf,
@@ -83,7 +81,7 @@ tmap_options(legend.frame=TRUE,
 											   item.width = c(rect = 1, symbols = 1, gradient = 1),
 											   margin.item.text = 0.5,
 											   item.padding = c(rect = 0.2, symbols = 0.3, gradient = 0),
-											   item.na.padding = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
+											   item.na.padding = c(rect = 0.4, symbols = 0.3, gradient = 0.3),
 											   title.padding  = c(0.125, 0, 0.25, 0),
 											   margins = c(0.4, 0.4, 0.75, 0.4)),
 							   landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.8),
@@ -96,11 +94,11 @@ tmap_options(legend.frame=TRUE,
 tm_shape(World) +
 	tm_polygons("HPI", col = "economy")
 
+tm_shape(land) +
+	tm_raster("cover")
 
 tm_shape(World) +
-	tm_polygons("HPI", col = "economy", fill.legend = tm_legend(space = 0, space.na = 4))
-tm_shape(World) +
-	tm_symbols(size = "HPI", fill = "economy")
+	tm_symbols(fill = "economy", size = "pop_est", shape = 23, size.scale = tm_scale_continuous(values.scale = 3))
 
 ```
 
