@@ -43,8 +43,8 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		if (style == "log10") {
 			x1 = log10(x1)
-			if (any(x1 < 0)) {
-				x1[x1 < 0] = 0
+			if (length(which(x1 < 0))) {
+				x1[which(x1 < 0)] = 0
 				warning("data values lower than 1 have been rounded to 1 in order to prevent (large) negative values for tm_scale_log10", call. = FALSE)
 			}
 		}
@@ -215,15 +215,15 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		}
 		#attr(vvalues, "style") = style
 		
-		legend = list(title = legend$title, 
-					  nitems = length(labels),
-					  labels = labels, 
-					  dvalues = values, 
-					  vvalues = vvalues,
-					  vneutral = value.neutral,
-					  na.show = na.show,
-					  setup = legend)
-
+		legend = within(legend, {
+			nitems = length(labels)
+			labels = labels
+			dvalues = values
+			vvalues = vvalues
+			vneutral = value.neutral
+			na.show = na.show
+		})
+		
 		format_aes_results(vals, ids, legend)
 		
 	})

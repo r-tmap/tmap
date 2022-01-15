@@ -113,17 +113,16 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		}
 		attr(labs, "align") = legend$format$text.align
 		
-	
-		legend = list(title = legend$title, 
-					  nitems = length(labs),
-					  labels = labs, 
-					  dvalues = vals, 
-					  vvalues = values,
-					  vneutral = value.neutral,
-					  na.show = na.show,
-					  setup = legend)
+		legend = within(legend, {
+			nitems = length(labs)
+			labels = labs
+			dvalues = vals
+			vvalues = values
+			vneutral = value.neutral
+			na.show = na.show
+		})
 		
-		
+
 		format_aes_results(vals, ids, legend)
 	})	
 }

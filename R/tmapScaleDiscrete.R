@@ -159,16 +159,16 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		#type = ifelse(nchar(vvalues[1]) > 50, "color_cont", "color_cls")
 		
-		legend = list(title = legend$title, 
-					  nitems = length(labels),
-					  labels = labels, 
-					  dvalues = ticks, 
-					  vvalues = vvalues,
-					  vneutral = value.neutral,
-					  na.show = na.show,
-					  setup = legend)
-					  #breaks=scale$breaks)
+		legend = within(legend, {
+			nitems = length(labels)
+			labels = labels
+			dvalues = ticks
+			vvalues = vvalues
+			vneutral = value.neutral
+			na.show = na.show
+		})
 		
+
 		
 		format_aes_results(vals, ids, legend)
 	})

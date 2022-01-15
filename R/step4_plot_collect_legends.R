@@ -21,7 +21,7 @@ step4_plot_collect_legends = function(tmx) {
 			# find shared legends
 			
 			clones = vapply(legs2, function(l) {
-				a = l$legend[[1]]$setup$aes
+				a = l$legend[[1]]$aes
 				if (!is.null(a)) a else ""
 			}, FUN.VALUE = character(1))
 			
@@ -59,7 +59,7 @@ step4_plot_collect_legends = function(tmx) {
 				
 				if (!is.null(legs_aes)) {
 					for (k in 1:nrow(legs_aes)) {
-						if (length(legs_aes$legend[[k]]) == 1 || !legs_aes$legend[[k]]$setup$show) {
+						if (length(legs_aes$legend[[k]]) == 1 || !legs_aes$legend[[k]]$show) {
 							legs_aes$legend[[k]] = list(NULL)
 							next
 						}
@@ -125,9 +125,9 @@ step4_plot_collect_legends = function(tmx) {
 	# remove empty legends
 	legs = legs[vapply(legs$legend, length, FUN.VALUE = integer(1)) > 1, ][, vneutral := NULL]
 	
-	legs$class = lapply(legs$legend, function(l) l$setup$position$type)
+	legs$class = lapply(legs$legend, function(l) l$position$type)
 	
-	legs$h = lapply(legs$legend, function(l) l$setup$position$h)
-	legs$v = lapply(legs$legend, function(l) l$setup$position$v)
+	legs$h = lapply(legs$legend, function(l) l$position$h)
+	legs$v = lapply(legs$legend, function(l) l$position$v)
 	legs
 }

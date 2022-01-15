@@ -2,15 +2,10 @@
 tm_legend = function(title  = NA,
 					 show = TRUE,
 					 design = "portrait",
-					 #is.portrait = tmap_option("legend.is.portrait"),
 					 reverse = FALSE,
 					 position = NA,
 					 width = NA,
 					 height = NA,
-					 settings = tmap_option("legend.settings", design),
-					 landscape.setup = tmap_option("legend.landscale.setup"),
-					 space = NA,
-					 space.na = NA,
 					 stack = NA,
 					 z = NA,
 					 title.color = NA,
@@ -27,7 +22,13 @@ tm_legend = function(title  = NA,
 					 bg.color = NA,
 					 bg.alpha = NA,
 					 ...) {
-	structure(c(list(FUN = "tmapLegend"), as.list(environment())), class = "tm_legend")
+	args = c(as.list(environment()), list(...))
+	settings_name = paste0("legend.settings.", design)
+	settings = tmap_option(settings_name)
+	unset = setdiff(names(settings), names(args))
+	if (length(unset)) args[unset] = settings[unset]
+	cls = c(paste0("tm_legend_", design), "tm_legend", "list")
+	structure(args, class = cls)
 }
 
 #' @export
@@ -37,21 +38,17 @@ tm_legend_hide = function() {
 
 #' @export
 tm_legend_combine = function(aes) {
-	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = "tm_legend")
+	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = c("tm_legend", "list"))
 }
 
 #' @export
 tm_legend_portrait = function(..., design = "portrait") {
-	args = c(list(...), list(design = design))
-	do.call(tm_legend, args)
-	tm_legend(...)
+	tm_legend(..., design = design)
 }
 
 #' @export
 tm_legend_landscape = function(..., design = "landscape") {
-	args = c(list(...), list(design = design))
-	do.call(tm_legend, args)
-	tm_legend(...)
+	tm_legend(..., design = design)
 }
 
 #' @export

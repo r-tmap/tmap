@@ -165,15 +165,15 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, sortRev) {
 			vvalues = c(vvalues, value.na)
 		}
 		
-		legend = list(title = legend$title, 
-					  nitems = length(labels),
-					  labels = labels, 
-					  dvalues = values, 
-					  vvalues = vvalues,
-					  vneutral = value.neutral,
-					  na.show = na.show,
-					  setup = legend)
-
+		legend = within(legend, {
+			nitems = length(labels)
+			labels = labels
+			dvalues = values
+			vvalues = vvalues
+			vneutral = value.neutral
+			na.show = na.show
+		})
+		
 		format_aes_results(vals, ids, legend)
 	})
 }

@@ -1,19 +1,21 @@
 process_legends = function(legs, o) {
 	
+	gs = tmap_graphics_name()
 	
-	legs$legend = legapply(legs$legend, "fun_add_leg_type")
+	funW = paste0("tmap", gs, "LegWidth")
+	funH = paste0("tmap", gs, "LegHeight")
 	
-	
-	legs$legend = legapply(legs$legend, "fun_width", o = o)
-	legs$legend = legapply(legs$legend, "fun_height", o = o)
-	
+	legs$legend = lapply(legs$legend, fun_add_leg_type)
+	legs$legend = lapply(legs$legend, function(leg) do.call(funW, list(leg = leg, o = o)))
+	legs$legend = lapply(legs$legend, function(leg) do.call(funH, list(leg = leg, o = o)))
+
 	legs[, ':='(facet_row = character(), facet_col = character())]
 	legs$stack_auto = vapply(legs$legend, function(l) {
-		s = l$setup$stack
+		s = l$stack
 		length(s) > 1
 	}, FUN.VALUE = logical(1))
 	legs$stack = vapply(legs$legend, function(l) {
-		s = l$setup$stack
+		s = l$stack
 		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
 	}, FUN.VALUE = character(1))
 	
