@@ -210,10 +210,10 @@ process_meta = function(o, d, legs) {
 		
 		if (nrow(legs)) {
 			meta.auto.margins = pmin(meta.auto.margins, 
-									 c(max(legs$legH[legs$v == "bottom" & legs$class == "auto"], 0) / o$devsize[2],
-									   max(legs$legW[legs$h == "left" & legs$class == "auto"], 0) / o$devsize[1],
-									   max(legs$legH[legs$v == "top" & legs$class == "auto"], 0) / o$devsize[2],
-									   max(legs$legW[legs$h == "right" & legs$class == "auto"], 0) / o$devsize[1]))
+									 c(max(legs$legH[legs$v == "bottom" & legs$class %in% c("auto", "out")], 0) / o$devsize[2],
+									   max(legs$legW[legs$h == "left" & legs$class %in% c("auto", "out")], 0) / o$devsize[1],
+									   max(legs$legH[legs$v == "top" & legs$class %in% c("auto", "out")], 0) / o$devsize[2],
+									   max(legs$legW[legs$h == "right" & legs$class %in% c("auto", "out")], 0) / o$devsize[1]))
 		}
 
 		

@@ -76,6 +76,19 @@ tmapGridLegHeight.tm_legend_portrait = function(leg, o) {
 	
 }
 
+fontface2nr = function(face) {
+	# needed for strwidth
+	switch(face,
+		   "plain" = 1,
+		   "bold" = 2,
+		   "italic" = 3,
+		   "bold.italic" = 4,
+		   "oblique" = 3,
+		   "cyrillic.oblique" = 3,
+		   1)
+}
+
+
 #' @method tmapGridLegWidth tm_legend_portrait
 #' @export
 tmapGridLegWidth.tm_legend_portrait = function(leg, o) {
@@ -88,8 +101,8 @@ tmapGridLegWidth.tm_legend_portrait = function(leg, o) {
 	item_widths_max = max(item_widths)
 	
 	
-	tW = ifelse(leg$title == "", 0, titleS * (strwidth(leg$title, units = "inch") + sum(leg$title.padding[c(2,4)]) * o$lin))
-	iW = textS * strwidth(leg$labels, units = "inch") + (item_widths_max + leg$margin.item.text) * textS * o$lin
+	tW = ifelse(leg$title == "", 0, titleS * (strwidth(leg$title, units = "inch", family = leg$title.fontfamily, font = fontface2nr(leg$title.fontface)) + sum(leg$title.padding[c(2,4)]) * o$lin))
+	iW = textS * strwidth(leg$labels, units = "inch", family = leg$text.fontfamily, font = fontface2nr(leg$text.fontface)) + (item_widths_max + leg$margin.item.text) * textS * o$lin
 	
 	
 	colW = max(tW, iW)
@@ -126,7 +139,7 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 												   heights = leg$hs * leg$scale))
 	
 	grTitle = gridCell(2, 2:(length(leg$ws)-1), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
-	grText = lapply(1:nlev, function(i) gridCell(i+4, 4, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = textS))))
+	grText = lapply(1:nlev, function(i) gridCell(i+4, 4, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))))
 	
 	
 	if (getOption("tmap.design.mode")) {

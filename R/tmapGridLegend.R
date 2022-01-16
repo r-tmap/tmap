@@ -287,7 +287,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	maxH = sum(g$rowsIn[rows])
 	maxW = sum(g$colsIn[cols])
 	
-	
+	print("test1235")
 	
 
 	#legs = lapply(legs, leg_standard$fun_add_leg_type)
@@ -306,7 +306,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	clipW = pmax(1, scaleW) 
 	clipH = pmax(1, scaleH) 
-	if (o$legend.resize.as.group) {
+	if (legs[[1]]$resize.as.group) {
 		clipT = rep(max(clipW, clipH), length(legs))
 	} else {
 		clipT = pmax(clipW, clipH)
@@ -316,7 +316,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	legWin = legWin / clipT
 	legHin = legHin / clipT
 	
-	if (o$legend.justified) {
+	if (legs[[1]]$justified) {
 		if (legend.stack == "vertical") {
 			legWin = rep(max(legWin), length(legs))		
 		} else {
@@ -372,25 +372,37 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		}))
 	}
 	
-	grbs = do.call(grid::gList, mapply(function(lG, lX, lY, lH, lW) {
-		if (!is.na(o$legend.frame)) {
-			frame = grid::rectGrob(gp=grid::gpar(fill = o$legend.bg.color, col = o$legend.frame, lwd = o$legend.frame.lwd))
+	groupframe = if (!is.na(legs[[1]]$frame) && legs[[1]]$justified) {
+		if (legend.stack == "vertical") {
+			W = legW[1]
+			H = sum(legH)
+		} else {
+			W = sum(legW)
+			H = legH[1]
+		}
+		grid::rectGrob(x = W/2, width = W, y = grid::unit(1,"npc") -H/2, height = H, gp=grid::gpar(fill = legs[[1]]$bg.color, col = legs[[1]]$frame, lwd = legs[[1]]$frame.lwd))
+	} else {
+		NULL
+	}
+	
+	
+	grbs = do.call(grid::gList, mapply(function(leg, lG, lX, lY, lH, lW) {
+		if (!is.na(leg$frame) && !legs[[1]]$justified) {
+			frame = grid::rectGrob(gp=grid::gpar(fill = leg$bg.color, col = leg$frame, lwd = leg$frame.lwd))
 		} else {
 			frame = NULL
 		}
-		
+
 		if (legend.stack == "vertical") {
 			grid::grobTree(frame, lG, vp = grid::viewport(x = lW/2, width = lW, y = lY - lH/2, height = lH))
 		} else {
 			grid::grobTree(frame, lG, vp = grid::viewport(x = lX + lW/2, width = lW, y = legY[[1]] - lH/2, height = lH))
 		}
-		
-		
-	}, legGrobs, legX, legY, legH, legW, SIMPLIFY = FALSE))
+	}, legs, legGrobs, legX, legY, legH, legW, SIMPLIFY = FALSE))
 	
+	frame_grbs = grid::gList(groupframe, grbs)
 	
-	
-	gt = add_to_gt(gt, grbs, row = rows, col = cols)
+	gt = add_to_gt(gt, frame_grbs, row = rows, col = cols)
 	
 	gts[[facet_page]] = gt
 	

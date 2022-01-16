@@ -21,6 +21,8 @@ tm_legend = function(title  = NA,
 					 frame.lwd = NA,
 					 bg.color = NA,
 					 bg.alpha = NA,
+					 justified = NA,
+					 resize.as.group = NA,
 					 ...) {
 	args = c(as.list(environment()), list(...))
 	settings_name = paste0("legend.settings.", design)

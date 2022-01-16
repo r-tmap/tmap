@@ -60,14 +60,25 @@ Legends, scales will be studied in other tests.
 ### One facet
 
 ```{r}
+leg = tm_legend_portrait(frame = TRUE, text.size = 1.5, text.fontface = "italic", text.fontfamily = "DejaVu Serif")
+scl = tm_scale_intervals(label.na = "Abcdef")
 tm_shape(World) +
-	tm_polygons("HPI")
+	tm_polygons("HPI", fill.legend = leg, fill.scale = scl)
 ```
 
 ```{r}
 tmap_options(legend.is.portrait = FALSE)
 tm_shape(World) +
 	tm_polygons("HPI")
+```
+
+
+```{r}
+leg = tm_legend_portrait(frame = TRUE, text.size = 1.5, text.fontface = "italic", text.fontfamily = "DejaVu Serif")
+tm_shape(World) +
+	tm_polygons("HPI", col = "economy")
+tm_shape(World) +
+	tm_polygons("HPI", fill.legend = leg, fill.scale = scl, col = "economy", col.legend = tm_legend_portrait(position = tm_lp_out(h="right", v="center")))
 ```
 
 
