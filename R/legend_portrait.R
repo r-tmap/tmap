@@ -22,11 +22,12 @@ tmapGridLegHeight.tm_legend_portrait = function(leg, o) {
 	paddingNA = get_legend_option(leg$item.na.padding, leg$type)
 	heights = get_legend_option(leg$item.height, leg$type)
 	
-	item_heights = if (leg$type == "symbols") rep(leg$gpar$size / textS, length.out = nlev) else rep(heights, nlev)
+	item_heights = if (leg$type == "symbols") pmax(heights, rep(leg$gpar$size / textS, length.out = nlev)) else rep(heights, nlev)
 	
 	
 	if (is.na(leg$height) && (padding == -1 || any(item_heights == -1))) leg$height = Inf
 	if (is.infinite(leg$height)) {
+		if (leg$type == "symbols") padding = -1
 		if (padding != -1 && all(item_heights != -1)) padding = -1
 		if (padding == -1 && any(item_heights == -1)) item_heights = rep(1, nlev)
 		if (padding == -1 && leg$item.na.padding != -1) leg$item.na.padding == -1
@@ -34,6 +35,7 @@ tmapGridLegHeight.tm_legend_portrait = function(leg, o) {
 	} else if (is.na(leg$height)) {
 		leg$stretch = "none"
 	} else {
+		if (leg$type == "symbols") padding = -1
 		if (padding == -1 && any(item_heights == -1)) item_heights = rep(1, nlev)
 		if (padding != -1 || all(item_heights != -1)) padding = -1
 		leg$stretch = if (padding == -1) "padding" else "items"
@@ -60,15 +62,15 @@ tmapGridLegHeight.tm_legend_portrait = function(leg, o) {
 		hs = grid::unit(hsunits, units = c(rep("inch", 4), rep("null", nlev), "inch"))
 		
 		if (leg$stretch == "padding") {
-			hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_heights * textS * o$lin, marH[2])
+			#hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_heights * textS * o$lin, marH[2])
 			itemHsIn = grid::unit(item_heights * textS * o$lin, units = rep("inch", nlev))
 		} else {
-			hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_paddings * textS * o$lin, marH[2])
+			#hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_paddings * textS * o$lin, marH[2])
 			itemHsIn = grid::unit(1, "npc") - grid::unit(item_paddings * textS * o$lin, units = rep("inch", nlev))
 		}
 	}
 	
-	leg$itemHsIn = itemHsIn
+	leg$itemHsIn = itemHsIn # heights of the items
 	leg$Hin = Hin
 	leg$hs = hs
 
@@ -97,7 +99,9 @@ tmapGridLegWidth.tm_legend_portrait = function(leg, o) {
 	
 	marW = leg$margins[c(2,4)] * textS * o$lin
 	
-	item_widths = if (leg$type == "symbols") rep(leg$gpar$size / textS, length.out = leg$nitems) else rep(leg$item.width[leg$type], leg$nitems)
+	width = get_legend_option(leg$item.width, leg$type)
+	
+	item_widths = if (leg$type == "symbols") pmax(width, rep(leg$gpar$size / textS, length.out = leg$nitems)) else rep(width, leg$nitems)
 	item_widths_max = max(item_widths)
 	
 	
