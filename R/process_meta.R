@@ -179,8 +179,8 @@ process_meta = function(o, d, legs) {
 				legs_auto = legs[class=="auto"]
 				
 				if (nrow(legs_auto) && n == 1) {
-					legWmax = max(legs_auto$legW) / devsize[1]
-					legHmax = max(legs_auto$legH) / devsize[2]
+					legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto.margins[c(2,4)])) 
+					legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto.margins[c(1,3)]))
 					masp_h = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]) - legHmax)) * dasp
 					masp_v = ((1 - sum(fixedMargins[c(2, 4)]) - legWmax) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
 					

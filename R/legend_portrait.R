@@ -84,6 +84,7 @@ tmapGridLegHeight.tm_legend_portrait = function(leg, o) {
 	
 	leg$item_ids = item_ids
 	
+	
 	leg
 	
 }
@@ -123,13 +124,26 @@ tmapGridLegWidth.tm_legend_portrait = function(leg, o) {
 	txtW = colW - (item_widths_max + leg$margin.item.text) * textS * o$lin
 	
 	#itemWsIn = grid::unit(item_widths_max * textS * o$lin, units = "inch")
+	n = if (leg$group.just["vertical"] == "left") {
+		c(0, 1)
+	} else if (leg$group.just["vertical"] == "right") {
+		c(1, 0)
+	} else {
+		c(0.5, 0.5)
+	}
 	
+	wsu = grid::unit(c(marW[1], 
+					   n[1], 
+					   item_widths_max * textS * o$lin, 
+					   leg$margin.item.text * textS * o$lin, 
+					   txtW, 
+					   n[2], 
+					   marW[2]), units = c("inch", "null", rep("inch", 3), "null", "inch"))
 	
-	wsu = grid::unit(c(marW[1], item_widths_max * textS * o$lin, leg$margin.item.text * textS * o$lin, txtW, marW[2], 1), units = c(rep("inch", 5), "null"))
-	
-	leg$Win = sum(as.numeric(wsu)[1:5])
+	leg$Win = sum(as.numeric(wsu)[c(1, 3:5, 7)])
 	leg$wsu = wsu
 
+	po(leg$Win)
 	
 	leg
 	
@@ -152,8 +166,15 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 												   widths = wsu,
 												   heights = hsu))
 	
-	grTitle = gridCell(2, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
-	grText = mapply(function(i, id) gridCell(id, 4, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
+	if (leg$title.just == "left") {
+		grTitle = gridCell(2, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
+	} else if (leg$title.just == "right") {
+		grTitle = gridCell(2, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS)))
+	} else {
+		grTitle = gridCell(2, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
+	}
+	
+	grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
 	
 	ticks = get_legend_option(leg$ticks, leg$type)
 	ticks.disable.na = get_legend_option(leg$ticks.disable.na, leg$type)
@@ -168,7 +189,7 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 		# tick marks in margin (specified with x coordinates between 1 and 2)
 		if (any(ticks_in_margin)) {
 			grTicksMargin = do.call(c, lapply(ticks[ticks_in_margin], function(x) {
-				mapply(function(i, id) gridCell(id, 3, grid::linesGrob(x = x - 1, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = leg$ticks.lwd * leg$scale))), 1L:ni, leg$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(id, 4, grid::linesGrob(x = x - 1, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = leg$ticks.lwd * leg$scale))), 1L:ni, leg$item_ids[1L:ni], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksMargin = NULL
@@ -176,7 +197,7 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 		
 		if (any(!ticks_in_margin)) {
 			grTicksItem = do.call(c, lapply(ticks[!ticks_in_margin], function(x) {
-				mapply(function(i, id) gridCell(id, 2, grid::linesGrob(x = x, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = leg$ticks.lwd * leg$scale))), 1L:ni, leg$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(id, 3, grid::linesGrob(x = x, y = c(0.5, 0.5), gp = grid::gpar(col = tick_col, lwd = leg$ticks.lwd * leg$scale))), 1L:ni, leg$item_ids[1L:ni], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksItem = NULL
@@ -247,7 +268,7 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 			ys = seq(1-.5*h, by = -h, length.out = length(f))
 			#f[!is.na(f)] = "red"
 			gpi = grid::gpar(fill = f, alpha = a, col = NA)
-			gridCell(id, 2, grid::rectGrob(y = ys, height = h, gp = gpi))
+			gridCell(id, 3, grid::rectGrob(y = ys, height = h, gp = gpi))
 		}, leg$item_ids[lvs], fill_list, alpha_list, SIMPLIFY = FALSE)
 		
 		if (vary_fill) {
@@ -258,12 +279,12 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 			y2 = (sum(is.na(alpha_list[[nlev2]])) * .1) / nlev2
 		}
 		
-		grItems2 = list(gridCell(leg$item_ids[lvs], 2, grid::rectGrob(y = grid::unit(y2, "npc"), just = c("center", "bottom"), width = wsu[2], height = grid::unit(1-(y1+y2), "npc"), gp = gpars)))
+		grItems2 = list(gridCell(leg$item_ids[lvs], 3, grid::rectGrob(y = grid::unit(y2, "npc"), just = c("center", "bottom"), height = grid::unit(1-(y1+y2), "npc"), gp = gpars)))
 		if (leg$na.show) {
 			gpars$fill = gp$fill[ifelse(length(gp$fill), nlev, 1)]
 			gpars$fill_alpha = gp$fill[ifelse(length(gp$fill_alpha), nlev, 1)]
 			# fill and border for NA
-			grItems1 = c(grItems1, list(gridCell(leg$item_ids[nlev], 2, grid::rectGrob(width = wsu[2], gp = gpars))))
+			grItems1 = c(grItems1, list(gridCell(leg$item_ids[nlev], 3, grid::rectGrob(gp = gpars))))
 		}
 		
 		# borders
@@ -281,16 +302,16 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 			gpars2 = gp_to_gpar(gp, sel = "col", split_to_n = nlev) #lapply(gps, gp_to_gpar_borders)
 			
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-			grItems = mapply(function(i, gpar1i, gpar2i) gridCell(i+4, 2, {
+			grItems = mapply(function(i, gpar1i, gpar2i) gridCell(id, 3, {
 				grid::grobTree(
 					grid::rectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar1i),
 					grid::rectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar2i))
-			}), 1:nlev, gpars1, gpars2, SIMPLIFY = FALSE)
+			}), leg$item_ids, gpars1, gpars2, SIMPLIFY = FALSE)
 			
 		} else {
 			gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-			grItems = mapply(function(i, id, gpari) gridCell(id, 2, grid::rectGrob(width = wsu[2], gp = gpari)), 1:nlev, leg$item_ids, gpars, SIMPLIFY = FALSE)
+			grItems = mapply(function(id, gpari) gridCell(id, 3, grid::rectGrob(gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
 		}
 		
 		
@@ -300,7 +321,7 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
-		grItems = mapply(function(id, gpari) gridCell(id, 2, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
+		grItems = mapply(function(id, gpari) gridCell(id, 3, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
 	}
 	
 	
