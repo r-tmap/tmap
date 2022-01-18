@@ -50,127 +50,26 @@ v4 = function(e) {
 txt(paste("Loaded tmap version", tmapV))
 ```
 
-# Facetting shapes
-
-These tests focus on dealing with shapes when facets are created.
-Legends, scales will be studied in other tests.
-
-## Polygons
-
-### One facet
-
 ```{r}
-leg = tm_legend_portrait(frame = TRUE, text.size = 1.5, text.fontface = "italic", text.fontfamily = "DejaVu Serif")
-scl = tm_scale_intervals(label.na = "Abcdef")
-tm_shape(World) +
-	tm_polygons("HPI", fill.legend = leg, fill.scale = scl)
+tm_shape(World) + tm_polygons("HPI", fill.scale = tm_scale_intervals(n=5, style = "kmeans"))
+tm_shape(World) + tm_polygons("HPI", fill.scale = tm_scale_intervals(n=10, style = "kmeans"))
+tm_shape(World) + tm_polygons("HPI", fill.scale = tm_scale_intervals(n=15, style = "kmeans"))
 ```
 
-
 ```{r}
-leg = tm_legend_portrait(item.na.padding = 1)
-tm_shape(Africa) +
-	tm_symbols(size = "HPI", size.legend = leg)
+tm_shape(World) + tm_polygons("HPI", fill.scale = tm_scale_intervals(n=5, style = "kmeans"), fill.legend = tm_legend_portrait(item.na.height = 1))
+tm_shape(World) + tm_polygons("HPI", fill.scale = tm_scale_intervals(n=5, style = "kmeans"), fill.legend = tm_legend_portrait(item.na.space = 2))
+tm_shape(World) + tm_polygons("HPI", fill.scale = tm_scale_intervals(n=5, style = "kmeans"), fill.legend = tm_legend_portrait(item.na.height = 3))
 ```
 
-
 ```{r}
-tm_shape(World) +
-	tm_polygons("HPI")
-
-leg = tm_legend_portrait(bg.color = "skyblue", frame.lwd = 4)
-tm_shape(World) +
-	tm_polygons("HPI", col = "economy", fill.legend = leg)
-
+tm_shape(World) + tm_polygons("HPI", fill.scale = tm_scale_continuous(n=5))
 ```
 
-
 ```{r}
-leg = tm_legend_portrait()
-tm_shape(World) +
-	tm_symbols("HPI", size.scale = ,fill.legend = leg)
+tm_shape(World) + tm_symbols("HPI", size = "pop_est_dens")
 ```
 
-
 ```{r}
-leg = tm_legend_landscape()
-tm_shape(World) +
-	tm_polygons("HPI", fill.legend = leg)
+tm_shape(World) + tm_symbols("HPI")
 ```
-
-
-```{r}
-tm_shape(World) +
-	tm_symbols(size = "HPI", size.legend = tm_legend_landscape())
-```
-
-
-```{r}
-leg = tm_legend_portrait(frame = TRUE, text.size = 1.5, text.fontface = "italic", text.fontfamily = "DejaVu Serif")
-tm_shape(World) +
-	tm_polygons("HPI", col = "economy")
-tm_shape(World) +
-	tm_polygons("HPI", fill.legend = leg, fill.scale = scl, col = "economy", col.legend = tm_legend_portrait(position = tm_lp_out(h="right", v="center")))
-```
-
-
-```{r}
-tmap_options(legend.design = "portrait", legend.frame=TRUE)
-tmap_design_mode()
-
-tmap_options(legend.frame=TRUE,
-			 legend.height = Inf,
-			legend.settings = list(portrait = list(item.height = c(rect = -1, symbols = 1, gradient = 1.8),
-											   item.width = c(rect = 1, symbols = 1, gradient = 1),
-											   margin.item.text = 0.5,
-											   item.padding = c(rect = 0.2, symbols = 0.3, gradient = 0),
-											   item.na.padding = c(rect = 0.4, symbols = 0.3, gradient = 0.3),
-											   title.padding  = c(0.125, 0, 0.25, 0),
-											   margins = c(0.4, 0.4, 0.75, 0.4)),
-							   landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.8),
-							   				 item.width = c(rect = 6, symbols = 1, gradient = 1),
-							   				 margin.item.text = 0.25,
-							   				 item.padding = c(rect = 0.2, symbols = 0.3, gradient = 0),
-							   				 item.na.padding = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
-							   				 title.padding  = c(0.125, 0, 0.25, 0),
-							   				 margins = c(0.4, 0.4, 0.4, 0.4))))
-tm_shape(World) +
-	tm_polygons("HPI", col = "economy")
-
-tm_shape(land) +
-	tm_raster("cover")
-
-tm_shape(World) +
-	tm_symbols(fill = "economy", size = "pop_est", shape = 16, size.scale = tm_scale_continuous(values.scale = 3))
-tm_shape(World) +
-	tm_symbols(fill = "economy", size = "pop_est", shape = 23, size.scale = tm_scale_continuous(values.scale = 3))
-
-
-tm_shape(World) +
-	tm_polygons("HPI", col = "economy", fill.scale = tm_scale_continuous())
-
-```
-
-
-```{r}
-tmap_options(legend.is.portrait = FALSE)
-tmap_options(legend.landscape.setup = list(item.width = 1, space = 3, margin = 1))
-tm_shape(World) +
-	tm_polygons("HPI")
-tmap_options(legend.landscape.setup = list(item.width = 3, space = 1, margin = 1))
-tm_shape(World) +
-	tm_polygons("HPI")
-tmap_options(legend.landscape.setup = list(item.width = -1, space = 0, margin = 1))
-tm_shape(World) +
-	tm_polygons("HPI")
-tmap_options(legend.landscape.setup = list(item.width = -1, space = 0, margin = 0))
-tm_shape(World) +
-	tm_polygons("HPI")
-tmap_options(legend.landscape.setup = list(item.width = -1, space = 1, margin = 0))
-tm_shape(World) +
-	tm_polygons("HPI")
-tm_shape(World, filter = World$pop_est > 100e6) +
-	tm_polygons(c("HPI", "economy"))
-
-```
-

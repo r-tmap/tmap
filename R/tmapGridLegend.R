@@ -71,7 +71,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	legWin = legWin / clipT
 	legHin = legHin / clipT
 	
-	if (legs[[1]]$justified) {
+	if (legs[[1]]$group) {
 		if (legend.stack == "vertical") {
 			legWin = rep(max(legWin), length(legs))		
 		} else {
@@ -127,7 +127,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		}))
 	}
 	
-	groupframe = if (!is.na(legs[[1]]$frame) && legs[[1]]$justified) {
+	groupframe = if (!is.na(legs[[1]]$frame) && legs[[1]]$group) {
 		if (legend.stack == "vertical") {
 			W = legW[1]
 			H = sum(legH)
@@ -142,7 +142,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	
 	grbs = do.call(grid::gList, mapply(function(leg, lG, lX, lY, lH, lW) {
-		if (!is.na(leg$frame) && !legs[[1]]$justified) {
+		if (!is.na(leg$frame) && !legs[[1]]$group) {
 			frame = grid::rectGrob(gp=grid::gpar(fill = leg$bg.color, col = leg$frame, lwd = leg$frame.lwd))
 		} else {
 			frame = NULL
@@ -151,6 +151,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		if (legend.stack == "vertical") {
 			grid::grobTree(frame, lG, vp = grid::viewport(x = lW/2, width = lW, y = lY - lH/2, height = lH))
 		} else {
+			#grid::grobTree(frame, lG, vp = grid::viewport(x = lX + lW/2, width = lW, y = legY[[1]] - lH/2, height = lH))
 			grid::grobTree(frame, lG, vp = grid::viewport(x = lX + lW/2, width = lW, y = legY[[1]] - lH/2, height = lH))
 		}
 	}, legs, legGrobs, legX, legY, legH, legW, SIMPLIFY = FALSE))

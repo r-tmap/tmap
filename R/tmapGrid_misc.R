@@ -10,7 +10,7 @@ add_to_gt = function(gt, grb, row, col) {
 
 
 get_legend_option = function(x, type) {
-	if (length(x) == 1 || (!type %in% names(x))) x else x[type]
+	if (length(x) == 1 || (!type %in% names(x))) x else if (is.list(x)) x[[type]] else x[type]
 }
 
 

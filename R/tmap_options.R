@@ -136,26 +136,36 @@
 		legend.position = tm_lp_auto("right", "bottom"),
 		
 		
-		legend.settings.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 1.8),
-										item.width = c(rect = 1, symbols = 1, gradient = 1),
+		legend.settings.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3),
+										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2),
+										item.space = c(rect = 0.2, symbols = 0.2, gradient = 0),
 										margin.item.text = 0.25,
-										item.padding = c(rect = 0.2, symbols = 0, gradient = 0),
-										item.na.padding = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
+										item.na.height = c(rect = NA, symbols = NA, gradient = 1.2),
+										item.na.width = c(rect = NA, symbols = NA, gradient = 1.2),
+										item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 1),
 										title.padding  = c(0, 0, 0.25, 0),
+										ticks = list(rect = list(), symbols = list(), gradient = list(c(0.8, 1))),
+										ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
+										ticks.col = NA,
+										ticks.lwd = 1.5,
 										margins = c(0.4, 0.4, 0.4, 0.4)),
-		legend.settings.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.8),
-							   				 item.width = c(rect = 6, symbols = 1, gradient = 1),
+		legend.settings.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1),
+							   				 item.width = c(rect = 6, symbols = 3, gradient = 6),
 							   				 margin.item.text = 0.25,
-							   				 item.padding = c(rect = 0.2, symbols = 0.3, gradient = 0),
-							   				 item.na.padding = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
+							   				 item.space = c(rect = 0.2, symbols = 0.3, gradient = 0),
+							   				 item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
 											 title.padding  = c(0, 0, 0.25, 0),
+											 ticks = list(rect = list(), symbols = list(), gradient = list(c(0.8, 1))),
+											 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
+											 ticks.col = NA,
+											 ticks.lwd = 1.5,
 							   				 margins = c(0.4, 0.4, 0.4, 0.4)),
 		#legend.space = c(rect = 0.2, symbols = 0.3, gradient = 0.8),
 		#legend.space.na = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
 		#legend.landscape.setup = list(rect.width = -1, space = 1, margin = 0),
 		
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
-		legend.justified = TRUE,
+		legend.group = TRUE,
 		legend.resize.as.group = TRUE,
 		legend.just = c("left", "bottom"),
 		legend.width = NA,
@@ -166,7 +176,7 @@
 		legend.title.fontface = NULL,
 		legend.title.fontfamily = NULL,
 		legend.text.color = NULL,
-		legend.text.size = 0.7,
+		legend.text.size = 0.8,
 		legend.text.fontface = NULL,
 		legend.text.fontfamily = NULL,
 		legend.format = list(
@@ -443,8 +453,12 @@ tm_options <- function(...) {
 }	
 
 #' @export
-tm_place_legends_right = function(width) {
-	tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_lp_out("right", "center"))
+tm_place_legends_right = function(width = NA) {
+	if (is.na(width)) {
+		tm_options(legend.position = tm_lp_out("right", "center"))
+	} else {
+		tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_lp_out("right", "center"))
+	}
 }
 
 #' @export

@@ -148,6 +148,15 @@ process_meta = function(o, d, legs) {
 			}
 		}
 		
+		# alternative aspect ratio: instead of .1, .5, 1, 2, 10 => -9, -1, 0, 1, 9
+		aa = function(asp) {
+			ls = asp < 1
+			asp[ls] = 1/asp[ls]
+			asp = asp - 1
+			asp[ls] = -asp[ls]
+			asp
+		}
+		
 		masp = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
 		
 		# Aspect ratios:
@@ -162,12 +171,30 @@ process_meta = function(o, d, legs) {
 		legend.position.sides = legend.position
 		legend.position.all = legend.position
 		
+		# determine orientation of stacked maps
+		# it also implies where legends will be drawn: horizontal orientation=legends bottom or top, vertical orientation=legends left or right
+		# !!! this also applies for single maps
 		if (type == "stack") {
 			if (is.na(orientation)) {
-				orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) {
-					"horizontal"
+				legs_auto = legs[class=="auto"]
+				
+				if (nrow(legs_auto) && n == 1) {
+					legWmax = max(legs_auto$legW) / devsize[1]
+					legHmax = max(legs_auto$legH) / devsize[2]
+					masp_h = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]) - legHmax)) * dasp
+					masp_v = ((1 - sum(fixedMargins[c(2, 4)]) - legWmax) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
+					
+					if (abs(aa(pasp) - aa(masp_h)) < abs(aa(pasp) - aa(masp_v))) {
+						orientation = "horizontal"
+					} else {
+						orientation = "vertical"
+					}
 				} else {
-					"vertical"
+					orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) {
+						"horizontal"
+					} else {
+						"vertical"
+					}
 				}
 			}
 		}
@@ -178,7 +205,7 @@ process_meta = function(o, d, legs) {
 			if (!legend.present.auto[2] & !legend.present.auto[3]) {
 				# only 'all facets' outside legends (either bottom or right)
 				# was: n > 1 && masp > pasp
-				if ((n == 1 && pasp > masp) || (type != "stack" && masp < 1) || (type == "stack" && orientation == "horizontal")) {
+				if ((type != "stack" && n == 1 && pasp > masp) || (type != "stack" && n > 1 && masp < 1) || (type == "stack" && orientation == "horizontal")) {
 					legend.position.all = list(h = "center", v = legend.position$v)
 				} else {
 					legend.position.all = list(h = legend.position$h, v = "center")
