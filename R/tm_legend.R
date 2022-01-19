@@ -21,7 +21,9 @@ tm_legend = function(title  = NA,
 					 frame.lwd = NA,
 					 bg.color = NA,
 					 bg.alpha = NA,
-					 group = NA,
+					 group.frame = NA,
+					 group.just = NA,
+					 block.just = NA,
 					 resize.as.group = NA,
 					 ...) {
 	args = c(as.list(environment()), list(...))

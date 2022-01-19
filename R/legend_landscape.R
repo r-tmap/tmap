@@ -31,16 +31,19 @@ tmapGridLegHeight.tm_legend_landscape = function(leg, o) {
 
 	hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_height * textS * o$lin, c(leg$margin.item.text, 1) * textS * o$lin,marH[2])
 	Hin = sum(hsinch)
-	hsu = grid::unit(c(hsinch, 1), units = c(rep("inch", length(hsinch)), "null"))
+	
+	sides = if (leg$block.just[2] == "top") "second" else if (leg$block.just[2] == "bottom") "first" else "both" 
+	hsu = set_unit_with_stretch(hsinch, sides = sides)
+	
+	
+	
+	#hsu = grid::unit(c(hsinch, 1), units = c(rep("inch", length(hsinch)), "null"))
 	
 
 	#leg$itemHsIn = itemHsIn
 	leg$Hin = Hin
 	leg$hsu = hsu
 
-	po(leg$Hin, leg$hsu)
-	
-	
 	leg
 	
 }
@@ -112,7 +115,8 @@ tmapGridLegWidth.tm_legend_landscape = function(leg, o) {
 	} else if (leg$stretch == "itemsNNA") {
 		if (leg$na.show) set_unit_with_stretch(ws, head(item_ids, -1)) else set_unit_with_stretch(ws, item_ids)
 	} else {
-		set_unit_with_stretch(ws)
+		sides = if (leg$block.just[1] == "left") "second" else if (leg$block.just[1] == "right") "first" else "both" 
+		set_unit_with_stretch(ws, sides = sides)
 	}
 	
 	Win = if (leg$stretch == "none") sum(ws) else leg$width * textS * o$lin
@@ -121,10 +125,7 @@ tmapGridLegWidth.tm_legend_landscape = function(leg, o) {
 	#leg$hs = hs
 	leg$wsu = wsu
 	
-	po(leg$Win, leg$wsu)
-	
-	
-	leg$item_ids = item_ids
+	leg$item_ids = item_ids + 1L
 	
 	leg
 	
@@ -219,16 +220,16 @@ tmapGridLegPlot.tm_legend_landscape = function(leg, o) {
 												   heights = hsu))
 	
 	if (leg$title.just == "left") {
-		grTitle = gridCell(2, 2:(length(leg$wsu)-2), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 3:(length(leg$wsu)-2), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
 	} else if (leg$title.just == "right") {
-		grTitle = gridCell(2, 2:(length(leg$wsu)-2), grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 3:(length(leg$wsu)-2), grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS)))
 	} else {
-		grTitle = gridCell(2, 2:(length(leg$wsu)-2), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 3:(length(leg$wsu)-2), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
 	}
 	
 	
 	
-	grText = mapply(function(i, id) gridCell(7, id, grid::textGrob(leg$labels[i], x = 0.5, just = "center", gp = grid::gpar(cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
+	grText = mapply(function(i, id) gridCell(8, id, grid::textGrob(leg$labels[i], x = 0.5, just = "center", gp = grid::gpar(cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
 	
 	ticks = get_legend_option(leg$ticks, leg$type)
 	ticks.disable.na = get_legend_option(leg$ticks.disable.na, leg$type)
@@ -243,7 +244,7 @@ tmapGridLegPlot.tm_legend_landscape = function(leg, o) {
 		# tick marks in margin (specified with x coordinates between 1 and 2)
 		if (any(ticks_in_margin)) {
 			grTicksMargin = do.call(c, lapply(ticks[ticks_in_margin], function(y) {
-				mapply(function(i, id) gridCell(7, id, grid::linesGrob(x = c(0.5, 0.5), y = 1 - (y - 1), gp = grid::gpar(col = tick_col, lwd = leg$ticks.lwd * leg$scale))), 1L:ni, leg$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(8, id, grid::linesGrob(x = c(0.5, 0.5), y = 1 - (y - 1), gp = grid::gpar(col = tick_col, lwd = leg$ticks.lwd * leg$scale))), 1L:ni, leg$item_ids[1L:ni], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksMargin = NULL
@@ -251,7 +252,7 @@ tmapGridLegPlot.tm_legend_landscape = function(leg, o) {
 		
 		if (any(!ticks_in_margin)) {
 			grTicksItem = do.call(c, lapply(ticks[!ticks_in_margin], function(y) {
-				mapply(function(i, id) gridCell(5, id, grid::linesGrob(x = c(0.5, 0.5), y = 1 - y, gp = grid::gpar(col = tick_col, lwd = leg$ticks.lwd * leg$scale))), 1L:ni, leg$item_ids[1L:ni], SIMPLIFY = FALSE)
+				mapply(function(i, id) gridCell(6, id, grid::linesGrob(x = c(0.5, 0.5), y = 1 - y, gp = grid::gpar(col = tick_col, lwd = leg$ticks.lwd * leg$scale))), 1L:ni, leg$item_ids[1L:ni], SIMPLIFY = FALSE)
 			}))
 		} else {
 			grTicksItem = NULL
@@ -320,7 +321,7 @@ tmapGridLegPlot.tm_legend_landscape = function(leg, o) {
 			xs = seq(.5*w, by = w, length.out = length(f))
 			#f[!is.na(f)] = "red"
 			gpi = grid::gpar(fill = f, alpha = a, col = NA)
-			gridCell(5, id, grid::rectGrob(x = xs, width = w, gp = gpi))
+			gridCell(6, id, grid::rectGrob(x = xs, width = w, gp = gpi))
 		}, leg$item_ids[lvs], fill_list, alpha_list, SIMPLIFY = FALSE)
 
 		if (vary_fill) {
@@ -332,12 +333,12 @@ tmapGridLegPlot.tm_legend_landscape = function(leg, o) {
 		}
 		
 		
-		grItems2 = list(gridCell(5, leg$item_ids[lvs], grid::rectGrob(x = grid::unit(x1, "npc"), just = c("left", "center"), width = grid::unit(1-(x1+x2), "npc"), gp = gpars)))
+		grItems2 = list(gridCell(6, leg$item_ids[lvs], grid::rectGrob(x = grid::unit(x1, "npc"), just = c("left", "center"), width = grid::unit(1-(x1+x2), "npc"), gp = gpars)))
 		if (leg$na.show) {
 			gpars$fill = gp$fill[ifelse(length(gp$fill), nlev, 1)]
 			gpars$fill_alpha = gp$fill[ifelse(length(gp$fill_alpha), nlev, 1)]
 			# fill and border for NA
-			grItems1 = c(grItems1, list(gridCell(5, leg$item_ids[nlev], grid::rectGrob(gp = gpars))))
+			grItems1 = c(grItems1, list(gridCell(6, leg$item_ids[nlev], grid::rectGrob(gp = gpars))))
 		}
 		
 		# borders
@@ -355,7 +356,7 @@ tmapGridLegPlot.tm_legend_landscape = function(leg, o) {
 			gpars2 = gp_to_gpar(gp, sel = "col", split_to_n = nlev) #lapply(gps, gp_to_gpar_borders)
 			
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-			grItems = mapply(function(i, gpar1i, gpar2i) gridCell(5, id, {
+			grItems = mapply(function(i, gpar1i, gpar2i) gridCell(6, id, {
 				grid::grobTree(
 					grid::rectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar1i),
 					grid::rectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar2i))
@@ -364,17 +365,19 @@ tmapGridLegPlot.tm_legend_landscape = function(leg, o) {
 		} else {
 			gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-			grItems = mapply(function(id, gpari) gridCell(5, id, grid::rectGrob(gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
+			grItems = mapply(function(id, gpari) gridCell(6, id, grid::rectGrob(gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
 		}
 		
 		
 	} else if (leg$type == "symbols") {
+		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(leg$item.height, "symbols"),
+															 get_legend_option(leg$item.width, "symbols")) * leg$textS)
 		gpars = gp_to_gpar(gp, split_to_n = nlev)
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
-		grItems = mapply(function(id, gpari) gridCell(5, id, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
+		grItems = mapply(function(id, gpari) gridCell(6, id, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
 	}
 	
 	

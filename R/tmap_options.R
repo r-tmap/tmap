@@ -162,7 +162,7 @@
 										 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
 										 ticks.col = NA,
 										 ticks.lwd = 1.5,
-										 title.just = "left",
+										 title.just = "center",
 										 margins = c(0.4, 0.4, 0.4, 0.4)),
 		#legend.space = c(rect = 0.2, symbols = 0.3, gradient = 0.8),
 		#legend.space.na = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
@@ -170,7 +170,8 @@
 		
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
 		legend.group.frame = T,
-		legend.group.just = c(vertical = "left", horizontal = "top"),
+		legend.group.just = c("left", "top"),
+		legend.block.just = c("left", "top"),
 		legend.resize.as.group = TRUE,
 		#legend.just = c("left", "bottom"),
 		legend.width = NA,

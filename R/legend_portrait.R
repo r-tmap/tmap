@@ -10,17 +10,17 @@ tmapGridLegPlot = function(...) {
 	UseMethod("tmapGridLegPlot")
 }
 
-set_unit_with_stretch = function(x, ids = NULL) {
+set_unit_with_stretch = function(x, ids = NULL, sides = c("both", "first", "second")) {
 	u = rep("inch", length(x))
 	if (!is.null(ids)) {
 		x[ids] = 1/length(ids)
 		u[ids] = "null"
-		x = c(x, 0)
-		u = c(u, "null")
+		x = c(0, x, 0)
 	} else {
-		x = c(x, 1)
-		u = c(u, "null")
+		sides = match.arg(sides)
+		x = if (sides == "both") c(0.5, x, 0.5) else if (sides == "first") c(1, x, 0) else c(0, x, 1)
 	}
+	u = c("null", u, "null")
 	grid::unit(x, units = u)
 }
 
@@ -66,14 +66,17 @@ tmapGridLegHeight.tm_legend_portrait = function(leg, o) {
 	item_ids = seq(5, by = 2, length.out = nlev)
 	pad_ids = seq(6, by = 2, length.out = nlev - 1L)
 	
+	
+	
 	hsu = if (leg$stretch == "padding") {
 		set_unit_with_stretch(hs, pad_ids)
 	} else if (leg$stretch == "items") {
 		set_unit_with_stretch(hs, item_ids)
 	} else if (leg$stretch == "itemsNNA") {
-		if (le$na.show) set_unit_with_stretch(hs, head(item_ids, -1)) else set_unit_with_stretch(hs, item_ids)
+		if (leg$na.show) set_unit_with_stretch(hs, head(item_ids, -1)) else set_unit_with_stretch(hs, item_ids)
 	} else {
-		set_unit_with_stretch(hs)
+		sides = if (leg$block.just[2] == "top") "second" else if (leg$block.just[2] == "bottom") "first" else "both" 
+		set_unit_with_stretch(hs, sides = sides)
 	}
 	
 	Hin = if (leg$stretch == "none") sum(hs) else leg$height * textS * o$lin
@@ -82,9 +85,9 @@ tmapGridLegHeight.tm_legend_portrait = function(leg, o) {
 	#leg$hs = hs
 	leg$hsu = hsu
 	
-	leg$item_ids = item_ids
+	leg$item_ids = item_ids + 1L
 	
-	
+	po(hsu)
 	leg
 	
 }
@@ -124,9 +127,9 @@ tmapGridLegWidth.tm_legend_portrait = function(leg, o) {
 	txtW = colW - (item_widths_max + leg$margin.item.text) * textS * o$lin
 	
 	#itemWsIn = grid::unit(item_widths_max * textS * o$lin, units = "inch")
-	n = if (leg$group.just["vertical"] == "left") {
+	n = if (leg$block.just[1] == "left") {
 		c(0, 1)
-	} else if (leg$group.just["vertical"] == "right") {
+	} else if (leg$block.just[1] == "right") {
 		c(1, 0)
 	} else {
 		c(0.5, 0.5)
@@ -143,8 +146,6 @@ tmapGridLegWidth.tm_legend_portrait = function(leg, o) {
 	leg$Win = sum(as.numeric(wsu)[c(1, 3:5, 7)])
 	leg$wsu = wsu
 
-	po(leg$Win)
-	
 	leg
 	
 }
@@ -167,11 +168,11 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 												   heights = hsu))
 	
 	if (leg$title.just == "left") {
-		grTitle = gridCell(2, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
 	} else if (leg$title.just == "right") {
-		grTitle = gridCell(2, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS)))
 	} else {
-		grTitle = gridCell(2, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
 	}
 	
 	grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
@@ -261,6 +262,7 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 		} else {
 			alpha_list = rep(gp$fill_alpha[1], nlev2)
 		}
+		po(hsu)
 		
 		# fill
 		grItems1 = mapply(function(id, f, a) {
@@ -316,10 +318,15 @@ tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
 		
 		
 	} else if (leg$type == "symbols") {
+		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(leg$item.height, "symbols"),
+															 get_legend_option(leg$item.width, "symbols")) * leg$textS)
+		
 		gpars = gp_to_gpar(gp, split_to_n = nlev)
 		
 		# scale down (due to facet use)
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
+		
+#		sizes = 
 		
 		grItems = mapply(function(id, gpari) gridCell(id, 3, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
 	}
