@@ -114,11 +114,11 @@ tmapScaleDiscrete = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 
 		if (is.null(labels)) {
-			labels = do.call("fancy_breaks", c(list(vec=ticks, as.count = FALSE, intervals=FALSE), legend$format)) 
+			labels = do.call("fancy_breaks", c(list(vec=ticks, as.count = FALSE, intervals=FALSE), label.format)) 
 		} else {
 			if (length(labels)!=n && show.warnings) warning("number of legend labels should be ", n, call. = FALSE)
 			labels = rep(labels, length.out=n)
-			attr(labels, "align") <- legend$format$text.align
+			attr(labels, "align") <- label.format$text.align
 		}
 		
 		if (legend$reverse) {

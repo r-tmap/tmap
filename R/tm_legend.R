@@ -1,17 +1,23 @@
 #' @export
 tm_legend = function(title  = NA,
-					 show = TRUE,
-					 design = "portrait",
-					 reverse = FALSE,
+					 show = NA,
+					 orientation = NA,
+					 design = NA,
+					 reverse = NA,
 					 position = NA,
 					 width = NA,
 					 height = NA,
 					 stack = NA,
 					 z = NA,
+					 group.frame = NA,
+					 group.just = NA,
+					 block.just = NA,
+					 resize.as.group = NA,
 					 title.color = NA,
 					 title.size = NA,
 					 title.fontface = NA,
 					 title.fontfamily = NA,
+					 title.padding = NA,
 					 text.color = NA,
 					 text.size = NA,
 					 text.fontface = NA,
@@ -21,17 +27,22 @@ tm_legend = function(title  = NA,
 					 frame.lwd = NA,
 					 bg.color = NA,
 					 bg.alpha = NA,
-					 group.frame = NA,
-					 group.just = NA,
-					 block.just = NA,
-					 resize.as.group = NA,
-					 ...) {
-	args = c(as.list(environment()), list(...))
-	settings_name = paste0("legend.settings.", design)
-	settings = tmap_option(settings_name)
-	unset = setdiff(names(settings), names(args))
-	if (length(unset)) args[unset] = settings[unset]
-	cls = c(paste0("tm_legend_", design), "tm_legend", "list")
+					 item.height = NA,
+					 item.width = NA,
+					 item.space = NA,
+					 item.na.height = NA,
+					 item.na.width = NA,
+					 item.na.space = NA,
+					 ticks = NA,
+					 ticks.disable.na = NA,
+					 ticks.col = NA,
+					 ticks.lwd = NA,
+					 title.just = NA,
+					 margins = NA,
+					 margin.item.text = NA) {
+	arg.calls = names(match.call(expand.dots = TRUE)[-1])
+	args = as.list(environment())
+	cls = c("tm_legend", "list")
 	structure(args, class = cls)
 }
 
@@ -45,15 +56,6 @@ tm_legend_combine = function(aes) {
 	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = c("tm_legend", "list"))
 }
 
-#' @export
-tm_legend_portrait = function(..., design = "portrait") {
-	tm_legend(..., design = design)
-}
-
-#' @export
-tm_legend_landscape = function(..., design = "landscape") {
-	tm_legend(..., design = design)
-}
 
 #' @export
 tm_lp_in = function(h = NA, v = NA) {

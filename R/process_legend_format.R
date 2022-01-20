@@ -1,4 +1,4 @@
-process_legend_format <- function(lf, mlf) {
+process_label_format <- function(lf, mlf) {
 	
 
 	to_be_assigned <- setdiff(names(mlf), names(lf))

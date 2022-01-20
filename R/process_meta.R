@@ -29,7 +29,9 @@ preprocess_meta = function(o, legs) {
 		nby = fn #get_nby(fl)
 		isdef = !sapply(fl, is.null)
 		n = prod(nby)
-		if (is.na(panel.type)) panel.type = ifelse((n == 1 && is.na(panel.labels[[1]]) && !isdef[1]) || ((type %in% c("wrap", "stack")) && !isdef[1]) || (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]), "none", 
+		
+		
+		if (is.na(panel.type)) panel.type = ifelse((n == 1 && is.na(panel.labels[[1]])) || ((type %in% c("wrap", "stack")) && !isdef[1]) || (!(type %in% c("wrap", "stack")) && !isdef[1] && !isdef[2]), "none", 
 										    ifelse((type %in% c("wrap", "stack")) || (n == 1), "wrap", "xtab"))
 		
 		inner.margins = get_option_class(inner.margins, class = main_class)

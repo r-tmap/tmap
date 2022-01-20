@@ -16,7 +16,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, sortRev) {
 			su = sort(unique(x1))
 			
 			x1 = factor(x1, levels=su)
-			if (is.numeric(su)) levels(x1) <- do.call("fancy_breaks", c(list(vec=su, intervals=FALSE, as.count = FALSE), legend$format)) 	
+			if (is.numeric(su)) levels(x1) <- do.call("fancy_breaks", c(list(vec=su, intervals=FALSE, as.count = FALSE), label.format)) 	
 		}
 		
 		# select levels
@@ -111,7 +111,7 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, sortRev) {
 			labs = c(labs, label.na)
 			values = c(values, value.na)
 		}
-		attr(labs, "align") = legend$format$text.align
+		attr(labs, "align") = label.format$text.align
 		
 		legend = within(legend, {
 			nitems = length(labs)

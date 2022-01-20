@@ -164,18 +164,23 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 				# update legend defaults from options
 				tmp = names(o)[substr(names(o), 1, 6) == "legend"]
 				
-				# update legend format
-				l$format = process_legend_format(l$format, o$legend.format)
-				
-				# update other legend options
-				opt_leg = setdiff(intersect(substr(tmp, 8, nchar(tmp)), names(l)), "format")
-				l[opt_leg] = mapply(function(x, nm) {
-					if (all(is.na(x))) o[[paste0("legend.", nm)]] else x
-				}, l[opt_leg], opt_leg, SIMPLIFY = FALSE)
+				# update legend options
+				opt_leg = setdiff(substr(tmp, 8, nchar(tmp)), l$arg.calls)
+				if (length(opt_leg)) l[opt_leg] = o[paste0("legend.", opt_leg)]
+				settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
+				settings = tmap_option(settings_name)
+				unset = setdiff(names(settings), l$arg.calls)
+				if (length(unset)) l[unset] = settings[unset]
+
+				# update legend class
+				class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 
 				
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 				f = s$FUN
 				s$FUN = NULL
+				# update label.format
+				s$label.format = process_label_format(s$label.format, o$label.format)
+				
 				cls = data_class(dtl[[v[1]]])
 				#if (is.na(s$legend$title)) s$legend$title = v
 				if (is.na(l$title)) l$title = paste0(names(v), attr(cls, "units"))

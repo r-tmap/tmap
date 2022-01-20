@@ -31,7 +31,8 @@ tm_scale_ordinal = function(n.max = 20,
 							levels.drop = FALSE,
 							labels = NULL, # labels for the categories (by default the factor levels)
 							label.na = NA, # label for missing values
-							label.null = NA) { # label for null values (needed?)
+							label.null = NA,
+							label.format = NA) {
 	structure(c(list(FUN = "tmapScaleCategorical"), as.list(environment())), class = c("tm_scale_ordinal", "tm_scale", "list"))
 }
 
@@ -50,7 +51,8 @@ tm_scale_categorical = function(n.max = 20,
 								levels.drop = FALSE,
 								labels = NULL, # labels for the categories (by default the factor levels)
 								label.na = NA, # label for missing values
-								label.null = NA) { # label for null values (needed?)
+								label.null = NA,
+								label.format = NA) { # label for null values (needed?)
 	structure(c(list(FUN = "tmapScaleCategorical"), as.list(environment())), class = c("tm_scale_categorical", "tm_scale", "list"))
 }
 
@@ -71,7 +73,8 @@ tm_scale_intervals = function(n = 5,
 							  value.neutral = NA,
 							  labels = NULL,
 							  label.na = NA,
-							  label.null = NA) {
+							  label.null = NA,
+							  label.format = NA) {
 	structure(c(list(FUN = "tmapScaleIntervals"), as.list(environment())), class = c("tm_scale_intervals", "tm_scale", "list"))
 }
 
@@ -88,7 +91,8 @@ tm_scale_discrete = function(ticks = NA,
 							 value.neutral = NA,
 							 labels = NULL,
 							 label.na = NA,
-							 label.null = NA) {
+							 label.null = NA,
+							 label.format = NA) {
 	structure(c(list(FUN = "tmapScaleDiscrete"), as.list(environment())), class = c("tm_scale_discrete", "tm_scale", "list"))
 }
 
@@ -120,7 +124,8 @@ tm_scale_continuous = function(n = 5,
 							   value.neutral = NA,
 							   labels = NULL,
 							   label.na = NA,
-							   label.null = NA) {
+							   label.null = NA,
+							   label.format = NA) {
 	
 	structure(c(list(FUN = "tmapScaleContinuous"), as.list(environment())), class = c("tm_scale_continuous", "tm_scale", "list"))
 }

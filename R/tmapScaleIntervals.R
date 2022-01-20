@@ -39,7 +39,7 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, sortRev) {
 
 		#breaks.specified <- !is.null(breaks)
 		is.log = (style == "log10_pretty")
-		if (is.log && !attr(legend$format, "big.num.abbr.set")) legend$format$big.num.abbr = NA
+		if (is.log && !attr(label.format, "big.num.abbr.set")) label.format$big.num.abbr = NA
 		
 		if (style == "log10_pretty") {
 			x1 = log10(x1)
@@ -131,11 +131,11 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		values = breaks[-nbrks]
 		
 		if (is.null(labels)) {
-			labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), legend$format)) 
+			labels = do.call("fancy_breaks", c(list(vec=breaks, as.count = as.count, intervals=TRUE, interval.closure=int.closure), label.format)) 
 		} else {
 			if (length(labels)!=nbrks-1 && show.warnings) warning("number of legend labels should be ", nbrks-1, call. = FALSE)
 			labels = rep(labels, length.out=nbrks-1)
-			attr(labels, "align") <- legend$format$text.align
+			attr(labels, "align") <- label.format$text.align
 		}
 		
 		if (legend$reverse) {

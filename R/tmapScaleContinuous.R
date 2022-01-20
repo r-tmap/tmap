@@ -39,7 +39,7 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		is.log = (style == "log10")
 		
-		if (is.log && !attr(legend$format, "big.num.abbr.set")) legend$format$big.num.abbr = NA
+		if (is.log && !attr(label.format, "big.num.abbr.set")) label.format$big.num.abbr = NA
 		
 		if (style == "log10") {
 			x1 = log10(x1)
@@ -197,10 +197,10 @@ tmapScaleContinuous = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		
 		# create legend labels for continuous cases
 		if (is.null(labels)) {
-			labels = do.call("fancy_breaks", c(list(vec=b, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), legend$format)) 	
+			labels = do.call("fancy_breaks", c(list(vec=b, as.count = FALSE, intervals=FALSE, interval.closure=int.closure), label.format)) 	
 		} else {
 			labels = rep(labels, length.out=nbrks_cont)
-			attr(labels, "align") <- legend$format$text.align
+			attr(labels, "align") <- label.format$text.align
 		}
 		
 		if (legend$reverse) {

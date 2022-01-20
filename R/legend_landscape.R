@@ -11,9 +11,9 @@ tmapGridLegPlot = function(...) {
 }
 
 
-#' @method tmapGridLegHeight tm_legend_landscape
+#' @method tmapGridLegHeight tm_legend_standard_landscape
 #' @export
-tmapGridLegHeight.tm_legend_landscape = function(leg, o) {
+tmapGridLegHeight.tm_legend_standard_landscape = function(leg, o) {
 	nlev = leg$nitems
 	textS = leg$text.size
 	titleS = if (leg$title == "") 0 else leg$title.size
@@ -49,9 +49,9 @@ tmapGridLegHeight.tm_legend_landscape = function(leg, o) {
 }
 
 
-#' @method tmapGridLegWidth tm_legend_landscape
+#' @method tmapGridLegWidth tm_legend_standard_landscape
 #' @export
-tmapGridLegWidth.tm_legend_landscape = function(leg, o) {
+tmapGridLegWidth.tm_legend_standard_landscape = function(leg, o) {
 	nlev = leg$nitems
 	textS = leg$text.size
 	titleS = if (leg$title == "") 0 else leg$title.size
@@ -203,9 +203,9 @@ tmapGridLegWidth.tm_legend_landscape = function(leg, o) {
 }
 
 
-#' @method tmapGridLegPlot tm_legend_landscape
+#' @method tmapGridLegPlot tm_legend_standard_landscape
 #' @export
-tmapGridLegPlot.tm_legend_landscape = function(leg, o) {
+tmapGridLegPlot.tm_legend_standard_landscape = function(leg, o) {
 	textS = leg$text.size * leg$scale
 	titleS = if (leg$title == "") 0 else leg$title.size * leg$scale
 	

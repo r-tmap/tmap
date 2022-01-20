@@ -25,9 +25,9 @@ set_unit_with_stretch = function(x, ids = NULL, sides = c("both", "first", "seco
 }
 
 
-#' @method tmapGridLegHeight tm_legend_portrait
+#' @method tmapGridLegHeight tm_legend_standard_portrait
 #' @export
-tmapGridLegHeight.tm_legend_portrait = function(leg, o) {
+tmapGridLegHeight.tm_legend_standard_portrait = function(leg, o) {
 	nlev = leg$nitems
 	textS = leg$text.size
 	titleS = if (leg$title == "") 0 else leg$title.size
@@ -105,9 +105,9 @@ fontface2nr = function(face) {
 }
 
 
-#' @method tmapGridLegWidth tm_legend_portrait
+#' @method tmapGridLegWidth tm_legend_standard_portrait
 #' @export
-tmapGridLegWidth.tm_legend_portrait = function(leg, o) {
+tmapGridLegWidth.tm_legend_standard_portrait = function(leg, o) {
 	textS = leg$text.size
 	titleS = if (leg$title == "") 0 else leg$title.size
 	
@@ -151,9 +151,9 @@ tmapGridLegWidth.tm_legend_portrait = function(leg, o) {
 }
 
 
-#' @method tmapGridLegPlot tm_legend_portrait
+#' @method tmapGridLegPlot tm_legend_standard_portrait
 #' @export
-tmapGridLegPlot.tm_legend_portrait = function(leg, o) {
+tmapGridLegPlot.tm_legend_standard_portrait = function(leg, o) {
 	textS = leg$text.size * leg$scale
 	titleS = if (leg$title == "") 0 else leg$title.size * leg$scale
 	
