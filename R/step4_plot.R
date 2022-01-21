@@ -4,7 +4,14 @@ process_legends = function(legs, o) {
 	
 	funW = paste0("tmap", gs, "LegWidth")
 	funH = paste0("tmap", gs, "LegHeight")
-	
+
+	leg_ins = which(legs$class == "in")
+	if (length(leg_ins)) {
+		for (i in leg_ins) {
+			legs$legend[[i]]$group.just = c(legs$h[i], legs$v[i])
+		}
+	}
+
 	legs$legend = lapply(legs$legend, fun_add_leg_type)
 	legs$legend = lapply(legs$legend, function(leg) do.call(funW, list(leg = leg, o = o)))
 	legs$legend = lapply(legs$legend, function(leg) do.call(funH, list(leg = leg, o = o)))
@@ -18,7 +25,6 @@ process_legends = function(legs, o) {
 		s = l$stack
 		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
 	}, FUN.VALUE = character(1))
-	
 	
 	
 	getLW = function(x) sapply(x, function(y) y$Win)

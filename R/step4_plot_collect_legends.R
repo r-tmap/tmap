@@ -127,7 +127,7 @@ step4_plot_collect_legends = function(tmx) {
 	
 	legs$class = lapply(legs$legend, function(l) l$position$type)
 	
-	legs$h = lapply(legs$legend, function(l) l$position$h)
-	legs$v = lapply(legs$legend, function(l) l$position$v)
+	legs$h = sapply(legs$legend, function(l) l$position$h)
+	legs$v = sapply(legs$legend, function(l) l$position$v)
 	legs
 }

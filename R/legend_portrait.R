@@ -87,7 +87,6 @@ tmapGridLegHeight.tm_legend_standard_portrait = function(leg, o) {
 	
 	leg$item_ids = item_ids + 1L
 	
-	po(hsu)
 	leg
 	
 }
@@ -143,7 +142,9 @@ tmapGridLegWidth.tm_legend_standard_portrait = function(leg, o) {
 					   n[2], 
 					   marW[2]), units = c("inch", "null", rep("inch", 3), "null", "inch"))
 	
-	leg$Win = sum(as.numeric(wsu)[c(1, 3:5, 7)])
+	Win = if (is.na(leg$width)) sum(as.numeric(wsu)[c(1, 3:5, 7)]) else leg$width * textS * o$lin
+	
+	leg$Win = Win
 	leg$wsu = wsu
 
 	leg
@@ -262,8 +263,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(leg, o) {
 		} else {
 			alpha_list = rep(gp$fill_alpha[1], nlev2)
 		}
-		po(hsu)
-		
+
 		# fill
 		grItems1 = mapply(function(id, f, a) {
 			h = 1 / length(f)

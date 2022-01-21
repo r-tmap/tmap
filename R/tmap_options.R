@@ -151,12 +151,12 @@
 		legend.design = "standard",
 		legend.orientation = "portrait",
 		legend.position = tm_lp_auto("right", "bottom"),
-		legend.width = NA,
+		legend.width = 20,
 		legend.height = NA,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
 		legend.group.frame = TRUE,
-		legend.group.just = c("left", "top"),
-		legend.block.just = c("left", "top"),
+		legend.group.just = c("center", "bottom"),
+		legend.block.just = c("center", "top"),
 		legend.resize.as.group = TRUE,
 		legend.reverse = FALSE,
 		#legend.just = c("left", "bottom"),
@@ -168,7 +168,7 @@
 		legend.text.size = 0.8,
 		legend.text.fontface = NULL,
 		legend.text.fontfamily = NULL,
-		legend.frame = FALSE,
+		legend.frame = TRUE,
 		legend.frame.lwd = 1,
 		legend.bg.color = NA,
 		legend.bg.alpha = 1,
@@ -259,11 +259,6 @@
 )
 
 
-
-#' @export
-tm_layout = function() {
-	tm_options(...)
-}
 
 
 
