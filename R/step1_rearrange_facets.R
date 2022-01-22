@@ -244,7 +244,7 @@ step1_rearrange_facets = function(tmo) {
 
 			if (is.na(free.coords)) {
 				if (type %in% c("wrapstack", "wrap", "stack")) {
-					free.coords = rep((by != "VARS__"), 3)
+					free.coords = rep(!any(c(by1, by2, by3) == "VARS__"), 3)
 				} else {
 					free.coords = c((!is.null(rows) && (rows != "VARS__")), (!is.null(columns)) && (columns != "VARS__"), (!is.null(pages)) && (pages != "VARS__"))
 				}

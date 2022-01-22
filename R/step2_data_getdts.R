@@ -161,17 +161,16 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 			
 			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
 
-				# update legend defaults from options
-				tmp = names(o)[substr(names(o), 1, 6) == "legend"]
-				
 				# update legend options
-				opt_leg = setdiff(substr(tmp, 8, nchar(tmp)), l$arg.calls)
-				if (length(opt_leg)) l[opt_leg] = o[paste0("legend.", opt_leg)]
+				oltype = o[c("legend.design", "legend.orientation")]
+				names(oltype) = c("design", "orientation")
+				l = complete_options(l, oltype)
+				oleg = o[names(o)[substr(names(o), 1, 6) == "legend" & substr(names(o), 1, 15) != "legend.settings"]]
+				names(oleg) = substr(names(oleg), 8, nchar(names(oleg)))
 				settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
-				settings = tmap_option(settings_name)
-				unset = setdiff(names(settings), l$arg.calls)
-				if (length(unset)) l[unset] = settings[unset]
-
+				oleg = c(oleg, o[[settings_name]])
+				l = complete_options(l, oleg)
+				
 				# update legend class
 				class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 
 				

@@ -150,13 +150,13 @@
 		# legend.only = FALSE,
 		legend.design = "standard",
 		legend.orientation = "portrait",
-		legend.position = tm_lp_auto("right", "bottom"),
-		legend.width = 20,
+		legend.position = tm_lp_auto(cell.h = "right", cell.v = "bottom", pos.h = "left", pos.v = "top", just.h = "left", just.v = "bottom"),
+		legend.width = NA,
 		legend.height = NA,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
 		legend.group.frame = TRUE,
-		legend.group.just = c("center", "bottom"),
-		legend.block.just = c("center", "top"),
+		#legend.group.just = c("left", "top"),
+		#legend.block.just = c("left", "bottom"),
 		legend.resize.as.group = TRUE,
 		legend.reverse = FALSE,
 		#legend.just = c("left", "bottom"),
@@ -164,11 +164,12 @@
 		legend.title.size = 1.1,
 		legend.title.fontface = NULL,
 		legend.title.fontfamily = NULL,
+		legend.title.just = NA,
 		legend.text.color = NULL,
 		legend.text.size = 0.8,
 		legend.text.fontface = NULL,
 		legend.text.fontfamily = NULL,
-		legend.frame = TRUE,
+		legend.frame = FALSE,
 		legend.frame.lwd = 1,
 		legend.bg.color = NA,
 		legend.bg.alpha = 1,
@@ -183,7 +184,6 @@
 										ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
 										ticks.col = NA,
 										ticks.lwd = 1.5,
-										title.just = "left",
 										margins = c(0.4, 0.4, 0.4, 0.4),
 										margin.item.text = 0.25),
 		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2),
@@ -198,7 +198,6 @@
 										 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
 										 ticks.col = NA,
 										 ticks.lwd = 1.5,
-										 title.just = "center",
 										 margins = c(0.4, 0.4, 0.4, 0.4),
 										 margin.item.text = 0.25),
 		
@@ -258,6 +257,121 @@
 	style = "white"
 )
 
+
+v3 = list(
+	legend.position = tm_lp_auto_in(just.h = "left", just.v = "top"),
+	legend.text.size = 0.7,
+	legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 3),
+											 item.width = c(rect = 1, symbols = 1, gradient = 1.2),
+											 item.space = c(rect = 0, symbols = 0, gradient = 0),
+											 item.na.height = c(rect = NA, symbols = NA, gradient = 1.2),
+											 item.na.width = c(rect = NA, symbols = NA, gradient = 1.2),
+											 item.na.space = c(rect = 0, symbols = 0, gradient = 1),
+											 title.padding  = c(0, 0, 0.25, 0),
+											 ticks = list(rect = list(), symbols = list(), gradient = list()),
+											 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
+											 ticks.col = NA,
+											 ticks.lwd = 1.5,
+											 margins = c(0.4, 0.4, 0.4, 0.4),
+											 margin.item.text = 0.25),
+	legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2),
+											  item.width = c(rect = 6, symbols = 3, gradient = 6),
+											  item.space = c(rect = 0.2, symbols = 0.3, gradient = 0),
+											  
+											  item.na.height = c(rect = NA, symbols = NA, gradient = 2),
+											  item.na.width = c(rect = NA, symbols = NA, gradient = 6),
+											  item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
+											  title.padding  = c(0, 0, 0.25, 0),
+											  ticks = list(rect = list(), symbols = list(), gradient = list(c(0.8, 1))),
+											  ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
+											  ticks.col = NA,
+											  ticks.lwd = 1.5,
+											  margins = c(0.4, 0.4, 0.4, 0.4),
+											  margin.item.text = 0.25)
+)
+
+.defaultTmapStyles = list(
+	v3 = v3,
+	gray = c(v3, list(
+		bg.color = "grey85",
+		values.var = list(fill = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"),
+						  col = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"))
+	)),
+	grey = list(
+		bg.color = "grey85",
+		values.var = list(fill = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"),
+						  col = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"))
+	),
+	natural = list(
+		bg.color = "lightskyblue1",
+		value.const = list(fill.polygons = "darkolivegreen3",
+						   fill.symbols = "tomato2",
+						   col.polygons = "black",
+						   col.symbols = "black",
+						   col.lines = "steelblue",
+						   col = "black"),
+		value.na = list(
+			fill = "white",
+			col = "white",
+			col.raster = "white"),
+		value.null = list(
+			fill = "grey70",
+			col = "grey70",
+			col.polygons = "grey70"),
+		values.var = list(fill = list(seq = "brewer.ylgn", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylgn"),
+						  col = list(seq = "brewer.ylgn", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylgn")),
+		attr.color = "black",
+		space.color = "white",
+		legend.frame = TRUE,
+		legend.bg.color = "grey90",
+		earth.boundary = TRUE,
+		basemaps = "Esri.NatGeoWorldMap",
+		basemaps.alpha = 1),
+	cobalt = list(bg.color = "#002240",
+				  value.const = list(fill.polygons = "#0088FF",
+				  				   fill.symbols = "#FF9D00",
+				  				   col.polygons = "#002240",
+				  				   col.symbols = "#002240",
+				  				   col.lines = "#002240",
+				  				   col = "#002240"),
+				  value.na = list(
+				  	fill = "grey60",
+				  	col = "grey60",
+				  	col.raster = "grey60"),
+				  value.null = list(
+				  	fill = "grey40",
+				  	col = "grey40",
+				  	col.polygons = "grey40"),
+				  values.var = list(fill = list(seq = "brewer.ylgn", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylgn"),
+				  				  col = list(seq = "brewer.ylgn", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylgn")),
+				  attr.color = "white",
+				  basemaps = "CartoDB.DarkMatter",
+				  basemaps.alpha = .5)
+)
+
+
+
+
+
+
+
+
+
+
+complete_options = function(x, o) {
+	nmx = names(x)
+	nmo = names(o)
+	if (is.null(nmo)) return(x)
+	d = setdiff(nmx, nmo)
+	e = intersect(nmx, nmo)
+	if (length(d)) o = c(o, x[d])
+	if (length(e)) {
+		for (i in e) {
+			o[[i]] = complete_options(x[[i]], o[[i]])
+		}
+	}
+	o
+}
 
 
 
@@ -398,22 +512,22 @@ tmapOption = function(...) {
 	structure(list(...), class = "tmapOption")
 }
 
-getTmapOption = function(x, opt) {
-	x = unlist(x)
-	y = opt
-	for (i in 1:length(x)) {
-		if (x[i] %in% names(y)) {
-			y = y[[x[i]]]	
-		} else {
-			# string match (e.g. "fill.polygons" will be mapped to "fill")
-			namesy_equal_nchar = vapply(nchar(names(y)), FUN = function(j) substr(x[i], 1, j), FUN.VALUE = character(1))
-			w = which(names(y) == namesy_equal_nchar)
-			if (length(w) == 0) return(NULL)
-			y = y[[w[which.max(nchar(namesy_equal_nchar[w]))]]]
-		}
-	}
-	y
-}
+# getTmapOption = function(x, opt) {
+# 	x = unlist(x)
+# 	y = opt
+# 	for (i in 1:length(x)) {
+# 		if (x[i] %in% names(y)) {
+# 			y = y[[x[i]]]	
+# 		} else {
+# 			# string match (e.g. "fill.polygons" will be mapped to "fill")
+# 			namesy_equal_nchar = vapply(nchar(names(y)), FUN = function(j) substr(x[i], 1, j), FUN.VALUE = character(1))
+# 			w = which(names(y) == namesy_equal_nchar)
+# 			if (length(w) == 0) return(NULL)
+# 			y = y[[w[which.max(nchar(namesy_equal_nchar[w]))]]]
+# 		}
+# 	}
+# 	y
+# }
 
 
 getAesOption = function(x, opt, aes, layer, cls = NULL) {
@@ -466,17 +580,29 @@ tm_place_legends_right = function(width = NA) {
 
 #' @export
 tm_place_legends_left = function(width) {
-	tm_options(meta.margins = c(0, width, 0, 0), legend.position = tm_lp_out("left", "center"))
+	if (is.na(width)) {
+		tm_options(legend.position = tm_lp_out("left", "center"))
+	} else {
+		tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_lp_out("right", "center"))
+	}
 }
 
 #' @export
 tm_place_legends_bottom = function(height) {
-	tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "bottom"), legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "horizontal"))
+	if (is.na(height)) {
+		tm_options(legend.position = tm_lp_out("center", "bottom"))
+	} else {
+		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "bottom"))
+	}
 }
 
 #' @export
 tm_place_legends_top = function(height) {
-	tm_options(meta.margins = c(0, 0, height, 0), legend.position = tm_lp_out("center", "top"), legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "horizontal"))
+	if (is.na(height)) {
+		tm_options(legend.position = tm_lp_out("center", "top"))
+	} else {
+		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "top"))
+	}
 }
 
 #' @export
@@ -484,6 +610,21 @@ tm_extra_innner_margin = function(left = 0, right = 0, top = 0, bottom = 0) {
 	tm_options(inner.margins.extra = c(bottom, left, top, right))
 }
 
+
+
+
+#' @rdname tm_layout
+#' @param style name of the style
+#' @export
+tm_style <- function(style, ...) {
+	args <- list(...)
+	
+	.tmapOptions <- get("tmapOptions", envir = .TMAP)	
+	check_style(style)
+	
+	args$style <- style
+	structure(list(tm_layout=args), class = "tm")
+}
 
 
 

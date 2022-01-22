@@ -75,7 +75,7 @@ tmapGridLegHeight.tm_legend_standard_portrait = function(leg, o) {
 	} else if (leg$stretch == "itemsNNA") {
 		if (leg$na.show) set_unit_with_stretch(hs, head(item_ids, -1)) else set_unit_with_stretch(hs, item_ids)
 	} else {
-		sides = if (leg$block.just[2] == "top") "second" else if (leg$block.just[2] == "bottom") "first" else "both" 
+		sides = switch(leg$position$just.v, top = "second", bottom = "first", "both")
 		set_unit_with_stretch(hs, sides = sides)
 	}
 	
@@ -125,14 +125,7 @@ tmapGridLegWidth.tm_legend_standard_portrait = function(leg, o) {
 	
 	txtW = colW - (item_widths_max + leg$margin.item.text) * textS * o$lin
 	
-	#itemWsIn = grid::unit(item_widths_max * textS * o$lin, units = "inch")
-	n = if (leg$block.just[1] == "left") {
-		c(0, 1)
-	} else if (leg$block.just[1] == "right") {
-		c(1, 0)
-	} else {
-		c(0.5, 0.5)
-	}
+	n = switch(leg$position$just.h, left = c(0, 1), right = c(1, 0), c(0.5, 0.5))
 	
 	wsu = grid::unit(c(marW[1], 
 					   n[1], 
@@ -169,14 +162,14 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(leg, o) {
 												   heights = hsu))
 	
 	if (leg$title.just == "left") {
-		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(col = leg$title.color, cex = titleS)))
 	} else if (leg$title.just == "right") {
-		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(col = leg$title.color, cex = titleS)))
 	} else {
-		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
+		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(col = leg$title.color, cex = titleS)))
 	}
 	
-	grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
+	grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(col = leg$text.color, cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
 	
 	ticks = get_legend_option(leg$ticks, leg$type)
 	ticks.disable.na = get_legend_option(leg$ticks.disable.na, leg$type)

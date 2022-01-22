@@ -57,10 +57,10 @@ preprocess_meta = function(o, legs) {
 										per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"),
 										per_facet = any(!is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"))
 			}
-			legend.present.fix = c(any(legs$class == "out" & legs$v == "bottom"), 
-								   any(legs$class == "out" & legs$h == "left"),
-								   any(legs$class == "out" & legs$v == "top"),
-								   any(legs$class == "out" & legs$h == "right"))
+			legend.present.fix = c(any(legs$class == "out" & legs$cell.v == "bottom"), 
+								   any(legs$class == "out" & legs$cell.h == "left"),
+								   any(legs$class == "out" & legs$cell.v == "top"),
+								   any(legs$class == "out" & legs$cell.h == "right"))
 		}
 		
 		
@@ -208,28 +208,28 @@ process_meta = function(o, d, legs) {
 				# only 'all facets' outside legends (either bottom or right)
 				# was: n > 1 && masp > pasp
 				if ((type != "stack" && n == 1 && pasp > masp) || (type != "stack" && n > 1 && masp < 1) || (type == "stack" && orientation == "horizontal")) {
-					legend.position.all = list(h = "center", v = legend.position$v)
+					legend.position.all = list(cell.h = "center", cell.v = legend.position$cell.v)
 				} else {
-					legend.position.all = list(h = legend.position$h, v = "center")
+					legend.position.all = list(cell.h = legend.position$cell.h, cell.v = "center")
 				}
 			} else if (legend.present.auto[2] & !legend.present.auto[3]) {
 				# central goes center bottom 
-				legend.position.all = list(h = "center", v = legend.position$v)
+				legend.position.all = list(cell.h = "center", cell.v = legend.position$cell.v)
 			} else if (!legend.present.auto[2] & legend.present.auto[3]) {
 				# central goes right center 
-				legend.position.all = list(h = legend.position$h, v = "center")
+				legend.position.all = list(cell.h = legend.position$cell.h, cell.v = "center")
 			}
 		}
 		
-		margins.used.all = c(legend.position.all$v == "bottom",
-							 legend.position.all$h == "left",
-							 legend.position.all$v == "top",
-							 legend.position.all$h == "right") * legend.present.auto[1]
+		margins.used.all = c(legend.position.all$cell.v == "bottom",
+							 legend.position.all$cell.h == "left",
+							 legend.position.all$cell.v == "top",
+							 legend.position.all$cell.h == "right") * legend.present.auto[1]
 		
-		margins.used.sides = c(bottom = legend.position.sides$v == "bottom",
-							   left = legend.position.sides$h == "left",
-							   top = legend.position.sides$v == "top",
-							   right = legend.position.sides$h == "right") * legend.present.auto[c(3,2,3,2)]
+		margins.used.sides = c(bottom = legend.position.sides$cell.v == "bottom",
+							   left = legend.position.sides$cell.h == "left",
+							   top = legend.position.sides$cell.v == "top",
+							   right = legend.position.sides$cell.h == "right") * legend.present.auto[c(3,2,3,2)]
 		
 		
 		margins.used =  margins.used.all | margins.used.sides | legend.present.fix
@@ -239,10 +239,10 @@ process_meta = function(o, d, legs) {
 		
 		if (nrow(legs)) {
 			meta.auto.margins = pmin(meta.auto.margins, 
-									 c(max(legs$legH[legs$v == "bottom" & legs$class %in% c("auto", "out")], 0) / o$devsize[2],
-									   max(legs$legW[legs$h == "left" & legs$class %in% c("auto", "out")], 0) / o$devsize[1],
-									   max(legs$legH[legs$v == "top" & legs$class %in% c("auto", "out")], 0) / o$devsize[2],
-									   max(legs$legW[legs$h == "right" & legs$class %in% c("auto", "out")], 0) / o$devsize[1]))
+									 c(max(legs$legH[legs$cell.v == "bottom" & legs$class %in% c("auto", "out")], 0) / o$devsize[2],
+									   max(legs$legW[legs$cell.h == "left" & legs$class %in% c("auto", "out")], 0) / o$devsize[1],
+									   max(legs$legH[legs$cell.v == "top" & legs$class %in% c("auto", "out")], 0) / o$devsize[2],
+									   max(legs$legW[legs$cell.h == "right" & legs$class %in% c("auto", "out")], 0) / o$devsize[1]))
 		}
 
 		

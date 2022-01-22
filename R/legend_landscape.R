@@ -32,7 +32,7 @@ tmapGridLegHeight.tm_legend_standard_landscape = function(leg, o) {
 	hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_height * textS * o$lin, c(leg$margin.item.text, 1) * textS * o$lin,marH[2])
 	Hin = sum(hsinch)
 	
-	sides = if (leg$block.just[2] == "top") "second" else if (leg$block.just[2] == "bottom") "first" else "both" 
+	sides = switch(leg$position$just.v, top = "second", bottom = "first", "both")
 	hsu = set_unit_with_stretch(hsinch, sides = sides)
 	
 	
@@ -115,7 +115,7 @@ tmapGridLegWidth.tm_legend_standard_landscape = function(leg, o) {
 	} else if (leg$stretch == "itemsNNA") {
 		if (leg$na.show) set_unit_with_stretch(ws, head(item_ids, -1)) else set_unit_with_stretch(ws, item_ids)
 	} else {
-		sides = if (leg$block.just[1] == "left") "second" else if (leg$block.just[1] == "right") "first" else "both" 
+		sides = switch(leg$position$just.h, left = "second", right = "first", "both")
 		set_unit_with_stretch(ws, sides = sides)
 	}
 	

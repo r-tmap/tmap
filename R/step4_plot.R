@@ -5,12 +5,12 @@ process_legends = function(legs, o) {
 	funW = paste0("tmap", gs, "LegWidth")
 	funH = paste0("tmap", gs, "LegHeight")
 
-	leg_ins = which(legs$class == "in")
-	if (length(leg_ins)) {
-		for (i in leg_ins) {
-			legs$legend[[i]]$group.just = c(legs$h[i], legs$v[i])
-		}
-	}
+	# leg_ins = which(legs$class == "in")
+	# if (length(leg_ins)) {
+	# 	for (i in leg_ins) {
+	# 		legs$legend[[i]]$group.just = c(legs$cell.h[i], legs$cell.v[i])
+	# 	}
+	# }
 
 	legs$legend = lapply(legs$legend, fun_add_leg_type)
 	legs$legend = lapply(legs$legend, function(leg) do.call(funW, list(leg = leg, o = o)))
@@ -72,11 +72,11 @@ process_legends2 = function(legs, o) {
 
 	
 	# update auto position (for 'all', 'rows', 'columns' legends)
-	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.all$h, v = o$legend.position.all$v)]
-	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(h = o$legend.position.sides$h, v = "by")]
-	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(h = "by", v = o$legend.position.sides$v)]
+	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
+	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
+	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
 	
-	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, ifelse(h == "center", stacks["per_row"], ifelse(v == "center", stacks["per_col"], stacks["all"])), stack))]
+	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["per_row"], ifelse(cell.v == "center", stacks["per_col"], stacks["all"])), stack))]
 	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
 	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
 	
@@ -84,9 +84,15 @@ process_legends2 = function(legs, o) {
 	legs[class == "auto", class := "out"]
 	
 	
-	
-	
-	
+	lai = which(legs$class == "autoin")
+	if (length(lai)) {
+		legs$legend = lapply(legs$legend, function(l) {
+			l$position[c("pos.h", "pos.v")] = as.list(o$legend.autoin.pos)
+			l
+		})
+		legs[class == "autoin", class:= "in"]
+	}
+
 	legs
 }
 
@@ -154,6 +160,7 @@ step4_plot = function(tm) {
 	}
 	
 	# main group (that determines bounding box)
+	# TODO take into account multiple main groups (see step1_rearrange and get_main_ids)
 	tmain = tmx[[o$main]][[1]]
 	
 	# create table with meta data for the facets (row, col id, bbox, asp)
@@ -162,6 +169,28 @@ step4_plot = function(tm) {
 	grps = c("by1", "by2", "by3")[o$free.coords]
 	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 	d[, asp:=get_asp(bbox)]
+	
+	# determine automatic position of inside legend
+	if (!any(o$free.coords) && any(legs$class == "autoin")) {
+		shp = tmain[[1]]$shpDT$shpTM[[1]]$shp
+		# TODO take into account multiple main shapes
+		# TODO take use areas instead of coordinates for polygons
+		if (inherits(shp, c("sf", "sfc"))) {
+			bbx = d$bbox[[1]]
+			cx = mean(bbx[c(1,3)])
+			cy = mean(bbx[c(2,4)])
+			crds = sf::st_coordinates(shp)[,1:2]
+			cornerID = which.min(c(tl = sum((crds[,1]-cx) < 0 & (crds[,2]-cy) > 0),
+								   tr = sum((crds[,1]-cx) > 0 & (crds[,2]-cy) > 0),
+								   br = sum((crds[,1]-cx) > 0 & (crds[,2]-cy) < 0),
+								   bl = sum((crds[,1]-cx) < 0 & (crds[,2]-cy) < 0)))
+			o$legend.autoin.pos = switch(names(cornerID), tl = c("left", "top"), tr = c("right", "top"), bl = c("left", "bottom"), br = c("right", "bottom"))
+		} else {
+			o$legend.autoin.pos = c("left", "top")	
+		}
+	} else {
+		o$legend.autoin.pos = c("left", "top")
+	}
 	
 	# calculate margins, number of rows and colums, etc.
 	o = process_meta(o, d, legs)
@@ -294,12 +323,12 @@ step4_plot = function(tm) {
 
 
 	
-	vby = any(legs$v == "by")
-	hby = any(legs$h == "by")
+	vby = any(legs$cell.v == "by")
+	hby = any(legs$cell.h == "by")
 	
 	# manual outside legends -2 is top or left, -1 is bottom or right
-	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(v == "by", as.character(by1__), ifelse(v == "top", as.character(-2), as.character(-1)))),
-										   facet_col = ifelse(h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(h == "by", as.character(by2__), ifelse(h == "left", as.character(-2), as.character(-1)))))]
+	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+										   facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
 	
 	
 	

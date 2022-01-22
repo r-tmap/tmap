@@ -44,7 +44,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	print("test1235")
 	
-	group.just = legs[[1]]$group.just
+	group.just = unlist(legs[[1]]$position[c("pos.h", "pos.v")])
 
 	#legs = lapply(legs, leg_standard$fun_add_leg_type)
 	
@@ -109,7 +109,7 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		
 	legs = mapply(function(leg, scale) {
 		leg$scale = scale
-		if (length(legs) > 1) leg$title.just = leg$block.just[1]
+		if (is.na(leg$title.just)) leg$title.just = leg$position$just.h
 		leg
 	}, legs, 1/clipT, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 	
@@ -175,8 +175,8 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		y = switch(group.just[2], "top" = grid::unit(1, "npc"), "bottom" = grid::unit(0,"npc") + H, grid::unit(0.5, "npc") + H/2)
 		
 
-		x = x + switch(leg$block.just[1], "left" = lW/2, "right" = W - lW/2, W/2)
-		y = y - switch(leg$block.just[2], "top" = lH/2, "bottom" = H - lH/2, H/2)
+		x = x + switch(leg$position$just.h, "left" = lW/2, "right" = W - lW/2, W/2)
+		y = y - switch(leg$position$just.v, "top" = lH/2, "bottom" = H - lH/2, H/2)
 		
 		grid::grobTree(frame, lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH))
 		
@@ -190,10 +190,10 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		# x = switch(group.just[1], "left" = grid::unit(0, "npc"), "right" = grid::unit(1,"npc"), grid::unit(0.5, "npc") - W/2)
 		# y = switch(group.just[2], "top" = grid::unit(1,"npc") - H/2, "bottom" = H/2, grid::unit(0.5, "npc"))
 		# if (legend.stack == "vertical") {
-		# 	x = x + switch(leg$block.just[1], "left" = lW/2, "right" = unit(1, "npc") - lW/2, grid::unit(0.5, "npc"))
+		# 	x = x + switch(leg$position$just.h, "left" = lW/2, "right" = unit(1, "npc") - lW/2, grid::unit(0.5, "npc"))
 		# 	y = y - lY
 		# } else {
-		# 	y = y + switch(leg$block.just[2], "top" = legY[[1]] - lH/2, "bottom" = lH/2, grid::unit(0.5, "npc"))
+		# 	y = y + switch(leg$position$just.v, "top" = legY[[1]] - lH/2, "bottom" = lH/2, grid::unit(0.5, "npc"))
 		# }
 		#grid::grobTree(frame, lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH))
 	}, legs, legGrobs, legX, legY, legH, legW, SIMPLIFY = FALSE))

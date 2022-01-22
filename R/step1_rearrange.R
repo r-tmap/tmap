@@ -101,8 +101,7 @@ step1_rearrange = function(tmel) {
 	# update options with tm_option elements
 	is_opt = sapply(oth, inherits, "tm_options")
 	if (any(is_opt)) for (id in which(is_opt)) {
-		nms = intersect(names(opt), names(oth[[id]]))
-		if (length(nms)) opt[nms] = oth[[id]][nms]
+		opt = complete_options(oth[[id]], opt)
 	}
 
 	# to be used later
