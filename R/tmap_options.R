@@ -382,7 +382,7 @@ v3 = list(
 complete_options = function(x, o) {
 	nmx = names(x)
 	nmo = names(o)
-	if (is.null(nmo)) return(x)
+	if (is.null(nmo) || is.null(nmx)) return(x)
 	d = setdiff(nmx, nmo)
 	e = intersect(nmx, nmo)
 	if (length(d)) o = c(o, x[d])
@@ -475,8 +475,9 @@ tmap_options = function(...) {
 #' @name tmap_options_mode
 #' @rdname tmap_options
 #' @export
-tmap_options_mode = function(mode = NA) {
-	opt = get("tmapOptions", envir = .TMAP)	
+tmap_options_mode = function(mode = NA, default.options = FALSE) {
+	opt = if (default.options) .defaultTmapOptions else get("tmapOptions", envir = .TMAP)	
+	
 	if (is.na(mode)) mode = getOption("tmap.mode")
 	opt2 = opt$modes[[mode]]
 	
@@ -644,7 +645,8 @@ tm_style <- function(style, ...) {
 	check_style(style)
 	
 	args$style <- style
-	structure(list(tm_layout=args), class = "tm")
+	#structure(list(tm_layout=args), class = "tm")
+	do.call(tm_options, args)
 }
 
 
@@ -664,11 +666,14 @@ tm_format <- function(format, ...) {
 	}
 	formatArgs$style <- NA
 	
-	called <- names(args)
-	if (is.null(called)) called <- character(0)
 	
-	attr(formatArgs, "format_args") <- called
-	structure(list(tm_layout=formatArgs), class = "tm")
+	#called <- names(args)
+	#if (is.null(called)) called <- character(0)
+	
+	#attr(formatArgs, "format_args") <- called
+	#structure(list(tm_layout=formatArgs), class = "tm")
+	do.call(tm_options, formatArgs)
+	
 }
 
 				 

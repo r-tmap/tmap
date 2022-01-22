@@ -150,15 +150,6 @@ process_meta = function(o, d, legs) {
 			}
 		}
 		
-		# alternative aspect ratio: instead of .1, .5, 1, 2, 10 => -9, -1, 0, 1, 9
-		aa = function(asp) {
-			ls = asp < 1
-			asp[ls] = 1/asp[ls]
-			asp = asp - 1
-			asp[ls] = -asp[ls]
-			asp
-		}
-		
 		masp = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
 		
 		# Aspect ratios:
@@ -181,22 +172,21 @@ process_meta = function(o, d, legs) {
 				legs_auto = legs[class=="auto"]
 				
 				if (nrow(legs_auto) && n == 1) {
+					mx_width = (1 - sum(fixedMargins[c(1, 3)])) * devsize[1]
+					mx_height = (1 - sum(fixedMargins[c(2, 4)])) * devsize[2]
+					
 					legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto.margins[c(2,4)])) 
 					legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto.margins[c(1,3)]))
-					masp_h = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]) - legHmax)) * dasp
-					masp_v = ((1 - sum(fixedMargins[c(2, 4)]) - legWmax) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
+
+					av_width = mx_width - legWmax * devsize[1]
+					av_height = mx_height - legHmax * devsize[2]
 					
-					if (abs(aa(pasp) - aa(masp_h)) < abs(aa(pasp) - aa(masp_v))) {
-						orientation = "horizontal"
-					} else {
-						orientation = "vertical"
-					}
+					shp_height_hor = if ((av_width / mx_height) < pasp) av_width / pasp else mx_height
+					shp_height_ver = if ((mx_width / av_height) < pasp) mx_width / pasp else av_height
+					
+					orientation = if (shp_height_hor >= shp_height_ver) "vertical" else "horizontal"
 				} else {
-					orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) {
-						"horizontal"
-					} else {
-						"vertical"
-					}
+					orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
 				}
 			}
 		}

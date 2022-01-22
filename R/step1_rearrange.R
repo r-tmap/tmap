@@ -101,7 +101,14 @@ step1_rearrange = function(tmel) {
 	# update options with tm_option elements
 	is_opt = sapply(oth, inherits, "tm_options")
 	if (any(is_opt)) for (id in which(is_opt)) {
-		opt = complete_options(oth[[id]], opt)
+		opt2 = oth[[id]]
+		if ("style" %in% names(opt2)) {
+			opt = tmap_options_mode(default.options = TRUE)
+			styleOptions <- get("tmapStyles", envir = .TMAP)[[opt2$style]]
+			if (!is.null(styleOptions)) opt = complete_options(styleOptions, opt)
+			opt2$style = NULL
+		}
+		opt = complete_options(opt2, opt)
 	}
 
 	# to be used later
