@@ -316,14 +316,32 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(leg, o) {
 		
 		
 		# fill
-		grItems1 = mapply(function(id, f, a) {
-			w = 1 / length(f)
-			xs = seq(.5*w, by = w, length.out = length(f))
-			#f[!is.na(f)] = "red"
-			gpi = grid::gpar(fill = f, alpha = a, col = NA)
-			gridCell(6, id, grid::rectGrob(x = xs, width = w, gp = gpi))
-		}, leg$item_ids[lvs], fill_list, alpha_list, SIMPLIFY = FALSE)
-
+		if (o$use.gradient) {
+			id1 = which(!is.na(fill_list[[1]]))[1]
+			id2 = tail(which(!is.na(fill_list[[length(nlev2)]])), 1)
+			
+			x1 = ((id1-1) / 10) / nlev2
+			x2 = (id2 / 10) / nlev2 + ((nlev2-1)/nlev2)
+			w = x2 - x1
+			
+			if (vary_fill) {
+				cols = unlist(fill_list)[id1:(10*(nlev2-1) + id2)]
+				cols_alph = paste0(cols, tmap::num_to_hex(gp$fill_alpha[1] * 255))
+			} else {
+				alph = unlist(alpha_list)[id1:(10*(nlev2-1) + id2)]
+				cols_alph = paste0(col2hex(gp$fill[1]), tmap::num_to_hex(alph * 255))
+			}
+			grItems1 = list(gridCell(6, leg$item_ids[lvs], grid::rectGrob(x = x1 + 0.5*w, height= w, gp=gpar(fill = grid::linearGradient(colours = rev(cols_alph)), col = NA))))
+		} else {
+			grItems1 = mapply(function(id, f, a) {
+				w = 1 / length(f)
+				xs = seq(.5*w, by = w, length.out = length(f))
+				#f[!is.na(f)] = "red"
+				gpi = grid::gpar(fill = f, alpha = a, col = NA)
+				gridCell(6, id, grid::rectGrob(x = xs, width = w, gp = gpi))
+			}, leg$item_ids[lvs], fill_list, alpha_list, SIMPLIFY = FALSE)
+		}
+		
 		if (vary_fill) {
 			x1 = (sum(is.na(fill_list[[1]])) * .1) / nlev2
 			x2 = (sum(is.na(fill_list[[nlev2]])) * .1) / nlev2

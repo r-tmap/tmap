@@ -600,7 +600,7 @@ tm_place_legends_right = function(width = NA) {
 }
 
 #' @export
-tm_place_legends_left = function(width) {
+tm_place_legends_left = function(width = NA) {
 	if (is.na(width)) {
 		tm_options(legend.position = tm_lp_out("left", "center"))
 	} else {
@@ -609,7 +609,7 @@ tm_place_legends_left = function(width) {
 }
 
 #' @export
-tm_place_legends_bottom = function(height) {
+tm_place_legends_bottom = function(height = NA) {
 	if (is.na(height)) {
 		tm_options(legend.position = tm_lp_out("center", "bottom"))
 	} else {
@@ -618,7 +618,7 @@ tm_place_legends_bottom = function(height) {
 }
 
 #' @export
-tm_place_legends_top = function(height) {
+tm_place_legends_top = function(height = NA) {
 	if (is.na(height)) {
 		tm_options(legend.position = tm_lp_out("center", "top"))
 	} else {
