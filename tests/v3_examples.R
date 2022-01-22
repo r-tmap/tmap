@@ -10,7 +10,7 @@ data(World)
 # Constant fill
 tm_shape(World) + tm_fill("darkolivegreen3") + tm_format("World", title="A green World")
 
-tm_shape(World) + tm_polygons(fill = "darkolivegreen3", col = NA) + tm_layout(title = "A green World")
+tm_shape(World) + tm_polygons(fill = "darkolivegreen3", col = NA) + tm_format("World", title = "A green World")
 
 
 

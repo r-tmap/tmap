@@ -1,6 +1,6 @@
 .defaultTmapOptions <- structure(
 	list(
-		modes = list(plot = list(name = "Grid"),
+		modes = list(plot = list(name = "Grid", use.gradient = TRUE),
 					 view = list(name = "Leaflet", 
 					 			crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), 
 					 			max.facets = 16, 
@@ -350,9 +350,30 @@ v3 = list(
 )
 
 
-
-
-
+.defaultTmapFormats = list(World = list(inner.margins=c(0, 0.05, 0.025, 0.01),
+										legend.position=tm_lp_in("left", "bottom"),
+										attr.position=c("right", "bottom"),
+										scale=.8),
+							World_wide = list(inner.margins=c(0, 0.2, 0.025, 0.01),
+											  legend.position=tm_lp_in("left", "bottom"),
+											  attr.position=c("right", "bottom"),
+											  scale=.8),
+							NLD = list(basemaps = c(Standard = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png",
+													Aerial = "//geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.jpeg",
+													Pastel = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartpastel/EPSG:3857/{z}/{x}/{y}.png",
+													Gray   = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:3857/{z}/{x}/{y}.png"),
+									   frame=FALSE, 
+									   inner.margins=c(.02, .2, .06, .02),
+									   legend.position=tm_lp_in("left", "top"),
+									   attr.position=c("left", "bottom")),
+							NLD_wide = list(basemaps = c(Standard = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png",
+														 Aerial = "//geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.jpeg",
+														 Pastel = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartpastel/EPSG:3857/{z}/{x}/{y}.png",
+														 Gray   = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:3857/{z}/{x}/{y}.png"),
+											frame=FALSE, 
+											inner.margins=c(.02, .3, .06, .02),
+											legend.position=tm_lp_in("left", "top"),
+											attr.position=c("left", "bottom")))
 
 
 
@@ -627,5 +648,27 @@ tm_style <- function(style, ...) {
 }
 
 
+#' @rdname tm_layout
+#' @param format name of the format
+#' @export
+tm_format <- function(format, ...) {
+	args <- list(...)
+	
+	.tmapFormats <- get("tmapFormats", envir = .TMAP)
+	
+	if (!(format %in% names(.tmapFormats))) stop("Unknown format. Please check tmap_format() for available formats")
+	
+	formatArgs <- .tmapFormats[[format]]
+	if (length(args)) {
+		formatArgs[names(args)] <- args	
+	}
+	formatArgs$style <- NA
+	
+	called <- names(args)
+	if (is.null(called)) called <- character(0)
+	
+	attr(formatArgs, "format_args") <- called
+	structure(list(tm_layout=formatArgs), class = "tm")
+}
 
 				 

@@ -15,7 +15,7 @@
 	# }, env = envir)
 	
 	assign("tmapStyles", .defaultTmapStyles, envir = .TMAP)
-	#assign("tmapFormats", .defaultTmapFormats, envir = .TMAP)
+	assign("tmapFormats", .defaultTmapFormats, envir = .TMAP)
 } 
 
 .TMAP <- new.env(FALSE, parent=globalenv())
