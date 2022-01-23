@@ -119,42 +119,29 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 	
 	if (length(legs) == 1) {
-		legY = list(grid::unit(1, "npc"))
-		
-		if (group.just[1] == "left") {
-			legX = list(grid::unit(0, "npc"))
-		} else if (group.just[1] == "right") {
-			legX = list(grid::unit(1, "npc"))
-		} else {
-			legX = list(grid::unit(0.5, "npc"))
-		}
-		
+		legX = switch(group.just[1], "left" = grid::unit(0, "npc"), "right" = grid::unit(1,"npc") - W, grid::unit(0.5, "npc") - W/2)
+		legY = switch(group.just[2], "top" = grid::unit(1, "npc"), "bottom" = grid::unit(0,"npc") + H, grid::unit(0.5, "npc") + H/2)
 	} else {
-		sY = if (group.just[2] == "top") {
-			grid::unit(1, "npc")
-		} else if (group.just[2] == "bottom") {
-			H
+		Y1 = switch(group.just[2], "top" = grid::unit(1, "npc"), "bottom" = grid::unit(0,"npc") + H, grid::unit(0.5, "npc") + H/2)
+		if (legend.stack == "horizontal") {
+			legY = rep(Y1, length(legs))
 		} else {
-			grid::unit(0.5, "npc") + H/2
+			legY = lapply(0L:(length(legs)-1), function(i) {
+				legY = Y1
+				if (i>0L) for (j in 1:i) legY = legY - legH[[j]]
+				legY
+			})
 		}
-		legY = lapply(0L:(length(legs)-1), function(i) {
-			if (i>0L) for (j in 1:i) sY = sY - legH[[j]]
-			sY
-		})
-		
-		
-		sX = if (group.just[1] == "left") {
-			grid::unit(0, "npc")
-		} else if (group.just[1] == "right") {
-			grid::unit(1, "npc") - W
+		X1 = switch(group.just[1], "left" = grid::unit(0, "npc"), "right" = grid::unit(1,"npc") - W, grid::unit(0.5, "npc") - W/2)
+		if (legend.stack == "vertical") {
+			legX = rep(X1, length(legs))
 		} else {
-			grid::unit(0.5, "npc") - W/2
+			legX = lapply(0L:(length(legs)-1), function(i) {
+				legX = X1
+				if (i>0L) for (j in 1:i) legX = legX + legW[[j]]
+				legX
+			})
 		}
-		legX = lapply(0L:(length(legs)-1), function(i) {
-			if (i>0L) for (j in 1:i) sX = sX + legW[[j]]
-			sX
-		})
-		
 	}
 	
 
@@ -170,39 +157,9 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		frame = if (!is.na(leg$frame) && !legs[[1]]$group.frame) {
 			grid::rectGrob(gp=grid::gpar(fill = leg$bg.color, col = leg$frame, lwd = leg$frame.lwd))
 		} else NULL
-		
-		x = switch(group.just[1], "left" = grid::unit(0, "npc"), "right" = grid::unit(1,"npc") - W, grid::unit(0.5, "npc") - W/2)
-		y= switch(group.just[2], "top" = grid::unit(1, "npc"), "bottom" = grid::unit(0,"npc") + H, grid::unit(0.5, "npc") + H/2)
-		
-		#x = if (legend.stack == "horizontal") lX else legX[[1]] #
-		# y = if (legend.stack == "vertical") lY else legY[[1]] #
-		
-		
-		
-		x = x + switch(leg$position$just.h, "left" = lW/2, "right" = W - lW/2, W/2)
-		y = y - switch(leg$position$just.v, "top" = lH/2, "bottom" = H - lH/2, H/2)
-		
-		#x = lX
-		#y = lY
-		
+		x = lX + switch(leg$position$just.h, "left" = lW/2, "right" = lW/2, lW/2)
+		y = lY - switch(leg$position$just.v, "top" = lH/2, "bottom" = lH/2, lH/2)
 		grid::grobTree(frame, lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH))
-		
-		# if (legend.stack == "vertical") {
-		# 	grid::grobTree(frame, lG, vp = grid::viewport(x = lW/2, width = lW, y = lY - lH/2, height = lH))
-		# } else {
-		# 	grid::grobTree(frame, lG, vp = grid::viewport(x = lX + lW/2, width = lW, y = legY[[1]] - lH/2, height = lH))
-		# }
-		# 
-		# 
-		# x = switch(group.just[1], "left" = grid::unit(0, "npc"), "right" = grid::unit(1,"npc"), grid::unit(0.5, "npc") - W/2)
-		# y = switch(group.just[2], "top" = grid::unit(1,"npc") - H/2, "bottom" = H/2, grid::unit(0.5, "npc"))
-		# if (legend.stack == "vertical") {
-		# 	x = x + switch(leg$position$just.h, "left" = lW/2, "right" = unit(1, "npc") - lW/2, grid::unit(0.5, "npc"))
-		# 	y = y - lY
-		# } else {
-		# 	y = y + switch(leg$position$just.v, "top" = legY[[1]] - lH/2, "bottom" = lH/2, grid::unit(0.5, "npc"))
-		# }
-		#grid::grobTree(frame, lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH))
 	}, legs, legGrobs, legX, legY, legH, legW, SIMPLIFY = FALSE))
 	
 	frame_grbs = grid::gList(groupframe, grbs)

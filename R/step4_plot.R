@@ -115,7 +115,10 @@ step4_plot = function(tm) {
 	
 	# determine panel type, inner margins, and automatic legend placement
 	o = preprocess_meta(o, legs)
-	
+	# if (!is.na(o$title)) {
+	# 	legs = legs[1:3]
+	# 	legs$legend[[3]] = structure(list(title = o$title, title.padding = c(.1,.1,.1,.1), title.size = o$title.size), class = c("tm_attr_title", "tm_legend"))
+	# }
 	
 	# function to get shape object
 	get_shpTM = function(shpDT, by1, by2, by3) {
