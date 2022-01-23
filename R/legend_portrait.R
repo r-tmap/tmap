@@ -67,7 +67,6 @@ tmapGridLegHeight.tm_legend_standard_portrait = function(leg, o) {
 	pad_ids = seq(6, by = 2, length.out = nlev - 1L)
 	
 	
-	
 	hsu = if (leg$stretch == "padding") {
 		set_unit_with_stretch(hs, pad_ids)
 	} else if (leg$stretch == "items") {
@@ -78,6 +77,8 @@ tmapGridLegHeight.tm_legend_standard_portrait = function(leg, o) {
 		sides = switch(leg$position$just.v, top = "second", bottom = "first", "both")
 		set_unit_with_stretch(hs, sides = sides)
 	}
+
+	po(leg$stretch, hsu)
 	
 	Hin = if (leg$stretch == "none") sum(hs) else leg$height * textS * o$lin
 	

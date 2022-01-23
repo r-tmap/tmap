@@ -89,6 +89,34 @@ tmapTransPolygons = function(shpTM, ord__, plot.order, args) {
 	})
 }
 
+tmapTransLines = function(shpTM, ord__, plot.order, args) {
+	within(shpTM, {
+		is_stars = inherits(shp, "dimensions")
+		if (is_stars) {
+			### stars
+			stop("lines cannot be drawn from a spatial raster", call. = FALSE)
+		} else {
+			### sf
+			geom_types = sf::st_geometry_type(shp)
+			#crs = sf::st_crs(shp)
+			if (!all(geom_types %in% c("LINESTRING", "MULTILINESTRING"))) {
+				if (all(geom_types %in% c("POLYGON", "MULTIPOLYGON"))) {
+					### sf lines
+					tryCatch({
+						shp = sf::st_cast(sf::st_cast(shp, "MULTIPOLYGON"), "MULTILINESTRING")
+					}, error = function(e) {
+						stop("Unable to cast to polygon. Error from st_cast: \"", e$message, "\"", call. = FALSE)	
+					})
+				} else {
+					### sf geometry collection
+					stop("Other geometry types, or a collection of geometry types not implemented yet", call. = FALSE)	
+				}
+			}
+			rm(geom_types)
+		}
+	})
+}
+
 tmapTransCartogram = function(shpTM, area, ord__, plot.order, args) {
 	s = shpTM$shp
 	

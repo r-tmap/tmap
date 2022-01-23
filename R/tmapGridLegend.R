@@ -172,11 +172,18 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		} else NULL
 		
 		x = switch(group.just[1], "left" = grid::unit(0, "npc"), "right" = grid::unit(1,"npc") - W, grid::unit(0.5, "npc") - W/2)
-		y = switch(group.just[2], "top" = grid::unit(1, "npc"), "bottom" = grid::unit(0,"npc") + H, grid::unit(0.5, "npc") + H/2)
+		y= switch(group.just[2], "top" = grid::unit(1, "npc"), "bottom" = grid::unit(0,"npc") + H, grid::unit(0.5, "npc") + H/2)
 		
-
+		#x = if (legend.stack == "horizontal") lX else legX[[1]] #
+		# y = if (legend.stack == "vertical") lY else legY[[1]] #
+		
+		
+		
 		x = x + switch(leg$position$just.h, "left" = lW/2, "right" = W - lW/2, W/2)
 		y = y - switch(leg$position$just.v, "top" = lH/2, "bottom" = H - lH/2, H/2)
+		
+		#x = lX
+		#y = lY
 		
 		grid::grobTree(frame, lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH))
 		
