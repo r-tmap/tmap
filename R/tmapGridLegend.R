@@ -12,19 +12,6 @@ legapply = function(legs, fun, ...) {
 }
 
 
-fun_add_leg_type = function(leg) {
-	within(leg, {
-		type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
-			"gradient"
-		} else if (is.na(gp$shape[1])) {
-			"rect"
-		} else {
-			"symbols"
-		}
-		gpar = gp_to_gpar(gp)
-		
-	})
-}
 
 
 
@@ -149,13 +136,13 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	groupframe = if (!is.na(legs[[1]]$frame) && legs[[1]]$group.frame) {
 		x = switch(group.just[1], "left" = W/2, "right" = grid::unit(1,"npc") - W/2, grid::unit(0.5, "npc"))
 		y = switch(group.just[2], "top" = grid::unit(1,"npc") - H/2, "bottom" = H/2, grid::unit(0.5, "npc"))
-		grid::rectGrob(x = x, width = W, y = y, height = H, gp=grid::gpar(fill = legs[[1]]$bg.color, col = legs[[1]]$frame, lwd = legs[[1]]$frame.lwd))
+		rndrectGrob(x = x, width = W, y = y, height = H, gp=grid::gpar(fill = legs[[1]]$bg.color, col = legs[[1]]$frame, lwd = legs[[1]]$frame.lwd), r = legs[[1]]$frame.r)
 	} else NULL
 	
 	po(legX, legY, legW, legH, W, H, group.just)
 	grbs = do.call(grid::gList, mapply(function(leg, lG, lX, lY, lH, lW) {
 		frame = if (!is.na(leg$frame) && !legs[[1]]$group.frame) {
-			grid::rectGrob(gp=grid::gpar(fill = leg$bg.color, col = leg$frame, lwd = leg$frame.lwd))
+			rndrectGrob(gp=grid::gpar(fill = leg$bg.color, col = leg$frame, lwd = leg$frame.lwd), r = leg$frame.r)
 		} else NULL
 		x = lX + switch(leg$position$just.h, "left" = lW/2, "right" = lW/2, lW/2)
 		y = lY - switch(leg$position$just.v, "top" = lH/2, "bottom" = lH/2, lH/2)

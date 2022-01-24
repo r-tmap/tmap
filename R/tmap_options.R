@@ -126,6 +126,7 @@
 		saturation = 1,
 		frame = TRUE,
 		frame.lwd = 1,
+		frame.r = 2,
 		frame.double.line = FALSE,
 		asp = NA,
 		outer.margins = rep(0.02, 4),
@@ -150,7 +151,7 @@
 		# legend.only = FALSE,
 		legend.design = "standard",
 		legend.orientation = "portrait",
-		legend.position = tm_lp_auto(cell.h = "right", cell.v = "bottom", pos.h = "left", pos.v = "top", just.h = "left", just.v = "bottom"),
+		legend.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom", pos.h = "left", pos.v = "top", just.h = "left", just.v = "bottom"),
 		legend.width = NA,
 		legend.height = NA,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
@@ -169,12 +170,14 @@
 		legend.text.size = 0.8,
 		legend.text.fontface = NULL,
 		legend.text.fontfamily = NULL,
-		legend.frame = FALSE,
+		legend.frame = TRUE,
 		legend.frame.lwd = 1,
+		legend.frame.r = 2,
 		legend.bg.color = NA,
 		legend.bg.alpha = 1,
 		legend.settings.standard.portrait = list(item.height = c(rect = 1.2, symbols = 1, gradient = 3),
 										item.width = c(rect = 1.2, symbols = 1, gradient = 1.2),
+										item.r = 2,
 										item.space = c(rect = 0.2, symbols = 0.2, gradient = 0),
 										item.na.height = c(rect = NA, symbols = NA, gradient = 1.2),
 										item.na.width = c(rect = NA, symbols = NA, gradient = 1.2),
@@ -188,8 +191,8 @@
 										margin.item.text = 0.25),
 		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2),
 										 item.width = c(rect = 6, symbols = 3, gradient = 6),
+										 item.r = 2,
 										 item.space = c(rect = 0.2, symbols = 0.3, gradient = 0),
-										 
 										 item.na.height = c(rect = NA, symbols = NA, gradient = 2),
 										 item.na.width = c(rect = NA, symbols = NA, gradient = 6),
 										 item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
@@ -259,7 +262,7 @@
 
 
 v3 = list(
-	legend.position = tm_lp_auto_in(just.h = "left", just.v = "top"),
+	legend.position = tm_pos_auto_in(just.h = "left", just.v = "top"),
 	legend.text.size = 0.7,
 	legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 3),
 											 item.width = c(rect = 1, symbols = 1, gradient = 1.2),
@@ -351,11 +354,11 @@ v3 = list(
 
 
 .defaultTmapFormats = list(World = list(inner.margins=c(0, 0.05, 0.025, 0.01),
-										legend.position=tm_lp_in("left", "bottom"),
+										legend.position=tm_pos_in("left", "bottom"),
 										attr.position=c("right", "bottom"),
 										scale=.8),
 							World_wide = list(inner.margins=c(0, 0.2, 0.025, 0.01),
-											  legend.position=tm_lp_in("left", "bottom"),
+											  legend.position=tm_pos_in("left", "bottom"),
 											  attr.position=c("right", "bottom"),
 											  scale=.8),
 							NLD = list(basemaps = c(Standard = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png",
@@ -364,7 +367,7 @@ v3 = list(
 													Gray   = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:3857/{z}/{x}/{y}.png"),
 									   frame=FALSE, 
 									   inner.margins=c(.02, .2, .06, .02),
-									   legend.position=tm_lp_in("left", "top"),
+									   legend.position=tm_pos_in("left", "top"),
 									   attr.position=c("left", "bottom")),
 							NLD_wide = list(basemaps = c(Standard = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png",
 														 Aerial = "//geodata.nationaalgeoregister.nl/luchtfoto/rgb/wmts/Actueel_ortho25/EPSG:3857/{z}/{x}/{y}.jpeg",
@@ -372,7 +375,7 @@ v3 = list(
 														 Gray   = "//geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaartgrijs/EPSG:3857/{z}/{x}/{y}.png"),
 											frame=FALSE, 
 											inner.margins=c(.02, .3, .06, .02),
-											legend.position=tm_lp_in("left", "top"),
+											legend.position=tm_pos_in("left", "top"),
 											attr.position=c("left", "bottom")))
 
 
@@ -594,36 +597,36 @@ tm_options <- function(...) {
 #' @export
 tm_place_legends_right = function(width = NA) {
 	if (is.na(width)) {
-		tm_options(legend.position = tm_lp_out("right", "center"))
+		tm_options(legend.position = tm_pos_out("right", "center"))
 	} else {
-		tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_lp_out("right", "center"))
+		tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_pos_out("right", "center"))
 	}
 }
 
 #' @export
 tm_place_legends_left = function(width = NA) {
 	if (is.na(width)) {
-		tm_options(legend.position = tm_lp_out("left", "center"))
+		tm_options(legend.position = tm_pos_out("left", "center"))
 	} else {
-		tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_lp_out("right", "center"))
+		tm_options(meta.margins = c(0, 0, 0, width), legend.position = tm_pos_out("right", "center"))
 	}
 }
 
 #' @export
 tm_place_legends_bottom = function(height = NA) {
 	if (is.na(height)) {
-		tm_options(legend.position = tm_lp_out("center", "bottom"))
+		tm_options(legend.position = tm_pos_out("center", "bottom"))
 	} else {
-		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "bottom"))
+		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_pos_out("center", "bottom"))
 	}
 }
 
 #' @export
 tm_place_legends_top = function(height = NA) {
 	if (is.na(height)) {
-		tm_options(legend.position = tm_lp_out("center", "top"))
+		tm_options(legend.position = tm_pos_out("center", "top"))
 	} else {
-		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_lp_out("center", "top"))
+		tm_options(meta.margins = c(height, 0, 0, 0), legend.position = tm_pos_out("center", "top"))
 	}
 }
 

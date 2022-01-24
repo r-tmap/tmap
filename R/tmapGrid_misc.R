@@ -114,4 +114,16 @@ impute_gp = function(gp, dt) {
 	gp
 }
 
+rndrectGrob = function(...) {
+	args = list(...)
+	if ("r" %in% names(args) && args$r > 0) {
+		args$r = grid::unit(args$r, "pt")
+		do.call(grid::roundrectGrob, args)
+	} else {
+		args$r = NULL
+		do.call(grid::rectGrob, args)
+	}
+}
+
+
 

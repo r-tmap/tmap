@@ -1,67 +1,31 @@
-tmapGridLegHeight = function(...) {
-	UseMethod("tmapGridLegHeight")
+tmapGridCompPrepare = function(...) {
+	UseMethod("tmapGridCompPrepare")
 }
 
-tmapGridLegWidth = function(...) {
-	UseMethod("tmapGridLegWidth")
+tmapGridCompHeight = function(...) {
+	UseMethod("tmapGridCompHeight")
+}
+
+tmapGridCompWidth = function(...) {
+	UseMethod("tmapGridCompWidth")
 }
 
 tmapGridLegPlot = function(...) {
 	UseMethod("tmapGridLegPlot")
 }
 
-#' @method tmapGridLegHeight tm_attr_title
+#' @method tmapGridCompPrepare tm_legend_standard_portrait
 #' @export
-tmapGridLegHeight.tm_attr_title = function(leg, o) {
-	titleS = if (leg$title == "") 0 else leg$title.size
-	titleP = leg$title.padding[c(3,1)] * titleS * o$lin
-	titleH = titleS * o$lin
-	leg$Hin = sum(titleP[1], titleH, titleP[2])
-	leg
-}
-
-#' @method tmapGridLegWidth tm_attr_title
-#' @export
-tmapGridLegWidth.tm_attr_title = function(leg, o) {
-	titleS = if (leg$title == "") 0 else leg$title.size
-	titleP = leg$title.padding[c(2,4)] * titleS * o$lin
-	titleW = titleS * strwidth(leg$title, units = "inch", family = leg$title.fontfamily, font = fontface2nr(leg$title.fontface)) * o$lin
-	leg$Win = sum(titleP[1], titleW, titleP[2])
-	leg
-}
-
-
-#' @method tmapGridLegPlot tm_attr_title
-#' @export
-tmapGridLegPlot.tm_attr_title = function(leg, o) {
-	textS = leg$text.size * leg$scale
-	titleS = if (leg$title == "") 0 else leg$title.size * leg$scale
-	
-	if (leg$title.just == "left") {
-		grTitle = grid::textGrob(leg$title, x = grid::unit(leg$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS))
-	} else if (leg$title.just == "right") {
-		grTitle = grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$title.padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS))
-	} else {
-		grTitle = grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS))
-	}
-	
-	if (getOption("tmap.design.mode")) {
-		grDesign = grid::rectGrob(gp=gpar(fill=NA,col="red", lwd=2))
-	} else {
-		grDesign = NULL
-	}
-	
-	g = do.call(grid::grobTree, c(list(grTitle), grDesign, list(vp = vp)))
-	
-	g
-	
+tmapGridCompPrepare.tm_legend_standard_landscape = function(leg, o) {
+	tmapGridCompPrepare.tm_legend_standard_portrait(leg, o)
 }
 
 
 
-#' @method tmapGridLegHeight tm_legend_standard_landscape
+
+#' @method tmapGridCompHeight tm_legend_standard_landscape
 #' @export
-tmapGridLegHeight.tm_legend_standard_landscape = function(leg, o) {
+tmapGridCompHeight.tm_legend_standard_landscape = function(leg, o) {
 	nlev = leg$nitems
 	textS = leg$text.size
 	titleS = if (leg$title == "") 0 else leg$title.size
@@ -97,9 +61,9 @@ tmapGridLegHeight.tm_legend_standard_landscape = function(leg, o) {
 }
 
 
-#' @method tmapGridLegWidth tm_legend_standard_landscape
+#' @method tmapGridCompWidth tm_legend_standard_landscape
 #' @export
-tmapGridLegWidth.tm_legend_standard_landscape = function(leg, o) {
+tmapGridCompWidth.tm_legend_standard_landscape = function(leg, o) {
 	nlev = leg$nitems
 	textS = leg$text.size
 	titleS = if (leg$title == "") 0 else leg$title.size
@@ -131,25 +95,11 @@ tmapGridLegWidth.tm_legend_standard_landscape = function(leg, o) {
 	titleW = titleS * strwidth(leg$title, units = "inch", family = leg$title.fontfamily, font = fontface2nr(leg$title.fontface)) * o$lin
 	
 	marW = leg$margins[c(2,4)] * textS * o$lin
-
 	
 	item_space = c(rep(space, nlev - 1 - leg$na.show), {if (leg$na.show) spaceNA else NULL}) 
 	items_all = c(rbind(item_widths[-nlev], item_space), item_widths[nlev])
 	
-
-		
-	#item_paddings = c(rep(padding, leg$nitems - leg$na.show), {if (leg$na.show) paddingNA else NULL}) 
-	#item_totals = item_widths + item_paddings
 	
-	titleP = leg$title.padding[c(2,4)] * titleS * o$lin
-	titleW = titleS * strwidth(leg$title, units = "inch", family = leg$title.fontfamily, font = fontface2nr(leg$title.fontface)) * o$lin
-	
-	marW = leg$margins[c(2,4)] * textS * o$lin
-	
-	item_space = c(rep(space, nlev - 1 - leg$na.show), {if (leg$na.show) spaceNA else NULL}) 
-	items_all = c(rbind(item_widths[-nlev], item_space), item_widths[nlev])
-	
-
 	ws = c(marW[1], items_all * textS * o$lin, marW[2])
 	
 	
@@ -275,9 +225,10 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(leg, o) {
 		grTitle = gridCell(3, 3:(length(leg$wsu)-2), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
 	}
 	
+	textW = textS * strwidth(leg$labels, units = "inch", family = leg$text.fontfamily, font = fontface2nr(leg$text.fontface))
+	scale_labels = max(textW / grid::convertUnit(wsu[leg$item_ids], unitTo = "inch", valueOnly = TRUE), 1)
 	
-	
-	grText = mapply(function(i, id) gridCell(8, id, grid::textGrob(leg$labels[i], x = 0.5, just = "center", gp = grid::gpar(cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
+	grText = mapply(function(i, id) gridCell(8, id, grid::textGrob(leg$labels[i], x = 0.5, just = "center", gp = grid::gpar(cex = textS/scale_labels, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
 	
 	ticks = get_legend_option(leg$ticks, leg$type)
 	ticks.disable.na = get_legend_option(leg$ticks.disable.na, leg$type)
@@ -399,12 +350,12 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(leg, o) {
 		}
 		
 		
-		grItems2 = list(gridCell(6, leg$item_ids[lvs], grid::rectGrob(x = grid::unit(x1, "npc"), just = c("left", "center"), width = grid::unit(1-(x1+x2), "npc"), gp = gpars)))
+		grItems2 = list(gridCell(6, leg$item_ids[lvs], rndrectGrob(x = grid::unit(x1, "npc"), just = c("left", "center"), width = grid::unit(1-(x1+x2), "npc"), gp = gpars, r = leg$item.r)))
 		if (leg$na.show) {
 			gpars$fill = gp$fill[ifelse(length(gp$fill), nlev, 1)]
 			gpars$fill_alpha = gp$fill[ifelse(length(gp$fill_alpha), nlev, 1)]
 			# fill and border for NA
-			grItems1 = c(grItems1, list(gridCell(6, leg$item_ids[nlev], grid::rectGrob(gp = gpars))))
+			grItems1 = c(grItems1, list(gridCell(6, leg$item_ids[nlev], rndrectGrob(gp = gpars, r = leg$item.r))))
 		}
 		
 		# borders
@@ -424,14 +375,14 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(leg, o) {
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			grItems = mapply(function(i, gpar1i, gpar2i) gridCell(6, id, {
 				grid::grobTree(
-					grid::rectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar1i),
-					grid::rectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar2i))
+					rndrectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar1i, r = leg$item.r),
+					rndrectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar2i, r = leg$item.r))
 			}), leg$item_ids, gpars1, gpars2, SIMPLIFY = FALSE)
 			
 		} else {
 			gpars = gp_to_gpar(gp, sel = "all", split_to_n = nlev)#lapply(gps, gp_to_gpar)
-			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-			grItems = mapply(function(id, gpari) gridCell(6, id, grid::rectGrob(gp = gpari)), leg$item_ids, gpars, SIMPLIFY = FALSE)
+			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, rndrectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+			grItems = mapply(function(id, gpari) gridCell(6, id, rndrectGrob(gp = gpari, r = leg$item.r)), leg$item_ids, gpars, SIMPLIFY = FALSE)
 		}
 		
 		

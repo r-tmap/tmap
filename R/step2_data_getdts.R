@@ -158,7 +158,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 			
 			if (length(v)) update_fl(k = v, lev = vars)
 			
-			
 			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
 
 				# update legend options

@@ -1,9 +1,10 @@
-process_legends = function(legs, o) {
+process_components = function(legs, o) {
 	
 	gs = tmap_graphics_name()
 	
-	funW = paste0("tmap", gs, "LegWidth")
-	funH = paste0("tmap", gs, "LegHeight")
+	funP = paste0("tmap", gs, "CompPrepare")
+	funW = paste0("tmap", gs, "CompWidth")
+	funH = paste0("tmap", gs, "CompHeight")
 
 	# leg_ins = which(legs$class == "in")
 	# if (length(leg_ins)) {
@@ -12,7 +13,7 @@ process_legends = function(legs, o) {
 	# 	}
 	# }
 
-	legs$legend = lapply(legs$legend, fun_add_leg_type)
+	legs$legend = lapply(legs$legend, function(leg) do.call(funP, list(leg = leg, o = o)))
 	legs$legend = lapply(legs$legend, function(leg) do.call(funW, list(leg = leg, o = o)))
 	legs$legend = lapply(legs$legend, function(leg) do.call(funH, list(leg = leg, o = o)))
 
@@ -36,7 +37,7 @@ process_legends = function(legs, o) {
 	legs
 }
 
-process_legends2 = function(legs, o) {
+process_components2 = function(legs, o) {
 	# when facets are wrapped:
 	
 	
@@ -63,25 +64,25 @@ process_legends2 = function(legs, o) {
 	#if (o$ncols > 1 && o$nrows > 1) {
 	if (o$type == "wrap") {
 		# all free legends inside
-		legs[!is.na(by1__) | !is.na(by2__) & class == "auto", ':='(class = "in")]	
+		legs[!is.na(by1__) | !is.na(by2__) & class == "autoout", ':='(class = "in")]	
 	} else if (o$type == "grid") {
 		# all free-per-facet legends inside
-		legs[!is.na(by1__) & !is.na(by2__) & class == "auto", ':='(class = "in")]	
+		legs[!is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(class = "in")]	
 	}
 	
 
 	
 	# update auto position (for 'all', 'rows', 'columns' legends)
-	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
-	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
-	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
+	legs[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
+	legs[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
+	legs[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
 	
-	legs[is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["per_row"], ifelse(cell.v == "center", stacks["per_col"], stacks["all"])), stack))]
-	legs[!is.na(by1__) & is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
-	legs[is.na(by1__) & !is.na(by2__) & class == "auto", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
+	legs[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["per_row"], ifelse(cell.v == "center", stacks["per_col"], stacks["all"])), stack))]
+	legs[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+	legs[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
 	
 	
-	legs[class == "auto", class := "out"]
+	legs[class == "autoout", class := "out"]
 	
 	
 	lai = which(legs$class == "autoin")
@@ -109,16 +110,20 @@ step4_plot = function(tm) {
 	# get legends from layer data
 	legs = step4_plot_collect_legends(tmx)
 	
-	legs = process_legends(legs, o)
+	if (!is.na(o$title)) {
+		legs = legs[1:3]
+		legs$legend[[3]] = structure(list(title = o$title, title.padding = c(.1,.1,.1,.1), title.size = o$title.size, title.fontface = o$title.fontface, title.fontfamily = o$title.fontfamily, stack = o$legend.stack, title.just = "left", position = o$legend.position), class = c("tm_title", "tm_legend", "list"))
+		legs$class[[3]] = "autoout"
+		legs$cell.h[3] = "right"
+		legs$cell.v[3] = "bottom"
+	}
+	
+	legs = process_components(legs, o)
 	
 	
 	
 	# determine panel type, inner margins, and automatic legend placement
 	o = preprocess_meta(o, legs)
-	# if (!is.na(o$title)) {
-	# 	legs = legs[1:3]
-	# 	legs$legend[[3]] = structure(list(title = o$title, title.padding = c(.1,.1,.1,.1), title.size = o$title.size), class = c("tm_attr_title", "tm_legend"))
-	# }
 	
 	# function to get shape object
 	get_shpTM = function(shpDT, by1, by2, by3) {
@@ -197,7 +202,7 @@ step4_plot = function(tm) {
 	
 	# calculate margins, number of rows and colums, etc.
 	o = process_meta(o, d, legs)
-	legs = process_legends2(legs, o)
+	legs = process_components2(legs, o)
 	
 	o$ng = length(tmx)
 
@@ -330,7 +335,7 @@ step4_plot = function(tm) {
 	hby = any(legs$cell.h == "by")
 	
 	# manual outside legends -2 is top or left, -1 is bottom or right
-	legs[class %in% c("auto", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+	legs[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
 										   facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
 	
 	

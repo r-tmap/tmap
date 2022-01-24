@@ -16,9 +16,8 @@ tmapGridWrap = function(label, facet_row, facet_col, facet_page, o) {
 	
 	# resize due to not fitting
 	gpar_text$cex = determine_scale(label = label, rot = rot, row = row, col = col, g = g, scale = gpar_text$cex)
-	
 	grb = grid::grobTree(
-		grid::rectGrob(gp = gpar_rect),
+		rndrectGrob(gp = gpar_rect, r = o$frame.r),
 		grid::textGrob(label = label, rot = rot, gp = gpar_text)
 	)
 	

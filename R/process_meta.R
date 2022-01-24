@@ -47,15 +47,15 @@ preprocess_meta = function(o, legs) {
 			legend.present.fix = rep(FALSE, 4)
 		} else {
 			if (type %in% c("wrap", "stack")) {
-				#o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "auto"), per_row = any(!is.na(legs$by1__) & legs$class == "auto"), per_col = FALSE)
-				legend.present.auto = c(all = any(legs$class == "auto" & is.na(legs$by1__)), 
+				#o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "autoout"), per_row = any(!is.na(legs$by1__) & legs$class == "autoout"), per_col = FALSE)
+				legend.present.auto = c(all = any(legs$class == "autoout" & is.na(legs$by1__)), 
 										per_row = FALSE, per_col = FALSE, 
-										per_facet = any(legs$class == "auto" & !is.na(legs$by1__)))
+										per_facet = any(legs$class == "autoout" & !is.na(legs$by1__)))
 			} else {
-				legend.present.auto = c(all = any(is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), 
-										per_row = any(!is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "auto"), 
-										per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"),
-										per_facet = any(!is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "auto"))
+				legend.present.auto = c(all = any(is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "autoout"), 
+										per_row = any(!is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "autoout"), 
+										per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "autoout"),
+										per_facet = any(!is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "autoout"))
 			}
 			legend.present.fix = c(any(legs$class == "out" & legs$cell.v == "bottom"), 
 								   any(legs$class == "out" & legs$cell.h == "left"),
@@ -158,7 +158,7 @@ process_meta = function(o, d, legs) {
 		# pasp: prefered (asp or if not specified, sasp)
 		# masp: multiples (facets) area
 		
-		# determine where to place automatic legends (i.e. legends with local legend.position = NA and with legend.position = tm_lp_auto() enabled)
+		# determine where to place automatic legends (i.e. legends with local legend.position = NA and with legend.position = tm_pos_auto_out() enabled)
 		# this is also neede to find out which margins are taken from meta.auto.margins
 		
 		legend.position.sides = legend.position
@@ -169,7 +169,7 @@ process_meta = function(o, d, legs) {
 		# !!! this also applies for single maps
 		if (type == "stack") {
 			if (is.na(orientation)) {
-				legs_auto = legs[class=="auto"]
+				legs_auto = legs[class=="autoout"]
 				
 				if (nrow(legs_auto) && n == 1) {
 					mx_width = (1 - sum(fixedMargins[c(1, 3)])) * devsize[1]
@@ -229,10 +229,10 @@ process_meta = function(o, d, legs) {
 		
 		if (nrow(legs)) {
 			meta.auto.margins = pmin(meta.auto.margins, 
-									 c(max(legs$legH[legs$cell.v == "bottom" & legs$class %in% c("auto", "out")], 0) / o$devsize[2],
-									   max(legs$legW[legs$cell.h == "left" & legs$class %in% c("auto", "out")], 0) / o$devsize[1],
-									   max(legs$legH[legs$cell.v == "top" & legs$class %in% c("auto", "out")], 0) / o$devsize[2],
-									   max(legs$legW[legs$cell.h == "right" & legs$class %in% c("auto", "out")], 0) / o$devsize[1]))
+									 c(max(legs$legH[legs$cell.v == "bottom" & legs$class %in% c("autoout", "out")], 0) / o$devsize[2],
+									   max(legs$legW[legs$cell.h == "left" & legs$class %in% c("autoout", "out")], 0) / o$devsize[1],
+									   max(legs$legH[legs$cell.v == "top" & legs$class %in% c("autoout", "out")], 0) / o$devsize[2],
+									   max(legs$legW[legs$cell.h == "right" & legs$class %in% c("autoout", "out")], 0) / o$devsize[1]))
 		}
 
 		

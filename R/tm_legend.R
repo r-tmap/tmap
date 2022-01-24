@@ -25,6 +25,7 @@ tm_legend = function(title,
 					 format,
 					 frame,
 					 frame.lwd,
+					 frame.r,
 					 bg.color,
 					 bg.alpha,
 					 item.height,
@@ -43,7 +44,7 @@ tm_legend = function(title,
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!("title" %in% (names(args)))) args$title = NA
 	if (!("z" %in% (names(args)))) args$z = NA
-	structure(args, class = c("tm_legend", "list"))
+	structure(args, class = c("tm_legend", "tm_component", "list"))
 }
 
 #' @export
@@ -53,44 +54,5 @@ tm_legend_hide = function() {
 
 #' @export
 tm_legend_combine = function(aes) {
-	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = c("tm_legend", "list"))
-}
-
-
-
-
-#' @export
-tm_lp_in = function(pos.h, pos.v, just.h, just.v) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	args$type = "in"
-	structure(args, class = "tm_lp")
-}
-
-#' @export
-tm_lp_cell = function(pos.h, pos.v, just.h, just.v) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	args$type = "cell"
-	structure(args, class = "tm_lp")
-}
-
-#' @export
-tm_lp_out = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	args$type = "out"
-	structure(args, class = "tm_lp")
-}
-
-#' @export
-tm_lp_auto = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	args$type = "auto"
-	structure(args, class = "tm_lp")
-}
-
-
-#' @export
-tm_lp_auto_in = function(just.h, just.v) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	args$type = "autoin"
-	structure(args, class = "tm_lp")
+	structure(list(FUN = "tmapLegend", title = NA, reverse = FALSE, show = FALSE, aes = aes), class = c("tm_legend", "tm_component", "list"))
 }

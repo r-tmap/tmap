@@ -8,7 +8,7 @@
 \usage{
 tmap_options(...)
 
-tmap_options_mode(mode = NA)
+tmap_options_mode(mode = NA, default.options = FALSE)
 
 tm_options(...)
 }
