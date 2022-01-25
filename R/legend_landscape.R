@@ -143,8 +143,8 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(leg, o) {
 	
 	nlev = leg$nitems
 	
-	wsu = leg$wsu * leg$scale
-	hsu = leg$hsu * leg$scale
+	wsu = leg$wsu
+	hsu = leg$hsu
 	
 	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
 												   nrow = length(hsu), 

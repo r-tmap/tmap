@@ -1,4 +1,4 @@
-tm_title = function(title, size, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, position) {
+tm_title = function(title, size, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, position, width, height) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	tm_element_list(tm_element(
 		args = args,

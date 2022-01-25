@@ -96,8 +96,8 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		leg$scale = scale
 		if (is.na(leg$title.just)) leg$title.just = leg$position$just.h
 		
-		leg$wsu = distr_space_over_nulls(u = leg$wsu, tot = W, stretchID = leg$flexCol)
-		leg$hsu = distr_space_over_nulls(u = leg$hsu, tot = H, stretchID = leg$flexRow)
+		leg$wsu = distr_space_over_nulls(u = leg$wsu * scale, tot = W, stretchID = leg$flexCol)
+		leg$hsu = distr_space_over_nulls(u = leg$hsu * scale, tot = H, stretchID = leg$flexRow)
 		leg
 	}, legs, 1/clipT, legW, legH, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 	

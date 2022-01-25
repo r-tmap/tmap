@@ -121,10 +121,12 @@ step1_rearrange = function(tmel) {
 
 			ot = o[names(o)[substr(names(o), 1, nchar(type)) == type]]
 			names(ot) = substr(names(ot), nchar(type)+2, nchar(names(ot)))
-			if (any(names(ot) == "")) names(ot)[names(ot) == ""] = type
+			#if (any(names(ot) == "")) names(ot)[names(ot) == ""] = type
 			a$args = complete_options(a$args, ot)
 			a
 		})
+	} else {
+		cmp = list()
 	}
 	
 	# to be used later

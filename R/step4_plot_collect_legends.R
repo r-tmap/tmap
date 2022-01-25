@@ -125,9 +125,7 @@ step4_plot_collect_legends = function(tmx) {
 	# remove empty legends
 	legs = legs[vapply(legs$legend, length, FUN.VALUE = integer(1)) > 1, ][, vneutral := NULL]
 	
-	legs$class = lapply(legs$legend, function(l) l$position$type)
+	set(legs, j= 5:ncol(legs), value = NULL)
 	
-	legs$cell.h = sapply(legs$legend, function(l) l$position$cell.h)
-	legs$cell.v = sapply(legs$legend, function(l) l$position$cell.v)
 	legs
 }

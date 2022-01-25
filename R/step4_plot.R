@@ -1,4 +1,7 @@
 process_components = function(legs, o) {
+	legs$class = lapply(legs$legend, function(l) l$position$type)
+	legs$cell.h = sapply(legs$legend, function(l) l$position$cell.h)
+	legs$cell.v = sapply(legs$legend, function(l) l$position$cell.v)
 	
 	gs = tmap_graphics_name()
 	
@@ -101,6 +104,7 @@ step4_plot = function(tm) {
 	tmx = tm$tmo
 	o = tm$o
 	aux = tm$aux
+	cmp = tm$cmp
 	
 	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
