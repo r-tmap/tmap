@@ -99,7 +99,7 @@ process_components2 = function(legs, o) {
 
 step4_plot = function(tm) {
 	tmx = tm$tmo
-	o = tm$meta
+	o = tm$o
 	aux = tm$aux
 	
 	# get name of graphics engine (for function names e.g. tmapGridInit)
@@ -110,14 +110,14 @@ step4_plot = function(tm) {
 	# get legends from layer data
 	legs = step4_plot_collect_legends(tmx)
 	
-	if (!is.na(o$title)) {
-		legs = legs[1:3]
-		legs$legend[[3]] = structure(list(title = o$title, title.padding = c(.1,.1,.1,.1), title.size = o$title.size, title.fontface = o$title.fontface, title.fontfamily = o$title.fontfamily, stack = o$legend.stack, title.just = "left", position = o$legend.position), class = c("tm_title", "tm_legend", "list"))
-		legs$class[[3]] = "autoout"
-		legs$cell.h[3] = "right"
-		legs$cell.v[3] = "bottom"
-	}
-	
+	# if (!is.na(o$title)) {
+	# 	legs = legs[1:3]
+	# 	legs$legend[[3]] = structure(list(title = o$title, title.padding = c(.1,.1,.1,.1), title.size = o$title.size, title.fontface = o$title.fontface, title.fontfamily = o$title.fontfamily, stack = o$legend.stack, title.just = "left", position = o$legend.position), class = c("tm_title", "tm_legend", "list"))
+	# 	legs$class[[3]] = "autoout"
+	# 	legs$cell.h[3] = "right"
+	# 	legs$cell.v[3] = "bottom"
+	# }
+	# 
 	legs = process_components(legs, o)
 	
 	

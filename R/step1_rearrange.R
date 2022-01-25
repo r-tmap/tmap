@@ -68,7 +68,7 @@ step1_rearrange = function(tmel) {
 	
 	
 	# get options (mode specific)
-	opt = tmap_options_mode()
+	o = tmap_options_mode()
 	
 	
 	tmo = step1_rearrange_facets(tmo) # save smeta's and keep track of group id (to obtain smeta)
@@ -93,7 +93,7 @@ step1_rearrange = function(tmel) {
 	
 	
 	# get main crs (option or extracted from first main shape)
-	crs_option = opt$crs
+	crs_option = o$crs
 	tms = tmo[[ids[1]]]$tms
 	crs = if (is.na(crs_option[1])) get_crs(tms) else crs_option
 	main_class = get_class(tms)
@@ -101,30 +101,46 @@ step1_rearrange = function(tmel) {
 	# update options with tm_option elements
 	is_opt = sapply(oth, inherits, "tm_options")
 	if (any(is_opt)) for (id in which(is_opt)) {
-		opt2 = oth[[id]]
-		if ("style" %in% names(opt2)) {
-			opt = tmap_options_mode(default.options = TRUE)
-			styleOptions <- get("tmapStyles", envir = .TMAP)[[opt2$style]]
-			if (!is.null(styleOptions)) opt = complete_options(styleOptions, opt)
-			opt2$style = NULL
+		o2 = oth[[id]]
+		if ("style" %in% names(o2)) {
+			o = tmap_options_mode(default.options = TRUE)
+			styleOptions <- get("tmapStyles", envir = .TMAP)[[o2$style]]
+			if (!is.null(styleOptions)) o = complete_options(styleOptions, o)
+			o2$style = NULL
 		}
-		opt = complete_options(opt2, opt)
+		o = complete_options(o2, o)
 	}
 
-	# to be used later
-	opt$main = ids # to determine total bounding box in step 4
-	opt$main_class = main_class # inner.margins are class specific (preprecess_meta)
-	opt$crs = crs # in step 3, when other shapes are transformed to this crs
 	
-	opt = c(opt, tmf)
+	is_comp = sapply(oth, inherits, "tm_component")
+	if (any(is_comp)) {
+		cmp = oth[is_comp]
+		cmp = lapply(cmp, function(a) {
+			cls = class(a)[1]
+			type = substr(cls, 4, nchar(cls))
+
+			ot = o[names(o)[substr(names(o), 1, nchar(type)) == type]]
+			names(ot) = substr(names(ot), nchar(type)+2, nchar(names(ot)))
+			if (any(names(ot) == "")) names(ot)[names(ot) == ""] = type
+			a$args = complete_options(a$args, ot)
+			a
+		})
+	}
+	
+	# to be used later
+	o$main = ids # to determine total bounding box in step 4
+	o$main_class = main_class # inner.margins are class specific (preprecess_meta)
+	o$crs = crs # in step 3, when other shapes are transformed to this crs
+	
+	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately 
 	tmo = structure(lapply(tmo, function(tmg) {
-		tmg$tms = do.call(tmapShape, c(tmg$tms, list(o = opt, tmf = tmg$tmf)))
+		tmg$tms = do.call(tmapShape, c(tmg$tms, list(o = o, tmf = tmg$tmf)))
 		tmg
 	}), names = paste0("group", seq_len(length(tmo))), class = c("tmapObject", "list"))
 	if (dev) timing_add(s2 = "prep shape")
 	
-	list(tmo = tmo, aux = aux, meta = opt)
+	list(tmo = tmo, aux = aux, cmp = cmp, o = o)
 }
 
 # see above

@@ -2,10 +2,11 @@ step2_data = function(tm) {
 	dev = getOption("tmap.devel.mode")
 	
 	tmo = tm$tmo
-	meta = tm$meta
+	o = tm$o
 	aux = tm$aux
+	cmp = tm$cmp
 	
-	meta = preprocess_meta_step2(meta)
+	o = preprocess_meta_step2(o)
 	
 	groupnames = paste0("group", seq_along(tmo))
 	fl = list(1L, 1L, 1L)
@@ -18,7 +19,7 @@ step2_data = function(tm) {
 		tmf = tmg$tmf
 		dt = tmg$tms$dt
 		
-		if (meta$facet.flip && !meta$type %in% c("wrapstack", "wrap", "stack")) {
+		if (o$facet.flip && !o$type %in% c("wrapstack", "wrap", "stack")) {
 			if ("by2__" %in% names(dt)) {
 				dt[, by2b__:= by2__]
 				dt[, by2__ := NULL]
@@ -59,11 +60,11 @@ step2_data = function(tm) {
 			
 			#cat("step2_grp_lyr_trans_______________\n")
 			
-			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
+			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
 			
 			#cat("step2_grp_lyr_mapping_____________\n")
 			
-			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = meta, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
+			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, plot.order = plot.order))
 
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt), plot.order)
 			trans_legend = lapply(trans, function(x) x$leg)
@@ -104,30 +105,30 @@ step2_data = function(tm) {
 	
 	# facet labels "_old' were obtained in step2, and still determine data levels
 	# currently, facet labels are determined in step1, but they need to be the same as the data labels
-	# meta$fl_old = get("fl", envir = .TMAP)
-	# meta$fn_old = sapply(meta$fl_old, function(f) { 
+	# o$fl_old = get("fl", envir = .TMAP)
+	# o$fn_old = sapply(o$fl_old, function(f) { 
 	# 	if (is.character(f)) length(f) else f
 	# })
-	# meta$fl_old = lapply(meta$fl_old, function(f) {
+	# o$fl_old = lapply(o$fl_old, function(f) {
 	# 	if (is.character(f)) f else NULL
 	# })
 	# 
-	# if (!identical(meta$fn, meta$fn_old) || !identical(meta$fl, meta$fl_old)) {
-	# 	po(meta$fn_old, meta$fl_old, meta$fn, meta$fl)
+	# if (!identical(o$fn, o$fn_old) || !identical(o$fl, o$fl_old)) {
+	# 	po(o$fn_old, o$fl_old, o$fn, o$fl)
 	# 	stop("fl not identical")
 	# }
 	
 	
 	
 	#cat("fl old:\n")
-	#print(meta$fl_old)
+	#print(o$fl_old)
 	
 	
-	#meta = c(meta, tmf)
+	#o = c(o, tmf)
 	
 	# attr(grps, "is.wrap") = tmo[[1]]$tmf$is.wrap
 	# attr(grps, "nrows") = tmo[[1]]$tmf$nrows
 	# attr(grps, "ncols") = tmo[[1]]$tmf$ncols
 	
-	list(tmo = grps, aux = aux, meta = meta)
+	list(tmo = grps, aux = aux, cmp = cmp, o = o)
 }

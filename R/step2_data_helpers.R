@@ -28,8 +28,8 @@ update_fl = function(k, lev = NULL, m = NULL) {
 
 
 
-preprocess_meta_step2 = function(meta) {
-	within(meta, {
+preprocess_meta_step2 = function(o) {
+	within(o, {
 		
 		pc = list(sepia.intensity=sepia.intensity, saturation=saturation)
 		sepia.intensity = NULL

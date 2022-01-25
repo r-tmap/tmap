@@ -125,5 +125,42 @@ rndrectGrob = function(...) {
 	}
 }
 
+set_unit_with_stretch = function(x, ids = NULL, sides = c("both", "first", "second")) {
+	u = rep("inch", length(x))
+	if (!is.null(ids)) {
+		x[ids] = 1/length(ids)
+		u[ids] = "null"
+		x = c(0, x, 0)
+	} else {
+		sides = match.arg(sides)
+		x = if (sides == "both") c(0.5, x, 0.5) else if (sides == "first") c(1, x, 0) else c(0, x, 1)
+	}
+	u = c("null", u, "null")
+	grid::unit(x, units = u)
+}
+
+
+# u is unit vector, tot = is the total size (width or height). The null units are distributed such that the total equals tot
+distr_space_over_nulls = function(u, tot, stretchID = NA) {
+	u0 = grid::unitType(u) == "null"
+	
+	un = grid::convertUnit(u, unitTo = "inch", valueOnly = TRUE)
+	tn = as.numeric(tot)
+	
+	un_not0 = sum(un[!u0])
+	un_dist_over0 = tn - un_not0
+
+	normalize = function(x, s = 1) (x / sum(x)) * s
+	
+	if (un_dist_over0 < 0) {
+		un[u0] = 0
+		if (!is.na(stretchID)) un[stretchID] = max(0, un[stretchID] + un_dist_over0)
+		un = normalize(un, s = tn)
+	} else {
+		un[u0] = normalize(as.numeric(u[u0]), un_dist_over0)
+	}
+	print(un)
+	grid::unit(un, units = "inch")
+}
 
 

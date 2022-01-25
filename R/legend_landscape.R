@@ -42,8 +42,9 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(leg, o) {
 	
 
 	hsinch = c(titleP[1], titleH, titleP[2], marH[1], item_height * textS * o$lin, c(leg$margin.item.text, 1) * textS * o$lin,marH[2])
-	Hin = sum(hsinch)
 	
+	Hin = if (is.na(leg$height)) sum(hsinch) else leg$height * textS * o$lin
+
 	sides = switch(leg$position$just.v, top = "second", bottom = "first", "both")
 	hsu = set_unit_with_stretch(hsinch, sides = sides)
 	
@@ -51,7 +52,8 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(leg, o) {
 	
 	#hsu = grid::unit(c(hsinch, 1), units = c(rep("inch", length(hsinch)), "null"))
 	
-
+	leg$flexRow = NA
+	
 	#leg$itemHsIn = itemHsIn
 	leg$Hin = Hin
 	leg$hsu = hsu
@@ -119,6 +121,8 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(leg, o) {
 	
 	Win = if (leg$stretch == "none") sum(ws) else leg$width * textS * o$lin
 	
+	leg$flexCol = NA
+	
 	leg$Win = Win
 	#leg$hs = hs
 	leg$wsu = wsu
@@ -127,77 +131,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(leg, o) {
 	
 	leg
 	
-	
-	
-	
-	
-	# 
-	# 	
-	# nlev = leg$nitems
-	# textS = leg$text.size
-	# titleS = if (leg$title == "") 0 else leg$title.size
-	# 
-	# padding = get_legend_option(leg$item.padding, leg$type)
-	# paddingNA = get_legend_option(leg$item.na.padding, leg$type)
-	# widths = get_legend_option(leg$item.width, leg$type)
-	# 
-	# item_widths = if (leg$type == "symbols") pmax(widths, rep(leg$gpar$size / textS, length.out = nlev)) else rep(widths, nlev)
-	# 
-	# 
-	# if (is.na(leg$width) && (padding == -1 || any(item_widths == -1))) leg$width = Inf
-	# if (is.infinite(leg$width)) {
-	# 	if (leg$type == "symbols") padding = -1
-	# 	if (padding != -1 && all(item_widths != -1)) padding = -1
-	# 	if (padding == -1 && any(item_widths == -1)) item_widths = rep(1, nlev)
-	# 	if (padding == -1 && leg$item.na.padding != -1) leg$item.na.padding == -1
-	# 	leg$stretch = if (padding == -1) "padding" else "items"
-	# } else if (is.na(leg$width)) {
-	# 	leg$stretch = "none"
-	# } else {
-	# 	if (leg$type == "symbols") padding = -1
-	# 	if (padding == -1 && any(item_widths == -1)) item_widths = rep(1, nlev)
-	# 	if (padding != -1 || all(item_widths != -1)) padding = -1
-	# 	leg$stretch = if (padding == -1) "padding" else "items"
-	# }
-	# 
-	# titleP = leg$title.padding[c(2,4)] * titleS * o$lin
-	# titleW = titleS * strwidth(leg$title, units = "inch", family = leg$title.fontfamily, font = fontface2nr(leg$title.fontface)) * o$lin
-	# 
-	# marW = leg$margins[c(2,4)] * textS * o$lin
-	# 
-	# item_paddings = c(rep(padding, leg$nitems - leg$na.show), {if (leg$na.show) paddingNA else NULL}) 
-	# item_totals = item_widths + item_paddings
-	# 
-	# #textW = textS * strwidth(leg$labels, units = "inch", family = leg$text.fontfamily, font = fontface2nr(leg$text.fontface))
-	# 
-	# #browser()
-	# if (leg$stretch == "none") {
-	# 	extraTitleWidth = max(0, titleW - sum(item_totals * textS * o$lin))
-	# 	
-	# 	wsinch = c(marW[1], item_totals * textS * o$lin, extraTitleWidth, marW[2])
-	# 	itemWsIn = grid::unit(item_widths * textS * o$lin, units = rep("inch", nlev))
-	# 	
-	# 	ws = grid::unit(c(wsinch, 1), units = c(rep("inch", length(wsinch)), "null"))
-	# 	Win = sum(wsinch)
-	# } else {
-	# 	Win = leg$width * textS * o$lin
-	# 	wsunits = c(marW[1], rep(1/nlev), 0, marW[2])
-	# 	ws = grid::unit(wsunits, units = c("inch", rep("null", nlev), "inch", "inch"))
-	# 	if (leg$stretch == "padding") {
-	# 		#wsinch = c(marW[1], item_widths * textS * o$lin, extraTitleWidth, marW[2])
-	# 		itemWsIn = grid::unit(item_widths * textS * o$lin, units = rep("inch", nlev))
-	# 	} else {
-	# 		itemWsIn = grid::unit(1, "npc") - grid::unit(item_paddings * textS * o$lin, units = rep("inch", nlev))
-	# 	}
-	# 	
-	# }
-	# 
-	# leg$itemWsIn = itemWsIn # widths of the items
-	# leg$Win = Win
-	# leg$ws = ws # all widths (in units, for grid.layout)
-	# 
-	# leg
-	
+
 }
 
 
@@ -330,7 +264,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(leg, o) {
 				alph = unlist(alpha_list)[id1:(10*(nlev2-1) + id2)]
 				cols_alph = paste0(col2hex(gp$fill[1]), tmap::num_to_hex(alph * 255))
 			}
-			grItems1 = list(gridCell(6, leg$item_ids[lvs], grid::rectGrob(x = x1 + 0.5*w, height= w, gp=gpar(fill = grid::linearGradient(colours = rev(cols_alph)), col = NA))))
+			grItems1 = list(gridCell(6, leg$item_ids[lvs], grid::rectGrob(x = x1 + 0.5*w, width= w, gp=gpar(fill = grid::linearGradient(colours = cols_alph), col = NA))))
 		} else {
 			grItems1 = mapply(function(id, f, a) {
 				w = 1 / length(f)

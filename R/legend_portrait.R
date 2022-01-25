@@ -10,19 +10,6 @@ tmapGridLegPlot = function(...) {
 	UseMethod("tmapGridLegPlot")
 }
 
-set_unit_with_stretch = function(x, ids = NULL, sides = c("both", "first", "second")) {
-	u = rep("inch", length(x))
-	if (!is.null(ids)) {
-		x[ids] = 1/length(ids)
-		u[ids] = "null"
-		x = c(0, x, 0)
-	} else {
-		sides = match.arg(sides)
-		x = if (sides == "both") c(0.5, x, 0.5) else if (sides == "first") c(1, x, 0) else c(0, x, 1)
-	}
-	u = c("null", u, "null")
-	grid::unit(x, units = u)
-}
 
 #' @method tmapGridCompPrepare tm_legend_standard_portrait
 #' @export
@@ -97,6 +84,7 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(leg, o) {
 	
 	Hin = if (leg$stretch == "none") sum(hs) else leg$height * textS * o$lin
 	
+	leg$flexRow = NA
 	leg$Hin = Hin
 	#leg$hs = hs
 	leg$hsu = hsu
@@ -153,6 +141,7 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(leg, o) {
 	
 	Win = if (is.na(leg$width)) sum(as.numeric(wsu)[c(1, 3:5, 7)]) else leg$width * textS * o$lin
 	
+	leg$flexCol = 5 #column that will shrink if the null columns will otherwise be sizes < 0. (happens if legend.width < minimal width)
 	leg$Win = Win
 	leg$wsu = wsu
 
@@ -185,7 +174,11 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(leg, o) {
 		grTitle = gridCell(3, 2:(length(leg$wsu)-1), grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(col = leg$title.color, cex = titleS)))
 	}
 	
-	grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(col = leg$text.color, cex = textS, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
+	textW = textS * strwidth(leg$labels, units = "inch", family = leg$text.fontfamily, font = fontface2nr(leg$text.fontface))
+	scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
+	
+	
+	grText = mapply(function(i, id) gridCell(id, 5, grid::textGrob(leg$labels[i], x = 0, just = "left", gp = grid::gpar(col = leg$text.color, cex = textS / scale_labels, fontface = leg$text.fontface, fontfamily = leg$text.fontfamily))), 1L:nlev, leg$item_ids, SIMPLIFY = FALSE)
 	
 	ticks = get_legend_option(leg$ticks, leg$type)
 	ticks.disable.na = get_legend_option(leg$ticks.disable.na, leg$type)
