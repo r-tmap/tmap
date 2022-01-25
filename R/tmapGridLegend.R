@@ -29,8 +29,6 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 	maxH = sum(g$rowsIn[rows])
 	maxW = sum(g$colsIn[cols])
 	
-	print("test1235")
-	
 	group.just = unlist(legs[[1]]$position[c("pos.h", "pos.v")])
 
 	#legs = lapply(legs, leg_standard$fun_add_leg_type)
@@ -93,12 +91,26 @@ tmapGridLegend = function(legs, o, facet_row = NULL, facet_col = NULL, facet_pag
 		H = max(legH)
 	}
 	
+	# u is unit vector, tot = is the total size (width or height). The null units are distributed such that the total equals tot
+	distr_space_over_nulls = function(u, tot) {
+		u0 = grid::unitType(u) == "null"
+		u_not0 = grid::convertUnit(sum(u[!u0]), unitTo = "inch")
+		u_dist_over0 = tot - u_not0
+		u_weights = as.numeric(u[u0])
+		u_weights = u_weights / (sum(u_weights))
 		
-	legs = mapply(function(leg, scale) {
+		u[u0] = grid::unit(u_weights * u_dist_over0, units = "inch")
+		u
+	}
+	
+	legs = mapply(function(leg, scale, W, H) {
 		leg$scale = scale
 		if (is.na(leg$title.just)) leg$title.just = leg$position$just.h
+		
+		leg$wsu = distr_space_over_nulls(leg$wsu, W)
+		leg$hsu = distr_space_over_nulls(leg$hsu, H)
 		leg
-	}, legs, 1/clipT, SIMPLIFY = FALSE, USE.NAMES = FALSE)
+	}, legs, 1/clipT, legW, legH, SIMPLIFY = FALSE, USE.NAMES = FALSE)
 	
 	
 	legGrobs = lapply(legs, tmapGridLegPlot, o = o)
