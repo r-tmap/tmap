@@ -129,11 +129,11 @@
 		asp = NA,
 		outer.margins = rep(0.02, 4),
 		inner.margins = list(stars = rep(0, 4), SpatRaster = rep(0, 4), rep(0.02, 4)),
-		inner.margins.extra = c(0.3, 0, 0, 0),
+		inner.margins.extra = c(0, 0, 0, 0),
 		meta.margins = NA,
 		meta.auto.margins = c(0.4, 0.4, 0.4, 0.4),
 		between.margin = 0.5,
-		component.offset = 0.25,
+		component.offset = c(inside = 0.25, outside = 0),
 		component.stack.margin = 0,
 		outer.bg.color = NA,
 		fontface = "plain",
@@ -510,7 +510,7 @@ tmap_option = function(name, type = NULL) {
 
 get_option_class = function(opt, class = NULL, spatial_class = TRUE) {
 	is_spatial = !spatial_class || (any(names(opt) %in% c("stars", "sf", "sfc", "raster", "terra", "sp")))
-	if (!is.null(class) && is.list(opt) && is_spatial) {
+	if (!is.null(class) && is_spatial) { # && is.list(opt)
 		mtch = which(names(opt) %in% class)
 		if (!length(mtch)) mtch = which(names(opt) == "")[1]
 		opt = opt[[mtch]]

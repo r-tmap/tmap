@@ -1,5 +1,5 @@
 process_components = function(legs, o) {
-	legs$class = lapply(legs$legend, function(l) l$position$type)
+	legs$class = sapply(legs$legend, function(l) l$position$type)
 	legs$cell.h = sapply(legs$legend, function(l) l$position$cell.h)
 	legs$cell.v = sapply(legs$legend, function(l) l$position$cell.v)
 	
@@ -373,7 +373,7 @@ step4_plot = function(tm) {
 	
 	if (nrow(legs) > 0L) for (k in seq_len(o$npages)) {
 		klegs = legs[is.na(by3__) | (by3__ == k), ]
-		klegs[, do.call(legfun, args = list(legs = .SD$legend, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, legend.stack = .SD$stack[1])), by = list(facet_row, facet_col), .SDcols = c("legend", "facet_row", "facet_col", "stack")]
+		klegs[, do.call(legfun, args = list(legs = .SD$legend, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], legend.stack = .SD$stack[1])), by = list(facet_row, facet_col), .SDcols = c("legend", "facet_row", "facet_col", "class", "stack")]
 	}
 	
 	do.call(FUNrun, list(o = o))

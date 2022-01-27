@@ -80,8 +80,7 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(leg, o) {
 		set_unit_with_stretch(hs, sides = sides)
 	}
 
-	po(leg$stretch, hsu)
-	
+
 	Hin = if (leg$stretch == "none") sum(hs) else leg$height * textS * o$lin
 	
 	leg$flexRow = NA

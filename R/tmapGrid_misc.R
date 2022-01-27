@@ -125,6 +125,7 @@ rndrectGrob = function(...) {
 	}
 }
 
+# numeric vector (interpreted as inches) will be cast to a unit vector of inches with nulls on the head and tail. The values of the nulls depend on the justification
 set_unit_with_stretch = function(x, ids = NULL, sides = c("both", "first", "second")) {
 	u = rep("inch", length(x))
 	if (!is.null(ids)) {
@@ -138,6 +139,25 @@ set_unit_with_stretch = function(x, ids = NULL, sides = c("both", "first", "seco
 	u = c("null", u, "null")
 	grid::unit(x, units = u)
 }
+
+# numeric vector for which spacers will be added between
+unit_add_between = function(x, y) {
+	n = length(x)
+	if (n == 1L) return(x)
+	x = rep(x, each = 2)[-(2L*n)]
+	x[seq(2, (2*n)-1, by = 2)] = y
+	x
+}
+
+# numeric vector for which head and tail will be added
+unit_add_sides = function(x, y) {
+	if (length(y) == 1L) {
+		c(y, x, y)
+	} else {
+		c(y[1], x, y[2])
+	}
+}
+
 
 
 # u is unit vector, tot = is the total size (width or height). The null units are distributed such that the total equals tot
