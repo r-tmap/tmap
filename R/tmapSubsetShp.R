@@ -18,7 +18,7 @@ tmapSubsetShp.SpatRaster = function(shp, vars) {
 
 
 
-#' @method tmapSubsetShp stars
+#' @method tmapSubsetShp sf
 #' @export
 tmapSubsetShp.sf = function(shp, vars) {
 	if (!length(vars)) {
@@ -26,4 +26,10 @@ tmapSubsetShp.sf = function(shp, vars) {
 		shp$dummy__ = TRUE
 	}
 	shp[, vars]
+}
+
+#' @method tmapSubsetShp sfc
+#' @export
+tmapSubsetShp.sfc = function(shp, vars) {
+	sf::st_sf(dummy__ = TRUE, geometry = shp)
 }

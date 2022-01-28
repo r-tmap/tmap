@@ -61,7 +61,6 @@ tmapGetShapeMeta2.SpatRaster = function(shp, smeta, o) {
 	smeta
 }
 
-
 #' @method tmapGetShapeMeta2 sf
 #' @export
 tmapGetShapeMeta2.sf = function(shp, smeta, o) {
@@ -87,6 +86,31 @@ tmapGetShapeMeta1.sf = function(shp, o) {
 		 dims = dims, 
 		 dims_vals = dims_vals)
 }
+
+
+#' @method tmapGetShapeMeta2 sfc
+#' @export
+tmapGetShapeMeta2.sfc = function(shp, smeta, o) {
+	vars = character(0)
+	smeta$vars_levs = list()
+	smeta
+}
+
+
+#' @method tmapGetShapeMeta1 sfc
+#' @export
+tmapGetShapeMeta1.sfc = function(shp, o) {
+	vars = character(0)
+	dims = character(0)
+	dims_vals = list()
+	
+	list(vars = vars,
+		 dims = dims, 
+		 dims_vals = dims_vals)
+}
+
+
+
 
 
 #' @method tmapGetShapeMeta1 SpatRaster

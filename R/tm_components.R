@@ -1,4 +1,4 @@
-tm_title = function(title, size, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, position, width, height, group.frame, resize.as.group) {
+tm_title = function(title, size, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, bg.color, bg.alpha, position, width, height, group.frame, resize.as.group) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
 }
@@ -47,13 +47,43 @@ tmapGridLegPlot.tm_title = function(comp, o) {
 	textS = comp$text.size * comp$scale
 	titleS = if (comp$title == "") 0 else comp$size * comp$scale
 	
+	padding = grid::unit(comp$padding[c(3,4,1,2)] * titleS * o$lin, units = "inch")
+	frame.lwd = if (identical(comp$frame, FALSE)) 0 else comp$frame.lwd
+	frame.col = if (identical(comp$frame, FALSE)) NA else if (identical(comp$frame, TRUE)) o$attr.color else comp$frame
+	frame.r = comp$frame.r
+	bg.color = comp$bg.color
+	bg.alpha = comp$bg.alpha
+
 	if (comp$position$just.h == "left") {
-		grTitle = grid::textGrob(comp$title, x = grid::unit(comp$padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS))
+		#x = grid::unit(0, "npc") 
+		x = grid::unit(comp$padding[2] * titleS * o$lin, units = "inch")
+		halign = 0
+		hjust = 1
+		just = "left"
 	} else if (comp$position$just.h == "right") {
-		grTitle = grid::textGrob(comp$title, x = grid::unit(1, "npc") - grid::unit(comp$padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS))
+		#x = grid::unit(1, "npc") 
+		x = grid::unit(1, "npc") - grid::unit(comp$padding[4] * titleS * o$lin, units = "inch")
+		halign = 1
+		hjust = 0
+		just = "right"
 	} else {
-		grTitle = grid::textGrob(comp$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS))
+		x = grid::unit(0.5, "npc")
+		halign = 0.5
+		hjust = 0.5
+		just = "center"
 	}
+	
+	# grTitle = gridtext::richtext_grob(comp$title, 
+	# 								  x = x,
+	# 								  box_gp = gpar(col = frame.col, fill = bg.color, alpha = bg.alpha, lwd = frame.lwd),
+	# 								  r = grid::unit(frame.r, "pt"),
+	# 								  halign = halign,
+	# 								  hjust = hjust, 
+	# 								  gp = grid::gpar(cex = titleS))
+	grTitle = grid::textGrob(comp$title, 
+							 x = x,
+							 just = just,
+							 gp = grid::gpar(cex = titleS))
 	
 	if (getOption("tmap.design.mode")) {
 		grDesign = grid::rectGrob(gp=gpar(fill=NA,col="red", lwd=2))
