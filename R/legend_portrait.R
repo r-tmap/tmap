@@ -273,8 +273,8 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
 		
 		if (o$use.gradient) {
 			id1 = which(!is.na(fill_list[[1]]))[1]
-			id2 = tail(which(!is.na(fill_list[[length(nlev2)]])), 1)
-			
+			id2 = tail(which(!is.na(fill_list[[nlev2]])), 1)
+
 			y1 = 1 - ((id1-1) / 10) / nlev2
 			y2 = 1 - ((id2 / 10) / nlev2 + ((nlev2-1)/nlev2))
 			h = y1 - y2
