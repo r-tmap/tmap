@@ -24,7 +24,7 @@ prepreprocess_meta = function(o) {
 		
 	})
 }
-preprocess_meta = function(o, legs) {
+preprocess_meta = function(o, cdt) {
 	within(o, {
 		nby = fn #get_nby(fl)
 		isdef = !sapply(fl, is.null)
@@ -42,25 +42,25 @@ preprocess_meta = function(o, legs) {
 		# # legend.present.fix
 		#	find legend boxes that are assigned to outer margins
 		
-		if (nrow(legs) == 0) {
+		if (nrow(cdt) == 0) {
 			legend.present.auto = c(all = FALSE, per_row = FALSE, per_col = FALSE, per_facet = FALSE)
 			legend.present.fix = rep(FALSE, 4)
 		} else {
 			if (type %in% c("wrap", "stack")) {
-				#o$legend.present.auto = c(all = any(is.na(legs$by1__) & legs$class == "autoout"), per_row = any(!is.na(legs$by1__) & legs$class == "autoout"), per_col = FALSE)
-				legend.present.auto = c(all = any(legs$class == "autoout" & is.na(legs$by1__)), 
+				#o$legend.present.auto = c(all = any(is.na(cdt$by1__) & cdt$class == "autoout"), per_row = any(!is.na(cdt$by1__) & cdt$class == "autoout"), per_col = FALSE)
+				legend.present.auto = c(all = any(cdt$class == "autoout" & is.na(cdt$by1__)), 
 										per_row = FALSE, per_col = FALSE, 
-										per_facet = any(legs$class == "autoout" & !is.na(legs$by1__)))
+										per_facet = any(cdt$class == "autoout" & !is.na(cdt$by1__)))
 			} else {
-				legend.present.auto = c(all = any(is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "autoout"), 
-										per_row = any(!is.na(legs$by1__) & is.na(legs$by2__) & legs$class == "autoout"), 
-										per_col = any(is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "autoout"),
-										per_facet = any(!is.na(legs$by1__) & !is.na(legs$by2__) & legs$class == "autoout"))
+				legend.present.auto = c(all = any(is.na(cdt$by1__) & is.na(cdt$by2__) & cdt$class == "autoout"), 
+										per_row = any(!is.na(cdt$by1__) & is.na(cdt$by2__) & cdt$class == "autoout"), 
+										per_col = any(is.na(cdt$by1__) & !is.na(cdt$by2__) & cdt$class == "autoout"),
+										per_facet = any(!is.na(cdt$by1__) & !is.na(cdt$by2__) & cdt$class == "autoout"))
 			}
-			legend.present.fix = c(any(legs$class == "out" & legs$cell.v == "bottom"), 
-								   any(legs$class == "out" & legs$cell.h == "left"),
-								   any(legs$class == "out" & legs$cell.v == "top"),
-								   any(legs$class == "out" & legs$cell.h == "right"))
+			legend.present.fix = c(any(cdt$class == "out" & cdt$cell.v == "bottom"), 
+								   any(cdt$class == "out" & cdt$cell.h == "left"),
+								   any(cdt$class == "out" & cdt$cell.v == "top"),
+								   any(cdt$class == "out" & cdt$cell.h == "right"))
 		}
 		
 		
@@ -77,7 +77,7 @@ preprocess_meta = function(o, legs) {
 	})
 }
 
-process_meta = function(o, d, legs) {
+process_meta = function(o, d, cdt) {
 	within(o, {
 		# sasp shape aspect ratio (NA if free coordinates)
 		diff_asp = any(d$asp != d$asp[1])
@@ -164,12 +164,14 @@ process_meta = function(o, d, legs) {
 		legend.position.sides = legend.position
 		legend.position.all = legend.position
 		
+	#	legsG = cdt[, leg]
+		
 		# determine orientation of stacked maps
 		# it also implies where legends will be drawn: horizontal orientation=legends bottom or top, vertical orientation=legends left or right
 		# !!! this also applies for single maps
 		if (type == "stack") {
 			if (is.na(orientation)) {
-				legs_auto = legs[class=="autoout"]
+				legs_auto = cdt[class=="autoout"]
 				
 				if (nrow(legs_auto) && n == 1) {
 					mx_width = (1 - sum(fixedMargins[c(1, 3)])) * devsize[1]
@@ -227,12 +229,12 @@ process_meta = function(o, d, legs) {
 		# tm_shape(World) + tm_polygons(fill = "HPI", lwd = "life_exp")
 		
 		
-		if (nrow(legs)) {
+		if (nrow(cdt)) {
 			meta.auto.margins = pmin(meta.auto.margins, 
-									 c(max(legs$legH[legs$cell.v == "bottom" & legs$class %in% c("autoout", "out")], 0) / o$devsize[2],
-									   max(legs$legW[legs$cell.h == "left" & legs$class %in% c("autoout", "out")], 0) / o$devsize[1],
-									   max(legs$legH[legs$cell.v == "top" & legs$class %in% c("autoout", "out")], 0) / o$devsize[2],
-									   max(legs$legW[legs$cell.h == "right" & legs$class %in% c("autoout", "out")], 0) / o$devsize[1]))
+									 c(max(cdt$legH[cdt$cell.v == "bottom" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
+									   max(cdt$legW[cdt$cell.h == "left" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1],
+									   max(cdt$legH[cdt$cell.v == "top" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
+									   max(cdt$legW[cdt$cell.h == "right" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1]))
 		}
 
 		

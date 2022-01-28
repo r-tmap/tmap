@@ -111,6 +111,7 @@ step1_rearrange = function(tmel) {
 		o = complete_options(o2, o)
 	}
 
+	o = preprocess_meta_step2(o)
 	
 	is_comp = sapply(oth, inherits, "tm_component")
 	if (any(is_comp)) {
@@ -122,7 +123,9 @@ step1_rearrange = function(tmel) {
 			ot = o[names(o)[substr(names(o), 1, nchar(type)) == type]]
 			names(ot) = substr(names(ot), nchar(type)+2, nchar(names(ot)))
 			#if (any(names(ot) == "")) names(ot)[names(ot) == ""] = type
-			a$args = complete_options(a$args, ot)
+			ca = class(a)
+			a = complete_options(a, ot)
+			class(a) = ca
 			a
 		})
 	} else {

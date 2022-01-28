@@ -1,7 +1,9 @@
-process_components = function(legs, o) {
-	legs$class = sapply(legs$legend, function(l) l$position$type)
-	legs$cell.h = sapply(legs$legend, function(l) l$position$cell.h)
-	legs$cell.v = sapply(legs$legend, function(l) l$position$cell.v)
+process_components = function(cdt, o) {
+	cdt$class = sapply(cdt$comp, function(l) l$position$type)
+	cdt$cell.h = sapply(cdt$comp, function(l) l$position$cell.h)
+	cdt$cell.v = sapply(cdt$comp, function(l) l$position$cell.v)
+	cdt$pos.h = sapply(cdt$comp, function(l) l$position$pos.h)
+	cdt$pos.v = sapply(cdt$comp, function(l) l$position$pos.v)
 	
 	gs = tmap_graphics_name()
 	
@@ -9,23 +11,23 @@ process_components = function(legs, o) {
 	funW = paste0("tmap", gs, "CompWidth")
 	funH = paste0("tmap", gs, "CompHeight")
 
-	# leg_ins = which(legs$class == "in")
+	# leg_ins = which(cdt$class == "in")
 	# if (length(leg_ins)) {
 	# 	for (i in leg_ins) {
-	# 		legs$legend[[i]]$group.just = c(legs$cell.h[i], legs$cell.v[i])
+	# 		cdt$comp[[i]]$group.just = c(cdt$cell.h[i], cdt$cell.v[i])
 	# 	}
 	# }
 
-	legs$legend = lapply(legs$legend, function(leg) do.call(funP, list(leg = leg, o = o)))
-	legs$legend = lapply(legs$legend, function(leg) do.call(funW, list(leg = leg, o = o)))
-	legs$legend = lapply(legs$legend, function(leg) do.call(funH, list(leg = leg, o = o)))
+	cdt$comp = lapply(cdt$comp, function(comp) do.call(funP, list(comp = comp, o = o)))
+	cdt$comp = lapply(cdt$comp, function(comp) do.call(funW, list(comp = comp, o = o)))
+	cdt$comp = lapply(cdt$comp, function(comp) do.call(funH, list(comp = comp, o = o)))
 
-	legs[, ':='(facet_row = character(), facet_col = character())]
-	legs$stack_auto = vapply(legs$legend, function(l) {
+	cdt[, ':='(facet_row = character(), facet_col = character())]
+	cdt$stack_auto = vapply(cdt$comp, function(l) {
 		s = l$stack
 		length(s) > 1
 	}, FUN.VALUE = logical(1))
-	legs$stack = vapply(legs$legend, function(l) {
+	cdt$stack = vapply(cdt$comp, function(l) {
 		s = l$stack
 		if (length(s) > 1 && "manual" %in% names(s)) s["manual"] else s[1]
 	}, FUN.VALUE = character(1))
@@ -34,13 +36,13 @@ process_components = function(legs, o) {
 	getLW = function(x) sapply(x, function(y) y$Win)
 	getLH = function(x) sapply(x, function(y) y$Hin) 
 	# attempt to determine margins
-	legs[, legW := getLW(legend)]
-	legs[, legH := getLH(legend)]
+	cdt[, legW := getLW(comp)]
+	cdt[, legH := getLH(comp)]
 	
-	legs
+	cdt
 }
 
-process_components2 = function(legs, o) {
+process_components2 = function(cdt, o) {
 	# when facets are wrapped:
 	
 	
@@ -50,13 +52,13 @@ process_components2 = function(legs, o) {
 		# # (o$nrows > 1 && o$ncols > 1) || 
 		# if ((o$nrows == 1 && o$legend.position.all$v == "center") || (o$ncols == 1 && o$legend.position.all$h == "center")) {
 		# 	# put all legends together (so ignoring col and row position) when 1) multiple rows and colums or 2) and 3) when facets for a row and there is still more place on the side than top/bottom (and likewise for one col)
-		# 	legs[class != "in", by1__ := NA]
-		# 	legs[class != "in", by2__ := NA]
+		# 	cdt[class != "in", by1__ := NA]
+		# 	cdt[class != "in", by2__ := NA]
 		# } else 
 		if (o$nrows == 1) {
 			# -use by2 and not by1 when they form a row
-			legs[, by2__ := by1__]
-			legs[, by1__ := NA]
+			cdt[, by2__ := by1__]
+			cdt[, by1__ := NA]
 		} 
 	}
 	
@@ -67,37 +69,37 @@ process_components2 = function(legs, o) {
 	#if (o$ncols > 1 && o$nrows > 1) {
 	if (o$type == "wrap") {
 		# all free legends inside
-		legs[!is.na(by1__) | !is.na(by2__) & class == "autoout", ':='(class = "in")]	
+		cdt[!is.na(by1__) | !is.na(by2__) & class == "autoout", ':='(class = "in")]	
 	} else if (o$type == "grid") {
 		# all free-per-facet legends inside
-		legs[!is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(class = "in")]	
+		cdt[!is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(class = "in")]	
 	}
 	
 
 	
 	# update auto position (for 'all', 'rows', 'columns' legends)
-	legs[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
-	legs[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
-	legs[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
+	cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.all$cell.h, cell.v = o$legend.position.all$cell.v)]
+	cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(cell.h = o$legend.position.sides$cell.h, cell.v = "by")]
+	cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(cell.h = "by", cell.v = o$legend.position.sides$cell.v)]
 	
-	legs[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["per_row"], ifelse(cell.v == "center", stacks["per_col"], stacks["all"])), stack))]
-	legs[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
-	legs[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
-	
-	
-	legs[class == "autoout", class := "out"]
+	cdt[is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, ifelse(cell.h == "center", stacks["per_row"], ifelse(cell.v == "center", stacks["per_col"], stacks["all"])), stack))]
+	cdt[!is.na(by1__) & is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_row"], stack))]
+	cdt[is.na(by1__) & !is.na(by2__) & class == "autoout", ':='(stack = ifelse(stack_auto, stacks["per_col"], stack))]
 	
 	
-	lai = which(legs$class == "autoin")
+	cdt[class == "autoout", class := "out"]
+	
+	
+	lai = which(cdt$class == "autoin")
 	if (length(lai)) {
-		legs$legend = lapply(legs$legend, function(l) {
+		cdt$comp = lapply(cdt$comp, function(l) {
 			l$position[c("pos.h", "pos.v")] = as.list(o$legend.autoin.pos)
 			l
 		})
-		legs[class == "autoin", class:= "in"]
+		cdt[class == "autoin", class:= "in"]
 	}
 
-	legs
+	cdt
 }
 
 step4_plot = function(tm) {
@@ -111,23 +113,28 @@ step4_plot = function(tm) {
 	
 	o = prepreprocess_meta(o)
 	
-	# get legends from layer data
-	legs = step4_plot_collect_legends(tmx)
-	
-	# if (!is.na(o$title)) {
-	# 	legs = legs[1:3]
-	# 	legs$legend[[3]] = structure(list(title = o$title, title.padding = c(.1,.1,.1,.1), title.size = o$title.size, title.fontface = o$title.fontface, title.fontfamily = o$title.fontfamily, stack = o$legend.stack, title.just = "left", position = o$legend.position), class = c("tm_title", "tm_legend", "list"))
-	# 	legs$class[[3]] = "autoout"
-	# 	legs$cell.h[3] = "right"
-	# 	legs$cell.v[3] = "bottom"
-	# }
-	# 
-	legs = process_components(legs, o)
+	# get legends from layer data and put them in "components data.table" (cdt)
+	cdt = step4_plot_collect_legends(tmx)
 	
 	
+	if (length(cmp)) {
+		cdt2 = data.table::rbindlist(lapply(cmp, function(cp) {
+			data.table(by1__ = as.integer(NA),
+					   by2__ = as.integer(NA),
+					   by3__ = as.integer(NA),
+					   comp = list(cp))	
+		}))
+		cdt = data.table::rbindlist(list(cdt, cdt2))
+	}
 	
-	# determine panel type, inner margins, and automatic legend placement
-	o = preprocess_meta(o, legs)
+		
+
+	cdt = process_components(cdt, o)
+	
+	
+	
+	# determine panel type, inner margins, and automatic comp placement
+	o = preprocess_meta(o, cdt)
 	
 	# function to get shape object
 	get_shpTM = function(shpDT, by1, by2, by3) {
@@ -182,8 +189,8 @@ step4_plot = function(tm) {
 	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 	d[, asp:=get_asp(bbox)]
 	
-	# determine automatic position of inside legend
-	if (!any(o$free.coords) && any(legs$class == "autoin")) {
+	# determine automatic position of inside comp
+	if (!any(o$free.coords) && any(cdt$class == "autoin")) {
 		shp = tmain[[1]]$shpDT$shpTM[[1]]$shp
 		# TODO take into account multiple main shapes
 		# TODO take use areas instead of coordinates for polygons
@@ -205,8 +212,8 @@ step4_plot = function(tm) {
 	}
 	
 	# calculate margins, number of rows and colums, etc.
-	o = process_meta(o, d, legs)
-	legs = process_components2(legs, o)
+	o = process_meta(o, d, cdt)
+	cdt = process_components2(cdt, o)
 	
 	o$ng = length(tmx)
 
@@ -335,21 +342,21 @@ step4_plot = function(tm) {
 
 
 	
-	vby = any(legs$cell.v == "by")
-	hby = any(legs$cell.h == "by")
+	vby = any(cdt$cell.v == "by")
+	hby = any(cdt$cell.h == "by")
 	
 	# manual outside legends -2 is top or left, -1 is bottom or right
-	legs[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+	cdt[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
 										   facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
 	
 	
 	
 	
-	is_in = legs$class == "in"
+	is_in = cdt$class == "in"
 	if (any(is_in)) {
 		legs_in = lapply(which(is_in), function(i) {
 			d2 = data.table::copy(d)
-			legsi = legs[i, ]
+			legsi = cdt[i, ]
 			if (o$type != "grid" && o$nrows == 1) {
 				# reverse above
 				d2[, by2 := by1]
@@ -363,7 +370,7 @@ step4_plot = function(tm) {
 			legsi[, ':='(facet_row = as.character(row), facet_col = as.character(col), row = NULL, col = NULL)]
 			legsi
 		})
-		legs = data.table::rbindlist(c(list(legs[!is_in]), legs_in))
+		cdt = data.table::rbindlist(c(list(cdt[!is_in]), legs_in))
 	}
 	
 
@@ -371,9 +378,9 @@ step4_plot = function(tm) {
 	
 	
 	
-	if (nrow(legs) > 0L) for (k in seq_len(o$npages)) {
-		klegs = legs[is.na(by3__) | (by3__ == k), ]
-		klegs[, do.call(legfun, args = list(legs = .SD$legend, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], legend.stack = .SD$stack[1])), by = list(facet_row, facet_col), .SDcols = c("legend", "facet_row", "facet_col", "class", "stack")]
+	if (nrow(cdt) > 0L) for (k in seq_len(o$npages)) {
+		klegs = cdt[is.na(by3__) | (by3__ == k), ]
+		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, pos.h = .SD$pos.h, pos.v = .SD$pos.v)), by = list(facet_row, facet_col), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "pos.h", "pos.v")]
 	}
 	
 	do.call(FUNrun, list(o = o))

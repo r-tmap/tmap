@@ -90,3 +90,19 @@ tm_shape(World) + tm_polygons("HPI", col = "economy")
 tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_title("Test1234") + tm_layout(legend.orientation = "landscape", legend.stack = "vertical")
 ```
 
+
+```{r}
+tm_shape(World) + tm_polygons("HPI", col = "economy", fill.legend = tm_legend(position = tm_pos_auto_out("right", "bottom")), col.legend = tm_legend(position = tm_pos_auto_out("right", "bottom", pos.v = "bottom"))) + tm_title("Test1234")
+
+tm_shape(World) + tm_polygons("HPI", col = "economy", lty = "economy", 
+							  fill.legend = tm_legend(position = tm_pos_auto_out("right", "bottom")), 
+							  lty.legend = tm_legend(position = tm_pos_auto_out("right", "bottom")), 
+							  col.legend = tm_legend(position = tm_pos_auto_out("right", "bottom", pos.v = "bottom"))) + 
+	tm_title("Test1234")
+```
+
+```{r}
+tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.position = tm_pos_auto_in())
+tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.position = tm_pos_auto_in()) + tm_title("test")
+tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.position = tm_pos_auto_in()) + tm_title("test", position = tm_pos_in("left", "bottom"))
+```

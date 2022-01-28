@@ -145,8 +145,6 @@
 		earth.datum = 4326,
 		space.color = NULL,
 		
-		
-		
 		legend.show = TRUE,
 		# legend.only = FALSE,
 		legend.design = "standard",
@@ -215,7 +213,6 @@
 		#title = NA,
 		title.size = 1.3,
 		#title.snap.to.legend = NA,
-		title.position = c("left", "top"),
 		title.color = NULL,
 		title.fontface = NULL,
 		title.fontfamily = NULL,
@@ -229,6 +226,8 @@
 		title.position = tm_pos_out("center", "top", "left", "top", "left", "top"),
 		title.width = NA,
 		title.heigth = NA,
+		title.group.frame = TRUE,
+		title.resize.as.group = FALSE,
 		panel.show = NA,
 		panel.labels = NA,
 		panel.label.size = 1,

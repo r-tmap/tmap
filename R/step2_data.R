@@ -6,7 +6,6 @@ step2_data = function(tm) {
 	aux = tm$aux
 	cmp = tm$cmp
 	
-	o = preprocess_meta_step2(o)
 	
 	groupnames = paste0("group", seq_along(tmo))
 	fl = list(1L, 1L, 1L)

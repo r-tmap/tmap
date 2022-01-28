@@ -126,6 +126,6 @@ step4_plot_collect_legends = function(tmx) {
 	legs = legs[vapply(legs$legend, length, FUN.VALUE = integer(1)) > 1, ][, vneutral := NULL]
 	
 	set(legs, j= 5:ncol(legs), value = NULL)
-	
+	data.table::setnames(legs, "legend", "comp")
 	legs
 }

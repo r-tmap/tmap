@@ -1,8 +1,6 @@
-tm_title = function(title, size, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, position, width, height) {
+tm_title = function(title, size, padding, fontface, fontfamily, stack, just, frame, frame.lwd, frame.r, position, width, height, group.frame, resize.as.group) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	tm_element_list(tm_element(
-		args = args,
-		subclass = c("tm_title", "tm_component")))
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_title", "tm_component")))))
 }
 
 
@@ -17,44 +15,44 @@ tm_title = function(title, size, padding, fontface, fontfamily, stack, just, fra
 
 #' @method tmapGridCompPrepare tm_title
 #' @export
-tmapGridCompPrepare.tm_title = function(leg, o) {
-	leg
+tmapGridCompPrepare.tm_title = function(comp, o) {
+	comp
 }
 
 
 #' @method tmapGridCompHeight tm_title
 #' @export
-tmapGridCompHeight.tm_title = function(leg, o) {
-	titleS = if (leg$title == "") 0 else leg$size
-	titleP = leg$padding[c(3,1)] * titleS * o$lin
+tmapGridCompHeight.tm_title = function(comp, o) {
+	titleS = if (comp$title == "") 0 else comp$size
+	titleP = comp$padding[c(3,1)] * titleS * o$lin
 	titleH = titleS * o$lin
-	leg$Hin = sum(titleP[1], titleH, titleP[2])
-	leg
+	comp$Hin = sum(titleP[1], titleH, titleP[2])
+	comp
 }
 
 #' @method tmapGridCompWidth tm_title
 #' @export
-tmapGridCompWidth.tm_title = function(leg, o) {
-	titleS = if (leg$title == "") 0 else leg$size
-	titleP = leg$padding[c(2,4)] * titleS * o$lin
-	titleW = titleS * strwidth(leg$title, units = "inch", family = leg$fontfamily, font = fontface2nr(leg$fontface)) * o$lin
-	leg$Win = sum(titleP[1], titleW, titleP[2])
-	leg
+tmapGridCompWidth.tm_title = function(comp, o) {
+	titleS = if (comp$title == "") 0 else comp$size
+	titleP = comp$padding[c(2,4)] * titleS * o$lin
+	titleW = titleS * strwidth(comp$title, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
+	comp$Win = sum(titleP[1], titleW, titleP[2])
+	comp
 }
 
 
 #' @method tmapGridLegPlot tm_title
 #' @export
-tmapGridLegPlot.tm_title = function(leg, o) {
-	textS = leg$text.size * leg$scale
-	titleS = if (leg$title == "") 0 else leg$size * leg$scale
+tmapGridLegPlot.tm_title = function(comp, o) {
+	textS = comp$text.size * comp$scale
+	titleS = if (comp$title == "") 0 else comp$size * comp$scale
 	
-	if (leg$just == "left") {
-		grTitle = grid::textGrob(leg$title, x = grid::unit(leg$padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS))
-	} else if (leg$just == "right") {
-		grTitle = grid::textGrob(leg$title, x = grid::unit(1, "npc") - grid::unit(leg$padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS))
+	if (comp$position$just.h == "left") {
+		grTitle = grid::textGrob(comp$title, x = grid::unit(comp$padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(cex = titleS))
+	} else if (comp$position$just.h == "right") {
+		grTitle = grid::textGrob(comp$title, x = grid::unit(1, "npc") - grid::unit(comp$padding[4] * titleS * o$lin, units = "inch"), just = "right", gp = grid::gpar(cex = titleS))
 	} else {
-		grTitle = grid::textGrob(leg$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS))
+		grTitle = grid::textGrob(comp$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS))
 	}
 	
 	if (getOption("tmap.design.mode")) {
