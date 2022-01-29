@@ -1,11 +1,11 @@
-tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, sortRev) {
+tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	
-	scale = get_scale_defaults(scale, opt, aes, layer, cls)
+	scale = get_scale_defaults(scale, o, aes, layer, cls)
 	
-	show.messages <- opt$show.messages
-	show.warnings <- opt$show.warnings
+	show.messages <- o$show.messages
+	show.warnings <- o$show.warnings
 	
 	with(scale, {
 
@@ -66,9 +66,11 @@ tmapScaleCategorical = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
 		
 		fun_getCVV = paste0("tmapValuesCVV_", aes)
-		VV = do.call(fun_getCVV, list(x = values, n = n, contrast = values.contrast, scale = values.scale, rep = values.repeat))
+		VV = do.call(fun_getCVV, list(x = values, value.na = value.na, n = n, contrast = values.contrast, scale = values.scale, rep = values.repeat, o = o))
 	
 		values = VV$vvalues
+		value.na = VV$value.na
+		
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral
 		
 		

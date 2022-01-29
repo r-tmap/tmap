@@ -1,4 +1,4 @@
-tmapScaleRGB = function(x1, x2, x3, scale, legend, opt, aes, layer, sortRev) {
+tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, sortRev) {
 	
 	cls1 = data_class(x1)
 	cls2 = data_class(x2)
@@ -10,7 +10,7 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, opt, aes, layer, sortRev) {
 	}
 	
 	#scale = get_scale_defaults(scale, opt, aes, layer, cls)
-	scale$value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", opt, aes, layer, cls = cls1) else scale$value.na
+	scale$value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", o, aes, layer, cls = cls1) else scale$value.na
 
 	isna = is.na(x1) | is.na(x2) | is.na(x3)
 	if (any(isna)) {

@@ -5,9 +5,8 @@ tmapPalId = function(name, check_rev = TRUE) {
 	}
 	
 	id = match(name, .tmap_pals$fullname)
-	if (is.na(id)) {
-		id = match(tmap_pal_name_compress(name), .tmap_pals$name)
-	}
+	if (is.na(id)) id = match(tmap_pal_name_compress(name), .tmap_pals$name)
+	if (is.na(id)) id = match(tmap_pal_name_compress(name), .tmap_pals$label)
 	#if (is.na(id)) stop("Palette \"", name, "\" could not be found")
 	id
 }

@@ -1,4 +1,4 @@
-tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, sortRev) {
+tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -13,10 +13,10 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, sortRev) {
 
 	if (aes %in% c("pattern")) stop("tm_scale_intervals cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
-	scale = get_scale_defaults(scale, opt, aes, layer, cls)
+	scale = get_scale_defaults(scale, o, aes, layer, cls)
 	
-	show.messages <- opt$show.messages
-	show.warnings <- opt$show.warnings
+	show.messages <- o$show.messages
+	show.warnings <- o$show.warnings
 	
 	with(scale, {
 		udiv = identical(use_div(breaks, midpoint), TRUE)
@@ -94,9 +94,11 @@ tmapScaleIntervals = function(x1, scale, legend, opt, aes, layer, sortRev) {
 		}
 		
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, scale = values.scale, are_breaks = TRUE, rep = values.repeat))
+		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, scale = values.scale, are_breaks = TRUE, rep = values.repeat, o = o))
 		
 		vvalues = VV$vvalues
+		value.na = VV$value.na
+		
 		if (is.na(value.neutral)) value.neutral = VV$value.neutral
 	
 	

@@ -31,9 +31,10 @@ update_fl = function(k, lev = NULL, m = NULL) {
 preprocess_meta_step2 = function(o) {
 	within(o, {
 		
-		pc = list(sepia.intensity=sepia.intensity, saturation=saturation)
+		pc = list(sepia.intensity=sepia.intensity, saturation=saturation, color.blind.sim=color.blind.sim)
 		sepia.intensity = NULL
 		saturation = NULL
+		color.blind.sim = NULL
 		
 		title.size = title.size * scale
 		legend.title.size = legend.title.size * scale

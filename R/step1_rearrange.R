@@ -1,6 +1,9 @@
 step1_rearrange = function(tmel) {
 	dev = getOption("tmap.devel.mode")
 	
+	# get options (mode specific)
+	o = tmap_options_mode()
+	
 	# find shape, (aesthetic) layer, facet, and other elements
 	is_tms = vapply(tmel, inherits, "tm_shape", FUN.VALUE = logical(1))
 	is_tml = vapply(tmel, inherits, "tm_layer", FUN.VALUE = logical(1))
@@ -55,10 +58,14 @@ step1_rearrange = function(tmel) {
 	
 	
 	is_aux = vapply(oth, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
+
 	
 	if (any(is_aux)) {
 		aux = mapply(function(l, i) {
 			l$lid = i
+			cls = class(l)[1]
+			ot = get_prefix_opt(class = cls, o = o)
+			l$args = complete_options(l$args, ot)
 			l
 		}, oth[is_aux], oth_lay_id[is_aux], SIMPLIFY = FALSE)
 	} else {
@@ -67,8 +74,6 @@ step1_rearrange = function(tmel) {
 	
 	
 	
-	# get options (mode specific)
-	o = tmap_options_mode()
 	
 	
 	tmo = step1_rearrange_facets(tmo) # save smeta's and keep track of group id (to obtain smeta)
@@ -113,15 +118,19 @@ step1_rearrange = function(tmel) {
 
 	o = preprocess_meta_step2(o)
 	
+	
+	
 	is_comp = sapply(oth, inherits, "tm_component")
 	if (any(is_comp)) {
 		cmp = oth[is_comp]
 		cmp = lapply(cmp, function(a) {
 			cls = class(a)[1]
-			type = substr(cls, 4, nchar(cls))
-
-			ot = o[names(o)[substr(names(o), 1, nchar(type)) == type]]
-			names(ot) = substr(names(ot), nchar(type)+2, nchar(names(ot)))
+			
+			ot = get_prefix_opt(class = cls, o = o)
+			
+			# type = substr(cls, 4, nchar(cls))
+			# ot = o[names(o)[substr(names(o), 1, nchar(type)) == type]]
+			# names(ot) = substr(names(ot), nchar(type)+2, nchar(names(ot)))
 			#if (any(names(ot) == "")) names(ot)[names(ot) == ""] = type
 			ca = class(a)
 			a = complete_options(a, ot)

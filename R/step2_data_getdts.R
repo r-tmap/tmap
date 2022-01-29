@@ -186,7 +186,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
 					getAesOption("value.null", o, unm, layer, cls = cls)
 				}
-				arglist = list(scale = s, legend = l, opt = o, aes = unm, layer = layer, sortRev = sortRev)
+				arglist = list(scale = s, legend = l, o = o, aes = unm, layer = layer, sortRev = sortRev)
 				#browser()
 				if (!all(dtl$sel__)) {
 					if (bypass_ord) {

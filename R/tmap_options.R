@@ -6,7 +6,7 @@
 					 			max.facets = 16, 
 					 			view.legend.position = c("right", "top"), 
 					 			control.position = c("left", "top"), 
-					 			basemaps = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
+					 			basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 					 			leaflet.options = list())),
 		
 		crs = NA,
@@ -122,6 +122,7 @@
 		attr.color = "black",
 		sepia.intensity = 0,
 		saturation = 1,
+		color.blind.sim = "none",
 		frame = TRUE,
 		frame.lwd = 1,
 		frame.r = 2,
@@ -248,8 +249,9 @@
 		attr.outside.size = NA,
 		attr.position = c("right", "bottom"),
 		attr.just = c("left", "bottom"),
-		basemaps = FALSE,
-		basemaps.alpha = 1,
+		basemap.server = "Esri.WorldGrayCanvas",
+		basemap.alpha = 1,
+		basemap.zoom = NA,
 		overlays = NULL,
 		overlays.alpha = 1,
 		qtm.scalebar = TRUE,
@@ -394,6 +396,7 @@ v3 = list(
 complete_options = function(x, o) {
 	nmx = names(x)
 	nmo = names(o)
+	if (length(x) == 0L) return(o)
 	if (is.null(nmo) || is.null(nmx)) return(x)
 	d = setdiff(nmx, nmo)
 	e = intersect(nmx, nmo)
@@ -417,9 +420,9 @@ complete_options = function(x, o) {
 #' @rdname tmap_options
 #' @export
 tmap_options = function(...) {
-	opt <- get("tmapOptions", envir = .TMAP)	
-	nms = names(opt)
-	show.warnings = opt$show.warnings
+	o <- get("tmapOptions", envir = .TMAP)	
+	nms = names(o)
+	show.warnings = o$show.warnings
 	
 	# get current style name (default: white), and set new style name (with "(modified)")
 	sty_cur = getOption("tmap.style")
@@ -447,7 +450,7 @@ tmap_options = function(...) {
 			args = sapply(lst, "[", 1)
 			if (!all(args %in% nms) && show.warnings) warning("the following options do not exist: ", paste(setdiff(args, nms), collapse = ", "))
 			args = intersect(args, nms)
-			return(opt[args])
+			return(o[args])
 		}
 	} else {
 		## case 3: named options are set
@@ -464,18 +467,18 @@ tmap_options = function(...) {
 	
 	if (!length(args)) {
 		# case 4
-		return(opt)	
+		return(o)	
 	} else {
 		# case 1 and 3
-		backup = opt[names(args)]
-		opt[names(args)] = args # check_named_items(args, backup)
+		backup = o[names(args)]
+		o[names(args)] = args # check_named_items(args, backup)
 		
 		options(tmap.style=sty_new)
-		attr(opt, "style") = sty_new
-		assign("tmapOptions", opt, envir = .TMAP)
+		attr(o, "style") = sty_new
+		assign("tmapOptions", o, envir = .TMAP)
 		
 		if (set_new_style) {
-			if (opt$show.messages) message("tmap options successfully loaded as style \"", sty_new, "\"")
+			if (o$show.messages) message("tmap options successfully loaded as style \"", sty_new, "\"")
 			styles = get("tmapStyles", envir = .TMAP)
 			styles[[sty_new]] = suppressMessages(tmap_options_diff())
 			assign("tmapStyles", styles, envir = .TMAP)
@@ -488,17 +491,17 @@ tmap_options = function(...) {
 #' @rdname tmap_options
 #' @export
 tmap_options_mode = function(mode = NA, default.options = FALSE) {
-	opt = if (default.options) .defaultTmapOptions else get("tmapOptions", envir = .TMAP)	
+	o = if (default.options) .defaultTmapOptions else get("tmapOptions", envir = .TMAP)	
 	
 	if (is.na(mode)) mode = getOption("tmap.mode")
-	opt2 = opt$modes[[mode]]
+	opt2 = o$modes[[mode]]
 	
-	int_opt = intersect(names(opt), names(opt2))
-	diff_opt = setdiff(names(opt2), names(opt))
+	int_opt = intersect(names(o), names(opt2))
+	diff_opt = setdiff(names(opt2), names(o))
 	
-	if (length(int_opt)) opt[int_opt] = opt2[int_opt]
-	if (length(diff_opt)) opt = c(opt, opt2[diff_opt])
-	opt
+	if (length(int_opt)) o[int_opt] = opt2[int_opt]
+	if (length(diff_opt)) o = c(o, opt2[diff_opt])
+	o
 }
 
 
@@ -507,21 +510,21 @@ tmap_option = function(name, type = NULL) {
 }
 
 
-get_option_class = function(opt, class = NULL, spatial_class = TRUE) {
-	is_spatial = !spatial_class || (any(names(opt) %in% c("stars", "sf", "sfc", "raster", "terra", "sp")))
-	if (!is.null(class) && is_spatial) { # && is.list(opt)
-		mtch = which(names(opt) %in% class)
-		if (!length(mtch)) mtch = which(names(opt) == "")[1]
-		opt = opt[[mtch]]
+get_option_class = function(o, class = NULL, spatial_class = TRUE) {
+	is_spatial = !spatial_class || (any(names(o) %in% c("stars", "sf", "sfc", "raster", "terra", "sp")))
+	if (!is.null(class) && is_spatial) { # && is.list(o)
+		mtch = which(names(o) %in% class)
+		if (!length(mtch)) mtch = which(names(o) == "")[1]
+		o = o[[mtch]]
 	}
-	opt
+	o
 }
 
 # 
 # 
 # tmap_options_class = function(class) {
-# 	opt = tmap_options()
-# 	opt = lapply(opt, function(o) {
+# 	o = tmap_options()
+# 	o = lapply(o, function(o) {
 # 		if (is.list(o) && any(names(o) %in% c("stars", "sf", "sfc", "raster", "terra", "sp"))) {
 # 			mtch = which(names(o) %in% class)
 # 			if (!length(mtch)) mtch = which(names(o) == "")[1]
@@ -530,7 +533,7 @@ get_option_class = function(opt, class = NULL, spatial_class = TRUE) {
 # 			o
 # 		}
 # 	})
-# 	opt
+# 	o
 # }
 
 
@@ -546,9 +549,9 @@ tmapOption = function(...) {
 	structure(list(...), class = "tmapOption")
 }
 
-# getTmapOption = function(x, opt) {
+# getTmapOption = function(x, o) {
 # 	x = unlist(x)
-# 	y = opt
+# 	y = o
 # 	for (i in 1:length(x)) {
 # 		if (x[i] %in% names(y)) {
 # 			y = y[[x[i]]]	
@@ -564,8 +567,8 @@ tmapOption = function(...) {
 # }
 
 
-getAesOption = function(x, opt, aes, layer, cls = NULL) {
-	y = opt[[x]]
+getAesOption = function(x, o, aes, layer, cls = NULL) {
+	y = o[[x]]
 	al = paste(aes, layer, sep = ".")
 	
 
@@ -687,5 +690,14 @@ tm_format <- function(format, ...) {
 	do.call(tm_options, formatArgs)
 	
 }
+
+# get options with a prefic
+get_prefix_opt = function(prefix, class, o) {
+	if (missing(prefix)) prefix = substr(class, 4, nchar(class))
+	ot = o[names(o)[substr(names(o), 1, nchar(prefix)) == prefix]]
+	names(ot) = substr(names(ot), nchar(prefix)+2, nchar(names(ot)))
+	ot
+}
+
 
 				 

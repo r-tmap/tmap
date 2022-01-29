@@ -121,7 +121,7 @@ tmapValuesContrast_area = function(x, n, isdiv) {
 	tmapValuesContrast_size(x, n, isdiv)
 }
 
-tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast, scale, rep) {
+tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, contrast, scale, rep, o) {
 	palid = tmapPalId(x[1])
 	
 	# dvalues = seq(-2, 4, length.out = 101)
@@ -207,8 +207,10 @@ tmapValuesVV_fill = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 	} else {
 		value.neutral = vvalues[n/2]
 	}
-	
-	list(vvalues = vvalues, value.neutral = value.neutral)
+	vvalues = do.call(process_color, c(list(col = vvalues), o$pc))
+	value.neutral = do.call(process_color, c(list(col = value.neutral), o$pc))
+	value.na = do.call(process_color, c(list(col = value.na), o$pc))
+	list(vvalues = vvalues, value.neutral = value.neutral, value.na = value.na)
 	
 }
 
@@ -217,16 +219,16 @@ tmapValuesVV_col = function(...) {
 	#do.call(tmapValuesVV_fill, args = list(...))
 }
 
-tmapValuesVV_shape = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast, scale, rep) {
+tmapValuesVV_shape = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, contrast, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1])
 }
 
-tmapValuesVV_lty = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast, scale, rep) {
+tmapValuesVV_lty = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, contrast, scale, rep, o) {
 	list(vvalues = rep(x, length.out = n), value.neutral = x[1])
 }
 
 
-tmapValuesVV_size = function(x, isdiv, n, dvalues, are_breaks, midpoint, contrast, scale, rep) {
+tmapValuesVV_size = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, contrast, scale, rep, o) {
 	#break_mids = breaks[-(n+1)] + (breaks[-1] - breaks[-(n+1)]) / 2
 	
 	
@@ -268,7 +270,7 @@ tmapValuesVV_size = function(x, isdiv, n, dvalues, are_breaks, midpoint, contras
 	value.neutral = vvalues[round((n+1)/2)]
 	
 	
-	list(vvalues = vvalues * scale, value.neutral = value.neutral * scale)
+	list(vvalues = vvalues * scale, value.neutral = value.neutral * scale, value.na = value.na * scale)
 }
 
 tmapValuesVV_lwd = function(...) {
@@ -312,7 +314,7 @@ tmapSeq = function(s, n, rescale = TRUE) {
 
 
 
-tmapValuesCVV_fill = function(x, n, contrast, scale, rep) {
+tmapValuesCVV_fill = function(x, value.na, n, contrast, scale, rep, o) {
 	
 	
 	# process values
@@ -329,7 +331,12 @@ tmapValuesCVV_fill = function(x, n, contrast, scale, rep) {
 		rep(x, length.out=n)
 	}
 	
-	list(vvalues = values, value.neutral = values[1])
+	values = do.call(process_color, c(list(col = values), o$pc))
+	value.neutral = do.call(process_color, c(list(col = values[1]), o$pc))
+	value.na = do.call(process_color, c(list(col = value.na), o$pc))
+	
+	
+	list(vvalues = values, value.neutral = value.neutral, value.na = value.na)
 	
 	# } else if (arenumbers) {
 	# 	values = if (length(scale$values) == 2) seq(scale$values[1], scale$values[2], length.out = n) else rep(scale$values, length.out = n)
@@ -339,35 +346,35 @@ tmapValuesCVV_fill = function(x, n, contrast, scale, rep) {
 	
 }
 
-tmapValuesCVV_col = function(x, n, contrast, scale, rep) {
-	tmapValuesCVV_fill(x, n, contrast, scale, rep)
+tmapValuesCVV_col = function(x, value.na, n, contrast, scale, rep, o) {
+	tmapValuesCVV_fill(x, value.na, n, contrast, scale, rep, o)
 }
 
-tmapValuesCVV_size = function(x, n, contrast, scale, rep) {
-	tmapValuesVV_size(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
+tmapValuesCVV_size = function(x, value.na, n, contrast, scale, rep, o) {
+	tmapValuesVV_size(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
 }
 
-tmapValuesCVV_lwd = function(x, n, contrast, scale, rep) {
-	tmapValuesVV_lwd(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
+tmapValuesCVV_lwd = function(x, value.na, n, contrast, scale, rep, o) {
+	tmapValuesVV_lwd(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
 }
 
-tmapValuesCVV_col_alpha = function(x, n, contrast, scale, rep) {
-	tmapValuesVV_col_alpha(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
+tmapValuesCVV_col_alpha = function(x, value.na, n, contrast, scale, rep, o) {
+	tmapValuesVV_col_alpha(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
 }
 
-tmapValuesCVV_fill_alpha = function(x, n, contrast, scale, rep) {
-	tmapValuesVV_fill_alpha(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
+tmapValuesCVV_fill_alpha = function(x, value.na, n, contrast, scale, rep, o) {
+	tmapValuesVV_fill_alpha(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
 }
 
-tmapValuesCVV_area = function(x, n, contrast, scale, rep) {
+tmapValuesCVV_area = function(x, n, contrast, scale, rep, o) {
 	tmapValuesVV_area(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
 }
 
 
-tmapValuesCVV_shape = function(x, n, contrast, scale, rep) {
+tmapValuesCVV_shape = function(x, n, contrast, scale, rep, o) {
 	tmapValuesVV_shape(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
 }
 
-tmapValuesCVV_lty = function(x, n, contrast, scale, rep) {
+tmapValuesCVV_lty = function(x, n, contrast, scale, rep, o) {
 	tmapValuesVV_lty(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, contrast = contrast, scale = scale, rep = rep)
 }

@@ -31,12 +31,16 @@ tmapGridBasemapPrep = function(a, bs, o) {
 	})
 	
 	
-	zs = vapply(bs, findZoom, FUN.VALUE = integer(1))
+	if (is.na(a$zoom)) {
+		zs = vapply(bs, findZoom, FUN.VALUE = integer(1))
+	} else {
+		zs = rep(a$zoom, length(bs))
+	}
 
 	xs = mapply(function(b, z) {
 
 		tryCatch({
-			maptiles::get_tiles(x = b, provider = a$server, zoom = z, crop = FALSE)	
+			maptiles::get_tiles(x = b, provider = a$server, zoom = z, crop = FALSE, )	
 		}, error = function(e) {
 			tryCatch({
 				maptiles::get_tiles(x = b, provider = a$server, zoom = z - 1, crop = FALSE)	
@@ -61,7 +65,7 @@ tmapGridBasemapPrep = function(a, bs, o) {
 	
 	
 	ss = lapply(xs, function(x) {
-		if (is.null(x)) NULL else do.call(tmapShape, list(shp = x, is.main = FALSE, crs = crs, bbox = NULL, unit=NULL, filter=NULL, shp_name = "x", o = o))
+		if (is.null(x)) NULL else do.call(tmapShape, list(shp = x, is.main = FALSE, crs = crs, bbox = NULL, unit=NULL, filter=NULL, shp_name = "x", smeta = list(), o = o))
 	})
 	
 	srgb = tm_scale_rgb(maxValue = 255, value.na = "#FFFFFF")
@@ -70,12 +74,10 @@ tmapGridBasemapPrep = function(a, bs, o) {
 	ds = lapply(ss, function(s) {
 		if (is.null(s)) return(NULL)
 		d = s$dt
-		d[, c("col", "ord", "legnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), opt = o, aes = "col", layer = "raster", sortRev = NA))]
+		d[, c("col", "ord", "legnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), o = o, aes = "col", layer = "raster", sortRev = NA))]
 		d[, col_alpha:=1L]
 		d
 	})
-	#d[, c("col", "legnr") := do.call(srgb$FUN, c(unname(.SD), list(scale = srgb, legend = list(), opt = o, aes = "fill", layer = "raster", sortRev = NA))), .SDcols = c("red", "green", "blue")]
-	
 
 	shpTMs = lapply(ss, function(s) {
 		if (is.null(s)) NULL else s$shpTM	

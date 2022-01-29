@@ -1,12 +1,12 @@
-get_scale_defaults = function(scale, opt, aes, layer, cls) {
+get_scale_defaults = function(scale, o, aes, layer, cls) {
 	within(scale, {
-		values = if (is.na(values[1])) getAesOption("values.var", opt, aes, layer, cls = cls) else values
-		value.na = if (is.na(value.na) || identical(value.na, TRUE)) getAesOption("value.na", opt, aes, layer, cls = cls) else value.na
-		value.null = if (is.na(value.null)) getAesOption("value.null", opt, aes, layer, cls = cls) else value.null
-		value.neutral = if (is.na(value.neutral)) getAesOption("value.neutral", opt, aes, layer, cls = cls) else value.neutral
-		values.contrast = if (is.na(values.contrast[1])) getAesOption("values.contrast", opt, aes, layer, cls = cls) else values.contrast
+		values = if (is.na(values[1])) getAesOption("values.var", o, aes, layer, cls = cls) else values
+		value.na = if (is.na(value.na) || identical(value.na, TRUE)) getAesOption("value.na", o, aes, layer, cls = cls) else value.na
+		value.null = if (is.na(value.null)) getAesOption("value.null", o, aes, layer, cls = cls) else value.null
+		value.neutral = if (is.na(value.neutral)) getAesOption("value.neutral", o, aes, layer, cls = cls) else value.neutral
+		values.contrast = if (is.na(values.contrast[1])) getAesOption("values.contrast", o, aes, layer, cls = cls) else values.contrast
 		
-		value.blank = getAesOption("value.blank", opt, aes, layer, cls = cls)
+		value.blank = getAesOption("value.blank", o, aes, layer, cls = cls)
 		if (is.na(value.na) || value.na == value.blank) label.na = ""
 		
 		# label.na TRUE: always show NA's, but use option
@@ -15,7 +15,7 @@ get_scale_defaults = function(scale, opt, aes, layer, cls) {
 		# label.na "qwerty" always snow NA's
 		na.show = !identical(label.na, FALSE) && (identical(label.na, TRUE) || (!is.na(label.na) && label.na != ""))
 		if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
-		if (is.logical(label.na)) label.na = getAesOption("label.na", opt, aes, layer, cls = cls)
+		if (is.logical(label.na)) label.na = getAesOption("label.na", o, aes, layer, cls = cls)
 	})
 }
 

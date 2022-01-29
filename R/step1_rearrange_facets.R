@@ -36,7 +36,7 @@ add_used_vars = function(v) {
 
 # ## estimate number of facets
 step1_rearrange_facets = function(tmo) {
-	opt = tmap_options_mode()
+	o = tmap_options_mode()
 	
 	
 	# get the final tm_faets object (ignoring group specific args: is.wrap, by, rows, columns, pages)
@@ -50,7 +50,7 @@ step1_rearrange_facets = function(tmo) {
 	tmo = lapply(tmo, function(tmg) {
 		
 		shp = tmg$tms$shp
-		smeta = tmapGetShapeMeta1(shp, c(opt, tmg$tmf))
+		smeta = tmapGetShapeMeta1(shp, c(o, tmg$tmf))
 
 		so(smeta)
 
@@ -62,7 +62,7 @@ step1_rearrange_facets = function(tmo) {
 		precheck_aes = function(a, layer, shpvars) {
 			within(a, {
 				if (inherits(value, "tmapOption")) {
-					value_orig = getAesOption(value[[1]], opt, aes = aes, layer = layer)
+					value_orig = getAesOption(value[[1]], o, aes = aes, layer = layer)
 					if (!is.list(value_orig)) value = list(value_orig)
 					names(value) = sapply(value, "[", 1)
 				} else if (inherits(value, "tmapShpVars")) {
@@ -210,7 +210,7 @@ step1_rearrange_facets = function(tmo) {
 		
 		shp = tmapSubsetShp(shp, smeta$vars)
 		
-		smeta = tmapGetShapeMeta2(shp, smeta, c(opt, tmg$tmf))
+		smeta = tmapGetShapeMeta2(shp, smeta, c(o, tmg$tmf))
 		
 		
 		
