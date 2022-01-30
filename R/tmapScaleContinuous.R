@@ -1,5 +1,3 @@
-log10p =
-
 tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 	style = if (inherits(scale, "tm_scale_continuous")) {
 		"cont"

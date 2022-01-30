@@ -1,4 +1,4 @@
-process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1, color.blind.sim="none") {
+process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1, deficiency.sim="none") {
 	#if (length(col)>100) browser()
 	
 	isFactor <- is.factor(col)
@@ -34,7 +34,7 @@ process_color <- function(col, alpha=NA, sepia.intensity=0, saturation=1, color.
 	new_cols <- do.call("rgb", c(unname(as.data.frame(res)), list(maxColorValue=255)))
 	
 	# color blind sim
-	sim_colors = switch(color.blind.sim, 
+	sim_colors = switch(deficiency.sim, 
 		deutan = colorspace::deutan,
 		protan = colorspace::protan,
 		tritan = colorspace::tritan,

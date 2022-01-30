@@ -117,9 +117,15 @@ tmapGetPalette = function(name, n) {
 tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 							  series = c("palette", "hcl", "brewer", "viridis", "kovesi", "ocean", "carto", "bivariate", "misc"),
 							  n = 9,
-							  color_vision_deficiency = c("none", "deutan", "protan", "tritan")) {
+							  color_vision_deficiency = c("none", "deutan", "protan", "tritan"),
+							  full_names = NULL) {
 	pals = .tmap_pals[.tmap_pals$type %in% type & .tmap_pals$series %in% series, ]
 	
+	
+	if (!missing(full_names)) {
+		mid = na.omit(match(full_names, pals$fullname))
+		if (length(mid)) pals = pals[mid, ]
+	}
 	
 	color_vision_deficiency = match.arg(color_vision_deficiency)
 	
