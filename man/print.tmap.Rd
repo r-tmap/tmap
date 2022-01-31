@@ -4,12 +4,12 @@
 \alias{print.tmap}
 \title{Draw thematic map}
 \usage{
-\method{print}{tmap}(x, ...)
+\method{print}{tmap}(x, vp = NULL, ...)
 }
 \arguments{
 \item{x}{tmap object.}
 
-\item{...}{not used}
+\item{vp}{viewport (for \code{"plot"} mode)}
 }
 \description{
 Draw thematic map.

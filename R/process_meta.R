@@ -1,7 +1,16 @@
-prepreprocess_meta = function(o) {
+prepreprocess_meta = function(o, vp) {
+	
 	within(o, {
+		vp = vp
+		if (is.null(vp)) {
+			devsize = dev.size()
+		} else {
+			if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
+			devsize = c(grid::convertWidth(grid::unit(1, "npc"), unitTo = "inch", valueOnly = TRUE),
+						grid::convertHeight(grid::unit(1, "npc"), unitTo = "inch", valueOnly = TRUE))
+		}
+		
 		# dasp device aspect ratio
-		devsize = dev.size()
 		dasp = devsize[1] / devsize[2]
 		
 		# needed for spnc viewport (to retain aspect ratio)
@@ -169,16 +178,21 @@ process_meta = function(o, d, cdt) {
 		# determine orientation of stacked maps
 		# it also implies where legends will be drawn: horizontal orientation=legends bottom or top, vertical orientation=legends left or right
 		# !!! this also applies for single maps
+		mx_width = (1 - sum(fixedMargins[c(1, 3)])) * devsize[1]
+		mx_height = (1 - sum(fixedMargins[c(2, 4)])) * devsize[2]
+		
+		# cdt[, scale := pmax(legW/mx_width, legH/mx_height, 1)]
+		# cdt[, ":="(legW_sc = legW/scale, legH_sc = legH/scale)]
+		
 		if (type == "stack") {
 			if (is.na(orientation)) {
 				legs_auto = cdt[class=="autoout"]
 				
 				if (nrow(legs_auto) && n == 1) {
-					mx_width = (1 - sum(fixedMargins[c(1, 3)])) * devsize[1]
-					mx_height = (1 - sum(fixedMargins[c(2, 4)])) * devsize[2]
 					
 					legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto.margins[c(2,4)])) 
 					legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto.margins[c(1,3)]))
+					
 
 					av_width = mx_width - legWmax * devsize[1]
 					av_height = mx_height - legHmax * devsize[2]
@@ -235,7 +249,9 @@ process_meta = function(o, d, cdt) {
 									   max(cdt$legW[cdt$cell.h == "left" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1],
 									   max(cdt$legH[cdt$cell.v == "top" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
 									   max(cdt$legW[cdt$cell.h == "right" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1]))
+			#meta.auto.margins = c(0.13,0,0,0)
 		}
+
 
 		
 		if (meta.automatic && any(margins.used)) {
@@ -249,9 +265,10 @@ process_meta = function(o, d, cdt) {
 					tmp[c(2,4)] + (xtra / 2)
 				})
 			} else if (all(!margins.used[c(2,4)]) && n == 1) {
-				# auto adjust top/right
+				# auto adjust top/bottom
 				meta.margins[c(1,3)] =  local({
 					xtra = max(0, (1 - masp/pasp - 2*bufferH) - sum(meta.auto.margins[margins.used]))
+					# divide extra vertical space between used margins
 					tmp = rep(0, 4)
 					tmp[margins.used] = meta.auto.margins[margins.used]
 					tmp[c(1,3)] + (xtra / 2)

@@ -158,7 +158,7 @@ get_fact_levels_na = function(x, o) {
 		}
 	} else {
 		u = unique(as.vector(x))
-		if (length(u) > o$max.facets) {
+		if (length(u) > o$facet.max) {
 			levs = NULL
 		} else {
 			levs = as.character(sort(u))

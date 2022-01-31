@@ -3,10 +3,10 @@
 #' Draw thematic map.
 #' 
 #' @param x tmap object. 
-#' @param ... not used
+#' @param vp viewport (for \code{"plot"} mode)
 #' @export
 #' @method print tmap
-print.tmap = function(x, ...) {
+print.tmap = function(x, vp = NULL, ...) {
 	dev = getOption("tmap.devel.mode")
 	if (dev) timing_init()
 	x2 = step1_rearrange(x)
@@ -15,7 +15,7 @@ print.tmap = function(x, ...) {
 	if (dev) timing_add("step 2")
 	x4 = step3_trans(x3)
 	if (dev) timing_add("step 3")
-	step4_plot(x4)
+	step4_plot(x4, vp = vp)
 	if (dev) timing_add("step 4")
 	if (dev) timing_eval()
 }

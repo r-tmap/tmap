@@ -102,7 +102,7 @@ process_components2 = function(cdt, o) {
 	cdt
 }
 
-step4_plot = function(tm) {
+step4_plot = function(tm, vp) {
 	tmx = tm$tmo
 	o = tm$o
 	aux = tm$aux
@@ -111,7 +111,7 @@ step4_plot = function(tm) {
 	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
 	
-	o = prepreprocess_meta(o)
+	o = prepreprocess_meta(o, vp)
 	
 	# get legends from layer data and put them in "components data.table" (cdt)
 	cdt = step4_plot_collect_legends(tmx)
@@ -217,6 +217,7 @@ step4_plot = function(tm) {
 	
 	o$ng = length(tmx)
 
+	
 	# determine row and col ids	
 	if (o$panel.type == "xtab") {
 		d[, row := as.integer((i - 1) %% o$nrows + 1)]

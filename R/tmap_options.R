@@ -1,44 +1,35 @@
 .defaultTmapOptions <- structure(
 	list(
+		# mode specific options or default values
 		modes = list(plot = list(name = "Grid", use.gradient = T),
 					 view = list(name = "Leaflet", 
 					 			crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), 
-					 			max.facets = 16, 
+					 			facet.max = 16, 
 					 			view.legend.position = c("right", "top"), 
 					 			control.position = c("left", "top"), 
 					 			basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 					 			leaflet.options = list())),
 		
 		crs = NA,
-		max.facets = 64,
+		
+		# facets
+		facet.max = 64, # was max.facets
 		facet.flip = FALSE,
-		grid.mark.height = 2,
-		xylab.height = 1.25,
-		coords.height = 1.25,
-		xlab.show = FALSE,
-		ylab.show = FALSE,
-		xlab.pos = "bottom",
-		ylab.pos = "right",
-		grid.show = FALSE,
-		grid.label.pos = c("right", "bottom"),
-		panel.type = NA, # "wrap" or "xtab",
-		panel.wrap.pos = "top", # or "left", "right", "bottom"
-		panel.xtab.pos = c("left", "top"),
 		
-		unit = "metric",
+		# spatial object class specific options
+		raster.max.cells = 1e6, # was max.raster
 		
-		max.categories = 30,
-		max.raster = 1e6,
+		# general
 		show.messages = TRUE,
 		show.warnings = TRUE,
+		
+		# output
 		output.format = "png",
 		output.size = 49,
 		output.dpi = 300,
 		output.dpi.animation = 100,
-		check.and.fix = FALSE,
-		scale = 1,
-		bg.color = NA,
-
+		
+		# default visual variable values
 		value.const = list(fill.polygons = "grey85",
 						 fill.symbols = "grey60",
 						 col.polygons = "grey40",
@@ -81,16 +72,6 @@
 			fill_alpha = 0,
 			col_alpha = 0
 		),
-		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
-						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
-						  lwd = list(fact = "categorical", num = "continuous", int = "discrete"),
-						  lty = list(fact = "categorical", num = "categorical"),
-						  shape = list(fact = "categorical", num = "categorical"),
-						  size = list(fact = "categorical", num = "continuous"),
-						  fill_alpha = list(fact = "categorical", num = "intervals"),
-						  col_alpha = list(fact = "categorical", num = "intervals"),
-						  area = list(fact = "categorical", num = "continuous")),
-						  
 		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  size = tmap_seq(0, 1, power = "sqrt"),
@@ -105,6 +86,19 @@
 							 lwd = 2,
 							 fill_alpha = 1,
 							 col_alpha = 1),
+		
+		# scales
+		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),
+						  col = list(fact = "categorical", num = "intervals", int = "discrete"),
+						  lwd = list(fact = "categorical", num = "continuous", int = "discrete"),
+						  lty = list(fact = "categorical", num = "categorical"),
+						  shape = list(fact = "categorical", num = "categorical"),
+						  size = list(fact = "categorical", num = "continuous"),
+						  fill_alpha = list(fact = "categorical", num = "intervals"),
+						  col_alpha = list(fact = "categorical", num = "intervals"),
+						  area = list(fact = "categorical", num = "continuous")),
+		
+		# labels			  
 		label.format = list(
 			fun = NULL,
 			scientific = FALSE,
@@ -119,15 +113,26 @@
 			text.to.columns = FALSE
 		),
 		label.na = "Missing",
-		attr.color = "black",
-		color.sepia.intensity = 0,
-		color.saturation = 1,
-		color.deficiency.sim = "none",
+
+		
+		###############################3
+		# tm_layout options
+		###############################3
+		scale = 1,
+		asp = NA,
+		
+		# background
+		bg.color = NA,		
+		outer.bg.color = NA,
+		
+		# frame
 		frame = TRUE,
 		frame.lwd = 1,
 		frame.r = 2,
 		frame.double.line = FALSE,
-		asp = NA,
+		
+			
+		# margins	
 		outer.margins = rep(0.02, 4),
 		inner.margins = list(stars = rep(0, 4), SpatRaster = rep(0, 4), rep(0.02, 4)),
 		inner.margins.extra = c(0, 0, 0, 0),
@@ -136,18 +141,37 @@
 		between.margin = 0.5,
 		component.offset = c(inside = 0.25, outside = 0),
 		component.stack.margin = 0,
-		outer.bg.color = NA,
+		grid.mark.height = 2,
+		xylab.height = 1.25,
+		coords.height = 1.25,
+
+		# xlab, ylab, grid
+		xlab.show = FALSE,
+		ylab.show = FALSE,
+		xlab.pos = "bottom",
+		ylab.pos = "right",
+		grid.show = FALSE,
+		grid.label.pos = c("right", "bottom"),
+				
+		# panel
+		panel.type = NA, # "wrap" or "xtab",
+		panel.wrap.pos = "top", # or "left", "right", "bottom"
+		panel.xtab.pos = c("left", "top"),
+		
+		# data
+		unit = "metric",
+		
+		# colors
+		color.sepia.intensity = 0,
+		color.saturation = 1,
+		color.vision.deficiency.sim = "none",
+		
+		# text
 		fontface = "plain",
 		fontfamily = "",
-		compass.type = "arrow",
-		earth.boundary = FALSE,
-		earth.boundary.color = NULL,
-		earth.boundary.lwd = 1,
-		earth.datum = 4326,
-		space.color = NULL,
 		
+		# legend		
 		legend.show = TRUE,
-		# legend.only = FALSE,
 		legend.design = "standard",
 		legend.orientation = "portrait",
 		legend.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom", pos.h = "left", pos.v = "top", just.h = "left", just.v = "top"),
@@ -155,11 +179,8 @@
 		legend.height = NA,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
 		legend.group.frame = TRUE,
-		#legend.group.just = c("left", "top"),
-		#legend.block.just = c("left", "bottom"),
 		legend.resize.as.group = FALSE,
 		legend.reverse = FALSE,
-		#legend.just = c("left", "bottom"),
 		legend.title.color = NULL,
 		legend.title.size = 1.1,
 		legend.title.fontface = NULL,
@@ -203,17 +224,9 @@
 										 margins = c(0.4, 0.4, 0.4, 0.4),
 										 margin.item.text = 0.25),
 		
-		# legend.hist.bg.color = NA,
-		# legend.hist.bg.alpha = 1,
-		# legend.hist.size = 0.7,
-		# legend.hist.height = 0.3,
-		# legend.hist.width = 0.4,
-	
-		
-		
-		#title = NA,
+		# components
+		compass.type = "arrow",
 		title.size = 1.3,
-		#title.snap.to.legend = NA,
 		title.color = NULL,
 		title.fontface = NULL,
 		title.fontfamily = NULL,
@@ -229,6 +242,7 @@
 		title.heigth = NA,
 		title.group.frame = TRUE,
 		title.resize.as.group = FALSE,
+		
 		panel.show = NA,
 		panel.labels = NA,
 		panel.label.size = 1,
@@ -238,7 +252,27 @@
 		panel.label.bg.color = "grey80",
 		panel.label.height = 1.25,
 		panel.label.rot = c(90, 0),
-		#main.title = NA,
+
+		# not implemented yet
+		qtm.scalebar = TRUE,
+		qtm.minimap = FALSE,
+		qtm.mouse.coordinates = TRUE,
+
+		# not used/implemented in tmap4 (yet?)
+		title = NA,
+		earth.boundary = FALSE,
+		earth.boundary.color = NULL,
+		earth.boundary.lwd = 1,
+		earth.datum = 4326,
+		space.color = NULL,
+		attr.color = "black",
+		max.categories = 30,
+		legend.hist.bg.color = NA,
+		legend.hist.bg.alpha = 1,
+		legend.hist.size = 0.7,
+		legend.hist.height = 0.3,
+		legend.hist.width = 0.4,
+		title.snap.to.legend = NA,
 		main.title.size = 1.5,
 		main.title.color = "black",
 		main.title.fontface = NULL,
@@ -254,16 +288,13 @@
 		basemap.zoom = NA,
 		overlays = NULL,
 		overlays.alpha = 1,
-		qtm.scalebar = TRUE,
-		qtm.minimap = FALSE,
-		qtm.mouse.coordinates = TRUE,
 		alpha = NA,
 		colorNA = NA,
-		#projection = 3857,
 		symbol.size.fixed = FALSE,
 		dot.size.fixed = TRUE,
 		text.size.variable = FALSE,
 		bbox = NULL,
+		check.and.fix = FALSE,
 		set.bounds = FALSE,
 		set.view = NA,
 		set.zoom.limits = NA
@@ -416,6 +447,32 @@ complete_options = function(x, o) {
 #' 
 #' tmap options
 #' 
+#' @param ... See details
+#' @details
+#' | option        | description |
+#' | ------------- |:-------------:|
+#' | modes		|  Mode specific options. It is a named list where names correspond to the available modes. Each item is a list of options. |
+#' | crs		|  Map crs (see \code{\link{tm_shape}}). \code{NA} means the crs is specified in \code{\link{tm_shape}} |
+#' | facet.max		| Maximum number of facets |
+#' | facet.flip		| Should facets be flipped (in case of facet wrap)? This can also be set via \code{\link{tm_facets_flip}} |
+#' | raster.max.cells		| Maximum number of raster grid cells  |
+#' | show.messages		| Show messages? |
+#' | show.warnings		| Show warnings? |
+#' | output.format		| Output format |
+#' | output.size		| Output size |
+#' | output.dpi		| Output dpi |
+#' | output.dpi.animation		| Output dpi for animations |
+#' | value.const		| Default visual value constants e.g. the default fill color for \code{tm_shape(World) + tm_polygons()}. A list is required with per visual variable a value. |
+#' | value.na		| Default visual values that are used to visualize NA data values. A list is required with per visual variable a value.|
+#' | value.null		| Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.|
+#' | value.blank		| Default visual values that correspond to blank. For color these are \code{"#00000000"} meaning transparent. A list is required with per visual variable a value. |
+#' | values.var		| Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. |
+#' | values.contrast		| Default contrast for values. See \code{values.contrast} of \code{\link{tm_scale_categorical}}. A list is required with per visual variable a value.
+#' | value.neutral		| Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. | |
+#' | scales.var		| Default scales. |
+#' | label.format		| Format for the labels (was legend.format in tmap v3) |
+#' | label.na		| Default label for missing values |
+#' See \code{\link{tm_layout}} for layout specific options
 #' @name tmap_options 
 #' @rdname tmap_options
 #' @export

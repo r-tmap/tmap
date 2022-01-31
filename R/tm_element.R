@@ -22,12 +22,10 @@ tm_element_list_sel = function(tml, subclass) {
 
 #' Stacking of tmap elements
 #' 
-#' The plus operator allows you to stack \code{\link{tmap-element}s}, and groups of \code{\link{tmap-element}s}.
+#' The plus operator allows you to stack tmap elements (functions with a prefix \code{tm_})
 #' 
-#' @param e1 first \code{\link{tmap-element}}
-#' @param e2 second \code{\link{tmap-element}}
-#' @seealso \code{\link{tmap-element}} and \href{../doc/tmap-getstarted.html}{\code{vignette("tmap-getstarted")}}
-#' @references Tennekes, M., 2018, {tmap}: Thematic Maps in {R}, Journal of Statistical Software, 84(6), 1-39, \href{https://doi.org/10.18637/jss.v084.i06}{DOI}
+#' @param e1 first tmap element
+#' @param e2 second tmap element
 #' @export
 "+.tmap" = function(e1, e2) {
 	structure(c(e1, e2), class = "tmap")

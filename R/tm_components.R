@@ -91,7 +91,7 @@ tmapGridLegPlot.tm_title = function(comp, o) {
 		grDesign = NULL
 	}
 	
-	g = do.call(grid::grobTree, c(list(grTitle), grDesign)) #, list(vp = vp)
+	g = do.call(grid::grobTree, c(list(grTitle), list(grDesign))) #, list(vp = vp)
 	
 	g
 	

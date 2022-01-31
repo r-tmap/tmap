@@ -44,7 +44,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	
 	
 	
-	shp = downsample_SpatRaster(shp, max.raster = o$max.raster / (o$fn[1] * o$fn[2]))
+	shp = downsample_SpatRaster(shp, max.raster = o$raster.max.cells / (o$fn[1] * o$fn[2]))
 	
 	dt = data.table::setDT(terra::as.data.frame(shp, na.rm=FALSE))
 	dt[, tmapID__:=1L:nrow(dt)]
@@ -158,7 +158,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 		
 		shpclass = "sfc"
 	} else {
-		shp = downsample_stars(shp, max.raster = o$max.raster / (o$fn[1] * o$fn[2]))
+		shp = downsample_stars(shp, max.raster = o$raster.max.cells / (o$fn[1] * o$fn[2]))
 		if (!is.null(crs) && sf::st_crs(shp) != crs) {
 			shp = transwarp(shp, crs, raster.warp = TRUE)
 		}
