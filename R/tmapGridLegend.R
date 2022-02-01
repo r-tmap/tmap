@@ -14,7 +14,7 @@ legapply = function(cdt, fun, ...) {
 
 
 
-tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn, marginIn) {
+tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn) {
 	
 	n = length(comp)
 	# if (stack == "vertical") {
@@ -83,9 +83,9 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	nullsV = switch(group.just[2], top = c(0, 1), center = c(0.5, 0.5), bottom = c(1, 0)) 
 	
 	
-	Ws = as.vector(rbind(legW, rep(grid::unit(marginIn, "inch"), n)))
-	Ws[length(Ws)] = grid::unit(offsetIn, "inch")
-	Ws = c(grid::unit(offsetIn, "inch"), Ws)
+	#Ws = as.vector(rbind(legW, rep(grid::unit(marginIn, "inch"), n)))
+	#Ws[length(Ws)] = grid::unit(offsetIn, "inch")
+	#Ws = c(grid::unit(offsetIn, "inch"), Ws)
 	
 	
 	if (stack == "vertical") {
@@ -93,10 +93,10 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 		H = sum(legH)
 		
 		Hs = unit_add_between(legH, grid::unit(marginIn, "inch"))
-		Hs = unit_add_sides(Hs, grid::unit(offsetIn, "inch"))
+		Hs = unit_add_sides(Hs, grid::unit(offsetIn.v, "inch"))
 		Hs = unit_add_sides(Hs, grid::unit(nullsV, "null"))
 		
-		Ws = unit_add_sides(W, grid::unit(offsetIn, "inch"))
+		Ws = unit_add_sides(W, grid::unit(offsetIn.h, "inch"))
 		Ws = unit_add_sides(Ws, grid::unit(nullsH, "null"))
 		
 	} else {
@@ -104,10 +104,10 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 		H = max(legH)
 		
 		Ws = unit_add_between(legW, grid::unit(marginIn, "inch"))
-		Ws = unit_add_sides(Ws, grid::unit(offsetIn, "inch"))
+		Ws = unit_add_sides(Ws, grid::unit(offsetIn.v, "inch"))
 		Ws = unit_add_sides(Ws, grid::unit(nullsH, "null"))
 		
-		Hs = unit_add_sides(H, grid::unit(offsetIn, "inch"))
+		Hs = unit_add_sides(H, grid::unit(offsetIn.h, "inch"))
 		Hs = unit_add_sides(Hs, grid::unit(nullsV, "null"))
 	}
 	
@@ -191,16 +191,30 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	rowsIn = g$rowsIn[rows]
 	colsIn = g$colsIn[cols]
 	
-	component.offset = get_option_class(o$component.offset, class = paste0(class, "side"), spatial_class = FALSE)
+
 	
-	offsetIn = component.offset * o$lin
+	if (pos.h %in% c("LEFT", "RIGHT")) {
+		pos.h = tolower(pos.h)
+		CASE.h = toupper
+	} else CASE.h = function(x)x
+	if (pos.v %in% c("TOP", "BOTTOM")) {
+		pos.v = tolower(pos.v)
+		CASE.v = toupper
+	} else CASE.v = function(x)x
+	
+	component.offset.h = get_option_class(o$component.offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
+	component.offset.v = get_option_class(o$component.offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
+	
+	offsetIn.h = component.offset.h * o$lin
+	offsetIn.v = component.offset.v * o$lin
 	marginIn = o$component.stack.margin * o$lin
 	
 	marginInTot = (n - 1L) * marginIn
-	offsetInTot  = 2 * offsetIn
-
-	totH = sum(rowsIn) - offsetInTot
-	totW = sum(colsIn) - offsetInTot
+	offsetInTot.h  = 2 * offsetIn.h
+	offsetInTot.v  = 2 * offsetIn.v
+	
+	totH = sum(rowsIn) - offsetInTot.v
+	totW = sum(colsIn) - offsetInTot.h
 	
 
 	
@@ -284,7 +298,7 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	grbsQ = do.call(grid::gList, lapply(1:5, function(i) {
 		id = get(paste0("w", i))
 		if (length(id)) {
-			tmapGridCompCorner(comp = comp[id], o = o, stack = stack[id[1]], pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn = offsetIn, marginIn = marginIn)
+			tmapGridCompCorner(comp = comp[id], o = o, stack = stack[id[1]], pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn)
 		}
 	}))
 

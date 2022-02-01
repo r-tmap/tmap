@@ -21,12 +21,51 @@ tm_pos_auto_out(cell.h, cell.v, pos.h, pos.v, just.h, just.v)
 tm_pos_auto_in(just.h, just.v)
 }
 \arguments{
-\item{cell.h, cell.v}{The plotting area is overlaid with a 3x3 grid, of which the middle grid cell is the map area. Components can be drawn into any cell. `cell.h` specifies the horizontal position (column) can take values `"left"`, `"center"`, and `"right"`, and `cell.v` specifies the vertical position (row) and can take values `"top"`, `"center"`, and `"bottom"`.}
+\item{cell.h, cell.v}{The plotting area is overlaid with a 3x3 grid, of which the middle grid cell is the map area. Components can be drawn into any cell. \code{cell.h} specifies the horizontal position (column) can take values \code{"left"}, \code{"center"}, and \code{"right"}, and \code{cell.v} specifies the vertical position (row) and can take values \code{"top"}, \code{"center"}, and \code{"bottom"}. See details for a graphical explanation.}
 
-\item{pos.h, pos.v}{The position of the component within the cell. The options for `pos.h` are `"left"`, `"center"`, and `"right"`, and for `cell.v` these are `"top"`, `"center"`, and `"bottom"`.}
+\item{pos.h, pos.v}{The position of the component within the cell. The options for \code{pos.h} are \code{"left"}, \code{"center"}, and \code{"right"}, and for \code{cell.v} these are \code{"top"}, \code{"center"}, and \code{"bottom"}.}
 
-\item{just.h, just.v}{The justification of the component in case multiple components are stacked. When they are stacked horizontally, `just.v` determines how compnents that are smaller in height than the available height (determined by the outer.margins if specified and otherwise by the heigest component) are justified: `"top"`, `"center"`, or `"bottom"`. Similarly, `just.h` determines how components are justified horizontally when they are stacked vertically: `"left"`, `"center"`, or `"right"`.}
+\item{just.h, just.v}{The justification of the component in case multiple components are stacked. When they are stacked horizontally, \code{just.v} determines how compnents that are smaller in height than the available height (determined by the outer.margins if specified and otherwise by the heigest component) are justified: \code{"top"}, \code{"center"}, or \code{"bottom"}. Similarly, \code{just.h} determines how components are justified horizontally when they are stacked vertically: \code{"left"}, \code{"center"}, or \code{"right"}.}
 }
 \description{
-Set the position of map components, such as legends, title, compass, scale bar, etc. `tm_pos` is the
+Set the position of map components, such as legends, title, compass, scale bar, etc. \code{tm_pos} is the function to position these components: \code{tm_pos_out} places the components outside the map area and \code{tm_pos_in} inside the map area. Each \code{position} argument of a map layer or component should be specified with one of these functions. The functions \code{tm_pos_auto_out} and \code{tm_pos_auto_in} are used to set the components automatically, and are recommended to use globally, via \code{\link{tmap_options}}. See details how the positioning works.
+}
+\details{
+\tabular{rllll}{
+    \tab  \tab  \tab  \tab  \cr
+    \tab +------------------- \tab +-------------------------------- \tab +------------------- \tab + \cr
+    \tab | \tab | \tab | \tab | \cr
+   "top" \tab | \tab | \tab | \tab | \cr
+    \tab | \tab | \tab | \tab | \cr
+    \tab +------------------- \tab +-------------------------------- \tab +------------------- \tab + \cr
+    \tab | \tab | \tab | \tab | \cr
+    \tab | \tab | \tab | \tab | \cr
+   cell.v  "center" \tab | \tab |   Map(s) \tab | \tab | \cr
+    \tab | \tab | \tab | \tab | \cr
+    \tab | \tab | \tab | \tab | \cr
+    \tab +------------------- \tab +-------------------------------- \tab +------------------- \tab + \cr
+    \tab | \tab | \tab | \tab | \cr
+   "bottom" \tab | \tab | \tab | \tab | \cr
+    \tab | \tab | \tab | \tab | \cr
+    \tab +------------------- \tab +-------------------------------- \tab +------------------- \tab + \cr
+    \tab   \code{"left"} \tab   \code{"center"} \tab    \code{"right"} \tab  \cr
+    \tab  \tab   \code{cell.h} \tab  \tab  \cr
+}
+
+
+\code{tm_pos_in} sets the position of the component(s) inside the maps area, which is equivalent to the center-center cell (in case there are facets, these are all drawn in this center-center cell).
+
+\code{tm_pos_out} sets the position of the component(s) outside the map.
+
+The amount of space that the top and bottom rows, and left and right columns occupy is determined by the \code{\link{tm_layout}} arguments \code{meta.margins} and \code{meta.auto.margins}. The former sets the relative space of the bottom, left, top, and right side. In case these are set to \code{NA}, the space is set automatically based on 1) the maximum relative space specified by \code{meta.auto.margins} and 2) the presence and size of components in each cell. For instance, if there is one landscape oriented legend in the center-bottom cell, then the relative space of the bottom row is set to the height of that legend (given that it is smaller than the corresponding value of \code{meta.auto.margins}), while the other four sides are set to 0.
+
+\code{tm_pos_auto_out} is more complex: the \code{cell.h} and \code{cell.v} arguments of should be set to one of the four corners. It does not mean that the components are drawn in a corner. The corner represents the sides of the map that the components are drawn. By default, legends are drawn either at the bottom or on the right-side of the map by default (see \code{tmap_options("legend.position")}). Only when there are row- and column-wise legends and a general legend (using \code{\link{tm_facets_grid}}), the general legend is drawn in the corner, but in practice this case will be rare.
+
+The arguments \code{pos.h} and \code{pos.v} determine where the components are drawn within the cell. Again, with \code{"left"}, \code{"center"}, and \code{"right"} for \code{pos.h} and \code{"top"}, \code{"center"}, and \code{"bottom"} for \code{pos.v}. The values can also be specified in upper-case, which influences the offset with the cell borders, which is determined by tmap option \code{component.offset}. By default, there is a small offset when components are drawn inside and no offset when they are drawn outside or with upper-case.
+
+\code{tm_pos_auto_in} automatically determines \code{pos.h} and \code{pos.v} given the available space inside the map. This is similar to the default positioning in tmap3.
+
+In case multiple components are draw in the same cell and the same position inside that cell, they are stacked (determined which the \code{stack} argument in the legend or component function). The \code{just.h} and \code{just.v} arguments determine how these components will be justified with each other.
+
+Note that legends and components may be different for a facet row or column. This is the case when \code{\link{tm_facets_grid}} or \code{\link{tm_facets_stack}} are applied and when scales are set to free (with the \code{.free} argument of the map layer functions). In case a legends or components are draw row- or column wise, and the position of the legends (or components) is right next to the maps, these legends (or components) will be aligned with the maps.
 }

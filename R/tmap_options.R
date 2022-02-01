@@ -139,7 +139,7 @@
 		meta.margins = NA,
 		meta.auto.margins = c(0.4, 0.4, 0.4, 0.4),
 		between.margin = 0.5,
-		component.offset = c(inside = 0.25, outside = 0),
+		component.offset = c(inside = 0.25, INSIDE = 0, outside = 0, OUTSIDE = 0),
 		component.stack.margin = 0,
 		grid.mark.height = 2,
 		xylab.height = 1.25,
