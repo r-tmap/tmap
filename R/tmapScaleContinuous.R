@@ -82,7 +82,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		breaks = q$brks
 		nbrks = length(breaks)
-		n = nbrks - 1
+		n2 = nbrks - 1
 		
 		int.closure <- attr(q, "intervalClosure")
 		
@@ -111,17 +111,17 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 				if (show.messages) message("Variable(s) \"", paste(aes, collapse = "\", \""), "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.")
 				midpoint <- 0
 			} else {
-				if ((n %% 2) == 1) {
+				if ((n2 %% 2) == 1) {
 					# number of classes is odd, so take middle class (average of those breaks)
-					midpoint <- mean.default(breaks[c((n+1) / 2, (n+3) / 2)])
+					midpoint <- mean.default(breaks[c((n2+1) / 2, (n2+3) / 2)])
 				} else {
-					midpoint <- breaks[(n+2) / 2]
+					midpoint <- breaks[(n2+2) / 2]
 				}
 			}
 		}
 		
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, scale = values.scale, are_breaks = TRUE, rep = values.repeat, o = o))
+		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, scale = values.scale, are_breaks = TRUE, rep = values.repeat, o = o))
 		
 		vvalues = VV$vvalues
 		value.na = VV$value.na
@@ -140,7 +140,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		} else if (is.na(sortRev)) {
 			ids[] = 1L
 		} else if (sortRev) {
-			ids = (as.integer(n) + 1L) - ids
+			ids = (as.integer(n2) + 1L) - ids
 		}
 
 		if (anyNA) {
@@ -149,7 +149,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		}
 		
 		if (style=="quantile") {
-			id = seq(1, n+1, length.out=ncont)
+			id = seq(1, n2+1, length.out=ncont)
 			b = breaks[id]
 			nbrks_cont = length(b)
 		} else {

@@ -1,4 +1,4 @@
-getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
+getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 	dev = getOption("tmap.devel.mode")
 	
 	
@@ -169,6 +169,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, plot.order) {
 				settings_name = paste0("legend.settings.", l$design, ".", l$orientation)
 				oleg = c(oleg, o[[settings_name]])
 				l = complete_options(l, oleg)
+				l$mfun = mfun
 				
 				# update legend class
 				class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 

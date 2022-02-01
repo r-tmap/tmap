@@ -17,10 +17,12 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 	within(comp, {
 		type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
 			"gradient"
-		} else if (is.na(gp$shape[1])) {
-			"rect"
-		} else {
+		} else if (!is.na(gp$shape[1])) {
 			"symbols"
+		} else if (mfun == "Lines") {
+			"lines"
+		} else {
+			"rect"
 		}
 		gpar = gp_to_gpar(gp)
 	})
@@ -46,7 +48,7 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	if (comp$type == "symbols") {
 		item_heights = pmax(height, rep(comp$gpar$size / textS, length.out = nlev))
 		comp$stretch = if (!is.na(comp$height)) "padding" else "none"	
-	} else if (comp$type == "rect") {
+	} else if (comp$type %in% c("rect", "lines")) {
 		item_heights = rep(height, nlev)
 		if (comp$na.show) item_heights[nlev] = heightNA
 		comp$stretch = if (!is.na(comp$height)) "items" else "none"	
@@ -341,7 +343,13 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
 			grItems = mapply(function(id, gpari) gridCell(id, 3, rndrectGrob(gp = gpari, r = comp$item.r)), comp$item_ids, gpars, SIMPLIFY = FALSE)
 		}
+	} else if (comp$type == "lines") {
+		#gps = split_gp(gp, n = nlev)
 		
+		gpars = gp_to_gpar(gp, sel = "col", split_to_n = nlev)#lapply(gps, gp_to_gpar)
+			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, grid::rectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
+		grItems = mapply(function(id, gpari) gridCell(id, 3, grid::linesGrob(y = grid::unit(c(0.5,0.5), "npc"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+
 		
 	} else if (comp$type == "symbols") {
 		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),

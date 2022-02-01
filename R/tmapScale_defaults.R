@@ -101,6 +101,7 @@ tmapValuesContrast_lty = function(x, n, isdiv) {
 
 
 tmapValuesContrast_size = function(x, n, isdiv) {
+	print(c(.5/n, 1 - .5/n))
 	c(.5/n, 1 - .5/n)
 }
 
