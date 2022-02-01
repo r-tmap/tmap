@@ -52,8 +52,6 @@ step1_rearrange_facets = function(tmo) {
 		shp = tmg$tms$shp
 		smeta = tmapGetShapeMeta1(shp, c(o, tmg$tmf))
 
-		so(smeta)
-
 		assign("vl", NULL, envir = .TMAP)
 		assign("vn", 1L, envir = .TMAP)
 		

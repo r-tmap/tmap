@@ -130,9 +130,7 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 												   widths = grid::unit(Ws, Wu),
 												   heights = grid::unit(Hs, Hu)))
 	
-	po(vp$layout$widths)
-	po(vp$layout$heights)
-	
+
 	comp = mapply(function(leg, scale, W, H) {
 		leg$scale = scale
 		

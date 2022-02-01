@@ -179,7 +179,7 @@ distr_space_over_nulls = function(u, tot, stretchID = NA) {
 	} else {
 		un[u0] = normalize(as.numeric(u[u0]), un_dist_over0)
 	}
-	print(un)
+	#print(un)
 	grid::unit(un, units = "inch")
 }
 
