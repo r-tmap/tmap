@@ -1,7 +1,12 @@
 # load Africa country data
-data(World)
+data(World, metro)
 Africa = World[World$continent == "Africa", ]
-Africa_border = sf::st_make_valid(sf::st_union(sf::st_buffer(Africa, 0.001))) # slow and ugly
+metro_A = sf::st_intersection(metro, Africa)
 
-# without specifications
-tm_shape(Africa) + tm_symbols()
+tm_shape(metro_A) +
+	tm_symbols()
+
+tm_shape(Africa) + 
+	tm_polygons() +
+tm_shape(metro_A) +
+	tm_symbols(fill = "pop1950", size = "pop2030", size.scale = tm_scale(values.scale = 3))

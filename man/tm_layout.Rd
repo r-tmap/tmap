@@ -98,173 +98,173 @@ tm_style(style, ...)
 tm_format(format, ...)
 }
 \arguments{
-\item{scale}{PARAM_DESCRIPTION}
+\item{scale}{TODO}
 
-\item{asp}{PARAM_DESCRIPTION}
+\item{asp}{TODO}
 
-\item{bg.color}{PARAM_DESCRIPTION}
+\item{bg.color}{TODO}
 
-\item{outer.bg.color}{PARAM_DESCRIPTION}
+\item{outer.bg.color}{TODO}
 
-\item{frame}{PARAM_DESCRIPTION}
+\item{frame}{TODO}
 
-\item{frame.lwd}{PARAM_DESCRIPTION}
+\item{frame.lwd}{TODO}
 
-\item{frame.r}{PARAM_DESCRIPTION}
+\item{frame.r}{TODO}
 
-\item{frame.double.line}{PARAM_DESCRIPTION}
+\item{frame.double.line}{TODO}
 
-\item{outer.margins}{PARAM_DESCRIPTION}
+\item{outer.margins}{TODO}
 
-\item{inner.margins}{PARAM_DESCRIPTION}
+\item{inner.margins}{TODO}
 
-\item{inner.margins.extra}{PARAM_DESCRIPTION}
+\item{inner.margins.extra}{TODO}
 
-\item{meta.margins}{PARAM_DESCRIPTION}
+\item{meta.margins}{TODO}
 
-\item{meta.auto.margins}{PARAM_DESCRIPTION}
+\item{meta.auto.margins}{TODO}
 
-\item{between.margin}{PARAM_DESCRIPTION}
+\item{between.margin}{TODO}
 
-\item{component.offset}{PARAM_DESCRIPTION}
+\item{component.offset}{TODO}
 
-\item{component.stack.margin}{PARAM_DESCRIPTION}
+\item{component.stack.margin}{TODO}
 
-\item{grid.mark.height}{PARAM_DESCRIPTION}
+\item{grid.mark.height}{TODO}
 
-\item{xylab.height}{PARAM_DESCRIPTION}
+\item{xylab.height}{TODO}
 
-\item{coords.height}{PARAM_DESCRIPTION}
+\item{coords.height}{TODO}
 
-\item{xlab.show}{PARAM_DESCRIPTION}
+\item{xlab.show}{TODO}
 
-\item{ylab.show}{PARAM_DESCRIPTION}
+\item{ylab.show}{TODO}
 
-\item{xlab.pos}{PARAM_DESCRIPTION}
+\item{xlab.pos}{TODO}
 
-\item{ylab.pos}{PARAM_DESCRIPTION}
+\item{ylab.pos}{TODO}
 
-\item{grid.show}{PARAM_DESCRIPTION}
+\item{grid.show}{TODO}
 
-\item{grid.label.pos}{PARAM_DESCRIPTION}
+\item{grid.label.pos}{TODO}
 
-\item{panel.type}{PARAM_DESCRIPTION}
+\item{panel.type}{TODO}
 
-\item{panel.wrap.pos}{PARAM_DESCRIPTION}
+\item{panel.wrap.pos}{TODO}
 
-\item{panel.xtab.pos}{PARAM_DESCRIPTION}
+\item{panel.xtab.pos}{TODO}
 
-\item{unit}{PARAM_DESCRIPTION}
+\item{unit}{TODO}
 
-\item{color.sepia.intensity}{PARAM_DESCRIPTION}
+\item{color.sepia.intensity}{TODO}
 
-\item{color.saturation}{PARAM_DESCRIPTION}
+\item{color.saturation}{TODO}
 
-\item{color.vision.deficiency.sim}{PARAM_DESCRIPTION}
+\item{color.vision.deficiency.sim}{TODO}
 
-\item{fontface}{PARAM_DESCRIPTION}
+\item{fontface}{TODO}
 
-\item{fontfamily}{PARAM_DESCRIPTION}
+\item{fontfamily}{TODO}
 
-\item{legend.show}{PARAM_DESCRIPTION}
+\item{legend.show}{TODO}
 
-\item{legend.design}{PARAM_DESCRIPTION}
+\item{legend.design}{TODO}
 
-\item{legend.orientation}{PARAM_DESCRIPTION}
+\item{legend.orientation}{TODO}
 
-\item{legend.position}{PARAM_DESCRIPTION}
+\item{legend.position}{TODO}
 
-\item{legend.width}{PARAM_DESCRIPTION}
+\item{legend.width}{TODO}
 
-\item{legend.height}{PARAM_DESCRIPTION}
+\item{legend.height}{TODO}
 
-\item{legend.stack}{PARAM_DESCRIPTION}
+\item{legend.stack}{TODO}
 
-\item{legend.group.frame}{PARAM_DESCRIPTION}
+\item{legend.group.frame}{TODO}
 
-\item{legend.resize.as.group}{PARAM_DESCRIPTION}
+\item{legend.resize.as.group}{TODO}
 
-\item{legend.reverse}{PARAM_DESCRIPTION}
+\item{legend.reverse}{TODO}
 
-\item{legend.title.color}{PARAM_DESCRIPTION}
+\item{legend.title.color}{TODO}
 
-\item{legend.title.size}{PARAM_DESCRIPTION}
+\item{legend.title.size}{TODO}
 
-\item{legend.title.fontface}{PARAM_DESCRIPTION}
+\item{legend.title.fontface}{TODO}
 
-\item{legend.title.fontfamily}{PARAM_DESCRIPTION}
+\item{legend.title.fontfamily}{TODO}
 
-\item{legend.title.just}{PARAM_DESCRIPTION}
+\item{legend.title.just}{TODO}
 
-\item{legend.text.color}{PARAM_DESCRIPTION}
+\item{legend.text.color}{TODO}
 
-\item{legend.text.size}{PARAM_DESCRIPTION}
+\item{legend.text.size}{TODO}
 
-\item{legend.text.fontface}{PARAM_DESCRIPTION}
+\item{legend.text.fontface}{TODO}
 
-\item{legend.text.fontfamily}{PARAM_DESCRIPTION}
+\item{legend.text.fontfamily}{TODO}
 
-\item{legend.frame}{PARAM_DESCRIPTION}
+\item{legend.frame}{TODO}
 
-\item{legend.frame.lwd}{PARAM_DESCRIPTION}
+\item{legend.frame.lwd}{TODO}
 
-\item{legend.frame.r}{PARAM_DESCRIPTION}
+\item{legend.frame.r}{TODO}
 
-\item{legend.bg.color}{PARAM_DESCRIPTION}
+\item{legend.bg.color}{TODO}
 
-\item{legend.bg.alpha}{PARAM_DESCRIPTION}
+\item{legend.bg.alpha}{TODO}
 
-\item{compass.type}{PARAM_DESCRIPTION}
+\item{compass.type}{TODO}
 
-\item{title.size}{PARAM_DESCRIPTION}
+\item{title.size}{TODO}
 
-\item{title.color}{PARAM_DESCRIPTION}
+\item{title.color}{TODO}
 
-\item{title.fontface}{PARAM_DESCRIPTION}
+\item{title.fontface}{TODO}
 
-\item{title.fontfamily}{PARAM_DESCRIPTION}
+\item{title.fontfamily}{TODO}
 
-\item{title.bg.color}{PARAM_DESCRIPTION}
+\item{title.bg.color}{TODO}
 
-\item{title.bg.alpha}{PARAM_DESCRIPTION}
+\item{title.bg.alpha}{TODO}
 
-\item{title.padding}{PARAM_DESCRIPTION}
+\item{title.padding}{TODO}
 
-\item{title.frame}{PARAM_DESCRIPTION}
+\item{title.frame}{TODO}
 
-\item{title.frame.lwd}{PARAM_DESCRIPTION}
+\item{title.frame.lwd}{TODO}
 
-\item{title.frame.r}{PARAM_DESCRIPTION}
+\item{title.frame.r}{TODO}
 
-\item{title.stack}{PARAM_DESCRIPTION}
+\item{title.stack}{TODO}
 
-\item{title.position}{PARAM_DESCRIPTION}
+\item{title.position}{TODO}
 
-\item{title.width}{PARAM_DESCRIPTION}
+\item{title.width}{TODO}
 
-\item{title.heigth}{PARAM_DESCRIPTION}
+\item{title.heigth}{TODO}
 
-\item{title.group.frame}{PARAM_DESCRIPTION}
+\item{title.group.frame}{TODO}
 
-\item{title.resize.as.group}{PARAM_DESCRIPTION}
+\item{title.resize.as.group}{TODO}
 
-\item{panel.show}{PARAM_DESCRIPTION}
+\item{panel.show}{TODO}
 
-\item{panel.labels}{PARAM_DESCRIPTION}
+\item{panel.labels}{TODO}
 
-\item{panel.label.size}{PARAM_DESCRIPTION}
+\item{panel.label.size}{TODO}
 
-\item{panel.label.color}{PARAM_DESCRIPTION}
+\item{panel.label.color}{TODO}
 
-\item{panel.label.fontface}{PARAM_DESCRIPTION}
+\item{panel.label.fontface}{TODO}
 
-\item{panel.label.fontfamily}{PARAM_DESCRIPTION}
+\item{panel.label.fontfamily}{TODO}
 
-\item{panel.label.bg.color}{PARAM_DESCRIPTION}
+\item{panel.label.bg.color}{TODO}
 
-\item{panel.label.height}{PARAM_DESCRIPTION}
+\item{panel.label.height}{TODO}
 
-\item{panel.label.rot}{PARAM_DESCRIPTION}
+\item{panel.label.rot}{TODO}
 
 \item{style}{name of the style}
 
@@ -272,4 +272,22 @@ tm_format(format, ...)
 }
 \description{
 Set of tmap options that are directly related to the layout.
+}
+\examples{
+data(land, World)
+
+tm_shape(land) +
+	tm_raster("elevation", col.scale = tm_scale_intervals(breaks=c(-Inf, 250, 500, 1000, 1500, 2000, 2500, 3000, 4000, Inf),  
+														  values = terrain.colors(9), 
+														  midpoint = NA),
+			  col.legend = tm_legend(title="Elevation", position = tm_pos_in("left", "bottom"))) +
+tm_shape(World, is.main = TRUE, crs = "+proj=eck4") +
+	tm_borders("grey20") +
+	#tm_graticules(labels.size = .5) +
+	#tm_text("name", size="AREA") +
+	#tm_compass(position = c(.65, .15), color.light = "grey90") +
+	#tm_credits("Eckert IV projection", position = c("right", "BOTTOM")) +
+	tm_style("classic") +
+	tm_layout(bg.color="lightblue",
+			  inner.margins=c(0, 0, .02, 0))
 }

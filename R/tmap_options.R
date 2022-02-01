@@ -337,11 +337,11 @@ v3 = list(
 
 .defaultTmapStyles = list(
 	v3 = v3,
-	gray = c(v3, list(
+	gray = list(
 		bg.color = "grey85",
 		values.var = list(fill = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"),
 						  col = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"))
-	)),
+	),
 	grey = list(
 		bg.color = "grey85",
 		values.var = list(fill = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"),
@@ -391,7 +391,12 @@ v3 = list(
 				  				  col = list(seq = "brewer.ylgn", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylgn")),
 				  attr.color = "white",
 				  basemaps = "CartoDB.DarkMatter",
-				  basemaps.alpha = .5)
+				  basemaps.alpha = .5),
+	classic = list(color.sepia.intensity = .7,
+				   fontfamily = "serif",
+				   frame = TRUE,
+				   frame.double.line = TRUE,
+				   compass.type = "rose")
 )
 
 

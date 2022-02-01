@@ -43,7 +43,7 @@ tmapGridOverlay = function(facet_row, facet_col, facet_page, o) {
 		pW = convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE)*frame.lwd
 		if (o$frame.double.line) {
 			grid::grobTree(
-				rndrectGrob(width = 1-4*pW, height=1-4*pH, gp=gpar(col=frame.col, fill=NA, lwd=5*frame.lwd, lineend="square"), r = o$frame.r, name = "outer_frame"),
+				#rndrectGrob(width = 1-4*pW, height=1-4*pH, gp=gpar(col=frame.col, fill=NA, lwd=5*frame.lwd, lineend="square"), r = o$frame.r, name = "outer_frame"),
 				rndrectGrob(gp=gpar(col=frame.col, fill=NA, lwd=3*frame.lwd, lineend="square"), r = o$frame.r, name = "between_frame"),
 				rndrectGrob(width = 1-8*pW, height=1-8*pH, gp=gpar(col=frame.col, fill=NA, lwd=frame.lwd, lineend="square"), r = o$frame.r, name = "inner_frame"))
 		} else {

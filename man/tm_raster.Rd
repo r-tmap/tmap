@@ -37,8 +37,15 @@ The \code{.legend} arguments determine the used legend, specified with \code{\li
 The \code{.free} arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see \code{\link{tm_facets}}). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (\code{\link{tm_facets_grid}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)} means that for the visual variable \code{col}, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (\code{\link{tm_facets_wrap}} and \code{\link{tm_facets_stack}}) there is only one facet dimension, so the \code{.free} argument requires only one logical value.
 }
 \examples{
-data(land)
+# load land data
+data(land, World)
 
 tm_shape(land) +
-	tm_raster()
+	tm_raster() +
+	tm_facets_hstack()
+
+tm_shape(land) +
+	tm_raster("elevation", col.scale = tm_scale_continuous(values = terrain.colors(9))) +
+tm_shape(World) +
+	tm_borders()
 }

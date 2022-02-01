@@ -111,7 +111,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		if (anyNA) {
 			vals[isna] = value.na
-			ids[isna] = 0L
+			if (!is.null(sortRev)) ids[isna] = 0L
 		}
 		
 

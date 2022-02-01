@@ -14,6 +14,21 @@ tmapReproject.stars = function(shp, tmapID, crs) {
 	shapeTM(shp2, tmapID2)
 }
 
+
+#' @method tmapReproject dimensions
+#' @export
+tmapReproject.dimensions = function(shp, tmapID, crs) {
+	s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
+	
+	shp2 = transwarp(s, crs, raster.warp = TRUE)
+	tmapID2 = shp2[[1]]
+	
+	d2 = stars::st_dimensions(shp2)
+	
+	shapeTM(d2, tmapID2)
+}
+
+
 #' @method tmapReproject sfc
 #' @export
 tmapReproject.sfc = function(shp, tmapID, crs) {

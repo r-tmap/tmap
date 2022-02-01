@@ -78,7 +78,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 				ncont = length(labels)	
 			}
 		}
-		q = num2breaks(x = x1, n = 101, style = style, breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = style.args)
+		q = num2breaks(x = x1, n = 101, style = style, breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
 		
 		breaks = q$brks
 		nbrks = length(breaks)
@@ -145,7 +145,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 
 		if (anyNA) {
 			vals[isna] = value.na
-			ids[isna] = 0L
+			if (!is.null(sortRev)) ids[isna] = 0L
 		}
 		
 		if (style=="quantile") {

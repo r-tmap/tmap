@@ -367,7 +367,6 @@ tm_balloons = function(col = tm_const(),
 #' @param group Name of the group to which this layer belongs. Not implemented yet.
 #' @example ./examples/tm_raster.R 
 #' @export
-
 tm_raster = function(col = tm_shape_vars(),
 					 col.scale = tm_scale(),
 					 col.legend = tm_legend(),
