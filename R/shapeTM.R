@@ -1,5 +1,5 @@
-shapeTM = function(shp, tmapID = NULL) {
-	x = structure(list(shp = shp, tmapID = tmapID), class = c("shapeTM", "list"))
+shapeTM = function(shp, tmapID = NULL, bbox = NULL) {
+	x = structure(list(shp = shp, tmapID = tmapID, bbox = bbox), class = c("shapeTM", "list"))
 }
 
 # stm_bbox = function(shpTM) {
@@ -16,6 +16,9 @@ shapeTM = function(shp, tmapID = NULL) {
 # }
 
 stm_bbox = function(shpTM, tmapID) {
+	bbox = shpTM$bbox
+	if (!is.null(bbox)) return(bbox)
+	
 	shp = shpTM$shp
 	shpID = shpTM$tmapID
 	
@@ -83,6 +86,7 @@ bb_asp = function(bbx, asp) {
 		bbx[1] = cx - (dx2 / 2)
 		bbx[3] = cx + (dx2 / 2)
 	}
+	po(sasp)
 	bbx
 }
 

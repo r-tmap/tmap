@@ -20,24 +20,34 @@ get_scale_defaults = function(scale, o, aes, layer, cls) {
 }
 
 
-tmapScale_returnNA = function(n, legend, value.na, label.na, na.show) {
-	if (identical(na.show, FALSE)) {
-		legend = list(title = NA, 
-					  nitems = 0,
-					  labels = NA, 
-					  dvalues = NA, 
-					  vvalues = NA,
-					  vneutral = value.na,
-					  na.show = NA,
-					  setup = list(show = FALSE))
-	} else {
-		legend = list(title = legend$title, 
-					  nitems = 1,
-					  labels = label.na, 
-					  dvalues = NA, 
-					  vvalues = value.na,
-					  vneutral = value.na,
-					  na.show = TRUE,
-					  setup = legend)
+tmapScale_returnNA = function(n, legend, value.na, label.na, na.show, sortRev) {
+	
+	ids = if (is.null(sortRev)) {
+		NULL
+	} else  {
+		rep(0L, n)
 	}
-	return(format_aes_results(rep(value.na, n), rep(0L, n), legend))}
+	
+	if (identical(na.show, FALSE)) {
+		legend = within(legend,{
+			title = NA
+			nitems = 0
+			labels = NA 
+			dvalues = NA 
+			vvalues = NA
+			vneutral = value.na
+			na.show = NA
+			show = FALSE
+		})
+	} else {
+		legend = within(legend, {
+			title = legend$title
+			nitems = 1
+			labels = label.na
+			dvalues = NA
+			vvalues = value.na
+			vneutral = value.na
+			na.show = TRUE
+		})
+	}
+	return(format_aes_results(rep(value.na, n), ids, legend))}

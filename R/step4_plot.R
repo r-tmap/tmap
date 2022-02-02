@@ -96,7 +96,7 @@ process_components2 = function(cdt, o) {
 			l$position[c("pos.h", "pos.v")] = as.list(o$legend.autoin.pos)
 			l
 		})
-		cdt[class == "autoin", class:= "in"]
+		cdt[class == "autoin", ":="(pos.h = o$legend.autoin.pos[1], pos.v = o$legend.autoin.pos[2], class = "in")]
 	}
 
 	cdt
@@ -196,13 +196,16 @@ step4_plot = function(tm, vp) {
 		# TODO take use areas instead of coordinates for polygons
 		if (inherits(shp, c("sf", "sfc"))) {
 			bbx = d$bbox[[1]]
-			cx = mean(bbx[c(1,3)])
-			cy = mean(bbx[c(2,4)])
-			crds = sf::st_coordinates(shp)[,1:2]
-			cornerID = which.min(c(tl = sum((crds[,1]-cx) < 0 & (crds[,2]-cy) > 0),
-								   tr = sum((crds[,1]-cx) > 0 & (crds[,2]-cy) > 0),
-								   br = sum((crds[,1]-cx) > 0 & (crds[,2]-cy) < 0),
-								   bl = sum((crds[,1]-cx) < 0 & (crds[,2]-cy) < 0)))
+			co = sf::st_coordinates(sf::st_centroid(shp))
+			
+			xn = (co[,1]-bbx[1])/(bbx[3]-bbx[1])
+			yn = (co[,2]-bbx[2])/(bbx[4]-bbx[2])
+			cornerID = which.max(c(
+				bl = min(sqrt((xn^2) + (yn^2)), na.rm = TRUE),
+				tl = min(sqrt((xn^2) + ((1-yn)^2)), na.rm = TRUE),
+				tr = min(sqrt(((1-xn)^2) + ((1-yn)^2)), na.rm = TRUE),
+				br = min(sqrt(((xn-1)^2) + (yn^2)), na.rm = TRUE)))
+			
 			o$legend.autoin.pos = switch(names(cornerID), tl = c("left", "top"), tr = c("right", "top"), bl = c("left", "bottom"), br = c("right", "bottom"))
 		} else {
 			o$legend.autoin.pos = c("left", "top")	

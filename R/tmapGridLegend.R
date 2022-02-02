@@ -193,11 +193,11 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	
 
 	
-	if (pos.h %in% c("LEFT", "RIGHT")) {
+	if (any(pos.h %in% c("LEFT", "RIGHT"))) {
 		pos.h = tolower(pos.h)
 		CASE.h = toupper
 	} else CASE.h = function(x)x
-	if (pos.v %in% c("TOP", "BOTTOM")) {
+	if (any(pos.v %in% c("TOP", "BOTTOM"))) {
 		pos.v = tolower(pos.v)
 		CASE.v = toupper
 	} else CASE.v = function(x)x

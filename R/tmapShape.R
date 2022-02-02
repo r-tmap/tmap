@@ -4,37 +4,50 @@ tmapReproject = function(...) {
 
 #' @method tmapReproject stars
 #' @export
-tmapReproject.stars = function(shp, tmapID, crs) {
+tmapReproject.stars = function(shp, tmapID, bbox, crs) {
 	
 	shp[[1]] = tmapID
 	
 	shp2 = transwarp(shp, crs, raster.warp = TRUE)
 	tmapID2 = shp2[[1]]
 	shp2[[1]] = NA
-	shapeTM(shp2, tmapID2)
+	
+	if (!is.null(bbox)) bbox = reproject_bbox(bbox, crs)
+	
+	shapeTM(shp2, tmapID2, bbox)
 }
 
 
 #' @method tmapReproject dimensions
 #' @export
-tmapReproject.dimensions = function(shp, tmapID, crs) {
+tmapReproject.dimensions = function(shp, tmapID, bbox, crs) {
 	s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
 	
 	shp2 = transwarp(s, crs, raster.warp = TRUE)
 	tmapID2 = shp2[[1]]
 	
 	d2 = stars::st_dimensions(shp2)
+	if (!is.null(bbox)) bbox = reproject_bbox(bbox, crs)
 	
-	shapeTM(d2, tmapID2)
+	shapeTM(d2, tmapID2, bbox)
 }
 
 
 #' @method tmapReproject sfc
 #' @export
-tmapReproject.sfc = function(shp, tmapID, crs) {
+tmapReproject.sfc = function(shp, tmapID, bbox, crs) {
 	shp2 = sf::st_transform(shp, crs)
-	shapeTM(shp2, tmapID)
+	if (!is.null(bbox)) bbox = reproject_bbox(bbox, crs)
+	shapeTM(shp2, tmapID, bbox)
 }
+
+
+reproject_bbox = function(bbox, crs) {
+	s = tmaptools::bb_poly(bbox) #st_as_sfc does not add intermediate points
+	s2 = sf::st_transform(s, crs)
+	sf::st_bbox(s2)
+}
+
 
 
 
@@ -81,7 +94,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	#shp = stars::st_as_stars(list(values = m), dimensions = dimsxy)
 	shpclass = "stars"
 	
-	bbox = st_bbox(shp)
+	#if (is.null(bbox)) bbox = st_bbox(shp)
 	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
@@ -89,7 +102,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(sel__ = filter)] # tmapID__ = 1L:nrow(dt), 
 	
-	shpTM = list(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)))
+	shpTM = shapeTM(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)), bbox = bbox)
 	
 	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = shpclass, bbox = bbox, unit = unit, shp_name = shp_name, smeta = smeta), class = "tmapShape")
 	
@@ -168,7 +181,7 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 		} else {
 			shp = geoms
 		}
-		shpTM = list(shp = shp, tmapID = 1L:length(shp))
+		shpTM = shapeTM(shp = shp, tmapID = 1L:length(shp), bbox = bbox)
 		
 		
 		shpclass = "sfc"
@@ -209,13 +222,13 @@ tmapShape.stars = function(shp, is.main, crs, bbox, unit, filter, shp_name, smet
 
 		shp = dimsxy
 		shpclass = "stars"
-		shpTM = list(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)))
+		shpTM = shapeTM(shp = shp, tmapID = 1L:(nrow(shp) * ncol(shp)), bbox = bbox)
 		
 	}
 
 	make_by_vars(dt, tmf, smeta)
 	
-	bbox = sf::st_bbox(shp)
+	#if (is.null(bbox)) bbox = sf::st_bbox(shp)
 	
 	dtcols = setdiff(names(dt), "tmapID__")
 	
@@ -241,14 +254,14 @@ tmapShape.sf = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, 
 	
 	dtcols = copy(names(dt))
 	
-	bbox = sf::st_bbox(sfc)
+	#if (is.null(bbox)) bbox = sf::st_bbox(sfc)
 	
 	if (is.null(filter)) filter = rep(TRUE, nrow(dt))
 	dt[, ':='(tmapID__ = 1L:nrow(dt), sel__ = filter)]
 
 	make_by_vars(dt, tmf, smeta)
 	
-	shpTM = list(shp = sfc, tmapID = 1L:(length(sfc)))
+	shpTM = shapeTM(shp = sfc, tmapID = 1L:(length(sfc)), bbox = bbox)
 
 	structure(list(shpTM = shpTM, dt = dt, is.main = is.main, dtcols = dtcols, shpclass = "sfc", bbox = bbox, unit = unit, shp_name = shp_name, smeta = smeta), class = "tmapShape")
 }

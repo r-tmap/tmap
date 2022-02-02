@@ -61,9 +61,16 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	titleP = comp$title.padding[c(3,1)] * titleS * o$lin
 	titleH = titleS * o$lin
 	marH = comp$margins[c(3,1)] * textS * o$lin
+
+	if (nlev == 1) {
+		items_all = item_heights
+		if (comp$stretch == "padding") comp$stretch = "items"
+	} else {
+		item_space = c(rep(space, nlev - 1 - comp$na.show), {if (comp$na.show) spaceNA else NULL}) 
+		items_all = c(rbind(item_heights[-nlev], item_space), item_heights[nlev])
+	}
 	
-	item_space = c(rep(space, nlev - 1 - comp$na.show), {if (comp$na.show) spaceNA else NULL}) 
-	items_all = c(rbind(item_heights[-nlev], item_space), item_heights[nlev])
+	
 	
 	hs = c(titleP[1], titleH, titleP[2], marH[1], items_all * textS * o$lin, marH[2])
 	
