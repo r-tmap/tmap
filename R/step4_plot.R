@@ -384,6 +384,7 @@ step4_plot = function(tm, vp) {
 	
 	if (nrow(cdt) > 0L) for (k in seq_len(o$npages)) {
 		klegs = cdt[is.na(by3__) | (by3__ == k), ]
+		#klegs[, id:=]
 		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, pos.h = .SD$pos.h, pos.v = .SD$pos.v)), by = list(facet_row, facet_col), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "pos.h", "pos.v")]
 	}
 	
