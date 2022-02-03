@@ -23,7 +23,7 @@ tmapGridCompPrepare.tm_title = function(comp, o) {
 #' @method tmapGridCompHeight tm_title
 #' @export
 tmapGridCompHeight.tm_title = function(comp, o) {
-	titleS = if (comp$title == "") 0 else comp$size
+	titleS = if (comp$title == "") 0 else comp$size * o$scale
 	titleP = comp$padding[c(3,1)] * titleS * o$lin
 	titleH = titleS * o$lin
 	comp$Hin = sum(titleP[1], titleH, titleP[2])
@@ -33,7 +33,7 @@ tmapGridCompHeight.tm_title = function(comp, o) {
 #' @method tmapGridCompWidth tm_title
 #' @export
 tmapGridCompWidth.tm_title = function(comp, o) {
-	titleS = if (comp$title == "") 0 else comp$size
+	titleS = if (comp$title == "") 0 else comp$size * o$scale
 	titleP = comp$padding[c(2,4)] * titleS * o$lin
 	titleW = titleS * strwidth(comp$title, units = "inch", family = comp$fontfamily, font = fontface2nr(comp$fontface))
 	comp$Win = sum(titleP[1], titleW, titleP[2])
@@ -44,15 +44,10 @@ tmapGridCompWidth.tm_title = function(comp, o) {
 #' @method tmapGridLegPlot tm_title
 #' @export
 tmapGridLegPlot.tm_title = function(comp, o) {
-	textS = comp$text.size * comp$scale
-	titleS = if (comp$title == "") 0 else comp$size * comp$scale
+	textS = comp$text.size * comp$scale * o$scale
+	titleS = if (comp$title == "") 0 else comp$size * comp$scale * o$scale
 	
 	padding = grid::unit(comp$padding[c(3,4,1,2)] * titleS * o$lin, units = "inch")
-	frame.lwd = if (identical(comp$frame, FALSE)) 0 else comp$frame.lwd
-	frame.col = if (identical(comp$frame, FALSE)) NA else if (identical(comp$frame, TRUE)) o$attr.color else comp$frame
-	frame.r = comp$frame.r
-	bg.color = comp$bg.color
-	bg.alpha = comp$bg.alpha
 
 	if (comp$position$just.h == "left") {
 		#x = grid::unit(0, "npc") 
@@ -83,7 +78,7 @@ tmapGridLegPlot.tm_title = function(comp, o) {
 	grTitle = grid::textGrob(comp$title, 
 							 x = x,
 							 just = just,
-							 gp = grid::gpar(cex = titleS))
+							 gp = grid::gpar(col = comp$color, cex = titleS))
 	
 	if (getOption("tmap.design.mode")) {
 		grDesign = grid::rectGrob(gp=gpar(fill=NA,col="red", lwd=2))

@@ -24,7 +24,7 @@ prepreprocess_meta = function(o, vp) {
 		
 		
 		lin = par("cin")[2]# * scale
-		
+
 		lineH = lin / devsize[2] * scale
 		lineW = lin / devsize[1] * scale
 		
@@ -346,7 +346,7 @@ process_meta = function(o, d, cdt) {
 		} else {
 			if (!is.list(panel.labels)) panel.labels = list(panel.labels, "")
 			panel.labels = mapply(FUN = function(p, f) {
-				if (length(p) != length(f)) warning("the number of supplied panel labels does not correspond to the number of panels", call. = FALSE)
+				if (length(p[p!=""]) != length(f)) warning("the number of supplied panel labels does not correspond to the number of panels", call. = FALSE)
 				rep_len(p, length(f))
 			}, panel.labels, fl[1:2], SIMPLIFY = FALSE)
 		}

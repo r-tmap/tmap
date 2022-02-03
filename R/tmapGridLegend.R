@@ -13,6 +13,14 @@ legapply = function(cdt, fun, ...) {
 
 
 
+process_comp_box = function(comp, sc, o) {
+	comp = within(comp, {
+		frame.lwd = if (identical(frame, FALSE)) 0 else frame.lwd * sc
+		frame.col = if (identical(frame, FALSE)) NA else if (identical(frame, TRUE)) o$attr.color else frame
+		frame.r = frame.r * sc
+	})
+	comp
+}
 
 tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn) {
 	
@@ -146,10 +154,13 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	#sq = function(x) do.call(seq, as.list(unname(range(x))))
 	sc = min(1/clipT) * o$scale
 	
-	groupframe = if (!is.na(comp[[1]]$frame) && group.frame) {
+	comp = lapply(comp, process_comp_box, sc = sc, o = o)
+
+	groupframe = if ((comp[[1]]$frame.lwd!=0) && group.frame) {
+		
 		#x = switch(group.just[1], "left" = W/2, "right" = grid::unit(1,"npc") - W/2, grid::unit(0.5, "npc"))
 		#y = switch(group.just[2], "top" = grid::unit(1,"npc") - H/2, "bottom" = H/2, grid::unit(0.5, "npc"))
-		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = comp[[1]]$bg.color, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd * sc), r = comp[[1]]$frame.r * sc))
+		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = comp[[1]]$bg.color, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
 	} else NULL
 	
 	

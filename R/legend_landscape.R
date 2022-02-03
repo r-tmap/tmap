@@ -27,8 +27,8 @@ tmapGridCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 #' @export
 tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 	nlev = comp$nitems
-	textS = comp$text.size
-	titleS = if (comp$title == "") 0 else comp$title.size
+	textS = comp$text.size * o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
 	
 	height = get_legend_option(comp$item.height, comp$type)
 	
@@ -67,8 +67,8 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 #' @export
 tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	nlev = comp$nitems
-	textS = comp$text.size
-	titleS = if (comp$title == "") 0 else comp$title.size
+	textS = comp$text.size * o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
 	
 	space = get_legend_option(comp$item.space, comp$type)
 	spaceNA = get_legend_option(comp$item.na.space, comp$type)
@@ -94,7 +94,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	
 	
 	titleP = comp$title.padding[c(2,4)] * titleS * o$lin
-	titleW = titleS * strwidth(comp$title, units = "inch", family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) * o$lin
+	titleW = strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) * o$lin
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
@@ -162,7 +162,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o) {
 		grTitle = gridCell(3, 3:(length(comp$wsu)-2), grid::textGrob(comp$title, x = 0.5, just = "center", gp = grid::gpar(cex = titleS)))
 	}
 	
-	textW = textS * strwidth(comp$labels, units = "inch", family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+	textW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 	scale_labels = max(textW / grid::convertUnit(wsu[comp$item_ids], unitTo = "inch", valueOnly = TRUE), 1)
 	
 	grText = mapply(function(i, id) gridCell(8, id, grid::textGrob(comp$labels[i], x = 0.5, just = "center", gp = grid::gpar(cex = textS/scale_labels, fontface = comp$text.fontface, fontfamily = comp$text.fontfamily))), 1L:nlev, comp$item_ids, SIMPLIFY = FALSE)

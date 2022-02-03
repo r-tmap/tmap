@@ -291,6 +291,14 @@ tmapValuesVV_area = function(...) {
 }
 
 
+tmapValuesScale_col = function(x, scale) x
+tmapValuesScale_fill = function(x, scale) x
+tmapValuesScale_size = function(x, scale) x * scale
+tmapValuesScale_lwd = function(x, scale) x * scale
+tmapValuesScale_lty = function(x, scale) x
+tmapValuesScale_col_alpha = function(x, scale) x
+tmapValuesScale_fill_alpha = function(x, scale) x
+
 
 
 

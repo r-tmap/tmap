@@ -33,8 +33,8 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 #' @export
 tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	nlev = comp$nitems
-	textS = comp$text.size
-	titleS = if (comp$title == "") 0 else comp$title.size
+	textS = comp$text.size * o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
 	
 	space = get_legend_option(comp$item.space, comp$type)
 	spaceNA = get_legend_option(comp$item.na.space, comp$type)
@@ -119,8 +119,8 @@ fontface2nr = function(face) {
 #' @method tmapGridCompWidth tm_legend_standard_portrait
 #' @export
 tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
-	textS = comp$text.size
-	titleS = if (comp$title == "") 0 else comp$title.size
+	textS = comp$text.size * o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
@@ -130,8 +130,8 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 	item_widths_max = max(item_widths)
 	
 	
-	tW = ifelse(comp$title == "", 0, titleS * (strwidth(comp$title, units = "inch", family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) + sum(comp$title.padding[c(2,4)]) * o$lin))
-	iW = textS * strwidth(comp$labels, units = "inch", family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + comp$margin.item.text) * textS * o$lin
+	tW = ifelse(comp$title == "", 0, strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface) + sum(comp$title.padding[c(2,4)]) * o$lin * titleS))
+	iW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface)) + (item_widths_max + comp$margin.item.text) * textS * o$lin
 
 	colW = max(tW, iW)
 	
@@ -161,8 +161,8 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 #' @method tmapGridLegPlot tm_legend_standard_portrait
 #' @export
 tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
-	textS = comp$text.size * comp$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale
+	textS = comp$text.size * comp$scale * o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale * o$scale
 	
 	nlev = comp$nitems
 	
@@ -184,7 +184,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
 		grTitle = gridCell(3, 2:(length(comp$wsu)-1), grid::textGrob(comp$title, x = 0.5, just = "center", gp = grid::gpar(col = comp$title.color, cex = titleS)))
 	}
 	
-	textW = textS * strwidth(comp$labels, units = "inch", family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
+	textW = strwidth(comp$labels, units = "inch", cex = textS, family = comp$text.fontfamily, font = fontface2nr(comp$text.fontface))
 	scale_labels = max(textW / grid::convertUnit(wsu[5], unitTo = "inch", valueOnly = TRUE), 1)
 	
 	

@@ -35,7 +35,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 		# active grouping variables (to keep)
 		grp_bv = by123__[sort(c({if (nvars > 1) v else integer(0)}, b))]
 		
-
+		sfun = paste0("tmapValuesScale_", unm)
 		
 		#print(vars)
 		if (!aes$data_vars) {
@@ -43,6 +43,8 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 			# constant values (take first value (of possible tm_mv per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
+			val1 = do.call(sfun, list(x = val1, scale = o$scale))
+			
 			dtl = copy(dt[, c("tmapID__", "sel__", by123__[b]), with = FALSE])
 			
 			if (nvars > 1 && limitvars) {
@@ -73,6 +75,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				# also needed for drop.units later on
 				cls = data_class(dtl[[nm]])
 				value.null = getAesOption("value.null", o, unm, layer, cls = cls)
+				value.null = do.call(sfun, list(x = value.null, scale = o$scale))
 				
 				# todo: combine these:
 				dtl[sel__==FALSE, (nm) := value.null]

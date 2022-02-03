@@ -89,8 +89,8 @@ determine_scale = function(label, rot, row, col, g, scale = 1) {
 	w = sum(g$colsIn[col])
 	h = sum(g$rowsIn[row])
 	
-	labwidth = grid::convertWidth(grid::stringWidth(label), unitTo = "inches", valueOnly = TRUE)
-	labheight = grid::convertWidth(grid::stringHeight(label), unitTo = "inches", valueOnly = TRUE)
+	labwidth = strwidth(label, units = "inches")
+	labheight = strheight(label, units = "inches")
 	
 	
 	scale = min(scale, {if (rot %in% c(0, 180)) {

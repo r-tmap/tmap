@@ -233,7 +233,7 @@
 		title.bg.color = NA,
 		title.bg.alpha = 1,
 		title.padding = c(0.25, 0.25, 0.25, 0.25),
-		title.frame = TRUE,
+		title.frame = FALSE,
 		title.frame.lwd = 1,
 		title.frame.r = 2,
 		title.stack = "left",

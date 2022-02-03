@@ -12,13 +12,13 @@ tmapGridWrap = function(label, facet_row, facet_col, facet_page, o) {
 	
 	#scale = o$scale * o$scale_down
 	
-	gpar_rect = grid::gpar(fill = o$panel.label.bg.color, lwd=o$frame.lwd, col = o$frame)
-	gpar_text = rescale_gp(grid::gpar(cex = o$panel.label.size, col = o$panel.label.color, fontfamily = o$panel.label.fontfamily, fontface = o$panel.label.fontface), o$scale_down)
+	gpar_rect = grid::gpar(fill = o$panel.label.bg.color, lwd=o$frame.lwd * o$scale, col = o$frame)
+	gpar_text = rescale_gp(grid::gpar(cex = o$panel.label.size * o$scale, col = o$panel.label.color, fontfamily = o$panel.label.fontfamily, fontface = o$panel.label.fontface), o$scale_down)
 	
 	# resize due to not fitting
 	gpar_text$cex = determine_scale(label = label, rot = rot, row = row, col = col, g = g, scale = gpar_text$cex)
 	grb = grid::grobTree(
-		rndrectGrob(gp = gpar_rect, r = o$frame.r),
+		rndrectGrob(gp = gpar_rect, r = o$frame.r * o$scale),
 		grid::textGrob(label = label, rot = rot, gp = gpar_text)
 	)
 	

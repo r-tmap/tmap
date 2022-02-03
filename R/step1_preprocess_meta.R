@@ -6,11 +6,11 @@ preprocess_meta_step1 = function(o) {
 		color.saturation = NULL
 		color.vision.deficiency.sim = NULL
 		
-		title.size = title.size * scale
-		legend.title.size = legend.title.size * scale
-		legend.text.size = legend.text.size * scale
-		
-		panel.label.size = panel.label.size * scale
+		# title.size = title.size * scale
+		# legend.title.size = legend.title.size * scale
+		# legend.text.size = legend.text.size * scale
+		# 
+		# panel.label.size = panel.label.size * scale
 		
 		space.color = ifelse(is.null(space.color), bg.color, space.color[1])
 		earth.boundary.color = ifelse(is.null(earth.boundary.color), attr.color, earth.boundary.color[1])
@@ -82,8 +82,8 @@ preprocess_meta_step1 = function(o) {
 		}
 		earth.boundary = !identical(earth.boundary, FALSE)
 		
-		earth.boundary.lwd = earth.boundary.lwd * scale
-		frame.lwd = frame.lwd * scale
+		#earth.boundary.lwd = earth.boundary.lwd * scale
+		#frame.lwd = frame.lwd * scale
 		
 		# set font face and family
 		
