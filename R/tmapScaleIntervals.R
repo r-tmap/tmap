@@ -94,7 +94,7 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev) {
 		}
 		
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, scale = values.scale, are_breaks = TRUE, rep = values.repeat, o = o))
+		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
 		
 		vvalues = VV$vvalues
 		value.na = VV$value.na

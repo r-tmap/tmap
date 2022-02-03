@@ -10,6 +10,7 @@ tmapGridWrap = function(label, facet_row, facet_col, facet_page, o) {
 	
 	frame.col = if (identical(o$frame, FALSE)) o$attr.color else if (identical(o$frame, TRUE)) o$attr.color else o$frame
 	
+	#scale = o$scale * o$scale_down
 	
 	gpar_rect = grid::gpar(fill = o$panel.label.bg.color, lwd=o$frame.lwd, col = o$frame)
 	gpar_text = rescale_gp(grid::gpar(cex = o$panel.label.size, col = o$panel.label.color, fontfamily = o$panel.label.fontfamily, fontface = o$panel.label.fontface), o$scale_down)

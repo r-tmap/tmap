@@ -116,7 +116,7 @@ step1_rearrange = function(tmel) {
 		o = complete_options(o2, o)
 	}
 
-	o = preprocess_meta_step2(o)
+	o = preprocess_meta_step1(o)
 	
 	
 	

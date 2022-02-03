@@ -144,11 +144,12 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	
 	
 	#sq = function(x) do.call(seq, as.list(unname(range(x))))
+	sc = min(1/clipT) * o$scale
 	
 	groupframe = if (!is.na(comp[[1]]$frame) && group.frame) {
 		#x = switch(group.just[1], "left" = W/2, "right" = grid::unit(1,"npc") - W/2, grid::unit(0.5, "npc"))
 		#y = switch(group.just[2], "top" = grid::unit(1,"npc") - H/2, "bottom" = H/2, grid::unit(0.5, "npc"))
-		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = comp[[1]]$bg.color, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd), r = comp[[1]]$frame.r))
+		gridCell(range(Hid), range(Wid), rndrectGrob(gp=grid::gpar(fill = comp[[1]]$bg.color, col = comp[[1]]$frame, lwd = comp[[1]]$frame.lwd * sc), r = comp[[1]]$frame.r * sc))
 	} else NULL
 	
 	

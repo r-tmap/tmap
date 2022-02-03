@@ -23,13 +23,14 @@ prepreprocess_meta = function(o, vp) {
 		}
 		
 		
-		lin = par("cin")[2] * scale
+		lin = par("cin")[2]# * scale
 		
-		lineH = lin / devsize[2] 
-		lineW = lin / devsize[1]
+		lineH = lin / devsize[2] * scale
+		lineW = lin / devsize[1] * scale
 		
-		nlinesH = 1/lineH
-		nlinesW = 1/lineW
+		# not needed?
+		#nlinesH = 1/lineH
+		#nlinesW = 1/lineW
 		
 	})
 }
@@ -331,12 +332,12 @@ process_meta = function(o, d, cdt) {
 		height_for1 = max(1e-9, ((1 - sum(fixedMargins[c(1, 3)])) - (sum(panel.wrap.size[c(1,3)]))))
 		
 		scale_down = (1 / sqrt((width_for1 * height_for1) / (width_forn * height_forn))) ^ (1 / scale.factor)
-		
-		title.size = title.size * scale
-		legend.title.size = legend.title.size * scale
-		legend.text.size = legend.text.size * scale
-
-		panel.label.size = panel.label.size * scale
+		# 
+		# title.size = title.size * scale
+		# legend.title.size = legend.title.size * scale
+		# legend.text.size = legend.text.size * scale
+		# 
+		# panel.label.size = panel.label.size * scale
 		
 		
 		# update panel labels

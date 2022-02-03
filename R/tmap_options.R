@@ -302,47 +302,44 @@
 	style = "white"
 )
 
-
-v3 = list(
-	frame.lwd = 1,
-	frame.r = 0,
-	legend.position = tm_pos_auto_in(just.h = "left", just.v = "top"),
-	legend.text.size = 0.7,
-	legend.title.size = 0.9,
-	legend.frame = FALSE,
-	legend.frame.r = 0,
-	legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 3),
-											 item.width = c(rect = 1, symbols = 1, gradient = 1.2),
-											 item.r = 0,
-											 item.space = c(rect = 0, symbols = 0, gradient = 0),
-											 item.na.height = c(rect = NA, symbols = NA, gradient = 1.2),
-											 item.na.width = c(rect = NA, symbols = NA, gradient = 1.2),
-											 item.na.space = c(rect = 0, symbols = 0, gradient = 1),
-											 title.padding  = c(0, 0, 0.25, 0),
-											 ticks = list(rect = list(), symbols = list(), gradient = list()),
-											 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
-											 ticks.col = NA,
-											 ticks.lwd = 1.5,
-											 margins = c(0.4, 0.4, 0.4, 0.4),
-											 margin.item.text = 0.25),
-	legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2),
-											  item.width = c(rect = 6, symbols = 3, gradient = 6),
-											  item.r = 0,
-											  item.space = c(rect = 0.2, symbols = 0.3, gradient = 0),
-											  item.na.height = c(rect = NA, symbols = NA, gradient = 2),
-											  item.na.width = c(rect = NA, symbols = NA, gradient = 6),
-											  item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
-											  title.padding  = c(0, 0, 0.25, 0),
-											  ticks = list(rect = list(), symbols = list(), gradient = list(c(0.8, 1))),
-											  ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
-											  ticks.col = NA,
-											  ticks.lwd = 1.5,
-											  margins = c(0.4, 0.4, 0.4, 0.4),
-											  margin.item.text = 0.25)
-)
-
-.defaultTmapStyles = list(
-	v3 = v3,
+styles = list(
+	v3 = list(
+		frame.lwd = 1,
+		frame.r = 0,
+		legend.position = tm_pos_auto_in(just.h = "left", just.v = "top"),
+		legend.text.size = 0.7,
+		legend.title.size = 0.9,
+		legend.frame = FALSE,
+		legend.frame.r = 0,
+		legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 3),
+												 item.width = c(rect = 1, symbols = 1, gradient = 1.2),
+												 item.r = 0,
+												 item.space = c(rect = 0, symbols = 0, gradient = 0),
+												 item.na.height = c(rect = NA, symbols = NA, gradient = 1.2),
+												 item.na.width = c(rect = NA, symbols = NA, gradient = 1.2),
+												 item.na.space = c(rect = 0, symbols = 0, gradient = 1),
+												 title.padding  = c(0, 0, 0.25, 0),
+												 ticks = list(rect = list(), symbols = list(), gradient = list()),
+												 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
+												 ticks.col = NA,
+												 ticks.lwd = 1.5,
+												 margins = c(0.4, 0.4, 0.4, 0.4),
+												 margin.item.text = 0.25),
+		legend.settings.standard.landscape = list(item.height = c(rect = 1, symbols = 1, gradient = 1.2),
+												  item.width = c(rect = 6, symbols = 3, gradient = 6),
+												  item.r = 0,
+												  item.space = c(rect = 0.2, symbols = 0.3, gradient = 0),
+												  item.na.height = c(rect = NA, symbols = NA, gradient = 2),
+												  item.na.width = c(rect = NA, symbols = NA, gradient = 6),
+												  item.na.space = c(rect = 0.2, symbols = 0.3, gradient = 0.3),
+												  title.padding  = c(0, 0, 0.25, 0),
+												  ticks = list(rect = list(), symbols = list(), gradient = list(c(0.8, 1))),
+												  ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),
+												  ticks.col = NA,
+												  ticks.lwd = 1.5,
+												  margins = c(0.4, 0.4, 0.4, 0.4),
+												  margin.item.text = 0.25)
+	),
 	gray = list(
 		bg.color = "grey85",
 		values.var = list(fill = list(seq = "brewer.greys", unord = "brewer.greys", ord = "brewer.greys", cyc = "brewer.greys"),
@@ -423,6 +420,22 @@ v3 = list(
 				   frame = TRUE,
 				   frame.double.line = TRUE,
 				   compass.type = "rose")
+)
+
+.defaultTmapStyles = list(
+	gray = styles$gray,
+	grey = styles$grey,
+	natural = styles$natural,
+	cobalt = styles$cobalt,
+	albatross = styles$albatross,
+	classic = styles$classic,
+	v3 = styles$v3,
+	gray_v3 = c(styles$gray, styles$v3),
+	grey_v3 = c(styles$grey, styles$v3),
+	natural_v3 = c(styles$natural_v3, styles$v3),
+	cobalt_v3 = c(styles$cobalt, styles$v3),
+	albatross_v3 = c(styles$albatross, styles$v3),
+	classic_v3 = c(styles$classic, styles$v3)
 )
 
 
