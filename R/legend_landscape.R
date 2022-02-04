@@ -115,7 +115,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	} else if (comp$stretch == "itemsNNA") {
 		if (comp$na.show) set_unit_with_stretch(ws, head(item_ids, -1)) else set_unit_with_stretch(ws, item_ids)
 	} else {
-		sides = switch(comp$position$just.h, left = "second", right = "first", "both")
+		sides = switch(comp$position$align.h, left = "second", right = "first", "both")
 		set_unit_with_stretch(ws, sides = sides)
 	}
 	
@@ -151,7 +151,7 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o) {
 												   widths = wsu,
 												   heights = hsu))
 	
-	if (is.na(comp$title.just)) comp$title.just = comp$position$just.h
+	if (is.na(comp$title.just)) comp$title.just = comp$position$align.h
 	
 	
 	if (comp$title.just == "left") {

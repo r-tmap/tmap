@@ -137,7 +137,7 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 	
 	txtW = colW - (item_widths_max + comp$margin.item.text) * textS * o$lin
 	
-	n = switch(comp$position$just.h, left = c(0, 1), right = c(1, 0), c(0.5, 0.5))
+	n = switch(comp$position$align.h, left = c(0, 1), right = c(1, 0), c(0.5, 0.5))
 	
 	wsu = grid::unit(c(marW[1], 
 					   n[1], 
@@ -174,7 +174,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
 												   widths = wsu,
 												   heights = hsu))
 	
-	if (is.na(comp$title.just)) comp$title.just = comp$position$just.h
+	if (is.na(comp$title.just)) comp$title.just = comp$position$align.h
 	
 	if (comp$title.just == "left") {
 		grTitle = gridCell(3, 2:(length(comp$wsu)-1), grid::textGrob(comp$title, x = grid::unit(comp$title.padding[2] * titleS * o$lin, units = "inch"), just = "left", gp = grid::gpar(col = comp$title.color, cex = titleS)))

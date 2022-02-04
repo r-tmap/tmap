@@ -49,13 +49,13 @@ tmapGridLegPlot.tm_title = function(comp, o) {
 	
 	padding = grid::unit(comp$padding[c(3,4,1,2)] * titleS * o$lin, units = "inch")
 
-	if (comp$position$just.h == "left") {
+	if (comp$position$align.h == "left") {
 		#x = grid::unit(0, "npc") 
 		x = grid::unit(comp$padding[2] * titleS * o$lin, units = "inch")
 		halign = 0
 		hjust = 1
 		just = "left"
-	} else if (comp$position$just.h == "right") {
+	} else if (comp$position$align.h == "right") {
 		#x = grid::unit(1, "npc") 
 		x = grid::unit(1, "npc") - grid::unit(comp$padding[4] * titleS * o$lin, units = "inch")
 		halign = 1

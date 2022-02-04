@@ -56,9 +56,9 @@ tmap_options(legend.width = 10, legend.frame = TRUE)
 tm_shape(World) + tm_polygons("HPI")
 tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_auto_out(pos.h= "left")))
 tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_auto_out(pos.h= "right", pos.v = "bottom")))
-tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_auto_out(pos.h= "right", pos.v = "bottom", just.h = "left", just.v = "right")))
-tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_auto_out(pos.h= "right", pos.v = "bottom", just.h = "center", just.v = "center")))
-tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_auto_out(pos.h= "right", pos.v = "bottom", just.h = "right", just.v = "bottom")))
+tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_auto_out(pos.h= "right", pos.v = "bottom", align.h = "left", align.v = "right")))
+tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_auto_out(pos.h= "right", pos.v = "bottom", align.h = "center", align.v = "center")))
+tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_auto_out(pos.h= "right", pos.v = "bottom", align.h = "right", align.v = "bottom")))
 ```
 
 ```{r}
@@ -79,9 +79,9 @@ tm_shape(World) + tm_polygons("HPI", fill.legend = tm_legend(position = tm_pos_i
 ```{r}
 tm_shape(World) + tm_polygons("HPI", col = "economy")
 tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.position = tm_pos_out("center", "center", pos.h = "center", pos.v = "center"))
-tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.position = tm_pos_out("center", "center", pos.h = "center", pos.v = "center", just.h = "right", just.v = "bottom"))
-tm_shape(World) + tm_polygons("HPI", col = "economy", col.legend = tm_legend(position = tm_pos_in(just.h = "right"))) + tm_layout(legend.position = tm_pos_out("center", "center", pos.h = "center", pos.v = "center"))
-tm_shape(World) + tm_polygons("HPI", col = "economy", col.legend = tm_legend(position = tm_pos_in(just.h = "right"))) + tm_layout(legend.position = tm_pos_out("center", "center", pos.h = "center", pos.v = "center"))
+tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.position = tm_pos_out("center", "center", pos.h = "center", pos.v = "center", align.h = "right", align.v = "bottom"))
+tm_shape(World) + tm_polygons("HPI", col = "economy", col.legend = tm_legend(position = tm_pos_in(align.h = "right"))) + tm_layout(legend.position = tm_pos_out("center", "center", pos.h = "center", pos.v = "center"))
+tm_shape(World) + tm_polygons("HPI", col = "economy", col.legend = tm_legend(position = tm_pos_in(align.h = "right"))) + tm_layout(legend.position = tm_pos_out("center", "center", pos.h = "center", pos.v = "center"))
 tm_shape(World) + tm_polygons("HPI", col = "economy")
 ```
 
@@ -106,3 +106,30 @@ tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.positio
 tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.position = tm_pos_auto_in()) + tm_title("test")
 tm_shape(World) + tm_polygons("HPI", col = "economy") + tm_layout(legend.position = tm_pos_auto_in()) + tm_title("test", position = tm_pos_in("left", "bottom"))
 ```
+
+
+
+```{r}
+tm_shape(World) + tm_polygons("HPI", col = "economy", lwd = "life_exp",
+							  fill.legend = tm_legend(position = tm_pos_in("left", "top")),
+							  col.legend = tm_legend(position = tm_pos_in("left", "bottom")),
+							  lwd.legend = tm_legend(position = tm_pos_in("right", "TOP"))) + 
+	tm_title("test", position = tm_pos_in("right", "BOTTOM"), frame = TRUE) +
+	tm_title("test2", position = tm_pos_in("right", "TOP"), frame = TRUE) +
+	tm_title("test3", position = tm_pos_in(0.4, 0.4), frame = TRUE) +
+	tm_title("test4", position = tm_pos_in(0.4, 0.4), frame = TRUE) +
+	tm_title("test5", position = tm_pos_in(0.7, 0.7), frame = TRUE)
+
+
+tm_shape(World) + tm_polygons("HPI", col = "economy", lwd = "life_exp",
+							  fill.legend = tm_legend(position = tm_pos_in("left", "top")),
+							  col.legend = tm_legend(position = tm_pos_in("LEFT", "bottom")),
+							  lwd.legend = tm_legend(position = tm_pos_in("right", "TOP"))) + 
+	tm_title("test", position = tm_pos_in("right", "BOTTOM"), frame = TRUE) +
+	tm_title("test2", position = tm_pos_in("right", "TOP"), frame = TRUE) +
+	tm_title("test3", position = tm_pos_in(0.4, 0.4), frame = TRUE) +
+	tm_title("test4", position = tm_pos_in(0.4, 0.4), frame = TRUE) +
+	tm_title("test5", position = tm_pos_in(0.0, 0.0, just.h = "left", just.v = "bottom"), frame = TRUE, bg.color = "red")
+	
+```
+

@@ -87,8 +87,6 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	legW = grid::unit(legWin, "inches")
 	legH = grid::unit(legHin, "inches")
 	
-	nullsH = switch(group.just[1], left = c(0, 1), center = c(0.5, 0.5), right = c(1, 0)) 
-	nullsV = switch(group.just[2], top = c(0, 1), center = c(0.5, 0.5), bottom = c(1, 0)) 
 	
 	
 	#Ws = as.vector(rbind(legW, rep(grid::unit(marginIn, "inch"), n)))
@@ -97,36 +95,76 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	
 	
 	if (stack == "vertical") {
-		W = max(legW)
-		H = sum(legH)
+		W = max(legWin)
+		H = sum(legHin)
 		
-		Hs = unit_add_between(legH, grid::unit(marginIn, "inch"))
-		Hs = unit_add_sides(Hs, grid::unit(offsetIn.v, "inch"))
-		Hs = unit_add_sides(Hs, grid::unit(nullsV, "null"))
-		
-		Ws = unit_add_sides(W, grid::unit(offsetIn.h, "inch"))
-		Ws = unit_add_sides(Ws, grid::unit(nullsH, "null"))
-		
+		Hs = unit_add_between(legHin, marginIn)
+		Ws = W
 	} else {
-		W = sum(legW)
-		H = max(legH)
+		W = sum(legWin)
+		H = max(legHin)
 		
-		Ws = unit_add_between(legW, grid::unit(marginIn, "inch"))
-		Ws = unit_add_sides(Ws, grid::unit(offsetIn.v, "inch"))
-		Ws = unit_add_sides(Ws, grid::unit(nullsH, "null"))
-		
-		Hs = unit_add_sides(H, grid::unit(offsetIn.h, "inch"))
-		Hs = unit_add_sides(Hs, grid::unit(nullsV, "null"))
+		Ws = unit_add_between(legWin, marginIn)
+		Hs = H
 	}
 	
+	
+	are_nums = !(any(is.na(suppressWarnings(as.numeric(group.just)))))
+	
+	
+	
+	if (are_nums) {
+		group.just = as.numeric(group.just)
+		just.h = comp[[1]]$position$just.h
+		just.v = comp[[1]]$position$just.v
+		
+		# add dummy offsets
+		Hs = unit_add_sides(Hs, 0)
+		Ws = unit_add_sides(Ws, 0)
+		
+		ancher_x = maxW * group.just[1]
+		if (just.h == "left") {
+			Ws = unit_add_sides(Ws, c(ancher_x, maxW - ancher_x- sum(Ws)))
+		} else if (just.h == "right") {
+			Ws = unit_add_sides(Ws, c(ancher_x - sum(Ws), maxW - ancher_x))
+		} else {
+			Ws = unit_add_sides(Ws, c(ancher_x - (sum(Ws) / 2), maxW - ancher_x- (sum(Ws) / 2)))
+		}
+		
+		ancher_y = maxH * group.just[2]
+		if (just.v == "bottom") {
+			Hs = unit_add_sides(Hs, c(ancher_y, maxH - ancher_y - sum(Hs)))
+		} else if (just.v == "top") {
+			Hs = unit_add_sides(Hs, c(ancher_y - sum(Hs), maxH - ancher_y))
+		} else {
+			Hs = unit_add_sides(Hs, c(ancher_y - (sum(Hs) / 2), maxH - ancher_y - (sum(Hs) / 2)))
+		}
+		
+	} else {
+		nullsH = switch(group.just[1], left = c(0, 1), center = c(0.5, 0.5), right = c(1, 0)) 
+		nullsV = switch(group.just[2], top = c(0, 1), center = c(0.5, 0.5), bottom = c(1, 0)) 
+		
+		Hs = unit_add_sides(Hs, offsetIn.v)
+		Hs = unit_add_sides(Hs, nullsV)
+
+		Ws = unit_add_sides(Ws, offsetIn.h)
+		Ws = unit_add_sides(Ws, nullsH)
+
+	}
+		
 	Hn = length(Hs)
 	Wn = length(Ws)
 	
 	Hid = seq(3, Hn - 2, by = 2)
 	Wid = seq(3, Wn - 2, by = 2)
 	
-	Wu = c("null", rep("inch", Wn-2), "null")
-	Hu = c("null", rep("inch", Hn-2), "null")
+	if (are_nums) {
+		Wu = rep("inch", Wn)
+		Hu = rep("inch", Hn)
+	} else {
+		Wu = c("null", rep("inch", Wn-2), "null")
+		Hu = c("null", rep("inch", Hn-2), "null")
+	}
 	
 	# po(Ws, Hs)
 	# Ws = distr_space_over_nulls(Ws, maxW)
@@ -169,11 +207,11 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 			rndrectGrob(gp=grid::gpar(fill = leg$bg.color, col = leg$frame, lwd = leg$frame.lwd), r = leg$frame.r)
 		} else NULL
 		if (stack == "vertical") {
-			x = switch(leg$position$just.h, "left" = lW/2, "right" = W-lW/2, grid::unit(0.5, "npc"))
+			x = switch(leg$position$align.h, "left" = lW/2, "right" = grid::unit(W, "inch") -lW/2, grid::unit(0.5, "npc"))
 			y = grid::unit(0.5, "npc")
 		} else {
 			x = grid::unit(0.5, "npc")
-			y = switch(leg$position$just.v, "top" = H-lH/2, "bottom" = lH/2, grid::unit(0.5, "npc"))
+			y = switch(leg$position$align.v, "top" = grid::unit(H, "inch")-lH/2, "bottom" = lH/2, grid::unit(0.5, "npc"))
 		}
 		gridCell(iH, iW, grid::grobTree(frame, lG, vp = grid::viewport(x = x, width = lW, y = y, height = lH)))
 	}, comp, legGrobs, legH, legW, Wid, Hid, SIMPLIFY = FALSE))
@@ -235,13 +273,13 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	w2 = which(pos.v=="top" & pos.h=="left")
 	w3 = which(pos.v=="top" & pos.h=="right")
 	w4 = which(pos.v=="bottom" & pos.h=="right")
-	w5 = which(pos.v=="center" | pos.h=="center")
+	w5 = setdiff(seq_len(n), c(w1, w2, w3, w4))
 	#########
 	#2     3#
 	#       #
 	#1     4#
 	#########
-	# 5 is rect category consisting of "center"s
+	# 5 is rect category consisting of "center"s or numbers
 	
 	
 	

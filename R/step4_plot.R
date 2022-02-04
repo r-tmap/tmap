@@ -384,8 +384,11 @@ step4_plot = function(tm, vp) {
 	
 	if (nrow(cdt) > 0L) for (k in seq_len(o$npages)) {
 		klegs = cdt[is.na(by3__) | (by3__ == k), ]
-		#klegs[, id:=]
-		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, pos.h = .SD$pos.h, pos.v = .SD$pos.v)), by = list(facet_row, facet_col), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "pos.h", "pos.v")]
+		klegs[, pos.h.id := pos.h][pos.h %in% c("left", "center", "right"), pos.h.id:="lower"][pos.h %in% c("LEFT", "CENTER", "RIGHT"), pos.h.id:="upper"]
+		klegs[, pos.v.id := pos.v][pos.v %in% c("top", "center", "bottom"), pos.v.id:="lower"][pos.v %in% c("TOP", "CENTER", "BOTTOM"), pos.v.id:="upper"]
+		klegs[, id:=paste(pos.h.id, pos.v.id, sep = "__")]
+		
+		klegs[, do.call(legfun, args = list(comp = .SD$comp, o = o, facet_row = toI(.SD$facet_row[1]), facet_col = toI(.SD$facet_col[1]), facet_page = k, class = .SD$class[1], stack = .SD$stack, pos.h = .SD$pos.h, pos.v = .SD$pos.v)), by = list(facet_row, facet_col, id), .SDcols = c("comp", "facet_row", "facet_col", "class", "stack", "pos.h", "pos.v")]
 	}
 	
 	do.call(FUNrun, list(o = o))

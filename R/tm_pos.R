@@ -3,8 +3,9 @@
 #' Set the position of map components, such as legends, title, compass, scale bar, etc. `tm_pos` is the function to position these components: `tm_pos_out` places the components outside the map area and `tm_pos_in` inside the map area. Each \code{position} argument of a map layer or component should be specified with one of these functions. The functions `tm_pos_auto_out` and `tm_pos_auto_in` are used to set the components automatically, and are recommended to use globally, via \code{\link{tmap_options}}. See details how the positioning works.
 #' 
 #' @param cell.h,cell.v The plotting area is overlaid with a 3x3 grid, of which the middle grid cell is the map area. Components can be drawn into any cell. `cell.h` specifies the horizontal position (column) can take values `"left"`, `"center"`, and `"right"`, and `cell.v` specifies the vertical position (row) and can take values `"top"`, `"center"`, and `"bottom"`. See details for a graphical explanation.
-#' @param pos.h,pos.v The position of the component within the cell. The options for `pos.h` are `"left"`, `"center"`, and `"right"`, and for `cell.v` these are `"top"`, `"center"`, and `"bottom"`.
-#' @param just.h,just.v The justification of the component in case multiple components are stacked. When they are stacked horizontally, `just.v` determines how compnents that are smaller in height than the available height (determined by the outer.margins if specified and otherwise by the heigest component) are justified: `"top"`, `"center"`, or `"bottom"`. Similarly, `just.h` determines how components are justified horizontally when they are stacked vertically: `"left"`, `"center"`, or `"right"`.
+#' @param pos.h,pos.v The position of the component within the cell. The main options for `pos.h` are `"left"`, `"center"`, and `"right"`, and for `cell.v` these are `"top"`, `"center"`, and `"bottom"`. These options can also be provided in upper case; in that case there is no offset (see the tmap option `component.offset`). Also numbers between 0 and 1 can be provided, which determine the position of the component inside the cell (with (0,0) being left bottom). The arguments `just.h` and `just.v` determine the justification point.
+#' @param align.h,align.v The alignment of the component in case multiple components are stacked. When they are stacked horizontally, `align.v` determines how components that are smaller in height than the available height (determined by the outer.margins if specified and otherwise by the heigest component) are justified: `"top"`, `"center"`, or `"bottom"`. Similarly, `align.h` determines how components are justified horizontally when they are stacked vertically: `"left"`, `"center"`, or `"right"`.
+#' @param just.h,just.v The justification of the components. Only used in case `pos.h` and `pos.v` are numbers.
 #' @details 
 #' 
 #' | | | | | |
@@ -39,7 +40,7 @@
 #' 
 #' \code{tm_pos_auto_in} automatically determines `pos.h` and `pos.v` given the available space inside the map. This is similar to the default positioning in tmap3.
 #' 
-#' In case multiple components are draw in the same cell and the same position inside that cell, they are stacked (determined which the `stack` argument in the legend or component function). The `just.h` and `just.v` arguments determine how these components will be justified with each other.
+#' In case multiple components are draw in the same cell and the same position inside that cell, they are stacked (determined which the `stack` argument in the legend or component function). The `align.h` and `align.v` arguments determine how these components will be justified with each other.
 #' 
 #' Note that legends and components may be different for a facet row or column. This is the case when \code{\link{tm_facets_grid}} or \code{\link{tm_facets_stack}} are applied and when scales are set to free (with the \code{.free} argument of the map layer functions). In case a legends or components are draw row- or column wise, and the position of the legends (or components) is right next to the maps, these legends (or components) will be aligned with the maps.
 #' 
@@ -47,7 +48,7 @@
 #' @export
 #' @name tm_pos
 #' @rdname tm_pos
-tm_pos = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
+tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	args$type = "na"
 	structure(args, class = "tm_pos")
@@ -56,7 +57,7 @@ tm_pos = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
 #' @export
 #' @name tm_pos_out
 #' @rdname tm_pos
-tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
+tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	args$type = "out"
 	structure(args, class = "tm_pos")
@@ -65,7 +66,7 @@ tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
 #' @export
 #' @name tm_pos_in
 #' @rdname tm_pos
-tm_pos_in = function(pos.h, pos.v, just.h, just.v) {
+tm_pos_in = function(pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	args$type = "in"
 	structure(args, class = "tm_pos")
@@ -82,7 +83,7 @@ tm_pos_in = function(pos.h, pos.v, just.h, just.v) {
 #' @export
 #' @name tm_pos_out
 #' @rdname tm_pos
-tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
+tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	args$type = "out"
 	structure(args, class = "tm_pos")
@@ -91,7 +92,7 @@ tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
 #' @export
 #' @name tm_pos_auto_out
 #' @rdname tm_pos
-tm_pos_auto_out = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
+tm_pos_auto_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	args$type = "autoout"
 	structure(args, class = "tm_pos")
@@ -101,7 +102,7 @@ tm_pos_auto_out = function(cell.h, cell.v, pos.h, pos.v, just.h, just.v) {
 #' @export
 #' @name tm_pos_auto_in
 #' @rdname tm_pos
-tm_pos_auto_in = function(just.h, just.v) {
+tm_pos_auto_in = function(align.h, align.v, just.h, just.v) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	args$type = "autoin"
 	structure(args, class = "tm_pos")
