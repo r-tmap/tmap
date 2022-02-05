@@ -261,9 +261,11 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 		component.offset.v = get_option_class(o$component.offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
 	}
 	
-	offsetIn.h = component.offset.h * o$lin + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
-	offsetIn.v = component.offset.v * o$lin + (o$frame.lwd * o$scale / 144)
+	offsetIn.h = component.offset.h * o$lin * o$scale + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
+	offsetIn.v = component.offset.v * o$lin * o$scale + (o$frame.lwd * o$scale / 144)
 	marginIn = o$component.stack.margin * o$lin
+	
+	po(offsetIn.h, offsetIn.v)
 	
 	marginInTot = (n - 1L) * marginIn
 	offsetInTot.h  = 2 * offsetIn.h

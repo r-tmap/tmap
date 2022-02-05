@@ -87,20 +87,20 @@ preprocess_meta_step1 = function(o) {
 		
 		# set font face and family
 		
-		if (is.null(legend.title.fontface)) legend.title.fontface = fontface
-		if (is.null(legend.title.fontfamily)) legend.title.fontfamily = fontfamily
+		if (is.null(legend.title.fontface)) legend.title.fontface = text.fontface
+		if (is.null(legend.title.fontfamily)) legend.title.fontfamily = text.fontfamily
 		
-		if (is.null(legend.text.fontface)) legend.text.fontface = fontface
-		if (is.null(legend.text.fontfamily)) legend.text.fontfamily = fontfamily
+		if (is.null(legend.text.fontface)) legend.text.fontface = text.fontface
+		if (is.null(legend.text.fontfamily)) legend.text.fontfamily = text.fontfamily
 		
-		if (is.null(title.fontface)) title.fontface = fontface
-		if (is.null(title.fontfamily)) title.fontfamily = fontfamily
+		if (is.null(title.fontface)) title.fontface = text.fontface
+		if (is.null(title.fontfamily)) title.fontfamily = text.fontfamily
 		
-		if (is.null(main.title.fontface)) main.title.fontface = fontface
-		if (is.null(main.title.fontfamily)) main.title.fontfamily = fontfamily
+		if (is.null(main.title.fontface)) main.title.fontface = text.fontface
+		if (is.null(main.title.fontfamily)) main.title.fontfamily = text.fontfamily
 		
-		if (is.null(panel.label.fontface)) panel.label.fontface = fontface
-		if (is.null(panel.label.fontfamily)) panel.label.fontfamily = fontfamily
+		if (is.null(panel.label.fontface)) panel.label.fontface = text.fontface
+		if (is.null(panel.label.fontfamily)) panel.label.fontfamily = text.fontfamily
 		
 		
 	})

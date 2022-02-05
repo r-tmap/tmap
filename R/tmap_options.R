@@ -139,7 +139,7 @@
 		meta.margins = NA,
 		meta.auto.margins = c(0.4, 0.4, 0.4, 0.4),
 		between.margin = 0.5,
-		component.offset = c(inside = 0.25, INSIDE = 0, outside = 0, OUTSIDE = 0),
+		component.offset = c(inside = 0.75, INSIDE = 0, outside = 0, OUTSIDE = 0),
 		component.stack.margin = 0,
 		grid.mark.height = 2,
 		xylab.height = 1.25,
@@ -161,14 +161,19 @@
 		# data
 		unit = "metric",
 		
+		# general visual settings
+		
 		# colors
 		color.sepia.intensity = 0,
 		color.saturation = 1,
 		color.vision.deficiency.sim = "none",
 		
 		# text
-		fontface = "plain",
-		fontfamily = "",
+		text.fontface = "plain",
+		text.fontfamily = "",
+		
+		#
+		
 		
 		# legend		
 		legend.show = TRUE,
@@ -430,12 +435,12 @@ styles = list(
 	albatross = styles$albatross,
 	classic = styles$classic,
 	v3 = styles$v3,
-	gray_v3 = c(styles$gray, styles$v3),
-	grey_v3 = c(styles$grey, styles$v3),
-	natural_v3 = c(styles$natural_v3, styles$v3),
-	cobalt_v3 = c(styles$cobalt, styles$v3),
-	albatross_v3 = c(styles$albatross, styles$v3),
-	classic_v3 = c(styles$classic, styles$v3)
+	gray_v3 = c(styles$v3, styles$gray),
+	grey_v3 = c(styles$v3, styles$grey),
+	natural_v3 = c(styles$v3, styles$natural),
+	cobalt_v3 = c(styles$v3, styles$cobalt),
+	albatross_v3 = c(styles$v3, styles$albatross),
+	classic_v3 = c(styles$v3, styles$classic)
 )
 
 
