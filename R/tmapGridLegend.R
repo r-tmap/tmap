@@ -22,7 +22,7 @@ process_comp_box = function(comp, sc, o) {
 	comp
 }
 
-tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn) {
+tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn.h, offsetIn.v, marginIn, are_nums) {
 	
 	n = length(comp)
 	# if (stack == "vertical") {
@@ -109,7 +109,6 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	}
 	
 	
-	are_nums = !(any(is.na(suppressWarnings(as.numeric(group.just)))))
 	
 	
 	
@@ -131,10 +130,10 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 			Ws = unit_add_sides(Ws, c(ancher_x - (sum(Ws) / 2), maxW - ancher_x- (sum(Ws) / 2)))
 		}
 		
-		ancher_y = maxH * group.just[2]
-		if (just.v == "bottom") {
+		ancher_y = maxH * (1 - group.just[2])
+		if (just.v == "top") {
 			Hs = unit_add_sides(Hs, c(ancher_y, maxH - ancher_y - sum(Hs)))
-		} else if (just.v == "top") {
+		} else if (just.v == "bottom") {
 			Hs = unit_add_sides(Hs, c(ancher_y - sum(Hs), maxH - ancher_y))
 		} else {
 			Hs = unit_add_sides(Hs, c(ancher_y - (sum(Hs) / 2), maxH - ancher_y - (sum(Hs) / 2)))
@@ -252,10 +251,16 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 		CASE.v = toupper
 	} else CASE.v = function(x)x
 	
-	component.offset.h = get_option_class(o$component.offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
-	component.offset.v = get_option_class(o$component.offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
+	are_nums = !(any(is.na(suppressWarnings(as.numeric(c(pos.h, pos.v))))))
 	
-
+	if (are_nums) {
+		component.offset.h = 0
+		component.offset.v = 0
+	} else {
+		component.offset.h = get_option_class(o$component.offset, class = CASE.h(paste0(class, "side")), spatial_class = FALSE)
+		component.offset.v = get_option_class(o$component.offset, class = CASE.v(paste0(class, "side")), spatial_class = FALSE)
+	}
+	
 	offsetIn.h = component.offset.h * o$lin + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
 	offsetIn.v = component.offset.v * o$lin + (o$frame.lwd * o$scale / 144)
 	marginIn = o$component.stack.margin * o$lin
@@ -349,7 +354,7 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	grbsQ = do.call(grid::gList, lapply(1:5, function(i) {
 		id = get(paste0("w", i))
 		if (length(id)) {
-			tmapGridCompCorner(comp = comp[id], o = o, stack = stack[id[1]], pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn)
+			tmapGridCompCorner(comp = comp[id], o = o, stack = stack[id[1]], pos.h = pos.h[id[1]], pos.v = pos.v[id[1]], maxH = qH[i], maxW = qW[i], offsetIn.h = offsetIn.h, offsetIn.v = offsetIn.v, marginIn = marginIn, are_nums = are_nums)
 		}
 	}))
 

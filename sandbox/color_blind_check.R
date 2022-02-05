@@ -110,3 +110,31 @@ example_biv_choropleth = function(pal, dir = "./biv_plots") {
 for (name in div_paldf$name[1:30]) {
 	example_biv_choropleth(name)
 }
+
+
+## find color for missing values
+hcldf = as.data.frame(expand.grid(h = seq(0, 350, by = 10), c =seq(30,60,by=10), l = seq(20,90, by = 10)))
+hclcols = do.call(hcl, as.list(hcldf))
+
+
+cols = tmap_get_palette("purplegreen", 9)
+
+
+x = do.call(abind::abind, c(lapply(c("deu", "pro", "tri"), function(cvd) {
+		colorblindcheck::palette_dist(c(cols, hclcols), cvd = cvd)[1:9, 10:(9+nrow(hcldf))]	
+	}), list(along = 3)))
+m = apply(x, 1:2, min)
+
+
+m = colorblindcheck::palette_dist(c(cols, hclcols))[1:9, 10:(length(hclcols)+9)]	
+
+
+colNA = hclcols[which.max(apply(m, MARGIN = 2, min))]
+
+colorspace::specplot(c(cols))
+colorspace::specplot(c(cols, colNA))
+colorspace::specplot(colorspace::deutan(c(cols, colNA)))
+
+colorspace::specplot(colorspace::tritan(c(cols, colNA)))
+colorspace::specplot(colorspace::protan(c(cols, colNA)))
+
