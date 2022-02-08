@@ -72,8 +72,8 @@
 			fill_alpha = 0,
 			col_alpha = 0
 		),
-		values.var = list(fill = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
-						  col = list(seq = "brewer.ylorbr", div = "brewer.rdylgn", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
+		values.var = list(fill = list(seq = "brewer.ylorbr", div = "Purple-Green", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
+						  col = list(seq = "brewer.ylorbr", div = "Purple-Green", unord = "brewer.set3", ord = "brewer.ylorbr", cyc = "kovesi.cyclic_mrybm_35_75_c68_s25", biv = "brewer.qualseq"),
 						  size = tmap_seq(0, 1, power = "sqrt"),
 						  lwd = c(0, 3),
 						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),

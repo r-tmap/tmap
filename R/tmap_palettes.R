@@ -14,9 +14,7 @@ tmapPalId = function(name, check_rev = TRUE) {
 tmap_get_palette = function(name, n = NA, rep = TRUE, contrast = NA) {
 	if (name %in% unique(.tmap_pals$type)) {
 		name = tmap_options_mode()$aes.palette[[name]]
-	} 
-	
-	
+	}
 	
 	isrev = (substr(name, 1, 1) == "-")
 	if (isrev) name = substr(name, 2, nchar(name))
@@ -54,6 +52,10 @@ tmap_get_palette = function(name, n = NA, rep = TRUE, contrast = NA) {
 			pal = rep(pal, length.out = n)
 		} else pal = colorRampPalette(pal)(n)	
 	} 
+	
+	# if (x$type == "cat") {
+	# 	pal	= setdiff(pal, c("#FFFFFF", "#000000"))
+	# } 
 	
 	if (isrev) pal = rev(pal)
 
@@ -118,9 +120,20 @@ tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 							  series = c("palette", "hcl", "brewer", "viridis", "kovesi", "ocean", "carto", "bivariate", "misc"),
 							  n = 9,
 							  color_vision_deficiency = c("none", "deutan", "protan", "tritan"),
-							  full_names = NULL) {
-	pals = .tmap_pals[.tmap_pals$type %in% type & .tmap_pals$series %in% series, ]
+							  allow.stretch.cat = FALSE,
+							  full_names = NULL,
+							  pals = NULL) {
+	if (is.null(pals)) pals = .tmap_pals
 	
+	
+	pals = pals[pals$type %in% type & pals$series %in% series, ]
+	
+	
+	# if (!allow.stretch.cat) {
+	# 	pals = pals[pals$type == "cat" & pals$maxn >=]
+	# }
+	# 
+	withq = "q" %in% names(pals)
 	
 	if (!missing(full_names)) {
 		mid = na.omit(match(full_names, pals$fullname))
@@ -191,19 +204,22 @@ tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 	rowin = unlist(lapply(hs, function(h) h$rowin)) * inch_per_line
 	nrows = length(rowin)
 	
-	colin = c(.25* inch_per_word, 0.3 * inch_per_word, 1.3 * inch_per_word, rep((dz[1] - 2.1 * inch_per_word) / n, n),.25 * inch_per_word)
+	if (withq) {
+		colin = c(.25* inch_per_word, 0.3 * inch_per_word, 1.3 * inch_per_word, 1.3 * inch_per_word, rep((dz[1] - 3.4 * inch_per_word) / n, n),.25 * inch_per_word)
+	} else {
+		colin = c(.25* inch_per_word, 0.3 * inch_per_word, 1.3 * inch_per_word, rep((dz[1] - 2.1 * inch_per_word) / n, n),.25 * inch_per_word)
+	}
 	ncols = length(colin)
 	
 	pfile = tempfile(fileext = ".png")
 	dpi = 92
-	dz = dev.size()
-	
+
 	png(pfile, height = sum(rowin) * dpi, width = dz[1] * dpi, res = dpi)
 	grid::grid.newpage()
 	#grid.rect(gp=grid::gpar(fill="yellow"))
 	vp = grid::viewport(layout = grid::grid.layout(nrow = nrows, ncol = ncols,
 										widths = grid::unit(colin, "in"),
-										heights = grid::unit(rowin, "in")))
+										heights = grid::unit(rowin, "in")), gp=gpar(fontfamily="monospace"))
 	grid::pushViewport(vp)
 	
 	mapply(function(p, ids, idnum, idtype) {
@@ -212,17 +228,17 @@ tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 		 # idnum = rowid_idnum[2]
 		 # idtype = rowid_type[2]
 
-		grid::pushViewport(grid::viewport(layout.pos.row = idtype, layout.pos.col = 3:(n + 2)))
+		grid::pushViewport(grid::viewport(layout.pos.row = idtype, layout.pos.col = (3:(n + 2))+withq))
 		#grid.rect(gp=gpar(fill="yellow"))
 		grid::grid.text(p$typename[1], gp=grid::gpar(cex = 1.5, col = "grey30"))
 		grid::upViewport()
 		for (i in 1:n) {
-			grid::pushViewport(grid::viewport(layout.pos.row = idnum, layout.pos.col = i + 3))
+			grid::pushViewport(grid::viewport(layout.pos.row = idnum, layout.pos.col = i + 3 + withq))
 			grid::grid.text(i, gp=grid::gpar(cex = 0.75, col = "grey50"))
 			grid::upViewport()
 		}
 		for (k in 1:nrow(p)) {
-			cols = sim_colors(tmap_get_palette(p$fullname[k], n = ifelse(is.infinite(p$maxn[k]), n, p$maxn[k])))
+			cols = sim_colors(tmap_get_palette(p$fullname[k], n = ifelse(is.infinite(p$maxn[k]), n, p$maxn[k]), contrast = c(0,1)))
 			
 			if (p$type[k] == "biv") {
 				nk = p$maxn[k] / p$lines_per_pal[k]
@@ -241,9 +257,14 @@ tmap_show_palettes = function(type = c("cat", "seq", "div", "cyc", "biv"),
 			grid::grid.text(p$label[k], gp=grid::gpar(cex = 1, col = "grey30"), just = "right", x = 0.95)
 			grid::upViewport()
 			
+			if (withq) {
+				grid::pushViewport(grid::viewport(layout.pos.row = ids[k], layout.pos.col = 4))
+				grid::grid.text(p$q[k], gp=grid::gpar(cex = 1, col = "grey30"), just = "right", x = 0.95)
+				grid::upViewport()
+			}
 			
 			for (i in 1:nk) {
-				grid::pushViewport(grid::viewport(layout.pos.row = ids[k], layout.pos.col = i + 3))
+				grid::pushViewport(grid::viewport(layout.pos.row = ids[k], layout.pos.col = i + 3 + withq))
 				#vp2 = viewport(layout = grid.layout(nrow = nrow(cm), ncol = 1))
 				#pushViewport(vp2)
 				
