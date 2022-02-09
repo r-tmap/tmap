@@ -92,15 +92,30 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	
 	gp = impute_gp(gp, dt)
 	
-	gp = gp_to_gpar(gp, sel = "all")
 	
 	gp = rescale_gp(gp, o$scale_down)
+
+	#gp = gp_to_gpar(gp, sel = "all")
 	
+	diffAlpha = !any(is.na(c(gp$fill_alpha, gp$col_alpha))) && !(length(gp$fill_alpha) == length(gp$col_alpha) && all(gp$fill_alpha == gp$col_alpha))
 	
+
 	coords = sf::st_coordinates(shp)
 	
-	grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp, name = paste0("symbols_", id))
 	
+	if (diffAlpha) {
+		gp1 = gp_to_gpar(gp, sel = "fill")
+		gp2 = gp_to_gpar(gp, sel = "col")
+		
+		grb1 = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp1, name = paste0("symbols_", id))
+		grb2 = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp2, name = paste0("symbols_borders_", id))
+		grb = grid::grobTree(grb1, grb2)
+	} else {
+		gp = gp_to_gpar(gp, sel = "all")
+		grb = grid::pointsGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), pch = gp$shape, size = grid::unit(gp$size, "lines"), gp = gp, name = paste0("symbols_", id))
+	}
+	
+
 	gts = get("gts", .TMAP_GRID)
 	gt = gts[[facet_page]]
 	
