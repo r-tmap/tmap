@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Small multiples</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_misc_elements.R" class="external-link"><code>R/tm_misc_elements.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/R/tm_misc_elements.R" class="external-link"><code>R/tm_misc_elements.R</code></a></small>
     <div class="hidden name"><code>tm_facets.Rd</code></div>
     </div>
 
@@ -65,7 +65,8 @@
     <p>Creates a <code><a href="tmap-element.html">tmap-element</a></code> that specifies facets (small multiples). Small multiples can be created in two ways: 1) by specifying the <code>by</code> argument with one or two variable names, by which the data is grouped, 2) by specifying multiple variable names in any of the aesthetic argument of the layer functions (for instance, the argument <code>col</code> in <code><a href="tm_polygons.html">tm_fill</a></code>). This function further specifies the facets, for instance number of rows and columns, and whether the coordinate and scales are fixed or free (i.e. independent of each other). An overview of the different approaches to create facets is provided in the examples.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_facets</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_facets</span><span class="op">(</span>
   by <span class="op">=</span> <span class="cn">NULL</span>,
   along <span class="op">=</span> <span class="cn">NULL</span>,
   as.layers <span class="op">=</span> <span class="cn">FALSE</span>,
@@ -92,62 +93,61 @@
   scale.factor <span class="op">=</span> <span class="fl">2</span>,
   drop.shapes <span class="op">=</span> <span class="va">drop.units</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>by</th>
-      <td><p>data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).</p></td>
-    </tr><tr><th>along</th>
-      <td><p>data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with <code><a href="tmap_animation.html">tmap_animation</a></code>. The <code>along</code> argument can be used in combination with the <code>by</code> argument. It is only supported in <code>"plot"</code> mode (so not in <code>"view"</code> mode).</p></td>
-    </tr><tr><th>as.layers</th>
-      <td><p>logical that determines whether facets are shown as different layers in <code>"view"</code> mode. By default <code>FALSE</code>, i.e. facets are drawn as small multiples.</p></td>
-    </tr><tr><th>ncol</th>
-      <td><p>number of columns of the small multiples grid. Not applicable if <code>by</code> contains two variable names.</p></td>
-    </tr><tr><th>nrow</th>
-      <td><p>number of rows of the small multiples grid. Not applicable if <code>by</code> contains two variable names.</p></td>
-    </tr><tr><th>free.coords</th>
-      <td><p>logical. If the <code>by</code> argument is specified, should each map has its own coordinate ranges? By default <code>TRUE</code>, unless facets are shown in as different layers (<code>as.layers = TRUE</code>)</p></td>
-    </tr><tr><th>drop.units</th>
-      <td><p>logical. If the <code>by</code> argument is specified, should non-selected spatial units be dropped? If <code>FALSE</code>, they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes. By default <code>TRUE</code>.</p></td>
-    </tr><tr><th>drop.empty.facets</th>
-      <td><p>logical. If the <code>by</code> argument is specified, should empty facets be dropped? Empty facets occur when the <code>by</code>-variable contains unused levels. When <code>TRUE</code> and two <code>by</code>-variables are specified, empty rows and columns are dropped.</p></td>
-    </tr><tr><th>drop.NA.facets</th>
-      <td><p>logical. If the <code>by</code> argument is specified, and all values of the defined aesthetic variables (e.g. <code>col</code> from <code><a href="tm_polygons.html">tm_fill</a></code>) for specific facets, should these facets be dropped? <code>FALSE</code> by default.</p></td>
-    </tr><tr><th>sync</th>
-      <td><p>logical. Should the navigation in view mode (zooming and panning) be synchronized? By default <code>TRUE</code> if the facets have the same bounding box. This is generally the case when rasters are plotted, or when free.coords is <code>FALSE</code>.</p></td>
-    </tr><tr><th>showNA</th>
-      <td><p>If the <code>by</code> argument is specified, should missing values of the <code>by</code>-variable be shown in a facet? If two <code>by</code>-variables are specified, should missing values be shown in an additional row and column? If <code>NA</code>, missing values only are shown if they exist. Similar to the <code>useNA</code> argument of <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></code>, where <code>TRUE</code>, <code>FALSE</code>, and <code>NA</code> correspond to <code>"always"</code>, <code>"no"</code>, and <code>"ifany"</code> respectively.</p></td>
-    </tr><tr><th>textNA</th>
-      <td><p>text used for facets of missing values.</p></td>
-    </tr><tr><th>free.scales</th>
-      <td><p>logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Specific scales can be set with <code>free.scales.x</code>, where <code>x</code> is the name of the aesthetic, e.g. <code>"symbol.col"</code>. By default, <code>free.scales</code> is <code>TRUE</code>, unless the <code>by</code> argument is used, the <code>along</code> argument is used, or a <code>stars</code> object with a third dimension is shown.</p></td>
-    </tr><tr><th>free.scales.fill</th>
-      <td><p>logical. Should the color scale for the choropleth be free?</p></td>
-    </tr><tr><th>free.scales.symbol.size</th>
-      <td><p>logical. Should the symbol size scale for the symbol map be free?</p></td>
-    </tr><tr><th>free.scales.symbol.col</th>
-      <td><p>logical. Should the color scale for the symbol map be free?</p></td>
-    </tr><tr><th>free.scales.symbol.shape</th>
-      <td><p>logical. Should the symbol shape scale for the symbol map be free?</p></td>
-    </tr><tr><th>free.scales.text.size</th>
-      <td><p>logical. Should the text size scale be free?</p></td>
-    </tr><tr><th>free.scales.text.col</th>
-      <td><p>logical. Should the text color scale be free?</p></td>
-    </tr><tr><th>free.scales.line.col</th>
-      <td><p>Should the line color scale be free?</p></td>
-    </tr><tr><th>free.scales.line.lwd</th>
-      <td><p>Should the line width scale be free?</p></td>
-    </tr><tr><th>free.scales.raster</th>
-      <td><p>Should the color scale for raster layers be free?</p></td>
-    </tr><tr><th>inside.original.bbox</th>
-      <td><p>If <code>free.coords</code>, should the bounding box of each small multiple be inside the original bounding box?</p></td>
-    </tr><tr><th>scale.factor</th>
-      <td><p>Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the <code>scale.factor</code>th root of the scaling factor of the shapes. So, for <code>scale.factor=1</code>, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, <code>scale.factor=2</code>.</p></td>
-    </tr><tr><th>drop.shapes</th>
-      <td><p>deprecated: renamed to <code>drop.units</code></p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+    <dl><dt>by</dt>
+<dd><p>data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns).</p></dd>
+<dt>along</dt>
+<dd><p>data variable name by which the data is split and plotted on separate pages. This is especially useful for animations made with <code><a href="tmap_animation.html">tmap_animation</a></code>. The <code>along</code> argument can be used in combination with the <code>by</code> argument. It is only supported in <code>"plot"</code> mode (so not in <code>"view"</code> mode).</p></dd>
+<dt>as.layers</dt>
+<dd><p>logical that determines whether facets are shown as different layers in <code>"view"</code> mode. By default <code>FALSE</code>, i.e. facets are drawn as small multiples.</p></dd>
+<dt>ncol</dt>
+<dd><p>number of columns of the small multiples grid. Not applicable if <code>by</code> contains two variable names.</p></dd>
+<dt>nrow</dt>
+<dd><p>number of rows of the small multiples grid. Not applicable if <code>by</code> contains two variable names.</p></dd>
+<dt>free.coords</dt>
+<dd><p>logical. If the <code>by</code> argument is specified, should each map has its own coordinate ranges? By default <code>TRUE</code>, unless facets are shown in as different layers (<code>as.layers = TRUE</code>)</p></dd>
+<dt>drop.units</dt>
+<dd><p>logical. If the <code>by</code> argument is specified, should non-selected spatial units be dropped? If <code>FALSE</code>, they are plotted where mapped aesthetics are regarded as missing values. Not applicable for raster shapes. By default <code>TRUE</code>.</p></dd>
+<dt>drop.empty.facets</dt>
+<dd><p>logical. If the <code>by</code> argument is specified, should empty facets be dropped? Empty facets occur when the <code>by</code>-variable contains unused levels. When <code>TRUE</code> and two <code>by</code>-variables are specified, empty rows and columns are dropped.</p></dd>
+<dt>drop.NA.facets</dt>
+<dd><p>logical. If the <code>by</code> argument is specified, and all values of the defined aesthetic variables (e.g. <code>col</code> from <code><a href="tm_polygons.html">tm_fill</a></code>) for specific facets, should these facets be dropped? <code>FALSE</code> by default.</p></dd>
+<dt>sync</dt>
+<dd><p>logical. Should the navigation in view mode (zooming and panning) be synchronized? By default <code>TRUE</code> if the facets have the same bounding box. This is generally the case when rasters are plotted, or when free.coords is <code>FALSE</code>.</p></dd>
+<dt>showNA</dt>
+<dd><p>If the <code>by</code> argument is specified, should missing values of the <code>by</code>-variable be shown in a facet? If two <code>by</code>-variables are specified, should missing values be shown in an additional row and column? If <code>NA</code>, missing values only are shown if they exist. Similar to the <code>useNA</code> argument of <code><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></code>, where <code>TRUE</code>, <code>FALSE</code>, and <code>NA</code> correspond to <code>"always"</code>, <code>"no"</code>, and <code>"ifany"</code> respectively.</p></dd>
+<dt>textNA</dt>
+<dd><p>text used for facets of missing values.</p></dd>
+<dt>free.scales</dt>
+<dd><p>logical. Should all scales of the plotted data variables be free, i.e. independent of each other? Specific scales can be set with <code>free.scales.x</code>, where <code>x</code> is the name of the aesthetic, e.g. <code>"symbol.col"</code>. By default, <code>free.scales</code> is <code>TRUE</code>, unless the <code>by</code> argument is used, the <code>along</code> argument is used, or a <code>stars</code> object with a third dimension is shown.</p></dd>
+<dt>free.scales.fill</dt>
+<dd><p>logical. Should the color scale for the choropleth be free?</p></dd>
+<dt>free.scales.symbol.size</dt>
+<dd><p>logical. Should the symbol size scale for the symbol map be free?</p></dd>
+<dt>free.scales.symbol.col</dt>
+<dd><p>logical. Should the color scale for the symbol map be free?</p></dd>
+<dt>free.scales.symbol.shape</dt>
+<dd><p>logical. Should the symbol shape scale for the symbol map be free?</p></dd>
+<dt>free.scales.text.size</dt>
+<dd><p>logical. Should the text size scale be free?</p></dd>
+<dt>free.scales.text.col</dt>
+<dd><p>logical. Should the text color scale be free?</p></dd>
+<dt>free.scales.line.col</dt>
+<dd><p>Should the line color scale be free?</p></dd>
+<dt>free.scales.line.lwd</dt>
+<dd><p>Should the line width scale be free?</p></dd>
+<dt>free.scales.raster</dt>
+<dd><p>Should the color scale for raster layers be free?</p></dd>
+<dt>inside.original.bbox</dt>
+<dd><p>If <code>free.coords</code>, should the bounding box of each small multiple be inside the original bounding box?</p></dd>
+<dt>scale.factor</dt>
+<dd><p>Number that determines how the elements (e.g. font sizes, symbol sizes, line widths) of the small multiples are scaled in relation to the scaling factor of the shapes. The elements are scaled to the <code>scale.factor</code>th root of the scaling factor of the shapes. So, for <code>scale.factor=1</code>, they are scaled proportional to the scaling of the shapes. Since elements, especially text, are often too small to read, a higher value is recommended. By default, <code>scale.factor=2</code>.</p></dd>
+<dt>drop.shapes</dt>
+<dd><p>deprecated: renamed to <code>drop.units</code></p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p><code><a href="tmap-element.html">tmap-element</a></code></p>
@@ -164,11 +164,10 @@
     <h2>See also</h2>
     <div class="dont-index"><p><a href="../doc/tmap-getstarted.html"><code><a href="../articles/tmap-getstarted.html">vignette("tmap-getstarted")</a></code></a></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">NLD_muni</span>, <span class="va">NLD_prov</span>, <span class="va">land</span>, <span class="va">metro</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">NLD_muni</span>, <span class="va">NLD_prov</span>, <span class="va">land</span>, <span class="va">metro</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to plotting</span>
@@ -178,7 +177,7 @@
 <span class="r-in">    <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"forestgreen"</span>, <span class="st">"goldenrod"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span class="r-in"><span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span>, title<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A green world"</span>, <span class="st">"A dry world"</span><span class="op">)</span>, bg.color<span class="op">=</span><span class="st">"lightskyblue2"</span>, </span>
 <span class="r-in">    title.position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt"><img src="tm_facets-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_facets-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># CASE 2: Facets defined by multiple variables</span></span>
 <span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
@@ -188,7 +187,7 @@
 <span class="r-in">      border.col <span class="op">=</span> <span class="st">"black"</span>,</span>
 <span class="r-in">        title<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Well-Being Index"</span>, <span class="st">"Life Expectancy"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span class="r-in"><span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-plt"><img src="tm_facets-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_facets-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
@@ -212,7 +211,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
-<span class="r-plt"><img src="tm_facets-3.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_facets-3.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
@@ -249,7 +248,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
-<span class="r-plt"><img src="tm_facets-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_facets-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">land</span><span class="op">)</span> <span class="op">+</span></span>
 <span class="r-in">  <span class="fu"><a href="tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="st">"black"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -296,7 +295,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>

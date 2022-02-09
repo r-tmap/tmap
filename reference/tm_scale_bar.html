@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Scale bar</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_misc_elements.R" class="external-link"><code>R/tm_misc_elements.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/R/tm_misc_elements.R" class="external-link"><code>R/tm_misc_elements.R</code></a></small>
     <div class="hidden name"><code>tm_scale_bar.Rd</code></div>
     </div>
 
@@ -65,7 +65,8 @@
     <p>Creates a scale bar. By default, the coordinate units are assumed to be meters, and the map units in kilometers. This can be changed in <code><a href="tm_shape.html">tm_shape</a></code>.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_scale_bar</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_scale_bar</span><span class="op">(</span>
   breaks <span class="op">=</span> <span class="cn">NULL</span>,
   width <span class="op">=</span> <span class="cn">NA</span>,
   text.size <span class="op">=</span> <span class="fl">0.5</span>,
@@ -79,41 +80,39 @@
   just <span class="op">=</span> <span class="cn">NA</span>,
   size <span class="op">=</span> <span class="cn">NULL</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>breaks</th>
-      <td><p>breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered <code>width</code> of the scale bar. Not available for view mode.</p></td>
-    </tr><tr><th>width</th>
-      <td><p>(preferred) width of the scale bar. Only applicable when <code>breaks=NULL</code>. In plot mode, it corresponds the relative width; the default is 0.25 so one fourth of the map width. In view mode, it corresponds to the width in pixels; the default is 100.</p></td>
-    </tr><tr><th>text.size</th>
-      <td><p>relative text size (which is upperbound by the available label width)</p></td>
-    </tr><tr><th>text.color</th>
-      <td><p>color of the text. By default equal to the argument <code>attr.color</code> of <code><a href="tm_layout.html">tm_layout</a></code>.</p></td>
-    </tr><tr><th>color.dark</th>
-      <td><p>color of the dark parts of the scale bar, typically (and by default) black.</p></td>
-    </tr><tr><th>color.light</th>
-      <td><p>color of the light parts of the scale bar, typically (and by default) white.</p></td>
-    </tr><tr><th>lwd</th>
-      <td><p>line width of the scale bar</p></td>
-    </tr><tr><th>position</th>
-      <td><p>position of the scale bar Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument <code>"attr.position"</code> of <code><a href="tm_layout.html">tm_layout</a></code>.</p></td>
-    </tr><tr><th>bg.color</th>
-      <td><p>Background color</p></td>
-    </tr><tr><th>bg.alpha</th>
-      <td><p>Transparency of the background color. Number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>bg.color</code> is used (normally 1).</p></td>
-    </tr><tr><th>just</th>
-      <td><p>Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>position</code> is specified by numeric coordinates. The default value is controlled by the argument <code>"attr.just"</code> of <code><a href="tm_layout.html">tm_layout</a></code>.</p></td>
-    </tr><tr><th>size</th>
-      <td><p>deprecated: renamed to text.size</p></td>
-    </tr></table></div>
+    <dl><dt>breaks</dt>
+<dd><p>breaks of the scale bar. If not specified, breaks will be automatically be chosen given the prefered <code>width</code> of the scale bar. Not available for view mode.</p></dd>
+<dt>width</dt>
+<dd><p>(preferred) width of the scale bar. Only applicable when <code>breaks=NULL</code>. In plot mode, it corresponds the relative width; the default is 0.25 so one fourth of the map width. In view mode, it corresponds to the width in pixels; the default is 100.</p></dd>
+<dt>text.size</dt>
+<dd><p>relative text size (which is upperbound by the available label width)</p></dd>
+<dt>text.color</dt>
+<dd><p>color of the text. By default equal to the argument <code>attr.color</code> of <code><a href="tm_layout.html">tm_layout</a></code>.</p></dd>
+<dt>color.dark</dt>
+<dd><p>color of the dark parts of the scale bar, typically (and by default) black.</p></dd>
+<dt>color.light</dt>
+<dd><p>color of the light parts of the scale bar, typically (and by default) white.</p></dd>
+<dt>lwd</dt>
+<dd><p>line width of the scale bar</p></dd>
+<dt>position</dt>
+<dd><p>position of the scale bar Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y value of the left bottom corner of the scale bar. The uppercase values correspond to the position without margins (so tighter to the frame). The default value is controlled by the argument <code>"attr.position"</code> of <code><a href="tm_layout.html">tm_layout</a></code>.</p></dd>
+<dt>bg.color</dt>
+<dd><p>Background color</p></dd>
+<dt>bg.alpha</dt>
+<dd><p>Transparency of the background color. Number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>bg.color</code> is used (normally 1).</p></dd>
+<dt>just</dt>
+<dd><p>Justification of the attribute relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>position</code> is specified by numeric coordinates. The default value is controlled by the argument <code>"attr.just"</code> of <code><a href="tm_layout.html">tm_layout</a></code>.</p></dd>
+<dt>size</dt>
+<dd><p>deprecated: renamed to text.size</p></dd>
+</dl></div>
 
-    <div id="ref-sections">
-    </div>
-
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to plotting</span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span></span>
@@ -123,7 +122,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
-<span class="r-plt"><img src="tm_scale_bar-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_scale_bar-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># restore current mode</span></span>
 <span class="r-in"><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span>
@@ -142,7 +141,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>

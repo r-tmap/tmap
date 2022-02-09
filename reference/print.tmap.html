@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Draw thematic map</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/print.R" class="external-link"><code>R/print.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/R/print.R" class="external-link"><code>R/print.R</code></a></small>
     <div class="hidden name"><code>print.tmap.Rd</code></div>
     </div>
 
@@ -65,7 +65,8 @@
     <p>Draw thematic map. If the tmap mode is set to <code>"plot"</code> (see <code><a href="tmap_mode.html">tmap_mode</a></code>), the map is plot in the current graphics device. If the mode is set to <code>"view"</code>, the map is shown interactively as an htmlwidget.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for tmap</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for tmap</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>
   <span class="va">x</span>,
   vp <span class="op">=</span> <span class="cn">NULL</span>,
@@ -78,32 +79,30 @@
 <span class="op">)</span>
 
 <span class="fu">knit_print.tmap</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>x</th>
-      <td><p>tmap object. A tmap object is created with <code><a href="qtm.html">qtm</a></code> or by stacking <code><a href="tmap-element.html">tmap-element</a></code>s.</p></td>
-    </tr><tr><th>vp</th>
-      <td><p><code><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></code> to draw the plot in. This is particularly useful for insets.</p></td>
-    </tr><tr><th>return.asp</th>
-      <td><p>Logical that determines whether the aspect ratio of the map is returned. In that case, <code><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage()</a></code> will be called, but without plotting of the map. This is used by <code><a href="tmap_save.html">tmap_save</a></code> to determine the aspect ratio of the map.</p></td>
-    </tr><tr><th>mode</th>
-      <td><p>the mode of tmap: <code>"plot"</code> (static) or <code>"view"</code> (interactive). See <code><a href="tmap_mode.html">tmap_mode</a></code> for details.</p></td>
-    </tr><tr><th>show</th>
-      <td><p>logical that determines whether to show to map. Obviously <code>TRUE</code> by default, but <code>show=FALSE</code> can be useful for just obtaining the returned objects.</p></td>
-    </tr><tr><th>knit</th>
-      <td><p>should <code><a href="https://rdrr.io/pkg/knitr/man/knit_print.html" class="external-link">knit_print</a></code> be enabled, or the normal <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></code> function?</p></td>
-    </tr><tr><th>options</th>
-      <td><p>options passed on to knitprint</p></td>
-    </tr><tr><th>...</th>
-      <td><p>not used</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+    <dl><dt>x</dt>
+<dd><p>tmap object. A tmap object is created with <code><a href="qtm.html">qtm</a></code> or by stacking <code><a href="tmap-element.html">tmap-element</a></code>s.</p></dd>
+<dt>vp</dt>
+<dd><p><code><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></code> to draw the plot in. This is particularly useful for insets.</p></dd>
+<dt>return.asp</dt>
+<dd><p>Logical that determines whether the aspect ratio of the map is returned. In that case, <code><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage()</a></code> will be called, but without plotting of the map. This is used by <code><a href="tmap_save.html">tmap_save</a></code> to determine the aspect ratio of the map.</p></dd>
+<dt>mode</dt>
+<dd><p>the mode of tmap: <code>"plot"</code> (static) or <code>"view"</code> (interactive). See <code><a href="tmap_mode.html">tmap_mode</a></code> for details.</p></dd>
+<dt>show</dt>
+<dd><p>logical that determines whether to show to map. Obviously <code>TRUE</code> by default, but <code>show=FALSE</code> can be useful for just obtaining the returned objects.</p></dd>
+<dt>knit</dt>
+<dd><p>should <code><a href="https://rdrr.io/pkg/knitr/man/knit_print.html" class="external-link">knit_print</a></code> be enabled, or the normal <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></code> function?</p></dd>
+<dt>options</dt>
+<dd><p>options passed on to knitprint</p></dd>
+<dt>...</dt>
+<dd><p>not used</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>If <code>mode=="plot"</code>, then a list is returned with the processed shapes and the metadata. If <code>mode=="view"</code>, a <code><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html" class="external-link">leaflet</a></code> object is returned (see also <code><a href="tmap_leaflet.html">tmap_leaflet</a></code>)</p>
-    </div>
     </div>
 
   </div>
@@ -118,7 +117,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>

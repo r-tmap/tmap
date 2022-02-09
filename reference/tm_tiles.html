@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Draw a tile layer</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_layers.R" class="external-link"><code>R/tm_layers.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/R/tm_layers.R" class="external-link"><code>R/tm_layers.R</code></a></small>
     <div class="hidden name"><code>tm_tiles.Rd</code></div>
     </div>
 
@@ -65,34 +65,33 @@
     <p>Creates a <code><a href="tmap-element.html">tmap-element</a></code> that draws a tile layer. This feature is only available in view mode. For plot mode, a tile image can be retrieved by <code><a href="https://rdrr.io/pkg/tmaptools/man/read_osm.html" class="external-link">read_osm</a></code>. The function <code>tm_basemap</code> draws the tile layer as basemap (i.e. as bottom layer), whereas <code>tm_tiles</code> draws the tile layer as overlay layer (where the stacking order corresponds to the order in which this layer is called). Note that basemaps are shown by default (see details).</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_basemap</span><span class="op">(</span>server <span class="op">=</span> <span class="cn">NA</span>, group <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="cn">NA</span>, tms <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_basemap</span><span class="op">(</span>server <span class="op">=</span> <span class="cn">NA</span>, group <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="cn">NA</span>, tms <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
 
 <span class="fu">tm_tiles</span><span class="op">(</span><span class="va">server</span>, group <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="fl">1</span>, zindex <span class="op">=</span> <span class="cn">NA</span>, tms <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>server</th>
-      <td><p>name of the provider or an URL. The list of available providers can be obtained with <code>providers</code> (tip: in RStudio, type <code>providers$</code> to see the options). See <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link">https://leaflet-extras.github.io/leaflet-providers/preview/</a> for a preview of those. When a URL is provided, it should be in template format, e.g. <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. Use <code>NULL</code> in <code>tm_basemap</code> to disable the basemaps.</p></td>
-    </tr><tr><th>group</th>
-      <td><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href="tm_shape.html">tm_shape</a></code>). Tile layers generated with <code>tm_basemap</code> will be base groups whereas tile layers generated with <code>tm_tiles</code> will be overlay groups.</p></td>
-    </tr><tr><th>alpha</th>
-      <td><p>alpha</p></td>
-    </tr><tr><th>tms</th>
-      <td><p>is the provided tile server defined according to the TMS protocol? By default <code>FALSE</code>.</p></td>
-    </tr><tr><th>zindex</th>
-      <td><p>zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes <code>"tmap401"</code>, <code>"tmap402"</code>, etc., except for the base tile layers, which are placed in the standard <code>"tile"</code>. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if <code>zindex</code> is set to 500, the pane will be named <code>"tmap500"</code>.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+    <dl><dt>server</dt>
+<dd><p>name of the provider or an URL. The list of available providers can be obtained with <code>providers</code> (tip: in RStudio, type <code>providers$</code> to see the options). See <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link">https://leaflet-extras.github.io/leaflet-providers/preview/</a> for a preview of those. When a URL is provided, it should be in template format, e.g. <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. Use <code>NULL</code> in <code>tm_basemap</code> to disable the basemaps.</p></dd>
+<dt>group</dt>
+<dd><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href="tm_shape.html">tm_shape</a></code>). Tile layers generated with <code>tm_basemap</code> will be base groups whereas tile layers generated with <code>tm_tiles</code> will be overlay groups.</p></dd>
+<dt>alpha</dt>
+<dd><p>alpha</p></dd>
+<dt>tms</dt>
+<dd><p>is the provided tile server defined according to the TMS protocol? By default <code>FALSE</code>.</p></dd>
+<dt>zindex</dt>
+<dd><p>zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes <code>"tmap401"</code>, <code>"tmap402"</code>, etc., except for the base tile layers, which are placed in the standard <code>"tile"</code>. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if <code>zindex</code> is set to 500, the pane will be named <code>"tmap500"</code>.</p></dd>
+</dl></div>
     <div id="details">
     <h2>Details</h2>
     <p>When <code>tm_basemap</code> is not specified, the default basemaps are shown, which can be configured by the <code>basemaps</code> arugument in <code><a href="tmap_options.html">tmap_options</a></code>. By default (for style <code>"white"</code>) three basemaps are drawn: <code>c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap")</code>. To disable basemaps, add <code>tm_basemap(NULL)</code> to the plot, or set <code>tmap_options(basemaps = NULL)</code>. Similarly, when <code>tm_tiles</code> is not specified, the overlay maps specified by the <code>overlays</code> argument in in <code><a href="tmap_options.html">tmap_options</a></code> are shown as front layer. By default, this argument is set to <code>NULL</code>, so no overlay maps are shown by default. See examples.</p>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span></span>
@@ -130,7 +129,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>

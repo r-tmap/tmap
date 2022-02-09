@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Specify icons</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tmap_icons.R" class="external-link"><code>R/tmap_icons.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/R/tmap_icons.R" class="external-link"><code>R/tmap_icons.R</code></a></small>
     <div class="hidden name"><code>tmap_icons.Rd</code></div>
     </div>
 
@@ -65,7 +65,8 @@
     <p>Specifies icons from a png images, which can be used as markers in thematic maps. The function <code>marker_icon</code> is the specification of the default marker.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_icons</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_icons</span><span class="op">(</span>
   <span class="va">file</span>,
   width <span class="op">=</span> <span class="fl">48</span>,
   height <span class="op">=</span> <span class="fl">48</span>,
@@ -76,26 +77,25 @@
 <span class="op">)</span>
 
 <span class="fu">marker_icon</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>file</th>
-      <td><p>character value/vector containing the file path(s) or url(s).</p></td>
-    </tr><tr><th>width</th>
-      <td><p>width of the icon. If <code>keep.asp</code>, this is interpreted as the maximum width.</p></td>
-    </tr><tr><th>height</th>
-      <td><p>height of the icon. If <code>keep.asp</code>, this is interpreted as the maximum height.</p></td>
-    </tr><tr><th>keep.asp</th>
-      <td><p>keep the aspect ratio of the png image. If <code>TRUE</code> and the aspect ratio differs from <code>width/height</code> either <code>width</code> or <code>height</code> is adjusted accordingly.</p></td>
-    </tr><tr><th>just</th>
-      <td><p>justification of the icons relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left alignment and 1 right alignment. The default value of <code>just</code> is <code>c("center", "center")</code>.</p></td>
-    </tr><tr><th>as.local</th>
-      <td><p>if the <code>file</code> is a url, should it be saved to local temporary file?</p></td>
-    </tr><tr><th>...</th>
-      <td><p>arguments passed on to <code><a href="https://rdrr.io/pkg/leaflet/man/icons.html" class="external-link">icons</a></code>. When <code>iconWidth</code>, <code>iconHeight</code>, <code>iconAnchorX</code> and <code>iconAnchorY</code> are specified, they override <code>width</code> and <code>height</code>, and <code>just</code>.</p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
+    <dl><dt>file</dt>
+<dd><p>character value/vector containing the file path(s) or url(s).</p></dd>
+<dt>width</dt>
+<dd><p>width of the icon. If <code>keep.asp</code>, this is interpreted as the maximum width.</p></dd>
+<dt>height</dt>
+<dd><p>height of the icon. If <code>keep.asp</code>, this is interpreted as the maximum height.</p></dd>
+<dt>keep.asp</dt>
+<dd><p>keep the aspect ratio of the png image. If <code>TRUE</code> and the aspect ratio differs from <code>width/height</code> either <code>width</code> or <code>height</code> is adjusted accordingly.</p></dd>
+<dt>just</dt>
+<dd><p>justification of the icons relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left alignment and 1 right alignment. The default value of <code>just</code> is <code>c("center", "center")</code>.</p></dd>
+<dt>as.local</dt>
+<dd><p>if the <code>file</code> is a url, should it be saved to local temporary file?</p></dd>
+<dt>...</dt>
+<dd><p>arguments passed on to <code><a href="https://rdrr.io/pkg/leaflet/man/icons.html" class="external-link">icons</a></code>. When <code>iconWidth</code>, <code>iconHeight</code>, <code>iconAnchorX</code> and <code>iconAnchorY</code> are specified, they override <code>width</code> and <code>height</code>, and <code>just</code>.</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p>icon data (see <code><a href="https://rdrr.io/pkg/leaflet/man/icons.html" class="external-link">icons</a></code>)</p>
@@ -103,7 +103,6 @@
     <div id="see-also">
     <h2>See also</h2>
     <div class="dont-index"><p><code><a href="tm_symbols.html">tm_symbols</a></code></p></div>
-    </div>
     </div>
 
   </div>
@@ -118,7 +117,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>

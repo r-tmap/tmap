@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Draw symbols</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_layers.R" class="external-link"><code>R/tm_layers.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/R/tm_layers.R" class="external-link"><code>R/tm_layers.R</code></a></small>
     <div class="hidden name"><code>tm_symbols.Rd</code></div>
     </div>
 
@@ -65,7 +65,8 @@
     <p>Creates a <code><a href="tmap-element.html">tmap-element</a></code> that draws symbols, including symbols and dots. The color, size, and shape of the symbols can be mapped to data variables.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_symbols</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_symbols</span><span class="op">(</span>
   size <span class="op">=</span> <span class="fl">1</span>,
   col <span class="op">=</span> <span class="cn">NA</span>,
   shape <span class="op">=</span> <span class="fl">21</span>,
@@ -179,199 +180,226 @@
   group <span class="op">=</span> <span class="cn">NA</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>size</th>
-      <td><p>a single value or a <code>shp</code> data variable that determines the symbol sizes. The reference value <code>size=1</code> corresponds to the area of symbols that have the same height as one line of text. If a data variable (which should be numeric) is provided, the symbol area sizes are scaled proportionally (or perceptually, see <code>perceptual</code>) where by default the symbol with the largest data value will get <code>size=1</code> (see also <code>size.max</code>). If multiple values are specified, small multiples are drawn (see details).</p></td>
-    </tr><tr><th>col</th>
-      <td><p>color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).</p></td>
-    </tr><tr><th>shape</th>
-      <td><p>shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the <code>shapes</code> argument. Note that the default shapes (specified by <code>shapes</code>) is not supported in <code>"view"</code> mode. See details for the shape specification.</p></td>
-    </tr><tr><th>alpha</th>
-      <td><p>transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>col</code> is used (normally 1).</p></td>
-    </tr><tr><th>border.col</th>
-      <td><p>color of the symbol borders.</p></td>
-    </tr><tr><th>border.lwd</th>
-      <td><p>line width of the symbol borders. If <code>NA</code>, no symbol borders are drawn.</p></td>
-    </tr><tr><th>border.alpha</th>
-      <td><p>transparency number, regarding the symbol borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>col</code> is used (normally 1).</p></td>
-    </tr><tr><th>scale</th>
-      <td><p>symbol size multiplier number.</p></td>
-    </tr><tr><th>perceptual</th>
-      <td><p>by default (with <code>perceptual = FALSE</code>), the symbol area sizes are scaled proportionally to the data variables. This is done by taking the square root of the (normalized) data variable, since the plotting system (<code>grid</code> package) expects size in radius rather than area. However, the perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument; if <code>perceptual = TRUE</code>, not the suqare root (power exponent 0.5) is taken, but power exponent 0.5716.</p></td>
-    </tr><tr><th>clustering</th>
-      <td><p>value that determines whether the symbols are clustered in <code>"view"</code> mode. It does not work proportional bubbles (i.e. <code>tm_bubbles</code>). One of: <code>TRUE</code>, <code>FALSE</code>, or the output of <code><a href="https://rdrr.io/pkg/leaflet/man/map-options.html" class="external-link">markerClusterOptions</a></code>.</p></td>
-    </tr><tr><th>size.max</th>
-      <td><p>value that is mapped to <code>size=1</code>. By default (<code>NA</code>), the maximum data value is chosen. Only applicable when <code>size</code> is the name of a numeric variable of <code>shp</code></p></td>
-    </tr><tr><th>size.lim</th>
-      <td><p>vector of two limit values of the <code>size</code> variable. Only symbols are drawn whose value is greater than or equal to the first value. Symbols whose values exceed the second value are drawn at the size of the second value. Only applicable when <code>size</code> is the name of a numeric variable of <code>shp</code></p></td>
-    </tr><tr><th>sizes.legend</th>
-      <td><p>vector of symbol sizes that are shown in the legend. By default, this is determined automatically.</p></td>
-    </tr><tr><th>sizes.legend.labels</th>
-      <td><p>vector of labels for that correspond to <code>sizes.legend</code>.</p></td>
-    </tr><tr><th>n</th>
-      <td><p>preferred number of color scale classes. Only applicable when <code>col</code> is a numeric variable name.</p></td>
-    </tr><tr><th>style</th>
-      <td><p>method to process the color scale when <code>col</code> is a numeric variable. Discrete gradient options are <code>"cat"</code>, <code>"fixed"</code>, <code>"sd"</code>, <code>"equal"</code>, <code>"pretty"</code>, <code>"quantile"</code>, <code>"kmeans"</code>, <code>"hclust"</code>, <code>"bclust"</code>, <code>"fisher"</code>, <code>"jenks"</code>, <code>"dpih"</code>, <code>"headtails"</code>, and <code>"log10_pretty"</code>. A numeric variable is processed as a categorical variable when using <code>"cat"</code>, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except <code>"log10_pretty"</code>), see the details in <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code> (extra arguments can be passed on via <code>style.args</code>). Continuous gradient options are <code>"cont"</code>, <code>"order"</code>, and <code>"log10"</code>. The first maps the values of <code>col</code> to a smooth gradient, the second maps the order of values of <code>col</code> to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See <code>as.count</code>.</p></td>
-    </tr><tr><th>style.args</th>
-      <td><p>arguments passed on to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code>, the function that determine color classes (see also <code>style</code>).</p></td>
-    </tr><tr><th>as.count</th>
-      <td><p>when <code>col</code> is a numeric variable, should it be processed as a count variable? For instance, if <code>style = "pretty"</code>, <code>n = 2</code>, and the value range of the variable is 0 to 10, then the column classes for <code>as.count = TRUE</code> are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for <code>as.count = FALSE</code> they are 0 to 5; 5 to 10. Only applicable if <code>style</code> is <code>"pretty"</code>, <code>"fixed"</code>, or <code>"log10_pretty"</code>. By default, <code>TRUE</code> if <code>style</code> is one of these, and the variable is an integer.</p></td>
-    </tr><tr><th>breaks</th>
-      <td><p>in case <code>style=="fixed"</code>, breaks should be specified. The <code>breaks</code> argument can also be used when <code>style="cont"</code>. In that case, the breaks are mapped evenly to the sequential or diverging color palette.</p></td>
-    </tr><tr><th>interval.closure</th>
-      <td><p>value that determines whether where the intervals are closed: <code>"left"</code> or <code>"right"</code>. Only applicable if <code>col</code> is a numeric variable. If <code>as.count = TRUE</code>, <code>inverval.closure</code> is always set to <code>"left"</code>.</p></td>
-    </tr><tr><th>palette</th>
-      <td><p>a palette name or a vector of colors. See <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code> for the named palettes. Use a <code>"-"</code> as prefix to reverse the palette. The default palette is taken from <code><a href="tm_layout.html">tm_layout</a></code>'s argument <code>aes.palette</code>, which typically depends on the style. The type of palette from <code>aes.palette</code> is automatically determined, but can be overwritten: use <code>"seq"</code> for sequential, <code>"div"</code> for diverging, and <code>"cat"</code> for categorical.</p></td>
-    </tr><tr><th>labels</th>
-      <td><p>labels of the classes</p></td>
-    </tr><tr><th>drop.levels</th>
-      <td><p>should unused classes be omitted? <code>FALSE</code> by default.</p></td>
-    </tr><tr><th>midpoint</th>
-      <td><p>The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to <code>NA</code>, which means that the value that corresponds to the middle color class (see <code>style</code>) is mapped to the middle color. Only applies when <code>col</code> is a numeric variable. If it is specified for sequential color palettes (e.g. <code>"Blues"</code>), then this color palette will be treated as a diverging color palette.</p></td>
-    </tr><tr><th>stretch.palette</th>
-      <td><p>Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If <code>TRUE</code> (default), interpolated colors are used (like a rainbow). If <code>FALSE</code>, the palette is repeated.</p></td>
-    </tr><tr><th>contrast</th>
-      <td><p>vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when <code>auto.palette.mapping=TRUE</code>). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).</p></td>
-    </tr><tr><th>colorNA</th>
-      <td><p>colour for missing values. Use <code>NULL</code> for transparency.</p></td>
-    </tr><tr><th>textNA</th>
-      <td><p>text used for missing values of the color variable.</p></td>
-    </tr><tr><th>showNA</th>
-      <td><p>logical that determines whether missing values are named in the legend. By default (<code>NA</code>), this depends on the presence of missing values.</p></td>
-    </tr><tr><th>colorNULL</th>
-      <td><p>colour for polygons that are shown on the map that are out of scope</p></td>
-    </tr><tr><th>shapes</th>
-      <td><p>palette of symbol shapes. Only applicable if <code>shape</code> is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.</p></td>
-    </tr><tr><th>shapes.legend</th>
-      <td><p>symbol shapes that are used in the legend (instead of the symbols specified with <code>shape</code>). These shapes will be used in the legends regarding the <code>size</code> and <code>col</code> of the symbols. Especially useful when <code>shapes</code> consist of grobs that have to be represented by neutrally colored shapes. See also <code>shapes.legend.fill</code>.</p></td>
-    </tr><tr><th>shapes.legend.fill</th>
-      <td><p>Fill color of legend shapes. These colors will be used in the legends regarding the <code>size</code> and <code>shape</code> of the symbols. See also <code>shapes.legend</code>.</p></td>
-    </tr><tr><th>shapes.labels</th>
-      <td><p>Legend labels for the symbol shapes</p></td>
-    </tr><tr><th>shapes.drop.levels</th>
-      <td><p>should unused symbol classes be omitted? <code>FALSE</code> by default.</p></td>
-    </tr><tr><th>shapeNA</th>
-      <td><p>the shape (a number or grob) for missing values. By default a cross (number 4). Set to <code>NA</code> to hide symbols for missing values.</p></td>
-    </tr><tr><th>shape.textNA</th>
-      <td><p>text used for missing values of the shape variable.</p></td>
-    </tr><tr><th>shape.showNA</th>
-      <td><p>logical that determines whether missing values are named in the legend. By default (<code>NA</code>), this depends on the presence of missing values.</p></td>
-    </tr><tr><th>shapes.n</th>
-      <td><p>preferred number of shape classes. Only applicable when <code>shape</code> is a numeric variable name.</p></td>
-    </tr><tr><th>shapes.style</th>
-      <td><p>method to process the shape scale when <code>shape</code> is a numeric variable. See <code>style</code> argument for options.</p></td>
-    </tr><tr><th>shapes.style.args</th>
-      <td><p>arguments passed on to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code> (see also <code>shapes.tyle</code>).</p></td>
-    </tr><tr><th>shapes.as.count</th>
-      <td><p>when <code>shape</code> is a numeric variable, should it be processed as a count variable? See <code>as.count</code> argument for options.</p></td>
-    </tr><tr><th>shapes.breaks</th>
-      <td><p>in case <code>shapes.style=="fixed"</code>, breaks should be specified</p></td>
-    </tr><tr><th>shapes.interval.closure</th>
-      <td><p>value that determines whether where the intervals are closed: <code>"left"</code> or <code>"right"</code>. Only applicable if <code>shape</code> is a numeric variable.</p></td>
-    </tr><tr><th>legend.max.symbol.size</th>
-      <td><p>Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for <code>tm_bubbles</code>)</p></td>
-    </tr><tr><th>just</th>
-      <td><p>justification of the symbols relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left alignment and 1 right alignment. The default value is <code>c("center", "center")</code>. For icons, this value may already be speficied (see <code><a href="tmap_icons.html">tmap_icons</a></code>). The <code>just</code>, if specified, will overrides this.</p></td>
-    </tr><tr><th>jitter</th>
-      <td><p>number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of <code>jitter</code> times the height of one line of text line.</p></td>
-    </tr><tr><th>xmod</th>
-      <td><p>horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with <code>ymod</code>, it determines position modification of the symbols. See also <code>jitter</code> for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative <code>xmod</code> move the symbols to the left, and negative <code>ymod</code> values to the bottom.</p></td>
-    </tr><tr><th>ymod</th>
-      <td><p>vertical position modification. See xmod.</p></td>
-    </tr><tr><th>icon.scale</th>
-      <td><p>scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see <code><a href="tmap_icons.html">tmap_icons</a></code>) or, if grobs are specified by <code>grob.width</code> and <code>grob.heigth</code></p></td>
-    </tr><tr><th>grob.dim</th>
-      <td><p>vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.</p></td>
-    </tr><tr><th>title.size</th>
-      <td><p>title of the legend element regarding the symbol sizes</p></td>
-    </tr><tr><th>title.col</th>
-      <td><p>title of the legend element regarding the symbol colors</p></td>
-    </tr><tr><th>title.shape</th>
-      <td><p>title of the legend element regarding the symbol shapes</p></td>
-    </tr><tr><th>legend.size.show</th>
-      <td><p>logical that determines whether the legend for the symbol sizes is shown</p></td>
-    </tr><tr><th>legend.col.show</th>
-      <td><p>logical that determines whether the legend for the symbol colors is shown</p></td>
-    </tr><tr><th>legend.shape.show</th>
-      <td><p>logical that determines whether the legend for the symbol shapes is shown</p></td>
-    </tr><tr><th>legend.format</th>
-      <td><p>list of formatting options for the legend numbers. Only applicable if <code>labels</code> is undefined. Parameters are:</p><dl><dt>fun</dt><dd><p>Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items <code>scientific</code>, <code>format</code>, and <code>digits</code> (see below) are not used.</p></dd>
-<dt>scientific</dt><dd><p>Should the labels be formatted scientifically? If so, square brackets are used, and the <code>format</code> of the numbers is <code>"g"</code>. Otherwise, <code>format="f"</code>, and <code>text.separator</code>, <code>text.less.than</code>, and <code>text.or.more</code> are used. Also, the numbers are automatically  rounded to millions or billions if applicable.</p></dd>
-<dt>format</dt><dd><p>By default, <code>"f"</code>, i.e. the standard notation <code>xxx.xxx</code>, is used. If <code>scientific=TRUE</code> then <code>"g"</code>, which means that numbers are formatted scientifically, i.e. <code>n.dddE+nn</code> if needed to save space.</p></dd>
-<dt>digits</dt><dd><p>Number of digits after the decimal point if <code>format="f"</code>, and the number of significant digits otherwise.</p></dd>
-<dt>big.num.abbr</dt><dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbreviation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code>c("mln" = 6, "bln" = 9)</code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
-<dt>prefix</dt><dd><p>Prefix of each number</p></dd>
-<dt>suffix</dt><dd><p>Suffix of each number</p></dd>
-<dt>text.separator</dt><dd><p>Character string to use to separate numbers in the legend (default: "to").</p></dd>
-<dt>text.less.than</dt><dd><p>Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
-<dt>text.or.more</dt><dd><p>Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
-<dt>text.align</dt><dd><p>Value that determines how the numbers are aligned, <code>"left"</code>, <code>"center"</code> or <code>"right"</code>. By default <code>"left"</code> for legends in portrait format (<code>legend.is.protrait = TRUE</code>), and <code>"center"</code> otherwise.</p></dd>
-<dt>text.to.columns</dt><dd><p>Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default <code>FALSE</code>.</p></dd>
-<dt>html.escape</dt><dd><p>Logical that determins whther HTML code is escaped in the popups in view mode. By default <code>TRUE</code>. If set to <code>FALSE</code> HTML code can be added, e.g. to added white space via <code>&amp;nbsp;</code>.</p></dd>
-<dt>...</dt><dd><p>Other arguments passed on to <code><a href="https://rdrr.io/r/base/formatc.html" class="external-link">formatC</a></code></p></dd>
+    <dl><dt>size</dt>
+<dd><p>a single value or a <code>shp</code> data variable that determines the symbol sizes. The reference value <code>size=1</code> corresponds to the area of symbols that have the same height as one line of text. If a data variable (which should be numeric) is provided, the symbol area sizes are scaled proportionally (or perceptually, see <code>perceptual</code>) where by default the symbol with the largest data value will get <code>size=1</code> (see also <code>size.max</code>). If multiple values are specified, small multiples are drawn (see details).</p></dd>
+<dt>col</dt>
+<dd><p>color(s) of the symbol. Either a color (vector), or categorical variable name(s). If multiple values are specified, small multiples are drawn (see details).</p></dd>
+<dt>shape</dt>
+<dd><p>shape(s) of the symbol. Either direct shape specification(s) or a data variable name(s) that is mapped to the symbols specified by the <code>shapes</code> argument. Note that the default shapes (specified by <code>shapes</code>) is not supported in <code>"view"</code> mode. See details for the shape specification.</p></dd>
+<dt>alpha</dt>
+<dd><p>transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>col</code> is used (normally 1).</p></dd>
+<dt>border.col</dt>
+<dd><p>color of the symbol borders.</p></dd>
+<dt>border.lwd</dt>
+<dd><p>line width of the symbol borders. If <code>NA</code>, no symbol borders are drawn.</p></dd>
+<dt>border.alpha</dt>
+<dd><p>transparency number, regarding the symbol borders, between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>col</code> is used (normally 1).</p></dd>
+<dt>scale</dt>
+<dd><p>symbol size multiplier number.</p></dd>
+<dt>perceptual</dt>
+<dd><p>by default (with <code>perceptual = FALSE</code>), the symbol area sizes are scaled proportionally to the data variables. This is done by taking the square root of the (normalized) data variable, since the plotting system (<code>grid</code> package) expects size in radius rather than area. However, the perceived area of larger symbols is often underestimated. Flannery (1971) experimentally derived a method to compensate this for symbols, which is enabled by this argument; if <code>perceptual = TRUE</code>, not the suqare root (power exponent 0.5) is taken, but power exponent 0.5716.</p></dd>
+<dt>clustering</dt>
+<dd><p>value that determines whether the symbols are clustered in <code>"view"</code> mode. It does not work proportional bubbles (i.e. <code>tm_bubbles</code>). One of: <code>TRUE</code>, <code>FALSE</code>, or the output of <code><a href="https://rdrr.io/pkg/leaflet/man/map-options.html" class="external-link">markerClusterOptions</a></code>.</p></dd>
+<dt>size.max</dt>
+<dd><p>value that is mapped to <code>size=1</code>. By default (<code>NA</code>), the maximum data value is chosen. Only applicable when <code>size</code> is the name of a numeric variable of <code>shp</code></p></dd>
+<dt>size.lim</dt>
+<dd><p>vector of two limit values of the <code>size</code> variable. Only symbols are drawn whose value is greater than or equal to the first value. Symbols whose values exceed the second value are drawn at the size of the second value. Only applicable when <code>size</code> is the name of a numeric variable of <code>shp</code></p></dd>
+<dt>sizes.legend</dt>
+<dd><p>vector of symbol sizes that are shown in the legend. By default, this is determined automatically.</p></dd>
+<dt>sizes.legend.labels</dt>
+<dd><p>vector of labels for that correspond to <code>sizes.legend</code>.</p></dd>
+<dt>n</dt>
+<dd><p>preferred number of color scale classes. Only applicable when <code>col</code> is a numeric variable name.</p></dd>
+<dt>style</dt>
+<dd><p>method to process the color scale when <code>col</code> is a numeric variable. Discrete gradient options are <code>"cat"</code>, <code>"fixed"</code>, <code>"sd"</code>, <code>"equal"</code>, <code>"pretty"</code>, <code>"quantile"</code>, <code>"kmeans"</code>, <code>"hclust"</code>, <code>"bclust"</code>, <code>"fisher"</code>, <code>"jenks"</code>, <code>"dpih"</code>, <code>"headtails"</code>, and <code>"log10_pretty"</code>. A numeric variable is processed as a categorical variable when using <code>"cat"</code>, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except <code>"log10_pretty"</code>), see the details in <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code> (extra arguments can be passed on via <code>style.args</code>). Continuous gradient options are <code>"cont"</code>, <code>"order"</code>, and <code>"log10"</code>. The first maps the values of <code>col</code> to a smooth gradient, the second maps the order of values of <code>col</code> to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See <code>as.count</code>.</p></dd>
+<dt>style.args</dt>
+<dd><p>arguments passed on to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code>, the function that determine color classes (see also <code>style</code>).</p></dd>
+<dt>as.count</dt>
+<dd><p>when <code>col</code> is a numeric variable, should it be processed as a count variable? For instance, if <code>style = "pretty"</code>, <code>n = 2</code>, and the value range of the variable is 0 to 10, then the column classes for <code>as.count = TRUE</code> are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for <code>as.count = FALSE</code> they are 0 to 5; 5 to 10. Only applicable if <code>style</code> is <code>"pretty"</code>, <code>"fixed"</code>, or <code>"log10_pretty"</code>. By default, <code>TRUE</code> if <code>style</code> is one of these, and the variable is an integer.</p></dd>
+<dt>breaks</dt>
+<dd><p>in case <code>style=="fixed"</code>, breaks should be specified. The <code>breaks</code> argument can also be used when <code>style="cont"</code>. In that case, the breaks are mapped evenly to the sequential or diverging color palette.</p></dd>
+<dt>interval.closure</dt>
+<dd><p>value that determines whether where the intervals are closed: <code>"left"</code> or <code>"right"</code>. Only applicable if <code>col</code> is a numeric variable. If <code>as.count = TRUE</code>, <code>inverval.closure</code> is always set to <code>"left"</code>.</p></dd>
+<dt>palette</dt>
+<dd><p>a palette name or a vector of colors. See <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code> for the named palettes. Use a <code>"-"</code> as prefix to reverse the palette. The default palette is taken from <code><a href="tm_layout.html">tm_layout</a></code>'s argument <code>aes.palette</code>, which typically depends on the style. The type of palette from <code>aes.palette</code> is automatically determined, but can be overwritten: use <code>"seq"</code> for sequential, <code>"div"</code> for diverging, and <code>"cat"</code> for categorical.</p></dd>
+<dt>labels</dt>
+<dd><p>labels of the classes</p></dd>
+<dt>drop.levels</dt>
+<dd><p>should unused classes be omitted? <code>FALSE</code> by default.</p></dd>
+<dt>midpoint</dt>
+<dd><p>The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to <code>NA</code>, which means that the value that corresponds to the middle color class (see <code>style</code>) is mapped to the middle color. Only applies when <code>col</code> is a numeric variable. If it is specified for sequential color palettes (e.g. <code>"Blues"</code>), then this color palette will be treated as a diverging color palette.</p></dd>
+<dt>stretch.palette</dt>
+<dd><p>Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If <code>TRUE</code> (default), interpolated colors are used (like a rainbow). If <code>FALSE</code>, the palette is repeated.</p></dd>
+<dt>contrast</dt>
+<dd><p>vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when <code>auto.palette.mapping=TRUE</code>). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).</p></dd>
+<dt>colorNA</dt>
+<dd><p>colour for missing values. Use <code>NULL</code> for transparency.</p></dd>
+<dt>textNA</dt>
+<dd><p>text used for missing values of the color variable.</p></dd>
+<dt>showNA</dt>
+<dd><p>logical that determines whether missing values are named in the legend. By default (<code>NA</code>), this depends on the presence of missing values.</p></dd>
+<dt>colorNULL</dt>
+<dd><p>colour for polygons that are shown on the map that are out of scope</p></dd>
+<dt>shapes</dt>
+<dd><p>palette of symbol shapes. Only applicable if <code>shape</code> is a (vector of) categorical variable(s). See details for the shape specification. By default, the filled symbols 21 to 25 are taken.</p></dd>
+<dt>shapes.legend</dt>
+<dd><p>symbol shapes that are used in the legend (instead of the symbols specified with <code>shape</code>). These shapes will be used in the legends regarding the <code>size</code> and <code>col</code> of the symbols. Especially useful when <code>shapes</code> consist of grobs that have to be represented by neutrally colored shapes. See also <code>shapes.legend.fill</code>.</p></dd>
+<dt>shapes.legend.fill</dt>
+<dd><p>Fill color of legend shapes. These colors will be used in the legends regarding the <code>size</code> and <code>shape</code> of the symbols. See also <code>shapes.legend</code>.</p></dd>
+<dt>shapes.labels</dt>
+<dd><p>Legend labels for the symbol shapes</p></dd>
+<dt>shapes.drop.levels</dt>
+<dd><p>should unused symbol classes be omitted? <code>FALSE</code> by default.</p></dd>
+<dt>shapeNA</dt>
+<dd><p>the shape (a number or grob) for missing values. By default a cross (number 4). Set to <code>NA</code> to hide symbols for missing values.</p></dd>
+<dt>shape.textNA</dt>
+<dd><p>text used for missing values of the shape variable.</p></dd>
+<dt>shape.showNA</dt>
+<dd><p>logical that determines whether missing values are named in the legend. By default (<code>NA</code>), this depends on the presence of missing values.</p></dd>
+<dt>shapes.n</dt>
+<dd><p>preferred number of shape classes. Only applicable when <code>shape</code> is a numeric variable name.</p></dd>
+<dt>shapes.style</dt>
+<dd><p>method to process the shape scale when <code>shape</code> is a numeric variable. See <code>style</code> argument for options.</p></dd>
+<dt>shapes.style.args</dt>
+<dd><p>arguments passed on to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code> (see also <code>shapes.tyle</code>).</p></dd>
+<dt>shapes.as.count</dt>
+<dd><p>when <code>shape</code> is a numeric variable, should it be processed as a count variable? See <code>as.count</code> argument for options.</p></dd>
+<dt>shapes.breaks</dt>
+<dd><p>in case <code>shapes.style=="fixed"</code>, breaks should be specified</p></dd>
+<dt>shapes.interval.closure</dt>
+<dd><p>value that determines whether where the intervals are closed: <code>"left"</code> or <code>"right"</code>. Only applicable if <code>shape</code> is a numeric variable.</p></dd>
+<dt>legend.max.symbol.size</dt>
+<dd><p>Maximum size of the symbols that are drawn in the legend. For circles and bubbles, a value larger than one is recommended (and used for <code>tm_bubbles</code>)</p></dd>
+<dt>just</dt>
+<dd><p>justification of the symbols relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left alignment and 1 right alignment. The default value is <code>c("center", "center")</code>. For icons, this value may already be speficied (see <code><a href="tmap_icons.html">tmap_icons</a></code>). The <code>just</code>, if specified, will overrides this.</p></dd>
+<dt>jitter</dt>
+<dd><p>number that determines the amount of jittering, i.e. the random noise added to the position of the symbols. 0 means no jittering is applied, any positive number means that the random noise has a standard deviation of <code>jitter</code> times the height of one line of text line.</p></dd>
+<dt>xmod</dt>
+<dd><p>horizontal position modification of the symbols, in terms of the height of one line of text. Either a single number for all polygons, or a numeric variable in the shape data specifying a number for each polygon. Together with <code>ymod</code>, it determines position modification of the symbols. See also <code>jitter</code> for random position modifications. In most coordinate systems (projections), the origin is located at the bottom left, so negative <code>xmod</code> move the symbols to the left, and negative <code>ymod</code> values to the bottom.</p></dd>
+<dt>ymod</dt>
+<dd><p>vertical position modification. See xmod.</p></dd>
+<dt>icon.scale</dt>
+<dd><p>scaling number that determines how large the icons (or grobs) are in plot mode in comparison to proportional symbols (such as bubbles). In view mode, the size is determined by the icon specification (see <code><a href="tmap_icons.html">tmap_icons</a></code>) or, if grobs are specified by <code>grob.width</code> and <code>grob.heigth</code></p></dd>
+<dt>grob.dim</dt>
+<dd><p>vector of four values that determine how grob objects (see details) are shown in view mode. The first and second value are the width and height of the displayed icon. The third and fourth value are the width and height of the rendered png image that is used for the icon. Generally, the third and fourth value should be large enough to render a ggplot2 graphic successfully. Only needed for the view mode.</p></dd>
+<dt>title.size</dt>
+<dd><p>title of the legend element regarding the symbol sizes</p></dd>
+<dt>title.col</dt>
+<dd><p>title of the legend element regarding the symbol colors</p></dd>
+<dt>title.shape</dt>
+<dd><p>title of the legend element regarding the symbol shapes</p></dd>
+<dt>legend.size.show</dt>
+<dd><p>logical that determines whether the legend for the symbol sizes is shown</p></dd>
+<dt>legend.col.show</dt>
+<dd><p>logical that determines whether the legend for the symbol colors is shown</p></dd>
+<dt>legend.shape.show</dt>
+<dd><p>logical that determines whether the legend for the symbol shapes is shown</p></dd>
+<dt>legend.format</dt>
+<dd><p>list of formatting options for the legend numbers. Only applicable if <code>labels</code> is undefined. Parameters are:</p><dl><dt>fun</dt>
+<dd><p>Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items <code>scientific</code>, <code>format</code>, and <code>digits</code> (see below) are not used.</p></dd>
 
-</dl></td>
-    </tr><tr><th>legend.size.is.portrait</th>
-      <td><p>logical that determines whether the legend element regarding the symbol sizes is in portrait mode (<code>TRUE</code>) or landscape (<code>FALSE</code>)</p></td>
-    </tr><tr><th>legend.col.is.portrait</th>
-      <td><p>logical that determines whether the legend element regarding the symbol colors is in portrait mode (<code>TRUE</code>) or landscape (<code>FALSE</code>)</p></td>
-    </tr><tr><th>legend.shape.is.portrait</th>
-      <td><p>logical that determines whether the legend element regarding the symbol shapes is in portrait mode (<code>TRUE</code>) or landscape (<code>FALSE</code>)</p></td>
-    </tr><tr><th>legend.size.reverse</th>
-      <td><p>logical that determines whether the items of the legend regarding the symbol sizes are shown in reverse order, i.e. from bottom to top when <code>legend.size.is.portrait = TRUE</code> and from right to left when <code>legend.size.is.portrait = FALSE</code></p></td>
-    </tr><tr><th>legend.col.reverse</th>
-      <td><p>logical that determines whether the items of the legend regarding the symbol colors are shown in reverse order, i.e. from bottom to top when <code>legend.col.is.portrait = TRUE</code> and from right to left when <code>legend.col.is.portrait = FALSE</code></p></td>
-    </tr><tr><th>legend.shape.reverse</th>
-      <td><p>logical that determines whether the items of the legend regarding the symbol shapes are shown in reverse order, i.e. from bottom to top when <code>legend.shape.is.portrait = TRUE</code> and from right to left when <code>legend.shape.is.portrait = FALSE</code></p></td>
-    </tr><tr><th>legend.hist</th>
-      <td><p>logical that determines whether a histogram is shown regarding the symbol colors</p></td>
-    </tr><tr><th>legend.hist.title</th>
-      <td><p>title for the histogram. By default, one title is used for both the histogram and the normal legend for symbol colors.</p></td>
-    </tr><tr><th>legend.size.z</th>
-      <td><p>index value that determines the position of the legend element regarding the symbol sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.</p></td>
-    </tr><tr><th>legend.col.z</th>
-      <td><p>index value that determines the position of the legend element regarding the symbol colors. (See <code>legend.size.z</code>)</p></td>
-    </tr><tr><th>legend.shape.z</th>
-      <td><p>index value that determines the position of the legend element regarding the symbol shapes. (See <code>legend.size.z</code>)</p></td>
-    </tr><tr><th>legend.hist.z</th>
-      <td><p>index value that determines the position of the histogram legend element. (See <code>legend.size.z</code>)</p></td>
-    </tr><tr><th>id</th>
-      <td><p>name of the data variable that specifies the indices of the symbols. Only used for <code>"view"</code> mode (see <code><a href="tmap_mode.html">tmap_mode</a></code>).</p></td>
-    </tr><tr><th>interactive</th>
-      <td><p>logical that determines whether this layer is interactive in view mode (e.g. hover text, popup, and click event in shiny apps)</p></td>
-    </tr><tr><th>popup.vars</th>
-      <td><p>names of data variables that are shown in the popups in <code>"view"</code> mode. If <code>NA</code> (default), only aesthetic variables (i.e. specified by <code>col</code> and <code>lwd</code>) are shown). If they are not specified, all variables are shown. Set popup.vars to <code>FALSE</code> to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.</p></td>
-    </tr><tr><th>popup.format</th>
-      <td><p>list of formatting options for the popup values. See the argument <code>legend.format</code> for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of <code>popup.vars</code>. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.</p></td>
-    </tr><tr><th>zindex</th>
-      <td><p>zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes <code>"tmap401"</code>, <code>"tmap402"</code>, etc., except for the base tile layers, which are placed in the standard <code>"tile"</code>. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if <code>zindex</code> is set to 500, the pane will be named <code>"tmap500"</code>.</p></td>
-    </tr><tr><th>group</th>
-      <td><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href="tm_shape.html">tm_shape</a></code>).</p></td>
-    </tr><tr><th>auto.palette.mapping</th>
-      <td><p>deprecated. It has been replaced by <code>midpoint</code> for numeric variables and <code>stretch.palette</code> for categorical variables.</p></td>
-    </tr><tr><th>max.categories</th>
-      <td><p>deprecated. It has moved to <code><a href="tmap_options.html">tmap_options</a></code>.</p></td>
-    </tr><tr><th>...</th>
-      <td><p>arguments passed on to <code>tm_symbols</code>. For <code>tm_markers</code>, arguments can also be passed on to <code>tm_text</code>. In that case, they have to be prefixed with <code>text.</code>, e.g. the <code>col</code> argument should be names <code>text.col</code>.</p></td>
-    </tr><tr><th>title</th>
-      <td><p>shortcut for <code>title.col</code> for <code>tm_dots</code></p></td>
-    </tr><tr><th>legend.show</th>
-      <td><p>shortcut for <code>legend.col.show</code> for <code>tm_dots</code></p></td>
-    </tr><tr><th>legend.is.portrait</th>
-      <td><p>shortcut for <code>legend.col.is.portrait</code> for <code>tm_dots</code></p></td>
-    </tr><tr><th>legend.z</th>
-      <td><p>shortcut for <code>legend.col.z shortcut</code> for <code>tm_dots</code></p></td>
-    </tr><tr><th>text</th>
-      <td><p>text of the markers. Shown in plot mode, and as popup text in view mode.</p></td>
-    </tr><tr><th>text.just</th>
-      <td><p>justification of marker text (see <code>just</code> argument of <code><a href="tm_text.html">tm_text</a></code>). Only applicable in plot mode.</p></td>
-    </tr><tr><th>markers.on.top.of.text</th>
-      <td><p>For <code>tm_markers</code>, should the markers be drawn on top of the text labels?</p></td>
-    </tr></table></div>
+<dt>scientific</dt>
+<dd><p>Should the labels be formatted scientifically? If so, square brackets are used, and the <code>format</code> of the numbers is <code>"g"</code>. Otherwise, <code>format="f"</code>, and <code>text.separator</code>, <code>text.less.than</code>, and <code>text.or.more</code> are used. Also, the numbers are automatically  rounded to millions or billions if applicable.</p></dd>
 
-    <div id="ref-sections">
+<dt>format</dt>
+<dd><p>By default, <code>"f"</code>, i.e. the standard notation <code>xxx.xxx</code>, is used. If <code>scientific=TRUE</code> then <code>"g"</code>, which means that numbers are formatted scientifically, i.e. <code>n.dddE+nn</code> if needed to save space.</p></dd>
+
+<dt>digits</dt>
+<dd><p>Number of digits after the decimal point if <code>format="f"</code>, and the number of significant digits otherwise.</p></dd>
+
+<dt>big.num.abbr</dt>
+<dd><p>Vector that defines whether and which abbrevations are used for large numbers. It is a named numeric vector, where the name indicated the abbreviation, and the number the magnitude (in terms on numbers of zero). Numbers are only abbreviation when they are large enough. Set it to <code>NA</code> to disable abbrevations.  The default is <code>c("mln" = 6, "bln" = 9)</code>. For layers where <code>style</code> is set to <code>log10</code> or <code>log10_pretty</code>, the default is <code>NA</code>.</p></dd>
+
+<dt>prefix</dt>
+<dd><p>Prefix of each number</p></dd>
+
+<dt>suffix</dt>
+<dd><p>Suffix of each number</p></dd>
+
+<dt>text.separator</dt>
+<dd><p>Character string to use to separate numbers in the legend (default: "to").</p></dd>
+
+<dt>text.less.than</dt>
+<dd><p>Character value(s) to use to translate "Less than". When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
+
+<dt>text.or.more</dt>
+<dd><p>Character value(s) to use to translate "or more". When a character vector of length 2 is specified, one for each word, these words are aligned when <code>text.to.columns = TRUE</code></p></dd>
+
+<dt>text.align</dt>
+<dd><p>Value that determines how the numbers are aligned, <code>"left"</code>, <code>"center"</code> or <code>"right"</code>. By default <code>"left"</code> for legends in portrait format (<code>legend.is.protrait = TRUE</code>), and <code>"center"</code> otherwise.</p></dd>
+
+<dt>text.to.columns</dt>
+<dd><p>Logical that determines whether the text is aligned to three columns (from, text.separator, to). By default <code>FALSE</code>.</p></dd>
+
+<dt>html.escape</dt>
+<dd><p>Logical that determins whther HTML code is escaped in the popups in view mode. By default <code>TRUE</code>. If set to <code>FALSE</code> HTML code can be added, e.g. to added white space via <code>&amp;nbsp;</code>.</p></dd>
+
+<dt>...</dt>
+<dd><p>Other arguments passed on to <code><a href="https://rdrr.io/r/base/formatc.html" class="external-link">formatC</a></code></p></dd>
+
+
+</dl></dd>
+<dt>legend.size.is.portrait</dt>
+<dd><p>logical that determines whether the legend element regarding the symbol sizes is in portrait mode (<code>TRUE</code>) or landscape (<code>FALSE</code>)</p></dd>
+<dt>legend.col.is.portrait</dt>
+<dd><p>logical that determines whether the legend element regarding the symbol colors is in portrait mode (<code>TRUE</code>) or landscape (<code>FALSE</code>)</p></dd>
+<dt>legend.shape.is.portrait</dt>
+<dd><p>logical that determines whether the legend element regarding the symbol shapes is in portrait mode (<code>TRUE</code>) or landscape (<code>FALSE</code>)</p></dd>
+<dt>legend.size.reverse</dt>
+<dd><p>logical that determines whether the items of the legend regarding the symbol sizes are shown in reverse order, i.e. from bottom to top when <code>legend.size.is.portrait = TRUE</code> and from right to left when <code>legend.size.is.portrait = FALSE</code></p></dd>
+<dt>legend.col.reverse</dt>
+<dd><p>logical that determines whether the items of the legend regarding the symbol colors are shown in reverse order, i.e. from bottom to top when <code>legend.col.is.portrait = TRUE</code> and from right to left when <code>legend.col.is.portrait = FALSE</code></p></dd>
+<dt>legend.shape.reverse</dt>
+<dd><p>logical that determines whether the items of the legend regarding the symbol shapes are shown in reverse order, i.e. from bottom to top when <code>legend.shape.is.portrait = TRUE</code> and from right to left when <code>legend.shape.is.portrait = FALSE</code></p></dd>
+<dt>legend.hist</dt>
+<dd><p>logical that determines whether a histogram is shown regarding the symbol colors</p></dd>
+<dt>legend.hist.title</dt>
+<dd><p>title for the histogram. By default, one title is used for both the histogram and the normal legend for symbol colors.</p></dd>
+<dt>legend.size.z</dt>
+<dd><p>index value that determines the position of the legend element regarding the symbol sizes with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.</p></dd>
+<dt>legend.col.z</dt>
+<dd><p>index value that determines the position of the legend element regarding the symbol colors. (See <code>legend.size.z</code>)</p></dd>
+<dt>legend.shape.z</dt>
+<dd><p>index value that determines the position of the legend element regarding the symbol shapes. (See <code>legend.size.z</code>)</p></dd>
+<dt>legend.hist.z</dt>
+<dd><p>index value that determines the position of the histogram legend element. (See <code>legend.size.z</code>)</p></dd>
+<dt>id</dt>
+<dd><p>name of the data variable that specifies the indices of the symbols. Only used for <code>"view"</code> mode (see <code><a href="tmap_mode.html">tmap_mode</a></code>).</p></dd>
+<dt>interactive</dt>
+<dd><p>logical that determines whether this layer is interactive in view mode (e.g. hover text, popup, and click event in shiny apps)</p></dd>
+<dt>popup.vars</dt>
+<dd><p>names of data variables that are shown in the popups in <code>"view"</code> mode. If <code>NA</code> (default), only aesthetic variables (i.e. specified by <code>col</code> and <code>lwd</code>) are shown). If they are not specified, all variables are shown. Set popup.vars to <code>FALSE</code> to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.</p></dd>
+<dt>popup.format</dt>
+<dd><p>list of formatting options for the popup values. See the argument <code>legend.format</code> for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of <code>popup.vars</code>. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.</p></dd>
+<dt>zindex</dt>
+<dd><p>zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes <code>"tmap401"</code>, <code>"tmap402"</code>, etc., except for the base tile layers, which are placed in the standard <code>"tile"</code>. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if <code>zindex</code> is set to 500, the pane will be named <code>"tmap500"</code>.</p></dd>
+<dt>group</dt>
+<dd><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href="tm_shape.html">tm_shape</a></code>).</p></dd>
+<dt>auto.palette.mapping</dt>
+<dd><p>deprecated. It has been replaced by <code>midpoint</code> for numeric variables and <code>stretch.palette</code> for categorical variables.</p></dd>
+<dt>max.categories</dt>
+<dd><p>deprecated. It has moved to <code><a href="tmap_options.html">tmap_options</a></code>.</p></dd>
+<dt>...</dt>
+<dd><p>arguments passed on to <code>tm_symbols</code>. For <code>tm_markers</code>, arguments can also be passed on to <code>tm_text</code>. In that case, they have to be prefixed with <code>text.</code>, e.g. the <code>col</code> argument should be names <code>text.col</code>.</p></dd>
+<dt>title</dt>
+<dd><p>shortcut for <code>title.col</code> for <code>tm_dots</code></p></dd>
+<dt>legend.show</dt>
+<dd><p>shortcut for <code>legend.col.show</code> for <code>tm_dots</code></p></dd>
+<dt>legend.is.portrait</dt>
+<dd><p>shortcut for <code>legend.col.is.portrait</code> for <code>tm_dots</code></p></dd>
+<dt>legend.z</dt>
+<dd><p>shortcut for <code>legend.col.z shortcut</code> for <code>tm_dots</code></p></dd>
+<dt>text</dt>
+<dd><p>text of the markers. Shown in plot mode, and as popup text in view mode.</p></dd>
+<dt>text.just</dt>
+<dd><p>justification of marker text (see <code>just</code> argument of <code><a href="tm_text.html">tm_text</a></code>). Only applicable in plot mode.</p></dd>
+<dt>markers.on.top.of.text</dt>
+<dd><p>For <code>tm_markers</code>, should the markers be drawn on top of the text labels?</p></dd>
+</dl></div>
     <div id="value">
     <h2>Value</h2>
     <p><code><a href="tmap-element.html">tmap-element</a></code></p>
@@ -394,11 +422,10 @@
     <h2>See also</h2>
     <div class="dont-index"><p><a href="../doc/tmap-getstarted.html"><code><a href="../articles/tmap-getstarted.html">vignette("tmap-getstarted")</a></code></a></p></div>
     </div>
-    </div>
 
-    <div id="examples">
+    <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="ref-examples sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">metro</span><span class="op">$</span><span class="va">growth</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">metro</span><span class="op">$</span><span class="va">pop2020</span> <span class="op">-</span> <span class="va">metro</span><span class="op">$</span><span class="va">pop2010</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="va">metro</span><span class="op">$</span><span class="va">pop2010</span> <span class="op">*</span> <span class="fl">10</span><span class="op">)</span> <span class="op">*</span> <span class="fl">100</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
@@ -415,7 +442,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Variable(s) "growth" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.</span>
-<span class="r-plt"><img src="tm_symbols-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span>
 <span class="r-in">  <span class="fu">tm_symbols</span><span class="op">(</span>size <span class="op">=</span> <span class="st">"pop2010"</span>, col<span class="op">=</span><span class="st">"pop2010"</span>, shape<span class="op">=</span><span class="st">"pop2010"</span>,</span>
@@ -426,7 +453,7 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
-<span class="r-plt"><img src="tm_symbols-2.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org" class="external-link">tidyr</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/mtennekes/tmaptools" class="external-link">tmaptools</a></span><span class="op">)</span> <span class="op">&amp;&amp;</span> <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://r-spatial.github.io/sf/" class="external-link">sf</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
@@ -474,21 +501,21 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: ggplot2</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: tmaptools</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Loading required package: sf</span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> Linking to GEOS 3.8.1, GDAL 3.2.1, PROJ 7.2.1</span>
-<span class="r-plt"><img src="tm_symbols-3.png" alt="" width="700" height="433"></span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Linking to GEOS 3.9.1, GDAL 3.4.0, PROJ 8.1.1; sf_use_s2() is TRUE</span>
+<span class="r-plt img"><img src="tm_symbols-3.png" alt="" width="700" height="433"></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
-<span class="r-plt"><img src="tm_symbols-4.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="tm_symbols-4.png" alt="" width="700" height="433"></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="co"># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">rnaturalearth</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va"><a href="https://github.com/ropenscilabs/rnaturalearth" class="external-link">rnaturalearth</a></span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">airports</span> <span class="op">&lt;-</span> <span class="fu">ne_download</span><span class="op">(</span>scale<span class="op">=</span><span class="fl">10</span>, type<span class="op">=</span><span class="st">"airports"</span>, returnclass <span class="op">=</span> <span class="st">"sf"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">airplane</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_icons.html">tmap_icons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"img/airplane.png"</span>, package <span class="op">=</span> <span class="st">"tmap"</span><span class="op">)</span><span class="op">)</span></span>
@@ -531,7 +558,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>

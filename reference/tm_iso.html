@@ -57,7 +57,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Draw iso (contour) lines with labels</h1>
-    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/master/R/tm_layers.R" class="external-link"><code>R/tm_layers.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/r-tmap/tmap/blob/HEAD/R/tm_layers.R" class="external-link"><code>R/tm_layers.R</code></a></small>
     <div class="hidden name"><code>tm_iso.Rd</code></div>
     </div>
 
@@ -65,7 +65,8 @@
     <p>This function is a wrapper of <code><a href="tm_lines.html">tm_lines</a></code> and <code><a href="tm_text.html">tm_text</a></code> aimed to draw isopleths.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_iso</span><span class="op">(</span>
+    <div id="ref-usage">
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_iso</span><span class="op">(</span>
   col <span class="op">=</span> <span class="cn">NA</span>,
   text <span class="op">=</span> <span class="st">"level"</span>,
   size <span class="op">=</span> <span class="fl">0.5</span>,
@@ -76,31 +77,29 @@
   group <span class="op">=</span> <span class="cn">NA</span>,
   <span class="va">...</span>
 <span class="op">)</span></code></pre></div>
+    </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <table class="ref-arguments"><colgroup><col class="name"><col class="desc"></colgroup><tr><th>col</th>
-      <td><p>line color. See <code><a href="tm_lines.html">tm_lines</a></code>.</p></td>
-    </tr><tr><th>text</th>
-      <td><p>text to display.</p></td>
-    </tr><tr><th>size</th>
-      <td><p>text size (see <code><a href="tm_text.html">tm_text</a></code>)</p></td>
-    </tr><tr><th>remove.overlap</th>
-      <td><p>see <code><a href="tm_text.html">tm_text</a></code></p></td>
-    </tr><tr><th>along.lines</th>
-      <td><p>see <code><a href="tm_text.html">tm_text</a></code></p></td>
-    </tr><tr><th>overwrite.lines</th>
-      <td><p>see <code><a href="tm_text.html">tm_text</a></code></p></td>
-    </tr><tr><th>bg.color</th>
-      <td><p>background color of the labels. Note: in tmap &lt;= 3.2, the iso lines were cut to make space for labels. In tmap &gt;= 3.3, this is changed: the iso lines remain unchanged, but the labels are printed with a background color by default.</p></td>
-    </tr><tr><th>group</th>
-      <td><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href="tm_shape.html">tm_shape</a></code>).</p></td>
-    </tr><tr><th>...</th>
-      <td><p>arguments passed on to <code><a href="tm_lines.html">tm_lines</a></code> or <code><a href="tm_text.html">tm_text</a></code></p></td>
-    </tr></table></div>
-
-    <div id="ref-sections">
-    </div>
+    <dl><dt>col</dt>
+<dd><p>line color. See <code><a href="tm_lines.html">tm_lines</a></code>.</p></dd>
+<dt>text</dt>
+<dd><p>text to display.</p></dd>
+<dt>size</dt>
+<dd><p>text size (see <code><a href="tm_text.html">tm_text</a></code>)</p></dd>
+<dt>remove.overlap</dt>
+<dd><p>see <code><a href="tm_text.html">tm_text</a></code></p></dd>
+<dt>along.lines</dt>
+<dd><p>see <code><a href="tm_text.html">tm_text</a></code></p></dd>
+<dt>overwrite.lines</dt>
+<dd><p>see <code><a href="tm_text.html">tm_text</a></code></p></dd>
+<dt>bg.color</dt>
+<dd><p>background color of the labels. Note: in tmap &lt;= 3.2, the iso lines were cut to make space for labels. In tmap &gt;= 3.3, this is changed: the iso lines remain unchanged, but the labels are printed with a background color by default.</p></dd>
+<dt>group</dt>
+<dd><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href="tm_shape.html">tm_shape</a></code>).</p></dd>
+<dt>...</dt>
+<dd><p>arguments passed on to <code><a href="tm_lines.html">tm_lines</a></code> or <code><a href="tm_text.html">tm_text</a></code></p></dd>
+</dl></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -114,7 +113,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 1.9000.9000.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.9000.</p>
 </div>
 
       </footer></div>
