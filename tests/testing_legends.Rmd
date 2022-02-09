@@ -129,7 +129,8 @@ tm_shape(World) + tm_polygons("HPI", col = "economy", lwd = "life_exp",
 	tm_title("test2", position = tm_pos_in("right", "TOP"), frame = TRUE) +
 	tm_title("test3", position = tm_pos_in(0.4, 0.4), frame = TRUE) +
 	tm_title("test4", position = tm_pos_in(0.4, 0.4), frame = TRUE) +
-	tm_title("test5", position = tm_pos_in(0.0, 0.0, just.h = "left", just.v = "bottom"), frame = TRUE, bg.color = "red")
+	tm_title("test5", position = tm_pos_in(0.0, 0.0, just.h = "left", just.v = "bottom"), frame = TRUE, bg.color = "red") +
+	tm_layout(scale = 2)
 	
 ```
 

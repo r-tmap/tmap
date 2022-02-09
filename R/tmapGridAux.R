@@ -39,7 +39,7 @@ tmapGridBasemapPrep = function(a, bs, o) {
 
 	xs = mapply(function(b, z) {
 
-		tryCatch({
+		m = tryCatch({
 			maptiles::get_tiles(x = b, provider = a$server, zoom = z, crop = FALSE, )	
 		}, error = function(e) {
 			tryCatch({
@@ -48,6 +48,8 @@ tmapGridBasemapPrep = function(a, bs, o) {
 				NULL
 			})
 		})
+		names(m)[1:3] = c("red", "green", "blue")
+		m
 	}, bs, zs, SIMPLIFY = FALSE)
 
 	if (isproj) xs = mapply(function(x,b) {

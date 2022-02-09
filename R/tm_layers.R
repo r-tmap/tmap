@@ -2,7 +2,7 @@
 #' 
 #' Determine plotting order of features.
 #' 
-#' @param aes aesthetic variable for which the visual values determine the plotting order. Example: bubble map where the \code{"size"} aesthetic is used. A data variable (say population) is mapped via a continuous scale (\code{tm_scale_continuous}) to bubble sizes. The bubbles are plotted in order of size. How is determined by the other arguments. A special value for \code{"aes"} is \code{"AREA"} which is preserved for polygons: rather than a data variable the polygon area determines the plotting order.
+#' @param aes visual variable for which the values determine the plotting order. Example: bubble map where the \code{"size"} aesthetic is used. A data variable (say population) is mapped via a continuous scale (\code{tm_scale_continuous}) to bubble sizes. The bubbles are plotted in order of size. How is determined by the other arguments. Use \code{"DATA"} to keep the same order as in the data. Another special value is \code{"AREA"} which is preserved for polygons: rather than a data variable the polygon area determines the plotting order.
 #' @param reverse logical that determines whether the visual values are plotted in reversed order. The visual values (specified with tmap option \code{"values.var"}) are by default reversed, so plotted starting from the last value. In the bubble map example, this means that large bubbles are plotted first, hence at the bottom.
 #' @param na.order where should features be plotted that have an \code{NA} value for (at least) one other aesthetic variable? In the (order) \code{"mix"}, at the \code{"bottom"}, or on \code{"top"}? In the bubble map example: if fill color is missing for some bubble, where should those bubbles be plotted?
 #' @param null.order where should non-selected (aka null) features be plotted?
@@ -407,7 +407,7 @@ tm_raster = function(col = tm_shape_vars(),
 						linejoin = NA,
 						lineend = NA),
 		tpar = tmapTpar(),
-		plot.order = tm_plot_order("NULL"),
+		plot.order = tm_plot_order("DATA"),
 		mapping.fun = "Raster",
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

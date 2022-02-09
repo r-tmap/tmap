@@ -13,10 +13,10 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 	# 0 for NA features
 	# 1-n for features based on scale values (n for latest=plotted on top)
 	# 1 for features with non-NA value for not-selected aes
-	sortRev = if (plot.order$aes == "NULL") NULL else if (plot.order$aes == unm) plot.order$reverse else NA
+	sortRev = if (plot.order$aes == "DATA") NULL else if (plot.order$aes == unm) plot.order$reverse else NA
 	
 	
-	bypass_ord = plot.order$aes == "NULL"
+	bypass_ord = plot.order$aes == "DATA"
 	
 	val = aes$value
 	if (q$limitvars) val = val[1]

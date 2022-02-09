@@ -77,7 +77,7 @@ get_tmf = function(tmfs) {
 cbind_dts = function(dts, plot.order) {
 	if (!length(dts)) return(list())
 	
-	bypass_ord = plot.order$aes == "NULL"
+	bypass_ord = plot.order$aes == "DATA"
 	
 	
 	id = which.max(vapply(dts, ncol, FUN.VALUE = integer(1))) # data.table with the most group-by columns (others are joined)

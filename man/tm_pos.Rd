@@ -8,24 +8,26 @@
 \alias{tm_pos_auto_in}
 \title{Set the position of map components}
 \usage{
-tm_pos(cell.h, cell.v, pos.h, pos.v, just.h, just.v)
+tm_pos(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
 
-tm_pos_out(cell.h, cell.v, pos.h, pos.v, just.h, just.v)
+tm_pos_out(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
 
-tm_pos_in(pos.h, pos.v, just.h, just.v)
+tm_pos_in(pos.h, pos.v, align.h, align.v, just.h, just.v)
 
-tm_pos_out(cell.h, cell.v, pos.h, pos.v, just.h, just.v)
+tm_pos_out(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
 
-tm_pos_auto_out(cell.h, cell.v, pos.h, pos.v, just.h, just.v)
+tm_pos_auto_out(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
 
-tm_pos_auto_in(just.h, just.v)
+tm_pos_auto_in(align.h, align.v, just.h, just.v)
 }
 \arguments{
 \item{cell.h, cell.v}{The plotting area is overlaid with a 3x3 grid, of which the middle grid cell is the map area. Components can be drawn into any cell. \code{cell.h} specifies the horizontal position (column) can take values \code{"left"}, \code{"center"}, and \code{"right"}, and \code{cell.v} specifies the vertical position (row) and can take values \code{"top"}, \code{"center"}, and \code{"bottom"}. See details for a graphical explanation.}
 
-\item{pos.h, pos.v}{The position of the component within the cell. The options for \code{pos.h} are \code{"left"}, \code{"center"}, and \code{"right"}, and for \code{cell.v} these are \code{"top"}, \code{"center"}, and \code{"bottom"}.}
+\item{pos.h, pos.v}{The position of the component within the cell. The main options for \code{pos.h} are \code{"left"}, \code{"center"}, and \code{"right"}, and for \code{cell.v} these are \code{"top"}, \code{"center"}, and \code{"bottom"}. These options can also be provided in upper case; in that case there is no offset (see the tmap option \code{component.offset}). Also numbers between 0 and 1 can be provided, which determine the position of the component inside the cell (with (0,0) being left bottom). The arguments \code{just.h} and \code{just.v} determine the justification point.}
 
-\item{just.h, just.v}{The justification of the component in case multiple components are stacked. When they are stacked horizontally, \code{just.v} determines how compnents that are smaller in height than the available height (determined by the outer.margins if specified and otherwise by the heigest component) are justified: \code{"top"}, \code{"center"}, or \code{"bottom"}. Similarly, \code{just.h} determines how components are justified horizontally when they are stacked vertically: \code{"left"}, \code{"center"}, or \code{"right"}.}
+\item{align.h, align.v}{The alignment of the component in case multiple components are stacked. When they are stacked horizontally, \code{align.v} determines how components that are smaller in height than the available height (determined by the outer.margins if specified and otherwise by the heigest component) are justified: \code{"top"}, \code{"center"}, or \code{"bottom"}. Similarly, \code{align.h} determines how components are justified horizontally when they are stacked vertically: \code{"left"}, \code{"center"}, or \code{"right"}.}
+
+\item{just.h, just.v}{The justification of the components. Only used in case \code{pos.h} and \code{pos.v} are numbers.}
 }
 \description{
 Set the position of map components, such as legends, title, compass, scale bar, etc. \code{tm_pos} is the function to position these components: \code{tm_pos_out} places the components outside the map area and \code{tm_pos_in} inside the map area. Each \code{position} argument of a map layer or component should be specified with one of these functions. The functions \code{tm_pos_auto_out} and \code{tm_pos_auto_in} are used to set the components automatically, and are recommended to use globally, via \code{\link{tmap_options}}. See details how the positioning works.
@@ -65,7 +67,7 @@ The arguments \code{pos.h} and \code{pos.v} determine where the components are d
 
 \code{tm_pos_auto_in} automatically determines \code{pos.h} and \code{pos.v} given the available space inside the map. This is similar to the default positioning in tmap3.
 
-In case multiple components are draw in the same cell and the same position inside that cell, they are stacked (determined which the \code{stack} argument in the legend or component function). The \code{just.h} and \code{just.v} arguments determine how these components will be justified with each other.
+In case multiple components are draw in the same cell and the same position inside that cell, they are stacked (determined which the \code{stack} argument in the legend or component function). The \code{align.h} and \code{align.v} arguments determine how these components will be justified with each other.
 
 Note that legends and components may be different for a facet row or column. This is the case when \code{\link{tm_facets_grid}} or \code{\link{tm_facets_stack}} are applied and when scales are set to free (with the \code{.free} argument of the map layer functions). In case a legends or components are draw row- or column wise, and the position of the legends (or components) is right next to the maps, these legends (or components) will be aligned with the maps.
 }

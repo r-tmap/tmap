@@ -11,7 +11,11 @@ select_sf = function(shpTM, dt) {
 	tid = intersect(stid, dtid)
 
 	d = data.table(sord = seq_along(tid), ord = dt$ord__[match(tid, dtid)], tid = tid)
-	setkeyv(d, cols = c("ord", "sord"))
+	if ("ord" %in% names(d)) {
+		setkeyv(d, cols = c("ord", "sord"))
+	} else {
+		setkeyv(d, cols = "sord")
+	}
 	
 	
 	shpSel = shp[match(d$tid, stid)] #st_cast(shp[match(tid, tmapID)], "MULTIPOLYGON")
