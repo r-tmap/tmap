@@ -172,8 +172,7 @@
 		text.fontface = "plain",
 		text.fontfamily = "",
 		
-		#
-		
+
 		
 		# legend		
 		legend.show = TRUE,

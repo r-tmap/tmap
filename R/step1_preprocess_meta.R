@@ -87,20 +87,29 @@ preprocess_meta_step1 = function(o) {
 		
 		# set font face and family
 		
-		if (is.null(legend.title.fontface)) legend.title.fontface = text.fontface
-		if (is.null(legend.title.fontfamily)) legend.title.fontfamily = text.fontfamily
 		
-		if (is.null(legend.text.fontface)) legend.text.fontface = text.fontface
-		if (is.null(legend.text.fontfamily)) legend.text.fontfamily = text.fontfamily
+		## inherit values
 		
-		if (is.null(title.fontface)) title.fontface = text.fontface
-		if (is.null(title.fontfamily)) title.fontfamily = text.fontfamily
+		# fontface
+		for (nm in names(o)[grep("fontface", names(o), fixed = TRUE)]) if (is.null(get(nm))) assign(nm, text.fontface)
+		for (nm in names(o)[grep("fontfamily", names(o), fixed = TRUE)]) if (is.null(get(nm))) assign(nm, text.fontfamily)
 		
-		if (is.null(main.title.fontface)) main.title.fontface = text.fontface
-		if (is.null(main.title.fontfamily)) main.title.fontfamily = text.fontfamily
-		
-		if (is.null(panel.label.fontface)) panel.label.fontface = text.fontface
-		if (is.null(panel.label.fontfamily)) panel.label.fontfamily = text.fontfamily
+		#for (nm in names(o)[c(grep("lwd", names(o), fixed = TRUE), grep("size", names(o), fixed = TRUE))]) assign(nm, get(nm) * scale)
+
+		# if (is.null(legend.title.fontface)) legend.title.fontface = text.fontface
+		# if (is.null(legend.title.fontfamily)) legend.title.fontfamily = text.fontfamily
+		# 
+		# if (is.null(legend.text.fontface)) legend.text.fontface = text.fontface
+		# if (is.null(legend.text.fontfamily)) legend.text.fontfamily = text.fontfamily
+		# 
+		# if (is.null(title.fontface)) title.fontface = text.fontface
+		# if (is.null(title.fontfamily)) title.fontfamily = text.fontfamily
+		# 
+		# if (is.null(main.title.fontface)) main.title.fontface = text.fontface
+		# if (is.null(main.title.fontfamily)) main.title.fontfamily = text.fontfamily
+		# 
+		# if (is.null(panel.label.fontface)) panel.label.fontface = text.fontface
+		# if (is.null(panel.label.fontfamily)) panel.label.fontfamily = text.fontfamily
 		
 		
 	})
