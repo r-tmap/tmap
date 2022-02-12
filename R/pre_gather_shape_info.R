@@ -55,7 +55,7 @@ pre_gather_shape_info <- function(x, interactive) {
 		if (any(names(x)=="tm_layout")) {
 			crsSimples <- vapply(x[which(names(x)=="tm_layout")], function(xi) {
 				if (any(names(xi) == "projection")) {
-					xi$projection == 0
+					inherits(xi$projection, "leaflet_crs") || xi$projection == 0
 				} else {
 					as.logical(NA)
 				}
