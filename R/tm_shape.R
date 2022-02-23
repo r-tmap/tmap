@@ -14,8 +14,7 @@
 #' @import stars
 #' @import units
 #' @import grid
-#' @import RColorBrewer
-#' @import viridisLite
+#' @import cols4all
 #' @import classInt
 #' @import htmltools
 #' @import htmlwidgets

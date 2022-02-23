@@ -1,14 +1,22 @@
-tmapPalId = function(name, check_rev = TRUE) {
-	if (check_rev) {
-		isrev = (substr(name, 1, 1) == "-")
-		if (isrev) name = substr(name, 2, nchar(name))
-	}
-	
-	id = match(name, .tmap_pals$fullname)
-	if (is.na(id)) id = match(tmap_pal_name_compress(name), .tmap_pals$name)
-	if (is.na(id)) id = match(tmap_pal_name_compress(name), .tmap_pals$label)
-	#if (is.na(id)) stop("Palette \"", name, "\" could not be found")
-	id
+checkPal = function(name) {
+	name %in% cols4all::c4a_palettes()
+}
+
+# tmapPalId = function(name, check_rev = TRUE) {
+# 	if (check_rev) {
+# 		isrev = (substr(name, 1, 1) == "-")
+# 		if (isrev) name = substr(name, 2, nchar(name))
+# 	}
+# 	
+# 	id = match(name, .tmap_pals$fullname)
+# 	if (is.na(id)) id = match(tmap_pal_name_compress(name), .tmap_pals$name)
+# 	if (is.na(id)) id = match(tmap_pal_name_compress(name), .tmap_pals$label)
+# 	#if (is.na(id)) stop("Palette \"", name, "\" could not be found")
+# 	id
+# }
+
+getPal = function(name, n = NA, rep = TRUE, contrast = NA) {
+	cols4all::c4a(name, n = n, n_too_large = {if (rep) "repeat" else "interpolate"}, contrast = contrast)
 }
 
 tmap_get_palette = function(name, n = NA, rep = TRUE, contrast = NA) {

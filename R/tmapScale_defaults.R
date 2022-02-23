@@ -1,10 +1,9 @@
 tmapValuesCheck_fill = function(x) {
-	palid = tmapPalId(x[1])
-	if (!is.na(palid)) TRUE else all(valid_colors(x))
+	(checkPal(x[1]) || all(valid_colors(x)))
 }
 
 tmapValuesCheck_col = function(x) {
-	tmapValuesCheck_fill(x)
+	(checkPal(x[1]) || all(valid_colors(x)))
 }
 
 
@@ -37,9 +36,11 @@ tmapValuesCheck_area = function(x) {
 
 
 tmapValuesIsDiv_fill = function(x) {
-	palid = tmapPalId(x[1])
-	if (!is.na(palid)) {
-		.tmap_pals$type[palid] == "div"
+	ispal = checkPal(x)
+	
+	if (ispal) {
+		#.tmap_pals$type[palid] == "div"
+		x %in% cols4all::c4a_palettes(type = "div")
 	} else {
 		(palette_type(x) == "div")
 	}
@@ -158,7 +159,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 	if (contrast[1] != 0 || contrast[2] != 1 || isdiv) {
 		# expand palette tot 101 colors
 		if (!is.na(palid)) {
-			vvalues = tmap_get_palette(x, n = 101)
+			vvalues = getPal(x, n = 101)
 		} else {
 			vvalues = grDevices::colorRampPalette(x)(101)
 		}
@@ -184,7 +185,7 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		
 	} else {
 		if (!is.na(palid)) {
-			vvalues = tmap_get_palette(x, n = n, rep = rep)
+			vvalues = getPal(x, n = n, rep = rep)
 		} else {
 			if (!all(valid_colors(x))) stop("invalid colors", call. = FALSE)
 			if (length(x) != n) {
@@ -334,7 +335,7 @@ tmapValuesCVV_fill = function(x, value.na, n, contrast, scale, rep, o) {
 	
 	# if (arecolors) {
 	values = if (!is.na(palid)) {
-		tmap_get_palette(x, n, rep = rep, contrast = contrast)
+		getPal(x, n, rep = rep, contrast = contrast)
 	} else if (!rep && (length(x) < n)) {
 		grDevices::colorRampPalette(x)(n)
 	} else {

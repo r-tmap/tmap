@@ -16,7 +16,7 @@ tm_shape(Africa_border) +
 
 # specification with a data variable
 tm_shape(Africa) +
-  tm_polygons(fill = "income_grp")
+  tm_polygons(fill = "income_grp", fill.scale = tm_scale_categorical(values = "tol.muted"))
 
 # continuous color scale with landscape legend
 tm_shape(Africa) +
