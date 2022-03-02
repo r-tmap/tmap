@@ -1,13 +1,3 @@
-#' tmap palettes
-#' 
-#' tmap palettes
-#' 
-#' @usage data(tmap_pals)
-#' @name tmap_pals
-#' @docType data
-NULL
-
-
 #' World and Netherlands map
 #' 
 #' Maps of the world and the Netherlands (province and municipality level), class \code{\link[sf:sf]{sf}}

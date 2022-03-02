@@ -142,13 +142,13 @@ tm_shape(Africa_border) +
 
 # specification with a data variable
 tm_shape(Africa) +
-  tm_polygons(fill = "income_grp")
+  tm_polygons(fill = "income_grp", fill.scale = tm_scale_categorical(values = "tol.muted"))
 
 # continuous color scale with landscape legend
 tm_shape(Africa) +
   tm_polygons(fill = "inequality", 
-    fill.scale = tm_scale_continuous(values = tmap_pals$pals.kovesi$kovesi.rainbow_bgyrm_35_85_c69),
+    fill.scale = tm_scale_continuous(values = "kovesi.rainbow_bgyrm_35_85_c69"),
     fill.legend = tm_legend(title = "", orientation = "landscape", position = tm_pos_out("center", "bottom"), frame = FALSE)) + 
-tm_title("Inequality index", position = tm_pos_in("right", "top"), frame = FALSE) +
+tm_title("Inequality index", position = tm_pos_in("right", "TOP"), frame = FALSE) +
 tm_layout(frame = FALSE)
 }

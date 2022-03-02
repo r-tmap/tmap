@@ -1,7 +1,18 @@
 get_scale_defaults = function(scale, o, aes, layer, cls) {
 	within(scale, {
 		values = if (is.na(values[1])) getAesOption("values.var", o, aes, layer, cls = cls) else values
-		value.na = if (is.na(value.na) || identical(value.na, TRUE)) getAesOption("value.na", o, aes, layer, cls = cls) else value.na
+		
+		value.na = if (is.na(value.na) || identical(value.na, TRUE)) {
+			m = getPalMeta(values[1])
+			if (is.null(m)) {
+				getAesOption("value.na", o, aes, layer, cls = cls)		
+			} else{
+				cols4all::c4a_na(values)
+			}
+		} else {
+			value.na
+		}
+
 		value.null = if (is.na(value.null)) getAesOption("value.null", o, aes, layer, cls = cls) else value.null
 		value.neutral = if (is.na(value.neutral)) getAesOption("value.neutral", o, aes, layer, cls = cls) else value.neutral
 		values.contrast = if (is.na(values.contrast[1])) getAesOption("values.contrast", o, aes, layer, cls = cls) else values.contrast

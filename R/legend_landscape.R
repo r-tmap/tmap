@@ -49,12 +49,9 @@ tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 	hsu = set_unit_with_stretch(hsinch, sides = sides)
 	
 	
-	
-	#hsu = grid::unit(c(hsinch, 1), units = c(rep("inch", length(hsinch)), "null"))
-	
+
 	comp$flexRow = NA
 	
-	#comp$itemHsIn = itemHsIn
 	comp$Hin = Hin
 	comp$hsu = hsu
 
@@ -94,7 +91,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 	
 	
 	titleP = comp$title.padding[c(2,4)] * titleS * o$lin
-	titleW = strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) * o$lin
+	titleW = if (titleS > 0) strwidth(comp$title, units = "inch", cex = titleS, family = comp$title.fontfamily, font = fontface2nr(comp$title.fontface)) * o$lin else 0
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
