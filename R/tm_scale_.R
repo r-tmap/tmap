@@ -205,6 +205,7 @@ tm_scale_log10 = function(...) {
 #' @name tm_scale_continuous
 tm_scale_continuous = function(n = 5,
 							   limits = NULL,
+							   outliers = c("hide", "max"),
 							   ticks = NULL,
 							   midpoint = NULL,
 							   values = NA,

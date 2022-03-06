@@ -34,6 +34,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, na.show = na.show))
 		
 		ticks.specified = !is.null(ticks)
+		limits.specified = !is.null(limits)
 		
 		is.log = (style == "log10")
 		
@@ -50,7 +51,13 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		if (style=="fixed") {
 			if (ticks.specified) {
-				breaks = if (is.log) log10(ticks) else ticks
+				n = length(ticks) - 1
+			}
+			
+			if (limits.specified) {
+				if (ticks.specified && any((ticks<limits[1]) | (ticks>limits[2]))) stop("ticks found that exceed the set limits", call. = FALSE)
+				
+				breaks = if (is.log) log10(limits) else limits
 				n = length(ticks) - 1
 			} else {
 				breaks = range(x1, na.rm = TRUE)
