@@ -39,7 +39,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		if (is.log && !attr(label.format, "big.num.abbr.set")) label.format$big.num.abbr = NA
 		
-		if (style == "log10") {
+		if (is.log) {
 			x1 = log10(x1)
 			if (length(which(x1 < 0))) {
 				x1[which(x1 < 0)] = 0
@@ -50,7 +50,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		if (style=="fixed") {
 			if (ticks.specified) {
-				breaks = ticks
+				breaks = if (is.log) log10(ticks) else ticks
 				n = length(ticks) - 1
 			} else {
 				breaks = range(x1, na.rm = TRUE)
@@ -86,12 +86,12 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		int.closure <- attr(q, "intervalClosure")
 		
-		# update contrast if NA (automatic)
-		if (is.na(values.contrast[1])) {
-			fun_contrast = paste0("tmapValuesContrast_", aes)
-			values.contrast = do.call(fun_contrast, args = list(x = values, n = n, isdiv = udiv))
+		# update range if NA (automatic)
+		if (is.na(values.range[1])) {
+			fun_range = paste0("tmapValuesRange_", aes)
+			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = udiv))
 		}
-		if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
+		if (length(values.range) == 1) values.range = c(0, values.range)
 		
 		
 		fun_check = paste0("tmapValuesCheck_", aes)
@@ -121,7 +121,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		}
 		
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, contrast = values.contrast, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
+		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n2, dvalues = breaks, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, are_breaks = TRUE, rep = values.repeat, o = o))
 		
 		vvalues = VV$vvalues
 		value.na = VV$value.na
@@ -154,7 +154,11 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 			nbrks_cont = length(b)
 		} else {
 			if (ticks.specified) {
-				b = ticks
+				if (is.log) {
+					b = log10(ticks)	
+				} else {
+					b = ticks
+				}
 			} else {
 				if (is.log) {
 					b = seq(floor(min(breaks)), ceiling(max(breaks)))

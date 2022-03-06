@@ -15,7 +15,7 @@ get_scale_defaults = function(scale, o, aes, layer, cls) {
 
 		value.null = if (is.na(value.null)) getAesOption("value.null", o, aes, layer, cls = cls) else value.null
 		value.neutral = if (is.na(value.neutral)) getAesOption("value.neutral", o, aes, layer, cls = cls) else value.neutral
-		values.contrast = if (is.na(values.contrast[1])) getAesOption("values.contrast", o, aes, layer, cls = cls) else values.contrast
+		values.range = if (is.na(values.range[1])) getAesOption("values.range", o, aes, layer, cls = cls) else values.range
 		
 		value.blank = getAesOption("value.blank", o, aes, layer, cls = cls)
 		if (is.na(value.na) || value.na == value.blank) label.na = ""

@@ -9,7 +9,7 @@ tm_scale_ordinal(
   n.max = 20,
   values = NA,
   values.repeat = FALSE,
-  values.contrast = 1,
+  values.range = 1,
   values.scale = 1,
   value.na = NA,
   value.null = NA,
@@ -26,7 +26,7 @@ tm_scale_categorical(
   n.max = 20,
   values = NA,
   values.repeat = TRUE,
-  values.contrast = NA,
+  values.range = NA,
   values.scale = 1,
   value.na = NA,
   value.null = NA,
@@ -46,7 +46,7 @@ tm_scale_categorical(
 
 \item{values.repeat}{(generic scale argument) Should the values be repeated in case there are more categories?}
 
-\item{values.contrast}{(generic scale argument) Contrast of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full contrast, which means that all values are used, is encoded as \code{c(0, 1)}. For instance, when a grey scale is used for color (from black to white), \code{c(0,1)} means that all colors are used, \code{0.25, 0.75} means that only colors from dark grey to light grey are used (more precisely \code{"grey25"} to \code{"grey75"}), and \code{0, 0.5} means that only colors are used from black to middle grey (\code{"grey50"}). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option \code{values.contrast}.}
+\item{values.range}{(generic scale argument) Range of the values. Vector of two numbers (both between 0 and 1) where the first determines the minimum and the second the maximum. Full range, which means that all values are used, is encoded as \code{c(0, 1)}. For instance, when a grey scale is used for color (from black to white), \code{c(0,1)} means that all colors are used, \code{0.25, 0.75} means that only colors from dark grey to light grey are used (more precisely \code{"grey25"} to \code{"grey75"}), and \code{0, 0.5} means that only colors are used from black to middle grey (\code{"grey50"}). When only one number is specified, this is interpreted as the second number (where the first is set to 0). Default values can be set via the tmap option \code{values.range}.}
 
 \item{values.scale}{(generic scale argument) Scaling of the values. Only useful for size-related visual variables, such as \code{size} of \code{\link{tm_symbols}} and \code{lwd} of \code{\link{tm_lines}}.}
 

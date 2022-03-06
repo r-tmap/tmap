@@ -78,16 +78,16 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev) {
 			}
 		}
 		
-		# update contrast if NA (automatic)
-		if (is.na(values.contrast[1])) {
-			fun_contrast = paste0("tmapValuesContrast_", aes)
-			values.contrast = do.call(fun_contrast, args = list(x = values, n = n, isdiv = isdiv))
+		# update range if NA (automatic)
+		if (is.na(values.range[1])) {
+			fun_range = paste0("tmapValuesRange_", aes)
+			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = isdiv))
 		}
-		if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
+		if (length(values.range) == 1) values.range = c(0, values.range)
 		
 		
 		fun_getVV = paste0("tmapValuesVV_", aes)
-		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, contrast = values.contrast, scale = values.scale * o$scale, rep = values.repeat, o = o))
+		VV = do.call(fun_getVV, list(x = values, value.na = value.na, isdiv = isdiv, n = n, dvalues = ticks, are_breaks = FALSE, midpoint = midpoint, range = values.range, scale = values.scale * o$scale, rep = values.repeat, o = o))
 		
 		vvalues = VV$vvalues
 		value.na = VV$value.na

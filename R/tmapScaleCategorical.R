@@ -58,15 +58,15 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev) {
 		}
 		n = nlevels(x1)
 		
-		# update contrast if NA (automatic)
-		if (is.na(values.contrast[1])) {
-			fun_contrast = paste0("tmapValuesContrast_", aes)
-			values.contrast = do.call(fun_contrast, args = list(x = values, n = n, isdiv = FALSE))
+		# update range if NA (automatic)
+		if (is.na(values.range[1])) {
+			fun_range = paste0("tmapValuesRange_", aes)
+			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = FALSE))
 		}
-		if (length(values.contrast) == 1) values.contrast = c(0, values.contrast)
+		if (length(values.range) == 1) values.range = c(0, values.range)
 		
 		fun_getCVV = paste0("tmapValuesCVV_", aes)
-		VV = do.call(fun_getCVV, list(x = values, value.na = value.na, n = n, contrast = values.contrast, scale = values.scale, rep = values.repeat, o = o))
+		VV = do.call(fun_getCVV, list(x = values, value.na = value.na, n = n, range = values.range, scale = values.scale, rep = values.repeat, o = o))
 	
 		values = VV$vvalues
 		value.na = VV$value.na

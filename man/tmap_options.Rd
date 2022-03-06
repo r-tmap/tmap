@@ -37,7 +37,7 @@ tmap options
 | value.null		| Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.|
 | value.blank		| Default visual values that correspond to blank. For color these are \code{"#00000000"} meaning transparent. A list is required with per visual variable a value. |
 | values.var		| Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. |
-| values.contrast		| Default contrast for values. See \code{values.contrast} of \code{\link{tm_scale_categorical}}. A list is required with per visual variable a value.
+| values.range		| Default range for values. See \code{values.range} of \code{\link{tm_scale_categorical}}. A list is required with per visual variable a value.
 | value.neutral		| Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. | |
 | scales.var		| Default scales. |
 | label.format		| Format for the labels (was legend.format in tmap v3) |

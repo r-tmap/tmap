@@ -3,7 +3,7 @@ prepreprocess_meta = function(o, vp) {
 	within(o, {
 		vp = vp
 		if (is.null(vp)) {
-			devsize = dev.size()
+			devsize = par("fin") #dev.size() MAY NOT BE EQUAL IN RSTUDIO: https://github.com/rstudio/rstudio/issues/10723
 		} else {
 			if (is.character(vp)) seekViewport(vp) else pushViewport(vp)
 			devsize = c(grid::convertWidth(grid::unit(1, "npc"), unitTo = "inch", valueOnly = TRUE),

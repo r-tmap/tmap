@@ -72,8 +72,8 @@
 			fill_alpha = 0,
 			col_alpha = 0
 		),
-		values.var = list(fill = list(seq = "hcl.dark_mint", div = "hcl.purple_green", unord = "tol.muted", ord = "hcl.dark_mint", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
-						  col = list(seq = "hcl.dark_mint", div = "hcl.purple_green", unord = "tol.muted", ord = "hcl.dark_mint", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
+		values.var = list(fill = list(seq = "hcl.blues3", div = "hcl.purple_green", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
+						  col = list(seq = "hcl.blues3", div = "hcl.purple_green", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
 						  size = tmap_seq(0, 1, power = "sqrt"),
 						  lwd = c(0, 3),
 						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),
@@ -81,7 +81,7 @@
 						  col_alpha = c(0.25, 1),
 						  shape = 21:25,
 						  area = c(0, 1)),
-		values.contrast = list(fill = NA, col = NA, size = c(0.2, 1), lwd = c(0.2, 1), lty = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
+		values.range = list(fill = NA, col = NA, size = c(0.1, 1), lwd = c(0.1, 1), lty = NA, fill_alpha = NA, col_alpha = NA, shape = NA), # NA = automatic, NULL is not applicable
 		value.neutral = list(size = 1,
 							 lwd = 2,
 							 fill_alpha = 1,
@@ -515,7 +515,7 @@ complete_options = function(x, o) {
 #' | value.null		| Default visual values that are used to visualize null (out-of-scope) data values. A list is required with per visual variable a value.|
 #' | value.blank		| Default visual values that correspond to blank. For color these are \code{"#00000000"} meaning transparent. A list is required with per visual variable a value. |
 #' | values.var		| Default values when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. |
-#' | values.contrast		| Default contrast for values. See \code{values.contrast} of \code{\link{tm_scale_categorical}}. A list is required with per visual variable a value.
+#' | values.range		| Default range for values. See \code{values.range} of \code{\link{tm_scale_categorical}}. A list is required with per visual variable a value.
 #' | value.neutral		| Default values for when a data variable to mapped to a visual variable, e.g. a color palette. A list is required with per visual variable a value. | |
 #' | scales.var		| Default scales. |
 #' | label.format		| Format for the labels (was legend.format in tmap v3) |
