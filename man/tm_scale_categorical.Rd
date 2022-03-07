@@ -42,7 +42,7 @@ tm_scale_categorical(
 \arguments{
 \item{n.max}{Maximum number of categories (factor levels). In case there are more, they are grouped into \code{n.max} groups.}
 
-\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{tm_polygons}) this is a palette name (see \code{\link{tmap_show_palettes}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{tm_symbols}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
+\item{values}{(generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{tm_polygons}) this is a palette name from the `cols4all` package (see \code{\link[cols4all:c4a]{c4a}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{tm_symbols}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.}
 
 \item{values.repeat}{(generic scale argument) Should the values be repeated in case there are more categories?}
 

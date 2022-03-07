@@ -161,22 +161,6 @@ tm_scale_discrete = function(ticks = NA,
 	structure(c(list(FUN = "tmapScaleDiscrete"), as.list(environment())), class = c("tm_scale_discrete", "tm_scale", "list"))
 }
 
-#' @export
-tm_scale_rank = function(...) {
-	tmc = tm_scale_continuous(...)
-	class(tmc) = c("tm_scale_rank", "tm_scale", "list")
-	tmc
-}
-
-#' @export
-#' @rdname tm_scale_continuous
-#' @name tm_scale_log10
-tm_scale_log10 = function(...) {
-	tmc = tm_scale_continuous(...)
-	class(tmc) = c("tm_scale_log10", "tm_scale", "list")
-	tmc
-}
-
 
 #' Scales: continuous and log10 scale
 #' 
@@ -207,6 +191,7 @@ tm_scale_continuous = function(n = 5,
 							   limits = NULL,
 							   outliers = c("hide", "max"),
 							   ticks = NULL,
+							   trans = "identity",
 							   midpoint = NULL,
 							   values = NA,
 							   values.repeat = FALSE,
@@ -222,6 +207,22 @@ tm_scale_continuous = function(n = 5,
 	
 	structure(c(list(FUN = "tmapScaleContinuous"), as.list(environment())), class = c("tm_scale_continuous", "tm_scale", "list"))
 }
+
+
+#' #' @export
+#' tm_scale_rank = function(...) {
+#' 	tmc = tm_scale_continuous(...)
+#' 	class(tmc) = c("tm_scale_rank", "tm_scale", "list")
+#' 	tmc
+#' }
+
+#' @export
+#' @rdname tm_scale_continuous
+#' @name tm_scale_log10
+tm_scale_log10 = function(...) {
+	tm_scale_continuous(trans = "log10", ...)
+}
+
 
 
 #' @export

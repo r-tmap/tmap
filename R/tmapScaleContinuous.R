@@ -1,11 +1,13 @@
 tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
-	style = if (inherits(scale, "tm_scale_continuous")) {
-		"cont"
-	} else if (inherits(scale, "tm_scale_log10")) {
-		"log10"
-	} else if (inherits(scale, "tm_scale_rank")) {
-		"rank"
-	}
+	# style = if (inherits(scale, "tm_scale_continuous")) {
+	# 	"cont"
+	# } else if (inherits(scale, "tm_scale_log10")) {
+	# 	"log10"
+	# } else if (inherits(scale, "tm_scale_rank")) {
+	# 	"rank"
+	# }
+	# 
+	
 	
 	cls = data_class(x1)
 	maincls = class(scale)[1]
@@ -22,55 +24,46 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 	
 	if (aes %in% c("lty", "shape", "pattern")) stop("tm_scale_continuous cannot be used for layer ", layer, ", aesthetic ", aes, call. = FALSE)
 	
-	
 	scale = get_scale_defaults(scale, o, aes, layer, cls)
 	
 	show.messages <- o$show.messages
 	show.warnings <- o$show.warnings
 	
 	with(scale, {
-		udiv = identical(use_div(brks = NULL, midpoint), TRUE)
-
 		if (all(is.na(x1))) return(tmapScale_returnNA(n = length(x1), legend = legend, value.na = value.na, label.na = label.na, na.show = na.show))
 		
+		
+		tr = get(paste0("trans_", trans))
+		
+		xrange = range(x1, na.rm = TRUE)
+		
+		if (xrange[1] < tr$domain[1]) stop("Values found that are lower than the valid domain", call. = FALSE)
+		if (xrange[2] > tr$domain[2]) stop("Values found that are higher than the valid domain", call. = FALSE)
+		
+		udiv = identical(use_div(brks = NULL, midpoint), TRUE)
+
 		ticks.specified = !is.null(ticks)
 		limits.specified = !is.null(limits)
 		
-		is.log = (style == "log10")
-		
-		if (is.log && !attr(label.format, "big.num.abbr.set")) label.format$big.num.abbr = NA
-		
-		if (is.log) {
-			x1 = log10(x1)
-			if (length(which(x1 < 0))) {
-				x1[which(x1 < 0)] = 0
-				warning("data values lower than 1 have been rounded to 1 in order to prevent (large) negative values for tm_scale_log10", call. = FALSE)
-			}
+		if (limits.specified) {
+			if (limits[1] < tr$domain[1]) stop("Lower limit too low", call. = FALSE)
+			if (limits[2] > tr$domain[2]) stop("Upper limit too high", call. = FALSE)
+			domain = limits
+		} else {
+			domain = range(x1, na.rm = TRUE)
 		}
-		style = ifelse(style=="rank", "quantile", "fixed")
 		
-		if (style=="fixed") {
-			if (ticks.specified) {
-				n = length(ticks) - 1
-			}
+		if (ticks.specified) {
+			if (any(ticks < domain[1])) stop("(Some) ticks are too low", call. = FALSE)
+			if (any(ticks > domain[2])) stop("(Some) ticks are too high", call. = FALSE)
+			n = length(ticks) - 1
+			ticks_t = tr$fun(ticks)
+		}
+		
+		x_t = tr$fun(x1)
+		domain_t = tr$fun(domain)
 			
-			if (limits.specified) {
-				if (ticks.specified && any((ticks<limits[1]) | (ticks>limits[2]))) stop("ticks found that exceed the set limits", call. = FALSE)
-				
-				breaks = if (is.log) log10(limits) else limits
-				n = length(ticks) - 1
-			} else {
-				breaks = range(x1, na.rm = TRUE)
-				# make sure at least one log10 falls in the range
-				if (is.log && ceiling(breaks[1]) > floor(breaks[2])) breaks = c(floor(breaks[1]), ceiling(breaks[2]))
-			}
-			breaks = cont_breaks(breaks, n=101)
-		}
-		# } else {
-		# 	# if ("breaks" %in% call && show.warnings) warning("breaks cannot be set for style = \"order\".", 
-		# 	# 												 ifelse("labels" %in% call, "", " Breaks labels can be set with the argument labels."), ifelse(any(c("labels", "n") %in% call), "", " The number of breaks can be specified with the argument n."),  call. = FALSE)
-		# 	custom_breaks <- breaks
-		# }
+		breaks = cont_breaks(domain_t, n=101)
 		
 		if (is.null(labels)) {
 			ncont = n
@@ -85,7 +78,7 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 				ncont = length(labels)	
 			}
 		}
-		q = num2breaks(x = x1, n = 101, style = style, breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
+		q = num2breaks(x = x_t, n = 101, style = "fixed", breaks=breaks, approx=TRUE, interval.closure = "left", var=paste(layer, aes, sep = "-"), args = list())
 		
 		breaks = q$brks
 		nbrks = length(breaks)
@@ -112,10 +105,10 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 
 		# determine midpoint
 		if ((is.null(midpoint) || is.na(midpoint)) && isdiv) {
-			rng <- range(x1, na.rm = TRUE)
+			rng <- range(x_t, na.rm = TRUE)
 			if (rng[1] < 0 && rng[2] > 0 && is.null(midpoint)) {
 				
-				if (show.messages) message("Variable(s) \"", paste(aes, collapse = "\", \""), "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full spectrum of the color palette.")
+				if (show.messages) message("Variable(s) \"", paste(aes, collapse = "\", \""), "\" contains positive and negative values, so midpoint is set to 0. Set midpoint = NA to show the full range of visual values.")
 				midpoint <- 0
 			} else {
 				if ((n2 %% 2) == 1) {
@@ -155,29 +148,15 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 			if (!is.null(sortRev)) ids[isna] = 0L
 		}
 		
-		if (style=="quantile") {
-			id = seq(1, n2+1, length.out=ncont)
-			b = breaks[id]
-			nbrks_cont = length(b)
+		b_t = if (ticks.specified) {
+			ticks_t
 		} else {
-			if (ticks.specified) {
-				if (is.log) {
-					b = log10(ticks)	
-				} else {
-					b = ticks
-				}
-			} else {
-				if (is.log) {
-					b = seq(floor(min(breaks)), ceiling(max(breaks)))
-				} else {
-					b = pretty(breaks, n=ncont)
-				}
-				b = b[b>=breaks[1] & b<=breaks[length(breaks)]]
-			}
-			nbrks_cont <- length(b)
-			id = as.integer(cut(b, breaks=breaks, include.lowest = TRUE))
+			pretty(domain_t)
 		}
-		
+		b_t = b_t[b_t>=domain_t[1] & b_t<=domain_t[2]]
+		nbrks_cont <- length(b_t)
+		id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
+
 		id_step = id[2] - id[1]
 		id_lst = lapply(id, function(i){
 			res = round(seq(i-floor(id_step/2), i+ceiling(id_step/2), length.out=11))[1:10]
@@ -197,10 +176,14 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		
 		# detransform log 
-		if (is.log) {
-			breaks = 10^breaks
-			b = 10^b
-		}
+		
+		
+		# if (is.log) {
+		# 	breaks = 10^breaks
+		# 	b = 10^b
+		# }
+		b = tr$rev(b_t)
+		
 		
 		# create legend values
 		values = b
