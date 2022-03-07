@@ -45,25 +45,28 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		ticks.specified = !is.null(ticks)
 		limits.specified = !is.null(limits)
 		
-		if (limits.specified) {
-			if (limits[1] < tr$domain[1]) stop("Lower limit too low", call. = FALSE)
-			if (limits[2] > tr$domain[2]) stop("Upper limit too high", call. = FALSE)
-			domain = limits
-		} else {
-			domain = range(x1, na.rm = TRUE)
+		if (!limits.specified) {
+			limits = range(x1, na.rm = TRUE)
+			if (ticks.specified) limits = range(c(limits, ticks))
 		}
+
+		if (limits[1] < tr$domain[1]) stop("Lower limit too low", call. = FALSE)
+		if (limits[2] > tr$domain[2]) stop("Upper limit too high", call. = FALSE)
 		
 		if (ticks.specified) {
-			if (any(ticks < domain[1])) stop("(Some) ticks are too low", call. = FALSE)
-			if (any(ticks > domain[2])) stop("(Some) ticks are too high", call. = FALSE)
+			if (limits.specified) {
+				if (any(ticks < limits[1])) stop("(Some) ticks are lower than the lowest limit. Please remove these ticks or adjust the lower limit.", call. = FALSE)
+				if (any(ticks > limits[2])) stop("(Some) ticks are higher than the upper limit. Please remove these ticks or adjust the upper limit.", call. = FALSE)
+			}
 			n = length(ticks) - 1
 			ticks_t = tr$fun(ticks)
 		}
 		
 		x_t = tr$fun(x1)
-		domain_t = tr$fun(domain)
-			
-		breaks = cont_breaks(domain_t, n=101)
+		limits_t = tr$fun(limits)
+		domain_t = tr$fun(tr$domain)	
+		
+		breaks = cont_breaks(limits_t, n=101)
 		
 		if (is.null(labels)) {
 			ncont = n
@@ -151,9 +154,13 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		b_t = if (ticks.specified) {
 			ticks_t
 		} else {
-			pretty(domain_t)
+#			tr$rev(pretty(limits_t, n = 10))
+			# TODO
+			#pretty()
+			pretty(limits_t)
 		}
-		b_t = b_t[b_t>=domain_t[1] & b_t<=domain_t[2]]
+		b_t = b_t[b_t>=limits_t[1] & b_t<=limits_t[2]]
+
 		nbrks_cont <- length(b_t)
 		id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
 
