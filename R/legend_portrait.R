@@ -57,7 +57,6 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 		if (comp$na.show) item_heights[nlev] = heightNA
 		comp$stretch = if (!is.na(comp$height)) "itemsNNA" else "none"	
 	}
-	po(o$lin,titleS)
 	titleP = comp$title.padding[c(3,1)] * titleS * o$lin
 	titleH = titleS * o$lin
 	marH = comp$margins[c(3,1)] * textS * o$lin

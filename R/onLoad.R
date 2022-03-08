@@ -16,6 +16,14 @@
 	
 	assign("tmapStyles", .defaultTmapStyles, envir = .TMAP)
 	assign("tmapFormats", .defaultTmapFormats, envir = .TMAP)
+	
+	
+	.TMAP$round_to = as.vector(sapply((-9):9, function(i) {
+			sapply(c(1, 2.5, 5), function(j) {
+				j*10^i
+			})
+	})) # needed for pretty ticks for continuous scale with trans enabled (like log scale)
+	
 } 
 
 .TMAP <- new.env(FALSE, parent=globalenv())

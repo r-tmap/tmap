@@ -220,3 +220,89 @@ num2breaks <- function(x, n, style, breaks, approx=FALSE, interval.closure="left
 	}
 	q
 }
+
+
+are_breaks_diverging <- function(brks) {
+	# if !divx then c-Inf, 2, 5, 10) is considered sequential
+	negb <- any(brks[brks!=-Inf]<0) || (brks[1] == -Inf && brks[2]<=0)
+	nb <- length(brks)
+	posb <- any(brks[brks!=Inf]>0) || (brks[nb] == Inf && brks[nb-1]>=0)
+	negb && posb
+}
+
+
+
+
+
+
+
+
+# function to determine whether a diverging of sequential palette is used given the values and the breaks
+# use_diverging_palette <- function(v, brks, midpoint = NULL) {
+# 	if (!is.null(midpoint) && !is.na(midpoint)) return(TRUE)
+# 	x <- na.omit(v)
+# 	divx <- any(x<0) && any(x>0)
+# 
+# 	if (divx || is.null(brks)) {
+# 		return(divx)
+# 	} else {
+# 		are_breaks_diverging(brks)
+# 	}
+# }
+# 
+use_div <- function(brks, midpoint = NULL) {
+	if (!is.null(midpoint) && !is.na(midpoint)) return(TRUE)
+	
+	if (is.null(brks)) {
+		return(NA)
+	} else {
+		are_breaks_diverging(brks)
+	}
+}
+
+
+
+# https://stackoverflow.com/questions/12688717/round-up-from-5
+#rnd <- function(x) trunc(x + sign(x) * 0.5)
+round2 = function(x, n = 0) {
+	posneg = sign(x)
+	z = abs(x)*10^n
+	z = z + 0.5 + sqrt(.Machine$double.eps)
+	z = trunc(z)
+	z = z/10^n
+	z*posneg
+}
+# a = seq(0.5, 10.5, by = 0.5)
+# names(a) = a
+# round(a)
+# round2(a, 0)
+# rnd(a)
+
+
+# round x to nearest multiple of y
+round_num = function(x, y) round2(x / y) * y
+
+
+
+prettyTicks = function(x, dev = 0.1) {
+	s = x[-1] - head(x,-1)
+	s = c(s[1], s, tail(s,1))
+	s = pmin(head(s,-1), tail(s,-1))
+	
+	mapply(function(xi, si) {
+		for (r in rev(.TMAP$round_to)) {
+			xir = round_num(xi, r)
+			if (abs(xi - xir) < (si * dev)) break
+		}
+		xir
+	}, x, s, SIMPLIFY = TRUE)
+}
+# x = c(3.654, 4.65, 5.1, 7.5)
+# x = sort(c(0.004324, 0.00324, 0.00227, 0.00745435))
+# x = c(3, 4,6,7,9)
+# x = c(3.1,3.354,3.6)
+# x = c(3.1,4.354,5.6)
+# x = c(1043,2045,4005, 6765)
+# x = c(265, 280, 520, 1000)
+# x = c(265, 520, 1000, 1280)
+# prettyTicks(x)

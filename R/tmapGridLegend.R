@@ -43,13 +43,14 @@ tmapGridCompCorner = function(comp, o, stack, pos.h, pos.v, maxH, maxW, offsetIn
 	
 	
 	
-	legWin[is.infinite(legWin)] =maxW
-	legHin[is.infinite(legHin)] =maxH
+	legWin[is.infinite(legWin)] = maxW
+	legHin[is.infinite(legHin)] = maxH
 	
 	scaleW = legWin / maxW
 	scaleH = legHin / maxH
 	
-	if (any(scaleW > 1) || any(scaleH > 1)) warning("Some legend items do not fit with the specified font size, and are therfore rescaled.", call. = FALSE)
+	# becuase of legend frames (for which margins are added in tmapGridLegend), the scale may be a bit above 1, even though automatic layout is applied and there is enough space
+	if (any(scaleW > 1.05) || any(scaleH > 1.05)) warning("Some legend items do not fit with the specified font size, and are therfore rescaled.", call. = FALSE)
 	
 	clipW = pmax(1, scaleW) 
 	clipH = pmax(1, scaleH) 
@@ -264,8 +265,6 @@ tmapGridLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_pag
 	offsetIn.h = component.offset.h * o$lin * o$scale + (o$frame.lwd * o$scale / 144) # 1 line = 1/72 inch, frame lines are centered (so /2)
 	offsetIn.v = component.offset.v * o$lin * o$scale + (o$frame.lwd * o$scale / 144)
 	marginIn = o$component.stack.margin * o$lin
-	
-	po(offsetIn.h, offsetIn.v)
 	
 	marginInTot = (n - 1L) * marginIn
 	offsetInTot.h  = 2 * offsetIn.h

@@ -162,13 +162,15 @@ tm_scale_discrete = function(ticks = NA,
 }
 
 
-#' Scales: continuous and log10 scale
+#' Scales: continuous scale
 #' 
-#' Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link{tm_polygons}}). The functions \code{tm_scale_continuous} and \code{tm_scale_log10} are used for continuous data. The latter also applied as log10 transformation.
+#' Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link{tm_polygons}}). The function \code{tm_scale_continuous} is used for continuous data. The functions \code{tm_scale_continuous_<x>} use transformation functions x.
 #' 
 #' @param n Preferred number of tick labels. Only used if \code{ticks} is not specified
-#' @param limits
+#' @param limits Limits of the data values that are mapped to the continuous scale
+#' @param outliers.trunc Should outliers be truncated? An outlier is a data value that is below or above the respectively lower and upper limit. A logival vector of two values is expected. The first and second value determines whether values lower than the lower limit respectively higher than the upper limit are truncated to the lower respectively upper limit. If `FALSE` (default), they are considered as missing values.
 #' @param ticks Tick values. If not specified, it is determined automatically with \code{n}
+#' @param trans Transformation function. One of `"identity"` (default), `"log"`, and `"log1p"`. Note: the base of the log scale is irrelevant, since the log transformed values are normalized before mapping to visual values.
 #' @param midpoint The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.
 #' @param as.count Should the data variable be processed as a count variable? For instance, if \code{style = "pretty"}, \code{n = 2}, and the value range of the variable is 0 to 10, then the column classes for \code{as.count = TRUE} are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for \code{as.count = FALSE} they are 0 to 5; 5 to 10. Only applicable if \code{style} is \code{"pretty"}, \code{"fixed"}, or \code{"log10_pretty"}. By default, \code{TRUE} if \code{style} is one of these, and the variable is an integer. 
 #' @param values (generic scale argument) The visual values. For colors (e.g. \code{fill} or \code{col} for \code{tm_polygons}) this is a palette name from the `cols4all` package (see \code{\link[cols4all:c4a]{c4a}}) or vector of colors, for size (e.g. \code{size} for \code{tm_symbols}) these are a set of sizes (if two values are specified they are interpret as range), for symbol shapes (e.g. \code{shape} for \code{tm_symbols}) these are a set of symbols, etc. The tmap option \code{values.var} contains the default values per visual variable and in some cases also per data type.
@@ -189,7 +191,7 @@ tm_scale_discrete = function(ticks = NA,
 #' @name tm_scale_continuous
 tm_scale_continuous = function(n = 5,
 							   limits = NULL,
-							   outliers = c("hide", "max"),
+							   outliers.trunc = c(FALSE, FALSE),
 							   ticks = NULL,
 							   trans = "identity",
 							   midpoint = NULL,
@@ -216,13 +218,31 @@ tm_scale_continuous = function(n = 5,
 #' 	tmc
 #' }
 
+
 #' @export
 #' @rdname tm_scale_continuous
-#' @name tm_scale_log10
-tm_scale_log10 = function(...) {
-	tm_scale_continuous(trans = "log10", ...)
+#' @name tm_scale_continuous_log
+tm_scale_continuous_log = function(...) {
+	tm_scale_continuous(trans = "log", ...)
 }
 
+
+
+#' @export
+#' @rdname tm_scale_continuous
+#' @name tm_scale_continuous_log1p
+tm_scale_continuous_log1p = function(...) {
+	tm_scale_continuous(trans = "log1p", ...)
+}
+
+
+# 
+# #' @export
+# #' @rdname tm_scale_continuous
+# #' @name tm_scale_continuous_logistic
+# tm_scale_continuous_logistic = function(...) {
+# 	tm_scale_continuous(trans = "logistic", ...)
+# }
 
 
 #' @export

@@ -2,13 +2,14 @@
 % Please edit documentation in R/tm_scale_.R
 \name{tm_scale_continuous}
 \alias{tm_scale_continuous}
-\alias{tm_scale_log10}
-\title{Scales: continuous and log10 scale}
+\alias{tm_scale_continuous_log}
+\alias{tm_scale_continuous_log1p}
+\title{Scales: continuous scale}
 \usage{
 tm_scale_continuous(
   n = 5,
   limits = NULL,
-  outliers = c("hide", "max"),
+  outliers.trunc = c(FALSE, FALSE),
   ticks = NULL,
   trans = "identity",
   midpoint = NULL,
@@ -25,12 +26,20 @@ tm_scale_continuous(
   label.format = NA
 )
 
-tm_scale_log10(...)
+tm_scale_continuous_log(...)
+
+tm_scale_continuous_log1p(...)
 }
 \arguments{
 \item{n}{Preferred number of tick labels. Only used if \code{ticks} is not specified}
 
+\item{limits}{Limits of the data values that are mapped to the continuous scale}
+
+\item{outliers.trunc}{Should outliers be truncated? An outlier is a data value that is below or above the respectively lower and upper limit. A logival vector of two values is expected. The first and second value determines whether values lower than the lower limit respectively higher than the upper limit are truncated to the lower respectively upper limit. If `FALSE` (default), they are considered as missing values.}
+
 \item{ticks}{Tick values. If not specified, it is determined automatically with \code{n}}
+
+\item{trans}{Transformation function. One of `"identity"` (default), `"log"`, and `"log1p"`. Note: the base of the log scale is irrelevant, since the log transformed values are normalized before mapping to visual values.}
 
 \item{midpoint}{The data value that is interpreted as the midpoint. By default it is set to 0 if negative and positive values are present. Useful when values are diverging colors. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to \code{NA}, which means that the value that corresponds to the middle color class (see \code{style}) is mapped to the middle color. If it is specified for sequential color palettes (e.g. \code{"Blues"}), then this color palette will be treated as a diverging color palette.}
 
@@ -63,5 +72,5 @@ tm_scale_log10(...)
 \item{levels.drop}{Should unused levels be dropped (and therefore are not assigned to a visual value and shown in the legend)?}
 }
 \description{
-Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link{tm_polygons}}). The functions \code{tm_scale_continuous} and \code{tm_scale_log10} are used for continuous data. The latter also applied as log10 transformation.
+Scales in tmap are configured by the family of functions with prefix \code{tm_scale}. Such function should be used for the input of the \code{.scale} arguments in the layer functions (e.g. \code{fill.scale} in \code{\link{tm_polygons}}). The function \code{tm_scale_continuous} is used for continuous data. The functions \code{tm_scale_continuous_<x>} use transformation functions x.
 }

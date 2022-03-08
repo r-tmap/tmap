@@ -86,7 +86,6 @@ bb_asp = function(bbx, asp) {
 		bbx[1] = cx - (dx2 / 2)
 		bbx[3] = cx + (dx2 / 2)
 	}
-	po(sasp)
 	bbx
 }
 

@@ -62,6 +62,19 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 			ticks_t = tr$fun(ticks)
 		}
 		
+		if (limits.specified) {
+			x1_low = x1 < limits[1]
+			x1_high = x1 > limits[2]
+			if (any(x1_low, na.rm = TRUE)) {
+				if (!outliers.trunc[1]) message("Values have been found that are lower than the lowest limit. These 'outliers' have been set to NA. Use outliers.trunc to truncate them to the lower limit")
+				x1[which(x1_low)] = if (outliers.trunc[1]) limits[1] else NA
+			}
+			if (any(x1_high, na.rm = TRUE)) {
+				if (!outliers.trunc[2]) message("Values have been found that are higher than the upper limit. These 'outliers' have been set to NA. Use outliers.trunc to truncate them to the upper limit")
+				x1[which(x1_high)] = if (outliers.trunc[2]) limits[2] else NA
+			}
+		}
+		
 		x_t = tr$fun(x1)
 		limits_t = tr$fun(limits)
 		domain_t = tr$fun(tr$domain)	
@@ -75,9 +88,6 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 				if (show.warnings) warning("The length of legend labels is ", length(labels), ", which differs from the length of the breaks (", (n+1), "). Therefore, legend labels will be ignored", call.=FALSE)
 				labels = NULL
 			} else {
-				if (style == "quantile" && ("n" %in% call) && show.warnings) {
-					warning("n will not be used since labels are specified. Therefore, n will be set to the number of labels.", call. = FALSE)
-				}
 				ncont = length(labels)	
 			}
 		}
@@ -151,25 +161,34 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 			if (!is.null(sortRev)) ids[isna] = 0L
 		}
 		
-		b_t = if (ticks.specified) {
-			ticks_t
+		if (ticks.specified) {
+			b_t = ticks_t
+			b = tr$rev(b_t)
 		} else {
 #			tr$rev(pretty(limits_t, n = 10))
 			# TODO
 			#pretty()
-			pretty(limits_t)
+			#tr$fun(round(tr$rev(pretty(limits_t)),1))
+			b  = prettyTicks(tr$rev(seq(limits_t[1], limits_t[2], length.out = n)))
+			b_t = tr$fun(b)
 		}
-		b_t = b_t[b_t>=limits_t[1] & b_t<=limits_t[2]]
+		sel = b_t>=limits_t[1] & b_t<=limits_t[2]
+		b_t = b_t[sel]
+		b = b[sel]
 
 		nbrks_cont <- length(b_t)
 		id = as.integer(cut(b_t, breaks=breaks, include.lowest = TRUE))
 
-		id_step = id[2] - id[1]
-		id_lst = lapply(id, function(i){
-			res = round(seq(i-floor(id_step/2), i+ceiling(id_step/2), length.out=11))[1:10]
+		id_step = id[-1] - head(id, -1)
+		id_step = c(id_step[1], id_step, id_step[length(id_step)])
+		id_lst = mapply(function(i, s1, s2){
+			#res = round(seq(i-floor(id_step/2), i+ceiling(id_step/2), length.out=11))[1:10]
+			res1 = round(seq(i-floor(s1/2), i, length.out=6))
+			res2 = round(seq(i, i+ceiling(s2/2), length.out=6))[2:5]
+			res = c(res1, res2)
 			res[res<1 | res>101] = NA
 			res
-		})
+		}, id, head(id_step, -1), id_step[-1], SIMPLIFY = FALSE)
 		vvalues = lapply(id_lst, function(i) {
 			if (legend$reverse) rev(vvalues[i]) else vvalues[i]
 		})
@@ -180,17 +199,6 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		# temporarily stack gradient colors
 		vvalues = sapply(vvalues, paste, collapse="-")
-		
-		
-		# detransform log 
-		
-		
-		# if (is.log) {
-		# 	breaks = 10^breaks
-		# 	b = 10^b
-		# }
-		b = tr$rev(b_t)
-		
 		
 		# create legend values
 		values = b
