@@ -143,8 +143,7 @@ get_asp_ratio = function (x)  {
 	ylim = bbx[c(2, 4)]
 	asp = if (diff(xlim) == 0 || diff(ylim) == 0) {
 		1
-	}
-	else unname((diff(xlim)/diff(ylim)) * ifelse(ll,cos((mean(ylim) * pi)/180), 1))
+	} else unname((diff(xlim)/diff(ylim)) * ifelse(identical(ll, TRUE),cos((mean(ylim) * pi)/180), 1))
 	asp
 }
 
