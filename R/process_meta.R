@@ -88,62 +88,11 @@ preprocess_meta = function(o, cdt) {
 }
 
 process_meta = function(o, d, cdt) {
+	gs = tmap_graphics_name()
 	within(o, {
 		# sasp shape aspect ratio (NA if free coordinates)
 		diff_asp = any(d$asp != d$asp[1])
 		sasp = ifelse(diff_asp, NA, d$asp[1])
-		
-		
-		bufferH = lineH / 2
-		bufferW = lineW / 2
-		
-		# calculate space for margins, panels, etc
-		
-		meta.automatic = is.na(meta.margins[1])
-		
-		#one.row = (!is.na(o$nrows) && o$nrows == 1)
-		#one.col = (!is.na(o$ncols) && o$ncols == 1)
-		
-		if (meta.automatic) meta.margins = c(0, 0, 0, 0) else meta.margins = rep(meta.margins, length.out = 4)
-		
-		meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
-		
-		panel.xtab.size = if (panel.type == "xtab") {
-			c(ifelse("bottom" %in% panel.xtab.pos, panel.label.height * lineH, 0),
-			  ifelse("left" %in% panel.xtab.pos, panel.label.height * lineW, 0),
-			  ifelse("top" %in% panel.xtab.pos, panel.label.height * lineH, 0),
-			  ifelse("right" %in% panel.xtab.pos, panel.label.height * lineW, 0))
-		} else c(0, 0, 0, 0)
-		
-		panel.wrap.size = if (panel.type == "wrap") {
-			c(ifelse(panel.wrap.pos == "bottom", panel.label.height * lineH, 0),
-			  ifelse(panel.wrap.pos == "left", panel.label.height * lineW, 0),
-			  ifelse(panel.wrap.pos == "top", panel.label.height * lineH, 0),
-			  ifelse(panel.wrap.pos == "right", panel.label.height * lineW, 0))
-		} else c(0, 0, 0, 0)
-		
-		xylab.margins = rep(0, 4)
-		if (xlab.show) xylab.margins[ifelse(xlab.pos == "bottom", 1, 3)] = xylab.height * lineH
-		if (ylab.show) xylab.margins[ifelse(xlab.pos == "left", 2, 4)] = xylab.height * lineW
-		
-		
-		grid.buffers = if (grid.show) {
-			as.integer(grid.label.pos == c("bottom", "left", "top", "right")) * c(bufferH, bufferW, bufferH, bufferW)
-		} else {
-			rep(0, 4)
-		}
-		
-		grid.margins = if (grid.show) {
-			as.integer(grid.label.pos == c("bottom", "left", "top", "right")) * grid.mark.height * c(lineH, lineW, lineH, lineW)
-		} else {
-			rep(0, 4)
-		}
-		between.marginH = between.margin * lineH
-		between.marginW = between.margin * lineW
-		
-		fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
-		
-		
 		
 		# preferred aspect ratio (just for this function): if asp is defined (not 0 or NA), use that, otherwise use sasp (shape asp) if available (if not; 1)
 		pasp = if (is.na(sasp)) {
@@ -160,6 +109,66 @@ process_meta = function(o, d, cdt) {
 			}
 		}
 		
+		
+		if (gs == "Grid") {
+			bufferH = lineH / 2
+			bufferW = lineW / 2
+			
+			# calculate space for margins, panels, etc
+			
+			meta.automatic = is.na(meta.margins[1])
+			
+			#one.row = (!is.na(o$nrows) && o$nrows == 1)
+			#one.col = (!is.na(o$ncols) && o$ncols == 1)
+			
+			if (meta.automatic) meta.margins = c(0, 0, 0, 0) else meta.margins = rep(meta.margins, length.out = 4)
+			
+			meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
+			
+			panel.xtab.size = if (panel.type == "xtab") {
+				c(ifelse("bottom" %in% panel.xtab.pos, panel.label.height * lineH, 0),
+				  ifelse("left" %in% panel.xtab.pos, panel.label.height * lineW, 0),
+				  ifelse("top" %in% panel.xtab.pos, panel.label.height * lineH, 0),
+				  ifelse("right" %in% panel.xtab.pos, panel.label.height * lineW, 0))
+			} else c(0, 0, 0, 0)
+			
+			panel.wrap.size = if (panel.type == "wrap") {
+				c(ifelse(panel.wrap.pos == "bottom", panel.label.height * lineH, 0),
+				  ifelse(panel.wrap.pos == "left", panel.label.height * lineW, 0),
+				  ifelse(panel.wrap.pos == "top", panel.label.height * lineH, 0),
+				  ifelse(panel.wrap.pos == "right", panel.label.height * lineW, 0))
+			} else c(0, 0, 0, 0)
+			
+			xylab.margins = rep(0, 4)
+			if (xlab.show) xylab.margins[ifelse(xlab.pos == "bottom", 1, 3)] = xylab.height * lineH
+			if (ylab.show) xylab.margins[ifelse(xlab.pos == "left", 2, 4)] = xylab.height * lineW
+			
+			
+			grid.buffers = if (grid.show) {
+				as.integer(grid.label.pos == c("bottom", "left", "top", "right")) * c(bufferH, bufferW, bufferH, bufferW)
+			} else {
+				rep(0, 4)
+			}
+			
+			grid.margins = if (grid.show) {
+				as.integer(grid.label.pos == c("bottom", "left", "top", "right")) * grid.mark.height * c(lineH, lineW, lineH, lineW)
+			} else {
+				rep(0, 4)
+			}
+			between.marginH = between.margin * lineH
+			between.marginW = between.margin * lineW
+			
+			fixedMargins = outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
+		} else if (gs == "Leaflet") {
+			grid.buffers = rep(0, 4)
+			grid.margins = rep(0, 4)
+			fixedMargins = rep(0, 4)
+			panel.wrap.size = rep(0, 4)
+			between.marginH = 0
+			between.marginW = 0
+		}
+		
+
 		masp = ((1 - sum(fixedMargins[c(2, 4)])) / (1 - sum(fixedMargins[c(1, 3)]))) * dasp
 		
 		# Aspect ratios:
@@ -185,104 +194,111 @@ process_meta = function(o, d, cdt) {
 		# cdt[, scale := pmax(legW/mx_width, legH/mx_height, 1)]
 		# cdt[, ":="(legW_sc = legW/scale, legH_sc = legH/scale)]
 		
-		if (type == "stack") {
-			if (is.na(orientation)) {
-				legs_auto = cdt[class=="autoout"]
-				
-				if (nrow(legs_auto) && n == 1) {
+		if (gs == "Grid") {
+			if (type == "stack") {
+				if (is.na(orientation)) {
+					legs_auto = cdt[class=="autoout"]
 					
-					legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto.margins[c(2,4)])) 
-					legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto.margins[c(1,3)]))
-					
-
-					av_width = mx_width - legWmax * devsize[1]
-					av_height = mx_height - legHmax * devsize[2]
-					
-					shp_height_hor = if ((av_width / mx_height) < pasp) av_width / pasp else mx_height
-					shp_height_ver = if ((mx_width / av_height) < pasp) mx_width / pasp else av_height
-					
-					orientation = if (shp_height_hor >= shp_height_ver) "vertical" else "horizontal"
-				} else {
-					orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
+					if (nrow(legs_auto) && n == 1) {
+						
+						legWmax = min(max(legs_auto$legW) / devsize[1], max(meta.auto.margins[c(2,4)])) 
+						legHmax = min(max(legs_auto$legH) / devsize[2], max(meta.auto.margins[c(1,3)]))
+						
+	
+						av_width = mx_width - legWmax * devsize[1]
+						av_height = mx_height - legHmax * devsize[2]
+						
+						shp_height_hor = if ((av_width / mx_height) < pasp) av_width / pasp else mx_height
+						shp_height_ver = if ((mx_width / av_height) < pasp) mx_width / pasp else av_height
+						
+						orientation = if (shp_height_hor >= shp_height_ver) "vertical" else "horizontal"
+					} else {
+						orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
+					}
 				}
 			}
+		} else if (gs == "Leaflet") {
+			orientation = if ((n == 1 && (pasp > masp)) || (n > 1 && (pasp < masp))) "horizontal" else "vertical"
 		}
 		
-
-		## find position for all-facet legend
-		if (legend.present.auto[1]) {
-			if (!legend.present.auto[2] & !legend.present.auto[3]) {
-				# only 'all facets' outside legends (either bottom or right)
-				# was: n > 1 && masp > pasp
-				if ((type != "stack" && n == 1 && pasp > masp) || (type != "stack" && n > 1 && masp < 1) || (type == "stack" && orientation == "horizontal")) {
+		if (gs == "Grid") {
+			## find position for all-facet legend
+			if (legend.present.auto[1]) {
+				if (!legend.present.auto[2] & !legend.present.auto[3]) {
+					# only 'all facets' outside legends (either bottom or right)
+					# was: n > 1 && masp > pasp
+					if ((type != "stack" && n == 1 && pasp > masp) || (type != "stack" && n > 1 && masp < 1) || (type == "stack" && orientation == "horizontal")) {
+						legend.position.all = list(cell.h = "center", cell.v = legend.position$cell.v)
+					} else {
+						legend.position.all = list(cell.h = legend.position$cell.h, cell.v = "center")
+					}
+				} else if (legend.present.auto[2] & !legend.present.auto[3]) {
+					# central goes center bottom 
 					legend.position.all = list(cell.h = "center", cell.v = legend.position$cell.v)
-				} else {
+				} else if (!legend.present.auto[2] & legend.present.auto[3]) {
+					# central goes right center 
 					legend.position.all = list(cell.h = legend.position$cell.h, cell.v = "center")
 				}
-			} else if (legend.present.auto[2] & !legend.present.auto[3]) {
-				# central goes center bottom 
-				legend.position.all = list(cell.h = "center", cell.v = legend.position$cell.v)
-			} else if (!legend.present.auto[2] & legend.present.auto[3]) {
-				# central goes right center 
-				legend.position.all = list(cell.h = legend.position$cell.h, cell.v = "center")
-			}
-		}
-		
-		margins.used.all = c(legend.position.all$cell.v == "bottom",
-							 legend.position.all$cell.h == "left",
-							 legend.position.all$cell.v == "top",
-							 legend.position.all$cell.h == "right") * legend.present.auto[1]
-		
-		margins.used.sides = c(bottom = legend.position.sides$cell.v == "bottom",
-							   left = legend.position.sides$cell.h == "left",
-							   top = legend.position.sides$cell.v == "top",
-							   right = legend.position.sides$cell.h == "right") * legend.present.auto[c(3,2,3,2)]
-		
-		
-		margins.used =  margins.used.all | margins.used.sides | legend.present.fix
-		
-		# tm_shape(World) + tm_polygons(fill = "HPI", lwd = "life_exp")
-		
-		
-		if (nrow(cdt)) {
-			meta.auto.margins = pmin(meta.auto.margins, 
-									 c(max(cdt$legH[cdt$cell.v == "bottom" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
-									   max(cdt$legW[cdt$cell.h == "left" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1],
-									   max(cdt$legH[cdt$cell.v == "top" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
-									   max(cdt$legW[cdt$cell.h == "right" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1]))
-			#meta.auto.margins = c(0.13,0,0,0)
-		}
-
-
-		
-		if (meta.automatic && any(margins.used)) {
-			meta.auto.margins = rep(meta.auto.margins, length.out = 4)
-			if (all(!margins.used[c(1,3)]) && n == 1) {
-				# auto adjust left/right
-				meta.margins[c(2,4)] =  local({
-					xtra = max(0, (1 - pasp/masp - 2*bufferW) - sum(meta.auto.margins[margins.used]))
-					tmp = rep(0, 4)
-					tmp[margins.used] = meta.auto.margins[margins.used]
-					tmp[c(2,4)] + (xtra / 2)
-				})
-			} else if (all(!margins.used[c(2,4)]) && n == 1) {
-				# auto adjust top/bottom
-				meta.margins[c(1,3)] =  local({
-					xtra = max(0, (1 - masp/pasp - 2*bufferH) - sum(meta.auto.margins[margins.used]))
-					# divide extra vertical space between used margins
-					tmp = rep(0, 4)
-					tmp[margins.used] = meta.auto.margins[margins.used]
-					tmp[c(1,3)] + (xtra / 2)
-				})
-			} else {
-				meta.margins[margins.used] = meta.auto.margins[margins.used]
 			}
 			
-			# redo calculations
-			meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
-			fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
+			margins.used.all = c(legend.position.all$cell.v == "bottom",
+								 legend.position.all$cell.h == "left",
+								 legend.position.all$cell.v == "top",
+								 legend.position.all$cell.h == "right") * legend.present.auto[1]
+			
+			margins.used.sides = c(bottom = legend.position.sides$cell.v == "bottom",
+								   left = legend.position.sides$cell.h == "left",
+								   top = legend.position.sides$cell.v == "top",
+								   right = legend.position.sides$cell.h == "right") * legend.present.auto[c(3,2,3,2)]
+			
+			
+			margins.used =  margins.used.all | margins.used.sides | legend.present.fix
+			
+			# tm_shape(World) + tm_polygons(fill = "HPI", lwd = "life_exp")
+			
+			
+			if (nrow(cdt)) {
+				meta.auto.margins = pmin(meta.auto.margins, 
+										 c(max(cdt$legH[cdt$cell.v == "bottom" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
+										   max(cdt$legW[cdt$cell.h == "left" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1],
+										   max(cdt$legH[cdt$cell.v == "top" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
+										   max(cdt$legW[cdt$cell.h == "right" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1]))
+				#meta.auto.margins = c(0.13,0,0,0)
+			}
+	
+	
+			
+			if (meta.automatic && any(margins.used)) {
+				meta.auto.margins = rep(meta.auto.margins, length.out = 4)
+				if (all(!margins.used[c(1,3)]) && n == 1) {
+					# auto adjust left/right
+					meta.margins[c(2,4)] =  local({
+						xtra = max(0, (1 - pasp/masp - 2*bufferW) - sum(meta.auto.margins[margins.used]))
+						tmp = rep(0, 4)
+						tmp[margins.used] = meta.auto.margins[margins.used]
+						tmp[c(2,4)] + (xtra / 2)
+					})
+				} else if (all(!margins.used[c(2,4)]) && n == 1) {
+					# auto adjust top/bottom
+					meta.margins[c(1,3)] =  local({
+						xtra = max(0, (1 - masp/pasp - 2*bufferH) - sum(meta.auto.margins[margins.used]))
+						# divide extra vertical space between used margins
+						tmp = rep(0, 4)
+						tmp[margins.used] = meta.auto.margins[margins.used]
+						tmp[c(1,3)] + (xtra / 2)
+					})
+				} else {
+					meta.margins[margins.used] = meta.auto.margins[margins.used]
+				}
+				
+				# redo calculations
+				meta.buffers = sign(meta.margins) * c(bufferH, bufferW, bufferH, bufferW) # outside and inside
+				fixedMargins  =  outer.margins + meta.buffers * 2 + meta.margins + xylab.margins + panel.xtab.size + grid.buffers + grid.margins
+			}
+		} else {
+			meta.buffers = c(0, 0, 0, 0)
+			meta.margins = c(0, 0, 0, 0)
 		}
-		
 		
 		
 		

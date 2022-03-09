@@ -25,3 +25,10 @@ assign_lf = function(lf, facet_row, facet_col, facet_page) {
 	assign("lfs", lfs, envir = .TMAP_LEAFLET)
 	NULL
 }
+
+tmapLeafletWrap = function(label, facet_row, facet_col, facet_page, o) {
+	NULL
+}
+
+tmapLeafletXtab = function(label, facet_row, facet_col, facet_page, o) {
+}

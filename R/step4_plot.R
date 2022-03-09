@@ -33,8 +33,14 @@ process_components = function(cdt, o) {
 	}, FUN.VALUE = character(1))
 	
 	
-	getLW = function(x) sapply(x, function(y) y$Win)
-	getLH = function(x) sapply(x, function(y) y$Hin) 
+	getLW = function(x) sapply(x, function(y) {
+		yW = y$Win
+		if (is.null(yW)) 0 else yW
+	})
+	getLH = function(x) sapply(x, function(y) {
+		yH = y$Hin
+		if (is.null(yH)) 0 else yH
+	})
 	# attempt to determine margins
 	cdt[, legW := getLW(comp)]
 	cdt[, legH := getLH(comp)]
@@ -272,6 +278,7 @@ step4_plot = function(tm, vp) {
 	
 	# find lid (layer plot id values) for aux layers
 	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = integer(1))
+	
 	
 	for (i in seq_len(nrow(d))) {
 		ll = 0L # last layer that is plotted: needed to mix data- and aux-layers
