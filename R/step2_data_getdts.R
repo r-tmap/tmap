@@ -36,6 +36,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 		grp_bv = by123__[sort(c({if (nvars > 1) v else integer(0)}, b))]
 		
 		sfun = paste0("tmapValuesScale_", unm)
+		cfun = paste0("tmapValuesColorize_", unm)
 		
 		#print(vars)
 		if (!aes$data_vars) {
@@ -44,6 +45,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
 			val1 = do.call(sfun, list(x = val1, scale = o$scale))
+			val1 = do.call(cfun, list(x = val1, pc = o$pc))
 			
 			dtl = copy(dt[, c("tmapID__", "sel__", by123__[b]), with = FALSE])
 			
@@ -76,6 +78,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				cls = data_class(dtl[[nm]])
 				value.null = getAesOption("value.null", o, unm, layer, cls = cls)
 				value.null = do.call(sfun, list(x = value.null, scale = o$scale))
+				value.null = do.call(cfun, list(x = value.null, pc = o$pc))
 				
 				# todo: combine these:
 				dtl[sel__==FALSE, (nm) := value.null]

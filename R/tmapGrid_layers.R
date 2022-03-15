@@ -14,7 +14,6 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	dt = res$dt
 	
 	gp = impute_gp(gp, dt)
-	
 	gp = rescale_gp(gp, o$scale_down)
 	
 	# none should contain NA's && (length or content should be different)
@@ -56,7 +55,6 @@ tmapGridLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, i
 	dt = res$dt
 	
 	gp = impute_gp(gp, dt)
-	
 	gp = rescale_gp(gp, o$scale_down)
 	
 	gp = gp_to_gpar(gp, sel = "col")
@@ -91,8 +89,6 @@ tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	dt = res$dt
 	
 	gp = impute_gp(gp, dt)
-	
-	
 	gp = rescale_gp(gp, o$scale_down)
 
 	#gp = gp_to_gpar(gp, sel = "all")

@@ -15,7 +15,9 @@ tmapLeafletRun = function(o) {
 			} else {
 				asplit(matrix(1:(o$nrows*0$ncols), ncol = 0$ncols, byrow = TRUE), 2)
 			}
-			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc)))))
+			marg = paste0(o$between.margin, "em")
+			
+			print(do.call(leafsync::latticeView, c(lfsi, list(ncol = o$ncols, sync = sync, sync.cursor = all(!fc), between = list(x = marg, y = marg)))))
 		}
 	})
 }

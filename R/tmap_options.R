@@ -3,6 +3,7 @@
 		# mode specific options or default values
 		modes = list(plot = list(name = "Grid", use.gradient = T),
 					 view = list(name = "Leaflet", 
+					 			use.WebGL = TRUE,
 					 			crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), 
 					 			facet.max = 16, 
 					 			view.legend.position = c("right", "top"), 
@@ -178,7 +179,7 @@
 		legend.show = TRUE,
 		legend.design = "standard",
 		legend.orientation = "portrait",
-		legend.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		legend.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 		legend.width = NA,
 		legend.height = NA,
 		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
@@ -303,7 +304,8 @@
 		set.view = NA,
 		set.zoom.limits = NA
 	),
-	style = "white"
+	style = "white",
+	specified = character()
 )
 
 styles = list(
@@ -563,7 +565,11 @@ tmap_options = function(...) {
 		args = lapply(as.list(match.call()[-1]), eval, envir = e1)	
 	}
 	
-	unknown_args = setdiff(names(args), names(.defaultTmapOptions))
+	mode_opts = setdiff(unique(unlist(lapply(o$modes, names))), "name")
+	
+	all_opts = union(mode_opts, names(.defaultTmapOptions))
+	
+	unknown_args = setdiff(names(args), all_opts)
 	if (length(unknown_args) == 1) {
 		stop("the following option does not exist: ", unknown_args)
 	} else if (length(unknown_args) > 1) {
@@ -580,6 +586,7 @@ tmap_options = function(...) {
 		
 		options(tmap.style=sty_new)
 		attr(o, "style") = sty_new
+		attr(o, "specified") = names(args)
 		assign("tmapOptions", o, envir = .TMAP)
 		
 		if (set_new_style) {
@@ -601,7 +608,8 @@ tmap_options_mode = function(mode = NA, default.options = FALSE) {
 	if (is.na(mode)) mode = getOption("tmap.mode")
 	opt2 = o$modes[[mode]]
 	
-	int_opt = intersect(names(o), names(opt2))
+	specified = attr(o, "specified")
+	int_opt = setdiff(intersect(names(o), names(opt2)), specified)
 	diff_opt = setdiff(names(opt2), names(o))
 	
 	if (length(int_opt)) o[int_opt] = opt2[int_opt]

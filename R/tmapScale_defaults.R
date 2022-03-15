@@ -299,6 +299,15 @@ tmapValuesScale_col_alpha = function(x, scale) x
 tmapValuesScale_fill_alpha = function(x, scale) x
 
 
+tmapValuesColorize_col = function(x, pc) do.call(process_color, c(list(col = x), pc))
+tmapValuesColorize_fill = function(x, pc) do.call(process_color, c(list(col = x), pc))
+tmapValuesColorize_size = function(x, pc) x
+tmapValuesColorize_lwd = function(x, pc) x
+tmapValuesColorize_lty = function(x, pc) x
+tmapValuesColorize_shape = function(x, pc) x
+tmapValuesColorize_col_alpha = function(x, pc) x
+tmapValuesColorize_fill_alpha = function(x, pc) x
+
 
 
 tmap_seq = function(from = 0, to = 1, power = c("lin", "sqrt", "sqrt_perceptual", "quadratic")) {

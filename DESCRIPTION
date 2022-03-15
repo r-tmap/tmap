@@ -36,6 +36,7 @@ Imports:
     leaflet (>= 2.0.2),
     leafsync,
     leafem (>= 0.1),
+    leafgl,
     stats,
     rlang,
     utils
