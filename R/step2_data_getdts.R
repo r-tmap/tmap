@@ -148,10 +148,11 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 						
 						vars = vapply(val, "[[", character(1), 1)
 						val = val[[1]]
+						names(val) = val[1]
 					} else {
 						#cat("step2_grp_lyr_aes_var_multi_vars_free_scale\n")
 						vars = vapply(val, "[[", character(1), 1)
-						
+						val = lapply(val, function(vl) {names(vl) = vl[1]; vl})
 					}
 				}
 			} else {
