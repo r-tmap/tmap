@@ -54,14 +54,7 @@ tm_pos = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v
 	structure(args, class = "tm_pos")
 }
 
-#' @export
-#' @name tm_pos_out
-#' @rdname tm_pos
-tm_pos_out = function(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v) {
-	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	args$type = "out"
-	structure(args, class = "tm_pos")
-}
+
 
 #' @export
 #' @name tm_pos_in

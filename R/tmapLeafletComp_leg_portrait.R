@@ -18,18 +18,6 @@ tmapLeafletLegPlot = function(...) {
 #' @method tmapLeafletCompPrepare tm_legend_standard_portrait
 #' @export
 tmapLeafletCompPrepare.tm_legend_standard_portrait = function(comp, o) {
-	# within(comp, {
-	# 	type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
-	# 		"gradient"
-	# 	} else if (!is.na(gp$shape[1])) {
-	# 		"symbols"
-	# 	} else if (mfun == "Lines") {
-	# 		"lines"
-	# 	} else {
-	# 		"rect"
-	# 	}
-	# 	gpar = gp_to_gpar(gp)
-	# })
 	comp
 }
 

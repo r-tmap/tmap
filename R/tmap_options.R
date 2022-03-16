@@ -3,11 +3,13 @@
 		# mode specific options or default values
 		modes = list(plot = list(name = "Grid", use.gradient = T),
 					 view = list(name = "Leaflet", 
-					 			use.WebGL = TRUE,
+					 			use.WebGL = FALSE,
+					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
 					 			crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), 
 					 			facet.max = 16, 
 					 			view.legend.position = c("right", "top"), 
 					 			control.position = c("left", "top"), 
+					 			panel.show = FALSE,
 					 			basemap.server = c("Esri.WorldGrayCanvas", "OpenStreetMap", "Esri.WorldTopoMap"),
 					 			leaflet.options = list())),
 		

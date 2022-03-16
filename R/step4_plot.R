@@ -1,9 +1,9 @@
 process_components = function(cdt, o) {
 	cdt$class = sapply(cdt$comp, function(l) l$position$type)
-	cdt$cell.h = sapply(cdt$comp, function(l) l$position$cell.h)
-	cdt$cell.v = sapply(cdt$comp, function(l) l$position$cell.v)
-	cdt$pos.h = sapply(cdt$comp, function(l) l$position$pos.h)
-	cdt$pos.v = sapply(cdt$comp, function(l) l$position$pos.v)
+	cdt$cell.h = sapply(cdt$comp, function(l) {x = l$position$cell.h; if (is.null(x)) NA else x})
+	cdt$cell.v = sapply(cdt$comp, function(l) {x = l$position$cell.v; if (is.null(x)) NA else x})
+	cdt$pos.h = sapply(cdt$comp, function(l) {x = l$position$pos.h; if (is.null(x)) NA else x})
+	cdt$pos.v = sapply(cdt$comp, function(l) {x = l$position$pos.v; if (is.null(x)) NA else x})
 	
 	gs = tmap_graphics_name()
 	
