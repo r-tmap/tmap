@@ -105,6 +105,15 @@ process_components2 = function(cdt, o) {
 		cdt[class == "autoin", ":="(pos.h = o$legend.autoin.pos[1], pos.v = o$legend.autoin.pos[2], class = "in")]
 	}
 
+	vby = any(cdt$cell.v == "by")
+	hby = any(cdt$cell.h == "by")
+	
+	# manual outside legends -2 is top or left, -1 is bottom or right
+	cdt[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
+											 facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
+	
+	
+	
 	cdt
 }
 
@@ -353,14 +362,7 @@ step4_plot = function(tm, vp) {
 
 
 	
-	vby = any(cdt$cell.v == "by")
-	hby = any(cdt$cell.h == "by")
-	
-	# manual outside legends -2 is top or left, -1 is bottom or right
-	cdt[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
-										   facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
-	
-	
+
 	
 	
 	is_in = cdt$class == "in"

@@ -258,12 +258,44 @@ process_meta = function(o, d, cdt) {
 			
 			
 			if (nrow(cdt)) {
-				meta.auto.margins = pmin(meta.auto.margins, 
-										 c(max(cdt$legH[cdt$cell.v == "bottom" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
-										   max(cdt$legW[cdt$cell.h == "left" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1],
-										   max(cdt$legH[cdt$cell.v == "top" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
-										   max(cdt$legW[cdt$cell.h == "right" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1]))
-				#meta.auto.margins = c(0.13,0,0,0)
+				cdt2 = data.table::copy(cdt[cdt$class %in% c("autoout", "out"),])
+				
+				if (nrow(cdt2) == 0) {
+					meta.auto.margins = c(0, 0, 0, 0)
+				} else {
+					if (type == "stack") {
+						# workaround: stacking mode is determined later, because it requires ncols and nrows
+						# for stack, this is already known, so therefore we can better estimate the meta width and height
+						
+						cdt2[is.na(by1__), by1__:=1]
+						cdt2[stack_auto == TRUE, stack:= ifelse(orientation == "vertical", "horizontal", "vertical")]
+
+						meta.auto.margins = pmin(meta.auto.margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
+							cdt2b = cdt2[by1__==b1, ]	
+							s = cdt2b$stack[1]
+							if (s == "horizontal") {
+								c(max(cdt2b$legH[cdt2b$cell.v == "bottom"], 0),
+								  sum(cdt2b$legH[cdt2b$cell.h == "left"], 0),
+								  max(cdt2b$legH[cdt2b$cell.v == "top"], 0),
+								  sum(cdt2b$legH[cdt2b$cell.h == "right"], 0))
+							} else {
+								c(sum(cdt2b$legH[cdt2b$cell.v == "bottom"], 0),
+								  max(cdt2b$legH[cdt2b$cell.h == "left"], 0),
+								  sum(cdt2b$legH[cdt2b$cell.v == "top"], 0),
+								  max(cdt2b$legH[cdt2b$cell.h == "right"], 0))
+							}
+						})))
+					} else {
+						meta.auto.margins = pmin(meta.auto.margins, 
+												 c(max(cdt$legH[cdt$cell.v == "bottom" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
+												   max(cdt$legW[cdt$cell.h == "left" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1],
+												   max(cdt$legH[cdt$cell.v == "top" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[2],
+												   max(cdt$legW[cdt$cell.h == "right" & cdt$class %in% c("autoout", "out")], 0) / o$devsize[1]))
+					}
+					
+					#meta.auto.margins = c(0.13,0,0,0)
+					
+				}
 			}
 	
 	
