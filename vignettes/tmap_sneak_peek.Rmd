@@ -75,7 +75,7 @@ tm_shape(World) +
 # tmap v4
 tm_shape(World) +
 	tm_polygons(fill = "HPI", 
-				fill.scale = tm_scale_intervals(values = "Earth"), 
+				fill.scale = tm_scale_intervals(values = "purple_green"), 
 				fill.legend = tm_legend(title = "Happy Planet Index"))
 ```
 
@@ -94,21 +94,19 @@ World$life_exp_class = cut(World$life_exp, breaks = seq(40, 85, by = 15))
 
 tm_shape(World, crs = "+proj=eck4") +
 	tm_polygons(fill = "HPI", 
-				fill.scale = tm_scale_continuous(values = "Earth"), 
+				fill.scale = tm_scale_continuous(values = "purple_green"), 
 				fill.legend = tm_legend(title = "Happy Planet Index"),
 				lwd = "well_being",
 				lwd.scale = tm_scale_continuous(value.neutral = 1, 
 				                                values = c(0, 5),
 				                                label.na = ""),
-				lwd.legend = tm_legend(title = "Well Being",
-				                       space = 0.5),
+				lwd.legend = tm_legend(title = "Well Being"),
 				lty = "life_exp_class",
 				lty.scale = tm_scale_ordinal(values = c("dotted", "dashed", "solid"), 
 				                             value.na = "blank", 
 				                             value.neutral = "solid",
 				                             label.na = ""),
-				lty.legend = tm_legend(title = "Life Expectancy", 
-				                       space = 0.5)
+				lty.legend = tm_legend(title = "Life Expectancy")
 	)
 ```
 
@@ -144,7 +142,7 @@ In **tmap v4**, there will be a direct function `tm_cartogram` (using the **cart
 tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
 				 fill = "HPI", 
-				 fill.scale = tm_scale_intervals(values = "Earth"),
+				 fill.scale = tm_scale_intervals(values = "purple_green"),
 				 fill.legend = tm_legend(title = "Happy Planet Index")) +
 	tm_place_legends_right(width = 0.2)
 ```
@@ -169,11 +167,12 @@ tm_shape(World_carto) +
 
 
 ```{r, class.source='bg-success',message=FALSE}
+# tmap v4
 tm_shape(World, crs = "+proj=eck4") +
 	tm_cartogram(size = "pop_est",
 				 size.scale = tm_scale_log10(),
 				 fill = "HPI", 
-				 fill.scale = tm_scale_intervals(values = "Earth"),
+				 fill.scale = tm_scale_intervals(values = "purple_green"),
 				 fill.legend = tm_legend(title = "Happy Planet Index")) +
 	tm_place_legends_right(width = 0.2)
 ```
@@ -259,10 +258,10 @@ tm_shape(Africa) +
 								  tm_scale_ordinal(),
 								  tm_scale_intervals(),
 								  tm_scale_continuous(),
-								  tm_scale_log10(),
+								  tm_scale_continuous_log(),
 								  tm_scale_discrete()),
-				fill.legend = tm_legend(title = "", position = tm_lp_in("left", "top"))) +
-	tm_layout(panel.labels = c("tm_scale_categorical", "tm_scale_ordinal", "tm_scale_intervals", "tm_scale_continuous", "tm_scale_log10", "tm_scale_discrete"), 
+				fill.legend = tm_legend(title = "", position = tm_pos_in("left", "top"))) +
+	tm_layout(panel.labels = c("tm_scale_categorical", "tm_scale_ordinal", "tm_scale_intervals", "tm_scale_continuous", "tm_scale_continuous_log", "tm_scale_discrete"), 
 			  inner.margins = c(0.05, 0.2, 0.1, 0.05),
 			  legend.text.size = 0.5)
 ```
@@ -279,7 +278,7 @@ An example is the bivariate choropleth, which is not yet implemented, but will d
 tm_shape(World) +
   tm_symbols(fill = tm_mv("well_being", "footprint"), 
   		   fill.scale = tm_scale_bivariate(rows = tm_scale_intervals(breaks = c(2, 5, 6, 8)),
-  		   								columns = tm_scale_intervals(breaks = c(0, 3, 6, 20))
+  		   								columns = tm_scale_intervals(breaks = c(0, 3, 6, 20)),
   		   								values = "brewer.qualseq"))
 ```
 
@@ -453,7 +452,7 @@ tm_shape(World, crs = "+proj=robin") +
 	tm_borders() +
 tm_shape(World) +
 	tm_polygons("life_exp", fill.free = FALSE) +
-tm_facets_wrap("continent", nrow = 1)
+tm_facets_wrap("continent")
 ```
 
 
@@ -471,7 +470,7 @@ tm_shape(World, crs = "+proj=robin") +
 	tm_borders() +
 tm_shape(World) +
 	tm_polygons("life_exp", fill.free = TRUE) +
-tm_facets_wrap("continent", nrow = 1)
+tm_facets_stack("continent")
 ```
 
 

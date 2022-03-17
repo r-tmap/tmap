@@ -108,6 +108,11 @@ process_components2 = function(cdt, o) {
 	vby = any(cdt$cell.v == "by")
 	hby = any(cdt$cell.h == "by")
 	
+	toC = function(x) {
+		paste(x, collapse = "_")
+	}
+	
+	
 	# manual outside legends -2 is top or left, -1 is bottom or right
 	cdt[class %in% c("autoout", "out"), ':='(facet_row = ifelse(cell.v == "center", ifelse(vby, "1", toC(1:o$nrows)), ifelse(cell.v == "by", as.character(by1__), ifelse(cell.v == "top", as.character(-2), as.character(-1)))),
 											 facet_col = ifelse(cell.h == "center", ifelse(hby, "1", toC(1:o$ncols)), ifelse(cell.h == "by", as.character(by2__), ifelse(cell.h == "left", as.character(-2), as.character(-1)))))]
@@ -351,12 +356,6 @@ step4_plot = function(tm, vp) {
 
 	
 	
-	toC = function(x) {
-		paste(x, collapse = "_")
-	}
-	toI = function(x) {
-		as.integer(strsplit(x, split = "_")[[1]])
-	}
 	
 	
 
@@ -389,6 +388,9 @@ step4_plot = function(tm, vp) {
 
 	legfun = paste0("tmap", gs, "Legend")
 	
+	toI = function(x) {
+		as.integer(strsplit(x, split = "_")[[1]])
+	}
 	
 	
 	if (nrow(cdt) > 0L) for (k in seq_len(o$npages)) {

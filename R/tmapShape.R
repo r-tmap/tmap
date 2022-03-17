@@ -4,7 +4,7 @@ tmapReproject = function(...) {
 
 #' @method tmapReproject stars
 #' @export
-tmapReproject.stars = function(shp, tmapID, bbox, crs) {
+tmapReproject.stars = function(shp, tmapID, bbox = NULL, crs) {
 	
 	shp[[1]] = tmapID
 	
@@ -20,7 +20,7 @@ tmapReproject.stars = function(shp, tmapID, bbox, crs) {
 
 #' @method tmapReproject dimensions
 #' @export
-tmapReproject.dimensions = function(shp, tmapID, bbox, crs) {
+tmapReproject.dimensions = function(shp, tmapID, bbox = NULL, crs) {
 	s = structure(list(tmapID = matrix(tmapID, nrow = nrow(shp))), dimensions = shp, class = "stars")
 	
 	shp2 = transwarp(s, crs, raster.warp = TRUE)
@@ -35,7 +35,7 @@ tmapReproject.dimensions = function(shp, tmapID, bbox, crs) {
 
 #' @method tmapReproject sfc
 #' @export
-tmapReproject.sfc = function(shp, tmapID, bbox, crs) {
+tmapReproject.sfc = function(shp, tmapID, bbox = NULL, crs) {
 	shp2 = sf::st_transform(shp, crs)
 	if (!is.null(bbox)) bbox = reproject_bbox(bbox, crs)
 	shapeTM(shp2, tmapID, bbox)

@@ -219,11 +219,11 @@ tmapValuesVV_col = function(...) {
 }
 
 tmapValuesVV_shape = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
-	list(vvalues = rep(x, length.out = n), value.neutral = x[1])
+	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
 
 tmapValuesVV_lty = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoint, range, scale, rep, o) {
-	list(vvalues = rep(x, length.out = n), value.neutral = x[1])
+	list(vvalues = rep(x, length.out = n), value.neutral = x[1], value.na = value.na)
 }
 
 
@@ -386,14 +386,14 @@ tmapValuesCVV_fill_alpha = function(x, value.na, n, range, scale, rep, o) {
 }
 
 tmapValuesCVV_area = function(x, value.na, n, range, scale, rep, o) {
-	tmapValuesVV_area(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+	tmapValuesVV_area(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
 
 tmapValuesCVV_shape = function(x, value.na, n, range, scale, rep, o) {
-	tmapValuesVV_shape(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+	tmapValuesVV_shape(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }
 
 tmapValuesCVV_lty = function(x, value.na, n, range, scale, rep, o) {
-	tmapValuesVV_lty(x = x, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
+	tmapValuesVV_lty(x = x, value.na = value.na, isdiv = FALSE, n = n, dvalues = NA, are_breaks = FALSE, midpoint = NA, range = range, scale = scale, rep = rep)
 }

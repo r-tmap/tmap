@@ -31,10 +31,6 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev) {
 	
 		if (!is.na(ticks[1])) {
 			if (!all(u %in% ticks)) stop("Values have been found for which no ticks have been specified", call. = FALSE)
-			if (!is.na(step)) warning("step is ignored because ticks have been specified", call. = FALSE)
-		} else if (!is.na(step)) {
-			ticks = seq(rng[1], rng[2], by = step)
-			if (!all(u %in% ticks))  stop("Unable to fit discrete scale based on specified 'step'; please specify 'ticks'", call. = FALSE)
 		} else {
 			for (n in c(3, 5, 10, 15, 20, 30, 50)) {
 				ticks_candidate = pretty(rng, n = n)

@@ -40,6 +40,7 @@ step1_rearrange = function(tmel) {
 		# make sure there is exactly one tm_facets per group (if there are none, add one, if there are mutple, take last)
 		if (!any(is_tmf)) {
 			tmf = tm_facets()[[1]]
+			tmf$calls = NULL
 		} else {
 			# get last tm_facets element
 			k = sum(is_tmf)

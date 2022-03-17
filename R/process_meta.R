@@ -274,15 +274,15 @@ process_meta = function(o, d, cdt) {
 							cdt2b = cdt2[by1__==b1, ]	
 							s = cdt2b$stack[1]
 							if (s == "horizontal") {
-								c(max(cdt2b$legH[cdt2b$cell.v == "bottom"], 0),
-								  sum(cdt2b$legH[cdt2b$cell.h == "left"], 0),
-								  max(cdt2b$legH[cdt2b$cell.v == "top"], 0),
-								  sum(cdt2b$legH[cdt2b$cell.h == "right"], 0))
+								c(max(cdt2b$legH[cdt2b$cell.v == "bottom"], 0) / o$devsize[2],
+								  sum(cdt2b$legW[cdt2b$cell.h == "left"], 0) / o$devsize[1],
+								  max(cdt2b$legH[cdt2b$cell.v == "top"], 0) / o$devsize[2],
+								  sum(cdt2b$legW[cdt2b$cell.h == "right"], 0) / o$devsize[1])
 							} else {
-								c(sum(cdt2b$legH[cdt2b$cell.v == "bottom"], 0),
-								  max(cdt2b$legH[cdt2b$cell.h == "left"], 0),
-								  sum(cdt2b$legH[cdt2b$cell.v == "top"], 0),
-								  max(cdt2b$legH[cdt2b$cell.h == "right"], 0))
+								c(sum(cdt2b$legH[cdt2b$cell.v == "bottom"], 0) / o$devsize[2],
+								  max(cdt2b$legW[cdt2b$cell.h == "left"], 0) / o$devsize[1],
+								  sum(cdt2b$legH[cdt2b$cell.v == "top"], 0) / o$devsize[2],
+								  max(cdt2b$legW[cdt2b$cell.h == "right"], 0) / o$devsize[1])
 							}
 						})))
 					} else {
