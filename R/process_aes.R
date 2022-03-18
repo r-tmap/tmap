@@ -320,7 +320,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 		
 		
 		if (xname %in% c("fill", "line.col", "symbol.col", "raster", "text.col")) {
-			if (g$style %in% c("order", "cont") && g$legend.hist) {
+			if (any(g$style %in% c("order", "cont")) && g$legend.hist) {
 				warning("Histogram not supported for styles \"cont\" or \"order\"", call. = FALSE)
 				g$legend.hist = FALSE
 				hlist <- list(legend.hist = FALSE)
