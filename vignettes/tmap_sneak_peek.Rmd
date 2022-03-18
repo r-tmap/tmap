@@ -360,9 +360,9 @@ tm_shape(World) +
              size = "pop_est",
              shape = "income_grp",
   		     size.scale = tm_scale(value.neutral = 0.5),
-             fill.legend = tm_legend("Happy Planet Index", position = tm_lp_in("left", "top")),
-             size.legend = tm_legend("Population", position = tm_lp_out("left", "center")),
-             shape.legend = tm_legend("Income Group", position = tm_lp_out("center", "bottom"), space = 0.5))
+             fill.legend = tm_legend("Happy Planet Index", position = tm_pos_in("left", "top")),
+             size.legend = tm_legend("Population", position = tm_pos_out("left", "center")),
+             shape.legend = tm_legend("Income Group", position = tm_pos_out("center", "bottom")))
 ```
 
 **tmap v3** contains many (often complicated) options for rather simple things.

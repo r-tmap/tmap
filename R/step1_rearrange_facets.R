@@ -272,9 +272,7 @@ step1_rearrange_facets = function(tmo) {
 	})
 
 	tmf = get_tmf(lapply(tmo, function(tmoi) tmoi$tmf))
-	
-	
-	tmo[[1]]$tmf = tmf
+	tmo$tmf_global = tmf
 	tmo
 	
 }

@@ -82,8 +82,8 @@ step1_rearrange = function(tmel) {
 	if (dev) timing_add(s2 = "facet meta")
 	
 	
-	tmf = tmo[[1]]$tmf # first tmf contains global settings
-	
+	tmf = tmo$tmf_global # global facetting options, to be appended to options o
+	tmo$tmf_global = NULL
 
 	
 # 
