@@ -59,6 +59,7 @@ plot_symbols <- function(co.native, g, gt, lineInch, lineNatH, lineNatW, i, k) {
 		}
 		
 		bordercol <- symbol.border.col
+		borderlwd <- symbol.border.lwd
 		idName <- paste("tm_symbols", i, k, sep="_")
 		
 		if (any(!is.na(symbol.shape2) & symbol.shape2>999)) {
@@ -69,10 +70,10 @@ plot_symbols <- function(co.native, g, gt, lineInch, lineNatH, lineNatW, i, k) {
 									 separate=TRUE)
 			grobs <- lapply(1:npol, function(i) {
 				if (!is.na(symbol.shape2[i]) && symbol.shape2[i]>999) {
-					grbs <- if (is.na(bordercol)) {
+					grbs <- if (borderlwd == 0) {
 						gList(shapeLib[[symbol.shape2[i]-999]])	
 					} else {
-						gList(shapeLib[[symbol.shape2[i]-999]], rectGrob(gp=gpar(fill=NA, col=bordercol, lwd=symbol.border.lwd)))	
+						gList(shapeLib[[symbol.shape2[i]-999]], rectGrob(gp=gpar(fill=NA, col=bordercol, lwd=borderlwd)))	
 					}
 					gTree(children=grbs, vp=viewport(x=unit(co.native2[i,1], "native"), 
 													 y=unit(co.native2[i,2], "native"),
