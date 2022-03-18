@@ -26,7 +26,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -78,20 +78,31 @@
     <div id="ref-examples">
     <h2>Examples</h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">tmap_tip</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The bbox argument of tm_shape can be used in many ways. For instance, another shape can be used from which the bounding box is extracted. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 2.0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> An manual legend can be created with tm_add_legend. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 1.11.2 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> data(rivers, NLD_prov)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> tm_shape(rivers, bbox = NLD_prov) +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_lines() </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data(metro)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> tm_shape(metro) + </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_symbols(col = "pop2020", size = "pop2020", legend.col.show = FALSE, legend.size.show = FALSE) + </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_add_legend(type = "symbol", border.col = "grey40",</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 col = tmaptools::get_brewer_pal("YlOrRd", 4, plot = FALSE), </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 size = sqrt(seq(1:4) / 4),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 labels = c("0 to 10 mln", "10 to 20 mln", "20 to 30 mln", "30 to 40 mln"),</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>                 title = "Population in 2020") </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
+<span class="r-plt img"><img src="tmap_tip-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-in"><span class="fu">tmap_tip</span><span class="op">(</span>from.version <span class="op">=</span> <span class="st">"3.0"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> The object providers is a list of basemap options. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 3.2 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> View shapes interactively in another projection than the Web Mercator. </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 3.1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> tm_basemap(providers$OpenTopoMap) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> data(World)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> tmap_options(projection = 0, basemaps = NULL)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> qtm(World) </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
