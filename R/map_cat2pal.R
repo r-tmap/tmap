@@ -21,6 +21,7 @@ cat2pal <- function(x,
 	if (is.null(sel)) sel <- rep(TRUE, length(x))
 
 	color_names <- names(palette)
+	label_names <- names(legend.labels)
 	
 	x[!sel] <- NA
 		
@@ -36,11 +37,10 @@ cat2pal <- function(x,
 	if (drop.levels) {
 		y <- droplevels(x)
 		matching <- match(levels(y), levels(x))
-		if (length(palette) == nlevels(x)) {
+		if (length(palette) == nlevels(x) && is.null(color_names)) {
 			palette <- palette[matching]
-			color_names <- color_names[matching]
 		}
-		if (!is.null(legend.labels) && (length(legend.labels) == nlevels(x))) {
+		if (!is.null(legend.labels) && (length(legend.labels) == nlevels(x)) && is.null(label_names)) {
 			legend.labels <- legend.labels[matching]
 		}
 		x <- y
@@ -52,10 +52,10 @@ cat2pal <- function(x,
 	if (any(lvls_dup)) {
 		if (show.warnings) warning("Duplicated levels found. They have been omitted", call. = FALSE)
 		lvls_unique <- !lvls_dup
-		if (length(palette) == length(lvls)) {
+		if (length(palette) == length(lvls) &&  is.null(color_names)) {
 			palette <- palette[lvls_unique]
 		}
-		if (!is.null(legend.labels) && (length(legend.labels) == length(lvls))) {
+		if (!is.null(legend.labels) && (length(legend.labels) == length(lvls)) && is.null(label_names)) {
 			legend.labels <- legend.labels[lvls_unique]
 		}
 		lvls_new <- lvls[lvls_unique]
@@ -72,6 +72,10 @@ cat2pal <- function(x,
 			palette <- palette[match(levels(x), color_names)]
 		}
 		stretch.palette <- FALSE
+	}
+	
+	if (!is.null(label_names)) {
+		legend.labels <- legend.labels[match(levels(x), label_names)]
 	}
 	
 	

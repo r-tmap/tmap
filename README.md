@@ -25,7 +25,7 @@ tmap: thematic maps in R
 <img src="https://mtennekes.github.io/downloads/images/view_crimes2.JPG" alt="London Crimes" height="125px"/>
 </span>
 
-See [below](https://github.com/mtennekes/tmap/#reference) the source code for these images.
+See [below](https://github.com/r-tmap/tmap/#reference) the source code for these images.
 
 
 Installation
@@ -43,10 +43,10 @@ For Linux and macOS users who are new to working with spatial data in R, this ma
 No additional installation required.
 
 **Linux (Ubuntu)**
-See https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/. Please address installation issues in this [issue](https://github.com/mtennekes/tmap/issues/150).
+See https://geocompr.github.io/post/2020/installing-r-spatial-ubuntu/. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/150).
 
 **macOS**
-See http://www.kyngchaos.com. Please address installation issues in this [issue](https://github.com/mtennekes/tmap/issues/149).
+See http://www.kyngchaos.com. Please address installation issues in this [issue](https://github.com/r-tmap/tmap/issues/149).
 
 
 Development
@@ -54,15 +54,15 @@ Development
 
 
 The latest development version can be installed using `devtools`. 
-In order to use the development version of `tmap`, it is recommended to use the development version of [tmaptools](http://github.com/mtennekes/tmaptools) as well:
+In order to use the development version of `tmap`, it is recommended to use the development version of [tmaptools](http://github.com/r-tmap/tmaptools) as well:
 
 ```r
 library(remotes)
-install_github("mtennekes/tmaptools")
-install_github("mtennekes/tmap")
+install_github("r-tmap/tmaptools")
+install_github("r-tmap/tmap")
 ```
 
-See [NEWS](https://github.com/mtennekes/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/mtennekes/tmap/issues) for discussions of enhancements and bugs.
+See [NEWS](https://github.com/r-tmap/tmap/blob/master/NEWS) for the latest features and improvements and the [issue list](https://github.com/r-tmap/tmap/issues) for discussions of enhancements and bugs.
 
 Do you want to help with the development of the package?
 Please let us know! 
@@ -75,11 +75,15 @@ Usage
 library(tmap)
 ```
 
+Book 
+-----
+Tennekes, M., Nowosad, J., Elegant and informative maps with tmap. Draft version, https://r-tmap.github.io/
+
 Reference
 ----
 [Tennekes, M., 2018, tmap: Thematic Maps in R, Journal of Statistical Software, 84(6), 1-39](https://doi.org/10.18637/jss.v084.i06)
 
-This paper has been written for `tmap` 1.11-2. See the [reproducible code](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html) using `tmap` 2.x.
+This paper has been written for `tmap` 1.11-2. See the [reproducible code](https://cran.r-project.org/package=tmap/vignettes/tmap-JSS-code.html) using `tmap` 2.x and 3.x.
 
 Vignettes 
 -----
@@ -88,11 +92,13 @@ Vignettes
 
 [tmap: what is changed in recent versions?](https://cran.r-project.org/package=tmap/vignettes/tmap-changes.html)
 
+[tmap v4: a sneak peak](https://mtennekes.github.io/tmap4/index.html)
+
 
 Tutorials
 -----
 
-[tmap in RMarkdown](https://github.com/mtennekes/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd)
+[tmap in RMarkdown](https://github.com/r-tmap/tmap/blob/master/demo/tutorials/rmarkdown_tmap.Rmd)
 
 
 Presentations

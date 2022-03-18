@@ -14,18 +14,19 @@
 #' @param x the tmap object that specifies the added and removed layers.
 #' @param zindex the z index of the pane in which the layer is contained that is going to be removed. It is recommended to specify the zindex for this layer when creating the map (inside \code{renderTmap}).
 #' @importFrom htmlwidgets shinyWidgetOutput
+#' @rdname renderTmap
 #' @example ./examples/tmapOutput.R 
 #' @export
 renderTmap <- function(expr, env = parent.frame(), quoted = FALSE) {
 	if (!quoted)
 		expr = substitute(expr)
-	expr = substitute(tmap_leaflet(expr, in.shiny = TRUE))
+	expr = substitute(getFromNamespace("tmap_leaflet", "tmap")(expr, in.shiny = TRUE))
 	htmlwidgets::shinyRenderWidget(expr, leafletOutput, env,
 								   quoted = TRUE)
 }
 
 
-#' @name tmapProxy
+#' @name tmapOutput
 #' @rdname renderTmap
 #' @export
 tmapOutput <- function(outputId, width = "100%", height = 400) {
@@ -40,7 +41,7 @@ tmapProxy <- function(mapId, session = shiny::getDefaultReactiveDomain(), x) {
 }
 
 
-#' @name tmapProxy
+#' @name tm_remove_layer
 #' @rdname renderTmap
 #' @export
 tm_remove_layer <- function(zindex) {
