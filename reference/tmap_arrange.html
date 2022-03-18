@@ -115,18 +115,17 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
+<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">w1</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span>, title<span class="op">=</span><span class="st">"Eckert IV"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">w2</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="fl">3857</span>, title<span class="op">=</span><span class="st">"Mercator"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">w3</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=gall"</span>, title<span class="op">=</span><span class="st">"Gall stereographic"</span><span class="op">)</span></span>
 <span class="r-in"><span class="va">w4</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=robin"</span>, title<span class="op">=</span><span class="st">"Robinsin"</span><span class="op">)</span></span>
 <span class="r-in"></span>
 <span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to plotting</span>
 <span class="r-in"><span class="fu">tmap_arrange</span><span class="op">(</span><span class="va">w1</span>, <span class="va">w2</span>, <span class="va">w3</span>, <span class="va">w4</span>, widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-plt img"><img src="tmap_arrange-1.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span>
-<span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to plotting</span>
+<span class="r-in"><span class="op">}</span></span>
 </code></pre></div>
     </div>
   </div>
