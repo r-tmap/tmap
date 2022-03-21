@@ -12,27 +12,86 @@ tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_
 		layerId = "legend401" #todo
 		
 		if (length(cmp$gp$col) > 1) {
-			col = cmp$gp$col
+			pal = cmp$gp$col
 			opacity = cmp$gp$col_alpha
 		} else {
-			col = cmp$gp$fill
+			pal = cmp$gp$fill
 			opacity = cmp$gp$fill_alpha
 		}
-		legvals = cmp$labels
+		
+		lab = cmp$labels
+		val = cmp$dvalues
 		title = cmp$title
 
 		legpos = paste(unlist(cmp$position[c("pos.v", "pos.h")]), collapse = "")
 		
-		lf |> 
-			addLegend(position=legpos,
-					  group = group,
-					  colors = col,
-					  labels = legvals,
-					  title=title,
-					  opacity=opacity,
-					  layerId = layerId,
+		is_cont = (nchar(pal[1]) > 10)
+		
+		
+		if (is_cont) {
+			incl.na <- nchar(pal[length(pal)]) < 10
+			
+			orig <- unlist(lapply(pal, function(x) {
+				p <- strsplit(x, split = "-", fixed=TRUE)[[1]]
+				if (length(p) == 1) NULL else p[p!="NA"]
+			}), use.names = FALSE)
+			
+			pal <- vapply(pal, function(x) {
+				p <- strsplit(x, split = "-", fixed=TRUE)[[1]]
+				if (length(p)==1) p[1] else if (p[6]=="NA") p[5] else p[6]
+			}, character(1))
+			
+			if (incl.na) {
+				colNA <- unname(pal[length(pal)])
+				pal <- pal[-length(pal)]
+				textNA <- labs[length(labs)]
+			} else {
+				colNA <- NA
+				textNA <- NA
+			}
+			
+			legvals <- if (!is.na(colNA)) c(val, NA) else val
+
+			lf |> addLegend(position=legpos, group = group,
+					  pal=colorNumeric(palette = pal, 
+					  				 domain = val, 
+					  				 na.color=colNA, 
+					  				 alpha = FALSE), 
+							values=legvals, 
+							na.label = textNA, title=title, opacity=opacity, layerId = layerId,
 					  className = leg_className) |> 
-			assign_lf(facet_row, facet_col, facet_page)
+				assign_lf(facet_row, facet_col, facet_page)
+		} else {
+			if (length(pal) != length(val)) {
+				colNA <- pal[length(pal)]
+				textNA <- lab[length(pal)]
+				pal <- pal[-length(pal)]
+				lab <- lab[-length(lab)]
+			} else {
+				colNA <- NA
+				textNA <- NA
+			}
+			orig <- pal
+			
+			if (!is.na(colNA)) {
+				legvals <- c(lab, textNA)
+				pal <- c(pal, colNA)
+			} else {
+				legvals <- lab
+			}
+			
+			lf |> 
+				addLegend(position=legpos,
+						  group = group,
+						  colors = pal,
+						  labels = legvals,
+						  title=title,
+						  opacity=opacity,
+						  layerId = layerId,
+						  className = leg_className) |> 
+				assign_lf(facet_row, facet_col, facet_page)}
+		
+		
 	}
 	
 	NULL	

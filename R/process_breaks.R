@@ -283,19 +283,28 @@ round2 = function(x, n = 0) {
 round_num = function(x, y) round2(x / y) * y
 
 
-
+# x = c(12.777156207494, 20.7613848999599, 28.7456135924257, 36.7298422848916, 44.7140709773574)
 prettyTicks = function(x, dev = 0.1) {
-	s = x[-1] - head(x,-1)
-	s = c(s[1], s, tail(s,1))
-	s = pmin(head(s,-1), tail(s,-1))
+	is_equi = local({
+		dff = max(x) - min(x)
+		steps = (x[-1] - head(x,-1)) / dff
+		all(abs(steps-steps[1]) < 1e3)
+	})
 	
-	mapply(function(xi, si) {
-		for (r in rev(.TMAP$round_to)) {
-			xir = round_num(xi, r)
-			if (abs(xi - xir) < (si * dev)) break
-		}
-		xir
-	}, x, s, SIMPLIFY = TRUE)
+	if (is_equi) {
+		pretty(x, n = length(x))
+	} else {
+		s = x[-1] - head(x,-1)
+		s = c(s[1], s, tail(s,1))
+		s = pmin(head(s,-1), tail(s,-1))
+		
+		mapply(function(xi, si) {
+			for (r in rev(.TMAP$round_to)) {
+				xir = round_num(xi, r)
+				if (abs(xi - xir) < (si * dev)) break
+			}
+			xir
+		}, x, s, SIMPLIFY = TRUE)	}
 }
 # x = c(3.654, 4.65, 5.1, 7.5)
 # x = sort(c(0.004324, 0.00324, 0.00227, 0.00745435))
