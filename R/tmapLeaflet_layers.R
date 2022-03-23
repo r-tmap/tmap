@@ -126,6 +126,9 @@ tmapLeafletRaster = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pag
 		pal_col <- res$col
 		pal_opacity <- if (length(res$opacity) == 0L) 0 else max(res$opacity)
 		
+		if ("col_alpha" %in% names(dt)) pal_opacity = max(dt$col_alpha)
+		
+		
 		col_ids <- match(color, pal)
 		
 		m <- matrix(col_ids, ncol = ncol(shp))
@@ -137,7 +140,7 @@ tmapLeafletRaster = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pag
 		#shp2 = transwarp(shp, crs = st_crs(3857), raster.warp = TRUE)
 		
 		lf |> 
-			leafem::addStarsImage(shp2, band = 1, colors = pal) |> 
+			leafem::addStarsImage(shp2, band = 1, colors = pal_col, opacity = pal_opacity) |> 
 			assign_lf(facet_row, facet_col, facet_page)
 	} else {
 		shpTM <- shapeTM(sf::st_as_sf(shp), tmapID)

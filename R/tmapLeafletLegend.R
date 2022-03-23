@@ -44,7 +44,7 @@ tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_
 			if (incl.na) {
 				colNA <- unname(pal[length(pal)])
 				pal <- pal[-length(pal)]
-				textNA <- labs[length(labs)]
+				textNA <- lab[length(lab)]
 			} else {
 				colNA <- NA
 				textNA <- NA

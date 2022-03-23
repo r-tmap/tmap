@@ -23,7 +23,7 @@ downsample_SpatRaster = function(x, max.raster) {
 	downsample = prod(xy_dim) > max.raster
 	
 	y = if (downsample) {
-		spatSample(x, max.raster, method="regular", as.raster=TRUE)
+		terra::spatSample(x, max.raster, method="regular", as.raster=TRUE)
 	} else x
 	
 	

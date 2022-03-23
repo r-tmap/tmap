@@ -268,7 +268,9 @@ process_meta = function(o, d, cdt) {
 						# for stack, this is already known, so therefore we can better estimate the meta width and height
 						
 						cdt2[is.na(by1__), by1__:=1]
-						cdt2[stack_auto == TRUE, stack:= ifelse(orientation == "vertical", "horizontal", "vertical")]
+						cdt2[stack_auto == TRUE, stack:= ifelse(orientation == "vertical", o$legend.stack["per_row"], o$legend.stack["per_col"])]
+						
+						
 
 						meta.auto.margins = pmin(meta.auto.margins, do.call(pmax, lapply(unique(cdt2$by1__), function(b1) {
 							cdt2b = cdt2[by1__==b1, ]	

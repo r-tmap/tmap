@@ -2,15 +2,13 @@
 % Please edit documentation in R/tm_pos.R
 \name{tm_pos}
 \alias{tm_pos}
-\alias{tm_pos_out}
 \alias{tm_pos_in}
+\alias{tm_pos_out}
 \alias{tm_pos_auto_out}
 \alias{tm_pos_auto_in}
 \title{Set the position of map components}
 \usage{
 tm_pos(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
-
-tm_pos_out(cell.h, cell.v, pos.h, pos.v, align.h, align.v, just.h, just.v)
 
 tm_pos_in(pos.h, pos.v, align.h, align.v, just.h, just.v)
 

@@ -120,6 +120,8 @@ tm_polygons = function(fill = tm_const(),
 		tpar = tmapTpar(area = "AREA"),
 		plot.order = plot.order,
 		mapping.fun = "Polygons",
+		zindex = zindex,
+		group = group,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -197,6 +199,8 @@ tm_fill = function(fill = tm_const(),
 		tpar = tmapTpar(area = "AREA"),
 		plot.order = plot.order,
 		mapping.fun = "Polygons",
+		zindex = zindex,
+		group = group,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -266,6 +270,8 @@ tm_borders = function(col = tm_const(),
 		tpar = tmapTpar(),
 		plot.order = plot.order,
 		mapping.fun = "Polygons",
+		zindex = zindex,
+		group = group,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -345,6 +351,8 @@ tm_balloons = function(col = tm_const(),
 						lineend = NA),
 		tpar = tmapTpar(area = "__area"),
 		mapping.fun = "Polygons",
+		zindex = zindex,
+		group = group,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -409,6 +417,8 @@ tm_raster = function(col = tm_shape_vars(),
 		tpar = tmapTpar(),
 		plot.order = tm_plot_order("DATA"),
 		mapping.fun = "Raster",
+		zindex = zindex,
+		group = group,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -553,6 +563,8 @@ tm_symbols = function(fill = tm_const(),
 		tpar = tmapTpar(),
 		plot.order = plot.order,
 		mapping.fun = "Symbols",
+		zindex = zindex,
+		group = group,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
 
@@ -641,5 +653,7 @@ tm_lines = function(col = tm_const(),
 		tpar = tmapTpar(),
 		plot.order = plot.order,
 		mapping.fun = "Lines",
+		zindex = zindex,
+		group = group,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }

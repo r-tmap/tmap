@@ -9,7 +9,7 @@ findZoom = function(b) {
 	zoom = as.integer(min(zoomlon, zoomlat))
 }
 
-tmapGridBasemapPrep = function(a, bs, o) {
+tmapGridTilesPrep = function(a, bs, o) {
 	g = get("g", envir = .TMAP_GRID)
 	
 	if (!requireNamespace("maptiles")) stop("maptiles package is required", call. = FALSE)
@@ -31,7 +31,7 @@ tmapGridBasemapPrep = function(a, bs, o) {
 	})
 	
 	
-	if (is.na(a$zoom)) {
+	if (is.null(a$zoom)) {
 		zs = vapply(bs, findZoom, FUN.VALUE = integer(1))
 	} else {
 		zs = rep(a$zoom, length(bs))
@@ -98,7 +98,7 @@ tmapGridGridPrep = function(a, b, o) {
 }
 
 
-tmapGridBasemap = function(bi, bbx, facet_row, facet_col, facet_page, id, o) {
+tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, o) {
 	g = get("g", envir = .TMAP_GRID)
 
 	dt = g$bmaps_dts[[bi]]

@@ -5,7 +5,7 @@
 					 view = list(name = "Leaflet", 
 					 			use.WebGL = FALSE,
 					 			legend.position = tm_pos_in(pos.h = "right", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
-					 			crs = list(stars = sf::st_crs(3857), sf::st_crs(4326)), 
+					 			crs = list(dimensions = 3857, 4326), 
 					 			facet.max = 16, 
 					 			view.legend.position = c("right", "top"), 
 					 			control.position = c("left", "top"), 
@@ -184,17 +184,17 @@
 		legend.position = tm_pos_auto_out(cell.h = "right", cell.v = "bottom", pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "top"),
 		legend.width = NA,
 		legend.height = NA,
-		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "vertical", manual = "vertical"),
+		legend.stack = c(all = "vertical", per_row = "horizontal", per_col = "horizontal", manual = "vertical"),
 		legend.group.frame = TRUE,
 		legend.resize.as.group = FALSE,
 		legend.reverse = FALSE,
 		legend.title.color = NULL,
-		legend.title.size = 1.1,
+		legend.title.size = 0.9,
 		legend.title.fontface = NULL,
 		legend.title.fontfamily = NULL,
 		legend.title.just = NA,
 		legend.text.color = NULL,
-		legend.text.size = 0.8,
+		legend.text.size = 0.7,
 		legend.text.fontface = NULL,
 		legend.text.fontfamily = NULL,
 		legend.frame = TRUE,
@@ -257,7 +257,7 @@
 		panel.label.fontface = NULL,
 		panel.label.fontfamily = NULL,
 		panel.label.bg.color = "grey80",
-		panel.label.height = 1.25,
+		panel.label.height = 1,
 		panel.label.rot = c(90, 0),
 
 		# not implemented yet
@@ -290,7 +290,7 @@
 		attr.outside.size = NA,
 		attr.position = c("right", "bottom"),
 		attr.just = c("left", "bottom"),
-		basemap.server = "Esri.WorldGrayCanvas",
+		basemap.server = NULL,
 		basemap.alpha = 1,
 		basemap.zoom = NA,
 		overlays = NULL,
@@ -626,7 +626,7 @@ tmap_option = function(name, type = NULL) {
 
 
 get_option_class = function(o, class = NULL, spatial_class = TRUE) {
-	is_spatial = !spatial_class || (any(names(o) %in% c("stars", "sf", "sfc", "raster", "terra", "sp")))
+	is_spatial = !spatial_class || (any(names(o) %in% c("stars", "sf", "sfc", "raster", "terra", "sp", "dimensions")))
 	if (!is.null(class) && is_spatial) { # && is.list(o)
 		mtch = which(names(o) %in% class)
 		if (!length(mtch)) mtch = which(names(o) == "")[1]

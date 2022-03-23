@@ -153,3 +153,47 @@ get_asp = function(bbxl) {
 		if (is.na(bbxi)) as.numeric(NA) else get_asp_ratio(bbxi)
 	}, FUN.VALUE = numeric(1))
 }
+
+
+leaflet2crs = function(x) {
+	epsg = get_epsg(x)
+	if (!is.na(epsg)) {
+		sf::st_crs(epsg)
+	} else if (!is.null(x$proj4def)) {
+		sf::st_crs(x$proj4def)	
+	} else {
+		stop("Unable to extract crs from leafletCRS object")
+	}
+}
+
+leafletSimple  = structure(list(crsClass = "L.CRS.Simple", code = NULL, proj4def = NULL, 
+								projectedBounds = NULL, options = structure(list(), .Names = character(0))), class = "leaflet_crs")
+
+crs2leaflet = function(x) {
+	epsg = get_epsg(x)
+	if (epsg %in% c(3857, 4326, 3395)) {
+		structure(list(crsClass = paste0("L.CRS.EPSG", epsg), code = NULL, proj4def = NULL, 
+					   projectedBounds = NULL, options = structure(list(), .Names = character(0))), class = "leaflet_crs")
+	} else {
+		stop("Unable to extract leaflet crs from sf crs object")
+	}
+}
+
+get_epsg = function (x) {
+	if (is.numeric(x)) {
+		x
+	} else if (inherits(x, "crs")) {
+		# from sf
+		if (is.na(x)) 
+			NA_integer_
+		else if (grepl("^EPSG:", x[["input"]])) 
+			as.integer(gsub("^EPSG:(\\d+)\\b.*$", "\\1", x[["input"]]))
+		else crs_parameters(x, with_units = FALSE)[["epsg"]]
+	} else if (inherits(x, "leaflet_crs")) {
+		if (grepl("EPSG", x$crsClass, fixed = TRUE)) {
+			substr(x$crsClass, 11, 14) # one of L.CRS.EPSG3857, L.CRS.EPSG4326, L.CRS.EPSG3395
+		} else {
+			NA_integer_
+		}
+	}
+}

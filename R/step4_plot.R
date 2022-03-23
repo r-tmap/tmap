@@ -291,67 +291,57 @@ step4_plot = function(tm, vp) {
 	}
 	
 	# find lid (layer plot id values) for aux layers
-	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = integer(1))
+	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
 	
+	# data frame for layer ids
+	q = do.call(rbind, c(lapply(1L:o$ng, function(ig) {
+		tmxi = tmx[[ig]]
+		nl = length(tmxi$layers)
+		lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
+		data.frame(gid = ig, glid = 1:nl, lid = lid)
+	}), if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid)) else NULL))
+	
+	q$lid2 = 0
+	qnotnull = (q$lid != 0)
+	if (any(qnotnull)) q$lid2[qnotnull] = rank(q$lid[qnotnull])
+	
+	q = q[order(q$lid2), ]
 	
 	for (i in seq_len(nrow(d))) {
-		ll = 0L # last layer that is plotted: needed to mix data- and aux-layers
 		bbx = d$bbox[[i]]
  		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o)) 
- 		if (!is.na(d$asp[i])) {
- 			do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
-			for (ig in 1L:o$ng) {
-				tmxi = tmx[[ig]]
-				nl = length(tmxi$layers)
-				for (il in 1L:nl) {
-	
-					bl = tmxi$layers[[il]]
+ 		if (is.na(d$asp[i])) next 
+		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+ 			
+		for (qi in 1L:nrow(q)) {
+			gid = q$gid[qi]
+			glid = q$glid[qi]
+			if (gid > 0) {
+				# data layer
+				bl = tmx[[gid]]$layers[[glid]]
+				shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
+				mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
+				
+				id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", gid), "l", sprintf("%02d", glid))
+				
+				if (nrow(mdt) != 0) {
+					gp = bl$gp
 					
+					FUN = paste0("tmap", gs, bl$mapping_fun)
 					
-					# before proceeding with bl, plot aux layers (if there are eny)
-					if (bl$lid > (ll + 1L)) {
-						for (j in (ll + 1L):(bl$lid - 1L)) {
-							aj = which(aux_lid == j)
-							stopifnot(length(aj) > 0L)
-
-							a = aux[[aj]]							
-							FUNaux_plot = paste0("tmap", gs, a$mapping.fun)
-							id = paste0("aux", sprintf("%03d", j))
-							do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
-						}	
-						ll = j
-					}
-					
-					
-					shpTM = get_shpTM(bl$shpDT, d$by1[i], d$by2[i], d$by3[i])[[1]]
-					mdt = get_dt(bl$mapping_dt, d$by1[i], d$by2[i], d$by3[i])
-					
-					id = paste0("f", sprintf("%03d", i), "g", sprintf("%02d", ig), "l", sprintf("%02d", il))
-					
-					if (nrow(mdt) != 0) {
-						gp = bl$gp
-						
-						FUN = paste0("tmap", gs, bl$mapping_fun)
-						
-						do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
-					}
-					ll = bl$lid
+					do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
 				}
 				
-			}
- 		}
-		if (any(aux_lid > ll)) {
-			for (j in aux_lid[aux_lid > ll]) {
-				aj = which(aux_lid == j)
-				a = aux[[aj]]							
+			} else {
+				# aux layer
+				a = aux[[glid]]							
 				FUNaux_plot = paste0("tmap", gs, a$mapping.fun)
-				id = paste0("aux", sprintf("%03d", aj))
+				id = paste0("aux", sprintf("%03d", glid))
 				do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
-			}	
-			ll = j
+				
+			}
 		}
-		
- 		do.call(FUNoverlay, list(facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+		do.call(FUNoverlay, list(facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
 	}
 
 	

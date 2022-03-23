@@ -14,7 +14,7 @@ step1_rearrange = function(tmel) {
 	
 	# find layer id numbers (needed to plot layers in correct order, which is not trivial due to the two layer types)
 	lay_id = cumsum(is_tml | is_aux)
-	lay_id[!is_tml & !is_aux] = 0L
+	lay_id[!is_tml & !is_aux] = 0
 	
 	# create groups, for each group: tms (tmap shape), tmls (tmap layers), tmf (tmap facets)
 	ids = cumsum(is_tms)
@@ -30,6 +30,24 @@ step1_rearrange = function(tmel) {
 		oth = list()
 		oth_lay_id = list()
 	}
+	
+	
+	# update options with tm_option elements
+	is_opt = sapply(oth, inherits, "tm_options")
+	if (any(is_opt)) for (id in which(is_opt)) {
+		o2 = oth[[id]]
+		if ("style" %in% names(o2) && !is.na(o2$style)) { #() {
+			o = tmap_options_mode(default.options = TRUE)
+			styleOptions <- get("tmapStyles", envir = .TMAP)[[o2$style]]
+			if (!is.null(styleOptions)) o = complete_options(styleOptions, o)
+			o2$style = NULL
+		}
+		o = complete_options(o2, o)
+	}
+	o = preprocess_meta_step1(o)
+	
+	
+	
 	
 	# organize groups, 1 tm_shape, at least 1 tm_layers, 1 tm_facets
 	tmo = mapply(function(tmg, lid) {
@@ -50,37 +68,16 @@ step1_rearrange = function(tmel) {
 		
 		# extract layers and add layer id number
 		tmls = mapply(function(l, i) {
-			l$lid = i
+			l$lid = if (is.na(l$zindex)) i else l$zindex
 			l
 		}, tmg[is_tml], lid[is_tml], SIMPLIFY = FALSE)
 		
 		structure(list(tms = tmg[[1]], tmls = tmls, tmf = tmf), class = c("tmapGroup", "list"))
 	}, tmel_spl, lay_id_spl, SIMPLIFY = FALSE)
-	
-	
-	is_aux = vapply(oth, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
 
-	
-	if (any(is_aux)) {
-		aux = mapply(function(l, i) {
-			l$lid = i
-			cls = class(l)[1]
-			ot = get_prefix_opt(class = cls, o = o)
-			l$args = complete_options(l$args, ot)
-			l
-		}, oth[is_aux], oth_lay_id[is_aux], SIMPLIFY = FALSE)
-	} else {
-		aux = list()
-	}
-	
-	
-	
-	
-	
 	tmo = step1_rearrange_facets(tmo) # save smeta's and keep track of group id (to obtain smeta)
 	
 	if (dev) timing_add(s2 = "facet meta")
-	
 	
 	tmf = tmo$tmf_global # global facetting options, to be appended to options o
 	tmo$tmf_global = NULL
@@ -101,23 +98,53 @@ step1_rearrange = function(tmel) {
 	# get main crs (option or extracted from first main shape)
 	crs_option = o$crs
 	tms = tmo[[ids[1]]]$tms
-	crs = if (is.na(crs_option[1])) get_crs(tms) else crs_option
-	main_class = get_class(tms)
-
-	# update options with tm_option elements
-	is_opt = sapply(oth, inherits, "tm_options")
-	if (any(is_opt)) for (id in which(is_opt)) {
-		o2 = oth[[id]]
-		if ("style" %in% names(o2) && !is.na(o2$style)) { #() {
-			o = tmap_options_mode(default.options = TRUE)
-			styleOptions <- get("tmapStyles", envir = .TMAP)[[o2$style]]
-			if (!is.null(styleOptions)) o = complete_options(styleOptions, o)
-			o2$style = NULL
-		}
-		o = complete_options(o2, o)
+	
+	
+	if (inherits(crs_option, "leaflet_crs")) {
+		crs_leaflet = crs_option
+		crs = leaflet2crs(crs_leaflet)
+	} else if (is.na(crs_option[1]) || (is.numeric(crs_option) && crs_option == 0)) {
+		crs = get_crs(tms)
+		crs_leaflet = leafletSimple
+	}  else {
+		crs = crs_option
+		crs_leaflet = crs2leaflet(get_option_class(crs, "dimensions"))
 	}
 
-	o = preprocess_meta_step1(o)
+	main_class = get_class(tms)
+
+
+
+	# # add basemaps
+
+	if (!is.null(o$basemap.server)) {
+		if (!any(vapply(oth, inherits, "tm_basemap", FUN.VALUE = logical(1)))) {
+			oth = c(oth, tm_basemap())
+			oth_lay_id = c(oth_lay_id, 0L)
+		}
+	}
+
+
+	is_aux = vapply(oth, inherits, "tm_aux_layer", FUN.VALUE = logical(1))
+
+	
+	if (any(is_aux)) {
+		
+		aux = mapply(function(l, i) {
+			l$lid = if (is.na(l$zindex)) i else l$zindex
+			
+			cls = class(l)[1]
+			ot = get_prefix_opt(class = cls, o = o)
+			l$args = complete_options(l$args, ot)
+			l
+		}, oth[is_aux], oth_lay_id[is_aux], SIMPLIFY = FALSE)
+	} else {
+		aux = list()
+	}
+	
+	
+	
+	
 	
 	
 	
@@ -146,6 +173,7 @@ step1_rearrange = function(tmel) {
 	o$main = ids # to determine total bounding box in step 4
 	o$main_class = main_class # inner.margins are class specific (preprecess_meta)
 	o$crs = crs # in step 3, when other shapes are transformed to this crs
+	o$crs_leaflet = crs_leaflet
 	
 	o = c(o, tmf)
 	# process shapes: put non-spatial data in data.table, keep spatial data separately 

@@ -28,27 +28,49 @@ data(World, metro, rivers, land)
 #tmap_design_mode()
 ```
 
-## Terminology used by tmap
+## Visual variables
 
-A *visual variable* describes a certain visual property of an drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern. (In ggplot2 these are called aesthetics.). 
+A **visual variable** describes a certain visual property of an drawn object, such as color, size, shape, line width, line stroke, transparency, fill pattern. (In ggplot2 these are called aesthetics.). A visual variable can be specified using a constant value (e.g. `fill = "blue"`) or **data-driven** (more on this later). If it can *only* be specified with a constant value, it is called a **visual constant**. 
 
-A (thematic) map consists of one or more *map layers*. For example: a basemap, a layer of polygons, a layer of polylines, a layer of symbols, and a layer of text.
+A (thematic) map consists of one or more **map layers**. Each map layer has a specific set of visual variables that determine how the objects of that layer are drawn. The following table shows which visual variables are used in standard map layers.
 
-Each map layer has a specific set of visual variables that determine how the objects of that layer are drawn.
-Examples:
-
-
-
-| Map layer			| Visual variables (constant or data-driven)| Visual variable (constant only) |
-|---				|---							|---							|
+| Map layer			| Visual variables | Visual constant |
+|-				|---							|--							|
 | `tm_basemap`  	| none							| `alpha`						|
 | `tm_polygons`     | `fill` (fill color), `col` (border color), `lwd` (border line width) `lty` (border line type), `fill_alpha` fill transparency, `col_alpha` border color transparency		| `linejoin` (line join) and `lineend` (line end) |
-| `tm_bubbles`		| `fill` (fill color), `col` (border color), `lwd` (border line width) `lty` (border line type), `fill_alpha` fill transparency, `col_alpha` border color transparency		| `linejoin` (line join) and `lineend` (line end) |
+| `tm_symbols`		| `fill` (fill color), `col` (border color), `size`, `shape`, `lwd` (border line width) `lty` (border line type), `fill_alpha` fill transparency, `col_alpha` border color transparency		| `linejoin` (line join) and `lineend` (line end) |
 | `tm_lines`   		| `col` (color), `lwd` (line width) `lty` (line type), `alpha` transparency	| `linejoin` (line join) and `lineend` (line end) |
-| `tm_raster`   	| `col` (color), `col_alpha` (transparency)	| |
+| `tm_raster`   	| `col` (color), `alpha` (transparency)	| |
 | `tm_text`   		| `size`, `col` | |
 
+New in tmap 4.0 is that users can write their own custom map layer functions; more on this in another vignette. Important for now is that map layers and their visual variables can be extended if needed.   
 
-A visual variable can be specified using a constant value (e.g. `fill = "blue"`) or *data-driven*, i.e. where a certain data variable determines the fill color (by using a certain scale, more on this layer). When it can only be specified with a constant value, it is called a *visual constant*.
+### Basic examples
 
+This map specifies the fill color of country polygons to be gold:
+
+```{r}
+tm_shape(World) +
+	tm_polygons("gold")
+```
+
+For those who are completely new to tmap: the function `tm_shape` specifies the spatial data object, which can be any spatial data object from the packages `sf`, `stars`, `terra`, `sp`, and `raster`. The subsequent map layer functions (stacked with the `+` operator) specify how this spatial data is visualized. 
+
+```{r}
+tm_basemap(server = "OpenTopoMap", zoom = 2, alpha = 0.5) +
+tm_shape(World, bbox = sf::st_bbox(c(xmin = -180, xmax = 180, ymin = -86, ymax = 86))) +
+	tm_polygons(fill = NA, col = "black") +
+tm_shape(metro) +
+	tm_symbols(size = 0.1, col = "red") +
+tm_layout(inner.margins = rep(0, 4))
+```
+
+```{r}
+tm_shape(land) +
+	tm_raster("trees", col_alpha = 0.5)
+```
+
+
+
+##
 
