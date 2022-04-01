@@ -126,8 +126,9 @@ tmapLeafletInit = function(o) {
 	# 
 	# 
 	# 
-	assign("lfs", lfs, envir = .TMAP_LEAFLET)
-	assign("nrow", o$nrows, envir = .TMAP_LEAFLET)
-	assign("ncol", o$ncols, envir = .TMAP_LEAFLET)
+	.TMAP_LEAFLET$lfs = lfs
+	.TMAP_LEAFLET$nrow = o$nrows
+	.TMAP_LEAFLET$ncol = o$ncols
+	.TMAP_LEAFLET$leg_id = 1
 	NULL
 }

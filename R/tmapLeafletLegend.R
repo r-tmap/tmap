@@ -3,13 +3,12 @@ tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_
 	
 	rc_text = frc(facet_row, facet_col)
 	
-	
-	
-	length(comp)
+
 	for (cmp in comp) {
 		group = "tmp" # TODO
 		leg_className = paste("info legend", gsub(" ", "", group, fixed = TRUE))
-		layerId = "legend401" #todo
+		layerId =  paste0("legend", sprintf("%02d", .TMAP_LEAFLET$leg_id)) # "legend401" #todo
+		.TMAP_LEAFLET$leg_id = .TMAP_LEAFLET$leg_id + 1
 		
 		if (length(cmp$gp$col) > 1) {
 			pal = cmp$gp$col
@@ -52,35 +51,42 @@ tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_
 			
 			legvals <- if (!is.na(colNA)) c(val, NA) else val
 
-			lf |> addLegend(position=legpos, group = group,
+			lf = lf |> addLegend(position=legpos, group = group,
 					  pal=colorNumeric(palette = pal, 
 					  				 domain = val, 
 					  				 na.color=colNA, 
 					  				 alpha = FALSE), 
 							values=legvals, 
 							na.label = textNA, title=title, opacity=opacity, layerId = layerId,
-					  className = leg_className) |> 
-				assign_lf(facet_row, facet_col, facet_page)
+					  className = leg_className)
 		} else {
-			if (length(pal) != length(val)) {
-				colNA <- pal[length(pal)]
-				textNA <- lab[length(pal)]
-				pal <- pal[-length(pal)]
-				lab <- lab[-length(lab)]
-			} else {
-				colNA <- NA
-				textNA <- NA
-			}
-			orig <- pal
+			# if (length(pal) != length(val)) {
+			# 	colNA <- pal[length(pal)]
+			# 	textNA <- lab[length(pal)]
+			# 	pal <- pal[-length(pal)]
+			# 	lab <- lab[-length(lab)]
+			# } else {
+			# 	colNA <- NA
+			# 	textNA <- NA
+			# }
+			# orig <- pal
+			# 
+			# if (!is.na(colNA)) {
+			# 	legvals <- c(lab, textNA)
+			# 	pal <- c(pal, colNA)
+			# } else {
+			# 	legvals <- lab
+			# }
 			
-			if (!is.na(colNA)) {
-				legvals <- c(lab, textNA)
-				pal <- c(pal, colNA)
-			} else {
-				legvals <- lab
+			pal = rep(pal, length.out = length(lab))
+			
+			if (length(opacity == length(lab))) {
+				pal = paste0(pal, tmap::num_to_hex(opacity * 255))
 			}
 			
-			lf |> 
+			legvals = lab
+			print(layerId)
+			lf = lf |> 
 				addLegend(position=legpos,
 						  group = group,
 						  colors = pal,
@@ -88,11 +94,12 @@ tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_
 						  title=title,
 						  opacity=opacity,
 						  layerId = layerId,
-						  className = leg_className) |> 
-				assign_lf(facet_row, facet_col, facet_page)}
-		
+						  className = leg_className)
+				
+		}
 		
 	}
 	
+	assign_lf(lf, facet_row, facet_col, facet_page)
 	NULL	
 }

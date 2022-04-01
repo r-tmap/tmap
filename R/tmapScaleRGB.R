@@ -12,6 +12,8 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, sortRev) {
 	#scale = get_scale_defaults(scale, opt, aes, layer, cls)
 	scale$value.na = if (is.na(scale$value.na) || identical(scale$value.na, TRUE)) getAesOption("value.na", o, aes, layer, cls = cls1) else scale$value.na
 
+	
+	
 	isna = is.na(x1) | is.na(x2) | is.na(x3)
 	if (any(isna)) {
 		values = rep(scale$value.na, length(x1))

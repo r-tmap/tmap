@@ -138,7 +138,10 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 		
 		vvalues = VV$vvalues
 		value.na = VV$value.na
-		if (is.na(value.neutral)) value.neutral = VV$value.neutral
+
+		sfun = paste0("tmapValuesScale_", aes)
+		cfun = paste0("tmapValuesColorize_", aes)
+		if (is.na(value.neutral)) value.neutral = VV$value.neutral else value.neutral = do.call(sfun, list(x = do.call(cfun, list(x = value.neutral, pc = o$pc)), scale = values.scale))
 		
 		
 		ids = classInt::findCols(q)

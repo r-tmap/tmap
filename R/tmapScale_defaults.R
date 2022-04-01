@@ -96,7 +96,7 @@ tmapValuesRange_lty = function(x, n, isdiv) {
 
 
 tmapValuesRange_size = function(x, n, isdiv) {
-	print(c(.5/n, 1 - .5/n))
+	#print(c(.5/n, 1 - .5/n))
 	c(.5/n, 1 - .5/n)
 }
 

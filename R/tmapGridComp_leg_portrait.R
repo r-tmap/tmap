@@ -338,7 +338,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
 			gpars2 = gp_to_gpar(gp, sel = "col", split_to_n = nlev) #lapply(gps, gp_to_gpar_borders)
 			
 			#grItems = mapply(function(i, gpari) gridCell(i+3, 2, rndrectGrob(gp = gpari)), 1:nlev, gpars, SIMPLIFY = FALSE)
-			grItems = mapply(function(i, gpar1i, gpar2i) gridCell(id, 3, {
+			grItems = mapply(function(id, gpar1i, gpar2i) gridCell(id, 3, {
 				grid::grobTree(
 					rndrectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar1i, r = comp$item.r),
 					rndrectGrob(width = grid::unit(o$lin* textS, "inches"), height = grid::unit(o$lin* textS, "inches"), gp = gpar2i, r = comp$item.r))

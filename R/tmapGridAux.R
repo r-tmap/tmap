@@ -31,7 +31,7 @@ tmapGridTilesPrep = function(a, bs, o) {
 	})
 	
 	
-	if (is.null(a$zoom)) {
+	if (is.na(a$zoom)) {
 		zs = vapply(bs, findZoom, FUN.VALUE = integer(1))
 	} else {
 		zs = rep(a$zoom, length(bs))
