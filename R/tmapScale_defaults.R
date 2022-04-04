@@ -78,7 +78,7 @@ tmapValuesRange_fill = function(x, n, isdiv) {
 	m = getPalMeta(x[1])
 	
 	if (!is.null(m)) {
-		cols4all::c4a_default_range(n = n, type = m$type)
+		NA # in c4a palette definition
 	} else c(0, 1)
 }
 
@@ -123,12 +123,16 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 	m = getPalMeta(x[1])
 	
 
-	# dvalues = seq(-2, 4, length.out = 101)
-	# dvalues = seq(-10, -4, length.out = 101)
-	# dvalues = seq(2, 4, length.out = 101)
-	# n = 101
-	# are_breaks = TRUE
-	# midpoint = 0
+	scale_ids = function(ids, n) {
+		1 + ((ids - 1) / (n - 1)) * 100	
+	} 
+	
+	map_ids = function(i, s, n) {
+		di = i[2] - i[1]
+		seq(i[1] + di * s[1], i[1] + di * s[2], length.out = n)
+	}
+	
+	
 	if (isdiv) {
 		cat0 = (are_breaks != any(dvalues==midpoint))
 		
@@ -141,61 +145,82 @@ tmapValuesVV_fill = function(x, value.na, isdiv, n, dvalues, are_breaks, midpoin
 		
 		ids = (1L + max(0L, (npos-nneg))):(ntot - max(0L, (nneg-npos)))
 	} else {
+		ntot = n
 		ids = 1L:n
 	}
 	
-	scale_ids = function(ids, n) {
-		1 + ((ids - 1) / (n - 1)) * 100	
-	} 
-	
-	map_ids = function(i, s, n) {
-		di = i[2] - i[1]
-		seq(i[1] + di * s[1], i[1] + di * s[2], length.out = n)
-	}
-	
-	if (range[1] != 0 || range[2] != 1 || isdiv) {
-		# expand palette tot 101 colors
-		if (!is.null(m)) {
-			vvalues = getPal(x, n = 101)
-		} else {
-			vvalues = grDevices::colorRampPalette(x)(101)
-		}
-		
-		# expand ids and apply range
-		if (isdiv) {
-			ids_scaled = scale_ids(ids, ntot)
-			
-			
-			ids_after_range = c({if (nneg > 0) head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 
-												1-rev(range), 
-												n = nneg + cat0), 
-										nneg) else NULL},
-								   {if (cat0) ids_scaled[1L + nneg] else NULL},
-								   if (npos > 0) tail(map_ids(ids_scaled[c(nneg+1, n)], 
-								   			 range, 
-								   			 n = npos + cat0), 
-								   	 npos) else NULL)
-		} else {
-			ids_scaled = scale_ids(ids, n)
-			ids_after_range = map_ids(ids_scaled[c(1L, n)], range, n)
-		}
-		
+	if (!is.null(m)) {
+		vvalues = getPal(x, n = ntot, range = range)[ids]
 	} else {
-		if (!is.null(m)) {
-			vvalues = getPal(x, n = n, rep = rep)
-		} else {
-			if (!all(valid_colors(x))) stop("invalid colors", call. = FALSE)
-			if (length(x) != n) {
-				vvalues = grDevices::colorRampPalette(x)(n)
+		pal =colorRampPalette(x)
+		if (is.na(range[1])) range = c(0, 1)
+		if (range[1] != 0 || range[2] != 1) {
+			ids_scaled = scale_ids(ids, ntot)
+			if (isdiv) {
+				ids_after_range = c({if (nneg > 0) head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 
+																1-rev(range), 
+																n = nneg + cat0), 
+														nneg) else NULL},
+									{if (cat0) ids_scaled[1L + nneg] else NULL},
+									if (npos > 0) tail(map_ids(ids_scaled[c(nneg+1, n)], 
+															   range, 
+															   n = npos + cat0), 
+													   npos) else NULL)
 			} else {
-				vvalues = col2hex(x)
-			}	
+				ids_after_range = map_ids(ids_scaled[c(1L, ntot)], range, ntot)
+			}
+			vvalues = grDevices::colorRampPalette(x)(101)[ids_after_range]
+		} else {
+			vvalues = grDevices::colorRampPalette(x)(ntot)[ids]
 		}
-		ids_after_range = ids
 	}
 	
 	
-	vvalues = vvalues[ids_after_range]
+
+	# if ((!is.na(range[1]) && (range[1] != 0 || range[2] != 1)) || isdiv) {
+	# 	# expand palette tot 101 colors
+	# 	if (!is.null(m)) {
+	# 		vvalues = grDevices::colorRampPalette(getPal(x, n = n, range = range))(101)
+	# 	} else {
+	# 		vvalues = grDevices::colorRampPalette(x)(101)
+	# 	}
+	# 	
+	# 	# expand ids and apply range
+	# 	if (isdiv) {
+	# 		range_manual = if (is.na(range[1])) c(0, 1) else range
+	# 		ids_scaled = scale_ids(ids, ntot)
+	# 		
+	# 		
+	# 		ids_after_range = c({if (nneg > 0) head(map_ids(ids_scaled[c(1L, (nneg+cat0))], 
+	# 											1-rev(range_manual), 
+	# 											n = nneg + cat0), 
+	# 									nneg) else NULL},
+	# 							   {if (cat0) ids_scaled[1L + nneg] else NULL},
+	# 							   if (npos > 0) tail(map_ids(ids_scaled[c(nneg+1, n)], 
+	# 							   						   range_manual, 
+	# 							   			 n = npos + cat0), 
+	# 							   	 npos) else NULL)
+	# 	} else {
+	# 		ids_scaled = scale_ids(ids, n)
+	# 		ids_after_range = map_ids(ids_scaled[c(1L, n)], range, n)
+	# 	}
+	# 	
+	# } else {
+	# 	if (!is.null(m)) {
+	# 		vvalues = getPal(x, n = n, rep = rep, range = range)
+	# 	} else {
+	# 		if (!all(valid_colors(x))) stop("invalid colors", call. = FALSE)
+	# 		if (length(x) != n) {
+	# 			vvalues = grDevices::colorRampPalette(x)(n)
+	# 		} else {
+	# 			vvalues = col2hex(x)
+	# 		}	
+	# 	}
+	# 	ids_after_range = ids
+	# }
+	# 
+	# 
+	# vvalues = vvalues[ids_after_range]
 	
 	if (isdiv) {
 		if (cat0) {

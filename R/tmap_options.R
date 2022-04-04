@@ -75,8 +75,8 @@
 			fill_alpha = 0,
 			col_alpha = 0
 		),
-		values.var = list(fill = list(seq = "hcl.blues3", div = "hcl.purple_green", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
-						  col = list(seq = "hcl.blues3", div = "hcl.purple_green", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
+		values.var = list(fill = list(seq = "hcl.blues3", div = "pu_gn_div", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
+						  col = list(seq = "hcl.blues3", div = "pu_gn_div", unord = "tol.muted", ord = "hcl.blues3", cyc = "tol.rainbow_pu_rd", biv = "hcl.purple_green"),
 						  size = tmap_seq(0, 1, power = "sqrt"),
 						  lwd = c(0, 3),
 						  lty = c("dashed", "dotted", "dotdash", "longdash", "twodash"),

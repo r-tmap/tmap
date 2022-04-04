@@ -79,7 +79,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev) {
 			fun_range = paste0("tmapValuesRange_", aes)
 			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = isdiv))
 		}
-		if (length(values.range) == 1) values.range = c(0, values.range)
+		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 		
 		
 		fun_getVV = paste0("tmapValuesVV_", aes)

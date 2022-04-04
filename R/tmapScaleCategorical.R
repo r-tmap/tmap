@@ -63,7 +63,7 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev) {
 			fun_range = paste0("tmapValuesRange_", aes)
 			values.range = do.call(fun_range, args = list(x = values, n = n, isdiv = FALSE))
 		}
-		if (length(values.range) == 1) values.range = c(0, values.range)
+		if (length(values.range) == 1 && !is.na(values.range[1])) values.range = c(0, values.range)
 		
 		fun_getCVV = paste0("tmapValuesCVV_", aes)
 		VV = do.call(fun_getCVV, list(x = values, value.na = value.na, n = n, range = values.range, scale = values.scale, rep = values.repeat, o = o))
