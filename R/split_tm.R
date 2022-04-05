@@ -22,7 +22,7 @@ get_i <- function(x, xname, i, n, oid) {
 		if (ncol(x)>=i) x[oid,i] else x[oid,1]
 	} else if(is.list(x)) {
 		ncx <- nchar(xname)
-		if (xname %in% c("varnames", "idnames")  ||  substr(xname, ncx-11, ncx)=="popup.format") {
+		if (xname %in% c("varnames", "idnames", "clustering")  ||  substr(xname, ncx-11, ncx)=="popup.format") {
 			x
 		} else if (substr(xname, ncx-4, ncx) ==".misc") {
 			# these are lists themselves
