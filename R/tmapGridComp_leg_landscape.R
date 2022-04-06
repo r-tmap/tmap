@@ -28,7 +28,7 @@ tmapGridCompPrepare.tm_legend_standard_landscape = function(comp, o) {
 tmapGridCompHeight.tm_legend_standard_landscape = function(comp, o) {
 	nlev = comp$nitems
 	textS = comp$text.size * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * o$scale * number_text_lines(comp$title)
 	
 	height = get_legend_option(comp$item.height, comp$type)
 	

@@ -288,7 +288,7 @@ prettyTicks = function(x, dev = 0.1) {
 	is_equi = local({
 		dff = max(x) - min(x)
 		steps = (x[-1] - head(x,-1)) / dff
-		all(abs(steps-steps[1]) < 1e3)
+		all(abs(steps-steps[1]) < 1e-3)
 	})
 	
 	if (is_equi) {

@@ -34,7 +34,7 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	nlev = comp$nitems
 	textS = comp$text.size * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * o$scale * number_text_lines(comp$title)
 	
 	space = get_legend_option(comp$item.space, comp$type)
 	spaceNA = get_legend_option(comp$item.na.space, comp$type)

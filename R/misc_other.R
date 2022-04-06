@@ -197,3 +197,10 @@ get_epsg = function (x) {
 		}
 	}
 }
+
+
+number_text_lines <- function(txt) {
+	if (is.character(txt)) {
+		length(strsplit(txt, "\n")[[1]])
+	} else 1
+}
