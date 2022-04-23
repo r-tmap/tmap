@@ -383,7 +383,7 @@ process_aes <- function(type, xs, xlabels, colname, data, g, gt, gby, z, interac
 	
 	if (type == "line") {
 		
-		if (!is.na(g$lwd.legeld.col)[1]) res$line.lwd.legend.palette <- g$lwd.legeld.col
+		if (!is.na(g$lwd.legend.col)[1]) res$line.lwd.legend.palette <- g$lwd.legend.col
 		res$line.col.legend.misc$line.legend.lwd <- assign_legend_line_widths(res$line.lwd.legend.misc$legend.lwds, res$line.lwd, nx)
 		res$line.lty <- g$lty
 		res$line.alpha <- g$alpha

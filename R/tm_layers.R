@@ -195,7 +195,7 @@ tm_iso <- function(col=NA, text="level", size=.5,
 #' @param scale line width multiplier number. 
 #' @param lwd.legend vector of line widths that are shown in the legend. By default, this is determined automatically.
 #' @param lwd.legend.labels vector of labels for that correspond to \code{lwd.legend}.
-#' @param lwd.legeld.col color of lines that are shown in the legend for the lwd aesthetic. By default, the middle color of the \code{palette} is taken.
+#' @param lwd.legend.col color of lines that are shown in the legend for the lwd aesthetic. By default, the middle color of the \code{palette} is taken.
 #' @param n preferred number of color scale classes. Only applicable when \code{lwd} is the name of a numeric variable.
 #' @param style method to process the color scale when \code{col} is a numeric variable. Discrete gradient options are \code{"cat"}, \code{"fixed"}, \code{"sd"}, \code{"equal"}, \code{"pretty"}, \code{"quantile"}, \code{"kmeans"}, \code{"hclust"}, \code{"bclust"}, \code{"fisher"}, \code{"jenks"}, \code{"dpih"}, \code{"headtails"}, and \code{"log10_pretty"}. A numeric variable is processed as a categorical variable when using \code{"cat"}, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except \code{"log10_pretty"}), see the details in \code{\link[classInt:classIntervals]{classIntervals}} (extra arguments can be passed on via \code{style.args}). Continuous gradient options are \code{"cont"}, \code{"order"}, and \code{"log10"}. The first maps the values of \code{col} to a smooth gradient, the second maps the order of values of \code{col} to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See \code{as.count}.
 #' @param style.args arguments passed on to \code{\link[classInt:classIntervals]{classIntervals}}, the function that determine color classes (see also \code{style}).
@@ -260,7 +260,7 @@ tm_lines <- function(col=NA, lwd=1, lty="solid", alpha=NA,
 					 scale=1,
 					 lwd.legend = NULL,
 					 lwd.legend.labels = NULL,
-					 lwd.legeld.col = NA,
+					 lwd.legend.col = NA,
 					 n = 5, style = ifelse(is.null(breaks), "pretty", "fixed"),
 					 style.args = list(),
 					 as.count = NA,
