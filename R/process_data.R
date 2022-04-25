@@ -90,7 +90,7 @@ process_data <- function(data, filter, by, free.scales, is.colors, split.by=TRUE
 				xlvls_list <- mapply(function(d, cl){
 					if (cl=="fac") {
 						levels(d)
-					} else if (cls=="log") {
+					} else if (cl=="log") {
 						c("FALSE", "TRUE")
 					} else na.omit(unique(d))
 				}, data, cls, SIMPLIFY=FALSE)
