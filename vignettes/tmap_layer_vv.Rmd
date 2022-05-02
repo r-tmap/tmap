@@ -31,24 +31,20 @@ data(World, metro, rivers, land)
 
 ## Introduction
 
-**tmap** is an R package for spatial data visualization. A major update (version 4) is will be launched somewhere in 2022. This vignette describes the current alpha version of this release. This vignette is written for a broad target audience, including those who already familiar with tmap 3.x, those who are only familiar with ggplot2, and those who are completely new to (spatial) data visualization. Only basic knowledge of R is required, although the principles should be easy to follow without R programming experience.
-
-The **tmap** package is used to create static and interactive maps with just a few lines of code. It is based on a framework that is similar to the Grammar of Graphics, on which **ggplot2** is build. 
+**tmap** is an R package for spatial data visualization. This vignette describes the alpha version of the major update (version 4), which will be on CRAN in the course of 2022.
 
 
+## tmap 4 - tmap 3.x
 
+* tmap 3.x supports several map layer variables, e.g. `"col"`, `"size"`, and `"shape"` for the map layer function `tm_symbols`. There will be many more of those variables in tmap 4. Besides these visual variables, there will also be so-called transformation variables. A *transformation variable* is used to change the spatial coordinates (for instance, a cartogram). A *visual variable* only changes the appearance of a spatial object, e.g. fill color or line width. See below.
 
-### What is new in tmap v4
-
-* Map layer functions can be added. The set of map layers in tmap 4.0 is about the same as in version 3.x, but it is easy to add new map layers.
-
-* There will be two types of data variables to feed the map layers: `transformation variables` and `visual variables`. A transformation variable is used to change the spatial coordinates (for instance, a cartogram). A visual variable only changes the appearance of a spatial object, e.g. fill color or line width. See below.
+* Map layer arguments (e.g. the arguments of `tm_polygons`) are much better organized: for each visual/transformation variable, there are only four arguments. In case of the visual variable `"fill"` these are: `"fill"`, `"fill.scale"`, `"fill.legend"` and `"fill.free"`, which respectively specify the data variable or visual value that defined the polygon fill color, the used scaling function, the legend layout, and whether scales are applied freely across facets.
 
 * The input for each transformation/visual variable can be multivariate, in the sense that multiple data variables are scaled to one transformation of visual variable. An example is a bivarite choropleth, in which a cross tabulation of two data variables is mapped to one (bivariate) color palette.
 
-* Like tmap 3.x, tmap 4.0 comes with two modes, a `"plot"` and a `"view"` mode. However, other modes can be added as well, so you may expect an extension package **tmap.rayshader** at some point (or start writing one yourself).
+* Own map layer function can be written (e.g. as an extention package)
 
-* Map layer arguments (e.g. the arguments of `tm_polygons`) are much better organized: for each visual/transformation variable, there are only four arguments. In case of the visual variable `"fill"` these are: `"fill"`, `"fill.scale"`, `"fill.legend"` and `"fill.free"`, which respectively specify the data variable or visual value that defined the polygon fill color, the used scaling function, the legend layout, and whether scales are applied freely across facets.
+* Like tmap 3.x, tmap 4.0 comes with two modes, a `"plot"` and a `"view"` mode. However, other modes can be added as well, so you may expect an extension package **tmap.rayshader** at some point (or start writing one yourself).
 
 * Legends and other map components (such as scale bars) can be drawn anywhere on or outside the map.
 
@@ -56,12 +52,25 @@ The **tmap** package is used to create static and interactive maps with just a f
 
 * It is possible to combine legends, which is useful if the same data variable is applied for multiple visual variables using the same scaling function.
 
+### tmap 4 - ggplot2
 
-### Other R packages
+The tmap package is very similar to **gplot2** and its Grammar of Graphics, but tailored to spatial data visualization, whereas **ggplot2** is much more general. More specifically
 
-There are several great R packages for spatial data visualization, including: **ggplot2**, **mapview**, **leaflet**, **mapsf**, and the generic plot function. The tmap package is very similar to **gplot2** and its Grammar of Graphics, but tailored to spatial data visualization, whereas **ggplot2** is much more general. Furthermore, scales are organized on 
+* In tmap, the visual/transformation variables are always specifies in the map layer functions, whereas in ggplot2 the aesthetics are normally specified at plot level.
 
-In addition, **tmap** has a static plot mode and an interactive mode. The latter is similar to **mapview** in the sense that it uses the same building blocks (packages like **leaflet**, **leafsync**, and **leafgl**).
+* In ggplot2, scales are determines on plot level, whereas in tmap, they are determined on map layer level.
+
+* In tmap, spatial data (e.g. an `sf` object) is specified with `tm_shape`. The spatial coordinates (`x` and `y`) are considered to be part of the data (and can be changed with transformation variables). In principle, any map layer function can be used with any spatial class. E.g. `tm_dots` renders dots for `sf` points data, and centroids for sf polygons or `stars` / `terra` data. However, in `ggplot`, each spatial class requires a custom map layer function, e.g. `geom_sf` for `sf` objects.
+
+* **tmap** has a static plot mode and an interactive mode.
+
+* ...
+
+### tmap 4 - other R packages
+
+There are several great R packages for spatial data visualization, including: **ggplot2**, **mapview**, **leaflet**, **mapsf**, and the generic plot function.
+
+The interactive `"view"` mode of **tmap** is similar to **mapview** in the sense that it uses the same building blocks (packages like **leaflet**, **leafsync**, and **leafgl**).
 
 Colors are important for data visualization. For this purpose, **tmap** is build on **cols4all**, a new R package to analyse color palettes, test them on color-blind-friendliness and other properties.
 

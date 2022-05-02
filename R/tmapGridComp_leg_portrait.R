@@ -301,7 +301,7 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
 				ys = seq(1-.5*h, by = -h, length.out = length(f))
 				#f[!is.na(f)] = "red"
 				gpi = grid::gpar(fill = f, alpha = a, col = NA)
-				grid::rect(id, 3, grid::rectGrob(y = ys, height = h, gp = gpi))
+				gridCell(id, 3, grid::rectGrob(y = ys, height = h, gp = gpi))
 			}, comp$item_ids[lvs], fill_list, alpha_list, SIMPLIFY = FALSE)
 		}		
 		
