@@ -130,7 +130,7 @@ step4_plot = function(tm, vp) {
 	
 	# split tm in case of as.layers in tm_facets
 	# TODO
-	
+
 	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
 	
