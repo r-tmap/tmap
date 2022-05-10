@@ -31,7 +31,7 @@ addOverlayGroup <- function(group, are.tiles = FALSE) {
 }
 
 
-tmapLeafletInit = function(o) {
+tmapLeafletInit = function(o, q) {
 	if (!requireNamespace("leaflet")) stop("leaflet package required but not installed yet.")
 
 	per_page = rep(o$ncols * o$nrows, o$npages)
@@ -54,6 +54,11 @@ tmapLeafletInit = function(o) {
 
 	leaflet_opts$attributionControl = FALSE
 	
+	pids = which(substr(q$pane, 1, 4) == "tmap")
+
+	groups = unique(unlist(strsplit(q$group, split = "__", fixed = TRUE)))
+	
+	
 	lfs = lapply(per_page, function(p) {
 		lapply(seq_len(p), function(i) {
 			if (!proxy) lf = leaflet::leaflet(options = leaflet_opts)
@@ -63,6 +68,8 @@ tmapLeafletInit = function(o) {
 					tags$style(HTML(paste(".leaflet-container {background:", o$bg.color, ";}", sep="")))
 				)	
 			})
+			if (length(pids)) for (pid in pids) lf = leaflet::addMapPane(lf, q$pane[pid], zIndex = q$lid2[pid] + 400)
+			lf = leaflet::addLayersControl(lf, overlayGroups = groups)
 			lf
 		})
 	})

@@ -5,7 +5,7 @@ rescale_gp = function(gp, scale, skip = character()) {
 	gp
 }
 
-tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
+tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -46,7 +46,7 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 }
 
 
-tmapGridLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
+tmapGridLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
@@ -81,7 +81,7 @@ appendGlist = function(glist, x) {
 }
 
 
-tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
+tmapGridSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	rc_text = frc(facet_row, facet_col)
 	
 	res = select_sf(shpTM, dt)
@@ -182,7 +182,7 @@ merge_alpha = function(dt, name) {
 
 
 
-tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o) {
+tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	gts = get("gts", .TMAP_GRID)
 	#bbx = get("bbx", .TMAP_GRID)
 	
@@ -257,7 +257,7 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 		
 		dt[, ":="(ord__ = 1, lty = "solid")]
 		
-		tmapGridPolygons(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o)
+		tmapGridPolygons(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)
 		#grid.shape(s, gp=grid::gpar(fill=color, col=NA), bg.col=NA, i, k)
 	}
 	NULL

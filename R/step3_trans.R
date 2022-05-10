@@ -61,15 +61,16 @@ step3_trans = function(tm) {
 			} else {
 				al$shpDT = trans_shp(al, shpDT)
 			}
+			al[c("trans_dt", "trans_args", "trans_isglobal", "tp")] = NULL
 			al
 		})
-		
+	
 		adi$shpDT = NULL
-		
+
 		adi	
 	})	
-	#attributes(bd) = attributes(ad)
-	#attr(bd, "bbox") = stm_bbox(ad[[attr(bd, "main")]]$shpDT$shpTM[[1]])
+	
+
 	list(tmo = bd, aux = aux, cmp = cmp, o = o)
 }
 

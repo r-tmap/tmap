@@ -128,6 +128,9 @@ step4_plot = function(tm, vp) {
 	aux = tm$aux
 	cmp = tm$cmp
 	
+	# split tm in case of as.layers in tm_facets
+	# TODO
+	
 	# get name of graphics engine (for function names e.g. tmapGridInit)
 	gs = tmap_graphics_name()
 	
@@ -258,6 +261,54 @@ step4_plot = function(tm, vp) {
 	}
 	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 	
+	
+	## prepare aux layers
+	# create table with bounding boxes (the only important property, apart from settings)
+	db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
+	db[, i:=1L:nrow(db)]
+	d[, bi:=db$i[match(d$bbox, db$bbox)]]
+	
+	# prepare aux layers and return group label (in case it is not user specified)
+	aux_group_def = lapply(aux, function(a) {
+		FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
+		do.call(FUNaux_prep, list(a = a$args, b = db$bbox, o = o))
+	})
+	aux_group = mapply(function(a, agd) {
+		if (is.na(a$group)) agd else as.character(a$group)
+	}, aux, aux_group_def, USE.NAMES = FALSE)
+	
+	# find lid (layer plot id values) for aux layers
+	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
+	
+	# data frame for layer ids
+	q = do.call(rbind, c(lapply(1L:o$ng, function(ig) {
+		tmxi = tmx[[ig]]
+		nl = length(tmxi$layers)
+		lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
+		group = vapply(tmxi$layers, function(l) {l$group}, FUN.VALUE = character(1))
+		data.frame(gid = ig, glid = 1:nl, lid = lid, group = group)
+	}), if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid, group = aux_group)) else NULL))
+	
+	q$lid2 = 0
+	qnotnull = (q$lid != 0)
+	if (any(qnotnull)) q$lid2[qnotnull] = rank(q$lid[qnotnull])
+	
+	q = q[order(q$lid2), ]
+	q$pane = "tilePane"
+	q$pane[q$lid2 > 0] = paste0("tmap", 400 + q$lid2[q$lid2 > 0])
+	
+	# q data frame:
+	# gid = tmap-group counter
+	# glid = layer counter inside tmap-group
+	# lid = possibly-user-defined layer order number
+	# lid2 = same as lid, but 1,2,3,...
+	# pane = pane name (for view mode)
+	# group = group name (for selecting layers in view mode)
+	
+	
+	
+	
+	
 	# prepare function names
 	FUNinit = paste0("tmap", gs, "Init")
 	FUNrun = paste0("tmap", gs, "Run")
@@ -267,7 +318,7 @@ step4_plot = function(tm, vp) {
 	FUNxtab = paste0("tmap", gs, "Xtab")
 	
 	# init
-	do.call(FUNinit, list(o = o))
+	do.call(FUNinit, list(o = o, q = q))
 	
 	# plot xtab headers
 	if (o$panel.type == "xtab") {
@@ -280,32 +331,7 @@ step4_plot = function(tm, vp) {
 		}
 	}
 	
-	## prepare aux layers
-	# create table with bounding boxes (the only important property, apart from settings)
-	db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
-	db[, i:=1L:nrow(db)]
-	d[, bi:=db$i[match(d$bbox, db$bbox)]]
-	for (a in aux) {
-		FUNaux_prep = paste0("tmap", gs, a$mapping.fun, "Prep")
-		do.call(FUNaux_prep, list(a = a$args, b = db$bbox, o = o))
-	}
 	
-	# find lid (layer plot id values) for aux layers
-	aux_lid = vapply(aux, function(a) a$lid, FUN.VALUE = numeric(1))
-	
-	# data frame for layer ids
-	q = do.call(rbind, c(lapply(1L:o$ng, function(ig) {
-		tmxi = tmx[[ig]]
-		nl = length(tmxi$layers)
-		lid = vapply(tmxi$layers, function(l) {l$lid}, FUN.VALUE = numeric(1))
-		data.frame(gid = ig, glid = 1:nl, lid = lid)
-	}), if (length(aux_lid)) list(data.frame(gid = 0, glid = 1L:length(aux), lid = aux_lid)) else NULL))
-	
-	q$lid2 = 0
-	qnotnull = (q$lid != 0)
-	if (any(qnotnull)) q$lid2[qnotnull] = rank(q$lid[qnotnull])
-	
-	q = q[order(q$lid2), ]
 	
 	for (i in seq_len(nrow(d))) {
 		bbx = d$bbox[[i]]
@@ -316,6 +342,8 @@ step4_plot = function(tm, vp) {
 		for (qi in 1L:nrow(q)) {
 			gid = q$gid[qi]
 			glid = q$glid[qi]
+			pane = q$pane[qi]
+			group = q$group[qi]
 			if (gid > 0) {
 				# data layer
 				bl = tmx[[gid]]$layers[[glid]]
@@ -329,7 +357,7 @@ step4_plot = function(tm, vp) {
 					
 					FUN = paste0("tmap", gs, bl$mapping_fun)
 					
-					do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
+					do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
 				}
 				
 			} else {
@@ -337,7 +365,7 @@ step4_plot = function(tm, vp) {
 				a = aux[[glid]]							
 				FUNaux_plot = paste0("tmap", gs, a$mapping.fun)
 				id = paste0("aux", sprintf("%03d", glid))
-				do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, o = o))
+				do.call(FUNaux_plot, list(bi = d$bi[i], bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
 				
 			}
 		}
