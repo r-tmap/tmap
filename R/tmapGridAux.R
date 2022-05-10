@@ -91,21 +91,22 @@ tmapGridTilesPrep = function(a, bs, o) {
 	g$bmaps_dts = ds
 
 	assign("g", g, envir = .TMAP_GRID)
-	
+	paste0(a$server, collapse = "__")
 }
 
 tmapGridGridPrep = function(a, b, o) {
+	a
 }
 
 
-tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, o) {
+tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	g = get("g", envir = .TMAP_GRID)
 
 	dt = g$bmaps_dts[[bi]]
 	shpTM = g$bmaps_shpTHs[[bi]]
 	gp = list()
 	
-	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, o)	
+	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)	
 }
 
 tmapGridGrid = function(a, b) {

@@ -1,4 +1,4 @@
-tmapGridInit = function(o) {
+tmapGridInit = function(o, q) {
 	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
 	
 	
@@ -163,7 +163,7 @@ tmapGridInit = function(o) {
 	if (getOption("tmap.design.mode")) {
 		gts = lapply(gts, function(gt) {
 			
-			p = rep(pals::brewer.paired(12), 3)
+			p = rep(cols4all::c4a("brewer.paired"), 3)
 			
 			gt = gt |> 
 				add_to_gt(grid::rectGrob(gp=grid::gpar(fill = p[1])), row = 1:(nr), col = 1:(nc)) |>  # outer
