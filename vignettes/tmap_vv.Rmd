@@ -39,7 +39,7 @@ data(World, metro, rivers, land)
 
 * Map layer arguments (e.g. the arguments of `tm_polygons()`) are much better organized: for each visual/transformation variable, there are only four arguments. In case of the visual variable `"fill"` these are: `"fill"`, `"fill.scale"`, `"fill.legend"` and `"fill.free"`, which respectively specify the data variable or visual value that defines the polygon fill color, the used scaling function, the legend layout, and whether scales are applied freely across facets.
 
-* The input for each visual/transformation variable can be multivariate, in the sense that multiple data variables are scaled to one transformation of visual variable. An example is a bivarite choropleth, in which a cross tabulation of two data variables is mapped to one (bivariate) color palette.
+* The input for each visual/transformation variable can be multivariate, in the sense that multiple data variables are scaled to one transformation of visual variable. An example is a bivariate choropleth, in which a cross tabulation of two data variables is mapped to one (bivariate) color palette.
 
 * User-defined map layer functions can be written (e.g. as an extension package).
 

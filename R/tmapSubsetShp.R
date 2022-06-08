@@ -16,6 +16,11 @@ tmapSubsetShp.SpatRaster = function(shp, vars) {
 	shp[[vars]]
 }
 
+#' @method tmapSubsetShp SpatVector
+#' @export
+tmapSubsetShp.SpatVector = function(shp, vars) {
+	tmapSubsetShp.sf(shp, vars)
+}
 
 
 #' @method tmapSubsetShp sf

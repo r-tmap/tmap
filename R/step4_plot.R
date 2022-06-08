@@ -261,6 +261,18 @@ step4_plot = function(tm, vp) {
 	}
 	d[, page := as.integer(i - 1) %/% (o$nrows * o$ncols) + 1]
 	
+	# prepare function names
+	FUNinit = paste0("tmap", gs, "Init")
+	FUNrun = paste0("tmap", gs, "Run")
+	FUNshape = paste0("tmap", gs, "Shape")
+	FUNoverlay = paste0("tmap", gs, "Overlay")
+	FUNwrap = paste0("tmap", gs, "Wrap")
+	FUNxtab = paste0("tmap", gs, "Xtab")
+	
+	# init
+	do.call(FUNinit, list(o = o, q = q))
+	
+	
 	
 	## prepare aux layers
 	# create table with bounding boxes (the only important property, apart from settings)
@@ -309,16 +321,6 @@ step4_plot = function(tm, vp) {
 	
 	
 	
-	# prepare function names
-	FUNinit = paste0("tmap", gs, "Init")
-	FUNrun = paste0("tmap", gs, "Run")
-	FUNshape = paste0("tmap", gs, "Shape")
-	FUNoverlay = paste0("tmap", gs, "Overlay")
-	FUNwrap = paste0("tmap", gs, "Wrap")
-	FUNxtab = paste0("tmap", gs, "Xtab")
-	
-	# init
-	do.call(FUNinit, list(o = o, q = q))
 	
 	# plot xtab headers
 	if (o$panel.type == "xtab") {

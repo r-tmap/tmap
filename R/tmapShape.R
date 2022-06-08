@@ -112,9 +112,8 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 
 #' @method tmapShape SpatRaster
 #' @export
-tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name, o) {
-	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name)
-	
+tmapShape.SpatVector = function(shp, is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf) {
+	tmapShape.sf(sf::st_as_sf(shp), is.main, crs, bbox, unit, filter, shp_name, smeta, o, tmf)
 }
 
 
