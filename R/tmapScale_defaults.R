@@ -1,9 +1,9 @@
 tmapValuesCheck_fill = function(x) {
-	(!is.null(getPalMeta(x[1])) || all(valid_colors(x)))
+	(!is.null(getPalMeta(x[1])) || all(valid_colors(x))) && !is.numeric(x)
 }
 
 tmapValuesCheck_col = function(x) {
-	(!is.null(getPalMeta(x[1])) || all(valid_colors(x)))
+	(!is.null(getPalMeta(x[1])) || all(valid_colors(x))) && !is.numeric(x)
 }
 
 
@@ -20,6 +20,12 @@ tmapValuesCheck_size = function(x) {
 tmapValuesCheck_lwd = function(x) {
 	tmapValuesCheck_size(x)
 }
+
+tmapValuesCheck_lty = function(x) {
+	# to do
+	TRUE
+}
+
 
 tmapValuesCheck_col_alpha= function(x) {
 	tmapValuesCheck_size(x)

@@ -44,6 +44,13 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 			# constant values (take first value (of possible tm_mv per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)
 			val1 = sapply(vars, "[[", 1, USE.NAMES = FALSE)
+			
+			check_fun = paste0("tmapValuesCheck_", unm)
+			if (!do.call(check_fun, list(x = val1))) {
+				# to do: add "layer" name e.g. tm_fill is still "polygons" and not "fill"
+				stop("Visual values used for the variable, \"", unm, "\" of layer function \"tm_", layer, "\" are incorrect.")
+			}
+			
 			val1 = do.call(sfun, list(x = val1, scale = o$scale))
 			val1 = do.call(cfun, list(x = val1, pc = o$pc))
 			
