@@ -37,6 +37,12 @@ tmapGetShapeMeta1.stars = function(shp, o) {
 		 dims_vals = dims_vals)
 }
 
+#' @method tmapGetShapeMeta1 Raster
+#' @export
+tmapGetShapeMeta1.Raster = function(shp, o) {
+	tmapGetShapeMeta1.SpatRaster(terra::rast(shp), o)
+}
+
 
 #' @method tmapGetShapeMeta2 stars
 #' @export
@@ -54,7 +60,7 @@ tmapGetShapeMeta2.stars = function(shp, smeta, o) {
 tmapGetShapeMeta2.SpatRaster = function(shp, smeta, o) {
 	
 	# slow, needs to be improved with terra functions, e.g. unique and levels
-	smeta$vars_levs = lapply(values(shp, dataframe=TRUE), function(dat) {
+	smeta$vars_levs = lapply(terra::values(shp, dataframe=TRUE), function(dat) {
 		get_fact_levels_na(dat, o)
 	})
 	names(smeta$vars_levs) = names(shp)
