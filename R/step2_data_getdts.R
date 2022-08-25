@@ -24,7 +24,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 	with(q, {
 		get_num_facets = function(bys) {
 			k = as.integer(substr(bys, 3, 3))
-			fn[k]
+			o$fn[k]
 		}
 
 		nvars = length(val) #m
@@ -199,7 +199,9 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				if (is.na(l$title)) l$title = paste0(names(v), attr(cls, "units"))
 				#aesname = aes$aes
 				value.null = if ("value.null" %in% names(s)) s$value.null else {
-					getAesOption("value.null", o, unm, layer, cls = cls)
+					vn = getAesOption("value.null", o, unm, layer, cls = cls)
+					vn = do.call(sfun, list(x = vn, scale = o$scale))
+					do.call(cfun, list(x = vn, pc = o$pc))
 				}
 				arglist = list(scale = s, legend = l, o = o, aes = unm, layer = layer, sortRev = sortRev)
 				#browser()

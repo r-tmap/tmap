@@ -269,8 +269,6 @@ step4_plot = function(tm, vp) {
 	FUNwrap = paste0("tmap", gs, "Wrap")
 	FUNxtab = paste0("tmap", gs, "Xtab")
 	
-	# init
-	do.call(FUNinit, list(o = o, q = q))
 	
 	
 	
@@ -317,6 +315,8 @@ step4_plot = function(tm, vp) {
 	# pane = pane name (for view mode)
 	# group = group name (for selecting layers in view mode)
 	
+	# init
+	do.call(FUNinit, list(o = o, q = q))
 	
 	
 	

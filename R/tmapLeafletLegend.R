@@ -85,7 +85,7 @@ tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_
 			}
 			
 			legvals = lab
-			print(layerId)
+			#print(layerId)
 			lf = lf |> 
 				addLegend(position=legpos,
 						  group = group,

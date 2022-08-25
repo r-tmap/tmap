@@ -688,8 +688,9 @@ getAesOption = function(x, o, aes, layer, cls = NULL) {
 	
 
 	
-	if (al %in% names(y)) {
-		z = y[[al]]
+	if (any(al %in% names(y))) {
+		id = which(al %in% names(y))[1] # take first, most specific layer, e.g. when layer = c("dots", "symbols"), take dots if exists
+		z = y[[al[id]]]
 	} else if (aes %in% names(y)) {
 		z = y[[aes]]
 	} else if (is.list(y)) {
