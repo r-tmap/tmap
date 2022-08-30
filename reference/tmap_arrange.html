@@ -66,47 +66,68 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_arrange</span><span class="op">(</span>
-  <span class="va">...</span>,
-  ncol <span class="op">=</span> <span class="cn">NA</span>,
-  nrow <span class="op">=</span> <span class="cn">NA</span>,
-  widths <span class="op">=</span> <span class="cn">NA</span>,
-  heights <span class="op">=</span> <span class="cn">NA</span>,
-  sync <span class="op">=</span> <span class="cn">FALSE</span>,
-  asp <span class="op">=</span> <span class="fl">0</span>,
-  outer.margins <span class="op">=</span> <span class="fl">0.02</span>
-<span class="op">)</span>
-
-<span class="fu">knit_print.tmap_arrange</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
-
-<span class="co"># S3 method for tmap_arrange</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, knit <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tmap_arrange</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  ncol <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  nrow <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  widths <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  heights <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  sync <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  asp <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  outer.margins <span class="op">=</span> <span class="fl">0.02</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knit_print.tmap_arrange</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># S3 method for tmap_arrange</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="va">x</span>, knit <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>...</dt>
 <dd><p><code><a href="tmap-package.html">tmap</a></code> objects or one list of <code><a href="tmap-package.html">tmap</a></code> objects. The number of multiples that can be plot is limited (see details).</p></dd>
+
+
 <dt>ncol</dt>
 <dd><p>number of columns</p></dd>
+
+
 <dt>nrow</dt>
 <dd><p>number of rows</p></dd>
+
+
 <dt>widths</dt>
 <dd><p>vector of column widths. It should add up to 1 and the length should be equal to <code>ncol</code></p></dd>
+
+
 <dt>heights</dt>
 <dd><p>vector of row heights. It should add up to 1 and the length should be equal to <code>nrow</code></p></dd>
+
+
 <dt>sync</dt>
 <dd><p>logical. Should the navigation in view mode (zooming and panning) be synchronized? By default <code>FALSE</code>.</p></dd>
+
+
 <dt>asp</dt>
 <dd><p>aspect ratio. The aspect ratio of each map. Normally, this is controlled by the <code>asp</code> argument from <code><a href="tm_layout.html">tm_layout</a></code> (also a tmap option). This argument will overwrite it, unless set to <code>NULL</code>. The default value for <code>asp</code> is 0, which means that the aspect ratio is adjusted to the size of the device divided by the number of columns and rows. When <code>asp</code> is set to <code>NA</code>, which is also the default value for <code><a href="tm_layout.html">tm_layout</a></code>, the aspect ratio will be adjusted to the used shapes.</p></dd>
+
+
 <dt>outer.margins</dt>
 <dd><p>outer.margins, numeric vector four or a single value. If defines the outer margins for each multiple. If will overwrite the <code>outer.margins</code> argument from <code><a href="tm_layout.html">tm_layout</a></code>, unless set to <code>NULL</code>.</p></dd>
+
+
 <dt>x</dt>
 <dd><p>a <code>tmap_arrange</code> object (returned from <code>tmap_arrange</code>)</p></dd>
+
+
 <dt>options</dt>
 <dd><p>options passed on to knitprint</p></dd>
+
+
 <dt>knit</dt>
 <dd><p>should <code><a href="https://rdrr.io/pkg/knitr/man/knit_print.html" class="external-link">knit_print</a></code> be enabled, or the normal <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></code> function?</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -115,17 +136,17 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">w1</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span>, title<span class="op">=</span><span class="st">"Eckert IV"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">w2</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="fl">3857</span>, title<span class="op">=</span><span class="st">"Mercator"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">w3</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=gall"</span>, title<span class="op">=</span><span class="st">"Gall stereographic"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">w4</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=robin"</span>, title<span class="op">=</span><span class="st">"Robinsin"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">tmap_arrange</span><span class="op">(</span><span class="va">w1</span>, <span class="va">w2</span>, <span class="va">w3</span>, <span class="va">w4</span>, widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">w1</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span>, title<span class="op">=</span><span class="st">"Eckert IV"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">w2</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="fl">3857</span>, title<span class="op">=</span><span class="st">"Mercator"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">w3</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=gall"</span>, title<span class="op">=</span><span class="st">"Gall stereographic"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">w4</span> <span class="op">&lt;-</span> <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=robin"</span>, title<span class="op">=</span><span class="st">"Robinsin"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_arrange</span><span class="op">(</span><span class="va">w1</span>, <span class="va">w2</span>, <span class="va">w3</span>, <span class="va">w4</span>, widths <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.25</span>, <span class="fl">.75</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -140,7 +161,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

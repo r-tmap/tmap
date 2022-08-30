@@ -66,23 +66,30 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_format</span><span class="op">(</span><span class="va">format</span><span class="op">)</span>
-
-<span class="fu">tmap_format_add</span><span class="op">(</span><span class="va">...</span>, <span class="va">name</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tmap_format</span><span class="op">(</span><span class="va">format</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmap_format_add</span><span class="op">(</span><span class="va">...</span>, <span class="va">name</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>format</dt>
 <dd><p>name of the format. Run <code>tmap_format()</code> to see the choices.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>options from <code><a href="tm_layout.html">tm_layout</a></code> or <code><a href="tm_view.html">tm_view</a></code>. Can also be a list of those options.</p></dd>
+
+
 <dt>name</dt>
 <dd><p>name of the new format.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>the function <code>tmap_format()</code> returns the names of the available formats. When <code>format</code> is defined, it returns the option list corresponding the that format.</p>
+    
+
+<p>the function <code>tmap_format()</code> returns the names of the available formats. When <code>format</code> is defined, it returns the option list corresponding the that format.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -92,25 +99,25 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># available formats</span></span>
-<span class="r-in"><span class="fu">tmap_format</span><span class="op">(</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># available formats</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_format</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> available formats are: "World", "World_wide", "NLD", "NLD_wide" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create option list to be used as a new format</span></span>
-<span class="r-in"><span class="va">World_small</span> <span class="op">&lt;-</span> <span class="fu">tmap_format</span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">World_small</span><span class="op">$</span><span class="va">scale</span> <span class="op">&lt;-</span> <span class="fl">2</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># add format</span></span>
-<span class="r-in"><span class="fu">tmap_format_add</span><span class="op">(</span><span class="va">World_small</span>, name <span class="op">=</span> <span class="st">"World_small"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create option list to be used as a new format</span></span></span>
+<span class="r-in"><span><span class="va">World_small</span> <span class="op">&lt;-</span> <span class="fu">tmap_format</span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">World_small</span><span class="op">$</span><span class="va">scale</span> <span class="op">&lt;-</span> <span class="fl">2</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># add format</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_format_add</span><span class="op">(</span><span class="va">World_small</span>, name <span class="op">=</span> <span class="st">"World_small"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> format World_small succesfully added. Use this format with tm_format("World_small")</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># observe that World_small is successfully added:</span></span>
-<span class="r-in"><span class="fu">tmap_format</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># observe that World_small is successfully added:</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_format</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> available formats are: "World", "World_wide", "NLD", "NLD_wide", "World_small" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill<span class="op">=</span><span class="st">"HPI"</span>, format<span class="op">=</span><span class="st">"World_small"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill<span class="op">=</span><span class="st">"HPI"</span>, format<span class="op">=</span><span class="st">"World_small"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_format-1.png" alt="" width="700" height="433"></span>
 </code></pre></div>
     </div>
@@ -126,7 +133,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

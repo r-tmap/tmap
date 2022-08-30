@@ -66,49 +66,72 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_animation</span><span class="op">(</span>
-  <span class="va">tm</span>,
-  filename <span class="op">=</span> <span class="cn">NULL</span>,
-  width <span class="op">=</span> <span class="cn">NA</span>,
-  height <span class="op">=</span> <span class="cn">NA</span>,
-  dpi <span class="op">=</span> <span class="cn">NA</span>,
-  delay <span class="op">=</span> <span class="fl">40</span>,
-  fps <span class="op">=</span> <span class="cn">NA</span>,
-  loop <span class="op">=</span> <span class="cn">TRUE</span>,
-  outer.margins <span class="op">=</span> <span class="cn">NA</span>,
-  asp <span class="op">=</span> <span class="cn">NULL</span>,
-  scale <span class="op">=</span> <span class="cn">NA</span>,
-  restart.delay <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tmap_animation</span><span class="op">(</span></span>
+<span>  <span class="va">tm</span>,</span>
+<span>  filename <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  dpi <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  delay <span class="op">=</span> <span class="fl">40</span>,</span>
+<span>  fps <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  loop <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  outer.margins <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  asp <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  restart.delay <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>tm</dt>
 <dd><p>tmap or a list of tmap objects. If <code>tm</code> is a tmap object, facets should be created, where nrow and ncol in <code><a href="tm_facets.html">tm_facets</a></code> have to be set to 1 in order to create one map per frame.</p></dd>
+
+
 <dt>filename</dt>
 <dd><p>filename. If omitted (default), the animation will be shown in the viewer or browser. If specified, it should be a gif file or a video file (i.e. mp4). The package <code>gifski</code> is required to create a gif animation. The package <code>av</code> (which uses the <code>FFmpeg</code> library) is required for video formats. The mp4 format is recommended but many other video formats are supported, such as wmv, avi, and mkv.</p></dd>
+
+
 <dt>width, height</dt>
 <dd><p>width and height of the animation file (in pixels). Required when <code>tm</code> is a list, and recommended to specify in advance when <code>tm</code> is a <code>tmap</code> object. If not specified in the latter case, it will be determined by the aspect ratio of the map.</p></dd>
+
+
 <dt>dpi</dt>
 <dd><p>dots per inch. By default 100, but this can be set with the option <code>output.dpi.animation</code> in <code><a href="tmap_options.html">tmap_options</a></code>.</p></dd>
+
+
 <dt>delay</dt>
 <dd><p>delay time between images (in 1/100th of a second). See also <code>fps</code></p></dd>
+
+
 <dt>fps</dt>
 <dd><p>frames per second, calculated as <code>100 / delay</code>. If <code>fps</code> is specified, the <code>delay</code> will be set to <code>100/fps</code>.</p></dd>
+
+
 <dt>loop</dt>
 <dd><p>logical that determined whether the animation is looped, or an integer value that determines how many times the animation is looped.</p></dd>
+
+
 <dt>outer.margins</dt>
 <dd><p>(passed on to <code><a href="tmap_save.html">tmap_save</a></code>) overrides the outer.margins argument of <code><a href="tm_layout.html">tm_layout</a></code> (unless set to <code>NA</code>)</p></dd>
+
+
 <dt>asp</dt>
 <dd><p>(passed on to <code><a href="tmap_save.html">tmap_save</a></code>) if specified, it overrides the asp argument of <code><a href="tm_layout.html">tm_layout</a></code>. Tip: set to <code>0</code> if map frame should be placed on the edges of the image.</p></dd>
+
+
 <dt>scale</dt>
 <dd><p>(passed on to <code><a href="tmap_save.html">tmap_save</a></code>) overrides the scale argument of <code><a href="tm_layout.html">tm_layout</a></code> (unless set to <code>NA</code>)</p></dd>
+
+
 <dt>restart.delay</dt>
 <dd><p>not used anymore</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed on to <code><a href="https://docs.ropensci.org/av/reference/encoding.html" class="external-link">av_encode_video</a></code></p></dd>
+
 </dl></div>
     <div id="note">
     <h2>Note</h2>
@@ -117,52 +140,52 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in">        <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"yellow"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_facets.html">tm_facets</a></span><span class="op">(</span>along <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tmap_animation</span><span class="op">(</span><span class="va">m1</span>, delay<span class="op">=</span><span class="fl">40</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span>, simplify <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">          <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">      <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in">          <span class="fu"><a href="tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"pop"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1970</span>, <span class="fl">2030</span>, by<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span>
-<span class="r-in">                 col <span class="op">=</span> <span class="st">"purple"</span>,</span>
-<span class="r-in">                 border.col <span class="op">=</span> <span class="st">"black"</span>, border.alpha <span class="op">=</span> <span class="fl">.5</span>,</span>
-<span class="r-in">                 scale <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">      <span class="fu"><a href="tm_facets.html">tm_facets</a></span><span class="op">(</span>free.scales.symbol.size <span class="op">=</span> <span class="cn">FALSE</span>, nrow<span class="op">=</span><span class="fl">1</span>,ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in">      <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tmap_animation</span><span class="op">(</span><span class="va">m2</span>, delay<span class="op">=</span><span class="fl">100</span>, outer.margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">85</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="va">World</span><span class="op">$</span><span class="va">at_most</span> <span class="op">&lt;-</span> <span class="va">World</span><span class="op">$</span><span class="va">life_exp</span> <span class="op">&lt;=</span> <span class="va">age</span></span>
-<span class="r-in">  <span class="va">World_sel</span> <span class="op">&lt;-</span> <span class="va">World</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="op">(</span><span class="va">World</span><span class="op">$</span><span class="va">life_exp</span> <span class="op">&lt;=</span> <span class="va">age</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">World</span><span class="op">$</span><span class="va">life_exp</span> <span class="op">&gt;</span> <span class="op">(</span><span class="va">age</span> <span class="op">-</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"at_most"</span>, palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gray95"</span>, <span class="st">"gold"</span><span class="op">)</span>, legend.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World_sel</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, size <span class="op">=</span> <span class="st">"AREA"</span>, root <span class="op">=</span> <span class="fl">5</span>, remove.overlap <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>main.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Life expectency at most "</span>, <span class="va">age</span><span class="op">)</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tmap_animation</span><span class="op">(</span><span class="va">m3</span>, width <span class="op">=</span> <span class="fl">1200</span>, height <span class="op">=</span> <span class="fl">600</span>, delay <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">m4</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, ymod <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_facets.html">tm_facets</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"name"</span>, free.coords <span class="op">=</span> <span class="cn">F</span>, nrow <span class="op">=</span> <span class="fl">1</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.show <span class="op">=</span> <span class="cn">FALSE</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tmap_animation</span><span class="op">(</span><span class="va">m4</span>, filename <span class="op">=</span> <span class="st">"World_cities.mp4"</span>, </span>
-<span class="r-in">    width<span class="op">=</span><span class="fl">1200</span>, height <span class="op">=</span> <span class="fl">600</span>, fps <span class="op">=</span> <span class="fl">2</span>, outer.margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m1</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>        <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"yellow"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_facets.html">tm_facets</a></span><span class="op">(</span>along <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tmap_animation</span><span class="op">(</span><span class="va">m1</span>, delay<span class="op">=</span><span class="fl">40</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span>, simplify <span class="op">=</span> <span class="fl">0.5</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>          <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>          <span class="fu"><a href="tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>size <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"pop"</span>, <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">1970</span>, <span class="fl">2030</span>, by<span class="op">=</span><span class="fl">10</span><span class="op">)</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                 col <span class="op">=</span> <span class="st">"purple"</span>,</span></span>
+<span class="r-in"><span>                 border.col <span class="op">=</span> <span class="st">"black"</span>, border.alpha <span class="op">=</span> <span class="fl">.5</span>,</span></span>
+<span class="r-in"><span>                 scale <span class="op">=</span> <span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="tm_facets.html">tm_facets</a></span><span class="op">(</span>free.scales.symbol.size <span class="op">=</span> <span class="cn">FALSE</span>, nrow<span class="op">=</span><span class="fl">1</span>,ncol<span class="op">=</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>      <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tmap_animation</span><span class="op">(</span><span class="va">m2</span>, delay<span class="op">=</span><span class="fl">100</span>, outer.margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m3</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq</a></span><span class="op">(</span><span class="fl">50</span>, <span class="fl">85</span>, by <span class="op">=</span> <span class="fl">5</span><span class="op">)</span>, <span class="kw">function</span><span class="op">(</span><span class="va">age</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="va">World</span><span class="op">$</span><span class="va">at_most</span> <span class="op">&lt;-</span> <span class="va">World</span><span class="op">$</span><span class="va">life_exp</span> <span class="op">&lt;=</span> <span class="va">age</span></span></span>
+<span class="r-in"><span>  <span class="va">World_sel</span> <span class="op">&lt;-</span> <span class="va">World</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/which.html" class="external-link">which</a></span><span class="op">(</span><span class="op">(</span><span class="va">World</span><span class="op">$</span><span class="va">life_exp</span> <span class="op">&lt;=</span> <span class="va">age</span><span class="op">)</span> <span class="op">&amp;</span> <span class="op">(</span><span class="va">World</span><span class="op">$</span><span class="va">life_exp</span> <span class="op">&gt;</span> <span class="op">(</span><span class="va">age</span> <span class="op">-</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"at_most"</span>, palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"gray95"</span>, <span class="st">"gold"</span><span class="op">)</span>, legend.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World_sel</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, size <span class="op">=</span> <span class="st">"AREA"</span>, root <span class="op">=</span> <span class="fl">5</span>, remove.overlap <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>main.title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Life expectency at most "</span>, <span class="va">age</span><span class="op">)</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tmap_animation</span><span class="op">(</span><span class="va">m3</span>, width <span class="op">=</span> <span class="fl">1200</span>, height <span class="op">=</span> <span class="fl">600</span>, delay <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">m4</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_symbols.html">tm_bubbles</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, ymod <span class="op">=</span> <span class="op">-</span><span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_facets.html">tm_facets</a></span><span class="op">(</span>by <span class="op">=</span> <span class="st">"name"</span>, free.coords <span class="op">=</span> <span class="cn">F</span>, nrow <span class="op">=</span> <span class="fl">1</span>, ncol <span class="op">=</span> <span class="fl">1</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>panel.show <span class="op">=</span> <span class="cn">FALSE</span>, frame <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tmap_animation</span><span class="op">(</span><span class="va">m4</span>, filename <span class="op">=</span> <span class="st">"World_cities.mp4"</span>, </span></span>
+<span class="r-in"><span>    width<span class="op">=</span><span class="fl">1200</span>, height <span class="op">=</span> <span class="fl">600</span>, fps <span class="op">=</span> <span class="fl">2</span>, outer.margins <span class="op">=</span> <span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -177,7 +200,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

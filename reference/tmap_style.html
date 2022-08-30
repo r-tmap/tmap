@@ -66,17 +66,20 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_style</span><span class="op">(</span><span class="va">style</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tmap_style</span><span class="op">(</span><span class="va">style</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>style</dt>
 <dd><p>name of the style. When omitted, <code>tmap_style</code> returns the current style and also shows all available styles. When the style is specified, <code>tmap_style</code> sets the style accordingly. Note that in that case, all tmap options (see <code><a href="tmap_options.html">tmap_options</a></code>) will be reset according to the style definition. See <code><a href="tm_layout.html">tm_layout</a></code> for predefined styles, and <code><a href="tmap_style_catalogue.html">tmap_style_catalogue</a></code> for creating a catalogue.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>the style before changing</p>
+    
+
+<p>the style before changing</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -91,22 +94,22 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">current.style</span> <span class="op">&lt;-</span> <span class="fu">tmap_style</span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">current.style</span> <span class="op">&lt;-</span> <span class="fu">tmap_style</span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap style set to "classic"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "watercolor", "red", "black" </span>
-<span class="r-in"><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill<span class="op">=</span><span class="st">"life_exp"</span>, fill.title<span class="op">=</span><span class="st">"Life expectancy"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill<span class="op">=</span><span class="st">"life_exp"</span>, fill.title<span class="op">=</span><span class="st">"Life expectancy"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap style set to "cobalt"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red", "black" </span>
-<span class="r-in"><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill<span class="op">=</span><span class="st">"life_exp"</span>, fill.title<span class="op">=</span><span class="st">"Life expectancy"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill<span class="op">=</span><span class="st">"life_exp"</span>, fill.title<span class="op">=</span><span class="st">"Life expectancy"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_style-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># restore current style</span></span>
-<span class="r-in"><span class="fu">tmap_style</span><span class="op">(</span><span class="va">current.style</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># restore current style</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_style</span><span class="op">(</span><span class="va">current.style</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap style set to "white"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red", "black" </span>
 </code></pre></div>
@@ -123,7 +126,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

@@ -66,191 +66,283 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_layout</span><span class="op">(</span>
-  <span class="va">title</span>,
-  <span class="va">scale</span>,
-  <span class="va">title.size</span>,
-  <span class="va">bg.color</span>,
-  <span class="va">aes.color</span>,
-  <span class="va">aes.palette</span>,
-  <span class="va">attr.color</span>,
-  <span class="va">sepia.intensity</span>,
-  <span class="va">saturation</span>,
-  <span class="va">frame</span>,
-  <span class="va">frame.lwd</span>,
-  <span class="va">frame.double.line</span>,
-  <span class="va">asp</span>,
-  <span class="va">outer.margins</span>,
-  <span class="va">inner.margins</span>,
-  <span class="va">between.margin</span>,
-  <span class="va">outer.bg.color</span>,
-  <span class="va">fontface</span>,
-  <span class="va">fontfamily</span>,
-  <span class="va">compass.type</span>,
-  <span class="va">earth.boundary</span>,
-  <span class="va">earth.boundary.color</span>,
-  <span class="va">earth.boundary.lwd</span>,
-  <span class="va">earth.datum</span>,
-  <span class="va">space.color</span>,
-  <span class="va">legend.show</span>,
-  <span class="va">legend.only</span>,
-  <span class="va">legend.outside</span>,
-  <span class="va">legend.outside.position</span>,
-  <span class="va">legend.outside.size</span>,
-  <span class="va">legend.position</span>,
-  <span class="va">legend.stack</span>,
-  <span class="va">legend.just</span>,
-  <span class="va">legend.width</span>,
-  <span class="va">legend.height</span>,
-  <span class="va">legend.hist.height</span>,
-  <span class="va">legend.hist.width</span>,
-  <span class="va">legend.title.color</span>,
-  <span class="va">legend.title.size</span>,
-  <span class="va">legend.title.fontface</span>,
-  <span class="va">legend.title.fontfamily</span>,
-  <span class="va">legend.text.color</span>,
-  <span class="va">legend.text.size</span>,
-  <span class="va">legend.text.fontface</span>,
-  <span class="va">legend.text.fontfamily</span>,
-  <span class="va">legend.hist.size</span>,
-  <span class="va">legend.format</span>,
-  <span class="va">legend.frame</span>,
-  <span class="va">legend.frame.lwd</span>,
-  <span class="va">legend.bg.color</span>,
-  <span class="va">legend.bg.alpha</span>,
-  <span class="va">legend.hist.bg.color</span>,
-  <span class="va">legend.hist.bg.alpha</span>,
-  <span class="va">title.snap.to.legend</span>,
-  <span class="va">title.position</span>,
-  <span class="va">title.color</span>,
-  <span class="va">title.fontface</span>,
-  <span class="va">title.fontfamily</span>,
-  <span class="va">title.bg.color</span>,
-  <span class="va">title.bg.alpha</span>,
-  <span class="va">panel.show</span>,
-  <span class="va">panel.labels</span>,
-  <span class="va">panel.label.size</span>,
-  <span class="va">panel.label.color</span>,
-  <span class="va">panel.label.fontface</span>,
-  <span class="va">panel.label.fontfamily</span>,
-  <span class="va">panel.label.bg.color</span>,
-  <span class="va">panel.label.height</span>,
-  <span class="va">panel.label.rot</span>,
-  <span class="va">main.title</span>,
-  <span class="va">main.title.size</span>,
-  <span class="va">main.title.color</span>,
-  <span class="va">main.title.fontface</span>,
-  <span class="va">main.title.fontfamily</span>,
-  <span class="va">main.title.position</span>,
-  <span class="va">attr.outside</span>,
-  <span class="va">attr.outside.position</span>,
-  <span class="va">attr.outside.size</span>,
-  <span class="va">attr.position</span>,
-  <span class="va">attr.just</span>,
-  <span class="va">design.mode</span>
-<span class="op">)</span>
-
-<span class="fu">tm_legend</span><span class="op">(</span><span class="va">...</span><span class="op">)</span>
-
-<span class="fu">tm_style</span><span class="op">(</span><span class="va">style</span>, <span class="va">...</span><span class="op">)</span>
-
-<span class="fu">tm_format</span><span class="op">(</span><span class="va">format</span>, <span class="va">...</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_layout</span><span class="op">(</span></span>
+<span>  <span class="va">title</span>,</span>
+<span>  <span class="va">scale</span>,</span>
+<span>  <span class="va">title.size</span>,</span>
+<span>  <span class="va">bg.color</span>,</span>
+<span>  <span class="va">aes.color</span>,</span>
+<span>  <span class="va">aes.palette</span>,</span>
+<span>  <span class="va">attr.color</span>,</span>
+<span>  <span class="va">sepia.intensity</span>,</span>
+<span>  <span class="va">saturation</span>,</span>
+<span>  <span class="va">frame</span>,</span>
+<span>  <span class="va">frame.lwd</span>,</span>
+<span>  <span class="va">frame.double.line</span>,</span>
+<span>  <span class="va">asp</span>,</span>
+<span>  <span class="va">outer.margins</span>,</span>
+<span>  <span class="va">inner.margins</span>,</span>
+<span>  <span class="va">between.margin</span>,</span>
+<span>  <span class="va">outer.bg.color</span>,</span>
+<span>  <span class="va">fontface</span>,</span>
+<span>  <span class="va">fontfamily</span>,</span>
+<span>  <span class="va">compass.type</span>,</span>
+<span>  <span class="va">earth.boundary</span>,</span>
+<span>  <span class="va">earth.boundary.color</span>,</span>
+<span>  <span class="va">earth.boundary.lwd</span>,</span>
+<span>  <span class="va">earth.datum</span>,</span>
+<span>  <span class="va">space.color</span>,</span>
+<span>  <span class="va">legend.show</span>,</span>
+<span>  <span class="va">legend.only</span>,</span>
+<span>  <span class="va">legend.outside</span>,</span>
+<span>  <span class="va">legend.outside.position</span>,</span>
+<span>  <span class="va">legend.outside.size</span>,</span>
+<span>  <span class="va">legend.position</span>,</span>
+<span>  <span class="va">legend.stack</span>,</span>
+<span>  <span class="va">legend.just</span>,</span>
+<span>  <span class="va">legend.width</span>,</span>
+<span>  <span class="va">legend.height</span>,</span>
+<span>  <span class="va">legend.hist.height</span>,</span>
+<span>  <span class="va">legend.hist.width</span>,</span>
+<span>  <span class="va">legend.title.color</span>,</span>
+<span>  <span class="va">legend.title.size</span>,</span>
+<span>  <span class="va">legend.title.fontface</span>,</span>
+<span>  <span class="va">legend.title.fontfamily</span>,</span>
+<span>  <span class="va">legend.text.color</span>,</span>
+<span>  <span class="va">legend.text.size</span>,</span>
+<span>  <span class="va">legend.text.fontface</span>,</span>
+<span>  <span class="va">legend.text.fontfamily</span>,</span>
+<span>  <span class="va">legend.hist.size</span>,</span>
+<span>  <span class="va">legend.format</span>,</span>
+<span>  <span class="va">legend.frame</span>,</span>
+<span>  <span class="va">legend.frame.lwd</span>,</span>
+<span>  <span class="va">legend.bg.color</span>,</span>
+<span>  <span class="va">legend.bg.alpha</span>,</span>
+<span>  <span class="va">legend.hist.bg.color</span>,</span>
+<span>  <span class="va">legend.hist.bg.alpha</span>,</span>
+<span>  <span class="va">title.snap.to.legend</span>,</span>
+<span>  <span class="va">title.position</span>,</span>
+<span>  <span class="va">title.color</span>,</span>
+<span>  <span class="va">title.fontface</span>,</span>
+<span>  <span class="va">title.fontfamily</span>,</span>
+<span>  <span class="va">title.bg.color</span>,</span>
+<span>  <span class="va">title.bg.alpha</span>,</span>
+<span>  <span class="va">panel.show</span>,</span>
+<span>  <span class="va">panel.labels</span>,</span>
+<span>  <span class="va">panel.label.size</span>,</span>
+<span>  <span class="va">panel.label.color</span>,</span>
+<span>  <span class="va">panel.label.fontface</span>,</span>
+<span>  <span class="va">panel.label.fontfamily</span>,</span>
+<span>  <span class="va">panel.label.bg.color</span>,</span>
+<span>  <span class="va">panel.label.height</span>,</span>
+<span>  <span class="va">panel.label.rot</span>,</span>
+<span>  <span class="va">main.title</span>,</span>
+<span>  <span class="va">main.title.size</span>,</span>
+<span>  <span class="va">main.title.color</span>,</span>
+<span>  <span class="va">main.title.fontface</span>,</span>
+<span>  <span class="va">main.title.fontfamily</span>,</span>
+<span>  <span class="va">main.title.position</span>,</span>
+<span>  <span class="va">attr.outside</span>,</span>
+<span>  <span class="va">attr.outside.position</span>,</span>
+<span>  <span class="va">attr.outside.size</span>,</span>
+<span>  <span class="va">attr.position</span>,</span>
+<span>  <span class="va">attr.just</span>,</span>
+<span>  <span class="va">design.mode</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_legend</span><span class="op">(</span><span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_style</span><span class="op">(</span><span class="va">style</span>, <span class="va">...</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_format</span><span class="op">(</span><span class="va">format</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>title</dt>
 <dd><p>Global title of the map. For small multiples, multiple titles can be specified. The title is drawn inside the map. Alternatively, use <code>panel.labels</code> to print the map as a panel, with the title inside the panel header (especially useful for small multiples). Another alternative is the <code>main.title</code> which prints a title above the map. Titles for the legend items are specified at the layer functions (e.g. <code><a href="tm_polygons.html">tm_fill</a></code>).</p></dd>
+
+
 <dt>scale</dt>
 <dd><p>numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. Each of these elements can be scaled independently with the <code>scale</code>, <code>lwd</code>, or <code>size</code> arguments provided by the <code><a href="tmap-element.html">tmap-element</a>s</code>.</p></dd>
+
+
 <dt>title.size</dt>
 <dd><p>Relative size of the title</p></dd>
+
+
 <dt>bg.color</dt>
 <dd><p>Background color. By default it is <code>"white"</code>. A recommended alternative for choropleths is light grey (e.g., <code>"grey85"</code>).</p></dd>
+
+
 <dt>aes.color</dt>
 <dd><p>Default color values for the aesthetics layers. Should be a named vector with the names chosen from: <code>fill</code>, <code>borders</code>, <code>symbols</code>, <code>dots</code>, <code>lines</code>, <code>text</code>, <code>na</code>. Use <code>"#00000000"</code> for transparency.</p></dd>
+
+
 <dt>aes.palette</dt>
 <dd><p>Default color palettes for the aesthetics. It takes a list of three items: <code>seq</code> for sequential palettes, <code>div</code> for diverging palettes, and <code>cat</code> for categorical palettes. By default, Color Brewer palettes (see (see <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code>)) are used. It is also possible provide a vector of colors for any of these items.</p></dd>
+
+
 <dt>attr.color</dt>
 <dd><p>Default color value for map attributes</p></dd>
+
+
 <dt>sepia.intensity</dt>
 <dd><p>Number between 0 and 1 that defines the amount of sepia effect, which gives the map a brown/yellowish flavour. By default this effect is disabled (<code>sepia.intensity=0</code>). All colored used in the map are adjusted with this effect.</p></dd>
+
+
 <dt>saturation</dt>
 <dd><p>Number that determines how much saturation (also known as chroma) is used: <code>saturation=0</code> is greyscale and <code>saturation=1</code> is normal. A number larger than 1 results in very saturated maps. All colored used in the map are adjusted with this effect. Hacking tip: use a negative number.</p></dd>
+
+
 <dt>frame</dt>
 <dd><p>Either a boolean that determines whether a frame is drawn, or a color value that specifies the color of the frame.</p></dd>
+
+
 <dt>frame.lwd</dt>
 <dd><p>width of the frame</p></dd>
+
+
 <dt>frame.double.line</dt>
 <dd><p>draw a double frame line border?</p></dd>
+
+
 <dt>asp</dt>
 <dd><p>Aspect ratio. The aspect ratio of the map (width/height). If <code>NA</code>, it is determined by the bounding box (see argument <code>bbox</code> of <code><a href="tm_shape.html">tm_shape</a></code>), the <code>outer.margins</code>, and the <code>inner.margins</code>. If <code>0</code>, then the aspect ratio is adjusted to the aspect ratio of the device.</p></dd>
+
+
 <dt>outer.margins</dt>
 <dd><p>Relative margins between device and frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. When facets are created, the outer margins are the margins between the outer panels and the device borders (see also <code>between.margin</code>)</p></dd>
+
+
 <dt>inner.margins</dt>
 <dd><p>Relative margins inside the frame. Vector of four values specifying the bottom, left, top, and right margin. Values are between 0 and 1. By default, 0 for each side if master shape is a raster, otherwise 0.02.</p></dd>
+
+
 <dt>between.margin</dt>
 <dd><p>Margin between facets (small multiples) in number of text line heights. The height of a text line is automatically scaled down based on the number of facets.</p></dd>
+
+
 <dt>outer.bg.color</dt>
 <dd><p>Background color outside the frame.</p></dd>
+
+
 <dt>fontface</dt>
 <dd><p>global font face for the text in the map. It can also be set locally per element (see e.g. <code>title.fontface</code>).</p></dd>
+
+
 <dt>fontfamily</dt>
 <dd><p>global font family for the text in the map. It can also be set locally per  (see e.g. <code>title.fontfamily</code>).</p></dd>
+
+
 <dt>compass.type</dt>
 <dd><p>type of compass, one of: <code>"arrow"</code>, <code>"4star"</code>, <code>"8star"</code>, <code>"radar"</code>, <code>"rose"</code>. Of course, only applicable if a compass is shown. The compass type can also be set within <code><a href="tm_compass.html">tm_compass</a></code>.</p></dd>
+
+
 <dt>earth.boundary</dt>
 <dd><p>Logical that determines whether the boundaries of the earth are shown or a bounding box that specifies the boundaries (an <code><a href="https://r-spatial.github.io/sf/reference/sf.html" class="external-link">sf</a></code> bbox object, see <code><a href="https://r-spatial.github.io/sf/reference/st_bbox.html" class="external-link">st_bbox</a></code>, or any object that can be read by <code><a href="https://rdrr.io/pkg/tmaptools/man/bb.html" class="external-link">bb</a></code>). By default, the boundaries are <code>c(-180, -90, 180, 90)</code>. Useful for projected world maps. Often, it is useful to crop both poles (e.g., with <code>c(-180, -88, 180, 88)</code>).</p></dd>
+
+
 <dt>earth.boundary.color</dt>
 <dd><p>Color of the earth boundary.</p></dd>
+
+
 <dt>earth.boundary.lwd</dt>
 <dd><p>Line width of the earth boundary.</p></dd>
+
+
 <dt>earth.datum</dt>
 <dd><p>Geodetic datum to determine the earth boundary. By default epsg <code>4326</code> (long/lat).</p></dd>
+
+
 <dt>space.color</dt>
 <dd><p>Color of the space, i.e. the region inside the frame, and outside the earth boundary.</p></dd>
+
+
 <dt>legend.show</dt>
 <dd><p>Logical that determines whether the legend is shown.</p></dd>
+
+
 <dt>legend.only</dt>
 <dd><p>logical. Only draw the legend (without map)? Particularly useful for small multiples with a common legend.</p></dd>
+
+
 <dt>legend.outside</dt>
 <dd><p>Logical that determines whether the legend is plot outside of the map/facets. Especially useful when using facets that have a common legend (i.e. with <code>free.scales=FALSE</code>).</p></dd>
+
+
 <dt>legend.outside.position</dt>
 <dd><p>Character that determines the outside position of the legend. Only applicable when <code>legend.outside=TRUE</code>. One of: <code>"right"</code>, <code>"left"</code>, <code>"top"</code>, or <code>"bottom"</code>.</p></dd>
+
+
 <dt>legend.outside.size</dt>
 <dd><p>Numeric value that determines the relative size of the legend, when <code>legend.outside=TRUE</code>. If the first value of <code>legend.outside.position</code> is <code>"top"</code> or <code>"bottom"</code>, then it is the width of the legend, else it is the height of the legend. Note that the actual height or width of the legend is determined by the content of the legend (and the used font sizes). This argument specifies the upperbound of the width or height.</p></dd>
+
+
 <dt>legend.position</dt>
 <dd><p>Position of the legend. Vector of two values, specifying the x and y coordinates. Either this vector contains <code>"left"</code>, <code>"LEFT"</code>, <code>"center"</code>, <code>"right"</code>, or <code>"RIGHT"</code> for the first value and <code>"top"</code>, <code>"TOP"</code>, <code>"center"</code>, <code>"bottom"</code>, or <code>"BOTTOM"</code> for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the left bottom corner of the legend. The uppercase values correspond to the position without margins (so tighter to the frame). By default, it is automatically placed in the corner with most space based on the (first) shape object. If <code>legend.outside=TRUE</code>, this argument specifies the legend position within the outside panel.</p></dd>
+
+
 <dt>legend.stack</dt>
 <dd><p>Value that determines how different legends are stacked: <code>"vertical"</code> or <code>"horizontal"</code>. To stack items within a same legend, look at <code>"legend.is.portrait"</code> in the specific layer calls.</p></dd>
+
+
 <dt>legend.just</dt>
 <dd><p>Justification of the legend relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>legend.position</code> is specified by numeric coordinates.</p></dd>
+
+
 <dt>legend.width</dt>
 <dd><p>width of the legend. This number is relative to the map area (so 1 means the whole map width). If it is a negative number, it will be the exact legend width. If it is a positive number (by default), it will be the maximum legend width; the actual legend width will be decreased automatically based on the legend content and font sizes.or Default color value for map attributes</p></dd>
+
+
 <dt>legend.height</dt>
 <dd><p>height of the legend. If it is a negative number, it will be the exact legend height. If it is a positive number (by default), it will be the maximum legend height; the actual legend height will be decreased automatically based on the legend content and font sizes.</p></dd>
+
+
 <dt>legend.hist.height</dt>
 <dd><p>height of the histogram. This height is initial. If the total legend is downscaled to <code>legend.height</code>, the histogram is downscaled as well.</p></dd>
+
+
 <dt>legend.hist.width</dt>
 <dd><p>width of the histogram. By default, it is equal to the <code>legend.width</code>.</p></dd>
+
+
 <dt>legend.title.color</dt>
 <dd><p>color of the legend titles</p></dd>
+
+
 <dt>legend.title.size</dt>
 <dd><p>Relative font size for the legend title</p></dd>
+
+
 <dt>legend.title.fontface</dt>
 <dd><p>font face for the legend title. By default, set to the global parameter <code>fontface</code>.</p></dd>
+
+
 <dt>legend.title.fontfamily</dt>
 <dd><p>font family for the legend title. By default, set to the global parameter <code>fontfamily</code>.</p></dd>
+
+
 <dt>legend.text.color</dt>
 <dd><p>color of the legend text</p></dd>
+
+
 <dt>legend.text.size</dt>
 <dd><p>Relative font size for the legend text elements</p></dd>
+
+
 <dt>legend.text.fontface</dt>
 <dd><p>font face for the legend text labels. By default, set to the global parameter <code>fontface</code>.</p></dd>
+
+
 <dt>legend.text.fontfamily</dt>
 <dd><p>font family for the legend text labels. By default, set to the global parameter <code>fontfamily</code>.</p></dd>
+
+
 <dt>legend.hist.size</dt>
 <dd><p>Relative font size for the choropleth histogram</p></dd>
+
+
 <dt>legend.format</dt>
 <dd><p>list of formatting options for the legend numbers. Only applicable for layer functions (such as <code><a href="tm_polygons.html">tm_fill</a></code>) where <code>labels</code> is undefined. Parameters are:</p><dl><dt>fun</dt>
 <dd><p>Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items <code>scientific</code>, <code>format</code>, and <code>digits</code> (see below) are not used.</p></dd>
@@ -296,81 +388,156 @@
 
 
 </dl></dd>
+
+
 <dt>legend.frame</dt>
 <dd><p>either a logical that determines whether the legend is placed inside a frame, or a color that directly specifies the frame border color.</p></dd>
+
+
 <dt>legend.frame.lwd</dt>
 <dd><p>line width of the legend frame (applicable if <code>legend.frame</code> is <code>TRUE</code> or a color)</p></dd>
+
+
 <dt>legend.bg.color</dt>
 <dd><p>Background color of the legend. Use <code>TRUE</code> to match with the overall background color <code>bg.color</code>.</p></dd>
+
+
 <dt>legend.bg.alpha</dt>
 <dd><p>Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>legend.bg.color</code> is used (normally 1).</p></dd>
+
+
 <dt>legend.hist.bg.color</dt>
 <dd><p>Background color of the histogram</p></dd>
+
+
 <dt>legend.hist.bg.alpha</dt>
 <dd><p>Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>legend.hist.bg.color</code> is used (normally 1).</p></dd>
+
+
 <dt>title.snap.to.legend</dt>
 <dd><p>Logical that determines whether the title is part of the legend. By default <code>FALSE</code>, unless the legend is drawn outside the map (see <code>legend.outside</code>).</p></dd>
+
+
 <dt>title.position</dt>
 <dd><p>Position of the title. Vector of two values, specifying the x and y coordinates. Either this vector contains "left", "LEFT", "center", "right", or "RIGHT" for the first value and "top", "TOP", "center", "bottom", or "BOTTOM" for the second value, or this vector contains two numeric values between 0 and 1 that specifies the x and y coordinates of the tile. The uppercase values correspond to the position without margins (so tighter to the frame). 
 By default the title is placed on top of the legend (determined by <code>legend.position</code>).</p></dd>
+
+
 <dt>title.color</dt>
 <dd><p>color of the title</p></dd>
+
+
 <dt>title.fontface</dt>
 <dd><p>font face for the title. By default, set to the global parameter <code>fontface</code>.</p></dd>
+
+
 <dt>title.fontfamily</dt>
 <dd><p>font family for the title. By default, set to the global parameter <code>fontfamily</code>.</p></dd>
+
+
 <dt>title.bg.color</dt>
 <dd><p>background color of the title. Use <code>TRUE</code> to match with the overall background color <code>bg.color</code>. By default, it is <code>TRUE</code> if <code>legend.frame</code> is <code>TRUE</code> or a color.</p></dd>
+
+
 <dt>title.bg.alpha</dt>
 <dd><p>Transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>title.bg.color</code> is used (normally 1).</p></dd>
+
+
 <dt>panel.show</dt>
 <dd><p>Logical that determines if the map(s) are shown as panels. If <code>TRUE</code>, the title will be placed in the panel header instead of inside the map. By default, it is <code>TRUE</code> when small multiples are created with the <code>by</code> variable. (See <code><a href="tm_facets.html">tm_facets</a></code>)</p></dd>
+
+
 <dt>panel.labels</dt>
 <dd><p>Panel labels. Only applicable when <code>panel.show</code> is <code>TRUE</code>. For cross tables facets, it should be a list containing the row names in the first, and column names in the second item.</p></dd>
+
+
 <dt>panel.label.size</dt>
 <dd><p>Relative font size of the panel labels</p></dd>
+
+
 <dt>panel.label.color</dt>
 <dd><p>Font color of the panel labels</p></dd>
+
+
 <dt>panel.label.fontface</dt>
 <dd><p>font face for the panel labels. By default, set to the global parameter <code>fontface</code>.</p></dd>
+
+
 <dt>panel.label.fontfamily</dt>
 <dd><p>font family for the panel labels. By default, set to the global parameter <code>fontfamily</code>.</p></dd>
+
+
 <dt>panel.label.bg.color</dt>
 <dd><p>Background color of the panel labels</p></dd>
+
+
 <dt>panel.label.height</dt>
 <dd><p>Height of the labels in number of text line heights.</p></dd>
+
+
 <dt>panel.label.rot</dt>
 <dd><p>Rotation angles of the panel labels. Vector of two values: the first is the rotation angle (in degrees) of the row panels, which are only used in cross-table facets (when <code><a href="tm_facets.html">tm_facets</a></code>'s <code>by</code> is specified with two variables). The second is the rotation angle of the column panels.</p></dd>
+
+
 <dt>main.title</dt>
 <dd><p>Title that is printed above the map (or small multiples). When multiple pages are generated (see <code>along</code> argument of <code><a href="tm_facets.html">tm_facets</a></code>), a vector can be provided. By default, the main title is only printed when this <code>along</code> argument is specified.</p></dd>
+
+
 <dt>main.title.size</dt>
 <dd><p>Size of the main title</p></dd>
+
+
 <dt>main.title.color</dt>
 <dd><p>Color of the main title</p></dd>
+
+
 <dt>main.title.fontface</dt>
 <dd><p>font face for the main title. By default, set to the global parameter <code>fontface</code>.</p></dd>
+
+
 <dt>main.title.fontfamily</dt>
 <dd><p>font family for the main title. By default, set to the global parameter <code>fontfamily</code>.</p></dd>
+
+
 <dt>main.title.position</dt>
 <dd><p>Position of the main title. Either a numeric value between 0 (left) and 1 (right), or a character value: <code>"left"</code>, <code>"center"</code>, or <code>"right"</code>.</p></dd>
+
+
 <dt>attr.outside</dt>
 <dd><p>Logical that determines whether the attributes are plot outside of the map/facets.</p></dd>
+
+
 <dt>attr.outside.position</dt>
 <dd><p>Character that determines the outside position of the attributes: <code>"top"</code> or <code>"bottom"</code>. Only applicable when <code>attr.outside=TRUE</code>. If the legend is also drawn outside (with <code>legend.outside=TRUE</code>) and on the same side of the map (e.g. also <code>"top"</code> or <code>"bottom"</code>), the attributes are placed between the map and the legend. This can be changed by setting <code>attr.outside.position</code> to <code>"TOP"</code> or <code>"BOTTOM"</code>: in this case, the attributes are placed above respectively below the legend.</p></dd>
+
+
 <dt>attr.outside.size</dt>
 <dd><p>Numeric value that determines the relative height of the attribute viewport, when <code>attr.outside=TRUE</code>.</p></dd>
+
+
 <dt>attr.position</dt>
 <dd><p>Position of the map attributes, which are <code><a href="tm_credits.html">tm_credits</a></code>, <code><a href="tm_scale_bar.html">tm_scale_bar</a></code>, <code><a href="tm_compass.html">tm_compass</a></code>, and <code><a href="tm_minimap.html">tm_minimap</a></code>. Vector of two values, specifying the x and y coordinates. The first value is <code>"left"</code>, <code>"LEFT"</code>, <code>"center"</code>, <code>"right"</code>, or <code>"RIGHT"</code>, and the second value <code>"top"</code>, <code>"TOP"</code>, <code>"center"</code>, <code>"bottom"</code>, or <code>"BOTTOM"</code>. The uppercase values correspond to the position without margins (so tighter to the frame). Positions can also be set separately in the map attribute functions. If <code>attr.outside=TRUE</code>, this argument specifies the position of the attributes within the outside panel.</p></dd>
+
+
 <dt>attr.just</dt>
 <dd><p>Justification of the attributes relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left/bottom alignment and 1 right/top alignment. This option is only used, if <code>attr.position</code> is specified by numeric coordinates. It can also be specified per attribute function.</p></dd>
+
+
 <dt>design.mode</dt>
 <dd><p>Not used anymore, since it is now only a tmap option: see <code><a href="tmap_options.html">tmap_options</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>other arguments from <code>tm_layout</code></p></dd>
+
+
 <dt>style</dt>
 <dd><p>name of the style</p></dd>
+
+
 <dt>format</dt>
 <dd><p>name of the format</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -386,73 +553,73 @@ By default the title is placed on top of the legend (determined by <code>legend.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">land</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in">    <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"pop_est_dens"</span>, style<span class="op">=</span><span class="st">"kmeans"</span>, title<span class="op">=</span><span class="st">"Population density"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu">tm_style</span><span class="op">(</span><span class="st">"albatross"</span>, frame.lwd<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">+</span> <span class="fu">tm_format</span><span class="op">(</span><span class="st">"World"</span>, title<span class="op">=</span><span class="st">"The World"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">land</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"pop_est_dens"</span>, style<span class="op">=</span><span class="st">"kmeans"</span>, title<span class="op">=</span><span class="st">"Population density"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu">tm_style</span><span class="op">(</span><span class="st">"albatross"</span>, frame.lwd<span class="op">=</span><span class="fl">10</span><span class="op">)</span> <span class="op">+</span> <span class="fu">tm_format</span><span class="op">(</span><span class="st">"World"</span>, title<span class="op">=</span><span class="st">"The World"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tm_layout-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">land</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="st">"elevation"</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">1500</span>, <span class="fl">2000</span>, <span class="fl">2500</span>, <span class="fl">3000</span>, <span class="fl">4000</span>, <span class="cn">Inf</span><span class="op">)</span>,  </span>
-<span class="r-in">    palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">9</span><span class="op">)</span>, title<span class="op">=</span><span class="st">"Elevation"</span>, midpoint <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, is.master<span class="op">=</span><span class="cn">TRUE</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="st">"grey20"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_grid.html">tm_graticules</a></span><span class="op">(</span>labels.size <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, size<span class="op">=</span><span class="st">"AREA"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_compass.html">tm_compass</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.65</span>, <span class="fl">.15</span><span class="op">)</span>, color.light <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Eckert IV projection"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"BOTTOM"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu">tm_style</span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu">tm_layout</span><span class="op">(</span>bg.color<span class="op">=</span><span class="st">"lightblue"</span>,</span>
-<span class="r-in">  inner.margins<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.04</span>,<span class="fl">.03</span>, <span class="fl">.02</span>, <span class="fl">.01</span><span class="op">)</span>, </span>
-<span class="r-in">  earth.boundary <span class="op">=</span> <span class="cn">TRUE</span>, </span>
-<span class="r-in">  space.color<span class="op">=</span><span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu">tm_legend</span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, </span>
-<span class="r-in">  frame <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">  bg.color<span class="op">=</span><span class="st">"lightblue"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in">  </span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, projection<span class="op">=</span><span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, palette<span class="op">=</span><span class="st">"div"</span>, n<span class="op">=</span><span class="fl">7</span>, </span>
-<span class="r-in">      title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Robinson projection"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"BOTTOM"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu">tm_style</span><span class="op">(</span><span class="st">"natural"</span>, earth.boundary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="op">-</span><span class="fl">87</span>, <span class="fl">180</span>, <span class="fl">87</span><span class="op">)</span>, inner.margins <span class="op">=</span> <span class="fl">.05</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu">tm_legend</span><span class="op">(</span>position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, bg.color<span class="op">=</span><span class="st">"grey95"</span>, frame<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">land</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_raster.html">tm_raster</a></span><span class="op">(</span><span class="st">"elevation"</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="cn">Inf</span>, <span class="fl">250</span>, <span class="fl">500</span>, <span class="fl">1000</span>, <span class="fl">1500</span>, <span class="fl">2000</span>, <span class="fl">2500</span>, <span class="fl">3000</span>, <span class="fl">4000</span>, <span class="cn">Inf</span><span class="op">)</span>,  </span></span>
+<span class="r-in"><span>    palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html" class="external-link">terrain.colors</a></span><span class="op">(</span><span class="fl">9</span><span class="op">)</span>, title<span class="op">=</span><span class="st">"Elevation"</span>, midpoint <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, is.master<span class="op">=</span><span class="cn">TRUE</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="st">"grey20"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_grid.html">tm_graticules</a></span><span class="op">(</span>labels.size <span class="op">=</span> <span class="fl">.5</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_text.html">tm_text</a></span><span class="op">(</span><span class="st">"name"</span>, size<span class="op">=</span><span class="st">"AREA"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_compass.html">tm_compass</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.65</span>, <span class="fl">.15</span><span class="op">)</span>, color.light <span class="op">=</span> <span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Eckert IV projection"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"BOTTOM"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu">tm_style</span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu">tm_layout</span><span class="op">(</span>bg.color<span class="op">=</span><span class="st">"lightblue"</span>,</span></span>
+<span class="r-in"><span>  inner.margins<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.04</span>,<span class="fl">.03</span>, <span class="fl">.02</span>, <span class="fl">.01</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>  earth.boundary <span class="op">=</span> <span class="cn">TRUE</span>, </span></span>
+<span class="r-in"><span>  space.color<span class="op">=</span><span class="st">"grey90"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu">tm_legend</span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>  frame <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>  bg.color<span class="op">=</span><span class="st">"lightblue"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, projection<span class="op">=</span><span class="st">"+proj=robin"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, palette<span class="op">=</span><span class="st">"div"</span>, n<span class="op">=</span><span class="fl">7</span>, </span></span>
+<span class="r-in"><span>      title <span class="op">=</span> <span class="st">"Happy Planet Index"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_credits.html">tm_credits</a></span><span class="op">(</span><span class="st">"Robinson projection"</span>, position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"BOTTOM"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu">tm_style</span><span class="op">(</span><span class="st">"natural"</span>, earth.boundary <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">180</span>, <span class="op">-</span><span class="fl">87</span>, <span class="fl">180</span>, <span class="fl">87</span><span class="op">)</span>, inner.margins <span class="op">=</span> <span class="fl">.05</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu">tm_legend</span><span class="op">(</span>position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span>, bg.color<span class="op">=</span><span class="st">"grey95"</span>, frame<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tm_layout-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example to illustrate the type of titles</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"income_grp"</span>, <span class="st">"economy"</span><span class="op">)</span>, title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Legend Title 1"</span>, <span class="st">"Legend Title 2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="st">"Main Title"</span>,</span>
-<span class="r-in">    main.title.position <span class="op">=</span> <span class="st">"center"</span>,</span>
-<span class="r-in">    main.title.color <span class="op">=</span> <span class="st">"blue"</span>,</span>
-<span class="r-in">    title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Title 1"</span>, <span class="st">"Title 2"</span><span class="op">)</span>,</span>
-<span class="r-in">    title.color <span class="op">=</span> <span class="st">"red"</span>,</span>
-<span class="r-in">    panel.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Panel Label 1"</span>, <span class="st">"Panel Label 2"</span><span class="op">)</span>,</span>
-<span class="r-in">    panel.label.color <span class="op">=</span> <span class="st">"purple"</span>,</span>
-<span class="r-in">    legend.text.color <span class="op">=</span> <span class="st">"brown"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example to illustrate the type of titles</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"income_grp"</span>, <span class="st">"economy"</span><span class="op">)</span>, title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Legend Title 1"</span>, <span class="st">"Legend Title 2"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">tm_layout</span><span class="op">(</span>main.title <span class="op">=</span> <span class="st">"Main Title"</span>,</span></span>
+<span class="r-in"><span>    main.title.position <span class="op">=</span> <span class="st">"center"</span>,</span></span>
+<span class="r-in"><span>    main.title.color <span class="op">=</span> <span class="st">"blue"</span>,</span></span>
+<span class="r-in"><span>    title <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Title 1"</span>, <span class="st">"Title 2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    title.color <span class="op">=</span> <span class="st">"red"</span>,</span></span>
+<span class="r-in"><span>    panel.labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Panel Label 1"</span>, <span class="st">"Panel Label 2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    panel.label.color <span class="op">=</span> <span class="st">"purple"</span>,</span></span>
+<span class="r-in"><span>    legend.text.color <span class="op">=</span> <span class="st">"brown"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tm_layout-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># global option tmap.style demo</span></span>
-<span class="r-in">  </span>
-<span class="r-in"><span class="co"># get current style</span></span>
-<span class="r-in"><span class="va">current.style</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span> </span>
-<span class="r-in">  </span>
-<span class="r-in"><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"economy"</span>, format <span class="op">=</span> <span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"col_blind"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"economy"</span>, format <span class="op">=</span> <span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"economy"</span>, format <span class="op">=</span> <span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># set to current style</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="va">current.style</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># global option tmap.style demo</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="co"># get current style</span></span></span>
+<span class="r-in"><span><span class="va">current.style</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span> </span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"economy"</span>, format <span class="op">=</span> <span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"col_blind"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"economy"</span>, format <span class="op">=</span> <span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"economy"</span>, format <span class="op">=</span> <span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># set to current style</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="va">current.style</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># TIP: check out these examples in view mode, enabled with tmap_mode("view")</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -467,7 +634,7 @@ By default the title is placed on top of the legend (determined by <code>legend.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

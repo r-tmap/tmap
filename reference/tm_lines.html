@@ -66,115 +66,171 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_lines</span><span class="op">(</span>
-  col <span class="op">=</span> <span class="cn">NA</span>,
-  lwd <span class="op">=</span> <span class="fl">1</span>,
-  lty <span class="op">=</span> <span class="st">"solid"</span>,
-  alpha <span class="op">=</span> <span class="cn">NA</span>,
-  scale <span class="op">=</span> <span class="fl">1</span>,
-  lwd.legend <span class="op">=</span> <span class="cn">NULL</span>,
-  lwd.legend.labels <span class="op">=</span> <span class="cn">NULL</span>,
-  lwd.legend.col <span class="op">=</span> <span class="cn">NA</span>,
-  n <span class="op">=</span> <span class="fl">5</span>,
-  style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">breaks</span><span class="op">)</span>, <span class="st">"pretty"</span>, <span class="st">"fixed"</span><span class="op">)</span>,
-  style.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  as.count <span class="op">=</span> <span class="cn">NA</span>,
-  breaks <span class="op">=</span> <span class="cn">NULL</span>,
-  interval.closure <span class="op">=</span> <span class="st">"left"</span>,
-  palette <span class="op">=</span> <span class="cn">NULL</span>,
-  labels <span class="op">=</span> <span class="cn">NULL</span>,
-  drop.levels <span class="op">=</span> <span class="cn">FALSE</span>,
-  midpoint <span class="op">=</span> <span class="cn">NULL</span>,
-  stretch.palette <span class="op">=</span> <span class="cn">TRUE</span>,
-  contrast <span class="op">=</span> <span class="cn">NA</span>,
-  colorNA <span class="op">=</span> <span class="cn">NA</span>,
-  textNA <span class="op">=</span> <span class="st">"Missing"</span>,
-  showNA <span class="op">=</span> <span class="cn">NA</span>,
-  colorNULL <span class="op">=</span> <span class="cn">NA</span>,
-  title.col <span class="op">=</span> <span class="cn">NA</span>,
-  title.lwd <span class="op">=</span> <span class="cn">NA</span>,
-  legend.col.show <span class="op">=</span> <span class="cn">TRUE</span>,
-  legend.lwd.show <span class="op">=</span> <span class="cn">TRUE</span>,
-  legend.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  legend.col.is.portrait <span class="op">=</span> <span class="cn">TRUE</span>,
-  legend.lwd.is.portrait <span class="op">=</span> <span class="cn">FALSE</span>,
-  legend.col.reverse <span class="op">=</span> <span class="cn">FALSE</span>,
-  legend.lwd.reverse <span class="op">=</span> <span class="cn">FALSE</span>,
-  legend.hist <span class="op">=</span> <span class="cn">FALSE</span>,
-  legend.hist.title <span class="op">=</span> <span class="cn">NA</span>,
-  legend.col.z <span class="op">=</span> <span class="cn">NA</span>,
-  legend.lwd.z <span class="op">=</span> <span class="cn">NA</span>,
-  legend.hist.z <span class="op">=</span> <span class="cn">NA</span>,
-  id <span class="op">=</span> <span class="cn">NA</span>,
-  interactive <span class="op">=</span> <span class="cn">TRUE</span>,
-  popup.vars <span class="op">=</span> <span class="cn">NA</span>,
-  popup.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  zindex <span class="op">=</span> <span class="cn">NA</span>,
-  group <span class="op">=</span> <span class="cn">NA</span>,
-  auto.palette.mapping <span class="op">=</span> <span class="cn">NULL</span>,
-  max.categories <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_lines</span><span class="op">(</span></span>
+<span>  col <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  lty <span class="op">=</span> <span class="st">"solid"</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  scale <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  lwd.legend <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lwd.legend.labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lwd.legend.col <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  n <span class="op">=</span> <span class="fl">5</span>,</span>
+<span>  style <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NULL.html" class="external-link">is.null</a></span><span class="op">(</span><span class="va">breaks</span><span class="op">)</span>, <span class="st">"pretty"</span>, <span class="st">"fixed"</span><span class="op">)</span>,</span>
+<span>  style.args <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  as.count <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  interval.closure <span class="op">=</span> <span class="st">"left"</span>,</span>
+<span>  palette <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  labels <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  drop.levels <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  midpoint <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  stretch.palette <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  contrast <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  colorNA <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  textNA <span class="op">=</span> <span class="st">"Missing"</span>,</span>
+<span>  showNA <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  colorNULL <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  title.col <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  title.lwd <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  legend.col.show <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend.lwd.show <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  legend.col.is.portrait <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  legend.lwd.is.portrait <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  legend.col.reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  legend.lwd.reverse <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  legend.hist <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  legend.hist.title <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  legend.col.z <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  legend.lwd.z <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  legend.hist.z <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  id <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  interactive <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  popup.vars <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  popup.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  zindex <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  group <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  auto.palette.mapping <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  max.categories <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>col</dt>
 <dd><p>color of the lines. Either a color value or a data variable name. If multiple values are specified, small multiples are drawn (see details).</p></dd>
+
+
 <dt>lwd</dt>
 <dd><p>line width. Either a numeric value or a data variable. In the latter case, the class of the highest values (see <code>style</code>) will get the line width defined by <code>scale</code>. If multiple values are specified, small multiples are drawn (see details).</p></dd>
+
+
 <dt>lty</dt>
 <dd><p>line type.</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>transparency number between 0 (totally transparent) and 1 (not transparent). By default, the alpha value of the <code>col</code> is used (normally 1).</p></dd>
+
+
 <dt>scale</dt>
 <dd><p>line width multiplier number.</p></dd>
+
+
 <dt>lwd.legend</dt>
 <dd><p>vector of line widths that are shown in the legend. By default, this is determined automatically.</p></dd>
+
+
 <dt>lwd.legend.labels</dt>
 <dd><p>vector of labels for that correspond to <code>lwd.legend</code>.</p></dd>
+
+
 <dt>lwd.legend.col</dt>
 <dd><p>color of lines that are shown in the legend for the lwd aesthetic. By default, the middle color of the <code>palette</code> is taken.</p></dd>
+
+
 <dt>n</dt>
 <dd><p>preferred number of color scale classes. Only applicable when <code>lwd</code> is the name of a numeric variable.</p></dd>
+
+
 <dt>style</dt>
 <dd><p>method to process the color scale when <code>col</code> is a numeric variable. Discrete gradient options are <code>"cat"</code>, <code>"fixed"</code>, <code>"sd"</code>, <code>"equal"</code>, <code>"pretty"</code>, <code>"quantile"</code>, <code>"kmeans"</code>, <code>"hclust"</code>, <code>"bclust"</code>, <code>"fisher"</code>, <code>"jenks"</code>, <code>"dpih"</code>, <code>"headtails"</code>, and <code>"log10_pretty"</code>. A numeric variable is processed as a categorical variable when using <code>"cat"</code>, i.e. each unique value will correspond to a distinct category. For the other discrete gradient options (except <code>"log10_pretty"</code>), see the details in <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code> (extra arguments can be passed on via <code>style.args</code>). Continuous gradient options are <code>"cont"</code>, <code>"order"</code>, and <code>"log10"</code>. The first maps the values of <code>col</code> to a smooth gradient, the second maps the order of values of <code>col</code> to a smooth gradient, and the third uses a logarithmic transformation. The numeric variable can be either regarded as a continuous variable or a count (integer) variable. See <code>as.count</code>.</p></dd>
+
+
 <dt>style.args</dt>
 <dd><p>arguments passed on to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code>, the function that determine color classes (see also <code>style</code>).</p></dd>
+
+
 <dt>as.count</dt>
 <dd><p>when <code>col</code> is a numeric variable, should it be processed as a count variable? For instance, if <code>style = "pretty"</code>, <code>n = 2</code>, and the value range of the variable is 0 to 10, then the column classes for <code>as.count = TRUE</code> are 0; 1 to 5; 6 to 10 (note that 0 is regarded as an own category) whereas for <code>as.count = FALSE</code> they are 0 to 5; 5 to 10. Only applicable if <code>style</code> is <code>"pretty"</code>, <code>"fixed"</code>, or <code>"log10_pretty"</code>. By default, <code>TRUE</code> if <code>style</code> is one of these, and the variable is an integer.</p></dd>
+
+
 <dt>breaks</dt>
 <dd><p>in case <code>style=="fixed"</code>, breaks should be specified. The <code>breaks</code> argument can also be used when <code>style="cont"</code>. In that case, the breaks are mapped evenly to the sequential or diverging color palette.</p></dd>
+
+
 <dt>interval.closure</dt>
 <dd><p>value that determines whether where the intervals are closed: <code>"left"</code> or <code>"right"</code>. Only applicable if <code>col</code> is a numeric variable. If <code>as.count = TRUE</code>, <code>inverval.closure</code> is always set to <code>"left"</code>.</p></dd>
+
+
 <dt>palette</dt>
 <dd><p>a palette name or a vector of colors. See <code><a href="https://rdrr.io/pkg/tmaptools/man/palette_explorer.html" class="external-link">tmaptools::palette_explorer()</a></code> for the named palettes. Use a <code>"-"</code> as prefix to reverse the palette. The default palette is taken from <code><a href="tm_layout.html">tm_layout</a></code>'s argument <code>aes.palette</code>, which typically depends on the style. The type of palette from <code>aes.palette</code> is automatically determined, but can be overwritten: use <code>"seq"</code> for sequential, <code>"div"</code> for diverging, and <code>"cat"</code> for categorical.</p></dd>
+
+
 <dt>labels</dt>
 <dd><p>labels of the classes</p></dd>
+
+
 <dt>drop.levels</dt>
 <dd><p>should unused classes be omitted? <code>FALSE</code> by default.</p></dd>
+
+
 <dt>midpoint</dt>
 <dd><p>The value mapped to the middle color of a diverging palette. By default it is set to 0 if negative and positive values are present. In that case, the two sides of the color palette are assigned to negative respectively positive values. If all values are positive or all values are negative, then the midpoint is set to <code>NA</code>, which means that the value that corresponds to the middle color class (see <code>style</code>) is mapped to the middle color. Only applies when <code>col</code> is a numeric variable. If it is specified for sequential color palettes (e.g. <code>"Blues"</code>), then this color palette will be treated as a diverging color palette.</p></dd>
+
+
 <dt>stretch.palette</dt>
 <dd><p>Logical that determines whether the categorical color palette should be stretched if there are more categories than colors. If <code>TRUE</code> (default), interpolated colors are used (like a rainbow). If <code>FALSE</code>, the palette is repeated.</p></dd>
+
+
 <dt>contrast</dt>
 <dd><p>vector of two numbers that determine the range that is used for sequential and diverging palettes (applicable when <code>auto.palette.mapping=TRUE</code>). Both numbers should be between 0 and 1. The first number determines where the palette begins, and the second number where it ends. For sequential palettes, 0 means the brightest color, and 1 the darkest color. For diverging palettes, 0 means the middle color, and 1 both extremes. If only one number is provided, this number is interpreted as the endpoint (with 0 taken as the start).</p></dd>
+
+
 <dt>colorNA</dt>
 <dd><p>color used for missing values. Use <code>NULL</code> for transparency.</p></dd>
+
+
 <dt>textNA</dt>
 <dd><p>text used for missing values.</p></dd>
+
+
 <dt>showNA</dt>
 <dd><p>logical that determines whether missing values are named in the legend. By default (<code>NA</code>), this depends on the presence of missing values.</p></dd>
+
+
 <dt>colorNULL</dt>
 <dd><p>colour for polygons that are shown on the map that are out of scope</p></dd>
+
+
 <dt>title.col</dt>
 <dd><p>title of the legend element regarding the line colors</p></dd>
+
+
 <dt>title.lwd</dt>
 <dd><p>title of the legend element regarding the line widths</p></dd>
+
+
 <dt>legend.col.show</dt>
 <dd><p>logical that determines whether the legend for the line colors is shown</p></dd>
+
+
 <dt>legend.lwd.show</dt>
 <dd><p>logical that determines whether the legend for the line widths is shown</p></dd>
+
+
 <dt>legend.format</dt>
 <dd><p>list of formatting options for the legend numbers. Only applicable if <code>labels</code> is undefined. Parameters are:</p><dl><dt>fun</dt>
 <dd><p>Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items <code>scientific</code>, <code>format</code>, and <code>digits</code> (see below) are not used.</p></dd>
@@ -220,46 +276,87 @@
 
 
 </dl></dd>
+
+
 <dt>legend.col.is.portrait</dt>
 <dd><p>logical that determines whether the legend element regarding the line colors is in portrait mode (<code>TRUE</code>) or landscape (<code>FALSE</code>)</p></dd>
+
+
 <dt>legend.lwd.is.portrait</dt>
 <dd><p>logical that determines whether the legend element regarding the line widths is in portrait mode (<code>TRUE</code>) or landscape (<code>FALSE</code>)</p></dd>
+
+
 <dt>legend.col.reverse</dt>
 <dd><p>logical that determines whether the items of the legend regarding the line colors sizes are shown in reverse order, i.e. from bottom to top when <code>legend.col.is.portrait = TRUE</code> and from right to left when <code>legend.col.is.portrait = FALSE</code></p></dd>
+
+
 <dt>legend.lwd.reverse</dt>
 <dd><p>logical that determines whether the items of the legend regarding the line widths are shown in reverse order, i.e. from bottom to top when <code>legend.lwd.is.portrait = TRUE</code> and from right to left when <code>legend.lwd.is.portrait = FALSE</code></p></dd>
+
+
 <dt>legend.hist</dt>
 <dd><p>logical that determines whether a histogram is shown regarding the line colors</p></dd>
+
+
 <dt>legend.hist.title</dt>
 <dd><p>title for the histogram. By default, one title is used for both the histogram and the normal legend for line colors.</p></dd>
+
+
 <dt>legend.col.z</dt>
 <dd><p>index value that determines the position of the legend element regarding the line colors with respect to other legend elements. The legend elements are stacked according to their z values. The legend element with the lowest z value is placed on top.</p></dd>
+
+
 <dt>legend.lwd.z</dt>
 <dd><p>index value that determines the position of the legend element regarding the line widths. (See <code>legend.col.z</code>)</p></dd>
+
+
 <dt>legend.hist.z</dt>
 <dd><p>index value that determines the position of the legend element regarding the histogram. (See <code>legend.col.z</code>)</p></dd>
+
+
 <dt>id</dt>
 <dd><p>name of the data variable that specifies the indices of the lines. Only used for <code>"view"</code> mode (see <code><a href="tmap_mode.html">tmap_mode</a></code>).</p></dd>
+
+
 <dt>interactive</dt>
 <dd><p>logical that determines whether this layer is interactive in view mode (e.g. hover text, popup, and click event in shiny apps)</p></dd>
+
+
 <dt>popup.vars</dt>
 <dd><p>names of data variables that are shown in the popups in <code>"view"</code> mode. If <code>NA</code> (default), only aesthetic variables (i.e. specified by <code>col</code> and <code>lwd</code>) are shown). If they are not specified, all variables are shown. Set popup.vars to <code>FALSE</code> to disable popups. When a vector of variable names is provided, the names (if specified) are printed in the popups.</p></dd>
+
+
 <dt>popup.format</dt>
 <dd><p>list of formatting options for the popup values. See the argument <code>legend.format</code> for options. Only applicable for numeric data variables. If one list of formatting options is provided, it is applied to all numeric variables of <code>popup.vars</code>. Also, a (named) list of lists can be provided. In that case, each list of formatting options is applied to the named variable.</p></dd>
+
+
 <dt>zindex</dt>
 <dd><p>zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes <code>"tmap401"</code>, <code>"tmap402"</code>, etc., except for the base tile layers, which are placed in the standard <code>"tile"</code>. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if <code>zindex</code> is set to 500, the pane will be named <code>"tmap500"</code>.</p></dd>
+
+
 <dt>group</dt>
 <dd><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href="tm_shape.html">tm_shape</a></code>).</p></dd>
+
+
 <dt>auto.palette.mapping</dt>
 <dd><p>deprecated. It has been replaced by <code>midpoint</code> for numeric variables and <code>stretch.palette</code> for categorical variables.</p></dd>
+
+
 <dt>max.categories</dt>
 <dd><p>deprecated. It has moved to <code><a href="tmap_options.html">tmap_options</a></code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>these arguments are passed on to <code><a href="https://r-spatial.github.io/classInt/reference/classIntervals.html" class="external-link">classIntervals</a></code>, the function that determine color classes (see also <code>style</code>).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code><a href="tmap-element.html">tmap-element</a></code></p>
+    
+
+<p><code><a href="tmap-element.html">tmap-element</a></code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -276,19 +373,19 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">rivers</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">rivers</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">rivers</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">rivers</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tm_lines-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">rivers</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu">tm_lines</span><span class="op">(</span>col<span class="op">=</span><span class="st">"black"</span>, lwd<span class="op">=</span><span class="st">"scalerank"</span>, scale<span class="op">=</span><span class="fl">2</span>, legend.lwd.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"cobalt"</span>, title <span class="op">=</span> <span class="st">"Rivers of the World"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">rivers</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu">tm_lines</span><span class="op">(</span>col<span class="op">=</span><span class="st">"black"</span>, lwd<span class="op">=</span><span class="st">"scalerank"</span>, scale<span class="op">=</span><span class="fl">2</span>, legend.lwd.show <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"cobalt"</span>, title <span class="op">=</span> <span class="st">"Rivers of the World"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -303,7 +400,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

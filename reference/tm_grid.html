@@ -66,70 +66,94 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_grid</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NA</span>,
-  y <span class="op">=</span> <span class="cn">NA</span>,
-  n.x <span class="op">=</span> <span class="cn">NA</span>,
-  n.y <span class="op">=</span> <span class="cn">NA</span>,
-  projection <span class="op">=</span> <span class="cn">NA</span>,
-  col <span class="op">=</span> <span class="cn">NA</span>,
-  lwd <span class="op">=</span> <span class="fl">1</span>,
-  alpha <span class="op">=</span> <span class="cn">NA</span>,
-  labels.show <span class="op">=</span> <span class="cn">TRUE</span>,
-  labels.size <span class="op">=</span> <span class="fl">0.6</span>,
-  labels.col <span class="op">=</span> <span class="cn">NA</span>,
-  labels.rot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,
-  labels.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>,
-  labels.cardinal <span class="op">=</span> <span class="cn">FALSE</span>,
-  labels.margin.x <span class="op">=</span> <span class="fl">0</span>,
-  labels.margin.y <span class="op">=</span> <span class="fl">0</span>,
-  labels.space.x <span class="op">=</span> <span class="cn">NA</span>,
-  labels.space.y <span class="op">=</span> <span class="cn">NA</span>,
-  labels.inside.frame <span class="op">=</span> <span class="cn">FALSE</span>,
-  ticks <span class="op">=</span> <span class="va">labels.show</span> <span class="op">&amp;</span> <span class="op">!</span><span class="va">labels.inside.frame</span>,
-  lines <span class="op">=</span> <span class="cn">TRUE</span>,
-  ndiscr <span class="op">=</span> <span class="fl">100</span>,
-  zindex <span class="op">=</span> <span class="cn">NA</span>
-<span class="op">)</span>
-
-<span class="fu">tm_graticules</span><span class="op">(</span>
-  x <span class="op">=</span> <span class="cn">NA</span>,
-  y <span class="op">=</span> <span class="cn">NA</span>,
-  n.x <span class="op">=</span> <span class="cn">NA</span>,
-  n.y <span class="op">=</span> <span class="cn">NA</span>,
-  projection <span class="op">=</span> <span class="fl">4326</span>,
-  labels.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/utf8Conversion.html" class="external-link">intToUtf8</a></span><span class="op">(</span><span class="fl">176</span><span class="op">)</span><span class="op">)</span>,
-  labels.cardinal <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_grid</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  n.x <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  n.y <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  projection <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  col <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  lwd <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  alpha <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  labels.show <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  labels.size <span class="op">=</span> <span class="fl">0.6</span>,</span>
+<span>  labels.col <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  labels.rot <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0</span><span class="op">)</span>,</span>
+<span>  labels.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>big.mark <span class="op">=</span> <span class="st">","</span><span class="op">)</span>,</span>
+<span>  labels.cardinal <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  labels.margin.x <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  labels.margin.y <span class="op">=</span> <span class="fl">0</span>,</span>
+<span>  labels.space.x <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  labels.space.y <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  labels.inside.frame <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ticks <span class="op">=</span> <span class="va">labels.show</span> <span class="op">&amp;</span> <span class="op">!</span><span class="va">labels.inside.frame</span>,</span>
+<span>  lines <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  ndiscr <span class="op">=</span> <span class="fl">100</span>,</span>
+<span>  zindex <span class="op">=</span> <span class="cn">NA</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_graticules</span><span class="op">(</span></span>
+<span>  x <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  y <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  n.x <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  n.y <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  projection <span class="op">=</span> <span class="fl">4326</span>,</span>
+<span>  labels.format <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>suffix <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/utf8Conversion.html" class="external-link">intToUtf8</a></span><span class="op">(</span><span class="fl">176</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  labels.cardinal <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>x coordinates for vertical grid lines. If <code>NA</code>, it is specified with a pretty scale and <code>n.x</code>.</p></dd>
+
+
 <dt>y</dt>
 <dd><p>y coordinates for horizontal grid lines. If <code>NA</code>, it is specified with a pretty scale and <code>n.y</code>.</p></dd>
+
+
 <dt>n.x</dt>
 <dd><p>preferred number of grid lines for the x axis. For the labels, a <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty</a></code> sequence is used, so the number of actual labels may be different than <code>n.x</code>.</p></dd>
+
+
 <dt>n.y</dt>
 <dd><p>preferred number of grid lines for the y axis. For the labels, a <code><a href="https://rdrr.io/r/base/pretty.html" class="external-link">pretty</a></code> sequence is used, so the number of actual labels may be different than <code>n.y</code>.</p></dd>
+
+
 <dt>projection</dt>
 <dd><p>projection character. If specified, the grid lines are projected accordingly. Many world maps are projected, but still have latitude longitude (epsg 4326) grid lines.</p></dd>
+
+
 <dt>col</dt>
 <dd><p>color of the grid lines.</p></dd>
+
+
 <dt>lwd</dt>
 <dd><p>line width of the grid lines</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>alpha transparency of the grid lines. Number between 0 and 1. By default, the alpha transparency of <code>col</code> is taken.</p></dd>
+
+
 <dt>labels.show</dt>
 <dd><p>show tick labels. Either one value for both <code>x</code> and <code>y</code> axis, or a vector two: the first for <code>x</code> and latter for <code>y</code>.</p></dd>
+
+
 <dt>labels.size</dt>
 <dd><p>font size of the tick labels</p></dd>
+
+
 <dt>labels.col</dt>
 <dd><p>font color of the tick labels</p></dd>
+
+
 <dt>labels.rot</dt>
 <dd><p>Rotation angles of the labels. Vector of two values: the first is the rotation angle (in degrees) of the tick labels on the x axis and the second is the rotation angle of the tick labels on the y axis. Only <code>0</code>, <code>90</code>, <code>180</code>, and <code>270</code> are valid values.</p></dd>
+
+
 <dt>labels.format</dt>
 <dd><p>list of formatting options for the grid labels. Parameters are:</p><dl><dt>fun</dt>
 <dd><p>Function to specify the labels. It should take a numeric vector, and should return a character vector of the same size. By default it is not specified. If specified, the list items <code>scientific</code>, <code>format</code>, and <code>digits</code> (see below) are not used.</p></dd>
@@ -148,41 +172,64 @@
 
 
 </dl></dd>
+
+
 <dt>labels.cardinal</dt>
 <dd><p>add the four cardinal directions (N, E, S, W) to the labels, instead of using negative coordiantes for west and south (so it assumes that the coordinates are positive in the north-east direction).</p></dd>
+
+
 <dt>labels.margin.x</dt>
 <dd><p>margin between tick labels of x axis and the frame. Note that when <code>labels.inside.frame == FALSE</code> and <code>ticks == TRUE</code>, the ticks will be adjusted accordingly.</p></dd>
+
+
 <dt>labels.margin.y</dt>
 <dd><p>margin between tick labels of y axis and the frame. Note that when <code>labels.inside.frame == FALSE</code> and <code>ticks == TRUE</code>, the ticks will be adjusted accordingly.</p></dd>
+
+
 <dt>labels.space.x</dt>
 <dd><p>space that is used for the labels and ticks for the x-axis when <code>labels.inside.frame == FALSE</code>. By default, it is determined automatically using the widths and heights of the tick labels. The unit of this parameter is text line height.</p></dd>
+
+
 <dt>labels.space.y</dt>
 <dd><p>space that is used for the labels and ticks for the y-axis when <code>labels.inside.frame == FALSE</code>. By default, it is determined automatically using the widths and heights of the tick labels. The unit of this parameter is text line height.</p></dd>
+
+
 <dt>labels.inside.frame</dt>
 <dd><p>Show labels inside the frame? By default <code>FALSE</code></p></dd>
+
+
 <dt>ticks</dt>
 <dd><p>If <code>labels.inside.frame = FALSE</code>, should ticks can be drawn between the labels and the frame? Either one value for both <code>x</code> and <code>y</code> axis, or a vector two: the first for <code>x</code> and latter for <code>y</code>.</p></dd>
+
+
 <dt>lines</dt>
 <dd><p>If <code>labels.inside.frame = FALSE</code>, should grid lines can be drawn?</p></dd>
+
+
 <dt>ndiscr</dt>
 <dd><p>number of points to discretize a parallel or meridian (only applicable for curved grid lines)</p></dd>
+
+
 <dt>zindex</dt>
 <dd><p>zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes <code>"tmap401"</code>, <code>"tmap402"</code>, etc., except for the base tile layers, which are placed in the standard <code>"tile"</code>. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if <code>zindex</code> is set to 500, the pane will be named <code>"tmap500"</code>.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed on to <code>tm_grid</code></p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"plot"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to plotting</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span>, <span class="va">World</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span></span>
-<span class="r-in">  <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">NLD_muni</span>, borders <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> <span class="fu">tm_grid</span><span class="op">(</span><span class="op">)</span>,</span>
-<span class="r-in">  <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">NLD_muni</span>, borders <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> <span class="fu">tm_graticules</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span>, <span class="va">World</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_arrange.html">tmap_arrange</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">NLD_muni</span>, borders <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> <span class="fu">tm_grid</span><span class="op">(</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>  <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">NLD_muni</span>, borders <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> <span class="fu">tm_graticules</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
@@ -204,13 +251,13 @@
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> old-style crs object detected; please recreate object with a recent sf::st_crs()</span>
 <span class="r-plt img"><img src="tm_grid-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, shape.projection <span class="op">=</span> <span class="st">"+proj=robin"</span>, style <span class="op">=</span> <span class="st">"natural"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu">tm_graticules</span><span class="op">(</span>ticks <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>frame<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, shape.projection <span class="op">=</span> <span class="st">"+proj=robin"</span>, style <span class="op">=</span> <span class="st">"natural"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu">tm_graticules</span><span class="op">(</span>ticks <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>frame<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tm_grid-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap mode set to plotting</span>
 </code></pre></div>
     </div>
@@ -226,7 +273,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

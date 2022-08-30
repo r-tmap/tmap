@@ -66,31 +66,31 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">qtm</span><span class="op">(</span>
-  <span class="va">shp</span>,
-  fill <span class="op">=</span> <span class="cn">NA</span>,
-  symbols.size <span class="op">=</span> <span class="cn">NULL</span>,
-  symbols.col <span class="op">=</span> <span class="cn">NULL</span>,
-  symbols.shape <span class="op">=</span> <span class="cn">NULL</span>,
-  dots.col <span class="op">=</span> <span class="cn">NULL</span>,
-  text <span class="op">=</span> <span class="cn">NULL</span>,
-  text.size <span class="op">=</span> <span class="fl">1</span>,
-  text.col <span class="op">=</span> <span class="cn">NA</span>,
-  lines.lwd <span class="op">=</span> <span class="cn">NULL</span>,
-  lines.col <span class="op">=</span> <span class="cn">NULL</span>,
-  raster <span class="op">=</span> <span class="cn">NA</span>,
-  borders <span class="op">=</span> <span class="cn">NA</span>,
-  by <span class="op">=</span> <span class="cn">NULL</span>,
-  scale <span class="op">=</span> <span class="cn">NA</span>,
-  title <span class="op">=</span> <span class="cn">NA</span>,
-  projection <span class="op">=</span> <span class="cn">NULL</span>,
-  bbox <span class="op">=</span> <span class="cn">NULL</span>,
-  basemaps <span class="op">=</span> <span class="cn">NA</span>,
-  overlays <span class="op">=</span> <span class="cn">NA</span>,
-  style <span class="op">=</span> <span class="cn">NULL</span>,
-  format <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">qtm</span><span class="op">(</span></span>
+<span>  <span class="va">shp</span>,</span>
+<span>  fill <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  symbols.size <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  symbols.col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  symbols.shape <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  dots.col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  text <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  text.size <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>  text.col <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  lines.lwd <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  lines.col <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  raster <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  borders <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  by <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  title <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  projection <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  bbox <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  basemaps <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  overlays <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  style <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  format <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -100,54 +100,103 @@
 <li><p>Not specified, i.e. <code>qtm()</code> is executed. In this case a plain interactive map is shown.</p></li>
 <li><p>A OSM search string, e.g. <code>qtm("Amsterdam")</code>. In this case a plain interactive map is shown positioned according to the results of the search query (from OpenStreetMap nominatim)</p></li>
 </ul></dd>
+
+
 <dt>fill</dt>
 <dd><p>either a color to fill the polygons, or name of the data variable in <code>shp</code> to draw a choropleth. Only applicable when <code>shp</code> contains polygons.  Set <code>fill = NULL</code> to draw only polygon borders. See also argument <code>borders</code>.</p></dd>
+
+
 <dt>symbols.size</dt>
 <dd><p>either the size of the symbols or a name of the data variable in <code>shp</code> that specifies the sizes of the symbols.  See also the <code>size</code> argument of <code><a href="tm_symbols.html">tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></dd>
+
+
 <dt>symbols.col</dt>
 <dd><p>either the color of the symbols or a name of the data variable in <code>shp</code> that specifies the colors of the symbols. See also the <code>col</code> arugment of <code><a href="tm_symbols.html">tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></dd>
+
+
 <dt>symbols.shape</dt>
 <dd><p>either the shape of the symbols or a name of the data variable in <code>shp</code> that specifies the shapes of the symbols. See also the <code>shape</code> arugment of <code><a href="tm_symbols.html">tm_symbols</a></code>. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></dd>
+
+
 <dt>dots.col</dt>
 <dd><p>name of the data variable in <code>shp</code> for the dot map that specifies the colors of the dots. If <code>dots.col</code> is specified instead <code>symbols.col</code>, dots instead of bubbles are drawn (unless <code>symbols.shape</code> is specified).</p></dd>
+
+
 <dt>text</dt>
 <dd><p>Name of the data variable that contains the text labels. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></dd>
+
+
 <dt>text.size</dt>
 <dd><p>Font size of the text labels. Either a constant value, or the name of a numeric data variable. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></dd>
+
+
 <dt>text.col</dt>
 <dd><p>name of the data variable in <code>shp</code> for the that specifies the colors of the text labels. Only applicable when <code>shp</code> contains spatial points, lines, or polygons.</p></dd>
+
+
 <dt>lines.lwd</dt>
 <dd><p>either a line width or a name of the data variable that specifies the line width. Only applicable when <code>shp</code> contains spatial lines.</p></dd>
+
+
 <dt>lines.col</dt>
 <dd><p>either a line color or a name of the data variable that specifies the line colors. Only applicable when <code>shp</code> contains spatial lines.</p></dd>
+
+
 <dt>raster</dt>
 <dd><p>either a color or a name of the data variable that specifices the raster colors. Only applicable when <code>shp</code> is a spatial raster.</p></dd>
+
+
 <dt>borders</dt>
 <dd><p>color of the polygon borders. Use <code>NULL</code> to omit the borders.</p></dd>
+
+
 <dt>by</dt>
 <dd><p>data variable name by which the data is split, or a vector of two variable names to split the data by two variables (where the first is used for the rows and the second for the columns). See also <code><a href="tm_facets.html">tm_facets</a></code></p></dd>
+
+
 <dt>scale</dt>
 <dd><p>numeric value that serves as the global scale parameter. All font sizes, symbol sizes, border widths, and line widths are controlled by this value. The parameters <code>symbols.size</code>, <code>text.size</code>, and <code>lines.lwd</code> can be scaled seperately with respectively <code>symbols.scale</code>, <code>text.scale</code>, and <code>lines.scale</code>. See also <code>...</code>.</p></dd>
+
+
 <dt>title</dt>
 <dd><p>main title. For legend titles, use <code>X.style</code>, where X is the layer name (see <code>...</code>).</p></dd>
+
+
 <dt>projection</dt>
 <dd><p>Either a <code><a href="https://r-spatial.github.io/sf/reference/st_crs.html" class="external-link">crs</a></code> object or a character value (<code>PROJ.4</code> character string). By default, the projection is used that is defined in the <code>shp</code> object itself.</p></dd>
+
+
 <dt>bbox</dt>
 <dd><p>bounding box. Arugment passed on to <code><a href="tm_shape.html">tm_shape</a></code></p></dd>
+
+
 <dt>basemaps</dt>
 <dd><p>name(s) of the provider or an URL of a tiled basemap. It is a shortcut to <code><a href="tm_tiles.html">tm_basemap</a></code>. Set to <code>NULL</code> to disable basemaps. By default, it is set to the tmap option <code>basemaps</code>.</p></dd>
+
+
 <dt>overlays</dt>
 <dd><p>name(s) of the provider or an URL of a tiled overlay map. It is a shortcut to <code><a href="tm_tiles.html">tm_tiles</a></code>.</p></dd>
+
+
 <dt>style</dt>
 <dd><p>Layout options (see <code><a href="tm_layout.html">tm_layout</a></code>) that define the style. See <code><a href="tmap_style.html">tmap_style</a></code> for details.</p></dd>
+
+
 <dt>format</dt>
 <dd><p>Layout options (see <code><a href="tm_layout.html">tm_layout</a></code>) that define the format. See <code><a href="tmap_format.html">tmap_format</a></code> for details.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed on to the <code>tm_*</code> functions. The prefix of these arguments should be with the layer function name without <code>"tm_"</code> and a period. For instance, the palette for polygon fill color is called <code>fill.palette</code>. The following prefixes are supported: <code>shape.</code>, <code>fill.</code>, <code>borders.</code>, <code>polygons.</code>, <code>symbols.</code>, <code>dots.</code>, <code>lines.</code>, <code>raster.</code>, <code>text.</code>, <code>layout.</code>, <code>grid.</code>, <code>facets.</code>, and <code>view.</code>. Arguments that have a unique name, i.e. that does not exist in any other layer function, e.g. <code>convert2density</code>, can also be called without prefix.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code><a href="tmap-element.html">tmap-element</a></code></p>
+    
+
+<p><code><a href="tmap-element.html">tmap-element</a></code></p>
+
+
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -165,54 +214,54 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">rivers</span>, <span class="va">metro</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># just the map</span></span>
-<span class="r-in"><span class="fu">qtm</span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">rivers</span>, <span class="va">metro</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># just the map</span></span></span>
+<span class="r-in"><span><span class="fu">qtm</span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="qtm-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># choropleth</span></span>
-<span class="r-in"><span class="fu">qtm</span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"economy"</span>, format <span class="op">=</span> <span class="st">"World"</span>, style <span class="op">=</span> <span class="st">"col_blind"</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># choropleth</span></span></span>
+<span class="r-in"><span><span class="fu">qtm</span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"economy"</span>, format <span class="op">=</span> <span class="st">"World"</span>, style <span class="op">=</span> <span class="st">"col_blind"</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="qtm-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># choropleth with more specifications</span></span>
-<span class="r-in"><span class="fu">qtm</span><span class="op">(</span><span class="va">World</span>, fill<span class="op">=</span><span class="st">"HPI"</span>, fill.n <span class="op">=</span> <span class="fl">9</span>, fill.palette <span class="op">=</span> <span class="st">"div"</span>,</span>
-<span class="r-in">    fill.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span>, fill.id <span class="op">=</span> <span class="st">"name"</span>, </span>
-<span class="r-in">    style <span class="op">=</span> <span class="st">"gray"</span>, format <span class="op">=</span> <span class="st">"World"</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># choropleth with more specifications</span></span></span>
+<span class="r-in"><span><span class="fu">qtm</span><span class="op">(</span><span class="va">World</span>, fill<span class="op">=</span><span class="st">"HPI"</span>, fill.n <span class="op">=</span> <span class="fl">9</span>, fill.palette <span class="op">=</span> <span class="st">"div"</span>,</span></span>
+<span class="r-in"><span>    fill.title <span class="op">=</span> <span class="st">"Happy Planet Index"</span>, fill.id <span class="op">=</span> <span class="st">"name"</span>, </span></span>
+<span class="r-in"><span>    style <span class="op">=</span> <span class="st">"gray"</span>, format <span class="op">=</span> <span class="st">"World"</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="qtm-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"><span class="co"># this map can also be created with the main plotting method,</span></span>
-<span class="r-in"><span class="co"># which is recommended in this case.</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, n <span class="op">=</span> <span class="fl">9</span>, palette <span class="op">=</span> <span class="st">"div"</span>,</span>
-<span class="r-in">        title <span class="op">=</span> <span class="st">"Happy Planet Index"</span>, id <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"gray"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># bubble map</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="fu">qtm</span><span class="op">(</span><span class="va">World</span>, borders <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in"><span class="fu">qtm</span><span class="op">(</span><span class="va">metro</span>, symbols.size <span class="op">=</span> <span class="st">"pop2010"</span>, </span>
-<span class="r-in">    symbols.title.size<span class="op">=</span> <span class="st">"Metropolitan Areas"</span>, </span>
-<span class="r-in">    symbols.id<span class="op">=</span> <span class="st">"name"</span>,</span>
-<span class="r-in">    format <span class="op">=</span> <span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># dot map</span></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu">qtm</span><span class="op">(</span><span class="va">metro</span>, bbox <span class="op">=</span> <span class="st">"China"</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span> <span class="co"># restore mode</span></span>
-<span class="r-in"><span class="op">}</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="co"># without arguments, a plain interactive map is shown (the mode is set to view)</span></span>
-<span class="r-in"><span class="fu">qtm</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># search query for OpenStreetMap nominatim</span></span>
-<span class="r-in"><span class="fu">qtm</span><span class="op">(</span><span class="st">"Amsterdam"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+<span class="r-in"><span><span class="co"># this map can also be created with the main plotting method,</span></span></span>
+<span class="r-in"><span><span class="co"># which is recommended in this case.</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span>, projection <span class="op">=</span> <span class="st">"+proj=eck4"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span>, n <span class="op">=</span> <span class="fl">9</span>, palette <span class="op">=</span> <span class="st">"div"</span>,</span></span>
+<span class="r-in"><span>        title <span class="op">=</span> <span class="st">"Happy Planet Index"</span>, id <span class="op">=</span> <span class="st">"name"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"gray"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># bubble map</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="fu">qtm</span><span class="op">(</span><span class="va">World</span>, borders <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span><span class="fu">qtm</span><span class="op">(</span><span class="va">metro</span>, symbols.size <span class="op">=</span> <span class="st">"pop2010"</span>, </span></span>
+<span class="r-in"><span>    symbols.title.size<span class="op">=</span> <span class="st">"Metropolitan Areas"</span>, </span></span>
+<span class="r-in"><span>    symbols.id<span class="op">=</span> <span class="st">"name"</span>,</span></span>
+<span class="r-in"><span>    format <span class="op">=</span> <span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># dot map</span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu">qtm</span><span class="op">(</span><span class="va">metro</span>, bbox <span class="op">=</span> <span class="st">"China"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span> <span class="co"># restore mode</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="co"># without arguments, a plain interactive map is shown (the mode is set to view)</span></span></span>
+<span class="r-in"><span><span class="fu">qtm</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># search query for OpenStreetMap nominatim</span></span></span>
+<span class="r-in"><span><span class="fu">qtm</span><span class="op">(</span><span class="st">"Amsterdam"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -227,7 +276,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

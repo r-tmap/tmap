@@ -66,39 +66,54 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_icons</span><span class="op">(</span>
-  <span class="va">file</span>,
-  width <span class="op">=</span> <span class="fl">48</span>,
-  height <span class="op">=</span> <span class="fl">48</span>,
-  keep.asp <span class="op">=</span> <span class="cn">TRUE</span>,
-  just <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"center"</span><span class="op">)</span>,
-  as.local <span class="op">=</span> <span class="cn">TRUE</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">marker_icon</span><span class="op">(</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tmap_icons</span><span class="op">(</span></span>
+<span>  <span class="va">file</span>,</span>
+<span>  width <span class="op">=</span> <span class="fl">48</span>,</span>
+<span>  height <span class="op">=</span> <span class="fl">48</span>,</span>
+<span>  keep.asp <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  just <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"center"</span>, <span class="st">"center"</span><span class="op">)</span>,</span>
+<span>  as.local <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">marker_icon</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>file</dt>
 <dd><p>character value/vector containing the file path(s) or url(s).</p></dd>
+
+
 <dt>width</dt>
 <dd><p>width of the icon. If <code>keep.asp</code>, this is interpreted as the maximum width.</p></dd>
+
+
 <dt>height</dt>
 <dd><p>height of the icon. If <code>keep.asp</code>, this is interpreted as the maximum height.</p></dd>
+
+
 <dt>keep.asp</dt>
 <dd><p>keep the aspect ratio of the png image. If <code>TRUE</code> and the aspect ratio differs from <code>width/height</code> either <code>width</code> or <code>height</code> is adjusted accordingly.</p></dd>
+
+
 <dt>just</dt>
 <dd><p>justification of the icons relative to the point coordinates.  The first value specifies horizontal and the second value vertical justification. Possible values are: <code>"left"</code> , <code>"right"</code>, <code>"center"</code>, <code>"bottom"</code>, and <code>"top"</code>. Numeric values of 0 specify left alignment and 1 right alignment. The default value of <code>just</code> is <code>c("center", "center")</code>.</p></dd>
+
+
 <dt>as.local</dt>
 <dd><p>if the <code>file</code> is a url, should it be saved to local temporary file?</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed on to <code><a href="https://rdrr.io/pkg/leaflet/man/icons.html" class="external-link">icons</a></code>. When <code>iconWidth</code>, <code>iconHeight</code>, <code>iconAnchorX</code> and <code>iconAnchorY</code> are specified, they override <code>width</code> and <code>height</code>, and <code>just</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>icon data (see <code><a href="https://rdrr.io/pkg/leaflet/man/icons.html" class="external-link">icons</a></code>)</p>
+    
+
+<p>icon data (see <code><a href="https://rdrr.io/pkg/leaflet/man/icons.html" class="external-link">icons</a></code>)</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -117,7 +132,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

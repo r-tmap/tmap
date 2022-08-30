@@ -66,34 +66,36 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_tip</span><span class="op">(</span>from.version <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tmap_tip</span><span class="op">(</span>from.version <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>from.version</dt>
 <dd><p>version number. Only tips regarding features from this version are shown.</p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu">tmap_tip</span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> Add graticules (latitude longitude lines) with tm_graticules. </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 2.3 </span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">tmap_tip</span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> Basemaps can be disabled as follows, or by setting tmap_options(basemaps = NULL). </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 2.0 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data(World)</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> tm_basemap(NULL) +</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> tm_shape(World) +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_polygons() +</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_graticules() </span>
-<span class="r-plt img"><img src="tmap_tip-1.png" alt="" width="700" height="433"></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_polygons("HPI") </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">tmap_tip</span><span class="op">(</span>from.version <span class="op">=</span> <span class="st">"3.0"</span><span class="op">)</span></span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> View shapes interactively in another projection than the Web Mercator. </span>
+<span class="r-in"><span><span class="fu">tmap_tip</span><span class="op">(</span>from.version <span class="op">=</span> <span class="st">"3.0"</span><span class="op">)</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> With tm_add_legend, it is also possible to add an extra legend title line. </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> New since tmap 3.1 </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data(World)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> tmap_options(projection = 0, basemaps = NULL)</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> qtm(World) </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> tm_shape(World) + </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_polygons("HPI") + </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>   tm_add_legend(type = "title", title = "Extra title") </span>
+<span class="r-plt img"><img src="tmap_tip-1.png" alt="" width="700" height="433"></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 </code></pre></div>
     </div>
@@ -109,7 +111,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

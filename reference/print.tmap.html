@@ -66,43 +66,60 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for tmap</span>
-<span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span>
-  <span class="va">x</span>,
-  vp <span class="op">=</span> <span class="cn">NULL</span>,
-  return.asp <span class="op">=</span> <span class="cn">FALSE</span>,
-  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tmap.mode"</span><span class="op">)</span>,
-  show <span class="op">=</span> <span class="cn">TRUE</span>,
-  knit <span class="op">=</span> <span class="cn">FALSE</span>,
-  options <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span>
-
-<span class="fu">knit_print.tmap</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for tmap</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  vp <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  return.asp <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  mode <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"tmap.mode"</span><span class="op">)</span>,</span>
+<span>  show <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  knit <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  options <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">knit_print.tmap</span><span class="op">(</span><span class="va">x</span>, <span class="va">...</span>, options <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>tmap object. A tmap object is created with <code><a href="qtm.html">qtm</a></code> or by stacking <code><a href="tmap-element.html">tmap-element</a></code>s.</p></dd>
+
+
 <dt>vp</dt>
 <dd><p><code><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></code> to draw the plot in. This is particularly useful for insets.</p></dd>
+
+
 <dt>return.asp</dt>
 <dd><p>Logical that determines whether the aspect ratio of the map is returned. In that case, <code><a href="https://rdrr.io/r/grid/grid.newpage.html" class="external-link">grid.newpage()</a></code> will be called, but without plotting of the map. This is used by <code><a href="tmap_save.html">tmap_save</a></code> to determine the aspect ratio of the map.</p></dd>
+
+
 <dt>mode</dt>
 <dd><p>the mode of tmap: <code>"plot"</code> (static) or <code>"view"</code> (interactive). See <code><a href="tmap_mode.html">tmap_mode</a></code> for details.</p></dd>
+
+
 <dt>show</dt>
 <dd><p>logical that determines whether to show to map. Obviously <code>TRUE</code> by default, but <code>show=FALSE</code> can be useful for just obtaining the returned objects.</p></dd>
+
+
 <dt>knit</dt>
 <dd><p>should <code><a href="https://rdrr.io/pkg/knitr/man/knit_print.html" class="external-link">knit_print</a></code> be enabled, or the normal <code><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></code> function?</p></dd>
+
+
 <dt>options</dt>
 <dd><p>options passed on to knitprint</p></dd>
+
+
 <dt>...</dt>
 <dd><p>not used</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>If <code>mode=="plot"</code>, then a list is returned with the processed shapes and the metadata. If <code>mode=="view"</code>, a <code><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html" class="external-link">leaflet</a></code> object is returned (see also <code><a href="tmap_leaflet.html">tmap_leaflet</a></code>)</p>
+    
+
+<p>If <code>mode=="plot"</code>, then a list is returned with the processed shapes and the metadata. If <code>mode=="view"</code>, a <code><a href="https://rdrr.io/pkg/leaflet/man/leaflet.html" class="external-link">leaflet</a></code> object is returned (see also <code><a href="tmap_leaflet.html">tmap_leaflet</a></code>)</p>
     </div>
 
   </div>
@@ -117,7 +134,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

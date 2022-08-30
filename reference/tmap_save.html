@@ -66,97 +66,128 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_save</span><span class="op">(</span>
-  tm <span class="op">=</span> <span class="cn">NULL</span>,
-  filename <span class="op">=</span> <span class="cn">NA</span>,
-  device <span class="op">=</span> <span class="cn">NULL</span>,
-  width <span class="op">=</span> <span class="cn">NA</span>,
-  height <span class="op">=</span> <span class="cn">NA</span>,
-  units <span class="op">=</span> <span class="cn">NA</span>,
-  dpi <span class="op">=</span> <span class="cn">NA</span>,
-  outer.margins <span class="op">=</span> <span class="cn">NA</span>,
-  asp <span class="op">=</span> <span class="cn">NULL</span>,
-  scale <span class="op">=</span> <span class="cn">NA</span>,
-  insets_tm <span class="op">=</span> <span class="cn">NULL</span>,
-  insets_vp <span class="op">=</span> <span class="cn">NULL</span>,
-  add.titles <span class="op">=</span> <span class="cn">TRUE</span>,
-  in.iframe <span class="op">=</span> <span class="cn">FALSE</span>,
-  selfcontained <span class="op">=</span> <span class="op">!</span><span class="va">in.iframe</span>,
-  verbose <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tmap_save</span><span class="op">(</span></span>
+<span>  tm <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  filename <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  device <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  width <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  height <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  units <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  dpi <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  outer.margins <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  asp <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  scale <span class="op">=</span> <span class="cn">NA</span>,</span>
+<span>  insets_tm <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  insets_vp <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  add.titles <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  in.iframe <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  selfcontained <span class="op">=</span> <span class="op">!</span><span class="va">in.iframe</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>tm</dt>
 <dd><p>tmap object</p></dd>
+
+
 <dt>filename</dt>
 <dd><p>filename including extension, and optionally the path. The extensions pdf, eps, svg, wmf (Windows only), png, jpg, bmp, tiff, and html are supported. If the extension is missing, the file will be saved as a static plot in <code>"plot"</code> mode and as an interactive map (html) in <code>"view"</code> mode (see details). The default format for static plots is png, but this can be changed using the option <code>"output.format"</code> in <code><a href="tmap_options.html">tmap_options</a></code>. If <code>NA</code> (the default), the file is saved as "tmap01" in the default format, and the number incremented if the file already exists.</p></dd>
+
+
 <dt>device</dt>
 <dd><p>graphic device to use. Either a device function (e.g., <code><a href="https://rdrr.io/r/grDevices/png.html" class="external-link">png</a></code> or <code><a href="https://rdrr.io/r/grDevices/cairo.html" class="external-link">cairo_pdf</a></code>) or a text indicating selected graphic device: "pdf", "eps", "svg", "wmf" (Windows only), "png", "jpg", "bmp", "tiff". If NULL, the graphic device is guessed based on the <code>filename</code> argument.</p></dd>
+
+
 <dt>height, width</dt>
 <dd><p>The width and height of the plot (not applicable for html files). Units are set with the argument <code>units</code>. If one of them is not specified, this is calculated using the formula asp = width / height, where asp is the estimated aspect ratio of the map. If both are missing, they are set such that width * height is equal to the option <code>"output.size"</code> in <code><a href="tmap_options.html">tmap_options</a></code>. This is by default 49, meaning that is the map is a square (so aspect ratio of 1) both width and height are set to 7.</p></dd>
+
+
 <dt>units</dt>
 <dd><p>units for width and height (<code>"in"</code>, <code>"cm"</code>, or <code>"mm"</code>). By default, pixels (<code>"px"</code>) are used if either width or height is set to a value greater than 50. Else, the units are inches (<code>"in"</code>)</p></dd>
+
+
 <dt>dpi</dt>
 <dd><p>dots per inch. Only applicable for raster graphics. By default it is set to 300, but this can be changed using the option <code>"output.dpi"</code> in <code><a href="tmap_options.html">tmap_options</a></code>.</p></dd>
+
+
 <dt>outer.margins</dt>
 <dd><p>overrides the outer.margins argument of <code><a href="tm_layout.html">tm_layout</a></code> (unless set to <code>NA</code>)</p></dd>
+
+
 <dt>asp</dt>
 <dd><p>if specified, it overrides the asp argument of <code><a href="tm_layout.html">tm_layout</a></code>. Tip: set to <code>0</code> if map frame should be placed on the edges of the image.</p></dd>
+
+
 <dt>scale</dt>
 <dd><p>overrides the scale argument of <code><a href="tm_layout.html">tm_layout</a></code> (unless set to <code>NA</code>)</p></dd>
+
+
 <dt>insets_tm</dt>
 <dd><p>tmap object of an inset map, or a list of tmap objects of multiple inset maps. The number of tmap objects should be equal to the number of viewports specified with <code>insets_vp</code>.</p></dd>
+
+
 <dt>insets_vp</dt>
 <dd><p><code><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></code> of an inset map, or a list of <code><a href="https://rdrr.io/r/grid/viewport.html" class="external-link">viewport</a></code>s of multiple inset maps. The number of viewports should be equal to the number of tmap objects specified with <code>insets_tm</code>.</p></dd>
+
+
 <dt>add.titles</dt>
 <dd><p>add titles to leaflet object</p></dd>
+
+
 <dt>in.iframe</dt>
 <dd><p>should an interactive map be saved as an iframe? If so, two HTML files will be saved; one small parent HTML file with the iframe container, and one large child HTML file with the actual widget. See <code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">saveWidgetframe</a></code> for details. By default <code>FALSE</code> which means that one large HTML file is saved (see <code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">saveWidget</a></code>).</p></dd>
+
+
 <dt>selfcontained</dt>
 <dd><p>when an interactive map is saved, should the resources (e.g. Javascript libraries) be contained in the HTML file? If <code>FALSE</code>, they are placed in an adjacent directory (see also <code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">saveWidget</a></code>). Note that the HTML file will often still be large when <code>selfcontained = FALSE</code>, since the map data (polygons and popups), which are also contained in the HTML file, usually take more space then the map resources.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>Deprecated. It is now controlled by the tmap option <code>show.messages</code> (see <code><a href="tmap_options.html">tmap_options</a></code>)</p></dd>
+
+
 <dt>...</dt>
 <dd><p>arguments passed on to device functions or to <code><a href="https://rdrr.io/pkg/htmlwidgets/man/saveWidget.html" class="external-link">saveWidget</a></code> or <code><a href="https://rdrr.io/pkg/widgetframe/man/saveWidgetframe.html" class="external-link">saveWidgetframe</a></code></p></dd>
+
 </dl></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span>, <span class="va">NLD_prov</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">         <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">"population"</span>, convert2density<span class="op">=</span><span class="cn">TRUE</span>, </span>
-<span class="r-in">                 style<span class="op">=</span><span class="st">"kmeans"</span>, </span>
-<span class="r-in">                 title<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Population (per "</span> <span class="op">*</span> <span class="va">km</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="st">")"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">         <span class="fu"><a href="tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="st">"black"</span>, alpha<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in">     <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">         <span class="fu"><a href="tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="st">"grey25"</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"NLD"</span>, inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.02</span>, <span class="fl">.15</span>, <span class="fl">.06</span>, <span class="fl">.15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span>
-<span class="r-in">      <span class="fu"><a href="tm_scale_bar.html">tm_scale_bar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">      <span class="fu"><a href="tm_compass.html">tm_compass</a></span><span class="op">(</span>position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m</span>, <span class="st">"choropleth.png"</span>, height <span class="op">=</span> <span class="fl">7</span><span class="op">)</span> <span class="co"># height interpreted in inches</span></span>
-<span class="r-in">  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m</span>, <span class="st">"choropleth_icon.png"</span>, height <span class="op">=</span> <span class="fl">100</span>, scale <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="co"># height interpreted in pixels</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
-<span class="r-in">  <span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"well_being"</span>, id<span class="op">=</span><span class="st">"name"</span>, title<span class="op">=</span><span class="st">"Well-being"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">    <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># save image</span></span>
-<span class="r-in">  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m2</span>, <span class="st">"World_map.png"</span>, width<span class="op">=</span><span class="fl">1920</span>, height<span class="op">=</span><span class="fl">1080</span>, asp<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in">  <span class="co"># cut left inner margin to make sure Antarctica is snapped to frame</span></span>
-<span class="r-in">  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m2</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">.1</span>, <span class="fl">0.05</span>, <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span>, </span>
-<span class="r-in">        <span class="st">"World_map2.png"</span>, width<span class="op">=</span><span class="fl">1920</span>, height<span class="op">=</span><span class="fl">1080</span>, asp<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="co"># save interactive plot</span></span>
-<span class="r-in">  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m2</span>, <span class="st">"World_map.html"</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">NLD_muni</span>, <span class="va">NLD_prov</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">m</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_muni</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>         <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span>col<span class="op">=</span><span class="st">"population"</span>, convert2density<span class="op">=</span><span class="cn">TRUE</span>, </span></span>
+<span class="r-in"><span>                 style<span class="op">=</span><span class="st">"kmeans"</span>, </span></span>
+<span class="r-in"><span>                 title<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/expression.html" class="external-link">expression</a></span><span class="op">(</span><span class="st">"Population (per "</span> <span class="op">*</span> <span class="va">km</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="st">")"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>         <span class="fu"><a href="tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="st">"black"</span>, alpha<span class="op">=</span><span class="fl">.5</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>     <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">NLD_prov</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>         <span class="fu"><a href="tm_polygons.html">tm_borders</a></span><span class="op">(</span><span class="st">"grey25"</span>, lwd<span class="op">=</span><span class="fl">2</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"NLD"</span>, inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">.02</span>, <span class="fl">.15</span>, <span class="fl">.06</span>, <span class="fl">.15</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> </span></span>
+<span class="r-in"><span>      <span class="fu"><a href="tm_scale_bar.html">tm_scale_bar</a></span><span class="op">(</span>position <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"left"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>      <span class="fu"><a href="tm_compass.html">tm_compass</a></span><span class="op">(</span>position<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"right"</span>, <span class="st">"bottom"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m</span>, <span class="st">"choropleth.png"</span>, height <span class="op">=</span> <span class="fl">7</span><span class="op">)</span> <span class="co"># height interpreted in inches</span></span></span>
+<span class="r-in"><span>  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m</span>, <span class="st">"choropleth_icon.png"</span>, height <span class="op">=</span> <span class="fl">100</span>, scale <span class="op">=</span> <span class="fl">.1</span><span class="op">)</span> <span class="co"># height interpreted in pixels</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  <span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_polygons.html">tm_fill</a></span><span class="op">(</span><span class="st">"well_being"</span>, id<span class="op">=</span><span class="st">"name"</span>, title<span class="op">=</span><span class="st">"Well-being"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="tm_layout.html">tm_format</a></span><span class="op">(</span><span class="st">"World"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># save image</span></span></span>
+<span class="r-in"><span>  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m2</span>, <span class="st">"World_map.png"</span>, width<span class="op">=</span><span class="fl">1920</span>, height<span class="op">=</span><span class="fl">1080</span>, asp<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span>  <span class="co"># cut left inner margin to make sure Antarctica is snapped to frame</span></span></span>
+<span class="r-in"><span>  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m2</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>inner.margins <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="op">-</span><span class="fl">.1</span>, <span class="fl">0.05</span>, <span class="fl">0.01</span><span class="op">)</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>        <span class="st">"World_map2.png"</span>, width<span class="op">=</span><span class="fl">1920</span>, height<span class="op">=</span><span class="fl">1080</span>, asp<span class="op">=</span><span class="fl">0</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="co"># save interactive plot</span></span></span>
+<span class="r-in"><span>  <span class="fu">tmap_save</span><span class="op">(</span><span class="va">m2</span>, <span class="st">"World_map.html"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -171,7 +202,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

@@ -66,23 +66,32 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tm_basemap</span><span class="op">(</span>server <span class="op">=</span> <span class="cn">NA</span>, group <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="cn">NA</span>, tms <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>
-
-<span class="fu">tm_tiles</span><span class="op">(</span><span class="va">server</span>, group <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="fl">1</span>, zindex <span class="op">=</span> <span class="cn">NA</span>, tms <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tm_basemap</span><span class="op">(</span>server <span class="op">=</span> <span class="cn">NA</span>, group <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="cn">NA</span>, tms <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tm_tiles</span><span class="op">(</span><span class="va">server</span>, group <span class="op">=</span> <span class="cn">NA</span>, alpha <span class="op">=</span> <span class="fl">1</span>, zindex <span class="op">=</span> <span class="cn">NA</span>, tms <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>server</dt>
 <dd><p>name of the provider or an URL. The list of available providers can be obtained with <code>providers</code> (tip: in RStudio, type <code>providers$</code> to see the options). See <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link">https://leaflet-extras.github.io/leaflet-providers/preview/</a> for a preview of those. When a URL is provided, it should be in template format, e.g. <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. Use <code>NULL</code> in <code>tm_basemap</code> to disable the basemaps.</p></dd>
+
+
 <dt>group</dt>
 <dd><p>name of the group to which this layer belongs in view mode. Each group can be selected or deselected in the layer control item. Set <code>group = NULL</code> to hide the layer in the layer control item. By default, it will be set to the name of the shape (specified in <code><a href="tm_shape.html">tm_shape</a></code>). Tile layers generated with <code>tm_basemap</code> will be base groups whereas tile layers generated with <code>tm_tiles</code> will be overlay groups.</p></dd>
+
+
 <dt>alpha</dt>
 <dd><p>alpha</p></dd>
+
+
 <dt>tms</dt>
 <dd><p>is the provided tile server defined according to the TMS protocol? By default <code>FALSE</code>.</p></dd>
+
+
 <dt>zindex</dt>
 <dd><p>zindex of the pane in view mode. By default, it is set to the layer number plus 400. By default, the tmap layers will therefore be placed in the custom panes <code>"tmap401"</code>, <code>"tmap402"</code>, etc., except for the base tile layers, which are placed in the standard <code>"tile"</code>. This parameter determines both the name of the pane and the z-index, which determines the pane order from bottom to top. For instance, if <code>zindex</code> is set to 500, the pane will be named <code>"tmap500"</code>.</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -91,30 +100,30 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span>
-<span class="r-in"><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">tm_basemap</span><span class="op">(</span><span class="fu">leaflet</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">providers</a></span><span class="op">$</span><span class="va">Stamen.Watercolor</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span>, bbox <span class="op">=</span> <span class="st">"India"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_symbols.html">tm_dots</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span>, group <span class="op">=</span> <span class="st">"Metropolitan areas"</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in"><span class="fu">tm_tiles</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://services.arcgisonline.com/arcgis/rest/services/Canvas/"</span>,</span>
-<span class="r-in">    <span class="st">"World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"</span><span class="op">)</span>, group <span class="op">=</span> <span class="st">"Labels"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Use tmap options to set the basemap and overlay map permanently during the R session:</span></span>
-<span class="r-in"><span class="va">opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_options.html">tmap_options</a></span><span class="op">(</span>basemaps <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Canvas <span class="op">=</span> <span class="st">"Esri.WorldGrayCanvas"</span>, Imagery <span class="op">=</span> <span class="st">"Esri.WorldImagery"</span><span class="op">)</span>,</span>
-<span class="r-in">    overlays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://services.arcgisonline.com/arcgis/rest/services/Canvas/"</span>,</span>
-<span class="r-in">                                 <span class="st">"World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in">  </span>
-<span class="r-in">  <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"HPI"</span>, fill.palette <span class="op">=</span> <span class="st">"RdYlGn"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># restore options</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_options.html">tmap_options</a></span><span class="op">(</span><span class="va">opts</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># restore current mode</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span>
-<span class="r-in"><span class="op">}</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="cn">FALSE</span><span class="op">)</span> <span class="op">{</span></span></span>
+<span class="r-in"><span><span class="va">current.mode</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="st">"view"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span>, <span class="va">metro</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">tm_basemap</span><span class="op">(</span><span class="fu">leaflet</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">providers</a></span><span class="op">$</span><span class="va">Stamen.Watercolor</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">metro</span>, bbox <span class="op">=</span> <span class="st">"India"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_symbols.html">tm_dots</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">"red"</span>, group <span class="op">=</span> <span class="st">"Metropolitan areas"</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span><span class="fu">tm_tiles</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://services.arcgisonline.com/arcgis/rest/services/Canvas/"</span>,</span></span>
+<span class="r-in"><span>    <span class="st">"World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"</span><span class="op">)</span>, group <span class="op">=</span> <span class="st">"Labels"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Use tmap options to set the basemap and overlay map permanently during the R session:</span></span></span>
+<span class="r-in"><span><span class="va">opts</span> <span class="op">&lt;-</span> <span class="fu"><a href="tmap_options.html">tmap_options</a></span><span class="op">(</span>basemaps <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Canvas <span class="op">=</span> <span class="st">"Esri.WorldGrayCanvas"</span>, Imagery <span class="op">=</span> <span class="st">"Esri.WorldImagery"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    overlays <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>Labels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"http://services.arcgisonline.com/arcgis/rest/services/Canvas/"</span>,</span></span>
+<span class="r-in"><span>                                 <span class="st">"World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  </span></span>
+<span class="r-in"><span>  <span class="fu"><a href="qtm.html">qtm</a></span><span class="op">(</span><span class="va">World</span>, fill <span class="op">=</span> <span class="st">"HPI"</span>, fill.palette <span class="op">=</span> <span class="st">"RdYlGn"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># restore options</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_options.html">tmap_options</a></span><span class="op">(</span><span class="va">opts</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># restore current mode</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_mode.html">tmap_mode</a></span><span class="op">(</span><span class="va">current.mode</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">}</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -129,7 +138,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>

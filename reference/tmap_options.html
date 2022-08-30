@@ -66,80 +66,121 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">tmap_options</span><span class="op">(</span>
-  <span class="va">...</span>,
-  <span class="va">unit</span>,
-  <span class="va">limits</span>,
-  <span class="va">max.categories</span>,
-  <span class="va">max.raster</span>,
-  <span class="va">basemaps</span>,
-  <span class="va">basemaps.alpha</span>,
-  <span class="va">overlays</span>,
-  <span class="va">overlays.alpha</span>,
-  <span class="va">qtm.scalebar</span>,
-  <span class="va">qtm.minimap</span>,
-  <span class="va">qtm.mouse.coordinates</span>,
-  <span class="va">show.messages</span>,
-  <span class="va">show.warnings</span>,
-  <span class="va">output.format</span>,
-  <span class="va">output.size</span>,
-  <span class="va">output.dpi</span>,
-  <span class="va">output.dpi.animation</span>,
-  design.mode <span class="op">=</span> <span class="cn">NULL</span>,
-  <span class="va">check.and.fix</span>
-<span class="op">)</span>
-
-<span class="fu">tmap_options_diff</span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu">tmap_options_reset</span><span class="op">(</span><span class="op">)</span>
-
-<span class="fu">tmap_options_save</span><span class="op">(</span><span class="va">style</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">tmap_options</span><span class="op">(</span></span>
+<span>  <span class="va">...</span>,</span>
+<span>  <span class="va">unit</span>,</span>
+<span>  <span class="va">limits</span>,</span>
+<span>  <span class="va">max.categories</span>,</span>
+<span>  <span class="va">max.raster</span>,</span>
+<span>  <span class="va">basemaps</span>,</span>
+<span>  <span class="va">basemaps.alpha</span>,</span>
+<span>  <span class="va">overlays</span>,</span>
+<span>  <span class="va">overlays.alpha</span>,</span>
+<span>  <span class="va">qtm.scalebar</span>,</span>
+<span>  <span class="va">qtm.minimap</span>,</span>
+<span>  <span class="va">qtm.mouse.coordinates</span>,</span>
+<span>  <span class="va">show.messages</span>,</span>
+<span>  <span class="va">show.warnings</span>,</span>
+<span>  <span class="va">output.format</span>,</span>
+<span>  <span class="va">output.size</span>,</span>
+<span>  <span class="va">output.dpi</span>,</span>
+<span>  <span class="va">output.dpi.animation</span>,</span>
+<span>  design.mode <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  <span class="va">check.and.fix</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmap_options_diff</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmap_options_reset</span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="fu">tmap_options_save</span><span class="op">(</span><span class="va">style</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>...</dt>
 <dd><p>options from <code><a href="tm_layout.html">tm_layout</a></code> or <code><a href="tm_view.html">tm_view</a></code>. Note that the difference with using <code><a href="tm_layout.html">tm_layout</a></code> or <code><a href="tm_view.html">tm_view</a></code> directly, is that options set with <code>tmap_options</code> remain for the entire session (unless changed with <code>tmap_options</code> or <code><a href="tmap_style.html">tmap_style</a></code>). It can also be a single unnamed argument which is a named list of options (similar behaviour as <code><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></code>).</p></dd>
+
+
 <dt>unit</dt>
 <dd><p>this is the default value for the <code>unit</code> argument of <code><a href="tm_shape.html">tm_shape</a></code>. It specifies the unit of measurement, which is used in the scale bar and the calculation of density values. By default (when loading the package), it is <code>"metric"</code>. Other valid values are <code>"imperial"</code>, <code>"km"</code>, <code>"m"</code>, <code>"mi"</code>, and <code>"ft"</code>.</p></dd>
+
+
 <dt>limits</dt>
 <dd><p>this option determines how many facets (small multiples) are allowed for per mode. It should be a vector of two numeric values named <code>facets.view</code> and <code>facets.plot</code>. By default (i.e. when loading the package), it is set to <code>c(facets.view = 4, facets.plot = 64)</code></p></dd>
+
+
 <dt>max.categories</dt>
 <dd><p>in case <code>col</code> is the name of a categorical variable in the layer functions (e.g. <code><a href="tm_polygons.html">tm_polygons</a></code>), this value determines how many categories (levels) it can have maximally. If the number of levels is higher than <code>max.categories</code>, then levels are combined.</p></dd>
+
+
 <dt>max.raster</dt>
 <dd><p>the maximum size of rasters, in terms of number of raster cells. It should be a vector of two numeric values named <code>plot</code> and <code>view</code>, which determines the size in plotting and viewing mode. The default values are <code>c(plot = 1e7, view = 1e6)</code>. Rasters that are larger will be shown at a decreased resolution.</p></dd>
+
+
 <dt>basemaps</dt>
 <dd><p>default basemaps. Basemaps are normally configured with <code><a href="tm_tiles.html">tm_basemap</a></code>. When this is not done, the basemaps specified by this option are shown (in view mode). Vector of one or more names of baselayer maps, or <code>NULL</code> if basemaps should be omitted. For options see the list <code><a href="https://rdrr.io/pkg/leaflet/man/providers.html" class="external-link">leaflet::providers</a></code>, which can be previewed at <a href="https://leaflet-extras.github.io/leaflet-providers/preview/" class="external-link">https://leaflet-extras.github.io/leaflet-providers/preview/</a>. Also supports URL's for tile servers, such as <code>"https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"</code>. If a named vector is provided, the names are used in the layer control legend (similar to the <code>group</code> argument of <code><a href="tm_tiles.html">tm_basemap</a></code>. See also <code>overlays</code>, which is the default option for overlay tiles.</p></dd>
+
+
 <dt>basemaps.alpha</dt>
 <dd><p>default transparency (opacity) value for the basemaps. Can be a vector of values, one for each basemap.</p></dd>
+
+
 <dt>overlays</dt>
 <dd><p>default overlay tilemaps. Overlays tilemaps are shown as front layer (in contrast to basemaps, which are background layers), so they are only useful when they are semi-transparent. Like basemaps, a vector of tilemaps is expected, or <code>NULL</code> is overlays should be omitted.</p></dd>
+
+
 <dt>overlays.alpha</dt>
 <dd><p>default transparency (opacity) value for the overlay maps. Can be a vector of values, one for each overlay map.</p></dd>
+
+
 <dt>qtm.scalebar</dt>
 <dd><p>should a scale bar be added to interactive maps created with <code><a href="qtm.html">qtm</a></code>. In other words, should <code><a href="tm_scale_bar.html">tm_scale_bar()</a></code> be added automatically? The value <code>NA</code> means that the scale bar is only added when <code><a href="qtm.html">qtm</a></code> is called without arguments or with a search term. The default value is <code>TRUE</code>.</p></dd>
+
+
 <dt>qtm.minimap</dt>
 <dd><p>should a minimap be added to interactive maps created with <code><a href="qtm.html">qtm</a></code>. In other words, should <code><a href="tm_minimap.html">tm_minimap()</a></code> be added automatically? The default value is <code>FALSE</code>.</p></dd>
+
+
 <dt>qtm.mouse.coordinates</dt>
 <dd><p>should mouse coordinates (and zoom level) be shown in view mode with <code><a href="qtm.html">qtm</a></code>? In other words, should <code><a href="tm_mouse_coordinates.html">tm_mouse_coordinates()</a></code> be added automatically? <code>TRUE</code> by default.</p></dd>
+
+
 <dt>show.messages</dt>
 <dd><p>should messages be shown?</p></dd>
+
+
 <dt>show.warnings</dt>
 <dd><p>should warnings be shown?</p></dd>
+
+
 <dt>output.format</dt>
 <dd><p>The format of the static maps saved with <code><a href="tmap_save.html">tmap_save</a></code> without specification of the filename. The default is <code>"png"</code>.</p></dd>
+
+
 <dt>output.size</dt>
 <dd><p>The size of the static maps saved with <code><a href="tmap_save.html">tmap_save</a></code> without specification of width and height. The unit is squared inch and the default is 49. This means that square maps (so with aspect ratio 1) will be saved as 7 by 7 inch images and a map with aspect ratio 2 (e.g. most world maps) will be saved as approximately 10 by 5 inch.</p></dd>
+
+
 <dt>output.dpi</dt>
 <dd><p>The default number of dots per inch for <code><a href="tmap_save.html">tmap_save</a></code>.</p></dd>
+
+
 <dt>output.dpi.animation</dt>
 <dd><p>The default number of dots per inch for <code><a href="tmap_animation.html">tmap_animation</a></code>.</p></dd>
+
+
 <dt>design.mode</dt>
 <dd><p>Not used anymore; the design mode can now be set with <code><a href="tmap_design_mode.html">tmap_design_mode</a></code></p></dd>
+
+
 <dt>check.and.fix</dt>
 <dd><p>Logical that determines whether shapes (<code>sf</code> objects) are checked for validity with <code><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_is_valid</a></code> and fixed with <code><a href="https://r-spatial.github.io/sf/reference/valid.html" class="external-link">st_make_valid</a></code> if needed.</p></dd>
+
+
 <dt>style</dt>
 <dd><p>style name</p></dd>
+
 </dl></div>
     <div id="details">
     <h2>Details</h2>
@@ -154,11 +195,11 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># load data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get current options</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu">tmap_options</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># load data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get current options</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/str.html" class="external-link">str</a></span><span class="op">(</span><span class="fu">tmap_options</span><span class="op">(</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> List of 111</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ unit                   : chr "metric"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ limits                 : Named num [1:2] 64 4</span>
@@ -280,23 +321,23 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  $ alpha                  : logi NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   [list output truncated]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  - attr(*, "style")= chr "white"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># get current style</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># get current style</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap style is "white"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot map (with default options)</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot map (with default options)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_options-1.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># change style to cobalt</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># change style to cobalt</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="st">"cobalt"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap style set to "cobalt"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># observe the changed options</span></span>
-<span class="r-in"><span class="fu">tmap_options_diff</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># observe the changed options</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_options_diff</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap options (style "cobalt") that are different from default tmap options (style "white"):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bg.color</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "#002240"</span>
@@ -325,25 +366,25 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $basemaps.alpha</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot the map again</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot the map again</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_options-2.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">##############################</span></span>
-<span class="r-in"><span class="co"># define red style</span></span>
-<span class="r-in"><span class="co">##############################</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># change the background color</span></span>
-<span class="r-in"><span class="fu">tmap_options</span><span class="op">(</span>bg.color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># note that the current style is modified</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">##############################</span></span></span>
+<span class="r-in"><span><span class="co"># define red style</span></span></span>
+<span class="r-in"><span><span class="co">##############################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># change the background color</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_options</span><span class="op">(</span>bg.color <span class="op">=</span> <span class="st">"red"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># note that the current style is modified</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap style is "cobalt (modified)"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># observe the changed options</span></span>
-<span class="r-in"><span class="fu">tmap_options_diff</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># observe the changed options</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_options_diff</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap options (style "cobalt (modified)") that are different from default tmap options (style "white"):</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $bg.color</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "red"</span>
@@ -372,72 +413,72 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $basemaps.alpha</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.5</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># save the current options as style "red"</span></span>
-<span class="r-in"><span class="fu">tmap_options_save</span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># save the current options as style "red"</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_options_save</span><span class="op">(</span><span class="st">"red"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap options saved as style "red"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot the map again</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot the map again</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_options-3.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># the specified arguments of tm_layout and tm_view will override the options temporarily:</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>bg.color<span class="op">=</span><span class="st">"purple"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># the specified arguments of tm_layout and tm_view will override the options temporarily:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>bg.color<span class="op">=</span><span class="st">"purple"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_options-4.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># when tm_style_ is called, it will override all options temporarily:</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>bg.color<span class="op">=</span><span class="st">"purple"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># when tm_style_ is called, it will override all options temporarily:</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_layout</a></span><span class="op">(</span>bg.color<span class="op">=</span><span class="st">"purple"</span><span class="op">)</span> <span class="op">+</span> <span class="fu"><a href="tm_layout.html">tm_style</a></span><span class="op">(</span><span class="st">"classic"</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> Note that tm_style("classic") resets all options set with tm_layout, tm_view, tm_format, or tm_legend. It is therefore recommended to place the tm_style element prior to the other tm_layout/tm_view/tm_format/tm_legend elements.</span>
 <span class="r-plt img"><img src="tmap_options-5.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># reset all options</span></span>
-<span class="r-in"><span class="fu">tmap_options_reset</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># reset all options</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_options_reset</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap options successfully reset</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># check style and options</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># check style and options</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap style is "white"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span>
-<span class="r-in"><span class="fu">tmap_options_diff</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">tmap_options_diff</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap options are similar to the default tmap options (style "white")</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">##############################</span></span>
-<span class="r-in"><span class="co"># define black style</span></span>
-<span class="r-in"><span class="co">##############################</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># create style list with style attribute</span></span>
-<span class="r-in"><span class="va">black_style</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span></span>
-<span class="r-in">    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span>
-<span class="r-in">    bg.color <span class="op">=</span> <span class="st">"black"</span>,</span>
-<span class="r-in">    aes.color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey40"</span>, borders <span class="op">=</span> <span class="st">"grey40"</span>, </span>
-<span class="r-in">            symbols <span class="op">=</span> <span class="st">"grey80"</span>, dots <span class="op">=</span> <span class="st">"grey80"</span>, </span>
-<span class="r-in">                  lines <span class="op">=</span> <span class="st">"white"</span>, text <span class="op">=</span> <span class="st">"white"</span>, </span>
-<span class="r-in">            na <span class="op">=</span> <span class="st">"grey30"</span>, null <span class="op">=</span> <span class="st">"grey15"</span><span class="op">)</span>,</span>
-<span class="r-in">    aes.palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seq <span class="op">=</span> <span class="st">"plasma"</span>, div <span class="op">=</span> <span class="st">"PiYG"</span>, cat <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span>,</span>
-<span class="r-in">    attr.color <span class="op">=</span> <span class="st">"white"</span>,</span>
-<span class="r-in">    panel.label.color <span class="op">=</span> <span class="st">"white"</span>,</span>
-<span class="r-in">    panel.label.bg.color <span class="op">=</span> <span class="st">"grey40"</span>,</span>
-<span class="r-in">    main.title.color <span class="op">=</span> <span class="st">"white"</span></span>
-<span class="r-in">  <span class="op">)</span>,</span>
-<span class="r-in">  style <span class="op">=</span> <span class="st">"black"</span></span>
-<span class="r-in"><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># assign the style</span></span>
-<span class="r-in"><span class="fu">tmap_options</span><span class="op">(</span><span class="va">black_style</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">##############################</span></span></span>
+<span class="r-in"><span><span class="co"># define black style</span></span></span>
+<span class="r-in"><span><span class="co">##############################</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># create style list with style attribute</span></span></span>
+<span class="r-in"><span><span class="va">black_style</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/structure.html" class="external-link">structure</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span></span></span>
+<span class="r-in"><span>    bg.color <span class="op">=</span> <span class="st">"black"</span>,</span></span>
+<span class="r-in"><span>    aes.color <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>fill <span class="op">=</span> <span class="st">"grey40"</span>, borders <span class="op">=</span> <span class="st">"grey40"</span>, </span></span>
+<span class="r-in"><span>            symbols <span class="op">=</span> <span class="st">"grey80"</span>, dots <span class="op">=</span> <span class="st">"grey80"</span>, </span></span>
+<span class="r-in"><span>                  lines <span class="op">=</span> <span class="st">"white"</span>, text <span class="op">=</span> <span class="st">"white"</span>, </span></span>
+<span class="r-in"><span>            na <span class="op">=</span> <span class="st">"grey30"</span>, null <span class="op">=</span> <span class="st">"grey15"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    aes.palette <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>seq <span class="op">=</span> <span class="st">"plasma"</span>, div <span class="op">=</span> <span class="st">"PiYG"</span>, cat <span class="op">=</span> <span class="st">"Dark2"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>    attr.color <span class="op">=</span> <span class="st">"white"</span>,</span></span>
+<span class="r-in"><span>    panel.label.color <span class="op">=</span> <span class="st">"white"</span>,</span></span>
+<span class="r-in"><span>    panel.label.bg.color <span class="op">=</span> <span class="st">"grey40"</span>,</span></span>
+<span class="r-in"><span>    main.title.color <span class="op">=</span> <span class="st">"white"</span></span></span>
+<span class="r-in"><span>  <span class="op">)</span>,</span></span>
+<span class="r-in"><span>  style <span class="op">=</span> <span class="st">"black"</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># assign the style</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_options</span><span class="op">(</span><span class="va">black_style</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap options successfully loaded as style "black"</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># observe that "black" is a new style</span></span>
-<span class="r-in"><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># observe that "black" is a new style</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tmap_style.html">tmap_style</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> current tmap style is "black"</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> other available styles are: "white", "gray", "natural", "cobalt", "col_blind", "albatross", "beaver", "bw", "classic", "watercolor", "red" </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># plot the world map again, this time with the newly created black style</span></span>
-<span class="r-in"><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span>
-<span class="r-in">  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># plot the world map again, this time with the newly created black style</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="tm_shape.html">tm_shape</a></span><span class="op">(</span><span class="va">World</span><span class="op">)</span> <span class="op">+</span></span></span>
+<span class="r-in"><span>  <span class="fu"><a href="tm_polygons.html">tm_polygons</a></span><span class="op">(</span><span class="st">"HPI"</span><span class="op">)</span></span></span>
 <span class="r-plt img"><img src="tmap_options-6.png" alt="" width="700" height="433"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># reset all options</span></span>
-<span class="r-in"><span class="fu">tmap_options_reset</span><span class="op">(</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># reset all options</span></span></span>
+<span class="r-in"><span><span class="fu">tmap_options_reset</span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> tmap options successfully reset</span>
 </code></pre></div>
     </div>
@@ -453,7 +494,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.9000.</p>
 </div>
 
       </footer></div>
