@@ -367,7 +367,7 @@ tm_balloons = function(col = tm_const(),
 #' @example ./examples/tm_raster.R 
 #' @export
 tm_raster = function(col = tm_shape_vars(),
-					 col.scale = tm_scale(),
+					 col.scale = tm_scale(value.na = "#00000000"),
 					 col.legend = tm_legend(),
 					 col.free = NA,
 					 col_alpha = tm_const(),

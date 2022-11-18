@@ -70,7 +70,7 @@ tmapShape.SpatRaster = function(shp, is.main, crs, bbox, unit, filter, shp_name,
 	#tmapShape.stars(stars::st_as_stars(shp), is.main, crs, bbox, unit, filter, shp_name)
 	if (!requireNamespace("terra")) stop("terra package needed", call. = FALSE)
 	
-	if (!inherits(bbox, "bbox")) bbox = sf::st_bbox(bbox)
+	#if (!inherits(bbox, "bbox")) bbox = sf::st_bbox(bbox)
 	
 	
 	shp = downsample_SpatRaster(shp, max.raster = o$raster.max.cells / (o$fn[1] * o$fn[2]))

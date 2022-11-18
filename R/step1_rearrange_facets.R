@@ -59,7 +59,7 @@ step1_rearrange_facets = function(tmo) {
 		
 		precheck_aes = function(a, layer, shpvars) {
 			within(a, {
-				if (is.na(value[[1]])) {
+				if (length(value) && is.na(value[[1]])) {
 					# NA -> value.blank
 					value = tmapVars(getAesOption("value.blank", o, aes = aes, layer = layer))
 				}
