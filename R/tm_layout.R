@@ -90,6 +90,7 @@
 #' @example ./examples/tm_layout.R 
 #' @export 
 tm_layout = function(
+		title = NULL,
 	scale,
 	asp,
 	
@@ -197,7 +198,13 @@ tm_layout = function(
 	panel.label.height,
 	panel.label.rot) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
-	do.call(tm_options, args)
+	if (!is.null(title)) {
+		warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
+		args$title = NULL
+		do.call(tm_options, args) + tm_title(title = title)
+	} else {
+		do.call(tm_options, args)
+	}
 }
 
 tm_view = function(use.WebGL,
