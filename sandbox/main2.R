@@ -331,7 +331,7 @@ tm_shape(World) +
 
 
 tm_shape(landsat_terra) +
-	tm_raster(c("lan_1", "lan_2", "lan_3", "lan_4"), col.free = FALSE) + tm_options(max.raster = 10000)
+	tm_raster(c("landsat_1", "landsat_2", "landsat_3", "landsat_4"), col.free = FALSE) + tm_options(max.raster = 10000)
 
 tm_shape(landsat_stars) +
 	tm_raster("landsat.tif") +
@@ -339,7 +339,7 @@ tm_shape(landsat_stars) +
 
 
 tm_shape(landsat_terra) +
-	tm_rgb(tm_mv("lan_4", "lan_3", "lan_2"), col.scale = tm_scale_rgb(maxValue = 31961))
+	tm_rgb(tm_mv("landsat_4", "landsat_3", "landsat_2"), col.scale = tm_scale_rgb(maxValue = 31961))
 
 
 land_terra = rast(as(land, "Raster"))

@@ -1,4 +1,4 @@
-tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev) {
+tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
 	cls = data_class(x1)
 	maincls = class(scale)[1]
 	
@@ -177,6 +177,10 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev) {
 			na.show = na.show
 		})
 		
-		format_aes_results(vals, ids, legend)
+		if (bypass_ord) {
+			format_aes_results(vals, legend)
+		} else {
+			format_aes_results(vals, ids, legend)			
+		}
 	})
 }

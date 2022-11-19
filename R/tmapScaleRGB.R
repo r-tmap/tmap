@@ -1,4 +1,4 @@
-tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, sortRev) {
+tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, sortRev, bypass_ord) {
 	
 	cls1 = data_class(x1)
 	cls2 = data_class(x2)
@@ -31,22 +31,36 @@ tmapScaleRGB = function(x1, x2, x3, scale, legend, o, aes, layer, sortRev) {
 				  vvalues = NA,
 				  vneutral = "grey50",
 				  na.show = NA,
-				  setup = list(show = FALSE))
+				  show = FALSE)
 	
-	format_aes_results(values, 1L, legend)
-	
+	if (bypass_ord) {
+		format_aes_results(values, legend = legend)
+	} else {
+		format_aes_results(values, ord = 1L, legend = legend)
+	}	
 }
-# 
-# tmapScaleNA = function(x1, scale, legend, opt, aes, layer, sortRev) {
-# 	legend = list(title = NA, 
-# 				  nitems = 0,
-# 				  labels = NA, 
-# 				  dvalues = NA, 
-# 				  vvalues = NA,
-# 				  vneutral = "grey50",
-# 				  na.show = NA,
-# 				  setup = list(show = FALSE))
-# 	
-# 	format_aes_results(values, legend)
-# 	
-# }
+
+
+tmapScaleAsIs = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
+	legend = list(title = NA, 
+				  nitems = 0,
+				  labels = NA, 
+				  dvalues = NA, 
+				  vvalues = NA,
+				  vneutral = "grey50",
+				  na.show = NA,
+				  show = FALSE)
+
+	sfun = paste0("tmapValuesScale_", aes)
+	cfun = paste0("tmapValuesColorize_", aes)
+	
+	x2 = do.call(sfun, list(x = x1, scale = o$scale))
+	values = do.call(cfun, list(x = x2, pc = o$pc))
+	
+	
+	if (bypass_ord) {
+		format_aes_results(values, legend = legend)
+	} else {
+		format_aes_results(values, ord = 1L, legend = legend)
+	}
+}

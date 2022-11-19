@@ -173,7 +173,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 			if (length(v)) update_fl(k = v, lev = vars)
 			
 			apply_scale = function(s, l, v, varname, ordname, legname, sortRev, bypass_ord) {
-
 				# update legend options
 				oltype = o[c("legend.design", "legend.orientation")]
 				names(oltype) = c("design", "orientation")
@@ -187,7 +186,6 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				
 				# update legend class
 				class(l) = c(paste0("tm_legend_", l$design, ifelse(!is.null(l$orientation), paste0("_", l$orientation), "")), class(l)) 
-				
 				if (length(s) == 0) stop("mapping not implemented for aesthetic ", nm, call. = FALSE)
 				f = s$FUN
 				s$FUN = NULL
@@ -203,8 +201,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 					vn = do.call(sfun, list(x = vn, scale = o$scale))
 					do.call(cfun, list(x = vn, pc = o$pc))
 				}
-				arglist = list(scale = s, legend = l, o = o, aes = unm, layer = layer, sortRev = sortRev)
-				#browser()
+				arglist = list(scale = s, legend = l, o = o, aes = unm, layer = layer, sortRev = sortRev, bypass_ord = bypass_ord)
 				if (!all(dtl$sel__)) {
 					if (bypass_ord) {
 						dtl[, c(varname, legname) := list(value.null, 0L)]

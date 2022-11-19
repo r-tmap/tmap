@@ -62,7 +62,6 @@ step2_data = function(tm) {
 			trans = mapply(getdts, tml$trans.aes, names(tml$trans.aes), SIMPLIFY = FALSE, MoreArgs = list(p = tp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, mfun = tml$mapping.fun, plot.order = plot.order))
 			
 			#cat("step2_grp_lyr_mapping_____________\n")
-			
 			mapping = mapply(getdts, tml$mapping.aes, names(tml$mapping.aes), SIMPLIFY = FALSE, MoreArgs = list(p = gp, q = tmf, o = o, dt = dt, shpvars = shpvars, layer = tml$layer, mfun = tml$mapping.fun, plot.order = plot.order))
 
 			dts_trans = cbind_dts(lapply(trans, function(x) x$dt), plot.order)

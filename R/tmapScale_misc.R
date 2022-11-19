@@ -61,4 +61,13 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, na.show, sortRev) {
 			na.show = TRUE
 		})
 	}
-	return(format_aes_results(rep(value.na, n), ids, legend))}
+	
+	vals = rep(value.na, n)
+	
+	if (bypass_ord) {
+		format_aes_results(vals, legend)
+	} else {
+		format_aes_results(vals, ids, legend)			
+	}
+	
+}

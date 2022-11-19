@@ -20,7 +20,7 @@ tm_shape(World) + tm_borders()
 # Data variable containing colours values
 World$isNLD <- ifelse(World$name=="Netherlands", "darkorange", "darkolivegreen3")
 tm_shape(World) +
-	tm_fill("isNLD") +
+	tm_fill(I("isNLD")) +
 	tm_layout("Find the Netherlands!")
 
 tm_shape(World, projection = "+proj=eck4") +

@@ -59,7 +59,7 @@ step1_rearrange_facets = function(tmo) {
 		
 		precheck_aes = function(a, layer, shpvars) {
 			within(a, {
-				if (length(value) && is.na(value[[1]])) {
+				if (length(value) && is.na(value[[1]][1])) {
 					# NA -> value.blank
 					value = tmapVars(getAesOption("value.blank", o, aes = aes, layer = layer))
 				}
@@ -74,8 +74,12 @@ step1_rearrange_facets = function(tmo) {
 					value_orig = value
 					value = lapply(value_orig, make.names)
 					names(value) = value_orig
+					
+					if (inherits(value_orig, "tmapAsIs")) {
+						if (inherits(scale, "tm_scale_auto")) scale = tm_scale_asis()
+					}
 				}
-				
+
 				nvars = length(value) #m
 				nvari = vapply(value, length, integer(1))
 				

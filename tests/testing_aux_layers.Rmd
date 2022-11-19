@@ -3,6 +3,8 @@ title: "Testing - Aux layers"
 author: "Martijn Tennekes"
 date: "`r Sys.Date()`"
 output: html_document
+editor_options: 
+  chunk_output_type: console
 ---
 
 ```{r setup, include=FALSE}

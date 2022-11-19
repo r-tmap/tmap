@@ -76,7 +76,7 @@ tmapGridTilesPrep = function(a, bs, o) {
 	ds = lapply(ss, function(s) {
 		if (is.null(s)) return(NULL)
 		d = s$dt
-		d[, c("col", "ord", "legnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), o = o, aes = "col", layer = "raster", sortRev = NA))]
+		d[, c("col", "legnr") := do.call(srgb$FUN, list(x1 = red, x2 = green, x3 = blue, scale = srgb, legend = list(), o = o, aes = "col", layer = "raster", sortRev = NA, bypass_ord = TRUE))]
 		d[, col_alpha:=1L]
 		d
 	})

@@ -1,4 +1,4 @@
-tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
+tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
 	# style = if (inherits(scale, "tm_scale_continuous")) {
 	# 	"cont"
 	# } else if (inherits(scale, "tm_scale_log10")) {
@@ -235,7 +235,11 @@ tmapScaleContinuous = function(x1, scale, legend, o, aes, layer, sortRev) {
 			na.show = na.show
 		})
 		
-		format_aes_results(vals, ids, legend)
+		if (bypass_ord) {
+			format_aes_results(vals, legend)
+		} else {
+			format_aes_results(vals, ids, legend)			
+		}
 		
 	})
 }

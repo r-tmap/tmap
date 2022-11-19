@@ -81,7 +81,7 @@ tmapLeafletLegend = function(comp, o, facet_row = NULL, facet_col = NULL, facet_
 			pal = rep(pal, length.out = length(lab))
 			
 			if (length(opacity == length(lab))) {
-				pal = paste0(pal, tmap::num_to_hex(opacity * 255))
+				pal = paste0(pal, num_to_hex(opacity * 255))
 			}
 			
 			legvals = lab

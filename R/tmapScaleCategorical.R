@@ -1,4 +1,4 @@
-tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev) {
+tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
 	cls = if (inherits(scale, "tm_scale_categorical")) c("fact", "unord") else c("fact", "ord")
 	
 	
@@ -125,7 +125,11 @@ tmapScaleCategorical = function(x1, scale, legend, o, aes, layer, sortRev) {
 			na.show = na.show
 		})
 		
-
-		format_aes_results(vals, ids, legend)
+		if (bypass_ord) {
+			format_aes_results(vals, legend)
+		} else {
+			format_aes_results(vals, ids, legend)			
+		}
+		
 	})	
 }

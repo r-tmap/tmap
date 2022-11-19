@@ -1,4 +1,4 @@
-tmapGridInit = function(o, q) {
+tmapGridInit = function(o) {
 	if (!requireNamespace("grid")) stop("grid package required but not installed yet.")
 	
 	
@@ -202,4 +202,8 @@ tmapGridInit = function(o, q) {
 	assign("gts", gts, envir = .TMAP_GRID)
 	assign("g", g, envir = .TMAP_GRID)
 	
+}
+
+tmapGridAux = function(o, q) {
+	NULL
 }
