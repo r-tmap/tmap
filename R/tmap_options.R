@@ -312,6 +312,10 @@
 
 styles = list(
 	v3 = list(
+		value.na = "grey75",
+		value.null =  "grey95",
+		values.var = list(fill = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br"),
+						  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br")),
 		frame.lwd = 1,
 		frame.r = 0,
 		legend.position = tm_pos_auto_in(align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),

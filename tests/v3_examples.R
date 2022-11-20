@@ -56,4 +56,29 @@ tm_shape(World, projection = "+proj=eck4") +
 	}
 }
 
-# TIP: check out these examples in view mode, enabled with tmap_mode("view")
+tm_shape(World)
+World$HPI[1:10] = NA
+
+tmap_style("v3")
+tm_shape(World) + tm_polygons("economy", style = "cat")
+tm_shape(World) + tm_polygons("HPI", style = "fixed", breaks = c(0, 20, 35, 42, 50))
+tm_shape(World) + tm_polygons("HPI", style = "sd")
+tm_shape(World) + tm_polygons("HPI", style = "equal")
+tm_shape(World) + tm_polygons("HPI", style = "pretty")
+tm_shape(World) + tm_polygons("HPI", style = "quantile")
+tm_shape(World) + tm_polygons("HPI", style = "kmeans")
+tm_shape(World) + tm_polygons("HPI", style = "hclust")
+tm_shape(World) + tm_polygons("HPI", style = "bclust")
+tm_shape(World) + tm_polygons("HPI", style = "fisher")
+tm_shape(World) + tm_polygons("HPI", style = "jenks")
+tm_shape(World) + tm_polygons("HPI", style = "dpih")
+tm_shape(World) + tm_polygons("HPI", style = "headtails")
+tm_shape(World) + tm_polygons("HPI", style = "log10_pretty")
+
+tm_shape(World) + tm_polygons("HPI", style = "cont")
+tm_shape(World) + tm_polygons("HPI", style = "order")
+tm_shape(World) + tm_polygons("HPI", style = "log10")
+
+
+tm_shape(World) + tm_polygons("HPI", style = "cont")
+

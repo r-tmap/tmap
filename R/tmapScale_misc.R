@@ -4,8 +4,10 @@ get_scale_defaults = function(scale, o, aes, layer, cls) {
 		
 		value.na = if (is.na(value.na) || identical(value.na, TRUE)) {
 			m = getPalMeta(values[1])
-			if (is.null(m)) {
-				getAesOption("value.na", o, aes, layer, cls = cls)		
+			ona = getAesOption("value.na", o, aes, layer, cls = cls)	
+			
+			if (!is.na(ona) || is.null(m)) {
+				ona	
 			} else{
 				cols4all::c4a_na(values)
 			}
