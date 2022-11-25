@@ -47,7 +47,7 @@ tmapScaleAsIs = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) 
 				  labels = NA, 
 				  dvalues = NA, 
 				  vvalues = NA,
-				  vneutral = "grey50",
+				  vneutral = NA,
 				  na.show = NA,
 				  show = FALSE)
 

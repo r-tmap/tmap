@@ -87,6 +87,9 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 		item_widths = rep(width, nlev)
 		if (comp$na.show) item_widths[nlev] = widthNA
 		comp$stretch = if (!is.na(comp$width)) "itemsNNA" else "none"	
+	} else if (comp$type == "text") {
+		item_widths = pmax(width, rep(comp$gpar$size / textS, length.out = nlev))
+		comp$stretch = if (!is.na(comp$width)) "padding" else "none"	
 	}
 	
 	
@@ -332,6 +335,16 @@ tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o) {
 		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
 		
 		grItems = mapply(function(id, gpari) gridCell(6, id, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+	} else if (comp$type == "text") {
+		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
+															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
+		gpars = gp_to_gpar(gp, split_to_n = nlev)
+		
+		# scale down (due to facet use)
+		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
+		
+		grItems = mapply(function(id, gpari) gridCell(6, id, grid::textGrob(x=0.5, y=0.5, gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+		
 	}
 	
 	

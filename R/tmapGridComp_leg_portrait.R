@@ -21,6 +21,8 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 			"symbols"
 		} else if (mfun == "Lines") {
 			"lines"
+		} else if (mfun == "Text") {
+			"text"
 		} else {
 			"rect"
 		}
@@ -56,6 +58,9 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 		item_heights = rep(height, nlev)
 		if (comp$na.show) item_heights[nlev] = heightNA
 		comp$stretch = if (!is.na(comp$height)) "itemsNNA" else "none"	
+	} else if (comp$type == "text") {
+		item_heights = pmax(height, rep(comp$gpar$size / textS, length.out = nlev))
+		comp$stretch = if (!is.na(comp$height)) "padding" else "none"	
 	}
 	titleP = comp$title.padding[c(3,1)] * titleS * o$lin
 	titleH = titleS * o$lin
@@ -369,6 +374,18 @@ tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
 #		sizes = 
 		
 		grItems = mapply(function(id, gpari) gridCell(id, 3, grid::pointsGrob(x=0.5, y=0.5, pch = gpari$shape, size = grid::unit(gpari$size, "lines"), gp = gpari)), comp$item_ids, gpars, SIMPLIFY = FALSE)
+	} else if (comp$type == "text") {
+		if (length(gp$size) == 1) gp$size = min(gp$size, min(get_legend_option(comp$item.height, "symbols"),
+															 get_legend_option(comp$item.width, "symbols")) * comp$textS)
+		
+		gpars = gp_to_gpar(gp, split_to_n = nlev)
+		
+		# scale down (due to facet use)
+		gpars = lapply(gpars, rescale_gp, scale = o$scale_down)
+		
+		#		sizes = 
+		grItems = mapply(function(id, gpari, txt) gridCell(id, 3, grid::textGrob(x=0.5, y=0.5, label = txt, gp = gpari)), comp$item_ids, gpars, gp$text, SIMPLIFY = FALSE)
+		
 	}
 	
 	

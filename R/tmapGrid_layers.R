@@ -12,7 +12,7 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	res = select_sf(shpTM, dt)
 	shp = res$shp
 	dt = res$dt
-	
+print("gridp")	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 	
@@ -262,3 +262,34 @@ tmapGridRaster <- function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page,
 	}
 	NULL
 } 
+
+tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	
+	rc_text = frc(facet_row, facet_col)
+	
+	res = select_sf(shpTM, dt)
+	shp = res$shp
+	dt = res$dt
+	
+	gp = impute_gp(gp, dt)
+	gp = rescale_gp(gp, o$scale_down)
+	
+	coords = sf::st_coordinates(shp)
+	
+	
+	gp = gp_to_gpar(gp, sel = "col")
+	grb = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = dt$text, gp = gp, name = paste0("text_", id))
+	
+	
+	
+	gts = get("gts", .TMAP_GRID)
+	gt = gts[[facet_page]]
+	
+	gt_name = paste0("gt_facet_", rc_text)
+	
+	gt = grid::addGrob(gt, grb, gPath = grid::gPath(gt_name))
+	
+	gts[[facet_page]] = gt
+	assign("gts", gts, envir = .TMAP_GRID)
+	NULL	
+}

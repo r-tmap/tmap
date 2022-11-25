@@ -37,6 +37,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 			   lineend = {if (!all(is.na(gp$lineend))) gp$lineend else "round"},
 			   linejoin = {if (!all(is.na(gp$linejoin))) gp$linejoin else "round"},
 			   size = {if (!all(is.na(gp$size))) gp$size else 1},
+			    cex = {if (!all(is.na(gp$cex))) gp$cex else 1},
 			   shape = {if (!all(is.na(gp$shape))) gp$shape else 21}))
 	
 	# 
@@ -67,7 +68,7 @@ gp_to_gpar = function(gp, id = NULL, sel = "all", split_to_n = NULL, pick_middle
 		} else {
 			return(lsti)
 		}
-	}, lst, c(FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE), SIMPLIFY = FALSE)
+	}, lst, c(FALSE, FALSE, TRUE, FALSE, TRUE, FALSE, FALSE, TRUE, TRUE, TRUE), SIMPLIFY = FALSE)
 	
 	if (!is.null(split_to_n)) {
 		lst = lapply(1L:split_to_n, function(i) {

@@ -908,3 +908,108 @@ tm_lines = function(col = tm_const(),
 		group = group,
 		subclass = c("tm_aes_layer", "tm_layer")))
 }
+
+
+
+#' Map layer: text
+#' 
+#' Map layer that draws symbols Supported visual variables are: \code{text} (the text itself) \code{col} (color), \code{size} (font size), and \code{fontface} (font face).
+#' 
+#' The visual variable arguments (e.g. \code{col}) can be specified with either a data variable name (of the object specified in \code{\link{tm_shape}}), or with a visual value (for \code{col}, a color is expected). Multiple values can be specified: in that case facets are created. These facets can be combined with other faceting data variables, specified with \code{\link{tm_facets}}.
+#' 
+#' The \code{.scale} arguments determine the used scale to map the data values to visual variable values. These can be specified with one of the available \code{tm_scale_} functions. The default scale that is used is specified by the tmap option \code{scales.var}.
+#' 
+#' The \code{.legend} arguments determine the used legend, specified with \code{\link{tm_legend}}. The default legend and its settings are determined by the tmap options \code{legend.}.
+#' 
+#' The \code{.free} arguments determine whether scales are applied freely across facets, or shared. A logical value is required. They can also be specified with a vector of three logical values; these determine whether scales are applied freely per facet dimension. This is only useful when facets are applied (see \code{\link{tm_facets}}). There are maximally three facet dimensions: rows, columns, and pages. This only applies for a facet grid (\code{\link{tm_facets_grid}}). For instance, \code{col.free = c(TRUE, FALSE, FALSE)} means that for the visual variable \code{col}, each row of facets will have its own scale, and therefore its own legend. For facet wraps and stacks (\code{\link{tm_facets_wrap}} and \code{\link{tm_facets_stack}}) there is only one facet dimension, so the \code{.free} argument requires only one logical value.
+#' 
+#' @param col,col.scale,col.legend,col.free Visual variable that determines the col color. See details.
+#' @param lwd,lwd.scale,lwd.legend,lwd.free Visual variable that determines the line width. See details.
+#' @param lty,lty.scale,lty.legend,lty.free Visual variable that determines the line type. See details.
+#' @param col_alpha,col_alpha.scale,col_alpha.legend,col_alpha.free Visual variable that determines the border color alpha transparency. See details.
+#' @param linejoin,lineend line join and line end. See \code{\link[grid:gpar]{gpar}} for details.
+#' @param plot.order Specification in which order the spatial features are drawn. See \code{\link{tm_plot_order}} for details.
+#' @param zindex Map layers are drawn on top of each other. The \code{zindex} numbers (one for each map layer) determines the stacking order. By default the map layers are drawn in the order they are called. Not implemented yet.
+#' @param group Name of the group to which this layer belongs. Not implemented yet.
+#' @example ./examples/tm_lines.R 
+#' @export
+tm_text = function(text = tm_const(),
+				   text.scale = tm_scale(),
+				   text.legend = tm_legend(),
+				   text.free = NA,
+				   size = tm_const(),
+				   size.scale = tm_scale(),
+				   size.legend = tm_legend(),
+				   size.free = NA,
+				   col = tm_const(),
+				   col.scale = tm_scale(),
+				   col.legend = tm_legend(),
+				   col.free = NA,
+				   col_alpha = tm_const(),
+				   col_alpha.scale = tm_scale(),
+				   col_alpha.legend = tm_legend(),
+				   col_alpha.free = NA,
+				   fontface = tm_const(),
+				   fontface.scale = tm_scale(),
+				   fontface.legend = tm_legend(),
+				   fontface.free = NA,
+				   fontfamily = "",
+				   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
+				   zindex = NA,
+				   group = NA,
+				   ...) {
+	
+	tm_element_list(tm_element(
+		layer = "text",
+		trans.fun = tmapTransCentroid,
+		trans.aes = list(),
+		trans.isglobal = FALSE,
+		mapping.aes = list(
+						   text = tmapScale(aes = "text",
+						   				value = text,
+						   				scale = text.scale,
+						   				legend = text.legend,
+						   				free = text.free),
+						   size = tmapScale(aes = "size",
+						   				value = size,
+						   				scale = size.scale,
+						   				legend = size.legend,
+						   				free = size.free),
+						   col = tmapScale(aes = "col",
+						   				value = col,
+						   				scale = col.scale,
+						   				legend = col.legend,
+						   				free = col.free),
+						   col_alpha = tmapScale(aes = "col_alpha",
+						   					  value = col_alpha,
+						   					  scale = col_alpha.scale,
+						   					  legend = col_alpha.legend,
+						   					  free = col_alpha.free),
+						   fontface = tmapScale(aes = "fontface",
+						   				value = fontface,
+						   				scale = fontface.scale,
+						   				legend = fontface,
+						   				free = fontface.free)),
+		
+		gpar = tmapGpar(fill = NA,
+						col = "__col",
+						shape = NA,
+						size = NA,
+						cex = "__size",
+						fill_alpha = NA,
+						col_alpha = "__col_alpha",
+						pattern = NA,
+						text = "__text",
+						fontface = "__fontface",
+						fontfamily = fontfamily,
+						lty = NA,
+						lwd = NA,
+						linejoin = NA,
+						lineend = NA),
+		tpar = tmapTpar(),
+		plot.order = plot.order,
+		mapping.fun = "Text",
+		zindex = zindex,
+		group = group,
+		subclass = c("tm_aes_layer", "tm_layer")))
+}

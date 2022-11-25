@@ -36,7 +36,7 @@ tm_shape = function(shp,
 					filter = NULL,
 					projection = NULL) {
 	if (!is.null(projection)) {
-		warning("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
+		#warning("The argument 'projection' is deprecated as of tmap 4.0. Pleaes use 'crs' instead", call. = FALSE)
 		crs = projection
 		projection = NULL
 	}

@@ -71,7 +71,7 @@ step4_plot_collect_legends = function(tmx) {
 						gpaid = which(paste0("__", legnm) == unlist(gp, use.names = FALSE))
 						for (j in gpaid) gp[[j]] = legs_aes$legend[[k]]$vvalues
 						
-						# will gp with neutral values for other graphical variables
+						# fill gp with neutral values for other graphical variables
 						if (copy_neutral) {
 							nvalues = mapply(function(lclone, lname) {
 								bvars2 = names(lclone)[substr(names(lclone), 1, 2) == "by"]
