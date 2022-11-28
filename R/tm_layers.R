@@ -988,7 +988,7 @@ tm_text = function(text = tm_const(),
 						   fontface = tmapScale(aes = "fontface",
 						   				value = fontface,
 						   				scale = fontface.scale,
-						   				legend = fontface,
+						   				legend = fontface.legend,
 						   				free = fontface.free)),
 		
 		gpar = tmapGpar(fill = NA,

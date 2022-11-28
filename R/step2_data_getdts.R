@@ -39,7 +39,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 		cfun = paste0("tmapValuesColorize_", unm)
 		
 		#print(vars)
-		if (!aes$data_vars) {
+		if (!aes$data_vars && !aes$geo_vars) {
 			#cat("step2_grp_lyr_aes_const\n")
 			# constant values (take first value (of possible tm_mv per facet)
 			if (any(nvari) > 1) warning("Aesthetic values considered as direct visual variables, which cannot be used with tm_mv", call. = FALSE)

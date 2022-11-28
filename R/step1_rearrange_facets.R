@@ -58,7 +58,6 @@ step1_rearrange_facets = function(tmo) {
 		assign("used_vars", character(0), envir = .TMAP)
 		
 		precheck_aes = function(a, layer, shpvars) {
-			print(a$aes)
 			within(a, {
 				if (length(value) && is.na(value[[1]][1])) {
 					# NA -> value.blank
@@ -87,10 +86,15 @@ step1_rearrange_facets = function(tmo) {
 				vars = unlist(value)
 				
 				data_vars = all(make.names(vars) %in% shpvars)
+				geo_vars = all(make.names(vars) %in% c("AREA", "LENGTH")) && !data_vars
 				
 				nflvar = nvars
 				if (data_vars) {
-					flvar = names(value)#vapply(value, "[[", 1, FUN.VALUE = character(1))
+					flvar = names(value)
+					update_grp_vars(lev = flvar)
+					add_used_vars(vars)
+				} else if (geo_vars) {
+					flvar = names(value)
 					update_grp_vars(lev = flvar)
 					add_used_vars(vars)
 				} else {
