@@ -109,7 +109,7 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev, bypass_
 		isna = is.na(vals)
 		anyNA = any(isna)
 		
-		if (is.na(na.show)) na.show = anyNA
+		na.show = update_na.show(label.show, legend$na.show, anyNA)
 		
 		if (is.null(sortRev)) {
 			ids = NULL
@@ -174,7 +174,7 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev, bypass_
 			dvalues = values
 			vvalues = vvalues
 			vneutral = value.neutral
-			na.show = na.show
+			na.show = get("na.show", envir = parent.env(environment()))
 		})
 		
 		if (bypass_ord) {

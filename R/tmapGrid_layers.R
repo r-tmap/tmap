@@ -12,7 +12,6 @@ tmapGridPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	res = select_sf(shpTM, dt)
 	shp = res$shp
 	dt = res$dt
-print("gridp")	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 	

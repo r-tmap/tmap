@@ -200,6 +200,7 @@
 		legend.group.frame = TRUE,
 		legend.resize.as.group = FALSE,
 		legend.reverse = FALSE,
+		legend.na.show = NA,
 		legend.title.color = NULL,
 		legend.title.size = 0.9,
 		legend.title.fontface = NULL,
@@ -324,8 +325,41 @@
 
 styles = list(
 	v3 = list(
-		value.na = "grey75",
-		value.null =  "grey95",
+		value.na = list(
+			fill = "grey75",
+			col = "grey75",
+			col.raster = "#00000000",
+			lty = "solid",
+			lwd = NA,
+			text = "Unknown",
+			fontface = "plain",
+			fill_alpha = 1,
+			col_alpha = 1,
+			col_alpha.raster = 0
+		),
+		value.null = list(
+			fill = "grey95",
+			col = "grey95",
+			col.polygons = "grey40",
+			lty = "solid",
+			lwd = 0.2,
+			text = "",
+			fontface = "plain",
+			fill_alpha = 1,
+			col_alpha = 1,
+			size = 0.2
+		),
+		value.blank = list(
+			fill = "#00000000",
+			col = "#00000000",
+			lty = "blank",
+			lwd = 0,
+			text = "",
+			fontface = "plain",
+			fill_alpha = 0,
+			col_alpha = 0
+		),
+
 		values.var = list(fill = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br"),
 						  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br")),
 		frame.lwd = 1,
@@ -335,13 +369,13 @@ styles = list(
 		legend.title.size = 0.9,
 		legend.frame = FALSE,
 		legend.frame.r = 0,
-		legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 3),
+		legend.settings.standard.portrait = list(item.height = c(rect = 1, symbols = 1, gradient = 1),
 												 item.width = c(rect = 1, symbols = 1, gradient = 1.2),
 												 item.r = 0,
 												 item.space = c(rect = 0, symbols = 0, gradient = 0),
 												 item.na.height = c(rect = NA, symbols = NA, gradient = 1.2),
 												 item.na.width = c(rect = NA, symbols = NA, gradient = 1.2),
-												 item.na.space = c(rect = 0, symbols = 0, gradient = 1),
+												 item.na.space = c(rect = 0, symbols = 0, gradient = 0),
 												 title.padding  = c(0, 0, 0.25, 0),
 												 ticks = list(rect = list(), symbols = list(), gradient = list()),
 												 ticks.disable.na = c(rect = FALSE, symbols = FALSE, gradient = TRUE),

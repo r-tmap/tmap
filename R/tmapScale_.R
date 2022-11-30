@@ -109,9 +109,22 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) 
 	
 	#if (cls[1] == "na")
 	
-	sc = getAesOption("scales.var", o, aes, layer, cls = cls)
+	sc_opt = getAesOption("scales.var", o, aes, layer, cls = cls)
+	sc_pref = scale$fun_pref
 	
+	if (!is.null(sc_pref)) {
+		if (sc_pref %in% c("categorical", "continuous", "continuous_log")) {
+			sc = sc_pref
+		} else {
+			sc = sc_opt
+		}
+	} else {
+		sc = sc_opt
+	}
+		
 	tm_scalefun = paste0("tm_scale_", sc)
+	
+	scale = scale[names(scale) %in% names(formals(tm_scalefun))]
 	
 	scale_new = do.call(tm_scalefun, args = scale)
 	

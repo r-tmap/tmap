@@ -26,14 +26,24 @@ get_scale_defaults = function(scale, o, aes, layer, cls) {
 		# label.na FALSE or "": never show NA's
 		# label.na NA: show NA is there are any
 		# label.na "qwerty" always snow NA's
-		na.show = !identical(label.na, FALSE) && (identical(label.na, TRUE) || (!is.na(label.na) && label.na != ""))
-		if (is.na(label.na)) na.show = NA # will be TRUE if there are NAs
+		
+		label.show = !identical(label.na, FALSE) && (identical(label.na, TRUE) || (!is.na(label.na) && label.na != ""))
+		if (is.na(label.na)) label.show = NA # will be TRUE if there are NAs
 		if (is.logical(label.na)) label.na = getAesOption("label.na", o, aes, layer, cls = cls)
 	})
 }
 
+update_na.show = function(label.show, na.show, anyNA) {
+	if (is.na(label.show)) {
+		if (is.na(na.show)) anyNA else na.show
+	} else {
+		label.show
+	}
+}
 
-tmapScale_returnNA = function(n, legend, value.na, label.na, na.show, sortRev) {
+
+
+tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, sortRev) {
 	
 	ids = if (is.null(sortRev)) {
 		NULL
@@ -41,7 +51,7 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, na.show, sortRev) {
 		rep(0L, n)
 	}
 	
-	if (identical(na.show, FALSE)) {
+	if (identical(label.show, FALSE)) {
 		legend = within(legend,{
 			title = NA
 			nitems = 0

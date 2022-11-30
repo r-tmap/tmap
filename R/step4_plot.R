@@ -1,6 +1,4 @@
 process_components = function(cdt, o) {
-	print("comp")	
-	
 	cdt$class = sapply(cdt$comp, function(l) l$position$type)
 	cdt$cell.h = sapply(cdt$comp, function(l) {x = l$position$cell.h; if (is.null(x)) NA else x})
 	cdt$cell.v = sapply(cdt$comp, function(l) {x = l$position$cell.v; if (is.null(x)) NA else x})

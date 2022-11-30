@@ -99,7 +99,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev, bypass_o
 		isna = is.na(vals)
 		anyNA = any(isna)
 		
-		if (is.na(na.show)) na.show = anyNA
+		na.show = update_na.show(label.show, legend$na.show, anyNA)
 		
 		if (is.na(sortRev)) {
 			ids[] = 1L
@@ -165,7 +165,7 @@ tmapScaleDiscrete = function(x1, scale, legend, o, aes, layer, sortRev, bypass_o
 			dvalues = ticks
 			vvalues = vvalues
 			vneutral = value.neutral
-			na.show = na.show
+			na.show = get("na.show", envir = parent.env(environment()))
 		})
 		
 		if (bypass_ord) {

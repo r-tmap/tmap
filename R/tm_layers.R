@@ -97,39 +97,38 @@ tm_polygons = function(fill = tm_const(),
 			if (name %in% names(args)) args[[name]] else value
 		}
 
-		lst = list(n = imp("n", 5), 
-				   style = style, 
-				   style.args = imp("style.args", list()), 
-				   breaks = imp("breaks", NULL), 
-				   interval.closure = imp("interval.closure", "left"), 
-				   drop.levels = imp("drop.levels", FALSE),
-				   midpoint = imp("midpoint", NULL), 
-				   as.count = imp("as.count", NA), 
-				   values = imp("palette", NA), 
-				   values.repeat = !imp("stretch.palette", TRUE), 
-				   values.range = imp("contrast", NA), 
-				   values.scale = 1, 
-				   value.na = imp("colorNA", NA), 
-				   value.null = imp("colorNULL", NA), 
-				   value.neutral = NA, 
-				   labels = imp("labels", NULL), 
-				   label.na = imp("textNA", "Missing"), 
-				   label.null = NA, 
-				   label.format = imp("legend.format", list()))
-		if (style == "cat") {
-			fun = "tm_scale_categorical"
+		fill.scale.args = list(n = imp("n", 5), 
+							   style = style, 
+							   style.args = imp("style.args", list()), 
+							   breaks = imp("breaks", NULL), 
+							   interval.closure = imp("interval.closure", "left"), 
+							   drop.levels = imp("drop.levels", FALSE),
+							   midpoint = imp("midpoint", NULL), 
+							   as.count = imp("as.count", NA), 
+							   values = imp("palette", NA), 
+							   values.repeat = !imp("stretch.palette", TRUE), 
+							   values.range = imp("contrast", NA), 
+							   values.scale = 1, 
+							   value.na = imp("colorNA", NA), 
+							   value.null = imp("colorNULL", NA), 
+							   value.neutral = NA, 
+							   labels = imp("labels", NULL), 
+							   label.na = imp("textNA", NA), 
+							   label.null = NA, 
+							   label.format = imp("legend.format", list()))
+		fill.scale.args$fun_pref = if (style == "cat") {
+			"categorical"
 		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails")) {
-			fun = "tm_scale_intervals"
+			"intervals"
 		} else if (style == "cont") {
-			fun = "tm_scale_continuous"
+			"continuous"
 		} else if (style == "log10") {
-			fun = "tm_scale_continuous_log"
+			"continuous_log"
 		} else {
 			stop("unknown style")
 		}
-		
-		lst = lst[names(lst) %in% names(formals(fun))]
-		fill.scale = do.call(fun, args = lst)		
+
+		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 
 		if ("col" %in% names(args)) {
 			fill = args$col
@@ -141,6 +140,14 @@ tm_polygons = function(fill = tm_const(),
 			fill_alpha = args$alpha
 		}
 		
+		fill.legend.args = list(title = imp("title", NA),
+							   show = imp("legend.show", TRUE),
+							   na.show = imp("na.show", NA),
+							   format = imp("legend.format", list()),
+							   orientation = ifelse(imp("legend.is.portrait", TRUE), "portrait", "landscape"),
+							   reverse = imp("legend.reverse", FALSE))
+		
+		fill.legend = do.call("tm_legend", fill.legend.args)
 	}
 	
 	
@@ -958,6 +965,89 @@ tm_text = function(text = tm_const(),
 				   zindex = NA,
 				   group = NA,
 				   ...) {
+	
+	if (FALSE) {
+	args = list(...)
+
+	# dput(names(formals("tm_text")))
+	v3 = c("root", "clustering", "size.lim", "sizes.legend", 
+		   "sizes.legend.labels", "sizes.legend.text", "n", "style", "style.args", 
+		   "as.count", "breaks", "interval.closure", "palette", "labels", 
+		   "drop.levels", "labels.text", "midpoint", "stretch.palette", 
+		   "contrast", "colorNA", "textNA", "showNA", "colorNULL", "fontface", 
+		   "fontfamily", "alpha", "case", "shadow", "bg.color", "bg.alpha", 
+		   "size.lowerbound", "print.tiny", "scale", "auto.placement", "remove.overlap", 
+		   "along.lines", "overwrite.lines", "just", "xmod", "ymod", "title.size", 
+		   "title.col", "legend.size.show", "legend.col.show", "legend.format", 
+		   "legend.size.is.portrait", "legend.col.is.portrait", "legend.size.reverse", 
+		   "legend.col.reverse", "legend.hist", "legend.hist.title", "legend.size.z", 
+		   "legend.col.z", "legend.hist.z", "id", "auto.palette.mapping", 
+		   "max.categories")
+	
+	
+	if (any(v3 %in% names(args))) {
+		message("Deprecated tmap v3 code detected. Code translated to v4")
+		if (!("style" %in% names(args))) {
+			if (!"breaks" %in% names(args)) {
+				style = "pretty"
+			} else {
+				style = "fixed"
+			}
+		} else {
+			style = args$style
+		}
+		
+		imp = function(name, value) {
+			if (name %in% names(args)) args[[name]] else value
+		}
+		
+		lst = list(n = imp("n", 5), 
+				   style = style, 
+				   style.args = imp("style.args", list()), 
+				   breaks = imp("breaks", NULL), 
+				   interval.closure = imp("interval.closure", "left"), 
+				   drop.levels = imp("drop.levels", FALSE),
+				   midpoint = imp("midpoint", NULL), 
+				   as.count = imp("as.count", NA), 
+				   values = imp("palette", NA), 
+				   values.repeat = !imp("stretch.palette", TRUE), 
+				   values.range = imp("contrast", NA), 
+				   values.scale = 1, 
+				   value.na = imp("colorNA", NA), 
+				   value.null = imp("colorNULL", NA), 
+				   value.neutral = NA, 
+				   labels = imp("labels", NULL), 
+				   label.na = imp("textNA", "Missing"), 
+				   label.null = NA, 
+				   label.format = imp("legend.format", list()))
+		if (style == "cat") {
+			pfun = "categorical"
+		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails")) {
+			pfun = "intervals"
+		} else if (style == "cont") {
+			pfun = "continuous"
+		} else if (style == "log10") {
+			pfun = "continuous_log"
+		} else {
+			stop("unknown style")
+		}
+		
+		#lst = lst[names(lst) %in% names(formals(fun))]
+		lst$fun_pref = pfun
+		col.scale = do.call("tm_scale", args = lst)		
+		
+		# if ("col" %in% names(args)) {
+		# 	fill = args$col
+		# }
+		# if ("border.col" %in% names(args)) {
+		# 	col = args$border.col
+		# }
+		# if ("alpha" %in% names(args)) {
+		# 	fill_alpha = args$alpha
+		# }
+		
+	}
+	}
 	
 	tm_element_list(tm_element(
 		layer = "text",
