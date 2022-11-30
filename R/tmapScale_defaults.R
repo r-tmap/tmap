@@ -337,8 +337,8 @@ tmap_seq = function(from = 0, to = 1, power = c("lin", "sqrt", "sqrt_perceptual"
 
 tmapSeq = function(s, n, rescale = TRUE) {
 	with(s, {
-		p = if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, squadratic = 2)
-		if (is.null(p)) p = as.nuermic
+		p = if (is.numeric(power)) power else switch(power, lin = 1, sqrt = 0.5, sqrt_perceptual = 0.5716, quadratic = 2)
+		#if (is.null(p)) p = as.numeric()
 		r = seq(from = from, to = to, length.out = n) ^ p
 		if (rescale) {
 			(r - (r[1])) / (r[n] - r[1]) * (to - from) + from	

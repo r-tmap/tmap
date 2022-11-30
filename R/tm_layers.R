@@ -966,7 +966,7 @@ tm_text = function(text = tm_const(),
 				   group = NA,
 				   ...) {
 	
-	if (FALSE) {
+	#if (FALSE) {
 	args = list(...)
 
 	# dput(names(formals("tm_text")))
@@ -1001,7 +1001,7 @@ tm_text = function(text = tm_const(),
 			if (name %in% names(args)) args[[name]] else value
 		}
 		
-		lst = list(n = imp("n", 5), 
+		col.scale.args = list(n = imp("n", 5), 
 				   style = style, 
 				   style.args = imp("style.args", list()), 
 				   breaks = imp("breaks", NULL), 
@@ -1020,33 +1020,49 @@ tm_text = function(text = tm_const(),
 				   label.na = imp("textNA", "Missing"), 
 				   label.null = NA, 
 				   label.format = imp("legend.format", list()))
-		if (style == "cat") {
-			pfun = "categorical"
+		col.scale.args$fun_pref = if (style == "cat") {
+			"categorical"
 		} else if (style %in% c("fixed", "sd", "equal", "pretty", "quantile", "kmeans", "hclust", "bclust", "fisher", "jenks", "dpih", "headtails")) {
-			pfun = "intervals"
+			"intervals"
 		} else if (style == "cont") {
-			pfun = "continuous"
+			"continuous"
 		} else if (style == "log10") {
-			pfun = "continuous_log"
+			"continuous_log"
 		} else {
 			stop("unknown style")
 		}
 		
-		#lst = lst[names(lst) %in% names(formals(fun))]
-		lst$fun_pref = pfun
-		col.scale = do.call("tm_scale", args = lst)		
+		col.scale = do.call("tm_scale", args = col.scale.args)		
 		
-		# if ("col" %in% names(args)) {
-		# 	fill = args$col
-		# }
-		# if ("border.col" %in% names(args)) {
-		# 	col = args$border.col
-		# }
-		# if ("alpha" %in% names(args)) {
-		# 	fill_alpha = args$alpha
-		# }
+		col.legend.args = list(title = imp("title.col", NA),
+								show = imp("legend.col.show", TRUE),
+								na.show = imp("na.show", NA),
+								format = imp("legend.format", list()),
+								orientation = ifelse(imp("legend.col.is.portrait", TRUE), "portrait", "landscape"),
+								reverse = imp("legend.col.reverse", FALSE))
 		
-	}
+		col.legend = do.call("tm_legend", col.legend.args)
+		
+		text.scale = tm_scale_asis(value.neutral = imp("sizes.legend.text", NA))
+		
+		size.scale.args = list(values = tmap_seq(0, 1, power = 1/imp("root", 3)),
+							   limits = imp("size.lim", NULL),
+							   outliers.trunc = c(imp("print.tiny", FALSE), TRUE),
+							   ticks = imp("breaks", NULL),
+							   midpoint = imp("midpoint", NULL),
+							   labels = imp("sizes.legend.labels", NULL))
+		size.scale = do.call("tm_scale_continuous", size.scale.args)
+		
+		size.legend.args = list(title = imp("title.size", NA),
+							   show = imp("legend.size.show", TRUE),
+							   na.show = imp("na.show", NA),
+							   format = imp("legend.format", list()),
+							   orientation = ifelse(imp("legend.size.is.portrait", TRUE), "portrait", "landscape"),
+							   reverse = imp("legend.size.reverse", FALSE))
+							   
+							   
+
+	#}
 	}
 	
 	tm_element_list(tm_element(
