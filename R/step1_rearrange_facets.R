@@ -76,7 +76,10 @@ step1_rearrange_facets = function(tmo) {
 					names(value) = value_orig
 					
 					if (inherits(value_orig, "tmapAsIs")) {
-						if (inherits(scale, "tm_scale_auto")) class(scale) = c("tm_scale_asis", "tm_scale", "list")
+						if (inherits(scale, "tm_scale_auto")) {
+							class(scale) = c("tm_scale_asis", "tm_scale", "list")
+							scale$FUN = tmapScaleAsIs
+						}
 					}
 				}
 

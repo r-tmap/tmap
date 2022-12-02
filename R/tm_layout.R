@@ -199,9 +199,12 @@ tm_layout = function(
 	panel.label.rot) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!is.null(title)) {
+		title.args = args[substr(names(args), 1, 5) == "title"]
+		title.args$title = NULL
+		names(title.args) = substr(names(title.args), 7, nchar(names(title.args)))
 		warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
 		args$title = NULL
-		do.call(tm_options, args) + tm_title(title = title)
+		do.call(tm_options, args) + do.call(tm_title, c(list(title = title), title.args))
 	} else {
 		do.call(tm_options, args)
 	}

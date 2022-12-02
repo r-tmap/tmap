@@ -73,7 +73,7 @@ data_type_grp = function(x) {
 	}
 }
 
-data_class = function(x) {
+data_class = function(x, check_for_color_class = FALSE) {
 	
 	# if (all(is.na(x))) {
 	# 	"na"
@@ -89,8 +89,12 @@ data_class = function(x) {
 		}
 		c("num", subclass1, subclass2)
 	} else {
-		subclass = if (is.ordered(x)) "ord" else "unord"
-		c("fact", subclass)
+		if (check_for_color_class && all(valid_colors(na.omit(head(x, 100))))) {
+			c("asis", "color")
+		} else {
+			subclass = if (is.ordered(x)) "ord" else "unord"
+			c("fact", subclass)
+		}
 	}
 	 
 	attr(cls, "units") = if (inherits(x, "units")) {
@@ -105,30 +109,34 @@ tmapScale = function(aes, value, scale, legend, free) {
 }
 
 tmapScaleAuto = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) {
-	cls = data_class(x1)
+	cls = data_class(x1, check_for_color_class = aes %in% c("col", "fill"))
 	
 	#if (cls[1] == "na")
 	
-	sc_opt = getAesOption("scales.var", o, aes, layer, cls = cls)
-	sc_pref = scale$fun_pref
 	
-	if (!is.null(sc_pref)) {
-		if (sc_pref %in% c("categorical", "continuous", "continuous_log")) {
-			sc = sc_pref
+	if (cls[1] == "asis") {
+		sc = "asis"	
+	} else {
+		sc_opt = getAesOption("scales.var", o, aes, layer, cls = cls)
+		sc_pref = scale$fun_pref
+		
+		if (!is.null(sc_pref)) {
+			if (sc_pref %in% c("categorical", "continuous", "continuous_log")) {
+				sc = sc_pref
+			} else {
+				sc = sc_opt
+			}
 		} else {
 			sc = sc_opt
 		}
-	} else {
-		sc = sc_opt
 	}
+	
 		
 	tm_scalefun = paste0("tm_scale_", sc)
 	
 	scale = scale[names(scale) %in% names(formals(tm_scalefun))]
 	
 	scale_new = do.call(tm_scalefun, args = scale)
-	
-	
 	
 	FUN = scale_new$FUN
 	scale_new$FUN = NULL

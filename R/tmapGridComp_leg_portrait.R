@@ -35,8 +35,8 @@ tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 #' @export
 tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	nlev = comp$nitems
-	textS = comp$text.size * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * o$scale * number_text_lines(comp$title)
+	textS = comp$text.size #* o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * number_text_lines(comp$title) # * o$scale
 	
 	space = get_legend_option(comp$item.space, comp$type)
 	spaceNA = get_legend_option(comp$item.na.space, comp$type)
@@ -123,8 +123,8 @@ fontface2nr = function(face) {
 #' @method tmapGridCompWidth tm_legend_standard_portrait
 #' @export
 tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
-	textS = comp$text.size * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * o$scale
+	textS = comp$text.size #* o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size #* o$scale
 	
 	marW = comp$margins[c(2,4)] * textS * o$lin
 	
@@ -165,8 +165,8 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 #' @method tmapGridLegPlot tm_legend_standard_portrait
 #' @export
 tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
-	textS = comp$text.size * comp$scale * o$scale
-	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale * o$scale
+	textS = comp$text.size * comp$scale #* o$scale
+	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale #* o$scale
 	
 	nlev = comp$nitems
 	

@@ -113,7 +113,7 @@
 						  fill_alpha = list(fact = "categorical", num = "intervals"),
 						  col_alpha = list(fact = "categorical", num = "intervals"),
 						  area = list(fact = "categorical", num = "continuous"),
-						  text = list(fact = "categorical", num = "caterorical"),
+						  text = list(fact = "asis", num = "caterorical"),
 						  fontface = list(fact = "categorical", num = "caterorical")),
 		
 		# labels			  
@@ -367,6 +367,8 @@ styles = list(
 						  col = list(seq = "brewer.yl_or_br", div = "brewer.rd_yl_gn", unord = "brewer.set3", ord = "brewer.yl_or_br")),
 		frame.lwd = 1,
 		frame.r = 0,
+		title.position = tm_pos_in(pos.h = "left", pos.v = "top", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		title.size = 1.3,
 		legend.position = tm_pos_auto_in(align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
 		legend.text.size = 0.7,
 		legend.title.size = 0.9,
@@ -503,7 +505,8 @@ styles = list(
 .defaultTmapFormats = list(World = list(inner.margins=c(0, 0.05, 0.025, 0.01),
 										legend.position=tm_pos_in("left", "bottom"),
 										attr.position=c("right", "bottom"),
-										scale=.8),
+										scale=.8,
+										title.size = 1.3),
 							World_wide = list(inner.margins=c(0, 0.2, 0.025, 0.01),
 											  legend.position=tm_pos_in("left", "bottom"),
 											  attr.position=c("right", "bottom"),
@@ -850,14 +853,15 @@ tm_format <- function(format, ...) {
 	}
 	formatArgs$style <- NA
 	
-	
-	#called <- names(args)
-	#if (is.null(called)) called <- character(0)
-	
-	#attr(formatArgs, "format_args") <- called
-	#structure(list(tm_layout=formatArgs), class = "tm")
-	do.call(tm_options, formatArgs)
-	
+	if ("title" %in% names(formatArgs)) {
+		warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
+		title = formatArgs$title
+		formatArgs$title = NULL
+		do.call(tm_options, formatArgs) + tm_title(title = title)
+	} else {
+		do.call(tm_options, formatArgs)
+	}
+
 }
 
 # get options with a prefic
