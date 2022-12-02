@@ -141,7 +141,7 @@ tm_polygons = function(fill = tm_const(),
 		}
 		
 		fill.legend.args = list(title = imp("title", NA),
-							   show = imp("legend.show", TRUE),
+							   show = imp("legend.show", NULL),
 							   na.show = imp("na.show", NA),
 							   format = imp("legend.format", list()),
 							   orientation = ifelse(imp("legend.is.portrait", TRUE), "portrait", "landscape"),
@@ -209,142 +209,23 @@ tm_polygons = function(fill = tm_const(),
 #' @name tm_fill
 #' @rdname tm_polygons
 #' @export
-tm_fill = function(fill = tm_const(), 
-				   fill.scale = tm_scale(),
-				   fill.legend = tm_legend(),
-				   fill.free = NA,
-				   lwd = tm_const(),
-				   lwd.scale = tm_scale(),
-				   lwd.legend = tm_legend(),
-				   lwd.free = NA,
-				   lty = tm_const(),
-				   lty.scale = tm_scale(),
-				   lty.legend = tm_legend(),
-				   lty.free = NA,
-				   fill_alpha = tm_const(),
-				   fill_alpha.scale = tm_scale(),
-				   fill_alpha.legend = tm_legend(),
-				   fill_alpha.free = NA,
-				   linejoin = "round",
-				   lineend = "round",
-				   plot.order = tm_plot_order("AREA", reverse = FALSE, na.order = "bottom"),
-				   zindex = NA,
-				   group = NA) {
-	
-	tm_element_list(tm_element(
-		layer = "polygons",
-		trans.fun = tmapTransPolygons,
-		trans.aes = list(),
-		trans.isglobal = FALSE,
-		mapping.aes = list(fill = tmapScale(aes = "fill",
-											value = fill,
-											scale = fill.scale,
-											legend = fill.legend,
-											free = fill.free),
-						   lwd = tmapScale(aes = "lwd",
-						   				value = lwd,
-						   				scale = lwd.scale,
-						   				legend = lwd.legend,
-						   				free = lwd.free),
-						   lty = tmapScale(aes = "lty",
-						   				value = lty,
-						   				scale = lty.scale,
-						   				legend = lty.legend,
-						   				free = lty.free),
-						   fill_alpha = tmapScale(aes = "fill_alpha",
-						   					   value = fill_alpha,
-						   					   scale = fill_alpha.scale,
-						   					   legend = fill_alpha.legend,
-						   					   free = fill_alpha.free)),
-		
-		gpar = tmapGpar(fill = "__fill",
-						col = NA,
-						shape = NA,
-						size = NA,
-						fill_alpha = "__fill_alpha",
-						col_alpha = NA,
-						pattern = "fill",
-						lty = "__lty",
-						lwd = "__lwd",
-						linejoin = linejoin,
-						lineend = lineend),
-		tpar = tmapTpar(area = "AREA"),
-		plot.order = plot.order,
-		mapping.fun = "Polygons",
-		zindex = zindex,
-		group = group,
-		subclass = c("tm_aes_layer", "tm_layer")))
+tm_fill = function(...) {
+	args = list(...)
+	if (!("col" %in% names(args))) {
+		args$col = NA
+	}
+	do.call(tm_polygons, args)
 }
 
 #' @name tm_borders
 #' @rdname tm_polygons
 #' @export
-tm_borders = function(col = tm_const(),
-					  col.scale = tm_scale(),
-					  col.legend = tm_legend(),
-					  col.free = NA,
-					  lwd = tm_const(),
-					  lwd.scale = tm_scale(),
-					  lwd.legend = tm_legend(),
-					  lwd.free = NA,
-					  lty = tm_const(),
-					  lty.scale = tm_scale(),
-					  lty.legend = tm_legend(),
-					  lty.free = NA,
-					  col_alpha = tm_const(),
-					  col_alpha.scale = tm_scale(),
-					  col_alpha.legend = tm_legend(),
-					  col_alpha.free = NA,
-					  linejoin = "round",
-					  lineend = "round",
-					  plot.order = tm_plot_order("AREA", reverse = FALSE),
-					  zindex = NA,
-					  group = NA) {
-	
-	tm_element_list(tm_element(
-		layer = "polygons",
-		trans.fun = tmapTransPolygons,
-		trans.args = list(),
-		trans.aes = list(),
-		trans.isglobal = FALSE,
-		mapping.aes = list(col = tmapScale(aes = "col",
-										   value = col,
-										   scale = col.scale,
-										   legend = col.legend,
-										   free = col.free),
-						   lwd = tmapScale(aes = "lwd",
-						   				value = lwd,
-						   				scale = lwd.scale,
-						   				legend = lwd.legend,
-						   				free = lwd.free),
-						   lty = tmapScale(aes = "lty",
-						   				value = lty,
-						   				scale = lty.scale,
-						   				legend = lty.legend,
-						   				free = lty.free),
-						   col_alpha = tmapScale(aes = "col_alpha",
-						   					  value = col_alpha,
-						   					  scale = col_alpha.scale,
-						   					  legend = col_alpha.legend,
-						   					  free = col_alpha.free)),
-		
-		gpar = tmapGpar(fill = NA,
-						col = "__col",
-						shape = NA,
-						size = NA,
-						fill_alpha = NA,
-						col_alpha = "__col_alpha",
-						pattern = NA,
-						lty = "__lty",
-						lwd = "__lwd",
-						linejoin = linejoin,
-						lineend = lineend),
-		tpar = tmapTpar(),
-		plot.order = plot.order,
-		mapping.fun = "Polygons",
-		zindex = zindex,
-		group = group,
-		subclass = c("tm_aes_layer", "tm_layer")))
+tm_borders = function(col = tm_const(), ...) {
+	args = list(...)
+	if (!("fill" %in% names(args))) {
+		args$fill = NA
+	}
+	do.call(tm_polygons, c(list(col = col), args))
 }
 
 
@@ -1035,7 +916,7 @@ tm_text = function(text = tm_const(),
 		col.scale = do.call("tm_scale", args = col.scale.args)		
 		
 		col.legend.args = list(title = imp("title.col", NA),
-								show = imp("legend.col.show", TRUE),
+								show = imp("legend.col.show", NULL),
 								na.show = imp("na.show", NA),
 								format = imp("legend.format", list()),
 								orientation = ifelse(imp("legend.col.is.portrait", TRUE), "portrait", "landscape"),
@@ -1054,7 +935,7 @@ tm_text = function(text = tm_const(),
 		size.scale = do.call("tm_scale_continuous", size.scale.args)
 		
 		size.legend.args = list(title = imp("title.size", NA),
-							   show = imp("legend.size.show", TRUE),
+							   show = imp("legend.size.show", NULL),
 							   na.show = imp("na.show", NA),
 							   format = imp("legend.format", list()),
 							   orientation = ifelse(imp("legend.size.is.portrait", TRUE), "portrait", "landscape"),

@@ -63,6 +63,7 @@ tm_shape(World, projection = "+proj=eck4") +
 \dontrun{
 	data(NLD_prov, NLD_muni)	
 	# Map coloring algorithm
+	#### IMPLEMENTATION REQUIRED: tm_text shadow
 	tm_shape(NLD_prov) +
 		tm_fill("name", legend.show = FALSE) +
 		tm_shape(NLD_muni) +

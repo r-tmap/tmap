@@ -176,6 +176,11 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				# update legend options
 				oltype = o[c("legend.design", "legend.orientation")]
 				names(oltype) = c("design", "orientation")
+				
+				if (v %in% c("AREA", "MAP_COLORS") && is.null(l$show)) {
+					l$show = FALSE
+				}
+				
 				l = complete_options(l, oltype)
 				oleg = o[names(o)[substr(names(o), 1, 6) == "legend" & substr(names(o), 1, 15) != "legend.settings"]]
 				names(oleg) = substr(names(oleg), 8, nchar(names(oleg)))
@@ -191,7 +196,7 @@ getdts = function(aes, unm, p, q, o, dt, shpvars, layer, mfun, plot.order) {
 				s$FUN = NULL
 				# update label.format
 				s$label.format = process_label_format(s$label.format, o$label.format)
-				
+
 				cls = data_class(dtl[[v[1]]])
 				#if (is.na(s$legend$title)) s$legend$title = v
 				if (is.na(l$title)) l$title = paste0(names(v), attr(cls, "units"))

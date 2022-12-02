@@ -47,6 +47,7 @@
 						 shape.dots = 19,
 						 size.symbols = 1,
 						 size.dots = .02,
+						 size.text = 1,
 						 fill_alpha = 1,
 						 col_alpha = 1),
 		value.na = list(
@@ -98,7 +99,9 @@
 		value.neutral = list(size = 1,
 							 lwd = 2,
 							 fill_alpha = 1,
-							 col_alpha = 1),
+							 col_alpha = 1,
+							 text = "Abc",
+							 fontface = "plain"),
 		
 		# scales
 		scales.var = list(fill = list(fact = "categorical", num = "intervals", int = "discrete"),

@@ -129,6 +129,7 @@ tmapScaleAuto = function(x1, scale, legend, o, aes, layer, sortRev, bypass_ord) 
 	scale_new = do.call(tm_scalefun, args = scale)
 	
 	
+	
 	FUN = scale_new$FUN
 	scale_new$FUN = NULL
 	do.call(FUN, list(x1 = x1, scale = scale_new, legend = legend, o = o, aes = aes, layer = layer, sortRev, bypass_ord))

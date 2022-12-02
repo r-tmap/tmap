@@ -76,7 +76,7 @@ step1_rearrange_facets = function(tmo) {
 					names(value) = value_orig
 					
 					if (inherits(value_orig, "tmapAsIs")) {
-						if (inherits(scale, "tm_scale_auto")) scale = tm_scale_asis()
+						if (inherits(scale, "tm_scale_auto")) class(scale) = c("tm_scale_asis", "tm_scale", "list")
 					}
 				}
 
@@ -86,7 +86,7 @@ step1_rearrange_facets = function(tmo) {
 				vars = unlist(value)
 				
 				data_vars = all(make.names(vars) %in% shpvars)
-				geo_vars = all(make.names(vars) %in% c("AREA", "LENGTH")) && !data_vars
+				geo_vars = all(make.names(vars) %in% c("AREA", "LENGTH", "MAP_COLORS")) && !data_vars
 				
 				nflvar = nvars
 				if (data_vars) {

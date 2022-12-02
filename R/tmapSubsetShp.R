@@ -38,6 +38,9 @@ tmapSubsetShp.sf = function(shp, vars) {
 	if ("AREA" %in% vars && !("AREA" %in% names(shp))) {
 		shp$AREA = sf::st_area(shp)
 	}
+	if ("MAP_COLORS" %in% vars) {
+		shp$MAP_COLORS = tmaptools::map_coloring(shp)
+	}
 	if (!length(vars)) {
 		vars = "dummy__"
 		shp$dummy__ = TRUE
@@ -51,6 +54,9 @@ tmapSubsetShp.sfc = function(shp, vars) {
 	s = sf::st_sf(dummy__ = TRUE, geometry = shp)
 	if ("AREA" %in% vars) {
 		s$AREA = sf::st_area(shp)
+	}
+	if ("MAP_COLORS" %in% vars) {
+		s$MAP_COLORS = tmaptools::map_coloring(s)
 	}
 	s
 }
