@@ -270,16 +270,30 @@ tmapGridText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id
 	shp = res$shp
 	dt = res$dt
 	
+	shadow = gp$shadow
+	
 	gp = impute_gp(gp, dt)
 	gp = rescale_gp(gp, o$scale_down)
 	
 	coords = sf::st_coordinates(shp)
 	
+	g = get("g", .TMAP_GRID)
+	
 	
 	gp = gp_to_gpar(gp, sel = "col")
-	grb = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = dt$text, gp = gp, name = paste0("text_", id))
+	grobText = grid::textGrob(x = grid::unit(coords[,1], "native"), y = grid::unit(coords[,2], "native"), label = dt$text, gp = gp, name = paste0("text_", id))
 	
+	if (shadow) {
+		gp_sh = gp
+		gp_sh$col = ifelse(is_light(gp$col), "#000000", "#FFFFFF")
+		grobTextSh = grid::textGrob(x = grid::unit(coords[,1], "native") + grid::unit(0.05, "lines"), y = grid::unit(coords[,2], "native") - grid::unit(0.05, "lines"), label = dt$text, gp = gp_sh)
+	} else {
+		grobTextSh <- NULL
+	}
 	
+	grobTextBG = NULL
+	
+	grb = grid::grobTree(gList(grobTextBG, grobTextSh, grobText))
 	
 	gts = get("gts", .TMAP_GRID)
 	gt = gts[[facet_page]]
