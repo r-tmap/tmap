@@ -82,6 +82,7 @@ step2_data = function(tm) {
 				 mapping_dt = dts_mapping, 
 				 mapping_legend = mapping_legend,
 				 mapping_fun = tml$mapping.fun,
+				 mapping_args = tml$mapping.args,
 				 lid = tml$lid,
 				 group = group,
 				 plot.order = plot.order, # passed on for step 3 non-data driven transformation

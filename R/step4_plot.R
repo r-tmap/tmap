@@ -359,7 +359,7 @@ step4_plot = function(tm, vp) {
 					
 					FUN = paste0("tmap", gs, bl$mapping_fun)
 					
-					do.call(FUN, list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o))
+					do.call(FUN, c(list(shpTM = shpTM, dt = mdt, gp = gp, bbx = bbx, facet_col = d$col[i], facet_row = d$row[i], facet_page = d$page[i], id = id, pane = pane, group = group, o = o), bl$mapping_args))
 				}
 				
 			} else {

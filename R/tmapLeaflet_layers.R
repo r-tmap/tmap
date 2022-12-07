@@ -155,3 +155,98 @@ tmapLeafletRaster = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_pag
 	}
 	NULL
 } 
+
+
+tmapLeafletText = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
+	args = list(...)
+	
+	lf = get_lf(facet_row, facet_col, facet_page)
+	
+	rc_text = frc(facet_row, facet_col)
+	
+	res = select_sf(shpTM, dt)
+	shp = res$shp
+	dt = res$dt
+	
+	#shadow = gp$shadow
+	
+	gp = impute_gp(gp, dt)
+	gp = rescale_gp(gp, o$scale_down)
+	text = as.character(gp$text)
+	
+	coords = sf::st_coordinates(shp)
+	
+	opt = leaflet::pathOptions(interactive = TRUE, pane = pane)
+	
+	cex_set = unique(gp$cex)
+	alpha_set = unique(gp$col_alpha) 
+	face_set = unique(gp$fontface)
+	col_set = unique(gp$col)
+	
+	if (length(face_set) != 1) warning("Variable fontfaces not supported by view mode")
+	
+	vary = (length(cex_set) != 1) || (length(alpha_set) != 1) || (length(face_set) != 1) || (length(col_set) != 1)
+	
+	sizeChar <- paste(round(gp$cex * 12), "px", sep="")
+	
+	# direction <- ifelse(gpl$text.just == "left", "right",
+	# 			 ifelse(gpl$text.just == "right", "left",
+	# 			 ifelse(gpl$text.just == "top", "bottom",
+	# 			 ifelse(gpl$text.just == "bottom", "top", "center"))))
+	direction = "right"	
+	
+	clustering = args$clustering
+	
+	if (identical(clustering, FALSE)) {
+		clustering = NULL
+	} else if (identical(clustering, TRUE)) {
+		clustering = leaflet::markerClusterOptions()	
+	}
+	
+	
+	
+	
+	
+	if (!vary) {
+		lf = lf |> addLabelOnlyMarkers(lng = coords[, 1], lat = coords[,2], 
+										 label=text,
+										 group=group, 
+										 #layerId = ids, 
+										 labelOptions = labelOptions(noHide = TRUE, 
+										 							textOnly = TRUE, 
+										 							direction = direction, 
+										 							opacity=gp$col_alpha[1],
+										 							textsize=sizeChar[1],
+										 							style=list(color=gp$col[1])),
+										 clusterOptions = clustering,
+										 options = markerOptions(pane = pane))
+	} else {
+		for (i in 1:length(text)) {
+			lf = lf |> addLabelOnlyMarkers(lng = coords[i,1], lat = coords[i,2], 
+											 label=text[i],
+											 group=group, 
+											 #layerId = ids[i], 
+											 labelOptions = labelOptions(noHide = TRUE, 
+											 							textOnly = TRUE, 
+											 							direction = direction, 
+											 							opacity=gp$col_alpha[i],
+											 							textsize=sizeChar[i],
+											 							style=list(color=gp$col[i])),
+											 clusterOptions = clustering,
+											 options = markerOptions(pane = pane))	
+		}
+	}
+	assign_lf(lf, facet_row, facet_col, facet_page)
+	
+	# if (o$use.WebGL) {
+	# 	lf |> 
+	# 		leafgl::addGlPoints(sf::st_sf(shp), fillColor = gp$fill, radius = gp$size*10, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, pane = pane, group = group) |> 
+	# 		assign_lf(facet_row, facet_col, facet_page)
+	# } else {
+	# 	lf |> 
+	# 		leaflet::addCircleMarkers(lng = coords[, 1], lat = coords[, 2], fillColor = gp$fill, radius = gp$size*4, fillOpacity = gp$fill_alpha, color = gp$col, opacity = gp$color_alpha, weight = gp$lwd, group = group, options = opt) |> 
+	# 		assign_lf(facet_row, facet_col, facet_page)
+	# }
+	
+	NULL	
+}
