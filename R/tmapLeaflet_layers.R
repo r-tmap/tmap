@@ -1,5 +1,5 @@
 
-tmapLeafletPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapLeafletPolygons = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
@@ -57,7 +57,7 @@ tmapLeafletLines = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page
 	NULL	
 }
 
-tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapLeafletSymbols = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	lf = get_lf(facet_row, facet_col, facet_page)
 	
 	rc_text = frc(facet_row, facet_col)
@@ -98,7 +98,7 @@ split_alpha_channel <- function(x, alpha) {
 }
 
 
-tmapLeafletRaster = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+tmapLeafletRaster = function(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o, ...) {
 	
 	rc_text = frc(facet_row, facet_col)
 	
