@@ -7,6 +7,7 @@
 \title{Layout options}
 \usage{
 tm_layout(
+  title = NULL,
   scale,
   asp,
   bg.color,

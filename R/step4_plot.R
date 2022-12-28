@@ -105,8 +105,8 @@ process_components2 = function(cdt, o) {
 		cdt[class == "autoin", ":="(pos.h = o$legend.autoin.pos[1], pos.v = o$legend.autoin.pos[2], class = "in")]
 	}
 
-	vby = any(cdt$cell.v == "by")
-	hby = any(cdt$cell.h == "by")
+	vby = any(cdt$cell.v == "by" & !is.na(cdt$cell.v))
+	hby = any(cdt$cell.h == "by" & !is.na(cdt$cell.h))
 	
 	toC = function(x) {
 		paste(x, collapse = "_")

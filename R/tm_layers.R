@@ -73,7 +73,8 @@ tm_polygons = function(fill = tm_const(),
 					   group = NA,
 					   ...) {
 	args = list(...)
-
+	args_called <- lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	
 	v3 = c("alpha", "palette", "convert2density", "area", "n", 
 	  "style", "style.args", "as.count", "breaks", "interval.closure", 
 	  "labels", "drop.levels", "midpoint", "stretch.palette", "contrast", 
@@ -132,12 +133,17 @@ tm_polygons = function(fill = tm_const(),
 
 		fill.scale = do.call("tm_scale", args = fill.scale.args)		
 
-		if ("col" %in% names(args)) {
-			fill = args$col
+		if ("col" %in% names(args_called)) {
+			fill = col
+			col = tm_const()
 		}
-		if ("border.col" %in% names(args)) {
+		if ("border.col" %in% names(args) && !identical(args$called_from, "borders")) {
 			col = args$border.col
 		}
+		if (identical(args$called_from, "borders")) {
+			fill = NA
+		}
+		
 		if ("alpha" %in% names(args)) {
 			fill_alpha = args$alpha
 		}
@@ -219,6 +225,7 @@ tm_fill = function(...) {
 	if (!("col" %in% names(args))) {
 		args$col = NA
 	}
+	args$called_from = "fill"
 	do.call(tm_polygons, args)
 }
 
@@ -230,6 +237,7 @@ tm_borders = function(col = tm_const(), ...) {
 	if (!("fill" %in% names(args))) {
 		args$fill = NA
 	}
+	args$called_from = "borders"
 	do.call(tm_polygons, c(list(col = col), args))
 }
 
