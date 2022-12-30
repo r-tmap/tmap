@@ -49,7 +49,9 @@ process_components = function(cdt, o) {
 	if (any(is.na(cdt$z))) {
 		cdt[is.na(z), z := seq(1L,(sum(is.na(z))))]
 	}
-	data.table::setorder(cdt, "z")
+	if (nrow(cdt)>0L) {
+		data.table::setorder(cdt, "z")
+	}
 	cdt
 }
 

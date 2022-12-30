@@ -248,7 +248,6 @@
 										 margin.item.text = 0.25),
 		
 		# components
-		compass.type = "arrow",
 		title.size = 1.3,
 		title.color = NULL,
 		title.fontface = NULL,
@@ -282,6 +281,27 @@
 		credits.heigth = NA,
 		credits.group.frame = TRUE,
 		credits.resize.as.group = FALSE,
+		
+		compass.north=0, 
+		compass.type="arrow", 
+		compass.text.size=.8,
+		compass.size=NA,
+		compass.show.labels=1, 
+		compass.cardinal.directions=c("N", "E", "S", "W"), 
+		compass.text.color=NA,
+		compass.color.dark=NA, 
+		compass.color.light=NA,
+		compass.lwd=1,
+		compass.bg.color=NA,
+		compass.bg.alpha=NA,
+		compass.stack = "vertical",
+		compass.position = tm_pos_in(pos.h = "right", pos.v = "bottom", align.h = "left", align.v = "top", just.h = "left", just.v = "bottom"),
+		compass.frame = FALSE,
+		compass.frame.lwd = 1,
+		compass.frame.r = 2,
+		compass.group.frame = TRUE,
+		compass.resize.as.group = FALSE,
+		
 		
 			
 		panel.show = NA,

@@ -14,3 +14,28 @@ tm_credits = function(text, size, padding, fontface, fontfamily, stack, just, fr
 	if (!("z" %in% names(args))) args$z = as.integer(NA)
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_credits", "tm_component")))))
 }
+
+
+tm_compass <- function(north, 
+					   type, 
+					   text.size,
+					   size,
+					   show.labels, 
+					   cardinal.directions, 
+					   text.color,
+					   color.dark, 
+					   color.light,
+					   lwd,
+					   position,
+					   bg.color,
+					   bg.alpha,
+					   stack, 
+					   just, 
+					   frame,
+					   frame.lwd,
+					   frame.r,
+					   z) {
+	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_compass", "tm_component")))))
+}
