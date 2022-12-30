@@ -4,6 +4,7 @@ process_components = function(cdt, o) {
 	cdt$cell.v = sapply(cdt$comp, function(l) {x = l$position$cell.v; if (is.null(x)) NA else x})
 	cdt$pos.h = sapply(cdt$comp, function(l) {x = l$position$pos.h; if (is.null(x)) NA else x})
 	cdt$pos.v = sapply(cdt$comp, function(l) {x = l$position$pos.v; if (is.null(x)) NA else x})
+	cdt$z = sapply(cdt$comp, function(l) {x = l$z; if (is.null(x)) as.integer(NA) else x})
 	
 	gs = tmap_graphics_name()
 	
@@ -45,6 +46,10 @@ process_components = function(cdt, o) {
 	cdt[, legW := getLW(comp)]
 	cdt[, legH := getLH(comp)]
 	
+	if (any(is.na(cdt$z))) {
+		cdt[is.na(z), z := seq(1L,(sum(is.na(z))))]
+	}
+	data.table::setorder(cdt, "z")
 	cdt
 }
 

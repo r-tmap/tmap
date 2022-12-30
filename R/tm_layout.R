@@ -204,7 +204,7 @@ tm_layout = function(
 		names(title.args) = substr(names(title.args), 7, nchar(names(title.args)))
 		warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
 		args$title = NULL
-		do.call(tm_options, args) + do.call(tm_title, c(list(title = title), title.args))
+		do.call(tm_options, args) + do.call(tm_title, c(list(text = title), title.args))
 	} else {
 		do.call(tm_options, args)
 	}
