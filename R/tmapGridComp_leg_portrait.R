@@ -89,7 +89,7 @@ tmapGridCompHeight.tm_legend_standard_portrait = function(comp, o) {
 	} else if (comp$stretch == "itemsNNA") {
 		if (comp$na.show) set_unit_with_stretch(hs, head(item_ids, -1)) else set_unit_with_stretch(hs, item_ids)
 	} else {
-		sides = switch(comp$position$just.v, top = "second", bottom = "first", "both")
+		sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
 		set_unit_with_stretch(hs, sides = sides)
 	}
 

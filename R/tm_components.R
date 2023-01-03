@@ -34,6 +34,7 @@ tm_compass <- function(north,
 					   frame,
 					   frame.lwd,
 					   frame.r,
+					   margins,
 					   z) {
 	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
 	if (!("z" %in% names(args))) args$z = as.integer(NA)

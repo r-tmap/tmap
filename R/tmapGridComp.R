@@ -72,22 +72,43 @@ tmapGridCompPrepare.tm_compass = function(comp, o) {
 #' @method tmapGridCompHeight tm_compass
 #' @export
 tmapGridCompHeight.tm_compass = function(comp, o) {
-	
+
 	
 	textS = comp$text.size #* o$scale
 	#textP = comp$padding[c(3,1)] * textS * o$lin
-	textH = textS * o$lin
-	comp$Hin = comp$nlines * textH #  sum(textP[1], textH, textP[2])
+	
+	
+	marH = comp$margins[c(3,1)] * textS * o$lin
+	hs = c(marH[1], comp$nlines * textS * o$lin, marH[2])
+	
+	
+	sides = switch(comp$position$align.v, top = "second", bottom = "first", "both")
+	hsu = set_unit_with_stretch(hs, sides = sides)
+	
+	Hin = sum(hs)
+
+	comp$Hin = Hin #  sum(textP[1], textH, textP[2])
+	comp$hsu = hsu
 	comp
 }
 
 #' @method tmapGridCompWidth tm_compass
 #' @export
 tmapGridCompWidth.tm_compass = function(comp, o) {
+	
+	
+	
 	textS = comp$text.size #* o$scale
 	#textP = comp$padding[c(3,1)] * textS * o$lin
-	textW = textS * o$lin
-	comp$Win = comp$nlines * textW #  sum(textP[1], textH, textP[2])
+	
+	marW = comp$margins[c(2,4)] * textS * o$lin
+	ws = c(marW[1], comp$nlines * textS * o$lin, marW[2])
+
+	sides = switch(comp$position$align.h, left = "second", right = "first", "both")
+	wsu = set_unit_with_stretch(ws, sides = sides)
+
+	comp$Win = sum(ws)
+	comp$wsu = wsu
 	comp
 }
 
@@ -99,6 +120,16 @@ tmapGridLegPlot.tm_compass = function(comp, o) {
 	
 	light <- do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
 	dark <- do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
+	
+	
+	wsu = comp$wsu
+	hsu = comp$hsu
+	
+	vp = grid::viewport(layout = grid::grid.layout(ncol = length(wsu),
+												   nrow = length(hsu), 
+												   widths = wsu,
+												   heights = hsu))
+	
 	
 	if (comp$type=="4star") {
 		s <- c(.5, .5, .57, .5, .5, .43, 0, .5, .43, 1, .5, .57)
@@ -253,7 +284,9 @@ tmapGridLegPlot.tm_compass = function(comp, o) {
 	}
 	
 	
-	gTree(children=gList(grobBG, 
+	# other grid cells are aligns (1 and 5) and margins (2 and 4)
+	compass = gridCell(3,3, {
+		gTree(children=gList(grobBG, 
 						 if (!is.na(comp$bg.color)) {
 						 	bg.col <- do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
 						 	rectGrob(gp=gpar(col=NA, fill=bg.col))
@@ -263,7 +296,9 @@ tmapGridLegPlot.tm_compass = function(comp, o) {
 						 grobComp, 
 						 grobLabels), 
 		  name="compass")
+	})
 	
+	grid::grobTree(compass, vp = vp)
 }
 
 

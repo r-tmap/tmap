@@ -299,6 +299,7 @@
 		compass.frame = FALSE,
 		compass.frame.lwd = 1,
 		compass.frame.r = 2,
+		compass.margins = c(0.4, 0.4, 0.4, 0.4),
 		compass.group.frame = TRUE,
 		compass.resize.as.group = FALSE,
 		
