@@ -40,3 +40,27 @@ tm_compass <- function(north,
 	if (!("z" %in% names(args))) args$z = as.integer(NA)
 	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_compass", "tm_component")))))
 }
+
+tm_scale_bar = function(breaks,
+						width, 
+						text.size,
+						text.color,
+						color.dark, 
+						color.light,
+						lwd,
+						position,
+						bg.color,
+						bg.alpha,
+						size,
+						stack, 
+						just, 
+						frame,
+						frame.lwd,
+						frame.r,
+						margins,
+						z) {
+	args = lapply(as.list(match.call()[-1]), eval, envir = parent.frame())
+	if (!("z" %in% names(args))) args$z = as.integer(NA)
+	tm_element_list(do.call(tm_element, c(args, list(subclass = c("tm_scale_bar", "tm_component")))))
+	
+}
