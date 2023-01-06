@@ -204,3 +204,10 @@ number_text_lines <- function(txt) {
 		length(strsplit(txt, "\n")[[1]])
 	} else 1
 }
+
+nonempty_text <- function(txt) {
+	if (is.character(txt)) {
+		txt!=""
+	} else rep(TRUE, length(txt))
+}
+

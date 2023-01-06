@@ -219,6 +219,37 @@ step4_plot = function(tm, vp) {
 	d[, bbox:=do.call(get_bbox, as.list(.SD)), by = grps, .SDcols = c("by1", "by2", "by3")]
 	d[, asp:=get_asp(bbox)]
 	
+	
+	# add shape unit (needed for e.g. tm_scale_bar)
+	unit = ifelse(o$unit == "metric", "km", ifelse(o$unit == "imperial", "mi", o$unit))
+	crs = o$crs
+	longlat = sf::st_is_longlat(crs)
+	d[, units:=lapply(bbox, FUN = function(bbx) {
+		if (longlat) {
+			latitude <- mean.default(bbx[c(2,4)])
+			bbxll <- c(xmin=0, ymin=latitude, xmax=1, ymax=latitude)
+			ad <- suppressWarnings({tmaptools::approx_distances(bbxll, projection=crs)})
+			to <- as.numeric(units::set_units(ad$hdist, units::as_units(unit), mode = "standard"))
+		} else {
+			ad <- suppressWarnings({tmaptools::approx_distances(bbx, projection=crs)})
+			
+			if (is.na(crs)) {
+				to <- ad$hdist
+			} else {
+				to <- as.numeric(units::set_units(units::set_units(1, attr(ad$hdist, "units")$numerator, mode = "standard"), units::as_units(unit), mode = "standard"))
+			}
+		}
+		units <- list(projection=crs, unit=unit, to=to, projected = !longlat)
+	})]
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	# determine automatic position of inside comp
 	if (!any(o$free.coords) && any(cdt$class == "autoin")) {
 		shp = tmain[[1]]$shpDT$shpTM[[1]]$shp
@@ -246,7 +277,6 @@ step4_plot = function(tm, vp) {
 	
 	# calculate margins, number of rows and colums, etc.
 	o = process_meta(o, d, cdt)
-	cdt = process_components2(cdt, o)
 	
 	o$ng = length(tmx)
 
@@ -282,11 +312,15 @@ step4_plot = function(tm, vp) {
 	
 	
 	
-	## prepare aux layers
 	# create table with bounding boxes (the only important property, apart from settings)
 	db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
 	db[, i:=1L:nrow(db)]
 	d[, bi:=db$i[match(d$bbox, db$bbox)]]
+	
+	## process components
+	cdt = process_components2(cdt, o)
+	
+	## prepare aux layers
 	
 	# prepare aux layers and return group label (in case it is not user specified)
 	aux_group_def = lapply(aux, function(a) {
@@ -392,6 +426,7 @@ step4_plot = function(tm, vp) {
 	
 	
 	is_in = cdt$class == "in"
+	#is_in = rep(TRUE, nrow(cdt))
 	if (any(is_in)) {
 		legs_in = lapply(which(is_in), function(i) {
 			d2 = data.table::copy(d)
@@ -405,12 +440,45 @@ step4_plot = function(tm, vp) {
 			if (is.na(legsi$by1__)) d2[, by1:= NA]
 			if (is.na(legsi$by2__)) d2[, by2:= NA]
 			if (is.na(legsi$by3__)) d2[, by3:= NA]
-			legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
+			legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col", "bbox", "units"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
 			legsi[, ':='(facet_row = as.character(row), facet_col = as.character(col), row = NULL, col = NULL)]
 			legsi
 		})
-		cdt = data.table::rbindlist(c(list(cdt[!is_in]), legs_in))
+	} else {
+		legs_in = NULL
 	}
+	
+	legs_out = copy(cdt[!is_in])
+	legs_out[, bbox:=list()]
+	legs_out[, units:=list()]
+	# if (any(!is_in)) {
+	# 	legs_out = lapply(which(!is_in), function(i) {
+	# 		d2 = data.table::copy(d)
+	# 		legsi = cdt[i, ]
+	# 		if (o$type != "grid" && o$nrows == 1) {
+	# 			# reverse above
+	# 			d2[, by2 := by1]
+	# 			d2[, by1 := 1]
+	# 		}
+	# 		if (is.na(legsi$by1__)) d2[, by1:= NA]
+	# 		if (is.na(legsi$by2__)) d2[, by2:= NA]
+	# 		if (is.na(legsi$by3__)) d2[, by3:= NA]
+	# 		legsi = merge(legsi, d2[, c("by1", "by2", "by3", "row", "col", "bbox"), with = FALSE], by.x = c("by1__", "by2__", "by3__"), by.y = c("by1", "by2", "by3"))
+	# 		legsi[, ':='(row = NULL, col = NULL)]
+	# 		legsi
+	# 	})		
+	# } else {
+	# 	legs_out = NULL
+	# }
+
+	cdt = data.table::rbindlist(c(list(legs_out), legs_in))
+	
+	
+	cdt$comp = mapply(function(cmp, bbx, u) {
+		cmp$bbox = bbx
+		cmp$units = u
+		cmp
+	}, cdt$comp, cdt$bbox, cdt$units, SIMPLIFY = FALSE)
 	
 
 	legfun = paste0("tmap", gs, "Legend")
