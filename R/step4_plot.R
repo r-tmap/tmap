@@ -307,8 +307,6 @@ step4_plot = function(tm, vp) {
 	FUNwrap = paste0("tmap", gs, "Wrap")
 	FUNxtab = paste0("tmap", gs, "Xtab")
 	
-	# init
-	do.call(FUNinit, list(o = o))
 	
 	
 	
@@ -316,6 +314,9 @@ step4_plot = function(tm, vp) {
 	db = data.table(bbox = unique(d$bbox[!is.na(d$asp)]))
 	db[, i:=1L:nrow(db)]
 	d[, bi:=db$i[match(d$bbox, db$bbox)]]
+
+	# init
+	do.call(FUNinit, list(o = o))
 	
 	## process components
 	cdt = process_components2(cdt, o)

@@ -51,8 +51,8 @@ tmapGridCompWidth.tm_credits = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_credits
 #' @export
-tmapGridLegPlot.tm_credits = function(comp, o) {
-	tmapGridLegPlot_text(comp, o)
+tmapGridLegPlot.tm_credits = function(comp, o, fH, fW) {
+	tmapGridLegPlot_text(comp, o, fH, fW)
 }
 
 #' @method tmapGridCompPrepare tm_compass
@@ -123,7 +123,7 @@ tmapGridCompWidth.tm_compass = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_compass
 #' @export
-tmapGridLegPlot.tm_compass = function(comp, o) {
+tmapGridLegPlot.tm_compass = function(comp, o, fH, fW) {
 	u <- 1/(comp$nlines)
 	#vpComp <- viewport(x=u, y=u, height=1-2*u, width=1-2*u, just=c("left", "bottom"))
 	
@@ -332,12 +332,12 @@ tmapGridCompPrepare.tm_scale_bar = function(comp, o) {
 			}
 		}
 		
-		if (is.na(width))
-			width = .25
-		else if (width > 1) {
-			if (show.messages) message("Scale bar width set to 0.25 of the map width")
-			width = .25
-		}
+		# if (is.na(width))
+		# 	width = .25
+		# else if (width > 1) {
+		# 	if (show.messages) message("Scale bar width set to 0.25 of the map width")
+		# 	width = .25
+		# }
 		if (is.na(text.color)) text.color <- o$attr.color
 		text.size = text.size * o$scale
 		lwd = lwd * o$scale
@@ -371,7 +371,7 @@ tmapGridCompHeight.tm_scale_bar = function(comp, o) {
 #' @method tmapGridCompWidth tm_scale_bar
 #' @export
 tmapGridCompWidth.tm_scale_bar = function(comp, o) {
-	w = comp$width #15 * o$lin * comp$text.size
+	w = comp$width * o$lin * comp$text.size
 
 	textS = comp$text.size #* o$scale
 	#textP = comp$padding[c(3,1)] * textS * o$lin
@@ -389,7 +389,7 @@ tmapGridCompWidth.tm_scale_bar = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_scale_bar
 #' @export
-tmapGridLegPlot.tm_scale_bar = function(comp, o) {
+tmapGridLegPlot.tm_scale_bar = function(comp, o, fH, fW) {
 	light <- do.call("process_color", c(list(comp$color.light, alpha=1), o$pc))
 	dark <- do.call("process_color", c(list(comp$color.dark, alpha=1), o$pc))
 	
@@ -406,7 +406,7 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o) {
 	unit <- comp$units$unit
 	unit.size <- 1/comp$units$to
 	xrange = comp$bbox[3] - comp$bbox[1]
-	crop_factor = 10
+	crop_factor = as.numeric(wsu[3]) / fW 
 	just = 0
 	
 	if (is.na(unit.size)) {
@@ -422,21 +422,26 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o) {
 	} else {
 		ticks2 <- comp$breaks
 	}
+	ticks3 <- ticks2 / xrange2 * fW #   (ticks2*unit.size / xrange) * as.numeric(wsu[3])
+	sel = which(ticks3 <= as.numeric(wsu[3]))
+	
+	ticks3 = ticks3[sel]
+	ticks2 = ticks2[sel]
+	
 	ticks2Labels <- format(ticks2, trim=TRUE)
-	ticksWidths <- text_width_npc(ticks2Labels)
+	ticksWidths <- text_width_inch(ticks2Labels)
 	
 	labels <- c(ticks2Labels, unit)
 	
 	n <- length(ticks2)
-	ticks3 <- ticks2*unit.size / xrange
 	
 	widths <- ticks3[2:n] - ticks3[1:(n-1)]
 	size <- min(comp$text.size, widths/max(ticksWidths))
 	x <- ticks3[1:(n-1)] + .5*ticksWidths[1]*size
 	
-	lineHeight <- convertHeight(unit(1, "lines"), "npc", valueOnly=TRUE) * size
+	lineHeight <- convertHeight(unit(1, "lines"), "inch", valueOnly=TRUE) * size
 	
-	unitWidth <- text_width_npc(unit) * size
+	unitWidth <- text_width_inch(unit) * size
 	width <- sum(widths[-n]) + .5*ticksWidths[1]*size + .5*ticksWidths[n]*size+ unitWidth   #widths * n 
 	
 	xtext <- x[1] + c(ticks3, ticks3[n] + .5*ticksWidths[n]*size + .5*unitWidth)# + widths*.5 + unitWidth*.5) #+ position[1]
@@ -452,11 +457,12 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o) {
 			grobBG,
 			if (!is.na(comp$bg.color)) {
 				bg.col <- do.call("process_color", c(list(comp$bg.color, alpha=comp$bg.alpha), o$pc))
-				rectGrob(x=x[1]-unitWidth, width=xtext[n]-xtext[1]+2.5*unitWidth, just=c("left", "center"), gp=gpar(col=NA, fill=bg.col))
+				rectGrob(x=unit(x[1]-unitWidth, "inch"), width=unit(xtext[n]-xtext[1]+2.5*unitWidth, "inch"), just=c("left", "center"), gp=gpar(col=NA, fill=bg.col))
 			} else {
 				NULL
-			}, rectGrob(x=x, y=1.5*lineHeight, width = widths, height=lineHeight*.5, just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
-			textGrob(label=labels, x = xtext, y = lineHeight, just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))), name="scale_bar")
+			}, rectGrob(x=unit(x, "inch"), y=unit(1.5*lineHeight, "inch"), width = unit(widths, "inch"), height=unit(lineHeight*.5, "inch"), just=c("left", "bottom"), gp=gpar(col=dark, fill=c(light, dark), lwd=comp$lwd)),
+			textGrob(label=labels, x = unit(xtext, "inch"), y = unit(lineHeight, "inch"), just=c("center", "center"), gp=gpar(col=comp$text.color, cex=size, fontface=o$fontface, fontfamily=o$fontfamily))
+			), name="scale_bar")
 	})
 	
 	grid::grobTree(scalebar, vp = vp)
@@ -471,7 +477,7 @@ tmapGridLegPlot.tm_scale_bar = function(comp, o) {
 
 
 
-tmapGridLegPlot_text = function(comp, o) {
+tmapGridLegPlot_text = function(comp, o, fH, fW) {
 	textS = if (comp$text == "") 0 else comp$size * comp$scale #* o$scale
 	
 	padding = grid::unit(comp$padding[c(3,4,1,2)] * textS * o$lin, units = "inch")

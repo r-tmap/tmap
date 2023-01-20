@@ -115,7 +115,7 @@ tmapGridInit = function(o) {
 	colsIn = as.numeric(cols) * o$devsize[1]
 	rowsIn = as.numeric(rows) * o$devsize[2]
 	
-	sum(grid::convertWidth(cols, "inches", valueOnly = TRUE))
+	#sum(grid::convertWidth(cols, "inches", valueOnly = TRUE))
 	
 	
 	vp_tree = grid::vpStack(grid::viewport(width = grid::unit(o$cw, "snpc"), height = grid::unit(o$ch, "snpc"), name = "vp_asp"),
@@ -198,6 +198,9 @@ tmapGridInit = function(o) {
 	}
 	
 	
+	
+	g$mapColsIn = g$colsIn[g$cols_facet_ids]
+	g$mapRowsIn = g$rowsIn[g$rows_facet_ids]
 	
 	assign("gts", gts, envir = .TMAP_GRID)
 	assign("g", g, envir = .TMAP_GRID)

@@ -305,7 +305,7 @@
 		compass.resize.as.group = FALSE,
 		
 		scale_bar.breaks=NULL,
-		scale_bar.width=NA, 
+		scale_bar.width=20, 
 		scale_bar.text.size = .5,
 		scale_bar.text.color=NA,
 		scale_bar.color.dark="black", 
