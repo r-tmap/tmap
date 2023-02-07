@@ -48,6 +48,22 @@ text_width_inch = function(txt, space=TRUE) {
 	}
 }
 
+text_height_npc <- function(txt, to_width = FALSE) {
+	if (to_width) {
+		convertWidth(convertHeight(stringHeight(txt), "inch"), "npc", TRUE)
+	} else {
+		convertHeight(stringHeight(txt), "npc", TRUE)
+	}
+}
+
+text_height_inch <- function(txt, to_width = FALSE) {
+	if (to_width) {
+		convertWidth(convertHeight(stringHeight(txt), "inch"), "inch", TRUE)
+	} else {
+		convertHeight(stringHeight(txt), "inch", TRUE)
+	}
+}
+
 split_legend_labels <- function(txt, brks) {
 	lapply(1L:length(txt), function(i) {
 		c(substr(txt[i], 1, brks[i,1]-2),

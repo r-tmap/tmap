@@ -64,7 +64,7 @@ tm_grid = function(x=NA,
 				   zindex = NA,
 				   group = NA) {
 	tm_element_list(tm_element(
-		args = list(),
+		args = as.list(environment()),
 		mapping.fun = "Grid",
 		zindex = zindex,
 		group = group,

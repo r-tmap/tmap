@@ -347,11 +347,300 @@ tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gr
 }
 
 tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
+	rc_text = frc(facet_row, facet_col)
+	
 	g = get("g", envir = .TMAP_GRID)
 	
-	a3s = g$grid_comp_per_bbx[[bi]]
+	a = g$grid_comp_per_bbx[[bi]]
 	gp = list()
 	
-	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)	
+	grobTextBG = grid::rectGrob(gp=grid::gpar(col = "orange", fill = NA))
 	
+	
+	
+	add.labels = c(TRUE, TRUE)
+	
+	
+	
+	
+	
+	
+	
+	if (a$labels.inside.frame && any(a$ticks) && o$show.warnings) warning("Grid ticks are not supported when labels.inside.frame = TRUE", call. = FALSE)
+	
+	
+	## might be confusing: gridx are grid lines for the x-axis, so they are vertical
+	cogridx <- a$co.x
+	cogridy <- a$co.y
+	labelsx <- a$labels.x
+	labelsy <- a$labels.y
+	
+	
+	cex <- a$labels.size*o$scale
+	
+	selx <- (length(cogridx) > 0)
+	sely <- (length(cogridy) > 0)
+	
+	# find margins due to grid labels
+	if (!is.na(o$frame)) {
+		if (o$frame.double.line) {
+			fw <- 6 * convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * o$frame.lwd
+			fh <- 6 * convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * o$frame.lwd
+		} else {
+			fw <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * o$frame.lwd
+			fh <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * o$frame.lwd
+		}
+	} else {
+		fw <- 0
+		fh <- 0
+	}
+	
+	
+	
+	if (add.labels[1]) {
+		if (a$labels.rot[1] %in% c(0, 180)) {
+			labelsXw <- if (selx) max(text_height_npc(labelsx))  * cex + fh else 0
+		} else {
+			labelsXw <- if (selx) max(text_width_npc(labelsx, space=FALSE, to_height = TRUE))  * cex + fh else 0
+		}
+		spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+		marginX <- convertWidth(unit(a$labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+	} else {
+		labelsXw <- spacerX <- marginX <- 0
+	}
+	
+	
+	if (add.labels[2]) {
+		if (a$labels.rot[2] %in% c(0, 180)) {
+			labelsYw <- if (sely) max(text_width_npc(labelsy, space=FALSE))  * cex + fw else 0
+		} else {
+			labelsYw <- if (sely) max(text_height_npc(labelsy, to_width = TRUE))  * cex + fw else 0
+		}
+		spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+		marginY <- convertWidth(unit(a$labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+	} else {
+		labelsYw <- spacerY <- marginY <- 0
+	}	
+	
+	# find coordinates for projected grid labels
+	if (!is.na(a$projection)) {
+		if (selx) {
+			glabelsx <- get_gridline_labels(lco=a$co.x.lns[a$sel.x], xax = labelsXw + spacerX+marginX)
+			cogridx <- glabelsx$cogrid
+			idsx <- glabelsx$ids
+			labelsx <- labelsx[idsx]
+			cogridx_frst <- cogridx[sapply(1:max(idsx), function(i) which(i==idsx)[1])]
+		}
+		# } else {
+		# 	glabelsx <- numeric(0)
+		# }
+		
+		if (sely) {
+			glabelsy <- get_gridline_labels(lco=a$co.y.lns[a$sel.y], yax = labelsYw + spacerY+marginY)
+			cogridy <- glabelsy$cogrid
+			idsy <- glabelsy$ids
+			labelsy <- labelsy[idsy]
+			cogridy_frst <- cogridy[sapply(1:max(idsy), function(i) which(i==idsy)[1])]
+		}
+		
+	} else {
+		cogridx_frst <- cogridx
+		cogridy_frst <- cogridy
+	}
+	
+	# select grid labels to print
+	selx2 <- if (selx) (cogridx >= labelsYw + spacerY + marginY & cogridx <= 1 - spacerY) else selx
+	sely2 <- if (sely) (cogridy >= labelsXw + spacerX + marginX & cogridy <= 1 - spacerX) else sely
+	
+	
+	# remove overlapping grid labels
+	widths = text_width_npc(labelsx) * cex
+	heights = text_height_npc(labelsy) * cex
+	
+	
+	selx2 = selx2 & grid_nonoverlap(cogridx, widths)
+	sely2 = sely2 & grid_nonoverlap(cogridy, heights)
+	
+	
+	# select grid lines to draw
+	selx <- if (selx) (cogridx_frst >= labelsYw + spacerY + marginY & cogridx_frst <= 1) else selx
+	sely <- if (sely) (cogridy_frst >= labelsXw + spacerX + marginX & cogridy_frst <= 1) else sely
+	
+	# crop projected grid lines, and extract polylineGrob ingredients
+	if (!is.na(a$projection)) {
+		lnsList <- list(
+			if (any(selx)) st_multilinestring(a$co.x.lns) else NULL,
+			if (any(sely)) st_multilinestring(a$co.y.lns) else NULL
+		)
+		lnsSel <- !vapply(lnsList, is.null, logical(1))
+		if (!any(lnsSel)) {
+			grid.co.x.lns <- numeric(0)
+			grid.co.y.lns <- numeric(0)
+		} else {
+			lns <- st_sf(ID=c("x", "y")[lnsSel], geometry = st_sfc(lnsList[lnsSel], crs = 4326)) # trick for 0-1 coordinates
+			sf_bbox <- tmaptools::bb_poly(bb(c(labelsYw + spacerY + marginY, labelsXw + spacerX + marginX, 1, 1)), projection = 4326)
+			lns_crop <- suppressWarnings(suppressMessages(st_intersection(lns, sf_bbox)))
+			
+			# quick fix for #564
+			if (!all(sf::st_geometry_type(lns_crop) == "MULTILINESTRING")) {
+				lns_crop_split_geo = split_geometry_collection(lns_crop$geometry)
+				lns_crop_split_geo = lns_crop_split_geo[sf::st_geometry_type(lns_crop_split_geo) == "MULTILINESTRING"]
+				stopifnot(nrow(lns_crop) == length(lns_crop_split_geo))
+				lns_crop$geometry = lns_crop_split_geo
+			}
+			
+			if (any(selx)) {
+				cogridxlns <- as.data.frame(st_coordinates(st_geometry(lns_crop)[1])[,1:3])
+				names(cogridxlns) <- c("x", "y", "ID")
+			} else {
+				cogridxlns <- numeric(0)
+			}
+			
+			if (any(sely)) {
+				cogridylns <- as.data.frame(st_coordinates(st_geometry(lns_crop)[sum(lnsSel)])[,1:3])
+				names(cogridylns) <- c("x", "y", "ID")
+			} else {
+				cogridylns <- numeric(0)
+			}
+		}
+		
+	}
+	
+	## process x-axis grid lines and labels
+	if (any(selx)) {
+		cogridx2 <- cogridx_frst[selx]
+		cogridx3 <- cogridx[selx2]
+		labelsx <- labelsx[selx2]
+		
+		if (!a$lines) {
+			grobGridX <- NULL
+		} else if (is.na(a$projection)) {
+			grobGridX <- polylineGrob(x=rep(cogridx2, each=2), y=rep(c(labelsXw+spacerX+marginX,1), length(cogridx2)), 
+									  id=rep(1:length(cogridx2), each=2), gp=gpar(col=a$col, lwd=a$lwd))
+		} else {
+			grobGridX <- polylineGrob(x=cogridxlns$x, y=cogridxlns$y, id=cogridxlns$ID, gp=gpar(col=a$col, lwd=a$lwd))
+		}
+		
+		grobGridTextX <- if (add.labels[1] && any(selx2)) {
+			just <- ifelse(a$labels.rot[1] == 90, "right", ifelse(a$labels.rot[1] == 270, "left", ifelse(a$labels.rot[1] == 180, "bottom", "top")))
+			
+			textGrob(labelsx, y=labelsXw+spacerX*.5+marginX, x=cogridx3, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=o$fontface, fontfamily=o$fontfamily))
+		} else NULL
+	} else {
+		grobGridX <- NULL
+		grobGridTextX <- NULL
+	}
+	
+	
+	## process y-axis grid lines and labels
+	if (any(sely)) {
+		cogridy2 <- cogridy_frst[sely]
+		cogridy3 <- cogridy[sely2]
+		labelsy <- labelsy[sely2]
+		
+		if (!a$lines) {
+			grobGridY <- NULL
+		} else if (is.na(a$projection)) {
+			grobGridY <- polylineGrob(y=rep(cogridy2, each=2), x=rep(c(labelsYw+spacerY+marginY,1), length(cogridy2)), 
+									  id=rep(1:length(cogridy2), each=2), gp=gpar(col=a$col, lwd=a$lwd))
+		} else {
+			grobGridY <- polylineGrob(x=cogridylns$x, y=cogridylns$y, id=cogridylns$ID, gp=gpar(col=a$col, lwd=a$lwd))
+		}
+		
+		grobGridTextY <- if (add.labels[2] && any(sely2)) {
+			just <- ifelse(a$labels.rot[2] == 90, "bottom", ifelse(a$labels.rot[2] == 270, "top", ifelse(a$labels.rot[2] == 180, "left", "right")))
+			
+			textGrob(labelsy, x=labelsYw+spacerY*.5+marginY, y=cogridy3, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=a$labels.size*o$scale, fontface=o$fontface, fontfamily=o$fontfamily))
+		} else NULL
+	} else {
+		grobGridY <- NULL
+		grobGridTextY <- NULL
+	}
+	res = list(treeGridLines=gTree(children=gList(grobGridX, grobGridY), name="grid_lines"),
+		 treeGridLabels=gTree(children=gList(grobGridTextX, grobGridTextY), name="grid_labels"),
+		 metaX=labelsYw+spacerY,
+		 metaY=labelsXw+spacerX)
+
+
+	
+	
+	
+	grb = grid::grobTree(gList(res$treeGridLines, res$treeGridLabels))
+	
+	gts = get("gts", .TMAP_GRID)
+	gt = gts[[facet_page]]
+	
+	gt_name = paste0("gt_facet_", rc_text)
+	
+	gt = grid::addGrob(gt, grb, gPath = grid::gPath(gt_name))
+	
+	gts[[facet_page]] = gt
+	assign("gts", gts, envir = .TMAP_GRID)
+	NULL	
+	
+	
+}
+
+
+
+
+
+get_gridline_labels <- function(lco, xax=NA, yax=NA) {
+	k <- length(lco)
+	d <- ifelse(!is.na(xax), 1, 2)
+	
+	
+	lns <- st_sf(geometry=st_sfc(lapply(lco, function(l) {
+		st_linestring(l)
+	})), crs = 4326) # trick for 0-1 coordinates
+	
+	
+	if (!is.na(xax)) {
+		ax <- st_sf(geometry=st_sfc(st_linestring(matrix(c(0, 1, xax, xax), nrow=2))), crs = 4326)
+		#ax <- SpatialLines(list(Lines(Line(matrix(c(0, 1, xax, xax), nrow=2)), ID="base")))
+	} else {
+		ax <- st_sf(geometry=st_sfc(st_linestring(matrix(c(yax, yax, 0, 1), nrow=2))), crs = 4326)
+		#ax <- SpatialLines(list(Lines(Line(matrix(c(yax, yax, 0, 1), nrow=2)), ID="base")))
+	}
+	gint <- suppressMessages(st_intersects(lns, ax, sparse = FALSE, prepared = FALSE))[,1]
+	
+	ins <- vapply(lco, function(m) {
+		l <- m[1,]
+		if (!is.na(xax)) {
+			res <- l[1] >= 0 && l[1] <= 1 && l[2] >= xax && l[2] <= 1
+		} else {
+			res <- l[1] >= yax && l[1] <= 1 && l[2] >= 0 && l[2] <= 1
+		}
+		if (res) l[d] else -1
+	}, numeric(1))
+	cogrid <- ifelse(gint, 0, ins)
+	ids <- 1:length(cogrid) # number of grid labels per grid line (could be 2 for warped grid lines)
+	if (any(gint)) {
+		cogrid <- as.list(cogrid)
+		ids <- as.list(ids)
+		
+		wgint <- which(gint)
+		gints <- suppressMessages(st_intersection(lns[gint, ], ax))
+		
+		# count number of intersections per coordinate
+		gnrs <- vapply(st_geometry(gints), function(g) {
+			nr <- nrow(g)
+			if (is.null(nr)) 1L else nr
+		}, integer(1))
+		gints <- suppressWarnings(st_cast(x = st_cast(gints, "MULTIPOINT"), to = "POINT"))
+		
+		coor <- st_coordinates(gints)[,d]
+		
+		ids2 <- unlist(mapply(rep, 1:length(wgint), gnrs, SIMPLIFY = FALSE), use.names = FALSE)
+		j <- 1L
+		for (i in which(gint)) {
+			cogrid[[i]] <- unname(coor[ids2 == j])
+			ids[[i]] <- rep(ids[[i]], gnrs[j])
+			j <- j + 1L
+		}
+		
+		cogrid <- unlist(cogrid, use.names = FALSE)
+		ids <- unlist(ids, use.names = FALSE)
+	}
+	list(cogrid = cogrid, ids = ids)
 }
