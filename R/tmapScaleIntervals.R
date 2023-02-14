@@ -178,7 +178,7 @@ tmapScaleIntervals = function(x1, scale, legend, o, aes, layer, sortRev, bypass_
 		})
 		
 		if (bypass_ord) {
-			format_aes_results(vals, legend)
+			format_aes_results(vals, legend = legend)
 		} else {
 			format_aes_results(vals, ids, legend)			
 		}

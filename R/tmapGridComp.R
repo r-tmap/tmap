@@ -18,7 +18,7 @@ tmapGridCompWidth.tm_title = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_title
 #' @export
-tmapGridLegPlot.tm_title = function(comp, o) {
+tmapGridLegPlot.tm_title = function(comp, o, fH, fW) {
 	tmapGridLegPlot_text(comp, o)
 }
 

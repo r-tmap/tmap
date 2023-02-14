@@ -3,7 +3,7 @@ get_scale_defaults = function(scale, o, aes, layer, cls) {
 		values = if (is.na(values[1])) getAesOption("values.var", o, aes, layer, cls = cls) else values
 		
 		value.na = if (is.na(value.na) || identical(value.na, TRUE)) {
-			m = getPalMeta(values[1])
+			m = getPalMeta(as.character(values[1]))
 			ona = getAesOption("value.na", o, aes, layer, cls = cls)	
 			
 			if (!is.na(ona) || is.null(m)) {
@@ -77,7 +77,7 @@ tmapScale_returnNA = function(n, legend, value.na, label.na, label.show, sortRev
 	vals = rep(value.na, n)
 	
 	if (bypass_ord) {
-		format_aes_results(vals, legend)
+		format_aes_results(vals, legend = legend)
 	} else {
 		format_aes_results(vals, ids, legend)			
 	}

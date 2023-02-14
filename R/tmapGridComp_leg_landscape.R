@@ -137,7 +137,7 @@ tmapGridCompWidth.tm_legend_standard_landscape = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_legend_standard_landscape
 #' @export
-tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o) {
+tmapGridLegPlot.tm_legend_standard_landscape = function(comp, o, fH, fW) {
 	textS = comp$text.size * comp$scale
 	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale
 	

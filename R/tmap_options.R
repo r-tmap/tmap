@@ -943,7 +943,7 @@ tm_format <- function(format, ...) {
 		warning("The 'title' argument of tm_layout is deprecated as of tmap 4.0. Please use tm_title instead.", call. = FALSE)
 		title = formatArgs$title
 		formatArgs$title = NULL
-		do.call(tm_options, formatArgs) + tm_title(title = title)
+		do.call(tm_options, formatArgs) + tm_title(text = title)
 	} else {
 		do.call(tm_options, formatArgs)
 	}

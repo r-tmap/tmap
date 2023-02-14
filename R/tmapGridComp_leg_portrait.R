@@ -15,6 +15,10 @@ tmapGridLegPlot = function(...) {
 #' @export
 tmapGridCompPrepare.tm_legend_standard_portrait = function(comp, o) {
 	within(comp, {
+		bg.color = do.call("process_color", c(list(col=bg.color), o$pc))
+		title.color = do.call("process_color", c(list(col=title.color), o$pc))
+		text.color = do.call("process_color", c(list(col=text.color), o$pc))
+		
 		type = if (!is.na(gp$fill[1]) && any(nchar(gp$fill) > 50) || !is.na(gp$fill_alpha[1]) && any(nchar(gp$fill_alpha) > 50)) {
 			"gradient"
 		} else if (!is.na(gp$shape[1])) {
@@ -164,7 +168,7 @@ tmapGridCompWidth.tm_legend_standard_portrait = function(comp, o) {
 
 #' @method tmapGridLegPlot tm_legend_standard_portrait
 #' @export
-tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o) {
+tmapGridLegPlot.tm_legend_standard_portrait = function(comp, o, fH, fW) {
 	textS = comp$text.size * comp$scale #* o$scale
 	titleS = if (comp$title == "") 0 else comp$title.size * comp$scale #* o$scale
 	
