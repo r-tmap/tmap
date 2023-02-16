@@ -276,7 +276,7 @@ step4_plot = function(tm, vp) {
 	}
 	
 	# calculate margins, number of rows and colums, etc.
-	o = process_meta(o, d, cdt)
+	o = process_meta(o, d, cdt, aux)
 	
 	o$ng = length(tmx)
 
@@ -306,6 +306,9 @@ step4_plot = function(tm, vp) {
 	FUNoverlay = paste0("tmap", gs, "Overlay")
 	FUNwrap = paste0("tmap", gs, "Wrap")
 	FUNxtab = paste0("tmap", gs, "Xtab")
+	
+	FUNgridxlab = paste0("tmap", gs, "GridXLab")
+	FUNgridylab = paste0("tmap", gs, "GridYLab")
 	
 	
 	
@@ -375,6 +378,7 @@ step4_plot = function(tm, vp) {
 		}
 	}
 	
+
 	
 	
 	for (i in seq_len(nrow(d))) {
@@ -382,7 +386,18 @@ step4_plot = function(tm, vp) {
  		if (o$panel.type == "wrap") do.call(FUNwrap, list(label = o$panel.labels[[1]][d$i[i]], facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o)) 
  		if (is.na(d$asp[i])) next 
 		do.call(FUNshape, list(bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
- 			
+		
+		
+		# plot grid labels
+		if (o$grid.show && !o$grid.labels.inside.frame) {
+			if ((o$grid.labels.pos[1] == "left" && d$col[i] == 1) || (o$grid.labels.pos[1] == "right" && d$col[i] == o$ncols)) {
+				do.call(FUNgridylab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			}
+			if ((o$grid.labels.pos[2] == "top" && d$row[i] == 1) || (o$grid.labels.pos[2] == "bottom" && d$row[i] == o$nrows)) {
+				do.call(FUNgridxlab, list(bi = d$bi[i], bbx = bbx, facet_row = d$row[i], facet_col = d$col[i], facet_page = d$page[i], o = o))
+			}
+		}
+
 		for (qi in 1L:nrow(q)) {
 			gid = q$gid[qi]
 			glid = q$glid[qi]

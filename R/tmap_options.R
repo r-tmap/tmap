@@ -163,13 +163,11 @@
 		xylab.height = 1.25,
 		coords.height = 1.25,
 
-		# xlab, ylab, grid
+		# xlab, ylab
 		xlab.show = FALSE,
 		ylab.show = FALSE,
 		xlab.pos = "bottom",
 		ylab.pos = "right",
-		grid.show = FALSE,
-		grid.label.pos = c("right", "bottom"),
 				
 		# panel
 		panel.type = NA, # "wrap" or "xtab",
@@ -327,6 +325,8 @@
 		scale_bar.group.frame = TRUE,
 		scale_bar.resize.as.group = FALSE,		
 			
+		grid.show = FALSE,
+		grid.labels.pos = c("left", "bottom"),
 		grid.x=NA,
 		grid.y=NA,
 		grid.n.x=NA,

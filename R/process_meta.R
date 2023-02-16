@@ -87,8 +87,22 @@ preprocess_meta = function(o, cdt) {
 	})
 }
 
-process_meta = function(o, d, cdt) {
+process_meta = function(o, d, cdt, aux) {
 	gs = tmap_graphics_name()
+	
+	# add tm_grid values to o	
+	gid = which(vapply(aux, FUN = inherits, "tm_grid", FUN.VALUE = logical(1)))[1]
+	if (!is.na(gid)) {
+		a = aux[[gid]]$args
+		a$zindex = NULL
+		a$group = NULL
+		o[paste0("grid.", names(a))] = a
+	}
+	
+	bbx = d$bbox[[1]]
+	
+
+	
 	within(o, {
 		# sasp shape aspect ratio (NA if free coordinates)
 		diff_asp = any(d$asp != d$asp[1])
@@ -145,13 +159,32 @@ process_meta = function(o, d, cdt) {
 			
 			
 			grid.buffers = if (grid.show) {
-				as.integer(grid.label.pos == c("bottom", "left", "top", "right")) * c(bufferH, bufferW, bufferH, bufferW)
+				as.integer(grid.labels.pos == c("bottom", "left", "top", "right")) * c(bufferH, bufferW, bufferH, bufferW)
 			} else {
 				rep(0, 4)
 			}
 			
-			grid.margins = if (grid.show) {
-				as.integer(grid.label.pos == c("bottom", "left", "top", "right")) * grid.mark.height * c(lineH, lineW, lineH, lineW)
+			grid.margins = if (grid.show && !grid.labels.inside.frame) {
+
+				proj = sf::st_crs(bbx)
+				if (!is.na(o$grid.projection)) {
+					bbx_orig <- bbx
+					bbx <- suppressWarnings(bb(bbx, current.projection = proj, projection = o$grid.projection))
+				}
+
+				gridx = pretty30(bbx[c(1,3)], n=5, longlat = !is.na(o$grid.projection) && sf::st_is_longlat(proj))
+				gridy = pretty30(bbx[c(2,4)], n=5, longlat = !is.na(o$grid.projection) && sf::st_is_longlat(proj))
+				
+				xbbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gridx, intervals=FALSE), grid.labels.format))), "inch", valueOnly = TRUE)) * grid.labels.size
+				ybbstringWin <- max(convertWidth(stringWidth(do.call("fancy_breaks", c(list(vec=gridy, intervals=FALSE), grid.labels.format))), "inch", valueOnly = TRUE)) * grid.labels.size
+				
+				lineHin <- convertHeight(unit(grid.labels.size, "lines"), "inch", valueOnly=TRUE)
+				
+				xgridHin <- ifelse(!is.na(grid.labels.space.x), grid.labels.space.x * lineHin, ifelse(grid.labels.rot[1] %in% c(0, 180), 1.375 * lineHin, xbbstringWin + lineHin * .75) + grid.labels.margin.x * lineHin)
+				ygridWin <- ifelse(!is.na(grid.labels.space.y), grid.labels.space.y * lineHin, ifelse(grid.labels.rot[2] %in% c(0, 180), ybbstringWin + lineHin * .75, 1.375 * lineHin) + grid.labels.margin.y * lineHin)
+				
+				marks_new = c(xgridHin, ygridWin, xgridHin, ygridWin) / lin				
+				as.integer(c("bottom", "left", "top", "right") %in% grid.labels.pos) * marks_new * c(lineH, lineW, lineH, lineW)
 			} else {
 				rep(0, 4)
 			}

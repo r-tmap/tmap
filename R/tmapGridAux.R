@@ -126,8 +126,11 @@ tmapGridGridPrep = function(a, bs, o) {
 	g = get("g", envir = .TMAP_GRID)
 	
 	
+	
+	
 	#alpha <- labels.inside.frame <- labels.rot <- NULL
 	a2 = within(a, {
+		if (labels.inside.frame && !identical(labels.pos, c("left", "bottom"))) warning("label.pos not implemented yet for labels.inside.frame==TRUE (only c(\"left\", \"bottom\"))")
 		show <- TRUE
 		if (is.na(col)) col <- ifelse(o$attr.color.light, darker(o$attr.color, .5), lighter(o$attr.color, .5))
 		if (is.na(labels.col)) labels.col <- ifelse(o$attr.color.light, darker(o$attr.color, .2), lighter(o$attr.color, .2))
@@ -146,6 +149,9 @@ tmapGridGridPrep = function(a, bs, o) {
 		labels.show <- rep(labels.show, length.out = 2)
 		ticks <- rep(ticks, length.out = 2)
 		
+		add.labels = labels.inside.frame & labels.show
+		
+		
 	})
 
 	o$scale.extra = 1
@@ -159,24 +165,25 @@ tmapGridGridPrep = function(a, bs, o) {
 				bbx_orig <- bbx
 				bbx <- suppressWarnings(bb(bbx, current.projection = proj, projection = projection))
 			}
+			sasp = tmap:::get_asp_ratio(bbx)
 			
 			## automatically determine number of grid lines
 			if (is.na(n.x) && !is.na(n.y)) {
-				n.x <- n.y * o$sasp
+				n.x <- n.y * sasp
 			} else if (!is.na(n.x) && is.na(n.y)) {
-				n.y <- n.x / o$sasp
+				n.y <- n.x / sasp
 			} else if (is.na(n.x) && is.na(n.y)) {
 				n.lines <- 15 / (o$scale / o$scale.extra)
-				n.x <- round(o$sasp * (n.lines/(1+o$sasp)))
-				n.y <- round(n.lines / (1+o$sasp))
+				n.x <- round(sasp * (n.lines/(1+sasp)))
+				n.y <- round(n.lines / (1+sasp))
 			}
 			
 			## find natural breaks
 			custom.x <- !is.na(x[1])
 			custom.y <- !is.na(y[1])
 			
-			if (!custom.x) x <- pretty30(bbx[c(1,3)], n=n.x, longlat = !is.na(projection) || sf::st_is_longlat(proj))
-			if (!custom.y) y <- pretty30(bbx[c(2,4)], n=n.y, longlat = !is.na(projection) || sf::st_is_longlat(proj))
+			if (!custom.x) x <- pretty30(bbx[c(1,3)], n=n.x, longlat = !is.na(projection) && sf::st_is_longlat(proj))
+			if (!custom.y) y <- pretty30(bbx[c(2,4)], n=n.y, longlat = !is.na(projection) && sf::st_is_longlat(proj))
 			
 			## copy x and y
 			x.orig <- x
@@ -346,6 +353,162 @@ tmapGridTiles = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gr
 	if (!is.null(dt)) tmapGridRaster(shpTM, dt, gp, bbx, facet_row, facet_col, facet_page, id, pane, group, o)	
 }
 
+
+tmapGridGridXLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
+	gts = get("gts", envir = .TMAP_GRID)
+	g = get("g", envir = .TMAP_GRID)
+	gt = gts[[facet_page]]
+	
+	is_top = o$grid.labels.pos[2] == "top"
+	
+	
+	rc_text = frc(facet_row, facet_col)
+	
+	rowid = g$rows_facet_ids[facet_row] + ifelse(is_top, -2, 2)
+	colid = g$cols_facet_ids[facet_col]
+	
+	H = g$rowsIn[rowid]
+	W = g$colsIn[colid]
+	
+
+	a = g$grid_comp_per_bbx[[bi]]
+
+
+
+	labelsx <- a$labels.x
+
+	# find coordinates for projected grid labels
+	if (!is.na(a$projection)) {
+		glabelsx <- get_gridline_labels(lco=a$co.x.lns[a$sel.x], xax = as.integer(is_top))
+		cogridx <- glabelsx$cogrid
+		idsx <- glabelsx$ids
+		labelsx <- labelsx[idsx]
+	} else {
+		cogridx <- a$co.x
+	}
+
+	cex <- a$labels.size*o$scale
+
+	# remove overlapping grid labels
+	widths = text_width_inch(labelsx) * cex / W
+	selx2 = grid_nonoverlap(cogridx, widths)
+	if (!any(selx2)) return(NULL)
+	labelsx2 = labelsx[selx2]
+	cogridx2 = cogridx[selx2]
+
+
+	spacerX <- convertHeight(unit(.5, "lines"), unitTo="inch", valueOnly=TRUE) * cex / H
+	marginX <- convertHeight(unit(a$labels.margin.x, "lines"), unitTo="inch", valueOnly=TRUE) * cex / H
+
+	just <- ifelse(a$labels.rot[1] == 90, "right", 
+		    ifelse(a$labels.rot[1] == 270, "left", 
+		    ifelse(a$labels.rot[1] == 180, "bottom", "top")))
+
+	if (a$ticks[1]) {
+		if (is_top) {
+			ticks <- polylineGrob(x=rep(cogridx2, each = 2), y = rep(c(0, spacerX*.5+marginX), length(cogridx2)), id = rep(1:length(cogridx2), each = 2), gp=gpar(col=a$col, lwd=a$lwd))
+		} else {
+			ticks <- polylineGrob(x=rep(cogridx2, each = 2), y = rep(c(1-spacerX*.5-marginX,1), length(cogridx2)), id = rep(1:length(cogridx2), each = 2), gp=gpar(col=a$col, lwd=a$lwd))
+		}
+	} else {
+		ticks <- NULL
+	}
+
+	if (is_top) {
+		labels <- textGrob(labelsx2, y=1-spacerX/2, x=cogridx2, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=o$fontface, fontfamily=o$fontfamily))
+	} else {
+		labels <- textGrob(labelsx2, y=1-spacerX-marginX, x=cogridx2, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=o$fontface, fontfamily=o$fontfamily))
+	}
+	
+	res = gTree(children = gList(ticks, labels), name = "gridTicksLabelsX")
+
+	#res = gTree(children = gList(rectGrob(gp=gpar(fill="red"))), name = "gridTicksLabelsX")
+	
+	gt = add_to_gt(gt, res, row = rowid, col = colid)
+	
+	gts[[facet_page]] = gt
+
+	assign("gts", gts, envir = .TMAP_GRID)
+	NULL
+}
+
+
+tmapGridGridYLab = function(bi, bbx, facet_row, facet_col, facet_page, o) {
+	gts = get("gts", envir = .TMAP_GRID)
+	g = get("g", envir = .TMAP_GRID)
+	gt = gts[[facet_page]]
+	
+	is_left = o$grid.labels.pos[1] == "left"
+	
+	rc_text = frc(facet_row, facet_col)
+	
+	rowid = g$rows_facet_ids[facet_row]
+	colid = g$cols_facet_ids[facet_col] + ifelse(is_left, -2, 2)
+	
+	H = g$rowsIn[rowid]
+	W = g$colsIn[colid]
+	
+	
+	a = g$grid_comp_per_bbx[[bi]]
+	
+	
+	labelsy <- a$labels.y
+	
+	# find coordinates for projected grid labels
+	if (!is.na(a$projection)) {
+		glabelsy <- get_gridline_labels(lco=a$co.y.lns[a$sel.y], yax = 0)
+		cogridy <- glabelsy$cogrid
+		idsy <- glabelsy$ids
+		labelsy <- labelsy[idsy]
+	} else {
+		cogridy <- a$co.y
+	}
+	
+	cex <- a$labels.size*o$scale
+	
+	# remove overlapping grid labels
+	heights = text_height_npc(labelsy) * cex
+	sely2 = grid_nonoverlap(cogridy, heights)
+	if (!any(sely2)) return(NULL)
+	labelsy2 = labelsy[sely2]
+	cogridy2 = cogridy[sely2]
+	
+	
+	spacerY <- convertWidth(unit(.5, "lines"), unitTo="inch", valueOnly=TRUE) * cex / W
+	marginY <- convertWidth(unit(a$labels.margin.y, "lines"), unitTo="inch", valueOnly=TRUE) * cex / W
+	
+	just <- ifelse(a$labels.rot[2] == 90, "bottom", ifelse(a$labels.rot[2] == 270, "top", ifelse(a$labels.rot[2] == 180, "left", "right")))
+	
+	if (a$ticks[2]) {
+		if (is_left) {
+			ticks <- polylineGrob(x = rep(c(1-spacerY*.5-marginY, 1), length(cogridy2)), y = rep(cogridy2, each = 2), id = rep(1:length(cogridy2), each = 2), gp=gpar(col=a$col, lwd=a$lwd))
+		} else {
+			ticks <- polylineGrob(x = rep(c(0, spacerY*.5+marginY), length(cogridy2)), y = rep(cogridy2, each = 2), id = rep(1:length(cogridy2), each = 2), gp=gpar(col=a$col, lwd=a$lwd))
+		}
+	} else {
+		ticks <- NULL
+	}
+	
+	if (is_left) {
+		labels <- textGrob(labelsy2, y=cogridy2, x=1 - spacerY - marginY, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	} else {
+		labels <- textGrob(labelsy2, y=cogridy2, x=1-spacerY*.5-marginY, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=cex, fontface=gt$fontface, fontfamily=gt$fontfamily))
+	}
+	res = gTree(children = gList(ticks, labels), name = "gridTicksLabelsY")
+	
+
+	gt = add_to_gt(gt, res, row = rowid, col = colid)
+	
+	gts[[facet_page]] = gt
+	
+	assign("gts", gts, envir = .TMAP_GRID)
+	NULL
+	
+
+}
+
+
+
 tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, group, o) {
 	rc_text = frc(facet_row, facet_col)
 	
@@ -358,10 +521,8 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	
 	
 	
-	add.labels = c(TRUE, TRUE)
-	
-	
-	
+	fH = g$mapRowsIn[facet_row]
+	fW = g$mapColsIn[facet_col]
 	
 	
 	
@@ -384,11 +545,11 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	# find margins due to grid labels
 	if (!is.na(o$frame)) {
 		if (o$frame.double.line) {
-			fw <- 6 * convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * o$frame.lwd
-			fh <- 6 * convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * o$frame.lwd
+			fw <- (6 * convertWidth(unit(1, "points"), unitTo = "inch", valueOnly = TRUE) * o$frame.lwd) / fW
+			fh <- (6 * convertHeight(unit(1, "points"), unitTo = "inch", valueOnly = TRUE) * o$frame.lwd) / fH
 		} else {
-			fw <- convertWidth(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * o$frame.lwd
-			fh <- convertHeight(unit(1, "points"), unitTo = "npc", valueOnly = TRUE) * o$frame.lwd
+			fw <- (convertWidth(unit(1, "points"), unitTo = "inch", valueOnly = TRUE) * o$frame.lwd) / fW
+			fh <- (convertHeight(unit(1, "points"), unitTo = "inch", valueOnly = TRUE) * o$frame.lwd) / fH
 		}
 	} else {
 		fw <- 0
@@ -397,27 +558,27 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	
 	
 	
-	if (add.labels[1]) {
+	if (a$add.labels[1]) {
 		if (a$labels.rot[1] %in% c(0, 180)) {
-			labelsXw <- if (selx) max(text_height_npc(labelsx))  * cex + fh else 0
+			labelsXw <- if (selx) (max(text_height_inch(labelsx))  * cex + fh) / fH else 0
 		} else {
-			labelsXw <- if (selx) max(text_width_npc(labelsx, space=FALSE, to_height = TRUE))  * cex + fh else 0
+			labelsXw <- if (selx) (max(text_width_inch(labelsx, space=FALSE, to_height = TRUE))  * cex + fh) / fH else 0
 		}
-		spacerX <- convertHeight(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-		marginX <- convertWidth(unit(a$labels.margin.x, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+		spacerX <- convertHeight(unit(.5, "lines"), unitTo="inch", valueOnly=TRUE) * cex / fH
+		marginX <- convertWidth(unit(a$labels.margin.x, "lines"), unitTo="inch", valueOnly=TRUE) * cex / fW
 	} else {
 		labelsXw <- spacerX <- marginX <- 0
 	}
 	
 	
-	if (add.labels[2]) {
+	if (a$add.labels[2]) {
 		if (a$labels.rot[2] %in% c(0, 180)) {
-			labelsYw <- if (sely) max(text_width_npc(labelsy, space=FALSE))  * cex + fw else 0
+			labelsYw <- if (sely) (max(text_width_inch(labelsy, space=FALSE))  * cex + fw) / fW else 0
 		} else {
-			labelsYw <- if (sely) max(text_height_npc(labelsy, to_width = TRUE))  * cex + fw else 0
+			labelsYw <- if (sely) (max(text_height_inch(labelsy, to_width = TRUE))  * cex + fw) / fW else 0
 		}
-		spacerY <- convertWidth(unit(.5, "lines"), unitTo="npc", valueOnly=TRUE) * cex
-		marginY <- convertWidth(unit(a$labels.margin.y, "lines"), unitTo="npc", valueOnly=TRUE) * cex
+		spacerY <- convertWidth(unit(.5, "lines"), unitTo="inch", valueOnly=TRUE) * cex / fW
+		marginY <- convertWidth(unit(a$labels.margin.y, "lines"), unitTo="inch", valueOnly=TRUE) * cex / fW
 	} else {
 		labelsYw <- spacerY <- marginY <- 0
 	}	
@@ -454,8 +615,8 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 	
 	
 	# remove overlapping grid labels
-	widths = text_width_npc(labelsx) * cex
-	heights = text_height_npc(labelsy) * cex
+	widths = text_width_inch(labelsx) * cex / fW
+	heights = text_height_inch(labelsy) * cex / fH
 	
 	
 	selx2 = selx2 & grid_nonoverlap(cogridx, widths)
@@ -521,7 +682,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 			grobGridX <- polylineGrob(x=cogridxlns$x, y=cogridxlns$y, id=cogridxlns$ID, gp=gpar(col=a$col, lwd=a$lwd))
 		}
 		
-		grobGridTextX <- if (add.labels[1] && any(selx2)) {
+		grobGridTextX <- if (a$add.labels[1] && any(selx2)) {
 			just <- ifelse(a$labels.rot[1] == 90, "right", ifelse(a$labels.rot[1] == 270, "left", ifelse(a$labels.rot[1] == 180, "bottom", "top")))
 			
 			textGrob(labelsx, y=labelsXw+spacerX*.5+marginX, x=cogridx3, just=just, rot=a$labels.rot[1], gp=gpar(col=a$labels.col, cex=cex, fontface=o$fontface, fontfamily=o$fontfamily))
@@ -547,7 +708,7 @@ tmapGridGrid = function(bi, bbx, facet_row, facet_col, facet_page, id, pane, gro
 			grobGridY <- polylineGrob(x=cogridylns$x, y=cogridylns$y, id=cogridylns$ID, gp=gpar(col=a$col, lwd=a$lwd))
 		}
 		
-		grobGridTextY <- if (add.labels[2] && any(sely2)) {
+		grobGridTextY <- if (a$add.labels[2] && any(sely2)) {
 			just <- ifelse(a$labels.rot[2] == 90, "bottom", ifelse(a$labels.rot[2] == 270, "top", ifelse(a$labels.rot[2] == 180, "left", "right")))
 			
 			textGrob(labelsy, x=labelsYw+spacerY*.5+marginY, y=cogridy3, just=just, rot=a$labels.rot[2], gp=gpar(col=a$labels.col, cex=a$labels.size*o$scale, fontface=o$fontface, fontfamily=o$fontfamily))
